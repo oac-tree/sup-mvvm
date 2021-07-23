@@ -1,0 +1,69 @@
+// ************************************************************************** //
+//
+//  Operational Applications UI Foundation
+//
+// ************************************************************************** //
+
+#ifndef MVVM_VIEWMODEL_VIEWITEM_H
+#define MVVM_VIEWMODEL_VIEWITEM_H
+
+#include <QVariant>
+#include <memory>
+#include <vector>
+
+namespace ModelView
+{
+class ViewItemDataInterface;
+
+//! Represents a single editable/displayable entity in cells of ViewModelBase.
+
+class ViewItem
+{
+public:
+  ViewItem();
+  ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data);
+  virtual ~ViewItem();
+
+  int rowCount() const;
+
+  int columnCount() const;
+
+  void appendRow(std::vector<std::unique_ptr<ViewItem>> items);
+
+  void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
+
+  void removeRow(int row);
+
+  void clear();
+
+  ViewItem* parent() const;
+
+  ViewItem* child(int row, int column) const;
+
+  ViewItemDataInterface* item();
+
+  const ViewItemDataInterface* item() const;
+
+  int row() const;
+
+  int column() const;
+
+  virtual QVariant data(int qt_role) const;
+
+  virtual bool setData(const QVariant& value, int qt_role);
+
+  virtual Qt::ItemFlags flags() const;
+
+  std::vector<ViewItem*> children() const;
+
+protected:
+  void setParent(ViewItem* parent);
+
+private:
+  struct ViewItemImpl;
+  std::unique_ptr<ViewItemImpl> p_impl;
+};
+
+}  // namespace ModelView
+
+#endif // MVVM_VIEWMODEL_VIEWITEM_H
