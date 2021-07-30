@@ -12,7 +12,7 @@
 
 using namespace ModelView;
 
-//! Testing AxisItems.
+//! Testing threadsafe_stack.
 
 class ThreadSafeStackTest : public ::testing::Test
 {

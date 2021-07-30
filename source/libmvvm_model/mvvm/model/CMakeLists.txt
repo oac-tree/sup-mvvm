@@ -1,6 +1,20 @@
 target_sources(${library_name} PRIVATE
+  function_types.h
   datarole.cpp
   datarole.h
+  itempool.cpp
+  itempool.h
+  itemutils.cpp
+  itemutils.h
+  itemcatalogue.cpp
+  itemcatalogue.h
+  itemfactory.cpp
+  itemfactory.h
+  itemmanager.cpp
+  itemmanager.h
+  mvvm_types.h
+  propertyitem.cpp
+  propertyitem.h
   sessionitem.cpp
   sessionitem.h
   sessionitemcontainer.cpp
@@ -9,6 +23,8 @@ target_sources(${library_name} PRIVATE
   sessionitemdata.h
   sessionitemtags.cpp
   sessionitemtags.h
+  sessionmodel.cpp
+  sessionmodel.h
   taginfo.cpp
   taginfo.h
   tagrow.cpp

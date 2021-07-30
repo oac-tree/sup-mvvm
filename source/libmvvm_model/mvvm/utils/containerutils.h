@@ -11,6 +11,7 @@
 #include <iterator>
 #include <memory>
 #include <type_traits>
+#include <unordered_set>
 #include <vector>
 
 namespace ModelView::Utils
@@ -51,6 +52,22 @@ int IndexOfItem(const C& container, const T& item)
   return IndexOfItem(container.begin(), container.end(), item);
 }
 
+//! Returns copy of container with all duplicated elements filtered our. The order is preserved.
+
+template <typename C>
+C UniqueWithOrder(const C& container)
+{
+  C result;
+
+  using valueType = typename C::value_type;
+  std::unordered_set<valueType> unique;
+
+  std::copy_if(container.begin(), container.end(), std::back_inserter(result),
+               [&unique](auto x) { return unique.insert(x).second; });
+
+  return result;
+}
+
 //! Returns true if container contains a given element.
 
 template <typename A, typename B>
@@ -61,4 +78,4 @@ bool Contains(const A& container, const B& element)
 
 }  // namespace ModelView::Utils
 
-#endif // MVVM_UTILS_CONTAINERUTILS_H
+#endif  // MVVM_UTILS_CONTAINERUTILS_H
