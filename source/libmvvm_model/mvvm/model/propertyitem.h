@@ -19,7 +19,7 @@ class RealLimits;
 //! Item to carry concrete editable entity (e.g. 'double' value with limits).
 //! Intended for use as a child or CompountItem, not expected to have own children.
 
-class PropertyItem : public SessionItem
+class MVVM_MODEL_EXPORT PropertyItem : public SessionItem
 {
 public:
   static inline const std::string Type = "Property";

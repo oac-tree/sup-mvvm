@@ -1,13 +1,10 @@
 // ************************************************************************** //
 //
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
+//  Operational Applications UI Foundation
 //
 // ************************************************************************** //
 
-#include "mvvm/model/sessionitemtags.h"
+#include "mvvm/model/taggeditems.h"
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
@@ -20,16 +17,16 @@ using namespace ModelView;
 
 //! Tests for SessionItemTags class.
 
-class SessionItemTagsTest : public ::testing::Test
+class TaggedItemsTest : public ::testing::Test
 {
 };
 
 //! Initial state of emty SessionItemTags.
 
-TEST_F(SessionItemTagsTest, initialState)
+TEST_F(TaggedItemsTest, initialState)
 {
   const std::string name("tag");
-  SessionItemTags tag;
+  TaggedItems tag;
   EXPECT_EQ(tag.defaultTag(), "");
 
   EXPECT_FALSE(tag.isTag("abc"));
@@ -39,10 +36,10 @@ TEST_F(SessionItemTagsTest, initialState)
 
 //! Registering tags.
 
-TEST_F(SessionItemTagsTest, registerTag)
+TEST_F(TaggedItemsTest, registerTag)
 {
   const std::string name("tag");
-  SessionItemTags tag;
+  TaggedItems tag;
 
   tag.registerTag(TagInfo::universalTag("abc"));
   EXPECT_TRUE(tag.isTag("abc"));
@@ -60,9 +57,9 @@ TEST_F(SessionItemTagsTest, registerTag)
 
 //! Testing ::canInsertItem.
 
-TEST_F(SessionItemTagsTest, canInsertItem)
+TEST_F(TaggedItemsTest, canInsertItem)
 {
-  SessionItemTags tag;
+  TaggedItems tag;
   tag.registerTag(TagInfo::universalTag("tag1"));
   tag.registerTag(TagInfo::propertyTag("tag2", "Property"));
 
@@ -73,9 +70,9 @@ TEST_F(SessionItemTagsTest, canInsertItem)
 
 //! Testing ::canInsertItem.
 
-TEST_F(SessionItemTagsTest, canInsertItemForUniversalTag)
+TEST_F(TaggedItemsTest, canInsertItemForUniversalTag)
 {
-  SessionItemTags tag;
+  TaggedItems tag;
   const std::string tagname = "tag1";
   const int maxItems = 2;
   tag.registerTag(TagInfo(tagname, 0, maxItems, std::vector<std::string>() = {}));
@@ -100,16 +97,16 @@ TEST_F(SessionItemTagsTest, canInsertItemForUniversalTag)
 
 //! Insert item.
 
-TEST_F(SessionItemTagsTest, insertItem)
+TEST_F(TaggedItemsTest, insertItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
 
-  SessionItemTags tag;
+  TaggedItems tag;
 
   // inserting items without tags defined
   auto item = std::make_unique<SessionItem>();
-  EXPECT_THROW(tag.insertItem(item.get(), TagRow::append()), std::runtime_error);
+  EXPECT_THROW(tag.insertItem(item.get(), TagIndex::append()), std::runtime_error);
 
   // registering tags
   tag.registerTag(TagInfo::universalTag(tag1));
@@ -123,10 +120,10 @@ TEST_F(SessionItemTagsTest, insertItem)
   auto child_t2_a = new SessionItem;
   auto child_t2_b = new SessionItem;
   auto child_t2_c = new SessionItem;
-  EXPECT_TRUE(tag.insertItem(child_t2_a, TagRow::append(tag2)));
-  EXPECT_TRUE(tag.insertItem(child_t2_c, TagRow::append(tag2)));
-  EXPECT_TRUE(tag.insertItem(child_t1_a, TagRow::append(tag1)));
-  EXPECT_TRUE(tag.insertItem(child_t1_b, TagRow::append(tag1)));
+  EXPECT_TRUE(tag.insertItem(child_t2_a, TagIndex::append(tag2)));
+  EXPECT_TRUE(tag.insertItem(child_t2_c, TagIndex::append(tag2)));
+  EXPECT_TRUE(tag.insertItem(child_t1_a, TagIndex::append(tag1)));
+  EXPECT_TRUE(tag.insertItem(child_t1_b, TagIndex::append(tag1)));
   EXPECT_TRUE(tag.insertItem(child_t2_b, {tag2, 1}));  // between child_t2_a and child_t2_c
 
   // checking item order in containers
@@ -142,13 +139,13 @@ TEST_F(SessionItemTagsTest, insertItem)
 
 //! Testing method tagRowOfItem.
 
-TEST_F(SessionItemTagsTest, tagRowOfItem)
+TEST_F(TaggedItemsTest, tagRowOfItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
 
   // creating parent with one tag
-  SessionItemTags tag;
+  TaggedItems tag;
   tag.registerTag(TagInfo::universalTag(tag1), /*set_as_default*/ true);
   tag.registerTag(TagInfo::universalTag(tag2));
 
@@ -156,37 +153,37 @@ TEST_F(SessionItemTagsTest, tagRowOfItem)
   auto child_t1_a = new SessionItem;
   auto child_t1_b = new SessionItem;
   auto child_t2_a = new SessionItem;
-  tag.insertItem(child_t1_a, TagRow::append());  // 0
-  tag.insertItem(child_t1_b, TagRow::append());  // 1
+  tag.insertItem(child_t1_a, TagIndex::append());  // 0
+  tag.insertItem(child_t1_b, TagIndex::append());  // 1
   tag.insertItem(child_t2_a, {tag2, 0});         // 0
 
   // checking children tag and row
-  EXPECT_EQ(tag.tagRowOfItem(child_t1_a).tag, tag1);
-  EXPECT_EQ(tag.tagRowOfItem(child_t1_b).tag, tag1);
-  EXPECT_EQ(tag.tagRowOfItem(child_t2_a).tag, tag2);
-  EXPECT_EQ(tag.tagRowOfItem(child_t1_a).row, 0);
-  EXPECT_EQ(tag.tagRowOfItem(child_t1_b).row, 1);
-  EXPECT_EQ(tag.tagRowOfItem(child_t2_a).row, 0);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_a).tag, tag1);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_b).tag, tag1);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t2_a).tag, tag2);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_a).index, 0);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_b).index, 1);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t2_a).index, 0);
 
   // alien item has no tag and -1 row
   auto alien = std::make_unique<SessionItem>();
-  EXPECT_EQ(tag.tagRowOfItem(alien.get()).tag, "");
-  EXPECT_EQ(tag.tagRowOfItem(alien.get()).row, -1);
+  EXPECT_EQ(tag.TagIndexOfItem(alien.get()).tag, "");
+  EXPECT_EQ(tag.TagIndexOfItem(alien.get()).index, -1);
 
   // the same for nullptr
-  EXPECT_EQ(tag.tagRowOfItem(nullptr).tag, "");
-  EXPECT_EQ(tag.tagRowOfItem(nullptr).row, -1);
+  EXPECT_EQ(tag.TagIndexOfItem(nullptr).tag, "");
+  EXPECT_EQ(tag.TagIndexOfItem(nullptr).index, -1);
 }
 
 //! Testing method getItem.
 
-TEST_F(SessionItemTagsTest, getItem)
+TEST_F(TaggedItemsTest, getItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
 
   // creating parent with one tag
-  SessionItemTags tag;
+  TaggedItems tag;
   tag.registerTag(TagInfo::universalTag(tag1), /*set_as_default*/ true);
   tag.registerTag(TagInfo::universalTag(tag2));
 
@@ -194,8 +191,8 @@ TEST_F(SessionItemTagsTest, getItem)
   auto child_t1_a = new SessionItem;
   auto child_t1_b = new SessionItem;
   auto child_t2_a = new SessionItem;
-  tag.insertItem(child_t1_a, TagRow::append());  // 0
-  tag.insertItem(child_t1_b, TagRow::append());  // 1
+  tag.insertItem(child_t1_a, TagIndex::append());  // 0
+  tag.insertItem(child_t1_b, TagIndex::append());  // 1
   tag.insertItem(child_t2_a, {tag2, 0});         // 0
 
   EXPECT_EQ(tag.getItem({tag1, 0}), child_t1_a);
@@ -206,13 +203,13 @@ TEST_F(SessionItemTagsTest, getItem)
 
 //! Testing method getItem.
 
-TEST_F(SessionItemTagsTest, takeItem)
+TEST_F(TaggedItemsTest, takeItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
   const std::string model_type("model");
 
-  SessionItemTags tag;
+  TaggedItems tag;
   tag.registerTag(TagInfo::universalTag(tag1), /*set_as_default*/ true);
   tag.registerTag(TagInfo::universalTag(tag2));
 
@@ -224,10 +221,10 @@ TEST_F(SessionItemTagsTest, takeItem)
   auto child2 = new SessionItem(model_type);
   auto child3 = new SessionItem(model_type);
   auto child4 = new SessionItem(model_type);
-  EXPECT_TRUE(tag.insertItem(child1, TagRow::append()));
-  EXPECT_TRUE(tag.insertItem(child2, TagRow::append()));
-  EXPECT_TRUE(tag.insertItem(child3, TagRow::append()));
-  EXPECT_TRUE(tag.insertItem(child4, TagRow::append(tag2)));
+  EXPECT_TRUE(tag.insertItem(child1, TagIndex::append()));
+  EXPECT_TRUE(tag.insertItem(child2, TagIndex::append()));
+  EXPECT_TRUE(tag.insertItem(child3, TagIndex::append()));
+  EXPECT_TRUE(tag.insertItem(child4, TagIndex::append(tag2)));
 
   // taking item in between
   EXPECT_TRUE(tag.canTakeItem({"", 1}));
@@ -248,9 +245,9 @@ TEST_F(SessionItemTagsTest, takeItem)
 
 //! Testing isSinglePropertyTag.
 
-TEST_F(SessionItemTagsTest, isSinglePropertyTag)
+TEST_F(TaggedItemsTest, isSinglePropertyTag)
 {
-  SessionItemTags tag;
+  TaggedItems tag;
   tag.registerTag(TagInfo::universalTag("universal"), /*set_as_default*/ true);
   EXPECT_FALSE(tag.isSinglePropertyTag("universal"));
 

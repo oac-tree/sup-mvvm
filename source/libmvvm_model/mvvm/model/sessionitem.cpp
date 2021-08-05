@@ -8,91 +8,92 @@
 // ************************************************************************** //
 
 #include "mvvm/model/sessionitem.h"
+
 #include "mvvm/core/uniqueidgenerator.h"
 #include "mvvm/model/sessionitemdata.h"
-#include "mvvm/model/sessionitemtags.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taginfo.h"
+
 #include <stdexcept>
 
 using namespace ModelView;
 
-namespace {
+namespace
+{
 int appearance(const ModelView::SessionItem& item)
 {
-    const int default_appearance = Appearance::EDITABLE | Appearance::ENABLED | Appearance::VISIBLE;
-    return item.hasData(ItemDataRole::APPEARANCE) ? item.data<int>(ItemDataRole::APPEARANCE)
-                                                  : default_appearance;
+  const int default_appearance = Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
+  return item.hasData(DataRole::kAppearance) ? item.data<int>(DataRole::kAppearance)
+                                                : default_appearance;
 }
-} // namespace
+}  // namespace
 
-struct SessionItem::SessionItemImpl {
-    SessionItem* m_self{nullptr};
-    SessionItem* m_parent{nullptr};
-    SessionModel* m_model{nullptr};
-    std::unique_ptr<SessionItemData> m_data;
-    std::unique_ptr<SessionItemTags> m_tags;
-    std::string m_modelType;
+struct SessionItem::SessionItemImpl
+{
+  SessionItem* m_self{nullptr};
+  SessionItem* m_parent{nullptr};
+  SessionModel* m_model{nullptr};
+  std::unique_ptr<SessionItemData> m_data;
+  std::unique_ptr<TaggedItems> m_tags;
+  std::string m_modelType;
 
-    SessionItemImpl(SessionItem* this_item)
-        : m_self(this_item)
-        , m_data(std::make_unique<SessionItemData>())
-        , m_tags(std::make_unique<SessionItemTags>())
-    {
-    }
+  SessionItemImpl(SessionItem* this_item)
+      : m_self(this_item)
+      , m_data(std::make_unique<SessionItemData>())
+      , m_tags(std::make_unique<TaggedItems>())
+  {
+  }
 
-    bool do_setData(const variant_t& variant, int role)
-    {
-        bool result = m_data->setData(variant, role);
-//        if (result && m_model)
-//            m_model->mapper()->callOnDataChange(m_self, role);
-        return result;
-    }
+  bool do_setData(const variant_t& variant, int role)
+  {
+    bool result = m_data->setData(variant, role);
+    //        if (result && m_model)
+    //            m_model->mapper()->callOnDataChange(m_self, role);
+    return result;
+  }
 };
 
 SessionItem::SessionItem(std::string modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
 {
-    p_impl->m_modelType = std::move(modelType);
-    setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
-    setData(p_impl->m_modelType, ItemDataRole::DISPLAY);
+  p_impl->m_modelType = std::move(modelType);
+  setData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  setData(p_impl->m_modelType, DataRole::kDisplay);
 }
 
 SessionItem::~SessionItem()
 {
-//    if (p_impl->m_mapper)
-//        p_impl->m_mapper->callOnItemDestroy();
-
-//    if (p_impl->m_model)
-//        p_impl->m_model->unregisterFromPool(this);
+  if (p_impl->m_model)
+    p_impl->m_model->unregisterFromPool(this);
 }
 
 //! Returns item's model type.
 
 std::string SessionItem::modelType() const
 {
-    return p_impl->m_modelType;
+  return p_impl->m_modelType;
 }
 
 //! Returns unique identifier.
 
 std::string SessionItem::identifier() const
 {
-    return data<std::string>(ItemDataRole::IDENTIFIER);
+  return data<std::string>(DataRole::kIdentifier);
 }
 
 //! Returns display name.
 
 std::string SessionItem::displayName() const
 {
-    return data<std::string>(ItemDataRole::DISPLAY);
+  return data<std::string>(DataRole::kDisplay);
 }
 
 //! Sets display name (fluent interface).
 
 SessionItem* SessionItem::setDisplayName(const std::string& name)
 {
-    setData(name, ItemDataRole::DISPLAY);
-    return this;
+  setData(name, DataRole::kDisplay);
+  return this;
 }
 
 //! Returns the model to which given item belongs to. Will return nullptr if item doesn't have a
@@ -100,171 +101,158 @@ SessionItem* SessionItem::setDisplayName(const std::string& name)
 
 SessionModel* SessionItem::model() const
 {
-    return p_impl->m_model;
+  return p_impl->m_model;
 }
 
 //! Returns parent item. Will return nullptr if item doesn't have a parent.
 
 SessionItem* SessionItem::parent() const
 {
-    return p_impl->m_parent;
+  return p_impl->m_parent;
 }
 
-//! Returns TagRow of this item under which it is accessible through its parent.
+//! Returns TagIndex of this item under which it is accessible through its parent.
 
-TagRow SessionItem::tagRow() const
+TagIndex SessionItem::GetTagIndex() const
 {
-    return parent() ? parent()->tagRowOfItem(this) : TagRow();
+  return parent() ? parent()->TagIndexOfItem(this) : TagIndex();
 }
 
 //! Returns true if item has data on board with given role.
 
 bool SessionItem::hasData(int role) const
 {
-    return p_impl->m_data->hasData(role);
+  return p_impl->m_data->hasData(role);
 }
 
 //! Returns pointer to item's data container (const version).
 
 const SessionItemData* SessionItem::itemData() const
 {
-    return p_impl->m_data.get();
+  return p_impl->m_data.get();
 }
 
 //! Returns pointer to item's data container (non-const version).
 
 SessionItemData* SessionItem::itemData()
 {
-    return const_cast<SessionItemData*>(static_cast<const SessionItem*>(this)->itemData());
+  return const_cast<SessionItemData*>(static_cast<const SessionItem*>(this)->itemData());
 }
 
 //! Returns total number of children in all tags.
 
 int SessionItem::childrenCount() const
 {
-    return static_cast<int>(children().size());
+  return static_cast<int>(children().size());
 }
 
 //! Returns vector of children formed from all chidlren from all tags.
 
 std::vector<SessionItem*> SessionItem::children() const
 {
-    return p_impl->m_tags->allitems();
+  return p_impl->m_tags->allitems();
 }
 
 //! Returns number of items in given tag.
 
 int SessionItem::itemCount(const std::string& tag) const
 {
-    return p_impl->m_tags->itemCount(tag);
+  return p_impl->m_tags->itemCount(tag);
 }
 
 //! Returns item at given row of given tag.
 
-SessionItem* SessionItem::getItem(const std::string& tag, int row) const
+SessionItem* SessionItem::getItem(const std::string& tag, int index) const
 {
-    return p_impl->m_tags->getItem({tag, row});
+  return p_impl->m_tags->getItem({tag, index});
 }
 
 //! Returns all children stored at given tag.
 
 std::vector<SessionItem*> SessionItem::getItems(const std::string& tag) const
 {
-    return p_impl->m_tags->getItems(tag);
+  return p_impl->m_tags->getItems(tag);
 }
 
-//! Returns pair of tag and row corresponding to given item.
+//! Returns pair of tag and index corresponding to given item.
 //! Returns {"", -1} if given item doesn't belong to children.
 
-TagRow SessionItem::tagRowOfItem(const SessionItem* item) const
+TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const
 {
-    return p_impl->m_tags->tagRowOfItem(item);
+  return p_impl->m_tags->TagIndexOfItem(item);
 }
 
 //! Returns pointer to internal collection of tag-registered items (const version).
 
-const SessionItemTags* SessionItem::itemTags() const
+const TaggedItems* SessionItem::itemTags() const
 {
-    return p_impl->m_tags.get();
+  return p_impl->m_tags.get();
 }
 
 //! Registers tag to hold items under given name.
 
 void SessionItem::registerTag(const TagInfo& tagInfo, bool set_as_default)
 {
-    p_impl->m_tags->registerTag(tagInfo, set_as_default);
+  p_impl->m_tags->registerTag(tagInfo, set_as_default);
 }
 
 //! Returns pointer to internal collection of tag-registered items (non-const version).
 
-SessionItemTags* SessionItem::itemTags()
+TaggedItems* SessionItem::itemTags()
 {
-    return const_cast<SessionItemTags*>(static_cast<const SessionItem*>(this)->itemTags());
+  return const_cast<TaggedItems*>(static_cast<const SessionItem*>(this)->itemTags());
 }
 
-//! Inserts the item into the given tag under the given row.
+//! Inserts the item into the given tag under the given index.
 //! Returns 'true' in the case of success, take ownership over the item.
-//! If an item can't be inserted for a given TagRow (i.e. when the container is full, or not
+//! If an item can't be inserted for a given TagIndex (i.e. when the container is full, or not
 //! intended for items of a given type) will return false and will not take ownership.
 
-bool SessionItem::insertItem(SessionItem* item, const TagRow& tagrow)
+bool SessionItem::insertItem(SessionItem* item, const TagIndex& tag_index)
 {
-    if (!p_impl->m_tags->canInsertItem(item, tagrow))
-        return false;
-    return insertItem(std::unique_ptr<SessionItem>(item), tagrow) != nullptr;
+  if (!p_impl->m_tags->canInsertItem(item, tag_index))
+    return false;
+  return insertItem(std::unique_ptr<SessionItem>(item), tag_index) != nullptr;
 }
 
-//! Insert item into given tag under the given row. Will take ownership of inserted item.
+//! Insert item into given tag under the given index. Will take ownership of inserted item.
 //! Returns back a pointer to the same item for convenience.
 
-SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const TagRow& tagrow)
+SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
-    if (!item)
-        throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
+  if (!item)
+    throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
 
-    if (item->parent())
-        throw std::runtime_error("SessionItem::insertItem() -> Existing parent.");
+  if (item->parent())
+    throw std::runtime_error("SessionItem::insertItem() -> Existing parent.");
 
-    if (item->model())
-        throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
+  if (item->model())
+    throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
 
-    if (!p_impl->m_tags->canInsertItem(item.get(), tagrow))
-        throw std::runtime_error("SessionItem::insertItem() -> Can't insert item.");
+  if (!p_impl->m_tags->canInsertItem(item.get(), tag_index))
+    throw std::runtime_error("SessionItem::insertItem() -> Can't insert item.");
 
-    auto result = item.release();
-    p_impl->m_tags->insertItem(result, tagrow);
-    result->setParent(this);
-    result->setModel(model());
+  auto result = item.release();
+  p_impl->m_tags->insertItem(result, tag_index);
+  result->setParent(this);
+  result->setModel(model());
 
-    if (p_impl->m_model) {
-        // FIXME think of actual_tagrow removal if input tag,row will be always valid
-        auto actual_tagrow = tagRowOfItem(result);
-//        p_impl->m_model->mapper()->callOnItemInserted(this, actual_tagrow);
-    }
-
-    return result;
+  return result;
 }
 
-
-//! Removes item from given row from given tag, returns it to the caller.
+//! Removes item from given index from given tag, returns it to the caller.
 //! Ownership is granted to the caller.
 
-std::unique_ptr<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
+std::unique_ptr<SessionItem> SessionItem::takeItem(const TagIndex& tag_index)
 {
-    if (!p_impl->m_tags->canTakeItem(tagrow))
-        return {};
+  if (!p_impl->m_tags->canTakeItem(tag_index))
+    return {};
 
-//    if (p_impl->m_model)
-//        p_impl->m_model->mapper()->callOnItemAboutToBeRemoved(this, tagrow);
+  auto result = p_impl->m_tags->takeItem(tag_index);
+  result->setParent(nullptr);
+  result->setModel(nullptr);
 
-    auto result = p_impl->m_tags->takeItem(tagrow);
-    result->setParent(nullptr);
-    result->setModel(nullptr);
-    // FIXME remaining problem is that ItemMapper still looking to the model
-//    if (p_impl->m_model)
-//        p_impl->m_model->mapper()->callOnItemRemoved(this, tagrow);
-
-    return std::unique_ptr<SessionItem>(result);
+  return std::unique_ptr<SessionItem>(result);
 }
 
 //! Returns true if this item has `editable` flag set.
@@ -272,22 +260,22 @@ std::unique_ptr<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
 
 bool SessionItem::isEditable() const
 {
-    return appearance(*this) & Appearance::EDITABLE;
+  return appearance(*this) & Appearance::kEditable;
 }
 
 //! Sets `editable` flag to given value (fluent interface).
 
 SessionItem* SessionItem::setEditable(bool value)
 {
-    setAppearanceFlag(Appearance::EDITABLE, value);
-    return this;
+  setAppearanceFlag(Appearance::kEditable, value);
+  return this;
 }
 
 //! Returns true if this item has `enabled` flag set.
 
 bool SessionItem::isEnabled() const
 {
-    return appearance(*this) & Appearance::ENABLED;
+  return appearance(*this) & Appearance::kEnabled;
 }
 
 //! Sets `enabled` flag to given value (fluent interface). Used in Qt-widgets to show that given
@@ -296,15 +284,15 @@ bool SessionItem::isEnabled() const
 
 SessionItem* SessionItem::setEnabled(bool value)
 {
-    setAppearanceFlag(Appearance::ENABLED, value);
-    return this;
+  setAppearanceFlag(Appearance::kEnabled, value);
+  return this;
 }
 
 //! Returns true if this item has `visible` flag set.
 
 bool SessionItem::isVisible() const
 {
-    return appearance(*this) & Appearance::VISIBLE;
+  return appearance(*this) & Appearance::kVisible;
 }
 
 //! Sets `visible` flag to given value (fluent interface). Used in Qt-widgets to hide given
@@ -313,35 +301,35 @@ bool SessionItem::isVisible() const
 
 SessionItem* SessionItem::setVisible(bool value)
 {
-    setAppearanceFlag(Appearance::VISIBLE, value);
-    return this;
+  setAppearanceFlag(Appearance::kVisible, value);
+  return this;
 }
 
 //! Returns item tooltip, if exists.
 
 std::string SessionItem::toolTip() const
 {
-    return hasData(ItemDataRole::TOOLTIP) ? data<std::string>(ItemDataRole::TOOLTIP)
-                                          : std::string();
+  return hasData(DataRole::kTooltip) ? data<std::string>(DataRole::kTooltip) : std::string();
 }
 
 //! Sets item tooltip (fluent interface).
 
 SessionItem* SessionItem::setToolTip(const std::string& tooltip)
 {
-    setData(tooltip, ItemDataRole::TOOLTIP);
-    return this;
+  setData(tooltip, DataRole::kTooltip);
+  return this;
 }
 
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
 bool SessionItem::set_data_internal(const variant_t& value, int role, bool direct)
 {
-    // If model is present, and undo stack is enabled, will forward request to the model
-    // (unless user explicitely asks for direct processing via direct=true flag).
-//    const bool act_through_model = !direct && model() && model()->undoStack();
-//    return act_through_model ? model()->setData(this, value, role)
-//                             : p_impl->do_setData(value, role);
+  // FIXME clarify and remove
+  // If model is present, and undo stack is enabled, will forward request to the model
+  // (unless user explicitely asks for direct processing via direct=true flag).
+  //    const bool act_through_model = !direct && model() && model()->undoStack();
+  //    return act_through_model ? model()->setData(this, value, role)
+  //                             : p_impl->do_setData(value, role);
   return p_impl->do_setData(value, role);
 }
 
@@ -350,45 +338,44 @@ bool SessionItem::set_data_internal(const variant_t& value, int role, bool direc
 
 variant_t SessionItem::data_internal(int role) const
 {
-    return p_impl->m_data->data(role);
+  return p_impl->m_data->data(role);
 }
 
 void SessionItem::setParent(SessionItem* parent)
 {
-    p_impl->m_parent = parent;
+  p_impl->m_parent = parent;
 }
 
 void SessionItem::setModel(SessionModel* model)
 {
-//    if (p_impl->m_model)
-//        p_impl->m_model->unregisterFromPool(this);
+  if (p_impl->m_model)
+    p_impl->m_model->unregisterFromPool(this);
 
-    p_impl->m_model = model;
+  p_impl->m_model = model;
 
-//    if (p_impl->m_model)
-//        p_impl->m_model->registerInPool(this);
+  if (p_impl->m_model)
+    p_impl->m_model->registerInPool(this);
 
-    for (auto child : children())
-        child->setModel(model);
+  for (auto child : children()) child->setModel(model);
 }
 
 void SessionItem::setAppearanceFlag(int flag, bool value)
 {
-    int flags = appearance(*this);
-    if (value)
-        flags |= flag;
-    else
-        flags &= ~flag;
+  int flags = appearance(*this);
+  if (value)
+    flags |= flag;
+  else
+    flags &= ~flag;
 
-    // By setting data with internal method we are bypassing the model, and so undo/redo.
-    // So current convention is to not invoke undo when changing appearance properties.
-    // Shall we change it?
-    p_impl->do_setData(flags, ItemDataRole::APPEARANCE);
+  // By setting data with internal method we are bypassing the model, and so undo/redo.
+  // So current convention is to not invoke undo when changing appearance properties.
+  // Shall we change it?
+  p_impl->do_setData(flags, DataRole::kAppearance);
 }
 
 void SessionItem::setDataAndTags(std::unique_ptr<SessionItemData> data,
-                                 std::unique_ptr<SessionItemTags> tags)
+                                 std::unique_ptr<TaggedItems> tags)
 {
-    p_impl->m_data = std::move(data);
-    p_impl->m_tags = std::move(tags);
+  p_impl->m_data = std::move(data);
+  p_impl->m_tags = std::move(tags);
 }

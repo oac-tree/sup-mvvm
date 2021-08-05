@@ -6,6 +6,7 @@
 
 #include "mvvm/model/itemmanager.h"
 
+#include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/sessionitem.h"
@@ -14,8 +15,7 @@ namespace
 {
 std::unique_ptr<ModelView::ItemFactory> DefaultItemFactory()
 {
-  //    return std::make_unique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
-  return std::make_unique<ModelView::ItemFactory>();
+  return std::make_unique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
 }
 }  // namespace
 
@@ -47,12 +47,12 @@ std::unique_ptr<SessionItem> ItemManager::createRootItem() const
 
 SessionItem* ItemManager::findItem(const std::string& id) const
 {
-  return m_item_pool ? m_item_pool->item_for_key(id) : nullptr;
+  return m_item_pool ? m_item_pool->ItemForKey(id) : nullptr;
 }
 
 std::string ItemManager::findIdentifier(const SessionItem* item) const
 {
-  return m_item_pool ? m_item_pool->key_for_item(item) : std::string();
+  return m_item_pool ? m_item_pool->KeyForItem(item) : std::string();
 }
 
 const ItemPool* ItemManager::itemPool() const
@@ -68,13 +68,13 @@ ItemPool* ItemManager::itemPool()
 void ItemManager::registerInPool(SessionItem* item)
 {
   if (m_item_pool)
-    m_item_pool->register_item(item, item->identifier());
+    m_item_pool->RegisterItem(item, item->identifier());
 }
 
 void ItemManager::unregisterFromPool(SessionItem* item)
 {
   if (m_item_pool)
-    m_item_pool->unregister_item(item);
+    m_item_pool->UnregisterItem(item);
 }
 
 const ItemFactoryInterface* ItemManager::factory() const

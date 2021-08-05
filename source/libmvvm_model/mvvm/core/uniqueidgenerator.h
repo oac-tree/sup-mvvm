@@ -8,6 +8,7 @@
 #define MVVM_CORE_UNIQUEIDGENERATOR_H
 
 #include <string>
+#include "mvvm/model_export.h"
 
 namespace ModelView {
 
@@ -18,9 +19,9 @@ namespace ModelView {
 //! generated during a dynamic session. For the moment though, we rely on zero-probability of
 //! such event.
 
-class UniqueIdGenerator {
+class MVVM_MODEL_EXPORT UniqueIdGenerator {
 public:
-    static std::string generate();
+    static std::string Generate();
 };
 
 } // namespace ModelView

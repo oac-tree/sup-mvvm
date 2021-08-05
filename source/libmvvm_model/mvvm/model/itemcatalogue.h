@@ -8,6 +8,7 @@
 #define MVVM_MODEL_ITEMCATALOGUE_H
 
 #include "mvvm/model/function_types.h"
+#include "mvvm/model_export.h"
 
 #include <string>
 #include <vector>
@@ -19,7 +20,7 @@ class SessionItem;
 //! Catalogue for item constructions. Contains collection of factory functions associated with
 //! item's modelType and optional label.
 
-class ItemCatalogue
+class MVVM_MODEL_EXPORT ItemCatalogue
 {
 public:
   ItemCatalogue();

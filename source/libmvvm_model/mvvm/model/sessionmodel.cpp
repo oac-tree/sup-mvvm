@@ -6,6 +6,7 @@
 
 #include "mvvm/model/sessionmodel.h"
 
+#include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemcatalogue.h"
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itemmanager.h"
@@ -20,26 +21,26 @@ using namespace ModelView;
 struct SessionModel::SessionModelImpl
 {
   SessionModel* m_self{nullptr};
-  std::string m_modelType;
-  std::unique_ptr<ItemManager> m_itemManager;
+  std::string m_model_type;
+  std::unique_ptr<ItemManager> m_item_manager;
   std::unique_ptr<SessionItem> m_root_item;
   SessionModelImpl(SessionModel* self, std::string modelType, std::shared_ptr<ItemPool> pool)
       : m_self(self)
-      , m_modelType(std::move(modelType))
-      , m_itemManager(std::make_unique<ItemManager>())
+      , m_model_type(std::move(modelType))
+      , m_item_manager(std::make_unique<ItemManager>())
   {
     setItemPool(pool);
   }
 
   void setItemPool(std::shared_ptr<ItemPool> pool)
   {
-    m_itemManager->setItemPool(pool ? std::move(pool) : std::make_shared<ItemPool>());
+    m_item_manager->setItemPool(pool ? std::move(pool) : std::make_shared<ItemPool>());
   }
 
   //! Creates root item.
   void createRootItem()
   {
-    m_root_item = m_itemManager->createRootItem();
+    m_root_item = m_item_manager->createRootItem();
     m_root_item->setModel(m_self);
     m_root_item->registerTag(TagInfo::universalTag("rootTag"), /*set_as_default*/ true);
   }
@@ -66,18 +67,18 @@ SessionModel::~SessionModel()
 //! Insert new item using item's modelType.
 
 SessionItem* SessionModel::insertNewItem(const std::string& modelType, SessionItem* parent,
-                                         const TagRow& tagrow)
+                                         const TagIndex& tag_index)
 {
   // intentionally passing by value inside lambda
   auto create_func = [this, modelType]() { return factory()->createItem(modelType); };
-  return intern_insert(create_func, parent, tagrow);
+  return intern_insert(create_func, parent, tag_index);
 }
 
-//! Removes given row from parent.
+//! Removes given tag_index from parent.
 
-void SessionModel::removeItem(SessionItem* parent, const TagRow& tagrow)
+void SessionModel::removeItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  parent->takeItem(tagrow);
+  parent->takeItem(tag_index);
 }
 
 //! Returns the data for given item and role.
@@ -98,7 +99,7 @@ bool SessionModel::setData(SessionItem* item, const variant_t& value, int role)
 
 std::string SessionModel::modelType() const
 {
-  return p_impl->m_modelType;
+  return p_impl->m_model_type;
 }
 
 //! Returns root item of the model.
@@ -112,14 +113,14 @@ SessionItem* SessionModel::rootItem() const
 
 const ItemFactoryInterface* SessionModel::factory() const
 {
-  return p_impl->m_itemManager->factory();
+  return p_impl->m_item_manager->factory();
 }
 
 //! Returns SessionItem for given identifier.
 
 SessionItem* SessionModel::findItem(const std::string& id)
 {
-  return p_impl->m_itemManager->findItem(id);
+  return p_impl->m_item_manager->findItem(id);
 }
 
 //! Sets brand new catalog of user-defined items. They become available for undo/redo and
@@ -129,8 +130,8 @@ void SessionModel::setItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue)
 {
   // adding standard items to the user catalogue
   std::unique_ptr<ItemCatalogue> full_catalogue = std::move(catalogue);
-  //  full_catalogue->merge(*CreateStandardItemCatalogue()); // FIXME restore
-  p_impl->m_itemManager->setItemFactory(std::make_unique<ItemFactory>(std::move(full_catalogue)));
+  full_catalogue->merge(*CreateStandardItemCatalogue());
+  p_impl->m_item_manager->setItemFactory(std::make_unique<ItemFactory>(std::move(full_catalogue)));
 }
 
 //! Removes all items from the model. If callback is provided, use it to rebuild content of root
@@ -147,26 +148,31 @@ void SessionModel::clear(std::function<void(SessionItem*)> callback)
 
 void SessionModel::registerInPool(SessionItem* item)
 {
-  p_impl->m_itemManager->registerInPool(item);
+  p_impl->m_item_manager->registerInPool(item);
 }
 
 //! Unregister item from pool.
 
 void SessionModel::unregisterFromPool(SessionItem* item)
 {
-  p_impl->m_itemManager->unregisterFromPool(item);
+  p_impl->m_item_manager->unregisterFromPool(item);
 }
 
 //! Insert new item into given parent using factory function provided.
 
 SessionItem* SessionModel::intern_insert(const item_factory_func_t& func, SessionItem* parent,
-                                         const TagRow& tagrow)
+                                         const TagIndex& tag_index)
 {
-  return parent->insertItem(func(), tagrow);
+  if (!parent)
+    parent = rootItem();
+
+  int actual_index = tag_index.index < 0 ? parent->itemCount(tag_index.tag) : tag_index.index;
+
+  return parent->insertItem(func(), TagIndex{tag_index.tag, actual_index});
 }
 
 void SessionModel::intern_register(const std::string& modelType, const item_factory_func_t& func,
                                    const std::string& label)
 {
-  p_impl->m_itemManager->factory()->registerItem(modelType, func, label);
+  p_impl->m_item_manager->factory()->registerItem(modelType, func, label);
 }

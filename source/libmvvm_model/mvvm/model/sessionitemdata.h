@@ -7,7 +7,7 @@
 #ifndef MVVM_MODEL_SESSIONITEMDATA_H
 #define MVVM_MODEL_SESSIONITEMDATA_H
 
-#include "mvvm/model/datarole.h"
+#include "mvvm/core/variant.h"
 
 #include <vector>
 
@@ -15,10 +15,10 @@ namespace ModelView
 {
 //! Handles pairs of <data, role> for SessionItem.
 
-class SessionItemData
+class MVVM_MODEL_EXPORT SessionItemData
 {
 public:
-  using container_type = std::vector<DataRole>;
+  using container_type = std::vector<datarole_t>;
   using const_iterator = container_type::const_iterator;
 
   std::vector<int> roles() const;

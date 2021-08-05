@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <string>
+#include "mvvm/model_export.h"
 
 namespace ModelView
 {
@@ -18,7 +19,7 @@ class ItemFactoryInterface;
 
 //! Manages item creation/registration for SessionModel.
 
-class ItemManager
+class MVVM_MODEL_EXPORT ItemManager
 {
 public:
   ItemManager();

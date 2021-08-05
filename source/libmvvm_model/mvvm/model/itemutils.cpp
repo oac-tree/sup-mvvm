@@ -8,7 +8,7 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionitemcontainer.h"
-#include "mvvm/model/sessionitemtags.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/utils/containerutils.h"
 
 #include <iterator>
@@ -107,7 +107,7 @@ std::vector<SessionItem*> Utils::TopLevelItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.children())
-    if (child->isVisible() && !IsSinglePropertyTag(item, item.tagRowOfItem(child).tag))
+    if (child->isVisible() && !IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
       result.push_back(child);
   return result;
 }
@@ -116,7 +116,7 @@ std::vector<SessionItem*> Utils::SinglePropertyItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.children())
-    if (child->isVisible() && IsSinglePropertyTag(item, item.tagRowOfItem(child).tag))
+    if (child->isVisible() && IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
       result.push_back(child);
   return result;
 }
@@ -126,8 +126,8 @@ SessionItem* Utils::FindNextSibling(SessionItem* item)
   auto parent = item ? item->parent() : nullptr;
   if (!parent)
     return nullptr;
-  auto tagrow = item->tagRow();
-  return parent->getItem(tagrow.tag, tagrow.row + 1);
+  auto tag_index = item->GetTagIndex();
+  return parent->getItem(tag_index.tag, tag_index.index + 1);
 }
 
 SessionItem* Utils::FindPreviousSibling(SessionItem* item)
@@ -135,8 +135,8 @@ SessionItem* Utils::FindPreviousSibling(SessionItem* item)
   auto parent = item ? item->parent() : nullptr;
   if (!parent)
     return nullptr;
-  auto tagrow = parent->tagRowOfItem(item);
-  return parent->getItem(tagrow.tag, tagrow.row - 1);
+  auto tag_index = parent->TagIndexOfItem(item);
+  return parent->getItem(tag_index.tag, tag_index.index - 1);
 }
 
 SessionItem* Utils::FindNextItemToSelect(SessionItem* item)

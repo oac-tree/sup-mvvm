@@ -21,6 +21,7 @@ PropertyItem* PropertyItem::setDisplayName(const std::string& name)
   return this;
 }
 
+// FIXME uncomment
 // PropertyItem* PropertyItem::setLimits(const RealLimits& value)
 //{
 //    this->setData(value, ItemDataRole::LIMITS);

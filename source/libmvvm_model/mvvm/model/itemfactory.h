@@ -17,7 +17,7 @@ class ItemCatalogue;
 
 //! Default SessionItem factory.
 
-class ItemFactory : public ItemFactoryInterface
+class MVVM_MODEL_EXPORT ItemFactory : public ItemFactoryInterface
 {
 public:
   ItemFactory();

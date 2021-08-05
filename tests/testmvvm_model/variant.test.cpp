@@ -33,9 +33,7 @@ TEST_F(VariantTest, IsValid)
 
 TEST_F(VariantTest, AreCompatible)
 {
-  std::vector<variant_t> variants = {variant_t(true),
-                                     variant_t(42),
-                                     variant_t(42.1),
+  std::vector<variant_t> variants = {variant_t(true), variant_t(42), variant_t(42.1),
                                      variant_t(std::string("abc")),
                                      variant_t(std::vector<double>({1.1, 2.2, 3.3}))};
   for (size_t i = 0; i < variants.size(); ++i)
@@ -58,11 +56,26 @@ TEST_F(VariantTest, AreCompatible)
 TEST_F(VariantTest, TypeName)
 {
   using Utils::TypeName;
-  EXPECT_EQ(TypeName(variant_t()), Constants::undefined_type_name);
-  EXPECT_EQ(TypeName(variant_t(true)), Constants::bool_type_name);
-  EXPECT_EQ(TypeName(variant_t(42)), Constants::int_type_name);
-  EXPECT_EQ(TypeName(variant_t(42.4)), Constants::double_type_name);
-  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), Constants::string_type_name);
+  EXPECT_EQ(TypeName(variant_t()), Constants::kUndefinedTypeName);
+  EXPECT_EQ(TypeName(variant_t(true)), Constants::kBoolTypeName);
+  EXPECT_EQ(TypeName(variant_t(42)), Constants::kIntTypeName);
+  EXPECT_EQ(TypeName(variant_t(42.4)), Constants::kDoubleTypeName);
+  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), Constants::kStringTypeName);
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
-            Constants::vector_double_type_name);
+            Constants::kVectorDoubleTypeName);
+}
+
+TEST_F(VariantTest, DataRoleComparison)
+{
+  datarole_t data_role1{42, 0};
+  datarole_t data_role2{42, 0};
+  EXPECT_TRUE(data_role1 == data_role2);
+
+  datarole_t data_role3{std::vector<double>{1, 2, 3}, 42};
+  datarole_t data_role4{std::vector<double>{1, 2, 3}, 42};
+  EXPECT_TRUE(data_role3 == data_role4);
+
+  datarole_t data_role5{std::vector<double>{1, 2}, 42};
+  datarole_t data_role6{std::vector<double>{1, 2, 3}, 42};
+  EXPECT_FALSE(data_role5 == data_role6);
 }

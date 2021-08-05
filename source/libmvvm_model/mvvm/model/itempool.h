@@ -7,6 +7,8 @@
 #ifndef MVVM_MODEL_ITEMPOOL_H
 #define MVVM_MODEL_ITEMPOOL_H
 
+#include "mvvm/model_export.h"
+
 #include <map>
 #include <string>
 
@@ -17,10 +19,11 @@ class SessionItem;
 //! Provides registration of SessionItem pointers and their unique identifiers
 //! in global memory pool.
 
-class ItemPool
+class MVVM_MODEL_EXPORT ItemPool
 {
 public:
   using identifier_t = std::string;
+
   ItemPool() = default;
   ItemPool(const ItemPool&) = delete;
   ItemPool(ItemPool&&) = delete;
@@ -29,12 +32,12 @@ public:
 
   size_t size() const;
 
-  identifier_t register_item(SessionItem* item, identifier_t key = {});
-  void unregister_item(SessionItem* item);
+  identifier_t RegisterItem(SessionItem* item, identifier_t key = {});
+  void UnregisterItem(SessionItem* item);
 
-  identifier_t key_for_item(const SessionItem* item) const;
+  identifier_t KeyForItem(const SessionItem* item) const;
 
-  SessionItem* item_for_key(const identifier_t& key) const;
+  SessionItem* ItemForKey(const identifier_t& key) const;
 
 private:
   std::map<identifier_t, SessionItem*> m_key_to_item;

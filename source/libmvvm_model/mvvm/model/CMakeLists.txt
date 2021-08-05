@@ -1,7 +1,7 @@
 target_sources(${library_name} PRIVATE
   function_types.h
-  datarole.cpp
-  datarole.h
+  compounditem.cpp
+  compounditem.h
   itempool.cpp
   itempool.h
   itemutils.cpp
@@ -21,12 +21,12 @@ target_sources(${library_name} PRIVATE
   sessionitemcontainer.h
   sessionitemdata.cpp
   sessionitemdata.h
-  sessionitemtags.cpp
-  sessionitemtags.h
   sessionmodel.cpp
   sessionmodel.h
   taginfo.cpp
   taginfo.h
-  tagrow.cpp
-  tagrow.h
+  tagindex.cpp
+  tagindex.h
+  taggeditems.cpp
+  taggeditems.h
   )

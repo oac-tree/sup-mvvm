@@ -16,20 +16,20 @@ class SessionModel;
 
 //! Defines constants to be used as SessionItem data role.
 
-namespace ItemDataRole
+namespace DataRole
 {
-const int IDENTIFIER = 0;  //!< unique identifier
-const int DATA = 1;        //!< main data role
-const int DISPLAY = 2;     //!< display name
-const int APPEARANCE = 3;  //!< appearance flag
-const int TOOLTIP = 4;     //!< tooltip for item's data
-}  // namespace ItemDataRole
+const int kIdentifier = 0;  //!< unique identifier
+const int kData = 1;        //!< main data role
+const int kDisplay = 2;     //!< display name
+const int kAppearance = 3;  //!< appearance flag
+const int kTooltip = 4;     //!< tooltip for item's data
+}  // namespace DataRole
 
 enum Appearance
 {
-  ENABLED = 1,   // enabled in Qt widgets; when disabled, will be shown in gray
-  EDITABLE = 2,  // editable in Qt widgets; readonly otherwise
-  VISIBLE = 4    // visible in Qt widgets; doesn't appear in trees and tables otherwise
+  kEnabled = 1,   // enabled in Qt widgets; when disabled, will be shown in gray
+  kEditable = 2,  // editable in Qt widgets; readonly otherwise
+  kVisible = 4    // visible in Qt widgets; doesn't appear in trees and tables otherwise
 };
 
 }  // namespace ModelView

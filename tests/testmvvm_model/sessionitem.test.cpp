@@ -10,7 +10,7 @@
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitemdata.h"
-#include "mvvm/model/sessionitemtags.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
 
 #include <gtest/gtest.h>
@@ -27,18 +27,18 @@ class SessionItemTest : public ::testing::Test
 TEST_F(SessionItemTest, initialState)
 {
   SessionItem item;
-  const int role = ItemDataRole::DATA;
+  const int role = DataRole::kData;
 
   EXPECT_EQ(item.model(), nullptr);
   EXPECT_EQ(item.parent(), nullptr);
   EXPECT_EQ(item.childrenCount(), 0);
   EXPECT_FALSE(Utils::IsValid(item.data(role)));
   EXPECT_TRUE(item.children().empty());
-  EXPECT_TRUE(item.modelType().empty());
-  EXPECT_TRUE(item.displayName().empty());
+  EXPECT_EQ(item.modelType(), SessionItem::Type);
+  EXPECT_EQ(item.displayName(), SessionItem::Type);
 
   // Initially item has already an identifier defined.
-  std::vector<int> expected_roles = {ItemDataRole::IDENTIFIER, ItemDataRole::DISPLAY};
+  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay};
   EXPECT_EQ(item.itemData()->roles(), expected_roles);
 
   // Identifier is not zero
@@ -56,15 +56,15 @@ TEST_F(SessionItemTest, modelType)
 TEST_F(SessionItemTest, setData)
 {
   SessionItem item;
-  const int role = ItemDataRole::DATA;
+  const int role = DataRole::kData;
 
   EXPECT_FALSE(Utils::IsValid(item.data(role)));
 
   variant_t expected(42.0);
   EXPECT_TRUE(item.setData(expected, role));
 
-  std::vector<int> expected_roles = {ItemDataRole::IDENTIFIER, ItemDataRole::DISPLAY,
-                                     ItemDataRole::DATA};
+  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay,
+                                     DataRole::kData};
   EXPECT_EQ(item.itemData()->roles(), expected_roles);
   EXPECT_EQ(item.data(role), expected);
 
@@ -85,16 +85,16 @@ TEST_F(SessionItemTest, setDataAndImplicitConversion)
 {
   {
     SessionItem item;
-    const int role = ItemDataRole::DATA;
-    EXPECT_TRUE(item.setData(43.0, ItemDataRole::DATA));
-    EXPECT_EQ(Utils::TypeName(item.data(role)), Constants::double_type_name);
+    const int role = DataRole::kData;
+    EXPECT_TRUE(item.setData(43.0, DataRole::kData));
+    EXPECT_EQ(Utils::TypeName(item.data(role)), Constants::kDoubleTypeName);
   }
 
   {
     SessionItem item;
-    const int role = ItemDataRole::DATA;
-    EXPECT_TRUE(item.setData(43, ItemDataRole::DATA));
-    EXPECT_EQ(Utils::TypeName(item.data(role)), Constants::int_type_name);
+    const int role = DataRole::kData;
+    EXPECT_TRUE(item.setData(43, DataRole::kData));
+    EXPECT_EQ(Utils::TypeName(item.data(role)), Constants::kIntTypeName);
   }
 }
 
@@ -103,11 +103,11 @@ TEST_F(SessionItemTest, hasData)
   SessionItem item;
 
   EXPECT_FALSE(item.hasData());
-  EXPECT_TRUE(item.hasData(ItemDataRole::IDENTIFIER));
-  EXPECT_FALSE(item.hasData(ItemDataRole::DATA));
-  EXPECT_TRUE(item.hasData(ItemDataRole::DISPLAY));
-  EXPECT_FALSE(item.hasData(ItemDataRole::APPEARANCE));
-  EXPECT_FALSE(item.hasData(ItemDataRole::TOOLTIP));
+  EXPECT_TRUE(item.hasData(DataRole::kIdentifier));
+  EXPECT_FALSE(item.hasData(DataRole::kData));
+  EXPECT_TRUE(item.hasData(DataRole::kDisplay));
+  EXPECT_FALSE(item.hasData(DataRole::kAppearance));
+  EXPECT_FALSE(item.hasData(DataRole::kTooltip));
 
   item.setData(42.0);
   EXPECT_TRUE(item.hasData());
@@ -170,14 +170,14 @@ TEST_F(SessionItemTest, displayName)
 TEST_F(SessionItemTest, variantMismatch)
 {
   SessionItem item;
-  const int role = ItemDataRole::DATA;
+  const int role = DataRole::kData;
   variant_t expected(42.0);
 
   // setting data for the first time
   EXPECT_TRUE(item.setData(expected, role));
 
-  std::vector<int> expected_roles = {ItemDataRole::IDENTIFIER, ItemDataRole::DISPLAY,
-                                     ItemDataRole::DATA};
+  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay,
+                                     DataRole::kData};
   EXPECT_EQ(item.itemData()->roles(), expected_roles);
   EXPECT_EQ(item.data(role), expected);
 
@@ -201,13 +201,13 @@ TEST_F(SessionItemTest, registerItem)
 
   // creating pool
   pool.reset(new ItemPool);
-  pool->register_item(item.get(), item_id);
+  pool->RegisterItem(item.get(), item_id);
   // registration shouldn't change item identifier
   EXPECT_EQ(item->identifier(), item_id);
 
   // registration key should coincide with item identifier
-  auto key = pool->key_for_item(item.get());
-  std::vector<int> expected_roles = {ItemDataRole::IDENTIFIER, ItemDataRole::DISPLAY};
+  auto key = pool->KeyForItem(item.get());
+  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay};
   EXPECT_EQ(item->itemData()->roles(), expected_roles);
   EXPECT_EQ(item_id, key);
 }
@@ -305,8 +305,8 @@ TEST_F(SessionItemTest, insertChildren)
   parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting two items
-  auto child1 = parent->insertItem(TagRow::append());
-  auto child2 = parent->insertItem(TagRow::append());
+  auto child1 = parent->insertItem(TagIndex::append());
+  auto child2 = parent->insertItem(TagIndex::append());
   EXPECT_EQ(Utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(Utils::IndexOfChild(parent.get(), child2), 1);
   EXPECT_EQ(parent->getItem("", 0), child1);
@@ -349,9 +349,9 @@ TEST_F(SessionItemTest, takeItem)
   parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting items
-  parent->insertItem(TagRow::append());
-  auto child2 = parent->insertItem(TagRow::append());
-  auto child3 = parent->insertItem(TagRow::append());
+  parent->insertItem(TagIndex::append());
+  auto child2 = parent->insertItem(TagIndex::append());
+  auto child3 = parent->insertItem(TagIndex::append());
 
   EXPECT_EQ(parent->childrenCount(), 3);
 
@@ -543,14 +543,14 @@ TEST_F(SessionItemTest, tag)
   auto child_t1_b = parent->insertItem({tag1, -1});
   auto child_t2_b = parent->insertItem({tag2, 1});  // between child_t2_a and child_t2_c
 
-  EXPECT_EQ(child_t1_a->tagRow().tag, "tag1");
-  EXPECT_EQ(child_t1_b->tagRow().tag, "tag1");
-  EXPECT_EQ(child_t2_a->tagRow().tag, "tag2");
-  EXPECT_EQ(child_t2_b->tagRow().tag, "tag2");
-  EXPECT_EQ(child_t2_c->tagRow().tag, "tag2");
+  EXPECT_EQ(child_t1_a->GetTagIndex().tag, "tag1");
+  EXPECT_EQ(child_t1_b->GetTagIndex().tag, "tag1");
+  EXPECT_EQ(child_t2_a->GetTagIndex().tag, "tag2");
+  EXPECT_EQ(child_t2_b->GetTagIndex().tag, "tag2");
+  EXPECT_EQ(child_t2_c->GetTagIndex().tag, "tag2");
 
   SessionItem parentless_item;
-  EXPECT_EQ(parentless_item.tagRow().tag, "");
+  EXPECT_EQ(parentless_item.GetTagIndex().tag, "");
 }
 
 //! Checks row of item in its tag
@@ -572,17 +572,17 @@ TEST_F(SessionItemTest, tagRow)
   auto child_t1_b = parent->insertItem({tag1, -1});  // 1
   auto child_t2_b = parent->insertItem({tag2, 1});   // 1 between child_t2_a and child_t2_c
 
-  EXPECT_EQ(child_t1_a->tagRow().row, 0);
-  EXPECT_EQ(child_t1_b->tagRow().row, 1);
-  EXPECT_EQ(child_t2_a->tagRow().row, 0);
-  EXPECT_EQ(child_t2_b->tagRow().row, 1);
-  EXPECT_EQ(child_t2_c->tagRow().row, 2);
+  EXPECT_EQ(child_t1_a->GetTagIndex().index, 0);
+  EXPECT_EQ(child_t1_b->GetTagIndex().index, 1);
+  EXPECT_EQ(child_t2_a->GetTagIndex().index, 0);
+  EXPECT_EQ(child_t2_b->GetTagIndex().index, 1);
+  EXPECT_EQ(child_t2_c->GetTagIndex().index, 2);
 
-  EXPECT_EQ(child_t1_a->tagRow().tag, "tag1");
-  EXPECT_EQ(child_t1_b->tagRow().tag, "tag1");
-  EXPECT_EQ(child_t2_a->tagRow().tag, "tag2");
-  EXPECT_EQ(child_t2_b->tagRow().tag, "tag2");
-  EXPECT_EQ(child_t2_c->tagRow().tag, "tag2");
+  EXPECT_EQ(child_t1_a->GetTagIndex().tag, "tag1");
+  EXPECT_EQ(child_t1_b->GetTagIndex().tag, "tag1");
+  EXPECT_EQ(child_t2_a->GetTagIndex().tag, "tag2");
+  EXPECT_EQ(child_t2_b->GetTagIndex().tag, "tag2");
+  EXPECT_EQ(child_t2_c->GetTagIndex().tag, "tag2");
 }
 
 //! Checks row of item in its tag
@@ -604,17 +604,17 @@ TEST_F(SessionItemTest, tagRowOfItem)
   auto child_t1_b = parent->insertItem({tag1, -1});  // 1
   auto child_t2_b = parent->insertItem({tag2, 1});   // 1 between child_t2_a and child_t2_c
 
-  EXPECT_EQ(parent->tagRowOfItem(child_t1_a).row, 0);
-  EXPECT_EQ(parent->tagRowOfItem(child_t1_b).row, 1);
-  EXPECT_EQ(parent->tagRowOfItem(child_t2_a).row, 0);
-  EXPECT_EQ(parent->tagRowOfItem(child_t2_b).row, 1);
-  EXPECT_EQ(parent->tagRowOfItem(child_t2_c).row, 2);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).index, 0);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).index, 1);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_a).index, 0);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_b).index, 1);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).index, 2);
 
-  EXPECT_EQ(parent->tagRowOfItem(child_t1_a).tag, "tag1");
-  EXPECT_EQ(parent->tagRowOfItem(child_t1_b).tag, "tag1");
-  EXPECT_EQ(parent->tagRowOfItem(child_t2_a).tag, "tag2");
-  EXPECT_EQ(parent->tagRowOfItem(child_t2_b).tag, "tag2");
-  EXPECT_EQ(parent->tagRowOfItem(child_t2_c).tag, "tag2");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).tag, "tag1");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).tag, "tag1");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_a).tag, "tag2");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_b).tag, "tag2");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).tag, "tag2");
 }
 
 //! Checks item appearance (enabled/disabled and editable/readonly).
@@ -624,7 +624,7 @@ TEST_F(SessionItemTest, appearance)
   SessionItem item("Model");
 
   // there shouldn't be any data
-  auto variant = item.data(ItemDataRole::APPEARANCE);
+  auto variant = item.data(DataRole::kAppearance);
   EXPECT_FALSE(Utils::IsValid(variant));
 
   // default status
@@ -639,7 +639,7 @@ TEST_F(SessionItemTest, appearance)
   EXPECT_TRUE(item.isVisible());
 
   // data should be there now
-  variant = item.data(ItemDataRole::APPEARANCE);
+  variant = item.data(DataRole::kAppearance);
   EXPECT_TRUE(Utils::IsValid(variant));
 
   // making it readonly
@@ -662,10 +662,10 @@ TEST_F(SessionItemTest, tooltip)
   SessionItem item("Model");
 
   EXPECT_EQ(item.toolTip(), "");
-  EXPECT_FALSE(item.hasData(ItemDataRole::TOOLTIP));
+  EXPECT_FALSE(item.hasData(DataRole::kTooltip));
 
   EXPECT_EQ(item.setToolTip("abc"), &item);
-  EXPECT_TRUE(item.hasData(ItemDataRole::TOOLTIP));
+  EXPECT_TRUE(item.hasData(DataRole::kTooltip));
   EXPECT_EQ(item.toolTip(), "abc");
 }
 

@@ -9,7 +9,7 @@
 
 #include "mvvm/core/variant.h"
 #include "mvvm/model/mvvm_types.h"
-#include "mvvm/model/tagrow.h"
+#include "mvvm/model/tagindex.h"
 
 #include <memory>
 #include <stdexcept>
@@ -20,15 +20,17 @@ namespace ModelView
 class SessionModel;
 class TagInfo;
 class SessionItemData;
-class SessionItemTags;
+class TaggedItems;
 
 //! The main object representing an editable/displayable/serializable entity. Serves as a
 //! construction element (node) of SessionModel to represent all the data of GUI application.
 
-class SessionItem
+class MVVM_MODEL_EXPORT SessionItem
 {
 public:
-  explicit SessionItem(std::string modelType = {});
+  static inline const std::string Type = "SessionItem";
+
+  explicit SessionItem(std::string modelType = Type);
   virtual ~SessionItem();
   SessionItem(const SessionItem&) = delete;
   SessionItem& operator=(const SessionItem&) = delete;
@@ -46,19 +48,19 @@ public:
 
   SessionItem* parent() const;
 
-  TagRow tagRow() const;
+  TagIndex GetTagIndex() const;
 
   // methods to deal with item data
 
-  bool hasData(int role = ItemDataRole::DATA) const;
+  bool hasData(int role = DataRole::kData) const;
 
-  variant_t data(int role = ItemDataRole::DATA) const { return data_internal(role);}
-
-  template <typename T>
-  T data(int role = ItemDataRole::DATA) const;
+  variant_t data(int role = DataRole::kData) const { return data_internal(role);}
 
   template <typename T>
-  bool setData(const T& value, int role = ItemDataRole::DATA, bool direct = false);
+  T data(int role = DataRole::kData) const;
+
+  template <typename T>
+  bool setData(const T& value, int role = DataRole::kData, bool direct = false);
 
   SessionItemData* itemData();
   const SessionItemData* itemData() const;
@@ -71,7 +73,7 @@ public:
 
   int itemCount(const std::string& tag) const;
 
-  SessionItem* getItem(const std::string& tag, int row = 0) const;
+  SessionItem* getItem(const std::string& tag, int index = 0) const;
 
   std::vector<SessionItem*> getItems(const std::string& tag) const;
 
@@ -80,22 +82,22 @@ public:
   template <typename T = SessionItem>
   std::vector<T*> items(const std::string& tag) const;
 
-  TagRow tagRowOfItem(const SessionItem* item) const;
+  TagIndex TagIndexOfItem(const SessionItem* item) const;
 
   void registerTag(const TagInfo& tagInfo, bool set_as_default = false);
 
-  SessionItemTags* itemTags();
-  const SessionItemTags* itemTags() const;
+  TaggedItems* itemTags();
+  const TaggedItems* itemTags() const;
 
   // item manipulation
 
-  bool insertItem(SessionItem* item, const TagRow& tagrow);
+  bool insertItem(SessionItem* item, const TagIndex& tag_index);
 
-  SessionItem* insertItem(std::unique_ptr<SessionItem> item, const TagRow& tagrow);
+  SessionItem* insertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
   template <typename T = SessionItem>
-  T* insertItem(const TagRow& tagrow);
+  T* insertItem(const TagIndex& tag_index);
 
-  std::unique_ptr<SessionItem> takeItem(const TagRow& tagrow);
+  std::unique_ptr<SessionItem> takeItem(const TagIndex& tag_index);
 
   // more convenience methods
 
@@ -125,7 +127,7 @@ private:
   void setModel(SessionModel* model);
   void setAppearanceFlag(int flag, bool value);
 
-  void setDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<SessionItemTags> tags);
+  void setDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
   struct SessionItemImpl;
   std::unique_ptr<SessionItemImpl> p_impl;
@@ -181,9 +183,9 @@ std::vector<T*> SessionItem::items(const std::string& tag) const
 //! Returns pointer to inserted item to the user.
 
 template <typename T>
-inline T* SessionItem::insertItem(const TagRow& tagrow)
+inline T* SessionItem::insertItem(const TagIndex& tag_index)
 {
-  return static_cast<T*>(insertItem(std::make_unique<T>(), tagrow));
+  return static_cast<T*>(insertItem(std::make_unique<T>(), tag_index));
 }
 
 //! Returns data stored in property item.

@@ -10,13 +10,15 @@
 #include <string>
 #include <vector>
 
+#include "mvvm/model_export.h"
+
 namespace ModelView
 {
 //! Holds info about the single tag for SessionItem.
 //! The tag specifies information about children that can be added to a SessionItem. A tag has a
 //! name, min, max allowed number of children, and vector of all modelTypes that children can have.
 
-class TagInfo
+class MVVM_MODEL_EXPORT TagInfo
 {
 public:
   TagInfo();

@@ -22,7 +22,7 @@ class ItemCatalogue;
 
 //! Main class to hold hierarchy of SessionItem objects.
 
-class SessionModel
+class MVVM_MODEL_EXPORT SessionModel
 {
 public:
   explicit SessionModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
@@ -33,17 +33,12 @@ public:
   // Methods to manipulate data and items.
 
   SessionItem* insertNewItem(const std::string& modelType, SessionItem* parent = nullptr,
-                             const TagRow& tagrow = {});
+                             const TagIndex& tag_index = {});
 
   template <typename T>
-  T* insertItem(SessionItem* parent = nullptr, const TagRow& tagrow = {});
+  T* insertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
-  void removeItem(SessionItem* parent, const TagRow& tagrow);
-
-  //  void moveItem(SessionItem* item, SessionItem* new_parent, const TagRow& tagrow);
-
-  //  SessionItem* copyItem(const SessionItem* item, SessionItem* parent, const TagRow& tagrow =
-  //  {});
+  void removeItem(SessionItem* parent, const TagIndex& tag_index);
 
   variant_t data(SessionItem* item, int role) const;
 
@@ -81,7 +76,7 @@ private:
   void registerInPool(SessionItem* item);
   void unregisterFromPool(SessionItem* item);
   SessionItem* intern_insert(const item_factory_func_t& func, SessionItem* parent,
-                             const TagRow& tagrow);
+                             const TagIndex& tag_index);
   void intern_register(const std::string& modelType, const item_factory_func_t& func,
                        const std::string& label);
 
@@ -89,12 +84,12 @@ private:
   std::unique_ptr<SessionModelImpl> p_impl;
 };
 
-//! Inserts item into given parent under given tagrow.
+//! Inserts item into given parent under given tag_index.
 
 template <typename T>
-T* SessionModel::insertItem(SessionItem* parent, const TagRow& tagrow)
+T* SessionModel::insertItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  return static_cast<T*>(intern_insert(ItemFactoryFunction<T>(), parent, tagrow));
+  return static_cast<T*>(intern_insert(ItemFactoryFunction<T>(), parent, tag_index));
 }
 
 //! Returns top items of the given type.
