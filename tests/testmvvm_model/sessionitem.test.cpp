@@ -22,6 +22,12 @@ using namespace ModelView;
 
 class SessionItemTest : public ::testing::Test
 {
+public:
+  class TestItem : public SessionItem
+  {
+  public:
+    TestItem(const std::string& model_type) : SessionItem(model_type) {}
+  };
 };
 
 TEST_F(SessionItemTest, initialState)
@@ -47,8 +53,8 @@ TEST_F(SessionItemTest, initialState)
 
 TEST_F(SessionItemTest, modelType)
 {
-  SessionItem item("Layer");
-  EXPECT_EQ(item.modelType(), "Layer");
+  SessionItem item;
+  EXPECT_EQ(item.modelType(), SessionItem::Type);
 }
 
 //! Validating ::setData and appearance of roles.
@@ -63,8 +69,7 @@ TEST_F(SessionItemTest, setData)
   variant_t expected(42.0);
   EXPECT_TRUE(item.setData(expected, role));
 
-  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay,
-                                     DataRole::kData};
+  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay, DataRole::kData};
   EXPECT_EQ(item.itemData()->roles(), expected_roles);
   EXPECT_EQ(item.data(role), expected);
 
@@ -152,7 +157,7 @@ TEST_F(SessionItemTest, setStringData)
 
 TEST_F(SessionItemTest, displayName)
 {
-  SessionItem item("Property");
+  TestItem item("Property");
   variant_t data(42.0);
   EXPECT_TRUE(item.setData(data));
 
@@ -176,8 +181,7 @@ TEST_F(SessionItemTest, variantMismatch)
   // setting data for the first time
   EXPECT_TRUE(item.setData(expected, role));
 
-  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay,
-                                     DataRole::kData};
+  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kDisplay, DataRole::kData};
   EXPECT_EQ(item.itemData()->roles(), expected_roles);
   EXPECT_EQ(item.data(role), expected);
 
@@ -226,14 +230,14 @@ TEST_F(SessionItemTest, defaultTag)
 TEST_F(SessionItemTest, registerTag)
 {
   SessionItem item;
-  item.registerTag(TagInfo::universalTag("tagname"));
+  item.registerTag(TagInfo::CreateUniversalTag("tagname"));
   EXPECT_TRUE(Utils::HasTag(item, "tagname"));
 
   // registering of tag with same name forbidden
-  EXPECT_THROW(item.registerTag(TagInfo::universalTag("tagname")), std::runtime_error);
+  EXPECT_THROW(item.registerTag(TagInfo::CreateUniversalTag("tagname")), std::runtime_error);
 
   // registering empty tag is forbidden
-  EXPECT_THROW(item.registerTag(TagInfo::universalTag("")), std::runtime_error);
+  EXPECT_THROW(item.registerTag(TagInfo::CreateUniversalTag("")), std::runtime_error);
 }
 
 //! Registering tag and setting it as default
@@ -241,7 +245,7 @@ TEST_F(SessionItemTest, registerTag)
 TEST_F(SessionItemTest, registerDefaultTag)
 {
   SessionItem item;
-  item.registerTag(TagInfo::universalTag("tagname"), /*set_as_default*/ true);
+  item.registerTag(TagInfo::CreateUniversalTag("tagname"), /*set_as_default*/ true);
   EXPECT_EQ(item.itemTags()->defaultTag(), "tagname");
 }
 
@@ -250,7 +254,7 @@ TEST_F(SessionItemTest, registerDefaultTag)
 TEST_F(SessionItemTest, insertItem)
 {
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   auto child = std::make_unique<SessionItem>();
   auto p_child = child.get();
@@ -278,7 +282,7 @@ TEST_F(SessionItemTest, insertItem)
 TEST_F(SessionItemTest, insertItemTemplated)
 {
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting child
   auto inserted = parent->insertItem({"", 0});
@@ -302,7 +306,7 @@ TEST_F(SessionItemTest, insertItemTemplated)
 TEST_F(SessionItemTest, insertChildren)
 {
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting two items
   auto child1 = parent->insertItem(TagIndex::append());
@@ -346,7 +350,7 @@ TEST_F(SessionItemTest, insertChildren)
 TEST_F(SessionItemTest, takeItem)
 {
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting items
   parent->insertItem(TagIndex::append());
@@ -374,7 +378,7 @@ TEST_F(SessionItemTest, singleTagAndItems)
 
   // creating parent with one tag
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
   EXPECT_TRUE(Utils::HasTag(*parent, tag1));
 
   // inserting two children
@@ -416,8 +420,8 @@ TEST_F(SessionItemTest, twoTagsAndItems)
 
   // creating parent with one tag
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
-  parent->registerTag(TagInfo::universalTag(tag2));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag2));
   EXPECT_TRUE(Utils::HasTag(*parent, tag1));
   EXPECT_TRUE(Utils::HasTag(*parent, tag2));
 
@@ -505,9 +509,9 @@ TEST_F(SessionItemTest, tagModelTypes)
   parent->registerTag(TagInfo(tag1, 0, -1, std::vector<std::string>() = {modelType1, modelType2}));
   parent->registerTag(TagInfo(tag2, 0, -1, std::vector<std::string>() = {modelType3}));
 
-  auto item1 = new SessionItem(modelType1);
-  auto item2 = new SessionItem(modelType2);
-  auto item3 = new SessionItem(modelType3);
+  auto item1 = new TestItem(modelType1);
+  auto item2 = new TestItem(modelType2);
+  auto item3 = new TestItem(modelType3);
 
   // attempt to add item not intended for tag
   EXPECT_FALSE(parent->insertItem(item1, {tag2, -1}));
@@ -533,8 +537,8 @@ TEST_F(SessionItemTest, tag)
 
   // creating parent with one tag
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
-  parent->registerTag(TagInfo::universalTag(tag2));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
   auto child_t2_a = parent->insertItem({tag2, -1});
@@ -562,8 +566,8 @@ TEST_F(SessionItemTest, tagRow)
 
   // creating parent with one tag
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
-  parent->registerTag(TagInfo::universalTag(tag2));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
   auto child_t2_a = parent->insertItem({tag2, -1});  // 0
@@ -594,8 +598,8 @@ TEST_F(SessionItemTest, tagRowOfItem)
 
   // creating parent with one tag
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
-  parent->registerTag(TagInfo::universalTag(tag2));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
   auto child_t2_a = parent->insertItem({tag2, -1});  // 0
@@ -621,7 +625,7 @@ TEST_F(SessionItemTest, tagRowOfItem)
 
 TEST_F(SessionItemTest, appearance)
 {
-  SessionItem item("Model");
+  SessionItem item;
 
   // there shouldn't be any data
   auto variant = item.data(DataRole::kAppearance);
@@ -659,7 +663,7 @@ TEST_F(SessionItemTest, appearance)
 
 TEST_F(SessionItemTest, tooltip)
 {
-  SessionItem item("Model");
+  SessionItem item;
 
   EXPECT_EQ(item.toolTip(), "");
   EXPECT_FALSE(item.hasData(DataRole::kTooltip));
@@ -676,8 +680,8 @@ TEST_F(SessionItemTest, itemsInTag)
 
   // creating parent with one tag
   auto parent = std::make_unique<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
-  parent->registerTag(TagInfo::universalTag(tag2));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
   parent->insertItem({tag1, -1});

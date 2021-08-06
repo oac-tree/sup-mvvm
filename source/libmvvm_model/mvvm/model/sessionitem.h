@@ -30,8 +30,9 @@ class MVVM_MODEL_EXPORT SessionItem
 public:
   static inline const std::string Type = "SessionItem";
 
-  explicit SessionItem(std::string modelType = Type);
+  SessionItem();
   virtual ~SessionItem();
+
   SessionItem(const SessionItem&) = delete;
   SessionItem& operator=(const SessionItem&) = delete;
 
@@ -118,6 +119,9 @@ public:
   template <typename T>
   void setProperty(const std::string& tag, const T& value);
   void setProperty(const std::string& tag, const char* value);
+
+protected:
+  explicit SessionItem(const std::string& modelType);
 
 private:
   friend class SessionModel;

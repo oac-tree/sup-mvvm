@@ -21,13 +21,13 @@ TaggedItems::~TaggedItems()
 
 void TaggedItems::registerTag(const TagInfo& tagInfo, bool set_as_default)
 {
-  if (isTag(tagInfo.name()))
+  if (isTag(tagInfo.GetName()))
     throw std::runtime_error("SessionItemTags::registerTag() -> Error. Existing name '"
-                             + tagInfo.name() + "'");
+                             + tagInfo.GetName() + "'");
 
   m_containers.push_back(new SessionItemContainer(tagInfo));
   if (set_as_default)
-    m_default_tag = tagInfo.name();
+    m_default_tag = tagInfo.GetName();
 }
 
 //! Returns true if container with such name exists.
@@ -148,7 +148,7 @@ TaggedItems::const_iterator TaggedItems::end() const
 bool TaggedItems::isSinglePropertyTag(const std::string& tag) const
 {
   auto cont = find_container(tag);
-  return cont ? cont->tagInfo().isSinglePropertyTag() : false;
+  return cont ? cont->tagInfo().IsSinglePropertyTag() : false;
 }
 
 int TaggedItems::tagsCount() const

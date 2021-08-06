@@ -181,7 +181,7 @@ TEST_F(CompoundItemTest, itemAccess)
 
   // creating parent with one tag
   SessionItem parent;
-  parent.registerTag(TagInfo::universalTag(tag));
+  parent.registerTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
   auto property = parent.insertItem<PropertyItem>({tag, 0});
@@ -195,7 +195,7 @@ TEST_F(CompoundItemTest, itemVectorAccess)
 
   // creating parent with one tag
   SessionItem parent;
-  parent.registerTag(TagInfo::universalTag(tag));
+  parent.registerTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
   auto property1 = parent.insertItem<PropertyItem>(TagIndex::append(tag));
@@ -215,7 +215,7 @@ TEST_F(CompoundItemTest, displayNameIndexAddition)
 
   // creating parent with one tag
   SessionItem parent;
-  parent.registerTag(TagInfo::universalTag(tag));
+  parent.registerTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
   auto child0 = parent.insertItem<CompoundItem>(TagIndex::append(tag));

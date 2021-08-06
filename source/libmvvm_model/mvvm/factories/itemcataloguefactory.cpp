@@ -1,9 +1,6 @@
 // ************************************************************************** //
 //
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
+//  Operational Applications UI Foundation
 //
 // ************************************************************************** //
 
@@ -11,14 +8,22 @@
 
 #include "mvvm/standarditems/standarditemincludes.h"
 
-using namespace ModelView;
+namespace ModelView
+{
 
-std::unique_ptr<ItemCatalogue> ModelView::CreateStandardItemCatalogue()
+std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
 {
   auto result = std::make_unique<ItemCatalogue>();
-  result->registerItem<CompoundItem>();
-  result->registerItem<PropertyItem>();
-  result->registerItem<SessionItem>();
-  result->registerItem<VectorItem>();
+  result->RegisterItem<CompoundItem>();
+  result->RegisterItem<PropertyItem>();
+  result->RegisterItem<SessionItem>();
+  result->RegisterItem<VectorItem>();
   return result;
+}
+
+void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
+{
+  user_catalogue.merge(*CreateStandardItemCatalogue());
+}
+
 }

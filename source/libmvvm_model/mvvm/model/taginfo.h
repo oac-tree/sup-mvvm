@@ -7,10 +7,10 @@
 #ifndef MVVM_MODEL_TAGINFO_H
 #define MVVM_MODEL_TAGINFO_H
 
+#include "mvvm/model_export.h"
+
 #include <string>
 #include <vector>
-
-#include "mvvm/model_export.h"
 
 namespace ModelView
 {
@@ -26,24 +26,24 @@ public:
   TagInfo(std::string name, int min, int max, std::vector<std::string> model_types);
 
   //! Constructs universal tag intended for unlimited amount of various items.
-  static TagInfo universalTag(std::string name, std::vector<std::string> model_types = {});
+  static TagInfo CreateUniversalTag(std::string name, std::vector<std::string> model_types = {});
 
   //! Constructs tag intended for single property.
-  static TagInfo propertyTag(std::string name, std::string model_type);
+  static TagInfo CreatePropertyTag(std::string name, std::string model_type);
 
-  std::string name() const;
+  std::string GetName() const;
 
-  int min() const;
+  int GetMin() const;
 
-  int max() const;
+  int GetMax() const;
 
-  std::vector<std::string> modelTypes() const;
+  std::vector<std::string> GetModelTypes() const;
 
-  bool maximumReached() const;
+  bool IsMaximumReached() const;
 
-  bool isValidChild(const std::string& model_type) const;
+  bool IsValidChild(const std::string& model_type) const;
 
-  bool isSinglePropertyTag() const;
+  bool IsSinglePropertyTag() const;
 
   bool operator==(const TagInfo& other) const;
   bool operator!=(const TagInfo& other) const;

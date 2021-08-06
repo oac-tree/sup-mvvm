@@ -43,7 +43,7 @@ public:
 template <typename T>
 T* CompoundItem::addProperty(const std::string& name)
 {
-  registerTag(TagInfo::propertyTag(name, T().modelType()));
+  registerTag(TagInfo::CreatePropertyTag(name, T().modelType()));
   auto result = insertItem<T>({name, 0});
   result->setDisplayName(name);
   return result;

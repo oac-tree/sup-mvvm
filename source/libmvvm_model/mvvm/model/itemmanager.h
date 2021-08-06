@@ -7,9 +7,10 @@
 #ifndef MVVM_MODEL_ITEMMANAGER_H
 #define MVVM_MODEL_ITEMMANAGER_H
 
+#include "mvvm/model_export.h"
+
 #include <memory>
 #include <string>
-#include "mvvm/model_export.h"
 
 namespace ModelView
 {
@@ -25,26 +26,26 @@ public:
   ItemManager();
   ~ItemManager();
 
-  void setItemFactory(std::unique_ptr<ItemFactoryInterface> factory);
-  void setItemPool(std::shared_ptr<ItemPool> pool);
+  void SetItemFactory(std::unique_ptr<ItemFactoryInterface> factory);
+  void SetItemPool(std::shared_ptr<ItemPool> pool);
 
-  std::unique_ptr<SessionItem> createItem(const std::string& modelType = {}) const;
+  std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const;
 
-  std::unique_ptr<SessionItem> createRootItem() const;
+  std::unique_ptr<SessionItem> CreateEmptyItem() const;
 
-  SessionItem* findItem(const std::string& id) const;
+  SessionItem* FindItem(const std::string& id) const;
 
-  std::string findIdentifier(const SessionItem* item) const;
+  std::string FindIdentifier(const SessionItem* item) const;
 
-  const ItemPool* itemPool() const;
-  ItemPool* itemPool();
+  const ItemPool* GetItemPool() const;
+  ItemPool* GetItemPool();
 
-  void registerInPool(SessionItem* item);
-  void unregisterFromPool(SessionItem* item);
+  void RegisterInPool(SessionItem* item);
+  void UnregisterFromPool(SessionItem* item);
 
-  const ItemFactoryInterface* factory() const;
+  const ItemFactoryInterface* GetFactory() const;
 
-  ItemFactoryInterface* factory();
+  ItemFactoryInterface* GetFactory();
 
 private:
   std::shared_ptr<ItemPool> m_item_pool;

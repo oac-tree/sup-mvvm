@@ -22,12 +22,12 @@ class TagInfoTest : public ::testing::Test
 TEST_F(TagInfoTest, initialState)
 {
   TagInfo tag;
-  EXPECT_EQ(tag.name(), std::string());
-  EXPECT_EQ(tag.min(), 0);
-  EXPECT_EQ(tag.max(), -1);
-  EXPECT_FALSE(tag.isSinglePropertyTag());
-  EXPECT_TRUE(tag.isValidChild(""));
-  EXPECT_TRUE(tag.isValidChild("abc"));
+  EXPECT_EQ(tag.GetName(), std::string());
+  EXPECT_EQ(tag.GetMin(), 0);
+  EXPECT_EQ(tag.GetMax(), -1);
+  EXPECT_FALSE(tag.IsSinglePropertyTag());
+  EXPECT_TRUE(tag.IsValidChild(""));
+  EXPECT_TRUE(tag.IsValidChild("abc"));
 }
 
 //! Testing default tag intended for storing unlimited amount of items of any type.
@@ -35,13 +35,13 @@ TEST_F(TagInfoTest, initialState)
 TEST_F(TagInfoTest, defaultTag)
 {
   // initial state
-  TagInfo tag = TagInfo::universalTag("name");
-  EXPECT_EQ(tag.name(), std::string("name"));
-  EXPECT_EQ(tag.min(), 0);
-  EXPECT_EQ(tag.max(), -1);
-  EXPECT_FALSE(tag.isSinglePropertyTag());
-  EXPECT_TRUE(tag.isValidChild(""));
-  EXPECT_TRUE(tag.isValidChild("abc"));
+  TagInfo tag = TagInfo::CreateUniversalTag("name");
+  EXPECT_EQ(tag.GetName(), std::string("name"));
+  EXPECT_EQ(tag.GetMin(), 0);
+  EXPECT_EQ(tag.GetMax(), -1);
+  EXPECT_FALSE(tag.IsSinglePropertyTag());
+  EXPECT_TRUE(tag.IsValidChild(""));
+  EXPECT_TRUE(tag.IsValidChild("abc"));
 }
 
 //! Testing property tag intended for storing single PropertyItem.
@@ -49,14 +49,14 @@ TEST_F(TagInfoTest, defaultTag)
 TEST_F(TagInfoTest, propertyTag)
 {
   // initial state
-  TagInfo tag = TagInfo::propertyTag("name", "model_type");
+  TagInfo tag = TagInfo::CreatePropertyTag("name", "model_type");
 
-  EXPECT_EQ(tag.name(), std::string("name"));
-  EXPECT_EQ(tag.min(), 1);
-  EXPECT_EQ(tag.max(), 1);
-  EXPECT_TRUE(tag.isSinglePropertyTag());
-  EXPECT_TRUE(tag.isValidChild("model_type"));
-  EXPECT_FALSE(tag.isValidChild("abc"));
+  EXPECT_EQ(tag.GetName(), std::string("name"));
+  EXPECT_EQ(tag.GetMin(), 1);
+  EXPECT_EQ(tag.GetMax(), 1);
+  EXPECT_TRUE(tag.IsSinglePropertyTag());
+  EXPECT_TRUE(tag.IsValidChild("model_type"));
+  EXPECT_FALSE(tag.IsValidChild("abc"));
 }
 
 //! Testing equality operators.
@@ -70,14 +70,14 @@ TEST_F(TagInfoTest, equalityOperator)
   EXPECT_FALSE(tag1 != tag2);
 
   // same property tag
-  TagInfo tag3 = TagInfo::propertyTag("name", "model_type");
-  TagInfo tag4 = TagInfo::propertyTag("name", "model_type");
+  TagInfo tag3 = TagInfo::CreatePropertyTag("name", "model_type");
+  TagInfo tag4 = TagInfo::CreatePropertyTag("name", "model_type");
   EXPECT_TRUE(tag3 == tag4);
   EXPECT_FALSE(tag3 != tag4);
 
   // same universal tag
-  TagInfo tag5 = TagInfo::universalTag("name");
-  TagInfo tag6 = TagInfo::universalTag("name");
+  TagInfo tag5 = TagInfo::CreateUniversalTag("name");
+  TagInfo tag6 = TagInfo::CreateUniversalTag("name");
   EXPECT_TRUE(tag5 == tag6);
   EXPECT_FALSE(tag5 != tag6);
 

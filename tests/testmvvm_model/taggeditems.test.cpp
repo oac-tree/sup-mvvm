@@ -19,6 +19,12 @@ using namespace ModelView;
 
 class TaggedItemsTest : public ::testing::Test
 {
+public:
+  class TestItem : public SessionItem
+  {
+  public:
+    TestItem(const std::string& model_type) : SessionItem(model_type) {}
+  };
 };
 
 //! Initial state of emty SessionItemTags.
@@ -41,18 +47,18 @@ TEST_F(TaggedItemsTest, registerTag)
   const std::string name("tag");
   TaggedItems tag;
 
-  tag.registerTag(TagInfo::universalTag("abc"));
+  tag.registerTag(TagInfo::CreateUniversalTag("abc"));
   EXPECT_TRUE(tag.isTag("abc"));
   EXPECT_EQ(tag.defaultTag(), "");
   EXPECT_EQ(tag.tagsCount(), 1);
 
   // registering default tag
-  tag.registerTag(TagInfo::universalTag("abc2"), /*set_as_default*/ true);
+  tag.registerTag(TagInfo::CreateUniversalTag("abc2"), /*set_as_default*/ true);
   EXPECT_TRUE(tag.isTag("abc2"));
   EXPECT_EQ(tag.defaultTag(), "abc2");
 
   // registering tag with same name is not allowed
-  EXPECT_THROW(tag.registerTag(TagInfo::universalTag("abc")), std::runtime_error);
+  EXPECT_THROW(tag.registerTag(TagInfo::CreateUniversalTag("abc")), std::runtime_error);
 }
 
 //! Testing ::canInsertItem.
@@ -60,8 +66,8 @@ TEST_F(TaggedItemsTest, registerTag)
 TEST_F(TaggedItemsTest, canInsertItem)
 {
   TaggedItems tag;
-  tag.registerTag(TagInfo::universalTag("tag1"));
-  tag.registerTag(TagInfo::propertyTag("tag2", "Property"));
+  tag.registerTag(TagInfo::CreateUniversalTag("tag1"));
+  tag.registerTag(TagInfo::CreatePropertyTag("tag2", "Property"));
 
   auto item = std::make_unique<SessionItem>();
   EXPECT_TRUE(tag.canInsertItem(item.get(), {"tag1", 0}));
@@ -109,8 +115,8 @@ TEST_F(TaggedItemsTest, insertItem)
   EXPECT_THROW(tag.insertItem(item.get(), TagIndex::append()), std::runtime_error);
 
   // registering tags
-  tag.registerTag(TagInfo::universalTag(tag1));
-  tag.registerTag(TagInfo::universalTag(tag2));
+  tag.registerTag(TagInfo::CreateUniversalTag(tag1));
+  tag.registerTag(TagInfo::CreateUniversalTag(tag2));
 
   EXPECT_EQ(tag.tagsCount(), 2);
 
@@ -146,8 +152,8 @@ TEST_F(TaggedItemsTest, tagRowOfItem)
 
   // creating parent with one tag
   TaggedItems tag;
-  tag.registerTag(TagInfo::universalTag(tag1), /*set_as_default*/ true);
-  tag.registerTag(TagInfo::universalTag(tag2));
+  tag.registerTag(TagInfo::CreateUniversalTag(tag1), /*set_as_default*/ true);
+  tag.registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting children
   auto child_t1_a = new SessionItem;
@@ -184,8 +190,8 @@ TEST_F(TaggedItemsTest, getItem)
 
   // creating parent with one tag
   TaggedItems tag;
-  tag.registerTag(TagInfo::universalTag(tag1), /*set_as_default*/ true);
-  tag.registerTag(TagInfo::universalTag(tag2));
+  tag.registerTag(TagInfo::CreateUniversalTag(tag1), /*set_as_default*/ true);
+  tag.registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting children
   auto child_t1_a = new SessionItem;
@@ -210,17 +216,17 @@ TEST_F(TaggedItemsTest, takeItem)
   const std::string model_type("model");
 
   TaggedItems tag;
-  tag.registerTag(TagInfo::universalTag(tag1), /*set_as_default*/ true);
-  tag.registerTag(TagInfo::universalTag(tag2));
+  tag.registerTag(TagInfo::CreateUniversalTag(tag1), /*set_as_default*/ true);
+  tag.registerTag(TagInfo::CreateUniversalTag(tag2));
 
   // taking non existing items
   EXPECT_EQ(tag.takeItem({"", 0}), nullptr);
 
   // inserting items
-  auto child1 = new SessionItem(model_type);
-  auto child2 = new SessionItem(model_type);
-  auto child3 = new SessionItem(model_type);
-  auto child4 = new SessionItem(model_type);
+  auto child1 = new TestItem(model_type);
+  auto child2 = new TestItem(model_type);
+  auto child3 = new TestItem(model_type);
+  auto child4 = new TestItem(model_type);
   EXPECT_TRUE(tag.insertItem(child1, TagIndex::append()));
   EXPECT_TRUE(tag.insertItem(child2, TagIndex::append()));
   EXPECT_TRUE(tag.insertItem(child3, TagIndex::append()));
@@ -248,10 +254,10 @@ TEST_F(TaggedItemsTest, takeItem)
 TEST_F(TaggedItemsTest, isSinglePropertyTag)
 {
   TaggedItems tag;
-  tag.registerTag(TagInfo::universalTag("universal"), /*set_as_default*/ true);
+  tag.registerTag(TagInfo::CreateUniversalTag("universal"), /*set_as_default*/ true);
   EXPECT_FALSE(tag.isSinglePropertyTag("universal"));
 
-  tag.registerTag(TagInfo::propertyTag("property_tag", "Vector"));
+  tag.registerTag(TagInfo::CreatePropertyTag("property_tag", "Vector"));
   EXPECT_TRUE(tag.isSinglePropertyTag("property_tag"));
 
   EXPECT_FALSE(tag.isSinglePropertyTag("unexisting tag"));

@@ -30,20 +30,20 @@ public:
   ItemCatalogue& operator=(const ItemCatalogue& other);
 
   template <typename T>
-  void registerItem(const std::string& label = {});
+  void RegisterItem(const std::string& label = {});
 
-  void registerItem(const std::string& modelType, const item_factory_func_t& func,
+  void RegisterItem(const std::string& model_type, const item_factory_func_t& func,
                     const std::string& label);
 
-  bool contains(const std::string& modelType) const;
+  bool Contains(const std::string& model_type) const;
 
-  std::unique_ptr<SessionItem> create(const std::string& modelType) const;
+  std::unique_ptr<SessionItem> Create(const std::string& model_type) const;
 
-  std::vector<std::string> modelTypes() const;
+  std::vector<std::string> GetModelTypes() const;
 
-  std::vector<std::string> labels() const;
+  std::vector<std::string> GetLabels() const;
 
-  int itemCount() const;
+  int GetItemCount() const;
 
   void merge(const ItemCatalogue& other);
 
@@ -53,9 +53,9 @@ private:
 };
 
 template <typename T>
-void ItemCatalogue::registerItem(const std::string& label)
+void ItemCatalogue::RegisterItem(const std::string& label)
 {
-  registerItem(T().modelType(), ItemFactoryFunction<T>(), label);
+  RegisterItem(T::Type, ItemFactoryFunction<T>(), label);
 }
 
 }  // namespace ModelView

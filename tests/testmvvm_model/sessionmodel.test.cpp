@@ -59,7 +59,7 @@ TEST_F(SessionModelTest, insertItem)
   EXPECT_EQ(pool->ItemForKey(item_key), item);
 
   // registering tag
-  item->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  item->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
   auto child = model.insertItem<SessionItem>(item);
@@ -99,7 +99,7 @@ TEST_F(SessionModelTest, insertNewItem)
   EXPECT_EQ(pool->ItemForKey(item_key), item);
 
   // registering tag
-  item->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  item->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
   auto child = model.insertNewItem(model_type, item);
@@ -125,7 +125,7 @@ TEST_F(SessionModelTest, insertNewItemWithTag)
   const std::string tag1("tag1");
   SessionModel model;
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::universalTag(tag1));
+  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
   auto child1 = model.insertItem<PropertyItem>(parent, {tag1, -1});
 
   EXPECT_EQ(parent->TagIndexOfItem(child1).tag, tag1);
@@ -165,7 +165,7 @@ TEST_F(SessionModelTest, removeItem)
   SessionModel model("Test", pool);
 
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   auto child1 = model.insertItem<SessionItem>(parent);
   auto child2 = model.insertItem<SessionItem>(parent, {"", 0});  // before child1
@@ -185,7 +185,7 @@ TEST_F(SessionModelTest, removeNonExistingItem)
   SessionModel model("Test", pool);
 
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // removing non existing child
   EXPECT_NO_THROW(model.removeItem(parent, {"", 0}));
@@ -197,7 +197,7 @@ TEST_F(SessionModelTest, takeRowFromRootItem)
   SessionModel model("Test", pool);
 
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
+  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   auto parent_key = parent->identifier();
 
   auto child = model.insertItem<SessionItem>(parent);

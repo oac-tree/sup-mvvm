@@ -23,66 +23,66 @@ using namespace ModelView;
 
 ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 
-void ItemManager::setItemFactory(std::unique_ptr<ItemFactoryInterface> factory)
+void ItemManager::SetItemFactory(std::unique_ptr<ItemFactoryInterface> factory)
 {
   m_item_factory = std::move(factory);
 }
 
-void ItemManager::setItemPool(std::shared_ptr<ItemPool> pool)
+void ItemManager::SetItemPool(std::shared_ptr<ItemPool> pool)
 {
   m_item_pool = std::move(pool);
 }
 
 ItemManager::~ItemManager() = default;
 
-std::unique_ptr<SessionItem> ItemManager::createItem(const std::string& modelType) const
+std::unique_ptr<SessionItem> ItemManager::CreateItem(const std::string& model_type) const
 {
-  return m_item_factory->createItem(modelType);
+  return m_item_factory->CreateItem(model_type);
 }
 
-std::unique_ptr<SessionItem> ItemManager::createRootItem() const
+std::unique_ptr<SessionItem> ItemManager::CreateEmptyItem() const
 {
   return std::make_unique<SessionItem>();
 }
 
-SessionItem* ItemManager::findItem(const std::string& id) const
+SessionItem* ItemManager::FindItem(const std::string& id) const
 {
   return m_item_pool ? m_item_pool->ItemForKey(id) : nullptr;
 }
 
-std::string ItemManager::findIdentifier(const SessionItem* item) const
+std::string ItemManager::FindIdentifier(const SessionItem* item) const
 {
   return m_item_pool ? m_item_pool->KeyForItem(item) : std::string();
 }
 
-const ItemPool* ItemManager::itemPool() const
+const ItemPool* ItemManager::GetItemPool() const
 {
   return m_item_pool.get();
 }
 
-ItemPool* ItemManager::itemPool()
+ItemPool* ItemManager::GetItemPool()
 {
   return m_item_pool.get();
 }
 
-void ItemManager::registerInPool(SessionItem* item)
+void ItemManager::RegisterInPool(SessionItem* item)
 {
   if (m_item_pool)
     m_item_pool->RegisterItem(item, item->identifier());
 }
 
-void ItemManager::unregisterFromPool(SessionItem* item)
+void ItemManager::UnregisterFromPool(SessionItem* item)
 {
   if (m_item_pool)
     m_item_pool->UnregisterItem(item);
 }
 
-const ItemFactoryInterface* ItemManager::factory() const
+const ItemFactoryInterface* ItemManager::GetFactory() const
 {
   return m_item_factory.get();
 }
 
-ItemFactoryInterface* ItemManager::factory()
+ItemFactoryInterface* ItemManager::GetFactory()
 {
-  return const_cast<ItemFactoryInterface*>(static_cast<const ItemManager*>(this)->factory());
+  return const_cast<ItemFactoryInterface*>(static_cast<const ItemManager*>(this)->GetFactory());
 }

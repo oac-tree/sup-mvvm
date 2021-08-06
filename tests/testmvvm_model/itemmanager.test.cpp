@@ -23,10 +23,10 @@ class ItemManagerTest : public ::testing::Test
 TEST_F(ItemManagerTest, initialState)
 {
   ItemManager manager;
-  EXPECT_EQ(manager.itemPool(), nullptr);
+  EXPECT_EQ(manager.GetItemPool(), nullptr);
 
   std::shared_ptr<ItemPool> pool(new ItemPool);
-  manager.setItemPool(pool);
-  EXPECT_EQ(manager.itemPool(), pool.get());
-  EXPECT_EQ(manager.itemPool()->size(), 0);
+  manager.SetItemPool(pool);
+  EXPECT_EQ(manager.GetItemPool(), pool.get());
+  EXPECT_EQ(manager.GetItemPool()->size(), 0);
 }

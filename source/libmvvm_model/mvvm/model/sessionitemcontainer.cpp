@@ -107,7 +107,7 @@ SessionItem* SessionItemContainer::itemAt(int index) const
 
 std::string SessionItemContainer::name() const
 {
-  return m_tag_info.name();
+  return m_tag_info.GetName();
 }
 
 TagInfo SessionItemContainer::tagInfo() const
@@ -129,19 +129,19 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
 
 bool SessionItemContainer::maximum_reached() const
 {
-  return m_tag_info.max() != -1 && m_tag_info.max() == itemCount();
+  return m_tag_info.GetMax() != -1 && m_tag_info.GetMax() == itemCount();
 }
 
 //! Returns true if less items than now is not allowed.
 
 bool SessionItemContainer::minimum_reached() const
 {
-  return m_tag_info.min() != -1 && m_tag_info.min() == itemCount();
+  return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == itemCount();
 }
 
 //! Returns true if item's modelType is intended for this tag.
 
 bool SessionItemContainer::is_valid_item(const SessionItem* item) const
 {
-  return item && m_tag_info.isValidChild(item->modelType());
+  return item && m_tag_info.IsValidChild(item->modelType());
 }

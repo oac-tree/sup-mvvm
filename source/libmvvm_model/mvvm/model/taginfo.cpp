@@ -27,39 +27,51 @@ TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> mo
   }
 }
 
-TagInfo TagInfo::universalTag(std::string name, std::vector<std::string> modelTypes)
+//! Constructs universal tag intended for unlimited amount of various items.
+
+TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> modelTypes)
 {
   return TagInfo(std::move(name), 0, -1, std::move(modelTypes));
 }
 
-TagInfo TagInfo::propertyTag(std::string name, std::string model_type)
+//! Constructs tag intended for single property.
+
+TagInfo TagInfo::CreatePropertyTag(std::string name, std::string model_type)
 {
   return TagInfo(std::move(name), 1, 1, {std::move(model_type)});
 }
 
-std::string TagInfo::name() const
+//! Returns the name of this class.
+
+std::string TagInfo::GetName() const
 {
   return m_name;
 }
 
-int TagInfo::min() const
+//! Returns minimum allowed amount of items with this tag.
+
+int TagInfo::GetMin() const
 {
   return m_min;
 }
 
-int TagInfo::max() const
+//! Returns maximum allowed amount of items with this tag.
+
+int TagInfo::GetMax() const
 {
   return m_max;
 }
 
-std::vector<std::string> TagInfo::modelTypes() const
+//! Returns vector of allowed model types which this tag accepts.
+
+std::vector<std::string> TagInfo::GetModelTypes() const
 {
   return m_model_types;
 }
 
 //! Returns true if given modelType matches the list of possible model types.
 
-bool TagInfo::isValidChild(const std::string& model_type) const
+bool TagInfo::IsValidChild(const std::string& model_type) const
 {
   return m_model_types.empty() ? true : Utils::Contains(m_model_types, model_type);
 }
@@ -67,7 +79,7 @@ bool TagInfo::isValidChild(const std::string& model_type) const
 //! Returns true if this tag is used to store single properties.
 //! Properties are children that are created in SessionItem constructor using ::addProperty method.
 
-bool TagInfo::isSinglePropertyTag() const
+bool TagInfo::IsSinglePropertyTag() const
 {
   return m_min == 1 && m_max == 1;
 }

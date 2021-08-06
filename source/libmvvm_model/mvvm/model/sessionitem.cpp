@@ -11,8 +11,8 @@
 
 #include "mvvm/core/uniqueidgenerator.h"
 #include "mvvm/model/sessionitemdata.h"
-#include "mvvm/model/taggeditems.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
 
 #include <stdexcept>
@@ -23,9 +23,10 @@ namespace
 {
 int appearance(const ModelView::SessionItem& item)
 {
-  const int default_appearance = Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
+  const int default_appearance =
+      Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
   return item.hasData(DataRole::kAppearance) ? item.data<int>(DataRole::kAppearance)
-                                                : default_appearance;
+                                             : default_appearance;
 }
 }  // namespace
 
@@ -54,7 +55,9 @@ struct SessionItem::SessionItemImpl
   }
 };
 
-SessionItem::SessionItem(std::string modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
+SessionItem::SessionItem() : SessionItem(Type) {}
+
+SessionItem::SessionItem(const std::string &modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
 {
   p_impl->m_modelType = std::move(modelType);
   setData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);

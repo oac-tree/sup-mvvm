@@ -1,9 +1,6 @@
 // ************************************************************************** //
 //
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
+//  Operational Applications UI Foundation
 //
 // ************************************************************************** //
 
@@ -16,6 +13,9 @@ namespace ModelView
 {
 //! Creates a catalog of items supported by SessionModel out-of-the-box.
 MVVM_MODEL_EXPORT std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue();
+
+//! Update user catalogue with items supported by SessionModel out-of-the-box.
+MVVM_MODEL_EXPORT void AddStandardItemsToCatalogue(ItemCatalogue& user_catalogue);
 
 }  // namespace ModelView
 

@@ -37,85 +37,85 @@ public:
 TEST_F(ItemCatalogueTest, initialState)
 {
   ItemCatalogue catalogue;
-  EXPECT_EQ(catalogue.itemCount(), 0);
-  EXPECT_EQ(catalogue.modelTypes(), std::vector<std::string>({}));
-  EXPECT_EQ(catalogue.labels(), std::vector<std::string>({}));
+  EXPECT_EQ(catalogue.GetItemCount(), 0);
+  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({}));
+  EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({}));
 }
 
 TEST_F(ItemCatalogueTest, addItem)
 {
   ItemCatalogue catalogue;
 
-  catalogue.registerItem<PropertyItem>();
+  catalogue.RegisterItem<PropertyItem>();
 
-  EXPECT_EQ(catalogue.itemCount(), 1);
+  EXPECT_EQ(catalogue.GetItemCount(), 1);
 
-  auto item = catalogue.create(PropertyItem::Type);
+  auto item = catalogue.Create(PropertyItem::Type);
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // registration of second item is not allowed
-  EXPECT_THROW(catalogue.registerItem<PropertyItem>(), std::runtime_error);
+  EXPECT_THROW(catalogue.RegisterItem<PropertyItem>(), std::runtime_error);
 
   // item was not registered, creation not allowed
-  EXPECT_THROW(catalogue.create("non-registered"), std::runtime_error);
+  EXPECT_THROW(catalogue.Create("non-registered"), std::runtime_error);
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.modelTypes(), std::vector<std::string>({"Property"}));
-  EXPECT_EQ(catalogue.labels(), std::vector<std::string>({""}));
+  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({"Property"}));
+  EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({""}));
 }
 
 TEST_F(ItemCatalogueTest, copyConstructor)
 {
   ItemCatalogue catalogue;
-  catalogue.registerItem<PropertyItem>();
+  catalogue.RegisterItem<PropertyItem>();
 
   ItemCatalogue copy(catalogue);
 
   // creation of item using first catalogue
-  auto item = catalogue.create(PropertyItem::Type);
+  auto item = catalogue.Create(PropertyItem::Type);
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // creation of item using catalogue copy
-  item = copy.create(PropertyItem::Type);
+  item = copy.Create(PropertyItem::Type);
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // checking model types and labels in new catalogue
-  EXPECT_EQ(copy.modelTypes(), std::vector<std::string>({"Property"}));
-  EXPECT_EQ(copy.labels(), std::vector<std::string>({""}));
+  EXPECT_EQ(copy.GetModelTypes(), std::vector<std::string>({"Property"}));
+  EXPECT_EQ(copy.GetLabels(), std::vector<std::string>({""}));
 
   // adding item to first catalogue but not the second
-  catalogue.registerItem<TestItem>();
-  item = catalogue.create(TestItem::Type);
+  catalogue.RegisterItem<TestItem>();
+  item = catalogue.Create(TestItem::Type);
   EXPECT_TRUE(dynamic_cast<TestItem*>(item.get()) != nullptr);
 
   // copy of catalogue knows nothing about new VectorType
-  EXPECT_THROW(copy.create(TestItem::Type), std::runtime_error);
+  EXPECT_THROW(copy.Create(TestItem::Type), std::runtime_error);
 }
 
 TEST_F(ItemCatalogueTest, assignmentOperator)
 {
   ItemCatalogue catalogue;
-  catalogue.registerItem<PropertyItem>();
+  catalogue.RegisterItem<PropertyItem>();
 
   ItemCatalogue copy;
   copy = catalogue;
 
   // creation of item using first catalogue
-  auto item = catalogue.create(PropertyItem::Type);
+  auto item = catalogue.Create(PropertyItem::Type);
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // creation of item using catalogue copy
-  item = copy.create(PropertyItem::Type);
+  item = copy.Create(PropertyItem::Type);
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 }
 
 TEST_F(ItemCatalogueTest, contains)
 {
   ItemCatalogue catalogue;
-  catalogue.registerItem<PropertyItem>();
+  catalogue.RegisterItem<PropertyItem>();
 
-  EXPECT_TRUE(catalogue.contains(PropertyItem::Type));
-  EXPECT_FALSE(catalogue.contains(TestItem::Type));
+  EXPECT_TRUE(catalogue.Contains(PropertyItem::Type));
+  EXPECT_FALSE(catalogue.Contains(TestItem::Type));
 }
 
 // FIXME uncomment
@@ -139,22 +139,22 @@ TEST_F(ItemCatalogueTest, contains)
 TEST_F(ItemCatalogueTest, addLabeledItem)
 {
   ItemCatalogue catalogue;
-  catalogue.registerItem<PropertyItem>("property");
-  catalogue.registerItem<TestItem>("test item");
+  catalogue.RegisterItem<PropertyItem>("property");
+  catalogue.RegisterItem<TestItem>("test item");
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.modelTypes(), std::vector<std::string>({"Property", "Test"}));
-  EXPECT_EQ(catalogue.labels(), std::vector<std::string>({"property", "test item"}));
+  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({"Property", "Test"}));
+  EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({"property", "test item"}));
 }
 
 TEST_F(ItemCatalogueTest, merge)
 {
   ItemCatalogue catalogue1;
-  catalogue1.registerItem<PropertyItem>("property");
-  catalogue1.registerItem<TestItem>("test");
+  catalogue1.RegisterItem<PropertyItem>("property");
+  catalogue1.RegisterItem<TestItem>("test");
 
   ItemCatalogue catalogue2;
-  catalogue2.registerItem<AnotherTestItem>("another");
+  catalogue2.RegisterItem<AnotherTestItem>("another");
 
   // adding two catalogue together
   catalogue1.merge(catalogue2);
@@ -163,10 +163,10 @@ TEST_F(ItemCatalogueTest, merge)
                                               AnotherTestItem::Type};
   std::vector<std::string> expected_labels = {"property", "test", "another"};
 
-  EXPECT_EQ(catalogue1.modelTypes(), expected_models);
-  EXPECT_EQ(catalogue1.labels(), expected_labels);
+  EXPECT_EQ(catalogue1.GetModelTypes(), expected_models);
+  EXPECT_EQ(catalogue1.GetLabels(), expected_labels);
 
-  auto item = catalogue1.create(AnotherTestItem::Type);
+  auto item = catalogue1.Create(AnotherTestItem::Type);
   EXPECT_TRUE(dynamic_cast<AnotherTestItem*>(item.get()) != nullptr);
 
   // duplications is not allowed

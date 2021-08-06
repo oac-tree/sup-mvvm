@@ -43,46 +43,46 @@ ItemCatalogue& ItemCatalogue::operator=(const ItemCatalogue& other)
   return *this;
 }
 
-void ItemCatalogue::registerItem(const std::string& modelType, const item_factory_func_t& func,
+void ItemCatalogue::RegisterItem(const std::string& modelType, const item_factory_func_t& func,
                                  const std::string& label)
 {
-  if (contains(modelType))
+  if (Contains(modelType))
     throw std::runtime_error("Error in ItemCatalogue: attempt to add dublicate '" + modelType
                              + "'");
   p_impl->m_info.push_back({modelType, label, func});
 }
 
-bool ItemCatalogue::contains(const std::string& modelType) const
+bool ItemCatalogue::Contains(const std::string& model_type) const
 {
   auto it = find_if(p_impl->m_info.begin(), p_impl->m_info.end(),
-                    [modelType](auto element) { return element.item_type == modelType; });
+                    [model_type](auto element) { return element.item_type == model_type; });
   return it != p_impl->m_info.end();
 }
 
-std::unique_ptr<SessionItem> ItemCatalogue::create(const std::string& modelType) const
+std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type) const
 {
   auto it = find_if(p_impl->m_info.begin(), p_impl->m_info.end(),
-                    [modelType](auto element) { return element.item_type == modelType; });
+                    [model_type](auto element) { return element.item_type == model_type; });
   if (it == p_impl->m_info.end())
-    throw std::runtime_error("Error in ItemCatalogue: non existing '" + modelType + "'");
+    throw std::runtime_error("Error in ItemCatalogue: non existing '" + model_type + "'");
   return it->factory_func();
 }
 
-std::vector<std::string> ItemCatalogue::modelTypes() const
+std::vector<std::string> ItemCatalogue::GetModelTypes() const
 {
   std::vector<std::string> result;
   for (const auto& x : p_impl->m_info) result.push_back(x.item_type);
   return result;
 }
 
-std::vector<std::string> ItemCatalogue::labels() const
+std::vector<std::string> ItemCatalogue::GetLabels() const
 {
   std::vector<std::string> result;
   for (const auto& x : p_impl->m_info) result.push_back(x.item_label);
   return result;
 }
 
-int ItemCatalogue::itemCount() const
+int ItemCatalogue::GetItemCount() const
 {
   return static_cast<int>(p_impl->m_info.size());
 }
@@ -93,9 +93,9 @@ void ItemCatalogue::merge(const ItemCatalogue& other)
 {
   for (const auto& it : other.p_impl->m_info)
   {
-    if (contains(it.item_type))
+    if (Contains(it.item_type))
       throw std::runtime_error("ItemCatalogue::add() -> Catalogue contains duplicated records");
 
-    registerItem(it.item_type, it.factory_func, it.item_label);
+    RegisterItem(it.item_type, it.factory_func, it.item_label);
   }
 }

@@ -18,15 +18,15 @@ ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue> catalogue)
 {
 }
 
-void ItemFactory::registerItem(const std::string& modelType, item_factory_func_t func,
+void ItemFactory::RegisterItem(const std::string& model_type, item_factory_func_t func,
                                const std::string& label)
 {
-  m_catalogue->registerItem(modelType, func, label);
+  m_catalogue->RegisterItem(model_type, func, label);
 }
 
 ItemFactory::~ItemFactory() = default;
 
-std::unique_ptr<SessionItem> ItemFactory::createItem(const std::string& modelType) const
+std::unique_ptr<SessionItem> ItemFactory::CreateItem(const std::string& model_type) const
 {
-  return m_catalogue->create(modelType);
+  return m_catalogue->Create(model_type);
 }

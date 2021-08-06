@@ -24,10 +24,10 @@ public:
   ItemFactory(std::unique_ptr<ItemCatalogue> catalogue);
   ~ItemFactory() override;
 
-  void registerItem(const std::string& modelType, item_factory_func_t func,
+  void RegisterItem(const std::string& model_type, item_factory_func_t func,
                     const std::string& label) override;
 
-  std::unique_ptr<SessionItem> createItem(const std::string& modelType) const override;
+  std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const override;
 
 protected:
   std::unique_ptr<ItemCatalogue> m_catalogue;

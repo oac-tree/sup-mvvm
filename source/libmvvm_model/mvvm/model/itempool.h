@@ -33,6 +33,7 @@ public:
   size_t size() const;
 
   identifier_t RegisterItem(SessionItem* item, identifier_t key = {});
+
   void UnregisterItem(SessionItem* item);
 
   identifier_t KeyForItem(const SessionItem* item) const;
