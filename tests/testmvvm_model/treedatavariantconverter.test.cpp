@@ -31,7 +31,7 @@ TEST_F(TreeDataVariantConverterTest, UndefinedDataRole)
   // Constructing TreeData representing undefined variant with role=0.
   const std::string body{R"(<Variant role="0" type="undefined"></Variant>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   auto data_role = GetDataRole(*tree_data);
@@ -51,7 +51,7 @@ TEST_F(TreeDataVariantConverterTest, BoolDataRole)
   // Constructing TreeData representing undefined variant with role=0.
   const std::string body{R"(<Variant role="42" type="bool">true</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   auto data_role = GetDataRole(*tree_data);
@@ -78,7 +78,7 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
   // Constructing TreeData representing int variant with role=0.
   const std::string body{R"(<Variant role="42" type="int">48</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   auto data_role = GetDataRole(*tree_data);
@@ -90,7 +90,7 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
 
   // Another convertion, now spaces are added.
   tree_data = ParseXMLElementString(R"(<Variant role = "42 " type="int"> 48 </Variant>)");
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   data_role = GetDataRole(*tree_data);
@@ -98,7 +98,7 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
 
   // Attempting to construct invalid tree (integer value is missed)
   tree_data = ParseXMLElementString(R"(<Variant role="42" type="int"></Variant>)");
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
   EXPECT_THROW(GetDataRole(*tree_data), std::invalid_argument);
 }
 
@@ -111,7 +111,7 @@ TEST_F(TreeDataVariantConverterTest, DoubleDataRole)
   // Constructing TreeData representing double variant with role=0.
   const std::string body{R"(<Variant role="43" type="double">42.3</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   auto data_role = GetDataRole(*tree_data);
@@ -136,7 +136,7 @@ TEST_F(TreeDataVariantConverterTest, StringDataRole)
   // Constructing TreeData representing string variant with role=0.
   const std::string body{R"(<Variant role="7" type="string">James Bond</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   auto data_role = GetDataRole(*tree_data);
@@ -161,7 +161,7 @@ TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
   // Constructing TreeData representing a vector with single element with role=0.
   const std::string body{R"(<Variant role="42" type="vector_double_t">48.0</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRole(*tree_data));
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
   auto data_role = GetDataRole(*tree_data);

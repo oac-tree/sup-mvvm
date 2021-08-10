@@ -25,10 +25,8 @@ public:
 
   TagInfo(std::string name, int min, int max, std::vector<std::string> model_types);
 
-  //! Constructs universal tag intended for unlimited amount of various items.
   static TagInfo CreateUniversalTag(std::string name, std::vector<std::string> model_types = {});
 
-  //! Constructs tag intended for single property.
   static TagInfo CreatePropertyTag(std::string name, std::string model_type);
 
   std::string GetName() const;

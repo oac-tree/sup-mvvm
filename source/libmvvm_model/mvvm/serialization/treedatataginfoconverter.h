@@ -1,0 +1,35 @@
+// ************************************************************************** //
+//
+//  Operational Applications UI Foundation
+//
+// ************************************************************************** //
+
+#ifndef MVVM_TREEDATATAGINFOTCONVERTER_H
+#define MVVM_TREEDATATAGINFOTCONVERTER_H
+
+//! @file treedatataginfoconverter.h
+//! Declares utility functions to convert between TreeData and TagInfo objects.
+
+//! These are auxiliary functions to provide parsing of xml elements
+//! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
+
+#include "mvvm/model_export.h"
+
+namespace ModelView
+{
+class TreeData;
+class TagInfo;
+
+//! Returns true if given TreeData represents TagInfo object.
+MVVM_MODEL_EXPORT bool IsTagInfoConvertible(const TreeData& tree_data);
+
+//! Returns TagInfo object from its TreeData representation. Will throw if convertions is not
+//! possible.
+MVVM_MODEL_EXPORT TagInfo GetTagInfo(const TreeData& tree_data);
+
+//! Returns TreeData object constructed from TagInfo object.
+MVVM_MODEL_EXPORT TreeData GetTreeData(const TagInfo& tag_info);
+
+}  // namespace ModelView
+
+#endif  // MVVM_TREEDATATAGINFOTCONVERTER_H

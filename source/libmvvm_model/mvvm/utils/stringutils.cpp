@@ -155,4 +155,12 @@ std::string ToCommaSeparatedString(const std::vector<double>& vec)
                                        comma_fold);
 }
 
+std::string ToCommaSeparatedString(const std::vector<std::string>& vec)
+{
+  auto comma_fold = [](std::string a, const std::string& value)
+  { return std::move(a) + ", " + value; };
+  return vec.empty() ? std::string()
+                     : std::accumulate(std::next(vec.begin()), vec.end(), vec[0], comma_fold);
+}
+
 }  // namespace ModelView::Utils

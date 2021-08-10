@@ -65,6 +65,9 @@ MVVM_MODEL_EXPORT std::vector<double> ParseCommaSeparatedDoubles(const std::stri
 //! Converts vector of doubles to comma separated string.
 MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<double>& vec);
 
+//! Converts vector of strings to comma separated string.
+MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::string>& vec);
+
 }
 
 #endif

@@ -7,4 +7,9 @@ target_sources(${library_name} PRIVATE
   xmlparseutils.h
   treedatavariantconverter.cpp
   treedatavariantconverter.h
+  treedatataginfoconverter.cpp
+  treedatataginfoconverter.h
+  treedataitemconverterinterface.h
+  treedataitemconverter.cpp
+  treedataitemconverter.h
   )

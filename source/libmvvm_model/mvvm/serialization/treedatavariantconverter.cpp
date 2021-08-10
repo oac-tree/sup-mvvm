@@ -19,8 +19,8 @@
 namespace
 {
 const std::string kElementType = "Variant";
-const std::string kRoleAttributeName = "role";
-const std::string kTypeAttributeName = "type";
+const std::string kRoleAttributeKey = "role";
+const std::string kTypeAttributeKey = "type";
 
 //! Aggregates call backs for convertion between datarole_t and TreeData.
 struct Converters
@@ -30,7 +30,7 @@ struct Converters
 };
 
 //! Returns vector of attributes which TreeData object should have.
-std::vector<std::string> GetExpectedAttributeNames();
+std::vector<std::string> GetExpectedAttributeKeys();
 
 //! Returns role attribute.
 int GetRole(const ModelView::TreeData& tree_data);
@@ -85,9 +85,9 @@ std::map<std::string, Converters> GetConverters();
 
 namespace ModelView
 {
-bool IsDataRole(const TreeData& tree_data)
+bool IsDataRoleConvertible(const TreeData& tree_data)
 {
-  static const std::vector<std::string> expected_names = GetExpectedAttributeNames();
+  static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
   return tree_data.GetType() == kElementType
          && expected_names == tree_data.Attributes().GetAttributeNames()
          && tree_data.GetNumberOfChildren() == 0;
@@ -97,7 +97,7 @@ datarole_t GetDataRole(const TreeData& tree_data)
 {
   static const std::map<std::string, Converters> converters = GetConverters();
 
-  if (!IsDataRole(tree_data))
+  if (!IsDataRoleConvertible(tree_data))
     throw std::runtime_error("Error in variant converter: invalid TreeData object.");
 
   const auto type_name = GetTypeName(tree_data);
@@ -130,32 +130,32 @@ TreeData GetTreeData(const datarole_t& data_role)
 
 namespace
 {
-std::vector<std::string> GetExpectedAttributeNames()
+std::vector<std::string> GetExpectedAttributeKeys()
 {
-  std::vector<std::string> result = {kRoleAttributeName, kTypeAttributeName};
+  std::vector<std::string> result = {kRoleAttributeKey, kTypeAttributeKey};
   std::sort(result.begin(), result.end());
   return result;
 }
 
 int GetRole(const ModelView::TreeData& tree_data)
 {
-  if (!tree_data.HasAttribute(kRoleAttributeName))
+  if (!tree_data.HasAttribute(kRoleAttributeKey))
     throw std::runtime_error("Error in variant converter: absent 'role' attribute.");
-  return std::stoi(tree_data.GetAttribute(kRoleAttributeName));
+  return std::stoi(tree_data.GetAttribute(kRoleAttributeKey));
 }
 
 std::string GetTypeName(const ModelView::TreeData& tree_data)
 {
-  if (!tree_data.HasAttribute(kTypeAttributeName))
+  if (!tree_data.HasAttribute(kTypeAttributeKey))
     throw std::runtime_error("Error in variant converter: absent 'role' attribute.");
-  return tree_data.GetAttribute(kTypeAttributeName);
+  return tree_data.GetAttribute(kTypeAttributeKey);
 }
 
 ModelView::TreeData from_undefined(const datarole_t& datarole)
 {
   ModelView::TreeData result(kElementType);
-  result.AddAttribute(kRoleAttributeName, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeName, ModelView::Constants::kUndefinedTypeName);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kUndefinedTypeName);
   return result;
 }
 
@@ -167,8 +167,8 @@ datarole_t to_undefined(const ModelView::TreeData& tree_data)
 ModelView::TreeData from_bool(const datarole_t& datarole)
 {
   ModelView::TreeData result(kElementType);
-  result.AddAttribute(kRoleAttributeName, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeName, ModelView::Constants::kBoolTypeName);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kBoolTypeName);
   bool value = std::get<bool>(datarole.first);
   result.SetContent(ModelView::Utils::FromBool(value));
   return result;
@@ -183,8 +183,8 @@ datarole_t to_bool(const ModelView::TreeData& tree_data)
 ModelView::TreeData from_int(const datarole_t& datarole)
 {
   ModelView::TreeData result(kElementType);
-  result.AddAttribute(kRoleAttributeName, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeName, ModelView::Constants::kIntTypeName);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kIntTypeName);
   auto value = std::get<int>(datarole.first);
   result.SetContent(std::to_string(value));
   return result;
@@ -199,8 +199,8 @@ datarole_t to_int(const ModelView::TreeData& tree_data)
 ModelView::TreeData from_string(const datarole_t& datarole)
 {
   ModelView::TreeData result(kElementType);
-  result.AddAttribute(kRoleAttributeName, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeName, ModelView::Constants::kStringTypeName);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kStringTypeName);
   auto value = std::get<std::string>(datarole.first);
   result.SetContent(value);
   return result;
@@ -214,8 +214,8 @@ datarole_t to_string(const ModelView::TreeData& tree_data)
 ModelView::TreeData from_double(const datarole_t& datarole)
 {
   ModelView::TreeData result(kElementType);
-  result.AddAttribute(kRoleAttributeName, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeName, ModelView::Constants::kDoubleTypeName);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kDoubleTypeName);
   auto value = std::get<double>(datarole.first);
   result.SetContent(ModelView::Utils::DoubleToString(value));
   return result;
@@ -232,8 +232,8 @@ datarole_t to_double(const ModelView::TreeData& tree_data)
 ModelView::TreeData from_vector_double(const datarole_t& datarole)
 {
   ModelView::TreeData result(kElementType);
-  result.AddAttribute(kRoleAttributeName, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeName, ModelView::Constants::kVectorDoubleTypeName);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kVectorDoubleTypeName);
   auto values = std::get<std::vector<double>>(datarole.first);
   result.SetContent(ModelView::Utils::ToCommaSeparatedString(values));
   return result;

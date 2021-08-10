@@ -1,0 +1,92 @@
+// ************************************************************************** //
+//
+//  Operational Applications UI Foundation
+//
+// ************************************************************************** //
+
+#include "mvvm/serialization/treedatataginfoconverter.h"
+
+#include "mvvm/model/taginfo.h"
+#include "mvvm/serialization/TreeData.h"
+#include "mvvm/utils/stringutils.h"
+
+#include <algorithm>
+#include <stdexcept>
+
+// ----------------------------------------------------------------------------
+// Declarations of constants and helper methods in anonymous namespace.
+// ----------------------------------------------------------------------------
+
+//! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
+
+namespace
+{
+const std::string kElementType = "TagInfo";
+const std::string kMinAttributeKey = "min";
+const std::string kMaxAttributeKey = "max";
+const std::string kNameAttributeKey = "name";
+
+//! Returns vector of attributes which TreeData object should have.
+std::vector<std::string> GetExpectedAttributeKeys();
+
+std::vector<std::string> SplitAndTrim(const std::string &str)
+{
+  auto result = ModelView::Utils::SplitString(str, ",");
+  std::transform(result.begin(), result.end(), result.begin(),
+                 [](auto s) { return ModelView::Utils::TrimWhitespace(s); });
+  return result;
+}
+}  // namespace
+
+// ----------------------------------------------------------------------------
+// Implementations declared in the header.
+// ----------------------------------------------------------------------------
+
+namespace ModelView
+{
+bool IsTagInfoConvertible(const TreeData &tree_data)
+{
+  static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
+  return tree_data.GetType() == kElementType
+         && expected_names == tree_data.Attributes().GetAttributeNames()
+         && tree_data.GetNumberOfChildren() == 0;
+}
+
+TagInfo GetTagInfo(const TreeData &tree_data)
+{
+  if (!IsTagInfoConvertible(tree_data))
+    throw std::runtime_error("Error in variant converter: invalid TreeData object.");
+
+  int min = std::stoi(tree_data.GetAttribute(kMinAttributeKey));
+  int max = std::stoi(tree_data.GetAttribute(kMaxAttributeKey));
+  std::string name = tree_data.GetAttribute(kNameAttributeKey);
+  std::vector<std::string> model_types = SplitAndTrim(tree_data.GetContent());
+  return TagInfo(name, min, max, model_types);
+}
+
+TreeData GetTreeData(const TagInfo &tag_info)
+{
+  TreeData result(kElementType);
+  result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
+  result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
+  result.AddAttribute(kNameAttributeKey, tag_info.GetName());
+  result.SetContent(Utils::ToCommaSeparatedString(tag_info.GetModelTypes()));
+  return result;
+}
+
+}  // namespace ModelView
+
+// ----------------------------------------------------------------------------
+// Implementation of helper functions from anonymous namespace.
+// ----------------------------------------------------------------------------
+
+namespace
+{
+std::vector<std::string> GetExpectedAttributeKeys()
+{
+  std::vector<std::string> result = {kMinAttributeKey, kMaxAttributeKey, kNameAttributeKey};
+  std::sort(result.begin(), result.end());
+  return result;
+}
+
+}  // namespace

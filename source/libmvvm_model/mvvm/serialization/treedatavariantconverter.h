@@ -26,7 +26,7 @@ namespace ModelView
 class TreeData;
 
 //! Returns true if given TreeData represents datarole_t object.
-MVVM_MODEL_EXPORT bool IsDataRole(const TreeData& tree_data);
+MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const TreeData& tree_data);
 
 //! Returns datarole_t object from its TreeData representation. Will throw if convertions is not
 //! possible.
