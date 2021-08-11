@@ -65,7 +65,7 @@ std::unique_ptr<TreeData> ParseXMLDataString(const std::string &xml_str)
 
 std::unique_ptr<TreeData> ParseXMLElementString(const std::string &xml_str)
 {
-  const std::string header{R"RAW(<?xml version = "1.0" encoding = "UTF-8"?>
+  const std::string header{R"RAW(<?xml version="1.0" encoding="UTF-8"?>
 )RAW"};
 
   std::string content = header + xml_str;

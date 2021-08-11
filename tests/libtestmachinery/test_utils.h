@@ -1,6 +1,6 @@
 // ************************************************************************** //
 //
-//  Sequencer GUI prototype
+//  Operational Applications UI Foundation
 //
 // ************************************************************************** //
 
@@ -14,17 +14,15 @@
 #include <memory>
 #include <vector>
 
-namespace ModelView
-{
-class ViewItem;
-}
-
 //! Various common utils for unit tests.
 
 namespace TestUtils
 {
-//! Deletes items in the container and cleans container afterwards.
+//! Returns full path to the main test folder, as defined by CMake at compile time.
+//! Shoud point to CMAKE_BINARY_DIR/test_output
+std::string GetTestOutputDir();
 
+//! Deletes items in the container and cleans container afterwards.
 template <typename T>
 void clean_items(T& items)
 {
@@ -33,7 +31,6 @@ void clean_items(T& items)
 }
 
 //! Creates vector of unique_ptr of given type.
-
 template <typename B, typename D>
 auto create_row(int ncolumns)
 {
@@ -43,7 +40,6 @@ auto create_row(int ncolumns)
 }
 
 //! Creates vector of pointers from vector of unique_ptr.
-
 template <typename T>
 auto create_pointers(const std::vector<std::unique_ptr<T>>& vec)
 {
@@ -53,6 +49,7 @@ auto create_pointers(const std::vector<std::unique_ptr<T>>& vec)
   return result;
 }
 
+//! Create a pair of unique_ptr and raw ptr to the object of given type.
 template <typename T>
 auto CreateTestData()
 {
@@ -65,6 +62,9 @@ auto CreateTestData()
 //! header and footer.
 
 std::string CreateXMLDocumentString(const std::string& body);
+
+//! Returns text file content.
+std::string GetTextFileContent(const std::string& file_name);
 
 }  // namespace TestUtils
 
