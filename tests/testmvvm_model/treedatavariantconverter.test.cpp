@@ -34,11 +34,11 @@ TEST_F(TreeDataVariantConverterTest, UndefinedDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto data_role = GetDataRole(*tree_data);
+  auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(), 0));
 
   // Converting back
-  auto new_tree_data = GetTreeData(data_role);
+  auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
@@ -54,18 +54,18 @@ TEST_F(TreeDataVariantConverterTest, BoolDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto data_role = GetDataRole(*tree_data);
+  auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(true), 42));
 
   // Converting back
-  auto new_tree_data = GetTreeData(data_role);
+  auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 
   // another variant with the value False
   tree_data = ParseXMLElementString(R"(<Variant role="42" type="bool">False</Variant>)");
 
   // Converting tree_data to data_role
-  data_role = GetDataRole(*tree_data);
+  data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(false), 42));
 }
 
@@ -81,11 +81,11 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto data_role = GetDataRole(*tree_data);
+  auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(48), 42));
 
   // Converting back
-  auto new_tree_data = GetTreeData(data_role);
+  auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 
   // Another convertion, now spaces are added.
@@ -93,13 +93,13 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  data_role = GetDataRole(*tree_data);
+  data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(48), 42));
 
   // Attempting to construct invalid tree (integer value is missed)
   tree_data = ParseXMLElementString(R"(<Variant role="42" type="int"></Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-  EXPECT_THROW(GetDataRole(*tree_data), std::invalid_argument);
+  EXPECT_THROW(ToDataRole(*tree_data), std::invalid_argument);
 }
 
 //! Parsing XML data string representing datarole_t with double data.
@@ -114,11 +114,11 @@ TEST_F(TreeDataVariantConverterTest, DoubleDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto data_role = GetDataRole(*tree_data);
+  auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(42.3), 43));
 
   // Converting back
-  auto new_tree_data = GetTreeData(data_role);
+  auto new_tree_data = ToTreeData(data_role);
   // Here we can't compare new TreeData with the old one because of internal convertion of
   // double to string and lost of presicion
   EXPECT_DOUBLE_EQ(std::stod(new_tree_data.GetContent()), 42.3);
@@ -139,16 +139,16 @@ TEST_F(TreeDataVariantConverterTest, StringDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto data_role = GetDataRole(*tree_data);
+  auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(std::string("James Bond")), 7));
 
   // Converting back
-  auto new_tree_data = GetTreeData(data_role);
+  auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 
   // Another string with more spaces (they should be preserved)
   tree_data = ParseXMLElementString(R"(<Variant role="7" type="string"> James   Bond </Variant>)");
-  data_role = GetDataRole(*tree_data);
+  data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(std::string(" James   Bond ")), 7));
 }
 
@@ -164,11 +164,11 @@ TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto data_role = GetDataRole(*tree_data);
+  auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(std::vector<double>{48.0}), 42));
 
   // Converting back
-  auto new_tree_data = GetTreeData(data_role);
+  auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 
   // vector of two elements
@@ -176,10 +176,10 @@ TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
       ParseXMLElementString(R"(<Variant role="42" type="vector_double_t">1.0, 2.0</Variant>)");
 
   // Converting tree_data to data_role
-  data_role = GetDataRole(*tree_data);
+  data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(std::vector<double>{1.0, 2.0}), 42));
 
   // Converting back
-  new_tree_data = GetTreeData(data_role);
+  new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 }

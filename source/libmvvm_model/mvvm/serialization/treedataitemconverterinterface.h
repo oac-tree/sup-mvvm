@@ -23,11 +23,11 @@ class MVVM_MODEL_EXPORT TreeDataItemConverterInterface
 public:
   virtual ~TreeDataItemConverterInterface() = default;
 
-  //! Converts item to TreeData.
-  virtual std::unique_ptr<TreeData> ToTreeData(const SessionItem* item) const = 0;
+  //! Creates TreeData from SessionItem.
+  virtual std::unique_ptr<TreeData> ToTreeData(const SessionItem& item) const = 0;
 
-  //! Creates item from TreeData.
-  virtual std::unique_ptr<SessionItem> FromTreeData(const TreeData&) const = 0;
+  //! Creates SessionItem from TreeData.
+  virtual std::unique_ptr<SessionItem> ToSessionItem(const TreeData&) const = 0;
 };
 
 }  // namespace ModelView

@@ -10,6 +10,7 @@
 #include "mvvm/model/tagindex.h"
 #include "mvvm/model_export.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -34,43 +35,45 @@ public:
 
   // tag
 
-  void registerTag(const TagInfo& tagInfo, bool set_as_default = false);
+  void RegisterTag(const TagInfo& tag_info, bool set_as_default = false);
 
-  bool isTag(const std::string& name) const;
+  bool HasTag(const std::string& name) const;
 
-  std::string defaultTag() const;
+  std::string GetDefaultTag() const;
 
-  void setDefaultTag(const std::string& name);
+  void SetDefaultTag(const std::string& name);
 
-  int itemCount(const std::string& tag_name) const;
+  int GetItemCount(const std::string& tag_name) const;
 
   // adding and removal
 
-  bool canInsertItem(const SessionItem* item, const TagIndex& tag_index) const;
+  bool CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const;
 
-  bool insertItem(SessionItem* item, const TagIndex& tag_index);
+  bool InsertItem(SessionItem* item, const TagIndex& tag_index);
 
-  bool canTakeItem(const TagIndex& tag_index) const;
+  bool CanTakeItem(const TagIndex& tag_index) const;
 
-  SessionItem* takeItem(const TagIndex& tag_index);
+  SessionItem* TakeItem(const TagIndex& tag_index);
 
   // item access
-  SessionItem* getItem(const TagIndex& tag_index) const;
+  SessionItem* GetItem(const TagIndex& tag_index) const;
 
-  std::vector<SessionItem*> getItems(const std::string& tag = {}) const;
+  std::vector<SessionItem*> GetItems(const std::string& tag = {}) const;
 
-  std::vector<SessionItem*> allitems() const;
+  std::vector<SessionItem*> GetAllItems() const;
 
   TagIndex TagIndexOfItem(const SessionItem* item) const;
 
   const_iterator begin() const;
   const_iterator end() const;
 
-  bool isSinglePropertyTag(const std::string& tag) const;
+  bool IsSinglePropertyTag(const std::string& tag) const;
 
-  int tagsCount() const;
+  int GetTagsCount() const;
 
   SessionItemContainer& at(int index);
+
+  void AppendContainer(std::unique_ptr<SessionItemContainer> container);
 
 private:
   SessionItemContainer* container(const std::string& tag_name) const;

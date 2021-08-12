@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.15.2, 2021-08-11T15:36:59. -->
+<!-- Written by QtCreator 4.15.2, 2021-08-12T21:59:19. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -161,7 +161,19 @@
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitem.test.cpp:tooltip">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitem.test.cpp:twoTagsAndItems">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitem.test.cpp:variantMismatch">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:CanInsertItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:CanInsertItemForPropertyTag">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:CanInsertItemForUniversalTag">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:CanTakeItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:IndexOfItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:InitialState">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:InsertItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:InsertItemModelType">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:InsertItemPropertyType">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:ItemAt">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:SessionItemContainerTest">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:TakeItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:TakeItemPropertyType">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:canInsertItem">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:canInsertItemForPropertyTag">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/sessionitemcontainer.test.cpp:canInsertItemForUniversalTag">Checked</value>
@@ -209,7 +221,16 @@
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/stringutils.test.cpp:StringUtilsTest">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/stringutils.test.cpp:ToComaSeparatedString">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/stringutils.test.cpp:TrimWhiteSpace">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:CanInsertItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:CanInsertItemForUniversalTag">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:GetItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:InitialState">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:InsertItem">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:IsSinglePropertyTag">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:RegisterTag">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:TagRowOfItem">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:TaggedItemsTest">Checked</value>
+    <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:TakeItem">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:canInsertItem">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:canInsertItemForUniversalTag">Checked</value>
     <value type="Qt::CheckState" key="1@/home/pospelov/development/iter/cpp-mvvm/tests/testmvvm_model/taggeditems.test.cpp:getItem">Checked</value>

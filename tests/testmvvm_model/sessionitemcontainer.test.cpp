@@ -29,66 +29,66 @@ public:
 
 //! Initial state of emty SessionItemTag.
 
-TEST_F(SessionItemContainerTest, initialState)
+TEST_F(SessionItemContainerTest, InitialState)
 {
   const std::string name("tag");
   SessionItemContainer tag(TagInfo::CreateUniversalTag(name));
 
-  EXPECT_EQ(tag.itemCount(), 0);
-  EXPECT_TRUE(tag.empty());
-  EXPECT_EQ(tag.name(), name);
+  EXPECT_EQ(tag.GetItemCount(), 0);
+  EXPECT_TRUE(tag.IsEmpty());
+  EXPECT_EQ(tag.GetName(), name);
   EXPECT_EQ(tag.items(), std::vector<SessionItem*>());
 }
 
 //! Checking ::insertItem.
 
-TEST_F(SessionItemContainerTest, insertItem)
+TEST_F(SessionItemContainerTest, InsertItem)
 {
   const std::string tag_name("tag");
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
 
   // inserting non-existing item is not allowed
-  EXPECT_FALSE(tag.insertItem(nullptr, tag.itemCount()));
-  EXPECT_EQ(tag.itemCount(), 0);
+  EXPECT_FALSE(tag.InsertItem(nullptr, tag.GetItemCount()));
+  EXPECT_EQ(tag.GetItemCount(), 0);
 
   // insertion at the end
   auto child1 = new SessionItem;
   auto child2 = new SessionItem;
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_TRUE(tag.insertItem(child2, tag.itemCount()));
-  EXPECT_EQ(tag.itemCount(), 2);
-  EXPECT_FALSE(tag.empty());
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_TRUE(tag.InsertItem(child2, tag.GetItemCount()));
+  EXPECT_EQ(tag.GetItemCount(), 2);
+  EXPECT_FALSE(tag.IsEmpty());
   std::vector<SessionItem*> expected = {child1, child2};
   EXPECT_EQ(tag.items(), expected);
 
   // insertion at the beginning
   auto child3 = new SessionItem;
-  EXPECT_TRUE(tag.insertItem(child3, 0));
+  EXPECT_TRUE(tag.InsertItem(child3, 0));
   expected = {child3, child1, child2};
   EXPECT_EQ(tag.items(), expected);
 
   // insertion in between
   auto child4 = new SessionItem;
-  EXPECT_TRUE(tag.insertItem(child4, 1));
+  EXPECT_TRUE(tag.InsertItem(child4, 1));
   expected = {child3, child4, child1, child2};
   EXPECT_EQ(tag.items(), expected);
 
   // using index equal to number of items
   auto child5 = new SessionItem;
-  EXPECT_TRUE(tag.insertItem(child5, tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child5, tag.GetItemCount()));
   expected = {child3, child4, child1, child2, child5};
   EXPECT_EQ(tag.items(), expected);
 
   // insertion with wrong index
   auto child6 = new SessionItem;
-  EXPECT_FALSE(tag.insertItem(child6, 42));
+  EXPECT_FALSE(tag.InsertItem(child6, 42));
   EXPECT_EQ(tag.items(), expected);
   delete child6;
 }
 
 //! Checking ::insertItem when item has specific model type.
 
-TEST_F(SessionItemContainerTest, insertItemModelType)
+TEST_F(SessionItemContainerTest, InsertItemModelType)
 {
   const std::string tag_name("tag");
   const std::vector<std::string> model_types = {"model_a"};
@@ -98,8 +98,8 @@ TEST_F(SessionItemContainerTest, insertItemModelType)
   // insertion of wrong model type is not allowed
   auto child1 = new TestItem("model_a");
   auto child2 = new TestItem("model_b");
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_FALSE(tag.insertItem(child2, tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_FALSE(tag.InsertItem(child2, tag.GetItemCount()));
   delete child2;
 
   std::vector<SessionItem*> expected = {child1};
@@ -108,7 +108,7 @@ TEST_F(SessionItemContainerTest, insertItemModelType)
 
 //! Checking ::insertItem when tag is related to property tag.
 
-TEST_F(SessionItemContainerTest, insertItemPropertyType)
+TEST_F(SessionItemContainerTest, InsertItemPropertyType)
 {
   const std::string name("tag");
   const std::string property_type("Property");
@@ -118,13 +118,13 @@ TEST_F(SessionItemContainerTest, insertItemPropertyType)
   // insertion of second property item is not allowed (because of reached maximum)
   auto child1 = new TestItem(property_type);
   auto child2 = new TestItem(property_type);
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_FALSE(tag.insertItem(child2, tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_FALSE(tag.InsertItem(child2, tag.GetItemCount()));
   delete child2;
 
   // insertion of wrong model type is not allowed
   auto child3 = new TestItem("another_model");
-  EXPECT_FALSE(tag.insertItem(child3, tag.itemCount()));
+  EXPECT_FALSE(tag.InsertItem(child3, tag.GetItemCount()));
   delete child3;
   std::vector<SessionItem*> expected = {child1};
   EXPECT_EQ(tag.items(), expected);
@@ -132,7 +132,7 @@ TEST_F(SessionItemContainerTest, insertItemPropertyType)
 
 //! Checking ::indexOfItem.
 
-TEST_F(SessionItemContainerTest, indexOfItem)
+TEST_F(SessionItemContainerTest, IndexOfItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -142,21 +142,21 @@ TEST_F(SessionItemContainerTest, indexOfItem)
   // index of two items
   auto child1 = new TestItem(model_type);
   auto child2 = new TestItem(model_type);
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_EQ(tag.indexOfItem(child1), 0);
-  EXPECT_TRUE(tag.insertItem(child2, tag.itemCount()));
-  EXPECT_EQ(tag.indexOfItem(child1), 0);
-  EXPECT_EQ(tag.indexOfItem(child2), 1);
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_EQ(tag.IndexOfItem(child1), 0);
+  EXPECT_TRUE(tag.InsertItem(child2, tag.GetItemCount()));
+  EXPECT_EQ(tag.IndexOfItem(child1), 0);
+  EXPECT_EQ(tag.IndexOfItem(child2), 1);
 
   // not existing items
-  EXPECT_EQ(tag.indexOfItem(nullptr), -1);
+  EXPECT_EQ(tag.IndexOfItem(nullptr), -1);
   auto child3 = std::make_unique<TestItem>(model_type);
-  EXPECT_EQ(tag.indexOfItem(child3.get()), -1);
+  EXPECT_EQ(tag.IndexOfItem(child3.get()), -1);
 }
 
 //! Checking ::itemAt.
 
-TEST_F(SessionItemContainerTest, itemAt)
+TEST_F(SessionItemContainerTest, ItemAt)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -166,20 +166,20 @@ TEST_F(SessionItemContainerTest, itemAt)
   // items at given indices
   auto child1 = new TestItem(model_type);
   auto child2 = new TestItem(model_type);
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_TRUE(tag.insertItem(child2, tag.itemCount()));
-  EXPECT_EQ(tag.itemAt(0), child1);
-  EXPECT_EQ(tag.itemAt(1), child2);
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_TRUE(tag.InsertItem(child2, tag.GetItemCount()));
+  EXPECT_EQ(tag.ItemAt(0), child1);
+  EXPECT_EQ(tag.ItemAt(1), child2);
 
   // non-existing indices
-  EXPECT_EQ(tag.itemAt(2), nullptr);
-  EXPECT_EQ(tag.itemAt(3), nullptr);
-  EXPECT_EQ(tag.itemAt(-1), nullptr);
+  EXPECT_EQ(tag.ItemAt(2), nullptr);
+  EXPECT_EQ(tag.ItemAt(3), nullptr);
+  EXPECT_EQ(tag.ItemAt(-1), nullptr);
 }
 
 //! Checking ::takeItem.
 
-TEST_F(SessionItemContainerTest, takeItem)
+TEST_F(SessionItemContainerTest, TakeItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -187,18 +187,18 @@ TEST_F(SessionItemContainerTest, takeItem)
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
 
   // taking non existing items
-  EXPECT_EQ(tag.takeItem(0), nullptr);
+  EXPECT_EQ(tag.TakeItem(0), nullptr);
 
   // inserting items
   auto child1 = new TestItem(model_type);
   auto child2 = new TestItem(model_type);
   auto child3 = new TestItem(model_type);
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_TRUE(tag.insertItem(child2, tag.itemCount()));
-  EXPECT_TRUE(tag.insertItem(child3, tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_TRUE(tag.InsertItem(child2, tag.GetItemCount()));
+  EXPECT_TRUE(tag.InsertItem(child3, tag.GetItemCount()));
 
   // taking item in between
-  auto taken2 = tag.takeItem(1);
+  auto taken2 = tag.TakeItem(1);
   EXPECT_EQ(child2, taken2);
   delete taken2;
 
@@ -207,13 +207,13 @@ TEST_F(SessionItemContainerTest, takeItem)
   EXPECT_EQ(tag.items(), expected);
 
   // taking non existing items
-  EXPECT_EQ(tag.takeItem(-1), nullptr);
-  EXPECT_EQ(tag.takeItem(tag.itemCount()), nullptr);
+  EXPECT_EQ(tag.TakeItem(-1), nullptr);
+  EXPECT_EQ(tag.TakeItem(tag.GetItemCount()), nullptr);
 }
 
 //! Checking ::canTakeItem.
 
-TEST_F(SessionItemContainerTest, canTakeItem)
+TEST_F(SessionItemContainerTest, CanTakeItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -221,21 +221,21 @@ TEST_F(SessionItemContainerTest, canTakeItem)
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
 
   // taking non existing items
-  EXPECT_FALSE(tag.canTakeItem(0));
+  EXPECT_FALSE(tag.CanTakeItem(0));
 
   // inserting items
   auto child1 = new TestItem(model_type);
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
-  EXPECT_TRUE(tag.canTakeItem(0));
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
+  EXPECT_TRUE(tag.CanTakeItem(0));
 
   // taking non existing items
-  EXPECT_FALSE(tag.canTakeItem(-1));
-  EXPECT_FALSE(tag.canTakeItem(tag.itemCount()));
+  EXPECT_FALSE(tag.CanTakeItem(-1));
+  EXPECT_FALSE(tag.CanTakeItem(tag.GetItemCount()));
 }
 
 //! Checking ::canInsertItem.
 
-TEST_F(SessionItemContainerTest, canInsertItem)
+TEST_F(SessionItemContainerTest, CanInsertItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -243,30 +243,30 @@ TEST_F(SessionItemContainerTest, canInsertItem)
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
 
   // inserting non-existing item
-  EXPECT_FALSE(tag.canInsertItem(nullptr, 0));
+  EXPECT_FALSE(tag.CanInsertItem(nullptr, 0));
 
   // we should be allowed to insert valid child
   auto child1 = std::make_unique<TestItem>(model_type);
-  EXPECT_TRUE(tag.canInsertItem(child1.get(), 0));
+  EXPECT_TRUE(tag.CanInsertItem(child1.get(), 0));
 
   // wrong index is not allowed for insertion
-  EXPECT_FALSE(tag.canInsertItem(child1.get(), 1));
-  EXPECT_FALSE(tag.canInsertItem(child1.get(), -1));
+  EXPECT_FALSE(tag.CanInsertItem(child1.get(), 1));
+  EXPECT_FALSE(tag.CanInsertItem(child1.get(), -1));
 
   // inserting child
-  EXPECT_TRUE(tag.insertItem(child1.release(), tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1.release(), tag.GetItemCount()));
 
   // can we insert second child?
   auto child2 = std::make_unique<TestItem>(model_type);
-  EXPECT_TRUE(tag.canInsertItem(child2.get(), 0));
-  EXPECT_TRUE(tag.canInsertItem(child2.get(), 1));
-  EXPECT_FALSE(tag.canInsertItem(child2.get(), 2));
-  EXPECT_FALSE(tag.canInsertItem(child2.get(), -1));
+  EXPECT_TRUE(tag.CanInsertItem(child2.get(), 0));
+  EXPECT_TRUE(tag.CanInsertItem(child2.get(), 1));
+  EXPECT_FALSE(tag.CanInsertItem(child2.get(), 2));
+  EXPECT_FALSE(tag.CanInsertItem(child2.get(), -1));
 }
 
 //! Checking ::canInsertItem.
 
-TEST_F(SessionItemContainerTest, canInsertItemForPropertyTag)
+TEST_F(SessionItemContainerTest, CanInsertItemForPropertyTag)
 {
   const std::string name("tag");
   const std::string property_type("Property");
@@ -275,19 +275,19 @@ TEST_F(SessionItemContainerTest, canInsertItemForPropertyTag)
 
   // we should be allowed to insert valid child
   auto child1 = std::make_unique<TestItem>(property_type);
-  EXPECT_TRUE(tag.canInsertItem(child1.get(), 0));
+  EXPECT_TRUE(tag.CanInsertItem(child1.get(), 0));
 
   // inserting child
-  EXPECT_TRUE(tag.insertItem(child1.release(), tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1.release(), tag.GetItemCount()));
 
   // second property shouldn't be posible to insert because of exceeded maximum
   auto child2 = std::make_unique<TestItem>(property_type);
-  EXPECT_FALSE(tag.canInsertItem(child2.get(), 0));
+  EXPECT_FALSE(tag.CanInsertItem(child2.get(), 0));
 }
 
 //! Checking ::canInsertItem.
 
-TEST_F(SessionItemContainerTest, canInsertItemForUniversalTag)
+TEST_F(SessionItemContainerTest, CanInsertItemForUniversalTag)
 {
   const std::string tag1 = "tag1";
   const int max_items = 2;
@@ -296,28 +296,28 @@ TEST_F(SessionItemContainerTest, canInsertItemForUniversalTag)
 
   // inserting child
   auto child1 = std::make_unique<SessionItem>();
-  EXPECT_FALSE(tag.canInsertItem(child1.get(), -1));  // implementation requires exact index
-  EXPECT_TRUE(tag.canInsertItem(child1.get(), 0));
-  EXPECT_TRUE(tag.canInsertItem(child1.get(), tag.itemCount()));
-  EXPECT_TRUE(tag.insertItem(child1.release(), tag.itemCount()));
+  EXPECT_FALSE(tag.CanInsertItem(child1.get(), -1));  // implementation requires exact index
+  EXPECT_TRUE(tag.CanInsertItem(child1.get(), 0));
+  EXPECT_TRUE(tag.CanInsertItem(child1.get(), tag.GetItemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1.release(), tag.GetItemCount()));
 
   // inserting second child
   auto child2 = std::make_unique<SessionItem>();
-  EXPECT_FALSE(tag.canInsertItem(child2.get(), -1));
-  EXPECT_TRUE(tag.canInsertItem(child2.get(), 0));
-  EXPECT_TRUE(tag.canInsertItem(child2.get(), tag.itemCount()));
-  EXPECT_TRUE(tag.insertItem(child2.release(), tag.itemCount()));
+  EXPECT_FALSE(tag.CanInsertItem(child2.get(), -1));
+  EXPECT_TRUE(tag.CanInsertItem(child2.get(), 0));
+  EXPECT_TRUE(tag.CanInsertItem(child2.get(), tag.GetItemCount()));
+  EXPECT_TRUE(tag.InsertItem(child2.release(), tag.GetItemCount()));
 
   // inserting third child is not possible
   auto child3 = std::make_unique<SessionItem>();
-  EXPECT_FALSE(tag.canInsertItem(child3.get(), -1));
-  EXPECT_FALSE(tag.canInsertItem(child3.get(), 0));
-  EXPECT_FALSE(tag.canInsertItem(child3.get(), tag.itemCount()));
+  EXPECT_FALSE(tag.CanInsertItem(child3.get(), -1));
+  EXPECT_FALSE(tag.CanInsertItem(child3.get(), 0));
+  EXPECT_FALSE(tag.CanInsertItem(child3.get(), tag.GetItemCount()));
 }
 
 //! Checking ::takeItem when tag is related to property tag.
 
-TEST_F(SessionItemContainerTest, takeItemPropertyType)
+TEST_F(SessionItemContainerTest, TakeItemPropertyType)
 {
   const std::string name("tag");
   const std::string property_type("Property");
@@ -326,9 +326,9 @@ TEST_F(SessionItemContainerTest, takeItemPropertyType)
 
   // insertion of second property item is not allowed (because of reached maximum)
   auto child1 = new TestItem(property_type);
-  EXPECT_TRUE(tag.insertItem(child1, tag.itemCount()));
+  EXPECT_TRUE(tag.InsertItem(child1, tag.GetItemCount()));
 
   // attempt to take property item
-  EXPECT_FALSE(tag.canTakeItem(0));
-  EXPECT_EQ(tag.takeItem(0), nullptr);
+  EXPECT_FALSE(tag.CanTakeItem(0));
+  EXPECT_EQ(tag.TakeItem(0), nullptr);
 }

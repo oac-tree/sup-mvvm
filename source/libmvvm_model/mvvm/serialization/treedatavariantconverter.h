@@ -30,10 +30,10 @@ MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const TreeData& tree_data);
 
 //! Returns datarole_t object from its TreeData representation. Will throw if convertions is not
 //! possible.
-MVVM_MODEL_EXPORT datarole_t GetDataRole(const TreeData& tree_data);
+MVVM_MODEL_EXPORT datarole_t ToDataRole(const TreeData& tree_data);
 
 //! Returns TreeData object constructed from datarole_t object.
-MVVM_MODEL_EXPORT TreeData GetTreeData(const datarole_t& data_role);
+MVVM_MODEL_EXPORT TreeData ToTreeData(const datarole_t& data_role);
 
 }  // namespace ModelView
 

@@ -3,9 +3,18 @@ target_sources(${library_name} PRIVATE
   AttributeMap.h
   TreeData.cpp
   TreeData.h
+  converter_types.h
+  treedataitemcontainerconverter.cpp
+  treedataitemcontainerconverter.h
+  treedataitemconverter.cpp
   treedataitemconverter.cpp
   treedataitemconverter.h
+  treedataitemconverter.h
   treedataitemconverterinterface.h
+  treedataitemdataconverter.cpp
+  treedataitemdataconverter.h
+  treedatataggeditemsconverter.cpp
+  treedatataggeditemsconverter.h
   treedatataginfoconverter.cpp
   treedatataginfoconverter.h
   treedatavariantconverter.cpp

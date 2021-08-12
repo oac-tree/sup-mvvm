@@ -153,28 +153,28 @@ int SessionItem::childrenCount() const
 
 std::vector<SessionItem*> SessionItem::children() const
 {
-  return p_impl->m_tags->allitems();
+  return p_impl->m_tags->GetAllItems();
 }
 
 //! Returns number of items in given tag.
 
 int SessionItem::itemCount(const std::string& tag) const
 {
-  return p_impl->m_tags->itemCount(tag);
+  return p_impl->m_tags->GetItemCount(tag);
 }
 
 //! Returns item at given row of given tag.
 
 SessionItem* SessionItem::getItem(const std::string& tag, int index) const
 {
-  return p_impl->m_tags->getItem({tag, index});
+  return p_impl->m_tags->GetItem({tag, index});
 }
 
 //! Returns all children stored at given tag.
 
 std::vector<SessionItem*> SessionItem::getItems(const std::string& tag) const
 {
-  return p_impl->m_tags->getItems(tag);
+  return p_impl->m_tags->GetItems(tag);
 }
 
 //! Returns pair of tag and index corresponding to given item.
@@ -196,7 +196,7 @@ const TaggedItems* SessionItem::itemTags() const
 
 void SessionItem::registerTag(const TagInfo& tagInfo, bool set_as_default)
 {
-  p_impl->m_tags->registerTag(tagInfo, set_as_default);
+  p_impl->m_tags->RegisterTag(tagInfo, set_as_default);
 }
 
 //! Returns pointer to internal collection of tag-registered items (non-const version).
@@ -213,7 +213,7 @@ TaggedItems* SessionItem::itemTags()
 
 bool SessionItem::insertItem(SessionItem* item, const TagIndex& tag_index)
 {
-  if (!p_impl->m_tags->canInsertItem(item, tag_index))
+  if (!p_impl->m_tags->CanInsertItem(item, tag_index))
     return false;
   return insertItem(std::unique_ptr<SessionItem>(item), tag_index) != nullptr;
 }
@@ -232,11 +232,11 @@ SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const Ta
   if (item->model())
     throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
 
-  if (!p_impl->m_tags->canInsertItem(item.get(), tag_index))
+  if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
     throw std::runtime_error("SessionItem::insertItem() -> Can't insert item.");
 
   auto result = item.release();
-  p_impl->m_tags->insertItem(result, tag_index);
+  p_impl->m_tags->InsertItem(result, tag_index);
   result->setParent(this);
   result->setModel(model());
 
@@ -248,10 +248,10 @@ SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const Ta
 
 std::unique_ptr<SessionItem> SessionItem::takeItem(const TagIndex& tag_index)
 {
-  if (!p_impl->m_tags->canTakeItem(tag_index))
+  if (!p_impl->m_tags->CanTakeItem(tag_index))
     return {};
 
-  auto result = p_impl->m_tags->takeItem(tag_index);
+  auto result = p_impl->m_tags->TakeItem(tag_index);
   result->setParent(nullptr);
   result->setModel(nullptr);
 

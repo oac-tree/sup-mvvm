@@ -21,14 +21,14 @@ public:
   TreeDataItemConverter(const ItemFactoryInterface* factory);
   ~TreeDataItemConverter();
 
-  //! Converts item to TreeData.
-  std::unique_ptr<TreeData> ToTreeData(const SessionItem* item) const override;
-
-  //! Creates item from TreeData.
-  std::unique_ptr<SessionItem> FromTreeData(const TreeData&) const override;
-
   //! Returns true if given TreeData represents SessionItem object.
   bool IsSessionItemConvertible(const TreeData& tree_data);
+
+  //! Creates SessionItem from TreeData.
+  std::unique_ptr<SessionItem> ToSessionItem(const TreeData&) const override;
+
+  //! Creates TreeData from SessionItem.
+  std::unique_ptr<TreeData> ToTreeData(const SessionItem& item) const override;
 
 private:
   struct TreeDataItemConverterImpl;

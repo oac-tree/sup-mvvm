@@ -21,14 +21,14 @@ SessionItemContainer::~SessionItemContainer()
   for (auto item : m_items) delete item;
 }
 
-bool SessionItemContainer::empty() const
+bool SessionItemContainer::IsEmpty() const
 {
   return m_items.empty();
 }
 
 //! Returns number of items in given tag.
 
-int SessionItemContainer::itemCount() const
+int SessionItemContainer::GetItemCount() const
 {
   return static_cast<int>(m_items.size());
 }
@@ -49,9 +49,9 @@ Insert index is an index which item will have after insertion. If item can't be 
 (wrong model type, wrong index or maximum number of items reached), will return false.
 */
 
-bool SessionItemContainer::insertItem(SessionItem* item, int index)
+bool SessionItemContainer::InsertItem(SessionItem* item, int index)
 {
-  if (!canInsertItem(item, index))
+  if (!CanInsertItem(item, index))
     return false;
 
   m_items.insert(std::next(m_items.begin(), index), item);
@@ -60,12 +60,12 @@ bool SessionItemContainer::insertItem(SessionItem* item, int index)
 
 //! Removes item at given index and returns it to the user.
 
-SessionItem* SessionItemContainer::takeItem(int index)
+SessionItem* SessionItemContainer::TakeItem(int index)
 {
-  if (minimum_reached())
+  if (IsMinimumReached())
     return nullptr;
 
-  SessionItem* result = itemAt(index);
+  SessionItem* result = ItemAt(index);
   if (result)
     m_items.erase(std::next(m_items.begin(), index));
 
@@ -74,43 +74,43 @@ SessionItem* SessionItemContainer::takeItem(int index)
 
 //! Returns true if item can be taken.
 
-bool SessionItemContainer::canTakeItem(int index) const
+bool SessionItemContainer::CanTakeItem(int index) const
 {
-  return itemAt(index) && !minimum_reached();
+  return ItemAt(index) && !IsMinimumReached();
 }
 
 //! Returns true if given item can be inserted under given index.
 
-bool SessionItemContainer::canInsertItem(const SessionItem* item, int index) const
+bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
-  const bool valid_index = (index >= 0 && index <= itemCount());
-  const bool enough_place = !maximum_reached();
-  return valid_index && enough_place && is_valid_item(item);
+  const bool valid_index = (index >= 0 && index <= GetItemCount());
+  const bool enough_place = !IsMaximumReached();
+  return valid_index && enough_place && IsValidItem(item);
 }
 
 //! Returns index of item in vector of items.
 //! Returns -1 if item doesn't belong to us.
 
-int SessionItemContainer::indexOfItem(const SessionItem* item) const
+int SessionItemContainer::IndexOfItem(const SessionItem* item) const
 {
   return Utils::IndexOfItem(m_items, item);
 }
 
 //! Returns item at given index. Returns nullptr if index is invalid.
 
-SessionItem* SessionItemContainer::itemAt(int index) const
+SessionItem* SessionItemContainer::ItemAt(int index) const
 {
-  return index >= 0 && index < itemCount() ? m_items[static_cast<size_t>(index)] : nullptr;
+  return index >= 0 && index < GetItemCount() ? m_items[static_cast<size_t>(index)] : nullptr;
 }
 
 //! Returns the name of SessionItemTag.
 
-std::string SessionItemContainer::name() const
+std::string SessionItemContainer::GetName() const
 {
   return m_tag_info.GetName();
 }
 
-TagInfo SessionItemContainer::tagInfo() const
+TagInfo SessionItemContainer::GetTagInfo() const
 {
   return m_tag_info;
 }
@@ -127,21 +127,21 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
 
 //! Returns true if no more items are allowed.
 
-bool SessionItemContainer::maximum_reached() const
+bool SessionItemContainer::IsMaximumReached() const
 {
-  return m_tag_info.GetMax() != -1 && m_tag_info.GetMax() == itemCount();
+  return m_tag_info.GetMax() != -1 && m_tag_info.GetMax() == GetItemCount();
 }
 
 //! Returns true if less items than now is not allowed.
 
-bool SessionItemContainer::minimum_reached() const
+bool SessionItemContainer::IsMinimumReached() const
 {
-  return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == itemCount();
+  return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == GetItemCount();
 }
 
 //! Returns true if item's modelType is intended for this tag.
 
-bool SessionItemContainer::is_valid_item(const SessionItem* item) const
+bool SessionItemContainer::IsValidItem(const SessionItem* item) const
 {
   return item && m_tag_info.IsValidChild(item->modelType());
 }

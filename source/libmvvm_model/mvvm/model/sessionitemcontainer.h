@@ -28,36 +28,37 @@ public:
   SessionItemContainer& operator=(const SessionItemContainer&) = delete;
   ~SessionItemContainer();
 
-  bool empty() const;
+  bool IsEmpty() const;
 
-  int itemCount() const;
+  int GetItemCount() const;
 
   std::vector<SessionItem*> items() const;
 
-  bool insertItem(SessionItem* item, int index);
+  bool InsertItem(SessionItem* item, int index);
 
-  SessionItem* takeItem(int index);
+  SessionItem* TakeItem(int index);
 
-  bool canTakeItem(int index) const;
+  bool CanTakeItem(int index) const;
 
-  bool canInsertItem(const SessionItem* item, int index) const;
+  bool CanInsertItem(const SessionItem* item, int index) const;
 
-  int indexOfItem(const SessionItem* item) const;
+  int IndexOfItem(const SessionItem* item) const;
 
-  SessionItem* itemAt(int index) const;
+  SessionItem* ItemAt(int index) const;
 
-  std::string name() const;
+  std::string GetName() const;
 
-  TagInfo tagInfo() const;
+  TagInfo GetTagInfo() const;
 
   const_iterator begin() const;
 
   const_iterator end() const;
 
 private:
-  bool maximum_reached() const;
-  bool minimum_reached() const;
-  bool is_valid_item(const SessionItem* item) const;
+  bool IsMaximumReached() const;
+  bool IsMinimumReached() const;
+  bool IsValidItem(const SessionItem* item) const;
+
   TagInfo m_tag_info;
   container_t m_items;
 };

@@ -79,18 +79,18 @@ int Utils::IndexOfChild(const SessionItem* parent, const SessionItem* child)
 
 bool Utils::HasTag(const SessionItem& item, const std::string& tag)
 {
-  return item.itemTags()->isTag(tag);
+  return item.itemTags()->HasTag(tag);
 }
 
 bool Utils::IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
 {
-  return item.itemTags()->isSinglePropertyTag(tag);
+  return item.itemTags()->IsSinglePropertyTag(tag);
 }
 
 std::vector<std::string> Utils::RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
-  for (const auto container : *item.itemTags()) result.push_back(container->name());
+  for (const auto container : *item.itemTags()) result.push_back(container->GetName());
   return result;
 }
 

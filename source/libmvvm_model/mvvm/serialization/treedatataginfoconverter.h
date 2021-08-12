@@ -25,10 +25,10 @@ MVVM_MODEL_EXPORT bool IsTagInfoConvertible(const TreeData& tree_data);
 
 //! Returns TagInfo object from its TreeData representation. Will throw if convertions is not
 //! possible.
-MVVM_MODEL_EXPORT TagInfo GetTagInfo(const TreeData& tree_data);
+MVVM_MODEL_EXPORT TagInfo ToTagInfo(const TreeData& tree_data);
 
 //! Returns TreeData object constructed from TagInfo object.
-MVVM_MODEL_EXPORT TreeData GetTreeData(const TagInfo& tag_info);
+MVVM_MODEL_EXPORT TreeData ToTreeData(const TagInfo& tag_info);
 
 }  // namespace ModelView
 

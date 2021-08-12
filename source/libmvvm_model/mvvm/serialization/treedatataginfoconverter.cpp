@@ -17,11 +17,9 @@
 // Declarations of constants and helper methods in anonymous namespace.
 // ----------------------------------------------------------------------------
 
-//! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
-
 namespace
 {
-const std::string kElementType = "TagInfo";
+const std::string kTaggedItemsElementType = "TagInfo";
 const std::string kMinAttributeKey = "min";
 const std::string kMaxAttributeKey = "max";
 const std::string kNameAttributeKey = "name";
@@ -47,12 +45,12 @@ namespace ModelView
 bool IsTagInfoConvertible(const TreeData &tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetType() == kElementType
+  return tree_data.GetType() == kTaggedItemsElementType
          && expected_names == tree_data.Attributes().GetAttributeNames()
          && tree_data.GetNumberOfChildren() == 0;
 }
 
-TagInfo GetTagInfo(const TreeData &tree_data)
+TagInfo ToTagInfo(const TreeData &tree_data)
 {
   if (!IsTagInfoConvertible(tree_data))
     throw std::runtime_error("Error in variant converter: invalid TreeData object.");
@@ -64,9 +62,9 @@ TagInfo GetTagInfo(const TreeData &tree_data)
   return TagInfo(name, min, max, model_types);
 }
 
-TreeData GetTreeData(const TagInfo &tag_info)
+TreeData ToTreeData(const TagInfo &tag_info)
 {
-  TreeData result(kElementType);
+  TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
   result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   result.AddAttribute(kNameAttributeKey, tag_info.GetName());

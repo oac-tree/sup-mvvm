@@ -221,7 +221,7 @@ TEST_F(SessionItemTest, registerItem)
 TEST_F(SessionItemTest, defaultTag)
 {
   SessionItem item;
-  EXPECT_EQ(item.itemTags()->defaultTag(), std::string());
+  EXPECT_EQ(item.itemTags()->GetDefaultTag(), std::string());
   EXPECT_FALSE(Utils::HasTag(item, "defaultTag"));
 }
 
@@ -246,7 +246,7 @@ TEST_F(SessionItemTest, registerDefaultTag)
 {
   SessionItem item;
   item.registerTag(TagInfo::CreateUniversalTag("tagname"), /*set_as_default*/ true);
-  EXPECT_EQ(item.itemTags()->defaultTag(), "tagname");
+  EXPECT_EQ(item.itemTags()->GetDefaultTag(), "tagname");
 }
 
 //! Simple child insert.

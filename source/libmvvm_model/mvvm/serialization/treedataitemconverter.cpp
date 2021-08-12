@@ -8,20 +8,16 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionitemdata.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/serialization/TreeData.h"
-#include "mvvm/serialization/treedatavariantconverter.h"
+#include "mvvm/serialization/converter_types.h"
+#include "mvvm/serialization/treedataitemdataconverter.h"
+#include "mvvm/serialization/treedatataggeditemsconverter.h"
 
 namespace
 {
-const std::string kElementType = "Item";
-const std::string kItemDataElementType = "ItemData";
+const std::string kTaggedItemsElementType = "Item";
 const std::string kModelAttributeKey = "model";
-
-//! Returns vector of attributes which TreeData object should have.
-std::vector<std::string> GetExpectedAttributeKeys()
-{
-  return std::vector<std::string>({kModelAttributeKey});
-}
 
 }  // namespace
 
@@ -29,48 +25,64 @@ namespace ModelView
 {
 struct TreeDataItemConverter::TreeDataItemConverterImpl
 {
-  const ItemFactoryInterface *m_factory{nullptr};
+  TreeDataItemConverter* m_self{nullptr};
+  const ItemFactoryInterface* m_factory{nullptr};
+  std::unique_ptr<TreeDataItemDataConverter> m_itemdata_converter;
+  std::unique_ptr<TreeDataTaggedItemsConverter> m_taggedtems_converter;
 
-  TreeDataItemConverterImpl(const ItemFactoryInterface *factory) : m_factory(factory){};
-
-  TreeData CreateTreeData(const SessionItemData& item_data)
+  TreeDataItemConverterImpl(TreeDataItemConverter* self, const ItemFactoryInterface* factory)
+      : m_self(self), m_factory(factory)
   {
-    TreeData result(kItemDataElementType);
-    for (const auto& x : item_data) {
-      result.AddChild(GetTreeData(x));
-    }
-    return result;
-  }
+    //! Callback to convert SessionItem to JSON object.
+    auto create_tree = [this](const SessionItem& item) { return m_self->ToTreeData(item); };
+
+    //! Callback to create SessionItem from JSON object.
+    auto create_item = [this](const TreeData& tree_data)
+    { return m_self->ToSessionItem(tree_data); };
+
+    //! Callback to update SessionItem from JSON object.
+    auto update_item = [this](const TreeData& tree_data, SessionItem& item)
+    { populate_item(tree_data, item); };
+
+    ConverterCallbacks callbacks{create_tree, create_item, update_item};
+
+    m_itemdata_converter = std::make_unique<TreeDataItemDataConverter>();
+    m_taggedtems_converter = std::make_unique<TreeDataTaggedItemsConverter>(callbacks);
+  };
+
+  void populate_item(const TreeData& json, SessionItem& item) {}
 };
 
-TreeDataItemConverter::TreeDataItemConverter(const ItemFactoryInterface *factory)
-    : p_impl(std::make_unique<TreeDataItemConverterImpl>(factory))
+TreeDataItemConverter::TreeDataItemConverter(const ItemFactoryInterface* factory)
+    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory))
 {
 }
 
 TreeDataItemConverter::~TreeDataItemConverter() = default;
 
-std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem *item) const
+bool TreeDataItemConverter::IsSessionItemConvertible(const TreeData& tree_data)
 {
-  auto result = std::make_unique<TreeData>(kElementType);
-  result->AddAttribute(kModelAttributeKey, item->modelType());
-  result->AddChild(TreeData("TaggedItems"));
-  result->AddChild(p_impl->CreateTreeData(*item->itemData()));
-  return result;
+  static const std::vector<std::string> expected_attributes({kModelAttributeKey});
+
+  const bool correct_type = tree_data.GetType() == kTaggedItemsElementType;
+  const bool correct_attributes = tree_data.Attributes().GetAttributeNames() == expected_attributes;
+  const bool correct_children_count = tree_data.GetNumberOfChildren() == 2;
+
+  return correct_type && correct_attributes && correct_children_count;
 }
 
-std::unique_ptr<SessionItem> TreeDataItemConverter::FromTreeData(const TreeData &) const
+std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData&) const
 {
   return {};
 }
 
-bool TreeDataItemConverter::IsSessionItemConvertible(const TreeData &tree_data)
+std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
 {
-  bool correct_type = tree_data.GetType() == kElementType;
-  bool correct_attributes =
-      tree_data.Attributes().GetAttributeNames() == GetExpectedAttributeKeys();
-  bool correct_children_count = tree_data.GetNumberOfChildren() == 2;
-  return correct_type && correct_attributes && correct_children_count;
+  auto result = std::make_unique<TreeData>(kTaggedItemsElementType);
+  result->AddAttribute(kModelAttributeKey, item.modelType());
+  result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.itemData()));
+  result->AddChild(*p_impl->m_taggedtems_converter->ToTreeData(*item.itemTags()));
+  return result;
 }
 
 }  // namespace ModelView

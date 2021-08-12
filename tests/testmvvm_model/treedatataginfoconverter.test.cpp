@@ -34,14 +34,14 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
   EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto tag_info = GetTagInfo(*tree_data);
+  auto tag_info = ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), 1);
   EXPECT_EQ(tag_info.GetName(), "Width");
   EXPECT_EQ(tag_info.GetModelTypes(), std::vector<std::string>());
 
   // Converting back
-  auto new_tree_data = GetTreeData(tag_info);
+  auto new_tree_data = ToTreeData(tag_info);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
@@ -58,13 +58,13 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTagWithModelTypes)
   EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
 
   // Converting tree_data to data_role
-  auto tag_info = GetTagInfo(*tree_data);
+  auto tag_info = ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), -1);
   EXPECT_EQ(tag_info.GetName(), "Width");
   EXPECT_EQ(tag_info.GetModelTypes(), std::vector<std::string>({"SegmentItem", "PulseItem"}));
 
   // Converting back
-  auto new_tree_data = GetTreeData(tag_info);
+  auto new_tree_data = ToTreeData(tag_info);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
