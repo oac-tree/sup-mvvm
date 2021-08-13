@@ -6,7 +6,6 @@
 
 #include "mvvm/serialization/treedataitemcontainerconverter.h"
 
-#include "folderbasedtest.h"
 #include "test_utils.h"
 
 #include "mvvm/model/propertyitem.h"
@@ -22,10 +21,10 @@ using namespace ModelView;
 //! Testing of TreeDataItemContainerConverter.
 //! It uses simplified item constructiion.
 
-class TreeDataItemContainerConverterTest : public FolderBasedTest
+class TreeDataItemContainerConverterTest : public ::testing::Test
 {
 public:
-  TreeDataItemContainerConverterTest() : FolderBasedTest("test_JsonItemContainerConverterTest")
+  TreeDataItemContainerConverterTest()
   {
     //! Simplified method to convert SessionItem to TreeData.
     auto to_treedata = [this](const SessionItem& item)

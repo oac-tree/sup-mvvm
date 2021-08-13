@@ -125,6 +125,7 @@ protected:
 
 private:
   friend class SessionModel;
+  friend class TreeDataItemConverter;
   bool set_data_internal(const variant_t& value, int role, bool direct);
   variant_t data_internal(int role) const;
   void setParent(SessionItem* parent);

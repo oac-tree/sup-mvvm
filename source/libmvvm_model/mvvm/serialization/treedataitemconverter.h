@@ -22,7 +22,7 @@ public:
   ~TreeDataItemConverter();
 
   //! Returns true if given TreeData represents SessionItem object.
-  bool IsSessionItemConvertible(const TreeData& tree_data);
+  bool IsSessionItemConvertible(const TreeData& tree_data) const;
 
   //! Creates SessionItem from TreeData.
   std::unique_ptr<SessionItem> ToSessionItem(const TreeData&) const override;

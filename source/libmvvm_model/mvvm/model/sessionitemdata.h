@@ -14,12 +14,11 @@
 namespace ModelView
 {
 //! Handles pairs of <data, role> for SessionItem.
-
 class MVVM_MODEL_EXPORT SessionItemData
 {
 public:
-  using container_type = std::vector<datarole_t>;
-  using const_iterator = container_type::const_iterator;
+  using container_t = std::vector<datarole_t>;
+  using const_iterator = container_t::const_iterator;
 
   std::vector<int> roles() const;
 
@@ -33,8 +32,9 @@ public:
   bool hasData(int role) const;
 
 private:
-  container_type m_values;
   void AssureCompatibility(const variant_t& variant, int role);
+
+  container_t m_values;
 };
 
 }  // namespace ModelView

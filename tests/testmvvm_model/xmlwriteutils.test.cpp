@@ -35,7 +35,7 @@ TEST_F(XMLWriteUtilsTest, WriteElement)
   EXPECT_EQ(GetXMLString(tree_data), expected);
 
   // writing to file and checking its content
-  const auto file_path = GetFilePath("element.xml");
+  const auto file_path = GetFilePath("WriteElement.xml");
   ModelView::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
@@ -55,7 +55,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
   EXPECT_EQ(GetXMLString(tree_data), expected);
 
   // writing to file and checking its content
-  const auto file_path = GetFilePath("element_with_attributes.xml");
+  const auto file_path = GetFilePath("WriteElementWithAttribute.xml");
   ModelView::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
@@ -76,7 +76,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
   EXPECT_EQ(GetXMLString(tree_data), expected);
 
   // writing to file and checking its content
-  const auto file_path = GetFilePath("element_with_attributes2.xml");
+  const auto file_path = GetFilePath("WriteElementWithTwoAttributes.xml");
   ModelView::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
@@ -96,7 +96,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementContent)
   EXPECT_EQ(GetXMLString(tree_data), expected);
 
   // writing to file and checking its content
-  const auto file_path = GetFilePath("element_with_content.xml");
+  const auto file_path = GetFilePath("WriteElementContent.xml");
   ModelView::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
@@ -141,7 +141,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
   EXPECT_EQ(GetXMLString(tree_data), expected);
 
   // writing to file and checking its content
-  const auto file_path = GetFilePath("element_with_children.xml");
+  const auto file_path = GetFilePath("WriteElementWithChildren.xml");
   ModelView::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
@@ -174,7 +174,7 @@ TEST_F(XMLWriteUtilsTest, WriteItemData)
   EXPECT_EQ(GetXMLString(tree_data), expected);
 
   // writing to file and checking its content
-  const auto file_path = GetFilePath("item_data.xml");
+  const auto file_path = GetFilePath("WriteItemData.xml");
   ModelView::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }

@@ -49,10 +49,7 @@ bool TreeDataTaggedItemsConverter::IsTaggedItemsConvertible(const TreeData &tree
 std::unique_ptr<TaggedItems> TreeDataTaggedItemsConverter::ToTaggedItems(
     const TreeData &tree_data) const
 {
-  if (!IsTaggedItemsConvertible(tree_data))
-    throw std::runtime_error("Error in TreeDataTaggedItemsConverter: uncompatible TreeData");
   auto result = std::make_unique<TaggedItems>();
-  result->SetDefaultTag(tree_data.GetAttribute(kDefaultTagKey));
   PopulateTaggedItems(tree_data, *result);
   return result;
 }
@@ -60,6 +57,11 @@ std::unique_ptr<TaggedItems> TreeDataTaggedItemsConverter::ToTaggedItems(
 void TreeDataTaggedItemsConverter::PopulateTaggedItems(const TreeData &tree_data,
                                                        TaggedItems &tagged_items) const
 {
+  if (!IsTaggedItemsConvertible(tree_data))
+    throw std::runtime_error("Error in TreeDataTaggedItemsConverter: uncompatible TreeData");
+
+  tagged_items.SetDefaultTag(tree_data.GetAttribute(kDefaultTagKey));
+
   for (const auto &child_data : tree_data.Children())
   {
     auto container =

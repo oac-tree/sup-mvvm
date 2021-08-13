@@ -6,41 +6,226 @@
 
 #include "mvvm/serialization/treedataitemconverter.h"
 
+#include "folderbasedtest.h"
 #include "test_utils.h"
 
 #include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemfactory.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/sessionitemdata.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/serialization/TreeData.h"
+#include "mvvm/serialization/xmlparseutils.h"
+#include "mvvm/serialization/xmlwriteutils.h"
+#include "mvvm/standarditems/standarditemincludes.h"
 
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 using namespace ModelView;
 
 //! Testing TreeDataItemConverter.
 
-class TreeDataItemConverterTest : public ::testing::Test
+class TreeDataItemConverterTest : public FolderBasedTest
 {
 public:
-  TreeDataItemConverterTest() : m_factory(ModelView::CreateStandardItemCatalogue()){};
+  TreeDataItemConverterTest()
+      : FolderBasedTest("test_TreeDataItemConverter")
+      , m_factory(ModelView::CreateStandardItemCatalogue()){};
 
   std::unique_ptr<TreeDataItemConverter> CreateConverter() const
   {
     return std::make_unique<TreeDataItemConverter>(&m_factory);
   }
 
+  void WriteToXMLFile(const std::string& file_name, const SessionItem& item) const
+  {
+    auto converter = CreateConverter();
+    auto tree_data = converter->ToTreeData(item);
+
+    ::ModelView::WriteToXMLFile(file_name, *tree_data);
+  }
+
+  template <typename T>
+  std::unique_ptr<T> ReadFromXMLFile(const std::string& file_name)
+  {
+    auto tree_data = ParseXMLDataFile(file_name);
+    auto converter = CreateConverter();
+    auto result = converter->ToSessionItem(*tree_data);
+    return std::unique_ptr<T>(static_cast<T*>(result.release()));
+  }
+
 private:
   ModelView::ItemFactory m_factory;
 };
 
-//! Parsing XML data string representing empty document.
+//! Default PropertyItem to TreeData and back.
 
-TEST_F(TreeDataItemConverterTest, PropertyItemToTreeData)
+TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 {
   auto converter = CreateConverter();
 
   PropertyItem item;
 
+  // to TreeData
   auto tree_data = converter->ToTreeData(item);
-//  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+
+  // Reconstructing back
+  auto reco = converter->ToSessionItem(*tree_data);
+  EXPECT_EQ(reco->modelType(), item.modelType());
+  EXPECT_EQ(reco->displayName(), item.displayName());
+  EXPECT_EQ(reco->identifier(), item.identifier());
+  EXPECT_EQ(reco->itemData()->roles(), item.itemData()->roles());
 }
+
+//! PropertyItem with data to TreeData and back.
+
+TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
+{
+  PropertyItem item;
+  item.setData(42, DataRole::kData);
+  item.setData("width", DataRole::kDisplay);
+  item.setData("Width in nm", DataRole::kTooltip);
+  const int custom_role = 99;
+  item.setData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
+
+  // to TreeData
+  auto converter = CreateConverter();
+  auto tree_data = converter->ToTreeData(item);
+  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+
+  // reconstructiong back
+  auto reco = converter->ToSessionItem(*tree_data);
+  EXPECT_EQ(reco->modelType(), item.modelType());
+  EXPECT_EQ(reco->displayName(), item.displayName());
+  EXPECT_EQ(reco->identifier(), item.identifier());
+  EXPECT_EQ(reco->itemData()->roles(), item.itemData()->roles());
+  EXPECT_EQ(reco->data(DataRole::kData), variant_t(42));
+  EXPECT_EQ(reco->data(DataRole::kDisplay), variant_t(std::string("width")));
+  EXPECT_EQ(reco->data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
+  EXPECT_EQ(reco->data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
+}
+
+//! PropertyItem with data to TreeData and back.
+
+TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
+{
+  PropertyItem item;
+  item.setData(42, DataRole::kData);
+  item.setData("width", DataRole::kDisplay);
+  item.setData("Width in nm", DataRole::kTooltip);
+  const int custom_role = 99;
+  item.setData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
+
+  const auto file_path = GetFilePath("PropertyItemWithDataToFileAndBack.xml");
+  WriteToXMLFile(file_path, item);
+
+  // reconstructiong back
+  auto reco = ReadFromXMLFile<PropertyItem>(file_path);
+  EXPECT_EQ(reco->modelType(), item.modelType());
+  EXPECT_EQ(reco->displayName(), item.displayName());
+  EXPECT_EQ(reco->identifier(), item.identifier());
+  EXPECT_EQ(reco->itemData()->roles(), item.itemData()->roles());
+  EXPECT_EQ(reco->data(DataRole::kData), variant_t(42));
+  EXPECT_EQ(reco->data(DataRole::kDisplay), variant_t(std::string("width")));
+  EXPECT_EQ(reco->data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
+  EXPECT_EQ(reco->data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
+}
+
+//! Parent and child to json object.
+
+TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
+{
+  SessionItem parent;
+  parent.setDisplayName("parent_name");
+  parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::append());
+  child->setDisplayName("child_name");
+
+  // to TreeData
+  auto converter = CreateConverter();
+  auto tree_data = converter->ToTreeData(parent);
+  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+
+  // reconstructiong back
+  auto reco_parent = converter->ToSessionItem(*tree_data);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_parent->childrenCount(), 1);
+  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->displayName(), "parent_name");
+  EXPECT_EQ(reco_parent->identifier(), parent.identifier());
+  EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent->model(), nullptr);
+
+  // checking child reconstruction
+  auto reco_child = reco_parent->getItem("defaultTag");
+  EXPECT_EQ(reco_child->parent(), reco_parent.get());
+  EXPECT_EQ(reco_child->childrenCount(), 0);
+  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->displayName(), "child_name");
+  EXPECT_EQ(reco_child->identifier(), child->identifier());
+  EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
+}
+
+//! Parent and child to json object.
+
+TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
+{
+  SessionItem parent;
+  parent.setDisplayName("parent_name");
+  parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::append());
+  child->setDisplayName("child_name");
+
+  const auto file_path = GetFilePath("ParentAndChildToFileAndBack.xml");
+  WriteToXMLFile(file_path, parent);
+
+  // reconstructiong back
+  auto reco_parent = ReadFromXMLFile<SessionItem>(file_path);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_parent->childrenCount(), 1);
+  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->displayName(), "parent_name");
+  EXPECT_EQ(reco_parent->identifier(), parent.identifier());
+  EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent->model(), nullptr);
+
+  // checking child reconstruction
+  auto reco_child = reco_parent->getItem("defaultTag");
+  EXPECT_EQ(reco_child->parent(), reco_parent.get());
+  EXPECT_EQ(reco_child->childrenCount(), 0);
+  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->displayName(), "child_name");
+  EXPECT_EQ(reco_child->identifier(), child->identifier());
+  EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
+}
+
+// Restore unit test after implementing filtered serialization of SessionItemData
+//TEST_F(JsonItemConverterTest, testItemToFileAndBack)
+//{
+//  auto converter = createConverter();
+
+//  TestItem item;
+//  auto object = converter->to_json(&item);
+
+//  // saving object to file
+//  auto fileName = TestUtils::TestFileName(testDir(), "testItemToFileAndBack.json");
+//  TestUtils::SaveJson(object, fileName);
+
+//  auto document = TestUtils::LoadJson(fileName);
+//  auto reco = converter->from_json(document.object());
+
+//  EXPECT_EQ(reco->parent(), nullptr);
+//  EXPECT_EQ(reco->modelType(), item.modelType());
+//  EXPECT_EQ(reco->displayName(), item.displayName());
+//  EXPECT_EQ(reco->identifier(), item.identifier());
+
+//  EXPECT_EQ(reco->toolTip(), "compound");
+//  // tooltip was preserved after the serialization
+//  EXPECT_EQ(reco->getItem("Thickness")->toolTip(), "thickness");
+//}
