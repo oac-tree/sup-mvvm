@@ -1,10 +1,12 @@
 /******************************************************************************
+ * $HeadURL: $
+ * $Id: $
  *
- * Project       : Operational Applications UI Foundation
+ * Project       : SUP - Sequencer
  *
- * Description   : The model-view-viewmodel library of generic UI components
+ * Description   : Sequencer for operational procedures
  *
- * Authors       : Walter Van Herck (IO)
+ * Author        : Walter Van Herck (IO)
  *
  * Copyright (c) : 2010-2020 ITER Organization,
  *                 CS 90 046
@@ -15,7 +17,7 @@
  * For the terms and conditions of redistribution or use of this software
  * refer to the file ITER-LICENSE.TXT located in the top level directory
  * of the distribution package.
- *****************************************************************************/
+ ******************************************************************************/
 
 /**
  * @file TreeData.h

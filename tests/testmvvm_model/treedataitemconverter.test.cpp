@@ -154,7 +154,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   parent.setDisplayName("parent_name");
   parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::append());
+  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
   child->setDisplayName("child_name");
 
   // to TreeData
@@ -191,7 +191,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   parent.setDisplayName("parent_name");
   parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::append());
+  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
   child->setDisplayName("child_name");
 
   const auto file_path = GetFilePath("ParentAndChildToFileAndBack.xml");

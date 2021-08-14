@@ -64,9 +64,9 @@ TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeData)
   tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
   tagged_items.RegisterTag(TagInfo::CreateUniversalTag("Items"));
 
-  tagged_items.at(0).InsertItem(new PropertyItem, 0);
-  tagged_items.at(1).InsertItem(new PropertyItem, 0);
-  tagged_items.at(1).InsertItem(new PropertyItem, 1);
+  tagged_items.GetContainer(0).InsertItem(new PropertyItem, 0);
+  tagged_items.GetContainer(1).InsertItem(new PropertyItem, 0);
+  tagged_items.GetContainer(1).InsertItem(new PropertyItem, 1);
 
   auto converter = createConverter();
   auto tree_data = converter->ToTreeData(tagged_items);
@@ -82,17 +82,17 @@ TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeDataAndBack)
   tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
   tagged_items.RegisterTag(TagInfo::CreateUniversalTag("items"));
 
-  tagged_items.at(0).InsertItem(new PropertyItem, 0);
-  tagged_items.at(1).InsertItem(new PropertyItem, 0);
-  tagged_items.at(1).InsertItem(new PropertyItem, 1);
+  tagged_items.GetContainer(0).InsertItem(new PropertyItem, 0);
+  tagged_items.GetContainer(1).InsertItem(new PropertyItem, 0);
+  tagged_items.GetContainer(1).InsertItem(new PropertyItem, 1);
 
   auto converter = createConverter();
   auto tree_data = converter->ToTreeData(tagged_items);
 
   auto tagged_items2 = converter->ToTaggedItems(*tree_data);
   EXPECT_EQ(tagged_items2->GetDefaultTag(), "thickness");
-  EXPECT_EQ(tagged_items2->at(0).GetName(), "thickness");
-  EXPECT_EQ(tagged_items2->at(0).GetItemCount(), 1);
-  EXPECT_EQ(tagged_items2->at(1).GetName(), "items");
-  EXPECT_EQ(tagged_items2->at(1).GetItemCount(), 2);
+  EXPECT_EQ(tagged_items2->GetContainer(0).GetName(), "thickness");
+  EXPECT_EQ(tagged_items2->GetContainer(0).GetItemCount(), 1);
+  EXPECT_EQ(tagged_items2->GetContainer(1).GetName(), "items");
+  EXPECT_EQ(tagged_items2->GetContainer(1).GetItemCount(), 2);
 }

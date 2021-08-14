@@ -56,13 +56,13 @@ ItemCatalogue& ItemCatalogue::operator=(const ItemCatalogue& other)
   return *this;
 }
 
-void ItemCatalogue::RegisterItem(const std::string& modelType, const item_factory_func_t& func,
+void ItemCatalogue::RegisterItem(const std::string& model_type, const item_factory_func_t& func,
                                  const std::string& label)
 {
-  if (Contains(modelType))
-    throw std::runtime_error("Error in ItemCatalogue: attempt to add dublicate '" + modelType
+  if (Contains(model_type))
+    throw std::runtime_error("Error in ItemCatalogue: attempt to add dublicate '" + model_type
                              + "'");
-  p_impl->m_info.push_back({modelType, label, func});
+  p_impl->m_info.push_back({model_type, label, func});
 }
 
 bool ItemCatalogue::Contains(const std::string& model_type) const

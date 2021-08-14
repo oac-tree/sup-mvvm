@@ -125,7 +125,7 @@ TEST_F(TaggedItemsTest, InsertItem)
 
   // inserting items without tags defined
   auto item = std::make_unique<SessionItem>();
-  EXPECT_THROW(tag.InsertItem(item.get(), TagIndex::append()), std::runtime_error);
+  EXPECT_THROW(tag.InsertItem(item.get(), TagIndex::Append()), std::runtime_error);
 
   // registering tags
   tag.RegisterTag(TagInfo::CreateUniversalTag(tag1));
@@ -139,10 +139,10 @@ TEST_F(TaggedItemsTest, InsertItem)
   auto child_t2_a = new SessionItem;
   auto child_t2_b = new SessionItem;
   auto child_t2_c = new SessionItem;
-  EXPECT_TRUE(tag.InsertItem(child_t2_a, TagIndex::append(tag2)));
-  EXPECT_TRUE(tag.InsertItem(child_t2_c, TagIndex::append(tag2)));
-  EXPECT_TRUE(tag.InsertItem(child_t1_a, TagIndex::append(tag1)));
-  EXPECT_TRUE(tag.InsertItem(child_t1_b, TagIndex::append(tag1)));
+  EXPECT_TRUE(tag.InsertItem(child_t2_a, TagIndex::Append(tag2)));
+  EXPECT_TRUE(tag.InsertItem(child_t2_c, TagIndex::Append(tag2)));
+  EXPECT_TRUE(tag.InsertItem(child_t1_a, TagIndex::Append(tag1)));
+  EXPECT_TRUE(tag.InsertItem(child_t1_b, TagIndex::Append(tag1)));
   EXPECT_TRUE(tag.InsertItem(child_t2_b, {tag2, 1}));  // between child_t2_a and child_t2_c
 
   // checking item order in containers
@@ -172,8 +172,8 @@ TEST_F(TaggedItemsTest, TagRowOfItem)
   auto child_t1_a = new SessionItem;
   auto child_t1_b = new SessionItem;
   auto child_t2_a = new SessionItem;
-  tag.InsertItem(child_t1_a, TagIndex::append());  // 0
-  tag.InsertItem(child_t1_b, TagIndex::append());  // 1
+  tag.InsertItem(child_t1_a, TagIndex::Append());  // 0
+  tag.InsertItem(child_t1_b, TagIndex::Append());  // 1
   tag.InsertItem(child_t2_a, {tag2, 0});           // 0
 
   // checking children tag and row
@@ -210,8 +210,8 @@ TEST_F(TaggedItemsTest, GetItem)
   auto child_t1_a = new SessionItem;
   auto child_t1_b = new SessionItem;
   auto child_t2_a = new SessionItem;
-  tag.InsertItem(child_t1_a, TagIndex::append());  // 0
-  tag.InsertItem(child_t1_b, TagIndex::append());  // 1
+  tag.InsertItem(child_t1_a, TagIndex::Append());  // 0
+  tag.InsertItem(child_t1_b, TagIndex::Append());  // 1
   tag.InsertItem(child_t2_a, {tag2, 0});           // 0
 
   EXPECT_EQ(tag.GetItem({tag1, 0}), child_t1_a);
@@ -240,10 +240,10 @@ TEST_F(TaggedItemsTest, TakeItem)
   auto child2 = new TestItem(model_type);
   auto child3 = new TestItem(model_type);
   auto child4 = new TestItem(model_type);
-  EXPECT_TRUE(tag.InsertItem(child1, TagIndex::append()));
-  EXPECT_TRUE(tag.InsertItem(child2, TagIndex::append()));
-  EXPECT_TRUE(tag.InsertItem(child3, TagIndex::append()));
-  EXPECT_TRUE(tag.InsertItem(child4, TagIndex::append(tag2)));
+  EXPECT_TRUE(tag.InsertItem(child1, TagIndex::Append()));
+  EXPECT_TRUE(tag.InsertItem(child2, TagIndex::Append()));
+  EXPECT_TRUE(tag.InsertItem(child3, TagIndex::Append()));
+  EXPECT_TRUE(tag.InsertItem(child4, TagIndex::Append(tag2)));
 
   // taking item in between
   EXPECT_TRUE(tag.CanTakeItem({"", 1}));

@@ -208,8 +208,8 @@ TEST_F(CompoundItemTest, itemVectorAccess)
   parent.registerTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
-  auto property1 = parent.insertItem<PropertyItem>(TagIndex::append(tag));
-  auto property2 = parent.insertItem<PropertyItem>(TagIndex::append(tag));
+  auto property1 = parent.insertItem<PropertyItem>(TagIndex::Append(tag));
+  auto property2 = parent.insertItem<PropertyItem>(TagIndex::Append(tag));
 
   auto items = parent.items<PropertyItem>(tag);
   std::vector<PropertyItem*> expected = {property1, property2};
@@ -228,8 +228,8 @@ TEST_F(CompoundItemTest, displayNameIndexAddition)
   parent.registerTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
-  auto child0 = parent.insertItem<CompoundItem>(TagIndex::append(tag));
-  auto child1 = parent.insertItem<CompoundItem>(TagIndex::append(tag));
+  auto child0 = parent.insertItem<CompoundItem>(TagIndex::Append(tag));
+  auto child1 = parent.insertItem<CompoundItem>(TagIndex::Append(tag));
 
   // Default display names of items of the same type should have indices
   EXPECT_EQ(child0->displayName(), CompoundItem::Type + "0");

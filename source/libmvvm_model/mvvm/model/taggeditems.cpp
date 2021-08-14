@@ -171,7 +171,7 @@ int TaggedItems::GetTagsCount() const
   return static_cast<int>(m_containers.size());
 }
 
-SessionItemContainer& TaggedItems::at(int index)
+SessionItemContainer& TaggedItems::GetContainer(int index)
 {
   if (index < 0 || index >= GetTagsCount())
     throw std::runtime_error("Error it SessionItemTags: wrong container index");

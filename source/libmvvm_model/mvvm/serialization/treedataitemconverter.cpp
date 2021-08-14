@@ -31,8 +31,7 @@
 namespace
 {
 const std::string kItemElementType = "Item";
-const std::string kModelAttributeKey = "model";
-
+const std::string kTypelAttributeKey = "type";
 }  // namespace
 
 namespace ModelView
@@ -66,7 +65,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
 
   void populate_item(const TreeData& tree_data, SessionItem& item)
   {
-    auto modelType = tree_data.GetAttribute(kModelAttributeKey);
+    auto modelType = tree_data.GetAttribute(kTypelAttributeKey);
 
     if (modelType != item.modelType())
       throw std::runtime_error("Item model mismatch");
@@ -99,7 +98,7 @@ TreeDataItemConverter::~TreeDataItemConverter() = default;
 
 bool TreeDataItemConverter::IsSessionItemConvertible(const TreeData& tree_data) const
 {
-  static const std::vector<std::string> expected_attributes({kModelAttributeKey});
+  static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
 
   const bool correct_type = tree_data.GetType() == kItemElementType;
   const bool correct_attributes = tree_data.Attributes().GetAttributeNames() == expected_attributes;
@@ -113,7 +112,7 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData
   if (!IsSessionItemConvertible(tree_data))
     throw std::runtime_error("Error in TreeDataItemConverter: uncompatible TreeData");
 
-  auto model_type = tree_data.GetAttribute(kModelAttributeKey);
+  auto model_type = tree_data.GetAttribute(kTypelAttributeKey);
   auto result = p_impl->m_factory->CreateItem(model_type);
 
   p_impl->populate_item(tree_data, *result);
@@ -123,7 +122,7 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData
 std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
 {
   auto result = std::make_unique<TreeData>(kItemElementType);
-  result->AddAttribute(kModelAttributeKey, item.modelType());
+  result->AddAttribute(kTypelAttributeKey, item.modelType());
   // p_impl->populate_item relies of the order of adding
   result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.itemData()));
   result->AddChild(*p_impl->m_taggedtems_converter->ToTreeData(*item.itemTags()));

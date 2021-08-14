@@ -24,7 +24,7 @@ namespace ModelView
 //! Constructs new TagIndex representing next index in given tag.
 //! No validity check.
 
-TagIndex TagIndex::next() const
+TagIndex TagIndex::Next() const
 {
   return {tag, index + 1};
 }
@@ -32,7 +32,7 @@ TagIndex TagIndex::next() const
 //! Constructs new TagIndex representing previous index in given tag.
 //! No validity check.
 
-TagIndex TagIndex::prev() const
+TagIndex TagIndex::Prev() const
 {
   return {tag, index - 1};
 }
@@ -40,7 +40,7 @@ TagIndex TagIndex::prev() const
 //! Returns TagIndex corresponding to the append to tag_name.
 //! If tag_name =="" the default name will be used in SessionItemTags context.
 
-TagIndex TagIndex::append(const std::string& tag_name)
+TagIndex TagIndex::Append(const std::string& tag_name)
 {
   return {tag_name, -1};
 }
@@ -48,7 +48,7 @@ TagIndex TagIndex::append(const std::string& tag_name)
 //! Returns TagIndex corresponding to prepending to tag_name.
 //! If tag_name =="" the default name will be used in SessionItemTags context.
 
-TagIndex TagIndex::prepend(const std::string& tag_name)
+TagIndex TagIndex::Prepend(const std::string& tag_name)
 {
   return {tag_name, 0};
 }

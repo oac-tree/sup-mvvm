@@ -13,6 +13,9 @@ target_sources(${library_name} PRIVATE
   treedataitemconverterinterface.h
   treedataitemdataconverter.cpp
   treedataitemdataconverter.h
+  treedatamodelconverter.cpp
+  treedatamodelconverter.h
+  treedatamodelconverterinterface.h
   treedatataggeditemsconverter.cpp
   treedatataggeditemsconverter.h
   treedatataginfoconverter.cpp

@@ -322,8 +322,8 @@ TEST_F(SessionItemTest, insertChildren)
   parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting two items
-  auto child1 = parent->insertItem(TagIndex::append());
-  auto child2 = parent->insertItem(TagIndex::append());
+  auto child1 = parent->insertItem(TagIndex::Append());
+  auto child2 = parent->insertItem(TagIndex::Append());
   EXPECT_EQ(Utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(Utils::IndexOfChild(parent.get(), child2), 1);
   EXPECT_EQ(parent->getItem("", 0), child1);
@@ -366,9 +366,9 @@ TEST_F(SessionItemTest, takeItem)
   parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // inserting items
-  parent->insertItem(TagIndex::append());
-  auto child2 = parent->insertItem(TagIndex::append());
-  auto child3 = parent->insertItem(TagIndex::append());
+  parent->insertItem(TagIndex::Append());
+  auto child2 = parent->insertItem(TagIndex::Append());
+  auto child3 = parent->insertItem(TagIndex::Append());
 
   EXPECT_EQ(parent->childrenCount(), 3);
 

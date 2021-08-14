@@ -51,6 +51,15 @@ struct MVVM_MODEL_EXPORT ConverterCallbacks
   update_item_t m_update_item;          //! updates existing SessionItem from TreeData object
 };
 
+//! Flags to define converter behavior on the way from SessionItem to TreeData and back.
+
+enum class ConverterMode
+{
+  none,   //!< undefined converter mode
+  clone,  //!< full deep copying with item identifiers preserved
+  copy    //!< full deep copying with item identifiers regenerated
+};
+
 }  // namespace ModelView
 
 #endif  // MVVM_CONVERTER_TYPES_H

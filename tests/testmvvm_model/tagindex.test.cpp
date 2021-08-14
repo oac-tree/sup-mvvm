@@ -28,12 +28,12 @@ using namespace ModelView;
 class TagIndexTest : public ::testing::Test
 {
 public:
-  TagIndex test_method(const TagIndex& input) { return input; }
+  TagIndex GetTestIndex(const TagIndex& input) { return input; }
 };
 
 //! Initial state.
 
-TEST_F(TagIndexTest, initialState)
+TEST_F(TagIndexTest, InitialState)
 {
   TagIndex tag_index;
   EXPECT_EQ(tag_index.tag, "");
@@ -42,7 +42,7 @@ TEST_F(TagIndexTest, initialState)
 
 //! Brace initializer.
 
-TEST_F(TagIndexTest, braceInitializer)
+TEST_F(TagIndexTest, BraceInitializer)
 {
   TagIndex tag_index{"abc", 42};
   EXPECT_EQ(tag_index.tag, "abc");
@@ -63,7 +63,7 @@ TEST_F(TagIndexTest, braceInitializer)
 
 //! Equality operators.
 
-TEST_F(TagIndexTest, equalityOperators)
+TEST_F(TagIndexTest, EqualityOperators)
 {
   TagIndex tag1;
   TagIndex tag2;
@@ -88,7 +88,7 @@ TEST_F(TagIndexTest, equalityOperators)
 
 //! Assignment operators.
 
-TEST_F(TagIndexTest, assignmentOperator)
+TEST_F(TagIndexTest, AssignmentOperator)
 {
   TagIndex tag1;
   TagIndex tag2{"abc", 42};
@@ -100,45 +100,45 @@ TEST_F(TagIndexTest, assignmentOperator)
 
 //! Factory methods.
 
-TEST_F(TagIndexTest, factoryMethods)
+TEST_F(TagIndexTest, FactoryMethods)
 {
-  auto tag_index = TagIndex::append();
+  auto tag_index = TagIndex::Append();
   EXPECT_EQ(tag_index.tag, "");
   EXPECT_EQ(tag_index.index, -1);
 
   const std::string expected_name("tag");
-  tag_index = TagIndex::append(expected_name);
+  tag_index = TagIndex::Append(expected_name);
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, -1);
 
-  tag_index = TagIndex::prepend(expected_name);
+  tag_index = TagIndex::Prepend(expected_name);
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, 0);
 }
 
 //! Implicit type convertion
 
-TEST_F(TagIndexTest, implicitConvertion)
+TEST_F(TagIndexTest, ImplicitConversion)
 {
-  auto tag_index = test_method("abc");
+  auto tag_index = GetTestIndex("abc");
   EXPECT_EQ(tag_index.tag, "abc");
   EXPECT_EQ(tag_index.index, -1);
 }
 
 //! Find next tagrow.
 
-TEST_F(TagIndexTest, next)
+TEST_F(TagIndexTest, Next)
 {
   TagIndex tag_index{"tag", 0};
-  EXPECT_EQ(tag_index.next().tag, "tag");
-  EXPECT_EQ(tag_index.next().index, 1);
+  EXPECT_EQ(tag_index.Next().tag, "tag");
+  EXPECT_EQ(tag_index.Next().index, 1);
 }
 
 //! Find previous tagrow.
 
-TEST_F(TagIndexTest, prev)
+TEST_F(TagIndexTest, Prev)
 {
   TagIndex tag_index{"tag", 1};
-  EXPECT_EQ(tag_index.prev().tag, "tag");
-  EXPECT_EQ(tag_index.prev().index, 0);
+  EXPECT_EQ(tag_index.Prev().tag, "tag");
+  EXPECT_EQ(tag_index.Prev().index, 0);
 }

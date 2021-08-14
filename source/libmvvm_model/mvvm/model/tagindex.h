@@ -40,13 +40,13 @@ public:
   TagIndex(const std::string& name, int index = -1) : tag(name), index(index) {}
   TagIndex(const char* name, int index = -1) : tag(name), index(index) {}
 
-  TagIndex next() const;
+  TagIndex Next() const;
 
-  TagIndex prev() const;
+  TagIndex Prev() const;
 
-  static TagIndex append(const std::string& tag_name = {});
+  static TagIndex Append(const std::string& tag_name = {});
 
-  static TagIndex prepend(const std::string& tag_name = {});
+  static TagIndex Prepend(const std::string& tag_name = {});
 
   bool operator==(const TagIndex& other) const;
   bool operator!=(const TagIndex& other) const;

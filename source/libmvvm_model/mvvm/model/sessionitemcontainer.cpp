@@ -116,12 +116,14 @@ SessionItem* SessionItemContainer::ItemAt(int index) const
   return index >= 0 && index < GetItemCount() ? m_items[static_cast<size_t>(index)] : nullptr;
 }
 
-//! Returns the name of SessionItemTag.
+//! Returns the name of the container.
 
 std::string SessionItemContainer::GetName() const
 {
   return m_tag_info.GetName();
 }
+
+//! Returns TagInfo of this container.
 
 TagInfo SessionItemContainer::GetTagInfo() const
 {
