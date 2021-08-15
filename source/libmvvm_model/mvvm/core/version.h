@@ -4,7 +4,7 @@
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
- * Authors       : Gennady Pospelov (IO)
+ * Author        : Gennady Pospelov (IO)
  *
  * Copyright (c) : 2010-2020 ITER Organization,
  *                 CS 90 046
