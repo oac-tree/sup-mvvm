@@ -19,6 +19,7 @@
 
 #include "mvvm/serialization/treedataitemconverter.h"
 
+#include "mvvm/core/uniqueidgenerator.h"
 #include "mvvm/interfaces/itemfactoryinterface.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionitemdata.h"
@@ -40,11 +41,13 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
 {
   TreeDataItemConverter* m_self{nullptr};
   const ItemFactoryInterface* m_factory{nullptr};
+  ConverterMode m_mode{ConverterMode::kNone};
   std::unique_ptr<TreeDataItemDataConverter> m_itemdata_converter;
   std::unique_ptr<TreeDataTaggedItemsConverter> m_taggedtems_converter;
 
-  TreeDataItemConverterImpl(TreeDataItemConverter* self, const ItemFactoryInterface* factory)
-      : m_self(self), m_factory(factory)
+  TreeDataItemConverterImpl(TreeDataItemConverter* self, const ItemFactoryInterface* factory,
+                            ConverterMode mode)
+      : m_self(self), m_factory(factory), m_mode(mode)
   {
     //! Callback to convert SessionItem to JSON object.
     auto create_tree = [this](const SessionItem& item) { return m_self->ToTreeData(item); };
@@ -83,14 +86,14 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
 
     for (auto child : item.children()) child->setParent(&item);
 
-    // FIXME restore functionality
-    //    if (isRegenerateIdWhenBackFromJson(m_context.m_mode))
-    //        item.setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
+    if (IsRegenerateIdWhenBackFromXML(m_mode))
+      item.setData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   }
 };
 
-TreeDataItemConverter::TreeDataItemConverter(const ItemFactoryInterface* factory)
-    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory))
+TreeDataItemConverter::TreeDataItemConverter(const ItemFactoryInterface* factory,
+                                             ConverterMode mode)
+    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode))
 {
 }
 

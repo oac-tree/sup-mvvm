@@ -20,6 +20,7 @@
 #ifndef MVVM_TREEDATAITEMCONVERTER_H
 #define MVVM_TREEDATAITEMCONVERTER_H
 
+#include "mvvm/serialization/converter_types.h"
 #include "mvvm/serialization/treedataitemconverterinterface.h"
 
 namespace ModelView
@@ -27,11 +28,15 @@ namespace ModelView
 class ItemFactoryInterface;
 
 //! Converters SessionItem to/from TreeData object.
+//! Requires ItemFactory to operate. On the way from SessionItem to TreeData creates
+//! exact copy of the data. On the way back, creates full clone of original item (including
+//! unique identifiers), if ConverterMode::kClone.
 
 class MVVM_MODEL_EXPORT TreeDataItemConverter : public TreeDataItemConverterInterface
 {
 public:
-  TreeDataItemConverter(const ItemFactoryInterface* factory);
+  TreeDataItemConverter(const ItemFactoryInterface* factory,
+                        ConverterMode mode = ConverterMode::kClone);
   ~TreeDataItemConverter();
 
   //! Returns true if given TreeData represents SessionItem object.

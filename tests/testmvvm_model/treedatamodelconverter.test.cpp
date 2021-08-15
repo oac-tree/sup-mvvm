@@ -44,7 +44,7 @@ class TreeDataModelConverterTest : public ::testing::Test
 
 TEST_F(TreeDataModelConverterTest, EmptyModel)
 {
-  TreeDataModelConverter converter(ConverterMode::clone);
+  TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
   auto tree_data = converter.ToTreeData(model);
@@ -55,7 +55,7 @@ TEST_F(TreeDataModelConverterTest, EmptyModel)
 
 TEST_F(TreeDataModelConverterTest, EmptyModelToJsonAndBack)
 {
-  TreeDataModelConverter converter(ConverterMode::clone);
+  TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
   auto tree_data = converter.ToTreeData(model);
@@ -74,7 +74,7 @@ TEST_F(TreeDataModelConverterTest, EmptyModelToJsonAndBack)
 
 TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
 {
-  TreeDataModelConverter converter(ConverterMode::clone);
+  TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
   auto item = model.insertItem<SessionItem>();
@@ -96,7 +96,7 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
 
 TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
 {
-  TreeDataModelConverter converter(ConverterMode::clone);
+  TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
   // filling original model with content
@@ -143,7 +143,7 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
 
 TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
 {
-  TreeDataModelConverter converter(ConverterMode::clone);
+  TreeDataModelConverter converter(ConverterMode::kClone);
 
   // creating source model with own pool for item registration
   auto pool1 = std::make_shared<ItemPool>();
@@ -179,7 +179,7 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
 
 TEST_F(TreeDataModelConverterTest, SingleItemToJsonAndBackToSameModel)
 {
-  TreeDataModelConverter converter(ConverterMode::clone);
+  TreeDataModelConverter converter(ConverterMode::kClone);
 
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("TestModel", pool);

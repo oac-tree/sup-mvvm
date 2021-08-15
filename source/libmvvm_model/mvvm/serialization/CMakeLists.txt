@@ -22,6 +22,8 @@ target_sources(${library_name} PRIVATE
   treedatataginfoconverter.h
   treedatavariantconverter.cpp
   treedatavariantconverter.h
+  xmldocument.cpp
+  xmldocument.h
   xmlparseutils.cpp
   xmlparseutils.h
   xmlwriteutils.cpp

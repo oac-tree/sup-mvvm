@@ -51,6 +51,11 @@ public:
     return std::make_unique<TreeDataItemConverter>(&m_factory);
   }
 
+  std::unique_ptr<TreeDataItemConverter> CreateCopyConverter() const
+  {
+    return std::make_unique<TreeDataItemConverter>(&m_factory, ConverterMode::kCopy);
+  }
+
   void WriteToXMLFile(const std::string& file_name, const SessionItem& item) const
   {
     auto converter = CreateConverter();
@@ -146,7 +151,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
   EXPECT_EQ(reco->data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
 }
 
-//! Parent and child to json object.
+//! Parent and child to TreeData object and back.
 
 TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 {
@@ -183,7 +188,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 
-//! Parent and child to json object.
+//! Parent and child to TreeData object and back.
 
 TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 {
@@ -218,8 +223,45 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 
+//! Parent and child to TreeData object and back (converter in copy mode).
+
+TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
+{
+  SessionItem parent;
+  parent.setDisplayName("parent_name");
+  parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  child->setDisplayName("child_name");
+
+  // to TreeData
+  auto converter = CreateCopyConverter();
+  auto tree_data = converter->ToTreeData(parent);
+  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+
+  // reconstructiong back
+  auto reco_parent = converter->ToSessionItem(*tree_data);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_parent->childrenCount(), 1);
+  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->displayName(), "parent_name");
+  EXPECT_NE(reco_parent->identifier(), parent.identifier());  // regenerated identifiers
+  EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent->model(), nullptr);
+
+  // checking child reconstruction
+  auto reco_child = reco_parent->getItem("defaultTag");
+  EXPECT_EQ(reco_child->parent(), reco_parent.get());
+  EXPECT_EQ(reco_child->childrenCount(), 0);
+  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->displayName(), "child_name");
+  EXPECT_NE(reco_child->identifier(), child->identifier());  // regenerated identifiers
+  EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
+}
+
 // Restore unit test after implementing filtered serialization of SessionItemData
-//TEST_F(JsonItemConverterTest, testItemToFileAndBack)
+// TEST_F(JsonItemConverterTest, testItemToFileAndBack)
 //{
 //  auto converter = createConverter();
 

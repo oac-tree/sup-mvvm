@@ -78,7 +78,7 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const TreeData &tree_data
   for (const auto &child_data : tree_data.Children())
   {
     auto container =
-        ContainerConverter::ToSessionItemContainer(child_data, p_impl->m_callbacks.m_create_item);
+        ContainerConverter::ToSessionItemContainer(child_data, p_impl->m_callbacks.create_item);
     tagged_items.AppendContainer(std::move(container));
   }
 }
@@ -91,7 +91,7 @@ std::unique_ptr<TreeData> TreeDataTaggedItemsConverter::ToTreeData(
   for (auto container : tagged_items)
   {
     result->AddChild(
-        *ContainerConverter::ToTreeData(*container, p_impl->m_callbacks.m_create_treedata));
+        *ContainerConverter::ToTreeData(*container, p_impl->m_callbacks.create_treedata));
   }
 
   return result;

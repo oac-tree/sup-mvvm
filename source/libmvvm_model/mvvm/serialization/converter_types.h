@@ -46,19 +46,28 @@ using update_item_t = std::function<void(const TreeData&, SessionItem&)>;
 
 struct MVVM_MODEL_EXPORT ConverterCallbacks
 {
-  create_treedata_t m_create_treedata;  //! creates TreeData object from session item
-  create_item_t m_create_item;          //! creates new SessionItem from TreeData object
-  update_item_t m_update_item;          //! updates existing SessionItem from TreeData object
+  create_treedata_t create_treedata;  //! creates TreeData object from session item
+  create_item_t create_item;          //! creates new SessionItem from TreeData object
+  update_item_t update_item;          //! updates existing SessionItem from TreeData object
 };
 
 //! Flags to define converter behavior on the way from SessionItem to TreeData and back.
 
 enum class ConverterMode
 {
-  none,   //!< undefined converter mode
-  clone,  //!< full deep copying with item identifiers preserved
-  copy    //!< full deep copying with item identifiers regenerated
+  kNone,   //!< undefined converter mode
+  kClone,  //!< full deep copying with item identifiers preserved
+  kCopy    //!< full deep copying with item identifiers regenerated
+  //  kProject //!< selective copying for saving/loading the project (tags and data created by item,
+  //           //!< updated from XML)
 };
+
+//! Returns true if given mode requires ID regeneration instead of using the one stored in XML.
+inline bool IsRegenerateIdWhenBackFromXML(ConverterMode mode)
+{
+  // Item copy should have own unique identifier, so regeneration is required
+  return mode == ConverterMode::kCopy;
+}
 
 }  // namespace ModelView
 
