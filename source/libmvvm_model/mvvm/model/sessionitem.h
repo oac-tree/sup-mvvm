@@ -51,12 +51,12 @@ public:
 
   // basic item properties
 
-  std::string modelType() const;
+  std::string GetType() const;
 
-  std::string identifier() const;
+  std::string GetIdentifier() const;
 
-  virtual SessionItem* setDisplayName(const std::string& name);
-  virtual std::string displayName() const;
+  virtual SessionItem* SetDisplayName(const std::string& name);
+  virtual std::string GetDisplayName() const;
 
   SessionModel* model() const;
 
@@ -66,7 +66,7 @@ public:
 
   // methods to deal with item data
 
-  bool hasData(int role = DataRole::kData) const;
+  bool HasData(int role = DataRole::kData) const;
 
   variant_t data(int role = DataRole::kData) const { return data_internal(role);}
 
@@ -98,7 +98,7 @@ public:
 
   TagIndex TagIndexOfItem(const SessionItem* item) const;
 
-  void registerTag(const TagInfo& tagInfo, bool set_as_default = false);
+  void RegisterTag(const TagInfo& tagInfo, bool set_as_default = false);
 
   TaggedItems* itemTags();
   const TaggedItems* itemTags() const;

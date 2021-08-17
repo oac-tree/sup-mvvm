@@ -25,9 +25,9 @@ using namespace ModelView;
 
 PropertyItem::PropertyItem() : SessionItem(Type) {}
 
-PropertyItem* PropertyItem::setDisplayName(const std::string& name)
+PropertyItem* PropertyItem::SetDisplayName(const std::string& name)
 {
-  SessionItem::setDisplayName(name);
+  SessionItem::SetDisplayName(name);
   return this;
 }
 

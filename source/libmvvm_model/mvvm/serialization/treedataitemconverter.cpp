@@ -70,7 +70,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   {
     auto modelType = tree_data.GetAttribute(kTypelAttributeKey);
 
-    if (modelType != item.modelType())
+    if (modelType != item.GetType())
       throw std::runtime_error("Item model mismatch");
 
     auto item_data = m_itemdata_converter->ToSessionItemData(tree_data.Children().at(0));
@@ -125,7 +125,7 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData
 std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
 {
   auto result = std::make_unique<TreeData>(kItemElementType);
-  result->AddAttribute(kTypelAttributeKey, item.modelType());
+  result->AddAttribute(kTypelAttributeKey, item.GetType());
   // p_impl->populate_item relies of the order of adding
   result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.itemData()));
   result->AddChild(*p_impl->m_taggedtems_converter->ToTreeData(*item.itemTags()));

@@ -25,9 +25,9 @@ using namespace ModelView;
 
 VectorItem::VectorItem() : CompoundItem(Type)
 {
-  addProperty(P_X, 0.0)->setDisplayName("X");
-  addProperty(P_Y, 0.0)->setDisplayName("Y");
-  addProperty(P_Z, 0.0)->setDisplayName("Z");
+  addProperty(P_X, 0.0)->SetDisplayName("X");
+  addProperty(P_Y, 0.0)->SetDisplayName("Y");
+  addProperty(P_Z, 0.0)->SetDisplayName("Z");
 
   setEditable(false);
 

@@ -45,7 +45,7 @@ public:
 
   int GetItemCount() const;
 
-  std::vector<SessionItem*> items() const;
+  std::vector<SessionItem*> GetItems() const;
 
   bool InsertItem(SessionItem* item, int index);
 

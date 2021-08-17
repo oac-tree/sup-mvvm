@@ -47,7 +47,7 @@ TEST_F(SessionItemContainerTest, InitialState)
   EXPECT_EQ(tag.GetItemCount(), 0);
   EXPECT_TRUE(tag.IsEmpty());
   EXPECT_EQ(tag.GetName(), name);
-  EXPECT_EQ(tag.items(), std::vector<SessionItem*>());
+  EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>());
 }
 
 //! Checking ::insertItem.
@@ -69,30 +69,30 @@ TEST_F(SessionItemContainerTest, InsertItem)
   EXPECT_EQ(tag.GetItemCount(), 2);
   EXPECT_FALSE(tag.IsEmpty());
   std::vector<SessionItem*> expected = {child1, child2};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 
   // insertion at the beginning
   auto child3 = new SessionItem;
   EXPECT_TRUE(tag.InsertItem(child3, 0));
   expected = {child3, child1, child2};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 
   // insertion in between
   auto child4 = new SessionItem;
   EXPECT_TRUE(tag.InsertItem(child4, 1));
   expected = {child3, child4, child1, child2};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 
   // using index equal to number of items
   auto child5 = new SessionItem;
   EXPECT_TRUE(tag.InsertItem(child5, tag.GetItemCount()));
   expected = {child3, child4, child1, child2, child5};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 
   // insertion with wrong index
   auto child6 = new SessionItem;
   EXPECT_FALSE(tag.InsertItem(child6, 42));
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
   delete child6;
 }
 
@@ -113,7 +113,7 @@ TEST_F(SessionItemContainerTest, InsertItemModelType)
   delete child2;
 
   std::vector<SessionItem*> expected = {child1};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 }
 
 //! Checking ::insertItem when tag is related to property tag.
@@ -137,7 +137,7 @@ TEST_F(SessionItemContainerTest, InsertItemPropertyType)
   EXPECT_FALSE(tag.InsertItem(child3, tag.GetItemCount()));
   delete child3;
   std::vector<SessionItem*> expected = {child1};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 }
 
 //! Checking ::indexOfItem.
@@ -214,7 +214,7 @@ TEST_F(SessionItemContainerTest, TakeItem)
 
   // order of remaining children
   std::vector<SessionItem*> expected = {child1, child3};
-  EXPECT_EQ(tag.items(), expected);
+  EXPECT_EQ(tag.GetItems(), expected);
 
   // taking non existing items
   EXPECT_EQ(tag.TakeItem(-1), nullptr);

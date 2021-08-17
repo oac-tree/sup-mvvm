@@ -53,8 +53,8 @@ TEST_F(CompoundItemTest, addIntProperty)
   auto propertyItem = item.addProperty(property_name, expected);
   EXPECT_TRUE(Utils::HasTag(item, "name"));
 
-  EXPECT_EQ(propertyItem->modelType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->displayName(), property_name);
+  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
+  EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
   EXPECT_EQ(propertyItem->data<int>(), expected);
 
   // FIXME uncomment
@@ -81,8 +81,8 @@ TEST_F(CompoundItemTest, addDoubleProperty)
   auto propertyItem = item.addProperty(property_name, expected);
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->modelType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->displayName(), property_name);
+  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
+  EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
   EXPECT_EQ(propertyItem->data<double>(), expected);
 
   // FIXME uncomment
@@ -113,7 +113,7 @@ TEST_F(CompoundItemTest, addCharProperty)
   auto propertyItem = item.addProperty(property_name, "abc");
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->modelType(), PropertyItem::Type);
+  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->data<std::string>(), std::string("abc"));
 
   // FIXME uncomment
@@ -139,7 +139,7 @@ TEST_F(CompoundItemTest, addStringProperty)
   auto propertyItem = item.addProperty(property_name, std::string("abc"));
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->modelType(), PropertyItem::Type);
+  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->data<std::string>(), std::string("abc"));
 
   // FIXME uncomment
@@ -166,7 +166,7 @@ TEST_F(CompoundItemTest, addBoolProperty)
   auto propertyItem = item.addProperty(property_name, expected);
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->modelType(), PropertyItem::Type);
+  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->data<bool>(), expected);
 
   // FIXME uncomment
@@ -191,7 +191,7 @@ TEST_F(CompoundItemTest, itemAccess)
 
   // creating parent with one tag
   SessionItem parent;
-  parent.registerTag(TagInfo::CreateUniversalTag(tag));
+  parent.RegisterTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
   auto property = parent.insertItem<PropertyItem>({tag, 0});
@@ -205,7 +205,7 @@ TEST_F(CompoundItemTest, itemVectorAccess)
 
   // creating parent with one tag
   SessionItem parent;
-  parent.registerTag(TagInfo::CreateUniversalTag(tag));
+  parent.RegisterTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
   auto property1 = parent.insertItem<PropertyItem>(TagIndex::Append(tag));
@@ -225,21 +225,21 @@ TEST_F(CompoundItemTest, displayNameIndexAddition)
 
   // creating parent with one tag
   SessionItem parent;
-  parent.registerTag(TagInfo::CreateUniversalTag(tag));
+  parent.RegisterTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
   auto child0 = parent.insertItem<CompoundItem>(TagIndex::Append(tag));
   auto child1 = parent.insertItem<CompoundItem>(TagIndex::Append(tag));
 
   // Default display names of items of the same type should have indices
-  EXPECT_EQ(child0->displayName(), CompoundItem::Type + "0");
-  EXPECT_EQ(child1->displayName(), CompoundItem::Type + "1");
+  EXPECT_EQ(child0->GetDisplayName(), CompoundItem::Type + "0");
+  EXPECT_EQ(child1->GetDisplayName(), CompoundItem::Type + "1");
 
   // however, if children have custom display name, they should remain intact
-  child0->setDisplayName("Jekyll");
-  child1->setDisplayName("Hyde");
-  EXPECT_EQ(child0->displayName(), "Jekyll");
-  EXPECT_EQ(child1->displayName(), "Hyde");
+  child0->SetDisplayName("Jekyll");
+  child1->SetDisplayName("Hyde");
+  EXPECT_EQ(child0->GetDisplayName(), "Jekyll");
+  EXPECT_EQ(child1->GetDisplayName(), "Hyde");
 }
 
 //! Test all children method.

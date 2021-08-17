@@ -68,7 +68,7 @@ private:
 template <typename T>
 void ItemCatalogue::RegisterItem(const std::string& label)
 {
-  RegisterItem(T::Type, ItemFactoryFunction<T>(), label);
+  RegisterItem(T().GetType(), ItemFactoryFunction<T>(), label);
 }
 
 }  // namespace ModelView

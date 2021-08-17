@@ -82,15 +82,15 @@ public:
 
   bool IsSinglePropertyTag(const std::string& tag) const;
 
-  int GetTagsCount() const;
+  int GetTagCount() const;
 
-  SessionItemContainer& GetContainer(int index);
+  SessionItemContainer& ContainerAt(int index);
 
   void AppendContainer(std::unique_ptr<SessionItemContainer> container);
 
 private:
-  SessionItemContainer* container(const std::string& tag_name) const;
-  SessionItemContainer* find_container(const std::string& tag_name) const;
+  SessionItemContainer* GetContainer(const std::string& tag_name) const;
+  SessionItemContainer* FindContainer(const std::string& tag_name) const;
 
   std::vector<SessionItemContainer*> m_containers;
   std::string m_default_tag;

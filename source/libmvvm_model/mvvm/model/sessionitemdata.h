@@ -33,7 +33,7 @@ public:
   using container_t = std::vector<datarole_t>;
   using const_iterator = container_t::const_iterator;
 
-  std::vector<int> roles() const;
+  std::vector<int> GetRoles() const;
 
   variant_t data(int role) const;
 
@@ -42,7 +42,7 @@ public:
   const_iterator begin() const;
   const_iterator end() const;
 
-  bool hasData(int role) const;
+  bool HasData(int role) const;
 
 private:
   void AssureCompatibility(const variant_t& variant, int role);

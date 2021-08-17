@@ -81,7 +81,7 @@ ItemPool* ItemManager::GetItemPool()
 void ItemManager::RegisterInPool(SessionItem* item)
 {
   if (m_item_pool)
-    m_item_pool->RegisterItem(item, item->identifier());
+    m_item_pool->RegisterItem(item, item->GetIdentifier());
 }
 
 void ItemManager::UnregisterFromPool(SessionItem* item)

@@ -67,17 +67,17 @@ void TaggedItems::SetDefaultTag(const std::string& name)
 
 int TaggedItems::GetItemCount(const std::string& tag_name) const
 {
-  return container(tag_name)->GetItemCount();
+  return GetContainer(tag_name)->GetItemCount();
 }
 
 //! Returns true if item can be inserted.
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  auto tag_container = container(tag_index.tag);
+  auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
   auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return container(tag_index.tag)->CanInsertItem(item, index);
+  return GetContainer(tag_index.tag)->CanInsertItem(item, index);
 }
 
 //! Inserts item in container with given tag name and at given index.
@@ -85,31 +85,31 @@ bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_ind
 
 bool TaggedItems::InsertItem(SessionItem* item, const TagIndex& tag_index)
 {
-  auto tag_container = container(tag_index.tag);
+  auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
   auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return container(tag_index.tag)->InsertItem(item, index);
+  return GetContainer(tag_index.tag)->InsertItem(item, index);
 }
 
 //! Returns true if item can be taken.
 
 bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
 {
-  return container(tag_index.tag)->CanTakeItem(tag_index.index);
+  return GetContainer(tag_index.tag)->CanTakeItem(tag_index.index);
 }
 
 //! Removes item at given index and for given tag, returns it to the user.
 
 SessionItem* TaggedItems::TakeItem(const TagIndex& tag_index)
 {
-  return container(tag_index.tag)->TakeItem(tag_index.index);
+  return GetContainer(tag_index.tag)->TakeItem(tag_index.index);
 }
 
 //! Returns item at given index of given tag.
 
 SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const
 {
-  return container(tag_index.tag)->ItemAt(tag_index.index);
+  return GetContainer(tag_index.tag)->ItemAt(tag_index.index);
 }
 
 //! Returns vector of items in the container with given name.
@@ -117,7 +117,7 @@ SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const
 
 std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag) const
 {
-  return container(tag)->items();
+  return GetContainer(tag)->GetItems();
 }
 
 //! Returns vector of all items in all containers.
@@ -127,7 +127,7 @@ std::vector<SessionItem*> TaggedItems::GetAllItems() const
   std::vector<SessionItem*> result;
   for (auto cont : m_containers)
   {
-    auto container_items = cont->items();
+    auto container_items = cont->GetItems();
     result.insert(result.end(), container_items.begin(), container_items.end());
   }
 
@@ -162,18 +162,18 @@ TaggedItems::const_iterator TaggedItems::end() const
 
 bool TaggedItems::IsSinglePropertyTag(const std::string& tag) const
 {
-  auto cont = find_container(tag);
+  auto cont = FindContainer(tag);
   return cont ? cont->GetTagInfo().IsSinglePropertyTag() : false;
 }
 
-int TaggedItems::GetTagsCount() const
+int TaggedItems::GetTagCount() const
 {
   return static_cast<int>(m_containers.size());
 }
 
-SessionItemContainer& TaggedItems::GetContainer(int index)
+SessionItemContainer& TaggedItems::ContainerAt(int index)
 {
-  if (index < 0 || index >= GetTagsCount())
+  if (index < 0 || index >= GetTagCount())
     throw std::runtime_error("Error it SessionItemTags: wrong container index");
   return *m_containers.at(index);
 }
@@ -186,10 +186,10 @@ void TaggedItems::AppendContainer(std::unique_ptr<SessionItemContainer> containe
 //! Returns container corresponding to given tag name. If name is empty,
 //! default tag will be used. Exception is thrown if no such tag exists.
 
-SessionItemContainer* TaggedItems::container(const std::string& tag_name) const
+SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) const
 {
   std::string tagName = tag_name.empty() ? GetDefaultTag() : tag_name;
-  auto container = find_container(tagName);
+  auto container = FindContainer(tagName);
   if (!container)
     throw std::runtime_error("SessionItemTags::container() -> Error. No such container '" + tagName
                              + "'");
@@ -199,7 +199,7 @@ SessionItemContainer* TaggedItems::container(const std::string& tag_name) const
 
 //! Returns container corresponding to given tag name.
 
-SessionItemContainer* TaggedItems::find_container(const std::string& tag_name) const
+SessionItemContainer* TaggedItems::FindContainer(const std::string& tag_name) const
 {
   for (auto cont : m_containers)
     if (cont->GetName() == tag_name)

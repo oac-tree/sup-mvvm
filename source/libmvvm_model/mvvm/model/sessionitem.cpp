@@ -35,7 +35,7 @@ int appearance(const ModelView::SessionItem& item)
 {
   const int default_appearance =
       Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
-  return item.hasData(DataRole::kAppearance) ? item.data<int>(DataRole::kAppearance)
+  return item.HasData(DataRole::kAppearance) ? item.data<int>(DataRole::kAppearance)
                                              : default_appearance;
 }
 }  // namespace
@@ -82,28 +82,28 @@ SessionItem::~SessionItem()
 
 //! Returns item's model type.
 
-std::string SessionItem::modelType() const
+std::string SessionItem::GetType() const
 {
   return p_impl->m_modelType;
 }
 
 //! Returns unique identifier.
 
-std::string SessionItem::identifier() const
+std::string SessionItem::GetIdentifier() const
 {
   return data<std::string>(DataRole::kIdentifier);
 }
 
 //! Returns display name.
 
-std::string SessionItem::displayName() const
+std::string SessionItem::GetDisplayName() const
 {
   return data<std::string>(DataRole::kDisplay);
 }
 
 //! Sets display name (fluent interface).
 
-SessionItem* SessionItem::setDisplayName(const std::string& name)
+SessionItem* SessionItem::SetDisplayName(const std::string& name)
 {
   setData(name, DataRole::kDisplay);
   return this;
@@ -133,9 +133,9 @@ TagIndex SessionItem::GetTagIndex() const
 
 //! Returns true if item has data on board with given role.
 
-bool SessionItem::hasData(int role) const
+bool SessionItem::HasData(int role) const
 {
-  return p_impl->m_data->hasData(role);
+  return p_impl->m_data->HasData(role);
 }
 
 //! Returns pointer to item's data container (const version).
@@ -174,6 +174,7 @@ int SessionItem::itemCount(const std::string& tag) const
 }
 
 //! Returns item at given row of given tag.
+//! Will throw if container with such `tag` doesn't exist, or `index` is invalid.
 
 SessionItem* SessionItem::getItem(const std::string& tag, int index) const
 {
@@ -204,7 +205,7 @@ const TaggedItems* SessionItem::itemTags() const
 
 //! Registers tag to hold items under given name.
 
-void SessionItem::registerTag(const TagInfo& tagInfo, bool set_as_default)
+void SessionItem::RegisterTag(const TagInfo& tagInfo, bool set_as_default)
 {
   p_impl->m_tags->RegisterTag(tagInfo, set_as_default);
 }
@@ -322,7 +323,7 @@ SessionItem* SessionItem::setVisible(bool value)
 
 std::string SessionItem::toolTip() const
 {
-  return hasData(DataRole::kTooltip) ? data<std::string>(DataRole::kTooltip) : std::string();
+  return HasData(DataRole::kTooltip) ? data<std::string>(DataRole::kTooltip) : std::string();
 }
 
 //! Sets item tooltip (fluent interface).

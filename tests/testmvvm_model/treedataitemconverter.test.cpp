@@ -91,10 +91,10 @@ TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 
   // Reconstructing back
   auto reco = converter->ToSessionItem(*tree_data);
-  EXPECT_EQ(reco->modelType(), item.modelType());
-  EXPECT_EQ(reco->displayName(), item.displayName());
-  EXPECT_EQ(reco->identifier(), item.identifier());
-  EXPECT_EQ(reco->itemData()->roles(), item.itemData()->roles());
+  EXPECT_EQ(reco->GetType(), item.GetType());
+  EXPECT_EQ(reco->GetDisplayName(), item.GetDisplayName());
+  EXPECT_EQ(reco->GetIdentifier(), item.GetIdentifier());
+  EXPECT_EQ(reco->itemData()->GetRoles(), item.itemData()->GetRoles());
 }
 
 //! PropertyItem with data to TreeData and back.
@@ -115,10 +115,10 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
 
   // reconstructiong back
   auto reco = converter->ToSessionItem(*tree_data);
-  EXPECT_EQ(reco->modelType(), item.modelType());
-  EXPECT_EQ(reco->displayName(), item.displayName());
-  EXPECT_EQ(reco->identifier(), item.identifier());
-  EXPECT_EQ(reco->itemData()->roles(), item.itemData()->roles());
+  EXPECT_EQ(reco->GetType(), item.GetType());
+  EXPECT_EQ(reco->GetDisplayName(), item.GetDisplayName());
+  EXPECT_EQ(reco->GetIdentifier(), item.GetIdentifier());
+  EXPECT_EQ(reco->itemData()->GetRoles(), item.itemData()->GetRoles());
   EXPECT_EQ(reco->data(DataRole::kData), variant_t(42));
   EXPECT_EQ(reco->data(DataRole::kDisplay), variant_t(std::string("width")));
   EXPECT_EQ(reco->data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
@@ -141,10 +141,10 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
 
   // reconstructiong back
   auto reco = ReadFromXMLFile<PropertyItem>(file_path);
-  EXPECT_EQ(reco->modelType(), item.modelType());
-  EXPECT_EQ(reco->displayName(), item.displayName());
-  EXPECT_EQ(reco->identifier(), item.identifier());
-  EXPECT_EQ(reco->itemData()->roles(), item.itemData()->roles());
+  EXPECT_EQ(reco->GetType(), item.GetType());
+  EXPECT_EQ(reco->GetDisplayName(), item.GetDisplayName());
+  EXPECT_EQ(reco->GetIdentifier(), item.GetIdentifier());
+  EXPECT_EQ(reco->itemData()->GetRoles(), item.itemData()->GetRoles());
   EXPECT_EQ(reco->data(DataRole::kData), variant_t(42));
   EXPECT_EQ(reco->data(DataRole::kDisplay), variant_t(std::string("width")));
   EXPECT_EQ(reco->data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
@@ -156,11 +156,11 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
 TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 {
   SessionItem parent;
-  parent.setDisplayName("parent_name");
-  parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent.SetDisplayName("parent_name");
+  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
-  child->setDisplayName("child_name");
+  child->SetDisplayName("child_name");
 
   // to TreeData
   auto converter = CreateConverter();
@@ -172,9 +172,9 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->childrenCount(), 1);
-  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->displayName(), "parent_name");
-  EXPECT_EQ(reco_parent->identifier(), parent.identifier());
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
+  EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->model(), nullptr);
 
@@ -182,9 +182,9 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   auto reco_child = reco_parent->getItem("defaultTag");
   EXPECT_EQ(reco_child->parent(), reco_parent.get());
   EXPECT_EQ(reco_child->childrenCount(), 0);
-  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
-  EXPECT_EQ(reco_child->displayName(), "child_name");
-  EXPECT_EQ(reco_child->identifier(), child->identifier());
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
+  EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 
@@ -193,11 +193,11 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 {
   SessionItem parent;
-  parent.setDisplayName("parent_name");
-  parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent.SetDisplayName("parent_name");
+  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
-  child->setDisplayName("child_name");
+  child->SetDisplayName("child_name");
 
   const auto file_path = GetFilePath("ParentAndChildToFileAndBack.xml");
   WriteToXMLFile(file_path, parent);
@@ -207,9 +207,9 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->childrenCount(), 1);
-  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->displayName(), "parent_name");
-  EXPECT_EQ(reco_parent->identifier(), parent.identifier());
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
+  EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->model(), nullptr);
 
@@ -217,9 +217,9 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   auto reco_child = reco_parent->getItem("defaultTag");
   EXPECT_EQ(reco_child->parent(), reco_parent.get());
   EXPECT_EQ(reco_child->childrenCount(), 0);
-  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
-  EXPECT_EQ(reco_child->displayName(), "child_name");
-  EXPECT_EQ(reco_child->identifier(), child->identifier());
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
+  EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 
@@ -228,11 +228,11 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
 {
   SessionItem parent;
-  parent.setDisplayName("parent_name");
-  parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent.SetDisplayName("parent_name");
+  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
-  child->setDisplayName("child_name");
+  child->SetDisplayName("child_name");
 
   // to TreeData
   auto converter = CreateCopyConverter();
@@ -244,9 +244,9 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->childrenCount(), 1);
-  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->displayName(), "parent_name");
-  EXPECT_NE(reco_parent->identifier(), parent.identifier());  // regenerated identifiers
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
+  EXPECT_NE(reco_parent->GetIdentifier(), parent.GetIdentifier());  // regenerated identifiers
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->model(), nullptr);
 
@@ -254,9 +254,9 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
   auto reco_child = reco_parent->getItem("defaultTag");
   EXPECT_EQ(reco_child->parent(), reco_parent.get());
   EXPECT_EQ(reco_child->childrenCount(), 0);
-  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
-  EXPECT_EQ(reco_child->displayName(), "child_name");
-  EXPECT_NE(reco_child->identifier(), child->identifier());  // regenerated identifiers
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
+  EXPECT_NE(reco_child->GetIdentifier(), child->GetIdentifier());  // regenerated identifiers
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 

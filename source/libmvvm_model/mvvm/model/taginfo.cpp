@@ -28,8 +28,8 @@ namespace ModelView
 {
 TagInfo::TagInfo() : m_min(0), m_max(-1) {}
 
-TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> model_types)
-    : m_name(std::move(name)), m_min(min), m_max(max), m_model_types(std::move(model_types))
+TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> item_types)
+    : m_name(std::move(name)), m_min(min), m_max(max), m_item_types(std::move(item_types))
 {
   if (m_min < 0 || (m_min > m_max && m_max >= 0) || m_name.empty())
   {
@@ -42,16 +42,16 @@ TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> mo
 
 //! Constructs universal tag intended for unlimited amount of various items.
 
-TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> modelTypes)
+TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> item_types)
 {
-  return TagInfo(std::move(name), 0, -1, std::move(modelTypes));
+  return TagInfo(std::move(name), 0, -1, std::move(item_types));
 }
 
 //! Constructs tag intended for single property.
 
-TagInfo TagInfo::CreatePropertyTag(std::string name, std::string model_type)
+TagInfo TagInfo::CreatePropertyTag(std::string name, std::string item_type)
 {
-  return TagInfo(std::move(name), 1, 1, {std::move(model_type)});
+  return TagInfo(std::move(name), 1, 1, {std::move(item_type)});
 }
 
 //! Returns the name of this class.
@@ -75,18 +75,19 @@ int TagInfo::GetMax() const
   return m_max;
 }
 
-//! Returns vector of allowed model types which this tag accepts.
+//! Returns vector of allowed item types which this tag accepts.
 
-std::vector<std::string> TagInfo::GetModelTypes() const
+std::vector<std::string> TagInfo::GetItemTypes() const
 {
-  return m_model_types;
+  return m_item_types;
 }
 
-//! Returns true if given modelType matches the list of possible model types.
+//! Returns true if given item's type matches the list of possible item types.
 
-bool TagInfo::IsValidChild(const std::string& model_type) const
+bool TagInfo::IsValidType(const std::string& item_type) const
 {
-  return m_model_types.empty() ? true : Utils::Contains(m_model_types, model_type);
+  // if vector is empty, every type is considered as matching
+  return m_item_types.empty() ? true : Utils::Contains(m_item_types, item_type);
 }
 
 //! Returns true if this tag is used to store single properties.
@@ -100,7 +101,7 @@ bool TagInfo::IsSinglePropertyTag() const
 bool TagInfo::operator==(const TagInfo& other) const
 {
   return m_name == other.m_name && m_min == other.m_min && m_max == other.m_max
-         && m_model_types == other.m_model_types;
+         && m_item_types == other.m_item_types;
 }
 
 bool TagInfo::operator!=(const TagInfo& other) const

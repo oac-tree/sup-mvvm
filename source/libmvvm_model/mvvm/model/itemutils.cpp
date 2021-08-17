@@ -59,14 +59,14 @@ int Utils::CopyNumber(const SessionItem* item)
     return result;
 
   int count(0);
-  auto model_type = item->modelType();
+  auto model_type = item->GetType();
   if (auto parent = item->parent())
   {
     for (auto child : parent->children())
     {
       if (child == item)
         result = count;
-      if (child->modelType() == model_type)
+      if (child->GetType() == model_type)
         ++count;
     }
   }

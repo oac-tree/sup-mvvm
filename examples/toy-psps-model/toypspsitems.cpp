@@ -29,8 +29,8 @@ using namespace ModelView;
 
 ActuatorItem::ActuatorItem() : CompoundItem(Type)
 {
-  addProperty(P_VARIABLE_NAME, "Undefined")->setDisplayName("PV-name");
-  addProperty(P_VARIABLE_VALUE, 0.0)->setDisplayName("Value");
+  addProperty(P_VARIABLE_NAME, "Undefined")->SetDisplayName("PV-name");
+  addProperty(P_VARIABLE_VALUE, 0.0)->SetDisplayName("Value");
 }
 
 void ActuatorItem::SetVariableName(const std::string &pv_name)
@@ -51,7 +51,7 @@ ActionItem::ActionItem() : CompoundItem(Type)
 {
   addProperty(P_ACTUATOR_LINK, "Undefined");
   addProperty(P_TRANSITION_FUNCTION, "Undefined");
-  addProperty(P_DURATION, 42)->setDisplayName("Duration [sec]");
+  addProperty(P_DURATION, 42)->SetDisplayName("Duration [sec]");
   addProperty(P_START_VALUE, 0.0)->setToolTip("The value to set at the beginning of action");
   addProperty(P_STOP_VALUE, 1.0)->setToolTip("The value to set at the end of action");
 }
@@ -69,7 +69,7 @@ void ActionItem::LinkToActuator(const ActuatorItem &actuator)
 SegmentItem::SegmentItem() : CompoundItem(Type)
 {
   // registering tag intended for storage of arbitrary ammount of ActuatorItems
-  registerTag(TagInfo::CreateUniversalTag(T_ACTUATORS, {ActuatorItem::Type}), /*default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(T_ACTUATORS, {ActuatorItem::Type}), /*default*/ true);
 }
 
 // ----------------------------------------------------------------------------
@@ -79,7 +79,7 @@ SegmentItem::SegmentItem() : CompoundItem(Type)
 TransitionItem::TransitionItem() : CompoundItem(Type)
 {
   // registering tag intended for storage of arbitrary ammount of ActionItems
-  registerTag(TagInfo::CreateUniversalTag(T_ACTIONS, {ActionItem::Type}), /*default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(T_ACTIONS, {ActionItem::Type}), /*default*/ true);
 }
 
 // ----------------------------------------------------------------------------
@@ -89,6 +89,6 @@ TransitionItem::TransitionItem() : CompoundItem(Type)
 PulseScheduleItem::PulseScheduleItem() : CompoundItem(Type)
 {
   // registering tag intended for storage of arbitrary ammount of SegmentItems and TransisionItems
-  registerTag(TagInfo::CreateUniversalTag(T_ELEMENTS, {SegmentItem::Type, TransitionItem::Type}),
+  RegisterTag(TagInfo::CreateUniversalTag(T_ELEMENTS, {SegmentItem::Type, TransitionItem::Type}),
               /*default*/ true);
 }

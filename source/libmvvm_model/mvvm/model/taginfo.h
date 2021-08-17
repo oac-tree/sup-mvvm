@@ -29,18 +29,18 @@ namespace ModelView
 {
 //! Holds info about the single tag for SessionItem.
 //! The tag specifies information about children that can be added to a SessionItem. A tag has a
-//! name, min, max allowed number of children, and vector of all modelTypes that children can have.
+//! name, min, max allowed number of children, and vector of all types that children can have.
 
 class MVVM_MODEL_EXPORT TagInfo
 {
 public:
   TagInfo();
 
-  TagInfo(std::string name, int min, int max, std::vector<std::string> model_types);
+  TagInfo(std::string name, int min, int max, std::vector<std::string> item_types);
 
-  static TagInfo CreateUniversalTag(std::string name, std::vector<std::string> model_types = {});
+  static TagInfo CreateUniversalTag(std::string name, std::vector<std::string> item_types = {});
 
-  static TagInfo CreatePropertyTag(std::string name, std::string model_type);
+  static TagInfo CreatePropertyTag(std::string name, std::string item_type);
 
   std::string GetName() const;
 
@@ -48,11 +48,9 @@ public:
 
   int GetMax() const;
 
-  std::vector<std::string> GetModelTypes() const;
+  std::vector<std::string> GetItemTypes() const;
 
-  bool IsMaximumReached() const;
-
-  bool IsValidChild(const std::string& model_type) const;
+  bool IsValidType(const std::string& item_type) const;
 
   bool IsSinglePropertyTag() const;
 
@@ -61,9 +59,9 @@ public:
 
 private:
   std::string m_name;                      //!< the name of the tag
-  int m_min;                               //!< minimum allowed number of items in tag
-  int m_max;                               //!< maximum allowed number of items in tag
-  std::vector<std::string> m_model_types;  //!< vector of allowed modelTypes
+  int m_min;                               //!< minimum allowed number of items in a tag
+  int m_max;                               //!< maximum allowed number of items in a tag
+  std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
 
 }  // namespace ModelView

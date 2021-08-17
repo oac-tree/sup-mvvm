@@ -48,7 +48,7 @@ int SessionItemContainer::GetItemCount() const
 
 //! Returns vector of items in this container.
 
-std::vector<SessionItem*> SessionItemContainer::items() const
+std::vector<SessionItem*> SessionItemContainer::GetItems() const
 {
   return m_items;
 }
@@ -72,6 +72,7 @@ bool SessionItemContainer::InsertItem(SessionItem* item, int index)
 }
 
 //! Removes item at given index and returns it to the user.
+//! If item can't be removed (item is a property item), will return nullptr.
 
 SessionItem* SessionItemContainer::TakeItem(int index)
 {
@@ -158,5 +159,5 @@ bool SessionItemContainer::IsMinimumReached() const
 
 bool SessionItemContainer::IsValidItem(const SessionItem* item) const
 {
-  return item && m_tag_info.IsValidChild(item->modelType());
+  return item && m_tag_info.IsValidType(item->GetType());
 }

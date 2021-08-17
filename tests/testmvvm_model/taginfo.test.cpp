@@ -29,20 +29,20 @@ class TagInfoTest : public ::testing::Test
 {
 };
 
-TEST_F(TagInfoTest, initialState)
+TEST_F(TagInfoTest, InitialState)
 {
   TagInfo tag;
   EXPECT_EQ(tag.GetName(), std::string());
   EXPECT_EQ(tag.GetMin(), 0);
   EXPECT_EQ(tag.GetMax(), -1);
   EXPECT_FALSE(tag.IsSinglePropertyTag());
-  EXPECT_TRUE(tag.IsValidChild(""));
-  EXPECT_TRUE(tag.IsValidChild("abc"));
+  EXPECT_TRUE(tag.IsValidType(""));
+  EXPECT_TRUE(tag.IsValidType("abc"));
 }
 
 //! Testing default tag intended for storing unlimited amount of items of any type.
 
-TEST_F(TagInfoTest, defaultTag)
+TEST_F(TagInfoTest, DefaultTag)
 {
   // initial state
   TagInfo tag = TagInfo::CreateUniversalTag("name");
@@ -50,13 +50,13 @@ TEST_F(TagInfoTest, defaultTag)
   EXPECT_EQ(tag.GetMin(), 0);
   EXPECT_EQ(tag.GetMax(), -1);
   EXPECT_FALSE(tag.IsSinglePropertyTag());
-  EXPECT_TRUE(tag.IsValidChild(""));
-  EXPECT_TRUE(tag.IsValidChild("abc"));
+  EXPECT_TRUE(tag.IsValidType(""));
+  EXPECT_TRUE(tag.IsValidType("abc"));
 }
 
 //! Testing property tag intended for storing single PropertyItem.
 
-TEST_F(TagInfoTest, propertyTag)
+TEST_F(TagInfoTest, PropertyTag)
 {
   // initial state
   TagInfo tag = TagInfo::CreatePropertyTag("name", "model_type");
@@ -65,13 +65,13 @@ TEST_F(TagInfoTest, propertyTag)
   EXPECT_EQ(tag.GetMin(), 1);
   EXPECT_EQ(tag.GetMax(), 1);
   EXPECT_TRUE(tag.IsSinglePropertyTag());
-  EXPECT_TRUE(tag.IsValidChild("model_type"));
-  EXPECT_FALSE(tag.IsValidChild("abc"));
+  EXPECT_TRUE(tag.IsValidType("model_type"));
+  EXPECT_FALSE(tag.IsValidType("abc"));
 }
 
 //! Testing equality operators.
 
-TEST_F(TagInfoTest, equalityOperator)
+TEST_F(TagInfoTest, EqualityOperator)
 {
   // default constructor
   TagInfo tag1;

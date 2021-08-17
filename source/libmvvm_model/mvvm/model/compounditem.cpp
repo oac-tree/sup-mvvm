@@ -27,18 +27,18 @@ namespace
 {
 bool has_custom_display_name(const SessionItem* item)
 {
-  return item->SessionItem::displayName() != item->modelType();
+  return item->SessionItem::GetDisplayName() != item->GetType();
 }
 }  // namespace
 
 CompoundItem::CompoundItem(const std::string& modelType) : SessionItem(modelType) {}
 
-std::string CompoundItem::displayName() const
+std::string CompoundItem::GetDisplayName() const
 {
   if (has_custom_display_name(this))
-    return SessionItem::displayName();
+    return SessionItem::GetDisplayName();
 
   int copy_number = Utils::CopyNumber(this);
-  return copy_number != -1 ? SessionItem::displayName() + std::to_string(copy_number)
-                           : SessionItem::displayName();
+  return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)
+                           : SessionItem::GetDisplayName();
 }

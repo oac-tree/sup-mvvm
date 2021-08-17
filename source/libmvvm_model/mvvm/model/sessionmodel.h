@@ -137,7 +137,7 @@ T* SessionModel::topItem() const
 template <typename T>
 void SessionModel::registerItem(const std::string& label)
 {
-  intern_register(T().modelType(), ItemFactoryFunction<T>(), label);
+  intern_register(T().GetType(), ItemFactoryFunction<T>(), label);
 }
 
 }  // namespace ModelView

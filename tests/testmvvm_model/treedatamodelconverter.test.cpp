@@ -88,8 +88,8 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
   EXPECT_EQ(target.rootItem()->childrenCount(), 1);
   auto reco_item = target.rootItem()->getItem("", 0);
   EXPECT_EQ(reco_item->parent(), target.rootItem());
-  EXPECT_EQ(reco_item->modelType(), item->modelType());
-  EXPECT_EQ(reco_item->identifier(), item->identifier());
+  EXPECT_EQ(reco_item->GetType(), item->GetType());
+  EXPECT_EQ(reco_item->GetIdentifier(), item->GetIdentifier());
 }
 
 //! Filling model from json: parent and child in a model to json and back.
@@ -101,12 +101,12 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
 
   // filling original model with content
   auto parent = model.insertItem<SessionItem>();
-  parent->setDisplayName("parent_name");
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent->SetDisplayName("parent_name");
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   parent->setData(42);
   auto child = model.insertItem<PropertyItem>(parent);
-  child->setDisplayName("child_name");
+  child->SetDisplayName("child_name");
 
   // writing model to TreeData
   auto tree_data = converter.ToTreeData(model);
@@ -121,21 +121,21 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->model(), &target);
-  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
   EXPECT_EQ(reco_parent->parent(), target.rootItem());
-  EXPECT_EQ(reco_parent->displayName(), "parent_name");
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->childrenCount(), 1);
-  EXPECT_EQ(reco_parent->identifier(), parent->identifier());
+  EXPECT_EQ(reco_parent->GetIdentifier(), parent->GetIdentifier());
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->data<int>(), 42);
 
   // checking child reconstruction
   EXPECT_EQ(reco_child->model(), &target);
-  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->parent(), reco_parent);
-  EXPECT_EQ(reco_child->displayName(), "child_name");
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
   EXPECT_EQ(reco_child->childrenCount(), 0);
-  EXPECT_EQ(reco_child->identifier(), child->identifier());
+  EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 
@@ -161,8 +161,8 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
   auto reco_parent = target.rootItem()->getItem("", 0);
 
   // comparing identifiers of two items from different models
-  auto id1 = parent1->identifier();
-  auto id2 = reco_parent->identifier();
+  auto id1 = parent1->GetIdentifier();
+  auto id2 = reco_parent->GetIdentifier();
   EXPECT_EQ(id1, id2);
 
   // checking item registrations
@@ -186,8 +186,8 @@ TEST_F(TreeDataModelConverterTest, SingleItemToJsonAndBackToSameModel)
   auto item = model.insertItem<SessionItem>();
 
   auto root_item = model.rootItem();
-  auto root_id = root_item->identifier();
-  auto item_id = item->identifier();
+  auto root_id = root_item->GetIdentifier();
+  auto item_id = item->GetIdentifier();
 
   // writing model to TreeData
   auto tree_data = converter.ToTreeData(model);

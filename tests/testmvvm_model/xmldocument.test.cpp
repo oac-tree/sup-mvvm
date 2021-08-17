@@ -66,14 +66,14 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
 
   // filling model with parent and child
   auto parent = model.insertItem<SessionItem>();
-  parent->setDisplayName("parent_name");
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-  const auto parent_identifier = parent->identifier();
+  parent->SetDisplayName("parent_name");
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  const auto parent_identifier = parent->GetIdentifier();
 
   parent->setData(42);
   auto child = model.insertItem<PropertyItem>(parent);
-  child->setDisplayName("child_name");
-  const auto child_identifier = child->identifier();
+  child->SetDisplayName("child_name");
+  const auto child_identifier = child->GetIdentifier();
 
   // saving model in file
   document.Save(file_path);
@@ -92,21 +92,21 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->model(), &model);
-  EXPECT_EQ(reco_parent->modelType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
   EXPECT_EQ(reco_parent->parent(), model.rootItem());
-  EXPECT_EQ(reco_parent->displayName(), "parent_name");
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->childrenCount(), 1);
-  EXPECT_EQ(reco_parent->identifier(), parent_identifier);
+  EXPECT_EQ(reco_parent->GetIdentifier(), parent_identifier);
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->data<int>(), 42);
 
   // checking child reconstruction
   EXPECT_EQ(reco_child->model(), &model);
-  EXPECT_EQ(reco_child->modelType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->parent(), reco_parent);
-  EXPECT_EQ(reco_child->displayName(), "child_name");
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
   EXPECT_EQ(reco_child->childrenCount(), 0);
-  EXPECT_EQ(reco_child->identifier(), child_identifier);
+  EXPECT_EQ(reco_child->GetIdentifier(), child_identifier);
   EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
 }
 
@@ -122,10 +122,10 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
 
   // filling models
   auto parent1 = model1.insertItem<SessionItem>();
-  const auto parent_identifier1 = parent1->identifier();
+  const auto parent_identifier1 = parent1->GetIdentifier();
 
   auto parent2 = model2.insertItem<SessionItem>();
-  const auto parent_identifier2 = parent2->identifier();
+  const auto parent_identifier2 = parent2->GetIdentifier();
 
   // saving models in file
   document.Save(file_path);
@@ -146,11 +146,11 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   // checking parent reconstruction
   EXPECT_EQ(reco_parent1->model(), &model1);
   EXPECT_EQ(reco_parent1->parent(), model1.rootItem());
-  EXPECT_EQ(reco_parent1->identifier(), parent_identifier1);
+  EXPECT_EQ(reco_parent1->GetIdentifier(), parent_identifier1);
 
   EXPECT_EQ(reco_parent2->model(), &model2);
   EXPECT_EQ(reco_parent2->parent(), model2.rootItem());
-  EXPECT_EQ(reco_parent2->identifier(), parent_identifier2);
+  EXPECT_EQ(reco_parent2->GetIdentifier(), parent_identifier2);
 }
 
 //! Attempt to restore models in wrong order.
@@ -163,10 +163,10 @@ TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
 
   // filling models
   auto parent1 = model1.insertItem<SessionItem>();
-  const auto parent_identifier1 = parent1->identifier();
+  const auto parent_identifier1 = parent1->GetIdentifier();
 
   auto parent2 = model2.insertItem<SessionItem>();
-  const auto parent_identifier2 = parent2->identifier();
+  const auto parent_identifier2 = parent2->GetIdentifier();
 
   // saving models in file
   {

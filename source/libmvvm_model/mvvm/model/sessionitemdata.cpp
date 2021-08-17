@@ -26,7 +26,7 @@
 using namespace ModelView;
 
 //! Returns vector of all roles for which data exist.
-std::vector<int> SessionItemData::roles() const
+std::vector<int> SessionItemData::GetRoles() const
 {
   std::vector<int> result;
   std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
@@ -87,7 +87,7 @@ SessionItemData::const_iterator SessionItemData::end() const
 
 //! Returns true if item has data with given role.
 
-bool SessionItemData::hasData(int role) const
+bool SessionItemData::HasData(int role) const
 {
   auto has_role = [role](const auto& x) { return x.second == role; };
   return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();

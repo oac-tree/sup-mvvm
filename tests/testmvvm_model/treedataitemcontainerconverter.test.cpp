@@ -43,7 +43,7 @@ public:
     auto to_treedata = [this](const SessionItem& item)
     {
       auto result = std::make_unique<TreeData>("Item");
-      result->AddAttribute("model", item.modelType());
+      result->AddAttribute("model", item.GetType());
       return result;
     };
     m_create_tree_callback = to_treedata;

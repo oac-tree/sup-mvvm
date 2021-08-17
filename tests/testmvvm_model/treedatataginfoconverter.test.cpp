@@ -51,7 +51,7 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), 1);
   EXPECT_EQ(tag_info.GetName(), "Width");
-  EXPECT_EQ(tag_info.GetModelTypes(), std::vector<std::string>());
+  EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>());
 
   // Converting back
   auto new_tree_data = ToTreeData(tag_info);
@@ -75,7 +75,7 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTagWithModelTypes)
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), -1);
   EXPECT_EQ(tag_info.GetName(), "Width");
-  EXPECT_EQ(tag_info.GetModelTypes(), std::vector<std::string>({"SegmentItem", "PulseItem"}));
+  EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>({"SegmentItem", "PulseItem"}));
 
   // Converting back
   auto new_tree_data = ToTreeData(tag_info);

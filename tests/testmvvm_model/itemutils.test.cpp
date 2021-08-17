@@ -47,7 +47,7 @@ TEST_F(ItemUtilsTest, iterateItem)
 
   // iteration over lonely parent
   std::unique_ptr<SessionItem> parent(new SessionItem);
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   std::vector<const SessionItem*> expected = {parent.get()};
   Utils::iterate(parent.get(), fun);
@@ -79,7 +79,7 @@ TEST_F(ItemUtilsTest, iterateIfItem)
 
   // iteration over lonely parent
   std::unique_ptr<SessionItem> parent(new SessionItem);
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   parent->insertItem<SessionItem>(TagIndex::Append());
   parent->insertItem<SessionItem>(TagIndex::Append());
@@ -136,7 +136,7 @@ TEST_F(ItemUtilsTest, iterateIfItem)
 TEST_F(ItemUtilsTest, HasTag)
 {
   SessionItem item;
-  item.registerTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
+  item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
 
   EXPECT_TRUE(Utils::HasTag(item, "default_tag"));
   EXPECT_FALSE(Utils::HasTag(item, "nonexisting_tag"));

@@ -47,15 +47,15 @@ public:
   //! Register char property. Special case to turn it into std::string.
   PropertyItem* addProperty(const std::string& name, const char* value);
 
-  std::string displayName() const override;
+  std::string GetDisplayName() const override;
 };
 
 template <typename T>
 T* CompoundItem::addProperty(const std::string& name)
 {
-  registerTag(TagInfo::CreatePropertyTag(name, T().modelType()));
+  RegisterTag(TagInfo::CreatePropertyTag(name, T().GetType()));
   auto result = insertItem<T>({name, 0});
-  result->setDisplayName(name);
+  result->SetDisplayName(name);
   return result;
 }
 

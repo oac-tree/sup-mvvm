@@ -36,7 +36,7 @@ public:
 
   PropertyItem();
 
-  PropertyItem* setDisplayName(const std::string& name) override;
+  PropertyItem* SetDisplayName(const std::string& name) override;
 
   //    PropertyItem* setLimits(const RealLimits& value);
 };

@@ -62,24 +62,24 @@ TEST_F(SessionModelTest, insertItem)
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->parent(), model.rootItem());
   EXPECT_EQ(item->model(), &model);
-  EXPECT_EQ(item->modelType(), model_type);
+  EXPECT_EQ(item->GetType(), model_type);
 
   // checking registration
-  auto item_key = item->identifier();
+  auto item_key = item->GetIdentifier();
   EXPECT_EQ(pool->ItemForKey(item_key), item);
 
   // registering tag
-  item->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  item->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
   auto child = model.insertItem<SessionItem>(item);
-  auto child_key = child->identifier();
+  auto child_key = child->GetIdentifier();
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->parent(), item);
   EXPECT_EQ(child->model(), &model);
-  EXPECT_EQ(child->modelType(), model_type);
+  EXPECT_EQ(child->GetType(), model_type);
 
   // taking child back
   auto taken = item->takeItem({"", 0});
@@ -102,24 +102,24 @@ TEST_F(SessionModelTest, insertNewItem)
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->parent(), model.rootItem());
   EXPECT_EQ(item->model(), &model);
-  EXPECT_EQ(item->modelType(), model_type);
+  EXPECT_EQ(item->GetType(), model_type);
 
   // checking registration
-  auto item_key = item->identifier();
+  auto item_key = item->GetIdentifier();
   EXPECT_EQ(pool->ItemForKey(item_key), item);
 
   // registering tag
-  item->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  item->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
   auto child = model.insertNewItem(model_type, item);
-  auto child_key = child->identifier();
+  auto child_key = child->GetIdentifier();
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->parent(), item);
   EXPECT_EQ(child->model(), &model);
-  EXPECT_EQ(child->modelType(), model_type);
+  EXPECT_EQ(child->GetType(), model_type);
 
   // taking child back
   auto taken = item->takeItem({"", 0});
@@ -135,7 +135,7 @@ TEST_F(SessionModelTest, insertNewItemWithTag)
   const std::string tag1("tag1");
   SessionModel model;
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::CreateUniversalTag(tag1));
+  parent->RegisterTag(TagInfo::CreateUniversalTag(tag1));
   auto child1 = model.insertItem<PropertyItem>(parent, {tag1, -1});
 
   EXPECT_EQ(parent->TagIndexOfItem(child1).tag, tag1);
@@ -175,7 +175,7 @@ TEST_F(SessionModelTest, removeItem)
   SessionModel model("Test", pool);
 
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   auto child1 = model.insertItem<SessionItem>(parent);
   auto child2 = model.insertItem<SessionItem>(parent, {"", 0});  // before child1
@@ -195,7 +195,7 @@ TEST_F(SessionModelTest, removeNonExistingItem)
   SessionModel model("Test", pool);
 
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // removing non existing child
   EXPECT_NO_THROW(model.removeItem(parent, {"", 0}));
@@ -207,11 +207,11 @@ TEST_F(SessionModelTest, takeRowFromRootItem)
   SessionModel model("Test", pool);
 
   auto parent = model.insertItem<SessionItem>();
-  parent->registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-  auto parent_key = parent->identifier();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto parent_key = parent->GetIdentifier();
 
   auto child = model.insertItem<SessionItem>(parent);
-  auto child_key = child->identifier();
+  auto child_key = child->GetIdentifier();
 
   EXPECT_EQ(pool->ItemForKey(parent_key), parent);
   EXPECT_EQ(pool->ItemForKey(child_key), child);
@@ -288,7 +288,7 @@ TEST_F(SessionModelTest, clearRebuildModel)
   EXPECT_FALSE(model.rootItem() == first_root);
   EXPECT_EQ(pool->KeyForItem(first_root), "");
   EXPECT_EQ(pool->size(), 2);
-  EXPECT_EQ(pool->KeyForItem(new_item), new_item->identifier());
+  EXPECT_EQ(pool->KeyForItem(new_item), new_item->GetIdentifier());
 }
 
 // FIXME restore
@@ -386,7 +386,7 @@ TEST_F(SessionModelTest, findItem)
   auto parent = model.insertItem<SessionItem>();
 
   // check that we can find item using its own identofoer
-  const std::string id = parent->identifier();
+  const std::string id = parent->GetIdentifier();
   EXPECT_EQ(model.findItem(id), parent);
 
   // check that we can't find deleted item.
@@ -406,8 +406,8 @@ TEST_F(SessionModelTest, findItemInAlienModel)
   // inserting items in both models
   auto parent1 = model1.insertItem<SessionItem>();
   auto parent2 = model2.insertItem<SessionItem>();
-  const std::string id1 = parent1->identifier();
-  const std::string id2 = parent2->identifier();
+  const std::string id1 = parent1->GetIdentifier();
+  const std::string id2 = parent2->GetIdentifier();
 
   // checking that we can access items from both models
   EXPECT_EQ(model1.findItem(id1), parent1);
@@ -467,5 +467,5 @@ TEST_F(SessionModelTest, registerItem)
   auto item = model.insertNewItem(expectedModelType);
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
-  EXPECT_EQ(item->modelType(), expectedModelType);
+  EXPECT_EQ(item->GetType(), expectedModelType);
 }

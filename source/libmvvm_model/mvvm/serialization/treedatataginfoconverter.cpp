@@ -81,7 +81,7 @@ TreeData ToTreeData(const TagInfo &tag_info)
   result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
   result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   result.AddAttribute(kNameAttributeKey, tag_info.GetName());
-  result.SetContent(Utils::ToCommaSeparatedString(tag_info.GetModelTypes()));
+  result.SetContent(Utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
   return result;
 }
 

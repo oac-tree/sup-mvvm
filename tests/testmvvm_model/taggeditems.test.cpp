@@ -50,7 +50,7 @@ TEST_F(TaggedItemsTest, InitialState)
 
   EXPECT_FALSE(tag.HasTag("abc"));
 
-  EXPECT_EQ(tag.GetTagsCount(), 0);
+  EXPECT_EQ(tag.GetTagCount(), 0);
 }
 
 //! Registering tags.
@@ -63,7 +63,7 @@ TEST_F(TaggedItemsTest, RegisterTag)
   tag.RegisterTag(TagInfo::CreateUniversalTag("abc"));
   EXPECT_TRUE(tag.HasTag("abc"));
   EXPECT_EQ(tag.GetDefaultTag(), "");
-  EXPECT_EQ(tag.GetTagsCount(), 1);
+  EXPECT_EQ(tag.GetTagCount(), 1);
 
   // registering default tag
   tag.RegisterTag(TagInfo::CreateUniversalTag("abc2"), /*set_as_default*/ true);
@@ -131,7 +131,7 @@ TEST_F(TaggedItemsTest, InsertItem)
   tag.RegisterTag(TagInfo::CreateUniversalTag(tag1));
   tag.RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
-  EXPECT_EQ(tag.GetTagsCount(), 2);
+  EXPECT_EQ(tag.GetTagCount(), 2);
 
   // inserting items
   auto child_t1_a = new SessionItem;
