@@ -32,50 +32,64 @@ namespace ModelView
 class MVVM_MODEL_EXPORT CompoundItem : public SessionItem
 {
 public:
-  static inline const std::string Type = "Compound";
+  static inline const std::string Type = "CompoundItem";
 
   CompoundItem(const std::string& modelType = Type);
 
   //! Adds property item of given type and register it under the given 'name'.
   template <typename T = PropertyItem>
-  T* addProperty(const std::string& name);
+  T* AddProperty(const std::string& name);
 
   //! Adds PropertyItem and sets its value to 'value'.
   template <typename V>
-  PropertyItem* addProperty(const std::string& name, const V& value);
-
-  //! Register char property. Special case to turn it into std::string.
-  PropertyItem* addProperty(const std::string& name, const char* value);
+  PropertyItem* AddProperty(const std::string& name, const V& value);
 
   std::string GetDisplayName() const override;
+
+  template <typename T>
+  T Property(const std::string& tag) const;
+
+  template <typename T>
+  void SetProperty(const std::string& tag, const T& value);
 };
 
 template <typename T>
-T* CompoundItem::addProperty(const std::string& name)
+T* CompoundItem::AddProperty(const std::string& name)
 {
   RegisterTag(TagInfo::CreatePropertyTag(name, T().GetType()));
-  auto result = insertItem<T>({name, 0});
+  auto result = InsertItem<T>({name, 0});
   result->SetDisplayName(name);
   return result;
 }
 
-inline PropertyItem* CompoundItem::addProperty(const std::string& name, const char* value)
-{
-  // Consider merging with the method ::addProperty(const std::string& name, const V& value).
-  // Currently it is not possible because of QVariant dependency. It converts 'const char*'
-  // to QString, and we want std::string.
-  return addProperty(name, std::string(value));
-}
-
 template <typename V>
-PropertyItem* CompoundItem::addProperty(const std::string& name, const V& value)
+PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
 {
-  auto property = addProperty<PropertyItem>(name);
-  property->setData(value);
+  auto property = AddProperty<PropertyItem>(name);
+  property->SetData(value);
   // FIXME uncomment
   //    if constexpr (std::is_floating_point_v<V>)
   //        property->setData(RealLimits::limitless(), ItemDataRole::LIMITS);
   return property;
+}
+
+//! Returns data stored in property item.
+//! Property is single item registered under certain tag via CompoundItem::addProperty method.
+
+template <typename T>
+inline T CompoundItem::Property(const std::string& tag) const
+{
+  return getItem(tag)->Data<T>();
+}
+
+//! Sets value to property item.
+//! Property is single item registered under certain tag via CompoundItem::addProperty method, the
+//! value will be assigned to it's data role.
+
+template <typename T>
+inline void CompoundItem::SetProperty(const std::string& tag, const T& value)
+{
+  getItem(tag)->SetData(value);
 }
 
 }  // namespace ModelView

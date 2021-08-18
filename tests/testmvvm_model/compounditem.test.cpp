@@ -39,51 +39,51 @@ class CompoundItemTest : public ::testing::Test
 {
 };
 
-TEST_F(CompoundItemTest, initialState)
+TEST_F(CompoundItemTest, InitialState)
 {
   CompoundItem item;
   EXPECT_EQ(item.childrenCount(), 0);
 }
 
-TEST_F(CompoundItemTest, addIntProperty)
+TEST_F(CompoundItemTest, AddIntProperty)
 {
   CompoundItem item;
 
   const int expected = 42;
-  auto propertyItem = item.addProperty(property_name, expected);
+  auto propertyItem = item.AddProperty(property_name, expected);
   EXPECT_TRUE(Utils::HasTag(item, "name"));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
-  EXPECT_EQ(propertyItem->data<int>(), expected);
+  EXPECT_EQ(propertyItem->Data<int>(), expected);
 
   // FIXME uncomment
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, setIntProperty)
+TEST_F(CompoundItemTest, SetIntProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.addProperty(property_name, 41);
+  auto propertyItem = item.AddProperty(property_name, 41);
 
   const int expected = 42;
-  item.setProperty(property_name, expected);
+  item.SetProperty(property_name, expected);
 
-  EXPECT_EQ(item.property<int>(property_name), expected);
-  EXPECT_EQ(propertyItem->data<int>(), expected);
+  EXPECT_EQ(item.Property<int>(property_name), expected);
+  EXPECT_EQ(propertyItem->Data<int>(), expected);
 }
 
-TEST_F(CompoundItemTest, addDoubleProperty)
+TEST_F(CompoundItemTest, AddDoubleProperty)
 {
   CompoundItem item;
 
   const double expected = 42.1;
-  auto propertyItem = item.addProperty(property_name, expected);
+  auto propertyItem = item.AddProperty(property_name, expected);
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
-  EXPECT_EQ(propertyItem->data<double>(), expected);
+  EXPECT_EQ(propertyItem->Data<double>(), expected);
 
   // FIXME uncomment
   //  EXPECT_TRUE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
@@ -94,98 +94,98 @@ TEST_F(CompoundItemTest, addDoubleProperty)
   //  EXPECT_FALSE(limits.hasUpperLimit());
 }
 
-TEST_F(CompoundItemTest, setDoubleProperty)
+TEST_F(CompoundItemTest, SetDoubleProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.addProperty(property_name, 41.11);
+  auto propertyItem = item.AddProperty(property_name, 41.11);
 
   const double expected = 42.0;
-  item.setProperty(property_name, expected);
+  item.SetProperty(property_name, expected);
 
-  EXPECT_EQ(item.property<double>(property_name), expected);
-  EXPECT_EQ(propertyItem->data<double>(), expected);
+  EXPECT_EQ(item.Property<double>(property_name), expected);
+  EXPECT_EQ(propertyItem->Data<double>(), expected);
 }
 
-TEST_F(CompoundItemTest, addCharProperty)
+TEST_F(CompoundItemTest, AddCharProperty)
 {
   CompoundItem item;
 
-  auto propertyItem = item.addProperty(property_name, "abc");
+  auto propertyItem = item.AddProperty(property_name, "abc");
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->data<std::string>(), std::string("abc"));
+  EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
 
   // FIXME uncomment
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, setCharProperty)
+TEST_F(CompoundItemTest, SetCharProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.addProperty(property_name, "aaa");
+  auto propertyItem = item.AddProperty(property_name, "aaa");
 
   const char* expected{"bbb"};
-  item.setProperty(property_name, expected);
+  item.SetProperty(property_name, expected);
 
-  EXPECT_EQ(item.property<std::string>(property_name), std::string(expected));
-  EXPECT_EQ(propertyItem->data<std::string>(), std::string(expected));
+  EXPECT_EQ(item.Property<std::string>(property_name), std::string(expected));
+  EXPECT_EQ(propertyItem->Data<std::string>(), std::string(expected));
 }
 
-TEST_F(CompoundItemTest, addStringProperty)
+TEST_F(CompoundItemTest, AddStringProperty)
 {
   CompoundItem item;
 
-  auto propertyItem = item.addProperty(property_name, std::string("abc"));
+  auto propertyItem = item.AddProperty(property_name, std::string("abc"));
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->data<std::string>(), std::string("abc"));
+  EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
 
   // FIXME uncomment
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, setStringProperty)
+TEST_F(CompoundItemTest, SetStringProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.addProperty(property_name, std::string("aaa"));
+  auto propertyItem = item.AddProperty(property_name, std::string("aaa"));
 
   const std::string expected{"bbb"};
-  item.setProperty(property_name, expected);
+  item.SetProperty(property_name, expected);
 
-  EXPECT_EQ(item.property<std::string>(property_name), expected);
-  EXPECT_EQ(propertyItem->data<std::string>(), expected);
+  EXPECT_EQ(item.Property<std::string>(property_name), expected);
+  EXPECT_EQ(propertyItem->Data<std::string>(), expected);
 }
 
-TEST_F(CompoundItemTest, addBoolProperty)
+TEST_F(CompoundItemTest, AddBoolProperty)
 {
   CompoundItem item;
 
   const bool expected = true;
-  auto propertyItem = item.addProperty(property_name, expected);
+  auto propertyItem = item.AddProperty(property_name, expected);
   EXPECT_TRUE(Utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->data<bool>(), expected);
+  EXPECT_EQ(propertyItem->Data<bool>(), expected);
 
   // FIXME uncomment
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, setBoolProperty)
+TEST_F(CompoundItemTest, SetBoolProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.addProperty(property_name, false);
+  auto propertyItem = item.AddProperty(property_name, false);
 
   const bool expected = true;
-  item.setProperty(property_name, expected);
+  item.SetProperty(property_name, expected);
 
-  EXPECT_EQ(item.property<bool>(property_name), expected);
-  EXPECT_EQ(propertyItem->data<bool>(), expected);
+  EXPECT_EQ(item.Property<bool>(property_name), expected);
+  EXPECT_EQ(propertyItem->Data<bool>(), expected);
 }
 
-TEST_F(CompoundItemTest, itemAccess)
+TEST_F(CompoundItemTest, ItemAccess)
 {
   const std::string tag = "tag";
 
@@ -194,12 +194,12 @@ TEST_F(CompoundItemTest, itemAccess)
   parent.RegisterTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
-  auto property = parent.insertItem<PropertyItem>({tag, 0});
+  auto property = parent.InsertItem<PropertyItem>({tag, 0});
   EXPECT_TRUE(parent.item<PropertyItem>(tag) == property);
   EXPECT_THROW(parent.item<CompoundItem>(tag), std::runtime_error);
 }
 
-TEST_F(CompoundItemTest, itemVectorAccess)
+TEST_F(CompoundItemTest, ItemVectorAccess)
 {
   const std::string tag = "tag";
 
@@ -208,8 +208,8 @@ TEST_F(CompoundItemTest, itemVectorAccess)
   parent.RegisterTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
-  auto property1 = parent.insertItem<PropertyItem>(TagIndex::Append(tag));
-  auto property2 = parent.insertItem<PropertyItem>(TagIndex::Append(tag));
+  auto property1 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
+  auto property2 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
 
   auto items = parent.items<PropertyItem>(tag);
   std::vector<PropertyItem*> expected = {property1, property2};
@@ -219,7 +219,7 @@ TEST_F(CompoundItemTest, itemVectorAccess)
 
 //! Tests automatic index addition to default display name.
 
-TEST_F(CompoundItemTest, displayNameIndexAddition)
+TEST_F(CompoundItemTest, DisplayNameIndexAddition)
 {
   const std::string tag = "tag";
 
@@ -228,8 +228,8 @@ TEST_F(CompoundItemTest, displayNameIndexAddition)
   parent.RegisterTag(TagInfo::CreateUniversalTag(tag));
 
   // inserting two children
-  auto child0 = parent.insertItem<CompoundItem>(TagIndex::Append(tag));
-  auto child1 = parent.insertItem<CompoundItem>(TagIndex::Append(tag));
+  auto child0 = parent.InsertItem<CompoundItem>(TagIndex::Append(tag));
+  auto child1 = parent.InsertItem<CompoundItem>(TagIndex::Append(tag));
 
   // Default display names of items of the same type should have indices
   EXPECT_EQ(child0->GetDisplayName(), CompoundItem::Type + "0");
@@ -245,10 +245,10 @@ TEST_F(CompoundItemTest, displayNameIndexAddition)
 //! Test all children method.
 //! Property items are also children.
 
-TEST_F(CompoundItemTest, children)
+TEST_F(CompoundItemTest, Children)
 {
   CompoundItem item;
   EXPECT_TRUE(item.children().empty());
-  auto propertyItem = item.addProperty(property_name, false);
+  auto propertyItem = item.AddProperty(property_name, false);
   EXPECT_EQ(item.children(), std::vector<SessionItem*>({propertyItem}));
 }

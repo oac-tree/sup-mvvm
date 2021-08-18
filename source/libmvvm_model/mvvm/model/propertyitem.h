@@ -32,7 +32,7 @@ class RealLimits;
 class MVVM_MODEL_EXPORT PropertyItem : public SessionItem
 {
 public:
-  static inline const std::string Type = "Property";
+  static inline const std::string Type = "PropertyItem";
 
   PropertyItem();
 

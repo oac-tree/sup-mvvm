@@ -55,12 +55,13 @@ public:
 
   std::string GetIdentifier() const;
 
-  virtual SessionItem* SetDisplayName(const std::string& name);
   virtual std::string GetDisplayName() const;
 
-  SessionModel* model() const;
+  virtual SessionItem* SetDisplayName(const std::string& name);
 
-  SessionItem* parent() const;
+  SessionModel* GetModel() const;
+
+  SessionItem* GetParent() const;
 
   TagIndex GetTagIndex() const;
 
@@ -68,13 +69,11 @@ public:
 
   bool HasData(int role = DataRole::kData) const;
 
-  variant_t data(int role = DataRole::kData) const { return data_internal(role);}
+  template <typename T = variant_t>
+  T Data(int role = DataRole::kData) const;
 
   template <typename T>
-  T data(int role = DataRole::kData) const;
-
-  template <typename T>
-  bool setData(const T& value, int role = DataRole::kData, bool direct = false);
+  bool SetData(const T& value, int role = DataRole::kData);
 
   SessionItemData* itemData();
   const SessionItemData* itemData() const;
@@ -85,7 +84,7 @@ public:
 
   std::vector<SessionItem*> children() const;
 
-  int itemCount(const std::string& tag) const;
+  int GetItemCount(const std::string& tag) const;
 
   SessionItem* getItem(const std::string& tag, int index = 0) const;
 
@@ -105,41 +104,33 @@ public:
 
   // item manipulation
 
-  bool insertItem(SessionItem* item, const TagIndex& tag_index);
-
-  SessionItem* insertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
   template <typename T = SessionItem>
-  T* insertItem(const TagIndex& tag_index);
+  T* InsertItem(const TagIndex& tag_index);
 
-  std::unique_ptr<SessionItem> takeItem(const TagIndex& tag_index);
+  std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
 
   // more convenience methods
 
-  bool isEditable() const;
-  SessionItem* setEditable(bool value);
+  bool IsEditable() const;
+  SessionItem* SetEditable(bool value);
 
-  bool isEnabled() const;
-  SessionItem* setEnabled(bool value);
+  bool IsEnabled() const;
+  SessionItem* SetEnabled(bool value);
 
-  bool isVisible() const;
-  SessionItem* setVisible(bool value);
+  bool IsVisible() const;
+  SessionItem* SetVisible(bool value);
 
-  std::string toolTip() const;
-  SessionItem* setToolTip(const std::string& tooltip);
-
-  template <typename T>
-  T property(const std::string& tag) const;
-  template <typename T>
-  void setProperty(const std::string& tag, const T& value);
-  void setProperty(const std::string& tag, const char* value);
+  std::string GetToolTip() const;
+  SessionItem* SetToolTip(const std::string& tooltip);
 
 protected:
-  explicit SessionItem(const std::string& modelType);
+  explicit SessionItem(const std::string& item_type);
 
 private:
   friend class SessionModel;
   friend class TreeDataItemConverter;
-  bool set_data_internal(const variant_t& value, int role, bool direct);
+  bool set_data_internal(const variant_t& value, int role);
   variant_t data_internal(int role) const;
   void setParent(SessionItem* parent);
   void setModel(SessionModel* model);
@@ -151,22 +142,23 @@ private:
   std::unique_ptr<SessionItemImpl> p_impl;
 };
 
-//! Sets data for a given role. When extra parameter `direct` is false (default case), will act
-//! through the model to register command in undo/redo framework (if enabled) and so allow later
-//! undo.
+//! Sets data for a given role.
 
 template <typename T>
-inline bool SessionItem::setData(const T& value, int role, bool direct)
+inline bool SessionItem::SetData(const T& value, int role)
 {
-  return set_data_internal(value, role, direct);
+  return set_data_internal(value, role);
 }
 
 //! Returns data of given type T for given role.
 
 template <typename T>
-inline T SessionItem::data(int role) const
+inline T SessionItem::Data(int role) const
 {
-  return std::get<T>(data_internal(role));
+  if constexpr (std::is_same_v<T, variant_t>)
+    return data_internal(role);
+  else
+    return std::get<T>(data_internal(role));
 }
 
 //! Returns first item under given tag casted to a specified type.
@@ -201,37 +193,9 @@ std::vector<T*> SessionItem::items(const std::string& tag) const
 //! Returns pointer to inserted item to the user.
 
 template <typename T>
-inline T* SessionItem::insertItem(const TagIndex& tag_index)
+inline T* SessionItem::InsertItem(const TagIndex& tag_index)
 {
-  return static_cast<T*>(insertItem(std::make_unique<T>(), tag_index));
-}
-
-//! Returns data stored in property item.
-//! Property is single item registered under certain tag via CompoundItem::addProperty method.
-
-template <typename T>
-inline T SessionItem::property(const std::string& tag) const
-{
-  return getItem(tag)->data<T>();
-}
-
-//! Sets value to property item.
-//! Property is single item registered under certain tag via CompoundItem::addProperty method, the
-//! value will be assigned to it's data role.
-
-template <typename T>
-inline void SessionItem::setProperty(const std::string& tag, const T& value)
-{
-  getItem(tag)->setData(value);
-}
-
-//! Sets value to property item (specialized for special "const char *" case).
-//! Property is single item registered under certain tag via CompoundItem::addProperty method, the
-//! value will be assigned to it's data role.
-
-inline void SessionItem::setProperty(const std::string& tag, const char* value)
-{
-  setProperty(tag, std::string(value));
+  return static_cast<T*>(InsertItem(std::make_unique<T>(), tag_index));
 }
 
 }  // namespace ModelView

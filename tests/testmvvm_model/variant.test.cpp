@@ -42,6 +42,16 @@ TEST_F(VariantTest, IsValid)
   EXPECT_TRUE(IsValid(variant_t(std::vector<double>({1.0, 1.1, 1.2}))));
 }
 
+//! Special case of const char
+
+TEST_F(VariantTest, ConstChar)
+{
+  variant_t variant1("abc");
+  variant_t variant2(std::string("abc"));
+  EXPECT_TRUE(variant1 == variant2);
+  EXPECT_EQ(std::get<std::string>(variant1), std::string("abc"));
+}
+
 //! Testing Utils::AreCompatible function.
 
 TEST_F(VariantTest, AreCompatible)

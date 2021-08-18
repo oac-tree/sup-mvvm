@@ -31,12 +31,12 @@ int main()
 {
   SessionModel model;
   auto item = model.insertItem<CompoundItem>();
-  item->addProperty("Greeting", "Hello");
-  item->addProperty("Addressee", "World!");
-  item->addProperty("Number", 42);
+  item->AddProperty("Greeting", "Hello");
+  item->AddProperty("Addressee", "World!");
+  item->AddProperty("Number", 42);
 
-  std::cout << item->property<std::string>("Greeting") << " "
-            << item->property<std::string>("Addressee") << "\n";
+  std::cout << item->Property<std::string>("Greeting") << " "
+            << item->Property<std::string>("Addressee") << "\n";
 
   XmlDocument document({&model});
   document.Save("test.xml");

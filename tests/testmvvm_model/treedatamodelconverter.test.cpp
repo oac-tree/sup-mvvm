@@ -87,7 +87,7 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
 
   EXPECT_EQ(target.rootItem()->childrenCount(), 1);
   auto reco_item = target.rootItem()->getItem("", 0);
-  EXPECT_EQ(reco_item->parent(), target.rootItem());
+  EXPECT_EQ(reco_item->GetParent(), target.rootItem());
   EXPECT_EQ(reco_item->GetType(), item->GetType());
   EXPECT_EQ(reco_item->GetIdentifier(), item->GetIdentifier());
 }
@@ -104,7 +104,7 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
   parent->SetDisplayName("parent_name");
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  parent->setData(42);
+  parent->SetData(42);
   auto child = model.insertItem<PropertyItem>(parent);
   child->SetDisplayName("child_name");
 
@@ -120,19 +120,19 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
   auto reco_child = reco_parent->getItem("", 0);
 
   // checking parent reconstruction
-  EXPECT_EQ(reco_parent->model(), &target);
+  EXPECT_EQ(reco_parent->GetModel(), &target);
   EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->parent(), target.rootItem());
+  EXPECT_EQ(reco_parent->GetParent(), target.rootItem());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->childrenCount(), 1);
   EXPECT_EQ(reco_parent->GetIdentifier(), parent->GetIdentifier());
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
-  EXPECT_EQ(reco_parent->data<int>(), 42);
+  EXPECT_EQ(reco_parent->Data<int>(), 42);
 
   // checking child reconstruction
-  EXPECT_EQ(reco_child->model(), &target);
+  EXPECT_EQ(reco_child->GetModel(), &target);
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
-  EXPECT_EQ(reco_child->parent(), reco_parent);
+  EXPECT_EQ(reco_child->GetParent(), reco_parent);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
   EXPECT_EQ(reco_child->childrenCount(), 0);
   EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());

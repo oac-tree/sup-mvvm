@@ -38,7 +38,7 @@ TEST_F(SessionItemDataTest, initialState)
   SessionItemData item_data;
   EXPECT_TRUE(item_data.GetRoles().empty());
   EXPECT_FALSE(item_data.HasData(0));
-  EXPECT_FALSE(Utils::IsValid(item_data.data(0)));
+  EXPECT_FALSE(Utils::IsValid(item_data.Data(0)));
 }
 
 //! Basic setData, data operations.
@@ -51,25 +51,25 @@ TEST_F(SessionItemDataTest, setDataDouble)
   variant_t variant(42.0);
 
   // setting variant for role
-  EXPECT_TRUE(item_data.setData(variant, role));
+  EXPECT_TRUE(item_data.SetData(variant, role));
   std::vector<int> expected_roles{role};
   EXPECT_EQ(item_data.GetRoles(), expected_roles);
-  EXPECT_TRUE(item_data.data(role) == variant);
+  EXPECT_TRUE(item_data.Data(role) == variant);
 
   // setting same data twice
-  EXPECT_FALSE(item_data.setData(variant, role));
+  EXPECT_FALSE(item_data.SetData(variant, role));
   EXPECT_EQ(item_data.GetRoles(), expected_roles);
-  EXPECT_TRUE(item_data.data(role) == variant);
+  EXPECT_TRUE(item_data.Data(role) == variant);
 
   // changing the data
-  EXPECT_TRUE(item_data.setData(variant_t(43.0), role));
+  EXPECT_TRUE(item_data.SetData(variant_t(43.0), role));
   EXPECT_EQ(item_data.GetRoles(), expected_roles);
-  EXPECT_TRUE(item_data.data(role) == variant_t(43.0));
+  EXPECT_TRUE(item_data.Data(role) == variant_t(43.0));
 
   // setting invalid variant for the role will remove data
-  EXPECT_TRUE(item_data.setData(variant_t(), role));
+  EXPECT_TRUE(item_data.SetData(variant_t(), role));
   EXPECT_TRUE(item_data.GetRoles().empty());
-  EXPECT_FALSE(Utils::IsValid(item_data.data(role)));
+  EXPECT_FALSE(Utils::IsValid(item_data.Data(role)));
 }
 
 //! Using different roles.
@@ -81,16 +81,16 @@ TEST_F(SessionItemDataTest, differentRoles)
   const int role1(1);
   const int role2 = role1 + 1;
 
-  EXPECT_TRUE(item_data.setData(variant_t(42.0), role1));
-  EXPECT_TRUE(item_data.setData(variant_t(std::string("str")), role2));
+  EXPECT_TRUE(item_data.SetData(variant_t(42.0), role1));
+  EXPECT_TRUE(item_data.SetData(variant_t(std::string("str")), role2));
 
   std::vector<int> expected{role1, role2};
   EXPECT_EQ(item_data.GetRoles(), expected);
 
-  EXPECT_TRUE(item_data.data(role1) == variant_t(42.0));
-  EXPECT_TRUE(item_data.data(role2) == variant_t(std::string("str")));
-  EXPECT_FALSE(item_data.data(role2) == variant_t(42.0));
-  EXPECT_FALSE(item_data.data(role1) == variant_t(std::string("str")));
+  EXPECT_TRUE(item_data.Data(role1) == variant_t(42.0));
+  EXPECT_TRUE(item_data.Data(role2) == variant_t(std::string("str")));
+  EXPECT_FALSE(item_data.Data(role2) == variant_t(42.0));
+  EXPECT_FALSE(item_data.Data(role1) == variant_t(std::string("str")));
 }
 
 //! Changing type of variant for role should not be allowed.
@@ -103,13 +103,13 @@ TEST_F(SessionItemDataTest, changingRole)
   const variant_t variant(42.0);
 
   // setting variant for role
-  EXPECT_TRUE(item_data.setData(variant, role));
+  EXPECT_TRUE(item_data.SetData(variant, role));
   std::vector<int> expected{role};
   EXPECT_EQ(item_data.GetRoles(), expected);
-  EXPECT_TRUE(item_data.data(role) == variant);
+  EXPECT_TRUE(item_data.Data(role) == variant);
 
   variant_t s = std::string("str");
-  EXPECT_THROW(item_data.setData(s, role), std::runtime_error);
+  EXPECT_THROW(item_data.SetData(s, role), std::runtime_error);
 }
 
 //! Access to data and roles via range loop.
@@ -122,7 +122,7 @@ TEST_F(SessionItemDataTest, rangeLoop)
 
   for (size_t i = 0; i < expected_values.size(); ++i)
   {
-    item_data.setData(expected_values[i], expected_roles[i]);
+    item_data.SetData(expected_values[i], expected_roles[i]);
   }
 
   std::vector<double> values;
@@ -145,10 +145,10 @@ TEST_F(SessionItemDataTest, hasRole)
   EXPECT_FALSE(data.HasData(1));
 
   const int role = 99;
-  data.setData(variant_t(42), role);
+  data.SetData(variant_t(42), role);
   EXPECT_TRUE(data.HasData(role));
   EXPECT_FALSE(data.HasData(1));
 
-  data.setData(variant_t(), role);
+  data.SetData(variant_t(), role);
   EXPECT_FALSE(data.HasData(role));
 }

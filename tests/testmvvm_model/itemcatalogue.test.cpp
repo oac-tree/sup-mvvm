@@ -35,19 +35,19 @@ public:
   class TestItem : public SessionItem
   {
   public:
-    static inline const std::string Type = "Test";
+    static inline const std::string Type = "TestItem";
     TestItem() : SessionItem(Type) {}
   };
 
   class AnotherTestItem : public SessionItem
   {
   public:
-    static inline const std::string Type = "AnotherTest";
+    static inline const std::string Type = "AnotherTestItem";
     AnotherTestItem() : SessionItem(Type) {}
   };
 };
 
-TEST_F(ItemCatalogueTest, initialState)
+TEST_F(ItemCatalogueTest, InitialState)
 {
   ItemCatalogue catalogue;
   EXPECT_EQ(catalogue.GetItemCount(), 0);
@@ -55,7 +55,7 @@ TEST_F(ItemCatalogueTest, initialState)
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({}));
 }
 
-TEST_F(ItemCatalogueTest, addItem)
+TEST_F(ItemCatalogueTest, AddItem)
 {
   ItemCatalogue catalogue;
 
@@ -73,11 +73,11 @@ TEST_F(ItemCatalogueTest, addItem)
   EXPECT_THROW(catalogue.Create("non-registered"), std::runtime_error);
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({"Property"}));
+  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({PropertyItem::Type}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({""}));
 }
 
-TEST_F(ItemCatalogueTest, copyConstructor)
+TEST_F(ItemCatalogueTest, CopyConstructor)
 {
   ItemCatalogue catalogue;
   catalogue.RegisterItem<PropertyItem>();
@@ -93,7 +93,7 @@ TEST_F(ItemCatalogueTest, copyConstructor)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // checking model types and labels in new catalogue
-  EXPECT_EQ(copy.GetModelTypes(), std::vector<std::string>({"Property"}));
+  EXPECT_EQ(copy.GetModelTypes(), std::vector<std::string>({PropertyItem::Type}));
   EXPECT_EQ(copy.GetLabels(), std::vector<std::string>({""}));
 
   // adding item to first catalogue but not the second
@@ -105,7 +105,7 @@ TEST_F(ItemCatalogueTest, copyConstructor)
   EXPECT_THROW(copy.Create(TestItem::Type), std::runtime_error);
 }
 
-TEST_F(ItemCatalogueTest, assignmentOperator)
+TEST_F(ItemCatalogueTest, AssignmentOperator)
 {
   ItemCatalogue catalogue;
   catalogue.RegisterItem<PropertyItem>();
@@ -122,7 +122,7 @@ TEST_F(ItemCatalogueTest, assignmentOperator)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 }
 
-TEST_F(ItemCatalogueTest, contains)
+TEST_F(ItemCatalogueTest, Contains)
 {
   ItemCatalogue catalogue;
   catalogue.RegisterItem<PropertyItem>();
@@ -149,18 +149,18 @@ TEST_F(ItemCatalogueTest, contains)
 //  EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
 //}
 
-TEST_F(ItemCatalogueTest, addLabeledItem)
+TEST_F(ItemCatalogueTest, AddLabeledItem)
 {
   ItemCatalogue catalogue;
   catalogue.RegisterItem<PropertyItem>("property");
   catalogue.RegisterItem<TestItem>("test item");
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({"Property", "Test"}));
+  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({PropertyItem::Type, TestItem::Type}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({"property", "test item"}));
 }
 
-TEST_F(ItemCatalogueTest, merge)
+TEST_F(ItemCatalogueTest, Merge)
 {
   ItemCatalogue catalogue1;
   catalogue1.RegisterItem<PropertyItem>("property");

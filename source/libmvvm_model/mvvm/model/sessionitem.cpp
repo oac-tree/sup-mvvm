@@ -35,7 +35,7 @@ int appearance(const ModelView::SessionItem& item)
 {
   const int default_appearance =
       Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
-  return item.HasData(DataRole::kAppearance) ? item.data<int>(DataRole::kAppearance)
+  return item.HasData(DataRole::kAppearance) ? item.Data<int>(DataRole::kAppearance)
                                              : default_appearance;
 }
 }  // namespace
@@ -47,7 +47,7 @@ struct SessionItem::SessionItemImpl
   SessionModel* m_model{nullptr};
   std::unique_ptr<SessionItemData> m_data;
   std::unique_ptr<TaggedItems> m_tags;
-  std::string m_modelType;
+  std::string m_item_type;
 
   SessionItemImpl(SessionItem* this_item)
       : m_self(this_item)
@@ -55,23 +55,16 @@ struct SessionItem::SessionItemImpl
       , m_tags(std::make_unique<TaggedItems>())
   {
   }
-
-  bool do_setData(const variant_t& variant, int role)
-  {
-    bool result = m_data->setData(variant, role);
-    //        if (result && m_model)
-    //            m_model->mapper()->callOnDataChange(m_self, role);
-    return result;
-  }
 };
 
 SessionItem::SessionItem() : SessionItem(Type) {}
 
-SessionItem::SessionItem(const std::string &modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
+SessionItem::SessionItem(const std::string& item_type)
+    : p_impl(std::make_unique<SessionItemImpl>(this))
 {
-  p_impl->m_modelType = std::move(modelType);
-  setData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
-  setData(p_impl->m_modelType, DataRole::kDisplay);
+  p_impl->m_item_type = item_type;
+  SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  SetData(p_impl->m_item_type, DataRole::kDisplay);
 }
 
 SessionItem::~SessionItem()
@@ -84,42 +77,42 @@ SessionItem::~SessionItem()
 
 std::string SessionItem::GetType() const
 {
-  return p_impl->m_modelType;
+  return p_impl->m_item_type;
 }
 
 //! Returns unique identifier.
 
 std::string SessionItem::GetIdentifier() const
 {
-  return data<std::string>(DataRole::kIdentifier);
-}
-
-//! Returns display name.
-
-std::string SessionItem::GetDisplayName() const
-{
-  return data<std::string>(DataRole::kDisplay);
+  return Data<std::string>(DataRole::kIdentifier);
 }
 
 //! Sets display name (fluent interface).
 
 SessionItem* SessionItem::SetDisplayName(const std::string& name)
 {
-  setData(name, DataRole::kDisplay);
+  SetData(name, DataRole::kDisplay);
   return this;
+}
+
+//! Returns display name.
+
+std::string SessionItem::GetDisplayName() const
+{
+  return Data<std::string>(DataRole::kDisplay);
 }
 
 //! Returns the model to which given item belongs to. Will return nullptr if item doesn't have a
 //! model.
 
-SessionModel* SessionItem::model() const
+SessionModel* SessionItem::GetModel() const
 {
   return p_impl->m_model;
 }
 
 //! Returns parent item. Will return nullptr if item doesn't have a parent.
 
-SessionItem* SessionItem::parent() const
+SessionItem* SessionItem::GetParent() const
 {
   return p_impl->m_parent;
 }
@@ -128,7 +121,7 @@ SessionItem* SessionItem::parent() const
 
 TagIndex SessionItem::GetTagIndex() const
 {
-  return parent() ? parent()->TagIndexOfItem(this) : TagIndex();
+  return GetParent() ? GetParent()->TagIndexOfItem(this) : TagIndex();
 }
 
 //! Returns true if item has data on board with given role.
@@ -168,7 +161,7 @@ std::vector<SessionItem*> SessionItem::children() const
 
 //! Returns number of items in given tag.
 
-int SessionItem::itemCount(const std::string& tag) const
+int SessionItem::GetItemCount(const std::string& tag) const
 {
   return p_impl->m_tags->GetItemCount(tag);
 }
@@ -217,30 +210,18 @@ TaggedItems* SessionItem::itemTags()
   return const_cast<TaggedItems*>(static_cast<const SessionItem*>(this)->itemTags());
 }
 
-//! Inserts the item into the given tag under the given index.
-//! Returns 'true' in the case of success, take ownership over the item.
-//! If an item can't be inserted for a given TagIndex (i.e. when the container is full, or not
-//! intended for items of a given type) will return false and will not take ownership.
-
-bool SessionItem::insertItem(SessionItem* item, const TagIndex& tag_index)
-{
-  if (!p_impl->m_tags->CanInsertItem(item, tag_index))
-    return false;
-  return insertItem(std::unique_ptr<SessionItem>(item), tag_index) != nullptr;
-}
-
 //! Insert item into given tag under the given index. Will take ownership of inserted item.
 //! Returns back a pointer to the same item for convenience.
 
-SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
+SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   if (!item)
     throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
 
-  if (item->parent())
+  if (item->GetParent())
     throw std::runtime_error("SessionItem::insertItem() -> Existing parent.");
 
-  if (item->model())
+  if (item->GetModel())
     throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
 
   if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
@@ -249,7 +230,7 @@ SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const Ta
   auto result = item.release();
   p_impl->m_tags->InsertItem(result, tag_index);
   result->setParent(this);
-  result->setModel(model());
+  result->setModel(GetModel());
 
   return result;
 }
@@ -257,7 +238,7 @@ SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const Ta
 //! Removes item from given index from given tag, returns it to the caller.
 //! Ownership is granted to the caller.
 
-std::unique_ptr<SessionItem> SessionItem::takeItem(const TagIndex& tag_index)
+std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   if (!p_impl->m_tags->CanTakeItem(tag_index))
     return {};
@@ -272,14 +253,14 @@ std::unique_ptr<SessionItem> SessionItem::takeItem(const TagIndex& tag_index)
 //! Returns true if this item has `editable` flag set.
 //! The data value of an editable item normally can be changed when it appears in trees and tables.
 
-bool SessionItem::isEditable() const
+bool SessionItem::IsEditable() const
 {
   return appearance(*this) & Appearance::kEditable;
 }
 
 //! Sets `editable` flag to given value (fluent interface).
 
-SessionItem* SessionItem::setEditable(bool value)
+SessionItem* SessionItem::SetEditable(bool value)
 {
   setAppearanceFlag(Appearance::kEditable, value);
   return this;
@@ -287,7 +268,7 @@ SessionItem* SessionItem::setEditable(bool value)
 
 //! Returns true if this item has `enabled` flag set.
 
-bool SessionItem::isEnabled() const
+bool SessionItem::IsEnabled() const
 {
   return appearance(*this) & Appearance::kEnabled;
 }
@@ -296,7 +277,7 @@ bool SessionItem::isEnabled() const
 //! property is currently enabled. Enabled items appear in normal color, disabled items are grayed
 //! out.
 
-SessionItem* SessionItem::setEnabled(bool value)
+SessionItem* SessionItem::SetEnabled(bool value)
 {
   setAppearanceFlag(Appearance::kEnabled, value);
   return this;
@@ -304,7 +285,7 @@ SessionItem* SessionItem::setEnabled(bool value)
 
 //! Returns true if this item has `visible` flag set.
 
-bool SessionItem::isVisible() const
+bool SessionItem::IsVisible() const
 {
   return appearance(*this) & Appearance::kVisible;
 }
@@ -313,7 +294,7 @@ bool SessionItem::isVisible() const
 //! property from a view. For example, `PropertyTreeView` will not show PropertyItem with the given
 //! flag set to `true` among other properties.
 
-SessionItem* SessionItem::setVisible(bool value)
+SessionItem* SessionItem::SetVisible(bool value)
 {
   setAppearanceFlag(Appearance::kVisible, value);
   return this;
@@ -321,30 +302,24 @@ SessionItem* SessionItem::setVisible(bool value)
 
 //! Returns item tooltip, if exists.
 
-std::string SessionItem::toolTip() const
+std::string SessionItem::GetToolTip() const
 {
-  return HasData(DataRole::kTooltip) ? data<std::string>(DataRole::kTooltip) : std::string();
+  return HasData(DataRole::kTooltip) ? Data<std::string>(DataRole::kTooltip) : std::string();
 }
 
 //! Sets item tooltip (fluent interface).
 
-SessionItem* SessionItem::setToolTip(const std::string& tooltip)
+SessionItem* SessionItem::SetToolTip(const std::string& tooltip)
 {
-  setData(tooltip, DataRole::kTooltip);
+  SetData(tooltip, DataRole::kTooltip);
   return this;
 }
 
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
-bool SessionItem::set_data_internal(const variant_t& value, int role, bool direct)
+bool SessionItem::set_data_internal(const variant_t& value, int role)
 {
-  // FIXME clarify and remove
-  // If model is present, and undo stack is enabled, will forward request to the model
-  // (unless user explicitely asks for direct processing via direct=true flag).
-  //    const bool act_through_model = !direct && model() && model()->undoStack();
-  //    return act_through_model ? model()->setData(this, value, role)
-  //                             : p_impl->do_setData(value, role);
-  return p_impl->do_setData(value, role);
+  return p_impl->m_data->SetData(value, role);
 }
 
 //! Returns data for given role. Method invented to hide implementaiton details and avoid
@@ -352,7 +327,7 @@ bool SessionItem::set_data_internal(const variant_t& value, int role, bool direc
 
 variant_t SessionItem::data_internal(int role) const
 {
-  return p_impl->m_data->data(role);
+  return p_impl->m_data->Data(role);
 }
 
 void SessionItem::setParent(SessionItem* parent)
@@ -370,7 +345,8 @@ void SessionItem::setModel(SessionModel* model)
   if (p_impl->m_model)
     p_impl->m_model->registerInPool(this);
 
-  for (auto child : children()) child->setModel(model);
+  for (auto child : children())
+    child->setModel(model);
 }
 
 void SessionItem::setAppearanceFlag(int flag, bool value)
@@ -381,10 +357,7 @@ void SessionItem::setAppearanceFlag(int flag, bool value)
   else
     flags &= ~flag;
 
-  // By setting data with internal method we are bypassing the model, and so undo/redo.
-  // So current convention is to not invoke undo when changing appearance properties.
-  // Shall we change it?
-  p_impl->do_setData(flags, DataRole::kAppearance);
+  SetData(flags, DataRole::kAppearance);
 }
 
 void SessionItem::setDataAndTags(std::unique_ptr<SessionItemData> data,

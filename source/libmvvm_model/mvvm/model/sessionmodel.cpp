@@ -91,21 +91,21 @@ SessionItem* SessionModel::insertNewItem(const std::string& modelType, SessionIt
 
 void SessionModel::removeItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  parent->takeItem(tag_index);
+  parent->TakeItem(tag_index);
 }
 
 //! Returns the data for given item and role.
 
 variant_t SessionModel::data(SessionItem* item, int role) const
 {
-  return item->data(role);
+  return item->Data(role);
 }
 
 //! Sets the data for given item.
 
 bool SessionModel::setData(SessionItem* item, const variant_t& value, int role)
 {
-  return item->setData(value, role);
+  return item->SetData(value, role);
 }
 
 //! Returns model type.
@@ -177,9 +177,9 @@ SessionItem* SessionModel::intern_insert(const item_factory_func_t& func, Sessio
   if (!parent)
     parent = rootItem();
 
-  int actual_index = tag_index.index < 0 ? parent->itemCount(tag_index.tag) : tag_index.index;
+  int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
 
-  return parent->insertItem(func(), TagIndex{tag_index.tag, actual_index});
+  return parent->InsertItem(func(), TagIndex{tag_index.tag, actual_index});
 }
 
 void SessionModel::intern_register(const std::string& modelType, const item_factory_func_t& func,

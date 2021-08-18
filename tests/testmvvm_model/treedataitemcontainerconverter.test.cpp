@@ -67,7 +67,7 @@ TEST_F(TreeDataItemContainerConverterTest, ContainerToTreeData)
 
   // inserting single property item
   auto item = new PropertyItem;
-  item->setData(42);
+  item->SetData(42);
   EXPECT_TRUE(container.InsertItem(item, 0));
 
   auto tree_data = ContainerConverter::ToTreeData(container, m_create_tree_callback);

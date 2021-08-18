@@ -25,7 +25,7 @@ using namespace ModelView;
 
 namespace
 {
-bool has_custom_display_name(const SessionItem* item)
+bool HasCustomDisplayName(const SessionItem* item)
 {
   return item->SessionItem::GetDisplayName() != item->GetType();
 }
@@ -35,7 +35,7 @@ CompoundItem::CompoundItem(const std::string& modelType) : SessionItem(modelType
 
 std::string CompoundItem::GetDisplayName() const
 {
-  if (has_custom_display_name(this))
+  if (HasCustomDisplayName(this))
     return SessionItem::GetDisplayName();
 
   int copy_number = Utils::CopyNumber(this);

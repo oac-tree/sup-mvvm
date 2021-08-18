@@ -25,48 +25,48 @@ using namespace ModelView;
 
 VectorItem::VectorItem() : CompoundItem(Type)
 {
-  addProperty(P_X, 0.0)->SetDisplayName("X");
-  addProperty(P_Y, 0.0)->SetDisplayName("Y");
-  addProperty(P_Z, 0.0)->SetDisplayName("Z");
+  AddProperty(P_X, 0.0)->SetDisplayName("X");
+  AddProperty(P_Y, 0.0)->SetDisplayName("Y");
+  AddProperty(P_Z, 0.0)->SetDisplayName("Z");
 
-  setEditable(false);
+  SetEditable(false);
 
   update_label();
 }
 
 double VectorItem::x() const
 {
-  return property<double>(P_X);
+  return Property<double>(P_X);
 }
 
 void VectorItem::setX(double value)
 {
-  setProperty(P_X, value);
+  SetProperty(P_X, value);
 }
 
 double VectorItem::y() const
 {
-  return property<double>(P_Y);
+  return Property<double>(P_Y);
 }
 
 void VectorItem::setY(double value)
 {
-  setProperty(P_Y, value);
+  SetProperty(P_Y, value);
 }
 
 double VectorItem::z() const
 {
-  return property<double>(P_Z);
+  return Property<double>(P_Z);
 }
 
 void VectorItem::setZ(double value)
 {
-  setProperty(P_Z, value);
+  SetProperty(P_Z, value);
 }
 
 void VectorItem::update_label()
 {
   std::ostringstream ostr;
   ostr << "(" << x() << ", " << y() << ", " << z() << ")";
-  setData(ostr.str(), DataRole::kData, /*direct*/ true);
+  SetData(ostr.str(), DataRole::kData);
 }

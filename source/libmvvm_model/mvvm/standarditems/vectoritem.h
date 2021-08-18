@@ -29,7 +29,7 @@ namespace ModelView
 class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
 public:  
-  static inline const std::string Type = "Vector";
+  static inline const std::string Type = "VectorItem";
   static inline const std::string P_X = "P_X";
   static inline const std::string P_Y = "P_Y";
   static inline const std::string P_Z = "P_Z";

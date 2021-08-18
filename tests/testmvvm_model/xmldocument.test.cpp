@@ -70,7 +70,7 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   const auto parent_identifier = parent->GetIdentifier();
 
-  parent->setData(42);
+  parent->SetData(42);
   auto child = model.insertItem<PropertyItem>(parent);
   child->SetDisplayName("child_name");
   const auto child_identifier = child->GetIdentifier();
@@ -91,19 +91,19 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   auto reco_child = reco_parent->getItem("", 0);
 
   // checking parent reconstruction
-  EXPECT_EQ(reco_parent->model(), &model);
+  EXPECT_EQ(reco_parent->GetModel(), &model);
   EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->parent(), model.rootItem());
+  EXPECT_EQ(reco_parent->GetParent(), model.rootItem());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->childrenCount(), 1);
   EXPECT_EQ(reco_parent->GetIdentifier(), parent_identifier);
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
-  EXPECT_EQ(reco_parent->data<int>(), 42);
+  EXPECT_EQ(reco_parent->Data<int>(), 42);
 
   // checking child reconstruction
-  EXPECT_EQ(reco_child->model(), &model);
+  EXPECT_EQ(reco_child->GetModel(), &model);
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
-  EXPECT_EQ(reco_child->parent(), reco_parent);
+  EXPECT_EQ(reco_child->GetParent(), reco_parent);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
   EXPECT_EQ(reco_child->childrenCount(), 0);
   EXPECT_EQ(reco_child->GetIdentifier(), child_identifier);
@@ -144,12 +144,12 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   auto reco_parent2 = model2.rootItem()->getItem("", 0);
 
   // checking parent reconstruction
-  EXPECT_EQ(reco_parent1->model(), &model1);
-  EXPECT_EQ(reco_parent1->parent(), model1.rootItem());
+  EXPECT_EQ(reco_parent1->GetModel(), &model1);
+  EXPECT_EQ(reco_parent1->GetParent(), model1.rootItem());
   EXPECT_EQ(reco_parent1->GetIdentifier(), parent_identifier1);
 
-  EXPECT_EQ(reco_parent2->model(), &model2);
-  EXPECT_EQ(reco_parent2->parent(), model2.rootItem());
+  EXPECT_EQ(reco_parent2->GetModel(), &model2);
+  EXPECT_EQ(reco_parent2->GetParent(), model2.rootItem());
   EXPECT_EQ(reco_parent2->GetIdentifier(), parent_identifier2);
 }
 

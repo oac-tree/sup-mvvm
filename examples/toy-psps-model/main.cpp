@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-//! Create a model with PulseSchedule, saves the content in xml file.
+//! Create a model with single compound item in it, saves the content in xml file.
 
 int main()
 {

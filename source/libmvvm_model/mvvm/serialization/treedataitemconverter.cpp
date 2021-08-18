@@ -87,7 +87,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     for (auto child : item.children()) child->setParent(&item);
 
     if (IsRegenerateIdWhenBackFromXML(m_mode))
-      item.setData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+      item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   }
 };
 

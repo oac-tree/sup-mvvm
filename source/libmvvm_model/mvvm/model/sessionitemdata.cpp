@@ -23,8 +23,8 @@
 #include <sstream>
 #include <stdexcept>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 //! Returns vector of all roles for which data exist.
 std::vector<int> SessionItemData::GetRoles() const
 {
@@ -35,7 +35,7 @@ std::vector<int> SessionItemData::GetRoles() const
 }
 
 //! Returns data for a given role, if exist. Will return non-initialized variant otherwise.
-variant_t SessionItemData::data(int role) const
+variant_t SessionItemData::Data(int role) const
 {
   for (const auto& value : m_values)
   {
@@ -50,7 +50,7 @@ variant_t SessionItemData::data(int role) const
 //! incompatible with existing variant, exception will be thrown. This means that it is not possible
 //! to change type of variant, once the role was set.
 
-bool SessionItemData::setData(const variant_t& value, int role)
+bool SessionItemData::SetData(const variant_t& value, int role)
 {
   AssureCompatibility(value, role);
 
@@ -75,16 +75,6 @@ bool SessionItemData::setData(const variant_t& value, int role)
   return true;
 }
 
-SessionItemData::const_iterator SessionItemData::begin() const
-{
-  return m_values.begin();
-}
-
-SessionItemData::const_iterator SessionItemData::end() const
-{
-  return m_values.end();
-}
-
 //! Returns true if item has data with given role.
 
 bool SessionItemData::HasData(int role) const
@@ -98,12 +88,24 @@ bool SessionItemData::HasData(int role) const
 
 void SessionItemData::AssureCompatibility(const variant_t& variant, int role)
 {
-  if (!Utils::AreCompatible(data(role), variant))
+  if (!Utils::AreCompatible(Data(role), variant))
   {
     std::ostringstream ostr;
     ostr << "Error in SessionItemData: variant types mismatch. "
-         << "Old variant index '" << data(role).index() << "' "
+         << "Old variant index '" << Data(role).index() << "' "
          << "new variant index '" << variant.index() << "\n";
     throw std::runtime_error(ostr.str());
   }
 }
+
+SessionItemData::const_iterator SessionItemData::begin() const
+{
+  return m_values.begin();
+}
+
+SessionItemData::const_iterator SessionItemData::end() const
+{
+  return m_values.end();
+}
+
+}  // namespace ModelView

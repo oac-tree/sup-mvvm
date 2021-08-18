@@ -59,14 +59,14 @@ int Utils::CopyNumber(const SessionItem* item)
     return result;
 
   int count(0);
-  auto model_type = item->GetType();
-  if (auto parent = item->parent())
+  auto item_type = item->GetType();
+  if (auto parent = item->GetParent())
   {
     for (auto child : parent->children())
     {
       if (child == item)
         result = count;
-      if (child->GetType() == model_type)
+      if (child->GetType() == item_type)
         ++count;
     }
   }
@@ -120,7 +120,7 @@ std::vector<SessionItem*> Utils::TopLevelItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.children())
-    if (child->isVisible() && !IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
+    if (child->IsVisible() && !IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
       result.push_back(child);
   return result;
 }
@@ -129,14 +129,14 @@ std::vector<SessionItem*> Utils::SinglePropertyItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.children())
-    if (child->isVisible() && IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
+    if (child->IsVisible() && IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
       result.push_back(child);
   return result;
 }
 
 SessionItem* Utils::FindNextSibling(SessionItem* item)
 {
-  auto parent = item ? item->parent() : nullptr;
+  auto parent = item ? item->GetParent() : nullptr;
   if (!parent)
     return nullptr;
   auto tag_index = item->GetTagIndex();
@@ -145,7 +145,7 @@ SessionItem* Utils::FindNextSibling(SessionItem* item)
 
 SessionItem* Utils::FindPreviousSibling(SessionItem* item)
 {
-  auto parent = item ? item->parent() : nullptr;
+  auto parent = item ? item->GetParent() : nullptr;
   if (!parent)
     return nullptr;
   auto tag_index = parent->TagIndexOfItem(item);
@@ -156,20 +156,20 @@ SessionItem* Utils::FindNextItemToSelect(SessionItem* item)
 {
   auto next = FindNextSibling(item);
   auto closest = next ? next : FindPreviousSibling(item);
-  return closest ? closest : item->parent();
+  return closest ? closest : item->GetParent();
 }
 
 bool Utils::IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
 {
   if (!item || !candidate)
     return false;
-  const SessionItem* parent = item->parent();
+  const SessionItem* parent = item->GetParent();
   while (parent)
   {
     if (parent == candidate)
       return true;
     else
-      parent = parent->parent();
+      parent = parent->GetParent();
   }
   return false;
 }

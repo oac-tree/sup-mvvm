@@ -29,18 +29,18 @@ using namespace ModelView;
 
 ActuatorItem::ActuatorItem() : CompoundItem(Type)
 {
-  addProperty(P_VARIABLE_NAME, "Undefined")->SetDisplayName("PV-name");
-  addProperty(P_VARIABLE_VALUE, 0.0)->SetDisplayName("Value");
+  AddProperty(P_VARIABLE_NAME, "Undefined")->SetDisplayName("PV-name");
+  AddProperty(P_VARIABLE_VALUE, 0.0)->SetDisplayName("Value");
 }
 
 void ActuatorItem::SetVariableName(const std::string &pv_name)
 {
-  setProperty(P_VARIABLE_NAME, pv_name);
+  SetProperty(P_VARIABLE_NAME, pv_name);
 }
 
 void ActuatorItem::SetValue(double value)
 {
-  setProperty(P_VARIABLE_VALUE, value);
+  SetProperty(P_VARIABLE_VALUE, value);
 }
 
 // ----------------------------------------------------------------------------
@@ -49,11 +49,11 @@ void ActuatorItem::SetValue(double value)
 
 ActionItem::ActionItem() : CompoundItem(Type)
 {
-  addProperty(P_ACTUATOR_LINK, "Undefined");
-  addProperty(P_TRANSITION_FUNCTION, "Undefined");
-  addProperty(P_DURATION, 42)->SetDisplayName("Duration [sec]");
-  addProperty(P_START_VALUE, 0.0)->setToolTip("The value to set at the beginning of action");
-  addProperty(P_STOP_VALUE, 1.0)->setToolTip("The value to set at the end of action");
+  AddProperty(P_ACTUATOR_LINK, "Undefined");
+  AddProperty(P_TRANSITION_FUNCTION, "Undefined");
+  AddProperty(P_DURATION, 42)->SetDisplayName("Duration [sec]");
+  AddProperty(P_START_VALUE, 0.0)->SetToolTip("The value to set at the beginning of action");
+  AddProperty(P_STOP_VALUE, 1.0)->SetToolTip("The value to set at the end of action");
 }
 
 //! Associate given action with the actuator.

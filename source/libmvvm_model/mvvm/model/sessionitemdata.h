@@ -35,14 +35,15 @@ public:
 
   std::vector<int> GetRoles() const;
 
-  variant_t data(int role) const;
+  variant_t Data(int role) const;
 
-  bool setData(const variant_t& value, int role);
-
-  const_iterator begin() const;
-  const_iterator end() const;
+  bool SetData(const variant_t& value, int role);
 
   bool HasData(int role) const;
+
+  const_iterator begin() const;
+
+  const_iterator end() const;
 
 private:
   void AssureCompatibility(const variant_t& variant, int role);

@@ -46,8 +46,8 @@ public:
 TEST_F(SessionModelTest, initialState)
 {
   SessionModel model;
-  EXPECT_EQ(model.rootItem()->model(), &model);
-  EXPECT_EQ(model.rootItem()->parent(), nullptr);
+  EXPECT_EQ(model.rootItem()->GetModel(), &model);
+  EXPECT_EQ(model.rootItem()->GetParent(), nullptr);
 }
 
 TEST_F(SessionModelTest, insertItem)
@@ -60,8 +60,8 @@ TEST_F(SessionModelTest, insertItem)
   // inserting single item
   auto item = model.insertItem<SessionItem>();
   EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->parent(), model.rootItem());
-  EXPECT_EQ(item->model(), &model);
+  EXPECT_EQ(item->GetParent(), model.rootItem());
+  EXPECT_EQ(item->GetModel(), &model);
   EXPECT_EQ(item->GetType(), model_type);
 
   // checking registration
@@ -77,14 +77,14 @@ TEST_F(SessionModelTest, insertItem)
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
   EXPECT_TRUE(child != nullptr);
-  EXPECT_EQ(child->parent(), item);
-  EXPECT_EQ(child->model(), &model);
+  EXPECT_EQ(child->GetParent(), item);
+  EXPECT_EQ(child->GetModel(), &model);
   EXPECT_EQ(child->GetType(), model_type);
 
   // taking child back
-  auto taken = item->takeItem({"", 0});
+  auto taken = item->TakeItem({"", 0});
   EXPECT_EQ(taken.get(), child);
-  EXPECT_EQ(child->model(), nullptr);
+  EXPECT_EQ(child->GetModel(), nullptr);
 
   // childitem not registered anymore
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
@@ -100,8 +100,8 @@ TEST_F(SessionModelTest, insertNewItem)
   // inserting single item
   auto item = model.insertNewItem(model_type);
   EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->parent(), model.rootItem());
-  EXPECT_EQ(item->model(), &model);
+  EXPECT_EQ(item->GetParent(), model.rootItem());
+  EXPECT_EQ(item->GetModel(), &model);
   EXPECT_EQ(item->GetType(), model_type);
 
   // checking registration
@@ -117,14 +117,14 @@ TEST_F(SessionModelTest, insertNewItem)
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
   EXPECT_TRUE(child != nullptr);
-  EXPECT_EQ(child->parent(), item);
-  EXPECT_EQ(child->model(), &model);
+  EXPECT_EQ(child->GetParent(), item);
+  EXPECT_EQ(child->GetModel(), &model);
   EXPECT_EQ(child->GetType(), model_type);
 
   // taking child back
-  auto taken = item->takeItem({"", 0});
+  auto taken = item->TakeItem({"", 0});
   EXPECT_EQ(taken.get(), child);
-  EXPECT_EQ(child->model(), nullptr);
+  EXPECT_EQ(child->GetModel(), nullptr);
 
   // childitem not registered anymore
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
@@ -217,7 +217,7 @@ TEST_F(SessionModelTest, takeRowFromRootItem)
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
   // taking parent
-  auto taken = model.rootItem()->takeItem({"", 0});
+  auto taken = model.rootItem()->TakeItem({"", 0});
   EXPECT_EQ(pool->ItemForKey(parent_key), nullptr);
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
 }
@@ -280,8 +280,8 @@ TEST_F(SessionModelTest, clearRebuildModel)
   model.insertItem<SessionItem>();
   EXPECT_EQ(model.rootItem()->childrenCount(), 2);
 
-  auto new_item = new SessionItem;
-  auto rebuild = [new_item](auto parent) { parent->insertItem(new_item, TagIndex::Append()); };
+  SessionItem* new_item{nullptr};
+  auto rebuild = [&new_item](auto parent) { new_item = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append()); };
 
   model.clear(rebuild);
   EXPECT_EQ(model.rootItem()->childrenCount(), 1);

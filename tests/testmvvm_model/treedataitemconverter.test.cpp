@@ -102,11 +102,11 @@ TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
 {
   PropertyItem item;
-  item.setData(42, DataRole::kData);
-  item.setData("width", DataRole::kDisplay);
-  item.setData("Width in nm", DataRole::kTooltip);
+  item.SetData(42, DataRole::kData);
+  item.SetData("width", DataRole::kDisplay);
+  item.SetData("Width in nm", DataRole::kTooltip);
   const int custom_role = 99;
-  item.setData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
+  item.SetData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
 
   // to TreeData
   auto converter = CreateConverter();
@@ -119,10 +119,10 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
   EXPECT_EQ(reco->GetDisplayName(), item.GetDisplayName());
   EXPECT_EQ(reco->GetIdentifier(), item.GetIdentifier());
   EXPECT_EQ(reco->itemData()->GetRoles(), item.itemData()->GetRoles());
-  EXPECT_EQ(reco->data(DataRole::kData), variant_t(42));
-  EXPECT_EQ(reco->data(DataRole::kDisplay), variant_t(std::string("width")));
-  EXPECT_EQ(reco->data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
-  EXPECT_EQ(reco->data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
+  EXPECT_EQ(reco->Data(DataRole::kData), variant_t(42));
+  EXPECT_EQ(reco->Data(DataRole::kDisplay), variant_t(std::string("width")));
+  EXPECT_EQ(reco->Data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
+  EXPECT_EQ(reco->Data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
 }
 
 //! PropertyItem with data to TreeData and back.
@@ -130,11 +130,11 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
 TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
 {
   PropertyItem item;
-  item.setData(42, DataRole::kData);
-  item.setData("width", DataRole::kDisplay);
-  item.setData("Width in nm", DataRole::kTooltip);
+  item.SetData(42, DataRole::kData);
+  item.SetData("width", DataRole::kDisplay);
+  item.SetData("Width in nm", DataRole::kTooltip);
   const int custom_role = 99;
-  item.setData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
+  item.SetData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
 
   const auto file_path = GetFilePath("PropertyItemWithDataToFileAndBack.xml");
   WriteToXMLFile(file_path, item);
@@ -145,10 +145,10 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
   EXPECT_EQ(reco->GetDisplayName(), item.GetDisplayName());
   EXPECT_EQ(reco->GetIdentifier(), item.GetIdentifier());
   EXPECT_EQ(reco->itemData()->GetRoles(), item.itemData()->GetRoles());
-  EXPECT_EQ(reco->data(DataRole::kData), variant_t(42));
-  EXPECT_EQ(reco->data(DataRole::kDisplay), variant_t(std::string("width")));
-  EXPECT_EQ(reco->data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
-  EXPECT_EQ(reco->data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
+  EXPECT_EQ(reco->Data(DataRole::kData), variant_t(42));
+  EXPECT_EQ(reco->Data(DataRole::kDisplay), variant_t(std::string("width")));
+  EXPECT_EQ(reco->Data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
+  EXPECT_EQ(reco->Data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
 }
 
 //! Parent and child to TreeData object and back.
@@ -159,7 +159,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   parent.SetDisplayName("parent_name");
   parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  auto child = parent.InsertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
   child->SetDisplayName("child_name");
 
   // to TreeData
@@ -176,11 +176,11 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
-  EXPECT_EQ(reco_parent->model(), nullptr);
+  EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
   auto reco_child = reco_parent->getItem("defaultTag");
-  EXPECT_EQ(reco_child->parent(), reco_parent.get());
+  EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->childrenCount(), 0);
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
@@ -196,7 +196,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   parent.SetDisplayName("parent_name");
   parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  auto child = parent.InsertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
   child->SetDisplayName("child_name");
 
   const auto file_path = GetFilePath("ParentAndChildToFileAndBack.xml");
@@ -211,11 +211,11 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
-  EXPECT_EQ(reco_parent->model(), nullptr);
+  EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
   auto reco_child = reco_parent->getItem("defaultTag");
-  EXPECT_EQ(reco_child->parent(), reco_parent.get());
+  EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->childrenCount(), 0);
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
@@ -231,7 +231,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
   parent.SetDisplayName("parent_name");
   parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  auto child = parent.InsertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
   child->SetDisplayName("child_name");
 
   // to TreeData
@@ -248,11 +248,11 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_NE(reco_parent->GetIdentifier(), parent.GetIdentifier());  // regenerated identifiers
   EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
-  EXPECT_EQ(reco_parent->model(), nullptr);
+  EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
   // checking child reconstruction
   auto reco_child = reco_parent->getItem("defaultTag");
-  EXPECT_EQ(reco_child->parent(), reco_parent.get());
+  EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->childrenCount(), 0);
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");

@@ -42,14 +42,14 @@ TEST_F(VectorItemTest, initialState)
   EXPECT_TRUE(Utils::IsSinglePropertyTag(item, VectorItem::P_Y));
   EXPECT_TRUE(Utils::IsSinglePropertyTag(item, VectorItem::P_Z));
 
-  EXPECT_FALSE(item.isEditable());
+  EXPECT_FALSE(item.IsEditable());
 
-  EXPECT_EQ(item.property<double>(VectorItem::P_X), 0.0);
-  EXPECT_EQ(item.property<double>(VectorItem::P_Y), 0.0);
-  EXPECT_EQ(item.property<double>(VectorItem::P_Z), 0.0);
+  EXPECT_EQ(item.Property<double>(VectorItem::P_X), 0.0);
+  EXPECT_EQ(item.Property<double>(VectorItem::P_Y), 0.0);
+  EXPECT_EQ(item.Property<double>(VectorItem::P_Z), 0.0);
 
   // default label
-  EXPECT_EQ(item.data<std::string>(), "(0, 0, 0)");
+  EXPECT_EQ(item.Data<std::string>(), "(0, 0, 0)");
 }
 
 //! Initial state of item in model context
@@ -59,12 +59,12 @@ TEST_F(VectorItemTest, initialStateFromModel)
   SessionModel model;
   auto item = model.insertItem<VectorItem>();
 
-  EXPECT_EQ(item->property<double>(VectorItem::P_X), 0.0);
-  EXPECT_EQ(item->property<double>(VectorItem::P_Y), 0.0);
-  EXPECT_EQ(item->property<double>(VectorItem::P_Z), 0.0);
+  EXPECT_EQ(item->Property<double>(VectorItem::P_X), 0.0);
+  EXPECT_EQ(item->Property<double>(VectorItem::P_Y), 0.0);
+  EXPECT_EQ(item->Property<double>(VectorItem::P_Z), 0.0);
 
   // default label
-  EXPECT_EQ(item->data<std::string>(), "(0, 0, 0)");
+  EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
 
   // FIXME uncomment. Will work only after restoring callbacks
   // changing vector component

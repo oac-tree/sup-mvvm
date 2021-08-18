@@ -63,7 +63,7 @@ void TreeDataItemDataConverter::PopulateItemData(const TreeData &tree_data,
   for (const auto &child : tree_data.Children())
   {
     auto datarole = ToDataRole(child);
-    item_data.setData(datarole.first, datarole.second);
+    item_data.SetData(datarole.first, datarole.second);
   }
 }
 

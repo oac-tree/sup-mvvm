@@ -95,7 +95,7 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
   {
     for (const auto &tree_child : tree_data.Children())
     {
-      parent->insertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
+      parent->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
     }
   };
   model.clear(rebuild_root);
