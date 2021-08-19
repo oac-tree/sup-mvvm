@@ -76,7 +76,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     auto item_data = m_itemdata_converter->ToSessionItemData(tree_data.Children().at(0));
     auto tagged_items = m_taggedtems_converter->ToTaggedItems(tree_data.Children().at(1));
 
-    item.setDataAndTags(std::move(item_data), std::move(tagged_items));
+    item.SetDataAndTags(std::move(item_data), std::move(tagged_items));
 
     // FIXME implement SessionItemData and SessionItemTags update instead of full rebuild
     //    populate_item_data(json[JsonItemFormatAssistant::itemDataKey].toArray(),
@@ -84,7 +84,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     //    populate_item_tags(json[JsonItemFormatAssistant::itemTagsKey].toObject(),
     //    *item.itemTags());
 
-    for (auto child : item.children()) child->setParent(&item);
+    for (auto child : item.GetAllItems()) child->SetParent(&item);
 
     if (IsRegenerateIdWhenBackFromXML(m_mode))
       item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
@@ -127,8 +127,8 @@ std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem& i
   auto result = std::make_unique<TreeData>(kItemElementType);
   result->AddAttribute(kTypelAttributeKey, item.GetType());
   // p_impl->populate_item relies of the order of adding
-  result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.itemData()));
-  result->AddChild(*p_impl->m_taggedtems_converter->ToTreeData(*item.itemTags()));
+  result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.GetItemData()));
+  result->AddChild(*p_impl->m_taggedtems_converter->ToTreeData(*item.GetTaggedItems()));
   return result;
 }
 

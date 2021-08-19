@@ -54,7 +54,7 @@ struct SessionModel::SessionModelImpl
   void createRootItem()
   {
     m_root_item = m_item_manager->CreateEmptyItem();
-    m_root_item->setModel(m_self);
+    m_root_item->SetModel(m_self);
     m_root_item->RegisterTag(TagInfo::CreateUniversalTag("rootTag"), /*set_as_default*/ true);
   }
 };

@@ -87,17 +87,17 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto reco_parent = model.rootItem()->getItem("", 0);
-  auto reco_child = reco_parent->getItem("", 0);
+  auto reco_parent = model.rootItem()->GetItem("", 0);
+  auto reco_child = reco_parent->GetItem("", 0);
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetModel(), &model);
   EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
   EXPECT_EQ(reco_parent->GetParent(), model.rootItem());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
-  EXPECT_EQ(reco_parent->childrenCount(), 1);
+  EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
   EXPECT_EQ(reco_parent->GetIdentifier(), parent_identifier);
-  EXPECT_EQ(reco_parent->itemTags()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent->GetTaggedItems()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->Data<int>(), 42);
 
   // checking child reconstruction
@@ -105,9 +105,9 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->GetParent(), reco_parent);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
-  EXPECT_EQ(reco_child->childrenCount(), 0);
+  EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetIdentifier(), child_identifier);
-  EXPECT_EQ(reco_child->itemTags()->GetDefaultTag(), "");
+  EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
 
 //! Saving two models with content into document and restoring it after.
@@ -140,8 +140,8 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto reco_parent1 = model1.rootItem()->getItem("", 0);
-  auto reco_parent2 = model2.rootItem()->getItem("", 0);
+  auto reco_parent1 = model1.rootItem()->GetItem("", 0);
+  auto reco_parent2 = model2.rootItem()->GetItem("", 0);
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent1->GetModel(), &model1);

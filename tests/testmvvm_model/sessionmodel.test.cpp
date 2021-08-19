@@ -43,14 +43,14 @@ public:
   };
 };
 
-TEST_F(SessionModelTest, initialState)
+TEST_F(SessionModelTest, InitialState)
 {
   SessionModel model;
   EXPECT_EQ(model.rootItem()->GetModel(), &model);
   EXPECT_EQ(model.rootItem()->GetParent(), nullptr);
 }
 
-TEST_F(SessionModelTest, insertItem)
+TEST_F(SessionModelTest, InsertItem)
 {
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("Test", pool);
@@ -182,7 +182,7 @@ TEST_F(SessionModelTest, removeItem)
 
   // removing child2
   model.removeItem(parent, {"", 0});  // removing child2
-  EXPECT_EQ(parent->childrenCount(), 1);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(Utils::ChildAt(parent, 0), child1);
 
   // child2 shouldn't be registered anymore
@@ -254,13 +254,13 @@ TEST_F(SessionModelTest, clearModel)
 
   auto first_root = model.rootItem();
 
-  EXPECT_EQ(model.rootItem()->childrenCount(), 0);
+  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 0);
   model.insertItem<SessionItem>();
   model.insertItem<SessionItem>();
-  EXPECT_EQ(model.rootItem()->childrenCount(), 2);
+  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 2);
 
   model.clear();
-  EXPECT_EQ(model.rootItem()->childrenCount(), 0);
+  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 0);
   EXPECT_FALSE(model.rootItem() == first_root);
   EXPECT_EQ(pool->KeyForItem(first_root), "");
   EXPECT_EQ(pool->size(), 1);
@@ -275,16 +275,16 @@ TEST_F(SessionModelTest, clearRebuildModel)
 
   auto first_root = model.rootItem();
 
-  EXPECT_EQ(model.rootItem()->childrenCount(), 0);
+  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 0);
   model.insertItem<SessionItem>();
   model.insertItem<SessionItem>();
-  EXPECT_EQ(model.rootItem()->childrenCount(), 2);
+  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 2);
 
   SessionItem* new_item{nullptr};
   auto rebuild = [&new_item](auto parent) { new_item = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append()); };
 
   model.clear(rebuild);
-  EXPECT_EQ(model.rootItem()->childrenCount(), 1);
+  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 1);
   EXPECT_FALSE(model.rootItem() == first_root);
   EXPECT_EQ(pool->KeyForItem(first_root), "");
   EXPECT_EQ(pool->size(), 2);

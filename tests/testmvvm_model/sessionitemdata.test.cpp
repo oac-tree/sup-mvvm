@@ -43,7 +43,7 @@ TEST_F(SessionItemDataTest, initialState)
 
 //! Basic setData, data operations.
 
-TEST_F(SessionItemDataTest, setDataDouble)
+TEST_F(SessionItemDataTest, SetDataDouble)
 {
   const int role = 1;
   SessionItemData item_data;
@@ -74,7 +74,7 @@ TEST_F(SessionItemDataTest, setDataDouble)
 
 //! Using different roles.
 
-TEST_F(SessionItemDataTest, differentRoles)
+TEST_F(SessionItemDataTest, DifferentRoles)
 {
   SessionItemData item_data;
 
@@ -95,7 +95,7 @@ TEST_F(SessionItemDataTest, differentRoles)
 
 //! Changing type of variant for role should not be allowed.
 
-TEST_F(SessionItemDataTest, changingRole)
+TEST_F(SessionItemDataTest, ChangingRole)
 {
   SessionItemData item_data;
 
@@ -114,7 +114,7 @@ TEST_F(SessionItemDataTest, changingRole)
 
 //! Access to data and roles via range loop.
 
-TEST_F(SessionItemDataTest, rangeLoop)
+TEST_F(SessionItemDataTest, RangeLoop)
 {
   SessionItemData item_data;
   const std::vector<double> expected_values = {1.2, 1.3};
@@ -138,7 +138,7 @@ TEST_F(SessionItemDataTest, rangeLoop)
   EXPECT_EQ(roles, expected_roles);
 }
 
-TEST_F(SessionItemDataTest, hasRole)
+TEST_F(SessionItemDataTest, HasRole)
 {
   SessionItemData data;
   EXPECT_FALSE(data.HasData(0));

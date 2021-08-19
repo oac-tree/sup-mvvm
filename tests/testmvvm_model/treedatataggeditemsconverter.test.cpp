@@ -38,7 +38,7 @@ class TreeDataTaggedItemsConverterTest : public ::testing::Test
 public:
   TreeDataTaggedItemsConverterTest() = default;
 
-  std::unique_ptr<TreeDataTaggedItemsConverter> createConverter() const
+  std::unique_ptr<TreeDataTaggedItemsConverter> CreateConverter() const
   {
     //! Simplified method to convert SessionItem to TreeData.
     auto to_treedata = [this](const SessionItem& item)
@@ -68,7 +68,7 @@ TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeData)
   tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 0);
   tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 1);
 
-  auto converter = createConverter();
+  auto converter = CreateConverter();
   auto tree_data = converter->ToTreeData(tagged_items);
 
   EXPECT_TRUE(converter->IsTaggedItemsConvertible(*tree_data));
@@ -86,7 +86,7 @@ TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeDataAndBack)
   tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 0);
   tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 1);
 
-  auto converter = createConverter();
+  auto converter = CreateConverter();
   auto tree_data = converter->ToTreeData(tagged_items);
 
   auto tagged_items2 = converter->ToTaggedItems(*tree_data);

@@ -112,7 +112,7 @@ template <typename T>
 std::vector<T*> SessionModel::topItems() const
 {
   std::vector<T*> result;
-  for (auto child : rootItem()->children())
+  for (auto child : rootItem()->GetAllItems())
   {
     if (auto item = dynamic_cast<T*>(child))
       result.push_back(item);
