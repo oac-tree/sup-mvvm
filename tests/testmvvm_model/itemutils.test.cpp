@@ -35,7 +35,7 @@ class ItemUtilsTest : public ::testing::Test
 
 //! Simple iteration over item and its children
 
-TEST_F(ItemUtilsTest, iterateItem)
+TEST_F(ItemUtilsTest, IterateItem)
 {
   std::vector<const SessionItem*> visited_items;
 
@@ -66,7 +66,7 @@ TEST_F(ItemUtilsTest, iterateItem)
 
 //! Conditional iteration over item and its children.
 
-TEST_F(ItemUtilsTest, iterateIfItem)
+TEST_F(ItemUtilsTest, IterateIfItem)
 {
   std::vector<const SessionItem*> visited_items;
 

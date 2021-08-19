@@ -23,6 +23,7 @@
 #include "mvvm/core/variant.h"
 #include "mvvm/model/mvvm_types.h"
 #include "mvvm/model/tagindex.h"
+#include "mvvm/utils/containerutils.h"
 
 #include <memory>
 #include <stdexcept>
@@ -75,36 +76,37 @@ public:
   template <typename T>
   bool SetData(const T& value, int role = DataRole::kData);
 
-  SessionItemData* itemData();
-  const SessionItemData* itemData() const;
+  SessionItemData* GetItemData();
+  const SessionItemData* GetItemData() const;
 
   // children access
 
-  int childrenCount() const;
+  int GetTotalItemCount() const;
 
-  std::vector<SessionItem*> children() const;
+  std::vector<SessionItem*> GetAllItems() const;
 
   int GetItemCount(const std::string& tag) const;
 
-  SessionItem* getItem(const std::string& tag, int index = 0) const;
+  SessionItem* GetItem(const std::string& tag, int index = 0) const;
 
-  std::vector<SessionItem*> getItems(const std::string& tag) const;
+  std::vector<SessionItem*> GetItems(const std::string& tag) const;
 
   template <typename T>
-  T* item(const std::string& tag) const;
+  T* GetItem(const std::string& tag, int index = 0) const;
   template <typename T = SessionItem>
-  std::vector<T*> items(const std::string& tag) const;
+  std::vector<T*> GetItems(const std::string& tag) const;
 
   TagIndex TagIndexOfItem(const SessionItem* item) const;
 
   void RegisterTag(const TagInfo& tagInfo, bool set_as_default = false);
 
-  TaggedItems* itemTags();
-  const TaggedItems* itemTags() const;
+  TaggedItems* GetTaggedItems();
+  const TaggedItems* GetTaggedItems() const;
 
   // item manipulation
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
+
   template <typename T = SessionItem>
   T* InsertItem(const TagIndex& tag_index);
 
@@ -130,13 +132,15 @@ protected:
 private:
   friend class SessionModel;
   friend class TreeDataItemConverter;
-  bool set_data_internal(const variant_t& value, int role);
-  variant_t data_internal(int role) const;
-  void setParent(SessionItem* parent);
-  void setModel(SessionModel* model);
-  void setAppearanceFlag(int flag, bool value);
 
-  void setDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
+  bool SetDataInternal(const variant_t& value, int role);
+  variant_t DataInternal(int role) const;
+
+  void SetParent(SessionItem* parent);
+  void SetModel(SessionModel* model);
+  void SetAppearanceFlag(int flag, bool value);
+
+  void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
   struct SessionItemImpl;
   std::unique_ptr<SessionItemImpl> p_impl;
@@ -147,7 +151,7 @@ private:
 template <typename T>
 inline bool SessionItem::SetData(const T& value, int role)
 {
-  return set_data_internal(value, role);
+  return SetDataInternal(value, role);
 }
 
 //! Returns data of given type T for given role.
@@ -156,18 +160,18 @@ template <typename T>
 inline T SessionItem::Data(int role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
-    return data_internal(role);
+    return DataInternal(role);  // if variant_it is required, simply return it
   else
-    return std::get<T>(data_internal(role));
+    return std::get<T>(DataInternal(role));
 }
 
-//! Returns first item under given tag casted to a specified type.
+//! Returns item under given tag and index casted to a specified type.
 //! Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
 
 template <typename T>
-inline T* SessionItem::item(const std::string& tag) const
+inline T* SessionItem::GetItem(const std::string& tag, int index) const
 {
-  if (auto item = getItem(tag); item)
+  if (auto item = GetItem(tag, index); item)
   {
     T* tag_item = dynamic_cast<T*>(item);
     if (!tag_item)
@@ -180,13 +184,9 @@ inline T* SessionItem::item(const std::string& tag) const
 //! Returns all items under given tag casted to specific type.
 
 template <typename T>
-std::vector<T*> SessionItem::items(const std::string& tag) const
+std::vector<T*> SessionItem::GetItems(const std::string& tag) const
 {
-  std::vector<T*> result;
-  for (auto item : getItems(tag))
-    if (auto casted = dynamic_cast<T*>(item); casted)
-      result.push_back(casted);
-  return result;
+  return Utils::CastItems<T>(GetItems(tag));
 }
 
 //! Creates a new item and insert it into given tag under the given row.

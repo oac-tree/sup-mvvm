@@ -42,7 +42,7 @@ class CompoundItemTest : public ::testing::Test
 TEST_F(CompoundItemTest, InitialState)
 {
   CompoundItem item;
-  EXPECT_EQ(item.childrenCount(), 0);
+  EXPECT_EQ(item.GetTotalItemCount(), 0);
 }
 
 TEST_F(CompoundItemTest, AddIntProperty)
@@ -195,8 +195,8 @@ TEST_F(CompoundItemTest, ItemAccess)
 
   // inserting two children
   auto property = parent.InsertItem<PropertyItem>({tag, 0});
-  EXPECT_TRUE(parent.item<PropertyItem>(tag) == property);
-  EXPECT_THROW(parent.item<CompoundItem>(tag), std::runtime_error);
+  EXPECT_TRUE(parent.GetItem<PropertyItem>(tag) == property);
+  EXPECT_THROW(parent.GetItem<CompoundItem>(tag), std::runtime_error);
 }
 
 TEST_F(CompoundItemTest, ItemVectorAccess)
@@ -211,10 +211,10 @@ TEST_F(CompoundItemTest, ItemVectorAccess)
   auto property1 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
   auto property2 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
 
-  auto items = parent.items<PropertyItem>(tag);
+  auto items = parent.GetItems<PropertyItem>(tag);
   std::vector<PropertyItem*> expected = {property1, property2};
   EXPECT_EQ(items, expected);
-  EXPECT_EQ(parent.items<CompoundItem>(tag).size(), 0);
+  EXPECT_EQ(parent.GetItems<CompoundItem>(tag).size(), 0);
 }
 
 //! Tests automatic index addition to default display name.
@@ -248,7 +248,7 @@ TEST_F(CompoundItemTest, DisplayNameIndexAddition)
 TEST_F(CompoundItemTest, Children)
 {
   CompoundItem item;
-  EXPECT_TRUE(item.children().empty());
+  EXPECT_TRUE(item.GetAllItems().empty());
   auto propertyItem = item.AddProperty(property_name, false);
-  EXPECT_EQ(item.children(), std::vector<SessionItem*>({propertyItem}));
+  EXPECT_EQ(item.GetAllItems(), std::vector<SessionItem*>({propertyItem}));
 }

@@ -89,6 +89,16 @@ bool Contains(const A& container, const B& element)
   return std::find(container.begin(), container.end(), element) != container.end();
 }
 
+template <typename T, typename C>
+std::vector<T*> CastItems(const C& container)
+{
+  std::vector<T*> result;
+  for (auto item : container)
+    if (auto casted = dynamic_cast<T*>(item); casted)
+      result.push_back(casted);
+  return result;
+}
+
 }  // namespace ModelView::Utils
 
 #endif  // MVVM_UTILS_CONTAINERUTILS_H

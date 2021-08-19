@@ -40,8 +40,8 @@ MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(Sessi
 MVVM_MODEL_EXPORT void iterate_if(const SessionItem* item,
                                   const std::function<bool(const SessionItem*)>& fun);
 
-//! Returns copy number of given item in it's parent hierarchy. Takes into account only items with
-//! same modelType.
+//! Returns copy number of a given item in its parent hierarchy. Takes into account only items with
+//! same type.
 MVVM_MODEL_EXPORT int CopyNumber(const SessionItem* item);
 
 //! Returns child at given index of parent. No tags are involved, index is considered

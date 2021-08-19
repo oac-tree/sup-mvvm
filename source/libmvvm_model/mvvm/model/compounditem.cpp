@@ -31,10 +31,15 @@ bool HasCustomDisplayName(const SessionItem* item)
 }
 }  // namespace
 
-CompoundItem::CompoundItem(const std::string& modelType) : SessionItem(modelType) {}
+CompoundItem::CompoundItem(const std::string& model_type) : SessionItem(model_type) {}
+
+
+//! Returns custom display name with index appended.
+//! CompoundItem0, CompoundItem1, CompoundItem2, ...
 
 std::string CompoundItem::GetDisplayName() const
 {
+  // if item has already display name, use it
   if (HasCustomDisplayName(this))
     return SessionItem::GetDisplayName();
 

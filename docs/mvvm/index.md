@@ -5,7 +5,7 @@
 
 ### Application model
 
-- [SessionItem](model/sessionitem.md.md)
+- [SessionItem](model/sessionitem.md)
 - [CompoundItem](model/compounditem.md)
 - [SessionModel](model/sessionmodel.md)
 - [Serialization](model/serialization.md)

@@ -34,7 +34,7 @@ class ItemPoolTest : public ::testing::Test
 {
 };
 
-TEST_F(ItemPoolTest, initialState)
+TEST_F(ItemPoolTest, InitialState)
 {
   std::unique_ptr<ItemPool> pool(new ItemPool);
   EXPECT_EQ(pool->size(), 0U);
@@ -42,7 +42,7 @@ TEST_F(ItemPoolTest, initialState)
 
 //! Explicit item registrations.
 
-TEST_F(ItemPoolTest, registerItem)
+TEST_F(ItemPoolTest, RegisterItem)
 {
   std::unique_ptr<ItemPool> pool(new ItemPool);
   std::unique_ptr<SessionItem> item(new SessionItem);
@@ -73,7 +73,7 @@ TEST_F(ItemPoolTest, registerItem)
 
 //! Explicit item de-registrations.
 
-TEST_F(ItemPoolTest, deregisterItem)
+TEST_F(ItemPoolTest, DeregisterItem)
 {
   std::unique_ptr<ItemPool> pool(new ItemPool);
   std::unique_ptr<SessionItem> item1(new SessionItem);
@@ -102,7 +102,7 @@ TEST_F(ItemPoolTest, deregisterItem)
 
 //! Providing custom key.
 
-TEST_F(ItemPoolTest, customKey)
+TEST_F(ItemPoolTest, CustomKey)
 {
   std::shared_ptr<ItemPool> pool(new ItemPool);
   EXPECT_EQ(pool.use_count(), 1L);

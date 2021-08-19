@@ -35,7 +35,7 @@ void Utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& 
   else
     return;
 
-  for (auto child : item->children()) iterate(child, fun);
+  for (auto child : item->GetAllItems()) iterate(child, fun);
 }
 
 void Utils::iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
@@ -48,7 +48,7 @@ void Utils::iterate_if(const SessionItem* item, const std::function<bool(const S
   if (!item || !proceed_with_children)
     return;
 
-  for (auto child : item->children()) iterate_if(child, fun);
+  for (auto child : item->GetAllItems()) iterate_if(child, fun);
 }
 
 int Utils::CopyNumber(const SessionItem* item)
@@ -62,7 +62,7 @@ int Utils::CopyNumber(const SessionItem* item)
   auto item_type = item->GetType();
   if (auto parent = item->GetParent())
   {
-    for (auto child : parent->children())
+    for (auto child : parent->GetAllItems())
     {
       if (child == item)
         result = count;
@@ -79,7 +79,7 @@ SessionItem* Utils::ChildAt(const SessionItem* parent, int index)
   if (!parent)
     return nullptr;
 
-  auto container = parent->children();
+  auto container = parent->GetAllItems();
   return index >= 0 && static_cast<size_t>(index) < container.size()
              ? container[static_cast<size_t>(index)]
              : nullptr;
@@ -87,23 +87,23 @@ SessionItem* Utils::ChildAt(const SessionItem* parent, int index)
 
 int Utils::IndexOfChild(const SessionItem* parent, const SessionItem* child)
 {
-  return Utils::IndexOfItem(parent->children(), child);
+  return Utils::IndexOfItem(parent->GetAllItems(), child);
 }
 
 bool Utils::HasTag(const SessionItem& item, const std::string& tag)
 {
-  return item.itemTags()->HasTag(tag);
+  return item.GetTaggedItems()->HasTag(tag);
 }
 
 bool Utils::IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
 {
-  return item.itemTags()->IsSinglePropertyTag(tag);
+  return item.GetTaggedItems()->IsSinglePropertyTag(tag);
 }
 
 std::vector<std::string> Utils::RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
-  for (const auto container : *item.itemTags()) result.push_back(container->GetName());
+  for (const auto container : *item.GetTaggedItems()) result.push_back(container->GetName());
   return result;
 }
 
@@ -119,7 +119,7 @@ std::vector<std::string> Utils::RegisteredUniversalTags(const SessionItem& item)
 std::vector<SessionItem*> Utils::TopLevelItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
-  for (auto child : item.children())
+  for (auto child : item.GetAllItems())
     if (child->IsVisible() && !IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
       result.push_back(child);
   return result;
@@ -128,7 +128,7 @@ std::vector<SessionItem*> Utils::TopLevelItems(const SessionItem& item)
 std::vector<SessionItem*> Utils::SinglePropertyItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
-  for (auto child : item.children())
+  for (auto child : item.GetAllItems())
     if (child->IsVisible() && IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
       result.push_back(child);
   return result;
@@ -140,7 +140,7 @@ SessionItem* Utils::FindNextSibling(SessionItem* item)
   if (!parent)
     return nullptr;
   auto tag_index = item->GetTagIndex();
-  return parent->getItem(tag_index.tag, tag_index.index + 1);
+  return parent->GetItem(tag_index.tag, tag_index.index + 1);
 }
 
 SessionItem* Utils::FindPreviousSibling(SessionItem* item)
@@ -149,7 +149,7 @@ SessionItem* Utils::FindPreviousSibling(SessionItem* item)
   if (!parent)
     return nullptr;
   auto tag_index = parent->TagIndexOfItem(item);
-  return parent->getItem(tag_index.tag, tag_index.index - 1);
+  return parent->GetItem(tag_index.tag, tag_index.index - 1);
 }
 
 SessionItem* Utils::FindNextItemToSelect(SessionItem* item)

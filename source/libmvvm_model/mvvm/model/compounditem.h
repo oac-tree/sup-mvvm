@@ -27,14 +27,17 @@
 
 namespace ModelView
 {
-//! Complex item holding mixed SessionItem types (single properties and other CompountItems).
+//! A compound item with convenient methods for adding properties.
+//! The property is a single PropertyItem or another CompoundItem inserted into the named container
+//! and carrying the data. There can be only one property item associated with the property name,
+//! and it can not be removed from the parent.
 
 class MVVM_MODEL_EXPORT CompoundItem : public SessionItem
 {
 public:
   static inline const std::string Type = "CompoundItem";
 
-  CompoundItem(const std::string& modelType = Type);
+  CompoundItem(const std::string& model_type = Type);
 
   //! Adds property item of given type and register it under the given 'name'.
   template <typename T = PropertyItem>
@@ -79,7 +82,7 @@ PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
 template <typename T>
 inline T CompoundItem::Property(const std::string& tag) const
 {
-  return getItem(tag)->Data<T>();
+  return GetItem(tag)->Data<T>();
 }
 
 //! Sets value to property item.
@@ -89,7 +92,7 @@ inline T CompoundItem::Property(const std::string& tag) const
 template <typename T>
 inline void CompoundItem::SetProperty(const std::string& tag, const T& value)
 {
-  getItem(tag)->SetData(value);
+  GetItem(tag)->SetData(value);
 }
 
 }  // namespace ModelView

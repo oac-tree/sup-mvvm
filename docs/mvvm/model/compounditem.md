@@ -1,7 +1,13 @@
-# Compound item
+# Compound item  <!-- omit in toc -->
 
 The `CompoundItem` is a convenience class derived from `SessionItem` that offers
 several additional methods to simplify the creation of item properties.
+
+- [1. Adding properties](#1-adding-properties)
+- [2. Accessing properties](#2-accessing-properties)
+- [3. Other compound items as properties](#3-other-compound-items-as-properties)
+- [4. Remark on the back-compatibility](#4-remark-on-the-back-compatibility)
+- [5. Remark on conventional class API](#5-remark-on-conventional-class-api)
 
 ## 1. Adding properties
 
@@ -66,8 +72,8 @@ std::cout << item.GetItem("mean", 0)->Data<double>(DataRole::kData) << "\n";
 
 ## 3. Other compound items as properties
 
-Other `CompountItems` can be registered as property items too.
-First, we define a `VectorItem` with three properties for (X, Y, Z) coordinates.
+Other `CompoundItems` can be registered as property items too.
+In the snippet below we define a `VectorItem` with three properties for (X, Y, Z) coordinates.
 
 ```C++
 class VectorItem 
@@ -81,7 +87,7 @@ class VectorItem
 };
 ```
 
-Second, we define `SphereItem` with the item `VectorItem` registered as a `Position` property.
+After that, we define `SphereItem` with the item `VectorItem` registered as a `Position` property.
 
 ```C++
 class SphereItem 
@@ -103,24 +109,28 @@ Given below is an excerpt of an XML obtained after the serialization of `Gaussia
 
 ```xml
 <ItemContainer>
-  <TagInfo max="1" min="1" name="mean"/>
+  <TagInfo max="1" min="1" name="mean">PropertyItem</TagInfo>
   <Item type="PropertyItem">
     <ItemData>
-      <Variant role="1" type="double">42.0</Variant>
+      <Variant role="0" type="double">42.0</Variant>
       <Variant role="2" type="string">mean</Variant>
     </ItemData>
   </Item>
 </ItemContainer>
 ```
 
-The string `"mean"` appears in `TagInfo` serialization, and the display name of the `PropertyItem`. This might become a problem if the user will decide to change the display name of the property item from `"mean"` to `"Mean"`, for example:
+The string `"mean"` appears in `TagInfo` serialization, and the display name of
+the `PropertyIt
+em`. This might become a problem if the user decide to
+change the display name of the property item from `"mean"` to `"Mean"`, for
+example:
 
 ```C++
 AddProperty("Mean", 0.0); // mean -> Mean
 ```
 
-It will then affect the name of the container and will lead to failure while
-trying to update new item from old XML files ("no such container exist"). To
+It will then affect the name of the container and will lead to failure if one
+decides to update a new item from old XML files ("no such container exists"). To
 reduce the risk it is recommended to use unique names for item containers. One
 possible way of doing this is shown below:
 
@@ -143,4 +153,77 @@ using string constants, instead of literals.
 ```C++
 std::cout << item.Property<double>(GaussianItem::P_MEAN) << "\n";
 >>> 42.0
+```
+
+## 5. Remark on conventional class API
+
+The `CompoundItem` allows conveniently registering class properties. These
+properties are based on the same `SessionItem` machinery and are the subject to
+all benefits that the `SessionItem` hierarchy offer:
+
+- Serialization.
+- Editing in Qt widget.
+- Undo/redo.
+
+However, the extensive usage of `CompoundItem` API to manipulate item's
+properties has its disadvantages:
+
+- Code is becoming cluttered with constructs like
+  `item.Property<double>(GaussianItem::P_MEAN)`.
+- Further refactoring might become problematic because of the lack of
+  compile-time checks.
+
+These problems can be addressed by using a conventional class API along with
+property machinery in the background:
+
+`GaussianItem.h:`
+
+```C++
+class GaussianItem : public CompoundItem
+{
+public:
+  GaussianItem();
+
+  double GetMean() const;
+
+  void SetMean(double value);
+
+  double GetStdDev() const;
+
+  void SetStdDev(double value);
+};
+```
+
+`GaussianItem.cpp:`
+
+```C++
+static const std::string kMean = "kMean";
+static const std::string kStdDev = "kStdDev";
+
+GaussianItem::GaussianItem() : CompoundItem("GaussianItem")
+{
+    AddProperty(kMean, 0.0)->SetDisplayName("Mean");
+    AddProperty(kStdDev, 1.0)->SetDisplayName("StdDev");
+}
+
+double GaussianItem::GetMean() const
+{
+  return Property<double>(kMean);
+}
+
+void GaussianItem::SetMean(double value)
+{
+  SetProperty(kMean, value);
+}
+
+double GaussianItem::GetStdDev() const
+{
+  return Property<double>(kStdDev);
+}
+
+void GaussianItem::SetStdDev(double value)
+{
+  SetProperty(kStdDev, value);
+}
+
 ```

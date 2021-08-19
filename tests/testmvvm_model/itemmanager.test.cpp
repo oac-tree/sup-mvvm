@@ -33,7 +33,7 @@ class ItemManagerTest : public ::testing::Test
 {
 };
 
-TEST_F(ItemManagerTest, initialState)
+TEST_F(ItemManagerTest, InitialState)
 {
   ItemManager manager;
   EXPECT_EQ(manager.GetItemPool(), nullptr);
