@@ -66,7 +66,7 @@ SessionItem::SessionItem(const std::string& item_type) : p_impl(std::make_unique
 SessionItem::~SessionItem()
 {
   if (p_impl->m_model)
-    p_impl->m_model->unregisterFromPool(this);
+    p_impl->m_model->UnregisterFromPool(this);
 }
 
 //! Returns item's model type.
@@ -334,12 +334,12 @@ void SessionItem::SetParent(SessionItem* parent)
 void SessionItem::SetModel(SessionModel* model)
 {
   if (p_impl->m_model)
-    p_impl->m_model->unregisterFromPool(this);
+    p_impl->m_model->UnregisterFromPool(this);
 
   p_impl->m_model = model;
 
   if (p_impl->m_model)
-    p_impl->m_model->registerInPool(this);
+    p_impl->m_model->RegisterInPool(this);
 
   for (auto child : GetAllItems())
     child->SetModel(model);

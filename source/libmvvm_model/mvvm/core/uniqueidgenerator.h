@@ -20,11 +20,12 @@
 #ifndef MVVM_CORE_UNIQUEIDGENERATOR_H
 #define MVVM_CORE_UNIQUEIDGENERATOR_H
 
-#include <string>
 #include "mvvm/model_export.h"
 
-namespace ModelView {
+#include <string>
 
+namespace ModelView
+{
 //! Provides generation of unique SessionItem identifier.
 
 //! In the future might be turned to singleton to keep track of all generated identifier
@@ -32,11 +33,12 @@ namespace ModelView {
 //! generated during a dynamic session. For the moment though, we rely on zero-probability of
 //! such event.
 
-class MVVM_MODEL_EXPORT UniqueIdGenerator {
+class MVVM_MODEL_EXPORT UniqueIdGenerator
+{
 public:
-    static std::string Generate();
+  static std::string Generate();
 };
 
-} // namespace ModelView
+}  // namespace ModelView
 
-#endif // MVVM_CORE_UNIQUEIDGENERATOR_H
+#endif  // MVVM_CORE_UNIQUEIDGENERATOR_H

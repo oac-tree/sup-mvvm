@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include "mvvm/core/uniqueidgenerator.h"
+
 #include <QUuid>
 
 // FIXME Remove dependency from Qt
@@ -27,5 +28,5 @@ using namespace ModelView;
 
 std::string UniqueIdGenerator::Generate()
 {
-    return QUuid::createUuid().toString().toStdString();
+  return QUuid::createUuid().toString().toStdString();
 }

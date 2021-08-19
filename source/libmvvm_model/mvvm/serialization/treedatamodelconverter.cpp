@@ -67,13 +67,13 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data
 
 std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const SessionModel &model) const
 {
-  auto item_converter = CreateConverter(model.factory());
+  auto item_converter = CreateConverter(model.GetFactory());
 
   auto result = std::make_unique<TreeData>(kModelElementType);
 
-  result->AddAttribute(kTypelAttributeKey, model.modelType());
+  result->AddAttribute(kTypelAttributeKey, model.GetType());
 
-  for (auto item : model.rootItem()->GetAllItems())
+  for (auto item : model.GetRootItem()->GetAllItems())
     result->AddChild(*item_converter->ToTreeData(*item));
 
   return result;
@@ -85,11 +85,11 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
   if (!IsSessionModelConvertible(tree_data))
     throw std::runtime_error("Error in TreeDataModelConverter: inappropriate TreeData");
 
-  if (tree_data.GetAttribute(kTypelAttributeKey) != model.modelType())
+  if (tree_data.GetAttribute(kTypelAttributeKey) != model.GetType())
     throw std::runtime_error(
         "Error in TreeDataModelConverter: attempt to reconstruct different model type.");
 
-  auto item_converter = CreateConverter(model.factory());
+  auto item_converter = CreateConverter(model.GetFactory());
 
   auto rebuild_root = [&tree_data, &item_converter](auto parent)
   {
@@ -98,7 +98,7 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
       parent->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
     }
   };
-  model.clear(rebuild_root);
+  model.Clear(rebuild_root);
 }
 
 }  // namespace ModelView

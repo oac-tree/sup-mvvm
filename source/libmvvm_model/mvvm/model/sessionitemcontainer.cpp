@@ -31,7 +31,8 @@ SessionItemContainer::SessionItemContainer(ModelView::TagInfo tag_info)
 
 SessionItemContainer::~SessionItemContainer()
 {
-  for (auto item : m_items) delete item;
+  for (auto item : m_items)
+    delete item;
 }
 
 bool SessionItemContainer::IsEmpty() const

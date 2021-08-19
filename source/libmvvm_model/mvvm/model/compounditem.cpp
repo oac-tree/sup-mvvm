@@ -33,7 +33,6 @@ bool HasCustomDisplayName(const SessionItem* item)
 
 CompoundItem::CompoundItem(const std::string& model_type) : SessionItem(model_type) {}
 
-
 //! Returns custom display name with index appended.
 //! CompoundItem0, CompoundItem1, CompoundItem2, ...
 

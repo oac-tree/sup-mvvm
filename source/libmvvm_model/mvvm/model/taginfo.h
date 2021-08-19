@@ -58,9 +58,9 @@ public:
   bool operator!=(const TagInfo& other) const;
 
 private:
-  std::string m_name;                      //!< the name of the tag
-  int m_min;                               //!< minimum allowed number of items in a tag
-  int m_max;                               //!< maximum allowed number of items in a tag
+  std::string m_name;                     //!< the name of the tag
+  int m_min;                              //!< minimum allowed number of items in a tag
+  int m_max;                              //!< maximum allowed number of items in a tag
   std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
 

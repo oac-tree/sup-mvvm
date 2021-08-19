@@ -20,8 +20,8 @@
 #ifndef MVVM_TREEDATAMODELCONVERTER_H
 #define MVVM_TREEDATAMODELCONVERTER_H
 
-#include "mvvm/serialization/treedatamodelconverterinterface.h"
 #include "mvvm/serialization/converter_types.h"
+#include "mvvm/serialization/treedatamodelconverterinterface.h"
 
 #include <memory>
 

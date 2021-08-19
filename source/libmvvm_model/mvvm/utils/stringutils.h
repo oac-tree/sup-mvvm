@@ -20,14 +20,14 @@
 #ifndef MVVM_UTILS_STRINGUTILS_H
 #define MVVM_UTILS_STRINGUTILS_H
 
-#include <string>
-#include <optional>
-#include <vector>
 #include "mvvm/model_export.h"
+
+#include <optional>
+#include <string>
+#include <vector>
 
 namespace ModelView::Utils
 {
-
 //! Returns string representation of double with given precision.
 //! Provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".
 MVVM_MODEL_EXPORT std::string DoubleToString(double input, int precision = 12);
@@ -81,6 +81,6 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<double>& 
 //! Converts vector of strings to comma separated string.
 MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::string>& vec);
 
-}
+}  // namespace ModelView::Utils
 
 #endif

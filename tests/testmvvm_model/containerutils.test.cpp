@@ -28,7 +28,6 @@ using namespace ModelView;
 class ContainerUtilsTest : public ::testing::Test
 {
 public:
-
   class TestItem
   {
   public:
@@ -71,7 +70,8 @@ TEST_F(ContainerUtilsTest, IndexOfItem)
   EXPECT_EQ(Utils::IndexOfItem(items, items[1]), 1);
   EXPECT_EQ(Utils::IndexOfItem(items, items[2]), 2);
   EXPECT_EQ(Utils::IndexOfItem(items, &other), -1);
-  for (auto x : items) delete x;
+  for (auto x : items)
+    delete x;
 
   // searching in vector of unique_ptr
   std::vector<std::unique_ptr<TestItemA>> unique_items;

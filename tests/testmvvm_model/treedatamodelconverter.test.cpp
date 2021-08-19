@@ -67,7 +67,7 @@ TEST_F(TreeDataModelConverterTest, EmptyModelToJsonAndBack)
   // succesfull reconstruction
   SessionModel target2("TestModel");
   EXPECT_NO_THROW(converter.PopulateSessionModel(*tree_data, target2));
-  EXPECT_EQ(target2.rootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(target2.GetRootItem()->GetTotalItemCount(), 0);
 }
 
 //! Creation of TreeData object: single item in a model.
@@ -77,7 +77,7 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
   TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
-  auto item = model.insertItem<SessionItem>();
+  auto item = model.InsertItem<SessionItem>();
 
   auto tree_data = converter.ToTreeData(model);
 
@@ -85,9 +85,9 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
   SessionModel target("TestModel");
   converter.PopulateSessionModel(*tree_data, target);
 
-  EXPECT_EQ(target.rootItem()->GetTotalItemCount(), 1);
-  auto reco_item = target.rootItem()->GetItem("", 0);
-  EXPECT_EQ(reco_item->GetParent(), target.rootItem());
+  EXPECT_EQ(target.GetRootItem()->GetTotalItemCount(), 1);
+  auto reco_item = target.GetRootItem()->GetItem("", 0);
+  EXPECT_EQ(reco_item->GetParent(), target.GetRootItem());
   EXPECT_EQ(reco_item->GetType(), item->GetType());
   EXPECT_EQ(reco_item->GetIdentifier(), item->GetIdentifier());
 }
@@ -100,12 +100,12 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
   SessionModel model("TestModel");
 
   // filling original model with content
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
   parent->SetDisplayName("parent_name");
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   parent->SetData(42);
-  auto child = model.insertItem<PropertyItem>(parent);
+  auto child = model.InsertItem<PropertyItem>(parent);
   child->SetDisplayName("child_name");
 
   // writing model to TreeData
@@ -116,13 +116,13 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
   converter.PopulateSessionModel(*tree_data, target);
 
   // accessing reconstructed parent and child
-  auto reco_parent = target.rootItem()->GetItem("", 0);
+  auto reco_parent = target.GetRootItem()->GetItem("", 0);
   auto reco_child = reco_parent->GetItem("", 0);
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetModel(), &target);
   EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->GetParent(), target.rootItem());
+  EXPECT_EQ(reco_parent->GetParent(), target.GetRootItem());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
   EXPECT_EQ(reco_parent->GetIdentifier(), parent->GetIdentifier());
@@ -148,7 +148,7 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
   // creating source model with own pool for item registration
   auto pool1 = std::make_shared<ItemPool>();
   SessionModel source("SourceModel", pool1);
-  auto parent1 = source.insertItem<SessionItem>();
+  auto parent1 = source.InsertItem<SessionItem>();
 
   // writing model to TreeData
   auto tree_data = converter.ToTreeData(source);
@@ -158,7 +158,7 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
   SessionModel target("SourceModel", pool2);
   converter.PopulateSessionModel(*tree_data, target);
 
-  auto reco_parent = target.rootItem()->GetItem("", 0);
+  auto reco_parent = target.GetRootItem()->GetItem("", 0);
 
   // comparing identifiers of two items from different models
   auto id1 = parent1->GetIdentifier();
@@ -183,9 +183,9 @@ TEST_F(TreeDataModelConverterTest, SingleItemToJsonAndBackToSameModel)
 
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("TestModel", pool);
-  auto item = model.insertItem<SessionItem>();
+  auto item = model.InsertItem<SessionItem>();
 
-  auto root_item = model.rootItem();
+  auto root_item = model.GetRootItem();
   auto root_id = root_item->GetIdentifier();
   auto item_id = item->GetIdentifier();
 
@@ -195,10 +195,10 @@ TEST_F(TreeDataModelConverterTest, SingleItemToJsonAndBackToSameModel)
   // filling new model
   converter.PopulateSessionModel(*tree_data, model);
 
-  EXPECT_EQ(pool->size(), 2);
-  EXPECT_FALSE(pool->ItemForKey(root_id) == model.rootItem());  // old root identifier has gone
-  EXPECT_TRUE(model.rootItem() != root_item);                   // old root item gone
+  EXPECT_EQ(pool->GetSize(), 2);
+  EXPECT_FALSE(pool->ItemForKey(root_id) == model.GetRootItem());  // old root identifier has gone
+  EXPECT_TRUE(model.GetRootItem() != root_item);                   // old root item gone
 
-  auto new_item = model.rootItem()->GetAllItems().at(0);
+  auto new_item = model.GetRootItem()->GetAllItems().at(0);
   EXPECT_EQ(pool->ItemForKey(item_id), new_item);
 }

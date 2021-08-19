@@ -363,4 +363,3 @@ ModelViewTreeDataTest::ModelViewTreeDataTest()
 }
 
 ModelViewTreeDataTest::~ModelViewTreeDataTest() = default;
-

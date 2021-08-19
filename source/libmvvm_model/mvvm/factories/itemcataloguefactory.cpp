@@ -23,7 +23,6 @@
 
 namespace ModelView
 {
-
 std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
 {
   auto result = std::make_unique<ItemCatalogue>();
@@ -39,4 +38,4 @@ void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
   user_catalogue.merge(*CreateStandardItemCatalogue());
 }
 
-}
+}  // namespace ModelView

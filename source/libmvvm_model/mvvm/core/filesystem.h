@@ -64,7 +64,7 @@
 #endif
 
 // Not on Visual Studio. Let's use the normal version
-#else // #ifdef _MSC_VER
+#else  // #ifdef _MSC_VER
 #define INCLUDE_STD_FILESYSTEM_EXPERIMENTAL 0
 #endif
 
@@ -83,7 +83,8 @@
 #include <experimental/filesystem>
 
 // We need the alias from std::experimental::filesystem to std::filesystem
-namespace std {
+namespace std
+{
 namespace filesystem = experimental::filesystem;
 }
 
@@ -93,6 +94,6 @@ namespace filesystem = experimental::filesystem;
 #include <filesystem>
 #endif
 
-#endif // #ifndef INCLUDE_STD_FILESYSTEM_EXPERIMENTAL
+#endif  // #ifndef INCLUDE_STD_FILESYSTEM_EXPERIMENTAL
 
-#endif // MVVM_CORE_FILESYSTEM_H
+#endif  // MVVM_CORE_FILESYSTEM_H

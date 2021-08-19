@@ -35,7 +35,8 @@ void Utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& 
   else
     return;
 
-  for (auto child : item->GetAllItems()) iterate(child, fun);
+  for (auto child : item->GetAllItems())
+    iterate(child, fun);
 }
 
 void Utils::iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
@@ -48,7 +49,8 @@ void Utils::iterate_if(const SessionItem* item, const std::function<bool(const S
   if (!item || !proceed_with_children)
     return;
 
-  for (auto child : item->GetAllItems()) iterate_if(child, fun);
+  for (auto child : item->GetAllItems())
+    iterate_if(child, fun);
 }
 
 int Utils::CopyNumber(const SessionItem* item)
@@ -103,7 +105,8 @@ bool Utils::IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
 std::vector<std::string> Utils::RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
-  for (const auto container : *item.GetTaggedItems()) result.push_back(container->GetName());
+  for (const auto container : *item.GetTaggedItems())
+    result.push_back(container->GetName());
   return result;
 }
 

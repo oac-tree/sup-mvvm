@@ -156,7 +156,8 @@ TEST_F(ItemCatalogueTest, AddLabeledItem)
   catalogue.RegisterItem<TestItem>("test item");
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({PropertyItem::Type, TestItem::Type}));
+  EXPECT_EQ(catalogue.GetModelTypes(),
+            std::vector<std::string>({PropertyItem::Type, TestItem::Type}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({"property", "test item"}));
 }
 

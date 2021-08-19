@@ -57,7 +57,7 @@ TEST_F(VectorItemTest, InitialState)
 TEST_F(VectorItemTest, InitialStateFromModel)
 {
   SessionModel model;
-  auto item = model.insertItem<VectorItem>();
+  auto item = model.InsertItem<VectorItem>();
 
   EXPECT_EQ(item->Property<double>(VectorItem::P_X), 0.0);
   EXPECT_EQ(item->Property<double>(VectorItem::P_Y), 0.0);

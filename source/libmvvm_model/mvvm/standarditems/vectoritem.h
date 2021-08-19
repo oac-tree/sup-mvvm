@@ -28,7 +28,7 @@ namespace ModelView
 
 class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
-public:  
+public:
   static inline const std::string Type = "VectorItem";
   static inline const std::string P_X = "P_X";
   static inline const std::string P_Y = "P_Y";
@@ -36,17 +36,17 @@ public:
 
   VectorItem();
 
-  double x() const;
-  void setX(double value);
+  double X() const;
+  void SetX(double value);
 
-  double y() const;
-  void setY(double value);
+  double Y() const;
+  void SetY(double value);
 
-  double z() const;
-  void setZ(double value);
+  double Z() const;
+  void SetZ(double value);
 
 private:
-  void update_label();
+  void UpdateLabel();
 };
 
 }  // namespace ModelView

@@ -23,15 +23,15 @@
 #include "test_utils.h"
 
 #include "mvvm/factories/itemcataloguefactory.h"
+#include "mvvm/model/compounditem.h"
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/sessionitemdata.h"
 #include "mvvm/model/taggeditems.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/serialization/TreeData.h"
 #include "mvvm/serialization/xmlparseutils.h"
 #include "mvvm/serialization/xmlwriteutils.h"
 #include "mvvm/standarditems/standarditemincludes.h"
+#include "mvvm/standarditems/vectoritem.h"
 
 #include <gtest/gtest.h>
 
@@ -259,9 +259,9 @@ TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
   EXPECT_EQ(reco_child->GetType(), VectorItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "Position");
   EXPECT_EQ(reco_child->GetIdentifier(), position_item->GetIdentifier());
-  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_X), position_item->x());
-  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Y), position_item->y());
-  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Z), position_item->z());
+  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_X), position_item->X());
+  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Y), position_item->Y());
+  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Z), position_item->Z());
 }
 
 //! Parent and child to TreeData object and back.
@@ -296,9 +296,9 @@ TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
   EXPECT_EQ(reco_child->GetType(), VectorItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "Position");
   EXPECT_EQ(reco_child->GetIdentifier(), position_item->GetIdentifier());
-  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_X), position_item->x());
-  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Y), position_item->y());
-  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Z), position_item->z());
+  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_X), position_item->X());
+  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Y), position_item->Y());
+  EXPECT_EQ(reco_child->Property<double>(VectorItem::P_Z), position_item->Z());
 }
 
 //! Parent and child to TreeData object and back (converter in copy mode).

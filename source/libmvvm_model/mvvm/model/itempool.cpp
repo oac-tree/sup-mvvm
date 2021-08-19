@@ -25,7 +25,7 @@
 
 using namespace ModelView;
 
-size_t ItemPool::size() const
+size_t ItemPool::GetSize() const
 {
   if (m_key_to_item.size() != m_item_to_key.size())
     throw std::runtime_error("Error in ItemPool: array size mismatch");

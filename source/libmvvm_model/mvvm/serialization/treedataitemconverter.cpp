@@ -84,7 +84,8 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     //    populate_item_tags(json[JsonItemFormatAssistant::itemTagsKey].toObject(),
     //    *item.itemTags());
 
-    for (auto child : item.GetAllItems()) child->SetParent(&item);
+    for (auto child : item.GetAllItems())
+      child->SetParent(&item);
 
     if (IsRegenerateIdWhenBackFromXML(m_mode))
       item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);

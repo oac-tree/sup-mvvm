@@ -91,7 +91,7 @@ TEST_F(ItemUtilsTest, IterateIfItem)
 
 //! Iteration over root item of the model. FIXME uncomment
 
-//TEST_F(ItemUtilsTest, iterateModel)
+// TEST_F(ItemUtilsTest, iterateModel)
 //{
 //  SessionModel model;
 
@@ -115,7 +115,7 @@ TEST_F(ItemUtilsTest, IterateIfItem)
 
 //! Copy number of child in parents tree.
 
-//TEST_F(ItemUtilsTest, itemCopyNumber)
+// TEST_F(ItemUtilsTest, itemCopyNumber)
 //{
 //  SessionModel model;
 
@@ -144,7 +144,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 ////! Checks method ::IsSinglePropertyTag.
 
-//TEST_F(ItemUtilsTest, IsSinglePropertyTag)
+// TEST_F(ItemUtilsTest, IsSinglePropertyTag)
 //{
 //  SessionItem item;
 //  item.registerTag(TagInfo::universalTag("default_tag"), /*set_as_default*/ true);
@@ -156,7 +156,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Checks method ::RegisteredTags.
 
-//TEST_F(ItemUtilsTest, RegisteredTags)
+// TEST_F(ItemUtilsTest, RegisteredTags)
 //{
 //  SessionItem item;
 //  EXPECT_TRUE(Utils::RegisteredTags(item).empty());
@@ -164,12 +164,13 @@ TEST_F(ItemUtilsTest, HasTag)
 //  item.registerTag(TagInfo::universalTag("default_tag"), /*set_as_default*/ true);
 //  item.registerTag(TagInfo::propertyTag("property_tag", Constants::PropertyType));
 
-//  EXPECT_EQ(Utils::RegisteredTags(item), std::vector<std::string>({"default_tag", "property_tag"}));
+//  EXPECT_EQ(Utils::RegisteredTags(item), std::vector<std::string>({"default_tag",
+//  "property_tag"}));
 //}
 
 ////! Checks method ::RegisteredUniversalTags.
 
-//TEST_F(ItemUtilsTest, RegisteredUniversalTags)
+// TEST_F(ItemUtilsTest, RegisteredUniversalTags)
 //{
 //  SessionItem item;
 //  EXPECT_TRUE(Utils::RegisteredUniversalTags(item).empty());
@@ -182,7 +183,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 ////! Check access to top level and property items.
 
-//TEST_F(ItemUtilsTest, TopLevelItems)
+// TEST_F(ItemUtilsTest, TopLevelItems)
 //{
 //  SessionModel model;
 
@@ -202,7 +203,7 @@ TEST_F(ItemUtilsTest, HasTag)
 //! Check access to top level and property items when some of items are hidden via corresponding
 //! appearance flag.
 
-//TEST_F(ItemUtilsTest, TopLevelItemsWhenHidden)
+// TEST_F(ItemUtilsTest, TopLevelItemsWhenHidden)
 //{
 //  SessionModel model;
 
@@ -224,7 +225,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Check access to top level and property items.
 
-//TEST_F(ItemUtilsTest, SinglePropertyItems)
+// TEST_F(ItemUtilsTest, SinglePropertyItems)
 //{
 //  SessionModel model;
 
@@ -244,7 +245,7 @@ TEST_F(ItemUtilsTest, HasTag)
 //! Check access to top level and property items when some of items are hidden via corresponding
 //! appearance flag.
 
-//TEST_F(ItemUtilsTest, SinglePropertyItemsWhenHidden)
+// TEST_F(ItemUtilsTest, SinglePropertyItemsWhenHidden)
 //{
 //  SessionModel model;
 
@@ -266,7 +267,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Looking for next item.
 
-//TEST_F(ItemUtilsTest, FindNextSibling)
+// TEST_F(ItemUtilsTest, FindNextSibling)
 //{
 //  SessionModel model;
 
@@ -288,7 +289,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Looking for previous item.
 
-//TEST_F(ItemUtilsTest, FindPreviousSibling)
+// TEST_F(ItemUtilsTest, FindPreviousSibling)
 //{
 //  SessionModel model;
 
@@ -310,7 +311,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Looking for previous item.
 
-//TEST_F(ItemUtilsTest, FindNextItemToSelect)
+// TEST_F(ItemUtilsTest, FindNextItemToSelect)
 //{
 //  SessionModel model;
 
@@ -332,7 +333,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Looking for previous item.
 
-//TEST_F(ItemUtilsTest, IsItemAncestor)
+// TEST_F(ItemUtilsTest, IsItemAncestor)
 //{
 //  SessionModel model;
 //  EXPECT_FALSE(Utils::IsItemAncestor(model.rootItem(), model.rootItem()));
@@ -353,7 +354,7 @@ TEST_F(ItemUtilsTest, HasTag)
 //  EXPECT_FALSE(Utils::IsItemAncestor(x_item, y_item));
 //}
 
-//TEST_F(ItemUtilsTest, UniqueItems)
+// TEST_F(ItemUtilsTest, UniqueItems)
 //{
 //  SessionModel model;
 //  auto item0 = model.insertItem<SessionItem>(model.rootItem());
@@ -364,7 +365,7 @@ TEST_F(ItemUtilsTest, HasTag)
 //  EXPECT_EQ(Utils::UniqueItems(data), expected);
 //}
 
-//TEST_F(ItemUtilsTest, CastedItems)
+// TEST_F(ItemUtilsTest, CastedItems)
 //{
 //  SessionModel model;
 //  auto item0 = model.insertItem<SessionItem>(model.rootItem());

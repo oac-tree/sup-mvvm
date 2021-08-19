@@ -45,53 +45,53 @@ public:
 
   // Methods to manipulate data and items.
 
-  SessionItem* insertNewItem(const std::string& modelType, SessionItem* parent = nullptr,
+  SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent = nullptr,
                              const TagIndex& tag_index = {});
 
   template <typename T>
-  T* insertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
+  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
-  void removeItem(SessionItem* parent, const TagIndex& tag_index);
+  void RemoveItem(SessionItem* parent, const TagIndex& tag_index);
 
-  variant_t data(SessionItem* item, int role) const;
+  variant_t Data(SessionItem* item, int role) const;
 
-  bool setData(SessionItem* item, const variant_t& value, int role);
+  bool SetData(SessionItem* item, const variant_t& value, int role);
 
   // Various getters.
 
-  std::string modelType() const;
+  std::string GetType() const;
 
-  SessionItem* rootItem() const;
+  SessionItem* GetRootItem() const;
 
-  const ItemFactoryInterface* factory() const;
+  const ItemFactoryInterface* GetFactory() const;
 
-  SessionItem* findItem(const std::string& id);
-
-  template <typename T = SessionItem>
-  std::vector<T*> topItems() const;
+  SessionItem* FindItem(const std::string& id);
 
   template <typename T = SessionItem>
-  T* topItem() const;
+  std::vector<T*> GetTopItems() const;
+
+  template <typename T = SessionItem>
+  T* GetTopItem() const;
 
   // Methods to steer global behaviour.
 
-  void setItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
+  void SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
 
-  void setUndoRedoEnabled(bool value);
-
-  void clear(std::function<void(SessionItem*)> callback = {});
+  void Clear(std::function<void(SessionItem*)> callback = {});
 
   template <typename T>
-  void registerItem(const std::string& label = {});
+  void RegisterItem(const std::string& label = {});
 
 private:
   friend class SessionItem;
-  void registerInPool(SessionItem* item);
-  void unregisterFromPool(SessionItem* item);
-  SessionItem* intern_insert(const item_factory_func_t& func, SessionItem* parent,
-                             const TagIndex& tag_index);
-  void intern_register(const std::string& modelType, const item_factory_func_t& func,
-                       const std::string& label);
+
+  void RegisterInPool(SessionItem* item);
+  void UnregisterFromPool(SessionItem* item);
+
+  SessionItem* ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
+                                  const TagIndex& tag_index);
+  void RegisterInPoolInternal(const std::string& modelType, const item_factory_func_t& func,
+                              const std::string& label);
 
   struct SessionModelImpl;
   std::unique_ptr<SessionModelImpl> p_impl;
@@ -100,34 +100,27 @@ private:
 //! Inserts item into given parent under given tag_index.
 
 template <typename T>
-T* SessionModel::insertItem(SessionItem* parent, const TagIndex& tag_index)
+T* SessionModel::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  return static_cast<T*>(intern_insert(ItemFactoryFunction<T>(), parent, tag_index));
+  return static_cast<T*>(ItemInsertInternal(ItemFactoryFunction<T>(), parent, tag_index));
 }
 
 //! Returns top items of the given type.
 //! The top item is an item that is a child of an invisible root item.
 
 template <typename T>
-std::vector<T*> SessionModel::topItems() const
+std::vector<T*> SessionModel::GetTopItems() const
 {
-  std::vector<T*> result;
-  for (auto child : rootItem()->GetAllItems())
-  {
-    if (auto item = dynamic_cast<T*>(child))
-      result.push_back(item);
-  }
-
-  return result;
+  return Utils::CastItems<T>(GetRootItem()->GetAllItems());
 }
 
 //! Returns top item of the given type. If more than one item exists, return the first one.
 //! The top item is an item that is a child of an invisible root item.
 
 template <typename T>
-T* SessionModel::topItem() const
+T* SessionModel::GetTopItem() const
 {
-  auto items = topItems<T>();
+  auto items = GetTopItems<T>();
   return items.empty() ? nullptr : items.front();
 }
 
@@ -135,9 +128,9 @@ T* SessionModel::topItem() const
 //! operations with this item, as well as serialize it to/from JSON.
 
 template <typename T>
-void SessionModel::registerItem(const std::string& label)
+void SessionModel::RegisterItem(const std::string& label)
 {
-  intern_register(T().GetType(), ItemFactoryFunction<T>(), label);
+  RegisterInPoolInternal(T().GetType(), ItemFactoryFunction<T>(), label);
 }
 
 }  // namespace ModelView

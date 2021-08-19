@@ -31,11 +31,11 @@
 #ifndef _SEQ_TreeData_h_
 #define _SEQ_TreeData_h_
 
+#include "mvvm/serialization/AttributeMap.h"
+
 #include <string>
 #include <utility>
 #include <vector>
-
-#include "mvvm/serialization/AttributeMap.h"
 
 namespace ModelView
 {

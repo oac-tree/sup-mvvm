@@ -37,7 +37,7 @@ class ItemPoolTest : public ::testing::Test
 TEST_F(ItemPoolTest, InitialState)
 {
   std::unique_ptr<ItemPool> pool(new ItemPool);
-  EXPECT_EQ(pool->size(), 0U);
+  EXPECT_EQ(pool->GetSize(), 0U);
 }
 
 //! Explicit item registrations.
@@ -49,7 +49,7 @@ TEST_F(ItemPoolTest, RegisterItem)
 
   // registering item
   auto key = pool->RegisterItem(item.get());
-  EXPECT_EQ(pool->size(), 1U);
+  EXPECT_EQ(pool->GetSize(), 1U);
   EXPECT_FALSE(key.empty());
 
   // checking registered key and item
@@ -63,7 +63,7 @@ TEST_F(ItemPoolTest, RegisterItem)
 
   // registering second item
   auto key2 = pool->RegisterItem(item2.get());
-  EXPECT_EQ(pool->size(), 2U);
+  EXPECT_EQ(pool->GetSize(), 2U);
   EXPECT_EQ(key2, pool->KeyForItem(item2.get()));
   EXPECT_FALSE(key == key2);
 
@@ -82,13 +82,13 @@ TEST_F(ItemPoolTest, DeregisterItem)
   auto key1 = pool->RegisterItem(item1.get());
   auto key2 = pool->RegisterItem(item2.get());
 
-  EXPECT_EQ(pool->size(), 2U);
+  EXPECT_EQ(pool->GetSize(), 2U);
   EXPECT_EQ(item1.get(), pool->ItemForKey(key1));
   EXPECT_EQ(item2.get(), pool->ItemForKey(key2));
 
   // deregistering item
   pool->UnregisterItem(item1.get());
-  EXPECT_EQ(pool->size(), 1U);
+  EXPECT_EQ(pool->GetSize(), 1U);
   EXPECT_EQ(nullptr, pool->ItemForKey(key1));
   EXPECT_EQ(item2.get(), pool->ItemForKey(key2));
 
@@ -97,7 +97,7 @@ TEST_F(ItemPoolTest, DeregisterItem)
 
   // deregistering last remaining item
   pool->UnregisterItem(item2.get());
-  EXPECT_EQ(pool->size(), 0U);
+  EXPECT_EQ(pool->GetSize(), 0U);
 }
 
 //! Providing custom key.

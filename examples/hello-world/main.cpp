@@ -30,7 +30,7 @@ using namespace ModelView;
 int main()
 {
   SessionModel model;
-  auto item = model.insertItem<CompoundItem>();
+  auto item = model.InsertItem<CompoundItem>();
   item->AddProperty("Greeting", "Hello");
   item->AddProperty("Addressee", "World!");
   item->AddProperty("Number", 42);

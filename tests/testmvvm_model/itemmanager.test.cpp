@@ -41,5 +41,5 @@ TEST_F(ItemManagerTest, InitialState)
   std::shared_ptr<ItemPool> pool(new ItemPool);
   manager.SetItemPool(pool);
   EXPECT_EQ(manager.GetItemPool(), pool.get());
-  EXPECT_EQ(manager.GetItemPool()->size(), 0);
+  EXPECT_EQ(manager.GetItemPool()->GetSize(), 0);
 }

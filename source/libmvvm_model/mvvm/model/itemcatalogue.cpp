@@ -84,14 +84,16 @@ std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type
 std::vector<std::string> ItemCatalogue::GetModelTypes() const
 {
   std::vector<std::string> result;
-  for (const auto& x : p_impl->m_info) result.push_back(x.item_type);
+  for (const auto& x : p_impl->m_info)
+    result.push_back(x.item_type);
   return result;
 }
 
 std::vector<std::string> ItemCatalogue::GetLabels() const
 {
   std::vector<std::string> result;
-  for (const auto& x : p_impl->m_info) result.push_back(x.item_label);
+  for (const auto& x : p_impl->m_info)
+    result.push_back(x.item_label);
   return result;
 }
 

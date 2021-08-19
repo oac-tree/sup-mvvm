@@ -248,5 +248,6 @@ TEST_F(StringUtilsTest, ToComaSeparatedString)
 
   EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({})), std::string());
   EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({"abc"})), std::string("abc"));
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({"abc", "cde"})), std::string("abc, cde"));
+  EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({"abc", "cde"})),
+            std::string("abc, cde"));
 }

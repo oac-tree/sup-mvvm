@@ -46,8 +46,8 @@ public:
 TEST_F(SessionModelTest, InitialState)
 {
   SessionModel model;
-  EXPECT_EQ(model.rootItem()->GetModel(), &model);
-  EXPECT_EQ(model.rootItem()->GetParent(), nullptr);
+  EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
+  EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
 }
 
 TEST_F(SessionModelTest, InsertItem)
@@ -58,9 +58,9 @@ TEST_F(SessionModelTest, InsertItem)
   const std::string model_type = SessionItem::Type;
 
   // inserting single item
-  auto item = model.insertItem<SessionItem>();
+  auto item = model.InsertItem<SessionItem>();
   EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->GetParent(), model.rootItem());
+  EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
   EXPECT_EQ(item->GetType(), model_type);
 
@@ -72,7 +72,7 @@ TEST_F(SessionModelTest, InsertItem)
   item->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
-  auto child = model.insertItem<SessionItem>(item);
+  auto child = model.InsertItem<SessionItem>(item);
   auto child_key = child->GetIdentifier();
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
@@ -98,9 +98,9 @@ TEST_F(SessionModelTest, insertNewItem)
   const std::string model_type = SessionItem::Type;
 
   // inserting single item
-  auto item = model.insertNewItem(model_type);
+  auto item = model.InsertNewItem(model_type);
   EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->GetParent(), model.rootItem());
+  EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
   EXPECT_EQ(item->GetType(), model_type);
 
@@ -112,7 +112,7 @@ TEST_F(SessionModelTest, insertNewItem)
   item->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
-  auto child = model.insertNewItem(model_type, item);
+  auto child = model.InsertNewItem(model_type, item);
   auto child_key = child->GetIdentifier();
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
@@ -134,15 +134,15 @@ TEST_F(SessionModelTest, insertNewItemWithTag)
 {
   const std::string tag1("tag1");
   SessionModel model;
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag(tag1));
-  auto child1 = model.insertItem<PropertyItem>(parent, {tag1, -1});
+  auto child1 = model.InsertItem<PropertyItem>(parent, {tag1, -1});
 
   EXPECT_EQ(parent->TagIndexOfItem(child1).tag, tag1);
   EXPECT_EQ(Utils::IndexOfChild(parent, child1), 0);
 
   // adding second child
-  auto child2 = model.insertItem<PropertyItem>(parent, {tag1, 0});
+  auto child2 = model.InsertItem<PropertyItem>(parent, {tag1, 0});
 
   EXPECT_EQ(parent->TagIndexOfItem(child2).tag, tag1);
   EXPECT_EQ(Utils::IndexOfChild(parent, child1), 1);
@@ -154,19 +154,19 @@ TEST_F(SessionModelTest, setData)
   SessionModel model;
 
   // inserting single item
-  auto item = model.insertItem<SessionItem>();
-  EXPECT_TRUE(Utils::IsValid(model.data(item, DataRole::kDisplay)));
+  auto item = model.InsertItem<SessionItem>();
+  EXPECT_TRUE(Utils::IsValid(model.Data(item, DataRole::kDisplay)));
 
   // setting wrong type of data
   variant_t value(42.0);
-  EXPECT_THROW(model.setData(item, value, DataRole::kDisplay), std::runtime_error);
+  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), std::runtime_error);
 
   // setting new data
-  EXPECT_TRUE(model.setData(item, value, DataRole::kData));
-  EXPECT_EQ(model.data(item, DataRole::kData), value);
+  EXPECT_TRUE(model.SetData(item, value, DataRole::kData));
+  EXPECT_EQ(model.Data(item, DataRole::kData), value);
 
   // setting same data twice should return false
-  EXPECT_FALSE(model.setData(item, value, DataRole::kData));
+  EXPECT_FALSE(model.SetData(item, value, DataRole::kData));
 }
 
 TEST_F(SessionModelTest, removeItem)
@@ -174,14 +174,14 @@ TEST_F(SessionModelTest, removeItem)
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("Test", pool);
 
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  auto child1 = model.insertItem<SessionItem>(parent);
-  auto child2 = model.insertItem<SessionItem>(parent, {"", 0});  // before child1
+  auto child1 = model.InsertItem<SessionItem>(parent);
+  auto child2 = model.InsertItem<SessionItem>(parent, {"", 0});  // before child1
 
   // removing child2
-  model.removeItem(parent, {"", 0});  // removing child2
+  model.RemoveItem(parent, {"", 0});  // removing child2
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(Utils::ChildAt(parent, 0), child1);
 
@@ -194,11 +194,11 @@ TEST_F(SessionModelTest, removeNonExistingItem)
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("Test", pool);
 
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // removing non existing child
-  EXPECT_NO_THROW(model.removeItem(parent, {"", 0}));
+  EXPECT_NO_THROW(model.RemoveItem(parent, {"", 0}));
 }
 
 TEST_F(SessionModelTest, takeRowFromRootItem)
@@ -206,18 +206,18 @@ TEST_F(SessionModelTest, takeRowFromRootItem)
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("Test", pool);
 
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   auto parent_key = parent->GetIdentifier();
 
-  auto child = model.insertItem<SessionItem>(parent);
+  auto child = model.InsertItem<SessionItem>(parent);
   auto child_key = child->GetIdentifier();
 
   EXPECT_EQ(pool->ItemForKey(parent_key), parent);
   EXPECT_EQ(pool->ItemForKey(child_key), child);
 
   // taking parent
-  auto taken = model.rootItem()->TakeItem({"", 0});
+  auto taken = model.GetRootItem()->TakeItem({"", 0});
   EXPECT_EQ(pool->ItemForKey(parent_key), nullptr);
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
 }
@@ -250,20 +250,20 @@ TEST_F(SessionModelTest, clearModel)
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("test", pool);
 
-  EXPECT_EQ(pool->size(), 1);
+  EXPECT_EQ(pool->GetSize(), 1);
 
-  auto first_root = model.rootItem();
+  auto first_root = model.GetRootItem();
 
-  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 0);
-  model.insertItem<SessionItem>();
-  model.insertItem<SessionItem>();
-  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 2);
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
+  model.InsertItem<SessionItem>();
+  model.InsertItem<SessionItem>();
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
-  model.clear();
-  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 0);
-  EXPECT_FALSE(model.rootItem() == first_root);
+  model.Clear();
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_FALSE(model.GetRootItem() == first_root);
   EXPECT_EQ(pool->KeyForItem(first_root), "");
-  EXPECT_EQ(pool->size(), 1);
+  EXPECT_EQ(pool->GetSize(), 1);
 }
 
 TEST_F(SessionModelTest, clearRebuildModel)
@@ -271,23 +271,24 @@ TEST_F(SessionModelTest, clearRebuildModel)
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("test", pool);
 
-  EXPECT_EQ(pool->size(), 1);
+  EXPECT_EQ(pool->GetSize(), 1);
 
-  auto first_root = model.rootItem();
+  auto first_root = model.GetRootItem();
 
-  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 0);
-  model.insertItem<SessionItem>();
-  model.insertItem<SessionItem>();
-  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 2);
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
+  model.InsertItem<SessionItem>();
+  model.InsertItem<SessionItem>();
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
   SessionItem* new_item{nullptr};
-  auto rebuild = [&new_item](auto parent) { new_item = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append()); };
+  auto rebuild = [&new_item](auto parent)
+  { new_item = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append()); };
 
-  model.clear(rebuild);
-  EXPECT_EQ(model.rootItem()->GetTotalItemCount(), 1);
-  EXPECT_FALSE(model.rootItem() == first_root);
+  model.Clear(rebuild);
+  EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_FALSE(model.GetRootItem() == first_root);
   EXPECT_EQ(pool->KeyForItem(first_root), "");
-  EXPECT_EQ(pool->size(), 2);
+  EXPECT_EQ(pool->GetSize(), 2);
   EXPECT_EQ(pool->KeyForItem(new_item), new_item->GetIdentifier());
 }
 
@@ -383,15 +384,15 @@ TEST_F(SessionModelTest, clearRebuildModel)
 TEST_F(SessionModelTest, findItem)
 {
   SessionModel model;
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
 
   // check that we can find item using its own identofoer
   const std::string id = parent->GetIdentifier();
-  EXPECT_EQ(model.findItem(id), parent);
+  EXPECT_EQ(model.FindItem(id), parent);
 
   // check that we can't find deleted item.
-  model.removeItem(model.rootItem(), {"", 0});
-  EXPECT_EQ(model.findItem(id), nullptr);
+  model.RemoveItem(model.GetRootItem(), {"", 0});
+  EXPECT_EQ(model.FindItem(id), nullptr);
 }
 
 //! Test items in different models.
@@ -404,36 +405,36 @@ TEST_F(SessionModelTest, findItemInAlienModel)
   SessionModel model2("Test2", pool);
 
   // inserting items in both models
-  auto parent1 = model1.insertItem<SessionItem>();
-  auto parent2 = model2.insertItem<SessionItem>();
+  auto parent1 = model1.InsertItem<SessionItem>();
+  auto parent2 = model2.InsertItem<SessionItem>();
   const std::string id1 = parent1->GetIdentifier();
   const std::string id2 = parent2->GetIdentifier();
 
   // checking that we can access items from both models
-  EXPECT_EQ(model1.findItem(id1), parent1);
-  EXPECT_EQ(model2.findItem(id1), parent1);
-  EXPECT_EQ(model1.findItem(id2), parent2);
-  EXPECT_EQ(model2.findItem(id2), parent2);
+  EXPECT_EQ(model1.FindItem(id1), parent1);
+  EXPECT_EQ(model2.FindItem(id1), parent1);
+  EXPECT_EQ(model1.FindItem(id2), parent2);
+  EXPECT_EQ(model2.FindItem(id2), parent2);
 
   // check that we can't find deleted item.
-  model1.removeItem(model1.rootItem(), {"", 0});
-  EXPECT_EQ(model1.findItem(id1), nullptr);
-  EXPECT_EQ(model2.findItem(id1), nullptr);
-  EXPECT_EQ(model1.findItem(id2), parent2);
-  EXPECT_EQ(model2.findItem(id2), parent2);
+  model1.RemoveItem(model1.GetRootItem(), {"", 0});
+  EXPECT_EQ(model1.FindItem(id1), nullptr);
+  EXPECT_EQ(model2.FindItem(id1), nullptr);
+  EXPECT_EQ(model1.FindItem(id2), parent2);
+  EXPECT_EQ(model2.FindItem(id2), parent2);
 }
 
 TEST_F(SessionModelTest, topItem)
 {
   SessionModel model;
-  EXPECT_EQ(model.topItem<>(), nullptr);
-  EXPECT_EQ(model.topItem(), nullptr);
+  EXPECT_EQ(model.GetTopItem<>(), nullptr);
+  EXPECT_EQ(model.GetTopItem(), nullptr);
 
-  auto property = model.insertItem<PropertyItem>();
-  auto compound = model.insertItem<CompoundItem>();
-  EXPECT_EQ(model.topItem<>(), property);
-  EXPECT_EQ(model.topItem(), property);
-  EXPECT_EQ(model.topItem<CompoundItem>(), compound);
+  auto property = model.InsertItem<PropertyItem>();
+  auto compound = model.InsertItem<CompoundItem>();
+  EXPECT_EQ(model.GetTopItem<>(), property);
+  EXPECT_EQ(model.GetTopItem(), property);
+  EXPECT_EQ(model.GetTopItem<CompoundItem>(), compound);
 }
 
 TEST_F(SessionModelTest, topItems)
@@ -441,20 +442,20 @@ TEST_F(SessionModelTest, topItems)
   std::vector<SessionItem*> expected;
 
   SessionModel model;
-  EXPECT_EQ(model.topItems<>(), expected);
-  EXPECT_EQ(model.topItems(), expected);
+  EXPECT_EQ(model.GetTopItems<>(), expected);
+  EXPECT_EQ(model.GetTopItems(), expected);
 
-  auto property1 = model.insertItem<PropertyItem>();
-  auto compound1 = model.insertItem<CompoundItem>();
-  auto property2 = model.insertItem<PropertyItem>();
-  auto compound2 = model.insertItem<CompoundItem>();
+  auto property1 = model.InsertItem<PropertyItem>();
+  auto compound1 = model.InsertItem<CompoundItem>();
+  auto property2 = model.InsertItem<PropertyItem>();
+  auto compound2 = model.InsertItem<CompoundItem>();
 
   expected = {property1, compound1, property2, compound2};
-  EXPECT_EQ(model.topItems<>(), expected);
-  EXPECT_EQ(model.topItems(), expected);
+  EXPECT_EQ(model.GetTopItems<>(), expected);
+  EXPECT_EQ(model.GetTopItems(), expected);
 
   std::vector<CompoundItem*> expected2 = {compound1, compound2};
-  EXPECT_EQ(model.topItems<CompoundItem>(), expected2);
+  EXPECT_EQ(model.GetTopItems<CompoundItem>(), expected2);
 }
 
 TEST_F(SessionModelTest, registerItem)
@@ -462,9 +463,9 @@ TEST_F(SessionModelTest, registerItem)
   const std::string expectedModelType("TestItemType");
 
   SessionModel model;
-  model.registerItem<TestItem>();
+  model.RegisterItem<TestItem>();
 
-  auto item = model.insertNewItem(expectedModelType);
+  auto item = model.InsertNewItem(expectedModelType);
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
   EXPECT_EQ(item->GetType(), expectedModelType);

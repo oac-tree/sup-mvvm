@@ -65,13 +65,13 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   XmlDocument document({&model});
 
   // filling model with parent and child
-  auto parent = model.insertItem<SessionItem>();
+  auto parent = model.InsertItem<SessionItem>();
   parent->SetDisplayName("parent_name");
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   const auto parent_identifier = parent->GetIdentifier();
 
   parent->SetData(42);
-  auto child = model.insertItem<PropertyItem>(parent);
+  auto child = model.InsertItem<PropertyItem>(parent);
   child->SetDisplayName("child_name");
   const auto child_identifier = child->GetIdentifier();
 
@@ -79,7 +79,7 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   document.Save(file_path);
 
   // modifying model further
-  model.removeItem(model.rootItem(), {"", 0});
+  model.RemoveItem(model.GetRootItem(), {"", 0});
 
   // loading model from file
   document.Load(file_path);
@@ -87,13 +87,13 @@ TEST_F(XmlDocumentTest, SaveLoadSingleModel)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto reco_parent = model.rootItem()->GetItem("", 0);
+  auto reco_parent = model.GetRootItem()->GetItem("", 0);
   auto reco_child = reco_parent->GetItem("", 0);
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetModel(), &model);
   EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
-  EXPECT_EQ(reco_parent->GetParent(), model.rootItem());
+  EXPECT_EQ(reco_parent->GetParent(), model.GetRootItem());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
   EXPECT_EQ(reco_parent->GetIdentifier(), parent_identifier);
@@ -121,18 +121,18 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   XmlDocument document({&model1, &model2});
 
   // filling models
-  auto parent1 = model1.insertItem<SessionItem>();
+  auto parent1 = model1.InsertItem<SessionItem>();
   const auto parent_identifier1 = parent1->GetIdentifier();
 
-  auto parent2 = model2.insertItem<SessionItem>();
+  auto parent2 = model2.InsertItem<SessionItem>();
   const auto parent_identifier2 = parent2->GetIdentifier();
 
   // saving models in file
   document.Save(file_path);
 
   // modifying model further
-  model1.removeItem(model1.rootItem(), {"", 0});
-  model2.removeItem(model2.rootItem(), {"", 0});
+  model1.RemoveItem(model1.GetRootItem(), {"", 0});
+  model2.RemoveItem(model2.GetRootItem(), {"", 0});
 
   // loading model from file
   document.Load(file_path);
@@ -140,16 +140,16 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   // checking that it is as it was right after the save
 
   // accessing reconstructed parent and child
-  auto reco_parent1 = model1.rootItem()->GetItem("", 0);
-  auto reco_parent2 = model2.rootItem()->GetItem("", 0);
+  auto reco_parent1 = model1.GetRootItem()->GetItem("", 0);
+  auto reco_parent2 = model2.GetRootItem()->GetItem("", 0);
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent1->GetModel(), &model1);
-  EXPECT_EQ(reco_parent1->GetParent(), model1.rootItem());
+  EXPECT_EQ(reco_parent1->GetParent(), model1.GetRootItem());
   EXPECT_EQ(reco_parent1->GetIdentifier(), parent_identifier1);
 
   EXPECT_EQ(reco_parent2->GetModel(), &model2);
-  EXPECT_EQ(reco_parent2->GetParent(), model2.rootItem());
+  EXPECT_EQ(reco_parent2->GetParent(), model2.GetRootItem());
   EXPECT_EQ(reco_parent2->GetIdentifier(), parent_identifier2);
 }
 
@@ -162,10 +162,10 @@ TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
   TestModel2 model2;
 
   // filling models
-  auto parent1 = model1.insertItem<SessionItem>();
+  auto parent1 = model1.InsertItem<SessionItem>();
   const auto parent_identifier1 = parent1->GetIdentifier();
 
-  auto parent2 = model2.insertItem<SessionItem>();
+  auto parent2 = model2.InsertItem<SessionItem>();
   const auto parent_identifier2 = parent2->GetIdentifier();
 
   // saving models in file
@@ -175,8 +175,8 @@ TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
   }
 
   // modifying model further
-  model1.removeItem(model1.rootItem(), {"", 0});
-  model2.removeItem(model2.rootItem(), {"", 0});
+  model1.RemoveItem(model1.GetRootItem(), {"", 0});
+  model2.RemoveItem(model2.GetRootItem(), {"", 0});
 
   XmlDocument document({&model2, &model1});  // intentional wrong order
 

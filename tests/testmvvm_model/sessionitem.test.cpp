@@ -191,7 +191,6 @@ TEST_F(SessionItemTest, SetConstCharData)
   EXPECT_EQ(item.Data<std::string>(), std::string(expected));
 }
 
-
 //! Display role.
 
 TEST_F(SessionItemTest, GetDisplayName)

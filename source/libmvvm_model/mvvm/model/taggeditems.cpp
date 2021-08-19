@@ -29,7 +29,8 @@ TaggedItems::TaggedItems() = default;
 
 TaggedItems::~TaggedItems()
 {
-  for (auto tag : m_containers) delete tag;
+  for (auto tag : m_containers)
+    delete tag;
 }
 
 void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)

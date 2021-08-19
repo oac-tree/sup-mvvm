@@ -31,42 +31,42 @@ VectorItem::VectorItem() : CompoundItem(Type)
 
   SetEditable(false);
 
-  update_label();
+  UpdateLabel();
 }
 
-double VectorItem::x() const
+double VectorItem::X() const
 {
   return Property<double>(P_X);
 }
 
-void VectorItem::setX(double value)
+void VectorItem::SetX(double value)
 {
   SetProperty(P_X, value);
 }
 
-double VectorItem::y() const
+double VectorItem::Y() const
 {
   return Property<double>(P_Y);
 }
 
-void VectorItem::setY(double value)
+void VectorItem::SetY(double value)
 {
   SetProperty(P_Y, value);
 }
 
-double VectorItem::z() const
+double VectorItem::Z() const
 {
   return Property<double>(P_Z);
 }
 
-void VectorItem::setZ(double value)
+void VectorItem::SetZ(double value)
 {
   SetProperty(P_Z, value);
 }
 
-void VectorItem::update_label()
+void VectorItem::UpdateLabel()
 {
   std::ostringstream ostr;
-  ostr << "(" << x() << ", " << y() << ", " << z() << ")";
+  ostr << "(" << X() << ", " << Y() << ", " << Z() << ")";
   SetData(ostr.str(), DataRole::kData);
 }
