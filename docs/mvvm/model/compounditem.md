@@ -120,10 +120,8 @@ Given below is an excerpt of an XML obtained after the serialization of `Gaussia
 ```
 
 The string `"mean"` appears in `TagInfo` serialization, and the display name of
-the `PropertyIt
-em`. This might become a problem if the user decide to
-change the display name of the property item from `"mean"` to `"Mean"`, for
-example:
+the `PropertyItem`. This might become a problem if the user decide to change the
+display name of the property item from `"mean"` to `"Mean"`, for example:
 
 ```C++
 AddProperty("Mean", 0.0); // mean -> Mean
@@ -227,3 +225,7 @@ void GaussianItem::SetStdDev(double value)
 }
 
 ```
+
+With this approach class API explicitly communicates its responsibilities, and
+implementation details of property machinery remain hidden from the users of the
+class.

@@ -7,7 +7,6 @@
   - [4.1 The `TagInfo` class](#41-the-taginfo-class)
   - [4.2 The `TagIndex` class](#42-the-tagindex-class)
   - [4.3 Adding children](#43-adding-children)
-- [Links](#links)
 
 ## 1. Introduction
 
@@ -222,9 +221,3 @@ auto child2 = item.InserItem(std::move(another), {tag, 1});
   properties.
 - `taggeditems.h` defines `TaggedItems` class. It is a member of `SessionItem`
   and it holds a collection of `SessionItemContainers`.
-
-
-## Links
-
-- [Martin Fowler, Presentation Model](https://martinfowler.com/eaaDev/PresentationModel.html)
-- [Martin Folwer, GUI architectures](https://martinfowler.com/eaaDev/uiArchs.html)
