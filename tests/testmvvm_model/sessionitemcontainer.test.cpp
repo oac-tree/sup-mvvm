@@ -98,7 +98,7 @@ TEST_F(SessionItemContainerTest, InsertItem)
 
 //! Checking ::insertItem when item has specific model type.
 
-TEST_F(SessionItemContainerTest, InsertItemModelType)
+TEST_F(SessionItemContainerTest, InsertItemWithType)
 {
   const std::string tag_name("tag");
   const std::vector<std::string> model_types = {"model_a"};

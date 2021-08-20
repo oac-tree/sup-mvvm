@@ -38,9 +38,9 @@ struct SessionModel::SessionModelImpl
   std::unique_ptr<ItemManager> m_item_manager;
   std::unique_ptr<SessionItem> m_root_item;
 
-  SessionModelImpl(SessionModel* self, std::string modelType, std::shared_ptr<ItemPool> pool)
+  SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool)
       : m_self(self)
-      , m_model_type(std::move(modelType))
+      , m_model_type(std::move(model_type))
       , m_item_manager(std::make_unique<ItemManager>())
   {
     m_item_manager->SetItemPool(pool ? std::move(pool) : std::make_shared<ItemPool>());
@@ -178,8 +178,8 @@ SessionItem* SessionModel::ItemInsertInternal(const item_factory_func_t& func, S
   return parent->InsertItem(func(), TagIndex{tag_index.tag, actual_index});
 }
 
-void SessionModel::RegisterInPoolInternal(const std::string& modelType,
+void SessionModel::RegisterInPoolInternal(const std::string& item_type,
                                           const item_factory_func_t& func, const std::string& label)
 {
-  p_impl->m_item_manager->GetFactory()->RegisterItem(modelType, func, label);
+  p_impl->m_item_manager->GetFactory()->RegisterItem(item_type, func, label);
 }

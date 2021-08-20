@@ -90,7 +90,7 @@ private:
 
   SessionItem* ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
                                   const TagIndex& tag_index);
-  void RegisterInPoolInternal(const std::string& modelType, const item_factory_func_t& func,
+  void RegisterInPoolInternal(const std::string& item_type, const item_factory_func_t& func,
                               const std::string& label);
 
   struct SessionModelImpl;

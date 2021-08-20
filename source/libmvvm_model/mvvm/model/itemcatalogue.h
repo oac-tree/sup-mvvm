@@ -31,7 +31,7 @@ namespace ModelView
 class SessionItem;
 
 //! Catalogue for item constructions. Contains collection of factory functions associated with
-//! item's modelType and optional label.
+//! item's type and optional label.
 
 class MVVM_MODEL_EXPORT ItemCatalogue
 {
@@ -52,7 +52,7 @@ public:
 
   std::unique_ptr<SessionItem> Create(const std::string& model_type) const;
 
-  std::vector<std::string> GetModelTypes() const;
+  std::vector<std::string> GetItemTypes() const;
 
   std::vector<std::string> GetLabels() const;
 

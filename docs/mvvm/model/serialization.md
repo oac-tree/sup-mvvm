@@ -1,16 +1,89 @@
-# Serialization
+# Serialization <!-- omit in toc -->
 
-We assume that persistent data is stored in XML files
+- [Introduction](#introduction)
+- [Examples of serialization](#examples-of-serialization)
+  - [Empty model](#empty-model)
+  - [Model with single item](#model-with-single-item)
+  - [`PropertyItem` with data](#propertyitem-with-data)
+  - [Parent with single child](#parent-with-single-child)
 
-+ Serialization is used to undo/redo
-+ For deep item copying and cloning
-+ To save persistent context on disk
+## Introduction
+
+The `SessionModel` can be serialised to XML file, and then restored from it, using followind code:
+
+```C++
+SessionModel model;
+XmlDocument document({&model});
+document.save("filename.xml");
+
+model.clear(); // clear the model or modify it in any way
+
+document.load("filename.xml");
+
+// at this point, the model will be exactly as at the moment of saving
+}
+```
+
+Multiple models can be saved in single XML file, if needed:
+
+```C++
+SessionModel model;
+PulseScheduleModel pulse_schedule_model;
+ComponentModel component_model;
+
+XmlDocument document({&model, &pulse_schedule_module, &component_model});
+document.save("filename.xml");
+}
+```
 
 ## Examples of serialization
 
-Normally, `SessionItem`
+### Empty model
+
+`C++`
+
+```C++
+TestModel model;
+```
+
+`XML`
+
+```XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <Model type="TestModel"/>
+</Document>
+```
+
+### Model with single item
+
+`C++`
+
+```C++
+TestModel model;
+model.InserItem<PropertyItem>();
+```
+
+`XML`
+
+```XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+  <Model type="TestModel">
+    <Item type="PropertyItem">
+      <ItemData>
+        <Variant role="0" type="string">{5c383869-750e-4b7d-af18-fbca95494254}</Variant>
+        <Variant role="2" type="string">PropertyItem</Variant>
+      </ItemData>
+      <TaggedItems defaultTag=""/>
+    </Item>
+  </Model>
+</Document>
+```
 
 ### `PropertyItem` with data
+
+`C++`
 
 ```C++
 PropertyItem item;
@@ -18,8 +91,10 @@ item.setData(42, DataRole::kData);
 item.setData("width", DataRole::kDisplay);
 ```
 
+`XML`
+
 ```XML
-<Item model="Property">
+<Item type="Property">
   <ItemData>
     <Variant role="0" type="string">{8f923bfc-94b3-456e-b222-0c81f19b8f5f}</Variant>
     <Variant role="1" type="int">42</Variant>
@@ -31,6 +106,8 @@ item.setData("width", DataRole::kDisplay);
 
 ### Parent with single child
 
+`C++`
+
 ```C++
 SessionItem parent;
 parent.setDisplayName("parent_name");
@@ -39,6 +116,8 @@ parent.registerTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/
 auto child = parent.insertItem(std::make_unique<PropertyItem>(), TagIndex::append());
 child->setDisplayName("child_name");
 ```
+
+`XML`
 
 ```XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -62,142 +141,3 @@ child->setDisplayName("child_name");
 </Item>
 ```
 
-## Related files
-
-+ See `treedataitemconverter.test.cpp` with examples of the SessionItem serialization.
-
-
-## Draft
-
-### `variant_t`
-
-```json
-{
-  "type": "int",
-  "value": 42
-},
-{
-  "type": "std::vector<double>",
-  "value": [
-    42.1,
-    42.2,
-    42.3
-  ]
-},
-{
-  "type": "std::string",
-  "value": "abc"
-},
-{
-  "type": "ModelView::ExternalProperty",
-  "value": {
-    "color": "#ff00ff00",
-    "identifier": "1-2-3",
-    "text": "abc"
-  }  
-}
-```
-
-### SessionItemData
-
-```json
-[
-    {
-        "role": 1,
-        "variant": {
-            "type": "int",
-            "value": 42
-        }
-    },
-    {
-        "role": 2,
-        "variant": {
-            "type": "double",
-            "value": 1.23
-        }
-    },
-    {
-        "role": 3,
-        "variant": {
-            "type": "std::string",
-            "value": "abc"
-        }
-    }
-]
-```
-
-## PropertyItem
-
-```json
-{
-    "itemData": [
-        {
-            "role": 0,
-            "variant": {
-                "type": "std::string",
-                "value": "{862c6e9b-2d1e-427d-a80d-22c592c50b36}"
-            }
-        },
-        {
-            "role": 2,
-            "variant": {
-                "type": "std::string",
-                "value": "Property"
-            }
-        }
-    ],
-    "itemTags": {
-        "containers": [
-        ],
-        "defaultTag": ""
-    },
-    "model": "Property"
-}
-
-```
-
-
-```xml
-<ItemData>
-  <Variant role="0" type="int">42</Variant>
-  <Variant role="0" type="std::vector<double>">42.1, 42.2, 42.3</Variant>
-</ItemData>
-
-<ItemData>
-  <Variant type="int">42</Variant>
-  <Variant type="std::vector<double>">42.1, 42.2, 42.3</Variant>
-</ItemData>
-
-```
-
-```xml
-<TaggedItems defaultTag="defaultTag">
-  <ItemContainer>
-    <TagInfo min="-1" max="0" name="defaultTag">models, models, models</TagInfo>
-    <Item model="Property"> 
-      <ItemData/>
-      <TaggedItems/>
-    </Item>
-  </ItemContainer>
-  <ItemContainer>
-  </ItemContainer>
-</TaggedItems>
-```
-
-```
-  std::unique_ptr<TreeData> ToTreeData(const SessionItemData& item_data) const;
-  std::unique_ptr<SessionItemData> ToSessionItemData(const TreeData& tree_data) const;
-
-  std::unique_ptr<TreeData> ToTreeData(const TaggedItems& tagged_items) const;
-  std::unique_ptr<TaggedItems> ToTaggedItems(const TreeData& tree_data) const;
-
-  std::unique_ptr<TreeData> ToTreeData(const SessionItemData& item_data) const;
-  std::unique_ptr<SessionItemData> FromTreeData(const TreeData& tree_data) const;
-
-  std::unique_ptr<TreeData> FromSessionItemData(const SessionItemData& item_data) const;
-  std::unique_ptr<SessionItemData> ToSessionItemData(const TreeData& tree_data) const;
-
-  std::unique_ptr<TreeData> FromTaggedItems(const SessionItemData& item_data) const;
-  std::unique_ptr<SessionItemData> ToSessionItemData(const TreeData& tree_data) const;
-
-```

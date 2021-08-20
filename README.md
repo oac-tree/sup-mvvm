@@ -52,7 +52,7 @@ document.save("filename.xml");
 
 This model-view-viewmodel (MVVM) framework is intended for large Qt-based
 scientific applications written in C++. The definition of `large` is quite
-arbitrary and means something in a line 100K of LOC.
+arbitrary and means something in a line "can be easilly above 50K of LOC".
 
 ### The Model  <!-- omit in toc -->
 

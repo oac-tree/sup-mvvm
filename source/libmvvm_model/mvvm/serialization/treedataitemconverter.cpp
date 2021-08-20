@@ -68,9 +68,9 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
 
   void populate_item(const TreeData& tree_data, SessionItem& item)
   {
-    auto modelType = tree_data.GetAttribute(kTypelAttributeKey);
+    auto item_type = tree_data.GetAttribute(kTypelAttributeKey);
 
-    if (modelType != item.GetType())
+    if (item_type != item.GetType())
       throw std::runtime_error("Item model mismatch");
 
     auto item_data = m_itemdata_converter->ToSessionItemData(tree_data.Children().at(0));

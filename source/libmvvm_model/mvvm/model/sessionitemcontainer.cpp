@@ -156,7 +156,7 @@ bool SessionItemContainer::IsMinimumReached() const
   return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == GetItemCount();
 }
 
-//! Returns true if item's modelType is intended for this tag.
+//! Returns true if item's Type is intended for this tag.
 
 bool SessionItemContainer::IsValidItem(const SessionItem* item) const
 {

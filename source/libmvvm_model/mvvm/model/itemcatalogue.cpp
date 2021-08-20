@@ -81,7 +81,7 @@ std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type
   return it->factory_func();
 }
 
-std::vector<std::string> ItemCatalogue::GetModelTypes() const
+std::vector<std::string> ItemCatalogue::GetItemTypes() const
 {
   std::vector<std::string> result;
   for (const auto& x : p_impl->m_info)

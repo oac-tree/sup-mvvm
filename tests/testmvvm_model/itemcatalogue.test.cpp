@@ -51,7 +51,7 @@ TEST_F(ItemCatalogueTest, InitialState)
 {
   ItemCatalogue catalogue;
   EXPECT_EQ(catalogue.GetItemCount(), 0);
-  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({}));
+  EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({}));
 }
 
@@ -73,7 +73,7 @@ TEST_F(ItemCatalogueTest, AddItem)
   EXPECT_THROW(catalogue.Create("non-registered"), std::runtime_error);
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.GetModelTypes(), std::vector<std::string>({PropertyItem::Type}));
+  EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({PropertyItem::Type}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({""}));
 }
 
@@ -93,7 +93,7 @@ TEST_F(ItemCatalogueTest, CopyConstructor)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // checking model types and labels in new catalogue
-  EXPECT_EQ(copy.GetModelTypes(), std::vector<std::string>({PropertyItem::Type}));
+  EXPECT_EQ(copy.GetItemTypes(), std::vector<std::string>({PropertyItem::Type}));
   EXPECT_EQ(copy.GetLabels(), std::vector<std::string>({""}));
 
   // adding item to first catalogue but not the second
@@ -156,7 +156,7 @@ TEST_F(ItemCatalogueTest, AddLabeledItem)
   catalogue.RegisterItem<TestItem>("test item");
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.GetModelTypes(),
+  EXPECT_EQ(catalogue.GetItemTypes(),
             std::vector<std::string>({PropertyItem::Type, TestItem::Type}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({"property", "test item"}));
 }
@@ -177,7 +177,7 @@ TEST_F(ItemCatalogueTest, Merge)
                                               AnotherTestItem::Type};
   std::vector<std::string> expected_labels = {"property", "test", "another"};
 
-  EXPECT_EQ(catalogue1.GetModelTypes(), expected_models);
+  EXPECT_EQ(catalogue1.GetItemTypes(), expected_models);
   EXPECT_EQ(catalogue1.GetLabels(), expected_labels);
 
   auto item = catalogue1.Create(AnotherTestItem::Type);

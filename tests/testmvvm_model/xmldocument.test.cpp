@@ -57,9 +57,54 @@ public:
 
 //! Saving the model with content into document and restoring it after.
 
-TEST_F(XmlDocumentTest, SaveLoadSingleModel)
+TEST_F(XmlDocumentTest, SaveLoadEmptyModel)
 {
-  const auto file_path = GetFilePath("SaveLoadSingleModel.xml");
+  const auto file_path = GetFilePath("SaveLoadEmptyModel.xml");
+
+  SessionModel model("TestModel");
+  XmlDocument document({&model});
+
+  auto original_root = model.GetRootItem();
+  auto original_identifier = original_root->GetIdentifier();
+
+  // saving model in file
+  document.Save(file_path);
+
+  // loading model from file
+  document.Load(file_path);
+
+  EXPECT_NE(model.GetRootItem(), original_root);
+  EXPECT_NE(model.GetRootItem()->GetIdentifier(), original_identifier);
+}
+
+//! Saving the model with content into document and restoring it after.
+
+TEST_F(XmlDocumentTest, SaveLoadModelWithPropertyItem)
+{
+  const auto file_path = GetFilePath("SaveLoadModelWithPropertyItem.xml");
+
+  SessionModel model("TestModel");
+  model.InsertItem<PropertyItem>();
+  XmlDocument document({&model});
+
+  auto original_root = model.GetRootItem();
+  auto original_identifier = original_root->GetIdentifier();
+
+  // saving model in file
+  document.Save(file_path);
+
+  // loading model from file
+  document.Load(file_path);
+
+  EXPECT_NE(model.GetRootItem(), original_root);
+  EXPECT_NE(model.GetRootItem()->GetIdentifier(), original_identifier);
+}
+
+//! Saving the model with content into document and restoring it after.
+
+TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
+{
+  const auto file_path = GetFilePath("SaveLoadModelWithParentAndChild.xml");
 
   SessionModel model("TestModel");
   XmlDocument document({&model});

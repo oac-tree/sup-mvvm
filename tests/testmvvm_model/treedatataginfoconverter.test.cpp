@@ -60,7 +60,7 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
 
 //! Parsing XML data string representing TagInfo without model_types defined.
 
-TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTagWithModelTypes)
+TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTagWithItemTypes)
 {
   using ModelView::ParseXMLElementString;
 

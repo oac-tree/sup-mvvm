@@ -460,13 +460,13 @@ TEST_F(SessionModelTest, topItems)
 
 TEST_F(SessionModelTest, registerItem)
 {
-  const std::string expectedModelType("TestItemType");
+  const std::string expectedItemType("TestItemType");
 
   SessionModel model;
   model.RegisterItem<TestItem>();
 
-  auto item = model.InsertNewItem(expectedModelType);
+  auto item = model.InsertNewItem(expectedItemType);
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
-  EXPECT_EQ(item->GetType(), expectedModelType);
+  EXPECT_EQ(item->GetType(), expectedItemType);
 }

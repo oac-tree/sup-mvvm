@@ -34,6 +34,7 @@ A similar effect could be achieved with the following code:
 
 ```C++
 SessionItem parent;
+parent.SetDisplayName("GaussianItem");
 
 parent.RegisterTag(TagInfo::CreatePropertyTag("mean"));
 auto mean_item = parent.InsertItem<PropertyItem>({"mean", 0});
