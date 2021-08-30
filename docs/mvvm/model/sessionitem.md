@@ -191,7 +191,7 @@ const std::string tag("ITEMS");
 SessionItem item;
 item.RegisterTag(TagInfo::CreateUniversalTag(tag)); 
 
-auto child0 = item.InserItem({tag, 0});
+auto child0 = item.InsertItem({tag, 0});
 child0->SetDisplayName("Child");
 
 std::cout << item.GetItem(tag)->GetDisplayName() << "\n";
@@ -202,14 +202,14 @@ There are other alternative ways to add children:
 
 ```C++
 // appends new SessionItem
-auto child0 = item.InserItem({tag, -1});
+auto child0 = item.InsertItem({tag, -1});
 
 //! appends new PropertyItem
-auto child1 = item.InserItem<PropertyItem>({tag, -1});
+auto child1 = item.InsertItem<PropertyItem>({tag, -1});
 
 // inserts child between child0 and child1 using move semantic
 auto another = std::make_unique<VectorItem>
-auto child2 = item.InserItem(std::move(another), {tag, 1});
+auto child2 = item.InsertItem(std::move(another), {tag, 1});
 ```
 
 ### 4.5 Related files <!-- omit in toc -->

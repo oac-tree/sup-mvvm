@@ -20,24 +20,26 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEMDATAINTERFACE_H
 #define MVVM_VIEWMODEL_VIEWITEMDATAINTERFACE_H
 
+#include "mvvm/viewmodel_export.h"
+
 #include <QVariant>
 
 namespace ModelView
 {
 //! Defines interface for ViewItem's data access.
 
-class ViewItemDataInterface
+class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
 {
 public:
-  virtual QVariant data(int role = Qt::EditRole) const = 0;
+  virtual QVariant Data(int role = Qt::EditRole) const = 0;
 
-  virtual bool setData(const QVariant& data, int role = Qt::EditRole) = 0;
+  virtual bool SetData(const QVariant& data, int role = Qt::EditRole) = 0;
 
-  virtual bool isEnabled() const = 0;
+  virtual bool IsEnabled() const = 0;
 
-  virtual bool isEditable() const = 0;
+  virtual bool IsEditable() const = 0;
 };
 
 }  // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWITEMDATAINTERFACE_H
+#endif  // MVVM_VIEWMODEL_VIEWITEMDATAINTERFACE_H

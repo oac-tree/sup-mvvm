@@ -23,33 +23,33 @@ using namespace ModelView;
 
 ViewItemData::ViewItemData() : m_is_enabled(true), m_is_editable(true) {}
 
-QVariant ViewItemData::data(int role) const
+QVariant ViewItemData::Data(int role) const
 {
   return m_data[role];
 }
 
-bool ViewItemData::setData(const QVariant& data, int role)
+bool ViewItemData::SetData(const QVariant& data, int role)
 {
   m_data[role] = data;
   return true;
 }
 
-bool ViewItemData::isEnabled() const
+bool ViewItemData::IsEnabled() const
 {
   return m_is_enabled;
 }
 
-void ViewItemData::setEnabled(bool value)
+void ViewItemData::SetEnabled(bool value)
 {
   m_is_enabled = value;
 }
 
-bool ViewItemData::isEditable() const
+bool ViewItemData::IsEditable() const
 {
   return m_is_editable;
 }
 
-void ViewItemData::setEditable(bool value)
+void ViewItemData::SetEditable(bool value)
 {
   m_is_editable = value;
 }

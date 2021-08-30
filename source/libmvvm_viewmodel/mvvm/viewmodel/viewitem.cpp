@@ -138,7 +138,8 @@ int ViewItem::columnCount() const
 
 void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 {
-  for (auto& x : items) x->setParent(this);
+  for (auto& x : items)
+    x->setParent(this);
   p_impl->appendRow(std::move(items));
 }
 
@@ -146,7 +147,8 @@ void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 
 void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
 {
-  for (auto& x : items) x->setParent(this);
+  for (auto& x : items)
+    x->setParent(this);
   p_impl->insertRow(row, std::move(items));
 }
 
@@ -207,14 +209,14 @@ int ViewItem::column() const
 
 QVariant ViewItem::data(int qt_role) const
 {
-  return item() ? item()->data(qt_role) : QVariant();
+  return item() ? item()->Data(qt_role) : QVariant();
 }
 
 //! Sets the data to underlying SessionItem.
 
 bool ViewItem::setData(const QVariant& value, int qt_role)
 {
-  return item() ? item()->setData(value, qt_role) : false;
+  return item() ? item()->SetData(value, qt_role) : false;
 }
 
 //! Returns Qt's item flags.
@@ -225,7 +227,7 @@ Qt::ItemFlags ViewItem::flags() const
 {
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
-  if (item() && item()->isEditable() && item()->isEnabled() && item()->data().isValid())
+  if (item() && item()->IsEditable() && item()->IsEnabled() && item()->Data().isValid())
     result |= Qt::ItemIsEditable;
 
   return result;

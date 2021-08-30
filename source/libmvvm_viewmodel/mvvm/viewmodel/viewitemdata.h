@@ -28,24 +28,24 @@ namespace ModelView
 {
 //! Carries the data for ViewItem.
 
-class ViewItemData : public ViewItemDataInterface
+class MVVM_VIEWMODEL_EXPORT ViewItemData : public ViewItemDataInterface
 {
 public:
   ViewItemData();
 
   virtual ~ViewItemData() = default;
 
-  virtual QVariant data(int role = Qt::EditRole) const override;
+  virtual QVariant Data(int role = Qt::EditRole) const override;
 
-  virtual bool setData(const QVariant& data, int role = Qt::EditRole) override;
+  virtual bool SetData(const QVariant& data, int role = Qt::EditRole) override;
 
-  bool isEnabled() const override;
+  bool IsEnabled() const override;
 
-  void setEnabled(bool value);
+  void SetEnabled(bool value);
 
-  bool isEditable() const override;
+  bool IsEditable() const override;
 
-  void setEditable(bool value);
+  void SetEditable(bool value);
 
 private:
   bool m_is_enabled;
@@ -55,4 +55,4 @@ private:
 
 }  // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWITEMDATA_H
+#endif  // MVVM_VIEWMODEL_VIEWITEMDATA_H

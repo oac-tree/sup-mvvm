@@ -20,6 +20,8 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEM_H
 #define MVVM_VIEWMODEL_VIEWITEM_H
 
+#include "mvvm/viewmodel_export.h"
+
 #include <QVariant>
 #include <memory>
 #include <vector>
@@ -30,7 +32,7 @@ class ViewItemDataInterface;
 
 //! Represents a single editable/displayable entity in cells of ViewModelBase.
 
-class ViewItem
+class MVVM_VIEWMODEL_EXPORT ViewItem
 {
 public:
   ViewItem();
@@ -79,4 +81,4 @@ private:
 
 }  // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWITEM_H
+#endif  // MVVM_VIEWMODEL_VIEWITEM_H

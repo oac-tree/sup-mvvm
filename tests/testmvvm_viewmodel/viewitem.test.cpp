@@ -40,17 +40,17 @@ public:
   //! First vector is intended to be moved inside a model, second vector is to validate
   //! the content of a model after the move.
 
-  std::pair<children_t, expected_t> test_data(int ncolumns)
+  std::pair<children_t, expected_t> GetTestData(int ncolumns)
   {
-    auto vector_of_unique = TestUtils::create_row<ViewItem, ViewItem>(ncolumns);
-    auto vector_of_pointers = TestUtils::create_pointers(vector_of_unique);
+    auto vector_of_unique = TestUtils::CreateRow<ViewItem, ViewItem>(ncolumns);
+    auto vector_of_pointers = TestUtils::GetPointers(vector_of_unique);
     return std::make_pair(std::move(vector_of_unique), std::move(vector_of_pointers));
   }
 };
 
 //! Initial state of RefViewItem.
 
-TEST_F(ViewItemTest, initialState)
+TEST_F(ViewItemTest, InitialState)
 {
   ViewItem view_item;
 
@@ -65,9 +65,9 @@ TEST_F(ViewItemTest, initialState)
 
 //! Append single item as row.
 
-TEST_F(ViewItemTest, appendRow)
+TEST_F(ViewItemTest, AppendRow)
 {
-  auto [children, expected] = test_data(/*ncolumns*/ 1);
+  auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
   // appending row with single item
   ViewItem view_item;
@@ -87,9 +87,9 @@ TEST_F(ViewItemTest, appendRow)
 
 //! Remove row.
 
-TEST_F(ViewItemTest, removeRow)
+TEST_F(ViewItemTest, RemoveRow)
 {
-  auto [children, expected] = test_data(/*ncolumns*/ 1);
+  auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
   // appending row with single item
   ViewItem view_item;
@@ -103,11 +103,11 @@ TEST_F(ViewItemTest, removeRow)
 
 //! Append two rows with two items each.
 
-TEST_F(ViewItemTest, appendTwoRows)
+TEST_F(ViewItemTest, AppendTwoRows)
 {
   // preparing two rows of children, two columns each
-  auto [children_row0, expected_row0] = test_data(/*ncolumns*/ 2);
-  auto [children_row1, expected_row1] = test_data(/*ncolumns*/ 2);
+  auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
+  auto [children_row1, expected_row1] = GetTestData(/*ncolumns*/ 2);
 
   // appending rows
   ViewItem view_item;
@@ -139,7 +139,7 @@ TEST_F(ViewItemTest, appendTwoRows)
   EXPECT_EQ(expected_row1[1]->column(), 1);
 
   // attempt to add row with different amount of children should fail
-  auto [children_row2, expected_row2] = test_data(/*ncolumns*/ 1);
+  auto [children_row2, expected_row2] = GetTestData(/*ncolumns*/ 1);
   EXPECT_THROW(view_item.appendRow(std::move(children_row2)), std::runtime_error);
   EXPECT_EQ(view_item.rowCount(), 2);
   EXPECT_EQ(view_item.columnCount(), 2);
@@ -147,12 +147,12 @@ TEST_F(ViewItemTest, appendTwoRows)
 
 //! Append two rows with two items each.
 
-TEST_F(ViewItemTest, insertRowsThenRemove)
+TEST_F(ViewItemTest, InsertRowsThenRemove)
 {
   // preparing two rows of children, two columns each
-  auto [children_row0, expected_row0] = test_data(/*ncolumns*/ 2);
-  auto [children_row1, expected_row1] = test_data(/*ncolumns*/ 2);
-  auto [children_row2, expected_row2] = test_data(/*ncolumns*/ 2);
+  auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
+  auto [children_row1, expected_row1] = GetTestData(/*ncolumns*/ 2);
+  auto [children_row2, expected_row2] = GetTestData(/*ncolumns*/ 2);
 
   // appending rows
   ViewItem view_item;
@@ -201,9 +201,9 @@ TEST_F(ViewItemTest, insertRowsThenRemove)
 
 //! Clean item's children.
 
-TEST_F(ViewItemTest, clear)
+TEST_F(ViewItemTest, Clear)
 {
-  auto [children, expected] = test_data(/*ncolumns*/ 1);
+  auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
   ViewItem view_item;
   view_item.appendRow(std::move(children));
@@ -213,10 +213,10 @@ TEST_F(ViewItemTest, clear)
   EXPECT_EQ(view_item.columnCount(), 0);
 }
 
-TEST_F(ViewItemTest, children)
+TEST_F(ViewItemTest, Children)
 {
-  auto [children_row0, expected_row0] = test_data(/*ncolumns*/ 2);
-  auto [children_row1, expected_row1] = test_data(/*ncolumns*/ 2);
+  auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
+  auto [children_row1, expected_row1] = GetTestData(/*ncolumns*/ 2);
 
   ViewItem view_item;
   view_item.appendRow(std::move(children_row0));
@@ -229,7 +229,7 @@ TEST_F(ViewItemTest, children)
   EXPECT_EQ(view_item.children(), expected);
 }
 
-TEST_F(ViewItemTest, flags)
+TEST_F(ViewItemTest, GetFlags)
 {
   ViewItem view_item;
 

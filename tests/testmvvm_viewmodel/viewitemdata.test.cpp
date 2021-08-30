@@ -33,46 +33,46 @@ public:
 TEST_F(ViewItemDataTest, InitialState)
 {
   ModelView::ViewItemData item;
-  EXPECT_FALSE(item.data().isValid());
-  EXPECT_FALSE(item.data(Qt::EditRole).isValid());
-  EXPECT_FALSE(item.data(Qt::DisplayRole).isValid());
-  EXPECT_FALSE(item.data(Qt::ToolTipRole).isValid());
+  EXPECT_FALSE(item.Data().isValid());
+  EXPECT_FALSE(item.Data(Qt::EditRole).isValid());
+  EXPECT_FALSE(item.Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(item.Data(Qt::ToolTipRole).isValid());
 
-  EXPECT_TRUE(item.isEnabled());
-  EXPECT_TRUE(item.isEditable());
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
 }
 
-TEST_F(ViewItemDataTest, setAppearance)
+TEST_F(ViewItemDataTest, SetAppearance)
 {
   ModelView::ViewItemData item;
 
-  item.setEditable(false);
-  EXPECT_TRUE(item.isEnabled());
-  EXPECT_FALSE(item.isEditable());
+  item.SetEditable(false);
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_FALSE(item.IsEditable());
 
-  item.setEnabled(false);
-  EXPECT_FALSE(item.isEnabled());
-  EXPECT_FALSE(item.isEditable());
+  item.SetEnabled(false);
+  EXPECT_FALSE(item.IsEnabled());
+  EXPECT_FALSE(item.IsEditable());
 }
 
-TEST_F(ViewItemDataTest, setData)
+TEST_F(ViewItemDataTest, SetData)
 {
   ModelView::ViewItemData item;
 
-  EXPECT_FALSE(item.data().isValid());
+  EXPECT_FALSE(item.Data().isValid());
 
-  EXPECT_TRUE(item.setData(QVariant::fromValue(42)));
-  EXPECT_EQ(item.data().toInt(), 42);
+  EXPECT_TRUE(item.SetData(QVariant::fromValue(42)));
+  EXPECT_EQ(item.Data().toInt(), 42);
 
-  EXPECT_TRUE(item.setData(QVariant::fromValue(42)));
-  EXPECT_EQ(item.data().toInt(), 42);
+  EXPECT_TRUE(item.SetData(QVariant::fromValue(42)));
+  EXPECT_EQ(item.Data().toInt(), 42);
 
-  EXPECT_TRUE(item.setData(QVariant::fromValue(1.2), Qt::EditRole));
-  EXPECT_EQ(item.data().toDouble(), 1.2);
+  EXPECT_TRUE(item.SetData(QVariant::fromValue(1.2), Qt::EditRole));
+  EXPECT_EQ(item.Data().toDouble(), 1.2);
 
-  EXPECT_TRUE(item.setData(QString("abc"), Qt::DisplayRole));
-  EXPECT_EQ(item.data(Qt::DisplayRole).toString(), QString("abc"));
+  EXPECT_TRUE(item.SetData(QString("abc"), Qt::DisplayRole));
+  EXPECT_EQ(item.Data(Qt::DisplayRole).toString(), QString("abc"));
 
-  EXPECT_TRUE(item.isEnabled());
-  EXPECT_TRUE(item.isEditable());
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
 }

@@ -20,6 +20,8 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELBASE_H
 #define MVVM_VIEWMODEL_VIEWMODELBASE_H
 
+#include "mvvm/viewmodel_export.h"
+
 #include <QAbstractItemModel>
 #include <memory>
 
@@ -32,7 +34,7 @@ class ViewItem;
 //! of SessionItem. ViewModelBase doesn't have own logic and needs ViewModelController to listen
 //! for SessionModel changes.
 
-class ViewModelBase : public QAbstractItemModel
+class MVVM_VIEWMODEL_EXPORT ViewModelBase : public QAbstractItemModel
 {
   Q_OBJECT
 
@@ -78,4 +80,4 @@ private:
 
 }  // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWMODELBASE_H
+#endif  // MVVM_VIEWMODEL_VIEWMODELBASE_H

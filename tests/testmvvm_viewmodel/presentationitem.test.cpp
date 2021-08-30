@@ -35,25 +35,25 @@ public:
 
 //! PresentationItem without context can't be used to modify/access the data.
 
-TEST_F(PresentationItemTest, initialState)
+TEST_F(PresentationItemTest, InitialState)
 {
   ModelView::PresentationItem<TestContext> item{nullptr};
   EXPECT_EQ(item.context(), nullptr);
 
-  EXPECT_FALSE(item.data().isValid());
-  EXPECT_FALSE(item.data(Qt::EditRole).isValid());
-  EXPECT_FALSE(item.data(Qt::DisplayRole).isValid());
-  EXPECT_FALSE(item.data(Qt::ToolTipRole).isValid());
+  EXPECT_FALSE(item.Data().isValid());
+  EXPECT_FALSE(item.Data(Qt::EditRole).isValid());
+  EXPECT_FALSE(item.Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(item.Data(Qt::ToolTipRole).isValid());
 
-  EXPECT_TRUE(item.isEnabled());
-  EXPECT_TRUE(item.isEditable());
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
 
-  EXPECT_FALSE(item.setData(42, Qt::EditRole));
+  EXPECT_FALSE(item.SetData(42, Qt::EditRole));
 }
 
 //! Callbacks validation.
 
-TEST_F(PresentationItemTest, onData)
+TEST_F(PresentationItemTest, OnData)
 {
   TestContext context;
 
@@ -74,9 +74,9 @@ TEST_F(PresentationItemTest, onData)
   EXPECT_EQ(item.context(), &context);
 
   // getting back m_data as defined in the context
-  EXPECT_EQ(item.data(Qt::DisplayRole).toInt(), 42);
+  EXPECT_EQ(item.Data(Qt::DisplayRole).toInt(), 42);
 
   // setting data
-  EXPECT_TRUE(item.setData(QVariant(43), Qt::DisplayRole));
+  EXPECT_TRUE(item.SetData(QVariant(43), Qt::DisplayRole));
   EXPECT_EQ(context.m_data, 43);
 }

@@ -35,26 +35,19 @@ namespace TestUtils
 //! Shoud point to CMAKE_BINARY_DIR/test_output
 std::string GetTestOutputDir();
 
-//! Deletes items in the container and cleans container afterwards.
-template <typename T>
-void clean_items(T& items)
-{
-  for (auto item : items) delete item;
-  items.clear();
-}
-
 //! Creates vector of unique_ptr of given type.
 template <typename B, typename D>
-auto create_row(int ncolumns)
+auto CreateRow(int ncolumns)
 {
   std::vector<std::unique_ptr<B>> result;
-  for (int i = 0; i < ncolumns; ++i) result.emplace_back(std::make_unique<D>());
+  for (int i = 0; i < ncolumns; ++i)
+    result.emplace_back(std::make_unique<D>());
   return result;
 }
 
 //! Creates vector of pointers from vector of unique_ptr.
 template <typename T>
-auto create_pointers(const std::vector<std::unique_ptr<T>>& vec)
+auto GetPointers(const std::vector<std::unique_ptr<T>>& vec)
 {
   std::vector<T*> result;
   std::transform(vec.begin(), vec.end(), std::back_inserter(result),

@@ -26,7 +26,7 @@
 
 namespace ModelView
 {
-//! Forward data/setData calls to underlying sequencer parts.
+//! Forward data/setData calls to user-provided callbacks.
 
 template <typename T>
 class PresentationItem : public ViewItemData
@@ -41,12 +41,12 @@ public:
   {
   }
 
-  QVariant data(int role = Qt::EditRole) const override
+  QVariant Data(int role = Qt::EditRole) const override
   {
     return m_data_callback ? m_data_callback(m_context, role) : QVariant();
   }
 
-  bool setData(const QVariant& data, int role = Qt::EditRole) override
+  bool SetData(const QVariant& data, int role = Qt::EditRole) override
   {
     return m_setdata_callback ? m_setdata_callback(m_context, data, role) : false;
   }
@@ -63,4 +63,4 @@ private:
 
 }  // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_PRESENTATIONITEM_H
+#endif  // MVVM_VIEWMODEL_PRESENTATIONITEM_H
