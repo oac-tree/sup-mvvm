@@ -1,0 +1,51 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef MVVM_INTERFACES_MODELEVENTLISTENERINTERFACE_H
+#define MVVM_INTERFACES_MODELEVENTLISTENERINTERFACE_H
+
+#include "mvvm/model/function_types.h"
+#include "mvvm/model_export.h"
+
+namespace ModelView
+{
+class SessionItem;
+class TagIndex;
+
+//! Interface for all objects that need to listen for events happening with the SessionModel.
+
+class MVVM_MODEL_EXPORT ModelEventListenerInterface
+{
+public:
+  virtual ~ModelEventListenerInterface() = default;
+
+  virtual void OnAboutToInsertItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+
+  virtual void OnItemInserted(SessionItem* parent, const TagIndex& tag_index) = 0;
+
+  virtual void OnAboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+
+  virtual void OnItemRemoved(SessionItem* parent, const TagIndex& tag_index) = 0;
+
+  virtual void OnDataChanged(SessionItem* item, int role) = 0;
+};
+
+}  // namespace ModelView
+
+#endif  // MVVM_INTERFACES_MODELEVENTLISTENERINTERFACE_H
