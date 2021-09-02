@@ -29,4 +29,6 @@ target_sources(${library_name} PRIVATE
   tagindex.h
   taggeditems.cpp
   taggeditems.h
+  modelcomposer.cpp
+  modelcomposer.h
   )

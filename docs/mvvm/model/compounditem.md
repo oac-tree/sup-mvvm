@@ -103,7 +103,7 @@ class SphereItem
 ## 4. Remark on the back-compatibility
 
 It is important to stress that the string `"mean"` used during
-property creation `AddProperty("mean", 0.0)` plays two roles:
+property creation via convenience method `AddProperty("mean", 0.0)` plays two roles:
 it is used as a tag name for container, and as a display name for property item.
 
 Given below is an excerpt of an XML obtained after the serialization of `GaussianItem`.
@@ -120,7 +120,7 @@ Given below is an excerpt of an XML obtained after the serialization of `Gaussia
 </ItemContainer>
 ```
 
-The string `"mean"` appears in `TagInfo` serialization, and the display name of
+The string `"mean"` appears in `TagInfo` serialization (representing the container name), and it appears as the display name of
 the `PropertyItem`. This might become a problem if the user decide to change the
 display name of the property item from `"mean"` to `"Mean"`, for example:
 
@@ -156,7 +156,7 @@ std::cout << item.Property<double>(GaussianItem::P_MEAN) << "\n";
 
 ## 5. Remark on conventional class API
 
-The `CompoundItem` allows conveniently registering class properties. These
+As we have seen above, the `CompoundItem` allows conveniently registering class properties. These
 properties are based on the same `SessionItem` machinery and are the subject to
 all benefits that the `SessionItem` hierarchy offer:
 

@@ -166,6 +166,7 @@ void SessionModel::UnregisterFromPool(SessionItem* item)
 }
 
 //! Insert new item into given parent using factory function provided.
+//! TODO Consider merging of ItemInsertInternal into InsertNewItem.
 
 SessionItem* SessionModel::ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
                                               const TagIndex& tag_index)
