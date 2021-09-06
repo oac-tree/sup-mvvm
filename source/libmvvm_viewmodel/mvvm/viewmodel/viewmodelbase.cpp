@@ -183,6 +183,13 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
   return result;
 }
 
+void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item)
+{
+  beginResetModel();
+  setRootViewItem(std::move(root_item));
+  endResetModel();
+}
+
 //! Sets new root item. Previous item will be deleted, model will be reset.
 
 void ViewModelBase::setRootViewItem(std::unique_ptr<ViewItem> root_item)

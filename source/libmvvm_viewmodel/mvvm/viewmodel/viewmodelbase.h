@@ -70,10 +70,10 @@ public:
 
   Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+  void ResetRootViewItem(std::unique_ptr<ViewItem> root_item);
+
 private:
   void setRootViewItem(std::unique_ptr<ViewItem> root_item);
-  friend class ViewModelController;
-  friend class AttributeController;
   struct ViewModelBaseImpl;
   std::unique_ptr<ViewModelBaseImpl> p_impl;
 };
