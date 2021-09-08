@@ -1,0 +1,96 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef MVVM_SEQUENCER_WIDGETUTILS_H
+#define MVVM_SEQUENCER_WIDGETUTILS_H
+
+#include <QString>
+#include <QStringList>
+#include <string>
+#include <vector>
+
+class QColor;
+class QSize;
+class QMainWindow;
+class QLabel;
+
+//! Collection of various widget-related utils.
+
+namespace ModelView::Utils
+{
+int RandInt(int low, int high);
+
+//! Returns random color.
+QColor RandomColor();
+
+//! Returns the name of random color.
+std::string RandomNamedColor();
+
+//! Returns true if it is Windows.
+bool IsWindowsHost();
+
+//! Returns true if it is Mac.
+bool IsMacHost();
+
+//! Returns true if it is Linux.
+bool IsLinuxHost();
+
+//! Returns a string where Linux path to the file is striped using '~/'.
+QString WithTildeHomePath(const QString& path);
+
+//! Returns a title composed from last part of project path, and `is_modified` flag.
+QString ProjectWindowTitle(const QString& project_dir, bool is_modified);
+
+//! Returns width of the letter 'M' deduced from current font metrics.
+int WidthOfLetterM();
+
+//! Returns height of the letter 'M' deduced from current font metrics.
+int HeightOfLetterM();
+
+//! Returns size corresponding to actual size of letter `M` basing on current font metrics.
+QSize SizeOfLetterM();
+
+//! Returns size in points of default system font.
+int SystemPointSize();
+
+//! Finds main window.
+QMainWindow* FindMainWindow();
+
+//! Returns text wrapped into 'href' tag to provide clickable links in QLabel.
+//! Example: <a href="tag">text</a>, if 'tag' is empty, 'text' will be used instead.
+QString ClickableText(const QString& text, const QString& tag = {});
+
+//! Set label's font size to system font size scaled by given factor.
+void ScaleLabelFont(QLabel* label, double scale);
+
+//! Converts vector of strings to QStringList.
+QStringList toStringList(const std::vector<std::string>& vec);
+
+//! Converts vector of strings to QStringList.
+std::vector<std::string> fromStringList(const QStringList& string_list);
+
+//! Converts vector of strings to byte array.
+QByteArray serialize(const QStringList& data);
+
+//! Converts byte array to vector of strings.
+QStringList deserialize(const QByteArray& byteArray);
+
+}  // namespace ModelView::Utils
+
+#endif  // MVVM_SEQUENCER_WIDGETUTILS_H
