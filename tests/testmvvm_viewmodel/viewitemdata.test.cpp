@@ -21,7 +21,7 @@
 
 #include <gtest/gtest.h>
 
-//! Tests for Instruction class.
+//! Tests for ViewItemData class.
 
 class ViewItemDataTest : public ::testing::Test
 {
