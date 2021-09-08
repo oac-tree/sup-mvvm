@@ -62,26 +62,26 @@ TEST_F(WidgetUtilsTest, ClickableText)
   EXPECT_EQ(Utils::ClickableText("abc", "site.com"), QString("<a href=\"site.com\">abc</a>"));
 }
 
-TEST_F(WidgetUtilsTest, toStringList)
+TEST_F(WidgetUtilsTest, GetStringList)
 {
   using vec_t = std::vector<std::string>;
-  EXPECT_EQ(Utils::toStringList(vec_t()), QStringList());
-  EXPECT_EQ(Utils::toStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
+  EXPECT_EQ(Utils::GetStringList(vec_t()), QStringList());
+  EXPECT_EQ(Utils::GetStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
 }
 
-TEST_F(WidgetUtilsTest, fromStringList)
+TEST_F(WidgetUtilsTest, GetStdStringVector)
 {
   using vec_t = std::vector<std::string>;
-  EXPECT_EQ(Utils::fromStringList(QStringList()), vec_t());
-  EXPECT_EQ(Utils::fromStringList(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
+  EXPECT_EQ(Utils::GetStdStringVector(QStringList()), vec_t());
+  EXPECT_EQ(Utils::GetStdStringVector(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
 }
 
-TEST_F(WidgetUtilsTest, toFromByteArray)
+TEST_F(WidgetUtilsTest, GetByteArray)
 {
   QStringList expected = QStringList() << "aaa"
                                        << "bbb"
                                        << "ccc";
 
-  auto array = Utils::serialize(expected);
-  EXPECT_EQ(Utils::deserialize(array), expected);
+  auto array = Utils::GetByteArray(expected);
+  EXPECT_EQ(Utils::GetStringList(array), expected);
 }

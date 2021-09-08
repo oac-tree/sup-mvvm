@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SEQUENCER_VIEWMODELUTILS_H
-#define MVVM_SEQUENCER_VIEWMODELUTILS_H
+#ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
 #include "mvvm/viewmodel/presentationitem.h"
 #include "mvvm/viewmodel/viewitem.h"
@@ -80,4 +80,4 @@ std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
 }  // namespace Utils
 }  // namespace ModelView
 
-#endif  // MVVM_SEQUENCER_VIEWMODELUTILS_H
+#endif  // MVVM_VIEWMODEL_VIEWMODELUTILS_H

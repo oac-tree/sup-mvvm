@@ -160,7 +160,7 @@ void ModelView::Utils::ScaleLabelFont(QLabel* label, double scale)
   label->setFont(font);
 }
 
-QStringList ModelView::Utils::toStringList(const std::vector<std::string>& vec)
+QStringList ModelView::Utils::GetStringList(const std::vector<std::string>& vec)
 {
   QStringList result;
   for (const auto& x : vec)
@@ -168,7 +168,7 @@ QStringList ModelView::Utils::toStringList(const std::vector<std::string>& vec)
   return result;
 }
 
-std::vector<std::string> ModelView::Utils::fromStringList(const QStringList& string_list)
+std::vector<std::string> ModelView::Utils::GetStdStringVector(const QStringList& string_list)
 {
   std::vector<std::string> result;
   for (const auto& x : string_list)
@@ -176,7 +176,7 @@ std::vector<std::string> ModelView::Utils::fromStringList(const QStringList& str
   return result;
 }
 
-QByteArray ModelView::Utils::serialize(const QStringList& data)
+QByteArray ModelView::Utils::GetByteArray(const QStringList& data)
 {
   QByteArray byteArray;
   QDataStream out(&byteArray, QIODevice::WriteOnly);
@@ -184,7 +184,7 @@ QByteArray ModelView::Utils::serialize(const QStringList& data)
   return byteArray;
 }
 
-QStringList ModelView::Utils::deserialize(const QByteArray& byteArray)
+QStringList ModelView::Utils::GetStringList(const QByteArray& byteArray)
 {
   QByteArray array = byteArray;
   QStringList result;

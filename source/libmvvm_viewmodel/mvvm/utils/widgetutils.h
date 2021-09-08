@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SEQUENCER_WIDGETUTILS_H
-#define MVVM_SEQUENCER_WIDGETUTILS_H
+#ifndef MVVM_VIEWMODEL_WIDGETUTILS_H
+#define MVVM_VIEWMODEL_WIDGETUTILS_H
 
 #include <QString>
 #include <QStringList>
@@ -80,16 +80,16 @@ QString ClickableText(const QString& text, const QString& tag = {});
 void ScaleLabelFont(QLabel* label, double scale);
 
 //! Converts vector of strings to QStringList.
-QStringList toStringList(const std::vector<std::string>& vec);
+QStringList GetStringList(const std::vector<std::string>& vec);
 
 //! Converts vector of strings to QStringList.
-std::vector<std::string> fromStringList(const QStringList& string_list);
+std::vector<std::string> GetStdStringVector(const QStringList& string_list);
 
 //! Converts vector of strings to byte array.
-QByteArray serialize(const QStringList& data);
+QByteArray GetByteArray(const QStringList& data);
 
 //! Converts byte array to vector of strings.
-QStringList deserialize(const QByteArray& byteArray);
+QStringList GetStringList(const QByteArray& byteArray);
 
 }  // namespace ModelView::Utils
 
