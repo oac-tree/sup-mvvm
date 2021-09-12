@@ -35,14 +35,22 @@ class MVVM_MODEL_EXPORT ModelEventListenerInterface
 public:
   virtual ~ModelEventListenerInterface() = default;
 
+  //! Lets the listener know that a child is about to be inserted into the `parent` with
+  //! `tag_index`.
   virtual void OnAboutToInsertItem(SessionItem* parent, const TagIndex& tag_index) = 0;
 
+  //! Lets the listener know that a child has been inserted into the `parent` with `tag_index`.
   virtual void OnItemInserted(SessionItem* parent, const TagIndex& tag_index) = 0;
 
+  //! Lets the listener know that a child is about to be removed from the `parent`s position
+  //! `tag_index`.
   virtual void OnAboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index) = 0;
 
+  //! Lets the listener know that a child has been removed from the `parent`s position
+  //! `tag_index`.
   virtual void OnItemRemoved(SessionItem* parent, const TagIndex& tag_index) = 0;
 
+  //! Lets the listener know `item`s data with given `role` has been changed.
   virtual void OnDataChanged(SessionItem* item, int role) = 0;
 };
 

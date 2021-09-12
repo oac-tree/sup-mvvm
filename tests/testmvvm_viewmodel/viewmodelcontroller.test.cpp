@@ -19,18 +19,47 @@
 
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
+#include "mvvm/model/modelcomposer.h"
+#include "mvvm/model/sessionitem.h"
+#include "mvvm/model/sessionmodel.h"
+#include "mvvm/viewmodel/modeleventnotifier.h"
+#include "mvvm/viewmodel/viewmodelbase.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
+
 #include <gtest/gtest.h>
 
-//! Tests for ViewModelControllerTest class.
+using namespace ModelView;
+
+//! Tests for ViewModelController class.
 
 class ViewModelControllerTest : public ::testing::Test
 {
 public:
+  ViewModelControllerTest()
+      : m_controller(&m_model, &m_viewmodel)
+      , m_notifier(&m_controller)
+      , m_composer(&m_model, &m_notifier)
+  {
+  }
+  SessionModel m_model;
+  ViewModelBase m_viewmodel;
+  ViewModelController m_controller;
+  ModelEventNotifier m_notifier;
+  ModelComposer m_composer;
 };
 
-//! Initial state.
+//! Empty model.
 
-TEST_F(ViewModelControllerTest, InitialState)
+TEST_F(ViewModelControllerTest, EmptyProcedure)
 {
-  EXPECT_EQ(1, 1);
+  m_controller.Init();
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+
+  EXPECT_EQ(ModelView::Utils::GetContext<SessionItem>(m_viewmodel.rootItem()),
+            m_model.GetRootItem());
+
+  EXPECT_EQ(ModelView::Utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
+            std::vector<ModelView::ViewItem*>({m_viewmodel.rootItem()}));
 }

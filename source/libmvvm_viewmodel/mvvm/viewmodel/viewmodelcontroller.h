@@ -22,12 +22,17 @@
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
 
+#include <memory>
+
 namespace ModelView
 {
+class SessionModel;
+class ViewModelBase;
 
 class MVVM_MODEL_EXPORT ViewModelController : public ModelEventListenerInterface
 {
 public:
+  ViewModelController(SessionModel *model, ViewModelBase *view_model);
   ~ViewModelController();
 
   void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index);
@@ -39,8 +44,13 @@ public:
   void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index);
 
   void OnDataChanged(SessionItem *item, int role);
-};
 
+  void Init();
+
+private:
+  struct ViewModelControllerImpl;
+  std::unique_ptr<ViewModelControllerImpl> p_impl;
+};
 
 }  // namespace ModelView
 

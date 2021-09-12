@@ -77,6 +77,26 @@ std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
   return result;
 }
 
+//! Creates presentation to show the label associated with the given context.
+//! Context itself is not used directly. It might be used by ViewModelController to find
+//! corresponding views.
+
+template <typename T>
+std::unique_ptr<ViewItemDataInterface> CreateLabelPresentation(T* context, const std::string& label)
+{
+  // label is simply copied
+  auto on_data = [label](T* instruction, int role)
+  { return role == Qt::DisplayRole ? QString::fromStdString(label) : QVariant(); };
+
+  return std::make_unique<PresentationItem<T>>(context, on_data);
+}
+
+template <typename T>
+std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& label)
+{
+  return std::make_unique<ViewItem>(CreateLabelPresentation(context, label));
+}
+
 }  // namespace Utils
 }  // namespace ModelView
 

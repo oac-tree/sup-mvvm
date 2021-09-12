@@ -116,3 +116,45 @@ TEST_F(ViewModelUtilsTest, FindViews)
 
   // more tests for FindViews in ViewModelControllerTest
 }
+
+//! Tests of CreateLabelPresentation.
+
+TEST_F(ViewModelUtilsTest, CreateLabelPresentation)
+{
+  TestItem item;
+
+  std::string expected_label{"SomeLabel"};
+  auto presentation = ModelView::Utils::CreateLabelPresentation(&item, expected_label);
+
+  // item has a display role, which coincide with the label, the rest is blocked
+  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+  EXPECT_FALSE(presentation->Data(Qt::EditRole).isValid());
+
+  EXPECT_FALSE(presentation->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_FALSE(presentation->SetData(QString("bbb"), Qt::EditRole));
+
+  // data is the same as before, despite of all attempts to change it
+  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+}
+
+//! Tests of CreateLabelPresentation.
+
+TEST_F(ViewModelUtilsTest, CreateLabelViewItem)
+{
+  TestItem item;
+
+  std::string expected_label{"SomeLabel"};
+  auto view_item = ModelView::Utils::CreateLabelViewItem(&item, expected_label);
+
+  // item has a display role, which coincide with the label, the rest is blocked
+  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
+  EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
+
+  EXPECT_FALSE(view_item->setData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_FALSE(view_item->setData(QString("bbb"), Qt::EditRole));
+
+  // data is the same as before, despite of all attempts to change it
+  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
+
+  EXPECT_EQ(ModelView::Utils::GetContext<TestItem>(view_item.get()), &item);
+}

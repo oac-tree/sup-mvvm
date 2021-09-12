@@ -24,6 +24,11 @@
 
 namespace ModelView
 {
+ModelEventNotifier::ModelEventNotifier(ModelEventListenerInterface *listener)
+{
+  EstablishConnections(listener);
+}
+
 void ModelEventNotifier::EstablishConnections(ModelEventListenerInterface *listener)
 {
   auto on_about_to_insert = [listener](auto parent, auto tag_index)

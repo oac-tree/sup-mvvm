@@ -36,6 +36,9 @@ class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public QObject, public ModelEve
   Q_OBJECT
 
 public:
+  ModelEventNotifier() = default;
+  ModelEventNotifier(ModelEventListenerInterface* listener);
+
   void EstablishConnections(ModelEventListenerInterface* listener) override;
 
   void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index) override;
