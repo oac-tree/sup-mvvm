@@ -19,6 +19,7 @@
 
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
+#include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/viewmodelbase.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
@@ -48,6 +49,29 @@ struct ViewModelController::ViewModelControllerImpl
     if (m_view_model->rowCount())
       throw std::runtime_error("Error in ViewModewlController: viewmodel is not empty");
   }
+
+//  void Iterate(const SessionItem *instruction, ViewItem *parent_view)
+//  {
+//    for (auto &instruction : instruction->GetAllItems())
+//    {
+//      auto next_parent_view = ProcessItem(instruction, parent_view, parent_view->rowCount());
+//      if (next_parent_view)
+//        Iterate(instruction, next_parent_view);
+//    }
+//  }
+
+//  ViewItem *ProcessItem(const SessionItem *instruction, ViewItem *parent_view, int row)
+//  {
+//    auto row_of_views = m_row_strategy->constructRow(instruction);
+//    if (!row_of_views.empty())
+//    {
+//      auto next_parent_view = row_of_views.at(0).get();
+//      m_view_model->insertRow(parent_view, row, std::move(row_of_views));
+//      m_view_map.Insert(instruction, next_parent_view);
+//      return next_parent_view;
+//    }
+//    return nullptr;
+//  }
 
   void InitViewModel() {}
 };

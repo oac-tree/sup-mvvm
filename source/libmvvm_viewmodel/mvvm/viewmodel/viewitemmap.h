@@ -1,0 +1,52 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef MVVM_VIEWMODEL_VIEWITEMMAP_H
+#define MVVM_VIEWMODEL_VIEWITEMMAP_H
+
+#include <map>
+
+namespace ModelView
+{
+class ViewItem;
+class SessionItem;
+
+//! Stores correspondance of the SessionItem and ViewItem. Plays a supporting role during ViewModel
+//! rebuild.
+
+class ViewItemMap
+{
+public:
+  ViewItemMap();
+
+  void Insert(const SessionItem *item, ViewItem* view_item);
+
+  ViewItem* FindView(const SessionItem* item);
+
+  void Remove(const SessionItem* item);
+
+  void Clear();
+
+private:
+  std::map<const SessionItem*, ViewItem*> m_item_to_view;
+};
+
+}  // namespace ModelView
+
+#endif  // MVVM_VIEWMODEL_VIEWITEMMAP_H

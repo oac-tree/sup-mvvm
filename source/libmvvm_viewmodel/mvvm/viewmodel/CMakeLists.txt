@@ -8,6 +8,8 @@ target_sources(${library_name} PRIVATE
   viewitemdata.cpp
   viewitemdata.h
   viewitemdatainterface.h
+  viewitemmap.cpp
+  viewitemmap.h
   viewmodelbase.cpp
   viewmodelbase.h
   viewmodelcontroller.cpp
