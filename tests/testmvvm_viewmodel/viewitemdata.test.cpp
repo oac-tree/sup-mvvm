@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewitemdata.h"
+#include "mvvm/viewmodelbase/viewitemdata.h"
 
 #include <gtest/gtest.h>
 

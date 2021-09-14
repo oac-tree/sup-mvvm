@@ -19,7 +19,7 @@
 
 #include "viewmodelbase.h"
 
-#include "mvvm/viewmodel/viewitem.h"
+#include "mvvm/viewmodelbase/viewitem.h"
 
 #include <stdexcept>
 

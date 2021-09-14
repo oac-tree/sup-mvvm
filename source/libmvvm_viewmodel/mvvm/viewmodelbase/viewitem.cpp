@@ -212,7 +212,7 @@ QVariant ViewItem::data(int qt_role) const
   return item() ? item()->Data(qt_role) : QVariant();
 }
 
-//! Sets the data to underlying SessionItem.
+//! Sets the data to underlying PresentationItem.
 
 bool ViewItem::setData(const QVariant& value, int qt_role)
 {

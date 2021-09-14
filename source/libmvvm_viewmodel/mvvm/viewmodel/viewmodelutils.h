@@ -20,9 +20,9 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
 #define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
-#include "mvvm/viewmodel/presentationitem.h"
-#include "mvvm/viewmodel/viewitem.h"
-#include "mvvm/viewmodel/viewmodelbase.h"
+#include "mvvm/viewmodelbase/presentationitem.h"
+#include "mvvm/viewmodelbase/viewitem.h"
+#include "mvvm/viewmodelbase/viewmodelbase.h"
 
 #include <QAbstractItemModel>
 #include <functional>

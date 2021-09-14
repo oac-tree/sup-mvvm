@@ -23,7 +23,7 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
-#include "mvvm/viewmodel/viewmodelbase.h"
+#include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
 
 #include "test_utils.h"

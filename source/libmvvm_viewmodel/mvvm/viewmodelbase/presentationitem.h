@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_PRESENTATIONITEM_H
 #define MVVM_VIEWMODEL_PRESENTATIONITEM_H
 
-#include "mvvm/viewmodel/viewitemdata.h"
+#include "mvvm/viewmodelbase/viewitemdata.h"
 
 #include <functional>
 

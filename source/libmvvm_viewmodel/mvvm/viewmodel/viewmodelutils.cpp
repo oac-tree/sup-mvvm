@@ -19,7 +19,7 @@
 
 #include "viewmodelutils.h"
 
-#include "mvvm/viewmodel/viewmodelbase.h"
+#include "mvvm/viewmodelbase/viewmodelbase.h"
 
 namespace ModelView::Utils
 {
