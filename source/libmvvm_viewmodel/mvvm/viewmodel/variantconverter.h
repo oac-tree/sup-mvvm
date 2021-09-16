@@ -17,29 +17,26 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWITEMDATAINTERFACE_H
-#define MVVM_VIEWMODELBASE_VIEWITEMDATAINTERFACE_H
+#ifndef MVVM_VIEWMODEL_VARIANTCONVERTER_H
+#define MVVM_VIEWMODEL_VARIANTCONVERTER_H
 
+//! @file variantconverter.h
+//! Collection of utility functions to convert variant_t to QVariant and back.
+
+#include "mvvm/core/variant.h"
 #include "mvvm/viewmodel_export.h"
 
 #include <QVariant>
 
 namespace ModelView
 {
-//! Defines interface for ViewItem's data access.
 
-class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
-{
-public:
-  virtual QVariant Data(int role = Qt::EditRole) const = 0;
+//! Constructs QVariant from mvvm variant_t.
+MVVM_VIEWMODEL_EXPORT QVariant GetQtVariant(const variant_t& variant);
 
-  virtual bool SetData(const QVariant& data, int role = Qt::EditRole) = 0;
-
-  virtual bool IsEnabled() const = 0;
-
-  virtual bool IsEditable() const = 0;
-};
+//! Constructs variant_t from QVariant. Will throw if it is not possible.
+MVVM_VIEWMODEL_EXPORT variant_t GetStdVariant(const QVariant& variant);
 
 }  // namespace ModelView
 
-#endif  // MVVM_VIEWMODELBASE_VIEWITEMDATAINTERFACE_H
+#endif  // MVVM_VIEWMODEL_VARIANTCONVERTER_H

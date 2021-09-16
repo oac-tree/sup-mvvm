@@ -1,0 +1,74 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef MVVM_VIEWMODEL_CUSTOMVARIANTS_H
+#define MVVM_VIEWMODEL_CUSTOMVARIANTS_H
+
+//! @file customvariants.h
+//! Custom Qt variants registrations and utility functions.
+
+#include "mvvm/viewmodel_export.h"
+
+#include <QVariant>
+#include <string>
+
+namespace ModelView
+{
+namespace Constants
+{
+const std::string kInvalidQtTypeName = "invalid";
+const std::string kBoolQtTypeName = "bool";
+const std::string kIntQtTypeName = "int";
+const std::string kStringQtTypeName = "QString";
+const std::string kStdStringQtTypeName = "std::string";
+const std::string kDoubleQtTypeName = "double";
+const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
+}  // namespace Constants
+
+namespace Utils
+{
+//! Returns name of variant.
+MVVM_VIEWMODEL_EXPORT std::string GetQtVariantName(const QVariant& variant);
+
+//! Returns type of variant (additionally checks for user type).
+MVVM_VIEWMODEL_EXPORT int GetQtVariantType(const QVariant& variant);
+
+//! Returns true in the case of double value based variant.
+MVVM_VIEWMODEL_EXPORT bool IsBoolVariant(const QVariant& variant);
+
+//! Returns true in the case of double value based variant.
+MVVM_VIEWMODEL_EXPORT bool IsIntVariant(const QVariant& variant);
+
+//! Returns true in the case of double value based variant.
+MVVM_VIEWMODEL_EXPORT bool IsDoubleVariant(const QVariant& variant);
+
+//! Returns true in the case of double value based variant.
+MVVM_VIEWMODEL_EXPORT bool IsStdStringVariant(const QVariant& variant);
+
+//! Returns true in the case of variant based on std::vector<double>.
+MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
+
+}  // namespace Utils
+
+}  // namespace ModelView
+
+Q_DECLARE_METATYPE(std::string)
+Q_DECLARE_METATYPE(std::vector<double>)
+
+#endif  // MVVM_VIEWMODEL_VARIANTCONVERTER_H

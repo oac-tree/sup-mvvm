@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEMDATA_H
-#define MVVM_VIEWMODEL_VIEWITEMDATA_H
+#ifndef MVVM_VIEWMODELBASE_VIEWITEMDATA_H
+#define MVVM_VIEWMODELBASE_VIEWITEMDATA_H
 
 #include "viewitemdatainterface.h"
 
@@ -55,4 +55,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_VIEWMODEL_VIEWITEMDATA_H
+#endif  // MVVM_VIEWMODELBASE_VIEWITEMDATA_H

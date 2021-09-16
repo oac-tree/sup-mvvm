@@ -52,6 +52,18 @@ TEST_F(VariantTest, ConstChar)
   EXPECT_EQ(std::get<std::string>(variant1), std::string("abc"));
 }
 
+//! Vector<double>
+
+TEST_F(VariantTest, VectorOfDouble)
+{
+  variant_t variant1(std::vector<double>({1.0, 2.0}));
+  variant_t variant2(std::vector<double>({1.0, 2.0}));
+  EXPECT_TRUE(variant1 == variant2);
+
+  // to make sure that float precision doesn't pop-up with such kind of comparison
+  EXPECT_EQ(std::get<std::vector<double>>(variant1), std::vector<double>({1.0, 2.0}));
+}
+
 //! Testing Utils::AreCompatible function.
 
 TEST_F(VariantTest, AreCompatible)
