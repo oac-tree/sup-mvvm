@@ -21,8 +21,7 @@
 #define MVVM_VIEWMODEL_PRESENTATIONITEMFACTORY_H
 
 //! @file presentationitemfactory.h
-//! Contains sets of factory methods for the creation of various items
-//! for presenting sequencer parts.
+//! Contains factory methods for various presentations of different SessionItem parts.
 
 #include "mvvm/viewmodelbase/viewitemdatainterface.h"
 
@@ -33,11 +32,14 @@ namespace ModelView
 class SessionItem;
 class ModelComposer;
 
-//! Creates presentation of the SessionItem's display name.
+//! Creates read-only presentation of the SessionItem's display name.
 std::unique_ptr<ViewItemDataInterface> CreateDisplayNamePresentation(SessionItem* item);
 
+//! Creates editable presentation of the SessionItem's display name.
+std::unique_ptr<ViewItemDataInterface> CreateEditableDisplayNamePresentation(SessionItem* item);
+
 //! Creates presentation of the SessionItem's data.
-std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item, int role,
+std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item,
                                                               ModelComposer* composer = nullptr);
 
 }  // namespace ModelView

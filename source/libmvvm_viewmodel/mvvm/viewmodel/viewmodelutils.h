@@ -52,11 +52,11 @@ template <typename T>
 const T* GetContext(const ViewItem* view_item)
 {
   if (auto presentation = GetPresentation<T>(view_item); presentation)
-    return presentation->context();
+    return presentation->GetContext();
   return nullptr;
 }
 
-//! Finds ViewItems in given ViewModelBase representing given context (Instruction).
+//! Finds ViewItems in given ViewModelBase representing given context.
 
 template <typename T>
 std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
@@ -67,6 +67,7 @@ std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
   std::vector<ViewItem*> result;
   if (item == GetContext<T>(view_model->rootItem()))
     result.push_back(view_model->rootItem());
+
   auto on_index = [&](const QModelIndex& index)
   {
     auto view_item = view_model->itemFromIndex(index);

@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   variantconverter.h
   viewitemmap.cpp
   viewitemmap.h
+  viewitemfactory.cpp
+  viewitemfactory.h
   viewmodelcontroller.cpp
   viewmodelcontroller.h
   viewmodelutils.cpp

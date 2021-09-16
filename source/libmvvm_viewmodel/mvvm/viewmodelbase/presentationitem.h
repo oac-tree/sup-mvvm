@@ -51,9 +51,12 @@ public:
     return m_setdata_callback ? m_setdata_callback(m_context, data, role) : false;
   }
 
-  const T* context() const { return m_context; }
+  const T* GetContext() const { return m_context; }
 
-  T* context() { return const_cast<T*>(static_cast<const PresentationItem<T>*>(this)->context()); }
+  T* GetContext()
+  {
+    return const_cast<T*>(static_cast<const PresentationItem<T>*>(this)->GetContext());
+  }
 
 private:
   T* m_context;
