@@ -35,7 +35,9 @@ struct ModelComposer::ModelComposerImpl
   std::pair<SessionItem*, TagIndex> GetInsertData(SessionItem* parent, const TagIndex& tag_index)
   {
     if (!parent)
+    {
       parent = m_model->GetRootItem();
+    }
 
     int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
 
@@ -47,9 +49,14 @@ ModelComposer::ModelComposer(SessionModel* model, ModelEventNotifierInterface* n
     : p_impl(std::make_unique<ModelComposerImpl>())
 {
   if (!model)
+  {
     throw std::runtime_error("Error in ModelComposer: uninitialised model");
+  }
+
   if (!notifier)
+  {
     throw std::runtime_error("Error in ModelComposer: uninitialised notifier");
+  }
 
   p_impl->m_model = model;
   p_impl->m_notifier = notifier;
@@ -61,7 +68,10 @@ bool ModelComposer::SetData(SessionItem* item, const variant_t& value, int role)
 {
   auto result = p_impl->m_model->SetData(item, value, role);
   if (result)
+  {
     p_impl->m_notifier->DataChanged(item, role);
+  }
+
   return result;
 }
 
@@ -73,7 +83,7 @@ SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionI
   auto [actual_parent, actual_tag_index] = p_impl->GetInsertData(parent, tag_index);
 
   p_impl->m_notifier->AboutToInsertItem(actual_parent, actual_tag_index);
-  auto result = p_impl->m_model->InsertNewItem(item_type, actual_parent, actual_tag_index);
+  auto* result = p_impl->m_model->InsertNewItem(item_type, actual_parent, actual_tag_index);
   p_impl->m_notifier->ItemInserted(actual_parent, actual_tag_index);
 
   return result;

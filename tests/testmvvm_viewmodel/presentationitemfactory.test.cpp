@@ -125,6 +125,8 @@ TEST_F(PresentationItemFactoryTest, CreateDataPresentationWithComposer)
   EXPECT_EQ(presentation->Data(Qt::DisplayRole).toInt(), value);
   EXPECT_EQ(presentation->Data(Qt::EditRole).toInt(), value);
 
+  EXPECT_CALL(notifier, DataChanged(item, DataRole::kData)).Times(1);
+
   const int new_value{43};
   EXPECT_FALSE(presentation->SetData(new_value, Qt::DisplayRole));
   EXPECT_TRUE(presentation->SetData(new_value, Qt::EditRole));

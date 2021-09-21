@@ -21,10 +21,23 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/viewmodelbase/viewmodelbase.h"
+#include "mvvm/viewmodel/viewitemfactory.h"
+#include "mvvm/viewmodel/viewitemmap.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
+#include "mvvm/viewmodelbase/viewmodelbase.h"
 
 #include <stdexcept>
+
+namespace
+{
+std::vector<std::unique_ptr<ModelView::ViewItem>> ConstructRow(ModelView::SessionItem *item)
+{
+  std::vector<std::unique_ptr<ModelView::ViewItem>> result;
+  result.emplace_back(ModelView::CreateDisplayNameViewItem(item));
+  result.emplace_back(ModelView::CreateDataViewItem(item));
+  return result;
+}
+}  // namespace
 
 namespace ModelView
 {
@@ -32,48 +45,69 @@ struct ViewModelController::ViewModelControllerImpl
 {
   SessionModel *m_model{nullptr};
   ViewModelBase *m_view_model{nullptr};
+  ViewItemMap m_view_item_map;
 
   ViewModelControllerImpl(SessionModel *model, ViewModelBase *view_model)
       : m_model(model), m_view_model(view_model)
   {
   }
 
-  void CheckInitialState()
+  void CheckInitialState() const
   {
     if (!m_model)
+    {
       throw std::runtime_error("Error in ViewModewlController: model is absent");
+    }
 
     if (!m_view_model)
+    {
       throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
+    }
 
     if (m_view_model->rowCount())
+    {
       throw std::runtime_error("Error in ViewModewlController: viewmodel is not empty");
+    }
   }
 
-//  void Iterate(const SessionItem *instruction, ViewItem *parent_view)
-//  {
-//    for (auto &instruction : instruction->GetAllItems())
-//    {
-//      auto next_parent_view = ProcessItem(instruction, parent_view, parent_view->rowCount());
-//      if (next_parent_view)
-//        Iterate(instruction, next_parent_view);
-//    }
-//  }
+  SessionItem *GetRootItem() const
+  {
+    // TODO make possible change of root item to particular branch
+    return m_model->GetRootItem();
+  }
 
-//  ViewItem *ProcessItem(const SessionItem *instruction, ViewItem *parent_view, int row)
-//  {
-//    auto row_of_views = m_row_strategy->constructRow(instruction);
-//    if (!row_of_views.empty())
-//    {
-//      auto next_parent_view = row_of_views.at(0).get();
-//      m_view_model->insertRow(parent_view, row, std::move(row_of_views));
-//      m_view_map.Insert(instruction, next_parent_view);
-//      return next_parent_view;
-//    }
-//    return nullptr;
-//  }
+  void Iterate(SessionItem *item, ViewItem *parent_view)
+  {
+    for (auto *child : item->GetAllItems())
+    {
+      auto *next_parent_view = ProcessItem(child, parent_view, parent_view->rowCount());
+      if (next_parent_view)
+      {
+        Iterate(child, next_parent_view);
+      }
+    }
+  }
 
-  void InitViewModel() {}
+  ViewItem *ProcessItem(SessionItem *item, ViewItem *parent_view, int row)
+  {
+    auto row_of_views = ConstructRow(item);
+    if (!row_of_views.empty())
+    {
+      auto *next_parent_view = row_of_views.at(0).get();
+      m_view_model->insertRow(parent_view, row, std::move(row_of_views));
+      m_view_item_map.Insert(item, next_parent_view);
+      return next_parent_view;
+    }
+    return nullptr;
+  }
+
+  void InitViewModel()
+  {
+    CheckInitialState();
+    m_view_item_map.Clear();
+    m_view_item_map.Insert(GetRootItem(), m_view_model->rootItem());
+    Iterate(GetRootItem(), m_view_model->rootItem());
+  }
 };
 
 ViewModelController::ViewModelController(SessionModel *model, ViewModelBase *view_model)
