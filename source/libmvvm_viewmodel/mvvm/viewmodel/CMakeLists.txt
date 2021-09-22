@@ -15,6 +15,4 @@ target_sources(${library_name} PRIVATE
   viewitemfactory.h
   viewmodelcontroller.cpp
   viewmodelcontroller.h
-  viewmodelutils.cpp
-  viewmodelutils.h
   )

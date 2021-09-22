@@ -38,15 +38,20 @@ public:
 
   virtual void EstablishConnections(ModelEventListenerInterface* listener) = 0;
 
-  virtual void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+  //! Performs notification of all listeners when an item is about to be inserted into a model.
+  virtual void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  virtual void ItemInserted(SessionItem* parent, const TagIndex& tag_index) = 0;
+  //! Performs notification of all listeners when an item was inserted into a model.
+  virtual void ItemInsertedNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  virtual void AboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+  //! Performs notification of all listeners when an item is about to be removed from a model.
+  virtual void AboutToRemoveItemNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  virtual void ItemRemoved(SessionItem* parent, const TagIndex& tag_index) = 0;
+  //! Performs notification of all listeners when an item was removed from a model.
+  virtual void ItemRemovedNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  virtual void DataChanged(SessionItem* item, int role) = 0;
+  //! Performs notification of all listeners when item's data has been changed for a given role.
+  virtual void DataChangedNotify(SessionItem* item, int role) = 0;
 };
 
 }  // namespace ModelView

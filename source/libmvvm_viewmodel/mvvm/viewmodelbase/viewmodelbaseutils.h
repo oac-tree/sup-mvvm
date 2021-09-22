@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
-#define MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
+#define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 
 #include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
@@ -101,4 +101,4 @@ std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& lab
 }  // namespace Utils
 }  // namespace ModelView
 
-#endif  // MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#endif  // MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H

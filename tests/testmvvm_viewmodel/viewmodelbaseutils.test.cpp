@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodelutils.h"
+#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
 #include <gtest/gtest.h>
 
@@ -26,7 +26,7 @@
 
 namespace
 {
-QList<QStandardItem*> get_items(const std::vector<int>& data)
+QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
 {
   QList<QStandardItem*> result;
 
@@ -39,7 +39,7 @@ QList<QStandardItem*> get_items(const std::vector<int>& data)
 
 using namespace ModelView;
 
-class ViewModelUtilsTest : public ::testing::Test
+class ViewModelBaseUtilsTest : public ::testing::Test
 {
 public:
   class TestItem
@@ -49,18 +49,18 @@ public:
 
 //! Validate Utils::iterate_model function with user callback.
 
-TEST_F(ViewModelUtilsTest, iterate)
+TEST_F(ViewModelBaseUtilsTest, iterate)
 {
   QStandardItemModel model;
 
   model.setColumnCount(2);
   QStandardItem* parentItem = model.invisibleRootItem();
 
-  auto row1 = get_items({1, 2});
+  auto row1 = GetStandardItems({1, 2});
   parentItem->appendRow(row1);
-  row1.at(0)->appendRow(get_items({3, 4}));
+  row1.at(0)->appendRow(GetStandardItems({3, 4}));
 
-  auto row2 = get_items({10, 20});
+  auto row2 = GetStandardItems({10, 20});
   parentItem->appendRow(row2);
 
   std::vector<int> expected = {1, 2, 3, 4, 10, 20};
@@ -78,7 +78,7 @@ TEST_F(ViewModelUtilsTest, iterate)
 
 //! Validate Utils::GetPresentaiton function.
 
-TEST_F(ViewModelUtilsTest, GetPresentation)
+TEST_F(ViewModelBaseUtilsTest, GetPresentation)
 {
   TestItem wait;
   auto presentation = std::make_unique<PresentationItem<TestItem>>(&wait);
@@ -90,7 +90,7 @@ TEST_F(ViewModelUtilsTest, GetPresentation)
 
 //! Validate Utils::GetPresentaiton function.
 
-TEST_F(ViewModelUtilsTest, GetContext)
+TEST_F(ViewModelBaseUtilsTest, GetContext)
 {
   TestItem wait;
 
@@ -105,7 +105,7 @@ TEST_F(ViewModelUtilsTest, GetContext)
 
 //! Validate Utils::FindViews function.
 
-TEST_F(ViewModelUtilsTest, FindViews)
+TEST_F(ViewModelBaseUtilsTest, FindViews)
 {
   ModelView::ViewModelBase viewmodel;
   TestItem instruction;
@@ -119,7 +119,7 @@ TEST_F(ViewModelUtilsTest, FindViews)
 
 //! Tests of CreateLabelPresentation.
 
-TEST_F(ViewModelUtilsTest, CreateLabelPresentation)
+TEST_F(ViewModelBaseUtilsTest, CreateLabelPresentation)
 {
   TestItem item;
 
@@ -139,7 +139,7 @@ TEST_F(ViewModelUtilsTest, CreateLabelPresentation)
 
 //! Tests of CreateLabelPresentation.
 
-TEST_F(ViewModelUtilsTest, CreateLabelViewItem)
+TEST_F(ViewModelBaseUtilsTest, CreateLabelViewItem)
 {
   TestItem item;
 

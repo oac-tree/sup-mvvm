@@ -23,8 +23,8 @@
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodel/viewitemmap.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
+#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
 #include <stdexcept>
 
@@ -101,6 +101,19 @@ struct ViewModelController::ViewModelControllerImpl
     return nullptr;
   }
 
+  void InsertView(SessionItem *parent, const TagIndex &tag_index)
+  {
+    auto new_child = parent->GetItem(tag_index.tag, tag_index.index);
+    if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
+    {
+      auto next_parent_view = ProcessItem(new_child, parent_view, tag_index.index);
+      if (next_parent_view)
+      {
+        Iterate(new_child, next_parent_view);
+      }
+    }
+  }
+
   void InitViewModel()
   {
     CheckInitialState();
@@ -117,9 +130,15 @@ ViewModelController::ViewModelController(SessionModel *model, ViewModelBase *vie
 
 ViewModelController::~ViewModelController() = default;
 
-void ViewModelController::OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) {}
+void ViewModelController::OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index)
+{
+  // nothing to do
+}
 
-void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index) {}
+void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index)
+{
+  p_impl->InsertView(parent, tag_index);
+}
 
 void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) {}
 

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "viewmodelutils.h"
+#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 
@@ -27,7 +27,9 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                    const std::function<void(const QModelIndex& child)>& fun)
 {
   if (!model)
+  {
     return;
+  }
 
   for (int row = 0; row < model->rowCount(parent); ++row)
   {
@@ -35,7 +37,9 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
     {
       auto index = model->index(row, col, parent);
       if (index.isValid())
+      {
         fun(index);
+      }
     }
     for (int col = 0; col < model->columnCount(parent); ++col)
     {

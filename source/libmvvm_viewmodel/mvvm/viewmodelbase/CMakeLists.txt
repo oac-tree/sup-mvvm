@@ -10,4 +10,6 @@ target_sources(${library_name} PRIVATE
   viewitem.h
   viewmodelbase.cpp
   viewmodelbase.h
+  viewmodelbaseutils.cpp
+  viewmodelbaseutils.h
   )

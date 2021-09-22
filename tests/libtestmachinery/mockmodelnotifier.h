@@ -38,19 +38,19 @@ class MockModelNotifier : public ModelView::ModelEventNotifierInterface
 public:
   MOCK_METHOD1(EstablishConnections, void(ModelView::ModelEventListenerInterface* listener));
 
-  MOCK_METHOD2(AboutToInsertItem,
+  MOCK_METHOD2(AboutToInsertItemNotify,
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
-  MOCK_METHOD2(ItemInserted,
+  MOCK_METHOD2(ItemInsertedNotify,
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
-  MOCK_METHOD2(AboutToRemoveItem,
+  MOCK_METHOD2(AboutToRemoveItemNotify,
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
-  MOCK_METHOD2(ItemRemoved,
+  MOCK_METHOD2(ItemRemovedNotify,
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
-  MOCK_METHOD2(DataChanged, void(ModelView::SessionItem* item, int role));
+  MOCK_METHOD2(DataChangedNotify, void(ModelView::SessionItem* item, int role));
 };
 
 #endif  // MOCKMODELNOTIFIER_H

@@ -94,7 +94,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemViaComposer)
 
   auto viewitem = CreateDataViewItem(item, &composer);
 
-  EXPECT_CALL(notifier, DataChanged(item, DataRole::kData)).Times(1);
+  EXPECT_CALL(notifier, DataChangedNotify(item, DataRole::kData)).Times(1);
 
   // the rest of the test is the same
 

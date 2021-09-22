@@ -53,7 +53,7 @@ TEST_F(ModelEventNotifierTest, AboutToInsertItem)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
 
   // triggering action
-  m_notifier.AboutToInsertItem(&item, tag_index);
+  m_notifier.AboutToInsertItemNotify(&item, tag_index);
 }
 
 //! Checking listener methods when ItemInserted is fired.
@@ -70,7 +70,7 @@ TEST_F(ModelEventNotifierTest, ItemInserted)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
 
   // triggering action
-  m_notifier.ItemInserted(&item, tag_index);
+  m_notifier.ItemInsertedNotify(&item, tag_index);
 }
 
 //! Checking listener methods when AboutToRemoveItem is fired.
@@ -87,7 +87,7 @@ TEST_F(ModelEventNotifierTest, AboutToRemoveItem)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
 
   // triggering action
-  m_notifier.AboutToRemoveItem(&item, tag_index);
+  m_notifier.AboutToRemoveItemNotify(&item, tag_index);
 }
 
 //! Checking listener methods when ItemRemoved is fired.
@@ -104,7 +104,7 @@ TEST_F(ModelEventNotifierTest, ItemRemoved)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
 
   // triggering action
-  m_notifier.ItemRemoved(&item, tag_index);
+  m_notifier.ItemRemovedNotify(&item, tag_index);
 }
 
 //! Checking listener methods when DataChanged is fired.
@@ -121,5 +121,5 @@ TEST_F(ModelEventNotifierTest, DataChanged)
   EXPECT_CALL(m_listener, OnDataChanged(&item, role)).Times(1);
 
   // triggering action
-  m_notifier.DataChanged(&item, role);
+  m_notifier.DataChangedNotify(&item, role);
 }

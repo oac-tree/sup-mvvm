@@ -33,47 +33,47 @@ void ModelEventNotifier::EstablishConnections(ModelEventListenerInterface *liste
 {
   auto on_about_to_insert = [listener](auto parent, auto tag_index)
   { listener->OnAboutToInsertItem(parent, tag_index); };
-  connect(this, &ModelEventNotifier::InvokeAboutToInsertItem, on_about_to_insert);
+  connect(this, &ModelEventNotifier::AboutToInsertItem, on_about_to_insert);
 
   auto on_inserted = [listener](auto parent, auto tag_index)
   { listener->OnItemInserted(parent, tag_index); };
-  connect(this, &ModelEventNotifier::InvokeItemInserted, on_inserted);
+  connect(this, &ModelEventNotifier::ItemInserted, on_inserted);
 
   auto on_about_to_remove = [listener](auto parent, auto tag_index)
   { listener->OnAboutToRemoveItem(parent, tag_index); };
-  connect(this, &ModelEventNotifier::InvokeAboutToRemoveItem, on_about_to_remove);
+  connect(this, &ModelEventNotifier::AboutToRemoveItem, on_about_to_remove);
 
   auto on_removed = [listener](auto parent, auto tag_index)
   { listener->OnItemRemoved(parent, tag_index); };
-  connect(this, &ModelEventNotifier::InvokeItemRemoved, on_removed);
+  connect(this, &ModelEventNotifier::ItemRemoved, on_removed);
 
   auto on_data_changed = [listener](auto item, int role) { listener->OnDataChanged(item, role); };
-  connect(this, &ModelEventNotifier::InvokeDataChanged, on_data_changed);
+  connect(this, &ModelEventNotifier::DataChanged, on_data_changed);
 }
 
-void ModelEventNotifier::AboutToInsertItem(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit InvokeAboutToInsertItem(parent, tag_index);
+  emit AboutToInsertItem(parent, tag_index);
 }
 
-void ModelEventNotifier::ItemInserted(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventNotifier::ItemInsertedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit InvokeItemInserted(parent, tag_index);
+  emit ItemInserted(parent, tag_index);
 }
 
-void ModelEventNotifier::AboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventNotifier::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit InvokeAboutToRemoveItem(parent, tag_index);
+  emit AboutToRemoveItem(parent, tag_index);
 }
 
-void ModelEventNotifier::ItemRemoved(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventNotifier::ItemRemovedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit InvokeItemRemoved(parent, tag_index);
+  emit ItemRemoved(parent, tag_index);
 }
 
-void ModelEventNotifier::DataChanged(SessionItem *item, int role)
+void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
 {
-  emit InvokeDataChanged(item, role);
+  emit DataChanged(item, role);
 }
 
 }  // namespace ModelView

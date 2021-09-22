@@ -41,26 +41,26 @@ public:
 
   void EstablishConnections(ModelEventListenerInterface* listener) override;
 
-  void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index) override;
+  void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void ItemInserted(SessionItem* parent, const TagIndex& tag_index) override;
+  void ItemInsertedNotify(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void AboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index) override;
+  void AboutToRemoveItemNotify(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void ItemRemoved(SessionItem* parent, const TagIndex& tag_index) override;
+  void ItemRemovedNotify(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void DataChanged(SessionItem* item, int role) override;
+  void DataChangedNotify(SessionItem* item, int role) override;
 
 signals:
-  void InvokeAboutToInsertItem(SessionItem* parent, const TagIndex& tag_index);
+  void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index);
 
-  void InvokeItemInserted(SessionItem* parent, const TagIndex& tag_index);
+  void ItemInserted(SessionItem* parent, const TagIndex& tag_index);
 
-  void InvokeAboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index);
+  void AboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index);
 
-  void InvokeItemRemoved(SessionItem* parent, const TagIndex& tag_index);
+  void ItemRemoved(SessionItem* parent, const TagIndex& tag_index);
 
-  void InvokeDataChanged(SessionItem* item, int role);
+  void DataChanged(SessionItem* item, int role);
 };
 
 }  // namespace ModelView

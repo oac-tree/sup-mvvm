@@ -24,11 +24,14 @@
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
+#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
 #include <gtest/gtest.h>
+
+#include <QSignalSpy>
 
 using namespace ModelView;
 
@@ -44,10 +47,16 @@ public:
   {
   }
 
-  //! Returns underlying SessionItem
+  //! Returns underlying SessionItem from given ViewItem
   const SessionItem* GetSessionItem(const ViewItem* view_item)
   {
     return Utils::GetContext<SessionItem>(view_item);
+  }
+
+  //! Returns underlying SessionItem from the given index.
+  const SessionItem* GetSessionItem(const QModelIndex& index)
+  {
+    return Utils::GetContext<SessionItem>(m_viewmodel.itemFromIndex(index));
   }
 
   std::vector<ModelView::ViewItem*> FindViews(SessionItem* item)
@@ -98,8 +107,7 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
   }
 }
 
-//! SessionModel is populated with a single item.
-//! Controller is populated after.
+//! SessionModel is populated with a single item. The controller is initialised after.
 
 TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 {
@@ -115,7 +123,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 
   // default controller constructs a row consisting from item label (display name) and data
   auto label_index = m_viewmodel.index(0, 0);
-  auto view_item_label = m_viewmodel.itemFromIndex(label_index);
+  auto* view_item_label = m_viewmodel.itemFromIndex(label_index);
   EXPECT_EQ(GetSessionItem(view_item_label), item);
 
   auto data_index = m_viewmodel.index(0, 1);
@@ -131,4 +139,84 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 
   // Finding view from instruction
   EXPECT_EQ(FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+}
+
+//! SessionModel is populated with a VectorItem item. The controller is initialised after.
+
+TEST_F(ViewModelControllerTest, ModelWithVectorItem)
+{
+  auto vector_item = m_model.InsertItem<VectorItem>();
+  vector_item->SetX(1.0);
+  vector_item->SetY(2.0);
+  vector_item->SetZ(3.0);
+
+  ViewModelController controller(&m_model, &m_viewmodel);
+  controller.Init();
+
+  // the model contains only one entry
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  // accessing first child under the root item
+  QModelIndex vector_label_index = m_viewmodel.index(0, 0);
+  QModelIndex vector_data_index = m_viewmodel.index(0, 1);
+  EXPECT_EQ(GetSessionItem(vector_label_index), vector_item);
+  EXPECT_EQ(GetSessionItem(vector_data_index), vector_item);
+
+  std::vector<SessionItem*> children = vector_item->GetAllItems();
+  for (int row = 0; row < 3; ++row)
+  {  // x, y, z
+    QModelIndex child_label_index = m_viewmodel.index(row, 0, vector_label_index);
+    QModelIndex child_data_index = m_viewmodel.index(row, 1, vector_label_index);
+    EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
+    EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
+    EXPECT_EQ(m_viewmodel.data(child_label_index).toString().toStdString(),
+              children[row]->GetDisplayName());
+    EXPECT_EQ(m_viewmodel.data(child_data_index).toDouble(),
+              children[row]->Data<double>());  // x,y,z coordinates
+  }
+}
+
+//! Initialise controller with the empty model. Then insert new item and check that view model
+//! hass been updated.
+
+TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
+{
+    SessionModel session_model;
+
+    QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+    QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+
+    ViewModelController controller(&m_model, &m_viewmodel);
+    controller.Init();
+
+    auto propertyItem = m_model.InsertItem<PropertyItem>();
+    propertyItem->SetData(42.0);
+
+//    // checking signaling
+//    EXPECT_EQ(spy_insert.count(), 1);
+//    EXPECT_EQ(spy_remove.count(), 0);
+
+//    QList<QVariant> arguments = spyInsert.takeFirst();
+//    EXPECT_EQ(arguments.size(), 3); // QModelIndex &parent, int first, int last
+//    EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
+//    EXPECT_EQ(arguments.at(1).value<int>(), 0);
+//    EXPECT_EQ(arguments.at(2).value<int>(), 0);
+
+//    // checking model layout
+//    EXPECT_EQ(view_model.rowCount(), 1);
+//    EXPECT_EQ(view_model.columnCount(), 2);
+
+//    // accessing first child under the root item
+//    QModelIndex labelIndex = view_model.index(0, 0);
+//    QModelIndex dataIndex = view_model.index(0, 1);
+
+//    // it should be ViewLabelItem and ViewDataItem looking at our PropertyItem item
+//    EXPECT_EQ(view_model.itemFromIndex(labelIndex)->item_role(), ItemDataRole::DISPLAY);
+//    EXPECT_EQ(view_model.itemFromIndex(labelIndex)->item(), propertyItem);
+
+//    // Our PropertyItem got it's value after ViewModel was initialized, however,
+//    // underlying ViewDataItem should see updated values
+//    EXPECT_EQ(view_model.itemFromIndex(dataIndex)->item_role(), ItemDataRole::DATA);
+//    EXPECT_EQ(view_model.itemFromIndex(dataIndex)->item(), propertyItem);
 }
