@@ -21,9 +21,11 @@
 
 #include "test_utils.h"
 
+#include "mvvm/model/compounditem.h"
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/taginfo.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
@@ -31,6 +33,7 @@
 
 #include <gtest/gtest.h>
 
+#include <QDebug>
 #include <QSignalSpy>
 
 using namespace ModelView;
@@ -45,16 +48,17 @@ public:
       , m_notifier(&m_controller)
       , m_composer(&m_model, &m_notifier)
   {
+    m_controller.Init();
   }
 
   //! Returns underlying SessionItem from given ViewItem
-  const SessionItem* GetSessionItem(const ViewItem* view_item)
+  static const SessionItem* GetSessionItem(const ViewItem* view_item)
   {
     return Utils::GetContext<SessionItem>(view_item);
   }
 
   //! Returns underlying SessionItem from the given index.
-  const SessionItem* GetSessionItem(const QModelIndex& index)
+  const SessionItem* GetSessionItem(const QModelIndex& index) const
   {
     return Utils::GetContext<SessionItem>(m_viewmodel.itemFromIndex(index));
   }
@@ -137,7 +141,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
   // edit role of second item in a row  should coincide with item'sdata
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
-  // Finding view from instruction
+  // Finding view from item
   EXPECT_EQ(FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
 }
 
@@ -182,41 +186,219 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
 
 TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
 {
-    SessionModel session_model;
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-    QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-    QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  auto item = m_composer.InsertItem<PropertyItem>();
+  item->SetData(42.0);
 
-    ViewModelController controller(&m_model, &m_viewmodel);
-    controller.Init();
+  // checking signaling
+  EXPECT_EQ(spy_insert.count(), 1);
+  EXPECT_EQ(spy_remove.count(), 0);
 
-    auto propertyItem = m_model.InsertItem<PropertyItem>();
-    propertyItem->SetData(42.0);
+  auto arguments = spy_insert.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
+  EXPECT_EQ(arguments.at(1).value<int>(), 0);
+  EXPECT_EQ(arguments.at(2).value<int>(), 0);
 
-//    // checking signaling
-//    EXPECT_EQ(spy_insert.count(), 1);
-//    EXPECT_EQ(spy_remove.count(), 0);
+  // checking model layout
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
-//    QList<QVariant> arguments = spyInsert.takeFirst();
-//    EXPECT_EQ(arguments.size(), 3); // QModelIndex &parent, int first, int last
-//    EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
-//    EXPECT_EQ(arguments.at(1).value<int>(), 0);
-//    EXPECT_EQ(arguments.at(2).value<int>(), 0);
+  // default controller constructs a row consisting from item label (display name) and data
+  auto label_index = m_viewmodel.index(0, 0);
+  auto* view_item_label = m_viewmodel.itemFromIndex(label_index);
+  EXPECT_EQ(GetSessionItem(view_item_label), item);
 
-//    // checking model layout
-//    EXPECT_EQ(view_model.rowCount(), 1);
-//    EXPECT_EQ(view_model.columnCount(), 2);
+  auto data_index = m_viewmodel.index(0, 1);
+  auto view_item_data = m_viewmodel.itemFromIndex(data_index);
+  EXPECT_EQ(GetSessionItem(view_item_data), item);
 
-//    // accessing first child under the root item
-//    QModelIndex labelIndex = view_model.index(0, 0);
-//    QModelIndex dataIndex = view_model.index(0, 1);
+  // display roleof first item in a row  should coincide with item's DisplayName
+  EXPECT_EQ(m_viewmodel.data(label_index, Qt::DisplayRole).toString().toStdString(),
+            item->GetDisplayName());
 
-//    // it should be ViewLabelItem and ViewDataItem looking at our PropertyItem item
-//    EXPECT_EQ(view_model.itemFromIndex(labelIndex)->item_role(), ItemDataRole::DISPLAY);
-//    EXPECT_EQ(view_model.itemFromIndex(labelIndex)->item(), propertyItem);
+  // edit role of second item in a row  should coincide with item'sdata
+  EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
-//    // Our PropertyItem got it's value after ViewModel was initialized, however,
-//    // underlying ViewDataItem should see updated values
-//    EXPECT_EQ(view_model.itemFromIndex(dataIndex)->item_role(), ItemDataRole::DATA);
-//    EXPECT_EQ(view_model.itemFromIndex(dataIndex)->item(), propertyItem);
+  // Finding view from instruction
+  EXPECT_EQ(FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+}
+
+//! Insert three property items in a model, inserted after controller was setup.
+
+TEST_F(ViewModelControllerTest, InitThenInsertProperties)
+{
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+
+  auto item0 = m_composer.InsertItem<PropertyItem>();
+  auto item1 = m_composer.InsertItem<PropertyItem>();
+  auto item2 = m_composer.InsertItem<PropertyItem>();
+
+  // checking signaling
+  EXPECT_EQ(spy_insert.count(), 3);
+
+  // checking model layout
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0)), item0);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0)), item1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0)), item2);
+
+  for (int row = 0; row < 3; ++row)
+  {
+    const auto& arguments = spy_insert.at(row);
+    EXPECT_EQ(arguments.size(), 3);
+    EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
+    EXPECT_EQ(arguments.at(1).value<int>(), row);
+    EXPECT_EQ(arguments.at(2).value<int>(), row);
+  }
+}
+
+//! Inserting property items in reversed order.
+
+TEST_F(ViewModelControllerTest, InsertInFront)
+{
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+
+  auto item0 = m_composer.InsertItem<PropertyItem>();
+  auto item1 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
+
+  // checking signaling
+  EXPECT_EQ(spy_insert.count(), 2);
+
+  // checking model layout
+  EXPECT_EQ(m_viewmodel.rowCount(), 2);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0)), item1);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0)), item0);
+}
+
+//! Inserting item between two other.
+
+TEST_F(ViewModelControllerTest, InsertBetween)
+{
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+
+  auto item0 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
+  auto item1 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});
+  auto item2 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});  // between
+
+  // checking signaling
+  EXPECT_EQ(spy_insert.count(), 3);
+
+  // checking model layout
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(0, 0)), item0);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(1, 0)), item2);
+  EXPECT_EQ(GetSessionItem(m_viewmodel.index(2, 0)), item1);
+}
+
+//! Initialise controller with the empty model. Insert parent and then child into it.
+
+TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
+{
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+
+  auto parent = m_composer.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
+  auto child = m_composer.InsertItem<SessionItem>(parent);
+
+  // checking signaling
+  EXPECT_EQ(spy_insert.count(), 2);
+  EXPECT_EQ(spy_remove.count(), 0);
+
+  auto parent_index = m_viewmodel.index(0, 0);
+  EXPECT_EQ(m_viewmodel.rowCount(parent_index), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
+  EXPECT_EQ(GetSessionItem(parent_index), parent);
+
+  auto child_index = m_viewmodel.index(0, 0, parent_index);
+  EXPECT_EQ(GetSessionItem(child_index), child);
+
+  const auto& arguments = spy_insert.at(1);
+  EXPECT_EQ(arguments.size(), 3);
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), parent_index);
+  EXPECT_EQ(arguments.at(1).value<int>(), 0);
+  EXPECT_EQ(arguments.at(2).value<int>(), 0);
+}
+
+//! Removing single top level item.
+
+TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
+{
+  auto item = m_composer.InsertItem<PropertyItem>();
+
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+
+  m_composer.RemoveItem(m_model.GetRootItem(), {"", 0});
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+
+  ASSERT_EQ(spy_insert.count(), 0);
+  ASSERT_EQ(spy_remove.count(), 1);
+
+  QList<QVariant> arguments = spy_remove.takeFirst();
+  ASSERT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), QModelIndex());
+  EXPECT_EQ(arguments.at(1).value<int>(), 0);
+  EXPECT_EQ(arguments.at(2).value<int>(), 0);
+}
+
+//! Sequence with 3 children. Removing the middle one.
+
+TEST_F(ViewModelControllerTest, RemoveMiddleChild)
+{
+  auto parent = m_composer.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
+  auto child0 = m_composer.InsertItem<SessionItem>(parent, {"", 0});
+  auto child1 = m_composer.InsertItem<SessionItem>(parent, {"", 1});
+  auto child2 = m_composer.InsertItem<SessionItem>(parent, {"", 2});
+
+  // one entry (parent)
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  auto parent_index = m_viewmodel.index(0, 0);
+  EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
+
+  QSignalSpy spyInsert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+
+  // inserting children between two other
+  m_composer.RemoveItem(parent, {"", 1});
+
+  // one entry (parent)
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  EXPECT_EQ(spyInsert.count(), 0);
+  EXPECT_EQ(spyRemove.count(), 1);
+
+  // two remaining children
+  EXPECT_EQ(m_viewmodel.rowCount(parent_index), 2);
+  EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
+
+  auto child0_index = m_viewmodel.index(0, 0, parent_index);
+  EXPECT_EQ(GetSessionItem(child0_index), child0);
+
+  auto child2_index = m_viewmodel.index(1, 0, parent_index);
+  EXPECT_EQ(GetSessionItem(child2_index), child2);
+
+  QList<QVariant> arguments = spyRemove.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), parent_index);
+  EXPECT_EQ(arguments.at(1).value<int>(), 1);
+  EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }

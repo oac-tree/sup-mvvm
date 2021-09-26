@@ -53,9 +53,9 @@ public:
 
   void RemoveItem(SessionItem* parent, const TagIndex& tag_index);
 
-  variant_t Data(SessionItem* item, int role) const;
+  static variant_t Data(SessionItem* item, int role);
 
-  bool SetData(SessionItem* item, const variant_t& value, int role);
+  static bool SetData(SessionItem* item, const variant_t& value, int role);
 
   // Various getters.
 

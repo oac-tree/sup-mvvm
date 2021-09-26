@@ -87,12 +87,21 @@ SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionIt
 
 void SessionModel::RemoveItem(SessionItem* parent, const TagIndex& tag_index)
 {
+  if (!parent)
+  {
+    throw std::runtime_error("Error in SessionModel::removeItem(): parent is undefined");
+  }
+  if (parent->GetModel() != this)
+  {
+    throw std::runtime_error(
+        "Error in SessionModel::removeItem(): item doesn't belong to given model");
+  }
   parent->TakeItem(tag_index);
 }
 
 //! Returns the data for given item and role.
 
-variant_t SessionModel::Data(SessionItem* item, int role) const
+variant_t SessionModel::Data(SessionItem* item, int role)
 {
   return item->Data(role);
 }

@@ -88,6 +88,7 @@ struct ViewModelController::ViewModelControllerImpl
     }
   }
 
+  //! Constructs row of views for given `item` and inserts them into a `parent_view`.
   ViewItem *ProcessItem(SessionItem *item, ViewItem *parent_view, int row)
   {
     auto row_of_views = ConstructRow(item);
@@ -101,6 +102,7 @@ struct ViewModelController::ViewModelControllerImpl
     return nullptr;
   }
 
+  //! Insert views for parent's child at position `tag_index`.
   void InsertView(SessionItem *parent, const TagIndex &tag_index)
   {
     auto new_child = parent->GetItem(tag_index.tag, tag_index.index);
@@ -111,6 +113,16 @@ struct ViewModelController::ViewModelControllerImpl
       {
         Iterate(new_child, next_parent_view);
       }
+    }
+  }
+
+  //! Remove row of ViewItem's corresponding to given item.
+  void RemoveRowOfViews(SessionItem *item)
+  {
+    if (auto view = m_view_item_map.FindView(item); view)
+    {
+      m_view_model->removeRow(view->parent(), view->row());
+      m_view_item_map.Remove(item);
     }
   }
 
@@ -132,7 +144,7 @@ ViewModelController::~ViewModelController() = default;
 
 void ViewModelController::OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index)
 {
-  // nothing to do
+  // nothing to do, necessary activity is handled in OnItemInserted()
 }
 
 void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index)
@@ -140,9 +152,15 @@ void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &ta
   p_impl->InsertView(parent, tag_index);
 }
 
-void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) {}
+void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index)
+{
+  p_impl->RemoveRowOfViews(parent->GetItem(tag_index.tag, tag_index.index));
+}
 
-void ViewModelController::OnItemRemoved(SessionItem *parent, const TagIndex &tag_index) {}
+void ViewModelController::OnItemRemoved(SessionItem *parent, const TagIndex &tag_index)
+{
+  // nothing to do, necessary activity is handled in OnAboutToRemoveItem()
+}
 
 void ViewModelController::OnDataChanged(SessionItem *item, int role) {}
 
