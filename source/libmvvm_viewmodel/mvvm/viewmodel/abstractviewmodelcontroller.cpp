@@ -17,41 +17,36 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
-#define MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
-
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
-
-#include <memory>
 
 namespace ModelView
 {
-class SessionModel;
-class ViewModelBase;
-
-//! Propagate changes
-
-class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
+QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {
-public:
-  ViewModelController(SessionModel *model, ViewModelBase *view_model);
-  ~ViewModelController() override;
+  return {};
+}
 
-  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
+void AbstractViewModelController::OnAboutToInsertItem(SessionItem *parent,
+                                                      const TagIndex &tag_index)
+{
+}
 
-  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
+void AbstractViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index) {}
 
-  void OnDataChanged(SessionItem *item, int role) override;
+void AbstractViewModelController::OnAboutToRemoveItem(SessionItem *parent,
+                                                      const TagIndex &tag_index)
+{
+}
 
-  void Init() override;
+void AbstractViewModelController::OnItemRemoved(SessionItem *parent, const TagIndex &tag_index) {}
 
-  const SessionItem *GetRootSessionItem() const;
+void AbstractViewModelController::OnDataChanged(SessionItem *item, int role) {}
 
-private:
-  struct ViewModelControllerImpl;
-  std::unique_ptr<ViewModelControllerImpl> p_impl;
-};
+const SessionItem *AbstractViewModelController::GetRootSessionItem() const
+{
+  return nullptr;
+}
+
+void AbstractViewModelController::Init() {}
 
 }  // namespace ModelView
-
-#endif  // MVVM_VIEWMODEL_VIEWMODECONTROLLER_H

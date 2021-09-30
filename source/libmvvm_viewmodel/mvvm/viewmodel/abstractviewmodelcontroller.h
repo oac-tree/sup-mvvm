@@ -17,41 +17,40 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
-#define MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
+#ifndef MVVM_VIEWMODEL_ABSTRACTVIEWMODECONTROLLER_H
+#define MVVM_VIEWMODEL_ABSTRACTVIEWMODECONTROLLER_H
 
-#include "mvvm/viewmodel/abstractviewmodelcontroller.h"
+#include "mvvm/interfaces/modeleventlistenerinterface.h"
+#include "mvvm/viewmodel_export.h"
 
-#include <memory>
+#include <QStringList>
 
 namespace ModelView
 {
 class SessionModel;
-class ViewModelBase;
 
 //! Propagate changes
 
-class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
+class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListenerInterface
 {
 public:
-  ViewModelController(SessionModel *model, ViewModelBase *view_model);
-  ~ViewModelController() override;
+  virtual QStringList GetHorizontalHeaderLabels() const;
 
-  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
+  void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index);
 
-  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
+  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index);
 
-  void OnDataChanged(SessionItem *item, int role) override;
+  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index);
 
-  void Init() override;
+  void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index);
+
+  void OnDataChanged(SessionItem *item, int role);
 
   const SessionItem *GetRootSessionItem() const;
 
-private:
-  struct ViewModelControllerImpl;
-  std::unique_ptr<ViewModelControllerImpl> p_impl;
+  virtual void Init();
 };
 
 }  // namespace ModelView
 
-#endif  // MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
+#endif  // MVVM_VIEWMODEL_ABSTRACTVIEWMODECONTROLLER_H

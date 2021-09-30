@@ -402,3 +402,27 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
+
+//! Sequence with 3 children. Removing the middle one.
+
+TEST_F(ViewModelControllerTest, SetData)
+{
+  auto item = m_composer.InsertItem<PropertyItem>();
+  item->SetData(0.0);
+
+  QSignalSpy spy_data_changed(&m_viewmodel, &ViewModelBase::dataChanged);
+
+  // modifying data through the composer
+  m_composer.SetData(item, 42.0, DataRole::kData);
+
+  EXPECT_EQ(spy_data_changed.count(), 1);
+
+  QModelIndex dataIndex = m_viewmodel.index(0, 1);
+
+  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
+}

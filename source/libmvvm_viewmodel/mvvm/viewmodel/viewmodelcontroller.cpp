@@ -23,9 +23,11 @@
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodel/viewitemmap.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
+#include <map>
 #include <stdexcept>
 
 namespace
@@ -37,6 +39,22 @@ std::vector<std::unique_ptr<ModelView::ViewItem>> ConstructRow(ModelView::Sessio
   result.emplace_back(ModelView::CreateDataViewItem(item));
   return result;
 }
+
+//! Returns true if given SessionItem role is valid for view
+//! FIXME consider moving it to row builder
+bool isValidItemRole(const ModelView::ViewItem *view, int item_role)
+{
+  static std::map<int, int> role_to_column = {{ModelView::DataRole::kDisplay, 0},
+                                              {ModelView::DataRole::kData, 1}};
+
+  if (item_role == ModelView::DataRole::kAppearance || item_role == ModelView::DataRole::kTooltip)
+  {
+    return true;
+  }
+
+  return role_to_column[item_role] == view->column();
+}
+
 }  // namespace
 
 namespace ModelView
@@ -142,11 +160,6 @@ ViewModelController::ViewModelController(SessionModel *model, ViewModelBase *vie
 
 ViewModelController::~ViewModelController() = default;
 
-void ViewModelController::OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index)
-{
-  // nothing to do, necessary activity is handled in OnItemInserted()
-}
-
 void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index)
 {
   p_impl->InsertView(parent, tag_index);
@@ -157,12 +170,17 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
   p_impl->RemoveRowOfViews(parent->GetItem(tag_index.tag, tag_index.index));
 }
 
-void ViewModelController::OnItemRemoved(SessionItem *parent, const TagIndex &tag_index)
+void ViewModelController::OnDataChanged(SessionItem *item, int role)
 {
-  // nothing to do, necessary activity is handled in OnAboutToRemoveItem()
+  for (auto view : Utils::FindViews(p_impl->m_view_model, item))
+  {
+    if (isValidItemRole(view, role))
+    {
+      auto index = p_impl->m_view_model->indexFromItem(view);
+      emit p_impl->m_view_model->dataChanged(index, index, Utils::ItemRoleToQtRole(role));
+    }
+  }
 }
-
-void ViewModelController::OnDataChanged(SessionItem *item, int role) {}
 
 //! Inits ViewModel by iterating through SessionModel.
 
@@ -172,6 +190,11 @@ void ViewModelController::Init()
   p_impl->m_view_model->ResetRootViewItem(
       Utils::CreateLabelViewItem(p_impl->m_model->GetRootItem(), {}));
   p_impl->InitViewModel();
+}
+
+const SessionItem *ViewModelController::GetRootSessionItem() const
+{
+  return p_impl->m_model->GetRootItem();
 }
 
 }  // namespace ModelView

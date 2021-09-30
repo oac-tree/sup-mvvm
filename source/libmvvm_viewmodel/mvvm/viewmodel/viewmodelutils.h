@@ -17,37 +17,18 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEMMAP_H
-#define MVVM_VIEWMODEL_VIEWITEMMAP_H
+#ifndef MVVM_VIEWMODEL_VIEWMODEUTILS_H
+#define MVVM_VIEWMODEL_VIEWMODEUTILS_H
 
 #include "mvvm/viewmodel_export.h"
-#include <map>
 
-namespace ModelView
+#include <QVector>
+
+namespace ModelView::Utils
 {
-class ViewItem;
-class SessionItem;
+//! Returns vector of Qt roles corresponding to given ItemDataRole.
+MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 
-//! Stores correspondance of the SessionItem and ViewItem. Plays a supporting role during ViewModel
-//! rebuild.
+}  // namespace ModelView::Utils
 
-class MVVM_VIEWMODEL_EXPORT ViewItemMap
-{
-public:
-  ViewItemMap();
-
-  void Insert(const SessionItem *item, ViewItem* view_item);
-
-  ViewItem* FindView(const SessionItem* item);
-
-  void Remove(const SessionItem* item);
-
-  void Clear();
-
-private:
-  std::map<const SessionItem*, ViewItem*> m_item_to_view;
-};
-
-}  // namespace ModelView
-
-#endif  // MVVM_VIEWMODEL_VIEWITEMMAP_H
+#endif  // MVVM_VIEWMODEL_VIEWMODECONTROLLER_H

@@ -30,7 +30,6 @@ using namespace ModelView;
 
 class ViewItemMapTest : public ::testing::Test
 {
-public:
 };
 
 //! The map is initially empty.

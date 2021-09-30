@@ -23,8 +23,8 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 struct ViewModelBase::ViewModelBaseImpl
 {
   ViewModelBase* model{nullptr};
@@ -84,7 +84,9 @@ int ViewModelBase::columnCount(const QModelIndex& parent) const
 QVariant ViewModelBase::data(const QModelIndex& index, int role) const
 {
   if (!rootItem())
+  {
     return QVariant();
+  }
 
   auto item = itemFromIndex(index);
   return item ? item->data(role) : QVariant();
@@ -93,13 +95,17 @@ QVariant ViewModelBase::data(const QModelIndex& index, int role) const
 bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int role)
 {
   if (!index.isValid())
+  {
     return false;
+  }
 
   if (auto item = itemFromIndex(index); item)
   {
     bool result = item->setData(value, role);
     if (result)
+    {
       emit dataChanged(index, index, QVector<int>() << role);
+    }
     return result;
   }
 
@@ -133,7 +139,9 @@ QModelIndex ViewModelBase::indexFromItem(const ViewItem* item) const
 void ViewModelBase::removeRow(ViewItem* parent, int row)
 {
   if (!p_impl->item_belongs_to_model(parent))
+  {
     throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
+  }
 
   beginRemoveRows(indexFromItem(parent), row, row);
   parent->removeRow(row);
@@ -143,10 +151,14 @@ void ViewModelBase::removeRow(ViewItem* parent, int row)
 void ViewModelBase::clearRows(ViewItem* parent)
 {
   if (!p_impl->item_belongs_to_model(parent))
+  {
     throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
+  }
 
   if (!parent->rowCount())
+  {
     return;
+  }
 
   beginRemoveRows(indexFromItem(parent), 0, parent->rowCount() - 1);
   parent->clear();
@@ -159,7 +171,9 @@ void ViewModelBase::insertRow(ViewItem* parent, int row,
                               std::vector<std::unique_ptr<ViewItem>> items)
 {
   if (!p_impl->item_belongs_to_model(parent))
+  {
     throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
+  }
 
   beginInsertRows(indexFromItem(parent), row, row);
   parent->insertRow(row, std::move(items));
@@ -179,7 +193,9 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
 {
   Qt::ItemFlags result = QAbstractItemModel::flags(index);
   if (auto item = itemFromIndex(index); item)
+  {
     result |= item->flags();
+  }
   return result;
 }
 
@@ -196,3 +212,5 @@ void ViewModelBase::setRootViewItem(std::unique_ptr<ViewItem> root_item)
 {
   p_impl->root = std::move(root_item);
 }
+
+}  // namespace ModelView

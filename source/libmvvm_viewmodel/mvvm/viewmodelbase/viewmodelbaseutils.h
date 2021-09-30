@@ -34,8 +34,8 @@ class ViewModelBase;
 namespace Utils
 {
 //! Iterates through the QAbstractItem model and calls the user function on every iteration.
-void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
-                   const std::function<void(const QModelIndex& child)>& fun);
+MVVM_VIEWMODEL_EXPORT void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
+                                         const std::function<void(const QModelIndex& child)>& fun);
 
 //! Returns underlying presentation item PresentationItem<Instruction>, if underlying
 //! SessionItemData can be cast to that. Returns nullptr otherwise.

@@ -17,37 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEMMAP_H
-#define MVVM_VIEWMODEL_VIEWITEMMAP_H
+#include "mvvm/viewmodel/viewmodelutils.h"
 
-#include "mvvm/viewmodel_export.h"
-#include <map>
+#include "mvvm/model/mvvm_types.h"
 
-namespace ModelView
+namespace ModelView::Utils
 {
-class ViewItem;
-class SessionItem;
-
-//! Stores correspondance of the SessionItem and ViewItem. Plays a supporting role during ViewModel
-//! rebuild.
-
-class MVVM_VIEWMODEL_EXPORT ViewItemMap
+QVector<int> ItemRoleToQtRole(int role)
 {
-public:
-  ViewItemMap();
+  QVector<int> result;
+  // In Qt when we are editing the data in a view two roles are emmited.
+  if (role == DataRole::kDisplay || role == DataRole::kData)
+  {
+    result = {Qt::DisplayRole, Qt::EditRole};
+  }
+  else if (role == DataRole::kAppearance)
+  {
+    result = {Qt::ForegroundRole};
+  }
+  else if (role == DataRole::kTooltip)
+  {
+    result = {Qt::ToolTipRole};
+  }
 
-  void Insert(const SessionItem *item, ViewItem* view_item);
+  return result;
+}
 
-  ViewItem* FindView(const SessionItem* item);
-
-  void Remove(const SessionItem* item);
-
-  void Clear();
-
-private:
-  std::map<const SessionItem*, ViewItem*> m_item_to_view;
-};
-
-}  // namespace ModelView
-
-#endif  // MVVM_VIEWMODEL_VIEWITEMMAP_H
+}  // namespace ModelView::Utils

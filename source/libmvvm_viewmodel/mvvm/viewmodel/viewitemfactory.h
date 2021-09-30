@@ -34,10 +34,11 @@ class SessionItem;
 class ModelComposer;
 
 //! Creates read-only ViewItem for SessionItem's display name.
-std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
+MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 
 //! Creates ViewItem for SessionItem's data.
-std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, ModelComposer* composer = nullptr);
+MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(
+    SessionItem* item, ModelComposer* composer = nullptr);
 
 }  // namespace ModelView
 

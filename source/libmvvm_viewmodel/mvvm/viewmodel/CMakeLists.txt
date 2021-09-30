@@ -1,6 +1,8 @@
 # Contains source specific for SessionItem presentation.
 
 target_sources(${library_name} PRIVATE
+  abstractviewmodelcontroller.cpp
+  abstractviewmodelcontroller.h
   customvariants.cpp
   customvariants.h
   modeleventnotifier.cpp
@@ -15,4 +17,8 @@ target_sources(${library_name} PRIVATE
   viewitemfactory.h
   viewmodelcontroller.cpp
   viewmodelcontroller.h
+  viewmodelutils.cpp
+  viewmodelutils.h
+  viewmodel.cpp
+  viewmodel.h
   )
