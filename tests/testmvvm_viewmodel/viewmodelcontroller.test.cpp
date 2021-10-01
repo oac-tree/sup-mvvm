@@ -127,7 +127,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 
   // default controller constructs a row consisting from item label (display name) and data
   auto label_index = m_viewmodel.index(0, 0);
-  auto* view_item_label = m_viewmodel.itemFromIndex(label_index);
+  auto view_item_label = m_viewmodel.itemFromIndex(label_index);
   EXPECT_EQ(GetSessionItem(view_item_label), item);
 
   auto data_index = m_viewmodel.index(0, 1);
@@ -138,7 +138,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
   EXPECT_EQ(m_viewmodel.data(label_index, Qt::DisplayRole).toString().toStdString(),
             item->GetDisplayName());
 
-  // edit role of second item in a row  should coincide with item'sdata
+  // edit role of second item in a row  should coincide with item's data
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
   // Finding view from item
@@ -403,7 +403,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
 
-//! Sequence with 3 children. Removing the middle one.
+//! SetData.
 
 TEST_F(ViewModelControllerTest, SetData)
 {

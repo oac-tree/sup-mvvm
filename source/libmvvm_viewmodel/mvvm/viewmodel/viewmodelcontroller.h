@@ -45,8 +45,6 @@ public:
 
   void Init() override;
 
-  const SessionItem *GetRootSessionItem() const;
-
 private:
   struct ViewModelControllerImpl;
   std::unique_ptr<ViewModelControllerImpl> p_impl;

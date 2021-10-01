@@ -17,29 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
-#define MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
+#ifndef MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
+#define MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
 
-#include "mvvm/model_export.h"
-#include "mvvm/model/function_types.h"
+#include "mvvm/viewmodel/viewmodel.h"
 
 namespace ModelView
 {
-class SessionItem;
+class ModelComposer;
 
-//! Interface class for all factories capable of producing SessionItem's.
+//! View model to show the content of SessionModel in Qt widgets. Represents two-column tree with
+//! label/data, with one-to-one child/parent correspondence as in the original SessionModel. All
+//! items (including hidden) are shown.
 
-class MVVM_MODEL_EXPORT ItemFactoryInterface
+class MVVM_VIEWMODEL_EXPORT DefaultViewModel : public ViewModel
 {
+  Q_OBJECT
+
 public:
-  virtual ~ItemFactoryInterface() = default;
+  DefaultViewModel(SessionModel* model, QObject* parent = nullptr);
 
-  virtual void RegisterItem(const std::string& model_type, item_factory_func_t func,
-                            const std::string& label) = 0;
-
-  virtual std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const = 0;
+  // FIXME remove duplication
+  DefaultViewModel(SessionModel* model, ModelComposer* composer, QObject* parent = nullptr);
 };
 
 }  // namespace ModelView
 
-#endif  // MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
+#endif  // MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H

@@ -43,10 +43,9 @@ public:
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const override;
 
-  //  SessionModel* sessionModel() const;
+  const SessionItem* GetRootSessionItem() const;
 
-  //  SessionItem* rootSessionItem();
-
+  // FIXME restore functionality
   //  void setRootSessionItem(SessionItem* item);
 
   const SessionItem* GetSessionItemFromIndex(const QModelIndex& index) const;

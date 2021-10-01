@@ -62,6 +62,11 @@ ModelComposer::ModelComposer(SessionModel* model, ModelEventNotifierInterface* n
   p_impl->m_notifier = notifier;
 }
 
+void ModelComposer::EstablishConnections(ModelEventListenerInterface* listener)
+{
+  p_impl->m_notifier->EstablishConnections(listener);
+}
+
 ModelComposer::~ModelComposer() = default;
 
 bool ModelComposer::SetData(SessionItem* item, const variant_t& value, int role)

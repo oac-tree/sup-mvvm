@@ -17,29 +17,25 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
-#define MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
+#include "mvvm/viewmodel/defaultviewmodel.h"
 
-#include "mvvm/model_export.h"
-#include "mvvm/model/function_types.h"
+#include "mvvm/model/modelcomposer.h"
+#include "mvvm/viewmodel/viewmodelcontroller.h"
 
 namespace ModelView
 {
-class SessionItem;
-
-//! Interface class for all factories capable of producing SessionItem's.
-
-class MVVM_MODEL_EXPORT ItemFactoryInterface
+DefaultViewModel::DefaultViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
 {
-public:
-  virtual ~ItemFactoryInterface() = default;
+  auto controller = std::make_unique<ViewModelController>(model, this);
+  SetController(std::move(controller));
+}
 
-  virtual void RegisterItem(const std::string& model_type, item_factory_func_t func,
-                            const std::string& label) = 0;
-
-  virtual std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const = 0;
-};
+DefaultViewModel::DefaultViewModel(SessionModel *model, ModelComposer *composer, QObject *parent)
+    : ViewModel(parent)
+{
+  auto controller = std::make_unique<ViewModelController>(model, this);
+  composer->EstablishConnections(controller.get());
+  SetController(std::move(controller));
+}
 
 }  // namespace ModelView
-
-#endif  // MVVM_INTERFACES_ITEMFACTORYINTERFACE_H

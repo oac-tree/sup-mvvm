@@ -1,7 +1,7 @@
 add_subdirectory(core)
 add_subdirectory(factories)
-add_subdirectory(interfaces)
 add_subdirectory(model)
+add_subdirectory(interfaces)
 add_subdirectory(serialization)
 add_subdirectory(standarditems)
 add_subdirectory(utils)

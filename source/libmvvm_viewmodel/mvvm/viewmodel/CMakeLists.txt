@@ -5,20 +5,22 @@ target_sources(${library_name} PRIVATE
   abstractviewmodelcontroller.h
   customvariants.cpp
   customvariants.h
+  defaultviewmodel.cpp
+  defaultviewmodel.h
   modeleventnotifier.cpp
   modeleventnotifier.h
   presentationitemfactory.cpp
   presentationitemfactory.h
   variantconverter.cpp
   variantconverter.h
-  viewitemmap.cpp
-  viewitemmap.h
   viewitemfactory.cpp
   viewitemfactory.h
+  viewitemmap.cpp
+  viewitemmap.h
+  viewmodel.cpp
+  viewmodel.h
   viewmodelcontroller.cpp
   viewmodelcontroller.h
   viewmodelutils.cpp
   viewmodelutils.h
-  viewmodel.cpp
-  viewmodel.h
   )

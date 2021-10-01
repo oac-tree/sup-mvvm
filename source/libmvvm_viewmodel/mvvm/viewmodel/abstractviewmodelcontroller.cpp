@@ -42,11 +42,6 @@ void AbstractViewModelController::OnItemRemoved(SessionItem *parent, const TagIn
 
 void AbstractViewModelController::OnDataChanged(SessionItem *item, int role) {}
 
-const SessionItem *AbstractViewModelController::GetRootSessionItem() const
-{
-  return nullptr;
-}
-
 void AbstractViewModelController::Init() {}
 
 }  // namespace ModelView

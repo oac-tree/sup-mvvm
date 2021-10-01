@@ -192,9 +192,4 @@ void ViewModelController::Init()
   p_impl->InitViewModel();
 }
 
-const SessionItem *ViewModelController::GetRootSessionItem() const
-{
-  return p_impl->m_model->GetRootItem();
-}
-
 }  // namespace ModelView

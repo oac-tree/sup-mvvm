@@ -19,8 +19,11 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-#include "mvvm/viewmodel/abstractviewmodelcontroller.h"
+#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/sessionitem.h"
+#include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "mvvm/viewmodelbase/viewitem.h"
 
 #include <gtest/gtest.h>
 
@@ -29,25 +32,26 @@
 using namespace ModelView;
 
 //! Tests ViewModel class.
+//! This are tests for ViewModel API only. Full functionality is covered in all details in
+//! defaultviewmodel.test.cpp and viewmodelbase.test.cpp
 
 class ViewModelTest : public ::testing::Test
 {
 public:
-  class TestController : public AbstractViewModelController
+  //! Simple TestModel to validate ViewModel own API
+  class TestViewModel : public ViewModel
   {
   public:
-    TestController(SessionModel *model, ViewModelBase *view_model) {}
-  };
-
-  class TestModel : public ViewModel
-  {
-  public:
-    TestModel(SessionModel *model)
+    explicit TestViewModel(SessionModel *model)
     {
-      auto controller = std::make_unique<TestController>(model, this);
+      auto controller = std::make_unique<ViewModelController>(model, this);
       SetController(std::move(controller));
     }
   };
+
+  ViewModelTest() { m_model.InsertItem<PropertyItem>(); }
+
+  SessionModel m_model;
 };
 
 //! The map is initially empty.
@@ -57,5 +61,56 @@ TEST_F(ViewModelTest, InitialState)
   ViewModel view_model;
   EXPECT_EQ(view_model.rowCount(), 0);
   EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.GetRootSessionItem(), nullptr);
   EXPECT_THROW(view_model.GetSessionItemFromIndex(QModelIndex()), std::runtime_error);
+  EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
+
+  SessionItem item;
+  EXPECT_EQ(view_model.FindViews(&item), std::vector<ViewItem *>());
+  EXPECT_EQ(view_model.GetIndexOfSessionItem(&item), QModelIndexList());
+}
+
+TEST_F(ViewModelTest, GetSessionItem)
+{
+  TestViewModel view_model(&m_model);
+  EXPECT_EQ(view_model.GetRootSessionItem(), m_model.GetRootItem());
+
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(view_model.index(0, 0)),
+            m_model.GetRootItem()->GetItem("", 0));
+}
+
+TEST_F(ViewModelTest, GetViewItemFromIndex)
+{
+  TestViewModel view_model(&m_model);
+  // behavior duplicates QStandardItemModel. I would make it view_model->rootItem()
+  EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
+  EXPECT_EQ(view_model.GetViewItemFromIndex(view_model.index(0, 0)),
+            view_model.rootItem()->child(0, 0));
+}
+
+TEST_F(ViewModelTest, FindViews)
+{
+  TestViewModel view_model(&m_model);
+  EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()),
+            std::vector<ViewItem *>({view_model.rootItem()}));
+
+  EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem("", 0)),
+            std::vector<ViewItem *>(
+                {view_model.rootItem()->child(0, 0), view_model.rootItem()->child(0, 1)}));
+}
+
+TEST_F(ViewModelTest, GetIndexOfSessionItem)
+{
+  TestViewModel view_model(&m_model);
+
+  // accessing first child under the root item
+  QModelIndex labelIndex = view_model.index(0, 0);
+  QModelIndex dataIndex = view_model.index(0, 1);
+
+  QModelIndexList expected{labelIndex, dataIndex};
+  EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem("", 0)), expected);
+
+  // FIXME Is this behavior correct? Might be having QModelIndex() in a list is more consistent.
+  EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()), QModelIndexList());
 }

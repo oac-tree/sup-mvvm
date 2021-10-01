@@ -26,7 +26,10 @@ namespace ModelView
 {
 ModelEventNotifier::ModelEventNotifier(ModelEventListenerInterface *listener)
 {
-  EstablishConnections(listener);
+  if (listener)
+  {
+    EstablishConnections(listener);
+  }
 }
 
 void ModelEventNotifier::EstablishConnections(ModelEventListenerInterface *listener)

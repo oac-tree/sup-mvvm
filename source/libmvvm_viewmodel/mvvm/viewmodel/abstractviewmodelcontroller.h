@@ -46,8 +46,6 @@ public:
 
   void OnDataChanged(SessionItem *item, int role);
 
-  const SessionItem *GetRootSessionItem() const;
-
   virtual void Init();
 };
 

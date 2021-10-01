@@ -119,7 +119,7 @@ ViewItem* ViewModelBase::rootItem() const
   return p_impl->root.get();
 }
 
-//! Returns a pointer to the RefViewItem associated with the given index.
+//! Returns a pointer to the ViewItem associated with the given index.
 //! If index is invalid, returns nullptr.
 
 ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const

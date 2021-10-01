@@ -41,22 +41,10 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
 
 ViewModel::~ViewModel() = default;
 
-// SessionModel* ViewModel::sessionModel() const
-//{
-//  return m_controller->sessionModel();
-//}
-
-// SessionItem* ViewModel::rootSessionItem()
-//{
-//  return m_controller->rootSessionItem();
-//}
-
-// void ViewModel::setRootSessionItem(SessionItem* item)
-//{
-//  if (!item)
-//    throw std::runtime_error("Error in ViewModel: atttemp to set nulptr as root item");
-//  m_controller->setRootSessionItem(item);
-//}
+const SessionItem* ViewModel::GetRootSessionItem() const
+{
+  return Utils::GetContext<SessionItem>(rootItem());
+}
 
 const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) const
 {
@@ -64,8 +52,8 @@ const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) 
   {
     throw std::runtime_error("Invalid controller");
   }
-  const auto* item = Utils::GetContext<SessionItem>(itemFromIndex(index));
-  return index.isValid() ? item : m_controller->GetRootSessionItem();
+  return index.isValid() ? Utils::GetContext<SessionItem>(itemFromIndex(index))
+                         : GetRootSessionItem();
 }
 
 ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const

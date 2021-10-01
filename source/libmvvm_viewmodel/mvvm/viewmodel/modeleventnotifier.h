@@ -36,8 +36,7 @@ class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public QObject, public ModelEve
   Q_OBJECT
 
 public:
-  ModelEventNotifier() = default;
-  ModelEventNotifier(ModelEventListenerInterface* listener);
+  ModelEventNotifier(ModelEventListenerInterface* listener = nullptr);
 
   void EstablishConnections(ModelEventListenerInterface* listener) override;
 
