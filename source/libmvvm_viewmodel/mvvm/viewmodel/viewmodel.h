@@ -20,7 +20,6 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODEL_H
 #define MVVM_VIEWMODEL_VIEWMODEL_H
 
-#include "mvvm/viewmodel_export.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 
 namespace ModelView

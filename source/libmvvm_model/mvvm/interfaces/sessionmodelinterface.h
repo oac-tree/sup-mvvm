@@ -21,12 +21,11 @@
 #define MVVM_INTERFACES_SESSIONMODELINTERFACE_H
 
 #include "mvvm/core/variant.h"
-#include "mvvm/model/function_types.h"
 #include "mvvm/model_export.h"
+#include "mvvm/model/tagindex.h"
 
 namespace ModelView
 {
-class TagIndex;
 class SessionItem;
 
 //! Application model interface.
@@ -36,16 +35,19 @@ class MVVM_MODEL_EXPORT SessionModelInterface
 public:
   virtual ~SessionModelInterface() = default;
 
-  virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
-
   virtual SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
                                      const TagIndex& tag_index) = 0;
 
   template <typename T>
-  T* InsertItem(SessionItem* parent, const TagIndex& tag_index);
+  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
   virtual void RemoveItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+
+  virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
+
 };
+
+//! Inserts item into given parent under given tag_index.
 
 template <typename T>
 T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_index)

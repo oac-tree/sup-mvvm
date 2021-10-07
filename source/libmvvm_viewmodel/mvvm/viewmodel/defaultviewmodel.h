@@ -26,9 +26,9 @@ namespace ModelView
 {
 class ModelComposer;
 
-//! View model to show the content of SessionModel in Qt widgets. Represents two-column tree with
-//! label/data, with one-to-one child/parent correspondence as in the original SessionModel. All
-//! items (including hidden) are shown.
+//! Default view model to show the content of SessionModel in Qt widgets. Represents two-column tree
+//! with label/data, with one-to-one child/parent correspondence as in the original SessionModel.
+//! All items (including hidden) are shown.
 
 class MVVM_VIEWMODEL_EXPORT DefaultViewModel : public ViewModel
 {
@@ -36,9 +36,6 @@ class MVVM_VIEWMODEL_EXPORT DefaultViewModel : public ViewModel
 
 public:
   DefaultViewModel(SessionModel* model, QObject* parent = nullptr);
-
-  // FIXME remove duplication
-  DefaultViewModel(SessionModel* model, ModelComposer* composer, QObject* parent = nullptr);
 };
 
 }  // namespace ModelView

@@ -20,10 +20,9 @@
 #ifndef MVVM_MODEL_SESSIONMODEL_H
 #define MVVM_MODEL_SESSIONMODEL_H
 
-#include "mvvm/core/variant.h"
+#include "mvvm/interfaces/sessionmodelinterface.h"
 #include "mvvm/model/function_types.h"
 #include "mvvm/model/sessionitem.h"
-
 #include <memory>
 
 namespace ModelView
@@ -35,7 +34,7 @@ class ItemCatalogue;
 
 //! Main class to hold hierarchy of SessionItem objects.
 
-class MVVM_MODEL_EXPORT SessionModel
+class MVVM_MODEL_EXPORT SessionModel : public SessionModelInterface
 {
 public:
   explicit SessionModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
@@ -46,16 +45,13 @@ public:
   // Methods to manipulate data and items.
 
   SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent = nullptr,
-                             const TagIndex& tag_index = {});
+                             const TagIndex& tag_index = {}) override;
 
-  template <typename T>
-  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
-
-  void RemoveItem(SessionItem* parent, const TagIndex& tag_index);
+  void RemoveItem(SessionItem* parent, const TagIndex& tag_index) override;
 
   variant_t Data(SessionItem* item, int role);
 
-  bool SetData(SessionItem* item, const variant_t& value, int role);
+  bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   // Various getters.
 
@@ -96,14 +92,6 @@ private:
   struct SessionModelImpl;
   std::unique_ptr<SessionModelImpl> p_impl;
 };
-
-//! Inserts item into given parent under given tag_index.
-
-template <typename T>
-T* SessionModel::InsertItem(SessionItem* parent, const TagIndex& tag_index)
-{
-  return static_cast<T*>(ItemInsertInternal(ItemFactoryFunction<T>(), parent, tag_index));
-}
 
 //! Returns top items of the given type.
 //! The top item is an item that is a child of an invisible root item.

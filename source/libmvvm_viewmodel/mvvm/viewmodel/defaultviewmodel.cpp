@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/defaultviewmodel.h"
 
-#include "mvvm/model/modelcomposer.h"
+#include "mvvm/viewmodel/applicationmodel.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
 namespace ModelView
@@ -27,14 +27,10 @@ namespace ModelView
 DefaultViewModel::DefaultViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
 {
   auto controller = std::make_unique<ViewModelController>(model, this);
-  SetController(std::move(controller));
-}
-
-DefaultViewModel::DefaultViewModel(SessionModel *model, ModelComposer *composer, QObject *parent)
-    : ViewModel(parent)
-{
-  auto controller = std::make_unique<ViewModelController>(model, this);
-  composer->EstablishConnections(controller.get());
+  if (auto appmodel = dynamic_cast<ApplicationModel *>(model); appmodel)
+  {
+    appmodel->EstablishConnections(controller.get());
+  }
   SetController(std::move(controller));
 }
 

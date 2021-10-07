@@ -71,7 +71,7 @@ ModelComposer::~ModelComposer() = default;
 
 bool ModelComposer::SetData(SessionItem* item, const variant_t& value, int role)
 {
-  auto result = p_impl->m_model->SetData(item, value, role);
+  auto result = p_impl->m_model->SessionModel::SetData(item, value, role);
   if (result)
   {
     p_impl->m_notifier->DataChangedNotify(item, role);
@@ -88,7 +88,7 @@ SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionI
   auto [actual_parent, actual_tag_index] = p_impl->GetInsertData(parent, tag_index);
 
   p_impl->m_notifier->AboutToInsertItemNotify(actual_parent, actual_tag_index);
-  auto* result = p_impl->m_model->InsertNewItem(item_type, actual_parent, actual_tag_index);
+  auto* result = p_impl->m_model->SessionModel::InsertNewItem(item_type, actual_parent, actual_tag_index);
   p_impl->m_notifier->ItemInsertedNotify(actual_parent, actual_tag_index);
 
   return result;
@@ -97,7 +97,7 @@ SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionI
 void ModelComposer::RemoveItem(SessionItem* parent, const TagIndex& tag_index)
 {
   p_impl->m_notifier->AboutToRemoveItemNotify(parent, tag_index);
-  p_impl->m_model->RemoveItem(parent, tag_index);
+  p_impl->m_model->SessionModel::RemoveItem(parent, tag_index);
   p_impl->m_notifier->ItemRemovedNotify(parent, tag_index);
 }
 

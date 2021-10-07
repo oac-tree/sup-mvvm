@@ -42,7 +42,7 @@ public:
   ItemCatalogue(const ItemCatalogue& other);
   ItemCatalogue& operator=(const ItemCatalogue& other);
 
-  template <typename T>
+  template <typename U>
   void RegisterItem(const std::string& label = {});
 
   void RegisterItem(const std::string& model_type, const item_factory_func_t& func,
@@ -65,10 +65,10 @@ private:
   std::unique_ptr<ItemCatalogueImpl> p_impl;
 };
 
-template <typename T>
+template <typename U>
 void ItemCatalogue::RegisterItem(const std::string& label)
 {
-  RegisterItem(T().GetType(), ItemFactoryFunction<T>(), label);
+  RegisterItem(U().GetType(), ItemFactoryFunction<U>(), label);
 }
 
 }  // namespace ModelView

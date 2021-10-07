@@ -23,8 +23,8 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 struct ItemCatalogue::ItemCatalogueImpl
 {
   struct CatalogueEntry
@@ -60,8 +60,10 @@ void ItemCatalogue::RegisterItem(const std::string& model_type, const item_facto
                                  const std::string& label)
 {
   if (Contains(model_type))
+  {
     throw std::runtime_error("Error in ItemCatalogue: attempt to add dublicate '" + model_type
                              + "'");
+  }
   p_impl->m_info.push_back({model_type, label, func});
 }
 
@@ -77,7 +79,9 @@ std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type
   auto it = find_if(p_impl->m_info.begin(), p_impl->m_info.end(),
                     [model_type](auto element) { return element.item_type == model_type; });
   if (it == p_impl->m_info.end())
+  {
     throw std::runtime_error("Error in ItemCatalogue: non existing '" + model_type + "'");
+  }
   return it->factory_func();
 }
 
@@ -85,7 +89,9 @@ std::vector<std::string> ItemCatalogue::GetItemTypes() const
 {
   std::vector<std::string> result;
   for (const auto& x : p_impl->m_info)
+  {
     result.push_back(x.item_type);
+  }
   return result;
 }
 
@@ -93,7 +99,9 @@ std::vector<std::string> ItemCatalogue::GetLabels() const
 {
   std::vector<std::string> result;
   for (const auto& x : p_impl->m_info)
+  {
     result.push_back(x.item_label);
+  }
   return result;
 }
 
@@ -109,8 +117,12 @@ void ItemCatalogue::merge(const ItemCatalogue& other)
   for (const auto& it : other.p_impl->m_info)
   {
     if (Contains(it.item_type))
+    {
       throw std::runtime_error("ItemCatalogue::add() -> Catalogue contains duplicated records");
+    }
 
     RegisterItem(it.item_type, it.factory_func, it.item_label);
   }
 }
+
+}  // namespace ModelView
