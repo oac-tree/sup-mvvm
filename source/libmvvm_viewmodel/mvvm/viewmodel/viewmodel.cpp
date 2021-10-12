@@ -46,6 +46,16 @@ const SessionItem* ViewModel::GetRootSessionItem() const
   return Utils::GetContext<SessionItem>(rootItem());
 }
 
+void ViewModel::SetRootSessionItem(SessionItem* item)
+{
+  if (!item)
+  {
+    throw std::runtime_error("Error: attemp to set nulptr as root item");
+  }
+
+  m_controller->Init(item);
+}
+
 const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) const
 {
   if (!m_controller)

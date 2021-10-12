@@ -354,8 +354,8 @@ TEST_F(DefaultViewModelTest, RemoveMiddleChild)
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
-  QSignalSpy spyInsert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+  QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
 
   // inserting children between two other
   m_model.RemoveItem(parent, {"", 1});
@@ -364,8 +364,8 @@ TEST_F(DefaultViewModelTest, RemoveMiddleChild)
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
-  EXPECT_EQ(spyInsert.count(), 0);
-  EXPECT_EQ(spyRemove.count(), 1);
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 1);
 
   // two remaining children
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 2);
@@ -377,7 +377,7 @@ TEST_F(DefaultViewModelTest, RemoveMiddleChild)
   auto child2_index = m_viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(child2_index), child2);
 
-  QList<QVariant> arguments = spyRemove.takeFirst();
+  QList<QVariant> arguments = spy_remove.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), parent_index);
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
@@ -396,7 +396,7 @@ TEST_F(DefaultViewModelTest, SetData)
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex dataIndex = m_viewmodel.index(0, 1);
+  QModelIndex data_index = m_viewmodel.index(0, 1);
 
   QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
@@ -552,104 +552,109 @@ TEST_F(DefaultViewModelTest, SetData)
 //}
 
 //! Setting property item as ROOT item.
-//! FIXME restore test
 
-// TEST_F(DefaultViewModelTest, setPropertyItemAsRoot)
-//{
-//  SessionModel model;
-//  DefaultViewModel viewModel(&model);
+TEST_F(DefaultViewModelTest, SetPropertyItemAsRoot)
+{
+  ApplicationModel model;
+  DefaultViewModel view_model(&model);
 
-//  QSignalSpy spyAboutReset(&viewModel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewModel, &DefaultViewModel::modelReset);
+  QSignalSpy spy_about_reset(&view_model, &DefaultViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&view_model, &DefaultViewModel::modelReset);
 
-//  auto item = model.insertItem<PropertyItem>();
-//  viewModel.setRootSessionItem(item);
+  auto item = model.InsertItem<PropertyItem>();
+  view_model.SetRootSessionItem(item);
 
-//  // new root item doesn't have children
-//  EXPECT_EQ(viewModel.rowCount(), 0);
-//  EXPECT_EQ(viewModel.columnCount(), 0);
+  // new root item doesn't have children
+  EXPECT_EQ(view_model.rowCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 0);
 
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
 
-//  // attempt to use nullptr as root item
-//  EXPECT_THROW(viewModel.setRootSessionItem(nullptr), std::runtime_error);
+  EXPECT_EQ(view_model.GetRootSessionItem(), item);
 
-//  // attempt to use alien model
-//  SessionModel model2;
-//  EXPECT_THROW(viewModel.setRootSessionItem(model2.rootItem()), std::runtime_error);
-//}
+  // attempt to use nullptr as root item
+  EXPECT_THROW(view_model.SetRootSessionItem(nullptr), std::runtime_error);
+
+  // attempt to use alien model
+  SessionModel model2;
+  EXPECT_THROW(view_model.SetRootSessionItem(model2.GetRootItem()), std::runtime_error);
+}
 
 //! Setting property item as ROOT item.
 //! Same as above, only view model was initialized after.
-//! FIXME restore test
 
-// TEST_F(DefaultViewModelTest, setPropertyItemAsRootAfter)
-//{
-//  SessionModel model;
-//  auto item = model.insertItem<PropertyItem>();
+TEST_F(DefaultViewModelTest, SetPropertyItemAsRootAfter)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
 
-//  DefaultViewModel viewModel(&model);
-//  EXPECT_EQ(viewModel.rowCount(), 1);
-//  EXPECT_EQ(viewModel.columnCount(), 2);
+  DefaultViewModel view_model(&model);
+  EXPECT_EQ(view_model.rowCount(), 1);
+  EXPECT_EQ(view_model.columnCount(), 2);
 
-//  QSignalSpy spyAboutReset(&viewModel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewModel, &DefaultViewModel::modelReset);
-//  viewModel.setRootSessionItem(item);
+  QSignalSpy spy_about_reset(&view_model, &DefaultViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&view_model, &DefaultViewModel::modelReset);
+  view_model.SetRootSessionItem(item);
 
-//  // new root item doesn't have children
-//  EXPECT_EQ(viewModel.rowCount(), 0);
-//  EXPECT_EQ(viewModel.columnCount(), 0);
+  // new root item doesn't have children
+  EXPECT_EQ(view_model.rowCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 0);
 
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
 
-//  // attempt to use nullptr as root item
-//  EXPECT_THROW(viewModel.setRootSessionItem(nullptr), std::runtime_error);
+  EXPECT_EQ(view_model.GetRootSessionItem(), item);
 
-//  // attempt to use alien model
-//  SessionModel model2;
-//  EXPECT_THROW(viewModel.setRootSessionItem(model2.rootItem()), std::runtime_error);
-//}
+  // attempt to use nullptr as root item
+  EXPECT_THROW(view_model.SetRootSessionItem(nullptr), std::runtime_error);
+
+  // attempt to use alien model
+  SessionModel model2;
+  EXPECT_THROW(view_model.SetRootSessionItem(model2.GetRootItem()), std::runtime_error);
+}
 
 //! Setting top level item as ROOT item (case parent and children).
-//! FIXME restore test
 
-// TEST_F(DefaultViewModelTest, setCompoundAsRootItem)
-//{
-//  SessionModel model;
-//  DefaultViewModel viewModel(&model);
+TEST_F(DefaultViewModelTest, SetCompoundAsRootItem)
+{
+  ApplicationModel model;
+  DefaultViewModel view_model(&model);
 
-//  auto item = model.insertItem<CompoundItem>();
-//  item->addProperty("thickness", 42.0);
-//  item->addProperty<VectorItem>("position");
-//  item->addProperty("radius", 43.0);
+  auto item = model.InsertItem<CompoundItem>();
+  item->AddProperty("thickness", 42.0);
+  item->AddProperty<VectorItem>("position");
+  item->AddProperty("radius", 43.0);
 
-//  viewModel.setRootSessionItem(item);
+  view_model.SetRootSessionItem(item);
 
-//  EXPECT_EQ(viewModel.rowCount(), 3);
-//  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(view_model.rowCount(), 3);
+  EXPECT_EQ(view_model.columnCount(), 2);
 
-//  // checking vector item
-//  auto index_of_vector_item = viewModel.index(1, 0);
-//  EXPECT_EQ(viewModel.rowCount(index_of_vector_item), 3);
-//  EXPECT_EQ(viewModel.columnCount(index_of_vector_item), 2);
-//}
+  EXPECT_EQ(view_model.GetRootSessionItem(), item);
+
+  // checking vector item
+  auto index_of_vector_item = view_model.index(1, 0);
+  EXPECT_EQ(view_model.rowCount(index_of_vector_item), 3);
+  EXPECT_EQ(view_model.columnCount(index_of_vector_item), 2);
+}
 
 //! Setting vector item as ROOT item.
 //! FIXME restore test
 
-// TEST_F(DefaultViewModelTest, setVectorItemAsRoot)
-//{
-//  SessionModel model;
-//  auto vectorItem = model.insertItem<VectorItem>();
+TEST_F(DefaultViewModelTest, SetVectorItemAsRoot)
+{
+  ApplicationModel model;
+  auto vector_item = model.InsertItem<VectorItem>();
 
-//  DefaultViewModel viewModel(&model);
-//  viewModel.setRootSessionItem(vectorItem);
+  DefaultViewModel view_model(&model);
+  view_model.SetRootSessionItem(vector_item);
 
-//  EXPECT_EQ(viewModel.rowCount(), 3);
-//  EXPECT_EQ(viewModel.columnCount(), 2);
-//}
+  EXPECT_EQ(view_model.rowCount(), 3);
+  EXPECT_EQ(view_model.columnCount(), 2);
+
+  EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
+}
 
 //! On model destroyed.
 //! FIXME restore test

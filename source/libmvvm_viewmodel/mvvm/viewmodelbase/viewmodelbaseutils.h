@@ -98,6 +98,16 @@ std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& lab
   return std::make_unique<ViewItem>(CreateLabelPresentation(context, label));
 }
 
+//! Creates ViewItem representing invisible root item.
+
+template <typename T>
+std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
+{
+  // it has context which can't be edited
+  auto presentation = std::make_unique<PresentationItem<T>>(context);
+  return std::make_unique<ViewItem>(std::move(presentation));
+}
+
 }  // namespace Utils
 }  // namespace ModelView
 

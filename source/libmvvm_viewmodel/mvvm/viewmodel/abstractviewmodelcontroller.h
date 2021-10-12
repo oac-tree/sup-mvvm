@@ -46,7 +46,7 @@ public:
 
   void OnDataChanged(SessionItem *item, int role);
 
-  virtual void Init();
+  virtual void Init(SessionItem *root_item = nullptr);
 };
 
 }  // namespace ModelView

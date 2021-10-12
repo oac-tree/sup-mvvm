@@ -44,8 +44,7 @@ public:
 
   const SessionItem* GetRootSessionItem() const;
 
-  // FIXME restore functionality
-  //  void setRootSessionItem(SessionItem* item);
+  void SetRootSessionItem(SessionItem* item);
 
   const SessionItem* GetSessionItemFromIndex(const QModelIndex& index) const;
 

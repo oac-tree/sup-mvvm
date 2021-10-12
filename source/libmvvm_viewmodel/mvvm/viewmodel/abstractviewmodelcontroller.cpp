@@ -42,6 +42,6 @@ void AbstractViewModelController::OnItemRemoved(SessionItem *parent, const TagIn
 
 void AbstractViewModelController::OnDataChanged(SessionItem *item, int role) {}
 
-void AbstractViewModelController::Init() {}
+void AbstractViewModelController::Init(SessionItem *) {}
 
 }  // namespace ModelView

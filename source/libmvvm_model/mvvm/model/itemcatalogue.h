@@ -46,7 +46,7 @@ public:
   void RegisterItem(const std::string& label = {});
 
   void RegisterItem(const std::string& model_type, const item_factory_func_t& func,
-                    const std::string& label);
+                    const std::string& label = {});
 
   bool Contains(const std::string& model_type) const;
 

@@ -82,19 +82,18 @@ struct ViewModelController::ViewModelControllerImpl
       throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
     }
 
-    if (m_view_model->rowCount())
-    {
-      throw std::runtime_error("Error in ViewModewlController: viewmodel is not empty");
-    }
+//    if (m_view_model->rowCount())
+//    {
+//      throw std::runtime_error("Error in ViewModewlController: viewmodel is not empty");
+//    }
   }
 
-  SessionItem *GetRootItem() const
+  const SessionItem *GetRootItem() const
   {
-    // TODO make possible change of root item to particular branch
-    return m_model->GetRootItem();
+    return Utils::GetContext<SessionItem>(m_view_model->rootItem());
   }
 
-  void Iterate(SessionItem *item, ViewItem *parent_view)
+  void Iterate(const SessionItem *item, ViewItem *parent_view)
   {
     for (auto *child : item->GetAllItems())
     {
@@ -151,6 +150,20 @@ struct ViewModelController::ViewModelControllerImpl
     m_view_item_map.Insert(GetRootItem(), m_view_model->rootItem());
     Iterate(GetRootItem(), m_view_model->rootItem());
   }
+
+  void SetRootSessionItemIntern(SessionItem *item)
+  {
+    SessionItem *root_item = item ? item : m_model->GetRootItem();
+    // FIXME restore
+    //      m_rootItemPath = Utils::PathFromItem(item);
+
+    if (root_item->GetModel() != m_model)
+    {
+      throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
+    }
+
+    m_view_model->ResetRootViewItem(Utils::CreateRootViewItem(root_item));
+  }
 };
 
 ViewModelController::ViewModelController(SessionModel *model, ViewModelBase *view_model)
@@ -184,11 +197,10 @@ void ViewModelController::OnDataChanged(SessionItem *item, int role)
 
 //! Inits ViewModel by iterating through SessionModel.
 
-void ViewModelController::Init()
+void ViewModelController::Init(SessionItem *root_item)
 {
   p_impl->CheckInitialState();
-  p_impl->m_view_model->ResetRootViewItem(
-      Utils::CreateLabelViewItem(p_impl->m_model->GetRootItem(), {}));
+  p_impl->SetRootSessionItemIntern(root_item);
   p_impl->InitViewModel();
 }
 

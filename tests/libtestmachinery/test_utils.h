@@ -72,6 +72,9 @@ std::string CreateXMLDocumentString(const std::string& body);
 //! Returns text file content.
 std::string GetTextFileContent(const std::string& file_name);
 
+//! Create ASCII file with given content.
+void CreateTextFile(const std::string& file_name, const std::string& content);
+
 }  // namespace TestUtils
 
 #endif

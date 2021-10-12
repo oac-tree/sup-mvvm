@@ -43,7 +43,7 @@ public:
 
   void OnDataChanged(SessionItem *item, int role) override;
 
-  void Init() override;
+  void Init(SessionItem* root_item = nullptr) override;
 
 private:
   struct ViewModelControllerImpl;

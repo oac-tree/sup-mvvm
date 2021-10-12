@@ -35,7 +35,7 @@ std::string FolderBasedTest::GetTestDirectory() const
   return TestUtils::GetTestOutputDir() + std::string("/") + m_folder_name;
 }
 
-//! Returns full path to the file with
+//! Returns full path to the file with given name located in test directory.
 
 std::string FolderBasedTest::GetFilePath(const std::string &file_name) const
 {

@@ -101,13 +101,15 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
     EXPECT_THROW(controller.Init(), std::runtime_error);
   }
 
-  // should throw if viewmodel is not empty
+  // current approach: if ViewModel is not-empty, it will be cleaned up
   {
     std::vector<std::unique_ptr<ModelView::ViewItem>> children;
     children.emplace_back(std::make_unique<ModelView::ViewItem>());
     m_viewmodel.appendRow(m_viewmodel.rootItem(), std::move(children));
     ViewModelController controller(&m_model, &m_viewmodel);
-    EXPECT_THROW(controller.Init(), std::runtime_error);
+    EXPECT_NO_THROW(controller.Init());
+    EXPECT_EQ(m_viewmodel.rowCount(), 0);
+    EXPECT_EQ(m_viewmodel.columnCount(), 0);
   }
 }
 
@@ -172,6 +174,37 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
   {  // x, y, z
     QModelIndex child_label_index = m_viewmodel.index(row, 0, vector_label_index);
     QModelIndex child_data_index = m_viewmodel.index(row, 1, vector_label_index);
+    EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
+    EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
+    EXPECT_EQ(m_viewmodel.data(child_label_index).toString().toStdString(),
+              children[row]->GetDisplayName());
+    EXPECT_EQ(m_viewmodel.data(child_data_index).toDouble(),
+              children[row]->Data<double>());  // x,y,z coordinates
+  }
+}
+
+//! SessionModel is populated with a VectorItem item. The controller is initialised after.
+//! VectorItem is used as new rootItem.
+
+TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
+{
+  auto vector_item = m_model.InsertItem<VectorItem>();
+  vector_item->SetX(1.0);
+  vector_item->SetY(2.0);
+  vector_item->SetZ(3.0);
+
+  ViewModelController controller(&m_model, &m_viewmodel);
+  controller.Init(vector_item);
+
+  // the model contains only one entry
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  std::vector<SessionItem*> children = vector_item->GetAllItems();
+  for (int row = 0; row < 3; ++row)
+  {  // x, y, z
+    QModelIndex child_label_index = m_viewmodel.index(row, 0, QModelIndex());
+    QModelIndex child_data_index = m_viewmodel.index(row, 1, QModelIndex());
     EXPECT_EQ(GetSessionItem(child_label_index), children[row]);
     EXPECT_EQ(GetSessionItem(child_data_index), children[row]);
     EXPECT_EQ(m_viewmodel.data(child_label_index).toString().toStdString(),
