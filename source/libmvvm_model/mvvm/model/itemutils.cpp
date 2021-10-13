@@ -26,17 +26,23 @@
 
 #include <iterator>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 void Utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
 {
   if (item)
+  {
     fun(item);
+  }
   else
+  {
     return;
+  }
 
   for (auto child : item->GetAllItems())
+  {
     iterate(child, fun);
+  }
 }
 
 void Utils::iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
@@ -44,13 +50,19 @@ void Utils::iterate_if(const SessionItem* item, const std::function<bool(const S
   bool proceed_with_children(true);
 
   if (item)
+  {
     proceed_with_children = fun(item);
+  }
 
   if (!item || !proceed_with_children)
+  {
     return;
+  }
 
   for (auto child : item->GetAllItems())
+  {
     iterate_if(child, fun);
+  }
 }
 
 int Utils::CopyNumber(const SessionItem* item)
@@ -58,7 +70,9 @@ int Utils::CopyNumber(const SessionItem* item)
   int result(-1);
 
   if (!item)
+  {
     return result;
+  }
 
   int count(0);
   auto item_type = item->GetType();
@@ -67,9 +81,13 @@ int Utils::CopyNumber(const SessionItem* item)
     for (auto child : parent->GetAllItems())
     {
       if (child == item)
+      {
         result = count;
+      }
       if (child->GetType() == item_type)
+      {
         ++count;
+      }
     }
   }
 
@@ -79,7 +97,9 @@ int Utils::CopyNumber(const SessionItem* item)
 SessionItem* Utils::ChildAt(const SessionItem* parent, int index)
 {
   if (!parent)
+  {
     return nullptr;
+  }
 
   auto container = parent->GetAllItems();
   return index >= 0 && static_cast<size_t>(index) < container.size()
@@ -106,7 +126,9 @@ std::vector<std::string> Utils::RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
   for (const auto container : *item.GetTaggedItems())
+  {
     result.push_back(container->GetName());
+  }
   return result;
 }
 
@@ -114,8 +136,12 @@ std::vector<std::string> Utils::RegisteredUniversalTags(const SessionItem& item)
 {
   std::vector<std::string> result;
   for (const auto& tag : RegisteredTags(item))
+  {
     if (!IsSinglePropertyTag(item, tag))
+    {
       result.push_back(tag);
+    }
+  }
   return result;
 }
 
@@ -123,8 +149,12 @@ std::vector<SessionItem*> Utils::TopLevelItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
+  {
     if (child->IsVisible() && !IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
+    {
       result.push_back(child);
+    }
+  }
   return result;
 }
 
@@ -132,8 +162,12 @@ std::vector<SessionItem*> Utils::SinglePropertyItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
+  {
     if (child->IsVisible() && IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
+    {
       result.push_back(child);
+    }
+  }
   return result;
 }
 
@@ -141,7 +175,9 @@ SessionItem* Utils::FindNextSibling(SessionItem* item)
 {
   auto parent = item ? item->GetParent() : nullptr;
   if (!parent)
+  {
     return nullptr;
+  }
   auto tag_index = item->GetTagIndex();
   return parent->GetItem(tag_index.tag, tag_index.index + 1);
 }
@@ -150,7 +186,9 @@ SessionItem* Utils::FindPreviousSibling(SessionItem* item)
 {
   auto parent = item ? item->GetParent() : nullptr;
   if (!parent)
+  {
     return nullptr;
+  }
   auto tag_index = parent->TagIndexOfItem(item);
   return parent->GetItem(tag_index.tag, tag_index.index - 1);
 }
@@ -165,14 +203,20 @@ SessionItem* Utils::FindNextItemToSelect(SessionItem* item)
 bool Utils::IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
 {
   if (!item || !candidate)
+  {
     return false;
+  }
   const SessionItem* parent = item->GetParent();
   while (parent)
   {
     if (parent == candidate)
+    {
       return true;
+    }
     else
+    {
       parent = parent->GetParent();
+    }
   }
   return false;
 }
@@ -185,3 +229,5 @@ std::vector<SessionItem*> Utils::UniqueItems(const std::vector<SessionItem*>& it
                [](auto x) { return x != nullptr; });
   return result;
 }
+
+}  // namespace ModelView
