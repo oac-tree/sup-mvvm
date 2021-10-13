@@ -640,7 +640,6 @@ TEST_F(DefaultViewModelTest, SetCompoundAsRootItem)
 }
 
 //! Setting vector item as ROOT item.
-//! FIXME restore test
 
 TEST_F(DefaultViewModelTest, SetVectorItemAsRoot)
 {
@@ -654,6 +653,95 @@ TEST_F(DefaultViewModelTest, SetVectorItemAsRoot)
   EXPECT_EQ(view_model.columnCount(), 2);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
+}
+
+//! Inserting two VectorItems. Setting second VectorItem as root item.
+//! Removing first VectorItem. ViewModel should remain unchanged, no signals issued.
+
+TEST_F(DefaultViewModelTest, RemoveItemAboveCustomRootItem)
+{
+  auto vector_item0 = m_model.InsertItem<VectorItem>();
+  auto vector_item1 = m_model.InsertItem<VectorItem>();
+
+  m_viewmodel.SetRootSessionItem(vector_item1);
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(), vector_item1);
+
+  QSignalSpy spy_about_reset(&m_viewmodel, &DefaultViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&m_viewmodel, &DefaultViewModel::modelReset);
+  QSignalSpy spy_about_remove(&m_viewmodel, &DefaultViewModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(&m_viewmodel, &DefaultViewModel::rowsRemoved);
+
+  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});
+
+  EXPECT_EQ(spy_about_reset.count(), 0);
+  EXPECT_EQ(spy_reset.count(), 0);
+  EXPECT_EQ(spy_about_remove.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 0);
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+}
+
+//! Inserting VectorItem and setting it as root item.
+//! Removing VectorItem, model has to reset to empty state.
+
+TEST_F(DefaultViewModelTest, RemoveCustomRootItem)
+{
+  auto vector_item = m_model.InsertItem<VectorItem>();
+
+  m_viewmodel.SetRootSessionItem(vector_item);
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  QSignalSpy spy_about_reset(&m_viewmodel, &DefaultViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&m_viewmodel, &DefaultViewModel::modelReset);
+  QSignalSpy spy_about_remove(&m_viewmodel, &DefaultViewModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(&m_viewmodel, &DefaultViewModel::rowsRemoved);
+
+  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});  // removing vector_item
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
+}
+
+//! Inserting grandparent -> parent -> child, setting `parent` as new root item.
+//! Removing grandparent. The viewmodel should reset.
+
+TEST_F(DefaultViewModelTest, RemoveFarAncestor)
+{
+  auto grandparent = m_model.InsertItem<CompoundItem>();
+  grandparent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
+  auto parent = m_model.InsertItem<SessionItem>(grandparent);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
+  auto child0 = m_model.InsertItem<SessionItem>(parent);
+  auto child1 = m_model.InsertItem<SessionItem>(parent);
+
+  m_viewmodel.SetRootSessionItem(parent);
+
+  QSignalSpy spy_about_reset(&m_viewmodel, &DefaultViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&m_viewmodel, &DefaultViewModel::modelReset);
+  QSignalSpy spy_about_remove(&m_viewmodel, &DefaultViewModel::rowsAboutToBeRemoved);
+  QSignalSpy spy_remove(&m_viewmodel, &DefaultViewModel::rowsRemoved);
+
+  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});  // removing grandparent
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
 
 //! On model destroyed.

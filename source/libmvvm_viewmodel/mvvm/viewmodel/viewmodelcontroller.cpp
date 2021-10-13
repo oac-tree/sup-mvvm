@@ -19,6 +19,7 @@
 
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
+#include "mvvm/model/itemutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
@@ -81,11 +82,6 @@ struct ViewModelController::ViewModelControllerImpl
     {
       throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
     }
-
-//    if (m_view_model->rowCount())
-//    {
-//      throw std::runtime_error("Error in ViewModewlController: viewmodel is not empty");
-//    }
   }
 
   const SessionItem *GetRootItem() const
@@ -180,7 +176,20 @@ void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &ta
 
 void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index)
 {
-  p_impl->RemoveRowOfViews(parent->GetItem(tag_index.tag, tag_index.index));
+  auto item_to_remove = parent->GetItem(tag_index.tag, tag_index.index);
+
+  if (item_to_remove == p_impl->GetRootItem()
+      || Utils::IsItemAncestor(p_impl->GetRootItem(), item_to_remove))
+  {
+    // special case when user removes SessionItem which is one of ancestors of our root item
+    // or root item itself
+    // p_impl->m_rootItemPath = {};FIXME restore
+    p_impl->m_view_model->ResetRootViewItem(Utils::CreateRootViewItem<SessionItem>(nullptr));
+  }
+  else
+  {
+    p_impl->RemoveRowOfViews(item_to_remove);
+  }
 }
 
 void ViewModelController::OnDataChanged(SessionItem *item, int role)
