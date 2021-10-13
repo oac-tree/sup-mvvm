@@ -36,7 +36,7 @@ class SessionItem;
 class MVVM_VIEWMODEL_EXPORT AllChildrenStrategy : public ChildrenStrategyInterface
 {
 public:
-  std::vector<SessionItem*> children(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
 
 //! Strategy to find children of given item: only top level items will be given, all
@@ -46,7 +46,7 @@ public:
 class MVVM_VIEWMODEL_EXPORT TopItemsStrategy : public ChildrenStrategyInterface
 {
 public:
-  std::vector<SessionItem*> children(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
 
 //! Strategy to find children of given item: only property item will be given, all top level items
@@ -56,7 +56,7 @@ public:
 class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public ChildrenStrategyInterface
 {
 public:
-  std::vector<SessionItem*> children(const SessionItem* item) const override;
+  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
 }  // namespace ModelView
 

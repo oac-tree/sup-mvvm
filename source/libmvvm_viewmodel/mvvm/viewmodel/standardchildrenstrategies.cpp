@@ -26,20 +26,20 @@ namespace ModelView
 {
 // ----------------------------------------------------------------------------
 
-std::vector<SessionItem*> AllChildrenStrategy::children(const SessionItem* item) const
+std::vector<SessionItem*> AllChildrenStrategy::GetChildren(const SessionItem* item) const
 {
   // we returns all children, even if some marked as invisible
   return item ? item->GetAllItems() : std::vector<SessionItem*>();
 }
 
-std::vector<SessionItem*> TopItemsStrategy::children(const SessionItem* item) const
+std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item) const
 {
   return item ? Utils::TopLevelItems(*item) : std::vector<SessionItem*>();
 }
 
 // ----------------------------------------------------------------------------
 
-std::vector<SessionItem*> PropertyItemsStrategy::children(const SessionItem* item) const
+std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* item) const
 {
   if (!item)
   {

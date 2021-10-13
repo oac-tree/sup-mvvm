@@ -1,3 +1,4 @@
 target_sources(${library_name} PRIVATE
-    childrenstrategyinterface.h
+  childrenstrategyinterface.h
+  rowstrategyinterface.h
 )

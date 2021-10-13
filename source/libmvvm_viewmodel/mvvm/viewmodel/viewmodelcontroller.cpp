@@ -19,6 +19,8 @@
 
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
+#include "mvvm/interfaces/childrenstrategyinterface.h"
+#include "mvvm/interfaces/rowstrategyinterface.h"
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
@@ -33,14 +35,6 @@
 
 namespace
 {
-std::vector<std::unique_ptr<ModelView::ViewItem>> ConstructRow(ModelView::SessionItem *item)
-{
-  std::vector<std::unique_ptr<ModelView::ViewItem>> result;
-  result.emplace_back(ModelView::CreateDisplayNameViewItem(item));
-  result.emplace_back(ModelView::CreateDataViewItem(item));
-  return result;
-}
-
 //! Returns true if given SessionItem role is valid for view
 //! FIXME consider moving it to row builder
 bool isValidItemRole(const ModelView::ViewItem *view, int item_role)
@@ -65,6 +59,8 @@ struct ViewModelController::ViewModelControllerImpl
   SessionModel *m_model{nullptr};
   ViewModelBase *m_view_model{nullptr};
   ViewItemMap m_view_item_map;
+  std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
+  std::unique_ptr<RowStrategyInterface> m_row_strategy;
 
   ViewModelControllerImpl(SessionModel *model, ViewModelBase *view_model)
       : m_model(model), m_view_model(view_model)
@@ -82,6 +78,16 @@ struct ViewModelController::ViewModelControllerImpl
     {
       throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
     }
+
+    if (!m_children_strategy)
+    {
+      throw std::runtime_error("Error in ViewModewlController: children strategy is not defined");
+    }
+
+    if (!m_row_strategy)
+    {
+      throw std::runtime_error("Error in ViewModewlController: row strategy is not defined");
+    }
   }
 
   const SessionItem *GetRootItem() const
@@ -91,7 +97,7 @@ struct ViewModelController::ViewModelControllerImpl
 
   void Iterate(const SessionItem *item, ViewItem *parent_view)
   {
-    for (auto *child : item->GetAllItems())
+    for (auto *child : m_children_strategy->GetChildren(item))
     {
       auto *next_parent_view = ProcessItem(child, parent_view, parent_view->rowCount());
       if (next_parent_view)
@@ -104,7 +110,7 @@ struct ViewModelController::ViewModelControllerImpl
   //! Constructs row of views for given `item` and inserts them into a `parent_view`.
   ViewItem *ProcessItem(SessionItem *item, ViewItem *parent_view, int row)
   {
-    auto row_of_views = ConstructRow(item);
+    auto row_of_views = m_row_strategy->ConstructRow(item);
     if (!row_of_views.empty())
     {
       auto *next_parent_view = row_of_views.at(0).get();
@@ -165,6 +171,17 @@ struct ViewModelController::ViewModelControllerImpl
 ViewModelController::ViewModelController(SessionModel *model, ViewModelBase *view_model)
     : p_impl(std::make_unique<ViewModelControllerImpl>(model, view_model))
 {
+}
+
+void ViewModelController::SetChildrenStrategy(
+    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
+{
+  p_impl->m_children_strategy = std::move(children_strategy);
+}
+
+void ViewModelController::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
+{
+  p_impl->m_row_strategy = std::move(row_strategy);
 }
 
 ViewModelController::~ViewModelController() = default;

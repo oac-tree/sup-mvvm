@@ -28,14 +28,20 @@ namespace ModelView
 {
 class SessionModel;
 class ViewModelBase;
+class ChildrenStrategyInterface;
+class RowStrategyInterface;
 
-//! Propagate changes
-
+//! Propagates changes from SessionModel to its ViewModelBase.
+//!
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
 public:
   ViewModelController(SessionModel *model, ViewModelBase *view_model);
   ~ViewModelController() override;
+
+  void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
+
+  void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
 
   void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
 
@@ -43,7 +49,7 @@ public:
 
   void OnDataChanged(SessionItem *item, int role) override;
 
-  void Init(SessionItem* root_item = nullptr) override;
+  void Init(SessionItem *root_item = nullptr) override;
 
 private:
   struct ViewModelControllerImpl;

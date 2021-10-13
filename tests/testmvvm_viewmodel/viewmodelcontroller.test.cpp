@@ -28,6 +28,8 @@
 #include "mvvm/model/taginfo.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
+#include "mvvm/viewmodel/standardchildrenstrategies.h"
+#include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
@@ -48,7 +50,19 @@ public:
       , m_notifier(&m_controller)
       , m_composer(&m_model, &m_notifier)
   {
+    m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
+    m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
     m_controller.Init();
+  }
+
+  std::unique_ptr<ViewModelController> CreateController(SessionModel* model,
+                                                        ViewModelBase* view_model)
+  {
+    auto result = std::make_unique<ViewModelController>(model, view_model);
+    result->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
+    result->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    result->Init();
+    return result;
   }
 
   //! Returns underlying SessionItem from given ViewItem
@@ -107,6 +121,8 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
     children.emplace_back(std::make_unique<ModelView::ViewItem>());
     m_viewmodel.appendRow(m_viewmodel.rootItem(), std::move(children));
     ViewModelController controller(&m_model, &m_viewmodel);
+    controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
+    controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
     EXPECT_NO_THROW(controller.Init());
     EXPECT_EQ(m_viewmodel.rowCount(), 0);
     EXPECT_EQ(m_viewmodel.columnCount(), 0);
@@ -120,8 +136,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
   auto* item = m_model.InsertItem<SessionItem>();
   item->SetData(42.0);
 
-  ViewModelController controller(&m_model, &m_viewmodel);
-  controller.Init();
+  auto controller = CreateController(&m_model, &m_viewmodel);
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -156,8 +171,7 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
   vector_item->SetY(2.0);
   vector_item->SetZ(3.0);
 
-  ViewModelController controller(&m_model, &m_viewmodel);
-  controller.Init();
+  auto controller = CreateController(&m_model, &m_viewmodel);
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -194,6 +208,8 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
   vector_item->SetZ(3.0);
 
   ViewModelController controller(&m_model, &m_viewmodel);
+  controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
+  controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
   controller.Init(vector_item);
 
   // the model contains only one entry

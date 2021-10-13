@@ -17,25 +17,36 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/defaultviewmodel.h"
-
-#include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
 #include "mvvm/viewmodel/standardrowstrategies.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+
+#include "mvvm/viewmodel/viewitemfactory.h"
+#include "mvvm/viewmodelbase/viewitem.h"
 
 namespace ModelView
 {
-DefaultViewModel::DefaultViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
+LabelDataRowStrategy::~LabelDataRowStrategy() = default;
+
+QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
 {
-  auto controller = std::make_unique<ViewModelController>(model, this);
-  if (auto appmodel = dynamic_cast<ApplicationModel *>(model); appmodel)
+  return QStringList() << "Name"
+                       << "Value";
+}
+
+std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(SessionItem* item)
+{
+  std::vector<std::unique_ptr<ViewItem>> result;
+
+  // For one SessionItem the row consisting of two ViewItems will be generated: one for displayName,
+  // another for SessionItem's data (if defined).
+
+  if (!item)
   {
-    appmodel->EstablishConnections(controller.get());
+    return result;
   }
-  controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-  SetController(std::move(controller));
+
+  result.emplace_back(ModelView::CreateDisplayNameViewItem(item));
+  result.emplace_back(ModelView::CreateDataViewItem(item));
+  return result;
 }
 
 }  // namespace ModelView

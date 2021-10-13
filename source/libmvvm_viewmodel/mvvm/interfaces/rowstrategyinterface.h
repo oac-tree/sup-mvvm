@@ -17,31 +17,31 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
-#define MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
+#ifndef MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H
+#define MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H
 
 #include "mvvm/viewmodel_export.h"
-
+#include <QStringList>
+#include <memory>
 #include <vector>
 
-namespace ModelView
-{
+namespace ModelView {
+
 class SessionItem;
+class ViewItem;
 
-//! Base class for strategies to find children, actual or fictional, of a given item.
-//! The reported vector of children might be different from the actual children of a given item.
-//! The strategy is used in the context of AbstractViewModel while exposing SessionModel to Qt.
-//! Thanks to this strategy ViewModel decides which items to visit.
+//! Base class to construct row of ViewItem's from given SessionItem.
+//! Used in context of AbstractViewModel while exposing SessionModel to Qt.
 
-class MVVM_VIEWMODEL_EXPORT ChildrenStrategyInterface
-{
+class MVVM_VIEWMODEL_EXPORT RowStrategyInterface {
 public:
-  virtual ~ChildrenStrategyInterface() = default;
+    virtual ~RowStrategyInterface() = default;
 
-  //! Returns vector of children of given item.
-  virtual std::vector<SessionItem*> GetChildren(const SessionItem* item) const = 0;
+    virtual QStringList GetHorizontalHeaderLabels() const = 0;
+
+    virtual std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) = 0;
 };
 
-}  // namespace ModelView
+} // namespace ModelView
 
-#endif  // MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
+#endif // MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H

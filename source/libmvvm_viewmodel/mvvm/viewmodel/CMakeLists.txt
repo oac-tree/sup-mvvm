@@ -15,6 +15,8 @@ target_sources(${library_name} PRIVATE
   presentationitemfactory.h
   standardchildrenstrategies.cpp
   standardchildrenstrategies.h
+  standardrowstrategies.cpp
+  standardrowstrategies.h
   variantconverter.cpp
   variantconverter.h
   viewitemfactory.cpp

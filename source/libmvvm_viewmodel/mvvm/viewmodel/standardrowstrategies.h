@@ -17,25 +17,32 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/defaultviewmodel.h"
+#ifndef MVVM_INTERFACES_STANDARDROWSTRATEGIES_H
+#define MVVM_INTERFACES_STANDARDROWSTRATEGIES_H
 
-#include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/viewmodel/standardrowstrategies.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "mvvm/interfaces/rowstrategyinterface.h"
+#include "mvvm/viewmodel_export.h"
+
+#include <vector>
 
 namespace ModelView
 {
-DefaultViewModel::DefaultViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
+class SessionItem;
+class ViewItem;
+
+//! Constructs row of ViewItem's for given SessionItem.
+//! Row consists of two columns, ViewLabelItem for SessionItem's display role and
+//! ViewDataItem for Session's item data role.
+
+class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface
 {
-  auto controller = std::make_unique<ViewModelController>(model, this);
-  if (auto appmodel = dynamic_cast<ApplicationModel *>(model); appmodel)
-  {
-    appmodel->EstablishConnections(controller.get());
-  }
-  controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-  SetController(std::move(controller));
-}
+public:
+  ~LabelDataRowStrategy();
+  QStringList GetHorizontalHeaderLabels() const override;
+
+  std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) override;
+};
 
 }  // namespace ModelView
+
+#endif  // MVVM_INTERFACES_STANDARDROWSTRATEGIES_H

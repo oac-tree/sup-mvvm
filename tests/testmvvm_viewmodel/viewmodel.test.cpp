@@ -22,6 +22,8 @@
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/viewmodel/standardchildrenstrategies.h"
+#include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
@@ -45,6 +47,8 @@ public:
     explicit TestViewModel(SessionModel *model)
     {
       auto controller = std::make_unique<ViewModelController>(model, this);
+      controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
+      controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
       SetController(std::move(controller));
     }
   };
