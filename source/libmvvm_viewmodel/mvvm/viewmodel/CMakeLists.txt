@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   modeleventnotifier.h
   presentationitemfactory.cpp
   presentationitemfactory.h
+  standardchildrenstrategies.cpp
+  standardchildrenstrategies.h
   variantconverter.cpp
   variantconverter.h
   viewitemfactory.cpp

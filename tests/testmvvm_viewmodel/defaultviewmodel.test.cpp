@@ -121,34 +121,40 @@ TEST_F(DefaultViewModelTest, ModelWithSingleItem)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
 }
 
-// FIXME restore test
 //! Hidden property item in a model. Current DefaultViewModel implementation deliberately doesn't
-//! respect `hidden` property. Item will be shown as usual, test is identical to the thest above.
+//! respect `hidden` property. Item will be shown as usual, test is identical to the test above.
 
-// TEST_F(DefaultViewModelTest, fromPropertyItemWhenHidden)
-//{
-//  SessionModel model;
-//  auto propertyItem = model.insertItem<PropertyItem>();
-//  propertyItem->setData(42.0);
-//  propertyItem->setVisible(false);
+TEST_F(DefaultViewModelTest, FromPropertyItemWhenHidden)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(42.0);
+  item->SetVisible(false);
 
-//  DefaultViewModel viewModel(&model);
-//  EXPECT_EQ(viewModel.rowCount(), 1);
-//  EXPECT_EQ(viewModel.columnCount(), 2);
+  DefaultViewModel viewmodel(&m_model);
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 2);
 
-//  // accessing first child under the root item
-//  QModelIndex labelIndex = viewModel.index(0, 0);
-//  QModelIndex dataIndex = viewModel.index(0, 1);
+  // default controller constructs a row consisting from item label (display name) and data
+  auto label_index = viewmodel.index(0, 0);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(label_index), item);
 
-//  // it should be ViewLabelItem looking at our PropertyItem item
-//  auto labelItem = dynamic_cast<ViewLabelItem*>(viewModel.itemFromIndex(labelIndex));
-//  ASSERT_TRUE(labelItem != nullptr);
-//  EXPECT_EQ(labelItem->item(), propertyItem);
+  auto data_index = viewmodel.index(0, 1);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(data_index), item);
 
-//  auto dataItem = dynamic_cast<ViewDataItem*>(viewModel.itemFromIndex(dataIndex));
-//  ASSERT_TRUE(dataItem != nullptr);
-//  EXPECT_EQ(dataItem->item(), propertyItem);
-//}
+  // display role of first item in a row  should coincide with item's DisplayName
+  EXPECT_EQ(viewmodel.data(label_index, Qt::DisplayRole).toString().toStdString(),
+            item->GetDisplayName());
+
+  // edit role of second item in a row  should coincide with item's data
+  EXPECT_EQ(viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
+
+  // Finding view from item
+  auto view_item_label = viewmodel.itemFromIndex(label_index);
+  auto view_item_data = viewmodel.itemFromIndex(data_index);
+  EXPECT_EQ(viewmodel.FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
+}
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 
