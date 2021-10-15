@@ -47,6 +47,8 @@ public:
   template <typename V>
   PropertyItem* AddProperty(const std::string& name, const V& value);
 
+  PropertyItem* AddProperty(const std::string& name, const char* value);
+
   std::string GetDisplayName() const override;
 
   template <typename T>
@@ -74,6 +76,11 @@ PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
   //    if constexpr (std::is_floating_point_v<V>)
   //        property->setData(RealLimits::limitless(), ItemDataRole::LIMITS);
   return property;
+}
+
+inline PropertyItem* CompoundItem::AddProperty(const std::string& name, const char* value)
+{
+  return AddProperty(name, std::string(value));
 }
 
 //! Returns data stored in property item.
