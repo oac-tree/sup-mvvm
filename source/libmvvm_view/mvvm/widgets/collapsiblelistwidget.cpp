@@ -24,8 +24,8 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 CollapsibleListWidget::CollapsibleListWidget(QWidget* parent)
     : QWidget(parent), m_splitter(new QSplitter)
 {
@@ -54,3 +54,5 @@ void CollapsibleListWidget::addWidget(QWidget* widget, const QString& title, boo
     widget->setVisible(false);
   }
 }
+
+}  // namespace ModelView

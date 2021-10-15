@@ -19,7 +19,8 @@
 
 #include "mvvm/widgets/collapsiblebar.h"
 
-#include "mvvm/utils/widgetutils.h"
+#include "mvvm/widgets/widgetutils.h"
+#include "mvvm/resources/resources.h"
 
 #include <QEvent>
 #include <QHBoxLayout>
@@ -32,6 +33,7 @@ namespace ModelView
 CollapsibleBar::CollapsibleBar(QWidget* parent)
     : QFrame(parent), m_pixmapLabel(new QLabel), m_titleLabel(new QLabel)
 {
+  InitIconResources();
   m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));
 
   auto layout = new QHBoxLayout(this);

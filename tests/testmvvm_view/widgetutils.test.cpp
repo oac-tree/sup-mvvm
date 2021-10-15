@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/widgetutils.h"
+#include "mvvm/widgets/widgetutils.h"
 
 #include "test_utils.h"
 
