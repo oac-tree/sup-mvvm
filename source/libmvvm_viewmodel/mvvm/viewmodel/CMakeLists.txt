@@ -1,4 +1,4 @@
-# Contains source specific for SessionItem presentation.
+# ViewModel to represent SessionItem and SessionModel.
 
 target_sources(${library_name} PRIVATE
   abstractviewmodelcontroller.cpp
@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   modeleventnotifier.h
   presentationitemfactory.cpp
   presentationitemfactory.h
+  propertyviewmodel.cpp
+  propertyviewmodel.h
   standardchildrenstrategies.cpp
   standardchildrenstrategies.h
   standardrowstrategies.cpp

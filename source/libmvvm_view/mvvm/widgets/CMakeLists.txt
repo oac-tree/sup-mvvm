@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   itemstreeview.h
   mainbarwidget.cpp
   mainbarwidget.h
+  propertytreeview.cpp
+  propertytreeview.h
   topitemstreeview.cpp
   topitemstreeview.h
   widgetutils.cpp
