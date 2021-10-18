@@ -17,25 +17,27 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/defaultviewmodel.h"
+#ifndef MVVM_VIEWMODEL_ALLITEMSVIEWMODEL_H
+#define MVVM_VIEWMODEL_ALLITEMSVIEWMODEL_H
 
-#include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/viewmodel/standardrowstrategies.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "mvvm/viewmodel/viewmodel.h"
 
 namespace ModelView
 {
-DefaultViewModel::DefaultViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
+class ModelComposer;
+
+//! View model to show the whole content of SessionModel in Qt widgets. Represents two-column tree
+//! with label/data, with one-to-one child/parent correspondence as in the original SessionModel.
+//! All items (including hidden) are shown.
+
+class MVVM_VIEWMODEL_EXPORT AllItemsViewModel : public ViewModel
 {
-  auto controller = std::make_unique<ViewModelController>(model, this);
-  if (auto appmodel = dynamic_cast<ApplicationModel *>(model); appmodel)
-  {
-    appmodel->EstablishConnections(controller.get());
-  }
-  controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-  SetController(std::move(controller));
-}
+  Q_OBJECT
+
+public:
+  AllItemsViewModel(SessionModel* model, QObject* parent = nullptr);
+};
 
 }  // namespace ModelView
+
+#endif  // MVVM_VIEWMODEL_ALLITEMSVIEWMODEL_H

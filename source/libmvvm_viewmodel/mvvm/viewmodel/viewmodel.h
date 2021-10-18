@@ -43,6 +43,7 @@ public:
                       int role = Qt::DisplayRole) const override;
 
   const SessionItem* GetRootSessionItem() const;
+  SessionItem* GetRootSessionItem();
 
   void SetRootSessionItem(SessionItem* item);
 

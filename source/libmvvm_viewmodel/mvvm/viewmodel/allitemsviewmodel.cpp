@@ -17,28 +17,25 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/allitemstreeview.h"
+#include "mvvm/viewmodel/allitemsviewmodel.h"
 
 #include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/standardchildrenstrategies.h"
+#include "mvvm/viewmodel/standardrowstrategies.h"
+#include "mvvm/viewmodel/viewmodelcontroller.h"
 
 namespace ModelView
 {
-AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
+AllItemsViewModel::AllItemsViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
 {
-  SetApplicationModel(model);
-}
-
-void AllItemsTreeView::SetApplicationModel(ApplicationModel* model)
-{
-  if (!model)
+  auto controller = std::make_unique<ViewModelController>(model, this);
+  if (auto appmodel = dynamic_cast<ApplicationModel *>(model); appmodel)
   {
-    return;
+    appmodel->EstablishConnections(controller.get());
   }
-
-  SetViewModel(std::make_unique<AllItemsViewModel>(model));
+  controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
+  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
+  SetController(std::move(controller));
 }
-
-AllItemsTreeView::~AllItemsTreeView() = default;
 
 }  // namespace ModelView

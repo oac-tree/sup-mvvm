@@ -17,28 +17,27 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/allitemstreeview.h"
+#ifndef MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
+#define MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
 
-#include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/viewmodel.h"
 
 namespace ModelView
 {
-AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
+class ModelComposer;
+
+//! View model to show top level items of SessionModel in Qt trees and tables.
+//! All property items (i.e. "thickness", "color" etc) will be filtered out, top level items
+//! (i.e. Layer, MultiLayer, ...) will be presented as simple parent/child tree.
+
+class MVVM_VIEWMODEL_EXPORT TopItemsViewModel : public ViewModel
 {
-  SetApplicationModel(model);
-}
+  Q_OBJECT
 
-void AllItemsTreeView::SetApplicationModel(ApplicationModel* model)
-{
-  if (!model)
-  {
-    return;
-  }
-
-  SetViewModel(std::make_unique<AllItemsViewModel>(model));
-}
-
-AllItemsTreeView::~AllItemsTreeView() = default;
+public:
+  TopItemsViewModel(SessionModel* model, QObject* parent = nullptr);
+};
 
 }  // namespace ModelView
+
+#endif  // MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H

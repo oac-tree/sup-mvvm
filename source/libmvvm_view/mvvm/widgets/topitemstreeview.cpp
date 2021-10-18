@@ -17,28 +17,28 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/allitemstreeview.h"
+#include "mvvm/widgets/topitemstreeview.h"
 
 #include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/topitemsviewmodel.h"
 
 namespace ModelView
 {
-AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
+TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
 {
   SetApplicationModel(model);
 }
 
-void AllItemsTreeView::SetApplicationModel(ApplicationModel* model)
+void TopItemsTreeView::SetApplicationModel(ApplicationModel* model)
 {
   if (!model)
   {
     return;
   }
 
-  SetViewModel(std::make_unique<AllItemsViewModel>(model));
+  SetViewModel(std::make_unique<TopItemsViewModel>(model));
 }
 
-AllItemsTreeView::~AllItemsTreeView() = default;
+TopItemsTreeView::~TopItemsTreeView() = default;
 
 }  // namespace ModelView

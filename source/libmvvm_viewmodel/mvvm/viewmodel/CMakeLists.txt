@@ -3,12 +3,12 @@
 target_sources(${library_name} PRIVATE
   abstractviewmodelcontroller.cpp
   abstractviewmodelcontroller.h
+  allitemsviewmodel.cpp
+  allitemsviewmodel.h
   applicationmodel.cpp
   applicationmodel.h
   customvariants.cpp
   customvariants.h
-  defaultviewmodel.cpp
-  defaultviewmodel.h
   modeleventnotifier.cpp
   modeleventnotifier.h
   presentationitemfactory.cpp
@@ -17,6 +17,8 @@ target_sources(${library_name} PRIVATE
   standardchildrenstrategies.h
   standardrowstrategies.cpp
   standardrowstrategies.h
+  topitemsviewmodel.cpp
+  topitemsviewmodel.h
   variantconverter.cpp
   variantconverter.h
   viewitemfactory.cpp

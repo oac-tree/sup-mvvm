@@ -17,28 +17,28 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/allitemstreeview.h"
+#ifndef MVVM_WIDGETS_TOPITEMSTREEVIEW_H
+#define MVVM_WIDGETS_TOPITEMSTREEVIEW_H
 
-#include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/widgets/itemstreeview.h"
 
 namespace ModelView
 {
-AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
+class ApplicationModel;
+
+//! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
+
+class MVVM_VIEW_EXPORT TopItemsTreeView : public ItemsTreeView
 {
-  SetApplicationModel(model);
-}
+  Q_OBJECT
 
-void AllItemsTreeView::SetApplicationModel(ApplicationModel* model)
-{
-  if (!model)
-  {
-    return;
-  }
+public:
+  TopItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+  ~TopItemsTreeView() override;
 
-  SetViewModel(std::make_unique<AllItemsViewModel>(model));
-}
-
-AllItemsTreeView::~AllItemsTreeView() = default;
+  void SetApplicationModel(ApplicationModel* model);
+};
 
 }  // namespace ModelView
+
+#endif  // MVVM_WIDGETS_TOPITEMSTREEVIEW_H

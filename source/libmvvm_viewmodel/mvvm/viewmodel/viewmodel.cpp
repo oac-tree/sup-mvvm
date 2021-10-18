@@ -46,6 +46,11 @@ const SessionItem* ViewModel::GetRootSessionItem() const
   return Utils::GetContext<SessionItem>(rootItem());
 }
 
+SessionItem *ViewModel::GetRootSessionItem()
+{
+  return const_cast<SessionItem*>(static_cast<const ViewModel*>(this)->GetRootSessionItem());
+}
+
 void ViewModel::SetRootSessionItem(SessionItem* item)
 {
   if (!item)

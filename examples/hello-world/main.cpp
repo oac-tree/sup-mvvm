@@ -20,7 +20,7 @@
 #include "mvvm/model/compounditem.h"
 #include "mvvm/serialization/xmldocument.h"
 #include "mvvm/viewmodel/applicationmodel.h"
-#include "mvvm/viewmodel/defaultviewmodel.h"
+#include "mvvm/viewmodel/allitemsviewmodel.h"
 
 #include <QTreeView>
 #include <QApplication>
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
   std::cout << item->Property<std::string>("Greeting") << " "
             << item->Property<std::string>("Addressee") << "\n";
 
-  DefaultViewModel viewmodel(&model);
+  AllItemsViewModel viewmodel(&model);
 
   QTreeView view;
   view.setModel(&viewmodel);
