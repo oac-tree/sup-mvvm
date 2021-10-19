@@ -27,8 +27,8 @@
 #include <stdexcept>
 #include <vector>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 struct ViewItem::ViewItemImpl
 {
   std::vector<std::unique_ptr<ViewItem>> m_children;  //! buffer to hold rows x columns
@@ -37,7 +37,7 @@ struct ViewItem::ViewItemImpl
   std::unique_ptr<ViewItemDataInterface> m_view_item_data;
   ViewItem* m_self{nullptr};
 
-  ViewItemImpl(std::unique_ptr<ViewItemDataInterface> view_item_data)
+  explicit ViewItemImpl(std::unique_ptr<ViewItemDataInterface> view_item_data)
       : m_view_item_data(std::move(view_item_data))
   {
   }
@@ -50,10 +50,14 @@ struct ViewItem::ViewItemImpl
   void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
   {
     if (items.empty())
+    {
       throw std::runtime_error("Error in ViewItemImpl: attempt to insert empty row");
+    }
 
     if (m_columns > 0 && items.size() != static_cast<size_t>(m_columns))
+    {
       throw std::runtime_error("Error in ViewItemImpl: wrong number of columns.");
+    }
 
     if (row < 0 || row > m_rows)
     {
@@ -70,23 +74,31 @@ struct ViewItem::ViewItemImpl
   void removeRow(int row)
   {
     if (row < 0 || row >= m_rows)
+    {
       throw std::runtime_error("Error in ViewItem: invalid row index.");
+    }
 
     auto begin = std::next(m_children.begin(), row * m_columns);
     auto end = std::next(begin, m_columns);
     m_children.erase(begin, end);
     --m_rows;
     if (m_rows == 0)
+    {
       m_columns = 0;
+    }
   }
 
   ViewItem* child(int row, int column) const
   {
     if (row < 0 || row >= m_rows)
+    {
       throw std::runtime_error("Error in ViewItem: wrong row)");
+    }
 
     if (column < 0 || column >= m_columns)
+    {
       throw std::runtime_error("Error in ViewItem: wrong column)");
+    }
 
     return m_children.at(static_cast<size_t>(column + row * m_columns)).get();
   }
@@ -139,7 +151,9 @@ int ViewItem::columnCount() const
 void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
+  {
     x->setParent(this);
+  }
   p_impl->appendRow(std::move(items));
 }
 
@@ -148,7 +162,9 @@ void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
+  {
     x->setParent(this);
+  }
   p_impl->insertRow(row, std::move(items));
 }
 
@@ -228,7 +244,9 @@ Qt::ItemFlags ViewItem::flags() const
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
   if (item() && item()->IsEditable() && item()->IsEnabled() && item()->Data().isValid())
+  {
     result |= Qt::ItemIsEditable;
+  }
 
   return result;
 }
@@ -242,3 +260,5 @@ void ViewItem::setParent(ViewItem* parent)
 {
   p_impl->m_self = parent;
 }
+
+}  // namespace ModelView

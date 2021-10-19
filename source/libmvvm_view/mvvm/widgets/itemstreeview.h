@@ -58,8 +58,14 @@ public:
 
   ViewModel* GetViewModel() const;
 
+  //! Returns first selected item, or nullptr if nothing is selected.
+  SessionItem* GetSelectedItem() const;
+
+  //! Returns all selected items.
+  std::vector<SessionItem*> GetSelectedItems() const;
+
 signals:
-  void itemSelected(const SessionItem*);
+  void itemSelected(SessionItem*);
 
 private slots:
   void onSelectionChanged(const QItemSelection&, const QItemSelection&);

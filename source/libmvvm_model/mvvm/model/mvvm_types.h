@@ -38,6 +38,7 @@ const int kAppearance = 3;  //!< appearance flag
 const int kTooltip = 4;     //!< tooltip for item's data
 }  // namespace DataRole
 
+//! Defines bit fields for appearance flag (kAppearance data role).
 enum Appearance
 {
   kEnabled = 1,   // enabled in Qt widgets; when disabled, will be shown in gray

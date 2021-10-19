@@ -157,7 +157,9 @@ void SessionModel::Clear(std::function<void(SessionItem*)> callback)
 {
   p_impl->CreateRootItem();
   if (callback)
+  {
     callback(GetRootItem());
+  }
 }
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.
@@ -181,7 +183,9 @@ SessionItem* SessionModel::ItemInsertInternal(const item_factory_func_t& func, S
                                               const TagIndex& tag_index)
 {
   if (!parent)
+  {
     parent = GetRootItem();
+  }
 
   int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
 

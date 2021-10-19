@@ -60,3 +60,27 @@ TEST_F(AllItemsTreeViewTest, initialState)
   // was triggering persistentModelIndex.
   ASSERT_NO_FATAL_FAILURE(view.SetRootSessionItem(model.GetRootItem()));
 }
+
+TEST_F(AllItemsTreeViewTest, GetSelectedItemsWithNoModel)
+{
+  AllItemsTreeView view;
+  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+}
+
+TEST_F(AllItemsTreeViewTest, GetSelectedItems)
+{
+  // setting up model and viewmodel
+  ApplicationModel model;
+  auto vectorItem = model.InsertItem<VectorItem>();
+  auto xItem = vectorItem->GetItem(VectorItem::P_X);
+  AllItemsTreeView view(&model);
+  view.SetRootSessionItem(vectorItem);
+
+  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+
+  view.SetSelected(xItem);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({xItem}));
+  EXPECT_EQ(view.GetSelectedItem(), xItem);
+}

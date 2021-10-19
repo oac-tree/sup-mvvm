@@ -27,19 +27,22 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
-
 namespace
 {
 int appearance(const ModelView::SessionItem& item)
 {
+  using ModelView::Appearance;
+
   const int default_appearance =
       Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
-  return item.HasData(DataRole::kAppearance) ? item.Data<int>(DataRole::kAppearance)
-                                             : default_appearance;
+  return item.HasData(ModelView::DataRole::kAppearance)
+             ? item.Data<int>(ModelView::DataRole::kAppearance)
+             : default_appearance;
 }
 }  // namespace
 
+namespace ModelView
+{
 struct SessionItem::SessionItemImpl
 {
   SessionItem* m_parent{nullptr};
@@ -66,7 +69,9 @@ SessionItem::SessionItem(const std::string& item_type) : p_impl(std::make_unique
 SessionItem::~SessionItem()
 {
   if (p_impl->m_model)
+  {
     p_impl->m_model->UnregisterFromPool(this);
+  }
 }
 
 //! Returns item's model type.
@@ -212,16 +217,24 @@ TaggedItems* SessionItem::GetTaggedItems()
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   if (!item)
+  {
     throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
+  }
 
   if (item->GetParent())
+  {
     throw std::runtime_error("SessionItem::insertItem() -> Existing parent.");
+  }
 
   if (item->GetModel())
+  {
     throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
+  }
 
   if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
+  {
     throw std::runtime_error("SessionItem::insertItem() -> Can't insert item.");
+  }
 
   auto result = item.release();
   p_impl->m_tags->InsertItem(result, tag_index);
@@ -237,7 +250,9 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   if (!p_impl->m_tags->CanTakeItem(tag_index))
+  {
     return {};
+  }
 
   auto result = p_impl->m_tags->TakeItem(tag_index);
   result->SetParent(nullptr);
@@ -334,24 +349,34 @@ void SessionItem::SetParent(SessionItem* parent)
 void SessionItem::SetModel(SessionModel* model)
 {
   if (p_impl->m_model)
+  {
     p_impl->m_model->UnregisterFromPool(this);
+  }
 
   p_impl->m_model = model;
 
   if (p_impl->m_model)
+  {
     p_impl->m_model->RegisterInPool(this);
+  }
 
   for (auto child : GetAllItems())
+  {
     child->SetModel(model);
+  }
 }
 
 void SessionItem::SetAppearanceFlag(int flag, bool value)
 {
   int flags = appearance(*this);
   if (value)
+  {
     flags |= flag;
+  }
   else
+  {
     flags &= ~flag;
+  }
 
   SetData(flags, DataRole::kAppearance);
 }
@@ -362,3 +387,5 @@ void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
   p_impl->m_data = std::move(data);
   p_impl->m_tags = std::move(tags);
 }
+
+}  // namespace ModelView

@@ -76,6 +76,26 @@ ViewModel* ItemsTreeView::GetViewModel() const
   return m_viewModel.get();
 }
 
+SessionItem* ItemsTreeView::GetSelectedItem() const
+{
+  auto items = GetSelectedItems();
+  return items.empty() ? nullptr : items.front();
+}
+
+std::vector<SessionItem*> ItemsTreeView::GetSelectedItems() const
+{
+  if (!m_treeView->selectionModel())
+  {
+    return {};
+  }
+  std::vector<SessionItem*> result;
+  for (auto index : m_treeView->selectionModel()->selectedIndexes())
+  {
+    result.push_back(const_cast<SessionItem*>(m_viewModel->GetSessionItemFromIndex(index)));
+  }
+  return result;
+}
+
 //! Processes selections in QTreeView. Finds SessionItem corresponding to selected indexes
 //! and emit itemSelected signal.
 
@@ -86,10 +106,8 @@ void ItemsTreeView::onSelectionChanged(const QItemSelection&, const QItemSelecti
     return;
   }
 
-  auto indexes = m_treeView->selectionModel()->selectedIndexes();
-  if (!indexes.empty())
+  for (auto item : GetSelectedItems())
   {
-    auto item = m_viewModel->GetSessionItemFromIndex(indexes.at(0));
     m_block_selection = true;
     emit itemSelected(item);
     m_block_selection = false;
