@@ -24,7 +24,7 @@
 
 namespace ModelView
 {
-class ModelComposer;
+class ApplicationModel;
 
 //! View model to show top level items of SessionModel in Qt trees and tables.
 //! All property items (i.e. "thickness", "color" etc) will be filtered out, top level items
@@ -35,7 +35,7 @@ class MVVM_VIEWMODEL_EXPORT TopItemsViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  TopItemsViewModel(SessionModel* model, QObject* parent = nullptr);
+  TopItemsViewModel(ApplicationModel* model, QObject* parent = nullptr);
 };
 
 }  // namespace ModelView

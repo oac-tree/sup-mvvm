@@ -28,6 +28,8 @@ namespace ModelView
 class ModelEventListenerInterface;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.
+//! All modification of the model are done through the composer, which takes care
+//! about notifications and all subscribers.
 
 class MVVM_VIEWMODEL_EXPORT ApplicationModel : public SessionModel
 {
@@ -40,9 +42,9 @@ public:
   virtual SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
                                      const TagIndex& tag_index) override;
 
-  virtual void RemoveItem(SessionItem* parent, const TagIndex& tag_index)  override;
+  virtual void RemoveItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  virtual bool SetData(SessionItem* item, const variant_t& value, int role)  override;
+  virtual bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
 private:
   struct ApplicationModelImpl;

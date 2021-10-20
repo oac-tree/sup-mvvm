@@ -26,6 +26,11 @@ namespace ModelView
 {
 LabelDataRowStrategy::~LabelDataRowStrategy() = default;
 
+LabelDataRowStrategy::LabelDataRowStrategy(const item_setdata_function_t& set_func)
+    : m_set_func(set_func)
+{
+}
+
 QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
 {
   return QStringList() << "Name"
@@ -45,7 +50,7 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(Sessio
   }
 
   result.emplace_back(ModelView::CreateDisplayNameViewItem(item));
-  result.emplace_back(ModelView::CreateDataViewItem(item));
+  result.emplace_back(ModelView::CreateDataViewItem(item, m_set_func));
   return result;
 }
 

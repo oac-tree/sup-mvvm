@@ -116,7 +116,11 @@ TEST_F(PresentationItemFactoryTest, CreateDataPresentationWithComposer)
   MockModelNotifier notifier;
 
   ModelComposer composer(&model, &notifier);
-  auto presentation = CreateDataPresentation(item, &composer);
+  auto set_data = [&composer](auto item, auto data, auto role)
+  {
+    return composer.SetData(item, data, role);
+  };
+  auto presentation = CreateDataPresentation(item, set_data);
 
   // The rest of the test is the same as in the test above.
   // Presentation will set data through the composer.

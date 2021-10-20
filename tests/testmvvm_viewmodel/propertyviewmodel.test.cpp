@@ -28,6 +28,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QSignalSpy>
+
 using namespace ModelView;
 
 //! Tests for PropertyViewModel class.
@@ -71,7 +73,7 @@ public:
 
 TEST_F(PropertyViewModelTest, InitialState)
 {
-  SessionModel model;
+  ApplicationModel model;
   PropertyViewModel viewModel(&model);
   EXPECT_EQ(viewModel.rowCount(), 0);
   EXPECT_EQ(viewModel.columnCount(), 0);
@@ -80,7 +82,7 @@ TEST_F(PropertyViewModelTest, InitialState)
 
 TEST_F(PropertyViewModelTest, BaseItem)
 {
-  SessionModel model;
+  ApplicationModel model;
   model.InsertItem<SessionItem>();
 
   PropertyViewModel viewModel(&model);
@@ -93,7 +95,7 @@ TEST_F(PropertyViewModelTest, BaseItem)
 
 TEST_F(PropertyViewModelTest, PropertyItem)
 {
-  SessionModel model;
+  ApplicationModel model;
   auto parent = model.InsertItem<SessionItem>();
 
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
@@ -115,7 +117,7 @@ TEST_F(PropertyViewModelTest, PropertyItem)
 
 TEST_F(PropertyViewModelTest, VectorItem)
 {
-  SessionModel model;
+  ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
 
   PropertyViewModel viewModel(&model);
@@ -135,7 +137,7 @@ TEST_F(PropertyViewModelTest, VectorItem)
 
 TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 {
-  SessionModel model;
+  ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
   vector_item->GetItem(VectorItem::P_Y)->SetVisible(false);
 
@@ -190,4 +192,59 @@ TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
 
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 0);
+}
+
+//! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
+
+TEST_F(PropertyViewModelTest, SetData)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto item = parent->AddProperty("Property", 0.0);
+
+  PropertyViewModel viewmodel(&model);
+  viewmodel.SetRootSessionItem(parent);
+
+  QSignalSpy spy_data_changed(&viewmodel, &ViewModelBase::dataChanged);
+
+  // modifying data through the composer
+  model.SetData(item, 42.0, DataRole::kData);
+
+  ASSERT_EQ(spy_data_changed.count(), 1);
+
+  QModelIndex data_index = viewmodel.index(0, 1);
+
+  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), viewmodel.index(0, 1));
+  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
+
+  EXPECT_EQ(viewmodel.data(data_index, Qt::EditRole).toDouble(), 42.0);
+}
+
+//! Two ViewModels are looking to the same ApplicationModel.
+//! Change through one ViewModel should modify another.
+
+ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
+{
+   ApplicationModel model;
+   auto parent = model.InsertItem<CompoundItem>();
+   auto item = parent->AddProperty("Property", 0.0);
+
+  PropertyViewModel viewmodel1(&model);
+  viewmodel1.SetRootSessionItem(parent);
+
+  PropertyViewModel viewmodel2(&model);
+  viewmodel2.SetRootSessionItem(parent);
+
+  QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
+  QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
+
+  // modifying data through the composer
+  viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
+
+  EXPECT_EQ(spy_data_changed1.count(), 2);  // FIXME should be 1
+  EXPECT_EQ(spy_data_changed2.count(), 1);
 }

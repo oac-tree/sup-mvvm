@@ -64,7 +64,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
   SessionItem item;
   item.SetData(value, DataRole::kData);
 
-  auto viewitem = CreateDataViewItem(&item);
+  auto viewitem = CreateDataViewItem(&item, {});
 
   // item has a display role, which coincide with data
   EXPECT_EQ(viewitem->data(Qt::DisplayRole).toInt(), value);
@@ -91,8 +91,12 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemViaComposer)
 
   MockModelNotifier notifier;
   ModelComposer composer(&model, &notifier);
+  auto set_data = [&composer](auto item, auto data, auto role)
+  {
+    return composer.SetData(item, data, role);
+  };
 
-  auto viewitem = CreateDataViewItem(item, &composer);
+  auto viewitem = CreateDataViewItem(item, set_data);
 
   EXPECT_CALL(notifier, DataChangedNotify(item, DataRole::kData)).Times(1);
 
@@ -121,7 +125,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
   SessionItem item;
   item.SetData(value, DataRole::kData);
 
-  auto viewitem = CreateDataViewItem(&item);
+  auto viewitem = CreateDataViewItem(&item, {});
 
   // item has a display role, which coincide with attribute value
   EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), value);

@@ -24,14 +24,14 @@
 
 namespace ModelView
 {
-std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem *item)
+std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
   return std::make_unique<ViewItem>(CreateDisplayNamePresentation(item));
 }
 
-std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem *item, ModelComposer *composer)
+std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, item_setdata_function_t set_func)
 {
-  return std::make_unique<ViewItem>(CreateDataPresentation(item, composer));
+  return std::make_unique<ViewItem>(CreateDataPresentation(item, set_func));
 }
 
 }  // namespace ModelView

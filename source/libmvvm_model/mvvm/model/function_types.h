@@ -20,6 +20,8 @@
 #ifndef MVVM_MODEL_FUNCTION_TYPES_H
 #define MVVM_MODEL_FUNCTION_TYPES_H
 
+#include "mvvm/core/variant.h"
+
 #include <functional>
 #include <memory>
 
@@ -36,6 +38,9 @@ auto ItemFactoryFunction()
 {
   return []() { return std::make_unique<T>(); };
 }
+
+//! Function to set the data to SessionItem. Used in PresentationItem to set data through the composer.
+using item_setdata_function_t = std::function<bool(SessionItem*, const variant_t& value, int role)>;
 
 }  // namespace ModelView
 

@@ -390,6 +390,8 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
 
+//! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
+
 TEST_F(AllItemsViewModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -410,6 +412,59 @@ TEST_F(AllItemsViewModelTest, SetData)
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
   QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
+
+  EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), 42.0);
+}
+
+//! The data is manipulated through the view_model. Checking that the view_model emits the signal,
+//! and that the change is propagated through the composer.
+
+TEST_F(AllItemsViewModelTest, SetDataThroughModel)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(0.0);
+
+  QSignalSpy spy_data_changed(&m_viewmodel, &ViewModelBase::dataChanged);
+
+  auto item_index = m_viewmodel.index(0, 1);
+
+  // modifying data through the composer
+  m_viewmodel.setData(item_index, 42.0, Qt::EditRole);
+
+  // FIXME Should be one. Currently reported two times because of first emit from
+  // ViewModelBase::setData, and second emit from ViewModelController::OnDataChanged.
+  EXPECT_EQ(spy_data_changed.count(), 2);  // should be 1
+
+  QModelIndex data_index = m_viewmodel.index(0, 1);
+
+  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
+  EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
+  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
+}
+
+//! Two ViewModels are looking to the same ApplicationModel.
+//! Change through one ViewModel should modify another.
+
+TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  item->SetData(0.0);
+
+  AllItemsViewModel viewmodel1(&model);
+  AllItemsViewModel viewmodel2(&model);
+
+  QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
+  QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
+
+  // modifying data through the composer
+  viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
+
+  EXPECT_EQ(spy_data_changed1.count(), 2);  // FIXME should be 1
+  EXPECT_EQ(spy_data_changed2.count(), 1);
 }
 
 //! Single property item in ViewModel with various appearance flags.

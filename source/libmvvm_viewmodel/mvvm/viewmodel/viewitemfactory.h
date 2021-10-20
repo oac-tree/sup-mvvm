@@ -23,6 +23,7 @@
 //! @file viewitemfactory.h
 //! Contains factory methods to construct ViewItem's looking at different SessionItem parts.
 
+#include "mvvm/model/function_types.h"
 #include "mvvm/viewmodel_export.h"
 
 #include <memory>
@@ -38,7 +39,7 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(Sessio
 
 //! Creates ViewItem for SessionItem's data.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(
-    SessionItem* item, ModelComposer* composer = nullptr);
+    SessionItem* item, item_setdata_function_t set_func);
 
 }  // namespace ModelView
 

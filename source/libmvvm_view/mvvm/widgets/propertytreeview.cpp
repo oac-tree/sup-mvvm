@@ -20,6 +20,7 @@
 #include "mvvm/widgets/propertytreeview.h"
 
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/viewmodel/applicationmodel.h"
 #include "mvvm/viewmodel/propertyviewmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
@@ -43,7 +44,13 @@ void PropertyTreeView::setItem(SessionItem* item)
     return;
   }
 
-  SetViewModel(std::make_unique<PropertyViewModel>(item->GetModel()));
+  auto application_model = dynamic_cast<ApplicationModel*>(item->GetModel());
+  if (!application_model)
+  {
+    throw std::runtime_error("Error in PropertyTreeView: wrong type model");
+  }
+
+  SetViewModel(std::make_unique<PropertyViewModel>(application_model));
 
   GetViewModel()->SetRootSessionItem(item);
   GetTreeView()->setRootIsDecorated(false);

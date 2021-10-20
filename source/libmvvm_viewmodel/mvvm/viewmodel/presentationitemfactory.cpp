@@ -57,7 +57,7 @@ std::unique_ptr<ViewItemDataInterface> CreateEditableDisplayNamePresentation(Ses
 }
 
 std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item,
-                                                              ModelComposer* composer)
+                                                              item_setdata_function_t set_func)
 {
   auto on_data = [](SessionItem* item, int role)
   {
@@ -66,13 +66,13 @@ std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item,
                : QVariant();
   };
 
-  auto on_setdata = [composer](SessionItem* item, QVariant data, int role)
+  auto on_setdata = [set_func](SessionItem* item, QVariant data, int role)
   {
     if (role == Qt::EditRole)
     {
-      if (composer)
+      if (set_func)
       {
-        return composer->SetData(item, GetStdVariant(data), DataRole::kData);
+        return set_func(item, GetStdVariant(data), DataRole::kData);
       }
       else
       {
@@ -83,7 +83,6 @@ std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item,
   };
 
   return std::make_unique<ModelView::PresentationItem<SessionItem>>(item, on_data, on_setdata);
-  return {};
 }
 
 }  // namespace ModelView

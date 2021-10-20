@@ -33,13 +33,14 @@ class SessionItem;
 class ModelEventListenerInterface;
 class ModelEventNotifierInterface;
 
-//! Interface class for model modifications.
+//! The ModelComposer class allows manipulate the model (add/remove items, set item's data) and
+//! generate necessary notifications.
 //!
-//! It is used to modify the model (add/remove items, set item's data) via usual
-//! model API, and perform additional activities.
+//! Notification are generated with the help of ModelEventNotifier. Any ModelEventListener
+//! can connect and listen.
 //!
-//! The ModelComposer class allows manipulate the model and generate necessary notifications.
 //! TODO Consider switching to the decorator design pattern (SessionModelDecorator).
+//! TODO Consider merging ApplicationModel and ModelComposer
 
 class MVVM_MODEL_EXPORT ModelComposer
 {

@@ -26,15 +26,16 @@
 
 namespace ModelView
 {
-AllItemsViewModel::AllItemsViewModel(SessionModel *model, QObject *parent) : ViewModel(parent)
+AllItemsViewModel::AllItemsViewModel(ApplicationModel *model, QObject *parent) : ViewModel(parent)
 {
   auto controller = std::make_unique<ViewModelController>(model, this);
-  if (auto appmodel = dynamic_cast<ApplicationModel *>(model); appmodel)
-  {
-    appmodel->EstablishConnections(controller.get());
-  }
+  model->EstablishConnections(controller.get());
   controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
+
+  auto set_data = [model](auto item, auto data, auto role)
+  { return model->SetData(item, data, role); };
+
+  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>(set_data));
   SetController(std::move(controller));
 }
 

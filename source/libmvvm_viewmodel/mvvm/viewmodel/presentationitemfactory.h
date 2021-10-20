@@ -23,6 +23,7 @@
 //! @file presentationitemfactory.h
 //! Contains factory methods for various presentations of different SessionItem parts.
 
+#include "mvvm/model/function_types.h"
 #include "mvvm/viewmodelbase/viewitemdatainterface.h"
 
 #include <memory>
@@ -30,7 +31,6 @@
 namespace ModelView
 {
 class SessionItem;
-class ModelComposer;
 
 //! Creates read-only presentation of the SessionItem's display name.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItemDataInterface> CreateDisplayNamePresentation(
@@ -40,9 +40,9 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItemDataInterface> CreateDisplayNamePr
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItemDataInterface> CreateEditableDisplayNamePresentation(
     SessionItem* item);
 
-//! Creates presentation of the SessionItem's data.
+//! Creates presentation of the SessionItem's data. Use callback to set the data for item.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(
-    SessionItem* item, ModelComposer* composer = nullptr);
+    SessionItem* item, item_setdata_function_t set_func = {});
 
 }  // namespace ModelView
 
