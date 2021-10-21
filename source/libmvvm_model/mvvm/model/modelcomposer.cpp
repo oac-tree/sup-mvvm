@@ -62,11 +62,6 @@ ModelComposer::ModelComposer(SessionModel* model, ModelEventNotifierInterface* n
   p_impl->m_notifier = notifier;
 }
 
-void ModelComposer::EstablishConnections(ModelEventListenerInterface* listener)
-{
-  p_impl->m_notifier->EstablishConnections(listener);
-}
-
 ModelComposer::~ModelComposer() = default;
 
 bool ModelComposer::SetData(SessionItem* item, const variant_t& value, int role)
@@ -88,7 +83,8 @@ SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionI
   auto [actual_parent, actual_tag_index] = p_impl->GetInsertData(parent, tag_index);
 
   p_impl->m_notifier->AboutToInsertItemNotify(actual_parent, actual_tag_index);
-  auto* result = p_impl->m_model->SessionModel::InsertNewItem(item_type, actual_parent, actual_tag_index);
+  auto* result =
+      p_impl->m_model->SessionModel::InsertNewItem(item_type, actual_parent, actual_tag_index);
   p_impl->m_notifier->ItemInsertedNotify(actual_parent, actual_tag_index);
 
   return result;

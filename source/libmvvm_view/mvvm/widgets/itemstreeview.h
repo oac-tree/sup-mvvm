@@ -54,7 +54,7 @@ public:
 
   void SetSelected(SessionItem* item);
 
-  void SetRootSessionItem(SessionItem* item);
+  virtual void SetRootSessionItem(SessionItem* item);
 
   ViewModel* GetViewModel() const;
 
@@ -75,8 +75,8 @@ private:
 
   void SetConnected(bool flag);
 
-  QTreeView* m_treeView{nullptr};
-  std::unique_ptr<ViewModel> m_viewModel;
+  QTreeView* m_tree_view{nullptr};
+  std::unique_ptr<ViewModel> m_view_model;
   bool m_block_selection;
 };
 

@@ -28,30 +28,72 @@ ModelEventNotifier::ModelEventNotifier(ModelEventListenerInterface *listener)
 {
   if (listener)
   {
-    EstablishConnections(listener);
+    Subscribe(listener);
   }
 }
 
-void ModelEventNotifier::EstablishConnections(ModelEventListenerInterface *listener)
+ModelEventNotifier::~ModelEventNotifier()
 {
+  for (auto it : m_connections)
+  {
+    // tell all listeners not to bother us with Unsubscribe on their own deletion
+    it.first->SetNotifier(nullptr);
+  }
+}
+
+void ModelEventNotifier::Unsubscribe(ModelEventListenerInterface *listener)
+{
+  auto it = m_connections.find(listener);
+  if (it == m_connections.end())
+  {
+    throw std::runtime_error("Error in ModelEventNotifier: no such listener exists");
+  }
+
+  for (auto &conn : it->second)
+  {
+    QObject::disconnect(conn);
+  }
+  m_connections.erase(it);
+
+  listener->SetNotifier(nullptr);
+}
+
+//! Subscribe listener for our notifications. Since listener is not QObject, we have to store
+//! connections explicitely, to be able to disconnect later, if necessary.
+
+void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
+{
+  if (m_connections.find(listener) != m_connections.end())
+  {
+    throw std::runtime_error("Error in ModelEventNotifier: item is already connected");
+  }
+
+  std::vector<QMetaObject::Connection> connections;
+
   auto on_about_to_insert = [listener](auto parent, auto tag_index)
   { listener->OnAboutToInsertItem(parent, tag_index); };
-  connect(this, &ModelEventNotifier::AboutToInsertItem, on_about_to_insert);
+  connections.emplace_back(
+      connect(this, &ModelEventNotifier::AboutToInsertItem, on_about_to_insert));
 
   auto on_inserted = [listener](auto parent, auto tag_index)
   { listener->OnItemInserted(parent, tag_index); };
-  connect(this, &ModelEventNotifier::ItemInserted, on_inserted);
+  connections.emplace_back(connect(this, &ModelEventNotifier::ItemInserted, on_inserted));
 
   auto on_about_to_remove = [listener](auto parent, auto tag_index)
   { listener->OnAboutToRemoveItem(parent, tag_index); };
-  connect(this, &ModelEventNotifier::AboutToRemoveItem, on_about_to_remove);
+  connections.emplace_back(
+      connect(this, &ModelEventNotifier::AboutToRemoveItem, on_about_to_remove));
 
   auto on_removed = [listener](auto parent, auto tag_index)
   { listener->OnItemRemoved(parent, tag_index); };
-  connect(this, &ModelEventNotifier::ItemRemoved, on_removed);
+  connections.emplace_back(connect(this, &ModelEventNotifier::ItemRemoved, on_removed));
 
   auto on_data_changed = [listener](auto item, int role) { listener->OnDataChanged(item, role); };
-  connect(this, &ModelEventNotifier::DataChanged, on_data_changed);
+  connections.emplace_back(connect(this, &ModelEventNotifier::DataChanged, on_data_changed));
+
+  m_connections.insert(m_connections.find(listener), {listener, connections});
+
+  listener->SetNotifier(this);
 }
 
 void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)

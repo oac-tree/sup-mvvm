@@ -36,7 +36,7 @@ using ::testing::_;
 class ApplicationModelTest : public ::testing::Test
 {
 public:
-  ApplicationModelTest() { m_model.EstablishConnections(&m_listener); }
+  ApplicationModelTest() { m_model.Subscribe(&m_listener); }
 
   MockModelListener m_listener;
   ApplicationModel m_model;

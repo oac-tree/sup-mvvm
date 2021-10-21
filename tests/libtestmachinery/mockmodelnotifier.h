@@ -36,7 +36,9 @@ class ModelEventListenerInterface;
 class MockModelNotifier : public ModelView::ModelEventNotifierInterface
 {
 public:
-  MOCK_METHOD1(EstablishConnections, void(ModelView::ModelEventListenerInterface* listener));
+  MOCK_METHOD1(Unsubscribe, void(ModelView::ModelEventListenerInterface* listener));
+
+  MOCK_METHOD1(Subscribe, void(ModelView::ModelEventListenerInterface* listener));
 
   MOCK_METHOD2(AboutToInsertItemNotify,
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));

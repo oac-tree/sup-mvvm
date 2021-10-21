@@ -19,6 +19,7 @@
 
 #include "mvvm/widgets/itemstreeview.h"
 
+#include "mvvm/model/itemutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
@@ -28,22 +29,22 @@
 namespace ModelView
 {
 ItemsTreeView::ItemsTreeView(QWidget* parent)
-    : QWidget(parent), m_treeView(new QTreeView), m_block_selection(false)
+    : QWidget(parent), m_tree_view(new QTreeView), m_block_selection(false)
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
   layout->setSpacing(0);
-  layout->addWidget(m_treeView);
+  layout->addWidget(m_tree_view);
 }
 
 ItemsTreeView::~ItemsTreeView() = default;
 
 void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> viewModel)
 {
-  m_viewModel = std::move(viewModel);
-  m_treeView->setModel(m_viewModel.get());
-  m_treeView->expandAll();
-  m_treeView->resizeColumnToContents(0);
+  m_view_model = std::move(viewModel);
+  m_tree_view->setModel(m_view_model.get());
+  m_tree_view->expandAll();
+  m_tree_view->resizeColumnToContents(0);
   SetConnected(true);
 }
 
@@ -53,12 +54,12 @@ void ItemsTreeView::SetSelected(SessionItem* item)
 {
   // Provide possibility to clear selection when item == nullptr. Provide unit tests.
   // Make sure it works when SessionModel is already destroyed.
-  if (!m_viewModel || !item)
+  if (!m_view_model || !item)
   {
     return;
   }
 
-  auto indexes = m_viewModel->GetIndexOfSessionItem(item);
+  auto indexes = m_view_model->GetIndexOfSessionItem(item);
   if (!indexes.empty())
   {
     GetSelectionModel()->select(indexes.at(0), QItemSelectionModel::SelectCurrent);
@@ -67,13 +68,17 @@ void ItemsTreeView::SetSelected(SessionItem* item)
 
 void ItemsTreeView::SetRootSessionItem(SessionItem* item)
 {
-  m_viewModel->SetRootSessionItem(item);
-  m_treeView->expandAll();
+  if (!m_view_model)
+  {
+    throw std::runtime_error("Error in ItemsTreeView: ViewModel is not defined");
+  }
+  m_view_model->SetRootSessionItem(item);
+  m_tree_view->expandAll();
 }
 
 ViewModel* ItemsTreeView::GetViewModel() const
 {
-  return m_viewModel.get();
+  return m_view_model.get();
 }
 
 SessionItem* ItemsTreeView::GetSelectedItem() const
@@ -84,16 +89,16 @@ SessionItem* ItemsTreeView::GetSelectedItem() const
 
 std::vector<SessionItem*> ItemsTreeView::GetSelectedItems() const
 {
-  if (!m_treeView->selectionModel())
+  if (!m_tree_view->selectionModel())
   {
     return {};
   }
   std::vector<SessionItem*> result;
-  for (auto index : m_treeView->selectionModel()->selectedIndexes())
+  for (auto index : m_tree_view->selectionModel()->selectedIndexes())
   {
-    result.push_back(const_cast<SessionItem*>(m_viewModel->GetSessionItemFromIndex(index)));
+    result.push_back(const_cast<SessionItem*>(m_view_model->GetSessionItemFromIndex(index)));
   }
-  return result;
+  return Utils::UniqueItems(result);
 }
 
 //! Processes selections in QTreeView. Finds SessionItem corresponding to selected indexes
@@ -130,12 +135,12 @@ void ItemsTreeView::SetConnected(bool flag)
 
 QTreeView* ItemsTreeView::GetTreeView()
 {
-  return m_treeView;
+  return m_tree_view;
 }
 
 QItemSelectionModel* ItemsTreeView::GetSelectionModel()
 {
-  return m_treeView->selectionModel();
+  return m_tree_view->selectionModel();
 }
 
 }  // namespace ModelView

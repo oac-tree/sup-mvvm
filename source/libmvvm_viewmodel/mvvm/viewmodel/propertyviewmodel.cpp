@@ -29,7 +29,7 @@ namespace ModelView
 PropertyViewModel::PropertyViewModel(ApplicationModel* model, QObject* parent) : ViewModel(parent)
 {
   auto controller = std::make_unique<ViewModelController>(model, this);
-  model->EstablishConnections(controller.get());
+  model->Subscribe(controller.get());
   controller->SetChildrenStrategy(std::make_unique<PropertyItemsStrategy>());
 
   auto set_data = [model](auto item, auto data, auto role)

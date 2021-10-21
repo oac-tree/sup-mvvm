@@ -17,16 +17,22 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/model/sessionitem.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <QApplication>
 #include <QMetaType>
 
+using namespace ModelView;
+
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
   ::testing::InitGoogleMock(&argc, argv);
+
+  qRegisterMetaType<SessionItem*>("SessionItem*");
 
   QApplication app(argc, argv);
   Q_UNUSED(app)

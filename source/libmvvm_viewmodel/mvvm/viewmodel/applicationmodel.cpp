@@ -21,6 +21,7 @@
 
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
+#include "mvvm/interfaces/modeleventlistenerinterface.h"
 
 namespace ModelView
 {
@@ -39,9 +40,9 @@ ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemP
 
 ApplicationModel::~ApplicationModel() = default;
 
-void ApplicationModel::EstablishConnections(ModelEventListenerInterface *listener)
+void ApplicationModel::Subscribe(ModelEventListenerInterface *listener)
 {
-  p_impl->m_notifier.EstablishConnections(listener);
+  p_impl->m_notifier.Subscribe(listener);
 }
 
 SessionItem *ApplicationModel::InsertNewItem(const std::string &item_type, SessionItem *parent,

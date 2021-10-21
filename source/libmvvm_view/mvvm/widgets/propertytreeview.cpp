@@ -36,7 +36,12 @@ PropertyTreeView::PropertyTreeView(QWidget* parent) : ItemsTreeView(parent)
   GetTreeView()->setAlternatingRowColors(true);
 }
 
-void PropertyTreeView::setItem(SessionItem* item)
+void PropertyTreeView::SetRootSessionItem(SessionItem *item)
+{
+  SetItem(item);
+}
+
+void PropertyTreeView::SetItem(SessionItem* item)
 {
   if (!item)
   {

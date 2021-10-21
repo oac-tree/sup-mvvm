@@ -48,8 +48,6 @@ public:
   ModelComposer(SessionModel* model, ModelEventNotifierInterface* notifier);
   virtual ~ModelComposer();
 
-  void EstablishConnections(ModelEventListenerInterface* listener);
-
   bool SetData(SessionItem* item, const variant_t& value, int role);
 
   SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent = nullptr,

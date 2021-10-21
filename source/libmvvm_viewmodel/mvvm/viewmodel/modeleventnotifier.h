@@ -24,6 +24,8 @@
 #include "mvvm/viewmodel_export.h"
 
 #include <QObject>
+#include <map>
+#include <vector>
 
 namespace ModelView
 {
@@ -37,8 +39,11 @@ class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public QObject, public ModelEve
 
 public:
   ModelEventNotifier(ModelEventListenerInterface* listener = nullptr);
+  ~ModelEventNotifier() override;
 
-  void EstablishConnections(ModelEventListenerInterface* listener) override;
+  void Unsubscribe(ModelEventListenerInterface* listener) override;
+
+  void Subscribe(ModelEventListenerInterface* listener) override;
 
   void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index) override;
 
@@ -60,6 +65,9 @@ signals:
   void ItemRemoved(SessionItem* parent, const TagIndex& tag_index);
 
   void DataChanged(SessionItem* item, int role);
+
+private:
+  std::map<ModelEventListenerInterface*, std::vector<QMetaObject::Connection>> m_connections;
 };
 
 }  // namespace ModelView

@@ -33,7 +33,7 @@ using ::testing::_;
 class ModelEventNotifierTest : public ::testing::Test
 {
 public:
-  ModelEventNotifierTest() { m_notifier.EstablishConnections(&m_listener); }
+  ModelEventNotifierTest() { m_notifier.Subscribe(&m_listener); }
 
   ModelEventNotifier m_notifier;
   MockModelListener m_listener;
@@ -122,4 +122,129 @@ TEST_F(ModelEventNotifierTest, DataChanged)
 
   // triggering action
   m_notifier.DataChangedNotify(&item, role);
+}
+
+TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
+{
+  ModelEventNotifier notifier;
+  MockModelListener listener;
+
+  notifier.Subscribe(&listener);
+
+  EXPECT_THROW(notifier.Subscribe(&listener), std::runtime_error);
+}
+
+TEST_F(ModelEventNotifierTest, Unsubscribe)
+{
+  ModelView::SessionItem item;
+  ModelView::TagIndex tag_index{"tag", 0};
+  int role{42};
+
+  ModelEventNotifier notifier;
+  MockModelListener listener;
+
+  notifier.Subscribe(&listener);
+
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(&item, role)).Times(0);
+
+  // triggering action
+  notifier.Unsubscribe(&listener);
+
+  notifier.AboutToInsertItemNotify(&item, tag_index);
+  notifier.ItemInsertedNotify(&item, tag_index);
+  notifier.AboutToRemoveItemNotify(&item, tag_index);
+  notifier.ItemRemovedNotify(&item, tag_index);
+  notifier.DataChangedNotify(&item, role);
+}
+
+TEST_F(ModelEventNotifierTest, TwoSubscriptions)
+{
+  ModelView::SessionItem item;
+  ModelView::TagIndex tag_index{"tag", 0};
+  int role{42};
+
+  ModelEventNotifier notifier;
+  MockModelListener listener1;
+  MockModelListener listener2;
+
+  notifier.Subscribe(&listener1);
+  notifier.Subscribe(&listener2);
+
+  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
+  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
+  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(1);
+  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(1);
+  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(1);
+
+  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
+
+  // triggering action
+  notifier.AboutToInsertItemNotify(&item, tag_index);
+  notifier.ItemInsertedNotify(&item, tag_index);
+  notifier.AboutToRemoveItemNotify(&item, tag_index);
+  notifier.ItemRemovedNotify(&item, tag_index);
+  notifier.DataChangedNotify(&item, role);
+}
+
+TEST_F(ModelEventNotifierTest, UnsubscribeOne)
+{
+  ModelView::SessionItem item;
+  ModelView::TagIndex tag_index{"tag", 0};
+  int role{42};
+
+  ModelEventNotifier notifier;
+  MockModelListener listener1;
+  MockModelListener listener2;
+
+  notifier.Subscribe(&listener1);
+  notifier.Subscribe(&listener2);
+
+  notifier.Unsubscribe(&listener1);
+
+  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
+
+  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
+  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
+
+  // triggering action
+  notifier.AboutToInsertItemNotify(&item, tag_index);
+  notifier.ItemInsertedNotify(&item, tag_index);
+  notifier.AboutToRemoveItemNotify(&item, tag_index);
+  notifier.ItemRemovedNotify(&item, tag_index);
+  notifier.DataChangedNotify(&item, role);
+
+  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
+
+  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(0);
+
+  notifier.Unsubscribe(&listener2);
+
+  notifier.AboutToInsertItemNotify(&item, tag_index);
+  notifier.ItemInsertedNotify(&item, tag_index);
+  notifier.AboutToRemoveItemNotify(&item, tag_index);
+  notifier.ItemRemovedNotify(&item, tag_index);
+  notifier.DataChangedNotify(&item, role);
 }

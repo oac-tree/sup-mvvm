@@ -21,6 +21,7 @@
 #define MOCKMODELLISTENER_H
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
+#include "mvvm/interfaces/modeleventnotifierinterface.h"
 
 #include <gmock/gmock.h>
 
@@ -36,6 +37,15 @@ class TagIndex;
 class MockModelListener : public ModelView::ModelEventListenerInterface
 {
 public:
+  ~MockModelListener()
+  {
+    if (m_notifier)
+    {
+      m_notifier->Unsubscribe(this);
+    }
+  }
+  void SetNotifier(ModelView::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
+
   MOCK_METHOD2(OnAboutToInsertItem,
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
@@ -49,6 +59,9 @@ public:
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
   MOCK_METHOD2(OnDataChanged, void(ModelView::SessionItem* item, int role));
+
+protected:
+  ModelView::ModelEventNotifierInterface* m_notifier;
 };
 
 #endif  // MOCKMODELLISTENER_H

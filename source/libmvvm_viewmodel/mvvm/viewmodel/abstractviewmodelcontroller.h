@@ -28,25 +28,32 @@
 namespace ModelView
 {
 class SessionModel;
+class ModelEventNotifierInterface;
 
 //! Propagate changes
 
 class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListenerInterface
 {
 public:
+  virtual ~AbstractViewModelController() override;
   virtual QStringList GetHorizontalHeaderLabels() const;
 
-  void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index);
+  void SetNotifier(ModelEventNotifierInterface* notifier) override;
 
-  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index);
+  void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;
 
-  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index);
+  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
 
-  void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index);
+  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
 
-  void OnDataChanged(SessionItem *item, int role);
+  void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index) override;
+
+  void OnDataChanged(SessionItem *item, int role) override;
 
   virtual void Init(SessionItem *root_item = nullptr);
+
+protected:
+  ModelEventNotifierInterface* m_notifier{nullptr};
 };
 
 }  // namespace ModelView

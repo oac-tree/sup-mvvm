@@ -37,7 +37,7 @@ public:
   explicit ApplicationModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
   ~ApplicationModel() override;
 
-  void EstablishConnections(ModelEventListenerInterface* listener);
+  void Subscribe(ModelEventListenerInterface* listener);
 
   virtual SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
                                      const TagIndex& tag_index) override;

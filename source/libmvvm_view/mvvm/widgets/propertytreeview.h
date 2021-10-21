@@ -34,7 +34,9 @@ public:
     PropertyTreeView(QWidget* parent = nullptr);
     ~PropertyTreeView();
 
-    void setItem(SessionItem* item);
+    virtual void SetRootSessionItem(SessionItem* item) override;
+
+    void SetItem(SessionItem* item);
 };
 
 } // namespace ModelView

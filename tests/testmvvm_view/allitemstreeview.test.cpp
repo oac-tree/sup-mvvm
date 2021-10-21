@@ -27,6 +27,7 @@
 #include <gtest/gtest.h>
 
 #include <QItemSelectionModel>
+#include <QSignalSpy>
 #include <QTreeView>
 
 using namespace ModelView;
@@ -39,21 +40,21 @@ class AllItemsTreeViewTest : public ::testing::Test
 
 //! Testing root item change, when one of the item is selected (real life bug).
 
-TEST_F(AllItemsTreeViewTest, initialState)
+TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
 {
   // setting up model and viewmodel
   ApplicationModel model;
-  auto vectorItem = model.InsertItem<VectorItem>();
-  auto xItem = vectorItem->GetItem(VectorItem::P_X);
+  auto vector_item = model.InsertItem<VectorItem>();
+  auto x_item = vector_item->GetItem(VectorItem::P_X);
   AllItemsTreeView view(&model);
-  view.SetRootSessionItem(vectorItem);
+  view.SetRootSessionItem(vector_item);
 
   // access to internals
-  auto selectionModel = view.GetTreeView()->selectionModel();
-  auto viewModel = view.GetViewModel();
+  auto selection_model = view.GetTreeView()->selectionModel();
+  auto view_model = view.GetViewModel();
 
   // selecting item in a widget
-  selectionModel->select(viewModel->GetIndexOfSessionItem(xItem).front(),
+  selection_model->select(view_model->GetIndexOfSessionItem(x_item).front(),
                          QItemSelectionModel::SelectCurrent);
 
   // Changing root item. The problem was chain of signals (AboutToReset, RowIserted), which
@@ -72,15 +73,41 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
 {
   // setting up model and viewmodel
   ApplicationModel model;
-  auto vectorItem = model.InsertItem<VectorItem>();
-  auto xItem = vectorItem->GetItem(VectorItem::P_X);
+  auto vector_item = model.InsertItem<VectorItem>();
+  auto x_item = vector_item->GetItem(VectorItem::P_X);
   AllItemsTreeView view(&model);
-  view.SetRootSessionItem(vectorItem);
+  view.SetRootSessionItem(vector_item);
 
   EXPECT_TRUE(view.GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
-  view.SetSelected(xItem);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({xItem}));
-  EXPECT_EQ(view.GetSelectedItem(), xItem);
+  view.SetSelected(x_item);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(view.GetSelectedItem(), x_item);
+}
+
+//! Selecting whole row and checking list of selected items.
+//! There should be no duplications.
+
+TEST_F(AllItemsTreeViewTest, SelectRow)
+{
+  // setting up model and viewmodel
+  ApplicationModel model;
+  auto vector_item = model.InsertItem<VectorItem>();
+
+  auto x_item = vector_item->GetItem(VectorItem::P_X);
+
+  AllItemsTreeView view(&model);
+  view.SetRootSessionItem(vector_item);
+
+  auto x_item_index = view.GetViewModel()->index(0, 1);
+
+  QSignalSpy spy_selected(&view, &AllItemsTreeView::itemSelected);
+
+  // selecting row where xItem is located
+  view.GetTreeView()->selectionModel()->select(
+      x_item_index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(spy_selected.count(), 1);
 }

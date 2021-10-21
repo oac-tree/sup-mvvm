@@ -19,11 +19,27 @@
 
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
 
+#include "mvvm/interfaces/modeleventnotifierinterface.h"
+
 namespace ModelView
 {
+AbstractViewModelController::~AbstractViewModelController()
+{
+  if (m_notifier)
+  {
+    // Tells notifier that we do not need notifications anymnore.
+    m_notifier->Unsubscribe(this);
+  }
+}
+
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {
   return {};
+}
+
+void AbstractViewModelController::SetNotifier(ModelEventNotifierInterface *notifier)
+{
+  m_notifier = notifier;
 }
 
 void AbstractViewModelController::OnAboutToInsertItem(SessionItem *parent,

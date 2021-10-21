@@ -27,6 +27,7 @@ namespace ModelView
 {
 class SessionItem;
 class TagIndex;
+class ModelEventNotifierInterface;
 
 //! Interface for all objects that need to listen for events happening with the SessionModel.
 
@@ -34,6 +35,9 @@ class MVVM_MODEL_EXPORT ModelEventListenerInterface
 {
 public:
   virtual ~ModelEventListenerInterface() = default;
+
+  //! Inform the listener about serving notifier.
+  virtual void SetNotifier(ModelEventNotifierInterface* notifier) = 0;
 
   //! Lets the listener know that a child is about to be inserted into the `parent` with
   //! `tag_index`.
@@ -50,7 +54,7 @@ public:
   //! `tag_index`.
   virtual void OnItemRemoved(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  //! Lets the listener know `item`s data with given `role` has been changed.
+  //! Lets the listener know that `item`s data with given `role` has been changed.
   virtual void OnDataChanged(SessionItem* item, int role) = 0;
 };
 
