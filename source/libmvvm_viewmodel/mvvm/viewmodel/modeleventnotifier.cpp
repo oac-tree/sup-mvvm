@@ -21,6 +21,7 @@
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/model/sessionmodel.h"
 
 namespace ModelView
 {
@@ -91,6 +92,13 @@ void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
   auto on_data_changed = [listener](auto item, int role) { listener->OnDataChanged(item, role); };
   connections.emplace_back(connect(this, &ModelEventNotifier::DataChanged, on_data_changed));
 
+  auto on_model_about_reset = [listener](auto model) { listener->OnModelAboutToBeReset(model); };
+  connections.emplace_back(
+      connect(this, &ModelEventNotifier::ModelAboutToBeReset, on_model_about_reset));
+
+  auto on_model_reset = [listener](auto model) { listener->OnModelReset(model); };
+  connections.emplace_back(connect(this, &ModelEventNotifier::ModelReset, on_model_reset));
+
   m_connections.insert(m_connections.find(listener), {listener, connections});
 
   listener->SetNotifier(this);
@@ -119,6 +127,16 @@ void ModelEventNotifier::ItemRemovedNotify(SessionItem *parent, const TagIndex &
 void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
 {
   emit DataChanged(item, role);
+}
+
+void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModel *model)
+{
+  emit ModelAboutToBeReset(model);
+}
+
+void ModelEventNotifier::ModelResetNotify(SessionModel *model)
+{
+  emit ModelReset(model);
 }
 
 }  // namespace ModelView

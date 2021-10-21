@@ -21,8 +21,10 @@
 #define MVVM_INTERFACES_SESSIONMODELINTERFACE_H
 
 #include "mvvm/core/variant.h"
-#include "mvvm/model_export.h"
 #include "mvvm/model/tagindex.h"
+#include "mvvm/model_export.h"
+
+#include <functional>
 
 namespace ModelView
 {
@@ -45,6 +47,7 @@ public:
 
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
 
+  virtual void Clear(std::function<void(SessionItem*)> callback = {}) = 0;
 };
 
 //! Inserts item into given parent under given tag_index.

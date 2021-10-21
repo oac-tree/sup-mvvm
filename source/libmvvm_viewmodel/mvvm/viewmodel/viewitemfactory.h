@@ -32,7 +32,6 @@ namespace ModelView
 {
 class ViewItem;
 class SessionItem;
-class ModelComposer;
 
 //! Creates read-only ViewItem for SessionItem's display name.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);

@@ -97,4 +97,11 @@ void ModelComposer::RemoveItem(SessionItem* parent, const TagIndex& tag_index)
   p_impl->m_notifier->ItemRemovedNotify(parent, tag_index);
 }
 
+void ModelComposer::Clear(std::function<void(SessionItem*)> callback)
+{
+  p_impl->m_notifier->ModelAboutToBeResetNotify(p_impl->m_model);
+  p_impl->m_model->SessionModel::Clear(callback);
+  p_impl->m_notifier->ModelResetNotify(p_impl->m_model);
+}
+
 }  // namespace ModelView

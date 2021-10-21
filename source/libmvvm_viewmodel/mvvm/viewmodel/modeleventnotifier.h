@@ -55,6 +55,10 @@ public:
 
   void DataChangedNotify(SessionItem* item, int role) override;
 
+  void ModelAboutToBeResetNotify(SessionModel* model) override;
+
+  void ModelResetNotify(SessionModel* model) override;
+
 signals:
   void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index);
 
@@ -65,6 +69,10 @@ signals:
   void ItemRemoved(SessionItem* parent, const TagIndex& tag_index);
 
   void DataChanged(SessionItem* item, int role);
+
+  void ModelAboutToBeReset(SessionModel* model);
+
+  void ModelReset(SessionModel* model);
 
 private:
   std::map<ModelEventListenerInterface*, std::vector<QMetaObject::Connection>> m_connections;

@@ -73,7 +73,7 @@ public:
 
   void SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
 
-  void Clear(std::function<void(SessionItem*)> callback = {});
+  void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
   template <typename T>
   void RegisterItem(const std::string& label = {});

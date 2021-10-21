@@ -25,6 +25,7 @@
 #include "mvvm/model_export.h"
 
 #include <memory>
+#include <functional>
 
 namespace ModelView
 {
@@ -57,6 +58,8 @@ public:
   T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
   void RemoveItem(SessionItem* parent, const TagIndex& tag_index);
+
+  void Clear(std::function<void(SessionItem*)> callback);
 
 private:
   struct ModelComposerImpl;

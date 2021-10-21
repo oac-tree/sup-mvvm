@@ -27,6 +27,7 @@ namespace ModelView
 class SessionItem;
 class TagIndex;
 class ModelEventListenerInterface;
+class SessionModel;
 
 //! Interface class for all objects that trigger notifications when some event happens with
 //! SessionModel.
@@ -42,20 +43,26 @@ public:
   //! Subscribe given listener to our notifications.
   virtual void Subscribe(ModelEventListenerInterface* listener) = 0;
 
-  //! Performs notification of all listeners when an item is about to be inserted into a model.
+  //! Notifies listeners when an item is about to be inserted into a model.
   virtual void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  //! Performs notification of all listeners when an item was inserted into a model.
+  //! Notifies listeners when an item was inserted into a model.
   virtual void ItemInsertedNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  //! Performs notification of all listeners when an item is about to be removed from a model.
+  //! Notifies listeners when an item is about to be removed from a model.
   virtual void AboutToRemoveItemNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  //! Performs notification of all listeners when an item was removed from a model.
+  //! Notifies listeners when an item was removed from a model.
   virtual void ItemRemovedNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  //! Performs notification of all listeners when item's data has been changed for a given role.
+  //! Notifies listeners when item's data has been changed for a given role.
   virtual void DataChangedNotify(SessionItem* item, int role) = 0;
+
+  //! Notifies listeners when the root item is about to be reset.
+  virtual void ModelAboutToBeResetNotify(SessionModel* model) = 0;
+
+  //! Notifies listeners at the end of root item recreation.
+  virtual void ModelResetNotify(SessionModel* model) = 0;
 };
 
 }  // namespace ModelView

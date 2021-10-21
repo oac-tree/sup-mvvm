@@ -49,6 +49,10 @@ public:
 
   void OnDataChanged(SessionItem *item, int role) override;
 
+  void OnModelAboutToBeReset(SessionModel* model) override;
+
+  void OnModelReset(SessionModel* model) override;
+
   void Init(SessionItem *root_item = nullptr) override;
 
 private:

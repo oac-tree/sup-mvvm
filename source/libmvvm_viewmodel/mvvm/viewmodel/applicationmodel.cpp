@@ -19,9 +19,9 @@
 
 #include "mvvm/viewmodel/applicationmodel.h"
 
+#include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
-#include "mvvm/interfaces/modeleventlistenerinterface.h"
 
 namespace ModelView
 {
@@ -59,6 +59,11 @@ void ApplicationModel::RemoveItem(SessionItem *parent, const TagIndex &tag_index
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)
 {
   return p_impl->m_composer.SetData(item, value, role);
+}
+
+void ApplicationModel::Clear(std::function<void(SessionItem *)> callback)
+{
+  return p_impl->m_composer.Clear(callback);
 }
 
 }  // namespace ModelView

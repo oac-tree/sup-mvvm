@@ -28,6 +28,7 @@ namespace ModelView
 class SessionItem;
 class TagIndex;
 class ModelEventNotifierInterface;
+class SessionModel;
 
 //! Interface for all objects that need to listen for events happening with the SessionModel.
 
@@ -56,6 +57,12 @@ public:
 
   //! Lets the listener know that `item`s data with given `role` has been changed.
   virtual void OnDataChanged(SessionItem* item, int role) = 0;
+
+  //! Lets the listener know when the root item is about to be reset.
+  virtual void OnModelAboutToBeReset(SessionModel* model) = 0;
+
+  //! Lets the listener know at the end of root item recreation.
+  virtual void OnModelReset(SessionModel* model) = 0;
 };
 
 }  // namespace ModelView

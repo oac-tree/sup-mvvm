@@ -54,6 +54,8 @@ TEST_F(ApplicationModelTest, SetData)
   EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnDataChanged(item, DataRole::kData)).Times(1);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // changing the data and checking result
   EXPECT_TRUE(m_model.SetData(item, 42, DataRole::kData));
@@ -74,6 +76,8 @@ TEST_F(ApplicationModelTest, SetSameData)
   EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnDataChanged(item, DataRole::kData)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // changing to the same value
   EXPECT_FALSE(m_model.SetData(item, 42, DataRole::kData));
@@ -91,6 +95,8 @@ TEST_F(ApplicationModelTest, InsertNewItem)
   EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // inserting item into the root
   auto item = m_model.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
@@ -111,6 +117,8 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
   EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // inserting item
   auto item = m_model.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
@@ -131,6 +139,8 @@ TEST_F(ApplicationModelTest, InsertItem)
   EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // inserting item
   auto item = m_model.InsertItem<PropertyItem>(parent, {"tag", 0});
@@ -152,7 +162,29 @@ TEST_F(ApplicationModelTest, RemoveItem)
   EXPECT_CALL(m_listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
   EXPECT_CALL(m_listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // removing item
   m_model.RemoveItem(parent, {"tag", 0});
+}
+
+//! Clearing the model through the composer.
+
+TEST_F(ApplicationModelTest, Clear)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  m_model.InsertItem<PropertyItem>(parent);
+
+  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(&m_model)).Times(1);
+  EXPECT_CALL(m_listener, OnModelReset(&m_model)).Times(1);
+
+  // removing item
+  m_model.Clear();
 }

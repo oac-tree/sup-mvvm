@@ -39,12 +39,14 @@ public:
 
   void Subscribe(ModelEventListenerInterface* listener);
 
-  virtual SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
+  SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
                                      const TagIndex& tag_index) override;
 
-  virtual void RemoveItem(SessionItem* parent, const TagIndex& tag_index) override;
+  void RemoveItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  virtual bool SetData(SessionItem* item, const variant_t& value, int role) override;
+  bool SetData(SessionItem* item, const variant_t& value, int role) override;
+
+  void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
 private:
   struct ApplicationModelImpl;

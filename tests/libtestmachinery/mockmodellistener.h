@@ -29,6 +29,7 @@ namespace ModelView
 {
 class SessionItem;
 class TagIndex;
+class SessionModel;
 }  // namespace ModelView
 
 //! Mocking class to test ModelEventListenerInterface reactions on notifications issued by
@@ -59,6 +60,10 @@ public:
                void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
 
   MOCK_METHOD2(OnDataChanged, void(ModelView::SessionItem* item, int role));
+
+  MOCK_METHOD1(OnModelAboutToBeReset, void(ModelView::SessionModel* model));
+
+  MOCK_METHOD1(OnModelReset, void(ModelView::SessionModel* model));
 
 protected:
   ModelView::ModelEventNotifierInterface* m_notifier;

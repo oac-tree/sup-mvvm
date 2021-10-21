@@ -221,6 +221,16 @@ void ViewModelController::OnDataChanged(SessionItem *item, int role)
   }
 }
 
+void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
+{
+//  p_impl->m_viewModel->beginResetModel();
+}
+
+void ViewModelController::OnModelReset(SessionModel *model)
+{
+
+}
+
 //! Inits ViewModel by iterating through SessionModel.
 
 void ViewModelController::Init(SessionItem *root_item)
