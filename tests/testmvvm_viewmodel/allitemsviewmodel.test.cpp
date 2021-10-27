@@ -657,6 +657,9 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
 
   QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
   QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+
   view_model.SetRootSessionItem(item);
 
   // new root item doesn't have children
@@ -665,6 +668,8 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 0);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), item);
 
@@ -688,7 +693,17 @@ TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
   item->AddProperty<VectorItem>("position");
   item->AddProperty("radius", 43.0);
 
+  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+
   view_model.SetRootSessionItem(item);
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 0);
 
   EXPECT_EQ(view_model.rowCount(), 3);
   EXPECT_EQ(view_model.columnCount(), 2);

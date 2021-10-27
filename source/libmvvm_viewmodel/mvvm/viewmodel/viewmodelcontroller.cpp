@@ -64,7 +64,7 @@ struct ViewModelController::ViewModelControllerImpl
   std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
   std::unique_ptr<RowStrategyInterface> m_row_strategy;
   bool m_mute_notify{false};  // allows to build ViewModel without notification
-  Path m_root_item_path;  // saves path to custom root item, to restore it on model reset
+  Path m_root_item_path;      // saves path to custom root item, to restore it on model reset
 
   ViewModelControllerImpl(SessionModel *model, ViewModelBase *view_model)
       : m_model(model), m_view_model(view_model)
@@ -120,6 +120,7 @@ struct ViewModelController::ViewModelControllerImpl
       auto *next_parent_view = row_of_views.at(0).get();
       if (m_mute_notify)
       {
+        // to avoid emiting signals rowsAboutToBeInserted, rowsInserted (used when full rebuild)
         parent_view->insertRow(row, std::move(row_of_views));
       }
       else
@@ -158,14 +159,13 @@ struct ViewModelController::ViewModelControllerImpl
 
   void InitViewModel()
   {
-    // TODO place beginReset/endReset here, together with m_mute_notify=true
     CheckInitialState();
     m_view_item_map.Clear();
     m_view_item_map.Insert(GetRootItem(), m_view_model->rootItem());
     Iterate(GetRootItem(), m_view_model->rootItem());
   }
 
-  void SetRootSessionItemIntern(SessionItem *item, bool notify = true)
+  void SetRootSessionItemIntern(SessionItem *item)
   {
     SessionItem *root_item = item ? item : m_model->GetRootItem();
     m_root_item_path = Utils::PathFromItem(item);
@@ -175,7 +175,7 @@ struct ViewModelController::ViewModelControllerImpl
       throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
     }
 
-    m_view_model->ResetRootViewItem(Utils::CreateRootViewItem(root_item), notify);
+    m_view_model->ResetRootViewItem(Utils::CreateRootViewItem(root_item), /*notify*/ false);
   }
 };
 
@@ -236,7 +236,7 @@ void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
 {
   (void)model;
   // Here we are notified that the model content will be destroyed soon.
-  // To let all users (views) of ViewModelBase perform necessary bookkeeping we have to
+  // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
   // emit internal QAbstractViewModel::beginResetModel already now, while `model` content is still
   // alive.
   p_impl->m_view_model->BeginResetModelNotify();
@@ -244,12 +244,10 @@ void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
 
 void ViewModelController::OnModelReset(SessionModel *model)
 {
-  // FIXME restore
   auto custom_root_item = Utils::ItemFromPath(*model, p_impl->m_root_item_path);
 
   p_impl->m_mute_notify = true;
-  p_impl->SetRootSessionItemIntern(custom_root_item ? custom_root_item : model->GetRootItem(),
-                                   /*notify*/ false);
+  p_impl->SetRootSessionItemIntern(custom_root_item);
   p_impl->InitViewModel();
   p_impl->m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
   p_impl->m_mute_notify = false;
@@ -259,10 +257,14 @@ void ViewModelController::OnModelReset(SessionModel *model)
 
 void ViewModelController::Init(SessionItem *root_item)
 {
-  // Place m_mute_notify here
   p_impl->CheckInitialState();
+
+  p_impl->m_mute_notify = true;
+  p_impl->m_view_model->BeginResetModelNotify();
   p_impl->SetRootSessionItemIntern(root_item);
   p_impl->InitViewModel();
+  p_impl->m_view_model->EndResetModelNotify();
+  p_impl->m_mute_notify = false;
 }
 
 QStringList ViewModelController::GetHorizontalHeaderLabels() const
