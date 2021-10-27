@@ -40,6 +40,8 @@ struct XmlDocument::XmlDocumentImpl
   XmlDocumentImpl(std::vector<SessionModel*> models) : models(std::move(models)) {}
 };
 
+//! Models will be writen/restored to and from XML according to the order given in `models` vector.
+
 XmlDocument::XmlDocument(const std::vector<SessionModel*>& models)
     : p_impl(std::make_unique<XmlDocumentImpl>(models))
 {
@@ -52,7 +54,9 @@ void XmlDocument::Save(const std::string& file_name) const
 
   TreeData document_tree(kDocumentElementType);
   for (auto model : p_impl->models)
+  {
     document_tree.AddChild(*converter.ToTreeData(*model));
+  }
 
   ::ModelView::WriteToXMLFile(file_name, document_tree);
 }
@@ -63,8 +67,10 @@ void XmlDocument::Load(const std::string& file_name)
 {
   auto document_tree = ParseXMLDataFile(file_name);
   if (document_tree->GetType() != kDocumentElementType)
+  {
     throw std::runtime_error(
         "Error in XmlDocument: given XML doesn't containt correct entry element");
+  }
 
   TreeDataModelConverter converter(ConverterMode::kClone);
   int index{0};

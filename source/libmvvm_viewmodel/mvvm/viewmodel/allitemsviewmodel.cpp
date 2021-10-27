@@ -28,6 +28,7 @@ namespace ModelView
 {
 AllItemsViewModel::AllItemsViewModel(ApplicationModel *model, QObject *parent) : ViewModel(parent)
 {
+  // FIXME remove code duplications from PropertyViewModel, TopItemsViewModel
   auto controller = std::make_unique<ViewModelController>(model, this);
   model->Subscribe(controller.get());
   controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());

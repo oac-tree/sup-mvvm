@@ -55,6 +55,8 @@ public:
 
   void Init(SessionItem *root_item = nullptr) override;
 
+  QStringList GetHorizontalHeaderLabels() const override;
+
 private:
   struct ViewModelControllerImpl;
   std::unique_ptr<ViewModelControllerImpl> p_impl;

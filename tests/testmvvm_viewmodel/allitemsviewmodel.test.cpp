@@ -24,6 +24,7 @@
 
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/propertyitem.h"
+#include "mvvm/serialization/xmldocument.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/applicationmodel.h"
 
@@ -805,28 +806,27 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
 
-//! On model destroyed.
-//! FIXME restore test
+//! On model reset.
 
-// TEST_F(AllItemsViewModelTest, onModelReset)
-//{
-//  auto model = std::make_unique<SessionModel>();
-//  model->insertItem<SessionItem>();
-//  model->insertItem<SessionItem>();
-//  model->insertItem<SessionItem>();
+TEST_F(AllItemsViewModelTest, OnModelReset)
+{
+  m_model.InsertItem<SessionItem>();
+  m_model.InsertItem<SessionItem>();
+  m_model.InsertItem<SessionItem>();
 
-//  DefaultViewModel viewModel(model.get());
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
-//  QSignalSpy spyAboutReset(&viewModel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewModel, &DefaultViewModel::modelReset);
+  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-//  model->clear();
-//  EXPECT_EQ(viewModel.rowCount(), 0);
-//  EXPECT_EQ(viewModel.columnCount(), 0);
+  m_model.Clear();
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
-//}
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+}
 
 //! On model destroyed.
 //! FIXME restore test
@@ -845,175 +845,107 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
 //  EXPECT_EQ(viewModel.columnCount(), 0);
 //}
 
-// TEST_F(AllItemsViewModelTest, horizontalLabels)
-//{
-//  SessionModel model;
-//  model.insertItem<VectorItem>();
+TEST_F(AllItemsViewModelTest, horizontalLabels)
+{
+  EXPECT_EQ(m_viewmodel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(), QString("Name"));
+  EXPECT_EQ(m_viewmodel.headerData(1, Qt::Horizontal, Qt::DisplayRole).toString(),
+            QString("Value"));
+}
 
-//  // constructing viewModel from sample model
-//  DefaultViewModel viewModel(&model);
+//! Testing ViewModel signals while loading data with the help of XML document. Model is empty.
 
-//  EXPECT_EQ(viewModel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(), QString("Name"));
-//  EXPECT_EQ(viewModel.headerData(1, Qt::Horizontal, Qt::DisplayRole).toString(),
-//  QString("Value"));
-//}
+TEST_F(AllItemsViewModelTest, XmlDocumentLoadEmptyModel)
+{
+  const auto file_path = GetFilePath("XmlDocumentLoadEmptyModel.xml");
+  XmlDocument document({&m_model});
+  document.Save(file_path);
 
-//! Testing ViewModel signals while loading data with the help of json loader.
-//! FIXME restore test
+  QSignalSpy spy_insert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-// TEST_F(AllItemsViewModelTest, jsonConverterLoadModel)
-//{
-//  JsonModelConverter converter(ConverterMode::project);
-//  QJsonObject object;
+  document.Load(file_path);
 
-//  // preparing jsob object
-//  {
-//    SessionModel model("TestModel");
-//    model.insertItem<PropertyItem>();
-//    JsonModelConverter converter(ConverterMode::project);
-//    // writing model to json
-//    object = converter.to_json(model);
-//  }
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 0);
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
 
-//  // loading model
-//  SessionModel model("TestModel");
-//  DefaultViewModel viewmodel(&model);
-//  EXPECT_EQ(viewmodel.rowCount(), 0);
-//  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+}
 
-//  QSignalSpy spyInsert(&viewmodel, &DefaultViewModel::rowsInserted);
-//  QSignalSpy spyRemove(&viewmodel, &DefaultViewModel::rowsRemoved);
-//  QSignalSpy spyAboutReset(&viewmodel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewmodel, &DefaultViewModel::modelReset);
+//! Testing ViewModel signals while loading data with the help of XML document. Model contains item.
 
-//  converter.from_json(object, model);
+TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
+{
+  const auto file_path = GetFilePath("XmlDocumentLoadModel.xml");
 
-//  EXPECT_EQ(spyInsert.count(), 1);  // FIXME shouldn't it be '0'?
-//  EXPECT_EQ(spyRemove.count(), 0);
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
+  // preparing initial file
+  {
+    ApplicationModel initial_model;
+    auto item = initial_model.InsertItem<PropertyItem>();
+    item->SetData(42);
 
-//  EXPECT_EQ(viewmodel.rowCount(), 1);
-//  EXPECT_EQ(viewmodel.columnCount(), 2);
-//}
+    XmlDocument document({&initial_model});
+    document.Save(file_path);
+  }
 
-//! Testing ViewModel signals while loading data with the help of json document.
-//! Model is empty.
-//! FIXME restore test
+  // loading into our empty model
+  XmlDocument document({&m_model});
 
-// TEST_F(AllItemsViewModelTest, jsonDocumentLoadEmptyModel)
-//{
-//  auto fileName = TestUtils::TestFileName(testDir(), "jsonDocumentLoadEmptyModel.json");
+  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-//  // preparing jsob object
-//  {
-//    SessionModel model("TestModel");
-//    JsonDocument document({&model});
-//    document.save(fileName);
-//  }
+  document.Load(file_path);
 
-//  // loading model
-//  SessionModel model("TestModel");
-//  DefaultViewModel viewmodel(&model);
-//  EXPECT_EQ(viewmodel.rowCount(), 0);
-//  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(spyInsert.count(), 0);
+  EXPECT_EQ(spyRemove.count(), 0);
+  EXPECT_EQ(spyAboutReset.count(), 1);
+  EXPECT_EQ(spyReset.count(), 1);
 
-//  JsonDocument document({&model});
-
-//  QSignalSpy spyInsert(&viewmodel, &DefaultViewModel::rowsInserted);
-//  QSignalSpy spyRemove(&viewmodel, &DefaultViewModel::rowsRemoved);
-//  QSignalSpy spyAboutReset(&viewmodel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewmodel, &DefaultViewModel::modelReset);
-
-//  document.load(fileName);
-
-//  EXPECT_EQ(spyInsert.count(), 0);
-//  EXPECT_EQ(spyRemove.count(), 0);
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
-
-//  EXPECT_EQ(viewmodel.rowCount(), 0);
-//  EXPECT_EQ(viewmodel.columnCount(), 0);
-//}
-
-//! Testing ViewModel signals while loading data with the help of json document.
-//! Model is empty.
-//! FIXME restore test
-
-// TEST_F(AllItemsViewModelTest, jsonDocumentLoadModel)
-//{
-//  auto fileName = TestUtils::TestFileName(testDir(), "jsonDocumentLoadModel.json");
-
-//  // preparing jsob object
-//  {
-//    SessionModel model("TestModel");
-//    JsonDocument document({&model});
-//    model.insertItem<PropertyItem>();
-//    document.save(fileName);
-//  }
-
-//  // loading model
-//  SessionModel model("TestModel");
-//  DefaultViewModel viewmodel(&model);
-//  EXPECT_EQ(viewmodel.rowCount(), 0);
-//  EXPECT_EQ(viewmodel.columnCount(), 0);
-
-//  JsonDocument document({&model});
-
-//  QSignalSpy spyInsert(&viewmodel, &DefaultViewModel::rowsInserted);
-//  QSignalSpy spyRemove(&viewmodel, &DefaultViewModel::rowsRemoved);
-//  QSignalSpy spyAboutReset(&viewmodel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewmodel, &DefaultViewModel::modelReset);
-
-//  document.load(fileName);
-
-//  EXPECT_EQ(spyInsert.count(), 1);
-//  EXPECT_EQ(spyRemove.count(), 0);
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
-
-//  EXPECT_EQ(viewmodel.rowCount(), 1);
-//  EXPECT_EQ(viewmodel.columnCount(), 2);
-//}
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+}
 
 //! Testing view model after restoring from json document.
 //! FIXME restore test
 
-// TEST_F(AllItemsViewModelTest, vectorItemInJsonDocument)
-//{
-//  auto fileName = TestUtils::TestFileName(testDir(), "vectorItemInJsonDocument.json");
+ TEST_F(AllItemsViewModelTest, vectorItemInJsonDocument)
+{
+   const auto file_path = GetFilePath("vectorItemInJsonDocument.xml");
 
-//  SessionModel model;
-//  model.insertItem<VectorItem>();
+   // preparing initial file
+   {
+     ApplicationModel initial_model;
+     auto item = initial_model.InsertItem<VectorItem>();
 
-//  // constructing viewModel from sample model
-//  DefaultViewModel viewmodel(&model);
+     XmlDocument document({&initial_model});
+     document.Save(file_path);
+   }
 
-//  // root item should have one child, item looking at our vectorItem
-//  EXPECT_EQ(viewmodel.rowCount(), 1);
-//  EXPECT_EQ(viewmodel.columnCount(), 2);
 
-//  JsonDocument document({&model});
-//  document.save(fileName);
+   // loading into our empty model
+   XmlDocument document({&m_model});
 
-//  // cleaning original model
-//  model.clear();
+   QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+   QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+   QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+   QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-//  QSignalSpy spyInsert(&viewmodel, &DefaultViewModel::rowsInserted);
-//  QSignalSpy spyRemove(&viewmodel, &DefaultViewModel::rowsRemoved);
-//  QSignalSpy spyAboutReset(&viewmodel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewmodel, &DefaultViewModel::modelReset);
+   document.Load(file_path);
 
-//  document.load(fileName);
+   EXPECT_EQ(spyInsert.count(), 0);
+   EXPECT_EQ(spyRemove.count(), 0);
+   EXPECT_EQ(spyAboutReset.count(), 1);
+   EXPECT_EQ(spyReset.count(), 1);
 
-//  EXPECT_EQ(spyInsert.count(), 4);
-//  EXPECT_EQ(spyRemove.count(), 0);
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
-
-//  EXPECT_EQ(viewmodel.rowCount(), 1);
-//  EXPECT_EQ(viewmodel.columnCount(), 2);
-//}
+   EXPECT_EQ(m_viewmodel.rowCount(), 1);
+   EXPECT_EQ(m_viewmodel.columnCount(), 2);
+}
 
 //! Testing view model after restoring from json document.
 //! VectorItem is made root item. Test demonstrates that controller is capable

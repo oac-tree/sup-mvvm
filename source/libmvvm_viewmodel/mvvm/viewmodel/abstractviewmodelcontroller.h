@@ -36,7 +36,6 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListe
 {
 public:
   virtual ~AbstractViewModelController() override;
-  virtual QStringList GetHorizontalHeaderLabels() const;
 
   void SetNotifier(ModelEventNotifierInterface* notifier) override;
 
@@ -55,6 +54,8 @@ public:
   void OnModelReset(SessionModel* model) override;
 
   virtual void Init(SessionItem *root_item = nullptr);
+
+  virtual QStringList GetHorizontalHeaderLabels() const;
 
 protected:
   ModelEventNotifierInterface* m_notifier{nullptr};

@@ -113,7 +113,7 @@ T* SessionModel::GetTopItem() const
 }
 
 //! Register used defined item to use with the model. It will become possible to undo/redo
-//! operations with this item, as well as serialize it to/from JSON.
+//! operations with this item, as well as serialize it to/from XML.
 
 template <typename T>
 void SessionModel::RegisterItem(const std::string& label)

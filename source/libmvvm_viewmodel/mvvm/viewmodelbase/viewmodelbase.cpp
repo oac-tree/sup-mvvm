@@ -29,9 +29,9 @@ struct ViewModelBase::ViewModelBaseImpl
 {
   ViewModelBase* model{nullptr};
   std::unique_ptr<ViewItem> root;
-  ViewModelBaseImpl(ViewModelBase* model) : model(model) {}
+  explicit ViewModelBaseImpl(ViewModelBase* model) : model(model) {}
 
-  bool item_belongs_to_model(ViewItem* item)
+  bool IsItemBelongsToModel(ViewItem* item)
   {
     return model->indexFromItem(item).isValid() || item == model->rootItem();
   }
@@ -41,7 +41,7 @@ ViewModelBase::ViewModelBase(QObject* parent)
     : QAbstractItemModel(parent), p_impl(std::make_unique<ViewModelBaseImpl>(this))
 {
   beginResetModel();
-  setRootViewItem(std::make_unique<ViewItem>());
+  p_impl->root = std::make_unique<ViewItem>();
   endResetModel();
 }
 
@@ -138,7 +138,7 @@ QModelIndex ViewModelBase::indexFromItem(const ViewItem* item) const
 
 void ViewModelBase::removeRow(ViewItem* parent, int row)
 {
-  if (!p_impl->item_belongs_to_model(parent))
+  if (!p_impl->IsItemBelongsToModel(parent))
   {
     throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
   }
@@ -150,7 +150,7 @@ void ViewModelBase::removeRow(ViewItem* parent, int row)
 
 void ViewModelBase::clearRows(ViewItem* parent)
 {
-  if (!p_impl->item_belongs_to_model(parent))
+  if (!p_impl->IsItemBelongsToModel(parent))
   {
     throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
   }
@@ -170,7 +170,7 @@ void ViewModelBase::clearRows(ViewItem* parent)
 void ViewModelBase::insertRow(ViewItem* parent, int row,
                               std::vector<std::unique_ptr<ViewItem>> items)
 {
-  if (!p_impl->item_belongs_to_model(parent))
+  if (!p_impl->IsItemBelongsToModel(parent))
   {
     throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
   }
@@ -199,18 +199,33 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
   return result;
 }
 
-void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item)
-{
-  beginResetModel();
-  setRootViewItem(std::move(root_item));
-  endResetModel();
-}
-
 //! Sets new root item. Previous item will be deleted, model will be reset.
 
-void ViewModelBase::setRootViewItem(std::unique_ptr<ViewItem> root_item)
+void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item, bool notify)
 {
+  if (notify)
+  {
+    beginResetModel();
+  }
   p_impl->root = std::move(root_item);
+  if (notify)
+  {
+    endResetModel();
+  }
+}
+
+//! Allows to call internal method from outside.
+
+void ViewModelBase::BeginResetModelNotify()
+{
+  beginResetModel();
+}
+
+//! Allows to call internal method from outside.
+
+void ViewModelBase::EndResetModelNotify()
+{
+  endResetModel();
 }
 
 }  // namespace ModelView

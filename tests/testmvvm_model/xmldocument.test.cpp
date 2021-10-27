@@ -26,7 +26,6 @@
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/serialization/treedataitemconverter.h"
 #include "mvvm/serialization/xmldocument.h"
 
 #include <gtest/gtest.h>

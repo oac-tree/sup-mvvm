@@ -475,3 +475,82 @@ TEST_F(ViewModelControllerTest, SetData)
   QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
+
+//! Setting top level item as ROOT item
+
+TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
+{
+  auto item = m_composer.InsertItem<PropertyItem>();
+
+  m_controller.Init(item);
+
+  // new root item doesn't have children
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+}
+
+//! Setting top level item as ROOT item (case parent and children).
+
+TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
+{
+  auto item = m_composer.InsertItem<CompoundItem>();
+  item->AddProperty("thickness", 42.0);
+  item->AddProperty<VectorItem>("position");
+  item->AddProperty("radius", 43.0);
+
+  m_controller.Init(item);
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  // checking vector item
+  auto index_of_vector_item = m_viewmodel.index(1, 0);
+  EXPECT_EQ(m_viewmodel.rowCount(index_of_vector_item), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(index_of_vector_item), 2);
+}
+
+//! On model reset.
+
+TEST_F(ViewModelControllerTest, onModelReset)
+{
+  m_composer.InsertItem<SessionItem>();
+  m_composer.InsertItem<SessionItem>();
+  m_composer.InsertItem<SessionItem>();
+
+  QSignalSpy spy_about_reset(&m_viewmodel, &ViewModelBase::modelAboutToBeReset);
+  QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
+  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+
+  m_composer.Clear({});
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+  EXPECT_EQ(spy_remove.count(), 0);
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+}
+
+//! Real life scenario: initially empty SessionModel, apply ::clean, and then start to insert item.
+
+TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
+{
+  QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
+  m_composer.Clear({});
+
+  EXPECT_EQ(spy_reset.count(), 1);
+
+  // inserting new item
+  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  m_composer.InsertItem<SessionItem>();
+
+  EXPECT_EQ(spy_insert.count(), 1);
+}
+
+TEST_F(ViewModelControllerTest, GetHorizontalHeaderLabels)
+{
+  const QStringList expected_labels = QStringList() << "Name"
+                                                    << "Value";
+  EXPECT_EQ(m_controller.GetHorizontalHeaderLabels(), expected_labels);
+}

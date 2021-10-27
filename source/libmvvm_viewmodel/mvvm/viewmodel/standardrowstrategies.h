@@ -40,6 +40,7 @@ class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface
 public:
   LabelDataRowStrategy(const item_setdata_function_t& set_func = {});
   ~LabelDataRowStrategy();
+
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) override;

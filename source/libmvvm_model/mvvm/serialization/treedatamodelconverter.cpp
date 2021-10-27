@@ -74,7 +74,9 @@ std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const SessionModel 
   result->AddAttribute(kTypelAttributeKey, model.GetType());
 
   for (auto item : model.GetRootItem()->GetAllItems())
+  {
     result->AddChild(*item_converter->ToTreeData(*item));
+  }
 
   return result;
 }
@@ -83,11 +85,15 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
                                                   SessionModel &model) const
 {
   if (!IsSessionModelConvertible(tree_data))
+  {
     throw std::runtime_error("Error in TreeDataModelConverter: inappropriate TreeData");
+  }
 
   if (tree_data.GetAttribute(kTypelAttributeKey) != model.GetType())
+  {
     throw std::runtime_error(
         "Error in TreeDataModelConverter: attempt to reconstruct different model type.");
+  }
 
   auto item_converter = CreateConverter(model.GetFactory());
 
