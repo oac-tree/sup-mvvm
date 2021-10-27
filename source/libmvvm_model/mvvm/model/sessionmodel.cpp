@@ -27,8 +27,8 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
 
-using namespace ModelView;
-
+namespace ModelView
+{
 //! Pimpl class for SessionModel.
 
 struct SessionModel::SessionModelImpl
@@ -192,8 +192,10 @@ SessionItem* SessionModel::ItemInsertInternal(const item_factory_func_t& func, S
   return parent->InsertItem(func(), TagIndex{tag_index.tag, actual_index});
 }
 
-void SessionModel::RegisterInPoolInternal(const std::string& item_type,
-                                          const item_factory_func_t& func, const std::string& label)
+void SessionModel::RegisterItemInternal(const std::string& item_type,
+                                        const item_factory_func_t& func, const std::string& label)
 {
   p_impl->m_item_manager->GetFactory()->RegisterItem(item_type, func, label);
 }
+
+}  // namespace ModelView

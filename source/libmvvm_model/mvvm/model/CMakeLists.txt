@@ -1,20 +1,26 @@
 target_sources(${library_name} PRIVATE
   abstractsessionmodeldecorator.cpp
   abstractsessionmodeldecorator.h
-  function_types.h
   compounditem.cpp
   compounditem.h
-  itempool.cpp
-  itempool.h
-  itemutils.cpp
-  itemutils.h
+  function_types.h
   itemcatalogue.cpp
   itemcatalogue.h
   itemfactory.cpp
   itemfactory.h
   itemmanager.cpp
   itemmanager.h
+  itempool.cpp
+  itempool.h
+  itemutils.cpp
+  itemutils.h
+  modelcomposer.cpp
+  modelcomposer.h
+  modelutils.cpp
+  modelutils.h
   mvvm_types.h
+  path.cpp
+  path.h
   propertyitem.cpp
   propertyitem.h
   sessionitem.cpp
@@ -25,12 +31,10 @@ target_sources(${library_name} PRIVATE
   sessionitemdata.h
   sessionmodel.cpp
   sessionmodel.h
-  taginfo.cpp
-  taginfo.h
-  tagindex.cpp
-  tagindex.h
   taggeditems.cpp
   taggeditems.h
-  modelcomposer.cpp
-  modelcomposer.h
+  tagindex.cpp
+  tagindex.h
+  taginfo.cpp
+  taginfo.h
   )

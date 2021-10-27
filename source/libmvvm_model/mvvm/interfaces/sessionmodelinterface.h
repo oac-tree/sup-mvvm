@@ -55,7 +55,7 @@ public:
 template <typename T>
 T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  return static_cast<T*>(InsertNewItem(T::Type, parent, tag_index));
+  return static_cast<T*>(InsertNewItem(T().GetType(), parent, tag_index));
 }
 
 }  // namespace ModelView

@@ -86,7 +86,7 @@ private:
 
   SessionItem* ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
                                   const TagIndex& tag_index);
-  void RegisterInPoolInternal(const std::string& item_type, const item_factory_func_t& func,
+  void RegisterItemInternal(const std::string& item_type, const item_factory_func_t& func,
                               const std::string& label);
 
   struct SessionModelImpl;
@@ -118,7 +118,7 @@ T* SessionModel::GetTopItem() const
 template <typename T>
 void SessionModel::RegisterItem(const std::string& label)
 {
-  RegisterInPoolInternal(T().GetType(), ItemFactoryFunction<T>(), label);
+  RegisterItemInternal(T().GetType(), ItemFactoryFunction<T>(), label);
 }
 
 }  // namespace ModelView
