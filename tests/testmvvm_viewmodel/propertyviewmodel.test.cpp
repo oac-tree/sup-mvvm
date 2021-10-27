@@ -227,11 +227,11 @@ TEST_F(PropertyViewModelTest, SetData)
 //! Two ViewModels are looking to the same ApplicationModel.
 //! Change through one ViewModel should modify another.
 
- TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
+TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
 {
-   ApplicationModel model;
-   auto parent = model.InsertItem<CompoundItem>();
-   auto item = parent->AddProperty("Property", 0.0);
+  ApplicationModel model;
+  auto parent = model.InsertItem<CompoundItem>();
+  auto item = parent->AddProperty("Property", 0.0);
 
   PropertyViewModel viewmodel1(&model);
   viewmodel1.SetRootSessionItem(parent);

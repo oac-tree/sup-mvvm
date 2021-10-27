@@ -111,7 +111,7 @@ MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Pa
 // MVVM_MODEL_EXPORT void BeginMacros(const SessionModel* model, const std::string& macro_name);
 
 ////! Finishes undo/redo macros. Works only if the model has undo/redo enabled. Otherwise, do
-///nothing.
+/// nothing.
 // MVVM_MODEL_EXPORT void EndMacros(const SessionModel* model);
 
 }  // namespace Utils

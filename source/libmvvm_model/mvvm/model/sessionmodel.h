@@ -23,6 +23,7 @@
 #include "mvvm/interfaces/sessionmodelinterface.h"
 #include "mvvm/model/function_types.h"
 #include "mvvm/model/sessionitem.h"
+
 #include <memory>
 
 namespace ModelView
@@ -87,7 +88,7 @@ private:
   SessionItem* ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
                                   const TagIndex& tag_index);
   void RegisterItemInternal(const std::string& item_type, const item_factory_func_t& func,
-                              const std::string& label);
+                            const std::string& label);
 
   struct SessionModelImpl;
   std::unique_ptr<SessionModelImpl> p_impl;

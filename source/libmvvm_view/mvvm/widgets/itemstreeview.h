@@ -82,4 +82,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_WIDGETS_ITEMSTREEVIEW_H
+#endif // MVVM_WIDGETS_ITEMSTREEVIEW_H

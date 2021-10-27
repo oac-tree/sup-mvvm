@@ -24,8 +24,8 @@
 #include "mvvm/model/tagindex.h"
 #include "mvvm/model_export.h"
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace ModelView
 {

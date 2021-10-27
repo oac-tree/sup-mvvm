@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_TREEDATAMODELCONVERTERINTERFACE_H
-#define MVVM_TREEDATAMODELCONVERTERINTERFACE_H
+#ifndef MVVM_SERIALIZATION_TREEDATAMODELCONVERTERINTERFACE_H
+#define MVVM_SERIALIZATION_TREEDATAMODELCONVERTERINTERFACE_H
 
 #include "mvvm/model_export.h"
 
@@ -45,4 +45,4 @@ public:
 
 }  // namespace ModelView
 
-#endif  // MVVM_TREEDATAMODELCONVERTERINTERFACE_H
+#endif  // MVVM_SERIALIZATION_TREEDATAMODELCONVERTERINTERFACE_H

@@ -55,4 +55,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_WIDGETS_COLLAPSIBLEBAR_H
+#endif // MVVM_WIDGETS_COLLAPSIBLEBAR_H

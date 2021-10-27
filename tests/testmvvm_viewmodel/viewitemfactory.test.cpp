@@ -92,9 +92,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemViaComposer)
   MockModelNotifier notifier;
   ModelComposer composer(&model, &notifier);
   auto set_data = [&composer](auto item, auto data, auto role)
-  {
-    return composer.SetData(item, data, role);
-  };
+  { return composer.SetData(item, data, role); };
 
   auto viewitem = CreateDataViewItem(item, set_data);
 

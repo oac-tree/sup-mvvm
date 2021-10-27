@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_XMLDOCUMENT_H
-#define MVVM_XMLDOCUMENT_H
+#ifndef MVVM_SERIALIZATION_XMLDOCUMENT_H
+#define MVVM_SERIALIZATION_XMLDOCUMENT_H
 
 #include "mvvm/model_export.h"
 
@@ -47,4 +47,4 @@ private:
 };
 }  // namespace ModelView
 
-#endif  // MVVM_XMLDOCUMENT_H
+#endif  // MVVM_SERIALIZATION_XMLDOCUMENT_H

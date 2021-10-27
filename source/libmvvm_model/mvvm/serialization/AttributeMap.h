@@ -28,8 +28,8 @@
  * @details This header file contains the definition of the AttributeMap class.
  */
 
-#ifndef _SEQ_AttributeMap_h_
-#define _SEQ_AttributeMap_h_
+#ifndef MVVM_SERIALIZATION_ATTRIBUTEMAP_H
+#define MVVM_SERIALIZATION_ATTRIBUTEMAP_H
 
 #include <map>
 #include <string>
@@ -172,4 +172,4 @@ public:
 
 }  // namespace ModelView
 
-#endif  // _SEQ_AttributeMap_h_
+#endif  // MVVM_SERIALIZATION_ATTRIBUTEMAP_H

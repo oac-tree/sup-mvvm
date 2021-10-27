@@ -71,4 +71,4 @@ MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)
 
-#endif  // MVVM_VIEWMODEL_VARIANTCONVERTER_H
+#endif  // MVVM_VIEWMODEL_CUSTOMVARIANTS_H

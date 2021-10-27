@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_STANDARDROWSTRATEGIES_H
-#define MVVM_INTERFACES_STANDARDROWSTRATEGIES_H
+#ifndef MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H
+#define MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H
 
 #include "mvvm/interfaces/rowstrategyinterface.h"
-#include "mvvm/viewmodel_export.h"
 #include "mvvm/model/function_types.h"
+#include "mvvm/viewmodel_export.h"
 
 #include <vector>
 
@@ -44,10 +44,11 @@ public:
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) override;
+
 private:
   item_setdata_function_t m_set_func;
 };
 
 }  // namespace ModelView
 
-#endif  // MVVM_INTERFACES_STANDARDROWSTRATEGIES_H
+#endif  // MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H

@@ -21,6 +21,7 @@
 #define MVVM_VIEWMODEL_VIEWITEMMAP_H
 
 #include "mvvm/viewmodel_export.h"
+
 #include <map>
 
 namespace ModelView
@@ -36,7 +37,7 @@ class MVVM_VIEWMODEL_EXPORT ViewItemMap
 public:
   ViewItemMap();
 
-  void Insert(const SessionItem *item, ViewItem* view_item);
+  void Insert(const SessionItem* item, ViewItem* view_item);
 
   ViewItem* FindView(const SessionItem* item);
 

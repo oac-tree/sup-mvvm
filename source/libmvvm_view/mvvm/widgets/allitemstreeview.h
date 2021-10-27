@@ -41,4 +41,4 @@ public:
 
 }  // namespace ModelView
 
-#endif  // MVVM_WIDGETS_ALLITEMSTREEVIEW_H
+#endif // MVVM_WIDGETS_ALLITEMSTREEVIEW_H

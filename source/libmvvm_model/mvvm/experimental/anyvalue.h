@@ -22,10 +22,10 @@
 
 #include "mvvm/model_export.h"
 
+#include <initializer_list>
 #include <map>
 #include <string>
 #include <variant>
-#include <initializer_list>
 
 namespace Experimental
 {

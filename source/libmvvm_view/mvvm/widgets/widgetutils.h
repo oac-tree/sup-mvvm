@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_WIDGETUTILS_H
-#define MVVM_VIEWMODEL_WIDGETUTILS_H
+#ifndef MVVM_WIDGETS_WIDGETUTILS_H
+#define MVVM_WIDGETS_WIDGETUTILS_H
 
 #include <QString>
 #include <QStringList>
@@ -93,4 +93,4 @@ QStringList GetStringList(const QByteArray& byteArray);
 
 }  // namespace ModelView::Utils
 
-#endif  // MVVM_SEQUENCER_WIDGETUTILS_H
+#endif // MVVM_WIDGETS_WIDGETUTILS_H

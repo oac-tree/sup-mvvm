@@ -27,4 +27,4 @@ inline void InitIconResources()
   Q_INIT_RESOURCE(icons);
 }
 
-#endif  // MVVM_RESOURCES_RESOURCES_H
+#endif // MVVM_RESOURCES_RESOURCES_H

@@ -19,10 +19,11 @@
 
 #include "mvvm/viewmodel/presentationitemfactory.h"
 
+#include "mockmodelnotifier.h"
+
+#include "mvvm/model/modelcomposer.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/modelcomposer.h"
-#include "mockmodelnotifier.h"
 
 #include <gtest/gtest.h>
 
@@ -117,9 +118,7 @@ TEST_F(PresentationItemFactoryTest, CreateDataPresentationWithComposer)
 
   ModelComposer composer(&model, &notifier);
   auto set_data = [&composer](auto item, auto data, auto role)
-  {
-    return composer.SetData(item, data, role);
-  };
+  { return composer.SetData(item, data, role); };
   auto presentation = CreateDataPresentation(item, set_data);
 
   // The rest of the test is the same as in the test above.

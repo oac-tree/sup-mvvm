@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
-#define MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
+#ifndef MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
+#define MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
 
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
 
@@ -49,9 +49,9 @@ public:
 
   void OnDataChanged(SessionItem *item, int role) override;
 
-  void OnModelAboutToBeReset(SessionModel* model) override;
+  void OnModelAboutToBeReset(SessionModel *model) override;
 
-  void OnModelReset(SessionModel* model) override;
+  void OnModelReset(SessionModel *model) override;
 
   void Init(SessionItem *root_item = nullptr) override;
 
@@ -64,4 +64,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
+#endif  // MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H

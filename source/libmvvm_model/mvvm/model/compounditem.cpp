@@ -40,7 +40,9 @@ std::string CompoundItem::GetDisplayName() const
 {
   // if item has already display name, use it
   if (HasCustomDisplayName(this))
+  {
     return SessionItem::GetDisplayName();
+  }
 
   int copy_number = Utils::CopyNumber(this);
   return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)

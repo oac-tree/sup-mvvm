@@ -24,10 +24,8 @@
 
 namespace ModelView
 {
-
 class MVVM_MODEL_EXPORT AbstractSessionModelDecorator : public SessionModelInterface
 {
-
 };
 
 }  // namespace ModelView

@@ -56,7 +56,7 @@ void ViewItemMap::Remove(const SessionItem *item)
   }
   else
   {
-    throw std::runtime_error("Error in ViewItemMap: not exist");\
+    throw std::runtime_error("Error in ViewItemMap: not exist");
   }
 }
 

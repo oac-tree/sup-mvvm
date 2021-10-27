@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODEUTILS_H
-#define MVVM_VIEWMODEL_VIEWMODEUTILS_H
+#ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
 #include "mvvm/viewmodel_export.h"
 
@@ -31,4 +31,4 @@ MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 
 }  // namespace ModelView::Utils
 
-#endif  // MVVM_VIEWMODEL_VIEWMODECONTROLLER_H
+#endif  // MVVM_VIEWMODEL_VIEWMODELUTILS_H

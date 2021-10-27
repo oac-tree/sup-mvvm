@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_TREEDATATAGINFOTCONVERTER_H
-#define MVVM_TREEDATATAGINFOTCONVERTER_H
+#ifndef MVVM_SERIALIZATION_TREEDATATAGINFOCONVERTER_H
+#define MVVM_SERIALIZATION_TREEDATATAGINFOCONVERTER_H
 
 //! @file treedatataginfoconverter.h
 //! Declares utility functions to convert between TreeData and TagInfo objects.
@@ -45,4 +45,4 @@ MVVM_MODEL_EXPORT TreeData ToTreeData(const TagInfo& tag_info);
 
 }  // namespace ModelView
 
-#endif  // MVVM_TREEDATATAGINFOTCONVERTER_H
+#endif  // MVVM_SERIALIZATION_TREEDATATAGINFOCONVERTER_H

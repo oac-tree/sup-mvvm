@@ -83,4 +83,4 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::stri
 
 }  // namespace ModelView::Utils
 
-#endif
+#endif  // MVVM_UTILS_STRINGUTILS_H

@@ -48,4 +48,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
+#endif // MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H

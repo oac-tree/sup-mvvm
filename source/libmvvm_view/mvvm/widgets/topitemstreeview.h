@@ -41,4 +41,4 @@ public:
 
 }  // namespace ModelView
 
-#endif  // MVVM_WIDGETS_TOPITEMSTREEVIEW_H
+#endif // MVVM_WIDGETS_TOPITEMSTREEVIEW_H

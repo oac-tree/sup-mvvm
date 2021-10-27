@@ -56,4 +56,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_WIDGETS_MAINBARWIDGET_H
+#endif // MVVM_WIDGETS_MAINBARWIDGET_H

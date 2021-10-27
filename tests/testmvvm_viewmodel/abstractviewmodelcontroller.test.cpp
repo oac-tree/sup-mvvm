@@ -39,10 +39,7 @@ public:
   public:
     MOCK_METHOD2(OnDataChanged, void(ModelView::SessionItem* item, int role));
 
-    ModelEventNotifierInterface* GetNotifier()
-    {
-      return m_notifier;
-    }
+    ModelEventNotifierInterface* GetNotifier() { return m_notifier; }
   };
 };
 

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_TREEDATAITEMDATACONVERTER_H
-#define MVVM_TREEDATAITEMDATACONVERTER_H
+#ifndef MVVM_SERIALIZATION_TREEDATAITEMDATACONVERTER_H
+#define MVVM_SERIALIZATION_TREEDATAITEMDATACONVERTER_H
 
 //! @file treedataitemdataconverter.h
 //! Declares class TreeDataItemDataConverter to convert SessionItemData
@@ -62,4 +62,4 @@ public:
 
 }  // namespace ModelView
 
-#endif  // MVVM_TREEDATATAGINFOTCONVERTER_H
+#endif  // MVVM_SERIALIZATION_TREEDATAITEMDATACONVERTER_H

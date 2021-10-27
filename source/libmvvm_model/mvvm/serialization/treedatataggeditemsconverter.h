@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_TREEDATATAGGEDITEMSCONVERTE_H
-#define MVVM_TREEDATATAGGEDITEMSCONVERTE_H
+#ifndef MVVM_SERIALIZATION_TREEDATATAGGEDITEMSCONVERTER_H
+#define MVVM_SERIALIZATION_TREEDATATAGGEDITEMSCONVERTER_H
 
 //! @file treedatataggeditemsconverter.h
 //! Declares class TreeDataTaggedItemsConverter to convert TaggedItems
@@ -72,4 +72,4 @@ private:
 
 }  // namespace ModelView
 
-#endif  // MVVM_TREEDATATAGINFOTCONVERTER_H
+#endif  // MVVM_SERIALIZATION_TREEDATATAGGEDITEMSCONVERTER_H

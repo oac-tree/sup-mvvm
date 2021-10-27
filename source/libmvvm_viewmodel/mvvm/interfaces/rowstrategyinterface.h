@@ -21,27 +21,29 @@
 #define MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H
 
 #include "mvvm/viewmodel_export.h"
+
 #include <QStringList>
 #include <memory>
 #include <vector>
 
-namespace ModelView {
-
+namespace ModelView
+{
 class SessionItem;
 class ViewItem;
 
 //! Base class to construct row of ViewItem's from given SessionItem.
 //! Used in context of AbstractViewModel while exposing SessionModel to Qt.
 
-class MVVM_VIEWMODEL_EXPORT RowStrategyInterface {
+class MVVM_VIEWMODEL_EXPORT RowStrategyInterface
+{
 public:
-    virtual ~RowStrategyInterface() = default;
+  virtual ~RowStrategyInterface() = default;
 
-    virtual QStringList GetHorizontalHeaderLabels() const = 0;
+  virtual QStringList GetHorizontalHeaderLabels() const = 0;
 
-    virtual std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) = 0;
+  virtual std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) = 0;
 };
 
-} // namespace ModelView
+}  // namespace ModelView
 
-#endif // MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H
+#endif  // MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H

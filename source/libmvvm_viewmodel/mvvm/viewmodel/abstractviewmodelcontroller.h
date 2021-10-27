@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_ABSTRACTVIEWMODECONTROLLER_H
-#define MVVM_VIEWMODEL_ABSTRACTVIEWMODECONTROLLER_H
+#ifndef MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
+#define MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/viewmodel_export.h"
@@ -37,7 +37,7 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListe
 public:
   virtual ~AbstractViewModelController() override;
 
-  void SetNotifier(ModelEventNotifierInterface* notifier) override;
+  void SetNotifier(ModelEventNotifierInterface *notifier) override;
 
   void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;
 
@@ -49,18 +49,18 @@ public:
 
   void OnDataChanged(SessionItem *item, int role) override;
 
-  void OnModelAboutToBeReset(SessionModel* model) override;
+  void OnModelAboutToBeReset(SessionModel *model) override;
 
-  void OnModelReset(SessionModel* model) override;
+  void OnModelReset(SessionModel *model) override;
 
   virtual void Init(SessionItem *root_item = nullptr);
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 
 protected:
-  ModelEventNotifierInterface* m_notifier{nullptr};
+  ModelEventNotifierInterface *m_notifier{nullptr};
 };
 
 }  // namespace ModelView
 
-#endif  // MVVM_VIEWMODEL_ABSTRACTVIEWMODECONTROLLER_H
+#endif  // MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H

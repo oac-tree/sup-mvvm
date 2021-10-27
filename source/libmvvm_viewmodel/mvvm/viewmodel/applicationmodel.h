@@ -40,7 +40,7 @@ public:
   void Subscribe(ModelEventListenerInterface* listener);
 
   SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
-                                     const TagIndex& tag_index) override;
+                             const TagIndex& tag_index) override;
 
   void RemoveItem(SessionItem* parent, const TagIndex& tag_index) override;
 
