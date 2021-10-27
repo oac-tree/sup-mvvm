@@ -22,6 +22,8 @@
 #include "mvvm/interfaces/childrenstrategyinterface.h"
 #include "mvvm/interfaces/rowstrategyinterface.h"
 #include "mvvm/model/itemutils.h"
+#include "mvvm/model/modelutils.h"
+#include "mvvm/model/path.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
@@ -62,6 +64,7 @@ struct ViewModelController::ViewModelControllerImpl
   std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
   std::unique_ptr<RowStrategyInterface> m_row_strategy;
   bool m_mute_notify{false};  // allows to build ViewModel without notification
+  Path m_root_item_path;  // saves path to custom root item, to restore it on model reset
 
   ViewModelControllerImpl(SessionModel *model, ViewModelBase *view_model)
       : m_model(model), m_view_model(view_model)
@@ -165,8 +168,7 @@ struct ViewModelController::ViewModelControllerImpl
   void SetRootSessionItemIntern(SessionItem *item, bool notify = true)
   {
     SessionItem *root_item = item ? item : m_model->GetRootItem();
-    // FIXME restore
-    //      m_rootItemPath = Utils::PathFromItem(item);
+    m_root_item_path = Utils::PathFromItem(item);
 
     if (root_item->GetModel() != m_model)
     {
@@ -209,7 +211,7 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
   {
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself
-    // p_impl->m_rootItemPath = {}; FIXME restore
+    p_impl->m_root_item_path = {};
     p_impl->m_view_model->ResetRootViewItem(Utils::CreateRootViewItem<SessionItem>(nullptr));
   }
   else
@@ -243,11 +245,11 @@ void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
 void ViewModelController::OnModelReset(SessionModel *model)
 {
   // FIXME restore
-  //  auto root_item = Utils::ItemFromPath(*model(), p_impl->m_rootItemPath);
-  //  p_impl->setRootSessionItemIntern(root_item ? root_item : model()->rootItem());
+  auto custom_root_item = Utils::ItemFromPath(*model, p_impl->m_root_item_path);
 
   p_impl->m_mute_notify = true;
-  p_impl->SetRootSessionItemIntern(model->GetRootItem(), /*notify*/ false);
+  p_impl->SetRootSessionItemIntern(custom_root_item ? custom_root_item : model->GetRootItem(),
+                                   /*notify*/ false);
   p_impl->InitViewModel();
   p_impl->m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
   p_impl->m_mute_notify = false;

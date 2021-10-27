@@ -914,82 +914,80 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
 //! Testing view model after restoring from json document.
 //! FIXME restore test
 
- TEST_F(AllItemsViewModelTest, vectorItemInJsonDocument)
+TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
 {
-   const auto file_path = GetFilePath("vectorItemInJsonDocument.xml");
+  const auto file_path = GetFilePath("VectorItemInXmlDocument.xml");
 
-   // preparing initial file
-   {
-     ApplicationModel initial_model;
-     auto item = initial_model.InsertItem<VectorItem>();
+  // preparing initial file
+  {
+    ApplicationModel initial_model;
+    auto item = initial_model.InsertItem<VectorItem>();
 
-     XmlDocument document({&initial_model});
-     document.Save(file_path);
-   }
+    XmlDocument document({&initial_model});
+    document.Save(file_path);
+  }
 
+  // loading into our empty model
+  XmlDocument document({&m_model});
 
-   // loading into our empty model
-   XmlDocument document({&m_model});
+  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-   QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-   QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-   QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-   QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  document.Load(file_path);
 
-   document.Load(file_path);
+  EXPECT_EQ(spyInsert.count(), 0);
+  EXPECT_EQ(spyRemove.count(), 0);
+  EXPECT_EQ(spyAboutReset.count(), 1);
+  EXPECT_EQ(spyReset.count(), 1);
 
-   EXPECT_EQ(spyInsert.count(), 0);
-   EXPECT_EQ(spyRemove.count(), 0);
-   EXPECT_EQ(spyAboutReset.count(), 1);
-   EXPECT_EQ(spyReset.count(), 1);
-
-   EXPECT_EQ(m_viewmodel.rowCount(), 1);
-   EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Testing view model after restoring from json document.
+//! Testing view model after restoring from XML document.
 //! VectorItem is made root item. Test demonstrates that controller is capable
 //! to restore old rootSessionItem on onModelReset signal
-//! FIXME restore test
 
-// TEST_F(AllItemsViewModelTest, vectorItemAsRootInJsonDocument)
-//{
-//  auto fileName = TestUtils::TestFileName(testDir(), "vectorItemAsRootInJsonDocument.json");
+TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
+{
+  const auto file_path = GetFilePath("VectorItemAsRootInXmlDocument.xml");
 
-//  SessionModel model;
-//  auto vectorItem = model.insertItem<VectorItem>();
+  auto vector_item = m_model.InsertItem<VectorItem>();
 
-//  // constructing viewModel from sample model
-//  DefaultViewModel viewmodel(&model);
-//  viewmodel.setRootSessionItem(vectorItem);
+  m_viewmodel.SetRootSessionItem(vector_item);
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(), vector_item);
 
-//  // root item should have one child, item looking at our vectorItem
-//  EXPECT_EQ(viewmodel.rowCount(), 3);
-//  EXPECT_EQ(viewmodel.columnCount(), 2);
-//  EXPECT_EQ(viewmodel.rootSessionItem(), vectorItem);
+  // saving the document
+  XmlDocument document({&m_model});
+  document.Save(file_path);
 
-//  JsonDocument document({&model});
-//  document.save(fileName);
+  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-//  //    model.clear(); // if we uncomment this, information about rootSessionItem will be lost
+  // if we uncomment this, information about customrootSessionItem will be lost
+  // m_model.clear();
 
-//  QSignalSpy spyInsert(&viewmodel, &DefaultViewModel::rowsInserted);
-//  QSignalSpy spyRemove(&viewmodel, &DefaultViewModel::rowsRemoved);
-//  QSignalSpy spyAboutReset(&viewmodel, &DefaultViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&viewmodel, &DefaultViewModel::modelReset);
+  // Loading the document: will rewrite m_model and trigger m_viewmodel rebuild.
+  document.Load(file_path);
 
-//  document.load(fileName);
+  EXPECT_EQ(spyInsert.count(), 0);
+  EXPECT_EQ(spyRemove.count(), 0);
+  EXPECT_EQ(spyAboutReset.count(), 1);
+  EXPECT_EQ(spyReset.count(), 1);
 
-//  EXPECT_EQ(spyInsert.count(), 3);
-//  EXPECT_EQ(spyRemove.count(), 0);
-//  EXPECT_EQ(spyAboutReset.count(), 1);
-//  EXPECT_EQ(spyReset.count(), 1);
+  // viewmodel now is looking to vectorItem as root ViewItem
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(),
+            m_model.GetRootItem()->GetAllItems().at(0));  // vectorItem
 
-//  EXPECT_EQ(viewmodel.rootSessionItem(), model.rootItem()->children().at(0));  // vectorItem
-
-//  EXPECT_EQ(viewmodel.rowCount(), 3);
-//  EXPECT_EQ(viewmodel.columnCount(), 2);
-//}
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+}
 
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.
