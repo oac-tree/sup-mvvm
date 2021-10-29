@@ -71,7 +71,9 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     auto item_type = tree_data.GetAttribute(kTypelAttributeKey);
 
     if (item_type != item.GetType())
+    {
       throw std::runtime_error("Item model mismatch");
+    }
 
     auto item_data = m_itemdata_converter->ToSessionItemData(tree_data.Children().at(0));
     auto tagged_items = m_taggedtems_converter->ToTaggedItems(tree_data.Children().at(1));
@@ -85,7 +87,9 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     //    *item.itemTags());
 
     for (auto child : item.GetAllItems())
+    {
       child->SetParent(&item);
+    }
 
     if (IsRegenerateIdWhenBackFromXML(m_mode))
       item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);

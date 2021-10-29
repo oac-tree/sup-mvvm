@@ -62,9 +62,9 @@ namespace ModelView
 {
 void WriteToXMLFile(const std::string &file_name, const TreeData &tree_data)
 {
-  int rc;
+  int rc{0};
   xmlTextWriterPtr writer;
-  xmlChar *tmp;
+  xmlChar *tmp{nullptr};
 
   // Create a new XmlWriter for uri, with no compression.
   writer = xmlNewTextWriterFilename(file_name.c_str(), 0);
@@ -82,20 +82,24 @@ void WriteToXMLFile(const std::string &file_name, const TreeData &tree_data)
 
 std::string GetXMLString(const TreeData &tree_data)
 {
-  int rc;
+  int rc(0);
   xmlTextWriterPtr writer;
   xmlBufferPtr buf;
-  xmlChar *tmp;
+  xmlChar *tmp{nullptr};
 
   // Create a new XML buffer, to which the XML document will be written
   buf = xmlBufferCreate();
   if (!buf)
+  {
     throw std::runtime_error("testXmlwriterMemory: Error creating the xml buffer");
+  }
 
   // Create a new XmlWriter for memory, with no compression.
   writer = xmlNewTextWriterMemory(buf, 0);
   if (!writer)
+  {
     throw std::runtime_error("testXmlwriterMemory: Error creating the xml writer");
+  }
   SetupWriterIndentation(writer);
 
   xmlTextWriterStartDocument(writer, nullptr, "UTF-8", nullptr);
@@ -119,12 +123,16 @@ namespace
 void AddTreeData(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
 {
   if (tree_data.GetType().empty())
+  {
     throw std::runtime_error("Error in AddTreeData: missed type in TreeData.");
+  }
 
   // opening element
   int rc = xmlTextWriterStartElement(writer, FromString(tree_data.GetType()));
   if (rc < 0)
+  {
     throw std::runtime_error("testXmlwriterFilename: Error at xmlTextWriterStartElement");
+  }
 
   // writing attribute
   AddTreeAttributes(writer, tree_data);
@@ -134,7 +142,9 @@ void AddTreeData(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
   {
     rc = xmlTextWriterWriteString(writer, FromString(tree_data.GetContent()));
     if (rc < 0)
+    {
       throw std::runtime_error("Error in xmlTextWriterWriteString");
+    }
   }
 
   // writing children
@@ -146,7 +156,9 @@ void AddTreeData(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
   // closing element
   rc = xmlTextWriterEndElement(writer);
   if (rc < 0)
+  {
     throw std::runtime_error("testXmlwriterFilename: Error at xmlTextWriterEndElement");
+  }
 }
 
 void AddTreeAttributes(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
@@ -155,7 +167,9 @@ void AddTreeAttributes(xmlTextWriterPtr writer, const ModelView::TreeData &tree_
   {
     int rc = xmlTextWriterWriteAttribute(writer, FromString(attr.first), FromString(attr.second));
     if (rc < 0)
+    {
       throw std::runtime_error("testXmlwriterFilename: Error at xmlTextWriterWriteAttribute");
+    }
   }
 }
 

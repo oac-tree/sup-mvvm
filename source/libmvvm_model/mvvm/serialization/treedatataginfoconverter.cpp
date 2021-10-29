@@ -66,7 +66,9 @@ bool IsTagInfoConvertible(const TreeData &tree_data)
 TagInfo ToTagInfo(const TreeData &tree_data)
 {
   if (!IsTagInfoConvertible(tree_data))
+  {
     throw std::runtime_error("Error in variant converter: invalid TreeData object.");
+  }
 
   int min = std::stoi(tree_data.GetAttribute(kMinAttributeKey));
   int max = std::stoi(tree_data.GetAttribute(kMaxAttributeKey));

@@ -43,11 +43,15 @@ std::unique_ptr<TreeData> ParseXMLDataFile(const std::string &filename)
 {
   // Read file into xmlDocPtr
   if (!std::filesystem::exists(filename))
+  {
     throw std::runtime_error("Error in ParseXMLDataFile: files '" + filename + "' doesn't exist");
+  }
 
   xmlDocPtr doc = xmlParseFile(filename.c_str());
   if (doc == nullptr)
+  {
     throw std::runtime_error("Error in ParseXMLDataFile: parse error");
+  }
 
   return ParseXMLDoc(doc);
 }
@@ -58,7 +62,9 @@ std::unique_ptr<TreeData> ParseXMLDataString(const std::string &xml_str)
   xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar *>(xml_str.c_str()));
   auto xml_head = xml_str.substr(0, 1024);
   if (doc == nullptr)
+  {
     throw std::runtime_error("Error in ParseXMLDataFile: parse error");
+  }
 
   return ParseXMLDoc(doc);
 }
@@ -73,7 +79,9 @@ std::unique_ptr<TreeData> ParseXMLElementString(const std::string &xml_str)
   xmlDocPtr doc = xmlParseDoc(reinterpret_cast<const xmlChar *>(content.c_str()));
   auto xml_head = xml_str.substr(0, 1024);
   if (doc == nullptr)
+  {
     throw std::runtime_error("Error in ParseXMLDataFile: parse error");
+  }
 
   return ParseXMLDoc(doc);
 }
@@ -83,7 +91,9 @@ static std::unique_ptr<TreeData> ParseXMLDoc(xmlDocPtr doc)
   // Check root element
   xmlNodePtr root_node = xmlDocGetRootElement(doc);
   if (root_node == nullptr)
+  {
     throw std::runtime_error("Error in ParseXMLDataFile: couldn't retrieve root element");
+  }
 
   auto data_tree = ParseDataTree(doc, root_node);
   xmlFreeDoc(doc);

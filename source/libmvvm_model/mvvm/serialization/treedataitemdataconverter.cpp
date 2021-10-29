@@ -57,7 +57,9 @@ void TreeDataItemDataConverter::PopulateItemData(const TreeData &tree_data,
                                                  SessionItemData &item_data) const
 {
   if (!IsSessionItemDataConvertible(tree_data))
+  {
     throw std::runtime_error("Given TreeData can't be converted in SessionItemData object");
+  }
 
   // In the future filtering of roles will be implemented
   for (const auto &child : tree_data.Children())

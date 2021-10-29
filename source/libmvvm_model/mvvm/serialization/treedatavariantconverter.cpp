@@ -111,13 +111,17 @@ datarole_t ToDataRole(const TreeData& tree_data)
   static const std::map<std::string, Converters> converters = GetConverters();
 
   if (!IsDataRoleConvertible(tree_data))
+  {
     throw std::runtime_error("Error in variant converter: invalid TreeData object.");
+  }
 
   const auto type_name = GetTypeName(tree_data);
   auto it = converters.find(type_name);
   if (it == converters.end())
+  {
     throw std::runtime_error("Error in variant converter: can't find type name '" + type_name
                              + "'");
+  }
 
   return it->second.treedata_to_datarole(tree_data);
 }
@@ -130,8 +134,10 @@ TreeData ToTreeData(const datarole_t& data_role)
 
   auto it = converters.find(type_name);
   if (it == converters.end())
+  {
     throw std::runtime_error("Error in variant converter: can't find type name '" + type_name
                              + "'");
+  }
   return it->second.datarole_to_treedata(data_role);
 }
 
@@ -153,14 +159,18 @@ std::vector<std::string> GetExpectedAttributeKeys()
 int GetRole(const ModelView::TreeData& tree_data)
 {
   if (!tree_data.HasAttribute(kRoleAttributeKey))
+  {
     throw std::runtime_error("Error in variant converter: absent 'role' attribute.");
+  }
   return std::stoi(tree_data.GetAttribute(kRoleAttributeKey));
 }
 
 std::string GetTypeName(const ModelView::TreeData& tree_data)
 {
   if (!tree_data.HasAttribute(kTypeAttributeKey))
+  {
     throw std::runtime_error("Error in variant converter: absent 'role' attribute.");
+  }
   return tree_data.GetAttribute(kTypeAttributeKey);
 }
 
@@ -238,7 +248,9 @@ datarole_t to_double(const ModelView::TreeData& tree_data)
 {
   // we use own conversion to double instead of std::stod to not to depend on user's locale
   if (auto value = ModelView::Utils::StringToDouble(tree_data.GetContent()); value)
+  {
     return datarole_t{variant_t(value.value()), GetRole(tree_data)};
+  }
   throw std::runtime_error("Error in variant converter: malformed double number.");
 }
 

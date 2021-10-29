@@ -46,7 +46,9 @@ std::unique_ptr<SessionItemContainer> ToSessionItemContainer(const TreeData &tre
                                                              const create_item_t &func)
 {
   if (!IsItemContainerConvertible(tree_data))
+  {
     throw std::runtime_error("Error in SessionItemContainerConverter: invalid TreeData");
+  }
 
   auto tag_info = ToTagInfo(tree_data.Children().at(0));
 
@@ -59,10 +61,14 @@ void PopulateSessionItemContainer(const TreeData &tree_data, SessionItemContaine
                                   const create_item_t &func)
 {
   if (!IsItemContainerConvertible(tree_data))
+  {
     throw std::runtime_error("Error in SessionItemContainerConverter: invalid TreeData");
+  }
 
   if (!container.IsEmpty())
+  {
     throw std::runtime_error("Error in PopulateSessionItemContainer: container is not empty.");
+  }
 
   // first child in TreeData corresponds to TagInfo which has been already processed
   for (auto it = std::next(tree_data.Children().begin()); it != tree_data.Children().end(); ++it)

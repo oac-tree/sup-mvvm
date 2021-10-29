@@ -71,7 +71,9 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const TreeData &tree_data
                                                        TaggedItems &tagged_items) const
 {
   if (!IsTaggedItemsConvertible(tree_data))
+  {
     throw std::runtime_error("Error in TreeDataTaggedItemsConverter: uncompatible TreeData");
+  }
 
   tagged_items.SetDefaultTag(tree_data.GetAttribute(kDefaultTagKey));
 

@@ -37,7 +37,7 @@ namespace ModelView
 struct XmlDocument::XmlDocumentImpl
 {
   std::vector<SessionModel*> models;
-  XmlDocumentImpl(std::vector<SessionModel*> models) : models(std::move(models)) {}
+  explicit XmlDocumentImpl(std::vector<SessionModel*> models) : models(std::move(models)) {}
 };
 
 //! Models will be writen/restored to and from XML according to the order given in `models` vector.
