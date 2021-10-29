@@ -11,6 +11,8 @@ include(configuration)
 
 add_subdirectory(source)
 add_subdirectory(tests)
+
+include(installation)
 add_subdirectory(examples)
 
 # Defines 'clangformat' target. See CodeTools.cmake for details.
