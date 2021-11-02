@@ -74,7 +74,7 @@ public:
   T Data(int role = DataRole::kData) const;
 
   template <typename T>
-  bool SetData(const T& value, int role = DataRole::kData);
+  bool SetData(const T& value, int role = DataRole::kData, bool direct = false);
 
   SessionItemData* GetItemData();
   const SessionItemData* GetItemData() const;
@@ -133,7 +133,7 @@ private:
   friend class SessionModel;
   friend class TreeDataItemConverter;
 
-  bool SetDataInternal(const variant_t& value, int role);
+  bool SetDataInternal(const variant_t& value, int role, bool direct);
   variant_t DataInternal(int role) const;
 
   void SetParent(SessionItem* parent);
@@ -146,12 +146,13 @@ private:
   std::unique_ptr<SessionItemImpl> p_impl;
 };
 
-//! Sets data for a given role.
+//! Sets data for a given role. When extra parameter `direct` is false (default case), will act
+//! through the model to invoke notifications/undo-redo (if implemented).
 
 template <typename T>
-inline bool SessionItem::SetData(const T& value, int role)
+inline bool SessionItem::SetData(const T& value, int role, bool direct)
 {
-  return SetDataInternal(value, role);
+  return SetDataInternal(value, role, direct);
 }
 
 //! Returns data of given type T for given role.

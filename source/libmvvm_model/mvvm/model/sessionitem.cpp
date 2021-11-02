@@ -328,9 +328,11 @@ SessionItem* SessionItem::SetToolTip(const std::string& tooltip)
 
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
-bool SessionItem::SetDataInternal(const variant_t& value, int role)
+bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
 {
-  return p_impl->m_data->SetData(value, role);
+  const bool act_through_model = !direct && GetModel();
+  return act_through_model ? GetModel()->SetData(this, value, role)
+                           : p_impl->m_data->SetData(value, role);
 }
 
 //! Returns data for given role. Method invented to hide implementaiton details and avoid

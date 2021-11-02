@@ -110,7 +110,7 @@ variant_t SessionModel::Data(SessionItem* item, int role)
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
-  return item->SetData(value, role);
+  return item->SetData(value, role, /*direct*/ true);
 }
 
 //! Returns model type.
@@ -136,7 +136,7 @@ const ItemFactoryInterface* SessionModel::GetFactory() const
 
 //! Returns SessionItem for given identifier.
 
-SessionItem* SessionModel::FindItem(const std::string& id)
+SessionItem* SessionModel::FindItem(const std::string& id) const
 {
   return p_impl->m_item_manager->FindItem(id);
 }

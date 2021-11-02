@@ -62,7 +62,7 @@ public:
 
   const ItemFactoryInterface* GetFactory() const;
 
-  SessionItem* FindItem(const std::string& id);
+  SessionItem* FindItem(const std::string& id) const;
 
   template <typename T = SessionItem>
   std::vector<T*> GetTopItems() const;

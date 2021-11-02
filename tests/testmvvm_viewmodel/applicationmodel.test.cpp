@@ -43,7 +43,7 @@ public:
   TagIndex m_tag_index;
 };
 
-//! Setting data through the composer and checking the result.
+//! Setting data through the model and checking the result.
 
 TEST_F(ApplicationModelTest, SetData)
 {
@@ -61,6 +61,26 @@ TEST_F(ApplicationModelTest, SetData)
   EXPECT_TRUE(m_model.SetData(item, 42, DataRole::kData));
   EXPECT_EQ(item->Data<int>(), 42);
 }
+
+//! Setting data through the item.
+
+TEST_F(ApplicationModelTest, SetDataThroughItem)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+
+  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnDataChanged(item, DataRole::kData)).Times(1);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+
+  // changing the data through the item (should still trigger notifications through the model)
+  EXPECT_TRUE(item->SetData(42, DataRole::kData));
+  EXPECT_EQ(item->Data<int>(), 42);
+}
+
 
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
