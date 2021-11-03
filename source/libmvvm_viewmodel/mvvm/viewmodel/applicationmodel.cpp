@@ -51,9 +51,15 @@ SessionItem *ApplicationModel::InsertNewItem(const std::string &item_type, Sessi
   return p_impl->m_composer.InsertNewItem(item_type, parent, tag_index);
 }
 
-void ApplicationModel::RemoveItem(SessionItem *parent, const TagIndex &tag_index)
+std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,
+                                                        const TagIndex &tag_index)
 {
-  p_impl->m_composer.RemoveItem(parent, tag_index);
+  return p_impl->m_composer.TakeItem(parent, tag_index);
+}
+
+void ApplicationModel::RemoveItem(SessionItem *item)
+{
+  p_impl->m_composer.RemoveItem(item);
 }
 
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)

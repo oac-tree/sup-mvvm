@@ -188,7 +188,7 @@ TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
   EXPECT_EQ(viewmodel.columnCount(), 2);
 
   // remove multilayer
-  model.RemoveItem(model.GetRootItem(), {"", 0});
+  model.RemoveItem(multilayer);
 
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 0);

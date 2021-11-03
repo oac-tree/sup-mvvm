@@ -81,7 +81,6 @@ TEST_F(ApplicationModelTest, SetDataThroughItem)
   EXPECT_EQ(item->Data<int>(), 42);
 }
 
-
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
 
@@ -101,6 +100,7 @@ TEST_F(ApplicationModelTest, SetSameData)
 
   // changing to the same value
   EXPECT_FALSE(m_model.SetData(item, 42, DataRole::kData));
+  EXPECT_EQ(item->Data<int>(), 42);
 }
 
 //! Inserting new item into the root item through the composer.
@@ -145,7 +145,7 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
   EXPECT_EQ(item, parent->GetItem("tag"));
 }
 
-//! Inserting item through the composer into another parent using templated insertion.
+//! Inserting item using templated insertion.
 
 TEST_F(ApplicationModelTest, InsertItem)
 {
@@ -167,13 +167,13 @@ TEST_F(ApplicationModelTest, InsertItem)
   EXPECT_EQ(item, parent->GetItem("tag"));
 }
 
-//! Removing item through the composer.
+//! Removing item.
 
-TEST_F(ApplicationModelTest, RemoveItem)
+TEST_F(ApplicationModelTest, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
-  m_model.InsertItem<PropertyItem>(parent);
+  auto child = m_model.InsertItem<PropertyItem>(parent);
 
   TagIndex expected_tag_index{"tag", 0};
 
@@ -186,10 +186,35 @@ TEST_F(ApplicationModelTest, RemoveItem)
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
 
   // removing item
-  m_model.RemoveItem(parent, {"tag", 0});
+  auto taken = m_model.TakeItem(parent, {"tag", 0});
+  EXPECT_EQ(taken.get(), child);
+  EXPECT_EQ(parent->GetTotalItemCount(), 0);
 }
 
-//! Clearing the model through the composer.
+//! Removing item.
+
+TEST_F(ApplicationModelTest, RemoveItem)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  auto child = m_model.InsertItem<PropertyItem>(parent);
+
+  TagIndex expected_tag_index{"tag", 0};
+
+  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(m_listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+
+  // removing item
+  m_model.RemoveItem(child);
+  EXPECT_EQ(parent->GetTotalItemCount(), 0);
+}
+
+//! Clearing the model.
 
 TEST_F(ApplicationModelTest, Clear)
 {
@@ -207,4 +232,5 @@ TEST_F(ApplicationModelTest, Clear)
 
   // removing item
   m_model.Clear();
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }

@@ -123,7 +123,7 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
   document.Save(file_path);
 
   // modifying model further
-  model.RemoveItem(model.GetRootItem(), {"", 0});
+  model.RemoveItem(parent);
 
   // loading model from file
   document.Load(file_path);
@@ -175,8 +175,8 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   document.Save(file_path);
 
   // modifying model further
-  model1.RemoveItem(model1.GetRootItem(), {"", 0});
-  model2.RemoveItem(model2.GetRootItem(), {"", 0});
+  model1.RemoveItem(parent1);
+  model2.RemoveItem(parent2);
 
   // loading model from file
   document.Load(file_path);
@@ -219,8 +219,8 @@ TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
   }
 
   // modifying model further
-  model1.RemoveItem(model1.GetRootItem(), {"", 0});
-  model2.RemoveItem(model2.GetRootItem(), {"", 0});
+  model1.RemoveItem(parent1);
+  model2.RemoveItem(parent2);
 
   XmlDocument document({&model2, &model1});  // intentional wrong order
 

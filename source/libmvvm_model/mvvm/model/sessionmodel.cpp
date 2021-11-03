@@ -83,9 +83,9 @@ SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionIt
   return ItemInsertInternal(create_func, parent, tag_index);
 }
 
-//! Removes given tag_index from parent.
+//! Removes item with given tag_index from the parent and returns it to the user.
 
-void SessionModel::RemoveItem(SessionItem* parent, const TagIndex& tag_index)
+std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
   if (!parent)
   {
@@ -96,7 +96,18 @@ void SessionModel::RemoveItem(SessionItem* parent, const TagIndex& tag_index)
     throw std::runtime_error(
         "Error in SessionModel::removeItem(): item doesn't belong to given model");
   }
-  parent->TakeItem(tag_index);
+  return parent->TakeItem(tag_index);
+}
+
+//! Removes give item from the model.
+
+void SessionModel::RemoveItem(SessionItem* item)
+{
+  if (!item)
+  {
+    throw std::runtime_error("Item is not initialised");
+  }
+  TakeItem(item->GetParent(), item->GetTagIndex());
 }
 
 //! Returns the data for given item and role.

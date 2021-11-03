@@ -90,11 +90,21 @@ SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionI
   return result;
 }
 
-void ModelComposer::RemoveItem(SessionItem* parent, const TagIndex& tag_index)
+std::unique_ptr<SessionItem> ModelComposer::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
   p_impl->m_notifier->AboutToRemoveItemNotify(parent, tag_index);
-  p_impl->m_model->SessionModel::RemoveItem(parent, tag_index);
+  auto result = p_impl->m_model->SessionModel::TakeItem(parent, tag_index);
   p_impl->m_notifier->ItemRemovedNotify(parent, tag_index);
+  return result;
+}
+
+void ModelComposer::RemoveItem(SessionItem* item)
+{
+  if (!item)
+  {
+    throw std::runtime_error("Item is not initialised");
+  }
+  TakeItem(item->GetParent(), item->GetTagIndex());
 }
 
 void ModelComposer::Clear(std::function<void(SessionItem*)> callback)

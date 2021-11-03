@@ -181,7 +181,28 @@ TEST_F(SessionModelTest, RemoveItem)
   auto child2 = model.InsertItem<SessionItem>(parent, {"", 0});  // before child1
 
   // removing child2
-  model.RemoveItem(parent, {"", 0});  // removing child2
+  model.RemoveItem(child2);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(Utils::ChildAt(parent, 0), child1);
+
+  // child2 shouldn't be registered anymore
+  EXPECT_EQ(pool->KeyForItem(child2), "");
+}
+
+TEST_F(SessionModelTest, TakeItem)
+{
+  auto pool = std::make_shared<ItemPool>();
+  SessionModel model("Test", pool);
+
+  auto parent = model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child1 = model.InsertItem<SessionItem>(parent);
+  auto child2 = model.InsertItem<SessionItem>(parent, {"", 0});  // before child1
+
+  // removing child2
+  auto taken = model.TakeItem(parent, {"", 0});  // removing child2
+  EXPECT_EQ(taken.get(), child2);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(Utils::ChildAt(parent, 0), child1);
 
@@ -194,11 +215,11 @@ TEST_F(SessionModelTest, RemoveFromWrongParent)
   SessionModel model("Test");
 
   // undefined item
-  EXPECT_THROW(model.RemoveItem(nullptr, {"", 0}), std::runtime_error);
+  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), std::runtime_error);
 
   // parent non belonging to given model
   SessionItem parent;
-  EXPECT_THROW(model.RemoveItem(&parent, {"", 0}), std::runtime_error);
+  EXPECT_THROW(model.TakeItem(&parent, {"", 0}), std::runtime_error);
 }
 
 TEST_F(SessionModelTest, RemoveNonExistingItem)
@@ -210,7 +231,7 @@ TEST_F(SessionModelTest, RemoveNonExistingItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // removing non existing child
-  EXPECT_NO_THROW(model.RemoveItem(parent, {"", 0}));
+  EXPECT_NO_THROW(model.TakeItem(parent, {"", 0}));
 }
 
 TEST_F(SessionModelTest, TakeRowFromRootItem)
@@ -403,7 +424,7 @@ TEST_F(SessionModelTest, FindItem)
   EXPECT_EQ(model.FindItem(id), parent);
 
   // check that we can't find deleted item.
-  model.RemoveItem(model.GetRootItem(), {"", 0});
+  model.RemoveItem(parent);
   EXPECT_EQ(model.FindItem(id), nullptr);
 }
 
@@ -429,7 +450,7 @@ TEST_F(SessionModelTest, FindItemInAlienModel)
   EXPECT_EQ(model2.FindItem(id2), parent2);
 
   // check that we can't find deleted item.
-  model1.RemoveItem(model1.GetRootItem(), {"", 0});
+  model1.RemoveItem(parent1);
   EXPECT_EQ(model1.FindItem(id1), nullptr);
   EXPECT_EQ(model2.FindItem(id1), nullptr);
   EXPECT_EQ(model1.FindItem(id2), parent2);

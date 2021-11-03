@@ -390,7 +390,7 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  m_composer.RemoveItem(m_model.GetRootItem(), {"", 0});
+  m_composer.RemoveItem(item);
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
@@ -425,8 +425,8 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   QSignalSpy spyInsert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
   QSignalSpy spyRemove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
 
-  // inserting children between two other
-  m_composer.RemoveItem(parent, {"", 1});
+  // removing middle child
+  m_composer.TakeItem(parent, {"", 1});
 
   // one entry (parent)
   EXPECT_EQ(m_viewmodel.rowCount(), 1);

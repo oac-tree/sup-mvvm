@@ -25,6 +25,7 @@
 #include "mvvm/model_export.h"
 
 #include <functional>
+#include <memory>
 
 namespace ModelView
 {
@@ -43,7 +44,9 @@ public:
   template <typename T>
   T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
-  virtual void RemoveItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+  virtual std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) = 0;
+
+  virtual void RemoveItem(SessionItem* item) = 0;
 
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
 

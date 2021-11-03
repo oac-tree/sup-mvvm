@@ -148,9 +148,9 @@ TEST_F(ModelComposerTest, InsertItem)
   EXPECT_EQ(item, parent->GetItem("tag"));
 }
 
-//! Removing item through the composer.
+//! Take item through the composer.
 
-TEST_F(ModelComposerTest, RemoveItem)
+TEST_F(ModelComposerTest, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -167,7 +167,29 @@ TEST_F(ModelComposerTest, RemoveItem)
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
 
   // removing item
-  m_composer.RemoveItem(parent, {"tag", 0});
+  m_composer.TakeItem(parent, {"tag", 0});
+}
+
+//! Removing item through the composer.
+
+TEST_F(ModelComposerTest, RemoveItem)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  auto child = m_model.InsertItem<PropertyItem>(parent);
+
+  TagIndex expected_tag_index{"tag", 0};
+
+  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(_, _)).Times(0);
+  EXPECT_CALL(m_notifier, ItemInsertedNotify(_, _)).Times(0);
+  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+
+  // removing item
+  m_composer.RemoveItem(child);
 }
 
 //! Clearing the model.

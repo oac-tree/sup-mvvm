@@ -20,6 +20,8 @@
 #ifndef MVVM_MODEL_MODELCOMPOSER_H
 #define MVVM_MODEL_MODELCOMPOSER_H
 
+#include "mvvm/interfaces/sessionmodelinterface.h"
+
 #include "mvvm/core/variant.h"
 #include "mvvm/model/tagindex.h"
 #include "mvvm/model_export.h"
@@ -43,7 +45,7 @@ class ModelEventNotifierInterface;
 //! TODO Consider switching to the decorator design pattern (SessionModelDecorator).
 //! TODO Consider merging ApplicationModel and ModelComposer
 
-class MVVM_MODEL_EXPORT ModelComposer
+class MVVM_MODEL_EXPORT ModelComposer : public SessionModelInterface
 {
 public:
   ModelComposer(SessionModel* model, ModelEventNotifierInterface* notifier);
@@ -57,7 +59,9 @@ public:
   template <typename T>
   T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
-  void RemoveItem(SessionItem* parent, const TagIndex& tag_index);
+  std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
+
+  void RemoveItem(SessionItem* item);
 
   void Clear(std::function<void(SessionItem*)> callback);
 

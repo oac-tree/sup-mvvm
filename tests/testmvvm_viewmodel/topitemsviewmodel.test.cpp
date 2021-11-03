@@ -101,7 +101,7 @@ TEST_F(TopItemsViewModelTest, InsertLayerThenRemove)
   EXPECT_EQ(spyRemove.count(), 0);
   EXPECT_EQ(spyInsert.count(), 1);
 
-  m_model.RemoveItem(m_viewmodel.GetRootSessionItem(), {"", 0});
+  m_model.TakeItem(m_viewmodel.GetRootSessionItem(), {"", 0});
   EXPECT_EQ(spyRemove.count(), 1);
   EXPECT_EQ(spyInsert.count(), 1);
 
@@ -176,7 +176,7 @@ TEST_F(TopItemsViewModelTest, InsertLayerInMultiLayerThenRemove)
   EXPECT_EQ(m_viewmodel.columnCount(layer_index), 0);
 
   // removing layer
-  m_model.RemoveItem(multilayer, {"", 0});
+  m_model.RemoveItem(layer);
   EXPECT_EQ(spyRemove.count(), 1);
   EXPECT_EQ(spyInsert.count(), 2);
   EXPECT_EQ(m_viewmodel.rowCount(multilayer_index), 0);
@@ -207,7 +207,7 @@ TEST_F(TopItemsViewModelTest, MultiLayerAsRooItem)
   EXPECT_EQ(spyInsert.count(), 1);
 
   // removing multilayer
-  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});
+  m_model.RemoveItem(multilayer);
 
   EXPECT_EQ(spyReset.count(), 1);
   EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);

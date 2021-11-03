@@ -364,8 +364,8 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
 
-  // inserting children between two other
-  m_model.RemoveItem(parent, {"", 1});
+  // removing middle child
+  m_model.TakeItem(parent, {"", 1});
 
   // one entry (parent)
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -752,7 +752,7 @@ TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
   QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
   QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
 
-  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});
+  m_model.TakeItem(m_model.GetRootItem(), {"", 0});
 
   EXPECT_EQ(spy_about_reset.count(), 0);
   EXPECT_EQ(spy_reset.count(), 0);
@@ -780,7 +780,8 @@ TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
   QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
   QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
 
-  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});  // removing vector_item
+  // removing vector_item
+  m_model.RemoveItem(vector_item);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -810,7 +811,8 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
   QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
   QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
 
-  m_model.RemoveItem(m_model.GetRootItem(), {"", 0});  // removing grandparent
+  // removing grandparent
+  m_model.RemoveItem(grandparent);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
