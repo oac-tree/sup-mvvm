@@ -167,6 +167,31 @@ TEST_F(ApplicationModelTest, InsertItem)
   EXPECT_EQ(item, parent->GetItem("tag"));
 }
 
+//! Inserting item through the composer into another parent using move insertion.
+
+TEST_F(ApplicationModelTest, InsertItemViaMove)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+
+  TagIndex expected_tag_index{"tag", 0};
+
+  EXPECT_CALL(m_listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(m_listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+
+  // inserting item
+  auto to_insert = std::make_unique<PropertyItem>();
+  auto to_insert_ptr = to_insert.get();
+  auto item = m_model.InsertItem(std::move(to_insert), parent, {"tag", 0});
+  EXPECT_EQ(item, to_insert_ptr);
+  EXPECT_EQ(item, parent->GetItem("tag"));
+}
+
 //! Removing item.
 
 TEST_F(ApplicationModelTest, TakeItem)

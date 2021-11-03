@@ -38,6 +38,9 @@ class MVVM_MODEL_EXPORT SessionModelInterface
 public:
   virtual ~SessionModelInterface() = default;
 
+  virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                                  const TagIndex& tag_index) = 0;
+
   virtual SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
                                      const TagIndex& tag_index) = 0;
 
@@ -53,12 +56,12 @@ public:
   virtual void Clear(std::function<void(SessionItem*)> callback = {}) = 0;
 };
 
-//! Inserts item into given parent under given tag_index.
+//! Inserts item of given type into given parent under given tag_index.
 
 template <typename T>
 T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  return static_cast<T*>(InsertNewItem(T().GetType(), parent, tag_index));
+  return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
 }
 
 }  // namespace ModelView

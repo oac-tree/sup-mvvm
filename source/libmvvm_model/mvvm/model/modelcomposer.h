@@ -20,9 +20,8 @@
 #ifndef MVVM_MODEL_MODELCOMPOSER_H
 #define MVVM_MODEL_MODELCOMPOSER_H
 
-#include "mvvm/interfaces/sessionmodelinterface.h"
-
 #include "mvvm/core/variant.h"
+#include "mvvm/interfaces/sessionmodelinterface.h"
 #include "mvvm/model/tagindex.h"
 #include "mvvm/model_export.h"
 
@@ -48,33 +47,29 @@ class ModelEventNotifierInterface;
 class MVVM_MODEL_EXPORT ModelComposer : public SessionModelInterface
 {
 public:
+  using SessionModelInterface::InsertItem;
+
   ModelComposer(SessionModel* model, ModelEventNotifierInterface* notifier);
   virtual ~ModelComposer();
 
-  bool SetData(SessionItem* item, const variant_t& value, int role);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                          const TagIndex& tag_index) override;
 
   SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent = nullptr,
-                             const TagIndex& tag_index = {});
-
-  template <typename T>
-  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
+                             const TagIndex& tag_index = {}) override;
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void RemoveItem(SessionItem* item);
+  void RemoveItem(SessionItem* item) override;
 
-  void Clear(std::function<void(SessionItem*)> callback);
+  bool SetData(SessionItem* item, const variant_t& value, int role) override;
+
+  void Clear(std::function<void(SessionItem*)> callback) override;
 
 private:
   struct ModelComposerImpl;
   std::unique_ptr<ModelComposerImpl> p_impl;
 };
-
-template <typename T>
-T* ModelComposer::InsertItem(SessionItem* parent, const TagIndex& tag_index)
-{
-  return static_cast<T*>(InsertNewItem(T::Type, parent, tag_index));
-}
 
 }  // namespace ModelView
 

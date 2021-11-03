@@ -45,10 +45,10 @@ void ApplicationModel::Subscribe(ModelEventListenerInterface *listener)
   p_impl->m_notifier.Subscribe(listener);
 }
 
-SessionItem *ApplicationModel::InsertNewItem(const std::string &item_type, SessionItem *parent,
-                                             const TagIndex &tag_index)
+SessionItem *ApplicationModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem *parent,
+                                          const TagIndex &tag_index)
 {
-  return p_impl->m_composer.InsertNewItem(item_type, parent, tag_index);
+  return p_impl->m_composer.InsertItem(std::move(item), parent, tag_index);
 }
 
 std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,

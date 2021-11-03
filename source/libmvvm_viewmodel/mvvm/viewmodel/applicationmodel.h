@@ -34,13 +34,15 @@ class ModelEventListenerInterface;
 class MVVM_VIEWMODEL_EXPORT ApplicationModel : public SessionModel
 {
 public:
+  using SessionModelInterface::InsertItem;
+
   explicit ApplicationModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
   ~ApplicationModel() override;
 
   void Subscribe(ModelEventListenerInterface* listener);
 
-  SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
-                             const TagIndex& tag_index) override;
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                          const TagIndex& tag_index) override;
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 

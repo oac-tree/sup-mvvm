@@ -73,14 +73,25 @@ SessionModel::~SessionModel()
   p_impl->m_root_item.reset();
 }
 
+SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                                      const TagIndex& tag_index)
+{
+  if (!parent)
+  {
+    parent = GetRootItem();
+  }
+
+  int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
+
+  return parent->InsertItem(std::move(item), TagIndex{tag_index.tag, actual_index});
+}
+
 //! Insert new item using item's modelType.
 
 SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionItem* parent,
                                          const TagIndex& tag_index)
 {
-  // intentionally passing by value inside lambda
-  auto create_func = [this, item_type]() { return GetFactory()->CreateItem(item_type); };
-  return ItemInsertInternal(create_func, parent, tag_index);
+  return InsertItem(GetFactory()->CreateItem(item_type), parent, tag_index);
 }
 
 //! Removes item with given tag_index from the parent and returns it to the user.
@@ -185,22 +196,6 @@ void SessionModel::RegisterInPool(SessionItem* item)
 void SessionModel::UnregisterFromPool(SessionItem* item)
 {
   p_impl->m_item_manager->UnregisterFromPool(item);
-}
-
-//! Insert new item into given parent using factory function provided.
-//! TODO Consider merging of ItemInsertInternal into InsertNewItem.
-
-SessionItem* SessionModel::ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
-                                              const TagIndex& tag_index)
-{
-  if (!parent)
-  {
-    parent = GetRootItem();
-  }
-
-  int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
-
-  return parent->InsertItem(func(), TagIndex{tag_index.tag, actual_index});
 }
 
 void SessionModel::RegisterItemInternal(const std::string& item_type,

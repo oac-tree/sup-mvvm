@@ -90,6 +90,71 @@ TEST_F(SessionModelTest, InsertItem)
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
 }
 
+//! Inserting single PropertyItem using move.
+
+TEST_F(SessionModelTest, InsertItemViaMove)
+{
+  auto pool = std::make_shared<ItemPool>();
+  SessionModel model("Test", pool);
+
+  auto item = std::make_unique<PropertyItem>();
+  auto item_ptr = item.get();
+
+  // inserting single item
+  auto inserted = model.InsertItem(std::move(item), model.GetRootItem(), {"", 0});
+
+  EXPECT_TRUE(item == nullptr);
+  EXPECT_EQ(inserted, item_ptr);
+  EXPECT_EQ(inserted->GetParent(), model.GetRootItem());
+  EXPECT_EQ(inserted->GetModel(), &model);
+
+  // checking registration
+  auto item_key = inserted->GetIdentifier();
+  EXPECT_EQ(pool->ItemForKey(item_key), inserted);
+}
+
+TEST_F(SessionModelTest, InsertItemWithTag)
+{
+  const std::string tag1("tag1");
+  SessionModel model;
+  auto parent = model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag(tag1));
+  auto child1 = model.InsertItem<PropertyItem>(parent, {tag1, -1});
+
+  EXPECT_EQ(parent->TagIndexOfItem(child1).tag, tag1);
+  EXPECT_EQ(Utils::IndexOfChild(parent, child1), 0);
+
+  // adding second child
+  auto child2 = model.InsertItem<PropertyItem>(parent, {tag1, 0});
+
+  EXPECT_EQ(parent->TagIndexOfItem(child2).tag, tag1);
+  EXPECT_EQ(Utils::IndexOfChild(parent, child1), 1);
+  EXPECT_EQ(Utils::IndexOfChild(parent, child2), 0);
+}
+
+//! Inserting single PropertyItem using move.
+
+TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
+{
+  const std::string tag1("tag1");
+  SessionModel model;
+  auto parent = model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag(tag1), true);
+  auto child1 = model.InsertItem<PropertyItem>(parent, {tag1, -1});
+
+  auto item = std::make_unique<PropertyItem>();
+  auto item_ptr = item.get();
+
+  // inserting single item
+  auto inserted = model.InsertItem(std::move(item), parent, {"", -1});
+
+  EXPECT_TRUE(item == nullptr);
+  EXPECT_EQ(inserted, item_ptr);
+  EXPECT_EQ(inserted->GetParent(), parent);
+  EXPECT_EQ(inserted->GetModel(), &model);
+  EXPECT_EQ(inserted->GetTagIndex(), TagIndex(tag1, 1));
+}
+
 TEST_F(SessionModelTest, InsertNewItem)
 {
   auto pool = std::make_shared<ItemPool>();
@@ -128,25 +193,6 @@ TEST_F(SessionModelTest, InsertNewItem)
 
   // childitem not registered anymore
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
-}
-
-TEST_F(SessionModelTest, InsertNewItemWithTag)
-{
-  const std::string tag1("tag1");
-  SessionModel model;
-  auto parent = model.InsertItem<SessionItem>();
-  parent->RegisterTag(TagInfo::CreateUniversalTag(tag1));
-  auto child1 = model.InsertItem<PropertyItem>(parent, {tag1, -1});
-
-  EXPECT_EQ(parent->TagIndexOfItem(child1).tag, tag1);
-  EXPECT_EQ(Utils::IndexOfChild(parent, child1), 0);
-
-  // adding second child
-  auto child2 = model.InsertItem<PropertyItem>(parent, {tag1, 0});
-
-  EXPECT_EQ(parent->TagIndexOfItem(child2).tag, tag1);
-  EXPECT_EQ(Utils::IndexOfChild(parent, child1), 1);
-  EXPECT_EQ(Utils::IndexOfChild(parent, child2), 0);
 }
 
 TEST_F(SessionModelTest, SetData)

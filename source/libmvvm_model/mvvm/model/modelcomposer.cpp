@@ -75,6 +75,21 @@ bool ModelComposer::SetData(SessionItem* item, const variant_t& value, int role)
   return result;
 }
 
+SessionItem* ModelComposer::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                                       const TagIndex& tag_index)
+{
+  // We have to know already here the actual parent and tag_index where item will be inserted
+  // to provide correct notification.
+  auto [actual_parent, actual_tag_index] = p_impl->GetInsertData(parent, tag_index);
+
+  p_impl->m_notifier->AboutToInsertItemNotify(actual_parent, actual_tag_index);
+  auto result =
+      p_impl->m_model->SessionModel::InsertItem(std::move(item), actual_parent, actual_tag_index);
+  p_impl->m_notifier->ItemInsertedNotify(actual_parent, actual_tag_index);
+
+  return result;
+}
+
 SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionItem* parent,
                                           const TagIndex& tag_index)
 {
@@ -83,7 +98,7 @@ SessionItem* ModelComposer::InsertNewItem(const std::string& item_type, SessionI
   auto [actual_parent, actual_tag_index] = p_impl->GetInsertData(parent, tag_index);
 
   p_impl->m_notifier->AboutToInsertItemNotify(actual_parent, actual_tag_index);
-  auto* result =
+  auto result =
       p_impl->m_model->SessionModel::InsertNewItem(item_type, actual_parent, actual_tag_index);
   p_impl->m_notifier->ItemInsertedNotify(actual_parent, actual_tag_index);
 

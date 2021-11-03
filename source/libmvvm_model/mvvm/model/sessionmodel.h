@@ -38,6 +38,8 @@ class ItemCatalogue;
 class MVVM_MODEL_EXPORT SessionModel : public SessionModelInterface
 {
 public:
+  using SessionModelInterface::InsertItem;
+
   explicit SessionModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
   virtual ~SessionModel();
   SessionModel(const SessionModel& other) = delete;
@@ -45,8 +47,11 @@ public:
 
   // Methods to manipulate data and items.
 
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                          const TagIndex& tag_index) override;
+
   SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent = nullptr,
-                             const TagIndex& tag_index = {}) override;
+                             const TagIndex& tag_index = {}) override final;
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
@@ -87,8 +92,6 @@ private:
   void RegisterInPool(SessionItem* item);
   void UnregisterFromPool(SessionItem* item);
 
-  SessionItem* ItemInsertInternal(const item_factory_func_t& func, SessionItem* parent,
-                                  const TagIndex& tag_index);
   void RegisterItemInternal(const std::string& item_type, const item_factory_func_t& func,
                             const std::string& label);
 
