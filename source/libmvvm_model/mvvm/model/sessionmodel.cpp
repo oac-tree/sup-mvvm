@@ -121,6 +121,39 @@ void SessionModel::RemoveItem(SessionItem* item)
   TakeItem(item->GetParent(), item->GetTagIndex());
 }
 
+//! Move item from it's current parent to a new parent under given tag and row.
+//! Old and new parents should belong to this model.
+
+void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
+{
+  if (!item || !item->GetModel() || !item->GetParent())
+  {
+    throw std::runtime_error("Invalid input item");
+  }
+
+  if (!new_parent || !new_parent->GetModel())
+  {
+    throw std::runtime_error("Invalid parent item");
+  }
+
+  if (item->GetModel() != new_parent->GetModel())
+  {
+    throw std::runtime_error("Items belong to different models");
+  }
+
+  auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
+
+  if (!taken)
+  {
+    throw std::runtime_error("Can't take an item");
+  }
+
+  if (!InsertItem(std::move(taken), new_parent, tag_index))
+  {
+    throw std::runtime_error("MoveItemCommand::execute() -> Can't insert item.");
+  }
+}
+
 //! Returns the data for given item and role.
 
 variant_t SessionModel::Data(SessionItem* item, int role)

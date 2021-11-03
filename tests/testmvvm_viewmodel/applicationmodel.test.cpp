@@ -239,6 +239,33 @@ TEST_F(ApplicationModelTest, RemoveItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
 }
 
+//! Removing item.
+
+TEST_F(ApplicationModelTest, MoveItem)
+{
+  auto parent1 = m_model.InsertItem<CompoundItem>();
+  parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), true);
+  auto child = m_model.InsertItem<PropertyItem>(parent1);
+  auto parent2 = m_model.InsertItem<CompoundItem>();
+  parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
+
+  TagIndex expected_tag_index1{"tag1", 0};
+  TagIndex expected_tag_index2{"tag2", 0};
+
+  EXPECT_CALL(m_listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
+  EXPECT_CALL(m_listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
+  EXPECT_CALL(m_listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
+  EXPECT_CALL(m_listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
+  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+
+  // removing item
+  m_model.MoveItem(child, parent2, expected_tag_index2);
+  EXPECT_EQ(parent1->GetTotalItemCount(), 0);
+  EXPECT_EQ(parent2->GetTotalItemCount(), 1);
+}
+
 //! Clearing the model.
 
 TEST_F(ApplicationModelTest, Clear)

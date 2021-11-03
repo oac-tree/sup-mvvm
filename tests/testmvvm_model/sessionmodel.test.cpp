@@ -301,28 +301,181 @@ TEST_F(SessionModelTest, TakeRowFromRootItem)
   EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
 }
 
-// FIXME restore
-// TEST_F(SessionModelTest, moveItem)
-//{
-//    SessionModel model;
+// !Simple move of item from one parent to another.
 
-//    // parent with child
-//    auto parent0 = model.insertItem<SessionItem>();
-//    parent0->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
-//    auto child0 = model.insertItem<PropertyItem>(parent0);
+TEST_F(SessionModelTest, MoveItem)
+{
+  SessionModel model;
 
-//    // another parent with child
-//    auto parent1 = model.insertItem<SessionItem>();
-//    parent1->registerTag(TagInfo::universalTag("defaultTag"), /*set_as_default*/ true);
-//    auto child1 = model.insertItem<PropertyItem>(parent1);
+  // parent with child
+  auto parent0 = model.InsertItem<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child0 = model.InsertItem<PropertyItem>(parent0);
 
-//    // moving child0 from parent0 to parent 1
-//    model.moveItem(child0, parent1, {"", 0});
+  // another parent with child
+  auto parent1 = model.InsertItem<SessionItem>();
+  parent1->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child1 = model.InsertItem<PropertyItem>(parent1);
 
-//    std::vector<SessionItem*> expected = {child0, child1};
-//    EXPECT_EQ(parent1->children(), expected);
-//    EXPECT_EQ(parent0->children().size(), 0);
-//}
+  // moving child0 from parent0 to parent 1
+  model.MoveItem(child0, parent1, {"", 0});
+
+  std::vector<SessionItem*> expected = {child0, child1};
+  EXPECT_EQ(parent1->GetAllItems(), expected);
+  EXPECT_TRUE(parent0->GetAllItems().empty());
+}
+
+TEST_F(SessionModelTest, MoveItemRootContextNext)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
+  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
+  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
+
+  // moving item1 to the next position
+  model.MoveItem(item1, model.GetRootItem(), {"", 2});
+
+  // expecting new order of items
+  std::vector<SessionItem*> expected = {item0, item2, item1, item3};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemRootContextSamePos)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
+  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
+  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
+
+  // moving item1 to the same position
+  model.MoveItem(item1, model.GetRootItem(), {"", 1});
+
+  // expecting new order of items
+  std::vector<SessionItem*> expected = {item0, item1, item2, item3};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemRootContextPrev)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
+  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
+  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
+
+  // moving item2 to item1's place
+  model.MoveItem(item2, model.GetRootItem(), {"", 1});
+
+  // expecting new order of items
+  std::vector<SessionItem*> expected = {item0, item2, item1, item3};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemRootContextLast)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
+  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
+  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
+
+  // moving item0 in the back of the list
+  model.MoveItem(item0, model.GetRootItem(), {"", model.GetRootItem()->GetTotalItemCount() - 1});
+
+  // expecting new order of items
+  std::vector<SessionItem*> expected = {item1, item2, item3, item0};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemRootContextLast2)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
+  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
+  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
+
+  // moving item0 in the back of the list
+  model.MoveItem(item0, model.GetRootItem(), {"", 3});
+
+  // expecting new order of items
+  std::vector<SessionItem*> expected = {item1, item2, item3, item0};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemFromRootToParent)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
+  auto parent = model.InsertItem<SessionItem>(model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  auto child0 = model.InsertItem<SessionItem>(parent);
+  auto child1 = model.InsertItem<SessionItem>(parent);
+
+  // moving item0 from root to parent
+  model.MoveItem(item0, parent, {"", 1});
+
+  // expected items for root item
+  std::vector<SessionItem*> expected = {parent};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+
+  // expected items for parent
+  expected = {child0, item0, child1};
+  EXPECT_EQ(parent->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemFromParentToRoot)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
+  auto parent = model.InsertItem<SessionItem>(model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  auto child0 = model.InsertItem<SessionItem>(parent);
+  auto child1 = model.InsertItem<SessionItem>(parent);
+
+  // moving child0 from parent to root
+  model.MoveItem(child0, model.GetRootItem(), {"", 0});
+
+  // expected items for root item
+  std::vector<SessionItem*> expected = {child0, item0, parent};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+
+  // expected items for parent
+  expected = {child1};
+  EXPECT_EQ(parent->GetAllItems(), expected);
+}
+
+TEST_F(SessionModelTest, MoveItemBetweenParentTags)
+{
+  SessionModel model;
+  auto parent = model.InsertItem<SessionItem>(model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"));
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag2"));
+
+  auto child0 = model.InsertItem<SessionItem>(parent, "tag1");
+  auto child1 = model.InsertItem<SessionItem>(parent, "tag1");
+  auto child2 = model.InsertItem<SessionItem>(parent, "tag2");
+  auto child3 = model.InsertItem<SessionItem>(parent, "tag2");
+
+  // moving child2 to another tag
+  model.MoveItem(child2, parent, {"tag1", 0});
+
+  // expected items for root item
+  std::vector<SessionItem*> expected = {parent};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+
+  // expected items for parents tag
+  expected = {child2, child0, child1, child3};
+  EXPECT_EQ(parent->GetAllItems(), expected);
+  expected = {child2, child0, child1};
+  EXPECT_EQ(parent->GetItems("tag1"), expected);
+  expected = {child3};
+  EXPECT_EQ(parent->GetItems("tag2"), expected);
+}
 
 TEST_F(SessionModelTest, ClearModel)
 {

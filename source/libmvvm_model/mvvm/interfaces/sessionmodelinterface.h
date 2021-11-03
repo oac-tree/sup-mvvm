@@ -51,6 +51,8 @@ public:
 
   virtual void RemoveItem(SessionItem* item) = 0;
 
+  virtual void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) = 0;
+
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
 
   virtual void Clear(std::function<void(SessionItem*)> callback = {}) = 0;
