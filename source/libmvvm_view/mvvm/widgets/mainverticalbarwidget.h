@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_MAINBARWIDGET_H
-#define MVVM_WIDGETS_MAINBARWIDGET_H
+#ifndef MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
+#define MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
 
 #include "mvvm/viewmodel_export.h"
 
@@ -26,34 +26,39 @@
 #include <map>
 
 class QStackedWidget;
-class QHBoxLayout;
+class QVBoxLayout;
 class QPushButton;
+class QIcon;
+class QButtonGroup;
+class QToolButton;
 
 namespace ModelView
 {
-class FancyTab;
+\
+//! Widget container with functionality similar to QTabWidget.
+//! Has group of buttons on the left and stacked widget on the right.
 
-//! Widget container with functionality similar to QTabWidget. Has large button bar on top,
-//! and stacked widget at bottom.
-
-class MVVM_VIEWMODEL_EXPORT MainBarWidget : public QFrame
+class MVVM_VIEWMODEL_EXPORT MainVerticalBarWidget : public QFrame
 {
   Q_OBJECT
 
 public:
-  MainBarWidget(QWidget* parent = nullptr);
-  ~MainBarWidget();
+  MainVerticalBarWidget(QWidget* parent = nullptr);
+  ~MainVerticalBarWidget();
 
-  void addWidget(QWidget* widget, const QString& title, bool is_enabled = true);
+  void addWidget(QWidget* widget, const QString& title, const QIcon& icon);
 
   void setCurrentIndex(int index);
 
 private:
+  QToolButton* CreateViewSelectionButton();
+  void UpdateViewSelectionButtonsGeometry();
+
   QStackedWidget* m_stacked_widget{nullptr};
-  QHBoxLayout* m_label_layout{nullptr};
-  std::map<int, FancyTab*> m_index_to_tab;
+  QVBoxLayout* m_button_layout{nullptr};
+  QButtonGroup* m_button_group{nullptr};
 };
 
 }  // namespace ModelView
 
-#endif // MVVM_WIDGETS_MAINBARWIDGET_H
+#endif // MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
