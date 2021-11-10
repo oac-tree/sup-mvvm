@@ -59,7 +59,7 @@ TEST_F(WidgetUtilsTest, ProjectWindowTitle)
 
 TEST_F(WidgetUtilsTest, ClickableText)
 {
-  EXPECT_EQ(Utils::ClickableText("abc", "site.com"), QString("<a href=\"site.com\">abc</a>"));
+  EXPECT_EQ(Utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));
 }
 
 TEST_F(WidgetUtilsTest, GetStringList)
@@ -84,4 +84,20 @@ TEST_F(WidgetUtilsTest, GetByteArray)
 
   auto array = Utils::GetByteArray(expected);
   EXPECT_EQ(Utils::GetStringList(array), expected);
+}
+
+TEST_F(WidgetUtilsTest, CreatePathPresentation)
+{
+  using Utils::CreatePathPresentation;
+
+  EXPECT_EQ(CreatePathPresentation(""), QString());
+
+  EXPECT_EQ(CreatePathPresentation("/"), QString("/"));
+
+  // "/home" -> "/ home"
+  EXPECT_EQ(CreatePathPresentation("/home"), QString(R"(/ <a href="/home">home</a>)"));
+
+  // "/home/user" => "/ home / user"
+  EXPECT_EQ(CreatePathPresentation("/home/user"),
+            QString(R"(/ <a href="/home">home</a> / <a href="/home/user">user</a>)"));
 }

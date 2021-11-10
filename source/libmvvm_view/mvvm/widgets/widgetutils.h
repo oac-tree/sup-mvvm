@@ -91,6 +91,11 @@ QByteArray GetByteArray(const QStringList& data);
 //! Converts byte array to vector of strings.
 QStringList GetStringList(const QByteArray& byteArray);
 
+//! Create path presentation.
+//! Converts "/home/user" -> "/ home / user" and then place links to make text clickable, so
+//! the final result will be R"(/ <a href="/home">home</a> / <a href="/home/user">user</a>)"
+QString CreatePathPresentation(const QString& text);
+
 }  // namespace ModelView::Utils
 
 #endif // MVVM_WIDGETS_WIDGETUTILS_H

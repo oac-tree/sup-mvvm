@@ -93,7 +93,9 @@ bool ModelView::Utils::IsLinuxHost()
 QString ModelView::Utils::WithTildeHomePath(const QString& path)
 {
   if (ModelView::Utils::IsWindowsHost())
+  {
     return path;
+  }
 
   static const QString homePath = QDir::homePath();
 
@@ -143,14 +145,16 @@ QMainWindow* ModelView::Utils::FindMainWindow()
   for (auto widget : qApp->topLevelWidgets())
   {
     if (auto result = dynamic_cast<QMainWindow*>(widget); result)
+    {
       return result;
+    }
   }
   return nullptr;
 }
 
 QString ModelView::Utils::ClickableText(const QString& text, const QString& tag)
 {
-  return QString("<a href=\"%1\">%2</a>").arg(tag.isEmpty() ? text : tag, text);
+  return QString(R"(<a href="%1">%2</a>)").arg(tag.isEmpty() ? text : tag, text);
 }
 
 void ModelView::Utils::ScaleLabelFont(QLabel* label, double scale)
@@ -164,7 +168,9 @@ QStringList ModelView::Utils::GetStringList(const std::vector<std::string>& vec)
 {
   QStringList result;
   for (const auto& x : vec)
+  {
     result.push_back(QString::fromStdString(x));
+  }
   return result;
 }
 
@@ -172,7 +178,9 @@ std::vector<std::string> ModelView::Utils::GetStdStringVector(const QStringList&
 {
   std::vector<std::string> result;
   for (const auto& x : string_list)
+  {
     result.push_back(x.toStdString());
+  }
   return result;
 }
 
@@ -190,5 +198,40 @@ QStringList ModelView::Utils::GetStringList(const QByteArray& byteArray)
   QStringList result;
   QDataStream in(&array, QIODevice::ReadOnly);
   in >> result;
+  return result;
+}
+
+QString ModelView::Utils::CreatePathPresentation(const QString& text)
+{
+  if (text.isEmpty())
+  {
+    return {};
+  }
+
+  if (text == QStringLiteral("/"))
+  {
+    return text;
+  }
+  auto parts = text.split(QLatin1Char('/'));
+
+  QString link; //! real link to follow
+  QString result; //! text for qlabel
+  for (auto it = parts.begin(); it != parts.end(); ++it)
+  {
+    if (it->isEmpty())
+    {
+      result.append(QString("/ "));
+      link.append(QString("/"));
+      continue;
+    }
+
+    link.append(*it);
+    result.append(ClickableText(*it, link));
+    if (std::next(it) != parts.end())
+    {
+      result.append(QString(" / "));
+      link.append(QString("/"));
+    }
+  }
   return result;
 }
