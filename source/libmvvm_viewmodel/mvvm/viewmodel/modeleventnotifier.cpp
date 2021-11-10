@@ -99,6 +99,10 @@ void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
   auto on_model_reset = [listener](auto model) { listener->OnModelReset(model); };
   connections.emplace_back(connect(this, &ModelEventNotifier::ModelReset, on_model_reset));
 
+  auto on_model_destroyed = [listener](auto model) { listener->OnModelAboutToBeDestroyed(model); };
+  connections.emplace_back(
+      connect(this, &ModelEventNotifier::ModelAboutToBeDestroyed, on_model_destroyed));
+
   m_connections.insert(m_connections.find(listener), {listener, connections});
 
   listener->SetNotifier(this);
@@ -137,6 +141,11 @@ void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModel *model)
 void ModelEventNotifier::ModelResetNotify(SessionModel *model)
 {
   emit ModelReset(model);
+}
+
+void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModel *model)
+{
+  emit ModelAboutToBeDestroyed(model);
 }
 
 }  // namespace ModelView

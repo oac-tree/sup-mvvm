@@ -65,6 +65,8 @@ public:
 
   MOCK_METHOD1(OnModelReset, void(ModelView::SessionModel* model));
 
+  MOCK_METHOD1(OnModelAboutToBeDestroyed, void(ModelView::SessionModel* model));
+
 protected:
   ModelView::ModelEventNotifierInterface* m_notifier;
 };

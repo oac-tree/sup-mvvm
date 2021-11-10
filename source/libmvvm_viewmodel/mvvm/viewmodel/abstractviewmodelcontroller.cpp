@@ -57,6 +57,8 @@ void AbstractViewModelController::OnModelAboutToBeReset(SessionModel *model) {}
 
 void AbstractViewModelController::OnModelReset(SessionModel *model) {}
 
+void AbstractViewModelController::OnModelAboutToBeDestroyed(SessionModel *model) {}
+
 void AbstractViewModelController::Init(SessionItem *) {}
 
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const

@@ -63,6 +63,9 @@ public:
 
   //! Lets the listener know at the end of root item recreation.
   virtual void OnModelReset(SessionModel* model) = 0;
+
+  //! Lets the listener know at the beginning of model destruction.
+  virtual void OnModelAboutToBeDestroyed(SessionModel* model) = 0;
 };
 
 }  // namespace ModelView

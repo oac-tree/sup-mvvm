@@ -58,6 +58,8 @@ public:
   MOCK_METHOD1(ModelAboutToBeResetNotify, void(ModelView::SessionModel* model));
 
   MOCK_METHOD1(ModelResetNotify, void(ModelView::SessionModel* model));
+
+  MOCK_METHOD1(ModelAboutToBeDestroyedNotify, void(ModelView::SessionModel* model));
 };
 
 #endif  // MOCKMODELNOTIFIER_H

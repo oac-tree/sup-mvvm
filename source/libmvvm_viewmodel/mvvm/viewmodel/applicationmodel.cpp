@@ -38,7 +38,10 @@ ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemP
 {
 }
 
-ApplicationModel::~ApplicationModel() = default;
+ApplicationModel::~ApplicationModel()
+{
+  p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
+}
 
 void ApplicationModel::Subscribe(ModelEventListenerInterface *listener)
 {

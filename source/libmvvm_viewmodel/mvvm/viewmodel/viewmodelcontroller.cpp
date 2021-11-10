@@ -253,6 +253,12 @@ void ViewModelController::OnModelReset(SessionModel *model)
   p_impl->m_mute_notify = false;
 }
 
+void ViewModelController::OnModelAboutToBeDestroyed(SessionModel *model)
+{
+  p_impl->m_root_item_path = {};
+  p_impl->m_view_model->ResetRootViewItem(Utils::CreateRootViewItem<SessionItem>(nullptr));
+}
+
 //! Inits ViewModel by iterating through SessionModel.
 
 void ViewModelController::Init(SessionItem *root_item)

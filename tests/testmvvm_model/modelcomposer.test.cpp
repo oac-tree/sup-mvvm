@@ -57,6 +57,7 @@ TEST_F(ModelComposerTest, SetData)
   EXPECT_CALL(m_notifier, DataChangedNotify(item, DataRole::kData)).Times(1);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // changing the data and checking result
   EXPECT_TRUE(m_composer.SetData(item, 42, DataRole::kData));
@@ -79,6 +80,7 @@ TEST_F(ModelComposerTest, SetSameData)
   EXPECT_CALL(m_notifier, DataChangedNotify(item, DataRole::kData)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // changing to the same value
   EXPECT_FALSE(m_composer.SetData(item, 42, DataRole::kData));
@@ -98,6 +100,7 @@ TEST_F(ModelComposerTest, InsertNewItem)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // inserting item into the root
   auto item = m_composer.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
@@ -120,6 +123,7 @@ TEST_F(ModelComposerTest, InsertNewItemIntoParent)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // inserting item
   auto item = m_composer.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
@@ -142,6 +146,7 @@ TEST_F(ModelComposerTest, InsertItem)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // inserting item
   auto item = m_composer.InsertItem<PropertyItem>(parent, {"tag", 0});
@@ -164,6 +169,7 @@ TEST_F(ModelComposerTest, InsertItemViaMove)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // inserting item
   auto to_insert = std::make_unique<PropertyItem>();
@@ -190,6 +196,7 @@ TEST_F(ModelComposerTest, TakeItem)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // removing item
   m_composer.TakeItem(parent, {"tag", 0});
@@ -212,6 +219,7 @@ TEST_F(ModelComposerTest, RemoveItem)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // removing item
   m_composer.RemoveItem(child);
@@ -234,6 +242,7 @@ TEST_F(ModelComposerTest, Clear)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(&m_model)).Times(1);
   EXPECT_CALL(m_notifier, ModelResetNotify(&m_model)).Times(1);
+  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
   // removing item
   m_composer.Clear({});

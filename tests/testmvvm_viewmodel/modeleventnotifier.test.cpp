@@ -54,6 +54,7 @@ TEST_F(ModelEventNotifierTest, AboutToInsertItem)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.AboutToInsertItemNotify(&item, tag_index);
@@ -73,6 +74,7 @@ TEST_F(ModelEventNotifierTest, ItemInserted)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.ItemInsertedNotify(&item, tag_index);
@@ -92,6 +94,7 @@ TEST_F(ModelEventNotifierTest, AboutToRemoveItem)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.AboutToRemoveItemNotify(&item, tag_index);
@@ -111,6 +114,7 @@ TEST_F(ModelEventNotifierTest, ItemRemoved)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.ItemRemovedNotify(&item, tag_index);
@@ -130,6 +134,7 @@ TEST_F(ModelEventNotifierTest, DataChanged)
   EXPECT_CALL(m_listener, OnDataChanged(&item, role)).Times(1);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.DataChangedNotify(&item, role);
@@ -147,6 +152,7 @@ TEST_F(ModelEventNotifierTest, OnModelAboutToBeReset)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(&model)).Times(1);
   EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.ModelAboutToBeResetNotify(&model);
@@ -164,9 +170,28 @@ TEST_F(ModelEventNotifierTest, OnModelReset)
   EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(m_listener, OnModelReset(&model)).Times(1);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   m_notifier.ModelResetNotify(&model);
+}
+
+TEST_F(ModelEventNotifierTest, OnModelAboutToBeDestroyed)
+{
+  ModelView::SessionModel model;
+  int role{42};
+
+  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeReset(&model)).Times(0);
+  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(1);
+
+  // triggering action
+  m_notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
 TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
@@ -198,6 +223,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   EXPECT_CALL(listener, OnDataChanged(&item, role)).Times(0);
   EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   notifier.Unsubscribe(&listener);
@@ -209,6 +235,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   notifier.DataChangedNotify(&item, role);
   notifier.ModelAboutToBeResetNotify(&model);
   notifier.ModelResetNotify(&model);
+  notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
 TEST_F(ModelEventNotifierTest, TwoSubscriptions)
@@ -232,6 +259,7 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(1);
   EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(1);
   EXPECT_CALL(listener1, OnModelReset(_)).Times(1);
+  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(1);
 
   EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
   EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
@@ -240,6 +268,7 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
   EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
   EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
+  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
 
   // triggering action
   notifier.AboutToInsertItemNotify(&item, tag_index);
@@ -249,6 +278,7 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   notifier.DataChangedNotify(&item, role);
   notifier.ModelAboutToBeResetNotify(&model);
   notifier.ModelResetNotify(&model);
+  notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
 TEST_F(ModelEventNotifierTest, UnsubscribeOne)
@@ -274,6 +304,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
   EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener1, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(0);
 
   EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
   EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
@@ -282,6 +313,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
   EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
   EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
+  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
 
   // triggering action
   notifier.AboutToInsertItemNotify(&item, tag_index);
@@ -291,6 +323,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   notifier.DataChangedNotify(&item, role);
   notifier.ModelAboutToBeResetNotify(&model);
   notifier.ModelResetNotify(&model);
+  notifier.ModelAboutToBeDestroyedNotify(&model);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -299,6 +332,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
   EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener1, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(0);
 
   EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(0);
@@ -307,6 +341,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(0);
   EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
 
   notifier.Unsubscribe(&listener2);
 
@@ -317,4 +352,5 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   notifier.DataChangedNotify(&item, role);
   notifier.ModelAboutToBeResetNotify(&model);
   notifier.ModelResetNotify(&model);
+  notifier.ModelAboutToBeDestroyedNotify(&model);
 }

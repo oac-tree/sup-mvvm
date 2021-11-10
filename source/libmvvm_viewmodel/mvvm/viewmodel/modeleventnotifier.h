@@ -59,6 +59,8 @@ public:
 
   void ModelResetNotify(SessionModel* model) override;
 
+  void ModelAboutToBeDestroyedNotify(SessionModel* model) override;
+
 signals:
   void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index);
 
@@ -73,6 +75,8 @@ signals:
   void ModelAboutToBeReset(SessionModel* model);
 
   void ModelReset(SessionModel* model);
+
+  void ModelAboutToBeDestroyed(SessionModel* model);
 
 private:
   std::map<ModelEventListenerInterface*, std::vector<QMetaObject::Connection>> m_connections;

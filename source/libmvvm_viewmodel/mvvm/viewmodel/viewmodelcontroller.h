@@ -53,6 +53,8 @@ public:
 
   void OnModelReset(SessionModel *model) override;
 
+  void OnModelAboutToBeDestroyed(SessionModel* model) override;
+
   void Init(SessionItem *root_item = nullptr) override;
 
   QStringList GetHorizontalHeaderLabels() const override;

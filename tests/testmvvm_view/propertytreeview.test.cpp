@@ -82,3 +82,30 @@ TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
   // checking that underlying model was destroyed
   EXPECT_EQ(view.GetViewModel(), nullptr);
 }
+
+TEST_F(PropertyTreeViewTest, DestroyModel)
+{
+  // setting up model and viewmodel
+  auto model = std::make_unique<ApplicationModel>();
+
+  auto vector_item = model->InsertItem<VectorItem>();
+  PropertyTreeView view;
+  view.SetItem(vector_item);
+  view.SetSelected(vector_item);
+
+  auto viewmodel = view.GetViewModel();
+  EXPECT_EQ(viewmodel->rowCount(), 3);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
+
+  // destroying the model
+  model.reset();
+
+  EXPECT_EQ(view.GetViewModel(), viewmodel);
+
+  EXPECT_EQ(viewmodel->rowCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 0);
+
+  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+}
+

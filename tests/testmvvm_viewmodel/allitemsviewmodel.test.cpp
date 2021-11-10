@@ -846,21 +846,20 @@ TEST_F(AllItemsViewModelTest, OnModelReset)
 }
 
 //! On model destroyed.
-//! FIXME restore test
 
-// TEST_F(AllItemsViewModelTest, onModelDestroyed)
-//{
-//  auto model = std::make_unique<SessionModel>();
-//  model->insertItem<SessionItem>();
+ TEST_F(AllItemsViewModelTest, onModelDestroyed)
+{
+  auto model = std::make_unique<ApplicationModel>();
+  model->InsertItem<SessionItem>();
 
-//  DefaultViewModel viewModel(model.get());
-//  EXPECT_EQ(viewModel.rowCount(), 1);
-//  EXPECT_EQ(viewModel.columnCount(), 2);
+  AllItemsViewModel viewModel(model.get());
+  EXPECT_EQ(viewModel.rowCount(), 1);
+  EXPECT_EQ(viewModel.columnCount(), 2);
 
-//  model.reset();
-//  EXPECT_EQ(viewModel.rowCount(), 0);
-//  EXPECT_EQ(viewModel.columnCount(), 0);
-//}
+  model.reset();
+  EXPECT_EQ(viewModel.rowCount(), 0);
+  EXPECT_EQ(viewModel.columnCount(), 0);
+}
 
 TEST_F(AllItemsViewModelTest, horizontalLabels)
 {

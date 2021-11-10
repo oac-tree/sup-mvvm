@@ -63,6 +63,9 @@ public:
 
   //! Notifies listeners at the end of root item recreation.
   virtual void ModelResetNotify(SessionModel* model) = 0;
+
+  //! Notifies listeners at the beginning of model destruction.
+  virtual void ModelAboutToBeDestroyedNotify(SessionModel* model) = 0;
 };
 
 }  // namespace ModelView
