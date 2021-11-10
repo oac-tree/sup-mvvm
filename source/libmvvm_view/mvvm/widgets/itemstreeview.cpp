@@ -39,6 +39,12 @@ ItemsTreeView::ItemsTreeView(QWidget* parent)
 
 ItemsTreeView::~ItemsTreeView() = default;
 
+void ItemsTreeView::Reset()
+{
+  m_tree_view->setModel(nullptr);
+  m_view_model.reset();
+}
+
 void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> viewModel)
 {
   m_view_model = std::move(viewModel);

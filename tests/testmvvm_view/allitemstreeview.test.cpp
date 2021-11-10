@@ -55,7 +55,7 @@ TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
 
   // selecting item in a widget
   selection_model->select(view_model->GetIndexOfSessionItem(x_item).front(),
-                         QItemSelectionModel::SelectCurrent);
+                          QItemSelectionModel::SelectCurrent);
 
   // Changing root item. The problem was chain of signals (AboutToReset, RowIserted), which
   // was triggering persistentModelIndex.
@@ -111,3 +111,23 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
+
+//TEST_F(AllItemsTreeViewTest, DestroyModel)
+//{
+//  // setting up model and viewmodel
+//  auto model = std::make_unique<ApplicationModel>();
+
+//  auto vector_item = model->InsertItem<VectorItem>();
+//  auto x_item = vector_item->GetItem(VectorItem::P_X);
+//  AllItemsTreeView view(model.get());
+
+//  // destroying the model
+//  model.reset();
+
+//    EXPECT_TRUE(view.GetSelectedItems().empty());
+//    EXPECT_EQ(view.GetSelectedItem(), nullptr);
+
+//  //  view.SetSelected(x_item);
+//  //  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+//  //  EXPECT_EQ(view.GetSelectedItem(), x_item);
+//}

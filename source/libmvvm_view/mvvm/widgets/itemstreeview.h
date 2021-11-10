@@ -47,6 +47,8 @@ public:
 
   QTreeView* GetTreeView();
 
+  void Reset();
+
   void SetViewModel(std::unique_ptr<ViewModel> viewModel);
 
   // FIXME restore delegates

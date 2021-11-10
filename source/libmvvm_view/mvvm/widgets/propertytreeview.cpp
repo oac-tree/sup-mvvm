@@ -45,7 +45,7 @@ void PropertyTreeView::SetItem(SessionItem* item)
 {
   if (!item)
   {
-    GetTreeView()->setModel(nullptr);
+    Reset();
     return;
   }
 

@@ -43,6 +43,8 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
   auto layout = new QHBoxLayout(this);
   layout->addLayout(m_button_layout);
   layout->addWidget(m_stacked_widget);
+  layout->setMargin(0);
+  layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
   auto filler_button = CreateViewSelectionButton();

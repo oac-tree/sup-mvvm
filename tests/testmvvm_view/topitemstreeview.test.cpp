@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/propertytreeview.h"
+#include "mvvm/widgets/topitemstreeview.h"
 
 #include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/viewmodel/applicationmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/widgets/allitemstreeview.h"
 
 #include <gtest/gtest.h>
 
@@ -31,52 +32,32 @@
 
 using namespace ModelView;
 
-//! Testing PropertyTreeView.
+//! Testing TopItemsTreeView.
 
-class PropertyTreeViewTest : public ::testing::Test
+class TopItemsTreeViewTest : public ::testing::Test
 {
 };
 
 //! Testing SetData after different SetRootSessionItem (real-life bug).
 
-TEST_F(PropertyTreeViewTest, ChangeRootAndSetData)
-{
-  // setting up model and viewmodel
-  ApplicationModel model;
-  auto vector_item0 = model.InsertItem<VectorItem>();
-  auto vector_item1 = model.InsertItem<VectorItem>();
-
-  PropertyTreeView view;
-  view.SetItem(vector_item0);
-
-  // Setting second time different item. It will lead to the ViewModel recreation.
-  // All controllers should be correctly unsubscribed.
-  view.SetItem(vector_item1);
-
-  ASSERT_NO_FATAL_FAILURE(
-      model.SetData(vector_item0->GetItem(VectorItem::P_X), 42.0, DataRole::kData));
-}
-
 //! Assign property item, then assign nullptr and destroy the model.
 
-TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
+TEST_F(TopItemsTreeViewTest, SetNullptrAsItem)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();
   auto vector_item0 = model->InsertItem<VectorItem>();
   vector_item0->SetX(42.0);
 
-  PropertyTreeView view;
-  view.SetItem(vector_item0);
+  TopItemsTreeView view;
+  view.SetApplicationModel(model.get());
 
   auto viewmodel = view.GetViewModel();
 
-  EXPECT_EQ(viewmodel->rowCount(), 3);
+  EXPECT_EQ(viewmodel->rowCount(), 1);
   EXPECT_EQ(viewmodel->columnCount(), 2);
-  auto x_item_data_index = viewmodel->index(0, 1, QModelIndex());
-  EXPECT_EQ(viewmodel->data(x_item_data_index).toDouble(), 42.0);
 
-  view.SetItem(nullptr);
+  view.SetApplicationModel(nullptr);
   model.reset();
 
   // checking that underlying model was destroyed

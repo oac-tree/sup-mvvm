@@ -33,6 +33,7 @@ void TopItemsTreeView::SetApplicationModel(ApplicationModel* model)
 {
   if (!model)
   {
+    Reset();
     return;
   }
 
