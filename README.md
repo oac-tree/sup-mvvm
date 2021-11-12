@@ -22,6 +22,17 @@ Collection of C++/Qt common components for Operational Application User Interfac
 cmake <source> && make -j4 && ctest
 ```
 
+### Installation on CODAC machines
+
+```
+#install qt5 
+yum install codac-core-7.0-qt5.x86_64
+
+# specify path and compile
+PATH=/opt/codac/qt5/bin:$PATH cmake ../
+make; ctest
+```
+
 ## Quick start
 
 ```C++
