@@ -46,6 +46,7 @@ public:
   //! Adds PropertyItem and sets its value to 'value'.
   template <typename V>
   PropertyItem* AddProperty(const std::string& name, const V& value);
+  PropertyItem* AddProperty(const std::string& name, const char* value);
 
   std::string GetDisplayName() const override;
 

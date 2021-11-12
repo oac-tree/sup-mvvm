@@ -33,6 +33,13 @@ bool HasCustomDisplayName(const SessionItem* item)
 
 CompoundItem::CompoundItem(const std::string& model_type) : SessionItem(model_type) {}
 
+//! Specialized version for const char: method is introduced to avoid "const char" conversion into
+//! variant<bool>.
+PropertyItem *CompoundItem::AddProperty(const std::string &name, const char *value)
+{
+  return AddProperty(name, std::string(value));
+}
+
 //! Returns custom display name with index appended.
 //! CompoundItem0, CompoundItem1, CompoundItem2, ...
 

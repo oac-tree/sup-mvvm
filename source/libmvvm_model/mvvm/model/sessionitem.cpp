@@ -132,6 +132,13 @@ bool SessionItem::HasData(int role) const
   return p_impl->m_data->HasData(role);
 }
 
+//! Specialized version for const char: method is introduced to avoid "const char" conversion into
+//! variant<bool>.
+bool SessionItem::SetData(const char* value, int role, bool direct)
+{
+  return SetData(std::string(value), role, direct);
+}
+
 //! Returns pointer to item's data container (const version).
 
 const SessionItemData* SessionItem::GetItemData() const

@@ -75,6 +75,7 @@ public:
 
   template <typename T>
   bool SetData(const T& value, int role = DataRole::kData, bool direct = false);
+  bool SetData(const char* value, int role = DataRole::kData, bool direct = false);
 
   SessionItemData* GetItemData();
   const SessionItemData* GetItemData() const;
