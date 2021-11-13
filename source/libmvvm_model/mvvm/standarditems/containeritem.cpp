@@ -17,26 +17,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/itemcataloguefactory.h"
+#include "mvvm/standarditems/containeritem.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
+#include <sstream>
+
+namespace
+{
+const std::string kChildren = "kChildren";
+}
 
 namespace ModelView
 {
-std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
+ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  auto result = std::make_unique<ItemCatalogue>();
-  result->RegisterItem<CompoundItem>();
-  result->RegisterItem<ContainerItem>();
-  result->RegisterItem<PropertyItem>();
-  result->RegisterItem<SessionItem>();
-  result->RegisterItem<VectorItem>();
-  return result;
-}
-
-void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
-{
-  user_catalogue.merge(*CreateStandardItemCatalogue());
+  RegisterTag(ModelView::TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
 }
 
 }  // namespace ModelView

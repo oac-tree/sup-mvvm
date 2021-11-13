@@ -23,8 +23,10 @@
 
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodelbase/viewitem.h"
+#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
 #include <gtest/gtest.h>
 
@@ -54,6 +56,26 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
   // data is the same as before, despite of all attempts to change it
   EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }
+
+//! Checking that context method can't cast to underlying item.
+
+TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
+{
+  VectorItem item;
+  item.SetDisplayName("abc");
+
+  auto viewitem = CreateDisplayNameViewItem(&item);
+
+  // Context can be casted to SessionItem
+  EXPECT_EQ(Utils::GetContext<SessionItem>(viewitem.get()), &item);
+
+  // But not to original VectorItem (since CreateDisplayNameViewItem() works with PresentationItem<SessionItem>))
+  EXPECT_NE(Utils::GetContext<VectorItem>(viewitem.get()), &item);
+
+  // To retrieve original item use GetItem method
+  EXPECT_EQ(Utils::GetItem<VectorItem>(viewitem.get()), &item);
+}
+
 
 //! Testing CreateDataViewItem (case of integer data).
 

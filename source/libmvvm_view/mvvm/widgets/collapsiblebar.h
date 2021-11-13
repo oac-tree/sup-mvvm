@@ -48,9 +48,9 @@ private:
   bool eventFilter(QObject* obj, QEvent* event) override;
   void updatePixmap();
 
-  QWidget* m_controlledWidget{nullptr};
-  QLabel* m_pixmapLabel{nullptr};
-  QLabel* m_titleLabel{nullptr};
+  QWidget* m_controlled_widget{nullptr};
+  QLabel* m_pixmap_label{nullptr};
+  QLabel* m_title_label{nullptr};
 };
 
 }  // namespace ModelView

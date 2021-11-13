@@ -19,6 +19,8 @@
 
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
+#include "mvvm/standarditems/vectoritem.h"
+
 #include <gtest/gtest.h>
 
 #include <QModelIndexList>
@@ -88,7 +90,7 @@ TEST_F(ViewModelBaseUtilsTest, GetPresentation)
   EXPECT_EQ(Utils::GetPresentation<TestItem>(&item), expected_ptr);
 }
 
-//! Validate Utils::GetPresentaiton function.
+//! Validate Utils::GetPresentation function.
 
 TEST_F(ViewModelBaseUtilsTest, GetContext)
 {
@@ -101,6 +103,29 @@ TEST_F(ViewModelBaseUtilsTest, GetContext)
   // Context of the arbitrary item should be nullptr
   ModelView::ViewItem item2;
   EXPECT_EQ(Utils::GetContext<TestItem>(&item2), nullptr);
+}
+
+//! Validate Utils::GetItem
+//! FIXME refactor GetContext and GetItem method, they are errorprone
+//! The result depend on the way PresentationItem has been created
+
+TEST_F(ViewModelBaseUtilsTest, GetItem)
+{
+  VectorItem item;
+
+  auto presentation1 = std::make_unique<PresentationItem<SessionItem>>(&item);
+  ModelView::ViewItem view_item1(std::move(presentation1));
+
+  EXPECT_EQ(Utils::GetContext<SessionItem>(&view_item1), &item);
+  EXPECT_NE(Utils::GetContext<VectorItem>(&view_item1), &item);
+  EXPECT_EQ(Utils::GetItem<VectorItem>(&view_item1), &item);
+
+  auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
+  ModelView::ViewItem view_item2(std::move(presentation2));
+
+  EXPECT_NE(Utils::GetContext<SessionItem>(&view_item2), &item);
+  EXPECT_EQ(Utils::GetContext<VectorItem>(&view_item2), &item);
+  EXPECT_NE(Utils::GetItem<VectorItem>(&view_item2), &item);
 }
 
 //! Validate Utils::FindViews function.

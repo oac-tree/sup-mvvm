@@ -31,16 +31,16 @@
 namespace ModelView
 {
 CollapsibleBar::CollapsibleBar(QWidget* parent)
-    : QFrame(parent), m_pixmapLabel(new QLabel), m_titleLabel(new QLabel)
+    : QFrame(parent), m_pixmap_label(new QLabel), m_title_label(new QLabel)
 {
   InitIconResources();
-  m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));
+  m_pixmap_label->setPixmap(QPixmap(":/icons/chevron-down.svg"));
 
   auto layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 4, 0, 0);
 
-  layout->addWidget(m_pixmapLabel, Qt::AlignLeft);
-  layout->addWidget(m_titleLabel, Qt::AlignCenter);
+  layout->addWidget(m_pixmap_label, Qt::AlignLeft);
+  layout->addWidget(m_title_label, Qt::AlignCenter);
 
   setFixedHeight(ModelView::Utils::HeightOfLetterM() * 1.8);
   setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
@@ -48,8 +48,8 @@ CollapsibleBar::CollapsibleBar(QWidget* parent)
 
 void CollapsibleBar::setWidget(QWidget* widget, const QString& title)
 {
-  m_controlledWidget = widget;
-  m_titleLabel->setText(title);
+  m_controlled_widget = widget;
+  m_title_label->setText(title);
   widget->installEventFilter(this);
   updatePixmap();
 }
@@ -58,7 +58,7 @@ void CollapsibleBar::mousePressEvent(QMouseEvent* event)
 {
   if (event->button() == Qt::LeftButton)
   {
-    m_controlledWidget->setHidden(m_controlledWidget->isVisible());
+    m_controlled_widget->setHidden(m_controlled_widget->isVisible());
   }
   updatePixmap();
 }
@@ -68,7 +68,7 @@ void CollapsibleBar::mousePressEvent(QMouseEvent* event)
 bool CollapsibleBar::eventFilter(QObject* obj, QEvent* event)
 {
   bool is_event_of_interest = (event->type() == QEvent::Show || event->type() == QEvent::Hide);
-  if (obj == m_controlledWidget && is_event_of_interest)
+  if (obj == m_controlled_widget && is_event_of_interest)
   {
     updatePixmap();
   }
@@ -79,14 +79,14 @@ bool CollapsibleBar::eventFilter(QObject* obj, QEvent* event)
 
 void CollapsibleBar::updatePixmap()
 {
-  if (m_controlledWidget->isVisible())
+  if (m_controlled_widget->isVisible())
   {
-    m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));
+    m_pixmap_label->setPixmap(QPixmap(":/icons/chevron-down.svg"));
     setFrameStyle(QFrame::StyledPanel);
   }
   else
   {
-    m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-right.svg"));
+    m_pixmap_label->setPixmap(QPixmap(":/icons/chevron-right.svg"));
     setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
   }
 }

@@ -17,26 +17,24 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/itemcataloguefactory.h"
+#ifndef MVVM_STANDARDITEMS_CONTAINERITEM_H
+#define MVVM_STANDARDITEMS_CONTAINERITEM_H
 
-#include "mvvm/standarditems/standarditemincludes.h"
+#include "mvvm/model/compounditem.h"
 
 namespace ModelView
 {
-std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
-{
-  auto result = std::make_unique<ItemCatalogue>();
-  result->RegisterItem<CompoundItem>();
-  result->RegisterItem<ContainerItem>();
-  result->RegisterItem<PropertyItem>();
-  result->RegisterItem<SessionItem>();
-  result->RegisterItem<VectorItem>();
-  return result;
-}
+//! Simple container to store any type of children.
+//! Used as convenience item to create branch with uniform children beneath.
 
-void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
+class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
 {
-  user_catalogue.merge(*CreateStandardItemCatalogue());
-}
+public:
+  static inline const std::string Type = "ContainerItem";
+
+  ContainerItem(const std::string& model_type = Type);
+};
 
 }  // namespace ModelView
+
+#endif  // MVVM_STANDARDITEMS_CONTAINERITEM_H

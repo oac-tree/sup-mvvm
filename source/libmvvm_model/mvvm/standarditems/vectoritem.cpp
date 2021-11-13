@@ -21,8 +21,8 @@
 
 #include <sstream>
 
-using namespace ModelView;
-
+namespace ModelView
+{
 VectorItem::VectorItem() : CompoundItem(Type)
 {
   AddProperty(P_X, 0.0)->SetDisplayName("X");
@@ -70,3 +70,5 @@ void VectorItem::UpdateLabel()
   ostr << "(" << X() << ", " << Y() << ", " << Z() << ")";
   SetData(ostr.str(), DataRole::kData);
 }
+
+}  // namespace ModelView

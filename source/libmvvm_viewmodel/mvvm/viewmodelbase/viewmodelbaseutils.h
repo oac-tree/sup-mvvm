@@ -20,6 +20,7 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 #define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 
+#include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
@@ -46,14 +47,26 @@ const PresentationItem<T>* GetPresentation(const ViewItem* view_item)
   return dynamic_cast<const PresentationItem<T>*>(view_item->item());
 }
 
-//! Returns context (Instruction) from underlying presentation item.
+//! FIXME refactor GetContext and GetItem method, they are errorprone
+//! The result depend on the way PresentationItem has been created
+//! See TEST_F(ViewModelBaseUtilsTest, GetItem) viewmodelbaseutils.test.cpp
+
+//! Returns context (SessionItem) from underlying presentation item.
 
 template <typename T>
 const T* GetContext(const ViewItem* view_item)
 {
   if (auto presentation = GetPresentation<T>(view_item); presentation)
-    return presentation->GetContext();
+  {
+    return dynamic_cast<const T*>(presentation->GetContext());
+  }
   return nullptr;
+}
+
+template <typename T>
+const T* GetItem(const ViewItem* view_item)
+{
+  return dynamic_cast<const T*>(GetContext<SessionItem>(view_item));
 }
 
 //! Finds ViewItems in given ViewModelBase representing given context.
@@ -62,17 +75,23 @@ template <typename T>
 std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
 {
   if (!item)
+  {
     return {};
+  }
 
   std::vector<ViewItem*> result;
   if (item == GetContext<T>(view_model->rootItem()))
+  {
     result.push_back(view_model->rootItem());
+  }
 
   auto on_index = [&](const QModelIndex& index)
   {
     auto view_item = view_model->itemFromIndex(index);
     if (GetContext<T>(view_item) == item)
+    {
       result.push_back(view_item);
+    }
   };
   Utils::iterate_model(view_model, QModelIndex(), on_index);
   return result;
