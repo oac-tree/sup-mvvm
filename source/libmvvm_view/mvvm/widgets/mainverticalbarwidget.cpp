@@ -47,12 +47,6 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
   layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
 
-  auto filler_button = CreateViewSelectionButton();
-  filler_button->setMinimumSize(5, 5);
-  filler_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-  filler_button->setEnabled(false);
-  m_button_layout->insertWidget(-1, filler_button);
-
   setFrameStyle(QFrame::Sunken);
 
   connect(m_button_group, &QButtonGroup::idClicked, this, &MainVerticalBarWidget::setCurrentIndex);
@@ -65,7 +59,7 @@ void MainVerticalBarWidget::addWidget(QWidget* widget, const QString& title, con
   int index = m_stacked_widget->addWidget(widget);
 
   auto button = CreateViewSelectionButton();
-  m_button_layout->insertWidget(index, button);
+  m_button_layout->insertWidget(m_button_layout->count(), button);
 
   button->setText(title);
   button->setIcon(icon);
@@ -86,6 +80,17 @@ void MainVerticalBarWidget::setCurrentIndex(int index)
   {
     throw std::runtime_error("Can't find button for index");
   }
+}
+
+void MainVerticalBarWidget::addSpacer()
+{
+  m_filler_button = CreateViewSelectionButton();
+  m_filler_button->setMinimumSize(5, 5);
+  m_filler_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+  m_filler_button->setEnabled(false);
+  m_button_layout->insertWidget(m_button_layout->count(), m_filler_button);
+
+  UpdateViewSelectionButtonsGeometry();
 }
 
 QToolButton* MainVerticalBarWidget::CreateViewSelectionButton()
@@ -151,7 +156,7 @@ void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
   const int buttonExtent = std::max(50, maxTextWidth + 2 * margin);
 
   // calculate the icon extent by height (width == height!)
-  const int iconExtent = 0.9*buttonExtent - margin - maxTextHeight;
+  const int iconExtent = 0.9 * buttonExtent - margin - maxTextHeight;
 
   // set new values in all buttons
   for (auto b : m_button_group->buttons())
@@ -160,13 +165,9 @@ void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
     b->setIconSize({iconExtent, iconExtent});
   }
   // set fixed width in filler and progress bar
-  auto filler = m_button_layout->itemAt(m_button_group->buttons().size());
-  if (filler)
+  if (m_filler_button)
   {
-    if (auto fillerBtn = dynamic_cast<QToolButton*>(filler->widget()); fillerBtn)
-    {
-      fillerBtn->setFixedWidth(buttonExtent);
-    }
+    m_filler_button->setFixedWidth(buttonExtent);
   }
 }
 

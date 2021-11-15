@@ -50,6 +50,8 @@ public:
 
   void setCurrentIndex(int index);
 
+  void addSpacer();
+
 private:
   QToolButton* CreateViewSelectionButton();
   void UpdateViewSelectionButtonsGeometry();
@@ -57,6 +59,7 @@ private:
   QStackedWidget* m_stacked_widget{nullptr};
   QVBoxLayout* m_button_layout{nullptr};
   QButtonGroup* m_button_group{nullptr};
+  QToolButton* m_filler_button{nullptr};
 };
 
 }  // namespace ModelView
