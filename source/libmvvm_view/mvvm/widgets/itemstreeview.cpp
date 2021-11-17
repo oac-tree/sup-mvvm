@@ -45,9 +45,9 @@ void ItemsTreeView::Reset()
   m_view_model.reset();
 }
 
-void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> viewModel)
+void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> view_model)
 {
-  m_view_model = std::move(viewModel);
+  m_view_model = std::move(view_model);
   m_tree_view->setModel(m_view_model.get());
   m_tree_view->expandAll();
   m_tree_view->resizeColumnToContents(0);

@@ -33,4 +33,9 @@ ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model
   RegisterTag(ModelView::TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
 }
 
+bool ContainerItem::IsEmpty() const
+{
+  return GetItemCount(kChildren) == 0;
+}
+
 }  // namespace ModelView

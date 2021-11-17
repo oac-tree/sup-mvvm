@@ -17,26 +17,27 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_CONTAINERITEM_H
-#define MVVM_STANDARDITEMS_CONTAINERITEM_H
+#include "mvvm/standarditems/containeritem.h"
 
-#include "mvvm/model/compounditem.h"
+#include <gtest/gtest.h>
 
-namespace ModelView
+using namespace ModelView;
+
+//! Test of ContainerItem.
+
+class ContainerItemTest : public ::testing::Test
 {
-//! Simple container to store any type of children.
-//! Used as convenience item to create branch with uniform children beneath.
-
-class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
-{
-public:
-  static inline const std::string Type = "ContainerItem";
-
-  ContainerItem(const std::string& model_type = Type);
-
-  bool IsEmpty() const;
 };
 
-}  // namespace ModelView
+TEST_F(ContainerItemTest, InitialState)
+{
+  ContainerItem item;
+  EXPECT_TRUE(item.IsEmpty());
+}
 
-#endif  // MVVM_STANDARDITEMS_CONTAINERITEM_H
+TEST_F(ContainerItemTest, IsEmpty)
+{
+  ContainerItem item;
+  item.InsertItem<PropertyItem>({"", 0});
+  EXPECT_FALSE(item.IsEmpty());
+}

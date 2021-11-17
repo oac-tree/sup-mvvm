@@ -49,7 +49,7 @@ public:
 
   void Reset();
 
-  void SetViewModel(std::unique_ptr<ViewModel> viewModel);
+  void SetViewModel(std::unique_ptr<ViewModel> view_model);
 
   // FIXME restore delegates
   //  void setViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate);

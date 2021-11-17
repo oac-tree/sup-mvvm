@@ -344,6 +344,7 @@ TEST_F(ItemUtilsTest, IsItemAncestor)
   auto vector_item = model.InsertItem<VectorItem>();
   EXPECT_TRUE(Utils::IsItemAncestor(vector_item, model.GetRootItem()));
   EXPECT_FALSE(Utils::IsItemAncestor(model.GetRootItem(), vector_item));
+  EXPECT_FALSE(Utils::IsItemAncestor(vector_item, vector_item));
 
   auto x_item = vector_item->GetItem(VectorItem::P_X);
 
