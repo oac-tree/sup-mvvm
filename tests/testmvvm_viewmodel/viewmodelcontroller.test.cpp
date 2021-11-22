@@ -26,6 +26,7 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taginfo.h"
+#include "mvvm/standarditems/containeritem.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
@@ -450,6 +451,47 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), parent_index);
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
+}
+
+//! Taking child from one container to insert it after in the another.
+//! Checking that controller correctly "forgets" that children was already served (real-life-bug).
+
+TEST_F(ViewModelControllerTest, TakeChildThenInsert)
+{
+  auto container0 = m_composer.InsertItem<ContainerItem>();
+  auto container1 = m_composer.InsertItem<ContainerItem>();
+  auto child0 = m_composer.InsertItem<VectorItem>(container0, TagIndex::Append());
+
+  EXPECT_EQ(m_viewmodel.rowCount(), 2);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+
+  auto container0_index = m_viewmodel.index(0, 0);
+  auto container1_index = m_viewmodel.index(1, 0);
+
+  EXPECT_EQ(m_viewmodel.rowCount(container0_index), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(container0_index), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(container1_index), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(container1_index), 0);
+
+  QSignalSpy spyInsert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+
+  // taking child, but keeping it
+  auto taken = m_composer.TakeItem(container0, {"", 0});
+
+  EXPECT_EQ(spyInsert.count(), 0);
+  EXPECT_EQ(spyRemove.count(), 1);
+
+  // inserting it to another parent
+  EXPECT_NO_FATAL_FAILURE(m_composer.InsertItem(std::move(taken), container1, TagIndex::Append()));
+
+  EXPECT_EQ(spyInsert.count(), 4); // vectorItem and 3 coordinates
+  EXPECT_EQ(spyRemove.count(), 1);
+
+  EXPECT_EQ(m_viewmodel.rowCount(container0_index), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(container0_index), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(container1_index), 1);
+  EXPECT_EQ(m_viewmodel.columnCount(container1_index), 2);
 }
 
 //! SetData.

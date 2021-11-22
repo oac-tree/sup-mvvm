@@ -37,6 +37,13 @@ void ViewItemMap::Insert(const SessionItem *item, ViewItem *view_item)
   m_item_to_view.insert(it, {item, view_item});
 }
 
+//! Update the instruction for view.
+
+void ViewItemMap::Update(const SessionItem *item, ViewItem *view_item)
+{
+  m_item_to_view.insert_or_assign(item, view_item);
+}
+
 //! Find view for given item.
 
 ViewItem *ViewItemMap::FindView(const SessionItem *item)

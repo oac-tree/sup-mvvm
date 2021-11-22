@@ -17,40 +17,23 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEMMAP_H
-#define MVVM_VIEWMODEL_VIEWITEMMAP_H
+#include "mvvm/utils/numericutils.h"
 
-#include "mvvm/viewmodel_export.h"
+#include <gtest/gtest.h>
 
-#include <map>
+#include <cmath>
 
-namespace ModelView
+using namespace ModelView;
+
+class NumericUtilsTest : public ::testing::Test
 {
-class ViewItem;
-class SessionItem;
-
-//! Stores correspondance of the SessionItem and ViewItem. Plays a supporting role during ViewModel
-//! rebuild.
-
-class MVVM_VIEWMODEL_EXPORT ViewItemMap
-{
-public:
-  ViewItemMap();
-
-  void Insert(const SessionItem* item, ViewItem* view_item);
-
-  void Update(const SessionItem* item, ViewItem* view_item);
-
-  ViewItem* FindView(const SessionItem* item);
-
-  void Remove(const SessionItem* item);
-
-  void Clear();
-
-private:
-  std::map<const SessionItem*, ViewItem*> m_item_to_view;
 };
 
-}  // namespace ModelView
-
-#endif  // MVVM_VIEWMODEL_VIEWITEMMAP_H
+TEST_F(NumericUtilsTest, areAlmostEqual)
+{
+  EXPECT_TRUE(Utils::AreAlmostEqual(0.0, 0.0));
+  EXPECT_TRUE(Utils::AreAlmostEqual(1.0, 1.0));
+  EXPECT_TRUE(Utils::AreAlmostEqual(10.0 / 100.0, 100.0 / 1000.0));
+  EXPECT_TRUE(Utils::AreAlmostEqual(std::sin(0.0), 0.0));
+  EXPECT_FALSE(Utils::AreAlmostEqual(std::cos(0.0), 0.0));
+}

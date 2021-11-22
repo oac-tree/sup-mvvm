@@ -3,4 +3,6 @@ target_sources(${library_name} PRIVATE
   stringutils.cpp
   stringutils.h
   threadsafestack.h
+  numericutils.cpp
+  numericutils.h
   )

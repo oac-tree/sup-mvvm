@@ -17,40 +17,22 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEMMAP_H
-#define MVVM_VIEWMODEL_VIEWITEMMAP_H
+#ifndef MVVM_UTILS_NUMERICUTILS_H
+#define MVVM_UTILS_NUMERICUTILS_H
 
-#include "mvvm/viewmodel_export.h"
+#include "mvvm/model_export.h"
 
-#include <map>
+namespace ModelView::Utils {
 
-namespace ModelView
-{
-class ViewItem;
-class SessionItem;
+//! Returns true if two doubles agree within epsilon*tolerance.
+MVVM_MODEL_EXPORT bool AreAlmostEqual(double a, double b, double tolerance_factor = 1.0);
 
-//! Stores correspondance of the SessionItem and ViewItem. Plays a supporting role during ViewModel
-//! rebuild.
+//! Produces random integer values uniformly distributed on the closed interval [low, high].
+MVVM_MODEL_EXPORT int RandInt(int low, int high);
 
-class MVVM_VIEWMODEL_EXPORT ViewItemMap
-{
-public:
-  ViewItemMap();
+//! Produces random FLOAT values uniformly distributed on the  interval [low, high).
+MVVM_MODEL_EXPORT double RandDouble(double low, double high);
 
-  void Insert(const SessionItem* item, ViewItem* view_item);
+} // namespace ModelView::Utils
 
-  void Update(const SessionItem* item, ViewItem* view_item);
-
-  ViewItem* FindView(const SessionItem* item);
-
-  void Remove(const SessionItem* item);
-
-  void Clear();
-
-private:
-  std::map<const SessionItem*, ViewItem*> m_item_to_view;
-};
-
-}  // namespace ModelView
-
-#endif  // MVVM_VIEWMODEL_VIEWITEMMAP_H
+#endif // MVVM_UTILS_NUMERICUTILS_H

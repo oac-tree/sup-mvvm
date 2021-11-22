@@ -25,6 +25,7 @@
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/serialization/xmldocument.h"
+#include "mvvm/standarditems/containeritem.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/applicationmodel.h"
 
@@ -847,7 +848,7 @@ TEST_F(AllItemsViewModelTest, OnModelReset)
 
 //! On model destroyed.
 
- TEST_F(AllItemsViewModelTest, onModelDestroyed)
+TEST_F(AllItemsViewModelTest, onModelDestroyed)
 {
   auto model = std::make_unique<ApplicationModel>();
   model->InsertItem<SessionItem>();
@@ -1004,6 +1005,25 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
+
+//! Moving item from one parent to another.
+
+//TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
+//{
+//  auto container0 = m_model.InsertItem<ContainerItem>();
+//  auto property = container0->InsertItem<PropertyItem>(TagIndex::Append());
+//  auto container1 = m_model.InsertItem<ContainerItem>();
+
+//  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+//  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+//  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+//  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+
+//  m_model.MoveItem(property, container1, TagIndex::Append());
+
+//  EXPECT_EQ(spyInsert.count(), 1);
+//  EXPECT_EQ(spyRemove.count(), 1);  // FIXME why not 1?
+//}
 
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.

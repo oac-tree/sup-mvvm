@@ -127,7 +127,7 @@ struct ViewModelController::ViewModelControllerImpl
       {
         m_view_model->insertRow(parent_view, row, std::move(row_of_views));
       }
-      m_view_item_map.Insert(item, next_parent_view);
+      m_view_item_map.Update(item, next_parent_view);
       return next_parent_view;
     }
     return nullptr;
@@ -161,7 +161,7 @@ struct ViewModelController::ViewModelControllerImpl
   {
     CheckInitialState();
     m_view_item_map.Clear();
-    m_view_item_map.Insert(GetRootItem(), m_view_model->rootItem());
+    m_view_item_map.Update(GetRootItem(), m_view_model->rootItem());
     Iterate(GetRootItem(), m_view_model->rootItem());
   }
 
