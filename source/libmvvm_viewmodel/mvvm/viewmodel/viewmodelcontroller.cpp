@@ -32,6 +32,7 @@
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
+#include <QDebug>
 #include <map>
 #include <stdexcept>
 
@@ -42,14 +43,21 @@ namespace
 bool isValidItemRole(const ModelView::ViewItem *view, int item_role)
 {
   static std::map<int, int> role_to_column = {{ModelView::DataRole::kDisplay, 0},
-                                              {ModelView::DataRole::kData, 1}};
+                                              {ModelView::DataRole::kData, 1},
+                                              {ModelView::DataRole::kData, 2}};
 
   if (item_role == ModelView::DataRole::kAppearance || item_role == ModelView::DataRole::kTooltip)
   {
     return true;
   }
 
-  return role_to_column[item_role] == view->column();
+  // FIXME refactor this asap
+  if (view->column() == 0 && item_role != ModelView::DataRole::kDisplay)
+  {
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace
