@@ -58,17 +58,23 @@ void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> view_model)
 
 void ItemsTreeView::SetSelected(SessionItem* item)
 {
-  // Provide possibility to clear selection when item == nullptr. Provide unit tests.
-  // Make sure it works when SessionModel is already destroyed.
-  if (!m_view_model || !item)
+  SetSelectedItems({item});
+}
+
+void ItemsTreeView::SetSelectedItems(const std::vector<SessionItem*>& to_select)
+{
+  if (!m_view_model)
   {
     return;
   }
 
-  auto indexes = m_view_model->GetIndexOfSessionItem(item);
-  if (!indexes.empty())
+  GetSelectionModel()->clearSelection();
+  for (auto item : to_select)
   {
-    GetSelectionModel()->select(indexes.at(0), QItemSelectionModel::SelectCurrent);
+    for (auto index : m_view_model->GetIndexOfSessionItem(item))
+    {
+      GetSelectionModel()->select(index, QItemSelectionModel::Select);
+    }
   }
 }
 

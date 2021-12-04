@@ -56,6 +56,8 @@ public:
 
   void SetSelected(SessionItem* item);
 
+  void SetSelectedItems(const std::vector<SessionItem*>& to_select);
+
   virtual void SetRootSessionItem(SessionItem* item);
 
   ViewModel* GetViewModel() const;
@@ -84,4 +86,4 @@ private:
 
 }  // namespace ModelView
 
-#endif // MVVM_WIDGETS_ITEMSTREEVIEW_H
+#endif  // MVVM_WIDGETS_ITEMSTREEVIEW_H

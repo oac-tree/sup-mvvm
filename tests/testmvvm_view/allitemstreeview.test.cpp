@@ -75,6 +75,7 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
   auto x_item = vector_item->GetItem(VectorItem::P_X);
+  auto y_item = vector_item->GetItem(VectorItem::P_Y);
   AllItemsTreeView view(&model);
   view.SetRootSessionItem(vector_item);
 
@@ -83,6 +84,14 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
 
   view.SetSelected(x_item);
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(view.GetSelectedItem(), x_item);
+
+  view.SetSelected(y_item);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({y_item}));
+  EXPECT_EQ(view.GetSelectedItem(), y_item);
+
+  view.SetSelectedItems({x_item, y_item});
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item, y_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 }
 

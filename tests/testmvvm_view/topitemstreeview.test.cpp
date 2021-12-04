@@ -87,3 +87,25 @@ TEST_F(TopItemsTreeViewTest, DestroyModel)
   EXPECT_TRUE(view.GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
+
+TEST_F(TopItemsTreeViewTest, GetSelectedItems)
+{
+  // setting up model and viewmodel
+  auto model = std::make_unique<ApplicationModel>();
+  auto vector_item0 = model->InsertItem<VectorItem>();
+  auto vector_item1 = model->InsertItem<VectorItem>();
+  auto vector_item2 = model->InsertItem<VectorItem>();
+
+  TopItemsTreeView view(model.get());
+
+  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+
+  view.SetSelected(vector_item0);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0}));
+  EXPECT_EQ(view.GetSelectedItem(), vector_item0);
+
+  view.SetSelectedItems({vector_item0, vector_item1});
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0, vector_item1}));
+  EXPECT_EQ(view.GetSelectedItem(), vector_item0);
+}
