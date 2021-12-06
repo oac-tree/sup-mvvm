@@ -210,7 +210,7 @@ QString ModelView::Utils::CreatePathPresentation(const QString& text)
 
   if (text == QStringLiteral("/"))
   {
-    return text;
+    return ClickableText("/", "/");
   }
   auto parts = text.split(QLatin1Char('/'));
 
@@ -220,8 +220,8 @@ QString ModelView::Utils::CreatePathPresentation(const QString& text)
   {
     if (it->isEmpty())
     {
-      result.append(QString("/ "));
       link.append(QString("/"));
+      result.append(ClickableText("/ ", link));
       continue;
     }
 
@@ -229,8 +229,8 @@ QString ModelView::Utils::CreatePathPresentation(const QString& text)
     result.append(ClickableText(*it, link));
     if (std::next(it) != parts.end())
     {
-      result.append(QString(" / "));
       link.append(QString("/"));
+      result.append(QString(" / "));
     }
   }
   return result;
