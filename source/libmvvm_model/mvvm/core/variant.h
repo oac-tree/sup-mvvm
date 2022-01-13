@@ -35,7 +35,7 @@ using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
 
 //! Defines names of all supported (serializable) data types.
-namespace mvvm::Constants
+namespace mvvm::constants
 {
 const std::string kUndefinedTypeName = "undefined";
 const std::string kBoolTypeName = "bool";

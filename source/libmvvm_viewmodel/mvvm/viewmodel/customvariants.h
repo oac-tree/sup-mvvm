@@ -30,7 +30,7 @@
 
 namespace mvvm
 {
-namespace Constants
+namespace constants
 {
 const std::string kInvalidQtTypeName = "invalid";
 const std::string kBoolQtTypeName = "bool";

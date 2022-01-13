@@ -119,14 +119,14 @@ TEST_F(SessionItemTest, SetDataAndImplicitConversion)
     SessionItem item;
     const int role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43.0, DataRole::kData));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), Constants::kDoubleTypeName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kDoubleTypeName);
   }
 
   {
     SessionItem item;
     const int role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43, DataRole::kData));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), Constants::kIntTypeName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kIntTypeName);
   }
 }
 

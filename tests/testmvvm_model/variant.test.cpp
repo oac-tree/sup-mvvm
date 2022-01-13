@@ -93,13 +93,13 @@ TEST_F(VariantTest, AreCompatible)
 TEST_F(VariantTest, TypeName)
 {
   using utils::TypeName;
-  EXPECT_EQ(TypeName(variant_t()), Constants::kUndefinedTypeName);
-  EXPECT_EQ(TypeName(variant_t(true)), Constants::kBoolTypeName);
-  EXPECT_EQ(TypeName(variant_t(42)), Constants::kIntTypeName);
-  EXPECT_EQ(TypeName(variant_t(42.4)), Constants::kDoubleTypeName);
-  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), Constants::kStringTypeName);
+  EXPECT_EQ(TypeName(variant_t()), constants::kUndefinedTypeName);
+  EXPECT_EQ(TypeName(variant_t(true)), constants::kBoolTypeName);
+  EXPECT_EQ(TypeName(variant_t(42)), constants::kIntTypeName);
+  EXPECT_EQ(TypeName(variant_t(42.4)), constants::kDoubleTypeName);
+  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringTypeName);
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
-            Constants::kVectorDoubleTypeName);
+            constants::kVectorDoubleTypeName);
 }
 
 TEST_F(VariantTest, DataRoleComparison)

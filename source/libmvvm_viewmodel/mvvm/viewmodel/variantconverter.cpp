@@ -32,17 +32,17 @@ using converter_func_t = std::function<variant_t(const QVariant& variant)>;
 std::map<std::string, converter_func_t> CreateConverterMap()
 {
   std::map<std::string, converter_func_t> result = {
-      {mvvm::Constants::kInvalidQtTypeName,
+      {mvvm::constants::kInvalidQtTypeName,
        [](const QVariant& /*variant*/) { return variant_t(); }},
-      {mvvm::Constants::kBoolQtTypeName,
+      {mvvm::constants::kBoolQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toBool()); }},
-      {mvvm::Constants::kIntQtTypeName,
+      {mvvm::constants::kIntQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toInt()); }},
-      {mvvm::Constants::kDoubleQtTypeName,
+      {mvvm::constants::kDoubleQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toDouble()); }},
-      {mvvm::Constants::kStringQtTypeName,
+      {mvvm::constants::kStringQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toString().toStdString()); }},
-      {mvvm::Constants::kStdVectorDoubleQtTypeName,
+      {mvvm::constants::kStdVectorDoubleQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }}};
 
   return result;
@@ -54,12 +54,12 @@ namespace mvvm
 {
 QVariant GetQtVariant(const variant_t& variant)
 {
-  if (utils::TypeName(variant) == Constants::kVectorDoubleTypeName)
+  if (utils::TypeName(variant) == constants::kVectorDoubleTypeName)
   {
     // shall we convert to supported QVector<double> instead?
     return QVariant::fromValue(std::get<std::vector<double>>(variant));
   }
-  else if (utils::TypeName(variant) == Constants::kStringTypeName)
+  else if (utils::TypeName(variant) == constants::kStringTypeName)
   {
     //  converting std::string to QString
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));

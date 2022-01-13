@@ -23,7 +23,7 @@ namespace mvvm::utils
 {
 std::string GetQtVariantName(const QVariant& variant)
 {
-  return variant.isValid() ? variant.typeName() : Constants::kInvalidQtTypeName;
+  return variant.isValid() ? variant.typeName() : constants::kInvalidQtTypeName;
 }
 
 int GetQtVariantType(const QVariant& variant)
@@ -51,12 +51,12 @@ bool IsDoubleVariant(const QVariant& variant)
 
 bool IsStdStringVariant(const QVariant& variant)
 {
-  return variant.typeName() == Constants::kStdStringQtTypeName;
+  return variant.typeName() == constants::kStdStringQtTypeName;
 }
 
 bool IsDoubleVectorVariant(const QVariant& variant)
 {
-  return variant.typeName() == Constants::kStdVectorDoubleQtTypeName;
+  return variant.typeName() == constants::kStdVectorDoubleQtTypeName;
 }
 
 }  // namespace mvvm::Utils
