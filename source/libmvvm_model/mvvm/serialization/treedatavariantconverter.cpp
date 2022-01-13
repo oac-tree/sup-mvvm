@@ -130,7 +130,7 @@ TreeData ToTreeData(const datarole_t& data_role)
 {
   static const std::map<std::string, Converters> converters = GetConverters();
 
-  const std::string type_name = Utils::TypeName(data_role.first);
+  const std::string type_name = utils::TypeName(data_role.first);
 
   auto it = converters.find(type_name);
   if (it == converters.end())
@@ -193,13 +193,13 @@ mvvm::TreeData from_bool(const datarole_t& datarole)
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kBoolTypeName);
   bool value = std::get<bool>(datarole.first);
-  result.SetContent(mvvm::Utils::FromBool(value));
+  result.SetContent(mvvm::utils::FromBool(value));
   return result;
 }
 
 datarole_t to_bool(const mvvm::TreeData& tree_data)
 {
-  bool value = mvvm::Utils::StringToBool(tree_data.GetContent());
+  bool value = mvvm::utils::StringToBool(tree_data.GetContent());
   return datarole_t{variant_t(value), GetRole(tree_data)};
 }
 
@@ -240,14 +240,14 @@ mvvm::TreeData from_double(const datarole_t& datarole)
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kDoubleTypeName);
   auto value = std::get<double>(datarole.first);
-  result.SetContent(mvvm::Utils::DoubleToString(value));
+  result.SetContent(mvvm::utils::DoubleToString(value));
   return result;
 }
 
 datarole_t to_double(const mvvm::TreeData& tree_data)
 {
   // we use own conversion to double instead of std::stod to not to depend on user's locale
-  if (auto value = mvvm::Utils::StringToDouble(tree_data.GetContent()); value)
+  if (auto value = mvvm::utils::StringToDouble(tree_data.GetContent()); value)
   {
     return datarole_t{variant_t(value.value()), GetRole(tree_data)};
   }
@@ -260,13 +260,13 @@ mvvm::TreeData from_vector_double(const datarole_t& datarole)
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kVectorDoubleTypeName);
   auto values = std::get<std::vector<double>>(datarole.first);
-  result.SetContent(mvvm::Utils::ToCommaSeparatedString(values));
+  result.SetContent(mvvm::utils::ToCommaSeparatedString(values));
   return result;
 }
 
 datarole_t to_vector_double(const mvvm::TreeData& tree_data)
 {
-  auto values = mvvm::Utils::ParseCommaSeparatedDoubles(tree_data.GetContent());
+  auto values = mvvm::utils::ParseCommaSeparatedDoubles(tree_data.GetContent());
   return datarole_t{variant_t(values), GetRole(tree_data)};
 }
 

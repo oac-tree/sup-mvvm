@@ -107,7 +107,7 @@ bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) con
 
 int SessionItemContainer::IndexOfItem(const SessionItem* item) const
 {
-  return Utils::IndexOfItem(m_items, item);
+  return utils::IndexOfItem(m_items, item);
 }
 
 //! Returns item at given index. Returns nullptr if index is invalid.

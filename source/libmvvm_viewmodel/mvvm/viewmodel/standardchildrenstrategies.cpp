@@ -34,7 +34,7 @@ std::vector<SessionItem*> AllChildrenStrategy::GetChildren(const SessionItem* it
 
 std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  return item ? Utils::TopLevelItems(*item) : std::vector<SessionItem*>();
+  return item ? utils::TopLevelItems(*item) : std::vector<SessionItem*>();
 }
 
 // ----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* 
   //    auto group = dynamic_cast<const GroupItem*>(item);
   //    auto next_item = group ? group->currentItem() : item;
   //    return Utils::SinglePropertyItems(*next_item);
-  return Utils::SinglePropertyItems(*item);
+  return utils::SinglePropertyItems(*item);
 }
 
 }  // namespace mvvm

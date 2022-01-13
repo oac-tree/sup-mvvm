@@ -43,7 +43,7 @@ ViewModel::~ViewModel() = default;
 
 const SessionItem* ViewModel::GetRootSessionItem() const
 {
-  return Utils::GetContext<SessionItem>(rootItem());
+  return utils::GetContext<SessionItem>(rootItem());
 }
 
 SessionItem* ViewModel::GetRootSessionItem()
@@ -67,7 +67,7 @@ const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) 
   {
     throw std::runtime_error("Invalid controller");
   }
-  return index.isValid() ? Utils::GetContext<SessionItem>(itemFromIndex(index))
+  return index.isValid() ? utils::GetContext<SessionItem>(itemFromIndex(index))
                          : GetRootSessionItem();
 }
 
@@ -80,7 +80,7 @@ ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
 
 std::vector<ViewItem*> ViewModel::FindViews(const SessionItem* item) const
 {
-  return mvvm::Utils::FindViews<SessionItem>(this, item);
+  return mvvm::utils::FindViews<SessionItem>(this, item);
 }
 
 //! Returns list of model indices representing given SessionItem.

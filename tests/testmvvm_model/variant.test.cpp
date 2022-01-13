@@ -33,7 +33,7 @@ class VariantTest : public ::testing::Test
 
 TEST_F(VariantTest, IsValid)
 {
-  using Utils::IsValid;
+  using utils::IsValid;
   EXPECT_FALSE(IsValid(variant_t()));
   EXPECT_TRUE(IsValid(variant_t(true)));
   EXPECT_TRUE(IsValid(variant_t(42)));
@@ -75,16 +75,16 @@ TEST_F(VariantTest, AreCompatible)
                                      variant_t(std::vector<double>({1.1, 2.2, 3.3}))};
   for (size_t i = 0; i < variants.size(); ++i)
   {
-    EXPECT_TRUE(Utils::AreCompatible(variant_t(), variants[i]));
+    EXPECT_TRUE(utils::AreCompatible(variant_t(), variants[i]));
     for (size_t j = 0; j < variants.size(); ++j)
     {
       if (i == j)
       {
-        EXPECT_TRUE(Utils::AreCompatible(variants[i], variants[j]));
+        EXPECT_TRUE(utils::AreCompatible(variants[i], variants[j]));
       }
       else
       {
-        EXPECT_FALSE(Utils::AreCompatible(variants[i], variants[j]));
+        EXPECT_FALSE(utils::AreCompatible(variants[i], variants[j]));
       }
     }
   }
@@ -92,7 +92,7 @@ TEST_F(VariantTest, AreCompatible)
 
 TEST_F(VariantTest, TypeName)
 {
-  using Utils::TypeName;
+  using utils::TypeName;
   EXPECT_EQ(TypeName(variant_t()), Constants::kUndefinedTypeName);
   EXPECT_EQ(TypeName(variant_t(true)), Constants::kBoolTypeName);
   EXPECT_EQ(TypeName(variant_t(42)), Constants::kIntTypeName);

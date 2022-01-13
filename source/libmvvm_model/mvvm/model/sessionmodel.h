@@ -107,7 +107,7 @@ private:
 template <typename T>
 std::vector<T*> SessionModel::GetTopItems() const
 {
-  return Utils::CastItems<T>(GetRootItem()->GetAllItems());
+  return utils::CastItems<T>(GetRootItem()->GetAllItems());
 }
 
 //! Returns top item of the given type. If more than one item exists, return the first one.

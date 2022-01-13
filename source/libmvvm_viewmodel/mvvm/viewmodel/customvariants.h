@@ -41,7 +41,7 @@ const std::string kDoubleQtTypeName = "double";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
 }  // namespace Constants
 
-namespace Utils
+namespace utils
 {
 //! Returns name of variant.
 MVVM_VIEWMODEL_EXPORT std::string GetQtVariantName(const QVariant& variant);

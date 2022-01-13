@@ -31,9 +31,9 @@ class NumericUtilsTest : public ::testing::Test
 
 TEST_F(NumericUtilsTest, areAlmostEqual)
 {
-  EXPECT_TRUE(Utils::AreAlmostEqual(0.0, 0.0));
-  EXPECT_TRUE(Utils::AreAlmostEqual(1.0, 1.0));
-  EXPECT_TRUE(Utils::AreAlmostEqual(10.0 / 100.0, 100.0 / 1000.0));
-  EXPECT_TRUE(Utils::AreAlmostEqual(std::sin(0.0), 0.0));
-  EXPECT_FALSE(Utils::AreAlmostEqual(std::cos(0.0), 0.0));
+  EXPECT_TRUE(utils::AreAlmostEqual(0.0, 0.0));
+  EXPECT_TRUE(utils::AreAlmostEqual(1.0, 1.0));
+  EXPECT_TRUE(utils::AreAlmostEqual(10.0 / 100.0, 100.0 / 1000.0));
+  EXPECT_TRUE(utils::AreAlmostEqual(std::sin(0.0), 0.0));
+  EXPECT_FALSE(utils::AreAlmostEqual(std::cos(0.0), 0.0));
 }

@@ -68,7 +68,7 @@ TEST_F(ViewModelBaseUtilsTest, iterate)
   std::vector<int> expected = {1, 2, 3, 4, 10, 20};
   std::vector<int> result;
 
-  Utils::iterate_model(&model, QModelIndex(),
+  utils::iterate_model(&model, QModelIndex(),
                        [&](const QModelIndex& index)
                        {
                          auto item = model.itemFromIndex(index);
@@ -87,7 +87,7 @@ TEST_F(ViewModelBaseUtilsTest, GetPresentation)
 
   auto expected_ptr = presentation.get();
   mvvm::ViewItem item(std::move(presentation));
-  EXPECT_EQ(Utils::GetPresentation<TestItem>(&item), expected_ptr);
+  EXPECT_EQ(utils::GetPresentation<TestItem>(&item), expected_ptr);
 }
 
 //! Validate Utils::GetPresentation function.
@@ -98,11 +98,11 @@ TEST_F(ViewModelBaseUtilsTest, GetContext)
 
   auto presentation = std::make_unique<PresentationItem<TestItem>>(&wait);
   mvvm::ViewItem item(std::move(presentation));
-  EXPECT_EQ(Utils::GetContext<TestItem>(&item), &wait);
+  EXPECT_EQ(utils::GetContext<TestItem>(&item), &wait);
 
   // Context of the arbitrary item should be nullptr
   mvvm::ViewItem item2;
-  EXPECT_EQ(Utils::GetContext<TestItem>(&item2), nullptr);
+  EXPECT_EQ(utils::GetContext<TestItem>(&item2), nullptr);
 }
 
 //! Validate Utils::GetItem
@@ -116,16 +116,16 @@ TEST_F(ViewModelBaseUtilsTest, GetItem)
   auto presentation1 = std::make_unique<PresentationItem<SessionItem>>(&item);
   mvvm::ViewItem view_item1(std::move(presentation1));
 
-  EXPECT_EQ(Utils::GetContext<SessionItem>(&view_item1), &item);
-  EXPECT_NE(Utils::GetContext<VectorItem>(&view_item1), &item);
-  EXPECT_EQ(Utils::GetItem<VectorItem>(&view_item1), &item);
+  EXPECT_EQ(utils::GetContext<SessionItem>(&view_item1), &item);
+  EXPECT_NE(utils::GetContext<VectorItem>(&view_item1), &item);
+  EXPECT_EQ(utils::GetItem<VectorItem>(&view_item1), &item);
 
   auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
   mvvm::ViewItem view_item2(std::move(presentation2));
 
-  EXPECT_NE(Utils::GetContext<SessionItem>(&view_item2), &item);
-  EXPECT_EQ(Utils::GetContext<VectorItem>(&view_item2), &item);
-  EXPECT_NE(Utils::GetItem<VectorItem>(&view_item2), &item);
+  EXPECT_NE(utils::GetContext<SessionItem>(&view_item2), &item);
+  EXPECT_EQ(utils::GetContext<VectorItem>(&view_item2), &item);
+  EXPECT_NE(utils::GetItem<VectorItem>(&view_item2), &item);
 }
 
 //! Validate Utils::FindViews function.
@@ -135,9 +135,9 @@ TEST_F(ViewModelBaseUtilsTest, FindViews)
   mvvm::ViewModelBase viewmodel;
   TestItem instruction;
 
-  EXPECT_TRUE(Utils::FindViews<TestItem>(&viewmodel, &instruction).empty());
+  EXPECT_TRUE(utils::FindViews<TestItem>(&viewmodel, &instruction).empty());
 
-  EXPECT_TRUE(Utils::FindViews<TestItem>(&viewmodel, nullptr).empty());
+  EXPECT_TRUE(utils::FindViews<TestItem>(&viewmodel, nullptr).empty());
 
   // more tests for FindViews in ViewModelControllerTest
 }
@@ -149,7 +149,7 @@ TEST_F(ViewModelBaseUtilsTest, CreateLabelPresentation)
   TestItem item;
 
   std::string expected_label{"SomeLabel"};
-  auto presentation = mvvm::Utils::CreateLabelPresentation(&item, expected_label);
+  auto presentation = mvvm::utils::CreateLabelPresentation(&item, expected_label);
 
   // item has a display role, which coincide with the label, the rest is blocked
   EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
@@ -169,7 +169,7 @@ TEST_F(ViewModelBaseUtilsTest, CreateLabelViewItem)
   TestItem item;
 
   std::string expected_label{"SomeLabel"};
-  auto view_item = mvvm::Utils::CreateLabelViewItem(&item, expected_label);
+  auto view_item = mvvm::utils::CreateLabelViewItem(&item, expected_label);
 
   // item has a display role, which coincide with the label, the rest is blocked
   EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
@@ -181,5 +181,5 @@ TEST_F(ViewModelBaseUtilsTest, CreateLabelViewItem)
   // data is the same as before, despite of all attempts to change it
   EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
 
-  EXPECT_EQ(mvvm::Utils::GetContext<TestItem>(view_item.get()), &item);
+  EXPECT_EQ(mvvm::utils::GetContext<TestItem>(view_item.get()), &item);
 }

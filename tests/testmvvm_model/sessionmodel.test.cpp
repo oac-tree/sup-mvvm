@@ -122,14 +122,14 @@ TEST_F(SessionModelTest, InsertItemWithTag)
   auto child1 = model.InsertItem<PropertyItem>(parent, {tag1, -1});
 
   EXPECT_EQ(parent->TagIndexOfItem(child1).tag, tag1);
-  EXPECT_EQ(Utils::IndexOfChild(parent, child1), 0);
+  EXPECT_EQ(utils::IndexOfChild(parent, child1), 0);
 
   // adding second child
   auto child2 = model.InsertItem<PropertyItem>(parent, {tag1, 0});
 
   EXPECT_EQ(parent->TagIndexOfItem(child2).tag, tag1);
-  EXPECT_EQ(Utils::IndexOfChild(parent, child1), 1);
-  EXPECT_EQ(Utils::IndexOfChild(parent, child2), 0);
+  EXPECT_EQ(utils::IndexOfChild(parent, child1), 1);
+  EXPECT_EQ(utils::IndexOfChild(parent, child2), 0);
 }
 
 //! Inserting single PropertyItem using move.
@@ -201,7 +201,7 @@ TEST_F(SessionModelTest, SetData)
 
   // inserting single item
   auto item = model.InsertItem<SessionItem>();
-  EXPECT_TRUE(Utils::IsValid(model.Data(item, DataRole::kDisplay)));
+  EXPECT_TRUE(utils::IsValid(model.Data(item, DataRole::kDisplay)));
 
   // setting wrong type of data
   variant_t value(42.0);
@@ -229,7 +229,7 @@ TEST_F(SessionModelTest, RemoveItem)
   // removing child2
   model.RemoveItem(child2);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(Utils::ChildAt(parent, 0), child1);
+  EXPECT_EQ(utils::ChildAt(parent, 0), child1);
 
   // child2 shouldn't be registered anymore
   EXPECT_EQ(pool->KeyForItem(child2), "");
@@ -250,7 +250,7 @@ TEST_F(SessionModelTest, TakeItem)
   auto taken = model.TakeItem(parent, {"", 0});  // removing child2
   EXPECT_EQ(taken.get(), child2);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(Utils::ChildAt(parent, 0), child1);
+  EXPECT_EQ(utils::ChildAt(parent, 0), child1);
 
   // child2 shouldn't be registered anymore
   EXPECT_EQ(pool->KeyForItem(child2), "");

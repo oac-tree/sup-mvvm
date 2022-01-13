@@ -42,9 +42,9 @@ std::vector<std::string> GetExpectedAttributeKeys();
 
 std::vector<std::string> SplitAndTrim(const std::string &str)
 {
-  auto result = mvvm::Utils::SplitString(str, ",");
+  auto result = mvvm::utils::SplitString(str, ",");
   std::transform(result.begin(), result.end(), result.begin(),
-                 [](auto s) { return mvvm::Utils::TrimWhitespace(s); });
+                 [](auto s) { return mvvm::utils::TrimWhitespace(s); });
   return result;
 }
 }  // namespace
@@ -83,7 +83,7 @@ TreeData ToTreeData(const TagInfo &tag_info)
   result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
   result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   result.AddAttribute(kNameAttributeKey, tag_info.GetName());
-  result.SetContent(Utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
+  result.SetContent(utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
   return result;
 }
 

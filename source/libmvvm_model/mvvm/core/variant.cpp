@@ -26,12 +26,12 @@ bool operator==(const datarole_t &lhs, const datarole_t &rhs)
   return lhs.first == rhs.first && lhs.second == rhs.second;
 }
 
-bool mvvm::Utils::IsValid(const variant_t &value)
+bool mvvm::utils::IsValid(const variant_t &value)
 {
   return value.index() != 0;  // index==0 corresponds to `monostate`
 }
 
-bool mvvm::Utils::AreCompatible(const variant_t &var1, const variant_t &var2)
+bool mvvm::utils::AreCompatible(const variant_t &var1, const variant_t &var2)
 {
   // If one of them is invalid, they are considered to be compatible.
   if (!IsValid(var1) || !IsValid(var2))
@@ -41,7 +41,7 @@ bool mvvm::Utils::AreCompatible(const variant_t &var1, const variant_t &var2)
   return var1.index() == var2.index();
 }
 
-std::string mvvm::Utils::TypeName(const variant_t &variant)
+std::string mvvm::utils::TypeName(const variant_t &variant)
 {
   static std::map<int, std::string> type_name_map = {
       {0, Constants::kUndefinedTypeName}, {1, Constants::kBoolTypeName},

@@ -50,23 +50,23 @@ public:
 TEST_F(ModelUtilsTest, FindItems)
 {
   TestModel model;
-  EXPECT_EQ(Utils::FindItems<>(&model).size(), 1);             // because of rootItem
-  EXPECT_EQ(Utils::FindItems<SessionItem>(&model).size(), 1);  // because of rootItem
-  EXPECT_EQ(Utils::FindItems<TestCompoundItem>(&model).size(), 0);
+  EXPECT_EQ(utils::FindItems<>(&model).size(), 1);             // because of rootItem
+  EXPECT_EQ(utils::FindItems<SessionItem>(&model).size(), 1);  // because of rootItem
+  EXPECT_EQ(utils::FindItems<TestCompoundItem>(&model).size(), 0);
 
   auto parent1 = model.InsertItem<TestCompoundItem>();
   auto property1 = model.InsertItem<PropertyItem>();
   auto parent2 = model.InsertItem<TestCompoundItem>();
 
   std::vector<TestCompoundItem*> expected2 = {parent1, parent2};
-  EXPECT_EQ(Utils::FindItems<TestCompoundItem>(&model), expected2);
+  EXPECT_EQ(utils::FindItems<TestCompoundItem>(&model), expected2);
 
   auto property2 = model.InsertItem<PropertyItem>(parent1);
   auto property3 = model.InsertItem<PropertyItem>(parent2);
 
   // order correspond to iteration order
   std::vector<PropertyItem*> expected3 = {property2, property1, property3};
-  EXPECT_EQ(Utils::FindItems<PropertyItem>(&model), expected3);
+  EXPECT_EQ(utils::FindItems<PropertyItem>(&model), expected3);
 }
 
 TEST_F(ModelUtilsTest, PathFromItem)
@@ -74,10 +74,10 @@ TEST_F(ModelUtilsTest, PathFromItem)
   SessionModel model;
 
   // unexisting path
-  EXPECT_TRUE(Utils::PathFromItem(nullptr).GetString().empty());
+  EXPECT_TRUE(utils::PathFromItem(nullptr).GetString().empty());
   // yet another unexisting path
   auto alienItem = std::make_unique<SessionItem>();
-  EXPECT_TRUE(Utils::PathFromItem(alienItem.get()).GetString().empty());
+  EXPECT_TRUE(utils::PathFromItem(alienItem.get()).GetString().empty());
 
   // three children beneeth root item
   auto item0 = model.InsertItem<SessionItem>();
@@ -87,16 +87,16 @@ TEST_F(ModelUtilsTest, PathFromItem)
   auto item2 = model.InsertItem<SessionItem>();
   item2->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  EXPECT_EQ(Utils::PathFromItem(item0).GetString(), "0");
-  EXPECT_EQ(Utils::PathFromItem(item1).GetString(), "1");
-  EXPECT_EQ(Utils::PathFromItem(item2).GetString(), "2");
+  EXPECT_EQ(utils::PathFromItem(item0).GetString(), "0");
+  EXPECT_EQ(utils::PathFromItem(item1).GetString(), "1");
+  EXPECT_EQ(utils::PathFromItem(item2).GetString(), "2");
 
   // adding granchildren to item0
   auto child00 = model.InsertItem<SessionItem>(item0);
   auto child01 = model.InsertItem<SessionItem>(item0);
 
-  EXPECT_EQ(Utils::PathFromItem(child00).GetString(), "0,0");
-  EXPECT_EQ(Utils::PathFromItem(child01).GetString(), "0,1");
+  EXPECT_EQ(utils::PathFromItem(child00).GetString(), "0,0");
+  EXPECT_EQ(utils::PathFromItem(child01).GetString(), "0,1");
 
   // adding grandchildren to item2
   auto child20 = model.InsertItem<SessionItem>(item2);
@@ -105,8 +105,8 @@ TEST_F(ModelUtilsTest, PathFromItem)
   auto child200 = model.InsertItem<SessionItem>(child20);
   auto child201 = model.InsertItem<SessionItem>(child20);
 
-  EXPECT_EQ(Utils::PathFromItem(child200).GetString(), "2,0,0");
-  EXPECT_EQ(Utils::PathFromItem(child201).GetString(), "2,0,1");
+  EXPECT_EQ(utils::PathFromItem(child200).GetString(), "2,0,0");
+  EXPECT_EQ(utils::PathFromItem(child201).GetString(), "2,0,1");
 }
 
 TEST_F(ModelUtilsTest, ItemFromPath)
@@ -116,7 +116,7 @@ TEST_F(ModelUtilsTest, ItemFromPath)
   // access to non-existing item
   Path non_existing;
   non_existing.Append(8);
-  EXPECT_EQ(Utils::ItemFromPath(model, non_existing), nullptr);
+  EXPECT_EQ(utils::ItemFromPath(model, non_existing), nullptr);
 
   auto item0 = model.InsertItem<SessionItem>();
   item0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -125,18 +125,18 @@ TEST_F(ModelUtilsTest, ItemFromPath)
   auto item2 = model.InsertItem<SessionItem>();
   item2->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  EXPECT_EQ(Utils::ItemFromPath(model, Path::CreateFromVector({0})), item0);
-  EXPECT_EQ(Utils::ItemFromPath(model, Path::CreateFromVector({1})), item1);
-  EXPECT_EQ(Utils::ItemFromPath(model, Path::CreateFromVector({2})), item2);
+  EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({0})), item0);
+  EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({1})), item1);
+  EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2})), item2);
 
   auto child20 = model.InsertItem<SessionItem>(item2);
   child20->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   auto child200 = model.InsertItem<SessionItem>(child20);
   auto child201 = model.InsertItem<SessionItem>(child20);
 
-  EXPECT_EQ(Utils::ItemFromPath(model, Path::CreateFromVector({2, 0})), child20);
-  EXPECT_EQ(Utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 0})), child200);
-  EXPECT_EQ(Utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 1})), child201);
+  EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0})), child20);
+  EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 0})), child200);
+  EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 1})), child201);
 }
 
 //! FIXME restore test

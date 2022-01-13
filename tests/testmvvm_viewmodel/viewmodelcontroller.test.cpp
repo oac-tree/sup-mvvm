@@ -69,18 +69,18 @@ public:
   //! Returns underlying SessionItem from given ViewItem
   static const SessionItem* GetSessionItem(const ViewItem* view_item)
   {
-    return Utils::GetContext<SessionItem>(view_item);
+    return utils::GetContext<SessionItem>(view_item);
   }
 
   //! Returns underlying SessionItem from the given index.
   const SessionItem* GetSessionItem(const QModelIndex& index) const
   {
-    return Utils::GetContext<SessionItem>(m_viewmodel.itemFromIndex(index));
+    return utils::GetContext<SessionItem>(m_viewmodel.itemFromIndex(index));
   }
 
   std::vector<mvvm::ViewItem*> FindViews(SessionItem* item)
   {
-    return Utils::FindViews<SessionItem>(&m_viewmodel, item);
+    return utils::FindViews<SessionItem>(&m_viewmodel, item);
   }
 
   SessionModel m_model;
@@ -99,9 +99,9 @@ TEST_F(ViewModelControllerTest, EmptyProcedure)
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
-  EXPECT_EQ(mvvm::Utils::GetContext<SessionItem>(m_viewmodel.rootItem()), m_model.GetRootItem());
+  EXPECT_EQ(mvvm::utils::GetContext<SessionItem>(m_viewmodel.rootItem()), m_model.GetRootItem());
 
-  EXPECT_EQ(mvvm::Utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
+  EXPECT_EQ(mvvm::utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
             std::vector<mvvm::ViewItem*>({m_viewmodel.rootItem()}));
 }
 

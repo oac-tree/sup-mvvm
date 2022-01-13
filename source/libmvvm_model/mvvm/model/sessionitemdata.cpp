@@ -58,7 +58,7 @@ bool SessionItemData::SetData(const variant_t& value, int role)
   {
     if (it->second == role)
     {
-      if (Utils::IsValid(value))
+      if (utils::IsValid(value))
       {
         if (it->first == value)
           return false;
@@ -88,7 +88,7 @@ bool SessionItemData::HasData(int role) const
 
 void SessionItemData::AssureCompatibility(const variant_t& variant, int role)
 {
-  if (!Utils::AreCompatible(Data(role), variant))
+  if (!utils::AreCompatible(Data(role), variant))
   {
     std::ostringstream ostr;
     ostr << "Error in SessionItemData: variant types mismatch. "

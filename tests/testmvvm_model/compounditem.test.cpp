@@ -51,7 +51,7 @@ TEST_F(CompoundItemTest, AddIntProperty)
 
   const int expected = 42;
   auto propertyItem = item.AddProperty(property_name, expected);
-  EXPECT_TRUE(Utils::HasTag(item, "name"));
+  EXPECT_TRUE(utils::HasTag(item, "name"));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
@@ -79,7 +79,7 @@ TEST_F(CompoundItemTest, AddDoubleProperty)
 
   const double expected = 42.1;
   auto propertyItem = item.AddProperty(property_name, expected);
-  EXPECT_TRUE(Utils::HasTag(item, property_name));
+  EXPECT_TRUE(utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
@@ -111,7 +111,7 @@ TEST_F(CompoundItemTest, AddCharProperty)
   CompoundItem item;
 
   auto propertyItem = item.AddProperty(property_name, "abc");
-  EXPECT_TRUE(Utils::HasTag(item, property_name));
+  EXPECT_TRUE(utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
@@ -137,7 +137,7 @@ TEST_F(CompoundItemTest, AddStringProperty)
   CompoundItem item;
 
   auto propertyItem = item.AddProperty(property_name, std::string("abc"));
-  EXPECT_TRUE(Utils::HasTag(item, property_name));
+  EXPECT_TRUE(utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
@@ -164,7 +164,7 @@ TEST_F(CompoundItemTest, AddBoolProperty)
 
   const bool expected = true;
   auto propertyItem = item.AddProperty(property_name, expected);
-  EXPECT_TRUE(Utils::HasTag(item, property_name));
+  EXPECT_TRUE(utils::HasTag(item, property_name));
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->Data<bool>(), expected);

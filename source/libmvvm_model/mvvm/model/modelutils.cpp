@@ -23,7 +23,7 @@
 
 namespace mvvm
 {
-Path Utils::PathFromItem(const SessionItem* item)
+Path utils::PathFromItem(const SessionItem* item)
 {
   if (!item || !item->GetModel())
   {
@@ -34,18 +34,18 @@ Path Utils::PathFromItem(const SessionItem* item)
   const SessionItem* current(item);
   while (current && current->GetParent())
   {
-    result.Prepend(Utils::IndexOfChild(current->GetParent(), current));
+    result.Prepend(utils::IndexOfChild(current->GetParent(), current));
     current = current->GetParent();
   }
   return result;
 }
 
-SessionItem* Utils::ItemFromPath(const SessionModel& model, const Path& path)
+SessionItem* utils::ItemFromPath(const SessionModel& model, const Path& path)
 {
   SessionItem* result(model.GetRootItem());
   for (const auto& x : path)
   {
-    result = Utils::ChildAt(result, x);
+    result = utils::ChildAt(result, x);
     if (!result)
     {
       break;

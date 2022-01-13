@@ -30,7 +30,7 @@ namespace mvvm
 {
 class SessionItem;
 
-namespace Utils
+namespace utils
 {
 //! Iterates through item and all its children.
 MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun);

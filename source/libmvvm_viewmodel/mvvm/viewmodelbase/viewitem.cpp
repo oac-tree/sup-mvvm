@@ -107,7 +107,7 @@ struct ViewItem::ViewItemImpl
 
   int index_of_child(const ViewItem* child)
   {
-    return Utils::IndexOfItem(m_children.begin(), m_children.end(), child);
+    return utils::IndexOfItem(m_children.begin(), m_children.end(), child);
   }
 
   //! Returns vector of children.

@@ -51,7 +51,7 @@ std::string CompoundItem::GetDisplayName() const
     return SessionItem::GetDisplayName();
   }
 
-  int copy_number = Utils::CopyNumber(this);
+  int copy_number = utils::CopyNumber(this);
   return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)
                            : SessionItem::GetDisplayName();
 }

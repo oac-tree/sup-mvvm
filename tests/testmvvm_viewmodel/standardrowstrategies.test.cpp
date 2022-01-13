@@ -62,7 +62,7 @@ TEST_F(LabelDataRowStrategyTest, RowForTopLevelItem)
   EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
   EXPECT_FALSE(view_item->setData(QString("aaa"), Qt::DisplayRole));
   EXPECT_FALSE(view_item->setData(QString("bbb"), Qt::EditRole));
-  EXPECT_EQ(Utils::GetContext<SessionItem>(view_item), &item);
+  EXPECT_EQ(utils::GetContext<SessionItem>(view_item), &item);
 
   view_item = items.at(1).get();
   EXPECT_FALSE(view_item->data(Qt::DisplayRole).isValid());

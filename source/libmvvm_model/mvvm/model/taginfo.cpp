@@ -87,7 +87,7 @@ std::vector<std::string> TagInfo::GetItemTypes() const
 bool TagInfo::IsValidType(const std::string& item_type) const
 {
   // if vector is empty, every type is considered as matching
-  return m_item_types.empty() ? true : Utils::Contains(m_item_types, item_type);
+  return m_item_types.empty() ? true : utils::Contains(m_item_types, item_type);
 }
 
 //! Returns true if this tag is used to store single properties.

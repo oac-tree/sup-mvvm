@@ -54,12 +54,12 @@ namespace mvvm
 {
 QVariant GetQtVariant(const variant_t& variant)
 {
-  if (Utils::TypeName(variant) == Constants::kVectorDoubleTypeName)
+  if (utils::TypeName(variant) == Constants::kVectorDoubleTypeName)
   {
     // shall we convert to supported QVector<double> instead?
     return QVariant::fromValue(std::get<std::vector<double>>(variant));
   }
-  else if (Utils::TypeName(variant) == Constants::kStringTypeName)
+  else if (utils::TypeName(variant) == Constants::kStringTypeName)
   {
     //  converting std::string to QString
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));
@@ -73,7 +73,7 @@ QVariant GetQtVariant(const variant_t& variant)
 variant_t GetStdVariant(const QVariant& variant)
 {
   static auto converter_map = CreateConverterMap();
-  auto it = converter_map.find(Utils::GetQtVariantName(variant));
+  auto it = converter_map.find(utils::GetQtVariantName(variant));
   if (it == converter_map.end())
     throw std::runtime_error("Unsupported Qt variant");
   return it->second(variant);

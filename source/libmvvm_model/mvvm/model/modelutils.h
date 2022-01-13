@@ -32,7 +32,7 @@ namespace mvvm
 {
 class Path;
 
-namespace Utils
+namespace utils
 {
 //! Returns all items in a tree of given type.
 

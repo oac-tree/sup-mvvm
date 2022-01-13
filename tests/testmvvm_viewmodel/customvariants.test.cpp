@@ -38,11 +38,11 @@ TEST_F(CustomVariantTest, IsVariantType)
   using is_variant_t = std::function<bool(const QVariant&)>;
 
   std::vector<std::pair<QVariant, is_variant_t>> data = {
-      {QVariant::fromValue(true), Utils::IsBoolVariant},
-      {QVariant::fromValue(1), Utils::IsIntVariant},
-      {QVariant::fromValue(42.0), Utils::IsDoubleVariant},
-      {QVariant::fromValue(std::string("string1")), Utils::IsStdStringVariant},
-      {QVariant::fromValue(std::vector<double>({1, 2})), Utils::IsDoubleVectorVariant}};
+      {QVariant::fromValue(true), utils::IsBoolVariant},
+      {QVariant::fromValue(1), utils::IsIntVariant},
+      {QVariant::fromValue(42.0), utils::IsDoubleVariant},
+      {QVariant::fromValue(std::string("string1")), utils::IsStdStringVariant},
+      {QVariant::fromValue(std::vector<double>({1, 2})), utils::IsDoubleVectorVariant}};
 
   for (size_t i = 0; i < data.size(); ++i)
   {

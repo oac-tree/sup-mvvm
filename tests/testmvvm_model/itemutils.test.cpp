@@ -44,7 +44,7 @@ TEST_F(ItemUtilsTest, IterateItem)
   auto fun = [&](const SessionItem* item) { visited_items.push_back(item); };
 
   // iteration over nullptr
-  Utils::iterate(nullptr, fun);
+  utils::iterate(nullptr, fun);
   EXPECT_TRUE(visited_items.empty());
 
   // iteration over lonely parent
@@ -52,7 +52,7 @@ TEST_F(ItemUtilsTest, IterateItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   std::vector<const SessionItem*> expected = {parent.get()};
-  Utils::iterate(parent.get(), fun);
+  utils::iterate(parent.get(), fun);
   EXPECT_EQ(visited_items, expected);
 
   // adding children
@@ -60,7 +60,7 @@ TEST_F(ItemUtilsTest, IterateItem)
   auto child2 = parent->InsertItem<SessionItem>(TagIndex::Append());
 
   visited_items.clear();
-  Utils::iterate(parent.get(), fun);
+  utils::iterate(parent.get(), fun);
 
   expected = {parent.get(), child1, child2};
   EXPECT_EQ(visited_items, expected);
@@ -87,7 +87,7 @@ TEST_F(ItemUtilsTest, IterateIfItem)
   parent->InsertItem<SessionItem>(TagIndex::Append());
 
   std::vector<const SessionItem*> expected = {parent.get()};
-  Utils::iterate_if(parent.get(), fun);
+  utils::iterate_if(parent.get(), fun);
   EXPECT_EQ(visited_items, expected);
 }
 
@@ -109,7 +109,7 @@ TEST_F(ItemUtilsTest, iterateModel)
   auto fun = [&](const SessionItem* item) { visited_items.push_back(item); };
 
   // iteration
-  Utils::iterate(model.GetRootItem(), fun);
+  utils::iterate(model.GetRootItem(), fun);
 
   std::vector<const SessionItem*> expected = {model.GetRootItem(), parent1, child1, child2,
                                               parent2};
@@ -129,9 +129,9 @@ TEST_F(ItemUtilsTest, itemCopyNumber)
   auto child2 = model.InsertItem<SessionItem>(parent);
   auto child3 = model.InsertItem<PropertyItem>(parent);
 
-  EXPECT_EQ(Utils::CopyNumber(child1), 0);
-  EXPECT_EQ(Utils::CopyNumber(child2), 1);
-  EXPECT_EQ(Utils::CopyNumber(child3), -1);
+  EXPECT_EQ(utils::CopyNumber(child1), 0);
+  EXPECT_EQ(utils::CopyNumber(child2), 1);
+  EXPECT_EQ(utils::CopyNumber(child3), -1);
 }
 
 //! Checks method ::HasTag.
@@ -141,8 +141,8 @@ TEST_F(ItemUtilsTest, HasTag)
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
 
-  EXPECT_TRUE(Utils::HasTag(item, "default_tag"));
-  EXPECT_FALSE(Utils::HasTag(item, "nonexisting_tag"));
+  EXPECT_TRUE(utils::HasTag(item, "default_tag"));
+  EXPECT_FALSE(utils::HasTag(item, "nonexisting_tag"));
 }
 
 //! Checks method ::IsSinglePropertyTag.
@@ -153,8 +153,8 @@ TEST_F(ItemUtilsTest, IsSinglePropertyTag)
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
-  EXPECT_FALSE(Utils::IsSinglePropertyTag(item, "default_tag"));
-  EXPECT_TRUE(Utils::IsSinglePropertyTag(item, "property_tag"));
+  EXPECT_FALSE(utils::IsSinglePropertyTag(item, "default_tag"));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, "property_tag"));
 }
 
 //! Checks method ::RegisteredTags.
@@ -162,12 +162,12 @@ TEST_F(ItemUtilsTest, IsSinglePropertyTag)
 TEST_F(ItemUtilsTest, RegisteredTags)
 {
   SessionItem item;
-  EXPECT_TRUE(Utils::RegisteredTags(item).empty());
+  EXPECT_TRUE(utils::RegisteredTags(item).empty());
 
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
-  EXPECT_EQ(Utils::RegisteredTags(item), std::vector<std::string>({"default_tag", "property_tag"}));
+  EXPECT_EQ(utils::RegisteredTags(item), std::vector<std::string>({"default_tag", "property_tag"}));
 }
 
 //! Checks method ::RegisteredUniversalTags.
@@ -175,12 +175,12 @@ TEST_F(ItemUtilsTest, RegisteredTags)
 TEST_F(ItemUtilsTest, RegisteredUniversalTags)
 {
   SessionItem item;
-  EXPECT_TRUE(Utils::RegisteredUniversalTags(item).empty());
+  EXPECT_TRUE(utils::RegisteredUniversalTags(item).empty());
 
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
-  EXPECT_EQ(Utils::RegisteredUniversalTags(item), std::vector<std::string>({"default_tag"}));
+  EXPECT_EQ(utils::RegisteredUniversalTags(item), std::vector<std::string>({"default_tag"}));
 }
 
 //! Check access to top level and property items.
@@ -197,9 +197,9 @@ TEST_F(ItemUtilsTest, TopLevelItems)
   model.InsertItem<PropertyItem>(parent, "property_tag");
   auto child3 = model.InsertItem<SessionItem>(parent, "default_tag");
 
-  EXPECT_EQ(Utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
-  EXPECT_EQ(Utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(Utils::TopLevelItems(*parent), std::vector<SessionItem*>({child1, child3}));
+  EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
+  EXPECT_EQ(utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
+  EXPECT_EQ(utils::TopLevelItems(*parent), std::vector<SessionItem*>({child1, child3}));
 }
 
 //! Check access to top level and property items when some of items are hidden via corresponding
@@ -220,9 +220,9 @@ TEST_F(ItemUtilsTest, TopLevelItemsWhenHidden)
   auto child3 = model.InsertItem<SessionItem>(parent, "default_tag2");
   model.InsertItem<PropertyItem>(parent, "property_tag");
 
-  EXPECT_EQ(Utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
-  EXPECT_EQ(Utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(Utils::TopLevelItems(*parent), std::vector<SessionItem*>({child1, child3}));
+  EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
+  EXPECT_EQ(utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
+  EXPECT_EQ(utils::TopLevelItems(*parent), std::vector<SessionItem*>({child1, child3}));
 }
 
 //! Check access to top level and property items.
@@ -239,9 +239,9 @@ TEST_F(ItemUtilsTest, SinglePropertyItems)
   auto child2 = model.InsertItem<PropertyItem>(parent, "property_tag");
   model.InsertItem<SessionItem>(parent, "default_tag");
 
-  EXPECT_EQ(Utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
-  EXPECT_EQ(Utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(Utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child2}));
+  EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
+  EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
+  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child2}));
 }
 
 //! Check access to top level and property items when some of items are hidden via corresponding
@@ -262,9 +262,9 @@ TEST_F(ItemUtilsTest, SinglePropertyItemsWhenHidden)
   auto child3 = model.InsertItem<PropertyItem>(parent, "property_tag2");
   model.InsertItem<SessionItem>(parent, "default_tag");
 
-  EXPECT_EQ(Utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
-  EXPECT_EQ(Utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(Utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child3}));
+  EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
+  EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
+  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child3}));
 }
 
 //! Looking for next item.
@@ -282,11 +282,11 @@ TEST_F(ItemUtilsTest, FindNextSibling)
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
   auto child2 = model.InsertItem<SessionItem>(parent, "default_tag");
 
-  EXPECT_EQ(Utils::FindNextSibling(child0), child1);
-  EXPECT_EQ(Utils::FindNextSibling(child1), child2);
-  EXPECT_EQ(Utils::FindNextSibling(child2), nullptr);
-  EXPECT_EQ(Utils::FindNextSibling(property), nullptr);
-  EXPECT_EQ(Utils::FindNextSibling(parent), nullptr);
+  EXPECT_EQ(utils::FindNextSibling(child0), child1);
+  EXPECT_EQ(utils::FindNextSibling(child1), child2);
+  EXPECT_EQ(utils::FindNextSibling(child2), nullptr);
+  EXPECT_EQ(utils::FindNextSibling(property), nullptr);
+  EXPECT_EQ(utils::FindNextSibling(parent), nullptr);
 }
 
 //! Looking for previous item.
@@ -304,11 +304,11 @@ TEST_F(ItemUtilsTest, FindPreviousSibling)
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
   auto child2 = model.InsertItem<SessionItem>(parent, "default_tag");
 
-  EXPECT_EQ(Utils::FindPreviousSibling(child0), nullptr);
-  EXPECT_EQ(Utils::FindPreviousSibling(child1), child0);
-  EXPECT_EQ(Utils::FindPreviousSibling(child2), child1);
-  EXPECT_EQ(Utils::FindPreviousSibling(property), nullptr);
-  EXPECT_EQ(Utils::FindPreviousSibling(parent), nullptr);
+  EXPECT_EQ(utils::FindPreviousSibling(child0), nullptr);
+  EXPECT_EQ(utils::FindPreviousSibling(child1), child0);
+  EXPECT_EQ(utils::FindPreviousSibling(child2), child1);
+  EXPECT_EQ(utils::FindPreviousSibling(property), nullptr);
+  EXPECT_EQ(utils::FindPreviousSibling(parent), nullptr);
 }
 
 //! Looking for previous item.
@@ -326,11 +326,11 @@ TEST_F(ItemUtilsTest, FindNextItemToSelect)
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
   auto child2 = model.InsertItem<SessionItem>(parent, "default_tag");
 
-  EXPECT_EQ(Utils::FindNextItemToSelect(child0), child1);
-  EXPECT_EQ(Utils::FindNextItemToSelect(child1), child2);
-  EXPECT_EQ(Utils::FindNextItemToSelect(child2), child1);
-  EXPECT_EQ(Utils::FindNextItemToSelect(property), parent);
-  EXPECT_EQ(Utils::FindNextItemToSelect(parent), model.GetRootItem());
+  EXPECT_EQ(utils::FindNextItemToSelect(child0), child1);
+  EXPECT_EQ(utils::FindNextItemToSelect(child1), child2);
+  EXPECT_EQ(utils::FindNextItemToSelect(child2), child1);
+  EXPECT_EQ(utils::FindNextItemToSelect(property), parent);
+  EXPECT_EQ(utils::FindNextItemToSelect(parent), model.GetRootItem());
 }
 
 //! Checking IsItemAncestor.
@@ -338,23 +338,23 @@ TEST_F(ItemUtilsTest, FindNextItemToSelect)
 TEST_F(ItemUtilsTest, IsItemAncestor)
 {
   SessionModel model;
-  EXPECT_FALSE(Utils::IsItemAncestor(model.GetRootItem(), model.GetRootItem()));
+  EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), model.GetRootItem()));
 
   // rootItem in ancestor of vectorItem, but not vice versa
   auto vector_item = model.InsertItem<VectorItem>();
-  EXPECT_TRUE(Utils::IsItemAncestor(vector_item, model.GetRootItem()));
-  EXPECT_FALSE(Utils::IsItemAncestor(model.GetRootItem(), vector_item));
-  EXPECT_FALSE(Utils::IsItemAncestor(vector_item, vector_item));
+  EXPECT_TRUE(utils::IsItemAncestor(vector_item, model.GetRootItem()));
+  EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), vector_item));
+  EXPECT_FALSE(utils::IsItemAncestor(vector_item, vector_item));
 
   auto x_item = vector_item->GetItem(VectorItem::P_X);
 
-  EXPECT_TRUE(Utils::IsItemAncestor(x_item, model.GetRootItem()));
-  EXPECT_TRUE(Utils::IsItemAncestor(x_item, vector_item));
-  EXPECT_FALSE(Utils::IsItemAncestor(model.GetRootItem(), x_item));
-  EXPECT_FALSE(Utils::IsItemAncestor(vector_item, x_item));
+  EXPECT_TRUE(utils::IsItemAncestor(x_item, model.GetRootItem()));
+  EXPECT_TRUE(utils::IsItemAncestor(x_item, vector_item));
+  EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), x_item));
+  EXPECT_FALSE(utils::IsItemAncestor(vector_item, x_item));
 
   auto y_item = vector_item->GetItem(VectorItem::P_Y);
-  EXPECT_FALSE(Utils::IsItemAncestor(x_item, y_item));
+  EXPECT_FALSE(utils::IsItemAncestor(x_item, y_item));
 }
 
 TEST_F(ItemUtilsTest, UniqueItems)
@@ -365,7 +365,7 @@ TEST_F(ItemUtilsTest, UniqueItems)
   auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());
   std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item2, nullptr};
   std::vector<SessionItem*> expected = {item0, item1, item2};
-  EXPECT_EQ(Utils::UniqueItems(data), expected);
+  EXPECT_EQ(utils::UniqueItems(data), expected);
 }
 
 TEST_F(ItemUtilsTest, CastedItems)
@@ -376,5 +376,5 @@ TEST_F(ItemUtilsTest, CastedItems)
   auto item2 = model.InsertItem<VectorItem>(model.GetRootItem());
   std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item1, item2, nullptr};
 
-  EXPECT_EQ(Utils::CastedItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
+  EXPECT_EQ(utils::CastedItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
 }

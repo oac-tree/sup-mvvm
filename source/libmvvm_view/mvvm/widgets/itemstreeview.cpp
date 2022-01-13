@@ -110,7 +110,7 @@ std::vector<SessionItem*> ItemsTreeView::GetSelectedItems() const
   {
     result.push_back(const_cast<SessionItem*>(m_view_model->GetSessionItemFromIndex(index)));
   }
-  return Utils::UniqueItems(result);
+  return utils::UniqueItems(result);
 }
 
 //! Processes selections in QTreeView. Finds SessionItem corresponding to selected indexes

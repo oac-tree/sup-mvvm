@@ -47,7 +47,7 @@ class StringUtilsTest : public ::testing::Test
 
 TEST_F(StringUtilsTest, DoubleToString)
 {
-  using Utils::DoubleToString;
+  using utils::DoubleToString;
   const int precision = 4;
   EXPECT_EQ(DoubleToString(0.0, precision), "0.0");
   EXPECT_EQ(DoubleToString(1.001, precision), "1.001");
@@ -58,7 +58,7 @@ TEST_F(StringUtilsTest, DoubleToString)
 
 TEST_F(StringUtilsTest, ScientificDoubleToString)
 {
-  using Utils::ScientificDoubleToString;
+  using utils::ScientificDoubleToString;
   const int precision = 6;
   EXPECT_EQ(ScientificDoubleToString(0.0, precision), "0.0e+00");
   EXPECT_EQ(ScientificDoubleToString(1.0, precision), "1.0e+00");
@@ -71,7 +71,7 @@ TEST_F(StringUtilsTest, ScientificDoubleToString)
 
 TEST_F(StringUtilsTest, TrimWhiteSpace)
 {
-  using Utils::TrimWhitespace;
+  using utils::TrimWhitespace;
   EXPECT_EQ(TrimWhitespace(""), std::string());
   EXPECT_EQ(TrimWhitespace(" "), std::string());
   EXPECT_EQ(TrimWhitespace("abc"), std::string("abc"));
@@ -82,7 +82,7 @@ TEST_F(StringUtilsTest, TrimWhiteSpace)
 
 TEST_F(StringUtilsTest, StringToBool)
 {
-  using Utils::StringToBool;
+  using utils::StringToBool;
 
   EXPECT_TRUE(StringToBool("true"));
   EXPECT_FALSE(StringToBool("false"));
@@ -98,7 +98,7 @@ TEST_F(StringUtilsTest, StringToBool)
 
 TEST_F(StringUtilsTest, FromBool)
 {
-  using Utils::FromBool;
+  using utils::FromBool;
 
   EXPECT_EQ(FromBool(true), std::string("true"));
   EXPECT_EQ(FromBool(false), std::string("false"));
@@ -108,7 +108,7 @@ TEST_F(StringUtilsTest, FromBool)
 
 TEST_F(StringUtilsTest, StringToDouble)
 {
-  using Utils::StringToDouble;
+  using utils::StringToDouble;
 
   // not a double
   EXPECT_FALSE(StringToDouble("").has_value());
@@ -138,7 +138,7 @@ TEST_F(StringUtilsTest, StringToDouble)
 
 TEST_F(StringUtilsTest, StringToInteger)
 {
-  using Utils::StringToInteger;
+  using utils::StringToInteger;
 
   // not an int
   EXPECT_FALSE(StringToInteger("").has_value());
@@ -165,7 +165,7 @@ TEST_F(StringUtilsTest, StringToInteger)
 
 TEST_F(StringUtilsTest, SplitString)
 {
-  using Utils::SplitString;
+  using utils::SplitString;
   using vec_t = std::vector<std::string>;
 
   EXPECT_THROW(SplitString("", ""), std::runtime_error);
@@ -197,7 +197,7 @@ TEST_F(StringUtilsTest, SplitString)
 
 TEST_F(StringUtilsTest, ParseSpaceSeparatedDoubles)
 {
-  using Utils::ParseSpaceSeparatedDoubles;
+  using utils::ParseSpaceSeparatedDoubles;
   std::vector<double> data;
 
   EXPECT_TRUE(ParseSpaceSeparatedDoubles("").empty());
@@ -228,7 +228,7 @@ TEST_F(StringUtilsTest, ParseSpaceSeparatedDoubles)
 
 TEST_F(StringUtilsTest, ParseCommaSeparatedDoubles)
 {
-  using Utils::ParseCommaSeparatedDoubles;
+  using utils::ParseCommaSeparatedDoubles;
 
   EXPECT_TRUE(ParseCommaSeparatedDoubles("").empty());
   EXPECT_TRUE(ParseCommaSeparatedDoubles(" ").empty());
@@ -240,7 +240,7 @@ TEST_F(StringUtilsTest, ParseCommaSeparatedDoubles)
 
 TEST_F(StringUtilsTest, ToComaSeparatedString)
 {
-  using Utils::ToCommaSeparatedString;
+  using utils::ToCommaSeparatedString;
 
   EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({})), std::string());
   EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({1.0})), std::string("1.0"));

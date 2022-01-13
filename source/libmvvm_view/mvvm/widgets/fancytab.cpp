@@ -40,8 +40,8 @@ namespace mvvm
 FancyTab::FancyTab(const QString& title, QWidget* parent)
     : QWidget(parent), m_label(new QLabel(title))
 {
-  mvvm::Utils::ScaleLabelFont(m_label, 1.25);
-  setFixedHeight(mvvm::Utils::HeightOfLetterM() * 2.5);
+  mvvm::utils::ScaleLabelFont(m_label, 1.25);
+  setFixedHeight(mvvm::utils::HeightOfLetterM() * 2.5);
 
   auto layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

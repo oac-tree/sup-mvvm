@@ -27,7 +27,7 @@
 #include <numeric>
 #include <sstream>
 
-namespace mvvm::Utils
+namespace mvvm::utils
 {
 std::string DoubleToString(double input, int precision)
 {
@@ -104,7 +104,7 @@ std::string FromBool(bool value)
 
 std::optional<double> StringToDouble(const std::string& str)
 {
-  std::istringstream iss(Utils::TrimWhitespace(str));
+  std::istringstream iss(utils::TrimWhitespace(str));
   iss.imbue(std::locale::classic());
   double value{0.0};
   iss >> value;
@@ -113,7 +113,7 @@ std::optional<double> StringToDouble(const std::string& str)
 
 std::optional<int> StringToInteger(const std::string& str)
 {
-  std::istringstream iss(Utils::TrimWhitespace(str));
+  std::istringstream iss(utils::TrimWhitespace(str));
   int value{0};
   iss >> value;
   return (!iss.fail() && iss.eof()) ? std::optional<int>(value) : std::optional<int>{};

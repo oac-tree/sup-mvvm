@@ -22,7 +22,7 @@
 
 #include "mvvm/model_export.h"
 
-namespace mvvm::Utils
+namespace mvvm::utils
 {
 
 //! Returns true if two doubles agree within epsilon*tolerance.

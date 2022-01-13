@@ -38,9 +38,9 @@ TEST_F(VectorItemTest, InitialState)
 {
   VectorItem item;
 
-  EXPECT_TRUE(Utils::IsSinglePropertyTag(item, VectorItem::P_X));
-  EXPECT_TRUE(Utils::IsSinglePropertyTag(item, VectorItem::P_Y));
-  EXPECT_TRUE(Utils::IsSinglePropertyTag(item, VectorItem::P_Z));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::P_X));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::P_Y));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::P_Z));
 
   EXPECT_FALSE(item.IsEditable());
 

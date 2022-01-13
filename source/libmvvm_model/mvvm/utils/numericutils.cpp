@@ -25,13 +25,13 @@
 
 using namespace mvvm;
 
-bool Utils::AreAlmostEqual(double a, double b, double tolerance)
+bool utils::AreAlmostEqual(double a, double b, double tolerance)
 {
   constexpr double eps = std::numeric_limits<double>::epsilon();
   return std::abs(a - b) <= eps * std::max(tolerance * eps, std::max(1., tolerance) * std::abs(b));
 }
 
-int Utils::RandInt(int low, int high)
+int utils::RandInt(int low, int high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -39,7 +39,7 @@ int Utils::RandInt(int low, int high)
   return uniform_int(gen);
 }
 
-double Utils::RandDouble(double low, double high)
+double utils::RandDouble(double low, double high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());

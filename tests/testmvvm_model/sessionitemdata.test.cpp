@@ -38,7 +38,7 @@ TEST_F(SessionItemDataTest, initialState)
   SessionItemData item_data;
   EXPECT_TRUE(item_data.GetRoles().empty());
   EXPECT_FALSE(item_data.HasData(0));
-  EXPECT_FALSE(Utils::IsValid(item_data.Data(0)));
+  EXPECT_FALSE(utils::IsValid(item_data.Data(0)));
 }
 
 //! Basic setData, data operations.
@@ -69,7 +69,7 @@ TEST_F(SessionItemDataTest, SetDataDouble)
   // setting invalid variant for the role will remove data
   EXPECT_TRUE(item_data.SetData(variant_t(), role));
   EXPECT_TRUE(item_data.GetRoles().empty());
-  EXPECT_FALSE(Utils::IsValid(item_data.Data(role)));
+  EXPECT_FALSE(utils::IsValid(item_data.Data(role)));
 }
 
 //! Using different roles.

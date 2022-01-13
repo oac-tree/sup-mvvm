@@ -42,7 +42,7 @@ CollapsibleBar::CollapsibleBar(QWidget* parent)
   layout->addWidget(m_pixmap_label, Qt::AlignLeft);
   layout->addWidget(m_title_label, Qt::AlignCenter);
 
-  setFixedHeight(mvvm::Utils::HeightOfLetterM() * 1.8);
+  setFixedHeight(mvvm::utils::HeightOfLetterM() * 1.8);
   setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 }
 

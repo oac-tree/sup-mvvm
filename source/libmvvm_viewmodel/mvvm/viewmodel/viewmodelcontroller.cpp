@@ -103,7 +103,7 @@ struct ViewModelController::ViewModelControllerImpl
 
   const SessionItem *GetRootItem() const
   {
-    return Utils::GetContext<SessionItem>(m_view_model->rootItem());
+    return utils::GetContext<SessionItem>(m_view_model->rootItem());
   }
 
   void Iterate(const SessionItem *item, ViewItem *parent_view)
@@ -175,14 +175,14 @@ struct ViewModelController::ViewModelControllerImpl
   void SetRootSessionItemIntern(SessionItem *item)
   {
     SessionItem *root_item = item ? item : m_model->GetRootItem();
-    m_root_item_path = Utils::PathFromItem(item);
+    m_root_item_path = utils::PathFromItem(item);
 
     if (root_item->GetModel() != m_model)
     {
       throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
     }
 
-    m_view_model->ResetRootViewItem(Utils::CreateRootViewItem(root_item), /*notify*/ false);
+    m_view_model->ResetRootViewItem(utils::CreateRootViewItem(root_item), /*notify*/ false);
   }
 };
 
@@ -214,12 +214,12 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
   auto item_to_remove = parent->GetItem(tag_index.tag, tag_index.index);
 
   if (item_to_remove == p_impl->GetRootItem()
-      || Utils::IsItemAncestor(p_impl->GetRootItem(), item_to_remove))
+      || utils::IsItemAncestor(p_impl->GetRootItem(), item_to_remove))
   {
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself
     p_impl->m_root_item_path = {};
-    p_impl->m_view_model->ResetRootViewItem(Utils::CreateRootViewItem<SessionItem>(nullptr));
+    p_impl->m_view_model->ResetRootViewItem(utils::CreateRootViewItem<SessionItem>(nullptr));
   }
   else
   {
@@ -229,12 +229,12 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
 
 void ViewModelController::OnDataChanged(SessionItem *item, int role)
 {
-  for (auto view : Utils::FindViews(p_impl->m_view_model, item))
+  for (auto view : utils::FindViews(p_impl->m_view_model, item))
   {
     if (isValidItemRole(view, role))
     {
       auto index = p_impl->m_view_model->indexFromItem(view);
-      emit p_impl->m_view_model->dataChanged(index, index, Utils::ItemRoleToQtRole(role));
+      emit p_impl->m_view_model->dataChanged(index, index, utils::ItemRoleToQtRole(role));
     }
   }
 }
@@ -251,7 +251,7 @@ void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
 
 void ViewModelController::OnModelReset(SessionModel *model)
 {
-  auto custom_root_item = Utils::ItemFromPath(*model, p_impl->m_root_item_path);
+  auto custom_root_item = utils::ItemFromPath(*model, p_impl->m_root_item_path);
 
   p_impl->m_mute_notify = true;
   p_impl->SetRootSessionItemIntern(custom_root_item);
@@ -263,7 +263,7 @@ void ViewModelController::OnModelReset(SessionModel *model)
 void ViewModelController::OnModelAboutToBeDestroyed(SessionModel *model)
 {
   p_impl->m_root_item_path = {};
-  p_impl->m_view_model->ResetRootViewItem(Utils::CreateRootViewItem<SessionItem>(nullptr));
+  p_impl->m_view_model->ResetRootViewItem(utils::CreateRootViewItem<SessionItem>(nullptr));
 }
 
 //! Inits ViewModel by iterating through SessionModel.

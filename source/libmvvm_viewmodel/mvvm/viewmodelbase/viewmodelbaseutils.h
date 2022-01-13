@@ -32,7 +32,7 @@ namespace mvvm
 {
 class ViewModelBase;
 
-namespace Utils
+namespace utils
 {
 //! Iterates through the QAbstractItem model and calls the user function on every iteration.
 MVVM_VIEWMODEL_EXPORT void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
@@ -93,7 +93,7 @@ std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
       result.push_back(view_item);
     }
   };
-  Utils::iterate_model(view_model, QModelIndex(), on_index);
+  utils::iterate_model(view_model, QModelIndex(), on_index);
   return result;
 }
 

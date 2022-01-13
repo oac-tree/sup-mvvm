@@ -27,7 +27,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace mvvm::Utils
+namespace mvvm::utils
 {
 template <class T>
 struct is_unique_ptr : std::false_type

@@ -21,7 +21,7 @@
 
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 
-namespace mvvm::Utils
+namespace mvvm::utils
 {
 void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                    const std::function<void(const QModelIndex& child)>& fun)

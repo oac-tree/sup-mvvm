@@ -188,7 +188,7 @@ inline T* SessionItem::GetItem(const std::string& tag, int index) const
 template <typename T>
 std::vector<T*> SessionItem::GetItems(const std::string& tag) const
 {
-  return Utils::CastItems<T>(GetItems(tag));
+  return utils::CastItems<T>(GetItems(tag));
 }
 
 //! Creates a new item and insert it into given tag under the given row.

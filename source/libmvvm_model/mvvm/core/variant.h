@@ -45,7 +45,7 @@ const std::string kDoubleTypeName = "double";
 const std::string kVectorDoubleTypeName = "vector_double_t";
 }  // namespace mvvm::Constants
 
-namespace mvvm::Utils
+namespace mvvm::utils
 {
 //! Returns true if given variant is properly initialized (i.e. is not default-constructed).
 MVVM_MODEL_EXPORT bool IsValid(const variant_t& value);
