@@ -18,20 +18,27 @@ Collection of C++/Qt common components for Operational Application User Interfac
 
 ## Installation
 
+### Installation on Linux of the user's choice
+
 ```bash
 cmake <source> && make -j4 && ctest
 ```
 
 ### Installation on CODAC machines
 
+Qt must be installed, and path to it specified.
+
 ```
 #install qt5 
 yum install codac-core-7.0-qt5.x86_64
 
 # specify path and compile
-PATH=/opt/codac/qt5/bin:$PATH cmake ../
-make; ctest
+PATH=/opt/codac/qt5/bin:$PATH cmake <source>
+make -j4 && ctest
 ```
+
+Please note, that thanks to CMake magic (the magic is located in $HOME/.cmake directory), `make install` step is optional. 
+Without installation, libraries will be discoverable right from the build directory.
 
 ## Quick start
 
