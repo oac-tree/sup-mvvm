@@ -108,4 +108,4 @@ SessionItemData::const_iterator SessionItemData::end() const
   return m_values.end();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

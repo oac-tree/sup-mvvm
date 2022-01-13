@@ -37,6 +37,6 @@ public:
   PropertyViewModel(ApplicationModel* model, QObject* parent = nullptr);
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_PROPERTYVIEWMODEL_H

@@ -41,6 +41,6 @@ public:
   //    PropertyItem* setLimits(const RealLimits& value);
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_PROPERTYITEM_H

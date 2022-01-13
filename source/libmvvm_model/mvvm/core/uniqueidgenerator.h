@@ -39,6 +39,6 @@ public:
   static std::string Generate();
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_CORE_UNIQUEIDGENERATOR_H

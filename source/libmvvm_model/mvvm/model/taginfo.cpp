@@ -109,4 +109,4 @@ bool TagInfo::operator!=(const TagInfo& other) const
   return !(*this == other);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

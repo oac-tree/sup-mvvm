@@ -73,6 +73,6 @@ private:
   std::unique_ptr<ModelComposerImpl> p_impl;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_MODELCOMPOSER_H

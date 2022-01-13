@@ -54,4 +54,4 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(Sessio
   return result;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

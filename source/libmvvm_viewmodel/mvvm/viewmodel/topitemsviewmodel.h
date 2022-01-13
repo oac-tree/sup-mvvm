@@ -38,6 +38,6 @@ public:
   TopItemsViewModel(ApplicationModel* model, QObject* parent = nullptr);
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H

@@ -137,7 +137,7 @@ bool AttributeMap::InitialiseVariableAttributes(const AttributeMap &source)
   return result;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 namespace
 {

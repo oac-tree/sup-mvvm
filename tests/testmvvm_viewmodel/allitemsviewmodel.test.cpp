@@ -1008,11 +1008,11 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 
 //! Moving item from one parent to another.
 
-//TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
+// TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
 //{
-//  auto container0 = m_model.InsertItem<ContainerItem>();
-//  auto property = container0->InsertItem<PropertyItem>(TagIndex::Append());
-//  auto container1 = m_model.InsertItem<ContainerItem>();
+//   auto container0 = m_model.InsertItem<ContainerItem>();
+//   auto property = container0->InsertItem<PropertyItem>(TagIndex::Append());
+//   auto container1 = m_model.InsertItem<ContainerItem>();
 
 //  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
 //  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);

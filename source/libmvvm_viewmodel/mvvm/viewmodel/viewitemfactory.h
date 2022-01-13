@@ -40,6 +40,6 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(Sessio
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(
     SessionItem* item, item_setdata_function_t set_func);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWITEMFACTORY_H

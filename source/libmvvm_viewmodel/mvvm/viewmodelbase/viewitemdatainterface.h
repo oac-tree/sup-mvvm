@@ -40,6 +40,6 @@ public:
   virtual bool IsEditable() const = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODELBASE_VIEWITEMDATAINTERFACE_H

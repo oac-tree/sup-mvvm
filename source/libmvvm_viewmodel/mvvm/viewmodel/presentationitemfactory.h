@@ -44,6 +44,6 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItemDataInterface> CreateEditableDispl
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(
     SessionItem* item, item_setdata_function_t set_func = {});
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_PRESENTATIONITEMFACTORY_H

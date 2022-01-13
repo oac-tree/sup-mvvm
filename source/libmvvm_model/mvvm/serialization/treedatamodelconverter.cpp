@@ -107,4 +107,4 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
   model.Clear(rebuild_root);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

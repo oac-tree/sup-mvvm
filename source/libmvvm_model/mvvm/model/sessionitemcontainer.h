@@ -76,6 +76,6 @@ private:
   container_t m_items;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_SESSIONITEMCONTAINER_H

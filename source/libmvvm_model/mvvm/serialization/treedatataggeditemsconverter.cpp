@@ -99,4 +99,4 @@ std::unique_ptr<TreeData> TreeDataTaggedItemsConverter::ToTreeData(
   return result;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

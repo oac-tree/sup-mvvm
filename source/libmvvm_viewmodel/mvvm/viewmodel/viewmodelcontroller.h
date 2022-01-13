@@ -53,7 +53,7 @@ public:
 
   void OnModelReset(SessionModel *model) override;
 
-  void OnModelAboutToBeDestroyed(SessionModel* model) override;
+  void OnModelAboutToBeDestroyed(SessionModel *model) override;
 
   void Init(SessionItem *root_item = nullptr) override;
 
@@ -64,6 +64,6 @@ private:
   std::unique_ptr<ViewModelControllerImpl> p_impl;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H

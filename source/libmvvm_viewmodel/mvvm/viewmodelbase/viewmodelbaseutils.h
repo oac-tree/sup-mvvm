@@ -128,6 +128,6 @@ std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
 }
 
 }  // namespace Utils
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H

@@ -170,6 +170,6 @@ public:
   bool InitialiseVariableAttributes(const AttributeMap& source);
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_ATTRIBUTEMAP_H

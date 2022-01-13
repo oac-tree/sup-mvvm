@@ -24,8 +24,7 @@
 
 using namespace mvvm;
 
-SessionItemContainer::SessionItemContainer(mvvm::TagInfo tag_info)
-    : m_tag_info(std::move(tag_info))
+SessionItemContainer::SessionItemContainer(mvvm::TagInfo tag_info) : m_tag_info(std::move(tag_info))
 {
 }
 

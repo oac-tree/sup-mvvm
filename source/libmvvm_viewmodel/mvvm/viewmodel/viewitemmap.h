@@ -51,6 +51,6 @@ private:
   std::map<const SessionItem*, ViewItem*> m_item_to_view;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWITEMMAP_H

@@ -52,6 +52,6 @@ private:
   std::unique_ptr<TreeDataModelConverterImpl> p_impl;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATAMODELCONVERTER_H

@@ -43,4 +43,4 @@ QVector<int> ItemRoleToQtRole(int role)
   return result;
 }
 
-}  // namespace ModelView::Utils
+}  // namespace mvvm::Utils

@@ -39,4 +39,4 @@ PropertyViewModel::PropertyViewModel(ApplicationModel* model, QObject* parent) :
   SetController(std::move(controller));
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

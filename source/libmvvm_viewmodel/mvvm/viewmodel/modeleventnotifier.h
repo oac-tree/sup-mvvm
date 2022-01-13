@@ -82,6 +82,6 @@ private:
   std::map<ModelEventListenerInterface*, std::vector<QMetaObject::Connection>> m_connections;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_MODELEVENTNOTIFIER_H

@@ -30,6 +30,6 @@ MVVM_MODEL_EXPORT std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue();
 //! Update user catalogue with items supported by SessionModel out-of-the-box.
 MVVM_MODEL_EXPORT void AddStandardItemsToCatalogue(ItemCatalogue& user_catalogue);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_FACTORIES_ITEMCATALOGUEFACTORY_H

@@ -28,6 +28,6 @@ class MVVM_MODEL_EXPORT AbstractSessionModelDecorator : public SessionModelInter
 {
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_ABSTRACTSESSIONMODELDECORATOR_H

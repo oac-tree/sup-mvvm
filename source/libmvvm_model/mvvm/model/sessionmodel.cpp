@@ -237,4 +237,4 @@ void SessionModel::RegisterItemInternal(const std::string& item_type,
   p_impl->m_item_manager->GetFactory()->RegisterItem(item_type, func, label);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

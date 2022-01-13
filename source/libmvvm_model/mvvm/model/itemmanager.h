@@ -65,6 +65,6 @@ private:
   std::unique_ptr<ItemFactoryInterface> m_item_factory;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEMMANAGER_H

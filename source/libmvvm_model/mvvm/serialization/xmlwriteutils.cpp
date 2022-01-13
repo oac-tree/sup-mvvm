@@ -112,7 +112,7 @@ std::string GetXMLString(const TreeData &tree_data)
   return ToString(buf->content);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 // ----------------------------------------------------------------------------
 // Implementation of helper functions from anonymous namespace.

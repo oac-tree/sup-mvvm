@@ -38,4 +38,4 @@ bool ContainerItem::IsEmpty() const
   return GetItemCount(kChildren) == 0;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

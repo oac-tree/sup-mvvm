@@ -201,6 +201,6 @@ public:
   std::string GetContent() const;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATA_H

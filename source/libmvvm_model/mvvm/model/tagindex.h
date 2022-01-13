@@ -52,6 +52,6 @@ public:
   bool operator!=(const TagIndex& other) const;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_TAGINDEX_H

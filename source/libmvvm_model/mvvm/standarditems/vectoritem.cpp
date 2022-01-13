@@ -71,4 +71,4 @@ void VectorItem::UpdateLabel()
   SetData(ostr.str(), DataRole::kData);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

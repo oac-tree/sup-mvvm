@@ -129,6 +129,6 @@ void SessionModel::RegisterItem(const std::string& label)
   RegisterItemInternal(T().GetType(), ItemFactoryFunction<T>(), label);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_SESSIONMODEL_H

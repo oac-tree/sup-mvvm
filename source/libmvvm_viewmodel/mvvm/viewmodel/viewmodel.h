@@ -63,6 +63,6 @@ private:
   std::unique_ptr<AbstractViewModelController> m_controller;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWMODEL_H

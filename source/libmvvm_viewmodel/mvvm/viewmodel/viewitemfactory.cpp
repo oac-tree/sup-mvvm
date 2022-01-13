@@ -34,4 +34,4 @@ std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, item_setdata_fun
   return std::make_unique<ViewItem>(CreateDataPresentation(item, set_func));
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

@@ -36,6 +36,6 @@ std::unique_ptr<TreeData> ParseXMLDataString(const std::string& xml_str);
 //! require standard XML declaration header.
 std::unique_ptr<TreeData> ParseXMLElementString(const std::string& xml_str);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_XMLPARSEUTILS_H

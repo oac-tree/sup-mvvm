@@ -53,4 +53,4 @@ std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* 
   return Utils::SinglePropertyItems(*item);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

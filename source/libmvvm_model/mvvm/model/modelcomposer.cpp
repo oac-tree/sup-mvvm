@@ -138,4 +138,4 @@ void ModelComposer::Clear(std::function<void(SessionItem*)> callback)
   p_impl->m_notifier->ModelResetNotify(p_impl->m_model);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

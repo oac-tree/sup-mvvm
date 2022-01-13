@@ -230,4 +230,4 @@ std::vector<SessionItem*> Utils::UniqueItems(const std::vector<SessionItem*>& it
   return result;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

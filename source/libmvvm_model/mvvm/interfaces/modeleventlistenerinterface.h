@@ -68,6 +68,6 @@ public:
   virtual void OnModelAboutToBeDestroyed(SessionModel* model) = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_INTERFACES_MODELEVENTLISTENERINTERFACE_H

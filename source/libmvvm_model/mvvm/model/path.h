@@ -67,6 +67,6 @@ private:
   container_t m_data;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_PATH_H

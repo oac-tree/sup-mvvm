@@ -59,4 +59,4 @@ bool IsDoubleVectorVariant(const QVariant& variant)
   return variant.typeName() == Constants::kStdVectorDoubleQtTypeName;
 }
 
-}  // namespace ModelView::Utils
+}  // namespace mvvm::Utils

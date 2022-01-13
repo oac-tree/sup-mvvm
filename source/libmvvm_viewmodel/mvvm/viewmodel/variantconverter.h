@@ -36,6 +36,6 @@ MVVM_VIEWMODEL_EXPORT QVariant GetQtVariant(const variant_t& variant);
 //! Constructs variant_t from QVariant. Will throw if it is not possible.
 MVVM_VIEWMODEL_EXPORT variant_t GetStdVariant(const QVariant& variant);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VARIANTCONVERTER_H

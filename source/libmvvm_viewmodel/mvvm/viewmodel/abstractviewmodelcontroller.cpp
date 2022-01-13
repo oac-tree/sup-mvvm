@@ -66,4 +66,4 @@ QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
   return {};
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

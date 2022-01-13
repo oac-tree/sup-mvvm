@@ -152,4 +152,4 @@ static std::string ToString(const xmlChar *xml_name)
   return std::string(reinterpret_cast<const char *>(xml_name), xmlStrlen(xml_name));
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

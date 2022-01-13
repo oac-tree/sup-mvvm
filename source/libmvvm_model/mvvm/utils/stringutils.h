@@ -81,6 +81,6 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<double>& 
 //! Converts vector of strings to comma separated string.
 MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::string>& vec);
 
-}  // namespace ModelView::Utils
+}  // namespace mvvm::Utils
 
 #endif  // MVVM_UTILS_STRINGUTILS_H

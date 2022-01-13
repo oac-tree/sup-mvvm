@@ -72,4 +72,4 @@ void ViewItemMap::Clear()
   m_item_to_view.clear();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

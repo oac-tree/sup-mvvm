@@ -63,4 +63,4 @@ bool TagIndex::operator!=(const TagIndex& other) const
   return !(*this == other);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

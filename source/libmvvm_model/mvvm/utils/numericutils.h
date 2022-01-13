@@ -22,7 +22,8 @@
 
 #include "mvvm/model_export.h"
 
-namespace mvvm::Utils {
+namespace mvvm::Utils
+{
 
 //! Returns true if two doubles agree within epsilon*tolerance.
 MVVM_MODEL_EXPORT bool AreAlmostEqual(double a, double b, double tolerance_factor = 1.0);
@@ -33,6 +34,6 @@ MVVM_MODEL_EXPORT int RandInt(int low, int high);
 //! Produces random FLOAT values uniformly distributed on the  interval [low, high).
 MVVM_MODEL_EXPORT double RandDouble(double low, double high);
 
-} // namespace ModelView::Utils
+}  // namespace mvvm::Utils
 
-#endif // MVVM_UTILS_NUMERICUTILS_H
+#endif  // MVVM_UTILS_NUMERICUTILS_H

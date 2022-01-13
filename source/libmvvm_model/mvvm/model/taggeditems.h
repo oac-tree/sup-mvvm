@@ -96,6 +96,6 @@ private:
   std::string m_default_tag;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_TAGGEDITEMS_H

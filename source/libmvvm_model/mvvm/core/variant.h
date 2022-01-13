@@ -43,7 +43,7 @@ const std::string kIntTypeName = "int";
 const std::string kStringTypeName = "string";
 const std::string kDoubleTypeName = "double";
 const std::string kVectorDoubleTypeName = "vector_double_t";
-}  // namespace ModelView::Constants
+}  // namespace mvvm::Constants
 
 namespace mvvm::Utils
 {
@@ -57,6 +57,6 @@ MVVM_MODEL_EXPORT bool AreCompatible(const variant_t& var1, const variant_t& var
 //! Returns string representing type name.
 MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
 
-}  // namespace ModelView::Utils
+}  // namespace mvvm::Utils
 
 #endif  // MVVM_CORE_VARIANT_H

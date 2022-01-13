@@ -35,9 +35,8 @@ int appearance(const mvvm::SessionItem& item)
 
   const int default_appearance =
       Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
-  return item.HasData(mvvm::DataRole::kAppearance)
-             ? item.Data<int>(mvvm::DataRole::kAppearance)
-             : default_appearance;
+  return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<int>(mvvm::DataRole::kAppearance)
+                                                   : default_appearance;
 }
 }  // namespace
 
@@ -397,4 +396,4 @@ void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
   p_impl->m_tags = std::move(tags);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

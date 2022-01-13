@@ -49,6 +49,6 @@ private:
   void UpdateLabel();
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_VECTORITEM_H

@@ -58,6 +58,6 @@ private:
   std::map<const SessionItem*, identifier_t> m_item_to_key;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEMPOOL_H

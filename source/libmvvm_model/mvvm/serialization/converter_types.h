@@ -69,6 +69,6 @@ inline bool IsRegenerateIdWhenBackFromXML(ConverterMode mode)
   return mode == ConverterMode::kCopy;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_CONVERTER_TYPES_H

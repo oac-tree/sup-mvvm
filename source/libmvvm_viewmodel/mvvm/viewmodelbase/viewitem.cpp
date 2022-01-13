@@ -261,4 +261,4 @@ void ViewItem::setParent(ViewItem* parent)
   p_impl->m_self = parent;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

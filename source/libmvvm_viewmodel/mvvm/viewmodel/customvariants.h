@@ -66,7 +66,7 @@ MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
 
 }  // namespace Utils
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)

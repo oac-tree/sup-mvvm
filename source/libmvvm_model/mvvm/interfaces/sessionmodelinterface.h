@@ -66,6 +66,6 @@ T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_in
   return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_INTERFACES_SESSIONMODELINTERFACE_H

@@ -51,6 +51,6 @@ private:
   container_t m_values;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_SESSIONITEMDATA_H

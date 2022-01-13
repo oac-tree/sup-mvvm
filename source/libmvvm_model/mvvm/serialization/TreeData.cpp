@@ -120,6 +120,6 @@ std::string TreeData::GetContent() const
   return _content;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #undef LOG_ALTERN_SRC

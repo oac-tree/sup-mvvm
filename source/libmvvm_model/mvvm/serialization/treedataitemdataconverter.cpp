@@ -76,4 +76,4 @@ bool TreeDataItemDataConverter::IsSessionItemDataConvertible(const TreeData &tre
   // depending on the way TreeData was constructed from XML content.
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

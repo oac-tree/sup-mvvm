@@ -228,4 +228,4 @@ void ViewModelBase::EndResetModelNotify()
   endResetModel();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

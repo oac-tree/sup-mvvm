@@ -43,6 +43,6 @@ MVVM_MODEL_EXPORT TagInfo ToTagInfo(const TreeData& tree_data);
 //! Returns TreeData object constructed from TagInfo object.
 MVVM_MODEL_EXPORT TreeData ToTreeData(const TagInfo& tag_info);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATATAGINFOCONVERTER_H

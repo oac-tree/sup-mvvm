@@ -68,6 +68,6 @@ public:
   virtual void ModelAboutToBeDestroyedNotify(SessionModel* model) = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_INTERFACES_MODELEVENTNOTIFIERINTERFACE_H

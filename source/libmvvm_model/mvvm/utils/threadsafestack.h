@@ -137,6 +137,6 @@ public:
   }
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_UTILS_THREADSAFESTACK_H

@@ -43,6 +43,6 @@ public:
   virtual void PopulateSessionModel(const TreeData&, SessionModel&) const = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATAMODELCONVERTERINTERFACE_H

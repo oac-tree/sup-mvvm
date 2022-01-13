@@ -33,6 +33,6 @@ void WriteToXMLFile(const std::string& file_name, const TreeData& tree_data);
 
 std::string GetXMLString(const TreeData& tree_data);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_XMLWRITEUTILS_H

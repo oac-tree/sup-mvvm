@@ -37,6 +37,6 @@ public:
   bool IsEmpty() const;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_CONTAINERITEM_H

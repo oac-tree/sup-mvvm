@@ -46,6 +46,6 @@ protected:
   std::unique_ptr<ItemCatalogue> m_catalogue;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEMFACTORY_H

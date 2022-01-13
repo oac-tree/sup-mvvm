@@ -79,4 +79,4 @@ variant_t GetStdVariant(const QVariant& variant)
   return it->second(variant);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

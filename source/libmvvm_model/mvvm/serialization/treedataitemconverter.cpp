@@ -137,4 +137,4 @@ std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem& i
   return result;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

@@ -57,6 +57,6 @@ private:
   std::unique_ptr<ApplicationModelImpl> p_impl;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_APPLICATIONMODEL_H

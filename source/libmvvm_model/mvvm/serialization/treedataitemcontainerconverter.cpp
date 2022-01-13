@@ -90,4 +90,4 @@ std::unique_ptr<TreeData> ToTreeData(const SessionItemContainer &container,
   return result;
 }
 
-}  // namespace ModelView::ContainerConverter
+}  // namespace mvvm::ContainerConverter

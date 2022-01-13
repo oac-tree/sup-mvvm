@@ -46,6 +46,6 @@ enum Appearance
   kVisible = 4    // visible in Qt widgets; doesn't appear in trees and tables otherwise
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_MVVM_TYPES_H

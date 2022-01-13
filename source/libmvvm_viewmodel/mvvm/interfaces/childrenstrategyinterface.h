@@ -42,6 +42,6 @@ public:
   virtual std::vector<SessionItem*> GetChildren(const SessionItem* item) const = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H

@@ -96,6 +96,6 @@ inline void CompoundItem::SetProperty(const std::string& tag, const T& value)
   GetItem(tag)->SetData(value);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_COMPOUNDITEM_H

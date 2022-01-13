@@ -82,4 +82,4 @@ void XmlDocument::Load(const std::string& file_name)
 
 XmlDocument::~XmlDocument() = default;
 
-}  // namespace ModelView
+}  // namespace mvvm

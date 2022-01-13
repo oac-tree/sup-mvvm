@@ -90,4 +90,4 @@ Path::const_iterator Path::end() const
   return m_data.end();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

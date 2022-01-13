@@ -45,6 +45,6 @@ private:
   struct XmlDocumentImpl;
   std::unique_ptr<XmlDocumentImpl> p_impl;
 };
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_XMLDOCUMENT_H

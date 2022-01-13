@@ -43,6 +43,6 @@ auto ItemFactoryFunction()
 //! composer.
 using item_setdata_function_t = std::function<bool(SessionItem*, const variant_t& value, int role)>;
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_FUNCTION_TYPES_H

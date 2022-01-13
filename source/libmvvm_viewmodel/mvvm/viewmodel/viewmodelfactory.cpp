@@ -21,4 +21,4 @@
 
 namespace mvvm
 {
-}  // namespace ModelView
+}  // namespace mvvm

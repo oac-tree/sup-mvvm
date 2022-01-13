@@ -79,6 +79,6 @@ private:
   std::unique_ptr<ViewItemImpl> p_impl;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODELBASE_VIEWITEM_H

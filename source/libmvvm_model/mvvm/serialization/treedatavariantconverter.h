@@ -48,6 +48,6 @@ MVVM_MODEL_EXPORT datarole_t ToDataRole(const TreeData& tree_data);
 //! Returns TreeData object constructed from datarole_t object.
 MVVM_MODEL_EXPORT TreeData ToTreeData(const datarole_t& data_role);
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATAVARIANTCONVERTER_H

@@ -53,7 +53,7 @@ public:
 
   void OnModelReset(SessionModel *model) override;
 
-  void OnModelAboutToBeDestroyed(SessionModel* model) override;
+  void OnModelAboutToBeDestroyed(SessionModel *model) override;
 
   virtual void Init(SessionItem *root_item = nullptr);
 
@@ -63,6 +63,6 @@ protected:
   ModelEventNotifierInterface *m_notifier{nullptr};
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H

@@ -71,6 +71,6 @@ void ItemCatalogue::RegisterItem(const std::string& label)
   RegisterItem(U().GetType(), ItemFactoryFunction<U>(), label);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEMCATALOGUE_H

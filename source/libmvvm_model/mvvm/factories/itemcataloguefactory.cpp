@@ -39,4 +39,4 @@ void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
   user_catalogue.merge(*CreateStandardItemCatalogue());
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

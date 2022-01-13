@@ -30,6 +30,6 @@
 namespace mvvm
 {
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWMODELFACTORY_H

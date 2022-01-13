@@ -46,13 +46,13 @@ TEST_F(VariantTest, IsValid)
 //! Test is failing on old compilers: variant constructed from "const char" is turning into
 //! variant<bool>
 
-//TEST_F(VariantTest, ConstChar)
+// TEST_F(VariantTest, ConstChar)
 //{
-//  variant_t variant1("abc");
-//  variant_t variant2(std::string("abc"));
-//  EXPECT_TRUE(variant1 == variant2);
-//  EXPECT_EQ(std::get<std::string>(variant1), std::string("abc"));
-//}
+//   variant_t variant1("abc");
+//   variant_t variant2(std::string("abc"));
+//   EXPECT_TRUE(variant1 == variant2);
+//   EXPECT_EQ(std::get<std::string>(variant1), std::string("abc"));
+// }
 
 //! Vector<double>
 

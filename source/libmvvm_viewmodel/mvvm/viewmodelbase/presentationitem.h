@@ -64,6 +64,6 @@ private:
   setdata_callback_t m_setdata_callback;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODELBASE_PRESENTATIONITEM_H

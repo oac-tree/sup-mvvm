@@ -43,6 +43,6 @@ public:
   virtual std::unique_ptr<SessionItem> ToSessionItem(const TreeData&) const = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATAITEMCONVERTERINTERFACE_H

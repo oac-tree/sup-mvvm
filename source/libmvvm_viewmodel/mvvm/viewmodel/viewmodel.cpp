@@ -110,4 +110,4 @@ AbstractViewModelController* ViewModel::Controller()
   return m_controller.get();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

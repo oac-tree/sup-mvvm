@@ -42,9 +42,8 @@ namespace
 //! FIXME consider moving it to row builder
 bool isValidItemRole(const mvvm::ViewItem *view, int item_role)
 {
-  static std::map<int, int> role_to_column = {{mvvm::DataRole::kDisplay, 0},
-                                              {mvvm::DataRole::kData, 1},
-                                              {mvvm::DataRole::kData, 2}};
+  static std::map<int, int> role_to_column = {
+      {mvvm::DataRole::kDisplay, 0}, {mvvm::DataRole::kData, 1}, {mvvm::DataRole::kData, 2}};
 
   if (item_role == mvvm::DataRole::kAppearance || item_role == mvvm::DataRole::kTooltip)
   {
@@ -286,4 +285,4 @@ QStringList ViewModelController::GetHorizontalHeaderLabels() const
   return p_impl->m_row_strategy->GetHorizontalHeaderLabels();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

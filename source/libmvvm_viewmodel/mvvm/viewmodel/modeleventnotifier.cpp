@@ -148,4 +148,4 @@ void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModel *model)
   emit ModelAboutToBeDestroyed(model);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

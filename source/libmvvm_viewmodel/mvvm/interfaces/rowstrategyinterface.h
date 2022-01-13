@@ -44,6 +44,6 @@ public:
   virtual std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H

@@ -58,6 +58,6 @@ class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public ChildrenStrategyInter
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_STANDARDCHILDRENSTRATEGIES_H

@@ -99,6 +99,6 @@ std::vector<T*> CastItems(const C& container)
   return result;
 }
 
-}  // namespace ModelView::Utils
+}  // namespace mvvm::Utils
 
 #endif  // MVVM_UTILS_CONTAINERUTILS_H

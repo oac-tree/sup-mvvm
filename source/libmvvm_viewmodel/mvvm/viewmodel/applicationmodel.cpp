@@ -75,4 +75,4 @@ void ApplicationModel::Clear(std::function<void(SessionItem *)> callback)
   return p_impl->m_composer.Clear(callback);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

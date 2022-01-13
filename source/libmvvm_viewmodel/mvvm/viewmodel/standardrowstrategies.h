@@ -49,6 +49,6 @@ private:
   item_setdata_function_t m_set_func;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H

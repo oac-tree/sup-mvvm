@@ -53,6 +53,6 @@ private:
   QMap<int, QVariant> m_data;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWMODELBASE_VIEWITEMDATA_H

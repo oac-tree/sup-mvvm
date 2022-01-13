@@ -141,7 +141,7 @@ TreeData ToTreeData(const datarole_t& data_role)
   return it->second.datarole_to_treedata(data_role);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 // ----------------------------------------------------------------------------
 // Implementation of helper functions from anonymous namespace.

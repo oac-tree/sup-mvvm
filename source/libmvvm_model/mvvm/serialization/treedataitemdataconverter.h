@@ -60,6 +60,6 @@ public:
   bool IsSessionItemDataConvertible(const TreeData& tree_data) const;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATAITEMDATACONVERTER_H

@@ -63,6 +63,6 @@ MVVM_MODEL_EXPORT std::unique_ptr<TreeData> ToTreeData(const SessionItemContaine
                                                        const create_treedata_t& func);
 }  // namespace ContainerConverter
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREEDATAITEMCONTAINERCONVERTER_H

@@ -64,6 +64,6 @@ private:
   std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_TAGINFO_H

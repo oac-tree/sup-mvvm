@@ -87,7 +87,7 @@ TreeData ToTreeData(const TagInfo &tag_info)
   return result;
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 // ----------------------------------------------------------------------------
 // Implementation of helper functions from anonymous namespace.

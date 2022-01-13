@@ -125,4 +125,4 @@ void ItemCatalogue::merge(const ItemCatalogue& other)
   }
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

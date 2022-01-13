@@ -130,4 +130,4 @@ SessionItem* Utils::ItemFromPath(const SessionModel& model, const Path& path)
 //        stack->endMacro();
 //}
 
-}  // namespace ModelView
+}  // namespace mvvm

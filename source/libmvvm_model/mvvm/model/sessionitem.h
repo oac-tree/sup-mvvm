@@ -200,6 +200,6 @@ inline T* SessionItem::InsertItem(const TagIndex& tag_index)
   return static_cast<T*>(InsertItem(std::make_unique<T>(), tag_index));
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_SESSIONITEM_H

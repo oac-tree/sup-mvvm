@@ -102,6 +102,6 @@ std::vector<T*> CastedItems(const std::vector<SessionItem*>& items)
 
 }  // namespace Utils
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEMUTILS_H

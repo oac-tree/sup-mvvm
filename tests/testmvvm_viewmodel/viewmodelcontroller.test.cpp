@@ -99,8 +99,7 @@ TEST_F(ViewModelControllerTest, EmptyProcedure)
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
-  EXPECT_EQ(mvvm::Utils::GetContext<SessionItem>(m_viewmodel.rootItem()),
-            m_model.GetRootItem());
+  EXPECT_EQ(mvvm::Utils::GetContext<SessionItem>(m_viewmodel.rootItem()), m_model.GetRootItem());
 
   EXPECT_EQ(mvvm::Utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
             std::vector<mvvm::ViewItem*>({m_viewmodel.rootItem()}));
@@ -485,7 +484,7 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   // inserting it to another parent
   EXPECT_NO_FATAL_FAILURE(m_composer.InsertItem(std::move(taken), container1, TagIndex::Append()));
 
-  EXPECT_EQ(spyInsert.count(), 4); // vectorItem and 3 coordinates
+  EXPECT_EQ(spyInsert.count(), 4);  // vectorItem and 3 coordinates
   EXPECT_EQ(spyRemove.count(), 1);
 
   EXPECT_EQ(m_viewmodel.rowCount(container0_index), 0);

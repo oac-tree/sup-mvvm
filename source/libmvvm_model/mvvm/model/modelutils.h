@@ -115,6 +115,6 @@ MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Pa
 // MVVM_MODEL_EXPORT void EndMacros(const SessionModel* model);
 
 }  // namespace Utils
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_MODEL_MODELUTILS_H

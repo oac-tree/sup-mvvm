@@ -40,6 +40,6 @@ public:
   virtual std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const = 0;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_INTERFACES_ITEMFACTORYINTERFACE_H

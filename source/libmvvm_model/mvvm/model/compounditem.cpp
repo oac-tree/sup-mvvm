@@ -25,13 +25,13 @@ using namespace mvvm;
 
 namespace
 {
-bool HasCustomDisplayName(const SessionItem* item)
+bool HasCustomDisplayName(const SessionItem *item)
 {
   return item->SessionItem::GetDisplayName() != item->GetType();
 }
 }  // namespace
 
-CompoundItem::CompoundItem(const std::string& model_type) : SessionItem(model_type) {}
+CompoundItem::CompoundItem(const std::string &model_type) : SessionItem(model_type) {}
 
 //! Specialized version for const char: method is introduced to avoid "const char" conversion into
 //! variant<bool>.
