@@ -29,7 +29,7 @@
 #include <QSignalSpy>
 #include <QStandardItemModel>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for ViewModelBase class.
 

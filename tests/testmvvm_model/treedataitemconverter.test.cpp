@@ -37,7 +37,7 @@
 
 #include <iostream>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing TreeDataItemConverter.
 
@@ -46,7 +46,7 @@ class TreeDataItemConverterTest : public FolderBasedTest
 public:
   TreeDataItemConverterTest()
       : FolderBasedTest("test_TreeDataItemConverter")
-      , m_factory(ModelView::CreateStandardItemCatalogue()){};
+      , m_factory(mvvm::CreateStandardItemCatalogue()){};
 
   std::unique_ptr<TreeDataItemConverter> CreateConverter() const
   {
@@ -63,7 +63,7 @@ public:
     auto converter = CreateConverter();
     auto tree_data = converter->ToTreeData(item);
 
-    ::ModelView::WriteToXMLFile(file_name, *tree_data);
+    ::mvvm::WriteToXMLFile(file_name, *tree_data);
   }
 
   template <typename T>
@@ -76,7 +76,7 @@ public:
   }
 
 private:
-  ModelView::ItemFactory m_factory;
+  mvvm::ItemFactory m_factory;
 };
 
 //! Default PropertyItem to TreeData and back.

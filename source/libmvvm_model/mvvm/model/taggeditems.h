@@ -27,7 +27,7 @@
 #include <string>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItemContainer;
 class TagInfo;

@@ -28,7 +28,7 @@
 #include <QAbstractItemModel>
 #include <functional>
 
-namespace ModelView
+namespace mvvm
 {
 class ViewModelBase;
 

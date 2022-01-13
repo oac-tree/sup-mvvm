@@ -28,7 +28,7 @@
 #include <memory>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 class Path;
 

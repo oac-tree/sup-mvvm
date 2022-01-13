@@ -23,7 +23,7 @@
 
 #include <cmath>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class NumericUtilsTest : public ::testing::Test
 {

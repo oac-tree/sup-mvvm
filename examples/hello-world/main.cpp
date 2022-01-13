@@ -27,7 +27,7 @@
 #include <QLocale>
 #include <iostream>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Create a model with single compound item in it, saves the content in xml file.
 

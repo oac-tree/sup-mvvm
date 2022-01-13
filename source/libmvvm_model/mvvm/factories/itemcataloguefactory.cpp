@@ -21,7 +21,7 @@
 
 #include "mvvm/standarditems/standarditemincludes.h"
 
-namespace ModelView
+namespace mvvm
 {
 std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
 {

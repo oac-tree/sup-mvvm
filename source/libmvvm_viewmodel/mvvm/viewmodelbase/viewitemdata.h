@@ -24,7 +24,7 @@
 
 #include <QMap>
 
-namespace ModelView
+namespace mvvm
 {
 //! Carries the data for ViewItem.
 

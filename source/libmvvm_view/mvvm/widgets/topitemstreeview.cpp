@@ -22,7 +22,7 @@
 #include "mvvm/viewmodel/applicationmodel.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 
-namespace ModelView
+namespace mvvm
 {
 TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
 {

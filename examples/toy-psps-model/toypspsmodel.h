@@ -26,7 +26,7 @@
 #include "mvvm/model/sessionmodel.h"
 
 //! The model containing pulse schedule definition.
-class PulseScheduleModel : public ModelView::SessionModel
+class PulseScheduleModel : public mvvm::SessionModel
 {
 public:
   PulseScheduleModel();

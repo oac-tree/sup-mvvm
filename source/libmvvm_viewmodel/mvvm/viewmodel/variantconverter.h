@@ -28,7 +28,7 @@
 
 #include <QVariant>
 
-namespace ModelView
+namespace mvvm
 {
 //! Constructs QVariant from mvvm variant_t.
 MVVM_VIEWMODEL_EXPORT QVariant GetQtVariant(const variant_t& variant);

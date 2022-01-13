@@ -30,7 +30,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for factory methods related to ViewItem.
 

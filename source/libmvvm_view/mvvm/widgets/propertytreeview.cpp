@@ -26,7 +26,7 @@
 
 #include <QTreeView>
 
-namespace ModelView
+namespace mvvm
 {
 PropertyTreeView::PropertyTreeView(QWidget* parent) : ItemsTreeView(parent)
 {

@@ -25,7 +25,7 @@
 
 #include <memory>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing ItemFactory in the context of SessionModel and unique identifiers of SessionItem.
 

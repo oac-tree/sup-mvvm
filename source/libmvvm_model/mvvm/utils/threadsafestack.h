@@ -32,7 +32,7 @@
 //! @brief Thread-safe stack borrowed from Anthony Williams, C++ Concurrency in Action, Second
 //! edition.
 
-namespace ModelView
+namespace mvvm
 {
 struct empty_stack : public std::exception
 {

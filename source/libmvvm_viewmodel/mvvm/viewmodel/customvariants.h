@@ -28,7 +28,7 @@
 #include <QVariant>
 #include <string>
 
-namespace ModelView
+namespace mvvm
 {
 namespace Constants
 {

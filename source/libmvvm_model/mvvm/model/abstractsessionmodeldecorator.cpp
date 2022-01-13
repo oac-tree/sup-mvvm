@@ -19,6 +19,6 @@
 
 #include "mvvm/model/abstractsessionmodeldecorator.h"
 
-namespace ModelView
+namespace mvvm
 {
 }

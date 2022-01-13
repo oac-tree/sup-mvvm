@@ -24,7 +24,7 @@
 #include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
-namespace ModelView
+namespace mvvm
 {
 PropertyViewModel::PropertyViewModel(ApplicationModel* model, QObject* parent) : ViewModel(parent)
 {

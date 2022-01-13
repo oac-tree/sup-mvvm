@@ -35,7 +35,7 @@ const std::string kItemElementType = "Item";
 const std::string kTypelAttributeKey = "type";
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 struct TreeDataItemConverter::TreeDataItemConverterImpl
 {

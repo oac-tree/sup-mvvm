@@ -24,7 +24,7 @@
 
 #include <functional>
 
-namespace ModelView
+namespace mvvm
 {
 //! Forward data/setData calls to user-provided callbacks.
 

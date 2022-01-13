@@ -27,7 +27,7 @@
 #include <map>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 //! Uses Qt's signal/slot machinery.

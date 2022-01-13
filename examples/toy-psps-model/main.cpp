@@ -31,7 +31,7 @@ int main()
   PulseScheduleModel model;
   std::cout << "Number of pulses defined " << model.GetTopItems<PulseScheduleItem>().size() << "\n";
 
-  ModelView::XmlDocument document({&model});
+  mvvm::XmlDocument document({&model});
   document.Save("test.xml");
 
   return 0;

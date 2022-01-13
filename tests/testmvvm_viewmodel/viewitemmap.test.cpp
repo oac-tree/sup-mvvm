@@ -24,7 +24,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for InstructionViewItemMap class.
 

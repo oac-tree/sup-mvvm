@@ -22,7 +22,7 @@
 
 #include "mvvm/interfaces/sessionmodelinterface.h"
 
-namespace ModelView
+namespace mvvm
 {
 class MVVM_MODEL_EXPORT AbstractSessionModelDecorator : public SessionModelInterface
 {

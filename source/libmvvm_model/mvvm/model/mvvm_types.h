@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 class SessionModel;

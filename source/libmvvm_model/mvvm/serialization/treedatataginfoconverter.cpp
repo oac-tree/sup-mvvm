@@ -42,9 +42,9 @@ std::vector<std::string> GetExpectedAttributeKeys();
 
 std::vector<std::string> SplitAndTrim(const std::string &str)
 {
-  auto result = ModelView::Utils::SplitString(str, ",");
+  auto result = mvvm::Utils::SplitString(str, ",");
   std::transform(result.begin(), result.end(), result.begin(),
-                 [](auto s) { return ModelView::Utils::TrimWhitespace(s); });
+                 [](auto s) { return mvvm::Utils::TrimWhitespace(s); });
   return result;
 }
 }  // namespace
@@ -53,7 +53,7 @@ std::vector<std::string> SplitAndTrim(const std::string &str)
 // Implementations declared in the header.
 // ----------------------------------------------------------------------------
 
-namespace ModelView
+namespace mvvm
 {
 bool IsTagInfoConvertible(const TreeData &tree_data)
 {

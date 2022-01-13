@@ -39,7 +39,7 @@
 
 #include <memory>
 
-namespace ModelView
+namespace mvvm
 {
 class TreeData;
 class SessionItemContainer;

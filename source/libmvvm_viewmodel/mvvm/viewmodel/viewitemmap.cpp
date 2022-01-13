@@ -21,7 +21,7 @@
 
 #include <stdexcept>
 
-namespace ModelView
+namespace mvvm
 {
 ViewItemMap::ViewItemMap() = default;
 

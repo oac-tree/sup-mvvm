@@ -25,7 +25,7 @@
 
 #include <QColor>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for utilities related to variant conversion.
 

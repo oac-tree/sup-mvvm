@@ -44,7 +44,7 @@ const QString untitled_name = "Untitled";
 
 }  // namespace
 
-int ModelView::Utils::RandInt(int low, int high)
+int mvvm::Utils::RandInt(int low, int high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -52,18 +52,18 @@ int ModelView::Utils::RandInt(int low, int high)
   return uniform_int(gen);
 }
 
-QColor ModelView::Utils::RandomColor()
+QColor mvvm::Utils::RandomColor()
 {
-  auto rndm = []() -> int { return ModelView::Utils::RandInt(0, 255); };
+  auto rndm = []() -> int { return mvvm::Utils::RandInt(0, 255); };
   return QColor(rndm(), rndm(), rndm());
 }
 
-std::string ModelView::Utils::RandomNamedColor()
+std::string mvvm::Utils::RandomNamedColor()
 {
   return RandomColor().name().toStdString();
 }
 
-bool ModelView::Utils::IsWindowsHost()
+bool mvvm::Utils::IsWindowsHost()
 {
 #if defined(Q_OS_WIN)
   return true;
@@ -72,7 +72,7 @@ bool ModelView::Utils::IsWindowsHost()
 #endif
 }
 
-bool ModelView::Utils::IsMacHost()
+bool mvvm::Utils::IsMacHost()
 {
 #if defined(Q_OS_MAC)
   return true;
@@ -81,7 +81,7 @@ bool ModelView::Utils::IsMacHost()
 #endif
 }
 
-bool ModelView::Utils::IsLinuxHost()
+bool mvvm::Utils::IsLinuxHost()
 {
 #if defined(Q_OS_LINUX)
   return true;
@@ -90,9 +90,9 @@ bool ModelView::Utils::IsLinuxHost()
 #endif
 }
 
-QString ModelView::Utils::WithTildeHomePath(const QString& path)
+QString mvvm::Utils::WithTildeHomePath(const QString& path)
 {
-  if (ModelView::Utils::IsWindowsHost())
+  if (mvvm::Utils::IsWindowsHost())
   {
     return path;
   }
@@ -111,7 +111,7 @@ QString ModelView::Utils::WithTildeHomePath(const QString& path)
 //! Project without projectDir will be "Untitled", modified project will be "*Untitled".
 //! Project with projectDir in "/home/user/project1" will get title "project1".
 
-QString ModelView::Utils::ProjectWindowTitle(const QString& project_dir, bool is_modified)
+QString mvvm::Utils::ProjectWindowTitle(const QString& project_dir, bool is_modified)
 {
   auto pos = project_dir.lastIndexOf('/');
   auto project_name = (pos == -1) ? untitled_name : project_dir.mid(pos + 1);
@@ -119,28 +119,28 @@ QString ModelView::Utils::ProjectWindowTitle(const QString& project_dir, bool is
   return unsaved_status + project_name;
 }
 
-int ModelView::Utils::WidthOfLetterM()
+int mvvm::Utils::WidthOfLetterM()
 {
-  return ModelView::Utils::SizeOfLetterM().width();
+  return mvvm::Utils::SizeOfLetterM().width();
 }
 
-int ModelView::Utils::HeightOfLetterM()
+int mvvm::Utils::HeightOfLetterM()
 {
-  return ModelView::Utils::SizeOfLetterM().height();
+  return mvvm::Utils::SizeOfLetterM().height();
 }
 
-QSize ModelView::Utils::SizeOfLetterM()
+QSize mvvm::Utils::SizeOfLetterM()
 {
   static QSize result = FindSizeOfLetterM();
   return result;
 }
 
-int ModelView::Utils::SystemPointSize()
+int mvvm::Utils::SystemPointSize()
 {
   return QApplication::font().pointSize();
 }
 
-QMainWindow* ModelView::Utils::FindMainWindow()
+QMainWindow* mvvm::Utils::FindMainWindow()
 {
   for (auto widget : qApp->topLevelWidgets())
   {
@@ -152,19 +152,19 @@ QMainWindow* ModelView::Utils::FindMainWindow()
   return nullptr;
 }
 
-QString ModelView::Utils::ClickableText(const QString& text, const QString& tag)
+QString mvvm::Utils::ClickableText(const QString& text, const QString& tag)
 {
   return QString(R"(<a href="%1">%2</a>)").arg(tag.isEmpty() ? text : tag, text);
 }
 
-void ModelView::Utils::ScaleLabelFont(QLabel* label, double scale)
+void mvvm::Utils::ScaleLabelFont(QLabel* label, double scale)
 {
   QFont font = label->font();
-  font.setPointSize(ModelView::Utils::SystemPointSize() * scale);
+  font.setPointSize(mvvm::Utils::SystemPointSize() * scale);
   label->setFont(font);
 }
 
-QStringList ModelView::Utils::GetStringList(const std::vector<std::string>& vec)
+QStringList mvvm::Utils::GetStringList(const std::vector<std::string>& vec)
 {
   QStringList result;
   for (const auto& x : vec)
@@ -174,7 +174,7 @@ QStringList ModelView::Utils::GetStringList(const std::vector<std::string>& vec)
   return result;
 }
 
-std::vector<std::string> ModelView::Utils::GetStdStringVector(const QStringList& string_list)
+std::vector<std::string> mvvm::Utils::GetStdStringVector(const QStringList& string_list)
 {
   std::vector<std::string> result;
   for (const auto& x : string_list)
@@ -184,7 +184,7 @@ std::vector<std::string> ModelView::Utils::GetStdStringVector(const QStringList&
   return result;
 }
 
-QByteArray ModelView::Utils::GetByteArray(const QStringList& data)
+QByteArray mvvm::Utils::GetByteArray(const QStringList& data)
 {
   QByteArray byteArray;
   QDataStream out(&byteArray, QIODevice::WriteOnly);
@@ -192,7 +192,7 @@ QByteArray ModelView::Utils::GetByteArray(const QStringList& data)
   return byteArray;
 }
 
-QStringList ModelView::Utils::GetStringList(const QByteArray& byteArray)
+QStringList mvvm::Utils::GetStringList(const QByteArray& byteArray)
 {
   QByteArray array = byteArray;
   QStringList result;
@@ -201,7 +201,7 @@ QStringList ModelView::Utils::GetStringList(const QByteArray& byteArray)
   return result;
 }
 
-QString ModelView::Utils::CreatePathPresentation(const QString& text)
+QString mvvm::Utils::CreatePathPresentation(const QString& text)
 {
   if (text.isEmpty())
   {

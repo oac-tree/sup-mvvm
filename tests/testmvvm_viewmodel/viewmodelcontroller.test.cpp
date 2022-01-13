@@ -39,7 +39,7 @@
 #include <QDebug>
 #include <QSignalSpy>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for ViewModelController class.
 
@@ -78,7 +78,7 @@ public:
     return Utils::GetContext<SessionItem>(m_viewmodel.itemFromIndex(index));
   }
 
-  std::vector<ModelView::ViewItem*> FindViews(SessionItem* item)
+  std::vector<mvvm::ViewItem*> FindViews(SessionItem* item)
   {
     return Utils::FindViews<SessionItem>(&m_viewmodel, item);
   }
@@ -99,11 +99,11 @@ TEST_F(ViewModelControllerTest, EmptyProcedure)
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
-  EXPECT_EQ(ModelView::Utils::GetContext<SessionItem>(m_viewmodel.rootItem()),
+  EXPECT_EQ(mvvm::Utils::GetContext<SessionItem>(m_viewmodel.rootItem()),
             m_model.GetRootItem());
 
-  EXPECT_EQ(ModelView::Utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
-            std::vector<ModelView::ViewItem*>({m_viewmodel.rootItem()}));
+  EXPECT_EQ(mvvm::Utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
+            std::vector<mvvm::ViewItem*>({m_viewmodel.rootItem()}));
 }
 
 //! Attempt to initialize controller with wrong initial parameters.
@@ -118,8 +118,8 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
 
   // current approach: if ViewModel is not-empty, it will be cleaned up
   {
-    std::vector<std::unique_ptr<ModelView::ViewItem>> children;
-    children.emplace_back(std::make_unique<ModelView::ViewItem>());
+    std::vector<std::unique_ptr<mvvm::ViewItem>> children;
+    children.emplace_back(std::make_unique<mvvm::ViewItem>());
     m_viewmodel.appendRow(m_viewmodel.rootItem(), std::move(children));
     ViewModelController controller(&m_model, &m_viewmodel);
     controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
@@ -423,8 +423,8 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
-  QSignalSpy spyInsert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+  QSignalSpy spyInsert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // removing middle child
   m_composer.TakeItem(parent, {"", 1});
@@ -473,8 +473,8 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   EXPECT_EQ(m_viewmodel.rowCount(container1_index), 0);
   EXPECT_EQ(m_viewmodel.columnCount(container1_index), 0);
 
-  QSignalSpy spyInsert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+  QSignalSpy spyInsert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // taking child, but keeping it
   auto taken = m_composer.TakeItem(container0, {"", 0});

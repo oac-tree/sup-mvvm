@@ -23,7 +23,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing XML parse utility functions.
 
@@ -35,10 +35,10 @@ class XMLParseUtilsTest : public ::testing::Test
 
 TEST_F(XMLParseUtilsTest, ParseXMLDataString_EmptyString)
 {
-  EXPECT_THROW(ModelView::ParseXMLDataString(""), std::runtime_error);
+  EXPECT_THROW(mvvm::ParseXMLDataString(""), std::runtime_error);
 
   // empty xml file with default root node
-  auto tree = ModelView::ParseXMLDataString(TestUtils::CreateXMLDocumentString(""));
+  auto tree = mvvm::ParseXMLDataString(TestUtils::CreateXMLDocumentString(""));
   ASSERT_TRUE(tree.get() != nullptr);
   EXPECT_EQ(tree->GetType(), "root");
   EXPECT_EQ(tree->GetNumberOfAttributes(), 0);
@@ -54,7 +54,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLDataString_TagInfo)
 <TagInfo min="-1" name="TagName">model1, model2</TagInfo>
 )"};
 
-  auto tree = ModelView::ParseXMLDataString(TestUtils::CreateXMLDocumentString(body));
+  auto tree = mvvm::ParseXMLDataString(TestUtils::CreateXMLDocumentString(body));
   ASSERT_TRUE(tree.get() != nullptr);
   ASSERT_EQ(tree->GetNumberOfChildren(), 1);
 
@@ -75,7 +75,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLElementString_TagInfo)
 <TagInfo min="-1" name="TagName">model1, model2</TagInfo>
 )"};
 
-  auto tree = ModelView::ParseXMLElementString(body);
+  auto tree = mvvm::ParseXMLElementString(body);
   ASSERT_TRUE(tree.get() != nullptr);
   ASSERT_EQ(tree->GetNumberOfChildren(), 0);
 
@@ -95,7 +95,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLElementString_DataRole)
 <Variant role="0" type="int">42</Variant>
 )"};
 
-  auto tree = ModelView::ParseXMLElementString(body);
+  auto tree = mvvm::ParseXMLElementString(body);
   ASSERT_TRUE(tree.get() != nullptr);
   ASSERT_EQ(tree->GetNumberOfChildren(), 0);
 

@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace ModelView
+namespace mvvm
 {
 //! Provides generation of unique SessionItem identifier.
 

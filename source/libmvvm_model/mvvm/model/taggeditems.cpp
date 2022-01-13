@@ -23,7 +23,7 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 TaggedItems::TaggedItems() = default;
 

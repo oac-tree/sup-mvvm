@@ -29,7 +29,7 @@ class QTreeView;
 class QItemSelection;
 class QItemSelectionModel;
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 class ViewModel;

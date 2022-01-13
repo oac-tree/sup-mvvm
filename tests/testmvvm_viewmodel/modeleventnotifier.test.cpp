@@ -26,7 +26,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 using ::testing::_;
 
 //! Tests for ModelEventNotifier class.
@@ -44,8 +44,8 @@ public:
 
 TEST_F(ModelEventNotifierTest, AboutToInsertItem)
 {
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(&item, tag_index)).Times(1);
   EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
@@ -64,8 +64,8 @@ TEST_F(ModelEventNotifierTest, AboutToInsertItem)
 
 TEST_F(ModelEventNotifierTest, ItemInserted)
 {
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemInserted(&item, tag_index)).Times(1);
@@ -84,8 +84,8 @@ TEST_F(ModelEventNotifierTest, ItemInserted)
 
 TEST_F(ModelEventNotifierTest, AboutToRemoveItem)
 {
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
@@ -104,8 +104,8 @@ TEST_F(ModelEventNotifierTest, AboutToRemoveItem)
 
 TEST_F(ModelEventNotifierTest, ItemRemoved)
 {
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
@@ -124,7 +124,7 @@ TEST_F(ModelEventNotifierTest, ItemRemoved)
 
 TEST_F(ModelEventNotifierTest, DataChanged)
 {
-  ModelView::SessionItem item;
+  mvvm::SessionItem item;
   int role{42};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -142,7 +142,7 @@ TEST_F(ModelEventNotifierTest, DataChanged)
 
 TEST_F(ModelEventNotifierTest, OnModelAboutToBeReset)
 {
-  ModelView::SessionModel model;
+  mvvm::SessionModel model;
   int role{42};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -160,7 +160,7 @@ TEST_F(ModelEventNotifierTest, OnModelAboutToBeReset)
 
 TEST_F(ModelEventNotifierTest, OnModelReset)
 {
-  ModelView::SessionModel model;
+  mvvm::SessionModel model;
   int role{42};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -178,7 +178,7 @@ TEST_F(ModelEventNotifierTest, OnModelReset)
 
 TEST_F(ModelEventNotifierTest, OnModelAboutToBeDestroyed)
 {
-  ModelView::SessionModel model;
+  mvvm::SessionModel model;
   int role{42};
 
   EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -206,9 +206,9 @@ TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
 
 TEST_F(ModelEventNotifierTest, Unsubscribe)
 {
-  ModelView::SessionModel model;
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionModel model;
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
   ModelEventNotifier notifier;
@@ -240,9 +240,9 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
 
 TEST_F(ModelEventNotifierTest, TwoSubscriptions)
 {
-  ModelView::SessionModel model;
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionModel model;
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
   ModelEventNotifier notifier;
@@ -283,9 +283,9 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
 
 TEST_F(ModelEventNotifierTest, UnsubscribeOne)
 {
-  ModelView::SessionModel model;
-  ModelView::SessionItem item;
-  ModelView::TagIndex tag_index{"tag", 0};
+  mvvm::SessionModel model;
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
   ModelEventNotifier notifier;

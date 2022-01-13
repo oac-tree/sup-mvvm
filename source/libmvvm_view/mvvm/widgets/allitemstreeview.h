@@ -22,7 +22,7 @@
 
 #include "mvvm/widgets/itemstreeview.h"
 
-namespace ModelView
+namespace mvvm
 {
 class ApplicationModel;
 

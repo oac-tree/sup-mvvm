@@ -27,7 +27,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! VectorItem tests.
 
@@ -39,7 +39,7 @@ class TreeDataTagInfoConverterTest : public ::testing::Test
 
 TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing TagInfo without model types defined.
   const std::string body{R"(<TagInfo min="0" max="1" name="Width"></TagInfo>)"};
@@ -62,7 +62,7 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
 
 TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTagWithItemTypes)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing TagInfo without model types defined.
   const std::string body{

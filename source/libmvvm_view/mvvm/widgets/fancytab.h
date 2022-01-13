@@ -28,7 +28,7 @@
 class QLabel;
 class QString;
 
-namespace ModelView
+namespace mvvm
 {
 class MVVM_VIEWMODEL_EXPORT FancyTab : public QWidget
 {

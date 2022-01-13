@@ -19,7 +19,7 @@
 
 #include "viewitemdata.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 ViewItemData::ViewItemData() : m_is_enabled(true), m_is_editable(true) {}
 

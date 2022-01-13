@@ -22,7 +22,7 @@
 #include <limits>
 #include <random>
 
-using namespace ModelView;
+using namespace mvvm;
 
 bool Utils::AreAlmostEqual(double a, double b, double tolerance)
 {

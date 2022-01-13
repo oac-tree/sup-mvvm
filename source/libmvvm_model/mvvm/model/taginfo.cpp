@@ -24,7 +24,7 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace ModelView
+namespace mvvm
 {
 TagInfo::TagInfo() : m_min(0), m_max(-1) {}
 

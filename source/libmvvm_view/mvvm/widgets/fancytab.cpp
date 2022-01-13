@@ -35,13 +35,13 @@ QColor defaultColor()
 }
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 FancyTab::FancyTab(const QString& title, QWidget* parent)
     : QWidget(parent), m_label(new QLabel(title))
 {
-  ModelView::Utils::ScaleLabelFont(m_label, 1.25);
-  setFixedHeight(ModelView::Utils::HeightOfLetterM() * 2.5);
+  mvvm::Utils::ScaleLabelFont(m_label, 1.25);
+  setFixedHeight(mvvm::Utils::HeightOfLetterM() * 2.5);
 
   auto layout = new QHBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

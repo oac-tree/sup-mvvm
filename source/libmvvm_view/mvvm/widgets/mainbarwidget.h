@@ -29,7 +29,7 @@ class QStackedWidget;
 class QHBoxLayout;
 class QPushButton;
 
-namespace ModelView
+namespace mvvm
 {
 class FancyTab;
 

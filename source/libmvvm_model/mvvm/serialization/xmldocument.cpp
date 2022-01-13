@@ -32,7 +32,7 @@ namespace
 const std::string kDocumentElementType = "Document";
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 struct XmlDocument::XmlDocumentImpl
 {
@@ -58,7 +58,7 @@ void XmlDocument::Save(const std::string& file_name) const
     document_tree.AddChild(*converter.ToTreeData(*model));
   }
 
-  ::ModelView::WriteToXMLFile(file_name, document_tree);
+  ::mvvm::WriteToXMLFile(file_name, document_tree);
 }
 
 //! Loads models from disk. If models have some data already, it will be rewritten.

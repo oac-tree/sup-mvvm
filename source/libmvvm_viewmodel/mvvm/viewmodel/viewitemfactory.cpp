@@ -22,7 +22,7 @@
 #include "mvvm/viewmodel/presentationitemfactory.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
-namespace ModelView
+namespace mvvm
 {
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {

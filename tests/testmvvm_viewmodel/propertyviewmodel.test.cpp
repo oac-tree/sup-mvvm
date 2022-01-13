@@ -30,14 +30,14 @@
 
 #include <QSignalSpy>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for PropertyViewModel class.
 
 class PropertyViewModelTest : public ::testing::Test
 {
 public:
-  class LayerItem : public ModelView::CompoundItem
+  class LayerItem : public mvvm::CompoundItem
   {
   public:
     static inline const std::string Type = "Layer";
@@ -49,13 +49,13 @@ public:
   };
 
   //! Represents multilayer with collection of layers.
-  class MultiLayerItem : public ModelView::CompoundItem
+  class MultiLayerItem : public mvvm::CompoundItem
   {
   public:
     static inline const std::string Type = "MultiLayer";
     MultiLayerItem() : CompoundItem(Type)
     {
-      RegisterTag(ModelView::TagInfo::CreateUniversalTag("Layer", {LayerItem::Type}),
+      RegisterTag(mvvm::TagInfo::CreateUniversalTag("Layer", {LayerItem::Type}),
                   /*set_as_default*/ true);
     }
   };

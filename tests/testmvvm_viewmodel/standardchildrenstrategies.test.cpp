@@ -28,7 +28,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class StandardChildrenStrategiesTest : public ::testing::Test
 {

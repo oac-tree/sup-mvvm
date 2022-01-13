@@ -27,7 +27,7 @@
 
 #include <memory>
 
-namespace ModelView
+namespace mvvm
 {
 
 }  // namespace ModelView

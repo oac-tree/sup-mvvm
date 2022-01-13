@@ -30,7 +30,7 @@
 
 //! Actuator item. Contains reference to one or more PV-variables.
 
-class ActuatorItem : public ModelView::CompoundItem
+class ActuatorItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "ActuatorItem";
@@ -46,7 +46,7 @@ public:
 //! The action to be performed on ActuatorItem. Contains the link to particular ActuatorItem
 //! and transition function.
 
-class ActionItem : public ModelView::CompoundItem
+class ActionItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "ActionItem";
@@ -65,7 +65,7 @@ public:
 //! Pulse schedule segment. Contains collection of ActuatorItems involved into
 //! this segment.
 
-class SegmentItem : public ModelView::CompoundItem
+class SegmentItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "SegmentItem";
@@ -76,7 +76,7 @@ public:
 
 //! Transition between segments. Contains collection of ActionItem's to be executed.
 
-class TransitionItem : public ModelView::CompoundItem
+class TransitionItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "TransitionItem";
@@ -87,7 +87,7 @@ public:
 
 //! Pulse schedule. Contains a collection of SegmentItem's with ActionItem's in-between.
 
-class PulseScheduleItem : public ModelView::CompoundItem
+class PulseScheduleItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "PulseScheduleItem";

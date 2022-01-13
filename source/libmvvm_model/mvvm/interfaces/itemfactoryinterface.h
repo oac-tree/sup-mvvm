@@ -23,7 +23,7 @@
 #include "mvvm/model/function_types.h"
 #include "mvvm/model_export.h"
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 

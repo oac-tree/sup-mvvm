@@ -28,7 +28,7 @@
 #include <QLabel>
 #include <QMouseEvent>
 
-namespace ModelView
+namespace mvvm
 {
 CollapsibleBar::CollapsibleBar(QWidget* parent)
     : QFrame(parent), m_pixmap_label(new QLabel), m_title_label(new QLabel)
@@ -42,7 +42,7 @@ CollapsibleBar::CollapsibleBar(QWidget* parent)
   layout->addWidget(m_pixmap_label, Qt::AlignLeft);
   layout->addWidget(m_title_label, Qt::AlignCenter);
 
-  setFixedHeight(ModelView::Utils::HeightOfLetterM() * 1.8);
+  setFixedHeight(mvvm::Utils::HeightOfLetterM() * 1.8);
   setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 }
 

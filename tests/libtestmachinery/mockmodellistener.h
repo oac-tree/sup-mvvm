@@ -25,17 +25,17 @@
 
 #include <gmock/gmock.h>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 class TagIndex;
 class SessionModel;
-}  // namespace ModelView
+}  // namespace mvvm
 
 //! Mocking class to test ModelEventListenerInterface reactions on notifications issued by
 //! ModelEventNotifier.
 
-class MockModelListener : public ModelView::ModelEventListenerInterface
+class MockModelListener : public mvvm::ModelEventListenerInterface
 {
 public:
   ~MockModelListener()
@@ -45,30 +45,28 @@ public:
       m_notifier->Unsubscribe(this);
     }
   }
-  void SetNotifier(ModelView::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
+  void SetNotifier(mvvm::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
 
   MOCK_METHOD2(OnAboutToInsertItem,
-               void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
+               void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD2(OnItemInserted,
-               void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
+  MOCK_METHOD2(OnItemInserted, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
   MOCK_METHOD2(OnAboutToRemoveItem,
-               void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
+               void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD2(OnItemRemoved,
-               void(ModelView::SessionItem* parent, const ModelView::TagIndex& tag_index));
+  MOCK_METHOD2(OnItemRemoved, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD2(OnDataChanged, void(ModelView::SessionItem* item, int role));
+  MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
 
-  MOCK_METHOD1(OnModelAboutToBeReset, void(ModelView::SessionModel* model));
+  MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModel* model));
 
-  MOCK_METHOD1(OnModelReset, void(ModelView::SessionModel* model));
+  MOCK_METHOD1(OnModelReset, void(mvvm::SessionModel* model));
 
-  MOCK_METHOD1(OnModelAboutToBeDestroyed, void(ModelView::SessionModel* model));
+  MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
 
 protected:
-  ModelView::ModelEventNotifierInterface* m_notifier;
+  mvvm::ModelEventNotifierInterface* m_notifier;
 };
 
 #endif  // MOCKMODELLISTENER_H

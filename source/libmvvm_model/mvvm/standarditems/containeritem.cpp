@@ -26,11 +26,11 @@ namespace
 const std::string kChildren = "kChildren";
 }
 
-namespace ModelView
+namespace mvvm
 {
 ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  RegisterTag(ModelView::TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
 }
 
 bool ContainerItem::IsEmpty() const

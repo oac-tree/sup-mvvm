@@ -27,7 +27,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests of factory methods for creation of various PresentationItems.
 

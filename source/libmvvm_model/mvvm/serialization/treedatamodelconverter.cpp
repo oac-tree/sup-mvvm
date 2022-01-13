@@ -31,15 +31,15 @@ namespace
 const std::string kModelElementType = "Model";
 const std::string kTypelAttributeKey = "type";
 
-std::unique_ptr<ModelView::TreeDataItemConverterInterface> CreateConverter(
-    const ModelView::ItemFactoryInterface *factory)
+std::unique_ptr<mvvm::TreeDataItemConverterInterface> CreateConverter(
+    const mvvm::ItemFactoryInterface *factory)
 {
-  return std::make_unique<ModelView::TreeDataItemConverter>(factory);
+  return std::make_unique<mvvm::TreeDataItemConverter>(factory);
 }
 
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 struct TreeDataModelConverter::TreeDataModelConverterImpl
 {

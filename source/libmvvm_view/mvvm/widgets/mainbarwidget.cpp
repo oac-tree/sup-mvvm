@@ -27,7 +27,7 @@
 #include <QStackedWidget>
 #include <QVBoxLayout>
 
-namespace ModelView
+namespace mvvm
 {
 MainBarWidget::MainBarWidget(QWidget* parent)
     : QFrame(parent), m_stacked_widget(new QStackedWidget), m_label_layout(new QHBoxLayout)

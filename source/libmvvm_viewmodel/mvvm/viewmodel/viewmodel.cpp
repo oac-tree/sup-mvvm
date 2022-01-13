@@ -22,7 +22,7 @@
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
-namespace ModelView
+namespace mvvm
 {
 ViewModel::ViewModel(QObject* parent) : ViewModelBase(parent) {}
 
@@ -80,7 +80,7 @@ ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
 
 std::vector<ViewItem*> ViewModel::FindViews(const SessionItem* item) const
 {
-  return ModelView::Utils::FindViews<SessionItem>(this, item);
+  return mvvm::Utils::FindViews<SessionItem>(this, item);
 }
 
 //! Returns list of model indices representing given SessionItem.

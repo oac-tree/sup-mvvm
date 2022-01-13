@@ -26,7 +26,7 @@
 #include <memory>
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests of ItemPool and its abilities to register/deregister SessionItem.
 

@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace ModelView
+namespace mvvm
 {
 //! Aggregate to hold (tag, index) information for SessionModel.
 //! index=-1 is a special value for appending to the end of the in the SessionIteTags context.

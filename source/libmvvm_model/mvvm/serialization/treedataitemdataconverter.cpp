@@ -30,7 +30,7 @@ namespace
 const std::string kTaggedItemsElementType = "ItemData";
 }
 
-namespace ModelView
+namespace mvvm
 {
 TreeDataItemDataConverter::TreeDataItemDataConverter() = default;
 
@@ -40,7 +40,7 @@ std::unique_ptr<TreeData> TreeDataItemDataConverter::ToTreeData(
   auto result = std::make_unique<TreeData>(kTaggedItemsElementType);
   for (const auto &datarole : item_data)
   {
-    result->AddChild(::ModelView::ToTreeData(datarole));
+    result->AddChild(::mvvm::ToTreeData(datarole));
   }
   return result;
 }

@@ -19,7 +19,7 @@
 
 #include "mvvm/model/tagindex.h"
 
-namespace ModelView
+namespace mvvm
 {
 //! Constructs new TagIndex representing next index in given tag.
 //! No validity check.

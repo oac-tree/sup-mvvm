@@ -29,7 +29,7 @@
 
 #include <memory>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class ItemUtilsTest : public ::testing::Test
 {

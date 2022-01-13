@@ -21,7 +21,7 @@
 
 #include "mvvm/serialization/TreeData.h"
 
-namespace ModelView
+namespace mvvm
 {
 TreeData::TreeData(const std::string& type) : _type{type} {}
 

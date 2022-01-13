@@ -21,7 +21,7 @@
 
 #include "toypspsitems.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 PulseScheduleModel::PulseScheduleModel() : SessionModel("PulseScheduleModel")
 {

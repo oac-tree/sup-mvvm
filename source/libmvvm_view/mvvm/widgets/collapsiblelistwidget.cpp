@@ -24,7 +24,7 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 
-namespace ModelView
+namespace mvvm
 {
 CollapsibleListWidget::CollapsibleListWidget(QWidget* parent)
     : QWidget(parent), m_splitter(new QSplitter)

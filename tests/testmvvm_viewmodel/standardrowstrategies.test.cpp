@@ -32,7 +32,7 @@ const QStringList expected_labels = QStringList() << "Name"
                                                   << "Value";
 }  // namespace
 
-using namespace ModelView;
+using namespace mvvm;
 
 class LabelDataRowStrategyTest : public ::testing::Test
 {

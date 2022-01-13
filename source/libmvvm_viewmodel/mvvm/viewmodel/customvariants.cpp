@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/customvariants.h"
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 std::string GetQtVariantName(const QVariant& variant)
 {

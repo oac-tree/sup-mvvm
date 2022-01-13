@@ -27,7 +27,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 using ::testing::_;
 
 //! Tests for ModelComposer class.

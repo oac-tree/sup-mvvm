@@ -25,7 +25,7 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for ViewItem class.
 

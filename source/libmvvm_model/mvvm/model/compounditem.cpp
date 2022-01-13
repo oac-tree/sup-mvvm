@@ -21,7 +21,7 @@
 
 #include "mvvm/model/itemutils.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 namespace
 {

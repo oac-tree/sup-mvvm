@@ -22,7 +22,7 @@
 
 #include "mvvm/model/sessionitem.h"
 
-namespace ModelView
+namespace mvvm
 {
 class RealLimits;
 

@@ -45,10 +45,10 @@ const xmlChar *FromString(const std::string &str)
 }
 
 //! Main method for recursive writing of XML from TreeData.
-void AddTreeData(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data);
+void AddTreeData(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data);
 
 //! Adds to currently opened XML element all attributes defined in TreeData.
-void AddTreeAttributes(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data);
+void AddTreeAttributes(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data);
 
 //! Set-up identation.
 void SetupWriterIndentation(xmlTextWriterPtr writer);
@@ -58,7 +58,7 @@ void SetupWriterIndentation(xmlTextWriterPtr writer);
 // Implementations declared in the header.
 // ----------------------------------------------------------------------------
 
-namespace ModelView
+namespace mvvm
 {
 void WriteToXMLFile(const std::string &file_name, const TreeData &tree_data)
 {
@@ -120,7 +120,7 @@ std::string GetXMLString(const TreeData &tree_data)
 
 namespace
 {
-void AddTreeData(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
+void AddTreeData(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data)
 {
   if (tree_data.GetType().empty())
   {
@@ -161,7 +161,7 @@ void AddTreeData(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
   }
 }
 
-void AddTreeAttributes(xmlTextWriterPtr writer, const ModelView::TreeData &tree_data)
+void AddTreeAttributes(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data)
 {
   for (const auto &attr : tree_data.Attributes())
   {

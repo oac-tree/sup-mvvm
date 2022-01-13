@@ -28,7 +28,7 @@
 
 #include <memory>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class PathTest : public ::testing::Test
 {

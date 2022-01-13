@@ -27,7 +27,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 struct ViewItem::ViewItemImpl
 {

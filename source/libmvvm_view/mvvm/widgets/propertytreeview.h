@@ -22,7 +22,7 @@
 
 #include "mvvm/widgets/itemstreeview.h"
 
-namespace ModelView {
+namespace mvvm {
 
 //! Widget holding standard QTreeView and intended for displaying all properties of given
 //! SessionItem.

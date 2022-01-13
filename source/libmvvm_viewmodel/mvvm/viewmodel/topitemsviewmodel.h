@@ -22,7 +22,7 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-namespace ModelView
+namespace mvvm
 {
 class ApplicationModel;
 

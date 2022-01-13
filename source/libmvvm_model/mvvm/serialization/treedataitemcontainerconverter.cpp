@@ -32,7 +32,7 @@ namespace
 const std::string kItemContainerElementType = "ItemContainer";
 }  // namespace
 
-namespace ModelView::ContainerConverter
+namespace mvvm::ContainerConverter
 {
 bool IsItemContainerConvertible(const TreeData &tree_data)
 {

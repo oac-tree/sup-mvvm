@@ -23,7 +23,7 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 
-namespace ModelView
+namespace mvvm
 {
 ModelEventNotifier::ModelEventNotifier(ModelEventListenerInterface *listener)
 {

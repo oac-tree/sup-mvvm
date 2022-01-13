@@ -23,7 +23,7 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 size_t ItemPool::GetSize() const
 {

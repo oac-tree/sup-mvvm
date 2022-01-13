@@ -24,7 +24,7 @@
 #include "mvvm/viewmodel/variantconverter.h"
 #include "mvvm/viewmodelbase/presentationitem.h"
 
-namespace ModelView
+namespace mvvm
 {
 std::unique_ptr<ViewItemDataInterface> CreateDisplayNamePresentation(SessionItem* item)
 {
@@ -82,7 +82,7 @@ std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item,
     return false;
   };
 
-  return std::make_unique<ModelView::PresentationItem<SessionItem>>(item, on_data, on_setdata);
+  return std::make_unique<mvvm::PresentationItem<SessionItem>>(item, on_data, on_setdata);
 }
 
 }  // namespace ModelView

@@ -32,7 +32,7 @@ class QIcon;
 class QButtonGroup;
 class QToolButton;
 
-namespace ModelView
+namespace mvvm
 {
 \
 //! Widget container with functionality similar to QTabWidget.

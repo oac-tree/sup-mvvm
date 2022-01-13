@@ -21,7 +21,7 @@
 
 #include <sstream>
 
-namespace ModelView
+namespace mvvm
 {
 VectorItem::VectorItem() : CompoundItem(Type)
 {

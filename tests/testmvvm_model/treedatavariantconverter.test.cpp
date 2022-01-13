@@ -27,7 +27,7 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! VectorItem tests.
 
@@ -39,7 +39,7 @@ class TreeDataVariantConverterTest : public ::testing::Test
 
 TEST_F(TreeDataVariantConverterTest, UndefinedDataRole)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing undefined variant with role=0.
   const std::string body{R"(<Variant role="0" type="undefined"></Variant>)"};
@@ -59,7 +59,7 @@ TEST_F(TreeDataVariantConverterTest, UndefinedDataRole)
 
 TEST_F(TreeDataVariantConverterTest, BoolDataRole)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing undefined variant with role=0.
   const std::string body{R"(<Variant role="42" type="bool">true</Variant>)"};
@@ -86,7 +86,7 @@ TEST_F(TreeDataVariantConverterTest, BoolDataRole)
 
 TEST_F(TreeDataVariantConverterTest, IntDataRole)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing int variant with role=0.
   const std::string body{R"(<Variant role="42" type="int">48</Variant>)"};
@@ -119,7 +119,7 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
 
 TEST_F(TreeDataVariantConverterTest, DoubleDataRole)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing double variant with role=0.
   const std::string body{R"(<Variant role="43" type="double">42.3</Variant>)"};
@@ -144,7 +144,7 @@ TEST_F(TreeDataVariantConverterTest, DoubleDataRole)
 
 TEST_F(TreeDataVariantConverterTest, StringDataRole)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing string variant with role=0.
   const std::string body{R"(<Variant role="7" type="string">James Bond</Variant>)"};
@@ -169,7 +169,7 @@ TEST_F(TreeDataVariantConverterTest, StringDataRole)
 
 TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
 {
-  using ModelView::ParseXMLElementString;
+  using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing a vector with single element with role=0.
   const std::string body{R"(<Variant role="42" type="vector_double_t">48.0</Variant>)"};

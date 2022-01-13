@@ -26,7 +26,7 @@
 
 #include <memory>
 
-namespace ModelView
+namespace mvvm
 {
 std::unique_ptr<TreeData> ParseXMLDataFile(const std::string& filename);
 

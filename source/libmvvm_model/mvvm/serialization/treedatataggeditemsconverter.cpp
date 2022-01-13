@@ -33,7 +33,7 @@ const std::string kTaggedItemsElementType = "TaggedItems";
 const std::string kDefaultTagKey = "defaultTag";
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 struct TreeDataTaggedItemsConverter::TreeDataTaggedItemsConverterImpl
 {

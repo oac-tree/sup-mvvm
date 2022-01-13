@@ -26,7 +26,7 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-namespace ModelView
+namespace mvvm
 {
 ItemsTreeView::ItemsTreeView(QWidget* parent)
     : QWidget(parent), m_tree_view(new QTreeView), m_block_selection(false)

@@ -25,7 +25,7 @@
 #include <QAbstractItemModel>
 #include <memory>
 
-namespace ModelView
+namespace mvvm
 {
 class ViewItem;
 

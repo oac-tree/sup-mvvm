@@ -19,6 +19,6 @@
 
 #include "mvvm/viewmodel/viewmodelfactory.h"
 
-namespace ModelView
+namespace mvvm
 {
 }  // namespace ModelView

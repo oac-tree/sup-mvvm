@@ -25,7 +25,7 @@
 #include <map>
 #include <string>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 

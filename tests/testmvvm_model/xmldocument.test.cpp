@@ -32,7 +32,7 @@
 
 #include <iostream>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing XmlDocument.
 

@@ -28,7 +28,7 @@
 #include <functional>
 #include <memory>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionModel;
 class SessionItem;

@@ -35,7 +35,7 @@ using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
 
 //! Defines names of all supported (serializable) data types.
-namespace ModelView::Constants
+namespace mvvm::Constants
 {
 const std::string kUndefinedTypeName = "undefined";
 const std::string kBoolTypeName = "bool";
@@ -45,7 +45,7 @@ const std::string kDoubleTypeName = "double";
 const std::string kVectorDoubleTypeName = "vector_double_t";
 }  // namespace ModelView::Constants
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 //! Returns true if given variant is properly initialized (i.e. is not default-constructed).
 MVVM_MODEL_EXPORT bool IsValid(const variant_t& value);

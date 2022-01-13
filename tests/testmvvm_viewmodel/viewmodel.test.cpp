@@ -31,7 +31,7 @@
 
 #include <memory>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests ViewModel class.
 //! This are tests for ViewModel API only. Full functionality is covered in all details in

@@ -23,7 +23,7 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace ModelView
+namespace mvvm
 {
 //! Returns vector of all roles for which data exist.
 std::vector<int> SessionItemData::GetRoles() const

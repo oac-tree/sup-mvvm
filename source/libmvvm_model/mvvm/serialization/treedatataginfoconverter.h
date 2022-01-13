@@ -28,7 +28,7 @@
 
 #include "mvvm/model_export.h"
 
-namespace ModelView
+namespace mvvm
 {
 class TreeData;
 class TagInfo;

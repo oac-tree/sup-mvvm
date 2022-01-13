@@ -24,7 +24,7 @@
 
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 //! Handles pairs of <data, role> for SessionItem.
 class MVVM_MODEL_EXPORT SessionItemData

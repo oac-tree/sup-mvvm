@@ -22,7 +22,7 @@
 
 #include "mvvm/model/itemcatalogue.h"
 
-namespace ModelView
+namespace mvvm
 {
 //! Creates a catalog of items supported by SessionModel out-of-the-box.
 MVVM_MODEL_EXPORT std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue();

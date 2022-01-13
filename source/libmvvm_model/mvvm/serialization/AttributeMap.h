@@ -36,7 +36,7 @@
 #include <utility>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 namespace attributes
 {

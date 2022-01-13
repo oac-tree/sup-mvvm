@@ -40,19 +40,19 @@ namespace
 {
 //! Returns true if given SessionItem role is valid for view
 //! FIXME consider moving it to row builder
-bool isValidItemRole(const ModelView::ViewItem *view, int item_role)
+bool isValidItemRole(const mvvm::ViewItem *view, int item_role)
 {
-  static std::map<int, int> role_to_column = {{ModelView::DataRole::kDisplay, 0},
-                                              {ModelView::DataRole::kData, 1},
-                                              {ModelView::DataRole::kData, 2}};
+  static std::map<int, int> role_to_column = {{mvvm::DataRole::kDisplay, 0},
+                                              {mvvm::DataRole::kData, 1},
+                                              {mvvm::DataRole::kData, 2}};
 
-  if (item_role == ModelView::DataRole::kAppearance || item_role == ModelView::DataRole::kTooltip)
+  if (item_role == mvvm::DataRole::kAppearance || item_role == mvvm::DataRole::kTooltip)
   {
     return true;
   }
 
   // FIXME refactor this asap
-  if (view->column() == 0 && item_role != ModelView::DataRole::kDisplay)
+  if (view->column() == 0 && item_role != mvvm::DataRole::kDisplay)
   {
     return false;
   }
@@ -62,7 +62,7 @@ bool isValidItemRole(const ModelView::ViewItem *view, int item_role)
 
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 struct ViewModelController::ViewModelControllerImpl
 {

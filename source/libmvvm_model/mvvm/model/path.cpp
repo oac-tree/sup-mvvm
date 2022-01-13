@@ -24,7 +24,7 @@
 #include <numeric>
 #include <sstream>
 
-namespace ModelView
+namespace mvvm
 {
 //! Constructs Path object from string containing sequence of integers ("0,0,1,3").
 

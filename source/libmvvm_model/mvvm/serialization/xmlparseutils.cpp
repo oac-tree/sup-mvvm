@@ -27,7 +27,7 @@
 
 #include <stdexcept>
 
-namespace ModelView
+namespace mvvm
 {
 static std::unique_ptr<TreeData> ParseXMLDoc(xmlDocPtr doc);
 

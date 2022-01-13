@@ -29,7 +29,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-namespace ModelView
+namespace mvvm
 {
 MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
     : QFrame(parent)

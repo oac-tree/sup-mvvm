@@ -25,7 +25,7 @@
 
 #include <string>
 
-namespace ModelView
+namespace mvvm
 {
 class TreeData;
 

@@ -26,13 +26,13 @@
 
 namespace
 {
-std::unique_ptr<ModelView::ItemFactory> DefaultItemFactory()
+std::unique_ptr<mvvm::ItemFactory> DefaultItemFactory()
 {
-  return std::make_unique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
+  return std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
 }
 }  // namespace
 
-using namespace ModelView;
+using namespace mvvm;
 
 ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 

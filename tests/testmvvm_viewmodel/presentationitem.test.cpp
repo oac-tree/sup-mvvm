@@ -37,7 +37,7 @@ public:
 
 TEST_F(PresentationItemTest, InitialState)
 {
-  ModelView::PresentationItem<TestContext> item{nullptr};
+  mvvm::PresentationItem<TestContext> item{nullptr};
   EXPECT_EQ(item.GetContext(), nullptr);
 
   EXPECT_FALSE(item.Data().isValid());
@@ -70,7 +70,7 @@ TEST_F(PresentationItemTest, OnData)
     return true;
   };
 
-  ModelView::PresentationItem<TestContext> item{&context, on_data, on_setdata};
+  mvvm::PresentationItem<TestContext> item{&context, on_data, on_setdata};
   EXPECT_EQ(item.GetContext(), &context);
 
   // getting back m_data as defined in the context

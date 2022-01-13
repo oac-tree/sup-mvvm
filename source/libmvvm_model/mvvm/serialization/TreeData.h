@@ -37,7 +37,7 @@
 #include <utility>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 // Type definition
 

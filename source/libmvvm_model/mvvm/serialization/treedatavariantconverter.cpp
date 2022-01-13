@@ -38,54 +38,54 @@ const std::string kTypeAttributeKey = "type";
 //! Aggregates call backs for convertion between datarole_t and TreeData.
 struct Converters
 {
-  std::function<ModelView::TreeData(const datarole_t& datarole)> datarole_to_treedata;
-  std::function<datarole_t(const ModelView::TreeData& treedata)> treedata_to_datarole;
+  std::function<mvvm::TreeData(const datarole_t& datarole)> datarole_to_treedata;
+  std::function<datarole_t(const mvvm::TreeData& treedata)> treedata_to_datarole;
 };
 
 //! Returns vector of attributes which TreeData object should have.
 std::vector<std::string> GetExpectedAttributeKeys();
 
 //! Returns role attribute.
-int GetRole(const ModelView::TreeData& tree_data);
+int GetRole(const mvvm::TreeData& tree_data);
 
 //! Returns variant type name.
-std::string GetTypeName(const ModelView::TreeData& tree_data);
+std::string GetTypeName(const mvvm::TreeData& tree_data);
 
 //! Converts datarole_t holding undefined data to the TreeData object.
-ModelView::TreeData from_undefined(const datarole_t& datarole);
+mvvm::TreeData from_undefined(const datarole_t& datarole);
 
 //! Converts TreeData to datarole_t holding undefined data.
-datarole_t to_undefined(const ModelView::TreeData& tree_data);
+datarole_t to_undefined(const mvvm::TreeData& tree_data);
 
 //! Converts datarole_t holding boolean to the TreeData object.
-ModelView::TreeData from_bool(const datarole_t& datarole);
+mvvm::TreeData from_bool(const datarole_t& datarole);
 
 //! Converts TreeData to datarole_t holding boolean.
-datarole_t to_bool(const ModelView::TreeData& tree_data);
+datarole_t to_bool(const mvvm::TreeData& tree_data);
 
 //! Converts datarole_t holding integer data to the TreeData object.
-ModelView::TreeData from_int(const datarole_t& datarole);
+mvvm::TreeData from_int(const datarole_t& datarole);
 
 //! Converts TreeData to datarole_t holding integer data.
-datarole_t to_int(const ModelView::TreeData& tree_data);
+datarole_t to_int(const mvvm::TreeData& tree_data);
 
 //! Converts datarole_t holding string data to the TreeData object.
-ModelView::TreeData from_string(const datarole_t& datarole);
+mvvm::TreeData from_string(const datarole_t& datarole);
 
 //! Converts TreeData to datarole_t holding string data.
-datarole_t to_string(const ModelView::TreeData& tree_data);
+datarole_t to_string(const mvvm::TreeData& tree_data);
 
 //! Converts datarole_t holding double to the TreeData object.
-ModelView::TreeData from_double(const datarole_t& datarole);
+mvvm::TreeData from_double(const datarole_t& datarole);
 
 //! Converts TreeData to datarole_t holding double data.
-datarole_t to_double(const ModelView::TreeData& tree_data);
+datarole_t to_double(const mvvm::TreeData& tree_data);
 
 //! Converts datarole_t holding vector<doubl>e to the TreeData object.
-ModelView::TreeData from_vector_double(const datarole_t& datarole);
+mvvm::TreeData from_vector_double(const datarole_t& datarole);
 
 //! Converts TreeData to datarole_t holding vector<double> data.
-datarole_t to_vector_double(const ModelView::TreeData& tree_data);
+datarole_t to_vector_double(const mvvm::TreeData& tree_data);
 
 //! Returns map of all defined converters.
 std::map<std::string, Converters> GetConverters();
@@ -96,7 +96,7 @@ std::map<std::string, Converters> GetConverters();
 // Implementations declared in the header.
 // ----------------------------------------------------------------------------
 
-namespace ModelView
+namespace mvvm
 {
 bool IsDataRoleConvertible(const TreeData& tree_data)
 {
@@ -156,7 +156,7 @@ std::vector<std::string> GetExpectedAttributeKeys()
   return result;
 }
 
-int GetRole(const ModelView::TreeData& tree_data)
+int GetRole(const mvvm::TreeData& tree_data)
 {
   if (!tree_data.HasAttribute(kRoleAttributeKey))
   {
@@ -165,7 +165,7 @@ int GetRole(const ModelView::TreeData& tree_data)
   return std::stoi(tree_data.GetAttribute(kRoleAttributeKey));
 }
 
-std::string GetTypeName(const ModelView::TreeData& tree_data)
+std::string GetTypeName(const mvvm::TreeData& tree_data)
 {
   if (!tree_data.HasAttribute(kTypeAttributeKey))
   {
@@ -174,111 +174,111 @@ std::string GetTypeName(const ModelView::TreeData& tree_data)
   return tree_data.GetAttribute(kTypeAttributeKey);
 }
 
-ModelView::TreeData from_undefined(const datarole_t& datarole)
+mvvm::TreeData from_undefined(const datarole_t& datarole)
 {
-  ModelView::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kUndefinedTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kUndefinedTypeName);
   return result;
 }
 
-datarole_t to_undefined(const ModelView::TreeData& tree_data)
+datarole_t to_undefined(const mvvm::TreeData& tree_data)
 {
   return datarole_t{variant_t(), GetRole(tree_data)};
 }
 
-ModelView::TreeData from_bool(const datarole_t& datarole)
+mvvm::TreeData from_bool(const datarole_t& datarole)
 {
-  ModelView::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kBoolTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kBoolTypeName);
   bool value = std::get<bool>(datarole.first);
-  result.SetContent(ModelView::Utils::FromBool(value));
+  result.SetContent(mvvm::Utils::FromBool(value));
   return result;
 }
 
-datarole_t to_bool(const ModelView::TreeData& tree_data)
+datarole_t to_bool(const mvvm::TreeData& tree_data)
 {
-  bool value = ModelView::Utils::StringToBool(tree_data.GetContent());
+  bool value = mvvm::Utils::StringToBool(tree_data.GetContent());
   return datarole_t{variant_t(value), GetRole(tree_data)};
 }
 
-ModelView::TreeData from_int(const datarole_t& datarole)
+mvvm::TreeData from_int(const datarole_t& datarole)
 {
-  ModelView::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kIntTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kIntTypeName);
   auto value = std::get<int>(datarole.first);
   result.SetContent(std::to_string(value));
   return result;
 }
 
-datarole_t to_int(const ModelView::TreeData& tree_data)
+datarole_t to_int(const mvvm::TreeData& tree_data)
 {
   int value = std::stoi(tree_data.GetContent());
   return datarole_t{variant_t(value), GetRole(tree_data)};
 }
 
-ModelView::TreeData from_string(const datarole_t& datarole)
+mvvm::TreeData from_string(const datarole_t& datarole)
 {
-  ModelView::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kStringTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kStringTypeName);
   auto value = std::get<std::string>(datarole.first);
   result.SetContent(value);
   return result;
 }
 
-datarole_t to_string(const ModelView::TreeData& tree_data)
+datarole_t to_string(const mvvm::TreeData& tree_data)
 {
   return datarole_t{variant_t(tree_data.GetContent()), GetRole(tree_data)};
 }
 
-ModelView::TreeData from_double(const datarole_t& datarole)
+mvvm::TreeData from_double(const datarole_t& datarole)
 {
-  ModelView::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kDoubleTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kDoubleTypeName);
   auto value = std::get<double>(datarole.first);
-  result.SetContent(ModelView::Utils::DoubleToString(value));
+  result.SetContent(mvvm::Utils::DoubleToString(value));
   return result;
 }
 
-datarole_t to_double(const ModelView::TreeData& tree_data)
+datarole_t to_double(const mvvm::TreeData& tree_data)
 {
   // we use own conversion to double instead of std::stod to not to depend on user's locale
-  if (auto value = ModelView::Utils::StringToDouble(tree_data.GetContent()); value)
+  if (auto value = mvvm::Utils::StringToDouble(tree_data.GetContent()); value)
   {
     return datarole_t{variant_t(value.value()), GetRole(tree_data)};
   }
   throw std::runtime_error("Error in variant converter: malformed double number.");
 }
 
-ModelView::TreeData from_vector_double(const datarole_t& datarole)
+mvvm::TreeData from_vector_double(const datarole_t& datarole)
 {
-  ModelView::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kTaggedItemsElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, ModelView::Constants::kVectorDoubleTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::Constants::kVectorDoubleTypeName);
   auto values = std::get<std::vector<double>>(datarole.first);
-  result.SetContent(ModelView::Utils::ToCommaSeparatedString(values));
+  result.SetContent(mvvm::Utils::ToCommaSeparatedString(values));
   return result;
 }
 
-datarole_t to_vector_double(const ModelView::TreeData& tree_data)
+datarole_t to_vector_double(const mvvm::TreeData& tree_data)
 {
-  auto values = ModelView::Utils::ParseCommaSeparatedDoubles(tree_data.GetContent());
+  auto values = mvvm::Utils::ParseCommaSeparatedDoubles(tree_data.GetContent());
   return datarole_t{variant_t(values), GetRole(tree_data)};
 }
 
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
-      {ModelView::Constants::kUndefinedTypeName, {from_undefined, to_undefined}},
-      {ModelView::Constants::kBoolTypeName, {from_bool, to_bool}},
-      {ModelView::Constants::kIntTypeName, {from_int, to_int}},
-      {ModelView::Constants::kStringTypeName, {from_string, to_string}},
-      {ModelView::Constants::kDoubleTypeName, {from_double, to_double}},
-      {ModelView::Constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}}};
+      {mvvm::Constants::kUndefinedTypeName, {from_undefined, to_undefined}},
+      {mvvm::Constants::kBoolTypeName, {from_bool, to_bool}},
+      {mvvm::Constants::kIntTypeName, {from_int, to_int}},
+      {mvvm::Constants::kStringTypeName, {from_string, to_string}},
+      {mvvm::Constants::kDoubleTypeName, {from_double, to_double}},
+      {mvvm::Constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}}};
 
   return result;
 }

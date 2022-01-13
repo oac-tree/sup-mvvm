@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 //! Supports navigation through SessionModel. Contains a chain of indexes that have to
 //! be used to reach the desired SessionItem starting from the root item. Path class plays

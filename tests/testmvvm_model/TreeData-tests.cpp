@@ -27,7 +27,7 @@
 
 #include <algorithm>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class ModelViewTreeDataTest : public ::testing::Test
 {

@@ -21,7 +21,7 @@
 
 #include "mvvm/interfaces/modeleventnotifierinterface.h"
 
-namespace ModelView
+namespace mvvm
 {
 AbstractViewModelController::~AbstractViewModelController()
 {

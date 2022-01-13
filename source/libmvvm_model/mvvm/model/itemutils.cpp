@@ -26,7 +26,7 @@
 
 #include <iterator>
 
-namespace ModelView
+namespace mvvm
 {
 void Utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
 {

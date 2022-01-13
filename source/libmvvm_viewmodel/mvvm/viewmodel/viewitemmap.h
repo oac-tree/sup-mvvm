@@ -24,7 +24,7 @@
 
 #include <map>
 
-namespace ModelView
+namespace mvvm
 {
 class ViewItem;
 class SessionItem;

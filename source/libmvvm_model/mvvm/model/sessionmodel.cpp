@@ -27,7 +27,7 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
 
-namespace ModelView
+namespace mvvm
 {
 //! Pimpl class for SessionModel.
 

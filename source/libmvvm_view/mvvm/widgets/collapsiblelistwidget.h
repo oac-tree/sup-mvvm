@@ -27,7 +27,7 @@
 class QSplitter;
 class QString;
 
-namespace ModelView
+namespace mvvm
 {
 //! Vertical widget with column of panels displayed one under another.
 //! Each panel contains user widget and can be collapsed/expanded. When expanded,

@@ -22,9 +22,9 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/utils/containerutils.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
-SessionItemContainer::SessionItemContainer(ModelView::TagInfo tag_info)
+SessionItemContainer::SessionItemContainer(mvvm::TagInfo tag_info)
     : m_tag_info(std::move(tag_info))
 {
 }

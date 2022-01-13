@@ -24,7 +24,7 @@
 // FIXME Remove dependency from Qt
 // Replace <QUuid> with thirparty https://github.com/mariusbancila/stduuid
 
-using namespace ModelView;
+using namespace mvvm;
 
 std::string UniqueIdGenerator::Generate()
 {

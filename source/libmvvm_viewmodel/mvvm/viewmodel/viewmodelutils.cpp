@@ -21,7 +21,7 @@
 
 #include "mvvm/model/mvvm_types.h"
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 QVector<int> ItemRoleToQtRole(int role)
 {

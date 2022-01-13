@@ -22,7 +22,7 @@
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
-namespace ModelView
+namespace mvvm
 {
 LabelDataRowStrategy::~LabelDataRowStrategy() = default;
 
@@ -49,8 +49,8 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(Sessio
     return result;
   }
 
-  result.emplace_back(ModelView::CreateDisplayNameViewItem(item));
-  result.emplace_back(ModelView::CreateDataViewItem(item, m_set_func));
+  result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+  result.emplace_back(mvvm::CreateDataViewItem(item, m_set_func));
   return result;
 }
 

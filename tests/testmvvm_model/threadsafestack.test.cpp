@@ -23,7 +23,7 @@
 
 #include <future>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing threadsafe_stack.
 

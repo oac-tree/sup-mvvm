@@ -24,7 +24,7 @@
 
 #include <QVariant>
 
-namespace ModelView
+namespace mvvm
 {
 //! Defines interface for ViewItem's data access.
 

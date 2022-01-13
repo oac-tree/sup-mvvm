@@ -21,7 +21,7 @@
 
 #include "mvvm/model/taginfo.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 // ----------------------------------------------------------------------------
 // ActuatorItem

@@ -32,7 +32,7 @@ class QLabel;
 
 //! Collection of various widget-related utils.
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 int RandInt(int low, int high);
 

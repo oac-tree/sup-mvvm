@@ -27,7 +27,7 @@
 #include <numeric>
 #include <sstream>
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 std::string DoubleToString(double input, int precision)
 {

@@ -25,7 +25,7 @@
 #include "mvvm/model/taginfo.h"
 //#include "mvvm/utils/reallimits.h"
 
-namespace ModelView
+namespace mvvm
 {
 //! A compound item with convenient methods for adding properties.
 //! The property is a single PropertyItem or another CompoundItem inserted into the named container

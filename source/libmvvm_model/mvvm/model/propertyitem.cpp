@@ -21,7 +21,7 @@
 
 #include "mvvm/model/mvvm_types.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 PropertyItem::PropertyItem() : SessionItem(Type) {}
 

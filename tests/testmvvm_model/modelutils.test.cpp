@@ -26,7 +26,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class ModelUtilsTest : public ::testing::Test
 {

@@ -26,7 +26,7 @@
 
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 class ViewItem;

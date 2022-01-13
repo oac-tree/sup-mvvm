@@ -33,7 +33,7 @@
 
 #include <QSignalSpy>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class AllItemsViewModelTest : public FolderBasedTest
 {
@@ -362,8 +362,8 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
-  QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // removing middle child
   m_model.TakeItem(parent, {"", 1});
@@ -658,8 +658,8 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
 
   QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
   QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   view_model.SetRootSessionItem(item);
 
@@ -696,8 +696,8 @@ TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
 
   QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
   QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_insert(&m_viewmodel, &ModelView::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ModelView::ViewModelBase::rowsRemoved);
+  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   view_model.SetRootSessionItem(item);
 

@@ -26,7 +26,7 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 namespace
 {

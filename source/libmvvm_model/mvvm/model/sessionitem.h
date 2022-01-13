@@ -29,7 +29,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionModel;
 class TagInfo;

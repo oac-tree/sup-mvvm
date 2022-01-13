@@ -33,7 +33,7 @@
 
 // Type definition
 
-using namespace ModelView;
+using namespace mvvm;
 
 class ModelViewAttributeMapTest : public ::testing::Test
 {

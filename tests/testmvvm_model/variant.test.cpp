@@ -21,7 +21,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing variant_t and utility functions.
 

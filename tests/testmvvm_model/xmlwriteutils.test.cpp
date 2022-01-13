@@ -24,7 +24,7 @@
 
 #include "mvvm/serialization/TreeData.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing utilities to ite XML files
 
@@ -38,7 +38,7 @@ public:
 
 TEST_F(XMLWriteUtilsTest, WriteElement)
 {
-  ModelView::TreeData tree_data("Element");
+  mvvm::TreeData tree_data("Element");
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
 <Element/>
 )"};
@@ -49,7 +49,7 @@ TEST_F(XMLWriteUtilsTest, WriteElement)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElement.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
 
@@ -57,7 +57,7 @@ TEST_F(XMLWriteUtilsTest, WriteElement)
 
 TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
 {
-  ModelView::TreeData tree_data("Element");
+  mvvm::TreeData tree_data("Element");
   tree_data.AddAttribute("name", "James");
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
 <Element name="James"/>
@@ -69,7 +69,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementWithAttribute.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
 
@@ -77,7 +77,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
 
 TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
 {
-  ModelView::TreeData tree_data("Element");
+  mvvm::TreeData tree_data("Element");
   tree_data.AddAttribute("age", "33");
   tree_data.AddAttribute("name", "James");
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -90,7 +90,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementWithTwoAttributes.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
 
@@ -98,7 +98,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
 
 TEST_F(XMLWriteUtilsTest, WriteElementContent)
 {
-  ModelView::TreeData tree_data("Element");
+  mvvm::TreeData tree_data("Element");
   tree_data.SetContent("1.0, 2.0, 3.0");
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
 <Element>1.0, 2.0, 3.0</Element>
@@ -110,7 +110,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementContent)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementContent.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
 
@@ -118,7 +118,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementContent)
 
 TEST_F(XMLWriteUtilsTest, WriteElementAttributeAndContent)
 {
-  ModelView::TreeData tree_data("Element");
+  mvvm::TreeData tree_data("Element");
   tree_data.AddAttribute("name", "James");
   tree_data.SetContent("1.0, 2.0, 3.0");
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -131,7 +131,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementAttributeAndContent)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("element_with_content_and_attribute.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
 
@@ -139,9 +139,9 @@ TEST_F(XMLWriteUtilsTest, WriteElementAttributeAndContent)
 
 TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
 {
-  ModelView::TreeData tree_data("Element");
-  tree_data.AddChild(ModelView::TreeData("Child"));
-  tree_data.AddChild(ModelView::TreeData("Child"));
+  mvvm::TreeData tree_data("Element");
+  tree_data.AddChild(mvvm::TreeData("Child"));
+  tree_data.AddChild(mvvm::TreeData("Child"));
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
 <Element>
   <Child/>
@@ -155,7 +155,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementWithChildren.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }
 
@@ -163,12 +163,12 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
 
 TEST_F(XMLWriteUtilsTest, WriteItemData)
 {
-  ModelView::TreeData tree_data("ItemData");
-  ModelView::TreeData variant1("Variant");
+  mvvm::TreeData tree_data("ItemData");
+  mvvm::TreeData variant1("Variant");
   variant1.AddAttribute("type", "int");
   variant1.AddAttribute("role", "0");
   variant1.SetContent("42");
-  ModelView::TreeData variant2("Variant");
+  mvvm::TreeData variant2("Variant");
   variant2.AddAttribute("type", "vector_double_t");
   variant2.AddAttribute("role", "0");
   variant2.SetContent("42.1, 42.2, 42.3");
@@ -188,6 +188,6 @@ TEST_F(XMLWriteUtilsTest, WriteItemData)
 
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteItemData.xml");
-  ModelView::WriteToXMLFile(file_path, tree_data);
+  mvvm::WriteToXMLFile(file_path, tree_data);
   EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
 }

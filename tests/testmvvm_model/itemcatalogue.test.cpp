@@ -25,7 +25,7 @@
 
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing ItemCatalogue construction
 

@@ -35,7 +35,7 @@ std::vector<T> toVector(Args&&... args)
 
 }  // namespace
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing strint related utility functions.
 

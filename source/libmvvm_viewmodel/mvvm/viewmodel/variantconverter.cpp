@@ -32,17 +32,17 @@ using converter_func_t = std::function<variant_t(const QVariant& variant)>;
 std::map<std::string, converter_func_t> CreateConverterMap()
 {
   std::map<std::string, converter_func_t> result = {
-      {ModelView::Constants::kInvalidQtTypeName,
+      {mvvm::Constants::kInvalidQtTypeName,
        [](const QVariant& /*variant*/) { return variant_t(); }},
-      {ModelView::Constants::kBoolQtTypeName,
+      {mvvm::Constants::kBoolQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toBool()); }},
-      {ModelView::Constants::kIntQtTypeName,
+      {mvvm::Constants::kIntQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toInt()); }},
-      {ModelView::Constants::kDoubleQtTypeName,
+      {mvvm::Constants::kDoubleQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toDouble()); }},
-      {ModelView::Constants::kStringQtTypeName,
+      {mvvm::Constants::kStringQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toString().toStdString()); }},
-      {ModelView::Constants::kStdVectorDoubleQtTypeName,
+      {mvvm::Constants::kStdVectorDoubleQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }}};
 
   return result;
@@ -50,7 +50,7 @@ std::map<std::string, converter_func_t> CreateConverterMap()
 
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 QVariant GetQtVariant(const variant_t& variant)
 {

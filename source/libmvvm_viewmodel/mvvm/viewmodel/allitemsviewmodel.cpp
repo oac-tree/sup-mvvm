@@ -24,7 +24,7 @@
 #include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
-namespace ModelView
+namespace mvvm
 {
 AllItemsViewModel::AllItemsViewModel(ApplicationModel *model, QObject *parent) : ViewModel(parent)
 {

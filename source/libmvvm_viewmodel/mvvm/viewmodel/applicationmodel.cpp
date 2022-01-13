@@ -23,7 +23,7 @@
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/viewmodel/modeleventnotifier.h"
 
-namespace ModelView
+namespace mvvm
 {
 struct ApplicationModel::ApplicationModelImpl
 {

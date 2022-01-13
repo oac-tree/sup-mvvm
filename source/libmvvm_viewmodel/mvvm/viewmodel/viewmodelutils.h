@@ -24,7 +24,7 @@
 
 #include <QVector>
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 //! Returns vector of Qt roles corresponding to given ItemDataRole.
 MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);

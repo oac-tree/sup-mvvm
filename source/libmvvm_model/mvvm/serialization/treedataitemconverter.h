@@ -23,7 +23,7 @@
 #include "mvvm/serialization/converter_types.h"
 #include "mvvm/serialization/treedataitemconverterinterface.h"
 
-namespace ModelView
+namespace mvvm
 {
 class ItemFactoryInterface;
 

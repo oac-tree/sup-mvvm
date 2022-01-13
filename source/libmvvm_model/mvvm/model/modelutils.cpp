@@ -21,7 +21,7 @@
 
 #include "mvvm/model/path.h"
 
-namespace ModelView
+namespace mvvm
 {
 Path Utils::PathFromItem(const SessionItem* item)
 {

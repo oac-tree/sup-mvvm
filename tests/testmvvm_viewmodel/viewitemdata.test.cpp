@@ -32,7 +32,7 @@ public:
 
 TEST_F(ViewItemDataTest, InitialState)
 {
-  ModelView::ViewItemData item;
+  mvvm::ViewItemData item;
   EXPECT_FALSE(item.Data().isValid());
   EXPECT_FALSE(item.Data(Qt::EditRole).isValid());
   EXPECT_FALSE(item.Data(Qt::DisplayRole).isValid());
@@ -44,7 +44,7 @@ TEST_F(ViewItemDataTest, InitialState)
 
 TEST_F(ViewItemDataTest, SetAppearance)
 {
-  ModelView::ViewItemData item;
+  mvvm::ViewItemData item;
 
   item.SetEditable(false);
   EXPECT_TRUE(item.IsEnabled());
@@ -57,7 +57,7 @@ TEST_F(ViewItemDataTest, SetAppearance)
 
 TEST_F(ViewItemDataTest, SetData)
 {
-  ModelView::ViewItemData item;
+  mvvm::ViewItemData item;
 
   EXPECT_FALSE(item.Data().isValid());
 

@@ -22,7 +22,7 @@
 
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 
-namespace ModelView
+namespace mvvm
 {
 class SessionModel;
 class SessionItem;
@@ -51,7 +51,7 @@ public:
 
   ViewItem* GetViewItemFromIndex(const QModelIndex& index) const;
 
-  std::vector<ViewItem*> FindViews(const ModelView::SessionItem* item) const;
+  std::vector<ViewItem*> FindViews(const mvvm::SessionItem* item) const;
 
   QModelIndexList GetIndexOfSessionItem(const SessionItem* item) const;
 

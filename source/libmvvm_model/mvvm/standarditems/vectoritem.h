@@ -22,7 +22,7 @@
 
 #include "mvvm/model/compounditem.h"
 
-namespace ModelView
+namespace mvvm
 {
 //! Vector item with three x,y,z property items.
 

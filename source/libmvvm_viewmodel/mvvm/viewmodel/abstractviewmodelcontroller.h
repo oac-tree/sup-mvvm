@@ -25,7 +25,7 @@
 
 #include <QStringList>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionModel;
 class ModelEventNotifierInterface;

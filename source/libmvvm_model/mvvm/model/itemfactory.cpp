@@ -22,7 +22,7 @@
 #include "mvvm/model/itemcatalogue.h"
 #include "mvvm/model/sessionitem.h"
 
-using namespace ModelView;
+using namespace mvvm;
 
 ItemFactory::ItemFactory() : m_catalogue(std::make_unique<ItemCatalogue>()) {}
 

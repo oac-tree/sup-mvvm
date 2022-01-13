@@ -31,7 +31,7 @@ bool StartsWith(const std::string &str, char c);
 static const char VAR_ATTRIBUTE_CHAR = '$';
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 // Static assertion
 static_assert(std::is_same<AttributeMap::map_type::iterator::value_type,

@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>
 
-namespace ModelView
+namespace mvvm
 {
 //! Holds info about the single tag for SessionItem.
 //! The tag specifies information about children that can be added to a SessionItem. A tag has a

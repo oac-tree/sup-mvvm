@@ -26,7 +26,7 @@
 
 #include "mvvm/interfaces/childrenstrategyinterface.h"
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 

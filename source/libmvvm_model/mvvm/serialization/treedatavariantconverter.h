@@ -34,7 +34,7 @@
 #include "mvvm/core/variant.h"
 #include "mvvm/model_export.h"
 
-namespace ModelView
+namespace mvvm
 {
 class TreeData;
 

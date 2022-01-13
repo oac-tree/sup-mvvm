@@ -32,7 +32,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing TreeDataModelConverter.
 

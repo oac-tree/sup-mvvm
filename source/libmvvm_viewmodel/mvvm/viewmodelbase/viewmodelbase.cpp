@@ -23,7 +23,7 @@
 
 #include <stdexcept>
 
-namespace ModelView
+namespace mvvm
 {
 struct ViewModelBase::ViewModelBaseImpl
 {

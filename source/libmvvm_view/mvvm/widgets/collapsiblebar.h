@@ -27,7 +27,7 @@
 class QLabel;
 class QString;
 
-namespace ModelView
+namespace mvvm
 {
 //! Horizontal collapsible bar, part of CollapsibleListWidget.
 //! Intended for placement into the QSplitter, makes client widget visible/invisible on clicks.

@@ -31,7 +31,7 @@
 #include <memory>
 #include <stdexcept>
 
-using namespace ModelView;
+using namespace mvvm;
 
 class SessionModelTest : public ::testing::Test
 {

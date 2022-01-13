@@ -22,7 +22,7 @@
 
 #include "mvvm/model/compounditem.h"
 
-namespace ModelView
+namespace mvvm
 {
 //! Simple container to store any type of children.
 //! Used as convenience item to create branch with uniform children beneath.

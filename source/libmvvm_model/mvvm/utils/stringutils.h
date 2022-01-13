@@ -26,7 +26,7 @@
 #include <string>
 #include <vector>
 
-namespace ModelView::Utils
+namespace mvvm::Utils
 {
 //! Returns string representation of double with given precision.
 //! Provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".

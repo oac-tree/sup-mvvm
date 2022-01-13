@@ -29,19 +29,19 @@
 
 namespace
 {
-int appearance(const ModelView::SessionItem& item)
+int appearance(const mvvm::SessionItem& item)
 {
-  using ModelView::Appearance;
+  using mvvm::Appearance;
 
   const int default_appearance =
       Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
-  return item.HasData(ModelView::DataRole::kAppearance)
-             ? item.Data<int>(ModelView::DataRole::kAppearance)
+  return item.HasData(mvvm::DataRole::kAppearance)
+             ? item.Data<int>(mvvm::DataRole::kAppearance)
              : default_appearance;
 }
 }  // namespace
 
-namespace ModelView
+namespace mvvm
 {
 struct SessionItem::SessionItemImpl
 {

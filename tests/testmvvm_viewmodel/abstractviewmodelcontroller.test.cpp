@@ -27,7 +27,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Tests for AbstractViewModelController class.
 
@@ -37,7 +37,7 @@ public:
   class TestController : public AbstractViewModelController
   {
   public:
-    MOCK_METHOD2(OnDataChanged, void(ModelView::SessionItem* item, int role));
+    MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
 
     ModelEventNotifierInterface* GetNotifier() { return m_notifier; }
   };
@@ -47,10 +47,10 @@ public:
 
 TEST_F(AbstractViewModelControllerTest, SubscribeTo)
 {
-  ModelView::SessionItem item;
+  mvvm::SessionItem item;
   int role{42};
 
-  ModelView::ModelEventNotifier notifier;
+  mvvm::ModelEventNotifier notifier;
 
   auto controller = std::make_unique<TestController>();
 
@@ -66,10 +66,10 @@ TEST_F(AbstractViewModelControllerTest, SubscribeTo)
 
 TEST_F(AbstractViewModelControllerTest, Unsubscribe)
 {
-  ModelView::SessionItem item;
+  mvvm::SessionItem item;
   int role{42};
 
-  ModelView::ModelEventNotifier notifier;
+  mvvm::ModelEventNotifier notifier;
 
   auto controller = std::make_unique<TestController>();
 
@@ -85,10 +85,10 @@ TEST_F(AbstractViewModelControllerTest, Unsubscribe)
 
 TEST_F(AbstractViewModelControllerTest, DestroyNotifierBefore)
 {
-  ModelView::SessionItem item;
+  mvvm::SessionItem item;
   int role{42};
 
-  auto notifier = std::make_unique<ModelView::ModelEventNotifier>();
+  auto notifier = std::make_unique<mvvm::ModelEventNotifier>();
 
   auto controller = std::make_unique<TestController>();
 

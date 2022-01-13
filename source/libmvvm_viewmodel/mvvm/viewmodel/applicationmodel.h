@@ -23,7 +23,7 @@
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel_export.h"
 
-namespace ModelView
+namespace mvvm
 {
 class ModelEventListenerInterface;
 

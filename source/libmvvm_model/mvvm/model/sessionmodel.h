@@ -26,7 +26,7 @@
 
 #include <memory>
 
-namespace ModelView
+namespace mvvm
 {
 class SessionItem;
 class ItemPool;
