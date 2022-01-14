@@ -19,14 +19,18 @@
 
 #include "mvvm/core/uniqueidgenerator.h"
 
-#include <QUuid>
-
-// FIXME Remove dependency from Qt
-// Replace <QUuid> with thirparty https://github.com/mariusbancila/stduuid
+#include "uuid.h"
 
 using namespace mvvm;
 
 std::string UniqueIdGenerator::Generate()
 {
-  return QUuid::createUuid().toString().toStdString();
+  std::random_device rd;
+  auto seed_data = std::array<int, std::mt19937::state_size> {};
+  std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
+  std::seed_seq seq(std::begin(seed_data), std::end(seed_data));
+  std::mt19937 generator(seq);
+  uuids::uuid_random_generator gen{generator};
+
+  return uuids::to_string(gen());
 }

@@ -43,8 +43,8 @@ TEST_F(UniqueIDGeneratorTest, TwoIdentifiers)
 TEST_F(UniqueIDGeneratorTest, CheckAgainstPersistentID)
 {
   // some arbitrary ID's generated on another machine
-  std::vector<std::string> some_old_ids = {"{390e1599-aa5f-4b82-9929-99e7bc1c1b6d}",
-                                           "{73ec2896-ac22-454a-a0f2-8db07a639ed2}"};
+  std::vector<std::string> some_old_ids = {"82c1862f-6c06-416f-9290-0f4b868ca2bf",
+                                           "cb7e6e4e-bf82-402d-88c4-06dea0cb7a91"};
   for (const auto& id : some_old_ids)
   {
     EXPECT_NE(UniqueIdGenerator::Generate(), id);
