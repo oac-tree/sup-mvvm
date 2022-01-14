@@ -15,9 +15,9 @@ generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename})
 check_include_file_cxx("experimental/filesystem" HAVE_STD_EXPERIMENTAL_FILESYSTEM)
 
 if (HAVE_STD_EXPERIMENTAL_FILESYSTEM)
-  target_link_libraries(${library_name} PRIVATE stduuid PUBLIC Qt5::Widgets LibXml2::LibXml2 -lstdc++fs)
+  target_link_libraries(${library_name} PRIVATE stduuid PUBLIC LibXml2::LibXml2 -lstdc++fs)
 else()
-  target_link_libraries(${library_name} PRIVATE stduuid PUBLIC  Qt5::Widgets LibXml2::LibXml2)
+  target_link_libraries(${library_name} PRIVATE stduuid PUBLIC LibXml2::LibXml2)
 endif()
 
 target_include_directories(${library_name} PUBLIC
