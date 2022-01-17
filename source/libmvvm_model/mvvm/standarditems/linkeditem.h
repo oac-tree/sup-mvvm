@@ -11,7 +11,6 @@
 #define MVVM_STANDARDITEMS_LINKEDITEM_H
 
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
 
 namespace mvvm
 {
@@ -34,6 +33,9 @@ public:
 
   template <typename T = SessionItem>
   T* Get() const;
+
+private:
+  SessionItem* GetLink() const;
 };
 
 //! Returns item linked to given item. Works only in model context.
@@ -41,7 +43,7 @@ public:
 template <typename T>
 T* LinkedItem::Get() const
 {
-  return GetModel() ? dynamic_cast<T*>(GetModel()->FindItem(Data<std::string>())) : nullptr;
+  return dynamic_cast<T*>(GetLink());
 }
 
 }  // namespace mvvm

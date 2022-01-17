@@ -8,6 +8,7 @@
 // ************************************************************************** //
 
 #include "mvvm/standarditems/linkeditem.h"
+#include "mvvm/model/sessionmodel.h"
 
 namespace
 {
@@ -28,6 +29,11 @@ LinkedItem::LinkedItem() : SessionItem(Type)
 void LinkedItem::SetLink(const SessionItem* item)
 {
   SetData(item ? item->GetIdentifier() : empty_link);
+}
+
+SessionItem *LinkedItem::GetLink() const
+{
+  return GetModel() ? GetModel()->FindItem(Data<std::string>()) : nullptr;
 }
 
 }  // namespace mvvm
