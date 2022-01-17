@@ -25,7 +25,9 @@
 
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/propertyitem.h"
+#include "mvvm/standarditems/axisitems.h"
 #include "mvvm/standarditems/containeritem.h"
+#include "mvvm/standarditems/plottableitems.h"
 #include "mvvm/standarditems/vectoritem.h"
 
 #endif  // MVVM_STANDARDITEMS_STANDARDITEMINCLUDES_H
