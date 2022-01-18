@@ -21,18 +21,23 @@
 namespace mvvm
 {
 
+class TextItem;
+
 //! Base class for all axes items. Has min, max defined, but nothing else.
 
 class MVVM_MODEL_EXPORT BasicAxisItem : public CompoundItem
 {
 public:
-  static inline const std::string P_MIN = "P_MIN";
-  static inline const std::string P_MAX = "P_MAX";
-
   explicit BasicAxisItem(const std::string& model_type);
 
+  double GetMin() const;
+  void SetMin(double value);
+
+  double GetMax() const;
+  void SetMax(double value);
+
 protected:
-  void register_min_max();
+  void RegisterMinMax();
 };
 
 //! Item to represent viewport axis.
@@ -43,15 +48,15 @@ class MVVM_MODEL_EXPORT ViewportAxisItem : public BasicAxisItem
 public:
   static inline const std::string Type = "ViewportAxis";
 
-  static inline const std::string P_TITLE = "P_TITLE";
-  static inline const std::string P_IS_LOG = "P_IS_LOG";
   explicit ViewportAxisItem(const std::string& model_type = Type);
 
-  std::pair<double, double> range() const;
+  TextItem* GetTitle() const;
 
-  void set_range(double lower, double upper);
+  std::pair<double, double> GetRange() const;
+  void SetRange(double lower, double upper);
 
-  bool is_in_log() const;
+  bool IsInLog() const;
+  void SetInLog(bool value);
 };
 
 //! Item to represent an axis with arbitrary binning.

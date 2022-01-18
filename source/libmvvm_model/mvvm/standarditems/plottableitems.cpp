@@ -22,16 +22,16 @@ namespace
 
 // We do not want to depend from widgetutils.h to get App default font size. Let's stick to
 // hardcoded value for the moment, even if on different systems it can be not-optimal.
-const int default_title_size = 10;
+const double default_title_size = 10;
 const std::string default_title_family = "Noto Sans";
 }  // namespace
 
 namespace mvvm
 {
 
-static inline const std::string kText = "P_TEXT";
-static inline const std::string kFont = "P_FONT";
-static inline const std::string kSize = "P_SIZE";
+static inline const std::string kText = "kText";
+static inline const std::string kFont = "kFont";
+static inline const std::string kSize = "kSize";
 
 TextItem::TextItem() : CompoundItem(Type)
 {
@@ -62,7 +62,7 @@ void TextItem::SetFont(const std::string &value)
 
 double TextItem::GetSize() const
 {
-  return Property<int>(kSize);
+  return Property<double>(kSize);
 }
 
 void TextItem::SetSize(double value)
