@@ -27,21 +27,17 @@ class MVVM_MODEL_EXPORT Data1DItem : public CompoundItem
 public:
   static inline const std::string Type = "Data1D";
 
-  static inline const std::string P_VALUES = "P_VALUES";
-  static inline const std::string P_ERRORS = "P_ERRORS";
   static inline const std::string T_AXIS = "T_AXIS";
 
   Data1DItem();
 
-  //    void setAxis(std::unique_ptr<BinnedAxisItem> axis);
+  std::vector<double> GetBinCenters() const;
 
-  std::vector<double> binCenters() const;
+  void SetValues(const std::vector<double>& data);
+  std::vector<double> GetValues() const;
 
-  void setValues(const std::vector<double>& data);
-  std::vector<double> binValues() const;
-
-  void setErrors(const std::vector<double>& errors);
-  std::vector<double> binErrors() const;
+  void SetErrors(const std::vector<double>& errors);
+  std::vector<double> GetErrors() const;
 
   //! Inserts axis of given type.
   template <typename T, typename... Args>
@@ -64,7 +60,7 @@ T* Data1DItem::setAxis(Args&&... args)
   // acting through the model, if model exists, to enable undo/redo
   auto result = GetModel() ? GetModel()->InsertItem<T>(this) : InsertItem<T>({T_AXIS, 0});
   result->SetParameters(std::forward<Args>(args)...);
-  setValues(std::vector<double>(result->GetSize(), 0.0));
+  SetValues(std::vector<double>(result->GetSize(), 0.0));
   return result;
 }
 

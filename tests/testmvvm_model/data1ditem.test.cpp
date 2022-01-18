@@ -29,9 +29,9 @@ TEST_F(Data1DItemTest, initialState)
     Data1DItem item;
 
     EXPECT_EQ(item.GetItem(Data1DItem::T_AXIS), nullptr);
-    EXPECT_EQ(item.binCenters(), std::vector<double>());
-    EXPECT_EQ(item.binValues(), std::vector<double>());
-    EXPECT_EQ(item.binErrors(), std::vector<double>());
+    EXPECT_EQ(item.GetBinCenters(), std::vector<double>());
+    EXPECT_EQ(item.GetValues(), std::vector<double>());
+    EXPECT_EQ(item.GetErrors(), std::vector<double>());
     EXPECT_FALSE(item.HasData());
 }
 
@@ -48,9 +48,9 @@ TEST_F(Data1DItemTest, setFixedBinAxis)
 
     // check bin centers and values
     std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
-    EXPECT_EQ(item.binCenters(), expected_centers);
+    EXPECT_EQ(item.GetBinCenters(), expected_centers);
     std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
-    EXPECT_EQ(item.binValues(), expected_values);
+    EXPECT_EQ(item.GetValues(), expected_values);
 
     // setting another axis
     // for the moment we have disabled possibility to re-create axes to faciltate undo/redo
@@ -74,9 +74,9 @@ TEST_F(Data1DItemTest, setTemplatedFixedBinAxis)
 
     // check bin centers and values
     std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
-    EXPECT_EQ(item.binCenters(), expected_centers);
+    EXPECT_EQ(item.GetBinCenters(), expected_centers);
     std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
-    EXPECT_EQ(item.binValues(), expected_values);
+    EXPECT_EQ(item.GetValues(), expected_values);
 }
 
 //! Sets fixed bin axis via templated method.
@@ -93,9 +93,9 @@ TEST_F(Data1DItemTest, setTemplatedFixedBinAxisInModelContext)
 
     // check bin centers and values
     std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
-    EXPECT_EQ(dataItem->binCenters(), expected_centers);
+    EXPECT_EQ(dataItem->GetBinCenters(), expected_centers);
     std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
-    EXPECT_EQ(dataItem->binValues(), expected_values);
+    EXPECT_EQ(dataItem->GetValues(), expected_values);
 }
 
 //! Sets fixed bin axis via model context.
@@ -113,9 +113,9 @@ TEST_F(Data1DItemTest, setFixedBinAxisInModel)
 
     // check bin centers and values
     std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
-    EXPECT_EQ(dataItem->binCenters(), expected_centers);
+    EXPECT_EQ(dataItem->GetBinCenters(), expected_centers);
     std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
-    EXPECT_TRUE(dataItem->binValues().empty());
+    EXPECT_TRUE(dataItem->GetValues().empty());
 }
 
 //! Checking the method ::setValues.
@@ -126,11 +126,11 @@ TEST_F(Data1DItemTest, setValues)
 
     // check that it is not possible to set content to uninitialized axis
     std::vector<double> expected_content = {1.0, 2.0, 3.0};
-    EXPECT_THROW(item.setValues(expected_content), std::runtime_error);
+    EXPECT_THROW(item.SetValues(expected_content), std::runtime_error);
 
     item.setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
-    item.setValues(expected_content);
-    EXPECT_EQ(item.binValues(), expected_content);
+    item.SetValues(expected_content);
+    EXPECT_EQ(item.GetValues(), expected_content);
 }
 
 //! Checking the method ::setErrors.
@@ -142,12 +142,12 @@ TEST_F(Data1DItemTest, setErrors)
     // check that it is not possible to errors to uninitialized axis
     std::vector<double> expected_errors = {10.0, 20.0, 30.0};
 
-    EXPECT_THROW(item.setErrors(expected_errors), std::runtime_error);
+    EXPECT_THROW(item.SetErrors(expected_errors), std::runtime_error);
 
     item.setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
-    item.setErrors(expected_errors);
+    item.SetErrors(expected_errors);
 
-    EXPECT_EQ(item.binErrors(), expected_errors);
+    EXPECT_EQ(item.GetErrors(), expected_errors);
 }
 
 //! Checking the signals when axes changed.
