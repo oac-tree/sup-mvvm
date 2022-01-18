@@ -17,27 +17,32 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/itemcataloguefactory.h"
+#include "mvvm/standarditems/plottableitems.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
+#include <gtest/gtest.h>
 
-namespace mvvm
+class PlottableItemsTest : public ::testing::Test
 {
-std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
+};
+
+TEST_F(PlottableItemsTest, TextItemInitialState)
 {
-  auto result = std::make_unique<ItemCatalogue>();
-  result->RegisterItem<CompoundItem>();
-  result->RegisterItem<ContainerItem>();
-  result->RegisterItem<PropertyItem>();
-  result->RegisterItem<SessionItem>();
-  result->RegisterItem<VectorItem>();
-  result->RegisterItem<TextItem>();
-  return result;
+  mvvm::TextItem item;
+  EXPECT_TRUE(item.GetText().empty());
+  EXPECT_EQ(item.GetFont(), std::string("Noto Sans"));
+  EXPECT_EQ(item.GetSize(), 10);
 }
 
-void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
+TEST_F(PlottableItemsTest, TextItemGetSet)
 {
-  user_catalogue.merge(*CreateStandardItemCatalogue());
-}
+  mvvm::TextItem item;
 
-}  // namespace mvvm
+  item.SetText("abc");
+  EXPECT_EQ(item.GetText(), std::string("abc"));
+
+  item.SetFont("def");
+  EXPECT_EQ(item.GetFont(), std::string("def"));
+
+  item.SetSize(42);
+  EXPECT_EQ(item.GetSize(), 42);
+}

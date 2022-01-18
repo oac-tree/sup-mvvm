@@ -25,11 +25,17 @@ class MVVM_MODEL_EXPORT TextItem : public CompoundItem
 public:
   static inline const std::string Type = "Text";
 
-  static inline const std::string P_TEXT = "P_TEXT";
-  static inline const std::string P_FONT = "P_FONT";
-  static inline const std::string P_SIZE = "P_SIZE";
-
   TextItem();
+
+  std::string GetText() const;
+  void SetText(const std::string& value);
+
+  std::string GetFont() const;
+  void SetFont(const std::string& value);
+
+  double GetSize() const;
+  void SetSize(double value);
+
 };
 
 // FIXME uncomment

@@ -29,11 +29,45 @@ const std::string default_title_family = "Noto Sans";
 namespace mvvm
 {
 
+static inline const std::string kText = "P_TEXT";
+static inline const std::string kFont = "P_FONT";
+static inline const std::string kSize = "P_SIZE";
+
 TextItem::TextItem() : CompoundItem(Type)
 {
-  AddProperty(P_TEXT, "")->SetDisplayName("Text");
-  AddProperty(P_FONT, default_title_family)->SetDisplayName("Font");
-  AddProperty(P_SIZE, default_title_size)->SetDisplayName("Size");
+  AddProperty(kText, "")->SetDisplayName("Text");
+  AddProperty(kFont, default_title_family)->SetDisplayName("Font");
+  AddProperty(kSize, default_title_size)->SetDisplayName("Size");
+}
+
+std::string TextItem::GetText() const
+{
+  return Property<std::string>(kText);
+}
+
+void TextItem::SetText(const std::string &value)
+{
+  SetProperty(kText, value);
+}
+
+std::string TextItem::GetFont() const
+{
+  return Property<std::string>(kFont);
+}
+
+void TextItem::SetFont(const std::string &value)
+{
+  SetProperty(kFont, value);
+}
+
+double TextItem::GetSize() const
+{
+  return Property<int>(kSize);
+}
+
+void TextItem::SetSize(double value)
+{
+  SetProperty(kSize, value);
 }
 
 // PenItem::PenItem() : CompoundItem(Constants::PenItemType)
