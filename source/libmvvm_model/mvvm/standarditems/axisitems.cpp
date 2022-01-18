@@ -63,7 +63,7 @@ ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisIte
   AddProperty(P_IS_LOG, false)->SetDisplayName("log10");
 }
 
-TextItem *ViewportAxisItem::GetTitle() const
+TextItem* ViewportAxisItem::GetTitle() const
 {
   return GetItem<TextItem>(P_TITLE);
 }
@@ -105,41 +105,41 @@ FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisIt
   RegisterMinMax();
 }
 
-void FixedBinAxisItem::setParameters(int nbins, double xmin, double xmax)
+void FixedBinAxisItem::SetParameters(int nbins, double xmin, double xmax)
 {
   SetProperty(P_NBINS, nbins);
-  SetProperty(P_MIN, xmin);
-  SetProperty(P_MAX, xmax);
+  SetMin(xmin);
+  SetMax(xmax);
 }
 
-std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::create(int nbins, double xmin, double xmax)
+std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(int nbins, double xmin, double xmax)
 {
   auto result = std::make_unique<FixedBinAxisItem>();
-  result->setParameters(nbins, xmin, xmax);
+  result->SetParameters(nbins, xmin, xmax);
   return result;
 }
 
-std::pair<double, double> FixedBinAxisItem::range() const
+std::pair<double, double> FixedBinAxisItem::GetRange() const
 {
   return std::make_pair(Property<double>(P_MIN), Property<double>(P_MAX));
 }
 
-int FixedBinAxisItem::size() const
+int FixedBinAxisItem::GetSize() const
 {
   return Property<int>(P_NBINS);
 }
 
-std::vector<double> FixedBinAxisItem::binCenters() const
+std::vector<double> FixedBinAxisItem::GetBinCenters() const
 {
   std::vector<double> result;
-  int nbins = Property<int>(P_NBINS);
-  double start = Property<double>(P_MIN);
-  double end = Property<double>(P_MAX);
-  double step = (end - start) / nbins;
+  int nbins = GetSize();
+  double step = (GetMax() - GetMin()) / nbins;
 
   result.resize(static_cast<size_t>(nbins), 0.0);
-  for (size_t i = 0; i < static_cast<size_t>(nbins); ++i)
-    result[i] = start + step * (i + 0.5);
+  for (int i = 0; i < nbins; ++i)
+  {
+    result[i] = GetMin() + step * (i + 0.5);
+  }
 
   return result;
 }
@@ -165,19 +165,19 @@ std::unique_ptr<PointwiseAxisItem> PointwiseAxisItem::create(const std::vector<d
   return result;
 }
 
-std::pair<double, double> PointwiseAxisItem::range() const
+std::pair<double, double> PointwiseAxisItem::GetRange() const
 {
-  auto data = binCenters();
-  return binCenters().empty() ? std::make_pair(default_axis_min, default_axis_max)
-                              : std::make_pair(data.front(), data.back());
+  auto data = GetBinCenters();
+  return GetBinCenters().empty() ? std::make_pair(default_axis_min, default_axis_max)
+                                 : std::make_pair(data.front(), data.back());
 }
 
-int PointwiseAxisItem::size() const
+int PointwiseAxisItem::GetSize() const
 {
-  return binCenters().size();
+  return GetBinCenters().size();
 }
 
-std::vector<double> PointwiseAxisItem::binCenters() const
+std::vector<double> PointwiseAxisItem::GetBinCenters() const
 {
   return Data<std::vector<double>>();
 }

@@ -69,11 +69,11 @@ class MVVM_MODEL_EXPORT BinnedAxisItem : public BasicAxisItem
 public:
   explicit BinnedAxisItem(const std::string& model_type);
 
-  virtual std::pair<double, double> range() const = 0;
+  virtual std::pair<double, double> GetRange() const = 0;
 
-  virtual int size() const = 0;
+  virtual int GetSize() const = 0;
 
-  virtual std::vector<double> binCenters() const = 0;
+  virtual std::vector<double> GetBinCenters() const = 0;
 };
 
 //! Item to represent fixed bin axis.
@@ -87,15 +87,15 @@ public:
   static inline const std::string P_NBINS = "P_NBINS";
   explicit FixedBinAxisItem(const std::string& model_type = Type);
 
-  void setParameters(int nbins, double xmin, double xmax);
+  void SetParameters(int nbins, double xmin, double xmax);
 
-  static std::unique_ptr<FixedBinAxisItem> create(int nbins, double xmin, double xmax);
+  static std::unique_ptr<FixedBinAxisItem> Create(int nbins, double xmin, double xmax);
 
-  std::pair<double, double> range() const override;
+  std::pair<double, double> GetRange() const override;
 
-  int size() const override;
+  int GetSize() const override;
 
-  std::vector<double> binCenters() const override;
+  std::vector<double> GetBinCenters() const override;
 };
 
 //! Item to represent pointwise axis.
@@ -111,11 +111,11 @@ public:
 
   static std::unique_ptr<PointwiseAxisItem> create(const std::vector<double>& data);
 
-  std::pair<double, double> range() const override;
+  std::pair<double, double> GetRange() const override;
 
-  int size() const override;
+  int GetSize() const override;
 
-  std::vector<double> binCenters() const override;
+  std::vector<double> GetBinCenters() const override;
 };
 
 }  // namespace mvvm
