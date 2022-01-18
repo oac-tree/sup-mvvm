@@ -29,8 +29,6 @@ class MVVM_MODEL_EXPORT Data1DItem : public CompoundItem
 public:
   static inline const std::string Type = "Data1D";
 
-  static inline const std::string T_AXIS = "T_AXIS";
-
   Data1DItem();
 
   std::vector<double> GetBinCenters() const;
