@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
     axisitems.h
     containeritem.cpp
     containeritem.h
+    data1ditem.cpp
+    data1ditem.h
     linkeditem.cpp
     linkeditem.h
     plottableitems.cpp

@@ -123,7 +123,7 @@ std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(int nbins, double xmi
 
 std::pair<double, double> FixedBinAxisItem::GetRange() const
 {
-  return std::make_pair(Property<double>(kMin), Property<double>(kMax));
+  return std::make_pair(GetMin(), GetMax());
 }
 
 int FixedBinAxisItem::GetSize() const
