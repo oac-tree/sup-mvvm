@@ -84,7 +84,6 @@ class MVVM_MODEL_EXPORT FixedBinAxisItem : public BinnedAxisItem
 public:
   static inline const std::string Type = "FixedBinAxis";
 
-  static inline const std::string P_NBINS = "P_NBINS";
   explicit FixedBinAxisItem(const std::string& model_type = Type);
 
   void SetParameters(int nbins, double xmin, double xmax);
@@ -105,6 +104,7 @@ class MVVM_MODEL_EXPORT PointwiseAxisItem : public BinnedAxisItem
 {
 public:
   static inline const std::string Type = "PointwiseAxis";
+
   explicit PointwiseAxisItem(const std::string& model_type = Type);
 
   void SetParameters(const std::vector<double>& data);

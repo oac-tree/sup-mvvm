@@ -20,52 +20,52 @@ const double default_axis_max = 1.0;
 namespace mvvm
 {
 
-static inline const std::string P_MIN = "P_MIN";
-static inline const std::string P_MAX = "P_MAX";
+static inline const std::string kMin = "kMin";
+static inline const std::string kMax = "kMax";
 
 BasicAxisItem::BasicAxisItem(const std::string& model_type) : CompoundItem(model_type) {}
 
 double BasicAxisItem::GetMin() const
 {
-  return Property<double>(P_MIN);
+  return Property<double>(kMin);
 }
 
 void BasicAxisItem::SetMin(double value)
 {
-  return SetProperty(P_MIN, value);
+  return SetProperty(kMin, value);
 }
 
 double BasicAxisItem::GetMax() const
 {
-  return Property<double>(P_MAX);
+  return Property<double>(kMax);
 }
 
 void BasicAxisItem::SetMax(double value)
 {
-  return SetProperty(P_MAX, value);
+  return SetProperty(kMax, value);
 }
 
 void BasicAxisItem::RegisterMinMax()
 {
-  AddProperty(P_MIN, default_axis_min)->SetDisplayName("Min");
-  AddProperty(P_MAX, default_axis_max)->SetDisplayName("Max");
+  AddProperty(kMin, default_axis_min)->SetDisplayName("Min");
+  AddProperty(kMax, default_axis_max)->SetDisplayName("Max");
 }
 
 // --- ViewportAxisItem ------------------------------------------------------
 
-static inline const std::string P_TITLE = "P_TITLE";
-static inline const std::string P_IS_LOG = "P_IS_LOG";
+static inline const std::string kTitle = "kTitle";
+static inline const std::string kIsLog = "kIsLog";
 
 ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisItem(model_type)
 {
-  AddProperty<TextItem>(P_TITLE)->SetDisplayName("Title");
+  AddProperty<TextItem>(kTitle)->SetDisplayName("Title");
   RegisterMinMax();
-  AddProperty(P_IS_LOG, false)->SetDisplayName("log10");
+  AddProperty(kIsLog, false)->SetDisplayName("log10");
 }
 
 TextItem* ViewportAxisItem::GetTitle() const
 {
-  return GetItem<TextItem>(P_TITLE);
+  return GetItem<TextItem>(kTitle);
 }
 
 //! Returns pair of lower, upper axis range.
@@ -85,29 +85,31 @@ void ViewportAxisItem::SetRange(double lower, double upper)
 
 bool ViewportAxisItem::IsInLog() const
 {
-  return Property<bool>(P_IS_LOG);
+  return Property<bool>(kIsLog);
 }
 
 void ViewportAxisItem::SetInLog(bool value)
 {
-  SetProperty(P_IS_LOG, value);
+  SetProperty(kIsLog, value);
 }
 
 // --- BinnedAxisItem ------------------------------------------------------
 
 BinnedAxisItem::BinnedAxisItem(const std::string& model_type) : BasicAxisItem(model_type) {}
 
+static inline const std::string kNbins = "kNbins";
+
 // --- FixedBinAxisItem ------------------------------------------------------
 
 FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisItem(model_type)
 {
-  AddProperty(P_NBINS, 1)->SetDisplayName("Nbins");
+  AddProperty(kNbins, 1)->SetDisplayName("Nbins");
   RegisterMinMax();
 }
 
 void FixedBinAxisItem::SetParameters(int nbins, double xmin, double xmax)
 {
-  SetProperty(P_NBINS, nbins);
+  SetProperty(kNbins, nbins);
   SetMin(xmin);
   SetMax(xmax);
 }
@@ -121,12 +123,12 @@ std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(int nbins, double xmi
 
 std::pair<double, double> FixedBinAxisItem::GetRange() const
 {
-  return std::make_pair(Property<double>(P_MIN), Property<double>(P_MAX));
+  return std::make_pair(Property<double>(kMin), Property<double>(kMax));
 }
 
 int FixedBinAxisItem::GetSize() const
 {
-  return Property<int>(P_NBINS);
+  return Property<int>(kNbins);
 }
 
 std::vector<double> FixedBinAxisItem::GetBinCenters() const
