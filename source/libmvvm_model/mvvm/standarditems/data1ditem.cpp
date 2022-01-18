@@ -85,4 +85,23 @@ std::vector<double> Data1DItem::GetErrors() const
   return Property<std::vector<double>>(kErrors);
 }
 
+BinnedAxisItem* Data1DItem::GetAxis() const
+{
+  return GetItem<BinnedAxisItem>(T_AXIS, 0);
+}
+
+void Data1DItem::SetAxis(std::unique_ptr<BinnedAxisItem> axis)
+{
+  // we disable possibility to re-create axis to facilitate undo/redo
+  if (GetAxis())
+  {
+    throw std::runtime_error("Axis was already set. Currently we do not support axis change");
+  }
+
+  GetModel() ? GetModel()->InsertItem(std::move(axis), this, {T_AXIS, 0})
+             : InsertItem(std::move(axis), {T_AXIS, 0});
+
+  SetValues(std::vector<double>(GetAxis()->GetSize(), 0.0));
+}
+
 }  // namespace mvvm

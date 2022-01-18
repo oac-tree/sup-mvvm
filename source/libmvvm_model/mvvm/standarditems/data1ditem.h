@@ -18,6 +18,8 @@
 namespace mvvm
 {
 
+class BinnedAxisItem;
+
 //! Represents one-dimensional data (axis and values).
 //! Values are stored in Data1DItem itself, axis is attached as a child. Corresponding plot
 //! properties will be served by GraphItem.
@@ -39,28 +41,22 @@ public:
   void SetErrors(const std::vector<double>& errors);
   std::vector<double> GetErrors() const;
 
+  BinnedAxisItem* GetAxis() const;
+
   //! Inserts axis of given type.
   template <typename T, typename... Args>
-  T* setAxis(Args&&... args);
+  T* SetAxis(Args&&... args);
+
+  void SetAxis(std::unique_ptr<BinnedAxisItem> axis);
 };
 
-// FIXME Consider redesign of the method below. Should the axis exist from the beginning
-// or added later? It is not clear how to create axis a) via Data1DItem::setAxis
-// b) via model directly c) in constructor?
-
 template <typename T, typename... Args>
-T* Data1DItem::setAxis(Args&&... args)
+T* Data1DItem::SetAxis(Args&&... args)
 {
-  // we disable possibility to re-create axis to facilitate undo/redo
-  if (GetItem(T_AXIS, 0))
-  {
-    throw std::runtime_error("Axis was already set. Currently we do not support axis change");
-  }
-
-  // acting through the model, if model exists, to enable undo/redo
-  auto result = GetModel() ? GetModel()->InsertItem<T>(this) : InsertItem<T>({T_AXIS, 0});
-  result->SetParameters(std::forward<Args>(args)...);
-  SetValues(std::vector<double>(result->GetSize(), 0.0));
+  auto axis = std::make_unique<T>();
+  axis->SetParameters(std::forward<Args>(args)...);
+  auto result = axis.get();
+  SetAxis(std::move(axis));
   return result;
 }
 

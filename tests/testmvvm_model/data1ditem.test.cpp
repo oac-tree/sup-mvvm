@@ -41,7 +41,7 @@ TEST_F(Data1DItemTest, setFixedBinAxis)
 {
     Data1DItem item;
 
-    item.setAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+    item.SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
 
     // check type of the axis
     EXPECT_TRUE(item.GetItem<FixedBinAxisItem>(Data1DItem::T_AXIS) != nullptr);
@@ -67,7 +67,7 @@ TEST_F(Data1DItemTest, setTemplatedFixedBinAxis)
 {
     Data1DItem item;
 
-    auto axis = item.setAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+    auto axis = item.SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
 
     // check type of the axis
     EXPECT_EQ(item.GetItem<FixedBinAxisItem>(Data1DItem::T_AXIS), axis);
@@ -86,7 +86,7 @@ TEST_F(Data1DItemTest, setTemplatedFixedBinAxisInModelContext)
     SessionModel model;
     auto dataItem = model.InsertItem<Data1DItem>();
 
-    auto axis = dataItem->setAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+    auto axis = dataItem->SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
 
     // check type of the axis
     EXPECT_EQ(dataItem->GetItem<FixedBinAxisItem>(Data1DItem::T_AXIS), axis);
@@ -128,7 +128,7 @@ TEST_F(Data1DItemTest, setValues)
     std::vector<double> expected_content = {1.0, 2.0, 3.0};
     EXPECT_THROW(item.SetValues(expected_content), std::runtime_error);
 
-    item.setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+    item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
     item.SetValues(expected_content);
     EXPECT_EQ(item.GetValues(), expected_content);
 }
@@ -144,7 +144,7 @@ TEST_F(Data1DItemTest, setErrors)
 
     EXPECT_THROW(item.SetErrors(expected_errors), std::runtime_error);
 
-    item.setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+    item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
     item.SetErrors(expected_errors);
 
     EXPECT_EQ(item.GetErrors(), expected_errors);
