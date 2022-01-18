@@ -107,9 +107,9 @@ public:
   static inline const std::string Type = "PointwiseAxis";
   explicit PointwiseAxisItem(const std::string& model_type = Type);
 
-  void setParameters(const std::vector<double>& data);
+  void SetParameters(const std::vector<double>& data);
 
-  static std::unique_ptr<PointwiseAxisItem> create(const std::vector<double>& data);
+  static std::unique_ptr<PointwiseAxisItem> Create(const std::vector<double>& data);
 
   std::pair<double, double> GetRange() const override;
 

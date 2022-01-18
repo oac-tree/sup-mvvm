@@ -107,27 +107,27 @@ TEST_F(AxisItemsTest, FixedBinAxisRange)
   EXPECT_EQ(upper, 4.0);
 }
 
-// TEST_F(AxisItemsTest, PointwiseAxisInitialState)
-//{
-//   PointwiseAxisItem axis;
-//   std::vector<double> expected_centers = {0.0, 1.0};
-//   EXPECT_EQ(axis.binCenters(), expected_centers);
-//   EXPECT_EQ(axis.size(), 2);
-// }
+TEST_F(AxisItemsTest, PointwiseAxisInitialState)
+{
+  PointwiseAxisItem axis;
+  std::vector<double> expected_centers = {0.0, 1.0};
+  EXPECT_EQ(axis.GetBinCenters(), expected_centers);
+  EXPECT_EQ(axis.GetSize(), 2);
+}
 
-// TEST_F(AxisItemsTest, PointwiseAxisSetParameters)
-//{
-//   std::vector<double> expected_centers{1.0, 2.0, 3.0};
-//   PointwiseAxisItem axis;
-//   axis.setParameters(expected_centers);
-//   EXPECT_EQ(axis.binCenters(), expected_centers);
-//   EXPECT_EQ(axis.size(), 3);
-// }
+TEST_F(AxisItemsTest, PointwiseAxisSetParameters)
+{
+  std::vector<double> expected_centers{1.0, 2.0, 3.0};
+  PointwiseAxisItem axis;
+  axis.SetParameters(expected_centers);
+  EXPECT_EQ(axis.GetBinCenters(), expected_centers);
+  EXPECT_EQ(axis.GetSize(), 3);
+}
 
-// TEST_F(AxisItemsTest, PointwiseAxisCreate)
-//{
-//   std::vector<double> expected_centers{1.0, 2.0, 3.0};
-//   auto axis = PointwiseAxisItem::create(expected_centers);
-//   EXPECT_EQ(axis->binCenters(), expected_centers);
-//   EXPECT_EQ(axis->size(), 3);
-// }
+TEST_F(AxisItemsTest, PointwiseAxisFactoryMethod)
+{
+  std::vector<double> expected_centers{1.0, 2.0, 3.0};
+  auto axis = PointwiseAxisItem::Create(expected_centers);
+  EXPECT_EQ(axis->GetBinCenters(), expected_centers);
+  EXPECT_EQ(axis->GetSize(), 3);
+}

@@ -153,15 +153,15 @@ PointwiseAxisItem::PointwiseAxisItem(const std::string& model_type) : BinnedAxis
   SetEditable(false);  // prevent editing in widgets, since there is no corresponding editor
 }
 
-void PointwiseAxisItem::setParameters(const std::vector<double>& data)
+void PointwiseAxisItem::SetParameters(const std::vector<double>& data)
 {
   SetData(data);
 }
 
-std::unique_ptr<PointwiseAxisItem> PointwiseAxisItem::create(const std::vector<double>& data)
+std::unique_ptr<PointwiseAxisItem> PointwiseAxisItem::Create(const std::vector<double>& data)
 {
   auto result = std::make_unique<PointwiseAxisItem>();
-  result->setParameters(data);
+  result->SetParameters(data);
   return result;
 }
 
@@ -174,7 +174,7 @@ std::pair<double, double> PointwiseAxisItem::GetRange() const
 
 int PointwiseAxisItem::GetSize() const
 {
-  return GetBinCenters().size();
+  return static_cast<int>(GetBinCenters().size());
 }
 
 std::vector<double> PointwiseAxisItem::GetBinCenters() const

@@ -28,10 +28,13 @@ std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
   auto result = std::make_unique<ItemCatalogue>();
   result->RegisterItem<CompoundItem>();
   result->RegisterItem<ContainerItem>();
+  result->RegisterItem<FixedBinAxisItem>();
+  result->RegisterItem<PointwiseAxisItem>();
   result->RegisterItem<PropertyItem>();
   result->RegisterItem<SessionItem>();
-  result->RegisterItem<VectorItem>();
   result->RegisterItem<TextItem>();
+  result->RegisterItem<VectorItem>();
+  result->RegisterItem<ViewportAxisItem>();
   return result;
 }
 
