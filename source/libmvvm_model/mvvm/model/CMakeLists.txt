@@ -1,6 +1,8 @@
 target_sources(${library_name} PRIVATE
   abstractsessionmodeldecorator.cpp
   abstractsessionmodeldecorator.h
+  applicationmodel.cpp
+  applicationmodel.h
   compounditem.cpp
   compounditem.h
   function_types.h

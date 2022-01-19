@@ -5,12 +5,8 @@ target_sources(${library_name} PRIVATE
   abstractviewmodelcontroller.h
   allitemsviewmodel.cpp
   allitemsviewmodel.h
-  applicationmodel.cpp
-  applicationmodel.h
   customvariants.cpp
   customvariants.h
-  modeleventnotifier.cpp
-  modeleventnotifier.h
   presentationitemfactory.cpp
   presentationitemfactory.h
   propertyviewmodel.cpp

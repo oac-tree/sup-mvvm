@@ -26,7 +26,7 @@
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/taginfo.h"
 #include "mvvm/standarditems/vectoritem.h"
-#include "mvvm/viewmodel/applicationmodel.h"
+#include "mvvm/model/applicationmodel.h"
 
 #include <gtest/gtest.h>
 

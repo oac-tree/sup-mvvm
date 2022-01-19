@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/topitemstreeview.h"
 
-#include "mvvm/viewmodel/applicationmodel.h"
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 
 namespace mvvm

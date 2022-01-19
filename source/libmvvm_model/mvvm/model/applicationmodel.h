@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_APPLICATIONMODEL_H
-#define MVVM_VIEWMODEL_APPLICATIONMODEL_H
+#ifndef MVVM_MODEL_APPLICATIONMODEL_H
+#define MVVM_MODEL_APPLICATIONMODEL_H
 
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel_export.h"

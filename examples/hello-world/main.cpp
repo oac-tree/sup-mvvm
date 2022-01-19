@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/serialization/xmldocument.h"
-#include "mvvm/viewmodel/applicationmodel.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 
-#include <QTreeView>
 #include <QApplication>
 #include <QLocale>
+#include <QTreeView>
 #include <iostream>
 
 using namespace mvvm;

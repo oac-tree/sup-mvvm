@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/modeleventnotifier.h"
+#include "mvvm/signals/modeleventnotifier.h"
 
 #include "mockmodellistener.h"
 

@@ -23,7 +23,7 @@
 #include "test_utils.h"
 
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/modeleventnotifier.h"
+#include "mvvm/signals/modeleventnotifier.h"
 
 #include <gtest/gtest.h>
 

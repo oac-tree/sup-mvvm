@@ -19,8 +19,8 @@
 
 #include "mvvm/widgets/propertytreeview.h"
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/applicationmodel.h"
 #include "mvvm/viewmodel/propertyviewmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
@@ -36,7 +36,7 @@ PropertyTreeView::PropertyTreeView(QWidget* parent) : ItemsTreeView(parent)
   GetTreeView()->setAlternatingRowColors(true);
 }
 
-void PropertyTreeView::SetRootSessionItem(SessionItem *item)
+void PropertyTreeView::SetRootSessionItem(SessionItem* item)
 {
   SetItem(item);
 }
@@ -64,4 +64,4 @@ void PropertyTreeView::SetItem(SessionItem* item)
 
 PropertyTreeView::~PropertyTreeView() = default;
 
-}  // namespace ModelView
+}  // namespace mvvm

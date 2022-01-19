@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/applicationmodel.h"
+#include "mvvm/model/applicationmodel.h"
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/model/modelcomposer.h"
-#include "mvvm/viewmodel/modeleventnotifier.h"
+#include "mvvm/signals/modeleventnotifier.h"
 
 namespace mvvm
 {

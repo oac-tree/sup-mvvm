@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/allitemstreeview.h"
 
-#include "mvvm/viewmodel/applicationmodel.h"
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 
 namespace mvvm
