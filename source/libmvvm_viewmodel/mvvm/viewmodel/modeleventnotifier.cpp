@@ -173,8 +173,10 @@ void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
   auto on_model_destroyed = [listener](auto model) { listener->OnModelAboutToBeDestroyed(model); };
   connections.emplace_back(
       connect(this, &ModelEventNotifier::ModelAboutToBeDestroyed, on_model_destroyed));
+
+  connections2.emplace_back(
   p_impl->m_model_about_to_be_destroyed.connect(
-      listener, &ModelEventListenerInterface::OnModelAboutToBeDestroyed);
+      listener, &ModelEventListenerInterface::OnModelAboutToBeDestroyed));
 
   p_impl->m_connections.insert(p_impl->m_connections.find(listener), {listener, connections});
   p_impl->m_connections2.insert(p_impl->m_connections2.find(listener), {listener, connections2});
@@ -184,50 +186,50 @@ void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
 
 void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit AboutToInsertItem(parent, tag_index);
-//  p_impl->m_about_to_insert_item(parent, tag_index);
+//  emit AboutToInsertItem(parent, tag_index);
+  p_impl->m_about_to_insert_item(parent, tag_index);
 }
 
 void ModelEventNotifier::ItemInsertedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit ItemInserted(parent, tag_index);
-//  p_impl->m_item_inserted(parent, tag_index);
+//  emit ItemInserted(parent, tag_index);
+  p_impl->m_item_inserted(parent, tag_index);
 }
 
 void ModelEventNotifier::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit AboutToRemoveItem(parent, tag_index);
-//  p_impl->m_about_to_remove_item(parent, tag_index);
+//  emit AboutToRemoveItem(parent, tag_index);
+  p_impl->m_about_to_remove_item(parent, tag_index);
 }
 
 void ModelEventNotifier::ItemRemovedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  emit ItemRemoved(parent, tag_index);
-//  p_impl->m_item_removed(parent, tag_index);
+//  emit ItemRemoved(parent, tag_index);
+  p_impl->m_item_removed(parent, tag_index);
 }
 
 void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
 {
-  emit DataChanged(item, role);
-//  p_impl->m_data_changed(item, role);
+//  emit DataChanged(item, role);
+  p_impl->m_data_changed(item, role);
 }
 
 void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModel *model)
 {
-  emit ModelAboutToBeReset(model);
-//  p_impl->m_model_about_to_reset(model);
+//  emit ModelAboutToBeReset(model);
+  p_impl->m_model_about_to_reset(model);
 }
 
 void ModelEventNotifier::ModelResetNotify(SessionModel *model)
 {
-  emit ModelReset(model);
-//  p_impl->m_model_reset(model);
+//  emit ModelReset(model);
+  p_impl->m_model_reset(model);
 }
 
 void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModel *model)
 {
-  emit ModelAboutToBeDestroyed(model);
-//  p_impl->m_model_about_to_be_destroyed(model);
+//  emit ModelAboutToBeDestroyed(model);
+  p_impl->m_model_about_to_be_destroyed(model);
 }
 
 }  // namespace mvvm
