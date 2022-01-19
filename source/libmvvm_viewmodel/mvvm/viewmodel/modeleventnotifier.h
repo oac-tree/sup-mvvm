@@ -23,7 +23,6 @@
 #include "mvvm/interfaces/modeleventnotifierinterface.h"
 #include "mvvm/viewmodel_export.h"
 
-#include <QObject>
 #include <map>
 #include <memory>
 #include <vector>
@@ -31,13 +30,9 @@
 namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
-//! Uses Qt's signal/slot machinery.
-//! TODO consider home-made light-weighted signal/slot instead.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public QObject, public ModelEventNotifierInterface
+class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public ModelEventNotifierInterface
 {
-  Q_OBJECT
-
 public:
   ModelEventNotifier(ModelEventListenerInterface* listener = nullptr);
   ~ModelEventNotifier() override;
@@ -61,23 +56,6 @@ public:
   void ModelResetNotify(SessionModel* model) override;
 
   void ModelAboutToBeDestroyedNotify(SessionModel* model) override;
-
-signals:
-  void AboutToInsertItem(SessionItem* parent, const TagIndex& tag_index);
-
-  void ItemInserted(SessionItem* parent, const TagIndex& tag_index);
-
-  void AboutToRemoveItem(SessionItem* parent, const TagIndex& tag_index);
-
-  void ItemRemoved(SessionItem* parent, const TagIndex& tag_index);
-
-  void DataChanged(SessionItem* item, int role);
-
-  void ModelAboutToBeReset(SessionModel* model);
-
-  void ModelReset(SessionModel* model);
-
-  void ModelAboutToBeDestroyed(SessionModel* model);
 
 private:
   struct ModelEventNotifierImpl;
