@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "mvvm/standarditems/linkeditem.h"
 
@@ -25,7 +35,7 @@ class LinkedItemTest : public ::testing::Test
 
 //! Initial state of item when it is created outside of model context.
 
-TEST_F(LinkedItemTest, initialState)
+TEST_F(LinkedItemTest, InitialState)
 {
   LinkedItem item;
   EXPECT_EQ(item.Get(), nullptr);
@@ -34,7 +44,7 @@ TEST_F(LinkedItemTest, initialState)
 
 //! Link in single model context.
 
-TEST_F(LinkedItemTest, sameModelContext)
+TEST_F(LinkedItemTest, SameModelContext)
 {
   SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -53,7 +63,7 @@ TEST_F(LinkedItemTest, sameModelContext)
 
 //! Link in different model context.
 
-TEST_F(LinkedItemTest, differentModelContext)
+TEST_F(LinkedItemTest, DifferentModelContext)
 {
   auto pool = std::make_shared<ItemPool>();
 
@@ -97,7 +107,7 @@ TEST_F(LinkedItemTest, differentModelContext)
 
 //! Link in different model context.
 
-TEST_F(LinkedItemTest, setNullAsLink)
+TEST_F(LinkedItemTest, SetNullAsLink)
 {
   auto pool = std::make_shared<ItemPool>();
 
