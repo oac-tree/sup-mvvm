@@ -44,7 +44,6 @@ public:
   MOCK_METHOD2(onDataChange, void(mvvm::SessionItem* item, int role));
 };
 
-
 TEST_F(SignalSlotTest, MockWidgetConnectAndDisconnect)
 {
   MockWidget widget;
@@ -60,7 +59,7 @@ TEST_F(SignalSlotTest, MockWidgetConnectAndDisconnect)
 
   // removing client
   signal.disconnect(connection);
-//  connection.disconnect(); FIXME doesn't work
+  //  connection.disconnect(); FIXME doesn't work
 
   EXPECT_CALL(widget, onItemDestroy(_)).Times(0);
   signal(&item);  // perform action
@@ -89,7 +88,7 @@ TEST_F(SignalSlotTest, MockWidgetConnectAndLock)
 //! Callback container notifies two widgets. Check if one widget is removed,
 //! the second is still notified.
 
-TEST_F(SignalSlotTest, TwoWidgetsNotifiedOneRemoved)
+TEST_F(SignalSlotTest, TwoWidgetsNotifiedThenOneRemoved)
 {
   MockWidget widget1;
   MockWidget widget2;
@@ -116,7 +115,7 @@ TEST_F(SignalSlotTest, TwoWidgetsNotifiedOneRemoved)
 
 //! Callback function with two parameters.
 
-TEST_F(SignalSlotTest, TwoParameters)
+TEST_F(SignalSlotTest, SignalWithTwoParameters)
 {
   MockWidget widget1;
   MockWidget widget2;
@@ -140,6 +139,40 @@ TEST_F(SignalSlotTest, TwoParameters)
 
   // perform action
   signal(&item, expected_role);
+}
+
+//! Callback function with two parameters.
+
+TEST_F(SignalSlotTest, TwoSignalsOneWidget)
+{
+  MockWidget widget;
+  mvvm::Signal<void(mvvm::SessionItem*)> signal1;
+  mvvm::Signal<void(mvvm::SessionItem*, int)> signal2;
+
+  auto connection1 = signal1.connect(&widget, &MockWidget::onItemDestroy);
+  auto connection2 = signal2.connect(&widget, &MockWidget::onDataChange);
+
+  int expected_role = 42;
+  mvvm::SessionItem item;
+  EXPECT_CALL(widget, onItemDestroy(&item)).Times(1);
+  EXPECT_CALL(widget, onDataChange(&item, expected_role)).Times(1);
+
+  // perform action
+  signal1(&item);
+  signal2(&item, expected_role);
+
+  // disconnecting first connection
+  signal1.disconnect(connection2);  // should be safe to use connection on different signal
+  signal2.disconnect(connection1);  // should be safe to use connection on different signal
+
+  signal1.disconnect(connection1);
+
+  EXPECT_CALL(widget, onDataChange(_, _)).Times(0);
+  EXPECT_CALL(widget, onDataChange(&item, expected_role)).Times(1);
+
+  // perform action
+  signal1(&item);
+  signal2(&item, expected_role);
 }
 
 TEST_F(SignalSlotTest, OneSignalTwoWidgetsWithSlotsOneDestroyed)

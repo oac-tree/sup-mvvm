@@ -25,6 +25,7 @@
 
 #include <QObject>
 #include <map>
+#include <memory>
 #include <vector>
 
 namespace mvvm
@@ -79,7 +80,8 @@ signals:
   void ModelAboutToBeDestroyed(SessionModel* model);
 
 private:
-  std::map<ModelEventListenerInterface*, std::vector<QMetaObject::Connection>> m_connections;
+  struct ModelEventNotifierImpl;
+  std::unique_ptr<ModelEventNotifierImpl> p_impl;
 };
 
 }  // namespace mvvm
