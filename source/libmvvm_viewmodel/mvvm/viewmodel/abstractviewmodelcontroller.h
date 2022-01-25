@@ -38,6 +38,7 @@ public:
   virtual ~AbstractViewModelController() override;
 
   void SubscribeTo(ModelEventNotifierInterface* notifier) override;
+  void UnsubscribeFrom(ModelEventNotifierInterface* notifier) override;
 
   void SetNotifier(ModelEventNotifierInterface *notifier) override;
 

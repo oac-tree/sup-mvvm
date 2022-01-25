@@ -45,7 +45,7 @@ ApplicationModel::~ApplicationModel()
 
 void ApplicationModel::Subscribe(ModelEventListenerInterface *listener)
 {
-  p_impl->m_notifier.Subscribe(listener);
+  listener->SubscribeTo(&p_impl->m_notifier);
 }
 
 SessionItem *ApplicationModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem *parent,

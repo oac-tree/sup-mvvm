@@ -28,13 +28,18 @@ AbstractViewModelController::~AbstractViewModelController()
   if (m_notifier)
   {
     // Tells notifier that we do not need notifications anymnore.
-    m_notifier->Unsubscribe(this);
+    UnsubscribeFrom(m_notifier);
   }
 }
 
 void AbstractViewModelController::SubscribeTo(ModelEventNotifierInterface *notifier)
 {
   notifier->Subscribe(this);
+}
+
+void AbstractViewModelController::UnsubscribeFrom(ModelEventNotifierInterface *notifier)
+{
+  notifier->Unsubscribe(this);
 }
 
 void AbstractViewModelController::SetNotifier(ModelEventNotifierInterface *notifier)

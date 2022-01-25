@@ -47,7 +47,19 @@ public:
   }
   void SetNotifier(mvvm::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
 
-  void SubscribeTo(mvvm::ModelEventNotifierInterface* notifier) { notifier->Subscribe(this); }
+  void SubscribeTo(mvvm::ModelEventNotifierInterface* notifier)
+  {
+    m_notifier = notifier;
+    m_notifier->Subscribe(this);
+  }
+  void UnsubscribeFrom(mvvm::ModelEventNotifierInterface* notifier)
+  {
+    if (m_notifier)
+    {
+      assert(notifier == m_notifier);
+      notifier->Unsubscribe(this);
+    }
+  }
 
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));

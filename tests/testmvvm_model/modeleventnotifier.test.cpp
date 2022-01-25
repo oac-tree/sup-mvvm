@@ -199,7 +199,7 @@ TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
   ModelEventNotifier notifier;
   MockModelListener listener;
 
-  notifier.Subscribe(&listener);
+  listener.SubscribeTo(&notifier);
 
   EXPECT_THROW(notifier.Subscribe(&listener), std::runtime_error);
 }
@@ -214,7 +214,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   ModelEventNotifier notifier;
   MockModelListener listener;
 
-  notifier.Subscribe(&listener);
+  listener.SubscribeTo(&notifier);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -226,7 +226,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.Unsubscribe(&listener);
+  listener.UnsubscribeFrom(&notifier);
 
   notifier.AboutToInsertItemNotify(&item, tag_index);
   notifier.ItemInsertedNotify(&item, tag_index);
@@ -249,8 +249,8 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   MockModelListener listener1;
   MockModelListener listener2;
 
-  notifier.Subscribe(&listener1);
-  notifier.Subscribe(&listener2);
+  listener1.SubscribeTo(&notifier);
+  listener2.SubscribeTo(&notifier);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
@@ -292,10 +292,10 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   MockModelListener listener1;
   MockModelListener listener2;
 
-  notifier.Subscribe(&listener1);
-  notifier.Subscribe(&listener2);
+  listener1.SubscribeTo(&notifier);
+  listener2.SubscribeTo(&notifier);
 
-  notifier.Unsubscribe(&listener1);
+  listener1.UnsubscribeFrom(&notifier);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -343,7 +343,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
 
-  notifier.Unsubscribe(&listener2);
+  listener2.UnsubscribeFrom(&notifier);
 
   notifier.AboutToInsertItemNotify(&item, tag_index);
   notifier.ItemInsertedNotify(&item, tag_index);

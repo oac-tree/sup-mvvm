@@ -39,6 +39,7 @@ public:
 
   //! Inform the listener about serving notifier.
   virtual void SubscribeTo(ModelEventNotifierInterface* notifier) = 0;
+  virtual void UnsubscribeFrom(ModelEventNotifierInterface* notifier) = 0;
 
   //! Inform the listener about serving notifier.
   virtual void SetNotifier(ModelEventNotifierInterface* notifier) = 0;
