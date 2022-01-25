@@ -37,6 +37,8 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListe
 public:
   virtual ~AbstractViewModelController() override;
 
+  void SubscribeTo(ModelEventNotifierInterface* notifier) override;
+
   void SetNotifier(ModelEventNotifierInterface *notifier) override;
 
   void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;

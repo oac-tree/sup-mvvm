@@ -32,6 +32,11 @@ AbstractViewModelController::~AbstractViewModelController()
   }
 }
 
+void AbstractViewModelController::SubscribeTo(ModelEventNotifierInterface *notifier)
+{
+  notifier->Subscribe(this);
+}
+
 void AbstractViewModelController::SetNotifier(ModelEventNotifierInterface *notifier)
 {
   m_notifier = notifier;

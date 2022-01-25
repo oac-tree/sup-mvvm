@@ -47,6 +47,8 @@ public:
   }
   void SetNotifier(mvvm::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
 
+  void SubscribeTo(mvvm::ModelEventNotifierInterface* notifier) { notifier->Subscribe(this); }
+
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
