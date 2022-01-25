@@ -34,7 +34,7 @@ namespace Callbacks
 using item_t = std::function<void(SessionItem*)>;
 using item_int_t = std::function<void(SessionItem*, int)>;
 using item_str_t = std::function<void(SessionItem*, std::string)>;
-using item_tagrow_t = std::function<void(SessionItem*, TagIndex)>;
+using item_tagindex_t = std::function<void(SessionItem*, TagIndex)>;
 using model_t = std::function<void(SessionModel*)>;
 }  // namespace Callbacks
 }  // namespace mvvm
