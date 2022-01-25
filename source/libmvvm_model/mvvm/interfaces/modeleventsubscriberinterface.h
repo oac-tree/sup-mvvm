@@ -58,13 +58,13 @@ public:
   virtual Connection SetOnDataChanged(Callbacks::item_int_t f, Slot* slot = nullptr) = 0;
 
   //! Sets the callback to be notified just before the reset of the root item.
-  virtual void SetOnModelAboutToBeReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnModelAboutToBeReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
 
   //! Sets the callback to be notified right after the root item recreation.
-  virtual void SetOnModelReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnModelReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
 
-  //! Sets the callback for notifications on model destruction.
-  virtual void SetOnModelDestroyed(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  //! Sets the callback for notifications just before model destruction.
+  virtual Connection SeOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot = nullptr) = 0;
 };
 
 }  // namespace mvvm

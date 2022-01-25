@@ -128,6 +128,46 @@ void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
   listener->SetNotifier(this);
 }
 
+Connection ModelEventNotifier::SetOnAboutToInsertItem(Callbacks::item_tagindex_t f, Slot *slot)
+{
+  return p_impl->m_about_to_insert_item.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SetOnItemInserted(Callbacks::item_tagindex_t f, Slot *slot)
+{
+  return p_impl->m_item_inserted.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SetOnAboutToRemoveItem(Callbacks::item_tagindex_t f, Slot *slot)
+{
+  return p_impl->m_about_to_remove_item.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SetOnItemRemoved(Callbacks::item_tagindex_t f, Slot *slot)
+{
+  return p_impl->m_item_removed.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SetOnDataChanged(Callbacks::item_int_t f, Slot *slot)
+{
+  return p_impl->m_data_changed.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SetOnModelAboutToBeReset(Callbacks::model_t f, Slot *slot)
+{
+  return p_impl->m_model_about_to_reset.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SetOnModelReset(Callbacks::model_t f, Slot *slot)
+{
+  return p_impl->m_model_reset.connect(f, slot);
+}
+
+Connection ModelEventNotifier::SeOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot *slot)
+{
+  return p_impl->m_model_about_to_be_destroyed.connect(f, slot);
+}
+
 void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
   p_impl->m_about_to_insert_item(parent, tag_index);
