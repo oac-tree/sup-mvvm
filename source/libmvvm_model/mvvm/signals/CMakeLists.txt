@@ -1,6 +1,7 @@
 target_sources(${library_name} PRIVATE
-    lsignal.h
-    modeleventnotifier.cpp
-    modeleventnotifier.h
-    signalslot.h
+  callback_types.h
+  lsignal.h
+  modeleventnotifier.cpp
+  modeleventnotifier.h
+  signalslot.h
 )
