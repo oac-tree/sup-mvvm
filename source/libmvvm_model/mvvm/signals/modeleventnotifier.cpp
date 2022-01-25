@@ -99,29 +99,36 @@ void ModelEventNotifier::Subscribe(ModelEventListenerInterface *listener)
 
   std::vector<Connection> connections;
 
-  connections.emplace_back(p_impl->m_about_to_insert_item.connect(
-      listener, &ModelEventListenerInterface::OnAboutToInsertItem));
+  // FIXME provide templated method for the wollowing syntax
+  //  connections.emplace_back(p_impl->m_about_to_insert_item.connect(
+  //      listener, &ModelEventListenerInterface::OnAboutToInsertItem));
+  auto on_about_to_insert = [listener](auto item, auto tagindex)
+  { listener->OnAboutToInsertItem(item, tagindex); };
+  connections.emplace_back(SetOnAboutToInsertItem(on_about_to_insert, nullptr));
 
-  connections.emplace_back(
-      p_impl->m_item_inserted.connect(listener, &ModelEventListenerInterface::OnItemInserted));
+  auto on_item_inserted = [listener](auto item, auto tagindex)
+  { listener->OnItemInserted(item, tagindex); };
+  connections.emplace_back(SetOnItemInserted(on_item_inserted, nullptr));
 
-  connections.emplace_back(p_impl->m_about_to_remove_item.connect(
-      listener, &ModelEventListenerInterface::OnAboutToRemoveItem));
+  auto on_about_to_remove = [listener](auto item, auto tagindex)
+  { listener->OnAboutToRemoveItem(item, tagindex); };
+  connections.emplace_back(SetOnAboutToRemoveItem(on_about_to_remove, nullptr));
 
-  connections.emplace_back(
-      p_impl->m_item_removed.connect(listener, &ModelEventListenerInterface::OnItemRemoved));
+  auto on_item_removed = [listener](auto item, auto tagindex)
+  { listener->OnItemRemoved(item, tagindex); };
+  connections.emplace_back(SetOnItemRemoved(on_item_removed, nullptr));
 
-  connections.emplace_back(
-      p_impl->m_data_changed.connect(listener, &ModelEventListenerInterface::OnDataChanged));
+  auto on_data_changed = [listener](auto item, auto role) { listener->OnDataChanged(item, role); };
+  connections.emplace_back(SetOnDataChanged(on_data_changed, nullptr));
 
-  connections.emplace_back(p_impl->m_model_about_to_reset.connect(
-      listener, &ModelEventListenerInterface::OnModelAboutToBeReset));
+  auto on_model_about_reset = [listener](auto model) { listener->OnModelAboutToBeReset(model); };
+  connections.emplace_back(SetOnModelAboutToBeReset(on_model_about_reset, nullptr));
 
-  connections.emplace_back(
-      p_impl->m_model_reset.connect(listener, &ModelEventListenerInterface::OnModelReset));
+  auto on_model_reset = [listener](auto model) { listener->OnModelReset(model); };
+  connections.emplace_back(SetOnModelReset(on_model_reset, nullptr));
 
-  connections.emplace_back(p_impl->m_model_about_to_be_destroyed.connect(
-      listener, &ModelEventListenerInterface::OnModelAboutToBeDestroyed));
+  auto on_model_about_destroyed = [listener](auto model) { listener->OnModelAboutToBeDestroyed(model); };
+  connections.emplace_back(SeOnModelAboutToBeDestroyed(on_model_about_destroyed, nullptr));
 
   p_impl->m_connections.insert(p_impl->m_connections.find(listener), {listener, connections});
 
@@ -167,6 +174,8 @@ Connection ModelEventNotifier::SeOnModelAboutToBeDestroyed(Callbacks::model_t f,
 {
   return p_impl->m_model_about_to_be_destroyed.connect(f, slot);
 }
+
+// ------------------------------------------------------------------------
 
 void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
