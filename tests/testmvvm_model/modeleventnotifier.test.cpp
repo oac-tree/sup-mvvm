@@ -34,7 +34,10 @@ using ::testing::_;
 class ModelEventNotifierTest : public ::testing::Test
 {
 public:
-  ModelEventNotifierTest() { m_notifier.Subscribe(&m_listener); }
+  ModelEventNotifierTest()
+  {
+    m_listener.SubscribeTo(&m_notifier);
+  }
 
   ModelEventNotifier m_notifier;
   MockModelListener m_listener;
