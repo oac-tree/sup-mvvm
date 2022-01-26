@@ -19,6 +19,9 @@
 
 #include "mvvm/signals/itemlistenerbase.h"
 
+#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/sessionitem.h"
+
 namespace mvvm
 {
 
@@ -28,19 +31,26 @@ struct ItemListenerBase::ItemListenerBaseImpl
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 
   ItemListenerBaseImpl() : m_slot(std::make_unique<Slot>()) {}
+
+  void ProcessModelOnDataChange() {}
 };
 
-ItemListenerBase::ItemListenerBase(SessionItem *item)
-    : p_impl(std::make_unique<ItemListenerBaseImpl>())
-{
-}
+ItemListenerBase::ItemListenerBase() : p_impl(std::make_unique<ItemListenerBaseImpl>()) {}
 
 ItemListenerBase::~ItemListenerBase()
 {
   // destruction of m_slot will destruct all connections
 }
 
-void ItemListenerBase::SetItem(SessionItem *item) {}
+void ItemListenerBase::SetItem(SessionItem *item)
+{
+  if (auto model = dynamic_cast<ApplicationModel *>(item->GetModel()); !model)
+  {
+    throw std::runtime_error(
+        "Error in ItemListenerBase(): item doesn't belong to model with notifications enabled");
+  }
+  p_impl->m_item = item;
+}
 
 void ItemListenerBase::SetOnDataChange(Callbacks::item_int_t f) {}
 
