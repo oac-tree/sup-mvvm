@@ -42,9 +42,10 @@ public:
   {
     if (m_notifier)
     {
-      m_notifier->Unsubscribe(this);
+      UnsubscribeFrom(m_notifier);
     }
   }
+
   void SetNotifier(mvvm::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
 
   void SubscribeTo(mvvm::ModelEventNotifierInterface* notifier)
@@ -54,11 +55,7 @@ public:
   }
   void UnsubscribeFrom(mvvm::ModelEventNotifierInterface* notifier)
   {
-    if (m_notifier)
-    {
-      assert(notifier == m_notifier);
       notifier->Unsubscribe(this);
-    }
   }
 
   MOCK_METHOD2(OnAboutToInsertItem,
