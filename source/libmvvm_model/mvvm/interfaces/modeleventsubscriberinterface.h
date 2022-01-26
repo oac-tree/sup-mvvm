@@ -30,7 +30,6 @@ namespace mvvm
 class SessionItem;
 class TagIndex;
 class SessionModel;
-class ModelEventListenerInterface;
 
 //! Interface to subscribe user callbacks to events happening with the model.
 
