@@ -41,8 +41,8 @@ class SessionModel;
 class MockModelListener : public mvvm::ModelEventListenerInterface
 {
 public:
-  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier);
-  void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier);
+  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier) override;
+  void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier) override;
 
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));

@@ -32,7 +32,6 @@ namespace mvvm
 {
 class SessionModel;
 class SessionItem;
-class ModelEventListenerInterface;
 class ModelEventNotifierInterface;
 
 //! The ModelComposer class allows manipulate the model (add/remove items, set item's data) and
