@@ -41,8 +41,6 @@ public:
   void SubscribeTo(ModelEventSubscriberInterface* notifier) override;
   void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) override;
 
-  void SetNotifier(ModelEventSubscriberInterface *notifier) override;
-
   void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;
 
   void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
@@ -63,8 +61,7 @@ public:
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 
-protected:
-  ModelEventSubscriberInterface *m_notifier{nullptr};
+private:
   std::unique_ptr<mvvm::Slot> m_slot;
 };
 

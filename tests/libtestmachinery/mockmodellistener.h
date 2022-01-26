@@ -21,11 +21,11 @@
 #define MOCKMODELLISTENER_H
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
-#include "mvvm/interfaces/modeleventnotifierinterface.h"
 #include "mvvm/interfaces/modeleventsubscriberinterface.h"
 #include "mvvm/signals/signalslot.h"
 
 #include <gmock/gmock.h>
+
 #include <memory>
 
 namespace mvvm
@@ -41,11 +41,6 @@ class SessionModel;
 class MockModelListener : public mvvm::ModelEventListenerInterface
 {
 public:
-  MockModelListener();
-  ~MockModelListener();
-
-  void SetNotifier(mvvm::ModelEventSubscriberInterface* notifier);
-
   void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier);
   void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier);
 
@@ -68,7 +63,6 @@ public:
   MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
 
 protected:
-  mvvm::ModelEventSubscriberInterface* m_notifier;
   std::unique_ptr<mvvm::Slot> m_slot;
 };
 

@@ -48,11 +48,11 @@ class ViewModelControllerTest : public ::testing::Test
 public:
   ViewModelControllerTest()
       : m_controller(&m_model, &m_viewmodel)
-      , m_notifier(&m_controller)
       , m_composer(&m_model, &m_notifier)
   {
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    m_controller.SubscribeTo(&m_notifier);
     m_controller.Init();
   }
 

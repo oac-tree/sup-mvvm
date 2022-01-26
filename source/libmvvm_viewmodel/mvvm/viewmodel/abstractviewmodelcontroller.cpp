@@ -24,14 +24,7 @@
 
 namespace mvvm
 {
-AbstractViewModelController::~AbstractViewModelController()
-{
-  if (m_notifier)
-  {
-    // Tells notifier that we do not need notifications anymnore.
-    UnsubscribeFrom(m_notifier);
-  }
-}
+AbstractViewModelController::~AbstractViewModelController() = default;
 
 void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *notifier)
 {
@@ -67,13 +60,9 @@ void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *not
 
 void AbstractViewModelController::UnsubscribeFrom(ModelEventSubscriberInterface *notifier)
 {
+  // FIXME Do we need Unsubscribe methods?
+  (void)notifier;
   m_slot.reset();
-  //  notifier->Unsubscribe(this);
-}
-
-void AbstractViewModelController::SetNotifier(ModelEventSubscriberInterface *notifier)
-{
-  //  m_notifier = notifier;
 }
 
 void AbstractViewModelController::OnAboutToInsertItem(SessionItem *parent,

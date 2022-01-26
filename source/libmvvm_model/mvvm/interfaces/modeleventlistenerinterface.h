@@ -37,12 +37,10 @@ class MVVM_MODEL_EXPORT ModelEventListenerInterface
 public:
   virtual ~ModelEventListenerInterface() = default;
 
-  //! Inform the listener about serving notifier.
+  //! Subscribe all methods to a given notifier
   virtual void SubscribeTo(ModelEventSubscriberInterface* notifier) = 0;
-  virtual void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) = 0;
 
-  //! Inform the listener about serving notifier.
-  virtual void SetNotifier(ModelEventSubscriberInterface* notifier) = 0;
+  virtual void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) = 0;
 
   //! Lets the listener know that a child is about to be inserted into the `parent` with
   //! `tag_index`.

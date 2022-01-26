@@ -38,13 +38,6 @@ class MVVM_MODEL_EXPORT ModelEventSubscriberInterface
 {
 public:
 
-  //! Unsibscribe the listener from notifications
-  virtual void Unsubscribe(ModelEventListenerInterface* listener) = 0;
-
-  //! Subscribe given listener to our notifications.
-  virtual void Subscribe(ModelEventListenerInterface* listener) = 0;
-
-
   //! Sets callback to be notified when the item is about to be inserted. The callback will be
   //! called with (SessionItem* parent, tag_index), where 'tag_index' denotes child position.
   virtual Connection SetOnAboutToInsertItem(Callbacks::item_tagindex_t f, Slot* slot = nullptr) = 0;

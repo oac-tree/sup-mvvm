@@ -36,12 +36,8 @@ class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public ModelEventNotifierInterf
                                                  public ModelEventSubscriberInterface
 {
 public:
-  explicit ModelEventNotifier(ModelEventListenerInterface* listener = nullptr);
+  explicit ModelEventNotifier();
   ~ModelEventNotifier() override;
-
-  void Unsubscribe(ModelEventListenerInterface* listener) override;
-
-  void Subscribe(ModelEventListenerInterface* listener) override;
 
   // methods to subscribe for notifications
 

@@ -21,29 +21,9 @@
 
 #include "mvvm/model/sessionitem.h"
 
-MockModelListener::MockModelListener()
-{
-
-}
-
-MockModelListener::~MockModelListener()
-{
-  //  if (m_notifier)
-  //  {
-  //    UnsubscribeFrom(m_notifier);
-  //  }
-}
-
-void MockModelListener::SetNotifier(mvvm::ModelEventSubscriberInterface *notifier)
-{
-  //  m_notifier = notifier;
-}
-
 void MockModelListener::SubscribeTo(mvvm::ModelEventSubscriberInterface *notifier)
 {
   m_slot = std::make_unique<mvvm::Slot>();
-  //  m_notifier = notifier;
-  //  m_notifier->Subscribe(this);
 
   auto on_about_to_insert = [this](auto item, auto tagindex)
   { OnAboutToInsertItem(item, tagindex); };
@@ -74,6 +54,6 @@ void MockModelListener::SubscribeTo(mvvm::ModelEventSubscriberInterface *notifie
 
 void MockModelListener::UnsubscribeFrom(mvvm::ModelEventSubscriberInterface *notifier)
 {
+  (void)notifier;
   m_slot.reset();
-  //  notifier->Unsubscribe(this);
 }

@@ -56,8 +56,6 @@ public:
     MOCK_METHOD1(OnModelReset, void(mvvm::SessionModel* model));
 
     MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
-
-    ModelEventSubscriberInterface* GetNotifier() { return m_notifier; }
   };
 };
 
@@ -302,9 +300,8 @@ TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeDestroyed)
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
-
 // FIXME restore
-//TEST_F(AbstractViewModelControllerTest, AttemptToEstablishConnectionsTwice)
+// TEST_F(AbstractViewModelControllerTest, AttemptToEstablishConnectionsTwice)
 //{
 //  mvvm::ModelEventNotifier notifier;
 //  TestController controller;
@@ -388,8 +385,6 @@ TEST_F(AbstractViewModelControllerTest, TwoSubscriptions)
   notifier.ModelResetNotify(&model);
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
-
-
 
 TEST_F(AbstractViewModelControllerTest, UnsubscribeOne)
 {
