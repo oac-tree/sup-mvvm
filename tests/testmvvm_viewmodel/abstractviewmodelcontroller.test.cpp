@@ -57,7 +57,7 @@ public:
 
     MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
 
-    ModelEventNotifierInterface* GetNotifier() { return m_notifier; }
+    ModelEventSubscriberInterface* GetNotifier() { return m_notifier; }
   };
 };
 

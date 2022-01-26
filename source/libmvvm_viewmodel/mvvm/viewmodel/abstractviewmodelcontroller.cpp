@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
 
-#include "mvvm/interfaces/modeleventnotifierinterface.h"
+#include "mvvm/interfaces/modeleventsubscriberinterface.h"
 
 namespace mvvm
 {
@@ -32,17 +32,17 @@ AbstractViewModelController::~AbstractViewModelController()
   }
 }
 
-void AbstractViewModelController::SubscribeTo(ModelEventNotifierInterface *notifier)
+void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *notifier)
 {
   notifier->Subscribe(this);
 }
 
-void AbstractViewModelController::UnsubscribeFrom(ModelEventNotifierInterface *notifier)
+void AbstractViewModelController::UnsubscribeFrom(ModelEventSubscriberInterface *notifier)
 {
   notifier->Unsubscribe(this);
 }
 
-void AbstractViewModelController::SetNotifier(ModelEventNotifierInterface *notifier)
+void AbstractViewModelController::SetNotifier(ModelEventSubscriberInterface *notifier)
 {
   m_notifier = notifier;
 }

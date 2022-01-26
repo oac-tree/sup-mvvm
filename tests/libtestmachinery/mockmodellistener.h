@@ -22,6 +22,7 @@
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/interfaces/modeleventnotifierinterface.h"
+#include "mvvm/interfaces/modeleventsubscriberinterface.h"
 
 #include <gmock/gmock.h>
 
@@ -46,14 +47,14 @@ public:
     }
   }
 
-  void SetNotifier(mvvm::ModelEventNotifierInterface* notifier) { m_notifier = notifier; }
+  void SetNotifier(mvvm::ModelEventSubscriberInterface* notifier) { m_notifier = notifier; }
 
-  void SubscribeTo(mvvm::ModelEventNotifierInterface* notifier)
+  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier)
   {
     m_notifier = notifier;
     m_notifier->Subscribe(this);
   }
-  void UnsubscribeFrom(mvvm::ModelEventNotifierInterface* notifier)
+  void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier)
   {
       notifier->Unsubscribe(this);
   }
@@ -77,7 +78,7 @@ public:
   MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
 
 protected:
-  mvvm::ModelEventNotifierInterface* m_notifier;
+  mvvm::ModelEventSubscriberInterface* m_notifier;
 };
 
 #endif  // MOCKMODELLISTENER_H

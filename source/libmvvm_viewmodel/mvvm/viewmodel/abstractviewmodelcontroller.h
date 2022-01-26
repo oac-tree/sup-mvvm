@@ -37,10 +37,10 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListe
 public:
   virtual ~AbstractViewModelController() override;
 
-  void SubscribeTo(ModelEventNotifierInterface* notifier) override;
-  void UnsubscribeFrom(ModelEventNotifierInterface* notifier) override;
+  void SubscribeTo(ModelEventSubscriberInterface* notifier) override;
+  void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) override;
 
-  void SetNotifier(ModelEventNotifierInterface *notifier) override;
+  void SetNotifier(ModelEventSubscriberInterface *notifier) override;
 
   void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;
 
@@ -63,7 +63,7 @@ public:
   virtual QStringList GetHorizontalHeaderLabels() const;
 
 protected:
-  ModelEventNotifierInterface *m_notifier{nullptr};
+  ModelEventSubscriberInterface *m_notifier{nullptr};
 };
 
 }  // namespace mvvm

@@ -27,7 +27,7 @@ namespace mvvm
 {
 class SessionItem;
 class TagIndex;
-class ModelEventNotifierInterface;
+class ModelEventSubscriberInterface;
 class SessionModel;
 
 //! Interface for all objects that need to listen for events happening with the SessionModel.
@@ -38,11 +38,11 @@ public:
   virtual ~ModelEventListenerInterface() = default;
 
   //! Inform the listener about serving notifier.
-  virtual void SubscribeTo(ModelEventNotifierInterface* notifier) = 0;
-  virtual void UnsubscribeFrom(ModelEventNotifierInterface* notifier) = 0;
+  virtual void SubscribeTo(ModelEventSubscriberInterface* notifier) = 0;
+  virtual void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) = 0;
 
   //! Inform the listener about serving notifier.
-  virtual void SetNotifier(ModelEventNotifierInterface* notifier) = 0;
+  virtual void SetNotifier(ModelEventSubscriberInterface* notifier) = 0;
 
   //! Lets the listener know that a child is about to be inserted into the `parent` with
   //! `tag_index`.

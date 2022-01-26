@@ -37,12 +37,6 @@ class MVVM_MODEL_EXPORT ModelEventNotifierInterface
 public:
   virtual ~ModelEventNotifierInterface() = default;
 
-  //! Unsibscribe the listener from notifications
-  virtual void Unsubscribe(ModelEventListenerInterface* listener) = 0;
-
-  //! Subscribe given listener to our notifications.
-  virtual void Subscribe(ModelEventListenerInterface* listener) = 0;
-
   //! Notifies listeners when an item is about to be inserted into a model.
   virtual void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index) = 0;
 
