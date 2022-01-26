@@ -39,25 +39,12 @@ class SessionModel;
 class MockModelListener : public mvvm::ModelEventListenerInterface
 {
 public:
-  ~MockModelListener()
-  {
-    if (m_notifier)
-    {
-      UnsubscribeFrom(m_notifier);
-    }
-  }
+  ~MockModelListener();
 
-  void SetNotifier(mvvm::ModelEventSubscriberInterface* notifier) { m_notifier = notifier; }
+  void SetNotifier(mvvm::ModelEventSubscriberInterface* notifier);
 
-  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier)
-  {
-    m_notifier = notifier;
-    m_notifier->Subscribe(this);
-  }
-  void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier)
-  {
-      notifier->Unsubscribe(this);
-  }
+  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier);
+  void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier);
 
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
