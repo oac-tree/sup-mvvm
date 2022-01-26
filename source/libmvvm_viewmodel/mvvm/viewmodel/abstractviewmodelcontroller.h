@@ -22,6 +22,7 @@
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/viewmodel_export.h"
+#include "mvvm/signals/signalslot.h"
 
 #include <QStringList>
 
@@ -35,7 +36,7 @@ class ModelEventNotifierInterface;
 class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListenerInterface
 {
 public:
-  virtual ~AbstractViewModelController() override;
+  ~AbstractViewModelController() override;
 
   void SubscribeTo(ModelEventSubscriberInterface* notifier) override;
   void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) override;
@@ -64,6 +65,7 @@ public:
 
 protected:
   ModelEventSubscriberInterface *m_notifier{nullptr};
+  std::unique_ptr<mvvm::Slot> m_slot;
 };
 
 }  // namespace mvvm
