@@ -58,7 +58,7 @@ public:
   virtual Connection SetOnPropertyChanged(Callbacks::item_str_t f, Slot* slot = nullptr) = 0;
 
   //! Sets callback to be notified just before the item destruction.
-  virtual Connection setOnItemDestroy(Callbacks::item_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnItemDestroy(Callbacks::item_t f, Slot* slot = nullptr) = 0;
 };
 
 }  // namespace mvvm

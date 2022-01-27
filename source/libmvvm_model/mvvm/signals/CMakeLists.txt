@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   itemlistenerbase.h
   itemmapper.cpp
   itemmapper.h
+  itemconnectutils.cpp
+  itemconnectutils.h
   lsignal.h
   modeleventnotifier.cpp
   modeleventnotifier.h
