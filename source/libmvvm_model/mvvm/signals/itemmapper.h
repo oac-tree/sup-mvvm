@@ -22,6 +22,8 @@
 
 #include "mvvm/interfaces/itemeventsubstriberinterface.h"
 
+#include <memory>
+
 namespace mvvm
 {
 
@@ -34,8 +36,23 @@ class SessionItem;
 class ItemMapper : public ItemEventSubscriberInterface
 {
 public:
+  explicit ItemMapper(SessionItem* item);
 
+  Connection SetOnItemInserted(Callbacks::item_tagindex_t f, Slot* slot) override;
 
+  Connection SetOnAboutToRemoveItem(Callbacks::item_tagindex_t f, Slot* slot) override;
+
+  Connection SetOnItemRemoved(Callbacks::item_tagindex_t f, Slot* slot) override;
+
+  Connection SetOnDataChanged(Callbacks::item_int_t f, Slot* slot) override;
+
+  Connection SetOnPropertyChanged(Callbacks::item_str_t f, Slot* slot) override;
+
+  Connection SetOnItemDestroy(Callbacks::item_t f, Slot* slot) override;
+
+private:
+  struct ItemMapperImpl;
+  std::unique_ptr<ItemMapperImpl> p_impl;
 };
 
 }  // namespace mvvm
