@@ -21,8 +21,8 @@
 #define MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
 
 #include "mvvm/interfaces/modeleventlistenerinterface.h"
-#include "mvvm/viewmodel_export.h"
 #include "mvvm/signals/signalslot.h"
+#include "mvvm/viewmodel_export.h"
 
 #include <QStringList>
 
@@ -38,8 +38,8 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListe
 public:
   ~AbstractViewModelController() override;
 
-  void SubscribeTo(ModelEventSubscriberInterface* notifier) override;
-  void UnsubscribeFrom(ModelEventSubscriberInterface* notifier) override;
+  void SubscribeTo(ModelEventSubscriberInterface *subscriber) override;
+  void UnsubscribeFrom(ModelEventSubscriberInterface *subscriber) override;
 
   void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;
 

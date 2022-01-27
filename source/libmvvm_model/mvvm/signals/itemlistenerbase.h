@@ -35,7 +35,7 @@ namespace mvvm
 class MVVM_MODEL_EXPORT ItemListenerBase
 {
 public:
-  explicit ItemListenerBase();
+  ItemListenerBase();
   virtual ~ItemListenerBase();
 
   ItemListenerBase& operator=(const ItemListenerBase& other) = delete;
