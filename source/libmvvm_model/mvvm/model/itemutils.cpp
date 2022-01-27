@@ -21,14 +21,15 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionitemcontainer.h"
+#include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/utils/containerutils.h"
 
 #include <iterator>
 
-namespace mvvm
+namespace mvvm::utils
 {
-void utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
+void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
 {
   if (item)
   {
@@ -45,7 +46,7 @@ void utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& 
   }
 }
 
-void utils::iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
+void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
 {
   bool proceed_with_children(true);
 
@@ -65,7 +66,7 @@ void utils::iterate_if(const SessionItem* item, const std::function<bool(const S
   }
 }
 
-int utils::CopyNumber(const SessionItem* item)
+int CopyNumber(const SessionItem* item)
 {
   int result(-1);
 
@@ -94,7 +95,7 @@ int utils::CopyNumber(const SessionItem* item)
   return count > 1 ? result : -1;
 }
 
-SessionItem* utils::ChildAt(const SessionItem* parent, int index)
+SessionItem* ChildAt(const SessionItem* parent, int index)
 {
   if (!parent)
   {
@@ -107,22 +108,22 @@ SessionItem* utils::ChildAt(const SessionItem* parent, int index)
              : nullptr;
 }
 
-int utils::IndexOfChild(const SessionItem* parent, const SessionItem* child)
+int IndexOfChild(const SessionItem* parent, const SessionItem* child)
 {
-  return utils::IndexOfItem(parent->GetAllItems(), child);
+  return IndexOfItem(parent->GetAllItems(), child);
 }
 
-bool utils::HasTag(const SessionItem& item, const std::string& tag)
+bool HasTag(const SessionItem& item, const std::string& tag)
 {
   return item.GetTaggedItems()->HasTag(tag);
 }
 
-bool utils::IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
+bool IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
 {
   return item.GetTaggedItems()->IsSinglePropertyTag(tag);
 }
 
-std::vector<std::string> utils::RegisteredTags(const SessionItem& item)
+std::vector<std::string> RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
   for (const auto container : *item.GetTaggedItems())
@@ -132,7 +133,7 @@ std::vector<std::string> utils::RegisteredTags(const SessionItem& item)
   return result;
 }
 
-std::vector<std::string> utils::RegisteredUniversalTags(const SessionItem& item)
+std::vector<std::string> RegisteredUniversalTags(const SessionItem& item)
 {
   std::vector<std::string> result;
   for (const auto& tag : RegisteredTags(item))
@@ -145,7 +146,7 @@ std::vector<std::string> utils::RegisteredUniversalTags(const SessionItem& item)
   return result;
 }
 
-std::vector<SessionItem*> utils::TopLevelItems(const SessionItem& item)
+std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
@@ -158,7 +159,7 @@ std::vector<SessionItem*> utils::TopLevelItems(const SessionItem& item)
   return result;
 }
 
-std::vector<SessionItem*> utils::SinglePropertyItems(const SessionItem& item)
+std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
@@ -171,7 +172,7 @@ std::vector<SessionItem*> utils::SinglePropertyItems(const SessionItem& item)
   return result;
 }
 
-SessionItem* utils::FindNextSibling(SessionItem* item)
+SessionItem* FindNextSibling(SessionItem* item)
 {
   auto parent = item ? item->GetParent() : nullptr;
   if (!parent)
@@ -182,7 +183,7 @@ SessionItem* utils::FindNextSibling(SessionItem* item)
   return parent->GetItem(tag_index.tag, tag_index.index + 1);
 }
 
-SessionItem* utils::FindPreviousSibling(SessionItem* item)
+SessionItem* FindPreviousSibling(SessionItem* item)
 {
   auto parent = item ? item->GetParent() : nullptr;
   if (!parent)
@@ -193,14 +194,14 @@ SessionItem* utils::FindPreviousSibling(SessionItem* item)
   return parent->GetItem(tag_index.tag, tag_index.index - 1);
 }
 
-SessionItem* utils::FindNextItemToSelect(SessionItem* item)
+SessionItem* FindNextItemToSelect(SessionItem* item)
 {
   auto next = FindNextSibling(item);
   auto closest = next ? next : FindPreviousSibling(item);
   return closest ? closest : item->GetParent();
 }
 
-bool utils::IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
+bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
 {
   if (!item || !candidate)
   {
@@ -221,7 +222,7 @@ bool utils::IsItemAncestor(const SessionItem* item, const SessionItem* candidate
   return false;
 }
 
-std::vector<SessionItem*> utils::UniqueItems(const std::vector<SessionItem*>& items)
+std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
 {
   auto filtered = utils::UniqueWithOrder(items);
   std::vector<SessionItem*> result;
@@ -230,4 +231,25 @@ std::vector<SessionItem*> utils::UniqueItems(const std::vector<SessionItem*>& it
   return result;
 }
 
-}  // namespace mvvm
+int GetNestlingDepth(const SessionItem* basis, const SessionItem* item, int level)
+{
+  if (!basis || !item)
+  {
+    return -1;
+  }
+
+  SessionItem* root_item = basis->GetModel() ? basis->GetModel()->GetRootItem() : nullptr;
+
+  if (item == basis)
+  {
+    return level;
+  }
+
+  if (item == nullptr || item == root_item)
+  {
+    return -1;
+  }
+  return GetNestlingDepth(basis, item->GetParent(), level + 1);
+}
+
+}  // namespace mvvm::utils

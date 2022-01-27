@@ -29,8 +29,9 @@
 namespace mvvm
 {
 class SessionItem;
+}
 
-namespace utils
+namespace mvvm::utils
 {
 //! Iterates through item and all its children.
 MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun);
@@ -94,14 +95,24 @@ std::vector<T*> CastedItems(const std::vector<SessionItem*>& items)
 {
   std::vector<T*> result;
   for (auto item : items)
+  {
     if (auto casted_item = dynamic_cast<T*>(item); casted_item)
+    {
       result.push_back(casted_item);
+    }
+  }
 
   return result;
 }
 
-}  // namespace Utils
+//! Returns nestling depth of `item` with respect to the `basis`.
+//! result = 0 if `item` == `basis`
+//! result = 1 if `item` is a child of `basis`
+//! result = 2 if `item` is a grandchild of `basis`
+//! result = -1 if item is above `basis` or doesn't belong same branch
+MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionItem* item,
+                                       int level = 0);
 
-}  // namespace mvvm
+}  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEMUTILS_H
