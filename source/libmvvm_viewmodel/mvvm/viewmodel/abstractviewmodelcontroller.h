@@ -41,21 +41,32 @@ public:
   void SubscribeTo(ModelEventSubscriberInterface *subscriber) override;
   void UnsubscribeFrom(ModelEventSubscriberInterface *subscriber) override;
 
-  void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index) override;
+  //! Lets the controller know that a child is about to be inserted into the `parent` with
+  //! `tag_index`.
+  virtual void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index);
 
-  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
+  //! Lets the controller know that a child has been inserted into the `parent` with `tag_index`.
+  virtual void OnItemInserted(SessionItem *parent, const TagIndex &tag_index);
 
-  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
+  //! Lets the controller know that a child is about to be removed from the `parent`s position
+  //! `tag_index`.
+  virtual void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index);
 
-  void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index) override;
+  //! Lets the controller know that a child has been removed from the `parent`s position
+  //! `tag_index`.
+  virtual void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index);
 
-  void OnDataChanged(SessionItem *item, int role) override;
+  //! Lets the controller know that `item`s data with given `role` has been changed.
+  virtual void OnDataChanged(SessionItem *item, int role);
 
-  void OnModelAboutToBeReset(SessionModel *model) override;
+  //! Lets the controller know when the root item is about to be reset.
+  virtual void OnModelAboutToBeReset(SessionModel *model);
 
-  void OnModelReset(SessionModel *model) override;
+  //! Lets the controller know at the end of root item recreation.
+  virtual void OnModelReset(SessionModel *model);
 
-  void OnModelAboutToBeDestroyed(SessionModel *model) override;
+  //! Lets the controller know at the beginning of model destruction.
+  virtual void OnModelAboutToBeDestroyed(SessionModel *model);
 
   virtual void Init(SessionItem *root_item = nullptr);
 
