@@ -26,6 +26,7 @@
 namespace mvvm
 {
 class ModelEventListenerInterface;
+class ModelEventSubscriberInterface;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.
 //! All modification of the model are done through the composer, which takes care
@@ -38,6 +39,8 @@ public:
 
   explicit ApplicationModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
   ~ApplicationModel() override;
+
+  ModelEventSubscriberInterface* GetSubscriber() const;
 
   void Subscribe(ModelEventListenerInterface* listener);
 
