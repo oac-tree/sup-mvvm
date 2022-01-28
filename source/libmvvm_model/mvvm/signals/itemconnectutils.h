@@ -34,7 +34,7 @@ namespace mvvm::connect
 
 //! Sets callback to be notified on item's data change. The callback will be called
 //! with (SessionItem*, data_role).
-MVVM_MODEL_EXPORT Connection OnDataChange(SessionItem* source, const Callbacks::item_int_t& f,
+MVVM_MODEL_EXPORT Connection OnDataChange(SessionItem* source, const Callbacks::item_int_t& func,
                                           Slot* slot = nullptr);
 
 }  // namespace mvvm::connect

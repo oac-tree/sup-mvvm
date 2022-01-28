@@ -42,17 +42,17 @@ mvvm::ModelEventSubscriberInterface *GetSubscriber(const mvvm::SessionItem *item
 namespace mvvm::connect
 {
 
-Connection OnDataChange(SessionItem *source, const Callbacks::item_int_t &f, Slot *slot)
+Connection OnDataChange(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
 {
   auto subscriber = GetSubscriber(source);
 
-  // callback will filtering capabilities to call user callback only when the event had happened
-  // with our source
-  auto on_data_change = [&f, source](SessionItem *item, int role)
+  // Create a callback with filtering capabilities to call user callback only when the event had
+  // happened with our source. User callback `func` is passed by copy.
+  auto on_data_change = [func, source](SessionItem *item, int role)
   {
     if (item == source)
     {
-      f(item, role);  // calling user provided callback
+      func(item, role);  // calling user provided callback
     }
   };
 
