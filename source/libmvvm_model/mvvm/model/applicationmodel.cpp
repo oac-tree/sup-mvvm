@@ -48,11 +48,6 @@ ModelEventSubscriberInterface *ApplicationModel::GetSubscriber() const
   return &p_impl->m_notifier;
 }
 
-void ApplicationModel::Subscribe(ModelEventListenerInterface *listener)
-{
-  listener->SubscribeTo(&p_impl->m_notifier);
-}
-
 SessionItem *ApplicationModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem *parent,
                                           const TagIndex &tag_index)
 {

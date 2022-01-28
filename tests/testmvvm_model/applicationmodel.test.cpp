@@ -47,7 +47,7 @@ TEST_F(ApplicationModelTest, SetData)
   auto item = m_model.InsertItem<PropertyItem>();
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -73,7 +73,7 @@ TEST_F(ApplicationModelTest, SetDataThroughItem)
   auto item = m_model.InsertItem<PropertyItem>();
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -101,7 +101,7 @@ TEST_F(ApplicationModelTest, SetSameData)
   item->SetData(42, DataRole::kData);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
 
   // no notifications are expected
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -129,7 +129,7 @@ TEST_F(ApplicationModelTest, InsertNewItem)
   TagIndex expected_tag_index{"", 0};
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
   EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
@@ -156,7 +156,7 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
 
   TagIndex expected_tag_index{"tag", 0};
 
@@ -185,7 +185,7 @@ TEST_F(ApplicationModelTest, InsertItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
@@ -213,7 +213,7 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
@@ -245,7 +245,7 @@ TEST_F(ApplicationModelTest, TakeItem)
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -275,7 +275,7 @@ TEST_F(ApplicationModelTest, RemoveItem)
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -306,7 +306,7 @@ TEST_F(ApplicationModelTest, MoveItem)
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
@@ -337,7 +337,7 @@ TEST_F(ApplicationModelTest, Clear)
   m_model.InsertItem<PropertyItem>(parent);
 
   MockModelListener listener;
-  m_model.Subscribe(&listener);
+  listener.SubscribeTo(m_model.GetSubscriber());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -367,7 +367,7 @@ TEST_F(ApplicationModelTest, Destroy)
   model->InsertItem<PropertyItem>(parent);
 
   MockModelListener listener;
-  model->Subscribe(&listener);
+  listener.SubscribeTo(model->GetSubscriber());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
