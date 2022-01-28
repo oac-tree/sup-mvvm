@@ -279,6 +279,6 @@ TEST_F(ItemListenerTest, OnControllerDelete)
     TestController widget(compound);
   }
 
-
+  // controller was deleted, signals disconnected
   EXPECT_NO_FATAL_FAILURE(model.RemoveItem(child));
 }
