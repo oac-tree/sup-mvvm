@@ -231,7 +231,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  listener.UnsubscribeFrom(&notifier);
+  listener.UnsubscribeFrom();
 
   notifier.AboutToInsertItemNotify(&item, tag_index);
   notifier.ItemInsertedNotify(&item, tag_index);
@@ -300,7 +300,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   listener1.SubscribeTo(&notifier);
   listener2.SubscribeTo(&notifier);
 
-  listener1.UnsubscribeFrom(&notifier);
+  listener1.UnsubscribeFrom();
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -348,7 +348,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
 
-  listener2.UnsubscribeFrom(&notifier);
+  listener2.UnsubscribeFrom();
 
   notifier.AboutToInsertItemNotify(&item, tag_index);
   notifier.ItemInsertedNotify(&item, tag_index);

@@ -25,7 +25,6 @@
 
 namespace mvvm
 {
-class ModelEventListenerInterface;
 class ModelEventSubscriberInterface;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.

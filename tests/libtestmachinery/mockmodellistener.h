@@ -20,7 +20,6 @@
 #ifndef MOCKMODELLISTENER_H
 #define MOCKMODELLISTENER_H
 
-#include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/interfaces/modeleventsubscriberinterface.h"
 #include "mvvm/signals/signalslot.h"
 
@@ -38,11 +37,11 @@ class SessionModel;
 //! Mocking class to test ModelEventListenerInterface reactions on notifications issued by
 //! ModelEventNotifier.
 
-class MockModelListener : public mvvm::ModelEventListenerInterface
+class MockModelListener
 {
 public:
-  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier) override;
-  void UnsubscribeFrom(mvvm::ModelEventSubscriberInterface* notifier) override;
+  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier);
+  void UnsubscribeFrom();
 
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));

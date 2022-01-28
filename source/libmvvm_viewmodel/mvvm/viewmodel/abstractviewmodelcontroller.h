@@ -20,7 +20,6 @@
 #ifndef MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
 #define MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
 
-#include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/signals/signalslot.h"
 #include "mvvm/viewmodel_export.h"
 
@@ -29,17 +28,19 @@
 namespace mvvm
 {
 class SessionModel;
-class ModelEventNotifierInterface;
+class SessionItem;
+class ModelEventSubscriberInterface;
+class TagIndex;
 
 //! Propagate changes
 
-class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public ModelEventListenerInterface
+class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
 {
 public:
-  ~AbstractViewModelController() override;
+  virtual ~AbstractViewModelController();
 
-  void SubscribeTo(ModelEventSubscriberInterface *subscriber) override;
-  void UnsubscribeFrom(ModelEventSubscriberInterface *subscriber) override;
+  void SubscribeTo(ModelEventSubscriberInterface *subscriber);
+  void UnsubscribeFrom(ModelEventSubscriberInterface *subscriber);
 
   //! Lets the controller know that a child is about to be inserted into the `parent` with
   //! `tag_index`.

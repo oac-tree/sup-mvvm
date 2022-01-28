@@ -19,7 +19,6 @@
 
 #include "mvvm/model/applicationmodel.h"
 
-#include "mvvm/interfaces/modeleventlistenerinterface.h"
 #include "mvvm/model/modelcomposer.h"
 #include "mvvm/signals/modeleventnotifier.h"
 

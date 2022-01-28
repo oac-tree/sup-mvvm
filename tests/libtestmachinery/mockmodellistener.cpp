@@ -52,8 +52,7 @@ void MockModelListener::SubscribeTo(mvvm::ModelEventSubscriberInterface *notifie
   notifier->SeOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
 }
 
-void MockModelListener::UnsubscribeFrom(mvvm::ModelEventSubscriberInterface *notifier)
+void MockModelListener::UnsubscribeFrom()
 {
-  (void)notifier;
   m_slot.reset();
 }
