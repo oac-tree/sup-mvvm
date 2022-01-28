@@ -46,6 +46,14 @@ public:
       { OnItemInserted(item, tag_index); };
       connect::OnItemInserted(item, on_item_inserted, m_slot.get());
 
+      auto on_about_to_remove_item = [this](SessionItem* item, const TagIndex& tag_index)
+      { OnAboutToRemoveItem(item, tag_index); };
+      connect::OnAboutToRemoveItem(item, on_about_to_remove_item, m_slot.get());
+
+      auto on_item_removed = [this](SessionItem* item, const TagIndex& tag_index)
+      { OnItemRemoved(item, tag_index); };
+      connect::OnItemRemoved(item, on_item_removed, m_slot.get());
+
       auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
       connect::OnDataChanged(item, on_data_changed, m_slot.get());
 
@@ -55,9 +63,8 @@ public:
     }
 
     MOCK_METHOD2(OnItemInserted, void(SessionItem* item, TagIndex tagindex));
-    //      MOCK_METHOD2(OnAboutToRemoveItem, void(SessionItem* item, TagIndex tagindex));
-    //      MOCK_METHOD2(OnItemRemoved, void(SessionItem* item, TagIndex tagindex));
-
+    MOCK_METHOD2(OnAboutToRemoveItem, void(SessionItem* item, TagIndex tagindex));
+    MOCK_METHOD2(OnItemRemoved, void(SessionItem* item, TagIndex tagindex));
     MOCK_METHOD2(OnDataChanged, void(SessionItem* item, int role));
     MOCK_METHOD2(OnPropertyChanged, void(SessionItem* item, std::string name));
 
@@ -96,6 +103,8 @@ TEST_F(ItemConnectUtilsTest, OnDataChanged)
   const auto expected_item = item;
 
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
@@ -177,6 +186,9 @@ TEST_F(ItemConnectUtilsTest, OnPropertyChanged)
   const auto expected_item = item;
 
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
 
@@ -196,9 +208,37 @@ TEST_F(ItemConnectUtilsTest, OnItemInserted)
 
   const TagIndex expected_tagindex{"tag1", 0};
   EXPECT_CALL(widget, OnItemInserted(compound, expected_tagindex)).Times(1);
+  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // perform action
   model.InsertItem<CompoundItem>(compound, expected_tagindex);
+}
+
+//! Removing item.
+
+TEST_F(ItemConnectUtilsTest, OnItemRemoved)
+{
+  const TagIndex expected_tagindex{"tag1", 0};
+
+  ApplicationModel model;
+  auto compound = model.InsertItem<CompoundItem>();
+  compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
+
+  MockWidget widget(compound);
+
+  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
+    EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
+  }
+  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+
+  // perform action
+  model.RemoveItem(child);
 }

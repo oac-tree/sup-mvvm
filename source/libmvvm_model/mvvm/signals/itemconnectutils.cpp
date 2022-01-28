@@ -43,13 +43,13 @@ mvvm::ModelEventSubscriberInterface *GetSubscriber(const mvvm::SessionItem *item
 namespace mvvm::connect
 {
 
-Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t& func, Slot *slot)
+Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
 {
   auto subscriber = GetSubscriber(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](SessionItem *item, const TagIndex& tag_index)
+  auto filtered_callback = [func, source](SessionItem *item, const TagIndex &tag_index)
   {
     if (item == source)
     {
@@ -58,7 +58,41 @@ Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t&
   };
 
   return subscriber->SetOnItemInserted(filtered_callback, slot);
+}
 
+Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagindex_t &func,
+                               Slot *slot)
+{
+  auto subscriber = GetSubscriber(source);
+
+  // Create a callback with filtering capabilities to call user callback only when the event had
+  // happened with our source. User callback `func` is passed by copy.
+  auto filtered_callback = [func, source](SessionItem *item, const TagIndex &tag_index)
+  {
+    if (item == source)
+    {
+      func(item, tag_index);  // calling user provided callback
+    }
+  };
+
+  return subscriber->SetOnAboutToRemoveItem(filtered_callback, slot);
+}
+
+Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
+{
+  auto subscriber = GetSubscriber(source);
+
+  // Create a callback with filtering capabilities to call user callback only when the event had
+  // happened with our source. User callback `func` is passed by copy.
+  auto filtered_callback = [func, source](SessionItem *item, const TagIndex &tag_index)
+  {
+    if (item == source)
+    {
+      func(item, tag_index);  // calling user provided callback
+    }
+  };
+
+  return subscriber->SetOnItemRemoved(filtered_callback, slot);
 }
 
 Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
