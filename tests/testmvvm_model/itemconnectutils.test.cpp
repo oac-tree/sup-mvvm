@@ -42,8 +42,12 @@ public:
 
     void SetItem(mvvm::SessionItem* item)
     {
-      auto on_data_change = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
-      connect::OnDataChange(item, on_data_change, m_slot.get());
+      auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
+      connect::OnDataChanged(item, on_data_changed, m_slot.get());
+
+      auto on_property_changed = [this](SessionItem* item, const std::string& name)
+      { OnPropertyChanged(item, name); };
+      connect::OnPropertyChanged(item, on_property_changed, m_slot.get());
     }
 
     //      MOCK_METHOD2(onItemInserted, void(SessionItem* item, TagIndex tagindex));
@@ -51,7 +55,7 @@ public:
     //      MOCK_METHOD2(onItemRemoved, void(SessionItem* item, TagIndex tagindex));
 
     MOCK_METHOD2(OnDataChanged, void(SessionItem* item, int role));
-    //      MOCK_METHOD2(onPropertyChanged, void(SessionItem* item, std::string name));
+    MOCK_METHOD2(OnPropertyChanged, void(SessionItem* item, std::string name));
 
     std::unique_ptr<Slot> m_slot;
   };
@@ -64,20 +68,20 @@ TEST_F(ItemConnectUtilsTest, OnDataChangeWrongModel)
   auto on_data_change = [this](SessionItem* item, int role) {};
 
   SessionItem item1;
-  EXPECT_THROW(connect::OnDataChange(&item1, on_data_change), std::runtime_error);
+  EXPECT_THROW(connect::OnDataChanged(&item1, on_data_change), std::runtime_error);
 
   SessionModel model;
   auto item2 = model.InsertItem<SessionItem>();
-  EXPECT_THROW(connect::OnDataChange(item2, on_data_change), std::runtime_error);
+  EXPECT_THROW(connect::OnDataChanged(item2, on_data_change), std::runtime_error);
 
   ApplicationModel application_model;
   auto item3 = application_model.InsertItem<SessionItem>();
-  EXPECT_NO_THROW(connect::OnDataChange(item3, on_data_change));
+  EXPECT_NO_THROW(connect::OnDataChanged(item3, on_data_change));
 }
 
 //! Single call OnDataChanged expected when data was changed.
 
-TEST_F(ItemConnectUtilsTest, OnDataChange)
+TEST_F(ItemConnectUtilsTest, OnDataChanged)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -88,6 +92,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChange)
   const auto expected_item = item;
 
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -95,7 +100,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChange)
 
 //! Expect no calls OnDataChanged after disconnection.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangeAfterDisconnection)
+TEST_F(ItemConnectUtilsTest, OnDataChangedAfterDisconnection)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -117,7 +122,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChangeAfterDisconnection)
 
 //! Expect no calls OnDataChanged when data is the same.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangeSameData)
+TEST_F(ItemConnectUtilsTest, OnDataChangedSameData)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -138,7 +143,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChangeSameData)
 
 //! Expect no calls OnDataChanged when other item is changed.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangeDifferentItem)
+TEST_F(ItemConnectUtilsTest, OnDataChangedDifferentItem)
 {
   ApplicationModel model;
   auto item1 = model.InsertItem<SessionItem>();
@@ -150,5 +155,25 @@ TEST_F(ItemConnectUtilsTest, OnDataChangeDifferentItem)
 
   // expect no notification
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  item2->SetData(45, DataRole::kData); // other item changed
+  item2->SetData(45, DataRole::kData);  // other item changed
+}
+
+//! Single call OnPropertyChanged expected when item's property was changed.
+
+TEST_F(ItemConnectUtilsTest, OnPropertyChanged)
+{
+  const std::string property_name("height");
+
+  ApplicationModel model;
+  auto item = model.InsertItem<CompoundItem>();
+  auto property = item->AddProperty(property_name, 42.0);
+
+  MockWidget widget(item);
+  const auto expected_item = item;
+
+  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
+
+  // trigger calls
+  item->SetProperty(property_name, 43.0);
 }

@@ -21,6 +21,7 @@
 
 #include "mvvm/interfaces/modeleventsubscriberinterface.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/itemutils.h"
 
 namespace
 {
@@ -42,13 +43,13 @@ mvvm::ModelEventSubscriberInterface *GetSubscriber(const mvvm::SessionItem *item
 namespace mvvm::connect
 {
 
-Connection OnDataChange(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
+Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
 {
   auto subscriber = GetSubscriber(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto on_data_change = [func, source](SessionItem *item, int role)
+  auto filtered_callback = [func, source](SessionItem *item, int role)
   {
     if (item == source)
     {
@@ -56,7 +57,25 @@ Connection OnDataChange(SessionItem *source, const Callbacks::item_int_t &func, 
     }
   };
 
-  return subscriber->SetOnDataChanged(on_data_change, slot);
+  return subscriber->SetOnDataChanged(filtered_callback, slot);
+}
+
+Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &func, Slot *slot)
+{
+  auto subscriber = GetSubscriber(source);
+
+  // Create a callback with filtering capabilities to call user callback only when the event had
+  // happened with our source. User callback `func` is passed by copy.
+  auto filtered_callback = [func, source](SessionItem *item, int /*role*/)
+  {
+    if (utils::GetNestlingDepth(source, item) == 1)
+    {
+      // calling user provided callback, when property of the source has changed
+      func(source, source->TagIndexOfItem(item).tag);
+    }
+  };
+
+  return subscriber->SetOnDataChanged(filtered_callback, slot);
 }
 
 }  // namespace mvvm::connect
