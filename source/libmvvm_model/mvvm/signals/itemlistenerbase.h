@@ -43,13 +43,17 @@ public:
 
   void SetItem(SessionItem* item);
 
-  void SetOnDataChange(Callbacks::item_int_t f);
-
 protected:
+  void SetOnItemInserted(const Callbacks::item_tagindex_t& func);
+  void SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& func);
+  void SetOnItemRemoved(const Callbacks::item_tagindex_t& func);
+  void SetOnDataChanged(const Callbacks::item_int_t& func);
+  void SetOnPropertyChanged(const Callbacks::item_str_t& func);
+
   SessionItem* GetCurrentItem() const;
 
-  virtual void subscribe() {}    //! For necessary manipulations on new item.
-  virtual void unsubscribe() {}  //! For necessary manipulations on unsubscription.
+  virtual void Subscribe() {}    //! For necessary manipulations on new item.
+  virtual void Unsubscribe() {}  //! For necessary manipulations on unsubscription.
 
 private:
   struct ItemListenerBaseImpl;

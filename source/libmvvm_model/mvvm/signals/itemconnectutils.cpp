@@ -27,16 +27,22 @@ namespace
 {
 mvvm::ModelEventSubscriberInterface *GetSubscriber(const mvvm::SessionItem *item)
 {
+  if (!item)
+  {
+    throw std::runtime_error("Error in ItemConnectUtils: uninitialised item");
+  }
+
   if (!item->GetModel())
   {
-    throw std::runtime_error("Item doesn't have a model");
+    throw std::runtime_error("Error in ItemConnectUtils: item doesn't have a model");
   }
 
   if (auto model = dynamic_cast<mvvm::ApplicationModel *>(item->GetModel()); model)
   {
     return model->GetSubscriber();
   }
-  throw std::runtime_error("Item's model doesn't have signaling capabilities");
+  throw std::runtime_error(
+      "Error in ItemConnectUtils: item's model doesn't have signaling capabilities");
 }
 }  // namespace
 

@@ -21,6 +21,7 @@
 
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/signals/itemconnectutils.h"
 
 namespace mvvm
 {
@@ -29,13 +30,29 @@ struct ItemListenerBase::ItemListenerBaseImpl
 {
   SessionItem *m_item{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
+  ItemListenerBase *m_self{nullptr};
 
-  ItemListenerBaseImpl() : m_slot(std::make_unique<Slot>()) {}
+  explicit ItemListenerBaseImpl(ItemListenerBase *self)
+      : m_self(self), m_slot(std::make_unique<Slot>())
+  {
+  }
 
-  void ProcessModelOnDataChange() {}
+  Slot *GetSlot() const { return m_slot.get(); }
+
+  void UnsubscribeFromCurrent()
+  {
+    if (!m_item)
+    {
+      return;
+    }
+
+    m_self->Unsubscribe();              // let derived classes to do some peculiar job
+    m_slot = std::make_unique<Slot>();  // drops all previous connections
+    m_item = nullptr;
+  }
 };
 
-ItemListenerBase::ItemListenerBase() : p_impl(std::make_unique<ItemListenerBaseImpl>()) {}
+ItemListenerBase::ItemListenerBase() : p_impl(std::make_unique<ItemListenerBaseImpl>(this)) {}
 
 ItemListenerBase::~ItemListenerBase()
 {
@@ -44,15 +61,45 @@ ItemListenerBase::~ItemListenerBase()
 
 void ItemListenerBase::SetItem(SessionItem *item)
 {
-  if (auto model = dynamic_cast<ApplicationModel *>(item->GetModel()); !model)
+  if (GetCurrentItem() == item)
   {
-    throw std::runtime_error(
-        "Error in ItemListenerBase(): item doesn't belong to model with notifications enabled");
+    return;
   }
-  p_impl->m_item = item;
+
+  p_impl->UnsubscribeFromCurrent();
+
+  if (!item)
+  {
+    return;
+  }
+
+  Subscribe();
 }
 
-void ItemListenerBase::SetOnDataChange(Callbacks::item_int_t f) {}
+void ItemListenerBase::SetOnItemInserted(const Callbacks::item_tagindex_t &func)
+{
+  connect::OnItemInserted(GetCurrentItem(), func, p_impl->GetSlot());
+}
+
+void ItemListenerBase::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &func)
+{
+  connect::OnAboutToRemoveItem(GetCurrentItem(), func, p_impl->GetSlot());
+}
+
+void ItemListenerBase::SetOnItemRemoved(const Callbacks::item_tagindex_t &func)
+{
+  connect::OnItemRemoved(GetCurrentItem(), func, p_impl->GetSlot());
+}
+
+void ItemListenerBase::SetOnDataChanged(const Callbacks::item_int_t &func)
+{
+  connect::OnDataChanged(GetCurrentItem(), func, p_impl->GetSlot());
+}
+
+void ItemListenerBase::SetOnPropertyChanged(const Callbacks::item_str_t &func)
+{
+  connect::OnPropertyChanged(GetCurrentItem(), func, p_impl->GetSlot());
+}
 
 SessionItem *ItemListenerBase::GetCurrentItem() const
 {
