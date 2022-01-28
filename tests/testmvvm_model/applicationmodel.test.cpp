@@ -36,9 +36,6 @@ using ::testing::_;
 class ApplicationModelTest : public ::testing::Test
 {
 public:
-  ApplicationModelTest() { m_model.Subscribe(&m_listener); }
-
-  MockModelListener m_listener;
   ApplicationModel m_model;
   TagIndex m_tag_index;
 };
@@ -49,21 +46,24 @@ TEST_F(ApplicationModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(item, DataRole::kData)).Times(1);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
+
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(item, DataRole::kData)).Times(1);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // changing the data and checking result
   EXPECT_TRUE(m_model.SetData(item, 42, DataRole::kData));
   EXPECT_EQ(item->Data<int>(), 42);
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Setting data through the item.
@@ -72,21 +72,24 @@ TEST_F(ApplicationModelTest, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(item, DataRole::kData)).Times(1);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
+
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(item, DataRole::kData)).Times(1);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // changing the data through the item (should still trigger notifications through the model)
   EXPECT_TRUE(item->SetData(42, DataRole::kData));
   EXPECT_EQ(item->Data<int>(), 42);
 
   // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Setting same data through the composer and checking the result.
@@ -97,22 +100,25 @@ TEST_F(ApplicationModelTest, SetSameData)
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
+
   // no notifications are expected
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(item, DataRole::kData)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(item, DataRole::kData)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // changing to the same value
   EXPECT_FALSE(m_model.SetData(item, 42, DataRole::kData));
   EXPECT_EQ(item->Data<int>(), 42);
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Inserting new item into the root item through the composer.
@@ -122,21 +128,24 @@ TEST_F(ApplicationModelTest, InsertNewItem)
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
+
+  EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // inserting item into the root
   auto item = m_model.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
   EXPECT_EQ(item, m_model.GetRootItem()->GetAllItems()[0]);
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Inserting new item through the composer into another parent.
@@ -146,23 +155,26 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
+
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemInserted(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // inserting item
   auto item = m_model.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
   EXPECT_EQ(item, parent->GetItem("tag"));
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Inserting item using templated insertion.
@@ -172,23 +184,25 @@ TEST_F(ApplicationModelTest, InsertItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemInserted(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // inserting item
   auto item = m_model.InsertItem<PropertyItem>(parent, {"tag", 0});
   EXPECT_EQ(item, parent->GetItem("tag"));
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Inserting item through the composer into another parent using move insertion.
@@ -198,16 +212,18 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemInserted(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // inserting item
   auto to_insert = std::make_unique<PropertyItem>();
@@ -216,8 +232,8 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   EXPECT_EQ(item, to_insert_ptr);
   EXPECT_EQ(item, parent->GetItem("tag"));
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Removing item.
@@ -228,16 +244,18 @@ TEST_F(ApplicationModelTest, TakeItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // removing item
   auto taken = m_model.TakeItem(parent, {"tag", 0});
@@ -245,7 +263,7 @@ TEST_F(ApplicationModelTest, TakeItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
 
   // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Removing item.
@@ -256,23 +274,25 @@ TEST_F(ApplicationModelTest, RemoveItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // removing item
   m_model.RemoveItem(child);
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
 
   // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Removing item.
@@ -285,17 +305,19 @@ TEST_F(ApplicationModelTest, MoveItem)
   auto parent2 = m_model.InsertItem<CompoundItem>();
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
 
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
-  EXPECT_CALL(m_listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
-  EXPECT_CALL(m_listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
+  EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // removing item
   m_model.MoveItem(child, parent2, expected_tag_index2);
@@ -303,7 +325,7 @@ TEST_F(ApplicationModelTest, MoveItem)
   EXPECT_EQ(parent2->GetTotalItemCount(), 1);
 
   // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Clearing the model.
@@ -314,34 +336,38 @@ TEST_F(ApplicationModelTest, Clear)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   m_model.InsertItem<PropertyItem>(parent);
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(&m_model)).Times(1);
-  EXPECT_CALL(m_listener, OnModelReset(&m_model)).Times(1);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  MockModelListener listener;
+  m_model.Subscribe(&listener);
+
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(&m_model)).Times(1);
+  EXPECT_CALL(listener, OnModelReset(&m_model)).Times(1);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // removing item
   m_model.Clear();
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
-  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&m_listener);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Clearing the model.
 
 TEST_F(ApplicationModelTest, Destroy)
 {
-  MockModelListener listener;
   auto model = std::make_unique<ApplicationModel>();
-  model->Subscribe(&listener);
 
   auto parent = model->InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   model->InsertItem<PropertyItem>(parent);
+
+  MockModelListener listener;
+  model->Subscribe(&listener);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
