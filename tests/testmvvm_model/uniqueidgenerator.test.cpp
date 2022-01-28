@@ -37,7 +37,6 @@ TEST_F(UniqueIDGeneratorTest, TwoIdentifiers)
   auto id1 = UniqueIdGenerator::Generate();
   auto id2 = UniqueIdGenerator::Generate();
   EXPECT_NE(id1, id2);
-  std::cout << id1 << " " << id2 << std::endl;
 }
 
 TEST_F(UniqueIDGeneratorTest, CheckAgainstPersistentID)

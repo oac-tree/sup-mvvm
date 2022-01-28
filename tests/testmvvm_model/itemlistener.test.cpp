@@ -251,14 +251,18 @@ TEST_F(ItemListenerTest, SetAnotherItem)
 
   TestController widget(compound);
 
+  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(1);
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
+
+  EXPECT_CALL(widget, Unsubscribe()).Times(1);
   widget.SetItem(child);  // switching to another item
 
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(0);
+  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+  EXPECT_CALL(widget, Unsubscribe()).Times(0);
 
   // perform action, complete silence is expected
   model.RemoveItem(child);
