@@ -23,6 +23,7 @@
 #include "mvvm/model/path.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/applicationmodel.h"
 
 #include <gtest/gtest.h>
 
@@ -137,6 +138,15 @@ TEST_F(ModelUtilsTest, ItemFromPath)
   EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0})), child20);
   EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 0})), child200);
   EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 1})), child201);
+}
+
+TEST_F(ModelUtilsTest, HasSignals)
+{
+  SessionModel model;
+  EXPECT_FALSE(utils::HasSignals(&model));
+
+  ApplicationModel application_model;
+  EXPECT_TRUE(utils::HasSignals(&application_model));
 }
 
 //! FIXME restore test

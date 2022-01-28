@@ -19,11 +19,12 @@
 
 #include "mvvm/model/modelutils.h"
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/path.h"
 
-namespace mvvm
+namespace mvvm::utils
 {
-Path utils::PathFromItem(const SessionItem* item)
+Path PathFromItem(const SessionItem* item)
 {
   if (!item || !item->GetModel())
   {
@@ -40,7 +41,7 @@ Path utils::PathFromItem(const SessionItem* item)
   return result;
 }
 
-SessionItem* utils::ItemFromPath(const SessionModel& model, const Path& path)
+SessionItem* ItemFromPath(const SessionModel& model, const Path& path)
 {
   SessionItem* result(model.GetRootItem());
   for (const auto& x : path)
@@ -54,6 +55,11 @@ SessionItem* utils::ItemFromPath(const SessionModel& model, const Path& path)
   return result;
 }
 
+bool HasSignals(const SessionModel* model)
+{
+  return dynamic_cast<const ApplicationModel*>(model);
+}
+
 // FIXME restore functionality
 
 // void Utils::PopulateEmptyModel(const JsonModelConverterInterface* converter,
@@ -61,15 +67,6 @@ SessionItem* utils::ItemFromPath(const SessionModel& model, const Path& path)
 //{
 //    QJsonObject object = converter->to_json(source);
 //    converter->from_json(object, target);
-//}
-
-// void Utils::DeleteItemFromModel(SessionItem* item)
-//{
-//    auto model = item->model();
-//    if (!model)
-//        return;
-
-//    model->removeItem(item->parent(), item->tagRow());
 //}
 
 // void Utils::MoveUp(SessionItem* item)
@@ -130,4 +127,4 @@ SessionItem* utils::ItemFromPath(const SessionModel& model, const Path& path)
 //        stack->endMacro();
 //}
 
-}  // namespace mvvm
+}  // namespace mvvm::utils

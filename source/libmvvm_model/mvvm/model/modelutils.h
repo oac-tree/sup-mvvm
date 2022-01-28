@@ -31,8 +31,9 @@
 namespace mvvm
 {
 class Path;
+}
 
-namespace utils
+namespace mvvm::utils
 {
 //! Returns all items in a tree of given type.
 
@@ -44,7 +45,9 @@ std::vector<T*> FindItems(const SessionModel* model)
   auto func = [&result](SessionItem* item)
   {
     if (auto concrete = dynamic_cast<T*>(item); concrete)
+    {
       result.push_back(concrete);
+    }
   };
 
   iterate(model->GetRootItem(), func);
@@ -57,6 +60,9 @@ MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
 
 //! Returns item found in the model following given Path.
 MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Path& path);
+
+//! Returns true if the given model has signaling capabilities.
+MVVM_MODEL_EXPORT bool HasSignals(const SessionModel* model);
 
 ////! Populate empty model with content of target model using provided converter.
 ////! Serves as auxiliary function for model copying and cloning.
@@ -82,9 +88,6 @@ MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Pa
 //  PopulateEmptyModel(converter.get(), model, *result.get());
 //  return result;
 //}
-
-////! Removes and deletes item from its model.
-// MVVM_MODEL_EXPORT void DeleteItemFromModel(SessionItem* item);
 
 ////! Moves item up (decrements row of the item). Works on children belonging to single tag.
 // MVVM_MODEL_EXPORT void MoveUp(SessionItem* item);
@@ -114,7 +117,6 @@ MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Pa
 /// nothing.
 // MVVM_MODEL_EXPORT void EndMacros(const SessionModel* model);
 
-}  // namespace Utils
-}  // namespace mvvm
+}  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_MODELUTILS_H
