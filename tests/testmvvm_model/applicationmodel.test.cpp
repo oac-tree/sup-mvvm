@@ -46,8 +46,7 @@ TEST_F(ApplicationModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -72,8 +71,7 @@ TEST_F(ApplicationModelTest, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -100,8 +98,7 @@ TEST_F(ApplicationModelTest, SetSameData)
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
 
   // no notifications are expected
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -128,8 +125,7 @@ TEST_F(ApplicationModelTest, InsertNewItem)
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"", 0};
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
   EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
@@ -155,8 +151,7 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
 
   TagIndex expected_tag_index{"tag", 0};
 
@@ -184,8 +179,7 @@ TEST_F(ApplicationModelTest, InsertItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
@@ -212,8 +206,7 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
@@ -244,8 +237,7 @@ TEST_F(ApplicationModelTest, TakeItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -274,8 +266,7 @@ TEST_F(ApplicationModelTest, RemoveItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -305,8 +296,7 @@ TEST_F(ApplicationModelTest, MoveItem)
   auto parent2 = m_model.InsertItem<CompoundItem>();
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
@@ -336,8 +326,7 @@ TEST_F(ApplicationModelTest, Clear)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   m_model.InsertItem<PropertyItem>(parent);
 
-  MockModelListener listener;
-  listener.SubscribeTo(m_model.GetSubscriber());
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -366,8 +355,7 @@ TEST_F(ApplicationModelTest, Destroy)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   model->InsertItem<PropertyItem>(parent);
 
-  MockModelListener listener;
-  listener.SubscribeTo(model->GetSubscriber());
+  MockModelListener listener(model.get());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);

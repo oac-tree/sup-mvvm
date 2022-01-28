@@ -34,10 +34,7 @@ using ::testing::_;
 class ModelEventNotifierTest : public ::testing::Test
 {
 public:
-  ModelEventNotifierTest()
-  {
-    m_listener.SubscribeTo(&m_notifier);
-  }
+  ModelEventNotifierTest() { m_listener.Subscribe(&m_notifier); }
 
   ModelEventNotifier m_notifier;
   MockModelListener m_listener;
@@ -199,10 +196,10 @@ TEST_F(ModelEventNotifierTest, OnModelAboutToBeDestroyed)
 
 // FIXME enable test
 
-//TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
+// TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
 //{
-//  ModelEventNotifier notifier;
-//  MockModelListener listener;
+//   ModelEventNotifier notifier;
+//   MockModelListener listener;
 
 //  listener.SubscribeTo(&notifier);
 
@@ -219,10 +216,10 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   ModelEventNotifier notifier;
   MockModelListener listener;
 
-  listener.SubscribeTo(&notifier);
+  listener.Subscribe(&notifier);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
-//  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  //  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(listener, OnDataChanged(&item, role)).Times(0);
@@ -231,7 +228,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  listener.UnsubscribeFrom();
+  listener.Unsubscribe();
 
   notifier.AboutToInsertItemNotify(&item, tag_index);
   notifier.ItemInsertedNotify(&item, tag_index);
@@ -254,8 +251,8 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   MockModelListener listener1;
   MockModelListener listener2;
 
-  listener1.SubscribeTo(&notifier);
-  listener2.SubscribeTo(&notifier);
+  listener1.Subscribe(&notifier);
+  listener2.Subscribe(&notifier);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
@@ -297,10 +294,10 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   MockModelListener listener1;
   MockModelListener listener2;
 
-  listener1.SubscribeTo(&notifier);
-  listener2.SubscribeTo(&notifier);
+  listener1.Subscribe(&notifier);
+  listener2.Subscribe(&notifier);
 
-  listener1.UnsubscribeFrom();
+  listener1.Unsubscribe();
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -348,7 +345,7 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
 
-  listener2.UnsubscribeFrom();
+  listener2.Unsubscribe();
 
   notifier.AboutToInsertItemNotify(&item, tag_index);
   notifier.ItemInsertedNotify(&item, tag_index);

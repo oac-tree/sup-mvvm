@@ -20,8 +20,17 @@
 #include "mockmodellistener.h"
 
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/model/applicationmodel.h"
 
-void MockModelListener::SubscribeTo(mvvm::ModelEventSubscriberInterface *notifier)
+MockModelListener::MockModelListener(mvvm::ApplicationModel *model)
+{
+  if (model)
+  {
+    Subscribe(model->GetSubscriber());
+  }
+}
+
+void MockModelListener::Subscribe(mvvm::ModelEventSubscriberInterface *notifier)
 {
   m_slot = std::make_unique<mvvm::Slot>();
 
@@ -52,7 +61,7 @@ void MockModelListener::SubscribeTo(mvvm::ModelEventSubscriberInterface *notifie
   notifier->SeOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
 }
 
-void MockModelListener::UnsubscribeFrom()
+void MockModelListener::Unsubscribe()
 {
   m_slot.reset();
 }

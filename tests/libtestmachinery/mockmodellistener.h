@@ -31,7 +31,7 @@ namespace mvvm
 {
 class SessionItem;
 class TagIndex;
-class SessionModel;
+class ApplicationModel;
 }  // namespace mvvm
 
 //! Mocking class to test ModelEventListenerInterface reactions on notifications issued by
@@ -40,8 +40,10 @@ class SessionModel;
 class MockModelListener
 {
 public:
-  void SubscribeTo(mvvm::ModelEventSubscriberInterface* notifier);
-  void UnsubscribeFrom();
+  MockModelListener(mvvm::ApplicationModel* model = nullptr);
+
+  void Subscribe(mvvm::ModelEventSubscriberInterface* notifier);
+  void Unsubscribe();
 
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
