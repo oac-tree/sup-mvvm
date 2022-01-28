@@ -3,8 +3,6 @@ target_sources(${library_name} PRIVATE
   itemlistener.h
   itemlistenerbase.cpp
   itemlistenerbase.h
-  itemmapper.cpp
-  itemmapper.h
   itemconnectutils.cpp
   itemconnectutils.h
   lsignal.h
