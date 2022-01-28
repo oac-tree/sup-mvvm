@@ -20,6 +20,7 @@
 #include "mvvm/signals/itemlistenerbase.h"
 
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/modelutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/signals/itemconnectutils.h"
 
@@ -72,6 +73,13 @@ void ItemListenerBase::SetItem(SessionItem *item)
   {
     return;
   }
+
+  if (!utils::HasSignals(item->GetModel()))
+  {
+    throw std::runtime_error("Error in ItemListenerBase: model doesn't have signals");
+  }
+
+  p_impl->m_item = item;
 
   Subscribe();
 }
