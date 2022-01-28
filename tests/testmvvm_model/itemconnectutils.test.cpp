@@ -42,6 +42,10 @@ public:
 
     void SetItem(mvvm::SessionItem* item)
     {
+      auto on_item_inserted = [this](SessionItem* item, const TagIndex& tag_index)
+      { OnItemInserted(item, tag_index); };
+      connect::OnItemInserted(item, on_item_inserted, m_slot.get());
+
       auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
       connect::OnDataChanged(item, on_data_changed, m_slot.get());
 
@@ -50,9 +54,9 @@ public:
       connect::OnPropertyChanged(item, on_property_changed, m_slot.get());
     }
 
-    //      MOCK_METHOD2(onItemInserted, void(SessionItem* item, TagIndex tagindex));
-    //      MOCK_METHOD2(onAboutToRemoveItem, void(SessionItem* item, TagIndex tagindex));
-    //      MOCK_METHOD2(onItemRemoved, void(SessionItem* item, TagIndex tagindex));
+    MOCK_METHOD2(OnItemInserted, void(SessionItem* item, TagIndex tagindex));
+    //      MOCK_METHOD2(OnAboutToRemoveItem, void(SessionItem* item, TagIndex tagindex));
+    //      MOCK_METHOD2(OnItemRemoved, void(SessionItem* item, TagIndex tagindex));
 
     MOCK_METHOD2(OnDataChanged, void(SessionItem* item, int role));
     MOCK_METHOD2(OnPropertyChanged, void(SessionItem* item, std::string name));
@@ -91,6 +95,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChanged)
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
+  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
@@ -171,9 +176,29 @@ TEST_F(ItemConnectUtilsTest, OnPropertyChanged)
   MockWidget widget(item);
   const auto expected_item = item;
 
+  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
 
   // trigger calls
   item->SetProperty(property_name, 43.0);
+}
+
+//! Inserting item to item.
+
+TEST_F(ItemConnectUtilsTest, OnItemInserted)
+{
+  ApplicationModel model;
+  auto compound = model.InsertItem<CompoundItem>();
+  compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  MockWidget widget(compound);
+
+  const TagIndex expected_tagindex{"tag1", 0};
+  EXPECT_CALL(widget, OnItemInserted(compound, expected_tagindex)).Times(1);
+  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+
+  // perform action
+  model.InsertItem<CompoundItem>(compound, expected_tagindex);
 }

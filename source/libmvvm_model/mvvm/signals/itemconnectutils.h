@@ -20,6 +20,9 @@
 #ifndef MVVM_SIGNALS_ITEMCONNECTUTILS_H
 #define MVVM_SIGNALS_ITEMCONNECTUTILS_H
 
+//! @file itemconnectutils.h
+//! Utility functions to connect user callbacks with events happening with given item.
+
 #include "mvvm/model_export.h"
 #include "mvvm/signals/callback_types.h"
 #include "mvvm/signals/signalslot.h"
@@ -31,6 +34,12 @@ class SessionItem;
 
 namespace mvvm::connect
 {
+
+//! Sets callback to be notified on item insert. The callback will be called with
+//! (SessionItem* parent, tag_index), where 'tag_index' denotes child position after insert.
+MVVM_MODEL_EXPORT Connection OnItemInserted(SessionItem* source,
+                                            const Callbacks::item_tagindex_t& func,
+                                            Slot* slot = nullptr);
 
 //! Sets callback to be notified on item's data change. The callback will be called
 //! with (SessionItem*, data_role).
