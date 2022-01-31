@@ -26,26 +26,34 @@ bool operator==(const datarole_t &lhs, const datarole_t &rhs)
   return lhs.first == rhs.first && lhs.second == rhs.second;
 }
 
-bool mvvm::utils::IsValid(const variant_t &value)
+namespace mvvm::utils
+{
+
+bool IsValid(const variant_t &value)
 {
   return value.index() != 0;  // index==0 corresponds to `monostate`
 }
 
-bool mvvm::utils::AreCompatible(const variant_t &var1, const variant_t &var2)
+bool AreCompatible(const variant_t &var1, const variant_t &var2)
 {
   // If one of them is invalid, they are considered to be compatible.
   if (!IsValid(var1) || !IsValid(var2))
+  {
     return true;
+  }
 
   // However, properly initialized variants of different types are considered to be incompatible.
   return var1.index() == var2.index();
 }
 
-std::string mvvm::utils::TypeName(const variant_t &variant)
+std::string TypeName(const variant_t &variant)
 {
   static std::map<int, std::string> type_name_map = {
-      {0, constants::kUndefinedTypeName}, {1, constants::kBoolTypeName},
-      {2, constants::kIntTypeName},       {3, constants::kDoubleTypeName},
-      {4, constants::kStringTypeName},    {5, constants::kVectorDoubleTypeName}};
+      {0, constants::kUndefinedTypeName},    {1, constants::kBoolTypeName},
+      {2, constants::kIntTypeName},          {3, constants::kDoubleTypeName},
+      {4, constants::kStringTypeName},       {5, constants::kVectorDoubleTypeName},
+      {6, constants::kComboPropertyTypeName}};
   return type_name_map[static_cast<int>(variant.index())];
 }
+
+}  // namespace mvvm::utils

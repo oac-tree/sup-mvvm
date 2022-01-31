@@ -40,6 +40,7 @@ TEST_F(VariantTest, IsValid)
   EXPECT_TRUE(IsValid(variant_t(42.1)));
   EXPECT_TRUE(IsValid(variant_t(std::string("abc"))));
   EXPECT_TRUE(IsValid(variant_t(std::vector<double>({1.0, 1.1, 1.2}))));
+  EXPECT_TRUE(IsValid(variant_t(ComboProperty::CreateFrom({"a1"}))));
 }
 
 //! Special case of const char
@@ -66,13 +67,44 @@ TEST_F(VariantTest, VectorOfDouble)
   EXPECT_EQ(std::get<std::vector<double>>(variant1), std::vector<double>({1.0, 2.0}));
 }
 
+TEST_F(VariantTest, ComboPropertyVariantEquality)
+{
+  ComboProperty c1 = ComboProperty() << "a1"
+                                     << "a2";
+  ComboProperty c2 = ComboProperty() << "a1"
+                                     << "a2";
+
+  EXPECT_TRUE(variant_t(c1) == variant_t(c2));
+
+  // make c2 different
+  c2 << "a3";
+  c2.SetValue("a2");
+  EXPECT_TRUE(variant_t(c1) != variant_t(c2));
+  EXPECT_FALSE(variant_t(c1) == variant_t(c2));
+
+  // make c1 the same
+  c1 << "a3";
+  c1.SetValue("a2");
+  EXPECT_TRUE(variant_t(c1) == variant_t(c2));
+  EXPECT_FALSE(variant_t(c1) != variant_t(c2));
+
+  // change what is selected to make them different again
+  c1.SetStringOfSelections("0");
+  c2.SetStringOfSelections("1");
+  EXPECT_TRUE(variant_t(c1) != variant_t(c2));
+  EXPECT_FALSE(variant_t(c1) == variant_t(c2));
+}
+
 //! Testing Utils::AreCompatible function.
 
 TEST_F(VariantTest, AreCompatible)
 {
-  std::vector<variant_t> variants = {variant_t(true), variant_t(42), variant_t(42.1),
+  std::vector<variant_t> variants = {variant_t(true),
+                                     variant_t(42),
+                                     variant_t(42.1),
                                      variant_t(std::string("abc")),
-                                     variant_t(std::vector<double>({1.1, 2.2, 3.3}))};
+                                     variant_t(std::vector<double>({1.1, 2.2, 3.3})),
+                                     variant_t(ComboProperty::CreateFrom({"a1"}))};
   for (size_t i = 0; i < variants.size(); ++i)
   {
     EXPECT_TRUE(utils::AreCompatible(variant_t(), variants[i]));
@@ -100,6 +132,8 @@ TEST_F(VariantTest, TypeName)
   EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringTypeName);
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
             constants::kVectorDoubleTypeName);
+  EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
+            constants::kComboPropertyTypeName);
 }
 
 TEST_F(VariantTest, DataRoleComparison)
