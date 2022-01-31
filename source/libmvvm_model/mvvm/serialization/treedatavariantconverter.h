@@ -30,6 +30,7 @@
 //! - <Variant role = "0" type = "string">James</Variant>
 //! - <Variant role = "0" type = "double">42.3</Variant>
 //! - <Variant role = "0" type = "vector_double_t">1.0, 2.0</Variant>
+//! - <Variant role = "0" type = "ComboProperty" selections="1,2">a1;a2</Variant>
 
 #include "mvvm/core/variant.h"
 #include "mvvm/model_export.h"

@@ -31,9 +31,10 @@
 
 namespace
 {
-const std::string kTaggedItemsElementType = "Variant";
+const std::string kVariantElementType = "Variant";
 const std::string kRoleAttributeKey = "role";
 const std::string kTypeAttributeKey = "type";
+const std::string kSelectionsAttributeKey = "selections";
 
 //! Aggregates call backs for convertion between datarole_t and TreeData.
 struct Converters
@@ -101,7 +102,7 @@ namespace mvvm
 bool IsDataRoleConvertible(const TreeData& tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetType() == kTaggedItemsElementType
+  return tree_data.GetType() == kVariantElementType
          && expected_names == tree_data.Attributes().GetAttributeNames()
          && tree_data.GetNumberOfChildren() == 0;
 }
@@ -176,7 +177,7 @@ std::string GetTypeName(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_undefined(const datarole_t& datarole)
 {
-  mvvm::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kUndefinedTypeName);
   return result;
@@ -189,7 +190,7 @@ datarole_t to_undefined(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_bool(const datarole_t& datarole)
 {
-  mvvm::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kBoolTypeName);
   bool value = std::get<bool>(datarole.first);
@@ -205,7 +206,7 @@ datarole_t to_bool(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_int(const datarole_t& datarole)
 {
-  mvvm::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntTypeName);
   auto value = std::get<int>(datarole.first);
@@ -221,7 +222,7 @@ datarole_t to_int(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_string(const datarole_t& datarole)
 {
-  mvvm::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kStringTypeName);
   auto value = std::get<std::string>(datarole.first);
@@ -236,7 +237,7 @@ datarole_t to_string(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_double(const datarole_t& datarole)
 {
-  mvvm::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kDoubleTypeName);
   auto value = std::get<double>(datarole.first);
@@ -256,7 +257,7 @@ datarole_t to_double(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_vector_double(const datarole_t& datarole)
 {
-  mvvm::TreeData result(kTaggedItemsElementType);
+  mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kVectorDoubleTypeName);
   auto values = std::get<std::vector<double>>(datarole.first);

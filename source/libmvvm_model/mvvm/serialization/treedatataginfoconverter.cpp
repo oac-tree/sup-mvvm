@@ -32,7 +32,7 @@
 
 namespace
 {
-const std::string kTaggedItemsElementType = "TagInfo";
+const std::string kTagInfoElementType = "TagInfo";
 const std::string kMinAttributeKey = "min";
 const std::string kMaxAttributeKey = "max";
 const std::string kNameAttributeKey = "name";
@@ -58,7 +58,7 @@ namespace mvvm
 bool IsTagInfoConvertible(const TreeData &tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetType() == kTaggedItemsElementType
+  return tree_data.GetType() == kTagInfoElementType
          && expected_names == tree_data.Attributes().GetAttributeNames()
          && tree_data.GetNumberOfChildren() == 0;
 }
@@ -79,7 +79,7 @@ TagInfo ToTagInfo(const TreeData &tree_data)
 
 TreeData ToTreeData(const TagInfo &tag_info)
 {
-  TreeData result(kTaggedItemsElementType);
+  TreeData result(kTagInfoElementType);
   result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
   result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   result.AddAttribute(kNameAttributeKey, tag_info.GetName());
