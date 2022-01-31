@@ -25,6 +25,8 @@
 
 #include "mvvm/viewmodel_export.h"
 
+#include "mvvm/model/comboproperty.h"
+
 #include <QVariant>
 #include <string>
 
@@ -39,7 +41,8 @@ const std::string kStringQtTypeName = "QString";
 const std::string kStdStringQtTypeName = "std::string";
 const std::string kDoubleQtTypeName = "double";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
-}  // namespace Constants
+const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
+}  // namespace constants
 
 namespace utils
 {
@@ -64,11 +67,12 @@ MVVM_VIEWMODEL_EXPORT bool IsStdStringVariant(const QVariant& variant);
 //! Returns true in the case of variant based on std::vector<double>.
 MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
 
-}  // namespace Utils
+}  // namespace utils
 
 }  // namespace mvvm
 
 Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)
+Q_DECLARE_METATYPE(mvvm::ComboProperty)
 
 #endif  // MVVM_VIEWMODEL_CUSTOMVARIANTS_H

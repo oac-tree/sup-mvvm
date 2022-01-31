@@ -23,13 +23,15 @@
 //! @file variant.h
 //! Defines all supported elementary data types.
 
+#include "mvvm/model/comboproperty.h"
 #include "mvvm/model_export.h"
 
 #include <string>
 #include <variant>
 #include <vector>
 
-using variant_t = std::variant<std::monostate, bool, int, double, std::string, std::vector<double>>;
+using variant_t = std::variant<std::monostate, bool, int, double, std::string, std::vector<double>,
+                               mvvm::ComboProperty>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
@@ -43,7 +45,8 @@ const std::string kIntTypeName = "int";
 const std::string kStringTypeName = "string";
 const std::string kDoubleTypeName = "double";
 const std::string kVectorDoubleTypeName = "vector_double_t";
-}  // namespace mvvm::Constants
+const std::string kComboPropertyTypeName = "ComboProperty";
+}  // namespace mvvm::constants
 
 namespace mvvm::utils
 {
@@ -57,6 +60,6 @@ MVVM_MODEL_EXPORT bool AreCompatible(const variant_t& var1, const variant_t& var
 //! Returns string representing type name.
 MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
 
-}  // namespace mvvm::Utils
+}  // namespace mvvm::utils
 
 #endif  // MVVM_CORE_VARIANT_H

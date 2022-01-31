@@ -30,7 +30,9 @@ int GetQtVariantType(const QVariant& variant)
 {
   auto result = static_cast<int>(variant.type());
   if (result == QVariant::UserType)
+  {
     result = variant.userType();
+  }
   return result;
 }
 
@@ -59,4 +61,4 @@ bool IsDoubleVectorVariant(const QVariant& variant)
   return variant.typeName() == constants::kStdVectorDoubleQtTypeName;
 }
 
-}  // namespace mvvm::Utils
+}  // namespace mvvm::utils

@@ -10,7 +10,6 @@
 #ifndef MVVM_MODEL_COMBOPROPERTY_H
 #define MVVM_MODEL_COMBOPROPERTY_H
 
-#include "mvvm/core/variant.h"
 #include "mvvm/model_export.h"
 
 #include <string>
