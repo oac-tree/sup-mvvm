@@ -9,6 +9,7 @@
 
 #include "mvvm/plotting/data1dplotcontroller.h"
 
+#include "mvvm/signals/itemconnectutils.h"
 #include "mvvm/standarditems/data1ditem.h"
 
 #include <qcustomplot.h>
@@ -33,57 +34,61 @@ using namespace mvvm;
 struct Data1DPlotController::Data1DPlotControllerImpl
 {
   QCPGraph* m_graph{nullptr};
-  QCPErrorBars* m_errorBars{nullptr};
+  QCPErrorBars* m_error_bars{nullptr};
 
-  Data1DPlotControllerImpl(QCPGraph* graph) : m_graph(graph)
+  explicit Data1DPlotControllerImpl(QCPGraph* graph) : m_graph(graph)
   {
     if (!m_graph)
+    {
       throw std::runtime_error("Uninitialised graph in Data1DPlotController");
+    }
   }
 
-  void initGraphFromItem(Data1DItem* item)
+  void InitGraphFromItem(Data1DItem* item)
   {
     assert(item);
-    updateGraphPointsFromItem(item);
-    updateErrorBarsFromItem(item);
+    UpdateGraphPointsFromItem(item);
+    UpdateErrorBarsFromItem(item);
   }
 
-  void updateGraphPointsFromItem(Data1DItem* item)
+  void UpdateGraphPointsFromItem(Data1DItem* item)
   {
     m_graph->setData(fromStdVector<double>(item->GetBinCenters()),
                      fromStdVector<double>(item->GetValues()));
-    customPlot()->replot();
+    GetCustomPlot()->replot();
   }
 
-  void updateErrorBarsFromItem(Data1DItem* item)
+  void UpdateErrorBarsFromItem(Data1DItem* item)
   {
     auto errors = item->GetErrors();
     if (errors.empty())
     {
-      resetErrorBars();
+      ResetErrorBars();
       return;
     }
 
-    if (!m_errorBars)
-      m_errorBars = new QCPErrorBars(customPlot()->xAxis, customPlot()->yAxis);
+    if (!m_error_bars)
+    {
+      m_error_bars = new QCPErrorBars(GetCustomPlot()->xAxis, GetCustomPlot()->yAxis);
+    }
 
-    m_errorBars->setData(fromStdVector<double>(errors));
-    m_errorBars->setDataPlottable(m_graph);
+    m_error_bars->setData(fromStdVector<double>(errors));
+    m_error_bars->setDataPlottable(m_graph);
   }
 
-  void resetGraph()
+  void ResetGraph()
   {
     m_graph->setData(QVector<double>{}, QVector<double>{});
-    customPlot()->replot();
+    GetCustomPlot()->replot();
   }
 
-  void resetErrorBars()
+  void ResetErrorBars()
   {
-    delete m_errorBars;
-    m_errorBars = nullptr;
+    delete m_error_bars;
+    m_error_bars = nullptr;
   }
 
-  QCustomPlot* customPlot()
+  QCustomPlot* GetCustomPlot()
   {
     assert(m_graph);
     return m_graph->parentPlot();
@@ -102,16 +107,16 @@ void Data1DPlotController::Subscribe()
   auto on_property_change = [this](SessionItem*, std::string property_name)
   {
     if (property_name == Data1DItem::kValues)
-      p_impl->updateGraphPointsFromItem(GetItem());
+      p_impl->UpdateGraphPointsFromItem(GetItem());
     if (property_name == Data1DItem::kErrors)
-      p_impl->updateErrorBarsFromItem(GetItem());
+      p_impl->UpdateErrorBarsFromItem(GetItem());
   };
-  //    setOnPropertyChange(on_property_change);
+  SetOnPropertyChanged(on_property_change);
 
-  p_impl->initGraphFromItem(GetItem());
+  p_impl->InitGraphFromItem(GetItem());
 }
 
 void Data1DPlotController::Unsubscribe()
 {
-  p_impl->resetGraph();
+  p_impl->ResetGraph();
 }
