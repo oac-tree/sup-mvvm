@@ -60,23 +60,23 @@ namespace mvvm
 
 ComboProperty::ComboProperty() = default;
 
-ComboProperty::ComboProperty(std::vector<std::string> values) : m_values(std::move(values)) {}
+ComboProperty::ComboProperty(std::vector<std::string> values, const std::string& current_value)
+    : m_values(std::move(values))
+{
+  if (!current_value.empty())
+  {
+    SetValue(current_value);
+  }
+  else
+  {
+    SetCurrentIndex(0);
+  }
+}
 
 ComboProperty ComboProperty::CreateFrom(const std::vector<std::string>& values,
                                         const std::string& current_value)
 {
-  ComboProperty result(values);
-
-  if (!current_value.empty())
-  {
-    result.SetValue(current_value);
-  }
-  else
-  {
-    result.SetCurrentIndex(0);
-  }
-
-  return result;
+  return ComboProperty(values, current_value);
 }
 
 std::string ComboProperty::GetValue() const

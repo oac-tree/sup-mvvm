@@ -24,6 +24,7 @@ class MVVM_MODEL_EXPORT ComboProperty
 {
 public:
   ComboProperty();
+  explicit ComboProperty(std::vector<std::string> values, const std::string& current_value = {});
 
   static ComboProperty CreateFrom(const std::vector<std::string>& values,
                                   const std::string& current_value = {});
@@ -61,8 +62,6 @@ public:
   std::string GetLabel() const;
 
 private:
-  explicit ComboProperty(std::vector<std::string> values);
-
   std::vector<std::string> m_values;
   std::vector<std::string> m_tooltips;
   std::vector<int> m_selected_indices;
