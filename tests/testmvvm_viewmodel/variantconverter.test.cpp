@@ -43,6 +43,9 @@ TEST_F(VariantConverterTest, GetStdVariant)
   const std::vector<double> vec{1.0, 2.0};
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(vec)), variant_t(vec));
 
+  const ComboProperty combo = ComboProperty::CreateFrom({"a1"});
+  EXPECT_EQ(GetStdVariant(QVariant::fromValue(combo)), variant_t(combo));
+
   // other Qt variants are unsupported
   EXPECT_THROW(GetStdVariant(QVariant(QColor(Qt::red))), std::runtime_error);
 }
@@ -78,11 +81,20 @@ TEST_F(VariantConverterTest, GetQtVariant)
   variant_t mvvm_str_variant(str);
   QVariant qt_str_variant(QString::fromStdString(str));
   EXPECT_EQ(qt_str_variant, GetQtVariant(mvvm_str_variant));
+
+  // from std::vector<double>
+  const ComboProperty combo = ComboProperty::CreateFrom({"a1", "a2"});
+  auto mvvm_combo_variant = variant_t(combo);
+  // getting qt variant via conversion
+  auto qt_combo_variant = GetQtVariant(mvvm_combo_variant);
+  // getting vectors from variants and checking them
+  auto combo_from_qt = qt_combo_variant.value<ComboProperty>();
+  auto combo_from_mvvm = std::get<ComboProperty>(mvvm_combo_variant);
+  EXPECT_EQ(combo_from_qt, combo);
+  EXPECT_EQ(combo_from_mvvm, combo);
 }
 
-//! Special test for vector<double> in Qt variants
-//! There is some unclear behavior in Qt when two variants constructed in the same way
-//! are not equal to each other.
+//! Special test for vector<double> in Qt variants.
 
 TEST_F(VariantConverterTest, QVariantForDoubleVector)
 {
@@ -90,9 +102,30 @@ TEST_F(VariantConverterTest, QVariantForDoubleVector)
   QVariant variant1 = QVariant::fromValue(vec);
   QVariant variant2 = QVariant::fromValue(vec);
 
-  // direct variant comparison is failing for some reason
-  //  EXPECT_EQ(variant1, variant2);
+  // Direct variant comparison requires comparator registration.
+  // We are not comparing those in normal application.
+  QMetaType::registerComparators<std::vector<double>>();
+  EXPECT_EQ(variant1, variant2);
 
   // however vectors in them are Ok
   EXPECT_EQ(variant1.value<std::vector<double>>(), variant2.value<std::vector<double>>());
+}
+
+//! Special test for ComboProperty in Qt variants
+//! There is some unclear behavior in Qt when two variants constructed in the same way
+//! are not equal to each other.
+
+TEST_F(VariantConverterTest, QVariantForComboProperty)
+{
+  const ComboProperty combo = ComboProperty::CreateFrom({"a1", "a2"});
+  QVariant variant1 = QVariant::fromValue(combo);
+  QVariant variant2 = QVariant::fromValue(combo);
+
+  // Direct variant comparison requires comparator registration.
+  // We are not comparing those in normal application.
+  QMetaType::registerComparators<ComboProperty>();
+  EXPECT_EQ(variant1, variant2);
+
+  // however vectors in them are Ok
+  EXPECT_EQ(variant1.value<ComboProperty>(), variant2.value<ComboProperty>());
 }

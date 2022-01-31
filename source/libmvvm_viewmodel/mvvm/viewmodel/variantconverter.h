@@ -25,6 +25,7 @@
 
 #include "mvvm/core/variant.h"
 #include "mvvm/viewmodel_export.h"
+#include "mvvm/viewmodel/customvariants.h"
 
 #include <QVariant>
 

@@ -43,7 +43,10 @@ std::map<std::string, converter_func_t> CreateConverterMap()
       {mvvm::constants::kStringQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toString().toStdString()); }},
       {mvvm::constants::kStdVectorDoubleQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }}};
+       [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }},
+      {mvvm::constants::kComboPropertyQtTypeName,
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ComboProperty>()); }}
+  };
 
   return result;
 }
@@ -75,7 +78,9 @@ variant_t GetStdVariant(const QVariant& variant)
   static auto converter_map = CreateConverterMap();
   auto it = converter_map.find(utils::GetQtVariantName(variant));
   if (it == converter_map.end())
+  {
     throw std::runtime_error("Unsupported Qt variant");
+  }
   return it->second(variant);
 }
 
