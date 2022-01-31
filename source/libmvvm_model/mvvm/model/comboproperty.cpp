@@ -29,7 +29,9 @@ std::string toString(const C& container, const T& delim)
   {
     result << *it;
     if (std::distance(it, container.end()) != 1)
+    {
       result << delim;
+    }
   }
   return result.str();
 }
@@ -53,7 +55,8 @@ std::vector<std::string> tokenize(const std::string& str, const std::string& del
 }
 }  // namespace
 
-using namespace mvvm;
+namespace mvvm
+{
 
 ComboProperty::ComboProperty() = default;
 
@@ -65,9 +68,13 @@ ComboProperty ComboProperty::createFrom(const std::vector<std::string>& values,
   ComboProperty result(values);
 
   if (!current_value.empty())
+  {
     result.setValue(current_value);
+  }
   else
+  {
     result.setCurrentIndex(0);
+  }
 
   return result;
 }
@@ -80,10 +87,12 @@ std::string ComboProperty::value() const
 void ComboProperty::setValue(const std::string& name)
 {
   if (!utils::Contains(m_values, name))
+  {
     throw std::runtime_error(
         "ComboProperty::setValue() -> Error. Combo doesn't contain "
         "value "
         + name);
+  }
   setCurrentIndex(utils::IndexOfItem(m_values, name));
 }
 
@@ -97,7 +106,9 @@ std::vector<std::string> ComboProperty::values() const
 void ComboProperty::setValues(const std::vector<std::string>& values)
 {
   if (values.empty())
+  {
     return;
+  }
 
   auto current = value();
   m_values = values;
@@ -123,9 +134,11 @@ int ComboProperty::currentIndex() const
 void ComboProperty::setCurrentIndex(int index)
 {
   if (index < 0 || index >= static_cast<int>(m_values.size()))
+  {
     throw std::runtime_error(
         "ComboProperty::setCurrentIndex(int index) -> Error. "
         "Invalid index");
+  }
   m_selected_indices.clear();
   m_selected_indices.push_back(index);
 }
@@ -134,7 +147,9 @@ ComboProperty& ComboProperty::operator<<(const std::string& str)
 {
   m_values.push_back(str);
   if (currentIndex() == -1)
+  {
     setCurrentIndex(0);
+  }
   return *this;
 }
 
@@ -142,16 +157,22 @@ ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
 {
   m_values.insert(m_values.end(), str.begin(), str.end());
   if (currentIndex() == -1)
+  {
     setCurrentIndex(0);
+  }
   return *this;
 }
 
 bool ComboProperty::operator==(const ComboProperty& other) const
 {
   if (m_selected_indices != other.m_selected_indices)
+  {
     return false;
+  }
   if (m_values != other.m_values)
+  {
     return false;
+  }
   return true;
 }
 
@@ -194,7 +215,9 @@ std::vector<std::string> ComboProperty::selectedValues() const
 {
   std::vector<std::string> result;
   for (auto index : m_selected_indices)
+  {
     result.push_back(m_values.at(static_cast<size_t>(index)));
+  }
   return result;
 }
 
@@ -204,7 +227,9 @@ std::vector<std::string> ComboProperty::selectedValues() const
 void ComboProperty::setSelected(int index, bool value)
 {
   if (index < 0 || index >= static_cast<int>(m_values.size()))
+  {
     return;
+  }
 
   auto pos = find(m_selected_indices.begin(), m_selected_indices.end(), index);
   if (value)
@@ -231,7 +256,9 @@ std::string ComboProperty::stringOfSelections() const
 {
   std::vector<std::string> text;
   for (auto index : m_selected_indices)
+  {
     text.push_back(std::to_string(index));
+  }
   return toString(text, selection_separator);
 }
 
@@ -241,7 +268,9 @@ void ComboProperty::setStringOfSelections(const std::string& values)
 {
   m_selected_indices.clear();
   if (values.empty())
+  {
     return;
+  }
 
   for (const auto& str : tokenize(values, selection_separator))
   {
@@ -267,3 +296,5 @@ std::string ComboProperty::label() const
     return none_label;
   }
 }
+
+}  // namespace mvvm
