@@ -42,7 +42,9 @@ TEST_F(CustomVariantTest, IsVariantType)
       {QVariant::fromValue(1), utils::IsIntVariant},
       {QVariant::fromValue(42.0), utils::IsDoubleVariant},
       {QVariant::fromValue(std::string("string1")), utils::IsStdStringVariant},
-      {QVariant::fromValue(std::vector<double>({1, 2})), utils::IsDoubleVectorVariant}};
+      {QVariant::fromValue(std::vector<double>({1, 2})), utils::IsDoubleVectorVariant},
+      {QVariant::fromValue(ComboProperty::CreateFrom({"a1", "a2"})),
+       utils::IsComboPropertyVariant}};
 
   for (size_t i = 0; i < data.size(); ++i)
   {
@@ -51,9 +53,13 @@ TEST_F(CustomVariantTest, IsVariantType)
     {
       auto variant = data[j].first;
       if (i == j)
+      {
         EXPECT_TRUE(is_variant_func(variant));
+      }
       else
+      {
         EXPECT_FALSE(is_variant_func(variant));
+      }
     }
   }
 }

@@ -67,6 +67,9 @@ MVVM_VIEWMODEL_EXPORT bool IsStdStringVariant(const QVariant& variant);
 //! Returns true in the case of variant based on std::vector<double>.
 MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
 
+//! Returns true in the case of variant based on ComboProperty.
+MVVM_VIEWMODEL_EXPORT bool IsComboPropertyVariant(const QVariant& variant);
+
 }  // namespace utils
 
 }  // namespace mvvm
