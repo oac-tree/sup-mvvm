@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
   abstractsessionmodeldecorator.h
   applicationmodel.cpp
   applicationmodel.h
+  comboproperty.cpp
+  comboproperty.h
   compounditem.cpp
   compounditem.h
   function_types.h
