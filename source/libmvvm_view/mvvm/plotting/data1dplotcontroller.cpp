@@ -107,9 +107,13 @@ void Data1DPlotController::Subscribe()
   auto on_property_change = [this](SessionItem*, std::string property_name)
   {
     if (property_name == Data1DItem::kValues)
+    {
       p_impl->UpdateGraphPointsFromItem(GetItem());
+    }
     if (property_name == Data1DItem::kErrors)
+    {
       p_impl->UpdateErrorBarsFromItem(GetItem());
+    }
   };
   SetOnPropertyChanged(on_property_change);
 

@@ -36,7 +36,9 @@ T* GetPlottable(QCustomPlot* custom_plot)
   for (int i = 0; i < custom_plot->plottableCount(); ++i)
   {
     if (auto plottable = dynamic_cast<T*>(custom_plot->plottable()); plottable)
+    {
       return plottable;
+    }
   }
   return nullptr;
 }
