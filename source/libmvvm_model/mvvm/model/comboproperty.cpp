@@ -22,7 +22,7 @@ const std::string multiple_label = "Multiple";
 const std::string none_label = "None";
 
 template <typename C, typename T>
-std::string toString(const C& container, const T& delim)
+std::string ToString(const C& container, const T& delim)
 {
   std::stringstream result;
   for (auto it = container.begin(); it != container.end(); ++it)
@@ -36,7 +36,7 @@ std::string toString(const C& container, const T& delim)
   return result.str();
 }
 
-std::vector<std::string> tokenize(const std::string& str, const std::string& delimeter)
+std::vector<std::string> Tokenize(const std::string& str, const std::string& delimeter)
 {
   std::vector<std::string> result;
   size_t start = str.find_first_not_of(delimeter);
@@ -62,29 +62,30 @@ ComboProperty::ComboProperty() = default;
 
 ComboProperty::ComboProperty(std::vector<std::string> values) : m_values(std::move(values)) {}
 
-ComboProperty ComboProperty::createFrom(const std::vector<std::string>& values,
+ComboProperty ComboProperty::CreateFrom(const std::vector<std::string>& values,
                                         const std::string& current_value)
 {
   ComboProperty result(values);
 
   if (!current_value.empty())
   {
-    result.setValue(current_value);
+    result.SetValue(current_value);
   }
   else
   {
-    result.setCurrentIndex(0);
+    result.SetCurrentIndex(0);
   }
 
   return result;
 }
 
-std::string ComboProperty::value() const
+std::string ComboProperty::GetValue() const
 {
-  return currentIndex() < 0 ? std::string() : m_values.at(static_cast<size_t>(currentIndex()));
+  return GetCurrentIndex() < 0 ? std::string()
+                               : m_values.at(static_cast<size_t>(GetCurrentIndex()));
 }
 
-void ComboProperty::setValue(const std::string& name)
+void ComboProperty::SetValue(const std::string& name)
 {
   if (!utils::Contains(m_values, name))
   {
@@ -93,45 +94,45 @@ void ComboProperty::setValue(const std::string& name)
         "value "
         + name);
   }
-  setCurrentIndex(utils::IndexOfItem(m_values, name));
+  SetCurrentIndex(utils::IndexOfItem(m_values, name));
 }
 
-std::vector<std::string> ComboProperty::values() const
+std::vector<std::string> ComboProperty::GetValues() const
 {
   return m_values;
 }
 
 //! Sets new list of values. Current value will be preserved, if exists in a new list.
 
-void ComboProperty::setValues(const std::vector<std::string>& values)
+void ComboProperty::SetValues(const std::vector<std::string>& values)
 {
   if (values.empty())
   {
     return;
   }
 
-  auto current = value();
+  auto current = GetValue();
   m_values = values;
-  setCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
+  SetCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
 }
 
 //! returns list of tool tips for all values
-std::vector<std::string> ComboProperty::toolTips() const
+std::vector<std::string> ComboProperty::GetToolTips() const
 {
   return m_tooltips;
 }
 
-void ComboProperty::setToolTips(const std::vector<std::string>& tooltips)
+void ComboProperty::SetToolTips(const std::vector<std::string>& tooltips)
 {
   m_tooltips = tooltips;
 }
 
-int ComboProperty::currentIndex() const
+int ComboProperty::GetCurrentIndex() const
 {
   return m_selected_indices.empty() ? -1 : m_selected_indices.at(0);
 }
 
-void ComboProperty::setCurrentIndex(int index)
+void ComboProperty::SetCurrentIndex(int index)
 {
   if (index < 0 || index >= static_cast<int>(m_values.size()))
   {
@@ -146,9 +147,9 @@ void ComboProperty::setCurrentIndex(int index)
 ComboProperty& ComboProperty::operator<<(const std::string& str)
 {
   m_values.push_back(str);
-  if (currentIndex() == -1)
+  if (GetCurrentIndex() == -1)
   {
-    setCurrentIndex(0);
+    SetCurrentIndex(0);
   }
   return *this;
 }
@@ -156,9 +157,9 @@ ComboProperty& ComboProperty::operator<<(const std::string& str)
 ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
 {
   m_values.insert(m_values.end(), str.begin(), str.end());
-  if (currentIndex() == -1)
+  if (GetCurrentIndex() == -1)
   {
-    setCurrentIndex(0);
+    SetCurrentIndex(0);
   }
   return *this;
 }
@@ -188,30 +189,30 @@ bool ComboProperty::operator<(const ComboProperty& other) const
 
 //! Returns a single string containing values delimited with ';'.
 
-std::string ComboProperty::stringOfValues() const
+std::string ComboProperty::GetStringOfValues() const
 {
-  return toString(m_values, value_separator);
+  return ToString(m_values, value_separator);
 }
 
 //! Sets values from the string containing delimeter ';'.
 
-void ComboProperty::setStringOfValues(const std::string& values)
+void ComboProperty::SetStringOfValues(const std::string& values)
 {
-  auto current = value();
-  m_values = tokenize(values, value_separator);
-  setCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
+  auto current = GetValue();
+  m_values = Tokenize(values, value_separator);
+  SetCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
 }
 
 //! Returns vector of selected indices.
 
-std::vector<int> ComboProperty::selectedIndices() const
+std::vector<int> ComboProperty::GetSelectedIndices() const
 {
   return m_selected_indices;
 }
 
 //! Returns list of string with selected values;
 
-std::vector<std::string> ComboProperty::selectedValues() const
+std::vector<std::string> ComboProperty::SetSelectedValues() const
 {
   std::vector<std::string> result;
   for (auto index : m_selected_indices)
@@ -224,7 +225,7 @@ std::vector<std::string> ComboProperty::selectedValues() const
 //! Sets given index selection flag.
 //! If false, index will be excluded from selection.
 
-void ComboProperty::setSelected(int index, bool value)
+void ComboProperty::SetSelected(int index, bool value)
 {
   if (index < 0 || index >= static_cast<int>(m_values.size()))
   {
@@ -235,36 +236,40 @@ void ComboProperty::setSelected(int index, bool value)
   if (value)
   {
     if (pos == m_selected_indices.end())
+    {
       m_selected_indices.push_back(index);
+    }
   }
   else
   {
     if (pos != m_selected_indices.end())
+    {
       m_selected_indices.erase(pos);
+    }
   }
   std::sort(m_selected_indices.begin(), m_selected_indices.end());
 }
 
-void ComboProperty::setSelected(const std::string& name, bool value)
+void ComboProperty::SetSelected(const std::string& name, bool value)
 {
-  setSelected(utils::IndexOfItem(m_values, name), value);
+  SetSelected(utils::IndexOfItem(m_values, name), value);
 }
 
 //! Return string with coma separated list of selected indices.
 
-std::string ComboProperty::stringOfSelections() const
+std::string ComboProperty::GetStringOfSelections() const
 {
   std::vector<std::string> text;
   for (auto index : m_selected_indices)
   {
     text.push_back(std::to_string(index));
   }
-  return toString(text, selection_separator);
+  return ToString(text, selection_separator);
 }
 
 //! Sets selected indices from string.
 
-void ComboProperty::setStringOfSelections(const std::string& values)
+void ComboProperty::SetStringOfSelections(const std::string& values)
 {
   m_selected_indices.clear();
   if (values.empty())
@@ -272,16 +277,16 @@ void ComboProperty::setStringOfSelections(const std::string& values)
     return;
   }
 
-  for (const auto& str : tokenize(values, selection_separator))
+  for (const auto& str : Tokenize(values, selection_separator))
   {
     int num = std::stoi(str);
-    setSelected(num, true);
+    SetSelected(num, true);
   }
 }
 
 //! Returns the label to show.
 
-std::string ComboProperty::label() const
+std::string ComboProperty::GetLabel() const
 {
   if (m_selected_indices.size() > 1)
   {
@@ -289,7 +294,7 @@ std::string ComboProperty::label() const
   }
   else if (m_selected_indices.size() == 1)
   {
-    return value();
+    return GetValue();
   }
   else
   {
