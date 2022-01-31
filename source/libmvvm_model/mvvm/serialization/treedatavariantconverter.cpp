@@ -20,6 +20,7 @@
 #include "mvvm/serialization/treedatavariantconverter.h"
 
 #include "mvvm/serialization/TreeData.h"
+#include "mvvm/utils/containerutils.h"
 #include "mvvm/utils/stringutils.h"
 
 #include <functional>
@@ -43,8 +44,8 @@ struct Converters
   std::function<datarole_t(const mvvm::TreeData& treedata)> treedata_to_datarole;
 };
 
-//! Returns vector of attributes which TreeData object should have.
-std::vector<std::string> GetExpectedAttributeKeys();
+////! Returns vector of attributes which TreeData object should have.
+// std::vector<std::string> GetExpectedAttributeKeys();
 
 //! Returns role attribute.
 int GetRole(const mvvm::TreeData& tree_data);
@@ -88,6 +89,12 @@ mvvm::TreeData from_vector_double(const datarole_t& datarole);
 //! Converts TreeData to datarole_t holding vector<double> data.
 datarole_t to_vector_double(const mvvm::TreeData& tree_data);
 
+//! Converts datarole_t holding vector<doubl>e to the TreeData object.
+mvvm::TreeData from_combo_property(const datarole_t& datarole);
+
+//! Converts TreeData to datarole_t holding vector<double> data.
+datarole_t to_combo_property(const mvvm::TreeData& tree_data);
+
 //! Returns map of all defined converters.
 std::map<std::string, Converters> GetConverters();
 
@@ -101,9 +108,10 @@ namespace mvvm
 {
 bool IsDataRoleConvertible(const TreeData& tree_data)
 {
-  static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetType() == kVariantElementType
-         && expected_names == tree_data.Attributes().GetAttributeNames()
+  auto attribute_names = tree_data.Attributes().GetAttributeNames();
+  const bool correct_attributes = utils::Contains(attribute_names, kRoleAttributeKey)
+                                  && utils::Contains(attribute_names, kTypeAttributeKey);
+  return tree_data.GetType() == kVariantElementType && correct_attributes
          && tree_data.GetNumberOfChildren() == 0;
 }
 
@@ -150,12 +158,12 @@ TreeData ToTreeData(const datarole_t& data_role)
 
 namespace
 {
-std::vector<std::string> GetExpectedAttributeKeys()
-{
-  std::vector<std::string> result = {kRoleAttributeKey, kTypeAttributeKey};
-  std::sort(result.begin(), result.end());
-  return result;
-}
+// std::vector<std::string> GetExpectedAttributeKeys()
+//{
+//   std::vector<std::string> result = {kRoleAttributeKey, kTypeAttributeKey};
+//   std::sort(result.begin(), result.end());
+//   return result;
+// }
 
 int GetRole(const mvvm::TreeData& tree_data)
 {
@@ -271,6 +279,29 @@ datarole_t to_vector_double(const mvvm::TreeData& tree_data)
   return datarole_t{variant_t(values), GetRole(tree_data)};
 }
 
+mvvm::TreeData from_combo_property(const datarole_t& datarole)
+{
+  mvvm::TreeData result(kVariantElementType);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
+  auto combo = std::get<mvvm::ComboProperty>(datarole.first);
+  result.AddAttribute(kSelectionsAttributeKey, combo.GetStringOfSelections());
+  result.SetContent(combo.GetStringOfValues());
+  return result;
+}
+
+datarole_t to_combo_property(const mvvm::TreeData& tree_data)
+{
+  mvvm::ComboProperty combo;
+  combo.SetStringOfValues(tree_data.GetContent());
+  auto selections = tree_data.GetAttribute(kSelectionsAttributeKey);
+  if (!selections.empty())
+  {
+    combo.SetStringOfSelections(selections);
+  }
+  return datarole_t{combo, GetRole(tree_data)};
+}
+
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
@@ -279,7 +310,9 @@ std::map<std::string, Converters> GetConverters()
       {mvvm::constants::kIntTypeName, {from_int, to_int}},
       {mvvm::constants::kStringTypeName, {from_string, to_string}},
       {mvvm::constants::kDoubleTypeName, {from_double, to_double}},
-      {mvvm::constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}}};
+      {mvvm::constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}},
+      {mvvm::constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
+  };
 
   return result;
 }

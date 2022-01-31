@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <stdexcept>
 
 using namespace mvvm;
@@ -33,6 +34,17 @@ using namespace mvvm;
 
 class TreeDataVariantConverterTest : public ::testing::Test
 {
+public:
+  void PrintTreeData(const TreeData& tree_data)
+  {
+    std::cout << "Type:" << tree_data.GetType() << " "
+              << "Name:" << tree_data.GetName() << " "
+              << "Children:" << tree_data.GetNumberOfChildren() << std::endl;
+    for (auto it : tree_data.Attributes())
+    {
+      std::cout << it.first << " " << it.second << "\n";
+    }
+  }
 };
 
 //! Parsing XML data string representing datarole_t with undefined data.
@@ -165,7 +177,7 @@ TEST_F(TreeDataVariantConverterTest, StringDataRole)
   EXPECT_EQ(data_role, datarole_t(variant_t(std::string(" James   Bond ")), 7));
 }
 
-//! Parsing XML data string representing datarole_t with integer data.
+//! Parsing XML data string representing datarole_t with vector.
 
 TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
 {
@@ -194,5 +206,59 @@ TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
 
   // Converting back
   new_tree_data = ToTreeData(data_role);
+  EXPECT_EQ(new_tree_data, *tree_data);
+}
+
+//! Parsing XML data string representing datarole_t with ComboProperty.
+
+TEST_F(TreeDataVariantConverterTest, ComboPropertyRole)
+{
+  using mvvm::ParseXMLElementString;
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{R"(<Variant role="42" type="ComboProperty">a1</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  ComboProperty expected_combo = ComboProperty::CreateFrom({"a1"});
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_combo), 42));
+
+  // Converting back. New tree_dsata will have selections field defined (this is default behavior
+  // of ComboProperty).
+  const std::string body2{R"(<Variant role="42" type="ComboProperty" selections="0">a1</Variant>)"};
+  auto expected_new_tree_data = ParseXMLElementString(body2);
+
+  EXPECT_EQ(ToTreeData(data_role), *expected_new_tree_data);
+}
+
+//! Parsing XML data string representing datarole_t with ComboProperty.
+
+TEST_F(TreeDataVariantConverterTest, ComboPropertyRoleWithSelections)
+{
+  using mvvm::ParseXMLElementString;
+
+  ComboProperty expected_combo =
+      ComboProperty::CreateFrom(std::vector<std::string>({"a1", "a2", "a3"}));
+  expected_combo.SetSelected("a1", false);
+  expected_combo.SetSelected("a2", true);
+  expected_combo.SetSelected("a3", true);
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{
+      R"(<Variant role="42" type="ComboProperty" selections="1,2">a1;a2;a3</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_combo), 42));
+
+  // Converting back.
+  auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 }

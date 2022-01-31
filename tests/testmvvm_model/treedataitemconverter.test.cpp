@@ -135,8 +135,11 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
   item.SetData(42, DataRole::kData);
   item.SetData("width", DataRole::kDisplay);
   item.SetData("Width in nm", DataRole::kTooltip);
-  const int custom_role = 99;
-  item.SetData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
+  const int custom_role1 = 99;
+  item.SetData(std::vector<double>({1.0, 2.0, 3.0}), custom_role1);
+  const int custom_role2 = 100;
+//  item.SetData(), custom_role1);
+
 
   const auto file_path = GetFilePath("PropertyItemWithDataToFileAndBack.xml");
   WriteToXMLFile(file_path, item);
@@ -150,7 +153,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
   EXPECT_EQ(reco->Data(DataRole::kData), variant_t(42));
   EXPECT_EQ(reco->Data(DataRole::kDisplay), variant_t(std::string("width")));
   EXPECT_EQ(reco->Data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
-  EXPECT_EQ(reco->Data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
+  EXPECT_EQ(reco->Data(custom_role1), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
 }
 
 //! Parent and child to TreeData object and back.
