@@ -679,7 +679,11 @@ QCPPainter *QCPPaintBufferPixmap::startPainting()
 {
   QCPPainter *result = new QCPPainter(&mBuffer);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  result->setRenderHint(QPainter::HighQualityAntialiasing);
+  #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    result->setRenderHint(QPainter::Antialiasing);
+  #else
+    result->setRenderHint(QPainter::HighQualityAntialiasing);
+  #endif
 #endif
   return result;
 }
@@ -15470,7 +15474,11 @@ void QCustomPlot::paintEvent(QPaintEvent *event)
   if (painter.isActive())
   {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-  painter.setRenderHint(QPainter::HighQualityAntialiasing); // to make Antialiasing look good if using the OpenGL graphicssystem
+  #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    painter.setRenderHint(QPainter::Antialiasing); // to make Antialiasing look good if using the OpenGL graphicssystem
+  #else
+    painter.setRenderHint(QPainter::HighQualityAntialiasing); // to make Antialiasing look good if using the OpenGL graphicssystem
+  #endif
 #endif
     if (mBackgroundBrush.style() != Qt::NoBrush)
       painter.fillRect(mViewport, mBackgroundBrush);
