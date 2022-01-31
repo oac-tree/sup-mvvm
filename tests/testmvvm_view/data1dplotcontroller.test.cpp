@@ -38,8 +38,8 @@ TEST_F(Data1DPlotControllerTest, initialState)
     EXPECT_EQ(controller.GetItem(), nullptr);
 
     // no points have been added to graph
-    EXPECT_EQ(std::vector<double>(), TestUtils::binCenters(graph));
-    EXPECT_EQ(std::vector<double>(), TestUtils::binValues(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetValues(graph));
 }
 
 //! Testing controller when Data1DItem is not initialized properly.
@@ -58,9 +58,9 @@ TEST_F(Data1DPlotControllerTest, dataItemInInitialState)
     Data1DPlotController controller(graph);
     controller.SetItem(data_item);
 
-    EXPECT_EQ(std::vector<double>(), TestUtils::binCenters(graph));
-    EXPECT_EQ(std::vector<double>(), TestUtils::binValues(graph));
-    EXPECT_EQ(std::vector<double>(), TestUtils::binErrors(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetValues(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetErrors(graph));
 }
 
 //! Testing controller when Data1DItem get it's axis after controller setup.
@@ -81,9 +81,9 @@ TEST_F(Data1DPlotControllerTest, axisAfter)
 
     // setting correct axis
     data_item->SetAxis<FixedBinAxisItem>(1, 1.0, 2.0);
-    EXPECT_EQ(data_item->GetBinCenters(), TestUtils::binCenters(graph));
-    EXPECT_EQ(data_item->GetValues(), TestUtils::binValues(graph));
-    EXPECT_EQ(std::vector<double>(), TestUtils::binErrors(graph));
+    EXPECT_EQ(data_item->GetBinCenters(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(data_item->GetValues(), TestUtils::GetValues(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetErrors(graph));
 }
 
 //! Testing graph points update.
@@ -104,15 +104,15 @@ TEST_F(Data1DPlotControllerTest, dataPoints)
     controller.SetItem(data_item);
 
     // checking that QCPGraph now has data points as in Data1DItem
-    EXPECT_EQ(data_item->GetBinCenters(), TestUtils::binCenters(graph));
-    EXPECT_EQ(data_item->GetValues(), TestUtils::binValues(graph));
-    EXPECT_EQ(data_item->GetErrors(), TestUtils::binErrors(graph));
+    EXPECT_EQ(data_item->GetBinCenters(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(data_item->GetValues(), TestUtils::GetValues(graph));
+    EXPECT_EQ(data_item->GetErrors(), TestUtils::GetErrors(graph));
 
     // Setting item to nullptr. Current convention is that graph stays intact, but points disappear.
     controller.SetItem(nullptr);
-    EXPECT_EQ(std::vector<double>(), TestUtils::binCenters(graph));
-    EXPECT_EQ(std::vector<double>(), TestUtils::binValues(graph));
-    EXPECT_EQ(std::vector<double>(), TestUtils::binErrors(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetValues(graph));
+    EXPECT_EQ(std::vector<double>(), TestUtils::GetErrors(graph));
 }
 
 //! Testing graph errors update.
@@ -134,12 +134,12 @@ TEST_F(Data1DPlotControllerTest, errorBars)
 
     std::vector<double> expected_errors = {0.1, 0.2};
     data_item->SetErrors(expected_errors);
-    EXPECT_EQ(TestUtils::binErrors(graph), expected_errors);
+    EXPECT_EQ(TestUtils::GetErrors(graph), expected_errors);
 
     // setting new errors
     expected_errors = {0.3, 0.4};
     data_item->SetErrors(expected_errors);
-    EXPECT_EQ(TestUtils::binErrors(graph), expected_errors);
+    EXPECT_EQ(TestUtils::GetErrors(graph), expected_errors);
 }
 
 //! Testing two graph scenario.
@@ -162,11 +162,11 @@ TEST_F(Data1DPlotControllerTest, twoDataItems)
     controller.SetItem(data_item1);
 
     // checking that QCPGraph now has data points as in first data item
-    EXPECT_EQ(data_item1->GetBinCenters(), TestUtils::binCenters(graph));
-    EXPECT_EQ(data_item1->GetValues(), TestUtils::binValues(graph));
+    EXPECT_EQ(data_item1->GetBinCenters(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(data_item1->GetValues(), TestUtils::GetValues(graph));
 
     // pointing controller to the second item
     controller.SetItem(data_item2);
-    EXPECT_EQ(data_item2->GetBinCenters(), TestUtils::binCenters(graph));
-    EXPECT_EQ(data_item2->GetValues(), TestUtils::binValues(graph));
+    EXPECT_EQ(data_item2->GetBinCenters(), TestUtils::GetBinCenters(graph));
+    EXPECT_EQ(data_item2->GetValues(), TestUtils::GetValues(graph));
 }

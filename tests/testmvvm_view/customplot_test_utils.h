@@ -20,26 +20,14 @@
 namespace TestUtils
 {
 
-//! Returns vector representing bin centers/values on QCPGraph.
-
-template <typename G, typename T>
-std::vector<double> get_values(const G* graph, T operand)
-{
-  std::vector<double> result;
-  auto graph_data = *graph->data();
-  std::transform(std::begin(graph_data), std::end(graph_data), std::back_inserter(result),
-                 [operand](const auto& point) { return operand(point); });
-  return result;
-}
-
 //! Returns vector representing bin centers on QCPgraph.
-std::vector<double> binCenters(const QCPGraph* graph);
+std::vector<double> GetBinCenters(const QCPGraph* graph);
 
 //! Returns vector representing y-values on QCPgraph.
-std::vector<double> binValues(const QCPGraph* graph);
+std::vector<double> GetValues(const QCPGraph* graph);
 
 //! Returns vector representing bin errors of QCPGraph.
-std::vector<double> binErrors(const QCPGraph* graph);
+std::vector<double> GetErrors(const QCPGraph* graph);
 
 //! Finds and returns specific plottable in QCustomPlot canvas.
 template <typename T>

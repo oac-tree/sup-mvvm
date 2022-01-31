@@ -11,17 +11,29 @@
 
 #include <qcustomplot.h>
 
-std::vector<double> TestUtils::binCenters(const QCPGraph* graph)
+//! Returns vector representing bin centers/values on QCPGraph.
+
+template <typename G, typename T>
+std::vector<double> GetOperandValues(const G* graph, T operand)
 {
-  return get_values(graph, [](auto x) { return x.key; });
+  std::vector<double> result;
+  auto graph_data = *graph->data();
+  std::transform(std::begin(graph_data), std::end(graph_data), std::back_inserter(result),
+                 [operand](const auto& point) { return operand(point); });
+  return result;
 }
 
-std::vector<double> TestUtils::binValues(const QCPGraph* graph)
+std::vector<double> TestUtils::GetBinCenters(const QCPGraph* graph)
 {
-  return get_values(graph, [](auto x) { return x.value; });
+  return GetOperandValues(graph, [](auto x) { return x.key; });
 }
 
-std::vector<double> TestUtils::binErrors(const QCPGraph* graph)
+std::vector<double> TestUtils::GetValues(const QCPGraph* graph)
+{
+  return GetOperandValues(graph, [](auto x) { return x.value; });
+}
+
+std::vector<double> TestUtils::GetErrors(const QCPGraph* graph)
 {
   std::vector<double> result;
   if (auto errorBars = GetPlottable<QCPErrorBars>(graph->parentPlot()); errorBars)
