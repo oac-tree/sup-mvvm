@@ -28,6 +28,8 @@ class MVVM_MODEL_EXPORT Data1DItem : public CompoundItem
 {
 public:
   static inline const std::string Type = "Data1D";
+  static inline const std::string kValues = "kValues";
+  static inline const std::string kErrors = "kErrors";
 
   Data1DItem();
 

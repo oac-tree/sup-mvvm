@@ -25,8 +25,6 @@ size_t total_bin_count(mvvm::Data1DItem* item)
 namespace mvvm
 {
 
-static inline const std::string kValues = "kValues";
-static inline const std::string kErrors = "kErrors";
 static inline const std::string kAxis = "kAxis";
 
 Data1DItem::Data1DItem() : CompoundItem(Type)
