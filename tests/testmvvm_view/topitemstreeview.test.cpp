@@ -20,7 +20,7 @@
 #include "mvvm/widgets/topitemstreeview.h"
 
 #include "mvvm/standarditems/standarditemincludes.h"
-#include "mvvm/viewmodel/applicationmodel.h"
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
 #include <gtest/gtest.h>
@@ -29,7 +29,7 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing TopItemsTreeView.
 

@@ -8,3 +8,5 @@ find_package(Threads)
 add_subdirectory(libtestmachinery)
 add_subdirectory(testmvvm_model)
 add_subdirectory(testmvvm_viewmodel)
+add_subdirectory(testmvvm_view)
+

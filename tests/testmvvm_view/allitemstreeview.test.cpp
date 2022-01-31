@@ -20,7 +20,7 @@
 #include "mvvm/widgets/allitemstreeview.h"
 
 #include "mvvm/standarditems/standarditemincludes.h"
-#include "mvvm/viewmodel/applicationmodel.h"
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/allitemstreeview.h"
 
@@ -30,7 +30,7 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing AllItemsTreeView.
 

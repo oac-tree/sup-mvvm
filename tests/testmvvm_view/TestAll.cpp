@@ -25,7 +25,7 @@
 #include <QApplication>
 #include <QMetaType>
 
-using namespace ModelView;
+using namespace mvvm;
 
 int main(int argc, char** argv)
 {

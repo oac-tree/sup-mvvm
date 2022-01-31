@@ -26,7 +26,7 @@
 #include <QDebug>
 #include <QDir>
 
-using namespace ModelView;
+using namespace mvvm;
 
 //! Testing functions from utils.
 
@@ -39,41 +39,41 @@ class WidgetUtilsTest : public ::testing::Test
 TEST_F(WidgetUtilsTest, ProjectWindowTitle)
 {
   // untitled and unmodified project
-  EXPECT_EQ(Utils::ProjectWindowTitle(QString(""), false), "Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(QString(""), false), "Untitled");
 
   // untitled and modified project
-  EXPECT_EQ(Utils::ProjectWindowTitle(QString(""), true), "*Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(QString(""), true), "*Untitled");
 
   // unmodified project without projectDir
-  EXPECT_EQ(Utils::ProjectWindowTitle(QString("Untitled"), false), "Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(QString("Untitled"), false), "Untitled");
 
   // modified project without projectDir
-  EXPECT_EQ(Utils::ProjectWindowTitle(QString("Untitled"), true), "*Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(QString("Untitled"), true), "*Untitled");
 
   // unmodified project with projectDir
-  EXPECT_EQ(Utils::ProjectWindowTitle(QString("/home/user/project1"), false), "project1");
+  EXPECT_EQ(utils::ProjectWindowTitle(QString("/home/user/project1"), false), "project1");
 
   // modified project with projectDir
-  EXPECT_EQ(Utils::ProjectWindowTitle(QString("/home/user/project1"), true), "*project1");
+  EXPECT_EQ(utils::ProjectWindowTitle(QString("/home/user/project1"), true), "*project1");
 }
 
 TEST_F(WidgetUtilsTest, ClickableText)
 {
-  EXPECT_EQ(Utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));
+  EXPECT_EQ(utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));
 }
 
 TEST_F(WidgetUtilsTest, GetStringList)
 {
   using vec_t = std::vector<std::string>;
-  EXPECT_EQ(Utils::GetStringList(vec_t()), QStringList());
-  EXPECT_EQ(Utils::GetStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
+  EXPECT_EQ(utils::GetStringList(vec_t()), QStringList());
+  EXPECT_EQ(utils::GetStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
 }
 
 TEST_F(WidgetUtilsTest, GetStdStringVector)
 {
   using vec_t = std::vector<std::string>;
-  EXPECT_EQ(Utils::GetStdStringVector(QStringList()), vec_t());
-  EXPECT_EQ(Utils::GetStdStringVector(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
+  EXPECT_EQ(utils::GetStdStringVector(QStringList()), vec_t());
+  EXPECT_EQ(utils::GetStdStringVector(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
 }
 
 TEST_F(WidgetUtilsTest, GetByteArray)
@@ -82,13 +82,13 @@ TEST_F(WidgetUtilsTest, GetByteArray)
                                        << "bbb"
                                        << "ccc";
 
-  auto array = Utils::GetByteArray(expected);
-  EXPECT_EQ(Utils::GetStringList(array), expected);
+  auto array = utils::GetByteArray(expected);
+  EXPECT_EQ(utils::GetStringList(array), expected);
 }
 
 TEST_F(WidgetUtilsTest, CreatePathPresentation)
 {
-  using Utils::CreatePathPresentation;
+  using utils::CreatePathPresentation;
 
   EXPECT_EQ(CreatePathPresentation(""), QString());
 
