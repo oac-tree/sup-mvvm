@@ -59,6 +59,8 @@ public:
   std::string GetStyle() const;
   void SetStyle(const std::string& style);
 
+  int GetStyleIndex() const;
+
   int GetWidth() const;
   void SetWidth(int value);
 };

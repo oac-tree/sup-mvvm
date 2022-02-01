@@ -130,6 +130,11 @@ void PenItem::SetStyle(const std::string &style)
   SetProperty(kStyle, combo);
 }
 
+int PenItem::GetStyleIndex() const
+{
+  return Property<ComboProperty>(kStyle).GetCurrentIndex();
+}
+
 int PenItem::GetWidth() const
 {
   return Property<int>(kWidth);

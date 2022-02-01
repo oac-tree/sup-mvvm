@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
-#define MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
+#ifndef MVVM_PLOTTING_PENCONTROLLER_H
+#define MVVM_PLOTTING_PENCONTROLLER_H
 
 #include "mvvm/signals/itemlistener.h"
 #include "mvvm/view_export.h"
@@ -30,26 +30,25 @@ class QCPGraph;
 namespace mvvm
 {
 
-class Data1DItem;
+class PenItem;
 
-//! Establishes communication between QCPGraph and Data1DItem.
-//! Provides update of data points on QCPGraph when Graph1DItem is changed.
+//! Establishes communication between QCPGraph and PenItem.
+//! Provides update of QCPGraph's color, line style and width when PenItem is changed.
 
-class MVVM_VIEW_EXPORT Data1DPlotController : public ItemListener<Data1DItem>
+class MVVM_VIEW_EXPORT PenController : public ItemListener<PenItem>
 {
 public:
-  explicit Data1DPlotController(QCPGraph* graph);
-  ~Data1DPlotController() override;
+  explicit PenController(QCPGraph* graph);
+  ~PenController() override;
 
 protected:
   void Subscribe() override;
-  void Unsubscribe() override;
 
 private:
-  struct Data1DPlotControllerImpl;
-  std::unique_ptr<Data1DPlotControllerImpl> p_impl;
+  struct PenControllerImpl;
+  std::unique_ptr<PenControllerImpl> p_impl;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
+#endif  // MVVM_PLOTTING_PENCONTROLLER_H
