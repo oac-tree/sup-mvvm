@@ -35,26 +35,33 @@ public:
 
   double GetSize() const;
   void SetSize(double value);
-
 };
 
-// FIXME uncomment
-////! Represents basics settings of QPen.
+//! Represents basics settings of QPen.
 
-// class MVVM_MODEL_EXPORT PenItem : public CompoundItem
-//{
-// public:
-//   static inline const std::string P_COLOR = "P_COLOR";
-//   static inline const std::string P_STYLE = "P_STYLE";
-//   static inline const std::string P_WIDTH = "P_WIDTH";
+class MVVM_MODEL_EXPORT PenItem : public CompoundItem
+{
+public:
+  static inline const std::string Type = "Pen";
 
-//  PenItem();
+  static inline const std::string kColor = "kColor";
+  static inline const std::string kStyle = "kStyle";
+  static inline const std::string kWidth = "kWidth";
 
-//  void setSelected(bool is_selected);
+  PenItem();
 
-//  std::string colorName() const;
-//  void setNamedColor(const std::string& named_color);
-//};
+  bool IsSelected() const;
+  void SetSelected(bool is_selected);
+
+  std::string GetNamedColor() const;
+  void SetNamedColor(const std::string& named_color);
+
+  std::string GetStyle() const;
+  void SetStyle(const std::string& style);
+
+  int GetWidth() const;
+  void SetWidth(int value);
+};
 
 }  // namespace mvvm
 

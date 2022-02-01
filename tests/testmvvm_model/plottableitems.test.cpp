@@ -21,13 +21,17 @@
 
 #include <gtest/gtest.h>
 
+#include <QColor>
+
+using namespace mvvm;
+
 class PlottableItemsTest : public ::testing::Test
 {
 };
 
 TEST_F(PlottableItemsTest, TextItemInitialState)
 {
-  mvvm::TextItem item;
+  TextItem item;
   EXPECT_TRUE(item.GetText().empty());
   EXPECT_EQ(item.GetFont(), std::string("Noto Sans"));
   EXPECT_EQ(item.GetSize(), 10);
@@ -35,7 +39,7 @@ TEST_F(PlottableItemsTest, TextItemInitialState)
 
 TEST_F(PlottableItemsTest, TextItemGetSet)
 {
-  mvvm::TextItem item;
+  TextItem item;
 
   item.SetText("abc");
   EXPECT_EQ(item.GetText(), std::string("abc"));
@@ -45,4 +49,32 @@ TEST_F(PlottableItemsTest, TextItemGetSet)
 
   item.SetSize(42);
   EXPECT_EQ(item.GetSize(), 42);
+}
+
+TEST_F(PlottableItemsTest, PenItemInitialState)
+{
+  PenItem item;
+  EXPECT_EQ(item.GetNamedColor(), std::string("black"));
+  EXPECT_EQ(item.GetWidth(), 1);
+  EXPECT_EQ(item.GetStyle(), std::string("SolidLine"));
+}
+
+TEST_F(PlottableItemsTest, PenItemSetters)
+{
+  PenItem item;
+
+  item.SetSelected(true);
+  EXPECT_TRUE(item.IsSelected());
+  const int qt_index_dash_line = 2;  // Qt::DashLine
+  EXPECT_EQ(item.Property<ComboProperty>(PenItem::kStyle).GetCurrentIndex(), qt_index_dash_line);
+
+  const int qt_index_solid_line = 1;  // Qt::SolidLine
+  item.SetSelected(false);
+  EXPECT_EQ(item.Property<ComboProperty>(PenItem::kStyle).GetCurrentIndex(), qt_index_solid_line);
+
+  item.SetNamedColor("mediumaquamarine");
+  EXPECT_EQ(item.GetNamedColor(), std::string("mediumaquamarine"));
+
+  item.SetWidth(42);
+  EXPECT_EQ(item.GetWidth(), 42);
 }

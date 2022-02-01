@@ -29,6 +29,7 @@ std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
   result->RegisterItem<CompoundItem>();
   result->RegisterItem<ContainerItem>();
   result->RegisterItem<FixedBinAxisItem>();
+  result->RegisterItem<PenItem>();
   result->RegisterItem<PointwiseAxisItem>();
   result->RegisterItem<PropertyItem>();
   result->RegisterItem<SessionItem>();
