@@ -228,3 +228,32 @@ TEST_F(SignalSlotTest, TwoMockOwnersAndTwoSlots)
 
   signal(&item);  // perform action
 }
+
+//! Lambda subscribes another lambda to the same signal.
+//! This checks that there is no dead lock.
+
+TEST_F(SignalSlotTest, SubscribeLambdaRecursive)
+{
+  mvvm::Signal<void(int num)> signal;
+
+  int x{10};
+  int y{20};
+
+  auto func1 = [&x](int num) { x = x + num; };
+
+  auto func2 = [&y, func1, &signal](int num)
+  {
+    y = y + num;
+    signal.connect(func1);
+  };
+
+  signal.connect(func2);
+
+  signal(1);
+  EXPECT_EQ(x, 10);  // no call, same number as before
+  EXPECT_EQ(y, 21);  // was called
+
+  signal(1);
+  EXPECT_TRUE(x >= 11);  // was called more than once
+  EXPECT_EQ(y, 22);  // was called
+}

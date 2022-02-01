@@ -195,7 +195,7 @@ private:
     slot* owner;
   };
 
-  mutable std::mutex _mutex;
+//  mutable std::mutex _mutex;
   bool _locked;
 
   std::list<joint> _callbacks;
@@ -222,7 +222,7 @@ signal<R(Args...)>::signal() : _locked(false), _parent(nullptr)
 template <typename R, typename... Args>
 signal<R(Args...)>::~signal()
 {
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   for (auto iter = _callbacks.begin(); iter != _callbacks.end(); ++iter)
   {
@@ -249,10 +249,10 @@ signal<R(Args...)>::~signal()
 template <typename R, typename... Args>
 signal<R(Args...)>::signal(const signal& rhs) : _locked(rhs._locked)
 {
-  std::unique_lock<std::mutex> lock_own(_mutex, std::defer_lock);
-  std::unique_lock<std::mutex> lock_rhs(rhs._mutex, std::defer_lock);
+//  std::unique_lock<std::mutex> lock_own(_mutex, std::defer_lock);
+//  std::unique_lock<std::mutex> lock_rhs(rhs._mutex, std::defer_lock);
 
-  std::lock(lock_own, lock_rhs);
+//  std::lock(lock_own, lock_rhs);
 
   copy_callbacks(rhs._callbacks);
 }
@@ -260,10 +260,10 @@ signal<R(Args...)>::signal(const signal& rhs) : _locked(rhs._locked)
 template <typename R, typename... Args>
 signal<R(Args...)>& signal<R(Args...)>::operator=(const signal& rhs)
 {
-  std::unique_lock<std::mutex> lock_own(_mutex, std::defer_lock);
-  std::unique_lock<std::mutex> lock_rhs(rhs._mutex, std::defer_lock);
+//  std::unique_lock<std::mutex> lock_own(_mutex, std::defer_lock);
+//  std::unique_lock<std::mutex> lock_rhs(rhs._mutex, std::defer_lock);
 
-  std::lock(lock_own, lock_rhs);
+//  std::lock(lock_own, lock_rhs);
 
   _locked = rhs._locked;
 
@@ -287,8 +287,8 @@ void signal<R(Args...)>::set_lock(const bool lock)
 template <typename R, typename... Args>
 void signal<R(Args...)>::connect(signal* sg)
 {
-  std::lock_guard<std::mutex> locker_own(_mutex);
-  std::lock_guard<std::mutex> locker_sg(sg->_mutex);
+//  std::lock_guard<std::mutex> locker_own(_mutex);
+//  std::lock_guard<std::mutex> locker_sg(sg->_mutex);
 
   if (_parent == sg)
   {
@@ -308,7 +308,7 @@ void signal<R(Args...)>::connect(signal* sg)
 template <typename R, typename... Args>
 void signal<R(Args...)>::disconnect(signal* sg)
 {
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   _children.remove(sg);
 }
@@ -352,7 +352,7 @@ void signal<R(Args...)>::disconnect(slot* owner)
 template <typename R, typename... Args>
 void signal<R(Args...)>::disconnect_all()
 {
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   for (const auto& jnt : _callbacks)
   {
@@ -376,7 +376,7 @@ void signal<R(Args...)>::disconnect_all()
 template <typename R, typename... Args>
 R signal<R(Args...)>::operator()(Args... args)
 {
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   if (!_locked)
   {
@@ -410,7 +410,7 @@ R signal<R(Args...)>::operator()(Args... args, const T& agg)
 {
   std::vector<R> result;
 
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   if (!_locked)
   {
@@ -489,7 +489,7 @@ std::shared_ptr<connection_data> signal<R(Args...)>::create_connection(callback_
   jnt.connection = connection;
   jnt.owner = owner;
 
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   _callbacks.push_back(std::move(jnt));
 
@@ -499,7 +499,7 @@ std::shared_ptr<connection_data> signal<R(Args...)>::create_connection(callback_
 template <typename R, typename... Args>
 void signal<R(Args...)>::destroy_connection(std::shared_ptr<connection_data> connection)
 {
-  std::lock_guard<std::mutex> locker(_mutex);
+//  std::lock_guard<std::mutex> locker(_mutex);
 
   for (auto iter = _callbacks.begin(); iter != _callbacks.end(); ++iter)
   {
