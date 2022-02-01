@@ -27,19 +27,24 @@
 namespace mvvm
 {
 
+static inline const std::string kLink = "kLink";
+static inline const std::string kGraphTitle = "kGraphTitle";
+static inline const std::string kPen = "kPen";
+static inline const std::string kDisplayed = "kDisplayed";
+
 GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  AddProperty<LinkedItem>(P_LINK)->SetDisplayName("Link");
-  AddProperty<TextItem>(P_GRAPH_TITLE)->SetDisplayName("Graph title");
-  AddProperty<PenItem>(P_PEN)->SetDisplayName("Pen");
-  AddProperty(P_DISPLAYED, true)->SetDisplayName("Displayed");
+  AddProperty<LinkedItem>(kLink)->SetDisplayName("Link");
+  AddProperty<TextItem>(kGraphTitle)->SetDisplayName("Graph title");
+  AddProperty<PenItem>(kPen)->SetDisplayName("Pen");
+  AddProperty(kDisplayed, true)->SetDisplayName("Displayed");
 }
 
 //! Sets link to the data item.
 
 void GraphItem::SetDataItem(const Data1DItem* data_item)
 {
-  GetItem<LinkedItem>(P_LINK)->SetLink(data_item);
+  GetItem<LinkedItem>(kLink)->SetLink(data_item);
 }
 
 //! Update item from the content of given graph. Link to the data will be set
@@ -48,8 +53,8 @@ void GraphItem::SetDataItem(const Data1DItem* data_item)
 void GraphItem::SetFromGraphItem(const GraphItem* graph_item)
 {
   SetDataItem(graph_item->GetDataItem());
-  auto pen = GetItem<PenItem>(P_PEN);
-  auto source_pen = graph_item->GetItem<PenItem>(P_PEN);
+  auto pen = GetItem<PenItem>(kPen);
+  auto source_pen = graph_item->GetItem<PenItem>(kPen);
   pen->SetNamedColor(source_pen->GetNamedColor());
   pen->SetWidth(source_pen->GetWidth());
   pen->SetStyle(source_pen->GetStyle());
@@ -59,7 +64,7 @@ void GraphItem::SetFromGraphItem(const GraphItem* graph_item)
 
 Data1DItem* GraphItem::GetDataItem() const
 {
-  return GetItem<LinkedItem>(P_LINK)->Get<Data1DItem>();
+  return GetItem<LinkedItem>(kLink)->Get<Data1DItem>();
 }
 
 std::vector<double> GraphItem::GetBinCenters() const
@@ -94,7 +99,7 @@ void GraphItem::SetNamedColor(const std::string& named_color)
 
 PenItem* GraphItem::GetPenItem() const
 {
-  return GetItem<PenItem>(P_PEN);
+  return GetItem<PenItem>(kPen);
 }
 
 }  // namespace mvvm

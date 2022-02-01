@@ -36,10 +36,6 @@ class MVVM_MODEL_EXPORT GraphItem : public CompoundItem
 {
 public:
   static inline const std::string kType = "Type";
-  static inline const std::string P_LINK = "P_LINK";
-  static inline const std::string P_GRAPH_TITLE = "P_GRAPH_TITLE";
-  static inline const std::string P_PEN = "P_PEN";
-  static inline const std::string P_DISPLAYED = "P_DISPLAYED";
 
   explicit GraphItem(const std::string& model_type = Type);
 

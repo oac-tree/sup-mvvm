@@ -142,7 +142,7 @@ TEST_F(GraphItemTest, OnSetDataItem)
   MockItemListener widget(graph_item);
 
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(graph_item, GraphItem::P_LINK)).Times(1);
+  EXPECT_CALL(widget, OnPropertyChanged(graph_item, std::string("kLink"))).Times(1);
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
