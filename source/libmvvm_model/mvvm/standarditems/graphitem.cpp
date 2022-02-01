@@ -37,7 +37,7 @@ GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 
 //! Sets link to the data item.
 
-void GraphItem::setDataItem(const Data1DItem* data_item)
+void GraphItem::SetDataItem(const Data1DItem* data_item)
 {
   GetItem<LinkedItem>(P_LINK)->SetLink(data_item);
 }
@@ -45,9 +45,9 @@ void GraphItem::setDataItem(const Data1DItem* data_item)
 //! Update item from the content of given graph. Link to the data will be set
 //! as in given item, other properties copied.
 
-void GraphItem::setFromGraphItem(const GraphItem* graph_item)
+void GraphItem::SetFromGraphItem(const GraphItem* graph_item)
 {
-  setDataItem(graph_item->dataItem());
+  SetDataItem(graph_item->GetDataItem());
   auto pen = GetItem<PenItem>(P_PEN);
   auto source_pen = graph_item->GetItem<PenItem>(P_PEN);
   pen->SetNamedColor(source_pen->GetNamedColor());
@@ -57,42 +57,42 @@ void GraphItem::setFromGraphItem(const GraphItem* graph_item)
 
 //! Returns data item linked to the given GraphItem.
 
-Data1DItem* GraphItem::dataItem() const
+Data1DItem* GraphItem::GetDataItem() const
 {
   return GetItem<LinkedItem>(P_LINK)->Get<Data1DItem>();
 }
 
-std::vector<double> GraphItem::binCenters() const
+std::vector<double> GraphItem::GetBinCenters() const
 {
-  return dataItem() ? dataItem()->GetBinCenters() : std::vector<double>();
+  return GetDataItem() ? GetDataItem()->GetBinCenters() : std::vector<double>();
 }
 
-std::vector<double> GraphItem::binValues() const
+std::vector<double> GraphItem::GetValues() const
 {
-  return dataItem() ? dataItem()->GetValues() : std::vector<double>();
+  return GetDataItem() ? GetDataItem()->GetValues() : std::vector<double>();
 }
 
-std::vector<double> GraphItem::binErrors() const
+std::vector<double> GraphItem::GetErrors() const
 {
-  return dataItem() ? dataItem()->GetErrors() : std::vector<double>();
+  return GetDataItem() ? GetDataItem()->GetErrors() : std::vector<double>();
 }
 
 //! Returns color name in #RRGGBB format.
 
-std::string GraphItem::colorName() const
+std::string GraphItem::GetNamedColor() const
 {
-  return penItem()->GetNamedColor();
+  return GetPenItem()->GetNamedColor();
 }
 
 //! Sets named color following schema from https://www.w3.org/TR/css-color-3/#svg-color.
 //! e.g. "mediumaquamarine"
 
-void GraphItem::setNamedColor(const std::string& named_color)
+void GraphItem::SetNamedColor(const std::string& named_color)
 {
-  penItem()->SetNamedColor(named_color);
+  GetPenItem()->SetNamedColor(named_color);
 }
 
-PenItem* GraphItem::penItem() const
+PenItem* GraphItem::GetPenItem() const
 {
   return GetItem<PenItem>(P_PEN);
 }

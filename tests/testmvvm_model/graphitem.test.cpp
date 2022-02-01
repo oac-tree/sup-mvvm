@@ -42,32 +42,32 @@ class GraphItemTest : public ::testing::Test
 
 //! Initial state.
 
-TEST_F(GraphItemTest, initialState)
+TEST_F(GraphItemTest, InitialState)
 {
   GraphItem item;
-  EXPECT_TRUE(item.dataItem() == nullptr);
-  EXPECT_EQ(item.binCenters(), std::vector<double>{});
-  EXPECT_EQ(item.binValues(), std::vector<double>{});
-  EXPECT_EQ(item.binErrors(), std::vector<double>{});
-  EXPECT_EQ(item.colorName(), std::string("black"));
+  EXPECT_TRUE(item.GetDataItem() == nullptr);
+  EXPECT_EQ(item.GetBinCenters(), std::vector<double>{});
+  EXPECT_EQ(item.GetValues(), std::vector<double>{});
+  EXPECT_EQ(item.GetErrors(), std::vector<double>{});
+  EXPECT_EQ(item.GetNamedColor(), std::string("black"));
 }
 
 //! Setting dataItem in model context.
 
-TEST_F(GraphItemTest, setDataItem)
+TEST_F(GraphItemTest, SetDataItem)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
   auto graph_item = model.InsertItem<GraphItem>();
 
-  graph_item->setDataItem(data_item);
+  graph_item->SetDataItem(data_item);
 
-  EXPECT_EQ(graph_item->dataItem(), data_item);
+  EXPECT_EQ(graph_item->GetDataItem(), data_item);
 }
 
 //! Setting dataItem in model context.
 
-TEST_F(GraphItemTest, binValues)
+TEST_F(GraphItemTest, GetValues)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -78,15 +78,15 @@ TEST_F(GraphItemTest, binValues)
   data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
-  graph_item->setDataItem(data_item);
+  graph_item->SetDataItem(data_item);
 
-  EXPECT_EQ(graph_item->binValues(), expected_values);
-  EXPECT_EQ(graph_item->binCenters(), expected_centers);
+  EXPECT_EQ(graph_item->GetValues(), expected_values);
+  EXPECT_EQ(graph_item->GetBinCenters(), expected_centers);
 }
 
 //! Setting dataItem with errors
 
-TEST_F(GraphItemTest, binErrors)
+TEST_F(GraphItemTest, GetErrors)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -99,16 +99,16 @@ TEST_F(GraphItemTest, binErrors)
   data_item->SetValues(expected_values);
   data_item->SetErrors(expected_errors);
 
-  graph_item->setDataItem(data_item);
+  graph_item->SetDataItem(data_item);
 
-  EXPECT_EQ(graph_item->binValues(), expected_values);
-  EXPECT_EQ(graph_item->binCenters(), expected_centers);
-  EXPECT_EQ(graph_item->binErrors(), expected_errors);
+  EXPECT_EQ(graph_item->GetValues(), expected_values);
+  EXPECT_EQ(graph_item->GetBinCenters(), expected_centers);
+  EXPECT_EQ(graph_item->GetErrors(), expected_errors);
 }
 
 //! Check unlinking when nullptr is set as Data1DItem.
 
-TEST_F(GraphItemTest, setNullData)
+TEST_F(GraphItemTest, SetNullData)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -120,20 +120,20 @@ TEST_F(GraphItemTest, setNullData)
   data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
-  graph_item->setDataItem(data_item);
-  EXPECT_EQ(graph_item->dataItem(), data_item);
+  graph_item->SetDataItem(data_item);
+  EXPECT_EQ(graph_item->GetDataItem(), data_item);
 
   // setting null as data item
-  graph_item->setDataItem(nullptr);
-  EXPECT_TRUE(graph_item->dataItem() == nullptr);
-  EXPECT_EQ(graph_item->binCenters(), std::vector<double>{});
-  EXPECT_EQ(graph_item->binValues(), std::vector<double>{});
-  EXPECT_EQ(graph_item->binErrors(), std::vector<double>{});
+  graph_item->SetDataItem(nullptr);
+  EXPECT_TRUE(graph_item->GetDataItem() == nullptr);
+  EXPECT_EQ(graph_item->GetBinCenters(), std::vector<double>{});
+  EXPECT_EQ(graph_item->GetValues(), std::vector<double>{});
+  EXPECT_EQ(graph_item->GetErrors(), std::vector<double>{});
 }
 
 //! Check signaling on set data item.
 
-TEST_F(GraphItemTest, onSetDataItem)
+TEST_F(GraphItemTest, OnSetDataItem)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -147,12 +147,12 @@ TEST_F(GraphItemTest, onSetDataItem)
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
   // performing action
-  graph_item->setDataItem(data_item);
+  graph_item->SetDataItem(data_item);
 }
 
 //! Sets GraphItem from another GraphItem
 
-TEST_F(GraphItemTest, setFromGraphItem)
+TEST_F(GraphItemTest, SetFromGraphItem)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -164,19 +164,19 @@ TEST_F(GraphItemTest, setFromGraphItem)
   data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
-  graph_item->setDataItem(data_item);
-  graph_item->penItem()->SetNamedColor("red");
+  graph_item->SetDataItem(data_item);
+  graph_item->GetPenItem()->SetNamedColor("red");
 
-  graph_item2->setFromGraphItem(graph_item);
+  graph_item2->SetFromGraphItem(graph_item);
 
-  EXPECT_EQ(graph_item2->binValues(), expected_values);
-  EXPECT_EQ(graph_item2->binCenters(), expected_centers);
-  EXPECT_EQ(graph_item2->penItem()->GetNamedColor(), "red");
+  EXPECT_EQ(graph_item2->GetValues(), expected_values);
+  EXPECT_EQ(graph_item2->GetBinCenters(), expected_centers);
+  EXPECT_EQ(graph_item2->GetPenItem()->GetNamedColor(), "red");
 }
 
-TEST_F(GraphItemTest, penItem_setNamedColor)
+TEST_F(GraphItemTest, SetNamedColor)
 {
   GraphItem item;
-  item.setNamedColor("mediumaquamarine");
-  EXPECT_EQ(item.colorName(), std::string("mediumaquamarine"));
+  item.SetNamedColor("mediumaquamarine");
+  EXPECT_EQ(item.GetNamedColor(), std::string("mediumaquamarine"));
 }

@@ -43,22 +43,22 @@ public:
 
   explicit GraphItem(const std::string& model_type = Type);
 
-  void setDataItem(const Data1DItem* item);
+  void SetDataItem(const Data1DItem* item);
 
-  void setFromGraphItem(const GraphItem* graph_item);
+  void SetFromGraphItem(const GraphItem* graph_item);
 
-  Data1DItem* dataItem() const;
+  Data1DItem* GetDataItem() const;
 
-  std::vector<double> binCenters() const;
+  std::vector<double> GetBinCenters() const;
 
-  std::vector<double> binValues() const;
+  std::vector<double> GetValues() const;
 
-  std::vector<double> binErrors() const;
+  std::vector<double> GetErrors() const;
 
-  std::string colorName() const;
-  void setNamedColor(const std::string& named_color);
+  std::string GetNamedColor() const;
+  void SetNamedColor(const std::string& named_color);
 
-  PenItem* penItem() const;
+  PenItem* GetPenItem() const;
 };
 
 }  // namespace mvvm
