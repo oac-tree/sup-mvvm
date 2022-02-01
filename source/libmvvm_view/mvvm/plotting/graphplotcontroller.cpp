@@ -33,57 +33,59 @@ namespace mvvm
 struct GraphPlotController::GraphItemControllerImpl
 {
   GraphPlotController* m_self{nullptr};
-  QCustomPlot* m_customPlot{nullptr};
+  QCustomPlot* m_custom_plot{nullptr};
   QCPGraph* m_graph{nullptr};
-  std::unique_ptr<Data1DPlotController> m_dataController;
-  std::unique_ptr<PenController> m_penController;
+  std::unique_ptr<Data1DPlotController> m_data_controller;
+  std::unique_ptr<PenController> m_pen_controller;
 
   GraphItemControllerImpl(GraphPlotController* master, QCustomPlot* plot)
-      : m_self(master), m_customPlot(plot)
+      : m_self(master), m_custom_plot(plot)
   {
   }
 
   //! Setups controllers and updates graph properties.
 
-  void init_graph()
+  void InitGraph()
   {
-    m_graph = m_customPlot->addGraph();
-    m_dataController = std::make_unique<Data1DPlotController>(m_graph);
-    m_penController = std::make_unique<PenController>(m_graph);
+    m_graph = m_custom_plot->addGraph();
+    m_data_controller = std::make_unique<Data1DPlotController>(m_graph);
+    m_pen_controller = std::make_unique<PenController>(m_graph);
 
-    update_data_controller();
-    update_graph_pen();
-    update_visible();
+    UpdateDataController();
+    UpdateGraphPen();
+    UpdateVisibility();
   }
 
   ~GraphItemControllerImpl()
   {
     if (m_graph)
-      m_customPlot->removePlottable(m_graph);
+    {
+      m_custom_plot->removePlottable(m_graph);
+    }
   }
 
-  GraphItem* graph_item() { return m_self->GetItem(); }
+  GraphItem* GetGraphItem() { return m_self->GetItem(); }
 
-  void update_data_controller() { m_dataController->SetItem(graph_item()->GetDataItem()); }
+  void UpdateDataController() { m_data_controller->SetItem(GetGraphItem()->GetDataItem()); }
 
   //! Updates graph pen from GraphItem.
 
-  void update_graph_pen() { m_penController->SetItem(graph_item()->GetPenItem()); }
+  void UpdateGraphPen() { m_pen_controller->SetItem(GetGraphItem()->GetPenItem()); }
 
   //! Update visible
-  void update_visible()
+  void UpdateVisibility()
   {
-    m_graph->setVisible(graph_item()->Property<bool>(GraphItem::kDisplayed));
-    m_customPlot->replot();
+    m_graph->setVisible(GetGraphItem()->Property<bool>(GraphItem::kDisplayed));
+    m_custom_plot->replot();
   }
 
-  void reset_graph()
+  void ResetGraph()
   {
-    m_dataController->SetItem(nullptr);
-    m_penController->SetItem(nullptr);
-    m_customPlot->removePlottable(m_graph);
+    m_data_controller->SetItem(nullptr);
+    m_pen_controller->SetItem(nullptr);
+    m_custom_plot->removePlottable(m_graph);
     m_graph = nullptr;
-    m_customPlot->replot();
+    m_custom_plot->replot();
   }
 };
 
@@ -98,22 +100,22 @@ void GraphPlotController::Subscribe()
   {
     if (property_name == GraphItem::kLink)
     {
-      p_impl->update_data_controller();
+      p_impl->UpdateDataController();
     }
 
     if (property_name == GraphItem::kDisplayed)
     {
-      p_impl->update_visible();
+      p_impl->UpdateVisibility();
     }
   };
   SetOnPropertyChanged(on_property_change);
 
-  p_impl->init_graph();
+  p_impl->InitGraph();
 }
 
 void GraphPlotController::Unsubscribe()
 {
-  p_impl->reset_graph();
+  p_impl->ResetGraph();
 }
 
 GraphPlotController::~GraphPlotController() = default;
