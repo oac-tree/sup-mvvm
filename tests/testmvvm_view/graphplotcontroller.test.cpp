@@ -21,8 +21,8 @@
 
 #include "customplot_test_utils.h"
 
-#include "mvvm/model/comboproperty.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/comboproperty.h"
 #include "mvvm/standarditems/axisitems.h"
 #include "mvvm/standarditems/data1ditem.h"
 #include "mvvm/standarditems/graphitem.h"
@@ -155,110 +155,112 @@ TEST_F(GraphPlotControllerTest, setPointwiseItem)
 //! Setting data to graph after.
 //! FIXME resume test
 
-//TEST_F(GraphPlotControllerTest, setDataAfter)
-//{
-//  auto custom_plot = std::make_unique<QCustomPlot>();
-//  GraphPlotController controller(custom_plot.get());
+TEST_F(GraphPlotControllerTest, setDataAfter)
+{
+  auto custom_plot = std::make_unique<QCustomPlot>();
+  GraphPlotController controller(custom_plot.get());
 
-//  ApplicationModel model;
-//  auto graph_item = model.InsertItem<GraphItem>();
+  ApplicationModel model;
+  auto graph_item = model.InsertItem<GraphItem>();
 
-//  controller.SetItem(graph_item);
+  controller.SetItem(graph_item);
 
-//  // without data QCustomPlot has a graph without points
-//  EXPECT_EQ(custom_plot->graphCount(), 1);
-//  auto graph = custom_plot->graph();
-//  EXPECT_EQ(TestUtils::GetBinCenters(graph), std::vector<double>());
-//  EXPECT_EQ(TestUtils::GetValues(graph), std::vector<double>());
+  // without data QCustomPlot has a graph without points
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  auto graph = custom_plot->graph();
+  EXPECT_EQ(TestUtils::GetBinCenters(graph), std::vector<double>());
+  EXPECT_EQ(TestUtils::GetValues(graph), std::vector<double>());
 
-//  // setup Data1DItem and assign to GraphItem
-//  auto data_item = model.InsertItem<Data1DItem>();
-//  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
-//  std::vector<double> expected_centers = {0.5, 1.5};
-//  std::vector<double> expected_values = {42.0, 43.0};
-//  data_item->SetValues(expected_values);
+  // setup Data1DItem and assign to GraphItem
+  auto data_item = model.InsertItem<Data1DItem>();
+  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  std::vector<double> expected_centers = {0.5, 1.5};
+  std::vector<double> expected_values = {42.0, 43.0};
+  data_item->SetValues(expected_values);
 
-//  graph_item->SetDataItem(data_item);
+  graph_item->SetDataItem(data_item);
 
-//  // Checking resulting plottables
-//  EXPECT_EQ(custom_plot->graphCount(), 1);
-//  EXPECT_EQ(TestUtils::GetBinCenters(graph), expected_centers);
-//  EXPECT_EQ(TestUtils::GetValues(graph), expected_values);
-//}
+  // Checking resulting plottables
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  EXPECT_EQ(TestUtils::GetBinCenters(graph), expected_centers);
+  EXPECT_EQ(TestUtils::GetValues(graph), expected_values);
+}
 
 //! Unlinking from Data1DItem or GraphItem.
 
-//TEST_F(GraphPlotControllerTest, unlinkFromItem)
+TEST_F(GraphPlotControllerTest, unlinkFromItem)
+{
+  auto custom_plot = std::make_unique<QCustomPlot>();
+  GraphPlotController controller(custom_plot.get());
+
+  // setup model and single data item in it
+  ApplicationModel model;
+  auto data_item = model.InsertItem<Data1DItem>();
+  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  std::vector<double> expected_centers = {0.5, 1.5};
+  std::vector<double> expected_values = {42.0, 43.0};
+  data_item->SetValues(expected_values);
+
+  // setup graph item
+  auto graph_item = model.InsertItem<GraphItem>();
+  auto pen_item = graph_item->GetPenItem();
+  pen_item->SetNamedColor("red");
+  graph_item->SetDataItem(data_item);
+
+  // initializing controller
+  controller.SetItem(graph_item);
+
+  // unlinking from data item
+  graph_item->SetDataItem(nullptr);
+
+  // Checking resulting plottables
+  // Current convention is that graph stays intact, but points disappear.
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  auto graph = custom_plot->graph();
+  EXPECT_EQ(TestUtils::GetBinCenters(graph), std::vector<double>());
+  EXPECT_EQ(TestUtils::GetValues(graph), std::vector<double>());
+  EXPECT_EQ(graph->pen().color(), QColor(Qt::red));
+
+  // unlinking from graph item should remove Graph from CustomPlot
+  controller.SetItem(nullptr);
+  EXPECT_EQ(custom_plot->graphCount(), 0);
+}
+
+//! Deletion of controller should lead to graph removal.
+
+TEST_F(GraphPlotControllerTest, controllerDelete)
+{
+  auto custom_plot = std::make_unique<QCustomPlot>();
+  auto controller = std::make_unique<GraphPlotController>(custom_plot.get());
+
+  // setup model and single data item in it
+  ApplicationModel model;
+  auto data_item = model.InsertItem<Data1DItem>();
+
+  // setup graph item
+  auto graph_item = model.InsertItem<GraphItem>();
+  graph_item->SetDataItem(data_item);
+
+  // initializing controller
+  controller->SetItem(graph_item);
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+
+  // deleting controller should lead to graph removal
+  controller.reset();
+  EXPECT_EQ(custom_plot->graphCount(), 0);
+}
+
+//! Deletion of graphItem should lead to the dissapearance of graph.
+//!
+//! FIXME restore test after implementation of signal on item destruction
+
+// TEST_F(GraphPlotControllerTest, graphDelete)
 //{
-//  auto custom_plot = std::make_unique<QCustomPlot>();
-//  GraphPlotController controller(custom_plot.get());
+//   auto custom_plot = std::make_unique<QCustomPlot>();
+//   auto controller = std::make_unique<GraphPlotController>(custom_plot.get());
 
 //  // setup model and single data item in it
 //  ApplicationModel model;
-//  auto data_item = model.InsertItem<Data1DItem>();
-//  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
-//  std::vector<double> expected_centers = {0.5, 1.5};
-//  std::vector<double> expected_values = {42.0, 43.0};
-//  data_item->SetValues(expected_values);
-
-//  // setup graph item
-//  auto graph_item = model.InsertItem<GraphItem>();
-//  auto pen_item = graph_item->GetPenItem();
-//  pen_item->SetNamedColor("red");
-//  graph_item->SetDataItem(data_item);
-
-//  // initializing controller
-//  controller.SetItem(graph_item);
-
-//  // unlinking from data item
-//  graph_item->SetDataItem(nullptr);
-
-//  // Checking resulting plottables
-//  // Current convention is that graph stays intact, but points disappear.
-//  EXPECT_EQ(custom_plot->graphCount(), 1);
-//  auto graph = custom_plot->graph();
-//  EXPECT_EQ(TestUtils::GetBinCenters(graph), std::vector<double>());
-//  EXPECT_EQ(TestUtils::GetValues(graph), std::vector<double>());
-//  EXPECT_EQ(graph->pen().color(), QColor(Qt::red));
-
-//  // unlinking from graph item should remove Graph from CustomPlot
-//  controller.SetItem(nullptr);
-//  EXPECT_EQ(custom_plot->graphCount(), 0);
-//}
-
-////! Deletion of controller should lead to graph removal.
-
-//TEST_F(GraphPlotControllerTest, controllerDelete)
-//{
-//  auto custom_plot = std::make_unique<QCustomPlot>();
-//  auto controller = std::make_unique<GraphPlotController>(custom_plot.get());
-
-//  // setup model and single data item in it
-//  SessionModel model;
-//  auto data_item = model.InsertItem<Data1DItem>();
-
-//  // setup graph item
-//  auto graph_item = model.InsertItem<GraphItem>();
-//  graph_item->SetDataItem(data_item);
-
-//  // initializing controller
-//  controller->SetItem(graph_item);
-//  EXPECT_EQ(custom_plot->graphCount(), 1);
-
-//  // deleting controller should lead to graph removal
-//  controller.reset();
-//  EXPECT_EQ(custom_plot->graphCount(), 0);
-//}
-
-////! Deletion of graphItem should lead to the dissapearance of graph.
-
-//TEST_F(GraphPlotControllerTest, graphDelete)
-//{
-//  auto custom_plot = std::make_unique<QCustomPlot>();
-//  auto controller = std::make_unique<GraphPlotController>(custom_plot.get());
-
-//  // setup model and single data item in it
-//  SessionModel model;
 //  auto data_item = model.InsertItem<Data1DItem>();
 
 //  // setup graph item
