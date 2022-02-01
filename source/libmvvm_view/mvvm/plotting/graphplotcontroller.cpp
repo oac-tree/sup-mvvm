@@ -97,10 +97,14 @@ void GraphPlotController::Subscribe()
   auto on_property_change = [this](SessionItem*, const std::string& property_name)
   {
     if (property_name == GraphItem::kLink)
+    {
       p_impl->update_data_controller();
+    }
 
     if (property_name == GraphItem::kDisplayed)
+    {
       p_impl->update_visible();
+    }
   };
   SetOnPropertyChanged(on_property_change);
 
