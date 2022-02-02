@@ -93,8 +93,11 @@ TEST_F(ModelComposerTest, InsertNewItem)
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};
 
-  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(expected_parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_notifier, ItemInsertedNotify(expected_parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(expected_parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(m_notifier, ItemInsertedNotify(expected_parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
@@ -116,8 +119,11 @@ TEST_F(ModelComposerTest, InsertNewItemIntoParent)
 
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
@@ -139,8 +145,11 @@ TEST_F(ModelComposerTest, InsertItem)
 
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
@@ -162,8 +171,11 @@ TEST_F(ModelComposerTest, InsertItemViaMove)
 
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
@@ -191,8 +203,11 @@ TEST_F(ModelComposerTest, TakeItem)
 
   EXPECT_CALL(m_notifier, AboutToInsertItemNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ItemInsertedNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
@@ -214,8 +229,11 @@ TEST_F(ModelComposerTest, RemoveItem)
 
   EXPECT_CALL(m_notifier, AboutToInsertItemNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ItemInsertedNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
   EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);

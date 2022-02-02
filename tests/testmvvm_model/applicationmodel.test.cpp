@@ -123,12 +123,15 @@ TEST_F(ApplicationModelTest, SetSameData)
 TEST_F(ApplicationModelTest, InsertNewItem)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
-  TagIndex expected_tag_index{"rootTag", 0}; // default tag of root item
+  TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
 
   MockModelListener listener(&m_model);
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
@@ -155,8 +158,11 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
 
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
@@ -182,8 +188,11 @@ TEST_F(ApplicationModelTest, InsertItem)
   MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
@@ -210,12 +219,11 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
   MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
-//  {
-//    ::testing::InSequence seq;
-//  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener, OnModelReset(_)).Times(0);
@@ -239,8 +247,11 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
@@ -272,8 +283,11 @@ TEST_F(ApplicationModelTest, TakeItem)
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener, OnModelReset(_)).Times(0);
@@ -301,8 +315,11 @@ TEST_F(ApplicationModelTest, RemoveItem)
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
-  EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+  }
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener, OnModelReset(_)).Times(0);
