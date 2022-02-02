@@ -1,137 +1,154 @@
-//// ************************************************************************** //
-////
-////  Model-view-view-model framework for large GUI applications
-////
-////! @license   GNU General Public License v3 or higher (see COPYING)
-////! @authors   see AUTHORS
-////
-//// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
-//#include "mvvm/plotting/graphcanvas.h"
-//#include "mvvm/plotting/graphviewportplotcontroller.h"
-//#include "mvvm/plotting/statusstringreporter.h"
-//#include "mvvm/plotting/statusstringreporterfactory.h"
-//#include "mvvm/standarditems/graphviewportitem.h"
-//#include "mvvm/widgets/statuslabel.h"
-//#include <qcustomplot.h>
-//#include <QBoxLayout>
+#include "mvvm/plotting/graphcanvas.h"
 
-//namespace {
+#include "mvvm/plotting/graphviewportplotcontroller.h"
+#include "mvvm/plotting/statusstringreporter.h"
+#include "mvvm/plotting/statusstringreporterfactory.h"
+#include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/widgets/statuslabel.h"
 
-////! Returns policy to which side of the axes box margins can be applied.
-////! If number is negative, this side will be callulated automatically.
+#include <qcustomplot.h>
 
-//// FIXME move to utils, provide unit tests
-//QCP::MarginSides autoMarginPolicy(int left, int top, int right, int bottom)
-//{
-//    QCP::MarginSides result{QCP::msAll};
-//    if (left >= 0)
-//        result &= ~QCP::msLeft;
-//    if (top >= 0)
-//        result &= ~QCP::msTop;
-//    if (right >= 0)
-//        result &= ~QCP::msRight;
-//    if (bottom >= 0)
-//        result &= ~QCP::msBottom;
-//    return result;
-//}
-//} // namespace
+#include <QBoxLayout>
 
-//using namespace ModelView;
+namespace
+{
 
-//struct GraphCanvas::GraphCanvasImpl {
-//    QCustomPlot* custom_plot{nullptr};
-//    std::unique_ptr<GraphViewportPlotController> viewport_controller;
-//    std::unique_ptr<StatusStringReporter> reporter;
-//    StatusLabel* status_label{nullptr};
+//! Returns policy to which side of the axes box margins can be applied.
+//! If number is negative, this side will be callulated automatically.
 
-//    GraphCanvasImpl() : custom_plot(new QCustomPlot), status_label(new StatusLabel)
-//    {
-//        viewport_controller = std::make_unique<GraphViewportPlotController>(custom_plot);
+// FIXME move to utils, provide unit tests
+QCP::MarginSides autoMarginPolicy(int left, int top, int right, int bottom)
+{
+  QCP::MarginSides result{QCP::msAll};
+  if (left >= 0)
+    result &= ~QCP::msLeft;
+  if (top >= 0)
+    result &= ~QCP::msTop;
+  if (right >= 0)
+    result &= ~QCP::msRight;
+  if (bottom >= 0)
+    result &= ~QCP::msBottom;
+  return result;
+}
+}  // namespace
 
-//        auto on_mouse_move = [this](const std::string& str) {
-//            status_label->setText(QString::fromStdString(str));
-//        };
-//        reporter = CreateGraphReporter(custom_plot, on_mouse_move);
-//    }
+namespace mvvm
+{
 
-//    //! Updates viewport.
-//    void setViewportToContent()
-//    {
-//        if (!viewport_controller->currentItem())
-//            return;
-//        viewport_controller->currentItem()->setViewportToContent();
-//    }
+struct GraphCanvas::GraphCanvasImpl
+{
+  QCustomPlot* custom_plot{nullptr};
+  std::unique_ptr<GraphViewportPlotController> viewport_controller;
+  std::unique_ptr<StatusStringReporter> reporter;
+  StatusLabel* status_label{nullptr};
 
-//    //! Updates viewport.
-//    void setViewportToContent(double left, double top, double right, double bottom)
-//    {
-//        if (!viewport_controller->currentItem())
-//            return;
-//        viewport_controller->currentItem()->setViewportToContent(left, top, right, bottom);
-//    }
+  GraphCanvasImpl() : custom_plot(new QCustomPlot), status_label(new StatusLabel)
+  {
+    viewport_controller = std::make_unique<GraphViewportPlotController>(custom_plot);
 
-//    QCustomPlot* customPlot() { return custom_plot; }
-//};
+    auto on_mouse_move = [this](const std::string& str)
+    { status_label->setText(QString::fromStdString(str)); };
+    reporter = CreateGraphReporter(custom_plot, on_mouse_move);
+  }
 
-//GraphCanvas::GraphCanvas(QWidget* parent)
-//    : QWidget(parent), p_impl(std::make_unique<GraphCanvasImpl>())
-//{
-//    auto layout = new QVBoxLayout(this);
-//    layout->setMargin(0);
-//    layout->setSpacing(0);
-//    layout->addWidget(p_impl->custom_plot);
-//    layout->addWidget(p_impl->status_label);
-//    setLayout(layout);
+  //! Updates viewport.
+  void setViewportToContent()
+  {
+    if (!viewport_controller->GetItem())
+    {
+      return;
+    }
+    viewport_controller->GetItem()->SetViewportToContent();
+  }
 
-//    setMouseTracking(true);
-//    p_impl->customPlot()->setMouseTracking(true);
-//    p_impl->customPlot()->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-//    p_impl->customPlot()->axisRect()->setupFullAxesBox(true);
+  //! Updates viewport.
+  void setViewportToContent(double left, double top, double right, double bottom)
+  {
+    if (!viewport_controller->GetItem())
+    {
+      return;
+    }
+    viewport_controller->GetItem()->SetViewportToContent(left, top, right, bottom);
+  }
 
-//    auto on_replot = [this]() {
-//        QMargins margins = p_impl->customPlot()->axisRect()->margins();
-//        axisMarginsChanged(margins.left(), margins.top(), margins.right(), margins.bottom());
-//    };
-//    connect(p_impl->customPlot(), &QCustomPlot::afterReplot, this, on_replot);
-//}
+  QCustomPlot* customPlot() { return custom_plot; }
+};
 
-//GraphCanvas::~GraphCanvas() = default;
+GraphCanvas::GraphCanvas(QWidget* parent)
+    : QWidget(parent), p_impl(std::make_unique<GraphCanvasImpl>())
+{
+  auto layout = new QVBoxLayout(this);
+  layout->setMargin(0);
+  layout->setSpacing(0);
+  layout->addWidget(p_impl->custom_plot);
+  layout->addWidget(p_impl->status_label);
+  setLayout(layout);
 
-//void GraphCanvas::setItem(GraphViewportItem* viewport_item)
-//{
-//    p_impl->viewport_controller->setItem(viewport_item);
-//}
+  setMouseTracking(true);
+  p_impl->customPlot()->setMouseTracking(true);
+  p_impl->customPlot()->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+  p_impl->customPlot()->axisRect()->setupFullAxesBox(true);
 
-//std::unique_ptr<SceneAdapterInterface> GraphCanvas::createSceneAdapter() const
-//{
-//    return std::make_unique<CustomPlotSceneAdapter>(p_impl->customPlot());
-//}
+  auto on_replot = [this]()
+  {
+    QMargins margins = p_impl->customPlot()->axisRect()->margins();
+    axisMarginsChanged(margins.left(), margins.top(), margins.right(), margins.bottom());
+  };
+  connect(p_impl->customPlot(), &QCustomPlot::afterReplot, this, on_replot);
+}
 
-//void GraphCanvas::setViewportToContent(double left, double top, double right, double bottom)
-//{
-//    p_impl->setViewportToContent(left, top, right, bottom);
-//}
+GraphCanvas::~GraphCanvas() = default;
 
-//void GraphCanvas::setViewportToContent()
-//{
-//    p_impl->setViewportToContent();
-//}
+void GraphCanvas::SetItem(GraphViewportItem* viewport_item)
+{
+  p_impl->viewport_controller->SetItem(viewport_item);
+}
 
-////! Set margins between axes rectangle and widget borders.
-////! If the value is negative, leave old margin intact and allow automatic margin adjustment.
+void GraphCanvas::SetViewportToContent(double left, double top, double right, double bottom)
+{
+  p_impl->setViewportToContent(left, top, right, bottom);
+}
 
-//void GraphCanvas::setAxisMargins(int left, int top, int right, int bottom)
-//{
-//    auto customPlot = p_impl->customPlot();
-//    customPlot->axisRect()->setAutoMargins(autoMarginPolicy(left, top, right, bottom));
+void GraphCanvas::SetViewportToContent()
+{
+  p_impl->setViewportToContent();
+}
 
-//    QMargins orig = customPlot->axisRect()->margins();
-//    int new_left = left >= 0 ? left : orig.left();
-//    int new_top = top >= 0 ? top : orig.top();
-//    int new_right = right >= 0 ? right : orig.right();
-//    int new_bottom = bottom >= 0 ? bottom : orig.bottom();
-//    customPlot->axisRect()->setMargins(QMargins(new_left, new_top, new_right, new_bottom));
+//! Set margins between axes rectangle and widget borders.
+//! If the value is negative, leave old margin intact and allow automatic margin adjustment.
 
-//    customPlot->replot();
-//}
+void GraphCanvas::SetAxisMargins(int left, int top, int right, int bottom)
+{
+  auto customPlot = p_impl->customPlot();
+  customPlot->axisRect()->setAutoMargins(autoMarginPolicy(left, top, right, bottom));
+
+  QMargins orig = customPlot->axisRect()->margins();
+  int new_left = left >= 0 ? left : orig.left();
+  int new_top = top >= 0 ? top : orig.top();
+  int new_right = right >= 0 ? right : orig.right();
+  int new_bottom = bottom >= 0 ? bottom : orig.bottom();
+  customPlot->axisRect()->setMargins(QMargins(new_left, new_top, new_right, new_bottom));
+
+  customPlot->replot();
+}
+
+}  // namespace mvvm

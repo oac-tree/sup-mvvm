@@ -15,6 +15,8 @@ target_sources(${library_name} PRIVATE
   mainverticalbarwidget.h
   propertytreeview.cpp
   propertytreeview.h
+  statuslabel.cpp
+  statuslabel.h
   topitemstreeview.cpp
   topitemstreeview.h
   widgetutils.cpp
