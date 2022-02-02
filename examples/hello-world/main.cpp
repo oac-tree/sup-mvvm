@@ -27,8 +27,6 @@
 #include <QTreeView>
 #include <iostream>
 
-using namespace mvvm;
-
 //! Create a model with single compound item in it, saves the content in xml file.
 
 int main(int argc, char** argv)
@@ -36,8 +34,8 @@ int main(int argc, char** argv)
   QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
   QApplication app(argc, argv);
 
-  ApplicationModel model;
-  auto item = model.InsertItem<CompoundItem>();
+  mvvm::ApplicationModel model;
+  auto item = model.InsertItem<mvvm::CompoundItem>();
   item->AddProperty("Greeting", "Hello");
   item->AddProperty("Addressee", "World!");
   item->AddProperty("Number", 42);
@@ -45,7 +43,7 @@ int main(int argc, char** argv)
   std::cout << item->Property<std::string>("Greeting") << " "
             << item->Property<std::string>("Addressee") << "\n";
 
-  AllItemsViewModel viewmodel(&model);
+  mvvm::AllItemsViewModel viewmodel(&model);
 
   QTreeView view;
   view.setModel(&viewmodel);
@@ -53,7 +51,7 @@ int main(int argc, char** argv)
 
   auto result = app.exec();
 
-  XmlDocument document({&model});
+  mvvm::XmlDocument document({&model});
   document.Save("test.xml");
 
   return result;
