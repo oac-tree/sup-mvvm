@@ -39,13 +39,13 @@ using ::testing::_;
 class ViewportAxisPlotControllerTest : public ::testing::Test
 {
 public:
-  std::unique_ptr<QSignalSpy> createSpy(QCPAxis* axis)
+  std::unique_ptr<QSignalSpy> CreateSpy(QCPAxis* axis)
   {
     return std::make_unique<QSignalSpy>(
         axis, static_cast<void (QCPAxis::*)(const QCPRange&)>(&QCPAxis::rangeChanged));
   }
 
-  std::unique_ptr<QSignalSpy> createSpy2(QCPAxis* axis)
+  std::unique_ptr<QSignalSpy> CreateSpyDoubleRange(QCPAxis* axis)
   {
     return std::make_unique<QSignalSpy>(
         axis,
@@ -55,7 +55,7 @@ public:
 
 //! Initial state.
 
-TEST_F(ViewportAxisPlotControllerTest, initialState)
+TEST_F(ViewportAxisPlotControllerTest, InitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
@@ -73,8 +73,8 @@ TEST_F(ViewportAxisPlotControllerTest, initialState)
   EXPECT_EQ(axis->range().upper, customplot_default_upper);
 
   // checking axis signaling
-  auto xChanged = createSpy(custom_plot->xAxis);
-  auto yChanged = createSpy(custom_plot->yAxis);
+  auto xChanged = CreateSpy(custom_plot->xAxis);
+  auto yChanged = CreateSpy(custom_plot->yAxis);
 
   // changing range of axis
   custom_plot->xAxis->setRangeLower(1.0);
@@ -87,7 +87,7 @@ TEST_F(ViewportAxisPlotControllerTest, initialState)
 //! Controller subscribed to ViewportAxisItem.
 //! Checking that QCPAxis get same parameters as in AxisItem.
 
-TEST_F(ViewportAxisPlotControllerTest, setViewportAxisItem)
+TEST_F(ViewportAxisPlotControllerTest, CetViewportAxisItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   const double expected_min = 1.0;
@@ -95,20 +95,20 @@ TEST_F(ViewportAxisPlotControllerTest, setViewportAxisItem)
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetMin(expected_min);
-  axisItem->SetMax(expected_max);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetMin(expected_min);
+  axis_item->SetMax(expected_max);
 
   // setting up QCustomPlot and item controller.
   ASSERT_TRUE(custom_plot->xAxis != nullptr);
   ViewportAxisPlotController controller(custom_plot->xAxis);
 
   auto prev_y_range = custom_plot->yAxis->range();
-  auto xChanged = createSpy(custom_plot->xAxis);
-  auto yChanged = createSpy(custom_plot->yAxis);
+  auto xChanged = CreateSpy(custom_plot->xAxis);
+  auto yChanged = CreateSpy(custom_plot->yAxis);
 
   // Subscribtion to ViewportAxisItem should change QCPAxis range for X.
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
   EXPECT_EQ(custom_plot->xAxis->range().lower, expected_min);
   EXPECT_EQ(custom_plot->xAxis->range().upper, expected_max);
@@ -122,25 +122,25 @@ TEST_F(ViewportAxisPlotControllerTest, setViewportAxisItem)
 //! Controller subscribed to ViewportAxisItem.
 //! Change QCPAxis and check that ViewportAxisItem got new values.
 
-TEST_F(ViewportAxisPlotControllerTest, changeQCPAxis)
+TEST_F(ViewportAxisPlotControllerTest, ChangeQCPAxis)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetMin(42.0);
-  axisItem->SetMax(42.1);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetMin(42.0);
+  axis_item->SetMax(42.1);
 
   // setting up QCustomPlot and item controller.
   const double expected_min = 1.0;
   const double expected_max = 2.0;
-  auto xChanged = createSpy(custom_plot->xAxis);
-  auto yChanged = createSpy(custom_plot->yAxis);
+  auto xChanged = CreateSpy(custom_plot->xAxis);
+  auto yChanged = CreateSpy(custom_plot->yAxis);
 
   // Setting up controller.
   ViewportAxisPlotController controller(custom_plot->xAxis);
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
   EXPECT_EQ(xChanged->count(), 1);
   EXPECT_EQ(yChanged->count(), 0);
@@ -151,34 +151,34 @@ TEST_F(ViewportAxisPlotControllerTest, changeQCPAxis)
   EXPECT_EQ(yChanged->count(), 0);
 
   // Check changed properties in ViewportAxisItem
-  EXPECT_EQ(axisItem->GetMin(), expected_min);
-  EXPECT_EQ(axisItem->GetMax(), expected_max);
+  EXPECT_EQ(axis_item->GetMin(), expected_min);
+  EXPECT_EQ(axis_item->GetMax(), expected_max);
 }
 
 //! Controller subscribed to ViewportAxisItem.
 //! Change ViewportAxisItem and check that QCPAxis got new values.
 
-TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItem)
+TEST_F(ViewportAxisPlotControllerTest, ChangeViewportAxisItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetMin(42.0);
-  axisItem->SetMax(42.1);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetMin(42.0);
+  axis_item->SetMax(42.1);
 
   // setting up QCustomPlot and item controller.
   ViewportAxisPlotController controller(custom_plot->xAxis);
-  controller.SetItem(axisItem);
-  auto xChanged = createSpy(custom_plot->xAxis);
-  auto yChanged = createSpy(custom_plot->yAxis);
+  controller.SetItem(axis_item);
+  auto xChanged = CreateSpy(custom_plot->xAxis);
+  auto yChanged = CreateSpy(custom_plot->yAxis);
 
   // changing values
   const double expected_min = 1.0;
   const double expected_max = 2.0;
-  axisItem->SetMin(expected_min);
-  axisItem->SetMax(expected_max);
+  axis_item->SetMin(expected_min);
+  axis_item->SetMax(expected_max);
 
   // Checking QCPAxis
   EXPECT_EQ(xChanged->count(), 2);
@@ -191,30 +191,30 @@ TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItem)
 //! Change ViewportAxisItem and check that QCPAxis got new values.
 //! Check correctness of signals issued by QCPAxisItem.
 
-TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItemSignaling)
+TEST_F(ViewportAxisPlotControllerTest, ChangeViewportAxisItemSignaling)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetMin(1.0);
-  axisItem->SetMax(2.0);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetMin(1.0);
+  axis_item->SetMax(2.0);
 
   // setting up QCustomPlot and item controller.
   ViewportAxisPlotController controller(custom_plot->xAxis);
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
   // initial condition
   EXPECT_EQ(custom_plot->xAxis->range().lower, 1.0);
   EXPECT_EQ(custom_plot->xAxis->range().upper, 2.0);
 
-  auto rangeChanged = createSpy(custom_plot->xAxis);
-  auto rangeChanged2 = createSpy2(custom_plot->xAxis);
+  auto rangeChanged = CreateSpy(custom_plot->xAxis);
+  auto rangeChanged2 = CreateSpyDoubleRange(custom_plot->xAxis);
 
   // making a change
   const double expected_max = 20.0;
-  axisItem->SetMax(expected_max);
+  axis_item->SetMax(expected_max);
 
   // Checking QCPAxis
   EXPECT_EQ(rangeChanged->count(), 1);
@@ -242,29 +242,29 @@ TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItemSignaling)
 //! Change ViewportAxisItem and check that QCPAxis got new values.
 //! Check correctness that there is not extra looping and item doesn't start changing many times
 
-TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItemMapping)
+TEST_F(ViewportAxisPlotControllerTest, ChangeViewportAxisItemMapping)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetMin(1.0);
-  axisItem->SetMax(2.0);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetMin(1.0);
+  axis_item->SetMax(2.0);
 
   // setting up QCustomPlot and item controller.
   ViewportAxisPlotController controller(custom_plot->xAxis);
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
-  MockItemListener widget(axisItem);
+  MockItemListener widget(axis_item);
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(axisItem, ViewportAxisItem::kMax)).Times(1);
+  EXPECT_CALL(widget, OnPropertyChanged(axis_item, ViewportAxisItem::kMax)).Times(1);
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
   // making a change
   const double expected_max = 20.0;
-  axisItem->SetMax(expected_max);
+  axis_item->SetMax(expected_max);
 
   EXPECT_EQ(custom_plot->xAxis->range().lower, 1.0);
   EXPECT_EQ(custom_plot->xAxis->range().upper, expected_max);
@@ -272,19 +272,19 @@ TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItemMapping)
 
 //! Set ViewportAxisItem logz, subscribe controller and check that QCPAxis has it.
 
-TEST_F(ViewportAxisPlotControllerTest, viewportLogz)
+TEST_F(ViewportAxisPlotControllerTest, ViewportLogz)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetInLog(true);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetInLog(true);
 
   // setting up QCustomPlot and item controller.
   auto qcp_axis = custom_plot->xAxis;
   ViewportAxisPlotController controller(qcp_axis);
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
   // QCPAxis should switch to logarithmic
   EXPECT_EQ(qcp_axis->scaleType(), QCPAxis::stLogarithmic);
@@ -293,24 +293,24 @@ TEST_F(ViewportAxisPlotControllerTest, viewportLogz)
 //! Controller subscribed to ViewportAxisItem.
 //! Change ViewportAxisItem logz and check that QCPAxis got new values.
 
-TEST_F(ViewportAxisPlotControllerTest, changeViewportLogz)
+TEST_F(ViewportAxisPlotControllerTest, ChangeViewportLogz)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
 
   // setting up QCustomPlot and item controller.
   auto qcp_axis = custom_plot->xAxis;
   ViewportAxisPlotController controller(qcp_axis);
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
   // initial linear scale of axis
   EXPECT_EQ(qcp_axis->scaleType(), QCPAxis::stLinear);
 
   // changing scale
-  axisItem->SetInLog(true);
+  axis_item->SetInLog(true);
 
   // QCPAxis should switch to logarithmic
   EXPECT_EQ(qcp_axis->scaleType(), QCPAxis::stLogarithmic);
@@ -320,27 +320,27 @@ TEST_F(ViewportAxisPlotControllerTest, changeViewportLogz)
 //! Change ViewportAxisItem and check that QCPAxis got new values.
 //! Same test as before, only QCPAxis y-axis checked.
 
-TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItemYCase)
+TEST_F(ViewportAxisPlotControllerTest, ChangeViewportAxisItemYCase)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
-  axisItem->SetMin(42.0);
-  axisItem->SetMax(42.1);
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
+  axis_item->SetMin(42.0);
+  axis_item->SetMax(42.1);
 
   // setting up QCustomPlot and item controller.
   ViewportAxisPlotController controller(custom_plot->yAxis);
-  controller.SetItem(axisItem);
-  auto xChanged = createSpy(custom_plot->xAxis);
-  auto yChanged = createSpy(custom_plot->yAxis);
+  controller.SetItem(axis_item);
+  auto xChanged = CreateSpy(custom_plot->xAxis);
+  auto yChanged = CreateSpy(custom_plot->yAxis);
 
   // changing values
   const double expected_min = 1.0;
   const double expected_max = 2.0;
-  axisItem->SetMin(expected_min);
-  axisItem->SetMax(expected_max);
+  axis_item->SetMin(expected_min);
+  axis_item->SetMax(expected_max);
 
   // Checking QCPAxis
   EXPECT_EQ(xChanged->count(), 0);
@@ -415,21 +415,21 @@ TEST_F(ViewportAxisPlotControllerTest, changeViewportAxisItemYCase)
 //! Controller subscribed to ViewportAxisItem.
 //! Change ViewportAxisItem title and check that QCPAxis got new values.
 
-TEST_F(ViewportAxisPlotControllerTest, changeAxisTitle)
+TEST_F(ViewportAxisPlotControllerTest, ChangeAxisTitle)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
   // creating the model with single ViewportAxisItem
   ApplicationModel model;
-  auto axisItem = model.InsertItem<ViewportAxisItem>();
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
 
   // setting up QCustomPlot and item controller.
   auto qcp_axis = custom_plot->xAxis;
   ViewportAxisPlotController controller(qcp_axis);
-  controller.SetItem(axisItem);
+  controller.SetItem(axis_item);
 
   // changing title
-  axisItem->GetTitle()->SetText("abc");
+  axis_item->GetTitle()->SetText("abc");
 
   // no need to change title size and font (checked in axistitlecontroller.test)
 
