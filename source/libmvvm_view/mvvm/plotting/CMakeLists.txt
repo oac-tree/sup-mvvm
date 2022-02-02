@@ -11,5 +11,8 @@ target_sources(${library_name} PRIVATE
   pencontroller.h
   viewportaxisplotcontroller.cpp
   viewportaxisplotcontroller.h
+  graphinfoformatter.cpp
+  graphinfoformatter.h
+  statusstringformatterinterface.h
 )
 
