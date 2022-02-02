@@ -38,6 +38,8 @@ class TextItem;
 class MVVM_MODEL_EXPORT BasicAxisItem : public CompoundItem
 {
 public:
+  static inline const std::string kMin = "kMin";
+  static inline const std::string kMax = "kMax";
   explicit BasicAxisItem(const std::string& model_type);
 
   double GetMin() const;
@@ -57,6 +59,7 @@ class MVVM_MODEL_EXPORT ViewportAxisItem : public BasicAxisItem
 {
 public:
   static inline const std::string Type = "ViewportAxis";
+  static inline const std::string kIsLog = "kIsLog";
 
   explicit ViewportAxisItem(const std::string& model_type = Type);
 

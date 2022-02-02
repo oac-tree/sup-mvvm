@@ -1,0 +1,147 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mvvm/plotting/viewportaxisplotcontroller.h"
+
+#include "mvvm/plotting/axistitlecontroller.h"
+#include "mvvm/plotting/customplotutils.h"
+#include "mvvm/standarditems/axisitems.h"
+#include "mvvm/standarditems/plottableitems.h"
+
+#include <qcustomplot.h>
+
+#include <QObject>
+#include <stdexcept>
+
+using namespace mvvm;
+
+struct ViewportAxisPlotController::AxesPlotControllerImpl
+{
+  ViewportAxisPlotController* m_self{nullptr};
+  QCPAxis* m_axis{nullptr};
+  bool m_blockUpdate{false};
+  std::unique_ptr<QMetaObject::Connection> m_axisConn;
+  std::unique_ptr<AxisTitleController> m_titleController;
+
+  AxesPlotControllerImpl(ViewportAxisPlotController* controller, QCPAxis* axis)
+      : m_self(controller), m_axis(axis)
+  {
+    if (!axis)
+      throw std::runtime_error("AxisPlotController: axis is not initialized.");
+    m_axisConn = std::make_unique<QMetaObject::Connection>();
+  }
+
+  //! Connects QCustomPlot signals with controller methods.
+  void setConnected()
+  {
+    auto on_axis_range = [this](const QCPRange& newRange)
+    {
+      m_blockUpdate = true;
+      auto item = m_self->GetItem();
+      item->SetRange(newRange.lower, newRange.upper);
+      m_blockUpdate = false;
+    };
+
+    *m_axisConn = QObject::connect(
+        m_axis, static_cast<void (QCPAxis::*)(const QCPRange&)>(&QCPAxis::rangeChanged),
+        on_axis_range);
+  }
+
+  //! Disonnects QCustomPlot signals.
+
+  void setDisconnected() { QObject::disconnect(*m_axisConn); }
+
+  //! Sets axesRange from SessionItem.
+  void setAxisRangeFromItem()
+  {
+    auto [lower, upper] = m_self->GetItem()->GetRange();
+    m_axis->setRange(QCPRange(lower, upper));
+  }
+
+  //! Sets log scale from item.
+
+  void setAxisLogScaleFromItem()
+  {
+    utils::SetLogarithmicScale(m_axis, m_self->GetItem()->IsInLog());
+  }
+
+  //! Init axis from item and setup connections.
+
+  void init_axis()
+  {
+    m_titleController = std::make_unique<AxisTitleController>(m_axis);
+    auto text_item = m_self->GetItem()->GetTitle();
+    m_titleController->SetItem(text_item);
+    setAxisRangeFromItem();
+    setAxisLogScaleFromItem();
+    setConnected();
+  }
+
+  void updateLowerRange(const ViewportAxisItem* item)
+  {
+    setDisconnected();
+    m_axis->setRangeLower(item->GetMin());
+    setConnected();
+  }
+
+  void updateUpperRange(const ViewportAxisItem* item)
+  {
+    setDisconnected();
+    m_axis->setRangeUpper(item->GetMax());
+    setConnected();
+  }
+
+  ~AxesPlotControllerImpl() { setDisconnected(); }
+};
+
+ViewportAxisPlotController::ViewportAxisPlotController(QCPAxis* axis)
+    : p_impl(std::make_unique<AxesPlotControllerImpl>(this, axis))
+
+{
+}
+
+ViewportAxisPlotController::~ViewportAxisPlotController() = default;
+
+void ViewportAxisPlotController::Subscribe()
+{
+  auto on_property_change = [this](SessionItem*, std::string name)
+  {
+    if (p_impl->m_blockUpdate)
+      return;
+
+    if (name == ViewportAxisItem::kMin)
+      p_impl->updateLowerRange(GetItem());
+
+    if (name == ViewportAxisItem::kMax)
+      p_impl->updateUpperRange(GetItem());
+
+    if (name == ViewportAxisItem::kIsLog)
+      p_impl->setAxisLogScaleFromItem();
+
+    p_impl->m_axis->parentPlot()->replot();
+  };
+  SetOnPropertyChanged(on_property_change);
+
+  p_impl->init_axis();
+}
+
+void ViewportAxisPlotController::Unsubscribe()
+{
+  p_impl->setDisconnected();
+}

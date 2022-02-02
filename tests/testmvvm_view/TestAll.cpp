@@ -25,6 +25,8 @@
 #include <QApplication>
 #include <QMetaType>
 
+#include <qcustomplot.h>
+
 using namespace mvvm;
 
 int main(int argc, char** argv)
@@ -33,6 +35,7 @@ int main(int argc, char** argv)
   ::testing::InitGoogleMock(&argc, argv);
 
   qRegisterMetaType<SessionItem*>("SessionItem*");
+  qRegisterMetaType<QCPRange>("QCPRange");
 
   QApplication app(argc, argv);
   Q_UNUSED(app)
