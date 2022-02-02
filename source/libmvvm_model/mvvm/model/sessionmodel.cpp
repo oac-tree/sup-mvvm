@@ -26,6 +26,7 @@
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/modelutils.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
 
 namespace mvvm
@@ -83,6 +84,9 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
   }
 
   int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
+
+//  std::string actual_tag =
+//      tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
 
   return parent->InsertItem(std::move(item), TagIndex{tag_index.tag, actual_index});
 }

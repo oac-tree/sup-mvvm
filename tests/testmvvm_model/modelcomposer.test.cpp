@@ -91,7 +91,7 @@ TEST_F(ModelComposerTest, SetSameData)
 TEST_F(ModelComposerTest, InsertNewItem)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
-  TagIndex expected_tag_index{"", 0};
+  TagIndex expected_tag_index{"rootTag", 0};
 
   EXPECT_CALL(m_notifier, AboutToInsertItemNotify(expected_parent, expected_tag_index)).Times(1);
   EXPECT_CALL(m_notifier, ItemInsertedNotify(expected_parent, expected_tag_index)).Times(1);

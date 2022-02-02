@@ -21,6 +21,7 @@
 
 #include "mvvm/interfaces/modeleventnotifierinterface.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/taggeditems.h"
 
 #include <stdexcept>
 
@@ -41,7 +42,10 @@ struct ModelComposer::ModelComposerImpl
 
     int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
 
-    return {parent, TagIndex{tag_index.tag, actual_index}};
+    std::string actual_tag =
+        tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
+
+    return {parent, TagIndex{actual_tag, actual_index}};
   }
 };
 
