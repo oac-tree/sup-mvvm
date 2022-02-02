@@ -143,6 +143,8 @@ private:
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
+  virtual void Activate();
+
   struct SessionItemImpl;
   std::unique_ptr<SessionItemImpl> p_impl;
 };

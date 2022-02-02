@@ -24,6 +24,7 @@
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itemmanager.h"
 #include "mvvm/model/itempool.h"
+#include "mvvm/model/modelutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
 
@@ -222,6 +223,10 @@ void SessionModel::Clear(std::function<void(SessionItem*)> callback)
 void SessionModel::RegisterInPool(SessionItem* item)
 {
   p_impl->m_item_manager->RegisterInPool(item);
+  if (utils::HasSignals(this))
+  {
+    item->Activate();
+  }
 }
 
 //! Unregister item from pool.

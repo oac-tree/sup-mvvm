@@ -396,4 +396,12 @@ void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
   p_impl->m_tags = std::move(tags);
 }
 
+//! Activates business logic.
+//! The method is called from the model when on item insertion.
+
+void SessionItem::Activate()
+{
+
+}
+
 }  // namespace mvvm
