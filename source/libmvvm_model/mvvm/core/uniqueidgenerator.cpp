@@ -21,16 +21,39 @@
 
 #include "uuid.h"
 
-using namespace mvvm;
+#include <memory>
+
+struct GeneratorData
+{
+  std::random_device rd;
+  std::array<int, std::mt19937::state_size> seed_data{};
+  std::unique_ptr<std::seed_seq> seq;
+  std::unique_ptr<std::mt19937> generator;
+  std::unique_ptr<uuids::uuid_random_generator> gen;
+
+  GeneratorData()
+  {
+    std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
+    seq = std::make_unique<std::seed_seq>(std::begin(seed_data), std::end(seed_data));
+    generator = std::make_unique<std::mt19937>(*seq.get());
+    gen = std::make_unique<uuids::uuid_random_generator>(*generator.get());
+  }
+};
+
+namespace mvvm
+{
 
 std::string UniqueIdGenerator::Generate()
 {
-  std::random_device rd;
-  auto seed_data = std::array<int, std::mt19937::state_size> {};
-  std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
-  std::seed_seq seq(std::begin(seed_data), std::end(seed_data));
-  std::mt19937 generator(seq);
-  uuids::uuid_random_generator gen{generator};
+  static GeneratorData data;
+  //  std::random_device rd;
+  //  auto seed_data = std::array<int, std::mt19937::state_size> {};
+  //  std::generate(std::begin(seed_data), std::end(seed_data), std::ref(rd));
+  //  std::seed_seq seq(std::begin(seed_data), std::end(seed_data));
+  //  std::mt19937 generator(seq);
+  //  uuids::uuid_random_generator gen{generator};
 
-  return uuids::to_string(gen());
+  return uuids::to_string((*data.gen)());
 }
+
+}  // namespace mvvm
