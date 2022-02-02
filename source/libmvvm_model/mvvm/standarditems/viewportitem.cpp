@@ -27,14 +27,14 @@ namespace mvvm
 
 ViewportItem::ViewportItem(const std::string& item_type) : CompoundItem(item_type) {}
 
-ViewportAxisItem* ViewportItem::xAxis() const
+ViewportAxisItem* ViewportItem::GetXAxis() const
 {
-  return GetItem<ViewportAxisItem>(P_XAXIS);
+  return GetItem<ViewportAxisItem>(kXaxis);
 }
 
-ViewportAxisItem* ViewportItem::yAxis() const
+ViewportAxisItem* ViewportItem::GetYAxis() const
 {
-  return GetItem<ViewportAxisItem>(P_YAXIS);
+  return GetItem<ViewportAxisItem>(kYaxis);
 }
 
 //! Sets range of x,y window to show all data.
@@ -43,34 +43,34 @@ ViewportAxisItem* ViewportItem::yAxis() const
 //! Example: setViewportToContent(0.0, 0.1, 0.0, 0.1) will set axes to show all graphs with 10% gap
 //! above and below graph's max and min.
 
-void ViewportItem::setViewportToContent(double left, double top, double right, double bottom)
+void ViewportItem::SetViewportToContent(double left, double top, double right, double bottom)
 {
   //  Utils::BeginMacros(this, "setViewportToContent");  // FIXME restore undo/redo
   auto [xmin, xmax] = GetDataXRange();
-  xAxis()->SetRange(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
+  GetXAxis()->SetRange(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
 
   auto [ymin, ymax] = GetDataYRange();
-  yAxis()->SetRange(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
+  GetYAxis()->SetRange(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
   //  Utils::EndMacros(this);
 }
 
 //! Sets range of x,y window to show all data.
 
-void ViewportItem::setViewportToContent()
+void ViewportItem::SetViewportToContent()
 {
   //  Utils::BeginMacros(this, "setViewportToContent"); // FIXME restore undo/redo
   auto [xmin, xmax] = GetDataXRange();
-  xAxis()->SetRange(xmin, xmax);
+  GetXAxis()->SetRange(xmin, xmax);
 
   auto [ymin, ymax] = GetDataYRange();
-  yAxis()->SetRange(ymin, ymax);
+  GetYAxis()->SetRange(ymin, ymax);
   //  Utils::EndMacros(this);
 }
 
-void ViewportItem::register_xy_axes()
+void ViewportItem::RegisterAxes()
 {
-  AddProperty<ViewportAxisItem>(P_XAXIS)->SetDisplayName("X axis");
-  AddProperty<ViewportAxisItem>(P_YAXIS)->SetDisplayName("Y axis");
+  AddProperty<ViewportAxisItem>(kXaxis)->SetDisplayName("X axis");
+  AddProperty<ViewportAxisItem>(kYaxis)->SetDisplayName("Y axis");
 }
 
 }  // namespace mvvm

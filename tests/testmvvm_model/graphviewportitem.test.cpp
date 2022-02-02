@@ -32,14 +32,14 @@ class GraphViewportItemTest : public ::testing::Test
 TEST_F(GraphViewportItemTest, initialState)
 {
   GraphViewportItem item;
-  EXPECT_EQ(item.xAxis()->GetType(), ViewportAxisItem::Type);
-  EXPECT_EQ(item.yAxis()->GetType(), ViewportAxisItem::Type);
+  EXPECT_EQ(item.GetXAxis()->GetType(), ViewportAxisItem::Type);
+  EXPECT_EQ(item.GetYAxis()->GetType(), ViewportAxisItem::Type);
   EXPECT_EQ(item.GetGraphItems().size(), 0);
 }
 
 //! Add graph to viewport.
 
-TEST_F(GraphViewportItemTest, addItem)
+TEST_F(GraphViewportItemTest, AddItem)
 {
   SessionModel model;
 
@@ -56,15 +56,15 @@ TEST_F(GraphViewportItemTest, addItem)
   EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
 
   // updating viewport to graph
-  viewport_item->setViewportToContent();
+  viewport_item->SetViewportToContent();
 
   // x-axis of viewport should be set to FixedBinAxis of DataItem
-  auto xaxis = viewport_item->xAxis();
+  auto xaxis = viewport_item->GetXAxis();
   EXPECT_DOUBLE_EQ(xaxis->GetMin(), expected_centers[0]);
   EXPECT_DOUBLE_EQ(xaxis->GetMax(), expected_centers[2]);
 
   // y-axis of viewport should be set to min/max of expected_content
-  auto yaxis = viewport_item->yAxis();
+  auto yaxis = viewport_item->GetYAxis();
   auto [expected_amin, expected_amax] =
       std::minmax_element(std::begin(expected_values), std::end(expected_values));
   EXPECT_DOUBLE_EQ(yaxis->GetMin(), *expected_amin);
@@ -73,14 +73,14 @@ TEST_F(GraphViewportItemTest, addItem)
 
 //! Check signaling on set data item.
 
-TEST_F(GraphViewportItemTest, onAddItem)
+TEST_F(GraphViewportItemTest, OnAddItem)
 {
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
 
   MockItemListener widget(viewport_item);
 
-  const TagIndex expected_tagrow{ViewportItem::T_ITEMS, 0};
+  const TagIndex expected_tagrow{ViewportItem::kItems, 0};
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnItemInserted(viewport_item, expected_tagrow)).Times(1);
@@ -92,7 +92,7 @@ TEST_F(GraphViewportItemTest, onAddItem)
 
 //! Check signaling on set data item.
 
-TEST_F(GraphViewportItemTest, onSetDataItem)
+TEST_F(GraphViewportItemTest, OnSetDataItem)
 {
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
@@ -122,7 +122,7 @@ TEST_F(GraphViewportItemTest, onSetDataItem)
 
 //! Add graph to viewport.
 
-TEST_F(GraphViewportItemTest, setViewportToContentWithMargins)
+TEST_F(GraphViewportItemTest, SetViewportToContentWithMargins)
 {
   SessionModel model;
 
@@ -140,15 +140,15 @@ TEST_F(GraphViewportItemTest, setViewportToContentWithMargins)
 
   // updating viewport to graph
   const double bottom{0.1}, top{0.1};
-  viewport_item->setViewportToContent(0.0, top, 0.0, bottom);
+  viewport_item->SetViewportToContent(0.0, top, 0.0, bottom);
 
   // x-axis of viewport should be set to FixedBinAxis of DataItem
-  auto xaxis = viewport_item->xAxis();
+  auto xaxis = viewport_item->GetXAxis();
   EXPECT_DOUBLE_EQ(xaxis->GetMin(), expected_centers[0]);
   EXPECT_DOUBLE_EQ(xaxis->GetMax(), expected_centers[2]);
 
   // y-axis of viewport should be set to min/max of expected_content
-  auto yaxis = viewport_item->yAxis();
+  auto yaxis = viewport_item->GetYAxis();
   auto [expected_amin, expected_amax] =
       std::minmax_element(std::begin(expected_values), std::end(expected_values));
 

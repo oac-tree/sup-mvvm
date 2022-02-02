@@ -33,22 +33,22 @@ class ViewportAxisItem;
 class MVVM_MODEL_EXPORT ViewportItem : public CompoundItem
 {
 public:
-  static inline const std::string P_XAXIS = "P_XAXIS";
-  static inline const std::string P_YAXIS = "P_YAXIS";
-  static inline const std::string T_ITEMS = "T_ITEMS";
+  static inline const std::string kXaxis = "kXaxis";
+  static inline const std::string kYaxis = "kYaxis";
+  static inline const std::string kItems = "kItems";
 
   explicit ViewportItem(const std::string& item_type);
 
-  ViewportAxisItem* xAxis() const;
+  ViewportAxisItem* GetXAxis() const;
 
-  ViewportAxisItem* yAxis() const;
+  ViewportAxisItem* GetYAxis() const;
 
-  virtual void setViewportToContent(double left, double top, double right, double bottom);
+  virtual void SetViewportToContent(double left, double top, double right, double bottom);
 
-  virtual void setViewportToContent();
+  virtual void SetViewportToContent();
 
 protected:
-  void register_xy_axes();
+  void RegisterAxes();
 
   virtual std::pair<double, double> GetDataXRange() const = 0;
   virtual std::pair<double, double> GetDataYRange() const = 0;

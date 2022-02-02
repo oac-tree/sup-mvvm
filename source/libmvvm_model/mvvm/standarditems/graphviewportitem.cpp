@@ -44,22 +44,22 @@ namespace mvvm
 
 GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
 {
-  register_xy_axes();
-  RegisterTag(TagInfo::CreateUniversalTag(T_ITEMS, {GraphItem::Type}), /*set_default*/ true);
+  RegisterAxes();
+  RegisterTag(TagInfo::CreateUniversalTag(kItems, {GraphItem::Type}), /*set_default*/ true);
 }
 
 //! Returns the selected graph items.
 
 std::vector<GraphItem*> GraphViewportItem::GetGraphItems() const
 {
-  return GetItems<GraphItem>(T_ITEMS);
+  return GetItems<GraphItem>(kItems);
 }
 
 //! Returns the selected graph items.
 
 std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 {
-  std::vector<GraphItem*> all_items = GetItems<GraphItem>(T_ITEMS);
+  std::vector<GraphItem*> all_items = GetItems<GraphItem>(kItems);
   std::vector<GraphItem*> visible_items;
   std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
                [](const GraphItem* graph_item)
@@ -72,7 +72,7 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_items)
 {
   std::vector<GraphItem*> output;
-  for (auto graph_item : GetItems<GraphItem>(T_ITEMS))
+  for (auto graph_item : GetItems<GraphItem>(kItems))
   {
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
         != visible_graph_items.end())
@@ -90,7 +90,7 @@ void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_
 
 void GraphViewportItem::SetAllVisible()
 {
-  for (auto graph_item : GetItems<GraphItem>(T_ITEMS))
+  for (auto graph_item : GetItems<GraphItem>(kItems))
   {
     graph_item->SetProperty(GraphItem::kDisplayed, true);
   }
