@@ -5,6 +5,8 @@ target_sources(${library_name} PRIVATE
   customplotutils.h
   data1dplotcontroller.cpp
   data1dplotcontroller.h
+  graphcanvas.cpp
+  graphcanvas.h
   graphinfoformatter.cpp
   graphinfoformatter.h
   graphplotcontroller.cpp
