@@ -37,7 +37,7 @@ class MVVM_MODEL_EXPORT CompoundItem : public SessionItem
 public:
   static inline const std::string Type = "CompoundItem";
 
-  CompoundItem(const std::string& model_type = Type);
+  explicit CompoundItem(const std::string& item_type = Type);
 
   //! Adds property item of given type and register it under the given 'name'.
   template <typename T = PropertyItem>

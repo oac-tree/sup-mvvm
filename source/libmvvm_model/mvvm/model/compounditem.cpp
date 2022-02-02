@@ -31,7 +31,7 @@ bool HasCustomDisplayName(const SessionItem *item)
 }
 }  // namespace
 
-CompoundItem::CompoundItem(const std::string &model_type) : SessionItem(model_type) {}
+CompoundItem::CompoundItem(const std::string &item_type) : SessionItem(item_type) {}
 
 //! Specialized version for const char: method is introduced to avoid "const char" conversion into
 //! variant<bool>.
