@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
     data1ditem.h
     graphitem.cpp
     graphitem.h
+    graphviewportitem.cpp
+    graphviewportitem.h
     linkeditem.cpp
     linkeditem.h
     plottableitems.cpp
@@ -14,4 +16,6 @@ target_sources(${library_name} PRIVATE
     standarditemincludes.h
     vectoritem.cpp
     vectoritem.h
+    viewportitem.cpp
+    viewportitem.h
 )
