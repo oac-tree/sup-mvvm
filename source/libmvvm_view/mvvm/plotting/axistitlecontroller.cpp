@@ -25,7 +25,8 @@
 
 #include <stdexcept>
 
-using namespace mvvm;
+namespace mvvm
+{
 
 struct AxisTitleController::AxisTitleControllerImpl
 {
@@ -34,10 +35,12 @@ struct AxisTitleController::AxisTitleControllerImpl
   AxisTitleControllerImpl(QCPAxis* axis) : m_axis(axis)
   {
     if (!axis)
+    {
       throw std::runtime_error("AxisTitleController: axis is not initialized.");
+    }
   }
 
-  void updateAxisFromItem(TextItem* item)
+  void UpdateAxisFromItem(TextItem* item)
   {
     auto font = m_axis->labelFont();
     font.setPointSize(item->GetSize());
@@ -59,8 +62,10 @@ AxisTitleController::~AxisTitleController() = default;
 
 void AxisTitleController::Subscribe()
 {
-  auto on_property_change = [this](auto, auto) { p_impl->updateAxisFromItem(GetItem()); };
+  auto on_property_change = [this](auto, auto) { p_impl->UpdateAxisFromItem(GetItem()); };
   SetOnPropertyChanged(on_property_change);
 
-  p_impl->updateAxisFromItem(GetItem());
+  p_impl->UpdateAxisFromItem(GetItem());
 }
+
+}  // namespace mvvm

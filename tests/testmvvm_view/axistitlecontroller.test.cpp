@@ -27,7 +27,7 @@ class AxisTitleControllerTest : public ::testing::Test
 
 //! Initial state.
 
-TEST_F(AxisTitleControllerTest, initialState)
+TEST_F(AxisTitleControllerTest, InitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
@@ -40,7 +40,7 @@ TEST_F(AxisTitleControllerTest, initialState)
   EXPECT_EQ(axis->label(), QString());
 }
 
-TEST_F(AxisTitleControllerTest, setTextItem)
+TEST_F(AxisTitleControllerTest, SetTextItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
@@ -66,7 +66,7 @@ TEST_F(AxisTitleControllerTest, setTextItem)
   EXPECT_EQ(axis->labelFont().pointSize(), expected_pointSize);
 }
 
-TEST_F(AxisTitleControllerTest, setFont)
+TEST_F(AxisTitleControllerTest, SetFont)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
