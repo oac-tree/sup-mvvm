@@ -27,6 +27,10 @@
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/standarditems/axisitems.h"
 #include "mvvm/standarditems/containeritem.h"
+#include "mvvm/standarditems/data1ditem.h"
+#include "mvvm/standarditems/graphitem.h"
+#include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/standarditems/linkeditem.h"
 #include "mvvm/standarditems/plottableitems.h"
 #include "mvvm/standarditems/vectoritem.h"
 

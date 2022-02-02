@@ -83,11 +83,11 @@ TEST_F(GraphViewportItemTest, onAddItem)
   const TagIndex expected_tagrow{ViewportItem::T_ITEMS, 0};
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-//  EXPECT_CALL(widget, OnItemInserted(viewport_item, expected_tagrow)).Times(1); // FIXME !!!
+  EXPECT_CALL(widget, OnItemInserted(viewport_item, expected_tagrow)).Times(1);
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
   // triggering action
-  model.InsertItem<GraphItem>(viewport_item);
+  auto graph = model.InsertItem<GraphItem>(viewport_item);
 }
 
 //! Check signaling on set data item.
@@ -97,7 +97,7 @@ TEST_F(GraphViewportItemTest, onSetDataItem)
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
 
-  // setting upda tata item
+  // setting up data item
   auto data_item = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
@@ -111,6 +111,8 @@ TEST_F(GraphViewportItemTest, onSetDataItem)
 
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+  //  EXPECT_CALL(widget, onChildPropertyChange(graph_item, GraphItem::P_LINK)).Times(1); // FIXME
+  //  after new signal introduction restore
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 

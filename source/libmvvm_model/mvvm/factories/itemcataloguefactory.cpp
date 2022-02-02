@@ -28,7 +28,11 @@ std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
   auto result = std::make_unique<ItemCatalogue>();
   result->RegisterItem<CompoundItem>();
   result->RegisterItem<ContainerItem>();
+  result->RegisterItem<Data1DItem>();
   result->RegisterItem<FixedBinAxisItem>();
+  result->RegisterItem<GraphItem>();
+  result->RegisterItem<GraphViewportItem>();
+  result->RegisterItem<LinkedItem>();
   result->RegisterItem<PenItem>();
   result->RegisterItem<PointwiseAxisItem>();
   result->RegisterItem<PropertyItem>();
@@ -36,6 +40,7 @@ std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
   result->RegisterItem<TextItem>();
   result->RegisterItem<VectorItem>();
   result->RegisterItem<ViewportAxisItem>();
+
   return result;
 }
 

@@ -35,7 +35,7 @@ namespace mvvm
 class MVVM_MODEL_EXPORT CompoundItem : public SessionItem
 {
 public:
-  static inline const std::string Type = "CompoundItem";
+  static inline const std::string Type = "Compound";
 
   explicit CompoundItem(const std::string& item_type = Type);
 
