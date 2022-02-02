@@ -46,10 +46,10 @@ ViewportAxisItem* ViewportItem::yAxis() const
 void ViewportItem::setViewportToContent(double left, double top, double right, double bottom)
 {
   //  Utils::BeginMacros(this, "setViewportToContent");  // FIXME restore undo/redo
-  auto [xmin, xmax] = data_xaxis_range();
+  auto [xmin, xmax] = GetDataXRange();
   xAxis()->SetRange(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
 
-  auto [ymin, ymax] = data_yaxis_range();
+  auto [ymin, ymax] = GetDataYRange();
   yAxis()->SetRange(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
   //  Utils::EndMacros(this);
 }
@@ -59,10 +59,10 @@ void ViewportItem::setViewportToContent(double left, double top, double right, d
 void ViewportItem::setViewportToContent()
 {
   //  Utils::BeginMacros(this, "setViewportToContent"); // FIXME restore undo/redo
-  auto [xmin, xmax] = data_xaxis_range();
+  auto [xmin, xmax] = GetDataXRange();
   xAxis()->SetRange(xmin, xmax);
 
-  auto [ymin, ymax] = data_yaxis_range();
+  auto [ymin, ymax] = GetDataYRange();
   yAxis()->SetRange(ymin, ymax);
   //  Utils::EndMacros(this);
 }

@@ -34,7 +34,7 @@ TEST_F(GraphViewportItemTest, initialState)
   GraphViewportItem item;
   EXPECT_EQ(item.xAxis()->GetType(), ViewportAxisItem::Type);
   EXPECT_EQ(item.yAxis()->GetType(), ViewportAxisItem::Type);
-  EXPECT_EQ(item.graphItems().size(), 0);
+  EXPECT_EQ(item.GetGraphItems().size(), 0);
 }
 
 //! Add graph to viewport.
@@ -53,7 +53,7 @@ TEST_F(GraphViewportItemTest, addItem)
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);
-  EXPECT_EQ(viewport_item->graphItems().size(), 1);
+  EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
 
   // updating viewport to graph
   viewport_item->setViewportToContent();
@@ -136,7 +136,7 @@ TEST_F(GraphViewportItemTest, setViewportToContentWithMargins)
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);
-  EXPECT_EQ(viewport_item->graphItems().size(), 1);
+  EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
 
   // updating viewport to graph
   const double bottom{0.1}, top{0.1};

@@ -14,19 +14,17 @@
 #include <algorithm>
 #include <vector>
 
-using namespace mvvm;
-
 namespace
 {
 
-const double failback_min = 0.0;
-const double failback_max = 1.0;
+const double kFallBackMin = 0.0;
+const double kFallBackMax = 1.0;
 
 //! Find min and max values along all data points in all graphs.
 //! Function 'func' is used to run either through binCenters or binValues.
 
 template <typename T>
-auto get_min_max(const std::vector<GraphItem*>& graphs, T func)
+auto GetMinMax(const std::vector<mvvm::GraphItem*>& graphs, T func)
 {
   std::vector<double> values;
   for (auto graph : graphs)
@@ -36,10 +34,13 @@ auto get_min_max(const std::vector<GraphItem*>& graphs, T func)
   }
 
   auto [xmin, xmax] = std::minmax_element(std::begin(values), std::end(values));
-  return xmin != xmax ? std::make_pair(*xmin, *xmax) : std::make_pair(failback_min, failback_max);
+  return xmin != xmax ? std::make_pair(*xmin, *xmax) : std::make_pair(kFallBackMin, kFallBackMax);
 }
 
 }  // namespace
+
+namespace mvvm
+{
 
 GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
 {
@@ -49,14 +50,14 @@ GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportIt
 
 //! Returns the selected graph items.
 
-std::vector<GraphItem*> GraphViewportItem::graphItems() const
+std::vector<GraphItem*> GraphViewportItem::GetGraphItems() const
 {
   return GetItems<GraphItem>(T_ITEMS);
 }
 
 //! Returns the selected graph items.
 
-std::vector<GraphItem*> GraphViewportItem::visibleGraphItems() const
+std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 {
   std::vector<GraphItem*> all_items = GetItems<GraphItem>(T_ITEMS);
   std::vector<GraphItem*> visible_items;
@@ -68,37 +69,45 @@ std::vector<GraphItem*> GraphViewportItem::visibleGraphItems() const
 
 //! Set the graph selection.
 
-void GraphViewportItem::setVisible(const std::vector<GraphItem*>& visible_graph_items)
+void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_items)
 {
   std::vector<GraphItem*> output;
   for (auto graph_item : GetItems<GraphItem>(T_ITEMS))
   {
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
         != visible_graph_items.end())
+    {
       graph_item->SetProperty(GraphItem::kDisplayed, true);
+    }
     else
+    {
       graph_item->SetProperty(GraphItem::kDisplayed, false);
+    }
   }
 }
 
 //! Reset the graph selection.
 
-void GraphViewportItem::setAllVisible()
+void GraphViewportItem::SetAllVisible()
 {
   for (auto graph_item : GetItems<GraphItem>(T_ITEMS))
+  {
     graph_item->SetProperty(GraphItem::kDisplayed, true);
+  }
 }
 
 //! Returns lower, upper range on x-axis occupied by all data points of all graphs.
 
-std::pair<double, double> GraphViewportItem::data_xaxis_range() const
+std::pair<double, double> GraphViewportItem::GetDataXRange() const
 {
-  return get_min_max(visibleGraphItems(), [](GraphItem* graph) { return graph->GetBinCenters(); });
+  return GetMinMax(GetVisibleGraphItems(), [](GraphItem* graph) { return graph->GetBinCenters(); });
 }
 
 //! Returns lower, upper range on y-axis occupied by all data points of all graphs.
 
-std::pair<double, double> GraphViewportItem::data_yaxis_range() const
+std::pair<double, double> GraphViewportItem::GetDataYRange() const
 {
-  return get_min_max(visibleGraphItems(), [](GraphItem* graph) { return graph->GetValues(); });
+  return GetMinMax(GetVisibleGraphItems(), [](GraphItem* graph) { return graph->GetValues(); });
 }
+
+}  // namespace mvvm

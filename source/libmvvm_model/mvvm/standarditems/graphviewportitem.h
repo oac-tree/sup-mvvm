@@ -28,17 +28,17 @@ public:
 
   explicit GraphViewportItem(const std::string& model_type = Type);
 
-  std::vector<GraphItem*> graphItems() const;
+  std::vector<GraphItem*> GetGraphItems() const;
 
-  std::vector<GraphItem*> visibleGraphItems() const;
+  std::vector<GraphItem*> GetVisibleGraphItems() const;
 
-  void setVisible(const std::vector<GraphItem*>& visible_graph_items);
+  void SetVisible(const std::vector<GraphItem*>& visible_graph_items);
 
-  void setAllVisible();
+  void SetAllVisible();
 
 protected:
-  std::pair<double, double> data_xaxis_range() const override;
-  std::pair<double, double> data_yaxis_range() const override;
+  std::pair<double, double> GetDataXRange() const override;
+  std::pair<double, double> GetDataYRange() const override;
 };
 
 }  // namespace mvvm
