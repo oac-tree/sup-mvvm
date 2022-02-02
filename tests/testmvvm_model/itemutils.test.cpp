@@ -346,14 +346,14 @@ TEST_F(ItemUtilsTest, IsItemAncestor)
   EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), vector_item));
   EXPECT_FALSE(utils::IsItemAncestor(vector_item, vector_item));
 
-  auto x_item = vector_item->GetItem(VectorItem::P_X);
+  auto x_item = vector_item->GetItem(VectorItem::kX);
 
   EXPECT_TRUE(utils::IsItemAncestor(x_item, model.GetRootItem()));
   EXPECT_TRUE(utils::IsItemAncestor(x_item, vector_item));
   EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), x_item));
   EXPECT_FALSE(utils::IsItemAncestor(vector_item, x_item));
 
-  auto y_item = vector_item->GetItem(VectorItem::P_Y);
+  auto y_item = vector_item->GetItem(VectorItem::kY);
   EXPECT_FALSE(utils::IsItemAncestor(x_item, y_item));
 }
 

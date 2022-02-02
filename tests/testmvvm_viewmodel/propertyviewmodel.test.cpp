@@ -139,7 +139,7 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 {
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
-  vector_item->GetItem(VectorItem::P_Y)->SetVisible(false);
+  vector_item->GetItem(VectorItem::kY)->SetVisible(false);
 
   PropertyViewModel viewModel(&model);
 
@@ -155,11 +155,11 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
   auto x_index = viewModel.index(0, 0, vector_index);
   auto z_index = viewModel.index(1, 0, vector_index);
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(vector_index), vector_item);
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->GetItem(VectorItem::P_X));
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->GetItem(VectorItem::P_Z));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->GetItem(VectorItem::kX));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->GetItem(VectorItem::kZ));
 
   // attempt to make P_Y visible again
-  vector_item->GetItem(VectorItem::P_Y)->SetVisible(true);
+  vector_item->GetItem(VectorItem::kY)->SetVisible(true);
 
   // The current implementation is limited: PropertyViewModel doesn't listen for updates
   // in isVisible flag. If flag is changed after the model creation, item still be invisible.
@@ -168,8 +168,8 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
   x_index = viewModel.index(0, 0, vector_index);
   z_index = viewModel.index(1, 0, vector_index);
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(vector_index), vector_item);
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->GetItem(VectorItem::P_X));
-  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->GetItem(VectorItem::P_Z));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(x_index), vector_item->GetItem(VectorItem::kX));
+  EXPECT_EQ(viewModel.GetSessionItemFromIndex(z_index), vector_item->GetItem(VectorItem::kZ));
 }
 
 //! LayerItem in a MultiLayer.

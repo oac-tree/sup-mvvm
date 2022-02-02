@@ -27,9 +27,9 @@ namespace mvvm
 {
 VectorItem::VectorItem() : CompoundItem(Type)
 {
-  AddProperty(P_X, 0.0)->SetDisplayName("X");
-  AddProperty(P_Y, 0.0)->SetDisplayName("Y");
-  AddProperty(P_Z, 0.0)->SetDisplayName("Z");
+  AddProperty(kX, 0.0)->SetDisplayName("X");
+  AddProperty(kY, 0.0)->SetDisplayName("Y");
+  AddProperty(kZ, 0.0)->SetDisplayName("Z");
 
   SetEditable(false);
 
@@ -38,32 +38,39 @@ VectorItem::VectorItem() : CompoundItem(Type)
 
 double VectorItem::X() const
 {
-  return Property<double>(P_X);
+  return Property<double>(kX);
 }
 
 void VectorItem::SetX(double value)
 {
-  SetProperty(P_X, value);
+  SetProperty(kX, value);
 }
 
 double VectorItem::Y() const
 {
-  return Property<double>(P_Y);
+  return Property<double>(kY);
 }
 
 void VectorItem::SetY(double value)
 {
-  SetProperty(P_Y, value);
+  SetProperty(kY, value);
 }
 
 double VectorItem::Z() const
 {
-  return Property<double>(P_Z);
+  return Property<double>(kZ);
 }
 
 void VectorItem::SetZ(double value)
 {
-  SetProperty(P_Z, value);
+  SetProperty(kZ, value);
+}
+
+void VectorItem::SetXYZ(double x, double y, double z)
+{
+  SetX(x);
+  SetY(y);
+  SetZ(z);
 }
 
 void VectorItem::Activate()

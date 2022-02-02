@@ -106,7 +106,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 {
   AllChildrenStrategy strategy;
   VectorItem item;
-  item.GetItem(VectorItem::P_X)->SetVisible(false);
+  item.GetItem(VectorItem::kX)->SetVisible(false);
   auto children = strategy.GetChildren(&item);
   EXPECT_EQ(children.size(), 3);  // hidden items are still shown
 }
@@ -223,7 +223,7 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
   // VectorItem
   {
     VectorItem item;
-    item.GetItem(VectorItem::P_Y)->SetVisible(false);
+    item.GetItem(VectorItem::kY)->SetVisible(false);
     auto children = strategy.GetChildren(&item);
     EXPECT_EQ(children.size(), 2);
   }

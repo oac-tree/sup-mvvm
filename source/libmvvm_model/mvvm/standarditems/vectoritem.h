@@ -30,9 +30,9 @@ class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
 public:
   static inline const std::string Type = "VectorItem";
-  static inline const std::string P_X = "P_X";
-  static inline const std::string P_Y = "P_Y";
-  static inline const std::string P_Z = "P_Z";
+  static inline const std::string kX = "kX";
+  static inline const std::string kY = "kY";
+  static inline const std::string kZ = "kZ";
 
   VectorItem();
 
@@ -45,6 +45,7 @@ public:
   double Z() const;
   void SetZ(double value);
 
+  void SetXYZ(double x, double y, double Z);
 private:
   void Activate() override;
   void UpdateLabel();

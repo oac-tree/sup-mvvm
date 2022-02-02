@@ -39,15 +39,15 @@ TEST_F(VectorItemTest, InitialState)
 {
   VectorItem item;
 
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::P_X));
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::P_Y));
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::P_Z));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::kX));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::kY));
+  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::kZ));
 
   EXPECT_FALSE(item.IsEditable());
 
-  EXPECT_EQ(item.Property<double>(VectorItem::P_X), 0.0);
-  EXPECT_EQ(item.Property<double>(VectorItem::P_Y), 0.0);
-  EXPECT_EQ(item.Property<double>(VectorItem::P_Z), 0.0);
+  EXPECT_EQ(item.Property<double>(VectorItem::kX), 0.0);
+  EXPECT_EQ(item.Property<double>(VectorItem::kY), 0.0);
+  EXPECT_EQ(item.Property<double>(VectorItem::kZ), 0.0);
 
   // default label
   EXPECT_EQ(item.Data<std::string>(), "(0, 0, 0)");
@@ -60,12 +60,23 @@ TEST_F(VectorItemTest, InitialStateFromModel)
   SessionModel model;
   auto item = model.InsertItem<VectorItem>();
 
-  EXPECT_EQ(item->Property<double>(VectorItem::P_X), 0.0);
-  EXPECT_EQ(item->Property<double>(VectorItem::P_Y), 0.0);
-  EXPECT_EQ(item->Property<double>(VectorItem::P_Z), 0.0);
+  EXPECT_EQ(item->Property<double>(VectorItem::kX), 0.0);
+  EXPECT_EQ(item->Property<double>(VectorItem::kY), 0.0);
+  EXPECT_EQ(item->Property<double>(VectorItem::kZ), 0.0);
 
   // default label
   EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
+}
+
+TEST_F(VectorItemTest, SetXYZ)
+{
+  SessionModel model;
+  auto item = model.InsertItem<VectorItem>();
+  item->SetXYZ(1.0, 2.0, 3.0);
+
+  EXPECT_EQ(item->X(), 1.0);
+  EXPECT_EQ(item->Y(), 2.0);
+  EXPECT_EQ(item->Z(), 3.0);
 }
 
 //! Checking label update in ApplicationModel context
@@ -78,7 +89,7 @@ TEST_F(VectorItemTest, LabelUpdate)
   EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
 
   // Modification of one of the property should lead to label update
-  item->SetProperty(VectorItem::P_X, 1.0);
+  item->SetProperty(VectorItem::kX, 1.0);
 
   // Updated thanks to VectorItem::Activate
   EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
