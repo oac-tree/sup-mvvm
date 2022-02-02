@@ -19,6 +19,8 @@
 
 #include "mvvm/standarditems/vectoritem.h"
 
+#include "mvvm/signals/itemconnectutils.h"
+
 #include <sstream>
 
 namespace mvvm
@@ -62,6 +64,12 @@ double VectorItem::Z() const
 void VectorItem::SetZ(double value)
 {
   SetProperty(P_Z, value);
+}
+
+void VectorItem::Activate()
+{
+  auto on_property_change = [this](SessionItem*, const std::string&) { UpdateLabel(); };
+  connect::OnPropertyChanged(this, on_property_change);
 }
 
 void VectorItem::UpdateLabel()

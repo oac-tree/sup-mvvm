@@ -19,6 +19,7 @@
 
 #include "mvvm/standarditems/vectoritem.h"
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/sessionmodel.h"
 
@@ -65,9 +66,20 @@ TEST_F(VectorItemTest, InitialStateFromModel)
 
   // default label
   EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
+}
 
-  // FIXME uncomment. Will work only after restoring callbacks
-  // changing vector component
-  //  item->setProperty(VectorItem::P_X, 1.0);
-  // EXPECT_EQ(item->data<std::string>(), "(1, 0, 0)");
+//! Checking label update in ApplicationModel context
+
+TEST_F(VectorItemTest, LabelUpdate)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<VectorItem>();
+
+  EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
+
+  // Modification of one of the property should lead to label update
+  item->SetProperty(VectorItem::P_X, 1.0);
+
+  // Updated thanks to VectorItem::Activate
+  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
 }
