@@ -5,14 +5,21 @@ target_sources(${library_name} PRIVATE
   customplotutils.h
   data1dplotcontroller.cpp
   data1dplotcontroller.h
-  graphplotcontroller.cpp
-  graphplotcontroller.h
-  pencontroller.cpp
-  pencontroller.h
-  viewportaxisplotcontroller.cpp
-  viewportaxisplotcontroller.h
   graphinfoformatter.cpp
   graphinfoformatter.h
+  graphplotcontroller.cpp
+  graphplotcontroller.h
+  mousemovereporter.cpp
+  mousemovereporter.h
+  mouseposinfo.h
+  pencontroller.cpp
+  pencontroller.h
   statusstringformatterinterface.h
+  statusstringreporter.cpp
+  statusstringreporter.h
+  statusstringreporterfactory.cpp
+  statusstringreporterfactory.h
+  viewportaxisplotcontroller.cpp
+  viewportaxisplotcontroller.h
 )
 
