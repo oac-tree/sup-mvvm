@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   graphinfoformatter.h
   graphplotcontroller.cpp
   graphplotcontroller.h
+  graphviewportplotcontroller.cpp
+  graphviewportplotcontroller.h
   mousemovereporter.cpp
   mousemovereporter.h
   mouseposinfo.h
