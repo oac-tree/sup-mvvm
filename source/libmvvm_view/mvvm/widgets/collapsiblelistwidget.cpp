@@ -55,4 +55,4 @@ void CollapsibleListWidget::addWidget(QWidget* widget, const QString& title, boo
   }
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

@@ -54,6 +54,6 @@ private:
   std::map<int, FancyTab*> m_index_to_tab;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_MAINBARWIDGET_H
+#endif  // MVVM_WIDGETS_MAINBARWIDGET_H

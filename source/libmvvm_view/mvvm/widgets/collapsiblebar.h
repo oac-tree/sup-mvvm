@@ -53,6 +53,6 @@ private:
   QLabel* m_title_label{nullptr};
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_COLLAPSIBLEBAR_H
+#endif  // MVVM_WIDGETS_COLLAPSIBLEBAR_H

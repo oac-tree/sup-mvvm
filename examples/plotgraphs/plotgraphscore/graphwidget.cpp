@@ -1,16 +1,25 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "graphwidget.h"
 
 #include "graphmodel.h"
-#include "graphpropertywidget.h"
 
 #include "mvvm/plotting/graphcanvas.h"
 #include "mvvm/standarditems/graphviewportitem.h"
@@ -21,7 +30,6 @@
 #include <QToolBar>
 #include <QToolButton>
 
-
 namespace plotgraphs
 {
 
@@ -29,42 +37,46 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_tool_bar(new QToolBar)
     , m_graph_canvas(new mvvm::GraphCanvas)
-    , m_propertyWidget(new mvvm::AllItemsTreeView)
+    , m_tree_view(new mvvm::AllItemsTreeView)
 {
   auto mainLayout = new QVBoxLayout;
-  mainLayout->setSpacing(10);
 
   auto centralLayout = new QHBoxLayout;
 
-  centralLayout->addLayout(createLeftLayout(), 3);
-  centralLayout->addLayout(createRightLayout(), 1);
+  centralLayout->addLayout(CreateLeftLayout(), 3);
+  centralLayout->addLayout(CreateRightLayout(), 1);
 
   mainLayout->addWidget(m_tool_bar);
   mainLayout->addLayout(centralLayout);
 
   setLayout(mainLayout);
-  setModel(model);
+  SetModel(model);
 
-  initActions();
+  InitActions();
 }
 
-void GraphWidget::setModel(GraphModel* model)
+GraphWidget::~GraphWidget() = default;
+
+void GraphWidget::SetModel(GraphModel* model)
 {
   if (!model)
+  {
     return;
+  }
 
   m_model = model;
 
-  m_propertyWidget->SetApplicationModel(model);
+  m_tree_view->SetApplicationModel(model);
 
   m_graph_canvas->SetItem(model->GetTopItem<mvvm::GraphViewportItem>());
 }
 
-void GraphWidget::initActions()
+void GraphWidget::InitActions()
 {
   const int toolbar_icon_size = 24;
   m_tool_bar->setIconSize(QSize(toolbar_icon_size, toolbar_icon_size));
 
+  // reset view action
   m_reset_viewport_action = new QAction("Reset view", this);
   auto on_reset = [this]()
   {
@@ -72,35 +84,38 @@ void GraphWidget::initActions()
     viewport->SetViewportToContent(0.0, 0.1, 0.0, 0.1);
   };
   connect(m_reset_viewport_action, &QAction::triggered, on_reset);
+  m_tool_bar->addAction(m_reset_viewport_action);
 
+  // add graph action
   m_add_graph_action = new QAction("Add graph", this);
   auto on_add_graph = [this]() { m_model->AddGraph(); };
   connect(m_add_graph_action, &QAction::triggered, on_add_graph);
+  m_tool_bar->addAction(m_add_graph_action);
 
+  // remove graph action
   m_remove_graph_action = new QAction("Remove graph", this);
   auto on_remove_graph = [this]() { m_model->RemoveGraph(); };
   connect(m_remove_graph_action, &QAction::triggered, on_remove_graph);
-
-  m_tool_bar->addAction(m_reset_viewport_action);
-  m_tool_bar->addAction(m_add_graph_action);
   m_tool_bar->addAction(m_remove_graph_action);
 
-  m_tool_bar->addSeparator();
+  // randomize graph action
+  m_randomize_action = new QAction("Randomize graph", this);
+  auto on_randomize = [this]() { m_model->RandomizeGraphs(); };
+  connect(m_randomize_action, &QAction::triggered, on_randomize);
+  m_tool_bar->addAction(m_randomize_action);
 }
 
-GraphWidget::~GraphWidget() = default;
-
-QBoxLayout* GraphWidget::createLeftLayout()
+QBoxLayout* GraphWidget::CreateLeftLayout()
 {
   auto result = new QVBoxLayout;
   result->addWidget(m_graph_canvas);
   return result;
 }
 
-QBoxLayout* GraphWidget::createRightLayout()
+QBoxLayout* GraphWidget::CreateRightLayout()
 {
   auto result = new QVBoxLayout;
-  result->addWidget(m_propertyWidget);
+  result->addWidget(m_tree_view);
   return result;
 }
 

@@ -84,6 +84,6 @@ private:
   bool m_block_selection;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_WIDGETS_ITEMSTREEVIEW_H

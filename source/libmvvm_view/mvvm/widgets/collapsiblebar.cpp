@@ -19,8 +19,8 @@
 
 #include "mvvm/widgets/collapsiblebar.h"
 
-#include "mvvm/widgets/widgetutils.h"
 #include "mvvm/resources/resources.h"
+#include "mvvm/widgets/widgetutils.h"
 
 #include <QEvent>
 #include <QHBoxLayout>
@@ -91,4 +91,4 @@ void CollapsibleBar::updatePixmap()
   }
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

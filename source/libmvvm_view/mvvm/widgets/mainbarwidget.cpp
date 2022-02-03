@@ -67,4 +67,4 @@ void MainBarWidget::setCurrentIndex(int index)
   m_stacked_widget->setCurrentIndex(index);
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

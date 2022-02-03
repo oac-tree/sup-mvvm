@@ -155,4 +155,4 @@ QItemSelectionModel* ItemsTreeView::GetSelectionModel()
   return m_tree_view->selectionModel();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

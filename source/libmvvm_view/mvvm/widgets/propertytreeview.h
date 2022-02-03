@@ -22,23 +22,25 @@
 
 #include "mvvm/widgets/itemstreeview.h"
 
-namespace mvvm {
+namespace mvvm
+{
 
 //! Widget holding standard QTreeView and intended for displaying all properties of given
 //! SessionItem.
 
-class MVVM_VIEW_EXPORT PropertyTreeView : public ItemsTreeView {
-    Q_OBJECT
+class MVVM_VIEW_EXPORT PropertyTreeView : public ItemsTreeView
+{
+  Q_OBJECT
 
 public:
-    PropertyTreeView(QWidget* parent = nullptr);
-    ~PropertyTreeView();
+  PropertyTreeView(QWidget* parent = nullptr);
+  ~PropertyTreeView();
 
-    virtual void SetRootSessionItem(SessionItem* item) override;
+  virtual void SetRootSessionItem(SessionItem* item) override;
 
-    void SetItem(SessionItem* item);
+  void SetItem(SessionItem* item);
 };
 
-} // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_PROPERTYTREEVIEW_H
+#endif  // MVVM_WIDGETS_PROPERTYTREEVIEW_H

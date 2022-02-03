@@ -41,4 +41,4 @@ void AllItemsTreeView::SetApplicationModel(ApplicationModel* model)
 
 AllItemsTreeView::~AllItemsTreeView() = default;
 
-}  // namespace ModelView
+}  // namespace mvvm

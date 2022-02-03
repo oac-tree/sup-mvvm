@@ -34,7 +34,7 @@ class QToolButton;
 
 namespace mvvm
 {
-\
+
 //! Widget container with functionality similar to QTabWidget.
 //! Has group of buttons on the left and stacked widget on the right.
 
@@ -62,6 +62,6 @@ private:
   QToolButton* m_filler_button{nullptr};
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
+#endif  // MVVM_WIDGETS_MAINVERTICALBARWIDGET_H

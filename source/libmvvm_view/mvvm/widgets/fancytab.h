@@ -54,6 +54,6 @@ private:
   QColor m_widgetColor;
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_FANCYTAB_H
+#endif  // MVVM_WIDGETS_FANCYTAB_H

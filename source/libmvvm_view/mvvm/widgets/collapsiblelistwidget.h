@@ -46,6 +46,6 @@ private:
   QSplitter* m_splitter{nullptr};
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
+#endif  // MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H

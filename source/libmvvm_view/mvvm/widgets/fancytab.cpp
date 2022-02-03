@@ -99,4 +99,4 @@ void FancyTab::leaveEvent(QEvent*)
   update();
 }
 
-}  // namespace ModelView
+}  // namespace mvvm

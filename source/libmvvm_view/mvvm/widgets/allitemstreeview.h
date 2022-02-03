@@ -39,7 +39,6 @@ public:
   void SetApplicationModel(ApplicationModel* model);
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_ALLITEMSTREEVIEW_H
-
+#endif  // MVVM_WIDGETS_ALLITEMSTREEVIEW_H

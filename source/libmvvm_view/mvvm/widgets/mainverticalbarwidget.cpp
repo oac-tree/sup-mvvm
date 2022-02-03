@@ -171,4 +171,4 @@ void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
   }
 }
 
-}  // namespace ModelView
+}  // namespace mvvm
