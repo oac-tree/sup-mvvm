@@ -1,6 +1,6 @@
 target_sources(${library_name} PRIVATE
-#    booleditor.cpp
-#    booleditor.h
+    booleditor.cpp
+    booleditor.h
 #    coloreditor.cpp
 #    coloreditor.h
 #    combopropertyeditor.cpp
