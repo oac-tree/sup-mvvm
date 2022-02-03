@@ -22,6 +22,7 @@
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/delegates/viewmodeldelegate.h"
 
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -29,7 +30,10 @@
 namespace mvvm
 {
 ItemsTreeView::ItemsTreeView(QWidget* parent)
-    : QWidget(parent), m_tree_view(new QTreeView), m_block_selection(false)
+    : QWidget(parent)
+    , m_tree_view(new QTreeView)
+    , m_delegate(std::make_unique<ViewModelDelegate>())
+    , m_block_selection(false)
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
@@ -49,6 +53,7 @@ void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> view_model)
 {
   m_view_model = std::move(view_model);
   m_tree_view->setModel(m_view_model.get());
+  m_tree_view->setItemDelegate(m_delegate.get());
   m_tree_view->expandAll();
   m_tree_view->resizeColumnToContents(0);
   SetConnected(true);

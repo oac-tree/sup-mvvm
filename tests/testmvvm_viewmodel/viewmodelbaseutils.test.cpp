@@ -33,7 +33,9 @@ QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
   QList<QStandardItem*> result;
 
   for (auto x : data)
+  {
     result.append(new QStandardItem(QString::number(x)));
+  }
 
   return result;
 }

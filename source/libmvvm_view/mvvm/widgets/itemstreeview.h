@@ -33,6 +33,7 @@ namespace mvvm
 {
 class SessionItem;
 class ViewModel;
+class ViewModelDelegate;
 
 //! Tree view to show items of SessionModel via ViewModel mechanism.
 //! Provides notification mechanism for SessionItem selections, use custom delegate.
@@ -71,16 +72,16 @@ public:
 signals:
   void itemSelected(SessionItem*);
 
-private slots:
+private:
   void onSelectionChanged(const QItemSelection&, const QItemSelection&);
 
-private:
   QItemSelectionModel* GetSelectionModel();
 
   void SetConnected(bool flag);
 
   QTreeView* m_tree_view{nullptr};
   std::unique_ptr<ViewModel> m_view_model;
+  std::unique_ptr<ViewModelDelegate> m_delegate;
   bool m_block_selection;
 };
 
