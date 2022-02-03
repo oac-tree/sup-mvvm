@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/defaulteditorfactory.h"
+#include "mvvm/editors/customeditorfactories.h"
 
 #include "mvvm/editors/customeditor.h"
 #include "mvvm/editors/editor_constants.h"

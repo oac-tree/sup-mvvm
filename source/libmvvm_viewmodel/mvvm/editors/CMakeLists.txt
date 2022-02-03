@@ -7,8 +7,8 @@ target_sources(${library_name} PRIVATE
   combopropertyeditor.h
   customeditor.cpp
   customeditor.h
-  defaulteditorfactory.cpp
-  defaulteditorfactory.h
+  customeditorfactories.cpp
+  customeditorfactories.h
   editor_constants.h
   editorbuilders.cpp
   editorbuilders.h
