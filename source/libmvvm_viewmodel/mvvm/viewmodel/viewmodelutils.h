@@ -22,13 +22,31 @@
 
 #include "mvvm/viewmodel_export.h"
 
+#include <QVariant>
 #include <QVector>
+
+namespace mvvm
+{
+class SessionItem;
+}
 
 namespace mvvm::utils
 {
 //! Returns vector of Qt roles corresponding to given ItemDataRole.
 MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 
-}  // namespace mvvm::Utils
+//! Returns text color for given item.
+MVVM_VIEWMODEL_EXPORT QVariant TextColorRole(const SessionItem& item);
+
+//! Returns check state role of given item.
+MVVM_VIEWMODEL_EXPORT QVariant CheckStateRole(const SessionItem& item);
+
+////! Returns decoration role for given item.
+// MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
+
+//! Returns tooltip role for given item.
+MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
+
+}  // namespace mvvm::utils
 
 #endif  // MVVM_VIEWMODEL_VIEWMODELUTILS_H

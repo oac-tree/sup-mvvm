@@ -19,9 +19,11 @@
 
 #include "mvvm/viewmodel/viewmodelutils.h"
 
-#include "mvvm/model/mvvm_types.h"
+#include "mvvm/model/sessionitem.h"
 
 #include <gtest/gtest.h>
+
+#include <QColor>
 
 using namespace mvvm;
 
@@ -48,4 +50,65 @@ TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
   roles = utils::ItemRoleToQtRole(DataRole::kTooltip);
   expected = {Qt::ToolTipRole};
   EXPECT_EQ(roles, expected);
+}
+
+//! Testing color role of item.
+
+TEST_F(ViewModelUtilsTest, ItemTextColorRole)
+{
+  SessionItem item;
+
+  // no color defined for item by default
+  auto variant = utils::TextColorRole(item);
+  EXPECT_FALSE(variant.isValid());
+
+  item.SetEnabled(false);
+  variant = utils::TextColorRole(item);
+  EXPECT_EQ(variant.value<QColor>(), QColor(Qt::gray));
+}
+
+//! Testing check state role of item.
+
+TEST_F(ViewModelUtilsTest, itemCheckStateRole)
+{
+  SessionItem item;
+
+  // no color defined for item by default
+  auto variant = utils::CheckStateRole(item);
+  EXPECT_FALSE(variant.isValid());
+
+  item.SetData(true);
+  EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Checked);
+
+  item.SetData(false);
+  EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Unchecked);
+}
+
+//! Testing decoration role of the item.
+//! FIXME restore
+
+// TEST_F(ViewModelUtilsTest, itemDecorationRole)
+//{
+//   SessionItem item("Something");
+
+//  // no color defined for item by default
+//  auto variant = Utils::DecorationRole(item);
+//  EXPECT_FALSE(variant.isValid());
+
+//  QColor expected(Qt::green);
+//  item.setData(expected);
+//  EXPECT_EQ(Utils::DecorationRole(item).value<QColor>(), expected);
+//}
+
+//! Testing tooltip role of the item.
+
+TEST_F(ViewModelUtilsTest, itemToolTipRole)
+{
+  SessionItem item;
+
+  auto variant = utils::ToolTipRole(item);
+  EXPECT_FALSE(variant.isValid());
+
+  item.SetToolTip("abc");
+  EXPECT_EQ(utils::ToolTipRole(item).toString(), QString("abc"));
 }

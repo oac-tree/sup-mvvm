@@ -32,18 +32,18 @@ const QString false_text = "False";
 namespace mvvm
 {
 
-BoolEditor::BoolEditor(QWidget* parent) : CustomEditor(parent), m_checkBox(new QCheckBox)
+BoolEditor::BoolEditor(QWidget* parent) : CustomEditor(parent), m_check_box(new QCheckBox)
 
 {
   setAutoFillBackground(true);
   auto layout = new QHBoxLayout;
   layout->setContentsMargins(4, 0, 0, 0);
-  layout->addWidget(m_checkBox);
+  layout->addWidget(m_check_box);
   setLayout(layout);
 
-  connect(m_checkBox, &QCheckBox::toggled, this, &BoolEditor::OnCheckBoxChange);
-  setFocusProxy(m_checkBox);
-  m_checkBox->setText(true_text);
+  connect(m_check_box, &QCheckBox::toggled, this, &BoolEditor::OnCheckBoxChange);
+  setFocusProxy(m_check_box);
+  m_check_box->setText(true_text);
 }
 
 bool BoolEditor::IsPersistent() const
@@ -67,10 +67,10 @@ void BoolEditor::UpdateComponents()
   }
 
   bool value = GetData().value<bool>();
-  m_checkBox->blockSignals(true);
-  m_checkBox->setChecked(value);
-  m_checkBox->setText(value ? true_text : false_text);
-  m_checkBox->blockSignals(false);
+  m_check_box->blockSignals(true);
+  m_check_box->setChecked(value);
+  m_check_box->setText(value ? true_text : false_text);
+  m_check_box->blockSignals(false);
 }
 
 }  // namespace mvvm

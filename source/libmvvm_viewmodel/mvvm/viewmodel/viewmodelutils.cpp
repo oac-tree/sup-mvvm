@@ -19,7 +19,10 @@
 
 #include "mvvm/viewmodel/viewmodelutils.h"
 
-#include "mvvm/model/mvvm_types.h"
+#include "mvvm/core/variant.h"
+#include "mvvm/model/sessionitem.h"
+
+#include <QColor>
 
 namespace mvvm::utils
 {
@@ -43,4 +46,40 @@ QVector<int> ItemRoleToQtRole(int role)
   return result;
 }
 
-}  // namespace mvvm::Utils
+QVariant TextColorRole(const SessionItem& item)
+{
+  const bool item_hidden = !item.IsVisible();
+  const bool item_disabled = !item.IsEnabled();
+  return item_disabled || item_hidden ? QColor(Qt::gray) : QVariant();
+}
+
+QVariant CheckStateRole(const SessionItem& item)
+{
+  if (TypeName(item.Data()) == ::mvvm::constants::kBoolTypeName)
+  {
+    return item.Data<bool>() ? Qt::Checked : Qt::Unchecked;
+  }
+  return QVariant();
+}
+
+// FIXME when EditorRole is restored
+
+// QVariant DecorationRole(const SessionItem& item)
+//{
+//   auto value = item.data<QVariant>();
+//   if (Utils::IsColorVariant(value))
+//     return value;
+
+//  else if (Utils::IsExtPropertyVariant(value))
+//    return value.value<ExternalProperty>().color();
+
+//  return QVariant();
+//}
+
+QVariant ToolTipRole(const SessionItem& item)
+{
+  return item.HasData(DataRole::kTooltip) ? QVariant(QString::fromStdString(item.GetToolTip()))
+                                          : QVariant();
+}
+
+}  // namespace mvvm::utils
