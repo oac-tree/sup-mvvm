@@ -27,6 +27,8 @@ target_sources(${library_name} PRIVATE
   viewmodel.h
   viewmodelcontroller.cpp
   viewmodelcontroller.h
+  viewmodeldelegate.cpp
+  viewmodeldelegate.h
   viewmodelfactory.cpp
   viewmodelfactory.h
   viewmodelutils.cpp
