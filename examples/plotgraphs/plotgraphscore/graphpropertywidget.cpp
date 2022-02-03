@@ -8,54 +8,58 @@
 // ************************************************************************** //
 
 #include "graphpropertywidget.h"
+
 #include "graphmodel.h"
 //#include "mvvm/factories/viewmodelfactory.h"
 #include "mvvm/widgets/itemstreeview.h"
+
 #include <QBoxLayout>
 #include <QPushButton>
 
 using namespace mvvm;
 
-namespace PlotGraphs {
+namespace plotgraphs
+{
 
 GraphPropertyWidget::GraphPropertyWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent), m_treeView(new ItemsTreeView), m_model(model)
 {
-    auto mainLayout = new QVBoxLayout;
+  auto mainLayout = new QVBoxLayout;
 
-    mainLayout->addLayout(create_button_layout());
-    mainLayout->addWidget(m_treeView);
+  mainLayout->addLayout(create_button_layout());
+  mainLayout->addWidget(m_treeView);
 
-    setLayout(mainLayout);
-    setModel(model);
+  setLayout(mainLayout);
+  setModel(model);
 }
 
 void GraphPropertyWidget::setModel(GraphModel* model)
 {
-    if (!model)
-        return;
+  if (!model)
+    return;
 
-    m_model = model;
+  m_model = model;
 
-//    m_treeView->setViewModel(Factory::CreateDefaultViewModel(model)); // FIXME !!!
+  //    m_treeView->setViewModel(Factory::CreateDefaultViewModel(model)); // FIXME !!!
 }
 
 QBoxLayout* GraphPropertyWidget::create_button_layout()
 {
-    auto result = new QHBoxLayout;
-    result->setContentsMargins(0, 0, 0, 0);
+  auto result = new QHBoxLayout;
+  result->setContentsMargins(0, 0, 0, 0);
 
-    auto button = new QPushButton("Randomize");
-    button->setToolTip("Randomize data");
+  auto button = new QPushButton("Randomize");
+  button->setToolTip("Randomize data");
 
-    auto on_randomize_data = [this]() {
-        if (m_model)
-            m_model->RandomizeGraphs();
-    };
-    connect(button, &QPushButton::clicked, on_randomize_data);
-    result->addWidget(button);
+  auto on_randomize_data = [this]()
+  {
+    if (m_model)
+      m_model->RandomizeGraphs();
+  };
+  connect(button, &QPushButton::clicked, on_randomize_data);
+  result->addWidget(button);
 
-    return result;
+  return result;
 }
 
-} // namespace PlotGraphs
+}  // namespace plotgraphs

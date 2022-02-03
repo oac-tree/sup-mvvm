@@ -18,7 +18,7 @@ class GraphViewportItem;
 class ContainerItem;
 }  // namespace mvvm
 
-namespace PlotGraphs
+namespace plotgraphs
 {
 
 //! Main application model to demonstrate how to plot data.
@@ -41,6 +41,6 @@ private:
   mvvm::ContainerItem* GetDataContainer();
 };
 
-}  // namespace PlotGraphs
+}  // namespace plotgraphs
 
 #endif  // PLOTGRAPHSCORE_GRAPHMODEL_H

@@ -13,30 +13,32 @@
 #include <QMainWindow>
 #include <memory>
 
-namespace PlotGraphs {
+namespace plotgraphs
+{
 
 class GraphModel;
 
 //! The main window of this application.
 
-class MainWindow : public QMainWindow {
-    Q_OBJECT
+class MainWindow : public QMainWindow
+{
+  Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow();
+  MainWindow();
+  ~MainWindow();
 
 protected:
-    void closeEvent(QCloseEvent* event);
+  void closeEvent(QCloseEvent* event);
 
 private:
-    void initApplication();
-    void writeSettings();
-    void populateModel();
+  void initApplication();
+  void writeSettings();
+  void populateModel();
 
-    std::unique_ptr<GraphModel> m_graph_model;
+  std::unique_ptr<GraphModel> m_graph_model;
 };
 
-} // namespace PlotGraphs
+}  // namespace plotgraphs
 
-#endif // PLOTGRAPHSCORE_MAINWINDOW_H
+#endif  // PLOTGRAPHSCORE_MAINWINDOW_H

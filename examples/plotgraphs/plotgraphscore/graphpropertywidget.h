@@ -14,31 +14,34 @@
 
 class QBoxLayout;
 
-namespace mvvm {
+namespace mvvm
+{
 class ItemsTreeView;
-} // namespace ModelView
+}  // namespace mvvm
 
-namespace PlotGraphs {
+namespace plotgraphs
+{
 
 class GraphModel;
 
 //! Shows model content in standard tree view.
 
-class GraphPropertyWidget : public QWidget {
-    Q_OBJECT
+class GraphPropertyWidget : public QWidget
+{
+  Q_OBJECT
 
 public:
-    explicit GraphPropertyWidget(GraphModel* model = nullptr, QWidget* parent = nullptr);
+  explicit GraphPropertyWidget(GraphModel* model = nullptr, QWidget* parent = nullptr);
 
-    void setModel(GraphModel* model);
+  void setModel(GraphModel* model);
 
 private:
-    QBoxLayout* create_button_layout();
+  QBoxLayout* create_button_layout();
 
-    mvvm::ItemsTreeView* m_treeView{nullptr};
-    GraphModel* m_model{nullptr};
+  mvvm::ItemsTreeView* m_treeView{nullptr};
+  GraphModel* m_model{nullptr};
 };
 
-} // namespace PlotGraphs
+}  // namespace plotgraphs
 
-#endif // PLOTGRAPHSCORE_GRAPHPROPERTYWIDGET_H
+#endif  // PLOTGRAPHSCORE_GRAPHPROPERTYWIDGET_H

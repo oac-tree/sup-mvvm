@@ -40,7 +40,7 @@ std::vector<double> GetBinValues(double amp_factor = 1.0)
 }
 }  // namespace
 
-namespace PlotGraphs
+namespace plotgraphs
 {
 
 GraphModel::GraphModel() : mvvm::ApplicationModel("GraphModel")
@@ -119,4 +119,4 @@ mvvm::ContainerItem* GraphModel::GetDataContainer()
   return GetTopItem<mvvm::ContainerItem>();
 }
 
-}  // namespace PlotGraphs
+}  // namespace plotgraphs

@@ -17,41 +17,44 @@ class QBoxLayout;
 class QToolBar;
 class QAction;
 
-namespace mvvm {
+namespace mvvm
+{
 class ItemsTreeView;
 class GraphCanvas;
-} // namespace ModelView
+}  // namespace mvvm
 
-namespace PlotGraphs {
+namespace plotgraphs
+{
 
 class GraphModel;
 class GraphPropertyWidget;
 
 //! Shows canvas with plots on the left and property editor on the right.
 
-class GraphWidget : public QWidget {
-    Q_OBJECT
+class GraphWidget : public QWidget
+{
+  Q_OBJECT
 
 public:
-    explicit GraphWidget(GraphModel* model = nullptr, QWidget* parent = nullptr);
-    ~GraphWidget() override;
+  explicit GraphWidget(GraphModel* model = nullptr, QWidget* parent = nullptr);
+  ~GraphWidget() override;
 
-    void setModel(GraphModel* model);
+  void setModel(GraphModel* model);
 
 private:
-    void initActions();
-    QBoxLayout* createLeftLayout();
-    QBoxLayout* createRightLayout();
+  void initActions();
+  QBoxLayout* createLeftLayout();
+  QBoxLayout* createRightLayout();
 
-    QToolBar* m_toolBar{nullptr};
-    QAction* m_resetViewportAction{nullptr};
-    QAction* m_addGraphAction{nullptr};
-    QAction* m_removeGraphAction{nullptr};
-    mvvm::GraphCanvas* m_graphCanvas{nullptr};
-    GraphPropertyWidget* m_propertyWidget{nullptr};
-    GraphModel* m_model{nullptr};
+  QToolBar* m_toolBar{nullptr};
+  QAction* m_resetViewportAction{nullptr};
+  QAction* m_addGraphAction{nullptr};
+  QAction* m_removeGraphAction{nullptr};
+  mvvm::GraphCanvas* m_graphCanvas{nullptr};
+  GraphPropertyWidget* m_propertyWidget{nullptr};
+  GraphModel* m_model{nullptr};
 };
 
-} // namespace PlotGraphs
+}  // namespace plotgraphs
 
-#endif // PLOTGRAPHSCORE_GRAPHWIDGET_H
+#endif  // PLOTGRAPHSCORE_GRAPHWIDGET_H
