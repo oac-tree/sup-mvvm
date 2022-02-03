@@ -14,22 +14,22 @@
 
 #include "mvvm/plotting/graphcanvas.h"
 #include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/widgets/allitemstreeview.h"
 
 #include <QAction>
 #include <QBoxLayout>
 #include <QToolBar>
 #include <QToolButton>
 
-using namespace mvvm;
 
 namespace plotgraphs
 {
 
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
-    , m_toolBar(new QToolBar)
-    , m_graphCanvas(new GraphCanvas)
-    , m_propertyWidget(new GraphPropertyWidget)
+    , m_tool_bar(new QToolBar)
+    , m_graph_canvas(new mvvm::GraphCanvas)
+    , m_propertyWidget(new mvvm::AllItemsTreeView)
 {
   auto mainLayout = new QVBoxLayout;
   mainLayout->setSpacing(10);
@@ -39,7 +39,7 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
   centralLayout->addLayout(createLeftLayout(), 3);
   centralLayout->addLayout(createRightLayout(), 1);
 
-  mainLayout->addWidget(m_toolBar);
+  mainLayout->addWidget(m_tool_bar);
   mainLayout->addLayout(centralLayout);
 
   setLayout(mainLayout);
@@ -55,37 +55,37 @@ void GraphWidget::setModel(GraphModel* model)
 
   m_model = model;
 
-  m_propertyWidget->setModel(model);
+  m_propertyWidget->SetApplicationModel(model);
 
-  m_graphCanvas->SetItem(model->GetTopItem<GraphViewportItem>());
+  m_graph_canvas->SetItem(model->GetTopItem<mvvm::GraphViewportItem>());
 }
 
 void GraphWidget::initActions()
 {
   const int toolbar_icon_size = 24;
-  m_toolBar->setIconSize(QSize(toolbar_icon_size, toolbar_icon_size));
+  m_tool_bar->setIconSize(QSize(toolbar_icon_size, toolbar_icon_size));
 
-  m_resetViewportAction = new QAction("Reset view", this);
+  m_reset_viewport_action = new QAction("Reset view", this);
   auto on_reset = [this]()
   {
-    auto viewport = m_model->GetTopItem<GraphViewportItem>();
+    auto viewport = m_model->GetTopItem<mvvm::GraphViewportItem>();
     viewport->SetViewportToContent(0.0, 0.1, 0.0, 0.1);
   };
-  connect(m_resetViewportAction, &QAction::triggered, on_reset);
+  connect(m_reset_viewport_action, &QAction::triggered, on_reset);
 
-  m_addGraphAction = new QAction("Add graph", this);
+  m_add_graph_action = new QAction("Add graph", this);
   auto on_add_graph = [this]() { m_model->AddGraph(); };
-  connect(m_addGraphAction, &QAction::triggered, on_add_graph);
+  connect(m_add_graph_action, &QAction::triggered, on_add_graph);
 
-  m_removeGraphAction = new QAction("Remove graph", this);
+  m_remove_graph_action = new QAction("Remove graph", this);
   auto on_remove_graph = [this]() { m_model->RemoveGraph(); };
-  connect(m_removeGraphAction, &QAction::triggered, on_remove_graph);
+  connect(m_remove_graph_action, &QAction::triggered, on_remove_graph);
 
-  m_toolBar->addAction(m_resetViewportAction);
-  m_toolBar->addAction(m_addGraphAction);
-  m_toolBar->addAction(m_removeGraphAction);
+  m_tool_bar->addAction(m_reset_viewport_action);
+  m_tool_bar->addAction(m_add_graph_action);
+  m_tool_bar->addAction(m_remove_graph_action);
 
-  m_toolBar->addSeparator();
+  m_tool_bar->addSeparator();
 }
 
 GraphWidget::~GraphWidget() = default;
@@ -93,7 +93,7 @@ GraphWidget::~GraphWidget() = default;
 QBoxLayout* GraphWidget::createLeftLayout()
 {
   auto result = new QVBoxLayout;
-  result->addWidget(m_graphCanvas);
+  result->addWidget(m_graph_canvas);
   return result;
 }
 

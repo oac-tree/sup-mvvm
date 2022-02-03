@@ -73,7 +73,7 @@ void GraphModel::AddGraph()
 
 void GraphModel::RemoveGraph()
 {
-  const int graph_count = GetViewport()->GetItemCount(mvvm::ViewportItem::kItems);
+  const int graph_count = GetViewport()->GetGraphCount();
   const int data_count = GetDataContainer()->GetSize();
 
   if (graph_count != data_count)

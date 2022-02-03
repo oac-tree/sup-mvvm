@@ -21,6 +21,7 @@ namespace mvvm
 {
 class ItemsTreeView;
 class GraphCanvas;
+class AllItemsTreeView;
 }  // namespace mvvm
 
 namespace plotgraphs
@@ -46,12 +47,12 @@ private:
   QBoxLayout* createLeftLayout();
   QBoxLayout* createRightLayout();
 
-  QToolBar* m_toolBar{nullptr};
-  QAction* m_resetViewportAction{nullptr};
-  QAction* m_addGraphAction{nullptr};
-  QAction* m_removeGraphAction{nullptr};
-  mvvm::GraphCanvas* m_graphCanvas{nullptr};
-  GraphPropertyWidget* m_propertyWidget{nullptr};
+  QToolBar* m_tool_bar{nullptr};
+  QAction* m_reset_viewport_action{nullptr};
+  QAction* m_add_graph_action{nullptr};
+  QAction* m_remove_graph_action{nullptr};
+  mvvm::GraphCanvas* m_graph_canvas{nullptr};
+  mvvm::AllItemsTreeView* m_propertyWidget{nullptr};
   GraphModel* m_model{nullptr};
 };
 

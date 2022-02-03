@@ -48,6 +48,11 @@ GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportIt
   RegisterTag(TagInfo::CreateUniversalTag(kItems, {GraphItem::Type}), /*set_default*/ true);
 }
 
+int GraphViewportItem::GetGraphCount() const
+{
+  return GetItemCount(kItems);
+}
+
 //! Returns the selected graph items.
 
 std::vector<GraphItem*> GraphViewportItem::GetGraphItems() const

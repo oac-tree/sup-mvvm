@@ -28,6 +28,8 @@ public:
 
   explicit GraphViewportItem(const std::string& model_type = Type);
 
+  int GetGraphCount() const;
+
   std::vector<GraphItem*> GetGraphItems() const;
 
   std::vector<GraphItem*> GetVisibleGraphItems() const;
