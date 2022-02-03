@@ -26,7 +26,7 @@ constexpr double xmin = 0.0;
 constexpr double xmax = 5.0;
 constexpr double dx = (xmax - xmin) / npoints;
 
-std::vector<double> bin_values(double amp_factor = 1.0)
+std::vector<double> GetBinValues(double amp_factor = 1.0)
 {
   std::vector<double> result;
   for (int i = 0; i < npoints; ++i)
@@ -40,98 +40,83 @@ std::vector<double> bin_values(double amp_factor = 1.0)
 }
 }  // namespace
 
-using namespace mvvm;
-
 namespace PlotGraphs
 {
 
-GraphModel::GraphModel() : SessionModel("GraphModel")
+GraphModel::GraphModel() : mvvm::ApplicationModel("GraphModel")
 {
-  populateModel();
+  auto container = InsertItem<mvvm::ContainerItem>();
+  container->SetDisplayName("Data container");
+
+  auto viewport = InsertItem<mvvm::GraphViewportItem>();
+  viewport->SetDisplayName("Graph container");
+
+  AddGraph();
 }
 
-//! Adds Graph1DItem with some random points.
+//! Adds a graph to the model.
+//! Internally it adds Data1DItem carrying data points, and GraphItem containing presentation
+//! details and linked to Data1DItem.
 
-void GraphModel::addGraph()
+void GraphModel::AddGraph()
 {
-  // FIXME uncomment after undo/redo implementation
-  //    if (undoStack())
-  //        undoStack()->beginMacro("addGraph");
+  auto data = InsertItem<mvvm::Data1DItem>(GetDataContainer());
+  data->SetAxis<mvvm::FixedBinAxisItem>(npoints, xmin, xmax);
+  data->SetValues(GetBinValues(mvvm::utils::RandDouble(0.5, 1.0)));
 
-  auto data = InsertItem<Data1DItem>(dataContainer());
-  data->SetAxis<FixedBinAxisItem>(npoints, xmin, xmax);
-  data->SetValues(bin_values(mvvm::utils::RandDouble(0.5, 1.0)));
-
-  auto graph = InsertItem<GraphItem>(viewport());
+  auto graph = InsertItem<mvvm::GraphItem>(GetViewport());
   graph->SetDataItem(data);
   graph->SetNamedColor(mvvm::utils::RandomNamedColor());
-
-  // FIXME uncomment after undo/redo implementation
-  //    if (undoStack())
-  //        undoStack()->endMacro();
 }
 
 //! Remove last graph and data item.
 
-void GraphModel::removeGraph()
+void GraphModel::RemoveGraph()
 {
-  // FIXME uncomment after undo/redo implementation
-  //    if (undoStack())
-  //        undoStack()->beginMacro("removeGraph");
-
-  const int graph_count = viewport()->GetItemCount(ViewportItem::kItems);
-  const int data_count = dataContainer()->GetSize();
+  const int graph_count = GetViewport()->GetItemCount(mvvm::ViewportItem::kItems);
+  const int data_count = GetDataContainer()->GetSize();
 
   if (graph_count != data_count)
+  {
     throw std::runtime_error("Number of graphs do not much number of data items.");
+  }
 
   if (graph_count)
-    TakeItem(viewport(), {"", graph_count - 1});
+  {
+    TakeItem(GetViewport(), {"", graph_count - 1});
+  }
 
   if (data_count)
-    TakeItem(dataContainer(), {"", data_count - 1});
-
-  // FIXME uncomment after undo/redo implementation
-  //    if (undoStack())
-  //        undoStack()->endMacro();
+  {
+    TakeItem(GetDataContainer(), {"", data_count - 1});
+  }
 }
 
 //! Put random noise to graphs.
 
-void GraphModel::randomizeGraphs()
+void GraphModel::RandomizeGraphs()
 {
-  for (auto item : dataContainer()->GetItems<Data1DItem>(ContainerItem::kChildren))
+  for (auto item : GetDataContainer()->GetItems<mvvm::Data1DItem>(mvvm::ContainerItem::kChildren))
   {
     auto values = item->GetValues();
     std::transform(std::begin(values), std::end(values), std::begin(values),
-                   [](auto x) { return x * utils::RandDouble(0.8, 1.2); });
+                   [](auto x) { return x * mvvm::utils::RandDouble(0.8, 1.2); });
     item->SetValues(values);
   }
 }
 
 //! Returns viewport item containig graph items.
 
-GraphViewportItem* GraphModel::viewport()
+mvvm::GraphViewportItem* GraphModel::GetViewport()
 {
-  return GetTopItem<GraphViewportItem>();
+  return GetTopItem<mvvm::GraphViewportItem>();
 }
 
 //! Returns container with data items.
 
-ContainerItem* GraphModel::dataContainer()
+mvvm::ContainerItem* GraphModel::GetDataContainer()
 {
-  return GetTopItem<ContainerItem>();
-}
-
-void GraphModel::populateModel()
-{
-  auto container = InsertItem<ContainerItem>();
-  container->SetDisplayName("Data container");
-
-  auto viewport = InsertItem<GraphViewportItem>();
-  viewport->SetDisplayName("Graph container");
-
-  addGraph();
+  return GetTopItem<mvvm::ContainerItem>();
 }
 
 }  // namespace PlotGraphs

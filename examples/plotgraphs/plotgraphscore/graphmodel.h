@@ -10,7 +10,7 @@
 #ifndef PLOTGRAPHSCORE_GRAPHMODEL_H
 #define PLOTGRAPHSCORE_GRAPHMODEL_H
 
-#include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/applicationmodel.h"
 
 namespace mvvm
 {
@@ -22,25 +22,23 @@ namespace PlotGraphs
 {
 
 //! Main application model to demonstrate how to plot data.
-//! Contains few Data1DItem's, GraphItem's and ViewPortItem. Provides functionality to easily
+//! Contains a few Data1DItem's, GraphItem's, and ViewPortItem. Provides functionality to easily
 //! add and remove graphs.
 
-class GraphModel : public mvvm::SessionModel
+class GraphModel : public mvvm::ApplicationModel
 {
 public:
   GraphModel();
 
-  void addGraph();
+  void AddGraph();
 
-  void removeGraph();
+  void RemoveGraph();
 
-  void randomizeGraphs();
+  void RandomizeGraphs();
 
 private:
-  mvvm::GraphViewportItem* viewport();
-  mvvm::ContainerItem* dataContainer();
-
-  void populateModel();
+  mvvm::GraphViewportItem* GetViewport();
+  mvvm::ContainerItem* GetDataContainer();
 };
 
 }  // namespace PlotGraphs

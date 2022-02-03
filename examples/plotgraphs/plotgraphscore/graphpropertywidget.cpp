@@ -50,7 +50,7 @@ QBoxLayout* GraphPropertyWidget::create_button_layout()
 
     auto on_randomize_data = [this]() {
         if (m_model)
-            m_model->randomizeGraphs();
+            m_model->RandomizeGraphs();
     };
     connect(button, &QPushButton::clicked, on_randomize_data);
     result->addWidget(button);

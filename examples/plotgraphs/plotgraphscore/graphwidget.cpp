@@ -69,11 +69,11 @@ void GraphWidget::initActions()
     connect(m_resetViewportAction, &QAction::triggered, on_reset);
 
     m_addGraphAction = new QAction("Add graph", this);
-    auto on_add_graph = [this]() { m_model->addGraph(); };
+    auto on_add_graph = [this]() { m_model->AddGraph(); };
     connect(m_addGraphAction, &QAction::triggered, on_add_graph);
 
     m_removeGraphAction = new QAction("Remove graph", this);
-    auto on_remove_graph = [this]() { m_model->removeGraph(); };
+    auto on_remove_graph = [this]() { m_model->RemoveGraph(); };
     connect(m_removeGraphAction, &QAction::triggered, on_remove_graph);
 
     m_toolBar->addAction(m_resetViewportAction);
