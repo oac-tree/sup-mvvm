@@ -17,35 +17,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_BOOLEDITOR_H
-#define MVVM_EDITORS_BOOLEDITOR_H
-
-#include "mvvm/editors/customeditor.h"
-
-class QCheckBox;
+#include "mvvm/editors/abstracteditorfactory.h"
 
 namespace mvvm
 {
 
-//! Custom editor for QVariant based on bool values.
-//! Contains fancy check box and true/false label.
-
-class MVVM_VIEWMODEL_EXPORT BoolEditor : public CustomEditor
+void AbstractEditorFactory::RegisterBuilder(const std::string& name, editorbuilder_t builder)
 {
-  Q_OBJECT
+  m_name_to_builder[name] = std::move(builder);
+}
 
-public:
-  explicit BoolEditor(QWidget* parent = nullptr);
-
-  bool IsPersistent() const override;
-
-private:
-  void OnCheckBoxChange(bool value);
-
-  void UpdateComponents() override;
-  QCheckBox* m_checkBox;
-};
+editorbuilder_t AbstractEditorFactory::FindBuilder(const std::string& name) const
+{
+  auto it = m_name_to_builder.find(name);
+  return it != m_name_to_builder.end() ? it->second : editorbuilder_t();
+}
 
 }  // namespace mvvm
-
-#endif  // MVVM_EDITORS_BOOLEDITOR_H

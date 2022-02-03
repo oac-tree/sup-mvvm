@@ -39,17 +39,6 @@ const mvvm::SessionItem* GetItemFromIndex(const QModelIndex& index)
 namespace mvvm
 {
 
-void AbstractEditorFactory::RegisterBuilder(const std::string& name, editorbuilder_t builder)
-{
-  m_nameToBuilderMap[name] = std::move(builder);
-}
-
-editorbuilder_t AbstractEditorFactory::FindBuilder(const std::string& name) const
-{
-  auto it = m_nameToBuilderMap.find(name);
-  return it != m_nameToBuilderMap.end() ? it->second : editorbuilder_t();
-}
-
 // ----------------------------------------------------------------------------
 
 RoleDependentEditorFactory::RoleDependentEditorFactory()
