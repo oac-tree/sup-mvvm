@@ -21,21 +21,21 @@
 
 #include <sstream>
 
-namespace
-{
-const std::string kChildren = "kChildren";
-}
-
 namespace mvvm
 {
 ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
 }
 
 bool ContainerItem::IsEmpty() const
 {
-  return GetItemCount(kChildren) == 0;
+  return GetSize() == 0;
+}
+
+int ContainerItem::GetSize() const
+{
+  return GetItemCount(kChildren);
 }
 
 }  // namespace mvvm

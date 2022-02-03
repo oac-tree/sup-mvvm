@@ -41,3 +41,12 @@ TEST_F(ContainerItemTest, IsEmpty)
   item.InsertItem<PropertyItem>({"", 0});
   EXPECT_FALSE(item.IsEmpty());
 }
+
+TEST_F(ContainerItemTest, GetSize)
+{
+  ContainerItem item;
+  EXPECT_EQ(item.GetSize(), 0);
+  item.InsertItem<PropertyItem>({"", 0});
+  EXPECT_FALSE(item.IsEmpty());
+  EXPECT_EQ(item.GetSize(), 1);
+}

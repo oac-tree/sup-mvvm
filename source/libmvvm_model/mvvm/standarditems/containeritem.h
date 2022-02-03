@@ -30,11 +30,14 @@ namespace mvvm
 class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "ContainerItem";
+  static inline const std::string Type = "Container";
+  static inline const std::string kChildren = "kChildren";
 
-  ContainerItem(const std::string& model_type = Type);
+  explicit ContainerItem(const std::string& model_type = Type);
 
   bool IsEmpty() const;
+
+  int GetSize() const;
 };
 
 }  // namespace mvvm
