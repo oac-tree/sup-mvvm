@@ -43,7 +43,8 @@ public:
     item->SetData(data);
 
     // at this point ViewModel was automatically updated, column = 1 is a cell looking to our data
-    return m_view_model.index(0, 1);
+    auto indexes = m_view_model.GetIndexOfSessionItem(item);
+    return indexes.back();  // it should be two indices, the second is looking to our data
   }
 
   ApplicationModel m_model;
@@ -55,7 +56,49 @@ TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
   VariantDependentEditorFactory factory;
 
   // editor for bool types
-  auto index = GetIndex(variant_t(true));
-  auto editor = factory.CreateEditor(index);
-  EXPECT_TRUE(dynamic_cast<BoolEditor*>(editor.get()));
+  auto index1 = GetIndex(variant_t(true));
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
+
+  // ComboProperty
+  auto index2 = GetIndex(variant_t(ComboProperty()));
+  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
+
+  // `double` doesn't have custom editor for the moment (handled by default delegate)
+  auto index3 = GetIndex(variant_t(42.1));
+  EXPECT_FALSE(factory.CreateEditor(index3));
+
+  // `int` doesn't have custom editor for the moment (handled by default delegate)
+  auto index4 = GetIndex(variant_t(42));
+  EXPECT_FALSE(factory.CreateEditor(index4));
+
+  // `string` doesn't have custom editor for the moment (handled by default delegate)
+  auto index5 = GetIndex(std::string("abc"));
+  EXPECT_FALSE(factory.CreateEditor(index5));
+}
+
+//! Default editor factory for the moment reproduces VariantDependentEditorFactory
+
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
+{
+  DefaultEditorFactory factory;
+
+  // editor for bool types
+  auto index1 = GetIndex(variant_t(true));
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
+
+  // ComboProperty
+  auto index2 = GetIndex(variant_t(ComboProperty()));
+  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
+
+  // `double` doesn't have custom editor for the moment (handled by default delegate)
+  auto index3 = GetIndex(variant_t(42.1));
+  EXPECT_FALSE(factory.CreateEditor(index3));
+
+  // `int` doesn't have custom editor for the moment (handled by default delegate)
+  auto index4 = GetIndex(variant_t(42));
+  EXPECT_FALSE(factory.CreateEditor(index4));
+
+  // `string` doesn't have custom editor for the moment (handled by default delegate)
+  auto index5 = GetIndex(std::string("abc"));
+  EXPECT_FALSE(factory.CreateEditor(index5));
 }
