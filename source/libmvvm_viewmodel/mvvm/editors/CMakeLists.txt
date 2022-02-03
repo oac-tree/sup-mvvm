@@ -9,6 +9,7 @@ target_sources(${library_name} PRIVATE
   customeditor.h
   customeditorfactories.cpp
   customeditorfactories.h
+  customeditorincludes.h
   editor_constants.h
   editorbuilders.cpp
   editorbuilders.h

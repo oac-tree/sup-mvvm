@@ -25,6 +25,8 @@
 #include "mvvm/viewmodel/customvariants.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
+#include <iostream>
+
 namespace
 {
 
@@ -81,11 +83,8 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 std::unique_ptr<CustomEditor> VariantDependentEditorFactory::CreateEditor(
     const QModelIndex& index) const
 {
-  //  auto item = GetItemFromIndex(index);
-  //  auto value = item ? item->data<QVariant>() : index.data(Qt::EditRole);
-  //  auto builder = findBuilder(utils::GetQtVariantName(value));
-  //  return builder ? builder(item) : std::unique_ptr<CustomEditor>();
-  return {};
+    auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
+    return builder ? builder(GetItemFromIndex(index)) : std::unique_ptr<CustomEditor>();
 }
 
 // ----------------------------------------------------------------------------
