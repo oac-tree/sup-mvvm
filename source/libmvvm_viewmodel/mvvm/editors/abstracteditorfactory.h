@@ -37,7 +37,7 @@ namespace mvvm
 
 class MVVM_VIEWMODEL_EXPORT AbstractEditorFactory : public EditorFactoryInterface
 {
-protected:
+public:
   void RegisterBuilder(const std::string& name, editorbuilder_t builder);
 
   editorbuilder_t FindBuilder(const std::string& name) const;

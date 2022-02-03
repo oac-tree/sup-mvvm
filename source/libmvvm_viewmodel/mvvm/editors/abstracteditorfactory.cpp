@@ -19,12 +19,20 @@
 
 #include "mvvm/editors/abstracteditorfactory.h"
 
+#include <stdexcept>
+
 namespace mvvm
 {
 
 void AbstractEditorFactory::RegisterBuilder(const std::string& name, editorbuilder_t builder)
 {
-  m_name_to_builder[name] = std::move(builder);
+  auto it = m_name_to_builder.find(name);
+  if (it != m_name_to_builder.end())
+  {
+    throw std::runtime_error("Error in AbstractEditorFactory: name exists.");
+  }
+
+  m_name_to_builder.insert(it, {name, std::move(builder)});
 }
 
 editorbuilder_t AbstractEditorFactory::FindBuilder(const std::string& name) const
