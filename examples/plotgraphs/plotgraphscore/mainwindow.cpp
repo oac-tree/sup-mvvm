@@ -38,18 +38,18 @@ namespace plotgraphs
 MainWindow::MainWindow() : m_graph_model(std::make_unique<GraphModel>())
 {
   setCentralWidget(new GraphWidget(m_graph_model.get()));
-  initApplication();
+  InitApplication();
 }
 
 MainWindow::~MainWindow() = default;
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-  writeSettings();
+  WriteSettings();
   QMainWindow::closeEvent(event);
 }
 
-void MainWindow::initApplication()
+void MainWindow::InitApplication()
 {
   QCoreApplication::setApplicationName("plotgraphs");
   QCoreApplication::setApplicationVersion("0.1");
@@ -65,7 +65,7 @@ void MainWindow::initApplication()
   }
 }
 
-void MainWindow::writeSettings()
+void MainWindow::WriteSettings()
 {
   QSettings settings;
   settings.beginGroup(main_window_group);

@@ -37,7 +37,6 @@ namespace plotgraphs
 {
 
 class GraphModel;
-class GraphPropertyWidget;
 
 //! Shows canvas with plots on the left and property editor on the right.
 
@@ -53,8 +52,6 @@ public:
 
 private:
   void InitActions();
-  QBoxLayout* CreateLeftLayout();
-  QBoxLayout* CreateRightLayout();
 
   QToolBar* m_tool_bar{nullptr};
   QAction* m_reset_viewport_action{nullptr};

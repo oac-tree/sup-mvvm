@@ -46,8 +46,8 @@ public:
 
   void RandomizeGraphs();
 
-private:
   mvvm::GraphViewportItem* GetViewport();
+
   mvvm::ContainerItem* GetDataContainer();
 };
 

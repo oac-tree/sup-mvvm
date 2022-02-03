@@ -28,7 +28,6 @@
 #include <QAction>
 #include <QBoxLayout>
 #include <QToolBar>
-#include <QToolButton>
 
 namespace plotgraphs
 {
@@ -39,20 +38,18 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     , m_graph_canvas(new mvvm::GraphCanvas)
     , m_tree_view(new mvvm::AllItemsTreeView)
 {
-  auto mainLayout = new QVBoxLayout;
+  auto central_layout = new QHBoxLayout;
+  central_layout->addWidget(m_graph_canvas, 3);
+  central_layout->addWidget(m_tree_view, 1);
 
-  auto centralLayout = new QHBoxLayout;
-
-  centralLayout->addLayout(CreateLeftLayout(), 3);
-  centralLayout->addLayout(CreateRightLayout(), 1);
-
-  mainLayout->addWidget(m_tool_bar);
-  mainLayout->addLayout(centralLayout);
-
-  setLayout(mainLayout);
-  SetModel(model);
+  auto main_layout = new QVBoxLayout;
+  main_layout->addWidget(m_tool_bar);
+  main_layout->addLayout(central_layout);
+  setLayout(main_layout);
 
   InitActions();
+
+  SetModel(model);
 }
 
 GraphWidget::~GraphWidget() = default;
@@ -65,9 +62,7 @@ void GraphWidget::SetModel(GraphModel* model)
   }
 
   m_model = model;
-
   m_tree_view->SetApplicationModel(model);
-
   m_graph_canvas->SetItem(model->GetTopItem<mvvm::GraphViewportItem>());
 }
 
@@ -78,11 +73,7 @@ void GraphWidget::InitActions()
 
   // reset view action
   m_reset_viewport_action = new QAction("Reset view", this);
-  auto on_reset = [this]()
-  {
-    auto viewport = m_model->GetTopItem<mvvm::GraphViewportItem>();
-    viewport->SetViewportToContent(0.0, 0.1, 0.0, 0.1);
-  };
+  auto on_reset = [this]() { m_model->GetViewport()->SetViewportToContent(0.0, 0.1, 0.0, 0.1); };
   connect(m_reset_viewport_action, &QAction::triggered, on_reset);
   m_tool_bar->addAction(m_reset_viewport_action);
 
@@ -103,20 +94,6 @@ void GraphWidget::InitActions()
   auto on_randomize = [this]() { m_model->RandomizeGraphs(); };
   connect(m_randomize_action, &QAction::triggered, on_randomize);
   m_tool_bar->addAction(m_randomize_action);
-}
-
-QBoxLayout* GraphWidget::CreateLeftLayout()
-{
-  auto result = new QVBoxLayout;
-  result->addWidget(m_graph_canvas);
-  return result;
-}
-
-QBoxLayout* GraphWidget::CreateRightLayout()
-{
-  auto result = new QVBoxLayout;
-  result->addWidget(m_tree_view);
-  return result;
 }
 
 }  // namespace plotgraphs

@@ -36,15 +36,15 @@ class MainWindow : public QMainWindow
 
 public:
   MainWindow();
-  ~MainWindow();
+  ~MainWindow() override;
 
 protected:
-  void closeEvent(QCloseEvent* event);
+  void closeEvent(QCloseEvent* event) override;
 
 private:
-  void initApplication();
-  void writeSettings();
-  void populateModel();
+  void InitApplication();
+  void WriteSettings();
+  void PopulateModel();
 
   std::unique_ptr<GraphModel> m_graph_model;
 };
