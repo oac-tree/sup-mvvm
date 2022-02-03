@@ -25,6 +25,10 @@ bool DefaultCellDecorator::HasCustomDecoration(const QModelIndex& index) const
 std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& index) const
 {
   auto variant = index.data();
+  if (!variant.isValid())
+  {
+    return {};
+  }
 
   if (utils::IsComboPropertyVariant(variant))
   {
