@@ -9,13 +9,13 @@ target_sources(${library_name} PRIVATE
     customeditor.h
 #    customeventfilters.cpp
 #    customeventfilters.h
-#    defaulteditorfactory.cpp
-#    defaulteditorfactory.h
+    defaulteditorfactory.cpp
+    defaulteditorfactory.h
 #    doubleeditor.cpp
 #    doubleeditor.h
-#    editor_constants.h
-#    editorbuilders.cpp
-#    editorbuilders.h
+    editor_constants.h
+    editorbuilders.cpp
+    editorbuilders.h
 #    externalpropertycomboeditor.cpp
 #    externalpropertycomboeditor.h
 #    externalpropertyeditor.cpp
