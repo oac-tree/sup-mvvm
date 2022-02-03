@@ -3,8 +3,8 @@ target_sources(${library_name} PRIVATE
     booleditor.h
 #    coloreditor.cpp
 #    coloreditor.h
-#    combopropertyeditor.cpp
-#    combopropertyeditor.h
+    combopropertyeditor.cpp
+    combopropertyeditor.h
     customeditor.cpp
     customeditor.h
 #    customeventfilters.cpp
