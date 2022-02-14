@@ -70,7 +70,12 @@ bool SessionItemPresentation::IsEditable() const
   return GetItem()->IsEditable();
 }
 
-SessionItem *SessionItemPresentation::GetItem() const
+SessionItem *SessionItemPresentation::GetItem()
+{
+  return m_item;
+}
+
+const SessionItem *SessionItemPresentation::GetItem() const
 {
   return m_item;
 }

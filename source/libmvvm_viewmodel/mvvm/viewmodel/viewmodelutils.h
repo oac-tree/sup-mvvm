@@ -20,9 +20,10 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
 #define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
+#include "mvvm/model/sessionitem.h"
+#include "mvvm/viewmodel/standardpresentationitems.h"
 #include "mvvm/viewmodel_export.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
-#include "mvvm/model/sessionitem.h"
 
 #include <QVariant>
 #include <QVector>
@@ -38,6 +39,12 @@ namespace mvvm::utils
 template <typename T>
 const T* GetItemFromView(const ViewItem* view_item)
 {
+  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->item());
+      presentation)
+  {
+    return dynamic_cast<const T*>(presentation->GetItem());
+  }
+
   return dynamic_cast<const T*>(GetContext<SessionItem>(view_item));
 }
 

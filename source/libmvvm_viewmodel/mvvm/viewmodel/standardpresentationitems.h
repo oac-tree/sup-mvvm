@@ -48,7 +48,8 @@ public:
 
   bool IsEditable() const override;
 
-  SessionItem* GetItem() const;
+  SessionItem* GetItem();
+  const SessionItem* GetItem() const;
 
   int GetDataRole() const;
 
@@ -81,7 +82,6 @@ public:
 
   QVariant Data(int qt_role) const override;
 };
-
 
 }  // namespace mvvm
 
