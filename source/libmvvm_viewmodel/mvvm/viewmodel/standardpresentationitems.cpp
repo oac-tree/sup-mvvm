@@ -20,28 +20,52 @@
 #include "mvvm/viewmodel/standardpresentationitems.h"
 
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/viewmodel/variantconverter.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
 
 namespace mvvm
 {
 
-QVariant SessionItemPresentation::Data(int role) const
+SessionItemPresentation::SessionItemPresentation(SessionItem *item, int role)
+    : m_item(item), m_data_role(role)
 {
+}
+
+QVariant SessionItemPresentation::Data(int qt_role) const
+{
+  if (!GetItem())
+  {
+    return {};
+  }
+
+  if (qt_role == Qt::ForegroundRole)
+  {
+    return utils::TextColorRole(*GetItem());
+  }
+
+  if (qt_role == Qt::ToolTipRole)
+  {
+    return utils::ToolTipRole(*GetItem());
+  }
+
   return {};
 }
 
-bool SessionItemPresentation::SetData(const QVariant &data, int role)
+bool SessionItemPresentation::SetData(const QVariant &data, int qt_role)
 {
+  (void)data;
+  (void)qt_role;
   return false;
 }
 
 bool SessionItemPresentation::IsEnabled() const
 {
-  return false;
+  return GetItem()->IsEnabled();
 }
 
 bool SessionItemPresentation::IsEditable() const
 {
-  return false;
+  return GetItem()->IsEditable();
 }
 
 SessionItem *SessionItemPresentation::GetItem() const
@@ -49,6 +73,40 @@ SessionItem *SessionItemPresentation::GetItem() const
   return m_item;
 }
 
-// SessionItemPresentation::SessionItemPresentation(SessionItem *item) : PresentationItem(item) {}
+int SessionItemPresentation::GetDataRole() const
+{
+  return m_data_role;
+}
+
+// ----------------------------------------------------------------------------
+
+DataPresentationItem::DataPresentationItem(SessionItem *item)
+    : SessionItemPresentation(item, DataRole::kData)
+{
+}
+
+QVariant DataPresentationItem::Data(int qt_role) const
+{
+  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  {
+    return GetQtVariant(GetItem()->Data(DataRole::kData));
+  }
+
+  if (qt_role == Qt::CheckStateRole)
+  {
+    return utils::CheckStateRole(*GetItem());
+  }
+
+  // FIXME uncomment after utils::DecorationRole implementation
+  //  if (role == Qt::DecorationRole)
+  //      return Utils::DecorationRole(*item());
+
+  return SessionItemPresentation::Data(qt_role);
+}
+
+bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
+{
+  return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), DataRole::kData) : false;
+}
 
 }  // namespace mvvm

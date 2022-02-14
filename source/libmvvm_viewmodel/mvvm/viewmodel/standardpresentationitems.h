@@ -32,15 +32,17 @@ namespace mvvm
 
 class SessionItem;
 
-//! Defines base class to provide ViewItem with access to the SessionItem's data.
+//! @brief Defines base class to provide ViewItem with access to the SessionItem's data.
+
+//! Serves as an adapter to convert std::variant based data to QVariant. Provides additional Qt's
+//! data roles (background, color) that aren't defined in the underlying SessionItem.
+
 class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : ViewItemDataInterface
 {
 public:
-  explicit SessionItemPresentation(SessionItem* item);
+  QVariant Data(int qt_role) const override;
 
-  QVariant Data(int role) const override;
-
-  bool SetData(const QVariant& data, int role) override;
+  bool SetData(const QVariant& data, int qt_role) override;
 
   bool IsEnabled() const override;
 
@@ -48,8 +50,26 @@ public:
 
   SessionItem* GetItem() const;
 
+  int GetDataRole() const;
+
+protected:
+  explicit SessionItemPresentation(SessionItem* item, int role);
+
 private:
-  SessionItem* m_item{nullptr};
+  SessionItem* m_item{nullptr};  // the item to present
+  int m_data_role{0};            // main role to present
+};
+
+//! Represents a data role of SessionItem.
+
+class MVVM_VIEWMODEL_EXPORT DataPresentationItem : public SessionItemPresentation
+{
+public:
+  explicit DataPresentationItem(SessionItem* item);
+
+  QVariant Data(int qt_role) const override;
+
+  bool SetData(const QVariant& data, int qt_role) override;
 };
 
 }  // namespace mvvm

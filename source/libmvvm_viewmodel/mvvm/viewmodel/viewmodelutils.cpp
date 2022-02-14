@@ -50,6 +50,11 @@ QVariant TextColorRole(const SessionItem& item)
 {
   const bool item_hidden = !item.IsVisible();
   const bool item_disabled = !item.IsEnabled();
+
+  // Disabled item is displayed by gray color.
+  // Hidden item is displayed by gray color too (note: it's up to the view to decide if to show it
+  // at all, or not).
+
   return item_disabled || item_hidden ? QColor(Qt::gray) : QVariant();
 }
 
