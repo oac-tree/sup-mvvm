@@ -35,9 +35,9 @@ public:
 
   virtual ~ViewItemData() = default;
 
-  virtual QVariant Data(int role = Qt::EditRole) const override;
+  QVariant Data(int role = Qt::EditRole) const override;
 
-  virtual bool SetData(const QVariant& data, int role = Qt::EditRole) override;
+  bool SetData(const QVariant& data, int role = Qt::EditRole) override;
 
   bool IsEnabled() const override;
 

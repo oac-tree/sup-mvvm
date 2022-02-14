@@ -69,7 +69,7 @@ TEST_F(ViewModelUtilsTest, ItemTextColorRole)
 
 //! Testing check state role of item.
 
-TEST_F(ViewModelUtilsTest, itemCheckStateRole)
+TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
 {
   SessionItem item;
 
@@ -102,7 +102,7 @@ TEST_F(ViewModelUtilsTest, itemCheckStateRole)
 
 //! Testing tooltip role of the item.
 
-TEST_F(ViewModelUtilsTest, itemToolTipRole)
+TEST_F(ViewModelUtilsTest, ItemToolTipRole)
 {
   SessionItem item;
 

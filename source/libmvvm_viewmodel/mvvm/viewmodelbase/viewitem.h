@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT ViewItem
 {
 public:
   ViewItem();
-  ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data);
+  explicit ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data);
   virtual ~ViewItem();
 
   int rowCount() const;

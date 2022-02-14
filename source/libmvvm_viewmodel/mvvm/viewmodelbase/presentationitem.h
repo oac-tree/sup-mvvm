@@ -35,7 +35,7 @@ public:
   using data_callback_t = std::function<QVariant(T*, int)>;
   using setdata_callback_t = std::function<bool(T*, QVariant, int)>;
 
-  PresentationItem(T* context, data_callback_t data_callback = {},
+  explicit PresentationItem(T* context, data_callback_t data_callback = {},
                    setdata_callback_t setdata_callback = {})
       : m_context(context), m_data_callback(data_callback), m_setdata_callback(setdata_callback)
   {

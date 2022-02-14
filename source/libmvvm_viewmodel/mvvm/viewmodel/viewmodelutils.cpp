@@ -59,7 +59,7 @@ QVariant CheckStateRole(const SessionItem& item)
   {
     return item.Data<bool>() ? Qt::Checked : Qt::Unchecked;
   }
-  return QVariant();
+  return {};
 }
 
 // FIXME when EditorRole is restored

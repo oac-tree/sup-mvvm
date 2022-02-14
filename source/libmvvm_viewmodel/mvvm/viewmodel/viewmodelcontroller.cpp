@@ -262,6 +262,7 @@ void ViewModelController::OnModelReset(SessionModel *model)
 
 void ViewModelController::OnModelAboutToBeDestroyed(SessionModel *model)
 {
+  (void)model;
   p_impl->m_root_item_path = {};
   p_impl->m_view_model->ResetRootViewItem(utils::CreateRootViewItem<SessionItem>(nullptr));
 }
