@@ -70,14 +70,14 @@ std::unique_ptr<ViewItemDataInterface> CreateDataPresentation(SessionItem* item,
   {
     if (role == Qt::EditRole)
     {
-      if (set_func)
-      {
-        return set_func(item, GetStdVariant(data), DataRole::kData);
-      }
-      else
-      {
+//      if (set_func)
+//      {
+//        return set_func(item, GetStdVariant(data), DataRole::kData);
+//      }
+//      else
+//      {
         return item->SetData(GetStdVariant(data), DataRole::kData);
-      }
+//      }
     }
     return false;
   };

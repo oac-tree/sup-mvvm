@@ -107,34 +107,34 @@ TEST_F(PresentationItemFactoryTest, CreateDataPresentation)
   EXPECT_EQ(item.Data<int>(), new_value);
 };
 
-TEST_F(PresentationItemFactoryTest, CreateDataPresentationWithComposer)
-{
-  const int value{42};
-  SessionModel model;
-  auto* item = model.InsertItem<SessionItem>();
-  item->SetData(value, DataRole::kData);
+//TEST_F(PresentationItemFactoryTest, CreateDataPresentationWithComposer)
+//{
+//  const int value{42};
+//  SessionModel model;
+//  auto* item = model.InsertItem<SessionItem>();
+//  item->SetData(value, DataRole::kData);
 
-  MockModelNotifier notifier;
+//  MockModelNotifier notifier;
 
-  ModelComposer composer(&model, &notifier);
-  auto set_data = [&composer](auto item, auto data, auto role)
-  { return composer.SetData(item, data, role); };
-  auto presentation = CreateDataPresentation(item, set_data);
+//  ModelComposer composer(&model, &notifier);
+//  auto set_data = [&composer](auto item, auto data, auto role)
+//  { return composer.SetData(item, data, role); };
+//  auto presentation = CreateDataPresentation(item, set_data);
 
-  // The rest of the test is the same as in the test above.
-  // Presentation will set data through the composer.
+//  // The rest of the test is the same as in the test above.
+//  // Presentation will set data through the composer.
 
-  // item has a display role, which coincide with attribute value
-  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toInt(), value);
-  EXPECT_EQ(presentation->Data(Qt::EditRole).toInt(), value);
+//  // item has a display role, which coincide with attribute value
+//  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toInt(), value);
+//  EXPECT_EQ(presentation->Data(Qt::EditRole).toInt(), value);
 
-  EXPECT_CALL(notifier, DataChangedNotify(item, DataRole::kData)).Times(1);
+//  EXPECT_CALL(notifier, DataChangedNotify(item, DataRole::kData)).Times(1);
 
-  const int new_value{43};
-  EXPECT_FALSE(presentation->SetData(new_value, Qt::DisplayRole));
-  EXPECT_TRUE(presentation->SetData(new_value, Qt::EditRole));
+//  const int new_value{43};
+//  EXPECT_FALSE(presentation->SetData(new_value, Qt::DisplayRole));
+//  EXPECT_TRUE(presentation->SetData(new_value, Qt::EditRole));
 
-  // data is the new one
-  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toInt(), new_value);
-  EXPECT_EQ(item->Data<int>(), new_value);
-};
+//  // data is the new one
+//  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toInt(), new_value);
+//  EXPECT_EQ(item->Data<int>(), new_value);
+//};
