@@ -19,9 +19,9 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-#include "mvvm/viewmodel/abstractviewmodelcontroller.h"
-#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/viewmodel/abstractviewmodelcontroller.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
 
 namespace mvvm
 {
@@ -44,7 +44,7 @@ ViewModel::~ViewModel() = default;
 
 const SessionItem* ViewModel::GetRootSessionItem() const
 {
-  return utils::GetContext<SessionItem>(rootItem());
+  return utils::GetItemFromView<SessionItem>(rootItem());
 }
 
 SessionItem* ViewModel::GetRootSessionItem()

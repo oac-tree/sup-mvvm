@@ -36,7 +36,7 @@ class ViewItem;
 namespace mvvm::utils
 {
 template <typename T>
-const T* GetItem(const ViewItem* view_item)
+const T* GetItemFromView(const ViewItem* view_item)
 {
   return dynamic_cast<const T*>(GetContext<SessionItem>(view_item));
 }

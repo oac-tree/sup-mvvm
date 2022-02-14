@@ -75,7 +75,7 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
   EXPECT_NE(utils::GetContext<VectorItem>(viewitem.get()), &item);
 
   // To retrieve original item use GetItem method
-  EXPECT_EQ(utils::GetItem<VectorItem>(viewitem.get()), &item);
+  EXPECT_EQ(utils::GetItemFromView<VectorItem>(viewitem.get()), &item);
 }
 
 //! Testing CreateDataViewItem (case of integer data).

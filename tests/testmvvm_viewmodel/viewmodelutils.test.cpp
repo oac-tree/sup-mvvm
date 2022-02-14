@@ -37,7 +37,7 @@ public:
 //! FIXME refactor GetContext and GetItem method, they are errorprone
 //! The result depend on the way PresentationItem has been created
 
-TEST_F(ViewModelUtilsTest, GetItem)
+TEST_F(ViewModelUtilsTest, GetItemFromView)
 {
   VectorItem item;
 
@@ -46,7 +46,7 @@ TEST_F(ViewModelUtilsTest, GetItem)
 
 //  EXPECT_EQ(utils::GetContext<SessionItem>(&view_item1), &item);
 //  EXPECT_NE(utils::GetContext<VectorItem>(&view_item1), &item);
-  EXPECT_EQ(utils::GetItem<VectorItem>(&view_item1), &item);
+  EXPECT_EQ(utils::GetItemFromView<VectorItem>(&view_item1), &item);
 
   auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
   mvvm::ViewItem view_item2(std::move(presentation2));
