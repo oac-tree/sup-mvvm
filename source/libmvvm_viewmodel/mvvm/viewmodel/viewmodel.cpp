@@ -68,7 +68,7 @@ const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) 
   {
     throw std::runtime_error("Invalid controller");
   }
-  return index.isValid() ? utils::GetContext<SessionItem>(itemFromIndex(index))
+  return index.isValid() ? utils::GetItemFromView<SessionItem>(itemFromIndex(index))
                          : GetRootSessionItem();
 }
 

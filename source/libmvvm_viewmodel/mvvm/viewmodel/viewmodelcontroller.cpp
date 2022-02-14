@@ -103,7 +103,7 @@ struct ViewModelController::ViewModelControllerImpl
 
   const SessionItem *GetRootItem() const
   {
-    return utils::GetContext<SessionItem>(m_view_model->rootItem());
+    return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
   }
 
   void Iterate(const SessionItem *item, ViewItem *parent_view)
