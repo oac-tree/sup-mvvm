@@ -31,8 +31,8 @@
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 #include "mvvm/viewmodel/standardrowstrategies.h"
-#include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
+#include "mvvm/viewmodelbase/viewmodelbase.h"
 
 #include <gtest/gtest.h>
 
@@ -47,8 +47,7 @@ class ViewModelControllerTest : public ::testing::Test
 {
 public:
   ViewModelControllerTest()
-      : m_controller(&m_model, &m_viewmodel)
-      , m_composer(&m_model, &m_notifier)
+      : m_controller(&m_model, &m_viewmodel), m_composer(&m_model, &m_notifier)
   {
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
@@ -99,7 +98,8 @@ TEST_F(ViewModelControllerTest, EmptyProcedure)
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
-  EXPECT_EQ(mvvm::utils::GetContext<SessionItem>(m_viewmodel.rootItem()), m_model.GetRootItem());
+  EXPECT_EQ(mvvm::utils::GetItemFromView<SessionItem>(m_viewmodel.rootItem()),
+            m_model.GetRootItem());
 
   EXPECT_EQ(mvvm::utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
             std::vector<mvvm::ViewItem*>({m_viewmodel.rootItem()}));

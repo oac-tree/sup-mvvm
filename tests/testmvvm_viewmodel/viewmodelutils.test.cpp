@@ -51,7 +51,6 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
   auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
   mvvm::ViewItem view_item2(std::move(presentation2));
 
-  EXPECT_NE(utils::GetContext<SessionItem>(&view_item2), &item);
 //  EXPECT_EQ(utils::GetContext<VectorItem>(&view_item2), &item);
   EXPECT_NE(utils::GetItemFromView<VectorItem>(&view_item2), &item);
 }

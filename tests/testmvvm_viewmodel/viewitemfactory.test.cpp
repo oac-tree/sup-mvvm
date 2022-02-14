@@ -68,11 +68,7 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
   auto viewitem = CreateDisplayNameViewItem(&item);
 
   // Context can be casted to SessionItem
-  EXPECT_EQ(utils::GetContext<SessionItem>(viewitem.get()), &item);
-
-  // But not to original VectorItem (since CreateDisplayNameViewItem() works with
-  // PresentationItem<SessionItem>))
-  EXPECT_NE(utils::GetContext<VectorItem>(viewitem.get()), &item);
+  EXPECT_EQ(utils::GetItemFromView<SessionItem>(viewitem.get()), &item);
 
   // To retrieve original item use GetItem method
   EXPECT_EQ(utils::GetItemFromView<VectorItem>(viewitem.get()), &item);
