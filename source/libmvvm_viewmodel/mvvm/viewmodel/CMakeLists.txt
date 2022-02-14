@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   propertyviewmodel.h
   standardchildrenstrategies.cpp
   standardchildrenstrategies.h
+  standardpresentationitems.cpp
+  standardpresentationitems.h
   standardrowstrategies.cpp
   standardrowstrategies.h
   topitemsviewmodel.cpp
