@@ -21,6 +21,8 @@
 #define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
 #include "mvvm/viewmodel_export.h"
+#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
+#include "mvvm/model/sessionitem.h"
 
 #include <QVariant>
 #include <QVector>
@@ -28,10 +30,17 @@
 namespace mvvm
 {
 class SessionItem;
-}
+class ViewItem;
+}  // namespace mvvm
 
 namespace mvvm::utils
 {
+template <typename T>
+const T* GetItem(const ViewItem* view_item)
+{
+  return dynamic_cast<const T*>(GetContext<SessionItem>(view_item));
+}
+
 //! Returns vector of Qt roles corresponding to given ItemDataRole.
 MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 

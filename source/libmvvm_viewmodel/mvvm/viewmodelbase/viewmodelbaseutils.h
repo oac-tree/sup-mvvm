@@ -20,7 +20,6 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 #define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 
-#include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
@@ -31,8 +30,9 @@
 namespace mvvm
 {
 class ViewModelBase;
+}
 
-namespace utils
+namespace mvvm::utils
 {
 //! Iterates through the QAbstractItem model and calls the user function on every iteration.
 MVVM_VIEWMODEL_EXPORT void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
@@ -61,12 +61,6 @@ const T* GetContext(const ViewItem* view_item)
     return dynamic_cast<const T*>(presentation->GetContext());
   }
   return nullptr;
-}
-
-template <typename T>
-const T* GetItem(const ViewItem* view_item)
-{
-  return dynamic_cast<const T*>(GetContext<SessionItem>(view_item));
 }
 
 //! Finds ViewItems in given ViewModelBase representing given context.
@@ -127,7 +121,6 @@ std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
-}  // namespace Utils
-}  // namespace mvvm
+}  // namespace mvvm::utils
 
 #endif  // MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H

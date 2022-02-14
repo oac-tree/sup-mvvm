@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/viewmodelutils.h"
 
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/vectoritem.h"
 
 #include <gtest/gtest.h>
 
@@ -31,6 +32,29 @@ class ViewModelUtilsTest : public ::testing::Test
 {
 public:
 };
+
+//! Validate Utils::GetItem
+//! FIXME refactor GetContext and GetItem method, they are errorprone
+//! The result depend on the way PresentationItem has been created
+
+TEST_F(ViewModelUtilsTest, GetItem)
+{
+  VectorItem item;
+
+  auto presentation1 = std::make_unique<PresentationItem<SessionItem>>(&item);
+  mvvm::ViewItem view_item1(std::move(presentation1));
+
+//  EXPECT_EQ(utils::GetContext<SessionItem>(&view_item1), &item);
+//  EXPECT_NE(utils::GetContext<VectorItem>(&view_item1), &item);
+  EXPECT_EQ(utils::GetItem<VectorItem>(&view_item1), &item);
+
+  auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
+  mvvm::ViewItem view_item2(std::move(presentation2));
+
+  EXPECT_NE(utils::GetContext<SessionItem>(&view_item2), &item);
+//  EXPECT_EQ(utils::GetContext<VectorItem>(&view_item2), &item);
+//  EXPECT_NE(utils::GetItem<VectorItem>(&view_item2), &item);
+}
 
 //! Validate Utils::iterate_model function with user callback.
 

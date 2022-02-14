@@ -21,6 +21,7 @@
 
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
+#include "mvvm/model/sessionitem.h"
 
 namespace mvvm
 {
@@ -36,7 +37,7 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
       return data.at(section);
     }
   }
-  return QVariant();
+  return {};
 }
 
 ViewModel::~ViewModel() = default;

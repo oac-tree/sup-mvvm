@@ -49,4 +49,4 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
   }
 }
 
-}  // namespace mvvm::Utils
+}  // namespace mvvm::utils

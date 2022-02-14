@@ -19,7 +19,8 @@
 
 #include "viewitemdata.h"
 
-using namespace mvvm;
+namespace mvvm
+{
 
 ViewItemData::ViewItemData() : m_is_enabled(true), m_is_editable(true) {}
 
@@ -53,3 +54,5 @@ void ViewItemData::SetEditable(bool value)
 {
   m_is_editable = value;
 }
+
+}  // namespace mvvm
