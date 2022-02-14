@@ -53,7 +53,7 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
 
   EXPECT_NE(utils::GetContext<SessionItem>(&view_item2), &item);
 //  EXPECT_EQ(utils::GetContext<VectorItem>(&view_item2), &item);
-//  EXPECT_NE(utils::GetItem<VectorItem>(&view_item2), &item);
+  EXPECT_NE(utils::GetItemFromView<VectorItem>(&view_item2), &item);
 }
 
 //! Validate Utils::iterate_model function with user callback.

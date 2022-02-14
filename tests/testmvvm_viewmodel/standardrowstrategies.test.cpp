@@ -21,7 +21,7 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
-#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
 
 #include <gtest/gtest.h>
 
@@ -62,7 +62,7 @@ TEST_F(LabelDataRowStrategyTest, RowForTopLevelItem)
   EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
   EXPECT_FALSE(view_item->setData(QString("aaa"), Qt::DisplayRole));
   EXPECT_FALSE(view_item->setData(QString("bbb"), Qt::EditRole));
-  EXPECT_EQ(utils::GetContext<SessionItem>(view_item), &item);
+  EXPECT_EQ(utils::GetItemFromView<SessionItem>(view_item), &item);
 
   view_item = items.at(1).get();
   EXPECT_FALSE(view_item->data(Qt::DisplayRole).isValid());

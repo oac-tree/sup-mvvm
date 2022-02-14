@@ -32,7 +32,7 @@
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 #include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
-#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
 
 #include <gtest/gtest.h>
 
@@ -69,13 +69,13 @@ public:
   //! Returns underlying SessionItem from given ViewItem
   static const SessionItem* GetSessionItem(const ViewItem* view_item)
   {
-    return utils::GetContext<SessionItem>(view_item);
+    return utils::GetItemFromView<SessionItem>(view_item);
   }
 
   //! Returns underlying SessionItem from the given index.
   const SessionItem* GetSessionItem(const QModelIndex& index) const
   {
-    return utils::GetContext<SessionItem>(m_viewmodel.itemFromIndex(index));
+    return utils::GetItemFromView<SessionItem>(m_viewmodel.itemFromIndex(index));
   }
 
   std::vector<mvvm::ViewItem*> FindViews(SessionItem* item)
