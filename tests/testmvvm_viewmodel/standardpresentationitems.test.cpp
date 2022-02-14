@@ -47,6 +47,7 @@ TEST_F(StandardPresentationItemsTest, SessionItemPresentationInitialState)
   EXPECT_TRUE(presentation.IsEditable());
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+  EXPECT_FALSE(presentation.SetData(42, Qt::EditRole));
 }
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)
@@ -61,6 +62,74 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)
 
   EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
+}
+
+TEST_F(StandardPresentationItemsTest, LabelPresentationItem)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  LabelPresentationItem presentation(&item);
+  EXPECT_EQ(presentation.GetItem(), &item);
+  EXPECT_EQ(presentation.GetDataRole(), DataRole::kDisplay);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_TRUE(presentation.IsEditable());
+
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("abc"));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("abc"));
+
+  // for the moment it is not possible to set display name from a view
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::EditRole));
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));
+}
+
+//! Testing tooltip tole.
+
+TEST_F(StandardPresentationItemsTest, LabelPresentationItemTooltipRole)
+{
+  SessionItem item;
+
+  LabelPresentationItem presentation(&item);
+  EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
+
+  item.SetToolTip("abc");
+  EXPECT_EQ(presentation.Data(Qt::ToolTipRole).toString(), QString("abc"));
+}
+
+//! Testing color of item depending on enable/disable status.
+
+TEST_F(StandardPresentationItemsTest, LabelPresentationItemForegroundRole)
+{
+  SessionItem item;
+  item.SetData(42);
+
+  LabelPresentationItem presentation(&item);
+
+  // Enabled item doesn't have valid foreground role.
+  // This means that the color of text is left for a view to decide.
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+
+  item.SetEnabled(false);
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
+
+  item.SetEnabled(true);
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
+
+  // Hidden item has the same color by default. It is up to the view to decide how to show "hidden"
+  // item.
+
+  item.SetVisible(false);
+  EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
+}
+
+TEST_F(StandardPresentationItemsTest, LabelPresentationItemCheckStateRole)
+{
+  SessionItem item;
+  item.SetData(false);
+  LabelPresentationItem presentation(&item);
+
+  // no CheckStateRole for a label
+  EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
 }
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForDouble)
@@ -207,6 +276,6 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
   EXPECT_TRUE(presentation2.Data(Qt::CheckStateRole).isValid());
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Unchecked);
 
- item2.SetData(true);
+  item2.SetData(true);
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
 }

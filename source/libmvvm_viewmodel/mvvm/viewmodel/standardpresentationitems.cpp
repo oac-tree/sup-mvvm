@@ -23,6 +23,8 @@
 #include "mvvm/viewmodel/variantconverter.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
 
+#include <stdexcept>
+
 namespace mvvm
 {
 
@@ -79,10 +81,16 @@ int SessionItemPresentation::GetDataRole() const
 }
 
 // ----------------------------------------------------------------------------
+// DataPresentationItem
+// ----------------------------------------------------------------------------
 
 DataPresentationItem::DataPresentationItem(SessionItem *item)
     : SessionItemPresentation(item, DataRole::kData)
 {
+  if (!item)
+  {
+    throw std::runtime_error("Error in DataPresentationItem: uninitialized item");
+  }
 }
 
 QVariant DataPresentationItem::Data(int qt_role) const
@@ -107,6 +115,30 @@ QVariant DataPresentationItem::Data(int qt_role) const
 bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
 {
   return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), DataRole::kData) : false;
+}
+
+// ----------------------------------------------------------------------------
+// LabelPresentationItem
+// ----------------------------------------------------------------------------
+
+LabelPresentationItem::LabelPresentationItem(SessionItem *item)
+    : SessionItemPresentation(item, DataRole::kDisplay)
+{
+  if (!item)
+  {
+    throw std::runtime_error("Error in DataPresentationItem: uninitialized item");
+  }
+}
+
+QVariant LabelPresentationItem::Data(int qt_role) const
+{
+  // use item's display role
+  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  {
+    return QString::fromStdString(GetItem()->GetDisplayName());
+  }
+
+  return SessionItemPresentation::Data(qt_role);
 }
 
 }  // namespace mvvm

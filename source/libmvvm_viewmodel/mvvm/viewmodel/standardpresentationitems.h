@@ -72,6 +72,17 @@ public:
   bool SetData(const QVariant& data, int qt_role) override;
 };
 
+//! Represents non-editable display role of SessionItem.
+
+class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
+{
+public:
+  explicit LabelPresentationItem(SessionItem* item);
+
+  QVariant Data(int qt_role) const override;
+};
+
+
 }  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_STANDARDPRESENTATIONITEMS_H
