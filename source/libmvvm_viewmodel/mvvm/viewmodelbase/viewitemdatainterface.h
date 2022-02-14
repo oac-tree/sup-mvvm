@@ -31,9 +31,9 @@ namespace mvvm
 class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
 {
 public:
-  virtual QVariant Data(int role = Qt::EditRole) const = 0;
+  virtual QVariant Data(int role) const = 0;
 
-  virtual bool SetData(const QVariant& data, int role = Qt::EditRole) = 0;
+  virtual bool SetData(const QVariant& data, int role) = 0;
 
   virtual bool IsEnabled() const = 0;
 
