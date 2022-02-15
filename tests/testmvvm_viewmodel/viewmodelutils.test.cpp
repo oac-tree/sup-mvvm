@@ -21,6 +21,7 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/viewmodel/viewitemfactory.h"
 
 #include <gtest/gtest.h>
 
@@ -41,18 +42,8 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
 {
   VectorItem item;
 
-  auto presentation1 = std::make_unique<PresentationItem<SessionItem>>(&item);
-  mvvm::ViewItem view_item1(std::move(presentation1));
-
-//  EXPECT_EQ(utils::GetContext<SessionItem>(&view_item1), &item);
-//  EXPECT_NE(utils::GetContext<VectorItem>(&view_item1), &item);
-  EXPECT_EQ(utils::GetItemFromView<VectorItem>(&view_item1), &item);
-
-  auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
-  mvvm::ViewItem view_item2(std::move(presentation2));
-
-//  EXPECT_EQ(utils::GetContext<VectorItem>(&view_item2), &item);
-  EXPECT_NE(utils::GetItemFromView<VectorItem>(&view_item2), &item);
+  auto view = CreateDataViewItem(&item);
+  EXPECT_EQ(utils::GetItemFromView<VectorItem>(view.get()), &item);
 }
 
 //! Validate Utils::iterate_model function with user callback.
