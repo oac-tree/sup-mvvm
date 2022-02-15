@@ -58,8 +58,6 @@ public:
     return const_cast<T*>(static_cast<const PresentationItem<T>*>(this)->GetContext());
   }
 
-  void SetCallbacks();
-
 private:
   T* m_context;
   data_callback_t m_data_callback;

@@ -91,35 +91,41 @@ std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
   return result;
 }
 
+//! FIXME remove code
+
 //! Creates presentation to show the label associated with the given context.
 //! Context itself is not used directly. It might be used by ViewModelController to find
 //! corresponding views.
 
-template <typename T>
-std::unique_ptr<ViewItemDataInterface> CreateLabelPresentation(T* context, const std::string& label)
-{
-  // label is simply copied
-  auto on_data = [label](T* instruction, int role)
-  { return role == Qt::DisplayRole ? QString::fromStdString(label) : QVariant(); };
+//template <typename T>
+//std::unique_ptr<ViewItemDataInterface> CreateLabelPresentation(T* context, const std::string& label)
+//{
+//  // label is simply copied
+//  auto on_data = [label](T* instruction, int role)
+//  { return role == Qt::DisplayRole ? QString::fromStdString(label) : QVariant(); };
 
-  return std::make_unique<PresentationItem<T>>(context, on_data);
-}
+//  return std::make_unique<PresentationItem<T>>(context, on_data);
+//}
 
-template <typename T>
-std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& label)
-{
-  return std::make_unique<ViewItem>(CreateLabelPresentation(context, label));
-}
+//! FIXME remove code
+
+//template <typename T>
+//std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& label)
+//{
+//  return std::make_unique<ViewItem>(CreateLabelPresentation(context, label));
+//}
 
 //! Creates ViewItem representing invisible root item.
 
-template <typename T>
-std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
-{
-  // it has context which can't be edited
-  auto presentation = std::make_unique<PresentationItem<T>>(context);
-  return std::make_unique<ViewItem>(std::move(presentation));
-}
+//! FIXME remove code
+
+//template <typename T>
+//std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
+//{
+//  // it has context which can't be edited
+//  auto presentation = std::make_unique<PresentationItem<T>>(context);
+//  return std::make_unique<ViewItem>(std::move(presentation));
+//}
 
 }  // namespace mvvm::utils
 

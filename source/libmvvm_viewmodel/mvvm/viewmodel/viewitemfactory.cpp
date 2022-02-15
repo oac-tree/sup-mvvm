@@ -21,10 +21,18 @@
 
 #include "mvvm/viewmodel/presentationitemfactory.h"
 #include "mvvm/viewmodel/standardpresentationitems.h"
+#include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 namespace mvvm
 {
+
+std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item)
+{
+  auto presentation = std::make_unique<PresentationItem<SessionItem>>(item);
+  return std::make_unique<ViewItem>(std::move(presentation));
+}
+
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
   //  auto presentation = std::make_unique<LabelPresentationItem>(item);

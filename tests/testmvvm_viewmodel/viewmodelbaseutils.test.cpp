@@ -145,43 +145,47 @@ TEST_F(ViewModelBaseUtilsTest, FindViews)
 }
 
 //! Tests of CreateLabelPresentation.
+//! FIXME remove code together with CreateLabelViewItem
 
-TEST_F(ViewModelBaseUtilsTest, CreateLabelPresentation)
-{
-  TestItem item;
+//TEST_F(ViewModelBaseUtilsTest, CreateLabelPresentation)
+//{
+//  TestItem item;
 
-  std::string expected_label{"SomeLabel"};
-  auto presentation = mvvm::utils::CreateLabelPresentation(&item, expected_label);
+//  std::string expected_label{"SomeLabel"};
+//  auto presentation = mvvm::utils::CreateLabelPresentation(&item, expected_label);
 
-  // item has a display role, which coincide with the label, the rest is blocked
-  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
-  EXPECT_FALSE(presentation->Data(Qt::EditRole).isValid());
+//  // item has a display role, which coincide with the label, the rest is blocked
+//  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+//  EXPECT_FALSE(presentation->Data(Qt::EditRole).isValid());
 
-  EXPECT_FALSE(presentation->SetData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_FALSE(presentation->SetData(QString("bbb"), Qt::EditRole));
+//  EXPECT_FALSE(presentation->SetData(QString("aaa"), Qt::DisplayRole));
+//  EXPECT_FALSE(presentation->SetData(QString("bbb"), Qt::EditRole));
 
-  // data is the same as before, despite of all attempts to change it
-  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
-}
+//  // data is the same as before, despite of all attempts to change it
+//  EXPECT_EQ(presentation->Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+//}
 
 //! Tests of CreateLabelPresentation.
 
-TEST_F(ViewModelBaseUtilsTest, CreateLabelViewItem)
-{
-  TestItem item;
 
-  std::string expected_label{"SomeLabel"};
-  auto view_item = mvvm::utils::CreateLabelViewItem(&item, expected_label);
+//! FIXME remove code together with CreateLabelViewItem
 
-  // item has a display role, which coincide with the label, the rest is blocked
-  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
-  EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
+//TEST_F(ViewModelBaseUtilsTest, CreateLabelViewItem)
+//{
+//  TestItem item;
 
-  EXPECT_FALSE(view_item->setData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_FALSE(view_item->setData(QString("bbb"), Qt::EditRole));
+//  std::string expected_label{"SomeLabel"};
+//  auto view_item = mvvm::utils::CreateLabelViewItem(&item, expected_label);
 
-  // data is the same as before, despite of all attempts to change it
-  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
+//  // item has a display role, which coincide with the label, the rest is blocked
+//  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
+//  EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
 
-  EXPECT_EQ(mvvm::utils::GetContext<TestItem>(view_item.get()), &item);
-}
+//  EXPECT_FALSE(view_item->setData(QString("aaa"), Qt::DisplayRole));
+//  EXPECT_FALSE(view_item->setData(QString("bbb"), Qt::EditRole));
+
+//  // data is the same as before, despite of all attempts to change it
+//  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), expected_label);
+
+//  EXPECT_EQ(mvvm::utils::GetContext<TestItem>(view_item.get()), &item);
+//}

@@ -31,6 +31,7 @@
 #include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
+#include "mvvm/viewmodel/viewitemfactory.h"
 
 #include <QDebug>
 #include <map>
@@ -182,7 +183,7 @@ struct ViewModelController::ViewModelControllerImpl
       throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
     }
 
-    m_view_model->ResetRootViewItem(utils::CreateRootViewItem(root_item), /*notify*/ false);
+    m_view_model->ResetRootViewItem(CreateRootViewItem(root_item), /*notify*/ false);
   }
 };
 
@@ -219,7 +220,7 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself
     p_impl->m_root_item_path = {};
-    p_impl->m_view_model->ResetRootViewItem(utils::CreateRootViewItem<SessionItem>(nullptr));
+    p_impl->m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
   }
   else
   {
@@ -264,7 +265,7 @@ void ViewModelController::OnModelAboutToBeDestroyed(SessionModel *model)
 {
   (void)model;
   p_impl->m_root_item_path = {};
-  p_impl->m_view_model->ResetRootViewItem(utils::CreateRootViewItem<SessionItem>(nullptr));
+  p_impl->m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
 //! Inits ViewModel by iterating through SessionModel.
