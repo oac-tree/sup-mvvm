@@ -20,8 +20,6 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 #define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 
-#include "mvvm/viewmodel/standardpresentationitems.h"
-#include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 
@@ -39,65 +37,12 @@ namespace mvvm::utils
 MVVM_VIEWMODEL_EXPORT void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                                          const std::function<void(const QModelIndex& child)>& fun);
 
-//! Returns underlying presentation item PresentationItem<Instruction>, if underlying
-//! SessionItemData can be cast to that. Returns nullptr otherwise.
+//! Returns underlying presentation item casted to given type.
 
 template <typename T>
-const PresentationItem<T>* GetPresentation(const ViewItem* view_item)
+const T* GetPresentation(const ViewItem* view_item)
 {
-  return dynamic_cast<const PresentationItem<T>*>(view_item->item());
-}
-
-//! FIXME refactor GetContext and GetItem method, they are errorprone
-//! The result depend on the way PresentationItem has been created
-//! See TEST_F(ViewModelBaseUtilsTest, GetItem) viewmodelbaseutils.test.cpp
-
-//! Returns context (SessionItem) from underlying presentation item.
-
-template <typename T>
-const T* GetContext(const ViewItem* view_item)
-{
-  if (auto presentation = GetPresentation<T>(view_item); presentation)
-  {
-    return dynamic_cast<const T*>(presentation->GetContext());
-  }
-
-  // FIXME refactor
-  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->item());
-      presentation)
-  {
-    return dynamic_cast<const T*>(presentation->GetItem());
-  }
-
-  return nullptr;
-}
-
-//! Finds ViewItems in given ViewModelBase representing given context.
-
-template <typename T>
-std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
-{
-  if (!item)
-  {
-    return {};
-  }
-
-  std::vector<ViewItem*> result;
-  if (item == GetContext<T>(view_model->rootItem()))
-  {
-    result.push_back(view_model->rootItem());
-  }
-
-  auto on_index = [&](const QModelIndex& index)
-  {
-    auto view_item = view_model->itemFromIndex(index);
-    if (GetContext<T>(view_item) == item)
-    {
-      result.push_back(view_item);
-    }
-  };
-  utils::iterate_model(view_model, QModelIndex(), on_index);
-  return result;
+  return dynamic_cast<const T*>(view_item->item());
 }
 
 }  // namespace mvvm::utils

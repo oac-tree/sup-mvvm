@@ -20,6 +20,7 @@
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
 #include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/viewmodelbase/presentationitem.h"
 
 #include <gtest/gtest.h>
 
@@ -89,57 +90,5 @@ TEST_F(ViewModelBaseUtilsTest, GetPresentation)
 
   auto expected_ptr = presentation.get();
   mvvm::ViewItem item(std::move(presentation));
-  EXPECT_EQ(utils::GetPresentation<TestItem>(&item), expected_ptr);
-}
-
-//! Validate Utils::GetPresentation function.
-
-TEST_F(ViewModelBaseUtilsTest, GetContext)
-{
-  TestItem wait;
-
-  auto presentation = std::make_unique<PresentationItem<TestItem>>(&wait);
-  mvvm::ViewItem item(std::move(presentation));
-  EXPECT_EQ(utils::GetContext<TestItem>(&item), &wait);
-
-  // Context of the arbitrary item should be nullptr
-  mvvm::ViewItem item2;
-  EXPECT_EQ(utils::GetContext<TestItem>(&item2), nullptr);
-}
-
-//! Validate Utils::GetItem
-//! FIXME refactor GetContext and GetItem method, they are errorprone
-//! The result depend on the way PresentationItem has been created
-
-TEST_F(ViewModelBaseUtilsTest, GetItem)
-{
-  VectorItem item;
-
-  auto presentation1 = std::make_unique<PresentationItem<SessionItem>>(&item);
-  mvvm::ViewItem view_item1(std::move(presentation1));
-
-  EXPECT_EQ(utils::GetContext<SessionItem>(&view_item1), &item);
-  EXPECT_NE(utils::GetContext<VectorItem>(&view_item1), &item);
-//  EXPECT_EQ(utils::GetItem<VectorItem>(&view_item1), &item);
-
-  auto presentation2 = std::make_unique<PresentationItem<VectorItem>>(&item);
-  mvvm::ViewItem view_item2(std::move(presentation2));
-
-  EXPECT_NE(utils::GetContext<SessionItem>(&view_item2), &item);
-  EXPECT_EQ(utils::GetContext<VectorItem>(&view_item2), &item);
-//  EXPECT_NE(utils::GetItem<VectorItem>(&view_item2), &item);
-}
-
-//! Validate Utils::FindViews function.
-
-TEST_F(ViewModelBaseUtilsTest, FindViews)
-{
-  mvvm::ViewModelBase viewmodel;
-  TestItem instruction;
-
-  EXPECT_TRUE(utils::FindViews<TestItem>(&viewmodel, &instruction).empty());
-
-  EXPECT_TRUE(utils::FindViews<TestItem>(&viewmodel, nullptr).empty());
-
-  // more tests for FindViews in ViewModelControllerTest
+  EXPECT_EQ(utils::GetPresentation<PresentationItem<TestItem>>(&item), expected_ptr);
 }
