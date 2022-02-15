@@ -64,15 +64,15 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
   RoleDependentEditorFactory factory;
 
   // editor for bool types
-  auto index1 = AddDataToModel(variant_t(true), constants::BoolEditorType);
+  auto index1 = AddDataToModel(variant_t(true), constants::kBoolEditorType);
   EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
 
   // ComboProperty
-  auto index2 = AddDataToModel(variant_t(ComboProperty()), constants::ComboPropertyEditorType);
+  auto index2 = AddDataToModel(variant_t(ComboProperty()), constants::kComboPropertyEditorType);
   EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
 
   // String as color
-  auto index3 = AddDataToModel(variant_t("red"), constants::ColorEditorType);
+  auto index3 = AddDataToModel(variant_t("red"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index3).get()));
 }
 
@@ -128,6 +128,6 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
   EXPECT_FALSE(factory.CreateEditor(index5));
 
   // `string` with specification that it is a color
-  auto index6 = AddDataToModel(std::string("abc"), constants::ColorEditorType);
+  auto index6 = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index6).get()));
 }

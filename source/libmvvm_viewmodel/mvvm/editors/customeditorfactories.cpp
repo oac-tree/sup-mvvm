@@ -45,9 +45,9 @@ namespace mvvm
 
 RoleDependentEditorFactory::RoleDependentEditorFactory()
 {
-  RegisterBuilder(constants::BoolEditorType, BoolEditorBuilder());
-  RegisterBuilder(constants::ComboPropertyEditorType, ComboPropertyEditorBuilder());
-  RegisterBuilder(constants::ColorEditorType, ColorEditorBuilder());
+  RegisterBuilder(constants::kBoolEditorType, BoolEditorBuilder());
+  RegisterBuilder(constants::kComboPropertyEditorType, ComboPropertyEditorBuilder());
+  RegisterBuilder(constants::kColorEditorType, ColorEditorBuilder());
 }
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.

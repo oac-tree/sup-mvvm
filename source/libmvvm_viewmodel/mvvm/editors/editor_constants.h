@@ -28,9 +28,9 @@
 namespace mvvm::constants
 {
 
-const std::string BoolEditorType = "BoolEditor";
-const std::string ComboPropertyEditorType = "ComboPropertyEditor";
-const std::string ColorEditorType = "ColorEditor";
+const std::string kBoolEditorType = "BoolEditor";
+const std::string kComboPropertyEditorType = "ComboPropertyEditor";
+const std::string kColorEditorType = "ColorEditor";
 
 const int default_double_decimals = 4;  //! number of digits after decimal points
 
