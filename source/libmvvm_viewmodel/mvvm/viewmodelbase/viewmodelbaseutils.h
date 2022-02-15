@@ -20,6 +20,7 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 #define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 
+#include "mvvm/viewmodel/standardpresentationitems.h"
 #include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
@@ -60,6 +61,14 @@ const T* GetContext(const ViewItem* view_item)
   {
     return dynamic_cast<const T*>(presentation->GetContext());
   }
+
+  // FIXME refactor
+  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->item());
+      presentation)
+  {
+    return dynamic_cast<const T*>(presentation->GetItem());
+  }
+
   return nullptr;
 }
 
@@ -97,35 +106,36 @@ std::vector<ViewItem*> FindViews(const ViewModelBase* view_model, const T* item)
 //! Context itself is not used directly. It might be used by ViewModelController to find
 //! corresponding views.
 
-//template <typename T>
-//std::unique_ptr<ViewItemDataInterface> CreateLabelPresentation(T* context, const std::string& label)
+// template <typename T>
+// std::unique_ptr<ViewItemDataInterface> CreateLabelPresentation(T* context, const std::string&
+// label)
 //{
-//  // label is simply copied
-//  auto on_data = [label](T* instruction, int role)
-//  { return role == Qt::DisplayRole ? QString::fromStdString(label) : QVariant(); };
+//   // label is simply copied
+//   auto on_data = [label](T* instruction, int role)
+//   { return role == Qt::DisplayRole ? QString::fromStdString(label) : QVariant(); };
 
 //  return std::make_unique<PresentationItem<T>>(context, on_data);
 //}
 
 //! FIXME remove code
 
-//template <typename T>
-//std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& label)
+// template <typename T>
+// std::unique_ptr<ViewItem> CreateLabelViewItem(T* context, const std::string& label)
 //{
-//  return std::make_unique<ViewItem>(CreateLabelPresentation(context, label));
-//}
+//   return std::make_unique<ViewItem>(CreateLabelPresentation(context, label));
+// }
 
 //! Creates ViewItem representing invisible root item.
 
 //! FIXME remove code
 
-//template <typename T>
-//std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
+// template <typename T>
+// std::unique_ptr<ViewItem> CreateRootViewItem(T* context)
 //{
-//  // it has context which can't be edited
-//  auto presentation = std::make_unique<PresentationItem<T>>(context);
-//  return std::make_unique<ViewItem>(std::move(presentation));
-//}
+//   // it has context which can't be edited
+//   auto presentation = std::make_unique<PresentationItem<T>>(context);
+//   return std::make_unique<ViewItem>(std::move(presentation));
+// }
 
 }  // namespace mvvm::utils
 

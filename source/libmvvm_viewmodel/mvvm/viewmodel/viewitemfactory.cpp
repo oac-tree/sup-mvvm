@@ -19,7 +19,6 @@
 
 #include "mvvm/viewmodel/viewitemfactory.h"
 
-#include "mvvm/viewmodel/presentationitemfactory.h"
 #include "mvvm/viewmodel/standardpresentationitems.h"
 #include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
@@ -29,24 +28,20 @@ namespace mvvm
 
 std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item)
 {
-  auto presentation = std::make_unique<PresentationItem<SessionItem>>(item);
+  auto presentation = std::make_unique<LabelPresentationItem>(item);
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
-  //  auto presentation = std::make_unique<LabelPresentationItem>(item);
-  //  return std::make_unique<ViewItem>(std::move(presentation));
-
-  return std::make_unique<ViewItem>(CreateDisplayNamePresentation(item));
+  auto presentation = std::make_unique<DisplayNamePresentationItem>(item);
+  return std::make_unique<ViewItem>(std::move(presentation));
 }
 
 std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, item_setdata_function_t set_func)
 {
-  //  auto presentation = std::make_unique<DataPresentationItem>(item);
-  //  return std::make_unique<ViewItem>(std::move(presentation));
-
-  return std::make_unique<ViewItem>(CreateDataPresentation(item, set_func));
+  auto presentation = std::make_unique<DataPresentationItem>(item);
+  return std::make_unique<ViewItem>(std::move(presentation));
 }
 
 }  // namespace mvvm
