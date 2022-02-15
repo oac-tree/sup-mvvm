@@ -159,7 +159,7 @@ TEST_F(Data1DItemTest, SetErrors)
 }
 
 //! Checking the signals when axes changed.
-//! FIXME enable tests
+//! FIXME enable tests checkSignalsOnAxisChange
 
 // TEST_F(Data1DItemTest, checkSignalsOnAxisChange)
 //{

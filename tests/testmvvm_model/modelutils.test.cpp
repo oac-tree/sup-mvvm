@@ -149,7 +149,7 @@ TEST_F(ModelUtilsTest, HasSignals)
   EXPECT_TRUE(utils::HasSignals(&application_model));
 }
 
-//! FIXME restore test
+//! FIXME restore test when copy is ready
 // TEST_F(ModelUtilsTest, CreateCopy)
 //{
 //    ToyItems::SampleModel model;
@@ -165,7 +165,7 @@ TEST_F(ModelUtilsTest, HasSignals)
 //    EXPECT_FALSE(layerCopy->identifier() == layer->identifier());
 //}
 
-//! FIXME restore test
+//! FIXME restore test when clone is ready
 // TEST_F(ModelUtilsTest, CreateClone)
 //{
 //    ToyItems::SampleModel model;
@@ -185,18 +185,7 @@ TEST_F(ModelUtilsTest, HasSignals)
 //    EXPECT_FALSE(model.rootItem()->identifier() == modelCopy->rootItem()->identifier());
 //}
 
-//! FIXME restore test
-// TEST_F(ModelUtilsTest, DeleteItemFromModel)
-//{
-//    ToyItems::SampleModel model;
-
-//    auto item = model.insertItem<SessionItem>();
-//    EXPECT_EQ(model.rootItem()->childrenCount(), 1);
-//    Utils::DeleteItemFromModel(item);
-//    EXPECT_EQ(model.rootItem()->childrenCount(), 0);
-//}
-
-//! FIXME restore test
+//! FIXME restore test  MoveUp
 // TEST_F(ModelUtilsTest, MoveItemUp)
 //{
 //    ToyItems::SampleModel model;
@@ -221,7 +210,7 @@ TEST_F(ModelUtilsTest, HasSignals)
 //    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
 //}
 
-//! FIXME restore test
+//! FIXME restore test MoveDown
 // TEST_F(ModelUtilsTest, MoveItemDown)
 //{
 //    ToyItems::SampleModel model;

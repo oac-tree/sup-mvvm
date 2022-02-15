@@ -300,7 +300,7 @@ TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeDestroyed)
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
-// FIXME restore
+// FIXME restore AttemptToEstablishConnectionsTwice
 // TEST_F(AbstractViewModelControllerTest, AttemptToEstablishConnectionsTwice)
 //{
 //  mvvm::ModelEventNotifier notifier;

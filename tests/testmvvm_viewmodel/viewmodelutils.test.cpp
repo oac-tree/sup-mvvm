@@ -35,9 +35,7 @@ class ViewModelUtilsTest : public ::testing::Test
 public:
 };
 
-//! Validate Utils::GetItem
-//! FIXME refactor GetContext and GetItem method, they are errorprone
-//! The result depend on the way PresentationItem has been created
+//! Validate Utils::GetItemFromView
 
 TEST_F(ViewModelUtilsTest, GetItemFromView)
 {

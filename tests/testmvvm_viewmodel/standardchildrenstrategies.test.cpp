@@ -200,7 +200,7 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
     EXPECT_EQ(children.size(), 2);
   }
 
-  // GroupItem FIXME restore
+  // GroupItem FIXME restore ShapeGroupItem
   //  {
   //    ToyItems::ShapeGroupItem item;
   //    item.setCurrentType(ToyItems::Constants::CylinderItemType);

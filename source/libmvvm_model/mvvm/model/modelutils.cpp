@@ -60,7 +60,7 @@ bool HasSignals(const SessionModel* model)
   return dynamic_cast<const ApplicationModel*>(model);
 }
 
-// FIXME restore functionality
+//! FIXME restore functionality PopulateEmptyModel json
 
 // void Utils::PopulateEmptyModel(const JsonModelConverterInterface* converter,
 //                               const SessionModel& source, SessionModel& target)
@@ -68,6 +68,8 @@ bool HasSignals(const SessionModel* model)
 //    QJsonObject object = converter->to_json(source);
 //    converter->from_json(object, target);
 //}
+
+//! FIXME restore MoveUp
 
 // void Utils::MoveUp(SessionItem* item)
 //{
@@ -77,6 +79,8 @@ bool HasSignals(const SessionModel* model)
 //    item->model()->moveItem(item, item->parent(), tagrow.prev());
 //}
 
+//! FIXME restore MoveDown
+
 // void Utils::MoveDown(SessionItem* item)
 //{
 //    auto tagrow = item->tagRow();
@@ -85,17 +89,23 @@ bool HasSignals(const SessionModel* model)
 //    item->model()->moveItem(item, item->parent(), tagrow.next());
 //}
 
+//! FIXME restore Undo
+
 // void Utils::Undo(SessionModel& model)
 //{
 //    if (auto stack = model.undoStack(); stack)
 //        stack->undo();
 //}
 
+//! FIXME restore Redo
+
 // void Utils::Redo(SessionModel& model)
 //{
 //    if (auto stack = model.undoStack(); stack)
 //        stack->redo();
 //}
+
+//! FIXME restore beginMacros
 
 // void Utils::BeginMacros(const SessionItem* item, const std::string& macro_name)
 //{
@@ -118,6 +128,8 @@ bool HasSignals(const SessionModel* model)
 //    if (auto stack = model->undoStack(); stack)
 //        stack->beginMacro(macro_name);
 //}
+
+//! FIXME restore endMacros
 
 // void Utils::EndMacros(const SessionModel* model)
 //{

@@ -1017,7 +1017,7 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.
 
-// FIXME restore test
+// FIXME restore test deleteGraphVromViewport
 
 // TEST_F(AllItemsViewModelTest, deleteGraphVromViewport)
 //{

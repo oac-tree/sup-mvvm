@@ -59,7 +59,7 @@ TEST_F(SignalSlotTest, MockWidgetConnectAndDisconnect)
 
   // removing client
   signal.disconnect(connection);
-  //  connection.disconnect(); FIXME doesn't work
+  //  connection.disconnect(); FIXME connection.disconnect() doesn't work
 
   EXPECT_CALL(widget, onItemDestroy(_)).Times(0);
   signal(&item);  // perform action

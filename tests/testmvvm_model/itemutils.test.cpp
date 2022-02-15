@@ -91,9 +91,9 @@ TEST_F(ItemUtilsTest, IterateIfItem)
   EXPECT_EQ(visited_items, expected);
 }
 
-//! Iteration over root item of the model. FIXME uncomment
+//! Iteration over root item of the model.
 
-TEST_F(ItemUtilsTest, iterateModel)
+TEST_F(ItemUtilsTest, IterateModel)
 {
   SessionModel model;
 
@@ -118,7 +118,7 @@ TEST_F(ItemUtilsTest, iterateModel)
 
 //! Copy number of child in parents tree.
 
-TEST_F(ItemUtilsTest, itemCopyNumber)
+TEST_F(ItemUtilsTest, ItemCopyNumber)
 {
   SessionModel model;
 

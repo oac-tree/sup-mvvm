@@ -351,7 +351,7 @@ TEST_F(ViewportAxisPlotControllerTest, ChangeViewportAxisItemYCase)
 
 //! Model with two AxisItem's. Controller first is subscribed to one item, then to another.
 
-//! FIXME enable test after implementing controller notification of item delete
+//! FIXME enable oneControllerTwoAxisItems after  item delete
 
 //TEST_F(ViewportAxisPlotControllerTest, oneControllerTwoAxisItems)
 //{

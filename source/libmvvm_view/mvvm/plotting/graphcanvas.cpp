@@ -35,7 +35,7 @@ namespace
 //! Returns policy to which side of the axes box margins can be applied.
 //! If number is negative, this side will be callulated automatically.
 
-// FIXME move to utils, provide unit tests
+// FIXME autoMarginPolicy move to utils, provide unit tests
 QCP::MarginSides autoMarginPolicy(int left, int top, int right, int bottom)
 {
   QCP::MarginSides result{QCP::msAll};

@@ -153,9 +153,8 @@ TEST_F(GraphPlotControllerTest, setPointwiseItem)
 }
 
 //! Setting data to graph after.
-//! FIXME resume test
 
-TEST_F(GraphPlotControllerTest, setDataAfter)
+TEST_F(GraphPlotControllerTest, SetDataAfter)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphPlotController controller(custom_plot.get());
@@ -188,7 +187,7 @@ TEST_F(GraphPlotControllerTest, setDataAfter)
 
 //! Unlinking from Data1DItem or GraphItem.
 
-TEST_F(GraphPlotControllerTest, unlinkFromItem)
+TEST_F(GraphPlotControllerTest, UnlinkFromItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphPlotController controller(custom_plot.get());

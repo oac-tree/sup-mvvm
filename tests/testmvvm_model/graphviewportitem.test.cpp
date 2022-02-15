@@ -111,7 +111,7 @@ TEST_F(GraphViewportItemTest, OnSetDataItem)
 
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-  //  EXPECT_CALL(widget, onChildPropertyChange(graph_item, GraphItem::P_LINK)).Times(1); // FIXME
+  //  EXPECT_CALL(widget, onChildPropertyChange(graph_item, GraphItem::P_LINK)).Times(1); // FIXME GraphViewportItemTest onChildPropertyChange
   //  after onChildPropertyChange restoration
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);

@@ -524,7 +524,7 @@ TEST_F(SessionModelTest, ClearRebuildModel)
   EXPECT_EQ(pool->KeyForItem(new_item), new_item->GetIdentifier());
 }
 
-// FIXME restore
+// FIXME restore copyModelItemRootContext
 ////! Tests item copy when from root item to root item.
 
 // TEST_F(SessionModelTest, copyModelItemRootContext)
@@ -594,7 +594,7 @@ TEST_F(SessionModelTest, ClearRebuildModel)
 //    EXPECT_EQ(copy->data<double>(), 42.0);
 //}
 
-// FIXME restore
+// FIXME restore forbiddenCopy
 ////! Attempt to copy property item into the same tag.
 
 // TEST_F(SessionModelTest, forbiddenCopy)
