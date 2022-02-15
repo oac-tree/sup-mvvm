@@ -49,6 +49,32 @@ const T* GetItemFromView(const ViewItem* view_item)
   return nullptr;
 }
 
+template <typename T>
+std::vector<ViewItem*> FindViewsForItem(const ViewModelBase* view_model, const T* item)
+{
+  if (!item)
+  {
+    return {};
+  }
+
+  std::vector<ViewItem*> result;
+  if (item == GetItemFromView<T>(view_model->rootItem()))
+  {
+    result.push_back(view_model->rootItem());
+  }
+
+  auto on_index = [&](const QModelIndex& index)
+  {
+    auto view_item = view_model->itemFromIndex(index);
+    if (GetItemFromView<T>(view_item) == item)
+    {
+      result.push_back(view_item);
+    }
+  };
+  utils::iterate_model(view_model, QModelIndex(), on_index);
+  return result;
+}
+
 //! Returns vector of Qt roles corresponding to given ItemDataRole.
 MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 

@@ -79,7 +79,7 @@ public:
 
   std::vector<mvvm::ViewItem*> FindViews(SessionItem* item)
   {
-    return utils::FindViews<SessionItem>(&m_viewmodel, item);
+    return utils::FindViewsForItem<SessionItem>(&m_viewmodel, item);
   }
 
   SessionModel m_model;
@@ -101,7 +101,7 @@ TEST_F(ViewModelControllerTest, EmptyProcedure)
   EXPECT_EQ(mvvm::utils::GetItemFromView<SessionItem>(m_viewmodel.rootItem()),
             m_model.GetRootItem());
 
-  EXPECT_EQ(mvvm::utils::FindViews(&m_viewmodel, m_model.GetRootItem()),
+  EXPECT_EQ(mvvm::utils::FindViewsForItem(&m_viewmodel, m_model.GetRootItem()),
             std::vector<mvvm::ViewItem*>({m_viewmodel.rootItem()}));
 }
 

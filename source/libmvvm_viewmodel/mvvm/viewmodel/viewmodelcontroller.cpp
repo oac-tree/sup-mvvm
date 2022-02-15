@@ -226,7 +226,7 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
 
 void ViewModelController::OnDataChanged(SessionItem *item, int role)
 {
-  for (auto view : utils::FindViews(p_impl->m_view_model, item))
+  for (auto view : utils::FindViewsForItem(p_impl->m_view_model, item))
   {
     if (isValidItemRole(view, role))
     {
