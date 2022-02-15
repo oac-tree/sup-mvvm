@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/standardpresentationitems.h"
 
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/editor_constants.h"
 
 #include <gtest/gtest.h>
 
@@ -176,23 +177,21 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
   EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), std::runtime_error);
 }
 
-//! FIXME uncomment after EditorRole implementation
-
 //! ViewDataItem::data method for QColor.
 //! Checks that the data method is correctly forwarded to underlying SessionItem.
 
-// TEST_F(StandardViewItemsTest, ViewDataItem_dataForColor)
-//{
-//     // create SessionItem with data on board
-//     SessionItem item;
-//     QVariant expected = QVariant::fromValue(QColor(Qt::green));
-//     EXPECT_TRUE(item.setData(expected));
+TEST_F(StandardPresentationItemsTest, ViewDataItemDataForColor)
+{
+  // create SessionItem with data on board
+  SessionItem item;
+  EXPECT_TRUE(item.SetData("red"));
+  item.SetEditorType(constants::kColorEditorType);
 
-//    ViewDataItem viewItem(&item);
-//    EXPECT_EQ(viewItem.data(Qt::EditRole), expected);
-//    EXPECT_EQ(viewItem.data(Qt::DisplayRole), expected);
-//    EXPECT_EQ(viewItem.data(Qt::DecorationRole), expected);
-//}
+  DataPresentationItem viewItem(&item);
+  EXPECT_EQ(viewItem.Data(Qt::EditRole), QString("red"));
+  EXPECT_EQ(viewItem.Data(Qt::DisplayRole), QString("red"));
+  EXPECT_EQ(viewItem.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
+}
 
 //! ViewDataItem::setData for QColor.
 //! Checks that the setData method is correctly forwarded to underlying SessionItem.

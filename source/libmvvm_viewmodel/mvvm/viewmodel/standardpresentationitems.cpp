@@ -124,9 +124,10 @@ QVariant DataPresentationItem::Data(int qt_role) const
     return utils::CheckStateRole(*GetItem());
   }
 
-  // FIXME uncomment after utils::DecorationRole implementation
-  //  if (role == Qt::DecorationRole)
-  //      return Utils::DecorationRole(*item());
+  if (qt_role == Qt::DecorationRole)
+  {
+    return utils::DecorationRole(*GetItem());
+  }
 
   return SessionItemPresentation::Data(qt_role);
 }
