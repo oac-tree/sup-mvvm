@@ -512,56 +512,48 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
 //! Signals in ViewModel when property item changes its appearance.
 //! FIXME restore test
 
-// TEST_F(DefaultViewModelTest, propertyItemAppearanceChanged)
-//{
-//  SessionModel model;
+TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
+{
+  ApplicationModel model;
 
-//  // default item
-//  auto item = model.insertItem<PropertyItem>();
-//  item->setData(42.0);
+  // default item
+  auto item = model.InsertItem<PropertyItem>();
+  item->SetData(42.0);
 
-//  // setting up ViewModel and spying it's dataChanged signals
-//  DefaultViewModel viewModel(&model);
-//  auto labelView = viewModel.itemFromIndex(viewModel.index(0, 0));
-//  auto dataView = viewModel.itemFromIndex(viewModel.index(0, 1));
-//  QSignalSpy spyDataChanged(&viewModel, &DefaultViewModel::dataChanged);
+  // setting up ViewModel and spying it's dataChanged signals
+  AllItemsViewModel viewModel(&model);
+  auto labelView = viewModel.itemFromIndex(viewModel.index(0, 0));
+  auto dataView = viewModel.itemFromIndex(viewModel.index(0, 1));
+  QSignalSpy spyDataChanged(&viewModel, &AllItemsViewModel::dataChanged);
 
-//  // Changing item appearance
-//  item->setEnabled(false);
-//  EXPECT_EQ(spyDataChanged.count(), 2);  // change in LabelView and DataView
+  // Changing item appearance
+  item->SetEnabled(false);
+  EXPECT_EQ(spyDataChanged.count(), 2);  // change in LabelView and DataView
 
-//  // first pack of arguments is related to ViewLabelItem
-//  QList<QVariant> arguments = spyDataChanged.takeFirst();
-//  EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
-//  auto index1 = arguments.at(0).value<QModelIndex>();
-//  auto index2 = arguments.at(1).value<QModelIndex>();
-//  auto roles = arguments.at(2).value<QVector<int>>();
-//  EXPECT_EQ(index1, viewModel.indexFromItem(labelView));
-//  EXPECT_EQ(index2, viewModel.indexFromItem(labelView));
-//#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
-//  QVector<int> expected_roles = {Qt::ForegroundRole};
-//#else
-//  QVector<int> expected_roles = {Qt::TextColorRole};
-//#endif
-//  EXPECT_EQ(roles, expected_roles);
+  // first pack of arguments is related to ViewLabelItem
+  QList<QVariant> arguments = spyDataChanged.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
+  auto index1 = arguments.at(0).value<QModelIndex>();
+  auto index2 = arguments.at(1).value<QModelIndex>();
+  auto roles = arguments.at(2).value<QVector<int>>();
+  EXPECT_EQ(index1, viewModel.indexFromItem(labelView));
+  EXPECT_EQ(index2, viewModel.indexFromItem(labelView));
+  QVector<int> expected_roles = {Qt::ForegroundRole};
+  EXPECT_EQ(roles, expected_roles);
 
-//  // second pack of arguments is related to ViewDataItem
-//  arguments = spyDataChanged.takeFirst();
-//  EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
-//  index1 = arguments.at(0).value<QModelIndex>();
-//  index2 = arguments.at(1).value<QModelIndex>();
-//  roles = arguments.at(2).value<QVector<int>>();
-//  EXPECT_EQ(index1, viewModel.indexFromItem(dataView));
-//  EXPECT_EQ(index2, viewModel.indexFromItem(dataView));
+  // second pack of arguments is related to ViewDataItem
+  arguments = spyDataChanged.takeFirst();
+  EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
+  index1 = arguments.at(0).value<QModelIndex>();
+  index2 = arguments.at(1).value<QModelIndex>();
+  roles = arguments.at(2).value<QVector<int>>();
+  EXPECT_EQ(index1, viewModel.indexFromItem(dataView));
+  EXPECT_EQ(index2, viewModel.indexFromItem(dataView));
 
-//#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
-//  expected_roles = {Qt::ForegroundRole};
-//#else
-//  expected_roles = {Qt::TextColorRole};
-//#endif
+  expected_roles = {Qt::ForegroundRole};
 
-//  EXPECT_EQ(roles, expected_roles);
-//}
+  EXPECT_EQ(roles, expected_roles);
+}
 
 //! Signals in ViewModel when property item changes its tooltips.
 //! FIXME restore test
