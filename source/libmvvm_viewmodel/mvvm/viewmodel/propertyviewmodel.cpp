@@ -31,11 +31,7 @@ PropertyViewModel::PropertyViewModel(ApplicationModel* model, QObject* parent) :
   auto controller = std::make_unique<ViewModelController>(model, this);
   controller->SubscribeTo(model->GetSubscriber());
   controller->SetChildrenStrategy(std::make_unique<PropertyItemsStrategy>());
-
-  auto set_data = [model](auto item, auto data, auto role)
-  { return model->SetData(item, data, role); };
-
-  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>(set_data));
+  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
   SetController(std::move(controller));
 }
 

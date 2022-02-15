@@ -21,7 +21,6 @@
 #define MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H
 
 #include "mvvm/interfaces/rowstrategyinterface.h"
-#include "mvvm/model/function_types.h"
 #include "mvvm/viewmodel_export.h"
 
 #include <vector>
@@ -38,15 +37,12 @@ class ViewItem;
 class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface
 {
 public:
-  explicit LabelDataRowStrategy(const item_setdata_function_t& set_func = {});
+  LabelDataRowStrategy();
   ~LabelDataRowStrategy() override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
-
-private:
-  item_setdata_function_t m_set_func;
 };
 
 }  // namespace mvvm

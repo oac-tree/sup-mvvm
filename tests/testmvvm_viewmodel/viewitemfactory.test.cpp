@@ -83,7 +83,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
   SessionItem item;
   item.SetData(value, DataRole::kData);
 
-  auto viewitem = CreateDataViewItem(&item, {});
+  auto viewitem = CreateDataViewItem(&item);
 
   // item has a display role, which coincide with data
   EXPECT_EQ(viewitem->data(Qt::DisplayRole).toInt(), value);
@@ -99,40 +99,6 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
   EXPECT_EQ(viewitem->data(Qt::EditRole).toInt(), new_value);
 }
 
-//! Testing CreateDataViewItem (case of double data, set through the composer).
-
-//TEST_F(ViewItemFactoryTest, CreateDataViewItemViaComposer)
-//{
-//  const double value{42.1};
-//  SessionModel model;
-//  auto* item = model.InsertItem<SessionItem>();
-//  item->SetData(value, DataRole::kData);
-
-//  MockModelNotifier notifier;
-//  ModelComposer composer(&model, &notifier);
-//  auto set_data = [&composer](auto item, auto data, auto role)
-//  { return composer.SetData(item, data, role); };
-
-//  auto viewitem = CreateDataViewItem(item, set_data);
-
-//  EXPECT_CALL(notifier, DataChangedNotify(item, DataRole::kData)).Times(1);
-
-//  // the rest of the test is the same
-
-//  // item has a display role, which coincide with data
-//  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toDouble(), value);
-//  EXPECT_EQ(viewitem->data(Qt::EditRole).toDouble(), value);
-
-//  const double new_value{43.1};
-//  // not sure if it's correct, but current convention is to disallow set another display role
-//  EXPECT_FALSE(viewitem->setData(new_value, Qt::DisplayRole));
-//  EXPECT_TRUE(viewitem->setData(new_value, Qt::EditRole));
-
-//  // data is the new one
-//  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toDouble(), new_value);
-//  EXPECT_EQ(viewitem->data(Qt::EditRole).toDouble(), new_value);
-//}
-
 //! Testing CreateDataViewItem (case of std::string data).
 
 TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
@@ -142,7 +108,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
   SessionItem item;
   item.SetData(value, DataRole::kData);
 
-  auto viewitem = CreateDataViewItem(&item, {});
+  auto viewitem = CreateDataViewItem(&item);
 
   // item has a display role, which coincide with attribute value
   EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), value);

@@ -20,7 +20,6 @@
 #include "mvvm/viewmodel/viewitemfactory.h"
 
 #include "mvvm/viewmodel/standardpresentationitems.h"
-#include "mvvm/viewmodelbase/presentationitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 namespace mvvm
@@ -38,7 +37,7 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
-std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, item_setdata_function_t set_func)
+std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item)
 {
   auto presentation = std::make_unique<DataPresentationItem>(item);
   return std::make_unique<ViewItem>(std::move(presentation));

@@ -26,8 +26,7 @@ namespace mvvm
 {
 LabelDataRowStrategy::~LabelDataRowStrategy() = default;
 
-LabelDataRowStrategy::LabelDataRowStrategy(const item_setdata_function_t& set_func)
-    : m_set_func(set_func)
+LabelDataRowStrategy::LabelDataRowStrategy()
 {
 }
 
@@ -50,7 +49,7 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(Sessio
   }
 
   result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
-  result.emplace_back(mvvm::CreateDataViewItem(item, m_set_func));
+  result.emplace_back(mvvm::CreateDataViewItem(item));
   return result;
 }
 
