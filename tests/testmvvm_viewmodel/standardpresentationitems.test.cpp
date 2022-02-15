@@ -177,48 +177,6 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
   EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), std::runtime_error);
 }
 
-//! ViewDataItem::data method for QColor.
-//! Checks that the data method is correctly forwarded to underlying SessionItem.
-
-TEST_F(StandardPresentationItemsTest, ViewDataItemDataForColor)
-{
-  // create SessionItem with data on board
-  SessionItem item;
-  EXPECT_TRUE(item.SetData("red"));
-  item.SetEditorType(constants::kColorEditorType);
-
-  DataPresentationItem viewItem(&item);
-  EXPECT_EQ(viewItem.Data(Qt::EditRole), QString("red"));
-  EXPECT_EQ(viewItem.Data(Qt::DisplayRole), QString("red"));
-  EXPECT_EQ(viewItem.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
-}
-
-//! ViewDataItem::setData for QColor.
-//! Checks that the setData method is correctly forwarded to underlying SessionItem.
-
-// TEST_F(StandardViewItemsTest, ViewDataItem_setDataForColor)
-//{
-//     // create SessionItem with data on board
-//     SessionItem item;
-//     QVariant expected = QVariant::fromValue(QColor(Qt::green));
-//     EXPECT_TRUE(item.setData(expected));
-
-//    // initialize viewItem with sessionItem and set the data
-//    ViewDataItem viewItem(&item);
-//    QVariant new_data = QVariant::fromValue(QColor(Qt::red));
-//    EXPECT_TRUE(viewItem.setData(new_data, Qt::EditRole));
-//    EXPECT_EQ(viewItem.data(Qt::DisplayRole), new_data);    // new data
-//    EXPECT_EQ(viewItem.data(Qt::EditRole), new_data);       // new data
-//    EXPECT_EQ(viewItem.data(Qt::DecorationRole), new_data); // new data
-
-//    // SessionItem itself should have new data
-//    EXPECT_EQ(item.data<QVariant>(), new_data); // new data
-
-//    // it is not allowed to set another type of data to ViewDataItem
-//    QVariant not_allowed_value("Layer");
-//    EXPECT_THROW(viewItem.setData(not_allowed_value, Qt::EditRole), std::runtime_error);
-//}
-
 //! Testing tooltip tole.
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemTooltipRole)
@@ -277,6 +235,21 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
 
   item2.SetData(true);
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
+}
+
+//! Decoration role (string with additional property ColorEditor set)
+
+TEST_F(StandardPresentationItemsTest, DataPresentationItemDecorationRole)
+{
+  // create SessionItem with data on board
+  SessionItem item;
+  EXPECT_TRUE(item.SetData("red"));
+  item.SetEditorType(constants::kColorEditorType);
+
+  DataPresentationItem viewItem(&item);
+  EXPECT_EQ(viewItem.Data(Qt::EditRole), QString("red"));
+  EXPECT_EQ(viewItem.Data(Qt::DisplayRole), QString("red"));
+  EXPECT_EQ(viewItem.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
 }
 
 TEST_F(StandardPresentationItemsTest, CreateLabelPresentation)

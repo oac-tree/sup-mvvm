@@ -21,7 +21,10 @@ namespace mvvm
 {
 
 ColorEditor::ColorEditor(QWidget* parent)
-    : CustomEditor(parent), m_pixmap_label(new QLabel), m_focus_filter(new LostFocusFilter(this))
+    : CustomEditor(parent)
+    , m_text_label(new QLabel)
+    , m_pixmap_label(new QLabel)
+    , m_focus_filter(new LostFocusFilter(this))
 
 {
   setMouseTracking(true);
@@ -31,7 +34,7 @@ ColorEditor::ColorEditor(QWidget* parent)
   layout->setContentsMargins(4, 0, 0, 0);
 
   layout->addWidget(m_pixmap_label);
-  //    layout->addWidget(m_textLabel); // no color name, only color rectangle
+  layout->addWidget(m_text_label);  // no color name, only color rectangle
   layout->addStretch(1);
   setFocusPolicy(Qt::StrongFocus);
   setAttribute(Qt::WA_InputMethodEnabled);
@@ -70,7 +73,7 @@ void ColorEditor::UpdateComponents()
 
   QPixmap pixmap(style::DefaultPixmapSize(), style::DefaultPixmapSize());
   pixmap.fill(GetCurrentColor());
-  //    m_textLabel->setText(currentColor().name());
+  m_text_label->setText(GetCurrentColor().name());
   m_pixmap_label->setPixmap(pixmap);
 }
 
