@@ -43,6 +43,9 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t BoolEditorBuilder();
 //! Builder for ComboProperty editor.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ComboPropertyEditorBuilder();
 
+//! Builder for color property editor.
+MVVM_VIEWMODEL_EXPORT editorbuilder_t ColorEditorBuilder();
+
 }  // namespace mvvm
 
 #endif  // MVVM_EDITORS_EDITORBUILDERS_H

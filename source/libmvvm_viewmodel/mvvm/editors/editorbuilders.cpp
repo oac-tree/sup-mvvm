@@ -20,6 +20,7 @@
 #include "mvvm/editors/editorbuilders.h"
 
 #include "mvvm/editors/booleditor.h"
+#include "mvvm/editors/coloreditor.h"
 #include "mvvm/editors/combopropertyeditor.h"
 #include "mvvm/model/sessionitem.h"
 
@@ -35,6 +36,12 @@ editorbuilder_t ComboPropertyEditorBuilder()
 {
   auto builder = [](const SessionItem*) -> editor_t
   { return std::make_unique<ComboPropertyEditor>(); };
+  return builder;
+}
+
+editorbuilder_t ColorEditorBuilder()
+{
+  auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<ColorEditor>(); };
   return builder;
 }
 

@@ -47,6 +47,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 {
   RegisterBuilder(constants::BoolEditorType, BoolEditorBuilder());
   RegisterBuilder(constants::ComboPropertyEditorType, ComboPropertyEditorBuilder());
+  RegisterBuilder(constants::COlorEditorType, ColorEditorBuilder());
 }
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
@@ -63,10 +64,8 @@ std::unique_ptr<CustomEditor> RoleDependentEditorFactory::CreateEditor(
 std::unique_ptr<CustomEditor> RoleDependentEditorFactory::CreateItemEditor(
     const SessionItem* item) const
 {
-  // FIXME !!!
-  //  auto builder = findBuilder(item->editorType());
-  //  return builder ? builder(item) : std::unique_ptr<CustomEditor>();
-  return {};
+  auto builder = FindBuilder(item->GetEditorType());
+  return builder ? builder(item) : std::unique_ptr<CustomEditor>();
 }
 
 // ----------------------------------------------------------------------------
@@ -83,8 +82,8 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 std::unique_ptr<CustomEditor> VariantDependentEditorFactory::CreateEditor(
     const QModelIndex& index) const
 {
-    auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
-    return builder ? builder(GetItemFromIndex(index)) : std::unique_ptr<CustomEditor>();
+  auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
+  return builder ? builder(GetItemFromIndex(index)) : std::unique_ptr<CustomEditor>();
 }
 
 // ----------------------------------------------------------------------------
