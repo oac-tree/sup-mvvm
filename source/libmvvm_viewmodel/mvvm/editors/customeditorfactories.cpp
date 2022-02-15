@@ -47,7 +47,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 {
   RegisterBuilder(constants::BoolEditorType, BoolEditorBuilder());
   RegisterBuilder(constants::ComboPropertyEditorType, ComboPropertyEditorBuilder());
-  RegisterBuilder(constants::COlorEditorType, ColorEditorBuilder());
+  RegisterBuilder(constants::ColorEditorType, ColorEditorBuilder());
 }
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.

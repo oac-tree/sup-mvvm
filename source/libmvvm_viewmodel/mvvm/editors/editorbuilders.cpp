@@ -19,9 +19,7 @@
 
 #include "mvvm/editors/editorbuilders.h"
 
-#include "mvvm/editors/booleditor.h"
-#include "mvvm/editors/coloreditor.h"
-#include "mvvm/editors/combopropertyeditor.h"
+#include "mvvm/editors/customeditorincludes.h"
 #include "mvvm/model/sessionitem.h"
 
 namespace mvvm

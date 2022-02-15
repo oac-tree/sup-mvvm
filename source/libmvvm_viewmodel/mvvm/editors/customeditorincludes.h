@@ -24,6 +24,7 @@
 //! Collection of all includes with custom editors for Qt delegates.
 
 #include "mvvm/editors/booleditor.h"
+#include "mvvm/editors/coloreditor.h"
 #include "mvvm/editors/combopropertyeditor.h"
 
 #endif  // MVVM_EDITORS_CUSTOMEDITORINCLUDES_H

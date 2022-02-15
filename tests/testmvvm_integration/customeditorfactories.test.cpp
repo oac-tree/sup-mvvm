@@ -20,6 +20,7 @@
 #include "mvvm/editors/customeditorfactories.h"
 
 #include "mvvm/editors/customeditorincludes.h"
+#include "mvvm/editors/editor_constants.h"
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
@@ -39,11 +40,15 @@ public:
   //! Returns back an index corresponding to the item's position in a view model.
   //! Given index will be used to create a corresponding cell editor using one of the editor
   //! factories.
-  QModelIndex AddDataToModel(const variant_t& data)
+  QModelIndex AddDataToModel(const variant_t& data, const std::string& editor_type = {})
   {
     // creating item in a model and setting data to it
     auto item = m_model.InsertItem<PropertyItem>();
     item->SetData(data);
+    if (!editor_type.empty())
+    {
+      item->SetEditorType(editor_type);
+    }
 
     // at this point ViewModel was automatically updated, column = 1 is a cell looking to our data
     auto indexes = m_view_model.GetIndexOfSessionItem(item);
@@ -53,6 +58,23 @@ public:
   ApplicationModel m_model;
   AllItemsViewModel m_view_model;
 };
+
+TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
+{
+  RoleDependentEditorFactory factory;
+
+  // editor for bool types
+  auto index1 = AddDataToModel(variant_t(true), constants::BoolEditorType);
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
+
+  // ComboProperty
+  auto index2 = AddDataToModel(variant_t(ComboProperty()), constants::ComboPropertyEditorType);
+  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
+
+  // String as color
+  auto index3 = AddDataToModel(variant_t("red"), constants::ColorEditorType);
+  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index3).get()));
+}
 
 TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
 {
@@ -104,4 +126,8 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
   // `string` doesn't have custom editor for the moment (handled by default delegate)
   auto index5 = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index5));
+
+  // `string` with specification that it is a color
+  auto index6 = AddDataToModel(std::string("abc"), constants::ColorEditorType);
+  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index6).get()));
 }
