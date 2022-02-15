@@ -470,45 +470,44 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
 }
 
 //! Single property item in ViewModel with various appearance flags.
-//! FIXME restore test
 
-// TEST_F(DefaultViewModelTest, propertyItemAppearance)
-//{
-//  SessionModel model;
+TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
+{
+  ApplicationModel model;
 
-//  // default item
-//  auto item1 = model.insertItem<PropertyItem>();
-//  item1->setData(42.0);
+  // default item
+  auto item1 = model.InsertItem<PropertyItem>();
+  item1->SetData(42.0);
 
-//  // disabled item
-//  auto item2 = model.insertItem<PropertyItem>();
-//  item2->setData(42.0);
-//  item2->setEnabled(false);  // our convention: gray color, read only
+  // disabled item
+  auto item2 = model.InsertItem<PropertyItem>();
+  item2->SetData(42.0);
+  item2->SetEnabled(false);  // our convention: gray color, read only
 
-//  // read only item
-//  auto item3 = model.insertItem<PropertyItem>();
-//  item3->setData(42.0);
-//  item3->setEditable(false);  // our convention: normal color, read only
+  // read only item
+  auto item3 = model.InsertItem<PropertyItem>();
+  item3->SetData(42.0);
+  item3->SetEditable(false);  // our convention: normal color, read only
 
-//  // making view model
-//  DefaultViewModel viewModel(&model);
+  // making view model
+  AllItemsViewModel viewModel(&model);
 
-//  // In tests below is important that SessionItem::isEnabled==false means that item is
-//  // shown in gray color. While QStandardItem::isEnabled means "no interaction".
-//  // In our case QStandardItem::isEnabled should be always true.
+  // In tests below is important that SessionItem::isEnabled==false means that item is
+  // shown in gray color. While QStandardItem::isEnabled means "no interaction".
+  // In our case QStandardItem::isEnabled should be always true.
 
-//  // ViewLabel and ViewDataItem of item1
-//  EXPECT_FALSE(viewModel.flags(viewModel.index(0, 0)) & Qt::ItemIsEditable);
-//  EXPECT_TRUE(viewModel.flags(viewModel.index(0, 1)) & Qt::ItemIsEditable);
+  // ViewLabel and ViewDataItem of item1
+  EXPECT_FALSE(viewModel.flags(viewModel.index(0, 0)) & Qt::ItemIsEditable);
+  EXPECT_TRUE(viewModel.flags(viewModel.index(0, 1)) & Qt::ItemIsEditable);
 
-//  // ViewLabel and ViewDataItem of item2
-//  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 0)) & Qt::ItemIsEditable);
-//  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 1)) & Qt::ItemIsEditable);
+  // ViewLabel and ViewDataItem of item2
+  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 0)) & Qt::ItemIsEditable);
+  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 1)) & Qt::ItemIsEditable);
 
-//  // ViewLabel and ViewDataItem of item2
-//  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 0)) & Qt::ItemIsEditable);
-//  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 1)) & Qt::ItemIsEditable);
-//}
+  // ViewLabel and ViewDataItem of item2
+  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 0)) & Qt::ItemIsEditable);
+  EXPECT_FALSE(viewModel.flags(viewModel.index(2, 1)) & Qt::ItemIsEditable);
+}
 
 //! Signals in ViewModel when property item changes its appearance.
 //! FIXME restore test
