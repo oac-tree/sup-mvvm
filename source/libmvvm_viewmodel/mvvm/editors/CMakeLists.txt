@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
   abstracteditorfactory.h
   booleditor.cpp
   booleditor.h
+  coloreditor.cpp
+  coloreditor.h
   combopropertyeditor.cpp
   combopropertyeditor.h
   customeditor.cpp
@@ -10,7 +12,11 @@ target_sources(${library_name} PRIVATE
   customeditorfactories.cpp
   customeditorfactories.h
   customeditorincludes.h
+  customeventfilters.cpp
+  customeventfilters.h
   editor_constants.h
   editorbuilders.cpp
   editorbuilders.h
+  styleutils.cpp
+  styleutils.h
 )
