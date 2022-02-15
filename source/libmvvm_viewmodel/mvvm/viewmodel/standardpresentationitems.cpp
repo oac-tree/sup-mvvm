@@ -126,7 +126,7 @@ bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
 // LabelPresentationItem
 // ----------------------------------------------------------------------------
 
-LabelPresentationItem::LabelPresentationItem(SessionItem *item)
+DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
     : SessionItemPresentation(item, DataRole::kDisplay)
 {
   if (!item)
@@ -135,7 +135,7 @@ LabelPresentationItem::LabelPresentationItem(SessionItem *item)
   }
 }
 
-QVariant LabelPresentationItem::Data(int qt_role) const
+QVariant DisplayNamePresentationItem::Data(int qt_role) const
 {
   // use item's display role
   if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)

@@ -64,12 +64,12 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)
   EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
 }
 
-TEST_F(StandardPresentationItemsTest, LabelPresentationItem)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItem)
 {
   SessionItem item;
   item.SetDisplayName("abc");
 
-  LabelPresentationItem presentation(&item);
+  DisplayNamePresentationItem presentation(&item);
   EXPECT_EQ(presentation.GetItem(), &item);
   EXPECT_EQ(presentation.GetDataRole(), DataRole::kDisplay);
   EXPECT_TRUE(presentation.IsEnabled());
@@ -85,11 +85,11 @@ TEST_F(StandardPresentationItemsTest, LabelPresentationItem)
 
 //! Testing tooltip tole.
 
-TEST_F(StandardPresentationItemsTest, LabelPresentationItemTooltipRole)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemTooltipRole)
 {
   SessionItem item;
 
-  LabelPresentationItem presentation(&item);
+  DisplayNamePresentationItem presentation(&item);
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
 
   item.SetToolTip("abc");
@@ -98,12 +98,12 @@ TEST_F(StandardPresentationItemsTest, LabelPresentationItemTooltipRole)
 
 //! Testing color of item depending on enable/disable status.
 
-TEST_F(StandardPresentationItemsTest, LabelPresentationItemForegroundRole)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemForegroundRole)
 {
   SessionItem item;
   item.SetData(42);
 
-  LabelPresentationItem presentation(&item);
+  DisplayNamePresentationItem presentation(&item);
 
   // Enabled item doesn't have valid foreground role.
   // This means that the color of text is left for a view to decide.
@@ -122,13 +122,13 @@ TEST_F(StandardPresentationItemsTest, LabelPresentationItemForegroundRole)
   EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
 }
 
-TEST_F(StandardPresentationItemsTest, LabelPresentationItemCheckStateRole)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemCheckStateRole)
 {
   SessionItem item;
   item.SetData(false);
-  LabelPresentationItem presentation(&item);
+  DisplayNamePresentationItem presentation(&item);
 
-  // no CheckStateRole for a label
+  // no CheckStateRole for a display name
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
 }
 

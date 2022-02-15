@@ -75,10 +75,10 @@ public:
 
 //! Represents non-editable display role of SessionItem.
 
-class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
+class MVVM_VIEWMODEL_EXPORT DisplayNamePresentationItem : public SessionItemPresentation
 {
 public:
-  explicit LabelPresentationItem(SessionItem* item);
+  explicit DisplayNamePresentationItem(SessionItem* item);
 
   QVariant Data(int qt_role) const override;
 };
