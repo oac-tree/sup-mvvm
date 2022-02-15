@@ -75,7 +75,7 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItem)
   EXPECT_TRUE(presentation.IsEnabled());
   EXPECT_TRUE(presentation.IsEditable());
 
-  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("abc"));
+  EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("abc"));
 
   // for the moment it is not possible to set display name from a view

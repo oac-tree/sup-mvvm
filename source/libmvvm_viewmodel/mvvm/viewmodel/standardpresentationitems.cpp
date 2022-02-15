@@ -152,7 +152,7 @@ DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
 QVariant DisplayNamePresentationItem::Data(int qt_role) const
 {
   // use item's display role
-  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  if (qt_role == Qt::DisplayRole)
   {
     return QString::fromStdString(GetItem()->GetDisplayName());
   }
