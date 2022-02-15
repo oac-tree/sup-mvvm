@@ -27,6 +27,7 @@
 
 #include <QVariant>
 #include <QVector>
+#include <stdexcept>
 
 namespace mvvm
 {
@@ -44,6 +45,8 @@ const T* GetItemFromView(const ViewItem* view_item)
   {
     return dynamic_cast<const T*>(presentation->GetItem());
   }
+
+  //  throw std::runtime_error("Can't cast presentation");
 
   return dynamic_cast<const T*>(GetContext<SessionItem>(view_item));
 }

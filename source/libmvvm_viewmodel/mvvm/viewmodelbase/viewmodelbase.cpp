@@ -66,7 +66,7 @@ QModelIndex ViewModelBase::parent(const QModelIndex& child) const
                : createIndex(parent_item->row(), parent_item->column(), parent_item);
   }
 
-  return QModelIndex();
+  return {};
 }
 
 int ViewModelBase::rowCount(const QModelIndex& parent) const
@@ -85,7 +85,7 @@ QVariant ViewModelBase::data(const QModelIndex& index, int role) const
 {
   if (!rootItem())
   {
-    return QVariant();
+    return {};
   }
 
   auto item = itemFromIndex(index);
