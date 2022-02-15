@@ -32,6 +32,7 @@
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
+#include "mvvm/viewmodel/standardpresentationitems.h"
 
 #include <QDebug>
 #include <map>
@@ -40,24 +41,19 @@
 namespace
 {
 //! Returns true if given SessionItem role is valid for view
-//! FIXME consider moving it to row builder
 bool isValidItemRole(const mvvm::ViewItem *view, int item_role)
 {
-  static std::map<int, int> role_to_column = {
-      {mvvm::DataRole::kDisplay, 0}, {mvvm::DataRole::kData, 1}, {mvvm::DataRole::kData, 2}};
 
-  if (item_role == mvvm::DataRole::kAppearance || item_role == mvvm::DataRole::kTooltip)
+  if (auto presentation = dynamic_cast<const mvvm::SessionItemPresentation*>(view->item());
+      presentation)
   {
-    return true;
+    if (presentation->GetDataRole() == item_role)
+    {
+      return true;
+    }
   }
 
-  // FIXME refactor this asap
-  if (view->column() == 0 && item_role != mvvm::DataRole::kDisplay)
-  {
-    return false;
-  }
-
-  return true;
+  return item_role == mvvm::DataRole::kAppearance || item_role == mvvm::DataRole::kTooltip;
 }
 
 }  // namespace
