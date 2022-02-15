@@ -5,6 +5,7 @@ target_sources(${library_name} PRIVATE
     containeritem.h
     data1ditem.cpp
     data1ditem.h
+    editor_constants.h
     graphitem.cpp
     graphitem.h
     graphviewportitem.cpp

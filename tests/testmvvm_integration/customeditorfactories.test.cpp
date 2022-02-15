@@ -20,9 +20,9 @@
 #include "mvvm/editors/customeditorfactories.h"
 
 #include "mvvm/editors/customeditorincludes.h"
-#include "mvvm/editors/editor_constants.h"
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/propertyitem.h"
+#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 
 #include <gtest/gtest.h>

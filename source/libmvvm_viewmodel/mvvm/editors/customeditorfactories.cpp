@@ -20,7 +20,7 @@
 #include "mvvm/editors/customeditorfactories.h"
 
 #include "mvvm/editors/customeditor.h"
-#include "mvvm/editors/editor_constants.h"
+#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/customvariants.h"
 #include "mvvm/viewmodel/viewmodel.h"

@@ -14,7 +14,6 @@ target_sources(${library_name} PRIVATE
   customeditorincludes.h
   customeventfilters.cpp
   customeventfilters.h
-  editor_constants.h
   editorbuilders.cpp
   editorbuilders.h
   styleutils.cpp

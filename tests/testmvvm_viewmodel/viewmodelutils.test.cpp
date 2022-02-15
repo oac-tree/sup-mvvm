@@ -19,8 +19,8 @@
 
 #include "mvvm/viewmodel/viewmodelutils.h"
 
-#include "mvvm/editors/editor_constants.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 
