@@ -332,6 +332,17 @@ SessionItem* SessionItem::SetToolTip(const std::string& tooltip)
   return this;
 }
 
+std::string SessionItem::GetEditorType() const
+{
+  return HasData(DataRole::kEditor) ? Data<std::string>(DataRole::kEditor) : std::string();
+}
+
+SessionItem* SessionItem::SetEditorType(const std::string& editor_type)
+{
+  SetData(editor_type, DataRole::kEditor);
+  return this;
+}
+
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
 bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
@@ -399,9 +410,6 @@ void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
 //! Activates business logic.
 //! The method is called from the model when on item insertion.
 
-void SessionItem::Activate()
-{
-
-}
+void SessionItem::Activate() {}
 
 }  // namespace mvvm

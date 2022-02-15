@@ -127,6 +127,9 @@ public:
   std::string GetToolTip() const;
   SessionItem* SetToolTip(const std::string& tooltip);
 
+  std::string GetEditorType() const;
+  SessionItem* SetEditorType(const std::string& editor_type);
+
 protected:
   explicit SessionItem(const std::string& item_type);
 

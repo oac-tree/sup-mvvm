@@ -682,6 +682,20 @@ TEST_F(SessionItemTest, Tooltip)
   EXPECT_EQ(item.GetToolTip(), "abc");
 }
 
+//! Checks item's editor type.
+
+TEST_F(SessionItemTest, EditorType)
+{
+  SessionItem item;
+
+  EXPECT_EQ(item.GetEditorType(), "");
+  EXPECT_FALSE(item.HasData(DataRole::kEditor));
+
+  EXPECT_EQ(item.SetEditorType("abc"), &item);
+  EXPECT_TRUE(item.HasData(DataRole::kEditor));
+  EXPECT_EQ(item.GetEditorType(), "abc");
+}
+
 TEST_F(SessionItemTest, GetItemCount)
 {
   const std::string tag1 = "tag1";
