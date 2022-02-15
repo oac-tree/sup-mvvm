@@ -61,6 +61,21 @@ private:
   int m_data_role{0};            // main role to present
 };
 
+//! Presentation to show the label associated with the given context.
+//! Context itself is not used directly. It might be used by ViewModelController to find
+//! corresponding views.
+
+class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
+{
+public:
+  explicit LabelPresentationItem(SessionItem* item, const std::string& label = {});
+
+  QVariant Data(int qt_role) const override;
+
+private:
+  std::string m_label;
+};
+
 //! Represents a data role of SessionItem.
 
 class MVVM_VIEWMODEL_EXPORT DataPresentationItem : public SessionItemPresentation

@@ -279,3 +279,22 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
   item2.SetData(true);
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
 }
+
+TEST_F(StandardPresentationItemsTest, CreateLabelPresentation)
+{
+  SessionItem item;
+  item.SetData(42);
+
+  const std::string expected_label("abc");
+  LabelPresentationItem presentation(&item, expected_label);
+
+  // item has a display role, which coincide with the label, the rest is blocked
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+  EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+
+  EXPECT_FALSE(presentation.SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_FALSE(presentation.SetData(QString("bbb"), Qt::EditRole));
+
+  // data is the same as before, despite of all attempts to change it
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+}

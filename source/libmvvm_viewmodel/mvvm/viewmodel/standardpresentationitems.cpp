@@ -86,6 +86,20 @@ int SessionItemPresentation::GetDataRole() const
 }
 
 // ----------------------------------------------------------------------------
+// LabelPresentationItem
+// ----------------------------------------------------------------------------
+
+LabelPresentationItem::LabelPresentationItem(SessionItem *item, const std::string &label)
+    : SessionItemPresentation(item, DataRole::kDisplay), m_label(label)
+{
+}
+
+QVariant LabelPresentationItem::Data(int qt_role) const
+{
+  return qt_role == Qt::DisplayRole ? QString::fromStdString(m_label) : QVariant();
+}
+
+// ----------------------------------------------------------------------------
 // DataPresentationItem
 // ----------------------------------------------------------------------------
 
@@ -123,7 +137,7 @@ bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
 }
 
 // ----------------------------------------------------------------------------
-// LabelPresentationItem
+// DisplayNamePresentationItem
 // ----------------------------------------------------------------------------
 
 DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
