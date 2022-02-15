@@ -84,8 +84,8 @@ MVVM_VIEWMODEL_EXPORT QVariant TextColorRole(const SessionItem& item);
 //! Returns check state role of given item.
 MVVM_VIEWMODEL_EXPORT QVariant CheckStateRole(const SessionItem& item);
 
-////! Returns decoration role for given item.
-// MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
+//! Returns decoration role for given item.
+ MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
 
 //! Returns tooltip role for given item.
 MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);

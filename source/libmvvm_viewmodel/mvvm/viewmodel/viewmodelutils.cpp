@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/viewmodelutils.h"
 
 #include "mvvm/core/variant.h"
+#include "mvvm/editors/editor_constants.h"
 #include "mvvm/model/sessionitem.h"
 
 #include <QColor>
@@ -52,8 +53,7 @@ QVariant TextColorRole(const SessionItem& item)
   const bool item_disabled = !item.IsEnabled();
 
   // Disabled item is displayed by gray color.
-  // Hidden item is displayed by gray color too (note: it's up to the view to decide if to show it
-  // at all, or not).
+  // Hidden item is displayed by gray color too, it's up to the view to decide how to show it.
 
   return item_disabled || item_hidden ? QColor(Qt::gray) : QVariant();
 }
@@ -67,19 +67,20 @@ QVariant CheckStateRole(const SessionItem& item)
   return {};
 }
 
-// FIXME when EditorRole is restored
+QVariant DecorationRole(const SessionItem& item)
+{
+  if (TypeName(item.Data()) == ::mvvm::constants::kStringTypeName
+      && item.GetEditorType() == ::mvvm::constants::kColorEditorType)
+  {
+    return QColor(QString::fromStdString(item.Data<std::string>()));
+  }
 
-// QVariant DecorationRole(const SessionItem& item)
-//{
-//   auto value = item.data<QVariant>();
-//   if (Utils::IsColorVariant(value))
-//     return value;
+  // FIXME restore after ExrternalProperty implementation
+  //  else if (Utils::IsExtPropertyVariant(value))
+  //    return value.value<ExternalProperty>().color();
 
-//  else if (Utils::IsExtPropertyVariant(value))
-//    return value.value<ExternalProperty>().color();
-
-//  return QVariant();
-//}
+  return {};
+}
 
 QVariant ToolTipRole(const SessionItem& item)
 {

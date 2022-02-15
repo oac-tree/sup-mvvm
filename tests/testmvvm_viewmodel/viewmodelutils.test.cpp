@@ -19,6 +19,7 @@
 
 #include "mvvm/viewmodel/viewmodelutils.h"
 
+#include "mvvm/editors/editor_constants.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
@@ -99,20 +100,26 @@ TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
 }
 
 //! Testing decoration role of the item.
-//! FIXME restore
 
-// TEST_F(ViewModelUtilsTest, itemDecorationRole)
-//{
-//   SessionItem item("Something");
+TEST_F(ViewModelUtilsTest, ItemDecorationRole)
+{
+  SessionItem item;
 
-//  // no color defined for item by default
-//  auto variant = Utils::DecorationRole(item);
-//  EXPECT_FALSE(variant.isValid());
+  // no color defined for item by default
+  auto variant = utils::DecorationRole(item);
+  EXPECT_FALSE(variant.isValid());
 
-//  QColor expected(Qt::green);
-//  item.setData(expected);
-//  EXPECT_EQ(Utils::DecorationRole(item).value<QColor>(), expected);
-//}
+  QColor expected(Qt::green);
+  item.SetData(expected.name().toStdString());
+
+  // just a color name doesn't generate color-based decoration role
+  EXPECT_FALSE(utils::DecorationRole(item).isValid());
+
+  // setting ColorEditor as default editor type, will generate proper decoration role
+  item.SetEditorType(::mvvm::constants::kColorEditorType);
+
+  EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);
+}
 
 //! Testing tooltip role of the item.
 

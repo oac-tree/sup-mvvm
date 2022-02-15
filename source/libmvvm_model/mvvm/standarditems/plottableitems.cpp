@@ -90,7 +90,11 @@ void TextItem::SetSize(double value)
 
 PenItem::PenItem() : CompoundItem(Type)
 {
-  AddProperty(kColor, "black")->SetDisplayName("Color")->SetToolTip("Pen color");
+  AddProperty(kColor, "black")
+      ->SetDisplayName("Color")
+      ->SetToolTip("Pen color")
+      ->SetEditorType("ColorEditor");  // FIXME editor constants are defined in libmvvm_viewmodel,
+                                       // move in model?
   AddProperty(kStyle, penStyleCombo)->SetDisplayName("Style")->SetToolTip("Pen style");
   AddProperty(kWidth, pen_default_width)
       ->SetDisplayName("Width")
