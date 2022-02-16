@@ -83,17 +83,23 @@ mvvm::TreeData from_double(const datarole_t& datarole);
 //! Converts TreeData to datarole_t holding double data.
 datarole_t to_double(const mvvm::TreeData& tree_data);
 
-//! Converts datarole_t holding vector<doubl>e to the TreeData object.
+//! Converts datarole_t holding vector<double> to the TreeData object.
 mvvm::TreeData from_vector_double(const datarole_t& datarole);
 
-//! Converts TreeData to datarole_t holding vector<double> data.
+//! Converts TreeData to datarole_t holding vector<double>.
 datarole_t to_vector_double(const mvvm::TreeData& tree_data);
 
-//! Converts datarole_t holding vector<doubl>e to the TreeData object.
+//! Converts datarole_t holding ComboProperty to the TreeData object.
 mvvm::TreeData from_combo_property(const datarole_t& datarole);
 
-//! Converts TreeData to datarole_t holding vector<double> data.
+//! Converts TreeData to datarole_t holding ComboProperty data.
 datarole_t to_combo_property(const mvvm::TreeData& tree_data);
+
+//! Converts datarole_t holding ExternalProperty to the TreeData object.
+mvvm::TreeData from_external_property(const datarole_t& datarole);
+
+//! Converts TreeData to datarole_t holding ExternalProperty data.
+datarole_t to_external_property(const mvvm::TreeData& tree_data);
 
 //! Returns map of all defined converters.
 std::map<std::string, Converters> GetConverters();
@@ -302,6 +308,22 @@ datarole_t to_combo_property(const mvvm::TreeData& tree_data)
   return datarole_t{combo, GetRole(tree_data)};
 }
 
+mvvm::TreeData from_external_property(const datarole_t& datarole)
+{
+  mvvm::TreeData result(kVariantElementType);
+  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kExternalPropertyTypeName);
+  auto property = std::get<mvvm::ExternalProperty>(datarole.first);
+  result.SetContent(property.ToString());
+  return result;
+}
+
+datarole_t to_external_property(const mvvm::TreeData& tree_data)
+{
+  auto property = mvvm::ExternalProperty::CreateFromString(tree_data.GetContent());
+  return datarole_t{property, GetRole(tree_data)};
+}
+
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
@@ -312,6 +334,7 @@ std::map<std::string, Converters> GetConverters()
       {mvvm::constants::kDoubleTypeName, {from_double, to_double}},
       {mvvm::constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}},
       {mvvm::constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
+      {mvvm::constants::kExternalPropertyTypeName, {from_external_property, to_external_property}},
   };
 
   return result;

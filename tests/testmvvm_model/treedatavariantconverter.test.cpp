@@ -262,3 +262,45 @@ TEST_F(TreeDataVariantConverterTest, ComboPropertyRoleWithSelections)
   auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
+
+//! Parsing XML data string representing datarole_t with ExternalProperty.
+
+TEST_F(TreeDataVariantConverterTest, ExternalPropertyRole)
+{
+  using mvvm::ParseXMLElementString;
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{R"(<Variant role="42" type="ExternalProperty">text;color;identifier</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  ExternalProperty expected_property("text", "color", "identifier");
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_property), 42));
+
+  // converting back
+  EXPECT_EQ(ToTreeData(data_role), *tree_data);
+}
+
+//! Parsing XML data string representing datarole_t with empty ExternalProperty.
+
+TEST_F(TreeDataVariantConverterTest, EmptyExternalPropertyRole)
+{
+  using mvvm::ParseXMLElementString;
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{R"(<Variant role="42" type="ExternalProperty">;;</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  ExternalProperty expected_property;
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_property), 42));
+
+  // converting back
+  EXPECT_EQ(ToTreeData(data_role), *tree_data);
+}

@@ -25,7 +25,7 @@
 
 //! These are auxiliary functions to provide parsing of xml elements
 //! - <Variant role = "0" type = "undefined"></Variant>
-//! - <Variant role = "0" type = "bool">bool</Variant>
+//! - <Variant role = "0" type = "bool">true</Variant>
 //! - <Variant role = "0" type = "int">42</Variant>
 //! - <Variant role = "0" type = "string">James</Variant>
 //! - <Variant role = "0" type = "double">42.3</Variant>
