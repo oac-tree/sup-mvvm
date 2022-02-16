@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   comboproperty.h
   compounditem.cpp
   compounditem.h
+  externalproperty.cpp
+  externalproperty.h
   function_types.h
   itemcatalogue.cpp
   itemcatalogue.h
