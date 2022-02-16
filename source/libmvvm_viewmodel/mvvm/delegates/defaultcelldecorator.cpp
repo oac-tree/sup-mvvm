@@ -35,19 +35,21 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
     return std::optional<std::string>{variant.value<ComboProperty>().GetLabel()};
   }
 
-  else if (utils::IsBoolVariant(variant))
+  if (utils::IsBoolVariant(variant))
   {
     return variant.value<bool>() ? std::optional<std::string>{"True"}
                                  : std::optional<std::string>{"False"};
   }
 
-  //! FIXME uncomment after ExternalProperty implementation
-  //  else if (Utils::IsExtPropertyVariant(variant))
-  //    return std::optional<std::string>{variant.value<ExternalProperty>().text()};
+  if (utils::IsExternalPropertyVariant(variant))
+  {
+    return std::optional<std::string>{variant.value<ExternalProperty>().GetText()};
+  }
 
   //  else if (Utils::IsColorVariant(variant))
   //    return std::optional<std::string>{std::string()};
 
+  //! FIXME uncomment after ScientificSpinBox implementation
   //  else if (Utils::IsDoubleVariant(variant))
   //    return std::optional<std::string>{
   //        ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
