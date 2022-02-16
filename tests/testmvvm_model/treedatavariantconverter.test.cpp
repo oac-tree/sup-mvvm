@@ -40,7 +40,7 @@ public:
     std::cout << "Type:" << tree_data.GetType() << " "
               << "Name:" << tree_data.GetName() << " "
               << "Children:" << tree_data.GetNumberOfChildren() << std::endl;
-    for (auto it : tree_data.Attributes())
+    for (const auto& it : tree_data.Attributes())
     {
       std::cout << it.first << " " << it.second << "\n";
     }

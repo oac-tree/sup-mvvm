@@ -96,6 +96,16 @@ TEST_F(VariantTest, ComboPropertyVariantEquality)
   EXPECT_FALSE(variant_t(c1) == variant_t(c2));
 }
 
+TEST_F(VariantTest, ExternalPropertyVariantEquality)
+{
+  ExternalProperty c1("text", "color", "identifier");
+  ExternalProperty c2("text", "color", "identifier");
+  ExternalProperty c3("text", "color", "");
+
+  EXPECT_TRUE(variant_t(c1) == variant_t(c2));
+  EXPECT_FALSE(variant_t(c1) == variant_t(c3));
+}
+
 //! Testing Utils::AreCompatible function.
 
 TEST_F(VariantTest, AreCompatible)

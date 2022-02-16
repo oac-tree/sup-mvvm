@@ -192,4 +192,4 @@ std::string ToCommaSeparatedString(const std::vector<std::string>& vec)
                      : std::accumulate(std::next(vec.begin()), vec.end(), vec[0], comma_fold);
 }
 
-}  // namespace mvvm::Utils
+}  // namespace mvvm::utils
