@@ -20,8 +20,8 @@
 #include "mvvm/viewmodel/viewmodelutils.h"
 
 #include "mvvm/core/variant.h"
-#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/editor_constants.h"
 
 #include <QColor>
 
@@ -75,9 +75,10 @@ QVariant DecorationRole(const SessionItem& item)
     return QColor(QString::fromStdString(item.Data<std::string>()));
   }
 
-  // FIXME restore after ExrternalProperty implementation
-  //  else if (Utils::IsExtPropertyVariant(value))
-  //    return value.value<ExternalProperty>().color();
+  if (TypeName(item.Data()) == ::mvvm::constants::kExternalPropertyTypeName)
+  {
+    return QColor(QString::fromStdString(item.Data<ExternalProperty>().GetColorName()));
+  }
 
   return {};
 }

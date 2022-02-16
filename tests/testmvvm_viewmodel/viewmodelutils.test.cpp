@@ -97,9 +97,9 @@ TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
   EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Unchecked);
 }
 
-//! Testing decoration role of the item.
+//! Testing decoration role of the item when it carries a string
 
-TEST_F(ViewModelUtilsTest, ItemDecorationRole)
+TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
 {
   SessionItem item;
 
@@ -115,6 +115,18 @@ TEST_F(ViewModelUtilsTest, ItemDecorationRole)
 
   // setting ColorEditor as default editor type, will generate proper decoration role
   item.SetEditorType(::mvvm::constants::kColorEditorType);
+
+  EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);  
+}
+
+//! Testing decoration role of the item when it carries ExtendedProperty
+
+TEST_F(ViewModelUtilsTest, ExternalPropertyDataDecorationRole)
+{
+  SessionItem item;
+
+  QColor expected(Qt::green);
+  item.SetData(ExternalProperty("text", expected.name().toStdString()));
 
   EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);
 }
