@@ -19,9 +19,6 @@
 
 #include "mainwindow.h"
 
-#include "graphmodel.h"
-#include "graphwidget.h"
-
 #include <QCoreApplication>
 #include <QSettings>
 
@@ -32,12 +29,12 @@ const QString size_key = "size";
 const QString pos_key = "pos";
 }  // namespace
 
-namespace plotgraphs
+namespace celleditors
 {
 
-MainWindow::MainWindow() : m_graph_model(std::make_unique<GraphModel>())
+MainWindow::MainWindow()
 {
-  setCentralWidget(new GraphWidget(m_graph_model.get()));
+  setCentralWidget(new QWidget);
   InitApplication();
 }
 
@@ -51,7 +48,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::InitApplication()
 {
-  QCoreApplication::setApplicationName("plotgraphs");
+  QCoreApplication::setApplicationName("celleditors");
   QCoreApplication::setApplicationVersion("0.1");
   QCoreApplication::setOrganizationName("cpp-mvvm");
 
@@ -74,4 +71,4 @@ void MainWindow::WriteSettings()
   settings.endGroup();
 }
 
-}  // namespace plotgraphs
+}  // namespace celleditors
