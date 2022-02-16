@@ -27,25 +27,25 @@ class ExternalPropertyTest : public ::testing::Test
 {
 };
 
-TEST_F(ExternalPropertyTest, initialState)
+TEST_F(ExternalPropertyTest, InitialState)
 {
   ExternalProperty property;
-  EXPECT_FALSE(property.IsEmpty());
+  EXPECT_TRUE(property.IsEmpty());
   EXPECT_TRUE(property.GetText().empty());
   EXPECT_TRUE(property.GetIdentifier().empty());
   EXPECT_TRUE(property.GetColorName().empty());
 }
 
-TEST_F(ExternalPropertyTest, constructor)
+TEST_F(ExternalPropertyTest, Constructor)
 {
   ExternalProperty property("text", "red", "123");
-  EXPECT_TRUE(property.IsEmpty());
+  EXPECT_FALSE(property.IsEmpty());
   EXPECT_EQ(property.GetText(), "text");
   EXPECT_EQ(property.GetColorName(), "red");
   EXPECT_EQ(property.GetIdentifier(), "123");
 }
 
-TEST_F(ExternalPropertyTest, equalityOperators)
+TEST_F(ExternalPropertyTest, EqualityOperators)
 {
   ExternalProperty prop1a;
   ExternalProperty prop1b;
@@ -59,20 +59,4 @@ TEST_F(ExternalPropertyTest, equalityOperators)
   EXPECT_FALSE(prop2a < prop2b);
 
   EXPECT_FALSE(prop1a == prop2a);
-}
-
-TEST_F(ExternalPropertyTest, variantEquality)
-{
-  //  if (Comparators::registered())
-  //  {
-  //    ExternalProperty prop1a;
-  //    ExternalProperty prop1b;
-  //    EXPECT_TRUE(QVariant::fromValue(prop1a) == QVariant::fromValue(prop1b));
-
-  //    ExternalProperty prop2a("text", QColor(Qt::red));
-  //    ExternalProperty prop2b("text", QColor(Qt::red));
-  //    EXPECT_TRUE(QVariant::fromValue(prop2a) == QVariant::fromValue(prop2b));
-
-  //    EXPECT_FALSE(QVariant::fromValue(prop1a) == QVariant::fromValue(prop2a));
-  //  }
 }

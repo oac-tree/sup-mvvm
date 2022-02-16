@@ -61,9 +61,14 @@ bool IsDoubleVectorVariant(const QVariant& variant)
   return variant.typeName() == constants::kStdVectorDoubleQtTypeName;
 }
 
-bool IsComboPropertyVariant(const QVariant &variant)
+bool IsComboPropertyVariant(const QVariant& variant)
 {
   return variant.typeName() == constants::kComboPropertyQtTypeName;
+}
+
+bool IsExternalPropertyVariant(const QVariant& variant)
+{
+  return variant.typeName() == constants::kExternalPropertyQtTypeName;
 }
 
 }  // namespace mvvm::utils

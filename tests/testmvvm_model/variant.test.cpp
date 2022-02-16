@@ -41,6 +41,7 @@ TEST_F(VariantTest, IsValid)
   EXPECT_TRUE(IsValid(variant_t(std::string("abc"))));
   EXPECT_TRUE(IsValid(variant_t(std::vector<double>({1.0, 1.1, 1.2}))));
   EXPECT_TRUE(IsValid(variant_t(ComboProperty::CreateFrom({"a1"}))));
+  EXPECT_TRUE(IsValid(variant_t(ExternalProperty("text", "color"))));
 }
 
 //! Special case of const char
@@ -104,7 +105,8 @@ TEST_F(VariantTest, AreCompatible)
                                      variant_t(42.1),
                                      variant_t(std::string("abc")),
                                      variant_t(std::vector<double>({1.1, 2.2, 3.3})),
-                                     variant_t(ComboProperty::CreateFrom({"a1"}))};
+                                     variant_t(ComboProperty::CreateFrom({"a1"})),
+                                     variant_t(ExternalProperty("text", "color"))};
   for (size_t i = 0; i < variants.size(); ++i)
   {
     EXPECT_TRUE(utils::AreCompatible(variant_t(), variants[i]));
@@ -134,6 +136,8 @@ TEST_F(VariantTest, TypeName)
             constants::kVectorDoubleTypeName);
   EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
             constants::kComboPropertyTypeName);
+  EXPECT_EQ(TypeName(variant_t(ExternalProperty("text", "red"))),
+            constants::kExternalPropertyTypeName);
 }
 
 TEST_F(VariantTest, DataRoleComparison)
