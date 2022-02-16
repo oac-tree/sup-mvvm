@@ -45,8 +45,9 @@ std::map<std::string, converter_func_t> CreateConverterMap()
       {mvvm::constants::kStdVectorDoubleQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }},
       {mvvm::constants::kComboPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ComboProperty>()); }}
-  };
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ComboProperty>()); }},
+      {mvvm::constants::kExternalPropertyQtTypeName,
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ExternalProperty>()); }}};
 
   return result;
 }
@@ -62,15 +63,14 @@ QVariant GetQtVariant(const variant_t& variant)
     // shall we convert to supported QVector<double> instead?
     return QVariant::fromValue(std::get<std::vector<double>>(variant));
   }
-  else if (utils::TypeName(variant) == constants::kStringTypeName)
+
+  if (utils::TypeName(variant) == constants::kStringTypeName)
   {
     //  converting std::string to QString
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));
   }
-  else
-  {
-    return QVariant::fromStdVariant(variant);
-  }
+
+  return QVariant::fromStdVariant(variant);
 }
 
 variant_t GetStdVariant(const QVariant& variant)
