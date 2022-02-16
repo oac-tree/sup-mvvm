@@ -30,19 +30,19 @@ class ExternalPropertyTest : public ::testing::Test
 TEST_F(ExternalPropertyTest, initialState)
 {
   ExternalProperty property;
-  EXPECT_FALSE(property.isValid());
-  EXPECT_TRUE(property.text().empty());
-  EXPECT_TRUE(property.identifier().empty());
-  EXPECT_TRUE(property.color().empty());
+  EXPECT_FALSE(property.IsEmpty());
+  EXPECT_TRUE(property.GetText().empty());
+  EXPECT_TRUE(property.GetIdentifier().empty());
+  EXPECT_TRUE(property.GetColorName().empty());
 }
 
 TEST_F(ExternalPropertyTest, constructor)
 {
   ExternalProperty property("text", "red", "123");
-  EXPECT_TRUE(property.isValid());
-  EXPECT_EQ(property.text(), "text");
-  EXPECT_EQ(property.color(), "red");
-  EXPECT_EQ(property.identifier(), "123");
+  EXPECT_TRUE(property.IsEmpty());
+  EXPECT_EQ(property.GetText(), "text");
+  EXPECT_EQ(property.GetColorName(), "red");
+  EXPECT_EQ(property.GetIdentifier(), "123");
 }
 
 TEST_F(ExternalPropertyTest, equalityOperators)

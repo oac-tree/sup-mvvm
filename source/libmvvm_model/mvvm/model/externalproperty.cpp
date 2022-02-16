@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "mvvm/model/externalproperty.h"
 
@@ -19,29 +29,31 @@ ExternalProperty::ExternalProperty(std::string text, std::string color, std::str
 {
 }
 
-ExternalProperty ExternalProperty::undefined()
+//! Creates undefined property, which will be shown in views as red box with text "Undefined".
+
+ExternalProperty ExternalProperty::CreateUndefined()
 {
   return {"Undefined", "red"};
 }
 
-std::string ExternalProperty::text() const
+std::string ExternalProperty::GetText() const
 {
   return m_text;
 }
 
-std::string ExternalProperty::color() const
+std::string ExternalProperty::GetColorName() const
 {
   return m_color;
 }
 
-std::string ExternalProperty::identifier() const
+std::string ExternalProperty::GetIdentifier() const
 {
   return m_identifier;
 }
 
-bool ExternalProperty::isValid() const
+bool ExternalProperty::IsEmpty() const
 {
-  return !(m_identifier.empty() && m_text.empty() && !m_color.empty());
+  return m_identifier.empty() && m_text.empty() && m_color.empty();
 }
 
 bool ExternalProperty::operator==(const ExternalProperty& other) const
