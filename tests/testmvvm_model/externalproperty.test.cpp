@@ -60,3 +60,15 @@ TEST_F(ExternalPropertyTest, EqualityOperators)
 
   EXPECT_FALSE(prop1a == prop2a);
 }
+
+TEST_F(ExternalPropertyTest, ConvertToString)
+{
+  EXPECT_EQ(ExternalProperty().ToString(), std::string(";;"));
+
+  EXPECT_EQ(ExternalProperty("text", "color", "identifier").ToString(),
+            std::string("text;color;identifier"));
+
+  EXPECT_EQ(ExternalProperty::CreateFromString(";;"), ExternalProperty());
+  EXPECT_EQ(ExternalProperty::CreateFromString("text;color;identifier"),
+            ExternalProperty("text", "color", "identifier"));
+}

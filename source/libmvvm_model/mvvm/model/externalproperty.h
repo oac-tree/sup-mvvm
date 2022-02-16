@@ -50,6 +50,9 @@ public:
   bool operator!=(const ExternalProperty& other) const;
   bool operator<(const ExternalProperty& other) const;
 
+  std::string ToString() const;
+  static ExternalProperty CreateFromString(const std::string& text);
+
 private:
   std::string m_text;
   std::string m_color;

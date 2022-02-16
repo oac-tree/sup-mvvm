@@ -19,6 +19,15 @@
 
 #include "mvvm/model/externalproperty.h"
 
+#include "mvvm/utils/stringutils.h"
+
+#include <sstream>
+
+namespace
+{
+const std::string delim(";");
+}
+
 namespace mvvm
 {
 
@@ -69,6 +78,28 @@ bool ExternalProperty::operator!=(const ExternalProperty& other) const
 bool ExternalProperty::operator<(const ExternalProperty& other) const
 {
   return m_identifier < other.m_identifier && m_text < other.m_text && m_color < other.m_color;
+}
+
+//! Converts class into its string representation.
+//! - ExternalProperty("","","") becomes ";;"
+//! - ExternalProperty("text","","") becomes "text;;"
+//! - ExternalProperty("text","color","identifier") becomes "text;color;identifier"
+
+std::string ExternalProperty::ToString() const
+{
+  std::stringstream result;
+  result << m_text << delim << m_color << delim << m_identifier;
+  return result.str();
+}
+
+ExternalProperty ExternalProperty::CreateFromString(const std::string& text)
+{
+  auto parts = utils::SplitString(text, delim);
+  if (parts.size() != 3)
+  {
+    throw std::runtime_error("Error in ExternalProperty: malformed string");
+  }
+  return {parts.at(0), parts.at(1), parts.at(2)};
 }
 
 }  // namespace mvvm
