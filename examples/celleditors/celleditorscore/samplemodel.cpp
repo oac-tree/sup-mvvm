@@ -19,6 +19,7 @@ const std::string kString = "kString";
 const std::string kDouble = "kDouble";
 const std::string kColor = "kColor";
 const std::string kCombo = "kCombo";
+const std::string kExternal = "kExternal";
 }  // namespace
 
 namespace celleditors
@@ -35,6 +36,7 @@ DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
       ->SetEditorType(mvvm::constants::kColorEditorType);
   AddProperty(kCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
       ->SetDisplayName("Combo");
+  AddProperty(kExternal, mvvm::ExternalProperty({"text", "gold"}))->SetDisplayName("External");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
