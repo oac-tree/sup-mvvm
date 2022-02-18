@@ -11,18 +11,30 @@
 
 #include "mvvm/standarditems/editor_constants.h"
 
+namespace
+{
+const std::string kBool = "kBool";
+const std::string kInteger = "kInteger";
+const std::string kString = "kString";
+const std::string kDouble = "kDouble";
+const std::string kColor = "kColor";
+const std::string kCombo = "kCombo";
+}  // namespace
+
 namespace celleditors
 {
 
 DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
 {
-  AddProperty(P_BOOL_PROPERTY, true)->SetDisplayName("Bool")->SetToolTip("tooltip");
-  AddProperty(P_INTEGER_PROPERTY, 42)->SetDisplayName("Integer");
-  AddProperty(P_STRING_PROPERTY, "abc")->SetDisplayName("String");
-  AddProperty(P_DOUBLE_PROPERTY, 42.1234)->SetDisplayName("Double");
-  AddProperty(P_COLOR_PROPERTY, "green")
+  AddProperty(kBool, true)->SetDisplayName("Bool")->SetToolTip("tooltip");
+  AddProperty(kInteger, 42)->SetDisplayName("Integer");
+  AddProperty(kString, "abc")->SetDisplayName("String");
+  AddProperty(kDouble, 42.1234)->SetDisplayName("Double");
+  AddProperty(kColor, "green")
       ->SetDisplayName("Color")
       ->SetEditorType(mvvm::constants::kColorEditorType);
+  AddProperty(kCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
+      ->SetDisplayName("Combo");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
