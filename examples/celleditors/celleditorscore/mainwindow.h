@@ -26,6 +26,9 @@
 namespace celleditors
 {
 
+class SampleModel;
+class ModelEditorWidget;
+
 //! The main window of this application.
 
 class MainWindow : public QMainWindow
@@ -43,6 +46,9 @@ private:
   void InitApplication();
   void WriteSettings();
   void PopulateModel();
+
+  ModelEditorWidget* m_editor_widget{nullptr};
+  std::unique_ptr<SampleModel> m_model;
 };
 
 }  // namespace celleditors

@@ -19,6 +19,9 @@
 
 #include "mainwindow.h"
 
+#include "modeleditorwidget.h"
+#include "samplemodel.h"
+
 #include <QCoreApplication>
 #include <QSettings>
 
@@ -32,10 +35,10 @@ const QString pos_key = "pos";
 namespace celleditors
 {
 
-MainWindow::MainWindow()
+MainWindow::MainWindow() : m_model(std::make_unique<SampleModel>())
 {
-  setCentralWidget(new QWidget);
   InitApplication();
+  PopulateModel();
 }
 
 MainWindow::~MainWindow() = default;
@@ -60,6 +63,9 @@ void MainWindow::InitApplication()
     move(settings.value(pos_key, QPoint(200, 200)).toPoint());
     settings.endGroup();
   }
+
+  m_editor_widget = new ModelEditorWidget(m_model.get());
+  setCentralWidget(m_editor_widget);
 }
 
 void MainWindow::WriteSettings()
@@ -69,6 +75,13 @@ void MainWindow::WriteSettings()
   settings.setValue(size_key, size());
   settings.setValue(pos_key, pos());
   settings.endGroup();
+}
+
+void MainWindow::PopulateModel()
+{
+  m_model->InsertItem<DemoItem>();
+  m_model->InsertItem<DemoItem>();
+  m_model->InsertItem<DemoItem>();
 }
 
 }  // namespace celleditors
