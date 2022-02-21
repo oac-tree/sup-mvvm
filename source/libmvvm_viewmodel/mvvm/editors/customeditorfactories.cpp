@@ -20,8 +20,8 @@
 #include "mvvm/editors/customeditorfactories.h"
 
 #include "mvvm/editors/customeditor.h"
-#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/viewmodel/customvariants.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
@@ -48,6 +48,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
   RegisterBuilder(constants::kBoolEditorType, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyEditorType, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kColorEditorType, ColorEditorBuilder());
+  RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
 }
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
@@ -75,6 +76,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   // registering set of builders for given variant names
   RegisterBuilder(constants::kBoolQtTypeName, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
+  RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
 }
 
 //! Creates cell editor basing on variant name.

@@ -26,5 +26,6 @@
 #include "mvvm/editors/booleditor.h"
 #include "mvvm/editors/coloreditor.h"
 #include "mvvm/editors/combopropertyeditor.h"
+#include "mvvm/editors/externalpropertyeditor.h"
 
 #endif  // MVVM_EDITORS_CUSTOMEDITORINCLUDES_H
