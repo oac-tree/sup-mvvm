@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   allitemsviewmodel.h
   customvariants.cpp
   customvariants.h
+  propertytableviewmodel.cpp
+  propertytableviewmodel.h
   propertyviewmodel.cpp
   propertyviewmodel.h
   standardchildrenstrategies.cpp
