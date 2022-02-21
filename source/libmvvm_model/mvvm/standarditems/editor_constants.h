@@ -31,6 +31,7 @@ namespace mvvm::constants
 const std::string kBoolEditorType = "BoolEditor";
 const std::string kComboPropertyEditorType = "ComboPropertyEditor";
 const std::string kColorEditorType = "ColorEditor";
+const std::string kExternalPropertyEditorType = "ExternalPropertyEditor";
 
 const int default_double_decimals = 4;  //! number of digits after decimal points
 
