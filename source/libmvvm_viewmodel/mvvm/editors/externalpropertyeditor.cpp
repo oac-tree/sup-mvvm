@@ -35,9 +35,9 @@ namespace mvvm
 
 ExternalPropertyEditor::ExternalPropertyEditor(QWidget* parent)
     : CustomEditor(parent)
-    , m_textLabel(new QLabel)
-    , m_pixmapLabel(new QLabel)
-    , m_focusFilter(new LostFocusFilter(this))
+    , m_text_label(new QLabel)
+    , m_pixmap_label(new QLabel)
+    , m_focus_filter(new LostFocusFilter(this))
 
 {
   setMouseTracking(true);
@@ -50,23 +50,23 @@ ExternalPropertyEditor::ExternalPropertyEditor(QWidget* parent)
   button->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred));
   button->setText(QLatin1String(" . . . "));
   button->setToolTip("Open selector");
-  layout->addWidget(m_pixmapLabel);
-  layout->addWidget(m_textLabel);
+  layout->addWidget(m_pixmap_label);
+  layout->addWidget(m_text_label);
   layout->addStretch(1);
   layout->addWidget(button);
   setFocusPolicy(Qt::StrongFocus);
   setAttribute(Qt::WA_InputMethodEnabled);
-  connect(button, &QToolButton::clicked, this, &ExternalPropertyEditor::buttonClicked);
+  connect(button, &QToolButton::clicked, this, &ExternalPropertyEditor::OnButtonClicked);
 
   setLayout(layout);
 }
 
-void ExternalPropertyEditor::setCallback(std::function<void(const QVariant&)> callback)
+void ExternalPropertyEditor::SetCallback(std::function<void(const QVariant&)> callback)
 {
   m_callback = std::move(callback);
 }
 
-void ExternalPropertyEditor::buttonClicked()
+void ExternalPropertyEditor::OnButtonClicked()
 {
   if (m_callback)
   {
@@ -81,13 +81,15 @@ void ExternalPropertyEditor::buttonClicked()
 void ExternalPropertyEditor::UpdateComponents()
 {
   if (!utils::IsExternalPropertyVariant(GetData()))
+  {
     throw std::runtime_error("Error. Wrong variant type (ExternalProperty is required).");
+  }
 
   auto prop = GetData().value<ExternalProperty>();
   QPixmap pixmap(style::DefaultPixmapSize(), style::DefaultPixmapSize());
   pixmap.fill(QColor(QString::fromStdString(prop.GetColorName())));
-  m_textLabel->setText(QString::fromStdString(prop.GetText()));
-  m_pixmapLabel->setPixmap(pixmap);
+  m_text_label->setText(QString::fromStdString(prop.GetText()));
+  m_pixmap_label->setPixmap(pixmap);
 }
 
 }  // namespace mvvm

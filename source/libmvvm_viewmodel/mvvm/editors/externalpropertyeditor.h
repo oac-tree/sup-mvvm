@@ -41,16 +41,16 @@ class MVVM_VIEWMODEL_EXPORT ExternalPropertyEditor : public CustomEditor
 public:
   explicit ExternalPropertyEditor(QWidget* parent = nullptr);
 
-  void setCallback(std::function<void(const QVariant&)> callback);
+  void SetCallback(std::function<void(const QVariant&)> callback);
 
 private:
-  void buttonClicked();
+  void OnButtonClicked();
 
   void UpdateComponents() override;
 
-  QLabel* m_textLabel;
-  QLabel* m_pixmapLabel;
-  LostFocusFilter* m_focusFilter;
+  QLabel* m_text_label;
+  QLabel* m_pixmap_label;
+  LostFocusFilter* m_focus_filter;
   std::function<void(const QVariant&)> m_callback;  //! actions to take on clicked button
 };
 
