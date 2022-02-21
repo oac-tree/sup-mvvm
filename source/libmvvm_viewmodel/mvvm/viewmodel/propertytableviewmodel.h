@@ -26,7 +26,7 @@ class MVVM_VIEWMODEL_EXPORT PropertyTableViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  PropertyTableViewModel(ApplicationModel *model, QObject* parent = nullptr);
+  explicit PropertyTableViewModel(ApplicationModel* model, QObject* parent = nullptr);
 
   void insertRow(ViewItem* parent, int row, std::vector<std::unique_ptr<ViewItem>> items) override;
 };
