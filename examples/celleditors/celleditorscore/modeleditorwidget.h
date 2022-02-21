@@ -36,20 +36,20 @@ class ModelEditorWidget : public QWidget
 
 public:
   explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
-  virtual ~ModelEditorWidget() override;
+  ~ModelEditorWidget() override;
 
-  void setModel(SampleModel* model);
+  void SetModel(SampleModel* model);
 
 private:
-  QBoxLayout* createLeftLayout();
-  QBoxLayout* createRightLayout();
+  QBoxLayout* CreateLeftLayout();
+  QBoxLayout* CreateRightLayout();
 
-  QTreeView* m_verticalTree{nullptr};
-  QTreeView* m_horizontalTree{nullptr};
-  QTableView* m_tableView{nullptr};
+  QTreeView* m_vertical_tree{nullptr};
+  QTreeView* m_horizontal_tree{nullptr};
+  QTableView* m_table_view{nullptr};
 
-  std::unique_ptr<mvvm::ViewModel> m_verticalViewModel;
-  std::unique_ptr<mvvm::ViewModel> m_horizontalViewModel;
+  std::unique_ptr<mvvm::ViewModel> m_vertical_view_model;
+  std::unique_ptr<mvvm::ViewModel> m_horizontal_view_model;
   std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
 };
 

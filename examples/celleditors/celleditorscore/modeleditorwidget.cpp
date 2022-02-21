@@ -26,61 +26,63 @@ namespace celleditors
 
 ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     : QWidget(parent)
-    , m_verticalTree(new QTreeView)
-    , m_horizontalTree(new QTreeView)
-    , m_tableView(new QTableView)
+    , m_vertical_tree(new QTreeView)
+    , m_horizontal_tree(new QTreeView)
+    , m_table_view(new QTableView)
     , m_delegate(std::make_unique<ViewModelDelegate>())
 {
   auto mainLayout = new QHBoxLayout;
   mainLayout->setSpacing(10);
 
-  mainLayout->addLayout(createLeftLayout(), 1);
-  mainLayout->addLayout(createRightLayout(), 3);
+  mainLayout->addLayout(CreateLeftLayout(), 1);
+  mainLayout->addLayout(CreateRightLayout(), 3);
 
   setLayout(mainLayout);
-  setModel(model);
+  SetModel(model);
 }
 
-void ModelEditorWidget::setModel(SampleModel* model)
+void ModelEditorWidget::SetModel(SampleModel* model)
 {
   if (!model)
+  {
     return;
+  }
 
   // setting up left tree
-  m_verticalViewModel = std::make_unique<AllItemsViewModel>(model);
-  m_verticalTree->setModel(m_verticalViewModel.get());
-  m_verticalTree->setItemDelegate(m_delegate.get());
-  m_verticalTree->expandAll();
-  m_verticalTree->resizeColumnToContents(0);
+  m_vertical_view_model = std::make_unique<AllItemsViewModel>(model);
+  m_vertical_tree->setModel(m_vertical_view_model.get());
+  m_vertical_tree->setItemDelegate(m_delegate.get());
+  m_vertical_tree->expandAll();
+  m_vertical_tree->resizeColumnToContents(0);
 
   // setting up right tree
-  m_horizontalViewModel = std::make_unique<AllItemsViewModel>(model);
+  m_horizontal_view_model = std::make_unique<AllItemsViewModel>(model);
 
-  m_horizontalTree->setModel(m_horizontalViewModel.get());
-  m_horizontalTree->setItemDelegate(m_delegate.get());
-  m_horizontalTree->expandAll();
-  m_horizontalTree->header()->setSectionResizeMode(QHeaderView::Stretch);
+  m_horizontal_tree->setModel(m_horizontal_view_model.get());
+  m_horizontal_tree->setItemDelegate(m_delegate.get());
+  m_horizontal_tree->expandAll();
+  m_horizontal_tree->header()->setSectionResizeMode(QHeaderView::Stretch);
 
   // setting up right table
-  m_tableView->setModel(m_horizontalViewModel.get());
-  m_tableView->setItemDelegate(m_delegate.get());
-  m_tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  m_table_view->setModel(m_horizontal_view_model.get());
+  m_table_view->setItemDelegate(m_delegate.get());
+  m_table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 ModelEditorWidget::~ModelEditorWidget() = default;
 
-QBoxLayout* ModelEditorWidget::createLeftLayout()
+QBoxLayout* ModelEditorWidget::CreateLeftLayout()
 {
   auto result = new QVBoxLayout;
-  result->addWidget(m_verticalTree);
+  result->addWidget(m_vertical_tree);
   return result;
 }
 
-QBoxLayout* ModelEditorWidget::createRightLayout()
+QBoxLayout* ModelEditorWidget::CreateRightLayout()
 {
   auto result = new QVBoxLayout;
-  result->addWidget(m_horizontalTree);
-  result->addWidget(m_tableView);
+  result->addWidget(m_horizontal_tree);
+  result->addWidget(m_table_view);
   return result;
 }
 
