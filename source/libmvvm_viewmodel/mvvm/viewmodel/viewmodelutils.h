@@ -37,7 +37,7 @@ class ViewItem;
 
 namespace mvvm::utils
 {
-template <typename T>
+template <typename T = SessionItem>
 const T* GetItemFromView(const ViewItem* view_item)
 {
   if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->item());

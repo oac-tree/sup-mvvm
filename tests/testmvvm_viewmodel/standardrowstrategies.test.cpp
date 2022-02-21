@@ -19,11 +19,15 @@
 
 #include "mvvm/viewmodel/standardrowstrategies.h"
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 namespace
 {
@@ -101,4 +105,143 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForPropertyItem)
   EXPECT_TRUE(data_view_item->setData(QString("bbb"), Qt::EditRole));
   EXPECT_EQ(data_view_item->data(Qt::DisplayRole).toString().toStdString(), "bbb");
   EXPECT_EQ(data_view_item->data(Qt::EditRole).toString().toStdString(), "bbb");
+}
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyInitialState)
+{
+  PropertiesRowStrategy strategy;
+  EXPECT_EQ(strategy.ConstructRow(nullptr).size(), 0);
+  EXPECT_EQ(strategy.GetHorizontalHeaderLabels(), QStringList());
+}
+
+//! Checks row construction for standard top level item. It shouldn't generate any rows.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyTopLevelItem)
+{
+  SessionItem item;
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(&item);
+  EXPECT_EQ(items.size(), 0);
+  EXPECT_EQ(strategy.GetHorizontalHeaderLabels(), QStringList());
+}
+
+//! Checks row construction for property item. It shouldn't generate any rows.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItem)
+{
+  SessionItem item;
+  item.SetData(42.0);
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(&item);
+  EXPECT_EQ(items.size(), 0);
+  EXPECT_EQ(strategy.GetHorizontalHeaderLabels(), QStringList());
+}
+
+//! Checks row construction for vector item.
+//! There should be 3 view items looking to x, y, z properties.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemCustomLabels)
+{
+  VectorItem item;
+
+  PropertiesRowStrategy strategy({"a", "b", "c"});
+  auto items = strategy.ConstructRow(&item);
+
+  EXPECT_EQ(items.size(), 3);
+  EXPECT_EQ(strategy.GetHorizontalHeaderLabels(), QStringList({"a", "b", "c"}));
+
+  // views should look at 3 property items
+  auto view_x = items.at(0).get();
+  EXPECT_EQ(utils::GetItemFromView(view_x), item.GetItem(VectorItem::kX));
+
+  auto view_y = items.at(1).get();
+  EXPECT_EQ(utils::GetItemFromView(view_y), item.GetItem(VectorItem::kY));
+
+  auto view_z = items.at(2).get();
+  EXPECT_EQ(utils::GetItemFromView(view_z), item.GetItem(VectorItem::kZ));
+}
+
+//! Checks row label construction for vector item.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemAutoLabels)
+{
+  VectorItem item;
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(&item);
+
+  // Horizontal labels should be constructed from default display names of X, Y and Z items
+  EXPECT_EQ(strategy.GetHorizontalHeaderLabels(), QStringList({"X", "Y", "Z"}));
+}
+
+//! Row construction for rootItem with single item inserted. Shouldn't generate any row.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyBaseItemInModelContext)
+{
+  ApplicationModel model("testModel");
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(model.GetRootItem());
+  EXPECT_EQ(items.size(), 0);
+
+  model.InsertItem<SessionItem>();
+  items = strategy.ConstructRow(model.GetRootItem());
+  EXPECT_EQ(items.size(), 0);
+}
+
+//! Row construction for rootItem with single item inserted. Shouldn't generate any row.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItemTree)
+{
+  SessionModel model;
+  auto parent = model.InsertItem<SessionItem>();
+
+  parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
+  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+
+  model.InsertItem<SessionItem>(parent, "universal_tag");
+  model.InsertItem<PropertyItem>(parent, "property_tag");
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(model.GetRootItem());
+
+  // root item doesn't have properties
+  EXPECT_EQ(items.size(), 0);
+
+  // parent has one registered property.
+  items = strategy.ConstructRow(parent);
+  EXPECT_EQ(items.size(), 1);
+}
+
+//! Row construction for rootItem when vectorItem is present. Shouldn't generate any row.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemInModelContext)
+{
+  SessionModel model;
+  model.InsertItem<VectorItem>();
+
+  PropertiesRowStrategy strategy;
+  auto items = strategy.ConstructRow(model.GetRootItem());
+  EXPECT_EQ(items.size(), 0);
+}
+
+//! Checks row construction for vector item when 'y' is hidden.
+//! There should be 2 view items looking to 'x' and 'z' properties.
+
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemWhenChildHidden)
+{
+  VectorItem item;
+  item.GetItem(VectorItem::kY)->SetVisible(false);
+
+  PropertiesRowStrategy strategy({"a", "b", "c"});
+  auto items = strategy.ConstructRow(&item);
+
+  // views should look at 2 property items
+  auto view_x = items.at(0).get();
+  EXPECT_EQ(utils::GetItemFromView(view_x), item.GetItem(VectorItem::kX));
+
+  auto view_y = items.at(1).get();
+  EXPECT_EQ(utils::GetItemFromView(view_y), item.GetItem(VectorItem::kZ));
 }

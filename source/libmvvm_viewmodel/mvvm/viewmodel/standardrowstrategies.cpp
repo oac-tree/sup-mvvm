@@ -92,11 +92,11 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRow(Sessi
   {
     if (child->HasData())
     {
-      result.emplace_back(mvvm::CreateDataViewItem(item));
+      result.emplace_back(mvvm::CreateDataViewItem(child));
     }
     else
     {
-      result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+      result.emplace_back(mvvm::CreateDisplayNameViewItem(child));
     }
   }
 
