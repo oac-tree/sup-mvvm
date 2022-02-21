@@ -43,4 +43,11 @@ editorbuilder_t ColorEditorBuilder()
   return builder;
 }
 
+editorbuilder_t ExternalPropertyEditorBuilder()
+{
+  auto builder = [](const SessionItem*) -> editor_t
+  { return std::make_unique<ExternalPropertyEditor>(); };
+  return builder;
+}
+
 }  // namespace mvvm
