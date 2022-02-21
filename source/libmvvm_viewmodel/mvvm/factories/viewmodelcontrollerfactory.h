@@ -28,12 +28,10 @@
 namespace mvvm
 {
 
-class ViewModelController;
-
 namespace factory
 {
 
-//! Create universal controller.
+//! Creates controller for view model using given strategies.
 
 template <typename ChildrenStrategy, typename RowStrategy>
 std::unique_ptr<AbstractViewModelController> CreateController(ApplicationModel* model,

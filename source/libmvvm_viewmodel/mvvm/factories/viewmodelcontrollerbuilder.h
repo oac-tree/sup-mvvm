@@ -51,7 +51,7 @@ public:
   self& SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
   self& SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
 
-  explicit operator std::unique_ptr<AbstractViewModelController>();
+  operator std::unique_ptr<AbstractViewModelController>();
 
 private:
   //! Components necessary to build ViewModelController
