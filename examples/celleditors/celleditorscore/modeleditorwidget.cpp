@@ -13,13 +13,12 @@
 
 #include "mvvm/delegates/viewmodeldelegate.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/propertytableviewmodel.h"
 
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QTableView>
 #include <QTreeView>
-
-using namespace mvvm;
 
 namespace celleditors
 {
@@ -29,7 +28,7 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     , m_vertical_tree(new QTreeView)
     , m_horizontal_tree(new QTreeView)
     , m_table_view(new QTableView)
-    , m_delegate(std::make_unique<ViewModelDelegate>())
+    , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
 {
   auto mainLayout = new QHBoxLayout;
   mainLayout->setSpacing(10);
@@ -49,14 +48,14 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   }
 
   // setting up left tree
-  m_vertical_view_model = std::make_unique<AllItemsViewModel>(model);
+  m_vertical_view_model = std::make_unique<mvvm::AllItemsViewModel>(model);
   m_vertical_tree->setModel(m_vertical_view_model.get());
   m_vertical_tree->setItemDelegate(m_delegate.get());
   m_vertical_tree->expandAll();
   m_vertical_tree->resizeColumnToContents(0);
 
   // setting up right tree
-  m_horizontal_view_model = std::make_unique<AllItemsViewModel>(model);
+  m_horizontal_view_model = std::make_unique<mvvm::PropertyTableViewModel>(model);
 
   m_horizontal_tree->setModel(m_horizontal_view_model.get());
   m_horizontal_tree->setItemDelegate(m_delegate.get());
