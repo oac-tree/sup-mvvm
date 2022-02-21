@@ -20,8 +20,8 @@
 #include "mvvm/viewmodel/standardrowstrategies.h"
 
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodelbase/viewitem.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
+#include "mvvm/viewmodelbase/viewitem.h"
 
 #include <gtest/gtest.h>
 
@@ -34,11 +34,11 @@ const QStringList expected_labels = QStringList() << "Name"
 
 using namespace mvvm;
 
-class LabelDataRowStrategyTest : public ::testing::Test
+class StandardRowStrategiesTest : public ::testing::Test
 {
 };
 
-TEST_F(LabelDataRowStrategyTest, InitialState)
+TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyInitialState)
 {
   LabelDataRowStrategy constructor;
   EXPECT_EQ(constructor.ConstructRow(nullptr).size(), 0);
@@ -47,7 +47,7 @@ TEST_F(LabelDataRowStrategyTest, InitialState)
 
 //! Checks row construction for standard top level item, like Level, MultiLayer etc.
 
-TEST_F(LabelDataRowStrategyTest, RowForTopLevelItem)
+TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForTopLevelItem)
 {
   SessionItem item;
 
@@ -71,7 +71,7 @@ TEST_F(LabelDataRowStrategyTest, RowForTopLevelItem)
 
 //! Checks row construction for property item.
 
-TEST_F(LabelDataRowStrategyTest, RowForPropertyItem)
+TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForPropertyItem)
 {
   SessionItem item;
   std::string expected_name{"test_name"};
