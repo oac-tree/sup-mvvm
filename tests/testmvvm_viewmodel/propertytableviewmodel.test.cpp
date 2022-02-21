@@ -161,10 +161,18 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
   EXPECT_EQ(viewModel.rowCount(), 2);     // two layers
   EXPECT_EQ(viewModel.columnCount(), 2);  // layer thickness and color
 
+  EXPECT_EQ(viewModel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(),
+            QString("Thickness"));
+  EXPECT_EQ(viewModel.headerData(1, Qt::Horizontal, Qt::DisplayRole).toString(), QString("Color"));
+
   // add another layer
   model.InsertItem<LayerItem>(multilayer);
-  EXPECT_EQ(viewModel.rowCount(), 3);     // two layers
+  EXPECT_EQ(viewModel.rowCount(), 3);     // three layers
   EXPECT_EQ(viewModel.columnCount(), 2);  // layer thickness and color
+
+  EXPECT_EQ(viewModel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(),
+            QString("Thickness"));
+  EXPECT_EQ(viewModel.headerData(1, Qt::Horizontal, Qt::DisplayRole).toString(), QString("Color"));
 
   // switching view model back to model's root, table should be empty
   viewModel.SetRootSessionItem(model.GetRootItem());
@@ -175,7 +183,7 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
 //! Check signaling of QStandardItemModel to learn from that.
 //! Does insertion of row triggers columns-related signaling? Answer: no.
 
-TEST_F(PropertyTableViewModelTest, standardItemModel)
+TEST_F(PropertyTableViewModelTest, StandardItemModel)
 {
   QStandardItemModel model;
   QStandardItem* parentItem = model.invisibleRootItem();
@@ -210,7 +218,7 @@ TEST_F(PropertyTableViewModelTest, standardItemModel)
 //! Initialize PropertyTableViewModel with empty SessionModel.
 //! VectorItem in a model.
 
-TEST_F(PropertyTableViewModelTest, insertItemSignaling)
+TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
 {
   ApplicationModel model;
   PropertyTableViewModel view_model(&model);

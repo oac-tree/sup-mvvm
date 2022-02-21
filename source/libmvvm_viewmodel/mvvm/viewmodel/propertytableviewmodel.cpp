@@ -20,7 +20,7 @@ namespace mvvm
 PropertyTableViewModel::PropertyTableViewModel(ApplicationModel* model, QObject* parent)
     : ViewModel(parent)
 {
-  SetController(factory::CreateController<AllChildrenStrategy, PropertiesRowStrategy>(model, this));
+  SetController(factory::CreateController<TopItemsStrategy, PropertiesRowStrategy>(model, this));
 }
 
 void PropertyTableViewModel::insertRow(ViewItem* parent, int row,

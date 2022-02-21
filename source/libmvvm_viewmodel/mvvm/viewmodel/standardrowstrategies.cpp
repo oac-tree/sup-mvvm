@@ -33,8 +33,7 @@ namespace mvvm
 
 QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
 {
-  return QStringList() << "Name"
-                       << "Value";
+  return {"Name", "Value"};
 }
 
 std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(SessionItem* item)
@@ -81,6 +80,7 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRow(Sessi
   {
     return result;
   }
+
 
   auto items_in_row = utils::SinglePropertyItems(*item);
   if (m_user_defined_column_labels.empty())
