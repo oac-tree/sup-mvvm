@@ -35,8 +35,6 @@ public:
   class TestViewModel : public ViewModel
   {
   public:
-    TestViewModel() {}
-
     void SetControllerIntern(std::unique_ptr<AbstractViewModelController> controller)
     {
       SetController(std::move(controller));

@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/factories/viewmodelcontrollerfactory.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 #include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
@@ -28,11 +28,7 @@ namespace mvvm
 {
 TopItemsViewModel::TopItemsViewModel(ApplicationModel *model, QObject *parent) : ViewModel(parent)
 {
-  auto controller = std::make_unique<ViewModelController>(model, this);
-  controller->SubscribeTo(model->GetSubscriber());
-  controller->SetChildrenStrategy(std::make_unique<TopItemsStrategy>());
-  controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-  SetController(std::move(controller));
+  SetController(factory::CreateController<TopItemsStrategy, LabelDataRowStrategy>(model, this));
 }
 
 }  // namespace mvvm
