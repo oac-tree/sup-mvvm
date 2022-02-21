@@ -37,12 +37,27 @@ class ViewItem;
 class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface
 {
 public:
-  LabelDataRowStrategy();
-  ~LabelDataRowStrategy() override;
+  QStringList GetHorizontalHeaderLabels() const override;
+
+  std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
+};
+
+//! Constructs row of ViewItem's for given SessionItem.
+//! Row consists of columns with all PropertyItem's of given SessionItem.
+
+class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public RowStrategyInterface
+{
+public:
+  explicit PropertiesRowStrategy(std::vector<std::string> labels = {});
 
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
+
+private:
+  void UpdateColumnLabels(std::vector<SessionItem*> items);
+  std::vector<std::string> m_current_column_labels;
+  std::vector<std::string> m_user_defined_column_labels;
 };
 
 }  // namespace mvvm

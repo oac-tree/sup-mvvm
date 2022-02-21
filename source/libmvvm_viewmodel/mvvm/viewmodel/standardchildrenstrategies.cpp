@@ -43,7 +43,7 @@ std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* 
 {
   if (!item)
   {
-    return std::vector<SessionItem*>();
+    return {};
   }
 
   // FIXME restore, when group property is there

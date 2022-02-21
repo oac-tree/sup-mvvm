@@ -19,16 +19,17 @@
 
 #include "mvvm/viewmodel/standardrowstrategies.h"
 
+#include "mvvm/model/itemutils.h"
+#include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 namespace mvvm
 {
-LabelDataRowStrategy::~LabelDataRowStrategy() = default;
 
-LabelDataRowStrategy::LabelDataRowStrategy()
-{
-}
+// ----------------------------------------------------------------------------
+// LabelDataRowStrategy
+// ----------------------------------------------------------------------------
 
 QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
 {
@@ -51,6 +52,64 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(Sessio
   result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
   result.emplace_back(mvvm::CreateDataViewItem(item));
   return result;
+}
+
+// ----------------------------------------------------------------------------
+// PropertiesRowStrategy
+// ----------------------------------------------------------------------------
+
+PropertiesRowStrategy::PropertiesRowStrategy(std::vector<std::string> labels)
+    : m_user_defined_column_labels(std::move(labels))
+{
+}
+
+QStringList PropertiesRowStrategy::GetHorizontalHeaderLabels() const
+{
+  QStringList result;
+  auto labels =
+      m_user_defined_column_labels.empty() ? m_current_column_labels : m_user_defined_column_labels;
+  std::transform(labels.begin(), labels.end(), std::back_inserter(result),
+                 [](const std::string& str) { return QString::fromStdString(str); });
+  return result;
+}
+
+std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRow(SessionItem* item)
+{
+  std::vector<std::unique_ptr<ViewItem>> result;
+
+  if (!item)
+  {
+    return result;
+  }
+
+  auto items_in_row = utils::SinglePropertyItems(*item);
+  if (m_user_defined_column_labels.empty())
+  {
+    UpdateColumnLabels(items_in_row);
+  }
+
+  for (auto child : items_in_row)
+  {
+    if (child->HasData())
+    {
+      result.emplace_back(mvvm::CreateDataViewItem(item));
+    }
+    else
+    {
+      result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+    }
+  }
+
+  return result;
+}
+
+//! Updates current column labels.
+
+void PropertiesRowStrategy::UpdateColumnLabels(std::vector<SessionItem*> items)
+{
+  m_current_column_labels.clear();
+  std::transform(items.begin(), items.end(), std::back_inserter(m_current_column_labels),
+                 [](const SessionItem* item) { return item->GetDisplayName(); });
 }
 
 }  // namespace mvvm
