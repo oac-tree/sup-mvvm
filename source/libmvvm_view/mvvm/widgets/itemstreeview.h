@@ -52,8 +52,7 @@ public:
 
   void SetViewModel(std::unique_ptr<ViewModel> view_model);
 
-  // FIXME restore delegates
-  //  void setViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate);
+  void SetViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate);
 
   void SetSelected(SessionItem* item);
 

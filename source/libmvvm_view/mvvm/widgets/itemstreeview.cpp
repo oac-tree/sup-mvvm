@@ -19,10 +19,10 @@
 
 #include "mvvm/widgets/itemstreeview.h"
 
+#include "mvvm/delegates/viewmodeldelegate.h"
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/delegates/viewmodeldelegate.h"
 
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -57,6 +57,11 @@ void ItemsTreeView::SetViewModel(std::unique_ptr<ViewModel> view_model)
   m_tree_view->expandAll();
   m_tree_view->resizeColumnToContents(0);
   SetConnected(true);
+}
+
+void ItemsTreeView::SetViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate)
+{
+  m_delegate = std::move(delegate);
 }
 
 //! Make given item selected in QTreeView.
