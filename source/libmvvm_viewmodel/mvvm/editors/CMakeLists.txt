@@ -18,6 +18,8 @@ target_sources(${library_name} PRIVATE
   editorbuilders.h
   externalpropertyeditor.cpp
   externalpropertyeditor.h
+  selectablecomboboxeditor.cpp
+  selectablecomboboxeditor.h
   styleutils.cpp
   styleutils.h
 )
