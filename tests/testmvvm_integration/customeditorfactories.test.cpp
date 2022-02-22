@@ -71,6 +71,10 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
   index = AddDataToModel(variant_t(ComboProperty()), constants::kComboPropertyEditorType);
   EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
+  // ComboProperty
+  index = AddDataToModel(variant_t(ComboProperty()), constants::kSelectableComboPropertyEditorType);
+  EXPECT_TRUE(dynamic_cast<SelectableComboBoxEditor*>(factory.CreateEditor(index).get()));
+
   // String as color
   index = AddDataToModel(variant_t("red"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
