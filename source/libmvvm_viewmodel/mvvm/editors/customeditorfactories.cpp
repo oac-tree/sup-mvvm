@@ -47,6 +47,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 {
   RegisterBuilder(constants::kBoolEditorType, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyEditorType, ComboPropertyEditorBuilder());
+  RegisterBuilder(constants::kSelectableComboPropertyEditorType, SelectableComboPropertyEditorBuilder());
   RegisterBuilder(constants::kColorEditorType, ColorEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
 }

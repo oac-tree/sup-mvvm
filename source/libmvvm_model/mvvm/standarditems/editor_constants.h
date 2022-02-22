@@ -30,6 +30,7 @@ namespace mvvm::constants
 
 const std::string kBoolEditorType = "BoolEditor";
 const std::string kComboPropertyEditorType = "ComboPropertyEditor";
+const std::string kSelectableComboPropertyEditorType = "SelectableComboPropertyEditor";
 const std::string kColorEditorType = "ColorEditor";
 const std::string kExternalPropertyEditorType = "ExternalPropertyEditor";
 

@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 // ----------------------------------------------------------------------------
 // https://stackoverflow.com/questions/8422760/combobox-of-checkboxes
@@ -52,13 +62,13 @@ public:
 SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent)
     : CustomEditor(parent)
     , m_box(new QComboBox)
-    , m_wheelEventFilter(new WheelEventFilter(this))
+    , m_wheel_event_filter(new WheelEventFilter(this))
     , m_model(new QStandardItemModel(this))
 {
   setAutoFillBackground(true);
   setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-  m_box->installEventFilter(m_wheelEventFilter);
+  m_box->installEventFilter(m_wheel_event_filter);
   m_box->view()->viewport()->installEventFilter(this);
 
   // Editable mode will be used to have None/Multiple labels on top
@@ -76,7 +86,7 @@ SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent)
   layout->setSpacing(0);
   layout->addWidget(m_box);
   setLayout(layout);
-  setConnected(true);
+  SetConnected(true);
 }
 
 QSize SelectableComboBoxEditor::sizeHint() const
@@ -96,7 +106,7 @@ bool SelectableComboBoxEditor::IsPersistent() const
 
 //! Propagate check state from the model to ComboProperty.
 
-void SelectableComboBoxEditor::onModelDataChanged(const QModelIndex& topLeft, const QModelIndex&,
+void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& topLeft, const QModelIndex&,
                                                   const QVector<int>& roles)
 {
 #if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
@@ -107,19 +117,21 @@ void SelectableComboBoxEditor::onModelDataChanged(const QModelIndex& topLeft, co
 
   auto item = m_model->itemFromIndex(topLeft);
   if (!item)
+  {
     return;
+  }
 
   auto comboProperty = GetData().value<ComboProperty>();
   auto state = item->checkState() == Qt::Checked ? true : false;
   comboProperty.SetSelected(topLeft.row(), state);
 
-  updateBoxLabel();
+  UpdateBoxLabel();
   SetDataIntern(QVariant::fromValue<ComboProperty>(comboProperty));
 }
 
 //! Processes press event in QComboBox's underlying list view.
 
-void SelectableComboBoxEditor::onClickedList(const QModelIndex& index)
+void SelectableComboBoxEditor::OnClickedList(const QModelIndex& index)
 {
   if (auto item = m_model->itemFromIndex(index))
   {
@@ -132,7 +144,7 @@ void SelectableComboBoxEditor::onClickedList(const QModelIndex& index)
 
 bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
 {
-  if (isClickToSelect(obj, event))
+  if (IsClickToSelect(obj, event))
   {
     // Handles mouse clicks on QListView when it is expanded from QComboBox
     // 1) Prevents list from closing while selecting items.
@@ -140,10 +152,11 @@ bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
     // element.
     const auto mouseEvent = static_cast<const QMouseEvent*>(event);
     auto index = m_box->view()->indexAt(mouseEvent->pos());
-    onClickedList(index);
+    OnClickedList(index);
     return true;
   }
-  else if (isClickToExpand(obj, event))
+
+  if (IsClickToExpand(obj, event))
   {
     // Expands box when clicking on None/Multiple label
     m_box->showPopup();
@@ -165,7 +178,7 @@ void SelectableComboBoxEditor::UpdateComponents()
 
   auto property = GetData().value<ComboProperty>();
 
-  setConnected(false);
+  SetConnected(false);
   m_model->clear();
 
   auto labels = property.GetValues();
@@ -182,38 +195,38 @@ void SelectableComboBoxEditor::UpdateComponents()
     item->setData(state, Qt::CheckStateRole);
   }
 
-  setConnected(true);
-  updateBoxLabel();
+  SetConnected(true);
+  UpdateBoxLabel();
 }
 
-void SelectableComboBoxEditor::setConnected(bool isConnected)
+void SelectableComboBoxEditor::SetConnected(bool isConnected)
 {
   if (isConnected)
   {
     connect(m_model, &QStandardItemModel::dataChanged, this,
-            &SelectableComboBoxEditor::onModelDataChanged);
+            &SelectableComboBoxEditor::OnModelDataChanged);
   }
   else
   {
     disconnect(m_model, &QStandardItemModel::dataChanged, this,
-               &SelectableComboBoxEditor::onModelDataChanged);
+               &SelectableComboBoxEditor::OnModelDataChanged);
   }
 }
 
 //! Update text on QComboBox with the label provided by combo property.
 
-void SelectableComboBoxEditor::updateBoxLabel()
+void SelectableComboBoxEditor::UpdateBoxLabel()
 {
   auto combo = GetData().value<ComboProperty>();
   m_box->setCurrentText(QString::fromStdString(combo.GetLabel()));
 }
 
-bool SelectableComboBoxEditor::isClickToSelect(QObject* obj, QEvent* event) const
+bool SelectableComboBoxEditor::IsClickToSelect(QObject* obj, QEvent* event) const
 {
   return obj == m_box->view()->viewport() && event->type() == QEvent::MouseButtonRelease;
 }
 
-bool SelectableComboBoxEditor::isClickToExpand(QObject* obj, QEvent* event) const
+bool SelectableComboBoxEditor::IsClickToExpand(QObject* obj, QEvent* event) const
 {
   return obj == m_box->lineEdit() && event->type() == QEvent::MouseButtonRelease;
 }

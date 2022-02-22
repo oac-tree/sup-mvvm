@@ -37,6 +37,13 @@ editorbuilder_t ComboPropertyEditorBuilder()
   return builder;
 }
 
+editorbuilder_t SelectableComboPropertyEditorBuilder()
+{
+  auto builder = [](const SessionItem*) -> editor_t
+  { return std::make_unique<SelectableComboBoxEditor>(); };
+  return builder;
+}
+
 editorbuilder_t ColorEditorBuilder()
 {
   auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<ColorEditor>(); };

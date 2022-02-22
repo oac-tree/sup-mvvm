@@ -64,16 +64,16 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
   RoleDependentEditorFactory factory;
 
   // editor for bool types
-  auto index1 = AddDataToModel(variant_t(true), constants::kBoolEditorType);
-  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
+  auto index = AddDataToModel(variant_t(true), constants::kBoolEditorType);
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index).get()));
 
   // ComboProperty
-  auto index2 = AddDataToModel(variant_t(ComboProperty()), constants::kComboPropertyEditorType);
-  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
+  index = AddDataToModel(variant_t(ComboProperty()), constants::kComboPropertyEditorType);
+  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
   // String as color
-  auto index3 = AddDataToModel(variant_t("red"), constants::kColorEditorType);
-  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index3).get()));
+  index = AddDataToModel(variant_t("red"), constants::kColorEditorType);
+  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
@@ -81,24 +81,24 @@ TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
   VariantDependentEditorFactory factory;
 
   // editor for bool types
-  auto index1 = AddDataToModel(variant_t(true));
-  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
+  auto index = AddDataToModel(variant_t(true));
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index).get()));
 
   // ComboProperty
-  auto index2 = AddDataToModel(variant_t(ComboProperty()));
-  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
+  index = AddDataToModel(variant_t(ComboProperty()));
+  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
   // `double` doesn't have custom editor for the moment (handled by default delegate)
-  auto index3 = AddDataToModel(variant_t(42.1));
-  EXPECT_FALSE(factory.CreateEditor(index3));
+  index = AddDataToModel(variant_t(42.1));
+  EXPECT_FALSE(factory.CreateEditor(index));
 
   // `int` doesn't have custom editor for the moment (handled by default delegate)
-  auto index4 = AddDataToModel(variant_t(42));
-  EXPECT_FALSE(factory.CreateEditor(index4));
+  index = AddDataToModel(variant_t(42));
+  EXPECT_FALSE(factory.CreateEditor(index));
 
   // `string` doesn't have custom editor for the moment (handled by default delegate)
-  auto index5 = AddDataToModel(std::string("abc"));
-  EXPECT_FALSE(factory.CreateEditor(index5));
+  index = AddDataToModel(std::string("abc"));
+  EXPECT_FALSE(factory.CreateEditor(index));
 }
 
 //! Default editor factory for the moment reproduces VariantDependentEditorFactory
@@ -108,26 +108,26 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
   DefaultEditorFactory factory;
 
   // editor for bool types
-  auto index1 = AddDataToModel(variant_t(true));
-  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index1).get()));
+  auto index = AddDataToModel(variant_t(true));
+  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index).get()));
 
   // ComboProperty
-  auto index2 = AddDataToModel(variant_t(ComboProperty()));
-  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index2).get()));
+  index = AddDataToModel(variant_t(ComboProperty()));
+  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
   // `double` doesn't have custom editor for the moment (handled by default delegate)
-  auto index3 = AddDataToModel(variant_t(42.1));
-  EXPECT_FALSE(factory.CreateEditor(index3));
+  index = AddDataToModel(variant_t(42.1));
+  EXPECT_FALSE(factory.CreateEditor(index));
 
   // `int` doesn't have custom editor for the moment (handled by default delegate)
-  auto index4 = AddDataToModel(variant_t(42));
-  EXPECT_FALSE(factory.CreateEditor(index4));
+  index = AddDataToModel(variant_t(42));
+  EXPECT_FALSE(factory.CreateEditor(index));
 
   // `string` doesn't have custom editor for the moment (handled by default delegate)
-  auto index5 = AddDataToModel(std::string("abc"));
-  EXPECT_FALSE(factory.CreateEditor(index5));
+  index = AddDataToModel(std::string("abc"));
+  EXPECT_FALSE(factory.CreateEditor(index));
 
   // `string` with specification that it is a color
-  auto index6 = AddDataToModel(std::string("abc"), constants::kColorEditorType);
-  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index6).get()));
+  index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
+  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 }
