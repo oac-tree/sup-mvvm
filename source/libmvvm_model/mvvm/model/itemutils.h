@@ -63,11 +63,6 @@ MVVM_MODEL_EXPORT bool IsSinglePropertyTag(const SessionItem& item, const std::s
 //! Returns vector of strings containing all registered tags of the given item.
 MVVM_MODEL_EXPORT std::vector<std::string> RegisteredTags(const SessionItem& item);
 
-//! Returns vector of strings containing all registered universal tags of the given item.
-//! A universal tag is a tag that is usually empty after item construction and serves for later
-//! children's insertion.
-MVVM_MODEL_EXPORT std::vector<std::string> RegisteredUniversalTags(const SessionItem& item);
-
 //! Returns vector of all visible children representing top level items.
 MVVM_MODEL_EXPORT std::vector<SessionItem*> TopLevelItems(const SessionItem& item);
 

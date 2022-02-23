@@ -170,19 +170,6 @@ TEST_F(ItemUtilsTest, RegisteredTags)
   EXPECT_EQ(utils::RegisteredTags(item), std::vector<std::string>({"default_tag", "property_tag"}));
 }
 
-//! Checks method ::RegisteredUniversalTags.
-
-TEST_F(ItemUtilsTest, RegisteredUniversalTags)
-{
-  SessionItem item;
-  EXPECT_TRUE(utils::RegisteredUniversalTags(item).empty());
-
-  item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
-
-  EXPECT_EQ(utils::RegisteredUniversalTags(item), std::vector<std::string>({"default_tag"}));
-}
-
 //! Check access to top level and property items.
 
 TEST_F(ItemUtilsTest, TopLevelItems)

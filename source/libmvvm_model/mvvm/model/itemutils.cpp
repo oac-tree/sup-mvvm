@@ -133,19 +133,6 @@ std::vector<std::string> RegisteredTags(const SessionItem& item)
   return result;
 }
 
-std::vector<std::string> RegisteredUniversalTags(const SessionItem& item)
-{
-  std::vector<std::string> result;
-  for (const auto& tag : RegisteredTags(item))
-  {
-    if (!IsSinglePropertyTag(item, tag))
-    {
-      result.push_back(tag);
-    }
-  }
-  return result;
-}
-
 std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
 {
   std::vector<SessionItem*> result;
