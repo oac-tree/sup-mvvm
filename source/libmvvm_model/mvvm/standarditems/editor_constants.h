@@ -33,6 +33,7 @@ const std::string kComboPropertyEditorType = "ComboPropertyEditor";
 const std::string kSelectableComboPropertyEditorType = "SelectableComboPropertyEditor";
 const std::string kColorEditorType = "ColorEditor";
 const std::string kExternalPropertyEditorType = "ExternalPropertyEditor";
+const std::string kScientificSpinboxEditorType = "kScientificSpinboxEditor";
 
 const int default_double_decimals = 4;  //! number of digits after decimal points
 

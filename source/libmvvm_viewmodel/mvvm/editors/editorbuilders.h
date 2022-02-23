@@ -52,6 +52,9 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t ColorEditorBuilder();
 //! Builder for external property editor.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ExternalPropertyEditorBuilder();
 
+//! Builder for double editor with scientific notation and spinbox functionality.
+MVVM_VIEWMODEL_EXPORT editorbuilder_t ScientificSpinBoxEditorBuilder();
+
 }  // namespace mvvm
 
 #endif  // MVVM_EDITORS_EDITORBUILDERS_H
