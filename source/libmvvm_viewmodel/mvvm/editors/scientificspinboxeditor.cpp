@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "mvvm/editors/scientificspinboxeditor.h"
 
@@ -19,40 +29,40 @@ namespace mvvm
 {
 
 ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
-    : CustomEditor(parent), m_doubleEditor(new ScientificSpinBox)
+    : CustomEditor(parent), m_double_editor(new ScientificSpinBox)
 {
   setAutoFillBackground(true);
   setFocusPolicy(Qt::StrongFocus);
-  m_doubleEditor->setFocusPolicy(Qt::StrongFocus);
-  m_doubleEditor->setKeyboardTracking(false);
+  m_double_editor->setFocusPolicy(Qt::StrongFocus);
+  m_double_editor->setKeyboardTracking(false);
 
   auto layout = new QVBoxLayout;
   layout->setMargin(0);
   layout->setSpacing(0);
 
-  layout->addWidget(m_doubleEditor);
+  layout->addWidget(m_double_editor);
 
-  connect(m_doubleEditor, &ScientificSpinBox::valueChanged, [=] { this->onEditingFinished(); });
+  connect(m_double_editor, &ScientificSpinBox::valueChanged, [=] { this->OnEditingFinished(); });
 
   setLayout(layout);
 
-  setFocusProxy(m_doubleEditor);
+  setFocusProxy(m_double_editor);
 }
 
-void ScientificSpinBoxEditor::setRange(double minimum, double maximum)
+void ScientificSpinBoxEditor::SetRange(double minimum, double maximum)
 {
-  m_doubleEditor->setMinimum(minimum);
-  m_doubleEditor->setMaximum(maximum);
+  m_double_editor->setMinimum(minimum);
+  m_double_editor->setMaximum(maximum);
 }
 
-void ScientificSpinBoxEditor::setDecimals(int decimals)
+void ScientificSpinBoxEditor::SetDecimals(int decimals)
 {
-  m_doubleEditor->setDecimals(decimals);
+  m_double_editor->setDecimals(decimals);
 }
 
-void ScientificSpinBoxEditor::setSingleStep(double step)
+void ScientificSpinBoxEditor::SetSingleStep(double step)
 {
-  m_doubleEditor->setSingleStep(step);
+  m_double_editor->setSingleStep(step);
 }
 
 bool ScientificSpinBoxEditor::IsPersistent() const
@@ -60,21 +70,25 @@ bool ScientificSpinBoxEditor::IsPersistent() const
   return true;
 }
 
-void ScientificSpinBoxEditor::onEditingFinished()
+void ScientificSpinBoxEditor::OnEditingFinished()
 {
-  double new_value = m_doubleEditor->value();
+  double new_value = m_double_editor->value();
 
   if (!utils::AreAlmostEqual(new_value, GetData().value<double>()))
+  {
     SetDataIntern(QVariant::fromValue(new_value));
+  }
 }
 
 void ScientificSpinBoxEditor::UpdateComponents()
 {
   if (GetData().type() != QVariant::Double)
+  {
     throw std::runtime_error(
         "ScientificSpinBoxEditor::update_components() -> Error. Wrong variant type");
+  }
 
-  m_doubleEditor->setValue(GetData().value<double>());
+  m_double_editor->setValue(GetData().value<double>());
 }
 
 }  // namespace mvvm

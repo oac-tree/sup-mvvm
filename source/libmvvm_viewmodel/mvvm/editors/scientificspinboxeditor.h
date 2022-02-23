@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #ifndef MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
 #define MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
@@ -26,18 +36,17 @@ class MVVM_VIEWMODEL_EXPORT ScientificSpinBoxEditor : public CustomEditor
 public:
   explicit ScientificSpinBoxEditor(QWidget* parent = nullptr);
 
-  void setRange(double minimum, double maximum);
-  void setDecimals(int decimals);
-  void setSingleStep(double step);
+  void SetRange(double minimum, double maximum);
+  void SetDecimals(int decimals);
+  void SetSingleStep(double step);
 
   bool IsPersistent() const override;
 
-private slots:
-  void onEditingFinished();
-
 private:
+  void OnEditingFinished();
+
   void UpdateComponents() override;
-  ScientificSpinBox* m_doubleEditor;
+  ScientificSpinBox* m_double_editor;
 };
 
 }  // namespace mvvm

@@ -87,9 +87,9 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
       //              auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
       //              editor->setRange(limits.lowerLimit(), limits.upperLimit());
       //          }
-      editor->setSingleStep(getStep(item->Data<double>()));
+      editor->SetSingleStep(getStep(item->Data<double>()));
     }
-    editor->setDecimals(constants::default_double_decimals);
+    editor->SetDecimals(constants::default_double_decimals);
     return editor;
   };
   return builder;
