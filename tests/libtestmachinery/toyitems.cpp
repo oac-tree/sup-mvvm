@@ -22,19 +22,19 @@
 namespace TestUtils::ToyItems
 {
 
-LayerItem::LayerItem() : CompoundItem("Layer")
+LayerItem::LayerItem() : mvvm::CompoundItem("Layer")
 {
   AddProperty("Thickness", 42.0);
   AddProperty("Color", "green");
 }
 
-MultiLayerItem::MultiLayerItem() : CompoundItem(Type)
+MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
 {
-  RegisterTag(TagInfo::CreateUniversalTag("Layers", {LayerItem::Type}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag("Layers", {LayerItem::Type}),
               /*set_as_default*/ true);
 }
 
-SampleModel::SampleModel() : ApplicationModel("sampleMolde")
+SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
   RegisterItem<LayerItem>();
   RegisterItem<MultiLayerItem>();

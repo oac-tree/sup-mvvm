@@ -29,21 +29,21 @@
 namespace TestUtils::ToyItems
 {
 
-class LayerItem : public CompoundItem
+class LayerItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "Layer";
   LayerItem();
 };
 
-class MultiLayerItem : public CompoundItem
+class MultiLayerItem : public mvvm::CompoundItem
 {
 public:
   static inline const std::string Type = "MultiLayer";
   MultiLayerItem();
 };
 
-class SampleModel : public ApplicationModel
+class SampleModel : public mvvm::ApplicationModel
 {
 public:
   SampleModel();

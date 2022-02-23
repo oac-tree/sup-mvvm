@@ -26,6 +26,7 @@
 #include "mvvm/standarditems/vectoritem.h"
 
 #include <gtest/gtest.h>
+#include "toyitems.h"
 
 #include <QSignalSpy>
 #include <QStandardItemModel>
@@ -34,38 +35,6 @@ using namespace mvvm;
 
 class PropertyTableViewModelTest : public ::testing::Test
 {
-public:
-  class LayerItem : public CompoundItem
-  {
-  public:
-    static inline const std::string Type = "Layer";
-    LayerItem() : CompoundItem("Layer")
-    {
-      AddProperty("Thickness", 42.0);
-      AddProperty("Color", "green");
-    }
-  };
-
-  class MultiLayerItem : public CompoundItem
-  {
-  public:
-    static inline const std::string Type = "MultiLayer";
-    MultiLayerItem() : CompoundItem(Type)
-    {
-      RegisterTag(TagInfo::CreateUniversalTag("Layers", {LayerItem::Type}),
-                  /*set_as_default*/ true);
-    }
-  };
-
-  class SampleModel : public ApplicationModel
-  {
-  public:
-    SampleModel() : ApplicationModel("sampleMolde")
-    {
-      RegisterItem<LayerItem>();
-      RegisterItem<MultiLayerItem>();
-    }
-  };
 };
 
 TEST_F(PropertyTableViewModelTest, InitialState)
@@ -131,6 +100,8 @@ TEST_F(PropertyTableViewModelTest, VectorItem)
 
 TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
 {
+  using namespace TestUtils::ToyItems;
+
   SampleModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
   model.InsertItem<LayerItem>(multilayer);
@@ -147,6 +118,8 @@ TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
 
 TEST_F(PropertyTableViewModelTest, MultiLayer)
 {
+  using namespace TestUtils::ToyItems;
+
   SampleModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
   model.InsertItem<LayerItem>(multilayer);
