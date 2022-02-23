@@ -65,6 +65,7 @@ T* CompoundItem::AddProperty(const std::string& name)
   RegisterTag(TagInfo::CreatePropertyTag(name, T().GetType()));
   auto result = InsertItem<T>({name, 0});
   result->SetDisplayName(name);
+  result->SetAppearanceFlag(kProperty, true);
   return result;
 }
 
