@@ -679,9 +679,9 @@ TEST_F(SessionItemTest, SetAppearanceFlag)
 
   SessionItem item;
 
-  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEnabled));
-  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEditable));
-  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kEditable));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kVisible));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kProperty));
 
   // there shouldn't be any data
