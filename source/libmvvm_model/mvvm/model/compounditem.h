@@ -39,6 +39,11 @@ public:
 
   explicit CompoundItem(const std::string& item_type = Type);
 
+  //! Adds and item of given type, and registers it under the given `name`.
+  //! Beneath will create a tag intended to store a single item without a possibility to remove.
+  template <typename T>
+  T* AddBranch(const std::string& name);
+
   //! Adds an item of a given type and register it under the given 'name' as a property item.
   //! A property item is an item with the following features: it can't be removed, it appears in
   //! property editors, it doesn't appear in a list of top-level items.
@@ -60,10 +65,17 @@ public:
 };
 
 template <typename T>
-T* CompoundItem::AddProperty(const std::string& name)
+T* CompoundItem::AddBranch(const std::string& name)
 {
   RegisterTag(TagInfo::CreatePropertyTag(name, T().GetType()));
   auto result = InsertItem<T>({name, 0});
+  return result;
+}
+
+template <typename T>
+T* CompoundItem::AddProperty(const std::string& name)
+{
+  auto result = AddBranch<T>(name);
   result->SetDisplayName(name);
   result->SetAppearanceFlag(kProperty, true);
   return result;

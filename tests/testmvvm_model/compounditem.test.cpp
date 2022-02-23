@@ -21,6 +21,7 @@
 
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/propertyitem.h"
+#include "mvvm/standarditems/vectoritem.h"
 
 #include <gtest/gtest.h>
 
@@ -251,4 +252,22 @@ TEST_F(CompoundItemTest, Children)
   EXPECT_TRUE(item.GetAllItems().empty());
   auto propertyItem = item.AddProperty(property_name, false);
   EXPECT_EQ(item.GetAllItems(), std::vector<SessionItem*>({propertyItem}));
+}
+
+//! Test AddBranch method.
+
+TEST_F(CompoundItemTest, AddBranch)
+{
+  CompoundItem item;
+
+  auto branch0 = item.AddBranch<CompoundItem>("branch0");
+  auto property0 = item.AddProperty("thickness", 0.0);
+  auto property1 = item.AddProperty<VectorItem>("position");
+  auto branch1 = item.AddBranch<CompoundItem>("branch1");
+
+  // it is not possible to add another branch with same name
+  EXPECT_THROW(item.AddBranch<CompoundItem>("branch0"), std::runtime_error);
+
+  EXPECT_EQ(utils::TopLevelItems(item), std::vector<SessionItem*>({branch0, branch1}));
+  EXPECT_EQ(utils::SinglePropertyItems(item), std::vector<SessionItem*>({property0, property1}));
 }
