@@ -21,6 +21,7 @@
 #define MVVM_MODEL_ITEMUTILS_H
 
 #include "mvvm/model_export.h"
+#include "mvvm/model/mvvm_types.h"
 
 #include <functional>
 #include <string>
@@ -112,6 +113,11 @@ std::vector<T*> CastedItems(const std::vector<SessionItem*>& items)
 //! result = -1 if item is above `basis` or doesn't belong same branch
 MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionItem* item,
                                        int level = 0);
+
+
+//! Returns true if given item has appearance flag set.
+MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem* item, Appearance flag);
+
 
 }  // namespace mvvm::utils
 

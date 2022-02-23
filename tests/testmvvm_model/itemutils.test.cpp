@@ -405,3 +405,32 @@ TEST_F(ItemUtilsTest, GetNestlingDepth)
   EXPECT_EQ(GetNestlingDepth(grand_parent, parent), 1);
   EXPECT_EQ(GetNestlingDepth(child, parent), -1);
 }
+
+TEST_F(ItemUtilsTest, HasAppearanceFlag)
+{
+  using mvvm::utils::HasAppearanceFlag;
+  SessionItem item;
+
+  // by default item has no appearance flags
+  EXPECT_FALSE(HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kEditable));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+
+  // FIXME change default appearance behavior  (see also sessionitem.test.cpp)
+  // Current behavior is that an item doesn't have an appearance flag, while
+  // still reporting IsEnabled, IsEditable, IsVisible. This flags will be created
+  // automatically after first attempt to change default appearance flags.
+
+  item.SetEnabled(true);
+  EXPECT_TRUE(HasAppearanceFlag(&item, kEnabled));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+
+  item.SetAppearanceFlag(kProperty, true);
+  EXPECT_TRUE(HasAppearanceFlag(&item, kEnabled));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kProperty));
+}
