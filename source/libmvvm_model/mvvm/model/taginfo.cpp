@@ -47,7 +47,9 @@ TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> i
   return TagInfo(std::move(name), 0, -1, std::move(item_types));
 }
 
-//! Constructs tag intended for single property.
+//! Constructs tag intended for single property item.
+//! A property item is an item with the following features: it can't be removed, it appears in
+//! property editors, it doesn't appear in a list of top-level items.
 
 TagInfo TagInfo::CreatePropertyTag(std::string name, std::string item_type)
 {

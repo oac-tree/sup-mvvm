@@ -21,15 +21,16 @@
 
 #include "mvvm/model/itemutils.h"
 
-using namespace mvvm;
-
 namespace
 {
-bool HasCustomDisplayName(const SessionItem *item)
+bool HasCustomDisplayName(const mvvm::SessionItem *item)
 {
   return item->SessionItem::GetDisplayName() != item->GetType();
 }
 }  // namespace
+
+namespace mvvm
+{
 
 CompoundItem::CompoundItem(const std::string &item_type) : SessionItem(item_type) {}
 
@@ -55,3 +56,5 @@ std::string CompoundItem::GetDisplayName() const
   return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)
                            : SessionItem::GetDisplayName();
 }
+
+}  // namespace mvvm

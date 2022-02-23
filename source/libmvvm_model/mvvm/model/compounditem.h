@@ -39,8 +39,10 @@ public:
 
   explicit CompoundItem(const std::string& item_type = Type);
 
-  //! Adds property item of given type and register it under the given 'name'.
-  template <typename T = PropertyItem>
+  //! Adds an item of a given type and register it under the given 'name' as a property item.
+  //! A property item is an item with the following features: it can't be removed, it appears in
+  //! property editors, it doesn't appear in a list of top-level items.
+  template <typename T>
   T* AddProperty(const std::string& name);
 
   //! Adds PropertyItem and sets its value to 'value'.
@@ -78,7 +80,7 @@ PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
 }
 
 //! Returns data stored in property item.
-//! Property is single item registered under certain tag via CompoundItem::addProperty method.
+//! Property is single item registered under certain tag via CompoundItem::AddProperty method.
 
 template <typename T>
 inline T CompoundItem::Property(const std::string& tag) const
@@ -87,7 +89,7 @@ inline T CompoundItem::Property(const std::string& tag) const
 }
 
 //! Sets value to property item.
-//! Property is single item registered under certain tag via CompoundItem::addProperty method, the
+//! Property is single item registered under certain tag via CompoundItem::AddProperty method, the
 //! value will be assigned to it's data role.
 
 template <typename T>
