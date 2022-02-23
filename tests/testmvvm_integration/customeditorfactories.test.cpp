@@ -78,6 +78,10 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
   // String as color
   index = AddDataToModel(variant_t("red"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
+
+  // double
+  index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
+  EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
@@ -104,8 +108,6 @@ TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
 }
-
-//! Default editor factory for the moment reproduces VariantDependentEditorFactory
 
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
 {
