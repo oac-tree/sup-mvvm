@@ -38,7 +38,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLDataString_EmptyString)
   EXPECT_THROW(mvvm::ParseXMLDataString(""), std::runtime_error);
 
   // empty xml file with default root node
-  auto tree = mvvm::ParseXMLDataString(TestUtils::CreateXMLDocumentString(""));
+  auto tree = mvvm::ParseXMLDataString(testutils::CreateXMLDocumentString(""));
   ASSERT_TRUE(tree.get() != nullptr);
   EXPECT_EQ(tree->GetType(), "root");
   EXPECT_EQ(tree->GetNumberOfAttributes(), 0);
@@ -54,7 +54,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLDataString_TagInfo)
 <TagInfo min="-1" name="TagName">model1, model2</TagInfo>
 )"};
 
-  auto tree = mvvm::ParseXMLDataString(TestUtils::CreateXMLDocumentString(body));
+  auto tree = mvvm::ParseXMLDataString(testutils::CreateXMLDocumentString(body));
   ASSERT_TRUE(tree.get() != nullptr);
   ASSERT_EQ(tree->GetNumberOfChildren(), 1);
 

@@ -32,7 +32,7 @@ FolderBasedTest::FolderBasedTest(std::string folder_name) : m_folder_name(std::m
 
 std::string FolderBasedTest::GetTestDirectory() const
 {
-  return TestUtils::GetTestOutputDir() + std::string("/") + m_folder_name;
+  return testutils::GetTestOutputDir() + std::string("/") + m_folder_name;
 }
 
 //! Returns full path to the file with given name located in test directory.

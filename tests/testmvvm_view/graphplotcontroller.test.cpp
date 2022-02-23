@@ -76,8 +76,8 @@ TEST_F(GraphPlotControllerTest, setItem)
   // Checking resulting plottables
   EXPECT_EQ(custom_plot->graphCount(), 1);
   auto graph = custom_plot->graph();
-  EXPECT_EQ(TestUtils::GetBinCenters(graph), expected_centers);
-  EXPECT_EQ(TestUtils::GetValues(graph), expected_values);
+  EXPECT_EQ(testutils::GetBinCenters(graph), expected_centers);
+  EXPECT_EQ(testutils::GetValues(graph), expected_values);
   EXPECT_EQ(graph->pen().color(), QColor(Qt::black));
   EXPECT_EQ(graph->pen().style(), Qt::SolidLine);
   EXPECT_EQ(graph->pen().width(), 1);
@@ -147,8 +147,8 @@ TEST_F(GraphPlotControllerTest, setPointwiseItem)
   // Checking resulting plottables
   EXPECT_EQ(custom_plot->graphCount(), 1);
   auto graph = custom_plot->graph();
-  EXPECT_EQ(TestUtils::GetBinCenters(graph), expected_centers);
-  EXPECT_EQ(TestUtils::GetValues(graph), expected_values);
+  EXPECT_EQ(testutils::GetBinCenters(graph), expected_centers);
+  EXPECT_EQ(testutils::GetValues(graph), expected_values);
   EXPECT_EQ(graph->pen().color(), QColor(Qt::red));
 }
 
@@ -167,8 +167,8 @@ TEST_F(GraphPlotControllerTest, SetDataAfter)
   // without data QCustomPlot has a graph without points
   EXPECT_EQ(custom_plot->graphCount(), 1);
   auto graph = custom_plot->graph();
-  EXPECT_EQ(TestUtils::GetBinCenters(graph), std::vector<double>());
-  EXPECT_EQ(TestUtils::GetValues(graph), std::vector<double>());
+  EXPECT_EQ(testutils::GetBinCenters(graph), std::vector<double>());
+  EXPECT_EQ(testutils::GetValues(graph), std::vector<double>());
 
   // setup Data1DItem and assign to GraphItem
   auto data_item = model.InsertItem<Data1DItem>();
@@ -181,8 +181,8 @@ TEST_F(GraphPlotControllerTest, SetDataAfter)
 
   // Checking resulting plottables
   EXPECT_EQ(custom_plot->graphCount(), 1);
-  EXPECT_EQ(TestUtils::GetBinCenters(graph), expected_centers);
-  EXPECT_EQ(TestUtils::GetValues(graph), expected_values);
+  EXPECT_EQ(testutils::GetBinCenters(graph), expected_centers);
+  EXPECT_EQ(testutils::GetValues(graph), expected_values);
 }
 
 //! Unlinking from Data1DItem or GraphItem.
@@ -216,8 +216,8 @@ TEST_F(GraphPlotControllerTest, UnlinkFromItem)
   // Current convention is that graph stays intact, but points disappear.
   EXPECT_EQ(custom_plot->graphCount(), 1);
   auto graph = custom_plot->graph();
-  EXPECT_EQ(TestUtils::GetBinCenters(graph), std::vector<double>());
-  EXPECT_EQ(TestUtils::GetValues(graph), std::vector<double>());
+  EXPECT_EQ(testutils::GetBinCenters(graph), std::vector<double>());
+  EXPECT_EQ(testutils::GetValues(graph), std::vector<double>());
   EXPECT_EQ(graph->pen().color(), QColor(Qt::red));
 
   // unlinking from graph item should remove Graph from CustomPlot

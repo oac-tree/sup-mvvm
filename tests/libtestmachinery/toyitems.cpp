@@ -19,7 +19,7 @@
 
 #include "toyitems.h"
 
-namespace TestUtils::ToyItems
+namespace testutils::toyitems
 {
 
 LayerItem::LayerItem() : mvvm::CompoundItem("Layer")

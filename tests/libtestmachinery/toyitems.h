@@ -26,7 +26,7 @@
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
 
-namespace TestUtils::ToyItems
+namespace testutils::toyitems
 {
 
 class LayerItem : public mvvm::CompoundItem

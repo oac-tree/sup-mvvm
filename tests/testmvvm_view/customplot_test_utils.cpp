@@ -33,17 +33,17 @@ std::vector<double> GetOperandValues(const G* graph, T operand)
   return result;
 }
 
-std::vector<double> TestUtils::GetBinCenters(const QCPGraph* graph)
+std::vector<double> testutils::GetBinCenters(const QCPGraph* graph)
 {
   return GetOperandValues(graph, [](auto x) { return x.key; });
 }
 
-std::vector<double> TestUtils::GetValues(const QCPGraph* graph)
+std::vector<double> testutils::GetValues(const QCPGraph* graph)
 {
   return GetOperandValues(graph, [](auto x) { return x.value; });
 }
 
-std::vector<double> TestUtils::GetErrors(const QCPGraph* graph)
+std::vector<double> testutils::GetErrors(const QCPGraph* graph)
 {
   std::vector<double> result;
   if (auto errorBars = GetPlottable<QCPErrorBars>(graph->parentPlot()); errorBars)

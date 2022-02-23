@@ -36,7 +36,7 @@ const std::string footer{R"RAW(</root>
 
 }  // namespace
 
-namespace TestUtils
+namespace testutils
 {
 std::string GetTestOutputDir()
 {

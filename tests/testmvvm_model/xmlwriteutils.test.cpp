@@ -50,7 +50,7 @@ TEST_F(XMLWriteUtilsTest, WriteElement)
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElement.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
 
 //! Write a single element with attribute.
@@ -70,7 +70,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementWithAttribute.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
 
 //! Write a single element with attribute.
@@ -91,7 +91,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementWithTwoAttributes.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
 
 //! Write a single element with content defined.
@@ -111,7 +111,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementContent)
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementContent.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
 
 //! Write a single element with attribute and content defined.
@@ -132,7 +132,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementAttributeAndContent)
   // writing to file and checking its content
   const auto file_path = GetFilePath("element_with_content_and_attribute.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
 
 //! Write a single element with attribute and content defined.
@@ -156,7 +156,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteElementWithChildren.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
 
 //! Write a single element with attribute and content defined.
@@ -189,5 +189,5 @@ TEST_F(XMLWriteUtilsTest, WriteItemData)
   // writing to file and checking its content
   const auto file_path = GetFilePath("WriteItemData.xml");
   mvvm::WriteToXMLFile(file_path, tree_data);
-  EXPECT_EQ(TestUtils::GetTextFileContent(file_path), expected);
+  EXPECT_EQ(testutils::GetTextFileContent(file_path), expected);
 }
