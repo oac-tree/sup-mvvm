@@ -22,11 +22,11 @@
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/taginfo.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/model/applicationmodel.h"
 
 #include <gtest/gtest.h>
+#include "toyitems.h"
 
 #include <QSignalSpy>
 
@@ -36,39 +36,6 @@ using namespace mvvm;
 
 class PropertyViewModelTest : public ::testing::Test
 {
-public:
-  class LayerItem : public mvvm::CompoundItem
-  {
-  public:
-    static inline const std::string Type = "Layer";
-    LayerItem() : CompoundItem(Type)
-    {
-      AddProperty("Thickness", 42.0);
-      AddProperty("Color", std::string("black"));
-    }
-  };
-
-  //! Represents multilayer with collection of layers.
-  class MultiLayerItem : public mvvm::CompoundItem
-  {
-  public:
-    static inline const std::string Type = "MultiLayer";
-    MultiLayerItem() : CompoundItem(Type)
-    {
-      RegisterTag(mvvm::TagInfo::CreateUniversalTag("Layer", {LayerItem::Type}),
-                  /*set_as_default*/ true);
-    }
-  };
-
-  class TestModel : public ApplicationModel
-  {
-  public:
-    TestModel() : ApplicationModel("TestModel")
-    {
-      RegisterItem<LayerItem>();
-      RegisterItem<MultiLayerItem>();
-    }
-  };
 };
 
 TEST_F(PropertyViewModelTest, InitialState)
@@ -174,7 +141,9 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 
 TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
 {
-  TestModel model;
+  using namespace TestUtils::ToyItems;
+
+  SampleModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
   auto layer = model.InsertItem<LayerItem>(multilayer);
 
