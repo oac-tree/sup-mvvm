@@ -44,7 +44,8 @@ enum Appearance
 {
   kEnabled = 1,   // enabled in Qt widgets; when disabled, will be shown in gray
   kEditable = 2,  // editable in Qt widgets; readonly otherwise
-  kVisible = 4    // visible in Qt widgets; doesn't appear in trees and tables otherwise
+  kVisible = 4,   // visible in Qt widgets; doesn't appear in trees and tables otherwise
+  kProperty = 8,  // item appears in property editors; doesn't appear as top-level item
 };
 
 }  // namespace mvvm

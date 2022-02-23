@@ -237,7 +237,7 @@ TEST_F(SessionItemTest, RegisterItem)
 {
   auto item = std::make_unique<SessionItem>();
   auto item_id = item->GetIdentifier();
-  EXPECT_EQ(item->GetItemData()->GetRoles().size(), 2u);
+  EXPECT_EQ(item->GetItemData()->GetRoles().size(), 2);
 
   std::shared_ptr<ItemPool> pool;
 
@@ -666,6 +666,39 @@ TEST_F(SessionItemTest, Appearance)
   EXPECT_FALSE(item.IsEnabled());
   EXPECT_FALSE(item.IsEditable());
   EXPECT_FALSE(item.IsVisible());
+}
+
+//! Sets appearance flag
+
+TEST_F(SessionItemTest, SetAppearanceFlag)
+{
+  // FIXME change default appearance behavior (see also itemutils.test.cpp)
+  // Current behavior is that an item doesn't have an appearance flag, while
+  // still reporting IsEnabled, IsEditable, IsVisible. This flags will be created
+  // automatically after first attempt to change default appearance flags.
+
+  SessionItem item;
+
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEnabled));
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEditable));
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kProperty));
+
+  // there shouldn't be any data
+  auto variant = item.Data(DataRole::kAppearance);
+  EXPECT_FALSE(utils::IsValid(variant));
+
+  item.SetAppearanceFlag(kProperty, true);
+
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEnabled));
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEditable));
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kVisible));
+  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kProperty));
+
+  // default status
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
 }
 
 //! Checks item tooltip.

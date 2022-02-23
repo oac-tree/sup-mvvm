@@ -130,6 +130,8 @@ public:
   std::string GetEditorType() const;
   SessionItem* SetEditorType(const std::string& editor_type);
 
+  void SetAppearanceFlag(int flag, bool value);
+
 protected:
   explicit SessionItem(const std::string& item_type);
 
@@ -142,7 +144,6 @@ private:
 
   void SetParent(SessionItem* parent);
   void SetModel(SessionModel* model);
-  void SetAppearanceFlag(int flag, bool value);
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 

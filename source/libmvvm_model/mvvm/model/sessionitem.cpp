@@ -343,6 +343,23 @@ SessionItem* SessionItem::SetEditorType(const std::string& editor_type)
   return this;
 }
 
+//! Sets appearance flag to given value.
+
+void SessionItem::SetAppearanceFlag(int flag, bool value)
+{
+  int flags = appearance(*this);
+  if (value)
+  {
+    flags |= flag;
+  }
+  else
+  {
+    flags &= ~flag;
+  }
+
+  SetData(flags, DataRole::kAppearance);
+}
+
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
 bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
@@ -383,21 +400,6 @@ void SessionItem::SetModel(SessionModel* model)
   {
     child->SetModel(model);
   }
-}
-
-void SessionItem::SetAppearanceFlag(int flag, bool value)
-{
-  int flags = appearance(*this);
-  if (value)
-  {
-    flags |= flag;
-  }
-  else
-  {
-    flags &= ~flag;
-  }
-
-  SetData(flags, DataRole::kAppearance);
 }
 
 void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
