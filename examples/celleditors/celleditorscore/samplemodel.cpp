@@ -33,7 +33,7 @@ DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
   AddProperty(kInteger, 42)->SetDisplayName("Integer");
   AddProperty(kString, "abc")->SetDisplayName("String");
   AddProperty(kDouble, 42.1234)->SetDisplayName("Double");
-  AddProperty(kScientificDouble, 42.12e-09)->SetDisplayName("Scientific");
+  AddProperty(kScientificDouble, 42.12e-09)->SetDisplayName("Scientific")->SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
   AddProperty(kColor, "green")
       ->SetDisplayName("Color")
       ->SetEditorType(mvvm::constants::kColorEditorType);

@@ -94,6 +94,15 @@ TEST_F(DefaultCellDecoratorTest, ExternalPropertyDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("text"));
 }
 
+TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
+{
+  TestDecorator decorator;
+
+  auto index = AddDataToModel(42.1234321);
+  EXPECT_TRUE(decorator.HasCustomDecoration(index));
+  EXPECT_EQ(decorator.GetText(index), std::string("42.1234"));
+}
+
 //! Variants that do not nave special decorations
 
 TEST_F(DefaultCellDecoratorTest, DefaultDecorations)
@@ -101,9 +110,6 @@ TEST_F(DefaultCellDecoratorTest, DefaultDecorations)
   TestDecorator decorator;
 
   auto index = AddDataToModel(42);
-  EXPECT_FALSE(decorator.HasCustomDecoration(index));
-
-  index = AddDataToModel(42.2);
   EXPECT_FALSE(decorator.HasCustomDecoration(index));
 
   index = AddDataToModel(std::string("abc"));

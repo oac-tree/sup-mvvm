@@ -9,6 +9,8 @@
 
 #include "mvvm/delegates/defaultcelldecorator.h"
 
+#include "mvvm/editors/scientificspinbox.h"
+#include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/viewmodel/customvariants.h"
 
 #include <QModelIndex>
@@ -49,12 +51,12 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
   //  else if (Utils::IsColorVariant(variant))
   //    return std::optional<std::string>{std::string()};
 
-  //! FIXME uncomment after ScientificSpinBox implementation
-  //  else if (Utils::IsDoubleVariant(variant))
-  //    return std::optional<std::string>{
-  //        ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
-  //                                    Constants::default_double_decimals)
-  //            .toStdString()};
+  if (utils::IsDoubleVariant(variant))
+  {
+    auto str = ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
+                                           constants::default_double_decimals);
+    return std::optional<std::string>{str.toStdString()};
+  }
 
   return {};
 }
