@@ -138,7 +138,7 @@ std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
   {
-    if (child->IsVisible() && !IsSinglePropertyTag(item, item.TagIndexOfItem(child).tag))
+    if (child->IsVisible() && !HasAppearanceFlag(child, kProperty))
     {
       result.push_back(child);
     }

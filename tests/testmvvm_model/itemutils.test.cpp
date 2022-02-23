@@ -176,12 +176,11 @@ TEST_F(ItemUtilsTest, TopLevelItems)
 {
   SessionModel model;
 
-  auto parent = model.InsertItem<SessionItem>();
+  auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto child2 = parent->AddProperty("thickness", 42.0);
   auto child3 = model.InsertItem<SessionItem>(parent, "default_tag");
 
   EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
@@ -196,16 +195,16 @@ TEST_F(ItemUtilsTest, TopLevelItemsWhenHidden)
 {
   SessionModel model;
 
-  auto parent = model.InsertItem<SessionItem>();
+  auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag1"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag2"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag1");
   auto child2 = model.InsertItem<SessionItem>(parent, "default_tag1");
   child2->SetVisible(false);
   auto child3 = model.InsertItem<SessionItem>(parent, "default_tag2");
-  model.InsertItem<PropertyItem>(parent, "property_tag");
+
+  auto child4 = parent->AddProperty("thickness", 42.0);
 
   EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
   EXPECT_EQ(utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
