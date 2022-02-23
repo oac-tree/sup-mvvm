@@ -96,13 +96,11 @@ TEST_F(PropertyViewModelTest, BaseItem)
 TEST_F(PropertyViewModelTest, PropertyItem)
 {
   ApplicationModel model;
-  auto parent = model.InsertItem<SessionItem>();
+  auto parent = model.InsertItem<CompoundItem>();
+  auto property = parent->AddProperty("thickness", 0.0);
 
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
-  model.InsertItem<SessionItem>(parent, "universal_tag");
-  model.InsertItem<PropertyItem>(parent, "property_tag");
   model.InsertItem<SessionItem>(parent, "universal_tag");
 
   PropertyViewModel viewModel(&model);

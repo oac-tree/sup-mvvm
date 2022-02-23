@@ -218,17 +218,20 @@ TEST_F(ItemUtilsTest, SinglePropertyItems)
 {
   SessionModel model;
 
-  auto parent = model.InsertItem<SessionItem>();
+  auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
   auto child2 = model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto child3 = parent->AddProperty<VectorItem>("position");
+  auto child4 = parent->AddProperty("thickness", 42.0);
+
   model.InsertItem<SessionItem>(parent, "default_tag");
 
   EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child2}));
+  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child3, child4}));
 }
 
 //! Check access to top level and property items when some of items are hidden via corresponding
@@ -238,16 +241,13 @@ TEST_F(ItemUtilsTest, SinglePropertyItemsWhenHidden)
 {
   SessionModel model;
 
-  auto parent = model.InsertItem<SessionItem>();
+  auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag1", PropertyItem::Type));
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag2", PropertyItem::Type));
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child2 = model.InsertItem<PropertyItem>(parent, "property_tag1");
+  auto child2 = parent->AddProperty<VectorItem>("position");
   child2->SetVisible(false);
-  auto child3 = model.InsertItem<PropertyItem>(parent, "property_tag2");
-  model.InsertItem<SessionItem>(parent, "default_tag");
+  auto child3 = parent->AddProperty("thickness", 42.0);
 
   EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));

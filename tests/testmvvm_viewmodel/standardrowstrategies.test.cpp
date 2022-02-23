@@ -196,13 +196,11 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyBaseItemInModelContext)
 TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItemTree)
 {
   SessionModel model;
-  auto parent = model.InsertItem<SessionItem>();
+  auto parent = model.InsertItem<CompoundItem>();
+  parent->AddProperty("thickness", 0.0);
 
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
-
   model.InsertItem<SessionItem>(parent, "universal_tag");
-  model.InsertItem<PropertyItem>(parent, "property_tag");
 
   PropertiesRowStrategy strategy;
   auto items = strategy.ConstructRow(model.GetRootItem());
