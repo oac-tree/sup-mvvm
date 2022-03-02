@@ -35,7 +35,7 @@ class SessionModel;
 class MVVM_MODEL_EXPORT XmlDocument
 {
 public:
-  XmlDocument(const std::vector<SessionModel*>& models);
+  explicit XmlDocument(const std::vector<SessionModel*>& models);
   ~XmlDocument();
 
   void Save(const std::string& file_name) const;
