@@ -38,7 +38,7 @@ TEST_F(ModelHasChangedControllerTest, initialState)
 {
   ApplicationModel model;
   ModelHasChangedController controller(&model);
-  EXPECT_FALSE(controller.hasChanged());
+  EXPECT_FALSE(controller.IsChanged());
 }
 
 //! Tests if controller 'sees' item insertion.
@@ -49,10 +49,10 @@ TEST_F(ModelHasChangedControllerTest, insertItem)
   ModelHasChangedController controller(&model);
 
   model.InsertItem<PropertyItem>();
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
 
-  controller.resetChanged();
-  EXPECT_FALSE(controller.hasChanged());
+  controller.ResetIsChanged();
+  EXPECT_FALSE(controller.IsChanged());
 }
 
 //! Tests if controller sees item insertion.
@@ -63,11 +63,11 @@ TEST_F(ModelHasChangedControllerTest, removeItem)
   auto item = model.InsertItem<PropertyItem>();
 
   ModelHasChangedController controller(&model);
-  EXPECT_FALSE(controller.hasChanged());
+  EXPECT_FALSE(controller.IsChanged());
 
   model.RemoveItem(item);
 
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
 }
 
 //! Tests if controller sees item data change.
@@ -78,10 +78,10 @@ TEST_F(ModelHasChangedControllerTest, dataChanged)
   auto item = model.InsertItem<PropertyItem>();
 
   ModelHasChangedController controller(&model);
-  EXPECT_FALSE(controller.hasChanged());
+  EXPECT_FALSE(controller.IsChanged());
 
   item->SetData(42.0);
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
 }
 
 //! Tests if controller sees model reset.
@@ -92,10 +92,10 @@ TEST_F(ModelHasChangedControllerTest, modelReset)
   model.InsertItem<PropertyItem>();
 
   ModelHasChangedController controller(&model);
-  EXPECT_FALSE(controller.hasChanged());
+  EXPECT_FALSE(controller.IsChanged());
 
   model.Clear();
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
 }
 
 //! Tests callback functioning.
@@ -109,11 +109,11 @@ TEST_F(ModelHasChangedControllerTest, callback)
   ModelHasChangedController controller(&model, on_change);
 
   model.InsertItem<PropertyItem>();
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
   EXPECT_EQ(change_count, 1);
 
-  controller.resetChanged();
-  EXPECT_FALSE(controller.hasChanged());
+  controller.ResetIsChanged();
+  EXPECT_FALSE(controller.IsChanged());
   EXPECT_EQ(change_count, 1);
 }
 
@@ -129,7 +129,7 @@ TEST_F(ModelHasChangedControllerTest, timeOfLife)
 
   // change the model, check controller
   model.InsertItem<PropertyItem>();
-  EXPECT_TRUE(controller->hasChanged());
+  EXPECT_TRUE(controller->IsChanged());
   EXPECT_EQ(change_count, 1);
 
   // remove controller, change the model

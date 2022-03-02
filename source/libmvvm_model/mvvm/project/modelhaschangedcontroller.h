@@ -10,8 +10,8 @@
 #ifndef MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
 #define MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
 
-#include "mvvm/signals/modellistener.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/signals/modellistener.h"
 
 #include <functional>
 
@@ -26,14 +26,14 @@ class MVVM_MODEL_EXPORT ModelHasChangedController : public ModelListener<Applica
 {
 public:
   using callback_t = std::function<void()>;
-  explicit ModelHasChangedController(ApplicationModel* model, callback_t callback = {});
+  explicit ModelHasChangedController(ApplicationModel* model, const callback_t& callback = {});
 
-  bool hasChanged() const;
+  bool IsChanged() const;
 
-  void resetChanged();
+  void ResetIsChanged();
 
 private:
-  void process_change();
+  void OnChange();
   bool m_has_changed{false};
   callback_t m_callback;  //! informs the user about change in the model
 };

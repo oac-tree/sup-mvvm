@@ -17,36 +17,38 @@ namespace mvvm
 //! Constructor of ModelHasChangedController.
 //! Acccept 'model' to listen, and a 'callback' to report about changes in a model.
 
-ModelHasChangedController::ModelHasChangedController(ApplicationModel* model, callback_t callback)
+ModelHasChangedController::ModelHasChangedController(ApplicationModel* model, const callback_t &callback)
     : ModelListener(model), m_callback(callback)
 {
-  SetOnDataChanged([this](auto, auto) { process_change(); });
-  SetOnItemInserted([this](auto, auto) { process_change(); });
-  SetOnItemRemoved([this](auto, auto) { process_change(); });
-  SetOnModelReset([this](auto) { process_change(); });
+  SetOnDataChanged([this](auto, auto) { OnChange(); });
+  SetOnItemInserted([this](auto, auto) { OnChange(); });
+  SetOnItemRemoved([this](auto, auto) { OnChange(); });
+  SetOnModelReset([this](auto) { OnChange(); });
 }
 
 //! Returns true if the model was changed since last call of resetChanged.
 
-bool ModelHasChangedController::hasChanged() const
+bool ModelHasChangedController::IsChanged() const
 {
   return m_has_changed;
 }
 
 //! Reset has_changed flag.
 
-void ModelHasChangedController::resetChanged()
+void ModelHasChangedController::ResetIsChanged()
 {
   m_has_changed = false;
 }
 
 //! Sets 'has_changed' flag and reports back to client.
 
-void ModelHasChangedController::process_change()
+void ModelHasChangedController::OnChange()
 {
   m_has_changed = true;
   if (m_callback)
+  {
     m_callback();
+  }
 }
 
 }  // namespace mvvm
