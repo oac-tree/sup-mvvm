@@ -55,7 +55,7 @@ void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *sub
   subscriber->SetOnModelReset(on_model_reset, m_slot.get());
 
   auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
-  subscriber->SeOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
+  subscriber->SetOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
 }
 
 void AbstractViewModelController::UnsubscribeFrom(ModelEventSubscriberInterface *subscriber)

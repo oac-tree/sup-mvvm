@@ -79,7 +79,7 @@ Connection ModelEventNotifier::SetOnModelReset(Callbacks::model_t f, Slot *slot)
   return p_impl->m_model_reset.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SeOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot *slot)
 {
   return p_impl->m_model_about_to_be_destroyed.connect(f, slot);
 }

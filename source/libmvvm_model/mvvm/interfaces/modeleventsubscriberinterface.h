@@ -65,7 +65,7 @@ public:
   virtual Connection SetOnModelReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
 
   //! Sets the callback for notifications just before model destruction.
-  virtual Connection SeOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot = nullptr) = 0;
 };
 
 }  // namespace mvvm

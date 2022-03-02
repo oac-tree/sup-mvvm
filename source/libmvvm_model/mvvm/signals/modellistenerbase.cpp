@@ -79,7 +79,7 @@ Connection ModelListenerBase::SetOnModelReset(const Callbacks::model_t &f)
 
 Connection ModelListenerBase::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f)
 {
-  return p_impl->GetSubscriber()->SeOnModelAboutToBeDestroyed(f, p_impl->GetSlot());
+  return p_impl->GetSubscriber()->SetOnModelAboutToBeDestroyed(f, p_impl->GetSlot());
 }
 
 ModelListenerBase::~ModelListenerBase() = default;

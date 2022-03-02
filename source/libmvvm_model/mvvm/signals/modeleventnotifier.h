@@ -55,7 +55,7 @@ public:
 
   Connection SetOnModelReset(Callbacks::model_t f, Slot* slot) override;
 
-  Connection SeOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot) override;
+  Connection SetOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot) override;
 
   // methods to trigger notifications
   // FIXME consider making private inheritance from ModelEventSubscriberInterface, and making
