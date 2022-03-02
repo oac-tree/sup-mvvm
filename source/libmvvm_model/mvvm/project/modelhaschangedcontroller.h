@@ -26,7 +26,7 @@ class MVVM_MODEL_EXPORT ModelHasChangedController : public ModelListener<Applica
 {
 public:
   using callback_t = std::function<void()>;
-  ModelHasChangedController(ApplicationModel* model, callback_t callback = {});
+  explicit ModelHasChangedController(ApplicationModel* model, callback_t callback = {});
 
   bool hasChanged() const;
 
