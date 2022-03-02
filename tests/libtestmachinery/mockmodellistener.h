@@ -21,7 +21,8 @@
 #define MOCKMODELLISTENER_H
 
 #include "mvvm/interfaces/modeleventsubscriberinterface.h"
-#include "mvvm/signals/signalslot.h"
+#include "mvvm/model/applicationmodel.h"
+#include "mvvm/signals/modellistener.h"
 
 #include <gmock/gmock.h>
 
@@ -31,19 +32,15 @@ namespace mvvm
 {
 class SessionItem;
 class TagIndex;
-class ApplicationModel;
 }  // namespace mvvm
 
 //! Mocking class to test ModelEventListenerInterface reactions on notifications issued by
 //! ModelEventNotifier.
 
-class MockModelListener
+class MockModelListener : public mvvm::ModelListener<mvvm::ApplicationModel>
 {
 public:
-  MockModelListener(mvvm::ApplicationModel* model = nullptr);
-
-  void Subscribe(mvvm::ModelEventSubscriberInterface* subscriber);
-  void Unsubscribe();
+  explicit MockModelListener(mvvm::ApplicationModel* model);
 
   MOCK_METHOD2(OnAboutToInsertItem,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
@@ -62,9 +59,6 @@ public:
   MOCK_METHOD1(OnModelReset, void(mvvm::SessionModel* model));
 
   MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
-
-protected:
-  std::unique_ptr<mvvm::Slot> m_slot;
 };
 
 #endif  // MOCKMODELLISTENER_H

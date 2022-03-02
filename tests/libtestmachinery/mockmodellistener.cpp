@@ -20,48 +20,32 @@
 #include "mockmodellistener.h"
 
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/model/applicationmodel.h"
 
-MockModelListener::MockModelListener(mvvm::ApplicationModel *model)
+MockModelListener::MockModelListener(mvvm::ApplicationModel *model)  : ModelListener(model)
 {
-  if (model)
-  {
-    Subscribe(model->GetSubscriber());
-  }
-}
-
-void MockModelListener::Subscribe(mvvm::ModelEventSubscriberInterface *subscriber)
-{
-  m_slot = std::make_unique<mvvm::Slot>();
-
   auto on_about_to_insert = [this](auto item, auto tagindex)
   { OnAboutToInsertItem(item, tagindex); };
-  subscriber->SetOnAboutToInsertItem(on_about_to_insert, m_slot.get());
+  SetOnAboutToInsertItem(on_about_to_insert);
 
   auto on_item_inserted = [this](auto item, auto tagindex) { OnItemInserted(item, tagindex); };
-  subscriber->SetOnItemInserted(on_item_inserted, m_slot.get());
+  SetOnItemInserted(on_item_inserted);
 
   auto on_about_to_remove = [this](auto item, auto tagindex)
   { OnAboutToRemoveItem(item, tagindex); };
-  subscriber->SetOnAboutToRemoveItem(on_about_to_remove, m_slot.get());
+  SetOnAboutToRemoveItem(on_about_to_remove);
 
   auto on_item_removed = [this](auto item, auto tagindex) { OnItemRemoved(item, tagindex); };
-  subscriber->SetOnItemRemoved(on_item_removed, m_slot.get());
+  SetOnItemRemoved(on_item_removed);
 
   auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
-  subscriber->SetOnDataChanged(on_data_changed, m_slot.get());
+  SetOnDataChanged(on_data_changed);
 
   auto on_model_about_reset = [this](auto model) { OnModelAboutToBeReset(model); };
-  subscriber->SetOnModelAboutToBeReset(on_model_about_reset, m_slot.get());
+  SetOnModelAboutToBeReset(on_model_about_reset);
 
   auto on_model_reset = [this](auto model) { OnModelReset(model); };
-  subscriber->SetOnModelReset(on_model_reset, m_slot.get());
+  SetOnModelReset(on_model_reset);
 
   auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
-  subscriber->SetOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
-}
-
-void MockModelListener::Unsubscribe()
-{
-  m_slot.reset();
+  SetOnModelAboutToBeDestroyed(on_model_about_destroyed);
 }
