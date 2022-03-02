@@ -19,11 +19,10 @@
 
 #include "mvvm/signals/modeleventnotifier.h"
 
-#include "mockmodellistener.h"
-
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -34,10 +33,68 @@ using ::testing::_;
 class ModelEventNotifierTest : public ::testing::Test
 {
 public:
+  class TestListener
+  {
+  public:
+    void Subscribe(mvvm::ModelEventSubscriberInterface* subscriber)
+    {
+      m_slot = std::make_unique<mvvm::Slot>();
+
+      auto on_about_to_insert = [this](auto item, auto tagindex)
+      { OnAboutToInsertItem(item, tagindex); };
+      subscriber->SetOnAboutToInsertItem(on_about_to_insert, m_slot.get());
+
+      auto on_item_inserted = [this](auto item, auto tagindex) { OnItemInserted(item, tagindex); };
+      subscriber->SetOnItemInserted(on_item_inserted, m_slot.get());
+
+      auto on_about_to_remove = [this](auto item, auto tagindex)
+      { OnAboutToRemoveItem(item, tagindex); };
+      subscriber->SetOnAboutToRemoveItem(on_about_to_remove, m_slot.get());
+
+      auto on_item_removed = [this](auto item, auto tagindex) { OnItemRemoved(item, tagindex); };
+      subscriber->SetOnItemRemoved(on_item_removed, m_slot.get());
+
+      auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
+      subscriber->SetOnDataChanged(on_data_changed, m_slot.get());
+
+      auto on_model_about_reset = [this](auto model) { OnModelAboutToBeReset(model); };
+      subscriber->SetOnModelAboutToBeReset(on_model_about_reset, m_slot.get());
+
+      auto on_model_reset = [this](auto model) { OnModelReset(model); };
+      subscriber->SetOnModelReset(on_model_reset, m_slot.get());
+
+      auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
+      subscriber->SetOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
+    }
+
+    void Unsubscribe() { m_slot.reset(); }
+
+    MOCK_METHOD2(OnAboutToInsertItem,
+                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+
+    MOCK_METHOD2(OnItemInserted, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+
+    MOCK_METHOD2(OnAboutToRemoveItem,
+                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+
+    MOCK_METHOD2(OnItemRemoved, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+
+    MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
+
+    MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModel* model));
+
+    MOCK_METHOD1(OnModelReset, void(mvvm::SessionModel* model));
+
+    MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
+
+  protected:
+    std::unique_ptr<mvvm::Slot> m_slot;
+  };
+
   ModelEventNotifierTest() { m_listener.Subscribe(&m_notifier); }
 
   ModelEventNotifier m_notifier;
-  MockModelListener m_listener;
+  TestListener m_listener;
 };
 
 //! Checking listener methods when AboutToInsertItem is fired.
@@ -214,7 +271,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   int role{42};
 
   ModelEventNotifier notifier;
-  MockModelListener listener;
+  TestListener listener;
 
   listener.Subscribe(&notifier);
 
@@ -248,8 +305,8 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   int role{42};
 
   ModelEventNotifier notifier;
-  MockModelListener listener1;
-  MockModelListener listener2;
+  TestListener listener1;
+  TestListener listener2;
 
   listener1.Subscribe(&notifier);
   listener2.Subscribe(&notifier);
@@ -291,8 +348,8 @@ TEST_F(ModelEventNotifierTest, UnsubscribeOne)
   int role{42};
 
   ModelEventNotifier notifier;
-  MockModelListener listener1;
-  MockModelListener listener2;
+  TestListener listener1;
+  TestListener listener2;
 
   listener1.Subscribe(&notifier);
   listener2.Subscribe(&notifier);
