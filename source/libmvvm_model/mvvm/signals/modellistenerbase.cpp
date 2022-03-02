@@ -82,6 +82,11 @@ Connection ModelListenerBase::SetOnModelAboutToBeDestroyed(const Callbacks::mode
   return p_impl->GetSubscriber()->SetOnModelAboutToBeDestroyed(f, p_impl->GetSlot());
 }
 
+ApplicationModel *ModelListenerBase::GetCurrentModel() const
+{
+  return p_impl->m_model;
+}
+
 ModelListenerBase::~ModelListenerBase() = default;
 
 }  // namespace mvvm
