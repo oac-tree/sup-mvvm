@@ -42,7 +42,7 @@ class MockModelListener
 public:
   MockModelListener(mvvm::ApplicationModel* model = nullptr);
 
-  void Subscribe(mvvm::ModelEventSubscriberInterface* notifier);
+  void Subscribe(mvvm::ModelEventSubscriberInterface* subscriber);
   void Unsubscribe();
 
   MOCK_METHOD2(OnAboutToInsertItem,

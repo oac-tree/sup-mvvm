@@ -34,7 +34,10 @@ struct ModelListenerBase::ModelListenerBaseImpl
 
   Slot *GetSlot() const { return m_slot.get(); }
 
-  explicit ModelListenerBaseImpl(ApplicationModel *model) : m_model(model) {}
+  explicit ModelListenerBaseImpl(ApplicationModel *model)
+      : m_model(model), m_slot(std::make_unique<Slot>())
+  {
+  }
 };
 
 ModelListenerBase::ModelListenerBase(ApplicationModel *model)
