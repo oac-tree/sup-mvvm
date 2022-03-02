@@ -37,49 +37,48 @@ struct ModelEventNotifier::ModelEventNotifierImpl
   Signal<void(SessionModel *)> m_model_about_to_be_destroyed;
 };
 
-ModelEventNotifier::ModelEventNotifier()
-    : p_impl(std::make_unique<ModelEventNotifierImpl>())
-{
-}
+ModelEventNotifier::ModelEventNotifier() : p_impl(std::make_unique<ModelEventNotifierImpl>()) {}
 
 ModelEventNotifier::~ModelEventNotifier() = default;
 
-Connection ModelEventNotifier::SetOnAboutToInsertItem(Callbacks::item_tagindex_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f,
+                                                      Slot *slot)
 {
   return p_impl->m_about_to_insert_item.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnItemInserted(Callbacks::item_tagindex_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnItemInserted(const Callbacks::item_tagindex_t &f, Slot *slot)
 {
   return p_impl->m_item_inserted.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnAboutToRemoveItem(Callbacks::item_tagindex_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f,
+                                                      Slot *slot)
 {
   return p_impl->m_about_to_remove_item.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnItemRemoved(Callbacks::item_tagindex_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnItemRemoved(const Callbacks::item_tagindex_t &f, Slot *slot)
 {
   return p_impl->m_item_removed.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnDataChanged(Callbacks::item_int_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnDataChanged(const Callbacks::item_int_t &f, Slot *slot)
 {
   return p_impl->m_data_changed.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnModelAboutToBeReset(Callbacks::model_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnModelAboutToBeReset(const Callbacks::model_t &f, Slot *slot)
 {
   return p_impl->m_model_about_to_reset.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnModelReset(Callbacks::model_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnModelReset(const Callbacks::model_t &f, Slot *slot)
 {
   return p_impl->m_model_reset.connect(f, slot);
 }
 
-Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot *slot)
+Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f, Slot *slot)
 {
   return p_impl->m_model_about_to_be_destroyed.connect(f, slot);
 }

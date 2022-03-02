@@ -36,36 +36,41 @@ class SessionModel;
 class MVVM_MODEL_EXPORT ModelEventSubscriberInterface
 {
 public:
-
   //! Sets callback to be notified when the item is about to be inserted. The callback will be
   //! called with (SessionItem* parent, tag_index), where 'tag_index' denotes child position.
-  virtual Connection SetOnAboutToInsertItem(Callbacks::item_tagindex_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f,
+                                            Slot* slot = nullptr) = 0;
 
   //! Sets callback to be notified on item insert. The callback will be called with
   //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position after insert.
-  virtual Connection SetOnItemInserted(Callbacks::item_tagindex_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f,
+                                       Slot* slot = nullptr) = 0;
 
   //! Sets callback to be notified when the item is about to be removed. The callback will be
   //! called with (SessionItem* parent, tag_index), where 'tag_index' denotes child position being
   //! removed.
-  virtual Connection SetOnAboutToRemoveItem(Callbacks::item_tagindex_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& f,
+                                            Slot* slot = nullptr) = 0;
 
   //! Sets callback to be notified on item remove. The callback will be called with
   //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position before the removal.
-  virtual Connection SetOnItemRemoved(Callbacks::item_tagindex_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnItemRemoved(const Callbacks::item_tagindex_t& f,
+                                      Slot* slot = nullptr) = 0;
 
   //! Sets callback to be notified on item's data change. The callback will be called
   //! with (SessionItem*, data_role).
-  virtual Connection SetOnDataChanged(Callbacks::item_int_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnDataChanged(const Callbacks::item_int_t& f, Slot* slot = nullptr) = 0;
 
   //! Sets the callback to be notified just before the reset of the root item.
-  virtual Connection SetOnModelAboutToBeReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnModelAboutToBeReset(const Callbacks::model_t& f,
+                                              Slot* slot = nullptr) = 0;
 
   //! Sets the callback to be notified right after the root item recreation.
-  virtual Connection SetOnModelReset(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnModelReset(const Callbacks::model_t& f, Slot* slot = nullptr) = 0;
 
   //! Sets the callback for notifications just before model destruction.
-  virtual Connection SetOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot = nullptr) = 0;
+  virtual Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f,
+                                                  Slot* slot = nullptr) = 0;
 };
 
 }  // namespace mvvm

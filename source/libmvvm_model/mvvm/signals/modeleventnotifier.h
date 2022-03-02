@@ -41,21 +41,21 @@ public:
 
   // methods to subscribe for notifications
 
-  Connection SetOnAboutToInsertItem(Callbacks::item_tagindex_t f, Slot* slot) override;
+  Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f, Slot* slot) override;
 
-  Connection SetOnItemInserted(Callbacks::item_tagindex_t f, Slot* slot) override;
+  Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f, Slot* slot) override;
 
-  Connection SetOnAboutToRemoveItem(Callbacks::item_tagindex_t f, Slot* slot) override;
+  Connection SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& f, Slot* slot) override;
 
-  Connection SetOnItemRemoved(Callbacks::item_tagindex_t f, Slot* slot) override;
+  Connection SetOnItemRemoved(const Callbacks::item_tagindex_t& f, Slot* slot) override;
 
-  Connection SetOnDataChanged(Callbacks::item_int_t f, Slot* slot) override;
+  Connection SetOnDataChanged(const Callbacks::item_int_t& f, Slot* slot) override;
 
-  Connection SetOnModelAboutToBeReset(Callbacks::model_t f, Slot* slot) override;
+  Connection SetOnModelAboutToBeReset(const Callbacks::model_t& f, Slot* slot) override;
 
-  Connection SetOnModelReset(Callbacks::model_t f, Slot* slot) override;
+  Connection SetOnModelReset(const Callbacks::model_t& f, Slot* slot) override;
 
-  Connection SetOnModelAboutToBeDestroyed(Callbacks::model_t f, Slot* slot) override;
+  Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f, Slot* slot) override;
 
   // methods to trigger notifications
   // FIXME consider making private inheritance from ModelEventSubscriberInterface, and making
