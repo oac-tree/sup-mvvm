@@ -55,10 +55,8 @@ struct ItemListenerBase::ItemListenerBaseImpl
 
 ItemListenerBase::ItemListenerBase() : p_impl(std::make_unique<ItemListenerBaseImpl>(this)) {}
 
-ItemListenerBase::~ItemListenerBase()
-{
-  // destruction of m_slot will destruct all connections
-}
+ItemListenerBase::~ItemListenerBase() =
+    default;  // destruction of m_slot will destruct all connections
 
 void ItemListenerBase::SetItem(SessionItem *item)
 {

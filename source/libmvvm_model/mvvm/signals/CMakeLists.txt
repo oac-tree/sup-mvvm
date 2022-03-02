@@ -9,4 +9,6 @@ target_sources(${library_name} PRIVATE
   modeleventnotifier.cpp
   modeleventnotifier.h
   signalslot.h
+  modellistenerbase.cpp
+  modellistenerbase.h
 )
