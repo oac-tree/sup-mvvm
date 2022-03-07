@@ -16,33 +16,33 @@
 namespace mvvm::utils
 {
 
-bool exists(const std::string& fileName)
+bool IsExists(const std::string& fileName)
 {
   return std::filesystem::exists(fileName);
 }
 
-std::string join(const std::string& part1, const std::string& part2)
+std::string Join(const std::string& part1, const std::string& part2)
 {
   auto path = std::filesystem::path(part1) / std::filesystem::path(part2);
   return path.string();
 }
 
-bool create_directory(const std::string& path)
+bool CreateDirectory(const std::string& path)
 {
   return std::filesystem::create_directory(path);
 }
 
-bool remove(const std::string& path)
+bool Remove(const std::string& path)
 {
   return std::filesystem::remove(path);
 }
 
-void remove_all(const std::string& path)
+void RemoveAll(const std::string& path)
 {
   std::filesystem::remove_all(path);
 }
 
-std::string base_name(const std::string& path)
+std::string GetBaseName(const std::string& path)
 {
   return std::filesystem::path(path).stem().string();
 }
@@ -54,17 +54,19 @@ std::vector<std::string> FindFiles(const std::string& dirname, const std::string
   {
     const auto filenameStr = entry.path().filename().string();
     if (entry.is_regular_file() && entry.path().extension() == ext)
+    {
       result.push_back(entry.path().string());
+    }
   }
   return result;
 }
 
-std::string parent_path(const std::string& path)
+std::string GetParentPath(const std::string& path)
 {
   return std::filesystem::path(path).parent_path().string();
 }
 
-bool is_empty(const std::string& path)
+bool IsEmpty(const std::string& path)
 {
   return std::filesystem::is_empty(path);
 }
