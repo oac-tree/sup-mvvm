@@ -23,7 +23,7 @@
 #include "test_utils.h"
 
 #include "mvvm/model/propertyitem.h"
-#include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
 #include "mvvm/serialization/xmldocument.h"
@@ -41,16 +41,16 @@ class XmlDocumentTest : public FolderBasedTest
 public:
   XmlDocumentTest() : FolderBasedTest("test_XmlDocument") {}
 
-  class TestModel1 : public SessionModel
+  class TestModel1 : public ApplicationModel
   {
   public:
-    TestModel1() : SessionModel("TestModel1") {}
+    TestModel1() : ApplicationModel("TestModel1") {}
   };
 
-  class TestModel2 : public SessionModel
+  class TestModel2 : public ApplicationModel
   {
   public:
-    TestModel2() : SessionModel("TestModel2") {}
+    TestModel2() : ApplicationModel("TestModel2") {}
   };
 };
 
@@ -60,7 +60,7 @@ TEST_F(XmlDocumentTest, SaveLoadEmptyModel)
 {
   const auto file_path = GetFilePath("SaveLoadEmptyModel.xml");
 
-  SessionModel model("TestModel");
+  ApplicationModel model("TestModel");
   XmlDocument document({&model});
 
   auto original_root = model.GetRootItem();
@@ -82,7 +82,7 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithPropertyItem)
 {
   const auto file_path = GetFilePath("SaveLoadModelWithPropertyItem.xml");
 
-  SessionModel model("TestModel");
+  ApplicationModel model("TestModel");
   model.InsertItem<PropertyItem>();
   XmlDocument document({&model});
 
@@ -105,7 +105,7 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
 {
   const auto file_path = GetFilePath("SaveLoadModelWithParentAndChild.xml");
 
-  SessionModel model("TestModel");
+  ApplicationModel model("TestModel");
   XmlDocument document({&model});
 
   // filling model with parent and child
