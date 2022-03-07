@@ -53,7 +53,7 @@ TEST_F(TreeDataModelConverterTest, EmptyModel)
 
 //! Empty model to TreeData and back.
 
-TEST_F(TreeDataModelConverterTest, EmptyModelToJsonAndBack)
+TEST_F(TreeDataModelConverterTest, EmptyModelToTreeDataAndBack)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
@@ -92,7 +92,7 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
   EXPECT_EQ(reco_item->GetIdentifier(), item->GetIdentifier());
 }
 
-//! Filling model from json: parent and child in a model to json and back.
+//! Filling model from TreeData: parent and child in a model to TreeData and back.
 
 TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
 {
@@ -174,10 +174,10 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
   EXPECT_EQ(GetXMLString(*tree_data), GetXMLString(*tree_data_target));
 }
 
-//! Creation of json object (single item in a model), then writing same json object back
+//! Creation of TreeData object (single item in a model), then writing same TreeData object back
 //! to model without emptying it. Real bug case: check if unsubscribtion mechanism works.
 
-TEST_F(TreeDataModelConverterTest, SingleItemToJsonAndBackToSameModel)
+TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBackToSameModel)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
 

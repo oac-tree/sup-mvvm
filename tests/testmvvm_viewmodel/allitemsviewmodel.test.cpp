@@ -917,7 +917,7 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Testing view model after restoring from json document.
+//! Testing view model after restoring from XML document.
 //! FIXME restore test
 
 TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)

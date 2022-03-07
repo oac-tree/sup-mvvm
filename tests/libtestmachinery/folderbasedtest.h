@@ -32,6 +32,8 @@ public:
   explicit FolderBasedTest(std::string folder_name);
   ~FolderBasedTest() override;
 
+  std::string GetTestFolderName() const;
+
   std::string GetTestDirectory() const;
 
   std::string GetFilePath(const std::string& file_name) const;

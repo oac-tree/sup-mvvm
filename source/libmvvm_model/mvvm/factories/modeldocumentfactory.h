@@ -30,7 +30,7 @@ namespace mvvm
 
 class ApplicationModel;
 
-//! Creates JsonDocument to save and load models.
+//! Creates XmlDocument to save and load models.
 MVVM_MODEL_EXPORT std::unique_ptr<ModelDocumentInterface> CreateXmlDocument(
     const std::vector<ApplicationModel*>& models);
 

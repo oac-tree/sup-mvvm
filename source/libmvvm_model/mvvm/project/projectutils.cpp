@@ -1,54 +1,63 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "mvvm/project/projectutils.h"
 
 #include "mvvm/interfaces/projectinterface.h"
 #include "mvvm/model/sessionmodel.h"
-//#include "mvvm/utils/fileutils.h" // FIXME
+#include "mvvm/project/project.h"
+#include "mvvm/utils/fileutils.h"
 
 #include <cctype>
 
 namespace
 {
-const std::string json_extention = ".json";
+const std::string xml_extention = ".xml";
 const std::string untitled_name = "Untitled";
 }  // namespace
 
 namespace mvvm
 {
 
-//! Suggests file name which can be used to store json content of given model.
-//! Uses the model type to construct a filename: MaterialModel -> materialmodel.json
+//! Suggests file name which can be used to store Xml content of given model.
+//! Uses the model type to construct a filename: MaterialModel -> materialmodel.xml
 
 std::string ProjectUtils::SuggestFileName(const SessionModel& model)
 {
   std::string result = model.GetType();
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-  return result + json_extention;
+  return result + xml_extention;
 }
 
 //! Returns 'true' if given directory might be a project directory.
-//! This simplified check counts number of files with json extention.
+//! This simplified check counts number of files with XML extention.
 
 bool ProjectUtils::IsPossibleProjectDir(const std::string& project_dir)
 {
-  //  return !Utils::FindFiles(project_dir, json_extention).empty();
-  return {};  // FIXME
+  return !utils::FindFiles(project_dir, xml_extention).empty();
 }
 
 //! Creates new untitled project.
 
 std::unique_ptr<ProjectInterface> ProjectUtils::CreateUntitledProject(const ProjectContext& context)
 {
-  //  return std::make_unique<Project>(context);
-  return {};  // FIXME
+  return std::make_unique<Project>(context);
 }
 
 //! Returns a MainWindow title for given project.

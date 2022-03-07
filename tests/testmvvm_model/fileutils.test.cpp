@@ -73,16 +73,16 @@ TEST_F(FileUtilsTest, base_name)
 TEST_F(FileUtilsTest, FindFiles)
 {
   testutils::CreateTextFile(GetTestDirectory() + "/a.txt", "");
-  testutils::CreateTextFile(GetTestDirectory() + "/name0.json", "");
-  testutils::CreateTextFile(GetTestDirectory() + "/name1.json", "");
+  testutils::CreateTextFile(GetTestDirectory() + "/name0.xml", "");
+  testutils::CreateTextFile(GetTestDirectory() + "/name1.xml", "");
 
-  auto found_files = utils::FindFiles(GetTestDirectory(), ".json");
+  auto found_files = utils::FindFiles(GetTestDirectory(), ".xml");
 
   ASSERT_EQ(found_files.size(), 2);
   EXPECT_NE(found_files.end(), std::find(found_files.begin(), found_files.end(),
-                                         utils::Join(GetTestDirectory(), "name0.json")));
+                                         utils::Join(GetTestDirectory(), "name0.xml")));
   EXPECT_NE(found_files.end(), std::find(found_files.begin(), found_files.end(),
-                                         utils::Join(GetTestDirectory(), "name1.json")));
+                                         utils::Join(GetTestDirectory(), "name1.xml")));
 }
 
 TEST_F(FileUtilsTest, parent_path)

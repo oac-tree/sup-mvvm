@@ -28,11 +28,16 @@ FolderBasedTest::FolderBasedTest(std::string folder_name) : m_folder_name(std::m
   mvvm::utils::CreateDirectory(GetTestDirectory());
 }
 
+std::string FolderBasedTest::GetTestFolderName() const
+{
+  return m_folder_name;
+}
+
 //! Returns full path to the test folder. Located in CMAKE_BINARY_DIR/test_output/<m_test_dir>.
 
 std::string FolderBasedTest::GetTestDirectory() const
 {
-  return testutils::GetTestSuiteOutputDir() + std::string("/") + m_folder_name;
+  return testutils::GetTestSuiteOutputDir() + std::string("/") + GetTestFolderName();
 }
 
 //! Returns full path to the file with given name located in test directory.

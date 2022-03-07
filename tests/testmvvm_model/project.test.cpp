@@ -28,12 +28,12 @@ namespace
 const std::string samplemodel_name = "SampleModel";
 const std::string materialmodel_name = "MaterialModel";
 
-//! Constructs json file name from SessionModel typeName (as it is done internaly by Project).
-std::string get_json_filename(const std::string& model_name)
+//! Constructs XML file name from SessionModel typeName (as it is done internaly by Project).
+std::string GetXmlFilename(const std::string& model_name)
 {
   std::string result(model_name);
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-  return result + ".json";
+  return result + ".xml";
 }
 
 }  // namespace
@@ -55,7 +55,7 @@ public:
     return {sample_model.get(), material_model.get()};
   };
 
-  ProjectContext createContext()
+  ProjectContext CreateContext()
   {
     ProjectContext result;
     result.m_models_callback = [this]() { return models(); };
@@ -66,18 +66,18 @@ public:
   std::unique_ptr<ApplicationModel> material_model;
 };
 
-TEST_F(ProjectTest, initialState)
+TEST_F(ProjectTest, InitialState)
 {
-  Project project(createContext());
+  Project project(CreateContext());
   EXPECT_TRUE(project.GetProjectDir().empty());
   EXPECT_FALSE(project.IsModified());
 }
 
 //! Testing saveModel.
 
-TEST_F(ProjectTest, saveModel)
+TEST_F(ProjectTest, SaveModel)
 {
-  Project project(createContext());
+  Project project(CreateContext());
 
   // create project directory and save file
   auto project_dir = CreateEmptyDir("Untitled1");
@@ -86,18 +86,18 @@ TEST_F(ProjectTest, saveModel)
   EXPECT_EQ(project.GetProjectDir(), project_dir);
   EXPECT_FALSE(project.IsModified());
 
-  auto sample_json = utils::Join(project_dir, get_json_filename(samplemodel_name));
-  EXPECT_TRUE(utils::IsExists(sample_json));
+  auto sample_xml = utils::Join(project_dir, GetXmlFilename(samplemodel_name));
+  EXPECT_TRUE(utils::IsExists(sample_xml));
 
-  auto material_json = utils::Join(project_dir, get_json_filename(materialmodel_name));
-  EXPECT_TRUE(utils::IsExists(material_json));
+  auto material_xml = utils::Join(project_dir, GetXmlFilename(materialmodel_name));
+  EXPECT_TRUE(utils::IsExists(material_xml));
 }
 
 //! Testing loadModel.
 
-TEST_F(ProjectTest, loadModel)
+TEST_F(ProjectTest, LoadModel)
 {
-  Project project(createContext());
+  Project project(CreateContext());
 
   auto item0 = sample_model->InsertItem<PropertyItem>();
   item0->SetData(std::string("sample_model_item"));

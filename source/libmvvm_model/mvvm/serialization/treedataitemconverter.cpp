@@ -49,14 +49,14 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
                             ConverterMode mode)
       : m_self(self), m_factory(factory), m_mode(mode)
   {
-    //! Callback to convert SessionItem to JSON object.
+    //! Callback to convert SessionItem to TreeData object.
     auto create_tree = [this](const SessionItem& item) { return m_self->ToTreeData(item); };
 
-    //! Callback to create SessionItem from JSON object.
+    //! Callback to create SessionItem from TreeData object.
     auto create_item = [this](const TreeData& tree_data)
     { return m_self->ToSessionItem(tree_data); };
 
-    //! Callback to update SessionItem from JSON object.
+    //! Callback to update SessionItem from TreeData object.
     auto update_item = [this](const TreeData& tree_data, SessionItem& item)
     { populate_item(tree_data, item); };
 

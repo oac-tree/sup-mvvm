@@ -42,7 +42,7 @@ using create_item_t = std::function<std::unique_ptr<SessionItem>(const TreeData&
 //! Defines function to populate existing SessionItem from its' TreeData representaion.
 using update_item_t = std::function<void(const TreeData&, SessionItem&)>;
 
-//! Provides necessary callbacks to convert SessionItem to JSON and back.
+//! Provides necessary callbacks to convert SessionItem to TreeData and back.
 
 struct MVVM_MODEL_EXPORT ConverterCallbacks
 {
