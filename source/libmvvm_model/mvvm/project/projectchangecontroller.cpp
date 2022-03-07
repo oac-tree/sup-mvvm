@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "mvvm/project/projectchangecontroller.h"
 
@@ -18,47 +28,54 @@ namespace mvvm
 struct ProjectChangedController::ProjectChangedControllerImpl
 {
   std::vector<ApplicationModel*> m_models;
-  std::vector<std::unique_ptr<ModelHasChangedController>> change_controllers;
+  std::vector<std::unique_ptr<ModelHasChangedController>> m_change_controllers;
   callback_t m_project_changed_callback;
   bool m_project_has_changed{false};
 
-  ProjectChangedControllerImpl(const std::vector<ApplicationModel*>& models, callback_t callback)
+  ProjectChangedControllerImpl(const std::vector<ApplicationModel*>& models,
+                               const callback_t& callback)
       : m_models(models), m_project_changed_callback(callback)
   {
-    create_controllers();
+    CreateControllers();
   }
 
-  void create_controllers()
+  void CreateControllers()
   {
-    auto on_model_changed = [this]() { onProjectHasChanged(); };
-    change_controllers.clear();
+    auto on_model_changed = [this]() { OnProjectHasChanged(); };
+    m_change_controllers.clear();
     for (auto model : m_models)
-      change_controllers.emplace_back(
+    {
+      m_change_controllers.emplace_back(
           std::make_unique<ModelHasChangedController>(model, on_model_changed));
+    }
   }
 
-  bool hasChanged() const { return m_project_has_changed; }
+  bool IsChanged() const { return m_project_has_changed; }
 
-  void resetChanged()
+  void ResetIsChanged()
   {
-    for (auto& controller : change_controllers)
+    for (auto& controller : m_change_controllers)
+    {
       controller->ResetIsChanged();
+    }
     m_project_has_changed = false;
   }
 
-  void onProjectHasChanged()
+  void OnProjectHasChanged()
   {
     if (!m_project_has_changed)
     {
       m_project_has_changed = true;
       if (m_project_changed_callback)
+      {
         m_project_changed_callback();
+      }
     }
   }
 };
 
 ProjectChangedController::ProjectChangedController(const std::vector<ApplicationModel*>& models,
-                                                   callback_t project_changed_callback)
+                                                   const callback_t& project_changed_callback)
     : p_impl(std::make_unique<ProjectChangedControllerImpl>(models, project_changed_callback))
 {
 }
@@ -68,16 +85,16 @@ ProjectChangedController::~ProjectChangedController() = default;
 //! Returns true if the change in the models has been registered since the last call of
 //! resetChanged.
 
-bool ProjectChangedController::hasChanged() const
+bool ProjectChangedController::IsChanged() const
 {
-  return p_impl->hasChanged();
+  return p_impl->IsChanged();
 }
 
 //! Reset controller to initial state, pretending that no changes has been registered.
 
-void ProjectChangedController::resetChanged()
+void ProjectChangedController::ResetIsChanged()
 {
-  return p_impl->resetChanged();
+  return p_impl->ResetIsChanged();
 }
 
 }  // namespace mvvm

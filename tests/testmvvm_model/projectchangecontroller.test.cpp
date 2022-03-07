@@ -1,11 +1,22 @@
 // ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2020 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "mvvm/project/projectchangecontroller.h"
 
@@ -22,17 +33,17 @@ class ProjectChangeControllerTest : public ::testing::Test
 {
 };
 
-TEST_F(ProjectChangeControllerTest, initialState)
+TEST_F(ProjectChangeControllerTest, InitialState)
 {
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
   std::vector<ApplicationModel*> models = {&sample_model, &material_model};
 
   ProjectChangedController controller(models);
-  EXPECT_FALSE(controller.hasChanged());
+  EXPECT_FALSE(controller.IsChanged());
 }
 
-TEST_F(ProjectChangeControllerTest, twoModelsChange)
+TEST_F(ProjectChangeControllerTest, TwoModelsChange)
 {
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
@@ -43,13 +54,13 @@ TEST_F(ProjectChangeControllerTest, twoModelsChange)
   sample_model.InsertItem<PropertyItem>();
   material_model.InsertItem<PropertyItem>();
 
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
 
-  controller.resetChanged();
-  EXPECT_FALSE(controller.hasChanged());
+  controller.ResetIsChanged();
+  EXPECT_FALSE(controller.IsChanged());
 }
 
-TEST_F(ProjectChangeControllerTest, callback)
+TEST_F(ProjectChangeControllerTest, Callback)
 {
   int model_changed_count{0};
 
@@ -62,14 +73,14 @@ TEST_F(ProjectChangeControllerTest, callback)
 
   // changing first model
   sample_model.InsertItem<PropertyItem>();
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
   EXPECT_EQ(model_changed_count, 1);
 
   // changing second model
   material_model.InsertItem<PropertyItem>();
-  EXPECT_TRUE(controller.hasChanged());
+  EXPECT_TRUE(controller.IsChanged());
   EXPECT_EQ(model_changed_count, 1);  // controller reports only once
 
-  controller.resetChanged();
-  EXPECT_FALSE(controller.hasChanged());
+  controller.ResetIsChanged();
+  EXPECT_FALSE(controller.IsChanged());
 }
