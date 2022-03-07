@@ -41,7 +41,9 @@ auto CreateRow(int ncolumns)
 {
   std::vector<std::unique_ptr<B>> result;
   for (int i = 0; i < ncolumns; ++i)
+  {
     result.emplace_back(std::make_unique<D>());
+  }
   return result;
 }
 
@@ -75,6 +77,6 @@ std::string GetTextFileContent(const std::string& file_name);
 //! Create ASCII file with given content.
 void CreateTextFile(const std::string& file_name, const std::string& content);
 
-}  // namespace TestUtils
+}  // namespace testutils
 
 #endif

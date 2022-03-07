@@ -29,8 +29,8 @@
 class FolderBasedTest : public ::testing::Test
 {
 public:
-  FolderBasedTest(std::string folder_name);
-  ~FolderBasedTest();
+  explicit FolderBasedTest(std::string folder_name);
+  ~FolderBasedTest() override;
 
   std::string GetTestDirectory() const;
 
