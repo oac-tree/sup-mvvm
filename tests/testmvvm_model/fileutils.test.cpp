@@ -89,7 +89,7 @@ TEST_F(FileUtilsTest, parent_path)
 {
   // parent path of testPath() is the main test folder
   // "<build>/test_output/test_FileUtils" -> "<build>/test_output/"
-  EXPECT_EQ(utils::parent_path(GetTestDirectory()), testutils::GetTestOutputDir());
+  EXPECT_EQ(utils::parent_path(GetTestDirectory()), testutils::GetTestSuiteOutputDir());
 
   // "<build>/test_output/test_FileUtils/a.txt" -> "<build>/test_output/test_FileUtils/"
   testutils::CreateTextFile(GetTestDirectory() + "/a.txt", "");

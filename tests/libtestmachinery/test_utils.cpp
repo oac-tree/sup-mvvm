@@ -38,7 +38,7 @@ const std::string footer{R"RAW(</root>
 
 namespace testutils
 {
-std::string GetTestOutputDir()
+std::string GetTestSuiteOutputDir()
 {
   return TestConfig::TestOutputDir();  // defined in auto-generated testconfig.h
 }
