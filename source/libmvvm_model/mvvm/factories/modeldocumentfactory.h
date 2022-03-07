@@ -28,11 +28,11 @@
 namespace mvvm
 {
 
-class SessionModel;
+class ApplicationModel;
 
 //! Creates JsonDocument to save and load models.
 MVVM_MODEL_EXPORT std::unique_ptr<ModelDocumentInterface> CreateXmlDocument(
-    const std::vector<SessionModel*>& models);
+    const std::vector<ApplicationModel*>& models);
 
 }  // namespace mvvm
 

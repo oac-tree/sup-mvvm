@@ -1,0 +1,137 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#include "mvvm/project/project.h"
+
+#include "folderbasedtest.h"
+#include "test_utils.h"
+
+#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/propertyitem.h"
+#include "mvvm/project/project_types.h"
+#include "mvvm/utils/fileutils.h"
+
+#include <gtest/gtest.h>
+
+#include <cctype>
+
+using namespace mvvm;
+
+namespace
+{
+const std::string samplemodel_name = "SampleModel";
+const std::string materialmodel_name = "MaterialModel";
+
+//! Constructs json file name from SessionModel typeName (as it is done internaly by Project).
+std::string get_json_filename(const std::string& model_name)
+{
+  std::string result(model_name);
+  std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  return result + ".json";
+}
+
+}  // namespace
+
+//! Tests for Project class.
+
+class ProjectTest : public FolderBasedTest
+{
+public:
+  ProjectTest()
+      : FolderBasedTest("test_ProjectTest")
+      , sample_model(std::make_unique<ApplicationModel>(samplemodel_name))
+      , material_model(std::make_unique<ApplicationModel>(materialmodel_name))
+  {
+  }
+
+  std::vector<ApplicationModel*> models() const
+  {
+    return {sample_model.get(), material_model.get()};
+  };
+
+  ProjectContext createContext()
+  {
+    ProjectContext result;
+    result.m_models_callback = [this]() { return models(); };
+    return result;
+  }
+
+  std::unique_ptr<ApplicationModel> sample_model;
+  std::unique_ptr<ApplicationModel> material_model;
+};
+
+TEST_F(ProjectTest, initialState)
+{
+  Project project(createContext());
+  EXPECT_TRUE(project.GetProjectDir().empty());
+  EXPECT_FALSE(project.IsModified());
+}
+
+//! Testing saveModel.
+
+TEST_F(ProjectTest, saveModel)
+{
+  Project project(createContext());
+
+  // create project directory and save file
+  auto project_dir = CreateEmptyDir("Untitled1");
+  project.Save(project_dir);
+
+  EXPECT_EQ(project.GetProjectDir(), project_dir);
+  EXPECT_FALSE(project.IsModified());
+
+  auto sample_json = utils::Join(project_dir, get_json_filename(samplemodel_name));
+  EXPECT_TRUE(utils::IsExists(sample_json));
+
+  auto material_json = utils::Join(project_dir, get_json_filename(materialmodel_name));
+  EXPECT_TRUE(utils::IsExists(material_json));
+}
+
+//! Testing loadModel.
+
+TEST_F(ProjectTest, loadModel)
+{
+  Project project(createContext());
+
+  auto item0 = sample_model->InsertItem<PropertyItem>();
+  item0->SetData(std::string("sample_model_item"));
+  auto item0_identifier = item0->GetIdentifier();
+
+  auto item1 = material_model->InsertItem<PropertyItem>();
+  item1->SetData(std::string("material_model_item"));
+  auto item1_identifier = item1->GetIdentifier();
+
+  // create project directory and save file
+  auto project_dir = CreateEmptyDir("Untitled2");
+
+  EXPECT_TRUE(project.IsModified());
+  project.Save(project_dir);
+  EXPECT_FALSE(project.IsModified());
+
+  EXPECT_EQ(project.GetProjectDir(), project_dir);
+
+  // cleaning models
+  sample_model->Clear();
+  material_model->Clear();
+  EXPECT_EQ(sample_model->GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(material_model->GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_TRUE(project.IsModified());
+
+  // loading
+  project.Load(project_dir);
+  EXPECT_EQ(sample_model->GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(material_model->GetRootItem()->GetTotalItemCount(), 1);
+
+  // checking identifiers
+  EXPECT_EQ(sample_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item0_identifier);
+  EXPECT_EQ(material_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item1_identifier);
+
+  EXPECT_EQ(project.GetProjectDir(), project_dir);
+  EXPECT_FALSE(project.IsModified());
+}
