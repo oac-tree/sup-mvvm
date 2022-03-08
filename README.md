@@ -30,7 +30,8 @@ Qt must be installed, and path to it specified.
 
 ```
 #install qt5 
-yum install codac-core-7.0-qt5.x86_64
+
+yum install freeglut-devel.x86_64 codac-core-7.1-qt5.x86_64
 
 # specify path and compile
 PATH=/opt/codac/qt5/bin:$PATH cmake <source>
