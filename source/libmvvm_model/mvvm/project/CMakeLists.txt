@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   project_types.h
   projectchangecontroller.cpp
   projectchangecontroller.h
+  projectmanager.cpp
+  projectmanager.h
   projectutils.cpp
   projectutils.h
   )
