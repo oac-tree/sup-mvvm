@@ -48,12 +48,12 @@ public:
   {
   }
 
-  std::vector<ApplicationModel*> models() const { return {sample_model.get()}; };
+  std::vector<ApplicationModel*> GetModels() const { return {sample_model.get()}; };
 
-  ProjectContext createContext()
+  ProjectContext CreateContext()
   {
     ProjectContext result;
-    result.m_models_callback = [this]() { return models(); };
+    result.m_models_callback = [this]() { return GetModels(); };
     return result;
   }
 
@@ -62,9 +62,9 @@ public:
 
 //! Initial state of ProjectManager. Project created, and not-saved.
 
-TEST_F(ProjectManagerTest, initialState)
+TEST_F(ProjectManagerTest, InitialState)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
   EXPECT_FALSE(manager.IsModified());
 }
@@ -76,9 +76,9 @@ TEST_F(ProjectManagerTest, initialState)
 //! Creating new project. Use untitled+empty project as a starting point.
 //! Should succeed, since old empty project doesn't need to be saved.
 
-TEST_F(ProjectManagerTest, untitledEmptyNew)
+TEST_F(ProjectManagerTest, UntitledEmptyNew)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
 
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
   EXPECT_TRUE(manager.CreateNewProject(project_dir));
@@ -94,9 +94,9 @@ TEST_F(ProjectManagerTest, untitledEmptyNew)
 //! Saving of new project. Use untitled+empty project as a starting point.
 //! Should fail since project directory is not defined.
 
-TEST_F(ProjectManagerTest, untitledEmptySave)
+TEST_F(ProjectManagerTest, UntitledEmptySave)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
   EXPECT_FALSE(manager.SaveCurrentProject());
   EXPECT_FALSE(manager.IsModified());
 }
@@ -104,9 +104,9 @@ TEST_F(ProjectManagerTest, untitledEmptySave)
 //! Saving of new project. Use untitled+empty project as a starting point.
 //! Should be saved, file sould appear on disk.
 
-TEST_F(ProjectManagerTest, untitledEmptySaveAs)
+TEST_F(ProjectManagerTest, UntitledEmptySaveAs)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
 
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -124,9 +124,9 @@ TEST_F(ProjectManagerTest, untitledEmptySaveAs)
 //! Creating new project. Use untitled+modified project as a starting point.
 //! Should fail, since modified old project will prevent creation of the new one.
 
-TEST_F(ProjectManagerTest, untitledModifiedNew)
+TEST_F(ProjectManagerTest, UntitledModifiedNew)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
 
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
@@ -147,9 +147,9 @@ TEST_F(ProjectManagerTest, untitledModifiedNew)
 //! Saving of new project. Use untitled+modified project as a starting point.
 //! Should fail since project directory is not defined.
 
-TEST_F(ProjectManagerTest, untitledModifiedSave)
+TEST_F(ProjectManagerTest, UntitledModifiedSave)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
 
@@ -160,9 +160,9 @@ TEST_F(ProjectManagerTest, untitledModifiedSave)
 //! Saving of new project. Use untitled+empty project as a starting point.
 //! Should be saved, file sould appear on disk.
 
-TEST_F(ProjectManagerTest, untitledModifiedSaveAs)
+TEST_F(ProjectManagerTest, UntitledModifiedSaveAs)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
   sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   const auto project_dir = CreateEmptyDir("Project_untitledModifiedSaveAs");
@@ -181,9 +181,9 @@ TEST_F(ProjectManagerTest, untitledModifiedSaveAs)
 //! Creating new project. Use titled+unmodified project as a starting point.
 //! Should succeed, since old empty project doesn't need to be saved.
 
-TEST_F(ProjectManagerTest, titledUnmodifiedNew)
+TEST_F(ProjectManagerTest, TitledUnmodifiedNew)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
 
   const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -207,9 +207,9 @@ TEST_F(ProjectManagerTest, titledUnmodifiedNew)
 //! Saving of new project. Use titled+modified project as a starting point.
 //! Should succeed.
 
-TEST_F(ProjectManagerTest, titledModifiedSave)
+TEST_F(ProjectManagerTest, TitledModifiedSave)
 {
-  ProjectManager manager(createContext());
+  ProjectManager manager(CreateContext());
 
   const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -226,11 +226,11 @@ TEST_F(ProjectManagerTest, titledModifiedSave)
 // Callbacks
 // ----------------------------------------------------------------------------
 
-TEST_F(ProjectManagerTest, callback)
+TEST_F(ProjectManagerTest, Callback)
 {
   int project_modified_count{0};
 
-  auto context = createContext();
+  auto context = CreateContext();
   context.m_modified_callback = [&project_modified_count]() { ++project_modified_count; };
 
   ProjectManager manager(context);

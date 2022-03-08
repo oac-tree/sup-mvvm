@@ -37,17 +37,17 @@ public:
   {
   }
 
-  std::vector<ApplicationModel*> models() const { return {sample_model.get()}; };
+  std::vector<ApplicationModel*> GetModels() const { return {sample_model.get()}; };
 
-  ProjectContext projectContext()
+  ProjectContext CreateProjectContext()
   {
     ProjectContext result;
-    result.m_models_callback = [this]() { return models(); };
+    result.m_models_callback = [this]() { return GetModels(); };
     return result;
   }
 
-  UserInteractionContext userContext(const std::string& create_dir = {},
-                                     const std::string& select_dir = {})
+  static UserInteractionContext CreateUserContext(const std::string& create_dir = {},
+                                                  const std::string& select_dir = {})
   {
     UserInteractionContext result;
     result.m_create_dir_callback = [create_dir]() -> std::string { return create_dir; };
@@ -60,20 +60,20 @@ public:
 
 //! Initial state of ProjectManager. Project created, and not-saved.
 
-TEST_F(ProjectManagerDecoratorTest, initialState)
+TEST_F(ProjectManagerDecoratorTest, InitialState)
 {
-  ProjectManagerDecorator manager(projectContext(), userContext());
+  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext());
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
 }
 
 //! Starting from new document (without project dir defined).
 //! Create new project in given directory.
 
-TEST_F(ProjectManagerDecoratorTest, untitledEmptyCreateNew)
+TEST_F(ProjectManagerDecoratorTest, UntitledEmptyCreateNew)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
-  ProjectManagerDecorator manager(projectContext(), userContext(project_dir, {}));
+  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
 
   // saving new project to 'project_dir' directory.
@@ -90,11 +90,11 @@ TEST_F(ProjectManagerDecoratorTest, untitledEmptyCreateNew)
 //! Starting from new document (without project dir defined).
 //! Saving project. Same behavior as SaveAs.
 
-TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveCurrentProject)
+TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveCurrentProject)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
-  ProjectManagerDecorator manager(projectContext(), userContext(project_dir, {}));
+  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
 
   // saving new project to 'project_dir' directory.
@@ -111,11 +111,11 @@ TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveCurrentProject)
 //! Starting from new document (without project dir defined).
 //! Save under given name.
 
-TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveAs)
+TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAs)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
-  ProjectManagerDecorator manager(projectContext(), userContext(project_dir, {}));
+  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
 
   // saving new project to "project_dir" directory.
@@ -132,9 +132,10 @@ TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveAs)
 //! Starting from new document (without project dir defined).
 //! Attempt to save under empty name, immitating the user canceled directory selection dialog.
 
-TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveAsCancel)
+TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAsCancel)
 {
-  ProjectManagerDecorator manager(projectContext(), userContext({}, {}));  // immitates canceling
+  ProjectManagerDecorator manager(CreateProjectContext(),
+                                  CreateUserContext({}, {}));  // immitates canceling
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
 
   // saving new project to "project_dir" directory.
@@ -145,9 +146,9 @@ TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveAsCancel)
 //! Starting from new document (without project dir defined).
 //! Attempt to save in the non-existing directory.
 
-TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveAsWrongDir)
+TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAsWrongDir)
 {
-  ProjectManagerDecorator manager(projectContext(), userContext("non-existing", {}));
+  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext("non-existing", {}));
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager.SaveProjectAs());
@@ -158,31 +159,32 @@ TEST_F(ProjectManagerDecoratorTest, untitledEmptySaveAsWrongDir)
 //! the dialog save/discard/cancel. As a result of whole exersize, existing project
 //! should be opened, previous project saved.
 
-TEST_F(ProjectManagerDecoratorTest, untitledModifiedOpenExisting)
+TEST_F(ProjectManagerDecoratorTest, UntitledModifiedOpenExisting)
 {
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
   const auto unsaved_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting2");
 
   // create "existing project"
   {
-    ProjectManagerDecorator manager(projectContext(), userContext(existing_project_dir, {}));
+    ProjectManagerDecorator manager(CreateProjectContext(),
+                                    CreateUserContext(existing_project_dir, {}));
     manager.SaveProjectAs();
   }
 
   // preparing manager with untitled, unmodified project
-  auto open_dir = [&existing_project_dir]() -> std::string { return existing_project_dir; };
-  auto create_dir = [&unsaved_project_dir]() -> std::string { return unsaved_project_dir; };
+  auto open_dir = [existing_project_dir]() -> std::string { return existing_project_dir; };
+  auto create_dir = [unsaved_project_dir]() -> std::string { return unsaved_project_dir; };
   auto result = SaveChangesAnswer::kDiscard;
   auto ask_create = [&result]()
   {
     result = SaveChangesAnswer::kSave;
     return SaveChangesAnswer::kSave;
   };
-  auto user_context = userContext({}, {});
+  auto user_context = CreateUserContext({}, {});
   user_context.m_create_dir_callback = create_dir;
   user_context.m_select_dir_callback = open_dir;
   user_context.m_answer_callback = ask_create;
-  ProjectManagerDecorator manager(projectContext(), user_context);
+  ProjectManagerDecorator manager(CreateProjectContext(), user_context);
 
   // modifying untitled project
   sample_model->InsertItem<PropertyItem>();

@@ -25,8 +25,8 @@
 
 namespace
 {
-const bool succeeded = true;
-const bool failed = false;
+const bool kSucceeded = true;
+const bool kFailed = false;
 }  // namespace
 
 namespace mvvm
@@ -87,7 +87,7 @@ bool ProjectManager::CreateNewProject(const std::string& dirname)
 {
   if (p_impl->IsModified())
   {
-    return failed;
+    return kFailed;
   }
   p_impl->CreateNewProject();
   return p_impl->SaveCurrentProjectAs(dirname);
@@ -100,7 +100,7 @@ bool ProjectManager::SaveCurrentProject()
 {
   if (!p_impl->ProjectHasDir())
   {
-    return failed;
+    return kFailed;
   }
   return p_impl->SaveCurrentProject();
 }
@@ -120,7 +120,7 @@ bool ProjectManager::OpenExistingProject(const std::string& dirname)
 {
   if (p_impl->IsModified())
   {
-    return failed;
+    return kFailed;
   }
   p_impl->CreateNewProject();
   return p_impl->LoadFrom(dirname);
@@ -147,7 +147,7 @@ bool ProjectManager::CloseCurrentProject() const
 {
   // no special operation is required to close the project
   p_impl->CreateNewProject();  // ready for further actions
-  return succeeded;
+  return kSucceeded;
 }
 
 }  // namespace mvvm

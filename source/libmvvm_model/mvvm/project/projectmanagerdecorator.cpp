@@ -26,8 +26,8 @@
 
 namespace
 {
-const bool succeeded = true;
-const bool failed = false;
+const bool kSucceeded = true;
+const bool kFailed = false;
 }  // namespace
 
 namespace mvvm
@@ -46,53 +46,53 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   }
 
   //! Returns true if the project has directory already defined.
-  bool projectHasDir() const { return !project_manager->CurrentProjectDir().empty(); }
+  bool ProjectHasDir() const { return !project_manager->CurrentProjectDir().empty(); }
 
   //! Saves project in project directory. If directory is not defined, will acquire
   //! directory susing callback provided.
-  bool saveCurrentProject()
+  bool SaveCurrentProject()
   {
     // Feature FIXME?: already saved project (i.e. isModified=false) will be saved again.
     // Files will be same, but creation date will be changed.
 
-    auto save_dir = projectHasDir() ? project_manager->CurrentProjectDir() : acquireNewProjectDir();
-    return saveCurrentProjectAs(save_dir);
+    auto save_dir = ProjectHasDir() ? project_manager->CurrentProjectDir() : AcquireNewProjectDir();
+    return SaveCurrentProjectAs(save_dir);
   }
 
   //! Saves current project under directory selected.
-  bool saveCurrentProjectAs(const std::string& dirname) const
+  bool SaveCurrentProjectAs(const std::string& dirname) const
   {
     // empty dirname varible means 'cancel' during directory selection
-    return dirname.empty() ? failed : project_manager->SaveProjectAs(dirname);
+    return dirname.empty() ? kFailed : project_manager->SaveProjectAs(dirname);
   }
 
-  std::string currentProjectDir() const { return project_manager->CurrentProjectDir(); }
+  std::string CurrentProjectDir() const { return project_manager->CurrentProjectDir(); }
 
-  bool isModified() const { return project_manager->IsModified(); }
+  bool IsModified() const { return project_manager->IsModified(); }
 
   //! Performs saving of previous project before creating a new one.
-  bool saveBeforeClosing()
+  bool SaveBeforeClosing()
   {
-    if (isModified())
+    if (IsModified())
     {
-      switch (acquireSaveChangesAnswer())
+      switch (AcquireSaveChangesAnswer())
       {
       case SaveChangesAnswer::kSave:
-        return saveCurrentProject();
+        return SaveCurrentProject();
       case SaveChangesAnswer::kCancel:
-        return failed;  // saving was interrupted by the 'cancel' button
+        return kFailed;  // saving was interrupted by the 'cancel' button
       case SaveChangesAnswer::kDiscard:
         project_manager->CloseCurrentProject();
-        return succeeded;
+        return kSucceeded;
       default:
         throw std::runtime_error("Error in ProjectManager: unexpected answer.");
       }
     }
-    return succeeded;
+    return kSucceeded;
   }
 
   //! Asks the user whether to save/cancel/discard the project using callback provided.
-  SaveChangesAnswer acquireSaveChangesAnswer() const
+  SaveChangesAnswer AcquireSaveChangesAnswer() const
   {
     if (!m_user_context.m_answer_callback)
     {
@@ -102,7 +102,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   }
 
   //! Acquire the name of the new project directory using callback provided.
-  std::string acquireNewProjectDir()
+  std::string AcquireNewProjectDir()
   {
     if (!m_user_context.m_create_dir_callback)
     {
@@ -112,7 +112,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   }
 
   //! Acquire the name of the existing project directory using callback provided.
-  std::string acquireExistingProjectDir()
+  std::string AcquireExistingProjectDir()
   {
     if (!m_user_context.m_select_dir_callback)
     {
@@ -140,14 +140,14 @@ ProjectManagerDecorator::~ProjectManagerDecorator() = default;
 
 bool ProjectManagerDecorator::CreateNewProject(const std::string& dirname)
 {
-  if (!p_impl->saveBeforeClosing())
+  if (!p_impl->SaveBeforeClosing())
   {
-    return failed;
+    return kFailed;
   }
 
-  auto project_dir = dirname.empty() ? p_impl->acquireNewProjectDir() : dirname;
+  auto project_dir = dirname.empty() ? p_impl->AcquireNewProjectDir() : dirname;
   // empty project_dir string denotes 'cancel' during directory creation dialog
-  return project_dir.empty() ? failed : p_impl->project_manager->CreateNewProject(project_dir);
+  return project_dir.empty() ? kFailed : p_impl->project_manager->CreateNewProject(project_dir);
 }
 
 //! Saves current project, returns 'true' in the case of success.
@@ -156,7 +156,7 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& dirname)
 
 bool ProjectManagerDecorator::SaveCurrentProject()
 {
-  return p_impl->saveCurrentProject();
+  return p_impl->SaveCurrentProject();
 }
 
 //! Saves the project under a given directory, returns true in the case of success.
@@ -165,9 +165,9 @@ bool ProjectManagerDecorator::SaveCurrentProject()
 
 bool ProjectManagerDecorator::SaveProjectAs(const std::string& dirname)
 {
-  auto project_dir = dirname.empty() ? p_impl->acquireNewProjectDir() : dirname;
+  auto project_dir = dirname.empty() ? p_impl->AcquireNewProjectDir() : dirname;
   // empty project_dir variable denotes 'cancel' during directory creation dialog
-  return project_dir.empty() ? failed : p_impl->saveCurrentProjectAs(project_dir);
+  return project_dir.empty() ? kFailed : p_impl->SaveCurrentProjectAs(project_dir);
 }
 
 //! Opens existing project, returns 'true' in the case of success.
@@ -177,27 +177,27 @@ bool ProjectManagerDecorator::SaveProjectAs(const std::string& dirname)
 
 bool ProjectManagerDecorator::OpenExistingProject(const std::string& dirname)
 {
-  if (!p_impl->saveBeforeClosing())
+  if (!p_impl->SaveBeforeClosing())
   {
-    return failed;
+    return kFailed;
   }
-  auto project_dir = dirname.empty() ? p_impl->acquireExistingProjectDir() : dirname;
+  auto project_dir = dirname.empty() ? p_impl->AcquireExistingProjectDir() : dirname;
   // empty project_dir variable denotes 'cancel' during directory selection dialog
-  return project_dir.empty() ? failed : p_impl->project_manager->OpenExistingProject(project_dir);
+  return project_dir.empty() ? kFailed : p_impl->project_manager->OpenExistingProject(project_dir);
 }
 
 //! Returns current project directory.
 
 std::string ProjectManagerDecorator::CurrentProjectDir() const
 {
-  return p_impl->currentProjectDir();
+  return p_impl->CurrentProjectDir();
 }
 
 //! Returns true if project was modified since last save.
 
 bool ProjectManagerDecorator::IsModified() const
 {
-  return p_impl->isModified();
+  return p_impl->IsModified();
 }
 
 //! Closes current project, returns 'true' if succeeded.
@@ -206,11 +206,11 @@ bool ProjectManagerDecorator::IsModified() const
 
 bool ProjectManagerDecorator::CloseCurrentProject() const
 {
-  if (!p_impl->saveBeforeClosing())
+  if (!p_impl->SaveBeforeClosing())
   {
-    return failed;
+    return kFailed;
   }
-  return succeeded;
+  return kSucceeded;
 }
 
 }  // namespace mvvm
