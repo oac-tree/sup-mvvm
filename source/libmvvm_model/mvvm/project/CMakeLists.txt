@@ -8,6 +8,8 @@ target_sources(${library_name} PRIVATE
   projectchangecontroller.h
   projectmanager.cpp
   projectmanager.h
+  projectmanagerdecorator.cpp
+  projectmanagerdecorator.h
   projectutils.cpp
   projectutils.h
   )
