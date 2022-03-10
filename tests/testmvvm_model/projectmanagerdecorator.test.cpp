@@ -82,7 +82,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptyCreateNew)
   // checking that current projectDir has pointing to the right place
   EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
@@ -103,7 +103,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveCurrentProject)
   // checking thaxt current projectDir has pointing to the right place
   EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
@@ -124,7 +124,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAs)
   // checking that current projectDir has pointing to the right place
   EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
