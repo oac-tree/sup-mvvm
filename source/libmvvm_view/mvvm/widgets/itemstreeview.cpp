@@ -79,13 +79,15 @@ void ItemsTreeView::SetSelectedItems(const std::vector<SessionItem*>& to_select)
   }
 
   GetSelectionModel()->clearSelection();
+  QItemSelection selection;
   for (auto item : to_select)
   {
     for (auto index : m_view_model->GetIndexOfSessionItem(item))
     {
-      GetSelectionModel()->select(index, QItemSelectionModel::Select);
+      selection.push_back(QItemSelectionRange(index));
     }
   }
+  GetSelectionModel()->select(selection, QItemSelectionModel::Select);
 }
 
 void ItemsTreeView::SetRootSessionItem(SessionItem* item)
@@ -130,6 +132,12 @@ void ItemsTreeView::onSelectionChanged(const QItemSelection&, const QItemSelecti
 {
   if (m_block_selection)
   {
+    return;
+  }
+
+  if (GetSelectedItems().empty())  // selections has gone
+  {
+    emit itemSelected(nullptr);
     return;
   }
 

@@ -19,8 +19,8 @@
 
 #include "mvvm/widgets/allitemstreeview.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/allitemstreeview.h"
 
@@ -37,6 +37,8 @@ using namespace mvvm;
 class AllItemsTreeViewTest : public ::testing::Test
 {
 };
+
+Q_DECLARE_METATYPE(SessionItem*)
 
 //! Testing root item change, when one of the item is selected (real life bug).
 
@@ -144,4 +146,43 @@ TEST_F(AllItemsTreeViewTest, DestroyModel)
 
   EXPECT_TRUE(view.GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
+}
+
+//! Removing selected and checking notifications
+
+TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
+{
+  // setting up model and viewmodel
+  ApplicationModel model;
+  auto property0 = model.InsertItem<PropertyItem>();
+
+  AllItemsTreeView view(&model);
+
+  QSignalSpy spy_selected(&view, &AllItemsTreeView::itemSelected);
+
+  // selecting single item
+  view.SetSelected(property0);
+
+  // checking selections
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));
+
+  // checking signaling
+  qRegisterMetaType<SessionItem*>("SessionItem*");
+  EXPECT_EQ(spy_selected.count(), 1);
+  QList<QVariant> arguments = spy_selected.takeFirst();
+  EXPECT_EQ(arguments.size(), 1);
+  auto item = arguments.at(0).value<SessionItem*>();
+  EXPECT_EQ(item, property0);
+
+  spy_selected.clear();
+
+  // removing item
+  model.RemoveItem(property0);
+
+  // signal should emit once and report nullptr as selected item
+  EXPECT_EQ(spy_selected.count(), 1);
+  arguments = spy_selected.takeFirst();
+  EXPECT_EQ(arguments.size(), 1);
+  item = arguments.at(0).value<SessionItem*>();
+  EXPECT_EQ(item, nullptr);
 }
