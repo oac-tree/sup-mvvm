@@ -186,3 +186,21 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   item = arguments.at(0).value<SessionItem*>();
   EXPECT_EQ(item, nullptr);
 }
+
+TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)
+{
+  // setting up model and viewmodel
+  auto model = std::make_unique<ApplicationModel>();
+
+  auto vector_item = model->InsertItem<VectorItem>();
+  AllItemsTreeView view(model.get());
+
+  auto viewmodel = view.GetViewModel();
+  EXPECT_EQ(viewmodel->rowCount(), 1);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
+
+  view.SetApplicationModel(nullptr);
+
+  EXPECT_EQ(view.GetViewModel(), nullptr);
+}
+
