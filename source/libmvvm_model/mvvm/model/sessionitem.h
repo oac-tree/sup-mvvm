@@ -183,7 +183,9 @@ inline T* SessionItem::GetItem(const std::string& tag, int index) const
   {
     T* tag_item = dynamic_cast<T*>(item);
     if (!tag_item)
+    {
       throw std::runtime_error("Can't cast an item to given type");
+    }
     return tag_item;
   }
   return nullptr;
