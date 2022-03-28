@@ -6,5 +6,5 @@ file(GLOB include_files "*.h")
 add_executable(${test} ${source_files} ${include_files})
 target_link_libraries(${test} PRIVATE mvvm_view testmachinery qcustomplot)
 
-gtest_discover_tests(${test} TEST_PREFIX "View.")
+gtest_discover_tests(${test} TEST_PREFIX "View." DISCOVERY_TIMEOUT 10)
 
