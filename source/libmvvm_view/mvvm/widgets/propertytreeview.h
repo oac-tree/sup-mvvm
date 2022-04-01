@@ -33,10 +33,10 @@ class MVVM_VIEW_EXPORT PropertyTreeView : public ItemsTreeView
   Q_OBJECT
 
 public:
-  PropertyTreeView(QWidget* parent = nullptr);
-  ~PropertyTreeView();
+  explicit PropertyTreeView(QWidget* parent = nullptr);
+  ~PropertyTreeView() override;
 
-  virtual void SetRootSessionItem(SessionItem* item) override;
+  void SetRootSessionItem(SessionItem* item) override;
 
   void SetItem(SessionItem* item);
 };
