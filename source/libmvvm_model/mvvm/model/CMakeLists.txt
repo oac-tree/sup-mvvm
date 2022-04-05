@@ -43,4 +43,6 @@ target_sources(${library_name} PRIVATE
   tagindex.h
   taginfo.cpp
   taginfo.h
+  validateutils.cpp
+  validateutils.h
   )
