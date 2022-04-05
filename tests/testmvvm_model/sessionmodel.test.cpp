@@ -19,13 +19,13 @@
 
 #include "mvvm/model/sessionmodel.h"
 
+#include "mvvm/core/exceptions.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/core/exceptions.h"
 
 #include <gtest/gtest.h>
 
@@ -428,7 +428,7 @@ TEST_F(SessionModelTest, MoveItemFromRootToParent)
   EXPECT_EQ(parent->GetAllItems(), expected);
 }
 
-TEST_F(SessionModelTest, MoveItemFromParentToRoot)
+TEST_F(SessionModelTest, InvalidMoveOfParentProperty)
 {
   SessionModel model;
   auto compound = model.InsertItem<CompoundItem>(model.GetRootItem());
@@ -437,9 +437,15 @@ TEST_F(SessionModelTest, MoveItemFromParentToRoot)
   auto new_parent = model.InsertItem<SessionItem>(model.GetRootItem());
   new_parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-//  // attempt to move property from parent to root
-//  EXPECT_THROW(model.MoveItem(property, new_parent, {"", 0}), InvalidMoveException);
+  // attempt to move property from parent to root
+  EXPECT_THROW(model.MoveItem(property, new_parent, {"", 0}), InvalidMoveException);
+
+  // items as before
+  EXPECT_EQ(new_parent->GetTotalItemCount(), 0);
+  EXPECT_EQ(compound->GetItem("thickness"), property);
 }
+
+//! More similar test scenarious in validateutils.test.cpp
 
 TEST_F(SessionModelTest, MoveItemBetweenParentTags)
 {
@@ -469,9 +475,7 @@ TEST_F(SessionModelTest, MoveItemBetweenParentTags)
   EXPECT_EQ(parent->GetItems("tag2"), expected);
 }
 
-//! Attempt to move a property item.
-
-TEST_F(SessionModelTest, InvalidMoveFromPropertyTag)
+TEST_F(SessionModelTest, MoveItemFromParentToRoot)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
@@ -492,7 +496,6 @@ TEST_F(SessionModelTest, InvalidMoveFromPropertyTag)
   expected = {child1};
   EXPECT_EQ(parent->GetAllItems(), expected);
 }
-
 
 TEST_F(SessionModelTest, ClearModel)
 {

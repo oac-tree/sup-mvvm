@@ -19,6 +19,7 @@
 
 #include "mvvm/model/sessionmodel.h"
 
+#include "mvvm/core/exceptions.h"
 #include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemcatalogue.h"
 #include "mvvm/model/itemfactory.h"
@@ -28,7 +29,7 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/core/exceptions.h"
+#include "mvvm/model/validateutils.h"
 
 #include <sstream>
 
@@ -88,8 +89,8 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
 
   int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
 
-//  std::string actual_tag =
-//      tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
+  //  std::string actual_tag =
+  //      tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
 
   return parent->InsertItem(std::move(item), TagIndex{tag_index.tag, actual_index});
 }
@@ -134,32 +135,10 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-  if (!item || !item->GetModel() || !item->GetParent())
-  {
-    throw std::runtime_error("Invalid input item");
-  }
-
-  if (!new_parent || !new_parent->GetModel())
-  {
-    throw std::runtime_error("Invalid parent item");
-  }
-
-  if (item->GetModel() != new_parent->GetModel())
-  {
-    throw std::runtime_error("Items belong to different models");
-  }
+  utils::ValidateItemMove(item, new_parent, tag_index);
 
   auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
-
-  if (!taken)
-  {
-    throw InvalidMoveException("Can't take an item ");
-  }
-
-  if (!InsertItem(std::move(taken), new_parent, tag_index))
-  {
-    throw std::runtime_error("MoveItemCommand::execute() -> Can't insert item.");
-  }
+  InsertItem(std::move(taken), new_parent, tag_index);
 }
 
 //! Returns the data for given item and role.
