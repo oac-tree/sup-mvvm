@@ -48,6 +48,8 @@ public:
 
   void RemoveItem(SessionItem* item) override;
 
+  void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
+
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   void Clear(std::function<void(SessionItem*)> callback = {}) override;

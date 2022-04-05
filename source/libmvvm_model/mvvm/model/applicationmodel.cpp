@@ -64,6 +64,12 @@ void ApplicationModel::RemoveItem(SessionItem *item)
   p_impl->m_composer.RemoveItem(item);
 }
 
+void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
+                                const TagIndex &tag_index)
+{
+  p_impl->m_composer.MoveItem(item, new_parent, tag_index);
+}
+
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)
 {
   return p_impl->m_composer.SetData(item, value, role);

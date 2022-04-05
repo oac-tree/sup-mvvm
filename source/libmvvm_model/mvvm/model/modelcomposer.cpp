@@ -132,7 +132,8 @@ void ModelComposer::MoveItem(SessionItem* item, SessionItem* new_parent, const T
   // TakeItem + InsertItem. This is turn will trigger four notifications:
   // AboutToRemoveItemNotify, ItemRemovedNotify, AboutToInsertItemNotify, ItemInsertedNotify.
   // If we decide to introduce own notifications for move, we will have to implement it here.
-  throw std::runtime_error("Not implemented");
+
+  p_impl->m_model->SessionModel::MoveItem(item, new_parent, tag_index);
 }
 
 void ModelComposer::Clear(std::function<void(SessionItem*)> callback)
