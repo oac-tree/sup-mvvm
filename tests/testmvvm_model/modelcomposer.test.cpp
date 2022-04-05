@@ -32,6 +32,8 @@ using ::testing::_;
 
 //! Tests for ModelComposer class.
 //! Class is used to manipulate the model and generate necessary notifications.
+//! FIXME tests duplicates tests from applicationmodel.test.cpp. Remove them after
+//! the removal of ModelComposer itself.
 
 class ModelComposerTest : public ::testing::Test
 {

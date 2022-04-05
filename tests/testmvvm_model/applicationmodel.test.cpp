@@ -21,6 +21,7 @@
 
 #include "mockmodellistener.h"
 
+#include "mvvm/core/exceptions.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionmodel.h"
@@ -333,7 +334,7 @@ TEST_F(ApplicationModelTest, RemoveItem)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Removing item.
+//! Moving item item.
 
 TEST_F(ApplicationModelTest, MoveItem)
 {
@@ -360,6 +361,36 @@ TEST_F(ApplicationModelTest, MoveItem)
   m_model.MoveItem(child, parent2, expected_tag_index2);
   EXPECT_EQ(parent1->GetTotalItemCount(), 0);
   EXPECT_EQ(parent2->GetTotalItemCount(), 1);
+
+  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
+//! Attempt to move property item from compound item.
+//! The operation should fail via exception throw, no signals should be emitted.
+
+TEST_F(ApplicationModelTest, IvalidItemMove)
+{
+  auto parent1 = m_model.InsertItem<CompoundItem>();
+  auto property = parent1->AddProperty("thickness", 42);
+  auto parent2 = m_model.InsertItem<CompoundItem>();
+  parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
+
+  MockModelListener listener(&m_model);
+
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+  // removing item
+  EXPECT_THROW(m_model.MoveItem(property, parent2, {"tag2", 0}), InvalidMoveException);
+  EXPECT_EQ(parent1->GetTotalItemCount(), 1);
+  EXPECT_EQ(parent2->GetTotalItemCount(), 0);
 
   // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
