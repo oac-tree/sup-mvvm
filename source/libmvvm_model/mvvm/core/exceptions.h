@@ -43,10 +43,18 @@ private:
 
 //! Generic error happening at runtime.
 
-class RuntimeError : public MessageException
+class RuntimeException : public MessageException
 {
 public:
-  explicit RuntimeError(const std::string& message);
+  explicit RuntimeException(const std::string& message);
+};
+
+//! Exception thrown when trying to
+
+class InvalidMoveException : public MessageException
+{
+public:
+  explicit InvalidMoveException(const std::string& message);
 };
 
 }  // namespace mvvm

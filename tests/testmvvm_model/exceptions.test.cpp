@@ -31,6 +31,9 @@ TEST_F(ExceptionsTest, Message)
 {
   std::string message("custom message");
 
-  auto exception = RuntimeError(message);
-  EXPECT_EQ(std::string(exception.what()), message);
+  auto exception1 = RuntimeException(message);
+  EXPECT_EQ(std::string(exception1.what()), message);
+
+  auto exception2 = InvalidMoveException(message);
+  EXPECT_EQ(std::string(exception2.what()), message);
 }

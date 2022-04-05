@@ -28,6 +28,9 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
+#include "mvvm/core/exceptions.h"
+
+#include <sstream>
 
 namespace mvvm
 {
@@ -150,7 +153,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
 
   if (!taken)
   {
-    throw std::runtime_error("Can't take an item");
+    throw InvalidMoveException("Can't take an item ");
   }
 
   if (!InsertItem(std::move(taken), new_parent, tag_index))

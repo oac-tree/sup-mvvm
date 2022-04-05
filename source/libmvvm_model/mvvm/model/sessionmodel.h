@@ -41,7 +41,7 @@ public:
   using SessionModelInterface::InsertItem;
 
   explicit SessionModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
-  virtual ~SessionModel();
+  ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;
   SessionModel& operator=(const SessionModel& other) = delete;
 
@@ -51,7 +51,7 @@ public:
                           const TagIndex& tag_index) override;
 
   SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent = nullptr,
-                             const TagIndex& tag_index = {}) override final;
+                             const TagIndex& tag_index = {}) final;
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 

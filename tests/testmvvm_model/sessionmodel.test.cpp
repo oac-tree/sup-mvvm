@@ -25,6 +25,7 @@
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
+#include "mvvm/core/exceptions.h"
 
 #include <gtest/gtest.h>
 
@@ -430,23 +431,14 @@ TEST_F(SessionModelTest, MoveItemFromRootToParent)
 TEST_F(SessionModelTest, MoveItemFromParentToRoot)
 {
   SessionModel model;
-  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
-  auto parent = model.InsertItem<SessionItem>(model.GetRootItem());
-  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto compound = model.InsertItem<CompoundItem>(model.GetRootItem());
+  auto property = compound->AddProperty("thickness", 42);
 
-  auto child0 = model.InsertItem<SessionItem>(parent);
-  auto child1 = model.InsertItem<SessionItem>(parent);
+  auto new_parent = model.InsertItem<SessionItem>(model.GetRootItem());
+  new_parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  // moving child0 from parent to root
-  model.MoveItem(child0, model.GetRootItem(), {"", 0});
-
-  // expected items for root item
-  std::vector<SessionItem*> expected = {child0, item0, parent};
-  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
-
-  // expected items for parent
-  expected = {child1};
-  EXPECT_EQ(parent->GetAllItems(), expected);
+//  // attempt to move property from parent to root
+//  EXPECT_THROW(model.MoveItem(property, new_parent, {"", 0}), InvalidMoveException);
 }
 
 TEST_F(SessionModelTest, MoveItemBetweenParentTags)
@@ -476,6 +468,31 @@ TEST_F(SessionModelTest, MoveItemBetweenParentTags)
   expected = {child3};
   EXPECT_EQ(parent->GetItems("tag2"), expected);
 }
+
+//! Attempt to move a property item.
+
+TEST_F(SessionModelTest, InvalidMoveFromPropertyTag)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
+  auto parent = model.InsertItem<SessionItem>(model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  auto child0 = model.InsertItem<SessionItem>(parent);
+  auto child1 = model.InsertItem<SessionItem>(parent);
+
+  // moving child0 from parent to root
+  model.MoveItem(child0, model.GetRootItem(), {"", 0});
+
+  // expected items for root item
+  std::vector<SessionItem*> expected = {child0, item0, parent};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+
+  // expected items for parent
+  expected = {child1};
+  EXPECT_EQ(parent->GetAllItems(), expected);
+}
+
 
 TEST_F(SessionModelTest, ClearModel)
 {

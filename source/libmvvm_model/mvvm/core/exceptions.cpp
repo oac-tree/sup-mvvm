@@ -29,6 +29,10 @@ const char* MessageException::what() const noexcept
   return message.c_str();
 }
 
-RuntimeError::RuntimeError(const std::string& message) : MessageException{message} {}
+RuntimeException::RuntimeException(const std::string& message) : MessageException{message} {}
+
+InvalidMoveException::InvalidMoveException(const std::string& message) : MessageException{message}
+{
+}
 
 }  // namespace mvvm
