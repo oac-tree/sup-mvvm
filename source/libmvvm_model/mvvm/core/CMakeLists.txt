@@ -4,4 +4,6 @@ target_sources(${library_name} PRIVATE
   variant.cpp
   uniqueidgenerator.cpp
   uniqueidgenerator.h
+  exceptions.cpp
+  exceptions.h
   )
