@@ -35,4 +35,12 @@ InvalidMoveException::InvalidMoveException(const std::string& message) : Message
 {
 }
 
+NotFoundKeyException::NotFoundKeyException(const std::string& message) : MessageException{message}
+{
+}
+
+ExistingKeyException::ExistingKeyException(const std::string& message) : MessageException{message}
+{
+}
+
 }  // namespace mvvm

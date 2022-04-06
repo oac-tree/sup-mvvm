@@ -57,6 +57,22 @@ public:
   explicit InvalidMoveException(const std::string& message);
 };
 
+//! Exception is thrown when no such key exists in a map.
+
+class NotFoundKeyException : public MessageException
+{
+public:
+  explicit NotFoundKeyException(const std::string& message);
+};
+
+//! Exception is thrown when such key already exists in the map.
+
+class ExistingKeyException : public MessageException
+{
+public:
+  explicit ExistingKeyException(const std::string& message);
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_CORE_EXCEPTIONS_H
