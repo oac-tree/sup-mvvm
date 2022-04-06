@@ -22,7 +22,8 @@
 #include "mvvm/model/itemcatalogue.h"
 #include "mvvm/model/sessionitem.h"
 
-using namespace mvvm;
+namespace mvvm
+{
 
 ItemFactory::ItemFactory() : m_catalogue(std::make_unique<ItemCatalogue>()) {}
 
@@ -43,3 +44,5 @@ std::unique_ptr<SessionItem> ItemFactory::CreateItem(const std::string& model_ty
 {
   return m_catalogue->Create(model_type);
 }
+
+}  // namespace mvvm
