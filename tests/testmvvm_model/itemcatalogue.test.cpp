@@ -20,6 +20,7 @@
 #include "mvvm/model/itemcatalogue.h"
 
 #include "mvvm/model/propertyitem.h"
+#include "mvvm/core/exceptions.h"
 
 #include <gtest/gtest.h>
 
@@ -67,10 +68,10 @@ TEST_F(ItemCatalogueTest, AddItem)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // registration of second item is not allowed
-  EXPECT_THROW(catalogue.RegisterItem<PropertyItem>(), std::runtime_error);
+  EXPECT_THROW(catalogue.RegisterItem<PropertyItem>(), ExistingKeyException);
 
   // item was not registered, creation not allowed
-  EXPECT_THROW(catalogue.Create("non-registered"), std::runtime_error);
+  EXPECT_THROW(catalogue.Create("non-registered"), NotFoundKeyException);
 
   // checking model types and labels
   EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({PropertyItem::Type}));
@@ -102,7 +103,7 @@ TEST_F(ItemCatalogueTest, CopyConstructor)
   EXPECT_TRUE(dynamic_cast<TestItem*>(item.get()) != nullptr);
 
   // copy of catalogue knows nothing about new VectorType
-  EXPECT_THROW(copy.Create(TestItem::Type), std::runtime_error);
+  EXPECT_THROW(copy.Create(TestItem::Type), NotFoundKeyException);
 }
 
 TEST_F(ItemCatalogueTest, AssignmentOperator)

@@ -19,6 +19,7 @@
 
 #include "mvvm/model/itemcatalogue.h"
 
+#include "mvvm/core/exceptions.h"
 #include "mvvm/model/sessionitem.h"
 
 #include <stdexcept>
@@ -61,8 +62,7 @@ void ItemCatalogue::RegisterItem(const std::string& model_type, const item_facto
 {
   if (Contains(model_type))
   {
-    throw std::runtime_error("Error in ItemCatalogue: attempt to add dublicate '" + model_type
-                             + "'");
+    throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + model_type + "'");
   }
   p_impl->m_info.push_back({model_type, label, func});
 }
@@ -80,7 +80,7 @@ std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type
                     [model_type](auto element) { return element.item_type == model_type; });
   if (it == p_impl->m_info.end())
   {
-    throw std::runtime_error("Error in ItemCatalogue: non existing '" + model_type + "'");
+    throw NotFoundKeyException("No item registered for model type '" + model_type + "'");
   }
   return it->factory_func();
 }
