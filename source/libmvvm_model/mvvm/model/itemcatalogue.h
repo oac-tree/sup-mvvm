@@ -32,6 +32,7 @@ class SessionItem;
 
 //! Catalogue for item constructions. Contains collection of factory functions associated with
 //! item's type and optional label.
+//! FIXME make catalogue templated.
 
 class MVVM_MODEL_EXPORT ItemCatalogue
 {

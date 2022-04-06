@@ -79,6 +79,9 @@ SessionModel::~SessionModel()
   p_impl->m_root_item.reset();
 }
 
+//! Insert item via move into the given `parent` under given `tag_index`.
+//! FIXME make default parameters (or their absence) as in the moethod InsertNewItem.
+
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                       const TagIndex& tag_index)
 {
@@ -95,7 +98,7 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
   return parent->InsertItem(std::move(item), TagIndex{tag_index.tag, actual_index});
 }
 
-//! Insert new item using item's modelType.
+//! Insert new item corresponding to the given `item_type` into the `parent` under given `tag_index`.
 
 SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionItem* parent,
                                          const TagIndex& tag_index)
