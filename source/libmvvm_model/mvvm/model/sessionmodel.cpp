@@ -98,7 +98,8 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
   return parent->InsertItem(std::move(item), TagIndex{tag_index.tag, actual_index});
 }
 
-//! Insert new item corresponding to the given `item_type` into the `parent` under given `tag_index`.
+//! Insert new item corresponding to the given `item_type` into the `parent` under given
+//! `tag_index`.
 
 SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionItem* parent,
                                          const TagIndex& tag_index)

@@ -19,11 +19,11 @@
 
 #include "mvvm/model/modelutils.h"
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/path.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/applicationmodel.h"
 
 #include <gtest/gtest.h>
 

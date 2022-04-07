@@ -34,6 +34,6 @@ MVVM_MODEL_EXPORT int RandInt(int low, int high);
 //! Produces random FLOAT values uniformly distributed on the  interval [low, high).
 MVVM_MODEL_EXPORT double RandDouble(double low, double high);
 
-}  // namespace mvvm::Utils
+}  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_NUMERICUTILS_H

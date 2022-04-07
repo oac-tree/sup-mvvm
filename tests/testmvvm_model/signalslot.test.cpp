@@ -255,5 +255,5 @@ TEST_F(SignalSlotTest, SubscribeLambdaRecursive)
 
   signal(1);
   EXPECT_TRUE(x >= 11);  // was called more than once
-  EXPECT_EQ(y, 22);  // was called
+  EXPECT_EQ(y, 22);      // was called
 }

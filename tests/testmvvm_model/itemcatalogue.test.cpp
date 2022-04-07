@@ -19,8 +19,8 @@
 
 #include "mvvm/model/itemcatalogue.h"
 
-#include "mvvm/model/propertyitem.h"
 #include "mvvm/core/exceptions.h"
+#include "mvvm/model/propertyitem.h"
 
 #include <gtest/gtest.h>
 

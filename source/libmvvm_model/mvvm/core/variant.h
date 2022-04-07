@@ -23,8 +23,8 @@
 //! @file variant.h
 //! Defines all supported elementary data types.
 
-#include "mvvm/model/externalproperty.h"
 #include "mvvm/model/comboproperty.h"
+#include "mvvm/model/externalproperty.h"
 #include "mvvm/model_export.h"
 
 #include <string>

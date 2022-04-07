@@ -270,7 +270,8 @@ TEST_F(TreeDataVariantConverterTest, ExternalPropertyRole)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing a vector with single element with role=0.
-  const std::string body{R"(<Variant role="42" type="ExternalProperty">text;color;identifier</Variant>)"};
+  const std::string body{
+      R"(<Variant role="42" type="ExternalProperty">text;color;identifier</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 

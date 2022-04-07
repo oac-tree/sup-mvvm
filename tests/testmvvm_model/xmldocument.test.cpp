@@ -22,8 +22,8 @@
 #include "folderbasedtest.h"
 #include "test_utils.h"
 
-#include "mvvm/model/propertyitem.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/propertyitem.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
 #include "mvvm/serialization/xmldocument.h"

@@ -171,15 +171,9 @@ TEST_F(LsignalTest,
   bool receiverOneCalled = false;
   bool receiverTwoCalled = false;
 
-  std::function<void()> receiverOne = [&receiverOneCalled]()
-  {
-    receiverOneCalled = true;
-  };
+  std::function<void()> receiverOne = [&receiverOneCalled]() { receiverOneCalled = true; };
 
-  std::function<void()> receiverTwo = [&receiverTwoCalled]()
-  {
-    receiverTwoCalled = true;
-  };
+  std::function<void()> receiverTwo = [&receiverTwoCalled]() { receiverTwoCalled = true; };
 
   lsignal::signal<void()> sigOne;
 

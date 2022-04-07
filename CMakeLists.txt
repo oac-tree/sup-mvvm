@@ -16,5 +16,4 @@ add_subdirectory(tests)
 include(installation)
 add_subdirectory(examples)
 
-# Defines 'clangformat' target. See CodeTools.cmake for details.
 project_codetools_setup()

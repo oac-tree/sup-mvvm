@@ -19,13 +19,14 @@
 
 #include "mvvm/viewmodel/propertytableviewmodel.h"
 
+#include "toyitems.h"
+
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/standarditems/vectoritem.h"
 
 #include <gtest/gtest.h>
-#include "toyitems.h"
 
 #include <QSignalSpy>
 #include <QStandardItemModel>

@@ -27,7 +27,7 @@
 #include "mvvm/editors/coloreditor.h"
 #include "mvvm/editors/combopropertyeditor.h"
 #include "mvvm/editors/externalpropertyeditor.h"
-#include "mvvm/editors/selectablecomboboxeditor.h"
 #include "mvvm/editors/scientificspinboxeditor.h"
+#include "mvvm/editors/selectablecomboboxeditor.h"
 
 #endif  // MVVM_EDITORS_CUSTOMEDITORINCLUDES_H

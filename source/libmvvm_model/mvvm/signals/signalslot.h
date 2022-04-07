@@ -29,7 +29,8 @@
 #include <vector>
 namespace mvvm
 {
-template<typename T> using vector = std::vector<T>;
+template <typename T>
+using vector = std::vector<T>;
 
 template <typename T>
 using Signal = lsignal::signal<T>;

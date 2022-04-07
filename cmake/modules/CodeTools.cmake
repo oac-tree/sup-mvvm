@@ -3,7 +3,7 @@ include(ClangFormat)
 
 # List of targets for project code beautification.
 set(BEAUTIFICATION_TARGETS mvvm_model mvvm_viewmodel testmvvm_model testmvvm_viewmodel)
-set(BEAUTIFICATION_EXAMPLES )
+set(BEAUTIFICATION_EXAMPLES celleditorscore plotgraphscore)
 
 # Defines new target for 'clangformat' to beautify whole project.
 # Use 'make clangformat' or 'cmake --build . --target clangformat' to beautify the code.

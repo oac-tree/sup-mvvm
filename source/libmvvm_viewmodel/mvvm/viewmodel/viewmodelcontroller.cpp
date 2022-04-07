@@ -26,13 +26,12 @@
 #include "mvvm/model/path.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/viewmodel/standardpresentationitems.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodel/viewitemmap.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewmodelbase.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
-#include "mvvm/viewmodel/viewitemfactory.h"
-#include "mvvm/viewmodel/standardpresentationitems.h"
 
 #include <QDebug>
 #include <map>
@@ -43,8 +42,7 @@ namespace
 //! Returns true if given SessionItem role is valid for view
 bool isValidItemRole(const mvvm::ViewItem *view, int item_role)
 {
-
-  if (auto presentation = dynamic_cast<const mvvm::SessionItemPresentation*>(view->item());
+  if (auto presentation = dynamic_cast<const mvvm::SessionItemPresentation *>(view->item());
       presentation)
   {
     if (presentation->GetDataRole() == item_role)

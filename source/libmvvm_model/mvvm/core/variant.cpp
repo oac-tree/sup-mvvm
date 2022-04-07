@@ -49,9 +49,9 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
 std::string TypeName(const variant_t &variant)
 {
   static std::map<int, std::string> type_name_map = {
-      {0, constants::kUndefinedTypeName},    {1, constants::kBoolTypeName},
-      {2, constants::kIntTypeName},          {3, constants::kDoubleTypeName},
-      {4, constants::kStringTypeName},       {5, constants::kVectorDoubleTypeName},
+      {0, constants::kUndefinedTypeName},     {1, constants::kBoolTypeName},
+      {2, constants::kIntTypeName},           {3, constants::kDoubleTypeName},
+      {4, constants::kStringTypeName},        {5, constants::kVectorDoubleTypeName},
       {6, constants::kComboPropertyTypeName}, {7, constants::kExternalPropertyTypeName}};
   return type_name_map[static_cast<int>(variant.index())];
 }

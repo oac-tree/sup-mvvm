@@ -81,7 +81,6 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRow(Sessi
     return result;
   }
 
-
   auto items_in_row = utils::SinglePropertyItems(*item);
   if (m_user_defined_column_labels.empty())
   {

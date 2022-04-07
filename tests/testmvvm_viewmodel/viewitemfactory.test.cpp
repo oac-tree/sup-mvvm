@@ -25,9 +25,9 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
 
 #include <gtest/gtest.h>
 

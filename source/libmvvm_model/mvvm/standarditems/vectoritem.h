@@ -46,6 +46,7 @@ public:
   void SetZ(double value);
 
   void SetXYZ(double x, double y, double Z);
+
 private:
   void Activate() override;
   void UpdateLabel();

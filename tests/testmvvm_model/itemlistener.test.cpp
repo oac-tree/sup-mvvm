@@ -19,10 +19,10 @@
 
 #include "mvvm/signals/itemlistener.h"
 
+#include "mockitemlistener.h"
+
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/standarditems/standarditemincludes.h"
-
-#include "mockitemlistener.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

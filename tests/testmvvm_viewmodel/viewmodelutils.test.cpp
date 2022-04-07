@@ -116,7 +116,7 @@ TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
   // setting ColorEditor as default editor type, will generate proper decoration role
   item.SetEditorType(::mvvm::constants::kColorEditorType);
 
-  EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);  
+  EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);
 }
 
 //! Testing decoration role of the item when it carries ExtendedProperty
