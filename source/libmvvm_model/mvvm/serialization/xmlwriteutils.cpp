@@ -109,7 +109,9 @@ std::string GetXMLString(const TreeData &tree_data)
   xmlTextWriterEndDocument(writer);
   xmlFreeTextWriter(writer);
 
-  return ToString(buf->content);
+  auto result = ToString(buf->content);
+  xmlBufferFree(buf);
+  return result;
 }
 
 }  // namespace mvvm
