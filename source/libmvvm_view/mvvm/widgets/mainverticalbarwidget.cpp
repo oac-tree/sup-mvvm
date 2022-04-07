@@ -35,7 +35,7 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
     : QFrame(parent)
     , m_stacked_widget(new QStackedWidget)
     , m_button_layout(new QVBoxLayout)
-    , m_button_group(new QButtonGroup)
+    , m_button_group(new QButtonGroup(this))
 {
   m_button_layout->setMargin(0);
   m_button_layout->setSpacing(0);
