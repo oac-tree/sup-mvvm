@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TOYITEMS_H
-#define TOYITEMS_H
+#ifndef TESTS_LIBTESTMACHINERY_TOYITEMS_H
+#define TESTS_LIBTESTMACHINERY_TOYITEMS_H
 
 //! @file toyitems.h
 //! Collection of toy items for testing purpose.
@@ -51,4 +51,4 @@ public:
 
 }  // namespace TestUtils::ToyItems
 
-#endif
+#endif  // TESTS_LIBTESTMACHINERY_TOYITEMS_H

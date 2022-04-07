@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MOCKMODELLISTENER_H
-#define MOCKMODELLISTENER_H
+#ifndef TESTS_LIBTESTMACHINERY_MOCKMODELLISTENER_H
+#define TESTS_LIBTESTMACHINERY_MOCKMODELLISTENER_H
 
 #include "mvvm/interfaces/modeleventsubscriberinterface.h"
 #include "mvvm/model/applicationmodel.h"
@@ -61,4 +61,4 @@ public:
   MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
 };
 
-#endif  // MOCKMODELLISTENER_H
+#endif  // TESTS_LIBTESTMACHINERY_MOCKMODELLISTENER_H

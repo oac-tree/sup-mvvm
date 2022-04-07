@@ -98,4 +98,4 @@ QString CreatePathPresentation(const QString& text);
 
 }  // namespace ModelView::Utils
 
-#endif // MVVM_WIDGETS_WIDGETUTILS_H
+#endif  // MVVM_WIDGETS_WIDGETUTILS_H

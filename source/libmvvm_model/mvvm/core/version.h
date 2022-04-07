@@ -58,4 +58,4 @@ inline std::string ProjectVersion()
 
 } // namespace ModelView
 
-#endif // MVVM_CORE_VERSION_H
+#endif  // MVVM_CORE_VERSION_H

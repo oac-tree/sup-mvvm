@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef PLOTGRAPHSCORE_GRAPHWIDGET_H
-#define PLOTGRAPHSCORE_GRAPHWIDGET_H
+#ifndef PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHWIDGET_H
+#define PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHWIDGET_H
 
 #include <QWidget>
 #include <memory>
@@ -67,4 +67,4 @@ private:
 
 }  // namespace plotgraphs
 
-#endif  // PLOTGRAPHSCORE_GRAPHWIDGET_H
+#endif  // PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHWIDGET_H
