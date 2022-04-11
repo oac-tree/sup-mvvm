@@ -79,12 +79,12 @@ TEST_F(ProjectUtilsTest, ProjectWindowTitle)
   EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "*Untitled");
 
   // saving in a project directory
-  project->Save(GetTestHomeDirectory());
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), GetTestHomeFolderName());
+  project->Save(GetTestHomeDir());
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), GetTestHomeDirName());
 
   // modifying
   sample_model->InsertItem<PropertyItem>();
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "*" + GetTestHomeFolderName());
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "*" + GetTestHomeDirName());
 }
 
 TEST_F(ProjectUtilsTest, IsPossibleProjectDir)
