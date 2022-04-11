@@ -35,11 +35,20 @@ InvalidMoveException::InvalidMoveException(const std::string& message) : Message
 {
 }
 
+InvalidInsertException::InvalidInsertException(const std::string& message)
+    : MessageException{message}
+{
+}
+
 NotFoundKeyException::NotFoundKeyException(const std::string& message) : MessageException{message}
 {
 }
 
 ExistingKeyException::ExistingKeyException(const std::string& message) : MessageException{message}
+{
+}
+
+ArgumentNullException::ArgumentNullException(const std::string& message) : MessageException{message}
 {
 }
 

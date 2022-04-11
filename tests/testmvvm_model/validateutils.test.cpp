@@ -38,6 +38,27 @@ public:
   SessionModel m_model;
 };
 
+TEST_F(ValidateUtilsTest, GetActualInsertTagIndex)
+{
+  using ::mvvm::utils::GetActualInsertTagIndex;
+
+  CompoundItem item;
+  EXPECT_THROW(GetActualInsertTagIndex(&item, TagIndex::Append()), InvalidInsertException);
+
+  // registering default tag
+  item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+
+  // checking that uninitialised tag is correctly converted to the right tag
+  EXPECT_EQ(GetActualInsertTagIndex(&item, {"", -1}), TagIndex("tag", 0));
+
+  // inserting an item, checking if tag points to the next one after
+  item.InsertItem<SessionItem>({"tag", 0});
+  EXPECT_EQ(GetActualInsertTagIndex(&item, {"", -1}), TagIndex("tag", 1));
+
+  // Wrong tag will be returned as it is. It will be validated in ValidateItemInsert method.
+  EXPECT_EQ(GetActualInsertTagIndex(&item, {"abc", 0}), TagIndex("abc", 0));
+}
+
 //! Check throw in ValidateItemMove when items are not defined, or do not have model/parent
 //! assigned.
 

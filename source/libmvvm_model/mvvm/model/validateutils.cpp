@@ -25,6 +25,26 @@
 namespace mvvm::utils
 {
 
+TagIndex GetActualInsertTagIndex(SessionItem *parent, const TagIndex &tag_index)
+{
+  if (!parent)
+  {
+    throw ArgumentNullException("Unintialised parent");
+  }
+
+  std::string actual_tag =
+      tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
+
+  if (actual_tag.empty())
+  {
+    throw InvalidInsertException("No tag is marked as default");
+  }
+
+  int actual_index = tag_index.index < 0 ? parent->GetItemCount(actual_tag) : tag_index.index;
+
+  return {TagIndex{actual_tag, actual_index}};
+}
+
 void ValidateItemMove(SessionItem *item, SessionItem *new_parent, const TagIndex &tag_index)
 {
   if (!item || !item->GetModel() || !item->GetParent())

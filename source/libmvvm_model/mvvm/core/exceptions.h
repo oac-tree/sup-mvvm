@@ -49,12 +49,20 @@ public:
   explicit RuntimeException(const std::string& message);
 };
 
-//! Exception thrown when trying to
+//! Exception thrown when trying to move item.
 
 class InvalidMoveException : public MessageException
 {
 public:
   explicit InvalidMoveException(const std::string& message);
+};
+
+//! Exception thrown when trying to insert item.
+
+class InvalidInsertException : public MessageException
+{
+public:
+  explicit InvalidInsertException(const std::string& message);
 };
 
 //! Exception is thrown when no such key exists in a map.
@@ -72,6 +80,15 @@ class ExistingKeyException : public MessageException
 public:
   explicit ExistingKeyException(const std::string& message);
 };
+
+//! Exception is thrown when the argument is nullptr.
+
+class ArgumentNullException : public MessageException
+{
+public:
+  explicit ArgumentNullException(const std::string& message);
+};
+
 
 }  // namespace mvvm
 
