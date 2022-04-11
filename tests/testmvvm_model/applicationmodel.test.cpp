@@ -238,6 +238,36 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
+//! Inserting item using templated insertion.
+//! Using defaut tag (real-life bug) when where is no default tag defined.
+
+//TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
+//{
+//  auto parent = m_model.InsertItem<CompoundItem>();
+//  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+
+//  MockModelListener listener(&m_model);
+//  TagIndex expected_tag_index{"tag", 0};
+
+//  {
+//    ::testing::InSequence seq;
+//    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+//    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+//  }
+//  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+//  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+//  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+//  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+//  // inserting item
+//  auto item = m_model.InsertItem<PropertyItem>(parent);
+//  EXPECT_EQ(item, parent->GetItem("tag"));
+
+//  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+//  testing::Mock::VerifyAndClearExpectations(&listener);
+//}
+
+
 //! Inserting item through the composer into another parent using move insertion.
 
 TEST_F(ApplicationModelTest, InsertItemViaMove)
