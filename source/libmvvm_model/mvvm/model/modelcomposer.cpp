@@ -40,10 +40,10 @@ struct ModelComposer::ModelComposerImpl
       parent = m_model->GetRootItem();
     }
 
-    int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
-
     std::string actual_tag =
         tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
+
+    int actual_index = tag_index.index < 0 ? parent->GetItemCount(actual_tag) : tag_index.index;
 
     return {parent, TagIndex{actual_tag, actual_index}};
   }
