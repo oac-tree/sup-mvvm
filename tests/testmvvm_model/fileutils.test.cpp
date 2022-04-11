@@ -38,14 +38,14 @@ public:
 
 TEST_F(FileUtilsTest, exists)
 {
-  EXPECT_TRUE(utils::IsExists(GetTestDirectory()));
+  EXPECT_TRUE(utils::IsExists(GetTestHomeDirectory()));
   EXPECT_FALSE(utils::IsExists(std::string()));
   EXPECT_FALSE(utils::IsExists(std::string("abc")));
 }
 
 TEST_F(FileUtilsTest, create_directory)
 {
-  std::string dirname = GetTestDirectory() + std::string("/") + "subdir";
+  std::string dirname = GetTestHomeDirectory() + std::string("/") + "subdir";
   utils::Remove(dirname);
 
   EXPECT_TRUE(utils::CreateDirectory(dirname));
@@ -54,7 +54,7 @@ TEST_F(FileUtilsTest, create_directory)
 
 TEST_F(FileUtilsTest, remove_all)
 {
-  std::string dirname = GetTestDirectory() + std::string("/") + "subdir2";
+  std::string dirname = GetTestHomeDirectory() + std::string("/") + "subdir2";
   utils::CreateDirectory(dirname);
 
   EXPECT_TRUE(utils::IsExists(dirname));
@@ -64,7 +64,7 @@ TEST_F(FileUtilsTest, remove_all)
 
 TEST_F(FileUtilsTest, base_name)
 {
-  std::string filename = GetTestDirectory() + std::string("/testmodel/fileutils.test.cpp");
+  std::string filename = GetTestHomeDirectory() + std::string("/testmodel/fileutils.test.cpp");
   std::string base_name = utils::GetBaseName(filename);
 
   EXPECT_EQ("fileutils.test", base_name);
@@ -72,34 +72,34 @@ TEST_F(FileUtilsTest, base_name)
 
 TEST_F(FileUtilsTest, FindFiles)
 {
-  testutils::CreateTextFile(GetTestDirectory() + "/a.txt", "");
-  testutils::CreateTextFile(GetTestDirectory() + "/name0.xml", "");
-  testutils::CreateTextFile(GetTestDirectory() + "/name1.xml", "");
+  testutils::CreateTextFile(GetTestHomeDirectory() + "/a.txt", "");
+  testutils::CreateTextFile(GetTestHomeDirectory() + "/name0.xml", "");
+  testutils::CreateTextFile(GetTestHomeDirectory() + "/name1.xml", "");
 
-  auto found_files = utils::FindFiles(GetTestDirectory(), ".xml");
+  auto found_files = utils::FindFiles(GetTestHomeDirectory(), ".xml");
 
   ASSERT_EQ(found_files.size(), 2);
   EXPECT_NE(found_files.end(), std::find(found_files.begin(), found_files.end(),
-                                         utils::Join(GetTestDirectory(), "name0.xml")));
+                                         utils::Join(GetTestHomeDirectory(), "name0.xml")));
   EXPECT_NE(found_files.end(), std::find(found_files.begin(), found_files.end(),
-                                         utils::Join(GetTestDirectory(), "name1.xml")));
+                                         utils::Join(GetTestHomeDirectory(), "name1.xml")));
 }
 
 TEST_F(FileUtilsTest, parent_path)
 {
   // parent path of testPath() is the main test folder
   // "<build>/test_output/test_FileUtils" -> "<build>/test_output/"
-  EXPECT_EQ(utils::GetParentPath(GetTestDirectory()), testutils::GetTestSuiteOutputDir());
+  EXPECT_EQ(utils::GetParentPath(GetTestHomeDirectory()), testutils::GetTestSuiteOutputDir());
 
   // "<build>/test_output/test_FileUtils/a.txt" -> "<build>/test_output/test_FileUtils/"
-  testutils::CreateTextFile(GetTestDirectory() + "/a.txt", "");
-  EXPECT_EQ(utils::GetParentPath(GetTestDirectory() + "/a.txt"), GetTestDirectory());
+  testutils::CreateTextFile(GetTestHomeDirectory() + "/a.txt", "");
+  EXPECT_EQ(utils::GetParentPath(GetTestHomeDirectory() + "/a.txt"), GetTestHomeDirectory());
 }
 
 TEST_F(FileUtilsTest, is_empty)
 {
   // creating new empty directory
-  std::string dirname = GetTestDirectory() + std::string("/") + "subdir_is_empty";
+  std::string dirname = GetTestHomeDirectory() + std::string("/") + "subdir_is_empty";
   utils::RemoveAll(dirname);
   utils::CreateDirectory(dirname);
 

@@ -23,28 +23,29 @@
 
 #include "mvvm/utils/fileutils.h"
 
-FolderBasedTest::FolderBasedTest(std::string folder_name) : m_folder_name(std::move(folder_name))
+FolderBasedTest::FolderBasedTest(std::string test_home_folder)
+    : m_test_home_folder(std::move(test_home_folder))
 {
-  mvvm::utils::CreateDirectory(GetTestDirectory());
+  mvvm::utils::CreateDirectory(GetTestHomeDirectory());
 }
 
-std::string FolderBasedTest::GetTestFolderName() const
+std::string FolderBasedTest::GetTestHomeFolderName() const
 {
-  return m_folder_name;
+  return m_test_home_folder;
 }
 
 //! Returns full path to the test folder. Located in CMAKE_BINARY_DIR/test_output/<m_test_dir>.
 
-std::string FolderBasedTest::GetTestDirectory() const
+std::string FolderBasedTest::GetTestHomeDirectory() const
 {
-  return testutils::GetTestSuiteOutputDir() + std::string("/") + GetTestFolderName();
+  return testutils::GetTestSuiteOutputDir() + std::string("/") + GetTestHomeFolderName();
 }
 
 //! Returns full path to the file with given name located in test directory.
 
 std::string FolderBasedTest::GetFilePath(const std::string &file_name) const
 {
-  return GetTestDirectory() + std::string("/") + file_name;
+  return GetTestHomeDirectory() + std::string("/") + file_name;
 }
 
 //! Creates an empty directory in main test folder.
@@ -52,7 +53,7 @@ std::string FolderBasedTest::GetFilePath(const std::string &file_name) const
 
 std::string FolderBasedTest::CreateEmptyDir(const std::string &subdir) const
 {
-  auto path = mvvm::utils::Join(GetTestDirectory(), subdir);
+  auto path = mvvm::utils::Join(GetTestHomeDirectory(), subdir);
   mvvm::utils::RemoveAll(path);
   mvvm::utils::CreateDirectory(path);
   return path;
