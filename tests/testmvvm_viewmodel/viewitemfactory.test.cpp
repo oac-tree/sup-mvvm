@@ -21,7 +21,6 @@
 
 #include "mockmodelnotifier.h"
 
-#include "mvvm/model/modelcomposer.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/standarditems/vectoritem.h"

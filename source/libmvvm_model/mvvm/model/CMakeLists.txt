@@ -20,8 +20,6 @@ target_sources(${library_name} PRIVATE
   itempool.h
   itemutils.cpp
   itemutils.h
-  modelcomposer.cpp
-  modelcomposer.h
   modelutils.cpp
   modelutils.h
   mvvm_types.h
