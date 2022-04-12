@@ -19,7 +19,7 @@
 
 #include "mvvm/model/applicationmodel.h"
 
-#include "mvvm/model/modelcomposer.h"
+#include "mvvm/model/validateutils.h"
 #include "mvvm/signals/modeleventnotifier.h"
 
 namespace mvvm
@@ -27,8 +27,19 @@ namespace mvvm
 struct ApplicationModel::ApplicationModelImpl
 {
   ModelEventNotifier m_notifier;
-  ModelComposer m_composer;
-  explicit ApplicationModelImpl(SessionModel *self) : m_composer(self, &m_notifier) {}
+  ApplicationModel *m_self{nullptr};
+  explicit ApplicationModelImpl(ApplicationModel *self) : m_self(self) {}
+
+  //! Returns real parent and index where item will be inserted.
+  std::pair<SessionItem *, TagIndex> GetInsertData(SessionItem *parent, const TagIndex &tag_index)
+  {
+    if (!parent)
+    {
+      parent = m_self->GetRootItem();
+    }
+
+    return {parent, utils::GetActualInsertTagIndex(parent, tag_index)};
+  }
 };
 
 ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
@@ -50,34 +61,63 @@ ModelEventSubscriberInterface *ApplicationModel::GetSubscriber() const
 SessionItem *ApplicationModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem *parent,
                                           const TagIndex &tag_index)
 {
-  return p_impl->m_composer.InsertItem(std::move(item), parent, tag_index);
+  // We have to know already here the actual parent and tag_index where item will be inserted
+  // to provide correct notification.
+  auto [actual_parent, actual_tag_index] = p_impl->GetInsertData(parent, tag_index);
+
+  utils::ValidateItemInsert(item.get(), actual_parent, actual_tag_index);
+
+  p_impl->m_notifier.AboutToInsertItemNotify(actual_parent, actual_tag_index);
+  auto result = SessionModel::InsertItem(std::move(item), actual_parent, actual_tag_index);
+  p_impl->m_notifier.ItemInsertedNotify(actual_parent, actual_tag_index);
+
+  return result;
 }
 
 std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,
                                                         const TagIndex &tag_index)
 {
-  return p_impl->m_composer.TakeItem(parent, tag_index);
+  p_impl->m_notifier.AboutToRemoveItemNotify(parent, tag_index);
+  auto result = SessionModel::TakeItem(parent, tag_index);
+  p_impl->m_notifier.ItemRemovedNotify(parent, tag_index);
+  return result;
 }
 
 void ApplicationModel::RemoveItem(SessionItem *item)
 {
-  p_impl->m_composer.RemoveItem(item);
+  if (!item)
+  {
+    throw std::runtime_error("Item is not initialised");
+  }
+  TakeItem(item->GetParent(), item->GetTagIndex());
 }
 
 void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
                                 const TagIndex &tag_index)
 {
-  p_impl->m_composer.MoveItem(item, new_parent, tag_index);
+  // For the moment MoveItem is implemented in SessionModel::MoveItem as two subsequent calls:
+  // TakeItem + InsertItem. This is turn will trigger four notifications:
+  // AboutToRemoveItemNotify, ItemRemovedNotify, AboutToInsertItemNotify, ItemInsertedNotify.
+  // If we decide to introduce own notifications for move, we will have to implement it here.
+  SessionModel::MoveItem(item, new_parent, tag_index);
 }
 
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)
 {
-  return p_impl->m_composer.SetData(item, value, role);
+  auto result = SessionModel::SetData(item, value, role);
+  if (result)
+  {
+    p_impl->m_notifier.DataChangedNotify(item, role);
+  }
+
+  return result;
 }
 
 void ApplicationModel::Clear(std::function<void(SessionItem *)> callback)
 {
-  return p_impl->m_composer.Clear(callback);
+  p_impl->m_notifier.ModelAboutToBeResetNotify(this);
+  SessionModel::Clear(callback);
+  p_impl->m_notifier.ModelResetNotify(this);
 }
 
 }  // namespace mvvm
