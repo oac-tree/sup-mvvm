@@ -21,12 +21,10 @@
 
 #include "test_utils.h"
 
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
-#include "mvvm/model/modelcomposer.h"
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/signals/modeleventnotifier.h"
 #include "mvvm/standarditems/containeritem.h"
 #include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
@@ -46,12 +44,11 @@ using namespace mvvm;
 class ViewModelControllerTest : public ::testing::Test
 {
 public:
-  ViewModelControllerTest()
-      : m_controller(&m_model, &m_viewmodel), m_composer(&m_model, &m_notifier)
+  ViewModelControllerTest() : m_controller(&m_model, &m_viewmodel)
   {
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    m_controller.SubscribeTo(&m_notifier);
+    m_controller.SubscribeTo(m_model.GetSubscriber());
     m_controller.Init();
   }
 
@@ -82,11 +79,9 @@ public:
     return utils::FindViewsForItem<SessionItem>(&m_viewmodel, item);
   }
 
-  SessionModel m_model;
+  ApplicationModel m_model;
   ViewModelBase m_viewmodel;
   ViewModelController m_controller;
-  ModelEventNotifier m_notifier;
-  ModelComposer m_composer;
 };
 
 //! Empty model.
@@ -238,7 +233,7 @@ TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  auto item = m_composer.InsertItem<PropertyItem>();
+  auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
 
   // checking signaling
@@ -282,9 +277,9 @@ TEST_F(ViewModelControllerTest, InitThenInsertProperties)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  auto item0 = m_composer.InsertItem<PropertyItem>();
-  auto item1 = m_composer.InsertItem<PropertyItem>();
-  auto item2 = m_composer.InsertItem<PropertyItem>();
+  auto item0 = m_model.InsertItem<PropertyItem>();
+  auto item1 = m_model.InsertItem<PropertyItem>();
+  auto item2 = m_model.InsertItem<PropertyItem>();
 
   // checking signaling
   EXPECT_EQ(spy_insert.count(), 3);
@@ -314,8 +309,8 @@ TEST_F(ViewModelControllerTest, InsertInFront)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  auto item0 = m_composer.InsertItem<PropertyItem>();
-  auto item1 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
+  auto item0 = m_model.InsertItem<PropertyItem>();
+  auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
 
   // checking signaling
   EXPECT_EQ(spy_insert.count(), 2);
@@ -335,9 +330,9 @@ TEST_F(ViewModelControllerTest, InsertBetween)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  auto item0 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
-  auto item1 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});
-  auto item2 = m_composer.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});  // between
+  auto item0 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
+  auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});
+  auto item2 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});  // between
 
   // checking signaling
   EXPECT_EQ(spy_insert.count(), 3);
@@ -358,9 +353,9 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  auto parent = m_composer.InsertItem<CompoundItem>();
+  auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
-  auto child = m_composer.InsertItem<SessionItem>(parent);
+  auto child = m_model.InsertItem<SessionItem>(parent);
 
   // checking signaling
   EXPECT_EQ(spy_insert.count(), 2);
@@ -385,12 +380,12 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
 
 TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 {
-  auto item = m_composer.InsertItem<PropertyItem>();
+  auto item = m_model.InsertItem<PropertyItem>();
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  m_composer.RemoveItem(item);
+  m_model.RemoveItem(item);
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 
@@ -408,11 +403,11 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 
 TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 {
-  auto parent = m_composer.InsertItem<CompoundItem>();
+  auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
-  auto child0 = m_composer.InsertItem<SessionItem>(parent, {"", 0});
-  auto child1 = m_composer.InsertItem<SessionItem>(parent, {"", 1});
-  auto child2 = m_composer.InsertItem<SessionItem>(parent, {"", 2});
+  auto child0 = m_model.InsertItem<SessionItem>(parent, {"", 0});
+  auto child1 = m_model.InsertItem<SessionItem>(parent, {"", 1});
+  auto child2 = m_model.InsertItem<SessionItem>(parent, {"", 2});
 
   // one entry (parent)
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -426,7 +421,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
   QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // removing middle child
-  m_composer.TakeItem(parent, {"", 1});
+  m_model.TakeItem(parent, {"", 1});
 
   // one entry (parent)
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -457,9 +452,9 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 
 TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 {
-  auto container0 = m_composer.InsertItem<ContainerItem>();
-  auto container1 = m_composer.InsertItem<ContainerItem>();
-  auto child0 = m_composer.InsertItem<VectorItem>(container0, TagIndex::Append());
+  auto container0 = m_model.InsertItem<ContainerItem>();
+  auto container1 = m_model.InsertItem<ContainerItem>();
+  auto child0 = m_model.InsertItem<VectorItem>(container0, TagIndex::Append());
 
   EXPECT_EQ(m_viewmodel.rowCount(), 2);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
@@ -476,13 +471,13 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
   QSignalSpy spyRemove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // taking child, but keeping it
-  auto taken = m_composer.TakeItem(container0, {"", 0});
+  auto taken = m_model.TakeItem(container0, {"", 0});
 
   EXPECT_EQ(spyInsert.count(), 0);
   EXPECT_EQ(spyRemove.count(), 1);
 
   // inserting it to another parent
-  EXPECT_NO_FATAL_FAILURE(m_composer.InsertItem(std::move(taken), container1, TagIndex::Append()));
+  EXPECT_NO_FATAL_FAILURE(m_model.InsertItem(std::move(taken), container1, TagIndex::Append()));
 
   EXPECT_EQ(spyInsert.count(), 4);  // vectorItem and 3 coordinates
   EXPECT_EQ(spyRemove.count(), 1);
@@ -497,13 +492,13 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 
 TEST_F(ViewModelControllerTest, SetData)
 {
-  auto item = m_composer.InsertItem<PropertyItem>();
+  auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
 
   QSignalSpy spy_data_changed(&m_viewmodel, &ViewModelBase::dataChanged);
 
   // modifying data through the composer
-  m_composer.SetData(item, 42.0, DataRole::kData);
+  m_model.SetData(item, 42.0, DataRole::kData);
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
@@ -521,7 +516,7 @@ TEST_F(ViewModelControllerTest, SetData)
 
 TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
 {
-  auto item = m_composer.InsertItem<PropertyItem>();
+  auto item = m_model.InsertItem<PropertyItem>();
 
   m_controller.Init(item);
 
@@ -534,7 +529,7 @@ TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
 
 TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
 {
-  auto item = m_composer.InsertItem<CompoundItem>();
+  auto item = m_model.InsertItem<CompoundItem>();
   item->AddProperty("thickness", 42.0);
   item->AddProperty<VectorItem>("position");
   item->AddProperty("radius", 43.0);
@@ -554,16 +549,16 @@ TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
 
 TEST_F(ViewModelControllerTest, onModelReset)
 {
-  m_composer.InsertItem<SessionItem>();
-  m_composer.InsertItem<SessionItem>();
-  m_composer.InsertItem<SessionItem>();
+  m_model.InsertItem<SessionItem>();
+  m_model.InsertItem<SessionItem>();
+  m_model.InsertItem<SessionItem>();
 
   QSignalSpy spy_about_reset(&m_viewmodel, &ViewModelBase::modelAboutToBeReset);
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
 
-  m_composer.Clear({});
+  m_model.Clear({});
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -578,13 +573,13 @@ TEST_F(ViewModelControllerTest, onModelReset)
 TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
 {
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
-  m_composer.Clear({});
+  m_model.Clear({});
 
   EXPECT_EQ(spy_reset.count(), 1);
 
   // inserting new item
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  m_composer.InsertItem<SessionItem>();
+  m_model.InsertItem<SessionItem>();
 
   EXPECT_EQ(spy_insert.count(), 1);
 }
