@@ -295,37 +295,57 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item using templated insertion.
-//! Using defaut tag (real-life bug) when where is no default tag defined.
+//! Attempt to insert item into property tag.
 
-// FIXME repair test
+TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->AddProperty("thickness", 42);
 
-//TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
-//{
-//  auto parent = m_model.InsertItem<CompoundItem>();
-//  parent->AddProperty("thickness", 42);
+  MockModelListener listener(&m_model);
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
-//  MockModelListener listener(&m_model);
-//  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
-//  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
-//  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
-//  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
-//  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
-//  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  // It shouldn't be allowed to insert another item in the already existing property tag
+  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
 
-//  // It shouldn't be allowed to insert another item in the already existing property tag
-//  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
 
-//  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
-//  testing::Mock::VerifyAndClearExpectations(&listener);
-//}
+//! Attempt to insert item into property tag.
+
+TEST_F(ApplicationModelTest, InsertNewItemInPropertyTag)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->AddProperty("thickness", 42);
+
+  MockModelListener listener(&m_model);
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+  // It shouldn't be allowed to insert another item in the already existing property tag
+  EXPECT_THROW(m_model.InsertNewItem(PropertyItem::Type, parent, {"thickness", 0}),
+               InvalidInsertException);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
 
 //! Inserting new item through the composer into another parent.
 
- TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
+TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
 {
-   auto parent = m_model.InsertItem<CompoundItem>();
-   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   MockModelListener listener(&m_model);
 

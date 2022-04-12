@@ -243,6 +243,21 @@ TEST_F(SessionModelTest, InsertItemInPropertyTag)
   EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
 }
 
+//! Attempt to insert item in property tag.
+
+TEST_F(SessionModelTest, InsertNewItemInPropertyTag)
+{
+  SessionModel model("Test");
+
+  // inserting single item and registering tag
+  auto parent = model.InsertItem<CompoundItem>();
+  parent->AddProperty("thickness", 42);
+
+  // adding child to default tag
+  EXPECT_THROW(model.InsertNewItem(PropertyItem::Type, parent, {"thickness", 0}),
+               InvalidInsertException);
+}
+
 //! Inserting single PropertyItem using move.
 //! Revise test.
 

@@ -49,7 +49,7 @@ public:
   using SessionModelInterface::InsertItem;
 
   ModelComposer(SessionModel* model, ModelEventNotifierInterface* notifier);
-  virtual ~ModelComposer();
+  ~ModelComposer() override;
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override;

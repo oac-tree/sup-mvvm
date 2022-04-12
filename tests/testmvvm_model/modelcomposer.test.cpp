@@ -89,54 +89,55 @@ TEST_F(ModelComposerTest, SetSameData)
 }
 
 //! Inserting new item into the root item through the composer.
+// FIXME remove commented code
 
-TEST_F(ModelComposerTest, InsertNewItem)
-{
-  SessionItem* expected_parent = m_model.GetRootItem();
-  TagIndex expected_tag_index{"rootTag", 0};
+//TEST_F(ModelComposerTest, InsertNewItem)
+//{
+//  SessionItem* expected_parent = m_model.GetRootItem();
+//  TagIndex expected_tag_index{"rootTag", 0};
 
-  {
-    ::testing::InSequence seq;
-    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(expected_parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(m_notifier, ItemInsertedNotify(expected_parent, expected_tag_index)).Times(1);
-  }
-  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
-  EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
-  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
+//  {
+//    ::testing::InSequence seq;
+//    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(expected_parent, expected_tag_index)).Times(1);
+//    EXPECT_CALL(m_notifier, ItemInsertedNotify(expected_parent, expected_tag_index)).Times(1);
+//  }
+//  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
+//  EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
+//  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
+//  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
+//  EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+//  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
-  // inserting item into the root
-  auto item = m_composer.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
-  EXPECT_EQ(item, m_model.GetRootItem()->GetAllItems()[0]);
-}
+//  // inserting item into the root
+//  auto item = m_composer.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
+//  EXPECT_EQ(item, m_model.GetRootItem()->GetAllItems()[0]);
+//}
 
-//! Inserting new item through the composer into another parent.
+////! Inserting new item through the composer into another parent.
 
-TEST_F(ModelComposerTest, InsertNewItemIntoParent)
-{
-  auto parent = m_model.InsertItem<CompoundItem>();
-  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+//TEST_F(ModelComposerTest, InsertNewItemIntoParent)
+//{
+//  auto parent = m_model.InsertItem<CompoundItem>();
+//  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  TagIndex expected_tag_index{"tag", 0};
+//  TagIndex expected_tag_index{"tag", 0};
 
-  {
-    ::testing::InSequence seq;
-    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
-  }
-  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
-  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
-  EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
-  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
+//  {
+//    ::testing::InSequence seq;
+//    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, expected_tag_index)).Times(1);
+//    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, expected_tag_index)).Times(1);
+//  }
+//  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(_, _)).Times(0);
+//  EXPECT_CALL(m_notifier, ItemRemovedNotify(_, _)).Times(0);
+//  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
+//  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(_)).Times(0);
+//  EXPECT_CALL(m_notifier, ModelResetNotify(_)).Times(0);
+//  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(_)).Times(0);
 
-  // inserting item
-  auto item = m_composer.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
-  EXPECT_EQ(item, parent->GetItem("tag"));
-}
+//  // inserting item
+//  auto item = m_composer.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
+//  EXPECT_EQ(item, parent->GetItem("tag"));
+//}
 
 //! Inserting item through the composer into another parent using templated insertion.
 
