@@ -87,7 +87,14 @@ int TaggedItems::GetItemCount(const std::string& tag_name) const
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
+  if (tag_index.tag.empty() && GetDefaultTag().empty())
+  {
+    return false;
+  }
+
   // FIXME (!) remove implicit convertion of invalid tag/index into something meaningful
+  // simplify code below, remove check above
+
   auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
   auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
