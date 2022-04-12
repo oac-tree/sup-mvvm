@@ -45,7 +45,34 @@ TagIndex GetActualInsertTagIndex(const mvvm::SessionItem *parent, const TagIndex
   return {TagIndex{actual_tag, actual_index}};
 }
 
-void ValidateItemMove(const mvvm::SessionItem *item, const mvvm::SessionItem *new_parent, const TagIndex &tag_index)
+void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
+                        const TagIndex &tag_index)
+{
+  if (!item)
+  {
+    throw InvalidInsertException("Invalid input item");
+  }
+
+  if (item->GetParent())
+  {
+    throw InvalidInsertException("Item belongs to another parent");
+  }
+
+  if (!parent)
+  {
+    throw InvalidInsertException("Invalid parent item");
+  }
+
+  auto actual_tag_index = GetActualInsertTagIndex(parent, tag_index);
+
+  if (!parent->GetTaggedItems()->CanInsertItem(item, actual_tag_index))
+  {
+    throw InvalidInsertException("Can't insert item to a new parent");
+  }
+}
+
+void ValidateItemMove(const mvvm::SessionItem *item, const mvvm::SessionItem *new_parent,
+                      const TagIndex &tag_index)
 {
   if (!item || !item->GetModel() || !item->GetParent())
   {

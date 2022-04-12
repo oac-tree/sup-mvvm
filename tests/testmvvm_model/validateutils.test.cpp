@@ -59,6 +59,64 @@ TEST_F(ValidateUtilsTest, GetActualInsertTagIndex)
   EXPECT_EQ(GetActualInsertTagIndex(&item, {"abc", 0}), TagIndex("abc", 0));
 }
 
+//! Check throw in ValidateItemInsert when items are not defined, or do not have model/parent
+//! assigned.
+
+TEST_F(ValidateUtilsTest, ValidateItemInsertInvalidItems)
+{
+  using ::mvvm::utils::ValidateItemInsert;
+
+  // invalid items
+  EXPECT_THROW(ValidateItemInsert(nullptr, nullptr, TagIndex()), InvalidInsertException);
+
+  // item without model
+  SessionItem item;
+  CompoundItem parent;
+  EXPECT_THROW(ValidateItemInsert(&item, &parent, TagIndex()), InvalidInsertException);
+}
+
+//! Check throw in ValidateItemInsert when item belongs already to another item.
+
+TEST_F(ValidateUtilsTest, ValidateItemInsertWhenItemBelongsToAnotherParent)
+{
+  using ::mvvm::utils::ValidateItemInsert;
+
+  auto parent0 = m_model.InsertItem<CompoundItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
+
+  EXPECT_THROW(ValidateItemInsert(child, parent0, {"tag1", 0}), InvalidInsertException);
+}
+
+//! Check no_throw in ValidateItemInsert when insertion is valid.
+
+TEST_F(ValidateUtilsTest, ValidateItemInsertInDefaultTag)
+{
+  using ::mvvm::utils::ValidateItemInsert;
+
+  auto parent0 = m_model.InsertItem<CompoundItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  CompoundItem candidate;
+
+  EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"tag1", 0}));
+  EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}));
+}
+
+//! Check throw in ValidateItemInsert when no default tag is present.
+
+TEST_F(ValidateUtilsTest, ValidateItemInsertWhenNoDefaultTagIsPresent)
+{
+  using ::mvvm::utils::ValidateItemInsert;
+
+  auto parent0 = m_model.InsertItem<CompoundItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ false);
+
+  CompoundItem candidate;
+
+  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}), InvalidInsertException);
+}
+
 //! Check throw in ValidateItemMove when items are not defined, or do not have model/parent
 //! assigned.
 
