@@ -99,7 +99,8 @@ bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) con
 {
   const bool valid_index = (index >= 0 && index <= GetItemCount());
   const bool enough_place = !IsMaximumReached();
-  return valid_index && enough_place && IsValidItem(item);
+  const bool valid_type = item && m_tag_info.IsValidType(item->GetType());
+  return valid_index && enough_place && valid_type;
 }
 
 //! Returns index of item in vector of items.
@@ -153,11 +154,4 @@ bool SessionItemContainer::IsMaximumReached() const
 bool SessionItemContainer::IsMinimumReached() const
 {
   return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == GetItemCount();
-}
-
-//! Returns true if item's Type is intended for this tag.
-
-bool SessionItemContainer::IsValidItem(const SessionItem* item) const
-{
-  return item && m_tag_info.IsValidType(item->GetType());
 }

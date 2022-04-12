@@ -36,7 +36,7 @@ public:
   using container_t = std::vector<SessionItem*>;
   using const_iterator = container_t::const_iterator;
 
-  SessionItemContainer(TagInfo tag_info);
+  explicit SessionItemContainer(TagInfo tag_info);
   SessionItemContainer(const SessionItemContainer&) = delete;
   SessionItemContainer& operator=(const SessionItemContainer&) = delete;
   ~SessionItemContainer();
@@ -70,7 +70,6 @@ public:
 private:
   bool IsMaximumReached() const;
   bool IsMinimumReached() const;
-  bool IsValidItem(const SessionItem* item) const;
 
   TagInfo m_tag_info;
   container_t m_items;
