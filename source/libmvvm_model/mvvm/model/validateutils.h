@@ -34,10 +34,10 @@ namespace mvvm::utils
 {
 
 //! Converts TagIndex::Append() into actual TagIndex.
-TagIndex GetActualInsertTagIndex(SessionItem* parent, const TagIndex& tag_index);
+TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
 
 //! Perform validation is item move is allowed. Will throw InvalidMoveException otherwise.
-void ValidateItemMove(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index);
+void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent, const TagIndex& tag_index);
 
 }  // namespace mvvm::utils
 

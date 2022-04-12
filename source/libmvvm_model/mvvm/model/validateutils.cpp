@@ -25,7 +25,7 @@
 namespace mvvm::utils
 {
 
-TagIndex GetActualInsertTagIndex(SessionItem *parent, const TagIndex &tag_index)
+TagIndex GetActualInsertTagIndex(const mvvm::SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
   {
@@ -45,7 +45,7 @@ TagIndex GetActualInsertTagIndex(SessionItem *parent, const TagIndex &tag_index)
   return {TagIndex{actual_tag, actual_index}};
 }
 
-void ValidateItemMove(SessionItem *item, SessionItem *new_parent, const TagIndex &tag_index)
+void ValidateItemMove(const mvvm::SessionItem *item, const mvvm::SessionItem *new_parent, const TagIndex &tag_index)
 {
   if (!item || !item->GetModel() || !item->GetParent())
   {
