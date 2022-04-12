@@ -63,6 +63,8 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
     throw InvalidInsertException("Invalid parent item");
   }
 
+  // FIXME refactor, remove call for GetActualInsertTagIndex since it is called twice in
+  // the context of ApplicationModel
   auto actual_tag_index = GetActualInsertTagIndex(parent, tag_index);
 
   if (!parent->GetTaggedItems()->CanInsertItem(item, actual_tag_index))

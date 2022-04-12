@@ -91,6 +91,8 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
   }
 
   auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
+  utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
+
   return parent->InsertItem(std::move(item), actual_tagindex);
 }
 

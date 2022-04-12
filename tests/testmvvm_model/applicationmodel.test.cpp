@@ -295,36 +295,61 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-////! Inserting new item through the composer into another parent.
+//! Inserting item using templated insertion.
+//! Using defaut tag (real-life bug) when where is no default tag defined.
 
-// TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
+// FIXME repair test
+
+//TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
 //{
-//   auto parent = m_model.InsertItem<CompoundItem>();
-//   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+//  auto parent = m_model.InsertItem<CompoundItem>();
+//  parent->AddProperty("thickness", 42);
 
 //  MockModelListener listener(&m_model);
-
-//  TagIndex expected_tag_index{"tag", 0};
-
-//  {
-//    ::testing::InSequence seq;
-//    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-//    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
-//  }
-//  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
-//  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+//  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+//  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
 //  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
 //  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
 //  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
 //  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
-//  // inserting item
-//  auto item = m_model.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
-//  EXPECT_EQ(item, parent->GetItem("tag"));
+//  // It shouldn't be allowed to insert another item in the already existing property tag
+//  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
 
 //  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
 //  testing::Mock::VerifyAndClearExpectations(&listener);
 //}
+
+//! Inserting new item through the composer into another parent.
+
+ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
+{
+   auto parent = m_model.InsertItem<CompoundItem>();
+   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+
+  MockModelListener listener(&m_model);
+
+  TagIndex expected_tag_index{"tag", 0};
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  }
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+  // inserting item
+  auto item = m_model.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
+  EXPECT_EQ(item, parent->GetItem("tag"));
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
 
 //! Inserting item through the composer into another parent using move insertion.
 
