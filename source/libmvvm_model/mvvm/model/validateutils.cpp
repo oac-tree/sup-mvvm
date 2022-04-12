@@ -65,7 +65,7 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
 
   if (!parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    throw InvalidInsertException("Can't insert item to a new parent");
+    throw InvalidInsertException("Can't insert item to parent");
   }
 }
 
