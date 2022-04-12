@@ -121,7 +121,36 @@ TEST_F(ApplicationModelTest, SetSameData)
 
 //! Inserting new item into the root item through the composer.
 
-TEST_F(ApplicationModelTest, InsertNewItem)
+TEST_F(ApplicationModelTest, InsertItemIntoRoot)
+{
+  SessionItem* expected_parent = m_model.GetRootItem();
+  TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
+
+  MockModelListener listener(&m_model);
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
+  }
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+  // inserting item into the root
+  auto item = m_model.InsertItem<SessionItem>();
+  EXPECT_EQ(item, m_model.GetRootItem()->GetAllItems()[0]);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
+//! Inserting new item into the root item.
+
+TEST_F(ApplicationModelTest, InsertNewItemIntoRoot)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -148,21 +177,19 @@ TEST_F(ApplicationModelTest, InsertNewItem)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting new item through the composer into another parent.
+//! Inserting new item into the root item via move.
 
-TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
+TEST_F(ApplicationModelTest, InsertItemIntoRootViaMove)
 {
-  auto parent = m_model.InsertItem<CompoundItem>();
-  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  SessionItem* expected_parent = m_model.GetRootItem();
+  TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
 
   MockModelListener listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
   }
   EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
@@ -171,9 +198,16 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
   EXPECT_CALL(listener, OnModelReset(_)).Times(0);
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
-  // inserting item
-  auto item = m_model.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
-  EXPECT_EQ(item, parent->GetItem("tag"));
+  // inserting item into the root
+  auto item = std::make_unique<PropertyItem>();
+  auto item_ptr = item.get();
+
+  auto inserted = m_model.InsertItem(std::move(item), m_model.GetRootItem(), {"", 0});
+  EXPECT_EQ(item_ptr, m_model.GetRootItem()->GetAllItems()[0]);
+  EXPECT_TRUE(item == nullptr);
+  EXPECT_EQ(inserted, item_ptr);
+  EXPECT_EQ(inserted->GetParent(), m_model.GetRootItem());
+  EXPECT_EQ(inserted->GetModel(), &m_model);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -181,10 +215,10 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
 
 //! Inserting item using templated insertion.
 
-TEST_F(ApplicationModelTest, InsertItem)
+TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
-  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
 
   MockModelListener listener(&m_model);
   TagIndex expected_tag_index{"tag", 0};
@@ -241,12 +275,35 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug) when where is no default tag defined.
 
-//TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
+TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+
+  MockModelListener listener(&m_model);
+  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+  // inserting item
+  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent), InvalidInsertException);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
+////! Inserting new item through the composer into another parent.
+
+// TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
 //{
-//  auto parent = m_model.InsertItem<CompoundItem>();
-//  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+//   auto parent = m_model.InsertItem<CompoundItem>();
+//   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
 //  MockModelListener listener(&m_model);
+
 //  TagIndex expected_tag_index{"tag", 0};
 
 //  {
@@ -254,19 +311,20 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 //    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
 //    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
 //  }
+//  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+//  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
 //  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
 //  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
 //  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
 //  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
 //  // inserting item
-//  auto item = m_model.InsertItem<PropertyItem>(parent);
+//  auto item = m_model.InsertNewItem(PropertyItem::Type, parent, {"tag", 0});
 //  EXPECT_EQ(item, parent->GetItem("tag"));
 
 //  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
 //  testing::Mock::VerifyAndClearExpectations(&listener);
 //}
-
 
 //! Inserting item through the composer into another parent using move insertion.
 

@@ -90,12 +90,8 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
     parent = GetRootItem();
   }
 
-  int actual_index = tag_index.index < 0 ? parent->GetItemCount(tag_index.tag) : tag_index.index;
-
-  //  std::string actual_tag =
-  //      tag_index.tag.empty() ? parent->GetTaggedItems()->GetDefaultTag() : tag_index.tag;
-
-  return parent->InsertItem(std::move(item), TagIndex{tag_index.tag, actual_index});
+  auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
+  return parent->InsertItem(std::move(item), actual_tagindex);
 }
 
 //! Insert new item corresponding to the given `item_type` into the `parent` under given
