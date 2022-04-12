@@ -20,28 +20,36 @@
 #include "mvvm/model/taggeditems.h"
 
 #include "mvvm/model/sessionitemcontainer.h"
+#include "mvvm/core/exceptions.h"
 
 #include <stdexcept>
 
-using namespace mvvm;
+namespace mvvm
+{
 
 TaggedItems::TaggedItems() = default;
 
 TaggedItems::~TaggedItems()
 {
   for (auto tag : m_containers)
+  {
     delete tag;
+  }
 }
 
 void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 {
   if (HasTag(tag_info.GetName()))
+  {
     throw std::runtime_error("SessionItemTags::registerTag() -> Error. Existing name '"
                              + tag_info.GetName() + "'");
+  }
 
   m_containers.push_back(new SessionItemContainer(tag_info));
   if (set_as_default)
+  {
     m_default_tag = tag_info.GetName();
+  }
 }
 
 //! Returns true if container with such name exists.
@@ -49,8 +57,12 @@ void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 bool TaggedItems::HasTag(const std::string& name) const
 {
   for (auto tag : m_containers)
+  {
     if (tag->GetName() == name)
+    {
       return true;
+    }
+  }
   return false;
 }
 
@@ -75,10 +87,11 @@ int TaggedItems::GetItemCount(const std::string& tag_name) const
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
+  // FIXME (!) remove implicit convertion of invalid tag/index into something meaningful
   auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
   auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return GetContainer(tag_index.tag)->CanInsertItem(item, index);
+  return tag_container->CanInsertItem(item, index);
 }
 
 //! Inserts item in container with given tag name and at given index.
@@ -143,7 +156,9 @@ TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
   {
     int index = cont->IndexOfItem(item);
     if (index != -1)
+    {
       return {cont->GetName(), index};
+    }
   }
 
   return {};
@@ -175,7 +190,9 @@ int TaggedItems::GetTagCount() const
 SessionItemContainer& TaggedItems::ContainerAt(int index)
 {
   if (index < 0 || index >= GetTagCount())
+  {
     throw std::runtime_error("Error it SessionItemTags: wrong container index");
+  }
   return *m_containers.at(index);
 }
 
@@ -192,8 +209,10 @@ SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) con
   std::string tagName = tag_name.empty() ? GetDefaultTag() : tag_name;
   auto container = FindContainer(tagName);
   if (!container)
+  {
     throw std::runtime_error("SessionItemTags::container() -> Error. No such container '" + tagName
                              + "'");
+  }
 
   return container;
 }
@@ -203,8 +222,14 @@ SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) con
 SessionItemContainer* TaggedItems::FindContainer(const std::string& tag_name) const
 {
   for (auto cont : m_containers)
+  {
     if (cont->GetName() == tag_name)
+    {
       return cont;
+    }
+  }
 
   return nullptr;
 }
+
+}  // namespace mvvm

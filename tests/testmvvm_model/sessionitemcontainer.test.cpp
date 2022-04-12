@@ -180,7 +180,6 @@ TEST_F(SessionItemContainerTest, ItemAt)
   EXPECT_TRUE(tag.InsertItem(child2, tag.GetItemCount()));
   EXPECT_EQ(tag.ItemAt(0), child1);
   EXPECT_EQ(tag.ItemAt(1), child2);
-
   // non-existing indices
   EXPECT_EQ(tag.ItemAt(2), nullptr);
   EXPECT_EQ(tag.ItemAt(3), nullptr);
