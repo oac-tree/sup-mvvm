@@ -70,7 +70,7 @@ TEST_F(TopItemsTreeViewTest, DestroyModel)
 
   auto vector_item = model->InsertItem<VectorItem>();
   TopItemsTreeView view(model.get());
-  view.SetSelected(vector_item);
+  view.SetSelectedItem(vector_item);
 
   auto viewmodel = view.GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 1);
@@ -101,7 +101,7 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
   EXPECT_TRUE(view.GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
-  view.SetSelected(vector_item0);
+  view.SetSelectedItem(vector_item0);
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 

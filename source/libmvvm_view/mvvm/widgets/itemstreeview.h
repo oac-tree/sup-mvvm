@@ -56,7 +56,7 @@ public:
 
   void SetViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate);
 
-  void SetSelected(SessionItem* item);
+  void SetSelectedItem(SessionItem* item);
 
   void SetSelectedItems(const std::vector<SessionItem*>& to_select);
 

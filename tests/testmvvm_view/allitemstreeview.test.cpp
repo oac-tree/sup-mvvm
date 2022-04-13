@@ -82,11 +82,11 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   EXPECT_TRUE(view.GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
-  view.SetSelected(x_item);
+  view.SetSelectedItem(x_item);
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 
-  view.SetSelected(y_item);
+  view.SetSelectedItem(y_item);
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({y_item}));
   EXPECT_EQ(view.GetSelectedItem(), y_item);
 
@@ -128,7 +128,7 @@ TEST_F(AllItemsTreeViewTest, DestroyModel)
 
   auto vector_item = model->InsertItem<VectorItem>();
   AllItemsTreeView view(model.get());
-  view.SetSelected(vector_item);
+  view.SetSelectedItem(vector_item);
 
   auto viewmodel = view.GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 1);
@@ -159,7 +159,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   QSignalSpy spy_selected(&view, &AllItemsTreeView::itemSelected);
 
   // selecting single item
-  view.SetSelected(property0);
+  view.SetSelectedItem(property0);
 
   // checking selections
   EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));

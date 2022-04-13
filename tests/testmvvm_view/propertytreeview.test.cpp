@@ -91,7 +91,7 @@ TEST_F(PropertyTreeViewTest, DestroyModel)
   auto vector_item = model->InsertItem<VectorItem>();
   PropertyTreeView view;
   view.SetItem(vector_item);
-  view.SetSelected(vector_item);
+  view.SetSelectedItem(vector_item);
 
   auto viewmodel = view.GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 3);
