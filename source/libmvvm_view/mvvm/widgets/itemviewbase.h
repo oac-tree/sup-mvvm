@@ -22,6 +22,7 @@
 
 #include "mvvm/view_export.h"
 
+#include <memory>
 #include <QWidget>
 
 class QAbstractItemView;

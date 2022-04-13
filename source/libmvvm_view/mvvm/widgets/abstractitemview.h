@@ -22,6 +22,8 @@
 
 #include "mvvm/widgets/itemviewbase.h"
 
+#include <functional>
+
 class QAbstractItemView;
 
 namespace mvvm
@@ -37,7 +39,10 @@ class MVVM_VIEW_EXPORT AbstractItemView : public ItemViewBase
   Q_OBJECT
 
 public:
-  explicit AbstractItemView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+  using create_viewmodel_t = std::function<std::unique_ptr<ViewModel>(ApplicationModel*)>;
+
+  explicit AbstractItemView(create_viewmodel_t func, QAbstractItemView* view, ApplicationModel* model = nullptr,
+                            QWidget* parent = nullptr);
   ~AbstractItemView() override;
 
   void SetApplicationModel(ApplicationModel* model);
@@ -45,8 +50,14 @@ public:
   void SetItem(SessionItem* item);
 
 private:
-  virtual std::unique_ptr<ViewModel> CreateViewModel(ApplicationModel* model) = 0;
+  create_viewmodel_t m_create_viewmodel;
 };
+
+template <typename T>
+std::unique_ptr<T> CreateViewModel(ApplicationModel* model)
+{
+  return std::make_unique<T>(model);
+}
 
 }  // namespace mvvm
 

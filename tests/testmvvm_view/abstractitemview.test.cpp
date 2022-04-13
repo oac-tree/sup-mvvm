@@ -37,16 +37,11 @@ public:
   class TestView : public mvvm::AbstractItemView
   {
   public:
-    explicit TestView(mvvm::ApplicationModel* model) : AbstractItemView(model)
+    explicit TestView(mvvm::ApplicationModel* model)
+        : AbstractItemView(CreateViewModel<mvvm::TopItemsViewModel>, new QTreeView, model)
     {
       SetView(new QTreeView);
       SetApplicationModel(model);
-    }
-
-  private:
-    std::unique_ptr<mvvm::ViewModel> CreateViewModel(mvvm::ApplicationModel* model) override
-    {
-      return std::make_unique<mvvm::TopItemsViewModel>(model);
     }
   };
 

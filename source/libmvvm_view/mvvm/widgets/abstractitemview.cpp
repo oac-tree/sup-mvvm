@@ -26,8 +26,12 @@
 namespace mvvm
 {
 
-AbstractItemView::AbstractItemView(ApplicationModel *model, QWidget *parent) : ItemViewBase(parent)
+AbstractItemView::AbstractItemView(create_viewmodel_t func, QAbstractItemView *view,
+                                   ApplicationModel *model, QWidget *parent)
+    : ItemViewBase(parent), m_create_viewmodel(std::move(func))
 {
+  SetView(view);
+  SetApplicationModel(model);
 }
 
 AbstractItemView::~AbstractItemView() = default;
@@ -39,7 +43,7 @@ void AbstractItemView::SetApplicationModel(ApplicationModel *model)
     Reset();
     return;
   }
-  SetViewModel(CreateViewModel(model));
+  SetViewModel(m_create_viewmodel(model));
 }
 
 void AbstractItemView::SetItem(SessionItem *item)
