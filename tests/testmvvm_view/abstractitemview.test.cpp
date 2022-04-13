@@ -22,6 +22,7 @@
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
+#include "mvvm/widgets/itemselectionmodel.h"
 
 #include <gtest/gtest.h>
 
@@ -59,4 +60,37 @@ TEST_F(AbstractItemViewTest, StateAfterSetup)
 
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
   EXPECT_TRUE(view.GetSelectedItems().empty());
+}
+
+TEST_F(AbstractItemViewTest, SelectItem)
+{
+  AbstractItemView view;
+
+  view.SetView(new QTreeView);
+  view.SetViewModel(std::make_unique<TopItemsViewModel>(&m_model));
+
+  QSignalSpy spy_selected(&view, &AbstractItemView::SelectedItemChanged);
+
+  auto item = m_model.InsertItem<CompoundItem>();
+  view.SetSelectedItem(item);
+
+  EXPECT_EQ(view.GetSelectedItem(), item);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({item}));
+  EXPECT_EQ(spy_selected.count(), 1);
+  QList<QVariant> arguments = spy_selected.takeFirst();
+  EXPECT_EQ(arguments.size(), 1);
+  auto selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
+  EXPECT_EQ(selected_item, item);
+
+  spy_selected.clear();
+
+  // removing selection
+
+  view.SetSelectedItem(nullptr);
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  EXPECT_EQ(spy_selected.count(), 1);
+
+  arguments = spy_selected.takeFirst();
+  selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
+  EXPECT_EQ(selected_item, nullptr);
 }

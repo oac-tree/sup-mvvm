@@ -22,6 +22,8 @@
 
 #include "mvvm/view_export.h"
 
+#include "mvvm/model/sessionitem.h"
+
 #include <QWidget>
 #include <memory>
 
@@ -69,7 +71,7 @@ public:
   std::vector<SessionItem*> GetSelectedItems() const;
 
 signals:
-  void itemSelected(SessionItem*);
+  void itemSelected(mvvm::SessionItem*);
 
 private:
   void onSelectionChanged(const QItemSelection&, const QItemSelection&);
@@ -85,5 +87,7 @@ private:
 };
 
 }  // namespace mvvm
+
+Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 #endif  // MVVM_WIDGETS_ITEMSTREEVIEW_H

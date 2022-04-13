@@ -34,7 +34,8 @@ int main(int argc, char** argv)
   ::testing::InitGoogleTest(&argc, argv);
   ::testing::InitGoogleMock(&argc, argv);
 
-  qRegisterMetaType<SessionItem*>("SessionItem*");
+  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  qRegisterMetaType<const mvvm::SessionItem*>("const mvvm::SessionItem*");
   qRegisterMetaType<QCPRange>("QCPRange");
 
   QApplication app(argc, argv);

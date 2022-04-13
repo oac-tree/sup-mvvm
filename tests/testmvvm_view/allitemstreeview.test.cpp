@@ -38,8 +38,6 @@ class AllItemsTreeViewTest : public ::testing::Test
 {
 };
 
-Q_DECLARE_METATYPE(SessionItem*)
-
 //! Testing root item change, when one of the item is selected (real life bug).
 
 TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
