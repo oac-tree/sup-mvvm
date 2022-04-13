@@ -55,7 +55,7 @@ void AbstractItemView::SetItem(SessionItem *item)
     auto application_model = dynamic_cast<ApplicationModel *>(item->GetModel());
     if (!application_model)
     {
-      throw RuntimeException("Error in PropertyTreeView: wrong type model");
+      throw RuntimeException("Wrong model type");
     }
     SetApplicationModel(application_model);
   }

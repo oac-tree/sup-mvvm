@@ -40,8 +40,6 @@ public:
     explicit TestView(mvvm::ApplicationModel* model)
         : AbstractItemView(CreateViewModel<mvvm::TopItemsViewModel>, new QTreeView, model)
     {
-      SetView(new QTreeView);
-      SetApplicationModel(model);
     }
   };
 
@@ -59,18 +57,48 @@ TEST_F(AbstractItemViewTest, InitialState)
 TEST_F(AbstractItemViewTest, ModelInConstructor)
 {
   TestView view(&m_model);
-  EXPECT_NE(view.GetViewModel(), nullptr);
+  auto viewmodel = view.GetViewModel();
+  EXPECT_NE(viewmodel, nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
-  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), m_model.GetRootItem());
+  EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
+  EXPECT_EQ(viewmodel->rowCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 0);
 }
 
 TEST_F(AbstractItemViewTest, SetApplicationModel)
 {
   TestView view(nullptr);
 
+  auto item = m_model.InsertItem<CompoundItem>();
+  item->SetData(42);
+
   view.SetApplicationModel(&m_model);
-  EXPECT_NE(view.GetViewModel(), nullptr);
+
+  auto viewmodel = view.GetViewModel();
+
+  ASSERT_NE(viewmodel, nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
-  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), m_model.GetRootItem());
+  EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
+
+  EXPECT_EQ(viewmodel->rowCount(), 1);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
+}
+
+TEST_F(AbstractItemViewTest, SetItem)
+{
+  TestView view(nullptr);
+
+  auto item = m_model.InsertItem<CompoundItem>();
+  item->SetData(42);
+
+  view.SetItem(item);
+  auto viewmodel = view.GetViewModel();
+  ASSERT_NE(viewmodel, nullptr);
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), item);
+
+  // no rows and columns since our item plays the role of root item
+  EXPECT_EQ(viewmodel->rowCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 0);
 }
