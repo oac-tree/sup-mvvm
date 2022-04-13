@@ -27,7 +27,12 @@ class QAbstractItemView;
 namespace mvvm
 {
 
-//! Generic view
+class SessionItem;
+class ViewModel;
+class ViewModelDelegate;
+class ItemSelectionModel;
+
+//! Generic view to show SessionModel in Qt lists, trees and tables.
 
 class MVVM_VIEW_EXPORT AbstractItemView : public QWidget
 {
@@ -36,6 +41,21 @@ class MVVM_VIEW_EXPORT AbstractItemView : public QWidget
 public:
   explicit AbstractItemView(QWidget* parent = nullptr);
   ~AbstractItemView() override;
+
+  void SetView(QAbstractItemView* view);
+
+  void SetViewModel(std::unique_ptr<ViewModel> view_model);
+
+  ItemSelectionModel* GetSelectionModel() const;
+
+signals:
+  void SelectedItemChanged(const mvvm::SessionItem*);
+
+private:
+  QAbstractItemView* m_view{nullptr};
+  std::unique_ptr<ViewModelDelegate> m_delegate;
+  std::unique_ptr<ItemSelectionModel> m_selection_model;
+  std::unique_ptr<ViewModel> m_view_model;
 };
 
 }  // namespace mvvm
