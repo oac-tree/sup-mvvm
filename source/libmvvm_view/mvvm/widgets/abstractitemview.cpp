@@ -28,7 +28,6 @@ namespace mvvm
 
 AbstractItemView::AbstractItemView(ApplicationModel *model, QWidget *parent) : ItemViewBase(parent)
 {
-  SetApplicationModel(model);
 }
 
 AbstractItemView::~AbstractItemView() = default;

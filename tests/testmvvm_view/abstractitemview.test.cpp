@@ -26,8 +26,6 @@
 
 #include <gtest/gtest.h>
 
-#include "abstractitemview.test.h"
-
 #include <QSignalSpy>
 #include <QTreeView>
 
@@ -36,12 +34,28 @@ using namespace mvvm;
 class AbstractItemViewTest : public ::testing::Test
 {
 public:
+  class TestView : public mvvm::AbstractItemView
+  {
+  public:
+    explicit TestView(mvvm::ApplicationModel* model) : AbstractItemView(model)
+    {
+      SetView(new QTreeView);
+      SetApplicationModel(model);
+    }
+
+  private:
+    std::unique_ptr<mvvm::ViewModel> CreateViewModel(mvvm::ApplicationModel* model) override
+    {
+      return std::make_unique<mvvm::TopItemsViewModel>(model);
+    }
+  };
+
   ApplicationModel m_model;
 };
 
 TEST_F(AbstractItemViewTest, InitialState)
 {
-  testutils::TestView view(nullptr);
+  TestView view(nullptr);
   EXPECT_EQ(view.GetViewModel(), nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
   EXPECT_TRUE(view.GetSelectedItems().empty());
@@ -49,86 +63,19 @@ TEST_F(AbstractItemViewTest, InitialState)
 
 TEST_F(AbstractItemViewTest, ModelInConstructor)
 {
-  testutils::TestView view(&m_model);
+  TestView view(&m_model);
   EXPECT_NE(view.GetViewModel(), nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
-  //  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), m_model.GetRootItem());
+  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), m_model.GetRootItem());
 }
 
-// TEST_F(AbstractItemViewTest, StateAfterSetup)
-//{
-//   ItemViewBase view;
+TEST_F(AbstractItemViewTest, SetApplicationModel)
+{
+  TestView view(nullptr);
 
-//  auto tree_view = new QTreeView;
-//  view.SetView(tree_view);
-//  EXPECT_EQ(view.GetView(), tree_view);
-
-//  auto view_model = std::make_unique<TopItemsViewModel>(&m_model);
-//  auto view_model_ptr = view_model.get();
-//  view.SetViewModel(std::move(view_model));
-//  EXPECT_EQ(view.GetViewModel(), view_model_ptr);
-
-//  EXPECT_EQ(view.GetSelectedItem(), nullptr);
-//  EXPECT_TRUE(view.GetSelectedItems().empty());
-//}
-
-// TEST_F(ItemViewBaseTest, SelectItem)
-//{
-//   ItemViewBase view;
-
-//  view.SetView(new QTreeView);
-//  view.SetViewModel(std::make_unique<TopItemsViewModel>(&m_model));
-
-//  QSignalSpy spy_selected(&view, &ItemViewBase::SelectedItemChanged);
-
-//  auto item = m_model.InsertItem<CompoundItem>();
-//  view.SetSelectedItem(item);
-
-//  EXPECT_EQ(view.GetSelectedItem(), item);
-//  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({item}));
-//  EXPECT_EQ(spy_selected.count(), 1);
-//  QList<QVariant> arguments = spy_selected.takeFirst();
-//  EXPECT_EQ(arguments.size(), 1);
-//  auto selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
-//  EXPECT_EQ(selected_item, item);
-
-//  spy_selected.clear();
-
-//  // removing selection
-
-//  view.SetSelectedItem(nullptr);
-//  EXPECT_EQ(view.GetSelectedItem(), nullptr);
-//  EXPECT_EQ(spy_selected.count(), 1);
-
-//  arguments = spy_selected.takeFirst();
-//  selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
-//  EXPECT_EQ(selected_item, nullptr);
-//}
-
-////! Checking selection when acting through the view.
-
-// TEST_F(ItemViewBaseTest, SetCurrentIndex)
-//{
-//   ItemViewBase view;
-
-//  view.SetView(new QTreeView);
-//  view.SetViewModel(std::make_unique<TopItemsViewModel>(&m_model));
-
-//  auto item = m_model.InsertItem<CompoundItem>();
-
-//  QSignalSpy spy_selected(&view, &ItemViewBase::SelectedItemChanged);
-
-//  // selecting an item and checking results
-//  auto indexes = view.GetViewModel()->GetIndexOfSessionItem(item);
-//  ASSERT_EQ(indexes.size(), 2);
-//  view.GetView()->setCurrentIndex(indexes.at(0));
-
-//  EXPECT_EQ(view.GetSelectedItem(), item);
-//  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({item}));
-//  EXPECT_EQ(spy_selected.count(), 1);
-//  QList<QVariant> arguments = spy_selected.takeFirst();
-//  EXPECT_EQ(arguments.size(), 1);
-//  auto selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
-//  EXPECT_EQ(selected_item, item);
-//}
+  view.SetApplicationModel(&m_model);
+  EXPECT_NE(view.GetViewModel(), nullptr);
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), m_model.GetRootItem());
+}
