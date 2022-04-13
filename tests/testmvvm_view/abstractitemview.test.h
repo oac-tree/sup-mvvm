@@ -17,37 +17,35 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_ABSTRACTITEMVIEW_H
-#define MVVM_WIDGETS_ABSTRACTITEMVIEW_H
+#ifndef TESTS_TESTMVVM_VIEW_ABSTRACTITEMVIEW_TEST_H
+#define TESTS_TESTMVVM_VIEW_ABSTRACTITEMVIEW_TEST_H
 
-#include "mvvm/widgets/itemviewbase.h"
+#include "mvvm/viewmodel/topitemsviewmodel.h"
+#include "mvvm/widgets/abstractitemview.h"
 
-class QAbstractItemView;
+#include <QTreeView>
+#include <memory>
 
-namespace mvvm
+namespace testutils
 {
 
-class ApplicationModel;
-class SessionItem;
-
-//! Generic view to show SessionModel in Qt lists, trees and tables.
-
-class MVVM_VIEW_EXPORT AbstractItemView : public ItemViewBase
+class TestView : public mvvm::AbstractItemView
 {
   Q_OBJECT
 
 public:
-  explicit AbstractItemView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
-  ~AbstractItemView() override;
-
-  void SetApplicationModel(ApplicationModel* model);
-
-  void SetItem(SessionItem* item);
+  explicit TestView(mvvm::ApplicationModel* model) : AbstractItemView(model)
+  {
+    SetView(new QTreeView);
+  }
 
 private:
-  virtual std::unique_ptr<ViewModel> CreateViewModel(ApplicationModel* model) = 0;
+  std::unique_ptr<mvvm::ViewModel> CreateViewModel(mvvm::ApplicationModel* model) override
+  {
+    return std::make_unique<mvvm::TopItemsViewModel>(model);
+  }
 };
 
-}  // namespace mvvm
+}  // namespace testutils
 
-#endif  // MVVM_WIDGETS_ABSTRACTITEMVIEW_H
+#endif  // TESTS_TESTMVVM_VIEW_ABSTRACTITEMVIEW_TEST_H

@@ -110,6 +110,11 @@ void ItemViewBase::SetSelectedItems(std::vector<const SessionItem *> items)
 
 void ItemViewBase::Reset()
 {
+  if (!m_view)
+  {
+    throw ArgumentNullException("View doesn't exist");
+  }
+
   m_view->setModel(nullptr);
   m_selection_model->setModel(nullptr);
   m_view_model.reset();

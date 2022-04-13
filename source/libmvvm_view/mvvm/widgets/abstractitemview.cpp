@@ -26,7 +26,12 @@
 namespace mvvm
 {
 
-AbstractItemView::AbstractItemView(QWidget *parent) : ItemViewBase(parent) {}
+AbstractItemView::AbstractItemView(ApplicationModel *model, QWidget *parent) : ItemViewBase(parent)
+{
+  SetApplicationModel(model);
+}
+
+AbstractItemView::~AbstractItemView() = default;
 
 void AbstractItemView::SetApplicationModel(ApplicationModel *model)
 {
@@ -40,6 +45,8 @@ void AbstractItemView::SetApplicationModel(ApplicationModel *model)
 
 void AbstractItemView::SetItem(SessionItem *item)
 {
+  // FIXME how to handle situation of changes in ApplicationModel
+
   if (!GetViewModel())
   {
     auto application_model = dynamic_cast<ApplicationModel *>(item->GetModel());
