@@ -94,3 +94,30 @@ TEST_F(AbstractItemViewTest, SelectItem)
   selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
   EXPECT_EQ(selected_item, nullptr);
 }
+
+//! Checking selection when acting through the view.
+
+TEST_F(AbstractItemViewTest, SetCurrentIndex)
+{
+  AbstractItemView view;
+
+  view.SetView(new QTreeView);
+  view.SetViewModel(std::make_unique<TopItemsViewModel>(&m_model));
+
+  auto item = m_model.InsertItem<CompoundItem>();
+
+  QSignalSpy spy_selected(&view, &AbstractItemView::SelectedItemChanged);
+
+  // selecting an item and checking results
+  auto indexes = view.GetViewModel()->GetIndexOfSessionItem(item);
+  ASSERT_EQ(indexes.size(), 2);
+  view.GetView()->setCurrentIndex(indexes.at(0));
+
+  EXPECT_EQ(view.GetSelectedItem(), item);
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({item}));
+  EXPECT_EQ(spy_selected.count(), 1);
+  QList<QVariant> arguments = spy_selected.takeFirst();
+  EXPECT_EQ(arguments.size(), 1);
+  auto selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
+  EXPECT_EQ(selected_item, item);
+}
