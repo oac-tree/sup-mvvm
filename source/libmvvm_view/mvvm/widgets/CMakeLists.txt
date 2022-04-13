@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   collapsiblelistwidget.h
   fancytab.cpp
   fancytab.h
+  itemselectionmodel.cpp
+  itemselectionmodel.h
   itemstreeview.cpp
   itemstreeview.h
   mainbarwidget.cpp
