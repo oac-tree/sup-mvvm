@@ -1,6 +1,4 @@
 target_sources(${library_name} PRIVATE
-  abstractitemview.cpp
-  abstractitemview.h
   allitemstreeview.cpp
   allitemstreeview.h
   collapsiblebar.cpp
@@ -13,6 +11,8 @@ target_sources(${library_name} PRIVATE
   itemselectionmodel.h
   itemstreeview.cpp
   itemstreeview.h
+  itemviewbase.cpp
+  itemviewbase.h
   mainbarwidget.cpp
   mainbarwidget.h
   mainverticalbarwidget.cpp

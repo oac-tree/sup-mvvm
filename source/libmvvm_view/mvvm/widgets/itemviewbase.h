@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_ABSTRACTITEMVIEW_H
-#define MVVM_WIDGETS_ABSTRACTITEMVIEW_H
+#ifndef MVVM_WIDGETS_ITEMVIEWBASE_H
+#define MVVM_WIDGETS_ITEMVIEWBASE_H
 
 #include "mvvm/widgets/itemstreeview.h"
 
@@ -34,13 +34,13 @@ class ItemSelectionModel;
 
 //! Generic view to show SessionModel in Qt lists, trees and tables.
 
-class MVVM_VIEW_EXPORT AbstractItemView : public QWidget
+class MVVM_VIEW_EXPORT ItemViewBase : public QWidget
 {
   Q_OBJECT
 
 public:
-  explicit AbstractItemView(QWidget* parent = nullptr);
-  ~AbstractItemView() override;
+  explicit ItemViewBase(QWidget* parent = nullptr);
+  ~ItemViewBase() override;
 
   virtual void SetItem(SessionItem* item);
 
@@ -74,4 +74,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_ABSTRACTITEMVIEW_H
+#endif  // MVVM_WIDGETS_ITEMVIEWBASE_H

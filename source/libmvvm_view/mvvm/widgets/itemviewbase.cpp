@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/abstractitemview.h"
+#include "mvvm/widgets/itemviewbase.h"
 
 #include "mvvm/core/exceptions.h"
 #include "mvvm/delegates/viewmodeldelegate.h"
@@ -31,7 +31,7 @@
 namespace mvvm
 {
 
-AbstractItemView::AbstractItemView(QWidget *parent)
+ItemViewBase::ItemViewBase(QWidget *parent)
     : QWidget(parent)
     , m_delegate(std::make_unique<ViewModelDelegate>())
     , m_selection_model(std::make_unique<ItemSelectionModel>())
@@ -42,7 +42,7 @@ AbstractItemView::AbstractItemView(QWidget *parent)
   layout->setSpacing(0);
 }
 
-void AbstractItemView::SetItem(SessionItem *item)
+void ItemViewBase::SetItem(SessionItem *item)
 {
   if (!m_view_model)
   {
@@ -51,20 +51,20 @@ void AbstractItemView::SetItem(SessionItem *item)
   m_view_model->SetRootSessionItem(item);
 }
 
-QAbstractItemView *AbstractItemView::GetView() const
+QAbstractItemView *ItemViewBase::GetView() const
 {
   return m_view;
 }
 
 //! Set given view for use. The ownership will be changed.
 
-void AbstractItemView::SetView(QAbstractItemView *view)
+void ItemViewBase::SetView(QAbstractItemView *view)
 {
   m_view = view;
   layout()->addWidget(view);
 }
 
-void AbstractItemView::SetViewModel(std::unique_ptr<ViewModel> view_model)
+void ItemViewBase::SetViewModel(std::unique_ptr<ViewModel> view_model)
 {
   if (!m_view)
   {
@@ -80,41 +80,41 @@ void AbstractItemView::SetViewModel(std::unique_ptr<ViewModel> view_model)
   m_view->setSelectionModel(m_selection_model.get());
 
   connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
-          &AbstractItemView::SelectedItemChanged, Qt::UniqueConnection);
+          &ItemViewBase::SelectedItemChanged, Qt::UniqueConnection);
 }
 
-ViewModel *AbstractItemView::GetViewModel() const
+ViewModel *ItemViewBase::GetViewModel() const
 {
   return m_view_model.get();
 }
 
-const SessionItem *AbstractItemView::GetSelectedItem() const
+const SessionItem *ItemViewBase::GetSelectedItem() const
 {
   return m_selection_model->GetSelectedItem();
 }
 
-std::vector<const SessionItem *> AbstractItemView::GetSelectedItems() const
+std::vector<const SessionItem *> ItemViewBase::GetSelectedItems() const
 {
   return m_selection_model->GetSelectedItems();
 }
 
-void AbstractItemView::SetSelectedItem(const SessionItem *item)
+void ItemViewBase::SetSelectedItem(const SessionItem *item)
 {
   m_selection_model->SetSelectedItem(item);
 }
 
-void AbstractItemView::SetSelectedItems(std::vector<const SessionItem *> items)
+void ItemViewBase::SetSelectedItems(std::vector<const SessionItem *> items)
 {
   m_selection_model->SetSelectedItems(std::move(items));
 }
 
-void AbstractItemView::Reset()
+void ItemViewBase::Reset()
 {
   m_view->setModel(nullptr);
   m_selection_model.reset();
   m_view_model.reset();
 }
 
-AbstractItemView::~AbstractItemView() = default;
+ItemViewBase::~ItemViewBase() = default;
 
 }  // namespace mvvm

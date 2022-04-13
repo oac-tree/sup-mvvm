@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/abstractitemview.h"
+#include "mvvm/widgets/itemviewbase.h"
 
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
@@ -31,23 +31,23 @@
 
 using namespace mvvm;
 
-class AbstractItemViewTest : public ::testing::Test
+class ItemViewBaseTest : public ::testing::Test
 {
 public:
   ApplicationModel m_model;
 };
 
-TEST_F(AbstractItemViewTest, InitialState)
+TEST_F(ItemViewBaseTest, InitialState)
 {
-  AbstractItemView view;
+  ItemViewBase view;
   EXPECT_EQ(view.GetViewModel(), nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
   EXPECT_TRUE(view.GetSelectedItems().empty());
 }
 
-TEST_F(AbstractItemViewTest, StateAfterSetup)
+TEST_F(ItemViewBaseTest, StateAfterSetup)
 {
-  AbstractItemView view;
+  ItemViewBase view;
 
   auto tree_view = new QTreeView;
   view.SetView(tree_view);
@@ -62,14 +62,14 @@ TEST_F(AbstractItemViewTest, StateAfterSetup)
   EXPECT_TRUE(view.GetSelectedItems().empty());
 }
 
-TEST_F(AbstractItemViewTest, SelectItem)
+TEST_F(ItemViewBaseTest, SelectItem)
 {
-  AbstractItemView view;
+  ItemViewBase view;
 
   view.SetView(new QTreeView);
   view.SetViewModel(std::make_unique<TopItemsViewModel>(&m_model));
 
-  QSignalSpy spy_selected(&view, &AbstractItemView::SelectedItemChanged);
+  QSignalSpy spy_selected(&view, &ItemViewBase::SelectedItemChanged);
 
   auto item = m_model.InsertItem<CompoundItem>();
   view.SetSelectedItem(item);
@@ -97,16 +97,16 @@ TEST_F(AbstractItemViewTest, SelectItem)
 
 //! Checking selection when acting through the view.
 
-TEST_F(AbstractItemViewTest, SetCurrentIndex)
+TEST_F(ItemViewBaseTest, SetCurrentIndex)
 {
-  AbstractItemView view;
+  ItemViewBase view;
 
   view.SetView(new QTreeView);
   view.SetViewModel(std::make_unique<TopItemsViewModel>(&m_model));
 
   auto item = m_model.InsertItem<CompoundItem>();
 
-  QSignalSpy spy_selected(&view, &AbstractItemView::SelectedItemChanged);
+  QSignalSpy spy_selected(&view, &ItemViewBase::SelectedItemChanged);
 
   // selecting an item and checking results
   auto indexes = view.GetViewModel()->GetIndexOfSessionItem(item);
