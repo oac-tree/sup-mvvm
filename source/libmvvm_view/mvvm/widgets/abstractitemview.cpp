@@ -42,6 +42,11 @@ AbstractItemView::AbstractItemView(QWidget *parent)
   layout->setSpacing(0);
 }
 
+QAbstractItemView *AbstractItemView::GetView() const
+{
+  return m_view;
+}
+
 //! Set given view for use. The ownership will be changed.
 
 void AbstractItemView::SetView(QAbstractItemView *view)
@@ -69,9 +74,36 @@ void AbstractItemView::SetViewModel(std::unique_ptr<ViewModel> view_model)
           &AbstractItemView::SelectedItemChanged, Qt::UniqueConnection);
 }
 
-ItemSelectionModel *AbstractItemView::GetSelectionModel() const
+ViewModel *AbstractItemView::GetViewModel() const
 {
-  return m_selection_model.get();
+  return m_view_model.get();
+}
+
+const SessionItem *AbstractItemView::GetSelectedItem() const
+{
+  return m_selection_model->GetSelectedItem();
+}
+
+std::vector<const SessionItem *> AbstractItemView::GetSelectedItems() const
+{
+  return m_selection_model->GetSelectedItems();
+}
+
+void AbstractItemView::SetSelectedItem(const SessionItem *item)
+{
+  m_selection_model->SetSelectedItem(item);
+}
+
+void AbstractItemView::SetSelectedItems(std::vector<const SessionItem *> items)
+{
+  m_selection_model->SetSelectedItems(std::move(items));
+}
+
+void AbstractItemView::Reset()
+{
+  m_view->setModel(nullptr);
+  m_selection_model.reset();
+  m_view_model.reset();
 }
 
 AbstractItemView::~AbstractItemView() = default;

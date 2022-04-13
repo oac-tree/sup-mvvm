@@ -42,11 +42,23 @@ public:
   explicit AbstractItemView(QWidget* parent = nullptr);
   ~AbstractItemView() override;
 
+  QAbstractItemView* GetView() const;
+
   void SetView(QAbstractItemView* view);
 
   void SetViewModel(std::unique_ptr<ViewModel> view_model);
 
-  ItemSelectionModel* GetSelectionModel() const;
+  ViewModel* GetViewModel() const;
+
+  const mvvm::SessionItem* GetSelectedItem() const;
+
+  std::vector<const mvvm::SessionItem*> GetSelectedItems() const;
+
+  void SetSelectedItem(const mvvm::SessionItem* item);
+
+  void SetSelectedItems(std::vector<const mvvm::SessionItem*> items);
+
+  void Reset();
 
 signals:
   void SelectedItemChanged(const mvvm::SessionItem*);

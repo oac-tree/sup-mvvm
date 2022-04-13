@@ -22,6 +22,7 @@
 #include "mvvm/model/itemutils.h"
 #include "mvvm/utils/containerutils.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/core/exceptions.h"
 
 namespace mvvm
 {
@@ -75,6 +76,11 @@ void ItemSelectionModel::SetSelectedItem(const mvvm::SessionItem *item)
 
 void ItemSelectionModel::SetSelectedItems(std::vector<const mvvm::SessionItem *> items)
 {
+  if (!GetViewModel())
+  {
+    throw ArgumentNullException("ViewModel is not initialised");
+  }
+
   clearSelection();
   QItemSelection selection;
   for (auto item : items)

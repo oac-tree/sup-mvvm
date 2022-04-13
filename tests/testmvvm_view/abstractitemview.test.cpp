@@ -1,0 +1,62 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mvvm/widgets/abstractitemview.h"
+
+#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/compounditem.h"
+#include "mvvm/viewmodel/topitemsviewmodel.h"
+
+#include <gtest/gtest.h>
+
+#include <QSignalSpy>
+#include <QTreeView>
+
+using namespace mvvm;
+
+class AbstractItemViewTest : public ::testing::Test
+{
+public:
+  ApplicationModel m_model;
+};
+
+TEST_F(AbstractItemViewTest, InitialState)
+{
+  AbstractItemView view;
+  EXPECT_EQ(view.GetViewModel(), nullptr);
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  EXPECT_TRUE(view.GetSelectedItems().empty());
+}
+
+TEST_F(AbstractItemViewTest, StateAfterSetup)
+{
+  AbstractItemView view;
+
+  auto tree_view = new QTreeView;
+  view.SetView(tree_view);
+  EXPECT_EQ(view.GetView(), tree_view);
+
+  auto view_model = std::make_unique<TopItemsViewModel>(&m_model);
+  auto view_model_ptr = view_model.get();
+  view.SetViewModel(std::move(view_model));
+  EXPECT_EQ(view.GetViewModel(), view_model_ptr);
+
+  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  EXPECT_TRUE(view.GetSelectedItems().empty());
+}
