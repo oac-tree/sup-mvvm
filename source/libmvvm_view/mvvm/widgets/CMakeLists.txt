@@ -1,4 +1,6 @@
 target_sources(${library_name} PRIVATE
+  abstractitemview.cpp
+  abstractitemview.h
   allitemstreeview.cpp
   allitemstreeview.h
   collapsiblebar.cpp
