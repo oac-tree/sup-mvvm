@@ -42,6 +42,8 @@ public:
   explicit AbstractItemView(QWidget* parent = nullptr);
   ~AbstractItemView() override;
 
+  virtual void SetItem(SessionItem* item);
+
   QAbstractItemView* GetView() const;
 
   void SetView(QAbstractItemView* view);

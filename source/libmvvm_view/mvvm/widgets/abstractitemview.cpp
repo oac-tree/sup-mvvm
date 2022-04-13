@@ -42,6 +42,15 @@ AbstractItemView::AbstractItemView(QWidget *parent)
   layout->setSpacing(0);
 }
 
+void AbstractItemView::SetItem(SessionItem *item)
+{
+  if (!m_view_model)
+  {
+    throw ArgumentNullException("View model doesn't exist");
+  }
+  m_view_model->SetRootSessionItem(item);
+}
+
 QAbstractItemView *AbstractItemView::GetView() const
 {
   return m_view;
