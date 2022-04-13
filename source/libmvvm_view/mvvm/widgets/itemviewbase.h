@@ -20,7 +20,9 @@
 #ifndef MVVM_WIDGETS_ITEMVIEWBASE_H
 #define MVVM_WIDGETS_ITEMVIEWBASE_H
 
-#include "mvvm/widgets/itemstreeview.h"
+#include "mvvm/view_export.h"
+
+#include <QWidget>
 
 class QAbstractItemView;
 
@@ -42,7 +44,7 @@ public:
   explicit ItemViewBase(QWidget* parent = nullptr);
   ~ItemViewBase() override;
 
-  virtual void SetItem(SessionItem* item);
+  void SetRootSessionItem(SessionItem* item);
 
   QAbstractItemView* GetView() const;
 
