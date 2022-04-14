@@ -21,6 +21,7 @@
 
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
+#include "mvvm/standarditems/vectoritem.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 #include "mvvm/widgets/itemselectionmodel.h"
 
@@ -101,4 +102,29 @@ TEST_F(AbstractItemViewTest, SetItem)
   // no rows and columns since our item plays the role of root item
   EXPECT_EQ(viewmodel->rowCount(), 0);
   EXPECT_EQ(viewmodel->columnCount(), 0);
+}
+
+//! Attempt to set one item after another, when they belongs to different models
+//! (real life bug)
+
+TEST_F(AbstractItemViewTest, SetItemAfterItem)
+{
+  TestView view(nullptr);
+
+  ApplicationModel model1;
+  ApplicationModel model2;
+
+  auto item1 = model1.InsertItem<CompoundItem>();
+  item1->AddBranch<VectorItem>("position");
+
+  auto item2 = model2.InsertItem<CompoundItem>();
+
+  // setting item from the first model
+  view.SetItem(item1);
+  EXPECT_EQ(view.GetViewModel()->GetRootSessionItem(), item1);
+  EXPECT_EQ(view.GetViewModel()->rowCount(), 1);
+
+  // setting item from the second model
+  EXPECT_NO_THROW(view.SetItem(item2));
+  EXPECT_EQ(view.GetViewModel()->rowCount(), 0);
 }

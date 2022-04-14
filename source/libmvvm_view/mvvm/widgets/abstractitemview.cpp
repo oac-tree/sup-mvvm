@@ -56,17 +56,12 @@ void AbstractItemView::SetItem(SessionItem *item)
     return;
   }
 
-  // FIXME how to handle situation when item belongs to another model?
-
-  if (!GetViewModel())
+  auto application_model = dynamic_cast<ApplicationModel *>(item->GetModel());
+  if (!application_model)
   {
-    auto application_model = dynamic_cast<ApplicationModel *>(item->GetModel());
-    if (!application_model)
-    {
-      throw RuntimeException("Wrong model type");
-    }
-    SetViewModel(m_create_viewmodel(application_model));
+    throw RuntimeException("Wrong model type");
   }
+  SetViewModel(m_create_viewmodel(application_model));
   SetRootSessionItem(item);
 
   if (auto view = dynamic_cast<QTreeView *>(GetView()); view)
