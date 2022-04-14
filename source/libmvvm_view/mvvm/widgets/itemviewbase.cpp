@@ -40,6 +40,9 @@ ItemViewBase::ItemViewBase(QWidget *parent)
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
   layout->setSpacing(0);
+
+  connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
+          [this](auto item) { emit SelectedItemChanged(const_cast<SessionItem *>(item)); });
 }
 
 void ItemViewBase::SetRootSessionItem(SessionItem *item)
@@ -78,9 +81,6 @@ void ItemViewBase::SetViewModel(std::unique_ptr<ViewModel> view_model)
   m_view->setModel(m_view_model.get());
   m_view->setItemDelegate(m_delegate.get());
   m_view->setSelectionModel(m_selection_model.get());
-
-  connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
-          &ItemViewBase::SelectedItemChanged, Qt::UniqueConnection);
 }
 
 ViewModel *ItemViewBase::GetViewModel() const
@@ -88,9 +88,9 @@ ViewModel *ItemViewBase::GetViewModel() const
   return m_view_model.get();
 }
 
-const SessionItem *ItemViewBase::GetSelectedItem() const
+SessionItem *ItemViewBase::GetSelectedItem() const
 {
-  return m_selection_model->GetSelectedItem();
+  return const_cast<SessionItem *>(m_selection_model->GetSelectedItem());
 }
 
 std::vector<const SessionItem *> ItemViewBase::GetSelectedItems() const
@@ -98,7 +98,7 @@ std::vector<const SessionItem *> ItemViewBase::GetSelectedItems() const
   return m_selection_model->GetSelectedItems();
 }
 
-void ItemViewBase::SetSelectedItem(const SessionItem *item)
+void ItemViewBase::SetSelectedItem(SessionItem *item)
 {
   m_selection_model->SetSelectedItem(item);
 }
@@ -110,11 +110,6 @@ void ItemViewBase::SetSelectedItems(std::vector<const SessionItem *> items)
 
 void ItemViewBase::Reset()
 {
-//  if (!m_view)
-//  {
-//    throw ArgumentNullException("View doesn't exist");
-//  }
-
   if (m_view)
   {
     m_view->setModel(nullptr);

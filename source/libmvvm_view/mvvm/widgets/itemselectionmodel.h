@@ -59,5 +59,6 @@ private:
 }  // namespace mvvm
 
 Q_DECLARE_METATYPE(const mvvm::SessionItem*)
+Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
 #endif  // MVVM_WIDGETS_ITEMSELECTIONMODEL_H

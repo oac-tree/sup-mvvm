@@ -57,18 +57,18 @@ public:
 
   ViewModel* GetViewModel() const;
 
-  const mvvm::SessionItem* GetSelectedItem() const;
+  mvvm::SessionItem* GetSelectedItem() const;
 
   std::vector<const mvvm::SessionItem*> GetSelectedItems() const;
 
-  void SetSelectedItem(const mvvm::SessionItem* item);
+  void SetSelectedItem(mvvm::SessionItem* item);
 
   void SetSelectedItems(std::vector<const mvvm::SessionItem*> items);
 
   void Reset();
 
 signals:
-  void SelectedItemChanged(const mvvm::SessionItem*);
+  void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
   QAbstractItemView* m_view{nullptr};

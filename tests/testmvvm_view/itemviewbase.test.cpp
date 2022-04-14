@@ -79,7 +79,7 @@ TEST_F(ItemViewBaseTest, SelectItem)
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
-  auto selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
+  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
   EXPECT_EQ(selected_item, item);
 
   spy_selected.clear();
@@ -91,7 +91,7 @@ TEST_F(ItemViewBaseTest, SelectItem)
   EXPECT_EQ(spy_selected.count(), 1);
 
   arguments = spy_selected.takeFirst();
-  selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
+  selected_item = arguments.at(0).value<mvvm::SessionItem*>();
   EXPECT_EQ(selected_item, nullptr);
 }
 
@@ -118,6 +118,6 @@ TEST_F(ItemViewBaseTest, SetCurrentIndex)
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
-  auto selected_item = arguments.at(0).value<const mvvm::SessionItem*>();
+  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
   EXPECT_EQ(selected_item, item);
 }

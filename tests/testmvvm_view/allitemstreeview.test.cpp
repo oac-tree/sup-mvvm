@@ -169,7 +169,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
-  auto item = arguments.at(0).value<const SessionItem*>();
+  auto item = arguments.at(0).value<SessionItem*>();
   EXPECT_EQ(item, property0);
 
   spy_selected.clear();
@@ -181,7 +181,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   EXPECT_EQ(spy_selected.count(), 1);
   arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
-  item = arguments.at(0).value<const SessionItem*>();
+  item = arguments.at(0).value<SessionItem*>();
   EXPECT_EQ(item, nullptr);
 }
 
