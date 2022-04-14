@@ -22,24 +22,14 @@
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 
+#include <QTreeView>
+
 namespace mvvm
 {
-TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent) : ItemsTreeView(parent)
+TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent)
+    : AbstractItemView(CreateViewModel<TopItemsViewModel>, new QTreeView, model, parent)
+
 {
-  SetApplicationModel(model);
 }
 
-void TopItemsTreeView::SetApplicationModel(ApplicationModel* model)
-{
-  if (!model)
-  {
-    Reset();
-    return;
-  }
-
-  SetViewModel(std::make_unique<TopItemsViewModel>(model));
-}
-
-TopItemsTreeView::~TopItemsTreeView() = default;
-
-}  // namespace ModelView
+}  // namespace mvvm

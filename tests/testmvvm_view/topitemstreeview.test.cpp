@@ -102,10 +102,10 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
   view.SetSelectedItem(vector_item0);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({vector_item0}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 
   view.SetSelectedItems({vector_item0, vector_item1});
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0, vector_item1}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 }

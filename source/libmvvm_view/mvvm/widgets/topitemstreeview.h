@@ -20,23 +20,19 @@
 #ifndef MVVM_WIDGETS_TOPITEMSTREEVIEW_H
 #define MVVM_WIDGETS_TOPITEMSTREEVIEW_H
 
-#include "mvvm/widgets/itemstreeview.h"
+#include "mvvm/widgets/abstractitemview.h"
 
 namespace mvvm
 {
-class ApplicationModel;
 
 //! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
 
-class MVVM_VIEW_EXPORT TopItemsTreeView : public ItemsTreeView
+class MVVM_VIEW_EXPORT TopItemsTreeView : public AbstractItemView
 {
   Q_OBJECT
 
 public:
-  TopItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
-  ~TopItemsTreeView() override;
-
-  void SetApplicationModel(ApplicationModel* model);
+  explicit TopItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
 };
 
 }  // namespace ModelView

@@ -24,7 +24,6 @@
 
 namespace mvvm
 {
-class ApplicationModel;
 
 //! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
 
