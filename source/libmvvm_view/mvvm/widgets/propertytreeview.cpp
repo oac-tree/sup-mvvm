@@ -28,40 +28,24 @@
 
 namespace mvvm
 {
-PropertyTreeView::PropertyTreeView(QWidget* parent) : ItemsTreeView(parent)
+PropertyTreeView::PropertyTreeView(QWidget* parent)
+    : AbstractItemView(CreateViewModel<PropertyViewModel>, new QTreeView, nullptr, parent)
 {
   GetTreeView()->setHeaderHidden(false);
-  // provide one click editing
-  GetTreeView()->setEditTriggers(QAbstractItemView::AllEditTriggers);
+  GetTreeView()->setRootIsDecorated(false);
+  GetTreeView()->setEditTriggers(QAbstractItemView::AllEditTriggers);  // provide one click editing
   GetTreeView()->setAlternatingRowColors(true);
-}
-
-void PropertyTreeView::SetRootSessionItem(SessionItem* item)
-{
-  SetItem(item);
 }
 
 void PropertyTreeView::SetItem(SessionItem* item)
 {
-  if (!item)
-  {
-    Reset();
-    return;
-  }
-
-  auto application_model = dynamic_cast<ApplicationModel*>(item->GetModel());
-  if (!application_model)
-  {
-    throw std::runtime_error("Error in PropertyTreeView: wrong type model");
-  }
-
-  SetViewModel(std::make_unique<PropertyViewModel>(application_model));
-
-  GetViewModel()->SetRootSessionItem(item);
-  GetTreeView()->setRootIsDecorated(false);
+  AbstractItemView::SetItem(item);
   GetTreeView()->expandAll();
 }
 
-PropertyTreeView::~PropertyTreeView() = default;
+QTreeView* PropertyTreeView::GetTreeView()
+{
+  return dynamic_cast<QTreeView*>(GetView());
+}
 
 }  // namespace mvvm

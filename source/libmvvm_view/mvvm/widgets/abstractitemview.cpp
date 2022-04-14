@@ -48,6 +48,12 @@ void AbstractItemView::SetApplicationModel(ApplicationModel *model)
 
 void AbstractItemView::SetItem(SessionItem *item)
 {
+  if (!item)
+  {
+    Reset();
+    return;
+  }
+
   // FIXME how to handle situation when item belongs to another model?
 
   if (!GetViewModel())

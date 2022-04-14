@@ -47,7 +47,7 @@ public:
 
   void SetApplicationModel(ApplicationModel* model);
 
-  void SetItem(SessionItem* item);
+  virtual void SetItem(SessionItem* item);
 
 private:
   create_viewmodel_t m_create_viewmodel; //!< factory function to create necessary view model
