@@ -93,7 +93,7 @@ SessionItem *ItemViewBase::GetSelectedItem() const
   return const_cast<SessionItem *>(m_selection_model->GetSelectedItem());
 }
 
-std::vector<SessionItem *> ItemViewBase::GetSelectedItems() const
+std::vector<SessionItem *> ItemViewBase::GetSelectedItemsIntern() const
 {
   std::vector<mvvm::SessionItem *> result;
   auto items = m_selection_model->GetSelectedItems();

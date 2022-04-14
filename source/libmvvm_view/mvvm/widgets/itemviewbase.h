@@ -20,12 +20,11 @@
 #ifndef MVVM_WIDGETS_ITEMVIEWBASE_H
 #define MVVM_WIDGETS_ITEMVIEWBASE_H
 
+#include "mvvm/model/sessionitem.h"
 #include "mvvm/view_export.h"
 
-#include "mvvm/model/sessionitem.h"
-
-#include <memory>
 #include <QWidget>
+#include <memory>
 
 class QAbstractItemView;
 
@@ -59,23 +58,41 @@ public:
 
   mvvm::SessionItem* GetSelectedItem() const;
 
-  std::vector<mvvm::SessionItem*> GetSelectedItems() const;
-
   void SetSelectedItem(mvvm::SessionItem* item);
 
   void SetSelectedItems(std::vector<mvvm::SessionItem*> items);
 
   void Reset();
 
+  template <typename T>
+  T* GetSelected() const;
+
+  template <typename T = SessionItem>
+  std::vector<T*> GetSelectedItems() const;
+
 signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
+  std::vector<mvvm::SessionItem*> GetSelectedItemsIntern() const;
+
   QAbstractItemView* m_view{nullptr};
   std::unique_ptr<ViewModelDelegate> m_delegate;
   std::unique_ptr<ItemSelectionModel> m_selection_model;
   std::unique_ptr<ViewModel> m_view_model;
 };
+
+template <typename T>
+T* ItemViewBase::GetSelected() const
+{
+  return dynamic_cast<T*>(GetSelectedItem());
+}
+
+template <typename T>
+std::vector<T*> ItemViewBase::GetSelectedItems() const
+{
+  return ::mvvm::utils::CastItems<T>(GetSelectedItemsIntern());
+}
 
 }  // namespace mvvm
 
