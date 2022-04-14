@@ -22,6 +22,8 @@
 
 #include "mvvm/view_export.h"
 
+#include "mvvm/model/sessionitem.h"
+
 #include <memory>
 #include <QWidget>
 

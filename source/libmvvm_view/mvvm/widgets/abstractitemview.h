@@ -50,7 +50,7 @@ public:
   void SetItem(SessionItem* item);
 
 private:
-  create_viewmodel_t m_create_viewmodel;
+  create_viewmodel_t m_create_viewmodel; //!< factory function to create necessary view model
 };
 
 template <typename T>

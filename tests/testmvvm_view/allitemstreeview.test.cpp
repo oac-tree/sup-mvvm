@@ -23,6 +23,7 @@
 #include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/allitemstreeview.h"
+#include "mvvm/widgets/itemselectionmodel.h"
 
 #include <gtest/gtest.h>
 
@@ -50,7 +51,7 @@ TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
   view.SetRootSessionItem(vector_item);
 
   // access to internals
-  auto selection_model = view.GetTreeView()->selectionModel();
+  auto selection_model = view.GetView()->selectionModel();
   auto view_model = view.GetViewModel();
 
   // selecting item in a widget
@@ -83,15 +84,15 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
   view.SetSelectedItem(x_item);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({x_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 
   view.SetSelectedItem(y_item);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({y_item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({y_item}));
   EXPECT_EQ(view.GetSelectedItem(), y_item);
 
   view.SetSelectedItems({x_item, y_item});
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item, y_item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({x_item, y_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 }
 
@@ -111,13 +112,13 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
 
   auto x_item_index = view.GetViewModel()->index(0, 1);
 
-  QSignalSpy spy_selected(&view, &AllItemsTreeView::itemSelected);
+  QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectedItemChanged);
 
   // selecting row where xItem is located
-  view.GetTreeView()->selectionModel()->select(
+  view.GetView()->selectionModel()->select(
       x_item_index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -156,20 +157,19 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
 
   AllItemsTreeView view(&model);
 
-  QSignalSpy spy_selected(&view, &AllItemsTreeView::itemSelected);
+  QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectedItemChanged);
 
   // selecting single item
   view.SetSelectedItem(property0);
 
   // checking selections
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({property0}));
 
   // checking signaling
-  qRegisterMetaType<SessionItem*>("SessionItem*");
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
-  auto item = arguments.at(0).value<SessionItem*>();
+  auto item = arguments.at(0).value<const SessionItem*>();
   EXPECT_EQ(item, property0);
 
   spy_selected.clear();
@@ -181,7 +181,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   EXPECT_EQ(spy_selected.count(), 1);
   arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
-  item = arguments.at(0).value<SessionItem*>();
+  item = arguments.at(0).value<const SessionItem*>();
   EXPECT_EQ(item, nullptr);
 }
 
