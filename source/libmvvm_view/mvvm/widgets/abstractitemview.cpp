@@ -65,7 +65,7 @@ void AbstractItemView::SetItem(SessionItem *item)
     {
       throw RuntimeException("Wrong model type");
     }
-    SetApplicationModel(application_model);
+    SetViewModel(m_create_viewmodel(application_model));
   }
   SetRootSessionItem(item);
 
