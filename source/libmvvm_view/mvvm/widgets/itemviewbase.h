@@ -59,11 +59,11 @@ public:
 
   mvvm::SessionItem* GetSelectedItem() const;
 
-  std::vector<const mvvm::SessionItem*> GetSelectedItems() const;
+  std::vector<mvvm::SessionItem*> GetSelectedItems() const;
 
   void SetSelectedItem(mvvm::SessionItem* item);
 
-  void SetSelectedItems(std::vector<const mvvm::SessionItem*> items);
+  void SetSelectedItems(std::vector<mvvm::SessionItem*> items);
 
   void Reset();
 

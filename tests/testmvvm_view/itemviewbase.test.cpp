@@ -75,7 +75,7 @@ TEST_F(ItemViewBaseTest, SelectItem)
   view.SetSelectedItem(item);
 
   EXPECT_EQ(view.GetSelectedItem(), item);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({item}));
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
@@ -114,7 +114,7 @@ TEST_F(ItemViewBaseTest, SetCurrentIndex)
   view.GetView()->setCurrentIndex(indexes.at(0));
 
   EXPECT_EQ(view.GetSelectedItem(), item);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<const SessionItem*>({item}));
+  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({item}));
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);

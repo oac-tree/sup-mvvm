@@ -93,9 +93,13 @@ SessionItem *ItemViewBase::GetSelectedItem() const
   return const_cast<SessionItem *>(m_selection_model->GetSelectedItem());
 }
 
-std::vector<const SessionItem *> ItemViewBase::GetSelectedItems() const
+std::vector<SessionItem *> ItemViewBase::GetSelectedItems() const
 {
-  return m_selection_model->GetSelectedItems();
+  std::vector<mvvm::SessionItem *> result;
+  auto items = m_selection_model->GetSelectedItems();
+  std::transform(items.begin(), items.end(), std::back_inserter(result),
+                 [](auto it) { return const_cast<SessionItem *>(it); });
+  return result;
 }
 
 void ItemViewBase::SetSelectedItem(SessionItem *item)
@@ -103,9 +107,11 @@ void ItemViewBase::SetSelectedItem(SessionItem *item)
   m_selection_model->SetSelectedItem(item);
 }
 
-void ItemViewBase::SetSelectedItems(std::vector<const SessionItem *> items)
+void ItemViewBase::SetSelectedItems(std::vector<SessionItem *> items)
 {
-  m_selection_model->SetSelectedItems(std::move(items));
+  std::vector<const mvvm::SessionItem *> to_set_items;
+  std::copy(items.begin(), items.end(), std::back_inserter(to_set_items));
+  m_selection_model->SetSelectedItems(std::move(to_set_items));
 }
 
 void ItemViewBase::Reset()
