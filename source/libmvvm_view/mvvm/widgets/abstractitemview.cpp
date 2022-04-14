@@ -48,7 +48,7 @@ void AbstractItemView::SetApplicationModel(ApplicationModel *model)
 
 void AbstractItemView::SetItem(SessionItem *item)
 {
-  // FIXME how to handle situation of changes in ApplicationModel
+  // FIXME how to handle situation when item belongs to another model?
 
   if (!GetViewModel())
   {

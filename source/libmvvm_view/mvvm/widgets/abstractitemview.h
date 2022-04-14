@@ -41,8 +41,8 @@ class MVVM_VIEW_EXPORT AbstractItemView : public ItemViewBase
 public:
   using create_viewmodel_t = std::function<std::unique_ptr<ViewModel>(ApplicationModel*)>;
 
-  explicit AbstractItemView(create_viewmodel_t func, QAbstractItemView* view, ApplicationModel* model = nullptr,
-                            QWidget* parent = nullptr);
+  explicit AbstractItemView(create_viewmodel_t func, QAbstractItemView* view,
+                            ApplicationModel* model = nullptr, QWidget* parent = nullptr);
   ~AbstractItemView() override;
 
   void SetApplicationModel(ApplicationModel* model);
