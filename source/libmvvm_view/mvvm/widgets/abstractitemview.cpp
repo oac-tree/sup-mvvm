@@ -23,6 +23,8 @@
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
+#include <QTreeView>
+
 namespace mvvm
 {
 
@@ -66,6 +68,12 @@ void AbstractItemView::SetItem(SessionItem *item)
     SetApplicationModel(application_model);
   }
   SetRootSessionItem(item);
+
+  if (auto view = dynamic_cast<QTreeView *>(GetView()); view)
+  {
+    view->expandAll();
+    view->resizeColumnToContents(0);
+  }
 }
 
 }  // namespace mvvm

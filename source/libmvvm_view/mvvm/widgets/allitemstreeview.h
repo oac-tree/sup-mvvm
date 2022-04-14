@@ -22,6 +22,8 @@
 
 #include "mvvm/widgets/abstractitemview.h"
 
+class QTreeView;
+
 namespace mvvm
 {
 
@@ -33,6 +35,8 @@ class MVVM_VIEW_EXPORT AllItemsTreeView : public AbstractItemView
 
 public:
   explicit AllItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+
+  QTreeView* GetTreeView();
 };
 
 }  // namespace mvvm

@@ -29,6 +29,13 @@ namespace mvvm
 AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent)
     : AbstractItemView(CreateViewModel<AllItemsViewModel>, new QTreeView, model, parent)
 {
+  GetTreeView()->expandAll();
+  GetTreeView()->resizeColumnToContents(0);
+}
+
+QTreeView* AllItemsTreeView::GetTreeView()
+{
+  return dynamic_cast<QTreeView*>(GetView());
 }
 
 }  // namespace mvvm
