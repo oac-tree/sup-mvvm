@@ -11,8 +11,6 @@ target_sources(${library_name} PRIVATE
   fancytab.h
   itemselectionmodel.cpp
   itemselectionmodel.h
-  itemstreeview.cpp
-  itemstreeview.h
   itemviewbase.cpp
   itemviewbase.h
   mainbarwidget.cpp
