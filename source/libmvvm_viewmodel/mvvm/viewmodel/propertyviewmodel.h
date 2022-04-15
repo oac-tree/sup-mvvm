@@ -34,7 +34,7 @@ class MVVM_VIEWMODEL_EXPORT PropertyViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  PropertyViewModel(ApplicationModel* model, QObject* parent = nullptr);
+  explicit PropertyViewModel(ApplicationModel* model, QObject* parent = nullptr);
 };
 
 }  // namespace mvvm

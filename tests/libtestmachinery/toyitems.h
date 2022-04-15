@@ -29,6 +29,13 @@
 namespace testutils::toyitems
 {
 
+class ParticleItem : public mvvm::CompoundItem
+{
+public:
+  static inline const std::string Type = "Particle";
+  ParticleItem();
+};
+
 class LayerItem : public mvvm::CompoundItem
 {
 public:
@@ -49,6 +56,6 @@ public:
   SampleModel();
 };
 
-}  // namespace TestUtils::ToyItems
+}  // namespace testutils::toyitems
 
 #endif  // TESTS_LIBTESTMACHINERY_TOYITEMS_H

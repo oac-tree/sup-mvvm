@@ -19,13 +19,23 @@
 
 #include "toyitems.h"
 
+#include "mvvm/standarditems/vectoritem.h"
+
 namespace testutils::toyitems
 {
 
-LayerItem::LayerItem() : mvvm::CompoundItem("Layer")
+ParticleItem::ParticleItem() : CompoundItem(ParticleItem::Type)
+{
+  AddProperty<mvvm::VectorItem>("position");
+  AddProperty("shape", "sphere");
+}
+
+LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::Type)
 {
   AddProperty("Thickness", 42.0);
   AddProperty("Color", "green");
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag("Particles", {ParticleItem::Type}),
+              /*set_as_default*/ true);
 }
 
 MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
@@ -40,4 +50,4 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
   RegisterItem<MultiLayerItem>();
 }
 
-}  // namespace TestUtils::ToyItems
+}  // namespace testutils::toyitems
