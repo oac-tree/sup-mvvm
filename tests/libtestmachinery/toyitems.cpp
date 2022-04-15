@@ -46,6 +46,7 @@ MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
+  RegisterItem<ParticleItem>();
   RegisterItem<LayerItem>();
   RegisterItem<MultiLayerItem>();
 }

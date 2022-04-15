@@ -26,6 +26,7 @@
 #include "mvvm/model/path.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/utils/containerutils.h"
 #include "mvvm/viewmodel/standardpresentationitems.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodel/viewitemmap.h"
@@ -135,10 +136,22 @@ struct ViewModelController::ViewModelControllerImpl
     return nullptr;
   }
 
+  //! Returns true if given children has to be processed (views inserted)
+  //! according to given children strategy.
+  bool IsChildToProcess(const SessionItem *parent, const SessionItem *child)
+  {
+    return utils::Contains(m_children_strategy->GetChildren(parent), child);
+  }
+
   //! Insert views for parent's child at position `tag_index`.
   void InsertView(SessionItem *parent, const TagIndex &tag_index)
   {
     auto new_child = parent->GetItem(tag_index.tag, tag_index.index);
+    if (!IsChildToProcess(parent, new_child))
+    {
+      return;
+    }
+
     if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
     {
       auto next_parent_view = ProcessItem(new_child, parent_view, tag_index.index);

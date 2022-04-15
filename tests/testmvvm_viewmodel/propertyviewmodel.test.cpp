@@ -216,3 +216,42 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
   EXPECT_EQ(spy_data_changed1.count(), 2);  // FIXME should be 1
   EXPECT_EQ(spy_data_changed2.count(), 1);
 }
+
+//! Property editor is looking into the layer.
+//! We add particles to the layer and check that no signal is emited, and editor still shows only
+//! layer properties (real-life bug).
+
+TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
+{
+  using namespace testutils::toyitems;
+
+  SampleModel model;
+  auto layer = model.InsertItem<LayerItem>();
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(layer);
+
+  EXPECT_EQ(view_model.rowCount(), 2);
+  EXPECT_EQ(view_model.columnCount(), 2);
+
+  QSignalSpy spyAboutInserInsert(&view_model, &ViewModelBase::rowsAboutToBeInserted);
+  QSignalSpy spyInsert(&view_model, &ViewModelBase::rowsInserted);
+  QSignalSpy spyAboutRemove(&view_model, &ViewModelBase::rowsAboutToBeRemoved);
+  QSignalSpy spyRemove(&view_model, &ViewModelBase::rowsRemoved);
+  QSignalSpy spyAboutReset(&view_model, &ViewModelBase::modelAboutToBeReset);
+  QSignalSpy spyReset(&view_model, &ViewModelBase::modelReset);
+  QSignalSpy spyLayout(&view_model, &ViewModelBase::layoutChanged);
+
+  model.InsertItem<ParticleItem>(layer);
+
+  // Inertion of particle shouldn't change signals and properties
+  EXPECT_EQ(spyAboutInserInsert.count(), 0);
+  EXPECT_EQ(spyInsert.count(), 0);
+  EXPECT_EQ(spyAboutRemove.count(), 0);
+  EXPECT_EQ(spyRemove.count(), 0);
+  EXPECT_EQ(spyAboutReset.count(), 0);
+  EXPECT_EQ(spyReset.count(), 0);
+
+  EXPECT_EQ(view_model.rowCount(), 2);
+  EXPECT_EQ(view_model.columnCount(), 2);
+}
