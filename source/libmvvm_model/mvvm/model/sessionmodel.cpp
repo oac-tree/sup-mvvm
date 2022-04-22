@@ -20,9 +20,7 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/factories/itemcataloguefactory.h"
-#include "mvvm/model/itemcatalogue.h"
-#include "mvvm/model/itemfactory.h"
+#include "mvvm/interfaces/itemfactoryinterface.h"
 #include "mvvm/model/itemmanager.h"
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/modelutils.h"
@@ -184,15 +182,6 @@ SessionItem* SessionModel::FindItem(const std::string& id) const
 {
   return p_impl->m_item_manager->FindItem(id);
 }
-
-//! Sets brand new catalog of user-defined items. They become available for undo/redo and
-//! serialization. Internally user catalog will be merged with the catalog of standard items.
-
-//void SessionModel::SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue)
-//{
-//  AddStandardItemsToCatalogue(*catalogue);
-//  p_impl->m_item_manager->SetItemFactory(std::make_unique<ItemFactory>(std::move(catalogue)));
-//}
 
 //! Removes all items from the model. If callback is provided, use it to rebuild content of root
 //! item (used while restoring the model from serialized content).

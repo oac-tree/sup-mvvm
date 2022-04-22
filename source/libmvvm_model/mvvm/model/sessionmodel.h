@@ -80,8 +80,6 @@ public:
 
   // Methods to steer global behaviour.
 
-//  void SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
-
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
   template <typename T>
