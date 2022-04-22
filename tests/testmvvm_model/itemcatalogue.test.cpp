@@ -28,7 +28,7 @@
 
 using namespace mvvm;
 
-//! Testing ItemCatalogue construction
+//! Testing ItemCatalogue class.
 
 class ItemCatalogueTest : public ::testing::Test
 {
@@ -131,24 +131,6 @@ TEST_F(ItemCatalogueTest, Contains)
   EXPECT_TRUE(catalogue.Contains(PropertyItem::Type));
   EXPECT_FALSE(catalogue.Contains(TestItem::Type));
 }
-
-// FIXME uncomment
-// TEST_F(ItemCatalogueTest, defaultItemCatalogue)
-//{
-//  auto catalogue = CreateStandardItemCatalogue();
-
-//  auto item = catalogue->create(Constants::BaseType);
-//  EXPECT_TRUE(dynamic_cast<SessionItem*>(item.get()) != nullptr);
-
-//  item = catalogue->create(Constants::PropertyType);
-//  EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
-
-//  item = catalogue->create(Constants::VectorItemType);
-//  EXPECT_TRUE(dynamic_cast<VectorItem*>(item.get()) != nullptr);
-
-//  item = catalogue->create(Constants::CompoundItemType);
-//  EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
-//}
 
 TEST_F(ItemCatalogueTest, AddLabeledItem)
 {
