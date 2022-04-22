@@ -154,7 +154,7 @@ TEST_F(ItemCatalogueTest, Merge)
   catalogue2.RegisterItem<AnotherTestItem>("another");
 
   // adding two catalogue together
-  catalogue1.merge(catalogue2);
+  catalogue1.Merge(catalogue2);
 
   std::vector<std::string> expected_models = {PropertyItem::Type, TestItem::Type,
                                               AnotherTestItem::Type};
@@ -167,5 +167,5 @@ TEST_F(ItemCatalogueTest, Merge)
   EXPECT_TRUE(dynamic_cast<AnotherTestItem*>(item.get()) != nullptr);
 
   // duplications is not allowed
-  EXPECT_THROW(catalogue1.merge(catalogue2), mvvm::RuntimeException);
+  EXPECT_THROW(catalogue1.Merge(catalogue2), mvvm::ExistingKeyException);
 }

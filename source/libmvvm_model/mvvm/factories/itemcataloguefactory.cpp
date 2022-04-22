@@ -46,7 +46,7 @@ std::unique_ptr<ItemCatalogue<SessionItem> > CreateStandardItemCatalogue()
 
 void AddStandardItemsToCatalogue(ItemCatalogue<SessionItem> &user_catalogue)
 {
-  user_catalogue.merge(*CreateStandardItemCatalogue());
+  user_catalogue.Merge(*CreateStandardItemCatalogue());
 }
 
 }  // namespace mvvm

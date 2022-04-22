@@ -57,7 +57,7 @@ public:
 
   int GetItemCount() const;
 
-  void merge(const ItemCatalogue& other);
+  void Merge(const ItemCatalogue& other);
 
 private:
   struct CatalogueEntry
@@ -140,13 +140,13 @@ int ItemCatalogue<T>::GetItemCount() const
 //! Adds content of other catalogue to this.
 
 template <typename T>
-void ItemCatalogue<T>::merge(const ItemCatalogue& other)
+void ItemCatalogue<T>::Merge(const ItemCatalogue& other)
 {
   for (const auto& it : other.m_info)
   {
     if (Contains(it.item_type))
     {
-      throw RuntimeException("ItemCatalogue::add() -> Catalogue contains duplicated records");
+      throw ExistingKeyException("Catalogue contains duplicated records");
     }
 
     RegisterItem(it.item_type, it.factory_func, it.item_label);
