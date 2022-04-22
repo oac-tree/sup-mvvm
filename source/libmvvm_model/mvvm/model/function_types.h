@@ -36,7 +36,7 @@ using item_factory_func_t = std::function<std::unique_ptr<SessionItem>()>;
 template <typename T>
 auto ItemFactoryFunction()
 {
-  return []() { return std::make_unique<T>(); };
+  return std::make_unique<T>();
 }
 
 }  // namespace mvvm

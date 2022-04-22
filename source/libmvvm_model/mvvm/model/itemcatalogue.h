@@ -69,7 +69,7 @@ private:
 template <typename U>
 void ItemCatalogue::RegisterItem(const std::string& label)
 {
-  RegisterItem(U().GetType(), ItemFactoryFunction<U>(), label);
+  RegisterItem(U().GetType(), ItemFactoryFunction<U>, label);
 }
 
 }  // namespace mvvm

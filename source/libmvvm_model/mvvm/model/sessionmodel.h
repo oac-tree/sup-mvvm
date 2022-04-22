@@ -126,7 +126,7 @@ T* SessionModel::GetTopItem() const
 template <typename T>
 void SessionModel::RegisterItem(const std::string& label)
 {
-  RegisterItemInternal(T().GetType(), ItemFactoryFunction<T>(), label);
+  RegisterItemInternal(T().GetType(), ItemFactoryFunction<T>, label);
 }
 
 }  // namespace mvvm
