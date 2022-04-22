@@ -20,7 +20,6 @@
 #ifndef MVVM_INTERFACES_MODELEVENTSUBSCRIBERINTERFACE_H
 #define MVVM_INTERFACES_MODELEVENTSUBSCRIBERINTERFACE_H
 
-#include "mvvm/model/function_types.h"
 #include "mvvm/model_export.h"
 #include "mvvm/signals/callback_types.h"
 #include "mvvm/signals/signalslot.h"
