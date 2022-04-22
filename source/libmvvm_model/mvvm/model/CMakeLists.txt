@@ -10,7 +10,6 @@ target_sources(${library_name} PRIVATE
   externalproperty.cpp
   externalproperty.h
   function_types.h
-  itemcatalogue.cpp
   itemcatalogue.h
   itemfactory.cpp
   itemfactory.h
