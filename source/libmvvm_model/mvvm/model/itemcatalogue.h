@@ -21,9 +21,10 @@
 #define MVVM_MODEL_ITEMCATALOGUE_H
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/model/function_types.h"
 #include "mvvm/model_export.h"
 
+#include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -33,7 +34,6 @@ class SessionItem;
 
 //! Catalogue for item constructions. Contains collection of factory functions associated with
 //! item's type and optional label.
-//! FIXME make catalogue templated.
 
 template <typename T>
 class MVVM_MODEL_EXPORT ItemCatalogue
@@ -74,7 +74,8 @@ template <typename T>
 template <typename U>
 void ItemCatalogue<T>::RegisterItem(const std::string& label)
 {
-  RegisterItem(U().GetType(), ItemFactoryFunction<U>, label);
+  RegisterItem(
+      U().GetType(), []() { return std::make_unique<U>(); }, label);
 }
 
 template <typename T>
