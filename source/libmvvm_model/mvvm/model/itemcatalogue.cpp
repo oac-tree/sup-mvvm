@@ -26,36 +26,6 @@
 
 namespace mvvm
 {
-struct ItemCatalogue::ItemCatalogueImpl
-{
-  struct CatalogueEntry
-  {
-    std::string item_type;
-    std::string item_label;
-    item_factory_func_t factory_func;
-  };
-
-  std::vector<CatalogueEntry> m_info;
-};
-
-ItemCatalogue::ItemCatalogue() : p_impl(std::make_unique<ItemCatalogueImpl>()) {}
-
-ItemCatalogue::~ItemCatalogue() = default;
-
-ItemCatalogue::ItemCatalogue(const ItemCatalogue& other)
-{
-  p_impl = std::make_unique<ItemCatalogueImpl>(*other.p_impl);
-}
-
-ItemCatalogue& ItemCatalogue::operator=(const ItemCatalogue& other)
-{
-  if (this != &other)
-  {
-    ItemCatalogue tmp(other);
-    std::swap(this->p_impl, tmp.p_impl);
-  }
-  return *this;
-}
 
 void ItemCatalogue::RegisterItem(const std::string& model_type, const item_factory_func_t& func,
                                  const std::string& label)
@@ -64,21 +34,21 @@ void ItemCatalogue::RegisterItem(const std::string& model_type, const item_facto
   {
     throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + model_type + "'");
   }
-  p_impl->m_info.push_back({model_type, label, func});
+  m_info.push_back({model_type, label, func});
 }
 
 bool ItemCatalogue::Contains(const std::string& model_type) const
 {
-  auto it = find_if(p_impl->m_info.begin(), p_impl->m_info.end(),
+  auto it = find_if(m_info.begin(), m_info.end(),
                     [model_type](auto element) { return element.item_type == model_type; });
-  return it != p_impl->m_info.end();
+  return it != m_info.end();
 }
 
 std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type) const
 {
-  auto it = find_if(p_impl->m_info.begin(), p_impl->m_info.end(),
+  auto it = find_if(m_info.begin(), m_info.end(),
                     [model_type](auto element) { return element.item_type == model_type; });
-  if (it == p_impl->m_info.end())
+  if (it == m_info.end())
   {
     throw NotFoundKeyException("No item registered for model type '" + model_type + "'");
   }
@@ -88,7 +58,7 @@ std::unique_ptr<SessionItem> ItemCatalogue::Create(const std::string& model_type
 std::vector<std::string> ItemCatalogue::GetItemTypes() const
 {
   std::vector<std::string> result;
-  for (const auto& x : p_impl->m_info)
+  for (const auto& x : m_info)
   {
     result.push_back(x.item_type);
   }
@@ -98,7 +68,7 @@ std::vector<std::string> ItemCatalogue::GetItemTypes() const
 std::vector<std::string> ItemCatalogue::GetLabels() const
 {
   std::vector<std::string> result;
-  for (const auto& x : p_impl->m_info)
+  for (const auto& x : m_info)
   {
     result.push_back(x.item_label);
   }
@@ -107,14 +77,14 @@ std::vector<std::string> ItemCatalogue::GetLabels() const
 
 int ItemCatalogue::GetItemCount() const
 {
-  return static_cast<int>(p_impl->m_info.size());
+  return static_cast<int>(m_info.size());
 }
 
 //! Adds content of other catalogue to this.
 
 void ItemCatalogue::merge(const ItemCatalogue& other)
 {
-  for (const auto& it : other.p_impl->m_info)
+  for (const auto& it : other.m_info)
   {
     if (Contains(it.item_type))
     {

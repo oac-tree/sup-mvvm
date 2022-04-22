@@ -37,12 +37,6 @@ class SessionItem;
 class MVVM_MODEL_EXPORT ItemCatalogue
 {
 public:
-  ItemCatalogue();
-  ~ItemCatalogue();
-
-  ItemCatalogue(const ItemCatalogue& other);
-  ItemCatalogue& operator=(const ItemCatalogue& other);
-
   template <typename U>
   void RegisterItem(const std::string& label = {});
 
@@ -62,8 +56,14 @@ public:
   void merge(const ItemCatalogue& other);
 
 private:
-  struct ItemCatalogueImpl;
-  std::unique_ptr<ItemCatalogueImpl> p_impl;
+  struct CatalogueEntry
+  {
+    std::string item_type;
+    std::string item_label;
+    item_factory_func_t factory_func;
+  };
+
+  std::vector<CatalogueEntry> m_info;
 };
 
 template <typename U>
