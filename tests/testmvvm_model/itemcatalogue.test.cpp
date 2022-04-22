@@ -50,7 +50,7 @@ public:
 
 TEST_F(ItemCatalogueTest, InitialState)
 {
-  ItemCatalogue catalogue;
+  ItemCatalogue<SessionItem> catalogue;
   EXPECT_EQ(catalogue.GetItemCount(), 0);
   EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({}));
@@ -58,7 +58,7 @@ TEST_F(ItemCatalogueTest, InitialState)
 
 TEST_F(ItemCatalogueTest, AddItem)
 {
-  ItemCatalogue catalogue;
+  ItemCatalogue<SessionItem> catalogue;
 
   catalogue.RegisterItem<PropertyItem>();
 
@@ -80,10 +80,10 @@ TEST_F(ItemCatalogueTest, AddItem)
 
 TEST_F(ItemCatalogueTest, CopyConstructor)
 {
-  ItemCatalogue catalogue;
+  ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
 
-  ItemCatalogue copy(catalogue);
+  ItemCatalogue<SessionItem> copy(catalogue);
 
   // creation of item using first catalogue
   auto item = catalogue.Create(PropertyItem::Type);
@@ -108,10 +108,10 @@ TEST_F(ItemCatalogueTest, CopyConstructor)
 
 TEST_F(ItemCatalogueTest, AssignmentOperator)
 {
-  ItemCatalogue catalogue;
+  ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
 
-  ItemCatalogue copy;
+  ItemCatalogue<SessionItem> copy;
   copy = catalogue;
 
   // creation of item using first catalogue
@@ -125,7 +125,7 @@ TEST_F(ItemCatalogueTest, AssignmentOperator)
 
 TEST_F(ItemCatalogueTest, Contains)
 {
-  ItemCatalogue catalogue;
+  ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
 
   EXPECT_TRUE(catalogue.Contains(PropertyItem::Type));
@@ -152,7 +152,7 @@ TEST_F(ItemCatalogueTest, Contains)
 
 TEST_F(ItemCatalogueTest, AddLabeledItem)
 {
-  ItemCatalogue catalogue;
+  ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>("property");
   catalogue.RegisterItem<TestItem>("test item");
 
@@ -164,11 +164,11 @@ TEST_F(ItemCatalogueTest, AddLabeledItem)
 
 TEST_F(ItemCatalogueTest, Merge)
 {
-  ItemCatalogue catalogue1;
+  ItemCatalogue<SessionItem> catalogue1;
   catalogue1.RegisterItem<PropertyItem>("property");
   catalogue1.RegisterItem<TestItem>("test");
 
-  ItemCatalogue catalogue2;
+  ItemCatalogue<SessionItem> catalogue2;
   catalogue2.RegisterItem<AnotherTestItem>("another");
 
   // adding two catalogue together
@@ -185,5 +185,5 @@ TEST_F(ItemCatalogueTest, Merge)
   EXPECT_TRUE(dynamic_cast<AnotherTestItem*>(item.get()) != nullptr);
 
   // duplications is not allowed
-  EXPECT_THROW(catalogue1.merge(catalogue2), std::runtime_error);
+  EXPECT_THROW(catalogue1.merge(catalogue2), mvvm::RuntimeException);
 }

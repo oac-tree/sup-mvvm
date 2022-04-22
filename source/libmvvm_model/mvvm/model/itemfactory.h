@@ -26,6 +26,7 @@
 
 namespace mvvm
 {
+template<typename T>
 class ItemCatalogue;
 
 //! Default SessionItem factory.
@@ -34,7 +35,7 @@ class MVVM_MODEL_EXPORT ItemFactory : public ItemFactoryInterface
 {
 public:
   ItemFactory();
-  explicit ItemFactory(std::unique_ptr<ItemCatalogue> catalogue);
+  explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue);
   ~ItemFactory() override;
 
   void RegisterItem(const std::string& model_type, item_factory_func_t func,
@@ -43,7 +44,7 @@ public:
   std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const override;
 
 private:
-  std::unique_ptr<ItemCatalogue> m_catalogue;
+  std::unique_ptr<ItemCatalogue<SessionItem>> m_catalogue;
 };
 
 }  // namespace mvvm

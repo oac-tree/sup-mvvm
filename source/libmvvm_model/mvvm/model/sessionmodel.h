@@ -31,7 +31,6 @@ namespace mvvm
 class SessionItem;
 class ItemPool;
 class ItemFactoryInterface;
-class ItemCatalogue;
 
 //! Main class to hold hierarchy of SessionItem objects.
 
@@ -81,7 +80,7 @@ public:
 
   // Methods to steer global behaviour.
 
-  void SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
+//  void SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
 
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
 

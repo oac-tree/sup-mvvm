@@ -25,9 +25,9 @@
 namespace mvvm
 {
 
-ItemFactory::ItemFactory() : m_catalogue(std::make_unique<ItemCatalogue>()) {}
+ItemFactory::ItemFactory() : m_catalogue(std::make_unique<ItemCatalogue<SessionItem>>()) {}
 
-ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue> catalogue)
+ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
     : m_catalogue(std::move(catalogue))
 {
 }

@@ -25,10 +25,10 @@
 namespace mvvm
 {
 //! Creates a catalog of items supported by SessionModel out-of-the-box.
-MVVM_MODEL_EXPORT std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue();
+MVVM_MODEL_EXPORT std::unique_ptr<ItemCatalogue<SessionItem>> CreateStandardItemCatalogue();
 
 //! Update user catalogue with items supported by SessionModel out-of-the-box.
-MVVM_MODEL_EXPORT void AddStandardItemsToCatalogue(ItemCatalogue& user_catalogue);
+MVVM_MODEL_EXPORT void AddStandardItemsToCatalogue(ItemCatalogue<SessionItem>& user_catalogue);
 
 }  // namespace mvvm
 

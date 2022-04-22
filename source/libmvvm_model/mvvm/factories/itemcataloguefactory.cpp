@@ -23,9 +23,9 @@
 
 namespace mvvm
 {
-std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
+std::unique_ptr<ItemCatalogue<SessionItem> > CreateStandardItemCatalogue()
 {
-  auto result = std::make_unique<ItemCatalogue>();
+  auto result = std::make_unique<ItemCatalogue<SessionItem>>();
   result->RegisterItem<CompoundItem>();
   result->RegisterItem<ContainerItem>();
   result->RegisterItem<Data1DItem>();
@@ -44,7 +44,7 @@ std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue()
   return result;
 }
 
-void AddStandardItemsToCatalogue(ItemCatalogue &user_catalogue)
+void AddStandardItemsToCatalogue(ItemCatalogue<SessionItem> &user_catalogue)
 {
   user_catalogue.merge(*CreateStandardItemCatalogue());
 }

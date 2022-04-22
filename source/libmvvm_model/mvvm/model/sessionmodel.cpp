@@ -188,11 +188,11 @@ SessionItem* SessionModel::FindItem(const std::string& id) const
 //! Sets brand new catalog of user-defined items. They become available for undo/redo and
 //! serialization. Internally user catalog will be merged with the catalog of standard items.
 
-void SessionModel::SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue)
-{
-  AddStandardItemsToCatalogue(*catalogue);
-  p_impl->m_item_manager->SetItemFactory(std::make_unique<ItemFactory>(std::move(catalogue)));
-}
+//void SessionModel::SetItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue)
+//{
+//  AddStandardItemsToCatalogue(*catalogue);
+//  p_impl->m_item_manager->SetItemFactory(std::make_unique<ItemFactory>(std::move(catalogue)));
+//}
 
 //! Removes all items from the model. If callback is provided, use it to rebuild content of root
 //! item (used while restoring the model from serialized content).
