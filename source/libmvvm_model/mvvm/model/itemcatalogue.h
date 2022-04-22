@@ -20,6 +20,7 @@
 #ifndef MVVM_MODEL_ITEMCATALOGUE_H
 #define MVVM_MODEL_ITEMCATALOGUE_H
 
+#include "mvvm/core/exceptions.h"
 #include "mvvm/model/function_types.h"
 #include "mvvm/model_export.h"
 
@@ -34,18 +35,21 @@ class SessionItem;
 //! item's type and optional label.
 //! FIXME make catalogue templated.
 
+template <typename T>
 class MVVM_MODEL_EXPORT ItemCatalogue
 {
 public:
+  using factory_func_t = std::function<std::unique_ptr<T>()>;
+
   template <typename U>
   void RegisterItem(const std::string& label = {});
 
-  void RegisterItem(const std::string& model_type, const item_factory_func_t& func,
+  void RegisterItem(const std::string& model_type, const factory_func_t& func,
                     const std::string& label = {});
 
   bool Contains(const std::string& model_type) const;
 
-  std::unique_ptr<SessionItem> Create(const std::string& model_type) const;
+  std::unique_ptr<T> Create(const std::string& model_type) const;
 
   std::vector<std::string> GetItemTypes() const;
 
@@ -60,16 +64,92 @@ private:
   {
     std::string item_type;
     std::string item_label;
-    item_factory_func_t factory_func;
+    factory_func_t factory_func;
   };
 
   std::vector<CatalogueEntry> m_info;
 };
 
+template <typename T>
 template <typename U>
-void ItemCatalogue::RegisterItem(const std::string& label)
+void ItemCatalogue<T>::RegisterItem(const std::string& label)
 {
   RegisterItem(U().GetType(), ItemFactoryFunction<U>, label);
+}
+
+template <typename T>
+void ItemCatalogue<T>::RegisterItem(const std::string& model_type, const factory_func_t& func,
+                                    const std::string& label)
+{
+  if (Contains(model_type))
+  {
+    throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + model_type + "'");
+  }
+  m_info.push_back({model_type, label, func});
+}
+
+template <typename T>
+bool ItemCatalogue<T>::Contains(const std::string& model_type) const
+{
+  auto it = find_if(m_info.begin(), m_info.end(),
+                    [model_type](auto element) { return element.item_type == model_type; });
+  return it != m_info.end();
+}
+
+template <typename T>
+std::unique_ptr<T> ItemCatalogue<T>::Create(const std::string& model_type) const
+{
+  auto it = find_if(m_info.begin(), m_info.end(),
+                    [model_type](auto element) { return element.item_type == model_type; });
+  if (it == m_info.end())
+  {
+    throw NotFoundKeyException("No item registered for model type '" + model_type + "'");
+  }
+  return it->factory_func();
+}
+
+template <typename T>
+std::vector<std::string> ItemCatalogue<T>::GetItemTypes() const
+{
+  std::vector<std::string> result;
+  for (const auto& x : m_info)
+  {
+    result.push_back(x.item_type);
+  }
+  return result;
+}
+
+template <typename T>
+std::vector<std::string> ItemCatalogue<T>::GetLabels() const
+{
+  std::vector<std::string> result;
+  for (const auto& x : m_info)
+  {
+    result.push_back(x.item_label);
+  }
+  return result;
+}
+
+template <typename T>
+int ItemCatalogue<T>::GetItemCount() const
+{
+  return static_cast<int>(m_info.size());
+}
+
+//! Adds content of other catalogue to this.
+
+template <typename T>
+void ItemCatalogue<T>::merge(const ItemCatalogue& other)
+{
+  for (const auto& it : other.m_info)
+  {
+    if (Contains(it.item_type))
+    {
+      throw RuntimeException("ItemCatalogue::add() -> Catalogue contains duplicated records");
+    }
+
+    RegisterItem(it.item_type, it.factory_func, it.item_label);
+  }
 }
 
 }  // namespace mvvm
