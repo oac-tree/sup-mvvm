@@ -37,7 +37,7 @@ QSize FindSizeOfLetterM()
   QFontMetrics fontMetric(QApplication::font());
   auto em = fontMetric.horizontalAdvance('M');
   auto fontAscent = fontMetric.ascent();
-  return QSize(em, fontAscent);
+  return {em, fontAscent};
 }
 
 const QString untitled_name = "Untitled";
@@ -55,7 +55,7 @@ int mvvm::utils::RandInt(int low, int high)
 QColor mvvm::utils::RandomColor()
 {
   auto rndm = []() -> int { return mvvm::utils::RandInt(0, 255); };
-  return QColor(rndm(), rndm(), rndm());
+  return {rndm(), rndm(), rndm()};
 }
 
 std::string mvvm::utils::RandomNamedColor()
@@ -102,9 +102,13 @@ QString mvvm::utils::WithTildeHomePath(const QString& path)
   QFileInfo fi(QDir::cleanPath(path));
   QString outPath = fi.absoluteFilePath();
   if (outPath.startsWith(homePath))
+  {
     outPath = QLatin1Char('~') + outPath.mid(homePath.size());
+  }
   else
+  {
     outPath = path;
+  }
   return outPath;
 }
 
@@ -214,8 +218,8 @@ QString mvvm::utils::CreatePathPresentation(const QString& text)
   }
   auto parts = text.split(QLatin1Char('/'));
 
-  QString link; //! real link to follow
-  QString result; //! text for qlabel
+  QString link;    //! real link to follow
+  QString result;  //! text for qlabel
   for (auto it = parts.begin(); it != parts.end(); ++it)
   {
     if (it->isEmpty())
