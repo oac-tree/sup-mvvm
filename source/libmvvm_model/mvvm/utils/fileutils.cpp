@@ -60,6 +60,7 @@ std::string GetBaseName(const std::string& path)
 std::vector<std::string> FindFiles(const std::string& dirname, const std::string& ext)
 {
   std::vector<std::string> result;
+#if INCLUDE_STD_FILESYSTEM_EXPERIMENTAL==0
   for (const auto& entry : std::filesystem::directory_iterator(dirname))
   {
     const auto filenameStr = entry.path().filename().string();
@@ -68,6 +69,10 @@ std::vector<std::string> FindFiles(const std::string& dirname, const std::string
       result.push_back(entry.path().string());
     }
   }
+#else
+  throw std::runtime_error("Sorry, your compiler is too old to use <filesystem>");
+#endif
+
   return result;
 }
 
