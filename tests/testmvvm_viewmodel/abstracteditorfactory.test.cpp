@@ -50,11 +50,11 @@ TEST_F(AbstractEditorFactoryTest, RegisterBuilder)
   auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<TestEditor>(); };
   factory.RegisterBuilder("abc", builder);
 
-  // existing builder
-  EXPECT_TRUE(factory.FindBuilder("abc"));
+  // existing builder. Cast for gtest 1.6 and gcc-7.3.1
+  EXPECT_TRUE(static_cast<bool>(factory.FindBuilder("abc")));
 
   // non existing builder
-  EXPECT_FALSE(factory.FindBuilder("edf"));
+  EXPECT_FALSE(static_cast<bool>(factory.FindBuilder("edf")));
 
   EXPECT_THROW(factory.RegisterBuilder("abc", builder), std::runtime_error);
 }
