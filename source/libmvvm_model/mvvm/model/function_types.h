@@ -34,7 +34,7 @@ using item_factory_func_t = std::function<std::unique_ptr<SessionItem>()>;
 
 //! Creates factory function for item of specific type.
 template <typename T>
-auto ItemFactoryFunction()
+std::unique_ptr<T> ItemFactoryFunction()
 {
   return std::make_unique<T>();
 }
