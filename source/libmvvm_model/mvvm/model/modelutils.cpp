@@ -61,11 +61,11 @@ bool HasSignals(const SessionModel* model)
   return dynamic_cast<const ApplicationModel*>(model);
 }
 
-void CopyItem(const SessionItem* item, SessionModel* model, SessionItem* parent,
+SessionItem *CopyItem(const SessionItem* item, SessionModel* model, SessionItem* parent,
               const TagIndex& tag_index)
 {
   auto copy_strategy = CreateItemCopyStrategy(model->GetFactory());
-  model->InsertItem(copy_strategy->CreateCopy(item), parent, tag_index);
+  return model->InsertItem(copy_strategy->CreateCopy(item), parent, tag_index);
 }
 
 //! FIXME restore functionality PopulateEmptyModel json

@@ -19,6 +19,7 @@
 
 #include "mvvm/model/modelutils.h"
 
+#include "mvvm/core/exceptions.h"
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/path.h"
@@ -147,6 +148,89 @@ TEST_F(ModelUtilsTest, HasSignals)
 
   ApplicationModel application_model;
   EXPECT_TRUE(utils::HasSignals(&application_model));
+}
+
+//! Tests item copy when from root item to root item.
+
+TEST_F(ModelUtilsTest, CopyModelItemRootContext)
+{
+  SessionModel model;
+
+  // create single item with value
+  auto item = model.InsertItem<SessionItem>();
+  item->SetData(42.0);
+
+  // copying to root item
+  auto copy = utils::CopyItem(item, &model, model.GetRootItem(), TagIndex::Append());
+
+  // checking copy
+  ASSERT_TRUE(copy != nullptr);
+  ASSERT_TRUE(copy != item);
+  EXPECT_FALSE(copy->GetIdentifier().empty());
+  EXPECT_NE(copy->GetIdentifier(), item->GetIdentifier());
+  EXPECT_EQ(copy->Data<double>(), 42.0);
+  EXPECT_EQ(model.GetRootItem()->GetAllItems().size(), 2);
+  std::vector<SessionItem*> expected = {item, copy};
+  EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
+}
+
+//! Tests item copy from parent to root item.
+
+TEST_F(ModelUtilsTest, CopyParentWithProperty)
+{
+  SessionModel model;
+
+  // parent with single child and data on ite
+  auto parent0 = model.InsertItem<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child0 = model.InsertItem<SessionItem>(parent0);
+  child0->SetData(42.0);
+
+  // copying whole parent to root
+  auto copy = utils::CopyItem(parent0, &model, model.GetRootItem(), TagIndex::Append());
+  auto copy_child = copy->GetItem("defaultTag");
+
+  ASSERT_TRUE(copy != nullptr);
+  ASSERT_TRUE(copy_child != nullptr);
+  EXPECT_FALSE(copy->GetIdentifier().empty());
+  EXPECT_NE(copy->GetIdentifier(), parent0->GetIdentifier());
+  EXPECT_EQ(copy_child->Data<double>(), 42.0);
+}
+
+//! Tests item copy for property item.
+
+TEST_F(ModelUtilsTest, CopyFreeItem)
+{
+  SessionModel model;
+
+  // single parent in a model
+  auto parent0 = model.InsertItem<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  // free item
+  auto item = std::make_unique<PropertyItem>();
+  item->SetData(42.0);
+
+  // copying to parent
+  auto copy = utils::CopyItem(item.get(), &model, parent0, TagIndex::Append());
+  EXPECT_EQ(copy->Data<double>(), 42.0);
+}
+
+//! Attempt to copy property item into the same tag.
+
+TEST_F(ModelUtilsTest, ForbiddenCopy)
+{
+  SessionModel model;
+
+  // single parent in a model
+  auto parent0 = model.InsertItem<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+  auto property = model.InsertItem<PropertyItem>(parent0, "property_tag");
+
+  // copying property to same property tag is not allowed
+  EXPECT_THROW(utils::CopyItem(property, &model, parent0, {"property_tag", -1}),
+               InvalidInsertException);
+  EXPECT_EQ(parent0->GetTotalItemCount(), 1);
 }
 
 //! FIXME restore test when copy is ready
