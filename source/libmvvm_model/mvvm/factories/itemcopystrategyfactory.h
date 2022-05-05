@@ -20,13 +20,12 @@
 #ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
 #define MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
 
-#include "mvvm/model_export.h"
+#include "mvvm/interfaces/itemcopystrategyinterface.h"
 
 #include <memory>
 
 namespace mvvm
 {
-class ItemCopyStrategyInterface;
 class ItemFactoryInterface;
 
 //! Returns default strategy for item copy (deep copying, all identifiers are regenerated to stay
