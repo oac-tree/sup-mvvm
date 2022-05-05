@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGYINTERFACE_H
-#define MVVM_INTERFACES_ITEMCOPYSTRATEGYINTERFACE_H
+#ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
+#define MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
 
 #include "mvvm/model_export.h"
 
@@ -26,19 +26,18 @@
 
 namespace mvvm
 {
-class SessionItem;
+class ItemCopyStrategyInterface;
+class ItemFactoryInterface;
 
-//! Interface for deep item copying.
+//! Returns default strategy for item copy (deep copying, all identifiers are regenerated to stay
+//! unique).
+MVVM_MODEL_EXPORT std::unique_ptr<ItemCopyStrategyInterface> CreateItemCopyStrategy(
+    const ItemFactoryInterface* factory);
 
-class MVVM_MODEL_EXPORT ItemCopyStrategyInterface
-{
-public:
-  virtual ~ItemCopyStrategyInterface() = default;
-
-  //! Creates item copy by deep copying all children.
-  virtual std::unique_ptr<SessionItem> CreateCopy(const SessionItem* item) const = 0;
-};
+//! Returns default strategy for item clone (deep copying, all identifiers stays the same).
+MVVM_MODEL_EXPORT std::unique_ptr<ItemCopyStrategyInterface> CreateItemCloneStrategy(
+    const ItemFactoryInterface* factory);
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_ITEMCOPYSTRATEGYINTERFACE_H
+#endif  // MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
