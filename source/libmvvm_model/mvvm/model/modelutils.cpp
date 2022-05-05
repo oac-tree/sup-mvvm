@@ -19,6 +19,7 @@
 
 #include "mvvm/model/modelutils.h"
 
+#include "mvvm/factories/itemcopystrategyfactory.h"
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/path.h"
 
@@ -58,6 +59,13 @@ SessionItem* ItemFromPath(const SessionModel& model, const Path& path)
 bool HasSignals(const SessionModel* model)
 {
   return dynamic_cast<const ApplicationModel*>(model);
+}
+
+void CopyItem(const SessionItem* item, SessionModel* model, SessionItem* parent,
+              const TagIndex& tag_index)
+{
+  auto copy_strategy = CreateItemCopyStrategy(model->GetFactory());
+  model->InsertItem(copy_strategy->CreateCopy(item), parent, tag_index);
 }
 
 //! FIXME restore functionality PopulateEmptyModel json
