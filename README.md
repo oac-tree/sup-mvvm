@@ -21,7 +21,7 @@ Collection of C++/Qt common components for Operational Application User Interfac
 ### Installation on Linux of the user's choice
 
 ```bash
-cmake <source> && make -j4 && ctest
+cmake <path-to-repo> && make -j4 && ctest
 ```
 
 ### Installation on CODAC machines
@@ -31,10 +31,11 @@ Qt must be installed, and path to it specified.
 ```
 #install qt5 
 
-yum install freeglut-devel.x86_64 codac-core-7.1-qt5.x86_64
+yum install freeglut-devel.x86_64 codac-core-7.1-qt5.x86_64 gmock-devel.x86_64 libxml2-devel.x86_64
 
-# specify path and compile
-PATH=/opt/codac/qt5/bin:$PATH cmake <source>
+# specify path to the repo directory  and compile
+mkdir build; cd build
+PATH=/opt/codac/qt5/bin:$PATH cmake <path-to-repo>
 make -j4 && ctest
 ```
 
