@@ -49,9 +49,9 @@ public:
       : FolderBasedTest("test_TreeDataItemConverter")
       , m_factory(mvvm::CreateStandardItemCatalogue()){};
 
-  std::unique_ptr<TreeDataItemConverter> CreateConverter() const
+  std::unique_ptr<TreeDataItemConverter> CreateCloneConverter() const
   {
-    return std::make_unique<TreeDataItemConverter>(&m_factory);
+    return std::make_unique<TreeDataItemConverter>(&m_factory, ConverterMode::kClone);
   }
 
   std::unique_ptr<TreeDataItemConverter> CreateCopyConverter() const
@@ -61,7 +61,7 @@ public:
 
   void WriteToXMLFile(const std::string& file_name, const SessionItem& item) const
   {
-    auto converter = CreateConverter();
+    auto converter = CreateCloneConverter();
     auto tree_data = converter->ToTreeData(item);
 
     ::mvvm::WriteToXMLFile(file_name, *tree_data);
@@ -71,7 +71,7 @@ public:
   std::unique_ptr<T> ReadFromXMLFile(const std::string& file_name)
   {
     auto tree_data = ParseXMLDataFile(file_name);
-    auto converter = CreateConverter();
+    auto converter = CreateCloneConverter();
     auto result = converter->ToSessionItem(*tree_data);
     return std::unique_ptr<T>(static_cast<T*>(result.release()));
   }
@@ -84,7 +84,7 @@ private:
 
 TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 {
-  auto converter = CreateConverter();
+  auto converter = CreateCloneConverter();
 
   PropertyItem item;
 
@@ -112,7 +112,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
   item.SetData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
 
   // to TreeData
-  auto converter = CreateConverter();
+  auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(item);
   EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
 
@@ -172,7 +172,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   child->SetDisplayName("child_name");
 
   // to TreeData
-  auto converter = CreateConverter();
+  auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(parent);
   EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
 
@@ -242,7 +242,7 @@ TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
   position_item->SetXYZ(1.0, 2.0, 3.0);
 
   // to TreeData
-  auto converter = CreateConverter();
+  auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(parent);
   EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
 

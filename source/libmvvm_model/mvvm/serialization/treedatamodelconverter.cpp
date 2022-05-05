@@ -34,7 +34,7 @@ const std::string kTypelAttributeKey = "type";
 std::unique_ptr<mvvm::TreeDataItemConverterInterface> CreateConverter(
     const mvvm::ItemFactoryInterface *factory)
 {
-  return std::make_unique<mvvm::TreeDataItemConverter>(factory);
+  return std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone);
 }
 
 }  // namespace

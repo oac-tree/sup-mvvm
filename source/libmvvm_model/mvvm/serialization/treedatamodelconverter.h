@@ -35,8 +35,8 @@ class SessionModel;
 class MVVM_MODEL_EXPORT TreeDataModelConverter : public TreeDataModelConverterInterface
 {
 public:
-  TreeDataModelConverter(ConverterMode converter_mode);
-  ~TreeDataModelConverter();
+  explicit TreeDataModelConverter(ConverterMode converter_mode);
+  ~TreeDataModelConverter() override;
 
   //! Returns true if given TreeData represents SessionModel object.
   bool IsSessionModelConvertible(const TreeData& tree_data) const;

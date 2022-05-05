@@ -35,15 +35,14 @@ class ItemFactoryInterface;
 class MVVM_MODEL_EXPORT TreeDataItemConverter : public TreeDataItemConverterInterface
 {
 public:
-  TreeDataItemConverter(const ItemFactoryInterface* factory,
-                        ConverterMode mode = ConverterMode::kClone);
-  ~TreeDataItemConverter();
+  TreeDataItemConverter(const ItemFactoryInterface* factory, ConverterMode mode);
+  ~TreeDataItemConverter() override;
 
   //! Returns true if given TreeData represents SessionItem object.
   bool IsSessionItemConvertible(const TreeData& tree_data) const;
 
   //! Creates SessionItem from TreeData.
-  std::unique_ptr<SessionItem> ToSessionItem(const TreeData&) const override;
+  std::unique_ptr<SessionItem> ToSessionItem(const TreeData& tree_data) const override;
 
   //! Creates TreeData from SessionItem.
   std::unique_ptr<TreeData> ToTreeData(const SessionItem& item) const override;
