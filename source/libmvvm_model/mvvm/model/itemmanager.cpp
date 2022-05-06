@@ -32,7 +32,8 @@ std::unique_ptr<mvvm::ItemFactory> DefaultItemFactory()
 }
 }  // namespace
 
-using namespace mvvm;
+namespace mvvm
+{
 
 ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 
@@ -81,13 +82,17 @@ ItemPool* ItemManager::GetItemPool()
 void ItemManager::RegisterInPool(SessionItem* item)
 {
   if (m_item_pool)
+  {
     m_item_pool->RegisterItem(item, item->GetIdentifier());
+  }
 }
 
 void ItemManager::UnregisterFromPool(SessionItem* item)
 {
   if (m_item_pool)
+  {
     m_item_pool->UnregisterItem(item);
+  }
 }
 
 const ItemFactoryInterface* ItemManager::GetFactory() const
@@ -99,3 +104,5 @@ ItemFactoryInterface* ItemManager::GetFactory()
 {
   return const_cast<ItemFactoryInterface*>(static_cast<const ItemManager*>(this)->GetFactory());
 }
+
+}  // namespace mvvm
