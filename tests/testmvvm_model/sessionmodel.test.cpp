@@ -21,8 +21,8 @@
 
 #include "mvvm/core/exceptions.h"
 #include "mvvm/model/compounditem.h"
-#include "mvvm/model/itempool.h"
 #include "mvvm/model/itemmanager.h"
+#include "mvvm/model/itempool.h"
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
@@ -43,7 +43,17 @@ public:
   public:
     TestItem() : SessionItem("TestItemType"){};
   };
+
+  class TestModel : public SessionModel
+  {
+  public:
+    TestModel() : SessionModel("TestModelType", CreateDefaultItemManager(m_pool)){};
+  };
+
+  static std::shared_ptr<ItemPool> m_pool;
 };
+
+std::shared_ptr<ItemPool> SessionModelTest::m_pool = std::make_shared<ItemPool>();
 
 TEST_F(SessionModelTest, InitialState)
 {
@@ -56,8 +66,7 @@ TEST_F(SessionModelTest, InitialState)
 
 TEST_F(SessionModelTest, InsertItemIntoRoot)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   // inserting single item
   auto item = model.InsertItem<SessionItem>();
@@ -68,15 +77,14 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
 
   // checking registration
   auto item_key = item->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(item_key), item);
+  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 }
 
 //! Insert new item into root.
 
 TEST_F(SessionModelTest, InsertNewItemIntoRoot)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   // inserting single item
   auto item = model.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
@@ -87,15 +95,14 @@ TEST_F(SessionModelTest, InsertNewItemIntoRoot)
 
   // checking registration
   auto item_key = item->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(item_key), item);
+  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 }
 
 //! Inserting item into root via move.
 
 TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   auto item = std::make_unique<PropertyItem>();
   auto item_ptr = item.get();
@@ -110,15 +117,14 @@ TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 
   // checking registration
   auto item_key = inserted->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(item_key), inserted);
+  EXPECT_EQ(m_pool->ItemForKey(item_key), inserted);
 }
 
 //! Insert item into parent using tag and index.
 
 TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -126,7 +132,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 
   // checking item
   auto item_key = item->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(item_key), item);
+  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
@@ -137,7 +143,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 
   // checking child
   auto child_key = child->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(child_key), child);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), child);
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
@@ -156,8 +162,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 
 TEST_F(SessionModelTest, InsertItemInDefaultTag)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -168,7 +173,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
 
   // checking child
   auto child_key = child->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(child_key), child);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), child);
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
@@ -188,8 +193,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
 
 TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -200,7 +204,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 
   // checking child
   auto child_key = child->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(child_key), child);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), child);
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
@@ -287,34 +291,33 @@ TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
 
 TEST_F(SessionModelTest, InsertNewItem)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
-  const std::string model_type = SessionItem::Type;
+  const std::string item_type = SessionItem::Type;
 
   // inserting single item
-  auto item = model.InsertNewItem(model_type);
+  auto item = model.InsertNewItem(item_type);
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), model_type);
+  EXPECT_EQ(item->GetType(), item_type);
 
   // checking registration
   auto item_key = item->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(item_key), item);
+  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 
   // registering tag
   item->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // adding child to it
-  auto child = model.InsertNewItem(model_type, item);
+  auto child = model.InsertNewItem(item_type, item);
   auto child_key = child->GetIdentifier();
-  EXPECT_EQ(pool->ItemForKey(child_key), child);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), child);
 
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), model_type);
+  EXPECT_EQ(child->GetType(), item_type);
 
   // taking child back
   auto taken = item->TakeItem({"", 0});
@@ -322,7 +325,7 @@ TEST_F(SessionModelTest, InsertNewItem)
   EXPECT_EQ(child->GetModel(), nullptr);
 
   // childitem not registered anymore
-  EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), nullptr);
 }
 
 TEST_F(SessionModelTest, SetData)
@@ -347,8 +350,7 @@ TEST_F(SessionModelTest, SetData)
 
 TEST_F(SessionModelTest, RemoveItem)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -362,13 +364,12 @@ TEST_F(SessionModelTest, RemoveItem)
   EXPECT_EQ(utils::ChildAt(parent, 0), child1);
 
   // child2 shouldn't be registered anymore
-  EXPECT_EQ(pool->KeyForItem(child2), "");
+  EXPECT_EQ(m_pool->KeyForItem(child2), "");
 }
 
 TEST_F(SessionModelTest, TakeItem)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -385,8 +386,8 @@ TEST_F(SessionModelTest, TakeItem)
   EXPECT_EQ(taken->GetModel(), nullptr);
 
   // child2 shouldn't be registered anymore
-  EXPECT_EQ(pool->KeyForItem(child2), "");
-  EXPECT_EQ(pool->ItemForKey(child2_key), nullptr);
+  EXPECT_EQ(m_pool->KeyForItem(child2), "");
+  EXPECT_EQ(m_pool->ItemForKey(child2_key), nullptr);
 }
 
 TEST_F(SessionModelTest, RemoveFromWrongParent)
@@ -415,8 +416,7 @@ TEST_F(SessionModelTest, RemoveNonExistingItem)
 
 TEST_F(SessionModelTest, TakeRowFromRootItem)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -425,13 +425,13 @@ TEST_F(SessionModelTest, TakeRowFromRootItem)
   auto child = model.InsertItem<SessionItem>(parent);
   auto child_key = child->GetIdentifier();
 
-  EXPECT_EQ(pool->ItemForKey(parent_key), parent);
-  EXPECT_EQ(pool->ItemForKey(child_key), child);
+  EXPECT_EQ(m_pool->ItemForKey(parent_key), parent);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), child);
 
   // taking parent
   auto taken = model.GetRootItem()->TakeItem({"", 0});
-  EXPECT_EQ(pool->ItemForKey(parent_key), nullptr);
-  EXPECT_EQ(pool->ItemForKey(child_key), nullptr);
+  EXPECT_EQ(m_pool->ItemForKey(parent_key), nullptr);
+  EXPECT_EQ(m_pool->ItemForKey(child_key), nullptr);
 }
 
 // !Simple move of item from one parent to another.
@@ -631,10 +631,9 @@ TEST_F(SessionModelTest, MoveItemFromParentToRoot)
 
 TEST_F(SessionModelTest, ClearModel)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("test", CreateDefaultItemManager(pool));
+  TestModel model;
 
-  EXPECT_EQ(pool->GetSize(), 1);
+  EXPECT_EQ(m_pool->GetSize(), 1);
 
   auto first_root = model.GetRootItem();
 
@@ -646,16 +645,15 @@ TEST_F(SessionModelTest, ClearModel)
   model.Clear();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_FALSE(model.GetRootItem() == first_root);
-  EXPECT_EQ(pool->KeyForItem(first_root), "");
-  EXPECT_EQ(pool->GetSize(), 1);
+  EXPECT_EQ(m_pool->KeyForItem(first_root), "");
+  EXPECT_EQ(m_pool->GetSize(), 1);
 }
 
 TEST_F(SessionModelTest, ClearRebuildModel)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("test", CreateDefaultItemManager(pool));
+  TestModel model;
 
-  EXPECT_EQ(pool->GetSize(), 1);
+  EXPECT_EQ(m_pool->GetSize(), 1);
 
   auto first_root = model.GetRootItem();
 
@@ -671,9 +669,9 @@ TEST_F(SessionModelTest, ClearRebuildModel)
   model.Clear(rebuild);
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_FALSE(model.GetRootItem() == first_root);
-  EXPECT_EQ(pool->KeyForItem(first_root), "");
-  EXPECT_EQ(pool->GetSize(), 2);
-  EXPECT_EQ(pool->KeyForItem(new_item), new_item->GetIdentifier());
+  EXPECT_EQ(m_pool->KeyForItem(first_root), "");
+  EXPECT_EQ(m_pool->GetSize(), 2);
+  EXPECT_EQ(m_pool->KeyForItem(new_item), new_item->GetIdentifier());
 }
 
 //! Test item find using identifier.
