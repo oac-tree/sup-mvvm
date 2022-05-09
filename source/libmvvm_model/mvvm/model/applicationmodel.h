@@ -37,7 +37,8 @@ public:
   using SessionModelInterface::InsertItem;
 
   explicit ApplicationModel(std::string model_type = {});
-//  explicit ApplicationModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
+  ApplicationModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
+
   ~ApplicationModel() override;
 
   ModelEventSubscriberInterface* GetSubscriber() const;

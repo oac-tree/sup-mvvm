@@ -63,7 +63,7 @@ private:
 //! Creates default item manager, relies on external pool if provided.
 std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool = {});
 
-//! Creates default item manager using catalogue of items from the user, and excternal pool.
+//! Creates default item manager using catalogue of items from the user, and external pool.
 std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(
     std::unique_ptr<ItemCatalogue<SessionItem>> user_catalogue,
     std::shared_ptr<ItemPool> pool = {});

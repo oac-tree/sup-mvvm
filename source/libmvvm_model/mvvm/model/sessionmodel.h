@@ -40,7 +40,7 @@ public:
   using SessionModelInterface::InsertItem;
 
   explicit SessionModel(std::string model_type = {});
-  explicit SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
+  SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
 
   ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;

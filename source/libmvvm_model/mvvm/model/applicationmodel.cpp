@@ -19,6 +19,8 @@
 
 #include "mvvm/model/applicationmodel.h"
 
+#include "mvvm/interfaces/itemmanagerinterface.h"
+#include "mvvm/model/itemmanager.h"
 #include "mvvm/model/validateutils.h"
 #include "mvvm/signals/modeleventnotifier.h"
 
@@ -42,14 +44,14 @@ struct ApplicationModel::ApplicationModelImpl
   }
 };
 
-//ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-//    : SessionModel(std::move(model_type), std::move(pool))
-//    , p_impl(std::make_unique<ApplicationModelImpl>(this))
-//{
-//}
-
 ApplicationModel::ApplicationModel(std::string model_type)
-    : SessionModel(std::move(model_type))
+    : ApplicationModel(std::move(model_type), std::move(CreateDefaultItemManager()))
+{
+}
+
+ApplicationModel::ApplicationModel(std::string model_type,
+                                   std::unique_ptr<ItemManagerInterface> manager)
+    : SessionModel(std::move(model_type), std::move(manager))
     , p_impl(std::make_unique<ApplicationModelImpl>(this))
 {
 }
