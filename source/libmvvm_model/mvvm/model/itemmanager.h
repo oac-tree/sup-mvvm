@@ -36,14 +36,9 @@ public:
 
   std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const override;
 
-  std::unique_ptr<SessionItem> CreateEmptyItem() const override;
-
   SessionItem* FindItem(const std::string& id) const override;
 
   std::string FindIdentifier(const SessionItem* item) const override;
-
-  const ItemPool* GetItemPool() const override;
-  ItemPool* GetItemPool() override;
 
   void RegisterInPool(SessionItem* item) override;
 
@@ -52,6 +47,10 @@ public:
   const ItemFactoryInterface* GetFactory() const override;
 
   ItemFactoryInterface* GetFactory() override;
+
+  const ItemPool* GetItemPool() const override;
+
+  ItemPool* GetItemPool() override;
 
 private:
   std::unique_ptr<ItemFactoryInterface> m_item_factory;

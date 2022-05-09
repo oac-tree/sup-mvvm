@@ -30,17 +30,17 @@ ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
 {
 }
 
-void ItemFactory::RegisterItem(const std::string& model_type, item_factory_func_t func,
+void ItemFactory::RegisterItem(const std::string& item_type, item_factory_func_t func,
                                const std::string& label)
 {
-  m_catalogue->RegisterItem(model_type, func, label);
+  m_catalogue->RegisterItem(item_type, func, label);
 }
 
 ItemFactory::~ItemFactory() = default;
 
-std::unique_ptr<SessionItem> ItemFactory::CreateItem(const std::string& model_type) const
+std::unique_ptr<SessionItem> ItemFactory::CreateItem(const std::string& item_type) const
 {
-  return m_catalogue->Create(model_type);
+  return m_catalogue->Create(item_type);
 }
 
 }  // namespace mvvm

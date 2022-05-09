@@ -40,8 +40,6 @@ public:
 
   virtual std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const = 0;
 
-  virtual std::unique_ptr<SessionItem> CreateEmptyItem() const = 0;
-
   virtual SessionItem* FindItem(const std::string& id) const = 0;
 
   virtual std::string FindIdentifier(const SessionItem* item) const = 0;

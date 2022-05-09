@@ -62,7 +62,7 @@ struct SessionModel::SessionModelImpl
   //! Creates root item.
   void CreateRootItem()
   {
-    m_root_item = m_item_manager->CreateEmptyItem();
+    m_root_item = m_item_manager->CreateItem(SessionItem::Type);
     m_root_item->SetModel(m_self);
     m_root_item->RegisterTag(TagInfo::CreateUniversalTag("rootTag"), /*set_as_default*/ true);
   }

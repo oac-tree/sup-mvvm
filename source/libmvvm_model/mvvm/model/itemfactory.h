@@ -38,10 +38,10 @@ public:
 
   ~ItemFactory() override;
 
-  void RegisterItem(const std::string& model_type, item_factory_func_t func,
+  void RegisterItem(const std::string& item_type, item_factory_func_t func,
                     const std::string& label) override;
 
-  std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const override;
+  std::unique_ptr<SessionItem> CreateItem(const std::string& item_type) const override;
 
 private:
   std::unique_ptr<ItemCatalogue<SessionItem>> m_catalogue;

@@ -39,11 +39,6 @@ std::unique_ptr<SessionItem> ItemManager::CreateItem(const std::string& model_ty
   return m_item_factory->CreateItem(model_type);
 }
 
-std::unique_ptr<SessionItem> ItemManager::CreateEmptyItem() const
-{
-  return std::make_unique<SessionItem>();
-}
-
 SessionItem* ItemManager::FindItem(const std::string& id) const
 {
   return m_item_pool->ItemForKey(id);

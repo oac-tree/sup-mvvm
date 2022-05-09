@@ -44,12 +44,12 @@ public:
   template <typename U>
   void RegisterItem(const std::string& label = {});
 
-  void RegisterItem(const std::string& model_type, const factory_func_t& func,
+  void RegisterItem(const std::string& item_type, const factory_func_t& func,
                     const std::string& label = {});
 
-  bool Contains(const std::string& model_type) const;
+  bool Contains(const std::string& item_type) const;
 
-  std::unique_ptr<T> Create(const std::string& model_type) const;
+  std::unique_ptr<T> Create(const std::string& item_type) const;
 
   std::vector<std::string> GetItemTypes() const;
 
@@ -79,32 +79,32 @@ void ItemCatalogue<T>::RegisterItem(const std::string& label)
 }
 
 template <typename T>
-void ItemCatalogue<T>::RegisterItem(const std::string& model_type, const factory_func_t& func,
+void ItemCatalogue<T>::RegisterItem(const std::string& item_type, const factory_func_t& func,
                                     const std::string& label)
 {
-  if (Contains(model_type))
+  if (Contains(item_type))
   {
-    throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + model_type + "'");
+    throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + item_type + "'");
   }
-  m_info.push_back({model_type, label, func});
+  m_info.push_back({item_type, label, func});
 }
 
 template <typename T>
-bool ItemCatalogue<T>::Contains(const std::string& model_type) const
+bool ItemCatalogue<T>::Contains(const std::string& item_type) const
 {
   auto it = find_if(m_info.begin(), m_info.end(),
-                    [model_type](auto element) { return element.item_type == model_type; });
+                    [item_type](auto element) { return element.item_type == item_type; });
   return it != m_info.end();
 }
 
 template <typename T>
-std::unique_ptr<T> ItemCatalogue<T>::Create(const std::string& model_type) const
+std::unique_ptr<T> ItemCatalogue<T>::Create(const std::string& item_type) const
 {
   auto it = find_if(m_info.begin(), m_info.end(),
-                    [model_type](auto element) { return element.item_type == model_type; });
+                    [item_type](auto element) { return element.item_type == item_type; });
   if (it == m_info.end())
   {
-    throw NotFoundKeyException("No item registered for model type '" + model_type + "'");
+    throw NotFoundKeyException("No item registered for model type '" + item_type + "'");
   }
   return it->factory_func();
 }
