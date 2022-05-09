@@ -22,6 +22,7 @@
 #include "mvvm/core/exceptions.h"
 #include "mvvm/model/compounditem.h"
 #include "mvvm/model/itempool.h"
+#include "mvvm/model/itemmanager.h"
 #include "mvvm/model/itemutils.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionitem.h"
@@ -56,7 +57,7 @@ TEST_F(SessionModelTest, InitialState)
 TEST_F(SessionModelTest, InsertItemIntoRoot)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   // inserting single item
   auto item = model.InsertItem<SessionItem>();
@@ -75,7 +76,7 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
 TEST_F(SessionModelTest, InsertNewItemIntoRoot)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   // inserting single item
   auto item = model.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
@@ -94,7 +95,7 @@ TEST_F(SessionModelTest, InsertNewItemIntoRoot)
 TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   auto item = std::make_unique<PropertyItem>();
   auto item_ptr = item.get();
@@ -117,7 +118,7 @@ TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -156,7 +157,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 TEST_F(SessionModelTest, InsertItemInDefaultTag)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -188,7 +189,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
 TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -287,7 +288,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
 TEST_F(SessionModelTest, InsertNewItem)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   const std::string model_type = SessionItem::Type;
 
@@ -347,7 +348,7 @@ TEST_F(SessionModelTest, SetData)
 TEST_F(SessionModelTest, RemoveItem)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -367,7 +368,7 @@ TEST_F(SessionModelTest, RemoveItem)
 TEST_F(SessionModelTest, TakeItem)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -403,7 +404,7 @@ TEST_F(SessionModelTest, RemoveFromWrongParent)
 TEST_F(SessionModelTest, RemoveNonExistingItem)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -415,7 +416,7 @@ TEST_F(SessionModelTest, RemoveNonExistingItem)
 TEST_F(SessionModelTest, TakeRowFromRootItem)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", pool);
+  SessionModel model("Test", CreateDefaultItemManager(pool));
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -631,7 +632,7 @@ TEST_F(SessionModelTest, MoveItemFromParentToRoot)
 TEST_F(SessionModelTest, ClearModel)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("test", pool);
+  SessionModel model("test", CreateDefaultItemManager(pool));
 
   EXPECT_EQ(pool->GetSize(), 1);
 
@@ -652,7 +653,7 @@ TEST_F(SessionModelTest, ClearModel)
 TEST_F(SessionModelTest, ClearRebuildModel)
 {
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("test", pool);
+  SessionModel model("test", CreateDefaultItemManager(pool));
 
   EXPECT_EQ(pool->GetSize(), 1);
 
@@ -697,8 +698,8 @@ TEST_F(SessionModelTest, FindItemInAlienModel)
 {
   // two models with common pool
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model1("Test1", pool);
-  SessionModel model2("Test2", pool);
+  SessionModel model1("Test1", CreateDefaultItemManager(pool));
+  SessionModel model2("Test2", CreateDefaultItemManager(pool));
 
   // inserting items in both models
   auto parent1 = model1.InsertItem<SessionItem>();

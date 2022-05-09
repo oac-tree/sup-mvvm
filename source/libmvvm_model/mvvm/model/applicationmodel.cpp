@@ -42,8 +42,14 @@ struct ApplicationModel::ApplicationModelImpl
   }
 };
 
-ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-    : SessionModel(std::move(model_type), std::move(pool))
+//ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
+//    : SessionModel(std::move(model_type), std::move(pool))
+//    , p_impl(std::make_unique<ApplicationModelImpl>(this))
+//{
+//}
+
+ApplicationModel::ApplicationModel(std::string model_type)
+    : SessionModel(std::move(model_type))
     , p_impl(std::make_unique<ApplicationModelImpl>(this))
 {
 }

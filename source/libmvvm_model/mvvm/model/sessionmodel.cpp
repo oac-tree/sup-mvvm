@@ -75,12 +75,18 @@ SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerIn
   p_impl->CreateRootItem();
 }
 
-SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-    : SessionModel(model_type,
-                   std::make_unique<ItemManager>(DefaultItemFactory(),
-                                                 pool ? pool : std::make_shared<ItemPool>()))
+SessionModel::SessionModel(std::string model_type)
+    : SessionModel(model_type, std::make_unique<ItemManager>(DefaultItemFactory(),
+                                                             std::make_shared<ItemPool>()))
 {
 }
+
+//SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
+//    : SessionModel(model_type,
+//                   std::make_unique<ItemManager>(DefaultItemFactory(),
+//                                                 pool ? pool : std::make_shared<ItemPool>()))
+//{
+//}
 
 SessionModel::~SessionModel()
 {

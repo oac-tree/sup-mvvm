@@ -36,7 +36,8 @@ class MVVM_VIEWMODEL_EXPORT ApplicationModel : public SessionModel
 public:
   using SessionModelInterface::InsertItem;
 
-  explicit ApplicationModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
+  explicit ApplicationModel(std::string model_type = {});
+//  explicit ApplicationModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
   ~ApplicationModel() override;
 
   ModelEventSubscriberInterface* GetSubscriber() const;

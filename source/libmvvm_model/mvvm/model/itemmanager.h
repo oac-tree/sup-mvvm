@@ -57,6 +57,9 @@ private:
   std::shared_ptr<ItemPool> m_item_pool;
 };
 
+//! Creates default item manager.
+std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool = {});
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEMMANAGER_H

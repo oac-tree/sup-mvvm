@@ -22,6 +22,7 @@
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/itemmanager.h"
 
 #include <gtest/gtest.h>
 
@@ -67,8 +68,8 @@ TEST_F(LinkedItemTest, DifferentModelContext)
 {
   auto pool = std::make_shared<ItemPool>();
 
-  SessionModel model1("TestModel1", pool);
-  SessionModel model2("TestModel2", pool);
+  SessionModel model1("TestModel1", CreateDefaultItemManager(pool));
+  SessionModel model2("TestModel2", CreateDefaultItemManager(pool));
 
   auto item = model1.InsertItem<PropertyItem>();
   auto link = model2.InsertItem<LinkedItem>();
@@ -111,7 +112,7 @@ TEST_F(LinkedItemTest, SetNullAsLink)
 {
   auto pool = std::make_shared<ItemPool>();
 
-  SessionModel model("TestModel", pool);
+  SessionModel model("TestModel", CreateDefaultItemManager(pool));
   auto link = model.InsertItem<LinkedItem>();
   auto item = model.InsertItem<PropertyItem>();
 

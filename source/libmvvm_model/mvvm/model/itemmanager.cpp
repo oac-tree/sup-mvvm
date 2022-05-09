@@ -19,6 +19,7 @@
 
 #include "mvvm/model/itemmanager.h"
 
+#include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/sessionitem.h"
@@ -77,6 +78,13 @@ const ItemFactoryInterface* ItemManager::GetFactory() const
 ItemFactoryInterface* ItemManager::GetFactory()
 {
   return const_cast<ItemFactoryInterface*>(static_cast<const ItemManager*>(this)->GetFactory());
+}
+
+std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool)
+{
+  auto factory = std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
+  auto item_pool = pool ? pool : std::make_shared<ItemPool>();
+  return std::make_unique<ItemManager>(std::move(factory), std::move(pool));
 }
 
 }  // namespace mvvm

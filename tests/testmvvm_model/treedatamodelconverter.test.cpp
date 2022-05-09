@@ -26,6 +26,7 @@
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taggeditems.h"
 #include "mvvm/model/taginfo.h"
+#include "mvvm/model/itemmanager.h"
 #include "mvvm/serialization/TreeData.h"
 #include "mvvm/serialization/treedatamodelconverter.h"
 #include "mvvm/serialization/xmlwriteutils.h"
@@ -147,7 +148,7 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
 
   // creating source model with own pool for item registration
   auto pool1 = std::make_shared<ItemPool>();
-  SessionModel source("SourceModel", pool1);
+  SessionModel source("SourceModel", CreateDefaultItemManager(pool1));
   auto parent1 = source.InsertItem<SessionItem>();
 
   // writing model to TreeData
@@ -155,7 +156,7 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
 
   // creating target with own pool for item registration
   auto pool2 = std::make_shared<ItemPool>();
-  SessionModel target("SourceModel", pool2);
+  SessionModel target("SourceModel", CreateDefaultItemManager(pool2));
   converter.PopulateSessionModel(*tree_data, target);
 
   auto reco_parent = target.GetRootItem()->GetItem("", 0);
@@ -182,7 +183,7 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBackToSameModel)
   TreeDataModelConverter converter(ConverterMode::kClone);
 
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("TestModel", pool);
+  SessionModel model("TestModel", CreateDefaultItemManager(pool));
   auto item = model.InsertItem<SessionItem>();
 
   auto root_item = model.GetRootItem();
