@@ -52,7 +52,8 @@ struct SessionModel::SessionModelImpl
   std::unique_ptr<ItemManagerInterface> m_item_manager;
   std::unique_ptr<SessionItem> m_root_item;
 
-  SessionModelImpl(SessionModel* self, std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
+  SessionModelImpl(SessionModel* self, std::string model_type,
+                   std::unique_ptr<ItemManagerInterface> manager)
       : m_self(self), m_model_type(std::move(model_type)), m_item_manager(std::move(manager))
   {
   }
@@ -71,15 +72,14 @@ struct SessionModel::SessionModelImpl
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
+  p_impl->CreateRootItem();
 }
 
 SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
+    : SessionModel(model_type,
+                   std::make_unique<ItemManager>(DefaultItemFactory(),
+                                                 pool ? pool : std::make_shared<ItemPool>()))
 {
-  std::shared_ptr<ItemPool> item_pool = pool ? pool : std::make_shared<ItemPool>();
-  auto item_manager = std::make_unique<ItemManager>(DefaultItemFactory(), item_pool);
-  p_impl = std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(item_manager));
-
-  p_impl->CreateRootItem();
 }
 
 SessionModel::~SessionModel()
@@ -92,7 +92,7 @@ SessionModel::~SessionModel()
 }
 
 //! Insert item via move into the given `parent` under given `tag_index`.
-//! FIXME make default parameters (or their absence) as in the moethod InsertNewItem.
+//! FIXME make default parameters (or their absence) as in the method InsertNewItem.
 
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                       const TagIndex& tag_index)
