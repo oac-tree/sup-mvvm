@@ -22,6 +22,7 @@
 #include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itempool.h"
+#include "mvvm/standarditems/vectoritem.h"
 
 #include <gtest/gtest.h>
 
@@ -35,6 +36,8 @@ class ItemManagerTest : public ::testing::Test
 {
 };
 
+//! Testing ItemManager constructed with pool and factory injected.
+
 TEST_F(ItemManagerTest, Constructor)
 {
   auto pool = std::make_shared<ItemPool>();
@@ -45,4 +48,33 @@ TEST_F(ItemManagerTest, Constructor)
   EXPECT_EQ(manager.GetItemPool(), pool.get());
   EXPECT_EQ(manager.GetItemPool()->GetSize(), 0);
   EXPECT_EQ(manager.GetFactory(), factory_ptr);
+}
+
+//! Testing global function to consruct default ItemManager.
+
+TEST_F(ItemManagerTest, CreateDefaultItemManager)
+{
+  auto manager = CreateDefaultItemManager();
+
+  EXPECT_NE(manager->GetItemPool(), nullptr);
+  EXPECT_NE(manager->GetFactory(), nullptr);
+
+  // checking that at least one standard item is there
+  auto item = manager->CreateItem(VectorItem::Type);
+  EXPECT_EQ(item->GetType(), VectorItem::Type);
+}
+
+//! Testing global function to consruct default ItemManager, with external pool provided.
+
+TEST_F(ItemManagerTest, CreateDefaultItemManagerFromPool)
+{
+  auto pool = std::make_shared<ItemPool>();
+  auto manager = CreateDefaultItemManager(pool);
+
+  EXPECT_EQ(manager->GetItemPool(), pool.get());
+  EXPECT_NE(manager->GetFactory(), nullptr);
+
+  // checking that at least one standard item is there
+  auto item = manager->CreateItem(VectorItem::Type);
+  EXPECT_EQ(item->GetType(), VectorItem::Type);
 }
