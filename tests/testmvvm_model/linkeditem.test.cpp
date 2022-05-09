@@ -22,11 +22,15 @@
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/propertyitem.h"
 #include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/applicationmodel.h"
 #include "mvvm/model/itemmanager.h"
+
+#include "mockitemlistener.h"
 
 #include <gtest/gtest.h>
 
 using namespace mvvm;
+using ::testing::_;
 
 //! LinkedItem tests.
 
@@ -84,27 +88,25 @@ TEST_F(LinkedItemTest, DifferentModelContext)
   EXPECT_EQ(link->Get(), item);
 }
 
-//! FIXME enable test
+ TEST_F(LinkedItemTest, onSetLink)
+{
+     ApplicationModel model;
+     auto item = model.InsertItem<PropertyItem>();
+     auto link = model.InsertItem<LinkedItem>();
 
-// TEST_F(LinkedItemTest, onSetLink)
-//{
-//     SessionModel model;
-//     auto item = model.insertItem<PropertyItem>();
-//     auto link = model.insertItem<LinkedItem>();
+    // no link by default
+    EXPECT_EQ(link->Get(), nullptr);
 
-//    // no link by default
-//    EXPECT_EQ(link->get(), nullptr);
+    MockItemListener widget(link);
 
-//    MockWidgetForItem widget(link);
+    auto expected_role = DataRole::kData;
+    auto expected_item = link;
+    EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+    EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
-//    auto expected_role = ItemDataRole::DATA;
-//    auto expected_item = link;
-//    EXPECT_CALL(widget, onDataChange(expected_item, expected_role)).Times(1);
-//    EXPECT_CALL(widget, onPropertyChange(_, _)).Times(0);
-
-//    // making action
-//    link->setLink(item);
-//}
+    // making action
+    link->SetLink(item);
+}
 
 //! Link in different model context.
 
