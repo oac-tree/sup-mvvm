@@ -49,14 +49,12 @@ struct SessionModel::SessionModelImpl
 {
   SessionModel* m_self{nullptr};
   std::string m_model_type;
-  std::unique_ptr<ItemManager> m_item_manager;
+  std::unique_ptr<ItemManagerInterface> m_item_manager;
   std::unique_ptr<SessionItem> m_root_item;
 
-  SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool)
-      : m_self(self), m_model_type(std::move(model_type))
+  SessionModelImpl(SessionModel* self, std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
+      : m_self(self), m_model_type(std::move(model_type)), m_item_manager(std::move(manager))
   {
-    std::shared_ptr<ItemPool> item_pool = pool ? pool : std::make_shared<ItemPool>();
-    m_item_manager = std::make_unique<ItemManager>(DefaultItemFactory(), item_pool);
   }
 
   //! Creates root item.
@@ -70,10 +68,17 @@ struct SessionModel::SessionModelImpl
 
 //! Main c-tor.
 
-SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool)))
-
+SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
+    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
+}
+
+SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
+{
+  std::shared_ptr<ItemPool> item_pool = pool ? pool : std::make_shared<ItemPool>();
+  auto item_manager = std::make_unique<ItemManager>(DefaultItemFactory(), item_pool);
+  p_impl = std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(item_manager));
+
   p_impl->CreateRootItem();
 }
 
