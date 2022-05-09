@@ -36,6 +36,7 @@ class MVVM_MODEL_EXPORT ItemFactory : public ItemFactoryInterface
 public:
   ItemFactory();
   explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue);
+
   ~ItemFactory() override;
 
   void RegisterItem(const std::string& model_type, item_factory_func_t func,

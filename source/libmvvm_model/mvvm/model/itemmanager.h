@@ -34,9 +34,6 @@ public:
 
   ~ItemManager() override;
 
-  void SetItemFactory(std::unique_ptr<ItemFactoryInterface> factory);
-  void SetItemPool(std::shared_ptr<ItemPool> pool);
-
   std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const override;
 
   std::unique_ptr<SessionItem> CreateEmptyItem() const override;

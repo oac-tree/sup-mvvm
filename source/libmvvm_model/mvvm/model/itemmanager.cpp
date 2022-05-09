@@ -32,16 +32,6 @@ ItemManager::ItemManager(std::unique_ptr<ItemFactoryInterface> factory,
 {
 }
 
-void ItemManager::SetItemFactory(std::unique_ptr<ItemFactoryInterface> factory)
-{
-  m_item_factory = std::move(factory);
-}
-
-void ItemManager::SetItemPool(std::shared_ptr<ItemPool> pool)
-{
-  m_item_pool = std::move(pool);
-}
-
 ItemManager::~ItemManager() = default;
 
 std::unique_ptr<SessionItem> ItemManager::CreateItem(const std::string& model_type) const
