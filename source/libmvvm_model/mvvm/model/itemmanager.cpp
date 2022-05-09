@@ -19,23 +19,12 @@
 
 #include "mvvm/model/itemmanager.h"
 
-#include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/sessionitem.h"
 
-namespace
-{
-std::unique_ptr<mvvm::ItemFactory> DefaultItemFactory()
-{
-  return std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
-}
-}  // namespace
-
 namespace mvvm
 {
-
-ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 
 ItemManager::ItemManager(std::unique_ptr<ItemFactoryInterface> factory,
                          std::shared_ptr<ItemPool> pool)

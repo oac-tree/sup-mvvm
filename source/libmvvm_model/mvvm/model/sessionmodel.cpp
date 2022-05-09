@@ -20,7 +20,9 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include "mvvm/core/exceptions.h"
+#include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/interfaces/itemfactoryinterface.h"
+#include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itemmanager.h"
 #include "mvvm/model/itempool.h"
 #include "mvvm/model/modelutils.h"
@@ -30,6 +32,14 @@
 #include "mvvm/model/validateutils.h"
 
 #include <sstream>
+
+namespace
+{
+std::unique_ptr<mvvm::ItemFactory> DefaultItemFactory()
+{
+  return std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
+}
+}  // namespace
 
 namespace mvvm
 {
@@ -43,11 +53,10 @@ struct SessionModel::SessionModelImpl
   std::unique_ptr<SessionItem> m_root_item;
 
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool)
-      : m_self(self)
-      , m_model_type(std::move(model_type))
-      , m_item_manager(std::make_unique<ItemManager>())
+      : m_self(self), m_model_type(std::move(model_type))
   {
-    m_item_manager->SetItemPool(pool ? std::move(pool) : std::make_shared<ItemPool>());
+    std::shared_ptr<ItemPool> item_pool = pool ? pool : std::make_shared<ItemPool>();
+    m_item_manager = std::make_unique<ItemManager>(DefaultItemFactory(), item_pool);
   }
 
   //! Creates root item.

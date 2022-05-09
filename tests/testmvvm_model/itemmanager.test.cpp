@@ -35,17 +35,6 @@ class ItemManagerTest : public ::testing::Test
 {
 };
 
-TEST_F(ItemManagerTest, InitialState)
-{
-  ItemManager manager;
-  EXPECT_EQ(manager.GetItemPool(), nullptr);
-
-  std::shared_ptr<ItemPool> pool(new ItemPool);
-  manager.SetItemPool(pool);
-  EXPECT_EQ(manager.GetItemPool(), pool.get());
-  EXPECT_EQ(manager.GetItemPool()->GetSize(), 0);
-}
-
 TEST_F(ItemManagerTest, Constructor)
 {
   auto pool = std::make_shared<ItemPool>();

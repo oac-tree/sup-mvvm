@@ -30,7 +30,6 @@ namespace mvvm
 class MVVM_MODEL_EXPORT ItemManager : public ItemManagerInterface
 {
 public:
-  ItemManager();
   ItemManager(std::unique_ptr<ItemFactoryInterface> factory, std::shared_ptr<ItemPool> pool);
 
   ~ItemManager() override;
