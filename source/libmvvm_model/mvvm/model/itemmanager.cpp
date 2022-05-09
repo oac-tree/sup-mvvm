@@ -37,6 +37,12 @@ namespace mvvm
 
 ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 
+ItemManager::ItemManager(std::unique_ptr<ItemFactoryInterface> factory,
+                         std::shared_ptr<ItemPool> pool)
+    : m_item_factory(std::move(factory)), m_item_pool(std::move(pool))
+{
+}
+
 void ItemManager::SetItemFactory(std::unique_ptr<ItemFactoryInterface> factory)
 {
   m_item_factory = std::move(factory);

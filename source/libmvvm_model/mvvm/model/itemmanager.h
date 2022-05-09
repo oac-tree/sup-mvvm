@@ -31,6 +31,8 @@ class MVVM_MODEL_EXPORT ItemManager : public ItemManagerInterface
 {
 public:
   ItemManager();
+  ItemManager(std::unique_ptr<ItemFactoryInterface> factory, std::shared_ptr<ItemPool> pool);
+
   ~ItemManager() override;
 
   void SetItemFactory(std::unique_ptr<ItemFactoryInterface> factory);
@@ -55,8 +57,8 @@ public:
   ItemFactoryInterface* GetFactory() override;
 
 private:
-  std::shared_ptr<ItemPool> m_item_pool;
   std::unique_ptr<ItemFactoryInterface> m_item_factory;
+  std::shared_ptr<ItemPool> m_item_pool;
 };
 
 }  // namespace mvvm

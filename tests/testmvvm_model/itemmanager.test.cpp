@@ -19,6 +19,8 @@
 
 #include "mvvm/model/itemmanager.h"
 
+#include "mvvm/factories/itemcataloguefactory.h"
+#include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itempool.h"
 
 #include <gtest/gtest.h>
@@ -42,4 +44,16 @@ TEST_F(ItemManagerTest, InitialState)
   manager.SetItemPool(pool);
   EXPECT_EQ(manager.GetItemPool(), pool.get());
   EXPECT_EQ(manager.GetItemPool()->GetSize(), 0);
+}
+
+TEST_F(ItemManagerTest, Constructor)
+{
+  auto pool = std::make_shared<ItemPool>();
+  auto factory = std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
+  auto factory_ptr = factory.get();
+
+  ItemManager manager(std::move(factory), pool);
+  EXPECT_EQ(manager.GetItemPool(), pool.get());
+  EXPECT_EQ(manager.GetItemPool()->GetSize(), 0);
+  EXPECT_EQ(manager.GetFactory(), factory_ptr);
 }

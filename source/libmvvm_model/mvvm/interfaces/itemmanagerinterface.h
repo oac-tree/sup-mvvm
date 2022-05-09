@@ -31,7 +31,7 @@ class SessionItem;
 class ItemFactoryInterface;
 class ItemPool;
 
-//! Interface class for
+//! Interface class for item construction and item registration.
 
 class MVVM_MODEL_EXPORT ItemManagerInterface
 {
