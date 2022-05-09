@@ -46,6 +46,7 @@ public:
   ItemPool* GetItemPool() override;
 
   void RegisterInPool(SessionItem* item) override;
+
   void UnregisterFromPool(SessionItem* item) override;
 
   const ItemFactoryInterface* GetFactory() const override;

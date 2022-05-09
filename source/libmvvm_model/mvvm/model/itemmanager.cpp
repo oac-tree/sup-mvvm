@@ -46,12 +46,12 @@ std::unique_ptr<SessionItem> ItemManager::CreateEmptyItem() const
 
 SessionItem* ItemManager::FindItem(const std::string& id) const
 {
-  return m_item_pool ? m_item_pool->ItemForKey(id) : nullptr;
+  return m_item_pool->ItemForKey(id);
 }
 
 std::string ItemManager::FindIdentifier(const SessionItem* item) const
 {
-  return m_item_pool ? m_item_pool->KeyForItem(item) : std::string();
+  return m_item_pool->KeyForItem(item);
 }
 
 const ItemPool* ItemManager::GetItemPool() const
@@ -66,18 +66,12 @@ ItemPool* ItemManager::GetItemPool()
 
 void ItemManager::RegisterInPool(SessionItem* item)
 {
-  if (m_item_pool)
-  {
-    m_item_pool->RegisterItem(item, item->GetIdentifier());
-  }
+  m_item_pool->RegisterItem(item, item->GetIdentifier());
 }
 
 void ItemManager::UnregisterFromPool(SessionItem* item)
 {
-  if (m_item_pool)
-  {
-    m_item_pool->UnregisterItem(item);
-  }
+  m_item_pool->UnregisterItem(item);
 }
 
 const ItemFactoryInterface* ItemManager::GetFactory() const
