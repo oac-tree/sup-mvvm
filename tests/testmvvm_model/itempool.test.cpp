@@ -36,8 +36,8 @@ class ItemPoolTest : public ::testing::Test
 
 TEST_F(ItemPoolTest, InitialState)
 {
-  std::unique_ptr<ItemPool> pool(new ItemPool);
-  EXPECT_EQ(pool->GetSize(), 0U);
+  ItemPool pool;
+  EXPECT_EQ(pool.GetSize(), 0);
 }
 
 //! Explicit item registrations.
@@ -48,9 +48,9 @@ TEST_F(ItemPoolTest, RegisterItem)
   std::unique_ptr<SessionItem> item(new SessionItem);
 
   // registering item
-  auto key = pool->RegisterItem(item.get());
-  EXPECT_EQ(pool->GetSize(), 1U);
-  EXPECT_FALSE(key.empty());
+  const std::string key("abc");
+  pool->RegisterItem(item.get(), key);
+  EXPECT_EQ(pool->GetSize(), 1);
 
   // checking registered key and item
   EXPECT_EQ(key, pool->KeyForItem(item.get()));
@@ -62,13 +62,15 @@ TEST_F(ItemPoolTest, RegisterItem)
   EXPECT_EQ(nullptr, pool->ItemForKey("ABC"));
 
   // registering second item
-  auto key2 = pool->RegisterItem(item2.get());
-  EXPECT_EQ(pool->GetSize(), 2U);
+  const std::string key2("abc2");
+  pool->RegisterItem(item2.get(), key2);
+  EXPECT_EQ(pool->GetSize(), 2);
   EXPECT_EQ(key2, pool->KeyForItem(item2.get()));
-  EXPECT_FALSE(key == key2);
+  EXPECT_NE(key, key2);
 
   // attempt to register item twice
-  EXPECT_THROW(pool->RegisterItem(item2.get()), std::runtime_error);
+  const std::string key3("abc3");
+  EXPECT_THROW(pool->RegisterItem(item2.get(), key3), std::runtime_error);
 }
 
 //! Explicit item de-registrations.
@@ -79,8 +81,10 @@ TEST_F(ItemPoolTest, DeregisterItem)
   std::unique_ptr<SessionItem> item1(new SessionItem);
   std::unique_ptr<SessionItem> item2(new SessionItem);
 
-  auto key1 = pool->RegisterItem(item1.get());
-  auto key2 = pool->RegisterItem(item2.get());
+  const std::string key1("key1");
+  const std::string key2("key2");
+  pool->RegisterItem(item1.get(), key1);
+  pool->RegisterItem(item2.get(), key2);
 
   EXPECT_EQ(pool->GetSize(), 2U);
   EXPECT_EQ(item1.get(), pool->ItemForKey(key1));

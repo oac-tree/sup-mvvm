@@ -45,7 +45,7 @@ public:
 
   size_t GetSize() const;
 
-  identifier_t RegisterItem(SessionItem* item, identifier_t key = {});
+  void RegisterItem(SessionItem* item, identifier_t key);
 
   void UnregisterItem(SessionItem* item);
 
