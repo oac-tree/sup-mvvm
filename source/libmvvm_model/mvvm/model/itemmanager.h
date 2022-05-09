@@ -25,6 +25,9 @@
 namespace mvvm
 {
 
+template <typename T>
+class ItemCatalogue;
+
 //! Manages item creation/registration for SessionModel.
 
 class MVVM_MODEL_EXPORT ItemManager : public ItemManagerInterface
@@ -57,8 +60,13 @@ private:
   std::shared_ptr<ItemPool> m_item_pool;
 };
 
-//! Creates default item manager.
+//! Creates default item manager, relies on external pool if provided.
 std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool = {});
+
+//! Creates default item manager using catalogue of items from the user, and excternal pool.
+std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(
+    std::unique_ptr<ItemCatalogue<SessionItem>> user_catalogue,
+    std::shared_ptr<ItemPool> pool = {});
 
 }  // namespace mvvm
 

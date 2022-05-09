@@ -34,6 +34,20 @@ using namespace mvvm;
 
 class ItemManagerTest : public ::testing::Test
 {
+public:
+  class TestItem : public SessionItem
+  {
+  public:
+    static inline const std::string Type = "TestItem";
+    TestItem() : SessionItem(Type) {}
+  };
+
+  std::unique_ptr<ItemCatalogue<SessionItem>> CreateCatalogue()
+  {
+    auto result = std::make_unique<ItemCatalogue<SessionItem>>();
+    result->RegisterItem<TestItem>();
+    return result;
+  }
 };
 
 //! Testing ItemManager constructed with pool and factory injected.
@@ -77,4 +91,24 @@ TEST_F(ItemManagerTest, CreateDefaultItemManagerFromPool)
   // checking that at least one standard item is there
   auto item = manager->CreateItem(VectorItem::Type);
   EXPECT_EQ(item->GetType(), VectorItem::Type);
+}
+
+//! Testing global function to consruct default ItemManager, with user catalogue and external pool
+//! provided.
+
+TEST_F(ItemManagerTest, CreateDefaultItemManagerFromCatalogueAndPool)
+{
+  auto pool = std::make_shared<ItemPool>();
+  auto manager = CreateDefaultItemManager(CreateCatalogue(), pool);
+
+  EXPECT_EQ(manager->GetItemPool(), pool.get());
+  EXPECT_NE(manager->GetFactory(), nullptr);
+
+  // checking that at least one standard item is there
+  auto item = manager->CreateItem(VectorItem::Type);
+  EXPECT_EQ(item->GetType(), VectorItem::Type);
+
+  // checking that test item sit ehre
+  item = manager->CreateItem(TestItem::Type);
+  EXPECT_EQ(item->GetType(), TestItem::Type);
 }
