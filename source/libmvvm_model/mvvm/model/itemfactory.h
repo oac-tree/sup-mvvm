@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-template<typename T>
+template <typename T>
 class ItemCatalogue;
 
 //! Default SessionItem factory.
@@ -34,7 +34,6 @@ class ItemCatalogue;
 class MVVM_MODEL_EXPORT ItemFactory : public ItemFactoryInterface
 {
 public:
-  ItemFactory();
   explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue);
 
   ~ItemFactory() override;
