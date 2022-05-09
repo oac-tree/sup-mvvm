@@ -20,11 +20,8 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/factories/itemcataloguefactory.h"
 #include "mvvm/interfaces/itemfactoryinterface.h"
-#include "mvvm/model/itemfactory.h"
 #include "mvvm/model/itemmanager.h"
-#include "mvvm/model/itempool.h"
 #include "mvvm/model/modelutils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taggeditems.h"
@@ -32,14 +29,6 @@
 #include "mvvm/model/validateutils.h"
 
 #include <sstream>
-
-namespace
-{
-std::unique_ptr<mvvm::ItemFactory> DefaultItemFactory()
-{
-  return std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
-}
-}  // namespace
 
 namespace mvvm
 {
@@ -67,26 +56,16 @@ struct SessionModel::SessionModelImpl
   }
 };
 
-//! Main c-tor.
+SessionModel::SessionModel(std::string model_type)
+    : SessionModel(model_type, CreateDefaultItemManager())
+{
+}
 
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
   p_impl->CreateRootItem();
 }
-
-SessionModel::SessionModel(std::string model_type)
-    : SessionModel(model_type, std::make_unique<ItemManager>(DefaultItemFactory(),
-                                                             std::make_shared<ItemPool>()))
-{
-}
-
-//SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-//    : SessionModel(model_type,
-//                   std::make_unique<ItemManager>(DefaultItemFactory(),
-//                                                 pool ? pool : std::make_shared<ItemPool>()))
-//{
-//}
 
 SessionModel::~SessionModel()
 {
@@ -120,7 +99,7 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
 SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionItem* parent,
                                          const TagIndex& tag_index)
 {
-  return InsertItem(GetFactory()->CreateItem(item_type), parent, tag_index);
+  return InsertItem(p_impl->m_item_manager->CreateItem(item_type), parent, tag_index);
 }
 
 //! Removes item with given tag_index from the parent and returns it to the user.

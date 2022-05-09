@@ -29,9 +29,8 @@
 namespace mvvm
 {
 class SessionItem;
-class ItemPool;
-class ItemFactoryInterface;
 class ItemManagerInterface;
+class ItemFactoryInterface;
 
 //! Main class to hold hierarchy of SessionItem objects.
 
@@ -40,9 +39,8 @@ class MVVM_MODEL_EXPORT SessionModel : public SessionModelInterface
 public:
   using SessionModelInterface::InsertItem;
 
-  explicit SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
-//  explicit SessionModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
   explicit SessionModel(std::string model_type = {});
+  explicit SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
 
   ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;

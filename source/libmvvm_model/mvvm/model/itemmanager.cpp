@@ -84,7 +84,7 @@ std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<I
 {
   auto factory = std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
   auto item_pool = pool ? pool : std::make_shared<ItemPool>();
-  return std::make_unique<ItemManager>(std::move(factory), std::move(pool));
+  return std::make_unique<ItemManager>(std::move(factory), std::move(item_pool));
 }
 
 }  // namespace mvvm
