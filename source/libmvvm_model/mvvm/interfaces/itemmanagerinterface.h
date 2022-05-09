@@ -23,6 +23,7 @@
 #include "mvvm/model_export.h"
 
 #include <memory>
+#include <string>
 
 namespace mvvm
 {
@@ -30,7 +31,7 @@ class SessionItem;
 class ItemFactoryInterface;
 class ItemPool;
 
-//! Interface class for item manager.
+//! Interface class for
 
 class MVVM_MODEL_EXPORT ItemManagerInterface
 {
