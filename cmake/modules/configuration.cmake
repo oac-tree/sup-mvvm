@@ -7,6 +7,13 @@ include(CodeTools)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
+if (MVVM_SETUP_COVERAGE)
+  include(CodeCoverage)
+  append_coverage_compiler_flags()
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage --coverage")
+    message(STATUS " Coverage enabled ${CMAKE_CXX_FLAGS}")
+endif()
+
 # -----------------------------------------------------------------------------
 # Variables
 # -----------------------------------------------------------------------------
@@ -61,13 +68,3 @@ endif()
 # -----------------------------------------------------------------------------
 # Compile options
 # -----------------------------------------------------------------------------
-
-#add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
-
-## warning level
-#if (MSVC)
-#    add_compile_options(/W2)
-#else()
-#    add_compile_options(-Wall -Wextra -pedantic)
-#endif()
-

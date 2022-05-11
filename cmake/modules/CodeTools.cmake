@@ -27,10 +27,32 @@ function(project_clangformat_setup)
 endfunction()
 
 
+# Setups test coverage target.
+# Use 'make codecoverage' or 'cmake --build . --target coverage' to beautify the code.
+# Requires -DMVVM_GENERATE_COVERAGE=ON
+
+function(project_testcoverage_setup)
+    setup_target_for_coverage_lcov(NAME coverage
+        EXECUTABLE ctest -j 4
+        DEPENDENCIES testmvvm_model testmvvm_viewmodel testmvvm_view testmvvm_integration
+        EXCLUDE
+            "${PROJECT_SOURCE_DIR}/EXTERNAL_OBJECT/*"
+            "${PROJECT_SOURCE_DIR}/tests/*"
+            "${PROJECT_SOURCE_DIR}/examples/*"
+            "${PROJECT_SOURCE_DIR}/source/libmvvm_view/*"
+            "**CompilerId*" "/usr/*"  "${CMAKE_BINARY_DIR}/*"
+        )
+endfunction()
+
+
 # Setups targets for code processing.
 
 function(project_codetools_setup)
     if (MVVM_SETUP_CLANGFORMAT)
         project_clangformat_setup()
     endif()
+    if (MVVM_SETUP_COVERAGE)
+        project_testcoverage_setup()
+    endif()
 endfunction()
+
