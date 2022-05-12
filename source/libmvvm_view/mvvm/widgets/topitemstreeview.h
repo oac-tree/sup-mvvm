@@ -35,6 +35,6 @@ public:
   explicit TopItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
 };
 
-}  // namespace ModelView
+}  // namespace mvvm
 
 #endif  // MVVM_WIDGETS_TOPITEMSTREEVIEW_H
