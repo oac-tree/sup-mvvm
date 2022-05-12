@@ -94,8 +94,12 @@ std::vector<T*> CastItems(const C& container)
 {
   std::vector<T*> result;
   for (auto item : container)
+  {
     if (auto casted = dynamic_cast<T*>(item); casted)
+    {
       result.push_back(casted);
+    }
+  }
   return result;
 }
 

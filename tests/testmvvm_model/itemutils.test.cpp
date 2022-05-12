@@ -24,6 +24,7 @@
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taginfo.h"
 #include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/utils/containerutils.h"
 
 #include <gtest/gtest.h>
 
@@ -362,7 +363,7 @@ TEST_F(ItemUtilsTest, CastedItems)
   auto item2 = model.InsertItem<VectorItem>(model.GetRootItem());
   std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item1, item2, nullptr};
 
-  EXPECT_EQ(utils::CastedItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
+  EXPECT_EQ(utils::CastItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
 }
 
 TEST_F(ItemUtilsTest, GetNestlingDepth)

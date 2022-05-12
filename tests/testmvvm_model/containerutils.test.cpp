@@ -71,7 +71,9 @@ TEST_F(ContainerUtilsTest, IndexOfItem)
   EXPECT_EQ(utils::IndexOfItem(items, items[2]), 2);
   EXPECT_EQ(utils::IndexOfItem(items, &other), -1);
   for (auto x : items)
+  {
     delete x;
+  }
 
   // searching in vector of unique_ptr
   std::vector<std::unique_ptr<TestItemA>> unique_items;
