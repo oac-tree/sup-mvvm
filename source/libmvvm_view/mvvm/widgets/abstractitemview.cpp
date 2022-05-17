@@ -22,8 +22,10 @@
 #include "mvvm/core/exceptions.h"
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <QTreeView>
+#include <QVBoxLayout>
 
 namespace mvvm
 {
@@ -34,6 +36,12 @@ AbstractItemView::AbstractItemView(create_viewmodel_t func, QAbstractItemView *v
 {
   SetView(view);
   SetApplicationModel(model);
+}
+
+AbstractItemView::AbstractItemView(std::unique_ptr<ItemViewComponentProvider> provider,
+                                   QWidget *parent)
+
+{
 }
 
 AbstractItemView::~AbstractItemView() = default;
@@ -69,6 +77,32 @@ void AbstractItemView::SetItem(SessionItem *item)
     view->expandAll();
     view->resizeColumnToContents(0);
   }
+}
+
+AbstractItemViewV2::AbstractItemViewV2(std::unique_ptr<ItemViewComponentProvider> provider,
+                                       QWidget *parent)
+    : m_provider(std::move(provider))
+{
+  auto layout = new QVBoxLayout(this);
+  layout->setMargin(0);
+  layout->setSpacing(0);
+}
+
+AbstractItemViewV2::~AbstractItemViewV2() = default;
+
+void AbstractItemViewV2::SetApplicationModel(ApplicationModel *model)
+{
+  m_provider->SetApplicationModel(model);
+}
+
+void AbstractItemViewV2::SetItem(SessionItem *item)
+{
+  m_provider->SetItem(item);
+}
+
+ItemViewComponentProvider *AbstractItemViewV2::GetComponentProvider()
+{
+  return m_provider.get();
 }
 
 }  // namespace mvvm

@@ -31,6 +31,7 @@ namespace mvvm
 
 class ApplicationModel;
 class SessionItem;
+class ItemViewComponentProvider;
 
 //! Generic view to show SessionModel in Qt lists, trees and tables.
 
@@ -43,6 +44,8 @@ public:
 
   explicit AbstractItemView(create_viewmodel_t func, QAbstractItemView* view,
                             ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+
+  explicit AbstractItemView(std::unique_ptr<ItemViewComponentProvider>, QWidget* parent = nullptr);
   ~AbstractItemView() override;
 
   void SetApplicationModel(ApplicationModel* model);
@@ -50,7 +53,8 @@ public:
   virtual void SetItem(SessionItem* item);
 
 private:
-  create_viewmodel_t m_create_viewmodel; //!< factory function to create necessary view model
+  create_viewmodel_t m_create_viewmodel;  //!< factory function to create necessary view model
+  std::unique_ptr<ItemViewComponentProvider> m_provider;
 };
 
 template <typename T>
@@ -58,6 +62,25 @@ std::unique_ptr<T> CreateViewModel(ApplicationModel* model)
 {
   return std::make_unique<T>(model);
 }
+
+class MVVM_VIEW_EXPORT AbstractItemViewV2 : public QWidget
+{
+  Q_OBJECT
+
+public:
+  explicit AbstractItemViewV2(std::unique_ptr<ItemViewComponentProvider>,
+                              QWidget* parent = nullptr);
+  ~AbstractItemViewV2() override;
+
+  void SetApplicationModel(ApplicationModel* model);
+
+  void SetItem(SessionItem* item);
+
+  ItemViewComponentProvider* GetComponentProvider();
+
+private:
+  std::unique_ptr<ItemViewComponentProvider> m_provider;
+};
 
 }  // namespace mvvm
 
