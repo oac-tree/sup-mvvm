@@ -37,9 +37,9 @@ class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemView
 public:
   explicit PropertyTreeView(QWidget* parent = nullptr);
 
-  void SetItem(SessionItem* item) override;
-
 private:
+  void UpdateView() override;
+
   QTreeView* m_tree_view{nullptr};
 };
 

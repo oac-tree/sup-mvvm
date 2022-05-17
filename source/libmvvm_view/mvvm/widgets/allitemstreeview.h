@@ -39,6 +39,8 @@ public:
   QTreeView* GetTreeView();
 
 private:
+  void UpdateView() override;
+
   QTreeView* m_tree_view{nullptr};
 };
 

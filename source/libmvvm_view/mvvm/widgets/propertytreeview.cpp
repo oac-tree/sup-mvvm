@@ -33,22 +33,19 @@ namespace mvvm
 PropertyTreeView::PropertyTreeView(QWidget* parent)
     : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModel<PropertyViewModel>,
-                                                              m_tree_view);
+  auto provider =
+      std::make_unique<ItemViewComponentProvider>(CreateViewModel<PropertyViewModel>, m_tree_view);
   SetComponentProvider(std::move(provider));
-
-  m_tree_view->setHeaderHidden(false);
-  m_tree_view->setRootIsDecorated(false);
-  m_tree_view->setEditTriggers(QAbstractItemView::AllEditTriggers);  // provide one click editing
-  m_tree_view->setAlternatingRowColors(true);
 
   layout()->addWidget(m_tree_view);
 }
 
-void PropertyTreeView::SetItem(SessionItem* item)
+void PropertyTreeView::UpdateView()
 {
-  AbstractItemView::SetItem(item);
-  m_tree_view->expandAll();
+  m_tree_view->setHeaderHidden(false);
+  m_tree_view->setRootIsDecorated(false);
+  m_tree_view->setEditTriggers(QAbstractItemView::AllEditTriggers);  // provide one click editing
+  m_tree_view->setAlternatingRowColors(true);
 }
 
 }  // namespace mvvm

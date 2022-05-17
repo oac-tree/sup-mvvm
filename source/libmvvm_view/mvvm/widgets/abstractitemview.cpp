@@ -49,11 +49,13 @@ AbstractItemView::~AbstractItemView() = default;
 void AbstractItemView::SetApplicationModel(ApplicationModel *model)
 {
   m_provider->SetApplicationModel(model);
+  UpdateView();
 }
 
 void AbstractItemView::SetItem(SessionItem *item)
 {
   m_provider->SetItem(item);
+  UpdateView();
 }
 
 ItemViewComponentProvider *AbstractItemView::GetComponentProvider()
@@ -69,6 +71,11 @@ SessionItem *AbstractItemView::GetSelectedItem() const
 void AbstractItemView::SetSelectedItem(SessionItem *item)
 {
   m_provider->SetSelectedItem(item);
+}
+
+void AbstractItemView::UpdateView()
+{
+  // view specific update to execute after model is set
 }
 
 }  // namespace mvvm

@@ -31,14 +31,17 @@ namespace mvvm
 TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent)
     : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModel<TopItemsViewModel>,
-                                                              m_tree_view);
+  auto provider =
+      std::make_unique<ItemViewComponentProvider>(CreateViewModel<TopItemsViewModel>, m_tree_view);
   provider->SetApplicationModel(model);
   SetComponentProvider(std::move(provider));
+  layout()->addWidget(m_tree_view);
+}
 
+void TopItemsTreeView::UpdateView()
+{
   m_tree_view->expandAll();
   m_tree_view->resizeColumnToContents(0);
-  layout()->addWidget(m_tree_view);
 }
 
 }  // namespace mvvm

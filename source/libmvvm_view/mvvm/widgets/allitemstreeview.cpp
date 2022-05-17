@@ -35,15 +35,18 @@ AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent)
                                                               m_tree_view);
   provider->SetApplicationModel(model);
   SetComponentProvider(std::move(provider));
-
-  m_tree_view->expandAll();
-  m_tree_view->resizeColumnToContents(0);
   layout()->addWidget(m_tree_view);
 }
 
 QTreeView* AllItemsTreeView::GetTreeView()
 {
   return m_tree_view;
+}
+
+void AllItemsTreeView::UpdateView()
+{
+  m_tree_view->expandAll();
+  m_tree_view->resizeColumnToContents(0);
 }
 
 }  // namespace mvvm

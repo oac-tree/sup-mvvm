@@ -57,6 +57,7 @@ signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
+  virtual void UpdateView();
   std::unique_ptr<ItemViewComponentProvider> m_provider;
 };
 
