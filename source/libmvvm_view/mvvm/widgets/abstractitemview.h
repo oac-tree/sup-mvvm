@@ -75,7 +75,7 @@ public:
 
   void SetApplicationModel(ApplicationModel* model);
 
-  void SetItem(SessionItem* item);
+  virtual void SetItem(SessionItem* item);
 
   ItemViewComponentProvider* GetComponentProvider();
 

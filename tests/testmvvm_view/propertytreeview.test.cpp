@@ -19,9 +19,10 @@
 
 #include "mvvm/widgets/propertytreeview.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <gtest/gtest.h>
 
@@ -69,7 +70,7 @@ TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
   PropertyTreeView view;
   view.SetItem(vector_item0);
 
-  auto viewmodel = view.GetViewModel();
+  auto viewmodel = view.GetComponentProvider()->GetViewModel();
 
   EXPECT_EQ(viewmodel->rowCount(), 3);
   EXPECT_EQ(viewmodel->columnCount(), 2);
@@ -80,7 +81,7 @@ TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
   model.reset();
 
   // checking that underlying model was destroyed
-  EXPECT_EQ(view.GetViewModel(), nullptr);
+  EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), nullptr);
 }
 
 TEST_F(PropertyTreeViewTest, DestroyModel)
@@ -93,19 +94,18 @@ TEST_F(PropertyTreeViewTest, DestroyModel)
   view.SetItem(vector_item);
   view.SetSelectedItem(vector_item);
 
-  auto viewmodel = view.GetViewModel();
+  auto viewmodel = view.GetComponentProvider()->GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 3);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
   // destroying the model
   model.reset();
 
-  EXPECT_EQ(view.GetViewModel(), viewmodel);
+  EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), viewmodel);
 
   EXPECT_EQ(viewmodel->rowCount(), 0);
   EXPECT_EQ(viewmodel->columnCount(), 0);
 
-  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
-

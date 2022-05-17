@@ -23,29 +23,32 @@
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/propertyviewmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <QTreeView>
+#include <QVBoxLayout>
 
 namespace mvvm
 {
 PropertyTreeView::PropertyTreeView(QWidget* parent)
-    : AbstractItemView(CreateViewModel<PropertyViewModel>, new QTreeView, nullptr, parent)
+    : AbstractItemViewV2(parent), m_tree_view(new QTreeView)
 {
-  GetTreeView()->setHeaderHidden(false);
-  GetTreeView()->setRootIsDecorated(false);
-  GetTreeView()->setEditTriggers(QAbstractItemView::AllEditTriggers);  // provide one click editing
-  GetTreeView()->setAlternatingRowColors(true);
+  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModelV2<PropertyViewModel>,
+                                                              m_tree_view);
+  SetComponentProvider(std::move(provider));
+
+  m_tree_view->setHeaderHidden(false);
+  m_tree_view->setRootIsDecorated(false);
+  m_tree_view->setEditTriggers(QAbstractItemView::AllEditTriggers);  // provide one click editing
+  m_tree_view->setAlternatingRowColors(true);
+
+  layout()->addWidget(m_tree_view);
 }
 
 void PropertyTreeView::SetItem(SessionItem* item)
 {
-  AbstractItemView::SetItem(item);
-  GetTreeView()->expandAll();
-}
-
-QTreeView* PropertyTreeView::GetTreeView()
-{
-  return dynamic_cast<QTreeView*>(GetView());
+  AbstractItemViewV2::SetItem(item);
+  m_tree_view->expandAll();
 }
 
 }  // namespace mvvm
