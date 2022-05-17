@@ -30,7 +30,7 @@ namespace mvvm
 //! Widget holding standard QTreeView and intended for displaying all properties of given
 //! SessionItem.
 
-class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemViewV2
+class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemView
 {
   Q_OBJECT
 

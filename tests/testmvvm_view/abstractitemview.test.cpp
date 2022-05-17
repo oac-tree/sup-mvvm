@@ -36,13 +36,13 @@ using namespace mvvm;
 class AbstractItemViewTest : public ::testing::Test
 {
 public:
-  class TestView : public mvvm::AbstractItemViewV2
+  class TestView : public mvvm::AbstractItemView
   {
   public:
     explicit TestView(mvvm::ApplicationModel* model) : m_tree_view(new QTreeView)
     {
       auto provider = std::make_unique<ItemViewComponentProvider>(
-          CreateViewModelV2<TopItemsViewModel>, m_tree_view);
+          CreateViewModel<TopItemsViewModel>, m_tree_view);
       provider->SetApplicationModel(model);
       SetComponentProvider(std::move(provider));
     }

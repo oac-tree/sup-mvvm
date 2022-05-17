@@ -101,7 +101,7 @@ std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
 }
 
 template <typename T>
-std::unique_ptr<T> CreateViewModelV2(ApplicationModel* model)
+std::unique_ptr<T> CreateViewModel(ApplicationModel* model)
 {
   return std::make_unique<T>(model);
 }

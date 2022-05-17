@@ -29,7 +29,7 @@ namespace mvvm
 
 //! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
 
-class MVVM_VIEW_EXPORT TopItemsTreeView : public AbstractItemViewV2
+class MVVM_VIEW_EXPORT TopItemsTreeView : public AbstractItemView
 {
   Q_OBJECT
 

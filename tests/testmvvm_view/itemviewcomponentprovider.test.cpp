@@ -45,7 +45,7 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
 
   EXPECT_EQ(provider.GetView(), &view);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
@@ -61,7 +61,7 @@ TEST_F(ItemViewComponentProviderTest, SetEmptyModel)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   EXPECT_EQ(provider.GetView(), &view);
@@ -84,7 +84,7 @@ TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   EXPECT_EQ(provider.GetView(), &view);
@@ -108,7 +108,7 @@ TEST_F(ItemViewComponentProviderTest, SetItem)
 
   auto item = m_model.InsertItem<mvvm::VectorItem>();
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
 
   provider.SetItem(item);
 
@@ -130,7 +130,7 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   auto viewmodel = provider.GetViewModel();
@@ -170,7 +170,7 @@ TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   auto viewmodel = provider.GetViewModel();
@@ -204,7 +204,7 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterItem)
 
   auto item2 = model2.InsertItem<mvvm::CompoundItem>();
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
 
   // setting item from the first model
   provider.SetItem(item1);
@@ -221,7 +221,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
 
   QSignalSpy spy_selected(&provider, &ItemViewComponentProvider::SelectedItemChanged);
 
@@ -257,7 +257,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
@@ -285,7 +285,7 @@ TEST_F(ItemViewComponentProviderTest, SelectRow)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   auto vector_item = m_model.InsertItem<mvvm::VectorItem>();
@@ -315,7 +315,7 @@ TEST_F(ItemViewComponentProviderTest, DestroyModel)
 
   auto vector_item = model->InsertItem<mvvm::VectorItem>();
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(model.get());
 
   auto viewmodel = provider.GetViewModel();
@@ -342,7 +342,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
-  ItemViewComponentProvider provider(CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider.SetApplicationModel(&m_model);
 
   QSignalSpy spy_selected(&provider, &ItemViewComponentProvider::SelectedItemChanged);
@@ -381,7 +381,7 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
   auto provider = std::make_unique<ItemViewComponentProvider>(
-      CreateViewModelV2<mvvm::AllItemsViewModel>, &view);
+      CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider->SetApplicationModel(&m_model);
 
   EXPECT_EQ(view.model(), provider->GetViewModel());

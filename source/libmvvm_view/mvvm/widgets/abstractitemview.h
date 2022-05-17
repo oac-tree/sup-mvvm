@@ -22,8 +22,6 @@
 
 #include "mvvm/widgets/itemviewbase.h"
 
-#include <functional>
-
 class QAbstractItemView;
 
 namespace mvvm
@@ -35,41 +33,13 @@ class ItemViewComponentProvider;
 
 //! Generic view to show SessionModel in Qt lists, trees and tables.
 
-class MVVM_VIEW_EXPORT AbstractItemView : public ItemViewBase
+class MVVM_VIEW_EXPORT AbstractItemView : public QWidget
 {
   Q_OBJECT
 
 public:
-  using create_viewmodel_t = std::function<std::unique_ptr<ViewModel>(ApplicationModel*)>;
-
-  explicit AbstractItemView(create_viewmodel_t func, QAbstractItemView* view,
-                            ApplicationModel* model = nullptr, QWidget* parent = nullptr);
-
-  explicit AbstractItemView(std::unique_ptr<ItemViewComponentProvider>, QWidget* parent = nullptr);
+  explicit AbstractItemView(QWidget* parent = nullptr);
   ~AbstractItemView() override;
-
-  void SetApplicationModel(ApplicationModel* model);
-
-  virtual void SetItem(SessionItem* item);
-
-private:
-  create_viewmodel_t m_create_viewmodel;  //!< factory function to create necessary view model
-  std::unique_ptr<ItemViewComponentProvider> m_provider;
-};
-
-template <typename T>
-std::unique_ptr<T> CreateViewModel(ApplicationModel* model)
-{
-  return std::make_unique<T>(model);
-}
-
-class MVVM_VIEW_EXPORT AbstractItemViewV2 : public QWidget
-{
-  Q_OBJECT
-
-public:
-  explicit AbstractItemViewV2(QWidget* parent = nullptr);
-  ~AbstractItemViewV2() override;
 
   void SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider);
 

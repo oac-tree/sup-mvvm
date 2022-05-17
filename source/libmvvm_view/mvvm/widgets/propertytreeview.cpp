@@ -31,9 +31,9 @@
 namespace mvvm
 {
 PropertyTreeView::PropertyTreeView(QWidget* parent)
-    : AbstractItemViewV2(parent), m_tree_view(new QTreeView)
+    : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModelV2<PropertyViewModel>,
+  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModel<PropertyViewModel>,
                                                               m_tree_view);
   SetComponentProvider(std::move(provider));
 
@@ -47,7 +47,7 @@ PropertyTreeView::PropertyTreeView(QWidget* parent)
 
 void PropertyTreeView::SetItem(SessionItem* item)
 {
-  AbstractItemViewV2::SetItem(item);
+  AbstractItemView::SetItem(item);
   m_tree_view->expandAll();
 }
 

@@ -30,92 +30,43 @@
 namespace mvvm
 {
 
-AbstractItemView::AbstractItemView(create_viewmodel_t func, QAbstractItemView *view,
-                                   ApplicationModel *model, QWidget *parent)
-    : ItemViewBase(parent), m_create_viewmodel(std::move(func))
-{
-  SetView(view);
-  SetApplicationModel(model);
-}
-
-AbstractItemView::AbstractItemView(std::unique_ptr<ItemViewComponentProvider> provider,
-                                   QWidget *parent)
-
-{
-}
-
-AbstractItemView::~AbstractItemView() = default;
-
-void AbstractItemView::SetApplicationModel(ApplicationModel *model)
-{
-  if (!model)
-  {
-    Reset();
-    return;
-  }
-  SetViewModel(m_create_viewmodel(model));
-}
-
-void AbstractItemView::SetItem(SessionItem *item)
-{
-  if (!item)
-  {
-    Reset();
-    return;
-  }
-
-  auto application_model = dynamic_cast<ApplicationModel *>(item->GetModel());
-  if (!application_model)
-  {
-    throw RuntimeException("Wrong model type");
-  }
-  SetViewModel(m_create_viewmodel(application_model));
-  SetRootSessionItem(item);
-
-  if (auto view = dynamic_cast<QTreeView *>(GetView()); view)
-  {
-    view->expandAll();
-    view->resizeColumnToContents(0);
-  }
-}
-
-AbstractItemViewV2::AbstractItemViewV2(QWidget *parent) : QWidget(parent)
+AbstractItemView::AbstractItemView(QWidget *parent) : QWidget(parent)
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
   layout->setSpacing(0);
 }
 
-void AbstractItemViewV2::SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider)
+void AbstractItemView::SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider)
 {
   m_provider = std::move(provider);
   connect(m_provider.get(), &ItemViewComponentProvider::SelectedItemChanged, this,
-          &AbstractItemViewV2::SelectedItemChanged);
+          &AbstractItemView::SelectedItemChanged);
 }
 
-AbstractItemViewV2::~AbstractItemViewV2() = default;
+AbstractItemView::~AbstractItemView() = default;
 
-void AbstractItemViewV2::SetApplicationModel(ApplicationModel *model)
+void AbstractItemView::SetApplicationModel(ApplicationModel *model)
 {
   m_provider->SetApplicationModel(model);
 }
 
-void AbstractItemViewV2::SetItem(SessionItem *item)
+void AbstractItemView::SetItem(SessionItem *item)
 {
   m_provider->SetItem(item);
 }
 
-ItemViewComponentProvider *AbstractItemViewV2::GetComponentProvider()
+ItemViewComponentProvider *AbstractItemView::GetComponentProvider()
 {
   return m_provider.get();
 }
 
-SessionItem *AbstractItemViewV2::GetSelectedItem() const
+SessionItem *AbstractItemView::GetSelectedItem() const
 {
   return m_provider->GetSelectedItem();
 }
 
-void AbstractItemViewV2::SetSelectedItem(SessionItem *item)
+void AbstractItemView::SetSelectedItem(SessionItem *item)
 {
   m_provider->SetSelectedItem(item);
 }
