@@ -19,9 +19,10 @@
 
 #include "mvvm/widgets/topitemstreeview.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/model/applicationmodel.h"
+#include "mvvm/standarditems/standarditemincludes.h"
 #include "mvvm/viewmodel/viewmodel.h"
+#include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <gtest/gtest.h>
 
@@ -51,7 +52,7 @@ TEST_F(TopItemsTreeViewTest, SetNullptrAsItem)
   TopItemsTreeView view;
   view.SetApplicationModel(model.get());
 
-  auto viewmodel = view.GetViewModel();
+  auto viewmodel = view.GetComponentProvider()->GetViewModel();
 
   EXPECT_EQ(viewmodel->rowCount(), 1);
   EXPECT_EQ(viewmodel->columnCount(), 2);
@@ -60,7 +61,7 @@ TEST_F(TopItemsTreeViewTest, SetNullptrAsItem)
   model.reset();
 
   // checking that underlying model was destroyed
-  EXPECT_EQ(view.GetViewModel(), nullptr);
+  EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), nullptr);
 }
 
 TEST_F(TopItemsTreeViewTest, DestroyModel)
@@ -72,19 +73,19 @@ TEST_F(TopItemsTreeViewTest, DestroyModel)
   TopItemsTreeView view(model.get());
   view.SetSelectedItem(vector_item);
 
-  auto viewmodel = view.GetViewModel();
+  auto viewmodel = view.GetComponentProvider()->GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 1);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
   // destroying the model
   model.reset();
 
-  EXPECT_EQ(view.GetViewModel(), viewmodel);
+  EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), viewmodel);
 
   EXPECT_EQ(viewmodel->rowCount(), 0);
   EXPECT_EQ(viewmodel->columnCount(), 0);
 
-  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
 
@@ -98,14 +99,16 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
 
   TopItemsTreeView view(model.get());
 
-  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 
   view.SetSelectedItem(vector_item0);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0}));
+  EXPECT_EQ(view.GetComponentProvider()->GetSelectedItems(),
+            std::vector<SessionItem*>({vector_item0}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 
-  view.SetSelectedItems({vector_item0, vector_item1});
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({vector_item0, vector_item1}));
+  view.GetComponentProvider()->SetSelectedItems({vector_item0, vector_item1});
+  EXPECT_EQ(view.GetComponentProvider()->GetSelectedItems(),
+            std::vector<SessionItem*>({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 }

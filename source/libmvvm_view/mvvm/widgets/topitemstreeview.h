@@ -22,17 +22,24 @@
 
 #include "mvvm/widgets/abstractitemview.h"
 
+class QTreeView;
+
 namespace mvvm
 {
 
 //! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
 
-class MVVM_VIEW_EXPORT TopItemsTreeView : public AbstractItemView
+class MVVM_VIEW_EXPORT TopItemsTreeView : public AbstractItemViewV2
 {
   Q_OBJECT
 
 public:
   explicit TopItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+
+  QTreeView* GetTreeView();
+
+private:
+  QTreeView* m_tree_view{nullptr};
 };
 
 }  // namespace mvvm

@@ -21,15 +21,24 @@
 
 #include "mvvm/model/applicationmodel.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
+#include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <QTreeView>
+#include <QVBoxLayout>
 
 namespace mvvm
 {
 TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent)
-    : AbstractItemView(CreateViewModel<TopItemsViewModel>, new QTreeView, model, parent)
-
+    : AbstractItemViewV2(parent), m_tree_view(new QTreeView)
 {
+  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModelV2<TopItemsViewModel>,
+                                                              m_tree_view);
+  provider->SetApplicationModel(model);
+  SetComponentProvider(std::move(provider));
+
+  m_tree_view->expandAll();
+  m_tree_view->resizeColumnToContents(0);
+  layout()->addWidget(m_tree_view);
 }
 
 }  // namespace mvvm
