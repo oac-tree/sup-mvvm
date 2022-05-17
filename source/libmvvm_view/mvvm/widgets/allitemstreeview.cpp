@@ -35,7 +35,6 @@ AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent)
                                                               m_tree_view);
   provider->SetApplicationModel(model);
   SetComponentProvider(std::move(provider));
-  layout()->addWidget(m_tree_view);
 }
 
 QTreeView* AllItemsTreeView::GetTreeView()

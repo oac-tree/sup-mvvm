@@ -42,6 +42,7 @@ void AbstractItemView::SetComponentProvider(std::unique_ptr<ItemViewComponentPro
   m_provider = std::move(provider);
   connect(m_provider.get(), &ItemViewComponentProvider::SelectedItemChanged, this,
           &AbstractItemView::SelectedItemChanged);
+  layout()->addWidget(m_provider->GetView());
 }
 
 AbstractItemView::~AbstractItemView() = default;

@@ -35,7 +35,6 @@ TopItemsTreeView::TopItemsTreeView(ApplicationModel* model, QWidget* parent)
       std::make_unique<ItemViewComponentProvider>(CreateViewModel<TopItemsViewModel>, m_tree_view);
   provider->SetApplicationModel(model);
   SetComponentProvider(std::move(provider));
-  layout()->addWidget(m_tree_view);
 }
 
 void TopItemsTreeView::UpdateView()

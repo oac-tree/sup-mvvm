@@ -36,8 +36,6 @@ PropertyTreeView::PropertyTreeView(QWidget* parent)
   auto provider =
       std::make_unique<ItemViewComponentProvider>(CreateViewModel<PropertyViewModel>, m_tree_view);
   SetComponentProvider(std::move(provider));
-
-  layout()->addWidget(m_tree_view);
 }
 
 void PropertyTreeView::UpdateView()
