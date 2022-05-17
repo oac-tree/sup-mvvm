@@ -21,6 +21,7 @@
 #define MVVM_WIDGETS_ABSTRACTITEMVIEW_H
 
 #include "mvvm/view_export.h"
+
 #include <QWidget>
 
 class QAbstractItemView;
@@ -46,12 +47,18 @@ public:
 
   void SetApplicationModel(ApplicationModel* model);
 
-  virtual void SetItem(SessionItem* item);
+  void SetItem(SessionItem* item);
 
   ItemViewComponentProvider* GetComponentProvider();
 
   mvvm::SessionItem* GetSelectedItem() const;
   void SetSelectedItem(mvvm::SessionItem* item);
+
+  template <typename T>
+  T* GetSelected() const;
+
+  std::vector<SessionItem*> GetSelectedItems() const;
+  void SetSelectedItems(const std::vector<mvvm::SessionItem*>& items);
 
 signals:
   void SelectedItemChanged(mvvm::SessionItem*);
@@ -60,6 +67,12 @@ private:
   virtual void UpdateView();
   std::unique_ptr<ItemViewComponentProvider> m_provider;
 };
+
+template <typename T>
+T* AbstractItemView::GetSelected() const
+{
+  return dynamic_cast<T*>(GetSelectedItem());
+}
 
 }  // namespace mvvm
 

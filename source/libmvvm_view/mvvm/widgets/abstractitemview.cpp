@@ -69,9 +69,19 @@ SessionItem *AbstractItemView::GetSelectedItem() const
   return m_provider->GetSelectedItem();
 }
 
+std::vector<SessionItem *> AbstractItemView::GetSelectedItems() const
+{
+  return m_provider->GetSelectedItems();
+}
+
 void AbstractItemView::SetSelectedItem(SessionItem *item)
 {
   m_provider->SetSelectedItem(item);
+}
+
+void AbstractItemView::SetSelectedItems(const std::vector<SessionItem *> &items)
+{
+  m_provider->SetSelectedItems(items);
 }
 
 void AbstractItemView::UpdateView()
