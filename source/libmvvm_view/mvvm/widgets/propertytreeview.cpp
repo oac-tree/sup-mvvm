@@ -33,9 +33,7 @@ namespace mvvm
 PropertyTreeView::PropertyTreeView(QWidget* parent)
     : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  auto provider =
-      std::make_unique<ItemViewComponentProvider>(CreateViewModel<PropertyViewModel>, m_tree_view);
-  SetComponentProvider(std::move(provider));
+  SetComponentProvider(CreateProvider<PropertyViewModel>(m_tree_view));
 }
 
 void PropertyTreeView::UpdateView()

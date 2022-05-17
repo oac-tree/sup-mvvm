@@ -31,10 +31,7 @@ namespace mvvm
 AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent)
     : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  auto provider = std::make_unique<ItemViewComponentProvider>(CreateViewModel<AllItemsViewModel>,
-                                                              m_tree_view);
-  provider->SetApplicationModel(model);
-  SetComponentProvider(std::move(provider));
+  SetComponentProvider(CreateProvider<AllItemsViewModel>(m_tree_view, model));
 }
 
 QTreeView* AllItemsTreeView::GetTreeView()
