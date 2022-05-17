@@ -380,8 +380,8 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
-  auto provider = std::make_unique<ItemViewComponentProvider>(
-      CreateViewModel<mvvm::AllItemsViewModel>, &view);
+  auto provider =
+      std::make_unique<ItemViewComponentProvider>(CreateViewModel<mvvm::AllItemsViewModel>, &view);
   provider->SetApplicationModel(&m_model);
 
   EXPECT_EQ(view.model(), provider->GetViewModel());
@@ -393,4 +393,25 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
 
   EXPECT_EQ(view.model(), nullptr);
   EXPECT_EQ(view.selectionModel(), nullptr);
+}
+
+//! No model initialisation, setting an item.
+
+TEST_F(ItemViewComponentProviderTest, CreateProvider)
+{
+  QTreeView view;
+
+  auto item = m_model.InsertItem<mvvm::VectorItem>();
+
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view);
+
+  provider->SetItem(item);
+
+  auto viewmodel = provider->GetViewModel();
+  ASSERT_NE(viewmodel, nullptr);
+  EXPECT_EQ(viewmodel->rowCount(), 3);  // x, y, z
+  EXPECT_EQ(viewmodel->columnCount(), 2);
+
+  EXPECT_EQ(provider->GetView()->model(), viewmodel);
+  EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 }

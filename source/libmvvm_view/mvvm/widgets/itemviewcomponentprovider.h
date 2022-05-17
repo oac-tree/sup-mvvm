@@ -106,6 +106,15 @@ std::unique_ptr<T> CreateViewModel(ApplicationModel* model)
   return std::make_unique<T>(model);
 }
 
+template <typename ViewModelT>
+std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
+                                                          ApplicationModel* model = nullptr)
+{
+  auto result = std::make_unique<ItemViewComponentProvider>(CreateViewModel<ViewModelT>, view);
+  result->SetApplicationModel(model);
+  return result;
+}
+
 }  // namespace mvvm
 
 #endif  // MVVM_WIDGETS_ITEMVIEWCONTROLLER_H
