@@ -24,6 +24,7 @@
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/allitemstreeview.h"
 #include "mvvm/widgets/itemselectionmodel.h"
+#include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <gtest/gtest.h>
 
@@ -48,11 +49,12 @@ TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
   auto vector_item = model.InsertItem<VectorItem>();
   auto x_item = vector_item->GetItem(VectorItem::kX);
   AllItemsTreeView view(&model);
-  view.SetRootSessionItem(vector_item);
+  view.SetItem(vector_item);
 
   // access to internals
-  auto selection_model = view.GetView()->selectionModel();
-  auto view_model = view.GetViewModel();
+  auto selection_model = view.GetTreeView()->selectionModel();
+  auto provider = view.GetComponentProvider();
+  auto view_model = provider->GetViewModel();
 
   // selecting item in a widget
   selection_model->select(view_model->GetIndexOfSessionItem(x_item).front(),
@@ -60,14 +62,14 @@ TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
 
   // Changing root item. The problem was chain of signals (AboutToReset, RowIserted), which
   // was triggering persistentModelIndex.
-  ASSERT_NO_FATAL_FAILURE(view.SetRootSessionItem(model.GetRootItem()));
+  ASSERT_NO_FATAL_FAILURE(view.SetItem(model.GetRootItem()));
 }
 
 TEST_F(AllItemsTreeViewTest, GetSelectedItemsWithNoModel)
 {
   AllItemsTreeView view;
-  EXPECT_TRUE(view.GetSelectedItems().empty());
-  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
+  EXPECT_EQ(view.GetComponentProvider()->GetSelectedItem(), nullptr);
 }
 
 TEST_F(AllItemsTreeViewTest, GetSelectedItems)
@@ -78,21 +80,23 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
   auto x_item = vector_item->GetItem(VectorItem::kX);
   auto y_item = vector_item->GetItem(VectorItem::kY);
   AllItemsTreeView view(&model);
-  view.SetRootSessionItem(vector_item);
+  view.SetItem(vector_item);
 
-  EXPECT_TRUE(view.GetSelectedItems().empty());
-  EXPECT_EQ(view.GetSelectedItem(), nullptr);
+  auto provider = view.GetComponentProvider();
+
+  EXPECT_TRUE(provider->GetSelectedItems().empty());
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
 
   view.SetSelectedItem(x_item);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({x_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 
   view.SetSelectedItem(y_item);
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({y_item}));
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({y_item}));
   EXPECT_EQ(view.GetSelectedItem(), y_item);
 
-  view.SetSelectedItems({x_item, y_item});
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item, y_item}));
+  provider->SetSelectedItems({x_item, y_item});
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({x_item, y_item}));
   EXPECT_EQ(view.GetSelectedItem(), x_item);
 }
 
@@ -108,17 +112,20 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   auto x_item = vector_item->GetItem(VectorItem::kX);
 
   AllItemsTreeView view(&model);
-  view.SetRootSessionItem(vector_item);
+  view.SetItem(vector_item);
 
-  auto x_item_index = view.GetViewModel()->index(0, 1);
+  auto provider = view.GetComponentProvider();
+  auto view_model = provider->GetViewModel();
+
+  auto x_item_index = view_model->index(0, 1);
 
   QSignalSpy spy_selected(&view, &AllItemsTreeView::SelectedItemChanged);
 
   // selecting row where xItem is located
-  view.GetView()->selectionModel()->select(
+  view.GetTreeView()->selectionModel()->select(
       x_item_index, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -131,19 +138,21 @@ TEST_F(AllItemsTreeViewTest, DestroyModel)
   AllItemsTreeView view(model.get());
   view.SetSelectedItem(vector_item);
 
-  auto viewmodel = view.GetViewModel();
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  auto provider = view.GetComponentProvider();
+  auto view_model = provider->GetViewModel();
+
+  EXPECT_EQ(view_model->rowCount(), 1);
+  EXPECT_EQ(view_model->columnCount(), 2);
 
   // destroying the model
   model.reset();
 
-  EXPECT_EQ(view.GetViewModel(), viewmodel);
+  EXPECT_EQ(provider->GetViewModel(), view_model);
 
-  EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 0);
+  EXPECT_EQ(view_model->rowCount(), 0);
+  EXPECT_EQ(view_model->columnCount(), 0);
 
-  EXPECT_TRUE(view.GetSelectedItems().empty());
+  EXPECT_TRUE(provider->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
 
@@ -162,8 +171,10 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   // selecting single item
   view.SetSelectedItem(property0);
 
+  auto provider = view.GetComponentProvider();
+
   // checking selections
-  EXPECT_EQ(view.GetSelectedItems(), std::vector<SessionItem*>({property0}));
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({property0}));
 
   // checking signaling
   EXPECT_EQ(spy_selected.count(), 1);
@@ -193,11 +204,13 @@ TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)
   auto vector_item = model->InsertItem<VectorItem>();
   AllItemsTreeView view(model.get());
 
-  auto viewmodel = view.GetViewModel();
-  EXPECT_EQ(viewmodel->rowCount(), 1);
-  EXPECT_EQ(viewmodel->columnCount(), 2);
+  auto provider = view.GetComponentProvider();
+  auto view_model = provider->GetViewModel();
+
+  EXPECT_EQ(view_model->rowCount(), 1);
+  EXPECT_EQ(view_model->columnCount(), 2);
 
   view.SetApplicationModel(nullptr);
 
-  EXPECT_EQ(view.GetViewModel(), nullptr);
+  EXPECT_EQ(provider->GetViewModel(), nullptr);
 }

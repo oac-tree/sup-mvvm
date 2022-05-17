@@ -70,6 +70,8 @@ public:
   template <typename T = mvvm::SessionItem>
   std::vector<T*> GetSelectedItems() const;
 
+  void SetSelectedItems(std::vector<mvvm::SessionItem*> items);
+
 signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 

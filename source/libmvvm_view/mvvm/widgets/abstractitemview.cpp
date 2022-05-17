@@ -79,13 +79,18 @@ void AbstractItemView::SetItem(SessionItem *item)
   }
 }
 
-AbstractItemViewV2::AbstractItemViewV2(std::unique_ptr<ItemViewComponentProvider> provider,
-                                       QWidget *parent)
-    : m_provider(std::move(provider))
+AbstractItemViewV2::AbstractItemViewV2(QWidget *parent) : QWidget(parent)
 {
   auto layout = new QVBoxLayout(this);
   layout->setMargin(0);
   layout->setSpacing(0);
+}
+
+void AbstractItemViewV2::SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider)
+{
+  m_provider = std::move(provider);
+  connect(m_provider.get(), &ItemViewComponentProvider::SelectedItemChanged, this,
+          &AbstractItemViewV2::SelectedItemChanged);
 }
 
 AbstractItemViewV2::~AbstractItemViewV2() = default;
@@ -103,6 +108,16 @@ void AbstractItemViewV2::SetItem(SessionItem *item)
 ItemViewComponentProvider *AbstractItemViewV2::GetComponentProvider()
 {
   return m_provider.get();
+}
+
+SessionItem *AbstractItemViewV2::GetSelectedItem() const
+{
+  return m_provider->GetSelectedItem();
+}
+
+void AbstractItemViewV2::SetSelectedItem(SessionItem *item)
+{
+  m_provider->SetSelectedItem(item);
 }
 
 }  // namespace mvvm

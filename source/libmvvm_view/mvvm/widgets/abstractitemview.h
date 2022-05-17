@@ -68,15 +68,22 @@ class MVVM_VIEW_EXPORT AbstractItemViewV2 : public QWidget
   Q_OBJECT
 
 public:
-  explicit AbstractItemViewV2(std::unique_ptr<ItemViewComponentProvider>,
-                              QWidget* parent = nullptr);
+  explicit AbstractItemViewV2(QWidget* parent = nullptr);
   ~AbstractItemViewV2() override;
+
+  void SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider);
 
   void SetApplicationModel(ApplicationModel* model);
 
   void SetItem(SessionItem* item);
 
   ItemViewComponentProvider* GetComponentProvider();
+
+  mvvm::SessionItem* GetSelectedItem() const;
+  void SetSelectedItem(mvvm::SessionItem* item);
+
+signals:
+  void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
   std::unique_ptr<ItemViewComponentProvider> m_provider;

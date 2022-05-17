@@ -98,6 +98,13 @@ void ItemViewComponentProvider::SetSelectedItem(mvvm::SessionItem *item)
   m_selection_model->SetSelectedItem(item);
 }
 
+void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> items)
+{
+  std::vector<const mvvm::SessionItem *> to_set_items;
+  std::copy(items.begin(), items.end(), std::back_inserter(to_set_items));
+  m_selection_model->SetSelectedItems(std::move(to_set_items));
+}
+
 void ItemViewComponentProvider::Reset()
 {
   m_view->setModel(nullptr);
