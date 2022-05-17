@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   itemselectionmodel.h
   itemviewbase.cpp
   itemviewbase.h
+  itemviewcomponentprovider.cpp
+  itemviewcomponentprovider.h
   mainbarwidget.cpp
   mainbarwidget.h
   mainverticalbarwidget.cpp
