@@ -31,7 +31,7 @@ Qt must be installed, and path to it specified.
 ```
 #install qt5 
 
-yum install freeglut-devel.x86_64 codac-core-7.1-qt5.x86_64 gmock-devel.x86_64 libxml2-devel.x86_64
+yum install freeglut-devel.x86_64 codac-core-7.1-qt5.x86_64 gmock-devel.x86_64 libxml2-devel.x86_64 pcre2-utf16.x86_64
 
 # specify path to the repo directory  and compile
 mkdir build; cd build
