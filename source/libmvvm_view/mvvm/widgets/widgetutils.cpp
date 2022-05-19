@@ -144,7 +144,8 @@ QSize SizeOfLetterM()
 
 int SystemPointSize()
 {
-  return QApplication::font().pointSize();
+  const int default_size = 10;  // when no application is running
+  return QApplication::instance() ? QApplication::font().pointSize() : default_size;
 }
 
 QMainWindow* FindMainWindow()
@@ -243,4 +244,4 @@ QString CreatePathPresentation(const QString& text)
   return result;
 }
 
-}
+}  // namespace mvvm::utils

@@ -34,6 +34,16 @@ class WidgetUtilsTest : public ::testing::Test
 {
 };
 
+//! Test of system font (performed deliberately without QApplication running).
+//! Checking that the method SystemPointSize() known hardcoded value.
+
+TEST_F(WidgetUtilsTest, SystemPointSize)
+{
+  const int expected_system_font_size = 10; // hardcoded in SystemPointSize
+  EXPECT_EQ(utils::SystemPointSize(), expected_system_font_size);
+}
+
+
 //! Test of WithTildeHomePath function.
 
 TEST_F(WidgetUtilsTest, ProjectWindowTitle)
