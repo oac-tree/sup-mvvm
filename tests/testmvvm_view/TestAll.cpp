@@ -17,24 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem.h"
-
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
-#include <QApplication>
-#include <QMetaType>
-
-#include <qcustomplot.h>
-
-using namespace mvvm;
 
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
-
-  QApplication app(argc, argv);
-  Q_UNUSED(app)
 
   // run all google tests
   return RUN_ALL_TESTS();

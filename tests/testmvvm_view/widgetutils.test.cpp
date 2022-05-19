@@ -25,6 +25,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QSize>
 
 using namespace mvvm;
 
@@ -39,10 +40,18 @@ class WidgetUtilsTest : public ::testing::Test
 
 TEST_F(WidgetUtilsTest, SystemPointSize)
 {
-  const int expected_system_font_size = 10; // hardcoded in SystemPointSize
+  const int expected_system_font_size = 10;  // hardcoded in SystemPointSize
   EXPECT_EQ(utils::SystemPointSize(), expected_system_font_size);
 }
 
+TEST_F(WidgetUtilsTest, SizeOfLetterM)
+{
+  const int expected_width = 11;
+  const int expected_height = 14;
+
+  EXPECT_EQ(utils::SizeOfLetterM().width(), expected_width);
+  EXPECT_EQ(utils::SizeOfLetterM().height(), expected_height);
+}
 
 //! Test of WithTildeHomePath function.
 
@@ -105,9 +114,11 @@ TEST_F(WidgetUtilsTest, CreatePathPresentation)
   EXPECT_EQ(CreatePathPresentation("/"), QString(R"(<a href="/">/</a>)"));
 
   // "/home" -> "/ home"
-  EXPECT_EQ(CreatePathPresentation("/home"), QString(R"(<a href="/">/ </a><a href="/home">home</a>)"));
+  EXPECT_EQ(CreatePathPresentation("/home"),
+            QString(R"(<a href="/">/ </a><a href="/home">home</a>)"));
 
   // "/home/user" => "/ home / user"
-  EXPECT_EQ(CreatePathPresentation("/home/user"),
-            QString(R"(<a href="/">/ </a><a href="/home">home</a> / <a href="/home/user">user</a>)"));
+  EXPECT_EQ(
+      CreatePathPresentation("/home/user"),
+      QString(R"(<a href="/">/ </a><a href="/home">home</a> / <a href="/home/user">user</a>)"));
 }

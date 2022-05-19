@@ -34,10 +34,18 @@ namespace
 
 QSize FindSizeOfLetterM()
 {
-  QFontMetrics fontMetric(QApplication::font());
-  auto em = fontMetric.horizontalAdvance('M');
-  auto fontAscent = fontMetric.ascent();
-  return {em, fontAscent};
+  if (QApplication::instance())
+  {
+    QFontMetrics fontMetric(QApplication::font());
+    auto em = fontMetric.horizontalAdvance('M');
+    auto fontAscent = fontMetric.ascent();
+    return {em, fontAscent};
+  }
+
+  // when no QApplication is running
+  const int default_width = 11;
+  const int default_height = 14;
+  return {default_width, default_height};
 }
 
 const QString untitled_name = "Untitled";
