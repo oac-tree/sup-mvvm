@@ -44,7 +44,7 @@ const QString untitled_name = "Untitled";
 
 }  // namespace
 
-int mvvm::utils::RandInt(int low, int high)
+int RandInt(int low, int high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -52,18 +52,21 @@ int mvvm::utils::RandInt(int low, int high)
   return uniform_int(gen);
 }
 
-QColor mvvm::utils::RandomColor()
+namespace mvvm::utils
 {
-  auto rndm = []() -> int { return mvvm::utils::RandInt(0, 255); };
+
+QColor RandomColor()
+{
+  auto rndm = []() -> int { return RandInt(0, 255); };
   return {rndm(), rndm(), rndm()};
 }
 
-std::string mvvm::utils::RandomNamedColor()
+std::string RandomNamedColor()
 {
   return RandomColor().name().toStdString();
 }
 
-bool mvvm::utils::IsWindowsHost()
+bool IsWindowsHost()
 {
 #if defined(Q_OS_WIN)
   return true;
@@ -72,7 +75,7 @@ bool mvvm::utils::IsWindowsHost()
 #endif
 }
 
-bool mvvm::utils::IsMacHost()
+bool IsMacHost()
 {
 #if defined(Q_OS_MAC)
   return true;
@@ -81,7 +84,7 @@ bool mvvm::utils::IsMacHost()
 #endif
 }
 
-bool mvvm::utils::IsLinuxHost()
+bool IsLinuxHost()
 {
 #if defined(Q_OS_LINUX)
   return true;
@@ -90,9 +93,9 @@ bool mvvm::utils::IsLinuxHost()
 #endif
 }
 
-QString mvvm::utils::WithTildeHomePath(const QString& path)
+QString WithTildeHomePath(const QString& path)
 {
-  if (mvvm::utils::IsWindowsHost())
+  if (IsWindowsHost())
   {
     return path;
   }
@@ -115,7 +118,7 @@ QString mvvm::utils::WithTildeHomePath(const QString& path)
 //! Project without projectDir will be "Untitled", modified project will be "*Untitled".
 //! Project with projectDir in "/home/user/project1" will get title "project1".
 
-QString mvvm::utils::ProjectWindowTitle(const QString& project_dir, bool is_modified)
+QString ProjectWindowTitle(const QString& project_dir, bool is_modified)
 {
   auto pos = project_dir.lastIndexOf('/');
   auto project_name = (pos == -1) ? untitled_name : project_dir.mid(pos + 1);
@@ -123,28 +126,28 @@ QString mvvm::utils::ProjectWindowTitle(const QString& project_dir, bool is_modi
   return unsaved_status + project_name;
 }
 
-int mvvm::utils::WidthOfLetterM()
+int WidthOfLetterM()
 {
-  return mvvm::utils::SizeOfLetterM().width();
+  return SizeOfLetterM().width();
 }
 
-int mvvm::utils::HeightOfLetterM()
+int HeightOfLetterM()
 {
   return mvvm::utils::SizeOfLetterM().height();
 }
 
-QSize mvvm::utils::SizeOfLetterM()
+QSize SizeOfLetterM()
 {
   static QSize result = FindSizeOfLetterM();
   return result;
 }
 
-int mvvm::utils::SystemPointSize()
+int SystemPointSize()
 {
   return QApplication::font().pointSize();
 }
 
-QMainWindow* mvvm::utils::FindMainWindow()
+QMainWindow* FindMainWindow()
 {
   for (auto widget : qApp->topLevelWidgets())
   {
@@ -156,19 +159,19 @@ QMainWindow* mvvm::utils::FindMainWindow()
   return nullptr;
 }
 
-QString mvvm::utils::ClickableText(const QString& text, const QString& tag)
+QString ClickableText(const QString& text, const QString& tag)
 {
   return QString(R"(<a href="%1">%2</a>)").arg(tag.isEmpty() ? text : tag, text);
 }
 
-void mvvm::utils::ScaleLabelFont(QLabel* label, double scale)
+void ScaleLabelFont(QLabel* label, double scale)
 {
   QFont font = label->font();
   font.setPointSize(mvvm::utils::SystemPointSize() * scale);
   label->setFont(font);
 }
 
-QStringList mvvm::utils::GetStringList(const std::vector<std::string>& vec)
+QStringList GetStringList(const std::vector<std::string>& vec)
 {
   QStringList result;
   for (const auto& x : vec)
@@ -178,7 +181,7 @@ QStringList mvvm::utils::GetStringList(const std::vector<std::string>& vec)
   return result;
 }
 
-std::vector<std::string> mvvm::utils::GetStdStringVector(const QStringList& string_list)
+std::vector<std::string> GetStdStringVector(const QStringList& string_list)
 {
   std::vector<std::string> result;
   for (const auto& x : string_list)
@@ -188,7 +191,7 @@ std::vector<std::string> mvvm::utils::GetStdStringVector(const QStringList& stri
   return result;
 }
 
-QByteArray mvvm::utils::GetByteArray(const QStringList& data)
+QByteArray GetByteArray(const QStringList& data)
 {
   QByteArray byteArray;
   QDataStream out(&byteArray, QIODevice::WriteOnly);
@@ -196,7 +199,7 @@ QByteArray mvvm::utils::GetByteArray(const QStringList& data)
   return byteArray;
 }
 
-QStringList mvvm::utils::GetStringList(const QByteArray& byteArray)
+QStringList GetStringList(const QByteArray& byteArray)
 {
   QByteArray array = byteArray;
   QStringList result;
@@ -205,7 +208,7 @@ QStringList mvvm::utils::GetStringList(const QByteArray& byteArray)
   return result;
 }
 
-QString mvvm::utils::CreatePathPresentation(const QString& text)
+QString CreatePathPresentation(const QString& text)
 {
   if (text.isEmpty())
   {
@@ -238,4 +241,6 @@ QString mvvm::utils::CreatePathPresentation(const QString& text)
     }
   }
   return result;
+}
+
 }
