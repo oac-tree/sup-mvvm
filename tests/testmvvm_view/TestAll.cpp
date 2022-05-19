@@ -32,13 +32,6 @@ using namespace mvvm;
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
-  ::testing::InitGoogleMock(&argc, argv);
-
-  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
-  qRegisterMetaType<QCPRange>("QCPRange");
-
-  QApplication app(argc, argv);
-  Q_UNUSED(app)
 
   // run all google tests
   return RUN_ALL_TESTS();

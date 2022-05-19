@@ -17,9 +17,17 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/model/sessionitem.h"
+
+#include <gtest/gtest.h>
+
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <QApplication>
+#include <QMetaType>
+
+#include <qcustomplot.h>
 
 int main(int argc, char** argv)
 {
@@ -27,6 +35,9 @@ int main(int argc, char** argv)
 
   QApplication app(argc, argv);
   Q_UNUSED(app)
+
+  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  qRegisterMetaType<QCPRange>("QCPRange");
 
   // run all google tests
   return RUN_ALL_TESTS();
