@@ -1,3 +1,4 @@
+add_subdirectory(commands)
 add_subdirectory(core)
 add_subdirectory(factories)
 add_subdirectory(interfaces)
