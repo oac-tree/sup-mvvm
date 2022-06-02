@@ -17,46 +17,41 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_COMMANDSTACKINTERFACE_H
-#define MVVM_COMMANDS_COMMANDSTACKINTERFACE_H
+#ifndef MVVM_COMMANDS_COMMANDINTERFACE_H
+#define MVVM_COMMANDS_COMMANDINTERFACE_H
 
 #include "mvvm/model_export.h"
 
-#include <memory>
+#include <string>
+#include <vector>
 
 namespace mvvm
 {
 
-class CommandInterface;
+//! Interface class for generic command.
 
-//! Interface class for command stack.
-
-class MVVM_MODEL_EXPORT CommandStackInterface
+class MVVM_MODEL_EXPORT CommandInterface
 {
 public:
-  virtual ~CommandStackInterface() = default;
+  virtual ~CommandInterface() = default;
 
-  virtual void Execute(std::unique_ptr<CommandInterface> command) = 0;
+  //! Execute the command.
+  virtual void Execute() = 0;
 
-  virtual bool CanUndo() const = 0;
-
-  virtual bool CanRedo() const = 0;
-
-  virtual int GetIndex() const = 0;
-
-  virtual int GetSize() const = 0;
-
+  //! Undo command as it was before execution.
   virtual void Undo() = 0;
 
-  virtual void Redo() = 0;
+  //! Returns whether the command is obsolete (which means that it shouldn't be kept in the stack).
+  virtual bool IsObsolete() const = 0;
 
-  virtual void Clear() = 0;
+  //! Sets obsolete flag.
+  virtual void SetIsObsolete(bool value) = 0;
 
-  virtual void SetUndoLimit(int limit) = 0;
+  //! Returns the command description.
+  virtual std::string GetDescription() const = 0;
 
-  virtual void BeginMacro(const std::string& name) = 0;
-
-  virtual void EndMacro() = 0;
+  //! Set command description.
+  virtual void SetDescription(const std::string& text) const = 0;
 };
 
 }  // namespace mvvm
