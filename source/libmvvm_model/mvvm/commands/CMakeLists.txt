@@ -3,4 +3,6 @@ target_sources(${library_name} PRIVATE
   abstractcommand.h
   commandinterface.h
   commandstackinterface.h
+  commandstack.cpp
+  commandstack.h
   )

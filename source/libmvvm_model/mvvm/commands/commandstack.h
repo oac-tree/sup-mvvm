@@ -17,45 +17,38 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_ABSTRACTCOMMAND_H
-#define MVVM_COMMANDS_ABSTRACTCOMMAND_H
+#ifndef MVVM_COMMANDS_COMMANDSTACK_H
+#define MVVM_COMMANDS_COMMANDSTACK_H
 
-#include "mvvm/commands/commandinterface.h"
+#include "mvvm/commands/commandstackinterface.h"
 
 #include <memory>
 
 namespace mvvm
 {
 
-//! Interface class for generic command.
+//! Base implementation of command stack.
 
-class MVVM_MODEL_EXPORT AbstractCommand : public CommandInterface
+class MVVM_MODEL_EXPORT CommandStack : public CommandStackInterface
 {
 public:
-  AbstractCommand();
-  ~AbstractCommand() override;
-
-  void Execute() final;
-
-  void Undo() final;
-
-  bool IsObsolete() const override;
-
-  void SetIsObsolete(bool value) override;
-
-  std::string GetDescription() const override;
-
-  void SetDescription(const std::string& text) const override;
+  void Push(std::unique_ptr<CommandInterface> command) override;
+  bool CanUndo() const override;
+  bool CanRedo() const override;
+  int GetIndex() const override;
+  int GetSize() const override;
+  void Undo() override;
+  void Redo() override;
+  void Clear() override;
+  void SetUndoLimit(int limit) override;
+  void BeginMacro(const std::string &name) override;
+  void EndMacro() override;
 
 private:
-  virtual void ExecuteImpl() = 0;
 
-  virtual void UndoImpl() = 0;
 
-  struct AbstractCommandImpl;
-  std::unique_ptr<AbstractCommandImpl> p_impl;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_ABSTRACTCOMMAND_H
+#endif  // MVVM_COMMANDS_COMMANDSTACK_H

@@ -36,12 +36,16 @@ class MVVM_MODEL_EXPORT CommandStackInterface
 public:
   virtual ~CommandStackInterface() = default;
 
-  virtual void Execute(std::unique_ptr<CommandInterface> command) = 0;
+  //! Push command in the stack and immediately executes it.
+  virtual void Push(std::unique_ptr<CommandInterface> command) = 0;
 
+  //! Returns true if there is a command available for undo; otherwise returns false.
   virtual bool CanUndo() const = 0;
 
+  //! Returns true if there is a command available for redo; otherwise returns false.
   virtual bool CanRedo() const = 0;
 
+  //! Returns the index of the current command. This is the command
   virtual int GetIndex() const = 0;
 
   virtual int GetSize() const = 0;

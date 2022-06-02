@@ -17,45 +17,42 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_ABSTRACTCOMMAND_H
-#define MVVM_COMMANDS_ABSTRACTCOMMAND_H
-
-#include "mvvm/commands/commandinterface.h"
-
-#include <memory>
+#include "mvvm/commands/commandstack.h"
 
 namespace mvvm
 {
+void CommandStack::Push(std::unique_ptr<CommandInterface> command) {}
 
-//! Interface class for generic command.
-
-class MVVM_MODEL_EXPORT AbstractCommand : public CommandInterface
+bool CommandStack::CanUndo() const
 {
-public:
-  AbstractCommand();
-  ~AbstractCommand() override;
+  return false;
+}
 
-  void Execute() final;
+bool CommandStack::CanRedo() const
+{
+  return false;
+}
 
-  void Undo() final;
+int CommandStack::GetIndex() const
+{
+  return 0;
+}
 
-  bool IsObsolete() const override;
+int CommandStack::GetSize() const
+{
+  return 0;
+}
 
-  void SetIsObsolete(bool value) override;
+void CommandStack::Undo() {}
 
-  std::string GetDescription() const override;
+void CommandStack::Redo() {}
 
-  void SetDescription(const std::string& text) const override;
+void CommandStack::Clear() {}
 
-private:
-  virtual void ExecuteImpl() = 0;
+void CommandStack::SetUndoLimit(int limit) {}
 
-  virtual void UndoImpl() = 0;
+void CommandStack::BeginMacro(const std::string &name) {}
 
-  struct AbstractCommandImpl;
-  std::unique_ptr<AbstractCommandImpl> p_impl;
-};
+void CommandStack::EndMacro() {}
 
 }  // namespace mvvm
-
-#endif  // MVVM_COMMANDS_ABSTRACTCOMMAND_H
