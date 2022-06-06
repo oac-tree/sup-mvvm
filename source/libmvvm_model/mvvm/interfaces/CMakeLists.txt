@@ -1,11 +1,11 @@
 
 target_sources(${library_name} PRIVATE
-  itemfactoryinterface.h
-  itemcopystrategyinterface.h
-  modeleventnotifierinterface.h
-  modeleventsubscriberinterface.h
-  modeldocumentinterface.h
-  projectinterface.h
-  projectmanagerinterface.h
-  sessionmodelinterface.h
+  item_factory_interface.h
+  item_copy_strategy_interface.h
+  model_event_notifier_interface.h
+  model_event_subscriber_interface.h
+  model_document_interface.h
+  project_interface.h
+  project_manager_interface.h
+  sessionmodel_interface.h
 )

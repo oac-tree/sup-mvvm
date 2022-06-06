@@ -20,13 +20,13 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/interfaces/itemfactoryinterface.h"
-#include "mvvm/model/itemmanager.h"
-#include "mvvm/model/modelutils.h"
+#include "mvvm/interfaces/item_factory_interface.h"
+#include "mvvm/model/item_manager.h"
+#include "mvvm/model/model_utils.h"
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/model/taggeditems.h"
+#include "mvvm/model/tagged_items.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/model/validateutils.h"
+#include "mvvm/model/validate_utils.h"
 
 #include <sstream>
 

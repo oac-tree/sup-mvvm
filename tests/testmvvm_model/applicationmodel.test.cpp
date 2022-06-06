@@ -17,13 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 
 #include "mockmodellistener.h"
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionmodel.h"
 
 #include <gtest/gtest.h>

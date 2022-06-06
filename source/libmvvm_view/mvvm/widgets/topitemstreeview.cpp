@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/topitemstreeview.h"
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 #include "mvvm/widgets/itemviewcomponentprovider.h"
 

@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/itemconnectutils.h"
+#include "mvvm/signals/item_connect_utils.h"
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/signals/signalslot.h"
-#include "mvvm/standarditems/standarditemincludes.h"
+#include "mvvm/signals/signal_slot.h"
+#include "mvvm/standarditems/standard_item_includes.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

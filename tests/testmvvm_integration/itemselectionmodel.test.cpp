@@ -19,8 +19,8 @@
 
 #include "mvvm/widgets/itemselectionmodel.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/compounditem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/compound_item.h"
 #include "mvvm/viewmodel/topitemsviewmodel.h"
 
 #include <gtest/gtest.h>

@@ -20,7 +20,7 @@
 #include "mvvm/editors/scientificspinboxeditor.h"
 
 #include "mvvm/editors/scientificspinbox.h"
-#include "mvvm/utils/numericutils.h"
+#include "mvvm/utils/numeric_utils.h"
 
 #include <QVBoxLayout>
 #include <stdexcept>

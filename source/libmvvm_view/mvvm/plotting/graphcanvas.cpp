@@ -22,7 +22,7 @@
 #include "mvvm/plotting/graphviewportplotcontroller.h"
 #include "mvvm/plotting/statusstringreporter.h"
 #include "mvvm/plotting/statusstringreporterfactory.h"
-#include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/standarditems/graph_viewport_item.h"
 #include "mvvm/widgets/statuslabel.h"
 
 #include <qcustomplot.h>

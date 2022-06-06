@@ -21,11 +21,11 @@
 
 #include "customplot_test_utils.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/standarditems/axisitems.h"
-#include "mvvm/standarditems/data1ditem.h"
-#include "mvvm/standarditems/graphitem.h"
-#include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/standarditems/axis_items.h"
+#include "mvvm/standarditems/data1d_item.h"
+#include "mvvm/standarditems/graph_item.h"
+#include "mvvm/standarditems/graph_viewport_item.h"
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>

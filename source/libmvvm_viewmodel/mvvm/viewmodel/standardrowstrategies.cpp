@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/standardrowstrategies.h"
 
-#include "mvvm/model/itemutils.h"
+#include "mvvm/model/item_utils.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 #include "mvvm/viewmodelbase/viewitem.h"

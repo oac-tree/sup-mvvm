@@ -22,11 +22,11 @@
 #include "folderbasedtest.h"
 #include "test_utils.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 
 #include <gtest/gtest.h>
 

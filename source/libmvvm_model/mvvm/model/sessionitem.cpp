@@ -19,10 +19,10 @@
 
 #include "mvvm/model/sessionitem.h"
 
-#include "mvvm/core/uniqueidgenerator.h"
-#include "mvvm/model/sessionitemdata.h"
+#include "mvvm/core/unique_id_generator.h"
+#include "mvvm/model/sessionitem_data.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/taggeditems.h"
+#include "mvvm/model/tagged_items.h"
 #include "mvvm/model/taginfo.h"
 
 #include <stdexcept>
@@ -370,7 +370,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
 }
 
 //! Returns data for given role. Method invented to hide implementaiton details and avoid
-//! placing sessionitemdata.h into 'sessionitem.h' header.
+//! placing sessionitem_data.h into 'sessionitem.h' header.
 
 variant_t SessionItem::DataInternal(int role) const
 {

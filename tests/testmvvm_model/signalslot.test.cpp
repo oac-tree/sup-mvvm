@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/signalslot.h"
+#include "mvvm/signals/signal_slot.h"
 
 #include "mvvm/model/sessionitem.h"
 

@@ -19,7 +19,7 @@
 
 #include "mvvm/plotting/graphinfoformatter.h"
 
-#include "mvvm/utils/stringutils.h"
+#include "mvvm/utils/string_utils.h"
 
 #include <qcustomplot.h>
 

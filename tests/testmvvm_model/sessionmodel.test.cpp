@@ -20,11 +20,11 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/model/itemmanager.h"
-#include "mvvm/model/itempool.h"
-#include "mvvm/model/itemutils.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/model/item_manager.h"
+#include "mvvm/model/item_pool.h"
+#include "mvvm/model/item_utils.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
 

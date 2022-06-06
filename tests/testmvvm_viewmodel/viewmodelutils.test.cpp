@@ -21,7 +21,7 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/standarditems/editor_constants.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 #include "mvvm/viewmodel/viewitemfactory.h"
 
 #include <gtest/gtest.h>

@@ -23,8 +23,8 @@
 //! @file customvariants.h
 //! Custom Qt variants registrations and utility functions.
 
-#include "mvvm/model/comboproperty.h"
-#include "mvvm/model/externalproperty.h"
+#include "mvvm/model/combo_property.h"
+#include "mvvm/model/external_property.h"
 #include "mvvm/viewmodel_export.h"
 
 #include <QVariant>

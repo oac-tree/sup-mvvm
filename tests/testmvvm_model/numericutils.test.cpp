@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/numericutils.h"
+#include "mvvm/utils/numeric_utils.h"
 
 #include <gtest/gtest.h>
 

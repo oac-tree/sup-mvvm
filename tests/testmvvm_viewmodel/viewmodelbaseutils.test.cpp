@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodelbase/viewmodelbaseutils.h"
 
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 #include "mvvm/viewmodelbase/presentationitem.h"
 
 #include <gtest/gtest.h>

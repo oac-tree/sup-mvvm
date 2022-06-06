@@ -19,12 +19,12 @@
 
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 
-#include "mvvm/model/compounditem.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 
 #include <gtest/gtest.h>
 

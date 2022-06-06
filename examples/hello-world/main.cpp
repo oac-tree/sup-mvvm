@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/serialization/xmldocument.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/serialization/xml_document.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 
 #include <QApplication>

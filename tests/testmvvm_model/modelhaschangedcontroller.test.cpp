@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/modelhaschangedcontroller.h"
+#include "mvvm/project/model_has_changed_controller.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/property_item.h"
 
 #include <gtest/gtest.h>
 

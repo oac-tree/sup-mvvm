@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/xmlparseutils.h"
+#include "mvvm/serialization/xml_parse_utils.h"
 
 #include "test_utils.h"
 

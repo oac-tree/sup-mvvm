@@ -22,7 +22,7 @@
 #include "graphmodel.h"
 
 #include "mvvm/plotting/graphcanvas.h"
-#include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/standarditems/graph_viewport_item.h"
 #include "mvvm/widgets/allitemstreeview.h"
 
 #include <QAction>

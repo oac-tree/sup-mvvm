@@ -19,8 +19,8 @@
 
 #include "mvvm/factories/viewmodelcontrollerfactory.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 #include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodel/viewmodel.h"

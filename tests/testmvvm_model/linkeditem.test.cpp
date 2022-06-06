@@ -17,13 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/linkeditem.h"
+#include "mvvm/standarditems/linked_item.h"
 
-#include "mvvm/model/itempool.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/item_pool.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/itemmanager.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/item_manager.h"
 
 #include "mockitemlistener.h"
 

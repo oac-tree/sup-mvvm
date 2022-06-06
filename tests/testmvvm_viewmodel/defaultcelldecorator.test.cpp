@@ -19,8 +19,8 @@
 
 #include "mvvm/delegates/defaultcelldecorator.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 
 #include <gtest/gtest.h>

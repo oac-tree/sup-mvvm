@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/itempool.h"
+#include "mvvm/model/item_pool.h"
 
 #include "mvvm/model/sessionitem.h"
 

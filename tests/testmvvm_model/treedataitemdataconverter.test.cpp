@@ -17,13 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedataitemdataconverter.h"
+#include "mvvm/serialization/treedata_itemdata_converter.h"
 
 #include "test_utils.h"
 
-#include "mvvm/model/sessionitemdata.h"
-#include "mvvm/serialization/TreeData.h"
-#include "mvvm/serialization/xmlparseutils.h"
+#include "mvvm/model/sessionitem_data.h"
+#include "mvvm/serialization/treedata.h"
+#include "mvvm/serialization/xml_parse_utils.h"
 
 #include <gtest/gtest.h>
 

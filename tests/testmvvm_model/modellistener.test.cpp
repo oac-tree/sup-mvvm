@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/modellistener.h"
+#include "mvvm/signals/model_listener.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionmodel.h"
 
 #include <gmock/gmock.h>

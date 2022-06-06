@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/itemcataloguefactory.h"
+#include "mvvm/factories/item_catalogue_factory.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
+#include "mvvm/standarditems/standard_item_includes.h"
 
 #include <gtest/gtest.h>
 

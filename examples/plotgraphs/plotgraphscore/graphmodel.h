@@ -20,7 +20,7 @@
 #ifndef PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHMODEL_H
 #define PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHMODEL_H
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 
 namespace mvvm
 {

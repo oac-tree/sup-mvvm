@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/propertytreeview.h"
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/propertyviewmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"

@@ -21,9 +21,9 @@
 
 #include "mvvm/plotting/graphplotcontroller.h"
 #include "mvvm/plotting/viewportaxisplotcontroller.h"
-#include "mvvm/standarditems/axisitems.h"
-#include "mvvm/standarditems/graphitem.h"
-#include "mvvm/standarditems/graphviewportitem.h"
+#include "mvvm/standarditems/axis_items.h"
+#include "mvvm/standarditems/graph_item.h"
+#include "mvvm/standarditems/graph_viewport_item.h"
 
 #include <qcustomplot.h>
 

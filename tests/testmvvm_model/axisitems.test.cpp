@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/axisitems.h"
+#include "mvvm/standarditems/axis_items.h"
 
-#include "mvvm/standarditems/plottableitems.h"
+#include "mvvm/standarditems/plottable_items.h"
 
 #include <gtest/gtest.h>
 

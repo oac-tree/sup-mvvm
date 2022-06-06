@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/externalproperty.h"
+#include "mvvm/model/external_property.h"
 
 #include <gtest/gtest.h>
 

@@ -21,7 +21,7 @@
 
 #include "mvvm/interfaces/childrenstrategyinterface.h"
 #include "mvvm/interfaces/rowstrategyinterface.h"
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 #include "mvvm/viewmodel/viewmodelcontroller.h"
 
 #include <stdexcept>

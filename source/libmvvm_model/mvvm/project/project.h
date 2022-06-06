@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_PROJECT_H
 #define MVVM_PROJECT_PROJECT_H
 
-#include "mvvm/interfaces/projectinterface.h"
+#include "mvvm/interfaces/project_interface.h"
 
 #include <memory>
 

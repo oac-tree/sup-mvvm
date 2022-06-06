@@ -17,19 +17,19 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedatamodelconverter.h"
+#include "mvvm/serialization/treedata_model_converter.h"
 
 #include "test_utils.h"
 
-#include "mvvm/model/itempool.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/item_pool.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/taggeditems.h"
+#include "mvvm/model/tagged_items.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/model/itemmanager.h"
-#include "mvvm/serialization/TreeData.h"
-#include "mvvm/serialization/treedatamodelconverter.h"
-#include "mvvm/serialization/xmlwriteutils.h"
+#include "mvvm/model/item_manager.h"
+#include "mvvm/serialization/treedata.h"
+#include "mvvm/serialization/treedata_model_converter.h"
+#include "mvvm/serialization/xml_write_utils.h"
 
 #include <gtest/gtest.h>
 

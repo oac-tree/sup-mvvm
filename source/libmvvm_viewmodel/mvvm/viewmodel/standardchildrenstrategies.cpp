@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 
-#include "mvvm/model/itemutils.h"
+#include "mvvm/model/item_utils.h"
 #include "mvvm/model/sessionitem.h"
 
 namespace mvvm

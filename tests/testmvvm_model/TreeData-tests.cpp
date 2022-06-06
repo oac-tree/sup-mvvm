@@ -21,7 +21,7 @@
 
 // Global header files
 
-#include "mvvm/serialization/TreeData.h"
+#include "mvvm/serialization/treedata.h"
 
 #include <gtest/gtest.h>  // Google test framework
 

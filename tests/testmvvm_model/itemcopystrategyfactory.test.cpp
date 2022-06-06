@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/itemcopystrategyfactory.h"
+#include "mvvm/factories/item_copy_strategy_factory.h"
 
-#include "mvvm/factories/itemcataloguefactory.h"
-#include "mvvm/model/itemfactory.h"
-#include "mvvm/model/propertyitem.h"
-#include "mvvm/model/taggeditems.h"
+#include "mvvm/factories/item_catalogue_factory.h"
+#include "mvvm/model/item_factory.h"
+#include "mvvm/model/property_item.h"
+#include "mvvm/model/tagged_items.h"
 #include "mvvm/model/taginfo.h"
 
 #include <gtest/gtest.h>

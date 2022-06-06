@@ -21,8 +21,8 @@
 
 #include "mvvm/plotting/axistitlecontroller.h"
 #include "mvvm/plotting/customplotutils.h"
-#include "mvvm/standarditems/axisitems.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "mvvm/standarditems/axis_items.h"
+#include "mvvm/standarditems/plottable_items.h"
 
 #include <qcustomplot.h>
 

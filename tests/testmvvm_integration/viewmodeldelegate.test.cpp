@@ -21,8 +21,8 @@
 
 #include "mvvm/editors/customeditor.h"
 #include "mvvm/editors/customeditorincludes.h"
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/standarditems/vector_item.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 
 #include <gtest/gtest.h>

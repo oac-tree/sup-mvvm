@@ -20,8 +20,8 @@
 #include "mvvm/editors/customeditorfactories.h"
 
 #include "mvvm/editors/customeditorincludes.h"
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/standarditems/editor_constants.h"
 #include "mvvm/viewmodel/allitemsviewmodel.h"
 

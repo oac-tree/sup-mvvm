@@ -21,12 +21,12 @@
 
 #include "test_utils.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/compounditem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/compound_item.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"
-#include "mvvm/standarditems/containeritem.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/container_item.h"
+#include "mvvm/standarditems/vector_item.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"
 #include "mvvm/viewmodel/standardrowstrategies.h"
 #include "mvvm/viewmodel/viewmodelutils.h"

@@ -19,8 +19,8 @@
 
 #include "mvvm/plotting/axistitlecontroller.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/standarditems/plottable_items.h"
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
@@ -61,7 +61,7 @@ TEST_F(AxisTitleControllerTest, SetTextItem)
   //    auto expected_pointSize = axis->labelFont().pointSize();
   //    auto expected_family = axis->labelFont().family();
 
-  // this a values hardcoded in plottableitems.cpp. Shell we provide some customized way to create
+  // this a values hardcoded in plottable_items.cpp. Shell we provide some customized way to create
   // TextItem with font/size suitable for QCPAxis ?
   const int expected_pointSize = 10;
   const std::string expected_family = "Noto Sans";

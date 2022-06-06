@@ -19,7 +19,7 @@
 
 #include "toyitems.h"
 
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 
 namespace testutils::toyitems
 {

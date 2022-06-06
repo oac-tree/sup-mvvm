@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/itemutils.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/item_utils.h"
 #include "mvvm/model/sessionmodel.h"
 
 #include <gtest/gtest.h>

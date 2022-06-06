@@ -27,7 +27,7 @@
 
 // Local header files
 
-#include "mvvm/serialization/AttributeMap.h"
+#include "mvvm/serialization/attribute_map.h"
 
 // Constants
 

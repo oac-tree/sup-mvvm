@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/xmlwriteutils.h"
+#include "mvvm/serialization/xml_write_utils.h"
 
 #include "folderbasedtest.h"
 #include "test_utils.h"
 
-#include "mvvm/serialization/TreeData.h"
+#include "mvvm/serialization/treedata.h"
 
 using namespace mvvm;
 

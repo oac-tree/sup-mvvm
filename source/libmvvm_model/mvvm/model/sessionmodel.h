@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_SESSIONMODEL_H
 #define MVVM_MODEL_SESSIONMODEL_H
 
-#include "mvvm/interfaces/sessionmodelinterface.h"
+#include "mvvm/interfaces/sessionmodel_interface.h"
 #include "mvvm/model/function_types.h"
 #include "mvvm/model/sessionitem.h"
 

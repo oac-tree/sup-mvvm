@@ -20,7 +20,7 @@
 #include "mvvm/widgets/abstractitemview.h"
 
 #include "mvvm/core/exceptions.h"
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/itemviewcomponentprovider.h"
 

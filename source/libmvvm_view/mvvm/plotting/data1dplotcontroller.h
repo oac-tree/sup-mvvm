@@ -20,7 +20,7 @@
 #ifndef MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
 #define MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
 
-#include "mvvm/signals/itemlistener.h"
+#include "mvvm/signals/item_listener.h"
 #include "mvvm/view_export.h"
 
 #include <memory>

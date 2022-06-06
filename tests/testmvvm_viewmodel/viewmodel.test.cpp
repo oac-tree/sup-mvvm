@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-#include "mvvm/model/propertyitem.h"
+#include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/viewmodel/standardchildrenstrategies.h"

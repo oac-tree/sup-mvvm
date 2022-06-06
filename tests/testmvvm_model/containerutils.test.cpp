@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/containerutils.h"
+#include "mvvm/utils/container_utils.h"
 
 #include <gtest/gtest.h>
 

@@ -19,8 +19,8 @@
 
 #include "graphmodel.h"
 
-#include "mvvm/standarditems/standarditemincludes.h"
-#include "mvvm/utils/numericutils.h"
+#include "mvvm/standarditems/standard_item_includes.h"
+#include "mvvm/utils/numeric_utils.h"
 #include "mvvm/widgets/widgetutils.h"
 
 #include <QColor>

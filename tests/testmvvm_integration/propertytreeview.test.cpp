@@ -19,8 +19,8 @@
 
 #include "mvvm/widgets/propertytreeview.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/standarditems/standarditemincludes.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/standarditems/standard_item_includes.h"
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/itemviewcomponentprovider.h"
 

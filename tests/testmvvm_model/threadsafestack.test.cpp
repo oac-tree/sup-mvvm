@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/threadsafestack.h"
+#include "mvvm/utils/threadsafe_stack.h"
 
 #include <gtest/gtest.h>
 

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/fileutils.h"
+#include "mvvm/utils/file_utils.h"
 
 #include "folderbasedtest.h"
 #include "test_utils.h"

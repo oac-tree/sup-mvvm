@@ -1,15 +1,15 @@
 target_sources(${library_name} PRIVATE
   callback_types.h
-  itemconnectutils.cpp
-  itemconnectutils.h
-  itemlistener.h
-  itemlistenerbase.cpp
-  itemlistenerbase.h
+  item_connect_utils.cpp
+  item_connect_utils.h
+  item_listener.h
+  item_listener_base.cpp
+  item_listener_base.h
   lsignal.h
-  modeleventnotifier.cpp
-  modeleventnotifier.h
-  modellistener.h
-  modellistenerbase.cpp
-  modellistenerbase.h
-  signalslot.h
+  model_event_notifier.cpp
+  model_event_notifier.h
+  model_listener.h
+  model_listener_base.cpp
+  model_listener_base.h
+  signal_slot.h
 )

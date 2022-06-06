@@ -21,7 +21,7 @@
 
 #include "mvvm/editors/customeventfilters.h"
 #include "mvvm/editors/styleutils.h"
-#include "mvvm/model/externalproperty.h"
+#include "mvvm/model/external_property.h"
 #include "mvvm/viewmodel/customvariants.h"
 
 #include <QHBoxLayout>

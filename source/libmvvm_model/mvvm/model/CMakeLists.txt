@@ -1,45 +1,45 @@
 target_sources(${library_name} PRIVATE
-  abstractsessionmodeldecorator.cpp
-  abstractsessionmodeldecorator.h
-  applicationmodel.cpp
-  applicationmodel.h
-  comboproperty.cpp
-  comboproperty.h
-  compounditem.cpp
-  compounditem.h
-  externalproperty.cpp
-  externalproperty.h
+  abstract_sessionmodel_decorator.cpp
+  abstract_sessionmodel_decorator.h
+  application_model.cpp
+  application_model.h
+  combo_property.cpp
+  combo_property.h
+  compound_item.cpp
+  compound_item.h
+  external_property.cpp
+  external_property.h
   function_types.h
-  itemcatalogue.h
-  itemfactory.cpp
-  itemfactory.h
-  itemmanager.cpp
-  itemmanager.h
-  itempool.cpp
-  itempool.h
-  itemutils.cpp
-  itemutils.h
-  modelutils.cpp
-  modelutils.h
+  item_catalogue.h
+  item_factory.cpp
+  item_factory.h
+  item_manager.cpp
+  item_manager.h
+  item_pool.cpp
+  item_pool.h
+  item_utils.cpp
+  item_utils.h
+  model_utils.cpp
+  model_utils.h
   mvvm_types.h
   path.cpp
   path.h
-  propertyitem.cpp
-  propertyitem.h
+  property_item.cpp
+  property_item.h
   sessionitem.cpp
   sessionitem.h
-  sessionitemcontainer.cpp
-  sessionitemcontainer.h
-  sessionitemdata.cpp
-  sessionitemdata.h
+  sessionitem_container.cpp
+  sessionitem_container.h
+  sessionitem_data.cpp
+  sessionitem_data.h
   sessionmodel.cpp
   sessionmodel.h
-  taggeditems.cpp
-  taggeditems.h
+  tagged_items.cpp
+  tagged_items.h
   tagindex.cpp
   tagindex.h
   taginfo.cpp
   taginfo.h
-  validateutils.cpp
-  validateutils.h
+  validate_utils.cpp
+  validate_utils.h
   )

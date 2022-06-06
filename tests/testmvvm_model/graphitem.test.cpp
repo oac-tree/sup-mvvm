@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/graphitem.h"
+#include "mvvm/standarditems/graph_item.h"
 
 #include "mockitemlistener.h"
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/standarditems/axisitems.h"
-#include "mvvm/standarditems/data1ditem.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/standarditems/axis_items.h"
+#include "mvvm/standarditems/data1d_item.h"
+#include "mvvm/standarditems/plottable_items.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -20,7 +20,7 @@
 #ifndef TESTS_LIBTESTMACHINERY_MOCKMODELNOTIFIER_H
 #define TESTS_LIBTESTMACHINERY_MOCKMODELNOTIFIER_H
 
-#include "mvvm/interfaces/modeleventnotifierinterface.h"
+#include "mvvm/interfaces/model_event_notifier_interface.h"
 
 #include <gmock/gmock.h>
 

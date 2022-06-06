@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitemdata.h"
+#include "mvvm/model/sessionitem_data.h"
 
 #include <gtest/gtest.h>
 

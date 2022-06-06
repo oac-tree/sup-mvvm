@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/data1ditem.h"
+#include "mvvm/standarditems/data1d_item.h"
 
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/standarditems/axisitems.h"
+#include "mvvm/standarditems/axis_items.h"
 
 #include <gtest/gtest.h>
 

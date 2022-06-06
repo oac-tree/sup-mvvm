@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/abstractviewmodelcontroller.h"
 
-#include "mvvm/interfaces/modeleventsubscriberinterface.h"
+#include "mvvm/interfaces/model_event_subscriber_interface.h"
 #include "mvvm/model/sessionitem.h"
 
 namespace mvvm

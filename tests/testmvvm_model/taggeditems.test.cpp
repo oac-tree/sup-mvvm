@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/taggeditems.h"
+#include "mvvm/model/tagged_items.h"
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/taginfo.h"

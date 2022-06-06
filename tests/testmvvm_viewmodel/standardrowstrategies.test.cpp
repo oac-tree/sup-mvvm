@@ -19,9 +19,9 @@
 
 #include "mvvm/viewmodel/standardrowstrategies.h"
 
-#include "mvvm/model/applicationmodel.h"
+#include "mvvm/model/application_model.h"
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/standarditems/vector_item.h"
 #include "mvvm/viewmodel/viewmodelutils.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 

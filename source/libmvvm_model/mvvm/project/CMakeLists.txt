@@ -1,15 +1,15 @@
 target_sources(${library_name} PRIVATE
-  modelhaschangedcontroller.cpp
-  modelhaschangedcontroller.h
+  model_has_changed_controller.cpp
+  model_has_changed_controller.h
   project.cpp
   project.h
   project_types.h
-  projectchangecontroller.cpp
-  projectchangecontroller.h
-  projectmanager.cpp
-  projectmanager.h
-  projectmanagerdecorator.cpp
-  projectmanagerdecorator.h
-  projectutils.cpp
-  projectutils.h
+  project_change_controller.cpp
+  project_change_controller.h
+  project_manager.cpp
+  project_manager.h
+  project_manager_decorator.cpp
+  project_manager_decorator.h
+  project_utils.cpp
+  project_utils.h
   )

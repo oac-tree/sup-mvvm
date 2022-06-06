@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/abstractcommand.h"
+#include "mvvm/commands/abstract_command.h"
 
 #include "mvvm/core/exceptions.h"
 

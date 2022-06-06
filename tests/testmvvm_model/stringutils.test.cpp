@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/stringutils.h"
+#include "mvvm/utils/string_utils.h"
 
 #include <gtest/gtest.h>
 

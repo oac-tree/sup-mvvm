@@ -21,9 +21,9 @@
 
 #include "mvvm/plotting/data1dplotcontroller.h"
 #include "mvvm/plotting/pencontroller.h"
-#include "mvvm/standarditems/data1ditem.h"
-#include "mvvm/standarditems/graphitem.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "mvvm/standarditems/data1d_item.h"
+#include "mvvm/standarditems/graph_item.h"
+#include "mvvm/standarditems/plottable_items.h"
 
 #include <qcustomplot.h>
 

@@ -17,22 +17,22 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedataitemconverter.h"
+#include "mvvm/serialization/treedata_item_converter.h"
 
 #include "folderbasedtest.h"
 #include "test_utils.h"
 
-#include "mvvm/factories/itemcataloguefactory.h"
-#include "mvvm/model/compounditem.h"
-#include "mvvm/model/externalproperty.h"
-#include "mvvm/model/itemfactory.h"
-#include "mvvm/model/sessionitemdata.h"
-#include "mvvm/model/taggeditems.h"
-#include "mvvm/serialization/TreeData.h"
-#include "mvvm/serialization/xmlparseutils.h"
-#include "mvvm/serialization/xmlwriteutils.h"
-#include "mvvm/standarditems/standarditemincludes.h"
-#include "mvvm/standarditems/vectoritem.h"
+#include "mvvm/factories/item_catalogue_factory.h"
+#include "mvvm/model/compound_item.h"
+#include "mvvm/model/external_property.h"
+#include "mvvm/model/item_factory.h"
+#include "mvvm/model/sessionitem_data.h"
+#include "mvvm/model/tagged_items.h"
+#include "mvvm/serialization/treedata.h"
+#include "mvvm/serialization/xml_parse_utils.h"
+#include "mvvm/serialization/xml_write_utils.h"
+#include "mvvm/standarditems/standard_item_includes.h"
+#include "mvvm/standarditems/vector_item.h"
 
 #include <gtest/gtest.h>
 

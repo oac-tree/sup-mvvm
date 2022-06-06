@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/comboproperty.h"
+#include "mvvm/model/combo_property.h"
 
 #include <gtest/gtest.h>
 

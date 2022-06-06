@@ -23,8 +23,8 @@
 //! @file toyitems.h
 //! Collection of toy items for testing purpose.
 
-#include "mvvm/model/applicationmodel.h"
-#include "mvvm/model/compounditem.h"
+#include "mvvm/model/application_model.h"
+#include "mvvm/model/compound_item.h"
 
 namespace testutils::toyitems
 {

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/plottableitems.h"
+#include "mvvm/standarditems/plottable_items.h"
 
 #include <gtest/gtest.h>
 

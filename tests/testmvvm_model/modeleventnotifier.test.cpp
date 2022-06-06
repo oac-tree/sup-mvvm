@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/modeleventnotifier.h"
+#include "mvvm/signals/model_event_notifier.h"
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"

@@ -1,8 +1,8 @@
 target_sources(${library_name} PRIVATE
-  abstractcommand.cpp
-  abstractcommand.h
-  commandinterface.h
-  commandstackinterface.h
-  commandstack.cpp
-  commandstack.h
+  abstract_command.cpp
+  abstract_command.h
+  command_interface.h
+  command_stack_interface.h
+  command_stack.cpp
+  command_stack.h
   )

@@ -26,8 +26,8 @@
 #include "mvvm/editors/selectablecomboboxeditor.h"
 
 #include "mvvm/editors/customeventfilters.h"
-#include "mvvm/model/comboproperty.h"
-#include "mvvm/utils/containerutils.h"
+#include "mvvm/model/combo_property.h"
+#include "mvvm/utils/container_utils.h"
 
 #include <QAbstractItemView>
 #include <QComboBox>
