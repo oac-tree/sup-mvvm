@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "graphmodel.h"
+#include "graph_model.h"
 
 #include "mvvm/standarditems/standard_item_includes.h"
 #include "mvvm/utils/numeric_utils.h"

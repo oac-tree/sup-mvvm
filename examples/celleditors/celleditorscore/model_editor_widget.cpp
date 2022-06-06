@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "modeleditorwidget.h"
+#include "model_editor_widget.h"
 
-#include "samplemodel.h"
+#include "sample_model.h"
 
 #include "mvvm/delegates/viewmodel_delegate.h"
 #include "mvvm/viewmodel/all_items_viewmodel.h"

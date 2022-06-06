@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "samplemodel.h"
+#include "sample_model.h"
 
 #include "mvvm/standarditems/editor_constants.h"
 

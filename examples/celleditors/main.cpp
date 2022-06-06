@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "celleditorscore/mainwindow.h"
+#include "celleditorscore/main_window.h"
 
 #include <QApplication>
 #include <QLocale>

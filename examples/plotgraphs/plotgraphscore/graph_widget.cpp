@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "graphwidget.h"
+#include "graph_widget.h"
 
-#include "graphmodel.h"
+#include "graph_model.h"
 
 #include "mvvm/plotting/graph_canvas.h"
 #include "mvvm/standarditems/graph_viewport_item.h"

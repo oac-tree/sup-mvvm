@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mainwindow.h"
+#include "main_window.h"
 
-#include "graphmodel.h"
-#include "graphwidget.h"
+#include "graph_model.h"
+#include "graph_widget.h"
 
 #include <QCoreApplication>
 #include <QSettings>

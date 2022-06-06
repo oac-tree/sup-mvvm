@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mainwindow.h"
+#include "main_window.h"
 
-#include "modeleditorwidget.h"
-#include "samplemodel.h"
+#include "model_editor_widget.h"
+#include "sample_model.h"
 
 #include <QCoreApplication>
 #include <QSettings>

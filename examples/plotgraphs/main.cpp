@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "plotgraphscore/mainwindow.h"
+#include "plotgraphscore/main_window.h"
 
 #include <QApplication>
 #include <QLocale>
