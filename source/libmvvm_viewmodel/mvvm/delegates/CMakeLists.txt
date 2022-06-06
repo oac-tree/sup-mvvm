@@ -1,8 +1,8 @@
 # Components for Qt delegates
 
 target_sources(${library_name} PRIVATE
-  defaultcelldecorator.cpp
-  defaultcelldecorator.h
-  viewmodeldelegate.cpp
-  viewmodeldelegate.h
+  default_cell_decorator.cpp
+  default_cell_decorator.h
+  viewmodel_delegate.cpp
+  viewmodel_delegate.h
   )

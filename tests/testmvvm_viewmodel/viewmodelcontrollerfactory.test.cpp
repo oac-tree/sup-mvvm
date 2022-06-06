@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/viewmodelcontrollerfactory.h"
+#include "mvvm/factories/viewmodel_controller_factory.h"
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/property_item.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/viewmodel/standardrowstrategies.h"
+#include "mvvm/viewmodel/standard_children_strategies.h"
+#include "mvvm/viewmodel/standard_row_strategies.h"
 #include "mvvm/viewmodel/viewmodel.h"
 
 #include <gtest/gtest.h>

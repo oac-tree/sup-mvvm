@@ -22,9 +22,9 @@
 #include "mvvm/model/property_item.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/viewmodel/standardrowstrategies.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "mvvm/viewmodel/standard_children_strategies.h"
+#include "mvvm/viewmodel/standard_row_strategies.h"
+#include "mvvm/viewmodel/viewmodel_controller.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 #include <gtest/gtest.h>

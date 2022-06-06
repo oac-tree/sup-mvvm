@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "mvvm/viewmodel/viewmodel_controller.h"
 
 #include "test_utils.h"
 
@@ -27,10 +27,10 @@
 #include "mvvm/model/taginfo.h"
 #include "mvvm/standarditems/container_item.h"
 #include "mvvm/standarditems/vector_item.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/viewmodel/standardrowstrategies.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
-#include "mvvm/viewmodelbase/viewmodelbase.h"
+#include "mvvm/viewmodel/standard_children_strategies.h"
+#include "mvvm/viewmodel/standard_row_strategies.h"
+#include "mvvm/viewmodel/viewmodel_utils.h"
+#include "mvvm/viewmodelbase/viewmodel_base.h"
 
 #include <gtest/gtest.h>
 

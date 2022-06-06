@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/customvariants.h"
+#include "mvvm/viewmodel/custom_variants.h"
 
 #include "test_utils.h"
 

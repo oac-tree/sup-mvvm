@@ -20,7 +20,7 @@
 #include "mvvm/widgets/allitemstreeview.h"
 
 #include "mvvm/model/application_model.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/all_items_viewmodel.h"
 #include "mvvm/widgets/itemviewcomponentprovider.h"
 
 #include <QTreeView>

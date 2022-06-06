@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/variantconverter.h"
+#include "mvvm/viewmodel/variant_converter.h"
 
 #include "test_utils.h"
 

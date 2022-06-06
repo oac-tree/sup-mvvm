@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodelbase/viewmodelbase.h"
+#include "mvvm/viewmodelbase/viewmodel_base.h"
 
 #include "test_utils.h"
 
 #include "mvvm/viewmodelbase/viewitem.h"
-#include "mvvm/viewmodelbase/viewitemdata.h"
+#include "mvvm/viewmodelbase/viewitem_data.h"
 
 #include <gtest/gtest.h>
 

@@ -1,15 +1,15 @@
 # Contains source specific for ViewModelBase (non-specific to SessionItem)
 
 target_sources(${library_name} PRIVATE
-  presentationitem.cpp
-  presentationitem.h
+  presentation_item.cpp
+  presentation_item.h
   viewitem.cpp
-  viewitemdata.cpp
-  viewitemdata.h
-  viewitemdatainterface.h
+  viewitem_data.cpp
+  viewitem_data.h
+  viewitem_data_interface.h
   viewitem.h
-  viewmodelbase.cpp
-  viewmodelbase.h
-  viewmodelbaseutils.cpp
-  viewmodelbaseutils.h
+  viewmodel_base.cpp
+  viewmodel_base.h
+  viewmodel_base_utils.cpp
+  viewmodel_base_utils.h
   )

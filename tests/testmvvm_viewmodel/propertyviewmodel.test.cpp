@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/propertyviewmodel.h"
+#include "mvvm/viewmodel/property_viewmodel.h"
 
 #include "toyitems.h"
 

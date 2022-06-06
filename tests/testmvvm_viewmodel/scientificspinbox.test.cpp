@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/scientificspinbox.h"
+#include "mvvm/editors/scientific_spinbox.h"
 
 #include <gtest/gtest.h>
 

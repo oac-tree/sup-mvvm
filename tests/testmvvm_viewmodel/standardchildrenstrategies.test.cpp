@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
+#include "mvvm/viewmodel/standard_children_strategies.h"
 
 #include "mvvm/model/compound_item.h"
 #include "mvvm/model/property_item.h"

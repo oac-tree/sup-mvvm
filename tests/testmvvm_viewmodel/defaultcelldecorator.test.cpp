@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/delegates/defaultcelldecorator.h"
+#include "mvvm/delegates/default_cell_decorator.h"
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/property_item.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/all_items_viewmodel.h"
 
 #include <gtest/gtest.h>
 

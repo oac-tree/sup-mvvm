@@ -21,7 +21,7 @@
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/compound_item.h"
-#include "mvvm/viewmodel/topitemsviewmodel.h"
+#include "mvvm/viewmodel/top_items_viewmodel.h"
 
 #include <gtest/gtest.h>
 

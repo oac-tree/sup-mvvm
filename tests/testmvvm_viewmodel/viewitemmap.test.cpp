@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewitemmap.h"
+#include "mvvm/viewmodel/viewitem_map.h"
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodelbase/viewitem.h"

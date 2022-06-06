@@ -19,7 +19,7 @@
 
 #include "viewitem.h"
 
-#include "viewitemdata.h"
+#include "viewitem_data.h"
 
 #include "mvvm/utils/container_utils.h"
 

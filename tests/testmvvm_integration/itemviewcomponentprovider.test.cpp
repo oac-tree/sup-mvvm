@@ -22,7 +22,7 @@
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/compound_item.h"
 #include "mvvm/standarditems/vector_item.h"
-#include "mvvm/viewmodel/allitemsviewmodel.h"
+#include "mvvm/viewmodel/all_items_viewmodel.h"
 #include "mvvm/widgets/itemselectionmodel.h"
 
 #include <gtest/gtest.h>

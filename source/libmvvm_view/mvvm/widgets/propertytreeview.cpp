@@ -21,7 +21,7 @@
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/propertyviewmodel.h"
+#include "mvvm/viewmodel/property_viewmodel.h"
 #include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/widgets/itemviewcomponentprovider.h"
 

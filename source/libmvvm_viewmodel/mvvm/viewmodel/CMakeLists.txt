@@ -1,36 +1,36 @@
 # ViewModel to represent SessionItem and SessionModel.
 
 target_sources(${library_name} PRIVATE
-  abstractviewmodelcontroller.cpp
-  abstractviewmodelcontroller.h
-  allitemsviewmodel.cpp
-  allitemsviewmodel.h
-  customvariants.cpp
-  customvariants.h
-  propertytableviewmodel.cpp
-  propertytableviewmodel.h
-  propertyviewmodel.cpp
-  propertyviewmodel.h
-  standardchildrenstrategies.cpp
-  standardchildrenstrategies.h
-  standardpresentationitems.cpp
-  standardpresentationitems.h
-  standardrowstrategies.cpp
-  standardrowstrategies.h
-  topitemsviewmodel.cpp
-  topitemsviewmodel.h
-  variantconverter.cpp
-  variantconverter.h
-  viewitemfactory.cpp
-  viewitemfactory.h
-  viewitemmap.cpp
-  viewitemmap.h
+  abstract_viewmodel_controller.cpp
+  abstract_viewmodel_controller.h
+  all_items_viewmodel.cpp
+  all_items_viewmodel.h
+  custom_variants.cpp
+  custom_variants.h
+  property_table_viewmodel.cpp
+  property_table_viewmodel.h
+  property_viewmodel.cpp
+  property_viewmodel.h
+  standard_children_strategies.cpp
+  standard_children_strategies.h
+  standard_presentation_items.cpp
+  standard_presentation_items.h
+  standard_row_strategies.cpp
+  standard_row_strategies.h
+  top_items_viewmodel.cpp
+  top_items_viewmodel.h
+  variant_converter.cpp
+  variant_converter.h
+  viewitem_factory.cpp
+  viewitem_factory.h
+  viewitem_map.cpp
+  viewitem_map.h
   viewmodel.cpp
   viewmodel.h
-  viewmodelcontroller.cpp
-  viewmodelcontroller.h
-  viewmodelfactory.cpp
-  viewmodelfactory.h
-  viewmodelutils.cpp
-  viewmodelutils.h
+  viewmodel_controller.cpp
+  viewmodel_controller.h
+  viewmodel_factory.cpp
+  viewmodel_factory.h
+  viewmodel_utils.cpp
+  viewmodel_utils.h
   )

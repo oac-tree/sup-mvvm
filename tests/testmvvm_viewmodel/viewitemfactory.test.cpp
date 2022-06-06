@@ -17,16 +17,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewitemfactory.h"
+#include "mvvm/viewmodel/viewitem_factory.h"
 
 #include "mockmodelnotifier.h"
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/model/sessionmodel.h"
 #include "mvvm/standarditems/vector_item.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
+#include "mvvm/viewmodel/viewmodel_utils.h"
 #include "mvvm/viewmodelbase/viewitem.h"
-#include "mvvm/viewmodelbase/viewmodelbaseutils.h"
+#include "mvvm/viewmodelbase/viewmodel_base_utils.h"
 
 #include <gtest/gtest.h>
 

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/abstractviewmodelcontroller.h"
+#include "mvvm/viewmodel/abstract_viewmodel_controller.h"
 
 #include "mockmodelnotifier.h"
 #include "test_utils.h"
