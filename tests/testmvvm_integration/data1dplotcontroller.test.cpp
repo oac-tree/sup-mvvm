@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/data1dplotcontroller.h"
+#include "mvvm/plotting/data1d_plot_controller.h"
 
 #include "customplot_test_utils.h"
 

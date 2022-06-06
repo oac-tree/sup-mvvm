@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/viewportaxisplotcontroller.h"
+#include "mvvm/plotting/viewport_axis_plot_controller.h"
 
 #include "customplot_test_utils.h"
 #include "mockitemlistener.h"

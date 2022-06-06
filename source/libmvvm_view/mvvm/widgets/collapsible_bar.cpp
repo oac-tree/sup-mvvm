@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/collapsiblebar.h"
+#include "mvvm/widgets/collapsible_bar.h"
 
 #include "mvvm/resources/resources.h"
-#include "mvvm/widgets/widgetutils.h"
+#include "mvvm/widgets/widget_utils.h"
 
 #include <QEvent>
 #include <QHBoxLayout>

@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/topitemstreeview.h"
+#include "mvvm/widgets/top_items_tree_view.h"
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/standarditems/standard_item_includes.h"
 #include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/widgets/itemviewcomponentprovider.h"
+#include "mvvm/widgets/item_view_component_provider.h"
 
 #include <gtest/gtest.h>
 

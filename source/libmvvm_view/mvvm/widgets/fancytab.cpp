@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/fancytab.h"
 
-#include "mvvm/widgets/widgetutils.h"
+#include "mvvm/widgets/widget_utils.h"
 
 #include <QHBoxLayout>
 #include <QLabel>

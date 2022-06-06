@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/graphplotcontroller.h"
+#include "mvvm/plotting/graph_plot_controller.h"
 
 #include "customplot_test_utils.h"
 

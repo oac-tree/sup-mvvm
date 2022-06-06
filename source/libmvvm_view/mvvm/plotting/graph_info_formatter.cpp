@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/graphinfoformatter.h"
+#include "mvvm/plotting/graph_info_formatter.h"
 
 #include "mvvm/utils/string_utils.h"
 

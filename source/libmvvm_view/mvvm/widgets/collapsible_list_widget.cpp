@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/collapsiblelistwidget.h"
+#include "mvvm/widgets/collapsible_list_widget.h"
 
-#include "mvvm/widgets/collapsiblebar.h"
+#include "mvvm/widgets/collapsible_bar.h"
 
 #include <QSplitter>
 #include <QVBoxLayout>

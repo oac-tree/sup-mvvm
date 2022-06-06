@@ -17,32 +17,29 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_PROPERTYTREEVIEW_H
-#define MVVM_WIDGETS_PROPERTYTREEVIEW_H
+#ifndef MVVM_PLOTTING_GRAPHINFOFORMATTER_H
+#define MVVM_PLOTTING_GRAPHINFOFORMATTER_H
 
-#include "mvvm/widgets/abstractitemview.h"
+#include "mvvm/plotting/status_string_formatter_interface.h"
 
-class QTreeView;
+class QCustomPlot;
 
 namespace mvvm
 {
 
-//! Widget holding standard QTreeView and intended for displaying all properties of given
-//! SessionItem.
+//! Formats status string for current mouse position in QCustomPlot with QCPGraph's.
+//! Includes coordinates of mouse pointer in viewport axes coordinates, add graph info if there is
+//! one nearby.
 
-class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemView
+class MVVM_VIEW_EXPORT GraphInfoFormatter : public StatusStringFormatterInterface
 {
-  Q_OBJECT
-
 public:
-  explicit PropertyTreeView(QWidget* parent = nullptr);
-
-private:
-  void UpdateView() override;
-
-  QTreeView* m_tree_view{nullptr};
+  //! Returns status string representing graph nearby.
+  //! @params x: mouse x-position given in axis viewport coordinates
+  //! @params y: mouse y-position given in axis viewport coordinates
+  std::string status_string(QCustomPlot* custom_plot, double x, double y) const override;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_PROPERTYTREEVIEW_H
+#endif  // MVVM_PLOTTING_GRAPHINFOFORMATTER_H

@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/statusstringreporter.h"
+#include "mvvm/plotting/status_string_reporter.h"
 
-#include "mvvm/plotting/mousemovereporter.h"
-#include "mvvm/plotting/mouseposinfo.h"
-#include "mvvm/plotting/statusstringformatterinterface.h"
+#include "mvvm/plotting/mouse_move_reporter.h"
+#include "mvvm/plotting/mouse_pos_info.h"
+#include "mvvm/plotting/status_string_formatter_interface.h"
 
 #include <stdexcept>
 

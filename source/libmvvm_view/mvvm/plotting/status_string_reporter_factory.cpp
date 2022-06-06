@@ -17,32 +17,19 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/allitemstreeview.h"
+#include "mvvm/plotting/status_string_reporter_factory.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/viewmodel/all_items_viewmodel.h"
-#include "mvvm/widgets/itemviewcomponentprovider.h"
-
-#include <QTreeView>
-#include <QVBoxLayout>
+#include "mvvm/plotting/graph_info_formatter.h"
+#include "mvvm/plotting/status_string_reporter.h"
 
 namespace mvvm
 {
-AllItemsTreeView::AllItemsTreeView(ApplicationModel* model, QWidget* parent)
-    : AbstractItemView(parent), m_tree_view(new QTreeView)
-{
-  SetComponentProvider(CreateProvider<AllItemsViewModel>(m_tree_view, model));
-}
 
-QTreeView* AllItemsTreeView::GetTreeView()
+std::unique_ptr<StatusStringReporter> CreateGraphReporter(
+    QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
 {
-  return m_tree_view;
-}
-
-void AllItemsTreeView::UpdateView()
-{
-  m_tree_view->expandAll();
-  m_tree_view->resizeColumnToContents(0);
+  return std::make_unique<StatusStringReporter>(custom_plot, callback,
+                                                std::make_unique<GraphInfoFormatter>());
 }
 
 }  // namespace mvvm

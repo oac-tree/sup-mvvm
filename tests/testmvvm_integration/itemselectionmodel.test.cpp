@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/itemselectionmodel.h"
+#include "mvvm/widgets/item_selection_model.h"
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/compound_item.h"

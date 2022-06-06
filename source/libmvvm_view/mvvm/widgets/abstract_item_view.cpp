@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/abstractitemview.h"
+#include "mvvm/widgets/abstract_item_view.h"
 
 #include "mvvm/core/exceptions.h"
 #include "mvvm/model/application_model.h"
 #include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/widgets/itemviewcomponentprovider.h"
+#include "mvvm/widgets/item_view_component_provider.h"
 
 #include <QTreeView>
 #include <QVBoxLayout>

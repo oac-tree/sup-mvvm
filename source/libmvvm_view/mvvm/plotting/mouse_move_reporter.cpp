@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/mousemovereporter.h"
+#include "mvvm/plotting/mouse_move_reporter.h"
 
-#include "mvvm/plotting/mouseposinfo.h"
+#include "mvvm/plotting/mouse_pos_info.h"
 
 #include <qcustomplot.h>
 

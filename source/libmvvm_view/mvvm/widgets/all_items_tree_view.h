@@ -17,19 +17,33 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/statusstringreporterfactory.h"
+#ifndef MVVM_WIDGETS_ALLITEMSTREEVIEW_H
+#define MVVM_WIDGETS_ALLITEMSTREEVIEW_H
 
-#include "mvvm/plotting/graphinfoformatter.h"
-#include "mvvm/plotting/statusstringreporter.h"
+#include "mvvm/widgets/abstract_item_view.h"
+
+class QTreeView;
 
 namespace mvvm
 {
 
-std::unique_ptr<StatusStringReporter> CreateGraphReporter(
-    QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
+//! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
+
+class MVVM_VIEW_EXPORT AllItemsTreeView : public AbstractItemView
 {
-  return std::make_unique<StatusStringReporter>(custom_plot, callback,
-                                                std::make_unique<GraphInfoFormatter>());
-}
+  Q_OBJECT
+
+public:
+  explicit AllItemsTreeView(ApplicationModel* model = nullptr, QWidget* parent = nullptr);
+
+  QTreeView* GetTreeView();
+
+private:
+  void UpdateView() override;
+
+  QTreeView* m_tree_view{nullptr};
+};
 
 }  // namespace mvvm
+
+#endif  // MVVM_WIDGETS_ALLITEMSTREEVIEW_H

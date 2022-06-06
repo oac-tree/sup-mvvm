@@ -21,9 +21,9 @@
 
 #include "graphmodel.h"
 
-#include "mvvm/plotting/graphcanvas.h"
+#include "mvvm/plotting/graph_canvas.h"
 #include "mvvm/standarditems/graph_viewport_item.h"
-#include "mvvm/widgets/allitemstreeview.h"
+#include "mvvm/widgets/all_items_tree_view.h"
 
 #include <QAction>
 #include <QBoxLayout>

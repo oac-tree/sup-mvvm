@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/itemviewcomponentprovider.h"
+#include "mvvm/widgets/item_view_component_provider.h"
 
 #include "mvvm/core/exceptions.h"
 #include "mvvm/delegates/viewmodel_delegate.h"
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/widgets/itemselectionmodel.h"
+#include "mvvm/widgets/item_selection_model.h"
 
 #include <QAbstractItemView>
 

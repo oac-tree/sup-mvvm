@@ -35,7 +35,7 @@ const int pen_max_width = 7;
 const int penstyle_index_solid = 1;
 const int penstyle_index_dashline = 2;
 
-// We do not want to depend from widgetutils.h to get App default font size. Let's stick to
+// We do not want to depend from widget_utils.h to get App default font size. Let's stick to
 // hardcoded value for the moment, even if on different systems it can be not-optimal.
 const double default_title_size = 10;
 const std::string default_title_family = "Noto Sans";

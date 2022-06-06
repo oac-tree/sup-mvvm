@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/pencontroller.h"
+#include "mvvm/plotting/pen_controller.h"
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/standarditems/plottable_items.h"

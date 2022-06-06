@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/mainverticalbarwidget.h"
+#include "mvvm/widgets/main_vertical_bar_widget.h"
 
 #include "mvvm/widgets/fancytab.h"
 

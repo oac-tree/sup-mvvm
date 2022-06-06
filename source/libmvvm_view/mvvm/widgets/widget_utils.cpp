@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "widgetutils.h"
+#include "widget_utils.h"
 
 #include <QApplication>
 #include <QColor>

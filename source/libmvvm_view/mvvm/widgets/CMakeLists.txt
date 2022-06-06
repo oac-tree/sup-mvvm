@@ -1,29 +1,29 @@
 target_sources(${library_name} PRIVATE
-  abstractitemview.cpp
-  abstractitemview.h
-  allitemstreeview.cpp
-  allitemstreeview.h
-  collapsiblebar.cpp
-  collapsiblebar.h
-  collapsiblelistwidget.cpp
-  collapsiblelistwidget.h
+  abstract_item_view.cpp
+  abstract_item_view.h
+  all_items_tree_view.cpp
+  all_items_tree_view.h
+  collapsible_bar.cpp
+  collapsible_bar.h
+  collapsible_list_widget.cpp
+  collapsible_list_widget.h
   fancytab.cpp
   fancytab.h
-  itemselectionmodel.cpp
-  itemselectionmodel.h
-  itemviewcomponentprovider.cpp
-  itemviewcomponentprovider.h
-  mainbarwidget.cpp
-  mainbarwidget.h
-  mainverticalbarwidget.cpp
-  mainverticalbarwidget.h
-  propertytreeview.cpp
-  propertytreeview.h
-  statuslabel.cpp
-  statuslabel.h
-  topitemstreeview.cpp
-  topitemstreeview.h
-  widgetutils.cpp
-  widgetutils.h
+  item_selection_model.cpp
+  item_selection_model.h
+  item_view_component_provider.cpp
+  item_view_component_provider.h
+  mainbar_widget.cpp
+  mainbar_widget.h
+  main_vertical_bar_widget.cpp
+  main_vertical_bar_widget.h
+  property_tree_view.cpp
+  property_tree_view.h
+  status_label.cpp
+  status_label.h
+  top_items_tree_view.cpp
+  top_items_tree_view.h
+  widget_utils.cpp
+  widget_utils.h
 )
 
