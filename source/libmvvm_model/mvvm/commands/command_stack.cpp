@@ -31,7 +31,10 @@ namespace mvvm
 struct CommandStack::CommandStackImpl
 {
   std::list<std::unique_ptr<CommandInterface>> m_commands;
-  std::list<std::unique_ptr<CommandInterface>>::iterator m_pos;
+
+  // Points to the position in the list corresponding to the command which will be redone on the
+  // next call to Redo()
+  std::list<std::unique_ptr<CommandInterface>>::iterator m_pos; //!< position in the command list
 
   CommandStackImpl() { m_pos = m_commands.end(); }
 };
@@ -46,6 +49,9 @@ void CommandStack::Execute(std::unique_ptr<CommandInterface> command)
   {
     throw RuntimeException("Attempt to inser obsolete command");
   }
+
+  // removing commands from the 'next redo` position till the end
+  p_impl->m_commands.erase(p_impl->m_pos, p_impl->m_commands.end());
 
   command->Execute();
 
@@ -94,7 +100,11 @@ void CommandStack::Redo()
   }
 }
 
-void CommandStack::Clear() {}
+void CommandStack::Clear()
+{
+  p_impl->m_commands.clear();
+  p_impl->m_pos = p_impl->m_commands.end();
+}
 
 void CommandStack::SetUndoLimit(int limit) {}
 

@@ -40,8 +40,8 @@ public:
     MOCK_METHOD0(UndoImpl, void(void));
   };
 
-  //! Command decorator to use together with CommandStack. It shall be used to wrap MockCommand
-  //! to prevent passing an ownership to CommandStack. Will help with googletest warnings related to
+  //! Command decorator to use together with CommandStack. It wraps MockCommand to prevent passing
+  //! an ownership to CommandStack. Will help with googletest warnings related to
   //! testing::Mock::AllowLeak.
   class CommandDecorator : public AbstractCommand
   {
@@ -241,4 +241,85 @@ TEST_F(CommandStackTests, TwoCommandsExecution)
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
   EXPECT_EQ(stack.GetSize(), 2);
+}
+
+//! Inserts three commands, make undo twice, and then insert new command.
+//! It should replace two last commands.
+
+TEST_F(CommandStackTests, InsertInTheMiddleOfUndo)
+{
+  MockCommand mock_command1;
+  MockCommand mock_command2;
+  MockCommand mock_command3;
+  MockCommand mock_command4;
+
+  CommandStack stack;
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command3, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command3, UndoImpl()).Times(1);
+    EXPECT_CALL(mock_command2, UndoImpl()).Times(1);
+    EXPECT_CALL(mock_command4, ExecuteImpl()).Times(1);
+  }
+
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command1));
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command2));
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command3));
+
+  stack.Undo();
+  stack.Undo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetSize(), 3);
+
+  // insertion of a new command should remove command2 and command3 from the stack
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command4));
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 2);
+  EXPECT_EQ(stack.GetSize(), 2);
+}
+
+//! Inserts three commands, make undo twice, and then insert new command.
+//! It should replace two last commands.
+
+TEST_F(CommandStackTests, CleanCommands)
+{
+  MockCommand mock_command1;
+  MockCommand mock_command2;
+  MockCommand mock_command3;
+
+  CommandStack stack;
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command3, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command3, UndoImpl()).Times(1);
+  }
+
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command1));
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command2));
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command3));
+
+  stack.Undo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 2);
+  EXPECT_EQ(stack.GetSize(), 3);
+
+  stack.Clear();
+
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 0);
+  EXPECT_EQ(stack.GetSize(), 0);
 }
