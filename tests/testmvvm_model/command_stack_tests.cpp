@@ -19,40 +19,20 @@
 
 #include "mvvm/commands/command_stack.h"
 
-namespace mvvm
-{
-void CommandStack::Execute(std::unique_ptr<CommandInterface> command) {}
+#include <gtest/gtest.h>
 
-bool CommandStack::CanUndo() const
+using namespace mvvm;
+
+class CommandStackTests : public ::testing::Test
 {
-  return false;
+};
+
+TEST_F(CommandStackTests, InitialState)
+{
+  CommandStack stack;
+
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 0);
+  EXPECT_EQ(stack.GetSize(), 0);
 }
-
-bool CommandStack::CanRedo() const
-{
-  return false;
-}
-
-int CommandStack::GetIndex() const
-{
-  return 0;
-}
-
-int CommandStack::GetSize() const
-{
-  return 0;
-}
-
-void CommandStack::Undo() {}
-
-void CommandStack::Redo() {}
-
-void CommandStack::Clear() {}
-
-void CommandStack::SetUndoLimit(int limit) {}
-
-void CommandStack::BeginMacro(const std::string &name) {}
-
-void CommandStack::EndMacro() {}
-
-}  // namespace mvvm
