@@ -89,7 +89,6 @@ void CommandStack::Redo()
 {
   if (CanRedo())
   {
-    auto it = p_impl->m_pos;
     (*p_impl->m_pos)->Execute();
     p_impl->m_pos++;
   }

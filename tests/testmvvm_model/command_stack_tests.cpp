@@ -144,7 +144,7 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
   EXPECT_EQ(stack.GetSize(), 0);
 }
 
-//! Execute single command.
+//! Execute single command, then undo, then redo again
 
 TEST_F(CommandStackTests, SingleCommandExecuteUndoRedo)
 {
@@ -179,4 +179,66 @@ TEST_F(CommandStackTests, SingleCommandExecuteUndoRedo)
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
   EXPECT_EQ(stack.GetSize(), 1);
+}
+
+//! Execute two commands, then two undo, then two redo.
+
+TEST_F(CommandStackTests, TwoCommandsExecution)
+{
+  MockCommand mock_command1;
+  MockCommand mock_command2;
+
+  CommandStack stack;
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command2, UndoImpl()).Times(1);
+    EXPECT_CALL(mock_command1, UndoImpl()).Times(1);
+    EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
+  }
+
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command1));
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetSize(), 1);
+
+  stack.Execute(std::make_unique<CommandDecorator>(mock_command2));
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 2);
+  EXPECT_EQ(stack.GetSize(), 2);
+
+  stack.Undo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetSize(), 2);
+
+  stack.Undo();
+
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 0);
+  EXPECT_EQ(stack.GetSize(), 2);
+
+  stack.Redo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetSize(), 2);
+
+  stack.Redo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 2);
+  EXPECT_EQ(stack.GetSize(), 2);
 }
