@@ -32,6 +32,9 @@ namespace mvvm
 class MVVM_MODEL_EXPORT CommandStack : public CommandStackInterface
 {
 public:
+  CommandStack();
+  ~CommandStack() override;
+
   void Execute(std::unique_ptr<CommandInterface> command) override;
   bool CanUndo() const override;
   bool CanRedo() const override;
@@ -45,8 +48,8 @@ public:
   void EndMacro() override;
 
 private:
-
-
+  struct CommandStackImpl;
+  std::unique_ptr<CommandStackImpl> p_impl;
 };
 
 }  // namespace mvvm

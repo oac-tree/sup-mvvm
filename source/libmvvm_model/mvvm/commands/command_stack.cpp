@@ -18,29 +18,60 @@
  *****************************************************************************/
 
 #include "mvvm/commands/command_stack.h"
+#include "mvvm/commands/command_interface.h"
+#include "mvvm/core/exceptions.h"
+
+#include <list>
 
 namespace mvvm
 {
-void CommandStack::Execute(std::unique_ptr<CommandInterface> command) {}
+
+struct CommandStack::CommandStackImpl
+{
+  std::list<std::unique_ptr<CommandInterface>> m_commands;
+  std::list<std::unique_ptr<CommandInterface>>::iterator m_pos;
+
+  CommandStackImpl() { m_pos = m_commands.end(); }
+};
+
+CommandStack::~CommandStack() = default;
+
+CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
+
+void CommandStack::Execute(std::unique_ptr<CommandInterface> command)
+{
+  if (command->IsObsolete())
+  {
+    throw RuntimeException("Attempt to inser obsolete command");
+  }
+
+  command->Execute();
+
+  if (!command->IsObsolete())
+  {
+    p_impl->m_commands.emplace_back(std::move(command));
+    p_impl->m_pos = p_impl->m_commands.end();
+  }
+}
 
 bool CommandStack::CanUndo() const
 {
-  return false;
+  return p_impl->m_pos != p_impl->m_commands.begin();
 }
 
 bool CommandStack::CanRedo() const
 {
-  return false;
+  return p_impl->m_pos != p_impl->m_commands.end();
 }
 
 int CommandStack::GetIndex() const
 {
-  return 0;
+  return static_cast<int>(std::distance(p_impl->m_commands.begin(), p_impl->m_pos));
 }
 
 int CommandStack::GetSize() const
 {
-  return 0;
+  return static_cast<int>(p_impl->m_commands.size());
 }
 
 void CommandStack::Undo() {}
