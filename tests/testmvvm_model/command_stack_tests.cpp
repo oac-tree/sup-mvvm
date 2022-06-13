@@ -100,7 +100,7 @@ TEST_F(CommandStackTests, SingleCommandExecution)
   EXPECT_EQ(stack.GetSize(), 1);
 }
 
-//! Execute single command which is expired already before the execution.
+//! Execute single command which is obsolete already before the execution.
 
 TEST_F(CommandStackTests, SingleCommandIsObsoleteBeforeExecution)
 {
@@ -122,7 +122,7 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteBeforeExecution)
   EXPECT_EQ(stack.GetSize(), 0);
 }
 
-//! Execute single command which is expired after execution.
+//! Execute single command which gets obsolete after execution.
 
 TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
 {
@@ -142,4 +142,41 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
   EXPECT_EQ(stack.GetSize(), 0);
+}
+
+//! Execute single command.
+
+TEST_F(CommandStackTests, SingleCommandExecuteUndoRedo)
+{
+  MockCommand mock_command;
+
+  CommandStack stack;
+
+  auto command = std::make_unique<CommandDecorator>(mock_command);
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
+    EXPECT_CALL(mock_command, UndoImpl()).Times(1);
+    EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
+  }
+
+  stack.Execute(std::move(command));
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetSize(), 1);
+
+  stack.Undo();
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 0);
+  EXPECT_EQ(stack.GetSize(), 1);
+
+  stack.Redo();
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetSize(), 1);
 }

@@ -18,9 +18,11 @@
  *****************************************************************************/
 
 #include "mvvm/commands/command_stack.h"
+
 #include "mvvm/commands/command_interface.h"
 #include "mvvm/core/exceptions.h"
 
+#include <iostream>
 #include <list>
 
 namespace mvvm
@@ -74,9 +76,24 @@ int CommandStack::GetSize() const
   return static_cast<int>(p_impl->m_commands.size());
 }
 
-void CommandStack::Undo() {}
+void CommandStack::Undo()
+{
+  if (CanUndo())
+  {
+    p_impl->m_pos--;
+    (*p_impl->m_pos)->Undo();
+  }
+}
 
-void CommandStack::Redo() {}
+void CommandStack::Redo()
+{
+  if (CanRedo())
+  {
+    auto it = p_impl->m_pos;
+    (*p_impl->m_pos)->Execute();
+    p_impl->m_pos++;
+  }
+}
 
 void CommandStack::Clear() {}
 
