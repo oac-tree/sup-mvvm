@@ -24,6 +24,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <functional>
+
 using namespace mvvm;
 using ::testing::_;
 
@@ -48,12 +50,22 @@ public:
 
     bool IsObsolete() const override { return m_decoratee->IsObsolete(); }
 
+    void SetMakeObsoleteAfterExecution() { m_make_obsolete = true; }
+
   private:
-    void ExecuteImpl() override { m_decoratee->ExecuteImpl(); }
+    void ExecuteImpl() override
+    {
+      m_decoratee->ExecuteImpl();
+      if (m_make_obsolete)
+      {
+        m_decoratee->SetIsObsolete(true);
+      }
+    }
 
     void UndoImpl() override { m_decoratee->UndoImpl(); }
 
     MockCommand* m_decoratee{nullptr};
+    bool m_make_obsolete{false};
   };
 };
 
@@ -103,6 +115,28 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteBeforeExecution)
   EXPECT_CALL(mock_command, UndoImpl()).Times(0);
 
   EXPECT_THROW(stack.Execute(std::move(command)), RuntimeException);
+
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 0);
+  EXPECT_EQ(stack.GetSize(), 0);
+}
+
+//! Execute single command which is expired after execution.
+
+TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
+{
+  MockCommand mock_command;
+
+  CommandStack stack;
+
+  auto command = std::make_unique<CommandDecorator>(mock_command);
+  command->SetMakeObsoleteAfterExecution();
+
+  EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
+  EXPECT_CALL(mock_command, UndoImpl()).Times(0);
+
+  stack.Execute(std::move(command));
 
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
