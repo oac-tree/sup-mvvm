@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_CELLDECORATORINTERFACE_H
-#define MVVM_INTERFACES_CELLDECORATORINTERFACE_H
+#ifndef MVVM_INTERFACES_CELL_DECORATOR_INTERFACE_H_
+#define MVVM_INTERFACES_CELL_DECORATOR_INTERFACE_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -43,4 +43,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_CELLDECORATORINTERFACE_H
+#endif  // MVVM_INTERFACES_CELL_DECORATOR_INTERFACE_H_

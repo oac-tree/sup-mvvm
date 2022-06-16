@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_VARIANT_H
-#define MVVM_CORE_VARIANT_H
+#ifndef MVVM_CORE_VARIANT_H_
+#define MVVM_CORE_VARIANT_H_
 
 //! @file variant.h
 //! Defines all supported elementary data types.
@@ -64,4 +64,4 @@ MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_CORE_VARIANT_H
+#endif  // MVVM_CORE_VARIANT_H_

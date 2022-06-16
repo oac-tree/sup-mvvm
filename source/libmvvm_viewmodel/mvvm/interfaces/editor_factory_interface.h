@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_EDITORFACTORYINTERFACE_H
-#define MVVM_INTERFACES_EDITORFACTORYINTERFACE_H
+#ifndef MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
+#define MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -46,4 +46,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_EDITORFACTORYINTERFACE_H
+#endif  // MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_

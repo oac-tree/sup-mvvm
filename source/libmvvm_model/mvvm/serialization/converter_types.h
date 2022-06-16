@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_CONVERTER_TYPES_H
-#define MVVM_SERIALIZATION_CONVERTER_TYPES_H
+#ifndef MVVM_SERIALIZATION_CONVERTER_TYPES_H_
+#define MVVM_SERIALIZATION_CONVERTER_TYPES_H_
 
 //! @file converter_types.h
 //! Collection of custom types involved into SessionItem and TreeData mutual convertion.
@@ -71,4 +71,4 @@ inline bool IsRegenerateIdWhenBackFromXML(ConverterMode mode)
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_CONVERTER_TYPES_H
+#endif  // MVVM_SERIALIZATION_CONVERTER_TYPES_H_

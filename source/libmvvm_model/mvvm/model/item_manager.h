@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ITEMMANAGER_H
-#define MVVM_MODEL_ITEMMANAGER_H
+#ifndef MVVM_MODEL_ITEM_MANAGER_H_
+#define MVVM_MODEL_ITEM_MANAGER_H_
 
 #include <mvvm/interfaces/item_manager_interface.h>
 
@@ -70,4 +70,4 @@ std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_ITEMMANAGER_H
+#endif  // MVVM_MODEL_ITEM_MANAGER_H_

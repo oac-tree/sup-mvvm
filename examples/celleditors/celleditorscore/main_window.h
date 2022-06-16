@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CELLEDITORS_CELLEDITORSCORE_MAINWINDOW_H
-#define CELLEDITORS_CELLEDITORSCORE_MAINWINDOW_H
+#ifndef CELLEDITORS_CELLEDITORSCORE_MAIN_WINDOW_H_
+#define CELLEDITORS_CELLEDITORSCORE_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 #include <memory>
@@ -53,4 +53,4 @@ private:
 
 }  // namespace celleditors
 
-#endif  // CELLEDITORS_CELLEDITORSCORE_MAINWINDOW_H
+#endif  // CELLEDITORS_CELLEDITORSCORE_MAIN_WINDOW_H_

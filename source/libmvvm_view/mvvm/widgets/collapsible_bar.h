@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_COLLAPSIBLEBAR_H
-#define MVVM_WIDGETS_COLLAPSIBLEBAR_H
+#ifndef MVVM_WIDGETS_COLLAPSIBLE_BAR_H_
+#define MVVM_WIDGETS_COLLAPSIBLE_BAR_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -55,4 +55,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_COLLAPSIBLEBAR_H
+#endif  // MVVM_WIDGETS_COLLAPSIBLE_BAR_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_EXCEPTIONS_H
-#define MVVM_CORE_EXCEPTIONS_H
+#ifndef MVVM_CORE_EXCEPTIONS_H_
+#define MVVM_CORE_EXCEPTIONS_H_
 
 //! @file exceptions.h
 //! Defines collection of MVVM specific exceptions.
@@ -92,4 +92,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_CORE_EXCEPTIONS_H
+#endif  // MVVM_CORE_EXCEPTIONS_H_

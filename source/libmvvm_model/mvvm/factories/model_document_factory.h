@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_MODELDOCUMENTFACTORY_H
-#define MVVM_FACTORIES_MODELDOCUMENTFACTORY_H
+#ifndef MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_
+#define MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_
 
 #include <mvvm/interfaces/model_document_interface.h>
 
@@ -36,4 +36,4 @@ MVVM_MODEL_EXPORT std::unique_ptr<ModelDocumentInterface> CreateXmlDocument(
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_MODELDOCUMENTFACTORY_H
+#endif  // MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_

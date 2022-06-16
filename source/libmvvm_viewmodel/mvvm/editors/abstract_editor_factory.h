@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_ABSTRACTEDITORFACTORY_H
-#define MVVM_EDITORS_ABSTRACTEDITORFACTORY_H
+#ifndef MVVM_EDITORS_ABSTRACT_EDITOR_FACTORY_H_
+#define MVVM_EDITORS_ABSTRACT_EDITOR_FACTORY_H_
 
 //! @file defaulteditorfactory.h
 //! Defines DefaultEditorFactory and auxiliary classes for custom view model delegates.
@@ -48,4 +48,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_ABSTRACTEDITORFACTORY_H
+#endif  // MVVM_EDITORS_ABSTRACT_EDITOR_FACTORY_H_

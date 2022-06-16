@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_DATA1DITEM_H
-#define MVVM_STANDARDITEMS_DATA1DITEM_H
+#ifndef MVVM_STANDARDITEMS_DATA1D_ITEM_H_
+#define MVVM_STANDARDITEMS_DATA1D_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/sessionmodel.h>
@@ -72,4 +72,4 @@ T* Data1DItem::SetAxis(Args&&... args)
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_DATA1DITEM_H
+#endif  // MVVM_STANDARDITEMS_DATA1D_ITEM_H_

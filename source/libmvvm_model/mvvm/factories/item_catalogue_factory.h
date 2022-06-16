@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_ITEMCATALOGUEFACTORY_H
-#define MVVM_FACTORIES_ITEMCATALOGUEFACTORY_H
+#ifndef MVVM_FACTORIES_ITEM_CATALOGUE_FACTORY_H_
+#define MVVM_FACTORIES_ITEM_CATALOGUE_FACTORY_H_
 
 #include <mvvm/model/item_catalogue.h>
 
@@ -32,4 +32,4 @@ MVVM_MODEL_EXPORT void AddStandardItemsToCatalogue(ItemCatalogue<SessionItem>& u
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_ITEMCATALOGUEFACTORY_H
+#endif  // MVVM_FACTORIES_ITEM_CATALOGUE_FACTORY_H_

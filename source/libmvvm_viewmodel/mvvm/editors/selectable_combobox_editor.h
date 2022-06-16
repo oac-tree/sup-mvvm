@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_SELECTABLECOMBOBOXEDITOR_H
-#define MVVM_EDITORS_SELECTABLECOMBOBOXEDITOR_H
+#ifndef MVVM_EDITORS_SELECTABLE_COMBOBOX_EDITOR_H_
+#define MVVM_EDITORS_SELECTABLE_COMBOBOX_EDITOR_H_
 
 #include <mvvm/editors/custom_editor.h>
 #include <mvvm/viewmodel/custom_variants.h>
@@ -68,4 +68,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_SELECTABLECOMBOBOXEDITOR_H
+#endif  // MVVM_EDITORS_SELECTABLE_COMBOBOX_EDITOR_H_

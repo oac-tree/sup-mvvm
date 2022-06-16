@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_UNIQUEIDGENERATOR_H
-#define MVVM_CORE_UNIQUEIDGENERATOR_H
+#ifndef MVVM_CORE_UNIQUE_ID_GENERATOR_H_
+#define MVVM_CORE_UNIQUE_ID_GENERATOR_H_
 
 #include <mvvm/model_export.h>
 
@@ -41,4 +41,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_CORE_UNIQUEIDGENERATOR_H
+#endif  // MVVM_CORE_UNIQUE_ID_GENERATOR_H_

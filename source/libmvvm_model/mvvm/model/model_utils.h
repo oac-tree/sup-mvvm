@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_MODELUTILS_H
-#define MVVM_MODEL_MODELUTILS_H
+#ifndef MVVM_MODEL_MODEL_UTILS_H_
+#define MVVM_MODEL_MODEL_UTILS_H_
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
@@ -127,4 +127,4 @@ MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModel* m
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_MODEL_MODELUTILS_H
+#endif  // MVVM_MODEL_MODEL_UTILS_H_

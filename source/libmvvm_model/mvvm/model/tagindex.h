@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_TAGINDEX_H
-#define MVVM_MODEL_TAGINDEX_H
+#ifndef MVVM_MODEL_TAGINDEX_H_
+#define MVVM_MODEL_TAGINDEX_H_
 
 #include <mvvm/model_export.h>
 
@@ -54,4 +54,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_TAGINDEX_H
+#endif  // MVVM_MODEL_TAGINDEX_H_

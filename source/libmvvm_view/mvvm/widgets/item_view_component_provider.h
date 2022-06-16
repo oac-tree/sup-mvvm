@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_ITEMVIEWCONTROLLER_H
-#define MVVM_WIDGETS_ITEMVIEWCONTROLLER_H
+#ifndef MVVM_WIDGETS_ITEM_VIEW_COMPONENT_PROVIDER_H_
+#define MVVM_WIDGETS_ITEM_VIEW_COMPONENT_PROVIDER_H_
 
 #include <mvvm/utils/container_utils.h>
 
@@ -117,4 +117,4 @@ std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* vie
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_ITEMVIEWCONTROLLER_H
+#endif  // MVVM_WIDGETS_ITEM_VIEW_COMPONENT_PROVIDER_H_

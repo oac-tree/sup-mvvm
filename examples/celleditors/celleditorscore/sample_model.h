@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#ifndef CELLEDITORS_CELLEDITORSCORE_SAMPLEMODEL_H
-#define CELLEDITORS_CELLEDITORSCORE_SAMPLEMODEL_H
+#ifndef CELLEDITORS_CELLEDITORSCORE_SAMPLE_MODEL_H_
+#define CELLEDITORS_CELLEDITORSCORE_SAMPLE_MODEL_H_
 
 #include "mvvm/model/application_model.h"
 #include "mvvm/model/compound_item.h"
@@ -36,4 +36,4 @@ public:
 
 }  // namespace celleditors
 
-#endif  // CELLEDITORS_CELLEDITORSCORE_SAMPLEMODEL_H
+#endif  // CELLEDITORS_CELLEDITORSCORE_SAMPLE_MODEL_H_

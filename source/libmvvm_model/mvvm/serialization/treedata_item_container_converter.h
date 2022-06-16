@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_TREEDATAITEMCONTAINERCONVERTER_H
-#define MVVM_SERIALIZATION_TREEDATAITEMCONTAINERCONVERTER_H
+#ifndef MVVM_SERIALIZATION_TREEDATA_ITEM_CONTAINER_CONVERTER_H_
+#define MVVM_SERIALIZATION_TREEDATA_ITEM_CONTAINER_CONVERTER_H_
 
 //! @file treedataitemcontainerconverter.h
 //! Declares utility functions to convert between TreeData and SessionItemContainer objects.
@@ -65,4 +65,4 @@ MVVM_MODEL_EXPORT std::unique_ptr<TreeData> ToTreeData(const SessionItemContaine
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_TREEDATAITEMCONTAINERCONVERTER_H
+#endif  // MVVM_SERIALIZATION_TREEDATA_ITEM_CONTAINER_CONVERTER_H_

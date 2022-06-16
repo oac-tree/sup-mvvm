@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_PROJECTINTERFACE_H
-#define MVVM_INTERFACES_PROJECTINTERFACE_H
+#ifndef MVVM_INTERFACES_PROJECT_INTERFACE_H_
+#define MVVM_INTERFACES_PROJECT_INTERFACE_H_
 
 #include <mvvm/model_export.h>
 
@@ -46,4 +46,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_PROJECTINTERFACE_H
+#endif  // MVVM_INTERFACES_PROJECT_INTERFACE_H_

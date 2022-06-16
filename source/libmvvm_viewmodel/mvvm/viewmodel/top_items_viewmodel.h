@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
-#define MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
+#ifndef MVVM_VIEWMODEL_TOP_ITEMS_VIEWMODEL_H_
+#define MVVM_VIEWMODEL_TOP_ITEMS_VIEWMODEL_H_
 
 #include <mvvm/viewmodel/viewmodel.h>
 
@@ -40,4 +40,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
+#endif  // MVVM_VIEWMODEL_TOP_ITEMS_VIEWMODEL_H_

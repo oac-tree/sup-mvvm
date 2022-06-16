@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_MVVM_TYPES_H
-#define MVVM_MODEL_MVVM_TYPES_H
+#ifndef MVVM_MODEL_MVVM_TYPES_H_
+#define MVVM_MODEL_MVVM_TYPES_H_
 
 #include <string>
 
@@ -50,4 +50,4 @@ enum Appearance
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_MVVM_TYPES_H
+#endif  // MVVM_MODEL_MVVM_TYPES_H_

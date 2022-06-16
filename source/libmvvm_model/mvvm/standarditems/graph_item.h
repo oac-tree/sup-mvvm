@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_GRAPHITEM_H
-#define MVVM_STANDARDITEMS_GRAPHITEM_H
+#ifndef MVVM_STANDARDITEMS_GRAPH_ITEM_H_
+#define MVVM_STANDARDITEMS_GRAPH_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
 
@@ -61,4 +61,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_GRAPHITEM_H
+#endif  // MVVM_STANDARDITEMS_GRAPH_ITEM_H_

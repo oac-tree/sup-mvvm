@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_TAGGEDITEMS_H
-#define MVVM_MODEL_TAGGEDITEMS_H
+#ifndef MVVM_MODEL_TAGGED_ITEMS_H_
+#define MVVM_MODEL_TAGGED_ITEMS_H_
 
 #include <mvvm/model/tagindex.h>
 #include <mvvm/model_export.h>
@@ -98,4 +98,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_TAGGEDITEMS_H
+#endif  // MVVM_MODEL_TAGGED_ITEMS_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_NUMERICUTILS_H
-#define MVVM_UTILS_NUMERICUTILS_H
+#ifndef MVVM_UTILS_NUMERIC_UTILS_H_
+#define MVVM_UTILS_NUMERIC_UTILS_H_
 
 #include <mvvm/model_export.h>
 
@@ -36,4 +36,4 @@ MVVM_MODEL_EXPORT double RandDouble(double low, double high);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_UTILS_NUMERICUTILS_H
+#endif  // MVVM_UTILS_NUMERIC_UTILS_H_

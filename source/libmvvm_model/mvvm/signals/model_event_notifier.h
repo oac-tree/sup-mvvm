@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_MODELEVENTNOTIFIER_H
-#define MVVM_SIGNALS_MODELEVENTNOTIFIER_H
+#ifndef MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
+#define MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
 
 #include <mvvm/interfaces/model_event_notifier_interface.h>
 #include <mvvm/interfaces/model_event_subscriber_interface.h>
@@ -84,4 +84,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_MODELEVENTNOTIFIER_H
+#endif  // MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_

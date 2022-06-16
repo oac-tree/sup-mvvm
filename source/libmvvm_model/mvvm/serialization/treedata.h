@@ -28,8 +28,8 @@
  * @details This header file contains the definition of the TreeData class.
  */
 
-#ifndef MVVM_SERIALIZATION_TREEDATA_H
-#define MVVM_SERIALIZATION_TREEDATA_H
+#ifndef MVVM_SERIALIZATION_TREEDATA_H_
+#define MVVM_SERIALIZATION_TREEDATA_H_
 
 #include <mvvm/serialization/attribute_map.h>
 
@@ -203,4 +203,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_TREEDATA_H
+#endif  // MVVM_SERIALIZATION_TREEDATA_H_

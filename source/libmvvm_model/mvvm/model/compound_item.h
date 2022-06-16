@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_COMPOUNDITEM_H
-#define MVVM_MODEL_COMPOUNDITEM_H
+#ifndef MVVM_MODEL_COMPOUND_ITEM_H_
+#define MVVM_MODEL_COMPOUND_ITEM_H_
 
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
@@ -112,4 +112,4 @@ inline void CompoundItem::SetProperty(const std::string& tag, const T& value)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_COMPOUNDITEM_H
+#endif  // MVVM_MODEL_COMPOUND_ITEM_H_

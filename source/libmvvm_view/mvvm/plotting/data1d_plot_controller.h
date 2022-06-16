@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
-#define MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
+#ifndef MVVM_PLOTTING_DATA1D_PLOT_CONTROLLER_H_
+#define MVVM_PLOTTING_DATA1D_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_listener.h>
 #include <mvvm/view_export.h>
@@ -52,4 +52,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
+#endif  // MVVM_PLOTTING_DATA1D_PLOT_CONTROLLER_H_

@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_XMLPARSEUTILS_H
-#define MVVM_SERIALIZATION_XMLPARSEUTILS_H
+#ifndef MVVM_SERIALIZATION_XML_PARSE_UTILS_H_
+#define MVVM_SERIALIZATION_XML_PARSE_UTILS_H_
 
 #include <mvvm/serialization/treedata.h>
 
@@ -38,4 +38,4 @@ std::unique_ptr<TreeData> ParseXMLElementString(const std::string& xml_str);
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_XMLPARSEUTILS_H
+#endif  // MVVM_SERIALIZATION_XML_PARSE_UTILS_H_

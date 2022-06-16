@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_MOCKITEMLISTENER_H
-#define TESTS_LIBTESTMACHINERY_MOCKITEMLISTENER_H
+#ifndef TESTS_LIBTESTMACHINERY_MOCK_ITEM_LISTENER_H_
+#define TESTS_LIBTESTMACHINERY_MOCK_ITEM_LISTENER_H_
 
 #include <mvvm/signals/item_listener.h>
 
@@ -52,4 +52,4 @@ protected:
   void Subscribe() override;
 };
 
-#endif  // TESTS_LIBTESTMACHINERY_MOCKITEMLISTENER_H
+#endif  // TESTS_LIBTESTMACHINERY_MOCK_ITEM_LISTENER_H_

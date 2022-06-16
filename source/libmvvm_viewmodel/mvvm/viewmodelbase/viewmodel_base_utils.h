@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
-#define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
+#ifndef MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
+#define MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
 
 #include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
@@ -47,4 +47,4 @@ const T* GetPresentation(const ViewItem* view_item)
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
+#endif  // MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_

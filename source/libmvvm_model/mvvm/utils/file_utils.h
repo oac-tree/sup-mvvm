@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_FILEUTILS_H
-#define MVVM_UTILS_FILEUTILS_H
+#ifndef MVVM_UTILS_FILE_UTILS_H_
+#define MVVM_UTILS_FILE_UTILS_H_
 
 #include <mvvm/model_export.h>
 
@@ -59,4 +59,4 @@ MVVM_MODEL_EXPORT bool IsEmpty(const std::string& path);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_UTILS_FILEUTILS_H
+#endif  // MVVM_UTILS_FILE_UTILS_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ITEMPOOL_H
-#define MVVM_MODEL_ITEMPOOL_H
+#ifndef MVVM_MODEL_ITEM_POOL_H_
+#define MVVM_MODEL_ITEM_POOL_H_
 
 #include <mvvm/model_export.h>
 
@@ -60,4 +60,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_ITEMPOOL_H
+#endif  // MVVM_MODEL_ITEM_POOL_H_

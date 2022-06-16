@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VARIANTCONVERTER_H
-#define MVVM_VIEWMODEL_VARIANTCONVERTER_H
+#ifndef MVVM_VIEWMODEL_VARIANT_CONVERTER_H_
+#define MVVM_VIEWMODEL_VARIANT_CONVERTER_H_
 
 //! @file variantconverter.h
 //! Collection of utility functions to convert variant_t to QVariant and back.
@@ -39,4 +39,4 @@ MVVM_VIEWMODEL_EXPORT variant_t GetStdVariant(const QVariant& variant);
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VARIANTCONVERTER_H
+#endif  // MVVM_VIEWMODEL_VARIANT_CONVERTER_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_LINKEDITEM_H
-#define MVVM_STANDARDITEMS_LINKEDITEM_H
+#ifndef MVVM_STANDARDITEMS_LINKED_ITEM_H_
+#define MVVM_STANDARDITEMS_LINKED_ITEM_H_
 
 #include <mvvm/model/sessionitem.h>
 
@@ -58,4 +58,4 @@ T* LinkedItem::Get() const
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_LINKEDITEM_H
+#endif  // MVVM_STANDARDITEMS_LINKED_ITEM_H_

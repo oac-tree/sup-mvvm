@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_STATUSSTRINGREPORTER_H
-#define MVVM_PLOTTING_STATUSSTRINGREPORTER_H
+#ifndef MVVM_PLOTTING_STATUS_STRING_REPORTER_H_
+#define MVVM_PLOTTING_STATUS_STRING_REPORTER_H_
 
 #include <mvvm/view_export.h>
 
@@ -51,4 +51,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_STATUSSTRINGREPORTER_H
+#endif  // MVVM_PLOTTING_STATUS_STRING_REPORTER_H_

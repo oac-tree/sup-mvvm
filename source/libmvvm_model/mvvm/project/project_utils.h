@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECTUTILS_H
-#define MVVM_PROJECT_PROJECTUTILS_H
+#ifndef MVVM_PROJECT_PROJECT_UTILS_H_
+#define MVVM_PROJECT_PROJECT_UTILS_H_
 
 #include <mvvm/model_export.h>
 
@@ -52,4 +52,4 @@ MVVM_MODEL_EXPORT std::string ProjectWindowTitle(const std::string& project_dir,
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECTUTILS_H
+#endif  // MVVM_PROJECT_PROJECT_UTILS_H_

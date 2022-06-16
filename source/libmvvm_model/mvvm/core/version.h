@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_VERSION_H
-#define MVVM_CORE_VERSION_H
+#ifndef MVVM_CORE_VERSION_H_
+#define MVVM_CORE_VERSION_H_
 
 //! @file version.h
 //! Automatically generated from mvvm_version.h.in
@@ -58,4 +58,4 @@ inline std::string ProjectVersion()
 
 } // namespace ModelView
 
-#endif  // MVVM_CORE_VERSION_H
+#endif  // MVVM_CORE_VERSION_H_

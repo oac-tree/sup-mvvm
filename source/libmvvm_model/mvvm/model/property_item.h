@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_PROPERTYITEM_H
-#define MVVM_MODEL_PROPERTYITEM_H
+#ifndef MVVM_MODEL_PROPERTY_ITEM_H_
+#define MVVM_MODEL_PROPERTY_ITEM_H_
 
 #include <mvvm/model/sessionitem.h>
 
@@ -43,4 +43,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_PROPERTYITEM_H
+#endif  // MVVM_MODEL_PROPERTY_ITEM_H_

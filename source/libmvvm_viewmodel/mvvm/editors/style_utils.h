@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_STYLEUTILS_H
-#define MVVM_EDITORS_STYLEUTILS_H
+#ifndef MVVM_EDITORS_STYLE_UTILS_H_
+#define MVVM_EDITORS_STYLE_UTILS_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -36,4 +36,4 @@ MVVM_VIEWMODEL_EXPORT int DefaultInfoBarTextSize();
 
 }  // namespace mvvm::style
 
-#endif  // MVVM_EDITORS_STYLEUTILS_H
+#endif  // MVVM_EDITORS_STYLE_UTILS_H_

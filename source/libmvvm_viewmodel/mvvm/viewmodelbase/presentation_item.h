@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_PRESENTATIONITEM_H
-#define MVVM_VIEWMODELBASE_PRESENTATIONITEM_H
+#ifndef MVVM_VIEWMODELBASE_PRESENTATION_ITEM_H_
+#define MVVM_VIEWMODELBASE_PRESENTATION_ITEM_H_
 
 #include <mvvm/viewmodelbase/viewitem_data.h>
 
@@ -66,4 +66,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODELBASE_PRESENTATIONITEM_H
+#endif  // MVVM_VIEWMODELBASE_PRESENTATION_ITEM_H_

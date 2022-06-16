@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_MODELEVENTNOTIFIERINTERFACE_H
-#define MVVM_INTERFACES_MODELEVENTNOTIFIERINTERFACE_H
+#ifndef MVVM_INTERFACES_MODEL_EVENT_NOTIFIER_INTERFACE_H_
+#define MVVM_INTERFACES_MODEL_EVENT_NOTIFIER_INTERFACE_H_
 
 #include <mvvm/model_export.h>
 
@@ -64,4 +64,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_MODELEVENTNOTIFIERINTERFACE_H
+#endif  // MVVM_INTERFACES_MODEL_EVENT_NOTIFIER_INTERFACE_H_

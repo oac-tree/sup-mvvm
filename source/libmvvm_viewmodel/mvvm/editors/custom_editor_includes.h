@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_CUSTOMEDITORINCLUDES_H
-#define MVVM_EDITORS_CUSTOMEDITORINCLUDES_H
+#ifndef MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_
+#define MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_
 
 //! @file customeditorincludes.h
 //! Collection of all includes with custom editors for Qt delegates.
@@ -30,4 +30,4 @@
 #include <mvvm/editors/scientific_spinbox_editor.h>
 #include <mvvm/editors/selectable_combobox_editor.h>
 
-#endif  // MVVM_EDITORS_CUSTOMEDITORINCLUDES_H
+#endif  // MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_

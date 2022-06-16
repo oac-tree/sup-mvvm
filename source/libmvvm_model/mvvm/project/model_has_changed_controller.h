@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
-#define MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
+#ifndef MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_
+#define MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/signals/model_listener.h>
@@ -50,4 +50,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
+#endif  // MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_

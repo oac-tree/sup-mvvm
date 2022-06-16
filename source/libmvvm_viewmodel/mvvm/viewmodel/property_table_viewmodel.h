@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
-#define MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
+#ifndef MVVM_VIEWMODEL_PROPERTY_TABLE_VIEWMODEL_H_
+#define MVVM_VIEWMODEL_PROPERTY_TABLE_VIEWMODEL_H_
 
 #include <mvvm/viewmodel/viewmodel.h>
 
@@ -43,4 +43,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
+#endif  // MVVM_VIEWMODEL_PROPERTY_TABLE_VIEWMODEL_H_

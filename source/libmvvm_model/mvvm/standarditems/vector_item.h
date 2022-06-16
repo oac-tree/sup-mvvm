@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_VECTORITEM_H
-#define MVVM_STANDARDITEMS_VECTORITEM_H
+#ifndef MVVM_STANDARDITEMS_VECTOR_ITEM_H_
+#define MVVM_STANDARDITEMS_VECTOR_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
 
@@ -54,4 +54,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_VECTORITEM_H
+#endif  // MVVM_STANDARDITEMS_VECTOR_ITEM_H_

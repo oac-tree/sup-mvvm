@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_PROJECTMANAGERFACTORY_H
-#define MVVM_FACTORIES_PROJECTMANAGERFACTORY_H
+#ifndef MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_
+#define MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_
 
 #include <mvvm/interfaces/project_manager_interface.h>
 
@@ -36,4 +36,4 @@ MVVM_MODEL_EXPORT std::unique_ptr<ProjectManagerInterface> CreateProjectManager(
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_PROJECTMANAGERFACTORY_H
+#endif  // MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_

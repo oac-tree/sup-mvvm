@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_TREEDATAVARIANTCONVERTER_H
-#define MVVM_SERIALIZATION_TREEDATAVARIANTCONVERTER_H
+#ifndef MVVM_SERIALIZATION_TREEDATA_VARIANT_CONVERTER_H_
+#define MVVM_SERIALIZATION_TREEDATA_VARIANT_CONVERTER_H_
 
 //! @file treedatavariant_converter.h
 //! Declares utility functions to convert between TreeData and datarole_t objects.
@@ -52,4 +52,4 @@ MVVM_MODEL_EXPORT TreeData ToTreeData(const datarole_t& data_role);
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_TREEDATAVARIANTCONVERTER_H
+#endif  // MVVM_SERIALIZATION_TREEDATA_VARIANT_CONVERTER_H_

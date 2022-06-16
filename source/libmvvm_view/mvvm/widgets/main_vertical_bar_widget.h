@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
-#define MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
+#ifndef MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_
+#define MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -64,4 +64,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
+#endif  // MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_

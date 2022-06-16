@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
-#define MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
+#ifndef MVVM_INTERFACES_CHILDREN_STRATEGY_INTERFACE_H_
+#define MVVM_INTERFACES_CHILDREN_STRATEGY_INTERFACE_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -44,4 +44,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
+#endif  // MVVM_INTERFACES_CHILDREN_STRATEGY_INTERFACE_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECT_H
-#define MVVM_PROJECT_PROJECT_H
+#ifndef MVVM_PROJECT_PROJECT_H_
+#define MVVM_PROJECT_PROJECT_H_
 
 #include <mvvm/interfaces/project_interface.h>
 
@@ -53,4 +53,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECT_H
+#endif  // MVVM_PROJECT_PROJECT_H_

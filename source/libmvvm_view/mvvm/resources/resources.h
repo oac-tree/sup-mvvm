@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_RESOURCES_RESOURCES_H
-#define MVVM_RESOURCES_RESOURCES_H
+#ifndef MVVM_RESOURCES_RESOURCES_H_
+#define MVVM_RESOURCES_RESOURCES_H_
 
 #include <QtGlobal>
 
@@ -27,4 +27,4 @@ inline void InitIconResources()
   Q_INIT_RESOURCE(icons);
 }
 
-#endif  // MVVM_RESOURCES_RESOURCES_H
+#endif  // MVVM_RESOURCES_RESOURCES_H_

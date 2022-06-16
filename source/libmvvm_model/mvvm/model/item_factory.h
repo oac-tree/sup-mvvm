@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ITEMFACTORY_H
-#define MVVM_MODEL_ITEMFACTORY_H
+#ifndef MVVM_MODEL_ITEM_FACTORY_H_
+#define MVVM_MODEL_ITEM_FACTORY_H_
 
 #include <mvvm/interfaces/item_factory_interface.h>
 
@@ -49,4 +49,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_ITEMFACTORY_H
+#endif  // MVVM_MODEL_ITEM_FACTORY_H_

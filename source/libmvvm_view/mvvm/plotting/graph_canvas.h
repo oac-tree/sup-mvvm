@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_GRAPHCANVAS_H
-#define MVVM_PLOTTING_GRAPHCANVAS_H
+#ifndef MVVM_PLOTTING_GRAPH_CANVAS_H_
+#define MVVM_PLOTTING_GRAPH_CANVAS_H_
 
 #include <mvvm/view_export.h>
 
@@ -60,4 +60,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_GRAPHCANVAS_H
+#endif  // MVVM_PLOTTING_GRAPH_CANVAS_H_

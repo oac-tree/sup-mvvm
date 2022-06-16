@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ITEMUTILS_H
-#define MVVM_MODEL_ITEMUTILS_H
+#ifndef MVVM_MODEL_ITEM_UTILS_H_
+#define MVVM_MODEL_ITEM_UTILS_H_
 
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model_export.h>
@@ -98,4 +98,4 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem* item, Appearance fla
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_MODEL_ITEMUTILS_H
+#endif  // MVVM_MODEL_ITEM_UTILS_H_

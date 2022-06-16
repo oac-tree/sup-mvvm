@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_VIEWPORTITEM_H
-#define MVVM_STANDARDITEMS_VIEWPORTITEM_H
+#ifndef MVVM_STANDARDITEMS_VIEWPORT_ITEM_H_
+#define MVVM_STANDARDITEMS_VIEWPORT_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
 
@@ -56,4 +56,4 @@ protected:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_VIEWPORTITEM_H
+#endif  // MVVM_STANDARDITEMS_VIEWPORT_ITEM_H_

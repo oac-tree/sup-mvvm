@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef PLOTGRAPHS_PLOTGRAPHSCORE_MAINWINDOW_H
-#define PLOTGRAPHS_PLOTGRAPHSCORE_MAINWINDOW_H
+#ifndef PLOTGRAPHS_PLOTGRAPHSCORE_MAIN_WINDOW_H_
+#define PLOTGRAPHS_PLOTGRAPHSCORE_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 #include <memory>
@@ -51,4 +51,4 @@ private:
 
 }  // namespace plotgraphs
 
-#endif  // PLOTGRAPHS_PLOTGRAPHSCORE_MAINWINDOW_H
+#endif  // PLOTGRAPHS_PLOTGRAPHSCORE_MAIN_WINDOW_H_

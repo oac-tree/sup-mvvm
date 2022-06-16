@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
-#define MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
+#ifndef MVVM_STANDARDITEMS_GRAPH_VIEWPORT_ITEM_H_
+#define MVVM_STANDARDITEMS_GRAPH_VIEWPORT_ITEM_H_
 
 #include <mvvm/standarditems/viewport_item.h>
 
@@ -55,4 +55,4 @@ protected:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
+#endif  // MVVM_STANDARDITEMS_GRAPH_VIEWPORT_ITEM_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_COMMANDSTACK_H
-#define MVVM_COMMANDS_COMMANDSTACK_H
+#ifndef MVVM_COMMANDS_COMMAND_STACK_H_
+#define MVVM_COMMANDS_COMMAND_STACK_H_
 
 #include <mvvm/commands/command_stack_interface.h>
 
@@ -54,4 +54,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_COMMANDSTACK_H
+#endif  // MVVM_COMMANDS_COMMAND_STACK_H_

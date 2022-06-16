@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_STANDARDPRESENTATIONITEMS_H
-#define MVVM_VIEWMODEL_STANDARDPRESENTATIONITEMS_H
+#ifndef MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
+#define MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
 
 //! @file standardpresentationitems.h
 //! Defines standard presentations for sessionitem.
@@ -100,4 +100,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_STANDARDPRESENTATIONITEMS_H
+#endif  // MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_

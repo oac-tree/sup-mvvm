@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_SESSIONMODEL_H
-#define MVVM_MODEL_SESSIONMODEL_H
+#ifndef MVVM_MODEL_SESSIONMODEL_H_
+#define MVVM_MODEL_SESSIONMODEL_H_
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/function_types.h>
@@ -130,4 +130,4 @@ void SessionModel::RegisterItem(const std::string& label)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_SESSIONMODEL_H
+#endif  // MVVM_MODEL_SESSIONMODEL_H_

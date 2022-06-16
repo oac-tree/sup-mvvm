@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_STANDARDITEMINCLUDES_H
-#define MVVM_STANDARDITEMS_STANDARDITEMINCLUDES_H
+#ifndef MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_
+#define MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_
 
 //! @file standarditemincludes.h
 //! Collection of all includes with items supported by the model out-of-the-box.
@@ -34,4 +34,4 @@
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/standarditems/vector_item.h>
 
-#endif  // MVVM_STANDARDITEMS_STANDARDITEMINCLUDES_H
+#endif  // MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_

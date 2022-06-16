@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHMODEL_H
-#define PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHMODEL_H
+#ifndef PLOTGRAPHS_PLOTGRAPHSCORE_GRAPH_MODEL_H_
+#define PLOTGRAPHS_PLOTGRAPHSCORE_GRAPH_MODEL_H_
 
 #include "mvvm/model/application_model.h"
 
@@ -53,4 +53,4 @@ public:
 
 }  // namespace plotgraphs
 
-#endif  // PLOTGRAPHS_PLOTGRAPHSCORE_GRAPHMODEL_H
+#endif  // PLOTGRAPHS_PLOTGRAPHSCORE_GRAPH_MODEL_H_

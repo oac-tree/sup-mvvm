@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_SIGNALSLOT_H
-#define MVVM_SIGNALS_SIGNALSLOT_H
+#ifndef MVVM_SIGNALS_SIGNAL_SLOT_H_
+#define MVVM_SIGNALS_SIGNAL_SLOT_H_
 
 //! @file signalslot.h
 //! Defines signal/slot types. For the moment relies on `lsignal` library, see
@@ -39,4 +39,4 @@ using Slot = lsignal::slot;
 using Connection = lsignal::connection;
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_SIGNALSLOT_H
+#endif  // MVVM_SIGNALS_SIGNAL_SLOT_H_

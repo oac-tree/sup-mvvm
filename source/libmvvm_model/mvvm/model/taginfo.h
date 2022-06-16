@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_TAGINFO_H
-#define MVVM_MODEL_TAGINFO_H
+#ifndef MVVM_MODEL_TAGINFO_H_
+#define MVVM_MODEL_TAGINFO_H_
 
 #include <mvvm/model_export.h>
 
@@ -66,4 +66,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_TAGINFO_H
+#endif  // MVVM_MODEL_TAGINFO_H_

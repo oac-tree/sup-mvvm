@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_TREEDATAITEMCONVERTERINTERFACE_H
-#define MVVM_SERIALIZATION_TREEDATAITEMCONVERTERINTERFACE_H
+#ifndef MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_INTERFACE_H_
+#define MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_INTERFACE_H_
 
 #include <mvvm/model_export.h>
 
@@ -45,4 +45,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_TREEDATAITEMCONVERTERINTERFACE_H
+#endif  // MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_INTERFACE_H_

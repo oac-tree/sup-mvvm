@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
-#define MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#ifndef MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
+#define MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
 
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodel/standard_presentation_items.h>
@@ -92,4 +92,4 @@ MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#endif  // MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_

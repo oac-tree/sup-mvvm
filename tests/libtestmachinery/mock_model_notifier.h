@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_MOCKMODELNOTIFIER_H
-#define TESTS_LIBTESTMACHINERY_MOCKMODELNOTIFIER_H
+#ifndef TESTS_LIBTESTMACHINERY_MOCK_MODEL_NOTIFIER_H_
+#define TESTS_LIBTESTMACHINERY_MOCK_MODEL_NOTIFIER_H_
 
 #include <mvvm/interfaces/model_event_notifier_interface.h>
 
@@ -62,4 +62,4 @@ public:
   MOCK_METHOD1(ModelAboutToBeDestroyedNotify, void(mvvm::SessionModel* model));
 };
 
-#endif  // TESTS_LIBTESTMACHINERY_MOCKMODELNOTIFIER_H
+#endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_NOTIFIER_H_

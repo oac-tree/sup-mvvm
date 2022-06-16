@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_APPLICATIONMODEL_H
-#define MVVM_MODEL_APPLICATIONMODEL_H
+#ifndef MVVM_MODEL_APPLICATION_MODEL_H_
+#define MVVM_MODEL_APPLICATION_MODEL_H_
 
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/viewmodel_export.h>
@@ -63,4 +63,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_APPLICATIONMODEL_H
+#endif  // MVVM_MODEL_APPLICATION_MODEL_H_

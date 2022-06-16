@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_XMLWRITEUTILS_H
-#define MVVM_SERIALIZATION_XMLWRITEUTILS_H
+#ifndef MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
+#define MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
 
 //! @file xmlwriteutils.h
 //! Collection of utilities to write TreeData into XML files.
@@ -35,4 +35,4 @@ std::string GetXMLString(const TreeData& tree_data);
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_XMLWRITEUTILS_H
+#endif  // MVVM_SERIALIZATION_XML_WRITE_UTILS_H_

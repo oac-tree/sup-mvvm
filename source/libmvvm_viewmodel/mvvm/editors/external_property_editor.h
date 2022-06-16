@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
-#define MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
+#ifndef MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
+#define MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
 
 #include <mvvm/editors/custom_editor.h>
 
@@ -56,4 +56,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
+#endif  // MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_

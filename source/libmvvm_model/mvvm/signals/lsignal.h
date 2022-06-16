@@ -24,8 +24,8 @@ SOFTWARE.
 
 */
 
-#ifndef MVVM_SIGNALS_LSIGNAL_H
-#define MVVM_SIGNALS_LSIGNAL_H
+#ifndef MVVM_SIGNALS_LSIGNAL_H_
+#define MVVM_SIGNALS_LSIGNAL_H_
 
 #include <functional>
 #include <list>
@@ -521,4 +521,4 @@ void signal<R(Args...)>::destroy_connection(std::shared_ptr<connection_data> con
 }
 }  // namespace lsignal
 
-#endif  // MVVM_SIGNALS_LSIGNAL_H
+#endif  // MVVM_SIGNALS_LSIGNAL_H_

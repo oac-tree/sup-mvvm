@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_FANCYTAB_H
-#define MVVM_WIDGETS_FANCYTAB_H
+#ifndef MVVM_WIDGETS_FANCYTAB_H_
+#define MVVM_WIDGETS_FANCYTAB_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -56,4 +56,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_FANCYTAB_H
+#endif  // MVVM_WIDGETS_FANCYTAB_H_

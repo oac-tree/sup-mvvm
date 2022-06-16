@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_GRAPHINFOFORMATTER_H
-#define MVVM_PLOTTING_GRAPHINFOFORMATTER_H
+#ifndef MVVM_PLOTTING_GRAPH_INFO_FORMATTER_H_
+#define MVVM_PLOTTING_GRAPH_INFO_FORMATTER_H_
 
 #include <mvvm/plotting/status_string_formatter_interface.h>
 
@@ -42,4 +42,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_GRAPHINFOFORMATTER_H
+#endif  // MVVM_PLOTTING_GRAPH_INFO_FORMATTER_H_

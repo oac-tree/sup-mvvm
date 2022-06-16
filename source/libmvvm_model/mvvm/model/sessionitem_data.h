@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_SESSIONITEMDATA_H
-#define MVVM_MODEL_SESSIONITEMDATA_H
+#ifndef MVVM_MODEL_SESSIONITEM_DATA_H_
+#define MVVM_MODEL_SESSIONITEM_DATA_H_
 
 #include <mvvm/core/variant.h>
 
@@ -53,4 +53,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_SESSIONITEMDATA_H
+#endif  // MVVM_MODEL_SESSIONITEM_DATA_H_

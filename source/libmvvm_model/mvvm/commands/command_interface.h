@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_COMMANDINTERFACE_H
-#define MVVM_COMMANDS_COMMANDINTERFACE_H
+#ifndef MVVM_COMMANDS_COMMAND_INTERFACE_H_
+#define MVVM_COMMANDS_COMMAND_INTERFACE_H_
 
 #include <mvvm/model_export.h>
 
@@ -56,4 +56,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_COMMANDSTACKINTERFACE_H
+#endif  // MVVM_COMMANDS_COMMAND_INTERFACE_H_

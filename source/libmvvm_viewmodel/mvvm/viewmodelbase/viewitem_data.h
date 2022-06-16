@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWITEMDATA_H
-#define MVVM_VIEWMODELBASE_VIEWITEMDATA_H
+#ifndef MVVM_VIEWMODELBASE_VIEWITEM_DATA_H_
+#define MVVM_VIEWMODELBASE_VIEWITEM_DATA_H_
 
 #include "viewitem_data_interface.h"
 
@@ -55,4 +55,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODELBASE_VIEWITEMDATA_H
+#endif  // MVVM_VIEWMODELBASE_VIEWITEM_DATA_H_

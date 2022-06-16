@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_COMBOPROPERTYEDITOR_H
-#define MVVM_EDITORS_COMBOPROPERTYEDITOR_H
+#ifndef MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
+#define MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
 
 #include <mvvm/editors/custom_editor.h>
 #include <mvvm/viewmodel/custom_variants.h>
@@ -56,4 +56,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_COMBOPROPERTYEDITOR_H
+#endif  // MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_EXTERNALPROPERTY_H
-#define MVVM_MODEL_EXTERNALPROPERTY_H
+#ifndef MVVM_MODEL_EXTERNAL_PROPERTY_H_
+#define MVVM_MODEL_EXTERNAL_PROPERTY_H_
 
 #include <mvvm/model_export.h>
 
@@ -61,4 +61,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_EXTERNALPROPERTY_H
+#endif  // MVVM_MODEL_EXTERNAL_PROPERTY_H_

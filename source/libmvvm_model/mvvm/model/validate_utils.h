@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_VALIDATEUTILS_H
-#define MVVM_MODEL_VALIDATEUTILS_H
+#ifndef MVVM_MODEL_VALIDATE_UTILS_H_
+#define MVVM_MODEL_VALIDATE_UTILS_H_
 
 //! @file validateutils.h
 //! Collection of utility function to check if certain operations on the model are valid.
@@ -44,4 +44,4 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent, co
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_MODEL_VALIDATEUTILS_H
+#endif  // MVVM_MODEL_VALIDATE_UTILS_H_

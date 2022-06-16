@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_THREADSAFESTACK_H
-#define MVVM_UTILS_THREADSAFESTACK_H
+#ifndef MVVM_UTILS_THREADSAFE_STACK_H_
+#define MVVM_UTILS_THREADSAFE_STACK_H_
 
 #include <atomic>
 #include <condition_variable>
@@ -139,4 +139,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_THREADSAFESTACK_H
+#endif  // MVVM_UTILS_THREADSAFE_STACK_H_

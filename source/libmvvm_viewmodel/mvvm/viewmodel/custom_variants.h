@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_CUSTOMVARIANTS_H
-#define MVVM_VIEWMODEL_CUSTOMVARIANTS_H
+#ifndef MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_
+#define MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_
 
 //! @file customvariants.h
 //! Custom Qt variants registrations and utility functions.
@@ -83,4 +83,4 @@ Q_DECLARE_METATYPE(std::vector<double>)
 Q_DECLARE_METATYPE(mvvm::ComboProperty)
 Q_DECLARE_METATYPE(mvvm::ExternalProperty)
 
-#endif  // MVVM_VIEWMODEL_CUSTOMVARIANTS_H
+#endif  // MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_

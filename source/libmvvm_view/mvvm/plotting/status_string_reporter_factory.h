@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_STATUSSTRINGREPORTERFACTORY_H
-#define MVVM_PLOTTING_STATUSSTRINGREPORTERFACTORY_H
+#ifndef MVVM_PLOTTING_STATUS_STRING_REPORTER_FACTORY_H_
+#define MVVM_PLOTTING_STATUS_STRING_REPORTER_FACTORY_H_
 
 //! Contains factory methods to create StatusStringReporter
 
@@ -40,4 +40,4 @@ MVVM_VIEW_EXPORT std::unique_ptr<StatusStringReporter> CreateGraphReporter(
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_STATUSSTRINGREPORTERFACTORY_H
+#endif  // MVVM_PLOTTING_STATUS_STRING_REPORTER_FACTORY_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODELFACTORY_H
-#define MVVM_VIEWMODEL_VIEWMODELFACTORY_H
+#ifndef MVVM_VIEWMODEL_VIEWMODEL_FACTORY_H_
+#define MVVM_VIEWMODEL_VIEWMODEL_FACTORY_H_
 
 //! @file viewmodelfactory.h
 //! Contains factory methods to construct various view models.
@@ -32,4 +32,4 @@ namespace mvvm
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWMODELFACTORY_H
+#endif  // MVVM_VIEWMODEL_VIEWMODEL_FACTORY_H_

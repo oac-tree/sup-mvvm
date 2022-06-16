@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_XMLDOCUMENT_H
-#define MVVM_SERIALIZATION_XMLDOCUMENT_H
+#ifndef MVVM_SERIALIZATION_XML_DOCUMENT_H_
+#define MVVM_SERIALIZATION_XML_DOCUMENT_H_
 
 #include <mvvm/interfaces/model_document_interface.h>
 
@@ -47,4 +47,4 @@ private:
 };
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_XMLDOCUMENT_H
+#endif  // MVVM_SERIALIZATION_XML_DOCUMENT_H_

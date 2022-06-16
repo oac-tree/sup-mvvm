@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_STANDARDCHILDRENSTRATEGIES_H
-#define MVVM_VIEWMODEL_STANDARDCHILDRENSTRATEGIES_H
+#ifndef MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_
+#define MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_
 
 //! @file childrenstrategies.h
 //! @brief Collection of strategies to find children, actual of fictional, of given SessionItem.
@@ -60,4 +60,4 @@ public:
 };
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_STANDARDCHILDRENSTRATEGIES_H
+#endif  // MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_PLOTTABLEITEMS_H
-#define MVVM_STANDARDITEMS_PLOTTABLEITEMS_H
+#ifndef MVVM_STANDARDITEMS_PLOTTABLE_ITEMS_H_
+#define MVVM_STANDARDITEMS_PLOTTABLE_ITEMS_H_
 
 //! @file plottableitems.h
 //! Collection of items to plot in QCustomPlot context.
@@ -77,4 +77,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_PLOTTABLEITEMS_H
+#endif  // MVVM_STANDARDITEMS_PLOTTABLE_ITEMS_H_

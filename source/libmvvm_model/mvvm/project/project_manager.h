@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECTMANAGER_H
-#define MVVM_PROJECT_PROJECTMANAGER_H
+#ifndef MVVM_PROJECT_PROJECT_MANAGER_H_
+#define MVVM_PROJECT_PROJECT_MANAGER_H_
 
 #include <mvvm/interfaces/project_manager_interface.h>
 
@@ -66,4 +66,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECTMANAGER_H
+#endif  // MVVM_PROJECT_PROJECT_MANAGER_H_

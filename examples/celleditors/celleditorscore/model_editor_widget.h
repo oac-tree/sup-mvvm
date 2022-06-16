@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#ifndef CELLEDITORS_CELLEDITORSCORE_MODELEDITORWIDGET_H
-#define CELLEDITORS_CELLEDITORSCORE_MODELEDITORWIDGET_H
+#ifndef CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
+#define CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
 
 #include <QWidget>
 #include <memory>
@@ -55,4 +55,4 @@ private:
 
 }  // namespace celleditors
 
-#endif  // CELLEDITORS_CELLEDITORSCORE_MODELEDITORWIDGET_H
+#endif  // CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
-#define MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
+#ifndef MVVM_FACTORIES_ITEM_COPY_STRATEGY_FACTORY_H_
+#define MVVM_FACTORIES_ITEM_COPY_STRATEGY_FACTORY_H_
 
 #include <mvvm/interfaces/item_copy_strategy_interface.h>
 
@@ -39,4 +39,4 @@ MVVM_MODEL_EXPORT std::unique_ptr<ItemCopyStrategyInterface> CreateItemCloneStra
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
+#endif  // MVVM_FACTORIES_ITEM_COPY_STRATEGY_FACTORY_H_

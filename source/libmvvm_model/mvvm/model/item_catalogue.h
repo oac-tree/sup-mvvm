@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ITEMCATALOGUE_H
-#define MVVM_MODEL_ITEMCATALOGUE_H
+#ifndef MVVM_MODEL_ITEM_CATALOGUE_H_
+#define MVVM_MODEL_ITEM_CATALOGUE_H_
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model_export.h>
@@ -155,4 +155,4 @@ void ItemCatalogue<T>::Merge(const ItemCatalogue& other)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_ITEMCATALOGUE_H
+#endif  // MVVM_MODEL_ITEM_CATALOGUE_H_

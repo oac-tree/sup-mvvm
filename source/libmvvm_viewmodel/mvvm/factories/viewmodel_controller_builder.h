@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
-#define MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
+#ifndef MVVM_FACTORIES_VIEWMODEL_CONTROLLER_BUILDER_H_
+#define MVVM_FACTORIES_VIEWMODEL_CONTROLLER_BUILDER_H_
 
 #include <mvvm/viewmodel/abstract_viewmodel_controller.h>
 #include <mvvm/viewmodel_export.h>
@@ -68,4 +68,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
+#endif  // MVVM_FACTORIES_VIEWMODEL_CONTROLLER_BUILDER_H_

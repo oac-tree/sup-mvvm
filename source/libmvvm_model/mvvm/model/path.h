@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_PATH_H
-#define MVVM_MODEL_PATH_H
+#ifndef MVVM_MODEL_PATH_H_
+#define MVVM_MODEL_PATH_H_
 
 #include <mvvm/model_export.h>
 
@@ -69,4 +69,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_PATH_H
+#endif  // MVVM_MODEL_PATH_H_

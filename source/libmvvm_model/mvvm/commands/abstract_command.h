@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_ABSTRACTCOMMAND_H
-#define MVVM_COMMANDS_ABSTRACTCOMMAND_H
+#ifndef MVVM_COMMANDS_ABSTRACT_COMMAND_H_
+#define MVVM_COMMANDS_ABSTRACT_COMMAND_H_
 
 #include <mvvm/commands/command_interface.h>
 
@@ -58,4 +58,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_ABSTRACTCOMMAND_H
+#endif  // MVVM_COMMANDS_ABSTRACT_COMMAND_H_

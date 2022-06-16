@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_FUNCTION_TYPES_H
-#define MVVM_MODEL_FUNCTION_TYPES_H
+#ifndef MVVM_MODEL_FUNCTION_TYPES_H_
+#define MVVM_MODEL_FUNCTION_TYPES_H_
 
 #include <mvvm/core/variant.h>
 
@@ -41,4 +41,4 @@ std::unique_ptr<T> ItemFactoryFunction()
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_FUNCTION_TYPES_H
+#endif  // MVVM_MODEL_FUNCTION_TYPES_H_

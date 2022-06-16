@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_MODELLISTENER_H
-#define MVVM_SIGNALS_MODELLISTENER_H
+#ifndef MVVM_SIGNALS_MODEL_LISTENER_H_
+#define MVVM_SIGNALS_MODEL_LISTENER_H_
 
 #include <mvvm/signals/model_listener_base.h>
 
@@ -37,4 +37,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_MODELLISTENER_H
+#endif  // MVVM_SIGNALS_MODEL_LISTENER_H_

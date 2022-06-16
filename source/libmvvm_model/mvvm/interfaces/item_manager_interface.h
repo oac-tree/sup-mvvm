@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEMMANAGERINTERFACE_H
-#define MVVM_INTERFACES_ITEMMANAGERINTERFACE_H
+#ifndef MVVM_INTERFACES_ITEM_MANAGER_INTERFACE_H_
+#define MVVM_INTERFACES_ITEM_MANAGER_INTERFACE_H_
 
 #include <mvvm/model_export.h>
 
@@ -59,4 +59,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_ITEMMANAGERINTERFACE_H
+#endif  // MVVM_INTERFACES_ITEM_MANAGER_INTERFACE_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_PENCONTROLLER_H
-#define MVVM_PLOTTING_PENCONTROLLER_H
+#ifndef MVVM_PLOTTING_PEN_CONTROLLER_H_
+#define MVVM_PLOTTING_PEN_CONTROLLER_H_
 
 #include <mvvm/signals/item_listener.h>
 #include <mvvm/view_export.h>
@@ -51,4 +51,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_PENCONTROLLER_H
+#endif  // MVVM_PLOTTING_PEN_CONTROLLER_H_

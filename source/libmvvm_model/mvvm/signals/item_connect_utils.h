@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_ITEMCONNECTUTILS_H
-#define MVVM_SIGNALS_ITEMCONNECTUTILS_H
+#ifndef MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
+#define MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
 
 //! @file itemconnectutils.h
 //! Utility functions to connect user callbacks with events happening with given item.
@@ -67,4 +67,4 @@ MVVM_MODEL_EXPORT Connection OnPropertyChanged(SessionItem* source,
 
 }  // namespace mvvm::connect
 
-#endif  // MVVM_SIGNALS_ITEMCONNECTUTILS_H
+#endif  // MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_

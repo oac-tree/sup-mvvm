@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
-#define MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
+#ifndef MVVM_PLOTTING_STATUS_STRING_FORMATTER_INTERFACE_H_
+#define MVVM_PLOTTING_STATUS_STRING_FORMATTER_INTERFACE_H_
 
 #include <mvvm/view_export.h>
 
@@ -42,4 +42,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
+#endif  // MVVM_PLOTTING_STATUS_STRING_FORMATTER_INTERFACE_H_

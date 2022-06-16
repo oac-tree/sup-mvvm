@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_TESTMVVM_VIEW_CUSTOMPLOT_TEST_UTILS_H
-#define TESTS_TESTMVVM_VIEW_CUSTOMPLOT_TEST_UTILS_H
+#ifndef TESTS_TESTMVVM_INTEGRATION_CUSTOM_PLOT_TEST_UTILS_H_
+#define TESTS_TESTMVVM_INTEGRATION_CUSTOM_PLOT_TEST_UTILS_H_
 
 #include <qcustomplot.h>
 
@@ -56,4 +56,4 @@ T* GetPlottable(QCustomPlot* custom_plot)
 
 Q_DECLARE_METATYPE(QCPRange)
 
-#endif  // TESTS_TESTMVVM_VIEW_CUSTOMPLOT_TEST_UTILS_H
+#endif  // TESTS_TESTMVVM_INTEGRATION_CUSTOM_PLOT_TEST_UTILS_H_

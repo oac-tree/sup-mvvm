@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_MOUSEPOSINFO_H
-#define MVVM_PLOTTING_MOUSEPOSINFO_H
+#ifndef MVVM_PLOTTING_MOUSE_POS_INFO_H_
+#define MVVM_PLOTTING_MOUSE_POS_INFO_H_
 
 #include <mvvm/view_export.h>
 
@@ -39,4 +39,4 @@ struct MVVM_VIEW_EXPORT MousePosInfo
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_MOUSEPOSINFO_H
+#endif  // MVVM_PLOTTING_MOUSE_POS_INFO_H_

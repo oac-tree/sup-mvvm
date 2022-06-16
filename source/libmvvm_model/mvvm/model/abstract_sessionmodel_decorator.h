@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ABSTRACTSESSIONMODELDECORATOR_H
-#define MVVM_MODEL_ABSTRACTSESSIONMODELDECORATOR_H
+#ifndef MVVM_MODEL_ABSTRACT_SESSIONMODEL_DECORATOR_H_
+#define MVVM_MODEL_ABSTRACT_SESSIONMODEL_DECORATOR_H_
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
@@ -30,4 +30,4 @@ class MVVM_MODEL_EXPORT AbstractSessionModelDecorator : public SessionModelInter
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_ABSTRACTSESSIONMODELDECORATOR_H
+#endif  // MVVM_MODEL_ABSTRACT_SESSIONMODEL_DECORATOR_H_

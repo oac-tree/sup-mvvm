@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_CONTAINERUTILS_H
-#define MVVM_UTILS_CONTAINERUTILS_H
+#ifndef MVVM_UTILS_CONTAINER_UTILS_H_
+#define MVVM_UTILS_CONTAINER_UTILS_H_
 
 #include <algorithm>
 #include <iterator>
@@ -105,4 +105,4 @@ std::vector<T*> CastItems(const C& container)
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_UTILS_CONTAINERUTILS_H
+#endif  // MVVM_UTILS_CONTAINER_UTILS_H_

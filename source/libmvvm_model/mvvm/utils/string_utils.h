@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_STRINGUTILS_H
-#define MVVM_UTILS_STRINGUTILS_H
+#ifndef MVVM_UTILS_STRING_UTILS_H_
+#define MVVM_UTILS_STRING_UTILS_H_
 
 #include <mvvm/model_export.h>
 
@@ -83,4 +83,4 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::stri
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_UTILS_STRINGUTILS_H
+#endif  // MVVM_UTILS_STRING_UTILS_H_

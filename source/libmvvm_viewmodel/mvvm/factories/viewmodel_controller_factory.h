@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
-#define MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
+#ifndef MVVM_FACTORIES_VIEWMODEL_CONTROLLER_FACTORY_H_
+#define MVVM_FACTORIES_VIEWMODEL_CONTROLLER_FACTORY_H_
 
 #include <mvvm/factories/viewmodel_controller_builder.h>
 #include <mvvm/viewmodel_export.h>
@@ -48,4 +48,4 @@ std::unique_ptr<AbstractViewModelController> CreateController(ApplicationModel* 
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
+#endif  // MVVM_FACTORIES_VIEWMODEL_CONTROLLER_FACTORY_H_

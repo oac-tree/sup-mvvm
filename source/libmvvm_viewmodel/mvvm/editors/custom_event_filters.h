@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_CUSTOMEVENTFILTERS_H
-#define MVVM_EDITORS_CUSTOMEVENTFILTERS_H
+#ifndef MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
+#define MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -59,4 +59,4 @@ protected:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_CUSTOMEVENTFILTERS_H
+#endif  // MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_

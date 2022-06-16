@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_TOPITEMSTREEVIEW_H
-#define MVVM_WIDGETS_TOPITEMSTREEVIEW_H
+#ifndef MVVM_WIDGETS_TOP_ITEMS_TREE_VIEW_H_
+#define MVVM_WIDGETS_TOP_ITEMS_TREE_VIEW_H_
 
 #include <mvvm/widgets/abstract_item_view.h>
 
@@ -45,4 +45,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_TOPITEMSTREEVIEW_H
+#endif  // MVVM_WIDGETS_TOP_ITEMS_TREE_VIEW_H_

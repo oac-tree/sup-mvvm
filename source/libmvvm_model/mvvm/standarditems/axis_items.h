@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_STANDARDITEMS_AXISITEMS_H
-#define MVVM_STANDARDITEMS_AXISITEMS_H
+#ifndef MVVM_STANDARDITEMS_AXIS_ITEMS_H_
+#define MVVM_STANDARDITEMS_AXIS_ITEMS_H_
 
 //! @file axisitems.h
 //! Collection of axis items for 1D and 2D data/plotting support.
@@ -133,4 +133,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_AXISITEMS_H
+#endif  // MVVM_STANDARDITEMS_AXIS_ITEMS_H_

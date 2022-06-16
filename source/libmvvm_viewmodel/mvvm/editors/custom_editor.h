@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_CUSTOMEDITOR_H
-#define MVVM_EDITORS_CUSTOMEDITOR_H
+#ifndef MVVM_EDITORS_CUSTOM_EDITOR_H_
+#define MVVM_EDITORS_CUSTOM_EDITOR_H_
 
 #include <mvvm/core/variant.h>
 #include <mvvm/viewmodel_export.h>
@@ -60,4 +60,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_CUSTOMEDITOR_H
+#endif  // MVVM_EDITORS_CUSTOM_EDITOR_H_

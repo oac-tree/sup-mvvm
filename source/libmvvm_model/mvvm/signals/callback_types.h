@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_CALLBACK_TYPES_H
-#define MVVM_SIGNALS_CALLBACK_TYPES_H
+#ifndef MVVM_SIGNALS_CALLBACK_TYPES_H_
+#define MVVM_SIGNALS_CALLBACK_TYPES_H_
 
 #include <functional>
 #include <string>
@@ -39,4 +39,4 @@ using model_t = std::function<void(SessionModel*)>;
 }  // namespace Callbacks
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_CALLBACK_TYPES_H
+#endif  // MVVM_SIGNALS_CALLBACK_TYPES_H_

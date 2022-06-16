@@ -28,8 +28,8 @@
  * @details This header file contains the definition of the AttributeMap class.
  */
 
-#ifndef MVVM_SERIALIZATION_ATTRIBUTEMAP_H
-#define MVVM_SERIALIZATION_ATTRIBUTEMAP_H
+#ifndef MVVM_SERIALIZATION_ATTRIBUTE_MAP_H_
+#define MVVM_SERIALIZATION_ATTRIBUTE_MAP_H_
 
 #include <map>
 #include <string>
@@ -172,4 +172,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_ATTRIBUTEMAP_H
+#endif  // MVVM_SERIALIZATION_ATTRIBUTE_MAP_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_SESSIONITEM_H
-#define MVVM_MODEL_SESSIONITEM_H
+#ifndef MVVM_MODEL_SESSIONITEM_H_
+#define MVVM_MODEL_SESSIONITEM_H_
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/mvvm_types.h>
@@ -210,4 +210,4 @@ inline T* SessionItem::InsertItem(const TagIndex& tag_index)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_SESSIONITEM_H
+#endif  // MVVM_MODEL_SESSIONITEM_H_

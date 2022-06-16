@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
-#define MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
+#ifndef MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_
+#define MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_
 
 #include <mvvm/model_export.h>
 
@@ -58,4 +58,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
+#endif  // MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_

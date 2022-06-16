@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_STATUSLABEL_H
-#define MVVM_WIDGETS_STATUSLABEL_H
+#ifndef MVVM_WIDGETS_STATUS_LABEL_H_
+#define MVVM_WIDGETS_STATUS_LABEL_H_
 
 #include <mvvm/view_export.h>
 
@@ -56,4 +56,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_STATUSLABEL_H
+#endif  // MVVM_WIDGETS_STATUS_LABEL_H_

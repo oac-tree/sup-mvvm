@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_EDITORBUILDERS_H
-#define MVVM_EDITORS_EDITORBUILDERS_H
+#ifndef MVVM_EDITORS_EDITOR_BUILDERS_H_
+#define MVVM_EDITORS_EDITOR_BUILDERS_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -57,4 +57,4 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t ScientificSpinBoxEditorBuilder();
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_EDITORBUILDERS_H
+#endif  // MVVM_EDITORS_EDITOR_BUILDERS_H_

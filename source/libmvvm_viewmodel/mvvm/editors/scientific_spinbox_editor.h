@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
-#define MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
+#ifndef MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
+#define MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
 
 #include <mvvm/editors/custom_editor.h>
 
@@ -51,4 +51,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
+#endif  // MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
