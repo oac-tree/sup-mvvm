@@ -20,8 +20,8 @@
 #ifndef MVVM_MODEL_APPLICATIONMODEL_H
 #define MVVM_MODEL_APPLICATIONMODEL_H
 
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/viewmodel_export.h>
 
 namespace mvvm
 {

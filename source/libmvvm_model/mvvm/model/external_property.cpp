@@ -19,7 +19,7 @@
 
 #include "mvvm/model/external_property.h"
 
-#include "mvvm/utils/string_utils.h"
+#include <mvvm/utils/string_utils.h>
 
 #include <sstream>
 

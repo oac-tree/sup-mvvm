@@ -20,9 +20,9 @@
 #ifndef MVVM_SIGNALS_MODELLISTENERBASE_H
 #define MVVM_SIGNALS_MODELLISTENERBASE_H
 
-#include "mvvm/model_export.h"
-#include "mvvm/signals/callback_types.h"
-#include "mvvm/signals/signal_slot.h"
+#include <mvvm/model_export.h>
+#include <mvvm/signals/callback_types.h>
+#include <mvvm/signals/signal_slot.h>
 
 #include <memory>
 

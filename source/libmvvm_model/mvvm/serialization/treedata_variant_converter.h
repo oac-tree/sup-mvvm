@@ -33,8 +33,8 @@
 //! - <Variant role = "0" type = "ComboProperty" selections="1,2">a1;a2</Variant>
 //! - <Variant role = "0" type = "ExternalProperty">text;color;identifier</Variant>
 
-#include "mvvm/core/variant.h"
-#include "mvvm/model_export.h"
+#include <mvvm/core/variant.h>
+#include <mvvm/model_export.h>
 
 namespace mvvm
 {

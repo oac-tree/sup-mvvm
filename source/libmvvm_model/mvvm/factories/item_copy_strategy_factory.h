@@ -20,7 +20,7 @@
 #ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
 #define MVVM_INTERFACES_ITEMCOPYSTRATEGYFACTORY_H
 
-#include "mvvm/interfaces/item_copy_strategy_interface.h"
+#include <mvvm/interfaces/item_copy_strategy_interface.h>
 
 #include <memory>
 

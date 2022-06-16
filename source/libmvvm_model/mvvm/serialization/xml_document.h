@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_XMLDOCUMENT_H
 #define MVVM_SERIALIZATION_XMLDOCUMENT_H
 
-#include "mvvm/interfaces/model_document_interface.h"
+#include <mvvm/interfaces/model_document_interface.h>
 
 #include <memory>
 #include <vector>

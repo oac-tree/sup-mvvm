@@ -19,7 +19,7 @@
 
 #include "mvvm/editors/abstract_editor_factory.h"
 
-#include "mvvm/editors/custom_editor.h"
+#include <mvvm/editors/custom_editor.h>
 
 #include <gtest/gtest.h>
 

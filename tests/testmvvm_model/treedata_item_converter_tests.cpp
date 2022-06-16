@@ -22,17 +22,17 @@
 #include "folder_based_tests.h"
 #include "test_utils.h"
 
-#include "mvvm/factories/item_catalogue_factory.h"
-#include "mvvm/model/compound_item.h"
-#include "mvvm/model/external_property.h"
-#include "mvvm/model/item_factory.h"
-#include "mvvm/model/sessionitem_data.h"
-#include "mvvm/model/tagged_items.h"
-#include "mvvm/serialization/treedata.h"
-#include "mvvm/serialization/xml_parse_utils.h"
-#include "mvvm/serialization/xml_write_utils.h"
-#include "mvvm/standarditems/standard_item_includes.h"
-#include "mvvm/standarditems/vector_item.h"
+#include <mvvm/factories/item_catalogue_factory.h>
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/external_property.h>
+#include <mvvm/model/item_factory.h>
+#include <mvvm/model/sessionitem_data.h>
+#include <mvvm/model/tagged_items.h>
+#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/serialization/xml_write_utils.h>
+#include <mvvm/standarditems/standard_item_includes.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 

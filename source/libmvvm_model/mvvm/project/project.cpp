@@ -19,12 +19,12 @@
 
 #include "mvvm/project/project.h"
 
-#include "mvvm/factories/model_document_factory.h"
-#include "mvvm/model/application_model.h"
+#include <mvvm/factories/model_document_factory.h>
+#include <mvvm/model/application_model.h>
 #include "mvvm/project/project_types.h"
 #include "mvvm/project/project_change_controller.h"
 #include "mvvm/project/project_utils.h"
-#include "mvvm/utils/file_utils.h"
+#include <mvvm/utils/file_utils.h>
 
 #include <functional>
 

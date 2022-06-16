@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
 #define MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QWidget>
 

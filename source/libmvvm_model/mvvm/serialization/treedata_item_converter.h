@@ -20,8 +20,8 @@
 #ifndef MVVM_SERIALIZATION_TREEDATAITEMCONVERTER_H
 #define MVVM_SERIALIZATION_TREEDATAITEMCONVERTER_H
 
-#include "mvvm/serialization/converter_types.h"
-#include "mvvm/serialization/treedata_item_converter_interface.h"
+#include <mvvm/serialization/converter_types.h>
+#include <mvvm/serialization/treedata_item_converter_interface.h>
 
 namespace mvvm
 {

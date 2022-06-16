@@ -20,8 +20,8 @@
 #ifndef MVVM_MODEL_TAGGEDITEMS_H
 #define MVVM_MODEL_TAGGEDITEMS_H
 
-#include "mvvm/model/tagindex.h"
-#include "mvvm/model_export.h"
+#include <mvvm/model/tagindex.h>
+#include <mvvm/model_export.h>
 
 #include <memory>
 #include <string>

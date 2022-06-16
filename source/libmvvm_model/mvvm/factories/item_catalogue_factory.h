@@ -20,7 +20,7 @@
 #ifndef MVVM_FACTORIES_ITEMCATALOGUEFACTORY_H
 #define MVVM_FACTORIES_ITEMCATALOGUEFACTORY_H
 
-#include "mvvm/model/item_catalogue.h"
+#include <mvvm/model/item_catalogue.h>
 
 namespace mvvm
 {

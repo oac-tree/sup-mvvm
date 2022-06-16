@@ -19,9 +19,9 @@
 
 #include "mvvm/viewmodel/standard_presentation_items.h"
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/variant_converter.h"
-#include "mvvm/viewmodel/viewmodel_utils.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/viewmodel/variant_converter.h>
+#include <mvvm/viewmodel/viewmodel_utils.h>
 
 #include <stdexcept>
 

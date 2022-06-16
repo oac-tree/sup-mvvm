@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
 #define MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
 
-#include "mvvm/viewmodel/abstract_viewmodel_controller.h"
+#include <mvvm/viewmodel/abstract_viewmodel_controller.h>
 
 #include <memory>
 

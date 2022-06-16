@@ -23,7 +23,7 @@
 //! @file converter_types.h
 //! Collection of custom types involved into SessionItem and TreeData mutual convertion.
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <functional>
 #include <memory>

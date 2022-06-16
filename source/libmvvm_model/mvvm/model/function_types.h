@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_FUNCTION_TYPES_H
 #define MVVM_MODEL_FUNCTION_TYPES_H
 
-#include "mvvm/core/variant.h"
+#include <mvvm/core/variant.h>
 
 #include <functional>
 #include <memory>

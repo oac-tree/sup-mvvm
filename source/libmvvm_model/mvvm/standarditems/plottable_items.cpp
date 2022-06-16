@@ -19,8 +19,8 @@
 
 #include "mvvm/standarditems/plottable_items.h"
 
-#include "mvvm/standarditems/editor_constants.h"
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/container_utils.h>
 
 namespace
 {

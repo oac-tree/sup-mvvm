@@ -19,9 +19,9 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
-#include "mvvm/interfaces/model_event_subscriber_interface.h"
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/item_utils.h"
+#include <mvvm/interfaces/model_event_subscriber_interface.h>
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/item_utils.h>
 
 namespace
 {

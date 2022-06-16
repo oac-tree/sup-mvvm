@@ -20,7 +20,7 @@
 #ifndef MVVM_EDITORS_BOOLEDITOR_H
 #define MVVM_EDITORS_BOOLEDITOR_H
 
-#include "mvvm/editors/custom_editor.h"
+#include <mvvm/editors/custom_editor.h>
 
 class QCheckBox;
 

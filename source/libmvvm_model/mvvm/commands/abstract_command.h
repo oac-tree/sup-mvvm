@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_ABSTRACTCOMMAND_H
 #define MVVM_COMMANDS_ABSTRACTCOMMAND_H
 
-#include "mvvm/commands/command_interface.h"
+#include <mvvm/commands/command_interface.h>
 
 #include <memory>
 

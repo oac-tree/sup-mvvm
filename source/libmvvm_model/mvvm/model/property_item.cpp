@@ -19,7 +19,7 @@
 
 #include "mvvm/model/property_item.h"
 
-#include "mvvm/model/mvvm_types.h"
+#include <mvvm/model/mvvm_types.h>
 
 using namespace mvvm;
 

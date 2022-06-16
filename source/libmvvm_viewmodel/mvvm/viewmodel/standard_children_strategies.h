@@ -24,7 +24,7 @@
 //! @brief Collection of strategies to find children, actual of fictional, of given SessionItem.
 //! Used for ViewModel generation when underlying SessionModel changes its layout.
 
-#include "mvvm/interfaces/children_strategy_interface.h"
+#include <mvvm/interfaces/children_strategy_interface.h>
 
 namespace mvvm
 {

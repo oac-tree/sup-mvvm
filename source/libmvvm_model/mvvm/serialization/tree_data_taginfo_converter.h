@@ -26,7 +26,7 @@
 //! These are auxiliary functions to provide parsing of xml elements
 //! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 namespace mvvm
 {

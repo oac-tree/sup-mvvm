@@ -20,7 +20,7 @@
 #ifndef MVVM_SIGNALS_MODELLISTENER_H
 #define MVVM_SIGNALS_MODELLISTENER_H
 
-#include "mvvm/signals/model_listener_base.h"
+#include <mvvm/signals/model_listener_base.h>
 
 namespace mvvm
 {

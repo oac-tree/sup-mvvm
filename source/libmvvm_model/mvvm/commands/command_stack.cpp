@@ -19,8 +19,8 @@
 
 #include "mvvm/commands/command_stack.h"
 
-#include "mvvm/commands/command_interface.h"
-#include "mvvm/core/exceptions.h"
+#include <mvvm/commands/command_interface.h>
+#include <mvvm/core/exceptions.h>
 
 #include <iostream>
 #include <list>

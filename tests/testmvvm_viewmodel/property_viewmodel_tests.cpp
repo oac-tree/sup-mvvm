@@ -21,11 +21,11 @@
 
 #include "toy_items.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/property_item.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/standarditems/vector_item.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 

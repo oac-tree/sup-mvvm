@@ -20,8 +20,8 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 #define MVVM_VIEWMODELBASE_VIEWMODELBASEUTILS_H
 
-#include "mvvm/viewmodelbase/viewitem.h"
-#include "mvvm/viewmodelbase/viewmodel_base.h"
+#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodelbase/viewmodel_base.h>
 
 #include <QAbstractItemModel>
 #include <functional>

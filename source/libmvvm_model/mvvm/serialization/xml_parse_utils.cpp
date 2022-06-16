@@ -21,7 +21,7 @@
 
 #include "mvvm/serialization/xml_parse_utils.h"
 
-#include "mvvm/core/filesystem.h"
+#include <mvvm/core/filesystem.h>
 
 #include <libxml/parser.h>
 

@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_TOPITEMSTREEVIEW_H
 #define MVVM_WIDGETS_TOPITEMSTREEVIEW_H
 
-#include "mvvm/widgets/abstract_item_view.h"
+#include <mvvm/widgets/abstract_item_view.h>
 
 class QTreeView;
 

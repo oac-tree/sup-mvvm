@@ -24,7 +24,7 @@
 //! Defines signal/slot types. For the moment relies on `lsignal` library, see
 //! lsignal.h for copyright.
 
-#include "mvvm/signals/lsignal.h"
+#include <mvvm/signals/lsignal.h>
 
 #include <vector>
 namespace mvvm

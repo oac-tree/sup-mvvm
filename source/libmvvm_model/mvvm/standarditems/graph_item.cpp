@@ -19,10 +19,10 @@
 
 #include "mvvm/standarditems/graph_item.h"
 
-#include "mvvm/model/combo_property.h"
-#include "mvvm/standarditems/data1d_item.h"
-#include "mvvm/standarditems/linked_item.h"
-#include "mvvm/standarditems/plottable_items.h"
+#include <mvvm/model/combo_property.h>
+#include <mvvm/standarditems/data1d_item.h>
+#include <mvvm/standarditems/linked_item.h>
+#include <mvvm/standarditems/plottable_items.h>
 
 namespace mvvm
 {

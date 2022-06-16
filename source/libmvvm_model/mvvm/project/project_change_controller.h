@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
 #define MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <functional>
 #include <memory>

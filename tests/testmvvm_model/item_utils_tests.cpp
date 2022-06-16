@@ -19,12 +19,12 @@
 
 #include "mvvm/model/item_utils.h"
 
-#include "mvvm/model/property_item.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/taginfo.h"
-#include "mvvm/standarditems/vector_item.h"
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/taginfo.h>
+#include <mvvm/standarditems/vector_item.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
 

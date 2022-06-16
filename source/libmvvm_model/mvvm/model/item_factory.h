@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_ITEMFACTORY_H
 #define MVVM_MODEL_ITEMFACTORY_H
 
-#include "mvvm/interfaces/item_factory_interface.h"
+#include <mvvm/interfaces/item_factory_interface.h>
 
 #include <memory>
 

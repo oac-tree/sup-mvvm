@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWITEM_H
 #define MVVM_VIEWMODELBASE_VIEWITEM_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 #include <memory>

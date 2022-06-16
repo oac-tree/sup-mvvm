@@ -21,8 +21,8 @@
 
 #include "test_utils.h"
 
-#include "mvvm/viewmodelbase/viewitem.h"
-#include "mvvm/viewmodelbase/viewitem_data.h"
+#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodelbase/viewitem_data.h>
 
 #include <gtest/gtest.h>
 

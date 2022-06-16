@@ -19,7 +19,7 @@
 
 #include "mvvm/factories/model_document_factory.h"
 
-#include "mvvm/serialization/xml_document.h"
+#include <mvvm/serialization/xml_document.h>
 
 namespace mvvm
 {

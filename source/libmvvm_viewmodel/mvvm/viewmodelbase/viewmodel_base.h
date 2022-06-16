@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODELBASE_VIEWMODELBASE_H
 #define MVVM_VIEWMODELBASE_VIEWMODELBASE_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QAbstractItemModel>
 #include <memory>

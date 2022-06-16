@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodelbase/viewmodel_base_utils.h"
 
-#include "mvvm/viewmodelbase/viewmodel_base.h"
+#include <mvvm/viewmodelbase/viewmodel_base.h>
 
 namespace mvvm::utils
 {

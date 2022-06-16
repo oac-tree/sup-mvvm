@@ -22,7 +22,7 @@
 #include "folder_based_tests.h"
 #include "test_utils.h"
 
-#include "mvvm/serialization/treedata.h"
+#include <mvvm/serialization/treedata.h>
 
 using namespace mvvm;
 

@@ -19,8 +19,8 @@
 
 #include "mvvm/viewmodel/viewitem_map.h"
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodelbase/viewitem.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/viewmodelbase/viewitem.h>
 
 #include <gtest/gtest.h>
 

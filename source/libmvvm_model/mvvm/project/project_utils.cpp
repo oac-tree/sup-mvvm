@@ -19,10 +19,10 @@
 
 #include "mvvm/project/project_utils.h"
 
-#include "mvvm/interfaces/project_interface.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/project/project.h"
-#include "mvvm/utils/file_utils.h"
+#include <mvvm/interfaces/project_interface.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/project/project.h>
+#include <mvvm/utils/file_utils.h>
 
 #include <cctype>
 

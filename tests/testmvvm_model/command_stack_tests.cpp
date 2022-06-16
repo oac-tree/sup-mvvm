@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/abstract_command.h"
+#include <mvvm/commands/abstract_command.h>
 #include "mvvm/commands/command_stack.h"
-#include "mvvm/core/exceptions.h"
+#include <mvvm/core/exceptions.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

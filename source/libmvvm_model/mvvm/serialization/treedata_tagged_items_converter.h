@@ -35,8 +35,8 @@
 //!   </ItemContainer>
 //! </TaggedItems>
 
-#include "mvvm/model_export.h"
-#include "mvvm/serialization/converter_types.h"
+#include <mvvm/model_export.h>
+#include <mvvm/serialization/converter_types.h>
 
 #include <memory>
 

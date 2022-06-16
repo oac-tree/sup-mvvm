@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_ALLITEMSTREEVIEW_H
 #define MVVM_WIDGETS_ALLITEMSTREEVIEW_H
 
-#include "mvvm/widgets/abstract_item_view.h"
+#include <mvvm/widgets/abstract_item_view.h>
 
 class QTreeView;
 

@@ -19,11 +19,11 @@
 
 #include "mvvm/serialization/xml_document.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/serialization/treedata.h"
-#include "mvvm/serialization/treedata_model_converter.h"
-#include "mvvm/serialization/xml_parse_utils.h"
-#include "mvvm/serialization/xml_write_utils.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/treedata_model_converter.h>
+#include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/serialization/xml_write_utils.h>
 
 #include <stdexcept>
 

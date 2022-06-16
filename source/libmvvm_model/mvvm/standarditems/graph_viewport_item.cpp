@@ -19,7 +19,7 @@
 
 #include "mvvm/standarditems/graph_viewport_item.h"
 
-#include "mvvm/standarditems/graph_item.h"
+#include <mvvm/standarditems/graph_item.h>
 
 #include <algorithm>
 #include <vector>

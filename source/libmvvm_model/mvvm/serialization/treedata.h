@@ -31,7 +31,7 @@
 #ifndef MVVM_SERIALIZATION_TREEDATA_H
 #define MVVM_SERIALIZATION_TREEDATA_H
 
-#include "mvvm/serialization/attribute_map.h"
+#include <mvvm/serialization/attribute_map.h>
 
 #include <string>
 #include <utility>

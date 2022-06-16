@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_TREEDATAMODELCONVERTERINTERFACE_H
 #define MVVM_SERIALIZATION_TREEDATAMODELCONVERTERINTERFACE_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <memory>
 

@@ -19,9 +19,9 @@
 
 #include "mvvm/serialization/treedata_model_converter.h"
 
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/serialization/treedata.h"
-#include "mvvm/serialization/treedata_item_converter.h"
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/treedata_item_converter.h>
 
 #include <string>
 #include <vector>

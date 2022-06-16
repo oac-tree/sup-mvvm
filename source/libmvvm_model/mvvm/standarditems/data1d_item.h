@@ -20,8 +20,8 @@
 #ifndef MVVM_STANDARDITEMS_DATA1DITEM_H
 #define MVVM_STANDARDITEMS_DATA1DITEM_H
 
-#include "mvvm/model/compound_item.h"
-#include "mvvm/model/sessionmodel.h"
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/sessionmodel.h>
 
 #include <vector>
 

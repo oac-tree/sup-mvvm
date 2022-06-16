@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_COMMANDINTERFACE_H
 #define MVVM_COMMANDS_COMMANDINTERFACE_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <string>
 #include <vector>

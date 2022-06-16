@@ -19,11 +19,11 @@
 
 #include "mvvm/editors/custom_editor_factories.h"
 
-#include "mvvm/editors/custom_editor_includes.h"
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/property_item.h"
-#include "mvvm/standarditems/editor_constants.h"
-#include "mvvm/viewmodel/all_items_viewmodel.h"
+#include <mvvm/editors/custom_editor_includes.h>
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <gtest/gtest.h>
 

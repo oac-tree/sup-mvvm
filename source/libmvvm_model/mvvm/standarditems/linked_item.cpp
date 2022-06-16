@@ -19,7 +19,7 @@
 
 #include "mvvm/standarditems/linked_item.h"
 
-#include "mvvm/model/sessionmodel.h"
+#include <mvvm/model/sessionmodel.h>
 
 namespace
 {

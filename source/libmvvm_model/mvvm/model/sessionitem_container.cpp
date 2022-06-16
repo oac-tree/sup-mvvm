@@ -19,8 +19,8 @@
 
 #include "mvvm/model/sessionitem_container.h"
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/utils/container_utils.h>
 
 using namespace mvvm;
 

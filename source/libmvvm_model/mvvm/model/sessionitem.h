@@ -20,10 +20,10 @@
 #ifndef MVVM_MODEL_SESSIONITEM_H
 #define MVVM_MODEL_SESSIONITEM_H
 
-#include "mvvm/core/variant.h"
-#include "mvvm/model/mvvm_types.h"
-#include "mvvm/model/tagindex.h"
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/core/variant.h>
+#include <mvvm/model/mvvm_types.h>
+#include <mvvm/model/tagindex.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <memory>
 #include <stdexcept>

@@ -20,8 +20,8 @@
 #ifndef MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
 #define MVVM_VIEWMODEL_ABSTRACTVIEWMODELCONTROLLER_H
 
-#include "mvvm/signals/signal_slot.h"
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/signals/signal_slot.h>
+#include <mvvm/viewmodel_export.h>
 
 #include <QStringList>
 

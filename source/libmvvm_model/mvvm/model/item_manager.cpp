@@ -19,10 +19,10 @@
 
 #include "mvvm/model/item_manager.h"
 
-#include "mvvm/factories/item_catalogue_factory.h"
-#include "mvvm/model/item_factory.h"
-#include "mvvm/model/item_pool.h"
-#include "mvvm/model/sessionitem.h"
+#include <mvvm/factories/item_catalogue_factory.h>
+#include <mvvm/model/item_factory.h>
+#include <mvvm/model/item_pool.h>
+#include <mvvm/model/sessionitem.h>
 
 namespace mvvm
 {

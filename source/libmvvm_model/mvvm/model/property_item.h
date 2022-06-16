@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_PROPERTYITEM_H
 #define MVVM_MODEL_PROPERTYITEM_H
 
-#include "mvvm/model/sessionitem.h"
+#include <mvvm/model/sessionitem.h>
 
 namespace mvvm
 {

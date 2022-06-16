@@ -20,9 +20,9 @@
 #ifndef MVVM_INTERFACES_SESSIONMODELINTERFACE_H
 #define MVVM_INTERFACES_SESSIONMODELINTERFACE_H
 
-#include "mvvm/core/variant.h"
-#include "mvvm/model/tagindex.h"
-#include "mvvm/model_export.h"
+#include <mvvm/core/variant.h>
+#include <mvvm/model/tagindex.h>
+#include <mvvm/model_export.h>
 
 #include <functional>
 #include <memory>

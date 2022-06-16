@@ -19,9 +19,9 @@
 
 #include "mvvm/viewmodel/viewmodel_utils.h"
 
-#include "mvvm/core/variant.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/standarditems/editor_constants.h"
+#include <mvvm/core/variant.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <QColor>
 

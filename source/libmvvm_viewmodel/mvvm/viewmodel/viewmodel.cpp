@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-#include "mvvm/model/sessionitem.h"
+#include <mvvm/model/sessionitem.h>
 #include "mvvm/viewmodel/abstract_viewmodel_controller.h"
 #include "mvvm/viewmodel/viewmodel_utils.h"
 

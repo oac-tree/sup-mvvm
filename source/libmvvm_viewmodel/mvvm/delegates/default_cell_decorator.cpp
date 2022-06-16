@@ -19,9 +19,9 @@
 
 #include "mvvm/delegates/default_cell_decorator.h"
 
-#include "mvvm/editors/scientific_spinbox.h"
-#include "mvvm/standarditems/editor_constants.h"
-#include "mvvm/viewmodel/custom_variants.h"
+#include <mvvm/editors/scientific_spinbox.h>
+#include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/viewmodel/custom_variants.h>
 
 #include <QModelIndex>
 #include <QStyleOptionViewItem>

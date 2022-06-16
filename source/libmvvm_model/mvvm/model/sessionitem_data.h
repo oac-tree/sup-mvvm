@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_SESSIONITEMDATA_H
 #define MVVM_MODEL_SESSIONITEMDATA_H
 
-#include "mvvm/core/variant.h"
+#include <mvvm/core/variant.h>
 
 #include <vector>
 

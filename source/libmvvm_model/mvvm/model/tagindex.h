@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_TAGINDEX_H
 #define MVVM_MODEL_TAGINDEX_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <string>
 

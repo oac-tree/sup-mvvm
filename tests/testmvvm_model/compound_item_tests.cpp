@@ -19,9 +19,9 @@
 
 #include "mvvm/model/compound_item.h"
 
-#include "mvvm/model/item_utils.h"
-#include "mvvm/model/property_item.h"
-#include "mvvm/standarditems/vector_item.h"
+#include <mvvm/model/item_utils.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 

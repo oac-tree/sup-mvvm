@@ -23,7 +23,7 @@
 //! @file viewmodelfactory.h
 //! Contains factory methods to construct various view models.
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <memory>
 

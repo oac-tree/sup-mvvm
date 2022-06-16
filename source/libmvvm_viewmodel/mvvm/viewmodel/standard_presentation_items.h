@@ -23,7 +23,7 @@
 //! @file standardpresentationitems.h
 //! Defines standard presentations for sessionitem.
 
-#include "mvvm/viewmodelbase/viewitem_data_interface.h"
+#include <mvvm/viewmodelbase/viewitem_data_interface.h>
 
 #include <memory>
 

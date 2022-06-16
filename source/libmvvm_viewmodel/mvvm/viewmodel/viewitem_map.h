@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEMMAP_H
 #define MVVM_VIEWMODEL_VIEWITEMMAP_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <map>
 

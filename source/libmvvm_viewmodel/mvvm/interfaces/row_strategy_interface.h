@@ -20,7 +20,7 @@
 #ifndef MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H
 #define MVVM_INTERFACES_ROWSTRATEGYINTERFACE_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QStringList>
 #include <memory>

@@ -19,8 +19,8 @@
 
 #include "mvvm/project/model_has_changed_controller.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/property_item.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/property_item.h>
 
 #include <gtest/gtest.h>
 

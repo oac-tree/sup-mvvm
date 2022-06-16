@@ -21,11 +21,11 @@
 
 #include "test_utils.h"
 
-#include "mvvm/model/property_item.h"
-#include "mvvm/model/sessionitem_container.h"
-#include "mvvm/model/tagged_items.h"
-#include "mvvm/model/taginfo.h"
-#include "mvvm/serialization/treedata.h"
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionitem_container.h>
+#include <mvvm/model/tagged_items.h>
+#include <mvvm/model/taginfo.h>
+#include <mvvm/serialization/treedata.h>
 
 #include <gtest/gtest.h>
 

@@ -20,7 +20,7 @@
 #ifndef MVVM_DELEGATES_DEFAULTCELLDECORATOR_H
 #define MVVM_DELEGATES_DEFAULTCELLDECORATOR_H
 
-#include "mvvm/interfaces/cell_decorator_interface.h"
+#include <mvvm/interfaces/cell_decorator_interface.h>
 
 #include <optional>
 

@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_COMMANDSTACKINTERFACE_H
 #define MVVM_COMMANDS_COMMANDSTACKINTERFACE_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <memory>
 

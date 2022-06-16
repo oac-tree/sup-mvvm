@@ -19,10 +19,10 @@
 
 #include "mvvm/model/application_model.h"
 
-#include "mvvm/interfaces/item_manager_interface.h"
-#include "mvvm/model/item_manager.h"
-#include "mvvm/model/validate_utils.h"
-#include "mvvm/signals/model_event_notifier.h"
+#include <mvvm/interfaces/item_manager_interface.h>
+#include <mvvm/model/item_manager.h>
+#include <mvvm/model/validate_utils.h>
+#include <mvvm/signals/model_event_notifier.h>
 
 namespace mvvm
 {

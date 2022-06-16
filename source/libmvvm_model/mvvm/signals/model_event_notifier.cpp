@@ -19,9 +19,9 @@
 
 #include "mvvm/signals/model_event_notifier.h"
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/signals/signal_slot.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/signals/signal_slot.h>
 
 namespace mvvm
 {

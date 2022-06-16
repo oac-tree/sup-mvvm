@@ -20,9 +20,9 @@
 #ifndef MVVM_SIGNALS_MODELEVENTNOTIFIER_H
 #define MVVM_SIGNALS_MODELEVENTNOTIFIER_H
 
-#include "mvvm/interfaces/model_event_notifier_interface.h"
-#include "mvvm/interfaces/model_event_subscriber_interface.h"
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/interfaces/model_event_notifier_interface.h>
+#include <mvvm/interfaces/model_event_subscriber_interface.h>
+#include <mvvm/viewmodel_export.h>
 
 #include <map>
 #include <memory>

@@ -19,9 +19,9 @@
 
 #include "mvvm/plotting/status_string_reporter.h"
 
-#include "mvvm/plotting/mouse_move_reporter.h"
-#include "mvvm/plotting/mouse_pos_info.h"
-#include "mvvm/plotting/status_string_formatter_interface.h"
+#include <mvvm/plotting/mouse_move_reporter.h>
+#include <mvvm/plotting/mouse_pos_info.h>
+#include <mvvm/plotting/status_string_formatter_interface.h>
 
 #include <stdexcept>
 

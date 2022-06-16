@@ -30,7 +30,7 @@
 //!   <Variant role="1" type="vector_double_t">42.1, 42.2, 42.3</Variant>
 //! </ItemData>
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <memory>
 

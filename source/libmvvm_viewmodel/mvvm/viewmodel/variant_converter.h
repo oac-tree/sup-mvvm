@@ -23,9 +23,9 @@
 //! @file variantconverter.h
 //! Collection of utility functions to convert variant_t to QVariant and back.
 
-#include "mvvm/core/variant.h"
-#include "mvvm/viewmodel/custom_variants.h"
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/core/variant.h>
+#include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 

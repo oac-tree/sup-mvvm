@@ -19,10 +19,10 @@
 
 #include "mvvm/editors/external_property_editor.h"
 
-#include "mvvm/editors/custom_event_filters.h"
-#include "mvvm/editors/style_utils.h"
-#include "mvvm/model/external_property.h"
-#include "mvvm/viewmodel/custom_variants.h"
+#include <mvvm/editors/custom_event_filters.h>
+#include <mvvm/editors/style_utils.h>
+#include <mvvm/model/external_property.h>
+#include <mvvm/viewmodel/custom_variants.h>
 
 #include <QHBoxLayout>
 #include <QLabel>

@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_ITEMMANAGER_H
 #define MVVM_MODEL_ITEMMANAGER_H
 
-#include "mvvm/interfaces/item_manager_interface.h"
+#include <mvvm/interfaces/item_manager_interface.h>
 
 namespace mvvm
 {

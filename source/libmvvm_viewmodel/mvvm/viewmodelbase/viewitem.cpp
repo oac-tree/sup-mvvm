@@ -21,7 +21,7 @@
 
 #include "viewitem_data.h"
 
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/utils/container_utils.h>
 
 #include <algorithm>
 #include <stdexcept>

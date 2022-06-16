@@ -19,7 +19,7 @@
 
 #include "mvvm/model/combo_property.h"
 
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/utils/container_utils.h>
 
 #include <sstream>
 #include <stdexcept>

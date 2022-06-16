@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_ALLITEMSVIEWMODEL_H
 #define MVVM_VIEWMODEL_ALLITEMSVIEWMODEL_H
 
-#include "mvvm/viewmodel/viewmodel.h"
+#include <mvvm/viewmodel/viewmodel.h>
 
 namespace mvvm
 {

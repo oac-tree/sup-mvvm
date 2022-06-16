@@ -20,7 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
 #define MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
 
-#include "mvvm/standarditems/viewport_item.h"
+#include <mvvm/standarditems/viewport_item.h>
 
 namespace mvvm
 {

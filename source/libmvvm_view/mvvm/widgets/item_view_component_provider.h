@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_ITEMVIEWCONTROLLER_H
 #define MVVM_WIDGETS_ITEMVIEWCONTROLLER_H
 
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/utils/container_utils.h>
 
 #include <QObject>
 #include <functional>

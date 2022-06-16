@@ -20,7 +20,7 @@
 #ifndef MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
 #define MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <vector>
 

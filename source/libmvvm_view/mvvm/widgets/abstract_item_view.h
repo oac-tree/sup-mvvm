@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_ABSTRACTITEMVIEW_H
 #define MVVM_WIDGETS_ABSTRACTITEMVIEW_H
 
-#include "mvvm/view_export.h"
+#include <mvvm/view_export.h>
 
 #include <QWidget>
 

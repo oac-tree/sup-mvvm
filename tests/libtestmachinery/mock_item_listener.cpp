@@ -18,8 +18,8 @@
  *****************************************************************************/
 
 #include "mock_item_listener.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/tagindex.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/tagindex.h>
 
 void MockItemListener::Subscribe()
 {

@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/core/exceptions.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/tagged_items.h"
-#include "mvvm/model/tagindex.h"
+#include <mvvm/core/exceptions.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/tagged_items.h>
+#include <mvvm/model/tagindex.h>
 
 namespace mvvm::utils
 {

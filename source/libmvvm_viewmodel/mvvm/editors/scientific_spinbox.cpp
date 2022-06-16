@@ -19,7 +19,7 @@
 
 #include "mvvm/editors/scientific_spinbox.h"
 
-#include "mvvm/standarditems/editor_constants.h"
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <QLineEdit>
 #include <cmath>

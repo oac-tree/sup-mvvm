@@ -19,7 +19,7 @@
 
 #include "mvvm/commands/abstract_command.h"
 
-#include "mvvm/core/exceptions.h"
+#include <mvvm/core/exceptions.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

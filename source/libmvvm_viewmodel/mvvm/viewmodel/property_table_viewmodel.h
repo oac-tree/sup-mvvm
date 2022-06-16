@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
 #define MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
 
-#include "mvvm/viewmodel/viewmodel.h"
+#include <mvvm/viewmodel/viewmodel.h>
 
 namespace mvvm
 {

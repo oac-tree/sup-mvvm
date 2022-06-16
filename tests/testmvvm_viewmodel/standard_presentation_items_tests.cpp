@@ -19,8 +19,8 @@
 
 #include "mvvm/viewmodel/standard_presentation_items.h"
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/standarditems/editor_constants.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <gtest/gtest.h>
 

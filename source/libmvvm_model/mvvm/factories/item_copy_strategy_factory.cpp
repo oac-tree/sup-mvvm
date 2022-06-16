@@ -19,10 +19,10 @@
 
 #include "mvvm/factories/item_copy_strategy_factory.h"
 
-#include "mvvm/interfaces/item_copy_strategy_interface.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/serialization/treedata.h"
-#include "mvvm/serialization/treedata_item_converter.h"
+#include <mvvm/interfaces/item_copy_strategy_interface.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/treedata_item_converter.h>
 
 namespace
 {

@@ -21,16 +21,16 @@
 
 #include "test_utils.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/compound_item.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/taginfo.h"
-#include "mvvm/standarditems/container_item.h"
-#include "mvvm/standarditems/vector_item.h"
-#include "mvvm/viewmodel/standard_children_strategies.h"
-#include "mvvm/viewmodel/standard_row_strategies.h"
-#include "mvvm/viewmodel/viewmodel_utils.h"
-#include "mvvm/viewmodelbase/viewmodel_base.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/taginfo.h>
+#include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/vector_item.h>
+#include <mvvm/viewmodel/standard_children_strategies.h>
+#include <mvvm/viewmodel/standard_row_strategies.h>
+#include <mvvm/viewmodel/viewmodel_utils.h>
+#include <mvvm/viewmodelbase/viewmodel_base.h>
 
 #include <gtest/gtest.h>
 

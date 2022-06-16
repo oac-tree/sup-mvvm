@@ -20,7 +20,7 @@
 #ifndef MVVM_UTILS_STRINGUTILS_H
 #define MVVM_UTILS_STRINGUTILS_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <optional>
 #include <string>

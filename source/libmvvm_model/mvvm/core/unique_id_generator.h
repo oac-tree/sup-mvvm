@@ -20,7 +20,7 @@
 #ifndef MVVM_CORE_UNIQUEIDGENERATOR_H
 #define MVVM_CORE_UNIQUEIDGENERATOR_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <string>
 

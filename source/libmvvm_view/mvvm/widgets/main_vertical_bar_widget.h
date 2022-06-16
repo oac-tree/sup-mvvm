@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
 #define MVVM_WIDGETS_MAINVERTICALBARWIDGET_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QFrame>
 #include <map>

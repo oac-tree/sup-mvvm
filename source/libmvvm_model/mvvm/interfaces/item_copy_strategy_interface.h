@@ -20,7 +20,7 @@
 #ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGYINTERFACE_H
 #define MVVM_INTERFACES_ITEMCOPYSTRATEGYINTERFACE_H
 
-#include "mvvm/model_export.h"
+#include <mvvm/model_export.h>
 
 #include <memory>
 

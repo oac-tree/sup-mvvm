@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_SESSIONITEMCONTAINER_H
 #define MVVM_MODEL_SESSIONITEMCONTAINER_H
 
-#include "mvvm/model/taginfo.h"
+#include <mvvm/model/taginfo.h>
 
 #include <vector>
 

@@ -20,8 +20,8 @@
 #ifndef MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
 #define MVVM_INTERFACES_ITEMFACTORYINTERFACE_H
 
-#include "mvvm/model/function_types.h"
-#include "mvvm/model_export.h"
+#include <mvvm/model/function_types.h>
+#include <mvvm/model_export.h>
 
 namespace mvvm
 {

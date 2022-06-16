@@ -20,7 +20,7 @@
 #ifndef MVVM_PLOTTING_MOUSEPOSINFO_H
 #define MVVM_PLOTTING_MOUSEPOSINFO_H
 
-#include "mvvm/view_export.h"
+#include <mvvm/view_export.h>
 
 class QCustomPlot;
 

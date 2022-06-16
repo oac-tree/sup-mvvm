@@ -20,8 +20,8 @@
 #ifndef MVVM_MODEL_ITEMUTILS_H
 #define MVVM_MODEL_ITEMUTILS_H
 
-#include "mvvm/model/mvvm_types.h"
-#include "mvvm/model_export.h"
+#include <mvvm/model/mvvm_types.h>
+#include <mvvm/model_export.h>
 
 #include <functional>
 #include <string>

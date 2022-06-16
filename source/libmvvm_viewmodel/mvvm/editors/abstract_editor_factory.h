@@ -23,8 +23,8 @@
 //! @file defaulteditorfactory.h
 //! Defines DefaultEditorFactory and auxiliary classes for custom view model delegates.
 
-#include "mvvm/editors/editor_builders.h"
-#include "mvvm/interfaces/editor_factory_interface.h"
+#include <mvvm/editors/editor_builders.h>
+#include <mvvm/interfaces/editor_factory_interface.h>
 
 #include <map>
 

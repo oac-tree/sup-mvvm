@@ -20,7 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_LINKEDITEM_H
 #define MVVM_STANDARDITEMS_LINKEDITEM_H
 
-#include "mvvm/model/sessionitem.h"
+#include <mvvm/model/sessionitem.h>
 
 namespace mvvm
 {

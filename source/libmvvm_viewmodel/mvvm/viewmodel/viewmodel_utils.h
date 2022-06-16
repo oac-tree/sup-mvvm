@@ -20,10 +20,10 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
 #define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/standard_presentation_items.h"
-#include "mvvm/viewmodel_export.h"
-#include "mvvm/viewmodelbase/viewmodel_base_utils.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/viewmodel/standard_presentation_items.h>
+#include <mvvm/viewmodel_export.h>
+#include <mvvm/viewmodelbase/viewmodel_base_utils.h>
 
 #include <QVariant>
 #include <QVector>

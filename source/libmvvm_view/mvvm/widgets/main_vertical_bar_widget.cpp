@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/main_vertical_bar_widget.h"
 
-#include "mvvm/widgets/fancytab.h"
+#include <mvvm/widgets/fancytab.h>
 
 #include <QButtonGroup>
 #include <QHBoxLayout>

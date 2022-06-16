@@ -19,9 +19,9 @@
 
 #include "mvvm/editors/editor_builders.h"
 
-#include "mvvm/editors/custom_editor_includes.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/standarditems/editor_constants.h"
+#include <mvvm/editors/custom_editor_includes.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <cmath>
 

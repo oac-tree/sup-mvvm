@@ -19,10 +19,10 @@
 
 #include "mvvm/signals/model_listener.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/compound_item.h"
-#include "mvvm/model/property_item.h"
-#include "mvvm/model/sessionmodel.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionmodel.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_COLLAPSIBLEBAR_H
 #define MVVM_WIDGETS_COLLAPSIBLEBAR_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QFrame>
 

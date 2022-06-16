@@ -19,10 +19,10 @@
 
 #include "mvvm/viewmodel/property_viewmodel.h"
 
-#include "mvvm/factories/viewmodel_controller_factory.h"
-#include "mvvm/viewmodel/standard_children_strategies.h"
-#include "mvvm/viewmodel/standard_row_strategies.h"
-#include "mvvm/viewmodel/viewmodel_controller.h"
+#include <mvvm/factories/viewmodel_controller_factory.h>
+#include <mvvm/viewmodel/standard_children_strategies.h>
+#include <mvvm/viewmodel/standard_row_strategies.h>
+#include <mvvm/viewmodel/viewmodel_controller.h>
 
 namespace mvvm
 {

@@ -19,8 +19,8 @@
 
 #include "mvvm/model/tagged_items.h"
 
-#include "mvvm/model/sessionitem_container.h"
-#include "mvvm/core/exceptions.h"
+#include <mvvm/model/sessionitem_container.h>
+#include <mvvm/core/exceptions.h>
 
 #include <stdexcept>
 

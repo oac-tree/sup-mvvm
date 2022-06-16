@@ -19,8 +19,8 @@
 
 #include "mvvm/editors/color_editor.h"
 
-#include "mvvm/editors/custom_event_filters.h"
-#include "mvvm/editors/style_utils.h"
+#include <mvvm/editors/custom_event_filters.h>
+#include <mvvm/editors/style_utils.h>
 
 #include <QColorDialog>
 #include <QHBoxLayout>

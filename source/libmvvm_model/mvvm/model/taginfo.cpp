@@ -19,7 +19,7 @@
 
 #include "mvvm/model/taginfo.h"
 
-#include "mvvm/utils/container_utils.h"
+#include <mvvm/utils/container_utils.h>
 
 #include <sstream>
 #include <stdexcept>

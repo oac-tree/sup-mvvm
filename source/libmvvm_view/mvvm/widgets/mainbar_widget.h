@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_MAINBARWIDGET_H
 #define MVVM_WIDGETS_MAINBARWIDGET_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QFrame>
 #include <map>

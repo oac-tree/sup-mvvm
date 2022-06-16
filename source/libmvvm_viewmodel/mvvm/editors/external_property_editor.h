@@ -20,7 +20,7 @@
 #ifndef MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
 #define MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
 
-#include "mvvm/editors/custom_editor.h"
+#include <mvvm/editors/custom_editor.h>
 
 #include <functional>
 

@@ -20,7 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_VECTORITEM_H
 #define MVVM_STANDARDITEMS_VECTORITEM_H
 
-#include "mvvm/model/compound_item.h"
+#include <mvvm/model/compound_item.h>
 
 namespace mvvm
 {

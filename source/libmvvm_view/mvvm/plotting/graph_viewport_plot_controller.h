@@ -20,8 +20,8 @@
 #ifndef MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
 #define MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
 
-#include "mvvm/signals/item_listener.h"
-#include "mvvm/view_export.h"
+#include <mvvm/signals/item_listener.h>
+#include <mvvm/view_export.h>
 
 #include <memory>
 

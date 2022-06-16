@@ -20,7 +20,7 @@
 #ifndef MVVM_PLOTTING_GRAPHCANVAS_H
 #define MVVM_PLOTTING_GRAPHCANVAS_H
 
-#include "mvvm/view_export.h"
+#include <mvvm/view_export.h>
 
 #include <QWidget>
 #include <memory>

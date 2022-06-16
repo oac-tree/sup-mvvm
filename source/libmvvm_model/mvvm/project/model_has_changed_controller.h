@@ -20,8 +20,8 @@
 #ifndef MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
 #define MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/signals/model_listener.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/signals/model_listener.h>
 
 #include <functional>
 

@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/collapsible_list_widget.h"
 
-#include "mvvm/widgets/collapsible_bar.h"
+#include <mvvm/widgets/collapsible_bar.h>
 
 #include <QSplitter>
 #include <QVBoxLayout>

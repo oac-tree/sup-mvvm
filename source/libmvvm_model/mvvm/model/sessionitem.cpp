@@ -19,11 +19,11 @@
 
 #include "mvvm/model/sessionitem.h"
 
-#include "mvvm/core/unique_id_generator.h"
+#include <mvvm/core/unique_id_generator.h>
 #include "mvvm/model/sessionitem_data.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/model/tagged_items.h"
-#include "mvvm/model/taginfo.h"
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/tagged_items.h>
+#include <mvvm/model/taginfo.h>
 
 #include <stdexcept>
 

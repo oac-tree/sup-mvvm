@@ -20,10 +20,9 @@
 #ifndef MVVM_MODEL_COMPOUNDITEM_H
 #define MVVM_MODEL_COMPOUNDITEM_H
 
-#include "mvvm/model/property_item.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/taginfo.h"
-//#include "mvvm/utils/reallimits.h"
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/taginfo.h>
 
 namespace mvvm
 {

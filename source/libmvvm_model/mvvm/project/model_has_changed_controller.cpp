@@ -19,7 +19,7 @@
 
 #include "mvvm/project/model_has_changed_controller.h"
 
-#include "mvvm/model/tagindex.h"
+#include <mvvm/model/tagindex.h>
 
 namespace mvvm
 {

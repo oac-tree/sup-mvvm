@@ -19,9 +19,9 @@
 
 #include "mvvm/standarditems/vector_item.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/item_utils.h"
-#include "mvvm/model/sessionmodel.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/item_utils.h>
+#include <mvvm/model/sessionmodel.h>
 
 #include <gtest/gtest.h>
 

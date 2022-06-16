@@ -19,10 +19,10 @@
 
 #include "mvvm/factories/viewmodel_controller_builder.h"
 
-#include "mvvm/interfaces/children_strategy_interface.h"
-#include "mvvm/interfaces/row_strategy_interface.h"
-#include "mvvm/model/application_model.h"
-#include "mvvm/viewmodel/viewmodel_controller.h"
+#include <mvvm/interfaces/children_strategy_interface.h>
+#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/model/application_model.h>
+#include <mvvm/viewmodel/viewmodel_controller.h>
 
 #include <stdexcept>
 

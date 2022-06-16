@@ -19,7 +19,7 @@
 
 #include "mvvm/plotting/mouse_move_reporter.h"
 
-#include "mvvm/plotting/mouse_pos_info.h"
+#include <mvvm/plotting/mouse_pos_info.h>
 
 #include <qcustomplot.h>
 

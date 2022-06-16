@@ -20,8 +20,8 @@
 #ifndef MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H
 #define MVVM_VIEWMODEL_STANDARDROWSTRATEGIES_H
 
-#include "mvvm/interfaces/row_strategy_interface.h"
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/viewmodel_export.h>
 
 #include <vector>
 

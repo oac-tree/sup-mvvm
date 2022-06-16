@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_COMMANDSTACK_H
 #define MVVM_COMMANDS_COMMANDSTACK_H
 
-#include "mvvm/commands/command_stack_interface.h"
+#include <mvvm/commands/command_stack_interface.h>
 
 #include <memory>
 

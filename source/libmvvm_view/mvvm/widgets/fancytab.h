@@ -20,7 +20,7 @@
 #ifndef MVVM_WIDGETS_FANCYTAB_H
 #define MVVM_WIDGETS_FANCYTAB_H
 
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/viewmodel_export.h>
 
 #include <QColor>
 #include <QWidget>

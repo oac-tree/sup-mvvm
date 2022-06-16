@@ -19,8 +19,8 @@
 
 #include "mvvm/plotting/pen_controller.h"
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/standarditems/plottable_items.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/plottable_items.h>
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>

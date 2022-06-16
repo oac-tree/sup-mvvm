@@ -19,20 +19,20 @@
 
 #include "mvvm/viewmodel/viewmodel_controller.h"
 
-#include "mvvm/interfaces/children_strategy_interface.h"
-#include "mvvm/interfaces/row_strategy_interface.h"
-#include "mvvm/model/item_utils.h"
-#include "mvvm/model/model_utils.h"
-#include "mvvm/model/path.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/utils/container_utils.h"
-#include "mvvm/viewmodel/standard_presentation_items.h"
-#include "mvvm/viewmodel/viewitem_factory.h"
-#include "mvvm/viewmodel/viewitem_map.h"
-#include "mvvm/viewmodel/viewmodel_utils.h"
-#include "mvvm/viewmodelbase/viewmodel_base.h"
-#include "mvvm/viewmodelbase/viewmodel_base_utils.h"
+#include <mvvm/interfaces/children_strategy_interface.h>
+#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_utils.h>
+#include <mvvm/model/path.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/utils/container_utils.h>
+#include <mvvm/viewmodel/standard_presentation_items.h>
+#include <mvvm/viewmodel/viewitem_factory.h>
+#include <mvvm/viewmodel/viewitem_map.h>
+#include <mvvm/viewmodel/viewmodel_utils.h>
+#include <mvvm/viewmodelbase/viewmodel_base.h>
+#include <mvvm/viewmodelbase/viewmodel_base_utils.h>
 
 #include <QDebug>
 #include <map>

@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_ABSTRACTSESSIONMODELDECORATOR_H
 #define MVVM_MODEL_ABSTRACTSESSIONMODELDECORATOR_H
 
-#include "mvvm/interfaces/sessionmodel_interface.h"
+#include <mvvm/interfaces/sessionmodel_interface.h>
 
 namespace mvvm
 {

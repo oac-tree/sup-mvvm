@@ -20,8 +20,8 @@
 #ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
 #define MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
 
-#include "mvvm/factories/viewmodel_controller_builder.h"
-#include "mvvm/viewmodel_export.h"
+#include <mvvm/factories/viewmodel_controller_builder.h>
+#include <mvvm/viewmodel_export.h>
 
 #include <memory>
 

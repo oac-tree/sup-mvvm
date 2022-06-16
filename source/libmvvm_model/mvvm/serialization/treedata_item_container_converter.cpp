@@ -19,11 +19,11 @@
 
 #include "mvvm/serialization/treedata_item_container_converter.h"
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionitem_container.h"
-#include "mvvm/model/taginfo.h"
-#include "mvvm/serialization/treedata.h"
-#include "mvvm/serialization/tree_data_taginfo_converter.h"
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionitem_container.h>
+#include <mvvm/model/taginfo.h>
+#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/tree_data_taginfo_converter.h>
 
 #include <stdexcept>
 

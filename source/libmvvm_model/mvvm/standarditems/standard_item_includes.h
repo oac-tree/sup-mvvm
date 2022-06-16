@@ -23,15 +23,15 @@
 //! @file standarditemincludes.h
 //! Collection of all includes with items supported by the model out-of-the-box.
 
-#include "mvvm/model/compound_item.h"
-#include "mvvm/model/property_item.h"
-#include "mvvm/standarditems/axis_items.h"
-#include "mvvm/standarditems/container_item.h"
-#include "mvvm/standarditems/data1d_item.h"
-#include "mvvm/standarditems/graph_item.h"
-#include "mvvm/standarditems/graph_viewport_item.h"
-#include "mvvm/standarditems/linked_item.h"
-#include "mvvm/standarditems/plottable_items.h"
-#include "mvvm/standarditems/vector_item.h"
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/data1d_item.h>
+#include <mvvm/standarditems/graph_item.h>
+#include <mvvm/standarditems/graph_viewport_item.h>
+#include <mvvm/standarditems/linked_item.h>
+#include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #endif  // MVVM_STANDARDITEMS_STANDARDITEMINCLUDES_H
