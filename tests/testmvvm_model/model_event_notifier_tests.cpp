@@ -30,7 +30,7 @@ using ::testing::_;
 
 //! Tests for ModelEventNotifier class.
 
-class ModelEventNotifierTest : public ::testing::Test
+class ModelEventNotifierTests : public ::testing::Test
 {
 public:
   class TestListener
@@ -91,7 +91,7 @@ public:
     std::unique_ptr<mvvm::Slot> m_slot;
   };
 
-  ModelEventNotifierTest() { m_listener.Subscribe(&m_notifier); }
+  ModelEventNotifierTests() { m_listener.Subscribe(&m_notifier); }
 
   ModelEventNotifier m_notifier;
   TestListener m_listener;
@@ -99,7 +99,7 @@ public:
 
 //! Checking listener methods when AboutToInsertItem is fired.
 
-TEST_F(ModelEventNotifierTest, AboutToInsertItem)
+TEST_F(ModelEventNotifierTests, AboutToInsertItem)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -119,7 +119,7 @@ TEST_F(ModelEventNotifierTest, AboutToInsertItem)
 
 //! Checking listener methods when ItemInserted is fired.
 
-TEST_F(ModelEventNotifierTest, ItemInserted)
+TEST_F(ModelEventNotifierTests, ItemInserted)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -139,7 +139,7 @@ TEST_F(ModelEventNotifierTest, ItemInserted)
 
 //! Checking listener methods when AboutToRemoveItem is fired.
 
-TEST_F(ModelEventNotifierTest, AboutToRemoveItem)
+TEST_F(ModelEventNotifierTests, AboutToRemoveItem)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -159,7 +159,7 @@ TEST_F(ModelEventNotifierTest, AboutToRemoveItem)
 
 //! Checking listener methods when ItemRemoved is fired.
 
-TEST_F(ModelEventNotifierTest, ItemRemoved)
+TEST_F(ModelEventNotifierTests, ItemRemoved)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -179,7 +179,7 @@ TEST_F(ModelEventNotifierTest, ItemRemoved)
 
 //! Checking listener methods when DataChanged is fired.
 
-TEST_F(ModelEventNotifierTest, DataChanged)
+TEST_F(ModelEventNotifierTests, DataChanged)
 {
   mvvm::SessionItem item;
   int role{42};
@@ -197,7 +197,7 @@ TEST_F(ModelEventNotifierTest, DataChanged)
   m_notifier.DataChangedNotify(&item, role);
 }
 
-TEST_F(ModelEventNotifierTest, OnModelAboutToBeReset)
+TEST_F(ModelEventNotifierTests, OnModelAboutToBeReset)
 {
   mvvm::SessionModel model;
   int role{42};
@@ -215,7 +215,7 @@ TEST_F(ModelEventNotifierTest, OnModelAboutToBeReset)
   m_notifier.ModelAboutToBeResetNotify(&model);
 }
 
-TEST_F(ModelEventNotifierTest, OnModelReset)
+TEST_F(ModelEventNotifierTests, OnModelReset)
 {
   mvvm::SessionModel model;
   int role{42};
@@ -233,7 +233,7 @@ TEST_F(ModelEventNotifierTest, OnModelReset)
   m_notifier.ModelResetNotify(&model);
 }
 
-TEST_F(ModelEventNotifierTest, OnModelAboutToBeDestroyed)
+TEST_F(ModelEventNotifierTests, OnModelAboutToBeDestroyed)
 {
   mvvm::SessionModel model;
   int role{42};
@@ -253,7 +253,7 @@ TEST_F(ModelEventNotifierTest, OnModelAboutToBeDestroyed)
 
 // FIXME enable test
 
-// TEST_F(ModelEventNotifierTest, AttemptToEstablishConnectionsTwice)
+// TEST_F(ModelEventNotifierTests, AttemptToEstablishConnectionsTwice)
 //{
 //   ModelEventNotifier notifier;
 //   MockModelListener listener;
@@ -263,7 +263,7 @@ TEST_F(ModelEventNotifierTest, OnModelAboutToBeDestroyed)
 //  EXPECT_THROW(listener.SubscribeTo(&notifier), std::runtime_error);
 //}
 
-TEST_F(ModelEventNotifierTest, Unsubscribe)
+TEST_F(ModelEventNotifierTests, Unsubscribe)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
@@ -297,7 +297,7 @@ TEST_F(ModelEventNotifierTest, Unsubscribe)
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
-TEST_F(ModelEventNotifierTest, TwoSubscriptions)
+TEST_F(ModelEventNotifierTests, TwoSubscriptions)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
@@ -340,7 +340,7 @@ TEST_F(ModelEventNotifierTest, TwoSubscriptions)
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
-TEST_F(ModelEventNotifierTest, UnsubscribeOne)
+TEST_F(ModelEventNotifierTests, UnsubscribeOne)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;

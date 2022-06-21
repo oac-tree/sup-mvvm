@@ -31,20 +31,20 @@ using namespace mvvm;
 
 //! Testing functions from utils.
 
-class WidgetUtilsTest : public ::testing::Test
+class WidgetUtilsTests : public ::testing::Test
 {
 };
 
 //! Test of system font (performed deliberately without QApplication running).
 //! Checking that the method SystemPointSize() known hardcoded value.
 
-TEST_F(WidgetUtilsTest, SystemPointSize)
+TEST_F(WidgetUtilsTests, SystemPointSize)
 {
   const int expected_system_font_size = 10;  // hardcoded in SystemPointSize
   EXPECT_EQ(utils::SystemPointSize(), expected_system_font_size);
 }
 
-TEST_F(WidgetUtilsTest, SizeOfLetterM)
+TEST_F(WidgetUtilsTests, SizeOfLetterM)
 {
   const int expected_width = 11;
   const int expected_height = 14;
@@ -55,7 +55,7 @@ TEST_F(WidgetUtilsTest, SizeOfLetterM)
 
 //! Test of WithTildeHomePath function.
 
-TEST_F(WidgetUtilsTest, ProjectWindowTitle)
+TEST_F(WidgetUtilsTests, ProjectWindowTitle)
 {
   // untitled and unmodified project
   EXPECT_EQ(utils::ProjectWindowTitle(QString(""), false), "Untitled");
@@ -76,26 +76,26 @@ TEST_F(WidgetUtilsTest, ProjectWindowTitle)
   EXPECT_EQ(utils::ProjectWindowTitle(QString("/home/user/project1"), true), "*project1");
 }
 
-TEST_F(WidgetUtilsTest, ClickableText)
+TEST_F(WidgetUtilsTests, ClickableText)
 {
   EXPECT_EQ(utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));
 }
 
-TEST_F(WidgetUtilsTest, GetStringList)
+TEST_F(WidgetUtilsTests, GetStringList)
 {
   using vec_t = std::vector<std::string>;
   EXPECT_EQ(utils::GetStringList(vec_t()), QStringList());
   EXPECT_EQ(utils::GetStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
 }
 
-TEST_F(WidgetUtilsTest, GetStdStringVector)
+TEST_F(WidgetUtilsTests, GetStdStringVector)
 {
   using vec_t = std::vector<std::string>;
   EXPECT_EQ(utils::GetStdStringVector(QStringList()), vec_t());
   EXPECT_EQ(utils::GetStdStringVector(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
 }
 
-TEST_F(WidgetUtilsTest, GetByteArray)
+TEST_F(WidgetUtilsTests, GetByteArray)
 {
   QStringList expected = QStringList() << "aaa"
                                        << "bbb"
@@ -105,7 +105,7 @@ TEST_F(WidgetUtilsTest, GetByteArray)
   EXPECT_EQ(utils::GetStringList(array), expected);
 }
 
-TEST_F(WidgetUtilsTest, CreatePathPresentation)
+TEST_F(WidgetUtilsTests, CreatePathPresentation)
 {
   using utils::CreatePathPresentation;
 

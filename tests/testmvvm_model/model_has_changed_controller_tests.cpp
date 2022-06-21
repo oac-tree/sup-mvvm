@@ -28,13 +28,13 @@ using namespace mvvm;
 
 //! Tests for ModelHasChangedController class.
 
-class ModelHasChangedControllerTest : public ::testing::Test
+class ModelHasChangedControllerTests : public ::testing::Test
 {
 };
 
 //! Tests initial state of the controller.
 
-TEST_F(ModelHasChangedControllerTest, initialState)
+TEST_F(ModelHasChangedControllerTests, initialState)
 {
   ApplicationModel model;
   ModelHasChangedController controller(&model);
@@ -43,7 +43,7 @@ TEST_F(ModelHasChangedControllerTest, initialState)
 
 //! Tests if controller 'sees' item insertion.
 
-TEST_F(ModelHasChangedControllerTest, insertItem)
+TEST_F(ModelHasChangedControllerTests, insertItem)
 {
   ApplicationModel model;
   ModelHasChangedController controller(&model);
@@ -57,7 +57,7 @@ TEST_F(ModelHasChangedControllerTest, insertItem)
 
 //! Tests if controller sees item insertion.
 
-TEST_F(ModelHasChangedControllerTest, removeItem)
+TEST_F(ModelHasChangedControllerTests, removeItem)
 {
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -72,7 +72,7 @@ TEST_F(ModelHasChangedControllerTest, removeItem)
 
 //! Tests if controller sees item data change.
 
-TEST_F(ModelHasChangedControllerTest, dataChanged)
+TEST_F(ModelHasChangedControllerTests, dataChanged)
 {
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -86,7 +86,7 @@ TEST_F(ModelHasChangedControllerTest, dataChanged)
 
 //! Tests if controller sees model reset.
 
-TEST_F(ModelHasChangedControllerTest, modelReset)
+TEST_F(ModelHasChangedControllerTests, modelReset)
 {
   ApplicationModel model;
   model.InsertItem<PropertyItem>();
@@ -100,7 +100,7 @@ TEST_F(ModelHasChangedControllerTest, modelReset)
 
 //! Tests callback functioning.
 
-TEST_F(ModelHasChangedControllerTest, callback)
+TEST_F(ModelHasChangedControllerTests, callback)
 {
   int change_count{0};
   auto on_change = [&change_count]() { change_count++; };
@@ -119,7 +119,7 @@ TEST_F(ModelHasChangedControllerTest, callback)
 
 //! Tests callback functioning.
 
-TEST_F(ModelHasChangedControllerTest, timeOfLife)
+TEST_F(ModelHasChangedControllerTests, timeOfLife)
 {
   int change_count{0};
   auto on_change = [&change_count]() { change_count++; };

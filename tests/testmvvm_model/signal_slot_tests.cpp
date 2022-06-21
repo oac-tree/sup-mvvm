@@ -26,7 +26,7 @@
 
 using ::testing::_;
 
-class SignalSlotTest : public ::testing::Test
+class SignalSlotTests : public ::testing::Test
 {
 };
 
@@ -44,7 +44,7 @@ public:
   MOCK_METHOD2(onDataChange, void(mvvm::SessionItem* item, int role));
 };
 
-TEST_F(SignalSlotTest, MockWidgetConnectAndDisconnect)
+TEST_F(SignalSlotTests, MockWidgetConnectAndDisconnect)
 {
   MockWidget widget;
   mvvm::Signal<void(mvvm::SessionItem*)> signal;
@@ -65,7 +65,7 @@ TEST_F(SignalSlotTest, MockWidgetConnectAndDisconnect)
   signal(&item);  // perform action
 }
 
-TEST_F(SignalSlotTest, MockWidgetConnectAndLock)
+TEST_F(SignalSlotTests, MockWidgetConnectAndLock)
 {
   MockWidget widget;
   mvvm::Signal<void(mvvm::SessionItem*)> signal;
@@ -88,7 +88,7 @@ TEST_F(SignalSlotTest, MockWidgetConnectAndLock)
 //! Callback container notifies two widgets. Check if one widget is removed,
 //! the second is still notified.
 
-TEST_F(SignalSlotTest, TwoWidgetsNotifiedThenOneRemoved)
+TEST_F(SignalSlotTests, TwoWidgetsNotifiedThenOneRemoved)
 {
   MockWidget widget1;
   MockWidget widget2;
@@ -115,7 +115,7 @@ TEST_F(SignalSlotTest, TwoWidgetsNotifiedThenOneRemoved)
 
 //! Callback function with two parameters.
 
-TEST_F(SignalSlotTest, SignalWithTwoParameters)
+TEST_F(SignalSlotTests, SignalWithTwoParameters)
 {
   MockWidget widget1;
   MockWidget widget2;
@@ -143,7 +143,7 @@ TEST_F(SignalSlotTest, SignalWithTwoParameters)
 
 //! Callback function with two parameters.
 
-TEST_F(SignalSlotTest, TwoSignalsOneWidget)
+TEST_F(SignalSlotTests, TwoSignalsOneWidget)
 {
   MockWidget widget;
   mvvm::Signal<void(mvvm::SessionItem*)> signal1;
@@ -175,7 +175,7 @@ TEST_F(SignalSlotTest, TwoSignalsOneWidget)
   signal2(&item, expected_role);
 }
 
-TEST_F(SignalSlotTest, OneSignalTwoWidgetsWithSlotsOneDestroyed)
+TEST_F(SignalSlotTests, OneSignalTwoWidgetsWithSlotsOneDestroyed)
 {
   MockWidget widget1;
   MockWidget widget2;
@@ -204,7 +204,7 @@ TEST_F(SignalSlotTest, OneSignalTwoWidgetsWithSlotsOneDestroyed)
   signal(&item);  // perform action
 }
 
-TEST_F(SignalSlotTest, TwoMockOwnersAndTwoSlots)
+TEST_F(SignalSlotTests, TwoMockOwnersAndTwoSlots)
 {
   auto widget1 = std::make_unique<SlotWidget>();
   auto widget2 = std::make_unique<SlotWidget>();
@@ -232,7 +232,7 @@ TEST_F(SignalSlotTest, TwoMockOwnersAndTwoSlots)
 //! Lambda subscribes another lambda to the same signal.
 //! This checks that there is no dead lock.
 
-TEST_F(SignalSlotTest, SubscribeLambdaRecursive)
+TEST_F(SignalSlotTests, SubscribeLambdaRecursive)
 {
   mvvm::Signal<void(int num)> signal;
 

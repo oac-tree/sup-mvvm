@@ -28,11 +28,11 @@ using namespace mvvm;
 
 //! Tests for ProjectChangeController class.
 
-class ProjectChangeControllerTest : public ::testing::Test
+class ProjectChangeControllerTests : public ::testing::Test
 {
 };
 
-TEST_F(ProjectChangeControllerTest, InitialState)
+TEST_F(ProjectChangeControllerTests, InitialState)
 {
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
@@ -42,7 +42,7 @@ TEST_F(ProjectChangeControllerTest, InitialState)
   EXPECT_FALSE(controller.IsChanged());
 }
 
-TEST_F(ProjectChangeControllerTest, TwoModelsChange)
+TEST_F(ProjectChangeControllerTests, TwoModelsChange)
 {
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
@@ -59,7 +59,7 @@ TEST_F(ProjectChangeControllerTest, TwoModelsChange)
   EXPECT_FALSE(controller.IsChanged());
 }
 
-TEST_F(ProjectChangeControllerTest, Callback)
+TEST_F(ProjectChangeControllerTests, Callback)
 {
   int model_changed_count{0};
 

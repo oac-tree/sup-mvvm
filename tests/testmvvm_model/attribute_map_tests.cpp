@@ -35,11 +35,11 @@
 
 using namespace mvvm;
 
-class ModelViewAttributeMapTest : public ::testing::Test
+class ModelViewAttributeMapTests : public ::testing::Test
 {
 protected:
-  ModelViewAttributeMapTest();
-  virtual ~ModelViewAttributeMapTest();
+  ModelViewAttributeMapTests();
+  virtual ~ModelViewAttributeMapTests();
 
   AttributeMap attr_map_0;
   AttributeMap attr_map_1;
@@ -57,7 +57,7 @@ static const std::string VARIABLE_ATTRIBUTE = "MyVariable";
 
 // Function definition
 
-TEST_F(ModelViewAttributeMapTest, DefaultConstructed)
+TEST_F(ModelViewAttributeMapTests, DefaultConstructed)
 {
   EXPECT_FALSE(attr_map_0.HasAttribute(attributes::NAME_ATTRIBUTE));
 
@@ -75,7 +75,7 @@ TEST_F(ModelViewAttributeMapTest, DefaultConstructed)
   EXPECT_EQ(n, 0);
 }
 
-TEST_F(ModelViewAttributeMapTest, CopyConstructed)
+TEST_F(ModelViewAttributeMapTests, CopyConstructed)
 {
   AttributeMap attr_map = attr_map_1;
   EXPECT_EQ(attr_map, attr_map_1);
@@ -89,7 +89,7 @@ TEST_F(ModelViewAttributeMapTest, CopyConstructed)
   }
 }
 
-TEST_F(ModelViewAttributeMapTest, MoveConstructed)
+TEST_F(ModelViewAttributeMapTests, MoveConstructed)
 {
   AttributeMap tmp_map = attr_map_1;  // make copy first to allow comparison later on
   AttributeMap attr_map = std::move(tmp_map);
@@ -104,7 +104,7 @@ TEST_F(ModelViewAttributeMapTest, MoveConstructed)
   }
 }
 
-TEST_F(ModelViewAttributeMapTest, CopyAssigned)
+TEST_F(ModelViewAttributeMapTests, CopyAssigned)
 {
   attr_map_0 = attr_map_1;
   EXPECT_EQ(attr_map_0, attr_map_1);
@@ -118,7 +118,7 @@ TEST_F(ModelViewAttributeMapTest, CopyAssigned)
   }
 }
 
-TEST_F(ModelViewAttributeMapTest, MoveAssigned)
+TEST_F(ModelViewAttributeMapTests, MoveAssigned)
 {
   AttributeMap tmp_map = attr_map_1;  // make copy first to allow comparison later on
   attr_map_0 = std::move(tmp_map);
@@ -133,7 +133,7 @@ TEST_F(ModelViewAttributeMapTest, MoveAssigned)
   }
 }
 
-TEST_F(ModelViewAttributeMapTest, AddAttribute)
+TEST_F(ModelViewAttributeMapTests, AddAttribute)
 {
   // Add a name attribute
   EXPECT_EQ(attr_map_0.GetNumberOfAttributes(), 0);
@@ -196,7 +196,7 @@ TEST_F(ModelViewAttributeMapTest, AddAttribute)
   EXPECT_EQ(n, 2);
 }
 
-TEST_F(ModelViewAttributeMapTest, SetAttribute)
+TEST_F(ModelViewAttributeMapTests, SetAttribute)
 {
   // Set a name attribute
   EXPECT_EQ(attr_map_0.GetNumberOfAttributes(), 0);
@@ -238,7 +238,7 @@ TEST_F(ModelViewAttributeMapTest, SetAttribute)
   EXPECT_EQ(n, 1);
 }
 
-TEST_F(ModelViewAttributeMapTest, Remove)
+TEST_F(ModelViewAttributeMapTests, Remove)
 {
   EXPECT_EQ(attr_map_1.GetNumberOfAttributes(), 2);
   EXPECT_TRUE(attr_map_1.HasAttribute(attributes::NAME_ATTRIBUTE));
@@ -264,7 +264,7 @@ TEST_F(ModelViewAttributeMapTest, Remove)
   EXPECT_EQ(n, 1);
 }
 
-TEST_F(ModelViewAttributeMapTest, Clear)
+TEST_F(ModelViewAttributeMapTests, Clear)
 {
   EXPECT_EQ(attr_map_1.GetNumberOfAttributes(), 2);
   attr_map_1.Clear();
@@ -284,7 +284,7 @@ TEST_F(ModelViewAttributeMapTest, Clear)
   EXPECT_EQ(n, 0);
 }
 
-TEST_F(ModelViewAttributeMapTest, InitialiseAttributes)
+TEST_F(ModelViewAttributeMapTests, InitialiseAttributes)
 {
   // Test state of constructed attr_map_2
   EXPECT_EQ(attr_map_2.GetNumberOfAttributes(), 2);
@@ -321,7 +321,7 @@ TEST_F(ModelViewAttributeMapTest, InitialiseAttributes)
   EXPECT_EQ(attr_map_2.GetAttribute(VARIABLE_ATTRIBUTE), DESCRIPTION_VALUE);
 }
 
-ModelViewAttributeMapTest::ModelViewAttributeMapTest()
+ModelViewAttributeMapTests::ModelViewAttributeMapTests()
 {
   attr_map_1.AddAttribute(attributes::NAME_ATTRIBUTE, NAME_VALUE);
   attr_map_1.AddAttribute(DESCRIPTION_ATTRIBUTE, DESCRIPTION_VALUE);
@@ -331,4 +331,4 @@ ModelViewAttributeMapTest::ModelViewAttributeMapTest()
   attr_map_2.AddAttribute(VARIABLE_ATTRIBUTE, var_value);
 }
 
-ModelViewAttributeMapTest::~ModelViewAttributeMapTest() = default;
+ModelViewAttributeMapTests::~ModelViewAttributeMapTests() = default;

@@ -27,11 +27,11 @@ using namespace mvvm;
 
 //! Testing AxisItems.
 
-class AxisItemsTest : public ::testing::Test
+class AxisItemsTests : public ::testing::Test
 {
 };
 
-TEST_F(AxisItemsTest, ViewportAxisInitialState)
+TEST_F(AxisItemsTests, ViewportAxisInitialState)
 {
   ViewportAxisItem axis;
   EXPECT_EQ(axis.GetMin(), 0.0);
@@ -44,7 +44,7 @@ TEST_F(AxisItemsTest, ViewportAxisInitialState)
   EXPECT_EQ(upper, 1.0);
 }
 
-TEST_F(AxisItemsTest, ViewportAxisGetSet)
+TEST_F(AxisItemsTests, ViewportAxisGetSet)
 {
   ViewportAxisItem axis;
 
@@ -57,7 +57,7 @@ TEST_F(AxisItemsTest, ViewportAxisGetSet)
   EXPECT_TRUE(axis.IsInLog());
 }
 
-TEST_F(AxisItemsTest, FixedBinAxisInitialState)
+TEST_F(AxisItemsTests, FixedBinAxisInitialState)
 {
   FixedBinAxisItem axis;
   EXPECT_EQ(axis.GetMin(), 0.0);
@@ -71,7 +71,7 @@ TEST_F(AxisItemsTest, FixedBinAxisInitialState)
 
 //! Factory method for FixedBinAxisItem.
 
-TEST_F(AxisItemsTest, FixedBinAxisSetParameters)
+TEST_F(AxisItemsTests, FixedBinAxisSetParameters)
 {
   FixedBinAxisItem axis;
   axis.SetParameters(3, 1.0, 4.0);
@@ -84,7 +84,7 @@ TEST_F(AxisItemsTest, FixedBinAxisSetParameters)
   EXPECT_EQ(axis.GetBinCenters(), expected);
 }
 
-TEST_F(AxisItemsTest, FixedBinAxisFactoryMethod)
+TEST_F(AxisItemsTests, FixedBinAxisFactoryMethod)
 {
   auto axis = FixedBinAxisItem::Create(3, 1.0, 4.0);
 
@@ -98,7 +98,7 @@ TEST_F(AxisItemsTest, FixedBinAxisFactoryMethod)
 
 //! Range method.
 
-TEST_F(AxisItemsTest, FixedBinAxisRange)
+TEST_F(AxisItemsTests, FixedBinAxisRange)
 {
   auto axis = FixedBinAxisItem::Create(3, 1.0, 4.0);
 
@@ -107,7 +107,7 @@ TEST_F(AxisItemsTest, FixedBinAxisRange)
   EXPECT_EQ(upper, 4.0);
 }
 
-TEST_F(AxisItemsTest, PointwiseAxisInitialState)
+TEST_F(AxisItemsTests, PointwiseAxisInitialState)
 {
   PointwiseAxisItem axis;
   std::vector<double> expected_centers = {0.0, 1.0};
@@ -115,7 +115,7 @@ TEST_F(AxisItemsTest, PointwiseAxisInitialState)
   EXPECT_EQ(axis.GetSize(), 2);
 }
 
-TEST_F(AxisItemsTest, PointwiseAxisSetParameters)
+TEST_F(AxisItemsTests, PointwiseAxisSetParameters)
 {
   std::vector<double> expected_centers{1.0, 2.0, 3.0};
   PointwiseAxisItem axis;
@@ -124,7 +124,7 @@ TEST_F(AxisItemsTest, PointwiseAxisSetParameters)
   EXPECT_EQ(axis.GetSize(), 3);
 }
 
-TEST_F(AxisItemsTest, PointwiseAxisFactoryMethod)
+TEST_F(AxisItemsTests, PointwiseAxisFactoryMethod)
 {
   std::vector<double> expected_centers{1.0, 2.0, 3.0};
   auto axis = PointwiseAxisItem::Create(expected_centers);

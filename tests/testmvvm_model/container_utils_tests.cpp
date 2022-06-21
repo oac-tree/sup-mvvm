@@ -25,7 +25,7 @@ using namespace mvvm;
 
 //! Tests of container utils.
 
-class ContainerUtilsTest : public ::testing::Test
+class ContainerUtilsTests : public ::testing::Test
 {
 public:
   class TestItem
@@ -48,13 +48,13 @@ public:
   };
 };
 
-TEST_F(ContainerUtilsTest, isUniquePtr)
+TEST_F(ContainerUtilsTests, isUniquePtr)
 {
   EXPECT_FALSE(utils::is_unique_ptr<int>::value);
   EXPECT_TRUE(utils::is_unique_ptr<std::unique_ptr<int>>::value);
 }
 
-TEST_F(ContainerUtilsTest, IndexOfItem)
+TEST_F(ContainerUtilsTests, IndexOfItem)
 {
   // searching in vector of integers
   std::vector<int> vv{1, 7, 5};
@@ -84,13 +84,13 @@ TEST_F(ContainerUtilsTest, IndexOfItem)
   EXPECT_EQ(utils::IndexOfItem(unique_items, &other), -1);
 }
 
-TEST_F(ContainerUtilsTest, UniqueWithOrder)
+TEST_F(ContainerUtilsTests, UniqueWithOrder)
 {
   std::vector<int> data = {1, 42, 1, 6, 43, 6};
   EXPECT_EQ(utils::UniqueWithOrder(data), (std::vector<int>{1, 42, 6, 43}));
 }
 
-TEST_F(ContainerUtilsTest, CastItems)
+TEST_F(ContainerUtilsTests, CastItems)
 {
   TestItemA a1;
   TestItemA a2;

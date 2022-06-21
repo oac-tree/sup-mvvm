@@ -23,11 +23,11 @@
 
 using namespace mvvm;
 
-class ExternalPropertyTest : public ::testing::Test
+class ExternalPropertyTests : public ::testing::Test
 {
 };
 
-TEST_F(ExternalPropertyTest, InitialState)
+TEST_F(ExternalPropertyTests, InitialState)
 {
   ExternalProperty property;
   EXPECT_TRUE(property.IsEmpty());
@@ -36,7 +36,7 @@ TEST_F(ExternalPropertyTest, InitialState)
   EXPECT_TRUE(property.GetColorName().empty());
 }
 
-TEST_F(ExternalPropertyTest, Constructor)
+TEST_F(ExternalPropertyTests, Constructor)
 {
   ExternalProperty property("text", "red", "123");
   EXPECT_FALSE(property.IsEmpty());
@@ -45,7 +45,7 @@ TEST_F(ExternalPropertyTest, Constructor)
   EXPECT_EQ(property.GetIdentifier(), "123");
 }
 
-TEST_F(ExternalPropertyTest, EqualityOperators)
+TEST_F(ExternalPropertyTests, EqualityOperators)
 {
   ExternalProperty prop1a;
   ExternalProperty prop1b;
@@ -61,7 +61,7 @@ TEST_F(ExternalPropertyTest, EqualityOperators)
   EXPECT_FALSE(prop1a == prop2a);
 }
 
-TEST_F(ExternalPropertyTest, ConvertToString)
+TEST_F(ExternalPropertyTests, ConvertToString)
 {
   EXPECT_EQ(ExternalProperty().ToString(), std::string(";;"));
 

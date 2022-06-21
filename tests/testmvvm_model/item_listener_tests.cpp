@@ -30,17 +30,17 @@
 using namespace mvvm;
 using ::testing::_;
 
-class ItemListenerTest : public ::testing::Test
+class ItemListenerTests : public ::testing::Test
 {
 };
 
-TEST_F(ItemListenerTest, InitialState)
+TEST_F(ItemListenerTests, InitialState)
 {
   ItemListener<SessionItem> listener;
   EXPECT_EQ(listener.GetItem(), nullptr);
 }
 
-TEST_F(ItemListenerTest, SetItem)
+TEST_F(ItemListenerTests, SetItem)
 {
   ItemListener<SessionItem> listener;
 
@@ -62,7 +62,7 @@ TEST_F(ItemListenerTest, SetItem)
 
 //! Single call OnDataChanged expected when data was changed.
 
-TEST_F(ItemListenerTest, OnDataChanged)
+TEST_F(ItemListenerTests, OnDataChanged)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -86,7 +86,7 @@ TEST_F(ItemListenerTest, OnDataChanged)
 
 //! Single call OnDataChanged expected when data was changed (double subscription).
 
-TEST_F(ItemListenerTest, OnDataChangedSubscribeTwice)
+TEST_F(ItemListenerTests, OnDataChangedSubscribeTwice)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -109,7 +109,7 @@ TEST_F(ItemListenerTest, OnDataChangedSubscribeTwice)
 
 //! Expect no calls OnDataChanged after disconnection.
 
-TEST_F(ItemListenerTest, OnDataChangedAfterDisconnection)
+TEST_F(ItemListenerTests, OnDataChangedAfterDisconnection)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -136,7 +136,7 @@ TEST_F(ItemListenerTest, OnDataChangedAfterDisconnection)
 
 //! Single call OnPropertyChanged expected when item's property was changed.
 
-TEST_F(ItemListenerTest, OnPropertyChanged)
+TEST_F(ItemListenerTests, OnPropertyChanged)
 {
   const std::string property_name("height");
 
@@ -160,7 +160,7 @@ TEST_F(ItemListenerTest, OnPropertyChanged)
 
 //! Inserting item to item.
 
-TEST_F(ItemListenerTest, OnItemInserted)
+TEST_F(ItemListenerTests, OnItemInserted)
 {
   ApplicationModel model;
   auto compound = model.InsertItem<CompoundItem>();
@@ -181,7 +181,7 @@ TEST_F(ItemListenerTest, OnItemInserted)
 
 //! Removing item.
 
-TEST_F(ItemListenerTest, OnItemRemoved)
+TEST_F(ItemListenerTests, OnItemRemoved)
 {
   const TagIndex expected_tagindex{"tag1", 0};
 
@@ -207,7 +207,7 @@ TEST_F(ItemListenerTest, OnItemRemoved)
 
 //! Setting another item.
 
-TEST_F(ItemListenerTest, SetAnotherItem)
+TEST_F(ItemListenerTests, SetAnotherItem)
 {
   const TagIndex expected_tagindex{"tag1", 0};
 
@@ -236,7 +236,7 @@ TEST_F(ItemListenerTest, SetAnotherItem)
 
 //! Removing item.
 
-TEST_F(ItemListenerTest, OnControllerDelete)
+TEST_F(ItemListenerTests, OnControllerDelete)
 {
   const TagIndex expected_tagindex{"tag1", 0};
 

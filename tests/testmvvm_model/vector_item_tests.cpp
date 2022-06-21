@@ -29,13 +29,13 @@ using namespace mvvm;
 
 //! VectorItem tests.
 
-class VectorItemTest : public ::testing::Test
+class VectorItemTests : public ::testing::Test
 {
 };
 
 //! Initial state of item when it is created outside of model context.
 
-TEST_F(VectorItemTest, InitialState)
+TEST_F(VectorItemTests, InitialState)
 {
   VectorItem item;
 
@@ -55,7 +55,7 @@ TEST_F(VectorItemTest, InitialState)
 
 //! Initial state of item in model context
 
-TEST_F(VectorItemTest, InitialStateFromModel)
+TEST_F(VectorItemTests, InitialStateFromModel)
 {
   SessionModel model;
   auto item = model.InsertItem<VectorItem>();
@@ -68,7 +68,7 @@ TEST_F(VectorItemTest, InitialStateFromModel)
   EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
 }
 
-TEST_F(VectorItemTest, SetXYZ)
+TEST_F(VectorItemTests, SetXYZ)
 {
   SessionModel model;
   auto item = model.InsertItem<VectorItem>();
@@ -81,7 +81,7 @@ TEST_F(VectorItemTest, SetXYZ)
 
 //! Checking label update in ApplicationModel context
 
-TEST_F(VectorItemTest, LabelUpdate)
+TEST_F(VectorItemTests, LabelUpdate)
 {
   ApplicationModel model;
   auto item = model.InsertItem<VectorItem>();

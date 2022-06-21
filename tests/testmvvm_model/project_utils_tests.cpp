@@ -33,10 +33,10 @@ using namespace mvvm;
 
 //! Tests of ProjectUtils namespace functions.
 
-class ProjectUtilsTest : public FolderBasedTest
+class ProjectUtilsTests : public FolderBasedTest
 {
 public:
-  ProjectUtilsTest()
+  ProjectUtilsTests()
       : FolderBasedTest("test_ProjectUtils")
       , sample_model(std::make_unique<ApplicationModel>("SampleModel"))
   {
@@ -56,19 +56,19 @@ public:
 
 //! Testing helper structure.
 
-TEST_F(ProjectUtilsTest, SuggestFileName)
+TEST_F(ProjectUtilsTests, SuggestFileName)
 {
   SessionModel model("TestModel");
   EXPECT_EQ(std::string("testmodel.xml"), ProjectUtils::SuggestFileName(model));
 }
 
-TEST_F(ProjectUtilsTest, CreateUntitledProject)
+TEST_F(ProjectUtilsTests, CreateUntitledProject)
 {
   auto project = ProjectUtils::CreateUntitledProject(createContext());
   EXPECT_TRUE(project->GetProjectDir().empty());
 }
 
-TEST_F(ProjectUtilsTest, ProjectWindowTitle)
+TEST_F(ProjectUtilsTests, ProjectWindowTitle)
 {
   auto project = ProjectUtils::CreateUntitledProject(createContext());
 
@@ -87,7 +87,7 @@ TEST_F(ProjectUtilsTest, ProjectWindowTitle)
   EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "*" + GetTestHomeDirName());
 }
 
-TEST_F(ProjectUtilsTest, IsPossibleProjectDir)
+TEST_F(ProjectUtilsTests, IsPossibleProjectDir)
 {
   auto project = ProjectUtils::CreateUntitledProject(createContext());
 

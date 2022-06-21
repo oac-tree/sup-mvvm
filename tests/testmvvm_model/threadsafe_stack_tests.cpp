@@ -27,13 +27,13 @@ using namespace mvvm;
 
 //! Testing threadsafe_stack.
 
-class ThreadSafeStackTest : public ::testing::Test
+class ThreadSafeStackTests : public ::testing::Test
 {
 };
 
 //! Checking stack initial state (single thread mode).
 
-TEST_F(ThreadSafeStackTest, InitialState)
+TEST_F(ThreadSafeStackTests, InitialState)
 {
   threadsafe_stack<int> stack;
   EXPECT_TRUE(stack.empty());
@@ -46,7 +46,7 @@ TEST_F(ThreadSafeStackTest, InitialState)
 
 //! Push and then pop (single thread mode).
 
-TEST_F(ThreadSafeStackTest, PushAndPop)
+TEST_F(ThreadSafeStackTests, PushAndPop)
 {
   threadsafe_stack<int> stack;
 
@@ -63,7 +63,7 @@ TEST_F(ThreadSafeStackTest, PushAndPop)
 
 //! Update top value (single thread mode).
 
-TEST_F(ThreadSafeStackTest, UpdateTop)
+TEST_F(ThreadSafeStackTests, UpdateTop)
 {
   threadsafe_stack<int> stack;
 
@@ -88,7 +88,7 @@ TEST_F(ThreadSafeStackTest, UpdateTop)
 //! Push and pop in concurrent mode.
 //! Test is borrowed from Anthony Williams, C++ Concurrency in Action, Second edition.
 
-TEST_F(ThreadSafeStackTest, ConcurentPushAndPop)
+TEST_F(ThreadSafeStackTests, ConcurentPushAndPop)
 {
   threadsafe_stack<int> stack;
   std::promise<void> go, push_ready_for_test, pop_ready_for_test;
@@ -138,7 +138,7 @@ TEST_F(ThreadSafeStackTest, ConcurentPushAndPop)
 
 //! Explicitely terminate waiting (concurrent mode).
 
-TEST_F(ThreadSafeStackTest, ConcurentStopWaiting)
+TEST_F(ThreadSafeStackTests, ConcurentStopWaiting)
 {
   threadsafe_stack<int> stack;
   std::promise<void> go, pop_ready_for_test;

@@ -34,7 +34,7 @@ using ::testing::_;
 //! Tests for ModelComposer class.
 //! Class is used to manipulate the model and generate necessary notifications.
 
-class ApplicationModelTest : public ::testing::Test
+class ApplicationModelTests : public ::testing::Test
 {
 public:
   ApplicationModel m_model;
@@ -43,7 +43,7 @@ public:
 
 //! Setting data through the model and checking the result.
 
-TEST_F(ApplicationModelTest, SetData)
+TEST_F(ApplicationModelTests, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -68,7 +68,7 @@ TEST_F(ApplicationModelTest, SetData)
 
 //! Setting data through the item.
 
-TEST_F(ApplicationModelTest, SetDataThroughItem)
+TEST_F(ApplicationModelTests, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -94,7 +94,7 @@ TEST_F(ApplicationModelTest, SetDataThroughItem)
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
 
-TEST_F(ApplicationModelTest, SetSameData)
+TEST_F(ApplicationModelTests, SetSameData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
@@ -121,7 +121,7 @@ TEST_F(ApplicationModelTest, SetSameData)
 
 //! Inserting new item into the root item through the composer.
 
-TEST_F(ApplicationModelTest, InsertItemIntoRoot)
+TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -150,7 +150,7 @@ TEST_F(ApplicationModelTest, InsertItemIntoRoot)
 
 //! Inserting new item into the root item.
 
-TEST_F(ApplicationModelTest, InsertNewItemIntoRoot)
+TEST_F(ApplicationModelTests, InsertNewItemIntoRoot)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -179,7 +179,7 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoRoot)
 
 //! Inserting new item into the root item via move.
 
-TEST_F(ApplicationModelTest, InsertItemIntoRootViaMove)
+TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -215,7 +215,7 @@ TEST_F(ApplicationModelTest, InsertItemIntoRootViaMove)
 
 //! Inserting item using templated insertion.
 
-TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
+TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -246,7 +246,7 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
 
-TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
+TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -275,7 +275,7 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug) when where is no default tag defined.
 
-TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
+TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -297,7 +297,7 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 
 //! Attempt to insert item into property tag.
 
-TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
+TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->AddProperty("thickness", 42);
@@ -319,7 +319,7 @@ TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
 
 //! Attempt to insert item into property tag.
 
-TEST_F(ApplicationModelTest, InsertNewItemInPropertyTag)
+TEST_F(ApplicationModelTests, InsertNewItemInPropertyTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->AddProperty("thickness", 42);
@@ -342,7 +342,7 @@ TEST_F(ApplicationModelTest, InsertNewItemInPropertyTag)
 
 //! Inserting new item through the composer into another parent.
 
-TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
+TEST_F(ApplicationModelTests, InsertNewItemIntoParent)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -373,7 +373,7 @@ TEST_F(ApplicationModelTest, InsertNewItemIntoParent)
 
 //! Inserting item through the composer into another parent using move insertion.
 
-TEST_F(ApplicationModelTest, InsertItemViaMove)
+TEST_F(ApplicationModelTests, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -406,7 +406,7 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
 
 //! Removing item.
 
-TEST_F(ApplicationModelTest, TakeItem)
+TEST_F(ApplicationModelTests, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -438,7 +438,7 @@ TEST_F(ApplicationModelTest, TakeItem)
 
 //! Removing item.
 
-TEST_F(ApplicationModelTest, RemoveItem)
+TEST_F(ApplicationModelTests, RemoveItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -469,7 +469,7 @@ TEST_F(ApplicationModelTest, RemoveItem)
 
 //! Moving item item.
 
-TEST_F(ApplicationModelTest, MoveItem)
+TEST_F(ApplicationModelTests, MoveItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), true);
@@ -502,7 +502,7 @@ TEST_F(ApplicationModelTest, MoveItem)
 //! Attempt to move property item from compound item.
 //! The operation should fail via exception throw, no signals should be emitted.
 
-TEST_F(ApplicationModelTest, IvalidItemMove)
+TEST_F(ApplicationModelTests, IvalidItemMove)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   auto property = parent1->AddProperty("thickness", 42);
@@ -531,7 +531,7 @@ TEST_F(ApplicationModelTest, IvalidItemMove)
 
 //! Clearing the model.
 
-TEST_F(ApplicationModelTest, Clear)
+TEST_F(ApplicationModelTests, Clear)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -558,7 +558,7 @@ TEST_F(ApplicationModelTest, Clear)
 
 //! Clearing the model.
 
-TEST_F(ApplicationModelTest, Destroy)
+TEST_F(ApplicationModelTests, Destroy)
 {
   auto model = std::make_unique<ApplicationModel>();
 

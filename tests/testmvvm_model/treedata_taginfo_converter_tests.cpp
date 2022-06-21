@@ -31,13 +31,13 @@ using namespace mvvm;
 
 //! VectorItem tests.
 
-class TreeDataTagInfoConverterTest : public ::testing::Test
+class TreeDataTagInfoConverterTests : public ::testing::Test
 {
 };
 
 //! Parsing XML data string representing TagInfo without model_types defined.
 
-TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
+TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
 {
   using mvvm::ParseXMLElementString;
 
@@ -60,7 +60,7 @@ TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTag)
 
 //! Parsing XML data string representing TagInfo without model_types defined.
 
-TEST_F(TreeDataTagInfoConverterTest, ConvertUniversalTagWithItemTypes)
+TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
 {
   using mvvm::ParseXMLElementString;
 

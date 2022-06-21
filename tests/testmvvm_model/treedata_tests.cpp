@@ -29,11 +29,11 @@
 
 using namespace mvvm;
 
-class ModelViewTreeDataTest : public ::testing::Test
+class TreeDataTests : public ::testing::Test
 {
 protected:
-  ModelViewTreeDataTest();
-  virtual ~ModelViewTreeDataTest();
+  TreeDataTests();
+  virtual ~TreeDataTests();
 
   TreeData data;
   TreeData parent;
@@ -52,7 +52,7 @@ static const std::string ATTR_VALUE_2 = "Second value";
 
 // Function definition
 
-TEST_F(ModelViewTreeDataTest, Constructed)
+TEST_F(TreeDataTests, Constructed)
 {
   // Types
   EXPECT_EQ(data.GetType(), TREE_TYPE);
@@ -80,7 +80,7 @@ TEST_F(ModelViewTreeDataTest, Constructed)
   EXPECT_EQ(n, 0);
 }
 
-TEST_F(ModelViewTreeDataTest, CopyConstructed)
+TEST_F(TreeDataTests, CopyConstructed)
 {
   TreeData data_copy = parent;
   EXPECT_EQ(data_copy, parent);
@@ -97,7 +97,7 @@ TEST_F(ModelViewTreeDataTest, CopyConstructed)
   }
 }
 
-TEST_F(ModelViewTreeDataTest, MoveConstructed)
+TEST_F(TreeDataTests, MoveConstructed)
 {
   TreeData tmp_data = parent;  // make copy first to allow comparison later on
   TreeData data_target = std::move(tmp_data);
@@ -115,7 +115,7 @@ TEST_F(ModelViewTreeDataTest, MoveConstructed)
   }
 }
 
-TEST_F(ModelViewTreeDataTest, CopyAssigned)
+TEST_F(TreeDataTests, CopyAssigned)
 {
   data = parent;
   EXPECT_EQ(data, parent);
@@ -132,7 +132,7 @@ TEST_F(ModelViewTreeDataTest, CopyAssigned)
   }
 }
 
-TEST_F(ModelViewTreeDataTest, MoveAssigned)
+TEST_F(TreeDataTests, MoveAssigned)
 {
   TreeData tmp_data = parent;  // make copy first to allow comparison later on
   data = std::move(tmp_data);
@@ -150,7 +150,7 @@ TEST_F(ModelViewTreeDataTest, MoveAssigned)
   }
 }
 
-TEST_F(ModelViewTreeDataTest, SetName)
+TEST_F(TreeDataTests, SetName)
 {
   // Empty on construction
   std::string empty_str;
@@ -187,7 +187,7 @@ TEST_F(ModelViewTreeDataTest, SetName)
   EXPECT_EQ(data.GetContent(), empty_str);
 }
 
-TEST_F(ModelViewTreeDataTest, AddAttribute)
+TEST_F(TreeDataTests, AddAttribute)
 {
   // Add a first attribute
   EXPECT_EQ(data.GetNumberOfAttributes(), 0);
@@ -235,7 +235,7 @@ TEST_F(ModelViewTreeDataTest, AddAttribute)
   EXPECT_EQ(data.GetNumberOfChildren(), 0);
 }
 
-TEST_F(ModelViewTreeDataTest, SetAttribute)
+TEST_F(TreeDataTests, SetAttribute)
 {
   // Set a first attribute
   EXPECT_EQ(data.GetNumberOfAttributes(), 0);
@@ -269,7 +269,7 @@ TEST_F(ModelViewTreeDataTest, SetAttribute)
   EXPECT_EQ(data.GetNumberOfChildren(), 0);
 }
 
-TEST_F(ModelViewTreeDataTest, RemoveAttribute)
+TEST_F(TreeDataTests, RemoveAttribute)
 {
   EXPECT_EQ(child_0.GetNumberOfAttributes(), 2);
   EXPECT_EQ(child_0.GetNumberOfChildren(), 0);
@@ -289,7 +289,7 @@ TEST_F(ModelViewTreeDataTest, RemoveAttribute)
   EXPECT_EQ(child_0.GetAttribute(attributes::NAME_ATTRIBUTE), CHILD0_NAME);
 }
 
-TEST_F(ModelViewTreeDataTest, AddChild)
+TEST_F(TreeDataTests, AddChild)
 {
   // Add a first child
   EXPECT_EQ(data.GetNumberOfAttributes(), 0);
@@ -326,7 +326,7 @@ TEST_F(ModelViewTreeDataTest, AddChild)
   EXPECT_EQ(n, 2);
 }
 
-TEST_F(ModelViewTreeDataTest, SetContent)
+TEST_F(TreeDataTests, SetContent)
 {
   // Empty on construction
   std::string empty_str;
@@ -353,7 +353,7 @@ TEST_F(ModelViewTreeDataTest, SetContent)
   EXPECT_EQ(children.size(), 0);
 }
 
-ModelViewTreeDataTest::ModelViewTreeDataTest()
+TreeDataTests::TreeDataTests()
     : data{TREE_TYPE}, parent{TREE_TYPE}, child_0{CHILD0_TYPE}, child_1{CHILD1_TYPE}
 {
   child_0.SetName(CHILD0_NAME);
@@ -362,4 +362,4 @@ ModelViewTreeDataTest::ModelViewTreeDataTest()
   parent.AddChild(child_1);
 }
 
-ModelViewTreeDataTest::~ModelViewTreeDataTest() = default;
+TreeDataTests::~TreeDataTests() = default;

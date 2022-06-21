@@ -25,11 +25,11 @@
 
 using namespace mvvm;
 
-class ComboPropertyTest : public ::testing::Test
+class ComboPropertyTests : public ::testing::Test
 {
 };
 
-TEST_F(ComboPropertyTest, InitialState)
+TEST_F(ComboPropertyTests, InitialState)
 {
   ComboProperty combo;
   EXPECT_EQ(combo.GetValue(), "");
@@ -41,7 +41,7 @@ TEST_F(ComboPropertyTest, InitialState)
   EXPECT_EQ(combo.GetLabel(), "None");
 }
 
-TEST_F(ComboPropertyTest, CreateFrom)
+TEST_F(ComboPropertyTests, CreateFrom)
 {
   // from vector of values, first item should be selected
   std::vector<std::string> expected{"a1", "a2"};
@@ -60,7 +60,7 @@ TEST_F(ComboPropertyTest, CreateFrom)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 }
 
-TEST_F(ComboPropertyTest, SetValue)
+TEST_F(ComboPropertyTests, SetValue)
 {
   std::vector<std::string> expected{"a1", "a2"};
   ComboProperty combo = ComboProperty::CreateFrom(expected);
@@ -80,7 +80,7 @@ TEST_F(ComboPropertyTest, SetValue)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 }
 
-TEST_F(ComboPropertyTest, SetCurrentIndex)
+TEST_F(ComboPropertyTests, SetCurrentIndex)
 {
   std::vector<std::string> expected{"c1", "c2", "c3"};
   ComboProperty combo = ComboProperty::CreateFrom(expected);
@@ -99,7 +99,7 @@ TEST_F(ComboPropertyTest, SetCurrentIndex)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 }
 
-TEST_F(ComboPropertyTest, SetValues)
+TEST_F(ComboPropertyTests, SetValues)
 {
   // seting values through stream
   std::vector<std::string> expectedValues{"a1", "a2"};
@@ -135,7 +135,7 @@ TEST_F(ComboPropertyTest, SetValues)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 }
 
-TEST_F(ComboPropertyTest, SetSelected)
+TEST_F(ComboPropertyTests, SetSelected)
 {
   std::vector<std::string> expectedValues = {"a1", "a2", "a3"};
   ComboProperty combo = ComboProperty::CreateFrom(expectedValues);
@@ -189,7 +189,7 @@ TEST_F(ComboPropertyTest, SetSelected)
   EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>({"a2"}));
 }
 
-TEST_F(ComboPropertyTest, FromStream)
+TEST_F(ComboPropertyTests, FromStream)
 {
   ComboProperty combo = ComboProperty() << "a1"
                                         << "a2";
@@ -220,7 +220,7 @@ TEST_F(ComboPropertyTest, FromStream)
   EXPECT_EQ(combo.GetCurrentIndex(), 1);
 }
 
-TEST_F(ComboPropertyTest, FromVectorStream)
+TEST_F(ComboPropertyTests, FromVectorStream)
 {
   std::vector<std::string> expected{"a1", "a2"};
   ComboProperty combo = ComboProperty::CreateFrom(expected);
@@ -242,7 +242,7 @@ TEST_F(ComboPropertyTest, FromVectorStream)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0, 1}));
 }
 
-TEST_F(ComboPropertyTest, SetSringOfValues)
+TEST_F(ComboPropertyTests, SetSringOfValues)
 {
   std::vector<std::string> expectedValues = {"a1", "a2"};
   ComboProperty combo = ComboProperty::CreateFrom(expectedValues);
@@ -270,7 +270,7 @@ TEST_F(ComboPropertyTest, SetSringOfValues)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 }
 
-TEST_F(ComboPropertyTest, SetStringOfSelections)
+TEST_F(ComboPropertyTests, SetStringOfSelections)
 {
   ComboProperty combo;
   EXPECT_EQ(combo.GetStringOfSelections(), "");
@@ -303,7 +303,7 @@ TEST_F(ComboPropertyTest, SetStringOfSelections)
   EXPECT_EQ(combo.GetStringOfSelections(), "0");
 }
 
-TEST_F(ComboPropertyTest, ComboEqualityDiffIndex)
+TEST_F(ComboPropertyTests, ComboEqualityDiffIndex)
 {
   ComboProperty c1 = ComboProperty::CreateFrom({"a1", "a2"});
   ComboProperty c2 = ComboProperty::CreateFrom({"a1", "a2"});
@@ -316,7 +316,7 @@ TEST_F(ComboPropertyTest, ComboEqualityDiffIndex)
   EXPECT_TRUE(c1 == c2);
 }
 
-TEST_F(ComboPropertyTest, cCmboEqualityDiffList)
+TEST_F(ComboPropertyTests, cCmboEqualityDiffList)
 {
   ComboProperty c1;
   ComboProperty c2;

@@ -30,7 +30,7 @@ using namespace mvvm;
 
 //! Testing ItemCatalogue class.
 
-class ItemCatalogueTest : public ::testing::Test
+class ItemCatalogueTests : public ::testing::Test
 {
 public:
   class TestItem : public SessionItem
@@ -48,7 +48,7 @@ public:
   };
 };
 
-TEST_F(ItemCatalogueTest, InitialState)
+TEST_F(ItemCatalogueTests, InitialState)
 {
   ItemCatalogue<SessionItem> catalogue;
   EXPECT_EQ(catalogue.GetItemCount(), 0);
@@ -56,7 +56,7 @@ TEST_F(ItemCatalogueTest, InitialState)
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({}));
 }
 
-TEST_F(ItemCatalogueTest, AddItem)
+TEST_F(ItemCatalogueTests, AddItem)
 {
   ItemCatalogue<SessionItem> catalogue;
 
@@ -78,7 +78,7 @@ TEST_F(ItemCatalogueTest, AddItem)
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({""}));
 }
 
-TEST_F(ItemCatalogueTest, CopyConstructor)
+TEST_F(ItemCatalogueTests, CopyConstructor)
 {
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
@@ -106,7 +106,7 @@ TEST_F(ItemCatalogueTest, CopyConstructor)
   EXPECT_THROW(copy.Create(TestItem::Type), NotFoundKeyException);
 }
 
-TEST_F(ItemCatalogueTest, AssignmentOperator)
+TEST_F(ItemCatalogueTests, AssignmentOperator)
 {
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
@@ -123,7 +123,7 @@ TEST_F(ItemCatalogueTest, AssignmentOperator)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 }
 
-TEST_F(ItemCatalogueTest, Contains)
+TEST_F(ItemCatalogueTests, Contains)
 {
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
@@ -132,7 +132,7 @@ TEST_F(ItemCatalogueTest, Contains)
   EXPECT_FALSE(catalogue.Contains(TestItem::Type));
 }
 
-TEST_F(ItemCatalogueTest, AddLabeledItem)
+TEST_F(ItemCatalogueTests, AddLabeledItem)
 {
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>("property");
@@ -144,7 +144,7 @@ TEST_F(ItemCatalogueTest, AddLabeledItem)
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({"property", "test item"}));
 }
 
-TEST_F(ItemCatalogueTest, Merge)
+TEST_F(ItemCatalogueTests, Merge)
 {
   ItemCatalogue<SessionItem> catalogue1;
   catalogue1.RegisterItem<PropertyItem>("property");

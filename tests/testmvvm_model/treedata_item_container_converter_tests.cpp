@@ -34,10 +34,10 @@ using namespace mvvm;
 //! Testing of TreeDataItemContainerConverter.
 //! It uses simplified item constructiion.
 
-class TreeDataItemContainerConverterTest : public ::testing::Test
+class TreeDataItemContainerConverterTests : public ::testing::Test
 {
 public:
-  TreeDataItemContainerConverterTest()
+  TreeDataItemContainerConverterTests()
   {
     //! Simplified method to convert SessionItem to TreeData.
     auto to_treedata = [this](const SessionItem& item)
@@ -59,7 +59,7 @@ public:
 
 //! Container with single items is converted to TreeData.
 
-TEST_F(TreeDataItemContainerConverterTest, ContainerToTreeData)
+TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 {
   // creating container
   TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
@@ -77,7 +77,7 @@ TEST_F(TreeDataItemContainerConverterTest, ContainerToTreeData)
 
 //! Container with single items is converted to TreeData and back.
 
-TEST_F(TreeDataItemContainerConverterTest, ContainerToTreeDataAndBack)
+TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeDataAndBack)
 {
   // creating container
   TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);

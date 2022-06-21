@@ -31,13 +31,13 @@ using namespace mvvm;
 
 //! Testing TreeDataItemDataConverter.
 
-class TreeDataItemDataConverterTest : public ::testing::Test
+class TreeDataItemDataConverterTests : public ::testing::Test
 {
 };
 
 //! Parsing XML data string representing empty document.
 
-TEST_F(TreeDataItemDataConverterTest, TwoRoles)
+TEST_F(TreeDataItemDataConverterTests, TwoRoles)
 {
   const std::string body{
       R"(<ItemData><Variant role="0" type="int">42</Variant><Variant role="1" type="string">abc</Variant></ItemData>)"};

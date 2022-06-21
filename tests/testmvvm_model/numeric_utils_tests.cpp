@@ -25,11 +25,11 @@
 
 using namespace mvvm;
 
-class NumericUtilsTest : public ::testing::Test
+class NumericUtilsTests : public ::testing::Test
 {
 };
 
-TEST_F(NumericUtilsTest, areAlmostEqual)
+TEST_F(NumericUtilsTests, areAlmostEqual)
 {
   EXPECT_TRUE(utils::AreAlmostEqual(0.0, 0.0));
   EXPECT_TRUE(utils::AreAlmostEqual(1.0, 1.0));

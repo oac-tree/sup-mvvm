@@ -25,11 +25,11 @@
 
 using namespace mvvm;
 
-class PlottableItemsTest : public ::testing::Test
+class PlottableItemsTests : public ::testing::Test
 {
 };
 
-TEST_F(PlottableItemsTest, TextItemInitialState)
+TEST_F(PlottableItemsTests, TextItemInitialState)
 {
   TextItem item;
   EXPECT_TRUE(item.GetText().empty());
@@ -37,7 +37,7 @@ TEST_F(PlottableItemsTest, TextItemInitialState)
   EXPECT_EQ(item.GetSize(), 10);
 }
 
-TEST_F(PlottableItemsTest, TextItemGetSet)
+TEST_F(PlottableItemsTests, TextItemGetSet)
 {
   TextItem item;
 
@@ -51,7 +51,7 @@ TEST_F(PlottableItemsTest, TextItemGetSet)
   EXPECT_EQ(item.GetSize(), 42);
 }
 
-TEST_F(PlottableItemsTest, PenItemInitialState)
+TEST_F(PlottableItemsTests, PenItemInitialState)
 {
   PenItem item;
   EXPECT_EQ(item.GetNamedColor(), std::string("black"));
@@ -59,7 +59,7 @@ TEST_F(PlottableItemsTest, PenItemInitialState)
   EXPECT_EQ(item.GetStyle(), std::string("SolidLine"));
 }
 
-TEST_F(PlottableItemsTest, PenItemSetters)
+TEST_F(PlottableItemsTests, PenItemSetters)
 {
   PenItem item;
 

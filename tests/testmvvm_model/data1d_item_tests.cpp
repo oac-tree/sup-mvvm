@@ -30,13 +30,13 @@ using namespace mvvm;
 
 //! Testing Data1DItem.
 
-class Data1DItemTest : public ::testing::Test
+class Data1DItemTests : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(Data1DItemTest, InitialState)
+TEST_F(Data1DItemTests, InitialState)
 {
   Data1DItem item;
 
@@ -49,7 +49,7 @@ TEST_F(Data1DItemTest, InitialState)
 
 //! Checking the method ::setFixedBinAxis.
 
-TEST_F(Data1DItemTest, SetFixedBinAxis)
+TEST_F(Data1DItemTests, SetFixedBinAxis)
 {
   Data1DItem item;
 
@@ -71,7 +71,7 @@ TEST_F(Data1DItemTest, SetFixedBinAxis)
 
 //! Sets fixed bin axis via templated method.
 
-TEST_F(Data1DItemTest, SetTemplatedFixedBinAxis)
+TEST_F(Data1DItemTests, SetTemplatedFixedBinAxis)
 {
   Data1DItem item;
 
@@ -89,7 +89,7 @@ TEST_F(Data1DItemTest, SetTemplatedFixedBinAxis)
 
 //! Sets fixed bin axis via templated method.
 
-TEST_F(Data1DItemTest, SetTemplatedFixedBinAxisInModelContext)
+TEST_F(Data1DItemTests, SetTemplatedFixedBinAxisInModelContext)
 {
   SessionModel model;
   auto dataItem = model.InsertItem<Data1DItem>();
@@ -109,7 +109,7 @@ TEST_F(Data1DItemTest, SetTemplatedFixedBinAxisInModelContext)
 //! Sets fixed bin axis via model context.
 // FIXME Not clear if this method should be used
 
-TEST_F(Data1DItemTest, SetFixedBinAxisInModel)
+TEST_F(Data1DItemTests, SetFixedBinAxisInModel)
 {
   SessionModel model;
 
@@ -128,7 +128,7 @@ TEST_F(Data1DItemTest, SetFixedBinAxisInModel)
 
 //! Checking the method ::setValues.
 
-TEST_F(Data1DItemTest, SetValues)
+TEST_F(Data1DItemTests, SetValues)
 {
   Data1DItem item;
 
@@ -143,7 +143,7 @@ TEST_F(Data1DItemTest, SetValues)
 
 //! Checking the method ::setErrors.
 
-TEST_F(Data1DItemTest, SetErrors)
+TEST_F(Data1DItemTests, SetErrors)
 {
   Data1DItem item;
 
@@ -161,7 +161,7 @@ TEST_F(Data1DItemTest, SetErrors)
 //! Checking the signals when axes changed.
 //! FIXME enable tests checkSignalsOnAxisChange
 
-// TEST_F(Data1DItemTest, checkSignalsOnAxisChange)
+// TEST_F(Data1DItemTests, checkSignalsOnAxisChange)
 //{
 //     SessionModel model;
 //     auto item = model.insertItem<Data1DItem>();
@@ -184,7 +184,7 @@ TEST_F(Data1DItemTest, SetErrors)
 //! Checking the signals when bin values changed.
 //! FIXME enable tests
 
-// TEST_F(Data1DItemTest, checkSignalsOnBinValuesChange)
+// TEST_F(Data1DItemTests, checkSignalsOnBinValuesChange)
 //{
 //     SessionModel model;
 //     auto item = model.insertItem<Data1DItem>();

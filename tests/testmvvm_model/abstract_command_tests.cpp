@@ -29,7 +29,7 @@ using ::testing::_;
 
 //! Testing AbstractCommand.
 
-class AbstractCommandTest : public ::testing::Test
+class AbstractCommandTests : public ::testing::Test
 {
 public:
   class TestCommand : public AbstractCommand
@@ -42,7 +42,7 @@ public:
 
 //! Initial state.
 
-TEST_F(AbstractCommandTest, InitialState)
+TEST_F(AbstractCommandTests, InitialState)
 {
   TestCommand command;
 
@@ -58,7 +58,7 @@ TEST_F(AbstractCommandTest, InitialState)
 
 //! Simple command execution.
 
-TEST_F(AbstractCommandTest, Execute)
+TEST_F(AbstractCommandTests, Execute)
 {
   TestCommand command;
 
@@ -74,7 +74,7 @@ TEST_F(AbstractCommandTest, Execute)
 
 //! Attempt to undo without execution.
 
-TEST_F(AbstractCommandTest, UndoOnStart)
+TEST_F(AbstractCommandTests, UndoOnStart)
 {
   TestCommand command;
 
@@ -88,7 +88,7 @@ TEST_F(AbstractCommandTest, UndoOnStart)
 
 //! Execution and then undo.
 
-TEST_F(AbstractCommandTest, Undo)
+TEST_F(AbstractCommandTests, Undo)
 {
   TestCommand command;
 
@@ -109,7 +109,7 @@ TEST_F(AbstractCommandTest, Undo)
 
 //! Execute, then undo, then execute again.
 
-TEST_F(AbstractCommandTest, ExecuteUndoExecute)
+TEST_F(AbstractCommandTests, ExecuteUndoExecute)
 {
   TestCommand command;
 
@@ -127,7 +127,7 @@ TEST_F(AbstractCommandTest, ExecuteUndoExecute)
 
 //! Attempt to undo obsolete command.
 
-TEST_F(AbstractCommandTest, UndoOfObsoleteCommand)
+TEST_F(AbstractCommandTests, UndoOfObsoleteCommand)
 {
   TestCommand command;
 

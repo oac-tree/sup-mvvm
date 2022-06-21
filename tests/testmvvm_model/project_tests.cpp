@@ -50,11 +50,11 @@ std::string GetXmlFilename(const std::string& model_name)
 
 //! Tests for Project class.
 
-class ProjectTest : public FolderBasedTest
+class ProjectTests : public FolderBasedTest
 {
 public:
-  ProjectTest()
-      : FolderBasedTest("test_ProjectTest")
+  ProjectTests()
+      : FolderBasedTest("test_ProjectTests")
       , sample_model(std::make_unique<ApplicationModel>(samplemodel_name))
       , material_model(std::make_unique<ApplicationModel>(materialmodel_name))
   {
@@ -76,7 +76,7 @@ public:
   std::unique_ptr<ApplicationModel> material_model;
 };
 
-TEST_F(ProjectTest, InitialState)
+TEST_F(ProjectTests, InitialState)
 {
   Project project(CreateContext());
   EXPECT_TRUE(project.GetProjectDir().empty());
@@ -85,7 +85,7 @@ TEST_F(ProjectTest, InitialState)
 
 //! Testing saveModel.
 
-TEST_F(ProjectTest, SaveModel)
+TEST_F(ProjectTests, SaveModel)
 {
   Project project(CreateContext());
 
@@ -105,7 +105,7 @@ TEST_F(ProjectTest, SaveModel)
 
 //! Testing loadModel.
 
-TEST_F(ProjectTest, LoadModel)
+TEST_F(ProjectTests, LoadModel)
 {
   Project project(CreateContext());
 

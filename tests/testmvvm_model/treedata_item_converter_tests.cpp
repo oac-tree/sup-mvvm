@@ -42,10 +42,10 @@ using namespace mvvm;
 
 //! Testing TreeDataItemConverter.
 
-class TreeDataItemConverterTest : public FolderBasedTest
+class TreeDataItemConverterTests : public FolderBasedTest
 {
 public:
-  TreeDataItemConverterTest()
+  TreeDataItemConverterTests()
       : FolderBasedTest("test_TreeDataItemConverter")
       , m_factory(mvvm::CreateStandardItemCatalogue()){};
 
@@ -82,7 +82,7 @@ private:
 
 //! Default PropertyItem to TreeData and back.
 
-TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTests, PropertyItemToTreeDataAndBack)
 {
   auto converter = CreateCloneConverter();
 
@@ -102,7 +102,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 
 //! PropertyItem with data to TreeData and back.
 
-TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToTreeDataAndBack)
 {
   PropertyItem item;
   item.SetData(42, DataRole::kData);
@@ -130,7 +130,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
 
 //! PropertyItem with data to TreeData and back.
 
-TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
+TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToFileAndBack)
 {
   PropertyItem item;
   item.SetData(42, DataRole::kData);
@@ -162,7 +162,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTests, ParentAndChildToTreeDataAndBack)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");
@@ -199,7 +199,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
+TEST_F(TreeDataItemConverterTests, ParentAndChildToFileAndBack)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");
@@ -234,7 +234,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTests, CompoundItemToTreeDataAndBack)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent_name");
@@ -271,7 +271,7 @@ TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
+TEST_F(TreeDataItemConverterTests, CompoundItemFileAndBack)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent_name");
@@ -306,7 +306,7 @@ TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
 
 //! Parent and child to TreeData object and back (converter in copy mode).
 
-TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
+TEST_F(TreeDataItemConverterTests, ParentAndChildCopy)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");

@@ -35,7 +35,7 @@
 
 using namespace mvvm;
 
-class SessionItemTest : public ::testing::Test
+class SessionItemTests : public ::testing::Test
 {
 public:
   class TestItem : public SessionItem
@@ -57,7 +57,7 @@ public:
   };
 };
 
-TEST_F(SessionItemTest, InitialState)
+TEST_F(SessionItemTests, InitialState)
 {
   SessionItem item;
   const int role = DataRole::kData;
@@ -78,7 +78,7 @@ TEST_F(SessionItemTest, InitialState)
   EXPECT_FALSE(item.GetIdentifier().empty());
 }
 
-TEST_F(SessionItemTest, GetType)
+TEST_F(SessionItemTests, GetType)
 {
   SessionItem item;
   EXPECT_EQ(item.GetType(), SessionItem::Type);
@@ -86,7 +86,7 @@ TEST_F(SessionItemTest, GetType)
 
 //! Validating ::setData and appearance of roles.
 
-TEST_F(SessionItemTest, SetData)
+TEST_F(SessionItemTests, SetData)
 {
   SessionItem item;
   const int role = DataRole::kData;
@@ -113,7 +113,7 @@ TEST_F(SessionItemTest, SetData)
 
 //! Validating ::setData in the context of implicit conversion.
 
-TEST_F(SessionItemTest, SetDataAndImplicitConversion)
+TEST_F(SessionItemTests, SetDataAndImplicitConversion)
 {
   {
     SessionItem item;
@@ -130,7 +130,7 @@ TEST_F(SessionItemTest, SetDataAndImplicitConversion)
   }
 }
 
-TEST_F(SessionItemTest, HasData)
+TEST_F(SessionItemTests, HasData)
 {
   SessionItem item;
 
@@ -145,7 +145,7 @@ TEST_F(SessionItemTest, HasData)
   EXPECT_TRUE(item.HasData());
 }
 
-TEST_F(SessionItemTest, SetDoubleData)
+TEST_F(SessionItemTests, SetDoubleData)
 {
   SessionItem item;
   const double expected = 42.0;
@@ -153,7 +153,7 @@ TEST_F(SessionItemTest, SetDoubleData)
   EXPECT_EQ(item.Data<double>(), expected);
 }
 
-TEST_F(SessionItemTest, SetIntData)
+TEST_F(SessionItemTests, SetIntData)
 {
   SessionItem item;
   const int expected = 42;
@@ -161,7 +161,7 @@ TEST_F(SessionItemTest, SetIntData)
   EXPECT_EQ(item.Data<int>(), expected);
 }
 
-TEST_F(SessionItemTest, SetBoolData)
+TEST_F(SessionItemTests, SetBoolData)
 {
   SessionItem item;
   const bool expected_true = true;
@@ -172,7 +172,7 @@ TEST_F(SessionItemTest, SetBoolData)
   EXPECT_EQ(item.Data<bool>(), expected_false);
 }
 
-TEST_F(SessionItemTest, SetStringData)
+TEST_F(SessionItemTests, SetStringData)
 {
   SessionItem item;
   const std::string expected{"abc"};
@@ -183,7 +183,7 @@ TEST_F(SessionItemTest, SetStringData)
 //! Validating that const char is correctly converted to std::string, and not to boolean,
 //! on the way to variant_t.
 
-TEST_F(SessionItemTest, SetConstCharData)
+TEST_F(SessionItemTests, SetConstCharData)
 {
   SessionItem item;
   const char* expected = "abc";
@@ -193,7 +193,7 @@ TEST_F(SessionItemTest, SetConstCharData)
 
 //! Display role.
 
-TEST_F(SessionItemTest, GetDisplayName)
+TEST_F(SessionItemTests, GetDisplayName)
 {
   TestItem item("Property");
   variant_t data(42.0);
@@ -210,7 +210,7 @@ TEST_F(SessionItemTest, GetDisplayName)
 
 //! Attempt to set the different Variant to already existing role.
 
-TEST_F(SessionItemTest, VariantMismatch)
+TEST_F(SessionItemTests, VariantMismatch)
 {
   SessionItem item;
   const int role = DataRole::kData;
@@ -233,7 +233,7 @@ TEST_F(SessionItemTest, VariantMismatch)
 
 //! Item registration in a pool.
 
-TEST_F(SessionItemTest, RegisterItem)
+TEST_F(SessionItemTests, RegisterItem)
 {
   auto item = std::make_unique<SessionItem>();
   auto item_id = item->GetIdentifier();
@@ -256,7 +256,7 @@ TEST_F(SessionItemTest, RegisterItem)
 
 //! Item registration in a pool.
 
-TEST_F(SessionItemTest, DefaultTag)
+TEST_F(SessionItemTests, DefaultTag)
 {
   SessionItem item;
   EXPECT_EQ(item.GetTaggedItems()->GetDefaultTag(), std::string());
@@ -265,7 +265,7 @@ TEST_F(SessionItemTest, DefaultTag)
 
 //! Registering tags
 
-TEST_F(SessionItemTest, RegisterTag)
+TEST_F(SessionItemTests, RegisterTag)
 {
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("tagname"));
@@ -280,7 +280,7 @@ TEST_F(SessionItemTest, RegisterTag)
 
 //! Registering tag and setting it as default
 
-TEST_F(SessionItemTest, RegisterDefaultTag)
+TEST_F(SessionItemTests, RegisterDefaultTag)
 {
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("tagname"), /*set_as_default*/ true);
@@ -289,7 +289,7 @@ TEST_F(SessionItemTest, RegisterDefaultTag)
 
 //! Simple child insert.
 
-TEST_F(SessionItemTest, InsertItem)
+TEST_F(SessionItemTests, InsertItem)
 {
   auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -317,7 +317,7 @@ TEST_F(SessionItemTest, InsertItem)
 
 //! Simple child insert.
 
-TEST_F(SessionItemTest, InsertItemTemplated)
+TEST_F(SessionItemTests, InsertItemTemplated)
 {
   auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -341,7 +341,7 @@ TEST_F(SessionItemTest, InsertItemTemplated)
 
 //! Simple children insert.
 
-TEST_F(SessionItemTest, InsertChildren)
+TEST_F(SessionItemTests, InsertChildren)
 {
   auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -385,7 +385,7 @@ TEST_F(SessionItemTest, InsertChildren)
 
 //! Removing (taking) item from parent.
 
-TEST_F(SessionItemTest, TakeItem)
+TEST_F(SessionItemTests, TakeItem)
 {
   auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -410,7 +410,7 @@ TEST_F(SessionItemTest, TakeItem)
 
 //! Insert and take tagged items.
 
-TEST_F(SessionItemTest, SingleTagAndItems)
+TEST_F(SessionItemTests, SingleTagAndItems)
 {
   const std::string tag1 = "tag1";
 
@@ -451,7 +451,7 @@ TEST_F(SessionItemTest, SingleTagAndItems)
 
 //! Insert and take tagged items when two tags are present.
 
-TEST_F(SessionItemTest, TwoTagsAndItems)
+TEST_F(SessionItemTests, TwoTagsAndItems)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -501,7 +501,7 @@ TEST_F(SessionItemTest, TwoTagsAndItems)
 
 //! Inserting and removing items when tag has limits.
 
-TEST_F(SessionItemTest, TagWithLimits)
+TEST_F(SessionItemTests, TagWithLimits)
 {
   const std::string tag1 = "tag1";
   const int maxItems = 3;
@@ -534,7 +534,7 @@ TEST_F(SessionItemTest, TagWithLimits)
 }
 
 ////! Inserting and removing items when tag has limits.
-// TEST_F(SessionItemTest, TagItemTypes)
+// TEST_F(SessionItemTests, TagItemTypes)
 //{
 //  const std::string tag1 = "tag1";
 //  const std::string tag2 = "tag2";
@@ -568,7 +568,7 @@ TEST_F(SessionItemTest, TagWithLimits)
 
 //! Checks row of item in its tag
 
-TEST_F(SessionItemTest, GetTagIndex)
+TEST_F(SessionItemTests, GetTagIndex)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -600,7 +600,7 @@ TEST_F(SessionItemTest, GetTagIndex)
 
 //! Checks row of item in its tag
 
-TEST_F(SessionItemTest, TagIndexOfItem)
+TEST_F(SessionItemTests, TagIndexOfItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -632,7 +632,7 @@ TEST_F(SessionItemTest, TagIndexOfItem)
 
 //! Checks item appearance (enabled/disabled and editable/readonly).
 
-TEST_F(SessionItemTest, Appearance)
+TEST_F(SessionItemTests, Appearance)
 {
   SessionItem item;
 
@@ -670,7 +670,7 @@ TEST_F(SessionItemTest, Appearance)
 
 //! Sets appearance flag
 
-TEST_F(SessionItemTest, SetAppearanceFlag)
+TEST_F(SessionItemTests, SetAppearanceFlag)
 {
   // FIXME change default appearance behavior (see also item_utils_tests.cpp)
   // Current behavior is that an item doesn't have an appearance flag, while
@@ -703,7 +703,7 @@ TEST_F(SessionItemTest, SetAppearanceFlag)
 
 //! Checks item tooltip.
 
-TEST_F(SessionItemTest, Tooltip)
+TEST_F(SessionItemTests, Tooltip)
 {
   SessionItem item;
 
@@ -717,7 +717,7 @@ TEST_F(SessionItemTest, Tooltip)
 
 //! Checks item's editor type.
 
-TEST_F(SessionItemTest, EditorType)
+TEST_F(SessionItemTests, EditorType)
 {
   SessionItem item;
 
@@ -729,7 +729,7 @@ TEST_F(SessionItemTest, EditorType)
   EXPECT_EQ(item.GetEditorType(), "abc");
 }
 
-TEST_F(SessionItemTest, GetItemCount)
+TEST_F(SessionItemTests, GetItemCount)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -748,7 +748,7 @@ TEST_F(SessionItemTest, GetItemCount)
   EXPECT_EQ(parent->GetItemCount(tag2), 2);
 }
 
-TEST_F(SessionItemTest, CastedItemAccess)
+TEST_F(SessionItemTests, CastedItemAccess)
 {
   const std::string tag = "tag";
   auto parent = std::make_unique<SessionItem>();

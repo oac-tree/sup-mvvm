@@ -37,13 +37,13 @@ using namespace mvvm;
 
 //! Testing TreeDataModelConverter.
 
-class TreeDataModelConverterTest : public ::testing::Test
+class TreeDataModelConverterTests : public ::testing::Test
 {
 };
 
 //! EmptyModel to TreeData.
 
-TEST_F(TreeDataModelConverterTest, EmptyModel)
+TEST_F(TreeDataModelConverterTests, EmptyModel)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
@@ -54,7 +54,7 @@ TEST_F(TreeDataModelConverterTest, EmptyModel)
 
 //! Empty model to TreeData and back.
 
-TEST_F(TreeDataModelConverterTest, EmptyModelToTreeDataAndBack)
+TEST_F(TreeDataModelConverterTests, EmptyModelToTreeDataAndBack)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
@@ -73,7 +73,7 @@ TEST_F(TreeDataModelConverterTest, EmptyModelToTreeDataAndBack)
 
 //! Creation of TreeData object: single item in a model.
 
-TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
+TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBack)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
@@ -95,7 +95,7 @@ TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBack)
 
 //! Filling model from TreeData: parent and child in a model to TreeData and back.
 
-TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
+TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
@@ -142,7 +142,7 @@ TEST_F(TreeDataModelConverterTest, ParentAndChildToTreeDataAndBack)
 
 //! Item in a model to TreeData and back: how persistent are identifiers.
 
-TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
+TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
 
@@ -178,7 +178,7 @@ TEST_F(TreeDataModelConverterTest, IdentifierPersistence)
 //! Creation of TreeData object (single item in a model), then writing same TreeData object back
 //! to model without emptying it. Real bug case: check if unsubscribtion mechanism works.
 
-TEST_F(TreeDataModelConverterTest, SingleItemToTreeDataAndBackToSameModel)
+TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBackToSameModel)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
 

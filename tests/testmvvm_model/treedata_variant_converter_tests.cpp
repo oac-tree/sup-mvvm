@@ -32,7 +32,7 @@ using namespace mvvm;
 
 //! VectorItem tests.
 
-class TreeDataVariantConverterTest : public ::testing::Test
+class TreeDataVariantConverterTests : public ::testing::Test
 {
 public:
   void PrintTreeData(const TreeData& tree_data)
@@ -49,7 +49,7 @@ public:
 
 //! Parsing XML data string representing datarole_t with undefined data.
 
-TEST_F(TreeDataVariantConverterTest, UndefinedDataRole)
+TEST_F(TreeDataVariantConverterTests, UndefinedDataRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -69,7 +69,7 @@ TEST_F(TreeDataVariantConverterTest, UndefinedDataRole)
 
 //! Parsing XML data string representing datarole_t with integer data.
 
-TEST_F(TreeDataVariantConverterTest, BoolDataRole)
+TEST_F(TreeDataVariantConverterTests, BoolDataRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -96,7 +96,7 @@ TEST_F(TreeDataVariantConverterTest, BoolDataRole)
 
 //! Parsing XML data string representing datarole_t with integer data.
 
-TEST_F(TreeDataVariantConverterTest, IntDataRole)
+TEST_F(TreeDataVariantConverterTests, IntDataRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -129,7 +129,7 @@ TEST_F(TreeDataVariantConverterTest, IntDataRole)
 
 //! Parsing XML data string representing datarole_t with double data.
 
-TEST_F(TreeDataVariantConverterTest, DoubleDataRole)
+TEST_F(TreeDataVariantConverterTests, DoubleDataRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -154,7 +154,7 @@ TEST_F(TreeDataVariantConverterTest, DoubleDataRole)
 
 //! Parsing XML data string representing datarole_t with std::string data.
 
-TEST_F(TreeDataVariantConverterTest, StringDataRole)
+TEST_F(TreeDataVariantConverterTests, StringDataRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -179,7 +179,7 @@ TEST_F(TreeDataVariantConverterTest, StringDataRole)
 
 //! Parsing XML data string representing datarole_t with vector.
 
-TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
+TEST_F(TreeDataVariantConverterTests, VectorOfDoubleRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -211,7 +211,7 @@ TEST_F(TreeDataVariantConverterTest, VectorOfDoubleRole)
 
 //! Parsing XML data string representing datarole_t with ComboProperty.
 
-TEST_F(TreeDataVariantConverterTest, ComboPropertyRole)
+TEST_F(TreeDataVariantConverterTests, ComboPropertyRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -237,7 +237,7 @@ TEST_F(TreeDataVariantConverterTest, ComboPropertyRole)
 
 //! Parsing XML data string representing datarole_t with ComboProperty.
 
-TEST_F(TreeDataVariantConverterTest, ComboPropertyRoleWithSelections)
+TEST_F(TreeDataVariantConverterTests, ComboPropertyRoleWithSelections)
 {
   using mvvm::ParseXMLElementString;
 
@@ -265,7 +265,7 @@ TEST_F(TreeDataVariantConverterTest, ComboPropertyRoleWithSelections)
 
 //! Parsing XML data string representing datarole_t with ExternalProperty.
 
-TEST_F(TreeDataVariantConverterTest, ExternalPropertyRole)
+TEST_F(TreeDataVariantConverterTests, ExternalPropertyRole)
 {
   using mvvm::ParseXMLElementString;
 
@@ -287,7 +287,7 @@ TEST_F(TreeDataVariantConverterTest, ExternalPropertyRole)
 
 //! Parsing XML data string representing datarole_t with empty ExternalProperty.
 
-TEST_F(TreeDataVariantConverterTest, EmptyExternalPropertyRole)
+TEST_F(TreeDataVariantConverterTests, EmptyExternalPropertyRole)
 {
   using mvvm::ParseXMLElementString;
 

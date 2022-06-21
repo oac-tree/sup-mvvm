@@ -26,7 +26,7 @@
 //! Testing external lsignal. All tests are borrowed from
 //! https://github.com/cpp11nullptr/lsignal
 
-class LsignalTest : public ::testing::Test
+class LsignalTests : public ::testing::Test
 {
 public:
   struct SignalOwner : public lsignal::slot
@@ -34,27 +34,27 @@ public:
   };
 };
 
-TEST_F(LsignalTest, CreateSignalSignalShouldBeUnlocked)
+TEST_F(LsignalTests, CreateSignalSignalShouldBeUnlocked)
 {
   lsignal::signal<void()> sg;
   EXPECT_FALSE(sg.is_locked());
 }
 
-TEST_F(LsignalTest, LockSignalSignalShouldBeLocked)
+TEST_F(LsignalTests, LockSignalSignalShouldBeLocked)
 {
   lsignal::signal<void()> sg;
   sg.set_lock(true);
   EXPECT_TRUE(sg.is_locked());
 }
 
-TEST_F(LsignalTest, UnlockSignalSignalShouldBeUnlocked)
+TEST_F(LsignalTests, UnlockSignalSignalShouldBeUnlocked)
 {
   lsignal::signal<void()> sg;
   sg.set_lock(false);
   EXPECT_FALSE(sg.is_locked());
 }
 
-TEST_F(LsignalTest, CallSignalWithSingleConnectionSignalShouldBeCalled)
+TEST_F(LsignalTests, CallSignalWithSingleConnectionSignalShouldBeCalled)
 {
   lsignal::signal<void(int, bool)> sg;
 
@@ -76,7 +76,7 @@ TEST_F(LsignalTest, CallSignalWithSingleConnectionSignalShouldBeCalled)
   EXPECT_TRUE(receiverCalled);
 }
 
-TEST_F(LsignalTest, CallSignalWithMultipleConnectionsSignalShouldBeCalled)
+TEST_F(LsignalTests, CallSignalWithMultipleConnectionsSignalShouldBeCalled)
 {
   lsignal::signal<void(int, bool)> sg;
 
@@ -99,7 +99,7 @@ TEST_F(LsignalTest, CallSignalWithMultipleConnectionsSignalShouldBeCalled)
   EXPECT_EQ(receiverCalledTimes, 2);
 }
 
-TEST_F(LsignalTest, SetSameOwnerToSeveralSignalsAllSignalsShouldBeNotifiedAboutOwnerDestruction)
+TEST_F(LsignalTests, SetSameOwnerToSeveralSignalsAllSignalsShouldBeNotifiedAboutOwnerDestruction)
 {
   lsignal::signal<void()> sigOne;
   lsignal::signal<void()> sigTwo;
@@ -134,7 +134,7 @@ TEST_F(LsignalTest, SetSameOwnerToSeveralSignalsAllSignalsShouldBeNotifiedAboutO
   EXPECT_FALSE(receiverTwoCalled);
 }
 
-TEST_F(LsignalTest,
+TEST_F(LsignalTests,
        CreateSignalToSignalConnection_WhenFirstSignalIsDestroyed_SecondSignalShouldBeNotifed)
 {
   bool receiverOneCalled = false;
@@ -165,7 +165,7 @@ TEST_F(LsignalTest,
   EXPECT_TRUE(receiverTwoCalled);
 }
 
-TEST_F(LsignalTest,
+TEST_F(LsignalTests,
        CreateSignalToSignalConnection_WhenSecondSignalIsDestryoed_FirstSignalShouldBeNotifed)
 {
   bool receiverOneCalled = false;

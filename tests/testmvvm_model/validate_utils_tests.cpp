@@ -32,13 +32,13 @@
 
 using namespace mvvm;
 
-class ValidateUtilsTest : public ::testing::Test
+class ValidateUtilsTests : public ::testing::Test
 {
 public:
   SessionModel m_model;
 };
 
-TEST_F(ValidateUtilsTest, GetActualInsertTagIndex)
+TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
 {
   using ::mvvm::utils::GetActualInsertTagIndex;
 
@@ -62,7 +62,7 @@ TEST_F(ValidateUtilsTest, GetActualInsertTagIndex)
 //! Check throw in ValidateItemInsert when items are not defined, or do not have model/parent
 //! assigned.
 
-TEST_F(ValidateUtilsTest, ValidateItemInsertInvalidItems)
+TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
 {
   using ::mvvm::utils::ValidateItemInsert;
 
@@ -77,7 +77,7 @@ TEST_F(ValidateUtilsTest, ValidateItemInsertInvalidItems)
 
 //! Check throw in ValidateItemInsert when item belongs already to another item.
 
-TEST_F(ValidateUtilsTest, ValidateItemInsertWhenItemBelongsToAnotherParent)
+TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
 {
   using ::mvvm::utils::ValidateItemInsert;
 
@@ -90,7 +90,7 @@ TEST_F(ValidateUtilsTest, ValidateItemInsertWhenItemBelongsToAnotherParent)
 
 //! Check no_throw in ValidateItemInsert when insertion is valid.
 
-TEST_F(ValidateUtilsTest, ValidateItemInsertInDefaultTag)
+TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 {
   using ::mvvm::utils::ValidateItemInsert;
 
@@ -105,7 +105,7 @@ TEST_F(ValidateUtilsTest, ValidateItemInsertInDefaultTag)
 
 //! Check throw in ValidateItemInsert when no default tag is present.
 
-TEST_F(ValidateUtilsTest, ValidateItemInsertWhenNoDefaultTagIsPresent)
+TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 {
   using ::mvvm::utils::ValidateItemInsert;
 
@@ -120,7 +120,7 @@ TEST_F(ValidateUtilsTest, ValidateItemInsertWhenNoDefaultTagIsPresent)
 //! Check throw in ValidateItemMove when items are not defined, or do not have model/parent
 //! assigned.
 
-TEST_F(ValidateUtilsTest, ValidateItemMoveInvalidItems)
+TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
 {
   using ::mvvm::utils::ValidateItemMove;
 
@@ -135,7 +135,7 @@ TEST_F(ValidateUtilsTest, ValidateItemMoveInvalidItems)
 
 //! Check ValidateItemMove when item is property moved from one parent to another.
 
-TEST_F(ValidateUtilsTest, ValidateItemMoveFromOneParentToAnother)
+TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 {
   using ::mvvm::utils::ValidateItemMove;
 
@@ -155,7 +155,7 @@ TEST_F(ValidateUtilsTest, ValidateItemMoveFromOneParentToAnother)
 
 //! Check ValidateItemMove when trying to move property item to another parent.
 
-TEST_F(ValidateUtilsTest, ValidateItemMoveFromPropertyTag)
+TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
 {
   using ::mvvm::utils::ValidateItemMove;
 
@@ -171,7 +171,7 @@ TEST_F(ValidateUtilsTest, ValidateItemMoveFromPropertyTag)
 
 //! Check ValidateItemMove when trying to move item into property tag of another item.
 
-TEST_F(ValidateUtilsTest, ValidateItemMoveToPropertyTag)
+TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
 {
   using ::mvvm::utils::ValidateItemMove;
 

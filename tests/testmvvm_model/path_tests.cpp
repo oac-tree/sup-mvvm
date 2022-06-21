@@ -30,17 +30,17 @@
 
 using namespace mvvm;
 
-class PathTest : public ::testing::Test
+class PathTests : public ::testing::Test
 {
 };
 
-TEST_F(PathTest, InitialState)
+TEST_F(PathTests, InitialState)
 {
   Path path;
   EXPECT_TRUE(path.GetString().empty());
 }
 
-TEST_F(PathTest, AppendPrepend)
+TEST_F(PathTests, AppendPrepend)
 {
   Path path;
   path.Append(1);
@@ -53,13 +53,13 @@ TEST_F(PathTest, AppendPrepend)
   EXPECT_EQ(path.GetString(), "3,1,2");
 }
 
-TEST_F(PathTest, CreateFromVector)
+TEST_F(PathTests, CreateFromVector)
 {
   Path path = Path::CreateFromVector({1, 2, 3});
   EXPECT_EQ(path.GetString(), "1,2,3");
 }
 
-TEST_F(PathTest, CreateFromString)
+TEST_F(PathTests, CreateFromString)
 {
   Path path = Path::CreateFromString("3,2,3");
   EXPECT_EQ(path.GetString(), "3,2,3");

@@ -36,13 +36,13 @@ using ::testing::_;
 
 //! Testing GraphItem.
 
-class GraphItemTest : public ::testing::Test
+class GraphItemTests : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(GraphItemTest, InitialState)
+TEST_F(GraphItemTests, InitialState)
 {
   GraphItem item;
   EXPECT_TRUE(item.GetDataItem() == nullptr);
@@ -54,7 +54,7 @@ TEST_F(GraphItemTest, InitialState)
 
 //! Setting dataItem in model context.
 
-TEST_F(GraphItemTest, SetDataItem)
+TEST_F(GraphItemTests, SetDataItem)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -67,7 +67,7 @@ TEST_F(GraphItemTest, SetDataItem)
 
 //! Setting dataItem in model context.
 
-TEST_F(GraphItemTest, GetValues)
+TEST_F(GraphItemTests, GetValues)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -86,7 +86,7 @@ TEST_F(GraphItemTest, GetValues)
 
 //! Setting dataItem with errors
 
-TEST_F(GraphItemTest, GetErrors)
+TEST_F(GraphItemTests, GetErrors)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -108,7 +108,7 @@ TEST_F(GraphItemTest, GetErrors)
 
 //! Check unlinking when nullptr is set as Data1DItem.
 
-TEST_F(GraphItemTest, SetNullData)
+TEST_F(GraphItemTests, SetNullData)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -133,7 +133,7 @@ TEST_F(GraphItemTest, SetNullData)
 
 //! Check signaling on set data item.
 
-TEST_F(GraphItemTest, OnSetDataItem)
+TEST_F(GraphItemTests, OnSetDataItem)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -152,7 +152,7 @@ TEST_F(GraphItemTest, OnSetDataItem)
 
 //! Sets GraphItem from another GraphItem
 
-TEST_F(GraphItemTest, SetFromGraphItem)
+TEST_F(GraphItemTests, SetFromGraphItem)
 {
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
@@ -174,7 +174,7 @@ TEST_F(GraphItemTest, SetFromGraphItem)
   EXPECT_EQ(graph_item2->GetPenItem()->GetNamedColor(), "red");
 }
 
-TEST_F(GraphItemTest, SetNamedColor)
+TEST_F(GraphItemTests, SetNamedColor)
 {
   GraphItem item;
   item.SetNamedColor("mediumaquamarine");

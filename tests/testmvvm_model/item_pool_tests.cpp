@@ -30,11 +30,11 @@ using namespace mvvm;
 
 //! Tests of ItemPool and its abilities to register/deregister SessionItem.
 
-class ItemPoolTest : public ::testing::Test
+class ItemPoolTests : public ::testing::Test
 {
 };
 
-TEST_F(ItemPoolTest, InitialState)
+TEST_F(ItemPoolTests, InitialState)
 {
   ItemPool pool;
   EXPECT_EQ(pool.GetSize(), 0);
@@ -42,7 +42,7 @@ TEST_F(ItemPoolTest, InitialState)
 
 //! Explicit item registrations.
 
-TEST_F(ItemPoolTest, RegisterItem)
+TEST_F(ItemPoolTests, RegisterItem)
 {
   std::unique_ptr<ItemPool> pool(new ItemPool);
   std::unique_ptr<SessionItem> item(new SessionItem);
@@ -75,7 +75,7 @@ TEST_F(ItemPoolTest, RegisterItem)
 
 //! Explicit item de-registrations.
 
-TEST_F(ItemPoolTest, DeregisterItem)
+TEST_F(ItemPoolTests, DeregisterItem)
 {
   std::unique_ptr<ItemPool> pool(new ItemPool);
   std::unique_ptr<SessionItem> item1(new SessionItem);
@@ -106,7 +106,7 @@ TEST_F(ItemPoolTest, DeregisterItem)
 
 //! Providing custom key.
 
-TEST_F(ItemPoolTest, CustomKey)
+TEST_F(ItemPoolTests, CustomKey)
 {
   std::shared_ptr<ItemPool> pool(new ItemPool);
   EXPECT_EQ(pool.use_count(), 1L);

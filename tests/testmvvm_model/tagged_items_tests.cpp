@@ -30,7 +30,7 @@ using namespace mvvm;
 
 //! Tests for SessionItemTags class.
 
-class TaggedItemsTest : public ::testing::Test
+class TaggedItemsTests : public ::testing::Test
 {
 public:
   class TestItem : public SessionItem
@@ -42,7 +42,7 @@ public:
 
 //! Initial state of emty SessionItemTags.
 
-TEST_F(TaggedItemsTest, InitialState)
+TEST_F(TaggedItemsTests, InitialState)
 {
   const std::string name("tag");
   TaggedItems tag;
@@ -55,7 +55,7 @@ TEST_F(TaggedItemsTest, InitialState)
 
 //! Registering tags.
 
-TEST_F(TaggedItemsTest, RegisterTag)
+TEST_F(TaggedItemsTests, RegisterTag)
 {
   const std::string name("tag");
   TaggedItems tag;
@@ -76,7 +76,7 @@ TEST_F(TaggedItemsTest, RegisterTag)
 
 //! Testing ::canInsertItem.
 
-TEST_F(TaggedItemsTest, CanInsertItem)
+TEST_F(TaggedItemsTests, CanInsertItem)
 {
   TaggedItems tag;
   tag.RegisterTag(TagInfo::CreateUniversalTag("tag1"));
@@ -89,7 +89,7 @@ TEST_F(TaggedItemsTest, CanInsertItem)
 
 //! Testing ::canInsertItem.
 
-TEST_F(TaggedItemsTest, CanInsertItemForUniversalTag)
+TEST_F(TaggedItemsTests, CanInsertItemForUniversalTag)
 {
   TaggedItems tag;
   const std::string tagname = "tag1";
@@ -116,7 +116,7 @@ TEST_F(TaggedItemsTest, CanInsertItemForUniversalTag)
 
 //! Insert item.
 
-TEST_F(TaggedItemsTest, InsertItem)
+TEST_F(TaggedItemsTests, InsertItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -158,7 +158,7 @@ TEST_F(TaggedItemsTest, InsertItem)
 
 //! Testing method tagRowOfItem.
 
-TEST_F(TaggedItemsTest, TagRowOfItem)
+TEST_F(TaggedItemsTests, TagRowOfItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -196,7 +196,7 @@ TEST_F(TaggedItemsTest, TagRowOfItem)
 
 //! Testing method getItem.
 
-TEST_F(TaggedItemsTest, GetItem)
+TEST_F(TaggedItemsTests, GetItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -222,7 +222,7 @@ TEST_F(TaggedItemsTest, GetItem)
 
 //! Testing method getItem.
 
-TEST_F(TaggedItemsTest, TakeItem)
+TEST_F(TaggedItemsTests, TakeItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -264,7 +264,7 @@ TEST_F(TaggedItemsTest, TakeItem)
 
 //! Testing isSinglePropertyTag.
 
-TEST_F(TaggedItemsTest, IsSinglePropertyTag)
+TEST_F(TaggedItemsTests, IsSinglePropertyTag)
 {
   TaggedItems tag;
   tag.RegisterTag(TagInfo::CreateUniversalTag("universal"), /*set_as_default*/ true);

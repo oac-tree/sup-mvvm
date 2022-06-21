@@ -38,10 +38,10 @@ const std::string samplemodel_name = "samplemodel";
 
 //! Tests for ProjectManager class.
 
-class ProjectManagerDecoratorTest : public FolderBasedTest
+class ProjectManagerDecoratorTests : public FolderBasedTest
 {
 public:
-  ProjectManagerDecoratorTest()
+  ProjectManagerDecoratorTests()
       : FolderBasedTest("test_ProjectManagerDecorator")
       , sample_model(std::make_unique<ApplicationModel>(samplemodel_name))
   {
@@ -70,7 +70,7 @@ public:
 
 //! Initial state of ProjectManager. Project created, and not-saved.
 
-TEST_F(ProjectManagerDecoratorTest, InitialState)
+TEST_F(ProjectManagerDecoratorTests, InitialState)
 {
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext());
   EXPECT_TRUE(manager.CurrentProjectDir().empty());
@@ -79,7 +79,7 @@ TEST_F(ProjectManagerDecoratorTest, InitialState)
 //! Starting from new document (without project dir defined).
 //! Create new project in given directory.
 
-TEST_F(ProjectManagerDecoratorTest, UntitledEmptyCreateNew)
+TEST_F(ProjectManagerDecoratorTests, UntitledEmptyCreateNew)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
@@ -100,7 +100,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptyCreateNew)
 //! Starting from new document (without project dir defined).
 //! Saving project. Same behavior as SaveAs.
 
-TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveCurrentProject)
+TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveCurrentProject)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
@@ -121,7 +121,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveCurrentProject)
 //! Starting from new document (without project dir defined).
 //! Save under given name.
 
-TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAs)
+TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAs)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
@@ -142,7 +142,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAs)
 //! Starting from new document (without project dir defined).
 //! Attempt to save under empty name, immitating the user canceled directory selection dialog.
 
-TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAsCancel)
+TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsCancel)
 {
   ProjectManagerDecorator manager(CreateProjectContext(),
                                   CreateUserContext({}, {}));  // immitates canceling
@@ -156,7 +156,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAsCancel)
 //! Starting from new document (without project dir defined).
 //! Attempt to save in the non-existing directory.
 
-TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAsWrongDir)
+TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsWrongDir)
 {
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext("non-existing", {}));
 
@@ -169,7 +169,7 @@ TEST_F(ProjectManagerDecoratorTest, UntitledEmptySaveAsWrongDir)
 //! the dialog save/discard/cancel. As a result of whole exersize, existing project
 //! should be opened, previous project saved.
 
-TEST_F(ProjectManagerDecoratorTest, UntitledModifiedOpenExisting)
+TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
 {
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
   const auto unsaved_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting2");

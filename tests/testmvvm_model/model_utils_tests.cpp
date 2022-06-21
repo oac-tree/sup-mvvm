@@ -30,7 +30,7 @@
 
 using namespace mvvm;
 
-class ModelUtilsTest : public ::testing::Test
+class ModelUtilsTests : public ::testing::Test
 {
 public:
   class TestCompoundItem : public CompoundItem
@@ -49,7 +49,7 @@ public:
   };
 };
 
-TEST_F(ModelUtilsTest, FindItems)
+TEST_F(ModelUtilsTests, FindItems)
 {
   TestModel model;
   EXPECT_EQ(utils::FindItems<>(&model).size(), 1);             // because of rootItem
@@ -71,7 +71,7 @@ TEST_F(ModelUtilsTest, FindItems)
   EXPECT_EQ(utils::FindItems<PropertyItem>(&model), expected3);
 }
 
-TEST_F(ModelUtilsTest, PathFromItem)
+TEST_F(ModelUtilsTests, PathFromItem)
 {
   SessionModel model;
 
@@ -111,7 +111,7 @@ TEST_F(ModelUtilsTest, PathFromItem)
   EXPECT_EQ(utils::PathFromItem(child201).GetString(), "2,0,1");
 }
 
-TEST_F(ModelUtilsTest, ItemFromPath)
+TEST_F(ModelUtilsTests, ItemFromPath)
 {
   SessionModel model;
 
@@ -141,7 +141,7 @@ TEST_F(ModelUtilsTest, ItemFromPath)
   EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 1})), child201);
 }
 
-TEST_F(ModelUtilsTest, HasSignals)
+TEST_F(ModelUtilsTests, HasSignals)
 {
   SessionModel model;
   EXPECT_FALSE(utils::HasSignals(&model));
@@ -152,7 +152,7 @@ TEST_F(ModelUtilsTest, HasSignals)
 
 //! Tests item copy when from root item to root item.
 
-TEST_F(ModelUtilsTest, CopyModelItemRootContext)
+TEST_F(ModelUtilsTests, CopyModelItemRootContext)
 {
   SessionModel model;
 
@@ -176,7 +176,7 @@ TEST_F(ModelUtilsTest, CopyModelItemRootContext)
 
 //! Tests item copy from parent to root item.
 
-TEST_F(ModelUtilsTest, CopyParentWithProperty)
+TEST_F(ModelUtilsTests, CopyParentWithProperty)
 {
   SessionModel model;
 
@@ -199,7 +199,7 @@ TEST_F(ModelUtilsTest, CopyParentWithProperty)
 
 //! Tests item copy for property item.
 
-TEST_F(ModelUtilsTest, CopyFreeItem)
+TEST_F(ModelUtilsTests, CopyFreeItem)
 {
   SessionModel model;
 
@@ -218,7 +218,7 @@ TEST_F(ModelUtilsTest, CopyFreeItem)
 
 //! Attempt to copy property item into the same tag.
 
-TEST_F(ModelUtilsTest, ForbiddenCopy)
+TEST_F(ModelUtilsTests, ForbiddenCopy)
 {
   SessionModel model;
 
@@ -234,7 +234,7 @@ TEST_F(ModelUtilsTest, ForbiddenCopy)
 }
 
 //! FIXME restore test when copy is ready
-// TEST_F(ModelUtilsTest, CreateCopy)
+// TEST_F(ModelUtilsTests, CreateCopy)
 //{
 //    ToyItems::SampleModel model;
 //    auto layer = model.insertItem<ToyItems::LayerItem>();
@@ -250,7 +250,7 @@ TEST_F(ModelUtilsTest, ForbiddenCopy)
 //}
 
 //! FIXME restore test when clone is ready
-// TEST_F(ModelUtilsTest, CreateClone)
+// TEST_F(ModelUtilsTests, CreateClone)
 //{
 //    ToyItems::SampleModel model;
 //    auto layer = model.insertItem<ToyItems::LayerItem>();
@@ -270,7 +270,7 @@ TEST_F(ModelUtilsTest, ForbiddenCopy)
 //}
 
 //! FIXME restore test  MoveUp
-// TEST_F(ModelUtilsTest, MoveItemUp)
+// TEST_F(ModelUtilsTests, MoveItemUp)
 //{
 //    ToyItems::SampleModel model;
 
@@ -295,7 +295,7 @@ TEST_F(ModelUtilsTest, ForbiddenCopy)
 //}
 
 //! FIXME restore test MoveDown
-// TEST_F(ModelUtilsTest, MoveItemDown)
+// TEST_F(ModelUtilsTests, MoveItemDown)
 //{
 //    ToyItems::SampleModel model;
 

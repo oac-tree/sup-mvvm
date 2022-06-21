@@ -36,17 +36,17 @@ const std::string property_name("name");
 
 //! Test of CompountItem machinery (property children etc).
 
-class CompoundItemTest : public ::testing::Test
+class CompoundItemTests : public ::testing::Test
 {
 };
 
-TEST_F(CompoundItemTest, InitialState)
+TEST_F(CompoundItemTests, InitialState)
 {
   CompoundItem item;
   EXPECT_EQ(item.GetTotalItemCount(), 0);
 }
 
-TEST_F(CompoundItemTest, AddIntProperty)
+TEST_F(CompoundItemTests, AddIntProperty)
 {
   CompoundItem item;
 
@@ -62,7 +62,7 @@ TEST_F(CompoundItemTest, AddIntProperty)
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, SetIntProperty)
+TEST_F(CompoundItemTests, SetIntProperty)
 {
   CompoundItem item;
   auto propertyItem = item.AddProperty(property_name, 41);
@@ -74,7 +74,7 @@ TEST_F(CompoundItemTest, SetIntProperty)
   EXPECT_EQ(propertyItem->Data<int>(), expected);
 }
 
-TEST_F(CompoundItemTest, AddDoubleProperty)
+TEST_F(CompoundItemTests, AddDoubleProperty)
 {
   CompoundItem item;
 
@@ -95,7 +95,7 @@ TEST_F(CompoundItemTest, AddDoubleProperty)
   //  EXPECT_FALSE(limits.hasUpperLimit());
 }
 
-TEST_F(CompoundItemTest, SetDoubleProperty)
+TEST_F(CompoundItemTests, SetDoubleProperty)
 {
   CompoundItem item;
   auto propertyItem = item.AddProperty(property_name, 41.11);
@@ -107,7 +107,7 @@ TEST_F(CompoundItemTest, SetDoubleProperty)
   EXPECT_EQ(propertyItem->Data<double>(), expected);
 }
 
-TEST_F(CompoundItemTest, AddCharProperty)
+TEST_F(CompoundItemTests, AddCharProperty)
 {
   CompoundItem item;
 
@@ -121,7 +121,7 @@ TEST_F(CompoundItemTest, AddCharProperty)
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, SetCharProperty)
+TEST_F(CompoundItemTests, SetCharProperty)
 {
   CompoundItem item;
   auto propertyItem = item.AddProperty(property_name, "aaa");
@@ -133,7 +133,7 @@ TEST_F(CompoundItemTest, SetCharProperty)
   EXPECT_EQ(propertyItem->Data<std::string>(), std::string(expected));
 }
 
-TEST_F(CompoundItemTest, AddStringProperty)
+TEST_F(CompoundItemTests, AddStringProperty)
 {
   CompoundItem item;
 
@@ -147,7 +147,7 @@ TEST_F(CompoundItemTest, AddStringProperty)
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, SetStringProperty)
+TEST_F(CompoundItemTests, SetStringProperty)
 {
   CompoundItem item;
   auto propertyItem = item.AddProperty(property_name, std::string("aaa"));
@@ -159,7 +159,7 @@ TEST_F(CompoundItemTest, SetStringProperty)
   EXPECT_EQ(propertyItem->Data<std::string>(), expected);
 }
 
-TEST_F(CompoundItemTest, AddBoolProperty)
+TEST_F(CompoundItemTests, AddBoolProperty)
 {
   CompoundItem item;
 
@@ -174,7 +174,7 @@ TEST_F(CompoundItemTest, AddBoolProperty)
   //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
-TEST_F(CompoundItemTest, SetBoolProperty)
+TEST_F(CompoundItemTests, SetBoolProperty)
 {
   CompoundItem item;
   auto propertyItem = item.AddProperty(property_name, false);
@@ -186,7 +186,7 @@ TEST_F(CompoundItemTest, SetBoolProperty)
   EXPECT_EQ(propertyItem->Data<bool>(), expected);
 }
 
-TEST_F(CompoundItemTest, ItemAccess)
+TEST_F(CompoundItemTests, ItemAccess)
 {
   const std::string tag = "tag";
 
@@ -200,7 +200,7 @@ TEST_F(CompoundItemTest, ItemAccess)
   EXPECT_THROW(parent.GetItem<CompoundItem>(tag), std::runtime_error);
 }
 
-TEST_F(CompoundItemTest, ItemVectorAccess)
+TEST_F(CompoundItemTests, ItemVectorAccess)
 {
   const std::string tag = "tag";
 
@@ -220,7 +220,7 @@ TEST_F(CompoundItemTest, ItemVectorAccess)
 
 //! Tests automatic index addition to default display name.
 
-TEST_F(CompoundItemTest, DisplayNameIndexAddition)
+TEST_F(CompoundItemTests, DisplayNameIndexAddition)
 {
   const std::string tag = "tag";
 
@@ -246,7 +246,7 @@ TEST_F(CompoundItemTest, DisplayNameIndexAddition)
 //! Test all children method.
 //! Property items are also children.
 
-TEST_F(CompoundItemTest, Children)
+TEST_F(CompoundItemTests, Children)
 {
   CompoundItem item;
   EXPECT_TRUE(item.GetAllItems().empty());
@@ -256,7 +256,7 @@ TEST_F(CompoundItemTest, Children)
 
 //! Test AddBranch method.
 
-TEST_F(CompoundItemTest, AddBranch)
+TEST_F(CompoundItemTests, AddBranch)
 {
   CompoundItem item;
 

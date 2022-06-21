@@ -27,13 +27,13 @@ using namespace mvvm;
 
 //! Test of SessionItemData.
 
-class SessionItemDataTest : public ::testing::Test
+class SessionItemDataTests : public ::testing::Test
 {
 };
 
 //! Initial state of SessionItemData object.
 
-TEST_F(SessionItemDataTest, initialState)
+TEST_F(SessionItemDataTests, initialState)
 {
   SessionItemData item_data;
   EXPECT_TRUE(item_data.GetRoles().empty());
@@ -43,7 +43,7 @@ TEST_F(SessionItemDataTest, initialState)
 
 //! Basic setData, data operations.
 
-TEST_F(SessionItemDataTest, SetDataDouble)
+TEST_F(SessionItemDataTests, SetDataDouble)
 {
   const int role = 1;
   SessionItemData item_data;
@@ -74,7 +74,7 @@ TEST_F(SessionItemDataTest, SetDataDouble)
 
 //! Using different roles.
 
-TEST_F(SessionItemDataTest, DifferentRoles)
+TEST_F(SessionItemDataTests, DifferentRoles)
 {
   SessionItemData item_data;
 
@@ -95,7 +95,7 @@ TEST_F(SessionItemDataTest, DifferentRoles)
 
 //! Changing type of variant for role should not be allowed.
 
-TEST_F(SessionItemDataTest, ChangingRole)
+TEST_F(SessionItemDataTests, ChangingRole)
 {
   SessionItemData item_data;
 
@@ -114,7 +114,7 @@ TEST_F(SessionItemDataTest, ChangingRole)
 
 //! Access to data and roles via range loop.
 
-TEST_F(SessionItemDataTest, RangeLoop)
+TEST_F(SessionItemDataTests, RangeLoop)
 {
   SessionItemData item_data;
   const std::vector<double> expected_values = {1.2, 1.3};
@@ -138,7 +138,7 @@ TEST_F(SessionItemDataTest, RangeLoop)
   EXPECT_EQ(roles, expected_roles);
 }
 
-TEST_F(SessionItemDataTest, HasRole)
+TEST_F(SessionItemDataTests, HasRole)
 {
   SessionItemData data;
   EXPECT_FALSE(data.HasData(0));

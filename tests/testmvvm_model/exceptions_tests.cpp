@@ -23,11 +23,11 @@
 
 using namespace mvvm;
 
-class ExceptionsTest : public ::testing::Test
+class ExceptionsTests : public ::testing::Test
 {
 };
 
-TEST_F(ExceptionsTest, Message)
+TEST_F(ExceptionsTests, Message)
 {
   std::string message("custom message");
 

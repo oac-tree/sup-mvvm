@@ -32,13 +32,13 @@
 
 using namespace mvvm;
 
-class ItemUtilsTest : public ::testing::Test
+class ItemUtilsTests : public ::testing::Test
 {
 };
 
 //! Simple iteration over item and its children
 
-TEST_F(ItemUtilsTest, IterateItem)
+TEST_F(ItemUtilsTests, IterateItem)
 {
   std::vector<const SessionItem*> visited_items;
 
@@ -69,7 +69,7 @@ TEST_F(ItemUtilsTest, IterateItem)
 
 //! Conditional iteration over item and its children.
 
-TEST_F(ItemUtilsTest, IterateIfItem)
+TEST_F(ItemUtilsTests, IterateIfItem)
 {
   std::vector<const SessionItem*> visited_items;
 
@@ -94,7 +94,7 @@ TEST_F(ItemUtilsTest, IterateIfItem)
 
 //! Iteration over root item of the model.
 
-TEST_F(ItemUtilsTest, IterateModel)
+TEST_F(ItemUtilsTests, IterateModel)
 {
   SessionModel model;
 
@@ -119,7 +119,7 @@ TEST_F(ItemUtilsTest, IterateModel)
 
 //! Copy number of child in parents tree.
 
-TEST_F(ItemUtilsTest, ItemCopyNumber)
+TEST_F(ItemUtilsTests, ItemCopyNumber)
 {
   SessionModel model;
 
@@ -137,7 +137,7 @@ TEST_F(ItemUtilsTest, ItemCopyNumber)
 
 //! Checks method ::HasTag.
 
-TEST_F(ItemUtilsTest, HasTag)
+TEST_F(ItemUtilsTests, HasTag)
 {
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
@@ -148,7 +148,7 @@ TEST_F(ItemUtilsTest, HasTag)
 
 //! Checks method ::IsSinglePropertyTag.
 
-TEST_F(ItemUtilsTest, IsSinglePropertyTag)
+TEST_F(ItemUtilsTests, IsSinglePropertyTag)
 {
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
@@ -160,7 +160,7 @@ TEST_F(ItemUtilsTest, IsSinglePropertyTag)
 
 //! Checks method ::RegisteredTags.
 
-TEST_F(ItemUtilsTest, RegisteredTags)
+TEST_F(ItemUtilsTests, RegisteredTags)
 {
   SessionItem item;
   EXPECT_TRUE(utils::RegisteredTags(item).empty());
@@ -173,7 +173,7 @@ TEST_F(ItemUtilsTest, RegisteredTags)
 
 //! Check access to top level and property items.
 
-TEST_F(ItemUtilsTest, TopLevelItems)
+TEST_F(ItemUtilsTests, TopLevelItems)
 {
   SessionModel model;
 
@@ -192,7 +192,7 @@ TEST_F(ItemUtilsTest, TopLevelItems)
 //! Check access to top level and property items when some of items are hidden via corresponding
 //! appearance flag.
 
-TEST_F(ItemUtilsTest, TopLevelItemsWhenHidden)
+TEST_F(ItemUtilsTests, TopLevelItemsWhenHidden)
 {
   SessionModel model;
 
@@ -214,7 +214,7 @@ TEST_F(ItemUtilsTest, TopLevelItemsWhenHidden)
 
 //! Check access to top level and property items.
 
-TEST_F(ItemUtilsTest, SinglePropertyItems)
+TEST_F(ItemUtilsTests, SinglePropertyItems)
 {
   SessionModel model;
 
@@ -237,7 +237,7 @@ TEST_F(ItemUtilsTest, SinglePropertyItems)
 //! Check access to top level and property items when some of items are hidden via corresponding
 //! appearance flag.
 
-TEST_F(ItemUtilsTest, SinglePropertyItemsWhenHidden)
+TEST_F(ItemUtilsTests, SinglePropertyItemsWhenHidden)
 {
   SessionModel model;
 
@@ -256,7 +256,7 @@ TEST_F(ItemUtilsTest, SinglePropertyItemsWhenHidden)
 
 //! Looking for next item.
 
-TEST_F(ItemUtilsTest, FindNextSibling)
+TEST_F(ItemUtilsTests, FindNextSibling)
 {
   SessionModel model;
 
@@ -278,7 +278,7 @@ TEST_F(ItemUtilsTest, FindNextSibling)
 
 //! Looking for previous item.
 
-TEST_F(ItemUtilsTest, FindPreviousSibling)
+TEST_F(ItemUtilsTests, FindPreviousSibling)
 {
   SessionModel model;
 
@@ -300,7 +300,7 @@ TEST_F(ItemUtilsTest, FindPreviousSibling)
 
 //! Looking for previous item.
 
-TEST_F(ItemUtilsTest, FindNextItemToSelect)
+TEST_F(ItemUtilsTests, FindNextItemToSelect)
 {
   SessionModel model;
 
@@ -322,7 +322,7 @@ TEST_F(ItemUtilsTest, FindNextItemToSelect)
 
 //! Checking IsItemAncestor.
 
-TEST_F(ItemUtilsTest, IsItemAncestor)
+TEST_F(ItemUtilsTests, IsItemAncestor)
 {
   SessionModel model;
   EXPECT_FALSE(utils::IsItemAncestor(model.GetRootItem(), model.GetRootItem()));
@@ -344,7 +344,7 @@ TEST_F(ItemUtilsTest, IsItemAncestor)
   EXPECT_FALSE(utils::IsItemAncestor(x_item, y_item));
 }
 
-TEST_F(ItemUtilsTest, UniqueItems)
+TEST_F(ItemUtilsTests, UniqueItems)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
@@ -355,7 +355,7 @@ TEST_F(ItemUtilsTest, UniqueItems)
   EXPECT_EQ(utils::UniqueItems(data), expected);
 }
 
-TEST_F(ItemUtilsTest, CastedItems)
+TEST_F(ItemUtilsTests, CastedItems)
 {
   SessionModel model;
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
@@ -366,7 +366,7 @@ TEST_F(ItemUtilsTest, CastedItems)
   EXPECT_EQ(utils::CastItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
 }
 
-TEST_F(ItemUtilsTest, GetNestlingDepth)
+TEST_F(ItemUtilsTests, GetNestlingDepth)
 {
   using mvvm::utils::GetNestlingDepth;
   EXPECT_EQ(GetNestlingDepth(nullptr, nullptr), -1);
@@ -393,7 +393,7 @@ TEST_F(ItemUtilsTest, GetNestlingDepth)
   EXPECT_EQ(GetNestlingDepth(child, parent), -1);
 }
 
-TEST_F(ItemUtilsTest, HasAppearanceFlag)
+TEST_F(ItemUtilsTests, HasAppearanceFlag)
 {
   using mvvm::utils::HasAppearanceFlag;
   SessionItem item;

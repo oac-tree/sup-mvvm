@@ -25,7 +25,7 @@ using namespace mvvm;
 
 //! Testing AxisItems.
 
-class TagIndexTest : public ::testing::Test
+class TagIndexTests : public ::testing::Test
 {
 public:
   TagIndex GetTestIndex(const TagIndex& input) { return input; }
@@ -33,7 +33,7 @@ public:
 
 //! Initial state.
 
-TEST_F(TagIndexTest, InitialState)
+TEST_F(TagIndexTests, InitialState)
 {
   TagIndex tag_index;
   EXPECT_EQ(tag_index.tag, "");
@@ -42,7 +42,7 @@ TEST_F(TagIndexTest, InitialState)
 
 //! Brace initializer.
 
-TEST_F(TagIndexTest, BraceInitializer)
+TEST_F(TagIndexTests, BraceInitializer)
 {
   TagIndex tag_index{"abc", 42};
   EXPECT_EQ(tag_index.tag, "abc");
@@ -63,7 +63,7 @@ TEST_F(TagIndexTest, BraceInitializer)
 
 //! Equality operators.
 
-TEST_F(TagIndexTest, EqualityOperators)
+TEST_F(TagIndexTests, EqualityOperators)
 {
   TagIndex tag1;
   TagIndex tag2;
@@ -88,7 +88,7 @@ TEST_F(TagIndexTest, EqualityOperators)
 
 //! Assignment operators.
 
-TEST_F(TagIndexTest, AssignmentOperator)
+TEST_F(TagIndexTests, AssignmentOperator)
 {
   TagIndex tag1;
   TagIndex tag2{"abc", 42};
@@ -100,7 +100,7 @@ TEST_F(TagIndexTest, AssignmentOperator)
 
 //! Factory methods.
 
-TEST_F(TagIndexTest, FactoryMethods)
+TEST_F(TagIndexTests, FactoryMethods)
 {
   auto tag_index = TagIndex::Append();
   EXPECT_EQ(tag_index.tag, "");
@@ -118,7 +118,7 @@ TEST_F(TagIndexTest, FactoryMethods)
 
 //! Implicit type convertion
 
-TEST_F(TagIndexTest, ImplicitConversion)
+TEST_F(TagIndexTests, ImplicitConversion)
 {
   auto tag_index = GetTestIndex("abc");
   EXPECT_EQ(tag_index.tag, "abc");
@@ -127,7 +127,7 @@ TEST_F(TagIndexTest, ImplicitConversion)
 
 //! Find next tagrow.
 
-TEST_F(TagIndexTest, Next)
+TEST_F(TagIndexTests, Next)
 {
   TagIndex tag_index{"tag", 0};
   EXPECT_EQ(tag_index.Next().tag, "tag");
@@ -136,7 +136,7 @@ TEST_F(TagIndexTest, Next)
 
 //! Find previous tagrow.
 
-TEST_F(TagIndexTest, Prev)
+TEST_F(TagIndexTests, Prev)
 {
   TagIndex tag_index{"tag", 1};
   EXPECT_EQ(tag_index.Prev().tag, "tag");

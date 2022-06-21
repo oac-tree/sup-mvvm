@@ -25,24 +25,24 @@ using namespace mvvm;
 
 //! Test of ContainerItem.
 
-class ContainerItemTest : public ::testing::Test
+class ContainerItemTests : public ::testing::Test
 {
 };
 
-TEST_F(ContainerItemTest, InitialState)
+TEST_F(ContainerItemTests, InitialState)
 {
   ContainerItem item;
   EXPECT_TRUE(item.IsEmpty());
 }
 
-TEST_F(ContainerItemTest, IsEmpty)
+TEST_F(ContainerItemTests, IsEmpty)
 {
   ContainerItem item;
   item.InsertItem<PropertyItem>({"", 0});
   EXPECT_FALSE(item.IsEmpty());
 }
 
-TEST_F(ContainerItemTest, GetSize)
+TEST_F(ContainerItemTests, GetSize)
 {
   ContainerItem item;
   EXPECT_EQ(item.GetSize(), 0);

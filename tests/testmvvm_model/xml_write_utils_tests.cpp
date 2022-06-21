@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/xml_write_utils.h"
-
 #include "folder_based_tests.h"
 #include "test_utils.h"
+
+#include "mvvm/serialization/xml_write_utils.h"
 
 #include <mvvm/serialization/treedata.h>
 
@@ -28,15 +28,15 @@ using namespace mvvm;
 
 //! Testing utilities to ite XML files
 
-class XMLWriteUtilsTest : public FolderBasedTest
+class XMLWriteUtilsTests : public FolderBasedTest
 {
 public:
-  XMLWriteUtilsTest() : FolderBasedTest("test_XMLWriteUtils") {}
+  XMLWriteUtilsTests() : FolderBasedTest("test_XMLWriteUtils") {}
 };
 
 //! Write a single element.
 
-TEST_F(XMLWriteUtilsTest, WriteElement)
+TEST_F(XMLWriteUtilsTests, WriteElement)
 {
   mvvm::TreeData tree_data("Element");
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -55,7 +55,7 @@ TEST_F(XMLWriteUtilsTest, WriteElement)
 
 //! Write a single element with attribute.
 
-TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
+TEST_F(XMLWriteUtilsTests, WriteElementWithAttribute)
 {
   mvvm::TreeData tree_data("Element");
   tree_data.AddAttribute("name", "James");
@@ -75,7 +75,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithAttribute)
 
 //! Write a single element with attribute.
 
-TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
+TEST_F(XMLWriteUtilsTests, WriteElementWithTwoAttributes)
 {
   mvvm::TreeData tree_data("Element");
   tree_data.AddAttribute("age", "33");
@@ -96,7 +96,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithTwoAttributes)
 
 //! Write a single element with content defined.
 
-TEST_F(XMLWriteUtilsTest, WriteElementContent)
+TEST_F(XMLWriteUtilsTests, WriteElementContent)
 {
   mvvm::TreeData tree_data("Element");
   tree_data.SetContent("1.0, 2.0, 3.0");
@@ -116,7 +116,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementContent)
 
 //! Write a single element with attribute and content defined.
 
-TEST_F(XMLWriteUtilsTest, WriteElementAttributeAndContent)
+TEST_F(XMLWriteUtilsTests, WriteElementAttributeAndContent)
 {
   mvvm::TreeData tree_data("Element");
   tree_data.AddAttribute("name", "James");
@@ -137,7 +137,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementAttributeAndContent)
 
 //! Write a single element with attribute and content defined.
 
-TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
+TEST_F(XMLWriteUtilsTests, WriteElementWithChildren)
 {
   mvvm::TreeData tree_data("Element");
   tree_data.AddChild(mvvm::TreeData("Child"));
@@ -161,7 +161,7 @@ TEST_F(XMLWriteUtilsTest, WriteElementWithChildren)
 
 //! Write a single element with attribute and content defined.
 
-TEST_F(XMLWriteUtilsTest, WriteItemData)
+TEST_F(XMLWriteUtilsTests, WriteItemData)
 {
   mvvm::TreeData tree_data("ItemData");
   mvvm::TreeData variant1("Variant");

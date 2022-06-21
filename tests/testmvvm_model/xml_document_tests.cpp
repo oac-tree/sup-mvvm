@@ -36,10 +36,10 @@ using namespace mvvm;
 
 //! Testing XmlDocument.
 
-class XmlDocumentTest : public FolderBasedTest
+class XmlDocumentTests : public FolderBasedTest
 {
 public:
-  XmlDocumentTest() : FolderBasedTest("test_XmlDocument") {}
+  XmlDocumentTests() : FolderBasedTest("test_XmlDocument") {}
 
   class TestModel1 : public ApplicationModel
   {
@@ -56,7 +56,7 @@ public:
 
 //! Saving the model with content into document and restoring it after.
 
-TEST_F(XmlDocumentTest, SaveLoadEmptyModel)
+TEST_F(XmlDocumentTests, SaveLoadEmptyModel)
 {
   const auto file_path = GetFilePath("SaveLoadEmptyModel.xml");
 
@@ -78,7 +78,7 @@ TEST_F(XmlDocumentTest, SaveLoadEmptyModel)
 
 //! Saving the model with content into document and restoring it after.
 
-TEST_F(XmlDocumentTest, SaveLoadModelWithPropertyItem)
+TEST_F(XmlDocumentTests, SaveLoadModelWithPropertyItem)
 {
   const auto file_path = GetFilePath("SaveLoadModelWithPropertyItem.xml");
 
@@ -101,7 +101,7 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithPropertyItem)
 
 //! Saving the model with content into document and restoring it after.
 
-TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
+TEST_F(XmlDocumentTests, SaveLoadModelWithParentAndChild)
 {
   const auto file_path = GetFilePath("SaveLoadModelWithParentAndChild.xml");
 
@@ -156,7 +156,7 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
 
 //! Saving two models with content into document and restoring it after.
 
-TEST_F(XmlDocumentTest, SaveLoadTwoModels)
+TEST_F(XmlDocumentTests, SaveLoadTwoModels)
 {
   const auto file_path = GetFilePath("SaveLoadTwoModels.xml");
 
@@ -199,7 +199,7 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
 
 //! Attempt to restore models in wrong order.
 
-TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
+TEST_F(XmlDocumentTests, LoadModelsInWrongOrder)
 {
   const auto file_path = GetFilePath("LoadModelsInWrongOrder.xml");
   TestModel1 model1;

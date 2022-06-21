@@ -25,13 +25,13 @@ using namespace mvvm;
 
 //! Testing variant_t and utility functions.
 
-class VariantTest : public ::testing::Test
+class VariantTests : public ::testing::Test
 {
 };
 
 //! Testing Utils::IsValid function.
 
-TEST_F(VariantTest, IsValid)
+TEST_F(VariantTests, IsValid)
 {
   using utils::IsValid;
   EXPECT_FALSE(IsValid(variant_t()));
@@ -48,7 +48,7 @@ TEST_F(VariantTest, IsValid)
 //! Test is failing on old compilers: variant constructed from "const char" is turning into
 //! variant<bool>
 
-// TEST_F(VariantTest, ConstChar)
+// TEST_F(VariantTests, ConstChar)
 //{
 //   variant_t variant1("abc");
 //   variant_t variant2(std::string("abc"));
@@ -58,7 +58,7 @@ TEST_F(VariantTest, IsValid)
 
 //! Vector<double>
 
-TEST_F(VariantTest, VectorOfDouble)
+TEST_F(VariantTests, VectorOfDouble)
 {
   variant_t variant1(std::vector<double>({1.0, 2.0}));
   variant_t variant2(std::vector<double>({1.0, 2.0}));
@@ -68,7 +68,7 @@ TEST_F(VariantTest, VectorOfDouble)
   EXPECT_EQ(std::get<std::vector<double>>(variant1), std::vector<double>({1.0, 2.0}));
 }
 
-TEST_F(VariantTest, ComboPropertyVariantEquality)
+TEST_F(VariantTests, ComboPropertyVariantEquality)
 {
   ComboProperty c1 = ComboProperty() << "a1"
                                      << "a2";
@@ -96,7 +96,7 @@ TEST_F(VariantTest, ComboPropertyVariantEquality)
   EXPECT_FALSE(variant_t(c1) == variant_t(c2));
 }
 
-TEST_F(VariantTest, ExternalPropertyVariantEquality)
+TEST_F(VariantTests, ExternalPropertyVariantEquality)
 {
   ExternalProperty c1("text", "color", "identifier");
   ExternalProperty c2("text", "color", "identifier");
@@ -108,7 +108,7 @@ TEST_F(VariantTest, ExternalPropertyVariantEquality)
 
 //! Testing Utils::AreCompatible function.
 
-TEST_F(VariantTest, AreCompatible)
+TEST_F(VariantTests, AreCompatible)
 {
   std::vector<variant_t> variants = {variant_t(true),
                                      variant_t(42),
@@ -134,7 +134,7 @@ TEST_F(VariantTest, AreCompatible)
   }
 }
 
-TEST_F(VariantTest, TypeName)
+TEST_F(VariantTests, TypeName)
 {
   using utils::TypeName;
   EXPECT_EQ(TypeName(variant_t()), constants::kUndefinedTypeName);
@@ -150,7 +150,7 @@ TEST_F(VariantTest, TypeName)
             constants::kExternalPropertyTypeName);
 }
 
-TEST_F(VariantTest, DataRoleComparison)
+TEST_F(VariantTests, DataRoleComparison)
 {
   datarole_t data_role1{42, 0};
   datarole_t data_role2{42, 0};

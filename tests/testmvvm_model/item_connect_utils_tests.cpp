@@ -32,7 +32,7 @@
 using namespace mvvm;
 using ::testing::_;
 
-class ItemConnectUtilsTest : public ::testing::Test
+class ItemConnectUtilsTests : public ::testing::Test
 {
 public:
   class MockWidget
@@ -74,7 +74,7 @@ public:
 
 //! Initialisation of the connection with wrong type of the model.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangeWrongModel)
+TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
 {
   auto on_data_change = [this](SessionItem* item, int role) {};
 
@@ -92,7 +92,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChangeWrongModel)
 
 //! Single call OnDataChanged expected when data was changed.
 
-TEST_F(ItemConnectUtilsTest, OnDataChanged)
+TEST_F(ItemConnectUtilsTests, OnDataChanged)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -114,7 +114,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChanged)
 
 //! Expect no calls OnDataChanged after disconnection.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangedAfterDisconnection)
+TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -136,7 +136,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChangedAfterDisconnection)
 
 //! Expect no calls OnDataChanged when data is the same.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangedSameData)
+TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -157,7 +157,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChangedSameData)
 
 //! Expect no calls OnDataChanged when other item is changed.
 
-TEST_F(ItemConnectUtilsTest, OnDataChangedDifferentItem)
+TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
 {
   ApplicationModel model;
   auto item1 = model.InsertItem<SessionItem>();
@@ -174,7 +174,7 @@ TEST_F(ItemConnectUtilsTest, OnDataChangedDifferentItem)
 
 //! Single call OnPropertyChanged expected when item's property was changed.
 
-TEST_F(ItemConnectUtilsTest, OnPropertyChanged)
+TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
 {
   const std::string property_name("height");
 
@@ -198,7 +198,7 @@ TEST_F(ItemConnectUtilsTest, OnPropertyChanged)
 
 //! Inserting item to item.
 
-TEST_F(ItemConnectUtilsTest, OnItemInserted)
+TEST_F(ItemConnectUtilsTests, OnItemInserted)
 {
   ApplicationModel model;
   auto compound = model.InsertItem<CompoundItem>();
@@ -219,7 +219,7 @@ TEST_F(ItemConnectUtilsTest, OnItemInserted)
 
 //! Removing item.
 
-TEST_F(ItemConnectUtilsTest, OnItemRemoved)
+TEST_F(ItemConnectUtilsTests, OnItemRemoved)
 {
   const TagIndex expected_tagindex{"tag1", 0};
 

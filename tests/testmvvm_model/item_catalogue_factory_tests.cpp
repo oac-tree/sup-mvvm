@@ -25,11 +25,11 @@
 
 using namespace mvvm;
 
-class ItemCatalogueFactoryTest : public ::testing::Test
+class ItemCatalogueFactoryTests : public ::testing::Test
 {
 };
 
-TEST_F(ItemCatalogueFactoryTest, CreateStandardItemCatalogue)
+TEST_F(ItemCatalogueFactoryTests, CreateStandardItemCatalogue)
 {
   auto catalogue = CreateStandardItemCatalogue();
 
@@ -46,7 +46,7 @@ TEST_F(ItemCatalogueFactoryTest, CreateStandardItemCatalogue)
   EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
 }
 
-TEST_F(ItemCatalogueFactoryTest, AddStandardItemsToCatalogue)
+TEST_F(ItemCatalogueFactoryTests, AddStandardItemsToCatalogue)
 {
   ItemCatalogue<SessionItem> catalogue;
   AddStandardItemsToCatalogue(catalogue);

@@ -33,10 +33,10 @@ using namespace mvvm;
 
 //! Testing TreeDataTaggedItemsConverter.
 
-class TreeDataTaggedItemsConverterTest : public ::testing::Test
+class TreeDataTaggedItemsConverterTests : public ::testing::Test
 {
 public:
-  TreeDataTaggedItemsConverterTest() = default;
+  TreeDataTaggedItemsConverterTests() = default;
 
   std::unique_ptr<TreeDataTaggedItemsConverter> CreateConverter() const
   {
@@ -58,7 +58,7 @@ public:
 
 //! TaggedItems converted to TreeData.
 
-TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeData)
+TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
 {
   TaggedItems tagged_items;
   tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
@@ -76,7 +76,7 @@ TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeData)
 
 //! TaggedItems converted to TreeData.
 
-TEST_F(TreeDataTaggedItemsConverterTest, TaggedItemsToTreeDataAndBack)
+TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeDataAndBack)
 {
   TaggedItems tagged_items;
   tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);

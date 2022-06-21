@@ -34,13 +34,13 @@ using ::testing::_;
 
 //! LinkedItem tests.
 
-class LinkedItemTest : public ::testing::Test
+class LinkedItemTests : public ::testing::Test
 {
 };
 
 //! Initial state of item when it is created outside of model context.
 
-TEST_F(LinkedItemTest, InitialState)
+TEST_F(LinkedItemTests, InitialState)
 {
   LinkedItem item;
   EXPECT_EQ(item.Get(), nullptr);
@@ -49,7 +49,7 @@ TEST_F(LinkedItemTest, InitialState)
 
 //! Link in single model context.
 
-TEST_F(LinkedItemTest, SameModelContext)
+TEST_F(LinkedItemTests, SameModelContext)
 {
   SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -68,7 +68,7 @@ TEST_F(LinkedItemTest, SameModelContext)
 
 //! Link in different model context.
 
-TEST_F(LinkedItemTest, DifferentModelContext)
+TEST_F(LinkedItemTests, DifferentModelContext)
 {
   auto pool = std::make_shared<ItemPool>();
 
@@ -88,7 +88,7 @@ TEST_F(LinkedItemTest, DifferentModelContext)
   EXPECT_EQ(link->Get(), item);
 }
 
- TEST_F(LinkedItemTest, onSetLink)
+ TEST_F(LinkedItemTests, onSetLink)
 {
      ApplicationModel model;
      auto item = model.InsertItem<PropertyItem>();
@@ -110,7 +110,7 @@ TEST_F(LinkedItemTest, DifferentModelContext)
 
 //! Link in different model context.
 
-TEST_F(LinkedItemTest, SetNullAsLink)
+TEST_F(LinkedItemTests, SetNullAsLink)
 {
   auto pool = std::make_shared<ItemPool>();
 

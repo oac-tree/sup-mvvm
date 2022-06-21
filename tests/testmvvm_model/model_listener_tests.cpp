@@ -30,7 +30,7 @@
 using namespace mvvm;
 using ::testing::_;
 
-class ModelListenerTest : public ::testing::Test
+class ModelListenerTests : public ::testing::Test
 {
 public:
   class TestListener : public ModelListener<ApplicationModel>
@@ -90,7 +90,7 @@ public:
 
 //! Setting data through the model and checking the result.
 
-TEST_F(ModelListenerTest, SetData)
+TEST_F(ModelListenerTests, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -115,7 +115,7 @@ TEST_F(ModelListenerTest, SetData)
 
 //! Setting data through the item.
 
-TEST_F(ModelListenerTest, SetDataThroughItem)
+TEST_F(ModelListenerTests, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -141,7 +141,7 @@ TEST_F(ModelListenerTest, SetDataThroughItem)
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
 
-TEST_F(ModelListenerTest, SetSameData)
+TEST_F(ModelListenerTests, SetSameData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
@@ -168,7 +168,7 @@ TEST_F(ModelListenerTest, SetSameData)
 
 //! Inserting new item into the root item through the composer.
 
-TEST_F(ModelListenerTest, InsertNewItem)
+TEST_F(ModelListenerTests, InsertNewItem)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -197,7 +197,7 @@ TEST_F(ModelListenerTest, InsertNewItem)
 
 //! Inserting new item through the composer into another parent.
 
-TEST_F(ModelListenerTest, InsertNewItemIntoParent)
+TEST_F(ModelListenerTests, InsertNewItemIntoParent)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -228,7 +228,7 @@ TEST_F(ModelListenerTest, InsertNewItemIntoParent)
 
 //! Inserting item using templated insertion.
 
-TEST_F(ModelListenerTest, InsertItem)
+TEST_F(ModelListenerTests, InsertItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -259,7 +259,7 @@ TEST_F(ModelListenerTest, InsertItem)
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
 
-TEST_F(ModelListenerTest, InsertItemInDefaultTag)
+TEST_F(ModelListenerTests, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -287,7 +287,7 @@ TEST_F(ModelListenerTest, InsertItemInDefaultTag)
 
 //! Inserting item through the composer into another parent using move insertion.
 
-TEST_F(ModelListenerTest, InsertItemViaMove)
+TEST_F(ModelListenerTests, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -320,7 +320,7 @@ TEST_F(ModelListenerTest, InsertItemViaMove)
 
 //! Removing item.
 
-TEST_F(ModelListenerTest, TakeItem)
+TEST_F(ModelListenerTests, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -352,7 +352,7 @@ TEST_F(ModelListenerTest, TakeItem)
 
 //! Removing item.
 
-TEST_F(ModelListenerTest, RemoveItem)
+TEST_F(ModelListenerTests, RemoveItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -383,7 +383,7 @@ TEST_F(ModelListenerTest, RemoveItem)
 
 //! Removing item.
 
-TEST_F(ModelListenerTest, MoveItem)
+TEST_F(ModelListenerTests, MoveItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), true);
@@ -415,7 +415,7 @@ TEST_F(ModelListenerTest, MoveItem)
 
 //! Clearing the model.
 
-TEST_F(ModelListenerTest, Clear)
+TEST_F(ModelListenerTests, Clear)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -442,7 +442,7 @@ TEST_F(ModelListenerTest, Clear)
 
 //! Clearing the model.
 
-TEST_F(ModelListenerTest, Destroy)
+TEST_F(ModelListenerTests, Destroy)
 {
   auto model = std::make_unique<ApplicationModel>();
 

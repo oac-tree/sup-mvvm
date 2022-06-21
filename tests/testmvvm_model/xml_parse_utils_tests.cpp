@@ -27,13 +27,13 @@ using namespace mvvm;
 
 //! Testing XML parse utility functions.
 
-class XMLParseUtilsTest : public ::testing::Test
+class XMLParseUtilsTests : public ::testing::Test
 {
 };
 
 //! Parsing XML data string representing empty document.
 
-TEST_F(XMLParseUtilsTest, ParseXMLDataString_EmptyString)
+TEST_F(XMLParseUtilsTests, ParseXMLDataString_EmptyString)
 {
   EXPECT_THROW(mvvm::ParseXMLDataString(""), std::runtime_error);
 
@@ -48,7 +48,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLDataString_EmptyString)
 
 //! Parsing XML data string representing a document with TagInfo description.
 
-TEST_F(XMLParseUtilsTest, ParseXMLDataString_TagInfo)
+TEST_F(XMLParseUtilsTests, ParseXMLDataString_TagInfo)
 {
   const std::string body{R"(
 <TagInfo min="-1" name="TagName">model1, model2</TagInfo>
@@ -69,7 +69,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLDataString_TagInfo)
 
 //! Parsing XML data string representing an element with TagInfo description.
 
-TEST_F(XMLParseUtilsTest, ParseXMLElementString_TagInfo)
+TEST_F(XMLParseUtilsTests, ParseXMLElementString_TagInfo)
 {
   const std::string body{R"(
 <TagInfo min="-1" name="TagName">model1, model2</TagInfo>
@@ -89,7 +89,7 @@ TEST_F(XMLParseUtilsTest, ParseXMLElementString_TagInfo)
 
 //! Parsing XML data string representing an element with variant/role description.
 
-TEST_F(XMLParseUtilsTest, ParseXMLElementString_DataRole)
+TEST_F(XMLParseUtilsTests, ParseXMLElementString_DataRole)
 {
   const std::string body{R"(
 <Variant role="0" type="int">42</Variant>

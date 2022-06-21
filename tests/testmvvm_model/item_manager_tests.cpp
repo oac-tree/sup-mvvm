@@ -32,7 +32,7 @@ using namespace mvvm;
 
 //! Testing ItemFactory in the context of SessionModel and unique identifiers of SessionItem.
 
-class ItemManagerTest : public ::testing::Test
+class ItemManagerTests : public ::testing::Test
 {
 public:
   class TestItem : public SessionItem
@@ -52,7 +52,7 @@ public:
 
 //! Testing ItemManager constructed with pool and factory injected.
 
-TEST_F(ItemManagerTest, Constructor)
+TEST_F(ItemManagerTests, Constructor)
 {
   auto pool = std::make_shared<ItemPool>();
   auto factory = std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
@@ -66,7 +66,7 @@ TEST_F(ItemManagerTest, Constructor)
 
 //! Testing global function to consruct default ItemManager.
 
-TEST_F(ItemManagerTest, CreateDefaultItemManager)
+TEST_F(ItemManagerTests, CreateDefaultItemManager)
 {
   auto manager = CreateDefaultItemManager();
 
@@ -80,7 +80,7 @@ TEST_F(ItemManagerTest, CreateDefaultItemManager)
 
 //! Testing global function to consruct default ItemManager, with external pool provided.
 
-TEST_F(ItemManagerTest, CreateDefaultItemManagerFromPool)
+TEST_F(ItemManagerTests, CreateDefaultItemManagerFromPool)
 {
   auto pool = std::make_shared<ItemPool>();
   auto manager = CreateDefaultItemManager(pool);
@@ -96,7 +96,7 @@ TEST_F(ItemManagerTest, CreateDefaultItemManagerFromPool)
 //! Testing global function to consruct default ItemManager, with user catalogue and external pool
 //! provided.
 
-TEST_F(ItemManagerTest, CreateDefaultItemManagerFromCatalogueAndPool)
+TEST_F(ItemManagerTests, CreateDefaultItemManagerFromCatalogueAndPool)
 {
   auto pool = std::make_shared<ItemPool>();
   auto manager = CreateDefaultItemManager(CreateCatalogue(), pool);

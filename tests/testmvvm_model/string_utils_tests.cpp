@@ -39,13 +39,13 @@ using namespace mvvm;
 
 //! Testing strint related utility functions.
 
-class StringUtilsTest : public ::testing::Test
+class StringUtilsTests : public ::testing::Test
 {
 };
 
 //! Testing function DoubleToString.
 
-TEST_F(StringUtilsTest, DoubleToString)
+TEST_F(StringUtilsTests, DoubleToString)
 {
   using utils::DoubleToString;
   const int precision = 4;
@@ -56,7 +56,7 @@ TEST_F(StringUtilsTest, DoubleToString)
 
 //! Testing function ScientificDoubleToString.
 
-TEST_F(StringUtilsTest, ScientificDoubleToString)
+TEST_F(StringUtilsTests, ScientificDoubleToString)
 {
   using utils::ScientificDoubleToString;
   const int precision = 6;
@@ -69,7 +69,7 @@ TEST_F(StringUtilsTest, ScientificDoubleToString)
 
 //! Testing function TrimWhitespace
 
-TEST_F(StringUtilsTest, TrimWhiteSpace)
+TEST_F(StringUtilsTests, TrimWhiteSpace)
 {
   using utils::TrimWhitespace;
   EXPECT_EQ(TrimWhitespace(""), std::string());
@@ -80,7 +80,7 @@ TEST_F(StringUtilsTest, TrimWhiteSpace)
 
 //! Testing function StringToBool.
 
-TEST_F(StringUtilsTest, StringToBool)
+TEST_F(StringUtilsTests, StringToBool)
 {
   using utils::StringToBool;
 
@@ -96,7 +96,7 @@ TEST_F(StringUtilsTest, StringToBool)
   EXPECT_THROW(StringToBool("abc "), std::runtime_error);
 }
 
-TEST_F(StringUtilsTest, FromBool)
+TEST_F(StringUtilsTests, FromBool)
 {
   using utils::FromBool;
 
@@ -106,7 +106,7 @@ TEST_F(StringUtilsTest, FromBool)
 
 //! Testing function StringToDouble.
 
-TEST_F(StringUtilsTest, StringToDouble)
+TEST_F(StringUtilsTests, StringToDouble)
 {
   using utils::StringToDouble;
 
@@ -136,7 +136,7 @@ TEST_F(StringUtilsTest, StringToDouble)
 
 //! Testing function StringToDouble.
 
-TEST_F(StringUtilsTest, StringToInteger)
+TEST_F(StringUtilsTests, StringToInteger)
 {
   using utils::StringToInteger;
 
@@ -163,7 +163,7 @@ TEST_F(StringUtilsTest, StringToInteger)
 //! Testing SplitString method.
 //! Carefully checking that it is reproduces Python behavior.
 
-TEST_F(StringUtilsTest, SplitString)
+TEST_F(StringUtilsTests, SplitString)
 {
   using utils::SplitString;
   using vec_t = std::vector<std::string>;
@@ -200,7 +200,7 @@ TEST_F(StringUtilsTest, SplitString)
 //! Testing ParseSpaceSeparatedDoubles.
 //! This is a fast method which forgives malformed doubles.
 
-TEST_F(StringUtilsTest, ParseSpaceSeparatedDoubles)
+TEST_F(StringUtilsTests, ParseSpaceSeparatedDoubles)
 {
   using utils::ParseSpaceSeparatedDoubles;
   std::vector<double> data;
@@ -231,7 +231,7 @@ TEST_F(StringUtilsTest, ParseSpaceSeparatedDoubles)
   EXPECT_DOUBLE_EQ(ParseSpaceSeparatedDoubles("42 43")[1], 43.0);
 }
 
-TEST_F(StringUtilsTest, ParseCommaSeparatedDoubles)
+TEST_F(StringUtilsTests, ParseCommaSeparatedDoubles)
 {
   using utils::ParseCommaSeparatedDoubles;
 
@@ -243,7 +243,7 @@ TEST_F(StringUtilsTest, ParseCommaSeparatedDoubles)
   EXPECT_THROW(ParseCommaSeparatedDoubles(", 1.0"), std::runtime_error);
 }
 
-TEST_F(StringUtilsTest, ToComaSeparatedString)
+TEST_F(StringUtilsTests, ToComaSeparatedString)
 {
   using utils::ToCommaSeparatedString;
 

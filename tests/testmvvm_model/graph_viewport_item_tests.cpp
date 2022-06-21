@@ -33,13 +33,13 @@ using ::testing::_;
 
 //! Testing AxesItems.
 
-class GraphViewportItemTest : public ::testing::Test
+class GraphViewportItemTests : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(GraphViewportItemTest, initialState)
+TEST_F(GraphViewportItemTests, initialState)
 {
   GraphViewportItem item;
   EXPECT_EQ(item.GetXAxis()->GetType(), ViewportAxisItem::Type);
@@ -49,7 +49,7 @@ TEST_F(GraphViewportItemTest, initialState)
 
 //! Add graph to viewport.
 
-TEST_F(GraphViewportItemTest, AddItem)
+TEST_F(GraphViewportItemTests, AddItem)
 {
   SessionModel model;
 
@@ -83,7 +83,7 @@ TEST_F(GraphViewportItemTest, AddItem)
 
 //! Check signaling on set data item.
 
-TEST_F(GraphViewportItemTest, OnAddItem)
+TEST_F(GraphViewportItemTests, OnAddItem)
 {
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
@@ -102,7 +102,7 @@ TEST_F(GraphViewportItemTest, OnAddItem)
 
 //! Check signaling on set data item.
 
-TEST_F(GraphViewportItemTest, OnSetDataItem)
+TEST_F(GraphViewportItemTests, OnSetDataItem)
 {
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
@@ -122,7 +122,7 @@ TEST_F(GraphViewportItemTest, OnSetDataItem)
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
   //  EXPECT_CALL(widget, onChildPropertyChange(graph_item, GraphItem::P_LINK)).Times(1); // FIXME
-  //  GraphViewportItemTest onChildPropertyChange after onChildPropertyChange restoration
+  //  GraphViewportItemTests onChildPropertyChange after onChildPropertyChange restoration
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
@@ -132,7 +132,7 @@ TEST_F(GraphViewportItemTest, OnSetDataItem)
 
 //! Add graph to viewport.
 
-TEST_F(GraphViewportItemTest, SetViewportToContentWithMargins)
+TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
 {
   SessionModel model;
 

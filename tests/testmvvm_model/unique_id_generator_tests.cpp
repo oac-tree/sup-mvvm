@@ -28,18 +28,18 @@ using namespace mvvm;
 
 //! Testing UniqueIDGenerator
 
-class UniqueIDGeneratorTest : public ::testing::Test
+class UniqueIDGeneratorTests : public ::testing::Test
 {
 };
 
-TEST_F(UniqueIDGeneratorTest, TwoIdentifiers)
+TEST_F(UniqueIDGeneratorTests, TwoIdentifiers)
 {
   auto id1 = UniqueIdGenerator::Generate();
   auto id2 = UniqueIdGenerator::Generate();
   EXPECT_NE(id1, id2);
 }
 
-TEST_F(UniqueIDGeneratorTest, CheckAgainstPersistentID)
+TEST_F(UniqueIDGeneratorTests, CheckAgainstPersistentID)
 {
   // some arbitrary ID's generated on another machine
   std::vector<std::string> some_old_ids = {"82c1862f-6c06-416f-9290-0f4b868ca2bf",
@@ -50,7 +50,7 @@ TEST_F(UniqueIDGeneratorTest, CheckAgainstPersistentID)
   }
 }
 
-TEST_F(UniqueIDGeneratorTest, MultipleIdentifiers)
+TEST_F(UniqueIDGeneratorTests, MultipleIdentifiers)
 {
   std::set<std::string> collection;
   const int ntries = 1000;

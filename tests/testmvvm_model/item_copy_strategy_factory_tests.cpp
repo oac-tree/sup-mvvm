@@ -31,10 +31,10 @@ using namespace mvvm;
 
 //! Testing SessionItem copy strategies.
 
-class ItemCopyStrategyFactoryTest : public ::testing::Test
+class ItemCopyStrategyFactoryTests : public ::testing::Test
 {
 public:
-  ItemCopyStrategyFactoryTest()
+  ItemCopyStrategyFactoryTests()
       : m_factory(std::make_unique<ItemFactory>(CreateStandardItemCatalogue()))
   {
   }
@@ -44,7 +44,7 @@ public:
 
 //! Copy PropertyItem.
 
-TEST_F(ItemCopyStrategyFactoryTest, CopyPropertyItem)
+TEST_F(ItemCopyStrategyFactoryTests, CopyPropertyItem)
 {
   auto strategy = CreateItemCopyStrategy(m_factory.get());
 
@@ -61,7 +61,7 @@ TEST_F(ItemCopyStrategyFactoryTest, CopyPropertyItem)
 
 //! Clone PropertyItem.
 
-TEST_F(ItemCopyStrategyFactoryTest, ClonePropertyItem)
+TEST_F(ItemCopyStrategyFactoryTests, ClonePropertyItem)
 {
   auto strategy = CreateItemCloneStrategy(m_factory.get());
 
@@ -78,7 +78,7 @@ TEST_F(ItemCopyStrategyFactoryTest, ClonePropertyItem)
 
 //! Copy CustomItem.
 
-TEST_F(ItemCopyStrategyFactoryTest, CopyCustomItem)
+TEST_F(ItemCopyStrategyFactoryTests, CopyCustomItem)
 {
   auto strategy = CreateItemCopyStrategy(m_factory.get());
 
@@ -109,7 +109,7 @@ TEST_F(ItemCopyStrategyFactoryTest, CopyCustomItem)
 
 //! Clone CustomItem.
 
-TEST_F(ItemCopyStrategyFactoryTest, CloneCustomItem)
+TEST_F(ItemCopyStrategyFactoryTests, CloneCustomItem)
 {
   auto strategy = CreateItemCloneStrategy(m_factory.get());
 

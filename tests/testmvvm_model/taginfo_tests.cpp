@@ -25,11 +25,11 @@ using namespace mvvm;
 
 //! Tests of TagInfo class.
 
-class TagInfoTest : public ::testing::Test
+class TagInfoTests : public ::testing::Test
 {
 };
 
-TEST_F(TagInfoTest, InitialState)
+TEST_F(TagInfoTests, InitialState)
 {
   TagInfo tag;
   EXPECT_EQ(tag.GetName(), std::string());
@@ -42,7 +42,7 @@ TEST_F(TagInfoTest, InitialState)
 
 //! Testing default tag intended for storing unlimited amount of items of any type.
 
-TEST_F(TagInfoTest, DefaultTag)
+TEST_F(TagInfoTests, DefaultTag)
 {
   // initial state
   TagInfo tag = TagInfo::CreateUniversalTag("name");
@@ -56,7 +56,7 @@ TEST_F(TagInfoTest, DefaultTag)
 
 //! Testing property tag intended for storing single PropertyItem.
 
-TEST_F(TagInfoTest, PropertyTag)
+TEST_F(TagInfoTests, PropertyTag)
 {
   // initial state
   TagInfo tag = TagInfo::CreatePropertyTag("name", "model_type");
@@ -71,7 +71,7 @@ TEST_F(TagInfoTest, PropertyTag)
 
 //! Testing equality operators.
 
-TEST_F(TagInfoTest, EqualityOperator)
+TEST_F(TagInfoTests, EqualityOperator)
 {
   // default constructor
   TagInfo tag1;
