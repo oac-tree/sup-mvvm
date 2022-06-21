@@ -24,13 +24,13 @@
 
 //! Testing "utilr for testing" defined in TestUtils namespace.
 
-class CustomplotTestUtilsTest : public ::testing::Test
+class CustomplotTestUtilsTests : public ::testing::Test
 {
 };
 
 //! Check methods to access graph bin centers and values.
 
-TEST_F(CustomplotTestUtilsTest, binCentersbinValues)
+TEST_F(CustomplotTestUtilsTests, binCentersbinValues)
 {
   QCustomPlot custom_plot;
 
@@ -43,7 +43,7 @@ TEST_F(CustomplotTestUtilsTest, binCentersbinValues)
 
 //! Check methods to access graph errors.
 
-TEST_F(CustomplotTestUtilsTest, binErrors)
+TEST_F(CustomplotTestUtilsTests, binErrors)
 {
   QCustomPlot custom_plot;
 

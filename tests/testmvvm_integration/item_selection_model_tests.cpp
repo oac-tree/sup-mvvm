@@ -29,23 +29,23 @@
 
 using namespace mvvm;
 
-class ItemSelectionModelTest : public ::testing::Test
+class ItemSelectionModelTests : public ::testing::Test
 {
 public:
-  ItemSelectionModelTest() : m_view_model(&m_model), m_selection_model(&m_view_model) {}
+  ItemSelectionModelTests() : m_view_model(&m_model), m_selection_model(&m_view_model) {}
 
   ApplicationModel m_model;
   TopItemsViewModel m_view_model;
   ItemSelectionModel m_selection_model;
 };
 
-TEST_F(ItemSelectionModelTest, InitialState)
+TEST_F(ItemSelectionModelTests, InitialState)
 {
   EXPECT_EQ(m_selection_model.GetSelectedItem(), nullptr);
   EXPECT_TRUE(m_selection_model.GetSelectedItems().empty());
 }
 
-TEST_F(ItemSelectionModelTest, SelectItem)
+TEST_F(ItemSelectionModelTests, SelectItem)
 {
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 
@@ -83,7 +83,7 @@ TEST_F(ItemSelectionModelTest, SelectItem)
 
 //! Removing selected and checking notifications
 
-TEST_F(ItemSelectionModelTest, SelectionAfterRemoval)
+TEST_F(ItemSelectionModelTests, SelectionAfterRemoval)
 {
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 

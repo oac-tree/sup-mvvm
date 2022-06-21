@@ -34,13 +34,13 @@ using namespace mvvm;
 
 //! Testing PropertyTreeView.
 
-class PropertyTreeViewTest : public ::testing::Test
+class PropertyTreeViewTests : public ::testing::Test
 {
 };
 
 //! Testing SetData after different SetRootSessionItem (real-life bug).
 
-TEST_F(PropertyTreeViewTest, ChangeRootAndSetData)
+TEST_F(PropertyTreeViewTests, ChangeRootAndSetData)
 {
   // setting up model and viewmodel
   ApplicationModel model;
@@ -60,7 +60,7 @@ TEST_F(PropertyTreeViewTest, ChangeRootAndSetData)
 
 //! Assign property item, then assign nullptr and destroy the model.
 
-TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
+TEST_F(PropertyTreeViewTests, SetNullptrAsItem)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();
@@ -84,7 +84,7 @@ TEST_F(PropertyTreeViewTest, SetNullptrAsItem)
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), nullptr);
 }
 
-TEST_F(PropertyTreeViewTest, DestroyModel)
+TEST_F(PropertyTreeViewTests, DestroyModel)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();

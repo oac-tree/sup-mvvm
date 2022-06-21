@@ -31,13 +31,13 @@ using namespace mvvm;
 
 //! Testing AxisTitleControllers.
 
-class AxisTitleControllerTest : public ::testing::Test
+class AxisTitleControllerTests : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(AxisTitleControllerTest, InitialState)
+TEST_F(AxisTitleControllerTests, InitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
@@ -50,7 +50,7 @@ TEST_F(AxisTitleControllerTest, InitialState)
   EXPECT_EQ(axis->label(), QString());
 }
 
-TEST_F(AxisTitleControllerTest, SetTextItem)
+TEST_F(AxisTitleControllerTests, SetTextItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
@@ -76,7 +76,7 @@ TEST_F(AxisTitleControllerTest, SetTextItem)
   EXPECT_EQ(axis->labelFont().pointSize(), expected_pointSize);
 }
 
-TEST_F(AxisTitleControllerTest, SetFont)
+TEST_F(AxisTitleControllerTests, SetFont)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 

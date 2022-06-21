@@ -36,13 +36,13 @@ using namespace mvvm;
 
 //! Testing AllItemsTreeView.
 
-class AllItemsTreeViewTest : public ::testing::Test
+class AllItemsTreeViewTests : public ::testing::Test
 {
 };
 
 //! Testing root item change, when one of the item is selected (real life bug).
 
-TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
+TEST_F(AllItemsTreeViewTests, ChangeRootItemWhenSelected)
 {
   // setting up model and viewmodel
   ApplicationModel model;
@@ -65,14 +65,14 @@ TEST_F(AllItemsTreeViewTest, ChangeRootItemWhenSelected)
   ASSERT_NO_FATAL_FAILURE(view.SetItem(model.GetRootItem()));
 }
 
-TEST_F(AllItemsTreeViewTest, GetSelectedItemsWithNoModel)
+TEST_F(AllItemsTreeViewTests, GetSelectedItemsWithNoModel)
 {
   AllItemsTreeView view;
   EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetComponentProvider()->GetSelectedItem(), nullptr);
 }
 
-TEST_F(AllItemsTreeViewTest, GetSelectedItems)
+TEST_F(AllItemsTreeViewTests, GetSelectedItems)
 {
   // setting up model and viewmodel
   ApplicationModel model;
@@ -103,7 +103,7 @@ TEST_F(AllItemsTreeViewTest, GetSelectedItems)
 //! Selecting whole row and checking list of selected items.
 //! There should be no duplications.
 
-TEST_F(AllItemsTreeViewTest, SelectRow)
+TEST_F(AllItemsTreeViewTests, SelectRow)
 {
   // setting up model and viewmodel
   ApplicationModel model;
@@ -129,7 +129,7 @@ TEST_F(AllItemsTreeViewTest, SelectRow)
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
-TEST_F(AllItemsTreeViewTest, DestroyModel)
+TEST_F(AllItemsTreeViewTests, DestroyModel)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();
@@ -158,7 +158,7 @@ TEST_F(AllItemsTreeViewTest, DestroyModel)
 
 //! Removing selected and checking notifications
 
-TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
+TEST_F(AllItemsTreeViewTests, SelectionAfterRemoval)
 {
   // setting up model and viewmodel
   ApplicationModel model;
@@ -196,7 +196,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   EXPECT_EQ(item, nullptr);
 }
 
-TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)
+TEST_F(AllItemsTreeViewTests, SetNullptrAsModel)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();

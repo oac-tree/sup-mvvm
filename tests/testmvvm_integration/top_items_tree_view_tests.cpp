@@ -34,7 +34,7 @@ using namespace mvvm;
 
 //! Testing TopItemsTreeView.
 
-class TopItemsTreeViewTest : public ::testing::Test
+class TopItemsTreeViewTests : public ::testing::Test
 {
 };
 
@@ -42,7 +42,7 @@ class TopItemsTreeViewTest : public ::testing::Test
 
 //! Assign property item, then assign nullptr and destroy the model.
 
-TEST_F(TopItemsTreeViewTest, SetNullptrAsItem)
+TEST_F(TopItemsTreeViewTests, SetNullptrAsItem)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();
@@ -64,7 +64,7 @@ TEST_F(TopItemsTreeViewTest, SetNullptrAsItem)
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), nullptr);
 }
 
-TEST_F(TopItemsTreeViewTest, DestroyModel)
+TEST_F(TopItemsTreeViewTests, DestroyModel)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();
@@ -89,7 +89,7 @@ TEST_F(TopItemsTreeViewTest, DestroyModel)
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
 
-TEST_F(TopItemsTreeViewTest, GetSelectedItems)
+TEST_F(TopItemsTreeViewTests, GetSelectedItems)
 {
   // setting up model and viewmodel
   auto model = std::make_unique<ApplicationModel>();

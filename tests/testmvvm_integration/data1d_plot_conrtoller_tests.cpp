@@ -34,13 +34,13 @@ using namespace mvvm;
 
 //! Testing Data1DPlotController.
 
-class Data1DPlotControllerTest : public ::testing::Test
+class Data1DPlotControllerTests : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(Data1DPlotControllerTest, InitialState)
+TEST_F(Data1DPlotControllerTests, InitialState)
 {
   // Constructor accept valid QCPGraph
   EXPECT_THROW(Data1DPlotController(nullptr), std::runtime_error);
@@ -58,7 +58,7 @@ TEST_F(Data1DPlotControllerTest, InitialState)
 
 //! Testing controller when Data1DItem is not initialized properly.
 
-TEST_F(Data1DPlotControllerTest, DataItemInInitialState)
+TEST_F(Data1DPlotControllerTests, DataItemInInitialState)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -79,7 +79,7 @@ TEST_F(Data1DPlotControllerTest, DataItemInInitialState)
 
 //! Testing controller when Data1DItem get it's axis after controller setup.
 
-TEST_F(Data1DPlotControllerTest, AxisAfter)
+TEST_F(Data1DPlotControllerTests, AxisAfter)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -102,7 +102,7 @@ TEST_F(Data1DPlotControllerTest, AxisAfter)
 
 //! Testing graph points update.
 
-TEST_F(Data1DPlotControllerTest, DataPoints)
+TEST_F(Data1DPlotControllerTests, DataPoints)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -131,7 +131,7 @@ TEST_F(Data1DPlotControllerTest, DataPoints)
 
 //! Testing graph errors update.
 
-TEST_F(Data1DPlotControllerTest, ErrorBars)
+TEST_F(Data1DPlotControllerTests, ErrorBars)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -158,7 +158,7 @@ TEST_F(Data1DPlotControllerTest, ErrorBars)
 
 //! Testing two graph scenario.
 
-TEST_F(Data1DPlotControllerTest, TwoDataItems)
+TEST_F(Data1DPlotControllerTests, TwoDataItems)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();

@@ -31,10 +31,10 @@ using namespace mvvm;
 
 //! Tests for AbstractEditorFactory.
 
-class CustomEditorFactoriesTest : public ::testing::Test
+class CustomEditorFactoriesTests : public ::testing::Test
 {
 public:
-  CustomEditorFactoriesTest() : m_view_model(&m_model) {}
+  CustomEditorFactoriesTests() : m_view_model(&m_model) {}
 
   //! Convenience function to add given data to the model as PropertyItem.
   //! Returns back an index corresponding to the item's position in a view model.
@@ -59,7 +59,7 @@ public:
   AllItemsViewModel m_view_model;
 };
 
-TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
+TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
 {
   RoleDependentEditorFactory factory;
 
@@ -84,7 +84,7 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
   EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
 }
 
-TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
+TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
 {
   VariantDependentEditorFactory factory;
 
@@ -109,7 +109,7 @@ TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
   EXPECT_FALSE(factory.CreateEditor(index));
 }
 
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
+TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
 {
   DefaultEditorFactory factory;
 
