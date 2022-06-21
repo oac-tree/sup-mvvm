@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/variant_converter.h"
+#include "variant_converter.h"
 
-#include <mvvm/viewmodel/custom_variants.h>
+#include "custom_variants.h"
 
 #include <QMetaType>
 #include <functional>
