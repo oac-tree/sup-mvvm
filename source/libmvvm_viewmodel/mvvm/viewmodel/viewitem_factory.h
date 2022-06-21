@@ -41,6 +41,9 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(Sessio
 //! Creates ViewItem for SessionItem's data.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item);
 
+//! Creates editable ViewItem for SessionItem's display name.
+MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
+
 }  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWITEM_FACTORY_H_

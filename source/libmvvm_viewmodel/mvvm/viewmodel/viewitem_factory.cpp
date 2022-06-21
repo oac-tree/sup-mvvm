@@ -44,4 +44,10 @@ std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item)
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
+std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item)
+{
+  auto presentation = std::make_unique<EditableDisplayNamePresentationItem>(item);
+  return std::make_unique<ViewItem>(std::move(presentation));
+}
+
 }  // namespace mvvm

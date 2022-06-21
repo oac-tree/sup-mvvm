@@ -122,3 +122,22 @@ TEST_F(ViewItemFactoryTests, CreateDataViewItemString)
   EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(), new_value);
   EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), new_value);
 }
+
+TEST_F(ViewItemFactoryTests, CreateEditableDisplayNameViewItem)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  auto viewitem = CreateEditableDisplayNameViewItem(&item);
+
+  // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
+  // blocked
+  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+
+  EXPECT_FALSE(viewitem->setData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->setData(QString("bbb"), Qt::EditRole));
+
+  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+}
+
