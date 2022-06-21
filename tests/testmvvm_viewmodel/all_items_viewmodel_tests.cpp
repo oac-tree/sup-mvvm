@@ -17,19 +17,18 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/all_items_viewmodel.h"
-
 #include "folder_based_tests.h"
 #include "test_utils.h"
 
+#include "mvvm/viewmodel/all_items_viewmodel.h"
+
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/serialization/xml_document.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
-
-#include <gtest/gtest.h>
 
 #include <QSignalSpy>
 

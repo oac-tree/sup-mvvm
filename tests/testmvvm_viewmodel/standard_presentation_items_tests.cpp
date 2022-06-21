@@ -19,10 +19,9 @@
 
 #include "mvvm/viewmodel/standard_presentation_items.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
-
-#include <gtest/gtest.h>
 
 #include <QColor>
 
@@ -269,4 +268,29 @@ TEST_F(StandardPresentationItemsTest, CreateLabelPresentation)
 
   // data is the same as before, despite of all attempts to change it
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString().toStdString(), expected_label);
+}
+
+TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItem)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  EditableDisplayNamePresentationItem presentation(&item);
+  EXPECT_EQ(presentation.GetItem(), &item);
+  EXPECT_EQ(presentation.GetDataRole(), DataRole::kDisplay);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_TRUE(presentation.IsEditable());
+
+  EXPECT_TRUE(presentation.Data(Qt::EditRole).isValid());
+  EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("abc"));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("abc"));
+
+  EXPECT_TRUE(presentation.SetData("abcabc", Qt::EditRole));
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));
+
+  EXPECT_EQ(item.GetDisplayName(), std::string("abcabc"));
+
+  // it is not possible to set same data twice
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::EditRole));
 }
