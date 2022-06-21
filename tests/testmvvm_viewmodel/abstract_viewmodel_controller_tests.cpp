@@ -33,7 +33,7 @@ using ::testing::_;
 
 //! Tests for AbstractViewModelController class.
 
-class AbstractViewModelControllerTest : public ::testing::Test
+class AbstractViewModelControllerTests : public ::testing::Test
 {
 public:
   class TestController : public AbstractViewModelController
@@ -61,7 +61,7 @@ public:
 
 //! Controller subscription.
 
-TEST_F(AbstractViewModelControllerTest, SubscribeTo)
+TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 {
   mvvm::SessionItem item;
   int role{42};
@@ -79,7 +79,7 @@ TEST_F(AbstractViewModelControllerTest, SubscribeTo)
 
 //! Controller unsubscription on deletion.
 
-TEST_F(AbstractViewModelControllerTest, Unsubscribe)
+TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 {
   mvvm::SessionItem item;
   int role{42};
@@ -97,7 +97,7 @@ TEST_F(AbstractViewModelControllerTest, Unsubscribe)
 
 //! Check the case when EventNotifier is destroyed before the listener
 
-TEST_F(AbstractViewModelControllerTest, DestroyNotifierBefore)
+TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 {
   mvvm::SessionItem item;
   int role{42};
@@ -116,7 +116,7 @@ TEST_F(AbstractViewModelControllerTest, DestroyNotifierBefore)
 
 //! Checking listener methods when AboutToInsertItem is fired.
 
-TEST_F(AbstractViewModelControllerTest, AboutToInsertItem)
+TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -140,7 +140,7 @@ TEST_F(AbstractViewModelControllerTest, AboutToInsertItem)
 
 //! Checking listener methods when ItemInserted is fired.
 
-TEST_F(AbstractViewModelControllerTest, ItemInserted)
+TEST_F(AbstractViewModelControllerTests, ItemInserted)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -164,7 +164,7 @@ TEST_F(AbstractViewModelControllerTest, ItemInserted)
 
 //! Checking listener methods when AboutToRemoveItem is fired.
 
-TEST_F(AbstractViewModelControllerTest, AboutToRemoveItem)
+TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -188,7 +188,7 @@ TEST_F(AbstractViewModelControllerTest, AboutToRemoveItem)
 
 //! Checking listener methods when ItemRemoved is fired.
 
-TEST_F(AbstractViewModelControllerTest, ItemRemoved)
+TEST_F(AbstractViewModelControllerTests, ItemRemoved)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
@@ -212,7 +212,7 @@ TEST_F(AbstractViewModelControllerTest, ItemRemoved)
 
 //! Checking listener methods when DataChanged is fired.
 
-TEST_F(AbstractViewModelControllerTest, DataChanged)
+TEST_F(AbstractViewModelControllerTests, DataChanged)
 {
   mvvm::SessionItem item;
   int role{42};
@@ -234,7 +234,7 @@ TEST_F(AbstractViewModelControllerTest, DataChanged)
   notifier.DataChangedNotify(&item, role);
 }
 
-TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeReset)
+TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
 {
   mvvm::SessionModel model;
   int role{42};
@@ -256,7 +256,7 @@ TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeReset)
   notifier.ModelAboutToBeResetNotify(&model);
 }
 
-TEST_F(AbstractViewModelControllerTest, OnModelReset)
+TEST_F(AbstractViewModelControllerTests, OnModelReset)
 {
   mvvm::SessionModel model;
   int role{42};
@@ -278,7 +278,7 @@ TEST_F(AbstractViewModelControllerTest, OnModelReset)
   notifier.ModelResetNotify(&model);
 }
 
-TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeDestroyed)
+TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
 {
   mvvm::SessionModel model;
   int role{42};
@@ -310,7 +310,7 @@ TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeDestroyed)
 //  EXPECT_THROW(controller.SubscribeTo(&notifier), std::runtime_error);
 //}
 
-TEST_F(AbstractViewModelControllerTest, UnsubscribeV2)
+TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
@@ -343,7 +343,7 @@ TEST_F(AbstractViewModelControllerTest, UnsubscribeV2)
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
-TEST_F(AbstractViewModelControllerTest, TwoSubscriptions)
+TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
@@ -386,7 +386,7 @@ TEST_F(AbstractViewModelControllerTest, TwoSubscriptions)
   notifier.ModelAboutToBeDestroyedNotify(&model);
 }
 
-TEST_F(AbstractViewModelControllerTest, UnsubscribeOne)
+TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;

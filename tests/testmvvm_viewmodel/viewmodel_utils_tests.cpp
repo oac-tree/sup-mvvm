@@ -30,14 +30,14 @@
 
 using namespace mvvm;
 
-class ViewModelUtilsTest : public ::testing::Test
+class ViewModelUtilsTests : public ::testing::Test
 {
 public:
 };
 
 //! Validate Utils::GetItemFromView
 
-TEST_F(ViewModelUtilsTest, GetItemFromView)
+TEST_F(ViewModelUtilsTests, GetItemFromView)
 {
   VectorItem item;
 
@@ -47,7 +47,7 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
 
 //! Validate Utils::iterate_model function with user callback.
 
-TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
+TEST_F(ViewModelUtilsTests, ItemRoleToQtRole)
 {
   // DATA role of SessionItem should be translated to two Qt roles (edit and display)
   auto roles = utils::ItemRoleToQtRole(DataRole::kData);
@@ -67,7 +67,7 @@ TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
 
 //! Testing color role of item.
 
-TEST_F(ViewModelUtilsTest, ItemTextColorRole)
+TEST_F(ViewModelUtilsTests, ItemTextColorRole)
 {
   SessionItem item;
 
@@ -82,7 +82,7 @@ TEST_F(ViewModelUtilsTest, ItemTextColorRole)
 
 //! Testing check state role of item.
 
-TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
+TEST_F(ViewModelUtilsTests, ItemCheckStateRole)
 {
   SessionItem item;
 
@@ -99,7 +99,7 @@ TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
 
 //! Testing decoration role of the item when it carries a string
 
-TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
+TEST_F(ViewModelUtilsTests, StringDataDecorationRole)
 {
   SessionItem item;
 
@@ -121,7 +121,7 @@ TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
 
 //! Testing decoration role of the item when it carries ExtendedProperty
 
-TEST_F(ViewModelUtilsTest, ExternalPropertyDataDecorationRole)
+TEST_F(ViewModelUtilsTests, ExternalPropertyDataDecorationRole)
 {
   SessionItem item;
 
@@ -133,7 +133,7 @@ TEST_F(ViewModelUtilsTest, ExternalPropertyDataDecorationRole)
 
 //! Testing tooltip role of the item.
 
-TEST_F(ViewModelUtilsTest, ItemToolTipRole)
+TEST_F(ViewModelUtilsTests, ItemToolTipRole)
 {
   SessionItem item;
 

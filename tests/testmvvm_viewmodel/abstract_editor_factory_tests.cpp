@@ -19,15 +19,14 @@
 
 #include "mvvm/editors/abstract_editor_factory.h"
 
-#include <mvvm/editors/custom_editor.h>
-
 #include <gtest/gtest.h>
+#include <mvvm/editors/custom_editor.h>
 
 using namespace mvvm;
 
 //! Tests for AbstractEditorFactory.
 
-class AbstractEditorFactoryTest : public ::testing::Test
+class AbstractEditorFactoryTests : public ::testing::Test
 {
 public:
   class TestFactory : public AbstractEditorFactory
@@ -43,7 +42,7 @@ public:
   };
 };
 
-TEST_F(AbstractEditorFactoryTest, RegisterBuilder)
+TEST_F(AbstractEditorFactoryTests, RegisterBuilder)
 {
   TestFactory factory;
 

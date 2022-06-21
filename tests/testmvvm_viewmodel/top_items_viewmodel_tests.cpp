@@ -34,7 +34,7 @@
 
 using namespace mvvm;
 
-class TopItemsViewModelTest : public FolderBasedTest
+class TopItemsViewModelTests : public FolderBasedTest
 {
 public:
   class LayerItem : public mvvm::CompoundItem
@@ -72,13 +72,13 @@ public:
 
   //! Represents a layer, with thickness and color, and possibly populated with particles.
 
-  TopItemsViewModelTest() : FolderBasedTest("test_TopItemsViewModel"), m_viewmodel(&m_model) {}
+  TopItemsViewModelTests() : FolderBasedTest("test_TopItemsViewModel"), m_viewmodel(&m_model) {}
 
   TestModel m_model;
   TopItemsViewModel m_viewmodel;
 };
 
-TEST_F(TopItemsViewModelTest, InitialState)
+TEST_F(TopItemsViewModelTests, InitialState)
 {
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
@@ -88,7 +88,7 @@ TEST_F(TopItemsViewModelTest, InitialState)
 
 //! Insert LayerItem in empty model.
 
-TEST_F(TopItemsViewModelTest, InsertLayerThenRemove)
+TEST_F(TopItemsViewModelTests, InsertLayerThenRemove)
 {
   QSignalSpy spyInsert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spyRemove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -113,7 +113,7 @@ TEST_F(TopItemsViewModelTest, InsertLayerThenRemove)
 //! model. The current implementation is limited and respects this flag only if it was set before
 //! the view model creation.
 
-TEST_F(TopItemsViewModelTest, HidenLayerInModel)
+TEST_F(TopItemsViewModelTests, HidenLayerInModel)
 {
   TestModel model;
   // the model with two layers, where one is invisible
@@ -143,7 +143,7 @@ TEST_F(TopItemsViewModelTest, HidenLayerInModel)
 
 //! Insert LayerItem in MultiLayer.
 
-TEST_F(TopItemsViewModelTest, InsertLayerInMultiLayerThenRemove)
+TEST_F(TopItemsViewModelTests, InsertLayerInMultiLayerThenRemove)
 {
   QSignalSpy spyInsert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spyRemove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -185,7 +185,7 @@ TEST_F(TopItemsViewModelTest, InsertLayerInMultiLayerThenRemove)
 
 //! Insert LayerItem in MultiLayer while multilayer is root item. Then deleting multilayer.
 
-TEST_F(TopItemsViewModelTest, MultiLayerAsRooItem)
+TEST_F(TopItemsViewModelTests, MultiLayerAsRooItem)
 {
   // setting up single multilayer playing the role
   auto multilayer = m_model.InsertItem<MultiLayerItem>();

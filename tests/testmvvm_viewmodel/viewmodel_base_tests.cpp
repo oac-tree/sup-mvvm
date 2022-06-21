@@ -33,7 +33,7 @@ using namespace mvvm;
 
 //! Tests for ViewModelBase class.
 
-class ViewModelBaseTest : public ::testing::Test
+class ViewModelBaseTests : public ::testing::Test
 {
 public:
   using children_t = std::vector<std::unique_ptr<ViewItem>>;
@@ -54,7 +54,7 @@ public:
 
 //! Checking behaviour of QStandardItemModel for reference.
 
-TEST_F(ViewModelBaseTest, StandardItemModelIndex)
+TEST_F(ViewModelBaseTests, StandardItemModelIndex)
 {
   QStandardItemModel model;
   auto parent = model.invisibleRootItem();
@@ -84,7 +84,7 @@ TEST_F(ViewModelBaseTest, StandardItemModelIndex)
 
 //! Checking which roles QSTandardItem emits when data is changed.
 
-TEST_F(ViewModelBaseTest, StandardItemModelSetData)
+TEST_F(ViewModelBaseTests, StandardItemModelSetData)
 {
   QStandardItemModel standard_model;
   auto parent = standard_model.invisibleRootItem();
@@ -110,7 +110,7 @@ TEST_F(ViewModelBaseTest, StandardItemModelSetData)
 
 //! Initial state of empty ViewModelBase.
 
-TEST_F(ViewModelBaseTest, InitialState)
+TEST_F(ViewModelBaseTests, InitialState)
 {
   ViewModelBase viewmodel;
   EXPECT_EQ(viewmodel.rowCount(), 0);
@@ -124,7 +124,7 @@ TEST_F(ViewModelBaseTest, InitialState)
   EXPECT_EQ(viewmodel.indexFromItem(viewmodel.rootItem()), QModelIndex());
 }
 
-TEST_F(ViewModelBaseTest, AppendRow)
+TEST_F(ViewModelBaseTests, AppendRow)
 {
   ViewModelBase viewmodel;
 
@@ -158,7 +158,7 @@ TEST_F(ViewModelBaseTest, AppendRow)
 
 //! Insert one row befor another.
 
-TEST_F(ViewModelBaseTest, InsertRow)
+TEST_F(ViewModelBaseTests, InsertRow)
 {
   ViewModelBase viewmodel;
 
@@ -185,7 +185,7 @@ TEST_F(ViewModelBaseTest, InsertRow)
   EXPECT_EQ(viewmodel.itemFromIndex(child_index1), expected_row0[0]);
 }
 
-TEST_F(ViewModelBaseTest, RemoveRow)
+TEST_F(ViewModelBaseTests, RemoveRow)
 {
   ViewModelBase viewmodel;
 
@@ -203,7 +203,7 @@ TEST_F(ViewModelBaseTest, RemoveRow)
   EXPECT_EQ(viewmodel.columnCount(), 0);
 }
 
-TEST_F(ViewModelBaseTest, AppendRowToRow)
+TEST_F(ViewModelBaseTests, AppendRowToRow)
 {
   ViewModelBase viewmodel;
 
@@ -237,7 +237,7 @@ TEST_F(ViewModelBaseTest, AppendRowToRow)
   EXPECT_EQ(viewmodel.indexFromItem(expected_row1[1]), grandchild1_index);
 }
 
-TEST_F(ViewModelBaseTest, OnRowsAppended)
+TEST_F(ViewModelBaseTests, OnRowsAppended)
 {
   ViewModelBase viewmodel;
 
@@ -268,7 +268,7 @@ TEST_F(ViewModelBaseTest, OnRowsAppended)
   EXPECT_EQ(viewmodel.itemFromIndex(index1), expected[1]);
 }
 
-TEST_F(ViewModelBaseTest, RowsRemoved)
+TEST_F(ViewModelBaseTests, RowsRemoved)
 {
   ViewModelBase viewmodel;
 
@@ -298,7 +298,7 @@ TEST_F(ViewModelBaseTest, RowsRemoved)
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
 
-TEST_F(ViewModelBaseTest, Data)
+TEST_F(ViewModelBaseTests, Data)
 {
   children_t children;
   children.emplace_back(std::make_unique<ViewItem>());
@@ -313,7 +313,7 @@ TEST_F(ViewModelBaseTest, Data)
   EXPECT_EQ(viewmodel.data(children_index, Qt::EditRole), expected);
 }
 
-TEST_F(ViewModelBaseTest, SetData)
+TEST_F(ViewModelBaseTests, SetData)
 {
   // creating item data
   auto item_data = std::make_unique<ViewItemData>();
@@ -343,7 +343,7 @@ TEST_F(ViewModelBaseTest, SetData)
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expected_roles);
 }
 
-TEST_F(ViewModelBaseTest, Flags)
+TEST_F(ViewModelBaseTests, Flags)
 {
   auto item_label = std::make_unique<ViewItemData>();
   item_label->SetData(QString("abc"));
@@ -372,7 +372,7 @@ TEST_F(ViewModelBaseTest, Flags)
   EXPECT_TRUE(viewmodel.flags(data_index) & Qt::ItemIsEditable);
 }
 
-TEST_F(ViewModelBaseTest, ClearRowsFromRoot)
+TEST_F(ViewModelBaseTests, ClearRowsFromRoot)
 {
   ViewModelBase viewmodel;
 

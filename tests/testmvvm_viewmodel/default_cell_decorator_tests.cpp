@@ -19,20 +19,19 @@
 
 #include "mvvm/delegates/default_cell_decorator.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
-#include <gtest/gtest.h>
-
 using namespace mvvm;
 
-//! Tests for DefaultCellDecoratorTest.
+//! Tests for DefaultCellDecorator.
 
-class DefaultCellDecoratorTest : public ::testing::Test
+class DefaultCellDecoratorTests : public ::testing::Test
 {
 public:
-  DefaultCellDecoratorTest() : m_view_model(&m_model) {}
+  DefaultCellDecoratorTests() : m_view_model(&m_model) {}
 
   class TestDecorator : public DefaultCellDecorator
   {
@@ -63,7 +62,7 @@ public:
 // std::vector<double>,
 //                                mvvm::ComboProperty, mvvm::ExternalProperty>;
 
-TEST_F(DefaultCellDecoratorTest, BoolDecorations)
+TEST_F(DefaultCellDecoratorTests, BoolDecorations)
 {
   TestDecorator decorator;
 
@@ -76,7 +75,7 @@ TEST_F(DefaultCellDecoratorTest, BoolDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("False"));
 }
 
-TEST_F(DefaultCellDecoratorTest, ComboPropertyDecorations)
+TEST_F(DefaultCellDecoratorTests, ComboPropertyDecorations)
 {
   TestDecorator decorator;
 
@@ -85,7 +84,7 @@ TEST_F(DefaultCellDecoratorTest, ComboPropertyDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("a1"));
 }
 
-TEST_F(DefaultCellDecoratorTest, ExternalPropertyDecorations)
+TEST_F(DefaultCellDecoratorTests, ExternalPropertyDecorations)
 {
   TestDecorator decorator;
 
@@ -94,7 +93,7 @@ TEST_F(DefaultCellDecoratorTest, ExternalPropertyDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("text"));
 }
 
-TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
+TEST_F(DefaultCellDecoratorTests, DoubleDecorations)
 {
   TestDecorator decorator;
 
@@ -105,7 +104,7 @@ TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
 
 //! Variants that do not nave special decorations
 
-TEST_F(DefaultCellDecoratorTest, DefaultDecorations)
+TEST_F(DefaultCellDecoratorTests, DefaultDecorations)
 {
   TestDecorator decorator;
 

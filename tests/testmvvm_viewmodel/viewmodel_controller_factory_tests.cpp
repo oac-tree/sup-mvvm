@@ -29,7 +29,7 @@
 
 using namespace mvvm;
 
-class ViewModelControllerFactoryTest : public ::testing::Test
+class ViewModelControllerFactoryTests : public ::testing::Test
 {
 public:
   class TestViewModel : public ViewModel
@@ -45,7 +45,7 @@ public:
   TestViewModel m_view_model;
 };
 
-TEST_F(ViewModelControllerFactoryTest, CreateController)
+TEST_F(ViewModelControllerFactoryTests, CreateController)
 {
   auto propertyItem = m_model.InsertItem<PropertyItem>();
   propertyItem->SetData(42.0);

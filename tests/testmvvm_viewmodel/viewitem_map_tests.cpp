@@ -28,13 +28,13 @@ using namespace mvvm;
 
 //! Tests for InstructionViewItemMap class.
 
-class ViewItemMapTest : public ::testing::Test
+class ViewItemMapTests : public ::testing::Test
 {
 };
 
 //! The map is initially empty.
 
-TEST_F(ViewItemMapTest, InsertThenFind)
+TEST_F(ViewItemMapTests, InsertThenFind)
 {
   ViewItemMap map;
   SessionItem item;
@@ -53,7 +53,7 @@ TEST_F(ViewItemMapTest, InsertThenFind)
   EXPECT_FALSE(map.FindView(&item));
 }
 
-TEST_F(ViewItemMapTest, InsertThenRemove)
+TEST_F(ViewItemMapTests, InsertThenRemove)
 {
   ViewItemMap map;
   SessionItem item;
@@ -67,7 +67,7 @@ TEST_F(ViewItemMapTest, InsertThenRemove)
   EXPECT_FALSE(map.FindView(&item));
 }
 
-TEST_F(ViewItemMapTest, Update)
+TEST_F(ViewItemMapTests, Update)
 {
   ViewItemMap map;
   SessionItem item;

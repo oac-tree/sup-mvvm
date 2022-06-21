@@ -17,17 +17,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/property_viewmodel.h"
-
 #include "toy_items.h"
 
+#include "mvvm/viewmodel/property_viewmodel.h"
+
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/vector_item.h>
-
-#include <gtest/gtest.h>
 
 #include <QSignalSpy>
 
@@ -35,11 +34,11 @@ using namespace mvvm;
 
 //! Tests for PropertyViewModel class.
 
-class PropertyViewModelTest : public ::testing::Test
+class PropertyViewModelTests : public ::testing::Test
 {
 };
 
-TEST_F(PropertyViewModelTest, InitialState)
+TEST_F(PropertyViewModelTests, InitialState)
 {
   ApplicationModel model;
   PropertyViewModel viewModel(&model);
@@ -48,7 +47,7 @@ TEST_F(PropertyViewModelTest, InitialState)
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(QModelIndex()), model.GetRootItem());
 }
 
-TEST_F(PropertyViewModelTest, BaseItem)
+TEST_F(PropertyViewModelTests, BaseItem)
 {
   ApplicationModel model;
   model.InsertItem<SessionItem>();
@@ -61,7 +60,7 @@ TEST_F(PropertyViewModelTest, BaseItem)
   EXPECT_EQ(viewModel.columnCount(), 0);
 }
 
-TEST_F(PropertyViewModelTest, PropertyItem)
+TEST_F(PropertyViewModelTests, PropertyItem)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -81,7 +80,7 @@ TEST_F(PropertyViewModelTest, PropertyItem)
 
 //! VectorItem in a model.
 
-TEST_F(PropertyViewModelTest, VectorItem)
+TEST_F(PropertyViewModelTests, VectorItem)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
@@ -101,7 +100,7 @@ TEST_F(PropertyViewModelTest, VectorItem)
 //! view model. The current implementation is limited and respects this flag only if it was set
 //! before the view model creation.
 
-TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
+TEST_F(PropertyViewModelTests, VectorItemWithHiddenComponent)
 {
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
@@ -140,7 +139,7 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 
 //! LayerItem in a MultiLayer.
 
-TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
+TEST_F(PropertyViewModelTests, LayerInMultiLayerAsRootItem)
 {
   using namespace testutils::toyitems;
 
@@ -164,7 +163,7 @@ TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
 
 //! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
 
-TEST_F(PropertyViewModelTest, SetData)
+TEST_F(PropertyViewModelTests, SetData)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -195,7 +194,7 @@ TEST_F(PropertyViewModelTest, SetData)
 //! Two ViewModels are looking to the same ApplicationModel.
 //! Change through one ViewModel should modify another.
 
-TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
+TEST_F(PropertyViewModelTests, SetDataThroughTwoModels)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -221,7 +220,7 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
 //! We add particles to the layer and check that no signal is emited, and editor still shows only
 //! layer properties (real-life bug).
 
-TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
+TEST_F(PropertyViewModelTests, LayerPropertyWhileInsertingParticle)
 {
   using namespace testutils::toyitems;
 

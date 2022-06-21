@@ -34,12 +34,12 @@ using namespace mvvm;
 
 //! Tests for factory methods related to ViewItem.
 
-class ViewItemFactoryTest : public ::testing::Test
+class ViewItemFactoryTests : public ::testing::Test
 {
 public:
 };
 
-TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
+TEST_F(ViewItemFactoryTests, CreateDisplayNameViewItem)
 {
   SessionItem item;
   item.SetDisplayName("abc");
@@ -59,7 +59,7 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
 
 //! Checking that context method can't cast to underlying item.
 
-TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
+TEST_F(ViewItemFactoryTests, CreateDisplayNameViewItemAndContext)
 {
   VectorItem item;
   item.SetDisplayName("abc");
@@ -75,7 +75,7 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
 
 //! Testing CreateDataViewItem (case of integer data).
 
-TEST_F(ViewItemFactoryTest, CreateDataViewItem)
+TEST_F(ViewItemFactoryTests, CreateDataViewItem)
 {
   const int value{42};
 
@@ -100,7 +100,7 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
 
 //! Testing CreateDataViewItem (case of std::string data).
 
-TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
+TEST_F(ViewItemFactoryTests, CreateDataViewItemString)
 {
   const std::string value{"abc"};
 

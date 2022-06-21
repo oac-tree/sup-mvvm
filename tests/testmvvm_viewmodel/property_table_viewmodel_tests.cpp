@@ -17,27 +17,26 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/property_table_viewmodel.h"
-
 #include "toy_items.h"
 
+#include "mvvm/viewmodel/property_table_viewmodel.h"
+
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/vector_item.h>
-
-#include <gtest/gtest.h>
 
 #include <QSignalSpy>
 #include <QStandardItemModel>
 
 using namespace mvvm;
 
-class PropertyTableViewModelTest : public ::testing::Test
+class PropertyTableViewModelTests : public ::testing::Test
 {
 };
 
-TEST_F(PropertyTableViewModelTest, InitialState)
+TEST_F(PropertyTableViewModelTests, InitialState)
 {
   ApplicationModel model;
   PropertyTableViewModel view_model(&model);
@@ -46,7 +45,7 @@ TEST_F(PropertyTableViewModelTest, InitialState)
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), model.GetRootItem());
 }
 
-TEST_F(PropertyTableViewModelTest, BaseItem)
+TEST_F(PropertyTableViewModelTests, BaseItem)
 {
   ApplicationModel model;
   model.InsertItem<SessionItem>();
@@ -57,7 +56,7 @@ TEST_F(PropertyTableViewModelTest, BaseItem)
   EXPECT_EQ(view_model.columnCount(), 0);
 }
 
-TEST_F(PropertyTableViewModelTest, PropertyItem)
+TEST_F(PropertyTableViewModelTests, PropertyItem)
 {
   ApplicationModel model;
 
@@ -79,7 +78,7 @@ TEST_F(PropertyTableViewModelTest, PropertyItem)
 
 //! VectorItem in a model.
 
-TEST_F(PropertyTableViewModelTest, VectorItem)
+TEST_F(PropertyTableViewModelTests, VectorItem)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
@@ -98,7 +97,7 @@ TEST_F(PropertyTableViewModelTest, VectorItem)
 //! MultiLayer with layers, view model still looks to the RootItem.
 //! No MultiLayer should be visible in table.
 
-TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
+TEST_F(PropertyTableViewModelTests, MultiLayerAndRootItem)
 {
   using namespace testutils::toyitems;
 
@@ -116,7 +115,7 @@ TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
 
 //! MultiLayer with layers, multilayer is given as root index.
 
-TEST_F(PropertyTableViewModelTest, MultiLayer)
+TEST_F(PropertyTableViewModelTests, MultiLayer)
 {
   using namespace testutils::toyitems;
 
@@ -153,7 +152,7 @@ TEST_F(PropertyTableViewModelTest, MultiLayer)
 //! Check signaling of QStandardItemModel to learn from that.
 //! Does insertion of row triggers columns-related signaling? Answer: no.
 
-TEST_F(PropertyTableViewModelTest, StandardItemModel)
+TEST_F(PropertyTableViewModelTests, StandardItemModel)
 {
   QStandardItemModel model;
   QStandardItem* parentItem = model.invisibleRootItem();
@@ -188,7 +187,7 @@ TEST_F(PropertyTableViewModelTest, StandardItemModel)
 //! Initialize PropertyTableViewModel with empty SessionModel.
 //! VectorItem in a model.
 
-TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
+TEST_F(PropertyTableViewModelTests, InsertItemSignaling)
 {
   ApplicationModel model;
   PropertyTableViewModel view_model(&model);

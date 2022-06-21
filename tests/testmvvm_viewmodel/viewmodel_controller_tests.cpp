@@ -41,10 +41,10 @@ using namespace mvvm;
 
 //! Tests for ViewModelController class.
 
-class ViewModelControllerTest : public ::testing::Test
+class ViewModelControllerTests : public ::testing::Test
 {
 public:
-  ViewModelControllerTest() : m_controller(&m_model, &m_viewmodel)
+  ViewModelControllerTests() : m_controller(&m_model, &m_viewmodel)
   {
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
@@ -86,7 +86,7 @@ public:
 
 //! Empty model.
 
-TEST_F(ViewModelControllerTest, EmptyProcedure)
+TEST_F(ViewModelControllerTests, EmptyProcedure)
 {
   m_controller.Init();
 
@@ -102,7 +102,7 @@ TEST_F(ViewModelControllerTest, EmptyProcedure)
 
 //! Attempt to initialize controller with wrong initial parameters.
 
-TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
+TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
 {
   // should throw if input parameters are invalid
   {
@@ -126,7 +126,7 @@ TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
 
 //! SessionModel is populated with a single item. The controller is initialised after.
 
-TEST_F(ViewModelControllerTest, ModelWithSingleItem)
+TEST_F(ViewModelControllerTests, ModelWithSingleItem)
 {
   auto* item = m_model.InsertItem<SessionItem>();
   item->SetData(42.0);
@@ -159,7 +159,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 
-TEST_F(ViewModelControllerTest, ModelWithVectorItem)
+TEST_F(ViewModelControllerTests, ModelWithVectorItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -195,7 +195,7 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 //! VectorItem is used as new rootItem.
 
-TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
+TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -228,7 +228,7 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
 //! Initialise controller with the empty model. Then insert new item and check that view model
 //! hass been updated.
 
-TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
+TEST_F(ViewModelControllerTests, InsertIntoEmptyModel)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -272,7 +272,7 @@ TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
 
 //! Insert three property items in a model, inserted after controller was setup.
 
-TEST_F(ViewModelControllerTest, InitThenInsertProperties)
+TEST_F(ViewModelControllerTests, InitThenInsertProperties)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -304,7 +304,7 @@ TEST_F(ViewModelControllerTest, InitThenInsertProperties)
 
 //! Inserting property items in reversed order.
 
-TEST_F(ViewModelControllerTest, InsertInFront)
+TEST_F(ViewModelControllerTests, InsertInFront)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -325,7 +325,7 @@ TEST_F(ViewModelControllerTest, InsertInFront)
 
 //! Inserting item between two other.
 
-TEST_F(ViewModelControllerTest, InsertBetween)
+TEST_F(ViewModelControllerTests, InsertBetween)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -348,7 +348,7 @@ TEST_F(ViewModelControllerTest, InsertBetween)
 
 //! Initialise controller with the empty model. Insert parent and then child into it.
 
-TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
+TEST_F(ViewModelControllerTests, InsertParentAndThenChild)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -378,7 +378,7 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
 
 //! Removing single top level item.
 
-TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
+TEST_F(ViewModelControllerTests, RemoveSingleTopItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -401,7 +401,7 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 
 //! Sequence with 3 children. Removing the middle one.
 
-TEST_F(ViewModelControllerTest, RemoveMiddleChild)
+TEST_F(ViewModelControllerTests, RemoveMiddleChild)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
@@ -450,7 +450,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 //! Taking child from one container to insert it after in the another.
 //! Checking that controller correctly "forgets" that children was already served (real-life-bug).
 
-TEST_F(ViewModelControllerTest, TakeChildThenInsert)
+TEST_F(ViewModelControllerTests, TakeChildThenInsert)
 {
   auto container0 = m_model.InsertItem<ContainerItem>();
   auto container1 = m_model.InsertItem<ContainerItem>();
@@ -490,7 +490,7 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 
 //! SetData.
 
-TEST_F(ViewModelControllerTest, SetData)
+TEST_F(ViewModelControllerTests, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
@@ -514,7 +514,7 @@ TEST_F(ViewModelControllerTest, SetData)
 
 //! Setting top level item as ROOT item
 
-TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
+TEST_F(ViewModelControllerTests, SetPropertyItemAsRoot)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -527,7 +527,7 @@ TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
 
 //! Setting top level item as ROOT item (case parent and children).
 
-TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
+TEST_F(ViewModelControllerTests, SetCompoundAsRootItem)
 {
   auto item = m_model.InsertItem<CompoundItem>();
   item->AddProperty("thickness", 42.0);
@@ -547,7 +547,7 @@ TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
 
 //! On model reset.
 
-TEST_F(ViewModelControllerTest, onModelReset)
+TEST_F(ViewModelControllerTests, onModelReset)
 {
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
@@ -570,7 +570,7 @@ TEST_F(ViewModelControllerTest, onModelReset)
 
 //! Real life scenario: initially empty SessionModel, apply ::clean, and then start to insert item.
 
-TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
+TEST_F(ViewModelControllerTests, onEmptyModelResetAndContinue)
 {
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
   m_model.Clear({});
@@ -584,7 +584,7 @@ TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
   EXPECT_EQ(spy_insert.count(), 1);
 }
 
-TEST_F(ViewModelControllerTest, GetHorizontalHeaderLabels)
+TEST_F(ViewModelControllerTests, GetHorizontalHeaderLabels)
 {
   const QStringList expected_labels = QStringList() << "Name"
                                                     << "Value";

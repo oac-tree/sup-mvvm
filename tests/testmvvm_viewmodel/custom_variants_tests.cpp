@@ -27,13 +27,13 @@ using namespace mvvm;
 
 //! Tests for utilities related to custom
 
-class CustomVariantTest : public ::testing::Test
+class CustomVariantTests : public ::testing::Test
 {
 };
 
 //! Checks variants against IsBoolVariant, IsIntVariant, etc functions.
 
-TEST_F(CustomVariantTest, IsVariantType)
+TEST_F(CustomVariantTests, IsVariantType)
 {
   using is_variant_t = std::function<bool(const QVariant&)>;
 

@@ -19,6 +19,7 @@
 
 #include "mvvm/viewmodel/standard_children_strategies.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
@@ -26,11 +27,9 @@
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
 
-#include <gtest/gtest.h>
-
 using namespace mvvm;
 
-class StandardChildrenStrategiesTest : public ::testing::Test
+class StandardChildrenStrategiesTests : public ::testing::Test
 {
 public:
   //! Helper class with two properties and one top level item on board.
@@ -69,7 +68,7 @@ public:
 
 //! Testing AllChildrenStrategy.
 
-TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
+TEST_F(StandardChildrenStrategiesTests, AllChildrenStrategy)
 {
   AllChildrenStrategy strategy;
 
@@ -102,7 +101,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
 //! Testing AllChildrenStrategy when one of children is hidden.
 //! By the current convention this strategy still show all items.
 
-TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
+TEST_F(StandardChildrenStrategiesTests, AllChildrenStrategyWhenHidden)
 {
   AllChildrenStrategy strategy;
   VectorItem item;
@@ -113,7 +112,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 
 //! Testing TopItemsStrategy.
 
-TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
+TEST_F(StandardChildrenStrategiesTests, TopItemsStrategy)
 {
   TopItemsStrategy strategy;
 
@@ -145,7 +144,7 @@ TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
 
 //! Testing TopItemsStrategy when some items are hidden.
 
-TEST_F(StandardChildrenStrategiesTest, TopItemsStrategyWhenHidden)
+TEST_F(StandardChildrenStrategiesTests, TopItemsStrategyWhenHidden)
 {
   TopItemsStrategy strategy;
 
@@ -161,7 +160,7 @@ TEST_F(StandardChildrenStrategiesTest, TopItemsStrategyWhenHidden)
 
 //! Testing PropertyItemsStrategy.
 
-TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
+TEST_F(StandardChildrenStrategiesTests, PropertyItemsStrategy)
 {
   PropertyItemsStrategy strategy;
 
@@ -216,7 +215,7 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
 
 //! Testing PropertyItemsStrategy when some items are hidden.
 
-TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
+TEST_F(StandardChildrenStrategiesTests, PropertyItemsStrategyWhenHidden)
 {
   PropertyItemsStrategy strategy;
 
