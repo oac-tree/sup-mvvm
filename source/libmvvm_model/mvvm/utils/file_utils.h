@@ -29,7 +29,7 @@ namespace mvvm::utils
 {
 
 //! Returns true if file exists.
-MVVM_MODEL_EXPORT bool IsExists(const std::string& fileName);
+MVVM_MODEL_EXPORT bool IsExists(const std::string& filename);
 
 //! Joins two path elements into the path.
 MVVM_MODEL_EXPORT std::string Join(const std::string& part1, const std::string& part2);
@@ -44,8 +44,11 @@ MVVM_MODEL_EXPORT bool Remove(const std::string& path);
 //! Removes directory with all its content.
 MVVM_MODEL_EXPORT void RemoveAll(const std::string& path);
 
-//! Provide the filename of a file path.
-MVVM_MODEL_EXPORT std::string GetBaseName(const std::string& path);
+//! Provide the filename without a path (aka basename).
+MVVM_MODEL_EXPORT std::string GetFileName(const std::string& path);
+
+//! Provide the filename (no path, no last extension).
+MVVM_MODEL_EXPORT std::string GetPathStem(const std::string& path);
 
 //! Returns list of files with given extention found in given directory.
 MVVM_MODEL_EXPORT std::vector<std::string> FindFiles(const std::string& dirname,

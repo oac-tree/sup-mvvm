@@ -52,7 +52,12 @@ void RemoveAll(const std::string& path)
   std::filesystem::remove_all(path);
 }
 
-std::string GetBaseName(const std::string& path)
+std::string GetFileName(const std::string &path)
+{
+  return std::filesystem::path(path).filename();
+}
+
+std::string GetPathStem(const std::string& path)
 {
   return std::filesystem::path(path).stem().string();
 }

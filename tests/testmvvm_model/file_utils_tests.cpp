@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/file_utils.h"
-
 #include "folder_based_tests.h"
 #include "test_utils.h"
+
+#include "mvvm/utils/file_utils.h"
 
 #include <gtest/gtest.h>
 
@@ -36,14 +36,14 @@ public:
   FileUtilsTests() : FolderBasedTest("test_FileUtils") {}
 };
 
-TEST_F(FileUtilsTests, exists)
+TEST_F(FileUtilsTests, IsExists)
 {
   EXPECT_TRUE(utils::IsExists(GetTestHomeDir()));
   EXPECT_FALSE(utils::IsExists(std::string()));
   EXPECT_FALSE(utils::IsExists(std::string("abc")));
 }
 
-TEST_F(FileUtilsTests, create_directory)
+TEST_F(FileUtilsTests, CreateDirectory)
 {
   std::string dirname = GetTestHomeDir() + std::string("/") + "subdir";
   utils::Remove(dirname);
@@ -52,7 +52,7 @@ TEST_F(FileUtilsTests, create_directory)
   EXPECT_TRUE(utils::IsExists(dirname));
 }
 
-TEST_F(FileUtilsTests, remove_all)
+TEST_F(FileUtilsTests, RemoveAll)
 {
   std::string dirname = GetTestHomeDir() + std::string("/") + "subdir2";
   utils::CreateDirectory(dirname);
@@ -62,12 +62,22 @@ TEST_F(FileUtilsTests, remove_all)
   EXPECT_FALSE(utils::IsExists(dirname));
 }
 
-TEST_F(FileUtilsTests, base_name)
+TEST_F(FileUtilsTests, GetFileName)
+{
+  std::string filename = GetTestHomeDir() + std::string("/testmodel/fileutils.cpp");
+  EXPECT_EQ(utils::GetFileName(filename), "fileutils.cpp");
+
+  std::string dirname = GetTestHomeDir() + std::string("/testmodel");
+  EXPECT_EQ(utils::GetFileName(dirname), "testmodel");
+}
+
+TEST_F(FileUtilsTests, GetPathStem)
 {
   std::string filename = GetTestHomeDir() + std::string("/testmodel/fileutils.test.cpp");
-  std::string base_name = utils::GetBaseName(filename);
+  EXPECT_EQ(utils::GetPathStem(filename), "fileutils.test");
 
-  EXPECT_EQ("fileutils.test", base_name);
+  std::string dirname = GetTestHomeDir() + std::string("/testmodel");
+  EXPECT_EQ(utils::GetPathStem(dirname), "testmodel");
 }
 
 TEST_F(FileUtilsTests, FindFiles)
@@ -85,7 +95,7 @@ TEST_F(FileUtilsTests, FindFiles)
                                          utils::Join(GetTestHomeDir(), "name1.xml")));
 }
 
-TEST_F(FileUtilsTests, parent_path)
+TEST_F(FileUtilsTests, GetParentPath)
 {
   // parent path of testPath() is the main test folder
   // "<build>/test_output/test_FileUtils" -> "<build>/test_output/"
@@ -96,7 +106,7 @@ TEST_F(FileUtilsTests, parent_path)
   EXPECT_EQ(utils::GetParentPath(GetTestHomeDir() + "/a.txt"), GetTestHomeDir());
 }
 
-TEST_F(FileUtilsTests, is_empty)
+TEST_F(FileUtilsTests, IsEmpty)
 {
   // creating new empty directory
   std::string dirname = GetTestHomeDir() + std::string("/") + "subdir_is_empty";
