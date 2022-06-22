@@ -34,7 +34,7 @@ struct CommandStack::CommandStackImpl
 
   // Points to the position in the list corresponding to the command which will be redone on the
   // next call to Redo()
-  std::list<std::unique_ptr<CommandInterface>>::iterator m_pos; //!< position in the command list
+  std::list<std::unique_ptr<CommandInterface>>::iterator m_pos;  //!< position in the command list
 
   CommandStackImpl() { m_pos = m_commands.end(); }
 };

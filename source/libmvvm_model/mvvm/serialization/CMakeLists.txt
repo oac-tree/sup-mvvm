@@ -19,7 +19,7 @@ target_sources(${library_name} PRIVATE
   treedata_tagged_items_converter.cpp
   treedata_tagged_items_converter.h
   treedata_taginfo_converter.cpp
-  tree_data_taginfo_converter.h
+  treedata_taginfo_converter.h
   treedata_variant_converter.cpp
   treedata_variant_converter.h
   xml_document.cpp

@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_TREE_DATA_TAGINFO_CONVERTER_H_
 #define MVVM_SERIALIZATION_TREE_DATA_TAGINFO_CONVERTER_H_
 
-//! @file treedatataginfoconverter.h
+//! @file treedata_taginfo_converter.h
 //! Declares utility functions to convert between TreeData and TagInfo objects.
 
 //! These are auxiliary functions to provide parsing of xml elements

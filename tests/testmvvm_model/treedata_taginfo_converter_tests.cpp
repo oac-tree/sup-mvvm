@@ -17,15 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <mvvm/serialization/tree_data_taginfo_converter.h>
-
+#include "mvvm/serialization/treedata_taginfo_converter.h"
 #include "test_utils.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_parse_utils.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 

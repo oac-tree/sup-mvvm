@@ -23,7 +23,7 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_item_container_converter.h>
-#include <mvvm/serialization/tree_data_taginfo_converter.h>
+#include <mvvm/serialization/treedata_taginfo_converter.h>
 
 #include <stdexcept>
 
@@ -39,7 +39,8 @@ struct TreeDataTaggedItemsConverter::TreeDataTaggedItemsConverterImpl
 {
   ConverterCallbacks m_callbacks;
 
-  TreeDataTaggedItemsConverterImpl(ConverterCallbacks callbacks) : m_callbacks(std::move(callbacks))
+  explicit TreeDataTaggedItemsConverterImpl(ConverterCallbacks callbacks)
+      : m_callbacks(std::move(callbacks))
   {
   }
 };
