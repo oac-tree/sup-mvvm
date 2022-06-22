@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "custom_variants.h"
+#include "mvvm/viewmodel/custom_variants.h"
 
 namespace mvvm::utils
 {

@@ -17,12 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "viewmodel.h"
-
-#include "abstract_viewmodel_controller.h"
-#include "viewmodel_utils.h"
+#include "mvvm/viewmodel/viewmodel.h"
 
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/viewmodel/abstract_viewmodel_controller.h>
+#include <mvvm/viewmodel/viewmodel_utils.h>
 
 namespace mvvm
 {

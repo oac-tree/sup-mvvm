@@ -17,11 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "viewitem.h"
-
-#include "viewitem_data.h"
+#include "mvvm/viewmodelbase/viewitem.h"
 
 #include <mvvm/utils/container_utils.h>
+#include <mvvm/viewmodelbase/viewitem_data.h>
 
 #include <algorithm>
 #include <stdexcept>

@@ -20,7 +20,7 @@
 #ifndef MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_
 #define MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_
 
-//! @file customeditorincludes.h
+//! @file custom_editor_includes.h
 //! Collection of all includes with custom editors for Qt delegates.
 
 #include <mvvm/editors/boolean_editor.h>

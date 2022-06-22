@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_VARIANT_CONVERTER_H_
 #define MVVM_VIEWMODEL_VARIANT_CONVERTER_H_
 
-//! @file variantconverter.h
+//! @file variant_converter.h
 //! Collection of utility functions to convert variant_t to QVariant and back.
 
 #include <mvvm/core/variant.h>

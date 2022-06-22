@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "standard_row_strategies.h"
+#include "mvvm/viewmodel/standard_row_strategies.h"
 
-#include "viewitem_factory.h"
+#include <mvvm/viewmodel/viewitem_factory.h>
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>

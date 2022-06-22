@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "viewitem_map.h"
+#include "mvvm/viewmodel/viewitem_map.h"
 
 #include <stdexcept>
 

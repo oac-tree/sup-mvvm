@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AttributeMap.h
- * @brief Header file for AttributeMap class.
- * @date 09/02/2021
- * @author Walter Van Herck (IO)
- * @copyright 2010-2021 ITER Organization
- * @details This header file contains the definition of the AttributeMap class.
- */
-
 #ifndef MVVM_SERIALIZATION_ATTRIBUTE_MAP_H_
 #define MVVM_SERIALIZATION_ATTRIBUTE_MAP_H_
 

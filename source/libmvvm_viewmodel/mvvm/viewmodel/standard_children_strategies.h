@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_
 #define MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_
 
-//! @file childrenstrategies.h
+//! @file standard_children_strategies.h
 //! @brief Collection of strategies to find children, actual of fictional, of given SessionItem.
 //! Used for ViewModel generation when underlying SessionModel changes its layout.
 

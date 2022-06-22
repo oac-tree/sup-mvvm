@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_VALIDATE_UTILS_H_
 #define MVVM_MODEL_VALIDATE_UTILS_H_
 
-//! @file validateutils.h
+//! @file validate_utils.h
 //! Collection of utility function to check if certain operations on the model are valid.
 //! Used to report errors via exception mechanism in an extendable way.
 
