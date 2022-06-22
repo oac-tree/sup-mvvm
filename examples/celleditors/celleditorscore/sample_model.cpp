@@ -9,7 +9,7 @@
 
 #include "sample_model.h"
 
-#include "mvvm/standarditems/editor_constants.h"
+#include <mvvm/standarditems/editor_constants.h>
 
 namespace
 {

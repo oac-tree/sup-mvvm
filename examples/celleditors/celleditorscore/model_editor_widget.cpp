@@ -11,9 +11,9 @@
 
 #include "sample_model.h"
 
-#include "mvvm/delegates/viewmodel_delegate.h"
-#include "mvvm/viewmodel/all_items_viewmodel.h"
-#include "mvvm/viewmodel/property_table_viewmodel.h"
+#include <mvvm/delegates/viewmodel_delegate.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/property_table_viewmodel.h>
 
 #include <QBoxLayout>
 #include <QHeaderView>

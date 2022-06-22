@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/compound_item.h"
-#include "mvvm/serialization/xml_document.h"
-#include "mvvm/viewmodel/all_items_viewmodel.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
+#include <mvvm/serialization/xml_document.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <QApplication>
 #include <QLocale>
