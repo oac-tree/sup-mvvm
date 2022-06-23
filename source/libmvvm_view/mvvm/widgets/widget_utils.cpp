@@ -173,10 +173,14 @@ QString ClickableText(const QString& text, const QString& tag)
   return QString(R"(<a href="%1">%2</a>)").arg(tag.isEmpty() ? text : tag, text);
 }
 
-void ScaleLabelFont(QLabel* label, double scale)
+void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
 {
   QFont font = label->font();
   font.setPointSize(mvvm::utils::SystemPointSize() * scale);
+  if (is_bold)
+  {
+    font.setBold(true);
+  }
   label->setFont(font);
 }
 

@@ -77,7 +77,7 @@ QMainWindow* FindMainWindow();
 QString ClickableText(const QString& text, const QString& tag = {});
 
 //! Set label's font size to system font size scaled by given factor.
-void ScaleLabelFont(QLabel* label, double scale);
+void ScaleLabelFont(QLabel* label, double scale, bool is_bold = false);
 
 //! Converts vector of strings to QStringList.
 QStringList GetStringList(const std::vector<std::string>& vec);
