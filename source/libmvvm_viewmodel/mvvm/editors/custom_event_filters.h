@@ -69,6 +69,25 @@ protected:
   bool eventFilter(QObject* obj, QEvent* event) override;
 };
 
+//! Event filter for global tracking of shortcodes.
+
+class ShortcodeFilter : public QObject
+{
+  Q_OBJECT
+public:
+  explicit ShortcodeFilter(const QString& shortcode, QObject* parent = nullptr);
+
+signals:
+  void found();
+
+protected:
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
+private:
+  QString m_shortcode;
+  int m_index;
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
