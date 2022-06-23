@@ -22,9 +22,30 @@
 #include <QAbstractSpinBox>
 #include <QComboBox>
 #include <QEvent>
+#include <QKeyEvent>
 
 namespace mvvm
 {
+
+SpaceKeyEater::SpaceKeyEater(QObject* parent) : QObject(parent) {}
+
+bool SpaceKeyEater::eventFilter(QObject* obj, QEvent* event)
+{
+  if (event->type() == QEvent::KeyPress)
+  {
+    auto key_event = dynamic_cast<QKeyEvent*>(event);
+    bool res = QObject::eventFilter(obj, event);
+
+    if (key_event->key() == Qt::Key_Space)
+    {
+      return true; /* Always accept space bar */
+    }
+  }
+
+  return QObject::eventFilter(obj, event);
+}
+
+// ----------------------------------------------------------------------------
 
 LostFocusFilter::LostFocusFilter(QObject* parent) : QObject(parent) {}
 

@@ -27,6 +27,18 @@
 namespace mvvm
 {
 
+//! Filter out space bar key events, which is special case for dialog windows.
+
+class SpaceKeyEater : public QObject
+{
+  Q_OBJECT
+public:
+  explicit SpaceKeyEater(QObject* parent = nullptr);
+
+protected:
+  bool eventFilter(QObject* obj, QEvent* event) override;
+};
+
 //! Event filter to prevent loss of the focus.
 //! Can be used in the context of QTreeView and similar widgets to call external editor. Such an
 //! editor is created by clicking on a cell of a tree and it appears as  modal window on top of a
