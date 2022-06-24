@@ -19,9 +19,10 @@
 
 #include "mvvm/model/sessionitem.h"
 
-#include <mvvm/core/unique_id_generator.h>
 #include <mvvm/core/exceptions.h>
-#include "mvvm/model/sessionitem_data.h"
+#include <mvvm/core/unique_id_generator.h>
+#include <mvvm/model/item_utils.h>
+#include <mvvm/model/sessionitem_data.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
@@ -228,14 +229,24 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
     throw InvalidInsertException("Invalid item");
   }
 
+  if (item.get() == this)
+  {
+    throw InvalidInsertException("Attempt to insert to itself");
+  }
+
   if (item->GetParent())
   {
-    throw InvalidInsertException("Item laready has a prarent");
+    throw InvalidInsertException("Item already has a parent");
   }
 
   if (item->GetModel())
   {
-    throw InvalidInsertException("Item laready has a model");
+    throw InvalidInsertException("Item already has a model");
+  }
+
+  if (utils::IsItemAncestor(this, item.get()))
+  {
+    throw InvalidInsertException("Attempt to turn ancestor into a child");
   }
 
   if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))

@@ -382,6 +382,17 @@ TEST_F(SessionItemTests, InsertChildren)
                InvalidInsertException);
 }
 
+//! Attempt to insert into itself
+
+TEST_F(SessionItemTests, AttemptToInsertParentIntoItself)
+{
+  auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  // trying to insert parent into a child
+  EXPECT_THROW(parent->InsertItem(std::move(parent), {"", 0}), InvalidInsertException);
+}
+
 //! Invalid insert of parent into a child
 
 TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
@@ -391,9 +402,11 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
 
   auto child = std::make_unique<SessionItem>();
   child->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child_ptr = child.get();
 
   // inserting child
   auto inserted = parent->InsertItem(std::move(child), {"", 0});
+  EXPECT_EQ(inserted, child_ptr);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
@@ -401,8 +414,10 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
   EXPECT_EQ(inserted->GetParent(), parent.get());
   EXPECT_EQ(parent->GetParent(), nullptr);
 
-  //  // now inserting parent into a child
-  //  inserted->InsertItem(std::move(parent), {"", 0});
+  // trying to insert parent into a child
+  EXPECT_THROW(inserted->InsertItem(std::move(parent), {"", 0}), InvalidInsertException);
+
+  // nothing to check here. Unsuccessfull insert anyway ended with parent move and then destruction.
 }
 
 //! Removing (taking) item from parent.
