@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/tagindex.h>
@@ -53,6 +54,11 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
     throw InvalidInsertException("Invalid input item");
   }
 
+  if (item == parent)
+  {
+    throw InvalidInsertException("Attempt to insert to itself");
+  }
+
   if (item->GetParent())
   {
     throw InvalidInsertException("Item belongs to another parent");
@@ -61,6 +67,11 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
   if (!parent)
   {
     throw InvalidInsertException("Invalid parent item");
+  }
+
+  if (utils::IsItemAncestor(parent, item))
+  {
+    throw InvalidInsertException("Attempt to turn ancestor into a child");
   }
 
   if (!parent->GetTaggedItems()->CanInsertItem(item, tag_index))
@@ -95,7 +106,18 @@ void ValidateItemMove(const mvvm::SessionItem *item, const mvvm::SessionItem *ne
 
   if (!new_parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    throw InvalidMoveException("Can't insert item to a new parent");
+    throw InvalidMoveException(
+        "Can't insert item to a new parent. It doesn't allow more children of this type.");
+  }
+
+  if (item == new_parent)
+  {
+    throw InvalidMoveException("Attempt to insert an item to itself");
+  }
+
+  if (utils::IsItemAncestor(new_parent, item))
+  {
+    throw InvalidMoveException("Attempt to make ancestor a child");
   }
 }
 
