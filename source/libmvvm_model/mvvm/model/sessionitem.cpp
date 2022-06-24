@@ -20,6 +20,7 @@
 #include "mvvm/model/sessionitem.h"
 
 #include <mvvm/core/unique_id_generator.h>
+#include <mvvm/core/exceptions.h>
 #include "mvvm/model/sessionitem_data.h"
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/tagged_items.h>
@@ -224,22 +225,22 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 {
   if (!item)
   {
-    throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
+    throw InvalidInsertException("Invalid item");
   }
 
   if (item->GetParent())
   {
-    throw std::runtime_error("SessionItem::insertItem() -> Existing parent.");
+    throw InvalidInsertException("Item laready has a prarent");
   }
 
   if (item->GetModel())
   {
-    throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
+    throw InvalidInsertException("Item laready has a model");
   }
 
   if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
   {
-    throw std::runtime_error("SessionItem::insertItem() -> Can't insert item.");
+    throw InvalidInsertException("Wrong tags");
   }
 
   auto result = item.release();

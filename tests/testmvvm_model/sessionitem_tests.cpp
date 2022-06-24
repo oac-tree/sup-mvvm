@@ -18,17 +18,16 @@
  *****************************************************************************/
 
 #include "mvvm/model/sessionitem.h"
-
+#include "mvvm/model/sessionitem_data.h"
 #include "test_utils.h"
 
+#include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
-#include "mvvm/model/sessionitem_data.h"
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-
-#include <gtest/gtest.h>
 
 #include <memory>
 #include <stdexcept>
@@ -380,7 +379,30 @@ TEST_F(SessionItemTests, InsertChildren)
   // attempt to insert item using out of scope index
   auto child5 = std::make_unique<SessionItem>();
   EXPECT_THROW(parent->InsertItem(std::move(child5), {"", parent->GetTotalItemCount() + 1}),
-               std::runtime_error);
+               InvalidInsertException);
+}
+
+//! Invalid insert of parent into a child
+
+TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
+{
+  auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = std::make_unique<SessionItem>();
+  child->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  // inserting child
+  auto inserted = parent->InsertItem(std::move(child), {"", 0});
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
+  EXPECT_EQ(parent->GetAllItems()[0], inserted);
+  EXPECT_EQ(parent->GetItem("", 0), inserted);
+  EXPECT_EQ(inserted->GetParent(), parent.get());
+  EXPECT_EQ(parent->GetParent(), nullptr);
+
+  //  // now inserting parent into a child
+  //  inserted->InsertItem(std::move(parent), {"", 0});
 }
 
 //! Removing (taking) item from parent.
@@ -519,7 +541,8 @@ TEST_F(SessionItemTests, TagWithLimits)
   EXPECT_EQ(parent->GetItems(tag1), expected);
 
   // no room for extra item
-  EXPECT_THROW(parent->InsertItem(std::make_unique<SessionItem>(), {tag1, -1}), std::runtime_error);
+  EXPECT_THROW(parent->InsertItem(std::make_unique<SessionItem>(), {tag1, -1}),
+               InvalidInsertException);
 
   // removing first element
   parent->TakeItem({tag1, 0});
