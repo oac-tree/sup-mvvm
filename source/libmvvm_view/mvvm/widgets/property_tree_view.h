@@ -37,6 +37,8 @@ class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemView
 public:
   explicit PropertyTreeView(QWidget* parent = nullptr);
 
+  QTreeView* GetTreeView() const;
+
 private:
   void UpdateView() override;
 

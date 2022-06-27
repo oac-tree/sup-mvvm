@@ -36,6 +36,11 @@ PropertyTreeView::PropertyTreeView(QWidget* parent)
   SetComponentProvider(CreateProvider<PropertyViewModel>(m_tree_view));
 }
 
+QTreeView *PropertyTreeView::GetTreeView() const
+{
+  return m_tree_view;
+}
+
 void PropertyTreeView::UpdateView()
 {
   m_tree_view->setHeaderHidden(false);
