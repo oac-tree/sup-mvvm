@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/standard_presentation_items.h"
 
 #include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 
@@ -173,7 +174,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemSetDataForDouble)
 
   // it is not allowed to set another type of data
   QVariant not_allowed_value("Layer");
-  EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), std::runtime_error);
+  EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
 
 //! Testing tooltip tole.

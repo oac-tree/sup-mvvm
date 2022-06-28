@@ -223,7 +223,7 @@ TEST_F(SessionItemTests, VariantMismatch)
   EXPECT_EQ(item.Data(role), expected);
 
   // attempt to rewrite variant with another type
-  EXPECT_THROW(item.SetData(std::string("abc"), role), std::runtime_error);
+  EXPECT_THROW(item.SetData(std::string("abc"), role), RuntimeException);
 
   // removing value by passing invalid variant
   EXPECT_NO_THROW(item.SetData(variant_t(), role));

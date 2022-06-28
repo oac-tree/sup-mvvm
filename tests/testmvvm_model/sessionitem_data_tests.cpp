@@ -20,8 +20,7 @@
 #include "mvvm/model/sessionitem_data.h"
 
 #include <gtest/gtest.h>
-
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 using namespace mvvm;
 
@@ -109,7 +108,7 @@ TEST_F(SessionItemDataTests, ChangingRole)
   EXPECT_TRUE(item_data.Data(role) == variant);
 
   variant_t s = std::string("str");
-  EXPECT_THROW(item_data.SetData(s, role), std::runtime_error);
+  EXPECT_THROW(item_data.SetData(s, role), RuntimeException);
 }
 
 //! Access to data and roles via range loop.

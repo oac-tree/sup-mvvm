@@ -338,7 +338,7 @@ TEST_F(SessionModelTest, SetData)
 
   // setting wrong type of data
   variant_t value(42.0);
-  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), std::runtime_error);
+  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), RuntimeException);
 
   // setting new data
   EXPECT_TRUE(model.SetData(item, value, DataRole::kData));

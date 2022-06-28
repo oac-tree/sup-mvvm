@@ -23,7 +23,6 @@
 
 #include <algorithm>
 #include <sstream>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -100,7 +99,7 @@ void SessionItemData::AssureCompatibility(const variant_t& variant, int role) co
     ostr << "Error in SessionItemData: variant types mismatch. "
          << "Old variant index '" << Data(role).index() << "' "
          << "new variant index '" << variant.index() << "\n";
-    throw std::runtime_error(ostr.str());
+    throw RuntimeException(ostr.str());
   }
 }
 
