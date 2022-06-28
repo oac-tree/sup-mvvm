@@ -22,6 +22,7 @@
 
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model_export.h>
+#include <mvvm/core/variant.h>
 
 #include <functional>
 #include <string>
@@ -95,6 +96,14 @@ MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionIt
 
 //! Returns true if given item has appearance flag set.
 MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem* item, Appearance flag);
+
+//! Replace data of given item with provided value for given role.
+//! This method allow to set the data to the item, even if the type of the data doesn't match
+//! the original. For example
+//! item.SetData(42.0, role);
+//! item.SetData("abc", role); <-- will fail because we do not allow to switch data type
+//! ReplaceData(&item, "abc", role) <-- will succeed, new data will be std::string, instead of double
+MVVM_MODEL_EXPORT bool ReplaceData(SessionItem* item, const variant_t& value, int role);
 
 }  // namespace mvvm::utils
 
