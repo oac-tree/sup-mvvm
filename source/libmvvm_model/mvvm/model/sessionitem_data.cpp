@@ -19,6 +19,8 @@
 
 #include "mvvm/model/sessionitem_data.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
@@ -40,9 +42,11 @@ variant_t SessionItemData::Data(int role) const
   for (const auto& value : m_values)
   {
     if (value.second == role)
+    {
       return value.first;
+    }
   }
-  return variant_t();
+  return {};
 }
 
 //! Sets the data for given role. Returns true if data was changed.
@@ -61,7 +65,9 @@ bool SessionItemData::SetData(const variant_t& value, int role)
       if (utils::IsValid(value))
       {
         if (it->first == value)
+        {
           return false;
+        }
         it->first = value;
       }
       else
@@ -86,7 +92,7 @@ bool SessionItemData::HasData(int role) const
 //! Makes sure that the new variant is compatible with the old variant stored with the given role.
 //! Throws exception otherwise.
 
-void SessionItemData::AssureCompatibility(const variant_t& variant, int role)
+void SessionItemData::AssureCompatibility(const variant_t& variant, int role) const
 {
   if (!utils::AreCompatible(Data(role), variant))
   {

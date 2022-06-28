@@ -46,7 +46,7 @@ public:
   const_iterator end() const;
 
 private:
-  void AssureCompatibility(const variant_t& variant, int role);
+  void AssureCompatibility(const variant_t& variant, int role) const;
 
   container_t m_values;
 };
