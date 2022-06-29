@@ -3,10 +3,6 @@ target_sources(${library_name} PRIVATE
   abstract_item_view.h
   all_items_tree_view.cpp
   all_items_tree_view.h
-  collapsible_bar.cpp
-  collapsible_bar.h
-  collapsible_list_widget.cpp
-  collapsible_list_widget.h
   fancytab.cpp
   fancytab.h
   item_selection_model.cpp
