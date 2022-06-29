@@ -3,20 +3,28 @@ target_sources(${library_name} PRIVATE
   abstract_item_view.h
   all_items_tree_view.cpp
   all_items_tree_view.h
+  collapsible_list_view.cpp
+  collapsible_list_view.h
+  collapsible_toolbar.cpp
+  collapsible_toolbar.h
+  collapsible_widget.cpp
+  collapsible_widget.h
   fancytab.cpp
   fancytab.h
   item_selection_model.cpp
   item_selection_model.h
   item_view_component_provider.cpp
   item_view_component_provider.h
-  mainbar_widget.cpp
-  mainbar_widget.h
   main_vertical_bar_widget.cpp
   main_vertical_bar_widget.h
+  mainbar_widget.cpp
+  mainbar_widget.h
   property_tree_view.cpp
   property_tree_view.h
   status_label.cpp
   status_label.h
+  style_utils.cpp
+  style_utils.h
   top_items_tree_view.cpp
   top_items_tree_view.h
   widget_utils.cpp

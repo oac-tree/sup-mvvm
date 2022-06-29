@@ -96,6 +96,6 @@ QStringList GetStringList(const QByteArray& byteArray);
 //! the final result will be R"(/ <a href="/home">home</a> / <a href="/home/user">user</a>)"
 QString CreatePathPresentation(const QString& text);
 
-}  // namespace ModelView::Utils
+}  // namespace mvvm::utils
 
 #endif  // MVVM_WIDGETS_WIDGET_UTILS_H_
