@@ -34,10 +34,10 @@ class MVVM_MODEL_EXPORT ItemFactoryInterface
 public:
   virtual ~ItemFactoryInterface() = default;
 
-  virtual void RegisterItem(const std::string& model_type, item_factory_func_t func,
+  virtual void RegisterItem(const std::string& item_type, item_factory_func_t func,
                             const std::string& label) = 0;
 
-  virtual std::unique_ptr<SessionItem> CreateItem(const std::string& model_type) const = 0;
+  virtual std::unique_ptr<SessionItem> CreateItem(const std::string& item_type) const = 0;
 };
 
 }  // namespace mvvm
