@@ -23,6 +23,8 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/experimental/model_interface.h>
 
+#include <string>
+
 namespace mvvm::experimental
 {
 
@@ -31,7 +33,7 @@ class Item;
 class Model : public ModelInterface
 {
 public:
-  Model();
+  Model(const std::string& model_type = {});
   ~Model() override;
 
   Item* GetRootItem() const override;
@@ -43,6 +45,7 @@ public:
   std::unique_ptr<Item> TakeItem(Item* parent, int index) override;
 
 private:
+  std::string m_model_type;
   std::unique_ptr<Item> m_root_item;
 };
 

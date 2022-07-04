@@ -54,3 +54,14 @@ TEST_F(ModelTests, InsertItem)
   EXPECT_EQ(model.GetRootItem()->GetItemCount(), 1);
   EXPECT_EQ(model.GetRootItem()->GetItem(0), child_ptr);
 }
+
+TEST_F(ModelTests, SetData)
+{
+  Model model;
+  auto [child, child_ptr] = CreateTestData();
+  auto inserted = model.InsertItem(std::move(child), model.GetRootItem(), 0);
+
+  EXPECT_TRUE(model.SetData(inserted, 42));
+  EXPECT_FALSE(model.SetData(inserted, 42));
+  EXPECT_EQ(inserted->GetData(), variant_t(42));
+}

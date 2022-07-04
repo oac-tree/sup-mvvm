@@ -45,6 +45,15 @@ TEST_F(ItemTests, InitialState)
   EXPECT_EQ(item.GetParent(), nullptr);
 }
 
+TEST_F(ItemTests, SetData)
+{
+  Item item;
+
+  EXPECT_TRUE(item.SetData(42));
+  EXPECT_FALSE(item.SetData(42));
+  EXPECT_EQ(item.GetData(), variant_t(42));
+}
+
 TEST_F(ItemTests, InsertItem)
 {
   auto [child, child_ptr] = CreateTestData();

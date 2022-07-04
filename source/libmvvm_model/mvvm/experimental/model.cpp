@@ -24,7 +24,10 @@
 namespace mvvm::experimental
 {
 
-Model::Model() : m_root_item(std::make_unique<Item>()) {}
+Model::Model(const std::string &model_type)
+    : m_model_type(model_type), m_root_item(std::make_unique<Item>())
+{
+}
 
 Model::~Model() = default;
 
