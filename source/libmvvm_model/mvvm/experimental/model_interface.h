@@ -17,26 +17,35 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_EXPERIMENTAL_ITEM_H_
-#define MVVM_MODEL_EXPERIMENTAL_ITEM_H_
+#ifndef MVVM_MODEL_EXPERIMENTAL_MODEL_INTERFACE_H_
+#define MVVM_MODEL_EXPERIMENTAL_MODEL_INTERFACE_H_
 
 #include <memory>
-#include <vector>
 
 namespace mvvm::experimental
 {
 
-class Item
+class Item;
+
+class ModelInterface
 {
 public:
-  Item();
+  virtual Item* GetRootItem() const = 0;
 
+  virtual Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) = 0;
 
+  template <typename T>
+  T* InsertItem(Item* parent, int index);
 
-private:
-  std::vector<std::unique_ptr<Item>> m_items;
+  virtual std::unique_ptr<Item> TakeItem(Item* parent, int index) = 0;
 };
+
+template <typename T>
+T* ModelInterface::InsertItem(Item* parent, int index)
+{
+  return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, index));
+}
 
 }  // namespace mvvm::experimental
 
-#endif  // MVVM_MODEL_EXPERIMENTAL_ITEM_H_
+#endif  // MVVM_MODEL_EXPERIMENTAL_MODEL_INTERFACE_H_
