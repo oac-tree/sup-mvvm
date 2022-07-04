@@ -17,42 +17,29 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
-#define MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
+#ifndef MVVM_MODEL_REPORTING_MODEL_V2_H_
+#define MVVM_MODEL_REPORTING_MODEL_V2_H_
 
-#include <mvvm/experimental/model_interface.h>
+#include <mvvm/experimental/abstract_model_decorator.h>
+
+#include <functional>
 
 namespace mvvm::experimental
 {
 
 class Item;
 
-class AbstractModelDecorator : public ModelInterface
+class ReportingModelV2 : public AbstractModelDecorator
 {
 public:
-  explicit AbstractModelDecorator(std::unique_ptr<ModelInterface> decorated_model);
+  ReportingModelV2();
 
-//  template <typename T>
-//  AbstractModelDecorator();
-
-  Item* GetRootItem() const override;
-
-  bool SetData(Item* item, const variant_t& data) override;
-
-  Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) override;
-
-  std::unique_ptr<Item> TakeItem(Item* parent, int index) override;
-
+  bool SetData(Item *item, const variant_t &data) override;
 
 private:
-  std::unique_ptr<ModelInterface> m_decorated_model;
+  std::function<void(Item *)> m_on_data_change;
 };
-
-//template <typename T>
-//AbstractModelDecorator::AbstractModelDecorator() : AbstractModelDecorator(std::make_unique<T>())
-//{
-//}
 
 }  // namespace mvvm::experimental
 
-#endif  // MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
+#endif  // MVVM_MODEL_REPORTING_MODEL_V2_H_

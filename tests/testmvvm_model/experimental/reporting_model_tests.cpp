@@ -18,6 +18,8 @@
  *****************************************************************************/
 
 #include "mvvm/experimental/reporting_model.h"
+#include "mvvm/experimental/reporting_model_v2.h"
+#include "mvvm/experimental/abstract_model_decorator.h"
 #include "mvvm/experimental/model.h"
 #include "mvvm/experimental/item.h"
 
@@ -53,4 +55,9 @@ TEST_F(ReportingModelTests, SetData)
   EXPECT_TRUE(model.SetData(inserted, 42));
   EXPECT_FALSE(model.SetData(inserted, 42));
   EXPECT_EQ(inserted->GetData(), variant_t(42));
+}
+
+TEST_F(ReportingModelTests, ReportingModelV2)
+{
+  ReportingModelV2 model;
 }
