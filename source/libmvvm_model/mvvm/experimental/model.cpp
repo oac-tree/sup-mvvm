@@ -35,12 +35,12 @@ Item *Model::GetRootItem() const
 
 Item *Model::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
 {
-  return nullptr;
+  return parent->InsertItem(std::move(item), index);
 }
 
 std::unique_ptr<Item> Model::TakeItem(Item *parent, int index)
 {
-  return {};
+  return parent->TakeItem(index);
 }
 
 }  // namespace mvvm::experimental

@@ -26,13 +26,31 @@
 namespace mvvm::experimental
 {
 
+class Model;
+
 class Item
 {
 public:
   Item();
 
+  int GetItemCount() const;
+
+  Item* GetParent() const;
+  void SetParent(Item* parent);
+
+  Model* GetModel() const;
+  void SetModel(Model* model);
+
+  Item* GetItem(int index);
+
+  Item* InsertItem(std::unique_ptr<Item> item, int index);
+
+  std::unique_ptr<Item> TakeItem(int index);
+
 private:
   std::vector<std::unique_ptr<Item>> m_items;
+  Item* m_parent{nullptr};
+  Model* m_model{nullptr};
 };
 
 }  // namespace mvvm::experimental

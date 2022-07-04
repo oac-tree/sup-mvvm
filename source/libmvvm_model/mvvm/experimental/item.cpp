@@ -19,9 +19,70 @@
 
 #include "mvvm/experimental/item.h"
 
+#include <stdexcept>
+
 namespace mvvm::experimental
 {
 
 Item::Item() {}
+
+int Item::GetItemCount() const
+{
+  return static_cast<int>(m_items.size());
+}
+
+Item *Item::GetParent() const
+{
+  return m_parent;
+}
+
+void Item::SetParent(Item *parent)
+{
+  m_parent = parent;
+}
+
+Model *Item::GetModel() const
+{
+  return m_model;
+}
+
+void Item::SetModel(Model *model)
+{
+  m_model = model;
+}
+
+Item *Item::GetItem(int index)
+{
+  return index >= 0 && index < GetItemCount() ? m_items[index].get() : nullptr;
+}
+
+Item *Item::InsertItem(std::unique_ptr<Item> item, int index)
+{
+  if (index < 0 || index > GetItemCount())
+  {
+    throw std::runtime_error("Wrong index");
+  }
+
+  auto result = item.get();
+
+  item->SetParent(this);
+  item->SetModel(GetModel());
+
+  m_items.emplace(std::next(m_items.begin(), index), std::move(item));
+
+  return result;
+}
+
+std::unique_ptr<Item> Item::TakeItem(int index)
+{
+  if (index < 0 || index >= GetItemCount())
+  {
+    throw std::runtime_error("Wrong index");
+  }
+
+  auto result = std::move(m_items[index]);
+  m_items.erase(std::next(m_items.begin(), index));
+  return result;
+}
 
 }  // namespace mvvm::experimental

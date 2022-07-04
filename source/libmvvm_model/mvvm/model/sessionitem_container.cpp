@@ -31,7 +31,9 @@ SessionItemContainer::SessionItemContainer(mvvm::TagInfo tag_info) : m_tag_info(
 SessionItemContainer::~SessionItemContainer()
 {
   for (auto item : m_items)
+  {
     delete item;
+  }
 }
 
 bool SessionItemContainer::IsEmpty() const
@@ -65,7 +67,9 @@ Insert index is an index which item will have after insertion. If item can't be 
 bool SessionItemContainer::InsertItem(SessionItem* item, int index)
 {
   if (!CanInsertItem(item, index))
+  {
     return false;
+  }
 
   m_items.insert(std::next(m_items.begin(), index), item);
   return true;
@@ -77,11 +81,15 @@ bool SessionItemContainer::InsertItem(SessionItem* item, int index)
 SessionItem* SessionItemContainer::TakeItem(int index)
 {
   if (IsMinimumReached())
+  {
     return nullptr;
+  }
 
   SessionItem* result = ItemAt(index);
   if (result)
+  {
     m_items.erase(std::next(m_items.begin(), index));
+  }
 
   return result;
 }
