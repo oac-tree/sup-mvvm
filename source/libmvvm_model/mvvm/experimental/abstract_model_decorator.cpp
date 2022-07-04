@@ -17,37 +17,35 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_EXPERIMENTAL_MODEL_H_
-#define MVVM_MODEL_EXPERIMENTAL_MODEL_H_
-
-#include <mvvm/experimental/model_interface.h>
-
-#include <string>
+#include "mvvm/experimental/abstract_model_decorator.h"
+#include "mvvm/experimental/item.h"
 
 namespace mvvm::experimental
 {
 
-class Item;
-
-class Model : public ModelInterface
+AbstractModelDecorator::AbstractModelDecorator(std::unique_ptr<ModelInterface> decorated_model)
+    : m_decorated_model(std::move(decorated_model))
 {
-public:
-  explicit Model(const std::string& model_type = {});
-  ~Model() override;
+}
 
-  Item* GetRootItem() const override;
+Item *AbstractModelDecorator::GetRootItem() const
+{
+  return m_decorated_model->GetRootItem();
+}
 
-  bool SetData(Item* item, const variant_t& data) override;
+bool AbstractModelDecorator::SetData(Item *item, const variant_t &data)
+{
+  return m_decorated_model->SetData(item, data);
+}
 
-  Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) override;
+Item *AbstractModelDecorator::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
+{
+  return m_decorated_model->InsertItem(std::move(item), parent, index);
+}
 
-  std::unique_ptr<Item> TakeItem(Item* parent, int index) override;
-
-private:
-  std::string m_model_type;
-  std::unique_ptr<Item> m_root_item;
-};
+std::unique_ptr<Item> AbstractModelDecorator::TakeItem(Item *parent, int index)
+{
+  return m_decorated_model->TakeItem(parent, index);
+}
 
 }  // namespace mvvm::experimental
-
-#endif  // MVVM_MODEL_EXPERIMENTAL_MODEL_H_

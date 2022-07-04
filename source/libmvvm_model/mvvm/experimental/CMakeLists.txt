@@ -8,4 +8,6 @@ target_sources(${library_name} PRIVATE
   reporting_model.h
   item.cpp
   item.h
+  abstract_model_decorator.cpp
+  abstract_model_decorator.h
 )

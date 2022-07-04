@@ -17,37 +17,42 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_EXPERIMENTAL_MODEL_H_
-#define MVVM_MODEL_EXPERIMENTAL_MODEL_H_
+#ifndef MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
+#define MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
 
 #include <mvvm/experimental/model_interface.h>
-
-#include <string>
 
 namespace mvvm::experimental
 {
 
 class Item;
 
-class Model : public ModelInterface
+class AbstractModelDecorator : public ModelInterface
 {
 public:
-  explicit Model(const std::string& model_type = {});
-  ~Model() override;
+  explicit AbstractModelDecorator(std::unique_ptr<ModelInterface> decorated_model);
+
+  template <typename T>
+  AbstractModelDecorator();
 
   Item* GetRootItem() const override;
 
-  bool SetData(Item* item, const variant_t& data) override;
+  bool SetData(Item* item, const variant_t& data);
 
   Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) override;
 
   std::unique_ptr<Item> TakeItem(Item* parent, int index) override;
 
+
 private:
-  std::string m_model_type;
-  std::unique_ptr<Item> m_root_item;
+  std::unique_ptr<ModelInterface> m_decorated_model;
 };
+
+template <typename T>
+AbstractModelDecorator::AbstractModelDecorator() : AbstractModelDecorator(std::make_unique<T>())
+{
+}
 
 }  // namespace mvvm::experimental
 
-#endif  // MVVM_MODEL_EXPERIMENTAL_MODEL_H_
+#endif  // MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_

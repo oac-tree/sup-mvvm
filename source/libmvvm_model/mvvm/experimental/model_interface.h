@@ -20,6 +20,8 @@
 #ifndef MVVM_MODEL_EXPERIMENTAL_MODEL_INTERFACE_H_
 #define MVVM_MODEL_EXPERIMENTAL_MODEL_INTERFACE_H_
 
+#include <mvvm/core/variant.h>
+
 #include <memory>
 
 namespace mvvm::experimental
@@ -33,6 +35,8 @@ public:
   virtual ~ModelInterface() = default;
 
   virtual Item* GetRootItem() const = 0;
+
+  virtual bool SetData(Item* item, const variant_t& data) = 0;
 
   virtual Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) = 0;
 
