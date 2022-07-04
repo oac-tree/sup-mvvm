@@ -31,8 +31,6 @@ class Item
 public:
   Item();
 
-
-
 private:
   std::vector<std::unique_ptr<Item>> m_items;
 };

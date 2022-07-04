@@ -20,17 +20,24 @@
 #ifndef MVVM_MODEL_EXPERIMENTAL_MODEL_H_
 #define MVVM_MODEL_EXPERIMENTAL_MODEL_H_
 
-#include <memory>
+#include <mvvm/experimental/model_interface.h>
 
 namespace mvvm::experimental
 {
 
 class Item;
 
-class Model
+class Model : public ModelInterface
 {
 public:
   Model();
+  ~Model() override;
+
+  Item* GetRootItem() const override;
+
+  Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) override;
+
+  std::unique_ptr<Item> TakeItem(Item* parent, int index) override;
 
 private:
   std::unique_ptr<Item> m_root_item;

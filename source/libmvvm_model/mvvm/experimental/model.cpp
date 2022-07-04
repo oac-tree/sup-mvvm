@@ -26,4 +26,21 @@ namespace mvvm::experimental
 
 Model::Model() : m_root_item(std::make_unique<Item>()) {}
 
+Model::~Model() = default;
+
+Item *Model::GetRootItem() const
+{
+  return m_root_item.get();
+}
+
+Item *Model::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
+{
+  return nullptr;
+}
+
+std::unique_ptr<Item> Model::TakeItem(Item *parent, int index)
+{
+  return {};
+}
+
 }  // namespace mvvm::experimental

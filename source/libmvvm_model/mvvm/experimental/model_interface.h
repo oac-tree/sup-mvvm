@@ -30,6 +30,8 @@ class Item;
 class ModelInterface
 {
 public:
+  virtual ~ModelInterface() = default;
+
   virtual Item* GetRootItem() const = 0;
 
   virtual Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) = 0;
