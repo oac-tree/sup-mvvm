@@ -24,7 +24,10 @@
 namespace mvvm::experimental
 {
 
-ReportingModelV2::ReportingModelV2() : AbstractModelDecoratorV2(std::make_unique<Model>()) {}
+ReportingModelV2::ReportingModelV2(std::unique_ptr<ModelInterface> decorated_model)
+    : AbstractModelDecoratorV2(std::move(decorated_model))
+{
+}
 
 bool ReportingModelV2::SetData(Item *item, const variant_t &data)
 {

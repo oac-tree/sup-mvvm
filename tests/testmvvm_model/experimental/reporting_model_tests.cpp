@@ -39,6 +39,7 @@ public:
     auto item_ptr = item.get();
     return {std::move(item), item_ptr};
   }
+
 };
 
 TEST_F(ReportingModelTests, InitialState)
@@ -56,16 +57,12 @@ TEST_F(ReportingModelTests, SetData)
   EXPECT_TRUE(model.SetData(inserted, 42));
   EXPECT_FALSE(model.SetData(inserted, 42));
   EXPECT_EQ(inserted->GetData(), variant_t(42));
+
+  UndoableModel<ReportingModel<Model>> model2;
+  ReportingModel<UndoableModel<Model>> model3;
 }
 
 TEST_F(ReportingModelTests, ReportingModelV2)
 {
-  ReportingModelV2 model;
-}
-
-TEST_F(ReportingModelTests, UndoableModel)
-{
-  UndoableModel<ReportingModel<Model>> model;
-
-  ReportingModel<UndoableModel<Model>> model2;
+  ReportingModelV2 model(std::make_unique<Model>());
 }

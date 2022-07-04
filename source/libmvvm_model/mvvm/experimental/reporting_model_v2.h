@@ -32,7 +32,7 @@ class Item;
 class ReportingModelV2 : public AbstractModelDecoratorV2
 {
 public:
-  ReportingModelV2();
+  explicit ReportingModelV2(std::unique_ptr<ModelInterface> decorated_model);
 
   bool SetData(Item *item, const variant_t &data) override;
 
