@@ -17,33 +17,33 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/experimental/abstract_model_decorator.h"
+#include "mvvm/experimental/abstract_model_decorator_v2.h"
 #include "mvvm/experimental/item.h"
 
 namespace mvvm::experimental
 {
 
-AbstractModelDecorator::AbstractModelDecorator(std::unique_ptr<ModelInterface> decorated_model)
+AbstractModelDecoratorV2::AbstractModelDecoratorV2(std::unique_ptr<ModelInterface> decorated_model)
     : m_decorated_model(std::move(decorated_model))
 {
 }
 
-Item *AbstractModelDecorator::GetRootItem() const
+Item *AbstractModelDecoratorV2::GetRootItem() const
 {
   return m_decorated_model->GetRootItem();
 }
 
-bool AbstractModelDecorator::SetData(Item *item, const variant_t &data)
+bool AbstractModelDecoratorV2::SetData(Item *item, const variant_t &data)
 {
   return m_decorated_model->SetData(item, data);
 }
 
-Item *AbstractModelDecorator::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
+Item *AbstractModelDecoratorV2::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
 {
   return m_decorated_model->InsertItem(std::move(item), parent, index);
 }
 
-std::unique_ptr<Item> AbstractModelDecorator::TakeItem(Item *parent, int index)
+std::unique_ptr<Item> AbstractModelDecoratorV2::TakeItem(Item *parent, int index)
 {
   return m_decorated_model->TakeItem(parent, index);
 }

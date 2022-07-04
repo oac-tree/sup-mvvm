@@ -17,24 +17,42 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/experimental/reporting_model_v2.h"
+#ifndef MVVM_MODEL_UNDOABLE_MODEL_H_
+#define MVVM_MODEL_UNDOABLE_MODEL_H_
 
-#include "mvvm/experimental/model.h"
+#include <mvvm/core/variant.h>
+#include <mvvm/experimental/model_interface.h>
+
+#include <functional>
 
 namespace mvvm::experimental
 {
 
-ReportingModelV2::ReportingModelV2() : AbstractModelDecoratorV2(std::make_unique<Model>()) {}
+class Item;
 
-bool ReportingModelV2::SetData(Item *item, const variant_t &data)
+template <typename T>
+class UndoableModel : public T
 {
-  auto result = AbstractModelDecoratorV2::SetData(item, data);
-  if (result && m_on_data_change)
+public:
+  static_assert(std::is_base_of<ModelInterface, T>::value, "Invalid template argument");
+
+  template <typename... Args>
+  explicit UndoableModel(Args &&...args) : T(std::forward<Args>(args)...)
   {
-    m_on_data_change(item);
   }
 
+  bool SetData(Item *item, const variant_t &data);
+
+private:
+};
+
+template <typename T>
+bool UndoableModel<T>::SetData(Item *item, const variant_t &data)
+{
+  auto result = T::SetData(item, data);
   return result;
 }
 
 }  // namespace mvvm::experimental
+
+#endif  // MVVM_MODEL_UNDOABLE_MODEL_H_

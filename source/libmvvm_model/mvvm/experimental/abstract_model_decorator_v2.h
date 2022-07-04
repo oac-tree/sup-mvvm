@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
-#define MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_H_
+#ifndef MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_V2_H_
+#define MVVM_MODEL_ABSTRACT_MODEL_DECORATOR_V2_H_
 
 #include <mvvm/experimental/model_interface.h>
 
@@ -27,10 +27,10 @@ namespace mvvm::experimental
 
 class Item;
 
-class AbstractModelDecorator : public ModelInterface
+class AbstractModelDecoratorV2 : public ModelInterface
 {
 public:
-  explicit AbstractModelDecorator(std::unique_ptr<ModelInterface> decorated_model);
+  explicit AbstractModelDecoratorV2(std::unique_ptr<ModelInterface> decorated_model);
 
 //  template <typename T>
 //  AbstractModelDecorator();
