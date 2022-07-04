@@ -33,6 +33,11 @@ Item *Model::GetRootItem() const
   return m_root_item.get();
 }
 
+bool Model::SetData(Item *item, const variant_t &data)
+{
+  return item->SetData(data);
+}
+
 Item *Model::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
 {
   return parent->InsertItem(std::move(item), index);

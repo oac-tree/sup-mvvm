@@ -20,6 +20,7 @@
 #ifndef MVVM_MODEL_EXPERIMENTAL_MODEL_H_
 #define MVVM_MODEL_EXPERIMENTAL_MODEL_H_
 
+#include <mvvm/core/variant.h>
 #include <mvvm/experimental/model_interface.h>
 
 namespace mvvm::experimental
@@ -34,6 +35,8 @@ public:
   ~Model() override;
 
   Item* GetRootItem() const override;
+
+  bool SetData(Item* item, const variant_t& data);
 
   Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) override;
 

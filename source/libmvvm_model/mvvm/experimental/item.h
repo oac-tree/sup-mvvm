@@ -20,6 +20,8 @@
 #ifndef MVVM_MODEL_EXPERIMENTAL_ITEM_H_
 #define MVVM_MODEL_EXPERIMENTAL_ITEM_H_
 
+#include <mvvm/core/variant.h>
+
 #include <memory>
 #include <vector>
 
@@ -47,10 +49,15 @@ public:
 
   std::unique_ptr<Item> TakeItem(int index);
 
+  variant_t GetData() const;
+
+  bool SetData(const variant_t& data);
+
 private:
   std::vector<std::unique_ptr<Item>> m_items;
   Item* m_parent{nullptr};
   Model* m_model{nullptr};
+  variant_t m_data;
 };
 
 }  // namespace mvvm::experimental

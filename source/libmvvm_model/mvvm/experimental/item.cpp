@@ -85,4 +85,20 @@ std::unique_ptr<Item> Item::TakeItem(int index)
   return result;
 }
 
+variant_t Item::GetData() const
+{
+  return m_data;
+}
+
+bool Item::SetData(const variant_t &data)
+{
+  if (m_data != data)
+  {
+    m_data = data;
+    return true;
+  }
+
+  return false;
+}
+
 }  // namespace mvvm::experimental
