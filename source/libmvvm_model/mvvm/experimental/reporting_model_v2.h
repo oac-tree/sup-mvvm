@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_REPORTING_MODEL_V2_H_
 #define MVVM_MODEL_REPORTING_MODEL_V2_H_
 
-#include <mvvm/experimental/abstract_model_decorator_v2.h>
+#include <mvvm/experimental/abstract_model_decorator.h>
 
 #include <functional>
 
@@ -29,7 +29,7 @@ namespace mvvm::experimental
 
 class Item;
 
-class ReportingModelV2 : public AbstractModelDecoratorV2
+class ReportingModelV2 : public AbstractModelDecorator
 {
 public:
   explicit ReportingModelV2(std::unique_ptr<ModelInterface> decorated_model);

@@ -1,8 +1,8 @@
 # Experimental code to try out various refactoring solutions. Not intended for production.
 
 target_sources(${library_name} PRIVATE
-  abstract_model_decorator_v2.cpp
-  abstract_model_decorator_v2.h
+  abstract_model_decorator.cpp
+  abstract_model_decorator.h
   item.cpp
   item.h
   model.cpp

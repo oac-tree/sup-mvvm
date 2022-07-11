@@ -25,13 +25,13 @@ namespace mvvm::experimental
 {
 
 ReportingModelV2::ReportingModelV2(std::unique_ptr<ModelInterface> decorated_model)
-    : AbstractModelDecoratorV2(std::move(decorated_model))
+    : AbstractModelDecorator(std::move(decorated_model))
 {
 }
 
 bool ReportingModelV2::SetData(Item *item, const variant_t &data)
 {
-  auto result = AbstractModelDecoratorV2::SetData(item, data);
+  auto result = AbstractModelDecorator::SetData(item, data);
   if (result && m_on_data_change)
   {
     m_on_data_change(item);

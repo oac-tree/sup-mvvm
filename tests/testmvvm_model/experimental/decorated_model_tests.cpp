@@ -20,7 +20,7 @@
 #include "mvvm/experimental/reporting_model.h"
 #include "mvvm/experimental/reporting_model_v2.h"
 #include "mvvm/experimental/undoable_model.h"
-#include "mvvm/experimental/abstract_model_decorator_v2.h"
+#include "mvvm/experimental/abstract_model_decorator.h"
 #include "mvvm/experimental/model.h"
 #include "mvvm/experimental/item.h"
 
