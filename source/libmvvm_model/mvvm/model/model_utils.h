@@ -35,6 +35,7 @@ class Path;
 
 namespace mvvm::utils
 {
+
 //! Returns all items in a tree of given type.
 
 template <typename T = SessionItem>
@@ -55,7 +56,6 @@ std::vector<T*> FindItems(const SessionModel* model)
   return result;
 }
 
-
 //! Constructs path to find given item. Item must belong to a model.
 MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
 
@@ -68,8 +68,8 @@ MVVM_MODEL_EXPORT bool HasSignals(const SessionModel* model);
 //! Copies a given item and inserts result into the model using provided parent and tag_index.
 //! Returns pointer to just inserted item to the user. Internally performs deep copying with all
 //! identifiers being regenerated.
-MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModel* model, SessionItem* parent,
-                                const TagIndex& tag_index);
+MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModel* model,
+                                        SessionItem* parent, const TagIndex& tag_index);
 
 ////! Populate empty model with content of target model using provided converter.
 ////! Serves as auxiliary function for model copying and cloning.
@@ -123,7 +123,6 @@ MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModel* m
 ////! Finishes undo/redo macros. Works only if the model has undo/redo enabled. Otherwise, do
 /// nothing.
 // MVVM_MODEL_EXPORT void EndMacros(const SessionModel* model);
-
 
 }  // namespace mvvm::utils
 

@@ -46,6 +46,10 @@ public:
   SessionModel(const SessionModel& other) = delete;
   SessionModel& operator=(const SessionModel& other) = delete;
 
+  std::string GetType() const override;
+
+  SessionItem* GetRootItem() const override;
+
   // Methods to manipulate data and items.
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
@@ -65,10 +69,6 @@ public:
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   // Various getters.
-
-  std::string GetType() const;
-
-  SessionItem* GetRootItem() const;
 
   const ItemFactoryInterface* GetFactory() const;
 

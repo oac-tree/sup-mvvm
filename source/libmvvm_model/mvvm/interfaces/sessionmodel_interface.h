@@ -38,6 +38,10 @@ class MVVM_MODEL_EXPORT SessionModelInterface
 public:
   virtual ~SessionModelInterface() = default;
 
+  virtual std::string GetType() const = 0;
+
+  virtual SessionItem* GetRootItem() const = 0;
+
   virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                   const TagIndex& tag_index) = 0;
 

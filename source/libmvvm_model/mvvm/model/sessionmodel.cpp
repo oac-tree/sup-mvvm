@@ -76,6 +76,21 @@ SessionModel::~SessionModel()
   p_impl->m_root_item.reset();
 }
 
+//! Returns model type.
+
+std::string SessionModel::GetType() const
+{
+  return p_impl->m_model_type;
+}
+
+//! Returns root item of the model.
+
+SessionItem* SessionModel::GetRootItem() const
+{
+  return p_impl->m_root_item.get();
+}
+
+
 //! Insert item via move into the given `parent` under given `tag_index`.
 //! FIXME make default parameters (or their absence) as in the method InsertNewItem.
 
@@ -152,20 +167,6 @@ variant_t SessionModel::Data(SessionItem* item, int role)
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
   return item->SetData(value, role, /*direct*/ true);
-}
-
-//! Returns model type.
-
-std::string SessionModel::GetType() const
-{
-  return p_impl->m_model_type;
-}
-
-//! Returns root item of the model.
-
-SessionItem* SessionModel::GetRootItem() const
-{
-  return p_impl->m_root_item.get();
 }
 
 //! Returns item factory which can generate all items supported by this model.
