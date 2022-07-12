@@ -17,10 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mock_model.h"
 #include "mvvm/model/abstract_model_decorator.h"
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <mvvm/model/sessionitem.h>
 
 using namespace mvvm;
 
@@ -33,4 +35,5 @@ public:
 
 TEST_F(AbstractModelDecoratorTests, InitialState)
 {
+  MockModel model;
 }
