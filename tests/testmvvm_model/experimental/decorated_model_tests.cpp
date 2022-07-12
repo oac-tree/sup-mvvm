@@ -53,7 +53,7 @@ public:
   class TestModelV2 : public AbstractModelDecorator
   {
   public:
-    TestModelV2() : AbstractModelDecorator(CreateModel<ReportingModelV2>()) {}
+    TestModelV2() : AbstractModelDecorator(CreateModel<ReportingModelV2, Model>()) {}
   };
 };
 
@@ -90,7 +90,7 @@ TEST_F(ReportingModelTests, ReportingModelV2)
 TEST_F(ReportingModelTests, CreateModel)
 {
   {
-    auto model = CreateModel<ReportingModelV2>();
+    auto model = CreateModel<ReportingModelV2, Model>();
     auto item = model->InsertItemV2<Item>(model->GetRootItem(), 0);
     model->SetData(item, 2);
     EXPECT_EQ(item->GetData(), variant_t(2));
@@ -98,23 +98,14 @@ TEST_F(ReportingModelTests, CreateModel)
   }
 
   {
-    auto model = CreateModelV2<ReportingModelV2, Model>();
-    auto item = model->InsertItemV2<Item>(model->GetRootItem(), 0);
-    model->SetData(item, 2);
-    EXPECT_EQ(item->GetData(), variant_t(2));
-    EXPECT_EQ(model->GetData(item), variant_t(4));
-  }
-
-  {
-    auto model = CreateModel<ReportingModelV2, ReportingModelV2>();
+    auto model = CreateModel<ReportingModelV2, ReportingModelV2, Model>();
     auto item = model->InsertItemV2<Item>(model->GetRootItem(), 0);
     model->SetData(item, 2);
     EXPECT_EQ(item->GetData(), variant_t(2));
     EXPECT_EQ(model->GetData(item), variant_t(8));
   }
 
-//  {
-//    ModelDecorator<ReportingModelV2> model;
-//  }
-
+  //  {
+  //    ModelDecorator<ReportingModelV2> model;
+  //  }
 }

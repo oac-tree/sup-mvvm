@@ -31,7 +31,7 @@ std::unique_ptr<ModelInterface> CreateModel()
 {
   if constexpr (!sizeof...(Types))
   {
-    return std::make_unique<T>(std::make_unique<Model>());
+    return std::make_unique<T>();
   }
   else
   {
@@ -50,19 +50,6 @@ std::unique_ptr<ModelInterface> CreateModel()
 //{
 //   return std::make_unique<T>(CreateModel<Types...>());
 // }
-
-template <typename T, typename... Types>
-std::unique_ptr<ModelInterface> CreateModelV2()
-{
-  if constexpr (!sizeof...(Types))
-  {
-    return std::make_unique<T>();
-  }
-  else
-  {
-    return std::make_unique<T>(CreateModelV2<Types...>());
-  }
-}
 
 template <typename T, typename... Types>
 class ModelDecorator : public AbstractModelDecorator
