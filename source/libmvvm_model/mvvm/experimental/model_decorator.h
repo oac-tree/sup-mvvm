@@ -29,27 +29,15 @@ namespace mvvm::experimental
 template <typename T, typename... Types>
 std::unique_ptr<ModelInterface> CreateModel()
 {
-  if constexpr (!sizeof...(Types))
-  {
-    return std::make_unique<T>();
-  }
-  else
+  if constexpr (sizeof...(Types))
   {
     return std::make_unique<T>(CreateModel<Types...>());
   }
+  else
+  {
+    return std::make_unique<T>();
+  }
 }
-
-// template <>
-// std::unique_ptr<ModelInterface> CreateModel()
-//{
-//   return std::make_unique<Model>();
-// }
-
-// template <typename T, typename... Types>
-// std::unique_ptr<ModelInterface> CreateModel()
-//{
-//   return std::make_unique<T>(CreateModel<Types...>());
-// }
 
 template <typename T, typename... Types>
 class ModelDecorator : public AbstractModelDecorator

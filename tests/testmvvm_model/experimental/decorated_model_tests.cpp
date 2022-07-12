@@ -80,6 +80,7 @@ TEST_F(ReportingModelTests, SetData)
 TEST_F(ReportingModelTests, ReportingModelV2)
 {
   ReportingModelV2 model(std::make_unique<Model>());
+
   auto item = model.InsertItemV2<Item>(model.GetRootItem(), 0);
   model.SetData(item, 2);
   EXPECT_EQ(item->GetData(), variant_t(2));
@@ -112,4 +113,5 @@ TEST_F(ReportingModelTests, CreateModel)
     EXPECT_EQ(item->GetData(), variant_t(2));
     EXPECT_EQ(model.GetData(item), variant_t(8));
   }
+
 }
