@@ -105,7 +105,11 @@ TEST_F(ReportingModelTests, CreateModel)
     EXPECT_EQ(model->GetData(item), variant_t(8));
   }
 
-  //  {
-  //    ModelDecorator<ReportingModelV2> model;
-  //  }
+  {
+    ModelDecorator<ReportingModelV2, ReportingModelV2, Model> model;
+    auto item = model.InsertItemV2<Item>(model.GetRootItem(), 0);
+    model.SetData(item, 2);
+    EXPECT_EQ(item->GetData(), variant_t(2));
+    EXPECT_EQ(model.GetData(item), variant_t(8));
+  }
 }

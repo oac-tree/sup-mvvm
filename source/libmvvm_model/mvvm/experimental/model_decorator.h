@@ -55,7 +55,7 @@ template <typename T, typename... Types>
 class ModelDecorator : public AbstractModelDecorator
 {
 public:
-  explicit ModelDecorator() : AbstractModelDecorator(CreateModel<Types...>()) {}
+  explicit ModelDecorator() : AbstractModelDecorator(CreateModel<T, Types...>()) {}
 
 private:
 };
