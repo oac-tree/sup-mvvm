@@ -155,13 +155,6 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
   InsertItem(std::move(taken), new_parent, tag_index);
 }
 
-//! Returns the data for given item and role.
-
-variant_t SessionModel::Data(SessionItem* item, int role)
-{
-  return item->Data(role);
-}
-
 //! Sets the data for given item.
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)

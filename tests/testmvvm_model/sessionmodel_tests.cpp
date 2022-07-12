@@ -19,6 +19,7 @@
 
 #include "mvvm/model/sessionmodel.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_manager.h>
@@ -27,8 +28,6 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
-
-#include <gtest/gtest.h>
 
 #include <memory>
 #include <stdexcept>
@@ -334,7 +333,7 @@ TEST_F(SessionModelTest, SetData)
 
   // inserting single item
   auto item = model.InsertItem<SessionItem>();
-  EXPECT_TRUE(utils::IsValid(model.Data(item, DataRole::kDisplay)));
+  EXPECT_TRUE(utils::IsValid(item->Data(DataRole::kDisplay)));
 
   // setting wrong type of data
   variant_t value(42.0);
@@ -342,7 +341,7 @@ TEST_F(SessionModelTest, SetData)
 
   // setting new data
   EXPECT_TRUE(model.SetData(item, value, DataRole::kData));
-  EXPECT_EQ(model.Data(item, DataRole::kData), value);
+  EXPECT_EQ(item->Data(DataRole::kData), value);
 
   // setting same data twice should return false
   EXPECT_FALSE(model.SetData(item, value, DataRole::kData));

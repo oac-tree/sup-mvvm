@@ -41,7 +41,7 @@ namespace mvvm::utils
 //! The top item is an item that is a child of an invisible root item.
 
 template <typename T = SessionItem>
-std::vector<T*> GetTopItems(SessionModelInterface* model)
+std::vector<T*> GetTopItems(const SessionModelInterface* model)
 {
   if (!model)
   {
@@ -54,7 +54,7 @@ std::vector<T*> GetTopItems(SessionModelInterface* model)
 //! The top item is an item that is a child of an invisible root item.
 
 template <typename T = SessionItem>
-T* GetTopItem(SessionModelInterface* model)
+T* GetTopItem(const SessionModelInterface* model)
 {
   auto items = GetTopItems<T>(model);
   return items.empty() ? nullptr : items.front();

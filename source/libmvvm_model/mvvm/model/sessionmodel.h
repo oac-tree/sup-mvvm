@@ -64,8 +64,6 @@ public:
 
   void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
 
-  variant_t Data(SessionItem* item, int role);
-
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   // Various getters.
