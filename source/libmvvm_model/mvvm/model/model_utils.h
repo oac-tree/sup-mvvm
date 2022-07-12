@@ -20,6 +20,7 @@
 #ifndef MVVM_MODEL_MODEL_UTILS_H_
 #define MVVM_MODEL_MODEL_UTILS_H_
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
@@ -35,6 +36,29 @@ class Path;
 
 namespace mvvm::utils
 {
+
+//! Returns top items of the given type.
+//! The top item is an item that is a child of an invisible root item.
+
+template <typename T = SessionItem>
+std::vector<T*> GetTopItems(SessionModelInterface* model)
+{
+  if (!model)
+  {
+    throw RuntimeException("Undefined model");
+  }
+  return utils::CastItems<T>(model->GetRootItem()->GetAllItems());
+}
+
+//! Returns top item of the given type. If more than one item exists, return the first one.
+//! The top item is an item that is a child of an invisible root item.
+
+template <typename T = SessionItem>
+T* GetTopItem(SessionModelInterface* model)
+{
+  auto items = GetTopItems<T>(model);
+  return items.empty() ? nullptr : items.front();
+}
 
 //! Returns all items in a tree of given type.
 

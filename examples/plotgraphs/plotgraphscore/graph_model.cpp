@@ -19,6 +19,7 @@
 
 #include "graph_model.h"
 
+#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
@@ -119,14 +120,14 @@ void GraphModel::RandomizeGraphs()
 
 mvvm::GraphViewportItem* GraphModel::GetViewport()
 {
-  return GetTopItem<mvvm::GraphViewportItem>();
+  return ::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(this);
 }
 
 //! Returns container with data items.
 
 mvvm::ContainerItem* GraphModel::GetDataContainer()
 {
-  return GetTopItem<mvvm::ContainerItem>();
+  return ::mvvm::utils::GetTopItem<mvvm::ContainerItem>(this);
 }
 
 }  // namespace plotgraphs

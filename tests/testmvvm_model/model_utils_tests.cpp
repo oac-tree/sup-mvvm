@@ -19,14 +19,13 @@
 
 #include "mvvm/model/model_utils.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/path.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 
@@ -48,6 +47,44 @@ public:
     TestModel() : SessionModel("TestModel") { RegisterItem<TestCompoundItem>(); }
   };
 };
+
+TEST_F(ModelUtilsTests, GetTopItem)
+{
+  EXPECT_THROW(utils::GetTopItem<CompoundItem>(nullptr), RuntimeException);
+
+  SessionModel model;
+  EXPECT_EQ(utils::GetTopItem<>(&model), nullptr);
+  EXPECT_EQ(utils::GetTopItem(&model), nullptr);
+
+  auto property = model.InsertItem<PropertyItem>();
+  auto compound = model.InsertItem<CompoundItem>();
+  EXPECT_EQ(utils::GetTopItem<>(&model), property);
+  EXPECT_EQ(utils::GetTopItem(&model), property);
+  EXPECT_EQ(utils::GetTopItem<CompoundItem>(&model), compound);
+}
+
+TEST_F(ModelUtilsTests, GetTopItems)
+{
+  EXPECT_THROW(utils::GetTopItems<CompoundItem>(nullptr), RuntimeException);
+
+  std::vector<SessionItem*> expected;
+
+  SessionModel model;
+  EXPECT_EQ(utils::GetTopItems<>(&model), expected);
+  EXPECT_EQ(utils::GetTopItems(&model), expected);
+
+  auto property1 = model.InsertItem<PropertyItem>();
+  auto compound1 = model.InsertItem<CompoundItem>();
+  auto property2 = model.InsertItem<PropertyItem>();
+  auto compound2 = model.InsertItem<CompoundItem>();
+
+  expected = {property1, compound1, property2, compound2};
+  EXPECT_EQ(utils::GetTopItems<>(&model), expected);
+  EXPECT_EQ(utils::GetTopItems(&model), expected);
+
+  std::vector<CompoundItem*> expected2 = {compound1, compound2};
+  EXPECT_EQ(utils::GetTopItems<CompoundItem>(&model), expected2);
+}
 
 TEST_F(ModelUtilsTests, FindItems)
 {

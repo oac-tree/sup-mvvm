@@ -74,12 +74,6 @@ public:
 
   SessionItem* FindItem(const std::string& id) const;
 
-  template <typename T = SessionItem>
-  std::vector<T*> GetTopItems() const;
-
-  template <typename T = SessionItem>
-  T* GetTopItem() const;
-
   // Methods to steer global behaviour.
 
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
@@ -99,25 +93,6 @@ private:
   struct SessionModelImpl;
   std::unique_ptr<SessionModelImpl> p_impl;
 };
-
-//! Returns top items of the given type.
-//! The top item is an item that is a child of an invisible root item.
-
-template <typename T>
-std::vector<T*> SessionModel::GetTopItems() const
-{
-  return utils::CastItems<T>(GetRootItem()->GetAllItems());
-}
-
-//! Returns top item of the given type. If more than one item exists, return the first one.
-//! The top item is an item that is a child of an invisible root item.
-
-template <typename T>
-T* SessionModel::GetTopItem() const
-{
-  auto items = GetTopItems<T>();
-  return items.empty() ? nullptr : items.front();
-}
 
 //! Register used defined item to use with the model. It will become possible to undo/redo
 //! operations with this item, as well as serialize it to/from XML.

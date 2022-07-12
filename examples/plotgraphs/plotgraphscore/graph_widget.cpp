@@ -24,6 +24,7 @@
 #include <mvvm/plotting/graph_canvas.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/widgets/all_items_tree_view.h>
+#include <mvvm/model/model_utils.h>
 
 #include <QAction>
 #include <QBoxLayout>
@@ -63,7 +64,7 @@ void GraphWidget::SetModel(GraphModel* model)
 
   m_model = model;
   m_tree_view->SetApplicationModel(model);
-  m_graph_canvas->SetItem(model->GetTopItem<mvvm::GraphViewportItem>());
+  m_graph_canvas->SetItem(::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(model));
 }
 
 void GraphWidget::InitActions()

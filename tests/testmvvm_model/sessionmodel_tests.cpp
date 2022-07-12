@@ -719,40 +719,6 @@ TEST_F(SessionModelTest, FindItemInAlienModel)
   EXPECT_EQ(model2.FindItem(id2), parent2);
 }
 
-TEST_F(SessionModelTest, GetTopItem)
-{
-  SessionModel model;
-  EXPECT_EQ(model.GetTopItem<>(), nullptr);
-  EXPECT_EQ(model.GetTopItem(), nullptr);
-
-  auto property = model.InsertItem<PropertyItem>();
-  auto compound = model.InsertItem<CompoundItem>();
-  EXPECT_EQ(model.GetTopItem<>(), property);
-  EXPECT_EQ(model.GetTopItem(), property);
-  EXPECT_EQ(model.GetTopItem<CompoundItem>(), compound);
-}
-
-TEST_F(SessionModelTest, GetTopItems)
-{
-  std::vector<SessionItem*> expected;
-
-  SessionModel model;
-  EXPECT_EQ(model.GetTopItems<>(), expected);
-  EXPECT_EQ(model.GetTopItems(), expected);
-
-  auto property1 = model.InsertItem<PropertyItem>();
-  auto compound1 = model.InsertItem<CompoundItem>();
-  auto property2 = model.InsertItem<PropertyItem>();
-  auto compound2 = model.InsertItem<CompoundItem>();
-
-  expected = {property1, compound1, property2, compound2};
-  EXPECT_EQ(model.GetTopItems<>(), expected);
-  EXPECT_EQ(model.GetTopItems(), expected);
-
-  std::vector<CompoundItem*> expected2 = {compound1, compound2};
-  EXPECT_EQ(model.GetTopItems<CompoundItem>(), expected2);
-}
-
 TEST_F(SessionModelTest, RegisterItem)
 {
   const std::string expectedItemType("TestItemType");
