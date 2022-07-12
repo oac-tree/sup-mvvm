@@ -26,46 +26,52 @@
 namespace mvvm::experimental
 {
 
-// template <typename T, typename U>
-// class ModelDecorator : public AbstractModelDecorator
-//{
-// public:
-//   //  template <typename... Args>
-//   //  explicit ModelDecorator(Args &&...args)
-//   //      : AbstractModelDecorator(std::make_unique<T>(std::forward<Args>(args)...))
-//   //  {
-//   //  }
-
-//  explicit ModelDecorator() : AbstractModelDecorator(std::make_unique<T>(std::make_unique<U>()))
-//  {}
-
-// private:
-// };
-
-// template <typename T, typename U>
-// class ModelDecorator : public T
-//{
-// public:
-//   explicit ModelDecorator() : T(std::make_unique<U>()) {}
-
-// private:
-// };
-
-//template<>
-//std::unique_ptr<ModelInterface> CreateModel<>()
-//{
-//  return std::make_unique<Model>();
-//}
-
 template <typename T, typename... Types>
 std::unique_ptr<ModelInterface> CreateModel()
 {
-  if constexpr (!sizeof...(Types)) {
-    return std::make_unique<Model>();
-  } else {
+  if constexpr (!sizeof...(Types))
+  {
+    return std::make_unique<T>(std::make_unique<Model>());
+  }
+  else
+  {
     return std::make_unique<T>(CreateModel<Types...>());
   }
 }
+
+// template <>
+// std::unique_ptr<ModelInterface> CreateModel()
+//{
+//   return std::make_unique<Model>();
+// }
+
+// template <typename T, typename... Types>
+// std::unique_ptr<ModelInterface> CreateModel()
+//{
+//   return std::make_unique<T>(CreateModel<Types...>());
+// }
+
+template <typename T, typename... Types>
+std::unique_ptr<ModelInterface> CreateModelV2()
+{
+  if constexpr (!sizeof...(Types))
+  {
+    return std::make_unique<T>();
+  }
+  else
+  {
+    return std::make_unique<T>(CreateModelV2<Types...>());
+  }
+}
+
+template <typename T, typename... Types>
+class ModelDecorator : public AbstractModelDecorator
+{
+public:
+  explicit ModelDecorator() : AbstractModelDecorator(CreateModel<Types...>()) {}
+
+private:
+};
 
 }  // namespace mvvm::experimental
 

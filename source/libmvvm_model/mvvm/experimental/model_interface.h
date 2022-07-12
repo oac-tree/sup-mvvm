@@ -43,13 +43,13 @@ public:
   virtual Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) = 0;
 
   template <typename T>
-  T* InsertItem(Item* parent, int index);
+  T* InsertItemV2(Item* parent, int index);
 
   virtual std::unique_ptr<Item> TakeItem(Item* parent, int index) = 0;
 };
 
 template <typename T>
-T* ModelInterface::InsertItem(Item* parent, int index)
+T* ModelInterface::InsertItemV2(Item* parent, int index)
 {
   return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, index));
 }

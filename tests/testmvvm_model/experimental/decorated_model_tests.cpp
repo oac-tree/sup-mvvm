@@ -53,11 +53,7 @@ public:
   class TestModelV2 : public AbstractModelDecorator
   {
   public:
-    TestModelV2()
-        : AbstractModelDecorator(std::make_unique<ReportingModelV2>(
-            std::make_unique<ReportingModelV2>(std::make_unique<Model>())))
-    {
-    }
+    TestModelV2() : AbstractModelDecorator(CreateModel<ReportingModelV2>()) {}
   };
 };
 
@@ -84,10 +80,41 @@ TEST_F(ReportingModelTests, SetData)
 TEST_F(ReportingModelTests, ReportingModelV2)
 {
   ReportingModelV2 model(std::make_unique<Model>());
+  auto item = model.InsertItemV2<Item>(model.GetRootItem(), 0);
+  model.SetData(item, 2);
+  EXPECT_EQ(item->GetData(), variant_t(2));
+
+  EXPECT_EQ(model.GetData(item), variant_t(4));
 }
 
 TEST_F(ReportingModelTests, CreateModel)
 {
-//  ModelDecorator<ReportingModelV2, Model> model;
-  auto model = CreateModel<ReportingModelV2>();
+  {
+    auto model = CreateModel<ReportingModelV2>();
+    auto item = model->InsertItemV2<Item>(model->GetRootItem(), 0);
+    model->SetData(item, 2);
+    EXPECT_EQ(item->GetData(), variant_t(2));
+    EXPECT_EQ(model->GetData(item), variant_t(4));
+  }
+
+  {
+    auto model = CreateModelV2<ReportingModelV2, Model>();
+    auto item = model->InsertItemV2<Item>(model->GetRootItem(), 0);
+    model->SetData(item, 2);
+    EXPECT_EQ(item->GetData(), variant_t(2));
+    EXPECT_EQ(model->GetData(item), variant_t(4));
+  }
+
+  {
+    auto model = CreateModel<ReportingModelV2, ReportingModelV2>();
+    auto item = model->InsertItemV2<Item>(model->GetRootItem(), 0);
+    model->SetData(item, 2);
+    EXPECT_EQ(item->GetData(), variant_t(2));
+    EXPECT_EQ(model->GetData(item), variant_t(8));
+  }
+
+//  {
+//    ModelDecorator<ReportingModelV2> model;
+//  }
+
 }

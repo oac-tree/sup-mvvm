@@ -167,10 +167,11 @@ inline bool SessionItem::SetData(const T& value, int role, bool direct)
 template <typename T>
 inline T SessionItem::Data(int role) const
 {
-  if constexpr (std::is_same_v<T, variant_t>)
+  if constexpr (std::is_same_v<T, variant_t>) {
     return DataInternal(role);  // if variant_it is required, simply return it
-  else
+  } else {
     return std::get<T>(DataInternal(role));
+  }
 }
 
 //! Returns item under given tag and index casted to a specified type.
