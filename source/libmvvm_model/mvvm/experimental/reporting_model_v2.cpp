@@ -40,4 +40,9 @@ bool ReportingModelV2::SetData(Item *item, const variant_t &data)
   return result;
 }
 
+variant_t ReportingModelV2::GetData(Item *item) const
+{
+  return variant_t(std::get<int>(m_decorated_model->GetData(item)) * 2);
+}
+
 }  // namespace mvvm::experimental

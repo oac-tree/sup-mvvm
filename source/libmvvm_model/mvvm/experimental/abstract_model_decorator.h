@@ -36,11 +36,13 @@ public:
 
   bool SetData(Item* item, const variant_t& data) override;
 
+  variant_t GetData(Item* item) const override;
+
   Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) override;
 
   std::unique_ptr<Item> TakeItem(Item* parent, int index) override;
 
-private:
+protected:
   std::unique_ptr<ModelInterface> m_decorated_model;
 };
 

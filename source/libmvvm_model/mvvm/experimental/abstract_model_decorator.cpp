@@ -39,6 +39,11 @@ bool AbstractModelDecorator::SetData(Item *item, const variant_t &data)
   return m_decorated_model->SetData(item, data);
 }
 
+variant_t AbstractModelDecorator::GetData(Item *item) const
+{
+  return m_decorated_model->GetData(item);
+}
+
 Item *AbstractModelDecorator::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
 {
   return m_decorated_model->InsertItem(std::move(item), parent, index);

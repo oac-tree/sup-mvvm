@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/experimental/abstract_model_decorator.h"
+#include "mvvm/experimental/item.h"
+#include "mvvm/experimental/model.h"
+#include "mvvm/experimental/model_decorator.h"
 #include "mvvm/experimental/reporting_model.h"
 #include "mvvm/experimental/reporting_model_v2.h"
 #include "mvvm/experimental/undoable_model.h"
-#include "mvvm/experimental/abstract_model_decorator.h"
-#include "mvvm/experimental/model.h"
-#include "mvvm/experimental/item.h"
 
 #include <gtest/gtest.h>
 
@@ -40,6 +41,24 @@ public:
     return {std::move(item), item_ptr};
   }
 
+  class TestModel : public AbstractModelDecorator
+  {
+  public:
+    TestModel()
+        : AbstractModelDecorator(std::make_unique<ReportingModelV2>(std::make_unique<Model>()))
+    {
+    }
+  };
+
+  class TestModelV2 : public AbstractModelDecorator
+  {
+  public:
+    TestModelV2()
+        : AbstractModelDecorator(std::make_unique<ReportingModelV2>(
+            std::make_unique<ReportingModelV2>(std::make_unique<Model>())))
+    {
+    }
+  };
 };
 
 TEST_F(ReportingModelTests, InitialState)
@@ -65,4 +84,10 @@ TEST_F(ReportingModelTests, SetData)
 TEST_F(ReportingModelTests, ReportingModelV2)
 {
   ReportingModelV2 model(std::make_unique<Model>());
+}
+
+TEST_F(ReportingModelTests, CreateModel)
+{
+//  ModelDecorator<ReportingModelV2, Model> model;
+  auto model = CreateModel<ReportingModelV2>();
 }

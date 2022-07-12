@@ -8,10 +8,9 @@ target_sources(${library_name} PRIVATE
   model.cpp
   model.h
   model_interface.h
-  reporting_model.cpp
+  model_decorator.h
   reporting_model.h
   reporting_model_v2.cpp
   reporting_model_v2.h
-  undoable_model.cpp
   undoable_model.h
 )

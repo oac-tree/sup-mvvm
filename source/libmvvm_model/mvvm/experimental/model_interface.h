@@ -38,6 +38,8 @@ public:
 
   virtual bool SetData(Item* item, const variant_t& data) = 0;
 
+  virtual variant_t GetData(Item* item) const = 0;
+
   virtual Item* InsertItem(std::unique_ptr<Item> item, Item* parent, int index) = 0;
 
   template <typename T>

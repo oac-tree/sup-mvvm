@@ -41,6 +41,11 @@ bool Model::SetData(Item *item, const variant_t &data)
   return item->SetData(data);
 }
 
+variant_t Model::GetData(Item* item) const
+{
+  return item->GetData();
+}
+
 Item *Model::InsertItem(std::unique_ptr<Item> item, Item *parent, int index)
 {
   return parent->InsertItem(std::move(item), index);

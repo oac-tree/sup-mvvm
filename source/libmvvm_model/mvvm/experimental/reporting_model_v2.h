@@ -36,6 +36,8 @@ public:
 
   bool SetData(Item *item, const variant_t &data) override;
 
+  variant_t GetData(Item *item) const override;
+
 private:
   std::function<void(Item *)> m_on_data_change;
 };
