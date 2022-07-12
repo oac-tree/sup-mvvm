@@ -17,8 +17,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/abstract_sessionmodel_decorator.h"
+#include "mvvm/model/abstract_model_decorator.h"
 
-namespace mvvm
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+using namespace mvvm;
+
+class AbstractModelDecoratorTests : public ::testing::Test
+{
+public:
+};
+
+//! Initial state.
+
+TEST_F(AbstractModelDecoratorTests, InitialState)
 {
 }

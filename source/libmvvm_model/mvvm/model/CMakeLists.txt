@@ -1,6 +1,6 @@
 target_sources(${library_name} PRIVATE
-  abstract_sessionmodel_decorator.cpp
-  abstract_sessionmodel_decorator.h
+  abstract_model_decorator.cpp
+  abstract_model_decorator.h
   application_model.cpp
   application_model.h
   combo_property.cpp
