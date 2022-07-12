@@ -23,17 +23,35 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
 
 using namespace mvvm;
+using ::testing::_;
 
 class AbstractModelDecoratorTests : public ::testing::Test
 {
 public:
 };
 
-//! Initial state.
-
 TEST_F(AbstractModelDecoratorTests, InitialState)
 {
-  MockModel model;
+  auto decorated_model = std::make_unique<SessionModel>("TestModel");
+  auto model_ptr = decorated_model.get();
+
+  AbstractModelDecorator decorator(std::move(decorated_model));
+  EXPECT_EQ(decorator.GetRootItem(), model_ptr->GetRootItem());
+  EXPECT_EQ(decorator.GetType(), std::string("TestModel"));
+}
+
+TEST_F(AbstractModelDecoratorTests, InsertItem)
+{
+  MockModel mock_model;
+
+  auto decorated_model = std::make_unique<MockModelDecorator>(&mock_model);
+
+  AbstractModelDecorator decorator(std::move(decorated_model));
+
+  EXPECT_CALL(mock_model, InsertItem(_, _, _)).Times(1);
+
+  decorator.InsertItem(std::make_unique<SessionItem>(), decorator.GetRootItem(), {});
 }
