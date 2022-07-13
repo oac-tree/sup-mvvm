@@ -32,16 +32,16 @@ namespace mvvm
 //! is equivalent of
 //! auto model = std::make_unique_ptr<ReportingModel>(std::make_unique_ptr<Model>);
 
-template <typename T, typename... Types>
-std::unique_ptr<SessionModelInterface> CreateModel()
+template <typename T, typename... Types, typename... Args>
+std::unique_ptr<SessionModelInterface> CreateModel(Args &&...args)
 {
   if constexpr (sizeof...(Types))
   {
-    return std::make_unique<T>(CreateModel<Types...>());
+    return std::make_unique<T>(CreateModel<Types...>(std::forward<Args>(args)...));
   }
   else
   {
-    return std::make_unique<T>();
+    return std::make_unique<T>(std::forward<Args>(args)...);
   }
 }
 

@@ -60,6 +60,19 @@ public:
   };
 };
 
+//! Creates nested model with parameter pack.
+
+TEST_F(ModelDecoratorTests, CreateModel)
+{
+  auto model = CreateModel<AddFourtyTwoModel, SessionModel>("TestModel");
+  auto item = model->InsertItem(std::make_unique<SessionItem>(), model->GetRootItem(), {});
+
+  EXPECT_TRUE(model->SetData(item, 3, DataRole::kData));
+
+  EXPECT_EQ(model->GetType(), std::string("TestModel"));
+  EXPECT_EQ(item->Data<int>(), 45);  // 3 + 42 as provided by decorator
+}
+
 //! Creates two level decorator on top of SessionModel.
 
 TEST_F(ModelDecoratorTests, TwoStepDecorator)
