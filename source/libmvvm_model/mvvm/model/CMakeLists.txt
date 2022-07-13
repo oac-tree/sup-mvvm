@@ -19,6 +19,7 @@ target_sources(${library_name} PRIVATE
   item_pool.h
   item_utils.cpp
   item_utils.h
+  model_decorator.h
   model_utils.cpp
   model_utils.h
   mvvm_types.h
