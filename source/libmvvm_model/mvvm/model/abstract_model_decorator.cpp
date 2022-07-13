@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include "mvvm/model/abstract_model_decorator.h"
+
 #include "mvvm/model/sessionitem.h"
 
 namespace mvvm
@@ -71,6 +72,11 @@ void AbstractModelDecorator::MoveItem(SessionItem *item, SessionItem *new_parent
 bool AbstractModelDecorator::SetData(SessionItem *item, const variant_t &value, int role)
 {
   return m_decorated_model->SetData(item, value, role);
+}
+
+SessionItem *AbstractModelDecorator::FindItem(const std::string &id) const
+{
+  return m_decorated_model->FindItem(id);
 }
 
 void AbstractModelDecorator::Clear(std::function<void(SessionItem *)> callback)

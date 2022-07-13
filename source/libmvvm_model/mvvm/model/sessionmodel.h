@@ -70,7 +70,7 @@ public:
 
   const ItemFactoryInterface* GetFactory() const;
 
-  SessionItem* FindItem(const std::string& id) const;
+  SessionItem* FindItem(const std::string& id) const override;
 
   // Methods to steer global behaviour.
 

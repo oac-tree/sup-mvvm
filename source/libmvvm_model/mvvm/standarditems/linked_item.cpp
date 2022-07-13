@@ -44,9 +44,7 @@ void LinkedItem::SetLink(const SessionItem* item)
 
 SessionItem* LinkedItem::GetLink() const
 {
-  // FIXME find place for FindItem method, remove cast
-  auto model = dynamic_cast<SessionModel*>(GetModel());
-  return model ? model->FindItem(Data<std::string>()) : nullptr;
+  return GetModel() ? GetModel()->FindItem(Data<std::string>()) : nullptr;
 }
 
 }  // namespace mvvm

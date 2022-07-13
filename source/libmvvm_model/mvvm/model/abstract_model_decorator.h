@@ -49,6 +49,8 @@ public:
 
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
+  SessionItem* FindItem(const std::string& id) const override;
+
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
   void CheckIn(SessionItem* item) override;

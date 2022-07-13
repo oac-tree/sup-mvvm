@@ -62,6 +62,8 @@ public:
   MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const variant_t &value, int role),
               (override));
 
+  MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
+
   MOCK_METHOD(void, Clear, (std::function<void(mvvm::SessionItem *)>), (override));
 
   MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
@@ -109,10 +111,9 @@ public:
     return m_mock_model->SetData(item, value, role);
   }
 
-  void Clear(std::function<void(mvvm::SessionItem *)> callback)
-  {
-    return m_mock_model->Clear(callback);
-  }
+  mvvm::SessionItem *FindItem(const std::string &id) const { return m_mock_model->FindItem(id); }
+
+  void Clear(std::function<void(mvvm::SessionItem *)> callback) { m_mock_model->Clear(callback); }
 
   void CheckIn(mvvm::SessionItem *item) { return m_mock_model->CheckIn(item); }
 

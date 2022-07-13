@@ -59,6 +59,8 @@ public:
 
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
 
+  virtual SessionItem* FindItem(const std::string& id) const = 0;
+
   virtual void Clear(std::function<void(SessionItem*)> callback = {}) = 0;
 
   virtual void CheckIn(SessionItem* item) = 0;
