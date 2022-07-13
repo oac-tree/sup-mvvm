@@ -47,7 +47,7 @@ namespace mvvm
 struct SessionItem::SessionItemImpl
 {
   SessionItem* m_parent{nullptr};
-  SessionModel* m_model{nullptr};
+  SessionModelInterface* m_model{nullptr};
   std::unique_ptr<SessionItemData> m_data;
   std::unique_ptr<TaggedItems> m_tags;
   std::string m_item_type;
@@ -107,7 +107,7 @@ std::string SessionItem::GetDisplayName() const
 //! Returns the model to which given item belongs to. Will return nullptr if item doesn't have a
 //! model.
 
-SessionModel* SessionItem::GetModel() const
+SessionModelInterface* SessionItem::GetModel() const
 {
   return p_impl->m_model;
 }
@@ -394,7 +394,7 @@ void SessionItem::SetParent(SessionItem* parent)
   p_impl->m_parent = parent;
 }
 
-void SessionItem::SetModel(SessionModel* model)
+void SessionItem::SetModel(SessionModelInterface *model)
 {
   if (p_impl->m_model)
   {

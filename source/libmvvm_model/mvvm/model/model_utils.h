@@ -87,7 +87,7 @@ MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
 MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Path& path);
 
 //! Returns true if the given model has signaling capabilities.
-MVVM_MODEL_EXPORT bool HasSignals(const SessionModel* model);
+MVVM_MODEL_EXPORT bool HasSignals(const SessionModelInterface *model);
 
 //! Copies a given item and inserts result into the model using provided parent and tag_index.
 //! Returns pointer to just inserted item to the user. Internally performs deep copying with all

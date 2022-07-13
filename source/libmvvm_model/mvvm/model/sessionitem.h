@@ -32,6 +32,7 @@
 namespace mvvm
 {
 class SessionModel;
+class SessionModelInterface;
 class TagInfo;
 class SessionItemData;
 class TaggedItems;
@@ -60,7 +61,7 @@ public:
 
   virtual SessionItem* SetDisplayName(const std::string& name);
 
-  SessionModel* GetModel() const;
+  SessionModelInterface *GetModel() const;
 
   SessionItem* GetParent() const;
 
@@ -145,7 +146,7 @@ private:
   variant_t DataInternal(int role) const;
 
   void SetParent(SessionItem* parent);
-  void SetModel(SessionModel* model);
+  void SetModel(SessionModelInterface* model);
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 

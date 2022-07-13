@@ -56,7 +56,7 @@ SessionItem* ItemFromPath(const SessionModel& model, const Path& path)
   return result;
 }
 
-bool HasSignals(const SessionModel* model)
+bool HasSignals(const SessionModelInterface* model)
 {
   return dynamic_cast<const ApplicationModel*>(model);
 }
