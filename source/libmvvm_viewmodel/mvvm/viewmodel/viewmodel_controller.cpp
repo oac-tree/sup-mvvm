@@ -247,7 +247,7 @@ void ViewModelController::OnDataChanged(SessionItem *item, int role)
   }
 }
 
-void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
+void ViewModelController::OnModelAboutToBeReset(SessionModelInterface *model)
 {
   (void)model;
   // Here we are notified that the model content will be destroyed soon.
@@ -257,7 +257,7 @@ void ViewModelController::OnModelAboutToBeReset(SessionModel *model)
   p_impl->m_view_model->BeginResetModelNotify();
 }
 
-void ViewModelController::OnModelReset(SessionModel *model)
+void ViewModelController::OnModelReset(SessionModelInterface *model)
 {
   auto custom_root_item = utils::ItemFromPath(*model, p_impl->m_root_item_path);
 
@@ -268,7 +268,7 @@ void ViewModelController::OnModelReset(SessionModel *model)
   p_impl->m_mute_notify = false;
 }
 
-void ViewModelController::OnModelAboutToBeDestroyed(SessionModel *model)
+void ViewModelController::OnModelAboutToBeDestroyed(SessionModelInterface *model)
 {
   (void)model;
   p_impl->m_root_item_path = {};

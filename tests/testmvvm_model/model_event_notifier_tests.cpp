@@ -19,11 +19,10 @@
 
 #include "mvvm/signals/model_event_notifier.h"
 
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -81,11 +80,11 @@ public:
 
     MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
 
-    MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModel* model));
+    MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModelInterface* model));
 
-    MOCK_METHOD1(OnModelReset, void(mvvm::SessionModel* model));
+    MOCK_METHOD1(OnModelReset, void(mvvm::SessionModelInterface* model));
 
-    MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
+    MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModelInterface* model));
 
   protected:
     std::unique_ptr<mvvm::Slot> m_slot;

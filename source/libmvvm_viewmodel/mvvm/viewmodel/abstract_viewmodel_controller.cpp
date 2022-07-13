@@ -81,11 +81,11 @@ void AbstractViewModelController::OnItemRemoved(SessionItem *parent, const TagIn
 
 void AbstractViewModelController::OnDataChanged(SessionItem *item, int role) {}
 
-void AbstractViewModelController::OnModelAboutToBeReset(SessionModel *model) {}
+void AbstractViewModelController::OnModelAboutToBeReset(SessionModelInterface *model) {}
 
-void AbstractViewModelController::OnModelReset(SessionModel *model) {}
+void AbstractViewModelController::OnModelReset(SessionModelInterface *model) {}
 
-void AbstractViewModelController::OnModelAboutToBeDestroyed(SessionModel *model) {}
+void AbstractViewModelController::OnModelAboutToBeDestroyed(SessionModelInterface *model) {}
 
 void AbstractViewModelController::Init(SessionItem *) {}
 

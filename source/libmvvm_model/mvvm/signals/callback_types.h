@@ -26,7 +26,7 @@
 namespace mvvm
 {
 class SessionItem;
-class SessionModel;
+class SessionModelInterface;
 class TagIndex;
 
 namespace Callbacks
@@ -35,7 +35,7 @@ using item_t = std::function<void(SessionItem*)>;
 using item_int_t = std::function<void(SessionItem*, int)>;
 using item_str_t = std::function<void(SessionItem*, const std::string&)>;
 using item_tagindex_t = std::function<void(SessionItem*, const TagIndex&)>;
-using model_t = std::function<void(SessionModel*)>;
+using model_t = std::function<void(SessionModelInterface*)>;
 }  // namespace Callbacks
 }  // namespace mvvm
 

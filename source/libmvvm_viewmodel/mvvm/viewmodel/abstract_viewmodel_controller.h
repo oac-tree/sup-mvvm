@@ -27,7 +27,7 @@
 
 namespace mvvm
 {
-class SessionModel;
+class SessionModelInterface;
 class SessionItem;
 class ModelEventSubscriberInterface;
 class TagIndex;
@@ -61,13 +61,13 @@ public:
   virtual void OnDataChanged(SessionItem *item, int role);
 
   //! Lets the controller know when the root item is about to be reset.
-  virtual void OnModelAboutToBeReset(SessionModel *model);
+  virtual void OnModelAboutToBeReset(SessionModelInterface *model);
 
   //! Lets the controller know at the end of root item recreation.
-  virtual void OnModelReset(SessionModel *model);
+  virtual void OnModelReset(SessionModelInterface *model);
 
   //! Lets the controller know at the beginning of model destruction.
-  virtual void OnModelAboutToBeDestroyed(SessionModel *model);
+  virtual void OnModelAboutToBeDestroyed(SessionModelInterface *model);
 
   virtual void Init(SessionItem *root_item = nullptr);
 

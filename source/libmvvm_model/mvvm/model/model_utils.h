@@ -84,7 +84,7 @@ std::vector<T*> FindItems(const SessionModel* model)
 MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
 
 //! Returns item found in the model following given Path.
-MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModel& moodel, const Path& path);
+MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModelInterface &model, const Path& path);
 
 //! Returns true if the given model has signaling capabilities.
 MVVM_MODEL_EXPORT bool HasSignals(const SessionModelInterface *model);

@@ -42,7 +42,7 @@ Path PathFromItem(const SessionItem* item)
   return result;
 }
 
-SessionItem* ItemFromPath(const SessionModel& model, const Path& path)
+SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path)
 {
   SessionItem* result(model.GetRootItem());
   for (const auto& x : path)

@@ -20,11 +20,10 @@
 #ifndef TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_
 #define TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_
 
+#include <gmock/gmock.h>
 #include <mvvm/interfaces/model_event_subscriber_interface.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/signals/model_listener.h>
-
-#include <gmock/gmock.h>
 
 #include <memory>
 
@@ -54,11 +53,11 @@ public:
 
   MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
 
-  MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModel* model));
+  MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModelInterface* model));
 
-  MOCK_METHOD1(OnModelReset, void(mvvm::SessionModel* model));
+  MOCK_METHOD1(OnModelReset, void(mvvm::SessionModelInterface* model));
 
-  MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModel* model));
+  MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModelInterface* model));
 };
 
 #endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_

@@ -49,11 +49,11 @@ public:
 
   void OnDataChanged(SessionItem *item, int role) override;
 
-  void OnModelAboutToBeReset(SessionModel *model) override;
+  void OnModelAboutToBeReset(SessionModelInterface *model) override;
 
-  void OnModelReset(SessionModel *model) override;
+  void OnModelReset(SessionModelInterface *model) override;
 
-  void OnModelAboutToBeDestroyed(SessionModel *model) override;
+  void OnModelAboutToBeDestroyed(SessionModelInterface *model) override;
 
   void Init(SessionItem *root_item = nullptr) override;
 

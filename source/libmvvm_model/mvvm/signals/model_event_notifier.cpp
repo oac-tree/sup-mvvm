@@ -32,9 +32,9 @@ struct ModelEventNotifier::ModelEventNotifierImpl
   Signal<void(SessionItem *, const TagIndex &)> m_about_to_remove_item;
   Signal<void(SessionItem *, const TagIndex &)> m_item_removed;
   Signal<void(SessionItem *, int)> m_data_changed;
-  Signal<void(SessionModel *)> m_model_about_to_reset;
-  Signal<void(SessionModel *)> m_model_reset;
-  Signal<void(SessionModel *)> m_model_about_to_be_destroyed;
+  Signal<void(SessionModelInterface *)> m_model_about_to_reset;
+  Signal<void(SessionModelInterface *)> m_model_reset;
+  Signal<void(SessionModelInterface *)> m_model_about_to_be_destroyed;
 };
 
 ModelEventNotifier::ModelEventNotifier() : p_impl(std::make_unique<ModelEventNotifierImpl>()) {}
