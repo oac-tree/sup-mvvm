@@ -21,9 +21,9 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem_data.h>
-#include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 
@@ -372,6 +372,31 @@ void SessionItem::SetAppearanceFlag(int flag, bool value)
   SetData(flags, DataRole::kAppearance);
 }
 
+//! Activates business logic.
+//! The method is called from the model when on item insertion.
+
+void SessionItem::Activate() {}
+
+void SessionItem::SetModel(SessionModelInterface* model)
+{
+  if (p_impl->m_model)
+  {
+    p_impl->m_model->CheckOut(this);
+  }
+
+  p_impl->m_model = model;
+
+  if (p_impl->m_model)
+  {
+    p_impl->m_model->CheckIn(this);
+  }
+
+  for (auto child : GetAllItems())
+  {
+    child->SetModel(model);
+  }
+}
+
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
 bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
@@ -394,36 +419,11 @@ void SessionItem::SetParent(SessionItem* parent)
   p_impl->m_parent = parent;
 }
 
-void SessionItem::SetModel(SessionModelInterface *model)
-{
-  if (p_impl->m_model)
-  {
-    p_impl->m_model->CheckOut(this);
-  }
-
-  p_impl->m_model = model;
-
-  if (p_impl->m_model)
-  {
-    p_impl->m_model->CheckIn(this);
-  }
-
-  for (auto child : GetAllItems())
-  {
-    child->SetModel(model);
-  }
-}
-
 void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
                                  std::unique_ptr<TaggedItems> tags)
 {
   p_impl->m_data = std::move(data);
   p_impl->m_tags = std::move(tags);
 }
-
-//! Activates business logic.
-//! The method is called from the model when on item insertion.
-
-void SessionItem::Activate() {}
 
 }  // namespace mvvm

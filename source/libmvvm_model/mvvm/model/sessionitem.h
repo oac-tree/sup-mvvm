@@ -31,14 +31,14 @@
 
 namespace mvvm
 {
-class SessionModel;
 class SessionModelInterface;
 class TagInfo;
 class SessionItemData;
 class TaggedItems;
 
-//! The main object representing an editable/displayable/serializable entity. Serves as a
-//! construction element (node) of SessionModel to represent all the data of GUI application.
+//! A base element to build a hierarchical structure representing all the data of the application
+//! running. SessionItem can contain an arbitrary amount of basic data types, and can be a parent
+//! for other SessionItems.
 
 class MVVM_MODEL_EXPORT SessionItem
 {
@@ -61,7 +61,7 @@ public:
 
   virtual SessionItem* SetDisplayName(const std::string& name);
 
-  SessionModelInterface *GetModel() const;
+  SessionModelInterface* GetModel() const;
 
   SessionItem* GetParent() const;
 
@@ -135,18 +135,18 @@ public:
 
   virtual void Activate();
 
+  void SetModel(SessionModelInterface* model);
+
 protected:
   explicit SessionItem(const std::string& item_type);
 
 private:
-  friend class SessionModel;
   friend class TreeDataItemConverter;
 
   bool SetDataInternal(const variant_t& value, int role, bool direct);
   variant_t DataInternal(int role) const;
 
   void SetParent(SessionItem* parent);
-  void SetModel(SessionModelInterface* model);
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
@@ -168,9 +168,12 @@ inline bool SessionItem::SetData(const T& value, int role, bool direct)
 template <typename T>
 inline T SessionItem::Data(int role) const
 {
-  if constexpr (std::is_same_v<T, variant_t>) {
+  if constexpr (std::is_same_v<T, variant_t>)
+  {
     return DataInternal(role);  // if variant_it is required, simply return it
-  } else {
+  }
+  else
+  {
     return std::get<T>(DataInternal(role));
   }
 }
