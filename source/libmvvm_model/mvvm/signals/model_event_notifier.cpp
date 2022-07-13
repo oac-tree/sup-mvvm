@@ -110,17 +110,17 @@ void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
   p_impl->m_data_changed(item, role);
 }
 
-void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModel *model)
+void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModelInterface *model)
 {
   p_impl->m_model_about_to_reset(model);
 }
 
-void ModelEventNotifier::ModelResetNotify(SessionModel *model)
+void ModelEventNotifier::ModelResetNotify(SessionModelInterface *model)
 {
   p_impl->m_model_reset(model);
 }
 
-void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModel *model)
+void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModelInterface *model)
 {
   p_impl->m_model_about_to_be_destroyed(model);
 }

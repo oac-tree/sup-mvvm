@@ -27,7 +27,7 @@ namespace mvvm
 class SessionItem;
 class TagIndex;
 class ModelEventListenerInterface;
-class SessionModel;
+class SessionModelInterface;
 
 //! Interface class for all objects that trigger notifications when some event happens with
 //! SessionModel.
@@ -53,13 +53,13 @@ public:
   virtual void DataChangedNotify(SessionItem* item, int role) = 0;
 
   //! Notifies listeners when the root item is about to be reset.
-  virtual void ModelAboutToBeResetNotify(SessionModel* model) = 0;
+  virtual void ModelAboutToBeResetNotify(SessionModelInterface* model) = 0;
 
   //! Notifies listeners at the end of root item recreation.
-  virtual void ModelResetNotify(SessionModel* model) = 0;
+  virtual void ModelResetNotify(SessionModelInterface* model) = 0;
 
   //! Notifies listeners at the beginning of model destruction.
-  virtual void ModelAboutToBeDestroyedNotify(SessionModel* model) = 0;
+  virtual void ModelAboutToBeDestroyedNotify(SessionModelInterface* model) = 0;
 };
 
 }  // namespace mvvm

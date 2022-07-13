@@ -38,7 +38,7 @@ namespace mvvm
 //! Suggests file name which can be used to store Xml content of given model.
 //! Uses the model type to construct a filename: MaterialModel -> materialmodel.xml
 
-std::string ProjectUtils::SuggestFileName(const SessionModel& model)
+std::string ProjectUtils::SuggestFileName(const SessionModelInterface& model)
 {
   std::string result = model.GetType();
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);

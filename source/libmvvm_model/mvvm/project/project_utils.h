@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-class SessionModel;
+class SessionModelInterface;
 class ProjectInterface;
 struct ProjectContext;
 
@@ -37,7 +37,7 @@ struct ProjectContext;
 namespace ProjectUtils
 {
 
-MVVM_MODEL_EXPORT std::string SuggestFileName(const SessionModel& model);
+MVVM_MODEL_EXPORT std::string SuggestFileName(const SessionModelInterface& model);
 
 MVVM_MODEL_EXPORT bool IsPossibleProjectDir(const std::string& project_dir);
 

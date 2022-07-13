@@ -71,11 +71,11 @@ public:
 
   void DataChangedNotify(SessionItem* item, int role) override;
 
-  void ModelAboutToBeResetNotify(SessionModel* model) override;
+  void ModelAboutToBeResetNotify(SessionModelInterface* model) override;
 
-  void ModelResetNotify(SessionModel* model) override;
+  void ModelResetNotify(SessionModelInterface* model) override;
 
-  void ModelAboutToBeDestroyedNotify(SessionModel* model) override;
+  void ModelAboutToBeDestroyedNotify(SessionModelInterface* model) override;
 
 private:
   struct ModelEventNotifierImpl;
