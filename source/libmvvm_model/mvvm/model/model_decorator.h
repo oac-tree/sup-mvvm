@@ -25,7 +25,6 @@
 namespace mvvm
 {
 
-
 //! Create model decorators.
 //!
 //! auto model = CreateModel<ReportingModel, Model>();
@@ -55,7 +54,11 @@ template <typename T, typename... Types>
 class ModelDecorator : public AbstractModelDecorator
 {
 public:
-  explicit ModelDecorator() : AbstractModelDecorator(CreateModel<T, Types...>()) {}
+  template <typename... Args>
+  explicit ModelDecorator(Args &&...args)
+      : AbstractModelDecorator(CreateModel<T, Types...>(std::forward<Args>(args)...))
+  {
+  }
 
 private:
 };

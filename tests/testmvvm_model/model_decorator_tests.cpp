@@ -21,6 +21,8 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include <gtest/gtest.h>
+#include <mvvm/model/item_manager.h>
+#include <mvvm/model/item_pool.h>
 
 #include <memory>
 
@@ -84,4 +86,23 @@ TEST_F(ModelDecoratorTests, TwoStepDecorator)
   EXPECT_TRUE(decorator.SetData(item, 3, DataRole::kData));
 
   EXPECT_EQ(item->Data<int>(), 48);  // 3*2 + 42 as provided by decorators
+}
+
+//! Creates decorator with parameter forwarding.
+
+TEST_F(ModelDecoratorTests, DecoratorWithParameterForwarding)
+{
+  auto pool = std::make_shared<ItemPool>();
+
+  ModelDecorator<MultiplyByTwoModel, AddFourtyTwoModel, SessionModel> decorator(
+      "TestModel", CreateDefaultItemManager(pool));
+
+  auto item = decorator.InsertItem(std::make_unique<SessionItem>(), decorator.GetRootItem(), {});
+
+  EXPECT_TRUE(decorator.SetData(item, 3, DataRole::kData));
+  EXPECT_EQ(decorator.GetType(), std::string("TestModel"));
+
+  EXPECT_EQ(item->Data<int>(), 48);  // 3*2 + 42 as provided by decorators
+
+  EXPECT_EQ(pool->ItemForKey(item->GetIdentifier()), item);
 }
