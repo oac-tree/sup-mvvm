@@ -79,11 +79,12 @@ public:
   template <typename T>
   void RegisterItem(const std::string& label = {});
 
+  void CheckIn(SessionItem* item) override;
+
+  void CheckOut(SessionItem* item) override;
+
 private:
   friend class SessionItem;
-
-  void CheckIn(SessionItem* item) override;
-  void CheckOut(SessionItem* item) override;
 
   void RegisterItemInternal(const std::string& item_type, const item_factory_func_t& func,
                             const std::string& label);

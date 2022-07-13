@@ -124,4 +124,10 @@ void ApplicationModel::Clear(std::function<void(SessionItem *)> callback)
   p_impl->m_notifier.ModelResetNotify(this);
 }
 
+void ApplicationModel::CheckIn(SessionItem *item)
+{
+  SessionModel::CheckIn(item);
+  item->Activate();
+}
+
 }  // namespace mvvm

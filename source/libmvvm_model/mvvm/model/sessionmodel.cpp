@@ -192,10 +192,6 @@ void SessionModel::Clear(std::function<void(SessionItem*)> callback)
 void SessionModel::CheckIn(SessionItem* item)
 {
   p_impl->m_item_manager->RegisterInPool(item);
-  if (utils::HasSignals(this))
-  {
-    item->Activate();
-  }
 }
 
 //! Unregister item from pool.

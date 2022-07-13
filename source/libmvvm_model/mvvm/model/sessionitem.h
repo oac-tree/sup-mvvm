@@ -132,6 +132,8 @@ public:
 
   void SetAppearanceFlag(int flag, bool value);
 
+  virtual void Activate();
+
 protected:
   explicit SessionItem(const std::string& item_type);
 
@@ -146,8 +148,6 @@ private:
   void SetModel(SessionModel* model);
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
-
-  virtual void Activate();
 
   struct SessionItemImpl;
   std::unique_ptr<SessionItemImpl> p_impl;

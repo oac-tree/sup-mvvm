@@ -56,6 +56,7 @@ public:
 
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
+  void CheckIn(SessionItem* item) override;
 private:
   struct ApplicationModelImpl;
   std::unique_ptr<ApplicationModelImpl> p_impl;
