@@ -78,4 +78,14 @@ void AbstractModelDecorator::Clear(std::function<void(SessionItem *)> callback)
   return m_decorated_model->Clear(callback);
 }
 
+void AbstractModelDecorator::CheckIn(SessionItem *item)
+{
+  m_decorated_model->CheckIn(item);
+}
+
+void AbstractModelDecorator::CheckOut(SessionItem *item)
+{
+  m_decorated_model->CheckOut(item);
+}
+
 }  // namespace mvvm

@@ -71,7 +71,7 @@ SessionItem::~SessionItem()
 {
   if (p_impl->m_model)
   {
-    p_impl->m_model->UnregisterFromPool(this);
+    p_impl->m_model->CheckOut(this);
   }
 }
 
@@ -398,14 +398,14 @@ void SessionItem::SetModel(SessionModel* model)
 {
   if (p_impl->m_model)
   {
-    p_impl->m_model->UnregisterFromPool(this);
+    p_impl->m_model->CheckOut(this);
   }
 
   p_impl->m_model = model;
 
   if (p_impl->m_model)
   {
-    p_impl->m_model->RegisterInPool(this);
+    p_impl->m_model->CheckIn(this);
   }
 
   for (auto child : GetAllItems())

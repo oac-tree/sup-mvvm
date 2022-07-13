@@ -90,7 +90,6 @@ SessionItem* SessionModel::GetRootItem() const
   return p_impl->m_root_item.get();
 }
 
-
 //! Insert item via move into the given `parent` under given `tag_index`.
 //! FIXME make default parameters (or their absence) as in the method InsertNewItem.
 
@@ -190,7 +189,7 @@ void SessionModel::Clear(std::function<void(SessionItem*)> callback)
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.
 
-void SessionModel::RegisterInPool(SessionItem* item)
+void SessionModel::CheckIn(SessionItem* item)
 {
   p_impl->m_item_manager->RegisterInPool(item);
   if (utils::HasSignals(this))
@@ -201,7 +200,7 @@ void SessionModel::RegisterInPool(SessionItem* item)
 
 //! Unregister item from pool.
 
-void SessionModel::UnregisterFromPool(SessionItem* item)
+void SessionModel::CheckOut(SessionItem* item)
 {
   p_impl->m_item_manager->UnregisterFromPool(item);
 }

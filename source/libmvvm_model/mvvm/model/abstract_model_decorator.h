@@ -51,7 +51,11 @@ public:
 
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
-protected:
+  void CheckIn(SessionItem* item) override;
+
+  void CheckOut(SessionItem* item) override;
+
+protected:  
   std::unique_ptr<SessionModelInterface> m_decorated_model;
 };
 

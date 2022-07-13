@@ -82,8 +82,8 @@ public:
 private:
   friend class SessionItem;
 
-  void RegisterInPool(SessionItem* item);
-  void UnregisterFromPool(SessionItem* item);
+  void CheckIn(SessionItem* item) override;
+  void CheckOut(SessionItem* item) override;
 
   void RegisterItemInternal(const std::string& item_type, const item_factory_func_t& func,
                             const std::string& label);

@@ -63,6 +63,10 @@ public:
               (override));
 
   MOCK_METHOD(void, Clear, (std::function<void(mvvm::SessionItem *)>), (override));
+
+  MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
+
+  MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
 };
 
 class MockModelDecorator : public mvvm::SessionModelInterface
@@ -109,6 +113,10 @@ public:
   {
     return m_mock_model->Clear(callback);
   }
+
+  void CheckIn(mvvm::SessionItem *item) { return m_mock_model->CheckIn(item); }
+
+  void CheckOut(mvvm::SessionItem *item) { return m_mock_model->CheckOut(item); }
 
   MockModel *m_mock_model{nullptr};
 };
