@@ -93,11 +93,7 @@ std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,
 
 void ApplicationModel::RemoveItem(SessionItem *item)
 {
-  if (!item)
-  {
-    throw std::runtime_error("Item is not initialised");
-  }
-  TakeItem(item->GetParent(), item->GetTagIndex());
+  SessionModel::RemoveItem(item);
 }
 
 void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
