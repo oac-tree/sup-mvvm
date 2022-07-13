@@ -17,16 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mock_model_listener.h"
 #include "mvvm/model/application_model.h"
 
-#include "mock_model_listener.h"
-
+#include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -40,6 +38,13 @@ public:
   ApplicationModel m_model;
   TagIndex m_tag_index;
 };
+
+TEST_F(ApplicationModelTests, InitialState)
+{
+  ApplicationModel model;
+  EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
+  EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
+}
 
 //! Setting data through the model and checking the result.
 

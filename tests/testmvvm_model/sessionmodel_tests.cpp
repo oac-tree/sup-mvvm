@@ -61,6 +61,26 @@ TEST_F(SessionModelTest, InitialState)
   EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
 }
 
+TEST_F(SessionModelTest, SetData)
+{
+  SessionModel model;
+
+  // inserting single item
+  auto item = model.InsertItem<SessionItem>();
+  EXPECT_TRUE(utils::IsValid(item->Data(DataRole::kDisplay)));
+
+  // setting wrong type of data
+  variant_t value(42.0);
+  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), RuntimeException);
+
+  // setting new data
+  EXPECT_TRUE(model.SetData(item, value, DataRole::kData));
+  EXPECT_EQ(item->Data(DataRole::kData), value);
+
+  // setting same data twice should return false
+  EXPECT_FALSE(model.SetData(item, value, DataRole::kData));
+}
+
 //! Insert item into root.
 
 TEST_F(SessionModelTest, InsertItemIntoRoot)
@@ -325,26 +345,6 @@ TEST_F(SessionModelTest, InsertNewItem)
 
   // childitem not registered anymore
   EXPECT_EQ(m_pool->ItemForKey(child_key), nullptr);
-}
-
-TEST_F(SessionModelTest, SetData)
-{
-  SessionModel model;
-
-  // inserting single item
-  auto item = model.InsertItem<SessionItem>();
-  EXPECT_TRUE(utils::IsValid(item->Data(DataRole::kDisplay)));
-
-  // setting wrong type of data
-  variant_t value(42.0);
-  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), RuntimeException);
-
-  // setting new data
-  EXPECT_TRUE(model.SetData(item, value, DataRole::kData));
-  EXPECT_EQ(item->Data(DataRole::kData), value);
-
-  // setting same data twice should return false
-  EXPECT_FALSE(model.SetData(item, value, DataRole::kData));
 }
 
 TEST_F(SessionModelTest, RemoveItem)
