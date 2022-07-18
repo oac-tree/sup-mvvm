@@ -20,8 +20,9 @@
 #include "mvvm/signals/item_connect_utils.h"
 
 #include <mvvm/interfaces/model_event_subscriber_interface.h>
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/sessionitem.h>
 
 namespace
 {
@@ -37,9 +38,9 @@ mvvm::ModelEventSubscriberInterface *GetSubscriber(const mvvm::SessionItem *item
     throw std::runtime_error("Error in ItemConnectUtils: item doesn't have a model");
   }
 
-  if (auto model = dynamic_cast<mvvm::ApplicationModel *>(item->GetModel()); model)
+  if (auto subscriber = item->GetModel()->GetSubscriber(); subscriber)
   {
-    return model->GetSubscriber();
+    return subscriber;
   }
   throw std::runtime_error(
       "Error in ItemConnectUtils: item's model doesn't have signaling capabilities");
