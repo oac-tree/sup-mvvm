@@ -21,7 +21,7 @@
 
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/viewmodel/viewmodel_controller.h>
 
 #include <stdexcept>
@@ -58,7 +58,7 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
   return result;
 }
 
-ViewModelControllerBuilder::self& ViewModelControllerBuilder::SetModel(ApplicationModel* model)
+ViewModelControllerBuilder::self& ViewModelControllerBuilder::SetModel(SessionModelInterface* model)
 {
   m_context.model = model;
   return *this;

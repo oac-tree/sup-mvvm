@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-class ApplicationModel;
+class SessionModelInterface;
 class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
@@ -46,7 +46,7 @@ public:
   ViewModelControllerBuilder(const ViewModelControllerBuilder& other) = delete;
   ViewModelControllerBuilder& operator=(const ViewModelControllerBuilder& other) = delete;
 
-  self& SetModel(ApplicationModel* model);
+  self& SetModel(SessionModelInterface* model);
   self& SetViewModel(ViewModelBase* view_model);
   self& SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
   self& SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
@@ -57,7 +57,7 @@ private:
   //! Components necessary to build ViewModelController
   struct Context
   {
-    ApplicationModel* model{nullptr};
+    SessionModelInterface* model{nullptr};
     ViewModelBase* view_model{nullptr};
     std::unique_ptr<ChildrenStrategyInterface> children_strategy;
     std::unique_ptr<RowStrategyInterface> row_strategy;

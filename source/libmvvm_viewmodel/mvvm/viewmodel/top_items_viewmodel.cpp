@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/top_items_viewmodel.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
+#include <mvvm/model/application_model.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel_controller.h>

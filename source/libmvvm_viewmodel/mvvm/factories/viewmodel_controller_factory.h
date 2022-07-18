@@ -34,7 +34,7 @@ namespace factory
 //! Creates controller for view model using given strategies.
 
 template <typename ChildrenStrategy, typename RowStrategy>
-std::unique_ptr<AbstractViewModelController> CreateController(ApplicationModel* model,
+std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface* model,
                                                               ViewModelBase* view_model)
 {
   return ViewModelControllerBuilder()
