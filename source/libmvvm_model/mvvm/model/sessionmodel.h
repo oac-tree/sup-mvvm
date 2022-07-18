@@ -68,7 +68,7 @@ public:
 
   // Various getters.
 
-  const ItemFactoryInterface* GetFactory() const;
+  const ItemFactoryInterface* GetFactory() const override;
 
   SessionItem* FindItem(const std::string& id) const override;
 

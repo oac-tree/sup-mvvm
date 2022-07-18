@@ -35,6 +35,8 @@ public:
 
   SessionItem* GetRootItem() const override;
 
+  const ItemFactoryInterface* GetFactory() const override;
+
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override;
 
@@ -57,7 +59,7 @@ public:
 
   void CheckOut(SessionItem* item) override;
 
-protected:  
+protected:
   std::unique_ptr<SessionModelInterface> m_decorated_model;
 };
 

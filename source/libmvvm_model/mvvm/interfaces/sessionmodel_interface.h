@@ -30,6 +30,7 @@
 namespace mvvm
 {
 class SessionItem;
+class ItemFactoryInterface;
 
 //! Application model interface.
 
@@ -41,6 +42,8 @@ public:
   virtual std::string GetType() const = 0;
 
   virtual SessionItem* GetRootItem() const = 0;
+
+  virtual const ItemFactoryInterface* GetFactory() const = 0;
 
   virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                   const TagIndex& tag_index) = 0;

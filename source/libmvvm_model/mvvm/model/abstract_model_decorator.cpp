@@ -40,6 +40,11 @@ SessionItem *AbstractModelDecorator::GetRootItem() const
   return m_decorated_model->GetRootItem();
 }
 
+const ItemFactoryInterface *AbstractModelDecorator::GetFactory() const
+{
+  return m_decorated_model->GetFactory();
+}
+
 SessionItem *AbstractModelDecorator::InsertItem(std::unique_ptr<SessionItem> item,
                                                 SessionItem *parent, const TagIndex &tag_index)
 {
