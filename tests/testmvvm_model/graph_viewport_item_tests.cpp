@@ -22,6 +22,7 @@
 #include "mock_item_listener.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
@@ -51,7 +52,7 @@ TEST_F(GraphViewportItemTests, initialState)
 
 TEST_F(GraphViewportItemTests, AddItem)
 {
-  SessionModel model;
+  ApplicationModel model;
 
   auto viewport_item = model.InsertItem<GraphViewportItem>();
   auto graph_item = model.InsertItem<GraphItem>(viewport_item);

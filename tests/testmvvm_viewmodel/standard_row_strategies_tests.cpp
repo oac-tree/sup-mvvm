@@ -195,7 +195,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyBaseItemInModelContext)
 
 TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyPropertyItemTree)
 {
-  SessionModel model;
+  ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
   parent->AddProperty("thickness", 0.0);
 
@@ -217,7 +217,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyPropertyItemTree)
 
 TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemInModelContext)
 {
-  SessionModel model;
+  ApplicationModel model;
   model.InsertItem<VectorItem>();
 
   PropertiesRowStrategy strategy;

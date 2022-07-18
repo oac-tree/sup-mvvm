@@ -52,7 +52,7 @@ public:
     m_controller.Init();
   }
 
-  std::unique_ptr<ViewModelController> CreateController(SessionModel* model,
+  std::unique_ptr<ViewModelController> CreateController(SessionModelInterface* model,
                                                         ViewModelBase* view_model)
   {
     auto result = std::make_unique<ViewModelController>(model, view_model);

@@ -24,6 +24,7 @@
 
 #include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/serialization/xml_document.h>

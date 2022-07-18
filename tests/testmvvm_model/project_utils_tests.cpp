@@ -58,7 +58,7 @@ public:
 
 TEST_F(ProjectUtilsTests, SuggestFileName)
 {
-  SessionModel model("TestModel");
+  ApplicationModel model("TestModel");
   EXPECT_EQ(std::string("testmodel.xml"), ProjectUtils::SuggestFileName(model));
 }
 

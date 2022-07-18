@@ -78,9 +78,6 @@ public:
 
   void Clear(std::function<void(SessionItem*)> callback = {}) override;
 
-  template <typename T>
-  void RegisterItem(const std::string& label = {});
-
   void CheckIn(SessionItem* item) override;
 
   void CheckOut(SessionItem* item) override;
@@ -88,21 +85,9 @@ public:
 private:
   friend class SessionItem;
 
-  void RegisterItemInternal(const std::string& item_type, const item_factory_func_t& func,
-                            const std::string& label);
-
   struct SessionModelImpl;
   std::unique_ptr<SessionModelImpl> p_impl;
 };
-
-//! Register used defined item to use with the model. It will become possible to undo/redo
-//! operations with this item, as well as serialize it to/from XML.
-
-template <typename T>
-void SessionModel::RegisterItem(const std::string& label)
-{
-  RegisterItemInternal(T().GetType(), ItemFactoryFunction<T>, label);
-}
 
 }  // namespace mvvm
 

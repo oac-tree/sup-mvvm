@@ -21,6 +21,7 @@
 #define MVVM_INTERFACES_SESSIONMODEL_INTERFACE_H_
 
 #include <mvvm/core/variant.h>
+#include <mvvm/interfaces/item_factory_interface.h>
 #include <mvvm/model/tagindex.h>
 #include <mvvm/model_export.h>
 
@@ -30,7 +31,6 @@
 namespace mvvm
 {
 class SessionItem;
-class ItemFactoryInterface;
 class ModelEventSubscriberInterface;
 
 //! Application model interface.
@@ -45,6 +45,8 @@ public:
   virtual SessionItem* GetRootItem() const = 0;
 
   virtual const ItemFactoryInterface* GetFactory() const = 0;
+
+  ItemFactoryInterface* GetFactory();
 
   virtual ModelEventSubscriberInterface* GetSubscriber() const = 0;
 
@@ -72,6 +74,9 @@ public:
   virtual void CheckIn(SessionItem* item) = 0;
 
   virtual void CheckOut(SessionItem* item) = 0;
+
+  template <typename T>
+  void RegisterItem(const std::string& label = {});
 };
 
 //! Inserts item of given type into given parent under given tag_index.
@@ -80,6 +85,21 @@ template <typename T>
 T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
   return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
+}
+
+//! Register used defined item to use with the model. It will become possible to undo/redo
+//! operations with this item, as well as serialize it to/from XML.
+
+template <typename T>
+void SessionModelInterface::RegisterItem(const std::string& label)
+{
+  GetFactory()->RegisterItem(T().GetType(), ItemFactoryFunction<T>, label);
+}
+
+inline ItemFactoryInterface* SessionModelInterface::GetFactory()
+{
+  return const_cast<ItemFactoryInterface*>(
+      static_cast<const SessionModelInterface*>(this)->GetFactory());
 }
 
 }  // namespace mvvm
