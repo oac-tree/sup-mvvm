@@ -44,7 +44,7 @@ struct Project::ProjectImpl
   }
 
   //! Returns list of models which are subject to save/load.
-  std::vector<ApplicationModel*> GetModels() const { return m_context.m_models_callback(); }
+  std::vector<SessionModelInterface*> GetModels() const { return m_context.m_models_callback(); }
 
   //! Processes all models one by one and either save or load them to/from given directory.
   //! Template parameter `method` specifies ModelDocumentInterface's method to use.

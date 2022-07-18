@@ -48,7 +48,7 @@ public:
   {
   }
 
-  std::vector<ApplicationModel*> GetModels() const { return {sample_model.get()}; };
+  std::vector<SessionModelInterface*> GetModels() const { return {sample_model.get()}; };
 
   ProjectContext CreateContext()
   {

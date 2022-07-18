@@ -29,7 +29,7 @@
 namespace mvvm
 {
 
-class ApplicationModel;
+class SessionModelInterface;
 
 //! Tracks changes in all models.
 //! Allows to check if one or more models have been changed since last call of ::resetChanged().
@@ -43,7 +43,7 @@ class MVVM_MODEL_EXPORT ProjectChangedController
 {
 public:
   using callback_t = std::function<void()>;
-  explicit ProjectChangedController(const std::vector<ApplicationModel*>& models,
+  explicit ProjectChangedController(const std::vector<SessionModelInterface*>& models,
                                     const callback_t& project_changed_callback = {});
   ~ProjectChangedController();
 

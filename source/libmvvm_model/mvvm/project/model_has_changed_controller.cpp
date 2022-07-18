@@ -27,7 +27,7 @@ namespace mvvm
 //! Constructor of ModelHasChangedController.
 //! Acccept 'model' to listen, and a 'callback' to report about changes in a model.
 
-ModelHasChangedController::ModelHasChangedController(ApplicationModel* model,
+ModelHasChangedController::ModelHasChangedController(SessionModelInterface* model,
                                                      const callback_t& callback)
     : ModelListener(model), m_callback(callback)
 {

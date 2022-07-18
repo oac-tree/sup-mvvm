@@ -51,7 +51,7 @@ public:
 
   ItemViewComponentProvider* GetComponentProvider();
 
-  mvvm::SessionItem* GetSelectedItem() const;
+  SessionItem* GetSelectedItem() const;
   void SetSelectedItem(SessionItem* item);
 
   template <typename T>

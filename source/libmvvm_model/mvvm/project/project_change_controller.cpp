@@ -27,12 +27,12 @@ namespace mvvm
 
 struct ProjectChangedController::ProjectChangedControllerImpl
 {
-  std::vector<ApplicationModel*> m_models;
+  std::vector<SessionModelInterface*> m_models;
   std::vector<std::unique_ptr<ModelHasChangedController>> m_change_controllers;
   callback_t m_project_changed_callback;
   bool m_project_has_changed{false};
 
-  ProjectChangedControllerImpl(const std::vector<ApplicationModel*>& models,
+  ProjectChangedControllerImpl(const std::vector<SessionModelInterface*>& models,
                                const callback_t& callback)
       : m_models(models), m_project_changed_callback(callback)
   {
@@ -74,7 +74,7 @@ struct ProjectChangedController::ProjectChangedControllerImpl
   }
 };
 
-ProjectChangedController::ProjectChangedController(const std::vector<ApplicationModel*>& models,
+ProjectChangedController::ProjectChangedController(const std::vector<SessionModelInterface*>& models,
                                                    const callback_t& project_changed_callback)
     : p_impl(std::make_unique<ProjectChangedControllerImpl>(models, project_changed_callback))
 {

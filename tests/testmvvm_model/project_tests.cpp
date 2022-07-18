@@ -60,7 +60,7 @@ public:
   {
   }
 
-  std::vector<ApplicationModel*> models() const
+  std::vector<SessionModelInterface*> models() const
   {
     return {sample_model.get(), material_model.get()};
   };

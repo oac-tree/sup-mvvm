@@ -29,7 +29,7 @@
 namespace mvvm
 {
 
-class ApplicationModel;
+class SessionModelInterface;
 
 //! Possible user answers on question "Project was modified".
 enum class SaveChangesAnswer
@@ -49,7 +49,7 @@ struct MVVM_MODEL_EXPORT ProjectContext
   //! To ask for a vector of models to save/load to/from disk.
   //! This is intentionally obtained via callback since save request might come after
   //! the Project construction.
-  using models_callback_t = std::function<std::vector<ApplicationModel*>()>;
+  using models_callback_t = std::function<std::vector<SessionModelInterface*>()>;
 
   modified_callback_t m_modified_callback;
   models_callback_t m_models_callback;
