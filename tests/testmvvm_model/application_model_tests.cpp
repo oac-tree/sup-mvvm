@@ -44,6 +44,7 @@ TEST_F(ApplicationModelTests, InitialState)
   ApplicationModel model;
   EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
   EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
+  EXPECT_NE(model.GetSubscriber(), nullptr);
 }
 
 //! Setting data through the model and checking the result.

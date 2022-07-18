@@ -43,7 +43,7 @@ TEST_F(AbstractModelDecoratorTests, InitialState)
   EXPECT_EQ(decorator.GetRootItem(), model_ptr->GetRootItem());
   EXPECT_EQ(decorator.GetType(), std::string("TestModel"));
   EXPECT_EQ(decorator.GetFactory(), model_ptr->GetFactory());
-  EXPECT_THROW(decorator.GetSubscriber(), NotImplementedException);
+  EXPECT_EQ(decorator.GetSubscriber(), nullptr);
 }
 
 TEST_F(AbstractModelDecoratorTests, InsertItem)

@@ -92,7 +92,7 @@ SessionItem* SessionModel::GetRootItem() const
 
 ModelEventSubscriberInterface* SessionModel::GetSubscriber() const
 {
-  throw NotImplementedException("Model doesn't have signaling capabilities");
+  return nullptr;
 }
 
 //! Insert item via move into the given `parent` under given `tag_index`.

@@ -59,6 +59,7 @@ TEST_F(SessionModelTest, InitialState)
   SessionModel model;
   EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
   EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
+  EXPECT_EQ(model.GetSubscriber(), nullptr);
 }
 
 TEST_F(SessionModelTest, SetData)
