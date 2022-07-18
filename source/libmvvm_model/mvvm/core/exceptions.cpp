@@ -52,4 +52,9 @@ ArgumentNullException::ArgumentNullException(const std::string& message) : Messa
 {
 }
 
+NotImplementedException::NotImplementedException(const std::string& message)
+    : MessageException{message}
+{
+}
+
 }  // namespace mvvm

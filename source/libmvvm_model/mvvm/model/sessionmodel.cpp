@@ -90,6 +90,11 @@ SessionItem* SessionModel::GetRootItem() const
   return p_impl->m_root_item.get();
 }
 
+ModelEventSubscriberInterface* SessionModel::GetSubscriber() const
+{
+  throw NotImplementedException("Model doesn't have signaling capabilities");
+}
+
 //! Insert item via move into the given `parent` under given `tag_index`.
 //! FIXME make default parameters (or their absence) as in the method InsertNewItem.
 

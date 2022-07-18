@@ -22,6 +22,7 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 
@@ -42,6 +43,7 @@ TEST_F(AbstractModelDecoratorTests, InitialState)
   EXPECT_EQ(decorator.GetRootItem(), model_ptr->GetRootItem());
   EXPECT_EQ(decorator.GetType(), std::string("TestModel"));
   EXPECT_EQ(decorator.GetFactory(), model_ptr->GetFactory());
+  EXPECT_THROW(decorator.GetSubscriber(), NotImplementedException);
 }
 
 TEST_F(AbstractModelDecoratorTests, InsertItem)

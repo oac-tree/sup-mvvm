@@ -37,6 +37,8 @@ public:
 
   const ItemFactoryInterface* GetFactory() const override;
 
+  ModelEventSubscriberInterface* GetSubscriber() const override;
+
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override;
 

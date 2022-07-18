@@ -89,6 +89,13 @@ public:
   explicit ArgumentNullException(const std::string& message);
 };
 
+//! Exception is thrown when code is not implemented.
+
+class NotImplementedException : public MessageException
+{
+public:
+  explicit NotImplementedException(const std::string& message);
+};
 
 }  // namespace mvvm
 

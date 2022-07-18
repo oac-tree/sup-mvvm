@@ -50,6 +50,8 @@ public:
 
   SessionItem* GetRootItem() const override;
 
+  ModelEventSubscriberInterface* GetSubscriber() const override;
+
   // Methods to manipulate data and items.
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,

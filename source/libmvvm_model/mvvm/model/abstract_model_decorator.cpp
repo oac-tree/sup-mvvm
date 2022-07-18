@@ -45,6 +45,11 @@ const ItemFactoryInterface *AbstractModelDecorator::GetFactory() const
   return m_decorated_model->GetFactory();
 }
 
+ModelEventSubscriberInterface *AbstractModelDecorator::GetSubscriber() const
+{
+  return m_decorated_model->GetSubscriber();
+}
+
 SessionItem *AbstractModelDecorator::InsertItem(std::unique_ptr<SessionItem> item,
                                                 SessionItem *parent, const TagIndex &tag_index)
 {

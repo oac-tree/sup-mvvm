@@ -25,13 +25,6 @@
 
 #include <memory>
 
-namespace mvvm
-{
-class SessionItem;
-class TagIndex;
-class ItemFactoryInterface;
-}  // namespace mvvm
-
 //! Mocking class for SessionModelInterface.
 
 class MockModel : public mvvm::SessionModelInterface
@@ -40,6 +33,7 @@ public:
   MOCK_METHOD(std::string, GetType, (), (const, override));
   MOCK_METHOD(mvvm::SessionItem *, GetRootItem, (), (const, override));
   MOCK_METHOD(const mvvm::ItemFactoryInterface *, GetFactory, (), (const, override));
+  MOCK_METHOD(mvvm::ModelEventSubscriberInterface *, GetSubscriber, (), (const, override));
 
   MOCK_METHOD(mvvm::SessionItem *, InsertItem,
               (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,
@@ -83,6 +77,11 @@ public:
   mvvm::SessionItem *GetRootItem() const { return m_mock_model->GetRootItem(); }
 
   const mvvm::ItemFactoryInterface *GetFactory() const { return m_mock_model->GetFactory(); }
+
+  mvvm::ModelEventSubscriberInterface *GetSubscriber() const
+  {
+    return m_mock_model->GetSubscriber();
+  }
 
   mvvm::SessionItem *InsertItem(std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,
                                 const mvvm::TagIndex &tag_index)
