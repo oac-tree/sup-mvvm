@@ -27,7 +27,7 @@
 
 namespace mvvm
 {
-class ApplicationModel;
+class SessionModelInterface;
 
 //! Saves and restores list of SessionModel's to/from disk using XML format.
 //! Single XMLDocument corresponds to a single file on disk.
@@ -35,7 +35,7 @@ class ApplicationModel;
 class MVVM_MODEL_EXPORT XmlDocument : public ModelDocumentInterface
 {
 public:
-  explicit XmlDocument(const std::vector<ApplicationModel*>& models);
+  explicit XmlDocument(const std::vector<SessionModelInterface*>& models);
   ~XmlDocument() override;
 
   void Save(const std::string& file_name) const override;

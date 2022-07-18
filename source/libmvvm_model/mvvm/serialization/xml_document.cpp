@@ -19,7 +19,7 @@
 
 #include "mvvm/serialization/xml_document.h"
 
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_model_converter.h>
 #include <mvvm/serialization/xml_parse_utils.h>
@@ -36,13 +36,15 @@ namespace mvvm
 {
 struct XmlDocument::XmlDocumentImpl
 {
-  std::vector<ApplicationModel*> models;
-  explicit XmlDocumentImpl(std::vector<ApplicationModel*> models) : models(std::move(models)) {}
+  std::vector<SessionModelInterface*> models;
+  explicit XmlDocumentImpl(std::vector<SessionModelInterface*> models) : models(std::move(models))
+  {
+  }
 };
 
 //! Models will be writen/restored to and from XML according to the order given in `models` vector.
 
-XmlDocument::XmlDocument(const std::vector<ApplicationModel*>& models)
+XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models)
     : p_impl(std::make_unique<XmlDocumentImpl>(models))
 {
 }
