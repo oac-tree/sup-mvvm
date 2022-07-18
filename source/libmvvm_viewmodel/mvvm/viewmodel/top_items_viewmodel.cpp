@@ -20,14 +20,14 @@
 #include "mvvm/viewmodel/top_items_viewmodel.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/model/application_model.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel_controller.h>
 
 namespace mvvm
 {
-TopItemsViewModel::TopItemsViewModel(ApplicationModel *model, QObject *parent) : ViewModel(parent)
+TopItemsViewModel::TopItemsViewModel(SessionModelInterface *model, QObject *parent)
+    : ViewModel(parent)
 {
   SetController(factory::CreateController<TopItemsStrategy, LabelDataRowStrategy>(model, this));
 }

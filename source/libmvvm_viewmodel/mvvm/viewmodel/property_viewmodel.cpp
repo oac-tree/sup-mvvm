@@ -20,13 +20,13 @@
 #include "mvvm/viewmodel/property_viewmodel.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/model/application_model.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 
 namespace mvvm
 {
-PropertyViewModel::PropertyViewModel(ApplicationModel* model, QObject* parent) : ViewModel(parent)
+PropertyViewModel::PropertyViewModel(SessionModelInterface* model, QObject* parent)
+    : ViewModel(parent)
 {
   SetController(
       factory::CreateController<PropertyItemsStrategy, LabelDataRowStrategy>(model, this));
