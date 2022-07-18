@@ -21,7 +21,6 @@
 #define MVVM_STANDARDITEMS_DATA1D_ITEM_H_
 
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/sessionmodel.h>
 
 #include <vector>
 

@@ -19,7 +19,8 @@
 
 #include "mvvm/serialization/treedata_model_converter.h"
 
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/sessionitem.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_item_converter.h>
 
@@ -65,7 +66,8 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data
   return correct_type && correct_attributes;
 }
 
-std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const SessionModelInterface &model) const
+std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(
+    const SessionModelInterface &model) const
 {
   auto item_converter = CreateConverter(model.GetFactory());
 

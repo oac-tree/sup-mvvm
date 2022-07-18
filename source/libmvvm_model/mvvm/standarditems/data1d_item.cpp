@@ -19,6 +19,7 @@
 
 #include "mvvm/standarditems/data1d_item.h"
 
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/standarditems/axis_items.h>
 
 #include <stdexcept>
