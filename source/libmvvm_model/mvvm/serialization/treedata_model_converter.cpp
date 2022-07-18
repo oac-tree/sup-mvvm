@@ -65,7 +65,7 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data
   return correct_type && correct_attributes;
 }
 
-std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const SessionModel &model) const
+std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const SessionModelInterface &model) const
 {
   auto item_converter = CreateConverter(model.GetFactory());
 
@@ -82,7 +82,7 @@ std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const SessionModel 
 }
 
 void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
-                                                  SessionModel &model) const
+                                                  SessionModelInterface &model) const
 {
   if (!IsSessionModelConvertible(tree_data))
   {

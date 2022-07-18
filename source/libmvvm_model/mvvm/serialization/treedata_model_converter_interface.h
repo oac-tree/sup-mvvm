@@ -27,7 +27,7 @@
 namespace mvvm
 {
 class TreeData;
-class SessionModel;
+class SessionModelInterface;
 
 //! Base class for all converters of SessionModel to/from TreeData object.
 
@@ -37,10 +37,10 @@ public:
   virtual ~TreeDataModelConverterInterface() = default;
 
   //! Creates TreeData from SessionModel.
-  virtual std::unique_ptr<TreeData> ToTreeData(const SessionModel& item) const = 0;
+  virtual std::unique_ptr<TreeData> ToTreeData(const SessionModelInterface& item) const = 0;
 
   //! Populates empty SessionModel from TreeData.
-  virtual void PopulateSessionModel(const TreeData&, SessionModel&) const = 0;
+  virtual void PopulateSessionModel(const TreeData&, SessionModelInterface&) const = 0;
 };
 
 }  // namespace mvvm
