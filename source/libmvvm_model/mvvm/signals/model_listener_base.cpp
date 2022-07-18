@@ -20,7 +20,7 @@
 #include "mvvm/signals/model_listener_base.h"
 
 #include <mvvm/interfaces/model_event_subscriber_interface.h>
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 
 namespace mvvm
 {

@@ -19,7 +19,6 @@
 
 #include "mvvm/project/project_change_controller.h"
 
-#include <mvvm/model/application_model.h>
 #include <mvvm/project/model_has_changed_controller.h>
 
 namespace mvvm

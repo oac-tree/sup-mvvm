@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_
 #define MVVM_PROJECT_MODEL_HAS_CHANGED_CONTROLLER_H_
 
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/signals/model_listener.h>
 
 #include <functional>

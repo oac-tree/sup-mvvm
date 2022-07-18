@@ -20,7 +20,7 @@
 #include "mvvm/widgets/abstract_item_view.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/application_model.h>
+#include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/widgets/item_view_component_provider.h>
 

@@ -20,7 +20,7 @@
 #include "mvvm/model/model_utils.h"
 
 #include <mvvm/factories/item_copy_strategy_factory.h>
-#include <mvvm/model/application_model.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/path.h>
 
 namespace mvvm::utils
