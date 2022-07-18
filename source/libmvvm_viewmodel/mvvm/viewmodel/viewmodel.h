@@ -24,7 +24,6 @@
 
 namespace mvvm
 {
-class SessionModel;
 class SessionItem;
 class ViewItem;
 class AbstractViewModelController;

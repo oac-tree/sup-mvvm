@@ -21,9 +21,9 @@
 #define MVVM_MODEL_MODEL_UTILS_H_
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
 #include <mvvm/model_export.h>
 
 #include <memory>
@@ -63,7 +63,7 @@ T* GetTopItem(const SessionModelInterface* model)
 //! Returns all items in a tree of given type.
 
 template <typename T = SessionItem>
-std::vector<T*> FindItems(const SessionModel* model)
+std::vector<T*> FindItems(const SessionModelInterface* model)
 {
   std::vector<T*> result;
 
@@ -84,15 +84,15 @@ std::vector<T*> FindItems(const SessionModel* model)
 MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
 
 //! Returns item found in the model following given Path.
-MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModelInterface &model, const Path& path);
+MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path);
 
 //! Returns true if the given model has signaling capabilities.
-MVVM_MODEL_EXPORT bool HasSignals(const SessionModelInterface *model);
+MVVM_MODEL_EXPORT bool HasSignals(const SessionModelInterface* model);
 
 //! Copies a given item and inserts result into the model using provided parent and tag_index.
 //! Returns pointer to just inserted item to the user. Internally performs deep copying with all
 //! identifiers being regenerated.
-MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModel* model,
+MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model,
                                         SessionItem* parent, const TagIndex& tag_index);
 
 ////! Populate empty model with content of target model using provided converter.

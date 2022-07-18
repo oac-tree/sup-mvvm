@@ -61,7 +61,7 @@ bool HasSignals(const SessionModelInterface* model)
   return dynamic_cast<const ApplicationModel*>(model);
 }
 
-SessionItem *CopyItem(const SessionItem* item, SessionModel* model, SessionItem* parent,
+SessionItem *CopyItem(const SessionItem* item, SessionModelInterface *model, SessionItem* parent,
               const TagIndex& tag_index)
 {
   auto copy_strategy = CreateItemCopyStrategy(model->GetFactory());

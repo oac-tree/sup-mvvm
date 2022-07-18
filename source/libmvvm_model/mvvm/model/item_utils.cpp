@@ -19,9 +19,9 @@
 
 #include "mvvm/model/item_utils.h"
 
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionitem_container.h>
-#include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/utils/container_utils.h>
 
@@ -201,10 +201,7 @@ bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
     {
       return true;
     }
-    else
-    {
-      parent = parent->GetParent();
-    }
+    parent = parent->GetParent();
   }
   return false;
 }
@@ -214,7 +211,7 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
   auto filtered = utils::UniqueWithOrder(items);
   std::vector<SessionItem*> result;
   std::copy_if(filtered.begin(), filtered.end(), std::back_inserter(result),
-               [](auto x) { return x != nullptr; });
+               [](auto item) { return item != nullptr; });
   return result;
 }
 
