@@ -29,7 +29,7 @@ class QAbstractItemView;
 namespace mvvm
 {
 
-class ApplicationModel;
+class SessionModelInterface;
 class SessionItem;
 class ItemViewComponentProvider;
 
@@ -45,20 +45,20 @@ public:
 
   void SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider);
 
-  void SetApplicationModel(ApplicationModel* model);
+  void SetApplicationModel(SessionModelInterface* model);
 
   void SetItem(SessionItem* item);
 
   ItemViewComponentProvider* GetComponentProvider();
 
   mvvm::SessionItem* GetSelectedItem() const;
-  void SetSelectedItem(mvvm::SessionItem* item);
+  void SetSelectedItem(SessionItem* item);
 
   template <typename T>
   T* GetSelected() const;
 
   std::vector<SessionItem*> GetSelectedItems() const;
-  void SetSelectedItems(const std::vector<mvvm::SessionItem*>& items);
+  void SetSelectedItems(const std::vector<SessionItem*>& items);
 
 signals:
   void SelectedItemChanged(mvvm::SessionItem*);

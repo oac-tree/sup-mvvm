@@ -47,7 +47,7 @@ void AbstractItemView::SetComponentProvider(std::unique_ptr<ItemViewComponentPro
 
 AbstractItemView::~AbstractItemView() = default;
 
-void AbstractItemView::SetApplicationModel(ApplicationModel *model)
+void AbstractItemView::SetApplicationModel(SessionModelInterface *model)
 {
   m_provider->SetApplicationModel(model);
   UpdateView();

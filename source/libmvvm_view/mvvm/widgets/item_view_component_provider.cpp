@@ -21,7 +21,6 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/delegates/viewmodel_delegate.h>
-#include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/widgets/item_selection_model.h>
@@ -33,18 +32,18 @@ namespace mvvm
 
 ItemViewComponentProvider::ItemViewComponentProvider(create_viewmodel_t model_func,
                                                      QAbstractItemView *view)
-    : m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
-    , m_selection_model(std::make_unique<mvvm::ItemSelectionModel>())
+    : m_delegate(std::make_unique<ViewModelDelegate>())
+    , m_selection_model(std::make_unique<ItemSelectionModel>())
     , m_create_viewmodel(std::move(model_func))
     , m_view(view)
 {
-  connect(m_selection_model.get(), &mvvm::ItemSelectionModel::SelectedItemChanged, this,
-          [this](auto item) { emit SelectedItemChanged(const_cast<mvvm::SessionItem *>(item)); });
+  connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
+          [this](auto item) { emit SelectedItemChanged(const_cast<SessionItem *>(item)); });
 }
 
 ItemViewComponentProvider::~ItemViewComponentProvider() = default;
 
-void ItemViewComponentProvider::SetApplicationModel(mvvm::ApplicationModel *model)
+void ItemViewComponentProvider::SetApplicationModel(SessionModelInterface *model)
 {
   if (!model)
   {
@@ -55,7 +54,7 @@ void ItemViewComponentProvider::SetApplicationModel(mvvm::ApplicationModel *mode
   InitViewModel(model);
 }
 
-void ItemViewComponentProvider::SetItem(mvvm::SessionItem *item)
+void ItemViewComponentProvider::SetItem(SessionItem *item)
 {
   if (!item)
   {
@@ -63,13 +62,7 @@ void ItemViewComponentProvider::SetItem(mvvm::SessionItem *item)
     return;
   }
 
-  auto application_model = dynamic_cast<mvvm::ApplicationModel *>(item->GetModel());
-  if (!application_model)
-  {
-    throw RuntimeException("Wrong model type");
-  }
-
-  InitViewModel(application_model);
+  InitViewModel(item->GetModel());
   m_view_model->SetRootSessionItem(item);
 }
 
@@ -78,29 +71,29 @@ QAbstractItemView *ItemViewComponentProvider::GetView() const
   return m_view;
 }
 
-mvvm::ItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
+ItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
 {
   return m_selection_model.get();
 }
 
-mvvm::ViewModel *ItemViewComponentProvider::GetViewModel() const
+ViewModel *ItemViewComponentProvider::GetViewModel() const
 {
   return m_view_model.get();
 }
 
-mvvm::SessionItem *ItemViewComponentProvider::GetSelectedItem() const
+SessionItem *ItemViewComponentProvider::GetSelectedItem() const
 {
-  return const_cast<mvvm::SessionItem *>(m_selection_model->GetSelectedItem());
+  return const_cast<SessionItem *>(m_selection_model->GetSelectedItem());
 }
 
-void ItemViewComponentProvider::SetSelectedItem(mvvm::SessionItem *item)
+void ItemViewComponentProvider::SetSelectedItem(SessionItem *item)
 {
   m_selection_model->SetSelectedItem(item);
 }
 
 void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> items)
 {
-  std::vector<const mvvm::SessionItem *> to_set_items;
+  std::vector<const SessionItem *> to_set_items;
   std::copy(items.begin(), items.end(), std::back_inserter(to_set_items));
   m_selection_model->SetSelectedItems(std::move(to_set_items));
 }
@@ -112,7 +105,7 @@ void ItemViewComponentProvider::Reset()
   m_view_model.reset();
 }
 
-void ItemViewComponentProvider::InitViewModel(mvvm::ApplicationModel *model)
+void ItemViewComponentProvider::InitViewModel(SessionModelInterface *model)
 {
   m_view_model = m_create_viewmodel(model);
   m_selection_model->SetViewModel(m_view_model.get());
@@ -121,12 +114,12 @@ void ItemViewComponentProvider::InitViewModel(mvvm::ApplicationModel *model)
   m_view->setSelectionModel(m_selection_model.get());
 }
 
-std::vector<mvvm::SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() const
+std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() const
 {
-  std::vector<mvvm::SessionItem *> result;
+  std::vector<SessionItem *> result;
   auto items = m_selection_model->GetSelectedItems();
   std::transform(items.begin(), items.end(), std::back_inserter(result),
-                 [](auto it) { return const_cast<mvvm::SessionItem *>(it); });
+                 [](auto it) { return const_cast<SessionItem *>(it); });
   return result;
 }
 
