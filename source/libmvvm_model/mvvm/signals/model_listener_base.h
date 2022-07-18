@@ -29,14 +29,14 @@
 namespace mvvm
 {
 
-class ApplicationModel;
+class SessionModelInterface;
 
 //! Base class for all objects willing to listen for changes in ApplicationModel.
 
 class MVVM_MODEL_EXPORT ModelListenerBase
 {
 public:
-  explicit ModelListenerBase(ApplicationModel* model);
+  explicit ModelListenerBase(SessionModelInterface* model);
   virtual ~ModelListenerBase();
 
   ModelListenerBase& operator=(const ModelListenerBase& other) = delete;
@@ -73,7 +73,7 @@ protected:
   //! Sets the callback for notifications just before model destruction.
   Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f);
 
-  ApplicationModel* GetCurrentModel() const;
+  SessionModelInterface* GetCurrentModel() const;
 
 private:
   struct ModelListenerBaseImpl;
