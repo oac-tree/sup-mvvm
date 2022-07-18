@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-class SessionModel;
+class SessionModelInterface;
 class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
@@ -36,7 +36,7 @@ class RowStrategyInterface;
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
 public:
-  ViewModelController(SessionModel *model, ViewModelBase *view_model);
+  ViewModelController(SessionModelInterface *model, ViewModelBase *view_model);
   ~ViewModelController() override;
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);

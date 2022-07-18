@@ -25,7 +25,7 @@
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/standard_presentation_items.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
@@ -61,7 +61,7 @@ namespace mvvm
 {
 struct ViewModelController::ViewModelControllerImpl
 {
-  SessionModel *m_model{nullptr};
+  SessionModelInterface *m_model{nullptr};
   ViewModelBase *m_view_model{nullptr};
   ViewItemMap m_view_item_map;
   std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
@@ -69,7 +69,7 @@ struct ViewModelController::ViewModelControllerImpl
   bool m_mute_notify{false};  // allows to build ViewModel without notification
   Path m_root_item_path;      // saves path to custom root item, to restore it on model reset
 
-  ViewModelControllerImpl(SessionModel *model, ViewModelBase *view_model)
+  ViewModelControllerImpl(SessionModelInterface *model, ViewModelBase *view_model)
       : m_model(model), m_view_model(view_model)
   {
   }
@@ -194,7 +194,7 @@ struct ViewModelController::ViewModelControllerImpl
   }
 };
 
-ViewModelController::ViewModelController(SessionModel *model, ViewModelBase *view_model)
+ViewModelController::ViewModelController(SessionModelInterface *model, ViewModelBase *view_model)
     : p_impl(std::make_unique<ViewModelControllerImpl>(model, view_model))
 {
 }
