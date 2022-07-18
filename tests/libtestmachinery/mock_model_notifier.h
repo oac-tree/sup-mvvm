@@ -20,17 +20,8 @@
 #ifndef TESTS_LIBTESTMACHINERY_MOCK_MODEL_NOTIFIER_H_
 #define TESTS_LIBTESTMACHINERY_MOCK_MODEL_NOTIFIER_H_
 
-#include <mvvm/interfaces/model_event_notifier_interface.h>
-
 #include <gmock/gmock.h>
-
-namespace mvvm
-{
-class SessionItem;
-class TagIndex;
-class ModelEventListenerInterface;
-class SessionModel;
-}  // namespace ModelView
+#include <mvvm/interfaces/model_event_notifier_interface.h>
 
 //! Mocking class to test ModelEventNotifierInterface when it is called from ModelComposer.
 
@@ -50,16 +41,15 @@ public:
   MOCK_METHOD2(AboutToRemoveItemNotify,
                void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD2(ItemRemovedNotify,
-               void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+  MOCK_METHOD2(ItemRemovedNotify, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
 
   MOCK_METHOD2(DataChangedNotify, void(mvvm::SessionItem* item, int role));
 
-  MOCK_METHOD1(ModelAboutToBeResetNotify, void(mvvm::SessionModel* model));
+  MOCK_METHOD1(ModelAboutToBeResetNotify, void(mvvm::SessionModelInterface* model));
 
-  MOCK_METHOD1(ModelResetNotify, void(mvvm::SessionModel* model));
+  MOCK_METHOD1(ModelResetNotify, void(mvvm::SessionModelInterface* model));
 
-  MOCK_METHOD1(ModelAboutToBeDestroyedNotify, void(mvvm::SessionModel* model));
+  MOCK_METHOD1(ModelAboutToBeDestroyedNotify, void(mvvm::SessionModelInterface* model));
 };
 
 #endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_NOTIFIER_H_
