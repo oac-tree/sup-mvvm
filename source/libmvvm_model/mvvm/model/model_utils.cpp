@@ -56,11 +56,6 @@ SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path)
   return result;
 }
 
-bool HasSignals(const SessionModelInterface* model)
-{
-  return dynamic_cast<const ApplicationModel*>(model);
-}
-
 SessionItem *CopyItem(const SessionItem* item, SessionModelInterface *model, SessionItem* parent,
               const TagIndex& tag_index)
 {

@@ -178,15 +178,6 @@ TEST_F(ModelUtilsTests, ItemFromPath)
   EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 1})), child201);
 }
 
-TEST_F(ModelUtilsTests, HasSignals)
-{
-  SessionModel model;
-  EXPECT_FALSE(utils::HasSignals(&model));
-
-  ApplicationModel application_model;
-  EXPECT_TRUE(utils::HasSignals(&application_model));
-}
-
 //! Tests item copy when from root item to root item.
 
 TEST_F(ModelUtilsTests, CopyModelItemRootContext)
