@@ -56,12 +56,6 @@ SessionItem *AbstractModelDecorator::InsertItem(std::unique_ptr<SessionItem> ite
   return m_decorated_model->InsertItem(std::move(item), parent, tag_index);
 }
 
-SessionItem *AbstractModelDecorator::InsertNewItem(const std::string &item_type,
-                                                   SessionItem *parent, const TagIndex &tag_index)
-{
-  return m_decorated_model->InsertNewItem(item_type, parent, tag_index);
-}
-
 std::unique_ptr<SessionItem> AbstractModelDecorator::TakeItem(SessionItem *parent,
                                                               const TagIndex &tag_index)
 {

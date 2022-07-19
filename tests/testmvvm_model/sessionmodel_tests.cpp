@@ -100,24 +100,6 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
   EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 }
 
-//! Insert new item into root.
-
-TEST_F(SessionModelTest, InsertNewItemIntoRoot)
-{
-  TestModel model;
-
-  // inserting single item
-  auto item = model.InsertNewItem(PropertyItem::Type, nullptr, {"", -1});
-  EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->GetParent(), model.GetRootItem());
-  EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), PropertyItem::Type);
-
-  // checking registration
-  auto item_key = item->GetIdentifier();
-  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
-}
-
 //! Inserting item into root via move.
 
 TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
@@ -279,8 +261,7 @@ TEST_F(SessionModelTest, InsertNewItemInPropertyTag)
   parent->AddProperty("thickness", 42);
 
   // adding child to default tag
-  EXPECT_THROW(model.InsertNewItem(PropertyItem::Type, parent, {"thickness", 0}),
-               InvalidInsertException);
+  EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
 }
 
 //! Inserting single PropertyItem using move.
@@ -305,47 +286,6 @@ TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
   EXPECT_EQ(inserted->GetParent(), parent);
   EXPECT_EQ(inserted->GetModel(), &model);
   EXPECT_EQ(inserted->GetTagIndex(), TagIndex(tag1, 1));
-}
-
-//! Revise test.
-
-TEST_F(SessionModelTest, InsertNewItem)
-{
-  TestModel model;
-
-  const std::string item_type = SessionItem::Type;
-
-  // inserting single item
-  auto item = model.InsertNewItem(item_type);
-  EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->GetParent(), model.GetRootItem());
-  EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), item_type);
-
-  // checking registration
-  auto item_key = item->GetIdentifier();
-  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
-
-  // registering tag
-  item->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-
-  // adding child to it
-  auto child = model.InsertNewItem(item_type, item);
-  auto child_key = child->GetIdentifier();
-  EXPECT_EQ(m_pool->ItemForKey(child_key), child);
-
-  EXPECT_TRUE(child != nullptr);
-  EXPECT_EQ(child->GetParent(), item);
-  EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), item_type);
-
-  // taking child back
-  auto taken = item->TakeItem({"", 0});
-  EXPECT_EQ(taken.get(), child);
-  EXPECT_EQ(child->GetModel(), nullptr);
-
-  // childitem not registered anymore
-  EXPECT_EQ(m_pool->ItemForKey(child_key), nullptr);
 }
 
 TEST_F(SessionModelTest, RemoveItem)
@@ -726,7 +666,8 @@ TEST_F(SessionModelTest, RegisterItem)
   SessionModel model;
   model.RegisterItem<TestItem>();
 
-  auto item = model.InsertNewItem(expectedItemType);
+  auto item =
+      model.InsertItem(model.GetFactory()->CreateItem(expectedItemType), model.GetRootItem(), {});
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
   EXPECT_EQ(item->GetType(), expectedItemType);

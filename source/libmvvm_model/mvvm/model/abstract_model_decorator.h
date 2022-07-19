@@ -42,9 +42,6 @@ public:
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override;
 
-  SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
-                             const TagIndex& tag_index) override;
-
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
   void RemoveItem(SessionItem* item) override;

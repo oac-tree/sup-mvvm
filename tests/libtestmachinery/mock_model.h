@@ -40,11 +40,6 @@ public:
                const mvvm::TagIndex &tag_index),
               (override));
 
-  MOCK_METHOD(mvvm::SessionItem *, InsertNewItem,
-              (const std::string &item_type, mvvm::SessionItem *parent,
-               const mvvm::TagIndex &tag_index),
-              (override));
-
   MOCK_METHOD(std::unique_ptr<mvvm::SessionItem>, TakeItem,
               (mvvm::SessionItem * parent, const mvvm::TagIndex &tag_index), (override));
 
@@ -87,12 +82,6 @@ public:
                                 const mvvm::TagIndex &tag_index)
   {
     return m_mock_model->InsertItem(std::move(item), parent, tag_index);
-  }
-
-  mvvm::SessionItem *InsertNewItem(const std::string &item_type, mvvm::SessionItem *parent,
-                                   const mvvm::TagIndex &tag_index)
-  {
-    return m_mock_model->InsertNewItem(item_type, parent, tag_index);
   }
 
   std::unique_ptr<mvvm::SessionItem> TakeItem(mvvm::SessionItem *parent,

@@ -112,15 +112,6 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
   return parent->InsertItem(std::move(item), actual_tagindex);
 }
 
-//! Insert new item corresponding to the given `item_type` into the `parent` under given
-//! `tag_index`.
-
-SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionItem* parent,
-                                         const TagIndex& tag_index)
-{
-  return InsertItem(p_impl->m_item_manager->CreateItem(item_type), parent, tag_index);
-}
-
 //! Removes item with given tag_index from the parent and returns it to the user.
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)

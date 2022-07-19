@@ -53,9 +53,6 @@ public:
   virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                   const TagIndex& tag_index) = 0;
 
-  virtual SessionItem* InsertNewItem(const std::string& item_type, SessionItem* parent,
-                                     const TagIndex& tag_index) = 0;
-
   template <typename T>
   T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
 
