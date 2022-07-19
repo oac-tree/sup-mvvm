@@ -146,12 +146,16 @@ MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModelInt
 // MVVM_MODEL_EXPORT void EndMacros(const SessionModel* model);
 
 //! Move item from it's current parent to a new parent under given tag and row.
-void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index);
+void MoveItem(SessionModelInterface& model, SessionItem* item, SessionItem* new_parent,
+              const TagIndex& tag_index);
 
 //! Removes item with given tag_index from the parent and returns it to the user.
 MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> TakeItem(SessionModelInterface& model,
                                                         SessionItem* parent,
                                                         const TagIndex& tag_index);
+
+MVVM_MODEL_EXPORT void RemoveItem(SessionModelInterface& model, SessionItem* item);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_MODEL_UTILS_H_

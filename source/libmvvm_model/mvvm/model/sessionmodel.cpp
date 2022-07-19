@@ -132,11 +132,7 @@ std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const T
 
 void SessionModel::RemoveItem(SessionItem* item)
 {
-  if (!item)
-  {
-    throw std::runtime_error("Item is not initialised");
-  }
-  TakeItem(item->GetParent(), item->GetTagIndex());
+  utils::RemoveItem(*this, item);
 }
 
 //! Move item from it's current parent to a new parent under given tag and row.
@@ -144,7 +140,7 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-  utils::MoveItem(item, new_parent, tag_index);
+  utils::MoveItem(*this, item, new_parent, tag_index);
 }
 
 //! Sets the data for given item.

@@ -94,13 +94,13 @@ std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,
 
 void ApplicationModel::RemoveItem(SessionItem *item)
 {
-  SessionModel::RemoveItem(item);
+  utils::RemoveItem(*this, item);
 }
 
 void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
                                 const TagIndex &tag_index)
 {
-  utils::MoveItem(item, new_parent, tag_index);
+  utils::MoveItem(*this, item, new_parent, tag_index);
 }
 
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)

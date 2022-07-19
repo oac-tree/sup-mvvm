@@ -383,9 +383,26 @@ TEST_F(ModelUtilsTests, MoveItem)
   auto child1 = model.InsertItem<PropertyItem>(parent1);
 
   // moving child0 from parent0 to parent1
-  utils::MoveItem(child0, parent1, {"", 0});
+  utils::MoveItem(model, child0, parent1, {"", 0});
 
   std::vector<SessionItem*> expected = {child0, child1};
   EXPECT_EQ(parent1->GetAllItems(), expected);
   EXPECT_TRUE(parent0->GetAllItems().empty());
+}
+
+TEST_F(ModelUtilsTests, RemoveItem)
+{
+  SessionModel model;
+
+  auto parent = model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child1 = model.InsertItem<SessionItem>(parent);
+  auto child2 = model.InsertItem<SessionItem>(parent, {"", 0});  // before child1
+
+  // removing child2
+  utils::RemoveItem(model, child2);
+
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::ChildAt(parent, 0), child1);
 }

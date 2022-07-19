@@ -143,14 +143,12 @@ SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, Ses
 //        stack->endMacro();
 //}
 
-void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
+void MoveItem(SessionModelInterface &model, SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
   utils::ValidateItemMove(item, new_parent, tag_index);
 
-  auto model = new_parent->GetModel();
-
-  auto taken = model->TakeItem(item->GetParent(), item->GetTagIndex());
-  model->InsertItem(std::move(taken), new_parent, tag_index);
+  auto taken = model.TakeItem(item->GetParent(), item->GetTagIndex());
+  model.InsertItem(std::move(taken), new_parent, tag_index);
 }
 
 std::unique_ptr<SessionItem> TakeItem(SessionModelInterface& model, SessionItem* parent,
@@ -160,12 +158,21 @@ std::unique_ptr<SessionItem> TakeItem(SessionModelInterface& model, SessionItem*
   {
     throw std::runtime_error("Error in SessionModel::removeItem(): parent is undefined");
   }
+
   if (parent->GetModel() != &model)
   {
-    throw std::runtime_error(
-        "Error in SessionModel::removeItem(): item doesn't belong to given model");
+    throw std::runtime_error("Error in utils::TakeItem(): item doesn't belong to given model");
   }
   return parent->TakeItem(tag_index);
+}
+
+void RemoveItem(SessionModelInterface& model, SessionItem* item)
+{
+  if (!item)
+  {
+    throw std::runtime_error("Item is not initialised");
+  }
+  model.TakeItem(item->GetParent(), item->GetTagIndex());
 }
 
 }  // namespace mvvm::utils
