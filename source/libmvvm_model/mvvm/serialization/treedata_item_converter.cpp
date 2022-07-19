@@ -92,7 +92,9 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     }
 
     if (IsRegenerateIdWhenBackFromXML(m_mode))
+    {
       item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+    }
   }
 };
 
@@ -118,7 +120,9 @@ bool TreeDataItemConverter::IsSessionItemConvertible(const TreeData& tree_data) 
 std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData& tree_data) const
 {
   if (!IsSessionItemConvertible(tree_data))
+  {
     throw std::runtime_error("Error in TreeDataItemConverter: uncompatible TreeData");
+  }
 
   auto model_type = tree_data.GetAttribute(kTypelAttributeKey);
   auto result = p_impl->m_factory->CreateItem(model_type);
