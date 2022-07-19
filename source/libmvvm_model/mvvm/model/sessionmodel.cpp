@@ -125,16 +125,7 @@ SessionItem* SessionModel::InsertNewItem(const std::string& item_type, SessionIt
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  if (!parent)
-  {
-    throw std::runtime_error("Error in SessionModel::removeItem(): parent is undefined");
-  }
-//  if (parent->GetModel() != this)
-//  {
-//    throw std::runtime_error(
-//        "Error in SessionModel::removeItem(): item doesn't belong to given model");
-//  }
-  return parent->TakeItem(tag_index);
+  return utils::TakeItem(*this, parent, tag_index);
 }
 
 //! Removes give item from the model.
@@ -203,10 +194,11 @@ void SessionModel::CheckOut(SessionItem* item)
   p_impl->m_item_manager->UnregisterFromPool(item);
 }
 
-//void SessionModel::RegisterItemInternal(const std::string& item_type,
-//                                        const item_factory_func_t& func, const std::string& label)
+// void SessionModel::RegisterItemInternal(const std::string& item_type,
+//                                         const item_factory_func_t& func, const std::string&
+//                                         label)
 //{
-//  p_impl->m_item_manager->GetFactory()->RegisterItem(item_type, func, label);
-//}
+//   p_impl->m_item_manager->GetFactory()->RegisterItem(item_type, func, label);
+// }
 
 }  // namespace mvvm

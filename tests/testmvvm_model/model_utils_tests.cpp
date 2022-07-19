@@ -347,6 +347,25 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
 //    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
 //}
 
+TEST_F(ModelUtilsTests, TakeItem)
+{
+  SessionModel model;
+
+  auto parent = model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child1 = model.InsertItem<SessionItem>(parent);
+  auto child2 = model.InsertItem<SessionItem>(parent, {"", 0});  // before child1
+  auto child2_key = child2->GetIdentifier();
+
+  // removing child2
+  auto taken = utils::TakeItem(model, parent, {"", 0});  // removing child2
+  EXPECT_EQ(taken.get(), child2);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::ChildAt(parent, 0), child1);
+  EXPECT_EQ(taken->GetModel(), nullptr);
+}
+
 //! Simple move of item from one parent to another.
 
 TEST_F(ModelUtilsTests, MoveItem)

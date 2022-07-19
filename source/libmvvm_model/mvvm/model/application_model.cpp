@@ -87,7 +87,7 @@ std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,
                                                         const TagIndex &tag_index)
 {
   p_impl->m_notifier.AboutToRemoveItemNotify(parent, tag_index);
-  auto result = SessionModel::TakeItem(parent, tag_index);
+  auto result = utils::TakeItem(*this, parent, tag_index);
   p_impl->m_notifier.ItemRemovedNotify(parent, tag_index);
   return result;
 }

@@ -153,4 +153,19 @@ void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_in
   model->InsertItem(std::move(taken), new_parent, tag_index);
 }
 
+std::unique_ptr<SessionItem> TakeItem(SessionModelInterface& model, SessionItem* parent,
+                                      const TagIndex& tag_index)
+{
+  if (!parent)
+  {
+    throw std::runtime_error("Error in SessionModel::removeItem(): parent is undefined");
+  }
+  if (parent->GetModel() != &model)
+  {
+    throw std::runtime_error(
+        "Error in SessionModel::removeItem(): item doesn't belong to given model");
+  }
+  return parent->TakeItem(tag_index);
+}
+
 }  // namespace mvvm::utils
