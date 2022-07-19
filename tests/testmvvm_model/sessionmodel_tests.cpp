@@ -434,7 +434,7 @@ TEST_F(SessionModelTest, TakeRowFromRootItem)
   EXPECT_EQ(m_pool->ItemForKey(child_key), nullptr);
 }
 
-// !Simple move of item from one parent to another.
+//! Simple move of item from one parent to another.
 
 TEST_F(SessionModelTest, MoveItem)
 {

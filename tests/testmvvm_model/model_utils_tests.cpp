@@ -346,3 +346,27 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
 //    expected = {layer1, layer0, layer2};
 //    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
 //}
+
+//! Simple move of item from one parent to another.
+
+TEST_F(ModelUtilsTests, MoveItem)
+{
+  SessionModel model;
+
+  // parent with child
+  auto parent0 = model.InsertItem<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child0 = model.InsertItem<PropertyItem>(parent0);
+
+  // another parent with child
+  auto parent1 = model.InsertItem<SessionItem>();
+  parent1->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child1 = model.InsertItem<PropertyItem>(parent1);
+
+  // moving child0 from parent0 to parent1
+  utils::MoveItem(child0, parent1, {"", 0});
+
+  std::vector<SessionItem*> expected = {child0, child1};
+  EXPECT_EQ(parent1->GetAllItems(), expected);
+  EXPECT_TRUE(parent0->GetAllItems().empty());
+}

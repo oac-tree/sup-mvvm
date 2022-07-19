@@ -21,6 +21,7 @@
 
 #include <mvvm/interfaces/item_manager_interface.h>
 #include <mvvm/model/item_manager.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/validate_utils.h>
 #include <mvvm/signals/model_event_notifier.h>
 
@@ -99,11 +100,7 @@ void ApplicationModel::RemoveItem(SessionItem *item)
 void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
                                 const TagIndex &tag_index)
 {
-  // For the moment MoveItem is implemented in SessionModel::MoveItem as two subsequent calls:
-  // TakeItem + InsertItem. This is turn will trigger four notifications:
-  // AboutToRemoveItemNotify, ItemRemovedNotify, AboutToInsertItemNotify, ItemInsertedNotify.
-  // If we decide to introduce own notifications for move, we will have to implement it here.
-  SessionModel::MoveItem(item, new_parent, tag_index);
+  utils::MoveItem(item, new_parent, tag_index);
 }
 
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)

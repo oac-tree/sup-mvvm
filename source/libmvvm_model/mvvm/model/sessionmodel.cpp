@@ -153,10 +153,7 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-  utils::ValidateItemMove(item, new_parent, tag_index);
-
-  auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
-  InsertItem(std::move(taken), new_parent, tag_index);
+  utils::MoveItem(item, new_parent, tag_index);
 }
 
 //! Sets the data for given item.

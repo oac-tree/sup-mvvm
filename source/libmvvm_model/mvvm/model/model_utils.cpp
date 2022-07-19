@@ -22,6 +22,7 @@
 #include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/path.h>
+#include <mvvm/model/validate_utils.h>
 
 namespace mvvm::utils
 {
@@ -56,8 +57,8 @@ SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path)
   return result;
 }
 
-SessionItem *CopyItem(const SessionItem* item, SessionModelInterface *model, SessionItem* parent,
-              const TagIndex& tag_index)
+SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, SessionItem* parent,
+                      const TagIndex& tag_index)
 {
   auto copy_strategy = CreateItemCopyStrategy(model->GetFactory());
   return model->InsertItem(copy_strategy->CreateCopy(item), parent, tag_index);
@@ -141,5 +142,15 @@ SessionItem *CopyItem(const SessionItem* item, SessionModelInterface *model, Ses
 //    if (auto stack = model->undoStack(); stack)
 //        stack->endMacro();
 //}
+
+void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
+{
+  utils::ValidateItemMove(item, new_parent, tag_index);
+
+  auto model = new_parent->GetModel();
+
+  auto taken = model->TakeItem(item->GetParent(), item->GetTagIndex());
+  model->InsertItem(std::move(taken), new_parent, tag_index);
+}
 
 }  // namespace mvvm::utils
