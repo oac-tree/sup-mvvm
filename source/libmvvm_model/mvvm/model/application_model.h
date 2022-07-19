@@ -20,18 +20,19 @@
 #ifndef MVVM_MODEL_APPLICATION_MODEL_H_
 #define MVVM_MODEL_APPLICATION_MODEL_H_
 
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/abstract_model_decorator.h>
 #include <mvvm/viewmodel_export.h>
 
 namespace mvvm
 {
 class ModelEventSubscriberInterface;
+class ItemManagerInterface;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.
 //! All modification of the model are done through the composer, which takes care
 //! about notifications and all subscribers.
 
-class MVVM_VIEWMODEL_EXPORT ApplicationModel : public SessionModel
+class MVVM_VIEWMODEL_EXPORT ApplicationModel : public AbstractModelDecorator
 {
 public:
   using SessionModelInterface::InsertItem;

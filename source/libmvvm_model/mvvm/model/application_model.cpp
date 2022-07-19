@@ -22,6 +22,7 @@
 #include <mvvm/interfaces/item_manager_interface.h>
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/validate_utils.h>
 #include <mvvm/signals/model_event_notifier.h>
 
@@ -52,9 +53,11 @@ ApplicationModel::ApplicationModel(std::string model_type)
 
 ApplicationModel::ApplicationModel(std::string model_type,
                                    std::unique_ptr<ItemManagerInterface> manager)
-    : SessionModel(std::move(model_type), std::move(manager))
+    : AbstractModelDecorator(
+        std::make_unique<SessionModel>(std::move(model_type), std::move(manager)))
     , p_impl(std::make_unique<ApplicationModelImpl>(this))
 {
+  m_decorated_model->GetRootItem()->SetModel(this);
 }
 
 ApplicationModel::~ApplicationModel()
@@ -77,7 +80,8 @@ SessionItem *ApplicationModel::InsertItem(std::unique_ptr<SessionItem> item, Ses
   utils::ValidateItemInsert(item.get(), actual_parent, actual_tag_index);
 
   p_impl->m_notifier.AboutToInsertItemNotify(actual_parent, actual_tag_index);
-  auto result = SessionModel::InsertItem(std::move(item), actual_parent, actual_tag_index);
+  auto result =
+      AbstractModelDecorator::InsertItem(std::move(item), actual_parent, actual_tag_index);
   p_impl->m_notifier.ItemInsertedNotify(actual_parent, actual_tag_index);
 
   return result;
@@ -105,7 +109,7 @@ void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
 
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)
 {
-  auto result = SessionModel::SetData(item, value, role);
+  auto result = AbstractModelDecorator::SetData(item, value, role);
   if (result)
   {
     p_impl->m_notifier.DataChangedNotify(item, role);
@@ -117,13 +121,14 @@ bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int ro
 void ApplicationModel::Clear(std::function<void(SessionItem *)> callback)
 {
   p_impl->m_notifier.ModelAboutToBeResetNotify(this);
-  SessionModel::Clear(callback);
+  AbstractModelDecorator::Clear(callback);
+  GetRootItem()->SetModel(this); // FIXME Simplify when method SetRootItem is implemented
   p_impl->m_notifier.ModelResetNotify(this);
 }
 
 void ApplicationModel::CheckIn(SessionItem *item)
 {
-  SessionModel::CheckIn(item);
+  AbstractModelDecorator::CheckIn(item);
   item->Activate();
 }
 
