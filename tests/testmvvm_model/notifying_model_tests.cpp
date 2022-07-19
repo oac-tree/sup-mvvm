@@ -222,6 +222,38 @@ TEST_F(NotifyingModelTests, InsertItemIntoParentUsingTagAndIndex)
 }
 
 //! Inserting item using templated insertion.
+//! Test is identical to the previous one, except the way event is triggered.
+//! Here we access the model via parent->GetModel().
+
+TEST_F(NotifyingModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+
+  MockModelListener listener(&m_model);
+  TagIndex expected_tag_index{"tag", 0};
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+  }
+  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
+  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
+  EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+
+  // inserting item (pretending that we do not have direct access to the model)
+  auto item = parent->GetModel()->InsertItem<PropertyItem>(parent, {"tag", 0});
+  EXPECT_EQ(item, parent->GetItem("tag"));
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
+//! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
 
 TEST_F(NotifyingModelTests, InsertItemInDefaultTag)
@@ -482,9 +514,9 @@ TEST_F(NotifyingModelTests, Clear)
 
 //! Destroying the model.
 
- TEST_F(NotifyingModelTests, Destroy)
+TEST_F(NotifyingModelTests, Destroy)
 {
-   auto model = std::make_unique<NotifyingModel>(std::make_unique<SessionModel>());
+  auto model = std::make_unique<NotifyingModel>(std::make_unique<SessionModel>());
 
   auto parent = model->InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
