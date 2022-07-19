@@ -18,12 +18,13 @@
  *****************************************************************************/
 
 #include "mock_model_listener.h"
-#include "mvvm/model/application_model.h"
+#include "mvvm/model/notifying_model.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionmodel.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -31,22 +32,25 @@ using ::testing::_;
 //! Tests for ModelComposer class.
 //! Class is used to manipulate the model and generate necessary notifications.
 
-class ApplicationModelTests : public ::testing::Test
+class NotifyingModelTests : public ::testing::Test
 {
 public:
-  ApplicationModel m_model;
+  NotifyingModelTests() : m_model(std::make_unique<SessionModel>("TestModel")) {}
+  NotifyingModel m_model;
 };
 
-TEST_F(ApplicationModelTests, InitialState)
+TEST_F(NotifyingModelTests, InitialState)
 {
   EXPECT_EQ(m_model.GetRootItem()->GetModel(), &m_model);
   EXPECT_EQ(m_model.GetRootItem()->GetParent(), nullptr);
+  EXPECT_EQ(m_model.GetType(), std::string("TestModel"));
+  EXPECT_NE(m_model.GetFactory(), nullptr);
   EXPECT_NE(m_model.GetSubscriber(), nullptr);
 }
 
 //! Setting data through the model and checking the result.
 
-TEST_F(ApplicationModelTests, SetData)
+TEST_F(NotifyingModelTests, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -71,7 +75,7 @@ TEST_F(ApplicationModelTests, SetData)
 
 //! Setting data through the item.
 
-TEST_F(ApplicationModelTests, SetDataThroughItem)
+TEST_F(NotifyingModelTests, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -90,14 +94,14 @@ TEST_F(ApplicationModelTests, SetDataThroughItem)
   EXPECT_TRUE(item->SetData(42, DataRole::kData));
   EXPECT_EQ(item->Data<int>(), 42);
 
-  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  // verify here, and not on MockModelListenerr destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
 
-TEST_F(ApplicationModelTests, SetSameData)
+TEST_F(NotifyingModelTests, SetSameData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
@@ -124,7 +128,7 @@ TEST_F(ApplicationModelTests, SetSameData)
 
 //! Inserting new item into the root item through the composer.
 
-TEST_F(ApplicationModelTests, InsertItemIntoRoot)
+TEST_F(NotifyingModelTests, InsertItemIntoRoot)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -153,7 +157,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 
 //! Inserting new item into the root item via move.
 
-TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
+TEST_F(NotifyingModelTests, InsertItemIntoRootViaMove)
 {
   SessionItem* expected_parent = m_model.GetRootItem();
   TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
@@ -189,7 +193,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 
 //! Inserting item using templated insertion.
 
-TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
+TEST_F(NotifyingModelTests, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -220,7 +224,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
 
-TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
+TEST_F(NotifyingModelTests, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -249,7 +253,7 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug) when where is no default tag defined.
 
-TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
+TEST_F(NotifyingModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -271,7 +275,7 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 
 //! Attempt to insert item into property tag.
 
-TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
+TEST_F(NotifyingModelTests, InsertItemInPropertyTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->AddProperty("thickness", 42);
@@ -293,7 +297,7 @@ TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
 
 //! Inserting item through the composer into another parent using move insertion.
 
-TEST_F(ApplicationModelTests, InsertItemViaMove)
+TEST_F(NotifyingModelTests, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -326,7 +330,7 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
 
 //! Removing item.
 
-TEST_F(ApplicationModelTests, TakeItem)
+TEST_F(NotifyingModelTests, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -358,7 +362,7 @@ TEST_F(ApplicationModelTests, TakeItem)
 
 //! Removing item.
 
-TEST_F(ApplicationModelTests, RemoveItem)
+TEST_F(NotifyingModelTests, RemoveItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -389,7 +393,7 @@ TEST_F(ApplicationModelTests, RemoveItem)
 
 //! Moving item item.
 
-TEST_F(ApplicationModelTests, MoveItem)
+TEST_F(NotifyingModelTests, MoveItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), true);
@@ -422,7 +426,7 @@ TEST_F(ApplicationModelTests, MoveItem)
 //! Attempt to move property item from compound item.
 //! The operation should fail via exception throw, no signals should be emitted.
 
-TEST_F(ApplicationModelTests, IvalidItemMove)
+TEST_F(NotifyingModelTests, IvalidItemMove)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   auto property = parent1->AddProperty("thickness", 42);
@@ -449,9 +453,9 @@ TEST_F(ApplicationModelTests, IvalidItemMove)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Destroying the model.
+//! Clearing the model.
 
-TEST_F(ApplicationModelTests, Clear)
+TEST_F(NotifyingModelTests, Clear)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -476,11 +480,11 @@ TEST_F(ApplicationModelTests, Clear)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Clearing the model.
+//! Destroying the model.
 
-TEST_F(ApplicationModelTests, Destroy)
+ TEST_F(NotifyingModelTests, Destroy)
 {
-  auto model = std::make_unique<ApplicationModel>();
+   auto model = std::make_unique<NotifyingModel>(std::make_unique<SessionModel>());
 
   auto parent = model->InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);

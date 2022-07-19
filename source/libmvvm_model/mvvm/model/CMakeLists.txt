@@ -23,6 +23,8 @@ target_sources(${library_name} PRIVATE
   model_utils.cpp
   model_utils.h
   mvvm_types.h
+  notifying_model.cpp
+  notifying_model.h
   path.cpp
   path.h
   property_item.cpp
