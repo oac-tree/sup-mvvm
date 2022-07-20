@@ -177,10 +177,9 @@ void RemoveItem(SessionModelInterface& model, SessionItem* item)
   model.TakeItem(item->GetParent(), item->GetTagIndex());
 }
 
-std::unique_ptr<SessionItem> CreateEmptyRootItem(SessionModelInterface* model)
+std::unique_ptr<SessionItem> CreateEmptyRootItem()
 {
   auto result = std::make_unique<SessionItem>();
-  result->SetModel(model);
   result->RegisterTag(TagInfo::CreateUniversalTag("rootTag"), /*set_as_default*/ true);
   return result;
 }

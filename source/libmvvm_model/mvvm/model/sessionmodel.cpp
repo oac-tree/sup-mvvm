@@ -71,7 +71,7 @@ SessionModel::SessionModel(std::string model_type)
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
-  p_impl->SetRootItem(utils::CreateEmptyRootItem(this));
+  p_impl->SetRootItem(utils::CreateEmptyRootItem());
 }
 
 SessionModel::~SessionModel()
@@ -164,7 +164,7 @@ SessionItem* SessionModel::FindItem(const std::string& id) const
 
 void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
 {
-  p_impl->SetRootItem(root_item ? std::move(root_item) : utils::CreateEmptyRootItem(this));
+  p_impl->SetRootItem(root_item ? std::move(root_item) : utils::CreateEmptyRootItem());
 }
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.

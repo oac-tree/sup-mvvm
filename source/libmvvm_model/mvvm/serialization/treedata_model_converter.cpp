@@ -100,7 +100,7 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
 
   auto item_converter = CreateConverter(model.GetFactory());
 
-  auto root_item = utils::CreateEmptyRootItem(nullptr); // no model yet
+  auto root_item = utils::CreateEmptyRootItem();
   for (const auto &tree_child : tree_data.Children())
   {
     root_item->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());

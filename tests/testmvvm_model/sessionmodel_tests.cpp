@@ -603,7 +603,7 @@ TEST_F(SessionModelTest, ClearWithRootReplace)
   model.InsertItem<SessionItem>();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
-  auto new_root = utils::CreateEmptyRootItem(nullptr);
+  auto new_root = utils::CreateEmptyRootItem();
   auto new_root_ptr = new_root.get();
 
   auto new_item = new_root->InsertItem<SessionItem>(TagIndex::Append());

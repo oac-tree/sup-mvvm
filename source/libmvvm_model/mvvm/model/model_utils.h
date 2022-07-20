@@ -157,7 +157,7 @@ MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> TakeItem(SessionModelInterface& m
 MVVM_MODEL_EXPORT void RemoveItem(SessionModelInterface& model, SessionItem* item);
 
 //! Returns empty root item.
-MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> CreateEmptyRootItem(SessionModelInterface* model);
+MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> CreateEmptyRootItem();
 
 }  // namespace mvvm::utils
 
