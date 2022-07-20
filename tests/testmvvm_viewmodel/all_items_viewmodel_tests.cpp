@@ -827,7 +827,7 @@ TEST_F(AllItemsViewModelTests, OnModelReset)
   QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
   QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-  m_model.Clear();
+  m_model.Clear({});
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
 

@@ -83,9 +83,9 @@ SessionItem *AbstractModelDecorator::FindItem(const std::string &id) const
   return m_decorated_model->FindItem(id);
 }
 
-void AbstractModelDecorator::Clear(std::function<void(SessionItem *)> callback)
+void AbstractModelDecorator::Clear(std::unique_ptr<SessionItem> root_item)
 {
-  return m_decorated_model->Clear(callback);
+  return m_decorated_model->Clear(std::move(root_item));
 }
 
 void AbstractModelDecorator::CheckIn(SessionItem *item)

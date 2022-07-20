@@ -501,7 +501,7 @@ TEST_F(ApplicationModelTests, Clear)
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // removing item
-  m_model.Clear();
+  m_model.Clear({});
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)

@@ -118,10 +118,10 @@ bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int ro
   return result;
 }
 
-void ApplicationModel::Clear(std::function<void(SessionItem *)> callback)
+void ApplicationModel::Clear(std::unique_ptr<SessionItem> root_item)
 {
   p_impl->m_notifier.ModelAboutToBeResetNotify(this);
-  AbstractModelDecorator::Clear(callback);
+  AbstractModelDecorator::Clear(std::move(root_item));
   GetRootItem()->SetModel(this); // FIXME Simplify when method SetRootItem is implemented
   p_impl->m_notifier.ModelResetNotify(this);
 }

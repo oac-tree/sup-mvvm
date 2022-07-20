@@ -21,6 +21,7 @@
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_item_converter.h>
 
@@ -99,14 +100,12 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
 
   auto item_converter = CreateConverter(model.GetFactory());
 
-  auto rebuild_root = [&tree_data, &item_converter](auto parent)
+  auto root_item = utils::CreateEmptyRootItem(nullptr); // no model yet
+  for (const auto &tree_child : tree_data.Children())
   {
-    for (const auto &tree_child : tree_data.Children())
-    {
-      parent->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
-    }
-  };
-  model.Clear(rebuild_root);
+    root_item->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
+  }
+  model.Clear(std::move(root_item));
 }
 
 }  // namespace mvvm

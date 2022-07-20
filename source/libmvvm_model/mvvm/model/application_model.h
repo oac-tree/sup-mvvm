@@ -54,7 +54,7 @@ public:
 
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
-  void Clear(std::function<void(SessionItem*)> callback = {}) override;
+  void Clear(std::unique_ptr<SessionItem> root_item) override;
 
   void CheckIn(SessionItem* item) override;
 

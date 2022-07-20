@@ -66,7 +66,9 @@ public:
 
   virtual SessionItem* FindItem(const std::string& id) const = 0;
 
-  virtual void Clear(std::function<void(SessionItem*)> callback = {}) = 0;
+  //! Removes all items from the model and recreates a new empty root item.
+  //! If `root_item` is provided will use it as a new root.
+  virtual void Clear(std::unique_ptr<SessionItem> root_item) = 0;
 
   virtual void CheckIn(SessionItem* item) = 0;
 

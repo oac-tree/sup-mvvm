@@ -48,7 +48,19 @@ struct SessionModel::SessionModelImpl
   }
 
   //! Creates root item.
-  void CreateRootItem() { m_root_item = std::move(utils::CreateEmptyRootItem(m_self)); }
+  void SetRootItem(std::unique_ptr<SessionItem> root_item)
+  {
+    m_root_item = std::move(root_item);
+
+    // Root item can come from outside and can have a model already defined.
+    // That means that the model decorator is handling this.
+
+    if (!m_root_item->GetModel())
+    {
+      // If model is not defined, we have to set the model to ourself.
+      m_root_item->SetModel(m_self);
+    }
+  }
 };
 
 SessionModel::SessionModel(std::string model_type)
@@ -59,7 +71,7 @@ SessionModel::SessionModel(std::string model_type)
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
-  p_impl->CreateRootItem();
+  p_impl->SetRootItem(utils::CreateEmptyRootItem(this));
 }
 
 SessionModel::~SessionModel()
@@ -150,16 +162,9 @@ SessionItem* SessionModel::FindItem(const std::string& id) const
   return p_impl->m_item_manager->FindItem(id);
 }
 
-//! Removes all items from the model. If callback is provided, use it to rebuild content of root
-//! item (used while restoring the model from serialized content).
-
-void SessionModel::Clear(std::function<void(SessionItem*)> callback)
+void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
 {
-  p_impl->CreateRootItem();
-  if (callback)
-  {
-    callback(GetRootItem());
-  }
+  p_impl->SetRootItem(root_item ? std::move(root_item) : utils::CreateEmptyRootItem(this));
 }
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.

@@ -27,6 +27,7 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/taginfo.h>
 
 #include <memory>
@@ -582,14 +583,14 @@ TEST_F(SessionModelTest, ClearModel)
   model.InsertItem<SessionItem>();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
-  model.Clear();
+  model.Clear({});
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_FALSE(model.GetRootItem() == first_root);
   EXPECT_EQ(m_pool->KeyForItem(first_root), "");
   EXPECT_EQ(m_pool->GetSize(), 1);
 }
 
-TEST_F(SessionModelTest, ClearRebuildModel)
+TEST_F(SessionModelTest, ClearWithRootReplace)
 {
   TestModel model;
 
@@ -602,13 +603,15 @@ TEST_F(SessionModelTest, ClearRebuildModel)
   model.InsertItem<SessionItem>();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
-  SessionItem* new_item{nullptr};
-  auto rebuild = [&new_item](auto parent)
-  { new_item = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append()); };
+  auto new_root = utils::CreateEmptyRootItem(nullptr);
+  auto new_root_ptr = new_root.get();
 
-  model.Clear(rebuild);
+  auto new_item = new_root->InsertItem<SessionItem>(TagIndex::Append());
+
+  model.Clear(std::move(new_root));
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
-  EXPECT_FALSE(model.GetRootItem() == first_root);
+  EXPECT_NE(model.GetRootItem(), first_root);
+  EXPECT_EQ(model.GetRootItem(), new_root_ptr);
   EXPECT_EQ(m_pool->KeyForItem(first_root), "");
   EXPECT_EQ(m_pool->GetSize(), 2);
   EXPECT_EQ(m_pool->KeyForItem(new_item), new_item->GetIdentifier());

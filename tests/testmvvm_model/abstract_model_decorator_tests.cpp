@@ -168,5 +168,5 @@ TEST_F(AbstractModelDecoratorTests, Clear)
   EXPECT_CALL(mock_model, SetData(_, _, _)).Times(0);
   EXPECT_CALL(mock_model, Clear(_)).Times(1);
 
-  decorator.Clear();
+  decorator.Clear({});
 }

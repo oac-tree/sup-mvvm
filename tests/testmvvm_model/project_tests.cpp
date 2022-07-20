@@ -127,8 +127,8 @@ TEST_F(ProjectTests, LoadModel)
   EXPECT_EQ(project.GetProjectDir(), project_dir);
 
   // cleaning models
-  sample_model->Clear();
-  material_model->Clear();
+  sample_model->Clear({});
+  material_model->Clear({});
   EXPECT_EQ(sample_model->GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_EQ(material_model->GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_TRUE(project.IsModified());
