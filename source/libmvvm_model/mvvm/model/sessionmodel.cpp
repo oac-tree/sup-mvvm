@@ -48,12 +48,7 @@ struct SessionModel::SessionModelImpl
   }
 
   //! Creates root item.
-  void CreateRootItem()
-  {
-    m_root_item = m_item_manager->CreateItem(SessionItem::Type);
-    m_root_item->SetModel(m_self);
-    m_root_item->RegisterTag(TagInfo::CreateUniversalTag("rootTag"), /*set_as_default*/ true);
-  }
+  void CreateRootItem() { m_root_item = std::move(utils::CreateEmptyRootItem(m_self)); }
 };
 
 SessionModel::SessionModel(std::string model_type)
@@ -180,12 +175,5 @@ void SessionModel::CheckOut(SessionItem* item)
 {
   p_impl->m_item_manager->UnregisterFromPool(item);
 }
-
-// void SessionModel::RegisterItemInternal(const std::string& item_type,
-//                                         const item_factory_func_t& func, const std::string&
-//                                         label)
-//{
-//   p_impl->m_item_manager->GetFactory()->RegisterItem(item_type, func, label);
-// }
 
 }  // namespace mvvm

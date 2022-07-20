@@ -19,6 +19,7 @@
 
 #include "mvvm/model/model_utils.h"
 
+#include <mvvm/model/taginfo.h>
 #include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/path.h>
@@ -143,7 +144,8 @@ SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, Ses
 //        stack->endMacro();
 //}
 
-void MoveItem(SessionModelInterface &model, SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
+void MoveItem(SessionModelInterface& model, SessionItem* item, SessionItem* new_parent,
+              const TagIndex& tag_index)
 {
   utils::ValidateItemMove(item, new_parent, tag_index);
 
@@ -173,6 +175,14 @@ void RemoveItem(SessionModelInterface& model, SessionItem* item)
     throw std::runtime_error("Item is not initialised");
   }
   model.TakeItem(item->GetParent(), item->GetTagIndex());
+}
+
+std::unique_ptr<SessionItem> CreateEmptyRootItem(SessionModelInterface* model)
+{
+  auto result = std::make_unique<SessionItem>();
+  result->SetModel(model);
+  result->RegisterTag(TagInfo::CreateUniversalTag("rootTag"), /*set_as_default*/ true);
+  return result;
 }
 
 }  // namespace mvvm::utils
