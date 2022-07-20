@@ -43,24 +43,27 @@ struct SessionModel::SessionModelImpl
 
   SessionModelImpl(SessionModel* self, std::string model_type,
                    std::unique_ptr<ItemManagerInterface> manager)
-      : m_self(self), m_model_type(std::move(model_type)), m_item_manager(std::move(manager))
+      : m_self(self)
+      , m_model_type(std::move(model_type))
+      , m_item_manager(std::move(manager))
+      , m_root_item(utils::CreateEmptyRootItem())
   {
   }
 
-  //! Creates root item.
-  void SetRootItem(std::unique_ptr<SessionItem> root_item)
-  {
-    m_root_item = std::move(root_item);
+  //  //! Creates root item.
+  //  void SetRootItem(std::unique_ptr<SessionItem> root_item)
+  //  {
+  //    m_root_item = std::move(root_item);
 
-    // Root item can come from outside and can have a model already defined.
-    // That means that the model decorator is handling this.
+  //    // Root item can come from outside and can have a model already defined.
+  //    // That means that the model decorator is handling this.
 
-    if (!m_root_item->GetModel())
-    {
-      // If model is not defined, we have to set the model to ourself.
-      m_root_item->SetModel(m_self);
-    }
-  }
+  //    if (!m_root_item->GetModel())
+  //    {
+  //      // If model is not defined, we have to set the model to ourself.
+  //      m_root_item->SetModel(m_self);
+  //    }
+  //  }
 };
 
 SessionModel::SessionModel(std::string model_type)
@@ -71,7 +74,9 @@ SessionModel::SessionModel(std::string model_type)
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
-  p_impl->SetRootItem(utils::CreateEmptyRootItem());
+  //  p_impl->SetRootItem(utils::CreateEmptyRootItem());
+//  p_impl->m_root_item = utils::CreateEmptyRootItem();
+  GetRootItem()->SetModel(this);
 }
 
 SessionModel::~SessionModel()
@@ -123,14 +128,14 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  return utils::TakeItem(*this, parent, tag_index);
+  return utils::TakeItem(*GetRootItem()->GetModel(), parent, tag_index);
 }
 
 //! Removes give item from the model.
 
 void SessionModel::RemoveItem(SessionItem* item)
 {
-  utils::RemoveItem(*this, item);
+  utils::RemoveItem(*GetRootItem()->GetModel(), item);
 }
 
 //! Move item from it's current parent to a new parent under given tag and row.
@@ -138,7 +143,7 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-  utils::MoveItem(*this, item, new_parent, tag_index);
+  utils::MoveItem(*GetRootItem()->GetModel(), item, new_parent, tag_index);
 }
 
 //! Sets the data for given item.
@@ -164,7 +169,12 @@ SessionItem* SessionModel::FindItem(const std::string& id) const
 
 void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
 {
-  p_impl->SetRootItem(root_item ? std::move(root_item) : utils::CreateEmptyRootItem());
+  p_impl->m_root_item = root_item ? std::move(root_item) : utils::CreateEmptyRootItem();
+//  if (!GetRootItem()->GetModel())
+//  {
+    GetRootItem()->SetModel(this);
+//  }
+  //  p_impl->SetRootItem(root_item ? std::move(root_item) : utils::CreateEmptyRootItem());
 }
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.

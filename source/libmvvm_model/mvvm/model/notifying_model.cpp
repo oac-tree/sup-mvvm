@@ -99,19 +99,19 @@ std::unique_ptr<SessionItem> NotifyingModel::TakeItem(SessionItem *parent,
                                                       const TagIndex &tag_index)
 {
   p_impl->m_notifier.AboutToRemoveItemNotify(parent, tag_index);
-  auto result = utils::TakeItem(*this, parent, tag_index);
+  auto result = GetDecoratedModel()->TakeItem(parent, tag_index);
   p_impl->m_notifier.ItemRemovedNotify(parent, tag_index);
   return result;
 }
 
 void NotifyingModel::RemoveItem(SessionItem *item)
 {
-  utils::RemoveItem(*this, item);
+  GetDecoratedModel()->RemoveItem(item);
 }
 
 void NotifyingModel::MoveItem(SessionItem *item, SessionItem *new_parent, const TagIndex &tag_index)
 {
-  utils::MoveItem(*this, item, new_parent, tag_index);
+  GetDecoratedModel()->MoveItem(item, new_parent, tag_index);
 }
 
 bool NotifyingModel::SetData(SessionItem *item, const variant_t &value, int role)

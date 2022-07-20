@@ -91,20 +91,20 @@ std::unique_ptr<SessionItem> ApplicationModel::TakeItem(SessionItem *parent,
                                                         const TagIndex &tag_index)
 {
   p_impl->m_notifier.AboutToRemoveItemNotify(parent, tag_index);
-  auto result = utils::TakeItem(*this, parent, tag_index);
+  auto result = AbstractModelDecorator::TakeItem(parent, tag_index);
   p_impl->m_notifier.ItemRemovedNotify(parent, tag_index);
   return result;
 }
 
 void ApplicationModel::RemoveItem(SessionItem *item)
 {
-  utils::RemoveItem(*this, item);
+  AbstractModelDecorator::RemoveItem(item);
 }
 
 void ApplicationModel::MoveItem(SessionItem *item, SessionItem *new_parent,
                                 const TagIndex &tag_index)
 {
-  utils::MoveItem(*this, item, new_parent, tag_index);
+  AbstractModelDecorator::MoveItem(item, new_parent, tag_index);
 }
 
 bool ApplicationModel::SetData(SessionItem *item, const variant_t &value, int role)
@@ -122,7 +122,7 @@ void ApplicationModel::Clear(std::unique_ptr<SessionItem> root_item)
 {
   p_impl->m_notifier.ModelAboutToBeResetNotify(this);
   AbstractModelDecorator::Clear(std::move(root_item));
-  GetRootItem()->SetModel(this); // FIXME Simplify when method SetRootItem is implemented
+  GetRootItem()->SetModel(this);  // FIXME Simplify when method SetRootItem is implemented
   p_impl->m_notifier.ModelResetNotify(this);
 }
 
