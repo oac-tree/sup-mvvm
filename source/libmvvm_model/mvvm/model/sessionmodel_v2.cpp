@@ -105,7 +105,7 @@ SessionItem* SessionModelV2::InsertItem(std::unique_ptr<SessionItem> item, Sessi
   auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
   utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
 
-  return parent->InsertItem(std::move(item), actual_tagindex);
+  return p_impl->m_composer->InsertItem(std::move(item), parent, tag_index);
 }
 
 //! Removes item with given tag_index from the parent and returns it to the user.
@@ -135,7 +135,7 @@ void SessionModelV2::MoveItem(SessionItem* item, SessionItem* new_parent, const 
 
 bool SessionModelV2::SetData(SessionItem* item, const variant_t& value, int role)
 {
-  return item->SetData(value, role, /*direct*/ true);
+  return p_impl->m_composer->SetData(item, value, role);
 }
 
 //! Returns item factory which can generate all items supported by this model.

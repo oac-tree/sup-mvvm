@@ -26,7 +26,7 @@
 namespace mvvm::utils
 {
 
-TagIndex GetActualInsertTagIndex(const mvvm::SessionItem *parent, const TagIndex &tag_index)
+TagIndex GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
   {
@@ -80,7 +80,7 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
   }
 }
 
-void ValidateItemMove(const mvvm::SessionItem *item, const mvvm::SessionItem *new_parent,
+void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
                       const TagIndex &tag_index)
 {
   if (!item || !item->GetModel() || !item->GetParent())
@@ -118,6 +118,30 @@ void ValidateItemMove(const mvvm::SessionItem *item, const mvvm::SessionItem *ne
   if (utils::IsItemAncestor(new_parent, item))
   {
     throw InvalidMoveException("Attempt to make ancestor a child");
+  }
+}
+
+void ValidateTakeItem(const SessionModelInterface *model, const SessionItem *parent,
+                      const TagIndex &tag_index)
+{
+  if (!parent)
+  {
+    throw InvalidOperationException("Parent is not defined");
+  }
+
+  if (!model)
+  {
+    throw InvalidOperationException("Model is not defined");
+  }
+
+  if (parent->GetModel() != model)
+  {
+    throw InvalidOperationException("Parent doesn't belong to given model");
+  }
+
+  if (!parent->GetTaggedItems()->CanTakeItem(tag_index))
+  {
+    throw InvalidOperationException("Can't take item from parent");
   }
 }
 

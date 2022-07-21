@@ -97,6 +97,14 @@ public:
   explicit NotImplementedException(const std::string& message);
 };
 
+//! Exception is thrown on attempt to perform ivalid operation.
+
+class InvalidOperationException : public MessageException
+{
+public:
+  explicit InvalidOperationException(const std::string& message);
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_CORE_EXCEPTIONS_H_

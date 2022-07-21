@@ -57,4 +57,9 @@ NotImplementedException::NotImplementedException(const std::string& message)
 {
 }
 
+InvalidOperationException::InvalidOperationException(const std::string& message)
+    : MessageException{message}
+{
+}
+
 }  // namespace mvvm

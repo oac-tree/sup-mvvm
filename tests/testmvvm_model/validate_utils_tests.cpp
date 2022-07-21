@@ -228,3 +228,72 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   // invalid move of property item
   EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidMoveException);
 }
+
+//! Check ValidateTakeItem when parent is not defined.
+
+TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)
+{
+  using ::mvvm::utils::ValidateTakeItem;
+  SessionItem item;
+
+  EXPECT_THROW(ValidateTakeItem(&m_model, nullptr, {}), InvalidOperationException);
+}
+
+//! Check ValidateTakeItem when model is not defined.
+
+TEST_F(ValidateUtilsTests, ValidateTakeItemWhenModelIsNotDefined)
+{
+  using ::mvvm::utils::ValidateTakeItem;
+  auto parent = m_model.InsertItem<CompoundItem>();
+
+  EXPECT_THROW(ValidateTakeItem(nullptr, parent, {}), InvalidOperationException);
+}
+
+//! Check ValidateTakeItem when parent doesn't belong to a model.
+
+TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentDoesntBelongToModel)
+{
+  using ::mvvm::utils::ValidateTakeItem;
+
+  SessionItem parent;
+
+  EXPECT_THROW(ValidateTakeItem(nullptr, &parent, {}), InvalidOperationException);
+}
+
+//! Check ValidateTakeItem on attempt to remove property.
+
+TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
+{
+  using ::mvvm::utils::ValidateTakeItem;
+
+  auto parent = m_model.InsertItem<CompoundItem>();
+  auto property = parent->AddProperty("thickness", 42);
+
+  EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"thickness", 0}), InvalidOperationException);
+}
+
+//! Check ValidateTakeItem when parent doesn't belong to a model.
+
+TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
+{
+  using ::mvvm::utils::ValidateTakeItem;
+
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
+
+  EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"tag1", 1}), InvalidOperationException);
+}
+
+//! Check ValidateTakeItem on valid request.
+
+TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
+{
+  using ::mvvm::utils::ValidateTakeItem;
+
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
+
+  EXPECT_NO_THROW(ValidateTakeItem(&m_model, parent, {"tag1", 0}));
+}

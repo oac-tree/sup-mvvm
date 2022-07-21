@@ -26,6 +26,7 @@
 
 namespace mvvm
 {
+class SessionModelInterface;
 class SessionItem;
 class TagIndex;
 }  // namespace mvvm
@@ -36,11 +37,17 @@ namespace mvvm::utils
 //! Converts TagIndex::Append() into actual TagIndex.
 TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
 
-//! Perform validation is item insert is allowed. Will throw InvalidInsertException otherwise.
-void ValidateItemInsert(const SessionItem* item, const SessionItem* parent, const TagIndex& tag_index);
+//! Perform validation if item insert is allowed. Will throw InvalidInsertException otherwise.
+void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
+                        const TagIndex& tag_index);
 
-//! Perform validation is item move is allowed. Will throw InvalidMoveException otherwise.
-void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent, const TagIndex& tag_index);
+//! Perform validation if item move is allowed. Will throw InvalidMoveException otherwise.
+void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
+                      const TagIndex& tag_index);
+
+//! Perform validation if item take is allowed. Will throw InvalidOperationException otherwise.
+void ValidateTakeItem(const SessionModelInterface* model, const SessionItem* parent,
+                      const TagIndex& tag_index);
 
 }  // namespace mvvm::utils
 
