@@ -22,6 +22,8 @@ target_sources(${library_name} PRIVATE
   model_decorator.h
   model_utils.cpp
   model_utils.h
+  model_composer.cpp
+  model_composer.h
   mvvm_types.h
   notifying_model.cpp
   notifying_model.h

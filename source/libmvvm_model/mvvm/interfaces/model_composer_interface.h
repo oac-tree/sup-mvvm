@@ -31,7 +31,8 @@ namespace mvvm
 class SessionItem;
 class TagIndex;
 
-//! Interface for all classes to populate the model.
+//! Interface for all classes to compose the model.
+//! Used in various decorators for undo/redo and notifications while composing the model.
 
 class MVVM_MODEL_EXPORT ModelComposerInterface
 {
