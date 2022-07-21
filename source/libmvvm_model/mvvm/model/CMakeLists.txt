@@ -27,6 +27,7 @@ target_sources(${library_name} PRIVATE
   mvvm_types.h
   notifying_model.cpp
   notifying_model.h
+  notifying_model_composer.h
   path.cpp
   path.h
   property_item.cpp
