@@ -21,14 +21,14 @@
 #define MVVM_MODEL_NOTIFYING_MODEL_COMPOSER_H_
 
 #include <mvvm/interfaces/model_composer_interface.h>
-#include <mvvm/signals/model_event_notifier.h>
+#include <mvvm/interfaces/model_event_notifier_interface.h>
 
 namespace mvvm
 {
 
 class SessionModelInterface;
 
-//! The composer to build the model with notification abilities.
+//! The decorator class to enhance standard ModelComposer with notification abilities.
 
 template <typename T>
 class NotifyingModelComposer : public T
@@ -37,24 +37,26 @@ public:
   static_assert(std::is_base_of<ModelComposerInterface, T>::value, "Invalid template argument");
 
   template <typename... Args>
-  explicit NotifyingModelComposer(Args&&... args) : T(std::forward<Args>(args)...)
+  explicit NotifyingModelComposer(std::unique_ptr<ModelEventNotifierInterface> notifier,
+                                  Args&&... args)
+      : m_notifier(std::move(notifier)), T(std::forward<Args>(args)...)
   {
   }
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override
   {
-    m_notifier.AboutToInsertItemNotify(parent, tag_index);
+    m_notifier->AboutToInsertItemNotify(parent, tag_index);
     auto result = T::InsertItem(std::move(item), parent, tag_index);
-    m_notifier.ItemInsertedNotify(parent, tag_index);
+    m_notifier->ItemInsertedNotify(parent, tag_index);
     return result;
   }
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override
   {
-    m_notifier.AboutToRemoveItemNotify(parent, tag_index);
+    m_notifier->AboutToRemoveItemNotify(parent, tag_index);
     auto result = T::TakeItem(parent, tag_index);
-    m_notifier.ItemRemovedNotify(parent, tag_index);
+    m_notifier->ItemRemovedNotify(parent, tag_index);
     return result;
   }
 
@@ -63,13 +65,13 @@ public:
     auto result = T::SetData(item, value, role);
     if (result)
     {
-      m_notifier.DataChangedNotify(item, role);
+      m_notifier->DataChangedNotify(item, role);
     }
     return result;
   }
 
 private:
-  ModelEventNotifier m_notifier;
+  std::unique_ptr<ModelEventNotifierInterface> m_notifier;
 };
 
 }  // namespace mvvm

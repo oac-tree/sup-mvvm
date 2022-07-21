@@ -25,7 +25,7 @@
 
 //! Mocking class to test ModelEventNotifierInterface when it is called from ModelComposer.
 
-class MockModelNotifier : public mvvm::ModelEventNotifierInterface
+class MockModelEventNotifier : public mvvm::ModelEventNotifierInterface
 {
 public:
   MOCK_METHOD(void, AboutToInsertItemNotify,
@@ -52,10 +52,13 @@ public:
 
 //! A decorator to wrap MockModelNotifier for later use with unique_ptr (gmock doesn't like
 //! to put mocking objects into unique_ptr).
-class MockModelNotifierDecorator : public mvvm::ModelEventNotifierInterface
+class MockModelEventNotifierDecorator : public mvvm::ModelEventNotifierInterface
 {
 public:
-  explicit MockModelNotifierDecorator(MockModelNotifier* notifier) : m_mock_notifier(notifier) {}
+  explicit MockModelEventNotifierDecorator(MockModelEventNotifier* notifier)
+      : m_mock_notifier(notifier)
+  {
+  }
 
   void AboutToInsertItemNotify(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index) override
   {
@@ -97,7 +100,7 @@ public:
     m_mock_notifier->ModelAboutToBeDestroyedNotify(model);
   }
 
-  MockModelNotifier* m_mock_notifier{nullptr};
+  MockModelEventNotifier* m_mock_notifier{nullptr};
 };
 
 #endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_EVENT_NOTIFIER_H_

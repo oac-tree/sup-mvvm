@@ -27,7 +27,8 @@ namespace mvvm
 
 class SessionModelInterface;
 
-//! Base composer to build the model.
+//! The standard ModelComposer to modify the model (add/remove items, reset the model).
+//! Doesn't contains any undo/redo, or signaling and is used for decorations.
 
 class ModelComposer : public ModelComposerInterface
 {
