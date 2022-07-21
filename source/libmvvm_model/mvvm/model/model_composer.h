@@ -45,7 +45,7 @@ public:
 
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
-  void Reset(std::unique_ptr<SessionItem> root_item) override;
+  void Reset(std::unique_ptr<SessionItem>& old_root_item, std::unique_ptr<SessionItem> new_root_item) override;
 
 private:
   SessionModelInterface& m_model;

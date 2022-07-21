@@ -600,6 +600,7 @@ TEST_F(SessionModelV2Test, ClearModel)
 
   model.Clear({}, nullptr);
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
   EXPECT_FALSE(model.GetRootItem() == first_root);
   EXPECT_EQ(m_pool->KeyForItem(first_root), "");
   EXPECT_EQ(m_pool->GetSize(), 1);
@@ -627,6 +628,7 @@ TEST_F(SessionModelV2Test, ClearWithRootReplace)
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_NE(model.GetRootItem(), first_root);
   EXPECT_EQ(model.GetRootItem(), new_root_ptr);
+  EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
   EXPECT_EQ(m_pool->KeyForItem(first_root), "");
   EXPECT_EQ(m_pool->GetSize(), 2);
   EXPECT_EQ(m_pool->KeyForItem(new_item), new_item->GetIdentifier());
