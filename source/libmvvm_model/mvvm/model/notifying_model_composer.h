@@ -30,31 +30,46 @@ class SessionModelInterface;
 
 //! The composer to build the model with notification abilities.
 
-template<typename T>
+template <typename T>
 class NotifyingModelComposer : public T
 {
 public:
   static_assert(std::is_base_of<ModelComposerInterface, T>::value, "Invalid template argument");
 
   template <typename... Args>
-  explicit NotifyingModelComposer(Args &&... args) : T(std::forward<Args>(args)...) { }
+  explicit NotifyingModelComposer(Args&&... args) : T(std::forward<Args>(args)...)
+  {
+  }
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override
   {
-    return T::InsertItem(std::move(item), parent, tag_index);
+    m_notifier.AboutToInsertItemNotify(parent, tag_index);
+    auto result = T::InsertItem(std::move(item), parent, tag_index);
+    m_notifier.ItemInsertedNotify(parent, tag_index);
+    return result;
   }
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override
   {
-    return T::TakeItem(parent, tag_index);
+    m_notifier.AboutToRemoveItemNotify(parent, tag_index);
+    auto result = T::TakeItem(parent, tag_index);
+    m_notifier.ItemRemovedNotify(parent, tag_index);
+    return result;
   }
 
   bool SetData(SessionItem* item, const variant_t& value, int role) override
   {
-    return T::SetData(item, value, role);
+    auto result = T::SetData(item, value, role);
+    if (result)
+    {
+      m_notifier.DataChangedNotify(item, role);
+    }
+    return result;
   }
 
+private:
+  ModelEventNotifier m_notifier;
 };
 
 }  // namespace mvvm
