@@ -56,7 +56,7 @@ NotifyingModel::NotifyingModel(std::unique_ptr<SessionModelInterface> decorated_
 
 NotifyingModel::~NotifyingModel()
 {
-  p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
+  p_impl->m_notifier.ModelAboutToBeDestroyedNotify(GetRootItem()->GetModel());
 }
 
 std::string NotifyingModel::GetType() const
@@ -132,9 +132,10 @@ SessionItem *NotifyingModel::FindItem(const std::string &id) const
 
 void NotifyingModel::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface *model)
 {
-  p_impl->m_notifier.ModelAboutToBeResetNotify(this);
-  GetDecoratedModel()->Clear(std::move(root_item), model ? model : this);
-  p_impl->m_notifier.ModelResetNotify(this);
+  auto main_model = model ? model : this;
+  p_impl->m_notifier.ModelAboutToBeResetNotify(main_model);
+  GetDecoratedModel()->Clear(std::move(root_item), main_model);
+  p_impl->m_notifier.ModelResetNotify(main_model);
 }
 
 void NotifyingModel::CheckIn(SessionItem *item)

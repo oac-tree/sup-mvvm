@@ -39,28 +39,26 @@ public:
   explicit ApplicationModel(std::string model_type = {});
   ApplicationModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
 
-  ~ApplicationModel() override;
+//  ModelEventSubscriberInterface* GetSubscriber() const override;
 
-  ModelEventSubscriberInterface* GetSubscriber() const override;
+//  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+//                          const TagIndex& tag_index) override;
 
-  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
-                          const TagIndex& tag_index) override;
+//  std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
+//  void RemoveItem(SessionItem* item) override;
 
-  void RemoveItem(SessionItem* item) override;
+//  void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
 
-  void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
-
-  bool SetData(SessionItem* item, const variant_t& value, int role) override;
+//  bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model) override;
 
-  void CheckIn(SessionItem* item) override;
+//  void CheckIn(SessionItem* item) override;
 
-private:
-  struct ApplicationModelImpl;
-  std::unique_ptr<ApplicationModelImpl> p_impl;
+//private:
+//  struct ApplicationModelImpl;
+//  std::unique_ptr<ApplicationModelImpl> p_impl;
 };
 
 }  // namespace mvvm
