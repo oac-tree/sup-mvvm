@@ -55,7 +55,8 @@ public:
 
   MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
 
-  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>), (override));
+  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>, mvvm::SessionModelInterface *),
+              (override));
 
   MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
 
@@ -105,9 +106,9 @@ public:
 
   mvvm::SessionItem *FindItem(const std::string &id) const { return m_mock_model->FindItem(id); }
 
-  void Clear(std::unique_ptr<mvvm::SessionItem> root_item)
+  void Clear(std::unique_ptr<mvvm::SessionItem> root_item, mvvm::SessionModelInterface *model)
   {
-    m_mock_model->Clear(std::move(root_item));
+    m_mock_model->Clear(std::move(root_item), model);
   }
 
   void CheckIn(mvvm::SessionItem *item) { return m_mock_model->CheckIn(item); }

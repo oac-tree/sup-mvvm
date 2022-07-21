@@ -62,7 +62,7 @@ TEST_F(AbstractModelDecoratorTests, InsertItem)
   EXPECT_CALL(mock_model, RemoveItem(_)).Times(0);
   EXPECT_CALL(mock_model, MoveItem(_, _, _)).Times(0);
   EXPECT_CALL(mock_model, SetData(_, _, _)).Times(0);
-  EXPECT_CALL(mock_model, Clear(_)).Times(0);
+  EXPECT_CALL(mock_model, Clear(_, _)).Times(0);
 
   decorator.InsertItem(std::make_unique<SessionItem>(), &expected_parent, expected_tagindex);
 }
@@ -84,7 +84,7 @@ TEST_F(AbstractModelDecoratorTests, TakeItem)
   EXPECT_CALL(mock_model, RemoveItem(_)).Times(0);
   EXPECT_CALL(mock_model, MoveItem(_, _, _)).Times(0);
   EXPECT_CALL(mock_model, SetData(_, _, _)).Times(0);
-  EXPECT_CALL(mock_model, Clear(_)).Times(0);
+  EXPECT_CALL(mock_model, Clear(_, _)).Times(0);
 
   decorator.TakeItem(&expected_parent, expected_tagindex);
 }
@@ -104,7 +104,7 @@ TEST_F(AbstractModelDecoratorTests, RemoveItem)
   EXPECT_CALL(mock_model, RemoveItem(&expected_item)).Times(1);
   EXPECT_CALL(mock_model, MoveItem(_, _, _)).Times(0);
   EXPECT_CALL(mock_model, SetData(_, _, _)).Times(0);
-  EXPECT_CALL(mock_model, Clear(_)).Times(0);
+  EXPECT_CALL(mock_model, Clear(_, _)).Times(0);
 
   decorator.RemoveItem(&expected_item);
 }
@@ -126,7 +126,7 @@ TEST_F(AbstractModelDecoratorTests, MoveItem)
   EXPECT_CALL(mock_model, RemoveItem(_)).Times(0);
   EXPECT_CALL(mock_model, MoveItem(&expected_item, &expected_parent, expected_tagindex)).Times(1);
   EXPECT_CALL(mock_model, SetData(_, _, _)).Times(0);
-  EXPECT_CALL(mock_model, Clear(_)).Times(0);
+  EXPECT_CALL(mock_model, Clear(_, _)).Times(0);
 
   decorator.MoveItem(&expected_item, &expected_parent, expected_tagindex);
 }
@@ -148,7 +148,7 @@ TEST_F(AbstractModelDecoratorTests, SetData)
   EXPECT_CALL(mock_model, RemoveItem(_)).Times(0);
   EXPECT_CALL(mock_model, MoveItem(_, _, _)).Times(0);
   EXPECT_CALL(mock_model, SetData(&expected_item, expected_data, expected_role)).Times(1);
-  EXPECT_CALL(mock_model, Clear(_)).Times(0);
+  EXPECT_CALL(mock_model, Clear(_, _)).Times(0);
 
   decorator.SetData(&expected_item, expected_data, expected_role);
 }
@@ -166,7 +166,7 @@ TEST_F(AbstractModelDecoratorTests, Clear)
   EXPECT_CALL(mock_model, RemoveItem(_)).Times(0);
   EXPECT_CALL(mock_model, MoveItem(_, _, _)).Times(0);
   EXPECT_CALL(mock_model, SetData(_, _, _)).Times(0);
-  EXPECT_CALL(mock_model, Clear(_)).Times(1);
+  EXPECT_CALL(mock_model, Clear(_, _)).Times(1);
 
-  decorator.Clear({});
+  decorator.Clear({}, nullptr);
 }

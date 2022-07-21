@@ -68,7 +68,7 @@ public:
 
   //! Removes all items from the model and recreates a new empty root item.
   //! If `root_item` is provided will use it as a new root.
-  virtual void Clear(std::unique_ptr<SessionItem> root_item) = 0;
+  virtual void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface*) = 0;
 
   virtual void CheckIn(SessionItem* item) = 0;
 
@@ -98,7 +98,7 @@ void SessionModelInterface::RegisterItem(const std::string& label)
 inline ItemFactoryInterface* SessionModelInterface::GetFactory()
 {
   return const_cast<ItemFactoryInterface*>(
-      static_cast<const SessionModelInterface*>(this)->GetFactory());
+        static_cast<const SessionModelInterface*>(this)->GetFactory());
 }
 
 }  // namespace mvvm

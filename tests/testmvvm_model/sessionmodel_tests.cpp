@@ -583,7 +583,7 @@ TEST_F(SessionModelTest, ClearModel)
   model.InsertItem<SessionItem>();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
-  model.Clear({});
+  model.Clear({}, nullptr);
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_FALSE(model.GetRootItem() == first_root);
   EXPECT_EQ(m_pool->KeyForItem(first_root), "");
@@ -608,7 +608,7 @@ TEST_F(SessionModelTest, ClearWithRootReplace)
 
   auto new_item = new_root->InsertItem<SessionItem>(TagIndex::Append());
 
-  model.Clear(std::move(new_root));
+  model.Clear(std::move(new_root), nullptr);
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_NE(model.GetRootItem(), first_root);
   EXPECT_EQ(model.GetRootItem(), new_root_ptr);

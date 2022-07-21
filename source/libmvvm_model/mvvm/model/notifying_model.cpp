@@ -130,10 +130,10 @@ SessionItem *NotifyingModel::FindItem(const std::string &id) const
   return GetDecoratedModel()->FindItem(id);
 }
 
-void NotifyingModel::Clear(std::unique_ptr<SessionItem> root_item)
+void NotifyingModel::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface *model)
 {
   p_impl->m_notifier.ModelAboutToBeResetNotify(this);
-  GetDecoratedModel()->Clear(std::move(root_item));
+  GetDecoratedModel()->Clear(std::move(root_item), model);
   GetRootItem()->SetModel(this);  // FIXME Simplify when method SetRootItem is implemented
   p_impl->m_notifier.ModelResetNotify(this);
 }
