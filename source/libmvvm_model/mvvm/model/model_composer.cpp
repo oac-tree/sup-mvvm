@@ -19,6 +19,8 @@
 
 #include "mvvm/model/model_composer.h"
 
+#include "mvvm/interfaces/sessionmodel_interface.h"
+
 #include <mvvm/model/sessionitem.h>
 
 namespace mvvm
@@ -51,6 +53,11 @@ void ModelComposer::MoveItem(SessionItem *item, SessionItem *new_parent, const T
 bool ModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
 {
   return item->SetData(value, role, /*direct*/ true);
+}
+
+void ModelComposer::Reset(std::unique_ptr<SessionItem> root_item)
+{
+  m_model.Clear(std::move(root_item), nullptr);
 }
 
 }  // namespace mvvm

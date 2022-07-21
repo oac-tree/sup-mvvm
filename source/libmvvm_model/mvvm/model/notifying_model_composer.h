@@ -55,8 +55,6 @@ public:
     return T::SetData(item, value, role);
   }
 
-private:
-  SessionModelInterface& m_model;
 };
 
 }  // namespace mvvm

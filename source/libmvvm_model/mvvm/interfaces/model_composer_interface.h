@@ -49,6 +49,8 @@ public:
   virtual void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) = 0;
 
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
+
+  virtual void Reset(std::unique_ptr<SessionItem> root_item) = 0;
 };
 
 }  // namespace mvvm

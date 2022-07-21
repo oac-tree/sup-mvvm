@@ -28,6 +28,7 @@
 #include <mvvm/model/taginfo.h>
 
 using namespace mvvm;
+using ::testing::_;
 
 //! Testing ModelComposer class.
 
@@ -130,4 +131,14 @@ TEST_F(ModelComposerTests, SetData)
 
   // setting second time the same data is not possible
   EXPECT_FALSE(composer.SetData(&item, 42, DataRole::kData));
+}
+
+TEST_F(ModelComposerTests, Reset)
+{
+  MockModel model;
+  ModelComposer composer(model);
+
+  EXPECT_CALL(model, Clear(_, _)).Times(1);
+
+  composer.Reset({});
 }
