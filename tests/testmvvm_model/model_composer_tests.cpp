@@ -36,6 +36,14 @@ class ModelComposerTests : public ::testing::Test
 {
 };
 
+TEST_F(ModelComposerTests, InitialState)
+{
+  MockModel model;
+  ModelComposer composer(model);
+
+  EXPECT_EQ(composer.GetModel(), &model);
+}
+
 TEST_F(ModelComposerTests, InsertItem)
 {
   MockModel model;
@@ -135,10 +143,14 @@ TEST_F(ModelComposerTests, SetData)
 
 TEST_F(ModelComposerTests, Reset)
 {
-//  MockModel model;
-//  ModelComposer composer(model);
+  MockModel model;
+  ModelComposer composer(model);
 
-//  EXPECT_CALL(model, Clear(_, _)).Times(1);
+  auto parent0 = std::make_unique<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child0 = parent0->InsertItem<PropertyItem>(TagIndex::Append());
 
-//  composer.Reset({});
+  composer.Reset(parent0, {});
+  EXPECT_EQ(parent0->GetTotalItemCount(), 0);
+  EXPECT_EQ(parent0->GetModel(), &model);
 }

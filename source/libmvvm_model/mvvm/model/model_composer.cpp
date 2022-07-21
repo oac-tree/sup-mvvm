@@ -62,4 +62,9 @@ void ModelComposer::Reset(std::unique_ptr<SessionItem> &old_root_item,
   old_root_item->SetModel(&m_model);
 }
 
+SessionModelInterface *ModelComposer::GetModel() const
+{
+  return &m_model;
+}
+
 }  // namespace mvvm
