@@ -113,7 +113,8 @@ SessionItem* SessionModelV2::InsertItem(std::unique_ptr<SessionItem> item, Sessi
 std::unique_ptr<SessionItem> SessionModelV2::TakeItem(SessionItem* parent,
                                                       const TagIndex& tag_index)
 {
-  return utils::TakeItem(*GetRootItem()->GetModel(), parent, tag_index);
+  utils::ValidateTakeItem(this, parent, tag_index);
+  return p_impl->m_composer->TakeItem(parent, tag_index);
 }
 
 //! Removes give item from the model.

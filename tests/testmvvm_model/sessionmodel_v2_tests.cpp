@@ -343,11 +343,11 @@ TEST_F(SessionModelV2Test, RemoveFromWrongParent)
   TestModel model;
 
   // undefined item
-  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), std::runtime_error);
+  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), InvalidOperationException);
 
   // parent non belonging to given model
   SessionItem parent;
-  EXPECT_THROW(model.TakeItem(&parent, {"", 0}), std::runtime_error);
+  EXPECT_THROW(model.TakeItem(&parent, {"", 0}), InvalidOperationException);
 }
 
 TEST_F(SessionModelV2Test, RemoveNonExistingItem)
@@ -358,7 +358,7 @@ TEST_F(SessionModelV2Test, RemoveNonExistingItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // removing non existing child
-  EXPECT_NO_THROW(model.TakeItem(parent, {"", 0}));
+  EXPECT_THROW(model.TakeItem(parent, {"", 0}), InvalidOperationException);
 }
 
 TEST_F(SessionModelV2Test, TakeRowFromRootItem)
