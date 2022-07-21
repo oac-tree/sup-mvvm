@@ -31,6 +31,7 @@ class SessionModelInterface;
 
 class ModelComposer : public ModelComposerInterface
 {
+public:
   explicit ModelComposer(SessionModelInterface& model);
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
