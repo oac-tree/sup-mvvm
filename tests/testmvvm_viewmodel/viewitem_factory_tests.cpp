@@ -19,8 +19,6 @@
 
 #include "mvvm/viewmodel/viewitem_factory.h"
 
-#include "mock_model_notifier.h"
-
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/vector_item.h>

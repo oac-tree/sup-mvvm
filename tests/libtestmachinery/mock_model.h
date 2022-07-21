@@ -63,10 +63,14 @@ public:
   MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
 };
 
+
+//! A decorator to wrap MockModel for later use with unique_ptr (gmock doesn't like
+//! to put mocking objects into unique_ptr).
+
 class MockModelDecorator : public mvvm::SessionModelInterface
 {
 public:
-  MockModelDecorator(MockModel *mock_model) : m_mock_model(mock_model) {}
+  explicit MockModelDecorator(MockModel *mock_model) : m_mock_model(mock_model) {}
 
   std::string GetType() const { return m_mock_model->GetType(); }
 
