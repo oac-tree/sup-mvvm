@@ -33,7 +33,7 @@
 using namespace mvvm;
 using ::testing::_;
 
-//! Testing ModelComposer class.
+//! Testing NotifyingModelComposer class.
 
 class NotifyingModelComposerTests : public ::testing::Test
 {
@@ -53,4 +53,52 @@ TEST_F(NotifyingModelComposerTests, InitialState)
   auto composer = CreateComposer();
 
   EXPECT_EQ(composer->GetModel(), &m_model);
+}
+
+TEST_F(NotifyingModelComposerTests, InsertItem)
+{
+  TagIndex expected_tagindex{"", 0};
+  auto composer = CreateComposer();
+
+  auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = std::make_unique<SessionItem>();
+  auto p_child = child.get();
+
+  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent.get(), expected_tagindex)).Times(1);
+  EXPECT_CALL(m_notifier, ItemInsertedNotify(parent.get(), expected_tagindex)).Times(1);
+
+  // inserting child
+  auto inserted = composer->InsertItem(std::move(child), parent.get(), {"", 0});
+
+  EXPECT_EQ(inserted, p_child);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
+  EXPECT_EQ(parent->GetAllItems()[0], inserted);
+  EXPECT_EQ(parent->GetItem("", 0), inserted);
+  EXPECT_EQ(inserted->GetParent(), parent.get());
+}
+
+TEST_F(NotifyingModelComposerTests, SetData)
+{
+  SessionItem expected_item;
+  int expected_role{DataRole::kData};
+  auto composer = CreateComposer();
+
+  EXPECT_CALL(m_notifier, DataChangedNotify(&expected_item, expected_role)).Times(1);
+
+  EXPECT_TRUE(composer->SetData(&expected_item, 42, expected_role));
+}
+
+TEST_F(NotifyingModelComposerTests, SetSameData)
+{
+  SessionItem expected_item;
+  int expected_role{DataRole::kData};
+  expected_item.SetData(42, expected_role);
+  auto composer = CreateComposer();
+
+  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
+
+  EXPECT_FALSE(composer->SetData(&expected_item, 42, expected_role));
 }
