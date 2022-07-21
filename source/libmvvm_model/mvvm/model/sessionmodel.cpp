@@ -49,21 +49,6 @@ struct SessionModel::SessionModelImpl
       , m_root_item(utils::CreateEmptyRootItem())
   {
   }
-
-  //  //! Creates root item.
-  //  void SetRootItem(std::unique_ptr<SessionItem> root_item)
-  //  {
-  //    m_root_item = std::move(root_item);
-
-  //    // Root item can come from outside and can have a model already defined.
-  //    // That means that the model decorator is handling this.
-
-  //    if (!m_root_item->GetModel())
-  //    {
-  //      // If model is not defined, we have to set the model to ourself.
-  //      m_root_item->SetModel(m_self);
-  //    }
-  //  }
 };
 
 SessionModel::SessionModel(std::string model_type)
@@ -74,8 +59,6 @@ SessionModel::SessionModel(std::string model_type)
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager)))
 {
-  //  p_impl->SetRootItem(utils::CreateEmptyRootItem());
-  //  p_impl->m_root_item = utils::CreateEmptyRootItem();
   GetRootItem()->SetModel(this);
 }
 
