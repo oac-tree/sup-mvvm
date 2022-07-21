@@ -83,6 +83,7 @@ TEST_F(NotifyingModelComposerTests, InsertItem)
 TEST_F(NotifyingModelComposerTests, TakeItem)
 {
   auto composer = CreateComposer();
+
   TagIndex expected_tagindex{"", 0};
 
   // preparing parent
@@ -104,9 +105,10 @@ TEST_F(NotifyingModelComposerTests, TakeItem)
 
 TEST_F(NotifyingModelComposerTests, SetData)
 {
+  auto composer = CreateComposer();
+
   SessionItem expected_item;
   int expected_role{DataRole::kData};
-  auto composer = CreateComposer();
 
   EXPECT_CALL(m_notifier, DataChangedNotify(&expected_item, expected_role)).Times(1);
 
@@ -123,4 +125,21 @@ TEST_F(NotifyingModelComposerTests, SetSameData)
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
 
   EXPECT_FALSE(composer->SetData(&expected_item, 42, expected_role));
+}
+
+TEST_F(NotifyingModelComposerTests, Reset)
+{
+  auto composer = CreateComposer();
+
+  auto parent0 = std::make_unique<SessionItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child0 = parent0->InsertItem<PropertyItem>(TagIndex::Append());
+
+  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(&m_model)).Times(1);
+  EXPECT_CALL(m_notifier, ModelResetNotify(&m_model)).Times(1);
+
+  composer->Reset(parent0, {});
+
+  EXPECT_EQ(parent0->GetTotalItemCount(), 0);
+  EXPECT_EQ(parent0->GetModel(), &m_model);
 }

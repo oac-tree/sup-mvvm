@@ -71,6 +71,14 @@ public:
     return result;
   }
 
+  void Reset(std::unique_ptr<SessionItem>& old_root_item,
+             std::unique_ptr<SessionItem> new_root_item)
+  {
+    m_notifier->ModelAboutToBeResetNotify(T::GetModel());
+    T::Reset(old_root_item, std::move(new_root_item));
+    m_notifier->ModelResetNotify(T::GetModel());
+  }
+
 private:
   std::unique_ptr<ModelEventNotifierInterface> m_notifier;
 };
