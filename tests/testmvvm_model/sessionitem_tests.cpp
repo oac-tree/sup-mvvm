@@ -571,39 +571,6 @@ TEST_F(SessionItemTests, TagWithLimits)
   EXPECT_EQ(parent->GetItems(tag1), expected);
 }
 
-////! Inserting and removing items when tag has limits.
-// TEST_F(SessionItemTests, TagItemTypes)
-//{
-//  const std::string tag1 = "tag1";
-//  const std::string tag2 = "tag2";
-//  const std::string itemType1 = "ItemType1";
-//  const std::string itemType2 = "ItemType2";
-//  const std::string itemType3 = "ItemType3";
-//  const std::string itemType4 = "ItemType4";
-
-//  auto parent = std::make_unique<SessionItem>();
-//  parent->RegisterTag(TagInfo(tag1, 0, -1, std::vector<std::string>() = {itemType1, itemType2}));
-//  parent->RegisterTag(TagInfo(tag2, 0, -1, std::vector<std::string>() = {itemType3}));
-
-//  auto item1 = new TestItem(itemType1);
-//  auto item2 = new TestItem(itemType2);
-//  auto item3 = new TestItem(itemType3);
-
-//  // attempt to add item not intended for tag
-//  EXPECT_FALSE(parent->insertItem(item1, {tag2, -1}));
-//  EXPECT_FALSE(parent->insertItem(item3, {tag1, -1}));
-
-//  // normal insert to appropriate tag
-//  parent->insertItem(item3, {tag2, -1});
-//  parent->insertItem(item1, {tag1, -1});
-//  parent->insertItem(item2, {tag1, -1});
-
-//  std::vector<SessionItem*> expected = {item1, item2};
-//  EXPECT_EQ(parent->getItems(tag1), expected);
-//  expected = {item3};
-//  EXPECT_EQ(parent->getItems(tag2), expected);
-//}
-
 //! Checks row of item in its tag
 
 TEST_F(SessionItemTests, GetTagIndex)

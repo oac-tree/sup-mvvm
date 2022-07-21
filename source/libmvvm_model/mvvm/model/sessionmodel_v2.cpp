@@ -1,0 +1,175 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mvvm/model/sessionmodel_v2.h"
+
+#include <mvvm/core/exceptions.h>
+#include <mvvm/interfaces/item_factory_interface.h>
+#include <mvvm/model/item_manager.h>
+#include <mvvm/model/model_utils.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/tagged_items.h>
+#include <mvvm/model/taginfo.h>
+#include <mvvm/model/validate_utils.h>
+
+#include <sstream>
+
+namespace mvvm
+{
+//! Pimpl class for SessionModel.
+
+struct SessionModelV2::SessionModelImpl
+{
+  SessionModelV2* m_self{nullptr};
+  std::string m_model_type;
+  std::unique_ptr<ItemManagerInterface> m_item_manager;
+  std::unique_ptr<ModelComposerInterface> m_composer;
+  std::unique_ptr<SessionItem> m_root_item;
+
+  SessionModelImpl(SessionModelV2* self, std::string model_type,
+                   std::unique_ptr<ItemManagerInterface> manager,
+                   std::unique_ptr<ModelComposerInterface> composer)
+      : m_self(self)
+      , m_model_type(std::move(model_type))
+      , m_item_manager(std::move(manager))
+      , m_composer(std::move(composer))
+      , m_root_item(utils::CreateEmptyRootItem())
+  {
+  }
+};
+
+SessionModelV2::SessionModelV2(std::string model_type,
+                               std::unique_ptr<ItemManagerInterface> manager,
+                               std::unique_ptr<ModelComposerInterface> composer)
+    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager),
+                                                std::move(composer)))
+{
+  GetRootItem()->SetModel(this);
+}
+
+SessionModelV2::~SessionModelV2()
+{
+  // Explicitely call root item's destructor. It uses p_impl pointer during own descruction
+  // and we have to keep pimpl pointer intact. Without line below will crash on MacOS because
+  // of pecularities of MacOS libc++. See explanations here:
+  // http://ibob.github.io/blog/2019/11/07/dont-use-unique_ptr-for-pimpl/
+  p_impl->m_root_item.reset();
+}
+
+//! Returns model type.
+
+std::string SessionModelV2::GetType() const
+{
+  return p_impl->m_model_type;
+}
+
+//! Returns root item of the model.
+
+SessionItem* SessionModelV2::GetRootItem() const
+{
+  return p_impl->m_root_item.get();
+}
+
+ModelEventSubscriberInterface* SessionModelV2::GetSubscriber() const
+{
+  return nullptr;
+}
+
+//! Insert item via move into the given `parent` under given `tag_index`.
+//! FIXME make default parameters (or their absence) as in the method InsertNewItem.
+
+SessionItem* SessionModelV2::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                                        const TagIndex& tag_index)
+{
+  if (!parent)
+  {
+    parent = GetRootItem();
+  }
+
+  auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
+  utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
+
+  return parent->InsertItem(std::move(item), actual_tagindex);
+}
+
+//! Removes item with given tag_index from the parent and returns it to the user.
+
+std::unique_ptr<SessionItem> SessionModelV2::TakeItem(SessionItem* parent,
+                                                      const TagIndex& tag_index)
+{
+  return utils::TakeItem(*GetRootItem()->GetModel(), parent, tag_index);
+}
+
+//! Removes give item from the model.
+
+void SessionModelV2::RemoveItem(SessionItem* item)
+{
+  utils::RemoveItem(*GetRootItem()->GetModel(), item);
+}
+
+//! Move item from it's current parent to a new parent under given tag and row.
+//! Old and new parents should belong to this model.
+
+void SessionModelV2::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
+{
+  utils::MoveItem(*GetRootItem()->GetModel(), item, new_parent, tag_index);
+}
+
+//! Sets the data for given item.
+
+bool SessionModelV2::SetData(SessionItem* item, const variant_t& value, int role)
+{
+  return item->SetData(value, role, /*direct*/ true);
+}
+
+//! Returns item factory which can generate all items supported by this model.
+
+const ItemFactoryInterface* SessionModelV2::GetFactory() const
+{
+  return p_impl->m_item_manager->GetFactory();
+}
+
+//! Returns SessionItem for given identifier.
+
+SessionItem* SessionModelV2::FindItem(const std::string& id) const
+{
+  return p_impl->m_item_manager->FindItem(id);
+}
+
+void SessionModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model)
+{
+  p_impl->m_root_item = root_item ? std::move(root_item) : utils::CreateEmptyRootItem();
+  GetRootItem()->SetModel(model ? model : this);
+}
+
+//! Registers item in pool. This will allow to find item pointer using its unique identifier.
+
+void SessionModelV2::CheckIn(SessionItem* item)
+{
+  p_impl->m_item_manager->RegisterInPool(item);
+}
+
+//! Unregister item from pool.
+
+void SessionModelV2::CheckOut(SessionItem* item)
+{
+  p_impl->m_item_manager->UnregisterFromPool(item);
+}
+
+}  // namespace mvvm
