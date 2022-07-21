@@ -85,49 +85,6 @@ TEST_F(ModelComposerTests, TakeItem)
   EXPECT_EQ(taken.get(), child);
 }
 
-TEST_F(ModelComposerTests, RemoveItem)
-{
-  MockModel model;
-  ModelComposer composer(model);
-
-  // preparing parent
-  auto parent = std::make_unique<SessionItem>();
-  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-  auto child = parent->InsertItem(TagIndex::Append());
-
-  EXPECT_EQ(parent->GetTotalItemCount(), 1);
-
-  // removing item via composer
-  composer.RemoveItem(child);
-
-  EXPECT_EQ(parent->GetTotalItemCount(), 0);
-}
-
-//! Simple move of item from one parent to another.
-
-TEST_F(ModelComposerTests, MoveItem)
-{
-  MockModel model;
-  ModelComposer composer(model);
-
-  // parent with child
-  auto parent0 = std::make_unique<SessionItem>();
-  parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-  auto child0 = parent0->InsertItem<PropertyItem>(TagIndex::Append());
-
-  // another parent with child
-  auto parent1 = std::make_unique<SessionItem>();
-  parent1->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-  auto child1 = parent1->InsertItem<PropertyItem>(TagIndex::Append());
-
-  // moving child0 from parent0 to parent 1
-  composer.MoveItem(child0, parent1.get(), {"", 0});
-
-  std::vector<SessionItem*> expected = {child0, child1};
-  EXPECT_EQ(parent1->GetAllItems(), expected);
-  EXPECT_TRUE(parent0->GetAllItems().empty());
-}
-
 TEST_F(ModelComposerTests, SetData)
 {
   MockModel model;

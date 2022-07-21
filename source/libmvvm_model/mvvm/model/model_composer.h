@@ -40,10 +40,6 @@ public:
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  void RemoveItem(SessionItem* item) override;
-
-  void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
-
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   void Reset(std::unique_ptr<SessionItem>& old_root_item, std::unique_ptr<SessionItem> new_root_item) override;

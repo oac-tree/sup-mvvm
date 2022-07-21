@@ -80,6 +80,28 @@ TEST_F(NotifyingModelComposerTests, InsertItem)
   EXPECT_EQ(inserted->GetParent(), parent.get());
 }
 
+TEST_F(NotifyingModelComposerTests, TakeItem)
+{
+  auto composer = CreateComposer();
+  TagIndex expected_tagindex{"", 0};
+
+  // preparing parent
+  auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child = parent->InsertItem(TagIndex::Append());
+
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+
+  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent.get(), expected_tagindex)).Times(1);
+  EXPECT_CALL(m_notifier, ItemRemovedNotify(parent.get(), expected_tagindex)).Times(1);
+
+  // taking item via composer
+  auto taken = composer->TakeItem(parent.get(), {"", 0});
+
+  EXPECT_EQ(taken->GetParent(), nullptr);
+  EXPECT_EQ(taken.get(), child);
+}
+
 TEST_F(NotifyingModelComposerTests, SetData)
 {
   SessionItem expected_item;

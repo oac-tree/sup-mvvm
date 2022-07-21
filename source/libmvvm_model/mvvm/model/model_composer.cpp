@@ -39,17 +39,6 @@ std::unique_ptr<SessionItem> ModelComposer::TakeItem(SessionItem *parent, const 
   return parent->TakeItem(tag_index);
 }
 
-void ModelComposer::RemoveItem(SessionItem *item)
-{
-  TakeItem(item->GetParent(), item->GetTagIndex());
-}
-
-void ModelComposer::MoveItem(SessionItem *item, SessionItem *new_parent, const TagIndex &tag_index)
-{
-  auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
-  InsertItem(std::move(taken), new_parent, tag_index);
-}
-
 bool ModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
 {
   return item->SetData(value, role, /*direct*/ true);

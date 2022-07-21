@@ -22,6 +22,7 @@
 
 #include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/interfaces/model_event_notifier_interface.h>
+#include <mvvm/model/sessionitem.h>
 
 namespace mvvm
 {
