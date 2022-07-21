@@ -379,7 +379,7 @@ TEST_F(SessionItemTests, InsertChildren)
   // attempt to insert item using out of scope index
   auto child5 = std::make_unique<SessionItem>();
   EXPECT_THROW(parent->InsertItem(std::move(child5), {"", parent->GetTotalItemCount() + 1}),
-               InvalidInsertException);
+               InvalidOperationException);
 }
 
 //! Attempt to insert into itself
@@ -390,7 +390,7 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoItself)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // trying to insert parent into a child
-  EXPECT_THROW(parent->InsertItem(std::move(parent), {"", 0}), InvalidInsertException);
+  EXPECT_THROW(parent->InsertItem(std::move(parent), {"", 0}), InvalidOperationException);
 }
 
 //! Invalid insert of parent into a child
@@ -415,7 +415,7 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
   EXPECT_EQ(parent->GetParent(), nullptr);
 
   // trying to insert parent into a child
-  EXPECT_THROW(inserted->InsertItem(std::move(parent), {"", 0}), InvalidInsertException);
+  EXPECT_THROW(inserted->InsertItem(std::move(parent), {"", 0}), InvalidOperationException);
 
   // nothing to check here. Unsuccessfull insert anyway ended with parent move and then destruction.
 }
@@ -557,7 +557,7 @@ TEST_F(SessionItemTests, TagWithLimits)
 
   // no room for extra item
   EXPECT_THROW(parent->InsertItem(std::make_unique<SessionItem>(), {tag1, -1}),
-               InvalidInsertException);
+               InvalidOperationException);
 
   // removing first element
   parent->TakeItem({tag1, 0});

@@ -299,7 +299,7 @@ TEST_F(NotifyingModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // inserting item
-  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent), InvalidInsertException);
+  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent), InvalidOperationException);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -321,7 +321,7 @@ TEST_F(NotifyingModelTests, InsertItemInPropertyTag)
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // It shouldn't be allowed to insert another item in the already existing property tag
-  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
+  EXPECT_THROW(m_model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidOperationException);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
   testing::Mock::VerifyAndClearExpectations(&listener);
@@ -477,7 +477,7 @@ TEST_F(NotifyingModelTests, IvalidItemMove)
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // removing item
-  EXPECT_THROW(m_model.MoveItem(property, parent2, {"tag2", 0}), InvalidMoveException);
+  EXPECT_THROW(m_model.MoveItem(property, parent2, {"tag2", 0}), InvalidOperationException);
   EXPECT_EQ(parent1->GetTotalItemCount(), 1);
   EXPECT_EQ(parent2->GetTotalItemCount(), 0);
 

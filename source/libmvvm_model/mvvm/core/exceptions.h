@@ -49,22 +49,6 @@ public:
   explicit RuntimeException(const std::string& message);
 };
 
-//! Exception thrown when trying to move item.
-
-class InvalidMoveException : public MessageException
-{
-public:
-  explicit InvalidMoveException(const std::string& message);
-};
-
-//! Exception thrown when trying to insert item.
-
-class InvalidInsertException : public MessageException
-{
-public:
-  explicit InvalidInsertException(const std::string& message);
-};
-
 //! Exception is thrown when no such key exists in a map.
 
 class NotFoundKeyException : public MessageException

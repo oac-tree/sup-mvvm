@@ -234,7 +234,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagWhenNoDefaultTagIsPresent)
   item->RegisterTag(TagInfo::CreateUniversalTag("tag"), /*set_as_default*/ false);
 
   // adding child to default tag
-  EXPECT_THROW(model.InsertItem<PropertyItem>(item), InvalidInsertException);
+  EXPECT_THROW(model.InsertItem<PropertyItem>(item), InvalidOperationException);
 }
 
 //! Attempt to insert item in property tag.
@@ -248,7 +248,7 @@ TEST_F(SessionModelTest, InsertItemInPropertyTag)
   parent->AddProperty("thickness", 42);
 
   // adding child to default tag
-  EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
+  EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidOperationException);
 }
 
 //! Attempt to insert item in property tag.
@@ -262,7 +262,7 @@ TEST_F(SessionModelTest, InsertNewItemInPropertyTag)
   parent->AddProperty("thickness", 42);
 
   // adding child to default tag
-  EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidInsertException);
+  EXPECT_THROW(model.InsertItem<PropertyItem>(parent, {"thickness", 0}), InvalidOperationException);
 }
 
 //! Inserting single PropertyItem using move.
@@ -511,7 +511,7 @@ TEST_F(SessionModelTest, InvalidMoveOfParentProperty)
   new_parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move property from parent to root
-  EXPECT_THROW(model.MoveItem(property, new_parent, {"", 0}), InvalidMoveException);
+  EXPECT_THROW(model.MoveItem(property, new_parent, {"", 0}), InvalidOperationException);
 
   // items as before
   EXPECT_EQ(new_parent->GetTotalItemCount(), 0);

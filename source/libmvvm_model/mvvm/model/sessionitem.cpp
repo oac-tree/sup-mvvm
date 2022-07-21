@@ -226,32 +226,32 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 {
   if (!item)
   {
-    throw InvalidInsertException("Invalid item");
+    throw InvalidOperationException("Invalid item");
   }
 
   if (item.get() == this)
   {
-    throw InvalidInsertException("Attempt to insert to itself");
+    throw InvalidOperationException("Attempt to insert to itself");
   }
 
   if (item->GetParent())
   {
-    throw InvalidInsertException("Item already has a parent");
+    throw InvalidOperationException("Item already has a parent");
   }
 
   if (item->GetModel())
   {
-    throw InvalidInsertException("Item already has a model");
+    throw InvalidOperationException("Item already has a model");
   }
 
   if (utils::IsItemAncestor(this, item.get()))
   {
-    throw InvalidInsertException("Attempt to turn ancestor into a child");
+    throw InvalidOperationException("Attempt to turn ancestor into a child");
   }
 
   if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
   {
-    throw InvalidInsertException("Wrong tags");
+    throw InvalidOperationException("Wrong tags");
   }
 
   auto result = item.release();

@@ -38,7 +38,7 @@ TagIndex GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_
 
   if (actual_tag.empty())
   {
-    throw InvalidInsertException("No tag is marked as default");
+    throw InvalidOperationException("No tag is marked as default");
   }
 
   int actual_index = tag_index.index < 0 ? parent->GetItemCount(actual_tag) : tag_index.index;
@@ -51,32 +51,32 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
 {
   if (!item)
   {
-    throw InvalidInsertException("Invalid input item");
+    throw InvalidOperationException("Invalid input item");
   }
 
   if (item == parent)
   {
-    throw InvalidInsertException("Attempt to insert to itself");
+    throw InvalidOperationException("Attempt to insert to itself");
   }
 
   if (item->GetParent())
   {
-    throw InvalidInsertException("Item belongs to another parent");
+    throw InvalidOperationException("Item belongs to another parent");
   }
 
   if (!parent)
   {
-    throw InvalidInsertException("Invalid parent item");
+    throw InvalidOperationException("Invalid parent item");
   }
 
   if (utils::IsItemAncestor(parent, item))
   {
-    throw InvalidInsertException("Attempt to turn ancestor into a child");
+    throw InvalidOperationException("Attempt to turn ancestor into a child");
   }
 
   if (!parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    throw InvalidInsertException("Can't insert item to parent");
+    throw InvalidOperationException("Can't insert item to parent");
   }
 }
 
@@ -85,39 +85,39 @@ void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
 {
   if (!item || !item->GetModel() || !item->GetParent())
   {
-    throw InvalidMoveException("Invalid input item");
+    throw InvalidOperationException("Invalid input item");
   }
 
   if (!new_parent || !new_parent->GetModel())
   {
-    throw InvalidMoveException("Invalid parent item");
+    throw InvalidOperationException("Invalid parent item");
   }
 
   if (item->GetModel() != new_parent->GetModel())
   {
-    throw InvalidMoveException("Items belong to different models");
+    throw InvalidOperationException("Items belong to different models");
   }
 
   auto current_parent = item->GetParent();
   if (!current_parent->GetTaggedItems()->CanTakeItem(item->GetTagIndex()))
   {
-    throw InvalidMoveException("Can't take item from parent");
+    throw InvalidOperationException("Can't take item from parent");
   }
 
   if (!new_parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    throw InvalidMoveException(
+    throw InvalidOperationException(
         "Can't insert item to a new parent. It doesn't allow more children of this type.");
   }
 
   if (item == new_parent)
   {
-    throw InvalidMoveException("Attempt to insert an item to itself");
+    throw InvalidOperationException("Attempt to insert an item to itself");
   }
 
   if (utils::IsItemAncestor(new_parent, item))
   {
-    throw InvalidMoveException("Attempt to make ancestor a child");
+    throw InvalidOperationException("Attempt to make ancestor a child");
   }
 }
 

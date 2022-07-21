@@ -42,7 +42,7 @@ TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
   using ::mvvm::utils::GetActualInsertTagIndex;
 
   CompoundItem item;
-  EXPECT_THROW(GetActualInsertTagIndex(&item, TagIndex::Append()), InvalidInsertException);
+  EXPECT_THROW(GetActualInsertTagIndex(&item, TagIndex::Append()), InvalidOperationException);
 
   // registering default tag
   item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -66,12 +66,12 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
   using ::mvvm::utils::ValidateItemInsert;
 
   // invalid items
-  EXPECT_THROW(ValidateItemInsert(nullptr, nullptr, TagIndex()), InvalidInsertException);
+  EXPECT_THROW(ValidateItemInsert(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   // item without model
   SessionItem item;
   CompoundItem parent;
-  EXPECT_THROW(ValidateItemInsert(&item, &parent, TagIndex()), InvalidInsertException);
+  EXPECT_THROW(ValidateItemInsert(&item, &parent, TagIndex()), InvalidOperationException);
 }
 
 //! Check throw in ValidateItemInsert when item is inserted to itself.
@@ -83,7 +83,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
   auto item = std::make_unique<CompoundItem>();
   item->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  EXPECT_THROW(ValidateItemInsert(item.get(), item.get(), {"tag1", 0}), InvalidInsertException);
+  EXPECT_THROW(ValidateItemInsert(item.get(), item.get(), {"tag1", 0}), InvalidOperationException);
 }
 
 //! Check throw in ValidateItemInsert when item belongs already to another item.
@@ -96,7 +96,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   EXPECT_THROW(ValidateItemInsert(m_model.GetRootItem(), child, {"tag1", 0}),
-               InvalidInsertException);
+               InvalidOperationException);
 }
 
 //! Check throw in ValidateItemInsert when item belongs already to another item.
@@ -109,7 +109,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
 
-  EXPECT_THROW(ValidateItemInsert(child, parent0, {"tag1", 0}), InvalidInsertException);
+  EXPECT_THROW(ValidateItemInsert(child, parent0, {"tag1", 0}), InvalidOperationException);
 }
 
 //! Check no_throw in ValidateItemInsert when insertion is valid.
@@ -138,7 +138,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 
   CompoundItem candidate;
 
-  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}), InvalidInsertException);
+  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}), InvalidOperationException);
 }
 
 //! Check throw in ValidateItemMove when items are not defined, or do not have model/parent
@@ -149,12 +149,12 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
   using ::mvvm::utils::ValidateItemMove;
 
   // invalid items
-  EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   // item without model
   SessionItem item;
   CompoundItem parent;
-  EXPECT_THROW(ValidateItemMove(&item, &parent, TagIndex()), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(&item, &parent, TagIndex()), InvalidOperationException);
 }
 
 //! Check ValidateItemMove when item is property moved from one parent to another.
@@ -167,13 +167,13 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move parent into parent
-  EXPECT_THROW(ValidateItemMove(parent0, parent0, {"tag1", 0}), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(parent0, parent0, {"tag1", 0}), InvalidOperationException);
 
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move parent to child
-  EXPECT_THROW(ValidateItemMove(parent0, child, {"tag1", 0}), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(parent0, child, {"tag1", 0}), InvalidOperationException);
 }
 
 //! Check ValidateItemMove when item is property moved from one parent to another.
@@ -183,7 +183,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
   using ::mvvm::utils::ValidateItemMove;
 
   // invalid items
-  EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
@@ -209,7 +209,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // it is not allowed to take property item
-  EXPECT_THROW(ValidateItemMove(property, parent1, {"tag1", 0}), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(property, parent1, {"tag1", 0}), InvalidOperationException);
 }
 
 //! Check ValidateItemMove when trying to move item into property tag of another item.
@@ -226,7 +226,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   auto property = parent1->AddProperty("thickness", 42);
 
   // invalid move of property item
-  EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidMoveException);
+  EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidOperationException);
 }
 
 //! Check ValidateTakeItem when parent is not defined.
