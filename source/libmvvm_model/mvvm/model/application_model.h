@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_APPLICATION_MODEL_H_
 #define MVVM_MODEL_APPLICATION_MODEL_H_
 
-#include <mvvm/model/sessionmodel_v2.h>
+#include <mvvm/model/sessionmodel.h>
 
 #include <memory>
 
@@ -33,7 +33,7 @@ class ItemManagerInterface;
 //! All modification of the model are done through the composer, which takes care
 //! about notifications and all subscribers.
 
-class MVVM_MODEL_EXPORT ApplicationModel : public SessionModelV2
+class MVVM_MODEL_EXPORT ApplicationModel : public SessionModel
 {
 public:
   using SessionModelInterface::InsertItem;
@@ -42,8 +42,6 @@ public:
   ApplicationModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
 
   ~ApplicationModel() override;
-
-  //  void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model) override;
 
   ModelEventSubscriberInterface* GetSubscriber() const override;
 

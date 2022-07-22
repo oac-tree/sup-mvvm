@@ -51,12 +51,11 @@ ApplicationModel::ApplicationModel(std::string model_type)
 }
 
 ApplicationModel::ApplicationModel(std::string model_type,
-                                       std::unique_ptr<ItemManagerInterface> manager)
-    : SessionModelV2(std::move(model_type), std::move(manager), {})
+                                   std::unique_ptr<ItemManagerInterface> manager)
+    : SessionModel(std::move(model_type), std::move(manager), {})
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
   SetComposer(CreateComposer(&p_impl->m_notifier, this));
-  //  m_decorated_model->GetRootItem()->SetModel(this);
 }
 
 ApplicationModel::~ApplicationModel()
@@ -64,20 +63,14 @@ ApplicationModel::~ApplicationModel()
   p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
 }
 
-// void ApplicationModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface*
-// model)
-//{
-//   AbstractModelDecorator::Clear(std::move(root_item), model ? model : this);
-// }
-
 ModelEventSubscriberInterface* ApplicationModel::GetSubscriber() const
 {
   return &p_impl->m_notifier;
 }
 
-void ApplicationModel::CheckIn(SessionItem *item)
+void ApplicationModel::CheckIn(SessionItem* item)
 {
-  SessionModelV2::CheckIn(item);
+  SessionModel::CheckIn(item);
   item->Activate();
 }
 
