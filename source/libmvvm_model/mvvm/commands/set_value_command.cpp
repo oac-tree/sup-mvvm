@@ -17,7 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <mvvm/commands/set_value_command.h>
+#include "mvvm/commands/set_value_command.h"
+
+#include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
 #include <mvvm/model/sessionitem.h>
@@ -55,7 +57,6 @@ struct SetValueCommand::SetValueCommandImpl
       : m_composer(composer), m_value(value), m_role(role)
   {
   }
-
 };
 
 SetValueCommand::SetValueCommand(ModelComposerInterface *composer, SessionItem *item,
@@ -78,7 +79,16 @@ void SetValueCommand::UndoImpl()
   SwapValues();
 }
 
-void SetValueCommand::SwapValues() {}
+void SetValueCommand::SwapValues()
+{
+  SessionItem *item;
+  //  auto item = utils::ItemFromPath(p_impl->m_item_path);
+  auto old = item->Data(p_impl->m_role);
+  auto result = p_impl->m_composer->SetData(item, p_impl->m_role, p_impl->m_role);
+  SetResult(result);
+  SetIsObsolete(!result);
+  p_impl->m_value = old;
+}
 
 void SetValueCommand::SetResult(bool value)
 {
