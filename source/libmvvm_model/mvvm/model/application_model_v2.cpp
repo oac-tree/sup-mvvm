@@ -21,12 +21,12 @@
 
 #include <mvvm/interfaces/item_manager_interface.h>
 #include <mvvm/model/item_manager.h>
+#include <mvvm/model/model_composer.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/notifying_model.h>
+#include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
-
-namespace mvvm
-{
+#include <mvvm/signals/model_event_notifier.h>
 
 namespace
 {
@@ -37,7 +37,21 @@ std::unique_ptr<mvvm::SessionModelInterface> CreateDecoratedModel(
   return std::make_unique<mvvm::NotifyingModel>(std::move(model));
 }
 
+std::unique_ptr<mvvm::ModelComposerInterface> CreateComposer(
+    mvvm::ModelEventNotifierInterface* notifier, mvvm::SessionModelInterface* model)
+{
+  return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(notifier, *model);
+}
+
 }  // namespace
+
+namespace mvvm
+{
+
+struct ApplicationModelV2::ApplicationModelV2Impl
+{
+  ModelEventNotifier m_notifier;
+};
 
 ApplicationModelV2::ApplicationModelV2(std::string model_type)
     : ApplicationModelV2(std::move(model_type), std::move(CreateDefaultItemManager()))
@@ -46,14 +60,22 @@ ApplicationModelV2::ApplicationModelV2(std::string model_type)
 
 ApplicationModelV2::ApplicationModelV2(std::string model_type,
                                        std::unique_ptr<ItemManagerInterface> manager)
-    : AbstractModelDecorator(CreateDecoratedModel(std::move(model_type), std::move(manager)))
+    : p_impl(std::make_unique<ApplicationModelV2Impl>())
+    , AbstractModelDecorator(CreateDecoratedModel(std::move(model_type), std::move(manager)))
 {
   m_decorated_model->GetRootItem()->SetModel(this);
 }
 
-void ApplicationModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface *model)
+ApplicationModelV2::~ApplicationModelV2() = default;
+
+void ApplicationModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model)
 {
   AbstractModelDecorator::Clear(std::move(root_item), model ? model : this);
 }
+
+//ModelEventSubscriberInterface *ApplicationModelV2::GetSubscriber() const
+//{
+//  return &p_impl->m_notifier;
+//}
 
 }  // namespace mvvm

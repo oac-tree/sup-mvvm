@@ -22,6 +22,8 @@
 
 #include <mvvm/model/abstract_model_decorator.h>
 
+#include <memory>
+
 namespace mvvm
 {
 class ModelEventSubscriberInterface;
@@ -39,7 +41,15 @@ public:
   explicit ApplicationModelV2(std::string model_type = {});
   ApplicationModelV2(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
 
+  ~ApplicationModelV2() override;
+
   void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model) override;
+
+//  ModelEventSubscriberInterface* GetSubscriber() const override;
+
+private:
+  struct ApplicationModelV2Impl;
+  std::unique_ptr<ApplicationModelV2Impl> p_impl;
 };
 
 }  // namespace mvvm
