@@ -17,18 +17,16 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mock_item_listener.h"
 #include "mvvm/standarditems/linked_item.h"
 
-#include <mvvm/model/item_pool.h>
-#include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionmodel.h>
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_manager.h>
+#include <mvvm/model/item_pool.h>
 #include <mvvm/model/model_composer.h>
-
-#include "mock_item_listener.h"
-
-#include <gtest/gtest.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionmodel.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -37,7 +35,6 @@ using ::testing::_;
 
 class LinkedItemTests : public ::testing::Test
 {
-public:
 };
 
 //! Initial state of item when it is created outside of model context.
@@ -90,24 +87,24 @@ TEST_F(LinkedItemTests, DifferentModelContext)
   EXPECT_EQ(link->Get(), item);
 }
 
- TEST_F(LinkedItemTests, onSetLink)
+TEST_F(LinkedItemTests, onSetLink)
 {
-     ApplicationModel model;
-     auto item = model.InsertItem<PropertyItem>();
-     auto link = model.InsertItem<LinkedItem>();
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  auto link = model.InsertItem<LinkedItem>();
 
-    // no link by default
-    EXPECT_EQ(link->Get(), nullptr);
+  // no link by default
+  EXPECT_EQ(link->Get(), nullptr);
 
-    MockItemListener widget(link);
+  MockItemListener widget(link);
 
-    auto expected_role = DataRole::kData;
-    auto expected_item = link;
-    EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
-    EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+  auto expected_role = DataRole::kData;
+  auto expected_item = link;
+  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
-    // making action
-    link->SetLink(item);
+  // making action
+  link->SetLink(item);
 }
 
 //! Link in different model context.
