@@ -64,7 +64,13 @@ SetValueCommand::SetValueCommand(ModelComposerInterface *composer, SessionItem *
     : p_impl(std::make_unique<SetValueCommandImpl>(composer, value, role))
 {
   SetDescription(GenerateDescription(p_impl->m_value, role));
+  // saving persistent path to item to be able to find it even after destruction
   p_impl->m_item_path = utils::PathFromItem(item);
+}
+
+bool SetValueCommand::GetResult() const
+{
+  return p_impl->m_result;
 }
 
 SetValueCommand::~SetValueCommand() = default;
@@ -83,7 +89,7 @@ void SetValueCommand::SwapValues()
 {
   auto item = utils::ItemFromPath(*p_impl->m_composer->GetModel(), p_impl->m_item_path);
   auto old = item->Data(p_impl->m_role);
-  auto result = p_impl->m_composer->SetData(item, p_impl->m_role, p_impl->m_role);
+  auto result = p_impl->m_composer->SetData(item, p_impl->m_value, p_impl->m_role);
   SetResult(result);
   SetIsObsolete(!result);
   p_impl->m_value = old;

@@ -41,6 +41,8 @@ public:
 
   ~SetValueCommand() override;
 
+  bool GetResult() const;
+
 private:
   void ExecuteImpl() override;
   void UndoImpl() override;
