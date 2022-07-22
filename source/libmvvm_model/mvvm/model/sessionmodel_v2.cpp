@@ -164,8 +164,6 @@ SessionItem* SessionModelV2::FindItem(const std::string& id) const
 void SessionModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model)
 {
   p_impl->m_composer->Reset(p_impl->m_root_item, std::move(root_item));
-//  p_impl->m_root_item = root_item ? std::move(root_item) : utils::CreateEmptyRootItem();
-//  GetRootItem()->SetModel(model ? model : this);
 }
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.
@@ -180,6 +178,11 @@ void SessionModelV2::CheckIn(SessionItem* item)
 void SessionModelV2::CheckOut(SessionItem* item)
 {
   p_impl->m_item_manager->UnregisterFromPool(item);
+}
+
+void SessionModelV2::SetComposer(std::unique_ptr<ModelComposerInterface> composer)
+{
+  p_impl->m_composer = std::move(composer);
 }
 
 }  // namespace mvvm

@@ -692,3 +692,23 @@ TEST_F(SessionModelV2Test, RegisterItem)
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
   EXPECT_EQ(item->GetType(), expectedItemType);
 }
+
+//! Insert item into root. Composer is set after.
+
+TEST_F(SessionModelV2Test, SetComposer)
+{
+  // setting composer after
+  SessionModelV2 model("TestModelType", CreateDefaultItemManager(m_pool), {});
+  model.SetComposer(std::make_unique<ModelComposer>(model));
+
+  // inserting single item
+  auto item = model.InsertItem<SessionItem>();
+  EXPECT_TRUE(item != nullptr);
+  EXPECT_EQ(item->GetParent(), model.GetRootItem());
+  EXPECT_EQ(item->GetModel(), &model);
+  EXPECT_EQ(item->GetType(), SessionItem::Type);
+
+  // checking registration
+  auto item_key = item->GetIdentifier();
+  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
+}

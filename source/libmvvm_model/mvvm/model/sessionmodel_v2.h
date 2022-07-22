@@ -80,6 +80,8 @@ public:
 
   void CheckOut(SessionItem* item) override;
 
+  void SetComposer(std::unique_ptr<ModelComposerInterface> composer);
+
 private:
   friend class SessionItem;
 
