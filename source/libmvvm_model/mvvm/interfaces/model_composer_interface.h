@@ -30,6 +30,7 @@ namespace mvvm
 {
 class SessionItem;
 class TagIndex;
+class SessionModelInterface;
 
 //! Interface for all classes to compose the model.
 //! Used in various decorators for undo/redo and notifications while composing the model.
@@ -47,6 +48,8 @@ public:
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
 
   virtual void Reset(std::unique_ptr<SessionItem>& old_root_item, std::unique_ptr<SessionItem> new_root_item) = 0;
+
+  virtual SessionModelInterface* GetModel() const = 0;
 };
 
 }  // namespace mvvm

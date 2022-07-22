@@ -81,8 +81,7 @@ void SetValueCommand::UndoImpl()
 
 void SetValueCommand::SwapValues()
 {
-  SessionItem *item;
-  //  auto item = utils::ItemFromPath(p_impl->m_item_path);
+  auto item = utils::ItemFromPath(*p_impl->m_composer->GetModel(), p_impl->m_item_path);
   auto old = item->Data(p_impl->m_role);
   auto result = p_impl->m_composer->SetData(item, p_impl->m_role, p_impl->m_role);
   SetResult(result);
