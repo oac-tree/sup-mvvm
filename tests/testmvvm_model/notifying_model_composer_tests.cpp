@@ -142,12 +142,3 @@ TEST_F(NotifyingModelComposerTests, Reset)
   EXPECT_EQ(parent0->GetTotalItemCount(), 0);
   EXPECT_EQ(parent0->GetModel(), &m_model);
 }
-
-TEST_F(NotifyingModelComposerTests, Destroy)
-{
-  auto composer = CreateComposer();
-
-  EXPECT_CALL(m_notifier, ModelAboutToBeDestroyedNotify(&m_model)).Times(1);
-
-  composer.reset();
-}

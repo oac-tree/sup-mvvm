@@ -60,22 +60,27 @@ ApplicationModelV2::ApplicationModelV2(std::string model_type)
 
 ApplicationModelV2::ApplicationModelV2(std::string model_type,
                                        std::unique_ptr<ItemManagerInterface> manager)
-    : p_impl(std::make_unique<ApplicationModelV2Impl>())
-    , AbstractModelDecorator(CreateDecoratedModel(std::move(model_type), std::move(manager)))
+    : SessionModelV2(std::move(model_type), std::move(manager), {})
+    , p_impl(std::make_unique<ApplicationModelV2Impl>())
 {
-  m_decorated_model->GetRootItem()->SetModel(this);
+  SetComposer(CreateComposer(&p_impl->m_notifier, this));
+  //  m_decorated_model->GetRootItem()->SetModel(this);
 }
 
-ApplicationModelV2::~ApplicationModelV2() = default;
-
-void ApplicationModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model)
+ApplicationModelV2::~ApplicationModelV2()
 {
-  AbstractModelDecorator::Clear(std::move(root_item), model ? model : this);
+  p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
 }
 
-//ModelEventSubscriberInterface *ApplicationModelV2::GetSubscriber() const
+// void ApplicationModelV2::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface*
+// model)
 //{
-//  return &p_impl->m_notifier;
-//}
+//   AbstractModelDecorator::Clear(std::move(root_item), model ? model : this);
+// }
+
+ModelEventSubscriberInterface* ApplicationModelV2::GetSubscriber() const
+{
+  return &p_impl->m_notifier;
+}
 
 }  // namespace mvvm

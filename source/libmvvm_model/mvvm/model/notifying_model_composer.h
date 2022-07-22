@@ -43,8 +43,6 @@ public:
   {
   }
 
-  ~NotifyingModelComposer() { m_notifier->ModelAboutToBeDestroyedNotify(T::GetModel()); }
-
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override
   {

@@ -92,7 +92,6 @@ ModelEventSubscriberInterface* SessionModelV2::GetSubscriber() const
 }
 
 //! Insert item via move into the given `parent` under given `tag_index`.
-//! FIXME make default parameters (or their absence) as in the method InsertNewItem.
 
 SessionItem* SessionModelV2::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                         const TagIndex& tag_index)
@@ -105,7 +104,7 @@ SessionItem* SessionModelV2::InsertItem(std::unique_ptr<SessionItem> item, Sessi
   auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
   utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
 
-  return p_impl->m_composer->InsertItem(std::move(item), parent, tag_index);
+  return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
 }
 
 //! Removes item with given tag_index from the parent and returns it to the user.
