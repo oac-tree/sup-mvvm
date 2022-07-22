@@ -1,0 +1,88 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include <mvvm/commands/set_value_command.h>
+#include <mvvm/model/model_utils.h>
+#include <mvvm/model/path.h>
+#include <mvvm/model/sessionitem.h>
+
+#include <sstream>
+
+namespace
+{
+
+std::string GenerateDescription(const variant_t &value, int role)
+{
+  (void)value;
+  std::ostringstream ostr;
+  // FIXME provide variant_t -> toString conversion
+  ostr << "Set value: "
+       << "not implemented"
+       << ", role:" << role;
+  return ostr.str();
+}
+
+}  // namespace
+
+namespace mvvm
+{
+
+struct SetValueCommand::SetValueCommandImpl
+{
+  ModelComposerInterface *m_composer{nullptr};
+  variant_t m_value;  //! Value to set as a result of command execution.
+  int m_role;
+  Path m_item_path;
+  bool m_result{false};
+
+  SetValueCommandImpl(ModelComposerInterface *composer, const variant_t &value, int role)
+      : m_composer(composer), m_value(value), m_role(role)
+  {
+  }
+
+};
+
+SetValueCommand::SetValueCommand(ModelComposerInterface *composer, SessionItem *item,
+                                 const variant_t &value, int role)
+    : p_impl(std::make_unique<SetValueCommandImpl>(composer, value, role))
+{
+  SetDescription(GenerateDescription(p_impl->m_value, role));
+  p_impl->m_item_path = utils::PathFromItem(item);
+}
+
+SetValueCommand::~SetValueCommand() = default;
+
+void SetValueCommand::ExecuteImpl()
+{
+  SwapValues();
+}
+
+void SetValueCommand::UndoImpl()
+{
+  SwapValues();
+}
+
+void SetValueCommand::SwapValues() {}
+
+void SetValueCommand::SetResult(bool value)
+{
+  p_impl->m_result = value;
+}
+
+}  // namespace mvvm
