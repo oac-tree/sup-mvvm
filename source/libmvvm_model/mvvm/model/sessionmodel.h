@@ -20,6 +20,7 @@
 #ifndef MVVM_MODEL_SESSIONMODEL_H_
 #define MVVM_MODEL_SESSIONMODEL_H_
 
+#include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/function_types.h>
 #include <mvvm/model/sessionitem.h>
@@ -40,7 +41,9 @@ public:
   using SessionModelInterface::InsertItem;
 
   explicit SessionModel(std::string model_type = {});
-  SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
+
+  SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager,
+               std::unique_ptr<ModelComposerInterface> composer = {});
 
   ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;
@@ -78,6 +81,8 @@ public:
   void CheckIn(SessionItem* item) override;
 
   void CheckOut(SessionItem* item) override;
+
+  void SetComposer(std::unique_ptr<ModelComposerInterface> composer);
 
 private:
   friend class SessionItem;

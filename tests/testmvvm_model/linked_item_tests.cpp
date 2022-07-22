@@ -24,6 +24,7 @@
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_manager.h>
+#include <mvvm/model/model_composer.h>
 
 #include "mock_item_listener.h"
 
@@ -36,6 +37,7 @@ using ::testing::_;
 
 class LinkedItemTests : public ::testing::Test
 {
+public:
 };
 
 //! Initial state of item when it is created outside of model context.

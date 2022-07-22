@@ -29,6 +29,7 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/model/model_composer.h>
 
 #include <memory>
 #include <stdexcept>
@@ -47,7 +48,12 @@ public:
   class TestModel : public SessionModel
   {
   public:
-    TestModel() : SessionModel("TestModelType", CreateDefaultItemManager(m_pool)){};
+    TestModel()
+        : SessionModel("TestModelType", CreateDefaultItemManager(m_pool),
+                         std::make_unique<ModelComposer>(*this))
+    {
+      RegisterItem<TestItem>();
+    };
   };
 
   static std::shared_ptr<ItemPool> m_pool;
@@ -333,26 +339,25 @@ TEST_F(SessionModelTest, TakeItem)
 
 TEST_F(SessionModelTest, RemoveFromWrongParent)
 {
-  SessionModel model("Test");
+  TestModel model;
 
   // undefined item
-  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), std::runtime_error);
+  EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), InvalidOperationException);
 
   // parent non belonging to given model
   SessionItem parent;
-  EXPECT_THROW(model.TakeItem(&parent, {"", 0}), std::runtime_error);
+  EXPECT_THROW(model.TakeItem(&parent, {"", 0}), InvalidOperationException);
 }
 
 TEST_F(SessionModelTest, RemoveNonExistingItem)
 {
-  auto pool = std::make_shared<ItemPool>();
-  SessionModel model("Test", CreateDefaultItemManager(pool));
+  TestModel model;
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   // removing non existing child
-  EXPECT_NO_THROW(model.TakeItem(parent, {"", 0}));
+  EXPECT_THROW(model.TakeItem(parent, {"", 0}), InvalidOperationException);
 }
 
 TEST_F(SessionModelTest, TakeRowFromRootItem)
@@ -666,12 +671,31 @@ TEST_F(SessionModelTest, RegisterItem)
 {
   const std::string expectedItemType("TestItemType");
 
-  SessionModel model;
-  model.RegisterItem<TestItem>();
+  TestModel model;
 
   auto item =
       model.InsertItem(model.GetFactory()->CreateItem(expectedItemType), model.GetRootItem(), {});
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
   EXPECT_EQ(item->GetType(), expectedItemType);
+}
+
+//! Insert item into root. Composer is set after.
+
+TEST_F(SessionModelTest, SetComposer)
+{
+  // setting composer after
+  SessionModel model("TestModelType", CreateDefaultItemManager(m_pool), {});
+  model.SetComposer(std::make_unique<ModelComposer>(model));
+
+  // inserting single item
+  auto item = model.InsertItem<SessionItem>();
+  EXPECT_TRUE(item != nullptr);
+  EXPECT_EQ(item->GetParent(), model.GetRootItem());
+  EXPECT_EQ(item->GetModel(), &model);
+  EXPECT_EQ(item->GetType(), SessionItem::Type);
+
+  // checking registration
+  auto item_key = item->GetIdentifier();
+  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 }
