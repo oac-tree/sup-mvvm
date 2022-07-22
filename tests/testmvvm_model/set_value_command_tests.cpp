@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/core/exceptions.h>
 
 using namespace mvvm;
 
@@ -60,11 +61,36 @@ TEST_F(SetValueCommandTests, SetValueUsingModelComposer)
   command->Execute();
   EXPECT_TRUE(command->GetResult());  // value was changed
   EXPECT_EQ(item->Data(role), expected);
-  EXPECT_EQ(command->IsObsolete(), false);
+  EXPECT_FALSE(command->IsObsolete());
 
   // undoing command
   command->Undo();
   EXPECT_TRUE(command->GetResult());  // value was changed
   EXPECT_FALSE(utils::IsValid(item->Data(role)));
-  EXPECT_EQ(command->IsObsolete(), false);
+  EXPECT_FALSE(command->IsObsolete());
+}
+
+//! Set same item value through SetValueCommand command.
+
+TEST_F(SetValueCommandTests, SetSameValueCommand)
+{
+  const int role = DataRole::kData;
+  auto composer = CreateComposer();
+
+  // creating an item and setting the data
+  auto item = m_model.InsertItem<SessionItem>();
+  variant_t expected(42);
+  item->SetData(expected, role);
+
+  // command to set same value
+  auto command = std::make_unique<SetValueCommand>(composer.get(), item, expected, role);
+
+  // executing command
+  command->Execute();
+  EXPECT_FALSE(command->GetResult());  // value wasn't changed
+  EXPECT_EQ(item->Data(role), expected);
+  EXPECT_TRUE(command->IsObsolete());
+
+  // undoing command which is in isObsolete state is not possible
+  EXPECT_THROW(command->Undo(), mvvm::RuntimeException);
 }
