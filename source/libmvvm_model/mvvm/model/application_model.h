@@ -20,7 +20,9 @@
 #ifndef MVVM_MODEL_APPLICATION_MODEL_H_
 #define MVVM_MODEL_APPLICATION_MODEL_H_
 
-#include <mvvm/model/abstract_model_decorator.h>
+#include <mvvm/model/sessionmodel_v2.h>
+
+#include <memory>
 
 namespace mvvm
 {
@@ -31,7 +33,7 @@ class ItemManagerInterface;
 //! All modification of the model are done through the composer, which takes care
 //! about notifications and all subscribers.
 
-class MVVM_MODEL_EXPORT ApplicationModel : public AbstractModelDecorator
+class MVVM_MODEL_EXPORT ApplicationModel : public SessionModelV2
 {
 public:
   using SessionModelInterface::InsertItem;
@@ -39,9 +41,19 @@ public:
   explicit ApplicationModel(std::string model_type = {});
   ApplicationModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
 
-  void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model) override;
+  ~ApplicationModel() override;
+
+  //  void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model) override;
+
+  ModelEventSubscriberInterface* GetSubscriber() const override;
+
+  void CheckIn(SessionItem* item) override;
+
+private:
+  struct ApplicationModelImpl;
+  std::unique_ptr<ApplicationModelImpl> p_impl;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_APPLICATION_MODEL_H_
+#endif  // MVVM_MODEL_APPLICATION_MODEL_V2_H_

@@ -23,19 +23,12 @@
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/model/notifying_model.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/signals/model_event_notifier.h>
 
 namespace
 {
-std::unique_ptr<mvvm::SessionModelInterface> CreateDecoratedModel(
-    std::string model_type, std::unique_ptr<mvvm::ItemManagerInterface> manager)
-{
-  auto model = std::make_unique<mvvm::SessionModel>(std::move(model_type), std::move(manager));
-  return std::make_unique<mvvm::NotifyingModel>(std::move(model));
-}
 
 std::unique_ptr<mvvm::ModelComposerInterface> CreateComposer(
     mvvm::ModelEventNotifierInterface* notifier, mvvm::SessionModelInterface* model)
