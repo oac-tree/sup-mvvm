@@ -38,9 +38,8 @@ public:
   static_assert(std::is_base_of<ModelComposerInterface, T>::value, "Invalid template argument");
 
   template <typename... Args>
-  explicit NotifyingModelComposer(std::unique_ptr<ModelEventNotifierInterface> notifier,
-                                  Args&&... args)
-      : m_notifier(std::move(notifier)), T(std::forward<Args>(args)...)
+  explicit NotifyingModelComposer(ModelEventNotifierInterface* notifier, Args&&... args)
+      : m_notifier(notifier), T(std::forward<Args>(args)...)
   {
   }
 
@@ -82,7 +81,7 @@ public:
   }
 
 private:
-  std::unique_ptr<ModelEventNotifierInterface> m_notifier;
+  ModelEventNotifierInterface* m_notifier{nullptr};
 };
 
 }  // namespace mvvm

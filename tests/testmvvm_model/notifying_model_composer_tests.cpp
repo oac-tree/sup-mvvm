@@ -40,8 +40,7 @@ class NotifyingModelComposerTests : public ::testing::Test
 public:
   std::unique_ptr<NotifyingModelComposer<ModelComposer>> CreateComposer()
   {
-    auto notifier = std::make_unique<MockModelEventNotifierDecorator>(&m_notifier);
-    return std::make_unique<NotifyingModelComposer<ModelComposer>>(std::move(notifier), m_model);
+    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
   }
 
   MockModel m_model;
