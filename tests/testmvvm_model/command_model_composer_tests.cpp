@@ -110,3 +110,70 @@ TEST_F(CommandModelComposerTests, SetSameData)
   EXPECT_EQ(m_commands.GetIndex(), 0);
   EXPECT_EQ(m_commands.GetSize(), 0);
 }
+
+//! Setting the data several times.
+
+TEST_F(CommandModelComposerTests, SetDataSeveralTimes)
+{
+  const int role = DataRole::kData;
+
+  // creating item and setting initial data
+  auto item = m_model.InsertItem<SessionItem>();
+  item->SetData(10);
+
+  auto composer = CreateComposer();
+
+  // setting data several times
+  EXPECT_TRUE(composer->SetData(item, 11, DataRole::kData));
+  EXPECT_TRUE(composer->SetData(item, 12, DataRole::kData));
+  EXPECT_TRUE(composer->SetData(item, 13, DataRole::kData));
+
+  // checking data and stack
+  EXPECT_EQ(item->Data(), variant_t(13));
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 3);
+  EXPECT_EQ(m_commands.GetSize(), 3);
+
+  // undoing twice and checking status
+  m_commands.Undo();
+  m_commands.Undo();
+  EXPECT_EQ(item->Data(), variant_t(11));
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_TRUE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 1);
+  EXPECT_EQ(m_commands.GetSize(), 3);
+
+  // while being in partly undone state, make a new command
+  // this will remove two last commands
+  EXPECT_TRUE(composer->SetData(item, 14, DataRole::kData));
+
+  EXPECT_EQ(item->Data(), variant_t(14));
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 2);
+  EXPECT_EQ(m_commands.GetSize(), 2);
+
+  // two undo should give us initial value
+  m_commands.Undo();
+  m_commands.Undo();
+
+  EXPECT_EQ(item->Data(), variant_t(10));
+  EXPECT_FALSE(m_commands.CanUndo());
+  EXPECT_TRUE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 0);
+  EXPECT_EQ(m_commands.GetSize(), 2);
+
+  m_commands.Redo();
+  EXPECT_EQ(item->Data(), variant_t(11));
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_TRUE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 1);
+
+  // back on top of the stack
+  m_commands.Redo();
+  EXPECT_EQ(item->Data(), variant_t(14));
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 2);
+}
