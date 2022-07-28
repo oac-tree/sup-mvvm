@@ -20,53 +20,51 @@
 #ifndef MVVM_COMMANDS_COMMAND_MODEL_COMPOSER_H_
 #define MVVM_COMMANDS_COMMAND_MODEL_COMPOSER_H_
 
-#include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/commands/command_stack_interface.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/interfaces/model_composer_interface.h>
+
+#include <memory>
 
 namespace mvvm
 {
 
 class CommandStackInterface;
 
-//! The decorator class to enhance standard ModelComposer with notification abilities.
+//! The decorator class to enhance standard ModelComposer with undo/redo capabilities.
 
-template <typename T>
-class CommandModelComposer : public T
+class CommandModelComposer : ModelComposerInterface
 {
 public:
-  static_assert(std::is_base_of<ModelComposerInterface, T>::value, "Invalid template argument");
-
-  template <typename... Args>
-  explicit CommandModelComposer(CommandStackInterface* command_stack, Args&&... args)
-      : m_command_stack(command_stack), T(std::forward<Args>(args)...)
+  explicit CommandModelComposer(CommandStackInterface* command_stack,
+                                std::unique_ptr<ModelComposerInterface> composer)
+      : m_command_stack(command_stack), m_composer(std::move(composer))
   {
   }
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
-                          const TagIndex& tag_index) override
-  {
-    return {};
-  }
+                          const TagIndex& tag_index) override;
 
-  std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override
-  {
-    return {};
-  }
+  std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override;
 
-  bool SetData(SessionItem* item, const variant_t& value, int role) override
-  {
-    return {};
-  }
+  bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   void Reset(std::unique_ptr<SessionItem>& old_root_item,
-             std::unique_ptr<SessionItem> new_root_item) override
-  {
-  }
+             std::unique_ptr<SessionItem> new_root_item) override;
 
 private:
+  template <typename C, typename... Args>
+  C* ProcessCommand(Args&&... args);
+
   CommandStackInterface* m_command_stack{nullptr};
+  std::unique_ptr<ModelComposerInterface> m_composer;
 };
+
+template <typename C, typename... Args>
+C* CommandModelComposer::ProcessCommand(Args&&... args)
+{
+  auto command = std::make_unique<C>(std::forward<Args>(args)...);
+  return static_cast<C*>(m_command_stack->Execute(std::move(command)));
+}
 
 }  // namespace mvvm
 
