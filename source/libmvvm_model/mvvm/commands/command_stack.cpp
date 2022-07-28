@@ -43,8 +43,10 @@ CommandStack::~CommandStack() = default;
 
 CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
 
-void CommandStack::Execute(std::unique_ptr<CommandInterface> command)
+CommandInterface *CommandStack::Execute(std::unique_ptr<CommandInterface> command)
 {
+  CommandInterface *result{nullptr};
+
   if (command->IsObsolete())
   {
     throw RuntimeException("Attempt to inser obsolete command");
@@ -57,9 +59,12 @@ void CommandStack::Execute(std::unique_ptr<CommandInterface> command)
 
   if (!command->IsObsolete())
   {
+    result = command.get();
     p_impl->m_commands.emplace_back(std::move(command));
     p_impl->m_pos = p_impl->m_commands.end();
   }
+
+  return result;
 }
 
 bool CommandStack::CanUndo() const

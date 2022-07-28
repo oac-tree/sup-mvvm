@@ -37,7 +37,9 @@ public:
   virtual ~CommandStackInterface() = default;
 
   //! Push command in the stack and immediately executes it.
-  virtual void Execute(std::unique_ptr<CommandInterface> command) = 0;
+  //! Returns pointer to this command, if command was executed successfully. Returns nullptr if
+  //! command is obsolete.
+  virtual CommandInterface* Execute(std::unique_ptr<CommandInterface> command) = 0;
 
   //! Returns true if there is a command available for undo; otherwise returns false.
   virtual bool CanUndo() const = 0;

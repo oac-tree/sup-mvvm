@@ -35,7 +35,7 @@ public:
   CommandStack();
   ~CommandStack() override;
 
-  void Execute(std::unique_ptr<CommandInterface> command) override;
+  CommandInterface *Execute(std::unique_ptr<CommandInterface> command) override;
   bool CanUndo() const override;
   bool CanRedo() const override;
   int GetIndex() const override;

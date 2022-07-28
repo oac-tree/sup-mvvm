@@ -88,11 +88,12 @@ TEST_F(CommandStackTests, SingleCommandExecution)
   CommandStack stack;
 
   auto command = std::make_unique<CommandDecorator>(mock_command);
+  auto command_ptr = command.get();
 
   EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
   EXPECT_CALL(mock_command, UndoImpl()).Times(0);
 
-  stack.Execute(std::move(command));
+  EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
@@ -136,7 +137,7 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
   EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
   EXPECT_CALL(mock_command, UndoImpl()).Times(0);
 
-  stack.Execute(std::move(command));
+  EXPECT_EQ(stack.Execute(std::move(command)), nullptr);
 
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
