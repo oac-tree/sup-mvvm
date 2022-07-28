@@ -49,6 +49,12 @@ bool CommandModelComposer::SetData(SessionItem *item, const variant_t &value, in
 void CommandModelComposer::Reset(std::unique_ptr<SessionItem> &old_root_item,
                                  std::unique_ptr<SessionItem> new_root_item)
 {
+  throw std::runtime_error("Not implemented");
+}
+
+SessionModelInterface *CommandModelComposer::GetModel() const
+{
+  return m_composer->GetModel();
 }
 
 }  // namespace mvvm
