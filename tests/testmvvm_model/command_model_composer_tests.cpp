@@ -86,3 +86,27 @@ TEST_F(CommandModelComposerTests, SetData)
   EXPECT_EQ(m_commands.GetIndex(), 1);
   EXPECT_EQ(m_commands.GetSize(), 1);
 }
+
+TEST_F(CommandModelComposerTests, SetSameData)
+{
+  const int role = DataRole::kData;
+  variant_t expected_data(42);
+
+  // creating item and setting initial data
+  auto item = m_model.InsertItem<SessionItem>();
+  item->SetData(expected_data);
+
+  auto composer = CreateComposer();
+
+  // setting same data
+  EXPECT_FALSE(composer->SetData(item, 42, DataRole::kData));
+
+  // no data change
+  EXPECT_EQ(item->Data(), variant_t(42));
+
+  // no commands should be in the stack
+  EXPECT_FALSE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 0);
+  EXPECT_EQ(m_commands.GetSize(), 0);
+}
