@@ -19,6 +19,7 @@
 
 #include "mvvm/commands/remove_item_command.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/interfaces/item_backup_strategy_interface.h>
 #include <mvvm/interfaces/model_composer_interface.h>
@@ -88,8 +89,20 @@ void RemoveItemCommand::ExecuteImpl()
 
   auto parent = p_impl->FindParent();
 
-  p_impl->m_taken = std::move(p_impl->m_composer->TakeItem(parent, p_impl->m_tag_index));
-  p_impl->m_backup_strategy->SaveItem(p_impl->m_taken.get());
+  if (!parent)
+  {
+    throw RuntimeException("Can't find parent");
+  }
+
+  auto taken = p_impl->m_composer->TakeItem(parent, p_impl->m_tag_index);
+  if (!taken)
+  {
+    throw RuntimeException("Can't take an item");
+  }
+
+  p_impl->m_backup_strategy->SaveItem(*taken);
+
+  p_impl->m_taken = std::move(taken);
 }
 
 void RemoveItemCommand::UndoImpl()
