@@ -37,7 +37,7 @@ public:
   virtual ~ItemBackupStrategyInterface() = default;
 
   //! Save item's content.
-  virtual void SaveItem(const SessionItem* item) const = 0;
+  virtual void SaveItem(const SessionItem* item) = 0;
 
   //! Restore item from saved content.
   virtual std::unique_ptr<SessionItem> RestoreItem() const = 0;
