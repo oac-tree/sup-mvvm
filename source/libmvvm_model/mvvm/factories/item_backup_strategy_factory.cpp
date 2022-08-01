@@ -37,9 +37,9 @@ public:
   {
   }
 
-  void SaveItem(const mvvm::SessionItem* item) override
+  void SaveItem(const mvvm::SessionItem& item) override
   {
-    m_tree_data = std::move(m_converter->ToTreeData(*item));
+    m_tree_data = std::move(m_converter->ToTreeData(item));
   }
 
   std::unique_ptr<mvvm::SessionItem> RestoreItem() const override

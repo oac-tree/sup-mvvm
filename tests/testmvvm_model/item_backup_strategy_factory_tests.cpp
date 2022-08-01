@@ -73,7 +73,7 @@ TEST_F(ItemBackupStrategyFactoryTests, PropertyItem)
   // restoring item without presave doesn't work
   EXPECT_THROW(strategy->RestoreItem(), InvalidOperationException);
 
-  strategy->SaveItem(&item);
+  strategy->SaveItem(item);
   auto restored = strategy->RestoreItem();
 
   // modifying data of the original item
@@ -94,7 +94,7 @@ TEST_F(ItemBackupStrategyFactoryTests, compoundItem)
   CompoundItem item;
   auto property = item.AddProperty("thickness", 42.0);
 
-  strategy->SaveItem(&item);
+  strategy->SaveItem(item);
   auto restored = strategy->RestoreItem();
 
   EXPECT_EQ(item.GetType(), restored->GetType());
@@ -112,7 +112,7 @@ TEST_F(ItemBackupStrategyFactoryTests, BackupCustomItem)
   TestItem item;
 
   // creating copy
-  strategy->SaveItem(&item);
+  strategy->SaveItem(item);
   auto restored = strategy->RestoreItem();
 
   EXPECT_NE(dynamic_cast<TestItem*>(&item), nullptr);
