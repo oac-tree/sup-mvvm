@@ -25,6 +25,7 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/taginfo.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -48,9 +49,9 @@ public:
   MockModelEventNotifier m_notifier;
 };
 
-//! Remove item from the model using RemoveItemCommand based on ModelComposer.
+//! Remove item from the model.
 
-TEST_F(RemoveItemCommandTests, RemoveItemFromModel)
+TEST_F(RemoveItemCommandTests, RemoveItemFromRoot)
 {
   auto composer = CreateStandardComposer();
 
@@ -93,3 +94,42 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromModel)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }
 
+//! Remove item from theparent.
+
+TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
+{
+  auto composer = CreateStandardComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  // inserting two children to the parent
+  auto child1 = m_model.InsertItem<SessionItem>(parent);
+  child1->SetData(42.0);
+  m_model.InsertItem<SessionItem>(parent);
+
+  auto child1_identifier = child1->GetIdentifier();
+
+  // command to remove one child
+  auto command = std::make_unique<RemoveItemCommand>(composer.get(), parent, TagIndex{"", 0});
+
+  command->Execute();  // removal
+  EXPECT_FALSE(command->IsObsolete());
+
+  // check that one child was removed
+  auto taken = command->GetResult();
+  EXPECT_EQ(taken.get(), child1);
+
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+
+  // undo command
+  command->Undo();
+  EXPECT_FALSE(command->IsObsolete());
+
+  EXPECT_EQ(parent->GetTotalItemCount(), 2);
+  auto restored = parent->GetItem("tag1", 0);
+  EXPECT_EQ(restored->GetIdentifier(), child1_identifier);
+
+  // checking the data of restored item
+  EXPECT_DOUBLE_EQ(restored->Data<double>(), 42.0);
+}
