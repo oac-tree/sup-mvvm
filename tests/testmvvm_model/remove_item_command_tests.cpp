@@ -27,6 +27,7 @@
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/model/compound_item.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -174,4 +175,63 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChild)
 
   // checking the data of restored item
   EXPECT_DOUBLE_EQ(restored_child->Data<double>(), 42.0);
+}
+
+//! Remove child from one of tags.
+
+TEST_F(RemoveItemCommandTests, RemoveChildFromMultiTag)
+{
+  auto composer = CreateStandardComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"));
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag2"));
+
+  auto child1 = m_model.InsertItem<SessionItem>(parent, "tag1");
+  child1->SetData(41.0);
+
+  auto child2 = m_model.InsertItem<SessionItem>(parent, "tag1");
+  child2->SetData(42.0);
+
+  auto child3 = m_model.InsertItem<SessionItem>(parent, "tag2");
+  child3->SetData(43.0);
+
+  auto parent_identifier = parent->GetIdentifier();
+  auto child1_identifier = child1->GetIdentifier();
+  auto child2_identifier = child2->GetIdentifier();
+  auto child3_identifier = child3->GetIdentifier();
+
+  // command to remove parent
+  auto command = std::make_unique<RemoveItemCommand>(composer.get(), parent, TagIndex{"tag1", 1});
+  command->Execute();  // removal
+  EXPECT_FALSE(command->IsObsolete());
+
+  // check that one child was removed
+  EXPECT_EQ(parent->GetTotalItemCount(), 2);
+
+  // undo command
+  command->Undo();
+  EXPECT_FALSE(command->IsObsolete());
+  EXPECT_EQ(parent->GetTotalItemCount(), 3);
+  auto restored_parent = utils::ChildAt(m_model.GetRootItem(), 0);
+  auto restored_child2 = utils::ChildAt(restored_parent, 1);
+
+  EXPECT_EQ(restored_parent->GetIdentifier(), parent_identifier);
+  EXPECT_EQ(restored_child2->GetIdentifier(), child2_identifier);
+
+  // checking the data of restored item
+  EXPECT_EQ(restored_child2->Data<double>(), 42.0);
+}
+
+TEST_F(RemoveItemCommandTests, AttemptToRemoveItem)
+{
+  auto composer = CreateStandardComposer();
+
+  auto parent = m_model.InsertItem<CompoundItem>(m_model.GetRootItem());
+  parent->AddProperty("thickness", 42.0);
+
+  auto command =
+      std::make_unique<RemoveItemCommand>(composer.get(), parent, TagIndex{"thickness", 0});
+
+  EXPECT_THROW(command->Execute(), RuntimeException);
 }
