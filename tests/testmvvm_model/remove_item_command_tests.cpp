@@ -22,12 +22,12 @@
 
 #include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/model/compound_item.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -161,6 +161,64 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChild)
   auto taken = command->GetResult();
   EXPECT_EQ(taken.get(), parent);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // undo command
+  command->Undo();
+  EXPECT_FALSE(command->IsObsolete());
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  auto restored_parent = utils::ChildAt(m_model.GetRootItem(), 0);
+  auto restored_child = utils::ChildAt(restored_parent, 0);
+
+  EXPECT_EQ(restored_parent->GetIdentifier(), parent_identifier);
+  EXPECT_EQ(restored_child->GetIdentifier(), child1_identifier);
+
+  // checking the data of restored item
+  EXPECT_DOUBLE_EQ(restored_child->Data<double>(), 42.0);
+}
+
+//! Removing parent with child.
+//! This time NotifyingModelComposer is used.
+
+TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
+{
+  auto composer = CreateNotifyingComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  auto child1 = m_model.InsertItem<SessionItem>(parent);
+  child1->SetData(42.0);
+
+  auto parent_identifier = parent->GetIdentifier();
+  auto child1_identifier = child1->GetIdentifier();
+
+  // expecting signals related to item removal
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(m_model.GetRootItem(), TagIndex{"", 0}))
+        .Times(1);
+    EXPECT_CALL(m_notifier, ItemRemovedNotify(m_model.GetRootItem(), TagIndex{"", 0})).Times(1);
+  }
+
+  // command to remove parent
+  auto command =
+      std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex{"", 0});
+  command->Execute();  // removal, triggering signals
+  EXPECT_FALSE(command->IsObsolete());
+
+  // check that one child was removed
+  auto taken = command->GetResult();
+  EXPECT_EQ(taken.get(), parent);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // expecting signals related to item insertion
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(m_model.GetRootItem(), TagIndex{"", 0}))
+        .Times(1);
+    EXPECT_CALL(m_notifier, ItemInsertedNotify(m_model.GetRootItem(), TagIndex{"", 0})).Times(1);
+  }
 
   // undo command
   command->Undo();
