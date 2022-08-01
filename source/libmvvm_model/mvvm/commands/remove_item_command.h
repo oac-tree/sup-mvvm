@@ -41,6 +41,8 @@ public:
 
   ~RemoveItemCommand() override;
 
+  std::unique_ptr<SessionItem> GetResult() const;
+
 private:
   void ExecuteImpl() override;
   void UndoImpl() override;

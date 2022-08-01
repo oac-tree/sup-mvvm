@@ -19,6 +19,8 @@
 
 #include "mvvm/commands/remove_item_command.h"
 
+#include <mvvm/factories/item_backup_strategy_factory.h>
+#include <mvvm/interfaces/item_backup_strategy_interface.h>
 #include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
@@ -47,11 +49,22 @@ struct RemoveItemCommand::RemoveItemCommandImpl
   ModelComposerInterface* m_composer{nullptr};
   Path m_parent_path;
   TagIndex m_tag_index;
+  std::unique_ptr<ItemBackupStrategyInterface> m_backup_strategy;
+  std::unique_ptr<SessionItem> m_taken;
 
   RemoveItemCommandImpl(ModelComposerInterface* composer, SessionItem* parent,
                         const TagIndex& tag_index)
       : m_composer(composer), m_tag_index(tag_index)
   {
+    m_backup_strategy =
+        std::move(CreateItemTreeDataBackupStrategy(composer->GetModel()->GetFactory()));
+    m_parent_path = utils::PathFromItem(parent);
+  }
+
+  //! Find parent item.
+  SessionItem* FindParent() const
+  {
+    return utils::ItemFromPath(*m_composer->GetModel(), m_parent_path);
   }
 };
 
@@ -60,13 +73,30 @@ RemoveItemCommand::RemoveItemCommand(ModelComposerInterface* composer, SessionIt
     : p_impl(std::make_unique<RemoveItemCommandImpl>(composer, parent, tag_index))
 {
   SetDescription(GenerateDescription(parent, tag_index));
-  p_impl->m_parent_path = utils::PathFromItem(parent);
+}
+
+std::unique_ptr<SessionItem> RemoveItemCommand::GetResult() const
+{
+  return std::move(p_impl->m_taken);
 }
 
 RemoveItemCommand::~RemoveItemCommand() = default;
 
-void RemoveItemCommand::ExecuteImpl() {}
+void RemoveItemCommand::ExecuteImpl()
+{
+  SetIsObsolete(false);
 
-void RemoveItemCommand::UndoImpl() {}
+  auto parent = p_impl->FindParent();
+
+  p_impl->m_taken = std::move(p_impl->m_composer->TakeItem(parent, p_impl->m_tag_index));
+  p_impl->m_backup_strategy->SaveItem(p_impl->m_taken.get());
+}
+
+void RemoveItemCommand::UndoImpl()
+{
+  auto parent = p_impl->FindParent();
+  p_impl->m_composer->InsertItem(p_impl->m_backup_strategy->RestoreItem(), parent,
+                                 p_impl->m_tag_index);
+}
 
 }  // namespace mvvm
