@@ -17,8 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/item_copy_strategy_factory.h"
+#include "mvvm/factories/item_backup_strategy_factory.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_item_converter.h>
@@ -27,24 +28,32 @@ namespace
 {
 
 //! Implements copy strategy for SessionItem using TreeDataItemConverter.
-class TreeDataItemCopyStrategy : public mvvm::ItemCopyStrategyInterface
+class TreeDataItemBackupStrategy : public mvvm::ItemBackupStrategyInterface
 {
 public:
-  explicit TreeDataItemCopyStrategy(const ::mvvm::ItemFactoryInterface* factory,
-                                    mvvm::ConverterMode mode)
-      : m_converter(std::make_unique<mvvm::TreeDataItemConverter>(factory, mode))
+  explicit TreeDataItemBackupStrategy(const ::mvvm::ItemFactoryInterface* factory)
+      : m_converter(
+          std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone))
   {
   }
 
-  //! Returns deep copy of given item. All identifiers are regenerated.
-  std::unique_ptr<mvvm::SessionItem> CreateCopy(const mvvm::SessionItem* item) const override
+  void SaveItem(const mvvm::SessionItem* item) const override
   {
-    auto tree_data = m_converter->ToTreeData(*item);
-    return m_converter->ToSessionItem(*tree_data);
+    auto m_tree_data = m_converter->ToTreeData(*item);
+  }
+
+  std::unique_ptr<mvvm::SessionItem> RestoreItem() const override
+  {
+    if (!m_tree_data)
+    {
+      throw mvvm::InvalidOperationException("Absent backup");
+    }
+    return m_converter->ToSessionItem(*m_tree_data);
   }
 
 private:
   std::unique_ptr<mvvm::TreeDataItemConverterInterface> m_converter;
+  std::unique_ptr<mvvm::TreeData> m_tree_data;
 };
 
 }  // namespace
@@ -52,16 +61,10 @@ private:
 namespace mvvm
 {
 
-std::unique_ptr<ItemCopyStrategyInterface> CreateItemCopyStrategy(
+std::unique_ptr<ItemBackupStrategyInterface> CreateItemTreeDataBackupStrategy(
     const ItemFactoryInterface* factory)
 {
-  return std::make_unique<TreeDataItemCopyStrategy>(factory, mvvm::ConverterMode::kCopy);
-}
-
-std::unique_ptr<ItemCopyStrategyInterface> CreateItemCloneStrategy(
-    const ItemFactoryInterface* factory)
-{
-  return std::make_unique<TreeDataItemCopyStrategy>(factory, mvvm::ConverterMode::kClone);
+  return std::make_unique<TreeDataItemBackupStrategy>(factory);
 }
 
 }  // namespace mvvm
