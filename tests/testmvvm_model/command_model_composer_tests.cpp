@@ -25,6 +25,7 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
 
@@ -348,4 +349,38 @@ TEST_F(CommandModelComposerTests, SetDataThenRemove)
   EXPECT_EQ(m_commands.GetSize(), 2);
 
   EXPECT_DOUBLE_EQ(restored_child->Data<int>(), 43);
+}
+
+//! Insert item to root item
+
+TEST_F(CommandModelComposerTests, InsertItemToRoot)
+{
+  auto composer = CreateComposer();
+
+  auto to_insert = std::make_unique<PropertyItem>();
+  auto identifier = to_insert->GetIdentifier();
+  to_insert->SetData(42);
+  auto to_insert_ptr = to_insert.get();
+
+  // command to insert item from the model
+  auto inserted =
+      composer->InsertItem(std::move(to_insert), m_model.GetRootItem(), TagIndex{"", 0});
+
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 1);
+  EXPECT_EQ(m_commands.GetSize(), 1);
+
+  EXPECT_EQ(inserted, to_insert_ptr);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+
+  // undoing command
+  m_commands.Undo();
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // redoing back
+  m_commands.Redo();
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::ChildAt(m_model.GetRootItem(), 0)->Data<int>(), 42);
+  EXPECT_EQ(utils::ChildAt(m_model.GetRootItem(), 0)->GetIdentifier(), identifier);
 }
