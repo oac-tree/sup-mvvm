@@ -19,7 +19,7 @@ namespace DragAndMove
 
 namespace
 {
-std::string random_name()
+std::string GetRandomName()
 {
   static const std::string alphabet = "abcdefgh";
   const size_t len(3);
@@ -40,29 +40,29 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
   RegisterItem<DemoItem>();
   RegisterItem<DemoContainerItem>();
-  populateModel();
+  PopulateModel();
 }
 
-void SampleModel::appendRandomItem(mvvm::SessionItem* container)
+void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
 {
   auto item = InsertItem<DemoItem>(container);
   item->SetProperty(DemoItem::P_COLOR_PROPERTY, mvvm::utils::RandomNamedColor());
-  item->SetProperty(DemoItem::P_STRING_PROPERTY, random_name());
+  item->SetProperty(DemoItem::P_STRING_PROPERTY, GetRandomName());
   item->SetProperty(DemoItem::P_INTEGER_PROPERTY, mvvm::utils::RandInt(0, 10));
 }
 
 //! Generates initial model content.
 
-void SampleModel::populateModel()
+void SampleModel::PopulateModel()
 {
   auto container = InsertItem<DemoContainerItem>();
-  appendRandomItem(container);
-  appendRandomItem(container);
-  appendRandomItem(container);
+  AppendRandomItem(container);
+  AppendRandomItem(container);
+  AppendRandomItem(container);
 
   container = InsertItem<DemoContainerItem>();
-  appendRandomItem(container);
-  appendRandomItem(container);
+  AppendRandomItem(container);
+  AppendRandomItem(container);
 }
 
 }  // namespace DragAndMove

@@ -33,12 +33,11 @@ public:
 
     void setModel(SampleModel* model);
 
-private slots:
-    void onUndo();
-    void onRedo();
-
 private:
-    void setupActions();
+    void OnUndo();
+    void OnRedo();
+    void SetupActions();
+    void UpdateActionAvailability();
 
     QToolBar* m_toolBar{nullptr};
     ContainerEditorWidget* m_leftWidget{nullptr};

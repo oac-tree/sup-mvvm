@@ -51,7 +51,7 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
   setLayout(mainLayout);
   setModel(model);
 
-  setupActions();
+  SetupActions();
 }
 
 void ModelEditorWidget::setModel(SampleModel* model)
@@ -70,44 +70,36 @@ void ModelEditorWidget::setModel(SampleModel* model)
   m_rightWidget->setModel(m_model, containers[1]);
 }
 
-void ModelEditorWidget::onUndo()
+void ModelEditorWidget::OnUndo()
 {
   utils::Undo(*m_model);
+  UpdateActionAvailability();
 }
 
-void ModelEditorWidget::onRedo()
+void ModelEditorWidget::OnRedo()
 {
   utils::Redo(*m_model);
+  UpdateActionAvailability();
 }
 
-void ModelEditorWidget::setupActions()
+void ModelEditorWidget::SetupActions()
 {
   const int toolbar_icon_size = 24;
   m_toolBar->setIconSize(QSize(toolbar_icon_size, toolbar_icon_size));
 
   m_undoAction = new QAction("Undo", this);
-  connect(m_undoAction, &QAction::triggered, this, &ModelEditorWidget::onUndo);
-  m_undoAction->setDisabled(true);
+  connect(m_undoAction, &QAction::triggered, this, &ModelEditorWidget::OnUndo);
   m_toolBar->addAction(m_undoAction);
 
   m_redoAction = new QAction("Redo", this);
-  connect(m_redoAction, &QAction::triggered, this, &ModelEditorWidget::onRedo);
-  m_redoAction->setDisabled(true);
+  connect(m_redoAction, &QAction::triggered, this, &ModelEditorWidget::OnRedo);
   m_toolBar->addAction(m_redoAction);
+}
 
-  // FIXME uncomment
-  //    if (m_model && m_model->undoStack()) {
-  //        auto can_undo_changed = [this]() {
-  //            m_undoAction->setEnabled(m_model->GetCommandStack()->CanUndo());
-  //        };
-  //        connect(UndoStack::qtUndoStack(m_model->GetCommandStack()), &QUndoStack::canUndoChanged,
-  //                can_undo_changed);
-  //        auto can_redo_changed = [this]() {
-  //            m_redoAction->setEnabled(m_model->GetCommandStack()->CanRedo());
-  //        };
-  //        connect(UndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
-  //                can_redo_changed);
-  //    }
+void ModelEditorWidget::UpdateActionAvailability()
+{
+  m_redoAction->setEnabled(m_model->GetCommandStack()->CanRedo());
+  m_undoAction->setEnabled(m_model->GetCommandStack()->CanUndo());
 }
 
 }  // namespace DragAndMove

@@ -27,10 +27,10 @@ class SampleModel : public mvvm::ApplicationModel
 public:
   SampleModel();
 
-  void appendRandomItem(mvvm::SessionItem* container);
+  void AppendRandomItem(mvvm::SessionItem* container);
 
 private:
-  void populateModel();
+  void PopulateModel();
 };
 
 }  // namespace DragAndMove
