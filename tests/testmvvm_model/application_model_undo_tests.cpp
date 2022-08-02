@@ -24,7 +24,11 @@
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/model/item_manager.h>
+#include <mvvm/model/item_pool.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/standarditems/standard_item_includes.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -35,8 +39,13 @@ using ::testing::_;
 class ApplicationModelUndoTests : public ::testing::Test
 {
 public:
+  ApplicationModelUndoTests() : m_model("TestModelType", CreateDefaultItemManager(m_pool)) {}
+
   ApplicationModel m_model;
+  static std::shared_ptr<ItemPool> m_pool;
 };
+
+std::shared_ptr<ItemPool> ApplicationModelUndoTests::m_pool = std::make_shared<ItemPool>();
 
 //! Inserting item, changing the data, removing item, undoing.
 
@@ -78,4 +87,68 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_EQ(m_model.GetRootItem()->GetItem("", 0)->Data(), variant_t(42));
+}
+
+//! Add GraphItem and Data1DItem, addisgn data to graph, undo, then redo.
+//! GraphItem should be pointing again to Data1DItem.
+//! This is real bug case.
+
+TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
+{
+  m_model.SetUndoEnabled(true);
+  auto commands = m_model.GetCommandStack();
+
+  auto data_item = m_model.InsertItem<Data1DItem>();
+  auto graph_item = m_model.InsertItem<GraphItem>();
+  graph_item->SetDataItem(data_item);
+
+  auto data_item_identifier = data_item->GetIdentifier();
+  auto graph_item_identifier = graph_item->GetIdentifier();
+
+  // model has two elements, graph is pointing to the data
+  EXPECT_EQ(commands->GetIndex(), 3);
+  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
+  EXPECT_EQ(graph_item->GetDataItem(), data_item);
+
+  // checking pool
+  EXPECT_EQ(m_pool->ItemForKey(data_item_identifier), data_item);
+  EXPECT_EQ(m_pool->ItemForKey(graph_item_identifier), graph_item);
+
+  // undoing once (setDataItem operation)
+  commands->Undo();
+
+  EXPECT_EQ(commands->GetIndex(), 2);
+  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
+  EXPECT_EQ(graph_item->GetDataItem(), nullptr);
+
+  // undoing two more times item
+  commands->Undo();
+  commands->Undo();
+  EXPECT_EQ(commands->GetIndex(), 0);
+  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // redoing (dataItem is back)
+  commands->Redo();
+  EXPECT_EQ(commands->GetIndex(), 1);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  auto restored_data_item = utils::GetTopItem<Data1DItem>(&m_model);
+  EXPECT_EQ(restored_data_item->GetIdentifier(), data_item_identifier);
+  EXPECT_EQ(m_pool->ItemForKey(data_item_identifier), restored_data_item);
+
+  // redoing (GraphItem) is back
+  commands->Redo();
+  EXPECT_EQ(commands->GetIndex(), 2);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
+  auto restored_graph_item = utils::GetTopItem<GraphItem>(&m_model);
+  EXPECT_EQ(restored_graph_item->GetIdentifier(), graph_item_identifier);
+  EXPECT_EQ(restored_graph_item->GetDataItem(), nullptr);
+
+  // redoing (graph is linked with data again)
+  commands->Redo();
+  EXPECT_EQ(commands->GetIndex(), 3);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
+  EXPECT_EQ(restored_graph_item->GetDataItem(), restored_data_item);
 }
