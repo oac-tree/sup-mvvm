@@ -50,6 +50,11 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
     throw std::runtime_error("Error in ViewModelController: no row strategy defined.");
   }
 
+  if (!m_context.model->GetSubscriber())
+  {
+    throw std::runtime_error("Model doesn't have a subscriber.");
+  }
+
   auto result = std::make_unique<ViewModelController>(m_context.model, m_context.view_model);
   result->SubscribeTo(m_context.model->GetSubscriber());
   result->SetChildrenStrategy(std::move(m_context.children_strategy));

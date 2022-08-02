@@ -90,6 +90,16 @@ MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
 //! Returns tooltip role for given item.
 MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
 
+//! Returns vector of underlying SessionItem's for given index list.
+MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
+
+//! Returns vector of parent items from given index list.
+//! Finds all SessionItems corresponding to given index list and collect their parents.
+//! Function is usefull in the context of table-like views when we want to find compound items
+//! (i.e. Layers) from table cells containing LayerItem's properties (i.e. thickness).
+MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*>
+ParentItemsFromIndex(const QModelIndexList& index_list);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_

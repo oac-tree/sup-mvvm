@@ -22,12 +22,19 @@
 #include <mvvm/interfaces/model_event_subscriber_interface.h>
 #include <mvvm/model/sessionitem.h>
 
+#include <mvvm/core/exceptions.h>
+
 namespace mvvm
 {
 AbstractViewModelController::~AbstractViewModelController() = default;
 
 void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *subscriber)
 {
+  if (!subscriber)
+  {
+    throw RuntimeException("Subscriber is not initialised");
+  }
+
   m_slot = std::make_unique<mvvm::Slot>();
   //  notifier->Subscribe(this);
 

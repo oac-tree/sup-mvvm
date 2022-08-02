@@ -19,12 +19,13 @@
 
 #include "mvvm/viewmodel/viewmodel_utils.h"
 
+#include <gtest/gtest.h>
+#include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
-
-#include <gtest/gtest.h>
 
 #include <QColor>
 
@@ -142,4 +143,75 @@ TEST_F(ViewModelUtilsTests, ItemToolTipRole)
 
   item.SetToolTip("abc");
   EXPECT_EQ(utils::ToolTipRole(item).toString(), QString("abc"));
+}
+
+//! Check ItemsFromIndex in PropertyTableViewModel context.
+//! ViewItem with its three property x, y, z forms one row. All corresponding
+//! indices of (x,y,z) should give us pointers to VectorItem's properties.
+
+TEST_F(ViewModelUtilsTests, itemsFromIndex)
+{
+  // creating VectorItem and viewModel to see it as a table
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
+  PropertyTableViewModel viewModel(&model);
+
+  // it's a table with one row and x,y,z columns
+  EXPECT_EQ(viewModel.rowCount(), 1);
+  EXPECT_EQ(viewModel.columnCount(), 3);
+
+  // empty index list doesn't lead to SessionItem's
+  QModelIndexList index_list;
+  EXPECT_EQ(utils::ItemsFromIndex(index_list).size(), 0);
+
+  // index list populated with column of properties
+  index_list.push_back(viewModel.index(0, 0));
+  index_list.push_back(viewModel.index(0, 1));
+  index_list.push_back(viewModel.index(0, 2));
+
+  std::vector<SessionItem*> expected = {parent->GetItem(VectorItem::kX),
+                                        parent->GetItem(VectorItem::kY),
+                                        parent->GetItem(VectorItem::kZ)};
+  EXPECT_EQ(utils::ItemsFromIndex(index_list), expected);
+}
+
+//! Check ParentItemsFromIndex in PropertyTableViewModel context.
+//! ViewItem with its three property x, y, z forms one row. All corresponding
+//! indices of (x,y,z) should give us pointer to VectorItem.
+
+TEST_F(ViewModelUtilsTests, parentItemsFromIndex)
+{
+  // creating VectorItem and viewModel to see it as a table
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
+  PropertyTableViewModel viewModel(&model);
+
+  // it's a table with one row and x,y,z columns
+  EXPECT_EQ(viewModel.rowCount(), 1);
+  EXPECT_EQ(viewModel.columnCount(), 3);
+
+  // empty index list doesn't lead to SessionItem's
+  QModelIndexList index_list;
+  EXPECT_EQ(utils::ParentItemsFromIndex(index_list).size(), 0);
+
+  std::vector<SessionItem*> expected = {parent};
+
+  // one cell in a list should give us pointer to original VectorItem
+  index_list.push_back(viewModel.index(0, 1));
+  EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
+
+  index_list.clear();
+  index_list.push_back(viewModel.index(0, 1));
+  EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
+
+  index_list.clear();
+  index_list.push_back(viewModel.index(0, 2));
+  EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
+
+  // tthree cells (x, y, z) in a list should give us pointer to original VectorItem
+  index_list.clear();
+  index_list.push_back(viewModel.index(0, 0));
+  index_list.push_back(viewModel.index(0, 1));
+  index_list.push_back(viewModel.index(0, 2));
+  EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 }

@@ -22,8 +22,10 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/viewmodel/viewmodel.h>
 
 #include <QColor>
+#include <set>
 
 namespace mvvm::utils
 {
@@ -87,6 +89,41 @@ QVariant ToolTipRole(const SessionItem& item)
 {
   return item.HasData(DataRole::kTooltip) ? QVariant(QString::fromStdString(item.GetToolTip()))
                                           : QVariant();
+}
+
+std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list)
+{
+  if (index_list.empty())
+  {
+    return {};
+  }
+
+  std::vector<SessionItem*> result;
+
+  if (auto model = dynamic_cast<const ViewModel*>(index_list.front().model()))
+  {
+    std::transform(index_list.begin(), index_list.end(), std::back_inserter(result),
+                   [model](auto index)
+                   { return const_cast<SessionItem*>(model->GetSessionItemFromIndex(index)); });
+  }
+
+  return result;
+}
+
+std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list)
+{
+  std::set<SessionItem*> unique_parents;
+  for (auto item : ItemsFromIndex(index_list))
+  {
+    if (item)
+    {
+      unique_parents.insert(item->GetParent());
+    }
+  }
+
+  std::vector<SessionItem*> result;
+  std::copy(unique_parents.begin(), unique_parents.end(), std::back_inserter(result));
+  return result;
 }
 
 }  // namespace mvvm::utils
