@@ -19,6 +19,7 @@
 
 #include "mock_model_listener.h"
 #include "mvvm/model/application_model.h"
+#include "toy_items.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/commands/command_stack_interface.h>
@@ -39,7 +40,11 @@ using ::testing::_;
 class ApplicationModelUndoTests : public ::testing::Test
 {
 public:
-  ApplicationModelUndoTests() : m_model("TestModelType", CreateDefaultItemManager(m_pool)) {}
+  ApplicationModelUndoTests() : m_model("TestModelType", CreateDefaultItemManager(m_pool))
+  {
+    m_model.RegisterItem<testutils::toyitems::LayerItem>();
+    m_model.RegisterItem<testutils::toyitems::MultiLayerItem>();
+  }
 
   ApplicationModel m_model;
   static std::shared_ptr<ItemPool> m_pool;
@@ -151,4 +156,60 @@ TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
   EXPECT_EQ(commands->GetIndex(), 3);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
   EXPECT_EQ(restored_graph_item->GetDataItem(), restored_data_item);
+}
+
+//! Create multilayer, add two layers, remove everything and undo.
+//! Toy models are used here.
+
+TEST_F(ApplicationModelUndoTests, MultiLayer)
+{
+  m_model.SetUndoEnabled(true);
+  auto commands = m_model.GetCommandStack();
+
+  // creating multi layer and two layers
+  auto parent = m_model.InsertItem<testutils::toyitems::MultiLayerItem>();
+  auto layer0 = m_model.InsertItem<testutils::toyitems::LayerItem>(parent);
+  auto layer1 = m_model.InsertItem<testutils::toyitems::LayerItem>(parent);
+
+  // saving identifiers for further reference
+  auto id_parent = parent->GetIdentifier();
+  auto id_layer0 = layer0->GetIdentifier();
+  auto id_layer1 = layer1->GetIdentifier();
+
+  // checking status of unddo stack
+  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetIndex(), 3);
+
+  // removing multi layer completely
+  m_model.RemoveItem(parent);
+  EXPECT_EQ(commands->GetSize(), 4);
+  EXPECT_EQ(commands->GetIndex(), 4);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // multilayer and its two layers should gone from registration
+  EXPECT_EQ(m_pool->ItemForKey(id_parent), nullptr);
+  EXPECT_EQ(m_pool->ItemForKey(id_layer0), nullptr);
+  EXPECT_EQ(m_pool->ItemForKey(id_layer1), nullptr);
+
+  // undoing multilayer removal
+  commands->Undo();
+  EXPECT_EQ(commands->GetSize(), 4);
+  EXPECT_EQ(commands->GetIndex(), 3);
+
+  // restoring pointers back
+  auto parent_at = utils::ChildAt(m_model.GetRootItem(), 0);
+  auto layer0_at = utils::ChildAt(parent_at, 0);
+  auto layer1_at = utils::ChildAt(parent_at, 1);
+
+  // checking that restored item has corrrect identifiers
+  EXPECT_EQ(parent_at->GetIdentifier(), id_parent);
+  EXPECT_EQ(layer0_at->GetIdentifier(), id_layer0);
+  EXPECT_EQ(layer1_at->GetIdentifier(), id_layer1);
+
+  // checking tag
+  const std::string expected_tag("Layers");  // hardcoede in MultiLayerItem
+  EXPECT_EQ(layer0_at->GetTagIndex().tag, expected_tag);
+  EXPECT_EQ(layer1_at->GetTagIndex().tag, expected_tag);
+  std::vector<SessionItem*> expected = {layer0_at, layer1_at};
+  EXPECT_EQ(parent_at->GetItems(expected_tag), expected);
 }
