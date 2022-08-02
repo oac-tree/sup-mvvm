@@ -29,8 +29,7 @@
 using namespace mvvm;
 using ::testing::_;
 
-//! Tests for ModelComposer class.
-//! Class is used to manipulate the model and generate necessary notifications.
+//! Tests for ApplicationModel class.
 
 class ApplicationModelTests : public ::testing::Test
 {
@@ -547,42 +546,3 @@ TEST_F(ApplicationModelTests, SetUndoEnabled)
   EXPECT_EQ(m_model.GetCommandStack(), nullptr);
 }
 
-TEST_F(ApplicationModelTests, InsertItemSetDataRemoveItemAndUndo)
-{
-  m_model.SetUndoEnabled(true);
-
-  auto commands = m_model.GetCommandStack();
-
-  // inserting item and setting the data
-  auto item = m_model.InsertItem<SessionItem>();
-  item->SetData(42);
-
-  // status of command stack with two commands
-  EXPECT_TRUE(commands->CanUndo());
-  EXPECT_FALSE(commands->CanRedo());
-  EXPECT_EQ(commands->GetIndex(), 2);
-  EXPECT_EQ(commands->GetSize(), 2);
-
-  // removing item
-  m_model.RemoveItem(item);
-
-  // status of command stack with three commands
-  EXPECT_TRUE(commands->CanUndo());
-  EXPECT_FALSE(commands->CanRedo());
-  EXPECT_EQ(commands->GetIndex(), 3);
-  EXPECT_EQ(commands->GetSize(), 3);
-
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
-
-  // undoing last removal
-  commands->Undo();
-
-  // status of command stack
-  EXPECT_TRUE(commands->CanUndo());
-  EXPECT_TRUE(commands->CanRedo());
-  EXPECT_EQ(commands->GetIndex(), 2);
-  EXPECT_EQ(commands->GetSize(), 3);
-
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
-  EXPECT_EQ(m_model.GetRootItem()->GetItem("", 0)->Data(), variant_t(42));
-}
