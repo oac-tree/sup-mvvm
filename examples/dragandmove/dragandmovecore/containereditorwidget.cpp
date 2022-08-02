@@ -101,18 +101,20 @@ void ContainerEditorWidget::OnRemove()
 
 void ContainerEditorWidget::OnMoveDown()
 {
-  // FIXME uncomment
-  //    auto items = selected_items();
-  //    std::reverse(items.begin(), items.end()); // to correctly move multiple selections
-  //    for (auto item : selected_items())
-  //        ModelView::Utils::MoveDown(item);
+  auto items = GetSelectedItems();
+  std::reverse(items.begin(), items.end());  // to correctly move multiple selections
+  for (auto item : items)
+  {
+    mvvm::utils::MoveDown(item);
+  }
 }
 
 void ContainerEditorWidget::OnMoveUp()
 {
-  // FIXME uncomment
-  //    for (auto item : selected_items())
-  //        ModelView::Utils::MoveUp(item);
+  for (auto item : GetSelectedItems())
+  {
+    mvvm::utils::MoveUp(item);
+  }
 }
 
 std::vector<SessionItem*> ContainerEditorWidget::GetSelectedItems() const

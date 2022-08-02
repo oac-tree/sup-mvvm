@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include "mvvm/model/model_utils.h"
+#include "toy_items.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
@@ -297,52 +298,52 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
 //    EXPECT_FALSE(model.rootItem()->identifier() == modelCopy->rootItem()->identifier());
 //}
 
-//! FIXME restore test  MoveUp
-// TEST_F(ModelUtilsTests, MoveItemUp)
-//{
-//    ToyItems::SampleModel model;
+TEST_F(ModelUtilsTests, MoveItemUp)
+{
+  testutils::toyitems::SampleModel model;
 
-//    auto multilayer = model.insertItem<ToyItems::MultiLayerItem>();
-//    auto layer0 = model.insertItem<ToyItems::LayerItem>(multilayer);
-//    auto layer1 = model.insertItem<ToyItems::LayerItem>(multilayer);
-//    auto layer2 = model.insertItem<ToyItems::LayerItem>(multilayer);
+  auto multilayer = model.InsertItem<testutils::toyitems::MultiLayerItem>();
+  auto layer0 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
+  auto layer1 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
 
-//    std::vector<SessionItem*> expected = {layer0, layer1, layer2};
+  std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
-//    // original layout
-//    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
+  // original layout
+  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
+  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
-//    // moving top layer up doesn't change the order
-//    Utils::MoveUp(layer0);
-//    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
+  // moving top layer up doesn't change the order
+  utils::MoveUp(layer0);
+  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
-//    // moving bottom layer up does change the order
-//    Utils::MoveUp(layer2);
-//    expected = {layer0, layer2, layer1};
-//    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
-//}
+  // moving bottom layer up does change the order
+  utils::MoveUp(layer2);
+  expected = {layer0, layer2, layer1};
+  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+}
 
-//! FIXME restore test MoveDown
-// TEST_F(ModelUtilsTests, MoveItemDown)
-//{
-//    ToyItems::SampleModel model;
+TEST_F(ModelUtilsTests, MoveItemDown)
+{
+  testutils::toyitems::SampleModel model;
 
-//    auto multilayer = model.insertItem<ToyItems::MultiLayerItem>();
-//    auto layer0 = model.insertItem<ToyItems::LayerItem>(multilayer);
-//    auto layer1 = model.insertItem<ToyItems::LayerItem>(multilayer);
-//    auto layer2 = model.insertItem<ToyItems::LayerItem>(multilayer);
+  auto multilayer = model.InsertItem<testutils::toyitems::MultiLayerItem>();
+  auto layer0 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
+  auto layer1 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
 
-//    std::vector<SessionItem*> expected = {layer0, layer1, layer2};
+  std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
-//    // original layout
-//    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
+  // original layout
+  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
+  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
-//    // moving bottom layer down doesn't change the order
-//    Utils::MoveDown(layer2);
-//    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
+  // moving bottom layer down doesn't change the order
+  utils::MoveDown(layer2);
+  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
-//    // moving top layer down doesn't change the order
-//    Utils::MoveDown(layer0);
-//    expected = {layer1, layer0, layer2};
-//    EXPECT_EQ(multilayer->getItems(ToyItems::MultiLayerItem::T_LAYERS), expected);
-//}
+  // moving top layer down doesn't change the order
+  utils::MoveDown(layer0);
+  expected = {layer1, layer0, layer2};
+  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+}

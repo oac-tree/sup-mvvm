@@ -90,25 +90,25 @@ SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, Ses
 //    converter->from_json(object, target);
 //}
 
-//! FIXME restore MoveUp
+void MoveUp(SessionItem* item)
+{
+  auto tag_index = item->GetTagIndex();
+  if (tag_index.index == 0)
+  {
+    return;  // item already at the top
+  }
+  item->GetModel()->MoveItem(item, item->GetParent(), tag_index.Prev());
+}
 
-// void Utils::MoveUp(SessionItem* item)
-//{
-//    auto tagrow = item->tagRow();
-//    if (tagrow.row == 0)
-//        return; // item already at the top
-//    item->model()->moveItem(item, item->parent(), tagrow.prev());
-//}
-
-//! FIXME restore MoveDown
-
-// void Utils::MoveDown(SessionItem* item)
-//{
-//    auto tagrow = item->tagRow();
-//    if (tagrow.row == item->parent()->itemCount(tagrow.tag) - 1)
-//        return; // item already at the buttom
-//    item->model()->moveItem(item, item->parent(), tagrow.next());
-//}
+void MoveDown(SessionItem* item)
+{
+  auto tag_index = item->GetTagIndex();
+  if (tag_index.index == item->GetParent()->GetItemCount(tag_index.tag) - 1)
+  {
+    return;  // item already at the buttom
+  }
+  item->GetModel()->MoveItem(item, item->GetParent(), tag_index.Next());
+}
 
 void Undo(SessionModelInterface& model)
 {

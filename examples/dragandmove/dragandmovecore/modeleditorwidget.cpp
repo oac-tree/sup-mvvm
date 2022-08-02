@@ -39,8 +39,8 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     , m_left_widget(new ContainerEditorWidget)
     , m_right_widget(new ContainerEditorWidget)
 {
-  auto mainLayout = new QVBoxLayout(this);
-  mainLayout->setSpacing(10);
+  auto main_layout = new QVBoxLayout(this);
+  main_layout->setSpacing(10);
 
   auto top_layout = new QVBoxLayout;
   top_layout->addWidget(m_tool_bar);
@@ -51,8 +51,8 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
   container_layout->addSpacing(20);
   container_layout->addWidget(m_right_widget);
 
-  mainLayout->addLayout(top_layout);
-  mainLayout->addLayout(container_layout);
+  main_layout->addLayout(top_layout);
+  main_layout->addLayout(container_layout);
 
   setModel(model);
 
