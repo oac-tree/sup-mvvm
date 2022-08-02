@@ -93,9 +93,10 @@ void ContainerEditorWidget::OnCopy()
 
 void ContainerEditorWidget::OnRemove()
 {
-  // FIXME uncomment
-  //    for (auto item : selected_items())
-  //        Utils::DeleteItemFromModel(item);
+  for (auto item : GetSelectedItems())
+  {
+    m_model->RemoveItem(item);
+  }
 }
 
 void ContainerEditorWidget::OnMoveDown()
@@ -116,9 +117,7 @@ void ContainerEditorWidget::OnMoveUp()
 
 std::vector<SessionItem*> ContainerEditorWidget::GetSelectedItems() const
 {
-  // FIXME uncomment
-  //    return Utils::ParentItemsFromIndex(m_treeView->selectionModel()->selectedIndexes());
-  return {};
+  return utils::ParentItemsFromIndex(m_tree_view->selectionModel()->selectedIndexes());
 }
 
 QBoxLayout* ContainerEditorWidget::CreateButtonLayout() const
