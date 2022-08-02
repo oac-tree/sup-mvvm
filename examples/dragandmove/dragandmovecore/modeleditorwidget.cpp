@@ -70,8 +70,8 @@ void ModelEditorWidget::setModel(SampleModel* model)
 
   auto containers = mvvm::utils::GetTopItems(m_model);
 
-  m_left_widget->setModel(m_model, containers[0]);
-  m_right_widget->setModel(m_model, containers[1]);
+  m_left_widget->SetModel(m_model, containers[0]);
+  m_right_widget->SetModel(m_model, containers[1]);
 }
 
 void ModelEditorWidget::OnUndo()

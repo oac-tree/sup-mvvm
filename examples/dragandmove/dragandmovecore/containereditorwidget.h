@@ -45,22 +45,22 @@ class ContainerEditorWidget : public QWidget {
 
 public:
     explicit ContainerEditorWidget(QWidget* parent = nullptr);
-    ~ContainerEditorWidget();
+    ~ContainerEditorWidget() override;
 
-    void setModel(SampleModel* model, mvvm::SessionItem* root_item = nullptr);
+    void SetModel(SampleModel* model, mvvm::SessionItem* root_item = nullptr);
 
 private:
-    void onAdd();
-    void onCopy();
-    void onRemove();
-    void onMoveDown();
-    void onMoveUp();
+    void OnAdd();
+    void OnCopy();
+    void OnRemove();
+    void OnMoveDown();
+    void OnMoveUp();
 
-    std::vector<mvvm::SessionItem*> selected_items() const;
-    QBoxLayout* create_button_layout();
+    std::vector<mvvm::SessionItem*> GetSelectedItems() const;
+    QBoxLayout* CreateButtonLayout() const;
 
-    QTreeView* m_treeView{nullptr};
-    std::unique_ptr<mvvm::ViewModel> m_viewModel;
+    QTreeView* m_tree_view{nullptr};
+    std::unique_ptr<mvvm::ViewModel> m_view_model;
     std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
     mvvm::SessionItem* m_container{nullptr};
     SampleModel* m_model{nullptr};

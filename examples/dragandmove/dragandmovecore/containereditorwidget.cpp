@@ -38,7 +38,7 @@ namespace DragAndMove
 
 ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
     : QWidget(parent)
-    , m_treeView(new QTreeView)
+    , m_tree_view(new QTreeView)
     , m_delegate(std::make_unique<ViewModelDelegate>())
     , m_container(nullptr)
     , m_model(nullptr)
@@ -46,57 +46,59 @@ ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
   auto mainLayout = new QVBoxLayout;
   mainLayout->setSpacing(10);
 
-  mainLayout->addWidget(m_treeView);
-  mainLayout->addLayout(create_button_layout());
+  mainLayout->addWidget(m_tree_view);
+  mainLayout->addLayout(CreateButtonLayout());
 
   setLayout(mainLayout);
 }
 
 ContainerEditorWidget::~ContainerEditorWidget() = default;
 
-void ContainerEditorWidget::setModel(SampleModel* model, SessionItem* root_item)
+void ContainerEditorWidget::SetModel(SampleModel* model, SessionItem* root_item)
 {
   if (!model)
+  {
     return;
+  }
 
   m_model = model;
   m_container = root_item;
 
   // setting up the tree
-  m_viewModel = std::make_unique<DragViewModel>(model);
-  m_viewModel->SetRootSessionItem(m_container);
-  m_treeView->setModel(m_viewModel.get());
-  m_treeView->setItemDelegate(m_delegate.get());
-  m_treeView->expandAll();
-  m_treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
-  m_treeView->setSelectionMode(QAbstractItemView::ContiguousSelection);
+  m_view_model = std::make_unique<DragViewModel>(model);
+  m_view_model->SetRootSessionItem(m_container);
+  m_tree_view->setModel(m_view_model.get());
+  m_tree_view->setItemDelegate(m_delegate.get());
+  m_tree_view->expandAll();
+  m_tree_view->header()->setSectionResizeMode(QHeaderView::Stretch);
+  m_tree_view->setSelectionMode(QAbstractItemView::ContiguousSelection);
 
   setAcceptDrops(true);
-  m_treeView->setDragEnabled(true);
-  m_treeView->viewport()->setAcceptDrops(true);
-  m_treeView->setDropIndicatorShown(true);
+  m_tree_view->setDragEnabled(true);
+  m_tree_view->viewport()->setAcceptDrops(true);
+  m_tree_view->setDropIndicatorShown(true);
 }
 
-void ContainerEditorWidget::onAdd()
+void ContainerEditorWidget::OnAdd()
 {
   m_model->AppendRandomItem(m_container);
 }
 
-void ContainerEditorWidget::onCopy()
+void ContainerEditorWidget::OnCopy()
 {
   // FIXME uncomment
   //    for (auto item : selected_items())
   //        m_model->CopyItem(item, m_container);
 }
 
-void ContainerEditorWidget::onRemove()
+void ContainerEditorWidget::OnRemove()
 {
   // FIXME uncomment
   //    for (auto item : selected_items())
   //        Utils::DeleteItemFromModel(item);
 }
 
-void ContainerEditorWidget::onMoveDown()
+void ContainerEditorWidget::OnMoveDown()
 {
   // FIXME uncomment
   //    auto items = selected_items();
@@ -105,48 +107,48 @@ void ContainerEditorWidget::onMoveDown()
   //        ModelView::Utils::MoveDown(item);
 }
 
-void ContainerEditorWidget::onMoveUp()
+void ContainerEditorWidget::OnMoveUp()
 {
   // FIXME uncomment
   //    for (auto item : selected_items())
   //        ModelView::Utils::MoveUp(item);
 }
 
-std::vector<SessionItem*> ContainerEditorWidget::selected_items() const
+std::vector<SessionItem*> ContainerEditorWidget::GetSelectedItems() const
 {
   // FIXME uncomment
   //    return Utils::ParentItemsFromIndex(m_treeView->selectionModel()->selectedIndexes());
   return {};
 }
 
-QBoxLayout* ContainerEditorWidget::create_button_layout()
+QBoxLayout* ContainerEditorWidget::CreateButtonLayout() const
 {
   auto result = new QHBoxLayout;
   result->setContentsMargins(5, 5, 5, 25);
 
   auto button = new QPushButton("Add");
   button->setToolTip("Append new item at the bottom");
-  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::onAdd);
+  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::OnAdd);
   result->addWidget(button);
 
   button = new QPushButton("Copy");
   button->setToolTip("Copy selected item below");
-  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::onCopy);
+  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::OnCopy);
   result->addWidget(button);
 
   button = new QPushButton("Remove");
   button->setToolTip("Remove selected item");
-  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::onRemove);
+  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::OnRemove);
   result->addWidget(button);
 
   button = new QPushButton("Down");
   button->setToolTip("Move selected item down");
-  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::onMoveDown);
+  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::OnMoveDown);
   result->addWidget(button);
 
   button = new QPushButton("Up");
   button->setToolTip("Move selected item up");
-  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::onMoveUp);
+  connect(button, &QPushButton::clicked, this, &ContainerEditorWidget::OnMoveUp);
   result->addWidget(button);
 
   return result;
