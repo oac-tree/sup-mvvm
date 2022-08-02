@@ -19,11 +19,27 @@
 
 #include "mvvm/model/model_utils.h"
 
-#include <mvvm/model/taginfo.h>
+#include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/application_model.h>
 #include <mvvm/model/path.h>
+#include <mvvm/model/taginfo.h>
 #include <mvvm/model/validate_utils.h>
+
+namespace
+{
+//! Returns CommandStack from the model, or nullptr if the stack doesn't exist.
+mvvm::CommandStackInterface* GetCommandStack(const mvvm::SessionModelInterface& model)
+{
+  if (auto application_model = dynamic_cast<const mvvm::ApplicationModel*>(&model);
+      application_model)
+  {
+    return application_model->GetCommandStack();
+  }
+  return nullptr;
+}
+}  // namespace
 
 namespace mvvm::utils
 {
@@ -94,21 +110,21 @@ SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, Ses
 //    item->model()->moveItem(item, item->parent(), tagrow.next());
 //}
 
-//! FIXME restore Undo
+void Undo(SessionModelInterface& model)
+{
+  if (auto command_stack = GetCommandStack(model); command_stack)
+  {
+    command_stack->Undo();
+  }
+}
 
-// void Utils::Undo(SessionModel& model)
-//{
-//    if (auto stack = model.undoStack(); stack)
-//        stack->undo();
-//}
-
-//! FIXME restore Redo
-
-// void Utils::Redo(SessionModel& model)
-//{
-//    if (auto stack = model.undoStack(); stack)
-//        stack->redo();
-//}
+void Redo(SessionModelInterface& model)
+{
+  if (auto command_stack = GetCommandStack(model); command_stack)
+  {
+    command_stack->Redo();
+  }
+}
 
 //! FIXME restore beginMacros
 

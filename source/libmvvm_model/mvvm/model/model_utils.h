@@ -123,11 +123,11 @@ MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModelInt
 ////! Moves item down (increments row of the item). Works on children belonging to single tag.
 // MVVM_MODEL_EXPORT void MoveDown(SessionItem* item);
 
-////! Undo last model operation. If not undo/redo enabled, will do nothing.
-// MVVM_MODEL_EXPORT void Undo(SessionModel& model);
+//! Undo last model operation. If undo/redo is disabled, will do nothing.
+ MVVM_MODEL_EXPORT void Undo(SessionModelInterface& model);
 
-////! Redo model operation which was undone just before. If not undo/redo enabled, will do nothing.
-// MVVM_MODEL_EXPORT void Redo(SessionModel& model);
+//! Redo model operation which was undone just before. If undo/redo is disabled, will do nothing.
+ MVVM_MODEL_EXPORT void Redo(SessionModelInterface& model);
 
 ////! Begin undo/redo macros with given name. Works only if item belongs to the model, and model has
 ////! undo/redo enabled. Otherwise, do nothing.
