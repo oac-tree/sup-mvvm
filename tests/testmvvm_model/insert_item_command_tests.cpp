@@ -135,6 +135,52 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
 }
 
 //! Insert item to parent.
+//! Notifying composer is used.
+
+TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
+{
+  auto composer = CreateNotifyingComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  m_model.InsertItem<SessionItem>(parent);
+  m_model.InsertItem<SessionItem>(parent);
+
+  auto to_insert = std::make_unique<PropertyItem>();
+  auto identifier = to_insert->GetIdentifier();
+  to_insert->SetData(42);
+  auto to_insert_ptr = to_insert.get();
+
+  // command to insert item from the model
+  InsertItemCommand command(composer.get(), std::move(to_insert), parent, TagIndex{"tag1", 1});
+
+  // expecting signals related to item insertion
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, TagIndex{"tag1", 1})).Times(1);
+    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, TagIndex{"tag1", 1})).Times(1);
+  }
+
+  command.Execute();
+  EXPECT_FALSE(command.IsObsolete());
+
+  EXPECT_EQ(parent->GetTotalItemCount(), 3);
+
+  // expecting signals related to item insertion
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, TagIndex{"tag1", 1})).Times(1);
+    EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, TagIndex{"tag1", 1})).Times(1);
+  }
+
+  // undoing command
+  command.Undo();
+  EXPECT_FALSE(command.IsObsolete());
+  EXPECT_EQ(parent->GetTotalItemCount(), 2);
+}
+
+//! Insert item to parent.
 
 TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)
 {
@@ -146,7 +192,8 @@ TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)
   auto to_insert = std::make_unique<PropertyItem>();
 
   // command to insert item from the model
-  InsertItemCommand command(composer.get(), std::move(to_insert), compound, TagIndex{"thickness", 1});
+  InsertItemCommand command(composer.get(), std::move(to_insert), compound,
+                            TagIndex{"thickness", 1});
 
   EXPECT_THROW(command.Execute(), InvalidOperationException);
 }
