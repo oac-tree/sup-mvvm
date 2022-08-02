@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #include "modeleditorwidget.h"
 
@@ -19,36 +29,31 @@
 #include <QHBoxLayout>
 #include <QToolBar>
 #include <QToolButton>
-#include <QUndoStack>
-#include <cassert>
-
-using namespace mvvm;
 
 namespace DragAndMove
 {
 
 ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     : QWidget(parent)
-    , m_toolBar(new QToolBar)
-    , m_leftWidget(new ContainerEditorWidget)
-    , m_rightWidget(new ContainerEditorWidget)
+    , m_tool_bar(new QToolBar)
+    , m_left_widget(new ContainerEditorWidget)
+    , m_right_widget(new ContainerEditorWidget)
 {
-  auto mainLayout = new QVBoxLayout;
+  auto mainLayout = new QVBoxLayout(this);
   mainLayout->setSpacing(10);
 
   auto top_layout = new QVBoxLayout;
-  top_layout->addWidget(m_toolBar);
+  top_layout->addWidget(m_tool_bar);
 
   auto container_layout = new QHBoxLayout;
   container_layout->setSpacing(10);
-  container_layout->addWidget(m_leftWidget);
+  container_layout->addWidget(m_left_widget);
   container_layout->addSpacing(20);
-  container_layout->addWidget(m_rightWidget);
+  container_layout->addWidget(m_right_widget);
 
   mainLayout->addLayout(top_layout);
   mainLayout->addLayout(container_layout);
 
-  setLayout(mainLayout);
   setModel(model);
 
   SetupActions();
@@ -64,42 +69,41 @@ void ModelEditorWidget::setModel(SampleModel* model)
   m_model = model;
 
   auto containers = mvvm::utils::GetTopItems(m_model);
-  assert(containers.size() == 2);
 
-  m_leftWidget->setModel(m_model, containers[0]);
-  m_rightWidget->setModel(m_model, containers[1]);
+  m_left_widget->setModel(m_model, containers[0]);
+  m_right_widget->setModel(m_model, containers[1]);
 }
 
 void ModelEditorWidget::OnUndo()
 {
-  utils::Undo(*m_model);
+  mvvm::utils::Undo(*m_model);
   UpdateActionAvailability();
 }
 
 void ModelEditorWidget::OnRedo()
 {
-  utils::Redo(*m_model);
+  mvvm::utils::Redo(*m_model);
   UpdateActionAvailability();
 }
 
 void ModelEditorWidget::SetupActions()
 {
   const int toolbar_icon_size = 24;
-  m_toolBar->setIconSize(QSize(toolbar_icon_size, toolbar_icon_size));
+  m_tool_bar->setIconSize(QSize(toolbar_icon_size, toolbar_icon_size));
 
-  m_undoAction = new QAction("Undo", this);
-  connect(m_undoAction, &QAction::triggered, this, &ModelEditorWidget::OnUndo);
-  m_toolBar->addAction(m_undoAction);
+  m_undo_action = new QAction("Undo", this);
+  connect(m_undo_action, &QAction::triggered, this, &ModelEditorWidget::OnUndo);
+  m_tool_bar->addAction(m_undo_action);
 
-  m_redoAction = new QAction("Redo", this);
-  connect(m_redoAction, &QAction::triggered, this, &ModelEditorWidget::OnRedo);
-  m_toolBar->addAction(m_redoAction);
+  m_redo_action = new QAction("Redo", this);
+  connect(m_redo_action, &QAction::triggered, this, &ModelEditorWidget::OnRedo);
+  m_tool_bar->addAction(m_redo_action);
 }
 
 void ModelEditorWidget::UpdateActionAvailability()
 {
-  m_redoAction->setEnabled(m_model->GetCommandStack()->CanRedo());
-  m_undoAction->setEnabled(m_model->GetCommandStack()->CanUndo());
+  m_redo_action->setEnabled(m_model->GetCommandStack()->CanRedo());
+  m_undo_action->setEnabled(m_model->GetCommandStack()->CanUndo());
 }
 
 }  // namespace DragAndMove

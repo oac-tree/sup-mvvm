@@ -1,11 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
 
 #ifndef DRAGANDMOVECORE_MODELEDITORWIDGET_H
 #define DRAGANDMOVECORE_MODELEDITORWIDGET_H
@@ -39,11 +49,11 @@ private:
     void SetupActions();
     void UpdateActionAvailability();
 
-    QToolBar* m_toolBar{nullptr};
-    ContainerEditorWidget* m_leftWidget{nullptr};
-    ContainerEditorWidget* m_rightWidget{nullptr};
-    QAction* m_undoAction{nullptr};
-    QAction* m_redoAction{nullptr};
+    QToolBar* m_tool_bar{nullptr};
+    ContainerEditorWidget* m_left_widget{nullptr};
+    ContainerEditorWidget* m_right_widget{nullptr};
+    QAction* m_undo_action{nullptr};
+    QAction* m_redo_action{nullptr};
     SampleModel* m_model{nullptr};
 };
 
