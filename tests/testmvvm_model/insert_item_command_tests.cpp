@@ -1,0 +1,94 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mock_model_event_notifier.h"
+#include "mvvm/commands/insert_item_command.h"
+
+#include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
+#include <mvvm/model/compound_item.h>
+#include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_composer.h>
+#include <mvvm/model/notifying_model_composer.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/taginfo.h>
+
+using namespace mvvm;
+using ::testing::_;
+
+//! Testing InsertItemCommand.
+
+class InsertItemCommandTests : public ::testing::Test
+{
+public:
+  std::unique_ptr<ModelComposerInterface> CreateStandardComposer()
+  {
+    return std::make_unique<ModelComposer>(m_model);
+  }
+
+  std::unique_ptr<ModelComposerInterface> CreateNotifyingComposer()
+  {
+    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
+  }
+
+  SessionModel m_model;
+  MockModelEventNotifier m_notifier;
+};
+
+//! Insert item to root item.
+
+TEST_F(InsertItemCommandTests, InsertItemToRoot)
+{
+  auto composer = CreateStandardComposer();
+
+  auto to_insert = std::make_unique<PropertyItem>();
+  auto identifier = to_insert->GetIdentifier();
+  to_insert->SetData(42);
+  auto to_insert_ptr = to_insert.get();
+
+  // command to insert item from the model
+  InsertItemCommand command(composer.get(), std::move(to_insert), m_model.GetRootItem(),
+                            TagIndex{"", 0});
+
+  // model is still empty
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  command.Execute();
+  EXPECT_FALSE(command.IsObsolete());
+
+  EXPECT_EQ(command.GetResult(), to_insert_ptr);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+
+  auto inserted = utils::ChildAt(m_model.GetRootItem(), 0);
+  EXPECT_EQ(inserted, to_insert_ptr);
+  EXPECT_EQ(inserted->Data<int>(), 42);
+
+  // undoing command
+  command.Undo();
+  EXPECT_FALSE(command.IsObsolete());
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // redoing back
+  command.Execute();
+  EXPECT_FALSE(command.IsObsolete());
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::ChildAt(m_model.GetRootItem(), 0)->Data<int>(), 42);
+  EXPECT_EQ(utils::ChildAt(m_model.GetRootItem(), 0)->GetIdentifier(), identifier);
+}
