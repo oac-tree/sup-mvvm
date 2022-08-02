@@ -133,3 +133,20 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
   EXPECT_EQ(parent->GetItem("tag1", 1)->Data<int>(), 42);
   EXPECT_EQ(parent->GetItem("tag1", 1)->GetIdentifier(), identifier);
 }
+
+//! Insert item to parent.
+
+TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)
+{
+  auto composer = CreateStandardComposer();
+
+  auto compound = m_model.InsertItem<CompoundItem>(m_model.GetRootItem());
+  compound->AddProperty("thickness", 42);
+
+  auto to_insert = std::make_unique<PropertyItem>();
+
+  // command to insert item from the model
+  InsertItemCommand command(composer.get(), std::move(to_insert), compound, TagIndex{"thickness", 1});
+
+  EXPECT_THROW(command.Execute(), InvalidOperationException);
+}
