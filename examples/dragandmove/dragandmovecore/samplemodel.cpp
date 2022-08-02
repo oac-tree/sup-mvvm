@@ -51,6 +51,7 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
   RegisterItem<DemoItem>();
   RegisterItem<DemoContainerItem>();
   PopulateModel();
+  SetUndoEnabled(true);
 }
 
 void SampleModel::AppendRandomItem(mvvm::SessionItem* container)

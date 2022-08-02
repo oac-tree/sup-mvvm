@@ -102,8 +102,8 @@ void ModelEditorWidget::SetupActions()
 
 void ModelEditorWidget::UpdateActionAvailability()
 {
-  m_redo_action->setEnabled(m_model->GetCommandStack()->CanRedo());
-  m_undo_action->setEnabled(m_model->GetCommandStack()->CanUndo());
+//  m_redo_action->setEnabled(m_model->GetCommandStack()->CanRedo());
+//  m_undo_action->setEnabled(m_model->GetCommandStack()->CanUndo());
 }
 
 }  // namespace DragAndMove

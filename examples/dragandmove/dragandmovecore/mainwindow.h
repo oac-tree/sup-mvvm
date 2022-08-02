@@ -23,29 +23,31 @@
 #include <QMainWindow>
 #include <memory>
 
-namespace DragAndMove {
+namespace DragAndMove
+{
 
 class SampleModel;
 
 //! A main window. Contain two sample models and tabs with two model editors.
 
-class MainWindow : public QMainWindow {
-    Q_OBJECT
+class MainWindow : public QMainWindow
+{
+  Q_OBJECT
 
 public:
-    MainWindow();
-    ~MainWindow();
+  MainWindow();
+  ~MainWindow() override;
 
 protected:
-    void closeEvent(QCloseEvent* event);
+  void closeEvent(QCloseEvent* event) override;
 
 private:
-    void writeSettings();
-    void initApplication();
+  void WriteSettings();
+  void InitApplication();
 
-    std::unique_ptr<SampleModel> m_model;
+  std::unique_ptr<SampleModel> m_model;
 };
 
-} // namespace DragAndMove
+}  // namespace DragAndMove
 
-#endif // DRAGANDMOVECORE_MAINWINDOW_H
+#endif  // DRAGANDMOVECORE_MAINWINDOW_H
