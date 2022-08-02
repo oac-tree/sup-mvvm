@@ -299,3 +299,53 @@ TEST_F(CommandModelComposerTests, RemoveParentWithChild)
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }
+
+//! First we set data, then remove parent, then undo.
+
+TEST_F(CommandModelComposerTests, SetDataThenRemove)
+{
+  auto composer = CreateComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  auto child1 = m_model.InsertItem<SessionItem>(parent);
+  child1->SetData(42);
+
+  EXPECT_TRUE(composer->SetData(child1, 43, DataRole::kData));
+  auto taken = composer->TakeItem(m_model.GetRootItem(), {"", 0});
+
+  // status of stack
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 2);
+  EXPECT_EQ(m_commands.GetSize(), 2);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // undo command
+  m_commands.Undo();
+  m_commands.Undo();
+
+  auto restored_parent = utils::ChildAt(m_model.GetRootItem(), 0);
+  auto restored_child = utils::ChildAt(restored_parent, 0);
+
+  // status of stack
+  EXPECT_FALSE(m_commands.CanUndo());
+  EXPECT_TRUE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 0);
+  EXPECT_EQ(m_commands.GetSize(), 2);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_DOUBLE_EQ(restored_child->Data<int>(), 42);
+
+  // redoing once
+  m_commands.Redo();
+
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_TRUE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 1);
+  EXPECT_EQ(m_commands.GetSize(), 2);
+
+  EXPECT_DOUBLE_EQ(restored_child->Data<int>(), 43);
+}
