@@ -19,6 +19,8 @@
 
 #include "mvvm/model/application_model.h"
 
+#include <mvvm/commands/command_model_composer.h>
+#include <mvvm/commands/command_stack.h>
 #include <mvvm/interfaces/item_manager_interface.h>
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/model_composer.h>
@@ -29,10 +31,17 @@
 
 namespace
 {
-std::unique_ptr<mvvm::ModelComposerInterface> CreateComposer(
+std::unique_ptr<mvvm::ModelComposerInterface> CreateNotifyingComposer(
     mvvm::ModelEventNotifierInterface* notifier, mvvm::SessionModelInterface* model)
 {
   return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(notifier, *model);
+}
+
+std::unique_ptr<mvvm::ModelComposerInterface> CreateCommandComposer(
+    mvvm::CommandStackInterface* command_stack,
+    std::unique_ptr<mvvm::ModelComposerInterface> composer)
+{
+  return std::make_unique<mvvm::CommandModelComposer>(command_stack, std::move(composer));
 }
 
 }  // namespace
@@ -43,6 +52,7 @@ namespace mvvm
 struct ApplicationModel::ApplicationModelImpl
 {
   ModelEventNotifier m_notifier;
+  std::unique_ptr<CommandStackInterface> m_command_stack;
 };
 
 ApplicationModel::ApplicationModel(std::string model_type)
@@ -55,7 +65,7 @@ ApplicationModel::ApplicationModel(std::string model_type,
     : SessionModel(std::move(model_type), std::move(manager), {})
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
-  SetComposer(CreateComposer(&p_impl->m_notifier, this));
+  SetComposer(CreateNotifyingComposer(&p_impl->m_notifier, this));
 }
 
 ApplicationModel::~ApplicationModel()
@@ -72,6 +82,26 @@ void ApplicationModel::CheckIn(SessionItem* item)
 {
   SessionModel::CheckIn(item);
   item->Activate();
+}
+
+void ApplicationModel::SetUndoEnabled(bool value)
+{
+  if (value)
+  {
+    p_impl->m_command_stack = std::make_unique<CommandStack>();
+    auto notifying_composer = CreateNotifyingComposer(&p_impl->m_notifier, this);
+    SetComposer(std::move(CreateCommandComposer(GetCommandStack(), std::move(notifying_composer))));
+  }
+  else
+  {
+    p_impl->m_command_stack.reset();
+    SetComposer(std::move(CreateNotifyingComposer(&p_impl->m_notifier, this)));
+  }
+}
+
+CommandStackInterface* ApplicationModel::GetCommandStack() const
+{
+  return p_impl->m_command_stack.get();
 }
 
 }  // namespace mvvm

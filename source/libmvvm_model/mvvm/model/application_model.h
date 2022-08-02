@@ -28,6 +28,7 @@ namespace mvvm
 {
 class ModelEventSubscriberInterface;
 class ItemManagerInterface;
+class CommandStackInterface;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.
 //! All modification of the model are done through the composer, which takes care
@@ -46,6 +47,10 @@ public:
   ModelEventSubscriberInterface* GetSubscriber() const override;
 
   void CheckIn(SessionItem* item) override;
+
+  void SetUndoEnabled(bool value);
+
+  CommandStackInterface* GetCommandStack() const;
 
 private:
   struct ApplicationModelImpl;

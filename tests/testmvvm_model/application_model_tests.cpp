@@ -21,6 +21,7 @@
 #include "mvvm/model/application_model.h"
 
 #include <gtest/gtest.h>
+#include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
@@ -42,6 +43,7 @@ TEST_F(ApplicationModelTests, InitialState)
   EXPECT_EQ(m_model.GetRootItem()->GetModel(), &m_model);
   EXPECT_EQ(m_model.GetRootItem()->GetParent(), nullptr);
   EXPECT_NE(m_model.GetSubscriber(), nullptr);
+  EXPECT_EQ(m_model.GetCommandStack(), nullptr);
 }
 
 //! Setting data through the model and checking the result.
@@ -509,7 +511,7 @@ TEST_F(ApplicationModelTests, Clear)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Clearing the model.
+//! Destroying the model.
 
 TEST_F(ApplicationModelTests, Destroy)
 {
@@ -532,4 +534,55 @@ TEST_F(ApplicationModelTests, Destroy)
 
   // triggering expectations
   model.reset();
+}
+
+//! Check SetUndoEnabled.
+
+TEST_F(ApplicationModelTests, SetUndoEnabled)
+{
+  m_model.SetUndoEnabled(true);
+  EXPECT_NE(m_model.GetCommandStack(), nullptr);
+
+  m_model.SetUndoEnabled(false);
+  EXPECT_EQ(m_model.GetCommandStack(), nullptr);
+}
+
+TEST_F(ApplicationModelTests, InsertItemSetDataRemoveItemAndUndo)
+{
+  m_model.SetUndoEnabled(true);
+
+  auto commands = m_model.GetCommandStack();
+
+  // inserting item and setting the data
+  auto item = m_model.InsertItem<SessionItem>();
+  item->SetData(42);
+
+  // status of command stack with two commands
+  EXPECT_TRUE(commands->CanUndo());
+  EXPECT_FALSE(commands->CanRedo());
+  EXPECT_EQ(commands->GetIndex(), 2);
+  EXPECT_EQ(commands->GetSize(), 2);
+
+  // removing item
+  m_model.RemoveItem(item);
+
+  // status of command stack with three commands
+  EXPECT_TRUE(commands->CanUndo());
+  EXPECT_FALSE(commands->CanRedo());
+  EXPECT_EQ(commands->GetIndex(), 3);
+  EXPECT_EQ(commands->GetSize(), 3);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // undoing last removal
+  commands->Undo();
+
+  // status of command stack
+  EXPECT_TRUE(commands->CanUndo());
+  EXPECT_TRUE(commands->CanRedo());
+  EXPECT_EQ(commands->GetIndex(), 2);
+  EXPECT_EQ(commands->GetSize(), 3);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(m_model.GetRootItem()->GetItem("", 0)->Data(), variant_t(42));
 }
