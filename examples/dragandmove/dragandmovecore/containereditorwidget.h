@@ -18,7 +18,7 @@ class QTreeView;
 class QBoxLayout;
 class QItemSelectionModel;
 
-namespace ModelView {
+namespace mvvm {
 class ViewModel;
 class ViewModelDelegate;
 class SessionItem;
@@ -37,23 +37,22 @@ public:
     explicit ContainerEditorWidget(QWidget* parent = nullptr);
     ~ContainerEditorWidget();
 
-    void setModel(SampleModel* model, ModelView::SessionItem* root_item = nullptr);
+    void setModel(SampleModel* model, mvvm::SessionItem* root_item = nullptr);
 
-private slots:
+private:
     void onAdd();
     void onCopy();
     void onRemove();
     void onMoveDown();
     void onMoveUp();
 
-private:
-    std::vector<ModelView::SessionItem*> selected_items() const;
+    std::vector<mvvm::SessionItem*> selected_items() const;
     QBoxLayout* create_button_layout();
 
     QTreeView* m_treeView{nullptr};
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
-    ModelView::SessionItem* m_container{nullptr};
+    std::unique_ptr<mvvm::ViewModel> m_viewModel;
+    std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
+    mvvm::SessionItem* m_container{nullptr};
     SampleModel* m_model{nullptr};
 };
 

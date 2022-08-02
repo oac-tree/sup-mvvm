@@ -8,33 +8,38 @@
 // ************************************************************************** //
 
 #include "sampleitems.h"
-#include "mvvm/model/comboproperty.h"
-#include "mvvm/model/externalproperty.h"
-#include <QColor>
 
-namespace {
+#include <mvvm/model/combo_property.h>
+#include <mvvm/model/external_property.h>
+#include <mvvm/standarditems/editor_constants.h>
+
+namespace
+{
 
 const std::string DemoItemType = "DemoItem";
 const std::string DemoContainerItemType = "DemoItemContainer";
 
-} // namespace
+}  // namespace
 
-using namespace ModelView;
+using namespace mvvm;
 
-namespace DragAndMove {
+namespace DragAndMove
+{
 
 DemoItem::DemoItem() : CompoundItem(DemoItemType)
 {
-    addProperty(P_COLOR_PROPERTY, QColor(Qt::green))->setDisplayName("Color");
-    addProperty(P_BOOL_PROPERTY, true)->setDisplayName("Bool");
-    addProperty(P_INTEGER_PROPERTY, 42)->setDisplayName("Integer");
-    addProperty(P_STRING_PROPERTY, "abc")->setDisplayName("String");
-    addProperty(P_DOUBLE_PROPERTY, 42.1)->setDisplayName("Double");
+  AddProperty(P_COLOR_PROPERTY, "green")
+      ->SetDisplayName("Color")
+      ->SetEditorType(mvvm::constants::kColorEditorType);
+  AddProperty(P_BOOL_PROPERTY, true)->SetDisplayName("Bool");
+  AddProperty(P_INTEGER_PROPERTY, 42)->SetDisplayName("Integer");
+  AddProperty(P_STRING_PROPERTY, "abc")->SetDisplayName("String");
+  AddProperty(P_DOUBLE_PROPERTY, 42.1)->SetDisplayName("Double");
 }
 
 DemoContainerItem::DemoContainerItem() : CompoundItem(DemoContainerItemType)
 {
-    registerTag(TagInfo::universalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
 }
 
-} // namespace DragAndMove
+}  // namespace DragAndMove

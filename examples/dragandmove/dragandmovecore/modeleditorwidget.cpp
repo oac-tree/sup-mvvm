@@ -10,8 +10,8 @@
 #include "modeleditorwidget.h"
 #include "containereditorwidget.h"
 #include "samplemodel.h"
-#include "mvvm/commands/undostack.h"
-#include "mvvm/model/modelutils.h"
+#include <mvvm/commands/command_stack_interface.h>
+#include <mvvm/model/model_utils.h>
 #include <QAction>
 #include <QHBoxLayout>
 #include <QToolBar>
@@ -19,7 +19,7 @@
 #include <QUndoStack>
 #include <cassert>
 
-using namespace ModelView;
+using namespace mvvm;
 
 namespace DragAndMove {
 
@@ -57,7 +57,7 @@ void ModelEditorWidget::setModel(SampleModel* model)
 
     m_model = model;
 
-    auto containers = m_model->topItems();
+    auto containers = mvvm::utils::GetTopItems(m_model);
     assert(containers.size() == 2);
 
     m_leftWidget->setModel(m_model, containers[0]);
@@ -66,12 +66,12 @@ void ModelEditorWidget::setModel(SampleModel* model)
 
 void ModelEditorWidget::onUndo()
 {
-    Utils::Undo(*m_model);
+//    utils::Undo(*m_model); FIXME enable
 }
 
 void ModelEditorWidget::onRedo()
 {
-    Utils::Redo(*m_model);
+//    utils::Redo(*m_model); FIXME enable
 }
 
 void ModelEditorWidget::setupActions()
@@ -89,18 +89,19 @@ void ModelEditorWidget::setupActions()
     m_redoAction->setDisabled(true);
     m_toolBar->addAction(m_redoAction);
 
-    if (m_model && m_model->undoStack()) {
-        auto can_undo_changed = [this]() {
-            m_undoAction->setEnabled(m_model->undoStack()->canUndo());
-        };
-        connect(UndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
-                can_undo_changed);
-        auto can_redo_changed = [this]() {
-            m_redoAction->setEnabled(m_model->undoStack()->canRedo());
-        };
-        connect(UndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
-                can_redo_changed);
-    }
+    // FIXME uncomment
+//    if (m_model && m_model->undoStack()) {
+//        auto can_undo_changed = [this]() {
+//            m_undoAction->setEnabled(m_model->GetCommandStack()->CanUndo());
+//        };
+//        connect(UndoStack::qtUndoStack(m_model->GetCommandStack()), &QUndoStack::canUndoChanged,
+//                can_undo_changed);
+//        auto can_redo_changed = [this]() {
+//            m_redoAction->setEnabled(m_model->GetCommandStack()->CanRedo());
+//        };
+//        connect(UndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
+//                can_redo_changed);
+//    }
 }
 
 } // namespace DragAndMove

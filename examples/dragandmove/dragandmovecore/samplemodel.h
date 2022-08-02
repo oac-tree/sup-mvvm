@@ -10,26 +10,29 @@
 #ifndef DRAGANDMOVECORE_SAMPLEMODEL_H
 #define DRAGANDMOVECORE_SAMPLEMODEL_H
 
-#include "mvvm/model/sessionmodel.h"
+#include <mvvm/model/application_model.h>
 
-namespace ModelView {
+namespace mvvm
+{
 class SessionItem;
 }
 
-namespace DragAndMove {
+namespace DragAndMove
+{
 
 //! Main application model.
 
-class SampleModel : public ModelView::SessionModel {
+class SampleModel : public mvvm::ApplicationModel
+{
 public:
-    SampleModel();
+  SampleModel();
 
-    void appendRandomItem(ModelView::SessionItem* container);
+  void appendRandomItem(mvvm::SessionItem* container);
 
 private:
-    void populateModel();
+  void populateModel();
 };
 
-} // namespace DragAndMove
+}  // namespace DragAndMove
 
-#endif // DRAGANDMOVECORE_SAMPLEMODEL_H
+#endif  // DRAGANDMOVECORE_SAMPLEMODEL_H

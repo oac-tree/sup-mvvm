@@ -10,17 +10,17 @@
 #ifndef DRAGANDMOVECORE_SAMPLEITEMS_H
 #define DRAGANDMOVECORE_SAMPLEITEMS_H
 
-//! @file items.h
+//! @file sampleitems.h
 //! Collection of items for our application model.
 
-#include "mvvm/model/compounditem.h"
+#include <mvvm/model/compound_item.h>
 #include <string>
 
 namespace DragAndMove {
 
 //! Demo item which demonstrating supported properties.
 
-class DemoItem : public ModelView::CompoundItem {
+class DemoItem : public mvvm::CompoundItem {
 public:
     static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
     static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
@@ -34,7 +34,7 @@ public:
 
 //! Container to hold demo items
 
-class DemoContainerItem : public ModelView::CompoundItem {
+class DemoContainerItem : public mvvm::CompoundItem {
 public:
     static inline const std::string T_ITEMS = "T_ITEMS";
 

@@ -10,9 +10,9 @@
 #ifndef DRAGANDMOVECORE_DRAGVIEWMODEL_H
 #define DRAGANDMOVECORE_DRAGVIEWMODEL_H
 
-#include "mvvm/viewmodel/propertytableviewmodel.h"
+#include <mvvm/viewmodel/property_table_viewmodel.h>
 
-namespace ModelView {
+namespace mvvm {
 class SessionModel;
 }
 
@@ -21,11 +21,11 @@ namespace DragAndMove {
 //! View model with drag-and-drop support. Relies on PropertyTableViewModel to show
 //! properties of DemoItem in table-like views.
 
-class DragViewModel : public ModelView::PropertyTableViewModel {
+class DragViewModel : public mvvm::PropertyTableViewModel {
     Q_OBJECT
 
 public:
-    DragViewModel(ModelView::SessionModel* model, QObject* parent = nullptr);
+    DragViewModel(mvvm::SessionModel* model, QObject* parent = nullptr);
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
     QMimeData* mimeData(const QModelIndexList& index_list) const override;
