@@ -108,6 +108,8 @@ void InsertItemCommand::UndoImpl()
 {
   auto parent = p_impl->FindParent();
   p_impl->m_composer->TakeItem(parent, p_impl->m_tag_index);
+
+  // may be it is better to store taken item on board, and not to use backup at all?
 }
 
 }  // namespace mvvm

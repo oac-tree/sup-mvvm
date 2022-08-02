@@ -92,3 +92,44 @@ TEST_F(InsertItemCommandTests, InsertItemToRoot)
   EXPECT_EQ(utils::ChildAt(m_model.GetRootItem(), 0)->Data<int>(), 42);
   EXPECT_EQ(utils::ChildAt(m_model.GetRootItem(), 0)->GetIdentifier(), identifier);
 }
+
+//! Insert item to parent.
+
+TEST_F(InsertItemCommandTests, InsertItemToParent)
+{
+  auto composer = CreateStandardComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  m_model.InsertItem<SessionItem>(parent);
+  m_model.InsertItem<SessionItem>(parent);
+
+  auto to_insert = std::make_unique<PropertyItem>();
+  auto identifier = to_insert->GetIdentifier();
+  to_insert->SetData(42);
+  auto to_insert_ptr = to_insert.get();
+
+  // command to insert item from the model
+  InsertItemCommand command(composer.get(), std::move(to_insert), parent, TagIndex{"tag1", 1});
+
+  command.Execute();
+  EXPECT_FALSE(command.IsObsolete());
+
+  EXPECT_EQ(command.GetResult(), to_insert_ptr);
+  EXPECT_EQ(parent->GetTotalItemCount(), 3);
+  EXPECT_EQ(parent->GetItem("tag1", 1), to_insert_ptr);
+  EXPECT_EQ(parent->GetItem("tag1", 1)->Data<int>(), 42);
+
+  // undoing command
+  command.Undo();
+  EXPECT_FALSE(command.IsObsolete());
+  EXPECT_EQ(parent->GetTotalItemCount(), 2);
+
+  // redoing back
+  command.Execute();
+  EXPECT_FALSE(command.IsObsolete());
+  EXPECT_EQ(parent->GetTotalItemCount(), 3);
+  EXPECT_EQ(parent->GetItem("tag1", 1)->Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem("tag1", 1)->GetIdentifier(), identifier);
+}
