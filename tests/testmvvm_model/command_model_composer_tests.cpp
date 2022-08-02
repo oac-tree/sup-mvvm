@@ -22,9 +22,11 @@
 
 #include <gtest/gtest.h>
 #include <mvvm/commands/command_stack.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/taginfo.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -238,4 +240,62 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   // setting same data and checking absence of notifications
   EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
   EXPECT_FALSE(composer->SetData(item, 42, DataRole::kData));
+}
+
+//! Removing parent with child.
+
+TEST_F(CommandModelComposerTests, RemoveParentWithChild)
+{
+  auto composer = CreateComposer();
+
+  auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  auto child1 = m_model.InsertItem<SessionItem>(parent);
+  child1->SetData(42.0);
+
+  auto parent_identifier = parent->GetIdentifier();
+  auto child1_identifier = child1->GetIdentifier();
+
+  // command to remove parent
+  auto taken = composer->TakeItem(m_model.GetRootItem(), {"", 0});
+
+  // status of stack
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 1);
+  EXPECT_EQ(m_commands.GetSize(), 1);
+
+  EXPECT_EQ(taken.get(), parent);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+
+  // undo command
+  m_commands.Undo();
+
+  // status of stack
+  EXPECT_FALSE(m_commands.CanUndo());
+  EXPECT_TRUE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 0);
+  EXPECT_EQ(m_commands.GetSize(), 1);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+  auto restored_parent = utils::ChildAt(m_model.GetRootItem(), 0);
+  auto restored_child = utils::ChildAt(restored_parent, 0);
+
+  EXPECT_EQ(restored_parent->GetIdentifier(), parent_identifier);
+  EXPECT_EQ(restored_child->GetIdentifier(), child1_identifier);
+
+  // checking the data of restored item
+  EXPECT_DOUBLE_EQ(restored_child->Data<double>(), 42.0);
+
+  // redoing back
+  m_commands.Redo();
+
+  // status of stack
+  EXPECT_TRUE(m_commands.CanUndo());
+  EXPECT_FALSE(m_commands.CanRedo());
+  EXPECT_EQ(m_commands.GetIndex(), 1);
+  EXPECT_EQ(m_commands.GetSize(), 1);
+
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }

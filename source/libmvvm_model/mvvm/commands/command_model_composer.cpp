@@ -19,6 +19,7 @@
 
 #include "mvvm/commands/command_model_composer.h"
 
+#include <mvvm/commands/remove_item_command.h>
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/model/sessionitem.h>
 
@@ -36,7 +37,8 @@ SessionItem *CommandModelComposer::InsertItem(std::unique_ptr<SessionItem> item,
 std::unique_ptr<SessionItem> mvvm::CommandModelComposer::TakeItem(SessionItem *parent,
                                                                   const TagIndex &tag_index)
 {
-  throw std::runtime_error("Not implemented");
+  auto command = ProcessCommand<RemoveItemCommand>(m_composer.get(), parent, tag_index);
+  return command ? command->GetResult() : std::unique_ptr<SessionItem>();
 }
 
 bool CommandModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
