@@ -20,7 +20,6 @@
 #include "mvvm/project/project.h"
 
 #include "folder_based_tests.h"
-#include "test_utils.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
@@ -127,8 +126,8 @@ TEST_F(ProjectTests, LoadModel)
   EXPECT_EQ(project.GetProjectDir(), project_dir);
 
   // cleaning models
-  sample_model->Clear({}, nullptr);
-  material_model->Clear({}, nullptr);
+  sample_model->Clear({});
+  material_model->Clear({});
   EXPECT_EQ(sample_model->GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_EQ(material_model->GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_TRUE(project.IsModified());

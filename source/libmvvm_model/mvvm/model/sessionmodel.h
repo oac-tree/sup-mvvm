@@ -76,7 +76,7 @@ public:
 
   // Methods to steer global behaviour.
 
-  void Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model) override;
+  void Clear(std::unique_ptr<SessionItem> root_item) override;
 
   void CheckIn(SessionItem* item) override;
 

@@ -228,7 +228,7 @@ TEST_F(ApplicationModelUndoTests, Clear)
   EXPECT_TRUE(commands->CanUndo());
   EXPECT_FALSE(commands->CanRedo());
 
-  m_model.Clear({}, nullptr);
+  m_model.Clear({});
 
   EXPECT_EQ(commands->GetSize(), 0);
   EXPECT_FALSE(commands->CanUndo());

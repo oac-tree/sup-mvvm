@@ -556,7 +556,7 @@ TEST_F(ViewModelControllerTests, onModelReset)
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
 
-  m_model.Clear({}, nullptr);
+  m_model.Clear({});
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -571,7 +571,7 @@ TEST_F(ViewModelControllerTests, onModelReset)
 TEST_F(ViewModelControllerTests, onEmptyModelResetAndContinue)
 {
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
-  m_model.Clear({}, nullptr);
+  m_model.Clear({});
 
   EXPECT_EQ(spy_reset.count(), 1);
 

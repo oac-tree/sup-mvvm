@@ -174,7 +174,7 @@ SessionItem* SessionModel::FindItem(const std::string& id) const
   return p_impl->m_item_manager->FindItem(id);
 }
 
-void SessionModel::Clear(std::unique_ptr<SessionItem> root_item, SessionModelInterface* model)
+void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
 {
   p_impl->m_composer->Reset(p_impl->m_root_item, std::move(root_item));
 }

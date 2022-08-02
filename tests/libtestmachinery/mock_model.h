@@ -55,14 +55,12 @@ public:
 
   MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
 
-  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>, mvvm::SessionModelInterface *),
-              (override));
+  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>), (override));
 
   MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
 
   MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
 };
-
 
 //! A decorator to wrap MockModel for later use with unique_ptr (gmock doesn't like
 //! to put mocking objects into unique_ptr).
@@ -110,9 +108,9 @@ public:
 
   mvvm::SessionItem *FindItem(const std::string &id) const { return m_mock_model->FindItem(id); }
 
-  void Clear(std::unique_ptr<mvvm::SessionItem> root_item, mvvm::SessionModelInterface *model)
+  void Clear(std::unique_ptr<mvvm::SessionItem> root_item)
   {
-    m_mock_model->Clear(std::move(root_item), model);
+    m_mock_model->Clear(std::move(root_item));
   }
 
   void CheckIn(mvvm::SessionItem *item) { return m_mock_model->CheckIn(item); }

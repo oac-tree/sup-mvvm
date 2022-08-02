@@ -105,7 +105,7 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
   {
     root_item->InsertItem(item_converter->ToSessionItem(tree_child), TagIndex::Append());
   }
-  model.Clear(std::move(root_item), nullptr);
+  model.Clear(std::move(root_item));
 }
 
 }  // namespace mvvm
