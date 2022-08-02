@@ -213,3 +213,25 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
   std::vector<SessionItem*> expected = {layer0_at, layer1_at};
   EXPECT_EQ(parent_at->GetItems(expected_tag), expected);
 }
+
+//! Checking that Clear commands cleans-up the command stack
+
+TEST_F(ApplicationModelUndoTests, Clear)
+{
+  m_model.SetUndoEnabled(true);
+  auto commands = m_model.GetCommandStack();
+
+  // creating multi layer and two layers
+  auto parent = m_model.InsertItem<testutils::toyitems::MultiLayerItem>();
+
+  EXPECT_EQ(commands->GetSize(), 1);
+  EXPECT_TRUE(commands->CanUndo());
+  EXPECT_FALSE(commands->CanRedo());
+
+  m_model.Clear({}, nullptr);
+
+  EXPECT_EQ(commands->GetSize(), 0);
+  EXPECT_FALSE(commands->CanUndo());
+  EXPECT_FALSE(commands->CanRedo());
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+}
