@@ -54,7 +54,8 @@ bool CommandModelComposer::SetData(SessionItem *item, const variant_t &value, in
 void CommandModelComposer::Reset(std::unique_ptr<SessionItem> &old_root_item,
                                  std::unique_ptr<SessionItem> new_root_item)
 {
-  throw std::runtime_error("Not implemented");
+  m_composer->Reset(old_root_item, std::move(new_root_item));
+  m_command_stack->Clear();
 }
 
 SessionModelInterface *CommandModelComposer::GetModel() const

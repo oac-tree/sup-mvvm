@@ -32,7 +32,7 @@ class CommandStackInterface;
 
 //! The decorator class to enhance standard ModelComposer with undo/redo capabilities.
 
-class CommandModelComposer : ModelComposerInterface
+class CommandModelComposer : public ModelComposerInterface
 {
 public:
   explicit CommandModelComposer(CommandStackInterface* command_stack,
