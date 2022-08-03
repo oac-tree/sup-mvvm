@@ -26,11 +26,6 @@
 class QToolBar;
 class QAction;
 
-namespace mvvm
-{
-class ModelHasChangedController;
-}
-
 namespace dragandmove
 {
 
@@ -55,7 +50,6 @@ private:
   void OnUndo();
   void OnRedo();
   void SetupActions();
-  void UpdateActionAvailability();
 
   QToolBar* m_tool_bar{nullptr};
   ContainerEditorWidget* m_left_widget{nullptr};
@@ -63,7 +57,6 @@ private:
   QAction* m_undo_action{nullptr};
   QAction* m_redo_action{nullptr};
   SampleModel* m_model{nullptr};
-  std::unique_ptr<mvvm::ModelHasChangedController> m_model_has_changed;
 };
 
 }  // namespace dragandmove

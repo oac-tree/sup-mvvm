@@ -24,7 +24,6 @@
 
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/project/model_has_changed_controller.h>
 
 #include <QAction>
 #include <QHBoxLayout>
@@ -75,22 +74,16 @@ void ModelEditorWidget::SetModel(SampleModel* model)
 
   m_left_widget->SetModel(m_model, containers[0]);
   m_right_widget->SetModel(m_model, containers[1]);
-
-  //  auto on_model_change = [this]() { UpdateActionAvailability(); };
-  //  m_model_has_changed = std::make_unique<mvvm::ModelHasChangedController>(m_model,
-  //  on_model_change);
 }
 
 void ModelEditorWidget::OnUndo()
 {
   mvvm::utils::Undo(*m_model);
-  UpdateActionAvailability();
 }
 
 void ModelEditorWidget::OnRedo()
 {
   mvvm::utils::Redo(*m_model);
-  UpdateActionAvailability();
 }
 
 void ModelEditorWidget::SetupActions()
@@ -105,12 +98,6 @@ void ModelEditorWidget::SetupActions()
   m_redo_action = new QAction("Redo", this);
   connect(m_redo_action, &QAction::triggered, this, &ModelEditorWidget::OnRedo);
   m_tool_bar->addAction(m_redo_action);
-}
-
-void ModelEditorWidget::UpdateActionAvailability()
-{
-  m_redo_action->setEnabled(m_model->GetCommandStack()->CanRedo());
-  m_undo_action->setEnabled(m_model->GetCommandStack()->CanUndo());
 }
 
 }  // namespace dragandmove
