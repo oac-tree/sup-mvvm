@@ -27,7 +27,7 @@ namespace mvvm
 class SessionModel;
 }
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 //! View model with drag-and-drop support. Relies on PropertyTableViewModel to show

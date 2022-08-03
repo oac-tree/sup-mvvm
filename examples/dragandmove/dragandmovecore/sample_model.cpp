@@ -48,7 +48,7 @@ std::string GetRandomName()
 }
 }  // namespace
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 DemoItem::DemoItem() : CompoundItem(DemoItemType)

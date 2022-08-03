@@ -31,7 +31,7 @@ namespace mvvm
 class ModelHasChangedController;
 }
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 class SampleModel;

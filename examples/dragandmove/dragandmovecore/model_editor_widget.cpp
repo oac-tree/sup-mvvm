@@ -31,7 +31,7 @@
 #include <QToolBar>
 #include <QToolButton>
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)

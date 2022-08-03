@@ -33,7 +33,7 @@ namespace
 const QString AppMimeType = "application/org.cppmvvm.moveitem";
 }  // namespace
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 DragViewModel::DragViewModel(mvvm::SessionModel* model, QObject* parent)

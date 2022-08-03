@@ -23,7 +23,7 @@
 #include <QMainWindow>
 #include <memory>
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 class SampleModel;

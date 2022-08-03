@@ -28,7 +28,7 @@ namespace mvvm
 class SessionItem;
 }
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 //! Demo item which demonstrating supported properties.

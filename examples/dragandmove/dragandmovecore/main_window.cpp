@@ -31,7 +31,7 @@ const QString size_key = "size";
 const QString pos_key = "pos";
 }  // namespace
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 MainWindow::MainWindow() : m_model(std::make_unique<SampleModel>())

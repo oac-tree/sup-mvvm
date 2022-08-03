@@ -35,7 +35,7 @@ class ViewModelDelegate;
 class SessionItem;
 }  // namespace mvvm
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 class SampleModel;

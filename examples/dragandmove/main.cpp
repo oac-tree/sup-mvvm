@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 
   QApplication app(argc, argv);
 
-  DragAndMove::MainWindow win;
+  dragandmove::MainWindow win;
   win.show();
 
   return app.exec();

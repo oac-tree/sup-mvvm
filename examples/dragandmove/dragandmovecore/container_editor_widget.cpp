@@ -31,7 +31,7 @@
 #include <QPushButton>
 #include <QTreeView>
 
-namespace DragAndMove
+namespace dragandmove
 {
 
 ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
