@@ -19,16 +19,18 @@
 
 #include "sample_model.h"
 
-#include "sampleitems.h"
-
+#include <mvvm/model/combo_property.h>
+#include <mvvm/model/external_property.h>
+#include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
-namespace DragAndMove
-{
-
 namespace
 {
+
+const std::string DemoItemType = "DemoItem";
+const std::string DemoContainerItemType = "DemoItemContainer";
+
 std::string GetRandomName()
 {
   static const std::string alphabet = "abcdefgh";
@@ -46,6 +48,25 @@ std::string GetRandomName()
 }
 }  // namespace
 
+namespace DragAndMove
+{
+
+DemoItem::DemoItem() : CompoundItem(DemoItemType)
+{
+  AddProperty(P_COLOR_PROPERTY, "green")
+      ->SetDisplayName("Color")
+      ->SetEditorType(mvvm::constants::kColorEditorType);
+  AddProperty(P_BOOL_PROPERTY, true)->SetDisplayName("Bool");
+  AddProperty(P_INTEGER_PROPERTY, 42)->SetDisplayName("Integer");
+  AddProperty(P_STRING_PROPERTY, "abc")->SetDisplayName("String");
+  AddProperty(P_DOUBLE_PROPERTY, 42.1)->SetDisplayName("Double");
+}
+
+DemoContainerItem::DemoContainerItem() : CompoundItem(DemoContainerItemType)
+{
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
+}
+
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
   RegisterItem<DemoItem>();
@@ -56,7 +77,7 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 
 void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
 {
-  //auto item = InsertItem<DemoItem>(container);
+  // auto item = InsertItem<DemoItem>(container);
 
   // First fill item, then insert. This is done to provide possibility to undo in one step.
   // Will be replace as soon as undo macros are ready.
