@@ -11,8 +11,8 @@ target_sources(${library_name} PRIVATE
   container_editor_widget.h
   dragviewmodel.cpp
   dragviewmodel.h
-  mainwindow.cpp
-  mainwindow.h
+  main_window.cpp
+  main_window.h
   modeleditorwidget.cpp
   modeleditorwidget.h
   sampleitems.cpp

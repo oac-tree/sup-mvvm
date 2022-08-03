@@ -17,18 +17,19 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "dragandmovecore/mainwindow.h"
+#include "dragandmovecore/main_window.h"
+
 #include <QApplication>
 #include <QLocale>
 
 int main(int argc, char** argv)
 {
-    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
 
-    QApplication app(argc, argv);
+  QApplication app(argc, argv);
 
-    DragAndMove::MainWindow win;
-    win.show();
+  DragAndMove::MainWindow win;
+  win.show();
 
-    return app.exec();
+  return app.exec();
 }

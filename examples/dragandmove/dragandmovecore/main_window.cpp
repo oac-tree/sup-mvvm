@@ -17,8 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mainwindow.h"
-
+#include "main_window.h"
 #include "modeleditorwidget.h"
 #include "samplemodel.h"
 
@@ -62,7 +61,7 @@ void MainWindow::InitApplication()
 {
   QCoreApplication::setApplicationName("dragandmove");
   QCoreApplication::setApplicationVersion("0.1");
-  QCoreApplication::setOrganizationName("qt-mvvm");
+  QCoreApplication::setOrganizationName("cpp-mvvm");
 
   QSettings settings;
   if (settings.childGroups().contains(main_window_group))

@@ -31,13 +31,13 @@
 #include <QPushButton>
 #include <QTreeView>
 
-using namespace mvvm;
-
 namespace DragAndMove
 {
 
 ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
-    : QWidget(parent), m_tree_view(new QTreeView), m_delegate(std::make_unique<ViewModelDelegate>())
+    : QWidget(parent)
+    , m_tree_view(new QTreeView)
+    , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
 {
   auto mainLayout = new QVBoxLayout;
   mainLayout->setSpacing(10);
@@ -50,7 +50,7 @@ ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
 
 ContainerEditorWidget::~ContainerEditorWidget() = default;
 
-void ContainerEditorWidget::SetModel(SampleModel* model, SessionItem* root_item)
+void ContainerEditorWidget::SetModel(SampleModel* model, mvvm::SessionItem* root_item)
 {
   if (!model)
   {
@@ -113,9 +113,9 @@ void ContainerEditorWidget::OnMoveUp()
   }
 }
 
-std::vector<SessionItem*> ContainerEditorWidget::GetSelectedItems() const
+std::vector<mvvm::SessionItem*> ContainerEditorWidget::GetSelectedItems() const
 {
-  return utils::ParentItemsFromIndex(m_tree_view->selectionModel()->selectedIndexes());
+  return mvvm::utils::ParentItemsFromIndex(m_tree_view->selectionModel()->selectedIndexes());
 }
 
 QBoxLayout* ContainerEditorWidget::CreateButtonLayout() const

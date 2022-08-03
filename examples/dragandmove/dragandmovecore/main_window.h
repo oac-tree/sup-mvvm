@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef DRAGANDMOVECORE_MAINWINDOW_H
-#define DRAGANDMOVECORE_MAINWINDOW_H
+#ifndef DRAGANDMOVE_DRAGANDMOVECORE_MAIN_WINDOW_H
+#define DRAGANDMOVE_DRAGANDMOVECORE_MAIN_WINDOW_H
 
 #include <QMainWindow>
 #include <memory>
@@ -50,4 +50,4 @@ private:
 
 }  // namespace DragAndMove
 
-#endif  // DRAGANDMOVECORE_MAINWINDOW_H
+#endif  // DRAGANDMOVE_DRAGANDMOVECORE_MAIN_WINDOW_H
