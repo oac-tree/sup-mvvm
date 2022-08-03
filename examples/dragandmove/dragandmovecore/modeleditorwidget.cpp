@@ -19,7 +19,7 @@
 
 #include "modeleditorwidget.h"
 
-#include "containereditorwidget.h"
+#include "container_editor_widget.h"
 #include "samplemodel.h"
 
 #include <mvvm/commands/command_stack_interface.h>

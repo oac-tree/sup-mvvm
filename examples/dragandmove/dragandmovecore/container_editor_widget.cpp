@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "containereditorwidget.h"
+#include "container_editor_widget.h"
 
 #include "dragviewmodel.h"
 #include "samplemodel.h"
@@ -37,11 +37,7 @@ namespace DragAndMove
 {
 
 ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
-    : QWidget(parent)
-    , m_tree_view(new QTreeView)
-    , m_delegate(std::make_unique<ViewModelDelegate>())
-    , m_container(nullptr)
-    , m_model(nullptr)
+    : QWidget(parent), m_tree_view(new QTreeView), m_delegate(std::make_unique<ViewModelDelegate>())
 {
   auto mainLayout = new QVBoxLayout;
   mainLayout->setSpacing(10);

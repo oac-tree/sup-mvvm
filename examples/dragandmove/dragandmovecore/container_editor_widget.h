@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef DRAGANDMOVECORE_CONTAINEREDITORWIDGET_H
-#define DRAGANDMOVECORE_CONTAINEREDITORWIDGET_H
+#ifndef DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
+#define DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
 
 #include <QWidget>
 #include <memory>
@@ -28,44 +28,47 @@ class QTreeView;
 class QBoxLayout;
 class QItemSelectionModel;
 
-namespace mvvm {
+namespace mvvm
+{
 class ViewModel;
 class ViewModelDelegate;
 class SessionItem;
-} // namespace ModelView
+}  // namespace mvvm
 
-namespace DragAndMove {
+namespace DragAndMove
+{
 
 class SampleModel;
 
 //! Shows content of container and provide functionality to add, copy and move items.
 
-class ContainerEditorWidget : public QWidget {
-    Q_OBJECT
+class ContainerEditorWidget : public QWidget
+{
+  Q_OBJECT
 
 public:
-    explicit ContainerEditorWidget(QWidget* parent = nullptr);
-    ~ContainerEditorWidget() override;
+  explicit ContainerEditorWidget(QWidget* parent = nullptr);
+  ~ContainerEditorWidget() override;
 
-    void SetModel(SampleModel* model, mvvm::SessionItem* root_item = nullptr);
+  void SetModel(SampleModel* model, mvvm::SessionItem* root_item = nullptr);
 
 private:
-    void OnAdd();
-    void OnCopy();
-    void OnRemove();
-    void OnMoveDown();
-    void OnMoveUp();
+  void OnAdd();
+  void OnCopy();
+  void OnRemove();
+  void OnMoveDown();
+  void OnMoveUp();
 
-    std::vector<mvvm::SessionItem*> GetSelectedItems() const;
-    QBoxLayout* CreateButtonLayout() const;
+  std::vector<mvvm::SessionItem*> GetSelectedItems() const;
+  QBoxLayout* CreateButtonLayout() const;
 
-    QTreeView* m_tree_view{nullptr};
-    std::unique_ptr<mvvm::ViewModel> m_view_model;
-    std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
-    mvvm::SessionItem* m_container{nullptr};
-    SampleModel* m_model{nullptr};
+  QTreeView* m_tree_view{nullptr};
+  std::unique_ptr<mvvm::ViewModel> m_view_model;
+  std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
+  mvvm::SessionItem* m_container{nullptr};
+  SampleModel* m_model{nullptr};
 };
 
-} // namespace DragAndMove
+}  // namespace DragAndMove
 
-#endif // DRAGANDMOVECORE_CONTAINEREDITORWIDGET_H
+#endif  // DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
