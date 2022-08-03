@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "samplemodel.h"
+#include "sample_model.h"
 
 #include "sampleitems.h"
 
@@ -50,16 +50,23 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
   RegisterItem<DemoItem>();
   RegisterItem<DemoContainerItem>();
-  PopulateModel();
+//  PopulateModel();
   SetUndoEnabled(true);
 }
 
 void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
 {
-  auto item = InsertItem<DemoItem>(container);
+  //auto item = InsertItem<DemoItem>(container);
+
+  // First fill item, then insert. This is done to provide possibility to undo in one step.
+  // Will be replace as soon as undo macros are ready.
+
+  auto item = std::make_unique<DemoItem>();
   item->SetProperty(DemoItem::P_COLOR_PROPERTY, mvvm::utils::RandomNamedColor());
   item->SetProperty(DemoItem::P_STRING_PROPERTY, GetRandomName());
   item->SetProperty(DemoItem::P_INTEGER_PROPERTY, mvvm::utils::RandInt(0, 10));
+
+  InsertItem(std::move(item), container, {"", -1});
 }
 
 //! Generates initial model content.

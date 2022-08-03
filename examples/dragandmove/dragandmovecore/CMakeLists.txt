@@ -17,7 +17,7 @@ target_sources(${library_name} PRIVATE
   modeleditorwidget.h
   sampleitems.cpp
   sampleitems.h
-  samplemodel.cpp
-  samplemodel.h
+  sample_model.cpp
+  sample_model.h
 )
 

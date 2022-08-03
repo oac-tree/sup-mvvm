@@ -19,7 +19,7 @@
 
 #include "main_window.h"
 #include "modeleditorwidget.h"
-#include "samplemodel.h"
+#include "sample_model.h"
 
 #include <QCoreApplication>
 #include <QSettings>

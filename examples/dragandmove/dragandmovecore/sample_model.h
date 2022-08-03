@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef DRAGANDMOVECORE_SAMPLEMODEL_H
-#define DRAGANDMOVECORE_SAMPLEMODEL_H
+#ifndef DRAGANDMOVE_DRAGANDMOVECORE_SAMPLE_MODEL_H
+#define DRAGANDMOVE_DRAGANDMOVECORE_SAMPLE_MODEL_H
 
 #include <mvvm/model/application_model.h>
 
@@ -45,4 +45,4 @@ private:
 
 }  // namespace DragAndMove
 
-#endif  // DRAGANDMOVECORE_SAMPLEMODEL_H
+#endif  // DRAGANDMOVE_DRAGANDMOVECORE_SAMPLE_MODEL_H
