@@ -50,6 +50,6 @@ public:
                     const QModelIndex& parent) override;
 };
 
-}  // namespace DragAndMove
+}  // namespace dragandmove
 
 #endif  // DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H

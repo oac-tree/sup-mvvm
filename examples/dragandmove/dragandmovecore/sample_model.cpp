@@ -99,4 +99,4 @@ void SampleModel::PopulateModel()
   //  AppendRandomItem(container);
 }
 
-}  // namespace DragAndMove
+}  // namespace dragandmove

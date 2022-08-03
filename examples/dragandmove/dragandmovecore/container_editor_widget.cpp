@@ -152,4 +152,4 @@ QBoxLayout* ContainerEditorWidget::CreateButtonLayout() const
   return result;
 }
 
-}  // namespace DragAndMove
+}  // namespace dragandmove

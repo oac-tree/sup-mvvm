@@ -66,6 +66,6 @@ private:
   std::unique_ptr<mvvm::ModelHasChangedController> m_model_has_changed;
 };
 
-}  // namespace DragAndMove
+}  // namespace dragandmove
 
 #endif  // DRAGANDMOVE_DRAGANDMOVECORE_MODEL_EDITOR_WIDGET_H

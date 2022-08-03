@@ -106,4 +106,4 @@ bool DragViewModel::dropMimeData(const QMimeData* data, Qt::DropAction action, i
   return false;
 }
 
-}  // namespace DragAndMove
+}  // namespace dragandmove

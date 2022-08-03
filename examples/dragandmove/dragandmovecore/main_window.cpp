@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include "main_window.h"
+
 #include "model_editor_widget.h"
 #include "sample_model.h"
 
@@ -73,4 +74,4 @@ void MainWindow::InitApplication()
   }
 }
 
-}  // namespace DragAndMove
+}  // namespace dragandmove

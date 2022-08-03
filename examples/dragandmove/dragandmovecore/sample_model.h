@@ -33,25 +33,27 @@ namespace dragandmove
 
 //! Demo item which demonstrating supported properties.
 
-class DemoItem : public mvvm::CompoundItem {
+class DemoItem : public mvvm::CompoundItem
+{
 public:
-    static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
-    static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
-    static inline const std::string P_STRING_PROPERTY = "P_STRING_PROPERTY";
-    static inline const std::string P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
-    static inline const std::string P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
-    static inline const std::string P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
+  static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
+  static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
+  static inline const std::string P_STRING_PROPERTY = "P_STRING_PROPERTY";
+  static inline const std::string P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
+  static inline const std::string P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
+  static inline const std::string P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
 
-    DemoItem();
+  DemoItem();
 };
 
 //! Container to hold demo items
 
-class DemoContainerItem : public mvvm::CompoundItem {
+class DemoContainerItem : public mvvm::CompoundItem
+{
 public:
-    static inline const std::string T_ITEMS = "T_ITEMS";
+  static inline const std::string T_ITEMS = "T_ITEMS";
 
-    DemoContainerItem();
+  DemoContainerItem();
 };
 
 //! Main application model.
@@ -67,6 +69,6 @@ private:
   void PopulateModel();
 };
 
-}  // namespace DragAndMove
+}  // namespace dragandmove
 
 #endif  // DRAGANDMOVE_DRAGANDMOVECORE_SAMPLE_MODEL_H

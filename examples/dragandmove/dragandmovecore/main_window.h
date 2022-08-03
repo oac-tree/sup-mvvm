@@ -48,6 +48,6 @@ private:
   std::unique_ptr<SampleModel> m_model;
 };
 
-}  // namespace DragAndMove
+}  // namespace dragandmove
 
 #endif  // DRAGANDMOVE_DRAGANDMOVECORE_MAIN_WINDOW_H

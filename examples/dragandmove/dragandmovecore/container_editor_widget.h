@@ -69,6 +69,6 @@ private:
   SampleModel* m_model{nullptr};
 };
 
-}  // namespace DragAndMove
+}  // namespace dragandmove
 
 #endif  // DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
