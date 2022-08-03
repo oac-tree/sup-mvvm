@@ -24,6 +24,7 @@
 
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/project/model_has_changed_controller.h>
 
 #include <QAction>
 #include <QHBoxLayout>
@@ -59,6 +60,8 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
   SetupActions();
 }
 
+ModelEditorWidget::~ModelEditorWidget() = default;
+
 void ModelEditorWidget::SetModel(SampleModel* model)
 {
   if (!model)
@@ -72,6 +75,9 @@ void ModelEditorWidget::SetModel(SampleModel* model)
 
   m_left_widget->SetModel(m_model, containers[0]);
   m_right_widget->SetModel(m_model, containers[1]);
+
+  auto on_model_change = [this]() { UpdateActionAvailability(); };
+  m_model_has_changed = std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_change);
 }
 
 void ModelEditorWidget::OnUndo()

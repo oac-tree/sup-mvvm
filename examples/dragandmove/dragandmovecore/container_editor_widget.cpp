@@ -82,9 +82,10 @@ void ContainerEditorWidget::OnAdd()
 
 void ContainerEditorWidget::OnCopy()
 {
-  // FIXME uncomment
-  //    for (auto item : selected_items())
-  //        m_model->CopyItem(item, m_container);
+  for (auto item : GetSelectedItems())
+  {
+    mvvm::utils::CopyItem(item, m_model, m_container, mvvm::TagIndex::Append());
+  }
 }
 
 void ContainerEditorWidget::OnRemove()

@@ -26,6 +26,11 @@
 class QToolBar;
 class QAction;
 
+namespace mvvm
+{
+class ModelHasChangedController;
+}
+
 namespace DragAndMove
 {
 
@@ -42,6 +47,7 @@ class ModelEditorWidget : public QWidget
 
 public:
   explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
+  ~ModelEditorWidget() override;
 
   void SetModel(SampleModel* model);
 
@@ -57,6 +63,7 @@ private:
   QAction* m_undo_action{nullptr};
   QAction* m_redo_action{nullptr};
   SampleModel* m_model{nullptr};
+  std::unique_ptr<mvvm::ModelHasChangedController> m_model_has_changed;
 };
 
 }  // namespace DragAndMove
