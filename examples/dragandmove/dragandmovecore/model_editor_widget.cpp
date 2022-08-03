@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "modeleditorwidget.h"
+#include "model_editor_widget.h"
 
 #include "container_editor_widget.h"
 #include "sample_model.h"
@@ -40,7 +40,7 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     , m_right_widget(new ContainerEditorWidget)
 {
   auto main_layout = new QVBoxLayout(this);
-  main_layout->setSpacing(10);
+  main_layout->setSpacing(5);
 
   auto top_layout = new QVBoxLayout;
   top_layout->addWidget(m_tool_bar);
@@ -54,12 +54,12 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
   main_layout->addLayout(top_layout);
   main_layout->addLayout(container_layout);
 
-  setModel(model);
+  SetModel(model);
 
   SetupActions();
 }
 
-void ModelEditorWidget::setModel(SampleModel* model)
+void ModelEditorWidget::SetModel(SampleModel* model)
 {
   if (!model)
   {
@@ -102,8 +102,8 @@ void ModelEditorWidget::SetupActions()
 
 void ModelEditorWidget::UpdateActionAvailability()
 {
-//  m_redo_action->setEnabled(m_model->GetCommandStack()->CanRedo());
-//  m_undo_action->setEnabled(m_model->GetCommandStack()->CanUndo());
+//    m_redo_action->setEnabled(m_model->GetCommandStack()->CanRedo());
+//    m_undo_action->setEnabled(m_model->GetCommandStack()->CanUndo());
 }
 
 }  // namespace DragAndMove

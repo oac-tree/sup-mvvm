@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 #include "main_window.h"
-#include "modeleditorwidget.h"
+#include "model_editor_widget.h"
 #include "sample_model.h"
 
 #include <QCoreApplication>

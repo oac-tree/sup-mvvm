@@ -50,7 +50,7 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
   RegisterItem<DemoItem>();
   RegisterItem<DemoContainerItem>();
-//  PopulateModel();
+  PopulateModel();
   SetUndoEnabled(true);
 }
 
@@ -74,13 +74,8 @@ void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
 void SampleModel::PopulateModel()
 {
   auto container = InsertItem<DemoContainerItem>();
-  AppendRandomItem(container);
-  AppendRandomItem(container);
-  AppendRandomItem(container);
-
   container = InsertItem<DemoContainerItem>();
-  AppendRandomItem(container);
-  AppendRandomItem(container);
+  //  AppendRandomItem(container);
 }
 
 }  // namespace DragAndMove

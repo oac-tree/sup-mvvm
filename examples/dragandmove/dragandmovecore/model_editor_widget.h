@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef DRAGANDMOVECORE_MODELEDITORWIDGET_H
-#define DRAGANDMOVECORE_MODELEDITORWIDGET_H
+#ifndef DRAGANDMOVE_DRAGANDMOVECORE_MODEL_EDITOR_WIDGET_H
+#define DRAGANDMOVE_DRAGANDMOVECORE_MODEL_EDITOR_WIDGET_H
 
 #include <QWidget>
 #include <memory>
@@ -26,7 +26,8 @@
 class QToolBar;
 class QAction;
 
-namespace DragAndMove {
+namespace DragAndMove
+{
 
 class SampleModel;
 class ContainerEditorWidget;
@@ -35,28 +36,29 @@ class ContainerEditorWidget;
 //! It is expected that model has two containers with demo items, left tree shows first container,
 //! right tree the second. It is possible to drag-and-drop items between two containers.
 
-class ModelEditorWidget : public QWidget {
-    Q_OBJECT
+class ModelEditorWidget : public QWidget
+{
+  Q_OBJECT
 
 public:
-    explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
+  explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
 
-    void setModel(SampleModel* model);
+  void SetModel(SampleModel* model);
 
 private:
-    void OnUndo();
-    void OnRedo();
-    void SetupActions();
-    void UpdateActionAvailability();
+  void OnUndo();
+  void OnRedo();
+  void SetupActions();
+  void UpdateActionAvailability();
 
-    QToolBar* m_tool_bar{nullptr};
-    ContainerEditorWidget* m_left_widget{nullptr};
-    ContainerEditorWidget* m_right_widget{nullptr};
-    QAction* m_undo_action{nullptr};
-    QAction* m_redo_action{nullptr};
-    SampleModel* m_model{nullptr};
+  QToolBar* m_tool_bar{nullptr};
+  ContainerEditorWidget* m_left_widget{nullptr};
+  ContainerEditorWidget* m_right_widget{nullptr};
+  QAction* m_undo_action{nullptr};
+  QAction* m_redo_action{nullptr};
+  SampleModel* m_model{nullptr};
 };
 
-} // namespace DragAndMove
+}  // namespace DragAndMove
 
-#endif // DRAGANDMOVECORE_MODELEDITORWIDGET_H
+#endif  // DRAGANDMOVE_DRAGANDMOVECORE_MODEL_EDITOR_WIDGET_H

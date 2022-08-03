@@ -121,7 +121,7 @@ std::vector<mvvm::SessionItem*> ContainerEditorWidget::GetSelectedItems() const
 QBoxLayout* ContainerEditorWidget::CreateButtonLayout() const
 {
   auto result = new QHBoxLayout;
-  result->setContentsMargins(5, 5, 5, 25);
+  result->setContentsMargins(0, 5, 0, 5);
 
   auto button = new QPushButton("Add");
   button->setToolTip("Append new item at the bottom");
