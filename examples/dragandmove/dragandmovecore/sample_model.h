@@ -36,13 +36,6 @@ namespace dragandmove
 class DemoItem : public mvvm::CompoundItem
 {
 public:
-  static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
-  static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
-  static inline const std::string P_STRING_PROPERTY = "P_STRING_PROPERTY";
-  static inline const std::string P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
-  static inline const std::string P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
-  static inline const std::string P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
-
   DemoItem();
 };
 
@@ -51,8 +44,6 @@ public:
 class DemoContainerItem : public mvvm::CompoundItem
 {
 public:
-  static inline const std::string T_ITEMS = "T_ITEMS";
-
   DemoContainerItem();
 };
 
