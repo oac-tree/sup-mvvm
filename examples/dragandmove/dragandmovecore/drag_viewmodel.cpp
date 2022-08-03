@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "dragviewmodel.h"
+#include "drag_viewmodel.h"
 
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
@@ -30,15 +30,13 @@
 
 namespace
 {
-const QString AppMimeType = "application/org.bornagainproject.moveitem";
+const QString AppMimeType = "application/org.cppmvvm.moveitem";
 }  // namespace
-
-using namespace mvvm;
 
 namespace DragAndMove
 {
 
-DragViewModel::DragViewModel(SessionModel* model, QObject* parent)
+DragViewModel::DragViewModel(mvvm::SessionModel* model, QObject* parent)
     : PropertyTableViewModel(model, parent)
 {
 }
@@ -54,17 +52,17 @@ Qt::ItemFlags DragViewModel::flags(const QModelIndex& index) const
 QMimeData* DragViewModel::mimeData(const QModelIndexList& index_list) const
 {
   auto mimeData = new QMimeData;
-  auto items = utils::ParentItemsFromIndex(index_list);
+  auto items = mvvm::utils::ParentItemsFromIndex(index_list);
 
   // Saving list of SessionItem's identifiers related to all DemoItem
 
   QStringList identifiers;
-  for (auto item : utils::ParentItemsFromIndex(index_list))
+  for (auto item : mvvm::utils::ParentItemsFromIndex(index_list))
   {
     identifiers.append(QString::fromStdString(item->GetIdentifier()));
   }
 
-  mimeData->setData(AppMimeType, utils::GetByteArray(identifiers));
+  mimeData->setData(AppMimeType, mvvm::utils::GetByteArray(identifiers));
   return mimeData;
 }
 
@@ -95,7 +93,7 @@ bool DragViewModel::dropMimeData(const QMimeData* data, Qt::DropAction action, i
   int requested_row = parent.isValid() ? parent.row() : row;
 
   // retrieving list of item identifiers and accessing items
-  auto identifiers = utils::GetStringList(data->data(AppMimeType));
+  auto identifiers = mvvm::utils::GetStringList(data->data(AppMimeType));
   for (const auto& id : identifiers)
   {
     auto item = GetRootSessionItem()->GetModel()->FindItem(id.toStdString());

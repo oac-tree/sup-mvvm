@@ -19,7 +19,7 @@
 
 #include "container_editor_widget.h"
 
-#include "dragviewmodel.h"
+#include "drag_viewmodel.h"
 #include "sample_model.h"
 
 #include <mvvm/delegates/viewmodel_delegate.h>

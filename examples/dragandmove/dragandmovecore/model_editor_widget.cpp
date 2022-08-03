@@ -76,8 +76,8 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   m_left_widget->SetModel(m_model, containers[0]);
   m_right_widget->SetModel(m_model, containers[1]);
 
-  auto on_model_change = [this]() { UpdateActionAvailability(); };
-  m_model_has_changed = std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_change);
+//  auto on_model_change = [this]() { UpdateActionAvailability(); };
+//  m_model_has_changed = std::make_unique<mvvm::ModelHasChangedController>(m_model, on_model_change);
 }
 
 void ModelEditorWidget::OnUndo()
