@@ -82,7 +82,7 @@ SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent)
   m_box->setModel(m_model);
 
   auto layout = new QVBoxLayout;
-  layout->setMargin(0);
+  layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
   layout->addWidget(m_box);
   setLayout(layout);
@@ -112,7 +112,9 @@ void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& topLeft, co
 #if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
   // for older versions this role is always empty
   if (!roles.contains(Qt::CheckStateRole))
+  {
     return;
+  }
 #endif
 
   auto item = m_model->itemFromIndex(topLeft);

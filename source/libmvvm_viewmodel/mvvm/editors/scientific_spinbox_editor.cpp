@@ -37,7 +37,7 @@ ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
   m_double_editor->setKeyboardTracking(false);
 
   auto layout = new QVBoxLayout;
-  layout->setMargin(0);
+  layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
 
   layout->addWidget(m_double_editor);

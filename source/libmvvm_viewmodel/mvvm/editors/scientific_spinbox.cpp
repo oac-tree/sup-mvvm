@@ -25,6 +25,12 @@
 #include <cmath>
 #include <limits>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QRegExp>
+#else
+#include <QRegularExpression>
+#endif
+
 namespace
 {
 const double upper_switch = 1000;
@@ -137,7 +143,12 @@ QString ScientificSpinBox::toString(double val, int decimal_points)
   QString result = useExponentialNotation(val) ? QString::number(val, 'e', decimal_points)
                                                : QString::number(val, 'f', decimal_points);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   return result.replace(QRegExp("(\\.?0+)?((e{1}[\\+|-]{1})(0+)?([1-9]{1}.*))?$"), "\\3\\5");
+#else
+  return result.replace(QRegularExpression("(\\.?0+)?((e{1}[\\+|-]{1})(0+)?([1-9]{1}.*))?$"),
+                        "\\3\\5");
+#endif
 }
 
 double ScientificSpinBox::toDouble(QString text, const QDoubleValidator& validator, double min,

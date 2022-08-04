@@ -127,7 +127,10 @@ TEST_F(VariantConverterTests, QVariantComparisonForDoubleVector)
   QVariant variant2 = QVariant::fromValue(vec);
 
   // Direct variant comparison requires comparator registration.
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QMetaType::registerComparators<std::vector<double>>();
+#endif
   EXPECT_EQ(variant1, variant2);
 }
 
@@ -141,6 +144,8 @@ TEST_F(VariantConverterTests, QVariantComparisonForComboProperty)
   QVariant variant2 = QVariant::fromValue(combo);
 
   // Direct variant comparison requires comparator registration.
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QMetaType::registerComparators<ComboProperty>();
+#endif
   EXPECT_EQ(variant1, variant2);
 }

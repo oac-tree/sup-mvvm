@@ -37,15 +37,14 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
     , m_button_layout(new QVBoxLayout)
     , m_button_group(new QButtonGroup(this))
 {
-  m_button_layout->setMargin(0);
+  m_button_layout->setContentsMargins(0, 0, 0, 0);
   m_button_layout->setSpacing(0);
 
   auto layout = new QHBoxLayout(this);
   layout->addLayout(m_button_layout);
   layout->addWidget(m_stacked_widget);
-  layout->setMargin(0);
-  layout->setSpacing(0);
   layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
 
   setFrameStyle(QFrame::Sunken);
 

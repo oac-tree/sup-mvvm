@@ -34,7 +34,6 @@ CollapsibleWidget::CollapsibleWidget(QWidget *context, QWidget *parent)
     : QWidget(parent), m_tool_bar(new CollapsibleToolBar)
 {
   auto layout = new QVBoxLayout(this);
-  layout->setMargin(0);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->addWidget(context);
   m_tool_bar->SetControlledWidget(this);
