@@ -4,14 +4,18 @@
 get_filename_component(MVVM_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
 include(CMakeFindDependencyMacro)
-find_dependency(Qt5 5.12 COMPONENTS Widgets REQUIRED)
+
+find_dependency(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core Gui PrintSupport)
+find_dependency(Qt${QT_VERSION_MAJOR} REQUIRED REQUIRED COMPONENTS Widgets Core Gui PrintSupport)
+#find_dependency(Qt5 5.12 COMPONENTS Widgets REQUIRED)
+
 find_dependency(Threads)
 find_dependency(LibXml2)
 
 if(TARGET MVVM::Model OR TARGET MVVM::ViewModel OR TARGET MVVM::View)
 else()
-    message(STATUS "MVVMConfig.cmake including ${MVVM_CMAKE_DIR}/MVVMTargets.cmake")
-   include("${MVVM_CMAKE_DIR}/MVVMTargets.cmake")
+  message(STATUS "MVVMConfig.cmake including ${MVVM_CMAKE_DIR}/MVVMTargets.cmake")
+ include("${MVVM_CMAKE_DIR}/MVVMTargets.cmake")
 endif()
 
 set(MVVM_LIBRARIES MVVM::Model MVVM::ViewModel MVVM::View)
