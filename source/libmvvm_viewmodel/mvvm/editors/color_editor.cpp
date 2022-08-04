@@ -76,7 +76,11 @@ QColor ColorEditor::GetCurrentColor() const
 
 void ColorEditor::UpdateComponents()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   if (GetData().type() != QVariant::String)
+#else
+  if (GetData().typeId() != QMetaType::QString)
+#endif
   {
     throw std::runtime_error("ColorEditor::update_components() -> Error. Wrong variant type");
   }

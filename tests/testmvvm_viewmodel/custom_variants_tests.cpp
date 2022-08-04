@@ -19,9 +19,10 @@
 
 #include "mvvm/viewmodel/custom_variants.h"
 
-#include "test_utils.h"
-
 #include <gtest/gtest.h>
+
+#include <iostream>
+#include <QDebug>
 
 using namespace mvvm;
 
@@ -54,6 +55,8 @@ TEST_F(CustomVariantTests, IsVariantType)
       auto variant = data[j].first;
       if (i == j)
       {
+        std::cout << " " << i << " " << j << std::endl;
+        qDebug() << variant;
         EXPECT_TRUE(is_variant_func(variant));
       }
       else

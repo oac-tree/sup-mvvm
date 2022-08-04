@@ -64,6 +64,7 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   m_vertical_tree->setItemDelegate(m_delegate.get());
   m_vertical_tree->expandAll();
   m_vertical_tree->resizeColumnToContents(0);
+  m_vertical_tree->setRootIsDecorated(true);
 
   // setting up right tree
   m_horizontal_view_model = std::make_unique<mvvm::PropertyTableViewModel>(model);

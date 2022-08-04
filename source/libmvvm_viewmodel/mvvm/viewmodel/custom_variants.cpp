@@ -28,27 +28,48 @@ std::string GetQtVariantName(const QVariant& variant)
 
 int GetQtVariantType(const QVariant& variant)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   auto result = static_cast<int>(variant.type());
   if (result == QVariant::UserType)
   {
     result = variant.userType();
   }
+#else
+  auto result = variant.typeId();
+  if (result == QMetaType::User)
+  {
+    result = variant.userType();
+  }
+#endif
+
   return result;
 }
 
 bool IsBoolVariant(const QVariant& variant)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   return variant.type() == QVariant::Bool;
+#else
+  return variant.typeId() == QMetaType::Bool;
+#endif
 }
 
 bool IsIntVariant(const QVariant& variant)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   return variant.type() == QVariant::Int;
+#else
+  return variant.typeId() == QMetaType::Int;
+#endif
 }
 
 bool IsDoubleVariant(const QVariant& variant)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   return variant.type() == QVariant::Double;
+#else
+  return variant.typeId() == QMetaType::Double;
+#endif
 }
 
 bool IsStdStringVariant(const QVariant& variant)

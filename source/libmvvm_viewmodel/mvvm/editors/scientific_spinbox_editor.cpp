@@ -82,7 +82,11 @@ void ScientificSpinBoxEditor::OnEditingFinished()
 
 void ScientificSpinBoxEditor::UpdateComponents()
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   if (GetData().type() != QVariant::Double)
+#else
+  if (GetData().typeId() != QMetaType::Double)
+#endif
   {
     throw std::runtime_error(
         "ScientificSpinBoxEditor::update_components() -> Error. Wrong variant type");

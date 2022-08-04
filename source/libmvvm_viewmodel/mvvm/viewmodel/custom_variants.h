@@ -38,7 +38,15 @@ const std::string kInvalidQtTypeName = "invalid";
 const std::string kBoolQtTypeName = "bool";
 const std::string kIntQtTypeName = "int";
 const std::string kStringQtTypeName = "QString";
+
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 const std::string kStdStringQtTypeName = "std::string";
+#else
+//! FIXME find less fragile way of deducying type of the variant
+const std::string kStdStringQtTypeName = "std::__cxx11::basic_string<char>";
+#endif
+
 const std::string kDoubleQtTypeName = "double";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
 const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
