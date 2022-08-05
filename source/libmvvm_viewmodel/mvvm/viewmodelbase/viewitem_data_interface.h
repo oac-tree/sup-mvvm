@@ -30,7 +30,9 @@ namespace mvvm
 
 class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
 {
-public:
+public:  
+  virtual ~ViewItemDataInterface() = default;
+
   virtual QVariant Data(int role) const = 0;
 
   virtual bool SetData(const QVariant& data, int role) = 0;
