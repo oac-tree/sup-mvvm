@@ -28,26 +28,42 @@
 class MockModelEventNotifier : public mvvm::ModelEventNotifierInterface
 {
 public:
-  MOCK_METHOD(void, AboutToInsertItemNotify,
-              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
 
-  MOCK_METHOD(void, ItemInsertedNotify,
-              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
+  // Using older MOCK_METHOD1(2) because of problems on CODAC and MacOs
 
-  MOCK_METHOD(void, AboutToRemoveItemNotify,
-              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
+//  MOCK_METHOD(void, AboutToInsertItemNotify,
+//              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
 
-  MOCK_METHOD(void, ItemRemovedNotify,
-              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
+  MOCK_METHOD2(AboutToInsertItemNotify,
+              void(mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD(void, DataChangedNotify, (mvvm::SessionItem * item, int role), (override));
+//  MOCK_METHOD(void, ItemInsertedNotify,
+//              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
+  MOCK_METHOD2(ItemInsertedNotify,
+              void(mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD(void, ModelAboutToBeResetNotify, (mvvm::SessionModelInterface * model), (override));
+//  MOCK_METHOD(void, AboutToRemoveItemNotify,
+//              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
+  MOCK_METHOD2(AboutToRemoveItemNotify,
+              void(mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD(void, ModelResetNotify, (mvvm::SessionModelInterface * model), (override));
+//  MOCK_METHOD(void, ItemRemovedNotify,
+//              (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
+  MOCK_METHOD2(ItemRemovedNotify,
+              void(mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index));
 
-  MOCK_METHOD(void, ModelAboutToBeDestroyedNotify, (mvvm::SessionModelInterface * model),
-              (override));
+//  MOCK_METHOD(void, DataChangedNotify, (mvvm::SessionItem * item, int role), (override));
+  MOCK_METHOD2(DataChangedNotify, void(mvvm::SessionItem * item, int role));
+
+//  MOCK_METHOD(void, ModelAboutToBeResetNotify, (mvvm::SessionModelInterface * model), (override));
+  MOCK_METHOD1(ModelAboutToBeResetNotify, void(mvvm::SessionModelInterface * model));
+
+//  MOCK_METHOD(void, ModelResetNotify, (mvvm::SessionModelInterface * model), (override));
+  MOCK_METHOD1(ModelResetNotify, void(mvvm::SessionModelInterface * model));
+
+//  MOCK_METHOD(void, ModelAboutToBeDestroyedNotify, (mvvm::SessionModelInterface * model),
+//              (override));
+  MOCK_METHOD1(ModelAboutToBeDestroyedNotify, void(mvvm::SessionModelInterface * model));
 };
 
 //! A decorator to wrap MockModelNotifier for later use with unique_ptr (gmock doesn't like

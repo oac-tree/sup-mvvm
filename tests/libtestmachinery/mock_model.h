@@ -22,6 +22,7 @@
 
 #include <gmock/gmock.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/sessionitem.h>
 
 #include <memory>
 
@@ -30,36 +31,65 @@
 class MockModel : public mvvm::SessionModelInterface
 {
 public:
-  MOCK_METHOD(std::string, GetType, (), (const, override));
-  MOCK_METHOD(mvvm::SessionItem *, GetRootItem, (), (const, override));
-  MOCK_METHOD(const mvvm::ItemFactoryInterface *, GetFactory, (), (const, override));
-  MOCK_METHOD(mvvm::ModelEventSubscriberInterface *, GetSubscriber, (), (const, override));
+  // Old google test doesn't support MOCK_METHOD, and unique_ptr in arguments.
 
-  MOCK_METHOD(mvvm::SessionItem *, InsertItem,
-              (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,
-               const mvvm::TagIndex &tag_index),
-              (override));
+  //  MOCK_METHOD(std::string, GetType, (), (const, override));
+  MOCK_CONST_METHOD0(GetType, std::string());
 
-  MOCK_METHOD(std::unique_ptr<mvvm::SessionItem>, TakeItem,
-              (mvvm::SessionItem * parent, const mvvm::TagIndex &tag_index), (override));
+  //  MOCK_METHOD(mvvm::SessionItem *, GetRootItem, (), (const, override));
+  MOCK_CONST_METHOD0(GetRootItem, mvvm::SessionItem *());
 
-  MOCK_METHOD(void, RemoveItem, (mvvm::SessionItem * item), (override));
+  //  MOCK_METHOD(const mvvm::ItemFactoryInterface *, GetFactory, (), (const, override));
+  MOCK_CONST_METHOD0(GetFactory, const mvvm::ItemFactoryInterface *());
 
-  MOCK_METHOD(void, MoveItem,
-              (mvvm::SessionItem * item, mvvm::SessionItem *new_parent,
-               const mvvm::TagIndex &tag_index),
-              (override));
+  //  MOCK_METHOD(mvvm::ModelEventSubscriberInterface *, GetSubscriber, (), (const, override));
+  MOCK_CONST_METHOD0(GetSubscriber, mvvm::ModelEventSubscriberInterface *());
 
-  MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const variant_t &value, int role),
-              (override));
+  //  MOCK_METHOD(mvvm::SessionItem *, InsertItem,
+  //              (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,
+  //               const mvvm::TagIndex &tag_index),
+  //              (override));
 
-  MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
+  // Old gtest doesn't support unique_ptr in mock methods
+  mvvm::SessionItem* InsertItem(std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem* parent,
+                                  const mvvm::TagIndex& tag_index)
+  {
+    return nullptr;
+  }
 
-  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>), (override));
 
-  MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
+  //  MOCK_METHOD(std::unique_ptr<mvvm::SessionItem>, TakeItem,
+  //              (mvvm::SessionItem * parent, const mvvm::TagIndex &tag_index), (override));
+  MOCK_METHOD2(TakeItem, std::unique_ptr<mvvm::SessionItem>(mvvm::SessionItem *parent,
+                                                            const mvvm::TagIndex &tag_index));
 
-  MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
+  //  MOCK_METHOD(void, RemoveItem, (mvvm::SessionItem * item), (override));
+  MOCK_METHOD1(RemoveItem, void(mvvm::SessionItem *item));
+
+  //  MOCK_METHOD(void, MoveItem,
+  //              (mvvm::SessionItem * item, mvvm::SessionItem *new_parent,
+  //               const mvvm::TagIndex &tag_index),
+  //              (override));
+  MOCK_METHOD3(MoveItem, void(mvvm::SessionItem *item, mvvm::SessionItem *new_parent,
+                              const mvvm::TagIndex &tag_index));
+
+  //  MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const variant_t &value, int role),
+  //              (override));
+  MOCK_METHOD3(SetData, bool(mvvm::SessionItem *item, const variant_t &value, int role));
+
+  //  MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
+  MOCK_CONST_METHOD1(FindItem, mvvm::SessionItem *(const std::string &id));
+
+  //  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>), (override));
+
+  // Old gtest doesn't support unique_ptr in mock methods
+  void Clear(std::unique_ptr<mvvm::SessionItem> root_item) {};
+
+  //  MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
+  MOCK_METHOD1(CheckIn, void(mvvm::SessionItem *));
+
+  //  MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
+  MOCK_METHOD1(CheckOut, void(mvvm::SessionItem *));
 };
 
 //! A decorator to wrap MockModel for later use with unique_ptr (gmock doesn't like
