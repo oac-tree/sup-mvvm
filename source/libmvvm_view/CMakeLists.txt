@@ -2,7 +2,7 @@ set(library_name mvvm_view)
 
 add_library(${library_name} SHARED "")
 add_subdirectory(mvvm)
-add_library(MVVM::View ALIAS ${library_name}) # alias for build-tree usage
+add_library(sup-mvvm::view ALIAS ${library_name}) # alias for build-tree usage
 
 # -- Generate header for export --
 
@@ -15,7 +15,7 @@ target_include_directories(${library_name} PUBLIC
 
 # -- Installation --
 
-install(TARGETS ${library_name} EXPORT mvvm-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
-set_target_properties(${library_name} PROPERTIES EXPORT_NAME View SOVERSION ${SUP_MVVM_SOVERSION} VERSION ${SUP_MVVM_BUILDVERSION})
+install(TARGETS ${library_name} EXPORT sup-mvvm-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+set_target_properties(${library_name} PROPERTIES EXPORT_NAME view SOVERSION ${SUP_MVVM_SOVERSION} VERSION ${SUP_MVVM_BUILDVERSION})
 install(DIRECTORY mvvm/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mvvm FILES_MATCHING PATTERN "*.h")
 install(FILES ${export_filename} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mvvm)

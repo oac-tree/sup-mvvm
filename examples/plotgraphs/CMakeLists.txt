@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13.5)
-project(plotgraphs_example VERSION 0.0.1 LANGUAGES CXX)
+project(plotgraphs_example VERSION 0.2.0 LANGUAGES CXX)
 
 find_package(MVVM REQUIRED)
 
