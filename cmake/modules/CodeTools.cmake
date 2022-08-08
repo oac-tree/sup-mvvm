@@ -29,7 +29,7 @@ endfunction()
 
 # Setups test coverage target.
 # Use 'make codecoverage' or 'cmake --build . --target coverage' to beautify the code.
-# Requires -DMVVM_GENERATE_COVERAGE=ON
+# Requires -DSUP_MVVM_GENERATE_COVERAGE=ON
 
 function(project_testcoverage_setup)
     setup_target_for_coverage_lcov(NAME coverage
@@ -48,10 +48,10 @@ endfunction()
 # Setups targets for code processing.
 
 function(project_codetools_setup)
-    if (MVVM_SETUP_CLANGFORMAT)
+    if (SUP_MVVM_SETUP_CLANGFORMAT)
         project_clangformat_setup()
     endif()
-    if (MVVM_SETUP_COVERAGE)
+    if (SUP_MVVM_SETUP_COVERAGE)
         project_testcoverage_setup()
     endif()
 endfunction()

@@ -27,7 +27,7 @@ export(PACKAGE MVVM)
 include(CMakePackageConfigHelpers)
 
 # to use in the build tree
-configure_package_config_file(${MVVM_PROJECT_DIR}/cmake/configs/MVVMConfig.cmake.in
+configure_package_config_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/MVVMConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/MVVMConfig.cmake
     INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
 )
@@ -51,7 +51,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/MVVMConfigVersion.cmake DESTINATION ${
 
 # Generating the source package
 set(CPACK_SOURCE_GENERATOR "TGZ")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "qt-mvvm-${MVVM_BUILDVERSION}")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "sup-mvvm-${SUP_MVVM_BUILDVERSION}")
 
 set(CPACK_SOURCE_IGNORE_FILES
     ${CPACK_SOURCE_IGNORE_FILES} # first take the default parameters
