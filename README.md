@@ -128,22 +128,22 @@ In the future this part can be extended with widget library for scientific plott
 - Depends only on C++17 and libxml `(+)`.
 - Unique identifiers for all items and memory pool registration `(+)`.
 - Multiple models with the possibility for persistent inter-model links `(+)`.
-- Undo/redo based on command pattern `(+/-)`.
+- Undo/redo based on command pattern `(+)`.
 
 ### ViewModel part (depends on Qt5) <!-- omit in toc -->
 
-- View model to show parts of application model in Qt widgets `(+/-)`.
-- Property editors `(+/-)`.
+- View model to show parts of application model in Qt widgets `(+)`.
+- Property editors `(+)`.
 - Automatic generation of widgets from model content `(+/-)`.
 - Scientific plotting `(+/-)`.
-- Flexible layout of Qt's trees and tables `(+/-)`.
+- Flexible layout of Qt's trees and tables `(+)`.
 
-> `(+)` - feature is implemented, `(+/-)` - porting is required from the original `qt-mvvm`.
+> `(+)` - feature is implemented, `(+/-)` - feature was prototyped.
 
 ### Size of the framework <!-- omit in toc -->
 
-- 4000 LOC of libraries
-- 4000 LOC of tests (1500 `EXPECT` statements)
+- 14 kLOC of libraries
+- 14 kLOC of tests (4500 `EXPECT` statements)
 
 ## Main components
 
