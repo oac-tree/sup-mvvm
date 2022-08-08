@@ -19,7 +19,9 @@ target_link_libraries(${library_name} PRIVATE stdc++fs)
 endif ()
 
 target_include_directories(${library_name} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}> $<BUILD_INTERFACE:${SUP_MVVM_AUTOGEN_DIR}>)
+  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+  $<BUILD_INTERFACE:${SUP_MVVM_AUTOGEN_DIR}>)
 
 # -- Installation --
 
