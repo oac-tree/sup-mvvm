@@ -53,7 +53,7 @@ void MainWindow::InitApplication()
 {
   QCoreApplication::setApplicationName("celleditors");
   QCoreApplication::setApplicationVersion("0.1");
-  QCoreApplication::setOrganizationName("cpp-mvvm");
+  QCoreApplication::setOrganizationName("sup-mvvm");
 
   QSettings settings;
   if (settings.childGroups().contains(main_window_group))
