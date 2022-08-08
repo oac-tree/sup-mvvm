@@ -21,7 +21,7 @@
 #define MVVM_CORE_VERSION_H_
 
 //! @file version.h
-//! Automatically generated from mvvm_version.h.in
+//! Automatically generated from version.h.in
 
 #include <string>
 
@@ -38,7 +38,7 @@ inline int ProjectVersionMajor()
 //! Returns minor project version.
 inline int ProjectVersionMinor()
 {
-    const int project_version_minor = 1;
+    const int project_version_minor = 2;
     return project_version_minor;
 }
 
@@ -52,10 +52,10 @@ inline int ProjectVersionPatch()
 //! Returns project version string
 inline std::string ProjectVersion()
 {
-    const std::string project_version = "0.1.0";
+    const std::string project_version = "0.2.0";
     return project_version;
 }
 
 } // namespace ModelView
 
-#endif  // MVVM_CORE_VERSION_H_
+#endif // MVVM_CORE_VERSION_H_

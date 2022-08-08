@@ -71,7 +71,7 @@ find_package(Threads)
 configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/testconfig.h.in  ${SUP_MVVM_AUTOGEN_DIR}/testconfig.h @ONLY)
 
 if (SUP_MVVM_BUMP_VERSION)
-  configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/mvvm_version.h.in  ${SUP_MVVM_PROJECT_DIR}/source/libmvvm_model/mvvm/core/version.h @ONLY)
+  configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/version.h.in  ${SUP_MVVM_PROJECT_DIR}/source/libmvvm_model/mvvm/core/version.h @ONLY)
 endif()
 
 # -----------------------------------------------------------------------------
