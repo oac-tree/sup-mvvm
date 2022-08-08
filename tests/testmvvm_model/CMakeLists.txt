@@ -7,7 +7,7 @@ file(GLOB_RECURSE include_files "*.h")
 #file(GLOB include_files "experimental/*.h")
 
 add_executable(${test} ${source_files} ${include_files})
-target_link_libraries(${test} PRIVATE mvvm_model testmachinery)
+target_link_libraries(${test} PRIVATE testmachinery)
 
 gtest_discover_tests(${test} TEST_PREFIX "Model.")
 

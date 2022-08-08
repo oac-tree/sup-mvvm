@@ -9,7 +9,7 @@ add_library(sup-mvvm::model ALIAS ${library_name}) # alias for build-tree usage
 # -- Generate header for export --
 
 set(export_filename ${SUP_MVVM_AUTOGEN_DIR}/mvvm/model_export.h)
-generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename})
+generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename} EXPORT_MACRO_NAME MVVM_MODEL_EXPORT)
 
 target_link_libraries(${library_name} PRIVATE stduuid PUBLIC LibXml2::LibXml2)
 

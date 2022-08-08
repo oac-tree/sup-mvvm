@@ -7,9 +7,9 @@ add_library(sup-mvvm::viewmodel ALIAS ${library_name}) # alias for build-tree us
 # -- Generate header for export --
 
 set(export_filename ${SUP_MVVM_AUTOGEN_DIR}/mvvm/viewmodel_export.h)
-generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename})
+generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename}  EXPORT_MACRO_NAME MVVM_VIEWMODEL_EXPORT)
 
-target_link_libraries(${library_name} PUBLIC mvvm_model Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${library_name} PUBLIC sup-mvvm-model Qt${QT_VERSION_MAJOR}::Widgets)
 
 target_include_directories(${library_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}> $<BUILD_INTERFACE:${SUP_MVVM_AUTOGEN_DIR}>)
