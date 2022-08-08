@@ -1,4 +1,4 @@
-set(library_name mvvm_model)
+set(library_name sup-mvvm-model)
 
 find_package(LibXml2 REQUIRED)
 

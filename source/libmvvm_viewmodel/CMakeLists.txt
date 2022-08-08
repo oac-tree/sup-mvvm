@@ -1,4 +1,4 @@
-set(library_name mvvm_viewmodel)
+set(library_name sup-mvvm-viewmodel)
 
 add_library(${library_name} SHARED "")
 add_subdirectory(mvvm)

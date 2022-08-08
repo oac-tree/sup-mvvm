@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13.5)
 project(celleditors_example VERSION 0.2.0 LANGUAGES CXX)
 
-find_package(MVVM REQUIRED)
+find_package(sup-mvvm REQUIRED)
 
 set(executable_name celleditors)
 add_subdirectory(celleditorscore)

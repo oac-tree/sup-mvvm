@@ -14,7 +14,7 @@ install(EXPORT sup-mvvm-targets FILE sup-mvvm-targets.cmake NAMESPACE sup-mvvm::
 # -----------------------------------------------------------------------------
 
 # Add all targets to the build-tree export set
-export(TARGETS mvvm_model mvvm_viewmodel mvvm_view NAMESPACE sup-mvvm:: FILE "${PROJECT_BINARY_DIR}/sup-mvvm-targets.cmake")
+export(TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view NAMESPACE sup-mvvm:: FILE "${PROJECT_BINARY_DIR}/sup-mvvm-targets.cmake")
 
 # Export the package for use from the build-tree (goes to $HOME/.cmake)
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)

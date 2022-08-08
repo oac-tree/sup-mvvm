@@ -1,4 +1,4 @@
-set(library_name mvvm_view)
+set(library_name sup-mvvm-view)
 
 add_library(${library_name} SHARED "")
 add_subdirectory(mvvm)
