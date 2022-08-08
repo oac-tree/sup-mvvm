@@ -20,8 +20,8 @@
 #ifndef CELLEDITORS_CELLEDITORSCORE_SAMPLE_MODEL_H_
 #define CELLEDITORS_CELLEDITORSCORE_SAMPLE_MODEL_H_
 
-#include "mvvm/model/application_model.h"
-#include "mvvm/model/compound_item.h"
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
 
 #include <string>
 
