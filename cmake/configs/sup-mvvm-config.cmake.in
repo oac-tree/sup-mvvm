@@ -7,7 +7,6 @@ include(CMakeFindDependencyMacro)
 
 find_dependency(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core Gui PrintSupport)
 find_dependency(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui PrintSupport)
-#find_dependency(Qt5 5.12 COMPONENTS Widgets REQUIRED)
 
 find_dependency(Threads)
 find_dependency(LibXml2)
