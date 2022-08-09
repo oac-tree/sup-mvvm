@@ -19,7 +19,7 @@
 
 #include "mvvm/project/project_manager_decorator.h"
 
-#include "folder_based_tests.h"
+#include "folder_based_test.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>

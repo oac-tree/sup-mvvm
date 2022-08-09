@@ -19,8 +19,7 @@
 
 #include "mvvm/serialization/treedata_item_converter.h"
 
-#include "folder_based_tests.h"
-#include "test_utils.h"
+#include "folder_based_test.h"
 
 #include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/compound_item.h>

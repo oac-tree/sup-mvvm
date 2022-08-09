@@ -19,8 +19,7 @@
 
 #include "mvvm/project/project_utils.h"
 
-#include "folder_based_tests.h"
-#include "test_utils.h"
+#include "folder_based_test.h"
 
 #include <mvvm/interfaces/project_interface.h>
 #include <mvvm/model/application_model.h>
