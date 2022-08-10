@@ -27,6 +27,10 @@
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/serialization/xml_document.h>
 #include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/data1d_item.h>
+#include <mvvm/standarditems/graph_viewport_item.h>
+#include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
 #include <QSignalSpy>
@@ -995,7 +999,7 @@ TEST_F(AllItemsViewModelTests, VectorItemAsRootInXmlDocument)
 
 //! Moving item from one parent to another.
 
-// TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
+// TEST_F(AllItemsViewModelTests, MoveItemFromOneParentToAnother)
 //{
 //   auto container0 = m_model.InsertItem<ContainerItem>();
 //   auto property = container0->InsertItem<PropertyItem>(TagIndex::Append());
@@ -1015,37 +1019,33 @@ TEST_F(AllItemsViewModelTests, VectorItemAsRootInXmlDocument)
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.
 
-// FIXME restore test deleteGraphVromViewport
+ TEST_F(AllItemsViewModelTests, DeleteGraphVromViewport)
+{
+  ApplicationModel model;
 
-// TEST_F(AllItemsViewModelTest, deleteGraphVromViewport)
-//{
-//  SessionModel model;
+  // creating data container and single Data1DItem in it
+  auto data_container = model.InsertItem<ContainerItem>();
+  auto data_item = model.InsertItem<Data1DItem>(data_container);
+  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetValues(std::vector<double>({1.0, 2.0, 3.0}));
 
-//  // creating data container and single Data1DItem in it
-//  auto data_container = model.insertItem<ContainerItem>();
-//  auto data_item = model.insertItem<Data1DItem>(data_container);
-//  data_item->setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
-//  data_item->setValues(std::vector<double>({1.0, 2.0, 3.0}));
+  // creating Viewport with single graph
+  auto viewport_item = model.InsertItem<GraphViewportItem>();
+  auto graph_item = model.InsertItem<GraphItem>(viewport_item);
+  graph_item->SetDataItem(data_item);
 
-//  // creating Viewport with single graph
-//  auto viewport_item = model.insertItem<GraphViewportItem>();
-//  auto graph_item = model.insertItem<GraphItem>(viewport_item);
-//  graph_item->setDataItem(data_item);
+  AllItemsViewModel viewmodel(&model);
+  viewmodel.SetRootSessionItem(viewport_item);
 
-//  DefaultViewModel viewmodel(&model);
-//  viewmodel.setRootSessionItem(viewport_item);
+  // validating that we see graph at propeer index
+  EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y and Graph
+  QModelIndex graph_index = viewmodel.index(2, 0);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(graph_index), graph_item);
 
-//  // validating that we see graph at propeer index
-//  EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y and Graph
-//  QModelIndex graph_index = viewmodel.index(2, 0);
-//  auto graphLabel = dynamic_cast<ViewLabelItem*>(viewmodel.itemFromIndex(graph_index));
-//  ASSERT_TRUE(graphLabel != nullptr);
-//  EXPECT_EQ(graphLabel->item(), graph_item);
+  // removing graph item
+  model.RemoveItem(graph_item);
+  EXPECT_EQ(viewmodel.rowCount(), 2);  // X, Y
 
-//  // removing graph item
-//  model.removeItem(graph_item->parent(), graph_item->tagRow());
-//  EXPECT_EQ(viewmodel.rowCount(), 2);  // X, Y
-
-//  graph_item = model.insertItem<GraphItem>(viewport_item);
-//  EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y
-//}
+  graph_item = model.InsertItem<GraphItem>(viewport_item);
+  EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y, graph
+}

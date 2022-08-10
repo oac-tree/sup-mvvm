@@ -435,10 +435,13 @@ TEST_F(ApplicationModelTests, MoveItem)
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
-  EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
-  EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
+  }
   EXPECT_CALL(listener, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(listener, OnModelReset(_)).Times(0);
@@ -545,4 +548,3 @@ TEST_F(ApplicationModelTests, SetUndoEnabled)
   m_model.SetUndoEnabled(false);
   EXPECT_EQ(m_model.GetCommandStack(), nullptr);
 }
-
