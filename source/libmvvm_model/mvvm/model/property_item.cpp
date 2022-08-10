@@ -40,4 +40,4 @@ PropertyItem* PropertyItem::SetDisplayName(const std::string& name)
 //    return this;
 //}
 
-}
+}  // namespace mvvm

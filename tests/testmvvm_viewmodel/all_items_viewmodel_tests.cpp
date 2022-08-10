@@ -920,7 +920,6 @@ TEST_F(AllItemsViewModelTests, XmlDocumentLoadModel)
 }
 
 //! Testing view model after restoring from XML document.
-//! FIXME restore test
 
 TEST_F(AllItemsViewModelTests, VectorItemInXmlDocument)
 {
