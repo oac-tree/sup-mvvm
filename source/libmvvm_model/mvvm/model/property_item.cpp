@@ -21,12 +21,14 @@
 
 #include <mvvm/model/mvvm_types.h>
 
-using namespace mvvm;
+namespace mvvm
+{
 
 PropertyItem::PropertyItem() : SessionItem(Type) {}
 
 PropertyItem* PropertyItem::SetDisplayName(const std::string& name)
 {
+  // method is implemented to change the return type from SessionItem to ProprtyItem
   SessionItem::SetDisplayName(name);
   return this;
 }
@@ -37,3 +39,5 @@ PropertyItem* PropertyItem::SetDisplayName(const std::string& name)
 //    this->setData(value, ItemDataRole::LIMITS);
 //    return this;
 //}
+
+}

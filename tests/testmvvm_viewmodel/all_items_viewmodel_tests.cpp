@@ -26,11 +26,11 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/serialization/xml_document.h>
-#include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/data1d_item.h>
-#include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/standarditems/graph_item.h>
+#include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
 #include <QSignalSpy>
@@ -839,7 +839,7 @@ TEST_F(AllItemsViewModelTests, OnModelReset)
 
 //! On model destroyed.
 
-TEST_F(AllItemsViewModelTests, onModelDestroyed)
+TEST_F(AllItemsViewModelTests, OnModelDestroyed)
 {
   auto model = std::make_unique<ApplicationModel>();
   model->InsertItem<SessionItem>();
@@ -999,27 +999,34 @@ TEST_F(AllItemsViewModelTests, VectorItemAsRootInXmlDocument)
 
 //! Moving item from one parent to another.
 
-// TEST_F(AllItemsViewModelTests, MoveItemFromOneParentToAnother)
-//{
-//   auto container0 = m_model.InsertItem<ContainerItem>();
-//   auto property = container0->InsertItem<PropertyItem>(TagIndex::Append());
-//   auto container1 = m_model.InsertItem<ContainerItem>();
+TEST_F(AllItemsViewModelTests, MoveItemFromOneParentToAnother)
+{
+  auto container0 = m_model.InsertItem<ContainerItem>();
+  auto property = m_model.InsertItem<PropertyItem>(container0, TagIndex::Append());
+  auto container1 = m_model.InsertItem<ContainerItem>();
 
-//  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-//  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-//  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-//  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  EXPECT_EQ(m_viewmodel.rowCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(m_viewmodel.index(0, 0)), 1);
 
-//  m_model.MoveItem(property, container1, TagIndex::Append());
+  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  QSignalSpy spyAboutInsert(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeInserted);
+  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  QSignalSpy spyAboutRemove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
+  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-//  EXPECT_EQ(spyInsert.count(), 1);
-//  EXPECT_EQ(spyRemove.count(), 1);  // FIXME why not 1?
-//}
+  m_model.MoveItem(property, container1, TagIndex::Append());
+
+  EXPECT_EQ(spyInsert.count(), 1);
+  EXPECT_EQ(spyAboutInsert.count(), 1);
+  EXPECT_EQ(spyRemove.count(), 1);
+  EXPECT_EQ(spyAboutRemove.count(), 1);
+}
 
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.
 
- TEST_F(AllItemsViewModelTests, DeleteGraphVromViewport)
+TEST_F(AllItemsViewModelTests, DeleteGraphVromViewport)
 {
   ApplicationModel model;
 
