@@ -35,8 +35,7 @@ int appearance(const mvvm::SessionItem& item)
 {
   using mvvm::Appearance;
 
-  const int default_appearance =
-      Appearance::kEditable | Appearance::kVisible;
+  const int default_appearance = Appearance::kVisible;
   return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<int>(mvvm::DataRole::kAppearance)
                                                    : default_appearance;
 }
@@ -284,14 +283,14 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 
 bool SessionItem::IsEditable() const
 {
-  return appearance(*this) & Appearance::kEditable;
+  return !(appearance(*this) & Appearance::kReadOnly);
 }
 
 //! Sets `editable` flag to given value (fluent interface).
 
 SessionItem* SessionItem::SetEditable(bool value)
 {
-  SetAppearanceFlag(Appearance::kEditable, value);
+  SetAppearanceFlag(Appearance::kReadOnly, !value);
   return this;
 }
 

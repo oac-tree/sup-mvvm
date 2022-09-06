@@ -43,8 +43,8 @@ const int kEditor = 5;      //!< type of custom editor for the data role
 enum Appearance
 {
   kDefault = 0,   // default appearance (enabled, editable, visible)
-  kDisabled = 1,   // disabled in Qt widgets (normally shown in gray)
-  kEditable = 2,  // editable in Qt widgets; readonly otherwise
+  kDisabled = 1,  // disabled in Qt widgets (normally shown in gray)
+  kReadOnly = 2,  // readonly in Qt widgets
   kVisible = 4,   // visible in Qt widgets; doesn't appear in trees and tables otherwise
   kProperty = 8,  // item appears in property editors; doesn't appear as top-level item
 };

@@ -395,36 +395,42 @@ TEST_F(ItemUtilsTests, GetNestlingDepth)
 TEST_F(ItemUtilsTests, HasAppearanceFlag)
 {
   using mvvm::utils::HasAppearanceFlag;
-  SessionItem item;
 
-  // by default item has no appearance flags
-  EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
-  EXPECT_FALSE(HasAppearanceFlag(&item, kEditable));
-  EXPECT_FALSE(HasAppearanceFlag(&item, kVisible));
-  EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+  { // by default item has no appearance flags
+    SessionItem item;
+    EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+  }
 
-  // FIXME change default appearance behavior  (see also sessionitem_tests.cpp)
-  // Current behavior is that an item doesn't have an appearance flag, while
-  // still reporting IsEnabled, IsEditable, IsVisible. This flags will be created
-  // automatically after first attempt to change default appearance flags.
+  {
+    SessionItem item;
+    item.SetEnabled(false);
+    EXPECT_TRUE(HasAppearanceFlag(&item, kDisabled));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
+    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+    item.SetEnabled(true);
+    EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
+    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+  }
 
-  item.SetEnabled(false);
-  EXPECT_TRUE(HasAppearanceFlag(&item, kDisabled));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
-  EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
-
-  item.SetEnabled(true);
-  EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
-  EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
-
-  item.SetAppearanceFlag(kProperty, true);
-  EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
-  EXPECT_TRUE(HasAppearanceFlag(&item, kProperty));
+  {
+    SessionItem item;
+    item.SetAppearanceFlag(kProperty, true);
+    EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
+    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_TRUE(HasAppearanceFlag(&item, kProperty));
+    item.SetAppearanceFlag(kProperty, false);
+    EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
+    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+  }
 }
 
 TEST_F(ItemUtilsTests, ReplaceData)
