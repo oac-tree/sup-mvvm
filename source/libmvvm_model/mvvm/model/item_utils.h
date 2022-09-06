@@ -103,7 +103,7 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
 //! item.SetData(42.0, role);
 //! item.SetData("abc", role); <-- will fail because we do not allow to switch data type
 //! ReplaceData(&item, "abc", role) <-- will succeed, new data will be std::string, instead of double
-MVVM_MODEL_EXPORT bool ReplaceData(SessionItem* item, const variant_t& value, int role);
+MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
 
 }  // namespace mvvm::utils
 

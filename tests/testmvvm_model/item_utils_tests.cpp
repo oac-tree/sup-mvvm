@@ -438,7 +438,7 @@ TEST_F(ItemUtilsTests, ReplaceData)
   SessionItem item;
   item.SetData(42, DataRole::kData);
 
-  EXPECT_TRUE(utils::ReplaceData(&item, std::string("abc"), DataRole::kData));
+  EXPECT_TRUE(utils::ReplaceData(item, std::string("abc"), DataRole::kData));
 
   EXPECT_EQ(item.Data(), variant_t(std::string("abc")));
 }

@@ -243,10 +243,10 @@ bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
              : false;
 }
 
-bool ReplaceData(SessionItem* item, const variant_t& value, int role)
+bool ReplaceData(SessionItem& item, const variant_t& value, int role)
 {
-  item->SetData(variant_t(), role);   // will remove old variant for given role
-  return item->SetData(value, role);  // will succeed
+  item.SetData(variant_t(), role);   // will remove old variant for given role
+  return item.SetData(value, role);  // will succeed
 }
 
 }  // namespace mvvm::utils
