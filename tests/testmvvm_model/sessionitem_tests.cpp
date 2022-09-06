@@ -679,10 +679,10 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 {
   SessionItem item;
 
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kDisabled));
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kReadOnly));
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kHidden));
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kProperty));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kDisabled));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kReadOnly));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kHidden));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kProperty));
 
   // there shouldn't be any data
   auto variant = item.Data(DataRole::kAppearance);
@@ -690,10 +690,10 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   item.SetAppearanceFlag(kProperty, true);
 
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kDisabled));
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kReadOnly));
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kHidden));
-  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kProperty));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kDisabled));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kReadOnly));
+  EXPECT_FALSE(utils::HasAppearanceFlag(item, kHidden));
+  EXPECT_TRUE(utils::HasAppearanceFlag(item, kProperty));
 
   // default status
   EXPECT_TRUE(item.IsEnabled());

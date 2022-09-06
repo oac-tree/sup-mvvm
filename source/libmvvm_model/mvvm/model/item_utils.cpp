@@ -138,7 +138,7 @@ std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
   {
-    if (child->IsVisible() && !HasAppearanceFlag(child, kProperty))
+    if (child->IsVisible() && !HasAppearanceFlag(*child, kProperty))
     {
       result.push_back(child);
     }
@@ -151,7 +151,7 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
   {
-    if (child->IsVisible() && HasAppearanceFlag(child, kProperty))
+    if (child->IsVisible() && HasAppearanceFlag(*child, kProperty))
     {
       result.push_back(child);
     }
@@ -236,10 +236,10 @@ int GetNestlingDepth(const SessionItem* basis, const SessionItem* item, int leve
   return GetNestlingDepth(basis, item->GetParent(), level + 1);
 }
 
-bool HasAppearanceFlag(const SessionItem* item, Appearance flag)
+bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
 {
-  return item->HasData(mvvm::DataRole::kAppearance)
-             ? item->Data<int>(mvvm::DataRole::kAppearance) & flag
+  return item.HasData(mvvm::DataRole::kAppearance)
+             ? item.Data<int>(mvvm::DataRole::kAppearance) & flag
              : false;
 }
 

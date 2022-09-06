@@ -95,7 +95,7 @@ MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionIt
                                        int level = 0);
 
 //! Returns true if given item has appearance flag set.
-MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem* item, Appearance flag);
+MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance flag);
 
 //! Replace data of given item with provided value for given role.
 //! This method allow to set the data to the item, even if the type of the data doesn't match
