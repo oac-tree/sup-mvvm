@@ -400,7 +400,7 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
     SessionItem item;
     EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
-    EXPECT_FALSE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kHidden));
     EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
   }
 
@@ -409,12 +409,12 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
     item.SetEnabled(false);
     EXPECT_TRUE(HasAppearanceFlag(&item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
-    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kHidden));
     EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
     item.SetEnabled(true);
     EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
-    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kHidden));
     EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
   }
 
@@ -423,12 +423,12 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
     item.SetAppearanceFlag(kProperty, true);
     EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
-    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kHidden));
     EXPECT_TRUE(HasAppearanceFlag(&item, kProperty));
     item.SetAppearanceFlag(kProperty, false);
     EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(&item, kReadOnly));
-    EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+    EXPECT_FALSE(HasAppearanceFlag(&item, kHidden));
     EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
   }
 }

@@ -677,16 +677,11 @@ TEST_F(SessionItemTests, Appearance)
 
 TEST_F(SessionItemTests, SetAppearanceFlag)
 {
-  // FIXME change default appearance behavior (see also item_utils_tests.cpp)
-  // Current behavior is that an item doesn't have an appearance flag, while
-  // still reporting IsEnabled, IsEditable, IsVisible. This flags will be created
-  // automatically after first attempt to change default appearance flags.
-
   SessionItem item;
 
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kDisabled));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kReadOnly));
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kHidden));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kProperty));
 
   // there shouldn't be any data
@@ -697,7 +692,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kDisabled));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kReadOnly));
-  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kHidden));
   EXPECT_TRUE(utils::HasAppearanceFlag(&item, kProperty));
 
   // default status

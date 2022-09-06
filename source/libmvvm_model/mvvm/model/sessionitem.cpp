@@ -33,11 +33,8 @@ namespace
 {
 int appearance(const mvvm::SessionItem& item)
 {
-  using mvvm::Appearance;
-
-  const int default_appearance = Appearance::kVisible;
   return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<int>(mvvm::DataRole::kAppearance)
-                                                   : default_appearance;
+                                                   : mvvm::Appearance::kDefault;
 }
 }  // namespace
 
@@ -315,7 +312,7 @@ SessionItem* SessionItem::SetEnabled(bool value)
 
 bool SessionItem::IsVisible() const
 {
-  return appearance(*this) & Appearance::kVisible;
+  return !(appearance(*this) & Appearance::kHidden);
 }
 
 //! Sets `visible` flag to given value (fluent interface). Used in Qt-widgets to hide given
@@ -324,7 +321,7 @@ bool SessionItem::IsVisible() const
 
 SessionItem* SessionItem::SetVisible(bool value)
 {
-  SetAppearanceFlag(Appearance::kVisible, value);
+  SetAppearanceFlag(Appearance::kHidden, !value);
   return this;
 }
 
