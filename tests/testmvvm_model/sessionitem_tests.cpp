@@ -684,7 +684,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   SessionItem item;
 
-  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kDisabled));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kEditable));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kVisible));
   EXPECT_FALSE(utils::HasAppearanceFlag(&item, kProperty));
@@ -695,7 +695,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   item.SetAppearanceFlag(kProperty, true);
 
-  EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(utils::HasAppearanceFlag(&item, kDisabled));
   EXPECT_TRUE(utils::HasAppearanceFlag(&item, kEditable));
   EXPECT_TRUE(utils::HasAppearanceFlag(&item, kVisible));
   EXPECT_TRUE(utils::HasAppearanceFlag(&item, kProperty));

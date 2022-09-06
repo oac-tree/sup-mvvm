@@ -36,7 +36,7 @@ int appearance(const mvvm::SessionItem& item)
   using mvvm::Appearance;
 
   const int default_appearance =
-      Appearance::kEditable | Appearance::kEnabled | Appearance::kVisible;
+      Appearance::kEditable | Appearance::kVisible;
   return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<int>(mvvm::DataRole::kAppearance)
                                                    : default_appearance;
 }
@@ -299,7 +299,7 @@ SessionItem* SessionItem::SetEditable(bool value)
 
 bool SessionItem::IsEnabled() const
 {
-  return appearance(*this) & Appearance::kEnabled;
+  return !(appearance(*this) & Appearance::kDisabled);
 }
 
 //! Sets `enabled` flag to given value (fluent interface). Used in Qt-widgets to show that given
@@ -308,7 +308,7 @@ bool SessionItem::IsEnabled() const
 
 SessionItem* SessionItem::SetEnabled(bool value)
 {
-  SetAppearanceFlag(Appearance::kEnabled, value);
+  SetAppearanceFlag(Appearance::kDisabled, !value);
   return this;
 }
 

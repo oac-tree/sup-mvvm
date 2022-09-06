@@ -398,7 +398,7 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
   SessionItem item;
 
   // by default item has no appearance flags
-  EXPECT_FALSE(HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
   EXPECT_FALSE(HasAppearanceFlag(&item, kEditable));
   EXPECT_FALSE(HasAppearanceFlag(&item, kVisible));
   EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
@@ -408,14 +408,20 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
   // still reporting IsEnabled, IsEditable, IsVisible. This flags will be created
   // automatically after first attempt to change default appearance flags.
 
+  item.SetEnabled(false);
+  EXPECT_TRUE(HasAppearanceFlag(&item, kDisabled));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
+  EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
+
   item.SetEnabled(true);
-  EXPECT_TRUE(HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
   EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
   EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
   EXPECT_FALSE(HasAppearanceFlag(&item, kProperty));
 
   item.SetAppearanceFlag(kProperty, true);
-  EXPECT_TRUE(HasAppearanceFlag(&item, kEnabled));
+  EXPECT_FALSE(HasAppearanceFlag(&item, kDisabled));
   EXPECT_TRUE(HasAppearanceFlag(&item, kEditable));
   EXPECT_TRUE(HasAppearanceFlag(&item, kVisible));
   EXPECT_TRUE(HasAppearanceFlag(&item, kProperty));

@@ -42,7 +42,8 @@ const int kEditor = 5;      //!< type of custom editor for the data role
 //! Defines bit fields for appearance flag (kAppearance data role).
 enum Appearance
 {
-  kEnabled = 1,   // enabled in Qt widgets; when disabled, will be shown in gray
+  kDefault = 0,   // default appearance (enabled, editable, visible)
+  kDisabled = 1,   // disabled in Qt widgets (normally shown in gray)
   kEditable = 2,  // editable in Qt widgets; readonly otherwise
   kVisible = 4,   // visible in Qt widgets; doesn't appear in trees and tables otherwise
   kProperty = 8,  // item appears in property editors; doesn't appear as top-level item
