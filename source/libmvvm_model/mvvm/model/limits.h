@@ -52,6 +52,9 @@ public:
   bool IsUpperLimited() const;
   bool IsLimited() const;
 
+  bool operator==(const Limits<T>& other) const;
+  bool operator!=(const Limits<T>& other) const;
+
 private:
   Limits(const std::optional<T>& lower_limit, const std::optional<T>& upper_limit)
       : m_lower_limit(lower_limit), m_upper_limit(upper_limit)
@@ -188,6 +191,18 @@ template <typename T>
 bool Limits<T>::IsLimited() const
 {
   return HasLowerLimit() && HasUpperLimit();
+}
+
+template <typename T>
+bool Limits<T>::operator==(const Limits<T>& other) const
+{
+  return m_lower_limit == other.m_lower_limit && m_upper_limit == other.m_upper_limit;
+}
+
+template <typename T>
+bool Limits<T>::operator!=(const Limits<T>& other) const
+{
+  return !(*this == other);
 }
 
 }  // namespace mvvm
