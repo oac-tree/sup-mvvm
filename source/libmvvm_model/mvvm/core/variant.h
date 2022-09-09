@@ -25,6 +25,7 @@
 
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
+#include <mvvm/model/limits.h>
 #include <mvvm/model_export.h>
 
 #include <string>
@@ -32,7 +33,8 @@
 #include <vector>
 
 using variant_t = std::variant<std::monostate, bool, int, double, std::string, std::vector<double>,
-                               mvvm::ComboProperty, mvvm::ExternalProperty>;
+                               mvvm::ComboProperty, mvvm::ExternalProperty, mvvm::Limits<int>,
+                               mvvm::Limits<double>>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
@@ -48,6 +50,8 @@ const std::string kDoubleTypeName = "double";
 const std::string kVectorDoubleTypeName = "vector_double_t";
 const std::string kComboPropertyTypeName = "ComboProperty";
 const std::string kExternalPropertyTypeName = "ExternalProperty";
+const std::string kRealLimitsPropertyTypeName = "RealLimits";
+const std::string kIntLimitsPropertyTypeName = "IntLimits";
 }  // namespace mvvm::constants
 
 namespace mvvm::utils

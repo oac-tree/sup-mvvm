@@ -24,7 +24,6 @@
 
 namespace mvvm
 {
-class RealLimits;
 
 //! Item to carry concrete editable entity (e.g. 'double' value with limits).
 //! Intended for use as a child or CompountItem, not expected to have own children.

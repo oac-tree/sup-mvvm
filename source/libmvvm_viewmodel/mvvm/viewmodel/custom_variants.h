@@ -25,6 +25,7 @@
 
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
+#include <mvvm/model/limits.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
@@ -51,6 +52,8 @@ const std::string kDoubleQtTypeName = "double";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
 const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
 const std::string kExternalPropertyQtTypeName = "mvvm::ExternalProperty";
+const std::string kIntLimitsPropertyQtTypeName = "mvvm::Limits<int>";
+const std::string kRealLimitsPropertyQtTypeName = "mvvm::Limits<double>";
 }  // namespace constants
 
 namespace utils
@@ -90,5 +93,7 @@ Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)
 Q_DECLARE_METATYPE(mvvm::ComboProperty)
 Q_DECLARE_METATYPE(mvvm::ExternalProperty)
+Q_DECLARE_METATYPE(mvvm::Limits<int>)
+Q_DECLARE_METATYPE(mvvm::Limits<double>)
 
 #endif  // MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_

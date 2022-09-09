@@ -47,10 +47,13 @@ std::map<std::string, converter_func_t> CreateConverterMap()
       {mvvm::constants::kComboPropertyQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.value<mvvm::ComboProperty>()); }},
       {mvvm::constants::kExternalPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ExternalProperty>()); }}};
-
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ExternalProperty>()); }},
+      {mvvm::constants::kIntLimitsPropertyQtTypeName,
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<int>>()); }},
+      {mvvm::constants::kRealLimitsPropertyQtTypeName,
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<double>>()); }}};
   return result;
-}
+};
 
 }  // namespace
 

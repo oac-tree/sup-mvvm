@@ -68,6 +68,9 @@ private:
   std::optional<T> m_upper_limit;
 };
 
+using RealLimits = Limits<double>;
+using IntLimits = Limits<int>;
+
 //! Default constructor for limitless object.
 template <typename T>
 Limits<T>::Limits() : Limits({}, {})

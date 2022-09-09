@@ -29,9 +29,6 @@ using namespace mvvm;
 
 class LimitsTests : public ::testing::Test
 {
-public:
-  using RealLimits = Limits<double>;
-  using IntLimits = Limits<int>;
 };
 
 TEST_F(LimitsTests, InitialState)
