@@ -32,6 +32,13 @@ template <typename T>
 class Limits
 {
 public:
+  static Limits<T> CreateLowerLimited(T bound_value);
+  static Limits<T> CreatePositive();
+  static Limits<T> CreateNonnegative();
+  static Limits<T> CreateUpperLimited(T bound_value);
+  static Limits<T> CreateLimited(T left_bound_value, T right_bound_value);
+  static Limits<T> CreateLimitless();
+
   bool HasLowerLimit() const;
   bool HasUpperLimit() const;
   T GetLowerLimit() const;
@@ -54,6 +61,48 @@ private:
   std::optional<T> m_lower_limit;
   std::optional<T> m_upper_limit;
 };
+
+//! Creates an object bounded from the left.
+template <typename T>
+Limits<T> Limits<T>::CreateLowerLimited(T bound_value)
+{
+  return Limits<T>(bound_value, {});
+}
+
+//! Creates an object which can have only positive values (zero is not included).
+template <typename T>
+Limits<T> Limits<T>::CreatePositive()
+{
+  return CreateLowerLimited(std::numeric_limits<T>::min());
+}
+
+//! Creates an object which can have only positive values with zero included.
+template <typename T>
+Limits<T> Limits<T>::CreateNonnegative()
+{
+  return CreateLowerLimited(0);
+}
+
+//! Creates an object bounded from the right.
+template <typename T>
+Limits<T> Limits<T>::CreateUpperLimited(T bound_value)
+{
+  return Limits<T>({}, bound_value);
+}
+
+//! Creates an object bounded from the left and right.
+template <typename T>
+Limits<T> Limits<T>::CreateLimited(T left_bound_value, T right_bound_value)
+{
+  return Limits<T>(left_bound_value, right_bound_value);
+}
+
+//! Creates an object withoud bounds.
+template <typename T>
+Limits<T> Limits<T>::CreateLimitless()
+{
+  return Limits<T>({}, {});
+}
 
 //! Returns true if an object has a lower limit defined.
 template <typename T>
@@ -120,14 +169,14 @@ bool Limits<T>::IsNonnegative() const
   return HasLowerLimit() && !HasUpperLimit() && GetLowerLimit() == 0;
 }
 
-//! Returns true uf an object has lower limit set.
+//! Returns true if an object has lower limit set.
 template <typename T>
 bool Limits<T>::IsLowerLimited() const
 {
   return !IsPositive() && !IsNonnegative() && HasLowerLimit() && !HasUpperLimit();
 }
 
-//! Returns true uf an object has upper limit set.
+//! Returns true if an object has upper limit set.
 template <typename T>
 bool Limits<T>::IsUpperLimited() const
 {
