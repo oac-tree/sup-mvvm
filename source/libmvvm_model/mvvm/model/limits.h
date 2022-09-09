@@ -28,10 +28,13 @@
 namespace mvvm
 {
 
+//! Defines limits for scalars to bound its values to certain range.
 template <typename T>
 class Limits
 {
 public:
+  Limits();
+
   static Limits<T> CreateLowerLimited(T bound_value);
   static Limits<T> CreatePositive();
   static Limits<T> CreateNonnegative();
@@ -65,6 +68,12 @@ private:
   std::optional<T> m_upper_limit;
 };
 
+//! Default constructor for limitless object.
+template <typename T>
+Limits<T>::Limits() : Limits({}, {})
+{
+}
+
 //! Creates an object bounded from the left.
 template <typename T>
 Limits<T> Limits<T>::CreateLowerLimited(T bound_value)
@@ -76,7 +85,10 @@ Limits<T> Limits<T>::CreateLowerLimited(T bound_value)
 template <typename T>
 Limits<T> Limits<T>::CreatePositive()
 {
-  return CreateLowerLimited(std::numeric_limits<T>::min());
+  if constexpr (std::is_same_v<T, double>)
+    return CreateLowerLimited(std::numeric_limits<T>::min());
+  else
+    return CreateLowerLimited(1);
 }
 
 //! Creates an object which can have only positive values with zero included.
@@ -100,7 +112,7 @@ Limits<T> Limits<T>::CreateLimited(T left_bound_value, T right_bound_value)
   return Limits<T>(left_bound_value, right_bound_value);
 }
 
-//! Creates an object withoud bounds.
+//! Creates an object without bounds (equivalent of default-constructed object).
 template <typename T>
 Limits<T> Limits<T>::CreateLimitless()
 {
@@ -111,14 +123,14 @@ Limits<T> Limits<T>::CreateLimitless()
 template <typename T>
 bool Limits<T>::HasLowerLimit() const
 {
-  return m_lower_limit;
+  return m_lower_limit.has_value();
 }
 
 //! Returns true if an object has an upper limit defined.
 template <typename T>
 bool Limits<T>::HasUpperLimit() const
 {
-  return m_upper_limit;
+  return m_upper_limit.has_value();
 }
 
 //! Returns lower limit value. Will throw if the value is not defined.
@@ -161,8 +173,10 @@ bool Limits<T>::IsLimitless() const
 template <typename T>
 bool Limits<T>::IsPositive() const
 {
-  const auto poszero = std::numeric_limits<T>::min();
-  return HasLowerLimit() && !HasUpperLimit() && GetLowerLimit() == poszero;
+  if constexpr (std::is_same_v<T, double>)
+    return HasLowerLimit() && !HasUpperLimit() && GetLowerLimit() == std::numeric_limits<T>::min();
+  else
+    return HasLowerLimit() && !HasUpperLimit() && GetLowerLimit() == 1;
 }
 
 //! Returns true if object is defined for all non-negative values (0 included).
