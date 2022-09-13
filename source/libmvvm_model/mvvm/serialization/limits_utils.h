@@ -29,7 +29,12 @@
 
 namespace mvvm
 {
-template<typename T> class Limits;
+template <typename T>
+class Limits;
+}
+
+namespace mvvm::utils
+{
 
 //! Returns string representing Limits.
 //! @note Limited(1, 2) -> "limited;1;2"
@@ -39,6 +44,6 @@ std::string ToString(const Limits<int>& limits);
 
 std::string ToString(const Limits<double>& limits);
 
-}  // namespace mvvm
+}  // namespace mvvm::utils
 
 #endif  // MVVM_SERIALIZATION_LIMITS_UTILS_H_

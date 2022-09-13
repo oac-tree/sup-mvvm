@@ -23,8 +23,6 @@
 
 using namespace mvvm;
 
-#include <iostream>
-
 //! Tests for Limits class.
 
 class LimitsTests : public ::testing::Test

@@ -90,17 +90,17 @@ std::string ToStringT(const mvvm::Limits<T> &limits)
 
 }  // namespace
 
-namespace mvvm
+namespace mvvm::utils
 {
 
 std::string ToString(const Limits<int> &limits)
 {
-  return ToStringT(limits);
+  return ToStringT<int>(limits);
 }
 
 std::string ToString(const Limits<double> &limits)
 {
-  return ToStringT(limits);
+  return ToStringT<double>(limits);
 }
 
 }  // namespace mvvm
