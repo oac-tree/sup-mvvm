@@ -38,15 +38,23 @@ namespace mvvm::utils
 
 //! Returns string representing Limits<int>.
 //! @note Limited(1, 2) -> "limited;1;2"
-//! - Positive() -> "positive"
-//! - UpperLimited(42) -> "upperlimited;42"
+//! - Limits<int>::CreatePositive() -> "positive"
+//! - Limits<int>::CreateUpperLimited(42) -> "upperlimited;42"
 std::string ToString(const Limits<int>& limits);
 
+//! Returns Limits<int> from it's string representation
+//! @note "limited(1,2) -> is equivalent of Limits::CreateLimited(1,2)
+Limits<int> IntLimitsFromString(const std::string& str);
+
 //! Returns string representing Limits<double>.
-//! @note Limited(1.0, 2.0) -> "limited;1.0;2.0"
-//! - Positive() -> "positive"
-//! - UpperLimited(42.1) -> "upperlimited;42.1"
+//! @note Limits<double>::CreateLimited(1.0, 2.0) -> "limited;1.0;2.0"
+//! - Limits<double>::CreatePositive() -> "positive"
+//! - Limits<double>::CreateUpperLimited(42.1) -> "upperlimited;42.1"
 std::string ToString(const Limits<double>& limits);
+
+//! Returns Limits<int> from it's string representation
+//! @note "limited(1,2) -> is equivalent of Limits::CreateLimited(1,2)
+Limits<double> RealLimitsFromString(const std::string& str);
 
 }  // namespace mvvm::utils
 

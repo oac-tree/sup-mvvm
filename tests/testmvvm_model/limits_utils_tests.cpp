@@ -50,3 +50,25 @@ TEST_F(LimitsUtilsTests, RealLimitsToString)
   EXPECT_EQ(utils::ToString(RealLimits::CreateUpperLimited(1.1e-05)), "upperlimited;1.1e-05");
   EXPECT_EQ(utils::ToString(RealLimits::CreateLimited(-1.1, 2.2)), "limited;-1.1;2.2");
 }
+
+TEST_F(LimitsUtilsTests, IntLimitsFromString)
+{
+  EXPECT_EQ(IntLimits::CreateLimitless(), utils::IntLimitsFromString("limitless"));
+  EXPECT_EQ(IntLimits::CreatePositive(), utils::IntLimitsFromString("positive"));
+  EXPECT_EQ(IntLimits::CreateNonnegative(), utils::IntLimitsFromString("nonnegative"));
+  EXPECT_EQ(IntLimits::CreateLowerLimited(42), utils::IntLimitsFromString("lowerlimited;42"));
+  EXPECT_EQ(IntLimits::CreateUpperLimited(1), utils::IntLimitsFromString("upperlimited;1"));
+  EXPECT_EQ(IntLimits::CreateLimited(-1, 2), utils::IntLimitsFromString("limited;-1;2"));
+}
+
+TEST_F(LimitsUtilsTests, RealLimitsFromString)
+{
+  EXPECT_EQ(RealLimits::CreateLimitless(), utils::RealLimitsFromString("limitless"));
+  EXPECT_EQ(RealLimits::CreatePositive(), utils::RealLimitsFromString("positive"));
+  EXPECT_EQ(RealLimits::CreateNonnegative(), utils::RealLimitsFromString("nonnegative"));
+  EXPECT_EQ(RealLimits::CreateLowerLimited(42.1), utils::RealLimitsFromString("lowerlimited;42.1"));
+  EXPECT_EQ(RealLimits::CreateUpperLimited(1.1), utils::RealLimitsFromString("upperlimited;1.1"));
+  EXPECT_EQ(RealLimits::CreateUpperLimited(1.1e-05),
+            utils::RealLimitsFromString("upperlimited;1.1e-05"));
+  EXPECT_EQ(RealLimits::CreateLimited(-1.1, 2.2), utils::RealLimitsFromString("limited;-1.1;2.2"));
+}

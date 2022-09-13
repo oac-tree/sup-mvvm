@@ -47,6 +47,16 @@ std::string NumberToString(int number)
 }
 
 template <typename T>
+T NumberFromString(const std::string &str)
+{
+  T var;
+  std::istringstream iss(str);
+  iss.imbue(std::locale::classic());
+  iss >> var;
+  return var;
+}
+
+template <typename T>
 std::string ToStringT(const mvvm::Limits<T> &limits)
 {
   if (limits.IsLimitless())
@@ -80,9 +90,60 @@ std::string ToStringT(const mvvm::Limits<T> &limits)
            + NumberToString(limits.GetUpperLimit());
   }
 
-  if (limits.IsLimitless())
+  throw mvvm::LogicErrorException("Unknown limits");
+}
+
+template <typename T>
+mvvm::Limits<T> LimitsFromStringT(const std::string &str)
+{
+  auto parts = mvvm::utils::SplitString(str, separator);
+
+  if (parts.empty())
   {
-    return kTextLimitless;
+    throw mvvm::LogicErrorException("Can't parse Limits representation");
+  }
+
+  auto key = parts[0];
+
+  if (key == kTextLimitless)
+  {
+    return mvvm::Limits<T>::CreateLimitless();
+  }
+
+  if (key == kTextPositive)
+  {
+    return mvvm::Limits<T>::CreatePositive();
+  }
+
+  if (key == kTextNonnegative)
+  {
+    return mvvm::Limits<T>::CreateNonnegative();
+  }
+
+  if (parts.size() < 1)
+  {
+    throw mvvm::LogicErrorException("Can't parse Limits representation");
+  }
+
+  if (key == kTextLowerlimited)
+  {
+    return mvvm::Limits<T>::CreateLowerLimited(NumberFromString<T>(parts[1]));
+  }
+
+  if (key == kTextUpperlimited)
+  {
+    return mvvm::Limits<T>::CreateUpperLimited(NumberFromString<T>(parts[1]));
+  }
+
+  if (parts.size() < 2)
+  {
+    throw mvvm::LogicErrorException("Can't parse Limits representation");
+  }
+
+  if (key == kTextLimited)
+  {
+    return mvvm::Limits<T>::CreateLimited(NumberFromString<T>(parts[1]),
+                                          NumberFromString<T>(parts[2]));
   }
 
   throw mvvm::LogicErrorException("Unknown limits");
@@ -98,9 +159,19 @@ std::string ToString(const Limits<int> &limits)
   return ToStringT<int>(limits);
 }
 
+Limits<int> IntLimitsFromString(const std::string &str)
+{
+  return LimitsFromStringT<int>(str);
+}
+
 std::string ToString(const Limits<double> &limits)
 {
   return ToStringT<double>(limits);
 }
 
-}  // namespace mvvm
+Limits<double> RealLimitsFromString(const std::string &str)
+{
+  return LimitsFromStringT<double>(str);
+}
+
+}  // namespace mvvm::utils
