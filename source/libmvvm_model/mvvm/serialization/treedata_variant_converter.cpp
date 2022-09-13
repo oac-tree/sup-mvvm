@@ -193,7 +193,7 @@ mvvm::TreeData from_undefined(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kUndefinedTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kUndefinedVariantName);
   return result;
 }
 
@@ -206,7 +206,7 @@ mvvm::TreeData from_bool(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kBoolTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kBoolVariantName);
   bool value = std::get<bool>(datarole.first);
   result.SetContent(mvvm::utils::FromBool(value));
   return result;
@@ -222,7 +222,7 @@ mvvm::TreeData from_int(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntVariantName);
   auto value = std::get<int>(datarole.first);
   result.SetContent(std::to_string(value));
   return result;
@@ -238,7 +238,7 @@ mvvm::TreeData from_string(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kStringTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kStringVariantName);
   auto value = std::get<std::string>(datarole.first);
   result.SetContent(value);
   return result;
@@ -253,7 +253,7 @@ mvvm::TreeData from_double(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kDoubleTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kDoubleVariantName);
   auto value = std::get<double>(datarole.first);
   result.SetContent(mvvm::utils::DoubleToString(value));
   return result;
@@ -273,7 +273,7 @@ mvvm::TreeData from_vector_double(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kVectorDoubleTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kVectorDoubleVariantName);
   auto values = std::get<std::vector<double>>(datarole.first);
   result.SetContent(mvvm::utils::ToCommaSeparatedString(values));
   return result;
@@ -289,7 +289,7 @@ mvvm::TreeData from_combo_property(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyVariantName);
   auto combo = std::get<mvvm::ComboProperty>(datarole.first);
   result.AddAttribute(kSelectionsAttributeKey, combo.GetStringOfSelections());
   result.SetContent(combo.GetStringOfValues());
@@ -312,7 +312,7 @@ mvvm::TreeData from_external_property(const datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kExternalPropertyTypeName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kExternalPropertyVariantName);
   auto property = std::get<mvvm::ExternalProperty>(datarole.first);
   result.SetContent(property.ToString());
   return result;
@@ -327,14 +327,14 @@ datarole_t to_external_property(const mvvm::TreeData& tree_data)
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
-      {mvvm::constants::kUndefinedTypeName, {from_undefined, to_undefined}},
-      {mvvm::constants::kBoolTypeName, {from_bool, to_bool}},
-      {mvvm::constants::kIntTypeName, {from_int, to_int}},
-      {mvvm::constants::kStringTypeName, {from_string, to_string}},
-      {mvvm::constants::kDoubleTypeName, {from_double, to_double}},
-      {mvvm::constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}},
-      {mvvm::constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
-      {mvvm::constants::kExternalPropertyTypeName, {from_external_property, to_external_property}},
+      {mvvm::constants::kUndefinedVariantName, {from_undefined, to_undefined}},
+      {mvvm::constants::kBoolVariantName, {from_bool, to_bool}},
+      {mvvm::constants::kIntVariantName, {from_int, to_int}},
+      {mvvm::constants::kStringVariantName, {from_string, to_string}},
+      {mvvm::constants::kDoubleVariantName, {from_double, to_double}},
+      {mvvm::constants::kVectorDoubleVariantName, {from_vector_double, to_vector_double}},
+      {mvvm::constants::kComboPropertyVariantName, {from_combo_property, to_combo_property}},
+      {mvvm::constants::kExternalPropertyVariantName, {from_external_property, to_external_property}},
   };
 
   return result;

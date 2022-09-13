@@ -61,13 +61,13 @@ namespace mvvm
 {
 QVariant GetQtVariant(const variant_t& variant)
 {
-  if (utils::TypeName(variant) == constants::kVectorDoubleTypeName)
+  if (utils::TypeName(variant) == constants::kVectorDoubleVariantName)
   {
     // shall we convert to supported QVector<double> instead?
     return QVariant::fromValue(std::get<std::vector<double>>(variant));
   }
 
-  if (utils::TypeName(variant) == constants::kStringTypeName)
+  if (utils::TypeName(variant) == constants::kStringVariantName)
   {
     //  converting std::string to QString
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));

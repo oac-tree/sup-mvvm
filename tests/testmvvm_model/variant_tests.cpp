@@ -153,21 +153,21 @@ TEST_F(VariantTests, AreCompatible)
 TEST_F(VariantTests, TypeName)
 {
   using utils::TypeName;
-  EXPECT_EQ(TypeName(variant_t()), constants::kUndefinedTypeName);
-  EXPECT_EQ(TypeName(variant_t(true)), constants::kBoolTypeName);
-  EXPECT_EQ(TypeName(variant_t(42)), constants::kIntTypeName);
-  EXPECT_EQ(TypeName(variant_t(42.4)), constants::kDoubleTypeName);
-  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringTypeName);
+  EXPECT_EQ(TypeName(variant_t()), constants::kUndefinedVariantName);
+  EXPECT_EQ(TypeName(variant_t(true)), constants::kBoolVariantName);
+  EXPECT_EQ(TypeName(variant_t(42)), constants::kIntVariantName);
+  EXPECT_EQ(TypeName(variant_t(42.4)), constants::kDoubleVariantName);
+  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringVariantName);
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
-            constants::kVectorDoubleTypeName);
+            constants::kVectorDoubleVariantName);
   EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
-            constants::kComboPropertyTypeName);
+            constants::kComboPropertyVariantName);
   EXPECT_EQ(TypeName(variant_t(ExternalProperty("text", "red"))),
-            constants::kExternalPropertyTypeName);
+            constants::kExternalPropertyVariantName);
   EXPECT_EQ(TypeName(variant_t(RealLimits::CreateLimited(1.0, 2.0))),
-            constants::kRealLimitsPropertyTypeName);
+            constants::kRealLimitsVariantName);
   EXPECT_EQ(TypeName(variant_t(IntLimits::CreateLimited(1, 2))),
-            constants::kIntLimitsPropertyTypeName);
+            constants::kIntLimitsVariantName);
 }
 
 TEST_F(VariantTests, DataRoleComparison)

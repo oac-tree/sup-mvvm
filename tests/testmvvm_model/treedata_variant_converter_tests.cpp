@@ -18,12 +18,10 @@
  *****************************************************************************/
 
 #include "mvvm/serialization/treedata_variant_converter.h"
-
 #include "test_utils.h"
 
-#include <mvvm/serialization/xml_parse_utils.h>
-
 #include <gtest/gtest.h>
+#include <mvvm/serialization/xml_parse_utils.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -144,8 +142,8 @@ TEST_F(TreeDataVariantConverterTests, DoubleDataRole)
 
   // Converting back
   auto new_tree_data = ToTreeData(data_role);
-  // Here we can't compare new TreeData with the old one because of internal convertion of
-  // double to string and lost of presicion
+  // Here we can't compare new TreeData with the old one because of the internal conversion of
+  // double to string and lost of precision
   EXPECT_DOUBLE_EQ(std::stod(new_tree_data.GetContent()), 42.3);
   EXPECT_EQ(new_tree_data.GetType(), "Variant");
   EXPECT_EQ(new_tree_data.GetNumberOfAttributes(), 2);
