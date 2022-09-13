@@ -89,6 +89,13 @@ public:
   explicit InvalidOperationException(const std::string& message);
 };
 
+//! Exception is thrown when faulty logic is discovered.
+class LogicErrorException : public MessageException
+{
+public:
+  explicit LogicErrorException(const std::string& message);
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_CORE_EXCEPTIONS_H_

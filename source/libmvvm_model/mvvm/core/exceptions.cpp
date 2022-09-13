@@ -53,4 +53,6 @@ InvalidOperationException::InvalidOperationException(const std::string& message)
 {
 }
 
+LogicErrorException::LogicErrorException(const std::string& message) : MessageException{message} {}
+
 }  // namespace mvvm
