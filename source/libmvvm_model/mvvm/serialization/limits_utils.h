@@ -36,12 +36,16 @@ class Limits;
 namespace mvvm::utils
 {
 
-//! Returns string representing Limits.
+//! Returns string representing Limits<int>.
 //! @note Limited(1, 2) -> "limited;1;2"
 //! - Positive() -> "positive"
 //! - UpperLimited(42) -> "upperlimited;42"
 std::string ToString(const Limits<int>& limits);
 
+//! Returns string representing Limits<double>.
+//! @note Limited(1.0, 2.0) -> "limited;1.0;2.0"
+//! - Positive() -> "positive"
+//! - UpperLimited(42.1) -> "upperlimited;42.1"
 std::string ToString(const Limits<double>& limits);
 
 }  // namespace mvvm::utils

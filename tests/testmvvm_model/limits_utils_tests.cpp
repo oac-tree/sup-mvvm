@@ -39,3 +39,14 @@ TEST_F(LimitsUtilsTests, IntLimitsToString)
   EXPECT_EQ(utils::ToString(IntLimits::CreateUpperLimited(1)), "upperlimited;1");
   EXPECT_EQ(utils::ToString(IntLimits::CreateLimited(-1, 2)), "limited;-1;2");
 }
+
+TEST_F(LimitsUtilsTests, RealLimitsToString)
+{
+  EXPECT_EQ(utils::ToString(RealLimits::CreateLimitless()), "limitless");
+  EXPECT_EQ(utils::ToString(RealLimits::CreatePositive()), "positive");
+  EXPECT_EQ(utils::ToString(RealLimits::CreateNonnegative()), "nonnegative");
+  EXPECT_EQ(utils::ToString(RealLimits::CreateLowerLimited(42.1)), "lowerlimited;42.1");
+  EXPECT_EQ(utils::ToString(RealLimits::CreateUpperLimited(1.1)), "upperlimited;1.1");
+  EXPECT_EQ(utils::ToString(RealLimits::CreateUpperLimited(1.1e-05)), "upperlimited;1.1e-05");
+  EXPECT_EQ(utils::ToString(RealLimits::CreateLimited(-1.1, 2.2)), "limited;-1.1;2.2");
+}
