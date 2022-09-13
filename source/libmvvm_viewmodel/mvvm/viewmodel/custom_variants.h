@@ -85,6 +85,12 @@ MVVM_VIEWMODEL_EXPORT bool IsComboPropertyVariant(const QVariant& variant);
 //! Returns true if variant is based on ExternalProperty.
 MVVM_VIEWMODEL_EXPORT bool IsExternalPropertyVariant(const QVariant& variant);
 
+//! Returns true if variant is based on Limits<int>.
+MVVM_VIEWMODEL_EXPORT bool IsIntLimitsVariant(const QVariant& variant);
+
+//! Returns true if variant is based on Limits<int>.
+MVVM_VIEWMODEL_EXPORT bool IsRealLimitsVariant(const QVariant& variant);
+
 }  // namespace utils
 
 }  // namespace mvvm
