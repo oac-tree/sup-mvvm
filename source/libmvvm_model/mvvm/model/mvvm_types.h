@@ -37,13 +37,14 @@ const int kDisplay = 2;     //!< display name
 const int kAppearance = 3;  //!< appearance flag
 const int kTooltip = 4;     //!< tooltip for item's data
 const int kEditor = 5;      //!< type of custom editor for the data role
+const int kLimits = 6;      //!< limits to bount integer or double values
 }  // namespace DataRole
 
 //! Defines bit fields for appearance flag (kAppearance data role).
 enum Appearance
 {
   kDefault = 0,   // default appearance (enabled, editable, visible)
-  kDisabled = 1,  // disabled in Qt widgets (normally shown in gray)
+  kDisabled = 1,  // appears as disabled in Qt widgets (e.g. visible and editable but shown in gray)
   kReadOnly = 2,  // readonly in Qt widgets
   kHidden = 4,    // doesn't appear in trees and tables
   kProperty = 8,  // item appears in property editors; doesn't appear as top-level item

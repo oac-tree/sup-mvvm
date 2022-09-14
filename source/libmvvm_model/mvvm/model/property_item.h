@@ -25,6 +25,9 @@
 namespace mvvm
 {
 
+template <typename T>
+class Limits;
+
 //! Item to carry concrete editable entity (e.g. 'double' value with limits).
 //! Intended for use as a child or CompountItem, not expected to have own children.
 
@@ -37,8 +40,16 @@ public:
 
   PropertyItem* SetDisplayName(const std::string& name) override;
 
-  //    PropertyItem* setLimits(const RealLimits& value);
+  template <typename T>
+  PropertyItem* SetLimits(const Limits<T>& value);
 };
+
+template <typename T>
+PropertyItem* PropertyItem::SetLimits(const Limits<T>& value)
+{
+  SetData(value, DataRole::kLimits);
+  return this;
+}
 
 }  // namespace mvvm
 

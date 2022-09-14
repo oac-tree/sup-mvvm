@@ -18,7 +18,6 @@
  *****************************************************************************/
 
 #include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionitem_data.h"
 #include "test_utils.h"
 
 #include <gtest/gtest.h>
@@ -26,10 +25,10 @@
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionitem_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 
-#include <memory>
 #include <stdexcept>
 
 using namespace mvvm;
@@ -139,6 +138,7 @@ TEST_F(SessionItemTests, HasData)
   EXPECT_TRUE(item.HasData(DataRole::kDisplay));
   EXPECT_FALSE(item.HasData(DataRole::kAppearance));
   EXPECT_FALSE(item.HasData(DataRole::kTooltip));
+  EXPECT_FALSE(item.HasData(DataRole::kLimits));
 
   item.SetData(42.0);
   EXPECT_TRUE(item.HasData());

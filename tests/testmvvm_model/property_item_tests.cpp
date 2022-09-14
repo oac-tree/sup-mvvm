@@ -19,18 +19,26 @@
 
 #include "mvvm/model/property_item.h"
 
-#include <mvvm/model/mvvm_types.h>
+#include <gtest/gtest.h>
+#include <mvvm/model/limits.h>
 
-namespace mvvm
+using namespace mvvm;
+
+//! Testing PropertyItem class.
+
+class PropertyItemTests : public ::testing::Test
 {
+};
 
-PropertyItem::PropertyItem() : SessionItem(Type) {}
-
-PropertyItem* PropertyItem::SetDisplayName(const std::string& name)
+TEST_F(PropertyItemTests, SetLimits)
 {
-  // method is implemented to change the return type from SessionItem to PropertyItem
-  SessionItem::SetDisplayName(name);
-  return this;
+  PropertyItem item;
+
+  EXPECT_FALSE(item.HasData(DataRole::kLimits));
+  item.SetData(42);
+
+  item.SetLimits(Limits<int>::CreateLimited(0, 100));
+  EXPECT_TRUE(item.HasData(DataRole::kLimits));
+
+  EXPECT_EQ(item.Data<Limits<int>>(DataRole::kLimits), Limits<int>::CreateLimited(0, 100));
 }
-
-}  // namespace mvvm
