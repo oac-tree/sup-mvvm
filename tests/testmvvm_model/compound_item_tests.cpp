@@ -57,9 +57,6 @@ TEST_F(CompoundItemTests, AddIntProperty)
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
   EXPECT_EQ(propertyItem->Data<int>(), expected);
-
-  // FIXME uncomment
-  //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
 TEST_F(CompoundItemTests, SetIntProperty)
@@ -85,14 +82,6 @@ TEST_F(CompoundItemTests, AddDoubleProperty)
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
   EXPECT_EQ(propertyItem->Data<double>(), expected);
-
-  // FIXME uncomment
-  //  EXPECT_TRUE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
-
-  //  // limits should be "negative 'unlimited' by default
-  //  auto limits = propertyItem->data<RealLimits>(ItemDataRole::LIMITS);
-  //  EXPECT_FALSE(limits.hasLowerLimit());
-  //  EXPECT_FALSE(limits.hasUpperLimit());
 }
 
 TEST_F(CompoundItemTests, SetDoubleProperty)
@@ -116,9 +105,6 @@ TEST_F(CompoundItemTests, AddCharProperty)
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
-
-  // FIXME uncomment
-  //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
 TEST_F(CompoundItemTests, SetCharProperty)
@@ -142,9 +128,6 @@ TEST_F(CompoundItemTests, AddStringProperty)
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
-
-  // FIXME uncomment
-  //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
 TEST_F(CompoundItemTests, SetStringProperty)
@@ -169,9 +152,6 @@ TEST_F(CompoundItemTests, AddBoolProperty)
 
   EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
   EXPECT_EQ(propertyItem->Data<bool>(), expected);
-
-  // FIXME uncomment
-  //  EXPECT_FALSE(propertyItem->data<QVariant>(ItemDataRole::LIMITS).isValid());
 }
 
 TEST_F(CompoundItemTests, SetBoolProperty)

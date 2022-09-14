@@ -98,7 +98,7 @@ PenItem::PenItem() : CompoundItem(Type)
   AddProperty(kStyle, penStyleCombo)->SetDisplayName("Style")->SetToolTip("Pen style");
   AddProperty(kWidth, pen_default_width)
       ->SetDisplayName("Width")
-      //         ->SetLimits(RealLimits::limited(pen_min_width, pen_max_width)) FIXME restore
+      ->SetLimits(IntLimits::CreateLimited(pen_min_width, pen_max_width))
       ->SetToolTip("Pen width");
 }
 

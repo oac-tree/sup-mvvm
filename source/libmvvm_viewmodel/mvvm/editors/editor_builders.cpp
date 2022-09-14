@@ -82,11 +82,11 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
     auto editor = std::make_unique<ScientificSpinBoxEditor>();
     if (item)
     {
-      // FIXME restore after RealLimits
-      //          if (item->hasData(ItemDataRole::LIMITS)) {
-      //              auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
-      //              editor->setRange(limits.lowerLimit(), limits.upperLimit());
-      //          }
+      if (item->HasData(DataRole::kLimits))
+      {
+        auto limits = item->Data<RealLimits>(DataRole::kLimits);
+        editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+      }
       editor->SetSingleStep(getStep(item->Data<double>()));
     }
     editor->SetDecimals(constants::default_double_decimals);
