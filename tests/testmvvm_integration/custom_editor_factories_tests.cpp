@@ -19,13 +19,15 @@
 
 #include "mvvm/editors/custom_editor_factories.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/limits.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
-#include <gtest/gtest.h>
+#include <QSpinBox>
 
 using namespace mvvm;
 
@@ -82,6 +84,10 @@ TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
   // double
   index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
   EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
+
+  // int
+  index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
+  EXPECT_TRUE(dynamic_cast<IntegerEditor*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
@@ -100,13 +106,13 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   index = AddDataToModel(variant_t(42.1));
   EXPECT_FALSE(factory.CreateEditor(index));
 
-  // `int` doesn't have custom editor for the moment (handled by default delegate)
-  index = AddDataToModel(variant_t(42));
-  EXPECT_FALSE(factory.CreateEditor(index));
-
   // `string` doesn't have custom editor for the moment (handled by default delegate)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
+
+  // int
+  index = AddDataToModel(variant_t(42));
+  EXPECT_TRUE(dynamic_cast<IntegerEditor*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
@@ -125,10 +131,6 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   index = AddDataToModel(variant_t(42.1));
   EXPECT_FALSE(factory.CreateEditor(index));
 
-  // `int` doesn't have custom editor for the moment (handled by default delegate)
-  index = AddDataToModel(variant_t(42));
-  EXPECT_FALSE(factory.CreateEditor(index));
-
   // `string` doesn't have custom editor for the moment (handled by default delegate)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
@@ -136,4 +138,50 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   // `string` with specification that it is a color
   index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
+
+  // editor for int types
+  index = AddDataToModel(variant_t(42));
+  EXPECT_TRUE(dynamic_cast<IntegerEditor*>(factory.CreateEditor(index).get()));
 }
+
+//! Checking integer editor construction when limits are not set.
+
+TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
+{
+  DefaultEditorFactory factory;
+
+  auto index = AddDataToModel(variant_t(42));
+  auto editor = factory.CreateEditor(index);
+
+  // accessing underlying QSpinBox
+  auto spin_box = editor->findChild<QSpinBox*>();
+  ASSERT_TRUE(spin_box != nullptr);
+
+  // checking default limits
+  EXPECT_EQ(spin_box->minimum(), -65536);
+  EXPECT_EQ(spin_box->maximum(), 65536);
+}
+
+//! Checking integer editor construction when limits are set.
+
+TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
+{
+  DefaultEditorFactory factory;
+
+  auto index = AddDataToModel(variant_t(42));
+
+  // setting limits to corresponding role
+  auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
+  item->SetData(Limits<int>::CreateLimited(0, 10), DataRole::kLimits);
+
+  auto editor = factory.CreateEditor(index);
+
+  // accessing underlying QSpinBox
+  auto spin_box = editor->findChild<QSpinBox*>();
+  ASSERT_TRUE(spin_box != nullptr);
+
+  // check if limits have been propagated
+  EXPECT_EQ(spin_box->minimum(), 0);
+  EXPECT_EQ(spin_box->maximum(), 10);
+}
+

@@ -51,6 +51,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
                   SelectableComboPropertyEditorBuilder());
   RegisterBuilder(constants::kColorEditorType, ColorEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
+  RegisterBuilder(constants::kIntegerEditorType, IntegerEditorBuilder());
   RegisterBuilder(constants::kScientificSpinboxEditorType, ScientificSpinBoxEditorBuilder());
 }
 
@@ -80,6 +81,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kBoolQtTypeName, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
+  RegisterBuilder(constants::kIntQtTypeName, IntegerEditorBuilder());
 }
 
 //! Creates cell editor basing on variant name.

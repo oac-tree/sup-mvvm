@@ -95,4 +95,19 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
   return builder;
 }
 
+editorbuilder_t IntegerEditorBuilder()
+{
+  auto builder = [](const SessionItem* item) -> editor_t
+  {
+    auto editor = std::make_unique<IntegerEditor>();
+    if (item && item->HasData(DataRole::kLimits))
+    {
+      auto limits = item->Data<IntLimits>(DataRole::kLimits);
+      editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+    }
+    return editor;
+  };
+  return builder;
+}
+
 }  // namespace mvvm

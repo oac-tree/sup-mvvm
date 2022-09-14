@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT IntegerEditor : public CustomEditor
 public:
   explicit IntegerEditor(QWidget* parent = nullptr);
 
-  void setRange(int minimum, int maximum);
+  void SetRange(int minimum, int maximum);
 
 private slots:
   void onEditingFinished();

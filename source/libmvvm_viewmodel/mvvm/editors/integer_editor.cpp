@@ -54,7 +54,7 @@ IntegerEditor::IntegerEditor(QWidget* parent) : CustomEditor(parent), m_int_edit
   setFocusProxy(m_int_editor);
 }
 
-void IntegerEditor::setRange(int minimum, int maximum)
+void IntegerEditor::SetRange(int minimum, int maximum)
 {
   m_int_editor->setRange(minimum, maximum);
 }
