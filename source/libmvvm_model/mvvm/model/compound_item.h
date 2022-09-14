@@ -21,7 +21,6 @@
 #define MVVM_MODEL_COMPOUND_ITEM_H_
 
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
 
 namespace mvvm
@@ -85,9 +84,6 @@ PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
 {
   auto property = AddProperty<PropertyItem>(name);
   property->SetData(value);
-  // FIXME uncomment
-  //    if constexpr (std::is_floating_point_v<V>)
-  //        property->setData(RealLimits::limitless(), ItemDataRole::LIMITS);
   return property;
 }
 
