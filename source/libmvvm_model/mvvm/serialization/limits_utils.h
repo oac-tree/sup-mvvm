@@ -37,7 +37,7 @@ namespace mvvm::utils
 {
 
 //! Returns string representing Limits<int>.
-//! @note Limited(1, 2) -> "limited;1;2"
+//! @note Limits<int>::CreateLimited(1, 2) -> "limited;1;2"
 //! - Limits<int>::CreatePositive() -> "positive"
 //! - Limits<int>::CreateUpperLimited(42) -> "upperlimited;42"
 std::string ToString(const Limits<int>& limits);

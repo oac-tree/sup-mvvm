@@ -303,3 +303,69 @@ TEST_F(TreeDataVariantConverterTests, EmptyExternalPropertyRole)
   // converting back
   EXPECT_EQ(ToTreeData(data_role), *tree_data);
 }
+
+//! Parsing XML data string representing datarole_t with Limits<int>::CreateLimited.
+
+TEST_F(TreeDataVariantConverterTests, IntLimitsLimited)
+{
+  using mvvm::ParseXMLElementString;
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{
+      R"(<Variant role="42" type="IntLimits">limited;1;2</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  auto  expected_limits= Limits<int>::CreateLimited(1, 2);
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_limits), 42));
+
+  // converting back
+  EXPECT_EQ(ToTreeData(data_role), *tree_data);
+}
+
+//! Parsing XML data string representing datarole_t with Limits<int>::CreateNonnegative().
+
+TEST_F(TreeDataVariantConverterTests, IntLimitsNonnegative)
+{
+  using mvvm::ParseXMLElementString;
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{
+      R"(<Variant role="42" type="IntLimits">nonnegative</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  auto  expected_limits= Limits<int>::CreateNonnegative();
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_limits), 42));
+
+  // converting back
+  EXPECT_EQ(ToTreeData(data_role), *tree_data);
+}
+
+//! Parsing XML data string representing datarole_t with Limits<int>::CreateLimited.
+
+TEST_F(TreeDataVariantConverterTests, RealLimitsLimited)
+{
+  using mvvm::ParseXMLElementString;
+
+  // Constructing TreeData representing a vector with single element with role=0.
+  const std::string body{
+      R"(<Variant role="42" type="RealLimits">limited;1.1;2.2</Variant>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+  auto  expected_limits= Limits<double>::CreateLimited(1.1, 2.2);
+
+  // Converting tree_data to data_role
+  auto data_role = ToDataRole(*tree_data);
+  EXPECT_EQ(data_role, datarole_t(variant_t(expected_limits), 42));
+
+  // converting back
+  EXPECT_EQ(ToTreeData(data_role), *tree_data);
+}
