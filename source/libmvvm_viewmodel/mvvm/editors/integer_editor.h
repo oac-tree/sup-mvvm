@@ -17,38 +17,35 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
-#define MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
+#ifndef MVVM_EDITORS_INTEGER_EDITOR_H_
+#define MVVM_EDITORS_INTEGER_EDITOR_H_
 
 #include <mvvm/editors/custom_editor.h>
+
+class QSpinBox;
 
 namespace mvvm
 {
 
-class ScientificSpinBox;
+//! Custom editor for QVariant based on integer with possibility to set limits.
 
-//! Custom editor for QVariant based on double with scientific notation support.
-
-class MVVM_VIEWMODEL_EXPORT ScientificSpinBoxEditor : public CustomEditor
+class MVVM_VIEWMODEL_EXPORT IntegerEditor : public CustomEditor
 {
   Q_OBJECT
 
 public:
-  explicit ScientificSpinBoxEditor(QWidget* parent = nullptr);
+  explicit IntegerEditor(QWidget* parent = nullptr);
 
-  void SetRange(double minimum, double maximum);
-  void SetDecimals(int decimals);
-  void SetSingleStep(double step);
+  void setRange(int minimum, int maximum);
 
-  bool IsPersistent() const override;
+private slots:
+  void onEditingFinished();
 
 private:
-  void OnEditingFinished();
-
   void UpdateComponents() override;
-  ScientificSpinBox* m_double_editor{nullptr};
+  QSpinBox* m_int_editor{nullptr};
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
+#endif  // MVVM_EDITORS_INTEGER_EDITOR_H_

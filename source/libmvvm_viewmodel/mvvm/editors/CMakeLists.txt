@@ -18,6 +18,8 @@ target_sources(${library_name} PRIVATE
   editor_builders.h
   external_property_editor.cpp
   external_property_editor.h
+  integer_editor.cpp
+  integer_editor.h
   scientific_spinbox.cpp
   scientific_spinbox.h
   scientific_spinbox_editor.cpp

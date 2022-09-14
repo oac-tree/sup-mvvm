@@ -18,7 +18,6 @@
  *****************************************************************************/
 
 #include "mvvm/viewmodel/variant_converter.h"
-#include "test_utils.h"
 
 #include <gtest/gtest.h>
 

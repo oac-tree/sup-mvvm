@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-//! Editor factory for cell editors in Qt trees and tables, relies on EDITORTYPE role stored
+//! Editor factory for cell editors in Qt trees and tables, relies on DataRole::kEditor role stored
 //! on board of SessionItem.
 
 class MVVM_VIEWMODEL_EXPORT RoleDependentEditorFactory : public AbstractEditorFactory
@@ -45,7 +45,7 @@ protected:
 };
 
 //! Editor factory for cell editors in Qt trees and tables, relies on variant type stored as
-//! DATA role on board of SessionItem.
+//! DataRole::kData role on board of SessionItem.
 
 class MVVM_VIEWMODEL_EXPORT VariantDependentEditorFactory : public AbstractEditorFactory
 {
@@ -66,8 +66,8 @@ public:
   std::unique_ptr<CustomEditor> CreateEditor(const QModelIndex& index) const override;
 
 private:
-  std::unique_ptr<RoleDependentEditorFactory> m_roleDependentFactory;
-  std::unique_ptr<VariantDependentEditorFactory> m_variantDependentFactory;
+  std::unique_ptr<RoleDependentEditorFactory> m_role_dependent_factory;
+  std::unique_ptr<VariantDependentEditorFactory> m_variant_dependent_factory;
 };
 
 }  // namespace mvvm

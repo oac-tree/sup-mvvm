@@ -89,7 +89,7 @@ void ScientificSpinBoxEditor::UpdateComponents()
 #endif
   {
     throw std::runtime_error(
-        "ScientificSpinBoxEditor::update_components() -> Error. Wrong variant type");
+        "ScientificSpinBoxEditor::UpdateComponents() -> Error. Wrong variant type");
   }
 
   m_double_editor->setValue(GetData().value<double>());

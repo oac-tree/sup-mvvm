@@ -94,8 +94,8 @@ std::unique_ptr<CustomEditor> VariantDependentEditorFactory::CreateEditor(
 // ----------------------------------------------------------------------------
 
 DefaultEditorFactory::DefaultEditorFactory()
-    : m_roleDependentFactory(std::make_unique<RoleDependentEditorFactory>())
-    , m_variantDependentFactory(std::make_unique<VariantDependentEditorFactory>())
+    : m_role_dependent_factory(std::make_unique<RoleDependentEditorFactory>())
+    , m_variant_dependent_factory(std::make_unique<VariantDependentEditorFactory>())
 {
 }
 
@@ -104,9 +104,9 @@ DefaultEditorFactory::DefaultEditorFactory()
 std::unique_ptr<CustomEditor> DefaultEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   // trying to created an editor basing on possibly defined EDITOR role
-  auto editor = m_roleDependentFactory->CreateEditor(index);
+  auto editor = m_role_dependent_factory->CreateEditor(index);
   // if we do not succeed, then creating editor from variant type
-  return editor ? std::move(editor) : m_variantDependentFactory->CreateEditor(index);
+  return editor ? std::move(editor) : m_variant_dependent_factory->CreateEditor(index);
 }
 
 }  // namespace mvvm
