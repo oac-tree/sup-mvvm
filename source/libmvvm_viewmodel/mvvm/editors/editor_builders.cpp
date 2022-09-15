@@ -24,6 +24,7 @@
 #include <mvvm/standarditems/editor_constants.h>
 
 #include <cmath>
+#include <QSpinBox>
 
 namespace
 {
@@ -37,6 +38,12 @@ double getStep(double val)
 {
   return val == 0.0 ? 1.0 : val / 100.;
 }
+
+namespace
+{
+const int kMaxDefaultEditableIntegerValue = 65536;
+const int kMinDefaultEditableIntegerValue = -kMaxDefaultEditableIntegerValue;
+}  // namespace
 
 }  // namespace
 
@@ -99,11 +106,18 @@ editorbuilder_t IntegerEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t
   {
-    auto editor = std::make_unique<IntegerEditor>();
-    if (item && item->HasData(DataRole::kLimits))
+    auto editor = std::make_unique<QSpinBox>();
+    if (item)
     {
-      auto limits = item->Data<IntLimits>(DataRole::kLimits);
-      editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+      if (item->HasData(DataRole::kLimits))
+      {
+        auto limits = item->Data<IntLimits>(DataRole::kLimits);
+        editor->setRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+      }
+      else
+      {
+        editor->setRange(kMinDefaultEditableIntegerValue, kMaxDefaultEditableIntegerValue);
+      }
     }
     return editor;
   };

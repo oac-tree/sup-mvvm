@@ -85,9 +85,9 @@ TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
   index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
   EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
-  // int
+  // for int we use adapted QSpinBox with limits set
   index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
-  EXPECT_TRUE(dynamic_cast<IntegerEditor*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
@@ -112,7 +112,7 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
 
   // int
   index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<IntegerEditor*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
@@ -141,7 +141,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
 
   // editor for int types
   index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<IntegerEditor*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 }
 
 //! Checking integer editor construction when limits are not set.
@@ -154,7 +154,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
-  auto spin_box = editor->findChild<QSpinBox*>();
+  auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // checking default limits
@@ -177,7 +177,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
-  auto spin_box = editor->findChild<QSpinBox*>();
+  auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // check if limits have been propagated

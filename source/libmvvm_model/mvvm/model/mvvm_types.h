@@ -37,7 +37,7 @@ const int kDisplay = 2;     //!< display name
 const int kAppearance = 3;  //!< appearance flag
 const int kTooltip = 4;     //!< tooltip for item's data
 const int kEditor = 5;      //!< type of custom editor for the data role
-const int kLimits = 6;      //!< limits to bount integer or double values
+const int kLimits = 6;      //!< limits to bound integer or double values
 }  // namespace DataRole
 
 //! Defines bit fields for appearance flag (kAppearance data role).
