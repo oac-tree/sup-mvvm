@@ -287,8 +287,7 @@ bool SessionItem::IsEditable() const
 
 SessionItem* SessionItem::SetEditable(bool value)
 {
-  SetFlag(Appearance::kReadOnly, !value);
-  return this;
+  return SetFlag(Appearance::kReadOnly, !value);
 }
 
 //! Returns true if this item has `enabled` flag set.
@@ -304,8 +303,7 @@ bool SessionItem::IsEnabled() const
 
 SessionItem* SessionItem::SetEnabled(bool value)
 {
-  SetFlag(Appearance::kDisabled, !value);
-  return this;
+  return SetFlag(Appearance::kDisabled, !value);
 }
 
 //! Returns true if this item has `visible` flag set.
@@ -321,8 +319,7 @@ bool SessionItem::IsVisible() const
 
 SessionItem* SessionItem::SetVisible(bool value)
 {
-  SetFlag(Appearance::kHidden, !value);
-  return this;
+  return SetFlag(Appearance::kHidden, !value);
 }
 
 //! Returns item tooltip, if exists.
@@ -358,7 +355,7 @@ bool SessionItem::HasFlag(Appearance flag) const
 
 //! Sets appearance flag to given value.
 
-void SessionItem::SetFlag(int flag, bool value)
+SessionItem* SessionItem::SetFlag(int flag, bool value)
 {
   int flags = appearance(*this);
   if (value)
@@ -371,6 +368,7 @@ void SessionItem::SetFlag(int flag, bool value)
   }
 
   SetData(flags, DataRole::kAppearance);
+  return this;
 }
 
 //! Activates business logic.

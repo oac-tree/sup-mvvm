@@ -689,7 +689,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   auto variant = item.Data(DataRole::kAppearance);
   EXPECT_FALSE(utils::IsValid(variant));
 
-  item.SetFlag(kProperty, true);
+  EXPECT_EQ(item.SetFlag(kProperty, true), &item);
 
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
