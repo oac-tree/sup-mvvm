@@ -32,7 +32,7 @@ public:
   class TestFactory : public AbstractEditorFactory
   {
   public:
-    std::unique_ptr<CustomEditor> CreateEditor(const QModelIndex&) const override { return {}; }
+    editor_t CreateEditor(const QModelIndex&) const override { return {}; }
   };
 
   class TestEditor : public CustomEditor

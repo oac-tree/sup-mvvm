@@ -25,13 +25,15 @@
 #include <functional>
 #include <memory>
 
+class QWidget;
+
 namespace mvvm
 {
 
 class CustomEditor;
 class SessionItem;
 
-using editor_t = std::unique_ptr<CustomEditor>;
+using editor_t = std::unique_ptr<QWidget>;
 using editorbuilder_t = std::function<editor_t(const SessionItem*)>;
 
 }  // namespace mvvm
