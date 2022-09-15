@@ -420,12 +420,12 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
 
   {
     SessionItem item;
-    item.SetAppearanceFlag(kProperty, true);
+    item.SetFlag(kProperty, true);
     EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
     EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
     EXPECT_TRUE(HasAppearanceFlag(item, kProperty));
-    item.SetAppearanceFlag(kProperty, false);
+    item.SetFlag(kProperty, false);
     EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
     EXPECT_FALSE(HasAppearanceFlag(item, kHidden));

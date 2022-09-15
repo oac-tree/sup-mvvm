@@ -287,7 +287,7 @@ bool SessionItem::IsEditable() const
 
 SessionItem* SessionItem::SetEditable(bool value)
 {
-  SetAppearanceFlag(Appearance::kReadOnly, !value);
+  SetFlag(Appearance::kReadOnly, !value);
   return this;
 }
 
@@ -304,7 +304,7 @@ bool SessionItem::IsEnabled() const
 
 SessionItem* SessionItem::SetEnabled(bool value)
 {
-  SetAppearanceFlag(Appearance::kDisabled, !value);
+  SetFlag(Appearance::kDisabled, !value);
   return this;
 }
 
@@ -321,7 +321,7 @@ bool SessionItem::IsVisible() const
 
 SessionItem* SessionItem::SetVisible(bool value)
 {
-  SetAppearanceFlag(Appearance::kHidden, !value);
+  SetFlag(Appearance::kHidden, !value);
   return this;
 }
 
@@ -351,9 +351,14 @@ SessionItem* SessionItem::SetEditorType(const std::string& editor_type)
   return this;
 }
 
+bool SessionItem::HasFlag(Appearance flag) const
+{
+  return HasData(DataRole::kAppearance) ? Data<int>(DataRole::kAppearance) & flag : false;
+}
+
 //! Sets appearance flag to given value.
 
-void SessionItem::SetAppearanceFlag(int flag, bool value)
+void SessionItem::SetFlag(int flag, bool value)
 {
   int flags = appearance(*this);
   if (value)

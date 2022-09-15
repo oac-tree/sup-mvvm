@@ -75,7 +75,7 @@ T* CompoundItem::AddProperty(const std::string& name)
 {
   auto result = AddBranch<T>(name);
   result->SetDisplayName(name);
-  result->SetAppearanceFlag(kProperty, true);
+  result->SetFlag(Appearance::kProperty, true);
   return result;
 }
 
