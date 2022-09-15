@@ -208,7 +208,7 @@ TEST_F(ViewModelUtilsTests, parentItemsFromIndex)
   index_list.push_back(viewModel.index(0, 2));
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 
-  // tthree cells (x, y, z) in a list should give us pointer to original VectorItem
+  // three cells (x, y, z) in a list should give us pointer to original VectorItem
   index_list.clear();
   index_list.push_back(viewModel.index(0, 0));
   index_list.push_back(viewModel.index(0, 1));

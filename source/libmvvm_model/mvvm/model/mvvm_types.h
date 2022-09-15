@@ -46,8 +46,9 @@ enum Appearance
   kDefault = 0,   // default appearance (enabled, editable, visible)
   kDisabled = 1,  // appears as disabled in Qt widgets (e.g. visible and editable but shown in gray)
   kReadOnly = 2,  // readonly in Qt widgets
-  kHidden = 4,    // doesn't appear in trees and tables
-  kProperty = 8,  // item appears in property editors; doesn't appear as top-level item
+  kHighlighted = 4,  // shown differently than the other items
+  kHidden = 8,       // doesn't appear in trees and tables
+  kProperty = 16,    // item appears in property editors; doesn't appear as top-level item
 };
 
 }  // namespace mvvm
