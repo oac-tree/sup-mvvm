@@ -635,9 +635,9 @@ TEST_F(SessionItemTests, TagIndexOfItem)
   EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).tag, "tag2");
 }
 
-//! Checks item appearance (enabled/disabled and editable/readonly).
+//! Checks item appearance (enabled/disabled).
 
-TEST_F(SessionItemTests, Appearance)
+TEST_F(SessionItemTests, SetEnabled)
 {
   SessionItem item;
 
@@ -659,18 +659,114 @@ TEST_F(SessionItemTests, Appearance)
   // data should be there now
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kDisabled));
 
-  // making it readonly
+  // enabling again
+  item.SetEnabled(true);
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
+  // data is there, but appearance is the default one
+  variant = item.Data(DataRole::kAppearance);
+  EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kDefault));
+}
+
+//! Checks item appearance (editable).
+
+TEST_F(SessionItemTests, SetEditable)
+{
+  SessionItem item;
+
+  // there shouldn't be any data
+  auto variant = item.Data(DataRole::kAppearance);
+  EXPECT_FALSE(utils::IsValid(variant));
+
+  // default status
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
+  // setting readonly
   item.SetEditable(false);
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_FALSE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
+  // data should be there now
+  variant = item.Data(DataRole::kAppearance);
+  EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kReadOnly));
+
+  // enabling again
+  item.SetEditable(true);
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
+  // data is there, but appearance is the default one
+  variant = item.Data(DataRole::kAppearance);
+  EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kDefault));
+}
+
+//! Checks item appearance (visibility).
+
+TEST_F(SessionItemTests, SetVisible)
+{
+  SessionItem item;
+
+  // there shouldn't be any data
+  auto variant = item.Data(DataRole::kAppearance);
+  EXPECT_FALSE(utils::IsValid(variant));
+
+  // default status
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
+  // setting readonly
+  item.SetVisible(false);
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_FALSE(item.IsVisible());
+
+  // data should be there now
+  variant = item.Data(DataRole::kAppearance);
+  EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kHidden));
+
+  // enabling again
+  item.SetVisible(true);
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
+  // data is there, but appearance is the default one
+  variant = item.Data(DataRole::kAppearance);
+  EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kDefault));
+}
+
+//! Checks item appearance (visibility).
+
+TEST_F(SessionItemTests, SetDisabledAndReaonly)
+{
+  SessionItem item;
+
+  // setting readonly
+  item.SetEnabled(false);
+  item.SetEditable(false);
+
   EXPECT_FALSE(item.IsEnabled());
   EXPECT_FALSE(item.IsEditable());
   EXPECT_TRUE(item.IsVisible());
 
-  // making it hidden
-  item.SetVisible(false);
-  EXPECT_FALSE(item.IsEnabled());
-  EXPECT_FALSE(item.IsEditable());
-  EXPECT_FALSE(item.IsVisible());
+  // data should be there now
+  auto variant = item.Data(DataRole::kAppearance);
+  EXPECT_TRUE(utils::IsValid(variant));
+  EXPECT_EQ(variant, variant_t(Appearance::kDisabled | Appearance::kReadOnly));
 }
 
 //! Sets appearance flag

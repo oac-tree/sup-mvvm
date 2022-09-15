@@ -79,6 +79,12 @@ TEST_F(ViewModelUtilsTests, ItemTextColorRole)
   item.SetEnabled(false);
   variant = utils::TextColorRole(item);
   EXPECT_EQ(variant.value<QColor>(), QColor(Qt::gray));
+
+  item.SetEnabled(true);
+
+  item.SetFlag(Appearance::kHighlighted, true);
+  variant = utils::TextColorRole(item);
+  EXPECT_EQ(variant.value<QColor>(), QColor(Qt::darkRed));
 }
 
 //! Testing check state role of item.
