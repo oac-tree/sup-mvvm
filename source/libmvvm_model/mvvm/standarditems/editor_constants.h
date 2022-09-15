@@ -35,6 +35,7 @@ const std::string kColorEditorType = "ColorEditor";
 const std::string kExternalPropertyEditorType = "ExternalPropertyEditor";
 const std::string kScientificSpinboxEditorType = "ScientificSpinboxEditor";
 const std::string kIntegerEditorType = "IntegerEditor";
+const std::string kDoubleEditorType = "DoubleEditor";
 
 const int default_double_decimals = 4;  //! number of digits after decimal points
 

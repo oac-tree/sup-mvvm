@@ -53,6 +53,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
   RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
   RegisterBuilder(constants::kIntegerEditorType, IntegerEditorBuilder());
   RegisterBuilder(constants::kScientificSpinboxEditorType, ScientificSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kDoubleEditorType, DoubleEditorBuilder());
 }
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
@@ -82,6 +83,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
   RegisterBuilder(constants::kIntQtTypeName, IntegerEditorBuilder());
+  RegisterBuilder(constants::kDoubleQtTypeName, DoubleEditorBuilder());
 }
 
 //! Creates cell editor basing on variant name.

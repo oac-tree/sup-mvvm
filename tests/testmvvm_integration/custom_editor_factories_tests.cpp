@@ -102,10 +102,6 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   index = AddDataToModel(variant_t(ComboProperty()));
   EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
-  // `double` doesn't have custom editor for the moment (handled by default delegate)
-  index = AddDataToModel(variant_t(42.1));
-  EXPECT_FALSE(factory.CreateEditor(index));
-
   // `string` doesn't have custom editor for the moment (handled by default delegate)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
@@ -113,6 +109,10 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   // int
   index = AddDataToModel(variant_t(42));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+
+  // double
+  index = AddDataToModel(variant_t(42.1));
+  EXPECT_TRUE(dynamic_cast<QDoubleSpinBox*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
@@ -127,10 +127,6 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   index = AddDataToModel(variant_t(ComboProperty()));
   EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
-  // `double` doesn't have custom editor for the moment (handled by default delegate)
-  index = AddDataToModel(variant_t(42.1));
-  EXPECT_FALSE(factory.CreateEditor(index));
-
   // `string` doesn't have custom editor for the moment (handled by default delegate)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
@@ -142,6 +138,10 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   // editor for int types
   index = AddDataToModel(variant_t(42));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+
+  // double
+  index = AddDataToModel(variant_t(42.1));
+  EXPECT_TRUE(dynamic_cast<QDoubleSpinBox*>(factory.CreateEditor(index).get()));
 }
 
 //! Checking integer editor construction when limits are not set.
@@ -157,7 +157,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
   auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
-  // checking default limits
+  // checking default limits (defined in editor_builders.cpp)
   EXPECT_EQ(spin_box->minimum(), -65536);
   EXPECT_EQ(spin_box->maximum(), 65536);
 }
@@ -185,3 +185,43 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
   EXPECT_EQ(spin_box->maximum(), 10);
 }
 
+//! Checking double editor construction when limits are not set.
+
+TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
+{
+  DefaultEditorFactory factory;
+
+  auto index = AddDataToModel(variant_t(42.1));
+  auto editor = factory.CreateEditor(index);
+
+  // accessing underlying QDoubleSpinBox
+  auto spin_box = dynamic_cast<QDoubleSpinBox*>(editor.get());
+  ASSERT_TRUE(spin_box != nullptr);
+
+  // checking default limits (defined in editor_builders.cpp)
+  EXPECT_DOUBLE_EQ(spin_box->minimum(), -65536);
+  EXPECT_DOUBLE_EQ(spin_box->maximum(), 65536);
+}
+
+//! Checking integer editor construction when limits are set.
+
+TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
+{
+  DefaultEditorFactory factory;
+
+  auto index = AddDataToModel(variant_t(42.1));
+
+  // setting limits to corresponding role
+  auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
+  item->SetData(Limits<double>::CreateLimited(0.0, 55.1), DataRole::kLimits);
+
+  auto editor = factory.CreateEditor(index);
+
+  // accessing underlying QSpinBox
+  auto spin_box = dynamic_cast<QDoubleSpinBox*>(editor.get());
+  ASSERT_TRUE(spin_box != nullptr);
+
+  // check if limits have been propagated
+  EXPECT_DOUBLE_EQ(spin_box->minimum(), 0);
+  EXPECT_DOUBLE_EQ(spin_box->maximum(), 55.1);
+}

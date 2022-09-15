@@ -46,8 +46,11 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t ExternalPropertyEditorBuilder();
 //! Builder for double editor with scientific notation and spinbox functionality.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ScientificSpinBoxEditorBuilder();
 
-//! Builder for editor of integer values with possibilities to set limits.
+//! Builder for integer values editor with possibilities to set limits.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t IntegerEditorBuilder();
+
+//! Builder for editor of integer values with possibilities to set limits.
+MVVM_VIEWMODEL_EXPORT editorbuilder_t DoubleEditorBuilder();
 
 }  // namespace mvvm
 

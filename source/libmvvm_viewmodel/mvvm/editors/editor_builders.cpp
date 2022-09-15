@@ -23,8 +23,9 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 
-#include <cmath>
+#include <QDoubleSpinBox>
 #include <QSpinBox>
+#include <cmath>
 
 namespace
 {
@@ -112,6 +113,29 @@ editorbuilder_t IntegerEditorBuilder()
       if (item->HasData(DataRole::kLimits))
       {
         auto limits = item->Data<IntLimits>(DataRole::kLimits);
+        editor->setRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+      }
+      else
+      {
+        editor->setRange(kMinDefaultEditableIntegerValue, kMaxDefaultEditableIntegerValue);
+      }
+    }
+    return editor;
+  };
+  return builder;
+}
+
+editorbuilder_t DoubleEditorBuilder()
+{
+  auto builder = [](const SessionItem* item) -> editor_t
+  {
+    auto editor = std::make_unique<QDoubleSpinBox>();
+    editor->setDecimals(constants::default_double_decimals);
+    if (item)
+    {
+      if (item->HasData(DataRole::kLimits))
+      {
+        auto limits = item->Data<RealLimits>(DataRole::kLimits);
         editor->setRange(limits.GetLowerLimit(), limits.GetUpperLimit());
       }
       else
