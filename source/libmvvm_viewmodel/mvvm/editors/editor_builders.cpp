@@ -97,7 +97,7 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
       }
       editor->SetSingleStep(getStep(item->Data<double>()));
     }
-    editor->SetDecimals(constants::default_double_decimals);
+    editor->SetDecimals(constants::kDefaultDoubleDecimals);
     return editor;
   };
   return builder;
@@ -130,7 +130,7 @@ editorbuilder_t DoubleEditorBuilder()
   auto builder = [](const SessionItem* item) -> editor_t
   {
     auto editor = std::make_unique<QDoubleSpinBox>();
-    editor->setDecimals(constants::default_double_decimals);
+    editor->setDecimals(constants::kDefaultDoubleDecimals);
     if (item)
     {
       if (item->HasData(DataRole::kLimits))

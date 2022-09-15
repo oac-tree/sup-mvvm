@@ -58,13 +58,10 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
     return std::optional<std::string>{variant.value<ExternalProperty>().GetText()};
   }
 
-  //  else if (Utils::IsColorVariant(variant))
-  //    return std::optional<std::string>{std::string()};
-
   if (utils::IsDoubleVariant(variant))
   {
     auto str = ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
-                                           constants::default_double_decimals);
+                                           constants::kDefaultDoubleDecimals);
     return std::optional<std::string>{str.toStdString()};
   }
 
