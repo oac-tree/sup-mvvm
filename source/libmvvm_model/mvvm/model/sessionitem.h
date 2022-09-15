@@ -132,7 +132,7 @@ public:
   SessionItem* SetEditorType(const std::string& editor_type);
 
   bool HasFlag(Appearance flag) const;
-  SessionItem*  SetFlag(int flag, bool value);
+  SessionItem*  SetFlag(Appearance flag, bool value);
 
   virtual void Activate();
 

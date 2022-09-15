@@ -355,7 +355,7 @@ bool SessionItem::HasFlag(Appearance flag) const
 
 //! Sets appearance flag to given value.
 
-SessionItem* SessionItem::SetFlag(int flag, bool value)
+SessionItem* SessionItem::SetFlag(Appearance flag, bool value)
 {
   int flags = appearance(*this);
   if (value)
