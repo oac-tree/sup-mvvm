@@ -16,6 +16,7 @@ target_sources(${library_name} PRIVATE
   custom_event_filters.h
   editor_builders.cpp
   editor_builders.h
+  editor_types_fwd.h
   external_property_editor.cpp
   external_property_editor.h
   integer_editor.cpp

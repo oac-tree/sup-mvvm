@@ -20,22 +20,13 @@
 #ifndef MVVM_EDITORS_EDITOR_BUILDERS_H_
 #define MVVM_EDITORS_EDITOR_BUILDERS_H_
 
-#include <mvvm/viewmodel_export.h>
+//! @file editor_builders.h
+//! Collection of builders for various custom editors
 
-#include <functional>
-#include <memory>
+#include <mvvm/editors/editor_types_fwd.h>
 
 namespace mvvm
 {
-
-class CustomEditor;
-class SessionItem;
-
-//! Collection of methods to build custom editors for trees/tables cells.
-//! Used to edit SessionItem data in the context of DefaultEditorFactory.
-
-using editor_t = std::unique_ptr<CustomEditor>;
-using editorbuilder_t = std::function<editor_t(const SessionItem*)>;
 
 //! Builder for boolean property editor.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t BoolEditorBuilder();
