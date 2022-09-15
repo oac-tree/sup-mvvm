@@ -679,6 +679,11 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 {
   SessionItem item;
 
+  // default status
+  EXPECT_TRUE(item.IsEnabled());
+  EXPECT_TRUE(item.IsEditable());
+  EXPECT_TRUE(item.IsVisible());
+
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
   EXPECT_FALSE(item.HasFlag(kHidden));
@@ -689,18 +694,50 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   auto variant = item.Data(DataRole::kAppearance);
   EXPECT_FALSE(utils::IsValid(variant));
 
-  EXPECT_EQ(item.SetFlag(kProperty, true), &item);
+  // set kDisabled
+  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  EXPECT_EQ(item.SetFlag(kDisabled, true), &item);
+  EXPECT_TRUE(item.HasFlag(kDisabled));
+  EXPECT_FALSE(item.HasFlag(kReadOnly));
+  EXPECT_FALSE(item.HasFlag(kHidden));
+  EXPECT_FALSE(item.HasFlag(kProperty));
+  EXPECT_FALSE(item.HasFlag(kHighlighted));
 
+  // set kReadOnly
+  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  EXPECT_EQ(item.SetFlag(kReadOnly, true), &item);
+  EXPECT_FALSE(item.HasFlag(kDisabled));
+  EXPECT_TRUE(item.HasFlag(kReadOnly));
+  EXPECT_FALSE(item.HasFlag(kHidden));
+  EXPECT_FALSE(item.HasFlag(kProperty));
+  EXPECT_FALSE(item.HasFlag(kHighlighted));
+
+  // set kHidden
+  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  EXPECT_EQ(item.SetFlag(kHidden, true), &item);
+  EXPECT_FALSE(item.HasFlag(kDisabled));
+  EXPECT_FALSE(item.HasFlag(kReadOnly));
+  EXPECT_TRUE(item.HasFlag(kHidden));
+  EXPECT_FALSE(item.HasFlag(kProperty));
+  EXPECT_FALSE(item.HasFlag(kHighlighted));
+
+  // set kProperty
+  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  EXPECT_EQ(item.SetFlag(kProperty, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
   EXPECT_FALSE(item.HasFlag(kHidden));
   EXPECT_TRUE(item.HasFlag(kProperty));
   EXPECT_FALSE(item.HasFlag(kHighlighted));
 
-  // default status
-  EXPECT_TRUE(item.IsEnabled());
-  EXPECT_TRUE(item.IsEditable());
-  EXPECT_TRUE(item.IsVisible());
+  // set kHighlighted
+  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  EXPECT_EQ(item.SetFlag(kHighlighted, true), &item);
+  EXPECT_FALSE(item.HasFlag(kDisabled));
+  EXPECT_FALSE(item.HasFlag(kReadOnly));
+  EXPECT_FALSE(item.HasFlag(kHidden));
+  EXPECT_FALSE(item.HasFlag(kProperty));
+  EXPECT_TRUE(item.HasFlag(kHighlighted));
 }
 
 //! Checks item tooltip.
