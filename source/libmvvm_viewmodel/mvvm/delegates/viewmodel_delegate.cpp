@@ -58,9 +58,9 @@ QWidget* ViewModelDelegate::createEditor(QWidget* parent, const QStyleOptionView
   if (auto editor = m_editor_factory->CreateEditor(index))
   {
     editor->setParent(parent);
-    if (auto customEditor = dynamic_cast<CustomEditor*>(editor.get()); customEditor)
+    if (auto custom_editor = dynamic_cast<CustomEditor*>(editor.get()); custom_editor)
     {
-      connect(customEditor, &CustomEditor::dataChanged, this,
+      connect(custom_editor, &CustomEditor::dataChanged, this,
               &ViewModelDelegate::onCustomEditorDataChanged);
     }
     return editor.release();
@@ -75,9 +75,9 @@ void ViewModelDelegate::setEditorData(QWidget* editor, const QModelIndex& index)
     return;
   }
 
-  if (auto customEditor = dynamic_cast<CustomEditor*>(editor))
+  if (auto custom_editor = dynamic_cast<CustomEditor*>(editor); custom_editor)
   {
-    customEditor->SetData(index.data());
+    custom_editor->SetData(index.data());
   }
   else
   {
@@ -93,9 +93,9 @@ void ViewModelDelegate::setModelData(QWidget* editor, QAbstractItemModel* model,
     return;
   }
 
-  if (auto customEditor = dynamic_cast<CustomEditor*>(editor))
+  if (auto custom_editor = dynamic_cast<CustomEditor*>(editor); custom_editor)
   {
-    model->setData(index, customEditor->GetData());
+    model->setData(index, custom_editor->GetData());
   }
   else
   {
