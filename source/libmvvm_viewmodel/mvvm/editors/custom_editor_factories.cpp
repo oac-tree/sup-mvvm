@@ -57,20 +57,20 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
 
-std::unique_ptr<CustomEditor> RoleDependentEditorFactory::CreateEditor(
+editor_t RoleDependentEditorFactory::CreateEditor(
     const QModelIndex& index) const
 {
   auto item = GetItemFromIndex(index);
-  return item ? CreateItemEditor(item) : std::unique_ptr<CustomEditor>();
+  return item ? CreateItemEditor(item) : editor_t{};
 }
 
 //! Creates cell editor basing on editor type.
 
-std::unique_ptr<CustomEditor> RoleDependentEditorFactory::CreateItemEditor(
+editor_t RoleDependentEditorFactory::CreateItemEditor(
     const SessionItem* item) const
 {
   auto builder = FindBuilder(item->GetEditorType());
-  return builder ? builder(item) : std::unique_ptr<CustomEditor>();
+  return builder ? builder(item) : editor_t{};
 }
 
 // ----------------------------------------------------------------------------
@@ -86,11 +86,11 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 
 //! Creates cell editor basing on variant name.
 
-std::unique_ptr<CustomEditor> VariantDependentEditorFactory::CreateEditor(
+editor_t VariantDependentEditorFactory::CreateEditor(
     const QModelIndex& index) const
 {
   auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
-  return builder ? builder(GetItemFromIndex(index)) : std::unique_ptr<CustomEditor>();
+  return builder ? builder(GetItemFromIndex(index)) : editor_t{};
 }
 
 // ----------------------------------------------------------------------------
@@ -103,9 +103,9 @@ DefaultEditorFactory::DefaultEditorFactory()
 
 //! Creates editor for given model index basing either on editorType() or specific variant name.
 
-std::unique_ptr<CustomEditor> DefaultEditorFactory::CreateEditor(const QModelIndex& index) const
+editor_t DefaultEditorFactory::CreateEditor(const QModelIndex& index) const
 {
-  // trying to created an editor basing on possibly defined EDITOR role
+  // trying to created an editor basing on possibly defined DataRole::kEdito role
   auto editor = m_role_dependent_factory->CreateEditor(index);
   // if we do not succeed, then creating editor from variant type
   return editor ? std::move(editor) : m_variant_dependent_factory->CreateEditor(index);

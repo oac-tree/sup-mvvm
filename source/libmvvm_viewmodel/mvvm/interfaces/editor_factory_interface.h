@@ -20,18 +20,12 @@
 #ifndef MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
 #define MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
 
-#include <mvvm/viewmodel_export.h>
-
-#include <memory>
-#include <string>
+#include <mvvm/editors/editor_types_fwd.h>
 
 class QModelIndex;
-class QWidget;
 
 namespace mvvm
 {
-
-class CustomEditor;
 
 //! Interface for custom editor factory.
 //! Intended for editor construction in cells of tables and trees in the context of delegate.
@@ -41,7 +35,7 @@ class MVVM_VIEWMODEL_EXPORT EditorFactoryInterface
 public:
   virtual ~EditorFactoryInterface() = default;
 
-  virtual std::unique_ptr<CustomEditor> CreateEditor(const QModelIndex& index) const = 0;
+  virtual editor_t CreateEditor(const QModelIndex& index) const = 0;
 };
 
 }  // namespace mvvm

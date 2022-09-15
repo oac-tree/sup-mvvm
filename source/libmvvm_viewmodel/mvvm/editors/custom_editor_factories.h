@@ -38,10 +38,10 @@ class MVVM_VIEWMODEL_EXPORT RoleDependentEditorFactory : public AbstractEditorFa
 public:
   RoleDependentEditorFactory();
 
-  std::unique_ptr<CustomEditor> CreateEditor(const QModelIndex& index) const override;
+  editor_t CreateEditor(const QModelIndex& index) const override;
 
 protected:
-  std::unique_ptr<CustomEditor> CreateItemEditor(const SessionItem* item) const;
+  editor_t CreateItemEditor(const SessionItem* item) const;
 };
 
 //! Editor factory for cell editors in Qt trees and tables, relies on variant type stored as
@@ -52,7 +52,7 @@ class MVVM_VIEWMODEL_EXPORT VariantDependentEditorFactory : public AbstractEdito
 public:
   VariantDependentEditorFactory();
 
-  std::unique_ptr<CustomEditor> CreateEditor(const QModelIndex& index) const override;
+  editor_t CreateEditor(const QModelIndex& index) const override;
 };
 
 //! Default editor factory for cell editors in Qt trees and tables.
@@ -63,7 +63,7 @@ class MVVM_VIEWMODEL_EXPORT DefaultEditorFactory : public EditorFactoryInterface
 public:
   DefaultEditorFactory();
 
-  std::unique_ptr<CustomEditor> CreateEditor(const QModelIndex& index) const override;
+  editor_t CreateEditor(const QModelIndex& index) const override;
 
 private:
   std::unique_ptr<RoleDependentEditorFactory> m_role_dependent_factory;
