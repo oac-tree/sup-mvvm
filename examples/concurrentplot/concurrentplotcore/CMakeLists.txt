@@ -9,8 +9,8 @@ target_link_libraries(${library_name} PRIVATE sup-mvvm::view)
 target_sources(${library_name} PRIVATE
     graph_model.cpp
     graph_model.h
-    graphwidget.cpp
-    graphwidget.h
+    graph_widget.cpp
+    graph_widget.h
     graphwidgettoolbar.cpp
     graphwidgettoolbar.h
     jobmanager.cpp
