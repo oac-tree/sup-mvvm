@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "graphmodel.h"
+#include "graph_model.h"
 
 #include "mvvm/standarditems/axis_items.h"
 #include "mvvm/standarditems/container_item.h"

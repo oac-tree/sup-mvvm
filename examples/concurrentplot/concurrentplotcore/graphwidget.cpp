@@ -9,7 +9,7 @@
 
 #include "graphwidget.h"
 
-#include "graphmodel.h"
+#include "graph_model.h"
 #include "graphpropertywidget.h"
 #include "graphwidgettoolbar.h"
 #include "jobmanager.h"

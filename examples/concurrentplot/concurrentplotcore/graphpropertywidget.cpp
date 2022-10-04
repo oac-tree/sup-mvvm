@@ -9,7 +9,7 @@
 
 #include "graphpropertywidget.h"
 
-#include "graphmodel.h"
+#include "graph_model.h"
 #include "mvvm/widgets/all_items_tree_view.h"
 
 #include <QBoxLayout>

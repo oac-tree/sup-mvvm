@@ -9,7 +9,7 @@
 
 #include "mainwindow.h"
 
-#include "graphmodel.h"
+#include "graph_model.h"
 #include "graphwidget.h"
 
 #include <QCoreApplication>

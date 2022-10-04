@@ -7,8 +7,8 @@ add_library(${library_name} STATIC "")
 target_link_libraries(${library_name} PRIVATE sup-mvvm::view)
 
 target_sources(${library_name} PRIVATE
-    graphmodel.cpp
-    graphmodel.h
+    graph_model.cpp
+    graph_model.h
     graphpropertywidget.cpp
     graphpropertywidget.h
     graphwidget.cpp
