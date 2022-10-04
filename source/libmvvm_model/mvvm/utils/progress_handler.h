@@ -42,22 +42,22 @@ public:
   ProgressHandler(const ProgressHandler& other) = delete;
   ProgressHandler& operator=(const ProgressHandler& other) = delete;
 
-  void subscribe(callback_t callback);
+  void Subscribe(callback_t callback);
 
-  void setMaxTicksCount(size_t value);
+  void SetMaxTicksCount(size_t value);
 
-  bool has_interrupt_request() const;
+  bool HasInterruptRequest() const;
 
-  void setCompletedTicks(size_t value);
+  void SetCompletedTicks(size_t value);
 
-  void reset();
+  void Reset();
 
 private:
-  std::mutex mutex;
-  callback_t runner_callback;
-  size_t max_ticks_count{0};
-  size_t completed_ticks{0};
-  bool interrupt_request{false};
+  std::mutex m_mutex;
+  callback_t m_runner_callback;
+  size_t m_max_ticks_count{0};
+  size_t m_completed_ticks{0};
+  bool m_interrupt_request{false};
 };
 
 }  // namespace mvvm

@@ -36,13 +36,13 @@ namespace concurrentplot
 
 ToySimulation::ToySimulation(double amplitude, int delay) : m_delay(delay)
 {
-  m_progress_handler.setMaxTicksCount(m_input_data.npoints);
+  m_progress_handler.SetMaxTicksCount(m_input_data.npoints);
   m_input_data.amplitude = amplitude;
 }
 
 void ToySimulation::RunSimulation()
 {
-  m_progress_handler.reset();
+  m_progress_handler.Reset();
   m_result.data.clear();
   m_result.xmin = m_input_data.xmin;
   m_result.xmax = m_input_data.xmax;
@@ -50,7 +50,7 @@ void ToySimulation::RunSimulation()
   const double dx = (m_input_data.xmax - m_input_data.xmin) / m_input_data.npoints;
   for (int i = 0; i < m_input_data.npoints; ++i)
   {
-    if (m_progress_handler.has_interrupt_request())
+    if (m_progress_handler.HasInterruptRequest())
     {
       throw std::runtime_error("Interrupt request");
     }
@@ -59,7 +59,7 @@ void ToySimulation::RunSimulation()
                    + m_input_data.amplitude * 5.0 * std::sin(2 * pi * 2.25 * x);
     m_result.data.push_back(value);
 
-    m_progress_handler.setCompletedTicks(1);
+    m_progress_handler.SetCompletedTicks(1);
 
     if (m_delay > 0)
     {
@@ -77,7 +77,7 @@ ToySimulation::Result ToySimulation::GetSimulationResult() const
 
 void ToySimulation::SetProgressCallback(mvvm::ProgressHandler::callback_t callback)
 {
-  m_progress_handler.subscribe(std::move(callback));
+  m_progress_handler.Subscribe(std::move(callback));
 }
 
 }  // namespace concurrentplot
