@@ -10,7 +10,7 @@
 #ifndef CONCURRENTPLOTCORE_GRAPHMODEL_H
 #define CONCURRENTPLOTCORE_GRAPHMODEL_H
 
-#include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/application_model.h"
 
 namespace mvvm
 {
@@ -21,7 +21,7 @@ class ContainerItem;
 //! Main application model holding data for single graph. Contains Data1DItem, GraphItem and
 //! ViewPortItem.
 
-class GraphModel : public mvvm::SessionModel
+class GraphModel : public mvvm::ApplicationModel
 {
 public:
   GraphModel();

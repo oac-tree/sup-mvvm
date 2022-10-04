@@ -35,7 +35,7 @@ auto simulation_result(double amp_factor = 1.0)
 
 using namespace mvvm;
 
-GraphModel::GraphModel() : SessionModel("GraphModel")
+GraphModel::GraphModel() : ApplicationModel("GraphModel")
 {
   init_model();
 }
