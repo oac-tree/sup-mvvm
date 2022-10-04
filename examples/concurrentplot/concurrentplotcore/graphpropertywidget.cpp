@@ -17,10 +17,10 @@
 using namespace mvvm;
 
 GraphPropertyWidget::GraphPropertyWidget(GraphModel* model, QWidget* parent)
-    : QWidget(parent), m_treeView(new AllItemsTreeView)
+    : QWidget(parent), m_tree_view(new AllItemsTreeView)
 {
   auto layout = new QVBoxLayout;
-  layout->addWidget(m_treeView);
+  layout->addWidget(m_tree_view);
   setLayout(layout);
   setModel(model);
 }
@@ -30,5 +30,9 @@ GraphPropertyWidget::~GraphPropertyWidget() = default;
 void GraphPropertyWidget::setModel(GraphModel* model)
 {
   if (!model)
+  {
     return;
+  }
+
+  m_tree_view->SetApplicationModel(model);
 }
