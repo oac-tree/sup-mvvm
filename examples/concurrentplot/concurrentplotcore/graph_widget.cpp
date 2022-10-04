@@ -22,38 +22,37 @@
 #include "graph_model.h"
 #include "graph_widget_toolbar.h"
 #include "job_manager.h"
-#include "mvvm/model/model_utils.h"
-#include "mvvm/plotting/graph_canvas.h"
-#include "mvvm/standarditems/graph_viewport_item.h"
-#include "mvvm/widgets/all_items_tree_view.h"
+
+#include <mvvm/model/model_utils.h>
+#include <mvvm/plotting/graph_canvas.h>
+#include <mvvm/standarditems/graph_viewport_item.h>
+#include <mvvm/widgets/all_items_tree_view.h>
 
 #include <QBoxLayout>
-
-using namespace mvvm;
 
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolbar(new GraphWidgetToolBar)
-    , m_graphCanvas(new GraphCanvas)
+    , m_graph_canvas(new mvvm::GraphCanvas)
     , m_tree_view(new mvvm::AllItemsTreeView)
-    , m_jobManager(new JobManager(this))
+    , m_job_manager(new JobManager(this))
 {
-  auto mainLayout = new QVBoxLayout;
-  mainLayout->setSpacing(10);
+  auto main_layout = new QVBoxLayout;
+  main_layout->setSpacing(10);
 
-  auto centralLayout = new QHBoxLayout;
-  centralLayout->addWidget(m_graphCanvas, 3);
-  centralLayout->addWidget(m_tree_view, 1);
-  mainLayout->addWidget(m_toolbar);
-  mainLayout->addLayout(centralLayout);
-  setLayout(mainLayout);
+  auto central_layout = new QHBoxLayout;
+  central_layout->addWidget(m_graph_canvas, 3);
+  central_layout->addWidget(m_tree_view, 1);
+  main_layout->addWidget(m_toolbar);
+  main_layout->addLayout(central_layout);
+  setLayout(main_layout);
 
-  setModel(model);
-  init_toolbar_connections();
-  init_jobmanager_connections();
+  SetModel(model);
+  InitToolbarConnections();
+  InitJobmanagerConnections();
 }
 
-void GraphWidget::setModel(GraphModel* model)
+void GraphWidget::SetModel(GraphModel* model)
 {
   if (!model)
   {
@@ -61,31 +60,33 @@ void GraphWidget::setModel(GraphModel* model)
   }
   m_model = model;
   m_tree_view->SetApplicationModel(m_model);
-  m_graphCanvas->SetItem(utils::GetTopItem<GraphViewportItem>(m_model));
+  m_graph_canvas->SetItem(mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(m_model));
 }
 
 //! Takes simulation results from JobManager and write into the model.
 
-void GraphWidget::onSimulationCompleted()
+void GraphWidget::OnSimulationCompleted()
 {
-  auto data = m_jobManager->simulationResult();
+  auto data = m_job_manager->simulationResult();
   if (!data.empty())
+  {
     m_model->SetData(data);
+  }
 }
 
 //! Connects signals going from toolbar.
 
-void GraphWidget::init_toolbar_connections()
+void GraphWidget::InitToolbarConnections()
 {
   // Change in amplitude is propagated from toolbar to JobManager.
-  connect(m_toolbar, &GraphWidgetToolBar::valueChanged, m_jobManager,
+  connect(m_toolbar, &GraphWidgetToolBar::valueChanged, m_job_manager,
           &JobManager::requestSimulation);
 
   // simulation delay factor is propagated from toolbar to JobManager
-  connect(m_toolbar, &GraphWidgetToolBar::delayChanged, m_jobManager, &JobManager::setDelay);
+  connect(m_toolbar, &GraphWidgetToolBar::delayChanged, m_job_manager, &JobManager::setDelay);
 
   // cancel click is propagated from toolbar to JobManager
-  connect(m_toolbar, &GraphWidgetToolBar::cancelPressed, m_jobManager,
+  connect(m_toolbar, &GraphWidgetToolBar::cancelPressed, m_job_manager,
           &JobManager::onInterruptRequest);
 }
 
@@ -93,13 +94,13 @@ void GraphWidget::init_toolbar_connections()
 //! Connections are made queued since signals are emitted from non-GUI thread and we want to
 //! deal with widgets.
 
-void GraphWidget::init_jobmanager_connections()
+void GraphWidget::InitJobmanagerConnections()
 {
   // Simulation progress is propagated from JobManager to toolbar.
-  connect(m_jobManager, &JobManager::progressChanged, m_toolbar,
+  connect(m_job_manager, &JobManager::progressChanged, m_toolbar,
           &GraphWidgetToolBar::onProgressChanged, Qt::QueuedConnection);
 
   // Notification about completed simulation from jobManager to GraphWidget.
-  connect(m_jobManager, &JobManager::simulationCompleted, this, &GraphWidget::onSimulationCompleted,
-          Qt::QueuedConnection);
+  connect(m_job_manager, &JobManager::simulationCompleted, this,
+          &GraphWidget::OnSimulationCompleted, Qt::QueuedConnection);
 }

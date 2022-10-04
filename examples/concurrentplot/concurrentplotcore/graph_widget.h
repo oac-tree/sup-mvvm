@@ -30,7 +30,7 @@ namespace mvvm
 {
 class GraphCanvas;
 class AllItemsTreeView;
-}  // namespace ModelView
+}  // namespace mvvm
 
 //! Shows canvas with plots on the left and property editor on the right.
 //! Provides connections between toolbar on JobManager.
@@ -42,20 +42,20 @@ class GraphWidget : public QWidget
 public:
   explicit GraphWidget(GraphModel* model = nullptr, QWidget* parent = nullptr);
 
-  void setModel(GraphModel* model);
+  void SetModel(GraphModel* model);
 
 public slots:
-  void onSimulationCompleted();
+  void OnSimulationCompleted();
 
 private:
-  void init_toolbar_connections();
-  void init_jobmanager_connections();
+  void InitToolbarConnections();
+  void InitJobmanagerConnections();
 
   GraphWidgetToolBar* m_toolbar{nullptr};
-  mvvm::GraphCanvas* m_graphCanvas{nullptr};
+  mvvm::GraphCanvas* m_graph_canvas{nullptr};
   mvvm::AllItemsTreeView* m_tree_view{nullptr};
   GraphModel* m_model{nullptr};
-  JobManager* m_jobManager{nullptr};
+  JobManager* m_job_manager{nullptr};
 };
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGET_H
