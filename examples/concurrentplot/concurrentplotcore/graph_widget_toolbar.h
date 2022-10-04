@@ -42,7 +42,7 @@ signals:
   void cancelPressed();
 
 public slots:
-  void onProgressChanged(int value);
+  void OnProgressChanged(int value);
 
 private:
   void AddWideSeparator();

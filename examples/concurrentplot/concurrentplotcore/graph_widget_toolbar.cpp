@@ -56,7 +56,7 @@ GraphWidgetToolBar::GraphWidgetToolBar(QWidget* parent)
 
 //! Set progress bar to given value.
 
-void GraphWidgetToolBar::onProgressChanged(int value)
+void GraphWidgetToolBar::OnProgressChanged(int value)
 {
   m_progressbar->setValue(value);
 }

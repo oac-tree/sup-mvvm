@@ -67,7 +67,7 @@ void GraphWidget::SetModel(GraphModel* model)
 
 void GraphWidget::OnSimulationCompleted()
 {
-  auto data = m_job_manager->simulationResult();
+  auto data = m_job_manager->GetSimulationResult();
   if (!data.empty())
   {
     m_model->SetData(data);
@@ -80,14 +80,14 @@ void GraphWidget::InitToolbarConnections()
 {
   // Change in amplitude is propagated from toolbar to JobManager.
   connect(m_toolbar, &GraphWidgetToolBar::valueChanged, m_job_manager,
-          &JobManager::requestSimulation);
+          &JobManager::RequestSimulation);
 
   // simulation delay factor is propagated from toolbar to JobManager
-  connect(m_toolbar, &GraphWidgetToolBar::delayChanged, m_job_manager, &JobManager::setDelay);
+  connect(m_toolbar, &GraphWidgetToolBar::delayChanged, m_job_manager, &JobManager::SetDelay);
 
   // cancel click is propagated from toolbar to JobManager
   connect(m_toolbar, &GraphWidgetToolBar::cancelPressed, m_job_manager,
-          &JobManager::onInterruptRequest);
+          &JobManager::OnInterruptRequest);
 }
 
 //! Connect signals going from JobManager.
@@ -98,7 +98,7 @@ void GraphWidget::InitJobmanagerConnections()
 {
   // Simulation progress is propagated from JobManager to toolbar.
   connect(m_job_manager, &JobManager::progressChanged, m_toolbar,
-          &GraphWidgetToolBar::onProgressChanged, Qt::QueuedConnection);
+          &GraphWidgetToolBar::OnProgressChanged, Qt::QueuedConnection);
 
   // Notification about completed simulation from jobManager to GraphWidget.
   connect(m_job_manager, &JobManager::simulationCompleted, this,

@@ -21,73 +21,73 @@
 
 #include "toy_simulation.h"
 
-JobManager::JobManager(QObject* parent) : QObject(parent), is_running(true)
+JobManager::JobManager(QObject* parent) : QObject(parent), m_is_running(true)
 {
   // starting thread to run consequent simulations
-  sim_thread = std::thread{&JobManager::wait_and_run, this};
+  m_sim_thread = std::thread{&JobManager::WaitAndRun, this};
 
-  setDelay(1000);  // initial slowness of the simulation
+  SetDelay(1000);  // initial slowness of the simulation
 }
 
 JobManager::~JobManager()
 {
-  is_running = false;
-  requested_values.stop();  // stops waiting in JobManager::wait_and_run
-  sim_thread.join();
+  m_is_running = false;
+  m_requested_values.stop();  // stops waiting in JobManager::wait_and_run
+  m_sim_thread.join();
 }
 
 //! Returns vector representing results of simulation.
 
-std::vector<double> JobManager::simulationResult()
+std::vector<double> JobManager::GetSimulationResult()
 {
-  auto value = simulation_results.try_pop();
+  auto value = m_simulation_results.try_pop();
   return value ? value->data : std::vector<double>{};
 }
 
 //! Performs simulation request. Given value will be stored in a stack of values to trigger
 //! corresponding waiting thread.
 
-void JobManager::requestSimulation(double value)
+void JobManager::RequestSimulation(double value)
 {
   // We replace top value in a stack (non-empty stack means that simulation is still running
   // for previous value).
-  requested_values.update_top(value);
+  m_requested_values.update_top(value);
 }
 
 //! Saves simulation delay parameter for later use.
 
-void JobManager::setDelay(int value)
+void JobManager::SetDelay(int value)
 {
-  delay = value;
+  m_delay = value;
 }
 
 //! Processes interrupt request by setting corresponding flag.
 
-void JobManager::onInterruptRequest()
+void JobManager::OnInterruptRequest()
 {
-  interrupt_request = true;
+  m_interrupt_request = true;
 }
 
 //! Performs concequent simulations for given simulation parameter. Waits for simulation input
 //! parameter to appear in a stack, starts new simulation as soon as input data is ready.
 //! Method is intended for execution in a thread.
 
-void JobManager::wait_and_run()
+void JobManager::WaitAndRun()
 {
-  while (is_running)
+  while (m_is_running)
   {
     try
     {
       // Waiting here for the value which we will use as simulation input parameter.
-      auto value = requested_values.wait_and_pop();
+      auto value = m_requested_values.wait_and_pop();
 
       double amplitude = *value / 100.;
-      ToySimulation simulation(amplitude, delay);
+      ToySimulation simulation(amplitude, m_delay);
 
       auto on_progress = [this](int value)
       {
         progressChanged(value);
-        return interrupt_request;
+        return m_interrupt_request;
       };
       simulation.SetProgressCallback(on_progress);
 
@@ -95,7 +95,7 @@ void JobManager::wait_and_run()
 
       // Saving simulation result, overwrite previous if exists. If at this point stack
       // with results is not empty it means that plotting is disabled or running too slow.
-      simulation_results.update_top(simulation.GetSimulationResult());
+      m_simulation_results.update_top(simulation.GetSimulationResult());
       simulationCompleted();
     }
     catch (std::exception& ex)
@@ -103,7 +103,7 @@ void JobManager::wait_and_run()
       // Exception is thrown
       // a) If waiting on stack was stopped my calling threadsafe_stack::stop.
       // b) If simulation was interrupted via interrupt_request
-      interrupt_request = false;
+      m_interrupt_request = false;
     }
   }
 }

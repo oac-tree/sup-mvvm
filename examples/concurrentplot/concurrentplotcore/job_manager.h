@@ -20,8 +20,9 @@
 #ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
 #define CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
 
-#include "mvvm/utils/threadsafe_stack.h"
 #include "toy_simulation.h"
+
+#include <mvvm/utils/threadsafe_stack.h>
 
 #include <QObject>
 
@@ -35,26 +36,26 @@ public:
   JobManager(QObject* parent = nullptr);
   ~JobManager() override;
 
-  std::vector<double> simulationResult();
+  std::vector<double> GetSimulationResult();
 
 signals:
   void progressChanged(int value);
   void simulationCompleted();
 
 public slots:
-  void requestSimulation(double value);
-  void setDelay(int value);
-  void onInterruptRequest();
+  void RequestSimulation(double value);
+  void SetDelay(int value);
+  void OnInterruptRequest();
 
 private:
-  void wait_and_run();
+  void WaitAndRun();
 
-  std::thread sim_thread;
-  mvvm::threadsafe_stack<double> requested_values;
-  mvvm::threadsafe_stack<ToySimulation::Result> simulation_results;
-  std::atomic<bool> is_running;
-  bool interrupt_request{false};
-  int delay{0};
+  std::thread m_sim_thread;
+  mvvm::threadsafe_stack<double> m_requested_values;
+  mvvm::threadsafe_stack<ToySimulation::Result> m_simulation_results;
+  std::atomic<bool> m_is_running;
+  bool m_interrupt_request{false};
+  int m_delay{0};
 };
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
