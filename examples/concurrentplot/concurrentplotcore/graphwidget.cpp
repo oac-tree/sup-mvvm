@@ -10,12 +10,12 @@
 #include "graphwidget.h"
 
 #include "graph_model.h"
-#include "graphpropertywidget.h"
 #include "graphwidgettoolbar.h"
 #include "jobmanager.h"
 #include "mvvm/model/model_utils.h"
 #include "mvvm/plotting/graph_canvas.h"
 #include "mvvm/standarditems/graph_viewport_item.h"
+#include "mvvm/widgets/all_items_tree_view.h"
 
 #include <QBoxLayout>
 
@@ -25,7 +25,7 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolbar(new GraphWidgetToolBar)
     , m_graphCanvas(new GraphCanvas)
-    , m_propertyWidget(new GraphPropertyWidget)
+    , m_tree_view(new mvvm::AllItemsTreeView)
     , m_jobManager(new JobManager(this))
 {
   auto mainLayout = new QVBoxLayout;
@@ -33,7 +33,7 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
 
   auto centralLayout = new QHBoxLayout;
   centralLayout->addWidget(m_graphCanvas, 3);
-  centralLayout->addWidget(m_propertyWidget, 1);
+  centralLayout->addWidget(m_tree_view, 1);
   mainLayout->addWidget(m_toolbar);
   mainLayout->addLayout(centralLayout);
   setLayout(mainLayout);
@@ -46,9 +46,11 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
 void GraphWidget::setModel(GraphModel* model)
 {
   if (!model)
+  {
     return;
+  }
   m_model = model;
-  m_propertyWidget->setModel(model);
+  m_tree_view->SetApplicationModel(m_model);
   m_graphCanvas->SetItem(utils::GetTopItem<GraphViewportItem>(m_model));
 }
 

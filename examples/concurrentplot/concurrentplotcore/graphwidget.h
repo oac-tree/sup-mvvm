@@ -23,13 +23,13 @@
 #include <QWidget>
 
 class GraphModel;
-class GraphPropertyWidget;
 class GraphWidgetToolBar;
 class JobManager;
 
 namespace mvvm
 {
 class GraphCanvas;
+class AllItemsTreeView;
 }  // namespace ModelView
 
 //! Shows canvas with plots on the left and property editor on the right.
@@ -53,7 +53,7 @@ private:
 
   GraphWidgetToolBar* m_toolbar{nullptr};
   mvvm::GraphCanvas* m_graphCanvas{nullptr};
-  GraphPropertyWidget* m_propertyWidget{nullptr};
+  mvvm::AllItemsTreeView* m_tree_view{nullptr};
   GraphModel* m_model{nullptr};
   JobManager* m_jobManager{nullptr};
 };
