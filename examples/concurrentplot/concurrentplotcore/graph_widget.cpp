@@ -70,7 +70,7 @@ void GraphWidget::onSimulationCompleted()
 {
   auto data = m_jobManager->simulationResult();
   if (!data.empty())
-    m_model->set_data(data);
+    m_model->SetData(data);
 }
 
 //! Connects signals going from toolbar.

@@ -36,11 +36,11 @@ class GraphModel : public mvvm::ApplicationModel
 public:
   GraphModel();
 
-  void set_data(const std::vector<double>& data);
+  void SetData(const std::vector<double>& data);
 
 private:
-  void init_model();
-  void add_graph(mvvm::ContainerItem* container, mvvm::GraphViewportItem* viewport);
+  void PopulateModel();
+  void AddGraph(mvvm::ContainerItem* container, mvvm::GraphViewportItem* viewport);
 };
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHMODEL_H
