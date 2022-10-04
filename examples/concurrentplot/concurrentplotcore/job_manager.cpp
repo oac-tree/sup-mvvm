@@ -89,13 +89,13 @@ void JobManager::wait_and_run()
         progressChanged(value);
         return interrupt_request;
       };
-      simulation.setProgressCallback(on_progress);
+      simulation.SetProgressCallback(on_progress);
 
-      simulation.runSimulation();
+      simulation.RunSimulation();
 
       // Saving simulation result, overwrite previous if exists. If at this point stack
       // with results is not empty it means that plotting is disabled or running too slow.
-      simulation_results.update_top(simulation.simulationResult());
+      simulation_results.update_top(simulation.GetSimulationResult());
       simulationCompleted();
     }
     catch (std::exception& ex)

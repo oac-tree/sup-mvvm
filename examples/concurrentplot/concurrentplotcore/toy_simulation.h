@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CONCURRENTPLOT_CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
-#define CONCURRENTPLOT_CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
+#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
+#define CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
 
 #include "mvvm/utils/progress_handler.h"
 
@@ -46,19 +46,19 @@ public:
     std::vector<double> data;
   };
 
-  ToySimulation(double amplitude = 1.0, int delay = 0.0);
+  explicit ToySimulation(double amplitude = 1.0, int delay = 0.0);
 
-  void runSimulation();
+  void RunSimulation();
 
-  Result simulationResult() const;
+  Result GetSimulationResult() const;
 
-  void setProgressCallback(mvvm::ProgressHandler::callback_t callback);
+  void SetProgressCallback(mvvm::ProgressHandler::callback_t callback);
 
 private:
-  InputData input_data;
-  Result result;
-  int delay{0};
-  mvvm::ProgressHandler progress_handler;
+  InputData m_input_data;
+  Result m_result;
+  int m_delay{0};
+  mvvm::ProgressHandler m_progress_handler;
 };
 
-#endif  // CONCURRENTPLOT_CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
+#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H

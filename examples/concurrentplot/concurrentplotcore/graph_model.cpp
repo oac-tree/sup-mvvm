@@ -27,8 +27,8 @@ namespace
 auto simulation_result(double amp_factor = 1.0)
 {
   ToySimulation simulation(amp_factor);
-  simulation.runSimulation();
-  return simulation.simulationResult();
+  simulation.RunSimulation();
+  return simulation.GetSimulationResult();
 }
 
 }  // namespace
