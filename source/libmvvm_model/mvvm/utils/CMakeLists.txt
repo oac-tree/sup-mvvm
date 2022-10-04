@@ -4,6 +4,8 @@ target_sources(${library_name} PRIVATE
   file_utils.h
   numeric_utils.cpp
   numeric_utils.h
+  progress_handler.cpp
+  progress_handler.h
   string_utils.cpp
   string_utils.h
   threadsafe_stack.h
