@@ -30,6 +30,9 @@
 
 #include <QBoxLayout>
 
+namespace concurrentplot
+{
+
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolbar(new GraphWidgetToolBar)
@@ -104,3 +107,5 @@ void GraphWidget::InitJobmanagerConnections()
   connect(m_job_manager, &JobManager::simulationCompleted, this,
           &GraphWidget::OnSimulationCompleted, Qt::QueuedConnection);
 }
+
+}  // namespace concurrentplot

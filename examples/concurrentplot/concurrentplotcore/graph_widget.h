@@ -22,15 +22,18 @@
 
 #include <QWidget>
 
-class GraphModel;
-class GraphWidgetToolBar;
-class JobManager;
-
 namespace mvvm
 {
 class GraphCanvas;
 class AllItemsTreeView;
 }  // namespace mvvm
+
+namespace concurrentplot
+{
+
+class GraphModel;
+class GraphWidgetToolBar;
+class JobManager;
 
 //! Shows canvas with plots on the left and property editor on the right.
 //! Provides connections between toolbar on JobManager.
@@ -57,5 +60,7 @@ private:
   GraphModel* m_model{nullptr};
   JobManager* m_job_manager{nullptr};
 };
+
+}  // namespace concurrentplot
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGET_H

@@ -37,12 +37,15 @@ namespace
 
 auto GetSimulationResult(double amp_factor = 1.0)
 {
-  ToySimulation simulation(amp_factor);
+  concurrentplot::ToySimulation simulation(amp_factor);
   simulation.RunSimulation();
   return simulation.GetSimulationResult();
 }
 
 }  // namespace
+
+namespace concurrentplot
+{
 
 GraphModel::GraphModel() : ApplicationModel("GraphModel")
 {
@@ -85,3 +88,5 @@ void GraphModel::AddGraph(mvvm::ContainerItem* container, mvvm::GraphViewportIte
   graph->SetDataItem(data);
   graph->SetNamedColor(mvvm::utils::RandomNamedColor());
 }
+
+}  // namespace concurrentplot

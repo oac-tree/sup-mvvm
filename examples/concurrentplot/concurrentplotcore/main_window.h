@@ -23,6 +23,9 @@
 #include <QMainWindow>
 #include <memory>
 
+namespace concurrentplot
+{
+
 class GraphModel;
 
 class MainWindow : public QMainWindow
@@ -43,5 +46,7 @@ private:
 
   std::unique_ptr<GraphModel> m_graph_model;
 };
+
+}  // namespace concurrentplot
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_MAINWINDOW_H

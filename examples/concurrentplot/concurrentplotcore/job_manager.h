@@ -26,6 +26,9 @@
 
 #include <QObject>
 
+namespace concurrentplot
+{
+
 //! Handles all thread activity for running job simulation in the background.
 
 class JobManager : public QObject
@@ -57,5 +60,7 @@ private:
   bool m_interrupt_request{false};
   int m_delay{0};
 };
+
+}  // namespace concurrentplot
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H

@@ -32,6 +32,9 @@ const QString size_key = "size";
 const QString pos_key = "pos";
 }  // namespace
 
+namespace concurrentplot
+{
+
 MainWindow::MainWindow() : m_graph_model(std::make_unique<GraphModel>())
 {
   setCentralWidget(new GraphWidget(m_graph_model.get()));
@@ -70,3 +73,5 @@ void MainWindow::WriteSettings()
   settings.setValue(pos_key, pos());
   settings.endGroup();
 }
+
+}  // namespace concurrentplot

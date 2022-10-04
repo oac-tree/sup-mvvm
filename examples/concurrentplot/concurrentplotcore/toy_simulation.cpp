@@ -29,6 +29,9 @@ namespace
 constexpr double pi = 3.14159265358979323846;
 }
 
+namespace concurrentplot
+{
+
 //! Run of heavy toy computational task.
 
 ToySimulation::ToySimulation(double amplitude, int delay) : m_delay(delay)
@@ -76,3 +79,5 @@ void ToySimulation::SetProgressCallback(mvvm::ProgressHandler::callback_t callba
 {
   m_progress_handler.subscribe(std::move(callback));
 }
+
+}  // namespace concurrentplot

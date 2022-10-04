@@ -21,6 +21,9 @@
 
 #include "toy_simulation.h"
 
+namespace concurrentplot
+{
+
 JobManager::JobManager(QObject* parent) : QObject(parent), m_is_running(true)
 {
   // starting thread to run consequent simulations
@@ -107,3 +110,5 @@ void JobManager::WaitAndRun()
     }
   }
 }
+
+}  // namespace concurrentplot

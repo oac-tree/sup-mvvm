@@ -20,9 +20,12 @@
 #ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
 #define CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
 
-#include "mvvm/utils/progress_handler.h"
+#include <mvvm/utils/progress_handler.h>
 
 #include <vector>
+
+namespace concurrentplot
+{
 
 //! Represents long running toy scientific simulation.
 
@@ -60,5 +63,7 @@ private:
   int m_delay{0};
   mvvm::ProgressHandler m_progress_handler;
 };
+
+}  // namespace concurrentplot
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H

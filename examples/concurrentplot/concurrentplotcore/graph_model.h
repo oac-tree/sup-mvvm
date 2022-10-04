@@ -28,6 +28,9 @@ class GraphViewportItem;
 class ContainerItem;
 }  // namespace mvvm
 
+namespace concurrentplot
+{
+
 //! Main application model holding data for single graph. Contains Data1DItem, GraphItem and
 //! ViewPortItem.
 
@@ -42,5 +45,7 @@ private:
   void PopulateModel();
   void AddGraph(mvvm::ContainerItem* container, mvvm::GraphViewportItem* viewport);
 };
+
+}  // namespace concurrentplot
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHMODEL_H

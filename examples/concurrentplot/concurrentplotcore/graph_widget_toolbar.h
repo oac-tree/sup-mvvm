@@ -27,6 +27,9 @@ class QSpinBox;
 class QPushButton;
 class QProgressBar;
 
+namespace concurrentplot
+{
+
 //! Toolbar for GraphWidget. Contains elements to steer background simulation.
 
 class GraphWidgetToolBar : public QToolBar
@@ -56,5 +59,7 @@ private:
   QProgressBar* m_progressbar{nullptr};   //! Simulation progressbar.
   QPushButton* m_cancel_button{nullptr};  //! Cancels simulation.
 };
+
+}  // namespace concurrentplot
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGETTOOLBAR_H

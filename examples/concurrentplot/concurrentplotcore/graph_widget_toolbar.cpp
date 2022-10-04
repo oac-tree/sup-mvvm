@@ -34,6 +34,9 @@ const int kMinValue = 0;
 const int kMaxValue = 100;
 }  // namespace
 
+namespace concurrentplot
+{
+
 GraphWidgetToolBar::GraphWidgetToolBar(QWidget* parent)
     : QToolBar(parent)
     , m_value_box(new QSpinBox)
@@ -142,3 +145,5 @@ void GraphWidgetToolBar::InitFlowElements()
   addWidget(m_cancel_button);
   connect(m_cancel_button, &QPushButton::pressed, this, &GraphWidgetToolBar::cancelPressed);
 }
+
+}  // namespace concurrentplot
