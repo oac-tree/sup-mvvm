@@ -45,16 +45,16 @@ public slots:
   void onProgressChanged(int value);
 
 private:
-  void add_wide_separator();
-  void init_value_elements();
-  void init_delay_elements();
-  void init_flow_elements();
+  void AddWideSeparator();
+  void InitValueElements();
+  void InitDelayElements();
+  void InitFlowElements();
 
-  QSpinBox* value_box{nullptr};         //! Input parameter for simulation.
-  QSlider* value_slider{nullptr};       //! Input parameter for simulation.
-  QSpinBox* delay_spinbox{nullptr};     //! Factor defining how slow simulation is.
-  QProgressBar* progressbar{nullptr};   //! Simulation progressbar.
-  QPushButton* cancel_button{nullptr};  //! Cancels simulation.
+  QSpinBox* m_value_box{nullptr};         //! Input parameter for simulation.
+  QSlider* m_value_slider{nullptr};       //! Input parameter for simulation.
+  QSpinBox* m_delay_spinbox{nullptr};     //! Factor defining how slow simulation is.
+  QProgressBar* m_progressbar{nullptr};   //! Simulation progressbar.
+  QPushButton* m_cancel_button{nullptr};  //! Cancels simulation.
 };
 
 #endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGETTOOLBAR_H
