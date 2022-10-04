@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "toysimulation.h"
+#include "toy_simulation.h"
 
 #include <chrono>
 #include <cmath>

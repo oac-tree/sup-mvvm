@@ -13,12 +13,12 @@ target_sources(${library_name} PRIVATE
     graph_widget.h
     graph_widget_toolbar.cpp
     graph_widget_toolbar.h
-    jobmanager.cpp
-    jobmanager.h
+    job_manager.cpp
+    job_manager.h
     mainwindow.cpp
     mainwindow.h
-    toysimulation.cpp
-    toysimulation.h
+    toy_simulation.cpp
+    toy_simulation.h
 )
 
 target_include_directories(${library_name} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)

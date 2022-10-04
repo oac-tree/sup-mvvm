@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "jobmanager.h"
+#include "job_manager.h"
 
-#include "toysimulation.h"
+#include "toy_simulation.h"
 
 JobManager::JobManager(QObject* parent) : QObject(parent), is_running(true)
 {

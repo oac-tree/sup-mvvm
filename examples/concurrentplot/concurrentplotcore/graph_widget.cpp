@@ -21,7 +21,7 @@
 
 #include "graph_model.h"
 #include "graph_widget_toolbar.h"
-#include "jobmanager.h"
+#include "job_manager.h"
 #include "mvvm/model/model_utils.h"
 #include "mvvm/plotting/graph_canvas.h"
 #include "mvvm/standarditems/graph_viewport_item.h"

@@ -21,7 +21,7 @@
 #define CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
 
 #include "mvvm/utils/threadsafe_stack.h"
-#include "toysimulation.h"
+#include "toy_simulation.h"
 
 #include <QObject>
 

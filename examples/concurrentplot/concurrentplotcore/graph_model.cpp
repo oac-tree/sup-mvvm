@@ -17,7 +17,7 @@
 #include "mvvm/utils/numeric_utils.h"
 #include "mvvm/widgets/widget_utils.h"
 #include "mvvm/model/model_utils.h"
-#include "toysimulation.h"
+#include "toy_simulation.h"
 
 #include <QColor>
 
