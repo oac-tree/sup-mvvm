@@ -20,7 +20,7 @@
 #include "graph_widget.h"
 
 #include "graph_model.h"
-#include "graphwidgettoolbar.h"
+#include "graph_widget_toolbar.h"
 #include "jobmanager.h"
 #include "mvvm/model/model_utils.h"
 #include "mvvm/plotting/graph_canvas.h"

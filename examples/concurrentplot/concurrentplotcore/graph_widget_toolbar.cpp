@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "graphwidgettoolbar.h"
+#include "graph_widget_toolbar.h"
 
 #include <QDebug>
 #include <QLabel>
