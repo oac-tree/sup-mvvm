@@ -15,8 +15,8 @@ target_sources(${library_name} PRIVATE
     graph_widget_toolbar.h
     job_manager.cpp
     job_manager.h
-    mainwindow.cpp
-    mainwindow.h
+    main_window.cpp
+    main_window.h
     toy_simulation.cpp
     toy_simulation.h
 )

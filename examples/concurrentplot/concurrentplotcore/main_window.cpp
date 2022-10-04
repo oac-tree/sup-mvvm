@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mainwindow.h"
+#include "main_window.h"
 
 #include "graph_model.h"
 #include "graph_widget.h"
@@ -35,22 +35,22 @@ const QString pos_key = "pos";
 MainWindow::MainWindow() : m_graph_model(std::make_unique<GraphModel>())
 {
   setCentralWidget(new GraphWidget(m_graph_model.get()));
-  initApplication();
+  InitApplication();
 }
 
 MainWindow::~MainWindow() = default;
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-  writeSettings();
+  WriteSettings();
   QMainWindow::closeEvent(event);
 }
 
-void MainWindow::initApplication()
+void MainWindow::InitApplication()
 {
   QCoreApplication::setApplicationName("concurrentplot");
   QCoreApplication::setApplicationVersion("0.1");
-  QCoreApplication::setOrganizationName("qt-mvvm");
+  QCoreApplication::setOrganizationName("sup-mvvm");
 
   QSettings settings;
   if (settings.childGroups().contains(main_window_group))
@@ -62,7 +62,7 @@ void MainWindow::initApplication()
   }
 }
 
-void MainWindow::writeSettings()
+void MainWindow::WriteSettings()
 {
   QSettings settings;
   settings.beginGroup(main_window_group);

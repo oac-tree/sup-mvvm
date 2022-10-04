@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "concurrentplotcore/mainwindow.h"
+#include "concurrentplotcore/main_window.h"
 #include <QApplication>
 #include <QLocale>
 

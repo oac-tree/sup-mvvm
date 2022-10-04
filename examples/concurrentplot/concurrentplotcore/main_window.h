@@ -37,9 +37,9 @@ protected:
   void closeEvent(QCloseEvent* event);
 
 private:
-  void initApplication();
-  void writeSettings();
-  void populateModel();
+  void InitApplication();
+  void WriteSettings();
+  void PopulateModel();
 
   std::unique_ptr<GraphModel> m_graph_model;
 };
