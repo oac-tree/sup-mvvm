@@ -17,7 +17,7 @@ else()
  include("${SUP_MVVM_CMAKE_DIR}/sup-mvvm-targets.cmake")
 endif()
 
-set(SUP_MVVM_LIBRARIES sup-mvvm::model sup-mvvm::viewmodel sup-mvvm:view)
+set(SUP_MVVM_LIBRARIES sup-mvvm::model sup-mvvm::viewmodel sup-mvvm::view)
 
 message(STATUS "sup-mvvm-config.cmake in ${CMAKE_CURRENT_LIST_FILE}")
 message(STATUS "SUP_MVVM_LIBRARIES ${SUP_MVVM_LIBRARIES}")
