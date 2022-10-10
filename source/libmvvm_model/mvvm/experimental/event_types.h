@@ -20,7 +20,7 @@
 #ifndef MVVM_EXPERIMENTAL_EVENT_TYPES_H_
 #define MVVM_EXPERIMENTAL_EVENT_TYPES_H_
 
-//! @file events.h
+//! @file event_types.h
 //! Defines collection of event types.
 
 #include <mvvm/model/tagindex.h>
