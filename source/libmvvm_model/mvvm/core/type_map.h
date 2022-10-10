@@ -35,53 +35,53 @@ namespace mvvm
 template <class ValueType>
 class TypeMap
 {
-  typedef std::map<int, ValueType> InternalMap;
+  using container_t = std::map<int, ValueType>;
 
 public:
-  typedef typename InternalMap::iterator iterator;
-  typedef typename InternalMap::const_iterator const_iterator;
-  typedef typename InternalMap::value_type value_type;
+  using iterator = typename container_t::iterator;
+  using const_iterator = typename container_t::const_iterator;
+  using value_type = typename container_t::value_type;
 
   const_iterator begin() const { return m_map.begin(); }
   const_iterator end() const { return m_map.end(); }
   iterator begin() { return m_map.begin(); }
   iterator end() { return m_map.end(); }
 
-  // Finds the value associated with the type "Key" in the type map.
+  //! Finds the value associated with the type "Key" in the type map.
   template <class Key>
   iterator find()
   {
-    return m_map.find(getTypeId<Key>());
+    return m_map.find(GetTypeId<Key>());
   }
 
-  // Same as above, const version
+  //! Same as above, const version
   template <class Key>
   const_iterator find() const
   {
-    return m_map.find(getTypeId<Key>());
+    return m_map.find(GetTypeId<Key>());
   }
 
   // Associates a value with the type "Key"
   template <class Key>
   void put(ValueType &&value)
   {
-    m_map[getTypeId<Key>()] = std::forward<ValueType>(value);
+    m_map[GetTypeId<Key>()] = std::forward<ValueType>(value);
   }
 
-private:
   template <class Key>
-  inline static int getTypeId()
+  static int GetTypeId()
   {
-    static const int id = LastTypeId++;
+    static const int id = m_last_type_id++;
     return id;
   }
 
-  static std::atomic_int LastTypeId;
-  InternalMap m_map;
+private:
+  static std::atomic_int m_last_type_id;
+  container_t m_map;
 };
 
 template <class ValueType>
-std::atomic_int TypeMap<ValueType>::LastTypeId(0);
+std::atomic_int TypeMap<ValueType>::m_last_type_id(0);
 
 }  // namespace mvvm
 
