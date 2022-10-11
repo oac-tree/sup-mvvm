@@ -21,8 +21,6 @@
 #define MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
 
 #include <mvvm/core/type_map.h>
-#include <mvvm/experimental/event_notifier_interface.h>
-#include <mvvm/experimental/event_subscriber_interface.h>
 #include <mvvm/experimental/event_types.h>
 #include <mvvm/signals/signal_slot.h>
 
