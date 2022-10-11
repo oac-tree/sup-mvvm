@@ -17,24 +17,49 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EXPERIMENTAL_EVENT_NOTIFIER_INTERFACE_H_
-#define MVVM_EXPERIMENTAL_EVENT_NOTIFIER_INTERFACE_H_
+#ifndef MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
+#define MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
 
+#include <mvvm/core/type_map.h>
+#include <mvvm/experimental/event_notifier_interface.h>
+#include <mvvm/experimental/event_subscriber_interface.h>
 #include <mvvm/experimental/event_types.h>
+#include <mvvm/signals/signal_slot.h>
+
+#include <functional>
+#include <memory>
 
 namespace mvvm::experimental
 {
 
-class EventNotifierInterface
+class EventHandler
 {
+  using callback_t = std::function<void(const event_t&)>;
+  using signal_t = Signal<void(const event_t&)>;
+
 public:
-  virtual void Notify(const event_t& event) = 0;
+  EventHandler();
+
+  //  void Notify(const event_t& event);
 
   template <typename T, typename... Args>
   void Notify(Args&&... args)
   {
-    Notify(T(std::forward<Args>(args)...));
+    auto it = m_signals.find<T>();
+    T event(std::forward<Args>(args)...);
+    it->second(event);
+    //    Notify(T(std::forward<Args>(args)...));
   }
+
+  template <typename T>
+  Connection Connect(const callback_t& callback, Slot* slot = nullptr)
+  {
+    auto it = m_signals.find<T>();
+    it->second.connect(callback, slot);
+  }
+
+private:
+  TypeMap<std::unique_ptr<signal_t>> m_signals;
 };
 
 }  // namespace mvvm::experimental

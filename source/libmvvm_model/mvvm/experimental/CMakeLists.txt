@@ -4,4 +4,6 @@ target_sources(${library_name} PRIVATE
   event_types.h
   event_notifier_interface.h
   event_subscriber_interface.h
+  event_handler.cpp
+  event_handler.h
 )

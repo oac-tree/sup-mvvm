@@ -17,28 +17,21 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EXPERIMENTAL_EVENT_SUBSCRIBER_INTERFACE_H_
-#define MVVM_EXPERIMENTAL_EVENT_SUBSCRIBER_INTERFACE_H_
-
-#include <mvvm/experimental/event_types.h>
-
-#include <functional>
+#include "mvvm/experimental/event_handler.h"
 
 namespace mvvm::experimental
 {
 
-class EventSubscriberInterface
+EventHandler::EventHandler()
 {
-public:
+  m_signals.put<DataChangedEvent>(std::make_unique<signal_t>());
+  m_signals.put<AboutToInsertItemEvent>(std::make_unique<signal_t>());
+  m_signals.put<ItemInsertedEvent>(std::make_unique<signal_t>());
+}
 
-  void Subscribe(int type_id, std::function<void(const event_t& event)>);
+//void EventHandler::Notify(const event_t &event)
+//{
 
-  template<typename T> void Subscribe()
-  {
-
-  }
-};
+//}
 
 }  // namespace mvvm::experimental
-
-#endif  // MVVM_EXPERIMENTAL_EVENT_SUBSCRIBER_INTERFACE_H_
