@@ -31,7 +31,7 @@ class TypeMapTests : public ::testing::Test
 {
 };
 
-TEST_F(TypeMapTests, ViewportAxisInitialState)
+TEST_F(TypeMapTests, TypeMapTestsPut)
 {
   TypeMap<std::string> type_map;
 
