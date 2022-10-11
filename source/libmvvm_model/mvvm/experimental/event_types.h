@@ -37,8 +37,9 @@ namespace mvvm::experimental
 
 struct DataChangedEvent
 {
-  int data_role{0};
-  SessionItem* item{nullptr};
+  int m_data_role{0};
+  SessionItem* m_item{nullptr};
+  DataChangedEvent(int data_role, SessionItem* item) : m_data_role(data_role), m_item(item) {}
 };
 
 struct AboutToInsertItemEvent

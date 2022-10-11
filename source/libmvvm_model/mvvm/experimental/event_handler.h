@@ -47,7 +47,7 @@ public:
   {
     auto it = m_signals.find<T>();
     T event(std::forward<Args>(args)...);
-    it->second(event);
+    it->second->operator()(event);
     //    Notify(T(std::forward<Args>(args)...));
   }
 
@@ -55,7 +55,7 @@ public:
   Connection Connect(const callback_t& callback, Slot* slot = nullptr)
   {
     auto it = m_signals.find<T>();
-    it->second.connect(callback, slot);
+    return it->second->connect(callback, slot);
   }
 
 private:
