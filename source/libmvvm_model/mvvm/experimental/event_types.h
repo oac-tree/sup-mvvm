@@ -39,19 +39,30 @@ struct DataChangedEvent
 {
   int m_data_role{0};
   SessionItem* m_item{nullptr};
-  DataChangedEvent(int data_role, SessionItem* item) : m_data_role(data_role), m_item(item) {}
+
+  DataChangedEvent(int data_role, SessionItem* item);
+  bool operator==(const DataChangedEvent& other) const;
+  bool operator!=(const DataChangedEvent& other) const;
 };
 
 struct AboutToInsertItemEvent
 {
-  SessionItem* item{nullptr};
-  TagIndex tag_index;
+  SessionItem* m_item{nullptr};
+  TagIndex m_tag_index;
+
+  AboutToInsertItemEvent(SessionItem* item, const TagIndex& tag_index);
+  bool operator==(const AboutToInsertItemEvent& other) const;
+  bool operator!=(const AboutToInsertItemEvent& other) const;
 };
 
 struct ItemInsertedEvent
 {
-  SessionItem* item{nullptr};
-  TagIndex tag_index;
+  SessionItem* m_item{nullptr};
+  TagIndex m_tag_index;
+
+  ItemInsertedEvent(SessionItem* item, const TagIndex& tag_index);
+  bool operator==(const ItemInsertedEvent& other) const;
+  bool operator!=(const ItemInsertedEvent& other) const;
 };
 
 using event_t =

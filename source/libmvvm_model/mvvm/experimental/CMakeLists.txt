@@ -2,6 +2,7 @@
 
 target_sources(${library_name} PRIVATE
   event_types.h
+  event_types.cpp
   event_notifier_interface.h
   event_subscriber_interface.h
   event_handler.cpp

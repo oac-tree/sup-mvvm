@@ -51,8 +51,7 @@ TEST_F(EventHandlerTests, EventHandlerConnect)
 {
   const int role{42};
   SessionItem item;
-  experimental::DataChangedEvent expected_event{role, &item};
-  experimental::DataChangedEvent expected_event2(role, &item);
+  experimental::DataChangedEvent data_changed_event{role, &item};
 
   MockWidget widget;
 
@@ -60,7 +59,8 @@ TEST_F(EventHandlerTests, EventHandlerConnect)
 
   event_handler.Connect<experimental::DataChangedEvent>(widget.CreateCallback());
 
-  EXPECT_CALL(widget, OnEvent(_)).Times(1);
+  experimental::event_t expected_event(data_changed_event);
+  EXPECT_CALL(widget, OnEvent(expected_event)).Times(1);
 
   event_handler.Notify<experimental::DataChangedEvent>(role, &item);
 
