@@ -18,7 +18,6 @@
  *****************************************************************************/
 
 #include "mvvm/experimental/event_handler.h"
-
 #include "mvvm/model/sessionitem.h"
 
 #include <gmock/gmock.h>
@@ -32,7 +31,6 @@ using ::testing::_;
 class EventHandlerTests : public ::testing::Test
 {
 public:
-
   //! Helper class for gmock to check lambda-based callbacks.
   class MockWidget
   {
@@ -56,12 +54,8 @@ TEST_F(EventHandlerTests, EventHandlerConnect)
   MockWidget widget;
 
   experimental::EventHandler event_handler;
-
   event_handler.Connect<experimental::DataChangedEvent>(widget.CreateCallback());
 
-  experimental::event_t expected_event(data_changed_event);
-  EXPECT_CALL(widget, OnEvent(expected_event)).Times(1);
-
+  EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
   event_handler.Notify<experimental::DataChangedEvent>(role, &item);
-
 }
