@@ -35,6 +35,8 @@ class SessionItem;
 namespace mvvm::experimental
 {
 
+//! An event when item's data is changed.
+
 struct DataChangedEvent
 {
   int m_data_role{0};
@@ -45,19 +47,23 @@ struct DataChangedEvent
   bool operator!=(const DataChangedEvent& other) const;
 };
 
+//! An event when item is about to be inserted in the model.
+
 struct AboutToInsertItemEvent
 {
-  SessionItem* m_item{nullptr};
+  SessionItem* m_parent{nullptr};
   TagIndex m_tag_index;
 
-  AboutToInsertItemEvent(SessionItem* item, const TagIndex& tag_index);
+  AboutToInsertItemEvent(SessionItem* parent, const TagIndex& tag_index);
   bool operator==(const AboutToInsertItemEvent& other) const;
   bool operator!=(const AboutToInsertItemEvent& other) const;
 };
 
+//! An event when item was inserted in the model.
+
 struct ItemInsertedEvent
 {
-  SessionItem* m_item{nullptr};
+  SessionItem* m_parent{nullptr};
   TagIndex m_tag_index;
 
   ItemInsertedEvent(SessionItem* item, const TagIndex& tag_index);
@@ -65,8 +71,8 @@ struct ItemInsertedEvent
   bool operator!=(const ItemInsertedEvent& other) const;
 };
 
-using event_t =
-    std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent>;
+//! Variant for all application events.
+using event_t = std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent>;
 
 }  // namespace mvvm::experimental
 

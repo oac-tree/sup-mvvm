@@ -26,9 +26,22 @@
 
 #include <functional>
 #include <memory>
+#include <stdexcept>
 
 namespace mvvm::experimental
 {
+
+//! Provides subscription mechanism to various event types.
+//! @code{.cpp}
+//! EventHandler handler;
+//!
+//! // to connect to signal
+//! event_handler.Connect<DataChangedEvent>(&widget, &Widget::OnEvent);
+//! event_handler.Connect<ItemInsertedEvent>(&widget, &Widget::OnEvent);
+//!
+//! // to notify widgets connected to one signal
+//! event_handler.Notify<DataChangedEvent>(role, item);
+//! @endcode
 
 class EventHandler
 {
@@ -38,29 +51,53 @@ class EventHandler
 public:
   EventHandler();
 
-  //  void Notify(const event_t& event);
+  //! Connect given callback to all events specified by the given event type.
+  //! @param callback A callback to be notified.
+  //! @param slot A slot object to specify time of life of the callback.
+  //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
+  //! slot's destruction no callbacks will be called.
 
-  template <typename T, typename... Args>
-  void Notify(Args&&... args)
-  {
-    auto it = m_signals.find<T>();
-    T event(std::forward<Args>(args)...);
-    it->second->operator()(event);
-    //    Notify(T(std::forward<Args>(args)...));
-  }
-
-  template <typename T>
+  template <typename EventT>
   Connection Connect(const callback_t& callback, Slot* slot = nullptr)
   {
-    auto it = m_signals.find<T>();
+    auto it = m_signals.Find<EventT>();
     return it->second->connect(callback, slot);
   }
 
-  template <typename T, typename U, typename Fn>
-  Connection Connect(U* p, const Fn& fn, Slot* slot = nullptr)
+  //! Connect object's method to all events specified by the given event type.
+  //! @param callback A pointer to object ti.
+  //! @param slot A slot object to specify time of life of the callback.
+  //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
+  //! slot's destruction no callbacks will be called.
+
+  template <typename EventT, typename WidgetT, typename Fn>
+  Connection Connect(WidgetT* widget, const Fn& method, Slot* slot = nullptr)
   {
-    auto it = m_signals.find<T>();
-    return it->second->connect(p, fn, slot);
+    auto it = m_signals.Find<EventT>();
+    return it->second->connect(widget, method, slot);
+  }
+
+  //! Notifies all slots connected to a given event type.
+  //! @note Method constructs event using all provided arguments.
+
+  template <typename EventT, typename... Args>
+  void Notify(Args&&... args)
+  {
+    EventT event(std::forward<Args>(args)...);
+    Notify(event);
+  }
+
+  //! Notifies all slots connected to a given event.
+
+  template <typename EventT>
+  void Notify(const EventT& event)
+  {
+    auto it = m_signals.Find<EventT>();
+    if (it == m_signals.end())
+    {
+      throw std::runtime_error("Type is not spported");
+    }
+    it->second->operator()(event);
   }
 
 private:

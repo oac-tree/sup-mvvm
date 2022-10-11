@@ -4,7 +4,7 @@
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
- * Author        : Gennady Pospelov (IO)
+ * Author        : Walter Van Herck (IO)
  *
  * Copyright (c) : 2010-2022 ITER Organization,
  *                 CS 90 046
@@ -40,16 +40,16 @@ TEST_F(TypeMapTests, ViewportAxisInitialState)
   EXPECT_EQ(int_id, type_map.GetTypeId<int>());
   EXPECT_EQ(string_id, type_map.GetTypeId<std::string>());
 
-  type_map.put<int>("integer");
-  type_map.put<std::string>("string");
+  type_map.Put<int>("integer");
+  type_map.Put<std::string>("string");
 
   EXPECT_EQ(int_id, type_map.GetTypeId<int>());
   EXPECT_EQ(string_id, type_map.GetTypeId<std::string>());
 
-  auto it = type_map.find<int>();
+  auto it = type_map.Find<int>();
   EXPECT_NE(it, type_map.end());
   EXPECT_EQ(it->second, "integer");
-  it = type_map.find<std::string>();
+  it = type_map.Find<std::string>();
   EXPECT_NE(it, type_map.end());
   EXPECT_EQ(it->second, "string");
 }

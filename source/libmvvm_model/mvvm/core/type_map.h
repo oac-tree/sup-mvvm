@@ -4,7 +4,7 @@
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
- * Author        : Gennady Pospelov (IO)
+ * Author        : Walter Van Herck (IO)
  *
  * Copyright (c) : 2010-2022 ITER Organization,
  *                 CS 90 046
@@ -49,21 +49,21 @@ public:
 
   //! Finds the value associated with the type "Key" in the type map.
   template <class Key>
-  iterator find()
+  iterator Find()
   {
     return m_map.find(GetTypeId<Key>());
   }
 
   //! Same as above, const version
   template <class Key>
-  const_iterator find() const
+  const_iterator Find() const
   {
     return m_map.find(GetTypeId<Key>());
   }
 
   // Associates a value with the type "Key"
   template <class Key>
-  void put(ValueType &&value)
+  void Put(ValueType &&value)
   {
     m_map[GetTypeId<Key>()] = std::forward<ValueType>(value);
   }

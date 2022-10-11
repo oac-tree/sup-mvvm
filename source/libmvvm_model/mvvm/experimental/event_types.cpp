@@ -45,14 +45,14 @@ bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
 // AboutToInsertItemEvent
 // ----------------------------------------------------------------------------
 
-AboutToInsertItemEvent::AboutToInsertItemEvent(SessionItem* item, const TagIndex& tag_index)
-    : m_item(item), m_tag_index(tag_index)
+AboutToInsertItemEvent::AboutToInsertItemEvent(SessionItem* parent, const TagIndex& tag_index)
+    : m_parent(parent), m_tag_index(tag_index)
 {
 }
 
 bool AboutToInsertItemEvent::operator==(const AboutToInsertItemEvent& other) const
 {
-  return m_item == other.m_item && m_tag_index == other.m_tag_index;
+  return m_parent == other.m_parent && m_tag_index == other.m_tag_index;
 }
 
 bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) const
@@ -65,13 +65,13 @@ bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) con
 // ----------------------------------------------------------------------------
 
 ItemInsertedEvent::ItemInsertedEvent(SessionItem* item, const TagIndex& tag_index)
-    : m_item(item), m_tag_index(tag_index)
+    : m_parent(item), m_tag_index(tag_index)
 {
 }
 
 bool ItemInsertedEvent::operator==(const ItemInsertedEvent& other) const
 {
-  return m_item == other.m_item && m_tag_index == other.m_tag_index;
+  return m_parent == other.m_parent && m_tag_index == other.m_tag_index;
 }
 
 bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const

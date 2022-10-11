@@ -24,14 +24,9 @@ namespace mvvm::experimental
 
 EventHandler::EventHandler()
 {
-  m_signals.put<DataChangedEvent>(std::make_unique<signal_t>());
-  m_signals.put<AboutToInsertItemEvent>(std::make_unique<signal_t>());
-  m_signals.put<ItemInsertedEvent>(std::make_unique<signal_t>());
+  m_signals.Put<DataChangedEvent>(std::make_unique<signal_t>());
+  m_signals.Put<AboutToInsertItemEvent>(std::make_unique<signal_t>());
+  m_signals.Put<ItemInsertedEvent>(std::make_unique<signal_t>());
 }
-
-//void EventHandler::Notify(const event_t &event)
-//{
-
-//}
 
 }  // namespace mvvm::experimental
