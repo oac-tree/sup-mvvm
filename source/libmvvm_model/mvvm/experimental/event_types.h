@@ -66,7 +66,7 @@ struct ItemInsertedEvent
 };
 
 using event_t =
-    std::variant<std::monostate, DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent>;
+    std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent>;
 
 }  // namespace mvvm::experimental
 

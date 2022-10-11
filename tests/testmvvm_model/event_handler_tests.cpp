@@ -24,6 +24,7 @@
 #include <gtest/gtest.h>
 
 #include <string>
+#include <variant>
 
 using namespace mvvm;
 using ::testing::_;
@@ -43,6 +44,24 @@ public:
       return [this](const auto& event) { OnEvent(event); };
     }
   };
+
+  class MockSpecializedWidget
+  {
+  public:
+    void OnEvent(const experimental::event_t& event) { std::visit(*this, event); }
+
+    void operator()(const experimental::DataChangedEvent& event) { OnDataChangedEvent(event); }
+    MOCK_METHOD1(OnDataChangedEvent, void(const experimental::DataChangedEvent& event));
+
+    void operator()(const experimental::AboutToInsertItemEvent& event)
+    {
+      OnAboutToInsertItemEvent(event);
+    }
+    MOCK_METHOD1(OnAboutToInsertItemEvent, void(const experimental::AboutToInsertItemEvent& event));
+
+    void operator()(const experimental::ItemInsertedEvent& event) { OnItemInsertedEvent(event); }
+    MOCK_METHOD1(OnItemInsertedEvent, void(const experimental::ItemInsertedEvent& event));
+  };
 };
 
 TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
@@ -57,6 +76,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
   event_handler.Connect<experimental::DataChangedEvent>(widget.CreateCallback());
 
   EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
+
   event_handler.Notify<experimental::DataChangedEvent>(role, &item);
 }
 
@@ -72,5 +92,22 @@ TEST_F(EventHandlerTests, EventHandlerConnect)
   event_handler.Connect<experimental::DataChangedEvent>(&widget, &MockWidget::OnEvent);
 
   EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
+  event_handler.Notify<experimental::DataChangedEvent>(role, &item);
+}
+
+TEST_F(EventHandlerTests, SpecializedMethod)
+{
+  const int role{42};
+  SessionItem item;
+  experimental::DataChangedEvent data_changed_event{role, &item};
+
+  MockSpecializedWidget widget;
+
+  experimental::EventHandler event_handler;
+  event_handler.Connect<experimental::DataChangedEvent>(&widget, &MockSpecializedWidget::OnEvent);
+
+  EXPECT_CALL(widget, OnDataChangedEvent(data_changed_event)).Times(1);
+  EXPECT_CALL(widget, OnAboutToInsertItemEvent(_)).Times(0);
+  EXPECT_CALL(widget, OnItemInsertedEvent(_)).Times(0);
   event_handler.Notify<experimental::DataChangedEvent>(role, &item);
 }
