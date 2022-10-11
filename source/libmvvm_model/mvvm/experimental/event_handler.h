@@ -58,6 +58,13 @@ public:
     return it->second->connect(callback, slot);
   }
 
+  template <typename T, typename U, typename Fn>
+  Connection Connect(U* p, const Fn& fn, Slot* slot = nullptr)
+  {
+    auto it = m_signals.find<T>();
+    return it->second->connect(p, fn, slot);
+  }
+
 private:
   TypeMap<std::unique_ptr<signal_t>> m_signals;
 };

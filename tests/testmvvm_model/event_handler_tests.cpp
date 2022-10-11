@@ -45,7 +45,7 @@ public:
   };
 };
 
-TEST_F(EventHandlerTests, EventHandlerConnect)
+TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 {
   const int role{42};
   SessionItem item;
@@ -55,6 +55,21 @@ TEST_F(EventHandlerTests, EventHandlerConnect)
 
   experimental::EventHandler event_handler;
   event_handler.Connect<experimental::DataChangedEvent>(widget.CreateCallback());
+
+  EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
+  event_handler.Notify<experimental::DataChangedEvent>(role, &item);
+}
+
+TEST_F(EventHandlerTests, EventHandlerConnect)
+{
+  const int role{42};
+  SessionItem item;
+  experimental::DataChangedEvent data_changed_event{role, &item};
+
+  MockWidget widget;
+
+  experimental::EventHandler event_handler;
+  event_handler.Connect<experimental::DataChangedEvent>(&widget, &MockWidget::OnEvent);
 
   EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
   event_handler.Notify<experimental::DataChangedEvent>(role, &item);
