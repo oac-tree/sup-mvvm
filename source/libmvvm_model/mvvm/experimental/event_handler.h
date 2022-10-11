@@ -74,6 +74,10 @@ public:
   Connection Connect(WidgetT* widget, const Fn& method, Slot* slot = nullptr)
   {
     auto it = m_signals.Find<EventT>();
+    if (it == m_signals.end())
+    {
+      throw std::runtime_error("The type is not supported");
+    }
     return it->second->connect(widget, method, slot);
   }
 
@@ -95,7 +99,7 @@ public:
     auto it = m_signals.Find<EventT>();
     if (it == m_signals.end())
     {
-      throw std::runtime_error("Type is not spported");
+      throw std::runtime_error("The type is not supported");
     }
     it->second->operator()(event);
   }
