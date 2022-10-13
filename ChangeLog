@@ -1,0 +1,9 @@
+Changes for 0.3.0:
+
+- Base version for demo in August 2022
+- Experimental event handler
+- Concurrent plot example
+- Appearance refactoring to provide highlight abilities
+- Limits for int/double in cell editors
+
+
