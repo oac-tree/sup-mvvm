@@ -15,6 +15,8 @@ target_sources(${library_name} PRIVATE
   item_selection_model.h
   item_view_component_provider.cpp
   item_view_component_provider.h
+  layout_utils.cpp
+  layout_utils.h
   main_vertical_bar_widget.cpp
   main_vertical_bar_widget.h
   mainbar_widget.cpp
