@@ -31,23 +31,24 @@ class QWidget;
 //! Taken from https://stackoverflow.com/questions/5395266/removing-widgets-from-qgridlayout
 //! Caveat: according to explanations given, grid layouts can only grow and never shrink.
 
-namespace mvvm {
+namespace mvvm
+{
 
 //! Removes content from box layout.
-MVVM_VIEW_EXPORT void clearLayout(QLayout* layout, bool deleteWidgets = true);
+MVVM_VIEW_EXPORT void ClearLayout(QLayout* layout, bool deleteWidgets = true);
 
 //! Removes row from grid layout (important: doesn't change row count).
-MVVM_VIEW_EXPORT void removeRow(QGridLayout* layout, int row, bool deleteWidgets = true);
+MVVM_VIEW_EXPORT void RemoveRow(QGridLayout* layout, int row, bool deleteWidgets = true);
 
 //! Removes column from grid layout.
-MVVM_VIEW_EXPORT void removeColumn(QGridLayout* layout, int column, bool deleteWidgets = true);
+MVVM_VIEW_EXPORT void RemoveColumn(QGridLayout* layout, int column, bool deleteWidgets = true);
 
 //! Clear layout completely.
-MVVM_VIEW_EXPORT void clearGridLayout(QGridLayout* layout, bool deleteWidgets = true);
+MVVM_VIEW_EXPORT void ClearGridLayout(QGridLayout* layout, bool deleteWidgets = true);
 
 //! Returns empty widget to occupy place in layout.
-MVVM_VIEW_EXPORT QWidget* placeHolder();
+MVVM_VIEW_EXPORT QWidget* CreatePlaceHolder();
 
-} // namespace LayoutUtils
+}  // namespace mvvm
 
-#endif // MVVM_WIDGETS_LAYOUT_UTILS_H_
+#endif  // MVVM_WIDGETS_LAYOUT_UTILS_H_

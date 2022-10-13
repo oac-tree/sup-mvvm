@@ -16,14 +16,14 @@
 
 namespace
 {
-void remove(QGridLayout* layout, int row, int column, bool deleteWidgets);
-void deleteChildWidgets(QLayoutItem* item);
+void Remove(QGridLayout* layout, int row, int column, bool deleteWidgets);
+void DeleteChildWidgets(QLayoutItem* item);
 }  // namespace
 
 namespace mvvm
 {
 
-void clearLayout(QLayout* layout, bool deleteWidgets)
+void ClearLayout(QLayout* layout, bool deleteWidgets)
 {
   if (!layout)
     return;
@@ -31,9 +31,13 @@ void clearLayout(QLayout* layout, bool deleteWidgets)
   while (QLayoutItem* item = layout->takeAt(0))
   {
     if (deleteWidgets)
+    {
       delete item->widget();
+    }
     if (QLayout* childLayout = item->layout())
-      clearLayout(childLayout, deleteWidgets);
+    {
+      ClearLayout(childLayout, deleteWidgets);
+    }
     delete item;
   }
 }
@@ -47,9 +51,9 @@ void clearLayout(QLayout* layout, bool deleteWidgets)
  * will stay the same after this function has been called).
  */
 
-void removeRow(QGridLayout* layout, int row, bool deleteWidgets)
+void RemoveRow(QGridLayout* layout, int row, bool deleteWidgets)
 {
-  remove(layout, row, -1, deleteWidgets);
+  Remove(layout, row, -1, deleteWidgets);
   layout->setRowMinimumHeight(row, 0);
   layout->setRowStretch(row, 0);
 }
@@ -63,22 +67,22 @@ void removeRow(QGridLayout* layout, int row, bool deleteWidgets)
  * indices will stay the same after this function has been called).
  */
 
-void removeColumn(QGridLayout* layout, int column, bool deleteWidgets)
+void RemoveColumn(QGridLayout* layout, int column, bool deleteWidgets)
 {
-  remove(layout, -1, column, deleteWidgets);
+  Remove(layout, -1, column, deleteWidgets);
   layout->setColumnMinimumWidth(column, 0);
   layout->setColumnStretch(column, 0);
 }
 
-void clearGridLayout(QGridLayout* layout, bool deleteWidgets)
+void ClearGridLayout(QGridLayout* layout, bool deleteWidgets)
 {
   for (int i_row = 0; i_row < layout->rowCount(); ++i_row)
   {
-    removeRow(layout, i_row, deleteWidgets);
+    RemoveRow(layout, i_row, deleteWidgets);
   }
 }
 
-QWidget* placeHolder()
+QWidget* CreatePlaceHolder()
 {
   auto result = new QWidget;
   result->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -97,7 +101,7 @@ namespace
  * layout, but also deleted.
  */
 
-void remove(QGridLayout* layout, int row, int column, bool deleteWidgets)
+void Remove(QGridLayout* layout, int row, int column, bool deleteWidgets)
 {
   // We avoid usage of QGridLayout::itemAtPosition() here to improve performance.
   for (int i = layout->count() - 1; i >= 0; i--)
@@ -109,7 +113,9 @@ void remove(QGridLayout* layout, int row, int column, bool deleteWidgets)
       // This layout item is subject to deletion.
       QLayoutItem* item = layout->takeAt(i);
       if (deleteWidgets)
-        deleteChildWidgets(item);
+      {
+        DeleteChildWidgets(item);
+      }
       delete item;
     }
   }
@@ -119,13 +125,15 @@ void remove(QGridLayout* layout, int row, int column, bool deleteWidgets)
  * Helper function. Deletes all child widgets of the given layout item.
  */
 
-void deleteChildWidgets(QLayoutItem* item)
+void DeleteChildWidgets(QLayoutItem* item)
 {
   if (item->layout())
   {
     // Process all child items recursively.
     for (int i = 0; i < item->layout()->count(); i++)
-      deleteChildWidgets(item->layout()->itemAt(i));
+    {
+      DeleteChildWidgets(item->layout()->itemAt(i));
+    }
   }
   item->widget()->deleteLater();
 }
