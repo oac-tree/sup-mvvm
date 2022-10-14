@@ -23,6 +23,8 @@ target_sources(${library_name} PRIVATE
   mainbar_widget.h
   property_tree_view.cpp
   property_tree_view.h
+  property_flat_view.cpp
+  property_flat_view.h
   status_label.cpp
   status_label.h
   style_utils.cpp
