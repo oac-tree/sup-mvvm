@@ -17,6 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/viewmodel/all_items_viewmodel.h"
 #include "mvvm/viewmodel/property_table_viewmodel.h"
 #include "mvvm/viewmodel/property_viewmodel.h"
 #include "mvvm/widgets/property_grid_controller.h"
@@ -128,3 +129,19 @@ TEST_F(PropertyGridControllerTests, CreateGridForPropertyTableViewModel)
   EXPECT_EQ(editor_grid[0].size(), 3);
 }
 
+//! Checking controller signaling while inserting item through the model.
+
+TEST_F(PropertyGridControllerTests, GridChanged)
+{
+  ApplicationModel model;
+
+  AllItemsViewModel view_model(&model);
+
+  PropertyGridController controller(&view_model);
+
+  QSignalSpy spy_grid_changed(&controller, &PropertyGridController::GridChanged);
+
+  model.InsertItem<PropertyItem>();
+
+  EXPECT_EQ(spy_grid_changed.count(), 1);
+}

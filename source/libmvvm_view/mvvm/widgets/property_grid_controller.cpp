@@ -24,6 +24,7 @@
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
 #include <QLabel>
+#include <QDebug>
 #include <QStyleOptionViewItem>
 
 namespace mvvm
@@ -91,6 +92,7 @@ std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex 
 
 void PropertyGridController::OnLayoutChange()
 {
+  qDebug() << "xxxxx";
   emit GridChanged();
 }
 
@@ -112,10 +114,10 @@ void PropertyGridController::UpdateMappers()
 void PropertyGridController::SetupConnections(QAbstractItemModel *model)
 {
   auto on_row_inserted = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
-  connect(m_view_model, &QAbstractItemModel::rowsInserted, on_row_inserted);
+  connect(model, &QAbstractItemModel::rowsInserted, on_row_inserted);
 
   auto on_row_removed = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
-  connect(m_view_model, &QAbstractItemModel::rowsRemoved, on_row_removed);
+  connect(model, &QAbstractItemModel::rowsRemoved, on_row_removed);
 }
 
 }  // namespace mvvm
