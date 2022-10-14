@@ -49,13 +49,13 @@ public:
 
   std::unique_ptr<QWidget> CreateWidget(const QModelIndex& index);
 
-  std::vector<widget_row_t> CreateGrid() const;
+  std::vector<widget_row_t> CreateGrid();
 
 signals:
   void GridChanged();
 
 private:
-  void UpdateGrid();
+  void OnLayoutChange();
   void UpdateMappers();
   void SetupConnections(QAbstractItemModel* model);
 

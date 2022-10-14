@@ -42,17 +42,31 @@ std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex 
   return std::unique_ptr<QWidget>(m_delegate->createEditor(nullptr, view_item, index));
 }
 
-std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateGrid() const
+std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateGrid()
 {
-  return {};
+  std::vector<PropertyGridController::widget_row_t> result;
+
+  UpdateMappers();
+
+  for (int row = 0; row < m_view_model->rowCount(); ++row)
+  {
+    for (int col = 0; col < m_view_model->columnCount(); ++col)
+    {
+      auto index = m_view_model->index(row, col);
+      auto widget = CreateWidget(index);
+
+      auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
+      mapper->addMapping(widget.get(), col);
+    }
+  }
+
+  return result;
 }
 
 //! Update internal mappers for new model layout.
 
-void PropertyGridController::UpdateGrid()
+void PropertyGridController::OnLayoutChange()
 {
-  UpdateMappers();
-
   emit GridChanged();
 }
 
@@ -73,10 +87,10 @@ void PropertyGridController::UpdateMappers()
 
 void PropertyGridController::SetupConnections(QAbstractItemModel *model)
 {
-  auto on_row_inserted = [this](const QModelIndex &, int, int) { UpdateGrid(); };
+  auto on_row_inserted = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
   connect(m_view_model, &QAbstractItemModel::rowsInserted, on_row_inserted);
 
-  auto on_row_removed = [this](const QModelIndex &, int, int) { UpdateGrid(); };
+  auto on_row_removed = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
   connect(m_view_model, &QAbstractItemModel::rowsRemoved, on_row_removed);
 }
 
