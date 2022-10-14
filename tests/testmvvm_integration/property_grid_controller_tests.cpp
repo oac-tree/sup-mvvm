@@ -63,3 +63,28 @@ TEST_F(PropertyGridControllerTests, CreateWidget)
   EXPECT_NE(dynamic_cast<QLabel*>(widget0.get()), nullptr);
   EXPECT_NE(dynamic_cast<QSpinBox*>(widget1.get()), nullptr);
 }
+
+TEST_F(PropertyGridControllerTests, CreateGridForStandardModel)
+{
+  // preparing the model
+  QStandardItemModel model;
+  auto parent_item = model.invisibleRootItem();
+  QList<QStandardItem*> row0 = {new QStandardItem("a"), new QStandardItem("b"),
+                                new QStandardItem("b")};
+  QList<QStandardItem*> row1 = {new QStandardItem("a"), new QStandardItem("b"),
+                                new QStandardItem("b")};
+  parent_item->insertRow(0, row0);
+  parent_item->insertRow(0, row1);
+
+  PropertyGridController controller(&model);
+
+  auto editor_grid = controller.CreateGrid();
+
+  EXPECT_EQ(editor_grid.size(), 2);
+  EXPECT_EQ(editor_grid[0].size(), 3);
+}
+
+// TEST_F(PropertyGridControllerTests, CreateGridForPropertyViewModel)
+//{
+
+//}

@@ -48,15 +48,15 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
 
   UpdateMappers();
 
+  result.resize(m_view_model->rowCount());
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
-      auto index = m_view_model->index(row, col);
-      auto widget = CreateWidget(index);
-
+      auto widget = CreateWidget(m_view_model->index(row, col));
       auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
       mapper->addMapping(widget.get(), col);
+      result[row].push_back(std::move(widget));
     }
   }
 
