@@ -55,6 +55,9 @@ signals:
   void GridChanged();
 
 private:
+  bool IsLabel(const QModelIndex& index) const;
+  std::unique_ptr<QWidget> CreateLabel(const QModelIndex& index);
+  std::unique_ptr<QWidget> CreateEditor(const QModelIndex& index);
   void OnLayoutChange();
   void UpdateMappers();
   void SetupConnections(QAbstractItemModel* model);

@@ -23,6 +23,7 @@
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
+#include <QLabel>
 #include <QStyleOptionViewItem>
 
 namespace mvvm
@@ -38,8 +39,7 @@ PropertyGridController::~PropertyGridController() = default;
 
 std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex &index)
 {
-  QStyleOptionViewItem view_item;
-  return std::unique_ptr<QWidget>(m_delegate->createEditor(nullptr, view_item, index));
+  return IsLabel(index) ? CreateLabel(index) : CreateEditor(index);
 }
 
 std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateGrid()
@@ -61,6 +61,30 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
   }
 
   return result;
+}
+
+//! Returns true if given cell has to be represented by the label.
+
+bool PropertyGridController::IsLabel(const QModelIndex &index) const
+{
+  return !(m_view_model->flags(index) & Qt::ItemIsEditable);
+}
+
+//! Create a label for a given cell index.
+
+std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &index)
+{
+  auto result = std::make_unique<QLabel>(m_view_model->data(index, Qt::DisplayRole).toString());
+  result->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
+  return result;
+}
+
+//! Create an editor for a given cell index.
+
+std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
+{
+  QStyleOptionViewItem view_item;
+  return std::unique_ptr<QWidget>(m_delegate->createEditor(nullptr, view_item, index));
 }
 
 //! Update internal mappers for new model layout.
