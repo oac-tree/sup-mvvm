@@ -28,6 +28,7 @@
 #include <mvvm/standarditems/vector_item.h>
 
 #include <QDebug>
+#include <QDoubleSpinBox>
 #include <QLabel>
 #include <QSignalSpy>
 #include <QSpinBox>
@@ -145,3 +146,33 @@ TEST_F(PropertyGridControllerTests, GridChanged)
 
   EXPECT_EQ(spy_grid_changed.count(), 1);
 }
+
+//! Validating that internal mapping is working.
+//! The data is set via the editor
+
+//TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
+//{
+//  ApplicationModel model;
+//  auto vector = model.InsertItem<VectorItem>();
+
+//  PropertyViewModel view_model(&model);
+//  view_model.SetRootSessionItem(vector);
+
+//  PropertyGridController controller(&view_model);
+//  auto editor_grid = controller.CreateGrid();
+
+//  // we expect here a grid (row, col) = (3, 2) of widgets
+//  // the first column is a label, the second is an editor
+//  EXPECT_EQ(editor_grid.size(), 3);
+//  EXPECT_EQ(editor_grid[0].size(), 2);
+
+//  auto x_label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
+//  EXPECT_NE(x_label, nullptr);
+//  auto x_double_spin_box = dynamic_cast<QDoubleSpinBox*>(editor_grid[0][1].get());
+//  EXPECT_NE(x_double_spin_box, nullptr);
+
+//  // setting the data
+//  x_double_spin_box->setValue(42.1);
+
+//  EXPECT_DOUBLE_EQ(vector->X(), 42.1);
+//}
