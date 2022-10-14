@@ -21,10 +21,12 @@ target_sources(${library_name} PRIVATE
   main_vertical_bar_widget.h
   mainbar_widget.cpp
   mainbar_widget.h
-  property_tree_view.cpp
-  property_tree_view.h
   property_flat_view.cpp
   property_flat_view.h
+  property_grid_controller.cpp
+  property_grid_controller.h
+  property_tree_view.cpp
+  property_tree_view.h
   status_label.cpp
   status_label.h
   style_utils.cpp
