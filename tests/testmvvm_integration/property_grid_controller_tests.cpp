@@ -27,13 +27,16 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
+#include <QDataWidgetMapper>
 #include <QDebug>
 #include <QDoubleSpinBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QSignalSpy>
 #include <QSpinBox>
 #include <QStandardItem>
 #include <QStandardItemModel>
+#include <QTest>
 #include <QWidget>
 #include <iostream>
 
@@ -43,7 +46,51 @@ using namespace mvvm;
 
 class PropertyGridControllerTests : public ::testing::Test
 {
+public:
+  static QList<QStandardItem*> CreateItemRow(const QString& name, int value)
+  {
+    QList<QStandardItem*> result = {new QStandardItem("a"), new QStandardItem("b")};
+    result.at(0)->setData(name, Qt::EditRole);
+    result.at(1)->setData(value, Qt::EditRole);
+    return result;
+  }
 };
+
+//! To learn how QDataWidgetMapper is functioning.
+
+TEST_F(PropertyGridControllerTests, DataWidgetMapperBasics)
+{
+  QStandardItemModel view_model;
+  auto parent_item = view_model.invisibleRootItem();
+  parent_item->insertRow(0, CreateItemRow("abc", 42));
+  parent_item->insertRow(1, CreateItemRow("def", 43));
+
+  // setting up external widgets and the mapper
+  QLineEdit line_edit;
+  QSpinBox spin_box;
+  QDataWidgetMapper widget_mapper;
+  widget_mapper.setModel(&view_model);
+  widget_mapper.addMapping(&line_edit, 0);
+  widget_mapper.addMapping(&spin_box, 1);
+  widget_mapper.toFirst();
+
+  // checking values in the model
+  EXPECT_EQ(view_model.data(view_model.index(0, 0)).toString(), QString("abc"));
+  EXPECT_EQ(view_model.data(view_model.index(0, 1)).toInt(), 42);
+
+  // checking values via editor
+  EXPECT_EQ(line_edit.text(), QString("abc"));
+  EXPECT_EQ(spin_box.value(), 42);
+
+  // modifying cell via external editor
+  spin_box.setValue(98);
+
+  widget_mapper.submit();
+
+  // checking new values through widget, and directly in the model
+  EXPECT_EQ(spin_box.value(), 98);
+  EXPECT_EQ(view_model.data(view_model.index(0, 1)).toInt(), 98);
+}
 
 //! Checking method CreateWidget.
 //! Use QStandardItemModel with single row with label and data.
@@ -150,10 +197,10 @@ TEST_F(PropertyGridControllerTests, GridChanged)
 //! Validating that internal mapping is working.
 //! The data is set via the editor
 
-//TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
+// TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
 //{
-//  ApplicationModel model;
-//  auto vector = model.InsertItem<VectorItem>();
+//   ApplicationModel model;
+//   auto vector = model.InsertItem<VectorItem>();
 
 //  PropertyViewModel view_model(&model);
 //  view_model.SetRootSessionItem(vector);
