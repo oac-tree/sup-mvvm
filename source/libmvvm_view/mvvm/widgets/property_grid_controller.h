@@ -51,6 +51,8 @@ public:
 
   std::vector<widget_row_t> CreateGrid();
 
+  bool Submit();
+
 signals:
   void GridChanged();
 

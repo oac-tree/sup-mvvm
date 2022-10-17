@@ -23,8 +23,8 @@
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
-#include <QLabel>
 #include <QDebug>
+#include <QLabel>
 #include <QStyleOptionViewItem>
 
 namespace mvvm
@@ -62,6 +62,16 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
   }
 
   return result;
+}
+
+bool PropertyGridController::Submit()
+{
+  bool is_success(true);
+  for (auto &mapper : m_widget_mappers)
+  {
+    is_success |= mapper->submit();
+  }
+  return is_success;
 }
 
 //! Returns true if given cell has to be represented by the label.
