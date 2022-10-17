@@ -23,7 +23,6 @@
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
-#include <QDebug>
 #include <QLabel>
 #include <QStyleOptionViewItem>
 
@@ -102,7 +101,6 @@ std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex 
 
 void PropertyGridController::OnLayoutChange()
 {
-  qDebug() << "xxxxx";
   emit GridChanged();
 }
 

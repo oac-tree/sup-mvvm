@@ -23,9 +23,15 @@
 #include <mvvm/view_export.h>
 
 #include <QWidget>
+#include <memory>
+
+class QGridLayout;
+class QAbstractItemModel;
 
 namespace mvvm
 {
+
+class PropertyGridController;
 
 //! Widget holding grid layout with editors and intended for displaying all properties of given
 //! SessionItem.
@@ -36,7 +42,16 @@ class MVVM_VIEW_EXPORT PropertyFlatView : public QWidget
 
 public:
   explicit PropertyFlatView(QWidget* parent = nullptr);
+  ~PropertyFlatView() override;
 
+  void SetViewModel(QAbstractItemModel* view_model);
+
+private:
+  void UpdateGridLayout();
+
+  std::unique_ptr<PropertyGridController> m_grid_controller;
+  QGridLayout* m_grid_layout{nullptr};
+  QAbstractItemModel* m_view_model{nullptr};
 };
 
 }  // namespace mvvm
