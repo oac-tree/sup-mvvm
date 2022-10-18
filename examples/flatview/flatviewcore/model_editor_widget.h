@@ -31,13 +31,13 @@ namespace mvvm
 {
 class ViewModel;
 class ViewModelDelegate;
-class PropertyFlatView;
 }  // namespace mvvm
 
 namespace flatview
 {
 
 class SampleModel;
+class FlatWidget;
 
 //! Shows content of the model as vertical tree, horizontal tree and table.
 
@@ -56,8 +56,8 @@ private:
   QBoxLayout* CreateRightLayout();
 
   QTreeView* m_vertical_tree{nullptr};
-  mvvm::PropertyFlatView* m_property_left_view{nullptr};
-  mvvm::PropertyFlatView* m_property_right_view{nullptr};
+  FlatWidget* m_property_left_widget{nullptr};
+  FlatWidget* m_property_right_widget{nullptr};
   QTableView* m_table_view{nullptr};
 
   std::unique_ptr<mvvm::ViewModel> m_vertical_view_model;

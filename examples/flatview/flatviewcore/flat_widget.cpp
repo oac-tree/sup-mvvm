@@ -19,22 +19,33 @@
 
 #include "flat_widget.h"
 
+#include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/widgets/property_flat_view.h>
+
+#include <QVBoxLayout>
+
 namespace flatview
 {
 
-FlatWidget::FlatWidget(QWidget *parent) : QWidget(parent)
+FlatWidget::FlatWidget(QWidget *parent) : QWidget(parent), m_flat_view(new mvvm::PropertyFlatView)
 {
-
+  auto layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+  layout->addWidget(m_flat_view);
 }
 
-void FlatWidget::SetApplicationModel(mvvm::SessionModelInterface *model)
-{
+FlatWidget::~FlatWidget() = default;
 
+void FlatWidget::SetViewModel(std::unique_ptr<mvvm::ViewModel> view_model)
+{
+  m_view_model = std::move(view_model);
+  m_flat_view->SetViewModel(m_view_model.get());
 }
 
 void FlatWidget::SetItem(mvvm::SessionItem *item)
 {
-
+  m_view_model->SetRootSessionItem(item);
 }
 
-}
+}  // namespace flatview

@@ -29,35 +29,28 @@ namespace mvvm
 class SessionItem;
 class SessionModelInterface;
 class ViewModel;
+class PropertyFlatView;
 }  // namespace mvvm
 
 namespace flatview
 {
-
-class SampleModel;
 
 class FlatWidget : public QWidget
 {
   Q_OBJECT
 
 public:
-  using create_viewmodel_t =
-      std::function<std::unique_ptr<mvvm::ViewModel>(mvvm::SessionModelInterface*)>;
-
   explicit FlatWidget(QWidget* parent = nullptr);
+  ~FlatWidget() override;
 
-  void SetApplicationModel(mvvm::SessionModelInterface* model);
+  void SetViewModel(std::unique_ptr<mvvm::ViewModel> view_model);
 
   void SetItem(mvvm::SessionItem* item);
 
 private:
+  std::unique_ptr<mvvm::ViewModel> m_view_model;
+  mvvm::PropertyFlatView* m_flat_view{nullptr};
 };
-
-template <typename T>
-std::unique_ptr<T> CreateViewModel(mvvm::SessionModelInterface* model)
-{
-  return std::make_unique<T>(model);
-}
 
 }  // namespace flatview
 

@@ -19,12 +19,13 @@
 
 #include "model_editor_widget.h"
 
+#include "flat_widget.h"
 #include "sample_model.h"
 
 #include <mvvm/delegates/viewmodel_delegate.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
-#include <mvvm/widgets/property_flat_view.h>
+#include <mvvm/viewmodel/property_viewmodel.h>
 
 #include <QBoxLayout>
 #include <QHeaderView>
@@ -37,8 +38,8 @@ namespace flatview
 ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     : QWidget(parent)
     , m_vertical_tree(new QTreeView)
-    , m_property_left_view(new mvvm::PropertyFlatView)
-    , m_property_right_view(new mvvm::PropertyFlatView)
+    , m_property_left_widget(new FlatWidget)
+    , m_property_right_widget(new FlatWidget)
     , m_table_view(new QTableView)
     , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
 {
@@ -70,6 +71,8 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   // setting up right tree
   m_horizontal_view_model = std::make_unique<mvvm::PropertyTableViewModel>(model);
 
+  m_property_left_widget->SetViewModel(std::make_unique<mvvm::PropertyTableViewModel>(model));
+
   //  m_horizontal_tree->setModel(m_horizontal_view_model.get());
   //  m_horizontal_tree->setItemDelegate(m_delegate.get());
   //  m_horizontal_tree->expandAll();
@@ -94,7 +97,7 @@ QBoxLayout* ModelEditorWidget::CreateRightLayout()
 {
   auto result = new QVBoxLayout;
 
-  result->addWidget(m_property_left_view);
+  result->addWidget(m_property_left_widget);
   result->addWidget(m_table_view);
   return result;
 }
