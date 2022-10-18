@@ -96,15 +96,15 @@ QBoxLayout* ModelEditorWidget::CreateRightLayout()
   auto result = new QVBoxLayout;
 
   auto box1_layout = new QHBoxLayout;
-  box1_layout->setContentsMargins(0, 0, 0, 0);
-  box1_layout->setSpacing(0);
+//  box1_layout->setContentsMargins(0, 0, 0, 0);
+//  box1_layout->setSpacing(0);
   box1_layout->addWidget(m_property_left_widget);
   auto box1 = new QGroupBox("item0");
   box1->setLayout(box1_layout);
 
   auto box2_layout = new QHBoxLayout;
-  box2_layout->setContentsMargins(0, 0, 0, 0);
-  box2_layout->setSpacing(0);
+//  box2_layout->setContentsMargins(0, 0, 0, 0);
+//  box2_layout->setSpacing(0);
   box2_layout->addWidget(m_property_right_widget);
   auto box2 = new QGroupBox("item1");
   box2->setLayout(box2_layout);
@@ -114,6 +114,7 @@ QBoxLayout* ModelEditorWidget::CreateRightLayout()
   hlayout->addWidget(box2);
 
   result->addLayout(hlayout);
+  result->addSpacing(20);
   result->addWidget(m_property_bottom_widget);
   return result;
 }

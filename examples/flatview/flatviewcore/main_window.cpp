@@ -82,6 +82,7 @@ void MainWindow::PopulateModel()
   m_model->InsertItem<DemoItem>();
   m_model->InsertItem<DemoItem>();
   m_model->InsertItem<DemoItem>();
+  m_model->InsertItem<DemoItem>();
 }
 
 }  // namespace celleditors
