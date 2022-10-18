@@ -94,7 +94,9 @@ std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &
 std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
 {
   QStyleOptionViewItem view_item;
-  return std::unique_ptr<QWidget>(m_delegate->createEditor(nullptr, view_item, index));
+  auto result = std::unique_ptr<QWidget>(m_delegate->createEditor(nullptr, view_item, index));
+  m_delegate->setEditorData(result.get(), index);
+  return result;
 }
 
 //! Update internal mappers for new model layout.

@@ -114,8 +114,13 @@ TEST_F(PropertyGridControllerTests, CreateWidget)
   auto widget1 = controller.CreateWidget(view_model.index(0, 1));
 
   // checking that controller can create proper editors for columns
-  EXPECT_TRUE(dynamic_cast<QLabel*>(widget0.get()));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(widget1.get()));
+  auto label_widget = dynamic_cast<QLabel*>(widget0.get());
+  auto spinbox_widget = dynamic_cast<QSpinBox*>(widget1.get());
+  EXPECT_TRUE(label_widget);
+  EXPECT_TRUE(spinbox_widget);
+
+  // checking that widgets get initial values correctly
+  EXPECT_EQ(spinbox_widget->value(), 42);
 }
 
 //! Checking method CreateGrid.
