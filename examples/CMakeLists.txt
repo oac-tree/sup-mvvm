@@ -1,4 +1,5 @@
 add_subdirectory(celleditors)
+add_subdirectory(flatview)
 add_subdirectory(hello-world)
 add_subdirectory(plotgraphs)
 add_subdirectory(dragandmove)
