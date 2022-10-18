@@ -17,15 +17,15 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/all_items_viewmodel.h"
-#include "mvvm/viewmodel/property_table_viewmodel.h"
-#include "mvvm/viewmodel/property_viewmodel.h"
 #include "mvvm/widgets/property_grid_controller.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/property_table_viewmodel.h>
+#include <mvvm/viewmodel/property_viewmodel.h>
 
 #include <QDataWidgetMapper>
 #include <QDebug>

@@ -44,6 +44,12 @@ PropertyFlatView::PropertyFlatView(QWidget *parent)
 void PropertyFlatView::SetViewModel(QAbstractItemModel *view_model)
 {
   m_view_model = view_model;
+
+  m_grid_controller = std::make_unique<PropertyGridController>(m_view_model);
+
+  connect(m_grid_controller.get(), &PropertyGridController::GridChanged, this,
+          &PropertyFlatView::UpdateGridLayout);
+
   UpdateGridLayout();
 }
 
@@ -51,7 +57,6 @@ void PropertyFlatView::UpdateGridLayout()
 {
   ClearGridLayout(m_grid_layout, true);
 
-  m_grid_controller = std::make_unique<PropertyGridController>(m_view_model);
   auto widgets = m_grid_controller->CreateGrid();
 
   for (int row = 0; row < m_view_model->rowCount(); ++row)
