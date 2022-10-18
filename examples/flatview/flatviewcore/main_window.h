@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CELLEDITORS_CELLEDITORSCORE_MAIN_WINDOW_H_
-#define CELLEDITORS_CELLEDITORSCORE_MAIN_WINDOW_H_
+#ifndef FLATVIEW_FLATVIEWCORE_MAIN_WINDOW_H_
+#define FLATVIEW_FLATVIEWCORE_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 #include <memory>
@@ -53,4 +53,4 @@ private:
 
 }  // namespace flatview
 
-#endif  // CELLEDITORS_CELLEDITORSCORE_MAIN_WINDOW_H_
+#endif  // FLATVIEW_FLATVIEWCORE_MAIN_WINDOW_H_

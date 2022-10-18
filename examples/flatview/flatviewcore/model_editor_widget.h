@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
-#define CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
+#ifndef FLATVIEW_FLATVIEWCORE_MODEL_EDITOR_WIDGET_H_
+#define FLATVIEW_FLATVIEWCORE_MODEL_EDITOR_WIDGET_H_
 
 #include <QWidget>
 #include <memory>
@@ -31,6 +31,7 @@ namespace mvvm
 {
 class ViewModel;
 class ViewModelDelegate;
+class PropertyFlatView;
 }  // namespace mvvm
 
 namespace flatview
@@ -55,7 +56,8 @@ private:
   QBoxLayout* CreateRightLayout();
 
   QTreeView* m_vertical_tree{nullptr};
-  QTreeView* m_horizontal_tree{nullptr};
+  mvvm::PropertyFlatView* m_property_left_view{nullptr};
+  mvvm::PropertyFlatView* m_property_right_view{nullptr};
   QTableView* m_table_view{nullptr};
 
   std::unique_ptr<mvvm::ViewModel> m_vertical_view_model;
@@ -65,4 +67,4 @@ private:
 
 }  // namespace flatview
 
-#endif  // CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
+#endif  // FLATVIEW_FLATVIEWCORE_MODEL_EDITOR_WIDGET_H_

@@ -17,33 +17,48 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
-#define FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
+#ifndef FLATVIEW_FLATVIEWCORE_FLAT_WIDGET_H_
+#define FLATVIEW_FLATVIEWCORE_FLAT_WIDGET_H_
 
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/compound_item.h>
+#include <QWidget>
+#include <functional>
+#include <memory>
 
-#include <string>
+namespace mvvm
+{
+class SessionItem;
+class SessionModelInterface;
+class ViewModel;
+}  // namespace mvvm
 
 namespace flatview
 {
 
-//! Demo item demonstrating supported properties.
+class SampleModel;
 
-class DemoItem : public mvvm::CompoundItem
+class FlatWidget : public QWidget
 {
+  Q_OBJECT
+
 public:
-  DemoItem();
+  using create_viewmodel_t =
+      std::function<std::unique_ptr<mvvm::ViewModel>(mvvm::SessionModelInterface*)>;
+
+  explicit FlatWidget(QWidget* parent = nullptr);
+
+  void SetApplicationModel(mvvm::SessionModelInterface* model);
+
+  void SetItem(mvvm::SessionItem* item);
+
+private:
 };
 
-//! Main application model.
-
-class SampleModel : public mvvm::ApplicationModel
+template <typename T>
+std::unique_ptr<T> CreateViewModel(mvvm::SessionModelInterface* model)
 {
-public:
-  SampleModel();
-};
+  return std::make_unique<T>(model);
+}
 
 }  // namespace flatview
 
-#endif  // FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
+#endif  // FLATVIEW_FLATVIEWCORE_FLAT_WIDGET_H_

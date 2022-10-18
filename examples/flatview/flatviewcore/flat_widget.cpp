@@ -17,33 +17,24 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
-#define FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
-
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/compound_item.h>
-
-#include <string>
+#include "flat_widget.h"
 
 namespace flatview
 {
 
-//! Demo item demonstrating supported properties.
-
-class DemoItem : public mvvm::CompoundItem
+FlatWidget::FlatWidget(QWidget *parent) : QWidget(parent)
 {
-public:
-  DemoItem();
-};
 
-//! Main application model.
+}
 
-class SampleModel : public mvvm::ApplicationModel
+void FlatWidget::SetApplicationModel(mvvm::SessionModelInterface *model)
 {
-public:
-  SampleModel();
-};
 
-}  // namespace flatview
+}
 
-#endif  // FLATVIEW_FLATVIEWCORE_SAMPLE_MODEL_H_
+void FlatWidget::SetItem(mvvm::SessionItem *item)
+{
+
+}
+
+}
