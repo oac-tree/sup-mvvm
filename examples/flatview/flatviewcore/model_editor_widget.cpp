@@ -23,11 +23,13 @@
 #include "sample_model.h"
 
 #include <mvvm/delegates/viewmodel_delegate.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
 
 #include <QBoxLayout>
+#include <QGroupBox>
 #include <QHeaderView>
 #include <QTableView>
 #include <QTreeView>
@@ -40,14 +42,14 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     , m_vertical_tree(new QTreeView)
     , m_property_left_widget(new FlatWidget)
     , m_property_right_widget(new FlatWidget)
-    , m_table_view(new QTableView)
+    , m_property_bottom_widget(new FlatWidget)
     , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
 {
   auto mainLayout = new QHBoxLayout;
   mainLayout->setSpacing(10);
 
-  mainLayout->addLayout(CreateLeftLayout(), 1);
-  mainLayout->addLayout(CreateRightLayout(), 3);
+  mainLayout->addLayout(CreateLeftLayout(), 2);
+  mainLayout->addLayout(CreateRightLayout(), 5);
 
   setLayout(mainLayout);
   SetModel(model);
@@ -64,24 +66,20 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   m_vertical_view_model = std::make_unique<mvvm::AllItemsViewModel>(model);
   m_vertical_tree->setModel(m_vertical_view_model.get());
   m_vertical_tree->setItemDelegate(m_delegate.get());
-  m_vertical_tree->expandAll();
   m_vertical_tree->resizeColumnToContents(0);
   m_vertical_tree->setRootIsDecorated(true);
+  m_vertical_tree->expandAll();
 
   // setting up right tree
   m_horizontal_view_model = std::make_unique<mvvm::PropertyTableViewModel>(model);
 
-  m_property_left_widget->SetViewModel(std::make_unique<mvvm::PropertyTableViewModel>(model));
+  m_property_left_widget->SetViewModel(std::make_unique<mvvm::PropertyViewModel>(model));
+  m_property_right_widget->SetViewModel(std::make_unique<mvvm::PropertyViewModel>(model));
+  m_property_bottom_widget->SetViewModel(std::make_unique<mvvm::PropertyTableViewModel>(model));
 
-  //  m_horizontal_tree->setModel(m_horizontal_view_model.get());
-  //  m_horizontal_tree->setItemDelegate(m_delegate.get());
-  //  m_horizontal_tree->expandAll();
-  //  m_horizontal_tree->header()->setSectionResizeMode(QHeaderView::Stretch);
-
-  // setting up right table
-  m_table_view->setModel(m_horizontal_view_model.get());
-  m_table_view->setItemDelegate(m_delegate.get());
-  m_table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  auto top_items = mvvm::utils::GetTopItems(model);
+  m_property_left_widget->SetItem(top_items[0]);
+  m_property_right_widget->SetItem(top_items[1]);
 }
 
 ModelEditorWidget::~ModelEditorWidget() = default;
@@ -97,8 +95,26 @@ QBoxLayout* ModelEditorWidget::CreateRightLayout()
 {
   auto result = new QVBoxLayout;
 
-  result->addWidget(m_property_left_widget);
-  result->addWidget(m_table_view);
+  auto box1_layout = new QHBoxLayout;
+  box1_layout->setContentsMargins(0, 0, 0, 0);
+  box1_layout->setSpacing(0);
+  box1_layout->addWidget(m_property_left_widget);
+  auto box1 = new QGroupBox("item0");
+  box1->setLayout(box1_layout);
+
+  auto box2_layout = new QHBoxLayout;
+  box2_layout->setContentsMargins(0, 0, 0, 0);
+  box2_layout->setSpacing(0);
+  box2_layout->addWidget(m_property_right_widget);
+  auto box2 = new QGroupBox("item1");
+  box2->setLayout(box2_layout);
+
+  auto hlayout = new QHBoxLayout;
+  hlayout->addWidget(box1);
+  hlayout->addWidget(box2);
+
+  result->addLayout(hlayout);
+  result->addWidget(m_property_bottom_widget);
   return result;
 }
 

@@ -37,8 +37,8 @@ namespace flatview
 
 MainWindow::MainWindow() : m_model(std::make_unique<SampleModel>())
 {
-  InitApplication();
   PopulateModel();
+  InitApplication();
 }
 
 MainWindow::~MainWindow() = default;

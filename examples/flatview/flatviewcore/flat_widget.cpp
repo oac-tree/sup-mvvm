@@ -23,6 +23,7 @@
 #include <mvvm/widgets/property_flat_view.h>
 
 #include <QVBoxLayout>
+#include <QDebug>
 
 namespace flatview
 {

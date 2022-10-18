@@ -58,7 +58,7 @@ private:
   QTreeView* m_vertical_tree{nullptr};
   FlatWidget* m_property_left_widget{nullptr};
   FlatWidget* m_property_right_widget{nullptr};
-  QTableView* m_table_view{nullptr};
+  FlatWidget* m_property_bottom_widget{nullptr};
 
   std::unique_ptr<mvvm::ViewModel> m_vertical_view_model;
   std::unique_ptr<mvvm::ViewModel> m_horizontal_view_model;
