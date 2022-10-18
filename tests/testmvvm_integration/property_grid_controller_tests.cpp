@@ -104,6 +104,7 @@ TEST_F(PropertyGridControllerTests, CreateWidget)
 
   // first item in a row is a label
   items.at(0)->setEditable(false);
+  items.at(0)->setData("abc", Qt::DisplayRole);
   parent_item->insertRow(0, items);
   // second item in a row carries an integer
   items.at(1)->setData(42, Qt::EditRole);
@@ -120,6 +121,7 @@ TEST_F(PropertyGridControllerTests, CreateWidget)
   EXPECT_TRUE(spinbox_widget);
 
   // checking that widgets get initial values correctly
+  EXPECT_EQ(label_widget->text(), QString("abc"));
   EXPECT_EQ(spinbox_widget->value(), 42);
 }
 
