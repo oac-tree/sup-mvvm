@@ -40,7 +40,7 @@ std::string GetRandomName()
 namespace flatview
 {
 
-DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
+DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 {
   AddProperty("Name", GetRandomName());
   AddProperty("Available", true)->SetToolTip("tooltip");
