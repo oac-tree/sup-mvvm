@@ -128,6 +128,8 @@ void PropertyGridController::SetupConnections(QAbstractItemModel *model)
 
   auto on_row_removed = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsRemoved, on_row_removed);
+
+  connect(model, &QAbstractItemModel::modelReset, this, [this]() { OnLayoutChange(); });
 }
 
 }  // namespace mvvm

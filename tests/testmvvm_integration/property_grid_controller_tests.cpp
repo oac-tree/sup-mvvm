@@ -166,6 +166,30 @@ TEST_F(PropertyGridControllerTests, CreateGridForPropertyViewModel)
   EXPECT_EQ(editor_grid[0].size(), 2);
 }
 
+//! Checking method CreateGrid for VectorItem in PropertyViewModel.
+//! VectorItem is set after controller creation, thus checking reset signal.
+
+TEST_F(PropertyGridControllerTests, CreateGridForVectorItemProperties)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
+
+  PropertyViewModel view_model(&model);
+
+  PropertyGridController controller(&view_model);
+  QSignalSpy spy_grid_changed(&controller, &PropertyGridController::GridChanged);
+
+  view_model.SetRootSessionItem(parent);
+
+  auto editor_grid = controller.CreateGrid();
+
+  EXPECT_EQ(editor_grid.size(), 3);
+  EXPECT_EQ(editor_grid[0].size(), 2);
+
+  EXPECT_EQ(spy_grid_changed.count(), 1);
+}
+
+
 //! Checking method CreateGrid.
 //! Use PropertyTableViewModel with two VectorItem in it.
 

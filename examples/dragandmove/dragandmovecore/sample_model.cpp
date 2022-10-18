@@ -24,6 +24,10 @@
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
+#include <algorithm>
+#include <chrono>
+#include <random>
+
 namespace
 {
 
@@ -33,19 +37,12 @@ const std::string kItems = "kItems";
 
 std::string GetRandomName()
 {
-  static const std::string alphabet = "abcdefgh";
-  const size_t len(3);
-
-  std::string result;
-  for (size_t i = 0; i < len; ++i)
-  {
-    auto random_index =
-        static_cast<size_t>(mvvm::utils::RandInt(0, static_cast<int>(alphabet.size() - 1)));
-    result.push_back(alphabet[random_index]);
-  }
-
-  return result;
+  std::string alphabet{"abcdefghijklmnopqrstuvwxyz"};
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(alphabet.begin(), alphabet.end(), std::default_random_engine(seed));
+  return alphabet.substr(0, 6);
 }
+
 }  // namespace
 
 namespace dragandmove
