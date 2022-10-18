@@ -20,6 +20,22 @@
 #include "sample_model.h"
 
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/widgets/widget_utils.h>
+
+#include <algorithm>
+#include <chrono>
+#include <random>
+
+namespace
+{
+std::string GetRandomName()
+{
+  std::string alphabet{"abcdefghijklmnopqrstuvwxyz"};
+  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  std::shuffle(alphabet.begin(), alphabet.end(), std::default_random_engine(seed));
+  return alphabet.substr(0, 6);
+}
+}  // namespace
 
 namespace flatview
 {
@@ -28,9 +44,10 @@ DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
 {
   AddProperty("Available", true)->SetToolTip("tooltip");
   AddProperty("Answer", 42);
-  AddProperty("Name", "abc");
+  AddProperty("Name", GetRandomName());
   AddProperty("Distance", 42.1234)->SetDisplayName("Double");
-  AddProperty("Access", "green")->SetEditorType(mvvm::constants::kColorEditorType);
+  AddProperty("Access", mvvm::utils::RandomNamedColor())
+      ->SetEditorType(mvvm::constants::kColorEditorType);
   AddProperty("Options", mvvm::ComboProperty({"option 1", "option 2", "option 3"}));
 }
 
