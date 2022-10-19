@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/event_types.h"
 
-namespace mvvm::experimental
+namespace mvvm
 {
 
 // ----------------------------------------------------------------------------

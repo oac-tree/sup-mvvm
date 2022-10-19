@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/event_handler.h"
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/signals/event_handler.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -36,10 +36,10 @@ public:
   class MockWidget
   {
   public:
-    MOCK_METHOD1(OnEvent, void(const experimental::event_t& event));
+    MOCK_METHOD1(OnEvent, void(const event_t& event));
 
     //! Returns callback that forwards calls to `OnEvent` method.
-    std::function<void(const experimental::event_t& event)> CreateCallback()
+    std::function<void(const event_t& event)> CreateCallback()
     {
       return [this](const auto& event) { OnEvent(event); };
     }
@@ -49,19 +49,16 @@ public:
   class MockSpecializedWidget
   {
   public:
-    void OnEvent(const experimental::event_t& event) { std::visit(*this, event); }
+    void OnEvent(const event_t& event) { std::visit(*this, event); }
 
-    void operator()(const experimental::DataChangedEvent& event) { OnDataChangedEvent(event); }
-    MOCK_METHOD1(OnDataChangedEvent, void(const experimental::DataChangedEvent& event));
+    void operator()(const DataChangedEvent& event) { OnDataChangedEvent(event); }
+    MOCK_METHOD1(OnDataChangedEvent, void(const DataChangedEvent& event));
 
-    void operator()(const experimental::AboutToInsertItemEvent& event)
-    {
-      OnAboutToInsertItemEvent(event);
-    }
-    MOCK_METHOD1(OnAboutToInsertItemEvent, void(const experimental::AboutToInsertItemEvent& event));
+    void operator()(const AboutToInsertItemEvent& event) { OnAboutToInsertItemEvent(event); }
+    MOCK_METHOD1(OnAboutToInsertItemEvent, void(const AboutToInsertItemEvent& event));
 
-    void operator()(const experimental::ItemInsertedEvent& event) { OnItemInsertedEvent(event); }
-    MOCK_METHOD1(OnItemInsertedEvent, void(const experimental::ItemInsertedEvent& event));
+    void operator()(const ItemInsertedEvent& event) { OnItemInsertedEvent(event); }
+    MOCK_METHOD1(OnItemInsertedEvent, void(const ItemInsertedEvent& event));
   };
 };
 
@@ -72,19 +69,19 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 {
   const int role{42};
   SessionItem item;
-  experimental::DataChangedEvent data_changed_event{role, &item};
+  DataChangedEvent data_changed_event{role, &item};
 
   MockWidget widget;
 
-  experimental::EventHandler event_handler;
-  event_handler.Connect<experimental::DataChangedEvent>(widget.CreateCallback());
+  EventHandler event_handler;
+  event_handler.Connect<DataChangedEvent>(widget.CreateCallback());
 
   // check notification when triggering Notify via templated method
-  EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
-  event_handler.Notify<experimental::DataChangedEvent>(role, &item);
+  EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
+  event_handler.Notify<DataChangedEvent>(role, &item);
 
   // check notification when triggering Notify via already constructed event
-  EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
   event_handler.Notify(data_changed_event);
 }
 
@@ -94,15 +91,15 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 {
   const int role{42};
   SessionItem item;
-  experimental::DataChangedEvent data_changed_event{role, &item};
+  DataChangedEvent data_changed_event{role, &item};
 
   MockWidget widget;
 
-  experimental::EventHandler event_handler;
-  event_handler.Connect<experimental::DataChangedEvent>(&widget, &MockWidget::OnEvent);
+  EventHandler event_handler;
+  event_handler.Connect<DataChangedEvent>(&widget, &MockWidget::OnEvent);
 
-  EXPECT_CALL(widget, OnEvent(experimental::event_t(data_changed_event))).Times(1);
-  event_handler.Notify<experimental::DataChangedEvent>(role, &item);
+  EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
+  event_handler.Notify<DataChangedEvent>(role, &item);
 }
 
 //! Connecting MockSpecializedWidget with two events. Validating that the notification
@@ -112,17 +109,17 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 {
   const int role{42};
   SessionItem item;
-  experimental::DataChangedEvent data_changed_event{role, &item};
+  DataChangedEvent data_changed_event{role, &item};
 
   MockSpecializedWidget widget;
 
-  experimental::EventHandler event_handler;
-  event_handler.Connect<experimental::DataChangedEvent>(&widget, &MockSpecializedWidget::OnEvent);
-  event_handler.Connect<experimental::ItemInsertedEvent>(&widget, &MockSpecializedWidget::OnEvent);
+  EventHandler event_handler;
+  event_handler.Connect<DataChangedEvent>(&widget, &MockSpecializedWidget::OnEvent);
+  event_handler.Connect<ItemInsertedEvent>(&widget, &MockSpecializedWidget::OnEvent);
 
   EXPECT_CALL(widget, OnDataChangedEvent(data_changed_event)).Times(1);
   EXPECT_CALL(widget, OnAboutToInsertItemEvent(_)).Times(0);
   EXPECT_CALL(widget, OnItemInsertedEvent(_)).Times(0);
 
-  event_handler.Notify<experimental::DataChangedEvent>(role, &item);
+  event_handler.Notify<DataChangedEvent>(role, &item);
 }

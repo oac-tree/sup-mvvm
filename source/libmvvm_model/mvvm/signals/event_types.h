@@ -32,7 +32,7 @@ namespace mvvm
 class SessionItem;
 }
 
-namespace mvvm::experimental
+namespace mvvm
 {
 
 //! An event when item's data is changed.

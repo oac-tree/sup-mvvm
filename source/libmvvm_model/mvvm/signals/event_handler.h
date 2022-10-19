@@ -28,7 +28,7 @@
 #include <memory>
 #include <stdexcept>
 
-namespace mvvm::experimental
+namespace mvvm
 {
 
 //! Provides subscription mechanism to various event types.

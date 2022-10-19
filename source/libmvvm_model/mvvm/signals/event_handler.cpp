@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/event_handler.h"
 
-namespace mvvm::experimental
+namespace mvvm
 {
 
 EventHandler::EventHandler()
@@ -29,4 +29,4 @@ EventHandler::EventHandler()
   m_signals.Put<ItemInsertedEvent>(std::make_unique<signal_t>());
 }
 
-}  // namespace mvvm::experimental
+}  // namespace mvvm
