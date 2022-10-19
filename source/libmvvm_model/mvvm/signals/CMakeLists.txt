@@ -12,4 +12,8 @@ target_sources(${library_name} PRIVATE
   model_listener_base.cpp
   model_listener_base.h
   signal_slot.h
+  event_types.cpp
+  event_types.h
+  event_handler.cpp
+  event_handler.h
 )

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/experimental/event_types.h"
+#include "mvvm/signals/event_types.h"
 
 namespace mvvm::experimental
 {

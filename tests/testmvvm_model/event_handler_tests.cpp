@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/experimental/event_handler.h"
+#include "mvvm/signals/event_handler.h"
 #include "mvvm/model/sessionitem.h"
 
 #include <gmock/gmock.h>
