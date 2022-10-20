@@ -38,9 +38,9 @@ mvvm::ModelEventHandler *GetSubscriber(const mvvm::SessionItem *item)
     throw std::runtime_error("Error in ItemConnectUtils: item doesn't have a model");
   }
 
-  if (auto subscriber = item->GetModel()->GetSubscriber(); subscriber)
+  if (auto event_handler = item->GetModel()->GetEventHandler(); event_handler)
   {
-    return subscriber;
+    return event_handler;
   }
   throw std::runtime_error(
       "Error in ItemConnectUtils: item's model doesn't have signaling capabilities");

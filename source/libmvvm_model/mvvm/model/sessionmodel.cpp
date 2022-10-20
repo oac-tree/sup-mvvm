@@ -101,7 +101,7 @@ SessionItem* SessionModel::GetRootItem() const
   return p_impl->m_root_item.get();
 }
 
-ModelEventHandler* SessionModel::GetSubscriber() const
+ModelEventHandler* SessionModel::GetEventHandler() const
 {
   return nullptr;
 }

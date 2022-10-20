@@ -30,7 +30,7 @@ struct ModelListenerBase::ModelListenerBaseImpl
   SessionModelInterface *m_model{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 
-  ModelEventHandler *GetSubscriber() const { return m_model->GetSubscriber(); }
+  ModelEventHandler *GetSubscriber() const { return m_model->GetEventHandler(); }
 
   Slot *GetSlot() const { return m_slot.get(); }
 

@@ -48,7 +48,7 @@ public:
 
   ItemFactoryInterface* GetFactory();
 
-  virtual ModelEventHandler* GetSubscriber() const = 0;
+  virtual ModelEventHandler* GetEventHandler() const = 0;
 
   virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                   const TagIndex& tag_index) = 0;

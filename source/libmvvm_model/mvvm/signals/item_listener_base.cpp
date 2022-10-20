@@ -71,7 +71,7 @@ void ItemListenerBase::SetItem(SessionItem *item)
     return;
   }
 
-  if (!item->GetModel() || !item->GetModel()->GetSubscriber())
+  if (!item->GetModel() || !item->GetModel()->GetEventHandler())
   {
     throw std::runtime_error("Error in ItemListenerBase: model doesn't have signals");
   }

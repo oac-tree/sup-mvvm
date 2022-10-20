@@ -46,7 +46,7 @@ public:
   {
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    m_controller.SubscribeTo(m_model.GetSubscriber());
+    m_controller.SubscribeTo(m_model.GetEventHandler());
     m_controller.Init();
   }
 

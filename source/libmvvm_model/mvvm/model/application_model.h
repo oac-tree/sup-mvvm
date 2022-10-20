@@ -44,7 +44,7 @@ public:
 
   ~ApplicationModel() override;
 
-  ModelEventHandler* GetSubscriber() const override;
+  ModelEventHandler* GetEventHandler() const override;
 
   void CheckIn(SessionItem* item) override;
 

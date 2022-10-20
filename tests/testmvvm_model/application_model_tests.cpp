@@ -41,7 +41,7 @@ TEST_F(ApplicationModelTests, InitialState)
 {
   EXPECT_EQ(m_model.GetRootItem()->GetModel(), &m_model);
   EXPECT_EQ(m_model.GetRootItem()->GetParent(), nullptr);
-  EXPECT_NE(m_model.GetSubscriber(), nullptr);
+  EXPECT_NE(m_model.GetEventHandler(), nullptr);
   EXPECT_EQ(m_model.GetCommandStack(), nullptr);
 }
 
