@@ -46,9 +46,9 @@ public:
 
 TEST_F(EventTypesTests, DataChangedEvent)
 {
-  DataChangedEvent event1{m_value1, &m_item1};
-  DataChangedEvent event2{m_value1, &m_item1};
-  DataChangedEvent event3{m_value2, &m_item1};
+  DataChangedEvent event1{&m_item1, m_value1};
+  DataChangedEvent event2{&m_item1, m_value1};
+  DataChangedEvent event3{&m_item1, m_value2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);

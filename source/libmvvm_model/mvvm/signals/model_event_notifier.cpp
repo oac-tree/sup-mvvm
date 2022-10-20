@@ -149,7 +149,7 @@ void ModelEventNotifier::ItemRemovedNotify(SessionItem *parent, const TagIndex &
 
 void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
 {
-  p_impl->m_event_handler.Notify<DataChangedEvent>(role, item);
+  p_impl->m_event_handler.Notify<DataChangedEvent>(item, role);
 }
 
 void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModelInterface *model)

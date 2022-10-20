@@ -37,8 +37,8 @@ class SessionModelInterface;
 
 struct DataChangedEvent
 {
-  int m_data_role{0};
   SessionItem* m_item{nullptr};
+  int m_data_role{0};
 
   bool operator==(const DataChangedEvent& other) const;
   bool operator!=(const DataChangedEvent& other) const;

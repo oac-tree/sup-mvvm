@@ -87,7 +87,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 {
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{role, &item};
+  DataChangedEvent data_changed_event{&item, role};
 
   MockWidget widget;
 
@@ -96,7 +96,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 
   // check notification when triggering Notify via templated method
   EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
-  event_handler.Notify<DataChangedEvent>(role, &item);
+  event_handler.Notify<DataChangedEvent>(&item, role);
 
   // check notification when triggering Notify via already constructed event
   EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
@@ -109,7 +109,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 {
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{role, &item};
+  DataChangedEvent data_changed_event{&item, role};
 
   MockWidget widget;
 
@@ -117,7 +117,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
   event_handler.Connect<DataChangedEvent>(&widget, &MockWidget::OnEvent);
 
   EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
-  event_handler.Notify<DataChangedEvent>(role, &item);
+  event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
 //! Connecting MockSpecializedWidget with two events. Validating that the notification
@@ -127,7 +127,7 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 {
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{role, &item};
+  DataChangedEvent data_changed_event{&item, role};
 
   MockSpecializedWidget widget;
 
@@ -139,5 +139,5 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
   EXPECT_CALL(widget, OnAboutToInsertItemEvent(_)).Times(0);
   EXPECT_CALL(widget, OnItemInsertedEvent(_)).Times(0);
 
-  event_handler.Notify<DataChangedEvent>(role, &item);
+  event_handler.Notify<DataChangedEvent>(&item, role);
 }
