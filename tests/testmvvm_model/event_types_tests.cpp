@@ -18,6 +18,7 @@
  *****************************************************************************/
 
 #include "mvvm/model/sessionitem.h"
+#include "mvvm/model/sessionmodel.h"
 #include "mvvm/signals/event_types.h"
 
 #include <gmock/gmock.h>
@@ -39,6 +40,8 @@ public:
   SessionItem m_item2;
   TagIndex m_tagindex1{"abc", 1};
   TagIndex m_tagindex2{"def", 2};
+  SessionModel m_model1;
+  SessionModel m_model2;
 };
 
 TEST_F(EventTypesTests, DataChangedEvent)
@@ -110,6 +113,38 @@ TEST_F(EventTypesTests, ItemRemovedEvent)
   ItemRemovedEvent event1{&m_item1, m_tagindex1};
   ItemRemovedEvent event2{&m_item1, m_tagindex1};
   ItemRemovedEvent event3{&m_item1, m_tagindex2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, ModelAboutToBeResetEvent)
+{
+  ModelAboutToBeResetEvent event1{&m_model1};
+  ModelAboutToBeResetEvent event2{&m_model1};
+  ModelAboutToBeResetEvent event3{&m_model2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, ModelResetEvent)
+{
+  ModelResetEvent event1{&m_model1};
+  ModelResetEvent event2{&m_model1};
+  ModelResetEvent event3{&m_model2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);

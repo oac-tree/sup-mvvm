@@ -92,4 +92,32 @@ bool ItemRemovedEvent::operator!=(const ItemRemovedEvent& other) const
   return !(*this == other);
 }
 
+// ----------------------------------------------------------------------------
+// ModelAboutToBeResetEvent
+// ----------------------------------------------------------------------------
+
+bool ModelAboutToBeResetEvent::operator==(const ModelAboutToBeResetEvent& other) const
+{
+  return m_model == other.m_model;
+}
+
+bool ModelAboutToBeResetEvent::operator!=(const ModelAboutToBeResetEvent& other) const
+{
+  return !(*this == other);
+}
+
+// ----------------------------------------------------------------------------
+// ModelResetEvent
+// ----------------------------------------------------------------------------
+
+bool ModelResetEvent::operator==(const ModelResetEvent& other) const
+{
+  return m_model == other.m_model;
+}
+
+bool ModelResetEvent::operator!=(const ModelResetEvent& other) const
+{
+  return !(*this == other);
+}
+
 }  // namespace mvvm

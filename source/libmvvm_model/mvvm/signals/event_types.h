@@ -31,6 +31,7 @@ namespace mvvm
 {
 
 class SessionItem;
+class SessionModelInterface;
 
 //! An event when item's data is changed.
 
@@ -87,9 +88,30 @@ struct ItemRemovedEvent
   bool operator!=(const ItemRemovedEvent& other) const;
 };
 
+//! An event when the root item of the model is about to be reset.
+
+struct ModelAboutToBeResetEvent
+{
+  SessionModelInterface* m_model{nullptr};
+
+  bool operator==(const ModelAboutToBeResetEvent& other) const;
+  bool operator!=(const ModelAboutToBeResetEvent& other) const;
+};
+
+//! An event at the end of root item reset.
+
+struct ModelResetEvent
+{
+  SessionModelInterface* m_model{nullptr};
+
+  bool operator==(const ModelResetEvent& other) const;
+  bool operator!=(const ModelResetEvent& other) const;
+};
+
 //! Variant for all application events.
 using event_t = std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
-                             AboutToRemoveItemEvent, ItemRemovedEvent>;
+                             AboutToRemoveItemEvent, ItemRemovedEvent,
+                             ModelAboutToBeResetEvent, ModelResetEvent>;
 
 }  // namespace mvvm
 
