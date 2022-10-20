@@ -37,7 +37,8 @@ class TagIndex;
 class MVVM_MODEL_EXPORT InsertItemCommand : public AbstractCommand
 {
 public:
-  InsertItemCommand(ModelComposerInterface* composer, std::unique_ptr<SessionItem> item, SessionItem* parent, const TagIndex& tag_index);
+  InsertItemCommand(ModelComposerInterface* composer, std::unique_ptr<SessionItem> item,
+                    SessionItem* parent, const TagIndex& tag_index);
 
   ~InsertItemCommand() override;
 
