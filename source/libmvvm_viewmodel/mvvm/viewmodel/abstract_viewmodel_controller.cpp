@@ -19,16 +19,17 @@
 
 #include "abstract_viewmodel_controller.h"
 
-#include <mvvm/interfaces/model_event_subscriber_interface.h>
-#include <mvvm/model/sessionitem.h>
+#include "mvvm/signals/model_event_notifier.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/signals/model_event_notifier.h>
 
 namespace mvvm
 {
 AbstractViewModelController::~AbstractViewModelController() = default;
 
-void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *subscriber)
+void AbstractViewModelController::SubscribeTo(ModelEventNotifier *subscriber)
 {
   if (!subscriber)
   {
@@ -65,7 +66,7 @@ void AbstractViewModelController::SubscribeTo(ModelEventSubscriberInterface *sub
   subscriber->SetOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
 }
 
-void AbstractViewModelController::UnsubscribeFrom(ModelEventSubscriberInterface *subscriber)
+void AbstractViewModelController::UnsubscribeFrom(ModelEventNotifier *subscriber)
 {
   // FIXME Do we need Unsubscribe methods?
   (void)subscriber;

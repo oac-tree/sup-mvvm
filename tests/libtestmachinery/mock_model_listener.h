@@ -21,7 +21,6 @@
 #define TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_
 
 #include <gmock/gmock.h>
-#include <mvvm/interfaces/model_event_subscriber_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/signals/model_listener.h>
 

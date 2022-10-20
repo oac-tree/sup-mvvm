@@ -73,7 +73,7 @@ ApplicationModel::~ApplicationModel()
   p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
 }
 
-ModelEventSubscriberInterface* ApplicationModel::GetSubscriber() const
+ModelEventNotifier* ApplicationModel::GetSubscriber() const
 {
   return &p_impl->m_notifier;
 }

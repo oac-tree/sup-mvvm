@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/model_listener_base.h"
 
-#include <mvvm/interfaces/model_event_subscriber_interface.h>
+#include <mvvm/signals/model_event_notifier.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
 namespace mvvm
@@ -30,7 +30,7 @@ struct ModelListenerBase::ModelListenerBaseImpl
   SessionModelInterface *m_model{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 
-  ModelEventSubscriberInterface *GetSubscriber() const { return m_model->GetSubscriber(); }
+  ModelEventNotifier *GetSubscriber() const { return m_model->GetSubscriber(); }
 
   Slot *GetSlot() const { return m_slot.get(); }
 

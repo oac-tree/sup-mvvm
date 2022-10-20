@@ -19,14 +19,14 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
-#include <mvvm/interfaces/model_event_subscriber_interface.h>
+#include <mvvm/signals/model_event_notifier.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
 
 namespace
 {
-mvvm::ModelEventSubscriberInterface *GetSubscriber(const mvvm::SessionItem *item)
+mvvm::ModelEventNotifier *GetSubscriber(const mvvm::SessionItem *item)
 {
   if (!item)
   {

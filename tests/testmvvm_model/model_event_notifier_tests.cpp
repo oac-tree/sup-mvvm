@@ -35,7 +35,7 @@ public:
   class TestListener
   {
   public:
-    void Subscribe(mvvm::ModelEventSubscriberInterface* subscriber)
+    void Subscribe(mvvm::ModelEventNotifier* subscriber)
     {
       m_slot = std::make_unique<mvvm::Slot>();
 

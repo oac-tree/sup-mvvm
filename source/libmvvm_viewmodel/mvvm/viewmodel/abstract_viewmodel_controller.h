@@ -29,7 +29,7 @@ namespace mvvm
 {
 class SessionModelInterface;
 class SessionItem;
-class ModelEventSubscriberInterface;
+class ModelEventNotifier;
 class TagIndex;
 
 //! Propagate changes
@@ -39,8 +39,8 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
 public:
   virtual ~AbstractViewModelController();
 
-  void SubscribeTo(ModelEventSubscriberInterface *subscriber);
-  void UnsubscribeFrom(ModelEventSubscriberInterface *subscriber);
+  void SubscribeTo(ModelEventNotifier *subscriber);
+  void UnsubscribeFrom(ModelEventNotifier *subscriber);
 
   //! Lets the controller know that a child is about to be inserted into the `parent` with
   //! `tag_index`.

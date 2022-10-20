@@ -20,9 +20,9 @@
 #ifndef MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
 #define MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
 
-#include <mvvm/interfaces/model_event_subscriber_interface.h>
 #include <mvvm/viewmodel_export.h>
-
+#include <mvvm/signals/callback_types.h>
+#include <mvvm/signals/signal_slot.h>
 #include <map>
 #include <memory>
 #include <vector>
@@ -31,29 +31,29 @@ namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public ModelEventSubscriberInterface
+class MVVM_VIEWMODEL_EXPORT ModelEventNotifier
 {
 public:
   explicit ModelEventNotifier();
-  ~ModelEventNotifier() override;
+  virtual ~ModelEventNotifier();
 
   // methods to subscribe for notifications
 
-  Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f, Slot* slot) override;
+  virtual Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f, Slot* slot);
 
-  Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f, Slot* slot) override;
+  virtual Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f, Slot* slot);
 
-  Connection SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& f, Slot* slot) override;
+  virtual Connection SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& f, Slot* slot);
 
-  Connection SetOnItemRemoved(const Callbacks::item_tagindex_t& f, Slot* slot) override;
+  virtual Connection SetOnItemRemoved(const Callbacks::item_tagindex_t& f, Slot* slot);
 
-  Connection SetOnDataChanged(const Callbacks::item_int_t& f, Slot* slot) override;
+  virtual Connection SetOnDataChanged(const Callbacks::item_int_t& f, Slot* slot);
 
-  Connection SetOnModelAboutToBeReset(const Callbacks::model_t& f, Slot* slot) override;
+  virtual Connection SetOnModelAboutToBeReset(const Callbacks::model_t& f, Slot* slot);
 
-  Connection SetOnModelReset(const Callbacks::model_t& f, Slot* slot) override;
+  virtual Connection SetOnModelReset(const Callbacks::model_t& f, Slot* slot);
 
-  Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f, Slot* slot) override;
+  virtual Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f, Slot* slot);
 
   // methods to trigger notifications
   // FIXME consider making private inheritance from ModelEventSubscriberInterface, and making

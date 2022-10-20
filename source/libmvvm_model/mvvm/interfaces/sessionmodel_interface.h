@@ -31,7 +31,7 @@
 namespace mvvm
 {
 class SessionItem;
-class ModelEventSubscriberInterface;
+class ModelEventNotifier;
 
 //! Application model interface.
 
@@ -48,7 +48,7 @@ public:
 
   ItemFactoryInterface* GetFactory();
 
-  virtual ModelEventSubscriberInterface* GetSubscriber() const = 0;
+  virtual ModelEventNotifier* GetSubscriber() const = 0;
 
   virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                   const TagIndex& tag_index) = 0;

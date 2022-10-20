@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-class ModelEventSubscriberInterface;
+class ModelEventNotifier;
 class ItemManagerInterface;
 class CommandStackInterface;
 
@@ -44,7 +44,7 @@ public:
 
   ~ApplicationModel() override;
 
-  ModelEventSubscriberInterface* GetSubscriber() const override;
+  ModelEventNotifier* GetSubscriber() const override;
 
   void CheckIn(SessionItem* item) override;
 
