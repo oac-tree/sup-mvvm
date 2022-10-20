@@ -108,10 +108,20 @@ struct ModelResetEvent
   bool operator!=(const ModelResetEvent& other) const;
 };
 
+//! An event at the beginning of the model destruction.
+
+struct ModelAboutToBeDestroyedEvent
+{
+  SessionModelInterface* m_model{nullptr};
+
+  bool operator==(const ModelAboutToBeDestroyedEvent& other) const;
+  bool operator!=(const ModelAboutToBeDestroyedEvent& other) const;
+};
+
 //! Variant for all application events.
 using event_t = std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
-                             AboutToRemoveItemEvent, ItemRemovedEvent,
-                             ModelAboutToBeResetEvent, ModelResetEvent>;
+                             AboutToRemoveItemEvent, ItemRemovedEvent, ModelAboutToBeResetEvent,
+                             ModelResetEvent, ModelAboutToBeDestroyedEvent>;
 
 }  // namespace mvvm
 

@@ -71,6 +71,12 @@ public:
 
     void operator()(const ModelResetEvent& event) { OnModelResetEvent(event); }
     MOCK_METHOD1(OnModelResetEvent, void(const ModelResetEvent& event));
+
+    void operator()(const ModelAboutToBeDestroyedEvent& event)
+    {
+      OnModelAboutToBeDestroyedEvent(event);
+    }
+    MOCK_METHOD1(OnModelAboutToBeDestroyedEvent, void(const ModelAboutToBeDestroyedEvent& event));
   };
 };
 

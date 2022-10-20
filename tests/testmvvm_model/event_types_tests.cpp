@@ -55,7 +55,7 @@ TEST_F(EventTypesTests, DataChangedEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
@@ -71,7 +71,7 @@ TEST_F(EventTypesTests, AboutToInsertItemEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
@@ -87,7 +87,7 @@ TEST_F(EventTypesTests, ItemInsertedEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
@@ -103,7 +103,7 @@ TEST_F(EventTypesTests, AboutToRemoveItemEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
@@ -119,7 +119,7 @@ TEST_F(EventTypesTests, ItemRemovedEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
@@ -135,7 +135,7 @@ TEST_F(EventTypesTests, ModelAboutToBeResetEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
@@ -151,7 +151,23 @@ TEST_F(EventTypesTests, ModelResetEvent)
   EXPECT_TRUE(event1 == event2);
   EXPECT_FALSE(event1 != event2);
 
-  // comparing different evebts
+  // comparing different events
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, ModelAboutToBeDestroyedEvent)
+{
+  ModelAboutToBeDestroyedEvent event1{&m_model1};
+  ModelAboutToBeDestroyedEvent event2{&m_model1};
+  ModelAboutToBeDestroyedEvent event3{&m_model2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different events
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }

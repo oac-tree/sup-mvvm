@@ -120,4 +120,18 @@ bool ModelResetEvent::operator!=(const ModelResetEvent& other) const
   return !(*this == other);
 }
 
+// ----------------------------------------------------------------------------
+// ModelAboutToBeDestroyedEvent
+// ----------------------------------------------------------------------------
+
+bool ModelAboutToBeDestroyedEvent::operator==(const ModelAboutToBeDestroyedEvent& other) const
+{
+  return m_model == other.m_model;
+}
+
+bool ModelAboutToBeDestroyedEvent::operator!=(const ModelAboutToBeDestroyedEvent& other) const
+{
+  return !(*this == other);
+}
+
 }  // namespace mvvm
