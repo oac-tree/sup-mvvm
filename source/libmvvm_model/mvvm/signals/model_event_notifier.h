@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
-#define MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
+#ifndef MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_
+#define MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_
 
 #include <mvvm/viewmodel_export.h>
 #include <mvvm/signals/callback_types.h>
@@ -31,13 +31,13 @@ namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventNotifier
+class MVVM_VIEWMODEL_EXPORT ModelEventHandler
 {
 public:
-  explicit ModelEventNotifier();
-  virtual ~ModelEventNotifier();
+  explicit ModelEventHandler();
+  virtual ~ModelEventHandler();
 
-  // methods to subscribe for notifications
+  // methods to subMVVM_SIGNALS_MODEL_EVENT_HANDLER_H_scribe for notifications
 
   virtual Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f, Slot* slot);
 
@@ -82,4 +82,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
+#endif  // MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_

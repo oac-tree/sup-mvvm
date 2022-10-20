@@ -26,7 +26,7 @@
 
 namespace
 {
-mvvm::ModelEventNotifier *GetSubscriber(const mvvm::SessionItem *item)
+mvvm::ModelEventHandler *GetSubscriber(const mvvm::SessionItem *item)
 {
   if (!item)
   {

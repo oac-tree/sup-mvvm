@@ -25,7 +25,7 @@
 
 //! Mocking class to test ModelEventNotifier when it is called from ModelComposer.
 
-class MockModelEventNotifier : public mvvm::ModelEventNotifier
+class MockModelEventNotifier : public mvvm::ModelEventHandler
 {
 public:
 
@@ -68,7 +68,7 @@ public:
 
 //! A decorator to wrap MockModelNotifier for later use with unique_ptr (gmock doesn't like
 //! to put mocking objects into unique_ptr).
-class MockModelEventNotifierDecorator : public mvvm::ModelEventNotifier
+class MockModelEventNotifierDecorator : public mvvm::ModelEventHandler
 {
 public:
   explicit MockModelEventNotifierDecorator(MockModelEventNotifier* notifier)

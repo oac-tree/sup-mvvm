@@ -32,7 +32,7 @@
 namespace
 {
 std::unique_ptr<mvvm::ModelComposerInterface> CreateNotifyingComposer(
-    mvvm::ModelEventNotifier* notifier, mvvm::SessionModelInterface* model)
+    mvvm::ModelEventHandler* notifier, mvvm::SessionModelInterface* model)
 {
   return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(notifier, *model);
 }
@@ -51,7 +51,7 @@ namespace mvvm
 
 struct ApplicationModel::ApplicationModelImpl
 {
-  ModelEventNotifier m_notifier;
+  ModelEventHandler m_notifier;
   std::unique_ptr<CommandStackInterface> m_command_stack;
 };
 
@@ -73,7 +73,7 @@ ApplicationModel::~ApplicationModel()
   p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
 }
 
-ModelEventNotifier* ApplicationModel::GetSubscriber() const
+ModelEventHandler* ApplicationModel::GetSubscriber() const
 {
   return &p_impl->m_notifier;
 }

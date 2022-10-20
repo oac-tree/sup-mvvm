@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-struct ModelEventNotifier::ModelEventNotifierImpl
+struct ModelEventHandler::ModelEventNotifierImpl
 {
   Signal<void(SessionItem *, const TagIndex &)> m_about_to_insert_item;
   Signal<void(SessionItem *, const TagIndex &)> m_item_inserted;
@@ -39,11 +39,11 @@ struct ModelEventNotifier::ModelEventNotifierImpl
   EventHandler m_event_handler;
 };
 
-ModelEventNotifier::ModelEventNotifier() : p_impl(std::make_unique<ModelEventNotifierImpl>()) {}
+ModelEventHandler::ModelEventHandler() : p_impl(std::make_unique<ModelEventNotifierImpl>()) {}
 
-ModelEventNotifier::~ModelEventNotifier() = default;
+ModelEventHandler::~ModelEventHandler() = default;
 
-Connection ModelEventNotifier::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f,
+Connection ModelEventHandler::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f,
                                                       Slot *slot)
 {
   auto adapter = [f](const event_t &event)
@@ -54,7 +54,7 @@ Connection ModelEventNotifier::SetOnAboutToInsertItem(const Callbacks::item_tagi
   return p_impl->m_event_handler.Connect<AboutToInsertItemEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnItemInserted(const Callbacks::item_tagindex_t &f, Slot *slot)
+Connection ModelEventHandler::SetOnItemInserted(const Callbacks::item_tagindex_t &f, Slot *slot)
 {
   auto adapter = [f](const event_t &event)
   {
@@ -64,7 +64,7 @@ Connection ModelEventNotifier::SetOnItemInserted(const Callbacks::item_tagindex_
   return p_impl->m_event_handler.Connect<ItemInsertedEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f,
+Connection ModelEventHandler::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f,
                                                       Slot *slot)
 {
   auto adapter = [f](const event_t &event)
@@ -75,7 +75,7 @@ Connection ModelEventNotifier::SetOnAboutToRemoveItem(const Callbacks::item_tagi
   return p_impl->m_event_handler.Connect<AboutToRemoveItemEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnItemRemoved(const Callbacks::item_tagindex_t &f, Slot *slot)
+Connection ModelEventHandler::SetOnItemRemoved(const Callbacks::item_tagindex_t &f, Slot *slot)
 {
   auto adapter = [f](const event_t &event)
   {
@@ -85,7 +85,7 @@ Connection ModelEventNotifier::SetOnItemRemoved(const Callbacks::item_tagindex_t
   return p_impl->m_event_handler.Connect<ItemRemovedEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnDataChanged(const Callbacks::item_int_t &f, Slot *slot)
+Connection ModelEventHandler::SetOnDataChanged(const Callbacks::item_int_t &f, Slot *slot)
 {
   auto adapter = [f](const event_t &event)
   {
@@ -95,7 +95,7 @@ Connection ModelEventNotifier::SetOnDataChanged(const Callbacks::item_int_t &f, 
   return p_impl->m_event_handler.Connect<DataChangedEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnModelAboutToBeReset(const Callbacks::model_t &f, Slot *slot)
+Connection ModelEventHandler::SetOnModelAboutToBeReset(const Callbacks::model_t &f, Slot *slot)
 {
   auto adapter = [f](const event_t &event)
   {
@@ -105,7 +105,7 @@ Connection ModelEventNotifier::SetOnModelAboutToBeReset(const Callbacks::model_t
   return p_impl->m_event_handler.Connect<ModelAboutToBeResetEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnModelReset(const Callbacks::model_t &f, Slot *slot)
+Connection ModelEventHandler::SetOnModelReset(const Callbacks::model_t &f, Slot *slot)
 {
   auto adapter = [f](const event_t &event)
   {
@@ -115,7 +115,7 @@ Connection ModelEventNotifier::SetOnModelReset(const Callbacks::model_t &f, Slot
   return p_impl->m_event_handler.Connect<ModelResetEvent>(adapter, slot);
 }
 
-Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f, Slot *slot)
+Connection ModelEventHandler::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f, Slot *slot)
 {
   auto adapter = [f](const event_t &event)
   {
@@ -127,42 +127,42 @@ Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(const Callbacks::mod
 
 // ------------------------------------------------------------------------
 
-void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventHandler::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
   p_impl->m_event_handler.Notify<AboutToInsertItemEvent>(parent, tag_index);
 }
 
-void ModelEventNotifier::ItemInsertedNotify(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventHandler::ItemInsertedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
   p_impl->m_event_handler.Notify<ItemInsertedEvent>(parent, tag_index);
 }
 
-void ModelEventNotifier::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventHandler::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
   p_impl->m_event_handler.Notify<AboutToRemoveItemEvent>(parent, tag_index);
 }
 
-void ModelEventNotifier::ItemRemovedNotify(SessionItem *parent, const TagIndex &tag_index)
+void ModelEventHandler::ItemRemovedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
   p_impl->m_event_handler.Notify<ItemRemovedEvent>(parent, tag_index);
 }
 
-void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
+void ModelEventHandler::DataChangedNotify(SessionItem *item, int role)
 {
   p_impl->m_event_handler.Notify<DataChangedEvent>(item, role);
 }
 
-void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModelInterface *model)
+void ModelEventHandler::ModelAboutToBeResetNotify(SessionModelInterface *model)
 {
   p_impl->m_event_handler.Notify<ModelAboutToBeResetEvent>(model);
 }
 
-void ModelEventNotifier::ModelResetNotify(SessionModelInterface *model)
+void ModelEventHandler::ModelResetNotify(SessionModelInterface *model)
 {
   p_impl->m_event_handler.Notify<ModelResetEvent>(model);
 }
 
-void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModelInterface *model)
+void ModelEventHandler::ModelAboutToBeDestroyedNotify(SessionModelInterface *model)
 {
   p_impl->m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(model);
 }

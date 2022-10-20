@@ -35,7 +35,7 @@ public:
   class TestListener
   {
   public:
-    void Subscribe(mvvm::ModelEventNotifier* subscriber)
+    void Subscribe(mvvm::ModelEventHandler* subscriber)
     {
       m_slot = std::make_unique<mvvm::Slot>();
 
@@ -92,7 +92,7 @@ public:
 
   ModelEventNotifierTests() { m_listener.Subscribe(&m_notifier); }
 
-  ModelEventNotifier m_notifier;
+  ModelEventHandler m_notifier;
   TestListener m_listener;
 };
 
@@ -269,7 +269,7 @@ TEST_F(ModelEventNotifierTests, Unsubscribe)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventNotifier notifier;
+  ModelEventHandler notifier;
   TestListener listener;
 
   listener.Subscribe(&notifier);
@@ -303,7 +303,7 @@ TEST_F(ModelEventNotifierTests, TwoSubscriptions)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventNotifier notifier;
+  ModelEventHandler notifier;
   TestListener listener1;
   TestListener listener2;
 
@@ -346,7 +346,7 @@ TEST_F(ModelEventNotifierTests, UnsubscribeOne)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventNotifier notifier;
+  ModelEventHandler notifier;
   TestListener listener1;
   TestListener listener2;
 

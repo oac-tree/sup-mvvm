@@ -19,8 +19,6 @@
 
 #include "mvvm/viewmodel/abstract_viewmodel_controller.h"
 
-#include "test_utils.h"
-
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/signals/model_event_notifier.h>
@@ -66,7 +64,7 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
   mvvm::SessionItem item;
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
 
   auto controller = std::make_unique<TestController>();
 
@@ -84,7 +82,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
   mvvm::SessionItem item;
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
 
   auto controller = std::make_unique<TestController>();
 
@@ -102,7 +100,7 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
   mvvm::SessionItem item;
   int role{42};
 
-  auto notifier = std::make_unique<mvvm::ModelEventNotifier>();
+  auto notifier = std::make_unique<mvvm::ModelEventHandler>();
 
   auto controller = std::make_unique<TestController>();
 
@@ -121,7 +119,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -145,7 +143,7 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -169,7 +167,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -193,7 +191,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -217,7 +215,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   mvvm::SessionItem item;
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -239,7 +237,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   mvvm::SessionModel model;
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -261,7 +259,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   mvvm::SessionModel model;
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -283,7 +281,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   mvvm::SessionModel model;
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -317,7 +315,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  mvvm::ModelEventNotifier notifier;
+  mvvm::ModelEventHandler notifier;
   TestController controller;
   controller.SubscribeTo(&notifier);
 
@@ -350,7 +348,7 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventNotifier notifier;
+  ModelEventHandler notifier;
   TestController listener1;
   TestController listener2;
 
@@ -393,7 +391,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventNotifier notifier;
+  ModelEventHandler notifier;
   TestController listener1;
   TestController listener2;
 

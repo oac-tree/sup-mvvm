@@ -43,7 +43,7 @@ public:
   MOCK_CONST_METHOD0(GetFactory, const mvvm::ItemFactoryInterface *());
 
   //  MOCK_METHOD(mvvm::ModelEventSubscriberInterface *, GetSubscriber, (), (const, override));
-  MOCK_CONST_METHOD0(GetSubscriber, mvvm::ModelEventNotifier *());
+  MOCK_CONST_METHOD0(GetSubscriber, mvvm::ModelEventHandler *());
 
   //  MOCK_METHOD(mvvm::SessionItem *, InsertItem,
   //              (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,
@@ -106,7 +106,7 @@ public:
 
   const mvvm::ItemFactoryInterface *GetFactory() const { return m_mock_model->GetFactory(); }
 
-  mvvm::ModelEventNotifier *GetSubscriber() const
+  mvvm::ModelEventHandler *GetSubscriber() const
   {
     return m_mock_model->GetSubscriber();
   }

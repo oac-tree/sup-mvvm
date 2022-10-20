@@ -29,7 +29,7 @@ namespace mvvm
 {
 AbstractViewModelController::~AbstractViewModelController() = default;
 
-void AbstractViewModelController::SubscribeTo(ModelEventNotifier *subscriber)
+void AbstractViewModelController::SubscribeTo(ModelEventHandler *subscriber)
 {
   if (!subscriber)
   {
@@ -66,7 +66,7 @@ void AbstractViewModelController::SubscribeTo(ModelEventNotifier *subscriber)
   subscriber->SetOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
 }
 
-void AbstractViewModelController::UnsubscribeFrom(ModelEventNotifier *subscriber)
+void AbstractViewModelController::UnsubscribeFrom(ModelEventHandler *subscriber)
 {
   // FIXME Do we need Unsubscribe methods?
   (void)subscriber;

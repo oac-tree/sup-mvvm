@@ -53,7 +53,7 @@ public:
 
   SessionItem* GetRootItem() const override;
 
-  ModelEventNotifier* GetSubscriber() const override;
+  ModelEventHandler* GetSubscriber() const override;
 
   // Methods to manipulate data and items.
 
