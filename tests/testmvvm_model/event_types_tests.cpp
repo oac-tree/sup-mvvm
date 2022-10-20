@@ -23,9 +23,9 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include <iostream>
 #include <string>
 #include <variant>
-#include <iostream>
 
 using namespace mvvm;
 using ::testing::_;
@@ -33,29 +33,90 @@ using ::testing::_;
 class EventTypesTests : public ::testing::Test
 {
 public:
-  struct TestEvent
-  {
-    int m_data_role{0};
-    SessionItem* m_item{nullptr};
-    TestEvent(int value, SessionItem* item) : m_data_role(value), m_item(item)
-    {
-      std::cout << "AAAA " << std::endl;
-    }
-  };
-
-  template <typename EventT, typename... Args>
-  void Process(Args&&... args)
-  {
-    EventT event{std::forward<Args>(args)...};
-  }
+  int m_value1{42};
+  int m_value2{43};
+  SessionItem m_item1;
+  SessionItem m_item2;
+  TagIndex m_tagindex1{"abc", 1};
+  TagIndex m_tagindex2{"def", 2};
 };
 
-TEST_F(EventTypesTests, DataChangedEventCtor)
+TEST_F(EventTypesTests, DataChangedEvent)
 {
-  TestEvent event{0, nullptr};
+  DataChangedEvent event1{m_value1, &m_item1};
+  DataChangedEvent event2{m_value1, &m_item1};
+  DataChangedEvent event3{m_value2, &m_item1};
 
-  SessionItem* item{nullptr};
-  int value{42};
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
 
-  Process<TestEvent>(value, item);
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, AboutToInsertItemEvent)
+{
+  AboutToInsertItemEvent event1{&m_item1, m_tagindex1};
+  AboutToInsertItemEvent event2{&m_item1, m_tagindex1};
+  AboutToInsertItemEvent event3{&m_item1, m_tagindex2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, ItemInsertedEvent)
+{
+  ItemInsertedEvent event1{&m_item1, m_tagindex1};
+  ItemInsertedEvent event2{&m_item1, m_tagindex1};
+  ItemInsertedEvent event3{&m_item1, m_tagindex2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, AboutToRemoveItemEvent)
+{
+  AboutToRemoveItemEvent event1{&m_item1, m_tagindex1};
+  AboutToRemoveItemEvent event2{&m_item1, m_tagindex1};
+  AboutToRemoveItemEvent event3{&m_item1, m_tagindex2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, ItemRemovedEvent)
+{
+  ItemRemovedEvent event1{&m_item1, m_tagindex1};
+  ItemRemovedEvent event2{&m_item1, m_tagindex1};
+  ItemRemovedEvent event3{&m_item1, m_tagindex2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different evebts
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
 }

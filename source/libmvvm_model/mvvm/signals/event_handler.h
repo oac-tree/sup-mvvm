@@ -87,7 +87,7 @@ public:
   template <typename EventT, typename... Args>
   void Notify(Args&&... args)
   {
-    EventT event(std::forward<Args>(args)...);
+    EventT event{std::forward<Args>(args)...};
     Notify(event);
   }
 

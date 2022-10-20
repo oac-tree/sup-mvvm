@@ -59,6 +59,13 @@ public:
 
     void operator()(const ItemInsertedEvent& event) { OnItemInsertedEvent(event); }
     MOCK_METHOD1(OnItemInsertedEvent, void(const ItemInsertedEvent& event));
+
+    void operator()(const AboutToRemoveItemEvent& event) { OnAboutToRemoveItemEvent(event); }
+    MOCK_METHOD1(OnAboutToRemoveItemEvent, void(const AboutToRemoveItemEvent& event));
+
+    void operator()(const ItemRemovedEvent& event) { OnItemRemovedEvent(event); }
+    MOCK_METHOD1(OnItemRemovedEvent, void(const ItemRemovedEvent& event));
+
   };
 };
 

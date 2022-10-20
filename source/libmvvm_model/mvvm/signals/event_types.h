@@ -29,11 +29,8 @@
 
 namespace mvvm
 {
-class SessionItem;
-}
 
-namespace mvvm
-{
+class SessionItem;
 
 //! An event when item's data is changed.
 
@@ -42,7 +39,6 @@ struct DataChangedEvent
   int m_data_role{0};
   SessionItem* m_item{nullptr};
 
-  DataChangedEvent(int data_role, SessionItem* item);
   bool operator==(const DataChangedEvent& other) const;
   bool operator!=(const DataChangedEvent& other) const;
 };
@@ -54,7 +50,6 @@ struct AboutToInsertItemEvent
   SessionItem* m_parent{nullptr};
   TagIndex m_tag_index;
 
-  AboutToInsertItemEvent(SessionItem* parent, const TagIndex& tag_index);
   bool operator==(const AboutToInsertItemEvent& other) const;
   bool operator!=(const AboutToInsertItemEvent& other) const;
 };
@@ -66,14 +61,36 @@ struct ItemInsertedEvent
   SessionItem* m_parent{nullptr};
   TagIndex m_tag_index;
 
-  ItemInsertedEvent(SessionItem* item, const TagIndex& tag_index);
   bool operator==(const ItemInsertedEvent& other) const;
   bool operator!=(const ItemInsertedEvent& other) const;
 };
 
-//! Variant for all application events.
-using event_t = std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent>;
+//! An event when item is about to be removed from the model.
 
-}  // namespace mvvm::experimental
+struct AboutToRemoveItemEvent
+{
+  SessionItem* m_parent{nullptr};
+  TagIndex m_tag_index;
+
+  bool operator==(const AboutToRemoveItemEvent& other) const;
+  bool operator!=(const AboutToRemoveItemEvent& other) const;
+};
+
+//! An event when item was removed from the model.
+
+struct ItemRemovedEvent
+{
+  SessionItem* m_parent{nullptr};
+  TagIndex m_tag_index;
+
+  bool operator==(const ItemRemovedEvent& other) const;
+  bool operator!=(const ItemRemovedEvent& other) const;
+};
+
+//! Variant for all application events.
+using event_t = std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
+                             AboutToRemoveItemEvent, ItemRemovedEvent>;
+
+}  // namespace mvvm
 
 #endif  // MVVM_EXPERIMENTAL_EVENT_TYPES_H_
