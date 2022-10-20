@@ -31,7 +31,7 @@ const char* MessageException::what() const noexcept
 
 RuntimeException::RuntimeException(const std::string& message) : MessageException{message} {}
 
-NotFoundKeyException::NotFoundKeyException(const std::string& message) : MessageException{message}
+KeyNotFoundException::KeyNotFoundException(const std::string& message) : MessageException{message}
 {
 }
 

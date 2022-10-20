@@ -71,7 +71,7 @@ TEST_F(ItemCatalogueTests, AddItem)
   EXPECT_THROW(catalogue.RegisterItem<PropertyItem>(), ExistingKeyException);
 
   // item was not registered, creation not allowed
-  EXPECT_THROW(catalogue.Create("non-registered"), NotFoundKeyException);
+  EXPECT_THROW(catalogue.Create("non-registered"), KeyNotFoundException);
 
   // checking model types and labels
   EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({PropertyItem::Type}));
@@ -103,7 +103,7 @@ TEST_F(ItemCatalogueTests, CopyConstructor)
   EXPECT_TRUE(dynamic_cast<TestItem*>(item.get()) != nullptr);
 
   // copy of catalogue knows nothing about new VectorType
-  EXPECT_THROW(copy.Create(TestItem::Type), NotFoundKeyException);
+  EXPECT_THROW(copy.Create(TestItem::Type), KeyNotFoundException);
 }
 
 TEST_F(ItemCatalogueTests, AssignmentOperator)

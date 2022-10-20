@@ -51,10 +51,10 @@ public:
 
 //! Exception is thrown when no such key exists in a map.
 
-class NotFoundKeyException : public MessageException
+class KeyNotFoundException : public MessageException
 {
 public:
-  explicit NotFoundKeyException(const std::string& message);
+  explicit KeyNotFoundException(const std::string& message);
 };
 
 //! Exception is thrown when such key already exists in the map.

@@ -104,7 +104,7 @@ std::unique_ptr<T> ItemCatalogue<T>::Create(const std::string& item_type) const
                     [item_type](auto element) { return element.item_type == item_type; });
   if (it == m_info.end())
   {
-    throw NotFoundKeyException("No item registered for model type '" + item_type + "'");
+    throw KeyNotFoundException("No item registered for model type '" + item_type + "'");
   }
   return it->factory_func();
 }

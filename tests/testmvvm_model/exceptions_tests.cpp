@@ -37,7 +37,7 @@ TEST_F(ExceptionsTests, Message)
   auto exception2 = InvalidOperationException(message);
   EXPECT_EQ(std::string(exception2.what()), message);
 
-  auto exception3 = NotFoundKeyException(message);
+  auto exception3 = KeyNotFoundException(message);
   EXPECT_EQ(std::string(exception3.what()), message);
 
   auto exception4 = ExistingKeyException(message);
