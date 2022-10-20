@@ -21,6 +21,7 @@
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/signals/event_handler.h>
 #include <mvvm/signals/signal_slot.h>
 
 namespace mvvm
@@ -35,6 +36,7 @@ struct ModelEventNotifier::ModelEventNotifierImpl
   Signal<void(SessionModelInterface *)> m_model_about_to_reset;
   Signal<void(SessionModelInterface *)> m_model_reset;
   Signal<void(SessionModelInterface *)> m_model_about_to_be_destroyed;
+  EventHandler m_event_handler;
 };
 
 ModelEventNotifier::ModelEventNotifier() : p_impl(std::make_unique<ModelEventNotifierImpl>()) {}
@@ -44,12 +46,22 @@ ModelEventNotifier::~ModelEventNotifier() = default;
 Connection ModelEventNotifier::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f,
                                                       Slot *slot)
 {
-  return p_impl->m_about_to_insert_item.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<AboutToInsertItemEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->m_event_handler.Connect<AboutToInsertItemEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnItemInserted(const Callbacks::item_tagindex_t &f, Slot *slot)
 {
-  return p_impl->m_item_inserted.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ItemInsertedEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->m_event_handler.Connect<ItemInsertedEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f,
@@ -87,12 +99,12 @@ Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(const Callbacks::mod
 
 void ModelEventNotifier::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  p_impl->m_about_to_insert_item(parent, tag_index);
+  p_impl->m_event_handler.Notify<AboutToInsertItemEvent>(parent, tag_index);
 }
 
 void ModelEventNotifier::ItemInsertedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  p_impl->m_item_inserted(parent, tag_index);
+  p_impl->m_event_handler.Notify<ItemInsertedEvent>(parent, tag_index);
 }
 
 void ModelEventNotifier::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
