@@ -20,6 +20,7 @@
 #ifndef MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
 #define MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
 
+#include <mvvm/viewmodel_export.h>
 #include <mvvm/core/type_map.h>
 #include <mvvm/signals/event_types.h>
 #include <mvvm/signals/signal_slot.h>
@@ -43,13 +44,14 @@ namespace mvvm
 //! event_handler.Notify<DataChangedEvent>(role, item);
 //! @endcode
 
-class EventHandler
+class MVVM_VIEWMODEL_EXPORT EventHandler
 {
   using callback_t = std::function<void(const event_t&)>;
   using signal_t = Signal<void(const event_t&)>;
 
 public:
   EventHandler();
+  virtual ~EventHandler() = default;
 
   //! Connect given callback to all events specified by the given event type.
   //! @param callback A callback to be notified.

@@ -30,7 +30,7 @@ struct ModelListenerBase::ModelListenerBaseImpl
   SessionModelInterface *m_model{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 
-  ModelEventHandler *GetSubscriber() const { return m_model->GetEventHandler(); }
+  ModelEventHandler *GetEventHandler() const { return m_model->GetEventHandler(); }
 
   Slot *GetSlot() const { return m_slot.get(); }
 
@@ -47,42 +47,42 @@ ModelListenerBase::ModelListenerBase(SessionModelInterface *model)
 
 Connection ModelListenerBase::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnAboutToInsertItem(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnAboutToInsertItem(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnItemInserted(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnItemInserted(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnItemInserted(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnAboutToRemoveItem(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnAboutToRemoveItem(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnItemRemoved(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnItemRemoved(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnItemRemoved(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnDataChanged(const Callbacks::item_int_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnDataChanged(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnDataChanged(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnModelAboutToBeReset(const Callbacks::model_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnModelAboutToBeReset(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnModelAboutToBeReset(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnModelReset(const Callbacks::model_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnModelReset(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnModelReset(f, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f)
 {
-  return p_impl->GetSubscriber()->SetOnModelAboutToBeDestroyed(f, p_impl->GetSlot());
+  return p_impl->GetEventHandler()->SetOnModelAboutToBeDestroyed(f, p_impl->GetSlot());
 }
 
 SessionModelInterface *ModelListenerBase::GetCurrentModel() const

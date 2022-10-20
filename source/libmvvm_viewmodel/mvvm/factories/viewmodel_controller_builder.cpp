@@ -52,7 +52,7 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
 
   if (!m_context.model->GetEventHandler())
   {
-    throw std::runtime_error("Model doesn't have a subscriber.");
+    throw std::runtime_error("Model doesn't have an event handler.");
   }
 
   auto result = std::make_unique<ViewModelController>(m_context.model, m_context.view_model);

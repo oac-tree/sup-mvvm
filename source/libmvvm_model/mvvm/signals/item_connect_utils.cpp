@@ -26,7 +26,7 @@
 
 namespace
 {
-mvvm::ModelEventHandler *GetSubscriber(const mvvm::SessionItem *item)
+mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
 {
   if (!item)
   {
@@ -52,7 +52,7 @@ namespace mvvm::connect
 
 Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
 {
-  auto subscriber = GetSubscriber(source);
+  auto event_handler = GetEventHandler(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
@@ -64,13 +64,13 @@ Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t 
     }
   };
 
-  return subscriber->SetOnItemInserted(filtered_callback, slot);
+  return event_handler->SetOnItemInserted(filtered_callback, slot);
 }
 
 Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagindex_t &func,
                                Slot *slot)
 {
-  auto subscriber = GetSubscriber(source);
+  auto event_handler = GetEventHandler(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
@@ -82,12 +82,12 @@ Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagind
     }
   };
 
-  return subscriber->SetOnAboutToRemoveItem(filtered_callback, slot);
+  return event_handler->SetOnAboutToRemoveItem(filtered_callback, slot);
 }
 
 Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
 {
-  auto subscriber = GetSubscriber(source);
+  auto event_handler = GetEventHandler(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
@@ -99,12 +99,12 @@ Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &
     }
   };
 
-  return subscriber->SetOnItemRemoved(filtered_callback, slot);
+  return event_handler->SetOnItemRemoved(filtered_callback, slot);
 }
 
 Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
 {
-  auto subscriber = GetSubscriber(source);
+  auto event_handler = GetEventHandler(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
@@ -116,12 +116,12 @@ Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func,
     }
   };
 
-  return subscriber->SetOnDataChanged(filtered_callback, slot);
+  return event_handler->SetOnDataChanged(filtered_callback, slot);
 }
 
 Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &func, Slot *slot)
 {
-  auto subscriber = GetSubscriber(source);
+  auto event_handler = GetEventHandler(source);
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
@@ -134,7 +134,7 @@ Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &f
     }
   };
 
-  return subscriber->SetOnDataChanged(filtered_callback, slot);
+  return event_handler->SetOnDataChanged(filtered_callback, slot);
 }
 
 }  // namespace mvvm::connect

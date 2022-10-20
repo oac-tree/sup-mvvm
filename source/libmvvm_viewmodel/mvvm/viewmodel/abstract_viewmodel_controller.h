@@ -39,8 +39,8 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
 public:
   virtual ~AbstractViewModelController();
 
-  void SubscribeTo(ModelEventHandler *subscriber);
-  void UnsubscribeFrom(ModelEventHandler *subscriber);
+  void SubscribeTo(ModelEventHandler *event_handler);
+  void UnsubscribeFrom(ModelEventHandler *event_handler);
 
   //! Lets the controller know that a child is about to be inserted into the `parent` with
   //! `tag_index`.
