@@ -21,7 +21,7 @@
 #define MVVM_MODEL_NOTIFYING_MODEL_COMPOSER_H_
 
 #include <mvvm/interfaces/model_composer_interface.h>
-#include <mvvm/interfaces/model_event_notifier_interface.h>
+#include <mvvm/signals/model_event_notifier.h>
 #include <mvvm/model/sessionitem.h>
 
 namespace mvvm
@@ -38,7 +38,7 @@ public:
   static_assert(std::is_base_of<ModelComposerInterface, T>::value, "Invalid template argument");
 
   template <typename... Args>
-  explicit NotifyingModelComposer(ModelEventNotifierInterface* notifier, Args&&... args)
+  explicit NotifyingModelComposer(ModelEventNotifier* notifier, Args&&... args)
       : m_notifier(notifier), T(std::forward<Args>(args)...)
   {
   }
@@ -79,7 +79,7 @@ public:
   }
 
 private:
-  ModelEventNotifierInterface* m_notifier{nullptr};
+  ModelEventNotifier* m_notifier{nullptr};
 };
 
 }  // namespace mvvm

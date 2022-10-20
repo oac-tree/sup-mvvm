@@ -21,11 +21,11 @@
 #define TESTS_LIBTESTMACHINERY_MOCK_MODEL_EVENT_NOTIFIER_H_
 
 #include <gmock/gmock.h>
-#include <mvvm/interfaces/model_event_notifier_interface.h>
+#include <mvvm/signals/model_event_notifier.h>
 
-//! Mocking class to test ModelEventNotifierInterface when it is called from ModelComposer.
+//! Mocking class to test ModelEventNotifier when it is called from ModelComposer.
 
-class MockModelEventNotifier : public mvvm::ModelEventNotifierInterface
+class MockModelEventNotifier : public mvvm::ModelEventNotifier
 {
 public:
 
@@ -68,7 +68,7 @@ public:
 
 //! A decorator to wrap MockModelNotifier for later use with unique_ptr (gmock doesn't like
 //! to put mocking objects into unique_ptr).
-class MockModelEventNotifierDecorator : public mvvm::ModelEventNotifierInterface
+class MockModelEventNotifierDecorator : public mvvm::ModelEventNotifier
 {
 public:
   explicit MockModelEventNotifierDecorator(MockModelEventNotifier* notifier)

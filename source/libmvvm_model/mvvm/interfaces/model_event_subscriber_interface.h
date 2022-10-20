@@ -34,6 +34,8 @@ class TagIndex;
 class MVVM_MODEL_EXPORT ModelEventSubscriberInterface
 {
 public:
+  virtual ~ModelEventSubscriberInterface() = default;
+
   //! Sets callback to be notified when the item is about to be inserted. The callback will be
   //! called with (SessionItem* parent, tag_index), where 'tag_index' denotes child position.
   virtual Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f,

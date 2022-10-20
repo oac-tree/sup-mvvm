@@ -20,7 +20,6 @@
 #ifndef MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
 #define MVVM_SIGNALS_MODEL_EVENT_NOTIFIER_H_
 
-#include <mvvm/interfaces/model_event_notifier_interface.h>
 #include <mvvm/interfaces/model_event_subscriber_interface.h>
 #include <mvvm/viewmodel_export.h>
 
@@ -32,8 +31,7 @@ namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public ModelEventNotifierInterface,
-                                                 public ModelEventSubscriberInterface
+class MVVM_VIEWMODEL_EXPORT ModelEventNotifier : public ModelEventSubscriberInterface
 {
 public:
   explicit ModelEventNotifier();
@@ -61,21 +59,21 @@ public:
   // FIXME consider making private inheritance from ModelEventSubscriberInterface, and making
   // ApplicationModel a friend
 
-  void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index) override;
+  virtual void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index);
 
-  void ItemInsertedNotify(SessionItem* parent, const TagIndex& tag_index) override;
+  virtual void ItemInsertedNotify(SessionItem* parent, const TagIndex& tag_index);
 
-  void AboutToRemoveItemNotify(SessionItem* parent, const TagIndex& tag_index) override;
+  virtual void AboutToRemoveItemNotify(SessionItem* parent, const TagIndex& tag_index);
 
-  void ItemRemovedNotify(SessionItem* parent, const TagIndex& tag_index) override;
+  virtual void ItemRemovedNotify(SessionItem* parent, const TagIndex& tag_index);
 
-  void DataChangedNotify(SessionItem* item, int role) override;
+  virtual void DataChangedNotify(SessionItem* item, int role);
 
-  void ModelAboutToBeResetNotify(SessionModelInterface* model) override;
+  virtual void ModelAboutToBeResetNotify(SessionModelInterface* model);
 
-  void ModelResetNotify(SessionModelInterface* model) override;
+  virtual void ModelResetNotify(SessionModelInterface* model);
 
-  void ModelAboutToBeDestroyedNotify(SessionModelInterface* model) override;
+  virtual void ModelAboutToBeDestroyedNotify(SessionModelInterface* model);
 
 private:
   struct ModelEventNotifierImpl;
