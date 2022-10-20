@@ -21,7 +21,7 @@
 
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
-#include <mvvm/signals/model_event_notifier.h>
+#include <mvvm/signals/model_event_handler.h>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>

@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/model_listener_base.h"
 
-#include <mvvm/signals/model_event_notifier.h>
+#include <mvvm/signals/model_event_handler.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
 namespace mvvm

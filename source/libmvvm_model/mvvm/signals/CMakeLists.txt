@@ -6,8 +6,8 @@ target_sources(${library_name} PRIVATE
   item_listener_base.cpp
   item_listener_base.h
   lsignal.h
-  model_event_notifier.cpp
-  model_event_notifier.h
+  model_event_handler.cpp
+  model_event_handler.h
   model_listener.h
   model_listener_base.cpp
   model_listener_base.h

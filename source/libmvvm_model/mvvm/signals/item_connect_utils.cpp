@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
-#include <mvvm/signals/model_event_notifier.h>
+#include <mvvm/signals/model_event_handler.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>

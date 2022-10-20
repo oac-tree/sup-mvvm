@@ -21,7 +21,7 @@
 #define TESTS_LIBTESTMACHINERY_MOCK_MODEL_EVENT_NOTIFIER_H_
 
 #include <gmock/gmock.h>
-#include <mvvm/signals/model_event_notifier.h>
+#include <mvvm/signals/model_event_handler.h>
 
 //! Mocking class to test ModelEventNotifier when it is called from ModelComposer.
 

@@ -19,11 +19,10 @@
 
 #include "abstract_viewmodel_controller.h"
 
-#include "mvvm/signals/model_event_notifier.h"
+#include "mvvm/signals/model_event_handler.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/signals/model_event_notifier.h>
 
 namespace mvvm
 {

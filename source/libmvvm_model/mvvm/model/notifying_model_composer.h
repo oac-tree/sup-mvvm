@@ -21,7 +21,7 @@
 #define MVVM_MODEL_NOTIFYING_MODEL_COMPOSER_H_
 
 #include <mvvm/interfaces/model_composer_interface.h>
-#include <mvvm/signals/model_event_notifier.h>
+#include <mvvm/signals/model_event_handler.h>
 #include <mvvm/model/sessionitem.h>
 
 namespace mvvm
