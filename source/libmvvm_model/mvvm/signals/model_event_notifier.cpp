@@ -67,32 +67,62 @@ Connection ModelEventNotifier::SetOnItemInserted(const Callbacks::item_tagindex_
 Connection ModelEventNotifier::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f,
                                                       Slot *slot)
 {
-  return p_impl->m_about_to_remove_item.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->m_event_handler.Connect<AboutToRemoveItemEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnItemRemoved(const Callbacks::item_tagindex_t &f, Slot *slot)
 {
-  return p_impl->m_item_removed.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ItemRemovedEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->m_event_handler.Connect<ItemRemovedEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnDataChanged(const Callbacks::item_int_t &f, Slot *slot)
 {
-  return p_impl->m_data_changed.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<DataChangedEvent>(event);
+    f(concrete_event.m_item, concrete_event.m_data_role);
+  };
+  return p_impl->m_event_handler.Connect<DataChangedEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnModelAboutToBeReset(const Callbacks::model_t &f, Slot *slot)
 {
-  return p_impl->m_model_about_to_reset.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ModelAboutToBeResetEvent>(event);
+    f(concrete_event.m_model);
+  };
+  return p_impl->m_event_handler.Connect<ModelAboutToBeResetEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnModelReset(const Callbacks::model_t &f, Slot *slot)
 {
-  return p_impl->m_model_reset.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ModelResetEvent>(event);
+    f(concrete_event.m_model);
+  };
+  return p_impl->m_event_handler.Connect<ModelResetEvent>(adapter, slot);
 }
 
 Connection ModelEventNotifier::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f, Slot *slot)
 {
-  return p_impl->m_model_about_to_be_destroyed.connect(f, slot);
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ModelAboutToBeDestroyedEvent>(event);
+    f(concrete_event.m_model);
+  };
+  return p_impl->m_event_handler.Connect<ModelAboutToBeDestroyedEvent>(adapter, slot);
 }
 
 // ------------------------------------------------------------------------
@@ -109,32 +139,32 @@ void ModelEventNotifier::ItemInsertedNotify(SessionItem *parent, const TagIndex 
 
 void ModelEventNotifier::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  p_impl->m_about_to_remove_item(parent, tag_index);
+  p_impl->m_event_handler.Notify<AboutToRemoveItemEvent>(parent, tag_index);
 }
 
 void ModelEventNotifier::ItemRemovedNotify(SessionItem *parent, const TagIndex &tag_index)
 {
-  p_impl->m_item_removed(parent, tag_index);
+  p_impl->m_event_handler.Notify<ItemRemovedEvent>(parent, tag_index);
 }
 
 void ModelEventNotifier::DataChangedNotify(SessionItem *item, int role)
 {
-  p_impl->m_data_changed(item, role);
+  p_impl->m_event_handler.Notify<DataChangedEvent>(role, item);
 }
 
 void ModelEventNotifier::ModelAboutToBeResetNotify(SessionModelInterface *model)
 {
-  p_impl->m_model_about_to_reset(model);
+  p_impl->m_event_handler.Notify<ModelAboutToBeResetEvent>(model);
 }
 
 void ModelEventNotifier::ModelResetNotify(SessionModelInterface *model)
 {
-  p_impl->m_model_reset(model);
+  p_impl->m_event_handler.Notify<ModelResetEvent>(model);
 }
 
 void ModelEventNotifier::ModelAboutToBeDestroyedNotify(SessionModelInterface *model)
 {
-  p_impl->m_model_about_to_be_destroyed(model);
+  p_impl->m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(model);
 }
 
 }  // namespace mvvm
