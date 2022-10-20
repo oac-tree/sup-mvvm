@@ -26,6 +26,18 @@
 namespace mvvm
 {
 
+ModelEventHandler::ModelEventHandler()
+{
+  Register<DataChangedEvent>();
+  Register<AboutToInsertItemEvent>();
+  Register<ItemInsertedEvent>();
+  Register<AboutToRemoveItemEvent>();
+  Register<ItemRemovedEvent>();
+  Register<ModelAboutToBeResetEvent>();
+  Register<ModelResetEvent>();
+  Register<ModelAboutToBeDestroyedEvent>();
+}
+
 Connection ModelEventHandler::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f,
                                                      Slot *slot)
 {

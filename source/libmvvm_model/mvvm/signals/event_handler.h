@@ -20,9 +20,7 @@
 #ifndef MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
 #define MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
 
-#include <mvvm/viewmodel_export.h>
 #include <mvvm/core/type_map.h>
-#include <mvvm/signals/event_types.h>
 #include <mvvm/signals/signal_slot.h>
 
 #include <functional>
@@ -34,7 +32,7 @@ namespace mvvm
 
 //! Provides subscription mechanism to various event types.
 //! @code{.cpp}
-//! EventHandler handler;
+//! EventHandler<event_t> handler;
 //!
 //! // to connect to signal
 //! event_handler.Connect<DataChangedEvent>(&widget, &Widget::OnEvent);
@@ -44,15 +42,13 @@ namespace mvvm
 //! event_handler.Notify<DataChangedEvent>(role, item);
 //! @endcode
 
-class MVVM_VIEWMODEL_EXPORT EventHandler
+template <typename EventVariantT>
+class EventHandler
 {
-  using callback_t = std::function<void(const event_t&)>;
-  using signal_t = Signal<void(const event_t&)>;
+  using callback_t = typename std::function<void(const EventVariantT&)>;
+  using signal_t = typename ::mvvm::Signal<void(const EventVariantT&)>;
 
 public:
-  EventHandler();
-  virtual ~EventHandler() = default;
-
   //! Connect given callback to all events specified by the given event type.
   //! @param callback A callback to be notified.
   //! @param slot A slot object to specify time of life of the callback.
@@ -62,7 +58,7 @@ public:
   template <typename EventT>
   Connection Connect(const callback_t& callback, Slot* slot = nullptr)
   {
-    auto it = m_signals.Find<EventT>();
+    auto it = m_signals.template Find<EventT>();
     if (it == m_signals.end())
     {
       throw std::runtime_error("The type is not supported");
@@ -79,7 +75,7 @@ public:
   template <typename EventT, typename WidgetT, typename Fn>
   Connection Connect(WidgetT* widget, const Fn& method, Slot* slot = nullptr)
   {
-    auto it = m_signals.Find<EventT>();
+    auto it = m_signals.template Find<EventT>();
     if (it == m_signals.end())
     {
       throw std::runtime_error("The type is not supported");
@@ -102,7 +98,7 @@ public:
   template <typename EventT>
   void Notify(const EventT& event)
   {
-    auto it = m_signals.Find<EventT>();
+    auto it = m_signals.template Find<EventT>();
     if (it == m_signals.end())
     {
       throw std::runtime_error("The type is not supported");
@@ -110,10 +106,17 @@ public:
     it->second->operator()(event);
   }
 
+  template <typename EventT>
+  void Register()
+  {
+    auto signal_for_event_type = std::make_unique<signal_t>();
+    m_signals.template Put<EventT>(std::move(signal_for_event_type));
+  }
+
 private:
   TypeMap<std::unique_ptr<signal_t>> m_signals;
 };
 
-}  // namespace mvvm::experimental
+}  // namespace mvvm
 
 #endif  // MVVM_EXPERIMENTAL_EVENT_NOTIFIER_INTERFACE_H_

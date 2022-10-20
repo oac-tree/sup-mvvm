@@ -23,14 +23,17 @@
 #include <mvvm/signals/callback_types.h>
 #include <mvvm/signals/event_handler.h>
 #include <mvvm/viewmodel_export.h>
+#include <mvvm/signals/event_types.h>
 
 namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventHandler : public EventHandler
+class MVVM_VIEWMODEL_EXPORT ModelEventHandler : public EventHandler<event_t>
 {
 public:
+  ModelEventHandler();
+
   virtual Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f, Slot* slot);
 
   virtual Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f, Slot* slot);

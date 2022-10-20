@@ -19,6 +19,7 @@
 
 #include "mvvm/model/sessionitem.h"
 #include "mvvm/signals/event_handler.h"
+#include "mvvm/signals/event_types.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -80,6 +81,22 @@ public:
   };
 };
 
+//! Connecting to event which was never registered.
+
+TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
+{
+  const int role{42};
+  SessionItem item;
+  DataChangedEvent data_changed_event{&item, role};
+
+  MockWidget widget;
+
+  EventHandler<event_t> event_handler;
+
+  EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.CreateCallback()),
+               std::runtime_error);
+}
+
 //! Connecting single callback with DataChangedEvent. Trigerring notification and checking that
 //! callback was called.
 
@@ -91,7 +108,9 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 
   MockWidget widget;
 
-  EventHandler event_handler;
+  EventHandler<event_t> event_handler;
+  event_handler.Register<DataChangedEvent>();
+
   event_handler.Connect<DataChangedEvent>(widget.CreateCallback());
 
   // check notification when triggering Notify via templated method
@@ -113,7 +132,9 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 
   MockWidget widget;
 
-  EventHandler event_handler;
+  EventHandler<event_t> event_handler;
+  event_handler.Register<DataChangedEvent>();
+
   event_handler.Connect<DataChangedEvent>(&widget, &MockWidget::OnEvent);
 
   EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
@@ -131,7 +152,10 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 
   MockSpecializedWidget widget;
 
-  EventHandler event_handler;
+  EventHandler<event_t> event_handler;
+  event_handler.Register<DataChangedEvent>();
+  event_handler.Register<ItemInsertedEvent>();
+
   event_handler.Connect<DataChangedEvent>(&widget, &MockSpecializedWidget::OnEvent);
   event_handler.Connect<ItemInsertedEvent>(&widget, &MockSpecializedWidget::OnEvent);
 

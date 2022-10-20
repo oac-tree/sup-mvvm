@@ -22,16 +22,16 @@
 namespace mvvm
 {
 
-EventHandler::EventHandler()
-{
-  m_signals.Put<DataChangedEvent>(std::make_unique<signal_t>());
-  m_signals.Put<AboutToInsertItemEvent>(std::make_unique<signal_t>());
-  m_signals.Put<ItemInsertedEvent>(std::make_unique<signal_t>());
-  m_signals.Put<AboutToRemoveItemEvent>(std::make_unique<signal_t>());
-  m_signals.Put<ItemRemovedEvent>(std::make_unique<signal_t>());
-  m_signals.Put<ModelAboutToBeResetEvent>(std::make_unique<signal_t>());
-  m_signals.Put<ModelResetEvent>(std::make_unique<signal_t>());
-  m_signals.Put<ModelAboutToBeDestroyedEvent>(std::make_unique<signal_t>());
-}
+//EventHandler::EventHandler()
+//{
+//  m_signals.Put<DataChangedEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<AboutToInsertItemEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<ItemInsertedEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<AboutToRemoveItemEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<ItemRemovedEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<ModelAboutToBeResetEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<ModelResetEvent>(std::make_unique<signal_t>());
+//  m_signals.Put<ModelAboutToBeDestroyedEvent>(std::make_unique<signal_t>());
+//}
 
 }  // namespace mvvm
