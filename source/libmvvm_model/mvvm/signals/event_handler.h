@@ -58,12 +58,7 @@ public:
   template <typename EventT>
   Connection Connect(const callback_t& callback, Slot* slot = nullptr)
   {
-    auto it = m_signals.template Find<EventT>();
-    if (it == m_signals.end())
-    {
-      throw std::runtime_error("The type is not supported");
-    }
-    return it->second->connect(callback, slot);
+    return GetSignal<EventT>().connect(callback, slot);
   }
 
   //! Connect object's method to all events specified by the given event type.
@@ -75,12 +70,7 @@ public:
   template <typename EventT, typename WidgetT, typename Fn>
   Connection Connect(WidgetT* widget, const Fn& method, Slot* slot = nullptr)
   {
-    auto it = m_signals.template Find<EventT>();
-    if (it == m_signals.end())
-    {
-      throw std::runtime_error("The type is not supported");
-    }
-    return it->second->connect(widget, method, slot);
+    return GetSignal<EventT>().connect(widget, method, slot);
   }
 
   //! Notifies all slots connected to a given event type.
@@ -98,14 +88,10 @@ public:
   template <typename EventT>
   void Notify(const EventT& event)
   {
-    auto it = m_signals.template Find<EventT>();
-    if (it == m_signals.end())
-    {
-      throw std::runtime_error("The type is not supported");
-    }
-    it->second->operator()(event);
+    GetSignal<EventT>().operator()(event);
   }
 
+  //! Registers given event type for subscription and notifications.
   template <typename EventT>
   void Register()
   {
@@ -114,6 +100,17 @@ public:
   }
 
 private:
+  template <typename EventT>
+  signal_t& GetSignal()
+  {
+    auto it = m_signals.template Find<EventT>();
+    if (it == m_signals.end())
+    {
+      throw std::runtime_error("The type is not supported");
+    }
+    return *it->second.get();
+  }
+
   TypeMap<std::unique_ptr<signal_t>> m_signals;
 };
 
