@@ -49,24 +49,6 @@ public:
   virtual Connection SetOnModelReset(const Callbacks::model_t& f, Slot* slot);
 
   virtual Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f, Slot* slot);
-
-  // methods to notify
-
-  virtual void AboutToInsertItemNotify(SessionItem* parent, const TagIndex& tag_index);
-
-  virtual void ItemInsertedNotify(SessionItem* parent, const TagIndex& tag_index);
-
-  virtual void AboutToRemoveItemNotify(SessionItem* parent, const TagIndex& tag_index);
-
-  virtual void ItemRemovedNotify(SessionItem* parent, const TagIndex& tag_index);
-
-  virtual void DataChangedNotify(SessionItem* item, int role);
-
-  virtual void ModelAboutToBeResetNotify(SessionModelInterface* model);
-
-  virtual void ModelResetNotify(SessionModelInterface* model);
-
-  virtual void ModelAboutToBeDestroyedNotify(SessionModelInterface* model);
 };
 
 }  // namespace mvvm

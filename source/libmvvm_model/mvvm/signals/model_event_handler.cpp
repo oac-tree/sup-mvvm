@@ -21,7 +21,6 @@
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/signals/signal_slot.h>
 
 namespace mvvm
 {
@@ -118,48 +117,6 @@ Connection ModelEventHandler::SetOnModelAboutToBeDestroyed(const Callbacks::mode
     f(concrete_event.m_model);
   };
   return Connect<ModelAboutToBeDestroyedEvent>(adapter, slot);
-}
-
-// ------------------------------------------------------------------------
-
-void ModelEventHandler::AboutToInsertItemNotify(SessionItem *parent, const TagIndex &tag_index)
-{
-  Notify<AboutToInsertItemEvent>(parent, tag_index);
-}
-
-void ModelEventHandler::ItemInsertedNotify(SessionItem *parent, const TagIndex &tag_index)
-{
-  Notify<ItemInsertedEvent>(parent, tag_index);
-}
-
-void ModelEventHandler::AboutToRemoveItemNotify(SessionItem *parent, const TagIndex &tag_index)
-{
-  Notify<AboutToRemoveItemEvent>(parent, tag_index);
-}
-
-void ModelEventHandler::ItemRemovedNotify(SessionItem *parent, const TagIndex &tag_index)
-{
-  Notify<ItemRemovedEvent>(parent, tag_index);
-}
-
-void ModelEventHandler::DataChangedNotify(SessionItem *item, int role)
-{
-  Notify<DataChangedEvent>(item, role);
-}
-
-void ModelEventHandler::ModelAboutToBeResetNotify(SessionModelInterface *model)
-{
-  Notify<ModelAboutToBeResetEvent>(model);
-}
-
-void ModelEventHandler::ModelResetNotify(SessionModelInterface *model)
-{
-  Notify<ModelResetEvent>(model);
-}
-
-void ModelEventHandler::ModelAboutToBeDestroyedNotify(SessionModelInterface *model)
-{
-  Notify<ModelAboutToBeDestroyedEvent>(model);
 }
 
 }  // namespace mvvm
