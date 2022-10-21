@@ -32,7 +32,6 @@ class SessionModelInterface;
 class SessionItem;
 class ModelEventHandler;
 class TagIndex;
-class DataChangedEvent;
 
 //! Propagate changes
 
