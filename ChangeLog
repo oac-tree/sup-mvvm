@@ -1,3 +1,7 @@
+Changes for development branch:
+
+- Refactoring of the ModelEventHandler machinery
+
 Changes for 0.3.0:
 
 - Base version for demo in August 2022
