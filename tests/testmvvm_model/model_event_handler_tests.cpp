@@ -19,6 +19,8 @@
 
 #include "mvvm/signals/model_event_handler.h"
 
+#include "mock_model_event_listener.h"
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
@@ -34,39 +36,10 @@ using ::testing::_;
 class ModelEventHandlerTests : public ::testing::Test
 {
 public:
-  class TestListener
-  {
-  public:
-    TestListener() : m_slot(std::make_unique<mvvm::Slot>()) {}
-
-    MOCK_METHOD1(OnEvent, void(const event_t& event));
-
-    void SubscribeAll(mvvm::ModelEventHandler* event_handler)
-    {
-      m_slot = std::make_unique<mvvm::Slot>();
-
-      event_handler->Connect<DataChangedEvent>(this, &TestListener::OnEvent, m_slot.get());
-      event_handler->Connect<AboutToInsertItemEvent>(this, &TestListener::OnEvent, m_slot.get());
-      event_handler->Connect<ItemInsertedEvent>(this, &TestListener::OnEvent, m_slot.get());
-      event_handler->Connect<AboutToRemoveItemEvent>(this, &TestListener::OnEvent, m_slot.get());
-      event_handler->Connect<ItemRemovedEvent>(this, &TestListener::OnEvent, m_slot.get());
-
-      event_handler->Connect<ModelAboutToBeResetEvent>(this, &TestListener::OnEvent, m_slot.get());
-      event_handler->Connect<ModelResetEvent>(this, &TestListener::OnEvent, m_slot.get());
-
-      event_handler->Connect<ModelAboutToBeDestroyedEvent>(this, &TestListener::OnEvent,
-                                                           m_slot.get());
-    }
-
-    void Unsubscribe() { m_slot.reset(); }
-
-    std::unique_ptr<mvvm::Slot> m_slot;
-  };
-
   ModelEventHandlerTests() { m_listener.SubscribeAll(&m_event_handler); }
 
   ModelEventHandler m_event_handler;
-  TestListener m_listener;
+  MockModelEventListener m_listener;
 };
 
 //! Checking listener methods when AboutToInsertItem is fired.
@@ -186,7 +159,7 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   int role{42};
 
   ModelEventHandler event_handler;
-  TestListener listener;
+  MockModelEventListener listener;
 
   listener.SubscribeAll(&event_handler);
 
@@ -213,12 +186,12 @@ TEST_F(ModelEventHandlerTests, TwoSubscriptions)
   int role{42};
 
   ModelEventHandler event_handler;
-  TestListener listener1;
-  TestListener listener2;
+  MockModelEventListener listener1;
+  MockModelEventListener listener2;
 
-  event_handler.Connect<DataChangedEvent>(&listener1, &TestListener::OnEvent,
+  event_handler.Connect<DataChangedEvent>(&listener1, &MockModelEventListener::OnEvent,
                                           listener1.m_slot.get());
-  event_handler.Connect<ItemRemovedEvent>(&listener2, &TestListener::OnEvent,
+  event_handler.Connect<ItemRemovedEvent>(&listener2, &MockModelEventListener::OnEvent,
                                           listener2.m_slot.get());
 
   DataChangedEvent data_changed_event{&item, role};
@@ -241,12 +214,12 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
   int role{42};
 
   ModelEventHandler event_handler;
-  TestListener listener1;
-  TestListener listener2;
+  MockModelEventListener listener1;
+  MockModelEventListener listener2;
 
-  event_handler.Connect<DataChangedEvent>(&listener1, &TestListener::OnEvent,
+  event_handler.Connect<DataChangedEvent>(&listener1, &MockModelEventListener::OnEvent,
                                           listener1.m_slot.get());
-  event_handler.Connect<ItemRemovedEvent>(&listener2, &TestListener::OnEvent,
+  event_handler.Connect<ItemRemovedEvent>(&listener2, &MockModelEventListener::OnEvent,
                                           listener2.m_slot.get());
 
   DataChangedEvent data_changed_event{&item, role};
