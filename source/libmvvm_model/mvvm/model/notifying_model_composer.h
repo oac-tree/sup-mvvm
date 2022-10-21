@@ -54,9 +54,9 @@ public:
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override
   {
-    m_notifier->AboutToRemoveItemNotify(parent, tag_index);
+    m_notifier->Notify<AboutToRemoveItemEvent>(parent, tag_index);
     auto result = T::TakeItem(parent, tag_index);
-    m_notifier->ItemRemovedNotify(parent, tag_index);
+    m_notifier->Notify<ItemRemovedEvent>(parent, tag_index);
     return result;
   }
 
