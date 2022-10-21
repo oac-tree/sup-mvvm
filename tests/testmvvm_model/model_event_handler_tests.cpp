@@ -24,391 +24,245 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 
+#include <variant>
+
 using namespace mvvm;
 using ::testing::_;
 
-//! Tests for ModelEventNotifier class.
+//! Tests for ModelEventHandlerTests class.
 
-class ModelEventNotifierTests : public ::testing::Test
+class ModelEventHandlerTests : public ::testing::Test
 {
 public:
   class TestListener
   {
   public:
-    void Subscribe(mvvm::ModelEventHandler* event_handler)
+    TestListener() : m_slot(std::make_unique<mvvm::Slot>()) {}
+
+    MOCK_METHOD1(OnEvent, void(const event_t& event));
+
+    void SubscribeAll(mvvm::ModelEventHandler* event_handler)
     {
       m_slot = std::make_unique<mvvm::Slot>();
 
-      auto on_about_to_insert = [this](auto item, auto tagindex)
-      { OnAboutToInsertItem(item, tagindex); };
-      event_handler->SetOnAboutToInsertItem(on_about_to_insert, m_slot.get());
+      event_handler->Connect<DataChangedEvent>(this, &TestListener::OnEvent, m_slot.get());
+      event_handler->Connect<AboutToInsertItemEvent>(this, &TestListener::OnEvent, m_slot.get());
+      event_handler->Connect<ItemInsertedEvent>(this, &TestListener::OnEvent, m_slot.get());
+      event_handler->Connect<AboutToRemoveItemEvent>(this, &TestListener::OnEvent, m_slot.get());
+      event_handler->Connect<ItemRemovedEvent>(this, &TestListener::OnEvent, m_slot.get());
 
-      auto on_item_inserted = [this](auto item, auto tagindex) { OnItemInserted(item, tagindex); };
-      event_handler->SetOnItemInserted(on_item_inserted, m_slot.get());
+      event_handler->Connect<ModelAboutToBeResetEvent>(this, &TestListener::OnEvent, m_slot.get());
+      event_handler->Connect<ModelResetEvent>(this, &TestListener::OnEvent, m_slot.get());
 
-      auto on_about_to_remove = [this](auto item, auto tagindex)
-      { OnAboutToRemoveItem(item, tagindex); };
-      event_handler->SetOnAboutToRemoveItem(on_about_to_remove, m_slot.get());
-
-      auto on_item_removed = [this](auto item, auto tagindex) { OnItemRemoved(item, tagindex); };
-      event_handler->SetOnItemRemoved(on_item_removed, m_slot.get());
-
-      auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
-      event_handler->SetOnDataChanged(on_data_changed, m_slot.get());
-
-      auto on_model_about_reset = [this](auto model) { OnModelAboutToBeReset(model); };
-      event_handler->SetOnModelAboutToBeReset(on_model_about_reset, m_slot.get());
-
-      auto on_model_reset = [this](auto model) { OnModelReset(model); };
-      event_handler->SetOnModelReset(on_model_reset, m_slot.get());
-
-      auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
-      event_handler->SetOnModelAboutToBeDestroyed(on_model_about_destroyed, m_slot.get());
+      event_handler->Connect<ModelAboutToBeDestroyedEvent>(this, &TestListener::OnEvent,
+                                                           m_slot.get());
     }
 
     void Unsubscribe() { m_slot.reset(); }
 
-    MOCK_METHOD2(OnAboutToInsertItem,
-                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnItemInserted, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnAboutToRemoveItem,
-                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnItemRemoved, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
-
-    MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModelInterface* model));
-
-    MOCK_METHOD1(OnModelReset, void(mvvm::SessionModelInterface* model));
-
-    MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModelInterface* model));
-
-  protected:
     std::unique_ptr<mvvm::Slot> m_slot;
   };
 
-  ModelEventNotifierTests() { m_listener.Subscribe(&m_notifier); }
+  ModelEventHandlerTests() { m_listener.SubscribeAll(&m_event_handler); }
 
-  ModelEventHandler m_notifier;
+  ModelEventHandler m_event_handler;
   TestListener m_listener;
 };
 
 //! Checking listener methods when AboutToInsertItem is fired.
 
-TEST_F(ModelEventNotifierTests, AboutToInsertItem)
+TEST_F(ModelEventHandlerTests, AboutToInsertItem)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(&item, tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  AboutToInsertItemEvent event{&item, tag_index};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.AboutToInsertItemNotify(&item, tag_index);
+  m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when ItemInserted is fired.
 
-TEST_F(ModelEventNotifierTests, ItemInserted)
+TEST_F(ModelEventHandlerTests, ItemInserted)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(&item, tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  ItemInsertedEvent event{&item, tag_index};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.ItemInsertedNotify(&item, tag_index);
+  m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when AboutToRemoveItem is fired.
 
-TEST_F(ModelEventNotifierTests, AboutToRemoveItem)
+TEST_F(ModelEventHandlerTests, AboutToRemoveItem)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(&item, tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  AboutToRemoveItemEvent event{&item, tag_index};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.AboutToRemoveItemNotify(&item, tag_index);
+  m_event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when ItemRemoved is fired.
 
-TEST_F(ModelEventNotifierTests, ItemRemoved)
+TEST_F(ModelEventHandlerTests, ItemRemoved)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(&item, tag_index)).Times(1);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  ItemRemovedEvent event{&item, tag_index};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.ItemRemovedNotify(&item, tag_index);
+  m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when DataChanged is fired.
 
-TEST_F(ModelEventNotifierTests, DataChanged)
+TEST_F(ModelEventHandlerTests, DataChanged)
 {
   mvvm::SessionItem item;
   int role{42};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  DataChangedEvent event{&item, role};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.DataChangedNotify(&item, role);
+  m_event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
-TEST_F(ModelEventNotifierTests, OnModelAboutToBeReset)
+//! Checking listener methods when ModelAboutToBeResetEvent is fired.
+
+TEST_F(ModelEventHandlerTests, OnModelAboutToBeReset)
 {
   mvvm::SessionModel model;
-  int role{42};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(&model)).Times(1);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  ModelAboutToBeResetEvent event{&model};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.ModelAboutToBeResetNotify(&model);
+  m_event_handler.Notify<ModelAboutToBeResetEvent>(&model);
 }
 
-TEST_F(ModelEventNotifierTests, OnModelReset)
+//! Checking listener methods when ModelResetEvent is fired.
+
+TEST_F(ModelEventHandlerTests, OnModelResetEvent)
 {
   mvvm::SessionModel model;
-  int role{42};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(&model)).Times(1);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  ModelResetEvent event{&model};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.ModelResetNotify(&model);
+  m_event_handler.Notify<ModelResetEvent>(&model);
 }
 
-TEST_F(ModelEventNotifierTests, OnModelAboutToBeDestroyed)
+//! Checking listener methods when ModelAboutToBeDestroyedEvent is fired.
+
+TEST_F(ModelEventHandlerTests, OnModelAboutToBeDestroyed)
 {
   mvvm::SessionModel model;
-  int role{42};
 
-  EXPECT_CALL(m_listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeReset(&model)).Times(0);
-  EXPECT_CALL(m_listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(m_listener, OnModelAboutToBeDestroyed(_)).Times(1);
+  ModelAboutToBeDestroyedEvent event{&model};
+  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
 
   // triggering action
-  m_notifier.ModelAboutToBeDestroyedNotify(&model);
+  m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
-// FIXME enable test
-
-// TEST_F(ModelEventNotifierTests, AttemptToEstablishConnectionsTwice)
-//{
-//   ModelEventNotifier notifier;
-//   MockModelListener listener;
-
-//  listener.SubscribeTo(&notifier);
-
-//  EXPECT_THROW(listener.SubscribeTo(&notifier), std::runtime_error);
-//}
-
-TEST_F(ModelEventNotifierTests, Unsubscribe)
+TEST_F(ModelEventHandlerTests, Unsubscribe)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventHandler notifier;
+  ModelEventHandler event_handler;
   TestListener listener;
 
-  listener.Subscribe(&notifier);
+  listener.SubscribeAll(&event_handler);
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
-  //  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(_)).Times(0);
+  EXPECT_CALL(listener, OnEvent(_)).Times(0);
 
-  // triggering action
   listener.Unsubscribe();
 
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
-}
-
-TEST_F(ModelEventNotifierTests, TwoSubscriptions)
-{
-  mvvm::SessionModel model;
-  mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
-
-  ModelEventHandler notifier;
-  TestListener listener1;
-  TestListener listener2;
-
-  listener1.Subscribe(&notifier);
-  listener2.Subscribe(&notifier);
-
-  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(1);
-  EXPECT_CALL(listener1, OnModelReset(_)).Times(1);
-  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(1);
-
-  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
-
   // triggering action
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
+  m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
+  m_event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
+  m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  m_event_handler.Notify<DataChangedEvent>(&item, role);
+  m_event_handler.Notify<ModelAboutToBeResetEvent>(&model);
+  m_event_handler.Notify<ModelResetEvent>(&model);
+  m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
-TEST_F(ModelEventNotifierTests, UnsubscribeOne)
+//! Two listeners are subscribed to different events.
+TEST_F(ModelEventHandlerTests, TwoSubscriptions)
 {
-  mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventHandler notifier;
+  ModelEventHandler event_handler;
   TestListener listener1;
   TestListener listener2;
 
-  listener1.Subscribe(&notifier);
-  listener2.Subscribe(&notifier);
+  event_handler.Connect<DataChangedEvent>(&listener1, &TestListener::OnEvent,
+                                          listener1.m_slot.get());
+  event_handler.Connect<ItemRemovedEvent>(&listener2, &TestListener::OnEvent,
+                                          listener2.m_slot.get());
+
+  DataChangedEvent data_changed_event{&item, role};
+  ItemRemovedEvent item_removed_event{&item, tag_index};
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener1, OnEvent(event_t(data_changed_event))).Times(1);
+    EXPECT_CALL(listener2, OnEvent(event_t(item_removed_event))).Times(1);
+  }
+
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+}
+
+TEST_F(ModelEventHandlerTests, UnsubscribeOne)
+{
+  mvvm::SessionItem item;
+  mvvm::TagIndex tag_index{"tag", 0};
+  int role{42};
+
+  ModelEventHandler event_handler;
+  TestListener listener1;
+  TestListener listener2;
+
+  event_handler.Connect<DataChangedEvent>(&listener1, &TestListener::OnEvent,
+                                          listener1.m_slot.get());
+  event_handler.Connect<ItemRemovedEvent>(&listener2, &TestListener::OnEvent,
+                                          listener2.m_slot.get());
+
+  DataChangedEvent data_changed_event{&item, role};
+  ItemRemovedEvent item_removed_event{&item, tag_index};
+
+  EXPECT_CALL(listener1, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(listener2, OnEvent(event_t(item_removed_event))).Times(1);
+
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+
+  EXPECT_CALL(listener1, OnEvent(_)).Times(0);
+  EXPECT_CALL(listener2, OnEvent(event_t(item_removed_event))).Times(1);
 
   listener1.Unsubscribe();
 
-  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(0);
-
-  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
-
-  // triggering action
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
-
-  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(0);
-
-  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
-
-  listener2.Unsubscribe();
-
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
