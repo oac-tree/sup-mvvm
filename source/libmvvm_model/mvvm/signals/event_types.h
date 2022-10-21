@@ -119,9 +119,10 @@ struct ModelAboutToBeDestroyedEvent
 };
 
 //! Variant for all application events.
-using event_t = std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
-                             AboutToRemoveItemEvent, ItemRemovedEvent, ModelAboutToBeResetEvent,
-                             ModelResetEvent, ModelAboutToBeDestroyedEvent>;
+using event_variant_t =
+    std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
+                 AboutToRemoveItemEvent, ItemRemovedEvent, ModelAboutToBeResetEvent,
+                 ModelResetEvent, ModelAboutToBeDestroyedEvent>;
 
 }  // namespace mvvm
 

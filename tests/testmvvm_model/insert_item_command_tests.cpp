@@ -170,8 +170,8 @@ TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
   // expecting signals related to item insertion
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_insert_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(item_inserted_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(about_to_insert_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_inserted_event))).Times(1);
   }
 
   command.Execute();
@@ -183,8 +183,8 @@ TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
   {
     ::testing::InSequence seq;
 
-    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_remove_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(item_removed_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(about_to_remove_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_removed_event))).Times(1);
   }
 
   // undoing command

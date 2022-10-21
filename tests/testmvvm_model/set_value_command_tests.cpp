@@ -130,7 +130,7 @@ TEST_F(SetValueCommandTests, SetValueUsingNotifyingModelComposer)
   EXPECT_FALSE(utils::IsValid(item1->Data(role)));
 
   DataChangedEvent data_changed_event{item1, role};
-  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
 
   // executing command
   command->Execute();
@@ -138,7 +138,7 @@ TEST_F(SetValueCommandTests, SetValueUsingNotifyingModelComposer)
   EXPECT_EQ(item1->Data(role), expected);
   EXPECT_FALSE(command->IsObsolete());
 
-  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
 
   // undoing command
   command->Undo();

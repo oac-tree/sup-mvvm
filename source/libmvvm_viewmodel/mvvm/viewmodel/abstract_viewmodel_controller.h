@@ -43,7 +43,7 @@ public:
   void Subscribe(ModelEventHandler *event_handler);
   void Unsubscribe();
 
-  void OnEvent(const event_t &event);
+  void OnEvent(const event_variant_t &event);
 
   //! Lets the controller know that a child is about to be inserted into the `parent` with
   //! `tag_index`.

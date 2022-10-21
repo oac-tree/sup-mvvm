@@ -206,8 +206,8 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
   // expecting signals related to item removal
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_remove_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(item_removed_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(about_to_remove_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_removed_event))).Times(1);
   }
 
   // command to remove parent
@@ -224,8 +224,8 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
   // expecting signals related to item insertion
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_insert_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(item_inserted_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(about_to_insert_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_inserted_event))).Times(1);
   }
 
   // undo command

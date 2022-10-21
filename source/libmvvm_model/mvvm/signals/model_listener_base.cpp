@@ -47,7 +47,7 @@ ModelListenerBase::ModelListenerBase(SessionModelInterface *model)
 
 Connection ModelListenerBase::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<AboutToInsertItemEvent>(event);
     f(concrete_event.m_parent, concrete_event.m_tag_index);
@@ -57,7 +57,7 @@ Connection ModelListenerBase::SetOnAboutToInsertItem(const Callbacks::item_tagin
 
 Connection ModelListenerBase::SetOnItemInserted(const Callbacks::item_tagindex_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemInsertedEvent>(event);
     f(concrete_event.m_parent, concrete_event.m_tag_index);
@@ -67,7 +67,7 @@ Connection ModelListenerBase::SetOnItemInserted(const Callbacks::item_tagindex_t
 
 Connection ModelListenerBase::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
     f(concrete_event.m_parent, concrete_event.m_tag_index);
@@ -77,7 +77,7 @@ Connection ModelListenerBase::SetOnAboutToRemoveItem(const Callbacks::item_tagin
 
 Connection ModelListenerBase::SetOnItemRemoved(const Callbacks::item_tagindex_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemRemovedEvent>(event);
     f(concrete_event.m_parent, concrete_event.m_tag_index);
@@ -87,7 +87,7 @@ Connection ModelListenerBase::SetOnItemRemoved(const Callbacks::item_tagindex_t 
 
 Connection ModelListenerBase::SetOnDataChanged(const Callbacks::item_int_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<DataChangedEvent>(event);
     f(concrete_event.m_item, concrete_event.m_data_role);
@@ -97,7 +97,7 @@ Connection ModelListenerBase::SetOnDataChanged(const Callbacks::item_int_t &f)
 
 Connection ModelListenerBase::SetOnModelAboutToBeReset(const Callbacks::model_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<ModelAboutToBeResetEvent>(event);
     f(concrete_event.m_model);
@@ -107,7 +107,7 @@ Connection ModelListenerBase::SetOnModelAboutToBeReset(const Callbacks::model_t 
 
 Connection ModelListenerBase::SetOnModelReset(const Callbacks::model_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<ModelResetEvent>(event);
     f(concrete_event.m_model);
@@ -117,7 +117,7 @@ Connection ModelListenerBase::SetOnModelReset(const Callbacks::model_t &f)
 
 Connection ModelListenerBase::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f)
 {
-  auto adapter = [f](const event_t &event)
+  auto adapter = [f](const event_variant_t &event)
   {
     auto concrete_event = std::get<ModelAboutToBeDestroyedEvent>(event);
     f(concrete_event.m_model);

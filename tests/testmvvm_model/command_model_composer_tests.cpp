@@ -209,7 +209,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
 
   // setting data via composer
   DataChangedEvent data_changed_event{item, role};
-  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
   variant_t expected_data(42);
   EXPECT_TRUE(composer->SetData(item, 42, DataRole::kData));
 
@@ -221,7 +221,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_EQ(m_commands.GetSize(), 1);
 
   // undoing the command
-  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
   m_commands.Undo();
 
   // checking the data and status of command stack
@@ -232,7 +232,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_EQ(m_commands.GetSize(), 1);
 
   // redoing command
-  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
   m_commands.Redo();
 
   // checking the data and status of command stack

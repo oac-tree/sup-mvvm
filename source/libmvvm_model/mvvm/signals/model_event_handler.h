@@ -29,7 +29,7 @@ namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventHandler : public EventHandler<event_t>
+class MVVM_VIEWMODEL_EXPORT ModelEventHandler : public EventHandler<event_variant_t>
 {
 public:
   ModelEventHandler();

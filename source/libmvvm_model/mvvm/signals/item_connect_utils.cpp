@@ -56,7 +56,7 @@ Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t 
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](const event_t &event)
+  auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemInsertedEvent>(event);
     auto item = concrete_event.m_parent;
@@ -77,7 +77,7 @@ Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagind
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](const event_t &event)
+  auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
     auto item = concrete_event.m_parent;
@@ -98,7 +98,7 @@ Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](const event_t &event)
+  auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemRemovedEvent>(event);
     auto item = concrete_event.m_parent;
@@ -119,7 +119,7 @@ Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func,
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](const event_t &event)
+  auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<DataChangedEvent>(event);
     auto item = concrete_event.m_item;
@@ -140,7 +140,7 @@ Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &f
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](const event_t &event)
+  auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<DataChangedEvent>(event);
     auto item = concrete_event.m_item;

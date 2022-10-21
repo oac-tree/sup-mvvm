@@ -62,7 +62,7 @@ void AbstractViewModelController::Unsubscribe()
   m_slot.reset();
 }
 
-void AbstractViewModelController::OnEvent(const event_t &event)
+void AbstractViewModelController::OnEvent(const event_variant_t &event)
 {
   std::visit(*this, event);
 }

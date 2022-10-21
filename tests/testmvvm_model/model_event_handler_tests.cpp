@@ -50,7 +50,7 @@ TEST_F(ModelEventHandlerTests, AboutToInsertItem)
   mvvm::TagIndex tag_index{"tag", 0};
 
   AboutToInsertItemEvent event{&item, tag_index};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -64,7 +64,7 @@ TEST_F(ModelEventHandlerTests, ItemInserted)
   mvvm::TagIndex tag_index{"tag", 0};
 
   ItemInsertedEvent event{&item, tag_index};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
@@ -78,7 +78,7 @@ TEST_F(ModelEventHandlerTests, AboutToRemoveItem)
   mvvm::TagIndex tag_index{"tag", 0};
 
   AboutToRemoveItemEvent event{&item, tag_index};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
@@ -92,7 +92,7 @@ TEST_F(ModelEventHandlerTests, ItemRemoved)
   mvvm::TagIndex tag_index{"tag", 0};
 
   ItemRemovedEvent event{&item, tag_index};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
@@ -106,7 +106,7 @@ TEST_F(ModelEventHandlerTests, DataChanged)
   int role{42};
 
   DataChangedEvent event{&item, role};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<DataChangedEvent>(&item, role);
@@ -119,7 +119,7 @@ TEST_F(ModelEventHandlerTests, OnModelAboutToBeReset)
   mvvm::SessionModel model;
 
   ModelAboutToBeResetEvent event{&model};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<ModelAboutToBeResetEvent>(&model);
@@ -132,7 +132,7 @@ TEST_F(ModelEventHandlerTests, OnModelResetEvent)
   mvvm::SessionModel model;
 
   ModelResetEvent event{&model};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<ModelResetEvent>(&model);
@@ -145,7 +145,7 @@ TEST_F(ModelEventHandlerTests, OnModelAboutToBeDestroyed)
   mvvm::SessionModel model;
 
   ModelAboutToBeDestroyedEvent event{&model};
-  EXPECT_CALL(m_listener, OnEvent(event_t(event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
 
   // triggering action
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
@@ -199,8 +199,8 @@ TEST_F(ModelEventHandlerTests, TwoSubscriptions)
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener1, OnEvent(event_t(data_changed_event))).Times(1);
-    EXPECT_CALL(listener2, OnEvent(event_t(item_removed_event))).Times(1);
+    EXPECT_CALL(listener1, OnEvent(event_variant_t(data_changed_event))).Times(1);
+    EXPECT_CALL(listener2, OnEvent(event_variant_t(item_removed_event))).Times(1);
   }
 
   event_handler.Notify<DataChangedEvent>(&item, role);
@@ -225,14 +225,14 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
   DataChangedEvent data_changed_event{&item, role};
   ItemRemovedEvent item_removed_event{&item, tag_index};
 
-  EXPECT_CALL(listener1, OnEvent(event_t(data_changed_event))).Times(1);
-  EXPECT_CALL(listener2, OnEvent(event_t(item_removed_event))).Times(1);
+  EXPECT_CALL(listener1, OnEvent(event_variant_t(data_changed_event))).Times(1);
+  EXPECT_CALL(listener2, OnEvent(event_variant_t(item_removed_event))).Times(1);
 
   event_handler.Notify<DataChangedEvent>(&item, role);
   event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 
   EXPECT_CALL(listener1, OnEvent(_)).Times(0);
-  EXPECT_CALL(listener2, OnEvent(event_t(item_removed_event))).Times(1);
+  EXPECT_CALL(listener2, OnEvent(event_variant_t(item_removed_event))).Times(1);
 
   listener1.Unsubscribe();
 

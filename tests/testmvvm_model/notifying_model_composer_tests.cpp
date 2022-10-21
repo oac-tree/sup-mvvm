@@ -74,8 +74,8 @@ TEST_F(NotifyingModelComposerTests, InsertItem)
   // expecting signals related to item insertion
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_insert_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(item_inserted_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(about_to_insert_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_inserted_event))).Times(1);
   }
 
   // inserting child
@@ -108,8 +108,8 @@ TEST_F(NotifyingModelComposerTests, TakeItem)
   // expecting signals related to item removal
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_remove_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(item_removed_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(about_to_remove_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_removed_event))).Times(1);
   }
 
   // taking item via composer
@@ -127,7 +127,7 @@ TEST_F(NotifyingModelComposerTests, SetData)
   int expected_role{DataRole::kData};
 
   DataChangedEvent data_changed_event{&expected_item, expected_role};
-  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
 
   EXPECT_TRUE(composer->SetData(&expected_item, 42, expected_role));
 }
@@ -157,8 +157,8 @@ TEST_F(NotifyingModelComposerTests, Reset)
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_listener, OnEvent(event_t(model_about_reset_event))).Times(1);
-    EXPECT_CALL(m_listener, OnEvent(event_t(model_reset_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(model_about_reset_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_variant_t(model_reset_event))).Times(1);
   }
 
   composer->Reset(parent0, {});

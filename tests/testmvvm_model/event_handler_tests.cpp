@@ -37,10 +37,10 @@ public:
   class MockWidget
   {
   public:
-    MOCK_METHOD1(OnEvent, void(const event_t& event));
+    MOCK_METHOD1(OnEvent, void(const event_variant_t& event));
 
     //! Returns callback that forwards calls to `OnEvent` method.
-    std::function<void(const event_t& event)> CreateCallback()
+    std::function<void(const event_variant_t& event)> CreateCallback()
     {
       return [this](const auto& event) { OnEvent(event); };
     }
@@ -50,7 +50,7 @@ public:
   class MockSpecializedWidget
   {
   public:
-    void OnEvent(const event_t& event) { std::visit(*this, event); }
+    void OnEvent(const event_variant_t& event) { std::visit(*this, event); }
 
     void operator()(const DataChangedEvent& event) { OnDataChangedEvent(event); }
     MOCK_METHOD1(OnDataChangedEvent, void(const DataChangedEvent& event));
@@ -91,7 +91,7 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 
   MockWidget widget;
 
-  EventHandler<event_t> event_handler;
+  EventHandler<event_variant_t> event_handler;
 
   EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.CreateCallback()),
                KeyNotFoundException);
@@ -108,17 +108,17 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 
   MockWidget widget;
 
-  EventHandler<event_t> event_handler;
+  EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
 
   event_handler.Connect<DataChangedEvent>(widget.CreateCallback());
 
   // check notification when triggering Notify via templated method
-  EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify<DataChangedEvent>(&item, role);
 
   // check notification when triggering Notify via already constructed event
-  EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify(data_changed_event);
 }
 
@@ -132,12 +132,12 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 
   MockWidget widget;
 
-  EventHandler<event_t> event_handler;
+  EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
 
   event_handler.Connect<DataChangedEvent>(&widget, &MockWidget::OnEvent);
 
-  EXPECT_CALL(widget, OnEvent(event_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
@@ -152,7 +152,7 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 
   MockSpecializedWidget widget;
 
-  EventHandler<event_t> event_handler;
+  EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
   event_handler.Register<ItemInsertedEvent>();
 
