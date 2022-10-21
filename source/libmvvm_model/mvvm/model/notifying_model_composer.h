@@ -65,7 +65,7 @@ public:
     auto result = T::SetData(item, value, role);
     if (result)
     {
-      m_notifier->DataChangedNotify(item, role);
+      m_notifier->Notify<DataChangedEvent>(item, role);
     }
     return result;
   }

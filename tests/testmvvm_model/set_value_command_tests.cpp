@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mock_model_event_listener.h"
 #include "mvvm/commands/set_value_command.h"
-#include "mock_model_event_notifier.h"
 
 #include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
-#include <mvvm/core/exceptions.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -41,11 +41,14 @@ public:
 
   std::unique_ptr<ModelComposerInterface> CreateNotifyingComposer()
   {
-    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
+    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_event_handler, m_model);
   }
 
+  SetValueCommandTests() { m_listener.SubscribeAll(&m_event_handler); }
+
   SessionModel m_model;
-  MockModelEventNotifier m_notifier;
+  ModelEventHandler m_event_handler;
+  MockModelEventListener m_listener;
 };
 
 //! Set item value through SetValueCommand command using ModelComposer.
@@ -126,7 +129,8 @@ TEST_F(SetValueCommandTests, SetValueUsingNotifyingModelComposer)
   // data is still unchanged
   EXPECT_FALSE(utils::IsValid(item1->Data(role)));
 
-  EXPECT_CALL(m_notifier, DataChangedNotify(item1, role)).Times(1);
+  DataChangedEvent data_changed_event{item1, role};
+  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
 
   // executing command
   command->Execute();
@@ -134,7 +138,7 @@ TEST_F(SetValueCommandTests, SetValueUsingNotifyingModelComposer)
   EXPECT_EQ(item1->Data(role), expected);
   EXPECT_FALSE(command->IsObsolete());
 
-  EXPECT_CALL(m_notifier, DataChangedNotify(item1, role)).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
 
   // undoing command
   command->Undo();

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_event_notifier.h"
+#include "mock_model_event_listener.h"
 #include "mvvm/commands/command_model_composer.h"
 
 #include <gtest/gtest.h>
@@ -46,13 +46,16 @@ public:
   std::unique_ptr<CommandModelComposer> CreateNotifyingComposer()
   {
     auto notifying_composer =
-        std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
+        std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_event_handler, m_model);
     return std::make_unique<CommandModelComposer>(&m_commands, std::move(notifying_composer));
   }
 
+  CommandModelComposerTests() { m_listener.SubscribeAll(&m_event_handler); }
+
   SessionModel m_model;
   CommandStack m_commands;
-  MockModelEventNotifier m_notifier;
+  ModelEventHandler m_event_handler;
+  MockModelEventListener m_listener;
 };
 
 TEST_F(CommandModelComposerTests, InitialState)
@@ -205,7 +208,8 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_FALSE(utils::IsValid(item->Data(role)));
 
   // setting data via composer
-  EXPECT_CALL(m_notifier, DataChangedNotify(item, role)).Times(1);
+  DataChangedEvent data_changed_event{item, role};
+  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
   variant_t expected_data(42);
   EXPECT_TRUE(composer->SetData(item, 42, DataRole::kData));
 
@@ -217,7 +221,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_EQ(m_commands.GetSize(), 1);
 
   // undoing the command
-  EXPECT_CALL(m_notifier, DataChangedNotify(item, role)).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
   m_commands.Undo();
 
   // checking the data and status of command stack
@@ -228,7 +232,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_EQ(m_commands.GetSize(), 1);
 
   // redoing command
-  EXPECT_CALL(m_notifier, DataChangedNotify(item, role)).Times(1);
+  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
   m_commands.Redo();
 
   // checking the data and status of command stack
@@ -239,7 +243,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_EQ(m_commands.GetSize(), 1);
 
   // setting same data and checking absence of notifications
-  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnEvent(_)).Times(0);
   EXPECT_FALSE(composer->SetData(item, 42, DataRole::kData));
 }
 
