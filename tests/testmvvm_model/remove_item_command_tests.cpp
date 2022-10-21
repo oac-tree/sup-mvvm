@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_event_notifier.h"
+#include "mock_model_event_listener.h"
 #include "mvvm/commands/remove_item_command.h"
 
 #include <gtest/gtest.h>
@@ -44,11 +44,14 @@ public:
 
   std::unique_ptr<ModelComposerInterface> CreateNotifyingComposer()
   {
-    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
+    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_event_handler, m_model);
   }
 
+  RemoveItemCommandTests() { m_listener.SubscribeAll(&m_event_handler); }
+
   SessionModel m_model;
-  MockModelEventNotifier m_notifier;
+  ModelEventHandler m_event_handler;
+  MockModelEventListener m_listener;
 };
 
 //! Remove item from the model.
@@ -182,6 +185,8 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChild)
 
 TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
 {
+  const TagIndex tag_index{"", 0};
+
   auto composer = CreateNotifyingComposer();
 
   auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
@@ -193,12 +198,16 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
   auto parent_identifier = parent->GetIdentifier();
   auto child1_identifier = child1->GetIdentifier();
 
+  AboutToRemoveItemEvent about_to_remove_event{m_model.GetRootItem(), tag_index};
+  ItemRemovedEvent item_removed_event{m_model.GetRootItem(), tag_index};
+  AboutToInsertItemEvent about_to_insert_event{m_model.GetRootItem(), tag_index};
+  ItemInsertedEvent item_inserted_event{m_model.GetRootItem(), tag_index};
+
   // expecting signals related to item removal
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(m_model.GetRootItem(), TagIndex{"", 0}))
-        .Times(1);
-    EXPECT_CALL(m_notifier, ItemRemovedNotify(m_model.GetRootItem(), TagIndex{"", 0})).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_remove_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(item_removed_event))).Times(1);
   }
 
   // command to remove parent
@@ -215,9 +224,8 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
   // expecting signals related to item insertion
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(m_model.GetRootItem(), TagIndex{"", 0}))
-        .Times(1);
-    EXPECT_CALL(m_notifier, ItemInsertedNotify(m_model.GetRootItem(), TagIndex{"", 0})).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_insert_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(item_inserted_event))).Times(1);
   }
 
   // undo command

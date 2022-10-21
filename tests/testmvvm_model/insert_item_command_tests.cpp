@@ -17,9 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_event_notifier.h"
+#include "mock_model_event_listener.h"
 #include "mvvm/commands/insert_item_command.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
@@ -29,6 +30,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/signals/model_event_handler.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -45,11 +47,14 @@ public:
 
   std::unique_ptr<ModelComposerInterface> CreateNotifyingComposer()
   {
-    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
+    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_event_handler, m_model);
   }
 
+  InsertItemCommandTests() { m_listener.SubscribeAll(&m_event_handler); }
+
   SessionModel m_model;
-  MockModelEventNotifier m_notifier;
+  ModelEventHandler m_event_handler;
+  MockModelEventListener m_listener;
 };
 
 //! Insert item to root item.
@@ -139,10 +144,17 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
 
 TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
 {
+  const mvvm::TagIndex tag_index{"tag1", 1};
+
   auto composer = CreateNotifyingComposer();
 
   auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+
+  AboutToInsertItemEvent about_to_insert_event{parent, tag_index};
+  ItemInsertedEvent item_inserted_event{parent, tag_index};
+  AboutToRemoveItemEvent about_to_remove_event{parent, tag_index};
+  ItemRemovedEvent item_removed_event{parent, tag_index};
 
   m_model.InsertItem<SessionItem>(parent);
   m_model.InsertItem<SessionItem>(parent);
@@ -153,13 +165,13 @@ TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
   auto to_insert_ptr = to_insert.get();
 
   // command to insert item from the model
-  InsertItemCommand command(composer.get(), std::move(to_insert), parent, TagIndex{"tag1", 1});
+  InsertItemCommand command(composer.get(), std::move(to_insert), parent, tag_index);
 
   // expecting signals related to item insertion
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent, TagIndex{"tag1", 1})).Times(1);
-    EXPECT_CALL(m_notifier, ItemInsertedNotify(parent, TagIndex{"tag1", 1})).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_insert_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(item_inserted_event))).Times(1);
   }
 
   command.Execute();
@@ -170,8 +182,9 @@ TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
   // expecting signals related to item insertion
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent, TagIndex{"tag1", 1})).Times(1);
-    EXPECT_CALL(m_notifier, ItemRemovedNotify(parent, TagIndex{"tag1", 1})).Times(1);
+
+    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_remove_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(item_removed_event))).Times(1);
   }
 
   // undoing command

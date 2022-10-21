@@ -21,8 +21,8 @@
 #define MVVM_MODEL_NOTIFYING_MODEL_COMPOSER_H_
 
 #include <mvvm/interfaces/model_composer_interface.h>
-#include <mvvm/signals/model_event_handler.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
 {
@@ -46,9 +46,9 @@ public:
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override
   {
-    m_notifier->AboutToInsertItemNotify(parent, tag_index);
+    m_notifier->Notify<AboutToInsertItemEvent>(parent, tag_index);
     auto result = T::InsertItem(std::move(item), parent, tag_index);
-    m_notifier->ItemInsertedNotify(parent, tag_index);
+    m_notifier->Notify<ItemInsertedEvent>(parent, tag_index);
     return result;
   }
 

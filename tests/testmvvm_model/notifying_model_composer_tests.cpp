@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 #include "mock_model.h"
-#include "mock_model_event_notifier.h"
+#include "mock_model_event_listener.h"
 #include "mvvm/model/notifying_model_composer.h"
 
 #include <gtest/gtest.h>
@@ -40,11 +40,14 @@ class NotifyingModelComposerTests : public ::testing::Test
 public:
   std::unique_ptr<NotifyingModelComposer<ModelComposer>> CreateComposer()
   {
-    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_notifier, m_model);
+    return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_event_handler, m_model);
   }
 
+  NotifyingModelComposerTests() { m_listener.SubscribeAll(&m_event_handler); }
+
   MockModel m_model;
-  MockModelEventNotifier m_notifier;
+  ModelEventHandler m_event_handler;
+  MockModelEventListener m_listener;
 };
 
 TEST_F(NotifyingModelComposerTests, InitialState)
@@ -62,11 +65,18 @@ TEST_F(NotifyingModelComposerTests, InsertItem)
   auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
+  AboutToInsertItemEvent about_to_insert_event{parent.get(), expected_tagindex};
+  ItemInsertedEvent item_inserted_event{parent.get(), expected_tagindex};
+
   auto child = std::make_unique<SessionItem>();
   auto p_child = child.get();
 
-  EXPECT_CALL(m_notifier, AboutToInsertItemNotify(parent.get(), expected_tagindex)).Times(1);
-  EXPECT_CALL(m_notifier, ItemInsertedNotify(parent.get(), expected_tagindex)).Times(1);
+  // expecting signals related to item insertion
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_insert_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(item_inserted_event))).Times(1);
+  }
 
   // inserting child
   auto inserted = composer->InsertItem(std::move(child), parent.get(), {"", 0});
@@ -90,10 +100,17 @@ TEST_F(NotifyingModelComposerTests, TakeItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   auto child = parent->InsertItem(TagIndex::Append());
 
+  AboutToRemoveItemEvent about_to_remove_event{parent.get(), expected_tagindex};
+  ItemRemovedEvent item_removed_event{parent.get(), expected_tagindex};
+
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
 
-  EXPECT_CALL(m_notifier, AboutToRemoveItemNotify(parent.get(), expected_tagindex)).Times(1);
-  EXPECT_CALL(m_notifier, ItemRemovedNotify(parent.get(), expected_tagindex)).Times(1);
+  // expecting signals related to item removal
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_listener, OnEvent(event_t(about_to_remove_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(item_removed_event))).Times(1);
+  }
 
   // taking item via composer
   auto taken = composer->TakeItem(parent.get(), {"", 0});
@@ -109,7 +126,8 @@ TEST_F(NotifyingModelComposerTests, SetData)
   SessionItem expected_item;
   int expected_role{DataRole::kData};
 
-  EXPECT_CALL(m_notifier, DataChangedNotify(&expected_item, expected_role)).Times(1);
+  DataChangedEvent data_changed_event{&expected_item, expected_role};
+  EXPECT_CALL(m_listener, OnEvent(event_t(data_changed_event))).Times(1);
 
   EXPECT_TRUE(composer->SetData(&expected_item, 42, expected_role));
 }
@@ -121,7 +139,7 @@ TEST_F(NotifyingModelComposerTests, SetSameData)
   expected_item.SetData(42, expected_role);
   auto composer = CreateComposer();
 
-  EXPECT_CALL(m_notifier, DataChangedNotify(_, _)).Times(0);
+  EXPECT_CALL(m_listener, OnEvent(_)).Times(0);
 
   EXPECT_FALSE(composer->SetData(&expected_item, 42, expected_role));
 }
@@ -134,8 +152,14 @@ TEST_F(NotifyingModelComposerTests, Reset)
   parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   auto child0 = parent0->InsertItem<PropertyItem>(TagIndex::Append());
 
-  EXPECT_CALL(m_notifier, ModelAboutToBeResetNotify(&m_model)).Times(1);
-  EXPECT_CALL(m_notifier, ModelResetNotify(&m_model)).Times(1);
+  ModelAboutToBeResetEvent model_about_reset_event{&m_model};
+  ModelResetEvent model_reset_event{&m_model};
+
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_listener, OnEvent(event_t(model_about_reset_event))).Times(1);
+    EXPECT_CALL(m_listener, OnEvent(event_t(model_reset_event))).Times(1);
+  }
 
   composer->Reset(parent0, {});
 
