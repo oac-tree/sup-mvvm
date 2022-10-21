@@ -36,7 +36,6 @@ void AbstractViewModelController::SubscribeTo(ModelEventHandler *event_handler)
   }
 
   m_slot = std::make_unique<mvvm::Slot>();
-  //  notifier->Subscribe(this);
 
   auto on_about_to_insert = [this](auto item, auto tagindex)
   { OnAboutToInsertItem(item, tagindex); };

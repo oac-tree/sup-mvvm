@@ -64,15 +64,15 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
   mvvm::SessionItem item;
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
 
   auto controller = std::make_unique<TestController>();
 
-  controller->SubscribeTo(&notifier);
+  controller->SubscribeTo(&event_handler);
 
   EXPECT_CALL(*controller, OnDataChanged(&item, role)).Times(1);
 
-  notifier.DataChangedNotify(&item, role);
+  event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
 //! Controller unsubscription on deletion.
@@ -82,15 +82,15 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
   mvvm::SessionItem item;
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
 
   auto controller = std::make_unique<TestController>();
 
-  controller->SubscribeTo(&notifier);
+  controller->SubscribeTo(&event_handler);
 
   controller.reset();
 
-  ASSERT_NO_FATAL_FAILURE(notifier.DataChangedNotify(&item, role));
+  ASSERT_NO_FATAL_FAILURE(event_handler.DataChangedNotify(&item, role));
 }
 
 //! Check the case when EventNotifier is destroyed before the listener
@@ -100,14 +100,14 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
   mvvm::SessionItem item;
   int role{42};
 
-  auto notifier = std::make_unique<mvvm::ModelEventHandler>();
+  auto event_handler = std::make_unique<mvvm::ModelEventHandler>();
 
   auto controller = std::make_unique<TestController>();
 
-  controller->SubscribeTo(notifier.get());
+  controller->SubscribeTo(event_handler.get());
 
-  // destroying notifier
-  notifier.reset();
+  // destroying event_handler
+  event_handler.reset();
 
   ASSERT_NO_FATAL_FAILURE(controller.reset());
 }
@@ -119,9 +119,9 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(&item, tag_index)).Times(1);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -133,7 +133,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.AboutToInsertItemNotify(&item, tag_index);
+  event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when ItemInserted is fired.
@@ -143,9 +143,9 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(&item, tag_index)).Times(1);
@@ -157,7 +157,7 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.ItemInsertedNotify(&item, tag_index);
+  event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when AboutToRemoveItem is fired.
@@ -167,9 +167,9 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -181,7 +181,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
+  event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when ItemRemoved is fired.
@@ -191,9 +191,9 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -205,7 +205,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.ItemRemovedNotify(&item, tag_index);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
 
 //! Checking listener methods when DataChanged is fired.
@@ -215,9 +215,9 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   mvvm::SessionItem item;
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -229,7 +229,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.DataChangedNotify(&item, role);
+  event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
 TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
@@ -237,9 +237,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   mvvm::SessionModel model;
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -251,7 +251,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.ModelAboutToBeResetNotify(&model);
+  event_handler.Notify<ModelAboutToBeResetEvent>(&model);
 }
 
 TEST_F(AbstractViewModelControllerTests, OnModelReset)
@@ -259,9 +259,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   mvvm::SessionModel model;
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -273,7 +273,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  notifier.ModelResetNotify(&model);
+  event_handler.Notify<ModelResetEvent>(&model);
 }
 
 TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
@@ -281,9 +281,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   mvvm::SessionModel model;
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -295,7 +295,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(1);
 
   // triggering action
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
 // FIXME restore AttemptToEstablishConnectionsTwice
@@ -315,9 +315,9 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  mvvm::ModelEventHandler notifier;
+  mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&notifier);
+  controller.SubscribeTo(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -329,16 +329,16 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  controller.UnsubscribeFrom(&notifier);
+  controller.UnsubscribeFrom(&event_handler);
 
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
+  event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ModelAboutToBeResetEvent>(&model);
+  event_handler.Notify<ModelResetEvent>(&model);
+  event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
 TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
@@ -348,12 +348,12 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventHandler notifier;
+  ModelEventHandler event_handler;
   TestController listener1;
   TestController listener2;
 
-  listener1.SubscribeTo(&notifier);
-  listener2.SubscribeTo(&notifier);
+  listener1.SubscribeTo(&event_handler);
+  listener2.SubscribeTo(&event_handler);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
@@ -374,14 +374,14 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
 
   // triggering action
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
+  event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ModelAboutToBeResetEvent>(&model);
+  event_handler.Notify<ModelResetEvent>(&model);
+  event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
 TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
@@ -391,14 +391,14 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   mvvm::TagIndex tag_index{"tag", 0};
   int role{42};
 
-  ModelEventHandler notifier;
+  ModelEventHandler event_handler;
   TestController listener1;
   TestController listener2;
 
-  listener1.SubscribeTo(&notifier);
-  listener2.SubscribeTo(&notifier);
+  listener1.SubscribeTo(&event_handler);
+  listener2.SubscribeTo(&event_handler);
 
-  listener1.UnsubscribeFrom(&notifier);
+  listener1.UnsubscribeFrom(&event_handler);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -419,14 +419,14 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
 
   // triggering action
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
+  event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ModelAboutToBeResetEvent>(&model);
+  event_handler.Notify<ModelResetEvent>(&model);
+  event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -446,14 +446,14 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
 
-  listener2.UnsubscribeFrom(&notifier);
+  listener2.UnsubscribeFrom(&event_handler);
 
-  notifier.AboutToInsertItemNotify(&item, tag_index);
-  notifier.ItemInsertedNotify(&item, tag_index);
-  notifier.AboutToRemoveItemNotify(&item, tag_index);
-  notifier.ItemRemovedNotify(&item, tag_index);
-  notifier.DataChangedNotify(&item, role);
-  notifier.ModelAboutToBeResetNotify(&model);
-  notifier.ModelResetNotify(&model);
-  notifier.ModelAboutToBeDestroyedNotify(&model);
+  event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
+  event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ModelAboutToBeResetEvent>(&model);
+  event_handler.Notify<ModelResetEvent>(&model);
+  event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
