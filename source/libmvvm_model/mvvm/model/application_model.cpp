@@ -51,7 +51,7 @@ namespace mvvm
 
 struct ApplicationModel::ApplicationModelImpl
 {
-  ModelEventHandler m_notifier;
+  ModelEventHandler m_event_handler;
   std::unique_ptr<CommandStackInterface> m_command_stack;
 };
 
@@ -65,17 +65,17 @@ ApplicationModel::ApplicationModel(std::string model_type,
     : SessionModel(std::move(model_type), std::move(manager), {})
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
-  SetComposer(CreateNotifyingComposer(&p_impl->m_notifier, this));
+  SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));
 }
 
 ApplicationModel::~ApplicationModel()
 {
-  p_impl->m_notifier.ModelAboutToBeDestroyedNotify(this);
+  p_impl->m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(this);
 }
 
 ModelEventHandler* ApplicationModel::GetEventHandler() const
 {
-  return &p_impl->m_notifier;
+  return &p_impl->m_event_handler;
 }
 
 void ApplicationModel::CheckIn(SessionItem* item)
@@ -89,13 +89,13 @@ void ApplicationModel::SetUndoEnabled(bool value)
   if (value)
   {
     p_impl->m_command_stack = std::make_unique<CommandStack>();
-    auto notifying_composer = CreateNotifyingComposer(&p_impl->m_notifier, this);
+    auto notifying_composer = CreateNotifyingComposer(&p_impl->m_event_handler, this);
     SetComposer(std::move(CreateCommandComposer(GetCommandStack(), std::move(notifying_composer))));
   }
   else
   {
     p_impl->m_command_stack.reset();
-    SetComposer(std::move(CreateNotifyingComposer(&p_impl->m_notifier, this)));
+    SetComposer(std::move(CreateNotifyingComposer(&p_impl->m_event_handler, this)));
   }
 }
 

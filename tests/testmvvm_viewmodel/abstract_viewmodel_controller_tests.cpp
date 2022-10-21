@@ -19,12 +19,11 @@
 
 #include "mvvm/viewmodel/abstract_viewmodel_controller.h"
 
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/signals/model_event_handler.h>
-
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -90,7 +89,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
   controller.reset();
 
-  ASSERT_NO_FATAL_FAILURE(event_handler.DataChangedNotify(&item, role));
+  ASSERT_NO_FATAL_FAILURE(event_handler.Notify<DataChangedEvent>(&item, role));
 }
 
 //! Check the case when EventNotifier is destroyed before the listener

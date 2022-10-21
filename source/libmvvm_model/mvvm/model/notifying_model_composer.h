@@ -39,24 +39,24 @@ public:
 
   template <typename... Args>
   explicit NotifyingModelComposer(ModelEventHandler* notifier, Args&&... args)
-      : m_notifier(notifier), T(std::forward<Args>(args)...)
+      : m_event_handler(notifier), T(std::forward<Args>(args)...)
   {
   }
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override
   {
-    m_notifier->Notify<AboutToInsertItemEvent>(parent, tag_index);
+    m_event_handler->Notify<AboutToInsertItemEvent>(parent, tag_index);
     auto result = T::InsertItem(std::move(item), parent, tag_index);
-    m_notifier->Notify<ItemInsertedEvent>(parent, tag_index);
+    m_event_handler->Notify<ItemInsertedEvent>(parent, tag_index);
     return result;
   }
 
   std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) override
   {
-    m_notifier->Notify<AboutToRemoveItemEvent>(parent, tag_index);
+    m_event_handler->Notify<AboutToRemoveItemEvent>(parent, tag_index);
     auto result = T::TakeItem(parent, tag_index);
-    m_notifier->Notify<ItemRemovedEvent>(parent, tag_index);
+    m_event_handler->Notify<ItemRemovedEvent>(parent, tag_index);
     return result;
   }
 
@@ -65,7 +65,7 @@ public:
     auto result = T::SetData(item, value, role);
     if (result)
     {
-      m_notifier->Notify<DataChangedEvent>(item, role);
+      m_event_handler->Notify<DataChangedEvent>(item, role);
     }
     return result;
   }
@@ -73,13 +73,13 @@ public:
   void Reset(std::unique_ptr<SessionItem>& old_root_item,
              std::unique_ptr<SessionItem> new_root_item) override
   {
-    m_notifier->ModelAboutToBeResetNotify(T::GetModel());
+    m_event_handler->Notify<ModelAboutToBeResetEvent>(T::GetModel());
     T::Reset(old_root_item, std::move(new_root_item));
-    m_notifier->ModelResetNotify(T::GetModel());
+    m_event_handler->Notify<ModelResetEvent>(T::GetModel());
   }
 
 private:
-  ModelEventHandler* m_notifier{nullptr};
+  ModelEventHandler* m_event_handler{nullptr};
 };
 
 }  // namespace mvvm
