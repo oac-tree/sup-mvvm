@@ -33,22 +33,6 @@ class MVVM_VIEWMODEL_EXPORT ModelEventHandler : public EventHandler<event_t>
 {
 public:
   ModelEventHandler();
-
-  virtual Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f, Slot* slot);
-
-  virtual Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f, Slot* slot);
-
-  virtual Connection SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& f, Slot* slot);
-
-  virtual Connection SetOnItemRemoved(const Callbacks::item_tagindex_t& f, Slot* slot);
-
-  virtual Connection SetOnDataChanged(const Callbacks::item_int_t& f, Slot* slot);
-
-  virtual Connection SetOnModelAboutToBeReset(const Callbacks::model_t& f, Slot* slot);
-
-  virtual Connection SetOnModelReset(const Callbacks::model_t& f, Slot* slot);
-
-  virtual Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f, Slot* slot);
 };
 
 }  // namespace mvvm

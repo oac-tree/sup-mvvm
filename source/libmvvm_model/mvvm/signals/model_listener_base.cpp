@@ -19,8 +19,8 @@
 
 #include "mvvm/signals/model_listener_base.h"
 
-#include <mvvm/signals/model_event_handler.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
 {
@@ -47,42 +47,83 @@ ModelListenerBase::ModelListenerBase(SessionModelInterface *model)
 
 Connection ModelListenerBase::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnAboutToInsertItem(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<AboutToInsertItemEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->GetEventHandler()->Connect<AboutToInsertItemEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnItemInserted(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnItemInserted(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ItemInsertedEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->GetEventHandler()->Connect<ItemInsertedEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnAboutToRemoveItem(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->GetEventHandler()->Connect<AboutToRemoveItemEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnItemRemoved(const Callbacks::item_tagindex_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnItemRemoved(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ItemRemovedEvent>(event);
+    f(concrete_event.m_parent, concrete_event.m_tag_index);
+  };
+  return p_impl->GetEventHandler()->Connect<ItemRemovedEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnDataChanged(const Callbacks::item_int_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnDataChanged(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<DataChangedEvent>(event);
+    f(concrete_event.m_item, concrete_event.m_data_role);
+  };
+  return p_impl->GetEventHandler()->Connect<DataChangedEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnModelAboutToBeReset(const Callbacks::model_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnModelAboutToBeReset(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ModelAboutToBeResetEvent>(event);
+    f(concrete_event.m_model);
+  };
+  return p_impl->GetEventHandler()->Connect<ModelAboutToBeResetEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnModelReset(const Callbacks::model_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnModelReset(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ModelResetEvent>(event);
+    f(concrete_event.m_model);
+  };
+  return p_impl->GetEventHandler()->Connect<ModelResetEvent>(adapter, p_impl->GetSlot());
 }
 
 Connection ModelListenerBase::SetOnModelAboutToBeDestroyed(const Callbacks::model_t &f)
 {
-  return p_impl->GetEventHandler()->SetOnModelAboutToBeDestroyed(f, p_impl->GetSlot());
+  auto adapter = [f](const event_t &event)
+  {
+    auto concrete_event = std::get<ModelAboutToBeDestroyedEvent>(event);
+    f(concrete_event.m_model);
+  };
+  return p_impl->GetEventHandler()->Connect<ModelAboutToBeDestroyedEvent>(adapter,
+                                                                          p_impl->GetSlot());
 }
 
 SessionModelInterface *ModelListenerBase::GetCurrentModel() const
