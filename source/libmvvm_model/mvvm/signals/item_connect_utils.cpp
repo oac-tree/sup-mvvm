@@ -19,10 +19,10 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
-#include <mvvm/signals/model_event_handler.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/signals/model_event_handler.h>
 
 namespace
 {
@@ -56,15 +56,18 @@ Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t 
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](SessionItem *item, const TagIndex &tag_index)
+  auto filtered_callback = [func, source](const event_t &event)
   {
+    auto concrete_event = std::get<ItemInsertedEvent>(event);
+    auto item = concrete_event.m_parent;
+    auto tag_index = concrete_event.m_tag_index;
     if (item == source)
     {
       func(item, tag_index);  // calling user provided callback
     }
   };
 
-  return event_handler->SetOnItemInserted(filtered_callback, slot);
+  return event_handler->Connect<ItemInsertedEvent>(filtered_callback, slot);
 }
 
 Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagindex_t &func,
@@ -74,15 +77,19 @@ Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagind
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](SessionItem *item, const TagIndex &tag_index)
+  auto filtered_callback = [func, source](const event_t &event)
   {
+    auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
+    auto item = concrete_event.m_parent;
+    auto tag_index = concrete_event.m_tag_index;
+
     if (item == source)
     {
       func(item, tag_index);  // calling user provided callback
     }
   };
 
-  return event_handler->SetOnAboutToRemoveItem(filtered_callback, slot);
+  return event_handler->Connect<AboutToRemoveItemEvent>(filtered_callback, slot);
 }
 
 Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
@@ -91,15 +98,19 @@ Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](SessionItem *item, const TagIndex &tag_index)
+  auto filtered_callback = [func, source](const event_t &event)
   {
+    auto concrete_event = std::get<ItemRemovedEvent>(event);
+    auto item = concrete_event.m_parent;
+    auto tag_index = concrete_event.m_tag_index;
+
     if (item == source)
     {
       func(item, tag_index);  // calling user provided callback
     }
   };
 
-  return event_handler->SetOnItemRemoved(filtered_callback, slot);
+  return event_handler->Connect<ItemRemovedEvent>(filtered_callback, slot);
 }
 
 Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
@@ -108,15 +119,19 @@ Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func,
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](SessionItem *item, int role)
+  auto filtered_callback = [func, source](const event_t &event)
   {
+    auto concrete_event = std::get<DataChangedEvent>(event);
+    auto item = concrete_event.m_item;
+    auto role = concrete_event.m_data_role;
+
     if (item == source)
     {
       func(item, role);  // calling user provided callback
     }
   };
 
-  return event_handler->SetOnDataChanged(filtered_callback, slot);
+  return event_handler->Connect<DataChangedEvent>(filtered_callback, slot);
 }
 
 Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &func, Slot *slot)
@@ -125,8 +140,11 @@ Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &f
 
   // Create a callback with filtering capabilities to call user callback only when the event had
   // happened with our source. User callback `func` is passed by copy.
-  auto filtered_callback = [func, source](SessionItem *item, int /*role*/)
+  auto filtered_callback = [func, source](const event_t &event)
   {
+    auto concrete_event = std::get<DataChangedEvent>(event);
+    auto item = concrete_event.m_item;
+
     if (utils::GetNestlingDepth(source, item) == 1)
     {
       // calling user provided callback, when property of the source has changed
@@ -134,7 +152,7 @@ Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &f
     }
   };
 
-  return event_handler->SetOnDataChanged(filtered_callback, slot);
+  return event_handler->Connect<DataChangedEvent>(filtered_callback, slot);
 }
 
 }  // namespace mvvm::connect
