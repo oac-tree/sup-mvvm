@@ -41,8 +41,8 @@ class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
 public:
   virtual ~AbstractViewModelController();
 
-  void SubscribeTo(ModelEventHandler *event_handler);
-  void UnsubscribeFrom(ModelEventHandler *event_handler);
+  void Subscribe(ModelEventHandler *event_handler);
+  void Unsubscribe();
 
   void OnEvent(const event_t &event);
 

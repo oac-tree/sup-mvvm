@@ -28,7 +28,7 @@ namespace mvvm
 {
 AbstractViewModelController::~AbstractViewModelController() = default;
 
-void AbstractViewModelController::SubscribeTo(ModelEventHandler *event_handler)
+void AbstractViewModelController::Subscribe(ModelEventHandler *event_handler)
 {
   if (!event_handler)
   {
@@ -57,9 +57,8 @@ void AbstractViewModelController::SubscribeTo(ModelEventHandler *event_handler)
       this, &AbstractViewModelController::OnEvent, m_slot.get());
 }
 
-void AbstractViewModelController::UnsubscribeFrom(ModelEventHandler *event_handler)
+void AbstractViewModelController::Unsubscribe()
 {
-  (void)event_handler;
   m_slot.reset();
 }
 

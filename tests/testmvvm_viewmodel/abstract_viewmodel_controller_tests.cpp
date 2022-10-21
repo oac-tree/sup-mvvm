@@ -67,7 +67,7 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 
   auto controller = std::make_unique<TestController>();
 
-  controller->SubscribeTo(&event_handler);
+  controller->Subscribe(&event_handler);
 
   EXPECT_CALL(*controller, OnDataChanged(&item, role)).Times(1);
 
@@ -85,7 +85,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
   auto controller = std::make_unique<TestController>();
 
-  controller->SubscribeTo(&event_handler);
+  controller->Subscribe(&event_handler);
 
   controller.reset();
 
@@ -103,7 +103,7 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 
   auto controller = std::make_unique<TestController>();
 
-  controller->SubscribeTo(event_handler.get());
+  controller->Subscribe(event_handler.get());
 
   // destroying event_handler
   event_handler.reset();
@@ -120,7 +120,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(&item, tag_index)).Times(1);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -144,7 +144,7 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(&item, tag_index)).Times(1);
@@ -168,7 +168,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -192,7 +192,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -216,7 +216,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -238,7 +238,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -260,7 +260,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -282,7 +282,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -316,7 +316,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
 
   mvvm::ModelEventHandler event_handler;
   TestController controller;
-  controller.SubscribeTo(&event_handler);
+  controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
@@ -328,7 +328,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
-  controller.UnsubscribeFrom(&event_handler);
+  controller.Unsubscribe();
 
   event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
   event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
@@ -351,8 +351,8 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   TestController listener1;
   TestController listener2;
 
-  listener1.SubscribeTo(&event_handler);
-  listener2.SubscribeTo(&event_handler);
+  listener1.Subscribe(&event_handler);
+  listener2.Subscribe(&event_handler);
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
@@ -394,10 +394,10 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   TestController listener1;
   TestController listener2;
 
-  listener1.SubscribeTo(&event_handler);
-  listener2.SubscribeTo(&event_handler);
+  listener1.Subscribe(&event_handler);
+  listener2.Subscribe(&event_handler);
 
-  listener1.UnsubscribeFrom(&event_handler);
+  listener1.Unsubscribe();
 
   EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
@@ -445,7 +445,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
   EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
 
-  listener2.UnsubscribeFrom(&event_handler);
+  listener2.Unsubscribe();
 
   event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
   event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
