@@ -20,6 +20,7 @@
 #ifndef MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
 #define MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
 
+#include <mvvm/signals/event_types.h>
 #include <mvvm/signals/signal_slot.h>
 #include <mvvm/viewmodel_export.h>
 
@@ -31,6 +32,7 @@ class SessionModelInterface;
 class SessionItem;
 class ModelEventHandler;
 class TagIndex;
+class DataChangedEvent;
 
 //! Propagate changes
 
@@ -41,6 +43,8 @@ public:
 
   void SubscribeTo(ModelEventHandler *event_handler);
   void UnsubscribeFrom(ModelEventHandler *event_handler);
+
+  void OnEvent(const event_t &event);
 
   //! Lets the controller know that a child is about to be inserted into the `parent` with
   //! `tag_index`.
@@ -72,6 +76,15 @@ public:
   virtual void Init(SessionItem *root_item = nullptr);
 
   virtual QStringList GetHorizontalHeaderLabels() const;
+
+  void operator()(const DataChangedEvent &event);
+  void operator()(const AboutToInsertItemEvent &event);
+  void operator()(const ItemInsertedEvent &event);
+  void operator()(const AboutToRemoveItemEvent &event);
+  void operator()(const ItemRemovedEvent &event);
+  void operator()(const ModelAboutToBeResetEvent &event);
+  void operator()(const ModelResetEvent &event);
+  void operator()(const ModelAboutToBeDestroyedEvent &event);
 
 private:
   std::unique_ptr<mvvm::Slot> m_slot;
