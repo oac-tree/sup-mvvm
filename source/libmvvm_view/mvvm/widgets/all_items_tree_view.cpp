@@ -33,7 +33,7 @@ AllItemsTreeView::AllItemsTreeView(SessionModelInterface *model, QWidget* parent
   SetComponentProvider(CreateProvider<AllItemsViewModel>(m_tree_view, model));
 }
 
-QTreeView* AllItemsTreeView::GetTreeView()
+QTreeView* AllItemsTreeView::GetTreeView() const
 {
   return m_tree_view;
 }
