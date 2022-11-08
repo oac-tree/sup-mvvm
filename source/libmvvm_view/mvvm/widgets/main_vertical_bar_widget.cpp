@@ -29,6 +29,48 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
+namespace
+{
+
+QString GetBackgroundColorName(const QColor& base_color)
+{
+  return base_color.name(QColor::HexRgb);
+}
+
+QString GetPressedColorName(const QColor& base_color)
+{
+  return QString("#dae7ed");
+}
+
+QString GetHoverColorName(const QColor& base_color)
+{
+  return base_color.lighter(150).name(QColor::HexRgb);
+}
+
+QString GetCheckedColorName(const QColor& base_color)
+{
+  return QString("#97a8b0");
+}
+
+QString GetButtonStyleString(const QColor& base_color)
+{
+  static const QString result =
+      "QToolButton { border: none; color: white; background-color: %1;}        "
+      "QToolButton:pressed { "
+      " color: black; background-color: %2; }"
+      "QToolButton:hover { "
+      " color: white; background-color: %3; }"
+      "QToolButton:checked { "
+      " color: black; background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 "
+      "%4, stop: "
+      "1 %2);"
+      "} ";
+  return result.arg(GetBackgroundColorName(base_color), GetPressedColorName(base_color),
+                    GetHoverColorName(base_color), GetCheckedColorName(base_color));
+}
+
+}  // namespace
+
 namespace mvvm
 {
 MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
@@ -36,6 +78,7 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
     , m_stacked_widget(new QStackedWidget)
     , m_button_layout(new QVBoxLayout)
     , m_button_group(new QButtonGroup(this))
+    , m_base_color()
 {
   m_button_layout->setContentsMargins(0, 0, 0, 0);
   m_button_layout->setSpacing(0);
@@ -48,12 +91,12 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
 
   setFrameStyle(QFrame::Sunken);
 
-  connect(m_button_group, &QButtonGroup::idClicked, this, &MainVerticalBarWidget::setCurrentIndex);
+  connect(m_button_group, &QButtonGroup::idClicked, this, &MainVerticalBarWidget::SetCurrentIndex);
 }
 
 MainVerticalBarWidget::~MainVerticalBarWidget() = default;
 
-void MainVerticalBarWidget::addWidget(QWidget* widget, const QString& title, const QIcon& icon)
+void MainVerticalBarWidget::AddWidget(QWidget* widget, const QString& title, const QIcon& icon)
 {
   int index = m_stacked_widget->addWidget(widget);
 
@@ -68,7 +111,7 @@ void MainVerticalBarWidget::addWidget(QWidget* widget, const QString& title, con
   UpdateViewSelectionButtonsGeometry();
 }
 
-void MainVerticalBarWidget::setCurrentIndex(int index)
+void MainVerticalBarWidget::SetCurrentIndex(int index)
 {
   if (auto button = m_button_group->button(index); button)
   {
@@ -81,7 +124,7 @@ void MainVerticalBarWidget::setCurrentIndex(int index)
   }
 }
 
-void MainVerticalBarWidget::addSpacer()
+void MainVerticalBarWidget::AddSpacer()
 {
   m_filler_button = CreateViewSelectionButton();
   m_filler_button->setMinimumSize(5, 5);
@@ -92,41 +135,18 @@ void MainVerticalBarWidget::addSpacer()
   UpdateViewSelectionButtonsGeometry();
 }
 
+void MainVerticalBarWidget::SetBaseColor(const QColor& color)
+{
+  m_base_color = color;
+}
+
 QToolButton* MainVerticalBarWidget::CreateViewSelectionButton()
 {
-  //    static const QString viewSelectionButtonStyle =
-  //        "QToolButton { border: none; color: white; background-color: qlineargradient(x1: 0, "
-  //        "y1: 0, x2: 1, y2: 0, stop : 0 #153b4c, stop : 1 #347a9c);}        "
-  //        "QToolButton:pressed { "
-  //        " color: black; background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 "
-  //        "#97a8b0, stop: "
-  //        "1 #dae7ed); }"
-  //        "QToolButton:hover { "
-  //        " color: white; background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 "
-  //        "#254b5c, stop: 1 #448aac); }"
-  //        "QToolButton:checked { "
-  //        " color: black; background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 "
-  //        "#97a8b0, stop: "
-  //        "1 #dae7ed);"
-  //        "} ";
-
-  static const QString viewSelectionButtonStyle =
-      "QToolButton { border: none; color: white; background-color: #005291;}        "
-      "QToolButton:pressed { "
-      " color: black; background-color: #dae7ed; }"
-      "QToolButton:hover { "
-      " color: white; background-color: #0071c8; }"
-      "QToolButton:checked { "
-      " color: black; background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 "
-      "#97a8b0, stop: "
-      "1 #dae7ed);"
-      "} ";
-
   auto result = new QToolButton;
   result->setCheckable(true);
   result->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
   //  result->setToolButtonStyle(Qt::ToolButtonIconOnly);
-  result->setStyleSheet(viewSelectionButtonStyle);
+  result->setStyleSheet(GetButtonStyleString(m_base_color));
   return result;
 }
 
@@ -140,33 +160,33 @@ void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
   const QFontMetrics fontMetrics = m_button_group->buttons().first()->fontMetrics();
 
   // Find the maximum text extents
-  int maxTextWidth = 0;
-  int maxTextHeight = 0;
+  int max_text_width = 0;
+  int max_text_height = 0;
   for (auto b : m_button_group->buttons())
   {
     const auto r = fontMetrics.boundingRect(b->text());
-    maxTextWidth = std::max(maxTextWidth, r.width());
-    maxTextHeight = std::max(maxTextHeight, r.height());
+    max_text_width = std::max(max_text_width, r.width());
+    max_text_height = std::max(max_text_height, r.height());
   }
 
   // calculate the button extent by width (width == height!). Ensure an extent of 70 for normal
   // DPI devices (legacy value)
   const int margin = fontMetrics.boundingRect("M").width();
-  const int buttonExtent = std::max(50, maxTextWidth + 2 * margin);
+  const int button_extent = std::max(50, max_text_width + 2 * margin);
 
   // calculate the icon extent by height (width == height!)
-  const int iconExtent = 0.9 * buttonExtent - margin - maxTextHeight;
+  const int icon_extent = 0.9 * button_extent - margin - max_text_height;
 
   // set new values in all buttons
   for (auto b : m_button_group->buttons())
   {
-    b->setFixedSize(buttonExtent, buttonExtent);
-    b->setIconSize({iconExtent, iconExtent});
+    b->setFixedSize(button_extent, button_extent);
+    b->setIconSize({icon_extent, icon_extent});
   }
   // set fixed width in filler and progress bar
   if (m_filler_button)
   {
-    m_filler_button->setFixedWidth(buttonExtent);
+    m_filler_button->setFixedWidth(button_extent);
   }
 }
 

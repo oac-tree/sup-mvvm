@@ -23,6 +23,7 @@
 #include <mvvm/viewmodel_export.h>
 
 #include <QFrame>
+#include <QColor>
 #include <map>
 
 class QStackedWidget;
@@ -46,11 +47,13 @@ public:
   MainVerticalBarWidget(QWidget* parent = nullptr);
   ~MainVerticalBarWidget();
 
-  void addWidget(QWidget* widget, const QString& title, const QIcon& icon);
+  void AddWidget(QWidget* widget, const QString& title, const QIcon& icon);
 
-  void setCurrentIndex(int index);
+  void SetCurrentIndex(int index);
 
-  void addSpacer();
+  void AddSpacer();
+
+  void SetBaseColor(const QColor& color);
 
 private:
   QToolButton* CreateViewSelectionButton();
@@ -60,6 +63,8 @@ private:
   QVBoxLayout* m_button_layout{nullptr};
   QButtonGroup* m_button_group{nullptr};
   QToolButton* m_filler_button{nullptr};
+
+  QColor m_base_color;
 };
 
 }  // namespace mvvm
