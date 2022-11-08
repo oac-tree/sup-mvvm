@@ -49,22 +49,16 @@ QString GetHoverColorName(const QColor& base_color)
 
 QString GetCheckedColorName(const QColor& base_color)
 {
-  return QString("#97a8b0");
+  return base_color.lighter(120).name(QColor::HexRgb);
 }
 
 QString GetButtonStyleString(const QColor& base_color)
 {
   static const QString result =
-      "QToolButton { border: none; color: white; background-color: %1;}        "
-      "QToolButton:pressed { "
-      " color: black; background-color: %2; }"
-      "QToolButton:hover { "
-      " color: white; background-color: %3; }"
-      "QToolButton:checked { "
-      " color: black; background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 "
-      "%4, stop: "
-      "1 %2);"
-      "} ";
+      "QToolButton { border: none; color: white; background-color: %1;}"
+      "QToolButton:pressed { color: black; background-color: %2; }"
+      "QToolButton:hover { color: white; background-color: %3; }"
+      "QToolButton:checked { color: white; background-color: %4; }";
   return result.arg(GetBackgroundColorName(base_color), GetPressedColorName(base_color),
                     GetHoverColorName(base_color), GetCheckedColorName(base_color));
 }
