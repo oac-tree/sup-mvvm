@@ -72,7 +72,7 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
     , m_stacked_widget(new QStackedWidget)
     , m_button_layout(new QVBoxLayout)
     , m_button_group(new QButtonGroup(this))
-    , m_base_color()
+    , m_base_color("#005291")
 {
   m_button_layout->setContentsMargins(0, 0, 0, 0);
   m_button_layout->setSpacing(0);
