@@ -32,6 +32,7 @@ class QPushButton;
 class QIcon;
 class QButtonGroup;
 class QToolButton;
+class QStatusBar;
 
 namespace mvvm
 {
@@ -55,6 +56,8 @@ public:
 
   void SetBaseColor(const QColor& color);
 
+  QStatusBar* GetStatusBar();
+
 private:
   QToolButton* CreateViewSelectionButton();
   void UpdateViewSelectionButtonsGeometry();
@@ -63,6 +66,7 @@ private:
   QVBoxLayout* m_button_layout{nullptr};
   QButtonGroup* m_button_group{nullptr};
   QToolButton* m_filler_button{nullptr};
+  QStatusBar* m_status_bar{nullptr};
 
   QColor m_base_color;
 };

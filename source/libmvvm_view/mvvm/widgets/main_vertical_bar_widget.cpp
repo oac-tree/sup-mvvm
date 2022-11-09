@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QStatusBar>
 #include <QToolButton>
 #include <QVBoxLayout>
 
@@ -72,16 +73,23 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
     , m_stacked_widget(new QStackedWidget)
     , m_button_layout(new QVBoxLayout)
     , m_button_group(new QButtonGroup(this))
+    , m_status_bar(new QStatusBar)
     , m_base_color("#005291")
 {
   m_button_layout->setContentsMargins(0, 0, 0, 0);
   m_button_layout->setSpacing(0);
 
   auto layout = new QHBoxLayout(this);
-  layout->addLayout(m_button_layout);
-  layout->addWidget(m_stacked_widget);
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
+
+  auto widgets_layout = new QVBoxLayout;
+  widgets_layout->addWidget(m_stacked_widget);
+  widgets_layout->addWidget(m_status_bar);
+  m_status_bar->hide();
+
+  layout->addLayout(m_button_layout);
+  layout->addLayout(widgets_layout);
 
   setFrameStyle(QFrame::Sunken);
 
@@ -132,6 +140,11 @@ void MainVerticalBarWidget::AddSpacer()
 void MainVerticalBarWidget::SetBaseColor(const QColor& color)
 {
   m_base_color = color;
+}
+
+QStatusBar* MainVerticalBarWidget::GetStatusBar()
+{
+  return m_status_bar;
 }
 
 QToolButton* MainVerticalBarWidget::CreateViewSelectionButton()
