@@ -84,6 +84,7 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
   layout->setSpacing(0);
 
   auto widgets_layout = new QVBoxLayout;
+  widgets_layout->setContentsMargins(0, 0, 0, 0);
   widgets_layout->addWidget(m_stacked_widget);
   widgets_layout->addWidget(m_status_bar);
   m_status_bar->hide();
