@@ -20,6 +20,7 @@
 #include "mvvm/widgets/property_grid_controller.h"
 
 #include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
@@ -92,6 +93,11 @@ TEST_F(PropertyGridControllerTests, DataWidgetMapperBasics)
   EXPECT_EQ(view_model.data(view_model.index(0, 1)).toInt(), 98);
 }
 
+TEST_F(PropertyGridControllerTests, UninitialisedModel)
+{
+  EXPECT_THROW(PropertyGridController(nullptr), NullArgumentException);
+}
+
 //! Checking method CreateWidget.
 //! Use QStandardItemModel with single row with label and data.
 
@@ -142,7 +148,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForStandardModel)
 
   PropertyGridController controller(&view_model);
 
-  auto editor_grid = controller.CreateGrid();
+  auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 2);
   EXPECT_EQ(editor_grid[0].size(), 3);
@@ -160,7 +166,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForPropertyViewModel)
   view_model.SetRootSessionItem(parent);
 
   PropertyGridController controller(&view_model);
-  auto editor_grid = controller.CreateGrid();
+  auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 3);
   EXPECT_EQ(editor_grid[0].size(), 2);
@@ -181,14 +187,13 @@ TEST_F(PropertyGridControllerTests, CreateGridForVectorItemProperties)
 
   view_model.SetRootSessionItem(parent);
 
-  auto editor_grid = controller.CreateGrid();
+  auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 3);
   EXPECT_EQ(editor_grid[0].size(), 2);
 
   EXPECT_EQ(spy_grid_changed.count(), 1);
 }
-
 
 //! Checking method CreateGrid.
 //! Use PropertyTableViewModel with two VectorItem in it.
@@ -202,7 +207,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForPropertyTableViewModel)
   PropertyTableViewModel view_model(&model);
 
   PropertyGridController controller(&view_model);
-  auto editor_grid = controller.CreateGrid();
+  auto editor_grid = controller.CreateWidgetGrid();
 
   EXPECT_EQ(editor_grid.size(), 2);
   EXPECT_EQ(editor_grid[0].size(), 3);
@@ -237,7 +242,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
   view_model.SetRootSessionItem(vector);
 
   PropertyGridController controller(&view_model);
-  auto editor_grid = controller.CreateGrid();
+  auto editor_grid = controller.CreateWidgetGrid();
 
   // we expect here a grid (row, col) = (3, 2) of widgets
   // the first column is a label, the second is an editor

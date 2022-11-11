@@ -57,7 +57,7 @@ void PropertyFlatView::UpdateGridLayout()
 {
   ClearGridLayout(m_grid_layout, true);
 
-  auto widgets = m_grid_controller->CreateGrid();
+  auto widgets = m_grid_controller->CreateWidgetGrid();
 
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {

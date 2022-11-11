@@ -49,7 +49,7 @@ public:
 
   std::unique_ptr<QWidget> CreateWidget(const QModelIndex& index);
 
-  std::vector<widget_row_t> CreateGrid();
+  std::vector<widget_row_t> CreateWidgetGrid();
 
   bool Submit();
 

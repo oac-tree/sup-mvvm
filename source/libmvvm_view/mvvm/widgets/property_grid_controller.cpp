@@ -20,6 +20,7 @@
 #include "mvvm/widgets/property_grid_controller.h"
 
 #include <mvvm/delegates/viewmodel_delegate.h>
+#include <mvvm/core/exceptions.h>
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
@@ -32,6 +33,10 @@ namespace mvvm
 PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObject *parent)
     : QObject(parent), m_view_model(model), m_delegate(std::make_unique<ViewModelDelegate>())
 {
+  if (!m_view_model)
+  {
+    throw NullArgumentException("Uninitialized model");
+  }
   SetupConnections(m_view_model);
 }
 
@@ -42,7 +47,7 @@ std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex 
   return IsLabel(index) ? CreateLabel(index) : CreateEditor(index);
 }
 
-std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateGrid()
+std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateWidgetGrid()
 {
   std::vector<PropertyGridController::widget_row_t> result;
 
