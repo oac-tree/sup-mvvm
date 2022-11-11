@@ -78,7 +78,7 @@ void ItemSelectionModel::SetSelectedItems(std::vector<const mvvm::SessionItem *>
 {
   if (!GetViewModel())
   {
-    throw ArgumentNullException("ViewModel is not initialised");
+    throw NullArgumentException("ViewModel is not initialised");
   }
 
   clearSelection();

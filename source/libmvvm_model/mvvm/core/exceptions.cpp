@@ -39,7 +39,7 @@ ExistingKeyException::ExistingKeyException(const std::string& message) : Message
 {
 }
 
-ArgumentNullException::ArgumentNullException(const std::string& message) : MessageException{message}
+NullArgumentException::NullArgumentException(const std::string& message) : MessageException{message}
 {
 }
 

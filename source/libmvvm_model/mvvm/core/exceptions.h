@@ -67,10 +67,10 @@ public:
 
 //! Exception is thrown when the argument is nullptr.
 
-class ArgumentNullException : public MessageException
+class NullArgumentException : public MessageException
 {
 public:
-  explicit ArgumentNullException(const std::string& message);
+  explicit NullArgumentException(const std::string& message);
 };
 
 //! Exception is thrown when code is not implemented.

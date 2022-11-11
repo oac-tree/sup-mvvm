@@ -30,7 +30,7 @@ TagIndex GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_
 {
   if (!parent)
   {
-    throw ArgumentNullException("Unintialised parent");
+    throw NullArgumentException("Unintialised parent");
   }
 
   std::string actual_tag =
