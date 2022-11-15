@@ -27,6 +27,7 @@
 
 class QSize;
 class QIcon;
+class QTreeView;
 
 namespace mvvm::utils
 {
@@ -46,6 +47,10 @@ QSize ToolBarIconSize();
 QSize NarrowToolBarIconSize();
 
 QIcon GetIcon(const std::string& icon_name);
+
+//! Sets Breeze style for the tree to use in property editors.
+//! Used for X-environments that do not have Breeze theme.
+void SetBreezePropertyStyle(QTreeView* tree);
 
 }  // namespace mvvm::utils
 

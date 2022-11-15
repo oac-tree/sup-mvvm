@@ -5,5 +5,11 @@
         <file>icons/chevron-right.png</file>
         <file>icons/chevron-down.svg</file>
         <file>icons/chevron-down.png</file>
+        <file>icons/branch-more.svg</file>
+        <file>icons/branch-more.png</file>
+        <file>icons/branch-end.svg</file>
+        <file>icons/branch-end.png</file>
+        <file>icons/vline.svg</file>
+        <file>icons/vline.png</file>
     </qresource>
 </RCC>

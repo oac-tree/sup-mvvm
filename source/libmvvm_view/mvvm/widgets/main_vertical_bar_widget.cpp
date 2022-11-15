@@ -165,31 +165,31 @@ void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
     return;
   }
 
-  const QFontMetrics fontMetrics = m_button_group->buttons().first()->fontMetrics();
+  const QFontMetrics font_metrics = m_button_group->buttons().first()->fontMetrics();
 
   // Find the maximum text extents
   int max_text_width = 0;
   int max_text_height = 0;
   for (auto b : m_button_group->buttons())
   {
-    const auto r = fontMetrics.boundingRect(b->text());
+    const auto r = font_metrics.boundingRect(b->text());
     max_text_width = std::max(max_text_width, r.width());
     max_text_height = std::max(max_text_height, r.height());
   }
 
   // calculate the button extent by width (width == height!). Ensure an extent of 70 for normal
   // DPI devices (legacy value)
-  const int margin = fontMetrics.boundingRect("M").width();
+  const int margin = font_metrics.boundingRect("M").width();
   const int button_extent = std::max(50, max_text_width + 2 * margin);
 
   // calculate the icon extent by height (width == height!)
   const int icon_extent = 0.9 * button_extent - margin - max_text_height;
 
   // set new values in all buttons
-  for (auto b : m_button_group->buttons())
+  for (auto button : m_button_group->buttons())
   {
-    b->setFixedSize(button_extent, button_extent);
-    b->setIconSize({icon_extent, icon_extent});
+    button->setFixedSize(button_extent, button_extent);
+    button->setIconSize({icon_extent, icon_extent});
   }
   // set fixed width in filler and progress bar
   if (m_filler_button)

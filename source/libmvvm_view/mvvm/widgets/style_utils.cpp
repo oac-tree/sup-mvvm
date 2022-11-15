@@ -24,11 +24,45 @@
 #include <QIcon>
 #include <QSize>
 #include <cmath>
+#include <QApplication>
+#include <QStyle>
+#include <QTreeView>
 
 namespace
 {
 //! Flag if to use svg versions of icons.
 const bool kSvgIcons = false;
+
+QString CreatePopertyTreeStyleString()
+{
+  QString result = R"(
+  QTreeView::branch:has-siblings:!adjoins-item {
+      border-image: url(:/icons/vline.png) 0;
+  }
+
+  QTreeView::branch:has-siblings:adjoins-item {
+      border-image: url(:/icons/branch-more.png) 0;
+  }
+
+  QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+      border-image: url(:/icons/branch-end.png) 0;
+  }
+
+  QTreeView::branch:has-children:!has-siblings:closed,
+  QTreeView::branch:closed:has-children:has-siblings {
+          padding:2px 2px 2px 2px;border-image: none;
+          image: url(:/icons/chevron-right.png);
+  }
+
+  QTreeView::branch:open:has-children:!has-siblings,
+  QTreeView::branch:open:has-children:has-siblings  {
+          padding:2px 2px 2px 2px;border-image: none;
+          image: url(:/icons/chevron-down.png);
+  })";
+
+  return result;
+}
+
 }  // namespace
 
 namespace mvvm::utils
@@ -64,6 +98,14 @@ QIcon GetIcon(const std::string &icon_name)
     name.replace(".svg", ".png");
   }
   return QIcon(name);
+}
+
+void SetBreezePropertyStyle(QTreeView *tree)
+{
+  if (QApplication::style()->objectName() != QString("breeze"))
+  {
+    tree->setStyleSheet(CreatePopertyTreeStyleString());
+  }
 }
 
 }  // namespace mvvm::utils
