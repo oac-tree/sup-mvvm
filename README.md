@@ -29,13 +29,15 @@ cmake <path-to-repo> && make -j4 && ctest
 Qt must be installed, and path to it specified.
 
 ```
-#install qt5 
+# install latest gtest, libxml2
+yum install codac-core-7.1-gtest-1.12.1-devel.x86_64 libxml2-devel.x86_64
 
-yum install freeglut-devel.x86_64 codac-core-7.1-qt5.x86_64 codac-core-7.1-gtest-1.12.1-devel.x86_64 libxml2-devel.x86_64 pcre2-utf16.x86_64
+# install qt5 
+yum install qt5-qtbase-devel.x86_64 qt5-qtsvg-devel.x86_64 qt5-qttools-devel.x86_64 qt5-qtbase-gui.x86_64 adwaita-qt5.x86_64 mesa-libGL-devel.x86_64
 
 # specify path to the repo directory  and compile
 mkdir build; cd build
-PATH=/opt/codac/qt5/bin:$PATH cmake -DCMAKE_PREFIX_PATH=/opt/codac/common/gtest-1.12.1 <path-to-repo>
+cmake -DCMAKE_PREFIX_PATH=/opt/codac/common/gtest-1.12.1 <path-to-repo>
 make -j4 && ctest
 ```
 
