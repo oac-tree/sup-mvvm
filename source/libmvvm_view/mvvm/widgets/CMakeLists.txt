@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
   abstract_item_view.h
   all_items_tree_view.cpp
   all_items_tree_view.h
+  app_utils.cpp
+  app_utils.h
   collapsible_list_view.cpp
   collapsible_list_view.h
   collapsible_toolbar.cpp
