@@ -84,6 +84,9 @@ TEST_F(StringUtilsTests, StringToBool)
 {
   using utils::StringToBool;
 
+  EXPECT_TRUE(StringToBool("Yes"));
+  EXPECT_FALSE(StringToBool("No"));
+
   EXPECT_TRUE(StringToBool("true"));
   EXPECT_FALSE(StringToBool("false"));
 

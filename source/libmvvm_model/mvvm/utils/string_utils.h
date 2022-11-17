@@ -41,7 +41,7 @@ MVVM_MODEL_EXPORT std::string TrimWhitespace(const std::string& str);
 
 //! Converts string to bool. String should represent one of "false", "true", "False", etc.
 //! Will throw if it is not the case.
-MVVM_MODEL_EXPORT bool StringToBool(std::string str);
+MVVM_MODEL_EXPORT bool StringToBool(const std::string& str);
 
 //! Converts bool to string.
 MVVM_MODEL_EXPORT std::string FromBool(bool value);

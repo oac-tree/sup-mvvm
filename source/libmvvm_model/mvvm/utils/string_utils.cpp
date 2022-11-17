@@ -83,16 +83,25 @@ std::string TrimWhitespace(const std::string& str)
   return str.substr(first, (last - first + 1));
 }
 
-bool StringToBool(std::string str)
+bool StringToBool(const std::string& str)
 {
-  std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-  std::istringstream is(str);
-  bool value{false};
-  if (!(is >> std::boolalpha >> value))
+  auto value = TrimWhitespace(str);
+  std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+
+  static const std::vector<std::string> true_answers = {"true", "yes", "on"};
+  static const std::vector<std::string> false_answers = {"false", "no"};
+
+  if (std::find(true_answers.begin(), true_answers.end(), value) != true_answers.end())
   {
-    throw std::runtime_error("Can't parse string to bool");
+    return true;
   }
-  return value;
+
+  if (std::find(false_answers.begin(), false_answers.end(), value) != false_answers.end())
+  {
+    return false;
+  }
+
+  throw std::runtime_error("Can't parse string to bool");
 }
 
 std::string FromBool(bool value)
