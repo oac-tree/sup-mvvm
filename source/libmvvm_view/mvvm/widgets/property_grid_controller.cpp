@@ -26,7 +26,6 @@
 #include <QDataWidgetMapper>
 #include <QLabel>
 #include <QStyleOptionViewItem>
-#include <QDebug>
 
 namespace mvvm
 {
@@ -50,7 +49,6 @@ std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex 
 
 std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateWidgetGrid()
 {
-  qDebug() << "CreateWidgetGrid";
   std::vector<PropertyGridController::widget_row_t> result;
 
   UpdateMappers();
@@ -82,10 +80,8 @@ bool PropertyGridController::Submit()
 
 void PropertyGridController::ClearContent()
 {
-  qDebug() << "ClearContent";
   m_widget_mappers.clear();
   m_delegates.clear();
-  qDebug() << "End of ClearContent";
 }
 
 //! Returns true if given cell has to be represented by the label.
@@ -129,7 +125,6 @@ void PropertyGridController::OnLayoutChange()
 
 void PropertyGridController::UpdateMappers()
 {
-  qDebug() << "UpdateMappers";
   ClearContent();
 
   for (int row = 0; row < m_view_model->rowCount(); ++row)
@@ -147,13 +142,13 @@ void PropertyGridController::UpdateMappers()
 
 void PropertyGridController::SetupConnections(QAbstractItemModel *model)
 {
-  auto on_row_inserted = [this](const QModelIndex &, int, int) { qDebug() << "rowsInserted"; OnLayoutChange(); };
+  auto on_row_inserted = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsInserted, on_row_inserted);
 
-  auto on_row_removed = [this](const QModelIndex &, int, int) { qDebug() << "rowsRemoved"; OnLayoutChange(); };
+  auto on_row_removed = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsRemoved, on_row_removed);
 
-  connect(model, &QAbstractItemModel::modelReset, this, [this]() { qDebug() << "modelReset"; OnLayoutChange(); });
+  connect(model, &QAbstractItemModel::modelReset, this, [this]() { OnLayoutChange(); });
 }
 
 }  // namespace mvvm

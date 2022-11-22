@@ -47,8 +47,6 @@ public:
   explicit PropertyGridController(QAbstractItemModel* model, QObject* parent = nullptr);
   ~PropertyGridController() override;
 
-  std::unique_ptr<QWidget> CreateWidget(const QModelIndex& index);
-
   std::vector<widget_row_t> CreateWidgetGrid();
 
   bool Submit();
@@ -57,6 +55,7 @@ signals:
   void GridChanged();
 
 private:
+  std::unique_ptr<QWidget> CreateWidget(const QModelIndex& index);
   void ClearContent();
   bool IsLabel(const QModelIndex& index) const;
   std::unique_ptr<QWidget> CreateLabel(const QModelIndex& index);
