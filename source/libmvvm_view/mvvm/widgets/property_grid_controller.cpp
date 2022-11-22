@@ -19,19 +19,20 @@
 
 #include "mvvm/widgets/property_grid_controller.h"
 
-#include <mvvm/delegates/viewmodel_delegate.h>
 #include <mvvm/core/exceptions.h>
+#include <mvvm/delegates/viewmodel_delegate.h>
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
 #include <QLabel>
 #include <QStyleOptionViewItem>
+#include <QDebug>
 
 namespace mvvm
 {
 
 PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObject *parent)
-    : QObject(parent), m_view_model(model), m_delegate(std::make_unique<ViewModelDelegate>())
+    : QObject(parent), m_view_model(model)
 {
   if (!m_view_model)
   {
@@ -49,6 +50,7 @@ std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex 
 
 std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateWidgetGrid()
 {
+  qDebug() << "CreateWidgetGrid";
   std::vector<PropertyGridController::widget_row_t> result;
 
   UpdateMappers();
@@ -78,6 +80,14 @@ bool PropertyGridController::Submit()
   return is_success;
 }
 
+void PropertyGridController::ClearContent()
+{
+  qDebug() << "ClearContent";
+  m_widget_mappers.clear();
+  m_delegates.clear();
+  qDebug() << "End of ClearContent";
+}
+
 //! Returns true if given cell has to be represented by the label.
 
 bool PropertyGridController::IsLabel(const QModelIndex &index) const
@@ -98,9 +108,14 @@ std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &
 
 std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
 {
+  if (index.row() >= m_delegates.size())
+  {
+    throw RuntimeException("Error in delegates");
+  }
+  auto delegate = m_delegates.at(index.row()).get();
   QStyleOptionViewItem view_item;
-  auto result = std::unique_ptr<QWidget>(m_delegate->createEditor(nullptr, view_item, index));
-  m_delegate->setEditorData(result.get(), index);
+  auto result = std::unique_ptr<QWidget>(delegate->createEditor(nullptr, view_item, index));
+  delegate->setEditorData(result.get(), index);
   return result;
 }
 
@@ -108,33 +123,37 @@ std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex 
 
 void PropertyGridController::OnLayoutChange()
 {
+  ClearContent();
   emit GridChanged();
 }
 
 void PropertyGridController::UpdateMappers()
 {
-  m_widget_mappers.clear();
+  qDebug() << "UpdateMappers";
+  ClearContent();
 
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
     auto mapper = std::make_unique<QDataWidgetMapper>();
+    auto delegate = std::make_unique<ViewModelDelegate>();
     mapper->setModel(m_view_model);
-    mapper->setItemDelegate(m_delegate.get());
+    mapper->setItemDelegate(delegate.get());
     mapper->setRootIndex(QModelIndex());
     mapper->setCurrentModelIndex(m_view_model->index(row, 0));
     m_widget_mappers.emplace_back(std::move(mapper));
+    m_delegates.emplace_back(std::move(delegate));
   }
 }
 
 void PropertyGridController::SetupConnections(QAbstractItemModel *model)
 {
-  auto on_row_inserted = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
+  auto on_row_inserted = [this](const QModelIndex &, int, int) { qDebug() << "rowsInserted"; OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsInserted, on_row_inserted);
 
-  auto on_row_removed = [this](const QModelIndex &, int, int) { OnLayoutChange(); };
+  auto on_row_removed = [this](const QModelIndex &, int, int) { qDebug() << "rowsRemoved"; OnLayoutChange(); };
   connect(model, &QAbstractItemModel::rowsRemoved, on_row_removed);
 
-  connect(model, &QAbstractItemModel::modelReset, this, [this]() { OnLayoutChange(); });
+  connect(model, &QAbstractItemModel::modelReset, this, [this]() { qDebug() << "modelReset"; OnLayoutChange(); });
 }
 
 }  // namespace mvvm

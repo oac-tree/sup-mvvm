@@ -57,6 +57,7 @@ signals:
   void GridChanged();
 
 private:
+  void ClearContent();
   bool IsLabel(const QModelIndex& index) const;
   std::unique_ptr<QWidget> CreateLabel(const QModelIndex& index);
   std::unique_ptr<QWidget> CreateEditor(const QModelIndex& index);
@@ -65,7 +66,8 @@ private:
   void SetupConnections(QAbstractItemModel* model);
 
   QAbstractItemModel* m_view_model{nullptr};
-  std::unique_ptr<ViewModelDelegate> m_delegate;
+
+  std::vector<std::unique_ptr<ViewModelDelegate>> m_delegates;
   std::vector<std::unique_ptr<QDataWidgetMapper>> m_widget_mappers;
 };
 

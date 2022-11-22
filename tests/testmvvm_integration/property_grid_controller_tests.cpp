@@ -40,6 +40,7 @@
 #include <QTest>
 #include <QWidget>
 #include <iostream>
+#include <QDebug>
 
 using namespace mvvm;
 
@@ -101,35 +102,35 @@ TEST_F(PropertyGridControllerTests, UninitialisedModel)
 //! Checking method CreateWidget.
 //! Use QStandardItemModel with single row with label and data.
 
-TEST_F(PropertyGridControllerTests, CreateWidget)
-{
-  // preparing the model
-  QStandardItemModel view_model;
-  auto parent_item = view_model.invisibleRootItem();
-  QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
+// TEST_F(PropertyGridControllerTests, CreateWidget)
+//{
+//   // preparing the model
+//   QStandardItemModel view_model;
+//   auto parent_item = view_model.invisibleRootItem();
+//   QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
 
-  // first item in a row is a label
-  items.at(0)->setEditable(false);
-  items.at(0)->setData("abc", Qt::DisplayRole);
-  parent_item->insertRow(0, items);
-  // second item in a row carries an integer
-  items.at(1)->setData(42, Qt::EditRole);
+//  // first item in a row is a label
+//  items.at(0)->setEditable(false);
+//  items.at(0)->setData("abc", Qt::DisplayRole);
+//  parent_item->insertRow(0, items);
+//  // second item in a row carries an integer
+//  items.at(1)->setData(42, Qt::EditRole);
 
-  PropertyGridController controller(&view_model);
+//  PropertyGridController controller(&view_model);
 
-  auto widget0 = controller.CreateWidget(view_model.index(0, 0));
-  auto widget1 = controller.CreateWidget(view_model.index(0, 1));
+//  auto widget0 = controller.CreateWidget(view_model.index(0, 0));
+//  auto widget1 = controller.CreateWidget(view_model.index(0, 1));
 
-  // checking that controller can create proper editors for columns
-  auto label_widget = dynamic_cast<QLabel*>(widget0.get());
-  auto spinbox_widget = dynamic_cast<QSpinBox*>(widget1.get());
-  EXPECT_TRUE(label_widget);
-  EXPECT_TRUE(spinbox_widget);
+//  // checking that controller can create proper editors for columns
+//  auto label_widget = dynamic_cast<QLabel*>(widget0.get());
+//  auto spinbox_widget = dynamic_cast<QSpinBox*>(widget1.get());
+//  EXPECT_TRUE(label_widget);
+//  EXPECT_TRUE(spinbox_widget);
 
-  // checking that widgets get initial values correctly
-  EXPECT_EQ(label_widget->text(), QString("abc"));
-  EXPECT_EQ(spinbox_widget->value(), 42);
-}
+//  // checking that widgets get initial values correctly
+//  EXPECT_EQ(label_widget->text(), QString("abc"));
+//  EXPECT_EQ(spinbox_widget->value(), 42);
+//}
 
 //! Checking method CreateGrid.
 //! Use QStandardItemModel with two rows and three columns.
@@ -257,6 +258,53 @@ TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
   // setting the data
   x_double_spin_box->setValue(42.1);
 
+  EXPECT_TRUE(controller.Submit());
+
+  EXPECT_DOUBLE_EQ(vector->X(), 42.1);
+}
+
+//! Validating that GridController survives after model clearing
+
+TEST_F(PropertyGridControllerTests, ClearModel)
+{
+  ApplicationModel model;
+  auto vector = model.InsertItem<VectorItem>();
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(vector);
+
+  PropertyGridController controller(&view_model);
+
+  {
+    // set of editors created and immediately deleted
+    auto editor_grid0 = controller.CreateWidgetGrid();
+  }
+  // clear the model
+  qDebug() << "---- before clear";
+  model.Clear({});
+
+  // we populate model again and create new set of editors
+  qDebug() << "---- before insert";
+  vector = model.InsertItem<VectorItem>();
+  qDebug() << "---- calling SetRootSessionItem";
+  view_model.SetRootSessionItem(vector);
+  qDebug() << "---- calling CreateWidgetGrid";
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  // we expect here a grid (row, col) = (3, 2) of widgets
+  // the first column is a label, the second is an editor
+  EXPECT_EQ(editor_grid.size(), 3);
+  EXPECT_EQ(editor_grid[0].size(), 2);
+
+  auto x_label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
+  EXPECT_NE(x_label, nullptr);
+  auto x_double_spin_box = dynamic_cast<QDoubleSpinBox*>(editor_grid[0][1].get());
+  EXPECT_NE(x_double_spin_box, nullptr);
+
+  // setting the data
+  x_double_spin_box->setValue(42.1);
+
+  // should not be segfault, controller should forget about previous editors
   EXPECT_TRUE(controller.Submit());
 
   EXPECT_DOUBLE_EQ(vector->X(), 42.1);
