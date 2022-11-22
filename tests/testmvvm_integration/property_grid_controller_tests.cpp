@@ -40,7 +40,6 @@
 #include <QTest>
 #include <QWidget>
 #include <iostream>
-#include <QDebug>
 
 using namespace mvvm;
 

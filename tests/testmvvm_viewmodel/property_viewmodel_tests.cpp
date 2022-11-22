@@ -17,9 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "toy_items.h"
-
 #include "mvvm/viewmodel/property_viewmodel.h"
+#include "toy_items.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
@@ -253,4 +252,54 @@ TEST_F(PropertyViewModelTests, LayerPropertyWhileInsertingParticle)
 
   EXPECT_EQ(view_model.rowCount(), 2);
   EXPECT_EQ(view_model.columnCount(), 2);
+}
+
+//! View model is set to look at VectorItem.
+//! Then ApplicationModel is reset
+
+TEST_F(PropertyViewModelTests, ShowVectorItemWhenClearWhenShowAnother)
+{
+  ApplicationModel model;
+  auto vector0 = model.InsertItem<VectorItem>();
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(vector0);
+
+  QSignalSpy spy_about_reset(&view_model, &ViewModelBase::modelAboutToBeReset);
+  QSignalSpy spy_reset(&view_model, &ViewModelBase::modelReset);
+
+  EXPECT_EQ(view_model.rowCount(), 3);
+  EXPECT_EQ(view_model.columnCount(), 2);
+
+  auto vector_index = QModelIndex();
+  auto x_index_label = view_model.index(0, 0, vector_index);
+  auto x_index_value = view_model.index(0, 1, vector_index);
+  EXPECT_TRUE(view_model.setData(x_index_value, QVariant(42.1), Qt::EditRole));
+
+   model.Clear({});
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+
+  EXPECT_EQ(view_model.rowCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 0);
+
+  auto vector1 = model.InsertItem<VectorItem>();
+  // property model doesn't see vector1 if it is not root
+  EXPECT_EQ(view_model.rowCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 0);
+
+  view_model.SetRootSessionItem(vector1);
+  EXPECT_EQ(view_model.rowCount(), 3);
+  EXPECT_EQ(view_model.columnCount(), 2);
+
+  vector_index = QModelIndex();
+  x_index_label = view_model.index(0, 0, vector_index);
+  x_index_value = view_model.index(0, 1, vector_index);
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(vector_index), vector1);
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(x_index_label), vector1->GetItem(VectorItem::kX));
+  EXPECT_EQ(view_model.GetSessionItemFromIndex(x_index_value), vector1->GetItem(VectorItem::kX));
+
+  EXPECT_TRUE(view_model.setData(x_index_value, QVariant(43.3), Qt::EditRole));
+  EXPECT_DOUBLE_EQ(vector1->X(), 43.3);
 }
