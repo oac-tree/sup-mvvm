@@ -72,4 +72,9 @@ void ViewItemMap::Clear()
   m_item_to_view.clear();
 }
 
+int ViewItemMap::GetSize() const
+{
+  return static_cast<int>(m_item_to_view.size());
+}
+
 }  // namespace mvvm

@@ -19,10 +19,9 @@
 
 #include "mvvm/viewmodel/viewitem_map.h"
 
+#include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodelbase/viewitem.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 
@@ -31,6 +30,13 @@ using namespace mvvm;
 class ViewItemMapTests : public ::testing::Test
 {
 };
+
+TEST_F(ViewItemMapTests, InitialState)
+{
+  ViewItemMap map;
+
+  EXPECT_EQ(map.GetSize(), 0);
+}
 
 //! The map is initially empty.
 
@@ -47,10 +53,12 @@ TEST_F(ViewItemMapTests, InsertThenFind)
   map.Insert(&item, &view);
   EXPECT_TRUE(map.FindView(&item));
   EXPECT_EQ(map.FindView(&item), &view);
+  EXPECT_EQ(map.GetSize(), 1);
 
   // clearing, should be empty now
   map.Clear();
   EXPECT_FALSE(map.FindView(&item));
+  EXPECT_EQ(map.GetSize(), 0);
 }
 
 TEST_F(ViewItemMapTests, InsertThenRemove)

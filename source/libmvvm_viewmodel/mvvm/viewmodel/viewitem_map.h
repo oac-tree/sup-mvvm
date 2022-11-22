@@ -47,6 +47,8 @@ public:
 
   void Clear();
 
+  int GetSize() const;
+
 private:
   std::map<const SessionItem*, ViewItem*> m_item_to_view;
 };
