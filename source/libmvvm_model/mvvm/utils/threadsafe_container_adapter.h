@@ -95,9 +95,9 @@ public:
       throw empty_container_exception();
     }
 
-    std::shared_ptr<value_t> res(std::make_shared<value_t>(std::move(GetTop())));
+    std::shared_ptr<value_t> result(std::make_shared<value_t>(std::move(GetTop())));
     m_data.pop();
-    return res;
+    return result;
   }
 
   bool try_pop(value_t& value)
@@ -119,9 +119,9 @@ public:
     {
       return std::shared_ptr<value_t>();
     }
-    std::shared_ptr<value_t> res(std::make_shared<value_t>(std::move(GetTop())));
+    std::shared_ptr<value_t> result(std::make_shared<value_t>(std::move(GetTop())));
     m_data.pop();
-    return res;
+    return result;
   }
 
   bool empty() const
@@ -137,6 +137,12 @@ public:
     m_data_condition.notify_all();
   }
 
+  size_t size() const
+  {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    return m_data.size();
+  }
+
 protected:
   typename ContainerT::reference GetTop()
   {
@@ -149,7 +155,8 @@ protected:
   ContainerT m_data;
   mutable std::mutex m_mutex;
   std::condition_variable m_data_condition;
-  //!< Variables that indicates that the queue is "up and running". When set to false, all possible
+
+  //!< Variable that indicates that the queue is "up and running". When set to false, all possible
   //!< threads waiting at wait_and_pop will get an exception.
   std::atomic<bool> m_is_in_operation{true};
 };

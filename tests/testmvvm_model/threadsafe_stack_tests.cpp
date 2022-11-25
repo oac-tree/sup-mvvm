@@ -40,6 +40,7 @@ TEST_F(ThreadSafeStackTests, InitialState)
   EXPECT_TRUE(stack.empty());
   int value;
   EXPECT_FALSE(stack.try_pop(value));
+  EXPECT_EQ(stack.size(), 0);
 
   auto sh_value = stack.try_pop();
   EXPECT_FALSE(sh_value);
@@ -52,10 +53,12 @@ TEST_F(ThreadSafeStackTests, PushAndPop)
   threadsafe_stack<int> stack;
 
   stack.push(42);
+  EXPECT_EQ(stack.size(), 1);
   EXPECT_FALSE(stack.empty());
   int value(0);
   EXPECT_TRUE(stack.try_pop(value));
   EXPECT_EQ(value, 42);
+  EXPECT_EQ(stack.size(), 0);
 
   stack.push(43);
   auto result = stack.wait_and_pop();
@@ -71,6 +74,7 @@ TEST_F(ThreadSafeStackTests, MultiplePushAndPop)
   stack.push(42);
   stack.push(43);
   stack.push(44);
+  EXPECT_EQ(stack.size(), 3);
   EXPECT_FALSE(stack.empty());
   int value(0);
   EXPECT_TRUE(stack.try_pop(value));
@@ -79,6 +83,7 @@ TEST_F(ThreadSafeStackTests, MultiplePushAndPop)
   EXPECT_EQ(value, 43);
   EXPECT_TRUE(stack.try_pop(value));
   EXPECT_EQ(value, 42);
+  EXPECT_EQ(stack.size(), 0);
 
   auto result = stack.try_pop();
   EXPECT_EQ(result.get(), nullptr);
