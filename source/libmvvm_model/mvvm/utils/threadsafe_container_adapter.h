@@ -26,6 +26,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <thread>
+#include <stack>
 
 namespace mvvm
 {
@@ -35,9 +36,20 @@ struct empty_container_exception : public std::exception
   const char* what() const noexcept { return "Empty container"; }
 };
 
-//! @class threadsafe_container_adapter
+template <class T>
+struct is_stack : std::false_type
+{
+};
+
+template <class T>
+struct is_stack<std::stack<T>> : std::true_type
+{
+};
+
+
 //! @brief Threadsafe container adapter for stacks and queues.
-//! Based on "Anthony Williams, C++ Concurrency in Action, Second edition".
+//! Plays a role of the base class for threadsafe stack and queues. Based on "Anthony Williams, C++
+//! Concurrency in Action, Second edition, Chapter 6".
 
 template <typename ContainerT>
 class threadsafe_container_adapter
@@ -51,65 +63,65 @@ public:
   void push(value_t new_value)
   {
     std::lock_guard<std::mutex> lock(m_mutex);
-    m_queue.push(std::move(new_value));
+    m_data.push(std::move(new_value));
     m_data_condition.notify_one();
   }
 
   void wait_and_pop(value_t& value)
   {
     std::unique_lock<std::mutex> lock(m_mutex);
-    m_data_condition.wait(lock, [this] { return !m_queue.empty() || !m_is_in_operation; });
-    if (m_queue.empty())
+    m_data_condition.wait(lock, [this] { return !m_data.empty() || !m_is_in_operation; });
+    if (m_data.empty())
     {
       throw empty_container_exception();
     }
 
-    value = std::move(m_queue.front());
-    m_queue.pop();
+    value = std::move(GetTop());
+    m_data.pop();
   }
 
   std::shared_ptr<value_t> wait_and_pop()
   {
     std::unique_lock<std::mutex> lock(m_mutex);
-    m_data_condition.wait(lock, [this] { return !m_queue.empty() || !m_is_in_operation; });
-    if (m_queue.empty())
+    m_data_condition.wait(lock, [this] { return !m_data.empty() || !m_is_in_operation; });
+    if (m_data.empty())
     {
       throw empty_container_exception();
     }
 
-    std::shared_ptr<value_t> res(std::make_shared<value_t>(std::move(m_queue.front())));
-    m_queue.pop();
+    std::shared_ptr<value_t> res(std::make_shared<value_t>(std::move(GetTop())));
+    m_data.pop();
     return res;
   }
 
   bool try_pop(value_t& value)
   {
     std::lock_guard<std::mutex> lock(m_mutex);
-    if (m_queue.empty())
+    if (m_data.empty())
     {
       return false;
     }
-    value = std::move(m_queue.front());
-    m_queue.pop();
+    value = std::move(GetTop());
+    m_data.pop();
     return true;
   }
 
   std::shared_ptr<value_t> try_pop()
   {
     std::lock_guard<std::mutex> lock(m_mutex);
-    if (m_queue.empty())
+    if (m_data.empty())
     {
       return std::shared_ptr<value_t>();
     }
-    std::shared_ptr<value_t> res(std::make_shared<value_t>(std::move(m_queue.front())));
-    m_queue.pop();
+    std::shared_ptr<value_t> res(std::make_shared<value_t>(std::move(GetTop())));
+    m_data.pop();
     return res;
   }
 
   bool empty() const
   {
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_queue.empty();
+    return m_data.empty();
   }
 
   void stop()
@@ -119,9 +131,17 @@ public:
     m_data_condition.notify_all();
   }
 
-private:
+protected:
+  typename ContainerT::reference GetTop()
+  {
+    if constexpr (is_stack<ContainerT>())
+      return m_data.top();
+    else
+    return m_data.front();
+  }
+
+  ContainerT m_data;
   mutable std::mutex m_mutex;
-  ContainerT m_queue;
   std::condition_variable m_data_condition;
   //!< Variables that indicates that the queue is "up and running". When set to false, all possible
   //!< threads waiting at wait_and_pop will get an exception.

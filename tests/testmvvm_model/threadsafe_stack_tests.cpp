@@ -197,7 +197,7 @@ TEST_F(ThreadSafeStackTests, ConcurentStopWaiting)
     stack.stop();
 
     // stopping stack will raise exception
-    EXPECT_THROW(*pop_done.get(), empty_stack);
+    EXPECT_THROW(*pop_done.get(), empty_container_exception);
     EXPECT_TRUE(stack.empty());
   }
   catch (...)
