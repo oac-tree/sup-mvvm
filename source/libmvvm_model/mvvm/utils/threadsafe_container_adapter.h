@@ -24,9 +24,9 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
+#include <stack>
 #include <stdexcept>
 #include <thread>
-#include <stack>
 
 namespace mvvm
 {
@@ -46,7 +46,6 @@ struct is_stack<std::stack<T>> : std::true_type
 {
 };
 
-
 //! @brief Threadsafe container adapter for stacks and queues.
 //! Plays a role of the base class for threadsafe stack and queues. Based on "Anthony Williams, C++
 //! Concurrency in Action, Second edition, Chapter 6".
@@ -59,6 +58,13 @@ public:
 
   threadsafe_container_adapter() {}
   ~threadsafe_container_adapter() { stop(); }
+
+  threadsafe_container_adapter(const threadsafe_container_adapter& other)
+  {
+    std::lock_guard<std::mutex> lock(other.m_mutex);
+    m_data = other.m_data;
+  }
+  threadsafe_container_adapter& operator=(const threadsafe_container_adapter&) = delete;
 
   void push(value_t new_value)
   {
@@ -137,7 +143,7 @@ protected:
     if constexpr (is_stack<ContainerT>())
       return m_data.top();
     else
-    return m_data.front();
+      return m_data.front();
   }
 
   ContainerT m_data;

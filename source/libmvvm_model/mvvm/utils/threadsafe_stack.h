@@ -46,9 +46,6 @@ public:
     base_t::m_data.push(std::move(new_value));
     base_t::m_data_condition.notify_one();
   }
-
-protected:
-
 };
 
 }  // namespace mvvm
