@@ -172,20 +172,20 @@ TEST_F(ThreadSafeStackTests, ConcurentPushAndPop)
 TEST_F(ThreadSafeStackTests, ConcurentStopWaiting)
 {
   threadsafe_stack<int> stack;
-  std::promise<void> go, pop_ready_for_test;
+  std::promise<void> go;
   std::shared_future<void> ready(go.get_future());
-  std::future<std::shared_ptr<int>> pop_done;
 
   try
   {
     // starting pop thread
-    pop_done = std::async(std::launch::async,
-                          [&stack, ready, &pop_ready_for_test]()
-                          {
-                            pop_ready_for_test.set_value();
-                            ready.wait();
-                            return stack.wait_and_pop();
-                          });
+    std::promise<void> pop_ready_for_test;
+    auto pop_action = [&stack, ready, &pop_ready_for_test]()
+    {
+      pop_ready_for_test.set_value();
+      ready.wait();
+      return stack.wait_and_pop();
+    };
+    std::future<std::shared_ptr<int>> pop_done = std::async(std::launch::async, pop_action);
 
     // waiting for threads being prepared for racing
     pop_ready_for_test.get_future().wait();
