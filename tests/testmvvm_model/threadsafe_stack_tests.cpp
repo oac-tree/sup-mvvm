@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include <future>
+#include <vector>
 
 using namespace mvvm;
 
@@ -124,6 +125,8 @@ TEST_F(ThreadSafeStackTests, ConcurentPushAndPop)
       push_ready_for_test.set_value();  // reporting that we are ready to go
       ready.wait();                     // waiting for command to start the race
       stack.push(42);
+      stack.push(44);
+      stack.push(43);
     };
     // starting pushing thread
     std::future<void> push_done = std::async(std::launch::async, push_action);
@@ -134,9 +137,13 @@ TEST_F(ThreadSafeStackTests, ConcurentPushAndPop)
     {
       pop_ready_for_test.set_value();  // reporting that we are ready to go
       ready.wait();                    // waiting for command to start the race
-      return stack.wait_and_pop();
+      std::vector<int> result;
+      result.push_back(*stack.wait_and_pop());
+      result.push_back(*stack.wait_and_pop());
+      result.push_back(*stack.wait_and_pop());
+      return result;
     };
-    std::future<std::shared_ptr<int>> pop_done = std::async(std::launch::async, pop_action);
+    std::future<std::vector<int>> pop_done = std::async(std::launch::async, pop_action);
 
     // waiting for threads being prepared for racing
     push_ready_for_test.get_future().wait();
@@ -148,7 +155,9 @@ TEST_F(ThreadSafeStackTests, ConcurentPushAndPop)
     // checking result
     push_done.get();  // making sure pushing thread has finished
 
-    EXPECT_EQ(*pop_done.get(), 42);
+    std::vector<int> result = pop_done.get();
+    std::sort(result.begin(), result.end());
+    EXPECT_EQ(result, std::vector<int>({42, 43, 44}));
     EXPECT_TRUE(stack.empty());
   }
   catch (...)
