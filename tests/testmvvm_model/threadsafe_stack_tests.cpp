@@ -113,30 +113,30 @@ TEST_F(ThreadSafeStackTests, UpdateTop)
 TEST_F(ThreadSafeStackTests, ConcurentPushAndPop)
 {
   threadsafe_stack<int> stack;
-  std::promise<void> go, push_ready_for_test, pop_ready_for_test;
+  std::promise<void> go;
   std::shared_future<void> ready(go.get_future());
-  std::future<void> push_done;
-  std::future<std::shared_ptr<int>> pop_done;
 
   try
   {
+    std::promise<void> push_ready_for_test;
+    auto push_action = [&stack, ready, &push_ready_for_test]()
+    {
+      push_ready_for_test.set_value();  // reporting that we are ready to go
+      ready.wait();                     // waiting for command to start the race
+      stack.push(42);
+    };
     // starting pushing thread
-    push_done = std::async(std::launch::async,
-                           [&stack, ready, &push_ready_for_test]()
-                           {
-                             push_ready_for_test.set_value();
-                             ready.wait();
-                             stack.push(42);
-                           });
+    std::future<void> push_done = std::async(std::launch::async, push_action);
 
     // starting pop thread
-    pop_done = std::async(std::launch::async,
-                          [&stack, ready, &pop_ready_for_test]()
-                          {
-                            pop_ready_for_test.set_value();
-                            ready.wait();
-                            return stack.wait_and_pop();
-                          });
+    std::promise<void> pop_ready_for_test;
+    auto pop_action = [&stack, ready, &pop_ready_for_test]()
+    {
+      pop_ready_for_test.set_value();  // reporting that we are ready to go
+      ready.wait();                    // waiting for command to start the race
+      return stack.wait_and_pop();
+    };
+    std::future<std::shared_ptr<int>> pop_done = std::async(std::launch::async, pop_action);
 
     // waiting for threads being prepared for racing
     push_ready_for_test.get_future().wait();
