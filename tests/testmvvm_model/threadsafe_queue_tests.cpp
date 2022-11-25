@@ -43,3 +43,42 @@ TEST_F(ThreadSafeQueueTests, InitialState)
   auto sh_value = queue.try_pop();
   EXPECT_FALSE(sh_value);
 }
+
+//! Push and then pop (single thread mode).
+
+TEST_F(ThreadSafeQueueTests, PushAndPop)
+{
+  threadsafe_queue<int> queue;
+
+  queue.push(42);
+  EXPECT_FALSE(queue.empty());
+  int value(0);
+  EXPECT_TRUE(queue.try_pop(value));
+  EXPECT_EQ(value, 42);
+
+  queue.push(43);
+  auto result = queue.wait_and_pop();
+  EXPECT_EQ(*result.get(), 43);
+}
+
+//! Multiple push and pops (single thread mode).
+
+TEST_F(ThreadSafeQueueTests, MultiplePushAndPop)
+{
+  threadsafe_queue<int> queue;
+
+  queue.push(42);
+  queue.push(43);
+  queue.push(44);
+  EXPECT_FALSE(queue.empty());
+  int value(0);
+  EXPECT_TRUE(queue.try_pop(value));
+  EXPECT_EQ(value, 42);
+  EXPECT_TRUE(queue.try_pop(value));
+  EXPECT_EQ(value, 43);
+  EXPECT_TRUE(queue.try_pop(value));
+  EXPECT_EQ(value, 44);
+
+  auto result = queue.try_pop();
+  EXPECT_EQ(result.get(), nullptr);
+}

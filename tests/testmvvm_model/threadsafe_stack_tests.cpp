@@ -61,6 +61,28 @@ TEST_F(ThreadSafeStackTests, PushAndPop)
   EXPECT_EQ(*result.get(), 43);
 }
 
+//! Push and then pop (single thread mode).
+
+TEST_F(ThreadSafeStackTests, MultiplePushAndPop)
+{
+  threadsafe_stack<int> stack;
+
+  stack.push(42);
+  stack.push(43);
+  stack.push(44);
+  EXPECT_FALSE(stack.empty());
+  int value(0);
+  EXPECT_TRUE(stack.try_pop(value));
+  EXPECT_EQ(value, 44);
+  EXPECT_TRUE(stack.try_pop(value));
+  EXPECT_EQ(value, 43);
+  EXPECT_TRUE(stack.try_pop(value));
+  EXPECT_EQ(value, 42);
+
+  auto result = stack.try_pop();
+  EXPECT_EQ(result.get(), nullptr);
+}
+
 //! Update top value (single thread mode).
 
 TEST_F(ThreadSafeStackTests, UpdateTop)
