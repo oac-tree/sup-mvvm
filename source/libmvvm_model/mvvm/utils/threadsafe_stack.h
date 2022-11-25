@@ -75,7 +75,9 @@ public:
   {
     std::lock_guard<std::mutex> lock(m);
     if (!data.empty())
+    {
       data.pop();
+    }
     data.push(std::move(new_value));
     data_condition.notify_one();
   }
@@ -85,7 +87,9 @@ public:
     std::unique_lock<std::mutex> lock(m);
     data_condition.wait(lock, [this] { return !data.empty() || !in_waiting_state; });
     if (data.empty())
+    {
       throw empty_stack();
+    }
     value = std::move(data.top());
     data.pop();
   }
@@ -95,7 +99,9 @@ public:
     std::unique_lock<std::mutex> lock(m);
     data_condition.wait(lock, [this] { return !data.empty() || !in_waiting_state; });
     if (data.empty())
+    {
       throw empty_stack();
+    }
     std::shared_ptr<T> const res(std::make_shared<T>(std::move(data.top())));
     data.pop();
     return res;
@@ -105,7 +111,9 @@ public:
   {
     std::lock_guard<std::mutex> lock(m);
     if (data.empty())
+    {
       return false;
+    }
     value = std::move(data.top());
     data.pop();
     return true;
@@ -115,7 +123,9 @@ public:
   {
     std::lock_guard<std::mutex> lock(m);
     if (data.empty())
+    {
       return std::shared_ptr<T>();
+    }
     std::shared_ptr<T> res(std::make_shared<T>(std::move(data.top())));
     data.pop();
     return res;
