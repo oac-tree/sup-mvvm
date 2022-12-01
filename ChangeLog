@@ -1,6 +1,12 @@
 Changes for development branch:
 
-- Refactoring of the ModelEventHandler machinery
+Changes for 0.4.0:
+
+- Base version for demo in November 2022
+- Implemented thread-safe queue
+- Implemented methods for 4K scaling
+- Implemented FlatView to automatically generate grid of widgets
+- Refactored ModelEventHandler machinery
 
 Changes for 0.3.0:
 
