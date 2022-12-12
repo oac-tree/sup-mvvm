@@ -17,15 +17,15 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mock_model_listener.h"
 #include "mvvm/signals/model_listener.h"
 
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
-
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -33,57 +33,6 @@ using ::testing::_;
 class ModelListenerTests : public ::testing::Test
 {
 public:
-  class TestListener : public ModelListener<ApplicationModel>
-  {
-  public:
-    explicit TestListener(ApplicationModel* model) : ModelListener(model)
-    {
-      auto on_about_to_insert = [this](auto item, auto tagindex)
-      { OnAboutToInsertItem(item, tagindex); };
-      SetOnAboutToInsertItem(on_about_to_insert);
-
-      auto on_item_inserted = [this](auto item, auto tagindex) { OnItemInserted(item, tagindex); };
-      SetOnItemInserted(on_item_inserted);
-
-      auto on_about_to_remove = [this](auto item, auto tagindex)
-      { OnAboutToRemoveItem(item, tagindex); };
-      SetOnAboutToRemoveItem(on_about_to_remove);
-
-      auto on_item_removed = [this](auto item, auto tagindex) { OnItemRemoved(item, tagindex); };
-      SetOnItemRemoved(on_item_removed);
-
-      auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
-      SetOnDataChanged(on_data_changed);
-
-      auto on_model_about_reset = [this](auto model) { OnModelAboutToBeReset(model); };
-      SetOnModelAboutToBeReset(on_model_about_reset);
-
-      auto on_model_reset = [this](auto model) { OnModelReset(model); };
-      SetOnModelReset(on_model_reset);
-
-      auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
-      SetOnModelAboutToBeDestroyed(on_model_about_destroyed);
-    }
-
-    MOCK_METHOD2(OnAboutToInsertItem,
-                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnItemInserted, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnAboutToRemoveItem,
-                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnItemRemoved, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
-
-    MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
-
-    MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModelInterface* model));
-
-    MOCK_METHOD1(OnModelReset, void(mvvm::SessionModelInterface* model));
-
-    MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModelInterface* model));
-  };
-
   ApplicationModel m_model;
   TagIndex m_tag_index;
 };
@@ -94,7 +43,7 @@ TEST_F(ModelListenerTests, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -119,7 +68,7 @@ TEST_F(ModelListenerTests, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -146,7 +95,7 @@ TEST_F(ModelListenerTests, SetSameData)
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
 
   // no notifications are expected
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -173,7 +122,8 @@ TEST_F(ModelListenerTests, InsertItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
+
   TagIndex expected_tag_index{"tag", 0};
 
   {
@@ -204,7 +154,8 @@ TEST_F(ModelListenerTests, InsertItemInDefaultTag)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
+
   TagIndex expected_tag_index{"tag", 0};
 
   {
@@ -232,7 +183,8 @@ TEST_F(ModelListenerTests, InsertItemViaMove)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
+
   TagIndex expected_tag_index{"tag", 0};
 
   {
@@ -266,7 +218,8 @@ TEST_F(ModelListenerTests, TakeItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
+
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -298,7 +251,8 @@ TEST_F(ModelListenerTests, RemoveItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
+
   TagIndex expected_tag_index{"tag", 0};
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
@@ -331,7 +285,8 @@ TEST_F(ModelListenerTests, MoveItem)
   auto parent2 = m_model.InsertItem<CompoundItem>();
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
+
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
@@ -361,7 +316,7 @@ TEST_F(ModelListenerTests, Clear)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   m_model.InsertItem<PropertyItem>(parent);
 
-  TestListener listener(&m_model);
+  MockModelListener listener(&m_model);
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
@@ -390,7 +345,7 @@ TEST_F(ModelListenerTests, Destroy)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   model->InsertItem<PropertyItem>(parent);
 
-  TestListener listener(model.get());
+  MockModelListener listener(model.get());
 
   EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
