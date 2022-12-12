@@ -19,29 +19,28 @@
 
 #include "mvvm/signals/signal_slot.h"
 
-#include <mvvm/model/sessionitem.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/model/sessionitem.h>
 
 using ::testing::_;
 
 class SignalSlotTests : public ::testing::Test
 {
-};
-
-class MockWidget
-{
 public:
-  MOCK_METHOD1(onItemDestroy, void(mvvm::SessionItem* item));
-  MOCK_METHOD2(onDataChange, void(mvvm::SessionItem* item, int role));
-};
+  class MockWidget
+  {
+  public:
+    MOCK_METHOD(void, onItemDestroy, (mvvm::SessionItem * item));
+    MOCK_METHOD(void, onDataChange, (mvvm::SessionItem * item, int role));
+  };
 
-class SlotWidget : public mvvm::Slot
-{
-public:
-  MOCK_METHOD1(onItemDestroy, void(mvvm::SessionItem* item));
-  MOCK_METHOD2(onDataChange, void(mvvm::SessionItem* item, int role));
+  class SlotWidget : public mvvm::Slot
+  {
+  public:
+    MOCK_METHOD(void, onItemDestroy, (mvvm::SessionItem * item));
+    MOCK_METHOD(void, onDataChange, (mvvm::SessionItem * item, int role));
+  };
 };
 
 TEST_F(SignalSlotTests, MockWidgetConnectAndDisconnect)

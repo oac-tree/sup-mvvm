@@ -19,14 +19,13 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/sessionmodel.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/signals/signal_slot.h>
-#include <mvvm/standarditems/standard_item_includes.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/signals/signal_slot.h>
+#include <mvvm/standarditems/standard_item_includes.h>
 
 #include <memory>
 
@@ -63,11 +62,11 @@ public:
       connect::OnPropertyChanged(item, on_property_changed, m_slot.get());
     }
 
-    MOCK_METHOD2(OnItemInserted, void(SessionItem* item, TagIndex tagindex));
-    MOCK_METHOD2(OnAboutToRemoveItem, void(SessionItem* item, TagIndex tagindex));
-    MOCK_METHOD2(OnItemRemoved, void(SessionItem* item, TagIndex tagindex));
-    MOCK_METHOD2(OnDataChanged, void(SessionItem* item, int role));
-    MOCK_METHOD2(OnPropertyChanged, void(SessionItem* item, std::string name));
+    MOCK_METHOD(void, OnItemInserted, (SessionItem * item, TagIndex tagindex));
+    MOCK_METHOD(void, OnAboutToRemoveItem, (SessionItem * item, TagIndex tagindex));
+    MOCK_METHOD(void, OnItemRemoved, (SessionItem * item, TagIndex tagindex));
+    MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
+    MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
 
     std::unique_ptr<Slot> m_slot;
   };

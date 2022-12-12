@@ -36,23 +36,25 @@ public:
   class TestController : public AbstractViewModelController
   {
   public:
-    MOCK_METHOD2(OnAboutToInsertItem,
-                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+    MOCK_METHOD(void, OnAboutToInsertItem,
+                (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
 
-    MOCK_METHOD2(OnItemInserted, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+    MOCK_METHOD(void, OnItemInserted, (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index),
+                (override));
 
-    MOCK_METHOD2(OnAboutToRemoveItem,
-                 void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+    MOCK_METHOD(void, OnAboutToRemoveItem,
+                (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
 
-    MOCK_METHOD2(OnItemRemoved, void(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index));
+    MOCK_METHOD(void, OnItemRemoved, (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index),
+                (override));
 
-    MOCK_METHOD2(OnDataChanged, void(mvvm::SessionItem* item, int role));
+    MOCK_METHOD(void, OnDataChanged, (mvvm::SessionItem * item, int role), (override));
 
-    MOCK_METHOD1(OnModelAboutToBeReset, void(mvvm::SessionModelInterface* model));
+    MOCK_METHOD(void, OnModelAboutToBeReset, (mvvm::SessionModelInterface * model), (override));
 
-    MOCK_METHOD1(OnModelReset, void(mvvm::SessionModelInterface* model));
+    MOCK_METHOD(void, OnModelReset, (mvvm::SessionModelInterface * model), (override));
 
-    MOCK_METHOD1(OnModelAboutToBeDestroyed, void(mvvm::SessionModelInterface* model));
+    MOCK_METHOD(void, OnModelAboutToBeDestroyed, (mvvm::SessionModelInterface * model), (override));
   };
 };
 
