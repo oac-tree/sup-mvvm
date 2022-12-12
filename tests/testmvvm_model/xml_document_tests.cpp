@@ -32,7 +32,7 @@ using namespace mvvm;
 
 //! Testing XmlDocument.
 
-class XmlDocumentTests : public FolderBasedTest
+class XmlDocumentTests : public testutils::FolderBasedTest
 {
 public:
   XmlDocumentTests() : FolderBasedTest("test_XmlDocument") {}

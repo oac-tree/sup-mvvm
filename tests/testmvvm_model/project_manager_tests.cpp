@@ -36,7 +36,7 @@ const std::string samplemodel_name = "samplemodel";
 
 //! Tests for ProjectManager class.
 
-class ProjectManagerTests : public FolderBasedTest
+class ProjectManagerTests : public testutils::FolderBasedTest
 {
 public:
   ProjectManagerTests()

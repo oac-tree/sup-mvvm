@@ -137,7 +137,7 @@ TEST_F(GraphItemTests, OnSetDataItem)
   auto data_item = model.InsertItem<Data1DItem>();
   auto graph_item = model.InsertItem<GraphItem>();
 
-  MockItemListener widget(graph_item);
+  testutils::MockItemListener widget(graph_item);
 
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(graph_item, std::string("kLink"))).Times(1);

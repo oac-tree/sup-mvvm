@@ -37,7 +37,7 @@
 
 using namespace mvvm;
 
-class AllItemsViewModelTests : public FolderBasedTest
+class AllItemsViewModelTests : public testutils::FolderBasedTest
 {
 public:
   AllItemsViewModelTests() : FolderBasedTest("test_AllItemsViewModel"), m_viewmodel(&m_model) {}

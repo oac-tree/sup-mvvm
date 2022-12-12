@@ -27,7 +27,7 @@ using namespace mvvm;
 
 //! Testing utilities to ite XML files
 
-class XMLWriteUtilsTests : public FolderBasedTest
+class XMLWriteUtilsTests : public testutils::FolderBasedTest
 {
 public:
   XMLWriteUtilsTests() : FolderBasedTest("test_XMLWriteUtils") {}

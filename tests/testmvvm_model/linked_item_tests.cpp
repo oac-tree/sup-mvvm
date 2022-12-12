@@ -96,7 +96,7 @@ TEST_F(LinkedItemTests, onSetLink)
   // no link by default
   EXPECT_EQ(link->Get(), nullptr);
 
-  MockItemListener widget(link);
+  testutils::MockItemListener widget(link);
 
   auto expected_role = DataRole::kData;
   auto expected_item = link;

@@ -31,7 +31,7 @@ using ::testing::_;
 class ModelListenerTests : public ::testing::Test
 {
 public:
-  using mock_model_listener_t = ::testing::StrictMock<MockModelListener>;
+  using mock_model_listener_t = ::testing::StrictMock<testutils::MockModelListener>;
   ApplicationModel m_model;
   TagIndex m_tag_index;
 };

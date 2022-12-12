@@ -26,6 +26,9 @@
 
 #include <memory>
 
+namespace testutils
+{
+
 //! Mocking class for SessionModelInterface.
 
 class MockModel : public mvvm::SessionModelInterface
@@ -65,5 +68,7 @@ public:
 
   MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
 };
+
+}  // namespace testutils
 
 #endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_LISTENER_H_

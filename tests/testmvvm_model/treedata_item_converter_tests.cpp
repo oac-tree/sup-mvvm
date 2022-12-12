@@ -40,7 +40,7 @@ using namespace mvvm;
 
 //! Testing TreeDataItemConverter.
 
-class TreeDataItemConverterTests : public FolderBasedTest
+class TreeDataItemConverterTests : public testutils::FolderBasedTest
 {
 public:
   TreeDataItemConverterTests()

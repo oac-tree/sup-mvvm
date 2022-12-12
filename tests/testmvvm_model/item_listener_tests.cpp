@@ -30,7 +30,7 @@ using ::testing::_;
 class ItemListenerTests : public ::testing::Test
 {
 public:
-  using mock_listener_t = ::testing::StrictMock<MockItemListener>;
+  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 TEST_F(ItemListenerTests, InitialState)
@@ -224,7 +224,7 @@ TEST_F(ItemListenerTests, OnControllerDelete)
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
   {
-    MockItemListener widget(compound);
+    testutils::MockItemListener widget(compound);
   }
 
   // controller was deleted, signals disconnected

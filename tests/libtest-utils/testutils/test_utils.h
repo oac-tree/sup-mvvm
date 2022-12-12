@@ -31,6 +31,7 @@
 
 namespace testutils
 {
+
 //! Returns full path to the main test folder, as defined by CMake at compile time.
 //! Shoud point to CMAKE_BINARY_DIR/test_output
 std::string GetTestSuiteOutputDir();

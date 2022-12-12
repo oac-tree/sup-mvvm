@@ -18,8 +18,12 @@
  *****************************************************************************/
 
 #include "mock_item_listener.h"
+
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/tagindex.h>
+
+namespace testutils
+{
 
 void MockItemListener::Subscribe()
 {
@@ -42,3 +46,5 @@ void MockItemListener::Subscribe()
   { OnPropertyChanged(item, name); };
   SetOnPropertyChanged(on_property_changed);
 }
+
+}  // namespace testutils

@@ -45,7 +45,7 @@ public:
 
   NotifyingModelComposerTests() { m_listener.SubscribeAll(&m_event_handler); }
 
-  MockModel m_model;
+  testutils::MockModel m_model;
   ModelEventHandler m_event_handler;
   MockModelEventListener m_listener;
 };

@@ -47,7 +47,7 @@ std::string GetXmlFilename(const std::string& model_name)
 
 //! Tests for Project class.
 
-class ProjectTests : public FolderBasedTest
+class ProjectTests : public testutils::FolderBasedTest
 {
 public:
   ProjectTests()

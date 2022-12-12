@@ -87,7 +87,7 @@ TEST_F(GraphViewportItemTests, OnAddItem)
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
 
-  MockItemListener widget(viewport_item);
+  testutils::MockItemListener widget(viewport_item);
 
   const TagIndex expected_tagrow{ViewportItem::kItems, 0};
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
@@ -116,7 +116,7 @@ TEST_F(GraphViewportItemTests, OnSetDataItem)
   // inserting graph item
   auto graph_item = model.InsertItem<GraphItem>(viewport_item);
 
-  MockItemListener widget(viewport_item);
+  testutils::MockItemListener widget(viewport_item);
 
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);

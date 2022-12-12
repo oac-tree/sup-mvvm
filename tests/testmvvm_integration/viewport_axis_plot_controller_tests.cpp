@@ -255,7 +255,7 @@ TEST_F(ViewportAxisPlotControllerTests, ChangeViewportAxisItemMapping)
   ViewportAxisPlotController controller(custom_plot->xAxis);
   controller.SetItem(axis_item);
 
-  MockItemListener widget(axis_item);
+  testutils::MockItemListener widget(axis_item);
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(axis_item, ViewportAxisItem::kMax)).Times(1);
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);

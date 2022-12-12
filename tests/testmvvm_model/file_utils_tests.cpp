@@ -29,7 +29,7 @@
 
 using namespace mvvm;
 
-class FileUtilsTests : public FolderBasedTest
+class FileUtilsTests : public testutils::FolderBasedTest
 {
 public:
   FileUtilsTests() : FolderBasedTest("test_FileUtils") {}

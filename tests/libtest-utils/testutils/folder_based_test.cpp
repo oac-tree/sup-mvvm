@@ -23,6 +23,9 @@
 
 #include <mvvm/utils/file_utils.h>
 
+namespace testutils
+{
+
 FolderBasedTest::FolderBasedTest(std::string test_home_dirname)
     : m_test_home_dirname(std::move(test_home_dirname))
 {
@@ -60,3 +63,5 @@ std::string FolderBasedTest::CreateEmptyDir(const std::string &subdir) const
 }
 
 FolderBasedTest::~FolderBasedTest() = default;
+
+}  // namespace testutils
