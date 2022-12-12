@@ -56,6 +56,8 @@ public:
 
     MOCK_METHOD(void, OnModelAboutToBeDestroyed, (mvvm::SessionModelInterface * model), (override));
   };
+
+  using mock_controller_t = ::testing::StrictMock<TestController>;
 };
 
 //! Controller subscription.
@@ -67,7 +69,7 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 
   mvvm::ModelEventHandler event_handler;
 
-  auto controller = std::make_unique<TestController>();
+  auto controller = std::make_unique<mock_controller_t>();
 
   controller->Subscribe(&event_handler);
 
@@ -85,7 +87,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
   mvvm::ModelEventHandler event_handler;
 
-  auto controller = std::make_unique<TestController>();
+  auto controller = std::make_unique<mock_controller_t>();
 
   controller->Subscribe(&event_handler);
 
@@ -103,7 +105,7 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 
   auto event_handler = std::make_unique<mvvm::ModelEventHandler>();
 
-  auto controller = std::make_unique<TestController>();
+  auto controller = std::make_unique<mock_controller_t>();
 
   controller->Subscribe(event_handler.get());
 
@@ -121,17 +123,10 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   mvvm::TagIndex tag_index{"tag", 0};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
   EXPECT_CALL(controller, OnAboutToInsertItem(&item, tag_index)).Times(1);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -145,17 +140,10 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   mvvm::TagIndex tag_index{"tag", 0};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemInserted(&item, tag_index)).Times(1);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
@@ -169,17 +157,10 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
   mvvm::TagIndex tag_index{"tag", 0};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
   EXPECT_CALL(controller, OnAboutToRemoveItem(&item, tag_index)).Times(1);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
@@ -193,17 +174,10 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
   mvvm::TagIndex tag_index{"tag", 0};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
   EXPECT_CALL(controller, OnItemRemoved(&item, tag_index)).Times(1);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
@@ -217,17 +191,10 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   int role{42};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(controller, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<DataChangedEvent>(&item, role);
@@ -239,17 +206,10 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   int role{42};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(controller, OnModelAboutToBeReset(&model)).Times(1);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<ModelAboutToBeResetEvent>(&model);
@@ -261,17 +221,10 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   int role{42};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
   EXPECT_CALL(controller, OnModelReset(&model)).Times(1);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
 
   // triggering action
   event_handler.Notify<ModelResetEvent>(&model);
@@ -283,16 +236,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   int role{42};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(&model)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
   EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(1);
 
   // triggering action
@@ -317,17 +263,11 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   int role{42};
 
   mvvm::ModelEventHandler event_handler;
-  TestController controller;
+  mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(controller, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(controller, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(controller, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelReset(_)).Times(0);
-  EXPECT_CALL(controller, OnModelAboutToBeDestroyed(_)).Times(0);
+  // expecting no signals
+  // StricktMock will fail if it s not the case
 
   // triggering action
   controller.Unsubscribe();
@@ -350,29 +290,38 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   int role{42};
 
   ModelEventHandler event_handler;
-  TestController listener1;
-  TestController listener2;
+  mock_controller_t listener1;
+  mock_controller_t listener2;
 
   listener1.Subscribe(&event_handler);
   listener2.Subscribe(&event_handler);
 
-  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(1);
-  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(1);
-  EXPECT_CALL(listener1, OnModelReset(_)).Times(1);
-  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
 
-  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
+    EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
+
+    EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
+
+    EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
+
+    EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(1);
+    EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
+
+    EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(1);
+    EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
+
+    EXPECT_CALL(listener1, OnModelReset(_)).Times(1);
+    EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
+
+    EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(1);
+    EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
+  }
 
   // triggering action
   event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -393,31 +342,25 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   int role{42};
 
   ModelEventHandler event_handler;
-  TestController listener1;
-  TestController listener2;
+  mock_controller_t listener1;
+  mock_controller_t listener2;
 
   listener1.Subscribe(&event_handler);
   listener2.Subscribe(&event_handler);
 
   listener1.Unsubscribe();
 
-  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(0);
-
-  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
-  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
-  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
+    EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
+    EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
+    EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);
+  }
 
   // triggering action
   event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -429,23 +372,8 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   event_handler.Notify<ModelResetEvent>(&model);
   event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 
-  EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener1, OnModelAboutToBeDestroyed(_)).Times(0);
-
-  EXPECT_CALL(listener2, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(0);
-  EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(0);
-  EXPECT_CALL(listener2, OnModelReset(_)).Times(0);
-  EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(0);
+  // expecting no signals here
+  // StricktMock will fail if it s not the case
 
   listener2.Unsubscribe();
 
