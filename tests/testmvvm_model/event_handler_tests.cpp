@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem.h"
+#include "mock_callback_listener.h"
 #include "mvvm/signals/event_handler.h"
-#include "mvvm/signals/event_types.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/signals/event_types.h>
 
 #include <string>
 #include <variant>
@@ -33,18 +34,7 @@ using ::testing::_;
 class EventHandlerTests : public ::testing::Test
 {
 public:
-  //! Helper class for gmock to check lambda-based callbacks.
-  class MockWidget
-  {
-  public:
-    MOCK_METHOD(void, OnEvent, (const event_variant_t& event));
-
-    //! Returns callback that forwards calls to `OnEvent` method.
-    std::function<void(const event_variant_t& event)> CreateCallback()
-    {
-      return [this](const auto& event) { OnEvent(event); };
-    }
-  };
+  using mock_callback_listener_t = testutils::MockCallbackListener<event_variant_t>;
 
   //! Helper class for gmock to validate overload resolution for a concrete event inside variant.
   class MockSpecializedWidget
@@ -85,11 +75,11 @@ public:
 
 TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 {
+  mock_callback_listener_t widget;
+
   const int role{42};
   SessionItem item;
   DataChangedEvent data_changed_event{&item, role};
-
-  MockWidget widget;
 
   EventHandler<event_variant_t> event_handler;
 
@@ -102,11 +92,11 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 
 TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 {
+  mock_callback_listener_t widget;
+
   const int role{42};
   SessionItem item;
   DataChangedEvent data_changed_event{&item, role};
-
-  MockWidget widget;
 
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
@@ -114,11 +104,11 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
   event_handler.Connect<DataChangedEvent>(widget.CreateCallback());
 
   // check notification when triggering Notify via templated method
-  EXPECT_CALL(widget, OnEvent(event_variant_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify<DataChangedEvent>(&item, role);
 
   // check notification when triggering Notify via already constructed event
-  EXPECT_CALL(widget, OnEvent(event_variant_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify(data_changed_event);
 }
 
@@ -126,18 +116,18 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 
 TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 {
+  mock_callback_listener_t widget;
+
   const int role{42};
   SessionItem item;
   DataChangedEvent data_changed_event{&item, role};
 
-  MockWidget widget;
-
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
 
-  event_handler.Connect<DataChangedEvent>(&widget, &MockWidget::OnEvent);
+  event_handler.Connect<DataChangedEvent>(&widget, &mock_callback_listener_t::OnCallback);
 
-  EXPECT_CALL(widget, OnEvent(event_variant_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
@@ -146,11 +136,11 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 
 TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 {
+  MockSpecializedWidget widget;
+
   const int role{42};
   SessionItem item;
   DataChangedEvent data_changed_event{&item, role};
-
-  MockSpecializedWidget widget;
 
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
