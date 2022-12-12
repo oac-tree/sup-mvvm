@@ -84,7 +84,7 @@ TEST_F(ModelListenerTests, SetSameData)
   mock_model_listener_t listener(&m_model);
 
   // no notifications are expected
-  // since we are using StricktMock the test will fail if some notifications follow
+  // since we are using StrictMock the test will fail if some notifications follow
 
   // changing to the same value
   EXPECT_FALSE(m_model.SetData(item, 42, DataRole::kData));
@@ -185,8 +185,6 @@ TEST_F(ModelListenerTests, TakeItem)
 
   TagIndex expected_tag_index{"tag", 0};
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(_, _)).Times(0);
-  EXPECT_CALL(listener, OnItemInserted(_, _)).Times(0);
   {
     ::testing::InSequence seq;
     EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
@@ -243,10 +241,13 @@ TEST_F(ModelListenerTests, MoveItem)
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
-  EXPECT_CALL(listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
-  EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
-  EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
-  EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
+  }
 
   // removing item
   m_model.MoveItem(child, parent2, expected_tag_index2);
@@ -267,8 +268,11 @@ TEST_F(ModelListenerTests, Clear)
 
   mock_model_listener_t listener(&m_model);
 
-  EXPECT_CALL(listener, OnModelAboutToBeReset(&m_model)).Times(1);
-  EXPECT_CALL(listener, OnModelReset(&m_model)).Times(1);
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnModelAboutToBeReset(&m_model)).Times(1);
+    EXPECT_CALL(listener, OnModelReset(&m_model)).Times(1);
+  }
 
   // removing item
   m_model.Clear({});
