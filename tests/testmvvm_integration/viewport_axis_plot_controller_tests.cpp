@@ -19,15 +19,12 @@
 
 #include "mvvm/plotting/viewport_axis_plot_controller.h"
 
-#include "custom_plot_test_utils.h"
-#include "mock_item_listener.h"
-
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
-
-#include <gtest/gtest.h>
 #include <qcustomplot.h>
+#include <testutils/mock_item_listener.h>
 
 #include <QSignalSpy>
 
@@ -35,6 +32,8 @@ using namespace mvvm;
 using ::testing::_;
 
 //! Testing AxisPlotControllers.
+
+Q_DECLARE_METATYPE(QCPRange)
 
 class ViewportAxisPlotControllerTests : public ::testing::Test
 {
@@ -50,7 +49,7 @@ public:
     return std::make_unique<QSignalSpy>(
         axis,
         static_cast<void (QCPAxis::*)(const QCPRange&, const QCPRange&)>(&QCPAxis::rangeChanged));
-  }
+  }  
 };
 
 //! Initial state.
@@ -353,9 +352,9 @@ TEST_F(ViewportAxisPlotControllerTests, ChangeViewportAxisItemYCase)
 
 //! FIXME enable oneControllerTwoAxisItems after  item delete
 
-//TEST_F(ViewportAxisPlotControllerTests, oneControllerTwoAxisItems)
+// TEST_F(ViewportAxisPlotControllerTests, oneControllerTwoAxisItems)
 //{
-//  auto custom_plot = std::make_unique<QCustomPlot>();
+//   auto custom_plot = std::make_unique<QCustomPlot>();
 
 //  // creating the model with single ViewportAxisItem
 //  ApplicationModel model;

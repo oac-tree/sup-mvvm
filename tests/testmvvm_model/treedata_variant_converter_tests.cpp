@@ -18,10 +18,10 @@
  *****************************************************************************/
 
 #include "mvvm/serialization/treedata_variant_converter.h"
-#include "test_utils.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/serialization/xml_parse_utils.h>
+#include <testutils/test_utils.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -311,12 +311,11 @@ TEST_F(TreeDataVariantConverterTests, IntLimitsLimited)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing a vector with single element with role=0.
-  const std::string body{
-      R"(<Variant role="42" type="IntLimits">limited;1;2</Variant>)"};
+  const std::string body{R"(<Variant role="42" type="IntLimits">limited;1;2</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
-  auto  expected_limits= Limits<int>::CreateLimited(1, 2);
+  auto expected_limits = Limits<int>::CreateLimited(1, 2);
 
   // Converting tree_data to data_role
   auto data_role = ToDataRole(*tree_data);
@@ -333,12 +332,11 @@ TEST_F(TreeDataVariantConverterTests, IntLimitsNonnegative)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing a vector with single element with role=0.
-  const std::string body{
-      R"(<Variant role="42" type="IntLimits">nonnegative</Variant>)"};
+  const std::string body{R"(<Variant role="42" type="IntLimits">nonnegative</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
-  auto  expected_limits= Limits<int>::CreateNonnegative();
+  auto expected_limits = Limits<int>::CreateNonnegative();
 
   // Converting tree_data to data_role
   auto data_role = ToDataRole(*tree_data);
@@ -355,12 +353,11 @@ TEST_F(TreeDataVariantConverterTests, RealLimitsLimited)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing a vector with single element with role=0.
-  const std::string body{
-      R"(<Variant role="42" type="RealLimits">limited;1.1;2.2</Variant>)"};
+  const std::string body{R"(<Variant role="42" type="RealLimits">limited;1.1;2.2</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
-  auto  expected_limits= Limits<double>::CreateLimited(1.1, 2.2);
+  auto expected_limits = Limits<double>::CreateLimited(1.1, 2.2);
 
   // Converting tree_data to data_role
   auto data_role = ToDataRole(*tree_data);

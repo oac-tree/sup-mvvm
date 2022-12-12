@@ -17,13 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_callback_listener.h"
 #include "mvvm/signals/event_handler.h"
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/signals/event_types.h>
+#include <testutils/mock_callback_listener.h>
 
 #include <string>
 #include <variant>

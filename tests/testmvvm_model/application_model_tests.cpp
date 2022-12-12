@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_listener.h"
 #include "mvvm/model/application_model.h"
 
 #include <gtest/gtest.h>
@@ -25,6 +24,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
+#include <testutils/mock_model_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

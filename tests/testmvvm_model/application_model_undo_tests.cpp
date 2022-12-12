@@ -17,9 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_listener.h"
 #include "mvvm/model/application_model.h"
-#include "toy_items.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/commands/command_stack_interface.h>
@@ -30,6 +28,8 @@
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/standard_item_includes.h>
+#include <testutils/mock_model_listener.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 using ::testing::_;

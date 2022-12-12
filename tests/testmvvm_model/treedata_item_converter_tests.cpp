@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "folder_based_test.h"
 #include "mvvm/serialization/treedata_item_converter.h"
 
 #include <gtest/gtest.h>
@@ -33,6 +32,7 @@
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <testutils/folder_based_test.h>
 
 #include <iostream>
 

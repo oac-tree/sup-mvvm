@@ -18,12 +18,12 @@
  *****************************************************************************/
 
 #include "mvvm/serialization/treedata_taginfo_converter.h"
-#include "test_utils.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_parse_utils.h>
+#include <testutils/test_utils.h>
 
 using namespace mvvm;
 

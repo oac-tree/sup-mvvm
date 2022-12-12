@@ -19,9 +19,8 @@
 
 #include "mvvm/viewmodelbase/viewitem.h"
 
-#include "test_utils.h"
-
 #include <gtest/gtest.h>
+#include <testutils/test_utils.h>
 
 #include <stdexcept>
 

@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "folder_based_test.h"
 #include "mvvm/viewmodel/top_items_viewmodel.h"
 
 #include <gtest/gtest.h>
@@ -26,6 +25,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <testutils/folder_based_test.h>
 
 #include <QSignalSpy>
 

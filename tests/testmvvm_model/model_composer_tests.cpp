@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model.h"
 #include "mvvm/model/model_composer.h"
 
 #include <gtest/gtest.h>
@@ -26,6 +25,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
+#include <testutils/mock_model.h>
 
 using namespace mvvm;
 using ::testing::_;

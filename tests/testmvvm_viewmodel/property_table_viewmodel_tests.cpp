@@ -17,8 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "toy_items.h"
-
 #include "mvvm/viewmodel/property_table_viewmodel.h"
 
 #include <gtest/gtest.h>
@@ -26,6 +24,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 #include <QStandardItemModel>

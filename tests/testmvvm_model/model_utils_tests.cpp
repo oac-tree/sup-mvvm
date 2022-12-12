@@ -18,7 +18,6 @@
  *****************************************************************************/
 
 #include "mvvm/model/model_utils.h"
-#include "toy_items.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/core/exceptions.h>
@@ -27,6 +26,7 @@
 #include <mvvm/model/path.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 

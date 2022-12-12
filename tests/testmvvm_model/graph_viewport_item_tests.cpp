@@ -19,15 +19,13 @@
 
 #include "mvvm/standarditems/graph_viewport_item.h"
 
-#include "mock_item_listener.h"
-
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
-
-#include <gtest/gtest.h>
+#include <testutils/mock_item_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

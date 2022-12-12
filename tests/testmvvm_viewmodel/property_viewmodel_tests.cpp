@@ -18,7 +18,6 @@
  *****************************************************************************/
 
 #include "mvvm/viewmodel/property_viewmodel.h"
-#include "toy_items.h"
 
 #include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
@@ -26,6 +25,7 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 
@@ -276,7 +276,7 @@ TEST_F(PropertyViewModelTests, ShowVectorItemWhenClearWhenShowAnother)
   auto x_index_value = view_model.index(0, 1, vector_index);
   EXPECT_TRUE(view_model.setData(x_index_value, QVariant(42.1), Qt::EditRole));
 
-   model.Clear({});
+  model.Clear({});
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);

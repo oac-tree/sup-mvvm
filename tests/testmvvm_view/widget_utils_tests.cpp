@@ -19,7 +19,7 @@
 
 #include "mvvm/widgets/widget_utils.h"
 
-#include "test_utils.h"
+#include <testutils/test_utils.h>
 
 #include <gtest/gtest.h>
 

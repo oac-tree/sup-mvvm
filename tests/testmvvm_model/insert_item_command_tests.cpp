@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_event_listener.h"
 #include "mvvm/commands/insert_item_command.h"
 
 #include <gmock/gmock.h>
@@ -31,6 +30,7 @@
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
+#include <testutils/mock_model_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

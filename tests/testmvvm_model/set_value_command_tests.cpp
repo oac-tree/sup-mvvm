@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mock_model_event_listener.h"
 #include "mvvm/commands/set_value_command.h"
 
 #include <gtest/gtest.h>
@@ -25,6 +24,7 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
+#include <testutils/mock_model_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

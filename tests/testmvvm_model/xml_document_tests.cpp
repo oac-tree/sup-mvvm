@@ -19,14 +19,12 @@
 
 #include "mvvm/serialization/xml_document.h"
 
-#include "folder_based_test.h"
-
+#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-
-#include <gtest/gtest.h>
+#include <testutils/folder_based_test.h>
 
 #include <iostream>
 
