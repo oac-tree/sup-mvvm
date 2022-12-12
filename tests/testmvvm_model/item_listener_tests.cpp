@@ -17,22 +17,21 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/item_listener.h"
-
 #include "mock_item_listener.h"
-
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/sessionmodel.h>
-#include <mvvm/standarditems/standard_item_includes.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/sessionmodel.h>
+#include <mvvm/standarditems/standard_item_includes.h>
 
 using namespace mvvm;
 using ::testing::_;
 
 class ItemListenerTests : public ::testing::Test
 {
+public:
+  using mock_listener_t = ::testing::StrictMock<MockItemListener>;
 };
 
 TEST_F(ItemListenerTests, InitialState)
@@ -69,17 +68,13 @@ TEST_F(ItemListenerTests, OnDataChanged)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  MockItemListener widget(item);
+  mock_listener_t widget(item);
+
   EXPECT_EQ(widget.GetItem(), item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, Unsubscribe()).Times(0);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -93,16 +88,13 @@ TEST_F(ItemListenerTests, OnDataChangedSubscribeTwice)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  MockItemListener widget(item);
+  mock_listener_t widget(item);
+
   widget.SetItem(item);  // intenionally set item second time to see that no double subscription
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -116,7 +108,8 @@ TEST_F(ItemListenerTests, OnDataChangedAfterDisconnection)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  MockItemListener widget(item);
+  mock_listener_t widget(item);
+
   EXPECT_EQ(widget.GetItem(), item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
@@ -145,14 +138,10 @@ TEST_F(ItemListenerTests, OnPropertyChanged)
   auto item = model.InsertItem<CompoundItem>();
   auto property = item->AddProperty(property_name, 42.0);
 
-  MockItemListener widget(item);
+  mock_listener_t widget(item);
+
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
 
   // trigger calls
@@ -167,14 +156,10 @@ TEST_F(ItemListenerTests, OnItemInserted)
   auto compound = model.InsertItem<CompoundItem>();
   compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  MockItemListener widget(compound);
+  mock_listener_t widget(compound);
 
   const TagIndex expected_tagindex{"tag1", 0};
   EXPECT_CALL(widget, OnItemInserted(compound, expected_tagindex)).Times(1);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // perform action
   model.InsertItem<CompoundItem>(compound, expected_tagindex);
@@ -191,16 +176,13 @@ TEST_F(ItemListenerTests, OnItemRemoved)
   compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
-  MockItemListener widget(compound);
+  mock_listener_t widget(compound);
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   {
     ::testing::InSequence seq;
     EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
     EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
   }
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // perform action
   model.RemoveItem(child);
@@ -216,20 +198,16 @@ TEST_F(ItemListenerTests, SetAnotherItem)
   auto compound = model.InsertItem<CompoundItem>();
   compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  MockItemListener widget(compound);
+  mock_listener_t widget(compound);
 
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(1);
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
   EXPECT_CALL(widget, Unsubscribe()).Times(1);
+
   widget.SetItem(child);  // switching to another item
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, Unsubscribe()).Times(0);
+  // No other calls expected. StrictMock will fail if it's not the case.
 
   // perform action, complete silence is expected
   model.RemoveItem(child);
