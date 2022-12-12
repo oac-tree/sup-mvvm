@@ -19,10 +19,9 @@
 
 #include "mvvm/commands/abstract_command.h"
 
-#include <mvvm/core/exceptions.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/core/exceptions.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -35,8 +34,8 @@ public:
   class TestCommand : public AbstractCommand
   {
   public:
-    MOCK_METHOD0(ExecuteImpl, void(void));
-    MOCK_METHOD0(UndoImpl, void(void));
+    MOCK_METHOD(void, ExecuteImpl, ());
+    MOCK_METHOD(void, UndoImpl, ());
   };
 };
 

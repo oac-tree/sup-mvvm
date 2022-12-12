@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <mvvm/commands/abstract_command.h>
 #include "mvvm/commands/command_stack.h"
-#include <mvvm/core/exceptions.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <mvvm/commands/abstract_command.h>
+#include <mvvm/core/exceptions.h>
 
 #include <functional>
 
@@ -36,8 +36,8 @@ public:
   class MockCommand : public AbstractCommand
   {
   public:
-    MOCK_METHOD0(ExecuteImpl, void(void));
-    MOCK_METHOD0(UndoImpl, void(void));
+    MOCK_METHOD(void, ExecuteImpl, ());
+    MOCK_METHOD(void, UndoImpl, ());
   };
 
   //! Command decorator to use together with CommandStack. It wraps MockCommand to prevent passing

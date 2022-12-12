@@ -36,7 +36,7 @@ class MockModelEventListener
 public:
   MockModelEventListener() : m_slot(std::make_unique<mvvm::Slot>()) {}
 
-  MOCK_METHOD1(OnEvent, void(const mvvm::event_variant_t& event));
+  MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
 
   void SubscribeAll(mvvm::ModelEventHandler* event_handler)
   {

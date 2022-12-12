@@ -37,7 +37,7 @@ public:
   class MockWidget
   {
   public:
-    MOCK_METHOD1(OnEvent, void(const event_variant_t& event));
+    MOCK_METHOD(void, OnEvent, (const event_variant_t& event));
 
     //! Returns callback that forwards calls to `OnEvent` method.
     std::function<void(const event_variant_t& event)> CreateCallback()
@@ -53,31 +53,31 @@ public:
     void OnEvent(const event_variant_t& event) { std::visit(*this, event); }
 
     void operator()(const DataChangedEvent& event) { OnDataChangedEvent(event); }
-    MOCK_METHOD1(OnDataChangedEvent, void(const DataChangedEvent& event));
+    MOCK_METHOD(void, OnDataChangedEvent, (const DataChangedEvent& event));
 
     void operator()(const AboutToInsertItemEvent& event) { OnAboutToInsertItemEvent(event); }
-    MOCK_METHOD1(OnAboutToInsertItemEvent, void(const AboutToInsertItemEvent& event));
+    MOCK_METHOD(void, OnAboutToInsertItemEvent, (const AboutToInsertItemEvent& event));
 
     void operator()(const ItemInsertedEvent& event) { OnItemInsertedEvent(event); }
-    MOCK_METHOD1(OnItemInsertedEvent, void(const ItemInsertedEvent& event));
+    MOCK_METHOD(void, OnItemInsertedEvent, (const ItemInsertedEvent& event));
 
     void operator()(const AboutToRemoveItemEvent& event) { OnAboutToRemoveItemEvent(event); }
-    MOCK_METHOD1(OnAboutToRemoveItemEvent, void(const AboutToRemoveItemEvent& event));
+    MOCK_METHOD(void, OnAboutToRemoveItemEvent, (const AboutToRemoveItemEvent& event));
 
     void operator()(const ItemRemovedEvent& event) { OnItemRemovedEvent(event); }
-    MOCK_METHOD1(OnItemRemovedEvent, void(const ItemRemovedEvent& event));
+    MOCK_METHOD(void, OnItemRemovedEvent, (const ItemRemovedEvent& event));
 
     void operator()(const ModelAboutToBeResetEvent& event) { OnModelAboutToBeResetEvent(event); }
-    MOCK_METHOD1(OnModelAboutToBeResetEvent, void(const ModelAboutToBeResetEvent& event));
+    MOCK_METHOD(void, OnModelAboutToBeResetEvent, (const ModelAboutToBeResetEvent& event));
 
     void operator()(const ModelResetEvent& event) { OnModelResetEvent(event); }
-    MOCK_METHOD1(OnModelResetEvent, void(const ModelResetEvent& event));
+    MOCK_METHOD(void, OnModelResetEvent, (const ModelResetEvent& event));
 
     void operator()(const ModelAboutToBeDestroyedEvent& event)
     {
       OnModelAboutToBeDestroyedEvent(event);
     }
-    MOCK_METHOD1(OnModelAboutToBeDestroyedEvent, void(const ModelAboutToBeDestroyedEvent& event));
+    MOCK_METHOD(void, OnModelAboutToBeDestroyedEvent, (const ModelAboutToBeDestroyedEvent& event));
   };
 };
 
