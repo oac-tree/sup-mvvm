@@ -10,6 +10,9 @@ add_subdirectory(testmvvm_integration)
 add_subdirectory(testmvvm_model)
 add_subdirectory(testmvvm_viewmodel)
 add_subdirectory(testmvvm_view)
+if (benchmark_FOUND)
+  add_subdirectory(testmvvm-benchmark)
+endif()
 
 # Add custom target `make testall` which will run test executables one after another.
 # This can be used instead of usual `make test` or `ctest` while running tests via an ssh
