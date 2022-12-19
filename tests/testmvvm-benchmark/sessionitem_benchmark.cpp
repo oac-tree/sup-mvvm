@@ -17,8 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/model/sessionitem.h"
+
 #include <benchmark/benchmark.h>
-#include <mvvm/model/sessionitem.h>
 
 using namespace mvvm;
 

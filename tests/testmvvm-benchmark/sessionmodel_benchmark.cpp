@@ -17,19 +17,34 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/model/sessionmodel.h"
+
 #include <benchmark/benchmark.h>
+#include <mvvm/model/mvvm_types.h>
+#include <mvvm/model/property_item.h>
 
-static void BM_StringCreation(benchmark::State &state) {
-  for (auto _ : state)
-    std::string empty_string;
-}
-// Register the function as a benchmark
-BENCHMARK(BM_StringCreation);
+using namespace mvvm;
 
-// Define another benchmark
-static void BM_StringCopy(benchmark::State &state) {
-  std::string x = "hello";
-  for (auto _ : state)
-    std::string copy(x);
+//! Testing performance of basic operations with SessionModel.
+
+class SessionModelBenchmark : public benchmark::Fixture {};
+
+BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state) {
+  mvvm::SessionModel model;
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto _ : state) {
+    model.SetData(item, value++, DataRole::kData);
+  }
 }
-BENCHMARK(BM_StringCopy);
+
+BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state) {
+  mvvm::SessionModel model;
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto _ : state) {
+    model.SetData(item, value, DataRole::kData);
+  }
+}
