@@ -29,15 +29,28 @@ using namespace mvvm;
 
 class SessionItemBenchmark : public benchmark::Fixture
 {
+public:
+  std::unique_ptr<SessionItem> CreateItem() { return std::make_unique<PropertyItem>(); }
 };
 
-//! Measuring performance of SetData method when data is always different.
+//! Measuring performance of item creation.
 BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItem)(benchmark::State &state)
 {
   int value{0};
   for (auto dummy : state)
   {
     auto item = std::make_unique<PropertyItem>;
+  }
+}
+
+//! Measuring performance of item creation wjen optimisation is switched off.
+BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItemNoOptimisation)(benchmark::State &state)
+{
+  int value{0};
+  for (auto dummy : state)
+  {
+    benchmark::DoNotOptimize(CreateItem());
+    benchmark::ClobberMemory();
   }
 }
 
