@@ -18,18 +18,33 @@
  *****************************************************************************/
 
 #include <benchmark/benchmark.h>
+#include <mvvm/model/sessionitem.h>
 
-static void BM_StringCreation(benchmark::State &state) {
-  for (auto _ : state)
-    std::string empty_string;
-}
-// Register the function as a benchmark
-BENCHMARK(BM_StringCreation);
+using namespace mvvm;
 
-// Define another benchmark
-static void BM_StringCopy(benchmark::State &state) {
-  std::string x = "hello";
+//! Testing performance of basic operations with SessionItem.
+
+class SessionItemBenchmark : public benchmark::Fixture {
+};
+
+BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State& state)
+{
+  mvvm::SessionItem item;
+
+  int value{0};
   for (auto _ : state)
-    std::string copy(x);
+  {
+    item.SetData(value++);
+  }
 }
-BENCHMARK(BM_StringCopy);
+
+BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State& state)
+{
+  mvvm::SessionItem item;
+
+  int value{0};
+  for (auto _ : state)
+  {
+    item.SetData(value);
+  }
+}
