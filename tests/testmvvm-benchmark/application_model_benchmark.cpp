@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/application_model.h"
 
 #include <benchmark/benchmark.h>
 #include <mvvm/model/mvvm_types.h>
@@ -27,13 +27,13 @@ using namespace mvvm;
 
 //! Testing performance of basic operations with SessionModel.
 
-class SessionModelBenchmark : public benchmark::Fixture
+class ApplicationModelBenchmark : public benchmark::Fixture
 {
 };
 
-BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, SetData)(benchmark::State &state)
 {
-  mvvm::SessionModel model;
+  mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
 
   int value{0};
@@ -43,9 +43,9 @@ BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state)
   }
 }
 
-BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, SetSameData)(benchmark::State &state)
 {
-  mvvm::SessionModel model;
+  mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
 
   int value{0};
@@ -56,9 +56,9 @@ BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state)
 }
 
 //! Measuring performance of insert item.
-BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, InsertItem)(benchmark::State &state)
 {
-  mvvm::SessionModel model;
+  mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
   TagIndex tag_index{"rootTag", 0};
 
@@ -73,9 +73,9 @@ BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
 }
 
 //! Measuring performance of insert item.
-BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, TakeItem)(benchmark::State &state)
 {
-  mvvm::SessionModel model;
+  mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
   TagIndex tag_index{"rootTag", 0};
 
@@ -90,9 +90,9 @@ BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
 }
 
 //! Measuring performance of insert/take item.
-BENCHMARK_F(SessionModelBenchmark, InsertAndTake)(benchmark::State &state)
+BENCHMARK_F(ApplicationModelBenchmark, InsertAndTake)(benchmark::State &state)
 {
-  mvvm::SessionModel model;
+  mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
   TagIndex tag_index{"rootTag", 0};
 
