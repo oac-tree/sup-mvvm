@@ -27,24 +27,45 @@ using namespace mvvm;
 
 //! Testing performance of basic operations with SessionModel.
 
-class SessionModelBenchmark : public benchmark::Fixture {};
+class SessionModelBenchmark : public benchmark::Fixture
+{
+};
 
-BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state) {
+BENCHMARK_F(SessionModelBenchmark, SetData)(benchmark::State &state)
+{
   mvvm::SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
 
   int value{0};
-  for (auto _ : state) {
+  for (auto dummy : state)
+  {
     model.SetData(item, value++, DataRole::kData);
   }
 }
 
-BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state) {
+BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state)
+{
   mvvm::SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
 
   int value{0};
-  for (auto _ : state) {
+  for (auto dummy : state)
+  {
     model.SetData(item, value, DataRole::kData);
+  }
+}
+
+//! Measuring performance of insert/remove item.
+BENCHMARK_F(SessionModelBenchmark, InsertRemove)(benchmark::State &state)
+{
+  mvvm::SessionModel model;
+  auto parent = model.GetRootItem();
+  TagIndex tag_index{"rootTag", 0};
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    auto item = model.InsertItem<PropertyItem>(parent, tag_index);
+    model.TakeItem(parent, tag_index);
   }
 }

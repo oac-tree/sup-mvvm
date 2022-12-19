@@ -20,32 +20,53 @@
 #include "mvvm/model/sessionitem.h"
 
 #include <benchmark/benchmark.h>
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/taginfo.h>
 
 using namespace mvvm;
 
 //! Testing performance of basic operations with SessionItem.
 
-class SessionItemBenchmark : public benchmark::Fixture {
+class SessionItemBenchmark : public benchmark::Fixture
+{
 };
 
-BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State& state)
+//! Measuring performance of SetData method when data is always different.
+BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State &state)
 {
   mvvm::SessionItem item;
 
   int value{0};
-  for (auto _ : state)
+  for (auto dummy : state)
   {
     item.SetData(value++);
   }
 }
 
-BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State& state)
+//! Measuring performance of SetData method when data is always the same.
+BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
 {
   mvvm::SessionItem item;
 
   int value{0};
-  for (auto _ : state)
+  for (auto dummy : state)
   {
     item.SetData(value);
+  }
+}
+
+//! Measuring performance of insert/remove item.
+BENCHMARK_F(SessionItemBenchmark, InsertRemove)(benchmark::State &state)
+{
+  mvvm::SessionItem parent;
+  parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),
+                     /*set_as_default*/ true);
+  TagIndex tag_index{"tag", 0};
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    parent.InsertItem<PropertyItem>(tag_index);
+    parent.TakeItem(tag_index);
   }
 }
