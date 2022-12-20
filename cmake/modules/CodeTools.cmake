@@ -28,7 +28,7 @@ endfunction()
 
 
 # Setups test coverage target.
-# Use 'make codecoverage' or 'cmake --build . --target coverage' to beautify the code.
+# Use 'make codecoverage' or 'cmake --build . --target coverage' to generate coverage report.
 # Requires -DSUP_MVVM_GENERATE_COVERAGE=ON
 
 function(project_testcoverage_setup)

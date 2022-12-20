@@ -15,6 +15,7 @@ include(configuration)
 add_subdirectory(source)
 add_subdirectory(extern)
 add_subdirectory(tests)
+add_subdirectory(doc)
 
 include(installation)
 add_subdirectory(examples)
