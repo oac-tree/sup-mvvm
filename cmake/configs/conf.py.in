@@ -8,37 +8,24 @@ copyright = "ITER Organization"
 version = "@PROJECT_VERSION@"
 release = "@PROJECT_VERSION@"
 
-html_theme = 'sphinx_rtd_theme'
-#html_theme = 'sphinx_material'
-
 # Set link name generated in the top bar.
 html_title = 'SUP MVVM'
 
-# Material theme options (see theme.conf for more information)
+html_theme = 'sphinx_rtd_theme'
+
 html_theme_options = {
-
-#    # Set the name of the project to appear in the navigation.
-#    'nav_title': 'SUP MVVM',
-
-#    # Set you GA account ID to enable tracking
-#    'google_analytics_account': 'UA-XXXXX',
-
-#    # Specify a base_url used to generate sitemap.xml. If not
-#    # specified, then no sitemap will be built.
-#    'base_url': 'https://project.github.io/project',
-
-#    # Set the color and the accent color
-#    'color_primary': 'blue',
-#    'color_accent': 'light-blue',
-
-#    # Set the repo location to get a badge with stats
-#    'repo_url': 'https://github.com/project/project/',
-#    'repo_name': 'Project',
-
-#    # Visible levels of the global TOC; -1 means unlimited
-#    'globaltoc_depth': 3,
-#    # If False, expand all TOC entries
-#    'globaltoc_collapse': False,
-#    # If True, show hidden TOC entries
-#    'globaltoc_includehidden': False,
+#    'analytics_id': 'G-XXXXXXXXXX',  #  Provided by Google in your dashboard
+#    'analytics_anonymize_ip': False,
+    'logo_only': False,
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': False,
+    'vcs_pageview_mode': '',
+    'style_nav_header_background': 'white',
+    # Toc options
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False
 }
