@@ -6,3 +6,6 @@ Main components
 
   session-item
   
+.. doxygenclass:: mvvm::AbstractCommand
+  :project: sup-mvvm
+  :members:

@@ -1,4 +1,5 @@
 # Setup target for documentation generation.
+# Use `make sphinx-doc` to generate documentation in <build>/doc directory.
 
 # --- Finding Doxygen ---
 find_package(Doxygen)
@@ -18,9 +19,6 @@ endif()
 set(DOXYGEN_GENERATE_HTML NO)
 set(DOXYGEN_GENERATE_XML YES)
 
-# Note: use doxygen_add_docs(doxygen-doc ALL ...) if you want your documentation
-# to be created by default each time you build. Without the keyword you need to
-# explicitly invoke building of the 'doc' target.
 doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/source/libmvvm_model COMMENT
                  "Generating API documentation with Doxygen")
 

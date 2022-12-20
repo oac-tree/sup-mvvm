@@ -1,6 +1,8 @@
 SessionItem
 ===========
 
+- :cpp:class:`mvvm::SessionItem`
+
 Introduction
 ------------
 
