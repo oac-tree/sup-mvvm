@@ -1,12 +1,13 @@
-Breathe Demo
-============
+The model-view-viewmodel library of generic UI components
+=========================================================
 
-Welcome to the Breathe Demo documentation!
+Collection of C++/Qt common components for Operational Application User Interfaces.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+  :maxdepth: 1
+  :caption: Contents:
 
-   Introduction <self>
-   readme
-   api_reference
+  Introduction <self>
+  quick-start
+  readme
+  api_reference
