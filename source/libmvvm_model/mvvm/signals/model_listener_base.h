@@ -20,9 +20,7 @@
 #ifndef MVVM_SIGNALS_MODEL_LISTENER_BASE_H_
 #define MVVM_SIGNALS_MODEL_LISTENER_BASE_H_
 
-#include <mvvm/model_export.h>
-#include <mvvm/signals/callback_types.h>
-#include <mvvm/signals/signal_slot.h>
+#include <mvvm/signals/model_event_handler.h>
 
 #include <memory>
 
@@ -30,6 +28,7 @@ namespace mvvm
 {
 
 class SessionModelInterface;
+class ModelEventHandler;
 
 //! Base class for all objects willing to listen for changes in ApplicationModel.
 
@@ -41,6 +40,18 @@ public:
 
   ModelListenerBase& operator=(const ModelListenerBase& other) = delete;
   ModelListenerBase(const ModelListenerBase& other) = delete;
+
+  template <typename EventT, typename WidgetT, typename Fn>
+  void Connect(WidgetT* widget, const Fn& method)
+  {
+    GetEventHandler()->Connect<EventT>(widget, method, GetSlot());
+  }
+
+  template <typename EventT, typename CallbackT>
+  void Connect(const CallbackT& callback)
+  {
+    GetEventHandler()->Connect<EventT>(callback, GetSlot());
+  }
 
 protected:
   //! Sets callback to be notified when the item is about to be inserted. The callback will be
@@ -76,6 +87,9 @@ protected:
   SessionModelInterface* GetCurrentModel() const;
 
 private:
+  ModelEventHandler *GetEventHandler();
+  Slot *GetSlot() const;
+
   struct ModelListenerBaseImpl;
   std::unique_ptr<ModelListenerBaseImpl> p_impl;
 };

@@ -23,13 +23,13 @@
 #include <mvvm/signals/callback_types.h>
 #include <mvvm/signals/event_handler.h>
 #include <mvvm/signals/event_types.h>
-#include <mvvm/viewmodel_export.h>
+#include <mvvm/model_export.h>
 
 namespace mvvm
 {
 //! Provides notification for all subscribers when some event happened with SessionModel.
 
-class MVVM_VIEWMODEL_EXPORT ModelEventHandler : public EventHandler<event_variant_t>
+class MVVM_MODEL_EXPORT ModelEventHandler : public EventHandler<event_variant_t>
 {
 public:
   ModelEventHandler();

@@ -20,7 +20,6 @@
 #include "mvvm/signals/model_listener_base.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
 {
@@ -44,6 +43,8 @@ ModelListenerBase::ModelListenerBase(SessionModelInterface *model)
     : p_impl(std::make_unique<ModelListenerBaseImpl>(model))
 {
 }
+
+ModelListenerBase::~ModelListenerBase() = default;
 
 Connection ModelListenerBase::SetOnAboutToInsertItem(const Callbacks::item_tagindex_t &f)
 {
@@ -131,6 +132,14 @@ SessionModelInterface *ModelListenerBase::GetCurrentModel() const
   return p_impl->m_model;
 }
 
-ModelListenerBase::~ModelListenerBase() = default;
+ModelEventHandler *ModelListenerBase::GetEventHandler()
+{
+  return p_impl->GetEventHandler();
+}
+
+Slot *ModelListenerBase::GetSlot() const
+{
+  return p_impl->GetSlot();
+}
 
 }  // namespace mvvm

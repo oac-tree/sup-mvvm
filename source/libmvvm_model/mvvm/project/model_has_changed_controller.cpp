@@ -31,10 +31,10 @@ ModelHasChangedController::ModelHasChangedController(SessionModelInterface* mode
                                                      const callback_t& callback)
     : ModelListener(model), m_callback(callback)
 {
-  SetOnDataChanged([this](auto, auto) { OnChange(); });
-  SetOnItemInserted([this](auto, auto) { OnChange(); });
-  SetOnItemRemoved([this](auto, auto) { OnChange(); });
-  SetOnModelReset([this](auto) { OnChange(); });
+  Connect<DataChangedEvent>([this](auto) { OnChange(); });
+  Connect<ItemInsertedEvent>([this](auto) { OnChange(); });
+  Connect<ItemRemovedEvent>([this](auto) { OnChange(); });
+  Connect<ModelResetEvent>([this](auto) { OnChange(); });
 }
 
 //! Returns true if the model was changed since last call of resetChanged.
