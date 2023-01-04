@@ -42,6 +42,19 @@ public:
   ModelListenerBase(const ModelListenerBase& other) = delete;
 
   template <typename EventT, typename WidgetT, typename Fn>
+  void ConnectConcrete(WidgetT* widget, const Fn& method)
+  {
+    auto adapter = [widget, method](const event_variant_t& event)
+    {
+      auto concrete_event = std::get<EventT>(event);
+      std::invoke(method, *widget, concrete_event);
+    };
+
+    GetEventHandler()->Connect<EventT>(adapter, GetSlot());
+  }
+
+
+  template <typename EventT, typename WidgetT, typename Fn>
   void Connect(WidgetT* widget, const Fn& method)
   {
     GetEventHandler()->Connect<EventT>(widget, method, GetSlot());
@@ -87,8 +100,8 @@ protected:
   SessionModelInterface* GetCurrentModel() const;
 
 private:
-  ModelEventHandler *GetEventHandler();
-  Slot *GetSlot() const;
+  ModelEventHandler* GetEventHandler();
+  Slot* GetSlot() const;
 
   struct ModelListenerBaseImpl;
   std::unique_ptr<ModelListenerBaseImpl> p_impl;

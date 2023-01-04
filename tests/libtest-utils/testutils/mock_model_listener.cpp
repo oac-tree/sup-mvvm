@@ -26,6 +26,16 @@ namespace testutils
 
 MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : ModelListener(model)
 {
+  SubscribeToAll();
+}
+
+void MockModelListener::SubscribeToAll()
+{
+  auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
+  SetOnDataChanged(on_data_changed);
+
+  ConnectConcrete<mvvm::DataChangedEvent>(this, &MockModelListener::OnDataChangedEvent);
+
   auto on_about_to_insert = [this](auto item, auto tagindex)
   { OnAboutToInsertItem(item, tagindex); };
   SetOnAboutToInsertItem(on_about_to_insert);
@@ -39,9 +49,6 @@ MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : Model
 
   auto on_item_removed = [this](auto item, auto tagindex) { OnItemRemoved(item, tagindex); };
   SetOnItemRemoved(on_item_removed);
-
-  auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
-  SetOnDataChanged(on_data_changed);
 
   auto on_model_about_reset = [this](auto model) { OnModelAboutToBeReset(model); };
   SetOnModelAboutToBeReset(on_model_about_reset);
