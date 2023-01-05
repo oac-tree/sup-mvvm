@@ -109,15 +109,16 @@ TEST_F(ApplicationModelTests, SetSameData)
 
 TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 {
-  SessionItem* expected_parent = m_model.GetRootItem();
-  TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
+  auto parent = m_model.GetRootItem();
+  TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  AboutToInsertItemEvent expected_about_insert_event{parent, tag_index};
 
   mock_listener_t listener(&m_model);
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, tag_index)).Times(1);
   }
 
   // inserting item into the root
@@ -132,15 +133,16 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 
 TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 {
-  SessionItem* expected_parent = m_model.GetRootItem();
-  TagIndex expected_tag_index{"rootTag", 0};  // default tag of root item
+  auto parent = m_model.GetRootItem();
+  TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  AboutToInsertItemEvent expected_about_insert_event{parent, tag_index};
 
   mock_listener_t listener(&m_model);
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(expected_parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(expected_parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, tag_index)).Times(1);
   }
 
   // inserting item into the root
@@ -166,12 +168,13 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
 
   mock_listener_t listener(&m_model);
-  TagIndex expected_tag_index{"tag", 0};
+  TagIndex tag_index{"tag", 0};
+  AboutToInsertItemEvent expected_about_insert_event{parent, tag_index};
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, tag_index)).Times(1);
   }
 
   // inserting item
@@ -192,12 +195,13 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
 
   mock_listener_t listener(&m_model);
-  TagIndex expected_tag_index{"tag", 0};
+  TagIndex tag_index{"tag", 0};
+  AboutToInsertItemEvent expected_about_insert_event{parent, tag_index};
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, tag_index)).Times(1);
   }
 
   // inserting item (pretending that we do not have direct access to the model)
@@ -217,12 +221,13 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   mock_listener_t listener(&m_model);
-  TagIndex expected_tag_index{"tag", 0};
+  TagIndex tag_index{"tag", 0};
+  AboutToInsertItemEvent expected_about_insert_event{parent, tag_index};
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, tag_index)).Times(1);
   }
 
   // inserting item
@@ -280,12 +285,13 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
 
   mock_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
+  TagIndex tag_index{"tag", 0};
+  AboutToInsertItemEvent expected_about_insert_event{parent, tag_index};
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToInsertItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(parent, tag_index)).Times(1);
   }
 
   // inserting item
@@ -371,11 +377,13 @@ TEST_F(ApplicationModelTests, MoveItem)
   TagIndex expected_tag_index1{"tag1", 0};
   TagIndex expected_tag_index2{"tag2", 0};
 
+  AboutToInsertItemEvent expected_about_insert_event{parent2, expected_tag_index2};
+
   {
     ::testing::InSequence seq;
     EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
     EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
-    EXPECT_CALL(listener, OnAboutToInsertItem(parent2, expected_tag_index2)).Times(1);
+    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
     EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
   }
 
