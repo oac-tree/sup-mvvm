@@ -101,16 +101,18 @@ TEST_F(ModelListenerTests, InsertItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  TagIndex tag_index{"tag", 0};
 
   mock_model_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
-  AboutToInsertItemEvent expected_about_insert_event{parent, expected_tag_index};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+
+    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
   }
 
   // inserting item
@@ -128,16 +130,18 @@ TEST_F(ModelListenerTests, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  TagIndex tag_index{"tag", 0};
 
   mock_model_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
-  AboutToInsertItemEvent expected_about_insert_event{parent, expected_tag_index};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+
+    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
   }
 
   // inserting item
@@ -154,16 +158,18 @@ TEST_F(ModelListenerTests, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  TagIndex tag_index{"tag", 0};
 
   mock_model_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
-  AboutToInsertItemEvent expected_about_insert_event{parent, expected_tag_index};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent, expected_tag_index)).Times(1);
+
+    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
   }
 
   // inserting item
@@ -239,24 +245,25 @@ TEST_F(ModelListenerTests, MoveItem)
   auto child = m_model.InsertItem<PropertyItem>(parent1);
   auto parent2 = m_model.InsertItem<CompoundItem>();
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
+  TagIndex tag_index1{"tag1", 0};
+  TagIndex tag_index2{"tag2", 0};
 
   mock_model_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index1{"tag1", 0};
-  TagIndex expected_tag_index2{"tag2", 0};
-
-  AboutToInsertItemEvent expected_about_insert_event{parent2, expected_tag_index2};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, expected_tag_index1)).Times(1);
-    EXPECT_CALL(listener, OnItemRemoved(parent1, expected_tag_index1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_about_insert_event))).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(parent2, expected_tag_index2)).Times(1);
+
+    event_variant_t expected_insert_event1 = AboutToInsertItemEvent{parent2, tag_index2};
+    event_variant_t expected_insert_event2 = ItemInsertedEvent{parent2, tag_index2};
+
+    EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, tag_index1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(parent1, tag_index1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_insert_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_insert_event2)).Times(1);
   }
 
   // removing item
-  m_model.MoveItem(child, parent2, expected_tag_index2);
+  m_model.MoveItem(child, parent2, tag_index2);
   EXPECT_EQ(parent1->GetTotalItemCount(), 0);
   EXPECT_EQ(parent2->GetTotalItemCount(), 1);
 

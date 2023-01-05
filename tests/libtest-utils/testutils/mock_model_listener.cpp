@@ -40,8 +40,8 @@ void MockModelListener::SubscribeToAll()
 //  { OnAboutToInsertItem(item, tagindex); };
 //  SetOnAboutToInsertItem(on_about_to_insert);
 
-  auto on_item_inserted = [this](auto item, auto tagindex) { OnItemInserted(item, tagindex); };
-  SetOnItemInserted(on_item_inserted);
+//  auto on_item_inserted = [this](auto item, auto tagindex) { OnItemInserted(item, tagindex); };
+//  SetOnItemInserted(on_item_inserted);
 
   auto on_about_to_remove = [this](auto item, auto tagindex)
   { OnAboutToRemoveItem(item, tagindex); };
@@ -61,6 +61,7 @@ void MockModelListener::SubscribeToAll()
 
   Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelListener::OnEvent);
+  Connect<mvvm::ItemInsertedEvent>(this, &MockModelListener::OnEvent);
 }
 
 }  // namespace testutils
