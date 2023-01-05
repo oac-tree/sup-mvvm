@@ -44,7 +44,8 @@ TEST_F(ModelListenerTests, SetData)
 
   mock_model_listener_t listener(&m_model);
 
-  EXPECT_CALL(listener, OnDataChanged(item, DataRole::kData)).Times(1);
+  DataChangedEvent expected_event{item, DataRole::kData};
+  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // changing the data and checking result
   EXPECT_TRUE(m_model.SetData(item, 42, DataRole::kData));
@@ -62,7 +63,8 @@ TEST_F(ModelListenerTests, SetDataThroughItem)
 
   mock_model_listener_t listener(&m_model);
 
-  EXPECT_CALL(listener, OnDataChanged(item, DataRole::kData)).Times(1);
+  DataChangedEvent expected_event{item, DataRole::kData};
+  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // changing the data through the item (should still trigger notifications through the model)
   EXPECT_TRUE(item->SetData(42, DataRole::kData));

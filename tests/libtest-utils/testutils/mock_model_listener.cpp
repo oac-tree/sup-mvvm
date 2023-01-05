@@ -31,10 +31,10 @@ MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : Model
 
 void MockModelListener::SubscribeToAll()
 {
-  auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
-  SetOnDataChanged(on_data_changed);
+//  auto on_data_changed = [this](auto item, auto role) { OnDataChanged(item, role); };
+//  SetOnDataChanged(on_data_changed);
 
-  ConnectConcrete<mvvm::DataChangedEvent>(this, &MockModelListener::OnDataChangedEvent);
+//  ConnectConcrete<mvvm::DataChangedEvent>(this, &MockModelListener::OnDataChangedEvent);
 
   auto on_about_to_insert = [this](auto item, auto tagindex)
   { OnAboutToInsertItem(item, tagindex); };
@@ -58,6 +58,8 @@ void MockModelListener::SubscribeToAll()
 
   auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
   SetOnModelAboutToBeDestroyed(on_model_about_destroyed);
+
+  Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnEvent);
 }
 
 }  // namespace testutils
