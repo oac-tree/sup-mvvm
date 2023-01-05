@@ -66,37 +66,6 @@ public:
     GetEventHandler()->Connect<EventT>(callback, GetSlot());
   }
 
-protected:
-  //! Sets callback to be notified when the item is about to be inserted. The callback will be
-  //! called with (SessionItem* parent, tag_index), where 'tag_index' denotes child position.
-  Connection SetOnAboutToInsertItem(const Callbacks::item_tagindex_t& f);
-
-  //! Sets callback to be notified on item insert. The callback will be called with
-  //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position after insert.
-  Connection SetOnItemInserted(const Callbacks::item_tagindex_t& f);
-
-  //! Sets callback to be notified when the item is about to be removed. The callback will be
-  //! called with (SessionItem* parent, tag_index), where 'tag_index' denotes child position being
-  //! removed.
-  Connection SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& f);
-
-  //! Sets callback to be notified on item remove. The callback will be called with
-  //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position before the removal.
-  Connection SetOnItemRemoved(const Callbacks::item_tagindex_t& f);
-
-  //! Sets callback to be notified on item's data change. The callback will be called
-  //! with (SessionItem*, data_role).
-  Connection SetOnDataChanged(const Callbacks::item_int_t& f);
-
-  //! Sets the callback to be notified just before the reset of the root item.
-  Connection SetOnModelAboutToBeReset(const Callbacks::model_t& f);
-
-  //! Sets the callback to be notified right after the root item recreation.
-  Connection SetOnModelReset(const Callbacks::model_t& f);
-
-  //! Sets the callback for notifications just before model destruction.
-  Connection SetOnModelAboutToBeDestroyed(const Callbacks::model_t& f);
-
   SessionModelInterface* GetCurrentModel() const;
 
 private:
