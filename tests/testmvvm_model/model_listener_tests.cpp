@@ -287,8 +287,10 @@ TEST_F(ModelListenerTests, Clear)
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnModelAboutToBeReset(&m_model)).Times(1);
-    EXPECT_CALL(listener, OnModelReset(&m_model)).Times(1);
+    event_variant_t expected_event1 = ModelAboutToBeResetEvent{&m_model};
+    event_variant_t expected_event2 = ModelResetEvent{&m_model};
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
   }
 
   // removing item
