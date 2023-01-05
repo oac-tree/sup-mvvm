@@ -190,15 +190,16 @@ TEST_F(ModelListenerTests, TakeItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
+  TagIndex tag_index{"tag", 0};
 
   mock_model_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
   }
 
   // removing item
@@ -217,15 +218,16 @@ TEST_F(ModelListenerTests, RemoveItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
+  TagIndex tag_index{"tag", 0};
 
   mock_model_listener_t listener(&m_model);
 
-  TagIndex expected_tag_index{"tag", 0};
-
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnAboutToRemoveItem(parent, expected_tag_index)).Times(1);
-    EXPECT_CALL(listener, OnItemRemoved(parent, expected_tag_index)).Times(1);
+    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
   }
 
   // removing item
@@ -253,11 +255,13 @@ TEST_F(ModelListenerTests, MoveItem)
   {
     ::testing::InSequence seq;
 
+    event_variant_t expected_remove_event1 = AboutToRemoveItemEvent{parent1, tag_index1};
+    event_variant_t expected_remove_event2 = ItemRemovedEvent{parent1, tag_index1};
+    EXPECT_CALL(listener, OnEvent(expected_remove_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_remove_event2)).Times(1);
+
     event_variant_t expected_insert_event1 = AboutToInsertItemEvent{parent2, tag_index2};
     event_variant_t expected_insert_event2 = ItemInsertedEvent{parent2, tag_index2};
-
-    EXPECT_CALL(listener, OnAboutToRemoveItem(parent1, tag_index1)).Times(1);
-    EXPECT_CALL(listener, OnItemRemoved(parent1, tag_index1)).Times(1);
     EXPECT_CALL(listener, OnEvent(expected_insert_event1)).Times(1);
     EXPECT_CALL(listener, OnEvent(expected_insert_event2)).Times(1);
   }
