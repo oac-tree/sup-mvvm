@@ -20,6 +20,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/signals/model_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -28,8 +29,23 @@ using ::testing::_;
 
 class ModelListenerTests : public ::testing::Test
 {
+public:
+  MOCK_METHOD(void, OnEventV1, (const mvvm::event_variant_t& event));
+  MOCK_METHOD(void, OnEventV2, (const mvvm::event_variant_t& event));
+
+//  MOCK_METHOD(void, OnDataChangedEvent, (const mvvm::DataChangedEvent& event));
 };
 
-//! Setting data through the model and checking the result.
+TEST_F(ModelListenerTests, InitialState)
+{
+  ApplicationModel model;
+  ModelListener<ApplicationModel> listener(&model);
+  EXPECT_EQ(listener.GetModel(), &model);
+}
 
-TEST_F(ModelListenerTests, InitialState) {}
+TEST_F(ModelListenerTests, SingleClientOnEvent)
+{
+  ApplicationModel model;
+  ModelListener<ApplicationModel> listener(&model);
+  EXPECT_EQ(listener.GetModel(), &model);
+}

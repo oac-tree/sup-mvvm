@@ -24,11 +24,6 @@ namespace testutils
 
 MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : ModelListener(model)
 {
-  SubscribeToAll();
-}
-
-void MockModelListener::SubscribeToAll()
-{
   Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::ItemInsertedEvent>(this, &MockModelListener::OnEvent);

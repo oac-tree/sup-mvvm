@@ -37,8 +37,6 @@ public:
   explicit MockModelListener(mvvm::SessionModelInterface* model);
 
   MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
-
-  void SubscribeToAll();
 };
 
 }  // namespace testutils
