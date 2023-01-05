@@ -475,7 +475,8 @@ TEST_F(ApplicationModelTests, Destroy)
 
   mock_listener_t listener(model.get());
 
-  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(model.get())).Times(1);
+  event_variant_t expected_event = ModelAboutToBeDestroyedEvent{model.get()};
+  EXPECT_CALL(listener, OnEvent(expected_event)).Times(1);
 
   // triggering expectations
   model.reset();

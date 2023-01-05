@@ -56,8 +56,8 @@ void MockModelListener::SubscribeToAll()
   //  auto on_model_reset = [this](auto model) { OnModelReset(model); };
   //  SetOnModelReset(on_model_reset);
 
-  auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
-  SetOnModelAboutToBeDestroyed(on_model_about_destroyed);
+//  auto on_model_about_destroyed = [this](auto model) { OnModelAboutToBeDestroyed(model); };
+//  SetOnModelAboutToBeDestroyed(on_model_about_destroyed);
 
   Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelListener::OnEvent);
@@ -66,6 +66,7 @@ void MockModelListener::SubscribeToAll()
   Connect<mvvm::ItemRemovedEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::ModelAboutToBeResetEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::ModelResetEvent>(this, &MockModelListener::OnEvent);
+  Connect<mvvm::ModelAboutToBeDestroyedEvent>(this, &MockModelListener::OnEvent);
 }
 
 }  // namespace testutils
