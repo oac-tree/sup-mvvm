@@ -26,13 +26,16 @@ namespace mvvm
 {
 
 //! Templated class for all objects willing to listen for changes in concrete SessionModel.
+//! It can be used as a base class, or as a standalone listener. In the last case other objects
+//! can connect to the model via the listener with their callbacks. The callbacks will be called
+//! as long as the listener is alive.
 
 template <typename T>
 class ModelListener : public ModelListenerBase
 {
 public:
   explicit ModelListener(T* model) : ModelListenerBase(model) {}
-  T* GetModel() const { return static_cast<T*>(GetCurrentModel()); }
+  T* GetModel() const { return static_cast<T*>(GetModelBase()); }
 };
 
 }  // namespace mvvm

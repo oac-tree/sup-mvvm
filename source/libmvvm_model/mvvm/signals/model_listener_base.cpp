@@ -46,7 +46,7 @@ ModelListenerBase::ModelListenerBase(SessionModelInterface *model)
 
 ModelListenerBase::~ModelListenerBase() = default;
 
-SessionModelInterface *ModelListenerBase::GetCurrentModel() const
+SessionModelInterface *ModelListenerBase::GetModelBase() const
 {
   return p_impl->m_model;
 }

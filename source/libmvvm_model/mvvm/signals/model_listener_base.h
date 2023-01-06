@@ -41,32 +41,37 @@ public:
   ModelListenerBase& operator=(const ModelListenerBase& other) = delete;
   ModelListenerBase(const ModelListenerBase& other) = delete;
 
-  template <typename EventT, typename WidgetT, typename Fn>
-  void ConnectConcrete(WidgetT* widget, const Fn& method)
-  {
-    auto adapter = [widget, method](const event_variant_t& event)
-    {
-      auto concrete_event = std::get<EventT>(event);
-      std::invoke(method, *widget, concrete_event);
-    };
-
-    GetEventHandler()->Connect<EventT>(adapter, GetSlot());
-  }
-
-
-  template <typename EventT, typename WidgetT, typename Fn>
-  void Connect(WidgetT* widget, const Fn& method)
-  {
-    GetEventHandler()->Connect<EventT>(widget, method, GetSlot());
-  }
-
+  //! Connect callback to all events specified by the given event type.
+  //! The callback is expected to be based on event_variant_t.
   template <typename EventT, typename CallbackT>
   void Connect(const CallbackT& callback)
   {
     GetEventHandler()->Connect<EventT>(callback, GetSlot());
   }
 
-  SessionModelInterface* GetCurrentModel() const;
+  //! Connect object's method to all events specified by the given event type.
+  //! The method is expected to be based on event_variant_t.
+  template <typename EventT, typename WidgetT, typename Fn>
+  void Connect(WidgetT* widget, const Fn& method)
+  {
+    GetEventHandler()->Connect<EventT>(widget, method, GetSlot());
+  }
+
+  //! Connect object's method to all events specified by the given event type.
+  //! The method is expected to be based on concrete event.
+  template <typename EventT, typename WidgetT>
+  void Connect(WidgetT* widget, void (WidgetT::*method)(const EventT&))
+  {
+    auto adapter = [widget, method](const event_variant_t& event)
+    {
+      auto concrete_event = std::get<EventT>(event);
+      std::invoke(method, *widget, concrete_event);
+    };
+    GetEventHandler()->Connect<EventT>(adapter, GetSlot());
+  }
+
+protected:
+  SessionModelInterface* GetModelBase() const;
 
 private:
   ModelEventHandler* GetEventHandler();
