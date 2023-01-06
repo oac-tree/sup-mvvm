@@ -24,7 +24,7 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
-#include <testutils/mock_model_event_listener.h>
+#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -48,7 +48,7 @@ public:
 
   SessionModel m_model;
   ModelEventHandler m_event_handler;
-  MockModelEventListener m_listener;
+  MockEventListener m_listener;
 };
 
 //! Set item value through SetValueCommand command using ModelComposer.

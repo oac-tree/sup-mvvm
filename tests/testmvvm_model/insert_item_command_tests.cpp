@@ -30,7 +30,7 @@
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
-#include <testutils/mock_model_event_listener.h>
+#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -54,7 +54,7 @@ public:
 
   SessionModel m_model;
   ModelEventHandler m_event_handler;
-  MockModelEventListener m_listener;
+  MockEventListener m_listener;
 };
 
 //! Insert item to root item.

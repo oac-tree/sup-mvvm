@@ -27,7 +27,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
-#include <testutils/mock_model_event_listener.h>
+#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -55,7 +55,7 @@ public:
   SessionModel m_model;
   CommandStack m_commands;
   ModelEventHandler m_event_handler;
-  MockModelEventListener m_listener;
+  MockEventListener m_listener;
 };
 
 TEST_F(CommandModelComposerTests, InitialState)

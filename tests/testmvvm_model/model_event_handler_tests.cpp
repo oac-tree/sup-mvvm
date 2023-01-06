@@ -23,7 +23,7 @@
 #include <gtest/gtest.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
-#include <testutils/mock_model_event_listener.h>
+#include <testutils/mock_event_listener.h>
 
 #include <variant>
 
@@ -38,7 +38,7 @@ public:
   ModelEventHandlerTests() { m_listener.SubscribeAll(&m_event_handler); }
 
   ModelEventHandler m_event_handler;
-  MockModelEventListener m_listener;
+  MockEventListener m_listener;
 };
 
 //! Checking listener methods when AboutToInsertItem is fired.
@@ -158,7 +158,7 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   int role{42};
 
   ModelEventHandler event_handler;
-  MockModelEventListener listener;
+  MockEventListener listener;
 
   listener.SubscribeAll(&event_handler);
 
@@ -185,12 +185,12 @@ TEST_F(ModelEventHandlerTests, TwoSubscriptions)
   int role{42};
 
   ModelEventHandler event_handler;
-  MockModelEventListener listener1;
-  MockModelEventListener listener2;
+  MockEventListener listener1;
+  MockEventListener listener2;
 
-  event_handler.Connect<DataChangedEvent>(&listener1, &MockModelEventListener::OnEvent,
+  event_handler.Connect<DataChangedEvent>(&listener1, &MockEventListener::OnEvent,
                                           listener1.m_slot.get());
-  event_handler.Connect<ItemRemovedEvent>(&listener2, &MockModelEventListener::OnEvent,
+  event_handler.Connect<ItemRemovedEvent>(&listener2, &MockEventListener::OnEvent,
                                           listener2.m_slot.get());
 
   DataChangedEvent data_changed_event{&item, role};
@@ -213,12 +213,12 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
   int role{42};
 
   ModelEventHandler event_handler;
-  MockModelEventListener listener1;
-  MockModelEventListener listener2;
+  MockEventListener listener1;
+  MockEventListener listener2;
 
-  event_handler.Connect<DataChangedEvent>(&listener1, &MockModelEventListener::OnEvent,
+  event_handler.Connect<DataChangedEvent>(&listener1, &MockEventListener::OnEvent,
                                           listener1.m_slot.get());
-  event_handler.Connect<ItemRemovedEvent>(&listener2, &MockModelEventListener::OnEvent,
+  event_handler.Connect<ItemRemovedEvent>(&listener2, &MockEventListener::OnEvent,
                                           listener2.m_slot.get());
 
   DataChangedEvent data_changed_event{&item, role};

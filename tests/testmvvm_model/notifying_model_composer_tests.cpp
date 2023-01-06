@@ -28,7 +28,7 @@
 #include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
 #include <testutils/mock_model.h>
-#include <testutils/mock_model_event_listener.h>
+#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -47,7 +47,7 @@ public:
 
   testutils::MockModel m_model;
   ModelEventHandler m_event_handler;
-  MockModelEventListener m_listener;
+  MockEventListener m_listener;
 };
 
 TEST_F(NotifyingModelComposerTests, InitialState)

@@ -17,24 +17,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_MOCK_MODEL_EVENT_LISTENER_H_
-#define TESTS_LIBTESTMACHINERY_MOCK_MODEL_EVENT_LISTENER_H_
+#ifndef TESTS_LIBTESTMACHINERY_MOCK_EVENT_LISTENER_H_
+#define TESTS_LIBTESTMACHINERY_MOCK_EVENT_LISTENER_H_
 
 #include <gmock/gmock.h>
 #include <mvvm/signals/model_event_handler.h>
 
 #include <memory>
 
-namespace mvvm
-{
-class SessionItem;
-class TagIndex;
-}  // namespace mvvm
+//! Mock class to validate events coming from the EventHandler.
 
-class MockModelEventListener
+class MockEventListener
 {
 public:
-  MockModelEventListener() : m_slot(std::make_unique<mvvm::Slot>()) {}
+  MockEventListener() : m_slot(std::make_unique<mvvm::Slot>()) {}
 
   MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
 
@@ -42,24 +38,21 @@ public:
   {
     m_slot = std::make_unique<mvvm::Slot>();
 
-    event_handler->Connect<mvvm::DataChangedEvent>(this, &MockModelEventListener::OnEvent,
-                                                   m_slot.get());
-    event_handler->Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelEventListener::OnEvent,
+    event_handler->Connect<mvvm::DataChangedEvent>(this, &MockEventListener::OnEvent, m_slot.get());
+    event_handler->Connect<mvvm::AboutToInsertItemEvent>(this, &MockEventListener::OnEvent,
                                                          m_slot.get());
-    event_handler->Connect<mvvm::ItemInsertedEvent>(this, &MockModelEventListener::OnEvent,
+    event_handler->Connect<mvvm::ItemInsertedEvent>(this, &MockEventListener::OnEvent,
                                                     m_slot.get());
-    event_handler->Connect<mvvm::AboutToRemoveItemEvent>(this, &MockModelEventListener::OnEvent,
+    event_handler->Connect<mvvm::AboutToRemoveItemEvent>(this, &MockEventListener::OnEvent,
                                                          m_slot.get());
-    event_handler->Connect<mvvm::ItemRemovedEvent>(this, &MockModelEventListener::OnEvent,
-                                                   m_slot.get());
+    event_handler->Connect<mvvm::ItemRemovedEvent>(this, &MockEventListener::OnEvent, m_slot.get());
 
-    event_handler->Connect<mvvm::ModelAboutToBeResetEvent>(this, &MockModelEventListener::OnEvent,
+    event_handler->Connect<mvvm::ModelAboutToBeResetEvent>(this, &MockEventListener::OnEvent,
                                                            m_slot.get());
-    event_handler->Connect<mvvm::ModelResetEvent>(this, &MockModelEventListener::OnEvent,
-                                                  m_slot.get());
+    event_handler->Connect<mvvm::ModelResetEvent>(this, &MockEventListener::OnEvent, m_slot.get());
 
-    event_handler->Connect<mvvm::ModelAboutToBeDestroyedEvent>(
-        this, &MockModelEventListener::OnEvent, m_slot.get());
+    event_handler->Connect<mvvm::ModelAboutToBeDestroyedEvent>(this, &MockEventListener::OnEvent,
+                                                               m_slot.get());
   }
 
   void Unsubscribe() { m_slot.reset(); }
@@ -67,4 +60,4 @@ public:
   std::unique_ptr<mvvm::Slot> m_slot;
 };
 
-#endif  // TESTS_LIBTESTMACHINERY_MOCK_MODEL_EVENT_LISTENER_H_
+#endif  // TESTS_LIBTESTMACHINERY_MOCK_EVENT_LISTENER_H_

@@ -4,7 +4,7 @@ target_sources(${library_name} PRIVATE
   mock_callback_listener.h
   mock_item_listener.cpp
   mock_item_listener.h
-  mock_model_event_listener.h
+  mock_event_listener.h
   mock_model.h
   mock_model_listener.cpp
   mock_model_listener.h
