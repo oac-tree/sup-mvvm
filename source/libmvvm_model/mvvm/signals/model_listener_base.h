@@ -67,7 +67,7 @@ public:
       auto concrete_event = std::get<EventT>(event);
       std::invoke(method, *widget, concrete_event);
     };
-    GetEventHandler()->Connect<EventT>(adapter, GetSlot());
+    Connect<EventT>(adapter);
   }
 
 protected:

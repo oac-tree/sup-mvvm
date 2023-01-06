@@ -69,7 +69,7 @@ TEST_F(ModelListenerTests, SingleClientOnEvent)
 }
 
 //! Same test as previous.
-//! Additionally we check if we can connect
+//! Additionally we check if we can connect callback methods based pn the concrete event type.
 TEST_F(ModelListenerTests, SingleClientOnEventVariousConnectionAPI)
 {
   // the model with the item and listener attached
@@ -82,7 +82,7 @@ TEST_F(ModelListenerTests, SingleClientOnEventVariousConnectionAPI)
   TestClient client;
   listener.Connect<DataChangedEvent>(&client, &TestClient::OnEvent);
   listener.Connect<DataChangedEvent>(&client, &TestClient::OnConcreteEvent);
-  listener.Connect(&client, &TestClient::OnConcreteEvent); // template argument deduction
+  listener.Connect(&client, &TestClient::OnConcreteEvent);  // template argument deduction
 
   DataChangedEvent expected_event{item, DataRole::kData};
   {
@@ -94,4 +94,34 @@ TEST_F(ModelListenerTests, SingleClientOnEventVariousConnectionAPI)
 
   // triggering expectations by changing the data
   EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
+}
+
+//! Creating the model with item and listener attached.
+//! The client is setup to receive DataChangedEvents. We check that after listener destruction, no
+//! callbacks are triggered.
+TEST_F(ModelListenerTests, ListenerTimeOfLife)
+{
+  // the model with the item and listener attached
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+
+  auto listener = std::make_unique<ModelListener<ApplicationModel>>(&model);
+
+  // the client is setup to receive DataChangedEvent
+  TestClient client;
+  listener->Connect<DataChangedEvent>(&client, &TestClient::OnEvent);
+
+  // setting up expectation
+  DataChangedEvent expected_event{item, DataRole::kData};
+  EXPECT_CALL(client, OnEvent(event_variant_t(expected_event))).Times(1);
+
+  // triggering expectations by changing the data
+  EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
+
+  // after listener destruction we expect no calls
+  listener.reset();
+  EXPECT_CALL(client, OnEvent(_)).Times(0);
+
+  // triggering expectations again
+  EXPECT_TRUE(model.SetData(item, 43, DataRole::kData));
 }
