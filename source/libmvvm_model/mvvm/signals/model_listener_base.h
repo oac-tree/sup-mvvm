@@ -43,16 +43,16 @@ public:
 
   //! Connect callback to all events specified by the given event type.
   //! The callback is expected to be based on event_variant_t.
-  template <typename EventT, typename CallbackT>
-  void Connect(const CallbackT& callback)
+  template <typename EventT>
+  void Connect(const std::function<void(const event_variant_t&)>& callback)
   {
     GetEventHandler()->Connect<EventT>(callback, GetSlot());
   }
 
   //! Connect object's method to all events specified by the given event type.
   //! The method is expected to be based on event_variant_t.
-  template <typename EventT, typename WidgetT, typename Fn>
-  void Connect(WidgetT* widget, const Fn& method)
+  template <typename EventT, typename WidgetT>
+  void Connect(WidgetT* widget, void (WidgetT::*method)(const event_variant_t&))
   {
     GetEventHandler()->Connect<EventT>(widget, method, GetSlot());
   }
