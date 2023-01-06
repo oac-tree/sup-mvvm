@@ -183,7 +183,7 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChild)
 //! Removing parent with child.
 //! This time NotifyingModelComposer is used.
 
-TEST_F(RemoveItemCommandTests, RemoveParentWithChildWIthNotifyingComposer)
+TEST_F(RemoveItemCommandTests, RemoveParentWithChildWithNotifyingComposer)
 {
   const TagIndex tag_index{"", 0};
 
