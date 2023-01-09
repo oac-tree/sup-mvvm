@@ -48,7 +48,7 @@ public:
     MOCK_METHOD(void, OnItemRemoved, (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index),
                 (override));
 
-    MOCK_METHOD(void, OnDataChanged, (mvvm::SessionItem * item, int role), (override));
+    MOCK_METHOD(void, OnDataChanged, (const DataChangedEvent&), (override));
 
     MOCK_METHOD(void, OnModelAboutToBeReset, (mvvm::SessionModelInterface * model), (override));
 
@@ -73,7 +73,8 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 
   controller->Subscribe(&event_handler);
 
-  EXPECT_CALL(*controller, OnDataChanged(&item, role)).Times(1);
+  DataChangedEvent expected_event{&item, role};
+  EXPECT_CALL(*controller, OnDataChanged(expected_event)).Times(1);
 
   event_handler.Notify<DataChangedEvent>(&item, role);
 }
@@ -96,7 +97,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
   ASSERT_NO_FATAL_FAILURE(event_handler.Notify<DataChangedEvent>(&item, role));
 }
 
-//! Check the case when EventNotifier is destroyed before the listener
+//! Check the case when EventHandler is destroyed before the controller.
 
 TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 {
@@ -132,7 +133,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when ItemInserted is fired.
+//! Checking controller's methods when ItemInserted is fired.
 
 TEST_F(AbstractViewModelControllerTests, ItemInserted)
 {
@@ -194,7 +195,8 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnDataChanged(&item, role)).Times(1);
+  DataChangedEvent expected_event{&item, role};
+  EXPECT_CALL(controller, OnDataChanged(expected_event)).Times(1);
 
   // triggering action
   event_handler.Notify<DataChangedEvent>(&item, role);
@@ -296,6 +298,8 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   listener1.Subscribe(&event_handler);
   listener2.Subscribe(&event_handler);
 
+  DataChangedEvent expected_event{&item, role};
+
   {
     ::testing::InSequence seq;
     EXPECT_CALL(listener1, OnAboutToInsertItem(_, _)).Times(1);
@@ -310,8 +314,8 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
     EXPECT_CALL(listener1, OnItemRemoved(_, _)).Times(1);
     EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
 
-    EXPECT_CALL(listener1, OnDataChanged(&item, role)).Times(1);
-    EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
+    EXPECT_CALL(listener1, OnDataChanged(DataChangedEvent{&item, role})).Times(1);
+    EXPECT_CALL(listener2, OnDataChanged(DataChangedEvent{&item, role})).Times(1);
 
     EXPECT_CALL(listener1, OnModelAboutToBeReset(_)).Times(1);
     EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
@@ -356,7 +360,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
     EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
     EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
     EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
-    EXPECT_CALL(listener2, OnDataChanged(&item, role)).Times(1);
+    EXPECT_CALL(listener2, OnDataChanged(DataChangedEvent{&item, role})).Times(1);
     EXPECT_CALL(listener2, OnModelAboutToBeReset(_)).Times(1);
     EXPECT_CALL(listener2, OnModelReset(_)).Times(1);
     EXPECT_CALL(listener2, OnModelAboutToBeDestroyed(_)).Times(1);

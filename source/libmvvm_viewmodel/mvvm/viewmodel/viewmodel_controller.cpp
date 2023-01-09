@@ -21,11 +21,11 @@
 
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/standard_presentation_items.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
@@ -235,14 +235,15 @@ void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagInde
   }
 }
 
-void ViewModelController::OnDataChanged(SessionItem *item, int role)
+void ViewModelController::OnDataChanged(const DataChangedEvent &event)
 {
-  for (auto view : utils::FindViewsForItem(p_impl->m_view_model, item))
+  for (auto view : utils::FindViewsForItem(p_impl->m_view_model, event.m_item))
   {
-    if (isValidItemRole(view, role))
+    if (isValidItemRole(view, event.m_data_role))
     {
       auto index = p_impl->m_view_model->indexFromItem(view);
-      emit p_impl->m_view_model->dataChanged(index, index, utils::ItemRoleToQtRole(role));
+      emit p_impl->m_view_model->dataChanged(index, index,
+                                             utils::ItemRoleToQtRole(event.m_data_role));
     }
   }
 }

@@ -61,7 +61,7 @@ public:
   virtual void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index);
 
   //! Lets the controller know that `item`s data with given `role` has been changed.
-  virtual void OnDataChanged(SessionItem *item, int role);
+  virtual void OnDataChanged(const DataChangedEvent& event);
 
   //! Lets the controller know when the root item is about to be reset.
   virtual void OnModelAboutToBeReset(SessionModelInterface *model);

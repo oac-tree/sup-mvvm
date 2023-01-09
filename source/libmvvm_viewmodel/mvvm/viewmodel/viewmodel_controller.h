@@ -47,7 +47,7 @@ public:
 
   void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
 
-  void OnDataChanged(SessionItem *item, int role) override;
+  void OnDataChanged(const DataChangedEvent &event) override;
 
   void OnModelAboutToBeReset(SessionModelInterface *model) override;
 

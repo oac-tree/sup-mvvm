@@ -81,7 +81,7 @@ void AbstractViewModelController::OnAboutToRemoveItem(SessionItem *parent,
 
 void AbstractViewModelController::OnItemRemoved(SessionItem *parent, const TagIndex &tag_index) {}
 
-void AbstractViewModelController::OnDataChanged(SessionItem *item, int role) {}
+void AbstractViewModelController::OnDataChanged(const DataChangedEvent &event) {}
 
 void AbstractViewModelController::OnModelAboutToBeReset(SessionModelInterface *model) {}
 
@@ -98,7 +98,7 @@ QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 
 void AbstractViewModelController::operator()(const DataChangedEvent &event)
 {
-  OnDataChanged(event.m_item, event.m_data_role);
+  OnDataChanged(event);
 }
 
 void AbstractViewModelController::operator()(const AboutToInsertItemEvent &event)
