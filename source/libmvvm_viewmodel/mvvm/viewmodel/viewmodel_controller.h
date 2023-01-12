@@ -49,9 +49,9 @@ public:
 
   void OnDataChanged(const DataChangedEvent &event) override;
 
-  void OnModelAboutToBeReset(SessionModelInterface *model) override;
+  void OnModelAboutToBeReset(const ModelAboutToBeResetEvent& event) override;
 
-  void OnModelReset(SessionModelInterface *model) override;
+  void OnModelReset(const ModelResetEvent& event) override;
 
   void OnModelAboutToBeDestroyed(SessionModelInterface *model) override;
 

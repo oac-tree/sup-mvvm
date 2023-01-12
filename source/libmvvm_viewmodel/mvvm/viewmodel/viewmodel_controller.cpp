@@ -248,9 +248,9 @@ void ViewModelController::OnDataChanged(const DataChangedEvent &event)
   }
 }
 
-void ViewModelController::OnModelAboutToBeReset(SessionModelInterface *model)
+void ViewModelController::OnModelAboutToBeReset(const ModelAboutToBeResetEvent &event)
 {
-  (void)model;
+  (void)event;
   // Here we are notified that the model content will be destroyed soon.
   // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
   // emit internal QAbstractViewModel::beginResetModel already now, while `model` content is still
@@ -258,9 +258,9 @@ void ViewModelController::OnModelAboutToBeReset(SessionModelInterface *model)
   p_impl->m_view_model->BeginResetModelNotify();
 }
 
-void ViewModelController::OnModelReset(SessionModelInterface *model)
+void ViewModelController::OnModelReset(const ModelResetEvent &event)
 {
-  auto custom_root_item = utils::ItemFromPath(*model, p_impl->m_root_item_path);
+  auto custom_root_item = utils::ItemFromPath(*event.m_model, p_impl->m_root_item_path);
 
   p_impl->m_mute_notify = true;
   p_impl->SetRootSessionItemIntern(custom_root_item);

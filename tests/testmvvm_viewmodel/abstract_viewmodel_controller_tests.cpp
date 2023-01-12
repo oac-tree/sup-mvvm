@@ -46,9 +46,9 @@ public:
 
     MOCK_METHOD(void, OnDataChanged, (const DataChangedEvent&), (override));
 
-    MOCK_METHOD(void, OnModelAboutToBeReset, (mvvm::SessionModelInterface * model), (override));
+    MOCK_METHOD(void, OnModelAboutToBeReset, (const ModelAboutToBeResetEvent& event), (override));
 
-    MOCK_METHOD(void, OnModelReset, (mvvm::SessionModelInterface * model), (override));
+    MOCK_METHOD(void, OnModelReset, (const ModelResetEvent& event), (override));
 
     MOCK_METHOD(void, OnModelAboutToBeDestroyed, (mvvm::SessionModelInterface * model), (override));
   };
@@ -211,7 +211,8 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnModelAboutToBeReset(&model)).Times(1);
+  ModelAboutToBeResetEvent expected_event{&model};
+  EXPECT_CALL(controller, OnModelAboutToBeReset(expected_event)).Times(1);
 
   // triggering action
   event_handler.Notify<ModelAboutToBeResetEvent>(&model);
@@ -226,7 +227,8 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnModelReset(&model)).Times(1);
+  ModelResetEvent expected_event{&model};
+  EXPECT_CALL(controller, OnModelReset(expected_event)).Times(1);
 
   // triggering action
   event_handler.Notify<ModelResetEvent>(&model);

@@ -76,9 +76,9 @@ void AbstractViewModelController::OnItemRemoved(const ItemRemovedEvent &event) {
 
 void AbstractViewModelController::OnDataChanged(const DataChangedEvent &event) {}
 
-void AbstractViewModelController::OnModelAboutToBeReset(SessionModelInterface *model) {}
+void AbstractViewModelController::OnModelAboutToBeReset(const ModelAboutToBeResetEvent &event) {}
 
-void AbstractViewModelController::OnModelReset(SessionModelInterface *model) {}
+void AbstractViewModelController::OnModelReset(const ModelResetEvent &event) {}
 
 void AbstractViewModelController::OnModelAboutToBeDestroyed(SessionModelInterface *model) {}
 
@@ -116,12 +116,12 @@ void AbstractViewModelController::operator()(const ItemRemovedEvent &event)
 
 void AbstractViewModelController::operator()(const ModelAboutToBeResetEvent &event)
 {
-  OnModelAboutToBeReset(event.m_model);
+  OnModelAboutToBeReset(event);
 }
 
 void AbstractViewModelController::operator()(const ModelResetEvent &event)
 {
-  OnModelReset(event.m_model);
+  OnModelReset(event);
 }
 
 void AbstractViewModelController::operator()(const ModelAboutToBeDestroyedEvent &event)

@@ -63,10 +63,10 @@ public:
   virtual void OnDataChanged(const DataChangedEvent& event);
 
   //! Lets the controller know when the root item is about to be reset.
-  virtual void OnModelAboutToBeReset(SessionModelInterface *model);
+  virtual void OnModelAboutToBeReset(const ModelAboutToBeResetEvent& event);
 
   //! Lets the controller know at the end of root item recreation.
-  virtual void OnModelReset(SessionModelInterface *model);
+  virtual void OnModelReset(const ModelResetEvent& event);
 
   //! Lets the controller know at the beginning of model destruction.
   virtual void OnModelAboutToBeDestroyed(SessionModelInterface *model);
