@@ -21,29 +21,29 @@
 #define MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
 
 #include <mvvm/signals/event_types.h>
-#include <mvvm/signals/signal_slot.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <QStringList>
+#include <memory>
 
 namespace mvvm
 {
+
 class SessionModelInterface;
-class SessionItem;
-class ModelEventHandler;
-class TagIndex;
 
 //! Propagate changes
 
 class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
 {
 public:
+  AbstractViewModelController();
   virtual ~AbstractViewModelController();
 
-  void Subscribe(ModelEventHandler *event_handler);
-  void Unsubscribe();
+  AbstractViewModelController(const AbstractViewModelController& other) = delete;
+  AbstractViewModelController& operator=(const AbstractViewModelController& other) = delete;
 
-  void OnEvent(const event_variant_t &event);
+  void Subscribe(SessionModelInterface* model);
+  void Unsubscribe();
 
   //! Lets the controller know that a child is about to be inserted into the parent.
   virtual void OnAboutToInsertItem(const AboutToInsertItemEvent& event);
@@ -71,21 +71,13 @@ public:
   //! Lets the controller know at the beginning of model destruction.
   virtual void OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent& event);
 
-  virtual void Init(SessionItem *root_item = nullptr);
+  virtual void Init(SessionItem* root_item = nullptr);
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 
-  void operator()(const DataChangedEvent &event);
-  void operator()(const AboutToInsertItemEvent &event);
-  void operator()(const ItemInsertedEvent &event);
-  void operator()(const AboutToRemoveItemEvent &event);
-  void operator()(const ItemRemovedEvent &event);
-  void operator()(const ModelAboutToBeResetEvent &event);
-  void operator()(const ModelResetEvent &event);
-  void operator()(const ModelAboutToBeDestroyedEvent &event);
-
 private:
-  std::unique_ptr<mvvm::Slot> m_slot;
+  struct AbstractViewModelControllerImpl;
+  std::unique_ptr<AbstractViewModelControllerImpl> p_impl;
 };
 
 }  // namespace mvvm

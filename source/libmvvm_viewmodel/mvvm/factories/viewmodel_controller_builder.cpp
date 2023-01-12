@@ -56,7 +56,7 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
   }
 
   auto result = std::make_unique<ViewModelController>(m_context.model, m_context.view_model);
-  result->Subscribe(m_context.model->GetEventHandler());
+  result->Subscribe(m_context.model);
   result->SetChildrenStrategy(std::move(m_context.children_strategy));
   result->SetRowStrategy(std::move(m_context.row_strategy));
 

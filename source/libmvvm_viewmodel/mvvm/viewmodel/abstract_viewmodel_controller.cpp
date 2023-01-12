@@ -19,51 +19,58 @@
 
 #include "abstract_viewmodel_controller.h"
 
-#include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/signals/model_event_handler.h>
+#include <mvvm/signals/model_listener.h>
 
 namespace mvvm
 {
-AbstractViewModelController::~AbstractViewModelController() = default;
 
-void AbstractViewModelController::Subscribe(ModelEventHandler *event_handler)
+struct AbstractViewModelController::AbstractViewModelControllerImpl
 {
-  if (!event_handler)
+  void Subscribe(SessionModelInterface *model, AbstractViewModelController *self)
   {
-    throw RuntimeException("Subscriber is not initialised");
+    if (!model)
+    {
+      throw RuntimeException("Subscriber is not initialised");
+    }
+
+    m_listener = std::make_unique<mvvm::ModelListener<SessionModelInterface>>(model);
+
+    m_listener->Connect<mvvm::DataChangedEvent>(self, &AbstractViewModelController::OnDataChanged);
+
+    m_listener->Connect<mvvm::AboutToInsertItemEvent>(
+        self, &AbstractViewModelController::OnAboutToInsertItem);
+    m_listener->Connect<mvvm::ItemInsertedEvent>(self,
+                                                 &AbstractViewModelController::OnItemInserted);
+    m_listener->Connect<mvvm::AboutToRemoveItemEvent>(
+        self, &AbstractViewModelController::OnAboutToRemoveItem);
+    m_listener->Connect<mvvm::ItemRemovedEvent>(self, &AbstractViewModelController::OnItemRemoved);
+
+    m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(
+        self, &AbstractViewModelController::OnModelAboutToBeReset);
+    m_listener->Connect<mvvm::ModelResetEvent>(self, &AbstractViewModelController::OnModelReset);
+
+    m_listener->Connect<mvvm::ModelAboutToBeDestroyedEvent>(
+        self, &AbstractViewModelController::OnModelAboutToBeDestroyed);
   }
 
-  m_slot = std::make_unique<mvvm::Slot>();
+  std::unique_ptr<ModelListener<SessionModelInterface>> m_listener;
+};
 
-  event_handler->Connect<mvvm::DataChangedEvent>(this, &AbstractViewModelController::OnEvent,
-                                                 m_slot.get());
-  event_handler->Connect<mvvm::AboutToInsertItemEvent>(this, &AbstractViewModelController::OnEvent,
-                                                       m_slot.get());
-  event_handler->Connect<mvvm::ItemInsertedEvent>(this, &AbstractViewModelController::OnEvent,
-                                                  m_slot.get());
-  event_handler->Connect<mvvm::AboutToRemoveItemEvent>(this, &AbstractViewModelController::OnEvent,
-                                                       m_slot.get());
-  event_handler->Connect<mvvm::ItemRemovedEvent>(this, &AbstractViewModelController::OnEvent,
-                                                 m_slot.get());
+AbstractViewModelController::~AbstractViewModelController() = default;
 
-  event_handler->Connect<mvvm::ModelAboutToBeResetEvent>(
-      this, &AbstractViewModelController::OnEvent, m_slot.get());
-  event_handler->Connect<mvvm::ModelResetEvent>(this, &AbstractViewModelController::OnEvent,
-                                                m_slot.get());
+AbstractViewModelController::AbstractViewModelController()
+    : p_impl(std::make_unique<AbstractViewModelControllerImpl>())
+{
+}
 
-  event_handler->Connect<mvvm::ModelAboutToBeDestroyedEvent>(
-      this, &AbstractViewModelController::OnEvent, m_slot.get());
+void AbstractViewModelController::Subscribe(SessionModelInterface *model)
+{
+  p_impl->Subscribe(model, this);
 }
 
 void AbstractViewModelController::Unsubscribe()
 {
-  m_slot.reset();
-}
-
-void AbstractViewModelController::OnEvent(const event_variant_t &event)
-{
-  std::visit(*this, event);
+  p_impl->m_listener.reset();
 }
 
 void AbstractViewModelController::OnAboutToInsertItem(const AboutToInsertItemEvent &event) {}
@@ -80,53 +87,16 @@ void AbstractViewModelController::OnModelAboutToBeReset(const ModelAboutToBeRese
 
 void AbstractViewModelController::OnModelReset(const ModelResetEvent &event) {}
 
-void AbstractViewModelController::OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent &event) {}
+void AbstractViewModelController::OnModelAboutToBeDestroyed(
+    const ModelAboutToBeDestroyedEvent &event)
+{
+}
 
 void AbstractViewModelController::Init(SessionItem *) {}
 
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {
   return {};
-}
-
-void AbstractViewModelController::operator()(const DataChangedEvent &event)
-{
-  OnDataChanged(event);
-}
-
-void AbstractViewModelController::operator()(const AboutToInsertItemEvent &event)
-{
-  OnAboutToInsertItem(event);
-}
-
-void AbstractViewModelController::operator()(const ItemInsertedEvent &event)
-{
-  OnItemInserted(event);
-}
-
-void AbstractViewModelController::operator()(const AboutToRemoveItemEvent &event)
-{
-  OnAboutToRemoveItem(event);
-}
-
-void AbstractViewModelController::operator()(const ItemRemovedEvent &event)
-{
-  OnItemRemoved(event);
-}
-
-void AbstractViewModelController::operator()(const ModelAboutToBeResetEvent &event)
-{
-  OnModelAboutToBeReset(event);
-}
-
-void AbstractViewModelController::operator()(const ModelResetEvent &event)
-{
-  OnModelReset(event);
-}
-
-void AbstractViewModelController::operator()(const ModelAboutToBeDestroyedEvent &event)
-{
-  OnModelAboutToBeDestroyed(event);
 }
 
 }  // namespace mvvm
