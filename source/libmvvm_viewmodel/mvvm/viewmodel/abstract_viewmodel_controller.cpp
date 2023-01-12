@@ -67,8 +67,7 @@ void AbstractViewModelController::OnEvent(const event_variant_t &event)
   std::visit(*this, event);
 }
 
-void AbstractViewModelController::OnAboutToInsertItem(SessionItem *parent,
-                                                      const TagIndex &tag_index)
+void AbstractViewModelController::OnAboutToInsertItem(const AboutToInsertItemEvent &event)
 {
 }
 
@@ -103,7 +102,7 @@ void AbstractViewModelController::operator()(const DataChangedEvent &event)
 
 void AbstractViewModelController::operator()(const AboutToInsertItemEvent &event)
 {
-  OnAboutToInsertItem(event.m_parent, event.m_tag_index);
+  OnAboutToInsertItem(event);
 }
 
 void AbstractViewModelController::operator()(const ItemInsertedEvent &event)

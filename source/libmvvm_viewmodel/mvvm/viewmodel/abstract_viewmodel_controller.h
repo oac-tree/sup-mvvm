@@ -47,7 +47,7 @@ public:
 
   //! Lets the controller know that a child is about to be inserted into the `parent` with
   //! `tag_index`.
-  virtual void OnAboutToInsertItem(SessionItem *parent, const TagIndex &tag_index);
+  virtual void OnAboutToInsertItem(const AboutToInsertItemEvent& event);
 
   //! Lets the controller know that a child has been inserted into the `parent` with `tag_index`.
   virtual void OnItemInserted(SessionItem *parent, const TagIndex &tag_index);
