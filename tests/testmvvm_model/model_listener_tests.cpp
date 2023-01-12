@@ -38,6 +38,13 @@ public:
     MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
     MOCK_METHOD(void, OnConcreteEvent, (const mvvm::DataChangedEvent& event));
   };
+
+  class TestClientV2
+  {
+  public:
+    MOCK_METHOD(void, OnEvent, (const mvvm::AboutToInsertItemEvent& event));
+    MOCK_METHOD(void, OnEvent, (const mvvm::ItemInsertedEvent& event));
+  };
 };
 
 TEST_F(ModelListenerTests, InitialState)
@@ -124,4 +131,34 @@ TEST_F(ModelListenerTests, ListenerTimeOfLife)
 
   // triggering expectations again
   EXPECT_TRUE(model.SetData(item, 43, DataRole::kData));
+}
+
+//! Connecting to the client with two methosd with the same name
+
+TEST_F(ModelListenerTests, MethodOverload)
+{
+  // the model with the item and listener attached
+  ApplicationModel model;
+  auto parent = model.GetRootItem();
+  TagIndex tag_index{"rootTag", 0};  // default tag of root item
+
+  auto listener = std::make_unique<ModelListener<ApplicationModel>>(&model);
+
+  // the client is setup to receive DataChangedEvent
+  TestClientV2 client;
+  listener->Connect<AboutToInsertItemEvent>(&client, &TestClientV2::OnEvent);
+  listener->Connect<ItemInsertedEvent>(&client, &TestClientV2::OnEvent);
+
+  {
+    ::testing::InSequence seq;
+
+    auto expected_event1 = AboutToInsertItemEvent{parent, tag_index};
+    auto expected_event2 = ItemInsertedEvent{parent, tag_index};
+
+    EXPECT_CALL(client, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(client, OnEvent(expected_event2)).Times(1);
+  }
+
+  auto item = model.InsertItem<SessionItem>();
+  EXPECT_EQ(item, model.GetRootItem()->GetAllItems()[0]);
 }
