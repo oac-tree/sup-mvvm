@@ -43,17 +43,17 @@ public:
 
   void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
 
-  void OnItemInserted(const ItemInsertedEvent& event) override;
+  void OnModelEvent(const ItemInsertedEvent& event) override;
 
-  void OnAboutToRemoveItem(const AboutToRemoveItemEvent& event) override;
+  void OnModelEvent(const AboutToRemoveItemEvent& event) override;
 
-  void OnDataChanged(const DataChangedEvent &event) override;
+  void OnModelEvent(const DataChangedEvent &event) override;
 
-  void OnModelAboutToBeReset(const ModelAboutToBeResetEvent& event) override;
+  void OnModelEvent(const ModelAboutToBeResetEvent& event) override;
 
-  void OnModelReset(const ModelResetEvent& event) override;
+  void OnModelEvent(const ModelResetEvent& event) override;
 
-  void OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent& event) override;
+  void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
   void Init(SessionItem *root_item = nullptr) override;
 

@@ -212,12 +212,12 @@ void ViewModelController::SetRowStrategy(std::unique_ptr<RowStrategyInterface> r
 
 ViewModelController::~ViewModelController() = default;
 
-void ViewModelController::OnItemInserted(const ItemInsertedEvent &event)
+void ViewModelController::OnModelEvent(const ItemInsertedEvent &event)
 {
   p_impl->InsertView(event.m_parent, event.m_tag_index);
 }
 
-void ViewModelController::OnAboutToRemoveItem(const AboutToRemoveItemEvent &event)
+void ViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
   auto item_to_remove = event.m_parent->GetItem(event.m_tag_index.tag, event.m_tag_index.index);
 
@@ -235,7 +235,7 @@ void ViewModelController::OnAboutToRemoveItem(const AboutToRemoveItemEvent &even
   }
 }
 
-void ViewModelController::OnDataChanged(const DataChangedEvent &event)
+void ViewModelController::OnModelEvent(const DataChangedEvent &event)
 {
   for (auto view : utils::FindViewsForItem(p_impl->m_view_model, event.m_item))
   {
@@ -248,7 +248,7 @@ void ViewModelController::OnDataChanged(const DataChangedEvent &event)
   }
 }
 
-void ViewModelController::OnModelAboutToBeReset(const ModelAboutToBeResetEvent &event)
+void ViewModelController::OnModelEvent(const ModelAboutToBeResetEvent &event)
 {
   (void)event;
   // Here we are notified that the model content will be destroyed soon.
@@ -258,7 +258,7 @@ void ViewModelController::OnModelAboutToBeReset(const ModelAboutToBeResetEvent &
   p_impl->m_view_model->BeginResetModelNotify();
 }
 
-void ViewModelController::OnModelReset(const ModelResetEvent &event)
+void ViewModelController::OnModelEvent(const ModelResetEvent &event)
 {
   auto custom_root_item = utils::ItemFromPath(*event.m_model, p_impl->m_root_item_path);
 
@@ -269,7 +269,7 @@ void ViewModelController::OnModelReset(const ModelResetEvent &event)
   p_impl->m_mute_notify = false;
 }
 
-void ViewModelController::OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent &event)
+void ViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
 {
   (void)event;
   p_impl->m_root_item_path = {};

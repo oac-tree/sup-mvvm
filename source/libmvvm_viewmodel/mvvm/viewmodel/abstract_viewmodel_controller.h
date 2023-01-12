@@ -46,30 +46,30 @@ public:
   void Unsubscribe();
 
   //! Lets the controller know that a child is about to be inserted into the parent.
-  virtual void OnAboutToInsertItem(const AboutToInsertItemEvent& event);
+  virtual void OnModelEvent(const AboutToInsertItemEvent& event);
 
   //! Lets the controller know that a child has been inserted into the parent.
-  virtual void OnItemInserted(const ItemInsertedEvent& event);
+  virtual void OnModelEvent(const ItemInsertedEvent& event);
 
   //! Lets the controller know that a child is about to be removed from the `parent`s position
   //! `tag_index`.
-  virtual void OnAboutToRemoveItem(const AboutToRemoveItemEvent& event);
+  virtual void OnModelEvent(const AboutToRemoveItemEvent& event);
 
   //! Lets the controller know that a child has been removed from the `parent`s position
   //! `tag_index`.
-  virtual void OnItemRemoved(const ItemRemovedEvent& event);
+  virtual void OnModelEvent(const ItemRemovedEvent& event);
 
   //! Lets the controller know that `item`s data with given `role` has been changed.
-  virtual void OnDataChanged(const DataChangedEvent& event);
+  virtual void OnModelEvent(const DataChangedEvent& event);
 
   //! Lets the controller know when the root item is about to be reset.
-  virtual void OnModelAboutToBeReset(const ModelAboutToBeResetEvent& event);
+  virtual void OnModelEvent(const ModelAboutToBeResetEvent& event);
 
   //! Lets the controller know at the end of root item recreation.
-  virtual void OnModelReset(const ModelResetEvent& event);
+  virtual void OnModelEvent(const ModelResetEvent& event);
 
   //! Lets the controller know at the beginning of model destruction.
-  virtual void OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent& event);
+  virtual void OnModelEvent(const ModelAboutToBeDestroyedEvent& event);
 
   virtual void Init(SessionItem* root_item = nullptr);
 
