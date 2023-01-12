@@ -269,9 +269,9 @@ void ViewModelController::OnModelReset(const ModelResetEvent &event)
   p_impl->m_mute_notify = false;
 }
 
-void ViewModelController::OnModelAboutToBeDestroyed(SessionModelInterface *model)
+void ViewModelController::OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent &event)
 {
-  (void)model;
+  (void)event;
   p_impl->m_root_item_path = {};
   p_impl->m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }

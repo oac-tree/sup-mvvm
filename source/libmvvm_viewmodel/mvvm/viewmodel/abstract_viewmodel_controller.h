@@ -69,7 +69,7 @@ public:
   virtual void OnModelReset(const ModelResetEvent& event);
 
   //! Lets the controller know at the beginning of model destruction.
-  virtual void OnModelAboutToBeDestroyed(SessionModelInterface *model);
+  virtual void OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent& event);
 
   virtual void Init(SessionItem *root_item = nullptr);
 

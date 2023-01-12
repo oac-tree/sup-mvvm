@@ -80,7 +80,7 @@ void AbstractViewModelController::OnModelAboutToBeReset(const ModelAboutToBeRese
 
 void AbstractViewModelController::OnModelReset(const ModelResetEvent &event) {}
 
-void AbstractViewModelController::OnModelAboutToBeDestroyed(SessionModelInterface *model) {}
+void AbstractViewModelController::OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent &event) {}
 
 void AbstractViewModelController::Init(SessionItem *) {}
 
@@ -126,7 +126,7 @@ void AbstractViewModelController::operator()(const ModelResetEvent &event)
 
 void AbstractViewModelController::operator()(const ModelAboutToBeDestroyedEvent &event)
 {
-  OnModelAboutToBeDestroyed(event.m_model);
+  OnModelAboutToBeDestroyed(event);
 }
 
 }  // namespace mvvm

@@ -53,7 +53,7 @@ public:
 
   void OnModelReset(const ModelResetEvent& event) override;
 
-  void OnModelAboutToBeDestroyed(SessionModelInterface *model) override;
+  void OnModelAboutToBeDestroyed(const ModelAboutToBeDestroyedEvent& event) override;
 
   void Init(SessionItem *root_item = nullptr) override;
 

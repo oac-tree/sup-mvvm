@@ -50,7 +50,8 @@ public:
 
     MOCK_METHOD(void, OnModelReset, (const ModelResetEvent& event), (override));
 
-    MOCK_METHOD(void, OnModelAboutToBeDestroyed, (mvvm::SessionModelInterface * model), (override));
+    MOCK_METHOD(void, OnModelAboutToBeDestroyed, (const ModelAboutToBeDestroyedEvent& event),
+                (override));
   };
 
   using mock_controller_t = ::testing::StrictMock<TestController>;
