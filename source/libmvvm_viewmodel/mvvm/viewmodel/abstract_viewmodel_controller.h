@@ -53,11 +53,11 @@ public:
 
   //! Lets the controller know that a child is about to be removed from the `parent`s position
   //! `tag_index`.
-  virtual void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index);
+  virtual void OnAboutToRemoveItem(const AboutToRemoveItemEvent& event);
 
   //! Lets the controller know that a child has been removed from the `parent`s position
   //! `tag_index`.
-  virtual void OnItemRemoved(SessionItem *parent, const TagIndex &tag_index);
+  virtual void OnItemRemoved(const ItemRemovedEvent& event);
 
   //! Lets the controller know that `item`s data with given `role` has been changed.
   virtual void OnDataChanged(const DataChangedEvent& event);

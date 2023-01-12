@@ -45,7 +45,7 @@ public:
 
   void OnItemInserted(const ItemInsertedEvent& event) override;
 
-  void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
+  void OnAboutToRemoveItem(const AboutToRemoveItemEvent& event) override;
 
   void OnDataChanged(const DataChangedEvent &event) override;
 

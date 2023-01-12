@@ -217,9 +217,9 @@ void ViewModelController::OnItemInserted(const ItemInsertedEvent &event)
   p_impl->InsertView(event.m_parent, event.m_tag_index);
 }
 
-void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index)
+void ViewModelController::OnAboutToRemoveItem(const AboutToRemoveItemEvent &event)
 {
-  auto item_to_remove = parent->GetItem(tag_index.tag, tag_index.index);
+  auto item_to_remove = event.m_parent->GetItem(event.m_tag_index.tag, event.m_tag_index.index);
 
   if (item_to_remove == p_impl->GetRootItem()
       || utils::IsItemAncestor(p_impl->GetRootItem(), item_to_remove))

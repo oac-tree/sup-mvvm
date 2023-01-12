@@ -70,12 +70,9 @@ void AbstractViewModelController::OnAboutToInsertItem(const AboutToInsertItemEve
 
 void AbstractViewModelController::OnItemInserted(const ItemInsertedEvent &event) {}
 
-void AbstractViewModelController::OnAboutToRemoveItem(SessionItem *parent,
-                                                      const TagIndex &tag_index)
-{
-}
+void AbstractViewModelController::OnAboutToRemoveItem(const AboutToRemoveItemEvent &event) {}
 
-void AbstractViewModelController::OnItemRemoved(SessionItem *parent, const TagIndex &tag_index) {}
+void AbstractViewModelController::OnItemRemoved(const ItemRemovedEvent &event) {}
 
 void AbstractViewModelController::OnDataChanged(const DataChangedEvent &event) {}
 
@@ -109,12 +106,12 @@ void AbstractViewModelController::operator()(const ItemInsertedEvent &event)
 
 void AbstractViewModelController::operator()(const AboutToRemoveItemEvent &event)
 {
-  OnAboutToRemoveItem(event.m_parent, event.m_tag_index);
+  OnAboutToRemoveItem(event);
 }
 
 void AbstractViewModelController::operator()(const ItemRemovedEvent &event)
 {
-  OnItemRemoved(event.m_parent, event.m_tag_index);
+  OnItemRemoved(event);
 }
 
 void AbstractViewModelController::operator()(const ModelAboutToBeResetEvent &event)
