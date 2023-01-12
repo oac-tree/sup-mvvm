@@ -212,9 +212,9 @@ void ViewModelController::SetRowStrategy(std::unique_ptr<RowStrategyInterface> r
 
 ViewModelController::~ViewModelController() = default;
 
-void ViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index)
+void ViewModelController::OnItemInserted(const ItemInsertedEvent &event)
 {
-  p_impl->InsertView(parent, tag_index);
+  p_impl->InsertView(event.m_parent, event.m_tag_index);
 }
 
 void ViewModelController::OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index)

@@ -45,12 +45,11 @@ public:
 
   void OnEvent(const event_variant_t &event);
 
-  //! Lets the controller know that a child is about to be inserted into the `parent` with
-  //! `tag_index`.
+  //! Lets the controller know that a child is about to be inserted into the parent.
   virtual void OnAboutToInsertItem(const AboutToInsertItemEvent& event);
 
-  //! Lets the controller know that a child has been inserted into the `parent` with `tag_index`.
-  virtual void OnItemInserted(SessionItem *parent, const TagIndex &tag_index);
+  //! Lets the controller know that a child has been inserted into the parent.
+  virtual void OnItemInserted(const ItemInsertedEvent& event);
 
   //! Lets the controller know that a child is about to be removed from the `parent`s position
   //! `tag_index`.

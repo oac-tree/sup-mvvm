@@ -38,8 +38,7 @@ public:
   public:
     MOCK_METHOD(void, OnAboutToInsertItem, (const AboutToInsertItemEvent& event), (override));
 
-    MOCK_METHOD(void, OnItemInserted, (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index),
-                (override));
+    MOCK_METHOD(void, OnItemInserted, (const ItemInsertedEvent& event), (override));
 
     MOCK_METHOD(void, OnAboutToRemoveItem,
                 (mvvm::SessionItem * parent, const mvvm::TagIndex& tag_index), (override));
@@ -144,7 +143,8 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   mock_controller_t controller;
   controller.Subscribe(&event_handler);
 
-  EXPECT_CALL(controller, OnItemInserted(&item, tag_index)).Times(1);
+  ItemInsertedEvent expected_event{&item, tag_index};
+  EXPECT_CALL(controller, OnItemInserted(expected_event)).Times(1);
 
   // triggering action
   event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
@@ -305,8 +305,8 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
     EXPECT_CALL(listener1, OnAboutToInsertItem(_)).Times(1);
     EXPECT_CALL(listener2, OnAboutToInsertItem(_)).Times(1);
 
-    EXPECT_CALL(listener1, OnItemInserted(_, _)).Times(1);
-    EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
+    EXPECT_CALL(listener1, OnItemInserted(_)).Times(1);
+    EXPECT_CALL(listener2, OnItemInserted(_)).Times(1);
 
     EXPECT_CALL(listener1, OnAboutToRemoveItem(_, _)).Times(1);
     EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
@@ -357,7 +357,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   {
     ::testing::InSequence seq;
     EXPECT_CALL(listener2, OnAboutToInsertItem(_)).Times(1);
-    EXPECT_CALL(listener2, OnItemInserted(_, _)).Times(1);
+    EXPECT_CALL(listener2, OnItemInserted(_)).Times(1);
     EXPECT_CALL(listener2, OnAboutToRemoveItem(_, _)).Times(1);
     EXPECT_CALL(listener2, OnItemRemoved(_, _)).Times(1);
     EXPECT_CALL(listener2, OnDataChanged(DataChangedEvent{&item, role})).Times(1);

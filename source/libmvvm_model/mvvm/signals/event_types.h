@@ -37,8 +37,8 @@ class SessionModelInterface;
 
 struct DataChangedEvent
 {
-  SessionItem* m_item{nullptr};
-  int m_data_role{0};
+  SessionItem* m_item{nullptr};  //! item whose data has changed
+  int m_data_role{0};            //! the role associated with the data
 
   bool operator==(const DataChangedEvent& other) const;
   bool operator!=(const DataChangedEvent& other) const;
@@ -48,8 +48,8 @@ struct DataChangedEvent
 
 struct AboutToInsertItemEvent
 {
-  SessionItem* m_parent{nullptr};
-  TagIndex m_tag_index;
+  SessionItem* m_parent{nullptr};  //! item which is getting a new child
+  TagIndex m_tag_index;            //! position of a child
 
   bool operator==(const AboutToInsertItemEvent& other) const;
   bool operator!=(const AboutToInsertItemEvent& other) const;
@@ -59,8 +59,8 @@ struct AboutToInsertItemEvent
 
 struct ItemInsertedEvent
 {
-  SessionItem* m_parent{nullptr};
-  TagIndex m_tag_index;
+  SessionItem* m_parent{nullptr};  //! item which is getting a new child
+  TagIndex m_tag_index;            //! position of a child
 
   bool operator==(const ItemInsertedEvent& other) const;
   bool operator!=(const ItemInsertedEvent& other) const;
@@ -70,8 +70,8 @@ struct ItemInsertedEvent
 
 struct AboutToRemoveItemEvent
 {
-  SessionItem* m_parent{nullptr};
-  TagIndex m_tag_index;
+  SessionItem* m_parent{nullptr};  //! item whose child is about to be removed
+  TagIndex m_tag_index;            //! position of a child
 
   bool operator==(const AboutToRemoveItemEvent& other) const;
   bool operator!=(const AboutToRemoveItemEvent& other) const;
@@ -81,8 +81,8 @@ struct AboutToRemoveItemEvent
 
 struct ItemRemovedEvent
 {
-  SessionItem* m_parent{nullptr};
-  TagIndex m_tag_index;
+  SessionItem* m_parent{nullptr};  //! item whose was removed
+  TagIndex m_tag_index;            //! position of a child
 
   bool operator==(const ItemRemovedEvent& other) const;
   bool operator!=(const ItemRemovedEvent& other) const;
@@ -92,7 +92,7 @@ struct ItemRemovedEvent
 
 struct ModelAboutToBeResetEvent
 {
-  SessionModelInterface* m_model{nullptr};
+  SessionModelInterface* m_model{nullptr};  //! the model being reset
 
   bool operator==(const ModelAboutToBeResetEvent& other) const;
   bool operator!=(const ModelAboutToBeResetEvent& other) const;
@@ -102,7 +102,7 @@ struct ModelAboutToBeResetEvent
 
 struct ModelResetEvent
 {
-  SessionModelInterface* m_model{nullptr};
+  SessionModelInterface* m_model{nullptr};  //! the model being reset
 
   bool operator==(const ModelResetEvent& other) const;
   bool operator!=(const ModelResetEvent& other) const;
@@ -112,7 +112,7 @@ struct ModelResetEvent
 
 struct ModelAboutToBeDestroyedEvent
 {
-  SessionModelInterface* m_model{nullptr};
+  SessionModelInterface* m_model{nullptr};  //! the model being destroyed
 
   bool operator==(const ModelAboutToBeDestroyedEvent& other) const;
   bool operator!=(const ModelAboutToBeDestroyedEvent& other) const;

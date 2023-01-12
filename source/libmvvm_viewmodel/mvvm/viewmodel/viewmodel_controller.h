@@ -43,7 +43,7 @@ public:
 
   void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
 
-  void OnItemInserted(SessionItem *parent, const TagIndex &tag_index) override;
+  void OnItemInserted(const ItemInsertedEvent& event) override;
 
   void OnAboutToRemoveItem(SessionItem *parent, const TagIndex &tag_index) override;
 

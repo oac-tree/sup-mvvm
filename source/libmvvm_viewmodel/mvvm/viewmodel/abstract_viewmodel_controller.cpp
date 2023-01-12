@@ -19,10 +19,9 @@
 
 #include "abstract_viewmodel_controller.h"
 
-#include <mvvm/signals/model_event_handler.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
 {
@@ -67,11 +66,9 @@ void AbstractViewModelController::OnEvent(const event_variant_t &event)
   std::visit(*this, event);
 }
 
-void AbstractViewModelController::OnAboutToInsertItem(const AboutToInsertItemEvent &event)
-{
-}
+void AbstractViewModelController::OnAboutToInsertItem(const AboutToInsertItemEvent &event) {}
 
-void AbstractViewModelController::OnItemInserted(SessionItem *parent, const TagIndex &tag_index) {}
+void AbstractViewModelController::OnItemInserted(const ItemInsertedEvent &event) {}
 
 void AbstractViewModelController::OnAboutToRemoveItem(SessionItem *parent,
                                                       const TagIndex &tag_index)
@@ -107,7 +104,7 @@ void AbstractViewModelController::operator()(const AboutToInsertItemEvent &event
 
 void AbstractViewModelController::operator()(const ItemInsertedEvent &event)
 {
-  OnItemInserted(event.m_parent, event.m_tag_index);
+  OnItemInserted(event);
 }
 
 void AbstractViewModelController::operator()(const AboutToRemoveItemEvent &event)
