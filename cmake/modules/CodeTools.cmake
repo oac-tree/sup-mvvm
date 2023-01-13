@@ -2,8 +2,8 @@
 include(ClangFormat)
 
 # List of targets for project code beautification.
-set(BEAUTIFICATION_TARGETS mvvm_model mvvm_viewmodel testmvvm_model testmvvm_viewmodel)
-set(BEAUTIFICATION_EXAMPLES celleditorscore plotgraphscore)
+set(BEAUTIFICATION_TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view testmvvm_model testmvvm_viewmodel testmvvm_view testmvvm_integration)
+set(BEAUTIFICATION_EXAMPLES celleditorscore plotgraphscore concurrentplotcore dragandmovecore flatviewcore)
 
 # Defines new target for 'clangformat' to beautify whole project.
 # Use 'make clangformat' or 'cmake --build . --target clangformat' to beautify the code.
