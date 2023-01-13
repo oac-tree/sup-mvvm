@@ -20,6 +20,8 @@
 #include "mvvm/commands/remove_item_command.h"
 
 #include <gtest/gtest.h>
+#include <testutils/mock_event_listener.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_utils.h>
@@ -27,7 +29,6 @@
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
-#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

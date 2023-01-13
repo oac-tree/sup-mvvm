@@ -20,16 +20,17 @@
 #include "mvvm/model/sessionmodel.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_composer.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/model/model_utils.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/model/model_composer.h>
 
 #include <memory>
 #include <stdexcept>
@@ -50,7 +51,7 @@ public:
   public:
     TestModel()
         : SessionModel("TestModelType", CreateDefaultItemManager(m_pool),
-                         std::make_unique<ModelComposer>(*this))
+                       std::make_unique<ModelComposer>(*this))
     {
       RegisterItem<TestItem>();
     };

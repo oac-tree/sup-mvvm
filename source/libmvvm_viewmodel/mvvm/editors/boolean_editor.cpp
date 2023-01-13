@@ -61,7 +61,6 @@ void BoolEditor::OnCheckBoxChange(bool value)
 
 void BoolEditor::UpdateComponents()
 {
-
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   if (GetData().type() != QVariant::Bool)
 #else

@@ -20,6 +20,7 @@
 #include "mvvm/editors/abstract_editor_factory.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/editors/custom_editor.h>
 
 using namespace mvvm;

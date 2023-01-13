@@ -20,6 +20,7 @@
 #include "mvvm/model/item_utils.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
@@ -396,7 +397,7 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
 {
   using mvvm::utils::HasAppearanceFlag;
 
-  { // by default item has no appearance flags
+  {  // by default item has no appearance flags
     SessionItem item;
     EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));

@@ -19,9 +19,9 @@
 
 #include "mvvm/plotting/graph_info_formatter.h"
 
-#include <mvvm/utils/string_utils.h>
-
 #include <qcustomplot.h>
+
+#include <mvvm/utils/string_utils.h>
 
 #include <sstream>
 

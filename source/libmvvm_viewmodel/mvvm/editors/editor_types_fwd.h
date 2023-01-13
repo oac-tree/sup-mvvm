@@ -22,9 +22,9 @@
 
 #include <mvvm/viewmodel_export.h>
 
-#include <string>
 #include <functional>
 #include <memory>
+#include <string>
 
 class QWidget;
 

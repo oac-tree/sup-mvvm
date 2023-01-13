@@ -20,11 +20,12 @@
 #include "mvvm/project/project_utils.h"
 
 #include <gtest/gtest.h>
+#include <testutils/folder_based_test.h>
+
 #include <mvvm/interfaces/project_interface.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/project_types.h>
-#include <testutils/folder_based_test.h>
 
 using namespace mvvm;
 

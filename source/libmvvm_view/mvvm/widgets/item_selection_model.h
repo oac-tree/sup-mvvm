@@ -20,8 +20,8 @@
 #ifndef MVVM_WIDGETS_ITEM_SELECTION_MODEL_H_
 #define MVVM_WIDGETS_ITEM_SELECTION_MODEL_H_
 
-#include <mvvm/view_export.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/view_export.h>
 
 #include <QItemSelectionModel>
 

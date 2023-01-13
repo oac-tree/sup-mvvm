@@ -36,7 +36,7 @@ class RowStrategyInterface;
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
 public:
-  ViewModelController(SessionModelInterface *model, ViewModelBase *view_model);
+  ViewModelController(SessionModelInterface* model, ViewModelBase* view_model);
   ~ViewModelController() override;
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
@@ -47,7 +47,7 @@ public:
 
   void OnModelEvent(const AboutToRemoveItemEvent& event) override;
 
-  void OnModelEvent(const DataChangedEvent &event) override;
+  void OnModelEvent(const DataChangedEvent& event) override;
 
   void OnModelEvent(const ModelAboutToBeResetEvent& event) override;
 
@@ -55,7 +55,7 @@ public:
 
   void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
-  void Init(SessionItem *root_item = nullptr) override;
+  void Init(SessionItem* root_item = nullptr) override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 

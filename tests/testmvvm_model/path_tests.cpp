@@ -19,12 +19,12 @@
 
 #include "mvvm/model/path.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
-
-#include <gtest/gtest.h>
 
 #include <memory>
 

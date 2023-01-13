@@ -19,10 +19,10 @@
 
 #include "mvvm/serialization/xml_write_utils.h"
 
-#include <mvvm/serialization/treedata.h>
-
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
+
+#include <mvvm/serialization/treedata.h>
 
 #include <stdexcept>
 

@@ -20,11 +20,12 @@
 #include "mvvm/viewmodel/property_table_viewmodel.h"
 
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 #include <QStandardItemModel>

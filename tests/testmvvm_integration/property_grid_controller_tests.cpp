@@ -20,6 +20,7 @@
 #include "mvvm/widgets/property_grid_controller.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
@@ -100,12 +101,12 @@ TEST_F(PropertyGridControllerTests, UninitialisedModel)
 //! Checking method CreateWidget.
 //! Use QStandardItemModel with single row with label and data.
 
- TEST_F(PropertyGridControllerTests, CreateWidget)
+TEST_F(PropertyGridControllerTests, CreateWidget)
 {
-   // preparing the model
-   QStandardItemModel view_model;
-   auto parent_item = view_model.invisibleRootItem();
-   QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
+  // preparing the model
+  QStandardItemModel view_model;
+  auto parent_item = view_model.invisibleRootItem();
+  QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
 
   // first item in a row is a label
   items.at(0)->setEditable(false);

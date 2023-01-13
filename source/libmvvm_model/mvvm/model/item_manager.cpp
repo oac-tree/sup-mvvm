@@ -81,11 +81,12 @@ ItemFactoryInterface* ItemManager::GetFactory()
 }
 
 std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool)
-{  
-  return CreateDefaultItemManager(/* no user items catalogue */{}, pool);
+{
+  return CreateDefaultItemManager(/* no user items catalogue */ {}, pool);
 }
 
-std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::unique_ptr<ItemCatalogue<SessionItem> > user_catalogue, std::shared_ptr<ItemPool> pool)
+std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(
+    std::unique_ptr<ItemCatalogue<SessionItem> > user_catalogue, std::shared_ptr<ItemPool> pool)
 {
   // creating standard item catalogue and merging users items into it
   auto catalogue = mvvm::CreateStandardItemCatalogue();

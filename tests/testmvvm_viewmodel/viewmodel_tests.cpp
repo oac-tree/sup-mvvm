@@ -17,17 +17,17 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel.h"
-
-#include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
 #include "mvvm/viewmodel/standard_children_strategies.h"
 #include "mvvm/viewmodel/standard_row_strategies.h"
+#include "mvvm/viewmodel/viewmodel.h"
 #include "mvvm/viewmodel/viewmodel_controller.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 #include <gtest/gtest.h>
+
+#include <mvvm/model/property_item.h>
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
 
 #include <memory>
 

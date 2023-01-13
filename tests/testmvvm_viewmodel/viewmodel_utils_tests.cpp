@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/viewmodel_utils.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>

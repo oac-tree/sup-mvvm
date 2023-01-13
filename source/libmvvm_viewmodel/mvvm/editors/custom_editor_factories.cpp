@@ -58,8 +58,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
 
-editor_t RoleDependentEditorFactory::CreateEditor(
-    const QModelIndex& index) const
+editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto item = GetItemFromIndex(index);
   return item ? CreateItemEditor(item) : editor_t{};
@@ -67,8 +66,7 @@ editor_t RoleDependentEditorFactory::CreateEditor(
 
 //! Creates cell editor basing on editor type.
 
-editor_t RoleDependentEditorFactory::CreateItemEditor(
-    const SessionItem* item) const
+editor_t RoleDependentEditorFactory::CreateItemEditor(const SessionItem* item) const
 {
   auto builder = FindBuilder(item->GetEditorType());
   return builder ? builder(item) : editor_t{};
@@ -88,8 +86,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 
 //! Creates cell editor basing on variant name.
 
-editor_t VariantDependentEditorFactory::CreateEditor(
-    const QModelIndex& index) const
+editor_t VariantDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
   return builder ? builder(GetItemFromIndex(index)) : editor_t{};

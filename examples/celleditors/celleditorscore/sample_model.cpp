@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-
 #include "sample_model.h"
 
 #include <mvvm/standarditems/editor_constants.h>

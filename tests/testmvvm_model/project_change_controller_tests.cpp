@@ -19,10 +19,10 @@
 
 #include "mvvm/project/project_change_controller.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 

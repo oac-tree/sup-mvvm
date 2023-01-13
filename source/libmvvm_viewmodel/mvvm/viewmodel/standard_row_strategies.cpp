@@ -19,10 +19,9 @@
 
 #include "mvvm/viewmodel/standard_row_strategies.h"
 
-#include <mvvm/viewmodel/viewitem_factory.h>
-
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
 namespace mvvm

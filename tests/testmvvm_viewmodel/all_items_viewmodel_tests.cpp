@@ -20,6 +20,8 @@
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
 #include <gtest/gtest.h>
+#include <testutils/folder_based_test.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
@@ -31,7 +33,6 @@
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <testutils/folder_based_test.h>
 
 #include <QSignalSpy>
 

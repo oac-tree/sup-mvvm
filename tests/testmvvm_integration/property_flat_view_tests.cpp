@@ -20,6 +20,7 @@
 #include "mvvm/widgets/property_flat_view.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>

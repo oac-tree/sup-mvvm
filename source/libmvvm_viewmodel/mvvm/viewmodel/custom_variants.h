@@ -40,7 +40,6 @@ const std::string kBoolQtTypeName = "bool";
 const std::string kIntQtTypeName = "int";
 const std::string kStringQtTypeName = "QString";
 
-
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 const std::string kStdStringQtTypeName = "std::string";
 #else

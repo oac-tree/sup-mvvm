@@ -20,13 +20,14 @@
 #include "mvvm/factories/item_backup_strategy_factory.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/tagged_items.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 
 using namespace mvvm;
@@ -36,7 +37,6 @@ using namespace mvvm;
 class ItemBackupStrategyFactoryTests : public ::testing::Test
 {
 public:
-
   class TestItem : public CompoundItem
   {
   public:
@@ -46,9 +46,7 @@ public:
       RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
       auto child = InsertItem(std::make_unique<SessionItem>(), TagIndex::Append());
       child->SetDisplayName("child_name");
-
     }
-
   };
 
   ItemBackupStrategyFactoryTests()
@@ -120,7 +118,7 @@ TEST_F(ItemBackupStrategyFactoryTests, BackupCustomItem)
   EXPECT_EQ(restored->GetDisplayName(), "parent_name");
   EXPECT_EQ(restored->GetTaggedItems()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(restored->GetModel(), nullptr);
-  EXPECT_EQ(restored->GetIdentifier(), item.GetIdentifier()); // same identifiers
+  EXPECT_EQ(restored->GetIdentifier(), item.GetIdentifier());  // same identifiers
 
   // checking child reconstruction
   auto restored_child = restored->GetItem("defaultTag");
@@ -128,5 +126,6 @@ TEST_F(ItemBackupStrategyFactoryTests, BackupCustomItem)
   EXPECT_EQ(restored_child->GetTotalItemCount(), 0);
   EXPECT_EQ(restored_child->GetDisplayName(), "child_name");
   EXPECT_EQ(restored_child->GetTaggedItems()->GetDefaultTag(), "");
-  EXPECT_EQ(restored_child->GetIdentifier(), item.GetItem("defaultTag")->GetIdentifier()); // same identifiers
+  EXPECT_EQ(restored_child->GetIdentifier(),
+            item.GetItem("defaultTag")->GetIdentifier());  // same identifiers
 }

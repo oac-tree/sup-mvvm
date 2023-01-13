@@ -21,12 +21,12 @@
 
 #include <mvvm/widgets/widget_utils.h>
 
+#include <QApplication>
 #include <QIcon>
 #include <QSize>
-#include <cmath>
-#include <QApplication>
 #include <QStyle>
 #include <QTreeView>
+#include <cmath>
 
 namespace
 {

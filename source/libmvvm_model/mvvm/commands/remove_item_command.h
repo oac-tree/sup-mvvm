@@ -37,7 +37,8 @@ class TagIndex;
 class MVVM_MODEL_EXPORT RemoveItemCommand : public AbstractCommand
 {
 public:
-  RemoveItemCommand(ModelComposerInterface* composer, SessionItem* parent, const TagIndex& tag_index);
+  RemoveItemCommand(ModelComposerInterface* composer, SessionItem* parent,
+                    const TagIndex& tag_index);
 
   ~RemoveItemCommand() override;
 

@@ -19,13 +19,13 @@
 
 #include "mvvm/factories/viewmodel_controller_factory.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 

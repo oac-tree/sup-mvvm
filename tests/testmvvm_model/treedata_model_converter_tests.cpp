@@ -20,6 +20,8 @@
 #include "mvvm/serialization/treedata_model_converter.h"
 
 #include <gtest/gtest.h>
+#include <testutils/test_utils.h>
+
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>
@@ -28,7 +30,6 @@
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_write_utils.h>
-#include <testutils/test_utils.h>
 
 using namespace mvvm;
 

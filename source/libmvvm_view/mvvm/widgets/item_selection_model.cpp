@@ -19,10 +19,10 @@
 
 #include "mvvm/widgets/item_selection_model.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewmodel.h>
-#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {

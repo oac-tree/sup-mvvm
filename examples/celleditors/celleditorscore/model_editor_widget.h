@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-
 #ifndef CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
 #define CELLEDITORS_CELLEDITORSCORE_MODEL_EDITOR_WIDGET_H_
 

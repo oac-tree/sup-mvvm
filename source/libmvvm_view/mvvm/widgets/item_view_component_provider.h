@@ -45,8 +45,7 @@ class ItemViewComponentProvider : public QObject
   Q_OBJECT
 
 public:
-  using create_viewmodel_t =
-      std::function<std::unique_ptr<ViewModel>(SessionModelInterface*)>;
+  using create_viewmodel_t = std::function<std::unique_ptr<ViewModel>(SessionModelInterface*)>;
 
   ItemViewComponentProvider(create_viewmodel_t model_func, QAbstractItemView* view);
   ~ItemViewComponentProvider() override;

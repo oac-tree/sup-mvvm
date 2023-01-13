@@ -20,10 +20,10 @@
 #ifndef MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_
 #define MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_
 
+#include <mvvm/model_export.h>
 #include <mvvm/signals/callback_types.h>
 #include <mvvm/signals/event_handler.h>
 #include <mvvm/signals/event_types.h>
-#include <mvvm/model_export.h>
 
 namespace mvvm
 {

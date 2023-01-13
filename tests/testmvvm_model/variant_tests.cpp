@@ -166,8 +166,7 @@ TEST_F(VariantTests, TypeName)
             constants::kExternalPropertyVariantName);
   EXPECT_EQ(TypeName(variant_t(RealLimits::CreateLimited(1.0, 2.0))),
             constants::kRealLimitsVariantName);
-  EXPECT_EQ(TypeName(variant_t(IntLimits::CreateLimited(1, 2))),
-            constants::kIntLimitsVariantName);
+  EXPECT_EQ(TypeName(variant_t(IntLimits::CreateLimited(1, 2))), constants::kIntLimitsVariantName);
 }
 
 TEST_F(VariantTests, DataRoleComparison)

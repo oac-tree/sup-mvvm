@@ -19,13 +19,13 @@
 
 #include "mvvm/delegates/viewmodel_delegate.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/editors/custom_editor.h>
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
-
-#include <gtest/gtest.h>
 
 #include <QDataWidgetMapper>
 #include <QStyleOptionViewItem>
@@ -86,11 +86,11 @@ TEST_F(ViewModelDelegateTests, createEditor)
 
 //! Check that ViewModelDelegate can work with widget mapper.
 
-//TEST_F(ViewModelDelegateTests, widgetMapper)
+// TEST_F(ViewModelDelegateTests, widgetMapper)
 //{
-//  TestData test_data;
-//  auto vector_item = test_data.model.insertItem<VectorItem>();
-//  auto x_item = vector_item->getItem(VectorItem::P_X);
+//   TestData test_data;
+//   auto vector_item = test_data.model.insertItem<VectorItem>();
+//   auto x_item = vector_item->getItem(VectorItem::P_X);
 
 //  // accessing to index list (index of label field and index of data field)
 //  // of PropertyItem corresponding to x-coordinate.

@@ -19,13 +19,13 @@
 
 #include "mvvm/factories/item_copy_strategy_factory.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 
@@ -96,7 +96,7 @@ TEST_F(ItemCopyStrategyFactoryTests, CopyCustomItem)
   EXPECT_EQ(parent_copy->GetDisplayName(), "parent_name");
   EXPECT_EQ(parent_copy->GetTaggedItems()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(parent_copy->GetModel(), nullptr);
-  EXPECT_NE(parent_copy->GetIdentifier(), parent->GetIdentifier()); // different identifiers
+  EXPECT_NE(parent_copy->GetIdentifier(), parent->GetIdentifier());  // different identifiers
 
   // checking child reconstruction
   auto child_copy = parent_copy->GetItem("defaultTag");
@@ -104,7 +104,7 @@ TEST_F(ItemCopyStrategyFactoryTests, CopyCustomItem)
   EXPECT_EQ(child_copy->GetTotalItemCount(), 0);
   EXPECT_EQ(child_copy->GetDisplayName(), "child_name");
   EXPECT_EQ(child_copy->GetTaggedItems()->GetDefaultTag(), "");
-  EXPECT_NE(child_copy->GetIdentifier(), child->GetIdentifier()); // different identifiers
+  EXPECT_NE(child_copy->GetIdentifier(), child->GetIdentifier());  // different identifiers
 }
 
 //! Clone CustomItem.
@@ -127,7 +127,7 @@ TEST_F(ItemCopyStrategyFactoryTests, CloneCustomItem)
   EXPECT_EQ(parent_copy->GetDisplayName(), "parent_name");
   EXPECT_EQ(parent_copy->GetTaggedItems()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(parent_copy->GetModel(), nullptr);
-  EXPECT_EQ(parent_copy->GetIdentifier(), parent->GetIdentifier()); // same identifiers
+  EXPECT_EQ(parent_copy->GetIdentifier(), parent->GetIdentifier());  // same identifiers
 
   // checking child reconstruction
   auto child_copy = parent_copy->GetItem("defaultTag");
@@ -135,5 +135,5 @@ TEST_F(ItemCopyStrategyFactoryTests, CloneCustomItem)
   EXPECT_EQ(child_copy->GetTotalItemCount(), 0);
   EXPECT_EQ(child_copy->GetDisplayName(), "child_name");
   EXPECT_EQ(child_copy->GetTaggedItems()->GetDefaultTag(), "");
-  EXPECT_EQ(child_copy->GetIdentifier(), child->GetIdentifier()); // same identifiers
+  EXPECT_EQ(child_copy->GetIdentifier(), child->GetIdentifier());  // same identifiers
 }

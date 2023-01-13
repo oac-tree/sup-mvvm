@@ -19,11 +19,11 @@
 
 #include "mvvm/standarditems/vector_item.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionmodel.h>
-
-#include <gtest/gtest.h>
 
 using namespace mvvm;
 
@@ -82,10 +82,10 @@ TEST_F(VectorItemTests, SetXYZ)
 //! Checking label update in ApplicationModel context
 //! FIXME uncomment test
 
-//TEST_F(VectorItemTests, LabelUpdate)
+// TEST_F(VectorItemTests, LabelUpdate)
 //{
-//  ApplicationModel model;
-//  auto item = model.InsertItem<VectorItem>();
+//   ApplicationModel model;
+//   auto item = model.InsertItem<VectorItem>();
 
 //  EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
 
@@ -95,4 +95,3 @@ TEST_F(VectorItemTests, SetXYZ)
 //  // Updated thanks to VectorItem::Activate
 //  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
 //}
-

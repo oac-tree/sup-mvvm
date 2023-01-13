@@ -20,6 +20,7 @@
 #include "mvvm/serialization/limits_utils.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/limits.h>
 
 using namespace mvvm;

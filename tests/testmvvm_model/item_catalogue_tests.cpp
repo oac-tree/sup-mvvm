@@ -19,10 +19,10 @@
 
 #include "mvvm/model/item_catalogue.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/property_item.h>
-
-#include <gtest/gtest.h>
 
 #include <stdexcept>
 

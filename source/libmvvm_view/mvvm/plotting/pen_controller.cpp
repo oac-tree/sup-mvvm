@@ -19,10 +19,10 @@
 
 #include "mvvm/plotting/pen_controller.h"
 
+#include <qcustomplot.h>
+
 #include <mvvm/model/combo_property.h>
 #include <mvvm/standarditems/plottable_items.h>
-
-#include <qcustomplot.h>
 
 #include <stdexcept>
 

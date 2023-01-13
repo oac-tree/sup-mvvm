@@ -21,6 +21,8 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_event_listener.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_utils.h>
@@ -30,7 +32,6 @@
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
-#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

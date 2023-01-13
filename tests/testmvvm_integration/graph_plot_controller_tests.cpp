@@ -17,9 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "custom_plot_test_utils.h"
 #include "mvvm/plotting/graph_plot_controller.h"
 
-#include "custom_plot_test_utils.h"
+#include <gtest/gtest.h>
+#include <qcustomplot.h>
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/combo_property.h>
@@ -27,9 +29,6 @@
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/plottable_items.h>
-
-#include <gtest/gtest.h>
-#include <qcustomplot.h>
 
 #include <QSignalSpy>
 

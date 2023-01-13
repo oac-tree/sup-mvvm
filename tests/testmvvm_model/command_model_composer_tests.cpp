@@ -20,6 +20,8 @@
 #include "mvvm/commands/command_model_composer.h"
 
 #include <gtest/gtest.h>
+#include <testutils/mock_event_listener.h>
+
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>
@@ -27,7 +29,6 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
-#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

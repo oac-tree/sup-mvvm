@@ -20,6 +20,7 @@
 #include "mvvm/editors/custom_editor_factories.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/limits.h>

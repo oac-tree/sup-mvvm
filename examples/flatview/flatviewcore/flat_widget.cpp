@@ -22,8 +22,8 @@
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/widgets/property_flat_view.h>
 
-#include <QVBoxLayout>
 #include <QDebug>
+#include <QVBoxLayout>
 
 namespace flatview
 {

@@ -22,8 +22,8 @@
 
 #include <mvvm/viewmodel_export.h>
 
-#include <QFrame>
 #include <QColor>
+#include <QFrame>
 #include <map>
 
 class QStackedWidget;

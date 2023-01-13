@@ -37,6 +37,6 @@ void SetupHighDpiScaling(bool use_system_scale);
 //! Sets point size of the main application font.
 void SetApplicationFontSize(int point_size);
 
-}  // namespace mvvm
+}  // namespace mvvm::utils
 
 #endif  // MVVM_WIDGETS_APP_UTILS_H_

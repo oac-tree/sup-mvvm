@@ -85,4 +85,4 @@ void MainWindow::PopulateModel()
   m_model->InsertItem<DemoItem>();
 }
 
-}  // namespace celleditors
+}  // namespace flatview

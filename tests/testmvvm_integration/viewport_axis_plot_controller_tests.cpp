@@ -20,11 +20,12 @@
 #include "mvvm/plotting/viewport_axis_plot_controller.h"
 
 #include <gtest/gtest.h>
+#include <qcustomplot.h>
+#include <testutils/mock_item_listener.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
-#include <qcustomplot.h>
-#include <testutils/mock_item_listener.h>
 
 #include <QSignalSpy>
 
@@ -49,7 +50,7 @@ public:
     return std::make_unique<QSignalSpy>(
         axis,
         static_cast<void (QCPAxis::*)(const QCPRange&, const QCPRange&)>(&QCPAxis::rangeChanged));
-  }  
+  }
 };
 
 //! Initial state.

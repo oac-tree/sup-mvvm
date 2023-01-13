@@ -21,11 +21,12 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_item_listener.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/plottable_items.h>
-#include <testutils/mock_item_listener.h>
 
 #include <QColor>
 

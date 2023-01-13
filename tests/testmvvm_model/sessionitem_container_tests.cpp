@@ -19,9 +19,9 @@
 
 #include "mvvm/model/sessionitem_container.h"
 
-#include <mvvm/model/sessionitem.h>
-
 #include <gtest/gtest.h>
+
+#include <mvvm/model/sessionitem.h>
 
 using namespace mvvm;
 

@@ -52,7 +52,7 @@ T* GetPlottable(QCustomPlot* custom_plot)
   }
   return nullptr;
 }
-}  // namespace TestUtils
+}  // namespace testutils
 
 Q_DECLARE_METATYPE(QCPRange)
 

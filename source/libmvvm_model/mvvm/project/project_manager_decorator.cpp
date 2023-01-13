@@ -19,8 +19,8 @@
 
 #include "mvvm/project/project_manager_decorator.h"
 
-#include <mvvm/project/project_types.h>
 #include <mvvm/project/project_manager.h>
+#include <mvvm/project/project_types.h>
 
 #include <stdexcept>
 

@@ -98,7 +98,7 @@ void SessionModelInterface::RegisterItem(const std::string& label)
 inline ItemFactoryInterface* SessionModelInterface::GetFactory()
 {
   return const_cast<ItemFactoryInterface*>(
-        static_cast<const SessionModelInterface*>(this)->GetFactory());
+      static_cast<const SessionModelInterface*>(this)->GetFactory());
 }
 
 }  // namespace mvvm

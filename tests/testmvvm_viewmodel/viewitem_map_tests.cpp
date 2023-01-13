@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/viewitem_map.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 

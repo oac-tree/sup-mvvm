@@ -21,9 +21,10 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_event_listener.h>
+
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
-#include <testutils/mock_event_listener.h>
 
 #include <variant>
 

@@ -20,6 +20,7 @@
 #include "mvvm/delegates/default_cell_decorator.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>

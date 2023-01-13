@@ -20,8 +20,8 @@
 #include "mvvm/serialization/treedata_model_converter.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/sessionitem.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/model/sessionitem.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_item_converter.h>
 

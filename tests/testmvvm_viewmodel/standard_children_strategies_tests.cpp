@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/standard_children_strategies.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>

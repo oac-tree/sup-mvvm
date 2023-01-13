@@ -75,9 +75,10 @@ void VectorItem::SetXYZ(double x, double y, double z)
 
 void VectorItem::Activate()
 {
-  // FIXME Perform unsubscription on vector deletion, uncomment, restore test VectorItemTests::LabelUpdate
-//  auto on_property_change = [this](SessionItem*, const std::string&) { UpdateLabel(); };
-//  connect::OnPropertyChanged(this, on_property_change);
+  // FIXME Perform unsubscription on vector deletion, uncomment, restore test
+  // VectorItemTests::LabelUpdate
+  //  auto on_property_change = [this](SessionItem*, const std::string&) { UpdateLabel(); };
+  //  connect::OnPropertyChanged(this, on_property_change);
 }
 
 void VectorItem::UpdateLabel()

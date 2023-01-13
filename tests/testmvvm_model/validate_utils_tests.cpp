@@ -20,6 +20,7 @@
 #include "mvvm/model/validate_utils.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/sessionitem.h>

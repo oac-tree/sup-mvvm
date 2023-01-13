@@ -97,8 +97,8 @@ MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndex
 //! Finds all SessionItems corresponding to given index list and collect their parents.
 //! Function is usefull in the context of table-like views when we want to find compound items
 //! (i.e. Layers) from table cells containing LayerItem's properties (i.e. thickness).
-MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*>
-ParentItemsFromIndex(const QModelIndexList& index_list);
+MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ParentItemsFromIndex(
+    const QModelIndexList& index_list);
 
 }  // namespace mvvm::utils
 

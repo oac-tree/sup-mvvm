@@ -19,13 +19,13 @@
 
 #include "mvvm/widgets/item_view_component_provider.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/widgets/item_selection_model.h>
-
-#include <gtest/gtest.h>
 
 #include <QItemSelectionModel>
 #include <QSignalSpy>

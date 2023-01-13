@@ -20,6 +20,7 @@
 #include "mvvm/model/property_item.h"
 
 #include <gtest/gtest.h>
+
 #include <mvvm/model/limits.h>
 
 using namespace mvvm;

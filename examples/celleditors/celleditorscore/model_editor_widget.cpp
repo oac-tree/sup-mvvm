@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-
 #include "model_editor_widget.h"
 
 #include "sample_model.h"
