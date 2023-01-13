@@ -81,7 +81,7 @@ struct AboutToRemoveItemEvent
 
 struct ItemRemovedEvent
 {
-  SessionItem* m_parent{nullptr};  //! item whose was removed
+  SessionItem* m_parent{nullptr};  //! item whose child was removed
   TagIndex m_tag_index;            //! position of a child
 
   bool operator==(const ItemRemovedEvent& other) const;
