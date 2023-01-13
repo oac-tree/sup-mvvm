@@ -4,9 +4,9 @@
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
- * Author        : Walter Van Herck (IO)
+ * Author        : Gennady Pospelov (IO)
  *
- * Copyright (c) : 2010-2022 ITER Organization,
+ * Copyright (c) : 2010-2023 ITER Organization,
  *                 CS 90 046
  *                 13067 St. Paul-lez-Durance Cedex
  *                 France
