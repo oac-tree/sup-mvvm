@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_TEST_UTILS_H_
-#define TESTS_LIBTESTMACHINERY_TEST_UTILS_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_
+#define LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_
 
 //! @file test_utils.h
 //! Collection of utility functions for various unit tests.
@@ -80,4 +80,4 @@ void CreateTextFile(const std::string& file_name, const std::string& content);
 
 }  // namespace testutils
 
-#endif  // TESTS_LIBTESTMACHINERY_TEST_UTILS_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_

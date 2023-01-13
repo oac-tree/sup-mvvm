@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_PROGRESS_HANDLER_H
-#define MVVM_UTILS_PROGRESS_HANDLER_H
+#ifndef MVVM_UTILS_PROGRESS_HANDLER_H_
+#define MVVM_UTILS_PROGRESS_HANDLER_H_
 
 #include "mvvm/model_export.h"
 
@@ -62,4 +62,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_PROGRESS_HANDLER_H
+#endif  // MVVM_UTILS_PROGRESS_HANDLER_H_

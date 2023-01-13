@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_MOCK_EVENT_LISTENER_H_
-#define TESTS_LIBTESTMACHINERY_MOCK_EVENT_LISTENER_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
+#define LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
 
 #include <gmock/gmock.h>
 #include <mvvm/signals/model_event_handler.h>
@@ -60,4 +60,4 @@ public:
   std::unique_ptr<mvvm::Slot> m_slot;
 };
 
-#endif  // TESTS_LIBTESTMACHINERY_MOCK_EVENT_LISTENER_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_

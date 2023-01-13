@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
-#define DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
+#ifndef DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H_
+#define DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H_
 
 #include <QWidget>
 #include <memory>
@@ -71,4 +71,4 @@ private:
 
 }  // namespace dragandmove
 
-#endif  // DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H
+#endif  // DRAGANDMOVE_DRAGANDMOVECORE_CONTAINER_EDITOR_WIDGET_H_

@@ -46,7 +46,7 @@ const std::string kStdStringQtTypeName = "std::string";
 #else
 //! FIXME find less fragile way of deducying type of the variant
 const std::string kStdStringQtTypeName = "std::__cxx11::basic_string<char>";
-#endif
+#endif  // MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_
 
 const std::string kDoubleQtTypeName = "double";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";

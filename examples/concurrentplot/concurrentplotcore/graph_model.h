@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHMODEL_H
-#define CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHMODEL_H
+#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPH_MODEL_H_
+#define CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPH_MODEL_H_
 
 #include "mvvm/model/application_model.h"
 
@@ -48,4 +48,4 @@ private:
 
 }  // namespace concurrentplot
 
-#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHMODEL_H
+#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPH_MODEL_H_

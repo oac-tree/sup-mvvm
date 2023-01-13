@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGET_H
-#define CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGET_H
+#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPH_WIDGET_H_
+#define CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPH_WIDGET_H_
 
 #include <QWidget>
 
@@ -63,4 +63,4 @@ private:
 
 }  // namespace concurrentplot
 
-#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPHWIDGET_H
+#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_GRAPH_WIDGET_H_

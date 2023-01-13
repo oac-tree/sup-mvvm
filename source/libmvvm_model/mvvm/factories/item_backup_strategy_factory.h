@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_ITEM_COPY_BACKUP_FACTORY_H_
-#define MVVM_FACTORIES_ITEM_COPY_BACKUP_FACTORY_H_
+#ifndef MVVM_FACTORIES_ITEM_BACKUP_STRATEGY_FACTORY_H_
+#define MVVM_FACTORIES_ITEM_BACKUP_STRATEGY_FACTORY_H_
 
 #include <mvvm/interfaces/item_backup_strategy_interface.h>
 
@@ -34,4 +34,4 @@ MVVM_MODEL_EXPORT std::unique_ptr<ItemBackupStrategyInterface> CreateItemTreeDat
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_ITEM_COPY_BACKUP_FACTORY_H_
+#endif  // MVVM_FACTORIES_ITEM_BACKUP_STRATEGY_FACTORY_H_

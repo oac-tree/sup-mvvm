@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H
-#define DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H
+#ifndef DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H_
+#define DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H_
 
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 
@@ -52,4 +52,4 @@ public:
 
 }  // namespace dragandmove
 
-#endif  // DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H
+#endif  // DRAGANDMOVE_DRAGANDMOVECORE_DRAG_VIEWMODEL_H_

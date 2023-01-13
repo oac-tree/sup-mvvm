@@ -56,4 +56,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_ABSTRACT_COMMAND_H_
+#endif  // MVVM_COMMANDS_SET_VALUE_COMMAND_H_

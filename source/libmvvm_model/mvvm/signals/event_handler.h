@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
-#define MVVM_EXPERIMENTAL_EVENT_HANDLER_H_
+#ifndef MVVM_SIGNALS_EVENT_HANDLER_H_
+#define MVVM_SIGNALS_EVENT_HANDLER_H_
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/type_map.h>
@@ -117,4 +117,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EXPERIMENTAL_EVENT_NOTIFIER_INTERFACE_H_
+#endif  // MVVM_SIGNALS_EVENT_HANDLER_H_

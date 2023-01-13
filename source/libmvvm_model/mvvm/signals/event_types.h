@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EXPERIMENTAL_EVENT_TYPES_H_
-#define MVVM_EXPERIMENTAL_EVENT_TYPES_H_
+#ifndef MVVM_SIGNALS_EVENT_TYPES_H_
+#define MVVM_SIGNALS_EVENT_TYPES_H_
 
 //! @file event_types.h
 //! Defines collection of event types.
@@ -126,4 +126,4 @@ using event_variant_t =
 
 }  // namespace mvvm
 
-#endif  // MVVM_EXPERIMENTAL_EVENT_TYPES_H_
+#endif  // MVVM_SIGNALS_EVENT_TYPES_H_

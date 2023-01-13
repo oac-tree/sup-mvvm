@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_MAINWINDOW_H
-#define CONCURRENTPLOT_CONCURRENTPLOTCORE_MAINWINDOW_H
+#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_MAIN_WINDOW_H_
+#define CONCURRENTPLOT_CONCURRENTPLOTCORE_MAIN_WINDOW_H_
 
 #include <QMainWindow>
 #include <memory>
@@ -49,4 +49,4 @@ private:
 
 }  // namespace concurrentplot
 
-#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_MAINWINDOW_H
+#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_MAIN_WINDOW_H_

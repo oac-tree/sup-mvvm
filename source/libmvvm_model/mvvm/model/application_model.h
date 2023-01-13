@@ -59,4 +59,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_APPLICATION_MODEL_V2_H_
+#endif  // MVVM_MODEL_APPLICATION_MODEL_H_

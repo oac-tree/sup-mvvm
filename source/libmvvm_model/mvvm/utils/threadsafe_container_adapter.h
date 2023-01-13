@@ -163,4 +163,4 @@ protected:
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_THREADSAFE_QUEUE_H_
+#endif  // MVVM_UTILS_THREADSAFE_CONTAINER_ADAPTER_H_

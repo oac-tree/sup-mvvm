@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
-#define CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
+#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_TOY_SIMULATION_H_
+#define CONCURRENTPLOT_CONCURRENTPLOTCORE_TOY_SIMULATION_H_
 
 #include <mvvm/utils/progress_handler.h>
 
@@ -66,4 +66,4 @@ private:
 
 }  // namespace concurrentplot
 
-#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_TOYSIMULATION_H
+#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_TOY_SIMULATION_H_

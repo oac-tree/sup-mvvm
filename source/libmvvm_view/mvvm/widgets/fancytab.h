@@ -50,7 +50,7 @@ protected:
   void enterEvent(QEvent* event) override;
 #else
   void enterEvent(QEnterEvent* event) override;
-#endif
+#endif  // MVVM_WIDGETS_FANCYTAB_H_
   void leaveEvent(QEvent* event) override;
 
 private:

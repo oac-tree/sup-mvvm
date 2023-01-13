@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
-#define CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
+#ifndef CONCURRENTPLOT_CONCURRENTPLOTCORE_JOB_MANAGER_H_
+#define CONCURRENTPLOT_CONCURRENTPLOTCORE_JOB_MANAGER_H_
 
 #include "toy_simulation.h"
 
@@ -63,4 +63,4 @@ private:
 
 }  // namespace concurrentplot
 
-#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_JOBMANAGER_H
+#endif  // CONCURRENTPLOT_CONCURRENTPLOTCORE_JOB_MANAGER_H_

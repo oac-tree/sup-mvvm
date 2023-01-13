@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef TESTS_LIBTESTMACHINERY_FOLDER_BASED_TESTS_H_
-#define TESTS_LIBTESTMACHINERY_FOLDER_BASED_TESTS_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_FOLDER_BASED_TEST_H_
+#define LIBTEST_UTILS_TESTUTILS_FOLDER_BASED_TEST_H_
 
 #include <gtest/gtest.h>
 
@@ -49,4 +49,4 @@ private:
 
 }  // namespace testutils
 
-#endif  // TESTS_LIBTESTMACHINERY_FOLDER_BASED_TESTS_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_FOLDER_BASED_TEST_H_

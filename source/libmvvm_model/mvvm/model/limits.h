@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_COMBO_LIMITS_H_
-#define MVVM_MODEL_COMBO_LIMITS_H_
+#ifndef MVVM_MODEL_LIMITS_H_
+#define MVVM_MODEL_LIMITS_H_
 
 #include <mvvm/model_export.h>
 
@@ -224,4 +224,4 @@ bool Limits<T>::operator!=(const Limits<T>& other) const
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_COMBO_LIMITS_H_
+#endif  // MVVM_MODEL_LIMITS_H_
