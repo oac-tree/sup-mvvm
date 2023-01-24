@@ -24,8 +24,9 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/signals/model_event_handler.h>
 
-namespace
+namespace mvvm::connect
 {
+
 mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
 {
   if (!item)
@@ -45,10 +46,6 @@ mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
   throw std::runtime_error(
       "Error in ItemConnectUtils: item's model doesn't have signaling capabilities");
 }
-}  // namespace
-
-namespace mvvm::connect
-{
 
 Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
 {

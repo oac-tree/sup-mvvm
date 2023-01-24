@@ -25,18 +25,35 @@
 
 #include <mvvm/model_export.h>
 #include <mvvm/signals/callback_types.h>
-#include <mvvm/signals/event_types.h>
-#include <mvvm/signals/signal_slot.h>
+#include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
 {
 class SessionItem;
-}
+}  // namespace mvvm
 
 namespace mvvm::connect
 {
 
 using callback_t = std::function<void(const event_variant_t&)>;
+
+ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item);
+
+template <typename EventT, typename WidgetT>
+void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const EventT&),
+             Slot* slot = nullptr)
+{
+  auto adapter = [source, widget, method](const event_variant_t& event)
+  {
+    auto concrete_event = std::get<EventT>(event);
+
+    if (concrete_event.m_parent == source)
+    {
+      std::invoke(method, *widget, concrete_event);
+    }
+  };
+  GetEventHandler(source)->Connect<EventT>(adapter);
+}
 
 //! Sets callback to be notified on item insert. The callback will be called with
 //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position after insert.
