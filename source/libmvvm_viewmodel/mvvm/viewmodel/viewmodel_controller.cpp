@@ -214,12 +214,12 @@ ViewModelController::~ViewModelController() = default;
 
 void ViewModelController::OnModelEvent(const ItemInsertedEvent &event)
 {
-  p_impl->InsertView(event.m_parent, event.m_tag_index);
+  p_impl->InsertView(event.m_item, event.m_tag_index);
 }
 
 void ViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
-  auto item_to_remove = event.m_parent->GetItem(event.m_tag_index.tag, event.m_tag_index.index);
+  auto item_to_remove = event.m_item->GetItem(event.m_tag_index.tag, event.m_tag_index.index);
 
   if (item_to_remove == p_impl->GetRootItem()
       || utils::IsItemAncestor(p_impl->GetRootItem(), item_to_remove))

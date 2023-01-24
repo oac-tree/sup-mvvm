@@ -45,57 +45,61 @@ struct DataChangedEvent
 };
 
 //! An event when an item's property has changed.
-//! An item's property is another item added with CompoundItem::AddProperty(name) command.
-//! The change of the data of this item will trigger PropertyChangedEvent for it's parent.
+//! An item's property is another child item added with CompoundItem::AddProperty(name) command.
+//! The change of the data of this child will trigger PropertyChangedEvent for it's parent.
 
 struct PropertyChangedEvent
 {
-  SessionItem* m_item{nullptr};  //! item those property has changed
+  SessionItem* m_item{nullptr};  //! item whose property has changed
   std::string m_name;            //! the name of the changed property
 
   bool operator==(const PropertyChangedEvent& other) const;
   bool operator!=(const PropertyChangedEvent& other) const;
 };
 
-//! An event when item is about to be inserted in the model.
+//! An event when item is about to be inserted in the model. It reports the parent, and address of
+//! the child.
 
 struct AboutToInsertItemEvent
 {
-  SessionItem* m_parent{nullptr};  //! item which is getting a new child
-  TagIndex m_tag_index;            //! position of a child
+  SessionItem* m_item{nullptr};  //! item that is about to get a new child
+  TagIndex m_tag_index;          //! position of a child
 
   bool operator==(const AboutToInsertItemEvent& other) const;
   bool operator!=(const AboutToInsertItemEvent& other) const;
 };
 
-//! An event when item was inserted in the model.
+//! An event when item was inserted in the model. It reports the parent, and address of
+//! the child.
 
 struct ItemInsertedEvent
 {
-  SessionItem* m_parent{nullptr};  //! item which is getting a new child
-  TagIndex m_tag_index;            //! position of a child
+  SessionItem* m_item{nullptr};  //! item that got a new child (i.e. parent)
+  TagIndex m_tag_index;          //! position of a child
 
   bool operator==(const ItemInsertedEvent& other) const;
   bool operator!=(const ItemInsertedEvent& other) const;
 };
 
-//! An event when item is about to be removed from the model.
+//! An event when item is about to be removed from the model. It reports the parent, and address of
+//! the child.
 
 struct AboutToRemoveItemEvent
 {
-  SessionItem* m_parent{nullptr};  //! item whose child is about to be removed
-  TagIndex m_tag_index;            //! position of a child
+  SessionItem* m_item{nullptr};  //! item whose child is about to be removed
+  TagIndex m_tag_index;          //! position of a child
 
   bool operator==(const AboutToRemoveItemEvent& other) const;
   bool operator!=(const AboutToRemoveItemEvent& other) const;
 };
 
-//! An event when item was removed from the model.
+//! An event when item was removed from the model. It reports the parent, and address of
+//! the child.
 
 struct ItemRemovedEvent
 {
-  SessionItem* m_parent{nullptr};  //! item whose child was removed
-  TagIndex m_tag_index;            //! position of a child
+  SessionItem* m_item{nullptr};  //! item whose child was removed
+  TagIndex m_tag_index;          //! position of a child
 
   bool operator==(const ItemRemovedEvent& other) const;
   bool operator!=(const ItemRemovedEvent& other) const;

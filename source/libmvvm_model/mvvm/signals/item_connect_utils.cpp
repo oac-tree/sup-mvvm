@@ -56,7 +56,7 @@ Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t 
   auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemInsertedEvent>(event);
-    auto item = concrete_event.m_parent;
+    auto item = concrete_event.m_item;
     auto tag_index = concrete_event.m_tag_index;
     if (item == source)
     {
@@ -76,7 +76,7 @@ Connection OnItemInserted(SessionItem *source, const callback_t &func, Slot *slo
   auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemInsertedEvent>(event);
-    if (concrete_event.m_parent == source)
+    if (concrete_event.m_item == source)
     {
       func(concrete_event);  // calling user provided callback
     }
@@ -95,7 +95,7 @@ Connection OnAboutToRemoveItem(SessionItem *source, const Callbacks::item_tagind
   auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
-    auto item = concrete_event.m_parent;
+    auto item = concrete_event.m_item;
     auto tag_index = concrete_event.m_tag_index;
 
     if (item == source)
@@ -116,7 +116,7 @@ Connection OnAboutToRemoveItem(SessionItem *source, const callback_t &func, Slot
   auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<AboutToRemoveItemEvent>(event);
-    if (concrete_event.m_parent == source)
+    if (concrete_event.m_item == source)
     {
       func(concrete_event);  // calling user provided callback
     }
@@ -133,7 +133,7 @@ Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &
   auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemRemovedEvent>(event);
-    auto item = concrete_event.m_parent;
+    auto item = concrete_event.m_item;
     auto tag_index = concrete_event.m_tag_index;
 
     if (item == source)
@@ -154,7 +154,7 @@ Connection OnItemRemoved(SessionItem *source, const callback_t &func, Slot *slot
   auto filtered_callback = [func, source](const event_variant_t &event)
   {
     auto concrete_event = std::get<ItemRemovedEvent>(event);
-    if (concrete_event.m_parent == source)
+    if (concrete_event.m_item == source)
     {
       func(concrete_event);  // calling user provided callback
     }

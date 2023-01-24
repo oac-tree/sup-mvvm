@@ -56,7 +56,7 @@ bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
 
 bool AboutToInsertItemEvent::operator==(const AboutToInsertItemEvent& other) const
 {
-  return m_parent == other.m_parent && m_tag_index == other.m_tag_index;
+  return m_item == other.m_item && m_tag_index == other.m_tag_index;
 }
 
 bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) const
@@ -70,7 +70,7 @@ bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) con
 
 bool ItemInsertedEvent::operator==(const ItemInsertedEvent& other) const
 {
-  return m_parent == other.m_parent && m_tag_index == other.m_tag_index;
+  return m_item == other.m_item && m_tag_index == other.m_tag_index;
 }
 
 bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
@@ -84,7 +84,7 @@ bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
 
 bool AboutToRemoveItemEvent::operator==(const AboutToRemoveItemEvent& other) const
 {
-  return m_parent == other.m_parent && m_tag_index == other.m_tag_index;
+  return m_item == other.m_item && m_tag_index == other.m_tag_index;
 }
 
 bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) const
@@ -98,7 +98,7 @@ bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) con
 
 bool ItemRemovedEvent::operator==(const ItemRemovedEvent& other) const
 {
-  return m_parent == other.m_parent && m_tag_index == other.m_tag_index;
+  return m_item == other.m_item && m_tag_index == other.m_tag_index;
 }
 
 bool ItemRemovedEvent::operator!=(const ItemRemovedEvent& other) const

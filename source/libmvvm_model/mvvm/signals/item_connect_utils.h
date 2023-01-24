@@ -47,7 +47,7 @@ void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const
   {
     auto concrete_event = std::get<EventT>(event);
 
-    if (concrete_event.m_parent == source)
+    if (concrete_event.m_item == source)
     {
       std::invoke(method, *widget, concrete_event);
     }
