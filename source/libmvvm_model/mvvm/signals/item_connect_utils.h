@@ -73,6 +73,9 @@ MVVM_MODEL_EXPORT Connection OnItemRemoved(SessionItem* source,
 MVVM_MODEL_EXPORT Connection OnDataChanged(SessionItem* source, const Callbacks::item_int_t& func,
                                            Slot* slot = nullptr);
 
+MVVM_MODEL_EXPORT Connection OnDataChanged(SessionItem* source, const callback_t& func,
+                                           Slot* slot = nullptr);
+
 //! Sets callback to be notified on item's property change.
 //! The callback will be called with (compound_item, property_name).
 MVVM_MODEL_EXPORT Connection OnPropertyChanged(SessionItem* source,

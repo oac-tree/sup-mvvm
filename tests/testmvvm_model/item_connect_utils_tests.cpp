@@ -69,6 +69,9 @@ public:
       auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
       connect::OnDataChanged(item, on_data_changed, m_slot.get());
 
+      auto on_data_changed_event = [this](const event_variant_t& event) { OnDataChanged(event); };
+      connect::OnDataChanged(item, on_data_changed_event, m_slot.get());
+
       auto on_property_changed = [this](SessionItem* item, const std::string& name)
       { OnPropertyChanged(item, name); };
       connect::OnPropertyChanged(item, on_property_changed, m_slot.get());
@@ -84,6 +87,8 @@ public:
     MOCK_METHOD(void, OnItemRemoved, (const mvvm::event_variant_t& event));
 
     MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
+    MOCK_METHOD(void, OnDataChanged, (const mvvm::event_variant_t& event));
+
     MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
 
     std::unique_ptr<Slot> m_slot;
@@ -124,6 +129,9 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
 
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
 
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+
   // trigger calls
   item->SetData(45, expected_role);
 }
@@ -142,11 +150,17 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
 
   // expect notification
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+
   item->SetData(45, expected_role);
 
   // disconnect widget, expect no notifications
   widget.m_slot.reset();
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+
+  // no notifications are expected here, strict mock will notify us if it's not the case
+
   item->SetData(46, expected_role);
 }
 
@@ -164,10 +178,14 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
 
   // expect notification
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+
   item->SetData(45, expected_role);
 
-  // same data, expect no notifications
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+  // no notifications are expected here, strict mock will notify us if it's not the case
+
   item->SetData(45, expected_role);
 }
 
