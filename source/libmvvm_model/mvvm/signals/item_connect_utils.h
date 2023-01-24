@@ -27,6 +27,8 @@
 #include <mvvm/signals/callback_types.h>
 #include <mvvm/signals/model_event_handler.h>
 
+#include <optional>
+
 namespace mvvm
 {
 class SessionItem;
@@ -38,6 +40,9 @@ namespace mvvm::connect
 using callback_t = std::function<void(const event_variant_t&)>;
 
 ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item);
+
+std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* source,
+                                                                  const event_variant_t& event);
 
 template <typename EventT, typename WidgetT>
 void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const EventT&),
@@ -52,7 +57,7 @@ void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const
       std::invoke(method, *widget, concrete_event);
     }
   };
-  GetEventHandler(source)->Connect<EventT>(adapter);
+  GetEventHandler(source)->Connect<EventT>(adapter, slot);
 }
 
 //! Sets callback to be notified on item insert. The callback will be called with

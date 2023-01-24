@@ -76,8 +76,7 @@ public:
       auto on_item_removed_event = [this](const event_variant_t& event) { OnItemRemoved(event); };
       connect::OnItemRemoved(item, on_item_removed_event, m_slot.get());
 
-      connect::Connect<ItemRemovedEvent>(item, this, &MockWidget::OnConcreteEvent,
-                                               m_slot.get());
+      connect::Connect<ItemRemovedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
       // data changed
 
@@ -87,8 +86,7 @@ public:
       auto on_data_changed_event = [this](const event_variant_t& event) { OnDataChanged(event); };
       connect::OnDataChanged(item, on_data_changed_event, m_slot.get());
 
-//      connect::Connect<DataChangedEvent>(item, this, &MockWidget::OnConcreteEvent,
-//                                               m_slot.get());
+      connect::Connect<DataChangedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
       // property changed
 
@@ -115,7 +113,7 @@ public:
 
     MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
     MOCK_METHOD(void, OnDataChanged, (const mvvm::event_variant_t& event));
-//    MOCK_METHOD(void, OnConcreteEvent, (const DataChangedEvent& event));
+    MOCK_METHOD(void, OnConcreteEvent, (const DataChangedEvent& event));
 
     MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
     MOCK_METHOD(void, OnPropertyChanged, (const mvvm::event_variant_t& event));
@@ -160,6 +158,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
 
   DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -182,6 +181,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
 
   DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   item->SetData(45, expected_role);
 
@@ -210,6 +210,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
 
   DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   item->SetData(45, expected_role);
 

@@ -47,6 +47,17 @@ mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
       "Error in ItemConnectUtils: item's model doesn't have signaling capabilities");
 }
 
+std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem *source,
+                                                                  const event_variant_t &event)
+{
+  auto concrete_event = std::get<DataChangedEvent>(event);
+  if (utils::GetNestlingDepth(source, concrete_event.m_item) == 1)
+  {
+    return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.m_item).tag};
+  }
+  return {};
+}
+
 Connection OnItemInserted(SessionItem *source, const Callbacks::item_tagindex_t &func, Slot *slot)
 {
   auto event_handler = GetEventHandler(source);
