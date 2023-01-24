@@ -71,6 +71,8 @@ public:
 
     std::unique_ptr<Slot> m_slot;
   };
+
+  using mock_listener_t = ::testing::StrictMock<MockWidget>;
 };
 
 //! Initialisation of the connection with wrong type of the model.
@@ -99,15 +101,11 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  MockWidget widget(item);
+  mock_listener_t widget(item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
   EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -121,7 +119,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  MockWidget widget(item);
+  mock_listener_t widget(item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
@@ -143,7 +141,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  MockWidget widget(item);
+  mock_listener_t widget(item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
@@ -166,7 +164,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
   auto item2 = model.InsertItem<SessionItem>();
   item2->SetData(43, DataRole::kData);
 
-  MockWidget widget(item1);
+  mock_listener_t widget(item1);
 
   // expect no notification
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
@@ -181,16 +179,11 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
 
   ApplicationModel model;
   auto item = model.InsertItem<CompoundItem>();
-  auto property = item->AddProperty(property_name, 42.0);
+  item->AddProperty(property_name, 42.0);
 
-  MockWidget widget(item);
+  mock_listener_t widget(item);
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
 
   // trigger calls
@@ -205,14 +198,10 @@ TEST_F(ItemConnectUtilsTests, OnItemInserted)
   auto compound = model.InsertItem<CompoundItem>();
   compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  MockWidget widget(compound);
+  mock_listener_t widget(compound);
 
   const TagIndex expected_tagindex{"tag1", 0};
   EXPECT_CALL(widget, OnItemInserted(compound, expected_tagindex)).Times(1);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemRemoved(_, _)).Times(0);
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // perform action
   model.InsertItem<CompoundItem>(compound, expected_tagindex);
@@ -229,7 +218,7 @@ TEST_F(ItemConnectUtilsTests, OnItemRemoved)
   compound->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
-  MockWidget widget(compound);
+  mock_listener_t widget(compound);
 
   EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   {
@@ -237,8 +226,6 @@ TEST_F(ItemConnectUtilsTests, OnItemRemoved)
     EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
     EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
   }
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
 
   // perform action
   model.RemoveItem(child);
