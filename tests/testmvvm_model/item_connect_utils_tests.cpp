@@ -47,12 +47,16 @@ public:
       { OnItemInserted(item, tag_index); };
       connect::OnItemInserted(item, on_item_inserted, m_slot.get());
 
-      auto on_event = [this](const event_variant_t& event) { OnItemInserted(event); };
-      connect::OnItemInserted(item, on_event, m_slot.get());
+      auto on_item_inserted_event = [this](const event_variant_t& event) { OnItemInserted(event); };
+      connect::OnItemInserted(item, on_item_inserted_event, m_slot.get());
 
       auto on_about_to_remove_item = [this](SessionItem* item, const TagIndex& tag_index)
       { OnAboutToRemoveItem(item, tag_index); };
       connect::OnAboutToRemoveItem(item, on_about_to_remove_item, m_slot.get());
+
+      auto on_about_to_remove_item_event = [this](const event_variant_t& event)
+      { OnAboutToRemoveItem(event); };
+      connect::OnAboutToRemoveItem(item, on_about_to_remove_item_event, m_slot.get());
 
       auto on_item_removed = [this](SessionItem* item, const TagIndex& tag_index)
       { OnItemRemoved(item, tag_index); };
@@ -70,6 +74,8 @@ public:
     MOCK_METHOD(void, OnItemInserted, (const mvvm::event_variant_t& event));
 
     MOCK_METHOD(void, OnAboutToRemoveItem, (SessionItem * item, TagIndex tagindex));
+    MOCK_METHOD(void, OnAboutToRemoveItem, (const mvvm::event_variant_t& event));
+
     MOCK_METHOD(void, OnItemRemoved, (SessionItem * item, TagIndex tagindex));
     MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
     MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
@@ -232,6 +238,10 @@ TEST_F(ItemConnectUtilsTests, OnItemRemoved)
   {
     ::testing::InSequence seq;
     EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
+
+    AboutToRemoveItemEvent expected_event{compound, expected_tagindex};
+    EXPECT_CALL(widget, OnAboutToRemoveItem(event_variant_t(expected_event))).Times(1);
+
     EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
   }
 

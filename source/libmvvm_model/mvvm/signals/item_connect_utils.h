@@ -54,6 +54,10 @@ MVVM_MODEL_EXPORT Connection OnAboutToRemoveItem(SessionItem* source,
                                                  const Callbacks::item_tagindex_t& func,
                                                  Slot* slot = nullptr);
 
+MVVM_MODEL_EXPORT Connection OnAboutToRemoveItem(SessionItem* source,
+                                                 const callback_t& func,
+                                                 Slot* slot = nullptr);
+
 //! Sets callback to be notified on item remove. The callback wil be called with
 //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position before the removal.
 MVVM_MODEL_EXPORT Connection OnItemRemoved(SessionItem* source,
