@@ -62,8 +62,7 @@ public:
       { OnItemRemoved(item, tag_index); };
       connect::OnItemRemoved(item, on_item_removed, m_slot.get());
 
-      auto on_item_removed_event = [this](const event_variant_t& event)
-      { OnItemRemoved(event); };
+      auto on_item_removed_event = [this](const event_variant_t& event) { OnItemRemoved(event); };
       connect::OnItemRemoved(item, on_item_removed_event, m_slot.get());
 
       auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
@@ -75,6 +74,10 @@ public:
       auto on_property_changed = [this](SessionItem* item, const std::string& name)
       { OnPropertyChanged(item, name); };
       connect::OnPropertyChanged(item, on_property_changed, m_slot.get());
+
+      auto on_property_changed_event = [this](const event_variant_t& event)
+      { OnPropertyChanged(event); };
+      connect::OnPropertyChanged(item, on_property_changed_event, m_slot.get());
     }
 
     MOCK_METHOD(void, OnItemInserted, (SessionItem * item, TagIndex tagindex));
@@ -90,6 +93,7 @@ public:
     MOCK_METHOD(void, OnDataChanged, (const mvvm::event_variant_t& event));
 
     MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
+    MOCK_METHOD(void, OnPropertyChanged, (const mvvm::event_variant_t& event));
 
     std::unique_ptr<Slot> m_slot;
   };
@@ -220,6 +224,9 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
   const auto expected_item = item;
 
   EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
+
+  PropertyChangedEvent expected_event{expected_item, property_name};
+  EXPECT_CALL(widget, OnPropertyChanged(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
   item->SetProperty(property_name, 43.0);

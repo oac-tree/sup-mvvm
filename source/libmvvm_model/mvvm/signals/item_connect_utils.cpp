@@ -225,4 +225,22 @@ Connection OnPropertyChanged(SessionItem *source, const Callbacks::item_str_t &f
   return event_handler->Connect<DataChangedEvent>(filtered_callback, slot);
 }
 
+Connection OnPropertyChanged(SessionItem *source, const callback_t &func, Slot *slot)
+{
+  auto event_handler = GetEventHandler(source);
+
+  // Create a callback with filtering capabilities to call user callback only when the event had
+  // happened with our source. User callback `func` is passed by copy.
+  auto filtered_callback = [func, source](const event_variant_t &event)
+  {
+    auto concrete_event = std::get<DataChangedEvent>(event);
+    if (utils::GetNestlingDepth(source, concrete_event.m_item) == 1)
+    {
+      // calling user provided callback, when property of the source has changed
+      func(PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.m_item).tag});
+    }
+  };
+  return event_handler->Connect<DataChangedEvent>(filtered_callback, slot);
+}
+
 }  // namespace mvvm::connect

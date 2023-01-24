@@ -54,8 +54,7 @@ MVVM_MODEL_EXPORT Connection OnAboutToRemoveItem(SessionItem* source,
                                                  const Callbacks::item_tagindex_t& func,
                                                  Slot* slot = nullptr);
 
-MVVM_MODEL_EXPORT Connection OnAboutToRemoveItem(SessionItem* source,
-                                                 const callback_t& func,
+MVVM_MODEL_EXPORT Connection OnAboutToRemoveItem(SessionItem* source, const callback_t& func,
                                                  Slot* slot = nullptr);
 
 //! Sets callback to be notified on item remove. The callback wil be called with
@@ -64,8 +63,7 @@ MVVM_MODEL_EXPORT Connection OnItemRemoved(SessionItem* source,
                                            const Callbacks::item_tagindex_t& func,
                                            Slot* slot = nullptr);
 
-MVVM_MODEL_EXPORT Connection OnItemRemoved(SessionItem* source,
-                                           const callback_t& func,
+MVVM_MODEL_EXPORT Connection OnItemRemoved(SessionItem* source, const callback_t& func,
                                            Slot* slot = nullptr);
 
 //! Sets callback to be notified on item's data change. The callback will be called
@@ -80,6 +78,11 @@ MVVM_MODEL_EXPORT Connection OnDataChanged(SessionItem* source, const callback_t
 //! The callback will be called with (compound_item, property_name).
 MVVM_MODEL_EXPORT Connection OnPropertyChanged(SessionItem* source,
                                                const Callbacks::item_str_t& func,
+                                               Slot* slot = nullptr);
+
+//! Sets callback to be notified on item's property change.
+//! The callback will be called with (compound_item, property_name).
+MVVM_MODEL_EXPORT Connection OnPropertyChanged(SessionItem* source, const callback_t& func,
                                                Slot* slot = nullptr);
 
 }  // namespace mvvm::connect
