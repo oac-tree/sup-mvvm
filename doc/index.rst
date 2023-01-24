@@ -8,6 +8,7 @@ Collection of C++/Qt common components for Operational Application User Interfac
   :caption: Contents:
 
   Introduction <self>
+  installation
   quick-start
   context
   main-components
