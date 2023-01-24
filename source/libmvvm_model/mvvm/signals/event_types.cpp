@@ -28,10 +28,24 @@ namespace mvvm
 
 bool DataChangedEvent::operator==(const DataChangedEvent& other) const
 {
-  return m_data_role == other.m_data_role && m_item == other.m_item;
+  return m_item == other.m_item && m_data_role == other.m_data_role;
 }
 
 bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
+{
+  return !(*this == other);
+}
+
+// ----------------------------------------------------------------------------
+// PropertyChangedEvent
+// ----------------------------------------------------------------------------
+
+bool PropertyChangedEvent::operator==(const PropertyChangedEvent& other) const
+{
+  return m_item == other.m_item && m_name == other.m_name;
+}
+
+bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
 {
   return !(*this == other);
 }

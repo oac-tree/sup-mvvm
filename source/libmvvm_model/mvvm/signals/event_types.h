@@ -33,7 +33,7 @@ namespace mvvm
 class SessionItem;
 class SessionModelInterface;
 
-//! An event when item's data is changed.
+//! An event when item's data has changed.
 
 struct DataChangedEvent
 {
@@ -42,6 +42,19 @@ struct DataChangedEvent
 
   bool operator==(const DataChangedEvent& other) const;
   bool operator!=(const DataChangedEvent& other) const;
+};
+
+//! An event when an item's property has changed.
+//! An item's property is another item added with CompoundItem::AddProperty(name) command.
+//! The change of the data of this item will trigger PropertyChangedEvent for it's parent.
+
+struct PropertyChangedEvent
+{
+  SessionItem* m_item{nullptr};  //! item those property has changed
+  std::string m_name;            //! the name of the changed property
+
+  bool operator==(const PropertyChangedEvent& other) const;
+  bool operator!=(const PropertyChangedEvent& other) const;
 };
 
 //! An event when item is about to be inserted in the model.
@@ -120,7 +133,7 @@ struct ModelAboutToBeDestroyedEvent
 
 //! Variant for all application events.
 using event_variant_t =
-    std::variant<DataChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
+    std::variant<DataChangedEvent, PropertyChangedEvent, AboutToInsertItemEvent, ItemInsertedEvent,
                  AboutToRemoveItemEvent, ItemRemovedEvent, ModelAboutToBeResetEvent,
                  ModelResetEvent, ModelAboutToBeDestroyedEvent>;
 

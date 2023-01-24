@@ -46,6 +46,9 @@ public:
     void operator()(const DataChangedEvent& event) { OnDataChangedEvent(event); }
     MOCK_METHOD(void, OnDataChangedEvent, (const DataChangedEvent& event));
 
+    void operator()(const PropertyChangedEvent& event) { OnPropertyChangedEvent(event); }
+    MOCK_METHOD(void, OnPropertyChangedEvent, (const PropertyChangedEvent& event));
+
     void operator()(const AboutToInsertItemEvent& event) { OnAboutToInsertItemEvent(event); }
     MOCK_METHOD(void, OnAboutToInsertItemEvent, (const AboutToInsertItemEvent& event));
 

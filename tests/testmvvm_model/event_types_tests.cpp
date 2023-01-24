@@ -36,6 +36,8 @@ class EventTypesTests : public ::testing::Test
 public:
   int m_value1{42};
   int m_value2{43};
+  std::string m_str1{"24"};
+  std::string m_str2{"43"};
   SessionItem m_item1;
   SessionItem m_item2;
   TagIndex m_tagindex1{"abc", 1};
@@ -49,6 +51,22 @@ TEST_F(EventTypesTests, DataChangedEvent)
   DataChangedEvent event1{&m_item1, m_value1};
   DataChangedEvent event2{&m_item1, m_value1};
   DataChangedEvent event3{&m_item1, m_value2};
+
+  // comparing same events
+  EXPECT_TRUE(event1 == event1);
+  EXPECT_TRUE(event1 == event2);
+  EXPECT_FALSE(event1 != event2);
+
+  // comparing different events
+  EXPECT_FALSE(event1 == event3);
+  EXPECT_TRUE(event1 != event3);
+}
+
+TEST_F(EventTypesTests, PropertyChangedEvent)
+{
+  PropertyChangedEvent event1{&m_item1, m_str1};
+  PropertyChangedEvent event2{&m_item1, m_str1};
+  PropertyChangedEvent event3{&m_item1, m_str2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
