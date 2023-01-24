@@ -47,6 +47,9 @@ public:
       { OnItemInserted(item, tag_index); };
       connect::OnItemInserted(item, on_item_inserted, m_slot.get());
 
+      auto on_event = [this](const event_variant_t& event) { OnItemInserted(event); };
+      connect::OnItemInserted(item, on_event, m_slot.get());
+
       auto on_about_to_remove_item = [this](SessionItem* item, const TagIndex& tag_index)
       { OnAboutToRemoveItem(item, tag_index); };
       connect::OnAboutToRemoveItem(item, on_about_to_remove_item, m_slot.get());
@@ -64,6 +67,8 @@ public:
     }
 
     MOCK_METHOD(void, OnItemInserted, (SessionItem * item, TagIndex tagindex));
+    MOCK_METHOD(void, OnItemInserted, (const mvvm::event_variant_t& event));
+
     MOCK_METHOD(void, OnAboutToRemoveItem, (SessionItem * item, TagIndex tagindex));
     MOCK_METHOD(void, OnItemRemoved, (SessionItem * item, TagIndex tagindex));
     MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
@@ -202,6 +207,9 @@ TEST_F(ItemConnectUtilsTests, OnItemInserted)
 
   const TagIndex expected_tagindex{"tag1", 0};
   EXPECT_CALL(widget, OnItemInserted(compound, expected_tagindex)).Times(1);
+
+  ItemInsertedEvent expected_event{compound, expected_tagindex};
+  EXPECT_CALL(widget, OnItemInserted(event_variant_t(expected_event))).Times(1);
 
   // perform action
   model.InsertItem<CompoundItem>(compound, expected_tagindex);

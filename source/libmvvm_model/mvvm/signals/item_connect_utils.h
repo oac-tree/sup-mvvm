@@ -25,6 +25,7 @@
 
 #include <mvvm/model_export.h>
 #include <mvvm/signals/callback_types.h>
+#include <mvvm/signals/event_types.h>
 #include <mvvm/signals/signal_slot.h>
 
 namespace mvvm
@@ -35,10 +36,15 @@ class SessionItem;
 namespace mvvm::connect
 {
 
+using callback_t = std::function<void(const event_variant_t&)>;
+
 //! Sets callback to be notified on item insert. The callback will be called with
 //! (SessionItem* parent, tag_index), where 'tag_index' denotes child position after insert.
 MVVM_MODEL_EXPORT Connection OnItemInserted(SessionItem* source,
                                             const Callbacks::item_tagindex_t& func,
+                                            Slot* slot = nullptr);
+
+MVVM_MODEL_EXPORT Connection OnItemInserted(SessionItem* source, const callback_t& func,
                                             Slot* slot = nullptr);
 
 //! Sets callback to be notified when the item is about to be removed. The callback will be
