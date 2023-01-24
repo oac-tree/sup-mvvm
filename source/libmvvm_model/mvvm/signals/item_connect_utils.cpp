@@ -149,6 +149,25 @@ Connection OnItemRemoved(SessionItem *source, const Callbacks::item_tagindex_t &
   return event_handler->Connect<ItemRemovedEvent>(filtered_callback, slot);
 }
 
+Connection OnItemRemoved(SessionItem *source, const callback_t& func, Slot *slot)
+{
+  auto event_handler = GetEventHandler(source);
+
+  // Create a callback with filtering capabilities to call user callback only when the event had
+  // happened with our source. User callback `func` is passed by copy.
+  auto filtered_callback = [func, source](const event_variant_t &event)
+  {
+    auto concrete_event = std::get<ItemRemovedEvent>(event);
+    if (concrete_event.m_parent == source)
+    {
+      func(concrete_event);  // calling user provided callback
+    }
+  };
+
+  return event_handler->Connect<ItemRemovedEvent>(filtered_callback, slot);
+}
+
+
 Connection OnDataChanged(SessionItem *source, const Callbacks::item_int_t &func, Slot *slot)
 {
   auto event_handler = GetEventHandler(source);
