@@ -53,7 +53,7 @@ std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem *s
   // DataChangedEvent happened with property item can be converted to PropertyChangedEvent of its
   // parent.
   auto concrete_event = std::get<DataChangedEvent>(event);
-  if (utils::GetNestlingDepth(source, concrete_event.m_item) == 1)
+  if (source == concrete_event.m_item->GetParent())
   {
     return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.m_item).tag};
   }

@@ -70,7 +70,7 @@ void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const
         std::invoke(method, *widget, concrete_event.value());
       }
     };
-    // we subscribe to DataChangedEvent an adapter
+    // note: subscribe to DataChangedEvent, not PropertyChangedEvent
     GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
   }
 
@@ -81,7 +81,7 @@ void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const
     auto adapter = [source, widget, method](const event_variant_t& event)
     {
       auto concrete_event = std::get<EventT>(event);
-      // only events which are coming from the requested source will be
+      // only events which are coming from the requested source will be propagated
       if (concrete_event.m_item == source)
       {
         std::invoke(method, *widget, concrete_event);
