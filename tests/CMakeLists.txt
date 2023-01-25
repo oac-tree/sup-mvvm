@@ -1,6 +1,6 @@
 enable_testing()
 
-find_package(GTest 1.10 QUIET)
+find_package(GTest 1.10 QUIET CONFIG)
 if (GTest_FOUND)
   message(STATUS "Found GTest: suitable version \"${GTest_VERSION}\", with minimum required \"1.10\"" )
 else()
