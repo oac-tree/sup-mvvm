@@ -82,7 +82,7 @@ std::vector<double> GraphItem::GetErrors() const
   return GetDataItem() ? GetDataItem()->GetErrors() : std::vector<double>();
 }
 
-//! Returns color name in #RRGGBB format.
+//! Returns color name in `#RRGGBB` format.
 
 std::string GraphItem::GetNamedColor() const
 {
