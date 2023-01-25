@@ -28,8 +28,8 @@ endif()
 # instantiations of QApplication.
 
 add_custom_target(testall
-  COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testmvvm_view
-  COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testmvvm_integration
-  COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testmvvm_viewmodel
-  COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/testmvvm_model
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_view
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_integration
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_viewmodel
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_model
 )
