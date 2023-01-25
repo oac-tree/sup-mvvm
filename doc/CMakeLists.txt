@@ -4,7 +4,7 @@
 # --- Finding Doxygen ---
 find_package(Doxygen)
 if(NOT DOXYGEN_FOUND)
-  message(INFO "No doxygen found, skipping documentation generation")
+  message(STATUS "No doxygen found, skipping documentation generation")
   return()
 endif()
 
