@@ -25,14 +25,23 @@
 namespace mvvm::utils
 {
 
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
 //! Returns true if two doubles agree within epsilon*tolerance.
-MVVM_MODEL_EXPORT bool AreAlmostEqual(double a, double b, double tolerance_factor = 1.0);
+bool AreAlmostEqual(double a, double b, double tolerance_factor = 1.0);
 
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
 //! Produces random integer values uniformly distributed on the closed interval [low, high].
-MVVM_MODEL_EXPORT int RandInt(int low, int high);
+int RandInt(int low, int high);
 
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
 //! Produces random FLOAT values uniformly distributed on the  interval [low, high).
-MVVM_MODEL_EXPORT double RandDouble(double low, double high);
+double RandDouble(double low, double high);
 
 }  // namespace mvvm::utils
 

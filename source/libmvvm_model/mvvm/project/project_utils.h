@@ -37,16 +37,31 @@ struct ProjectContext;
 namespace ProjectUtils
 {
 
-MVVM_MODEL_EXPORT std::string SuggestFileName(const SessionModelInterface& model);
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
+std::string SuggestFileName(const SessionModelInterface& model);
 
-MVVM_MODEL_EXPORT bool IsPossibleProjectDir(const std::string& project_dir);
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
+bool IsPossibleProjectDir(const std::string& project_dir);
 
-MVVM_MODEL_EXPORT std::unique_ptr<ProjectInterface> CreateUntitledProject(
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
+std::unique_ptr<ProjectInterface> CreateUntitledProject(
     const ProjectContext& context);
 
-MVVM_MODEL_EXPORT std::string ProjectWindowTitle(const ProjectInterface& project);
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
+std::string ProjectWindowTitle(const ProjectInterface& project);
 
-MVVM_MODEL_EXPORT std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified);
+//! @cond DoNotParse
+MVVM_MODEL_EXPORT
+//! @endcond
+std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified);
 
 }  // namespace ProjectUtils
 
