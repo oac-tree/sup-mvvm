@@ -20,7 +20,7 @@
 #ifndef MVVM_CORE_VERSION_H_
 #define MVVM_CORE_VERSION_H_
 
-//! @file version.h
+//! @file
 //! Automatically generated from version.h.in
 
 #include <string>

@@ -20,7 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_EDITOR_CONSTANTS_H_
 #define MVVM_STANDARDITEMS_EDITOR_CONSTANTS_H_
 
-//! @file editor_constants.h
+//! @file
 //! Collection of constants specific for cell editing.
 
 #include <string>

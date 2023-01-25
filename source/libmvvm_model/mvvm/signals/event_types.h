@@ -20,7 +20,7 @@
 #ifndef MVVM_SIGNALS_EVENT_TYPES_H_
 #define MVVM_SIGNALS_EVENT_TYPES_H_
 
-//! @file event_types.h
+//! @file
 //! Defines collection of event types.
 
 #include <mvvm/model/tagindex.h>

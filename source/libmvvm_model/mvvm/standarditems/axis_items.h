@@ -20,7 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_AXIS_ITEMS_H_
 #define MVVM_STANDARDITEMS_AXIS_ITEMS_H_
 
-//! @file axis_items.h
+//! @file
 //! Collection of axis items for 1D and 2D data/plotting support.
 
 #include <mvvm/model/compound_item.h>

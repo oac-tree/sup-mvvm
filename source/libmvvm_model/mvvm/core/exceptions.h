@@ -20,7 +20,7 @@
 #ifndef MVVM_CORE_EXCEPTIONS_H_
 #define MVVM_CORE_EXCEPTIONS_H_
 
-//! @file exceptions.h
+//! @file
 //! Defines collection of MVVM specific exceptions.
 
 #include <exception>

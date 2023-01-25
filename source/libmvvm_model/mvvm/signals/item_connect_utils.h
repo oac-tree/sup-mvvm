@@ -20,7 +20,7 @@
 #ifndef MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
 #define MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
 
-//! @file item_connect_utils.h
+//! @file
 //! Utility functions to connect user callbacks with events happening with given item.
 
 #include <mvvm/model_export.h>

@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_TREEDATA_ITEMDATA_CONVERTER_H_
 #define MVVM_SERIALIZATION_TREEDATA_ITEMDATA_CONVERTER_H_
 
-//! @file treedataitemdataconverter.h
+//! @file
 //! Declares class TreeDataItemDataConverter to convert SessionItemData
 //! to/from TreeData objects.
 

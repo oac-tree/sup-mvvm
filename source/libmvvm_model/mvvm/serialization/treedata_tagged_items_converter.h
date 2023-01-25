@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_TREEDATA_TAGGED_ITEMS_CONVERTER_H_
 #define MVVM_SERIALIZATION_TREEDATA_TAGGED_ITEMS_CONVERTER_H_
 
-//! @file treedatataggeditemsconverter.h
+//! @file
 //! Declares class TreeDataTaggedItemsConverter to convert TaggedItems
 //! to/from TreeData objects.
 

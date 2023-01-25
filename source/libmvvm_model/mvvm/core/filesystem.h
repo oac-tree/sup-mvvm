@@ -20,8 +20,8 @@
 #ifndef MVVM_CORE_FILESYSTEM_H
 #define MVVM_CORE_FILESYSTEM_H
 
-//! @file Include of <filesystem> library for older compilers (<gcc8.0)
-//! See
+//! @file
+//! Include of <filesystem> library for older compilers (<gcc8.0). See
 //! https://stackoverflow.com/questions/53365538/how-to-determine-whether-to-use-filesystem-or-experimental-filesystem
 
 // We haven't checked which filesystem to include yet

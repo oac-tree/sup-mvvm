@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_TREEDATA_VARIANT_CONVERTER_H_
 #define MVVM_SERIALIZATION_TREEDATA_VARIANT_CONVERTER_H_
 
-//! @file treedatavariant_converter.h
+//! @file
 //! Declares utility functions to convert between TreeData and datarole_t objects.
 
 //! These are auxiliary functions to provide parsing of xml elements

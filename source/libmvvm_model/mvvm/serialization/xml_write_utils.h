@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
 #define MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
 
-//! @file xmlwriteutils.h
+//! @file
 //! Collection of utilities to write TreeData into XML files.
 
 #include <string>

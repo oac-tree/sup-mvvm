@@ -20,7 +20,7 @@
 #ifndef MVVM_CORE_VARIANT_H_
 #define MVVM_CORE_VARIANT_H_
 
-//! @file variant.h
+//! @file
 //! Defines all supported elementary data types.
 
 #include <mvvm/model/combo_property.h>

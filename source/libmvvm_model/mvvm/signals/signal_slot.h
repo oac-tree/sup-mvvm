@@ -20,7 +20,7 @@
 #ifndef MVVM_SIGNALS_SIGNAL_SLOT_H_
 #define MVVM_SIGNALS_SIGNAL_SLOT_H_
 
-//! @file signalslot.h
+//! @file
 //! Defines signal/slot types. For the moment relies on `lsignal` library, see
 //! lsignal.h for copyright.
 

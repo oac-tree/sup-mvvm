@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_LIMITS_UTILS_H_
 #define MVVM_SERIALIZATION_LIMITS_UTILS_H_
 
-//! @file limits_utils.h
+//! @file
 //! Utility functions to convert limits to string. Used to serialize Limits in XML.
 
 #include <mvvm/model_export.h>

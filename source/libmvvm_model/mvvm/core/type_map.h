@@ -20,7 +20,7 @@
 #ifndef MVVM_CORE_TYPE_MAP_H_
 #define MVVM_CORE_TYPE_MAP_H_
 
-//! @file type_map.h
+//! @file
 //! Map of types to store any value against type.
 //! Credits to https://gpfault.net/posts/mapping-types-to-values.txt.html
 

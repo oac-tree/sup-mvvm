@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_TREEDATA_ITEM_CONTAINER_CONVERTER_H_
 #define MVVM_SERIALIZATION_TREEDATA_ITEM_CONTAINER_CONVERTER_H_
 
-//! @file treedataitemcontainerconverter.h
+//! @file
 //! Declares utility functions to convert between TreeData and SessionItemContainer objects.
 
 //! These are auxiliary functions to provide parsing of xml elements

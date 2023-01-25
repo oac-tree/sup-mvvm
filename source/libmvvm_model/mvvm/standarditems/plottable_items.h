@@ -20,7 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_PLOTTABLE_ITEMS_H_
 #define MVVM_STANDARDITEMS_PLOTTABLE_ITEMS_H_
 
-//! @file plottable_items.h
+//! @file
 //! Collection of items to plot in QCustomPlot context.
 
 #include <mvvm/model/compound_item.h>

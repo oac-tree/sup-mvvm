@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_CONVERTER_TYPES_H_
 #define MVVM_SERIALIZATION_CONVERTER_TYPES_H_
 
-//! @file converter_types.h
+//! @file
 //! Collection of custom types involved into SessionItem and TreeData mutual convertion.
 
 #include <mvvm/model_export.h>
