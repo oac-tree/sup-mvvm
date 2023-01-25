@@ -22,6 +22,7 @@
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm::connect
@@ -31,20 +32,19 @@ mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
 {
   if (!item)
   {
-    throw std::runtime_error("Error in ItemConnectUtils: uninitialised item");
+    throw NullArgumentException("Error in ItemConnectUtils: uninitialised item");
   }
 
   if (!item->GetModel())
   {
-    throw std::runtime_error("Error in ItemConnectUtils: item doesn't have a model");
+    throw NullArgumentException("Error in ItemConnectUtils: item doesn't have a model");
   }
 
   if (auto event_handler = item->GetModel()->GetEventHandler(); event_handler)
   {
     return event_handler;
   }
-  throw std::runtime_error(
-      "Error in ItemConnectUtils: item's model doesn't have signaling capabilities");
+  throw LogicErrorException("The model doesn't have signaling capabilities");
 }
 
 std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem *source,

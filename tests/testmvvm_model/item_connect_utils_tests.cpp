@@ -21,7 +21,6 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
@@ -97,6 +96,9 @@ public:
       auto on_property_changed_event = [this](const event_variant_t& event)
       { OnPropertyChanged(event); };
       connect::OnPropertyChanged(item, on_property_changed_event, m_slot.get());
+
+      connect::Connect<PropertyChangedEvent>(item, this, &MockWidget::OnConcreteEvent,
+                                             m_slot.get());
     }
 
     MOCK_METHOD(void, OnItemInserted, (SessionItem * item, TagIndex tagindex));
@@ -117,12 +119,32 @@ public:
 
     MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
     MOCK_METHOD(void, OnPropertyChanged, (const mvvm::event_variant_t& event));
+    MOCK_METHOD(void, OnConcreteEvent, (const PropertyChangedEvent& event));
 
     std::unique_ptr<Slot> m_slot;
   };
 
   using mock_listener_t = ::testing::StrictMock<MockWidget>;
 };
+
+TEST_F(ItemConnectUtilsTests, GetEventHandler)
+{
+  EXPECT_THROW(connect::GetEventHandler(nullptr), NullArgumentException);
+
+  // item without the model doesn't have an event handler
+  const SessionItem item;
+  EXPECT_THROW(connect::GetEventHandler(&item), NullArgumentException);
+
+  // item belonging to SessionModel doesn't have an event handler
+  const SessionModel model;
+  EXPECT_THROW(connect::GetEventHandler(model.GetRootItem()), LogicErrorException);
+
+  // item belonging to ApplicationModel does have an event handler
+  const ApplicationModel application_model;
+  EXPECT_NO_THROW(connect::GetEventHandler(application_model.GetRootItem()));
+  EXPECT_NE(connect::GetEventHandler(application_model.GetRootItem()), nullptr);
+}
+
 
 //! Initialisation of the connection with wrong type of the model.
 
@@ -131,11 +153,11 @@ TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
   auto on_data_change = [this](SessionItem* item, int role) {};
 
   SessionItem item1;
-  EXPECT_THROW(connect::OnDataChanged(&item1, on_data_change), std::runtime_error);
+  EXPECT_THROW(connect::OnDataChanged(&item1, on_data_change), NullArgumentException);
 
   SessionModel model;
   auto item2 = model.InsertItem<SessionItem>();
-  EXPECT_THROW(connect::OnDataChanged(item2, on_data_change), std::runtime_error);
+  EXPECT_THROW(connect::OnDataChanged(item2, on_data_change), LogicErrorException);
 
   ApplicationModel application_model;
   auto item3 = application_model.InsertItem<SessionItem>();
@@ -253,6 +275,7 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
 
   PropertyChangedEvent expected_event{expected_item, property_name};
   EXPECT_CALL(widget, OnPropertyChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   // trigger calls
   item->SetProperty(property_name, 43.0);

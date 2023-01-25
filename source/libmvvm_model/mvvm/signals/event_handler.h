@@ -63,7 +63,8 @@ public:
   }
 
   //! Connect object's method to all events specified by the given event type.
-  //! @param callback A pointer to object ti.
+  //! @param widget A pointer to object.
+  //! @param method A pointer to object's method.
   //! @param slot A slot object to specify time of life of the callback.
   //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
   //! slot's destruction no callbacks will be called.
