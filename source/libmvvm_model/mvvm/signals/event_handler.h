@@ -62,17 +62,17 @@ public:
     return GetSignal<EventT>().connect(callback, slot);
   }
 
-  //! Connect object's method to all events specified by the given event type.
-  //! @param widget A pointer to object.
-  //! @param method A pointer to object's method.
+  //! Connect receiver's method to all events specified by the given event type.
+  //! @param widget A pointer to the event receiver.
+  //! @param method A pointer to receiver's method.
   //! @param slot A slot object to specify time of life of the callback.
   //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
   //! slot's destruction no callbacks will be called.
 
-  template <typename EventT, typename WidgetT, typename Fn>
-  Connection Connect(WidgetT* widget, const Fn& method, Slot* slot = nullptr)
+  template <typename EventT, typename ReceiverT, typename Fn>
+  Connection Connect(ReceiverT* receiver, const Fn& method, Slot* slot = nullptr)
   {
-    return GetSignal<EventT>().connect(widget, method, slot);
+    return GetSignal<EventT>().connect(receiver, method, slot);
   }
 
   //! Notifies all slots connected to a given event type.
@@ -105,12 +105,12 @@ private:
   template <typename EventT>
   signal_t& GetSignal()
   {
-    auto it = m_signals.template Find<EventT>();
-    if (it == m_signals.end())
+    auto iter = m_signals.template Find<EventT>();
+    if (iter == m_signals.end())
     {
       throw KeyNotFoundException("The type is not supported");
     }
-    return *it->second.get();
+    return *iter->second.get();
   }
 
   TypeMap<std::unique_ptr<signal_t>> m_signals;

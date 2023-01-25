@@ -46,14 +46,14 @@ std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* s
 
 //! Connect object's method to all events specified by the given event type and event source.
 //! @param source A pointer to item that triggers events.
-//! @param widget A pointer to the object interested to receive events.
-//! @param method An object's method.
+//! @param receiver A pointer to the object interested to receive events.
+//! @param method A receiver's method.
 //! @param slot A slot object to specify time of life of the callback.
 //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
 //! slot's destruction no callbacks will be called.
 
-template <typename EventT, typename WidgetT>
-void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const EventT&),
+template <typename EventT, typename ReceiverT>
+void Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(const EventT&),
              Slot* slot = nullptr)
 {
   // special case for PropertyChangedEvent
@@ -61,13 +61,13 @@ void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const
   {
     // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
     // event type: DataChangedEvent will turn to the PropertyChangedEvent.
-    auto adapter = [source, widget, method](const event_variant_t& event)
+    auto adapter = [source, receiver, method](const event_variant_t& event)
     {
       auto concrete_event = ConvertToPropertyChangedEvent(source, event);
 
       if (concrete_event.has_value())
       {
-        std::invoke(method, *widget, concrete_event.value());
+        std::invoke(method, *receiver, concrete_event.value());
       }
     };
     // note: subscribe to DataChangedEvent, not PropertyChangedEvent
@@ -78,13 +78,13 @@ void Connect(SessionItem* source, WidgetT* widget, void (WidgetT::*method)(const
   else
   {
     // a callback with filtering capabilities to subscribe to the model
-    auto adapter = [source, widget, method](const event_variant_t& event)
+    auto adapter = [source, receiver, method](const event_variant_t& event)
     {
       auto concrete_event = std::get<EventT>(event);
       // only events which are coming from the requested source will be propagated
       if (concrete_event.m_item == source)
       {
-        std::invoke(method, *widget, concrete_event);
+        std::invoke(method, *receiver, concrete_event);
       }
     };
     GetEventHandler(source)->Connect<EventT>(adapter, slot);
