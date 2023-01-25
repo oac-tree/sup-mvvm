@@ -8,6 +8,7 @@ option(SUP_MVVM_EXPORT_BUILDTREE "Export build tree in /home/user/.cmake registr
 option(SUP_MVVM_SETUP_CLANGFORMAT "Setups target to beautify the code with 'make clangformat'" OFF)
 option(SUP_MVVM_SETUP_COVERAGE "Setups target for code coverage" OFF)
 option(SUP_MVVM_USE_QT6 "Compile with Qt6" OFF)
+option(SUP_MVVM_BUILD_EXAMPLES "Compile example projects" OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 include(configuration)
@@ -18,6 +19,9 @@ add_subdirectory(tests)
 add_subdirectory(doc)
 
 include(installation)
-add_subdirectory(examples)
+
+if(SUP_MVVM_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 
 project_codetools_setup()
