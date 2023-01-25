@@ -64,7 +64,7 @@ message(STATUS " Core library: ${QtWidgets_location}")
 
 find_package(Threads)
 
-find_package(benchmark)
+find_package(benchmark QUIET)
 if (benchmark_FOUND)
   message(STATUS "Found benchmark v${benchmark_VERSION}")
 endif()
