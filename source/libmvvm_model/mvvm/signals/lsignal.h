@@ -60,10 +60,12 @@ struct int_sequence
 {
 };
 
+//! @cond DoNotRaiseWarning
 template <int N, int... Ns>
 struct make_int_sequence : make_int_sequence<N - 1, N - 1, Ns...>
 {
 };
+//! @endcond
 
 template <int... Ns>
 struct make_int_sequence<0, Ns...> : int_sequence<Ns...>
