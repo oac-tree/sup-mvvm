@@ -5,7 +5,5 @@ Main components
   :maxdepth: 1
 
   session-item
-  
-.. doxygenclass:: mvvm::AbstractCommand
-  :project: sup-mvvm
-  :members:
+
+:cpp:class:`mvvm::AbstractCommand`
