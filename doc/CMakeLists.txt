@@ -19,6 +19,11 @@ endif()
 set(DOXYGEN_GENERATE_HTML NO)
 set(DOXYGEN_GENERATE_XML YES)
 
+# Reduce Doxygen verbosity. We only care about warnings and errors and we also
+# don't care about undocumented symbols.
+set(DOXYGEN_QUIET YES)
+set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
+
 doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/source/libmvvm_model COMMENT
                  "Generating API documentation with Doxygen")
 
