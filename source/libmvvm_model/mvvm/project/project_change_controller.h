@@ -32,7 +32,7 @@ namespace mvvm
 class SessionModelInterface;
 
 //! Tracks changes in all models.
-//! Allows to check if one or more models have been changed since last call of ::resetChanged().
+//! Allows to check if one or more models have been changed since last call of resetChanged().
 //! This is intended to work together with the Project class. It will take care of calling
 //! resetChanged after own saving.
 

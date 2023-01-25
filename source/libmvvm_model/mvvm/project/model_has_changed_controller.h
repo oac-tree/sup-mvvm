@@ -30,7 +30,7 @@ namespace mvvm
 
 //! Tracks changes in the model.
 //! Allows to check if model has been changed (e.g. modified, inserted or removed items) since last
-//! call of ::resetChanged().
+//! call of resetChanged().
 
 class MVVM_MODEL_EXPORT ModelHasChangedController : public ModelListener<SessionModelInterface>
 {

@@ -93,7 +93,7 @@ bool TagInfo::IsValidType(const std::string& item_type) const
 }
 
 //! Returns true if this tag is used to store single properties.
-//! Properties are children that are created in SessionItem constructor using ::addProperty method.
+//! Properties are children that are created in SessionItem constructor using addProperty method.
 
 bool TagInfo::IsSinglePropertyTag() const
 {
