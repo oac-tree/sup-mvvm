@@ -1,5 +1,12 @@
 enable_testing()
-find_package(GTest REQUIRED)
+
+find_package(GTest 1.10 QUIET)
+if (GTest_FOUND)
+  message(STATUS "Found GTest: suitable version \"${GTest_VERSION}\", with minimum required \"1.10\"" )
+else()
+  fetch_googletest()
+endif()
+
 include(GoogleTest)
 
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Test REQUIRED)
