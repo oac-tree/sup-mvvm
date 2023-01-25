@@ -33,3 +33,17 @@ add_custom_target(testall
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_viewmodel
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_model
 )
+
+file(WRITE ${TEST_OUTPUT_DIRECTORY}/test.sh
+"#!/bin/bash
+export QT_QPA_PLATFORM=offscreen
+fail=0
+" ${TEST_OUTPUT_DIRECTORY}/testmvvm_view " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testmvvm_integration " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testmvvm_viewmodel " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testmvvm_model " || fail=1
+exit $fail
+")
+
+configure_file(${TEST_OUTPUT_DIRECTORY}/test.sh ${TEST_OUTPUT_DIRECTORY}/test.sh 
+               FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
