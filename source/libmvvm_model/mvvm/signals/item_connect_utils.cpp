@@ -19,10 +19,10 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/core/exceptions.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm::connect
@@ -50,6 +50,8 @@ mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
 std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem *source,
                                                                   const event_variant_t &event)
 {
+  // DataChangedEvent happened with property item can be converted to PropertyChangedEvent of its
+  // parent.
   auto concrete_event = std::get<DataChangedEvent>(event);
   if (utils::GetNestlingDepth(source, concrete_event.m_item) == 1)
   {
