@@ -19,10 +19,10 @@ Installation on Linux of the user's choice
 
    cmake <path-to-repo> && make -j4 && ctest
 
-Installation on CODAC machines
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Installation on CODAC 7.1 machines
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Qt must be installed, and path to it specified.
+Note: we are using gtest packaged for 7.1 specially.
 
 .. code:: sh
 
@@ -45,3 +45,27 @@ Qt must be installed, and path to it specified.
 Please note, that thanks to CMake magic (the magic is located in
 ``$HOME/.cmake`` directory), ``make install`` step is optional. Without
 installation, libraries will be discoverable right from the build directory.
+
+Installation on CODAC 7.0 machines
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note: there is no reasonable gtest for 7.0, proper version will be fetched from the internet on the fly.
+
+.. code:: sh
+
+   # install libxml2
+   yum install libxml2-devel.x86_64
+
+   # install qt5
+   yum install qt5-qtbase-devel.x86_64  \
+               qt5-qtsvg-devel.x86_64   \
+               qt5-qttools-devel.x86_64 \
+               qt5-qtbase-gui.x86_64    \
+               adwaita-qt5.x86_64       \
+               mesa-libGL-devel.x86_64
+
+   # specify path to the repo directory  and compile
+   mkdir build; cd build
+   cmake <path-to-repo>
+   make -j4 && ctest
+
