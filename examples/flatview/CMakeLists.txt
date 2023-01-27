@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.13.5)
 project(flatview_example VERSION 0.2.0 LANGUAGES CXX)
 
-find_package(sup-mvvm REQUIRED)
+if(NOT TARGET sup-mvvm::view)
+  find_package(sup-mvvm REQUIRED)
+endif()
 
 set(executable_name flatview)
 add_subdirectory(flatviewcore)
