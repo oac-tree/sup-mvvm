@@ -181,7 +181,8 @@ TEST_F(ItemListenerTests, OnItemRemoved)
 
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
+    AboutToRemoveItemEvent expected_event{compound, expected_tagindex};
+    EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
     EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
   }
 

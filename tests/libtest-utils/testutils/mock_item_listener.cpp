@@ -33,9 +33,10 @@ void MockItemListener::Subscribe()
 //  SetOnItemInserted(on_item_inserted);
   Connect<mvvm::ItemInsertedEvent>(this, &MockItemListener::OnEvent);
 
-  auto on_about_to_remove_item = [this](mvvm::SessionItem* item, const mvvm::TagIndex& tag_index)
-  { OnAboutToRemoveItem(item, tag_index); };
-  SetOnAboutToRemoveItem(on_about_to_remove_item);
+//  auto on_about_to_remove_item = [this](mvvm::SessionItem* item, const mvvm::TagIndex& tag_index)
+//  { OnAboutToRemoveItem(item, tag_index); };
+//  SetOnAboutToRemoveItem(on_about_to_remove_item);
+  Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListener::OnEvent);
 
   auto on_item_removed = [this](mvvm::SessionItem* item, const mvvm::TagIndex& tag_index)
   { OnItemRemoved(item, tag_index); };

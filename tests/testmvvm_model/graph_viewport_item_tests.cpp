@@ -100,8 +100,6 @@ TEST_F(GraphViewportItemTests, OnAddItem)
   ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-
   // triggering action
   auto graph = model.InsertItem<GraphItem>(viewport_item);
 }
