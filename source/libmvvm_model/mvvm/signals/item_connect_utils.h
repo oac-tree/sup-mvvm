@@ -25,6 +25,7 @@
 
 #include <mvvm/model_export.h>
 #include <mvvm/signals/callback_types.h>
+#include <mvvm/signals/event_utils.h>
 #include <mvvm/signals/model_event_handler.h>
 
 #include <optional>
@@ -85,6 +86,81 @@ void Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)
       if (concrete_event.m_item == source)
       {
         std::invoke(method, *receiver, concrete_event);
+      }
+    };
+    GetEventHandler(source)->Connect<EventT>(adapter, slot);
+  }
+}
+
+template <typename EventT, typename ReceiverT>
+void Connect(SessionItem* source, ReceiverT* receiver,
+             void (ReceiverT::*method)(const event_variant_t&), Slot* slot = nullptr)
+{
+  // special case for PropertyChangedEvent
+  if constexpr (std::is_same_v<EventT, PropertyChangedEvent>)
+  {
+    // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
+    // event type: DataChangedEvent will turn to the PropertyChangedEvent.
+    auto adapter = [source, receiver, method](const event_variant_t& event)
+    {
+      auto concrete_event = ConvertToPropertyChangedEvent(source, event);
+
+      if (concrete_event.has_value())
+      {
+        std::invoke(method, *receiver, concrete_event.value());
+      }
+    };
+    // note: subscribe to DataChangedEvent, not PropertyChangedEvent
+    GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+  }
+
+  // all other events
+  else
+  {
+    auto adapter = [source, receiver, method](const event_variant_t& event)
+    {
+      // only events which are coming from the requested source will be propagated
+      if (GetEventSource(event) == source)
+      {
+        std::invoke(method, *receiver, event);
+      }
+    };
+    GetEventHandler(source)->Connect<EventT>(adapter, slot);
+  }
+}
+
+template <typename EventT>
+void Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& callback,
+             Slot* slot = nullptr)
+{
+  // special case for PropertyChangedEvent
+  if constexpr (std::is_same_v<EventT, PropertyChangedEvent>)
+  {
+    // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
+    // event type: DataChangedEvent will turn to the PropertyChangedEvent.
+    auto adapter = [source, callback](const event_variant_t& event)
+    {
+      auto concrete_event = ConvertToPropertyChangedEvent(source, event);
+
+      if (concrete_event.has_value())
+      {
+        callback(event);
+      }
+    };
+    // note: subscribe to DataChangedEvent, not PropertyChangedEvent
+    GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+  }
+
+  // all other events
+  else
+  {
+    // a callback with filtering capabilities to subscribe to the model
+    auto adapter = [source, callback](const event_variant_t& event)
+    {
+      // only events which are coming from the requested source will be propagated
+      if (GetEventSource(event) == source)
+      {
+        callback(event);
       }
     };
     GetEventHandler(source)->Connect<EventT>(adapter, slot);

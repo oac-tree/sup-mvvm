@@ -52,6 +52,6 @@ public:
   MOCK_METHOD(void, OnCallback, (const T& arg));
 };
 
-}
+}  // namespace testutils
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_CALLBACK_LISTENER_H_
