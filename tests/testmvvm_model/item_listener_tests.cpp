@@ -19,11 +19,10 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/mock_item_listener.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/standard_item_includes.h>
+#include <testutils/mock_item_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -74,7 +73,8 @@ TEST_F(ItemListenerTests, OnDataChanged)
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -94,7 +94,8 @@ TEST_F(ItemListenerTests, OnDataChangedSubscribeTwice)
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -115,16 +116,18 @@ TEST_F(ItemListenerTests, OnDataChangedAfterDisconnection)
   const auto expected_item = item;
 
   // expect notification
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
+
   EXPECT_CALL(widget, Unsubscribe()).Times(1);
   item->SetData(45, expected_role);
 
-  // disconnect widget, expect no notifications
+  // disconnect widget
   widget.SetItem(nullptr);
-
   EXPECT_EQ(widget.GetItem(), nullptr);
 
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+  // expect no notifications here
+
   item->SetData(46, expected_role);
 }
 
@@ -181,9 +184,10 @@ TEST_F(ItemListenerTests, OnItemRemoved)
 
   {
     ::testing::InSequence seq;
-    AboutToRemoveItemEvent expected_event{compound, expected_tagindex};
-    EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
-    EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
+    AboutToRemoveItemEvent expected_event1{compound, expected_tagindex};
+    EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event1))).Times(1);
+    ItemRemovedEvent expected_event2{compound, expected_tagindex};
+    EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event2))).Times(1);
   }
 
   // perform action

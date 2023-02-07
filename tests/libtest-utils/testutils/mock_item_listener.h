@@ -47,8 +47,8 @@ public:
 //  MOCK_METHOD(void, OnItemInserted, (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
 //  MOCK_METHOD(void, OnAboutToRemoveItem,
 //              (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
-  MOCK_METHOD(void, OnItemRemoved, (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
-  MOCK_METHOD(void, OnDataChanged, (mvvm::SessionItem * item, int role));
+//  MOCK_METHOD(void, OnItemRemoved, (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
+//  MOCK_METHOD(void, OnDataChanged, (mvvm::SessionItem * item, int role));
   MOCK_METHOD(void, OnPropertyChanged, (mvvm::SessionItem * item, std::string name));
   MOCK_METHOD(void, Unsubscribe, ());
 

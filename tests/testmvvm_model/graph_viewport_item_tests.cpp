@@ -36,7 +36,6 @@ using ::testing::_;
 class GraphViewportItemTests : public ::testing::Test
 {
 public:
-
   using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
@@ -94,9 +93,6 @@ TEST_F(GraphViewportItemTests, OnAddItem)
   mock_listener_t widget(viewport_item);
 
   const TagIndex expected_tagrow{ViewportItem::kItems, 0};
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-
   ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 

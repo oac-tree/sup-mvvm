@@ -20,14 +20,13 @@
 #include "mvvm/standarditems/linked_item.h"
 
 #include <gtest/gtest.h>
-#include <testutils/mock_item_listener.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
+#include <testutils/mock_item_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -36,6 +35,8 @@ using ::testing::_;
 
 class LinkedItemTests : public ::testing::Test
 {
+public:
+  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 //! Initial state of item when it is created outside of model context.
@@ -97,12 +98,13 @@ TEST_F(LinkedItemTests, onSetLink)
   // no link by default
   EXPECT_EQ(link->Get(), nullptr);
 
-  testutils::MockItemListener widget(link);
+  mock_listener_t widget(link);
 
   auto expected_role = DataRole::kData;
   auto expected_item = link;
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // making action
   link->SetLink(item);
