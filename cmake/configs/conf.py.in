@@ -15,4 +15,5 @@ try:
     import sphinx_rtd_theme
     html_theme = 'sphinx_rtd_theme'
 except ImportError:
+    import sys
     sys.stderr.write('Warning: Read The Docs theme is not available.\n')
