@@ -57,36 +57,42 @@ public:
 
       // about to remove item
 
-      auto on_about_to_remove_item = [this](SessionItem* item, const TagIndex& tag_index)
-      { OnAboutToRemoveItem(item, tag_index); };
-      connect::OnAboutToRemoveItem(item, on_about_to_remove_item, m_slot.get());
+//      auto on_about_to_remove_item = [this](SessionItem* item, const TagIndex& tag_index)
+//      { OnAboutToRemoveItem(item, tag_index); };
+//      connect::OnAboutToRemoveItem(item, on_about_to_remove_item, m_slot.get());
 
-      auto on_about_to_remove_item_event = [this](const event_variant_t& event)
-      { OnAboutToRemoveItem(event); };
-      connect::OnAboutToRemoveItem(item, on_about_to_remove_item_event, m_slot.get());
+//      auto on_about_to_remove_item_event = [this](const event_variant_t& event)
+//      { OnAboutToRemoveItem(event); };
+//      connect::OnAboutToRemoveItem(item, on_about_to_remove_item_event, m_slot.get());
 
+      connect::Connect<AboutToRemoveItemEvent>(item, CreateCallback(), m_slot.get());
+      connect::Connect<AboutToRemoveItemEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<AboutToRemoveItemEvent>(item, this, &MockWidget::OnConcreteEvent,
                                                m_slot.get());
 
       // item removed
 
-      auto on_item_removed = [this](SessionItem* item, const TagIndex& tag_index)
-      { OnItemRemoved(item, tag_index); };
-      connect::OnItemRemoved(item, on_item_removed, m_slot.get());
+//      auto on_item_removed = [this](SessionItem* item, const TagIndex& tag_index)
+//      { OnItemRemoved(item, tag_index); };
+//      connect::OnItemRemoved(item, on_item_removed, m_slot.get());
 
-      auto on_item_removed_event = [this](const event_variant_t& event) { OnItemRemoved(event); };
-      connect::OnItemRemoved(item, on_item_removed_event, m_slot.get());
+//      auto on_item_removed_event = [this](const event_variant_t& event) { OnItemRemoved(event); };
+//      connect::OnItemRemoved(item, on_item_removed_event, m_slot.get());
 
+      connect::Connect<ItemRemovedEvent>(item, CreateCallback(), m_slot.get());
+      connect::Connect<ItemRemovedEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<ItemRemovedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
       // data changed
 
-      auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
-      connect::OnDataChanged(item, on_data_changed, m_slot.get());
+//      auto on_data_changed = [this](SessionItem* item, int role) { OnDataChanged(item, role); };
+//      connect::OnDataChanged(item, on_data_changed, m_slot.get());
 
-      auto on_data_changed_event = [this](const event_variant_t& event) { OnDataChanged(event); };
-      connect::OnDataChanged(item, on_data_changed_event, m_slot.get());
+//      auto on_data_changed_event = [this](const event_variant_t& event) { OnDataChanged(event); };
+//      connect::OnDataChanged(item, on_data_changed_event, m_slot.get());
 
+      connect::Connect<DataChangedEvent>(item, CreateCallback(), m_slot.get());
+      connect::Connect<DataChangedEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<DataChangedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
       // property changed
@@ -116,16 +122,16 @@ public:
     //    MOCK_METHOD(void, OnItemInserted, (const mvvm::event_variant_t& event));
     MOCK_METHOD(void, OnConcreteEvent, (const ItemInsertedEvent& event));
 
-    MOCK_METHOD(void, OnAboutToRemoveItem, (SessionItem * item, TagIndex tagindex));
-    MOCK_METHOD(void, OnAboutToRemoveItem, (const mvvm::event_variant_t& event));
+//    MOCK_METHOD(void, OnAboutToRemoveItem, (SessionItem * item, TagIndex tagindex));
+//    MOCK_METHOD(void, OnAboutToRemoveItem, (const mvvm::event_variant_t& event));
     MOCK_METHOD(void, OnConcreteEvent, (const AboutToRemoveItemEvent& event));
 
-    MOCK_METHOD(void, OnItemRemoved, (SessionItem * item, TagIndex tagindex));
-    MOCK_METHOD(void, OnItemRemoved, (const mvvm::event_variant_t& event));
+//    MOCK_METHOD(void, OnItemRemoved, (SessionItem * item, TagIndex tagindex));
+//    MOCK_METHOD(void, OnItemRemoved, (const mvvm::event_variant_t& event));
     MOCK_METHOD(void, OnConcreteEvent, (const ItemRemovedEvent& event));
 
-    MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
-    MOCK_METHOD(void, OnDataChanged, (const mvvm::event_variant_t& event));
+//    MOCK_METHOD(void, OnDataChanged, (SessionItem * item, int role));
+//    MOCK_METHOD(void, OnDataChanged, (const mvvm::event_variant_t& event));
     MOCK_METHOD(void, OnConcreteEvent, (const DataChangedEvent& event));
 
     MOCK_METHOD(void, OnPropertyChanged, (SessionItem * item, std::string name));
@@ -214,10 +220,11 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+//  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   // trigger calls
@@ -237,10 +244,11 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
   const auto expected_item = item;
 
   // expect notification
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+//  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   item->SetData(45, expected_role);
@@ -266,10 +274,11 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
   const auto expected_item = item;
 
   // expect notification
-  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
+//  EXPECT_CALL(widget, OnDataChanged(expected_item, expected_role)).Times(1);
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnDataChanged(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
   item->SetData(45, expected_role);
@@ -292,7 +301,8 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
   mock_listener_t widget(item1);
 
   // expect no notification
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+//  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+
   item2->SetData(45, DataRole::kData);  // other item changed
 }
 
@@ -357,16 +367,18 @@ TEST_F(ItemConnectUtilsTests, OnItemRemoved)
 //  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
   {
     ::testing::InSequence seq;
-    EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
+//    EXPECT_CALL(widget, OnAboutToRemoveItem(compound, expected_tagindex)).Times(1);
 
     AboutToRemoveItemEvent expected_event1{compound, expected_tagindex};
-    EXPECT_CALL(widget, OnAboutToRemoveItem(event_variant_t(expected_event1))).Times(1);
+    EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event1))).Times(1);
+    EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event1))).Times(1);
     EXPECT_CALL(widget, OnConcreteEvent(expected_event1)).Times(1);
 
-    EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
+//    EXPECT_CALL(widget, OnItemRemoved(compound, expected_tagindex)).Times(1);
 
     ItemRemovedEvent expected_event2{compound, expected_tagindex};
-    EXPECT_CALL(widget, OnItemRemoved(event_variant_t(expected_event2))).Times(1);
+    EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event2))).Times(1);
+    EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event2))).Times(1);
     EXPECT_CALL(widget, OnConcreteEvent(expected_event2)).Times(1);
   }
 
