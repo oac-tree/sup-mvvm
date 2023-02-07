@@ -39,13 +39,13 @@ Q_DECLARE_METATYPE(QCPRange)
 class ViewportAxisPlotControllerTests : public ::testing::Test
 {
 public:
-  std::unique_ptr<QSignalSpy> CreateSpy(QCPAxis* axis)
+  static std::unique_ptr<QSignalSpy> CreateSpy(QCPAxis* axis)
   {
     return std::make_unique<QSignalSpy>(
         axis, static_cast<void (QCPAxis::*)(const QCPRange&)>(&QCPAxis::rangeChanged));
   }
 
-  std::unique_ptr<QSignalSpy> CreateSpyDoubleRange(QCPAxis* axis)
+  static std::unique_ptr<QSignalSpy> CreateSpyDoubleRange(QCPAxis* axis)
   {
     return std::make_unique<QSignalSpy>(
         axis,

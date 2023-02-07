@@ -57,11 +57,6 @@ public:
   }
 
 protected:
-  void SetOnItemInserted(const Callbacks::item_tagindex_t& func);
-
-  void SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& func);
-  void SetOnItemRemoved(const Callbacks::item_tagindex_t& func);
-  void SetOnDataChanged(const Callbacks::item_int_t& func);
   void SetOnPropertyChanged(const Callbacks::item_str_t& func);
 
   SessionItem* GetCurrentItem() const;

@@ -19,13 +19,12 @@
 
 #include "mvvm/plotting/graph_viewport_plot_controller.h"
 
-#include <qcustomplot.h>
-
 #include <mvvm/plotting/graph_plot_controller.h>
 #include <mvvm/plotting/viewport_axis_plot_controller.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
+#include <qcustomplot.h>
 
 #include <list>
 #include <stdexcept>
@@ -84,9 +83,11 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
   }
 
   //! Adds controller for item.
-  void AddControllerForItem(SessionItem* parent, const TagIndex& tagrow)
+  void AddController(const ItemInsertedEvent& event)
   {
-    auto added_child = dynamic_cast<GraphItem*>(parent->GetItem(tagrow.tag, tagrow.index));
+    const auto [parent, tagindex] = event;
+
+    auto added_child = dynamic_cast<GraphItem*>(parent->GetItem(tagindex.tag, tagindex.index));
 
     for (auto& controller : m_graph_controllers)
     {
@@ -104,9 +105,11 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
 
   //! Remove GraphPlotController corresponding to GraphItem.
 
-  void RemoveControllerForItem(SessionItem* parent, const TagIndex& tagrow)
+  void RemoveController(const AboutToRemoveItemEvent& event)
   {
-    auto child_about_to_be_removed = parent->GetItem(tagrow.tag, tagrow.index);
+    const auto [parent, tagindex] = event;
+
+    auto child_about_to_be_removed = parent->GetItem(tagindex.tag, tagindex.index);
     auto if_func = [&](const std::unique_ptr<GraphPlotController>& cntrl) -> bool
     { return cntrl->GetItem() == child_about_to_be_removed; };
     m_graph_controllers.remove_if(if_func);
@@ -121,14 +124,8 @@ GraphViewportPlotController::GraphViewportPlotController(QCustomPlot* custom_plo
 
 void GraphViewportPlotController::Subscribe()
 {
-  auto on_item_inserted = [this](SessionItem* parent, TagIndex tagrow)
-  { p_impl->AddControllerForItem(parent, tagrow); };
-  SetOnItemInserted(on_item_inserted);
-
-  auto on_about_to_remove_item = [this](SessionItem* parent, TagIndex tagrow)
-  { p_impl->RemoveControllerForItem(parent, tagrow); };
-  SetOnAboutToRemoveItem(on_about_to_remove_item);
-
+  Connect<ItemInsertedEvent>(p_impl.get(), &GraphViewportPlotControllerImpl::AddController);
+  Connect<AboutToRemoveItemEvent>(p_impl.get(), &GraphViewportPlotControllerImpl::RemoveController);
   p_impl->SetupComponents();
 }
 

@@ -81,26 +81,6 @@ void ItemListenerBase::SetItem(SessionItem *item)
   Subscribe();
 }
 
-void ItemListenerBase::SetOnItemInserted(const Callbacks::item_tagindex_t &func)
-{
-  connect::OnItemInserted(GetCurrentItem(), func, p_impl->GetSlot());
-}
-
-void ItemListenerBase::SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t &func)
-{
-  connect::OnAboutToRemoveItem(GetCurrentItem(), func, p_impl->GetSlot());
-}
-
-void ItemListenerBase::SetOnItemRemoved(const Callbacks::item_tagindex_t &func)
-{
-  connect::OnItemRemoved(GetCurrentItem(), func, p_impl->GetSlot());
-}
-
-void ItemListenerBase::SetOnDataChanged(const Callbacks::item_int_t &func)
-{
-  connect::OnDataChanged(GetCurrentItem(), func, p_impl->GetSlot());
-}
-
 void ItemListenerBase::SetOnPropertyChanged(const Callbacks::item_str_t &func)
 {
   connect::OnPropertyChanged(GetCurrentItem(), func, p_impl->GetSlot());
