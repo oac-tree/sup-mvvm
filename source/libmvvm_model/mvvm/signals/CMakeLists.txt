@@ -14,5 +14,7 @@ target_sources(${library_name} PRIVATE
   signal_slot.h
   event_types.cpp
   event_types.h
+  event_utils.cpp
+  event_utils.h
   event_handler.h
 )

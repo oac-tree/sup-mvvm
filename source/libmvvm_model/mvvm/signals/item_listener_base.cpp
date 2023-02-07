@@ -111,4 +111,9 @@ SessionItem *ItemListenerBase::GetCurrentItem() const
   return p_impl->m_item;
 }
 
+Slot *ItemListenerBase::GetSlot() const
+{
+  return p_impl->m_slot.get();
+}
+
 }  // namespace mvvm

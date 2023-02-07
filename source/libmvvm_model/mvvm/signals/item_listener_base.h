@@ -22,6 +22,7 @@
 
 #include <mvvm/model_export.h>
 #include <mvvm/signals/callback_types.h>
+#include <mvvm/signals/item_connect_utils.h>
 #include <mvvm/signals/signal_slot.h>
 
 #include <memory>
@@ -43,8 +44,15 @@ public:
 
   void SetItem(SessionItem* item);
 
+  template <typename EventT, typename ReceiverT>
+  void Connect(ReceiverT* receiver, void (ReceiverT::*method)(const EventT&))
+  {
+    connect::Connect(GetCurrentItem(), receiver, method, GetSlot());
+  }
+
 protected:
   void SetOnItemInserted(const Callbacks::item_tagindex_t& func);
+
   void SetOnAboutToRemoveItem(const Callbacks::item_tagindex_t& func);
   void SetOnItemRemoved(const Callbacks::item_tagindex_t& func);
   void SetOnDataChanged(const Callbacks::item_int_t& func);
@@ -56,6 +64,8 @@ protected:
   virtual void Unsubscribe() {}  //! For necessary manipulations on unsubscription.
 
 private:
+  Slot* GetSlot() const;
+
   struct ItemListenerBaseImpl;
   std::unique_ptr<ItemListenerBaseImpl> p_impl;
 };
