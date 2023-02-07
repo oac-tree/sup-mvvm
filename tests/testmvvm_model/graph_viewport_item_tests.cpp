@@ -35,6 +35,9 @@ using ::testing::_;
 
 class GraphViewportItemTests : public ::testing::Test
 {
+public:
+
+  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 //! Initial state.
@@ -88,12 +91,15 @@ TEST_F(GraphViewportItemTests, OnAddItem)
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
 
-  testutils::MockItemListener widget(viewport_item);
+  mock_listener_t widget(viewport_item);
 
   const TagIndex expected_tagrow{ViewportItem::kItems, 0};
   EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnItemInserted(viewport_item, expected_tagrow)).Times(1);
+
+  ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
+
   EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
   // triggering action
@@ -117,14 +123,16 @@ TEST_F(GraphViewportItemTests, OnSetDataItem)
   // inserting graph item
   auto graph_item = model.InsertItem<GraphItem>(viewport_item);
 
-  testutils::MockItemListener widget(viewport_item);
+  mock_listener_t widget(viewport_item);
 
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
+//  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+//  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
   //  EXPECT_CALL(widget, onChildPropertyChange(graph_item, GraphItem::P_LINK)).Times(1); // FIXME
   //  GraphViewportItemTests onChildPropertyChange after onChildPropertyChange restoration
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
+//  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
+//  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
+
+  // expect no calls, strickt mock will take care if it's not the case
 
   // triggering action
   graph_item->SetDataItem(data_item);

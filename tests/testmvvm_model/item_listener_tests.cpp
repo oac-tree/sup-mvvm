@@ -159,7 +159,8 @@ TEST_F(ItemListenerTests, OnItemInserted)
   mock_listener_t widget(compound);
 
   const TagIndex expected_tagindex{"tag1", 0};
-  EXPECT_CALL(widget, OnItemInserted(compound, expected_tagindex)).Times(1);
+  ItemInsertedEvent expected_event{compound, expected_tagindex};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // perform action
   model.InsertItem<CompoundItem>(compound, expected_tagindex);
@@ -200,7 +201,9 @@ TEST_F(ItemListenerTests, SetAnotherItem)
 
   mock_listener_t widget(compound);
 
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(1);
+  ItemInsertedEvent expected_event{compound, expected_tagindex};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
+
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
   EXPECT_CALL(widget, Unsubscribe()).Times(1);

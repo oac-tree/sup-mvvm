@@ -42,7 +42,9 @@ class MockItemListener : public mvvm::ItemListener<mvvm::SessionItem>
 public:
   explicit MockItemListener(mvvm::SessionItem* item) { SetItem(item); }
 
-  MOCK_METHOD(void, OnItemInserted, (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
+  MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
+
+//  MOCK_METHOD(void, OnItemInserted, (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
   MOCK_METHOD(void, OnAboutToRemoveItem,
               (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));
   MOCK_METHOD(void, OnItemRemoved, (mvvm::SessionItem * item, const mvvm::TagIndex& tagindex));

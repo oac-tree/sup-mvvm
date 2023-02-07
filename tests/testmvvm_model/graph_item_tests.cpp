@@ -37,6 +37,8 @@ using ::testing::_;
 
 class GraphItemTests : public ::testing::Test
 {
+public:
+  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 //! Initial state.
@@ -138,12 +140,9 @@ TEST_F(GraphItemTests, OnSetDataItem)
   auto data_item = model.InsertItem<Data1DItem>();
   auto graph_item = model.InsertItem<GraphItem>();
 
-  testutils::MockItemListener widget(graph_item);
+  mock_listener_t widget(graph_item);
 
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
   EXPECT_CALL(widget, OnPropertyChanged(graph_item, std::string("kLink"))).Times(1);
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
   // performing action
   graph_item->SetDataItem(data_item);

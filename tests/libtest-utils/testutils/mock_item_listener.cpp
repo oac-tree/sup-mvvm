@@ -21,15 +21,17 @@
 
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/tagindex.h>
+#include "mvvm/signals/event_types.h"
 
 namespace testutils
 {
 
 void MockItemListener::Subscribe()
 {
-  auto on_item_inserted = [this](mvvm::SessionItem* item, const mvvm::TagIndex& tag_index)
-  { OnItemInserted(item, tag_index); };
-  SetOnItemInserted(on_item_inserted);
+//  auto on_item_inserted = [this](mvvm::SessionItem* item, const mvvm::TagIndex& tag_index)
+//  { OnItemInserted(item, tag_index); };
+//  SetOnItemInserted(on_item_inserted);
+  Connect<mvvm::ItemInsertedEvent>(this, &MockItemListener::OnEvent);
 
   auto on_about_to_remove_item = [this](mvvm::SessionItem* item, const mvvm::TagIndex& tag_index)
   { OnAboutToRemoveItem(item, tag_index); };

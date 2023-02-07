@@ -47,7 +47,13 @@ public:
   template <typename EventT, typename ReceiverT>
   void Connect(ReceiverT* receiver, void (ReceiverT::*method)(const EventT&))
   {
-    connect::Connect(GetCurrentItem(), receiver, method, GetSlot());
+    connect::Connect<EventT>(GetCurrentItem(), receiver, method, GetSlot());
+  }
+
+  template <typename EventT, typename ReceiverT>
+  void Connect(ReceiverT* receiver, void (ReceiverT::*method)(const event_variant_t&))
+  {
+    connect::Connect<EventT>(GetCurrentItem(), receiver, method, GetSlot());
   }
 
 protected:

@@ -51,6 +51,8 @@ public:
         axis,
         static_cast<void (QCPAxis::*)(const QCPRange&, const QCPRange&)>(&QCPAxis::rangeChanged));
   }
+
+  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 //! Initial state.
@@ -256,11 +258,8 @@ TEST_F(ViewportAxisPlotControllerTests, ChangeViewportAxisItemMapping)
   ViewportAxisPlotController controller(custom_plot->xAxis);
   controller.SetItem(axis_item);
 
-  testutils::MockItemListener widget(axis_item);
-  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
+  mock_listener_t widget(axis_item);
   EXPECT_CALL(widget, OnPropertyChanged(axis_item, ViewportAxisItem::kMax)).Times(1);
-  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
 
   // making a change
   const double expected_max = 20.0;
