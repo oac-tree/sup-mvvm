@@ -29,20 +29,19 @@
 
 using namespace mvvm;
 using ::testing::_;
+using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 
 //! Testing AxesItems.
 
 class GraphViewportItemTests : public ::testing::Test
 {
-public:
-  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 //! Initial state.
 
 TEST_F(GraphViewportItemTests, initialState)
 {
-  GraphViewportItem item;
+  const GraphViewportItem item;
   EXPECT_EQ(item.GetXAxis()->GetType(), ViewportAxisItem::Type);
   EXPECT_EQ(item.GetYAxis()->GetType(), ViewportAxisItem::Type);
   EXPECT_EQ(item.GetGraphItems().size(), 0);

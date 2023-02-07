@@ -26,16 +26,15 @@
 
 using namespace mvvm;
 using ::testing::_;
+using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 
 class ItemListenerTests : public ::testing::Test
 {
-public:
-  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 TEST_F(ItemListenerTests, InitialState)
 {
-  ItemListener<SessionItem> listener;
+  const ItemListener<SessionItem> listener;
   EXPECT_EQ(listener.GetItem(), nullptr);
 }
 

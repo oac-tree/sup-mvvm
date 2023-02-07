@@ -30,13 +30,12 @@
 
 using namespace mvvm;
 using ::testing::_;
+using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 
 //! LinkedItem tests.
 
 class LinkedItemTests : public ::testing::Test
 {
-public:
-  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
 };
 
 //! Initial state of item when it is created outside of model context.
