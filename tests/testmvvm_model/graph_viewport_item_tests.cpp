@@ -20,13 +20,12 @@
 #include "mvvm/standarditems/graph_viewport_item.h"
 
 #include <gtest/gtest.h>
-#include <testutils/mock_item_listener.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
+#include <testutils/mock_item_listener.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -119,13 +118,6 @@ TEST_F(GraphViewportItemTests, OnSetDataItem)
 
   mock_listener_t widget(viewport_item);
 
-//  EXPECT_CALL(widget, OnDataChanged(_, _)).Times(0);
-//  EXPECT_CALL(widget, OnPropertyChanged(_, _)).Times(0);
-  //  EXPECT_CALL(widget, onChildPropertyChange(graph_item, GraphItem::P_LINK)).Times(1); // FIXME
-  //  GraphViewportItemTests onChildPropertyChange after onChildPropertyChange restoration
-//  EXPECT_CALL(widget, OnItemInserted(_, _)).Times(0);
-//  EXPECT_CALL(widget, OnAboutToRemoveItem(_, _)).Times(0);
-
   // expect no calls, strickt mock will take care if it's not the case
 
   // triggering action
@@ -151,7 +143,8 @@ TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
   EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
 
   // updating viewport to graph
-  const double bottom{0.1}, top{0.1};
+  const double bottom{0.1};
+  const double top{0.1};
   viewport_item->SetViewportToContent(0.0, top, 0.0, bottom);
 
   // x-axis of viewport should be set to FixedBinAxis of DataItem
@@ -164,8 +157,8 @@ TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
   auto [expected_amin, expected_amax] =
       std::minmax_element(std::begin(expected_values), std::end(expected_values));
 
-  double expected_ymin = *expected_amin - (*expected_amax - *expected_amin) * bottom;
-  double expected_ymax = *expected_amax + (*expected_amax - *expected_amin) * top;
+  const double expected_ymin = *expected_amin - (*expected_amax - *expected_amin) * bottom;
+  const double expected_ymax = *expected_amax + (*expected_amax - *expected_amin) * top;
   EXPECT_DOUBLE_EQ(yaxis->GetMin(), expected_ymin);
   EXPECT_DOUBLE_EQ(yaxis->GetMax(), expected_ymax);
 }

@@ -259,7 +259,8 @@ TEST_F(ViewportAxisPlotControllerTests, ChangeViewportAxisItemMapping)
   controller.SetItem(axis_item);
 
   mock_listener_t widget(axis_item);
-  EXPECT_CALL(widget, OnPropertyChanged(axis_item, ViewportAxisItem::kMax)).Times(1);
+  PropertyChangedEvent expected_event{axis_item, ViewportAxisItem::kMax};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // making a change
   const double expected_max = 20.0;

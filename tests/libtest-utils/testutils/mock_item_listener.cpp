@@ -47,9 +47,12 @@ void MockItemListener::Subscribe()
 //  SetOnDataChanged(on_data_changed);
   Connect<mvvm::DataChangedEvent>(this, &MockItemListener::OnEvent);
 
-  auto on_property_changed = [this](mvvm::SessionItem* item, const std::string& name)
-  { OnPropertyChanged(item, name); };
-  SetOnPropertyChanged(on_property_changed);
+//  auto on_property_changed = [this](mvvm::SessionItem* item, const std::string& name)
+//  { OnPropertyChanged(item, name); };
+//  SetOnPropertyChanged(on_property_changed);
+  Connect<mvvm::PropertyChangedEvent>(this, &MockItemListener::OnEvent);
+
+
 }
 
 }  // namespace testutils

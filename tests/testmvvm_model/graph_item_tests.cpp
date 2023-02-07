@@ -142,7 +142,8 @@ TEST_F(GraphItemTests, OnSetDataItem)
 
   mock_listener_t widget(graph_item);
 
-  EXPECT_CALL(widget, OnPropertyChanged(graph_item, std::string("kLink"))).Times(1);
+  PropertyChangedEvent expected_event{graph_item, "kLink"};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // performing action
   graph_item->SetDataItem(data_item);

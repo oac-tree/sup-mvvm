@@ -144,8 +144,8 @@ TEST_F(ItemListenerTests, OnPropertyChanged)
   mock_listener_t widget(item);
 
   const auto expected_item = item;
-
-  EXPECT_CALL(widget, OnPropertyChanged(expected_item, property_name)).Times(1);
+  PropertyChangedEvent expected_event{expected_item, property_name};
+  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
   item->SetProperty(property_name, 43.0);
