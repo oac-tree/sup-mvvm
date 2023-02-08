@@ -134,18 +134,18 @@ TEST_F(ItemConnectUtilsTests, ConvertToPropertyChangedEvent)
 
 TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
 {
-  auto on_data_change = [this](SessionItem* item, int role) {};
+  auto on_data_change = [this](const auto& event) {};
 
   SessionItem item1;
-  EXPECT_THROW(connect::OnDataChanged(&item1, on_data_change), NullArgumentException);
+  EXPECT_THROW(connect::Connect<DataChangedEvent>(&item1, on_data_change), NullArgumentException);
 
   SessionModel model;
   auto item2 = model.InsertItem<SessionItem>();
-  EXPECT_THROW(connect::OnDataChanged(item2, on_data_change), LogicErrorException);
+  EXPECT_THROW(connect::Connect<DataChangedEvent>(item2, on_data_change), LogicErrorException);
 
   ApplicationModel application_model;
   auto item3 = application_model.InsertItem<SessionItem>();
-  EXPECT_NO_THROW(connect::OnDataChanged(item3, on_data_change));
+  EXPECT_NO_THROW(connect::Connect<DataChangedEvent>(item3, on_data_change));
 }
 
 //! Single call OnDataChanged expected when data was changed.
