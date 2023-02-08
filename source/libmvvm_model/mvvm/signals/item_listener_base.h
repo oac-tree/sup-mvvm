@@ -21,7 +21,6 @@
 #define MVVM_SIGNALS_ITEM_LISTENER_BASE_H_
 
 #include <mvvm/model_export.h>
-#include <mvvm/signals/callback_types.h>
 #include <mvvm/signals/item_connect_utils.h>
 #include <mvvm/signals/signal_slot.h>
 
