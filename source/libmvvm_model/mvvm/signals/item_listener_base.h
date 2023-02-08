@@ -56,9 +56,13 @@ public:
     connect::Connect<EventT>(GetCurrentItem(), receiver, method, GetSlot());
   }
 
-protected:
-  void SetOnPropertyChanged(const Callbacks::item_str_t& func);
+  template <typename EventT>
+  void Connect(const std::function<void(const event_variant_t&)>& callback)
+  {
+    connect::Connect<EventT>(GetCurrentItem(), callback, GetSlot());
+  }
 
+protected:
   SessionItem* GetCurrentItem() const;
 
   virtual void Subscribe() {}    //! For necessary manipulations on new item.

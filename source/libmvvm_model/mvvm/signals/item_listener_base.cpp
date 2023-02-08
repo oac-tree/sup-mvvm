@@ -81,11 +81,6 @@ void ItemListenerBase::SetItem(SessionItem *item)
   Subscribe();
 }
 
-void ItemListenerBase::SetOnPropertyChanged(const Callbacks::item_str_t &func)
-{
-  connect::OnPropertyChanged(GetCurrentItem(), func, p_impl->GetSlot());
-}
-
 SessionItem *ItemListenerBase::GetCurrentItem() const
 {
   return p_impl->m_item;

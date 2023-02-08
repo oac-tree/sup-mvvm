@@ -19,10 +19,9 @@
 
 #include "mvvm/plotting/data1d_plot_controller.h"
 
-#include <qcustomplot.h>
-
 #include <mvvm/signals/item_connect_utils.h>
 #include <mvvm/standarditems/data1d_item.h>
+#include <qcustomplot.h>
 
 #include <stdexcept>
 
@@ -114,18 +113,19 @@ Data1DPlotController::~Data1DPlotController() = default;
 
 void Data1DPlotController::Subscribe()
 {
-  auto on_property_change = [this](SessionItem*, std::string property_name)
+  auto on_property_change = [this](const event_variant_t& event)
   {
-    if (property_name == Data1DItem::kValues)
+    auto concrete_event = std::get<PropertyChangedEvent>(event);
+    if (concrete_event.m_name == Data1DItem::kValues)
     {
       p_impl->UpdateGraphPointsFromItem(GetItem());
     }
-    if (property_name == Data1DItem::kErrors)
+    if (concrete_event.m_name == Data1DItem::kErrors)
     {
       p_impl->UpdateErrorBarsFromItem(GetItem());
     }
   };
-  SetOnPropertyChanged(on_property_change);
+  Connect<PropertyChangedEvent>(on_property_change);
 
   p_impl->InitGraphFromItem(GetItem());
 }

@@ -19,13 +19,12 @@
 
 #include "mvvm/plotting/graph_plot_controller.h"
 
-#include <qcustomplot.h>
-
 #include <mvvm/plotting/data1d_plot_controller.h>
 #include <mvvm/plotting/pen_controller.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <qcustomplot.h>
 
 namespace mvvm
 {
@@ -87,6 +86,19 @@ struct GraphPlotController::GraphItemControllerImpl
     m_graph = nullptr;
     m_custom_plot->replot();
   }
+
+  void OnPropertyChanged(const PropertyChangedEvent& event)
+  {
+    if (event.m_name == GraphItem::kLink)
+    {
+      UpdateDataController();
+    }
+
+    if (event.m_name == GraphItem::kDisplayed)
+    {
+      UpdateVisibility();
+    }
+  }
 };
 
 GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
@@ -96,19 +108,7 @@ GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
 
 void GraphPlotController::Subscribe()
 {
-  auto on_property_change = [this](SessionItem*, const std::string& property_name)
-  {
-    if (property_name == GraphItem::kLink)
-    {
-      p_impl->UpdateDataController();
-    }
-
-    if (property_name == GraphItem::kDisplayed)
-    {
-      p_impl->UpdateVisibility();
-    }
-  };
-  SetOnPropertyChanged(on_property_change);
+  Connect<PropertyChangedEvent>(p_impl.get(), &GraphItemControllerImpl::OnPropertyChanged);
 
   p_impl->InitGraph();
 }

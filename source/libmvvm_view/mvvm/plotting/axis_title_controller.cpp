@@ -19,9 +19,8 @@
 
 #include "mvvm/plotting/axis_title_controller.h"
 
-#include <qcustomplot.h>
-
 #include <mvvm/standarditems/plottable_items.h>
+#include <qcustomplot.h>
 
 #include <stdexcept>
 
@@ -62,8 +61,8 @@ AxisTitleController::~AxisTitleController() = default;
 
 void AxisTitleController::Subscribe()
 {
-  auto on_property_change = [this](auto, auto) { p_impl->UpdateAxisFromItem(GetItem()); };
-  SetOnPropertyChanged(on_property_change);
+  auto on_property_change = [this](auto) { p_impl->UpdateAxisFromItem(GetItem()); };
+  Connect<PropertyChangedEvent>(on_property_change);
 
   p_impl->UpdateAxisFromItem(GetItem());
 }
