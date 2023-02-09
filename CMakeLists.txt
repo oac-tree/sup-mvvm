@@ -9,6 +9,7 @@ option(SUP_MVVM_SETUP_CLANGFORMAT "Setups target to beautify the code with 'make
 option(SUP_MVVM_SETUP_COVERAGE "Setups target for code coverage" OFF)
 option(SUP_MVVM_USE_QT6 "Compile with Qt6" OFF)
 option(SUP_MVVM_BUILD_EXAMPLES "Compile example projects" OFF)
+option(COA_BUILD_DOCUMENTATION "Build documentation" OFF)
 option(NO_CODAC "Don't look for the presence of CODAC environment" OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
@@ -17,7 +18,10 @@ include(configuration)
 add_subdirectory(source)
 add_subdirectory(extern)
 add_subdirectory(tests)
-add_subdirectory(doc)
+
+if(COA_BUILD_DOCUMENTATION)
+    add_subdirectory(doc)
+endif()
 
 include(installation)
 
