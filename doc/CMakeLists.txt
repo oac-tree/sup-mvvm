@@ -23,6 +23,9 @@ set(DOXYGEN_GENERATE_XML YES)
 set(DOXYGEN_QUIET YES)
 set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
 
+# Sphinx output directory 
+set(SPHINX_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/sphinx_build)
+
 doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/source/libmvvm_model COMMENT
                  "Generating API documentation with Doxygen")
 
@@ -30,9 +33,13 @@ configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/conf.py.in ${CMAKE_CURRENT_
 
 add_custom_target(sphinx-doc ALL
   COMMAND ${SPHINX_EXECUTABLE} -b html -c ${CMAKE_CURRENT_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR} ${SPHINX_BUILD_DIR}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Generating API documentation with Sphinx"
   VERBATIM)
 
- add_dependencies(sphinx-doc doxygen-doc)
+add_dependencies(sphinx-doc doxygen-doc)
+
+install(DIRECTORY ${SPHINX_BUILD_DIR}/ DESTINATION ${CMAKE_INSTALL_DOCDIR}
+  PATTERN .doctrees EXCLUDE
+  PATTERN .buildinfo EXCLUDE)
