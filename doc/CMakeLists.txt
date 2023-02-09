@@ -1,5 +1,4 @@
 # Setup target for documentation generation.
-# Use `make sphinx-doc` to generate documentation in <build>/doc directory.
 
 # --- Finding Doxygen ---
 find_package(Doxygen)
@@ -15,7 +14,7 @@ if(NOT Sphinx_FOUND)
   return()
 endif()
 
-# just output XML since this is what Breathe consumes
+# Just output XML since this is what Breathe consumes.
 set(DOXYGEN_GENERATE_HTML NO)
 set(DOXYGEN_GENERATE_XML YES)
 
@@ -28,7 +27,8 @@ doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/source/libmvvm_model COMMENT
                  "Generating API documentation with Doxygen")
 
 configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
-add_custom_target(sphinx-doc
+
+add_custom_target(sphinx-doc ALL
   COMMAND ${SPHINX_EXECUTABLE} -b html -c ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
@@ -36,4 +36,3 @@ add_custom_target(sphinx-doc
   VERBATIM)
 
  add_dependencies(sphinx-doc doxygen-doc)
-
