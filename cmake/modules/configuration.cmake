@@ -31,6 +31,11 @@ if (CODAC_FOUND)
   if(CODAC_Python_FOUND AND NOT Python3_EXECUTABLE)
     set(Python3_EXECUTABLE ${CODAC_PYTHON_EXECUTABLE})
   endif()
+
+  # When operating inside a CODAC CICD system build the documentation
+  if (CODAC_CICD)
+    set(COA_BUILD_DOCUMENTATION ON)
+  endif()
 else()
   message(STATUS "Compiling without CODAC")
 endif()
@@ -38,6 +43,11 @@ endif()
 # -----------------------------------------------------------------------------
 # Variables
 # -----------------------------------------------------------------------------
+
+if(COVERAGE)
+  # On coverage builds  alsways skip building docs and build tests
+  set(COA_BUILD_DOCUMENTATION OFF)
+endif()
 
 get_filename_component(SUP_MVVM_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
 
