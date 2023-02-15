@@ -18,10 +18,7 @@ include(configuration)
 add_subdirectory(source)
 add_subdirectory(extern)
 add_subdirectory(tests)
-
-if(COA_BUILD_DOCUMENTATION)
-    add_subdirectory(doc)
-endif()
+add_subdirectory(doc)
 
 include(installation)
 
