@@ -136,25 +136,30 @@ struct ViewModelController::ViewModelControllerImpl
     return nullptr;
   }
 
-  //! Returns true if given children has to be processed (views inserted)
-  //! according to given children strategy.
-  bool IsChildToProcess(const SessionItem *parent, const SessionItem *child)
+  //! Returns an insert index for a view representing a child.
+  //! Since number of views might not coincide with number of items (some items are marked)
+  //! as hidden, we have to recalculate a view index.
+  int GetInsertViewIndexOfChild(const SessionItem *parent, const SessionItem *child)
   {
-    return utils::Contains(m_children_strategy->GetChildren(parent), child);
+    // children that should get their views
+    auto children = m_children_strategy->GetChildren(parent);
+
+    return utils::IndexOfItem(children, child);
   }
 
   //! Insert views for parent's child at position `tag_index`.
   void InsertView(SessionItem *parent, const TagIndex &tag_index)
   {
     auto new_child = parent->GetItem(tag_index.tag, tag_index.index);
-    if (!IsChildToProcess(parent, new_child))
+    int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
+    if (insert_view_index == -1)
     {
       return;
     }
 
     if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
     {
-      auto next_parent_view = ProcessItem(new_child, parent_view, tag_index.index);
+      auto next_parent_view = ProcessItem(new_child, parent_view, insert_view_index);
       if (next_parent_view)
       {
         Iterate(new_child, next_parent_view);

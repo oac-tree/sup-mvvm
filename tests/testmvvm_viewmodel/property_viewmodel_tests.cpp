@@ -19,14 +19,14 @@
 
 #include "mvvm/viewmodel/property_viewmodel.h"
 
-#include <gtest/gtest.h>
-#include <testutils/toy_items.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/vector_item.h>
+
+#include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 
@@ -303,4 +303,55 @@ TEST_F(PropertyViewModelTests, ShowVectorItemWhenClearWhenShowAnother)
 
   EXPECT_TRUE(view_model.setData(x_index_value, QVariant(43.3), Qt::EditRole));
   EXPECT_DOUBLE_EQ(vector1->X(), 43.3);
+}
+
+//! Inserting item in an empty tag which is between property tags. One of property tags is hidden.
+//! This is to validate that item inserted in empty tag appears in the right order (real life bug).
+//! FIXME make example less verbose after refactoring of AddProperty machinery.
+
+TEST_F(PropertyViewModelTests, InsertIntoEmptyTag)
+{
+  ApplicationModel model;
+
+  auto parent = model.InsertItem<CompoundItem>();
+
+  // for the moment, AddProperty doesn't trigger signaling
+  // so we have to initialise viewmodel later
+
+  auto height_property = parent->AddProperty("height", 42);
+  auto hidden_property = parent->AddProperty("name", "abc")->SetVisible(false);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
+  auto width_property = parent->AddProperty("width", 0);
+
+  PropertyViewModel viewmodel(&model);
+  viewmodel.SetRootSessionItem(parent);
+
+  QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
+
+  EXPECT_EQ(parent->GetAllItems(),
+            std::vector<SessionItem*>({height_property, hidden_property, width_property}));
+
+  // we construct an item which is mimiking a dynamic property item
+  // will be refactored
+  auto child = std::make_unique<SessionItem>();
+  child->SetFlag(Appearance::kProperty, true);
+  auto child_ptr = model.InsertItem(std::move(child), parent, {"ITEMS", 0});
+  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({height_property, hidden_property,
+                                                              child_ptr, width_property}));
+
+  EXPECT_EQ(spy_insert.count(), 1);
+
+  auto parent_index = QModelIndex();               // our parent is a new root
+  EXPECT_EQ(viewmodel.rowCount(parent_index), 3);  // hidden item is not here
+  EXPECT_EQ(viewmodel.columnCount(parent_index), 2);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(parent_index), parent);
+
+  auto child_index0 = viewmodel.index(0, 0, parent_index);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index0), height_property);
+
+  auto child_index1 = viewmodel.index(1, 0, parent_index);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index1), child_ptr);
+
+  auto child_index2 = viewmodel.index(2, 0, parent_index);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), width_property);
 }

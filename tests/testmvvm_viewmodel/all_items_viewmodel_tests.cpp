@@ -1094,8 +1094,4 @@ TEST_F(AllItemsViewModelTests, InsertIntoEmptyTag)
 
   auto child_index2 = viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), child);
-
-  qDebug() << property << child;
-  qDebug() << viewmodel.GetSessionItemFromIndex(child_index1)
-           << viewmodel.GetSessionItemFromIndex(child_index2);
 }
