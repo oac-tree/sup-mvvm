@@ -19,9 +19,6 @@
 
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
-#include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
@@ -34,6 +31,10 @@
 #include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
+#include <gtest/gtest.h>
+#include <testutils/folder_based_test.h>
+
+#include <QDebug>
 #include <QSignalSpy>
 
 using namespace mvvm;
@@ -1055,4 +1056,46 @@ TEST_F(AllItemsViewModelTests, DeleteGraphVromViewport)
 
   graph_item = model.InsertItem<GraphItem>(viewport_item);
   EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y, graph
+}
+
+//! Inserting item in an empty tag.
+//! This is to validate that item inserted in empty tag appears in the right order (real life bug).
+
+TEST_F(AllItemsViewModelTests, InsertIntoEmptyTag)
+{
+  ApplicationModel model;
+
+  auto parent = model.InsertItem<CompoundItem>();
+
+  // for the moment, AddProperty doesn't trigger signaling
+  // so we have to initialise viewmodel later
+
+  auto property = parent->AddProperty("name", "abc");
+  parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
+
+  AllItemsViewModel viewmodel(&model);
+
+  QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
+
+  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({property}));
+
+  auto child = model.InsertItem<SessionItem>(parent);
+  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({property, child}));
+
+  EXPECT_EQ(spy_insert.count(), 1);
+
+  auto parent_index = viewmodel.index(0, 0);
+  EXPECT_EQ(viewmodel.rowCount(parent_index), 2);
+  EXPECT_EQ(viewmodel.columnCount(parent_index), 2);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(parent_index), parent);
+
+  auto child_index1 = viewmodel.index(0, 0, parent_index);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index1), property);
+
+  auto child_index2 = viewmodel.index(1, 0, parent_index);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), child);
+
+  qDebug() << property << child;
+  qDebug() << viewmodel.GetSessionItemFromIndex(child_index1)
+           << viewmodel.GetSessionItemFromIndex(child_index2);
 }
