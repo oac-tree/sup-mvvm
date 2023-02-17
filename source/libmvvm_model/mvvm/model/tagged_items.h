@@ -38,7 +38,7 @@ class SessionItem;
 class MVVM_MODEL_EXPORT TaggedItems
 {
 public:
-  using container_t = std::vector<SessionItemContainer*>;
+  using container_t = std::vector<std::unique_ptr<SessionItemContainer>>;
   using const_iterator = container_t::const_iterator;
 
   TaggedItems();
@@ -92,7 +92,7 @@ private:
   SessionItemContainer* GetContainer(const std::string& tag_name) const;
   SessionItemContainer* FindContainer(const std::string& tag_name) const;
 
-  std::vector<SessionItemContainer*> m_containers;
+  container_t m_containers;
   std::string m_default_tag;
 };
 

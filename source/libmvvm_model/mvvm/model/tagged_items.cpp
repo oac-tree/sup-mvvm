@@ -29,13 +29,7 @@ namespace mvvm
 
 TaggedItems::TaggedItems() = default;
 
-TaggedItems::~TaggedItems()
-{
-  for (auto tag : m_containers)
-  {
-    delete tag;
-  }
-}
+TaggedItems::~TaggedItems() = default;
 
 void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 {
@@ -45,7 +39,7 @@ void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
                              + tag_info.GetName() + "'");
   }
 
-  m_containers.push_back(new SessionItemContainer(tag_info));
+  m_containers.emplace_back(std::make_unique<SessionItemContainer>(tag_info));
   if (set_as_default)
   {
     m_default_tag = tag_info.GetName();
@@ -56,7 +50,7 @@ void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 
 bool TaggedItems::HasTag(const std::string& name) const
 {
-  for (auto tag : m_containers)
+  for (auto& tag : m_containers)
   {
     if (tag->GetName() == name)
     {
@@ -146,7 +140,7 @@ std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag) const
 std::vector<SessionItem*> TaggedItems::GetAllItems() const
 {
   std::vector<SessionItem*> result;
-  for (auto cont : m_containers)
+  for (auto& cont : m_containers)
   {
     auto container_items = cont->GetItems();
     result.insert(result.end(), container_items.begin(), container_items.end());
@@ -159,7 +153,7 @@ std::vector<SessionItem*> TaggedItems::GetAllItems() const
 
 TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
 {
-  for (auto cont : m_containers)
+  for (auto& cont : m_containers)
   {
     int index = cont->IndexOfItem(item);
     if (index != -1)
@@ -205,7 +199,7 @@ SessionItemContainer& TaggedItems::ContainerAt(int index)
 
 void TaggedItems::AppendContainer(std::unique_ptr<SessionItemContainer> container)
 {
-  m_containers.push_back(container.release());
+  m_containers.push_back(std::move(container));
 }
 
 //! Returns container corresponding to given tag name. If name is empty,
@@ -228,11 +222,11 @@ SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) con
 
 SessionItemContainer* TaggedItems::FindContainer(const std::string& tag_name) const
 {
-  for (auto cont : m_containers)
+  for (auto& cont : m_containers)
   {
     if (cont->GetName() == tag_name)
     {
-      return cont;
+      return cont.get();
     }
   }
 

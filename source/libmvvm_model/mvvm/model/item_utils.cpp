@@ -126,7 +126,7 @@ bool IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
 std::vector<std::string> RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
-  for (const auto container : *item.GetTaggedItems())
+  for (const auto& container : *item.GetTaggedItems())
   {
     result.push_back(container->GetName());
   }
