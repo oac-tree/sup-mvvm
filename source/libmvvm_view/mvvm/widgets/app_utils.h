@@ -31,8 +31,10 @@ namespace mvvm::utils
 //! Returns multiline-string describing system environment related to the user desktop.
 std::string GetDesktopInfo();
 
-//! Sets up high DPI scaling.
-void SetupHighDpiScaling(bool use_system_scale);
+//! Sets up high DPI scaling. If \it scale_from_environment is false (default case),
+//! will explicitly ignore Qt's environment variables QT_SCALE_FACTOR, QT_SCREEN_SCALE_FACTORS and
+//! QT_AUTO_SCREEN_SCALE_FACTOR.
+void SetupHighDpiScaling(bool scale_from_environment = false);
 
 //! Sets point size of the main application font.
 void SetApplicationFontSize(int point_size);
