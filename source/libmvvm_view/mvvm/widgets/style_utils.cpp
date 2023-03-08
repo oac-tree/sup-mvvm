@@ -68,16 +68,6 @@ QString CreatePopertyTreeStyleString()
 namespace mvvm::utils
 {
 
-int UnitSize(double scale)
-{
-  return static_cast<int>(std::round(mvvm::utils::WidthOfLetterM() * scale));
-}
-
-int AppFontSize()
-{
-  return mvvm::utils::SystemPointSize();
-}
-
 QSize ToolBarIconSize()
 {
   const int width = UnitSize(2.3);

@@ -96,6 +96,14 @@ QStringList GetStringList(const QByteArray& byteArray);
 //! the final result will be R"(/ <a href="/home">home</a> / <a href="/home/user">user</a>)"
 QString CreatePathPresentation(const QString& text);
 
+//! Returns characteristic UI size scaled by a given factor.
+//! Characteristic size corresponds to the width of the letter 'M', expressed in units of Qt's
+//! own virtual coordinate system. The user is expected to express all widget sizes in these units.
+int UnitSize(double scale = 1.0);
+
+//! Returns default point size of the application's font.
+int AppFontSize();
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_WIDGETS_WIDGET_UTILS_H_

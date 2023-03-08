@@ -32,14 +32,6 @@ class QTreeView;
 namespace mvvm::utils
 {
 
-//! Returns characteristic UI size scaled by a given factor.
-//! Characteristic size corresponds to the width of the letter 'M', expressed in units of Qt's
-//! own virtual coordinate system. The user is expected to express all widget sizes in these units.
-int UnitSize(double scale = 1.0);
-
-//! Returns default point size of the application's font.
-int AppFontSize();
-
 //! Size of tolbar icons.
 QSize ToolBarIconSize();
 

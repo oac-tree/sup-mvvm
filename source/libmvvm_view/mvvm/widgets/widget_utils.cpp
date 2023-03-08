@@ -256,4 +256,14 @@ QString CreatePathPresentation(const QString& text)
   return result;
 }
 
+int UnitSize(double scale)
+{
+  return static_cast<int>(std::round(WidthOfLetterM() * scale));
+}
+
+int AppFontSize()
+{
+  return SystemPointSize();
+}
+
 }  // namespace mvvm::utils
