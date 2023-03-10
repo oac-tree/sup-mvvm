@@ -87,7 +87,7 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
   {
     const auto [parent, tagindex] = event;
 
-    auto added_child = dynamic_cast<GraphItem*>(parent->GetItem(tagindex.tag, tagindex.index));
+    auto added_child = dynamic_cast<GraphItem*>(parent->GetItem(tagindex));
 
     for (auto& controller : m_graph_controllers)
     {
@@ -109,7 +109,7 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
   {
     const auto [parent, tagindex] = event;
 
-    auto child_about_to_be_removed = parent->GetItem(tagindex.tag, tagindex.index);
+    auto child_about_to_be_removed = parent->GetItem(tagindex);
     auto if_func = [&](const std::unique_ptr<GraphPlotController>& cntrl) -> bool
     { return cntrl->GetItem() == child_about_to_be_removed; };
     m_graph_controllers.remove_if(if_func);

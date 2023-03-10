@@ -168,8 +168,7 @@ SessionItem* FindNextSibling(SessionItem* item)
   {
     return nullptr;
   }
-  auto tag_index = item->GetTagIndex();
-  return parent->GetItem(tag_index.tag, tag_index.index + 1);
+  return parent->GetItem(item->GetTagIndex().Next());
 }
 
 SessionItem* FindPreviousSibling(SessionItem* item)
@@ -179,8 +178,7 @@ SessionItem* FindPreviousSibling(SessionItem* item)
   {
     return nullptr;
   }
-  auto tag_index = parent->TagIndexOfItem(item);
-  return parent->GetItem(tag_index.tag, tag_index.index - 1);
+  return parent->GetItem(item->GetTagIndex().Prev());
 }
 
 SessionItem* FindNextItemToSelect(SessionItem* item)

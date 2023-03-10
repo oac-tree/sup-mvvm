@@ -37,7 +37,15 @@ TagIndex TagIndex::Prev() const
   return {tag, index - 1};
 }
 
-//! Returns TagIndex corresponding to the append to tag_name.
+//! Constructs TagIndex corresponding to the first item of the container with the name \it tag_name.
+//! If tag_name =="" the default name will be used in SessionItemTags context.
+
+TagIndex TagIndex::First(const std::string &tag_name)
+{
+  return {tag_name, 0};
+}
+
+//! Returns TagIndex corresponding to the append operation to container with tag_name.
 //! If tag_name =="" the default name will be used in SessionItemTags context.
 
 TagIndex TagIndex::Append(const std::string& tag_name)

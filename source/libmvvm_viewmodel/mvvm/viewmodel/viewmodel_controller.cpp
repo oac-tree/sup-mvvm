@@ -150,7 +150,7 @@ struct ViewModelController::ViewModelControllerImpl
   //! Insert views for parent's child at position `tag_index`.
   void InsertView(SessionItem *parent, const TagIndex &tag_index)
   {
-    auto new_child = parent->GetItem(tag_index.tag, tag_index.index);
+    auto new_child = parent->GetItem(tag_index);
     int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
     if (insert_view_index == -1)
     {
@@ -224,7 +224,7 @@ void ViewModelController::OnModelEvent(const ItemInsertedEvent &event)
 
 void ViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
-  auto item_to_remove = event.m_item->GetItem(event.m_tag_index.tag, event.m_tag_index.index);
+  auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
 
   if (item_to_remove == p_impl->GetRootItem()
       || utils::IsItemAncestor(p_impl->GetRootItem(), item_to_remove))

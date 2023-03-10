@@ -171,12 +171,12 @@ int SessionItem::GetItemCount(const std::string& tag) const
   return p_impl->m_tags->GetItemCount(tag);
 }
 
-//! Returns item at given row of given tag.
-//! Will throw if container with such `tag` doesn't exist, or `index` is invalid.
+//! Returns item located at given \it tag_index.
+//! Will throw if \it tag_index is invalid (wrong index, non-existing container).
 
-SessionItem* SessionItem::GetItem(const std::string& tag, int index) const
+SessionItem* SessionItem::GetItem(const TagIndex &tag_index) const
 {
-  return p_impl->m_tags->GetItem({tag, index});
+  return p_impl->m_tags->GetItem(tag_index);
 }
 
 //! Returns all children stored at given tag.

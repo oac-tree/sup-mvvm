@@ -102,7 +102,15 @@ TEST_F(TagIndexTests, AssignmentOperator)
 
 TEST_F(TagIndexTests, FactoryMethods)
 {
-  auto tag_index = TagIndex::Append();
+  auto tag_index = TagIndex::First();
+  EXPECT_EQ(tag_index.tag, "");
+  EXPECT_EQ(tag_index.index, 0);
+
+  tag_index = TagIndex::First("tag");
+  EXPECT_EQ(tag_index.tag, "tag");
+  EXPECT_EQ(tag_index.index, 0);
+
+  tag_index = TagIndex::Append();
   EXPECT_EQ(tag_index.tag, "");
   EXPECT_EQ(tag_index.index, -1);
 

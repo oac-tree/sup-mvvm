@@ -92,7 +92,7 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
   EXPECT_EQ(commands->GetSize(), 3);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
-  EXPECT_EQ(m_model.GetRootItem()->GetItem("", 0)->Data(), variant_t(42));
+  EXPECT_EQ(m_model.GetRootItem()->GetItem({"", 0})->Data(), variant_t(42));
 }
 
 //! Add GraphItem and Data1DItem, addisgn data to graph, undo, then redo.

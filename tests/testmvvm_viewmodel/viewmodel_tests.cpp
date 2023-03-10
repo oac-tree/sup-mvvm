@@ -81,7 +81,7 @@ TEST_F(ViewModelTests, GetSessionItem)
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(view_model.GetSessionItemFromIndex(view_model.index(0, 0)),
-            m_model.GetRootItem()->GetItem("", 0));
+            m_model.GetRootItem()->GetItem(TagIndex::First()));
 }
 
 TEST_F(ViewModelTests, GetViewItemFromIndex)
@@ -99,7 +99,7 @@ TEST_F(ViewModelTests, FindViews)
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()),
             std::vector<ViewItem *>({view_model.rootItem()}));
 
-  EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem("", 0)),
+  EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem(TagIndex::First())),
             std::vector<ViewItem *>(
                 {view_model.rootItem()->child(0, 0), view_model.rootItem()->child(0, 1)}));
 }
@@ -113,7 +113,7 @@ TEST_F(ViewModelTests, GetIndexOfSessionItem)
   QModelIndex dataIndex = view_model.index(0, 1);
 
   QModelIndexList expected{labelIndex, dataIndex};
-  EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem("", 0)), expected);
+  EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem(TagIndex::First())), expected);
 
   // FIXME Is this behavior correct? Might be having QModelIndex() in a list is more consistent.
   EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()), QModelIndexList());

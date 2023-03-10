@@ -57,13 +57,13 @@ TEST_F(ModelComposerTests, InsertItem)
   auto p_child = child.get();
 
   // inserting child
-  auto inserted = composer.InsertItem(std::move(child), parent.get(), {"", 0});
+  auto inserted = composer.InsertItem(std::move(child), parent.get(), TagIndex::First());
 
   EXPECT_EQ(inserted, p_child);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->GetItem("", 0), inserted);
+  EXPECT_EQ(parent->GetItem(TagIndex::First()), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
 }
 
@@ -80,7 +80,7 @@ TEST_F(ModelComposerTests, TakeItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
 
   // taking item via composer
-  auto taken = composer.TakeItem(parent.get(), {"", 0});
+  auto taken = composer.TakeItem(parent.get(), TagIndex::First());
 
   EXPECT_EQ(taken->GetParent(), nullptr);
   EXPECT_EQ(taken.get(), child);

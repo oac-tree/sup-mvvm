@@ -133,7 +133,7 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
   EXPECT_FALSE(command->IsObsolete());
 
   EXPECT_EQ(parent->GetTotalItemCount(), 2);
-  auto restored = parent->GetItem("tag1", 0);
+  auto restored = parent->GetItem({"tag1", 0});
   EXPECT_EQ(restored->GetIdentifier(), child1_identifier);
 
   // checking the data of restored item

@@ -124,8 +124,8 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
 
   EXPECT_EQ(command.GetResult(), to_insert_ptr);
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
-  EXPECT_EQ(parent->GetItem("tag1", 1), to_insert_ptr);
-  EXPECT_EQ(parent->GetItem("tag1", 1)->Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem({"tag1", 1}), to_insert_ptr);
+  EXPECT_EQ(parent->GetItem({"tag1", 1})->Data<int>(), 42);
 
   // undoing command
   command.Undo();
@@ -136,8 +136,8 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
   command.Execute();
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
-  EXPECT_EQ(parent->GetItem("tag1", 1)->Data<int>(), 42);
-  EXPECT_EQ(parent->GetItem("tag1", 1)->GetIdentifier(), identifier);
+  EXPECT_EQ(parent->GetItem({"tag1", 1})->Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem({"tag1", 1})->GetIdentifier(), identifier);
 }
 
 //! Insert item to parent.

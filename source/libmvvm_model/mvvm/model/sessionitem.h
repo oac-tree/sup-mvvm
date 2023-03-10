@@ -89,7 +89,7 @@ public:
 
   int GetItemCount(const std::string& tag) const;
 
-  SessionItem* GetItem(const std::string& tag, int index = 0) const;
+  SessionItem* GetItem(const TagIndex& tag_index) const;
 
   std::vector<SessionItem*> GetItems(const std::string& tag) const;
 
@@ -185,7 +185,7 @@ inline T SessionItem::Data(int role) const
 template <typename T>
 inline T* SessionItem::GetItem(const std::string& tag, int index) const
 {
-  if (auto item = GetItem(tag, index); item)
+  if (auto item = GetItem({tag, index}); item)
   {
     T* tag_item = dynamic_cast<T*>(item);
     if (!tag_item)
