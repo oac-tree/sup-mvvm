@@ -27,6 +27,7 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace mvvm
 {
@@ -105,6 +106,10 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
 //! ReplaceData(&item, "abc", role) <-- will succeed, new data will be std::string, instead of
 //! double
 MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
+
+//! Returns deep clone of the item (identifiers are preserved).
+//! Current limitation: item should be the part of the model (see explanations in the code).
+std::unique_ptr<SessionItem> CloneItem(const SessionItem&item);
 
 }  // namespace mvvm::utils
 

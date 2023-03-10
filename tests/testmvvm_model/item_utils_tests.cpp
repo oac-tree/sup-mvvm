@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
@@ -442,4 +443,25 @@ TEST_F(ItemUtilsTests, ReplaceData)
   EXPECT_TRUE(utils::ReplaceData(item, std::string("abc"), DataRole::kData));
 
   EXPECT_EQ(item.Data(), variant_t(std::string("abc")));
+}
+
+TEST_F(ItemUtilsTests, CloneItem)
+{
+  {  // attempt to clone an item that doesn't have a model
+    PropertyItem item;
+    item.SetData(42.0);
+
+    EXPECT_THROW(utils::CloneItem(item), InvalidOperationException);
+  }
+
+  {  // cloning item in board of the model
+    SessionModel model;
+    auto item = model.InsertItem<PropertyItem>();
+    item->SetData(42);
+
+    auto clone = utils::CloneItem(*item);
+    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+    EXPECT_EQ(item->GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(item->Data(), clone->Data());
+  }
 }

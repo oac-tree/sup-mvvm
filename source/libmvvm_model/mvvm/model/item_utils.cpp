@@ -19,6 +19,8 @@
 
 #include "mvvm/model/item_utils.h"
 
+#include <mvvm/core/exceptions.h>
+#include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionitem_container.h>
@@ -247,6 +249,22 @@ bool ReplaceData(SessionItem& item, const variant_t& value, int role)
 {
   item.SetData(variant_t(), role);   // will remove old variant for given role
   return item.SetData(value, role);  // will succeed
+}
+
+std::unique_ptr<SessionItem> CloneItem(const SessionItem& item)
+{
+  if (auto model = item.GetModel(); model)
+  {
+    auto strategy = CreateItemCloneStrategy(model->GetFactory());
+    return strategy->CreateCopy(&item);
+  }
+  else
+  {
+    // Why do we need a model to clone an item? This is because of the absence of clone machinery on
+    // board of SessionItem family. All cloning/copying is done via serialization, which requires a
+    // factory, and so the model.
+    throw InvalidOperationException("Item should be the part of the model");
+  }
 }
 
 }  // namespace mvvm::utils
