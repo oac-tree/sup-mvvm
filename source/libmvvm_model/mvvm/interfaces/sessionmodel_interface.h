@@ -54,7 +54,7 @@ public:
                                   const TagIndex& tag_index) = 0;
 
   template <typename T>
-  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = {});
+  T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = TagIndex::Append());
 
   virtual std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) = 0;
 

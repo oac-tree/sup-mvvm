@@ -23,6 +23,7 @@
 #include <mvvm/model/sessionitem_container.h>
 
 #include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -162,7 +163,7 @@ TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
     }
   }
 
-  return {};
+  throw RuntimeException("Item doesn't belong to the container");
 }
 
 TaggedItems::const_iterator TaggedItems::begin() const

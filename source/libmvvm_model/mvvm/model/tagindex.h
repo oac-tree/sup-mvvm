@@ -26,19 +26,19 @@
 
 namespace mvvm
 {
+
 //! Aggregate to hold (tag, index) information for SessionModel.
-//! index=-1 is a special value for appending to the end of the in the SessionIteTags context.
 
 class MVVM_MODEL_EXPORT TagIndex
 {
 public:
   std::string tag = {};
-  int index = -1;
+  int index = 0;
 
   TagIndex() {}
 
-  TagIndex(const std::string& name, int index = -1) : tag(name), index(index) {}
-  TagIndex(const char* name, int index = -1) : tag(name), index(index) {}
+  TagIndex(const std::string& name, int index = 0) : tag(name), index(index) {}
+  TagIndex(const char* name, int index = 0) : tag(name), index(index) {}
 
   TagIndex Next() const;
 

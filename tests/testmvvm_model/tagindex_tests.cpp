@@ -37,7 +37,7 @@ TEST_F(TagIndexTests, InitialState)
 {
   TagIndex tag_index;
   EXPECT_EQ(tag_index.tag, "");
-  EXPECT_EQ(tag_index.index, -1);
+  EXPECT_EQ(tag_index.index, 0);
 }
 
 //! Brace initializer.
@@ -50,7 +50,7 @@ TEST_F(TagIndexTests, BraceInitializer)
 
   tag_index = {};
   EXPECT_EQ(tag_index.tag, "");
-  EXPECT_EQ(tag_index.index, -1);
+  EXPECT_EQ(tag_index.index, 0);
 
   tag_index = {"cde", 43};
   EXPECT_EQ(tag_index.tag, "cde");
@@ -58,7 +58,7 @@ TEST_F(TagIndexTests, BraceInitializer)
 
   TagIndex tag_index2 = {"cde"};
   EXPECT_EQ(tag_index2.tag, "cde");
-  EXPECT_EQ(tag_index2.index, -1);
+  EXPECT_EQ(tag_index2.index, 0);
 }
 
 //! Equality operators.
@@ -122,7 +122,7 @@ TEST_F(TagIndexTests, ImplicitConversion)
 {
   auto tag_index = GetTestIndex("abc");
   EXPECT_EQ(tag_index.tag, "abc");
-  EXPECT_EQ(tag_index.index, -1);
+  EXPECT_EQ(tag_index.index, 0);
 }
 
 //! Find next tagrow.

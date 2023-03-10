@@ -254,13 +254,13 @@ TEST_F(RemoveItemCommandTests, RemoveChildFromMultiTag)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"));
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag2"));
 
-  auto child1 = m_model.InsertItem<SessionItem>(parent, "tag1");
+  auto child1 = m_model.InsertItem<SessionItem>(parent, TagIndex::Append("tag1"));
   child1->SetData(41.0);
 
-  auto child2 = m_model.InsertItem<SessionItem>(parent, "tag1");
+  auto child2 = m_model.InsertItem<SessionItem>(parent, TagIndex::Append("tag1"));
   child2->SetData(42.0);
 
-  auto child3 = m_model.InsertItem<SessionItem>(parent, "tag2");
+  auto child3 = m_model.InsertItem<SessionItem>(parent, TagIndex::Append("tag2"));
   child3->SetData(43.0);
 
   auto parent_identifier = parent->GetIdentifier();

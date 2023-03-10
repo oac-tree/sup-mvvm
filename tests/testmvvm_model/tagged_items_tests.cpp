@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
 
@@ -186,12 +187,10 @@ TEST_F(TaggedItemsTests, TagRowOfItem)
 
   // alien item has no tag and -1 row
   auto alien = std::make_unique<SessionItem>();
-  EXPECT_EQ(tag.TagIndexOfItem(alien.get()).tag, "");
-  EXPECT_EQ(tag.TagIndexOfItem(alien.get()).index, -1);
+  EXPECT_THROW(tag.TagIndexOfItem(alien.get()), RuntimeException);
 
   // the same for nullptr
-  EXPECT_EQ(tag.TagIndexOfItem(nullptr).tag, "");
-  EXPECT_EQ(tag.TagIndexOfItem(nullptr).index, -1);
+  EXPECT_THROW(tag.TagIndexOfItem(nullptr), RuntimeException);
 }
 
 //! Testing method getItem.

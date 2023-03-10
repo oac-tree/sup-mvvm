@@ -181,9 +181,9 @@ TEST_F(ItemUtilsTests, TopLevelItems)
   auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
 
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child2 = parent->AddProperty("thickness", 42.0);
-  auto child3 = model.InsertItem<SessionItem>(parent, "default_tag");
+  auto child3 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
 
   EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
   EXPECT_EQ(utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
@@ -265,10 +265,10 @@ TEST_F(ItemUtilsTests, FindNextSibling)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreateUniversalTag("property_tag", {PropertyItem::Type}));
 
-  auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
-  auto child0 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child2 = model.InsertItem<SessionItem>(parent, "default_tag");
+  auto property = model.InsertItem<PropertyItem>(parent, TagIndex::Append("property_tag"));
+  auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
 
   EXPECT_EQ(utils::FindNextSibling(child0), child1);
   EXPECT_EQ(utils::FindNextSibling(child1), child2);
@@ -288,9 +288,9 @@ TEST_F(ItemUtilsTests, FindPreviousSibling)
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
   auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
-  auto child0 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child2 = model.InsertItem<SessionItem>(parent, "default_tag");
+  auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
 
   EXPECT_EQ(utils::FindPreviousSibling(child0), nullptr);
   EXPECT_EQ(utils::FindPreviousSibling(child1), child0);
@@ -310,9 +310,9 @@ TEST_F(ItemUtilsTests, FindNextItemToSelect)
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
 
   auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
-  auto child0 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child2 = model.InsertItem<SessionItem>(parent, "default_tag");
+  auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
 
   EXPECT_EQ(utils::FindNextItemToSelect(child0), child1);
   EXPECT_EQ(utils::FindNextItemToSelect(child1), child2);

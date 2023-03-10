@@ -533,10 +533,10 @@ TEST_F(SessionModelTest, MoveItemBetweenParentTags)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"));
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag2"));
 
-  auto child0 = model.InsertItem<SessionItem>(parent, "tag1");
-  auto child1 = model.InsertItem<SessionItem>(parent, "tag1");
-  auto child2 = model.InsertItem<SessionItem>(parent, "tag2");
-  auto child3 = model.InsertItem<SessionItem>(parent, "tag2");
+  auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("tag1"));
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("tag1"));
+  auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("tag2"));
+  auto child3 = model.InsertItem<SessionItem>(parent, TagIndex::Append("tag2"));
 
   // moving child2 to another tag
   model.MoveItem(child2, parent, {"tag1", 0});
