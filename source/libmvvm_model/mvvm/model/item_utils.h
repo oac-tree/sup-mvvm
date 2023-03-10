@@ -111,6 +111,10 @@ MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, in
 //! Current limitation: item should be the part of the model (see explanations in the code).
 std::unique_ptr<SessionItem> CloneItem(const SessionItem&item);
 
+//! Returns deep copy of the item (identifiers are preserved).
+//! Current limitation: item should be the part of the model (see explanations in the code).
+std::unique_ptr<SessionItem> CopyItem(const SessionItem&item);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

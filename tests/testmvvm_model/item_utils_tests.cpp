@@ -445,6 +445,8 @@ TEST_F(ItemUtilsTests, ReplaceData)
   EXPECT_EQ(item.Data(), variant_t(std::string("abc")));
 }
 
+//! Testing utility function CloneItem.
+
 TEST_F(ItemUtilsTests, CloneItem)
 {
   {  // attempt to clone an item that doesn't have a model
@@ -462,6 +464,30 @@ TEST_F(ItemUtilsTests, CloneItem)
     auto clone = utils::CloneItem(*item);
     EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
     EXPECT_EQ(item->GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(item->Data(), clone->Data());
+  }
+}
+
+//! Testing utility function CopyItem.
+//! The difference with previous class is that identifier of copied item shouldn't coincide.
+
+TEST_F(ItemUtilsTests, CopyItem)
+{
+  {  // attempt to copy an item that doesn't have a model
+    PropertyItem item;
+    item.SetData(42.0);
+
+    EXPECT_THROW(utils::CopyItem(item), InvalidOperationException);
+  }
+
+  {  // cloning item in board of the model
+    SessionModel model;
+    auto item = model.InsertItem<PropertyItem>();
+    item->SetData(42);
+
+    auto clone = utils::CopyItem(*item);
+    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+    EXPECT_NE(item->GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item->Data(), clone->Data());
   }
 }

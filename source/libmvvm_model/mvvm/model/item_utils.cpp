@@ -267,4 +267,20 @@ std::unique_ptr<SessionItem> CloneItem(const SessionItem& item)
   }
 }
 
+std::unique_ptr<SessionItem> CopyItem(const SessionItem& item)
+{
+  if (auto model = item.GetModel(); model)
+  {
+    auto strategy = CreateItemCopyStrategy(model->GetFactory());
+    return strategy->CreateCopy(&item);
+  }
+  else
+  {
+    // Why do we need a model to clone an item? This is because of the absence of clone machinery on
+    // board of SessionItem family. All cloning/copying is done via serialization, which requires a
+    // factory, and so the model.
+    throw InvalidOperationException("Item should be the part of the model");
+  }
+}
+
 }  // namespace mvvm::utils
