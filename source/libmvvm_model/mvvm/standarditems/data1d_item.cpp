@@ -97,7 +97,7 @@ std::vector<double> Data1DItem::GetErrors() const
 
 BinnedAxisItem* Data1DItem::GetAxis() const
 {
-  return GetItem<BinnedAxisItem>(kAxis, 0);
+  return GetItem<BinnedAxisItem>({kAxis, 0});
 }
 
 void Data1DItem::SetAxis(std::unique_ptr<BinnedAxisItem> axis)

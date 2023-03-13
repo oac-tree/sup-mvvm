@@ -94,7 +94,7 @@ public:
   std::vector<SessionItem*> GetItems(const std::string& tag) const;
 
   template <typename T>
-  T* GetItem(const std::string& tag, int index = 0) const;
+  T* GetItem(const TagIndex& tag_index) const;
   template <typename T = SessionItem>
   std::vector<T*> GetItems(const std::string& tag) const;
 
@@ -183,9 +183,9 @@ inline T SessionItem::Data(int role) const
 //! Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
 
 template <typename T>
-inline T* SessionItem::GetItem(const std::string& tag, int index) const
+inline T* SessionItem::GetItem(const TagIndex& tag_index) const
 {
-  if (auto item = GetItem({tag, index}); item)
+  if (auto item = GetItem(tag_index); item)
   {
     T* tag_item = dynamic_cast<T*>(item);
     if (!tag_item)
