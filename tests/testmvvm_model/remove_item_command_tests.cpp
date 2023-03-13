@@ -70,7 +70,7 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromRoot)
       std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex{"", 0});
 
   // item is still there
-  EXPECT_EQ(m_model.GetRootItem()->GetItem({"", 0}), item);
+  EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex()), item);
 
   command->Execute();  // removal
   EXPECT_FALSE(command->IsObsolete());
@@ -91,7 +91,7 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromRoot)
 
   // checking restored item
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
-  auto restored = m_model.GetRootItem()->GetItem({"", 0});
+  auto restored = m_model.GetRootItem()->GetItem(TagIndex());
   EXPECT_EQ(restored->GetIdentifier(), item_identifier);
 
   // redoing item removal
@@ -117,7 +117,7 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
   auto child1_identifier = child1->GetIdentifier();
 
   // command to remove one child
-  auto command = std::make_unique<RemoveItemCommand>(composer.get(), parent, TagIndex{"", 0});
+  auto command = std::make_unique<RemoveItemCommand>(composer.get(), parent, TagIndex());
 
   command->Execute();  // removal
   EXPECT_FALSE(command->IsObsolete());
@@ -213,7 +213,7 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWithNotifyingComposer)
 
   // command to remove parent
   auto command =
-      std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex{"", 0});
+      std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex());
   command->Execute();  // removal, triggering signals
   EXPECT_FALSE(command->IsObsolete());
 

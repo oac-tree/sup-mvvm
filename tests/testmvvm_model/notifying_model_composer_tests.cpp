@@ -86,7 +86,7 @@ TEST_F(NotifyingModelComposerTests, InsertItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
   EXPECT_EQ(parent->GetAllItems()[0], inserted);
-  EXPECT_EQ(parent->GetItem({"", 0}), inserted);
+  EXPECT_EQ(parent->GetItem(TagIndex::Default()), inserted);
   EXPECT_EQ(inserted->GetParent(), parent.get());
 }
 

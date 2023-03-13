@@ -44,8 +44,6 @@ public:
 
   TagIndex Prev() const;
 
-  static TagIndex First(const std::string& tag_name = {});
-
   static TagIndex Append(const std::string& tag_name = {});
 
   static TagIndex Prepend(const std::string& tag_name = {});
