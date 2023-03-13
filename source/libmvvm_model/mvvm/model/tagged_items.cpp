@@ -163,7 +163,7 @@ TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
     }
   }
 
-  throw RuntimeException("Item doesn't belong to the container");
+  return {"", -1};
 }
 
 TaggedItems::const_iterator TaggedItems::begin() const

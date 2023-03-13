@@ -157,9 +157,9 @@ TEST_F(TaggedItemsTests, InsertItem)
   EXPECT_EQ(tag.GetAllItems(), expected);
 }
 
-//! Testing method tagRowOfItem.
+//! Testing method TagIndexOfItem.
 
-TEST_F(TaggedItemsTests, TagRowOfItem)
+TEST_F(TaggedItemsTests, GetTagIndexOfItem)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -187,10 +187,10 @@ TEST_F(TaggedItemsTests, TagRowOfItem)
 
   // alien item has no tag and -1 row
   auto alien = std::make_unique<SessionItem>();
-  EXPECT_THROW(tag.TagIndexOfItem(alien.get()), RuntimeException);
+  EXPECT_EQ(tag.TagIndexOfItem(alien.get()), TagIndex("", -1));
 
   // the same for nullptr
-  EXPECT_THROW(tag.TagIndexOfItem(nullptr), RuntimeException);
+  EXPECT_EQ(tag.TagIndexOfItem(nullptr), TagIndex("", -1));
 }
 
 //! Testing method getItem.
