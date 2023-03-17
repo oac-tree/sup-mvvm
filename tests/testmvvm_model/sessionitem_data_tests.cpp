@@ -19,9 +19,9 @@
 
 #include "mvvm/model/sessionitem_data.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/core/exceptions.h>
+
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 
@@ -33,9 +33,9 @@ class SessionItemDataTests : public ::testing::Test
 
 //! Initial state of SessionItemData object.
 
-TEST_F(SessionItemDataTests, initialState)
+TEST_F(SessionItemDataTests, InitialState)
 {
-  SessionItemData item_data;
+  const SessionItemData item_data;
   EXPECT_TRUE(item_data.GetRoles().empty());
   EXPECT_FALSE(item_data.HasData(0));
   EXPECT_FALSE(utils::IsValid(item_data.Data(0)));
@@ -48,11 +48,11 @@ TEST_F(SessionItemDataTests, SetDataDouble)
   const int role = 1;
   SessionItemData item_data;
 
-  variant_t variant(42.0);
+  const variant_t variant(42.0);
 
   // setting variant for role
   EXPECT_TRUE(item_data.SetData(variant, role));
-  std::vector<int> expected_roles{role};
+  const std::vector<int> expected_roles{role};
   EXPECT_EQ(item_data.GetRoles(), expected_roles);
   EXPECT_TRUE(item_data.Data(role) == variant);
 
@@ -84,7 +84,7 @@ TEST_F(SessionItemDataTests, DifferentRoles)
   EXPECT_TRUE(item_data.SetData(variant_t(42.0), role1));
   EXPECT_TRUE(item_data.SetData(variant_t(std::string("str")), role2));
 
-  std::vector<int> expected{role1, role2};
+  const std::vector<int> expected{role1, role2};
   EXPECT_EQ(item_data.GetRoles(), expected);
 
   EXPECT_TRUE(item_data.Data(role1) == variant_t(42.0));
@@ -104,12 +104,12 @@ TEST_F(SessionItemDataTests, ChangingRole)
 
   // setting variant for role
   EXPECT_TRUE(item_data.SetData(variant, role));
-  std::vector<int> expected{role};
+  const std::vector<int> expected{role};
   EXPECT_EQ(item_data.GetRoles(), expected);
   EXPECT_TRUE(item_data.Data(role) == variant);
 
-  variant_t s = std::string("str");
-  EXPECT_THROW(item_data.SetData(s, role), RuntimeException);
+  const variant_t str = std::string("str");
+  EXPECT_THROW(item_data.SetData(str, role), RuntimeException);
 }
 
 //! Access to data and roles via range loop.
@@ -151,4 +151,56 @@ TEST_F(SessionItemDataTests, HasRole)
 
   data.SetData(variant_t(), role);
   EXPECT_FALSE(data.HasData(role));
+}
+
+TEST_F(SessionItemDataTests, CopyConstructor)
+{
+  {  // from default constructed
+    const SessionItemData item_data;
+
+    const SessionItemData copy(item_data);
+
+    EXPECT_TRUE(copy.GetRoles().empty());
+    EXPECT_FALSE(copy.HasData(0));
+    EXPECT_FALSE(utils::IsValid(copy.Data(0)));
+  }
+
+  {  // from data with one element
+    SessionItemData data;
+    const int role = 1;
+    const variant_t variant(42.0);
+    data.SetData(variant, role);
+
+    const SessionItemData copy(data);
+
+    EXPECT_EQ(copy.GetRoles(), std::vector<int>({role}));
+    EXPECT_TRUE(copy.Data(role) == variant);
+  }
+}
+
+TEST_F(SessionItemDataTests, AssignmentOperator)
+{
+  {  // from default constructed
+    const SessionItemData data;
+
+    SessionItemData copy;
+    copy = data;
+
+    EXPECT_TRUE(copy.GetRoles().empty());
+    EXPECT_FALSE(copy.HasData(0));
+    EXPECT_FALSE(utils::IsValid(copy.Data(0)));
+  }
+
+  {  // from data with one element
+    SessionItemData data;
+    const int role = 1;
+    const variant_t variant(42.0);
+    data.SetData(variant, role);
+
+    SessionItemData copy;
+    copy = data;
+
+    EXPECT_EQ(copy.GetRoles(), std::vector<int>({role}));
+    EXPECT_TRUE(copy.Data(role) == variant);
+  }
 }

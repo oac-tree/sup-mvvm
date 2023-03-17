@@ -31,7 +31,7 @@ class TagInfoTests : public ::testing::Test
 
 TEST_F(TagInfoTests, InitialState)
 {
-  TagInfo tag;
+  const TagInfo tag;
   EXPECT_EQ(tag.GetName(), std::string());
   EXPECT_EQ(tag.GetMin(), 0);
   EXPECT_EQ(tag.GetMax(), -1);
@@ -45,7 +45,7 @@ TEST_F(TagInfoTests, InitialState)
 TEST_F(TagInfoTests, DefaultTag)
 {
   // initial state
-  TagInfo tag = TagInfo::CreateUniversalTag("name");
+  const auto tag = TagInfo::CreateUniversalTag("name");
   EXPECT_EQ(tag.GetName(), std::string("name"));
   EXPECT_EQ(tag.GetMin(), 0);
   EXPECT_EQ(tag.GetMax(), -1);
@@ -59,7 +59,7 @@ TEST_F(TagInfoTests, DefaultTag)
 TEST_F(TagInfoTests, PropertyTag)
 {
   // initial state
-  TagInfo tag = TagInfo::CreatePropertyTag("name", "model_type");
+  const auto tag = TagInfo::CreatePropertyTag("name", "model_type");
 
   EXPECT_EQ(tag.GetName(), std::string("name"));
   EXPECT_EQ(tag.GetMin(), 1);
@@ -74,26 +74,92 @@ TEST_F(TagInfoTests, PropertyTag)
 TEST_F(TagInfoTests, EqualityOperator)
 {
   // default constructor
-  TagInfo tag1;
-  TagInfo tag2;
+  const TagInfo tag1;
+  const TagInfo tag2;
   EXPECT_TRUE(tag1 == tag2);
   EXPECT_FALSE(tag1 != tag2);
 
   // same property tag
-  TagInfo tag3 = TagInfo::CreatePropertyTag("name", "model_type");
-  TagInfo tag4 = TagInfo::CreatePropertyTag("name", "model_type");
+  const auto tag3 = TagInfo::CreatePropertyTag("name", "model_type");
+  const auto tag4 = TagInfo::CreatePropertyTag("name", "model_type");
   EXPECT_TRUE(tag3 == tag4);
   EXPECT_FALSE(tag3 != tag4);
 
   // same universal tag
-  TagInfo tag5 = TagInfo::CreateUniversalTag("name");
-  TagInfo tag6 = TagInfo::CreateUniversalTag("name");
+  const auto tag5 = TagInfo::CreateUniversalTag("name");
+  const auto tag6 = TagInfo::CreateUniversalTag("name");
   EXPECT_TRUE(tag5 == tag6);
   EXPECT_FALSE(tag5 != tag6);
 
   // different tag
-  TagInfo tag7("tag7", 0, 1, std::vector<std::string>());
-  TagInfo tag8("tag8", 0, 1, std::vector<std::string>());
+  const TagInfo tag7("tag7", 0, 1, std::vector<std::string>());
+  const TagInfo tag8("tag8", 0, 1, std::vector<std::string>());
   EXPECT_FALSE(tag7 == tag8);
   EXPECT_TRUE(tag7 != tag8);
+}
+
+//! Testing copy constructor.
+
+TEST_F(TagInfoTests, CopyConstructor)
+{
+  {  // from default constructed
+    const TagInfo tag_info;
+
+    const TagInfo copy(tag_info);
+    EXPECT_EQ(copy.GetName(), std::string());
+    EXPECT_EQ(copy.GetMin(), 0);
+    EXPECT_EQ(copy.GetMax(), -1);
+    EXPECT_FALSE(copy.IsSinglePropertyTag());
+    EXPECT_TRUE(copy.IsValidType(""));
+    EXPECT_TRUE(copy.IsValidType("abc"));
+    EXPECT_TRUE(tag_info == copy);
+  }
+
+  {  // from parameters
+    const TagInfo tag_info("abc", 0, 1, {"type"});
+
+    const TagInfo copy(tag_info);
+    EXPECT_EQ(copy.GetName(), std::string("abc"));
+    EXPECT_EQ(copy.GetMin(), 0);
+    EXPECT_EQ(copy.GetMax(), 1);
+    EXPECT_FALSE(copy.IsSinglePropertyTag());
+    EXPECT_FALSE(copy.IsValidType(""));
+    EXPECT_TRUE(copy.IsValidType("type"));
+    EXPECT_TRUE(tag_info == copy);
+  }
+}
+
+//! Testing assignment operator.
+
+TEST_F(TagInfoTests, AssignmentOperator)
+{
+  {  // from default constructed
+    const TagInfo tag_info;
+
+    TagInfo copy;
+    copy = tag_info;
+
+    EXPECT_EQ(copy.GetName(), std::string());
+    EXPECT_EQ(copy.GetMin(), 0);
+    EXPECT_EQ(copy.GetMax(), -1);
+    EXPECT_FALSE(copy.IsSinglePropertyTag());
+    EXPECT_TRUE(copy.IsValidType(""));
+    EXPECT_TRUE(copy.IsValidType("abc"));
+    EXPECT_TRUE(tag_info == copy);
+  }
+
+  {  // from parameters
+    const TagInfo tag_info("abc", 0, 1, {"type"});
+
+    TagInfo copy;
+    copy = tag_info;
+
+    EXPECT_EQ(copy.GetName(), std::string("abc"));
+    EXPECT_EQ(copy.GetMin(), 0);
+    EXPECT_EQ(copy.GetMax(), 1);
+    EXPECT_FALSE(copy.IsSinglePropertyTag());
+    EXPECT_FALSE(copy.IsValidType(""));
+    EXPECT_TRUE(copy.IsValidType("type"));
+    EXPECT_TRUE(tag_info == copy);
+  }
 }
