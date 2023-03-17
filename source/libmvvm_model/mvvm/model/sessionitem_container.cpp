@@ -64,14 +64,14 @@ Insert index is an index which item will have after insertion. If item can't be 
 (wrong model type, wrong index or maximum number of items reached), will return false.
 */
 
-bool SessionItemContainer::InsertItem(SessionItem* item, int index)
+bool SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, int index)
 {
-  if (!CanInsertItem(item, index))
+  if (!CanInsertItem(item.get(), index))
   {
     return false;
   }
 
-  m_items.insert(std::next(m_items.begin(), index), std::unique_ptr<SessionItem>(item));
+  m_items.insert(std::next(m_items.begin(), index), std::move(item));
   return true;
 }
 

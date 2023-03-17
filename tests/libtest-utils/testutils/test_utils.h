@@ -59,10 +59,10 @@ auto GetPointers(const std::vector<std::unique_ptr<T>>& vec)
 }
 
 //! Create a pair of unique_ptr and raw ptr to the object of given type.
-template <typename T>
-auto CreateTestData()
+template <typename T, class... Args>
+auto CreateTestData(Args&&... args)
 {
-  auto uptr = std::make_unique<T>();
+  auto uptr = std::make_unique<T>(std::forward<Args>(args)...);
   auto raw_ptr = uptr.get();
   return std::make_pair(std::move(uptr), raw_ptr);
 }

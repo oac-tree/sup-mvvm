@@ -61,13 +61,13 @@ public:
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 {
   // creating container
-  TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
+  const TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
   SessionItemContainer container(tag);
 
   // inserting single property item
-  auto item = new PropertyItem;
+  auto item = std::make_unique<PropertyItem>();
   item->SetData(42);
-  EXPECT_TRUE(container.InsertItem(item, 0));
+  EXPECT_TRUE(container.InsertItem(std::move(item), 0));
 
   auto tree_data = ContainerConverter::ToTreeData(container, m_create_tree_callback);
 
@@ -79,11 +79,11 @@ TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeDataAndBack)
 {
   // creating container
-  TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
+  const TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
   SessionItemContainer container(tag);
 
   // inserting single property item
-  EXPECT_TRUE(container.InsertItem(new PropertyItem, 0));
+  EXPECT_TRUE(container.InsertItem(std::make_unique<PropertyItem>(), 0));
 
   auto tree_data = ContainerConverter::ToTreeData(container, m_create_tree_callback);
 

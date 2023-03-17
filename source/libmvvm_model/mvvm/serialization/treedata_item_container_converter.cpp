@@ -74,7 +74,7 @@ void PopulateSessionItemContainer(const TreeData &tree_data, SessionItemContaine
   for (auto it = std::next(tree_data.Children().begin()); it != tree_data.Children().end(); ++it)
   {
     // creating item with the function provided and inserting in the container
-    container.InsertItem(func(*it).release(), container.GetItemCount());
+    container.InsertItem(func(*it), container.GetItemCount());
   }
 }
 

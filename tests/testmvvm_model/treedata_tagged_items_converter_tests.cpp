@@ -63,9 +63,9 @@ TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
   tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
   tagged_items.RegisterTag(TagInfo::CreateUniversalTag("Items"));
 
-  tagged_items.ContainerAt(0).InsertItem(new PropertyItem, 0);
-  tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 0);
-  tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 1);
+  tagged_items.ContainerAt(0).InsertItem(std::make_unique<PropertyItem>(), 0);
+  tagged_items.ContainerAt(1).InsertItem(std::make_unique<PropertyItem>(), 0);
+  tagged_items.ContainerAt(1).InsertItem(std::make_unique<PropertyItem>(), 1);
 
   auto converter = CreateConverter();
   auto tree_data = converter->ToTreeData(tagged_items);
@@ -81,9 +81,9 @@ TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeDataAndBack)
   tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
   tagged_items.RegisterTag(TagInfo::CreateUniversalTag("items"));
 
-  tagged_items.ContainerAt(0).InsertItem(new PropertyItem, 0);
-  tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 0);
-  tagged_items.ContainerAt(1).InsertItem(new PropertyItem, 1);
+  tagged_items.ContainerAt(0).InsertItem(std::make_unique<PropertyItem>(), 0);
+  tagged_items.ContainerAt(1).InsertItem(std::make_unique<PropertyItem>(), 0);
+  tagged_items.ContainerAt(1).InsertItem(std::make_unique<PropertyItem>(), 1);
 
   auto converter = CreateConverter();
   auto tree_data = converter->ToTreeData(tagged_items);

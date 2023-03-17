@@ -105,7 +105,7 @@ bool TaggedItems::InsertItem(SessionItem* item, const TagIndex& tag_index)
   auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
   auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return GetContainer(tag_index.tag)->InsertItem(item, index);
+  return GetContainer(tag_index.tag)->InsertItem(std::unique_ptr<SessionItem>(item), index);
 }
 
 //! Returns true if item can be taken.
