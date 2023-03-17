@@ -22,19 +22,16 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/utils/container_utils.h>
 
-using namespace mvvm;
+#include <algorithm>
+
+namespace mvvm
+{
 
 SessionItemContainer::SessionItemContainer(mvvm::TagInfo tag_info) : m_tag_info(std::move(tag_info))
 {
 }
 
-SessionItemContainer::~SessionItemContainer()
-{
-  for (auto item : m_items)
-  {
-    delete item;
-  }
-}
+SessionItemContainer::~SessionItemContainer() = default;
 
 bool SessionItemContainer::IsEmpty() const
 {
@@ -52,7 +49,10 @@ int SessionItemContainer::GetItemCount() const
 
 std::vector<SessionItem*> SessionItemContainer::GetItems() const
 {
-  return m_items;
+  std::vector<SessionItem*> result;
+  std::transform(m_items.begin(), m_items.end(), std::back_inserter(result),
+                 [](const auto& it) { return it.get(); });
+  return result;
 }
 
 /*!
@@ -71,7 +71,7 @@ bool SessionItemContainer::InsertItem(SessionItem* item, int index)
     return false;
   }
 
-  m_items.insert(std::next(m_items.begin(), index), item);
+  m_items.insert(std::next(m_items.begin(), index), std::unique_ptr<SessionItem>(item));
   return true;
 }
 
@@ -85,13 +85,14 @@ SessionItem* SessionItemContainer::TakeItem(int index)
     return nullptr;
   }
 
-  SessionItem* result = ItemAt(index);
-  if (result)
+  if (index >= 0 && index < GetItemCount())
   {
+    auto item = std::move(m_items.at(index));
     m_items.erase(std::next(m_items.begin(), index));
+    return item.release();
   }
 
-  return result;
+  return nullptr;
 }
 
 //! Returns true if item can be taken.
@@ -123,7 +124,7 @@ int SessionItemContainer::IndexOfItem(const SessionItem* item) const
 
 SessionItem* SessionItemContainer::ItemAt(int index) const
 {
-  return index >= 0 && index < GetItemCount() ? m_items[static_cast<size_t>(index)] : nullptr;
+  return index >= 0 && index < GetItemCount() ? m_items[static_cast<size_t>(index)].get() : nullptr;
 }
 
 //! Returns the name of the container.
@@ -163,3 +164,5 @@ bool SessionItemContainer::IsMinimumReached() const
 {
   return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == GetItemCount();
 }
+
+}  // namespace mvvm

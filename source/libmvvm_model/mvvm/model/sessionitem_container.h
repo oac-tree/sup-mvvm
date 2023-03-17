@@ -23,6 +23,7 @@
 #include <mvvm/model/taginfo.h>
 
 #include <vector>
+#include <memory>
 
 namespace mvvm
 {
@@ -33,12 +34,13 @@ class SessionItem;
 class MVVM_MODEL_EXPORT SessionItemContainer
 {
 public:
-  using container_t = std::vector<SessionItem*>;
+  using container_t = std::vector<std::unique_ptr<SessionItem>>;
   using const_iterator = container_t::const_iterator;
 
   explicit SessionItemContainer(TagInfo tag_info);
   SessionItemContainer(const SessionItemContainer&) = delete;
   SessionItemContainer& operator=(const SessionItemContainer&) = delete;
+
   ~SessionItemContainer();
 
   bool IsEmpty() const;
