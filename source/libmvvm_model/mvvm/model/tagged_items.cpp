@@ -176,14 +176,6 @@ TaggedItems::const_iterator TaggedItems::end() const
   return m_containers.end();
 }
 
-//! Returns true if given tag corresponds to registered single property tag.
-
-bool TaggedItems::IsSinglePropertyTag(const std::string& tag) const
-{
-  auto cont = FindContainer(tag);
-  return cont ? cont->GetTagInfo().IsSinglePropertyTag() : false;
-}
-
 int TaggedItems::GetTagCount() const
 {
   return static_cast<int>(m_containers.size());

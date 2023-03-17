@@ -92,14 +92,6 @@ bool TagInfo::IsValidType(const std::string& item_type) const
   return m_item_types.empty() ? true : utils::Contains(m_item_types, item_type);
 }
 
-//! Returns true if this tag is used to store single properties.
-//! Properties are children that are created in SessionItem constructor using addProperty method.
-
-bool TagInfo::IsSinglePropertyTag() const
-{
-  return m_min == 1 && m_max == 1;
-}
-
 bool TagInfo::operator==(const TagInfo& other) const
 {
   return m_name == other.m_name && m_min == other.m_min && m_max == other.m_max

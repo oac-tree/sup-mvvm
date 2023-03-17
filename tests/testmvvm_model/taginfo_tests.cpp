@@ -35,7 +35,6 @@ TEST_F(TagInfoTests, InitialState)
   EXPECT_EQ(tag.GetName(), std::string());
   EXPECT_EQ(tag.GetMin(), 0);
   EXPECT_EQ(tag.GetMax(), -1);
-  EXPECT_FALSE(tag.IsSinglePropertyTag());
   EXPECT_TRUE(tag.IsValidType(""));
   EXPECT_TRUE(tag.IsValidType("abc"));
 }
@@ -49,7 +48,6 @@ TEST_F(TagInfoTests, DefaultTag)
   EXPECT_EQ(tag.GetName(), std::string("name"));
   EXPECT_EQ(tag.GetMin(), 0);
   EXPECT_EQ(tag.GetMax(), -1);
-  EXPECT_FALSE(tag.IsSinglePropertyTag());
   EXPECT_TRUE(tag.IsValidType(""));
   EXPECT_TRUE(tag.IsValidType("abc"));
 }
@@ -64,7 +62,6 @@ TEST_F(TagInfoTests, PropertyTag)
   EXPECT_EQ(tag.GetName(), std::string("name"));
   EXPECT_EQ(tag.GetMin(), 1);
   EXPECT_EQ(tag.GetMax(), 1);
-  EXPECT_TRUE(tag.IsSinglePropertyTag());
   EXPECT_TRUE(tag.IsValidType("model_type"));
   EXPECT_FALSE(tag.IsValidType("abc"));
 }
@@ -109,7 +106,6 @@ TEST_F(TagInfoTests, CopyConstructor)
     EXPECT_EQ(copy.GetName(), std::string());
     EXPECT_EQ(copy.GetMin(), 0);
     EXPECT_EQ(copy.GetMax(), -1);
-    EXPECT_FALSE(copy.IsSinglePropertyTag());
     EXPECT_TRUE(copy.IsValidType(""));
     EXPECT_TRUE(copy.IsValidType("abc"));
     EXPECT_TRUE(tag_info == copy);
@@ -122,7 +118,6 @@ TEST_F(TagInfoTests, CopyConstructor)
     EXPECT_EQ(copy.GetName(), std::string("abc"));
     EXPECT_EQ(copy.GetMin(), 0);
     EXPECT_EQ(copy.GetMax(), 1);
-    EXPECT_FALSE(copy.IsSinglePropertyTag());
     EXPECT_FALSE(copy.IsValidType(""));
     EXPECT_TRUE(copy.IsValidType("type"));
     EXPECT_TRUE(tag_info == copy);
@@ -142,7 +137,6 @@ TEST_F(TagInfoTests, AssignmentOperator)
     EXPECT_EQ(copy.GetName(), std::string());
     EXPECT_EQ(copy.GetMin(), 0);
     EXPECT_EQ(copy.GetMax(), -1);
-    EXPECT_FALSE(copy.IsSinglePropertyTag());
     EXPECT_TRUE(copy.IsValidType(""));
     EXPECT_TRUE(copy.IsValidType("abc"));
     EXPECT_TRUE(tag_info == copy);
@@ -157,7 +151,6 @@ TEST_F(TagInfoTests, AssignmentOperator)
     EXPECT_EQ(copy.GetName(), std::string("abc"));
     EXPECT_EQ(copy.GetMin(), 0);
     EXPECT_EQ(copy.GetMax(), 1);
-    EXPECT_FALSE(copy.IsSinglePropertyTag());
     EXPECT_FALSE(copy.IsValidType(""));
     EXPECT_TRUE(copy.IsValidType("type"));
     EXPECT_TRUE(tag_info == copy);

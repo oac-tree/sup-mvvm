@@ -25,9 +25,9 @@
 #include <mvvm/model_export.h>
 
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 namespace mvvm
 {
@@ -58,9 +58,6 @@ MVVM_MODEL_EXPORT int IndexOfChild(const SessionItem* parent, const SessionItem*
 
 //! Returns true if given item has registered tag.
 MVVM_MODEL_EXPORT bool HasTag(const SessionItem& item, const std::string& tag);
-
-//! Returns true if given item has registered `tag`, and it belongs to single property.
-MVVM_MODEL_EXPORT bool IsSinglePropertyTag(const SessionItem& item, const std::string& tag);
 
 //! Returns vector of strings containing all registered tags of the given item.
 MVVM_MODEL_EXPORT std::vector<std::string> RegisteredTags(const SessionItem& item);
@@ -109,11 +106,11 @@ MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, in
 
 //! Returns deep clone of the item (identifiers are preserved).
 //! Current limitation: item should be the part of the model (see explanations in the code).
-std::unique_ptr<SessionItem> CloneItem(const SessionItem&item);
+std::unique_ptr<SessionItem> CloneItem(const SessionItem& item);
 
 //! Returns deep copy of the item (identifiers are preserved).
 //! Current limitation: item should be the part of the model (see explanations in the code).
-std::unique_ptr<SessionItem> CopyItem(const SessionItem&item);
+std::unique_ptr<SessionItem> CopyItem(const SessionItem& item);
 
 }  // namespace mvvm::utils
 

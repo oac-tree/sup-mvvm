@@ -37,11 +37,7 @@ class VectorItemTests : public ::testing::Test
 
 TEST_F(VectorItemTests, InitialState)
 {
-  VectorItem item;
-
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::kX));
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::kY));
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, VectorItem::kZ));
+  const VectorItem item;
 
   EXPECT_FALSE(item.IsEditable());
 

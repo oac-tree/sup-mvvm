@@ -19,15 +19,16 @@
 
 #include "mvvm/model/item_utils.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/utils/container_utils.h>
+
+#include <gtest/gtest.h>
 
 #include <memory>
 
@@ -145,18 +146,6 @@ TEST_F(ItemUtilsTests, HasTag)
 
   EXPECT_TRUE(utils::HasTag(item, "default_tag"));
   EXPECT_FALSE(utils::HasTag(item, "nonexisting_tag"));
-}
-
-//! Checks method ::IsSinglePropertyTag.
-
-TEST_F(ItemUtilsTests, IsSinglePropertyTag)
-{
-  SessionItem item;
-  item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
-
-  EXPECT_FALSE(utils::IsSinglePropertyTag(item, "default_tag"));
-  EXPECT_TRUE(utils::IsSinglePropertyTag(item, "property_tag"));
 }
 
 //! Checks method ::RegisteredTags.

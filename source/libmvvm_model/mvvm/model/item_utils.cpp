@@ -120,11 +120,6 @@ bool HasTag(const SessionItem& item, const std::string& tag)
   return item.GetTaggedItems()->HasTag(tag);
 }
 
-bool IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
-{
-  return item.GetTaggedItems()->IsSinglePropertyTag(tag);
-}
-
 std::vector<std::string> RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;

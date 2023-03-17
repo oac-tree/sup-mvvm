@@ -80,8 +80,6 @@ public:
   const_iterator begin() const;
   const_iterator end() const;
 
-  bool IsSinglePropertyTag(const std::string& tag) const;
-
   int GetTagCount() const;
 
   SessionItemContainer& ContainerAt(int index);

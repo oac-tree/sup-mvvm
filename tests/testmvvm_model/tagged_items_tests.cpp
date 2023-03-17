@@ -19,11 +19,11 @@
 
 #include "mvvm/model/tagged_items.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
+
+#include <gtest/gtest.h>
 
 #include <stdexcept>
 
@@ -259,18 +259,4 @@ TEST_F(TaggedItemsTests, TakeItem)
   // taking non existing items
   EXPECT_FALSE(tag.CanTakeItem({"", -1}));
   EXPECT_EQ(tag.TakeItem({"", -1}), nullptr);
-}
-
-//! Testing isSinglePropertyTag.
-
-TEST_F(TaggedItemsTests, IsSinglePropertyTag)
-{
-  TaggedItems tag;
-  tag.RegisterTag(TagInfo::CreateUniversalTag("universal"), /*set_as_default*/ true);
-  EXPECT_FALSE(tag.IsSinglePropertyTag("universal"));
-
-  tag.RegisterTag(TagInfo::CreatePropertyTag("property_tag", "Vector"));
-  EXPECT_TRUE(tag.IsSinglePropertyTag("property_tag"));
-
-  EXPECT_FALSE(tag.IsSinglePropertyTag("unexisting tag"));
 }

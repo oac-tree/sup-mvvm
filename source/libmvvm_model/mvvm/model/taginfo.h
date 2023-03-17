@@ -52,8 +52,6 @@ public:
 
   bool IsValidType(const std::string& item_type) const;
 
-  bool IsSinglePropertyTag() const;
-
   bool operator==(const TagInfo& other) const;
   bool operator!=(const TagInfo& other) const;
 
