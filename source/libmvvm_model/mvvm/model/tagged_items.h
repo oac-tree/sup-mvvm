@@ -62,7 +62,7 @@ public:
 
   bool CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const;
 
-  bool InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
 
   bool CanTakeItem(const TagIndex& tag_index) const;
 
