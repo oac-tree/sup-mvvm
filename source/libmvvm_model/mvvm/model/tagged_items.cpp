@@ -20,11 +20,10 @@
 #include "mvvm/model/tagged_items.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem_container.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionitem_container.h>
 
 #include <stdexcept>
-#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -100,12 +99,12 @@ bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_ind
 //! Inserts item in container with given tag name and at given index.
 //! Returns true in the case of success. If tag name is empty, default tag will be used.
 
-bool TaggedItems::InsertItem(SessionItem* item, const TagIndex& tag_index)
+bool TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
   auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return GetContainer(tag_index.tag)->InsertItem(std::unique_ptr<SessionItem>(item), index);
+  return GetContainer(tag_index.tag)->InsertItem(std::move(item), index);
 }
 
 //! Returns true if item can be taken.

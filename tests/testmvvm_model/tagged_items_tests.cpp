@@ -24,6 +24,7 @@
 #include <mvvm/model/taginfo.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_utils.h>
 
 #include <stdexcept>
 
@@ -39,6 +40,12 @@ public:
   public:
     TestItem(const std::string& model_type) : SessionItem(model_type) {}
   };
+
+  template <typename T = SessionItem, typename... Args>
+  static auto CreateItem(Args&&... args)
+  {
+    return testutils::CreateTestData<T>(std::forward<Args>(args)...);
+  }
 };
 
 //! Initial state of emty SessionItemTags.
@@ -101,14 +108,14 @@ TEST_F(TaggedItemsTests, CanInsertItemForUniversalTag)
   EXPECT_TRUE(tag.CanInsertItem(child1.get(), {tagname, 0}));
   EXPECT_TRUE(tag.CanInsertItem(child1.get(), {tagname, -1}));
   EXPECT_TRUE(tag.CanInsertItem(child1.get(), {tagname, tag.GetItemCount(tagname)}));
-  EXPECT_TRUE(tag.InsertItem(child1.release(), {tagname, -1}));
+  EXPECT_TRUE(tag.InsertItem(std::move(child1), {tagname, -1}));
 
   // inserting second child
   auto child2 = std::make_unique<SessionItem>();
   EXPECT_TRUE(tag.CanInsertItem(child2.get(), {tagname, 0}));
   EXPECT_TRUE(tag.CanInsertItem(child2.get(), {tagname, -1}));
   EXPECT_TRUE(tag.CanInsertItem(child2.get(), {tagname, tag.GetItemCount(tagname)}));
-  EXPECT_TRUE(tag.InsertItem(child2.release(), {tagname, -1}));
+  EXPECT_TRUE(tag.InsertItem(std::move(child2), {tagname, -1}));
 
   // inserting third child is not possible
   auto child3 = std::make_unique<SessionItem>();
@@ -126,7 +133,7 @@ TEST_F(TaggedItemsTests, InsertItem)
 
   // inserting items without tags defined
   auto item = std::make_unique<SessionItem>();
-  EXPECT_THROW(tag.InsertItem(item.get(), TagIndex::Append()), std::runtime_error);
+  EXPECT_THROW(tag.InsertItem(std::move(item), TagIndex::Append()), std::runtime_error);
 
   // registering tags
   tag.RegisterTag(TagInfo::CreateUniversalTag(tag1));
@@ -135,25 +142,27 @@ TEST_F(TaggedItemsTests, InsertItem)
   EXPECT_EQ(tag.GetTagCount(), 2);
 
   // inserting items
-  auto child_t1_a = new SessionItem;
-  auto child_t1_b = new SessionItem;
-  auto child_t2_a = new SessionItem;
-  auto child_t2_b = new SessionItem;
-  auto child_t2_c = new SessionItem;
-  EXPECT_TRUE(tag.InsertItem(child_t2_a, TagIndex::Append(tag2)));
-  EXPECT_TRUE(tag.InsertItem(child_t2_c, TagIndex::Append(tag2)));
-  EXPECT_TRUE(tag.InsertItem(child_t1_a, TagIndex::Append(tag1)));
-  EXPECT_TRUE(tag.InsertItem(child_t1_b, TagIndex::Append(tag1)));
-  EXPECT_TRUE(tag.InsertItem(child_t2_b, {tag2, 1}));  // between child_t2_a and child_t2_c
+  auto [child_t1_a, child_t1_a_ptr] = CreateItem();
+  auto [child_t1_b, child_t1_b_ptr] = CreateItem();
+  auto [child_t2_a, child_t2_a_ptr] = CreateItem();
+  auto [child_t2_b, child_t2_b_ptr] = CreateItem();
+  auto [child_t2_c, child_t2_c_ptr] = CreateItem();
+
+  EXPECT_TRUE(tag.InsertItem(std::move(child_t2_a), TagIndex::Append(tag2)));
+  EXPECT_TRUE(tag.InsertItem(std::move(child_t2_c), TagIndex::Append(tag2)));
+  EXPECT_TRUE(tag.InsertItem(std::move(child_t1_a), TagIndex::Append(tag1)));
+  EXPECT_TRUE(tag.InsertItem(std::move(child_t1_b), TagIndex::Append(tag1)));
+  EXPECT_TRUE(
+      tag.InsertItem(std::move(child_t2_b), {tag2, 1}));  // between child_t2_a and child_t2_c
 
   // checking item order in containers
-  std::vector<SessionItem*> expected = {child_t1_a, child_t1_b};
+  std::vector<SessionItem*> expected = {child_t1_a_ptr, child_t1_b_ptr};
   EXPECT_EQ(tag.GetItems(tag1), expected);
-  expected = {child_t2_a, child_t2_b, child_t2_c};
+  expected = {child_t2_a_ptr, child_t2_b_ptr, child_t2_c_ptr};
   EXPECT_EQ(tag.GetItems(tag2), expected);
 
   // checking allitems order
-  expected = {child_t1_a, child_t1_b, child_t2_a, child_t2_b, child_t2_c};
+  expected = {child_t1_a_ptr, child_t1_b_ptr, child_t2_a_ptr, child_t2_b_ptr, child_t2_c_ptr};
   EXPECT_EQ(tag.GetAllItems(), expected);
 }
 
@@ -170,20 +179,20 @@ TEST_F(TaggedItemsTests, GetTagIndexOfItem)
   tag.RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting children
-  auto child_t1_a = new SessionItem;
-  auto child_t1_b = new SessionItem;
-  auto child_t2_a = new SessionItem;
-  tag.InsertItem(child_t1_a, TagIndex::Append());  // 0
-  tag.InsertItem(child_t1_b, TagIndex::Append());  // 1
-  tag.InsertItem(child_t2_a, {tag2, 0});           // 0
+  auto [child_t1_a, child_t1_a_ptr] = CreateItem();
+  auto [child_t1_b, child_t1_b_ptr] = CreateItem();
+  auto [child_t2_a, child_t2_a_ptr] = CreateItem();
+  tag.InsertItem(std::move(child_t1_a), TagIndex::Append());  // 0
+  tag.InsertItem(std::move(child_t1_b), TagIndex::Append());  // 1
+  tag.InsertItem(std::move(child_t2_a), {tag2, 0});           // 0
 
   // checking children tag and row
-  EXPECT_EQ(tag.TagIndexOfItem(child_t1_a).tag, tag1);
-  EXPECT_EQ(tag.TagIndexOfItem(child_t1_b).tag, tag1);
-  EXPECT_EQ(tag.TagIndexOfItem(child_t2_a).tag, tag2);
-  EXPECT_EQ(tag.TagIndexOfItem(child_t1_a).index, 0);
-  EXPECT_EQ(tag.TagIndexOfItem(child_t1_b).index, 1);
-  EXPECT_EQ(tag.TagIndexOfItem(child_t2_a).index, 0);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_a_ptr).tag, tag1);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_b_ptr).tag, tag1);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t2_a_ptr).tag, tag2);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_a_ptr).index, 0);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t1_b_ptr).index, 1);
+  EXPECT_EQ(tag.TagIndexOfItem(child_t2_a_ptr).index, 0);
 
   // alien item has no tag and -1 row
   auto alien = std::make_unique<SessionItem>();
@@ -206,16 +215,16 @@ TEST_F(TaggedItemsTests, GetItem)
   tag.RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting children
-  auto child_t1_a = new SessionItem;
-  auto child_t1_b = new SessionItem;
-  auto child_t2_a = new SessionItem;
-  tag.InsertItem(child_t1_a, TagIndex::Append());  // 0
-  tag.InsertItem(child_t1_b, TagIndex::Append());  // 1
-  tag.InsertItem(child_t2_a, {tag2, 0});           // 0
+  auto [child_t1_a, child_t1_a_ptr] = CreateItem();
+  auto [child_t1_b, child_t1_b_ptr] = CreateItem();
+  auto [child_t2_a, child_t2_a_ptr] = CreateItem();
+  tag.InsertItem(std::move(child_t1_a), TagIndex::Append());  // 0
+  tag.InsertItem(std::move(child_t1_b), TagIndex::Append());  // 1
+  tag.InsertItem(std::move(child_t2_a), {tag2, 0});           // 0
 
-  EXPECT_EQ(tag.GetItem({tag1, 0}), child_t1_a);
-  EXPECT_EQ(tag.GetItem({tag1, 1}), child_t1_b);
-  EXPECT_EQ(tag.GetItem({tag2, 0}), child_t2_a);
+  EXPECT_EQ(tag.GetItem({tag1, 0}), child_t1_a_ptr);
+  EXPECT_EQ(tag.GetItem({tag1, 1}), child_t1_b_ptr);
+  EXPECT_EQ(tag.GetItem({tag2, 0}), child_t2_a_ptr);
   EXPECT_EQ(tag.GetItem({tag2, 2}), nullptr);
 }
 
@@ -235,26 +244,24 @@ TEST_F(TaggedItemsTests, TakeItem)
   EXPECT_EQ(tag.TakeItem({"", 0}), nullptr);
 
   // inserting items
-  auto child1 = new TestItem(model_type);
-  auto child2 = new TestItem(model_type);
-  auto child3 = new TestItem(model_type);
-  auto child4 = new TestItem(model_type);
-  EXPECT_TRUE(tag.InsertItem(child1, TagIndex::Append()));
-  EXPECT_TRUE(tag.InsertItem(child2, TagIndex::Append()));
-  EXPECT_TRUE(tag.InsertItem(child3, TagIndex::Append()));
-  EXPECT_TRUE(tag.InsertItem(child4, TagIndex::Append(tag2)));
+  auto [child1, child1_ptr] = CreateItem<TestItem>(model_type);
+  auto [child2, child2_ptr] = CreateItem<TestItem>(model_type);
+  auto [child3, child3_ptr] = CreateItem<TestItem>(model_type);
+  auto [child4, child4_ptr] = CreateItem<TestItem>(model_type);
+  EXPECT_TRUE(tag.InsertItem(std::move(child1), TagIndex::Append()));
+  EXPECT_TRUE(tag.InsertItem(std::move(child2), TagIndex::Append()));
+  EXPECT_TRUE(tag.InsertItem(std::move(child3), TagIndex::Append()));
+  EXPECT_TRUE(tag.InsertItem(std::move(child4), TagIndex::Append(tag2)));
 
   // taking item in between
   EXPECT_TRUE(tag.CanTakeItem({"", 1}));
   auto taken2 = tag.TakeItem({"", 1});
-  EXPECT_EQ(child2, taken2);
+  EXPECT_EQ(child2_ptr, taken2);
   delete taken2;
 
   // order of remaining children
-  std::vector<SessionItem*> expected = {child1, child3};
-  EXPECT_EQ(tag.GetItems(tag1), expected);
-  expected = {child4};
-  EXPECT_EQ(tag.GetItems(tag2), expected);
+  EXPECT_EQ(tag.GetItems(tag1), std::vector<SessionItem*>({child1_ptr, child3_ptr}));
+  EXPECT_EQ(tag.GetItems(tag2), std::vector<SessionItem*>({child4_ptr}));
 
   // taking non existing items
   EXPECT_FALSE(tag.CanTakeItem({"", -1}));

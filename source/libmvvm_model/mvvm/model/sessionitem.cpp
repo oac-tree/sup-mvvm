@@ -250,12 +250,12 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
     throw InvalidOperationException("Wrong tags");
   }
 
-  auto result = item.release();
-  p_impl->m_tags->InsertItem(result, tag_index);
-  result->SetParent(this);
-  result->SetModel(GetModel());
+  auto result_ptr = item.get();
+  p_impl->m_tags->InsertItem(std::move(item), tag_index);
+  result_ptr->SetParent(this);
+  result_ptr->SetModel(GetModel());
 
-  return result;
+  return result_ptr;
 }
 
 //! Removes item from given index from given tag, returns it to the caller.
