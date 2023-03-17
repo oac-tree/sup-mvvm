@@ -96,7 +96,13 @@ LabelPresentationItem::LabelPresentationItem(SessionItem *item, const std::strin
 
 QVariant LabelPresentationItem::Data(int qt_role) const
 {
-  return qt_role == Qt::DisplayRole ? QString::fromStdString(m_label) : QVariant();
+  // use item's display role
+  if (qt_role == Qt::DisplayRole)
+  {
+    return QString::fromStdString(m_label);
+  }
+
+  return SessionItemPresentation::Data(qt_role);
 }
 
 // ----------------------------------------------------------------------------
