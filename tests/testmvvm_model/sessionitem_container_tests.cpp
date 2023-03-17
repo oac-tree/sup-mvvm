@@ -19,9 +19,9 @@
 
 #include "mvvm/model/sessionitem_container.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/sessionitem.h>
+
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 
@@ -208,12 +208,10 @@ TEST_F(SessionItemContainerTests, TakeItem)
 
   // taking item in between
   auto taken2 = tag.TakeItem(1);
-  EXPECT_EQ(child2, taken2);
-  delete taken2;
+  EXPECT_EQ(child2, taken2.get());
 
   // order of remaining children
-  std::vector<SessionItem*> expected = {child1, child3};
-  EXPECT_EQ(tag.GetItems(), expected);
+  EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>({child1, child3}));
 
   // taking non existing items
   EXPECT_EQ(tag.TakeItem(-1), nullptr);

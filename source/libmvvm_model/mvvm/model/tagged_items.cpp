@@ -21,6 +21,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem_container.h>
+#include <mvvm/model/sessionitem.h>
 
 #include <stdexcept>
 #include <mvvm/core/exceptions.h>
@@ -118,7 +119,7 @@ bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
 
 SessionItem* TaggedItems::TakeItem(const TagIndex& tag_index)
 {
-  return GetContainer(tag_index.tag)->TakeItem(tag_index.index);
+  return GetContainer(tag_index.tag)->TakeItem(tag_index.index).release();
 }
 
 //! Returns item at given index of given tag.

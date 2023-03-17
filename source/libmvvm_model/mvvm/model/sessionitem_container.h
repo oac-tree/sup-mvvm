@@ -51,7 +51,7 @@ public:
 
   bool InsertItem(SessionItem* item, int index);
 
-  SessionItem* TakeItem(int index);
+  std::unique_ptr<SessionItem> TakeItem(int index);
 
   bool CanTakeItem(int index) const;
 

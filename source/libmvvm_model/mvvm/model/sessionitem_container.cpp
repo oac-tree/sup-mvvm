@@ -78,7 +78,7 @@ bool SessionItemContainer::InsertItem(SessionItem* item, int index)
 //! Removes item at given index and returns it to the user.
 //! If item can't be removed (item is a property item), will return nullptr.
 
-SessionItem* SessionItemContainer::TakeItem(int index)
+std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
 {
   if (IsMinimumReached())
   {
@@ -89,7 +89,7 @@ SessionItem* SessionItemContainer::TakeItem(int index)
   {
     auto item = std::move(m_items.at(index));
     m_items.erase(std::next(m_items.begin(), index));
-    return item.release();
+    return std::move(item);
   }
 
   return nullptr;
