@@ -272,7 +272,7 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   result->SetParent(nullptr);
   result->SetModel(nullptr);
 
-  return std::unique_ptr<SessionItem>(result);
+  return std::move(result);
 }
 
 //! Returns true if this item has `editable` flag set.

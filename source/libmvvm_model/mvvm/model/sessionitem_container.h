@@ -49,7 +49,7 @@ public:
 
   std::vector<SessionItem*> GetItems() const;
 
-  bool InsertItem(std::unique_ptr<SessionItem> item, int index);
+  SessionItem*  InsertItem(std::unique_ptr<SessionItem> item, int index);
 
   std::unique_ptr<SessionItem> TakeItem(int index);
 

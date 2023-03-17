@@ -256,8 +256,7 @@ TEST_F(TaggedItemsTests, TakeItem)
   // taking item in between
   EXPECT_TRUE(tag.CanTakeItem({"", 1}));
   auto taken2 = tag.TakeItem({"", 1});
-  EXPECT_EQ(child2_ptr, taken2);
-  delete taken2;
+  EXPECT_EQ(child2_ptr, taken2.get());
 
   // order of remaining children
   EXPECT_EQ(tag.GetItems(tag1), std::vector<SessionItem*>({child1_ptr, child3_ptr}));

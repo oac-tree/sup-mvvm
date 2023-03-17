@@ -116,9 +116,9 @@ bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
 
 //! Removes item at given index and for given tag, returns it to the user.
 
-SessionItem* TaggedItems::TakeItem(const TagIndex& tag_index)
+std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
 {
-  return GetContainer(tag_index.tag)->TakeItem(tag_index.index).release();
+  return GetContainer(tag_index.tag)->TakeItem(tag_index.index);
 }
 
 //! Returns item at given index of given tag.

@@ -66,7 +66,7 @@ public:
 
   bool CanTakeItem(const TagIndex& tag_index) const;
 
-  SessionItem* TakeItem(const TagIndex& tag_index);
+  std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
 
   // item access
   SessionItem* GetItem(const TagIndex& tag_index) const;
