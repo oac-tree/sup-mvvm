@@ -142,6 +142,8 @@ public:
 
 protected:
   explicit SessionItem(const std::string& item_type);
+  SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
+              std::unique_ptr<TaggedItems> tags);
 
 private:
   friend class TreeDataItemConverter;

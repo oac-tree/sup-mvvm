@@ -27,8 +27,6 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 
-#include <stdexcept>
-
 namespace
 {
 int appearance(const mvvm::SessionItem& item)
@@ -47,20 +45,34 @@ struct SessionItem::SessionItemImpl
   std::unique_ptr<SessionItemData> m_data;
   std::unique_ptr<TaggedItems> m_tags;
   std::string m_item_type;
-
-  SessionItemImpl()
-      : m_data(std::make_unique<SessionItemData>()), m_tags(std::make_unique<TaggedItems>())
-  {
-  }
 };
 
 SessionItem::SessionItem() : SessionItem(Type) {}
 
-SessionItem::SessionItem(const std::string& item_type) : p_impl(std::make_unique<SessionItemImpl>())
+SessionItem::SessionItem(const std::string& item_type)
+    : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
 {
+}
+
+SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
+                         std::unique_ptr<TaggedItems> tags)
+    : p_impl(std::make_unique<SessionItemImpl>())
+{
+  p_impl->m_data = std::move(data);
+  p_impl->m_tags = std::move(tags);
   p_impl->m_item_type = item_type;
   SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   SetData(p_impl->m_item_type, DataRole::kDisplay);
+}
+
+//! Make a deep clone of the item. If \it preserve_identifiers is false (the default case),
+//! identifiers of the item and all its children will be regenerated. This will make an item
+//! unique and will allow it's usage (serialization, memory pool) along with the original. If
+//! \it preserve_identifiers is true, the result will be an exact clone of the original.
+
+std::unique_ptr<SessionItem> SessionItem::Clone(bool preserve_identifiers) const
+{
+  throw NotImplementedException("SessionItem::Cline is not implemented");
 }
 
 SessionItem::~SessionItem()
@@ -174,7 +186,7 @@ int SessionItem::GetItemCount(const std::string& tag) const
 //! Returns item located at given \it tag_index.
 //! Will throw if \it tag_index is invalid (wrong index, non-existing container).
 
-SessionItem* SessionItem::GetItem(const TagIndex &tag_index) const
+SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
 {
   return p_impl->m_tags->GetItem(tag_index);
 }
