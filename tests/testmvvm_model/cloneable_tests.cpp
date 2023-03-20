@@ -37,5 +37,7 @@ TEST_F(CloneableTests, InitialState)
   std::unique_ptr<experimental::MyItem> clone2 = derived_item.Clone();
   EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(clone2.get()));
 
-  //  experimental::concrete cc;
+  experimental::MyDerivedItemV2 derived_item_v2;
+  auto clone_v2 = derived_item_v2.Clone();
+  EXPECT_FALSE(dynamic_cast<experimental::MyDerivedItemV2*>(clone_v2.get()));
 }
