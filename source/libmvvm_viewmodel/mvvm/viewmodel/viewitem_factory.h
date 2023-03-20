@@ -34,7 +34,8 @@ class ViewItem;
 class SessionItem;
 
 //! Creates ViewItem playing the role of root.
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item, const std::string& label = {});
+MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item,
+                                                                   const std::string& label = {});
 
 //! Creates read-only ViewItem for SessionItem's display name.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);

@@ -25,9 +25,9 @@
 namespace mvvm
 {
 
-std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item)
+std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item, const std::string& label)
 {
-  auto presentation = std::make_unique<LabelPresentationItem>(item);
+  auto presentation = std::make_unique<LabelPresentationItem>(item, label);
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
