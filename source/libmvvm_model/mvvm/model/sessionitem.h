@@ -51,6 +51,8 @@ public:
   SessionItem(const SessionItem&) = delete;
   SessionItem& operator=(const SessionItem&) = delete;
 
+  std::unique_ptr<SessionItem> Clone(bool preserve_identifiers = false) const;
+
   // basic item properties
 
   std::string GetType() const;
