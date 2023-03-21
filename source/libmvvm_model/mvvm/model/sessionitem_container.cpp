@@ -153,7 +153,8 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
   return m_items.end();
 }
 
-//! Provides container clone.
+//! Provides container clone. The flag \it make_unique_id will be propagated to the underlying
+//! SessionItem::Clone machinery, allowing to generate either exact clones or deep copies.
 
 std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone(bool make_unique_id) const
 {

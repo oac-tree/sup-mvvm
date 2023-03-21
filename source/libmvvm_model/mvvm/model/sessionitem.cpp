@@ -73,10 +73,10 @@ SessionItem::~SessionItem()
   }
 }
 
-//! Parameterized copy constructor to alow item clone and deep item copy.
+//! Parameterized copy constructor to allow item clone and deep item copy.
 //! If \it make_unique_id is true, identifiers of the item and all its children will be regenerated.
-//! This will make an item unique and will allow it's usage (serialization, memory pool) along with
-//! the original. If \it make_unique_id is false, the result will be a exact clone of the original.
+//! This will make an item unique and will allow its usage (serialization, memory pool) along with
+//! the original. If \it make_unique_id is false, the result will be an exact clone of the original.
 
 SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
     : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.p_impl->m_data),

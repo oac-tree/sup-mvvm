@@ -19,10 +19,10 @@
 
 #include "mvvm/model/sessionitem_container.h"
 
-#include <mvvm/model/sessionitem.h>
-
 #include <gtest/gtest.h>
 #include <testutils/test_utils.h>
+
+#include <mvvm/model/sessionitem.h>
 
 using namespace mvvm;
 
@@ -339,4 +339,29 @@ TEST_F(SessionItemContainerTests, TakeItemPropertyType)
   // attempt to take property item
   EXPECT_FALSE(tag.CanTakeItem(0));
   EXPECT_EQ(tag.TakeItem(0), nullptr);
+}
+
+TEST_F(SessionItemContainerTests, Clone)
+{
+  const std::string tag_name("tag");
+  SessionItemContainer container(TagInfo::CreateUniversalTag(tag_name));
+
+  auto [child1, child1_ptr] = CreateItem();
+  EXPECT_EQ(container.InsertItem(std::move(child1), container.GetItemCount()), child1_ptr);
+
+  {  // deep copy
+    auto clone = container.Clone(/*make_unique_id*/ true);
+    EXPECT_EQ(clone->GetTagInfo(), container.GetTagInfo());
+    ASSERT_EQ(clone->GetItemCount(), 1);
+    EXPECT_NE(clone->ItemAt(0), child1_ptr);
+    EXPECT_NE(clone->ItemAt(0)->GetIdentifier(), child1_ptr->GetIdentifier());
+  }
+
+  {  // clone
+    auto clone = container.Clone(/*make_unique_id*/ false);
+    EXPECT_EQ(clone->GetTagInfo(), container.GetTagInfo());
+    ASSERT_EQ(clone->GetItemCount(), 1);
+    EXPECT_NE(clone->ItemAt(0), child1_ptr);
+    EXPECT_EQ(clone->ItemAt(0)->GetIdentifier(), child1_ptr->GetIdentifier());
+  }
 }

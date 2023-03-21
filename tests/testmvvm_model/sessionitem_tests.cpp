@@ -901,3 +901,22 @@ TEST_F(SessionItemTests, CastedItemAccess)
   EXPECT_EQ(parent->GetItems<ItemA>(tag), std::vector<ItemA*>({item0, item2}));
   EXPECT_EQ(parent->GetItems<ItemB>(tag), std::vector<ItemB*>({item1}));
 }
+
+TEST_F(SessionItemTests, Clone)
+{
+  {  // deep copy
+    SessionItem item;
+    item.SetDisplayName("abc");
+    auto clone = item.Clone(/* make_unique_id*/ true);
+    EXPECT_NE(item.GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
+  }
+
+  {  // clone
+    SessionItem item;
+    item.SetDisplayName("abc");
+    auto clone = item.Clone(/* make_unique_id*/ false);
+    EXPECT_EQ(item.GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
+  }
+}

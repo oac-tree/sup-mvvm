@@ -1,7 +1,6 @@
 target_sources(${library_name} PRIVATE
   application_model.cpp
   application_model.h
-  clone_utils.h
   combo_property.cpp
   combo_property.h
   compound_item.cpp
