@@ -86,7 +86,7 @@ public:
 
   void AppendContainer(std::unique_ptr<SessionItemContainer> container);
 
-  std::unique_ptr<TaggedItems> Clone(bool make_unique_id);
+  std::unique_ptr<TaggedItems> Clone(bool make_unique_id) const;
 
 private:
   SessionItemContainer* GetContainer(const std::string& tag_name) const;

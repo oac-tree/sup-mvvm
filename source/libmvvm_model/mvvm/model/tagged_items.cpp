@@ -195,7 +195,7 @@ void TaggedItems::AppendContainer(std::unique_ptr<SessionItemContainer> containe
   m_containers.push_back(std::move(container));
 }
 
-std::unique_ptr<TaggedItems> TaggedItems::Clone(bool make_unique_id)
+std::unique_ptr<TaggedItems> TaggedItems::Clone(bool make_unique_id) const
 {
   auto result = std::make_unique<TaggedItems>();
   result->m_default_tag = m_default_tag;

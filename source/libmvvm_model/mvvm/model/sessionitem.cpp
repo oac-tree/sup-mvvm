@@ -79,8 +79,8 @@ SessionItem::~SessionItem()
 //! the original. If \it make_unique_id is false, the result will be an exact clone of the original.
 
 SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
-    : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.p_impl->m_data),
-                  other.p_impl->m_tags->Clone(make_unique_id))
+    : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.GetItemData()),
+                  other.GetTaggedItems()->Clone(make_unique_id))
 {
   if (make_unique_id)
   {
