@@ -43,3 +43,26 @@ TEST_F(PropertyItemTests, SetLimits)
 
   EXPECT_EQ(item.Data<Limits<int>>(DataRole::kLimits), Limits<int>::CreateLimited(0, 100));
 }
+
+TEST_F(PropertyItemTests, Clone)
+{
+  PropertyItem item;
+  item.SetData(42);
+  item.SetDisplayName("abc");
+
+  {  // deep copy
+    auto clone = item.Clone(/* make_unique_id*/ true);
+    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+    EXPECT_NE(clone->GetIdentifier(), item.GetIdentifier());
+    EXPECT_EQ(clone->GetDisplayName(), item.GetDisplayName());
+    EXPECT_EQ(clone->Data<int>(), 42);
+  }
+
+  {  // clone
+    auto clone = item.Clone(/* make_unique_id*/ false);
+    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+    EXPECT_EQ(clone->GetIdentifier(), item.GetIdentifier());
+    EXPECT_EQ(clone->GetDisplayName(), item.GetDisplayName());
+    EXPECT_EQ(clone->Data<int>(), 42);
+  }
+}

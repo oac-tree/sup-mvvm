@@ -35,8 +35,11 @@ class MVVM_MODEL_EXPORT PropertyItem : public SessionItem
 {
 public:
   static inline const std::string Type = "PropertyItem";
+  using SessionItem::SessionItem;
 
   PropertyItem();
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
   PropertyItem* SetDisplayName(const std::string& name) override;
 

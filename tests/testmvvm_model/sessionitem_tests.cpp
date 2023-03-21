@@ -913,12 +913,16 @@ TEST_F(SessionItemTests, Clone)
     auto clone = item.Clone(/* make_unique_id*/ true);
     EXPECT_NE(item.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
+    EXPECT_EQ(item.GetParent(), nullptr);
+    EXPECT_EQ(item.GetModel(), nullptr);
   }
 
   {  // clone
     auto clone = item.Clone(/* make_unique_id*/ false);
     EXPECT_EQ(item.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
+    EXPECT_EQ(item.GetParent(), nullptr);
+    EXPECT_EQ(item.GetModel(), nullptr);
   }
 }
 
@@ -938,9 +942,11 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     EXPECT_NE(parent->GetIdentifier(), parent_clone->GetIdentifier());
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
+    EXPECT_EQ(parent_clone->GetModel(), nullptr);
     auto child_clone = parent_clone->GetItem({tag, 0});
     EXPECT_NE(child_clone->GetIdentifier(), child->GetIdentifier());
     EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
+    EXPECT_EQ(child_clone->GetModel(), nullptr);
 
     // cloned child should have proper parent
     EXPECT_EQ(child_clone->GetParent(), parent_clone.get());
@@ -952,9 +958,11 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     EXPECT_EQ(parent->GetIdentifier(), parent_clone->GetIdentifier());
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
+    EXPECT_EQ(parent_clone->GetModel(), nullptr);
     auto child_clone = parent_clone->GetItem({tag, 0});
     EXPECT_EQ(child_clone->GetIdentifier(), child->GetIdentifier());
     EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
+    EXPECT_EQ(child_clone->GetModel(), nullptr);
 
     // cloned child should have proper parent
     EXPECT_EQ(child_clone->GetParent(), parent_clone.get());

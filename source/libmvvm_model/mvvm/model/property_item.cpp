@@ -26,6 +26,11 @@ namespace mvvm
 
 PropertyItem::PropertyItem() : SessionItem(Type) {}
 
+std::unique_ptr<SessionItem> PropertyItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<PropertyItem>(*this, make_unique_id);
+}
+
 PropertyItem* PropertyItem::SetDisplayName(const std::string& name)
 {
   // method is implemented to change the return type from SessionItem to PropertyItem

@@ -34,6 +34,11 @@ namespace mvvm
 
 CompoundItem::CompoundItem(const std::string &item_type) : SessionItem(item_type) {}
 
+std::unique_ptr<SessionItem> CompoundItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<CompoundItem>(*this, make_unique_id);
+}
+
 //! Specialized version for const char: method is introduced to avoid "const char" conversion into
 //! variant<bool>.
 PropertyItem *CompoundItem::AddProperty(const std::string &name, const char *value)
