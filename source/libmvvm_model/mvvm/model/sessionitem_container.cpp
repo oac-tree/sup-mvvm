@@ -153,6 +153,16 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
   return m_items.end();
 }
 
+std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone(bool preserve_identifiers) const
+{
+  auto result = std::make_unique<SessionItemContainer>(m_tag_info);
+  for (const auto& iter : m_items)
+  {
+    result->m_items.emplace_back(iter->Clone(preserve_identifiers));
+  }
+  return result;
+}
+
 //! Returns true if no more items are allowed.
 
 bool SessionItemContainer::IsMaximumReached() const

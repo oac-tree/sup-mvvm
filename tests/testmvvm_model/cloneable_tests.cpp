@@ -27,17 +27,31 @@ class CloneableTests : public ::testing::Test
 
 TEST_F(CloneableTests, InitialState)
 {
-  experimental::MyItem item;
-  std::unique_ptr<experimental::MyItem> clone = item.Clone();
+  {
+    experimental::MyItem base;
+    std::unique_ptr<experimental::MyItem> clone = base.Clone();
 
-  experimental::MyDerivedItem derived_item;
+    // not compiling
+    // std::unique_ptr<experimental::MyDerivedItem> derived_clone2 = base.Clone();
+  }
 
-  std::unique_ptr<experimental::MyDerivedItem> derived_clone = derived_item.Clone();
+  {
+    experimental::MyDerivedItem derived;
+    std::unique_ptr<experimental::MyDerivedItem> derived_clone = derived.Clone();
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(derived_clone.get()));
 
-  std::unique_ptr<experimental::MyItem> clone2 = derived_item.Clone();
-  EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(clone2.get()));
+    std::unique_ptr<experimental::MyItem> derived_clone2 = derived.Clone();
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(derived_clone2.get()));
+  }
 
-  experimental::MyDerivedItemV2 derived_item_v2;
-  auto clone_v2 = derived_item_v2.Clone();
-  EXPECT_FALSE(dynamic_cast<experimental::MyDerivedItemV2*>(clone_v2.get()));
+  {
+    experimental::MyDerivedItem derived;
+    experimental::MyItem *base = &derived;
+
+    auto derived_clone = derived.Clone();
+    auto base_clone = base->Clone();
+
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(derived_clone.get()));
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(base_clone.get()));
+  }
 }

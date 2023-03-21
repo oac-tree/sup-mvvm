@@ -38,7 +38,9 @@ public:
   using const_iterator = container_t::const_iterator;
 
   explicit SessionItemContainer(TagInfo tag_info);
-  SessionItemContainer(const SessionItemContainer&) = delete;
+
+  SessionItemContainer(const SessionItemContainer& other) = delete;
+
   SessionItemContainer& operator=(const SessionItemContainer&) = delete;
 
   ~SessionItemContainer();
@@ -68,6 +70,8 @@ public:
   const_iterator begin() const;
 
   const_iterator end() const;
+
+  std::unique_ptr<SessionItemContainer> Clone(bool preserve_identifiers = false) const;
 
 private:
   bool IsMaximumReached() const;
