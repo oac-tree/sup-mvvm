@@ -153,12 +153,14 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
   return m_items.end();
 }
 
+//! Provides container clone.
+
 std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone(bool preserve_identifiers) const
 {
   auto result = std::make_unique<SessionItemContainer>(m_tag_info);
-  for (const auto& iter : m_items)
+  for (const auto& item : m_items)
   {
-    result->m_items.emplace_back(iter->Clone(preserve_identifiers));
+    result->m_items.push_back(item->Clone(preserve_identifiers));
   }
   return result;
 }

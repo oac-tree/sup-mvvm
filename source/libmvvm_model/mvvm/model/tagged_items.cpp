@@ -99,7 +99,7 @@ bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_ind
 //! Inserts item in container with given tag name and at given index.
 //! Returns pointer to item in the case of success. If tag name is empty, default tag will be used.
 
-SessionItem *TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
+SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   auto tag_container = GetContainer(tag_index.tag);
   // negative index means appending to the vector
@@ -193,6 +193,17 @@ SessionItemContainer& TaggedItems::ContainerAt(int index)
 void TaggedItems::AppendContainer(std::unique_ptr<SessionItemContainer> container)
 {
   m_containers.push_back(std::move(container));
+}
+
+std::unique_ptr<TaggedItems> TaggedItems::Clone(bool preserve_identifiers)
+{
+  auto result = std::make_unique<TaggedItems>();
+  result->m_default_tag = m_default_tag;
+  for (const auto& container : m_containers)
+  {
+    result->m_containers.push_back(container->Clone(preserve_identifiers));
+  }
+  return result;
 }
 
 //! Returns container corresponding to given tag name. If name is empty,

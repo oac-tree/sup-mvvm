@@ -72,7 +72,7 @@ SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionIt
 
 std::unique_ptr<SessionItem> SessionItem::Clone(bool preserve_identifiers) const
 {
-  throw NotImplementedException("SessionItem::Cline is not implemented");
+  throw NotImplementedException("SessionItem::Clone is not implemented");
 }
 
 SessionItem::~SessionItem()
