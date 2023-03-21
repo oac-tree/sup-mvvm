@@ -458,8 +458,8 @@ TEST_F(SessionItemTests, SingleTagAndItems)
   EXPECT_TRUE(utils::HasTag(*parent, tag1));
 
   // inserting two children
-  auto child1 = parent->InsertItem({tag1, -1});
-  auto child2 = parent->InsertItem({tag1, -1});
+  auto child1 = parent->InsertItem(TagIndex::Append(tag1));
+  auto child2 = parent->InsertItem(TagIndex::Append(tag1));
 
   // testing result of insertion via non-tag interface
   std::vector<SessionItem*> expected = {child1, child2};
@@ -502,10 +502,10 @@ TEST_F(SessionItemTests, TwoTagsAndItems)
   EXPECT_TRUE(utils::HasTag(*parent, tag2));
 
   // inserting two children
-  auto child_t2_a = parent->InsertItem({tag2, -1});
-  auto child_t2_c = parent->InsertItem({tag2, -1});
-  auto child_t1_a = parent->InsertItem({tag1, -1});
-  auto child_t1_b = parent->InsertItem({tag1, -1});
+  auto child_t2_a = parent->InsertItem(TagIndex::Append(tag2));
+  auto child_t2_c = parent->InsertItem(TagIndex::Append(tag2));
+  auto child_t1_a = parent->InsertItem(TagIndex::Append(tag1));
+  auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));
   auto child_t2_b = parent->InsertItem({tag2, 1});  // between child_t2_a and child_t2_c
 
   // testing item access via non-tag interface
@@ -552,12 +552,12 @@ TEST_F(SessionItemTests, TagWithLimits)
   {
     auto [uptr, raw] = testutils::CreateTestData<SessionItem>();
     expected.push_back(raw);
-    EXPECT_TRUE(parent->InsertItem(std::move(uptr), {tag1, -1}));
+    EXPECT_TRUE(parent->InsertItem(std::move(uptr), TagIndex::Append(tag1)));
   }
   EXPECT_EQ(parent->GetItems(tag1), expected);
 
   // no room for extra item
-  EXPECT_THROW(parent->InsertItem(std::make_unique<SessionItem>(), {tag1, -1}),
+  EXPECT_THROW(parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append(tag1)),
                InvalidOperationException);
 
   // removing first element
@@ -585,11 +585,11 @@ TEST_F(SessionItemTests, GetTagIndex)
   parent->RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
-  auto child_t2_a = parent->InsertItem({tag2, -1});  // 0
-  auto child_t2_c = parent->InsertItem({tag2, -1});  // 2
-  auto child_t1_a = parent->InsertItem({tag1, -1});  // 0
-  auto child_t1_b = parent->InsertItem({tag1, -1});  // 1
-  auto child_t2_b = parent->InsertItem({tag2, 1});   // 1 between child_t2_a and child_t2_c
+  auto child_t2_a = parent->InsertItem(TagIndex::Append(tag2));  // 0
+  auto child_t2_c = parent->InsertItem(TagIndex::Append(tag2));  // 2
+  auto child_t1_a = parent->InsertItem(TagIndex::Append(tag1));  // 0
+  auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));  // 1
+  auto child_t2_b = parent->InsertItem({tag2, 1});  // 1 between child_t2_a and child_t2_c
 
   EXPECT_EQ(child_t1_a->GetTagIndex().index, 0);
   EXPECT_EQ(child_t1_b->GetTagIndex().index, 1);
@@ -617,11 +617,11 @@ TEST_F(SessionItemTests, TagIndexOfItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
-  auto child_t2_a = parent->InsertItem({tag2, -1});  // 0
-  auto child_t2_c = parent->InsertItem({tag2, -1});  // 2
-  auto child_t1_a = parent->InsertItem({tag1, -1});  // 0
-  auto child_t1_b = parent->InsertItem({tag1, -1});  // 1
-  auto child_t2_b = parent->InsertItem({tag2, 1});   // 1 between child_t2_a and child_t2_c
+  auto child_t2_a = parent->InsertItem(TagIndex::Append(tag2));  // 0
+  auto child_t2_c = parent->InsertItem(TagIndex::Append(tag2));  // 2
+  auto child_t1_a = parent->InsertItem(TagIndex::Append(tag1));  // 0
+  auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));  // 1
+  auto child_t2_b = parent->InsertItem({tag2, 1});  // 1 between child_t2_a and child_t2_c
 
   EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).index, 0);
   EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).index, 1);
@@ -876,9 +876,9 @@ TEST_F(SessionItemTests, GetItemCount)
   parent->RegisterTag(TagInfo::CreateUniversalTag(tag2));
 
   // inserting two children
-  parent->InsertItem({tag1, -1});
-  parent->InsertItem({tag2, -1});
-  parent->InsertItem({tag2, -1});
+  parent->InsertItem(TagIndex::Append(tag1));
+  parent->InsertItem(TagIndex::Append(tag2));
+  parent->InsertItem(TagIndex::Append(tag2));
 
   EXPECT_EQ(parent->GetItemCount(tag1), 1);
   EXPECT_EQ(parent->GetItemCount(tag2), 2);
@@ -890,9 +890,9 @@ TEST_F(SessionItemTests, CastedItemAccess)
   auto parent = std::make_unique<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag(tag), true);
 
-  auto item0 = parent->InsertItem<ItemA>({tag, -1});
-  auto item1 = parent->InsertItem<ItemB>({tag, -1});
-  auto item2 = parent->InsertItem<ItemA>({tag, -1});
+  auto item0 = parent->InsertItem<ItemA>(TagIndex::Append());
+  auto item1 = parent->InsertItem<ItemB>(TagIndex::Append());
+  auto item2 = parent->InsertItem<ItemA>(TagIndex::Append());
 
   EXPECT_EQ(parent->GetItem<ItemA>(tag), item0);
   // current behavior of item<> method, consider to change
@@ -902,21 +902,62 @@ TEST_F(SessionItemTests, CastedItemAccess)
   EXPECT_EQ(parent->GetItems<ItemB>(tag), std::vector<ItemB*>({item1}));
 }
 
+//! Testing SessionItem::Clone for simple item without children.
+
 TEST_F(SessionItemTests, Clone)
 {
+  SessionItem item;
+  item.SetDisplayName("abc");
+
   {  // deep copy
-    SessionItem item;
-    item.SetDisplayName("abc");
     auto clone = item.Clone(/* make_unique_id*/ true);
     EXPECT_NE(item.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
   }
 
   {  // clone
-    SessionItem item;
-    item.SetDisplayName("abc");
     auto clone = item.Clone(/* make_unique_id*/ false);
     EXPECT_EQ(item.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
+  }
+}
+
+//! Testing SessionItem::Clone for parent with children.
+
+TEST_F(SessionItemTests, CloneParentAndChild)
+{
+  const std::string tag = "tag";
+  auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag(tag), true);
+  parent->SetDisplayName("abc");
+  auto child = parent->InsertItem<ItemA>(TagIndex::Append());
+  child->SetDisplayName("def");
+
+  {  // deep copy
+    auto parent_clone = parent->Clone(/* make_unique_id*/ true);
+    EXPECT_NE(parent->GetIdentifier(), parent_clone->GetIdentifier());
+    ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
+    EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
+    auto child_clone = parent_clone->GetItem({tag, 0});
+    EXPECT_NE(child_clone->GetIdentifier(), child->GetIdentifier());
+    EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
+
+    // cloned child should have proper parent
+    EXPECT_EQ(child_clone->GetParent(), parent_clone.get());
+    EXPECT_EQ(parent_clone->TagIndexOfItem(child_clone), TagIndex("tag", 0));
+  }
+
+  {  // clone
+    auto parent_clone = parent->Clone(/* make_unique_id*/ false);
+    EXPECT_EQ(parent->GetIdentifier(), parent_clone->GetIdentifier());
+    ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
+    EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());
+    auto child_clone = parent_clone->GetItem({tag, 0});
+    EXPECT_EQ(child_clone->GetIdentifier(), child->GetIdentifier());
+    EXPECT_EQ(child_clone->GetDisplayName(), child->GetDisplayName());
+
+    // cloned child should have proper parent
+    EXPECT_EQ(child_clone->GetParent(), parent_clone.get());
+    EXPECT_EQ(parent_clone->TagIndexOfItem(child_clone), TagIndex("tag", 0));
   }
 }

@@ -86,6 +86,10 @@ SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
   {
     SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   }
+  for(auto child : GetAllItems())
+  {
+    child->SetParent(this);
+  }
 }
 
 //! Creates clone of the item. If \it make_unique_id is true (the default case),
