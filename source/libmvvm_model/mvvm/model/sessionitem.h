@@ -48,10 +48,12 @@ public:
   SessionItem();
   virtual ~SessionItem();
 
-  SessionItem(const SessionItem&) = delete;
+  SessionItem(const SessionItem& other) = delete;
   SessionItem& operator=(const SessionItem&) = delete;
 
-  std::unique_ptr<SessionItem> Clone(bool preserve_identifiers = false) const;
+  SessionItem(const SessionItem& other, bool make_unique_id);
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
   // basic item properties
 

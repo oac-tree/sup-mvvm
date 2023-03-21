@@ -22,8 +22,8 @@
 
 #include <mvvm/model/taginfo.h>
 
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace mvvm
 {
@@ -51,7 +51,7 @@ public:
 
   std::vector<SessionItem*> GetItems() const;
 
-  SessionItem*  InsertItem(std::unique_ptr<SessionItem> item, int index);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, int index);
 
   std::unique_ptr<SessionItem> TakeItem(int index);
 
@@ -71,7 +71,7 @@ public:
 
   const_iterator end() const;
 
-  std::unique_ptr<SessionItemContainer> Clone(bool preserve_identifiers = false) const;
+  std::unique_ptr<SessionItemContainer> Clone(bool make_unique_id) const;
 
 private:
   bool IsMaximumReached() const;

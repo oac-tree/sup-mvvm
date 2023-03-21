@@ -52,6 +52,8 @@ SessionItem::SessionItem() : SessionItem(Type) {}
 SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
 {
+  SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  SetData(p_impl->m_item_type, DataRole::kDisplay);
 }
 
 SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
@@ -61,18 +63,6 @@ SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionIt
   p_impl->m_data = std::move(data);
   p_impl->m_tags = std::move(tags);
   p_impl->m_item_type = item_type;
-  SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
-  SetData(p_impl->m_item_type, DataRole::kDisplay);
-}
-
-//! Make a deep clone of the item. If \it preserve_identifiers is false (the default case),
-//! identifiers of the item and all its children will be regenerated. This will make an item
-//! unique and will allow it's usage (serialization, memory pool) along with the original. If
-//! \it preserve_identifiers is true, the result will be an exact clone of the original.
-
-std::unique_ptr<SessionItem> SessionItem::Clone(bool preserve_identifiers) const
-{
-  throw NotImplementedException("SessionItem::Clone is not implemented");
 }
 
 SessionItem::~SessionItem()
@@ -81,6 +71,29 @@ SessionItem::~SessionItem()
   {
     p_impl->m_model->CheckOut(this);
   }
+}
+
+//! Parameterized copy constructor to alow item clone and deep item copy.
+//! If \it make_unique_id is true, identifiers of the item and all its children will be regenerated.
+//! This will make an item unique and will allow it's usage (serialization, memory pool) along with
+//! the original. If \it make_unique_id is false, the result will be a exact clone of the original.
+
+SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
+    : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.p_impl->m_data),
+                  other.p_impl->m_tags->Clone(make_unique_id))
+{
+  if (make_unique_id)
+  {
+    SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  }
+}
+
+//! Creates clone of the item. If \it make_unique_id is true (the default case),
+//! identifiers of the item and all its children will be regenerated.
+
+std::unique_ptr<SessionItem> SessionItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<SessionItem>(*this, make_unique_id);
 }
 
 //! Returns item's model type.
