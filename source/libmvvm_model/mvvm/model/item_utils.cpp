@@ -244,14 +244,4 @@ bool ReplaceData(SessionItem& item, const variant_t& value, int role)
   return item.SetData(value, role);  // will succeed
 }
 
-std::unique_ptr<SessionItem> CloneItem(const SessionItem& item)
-{
-  return item.Clone(/* make unique */ false);
-}
-
-std::unique_ptr<SessionItem> CopyItem(const SessionItem& item)
-{
-  return item.Clone(/* make unique */ true);
-}
-
 }  // namespace mvvm::utils

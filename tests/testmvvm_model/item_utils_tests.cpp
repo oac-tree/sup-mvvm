@@ -438,14 +438,22 @@ TEST_F(ItemUtilsTests, ReplaceData)
 
 TEST_F(ItemUtilsTests, CloneItem)
 {
-  SessionModel model;
-  auto item = model.InsertItem<PropertyItem>();
-  item->SetData(42);
+  PropertyItem property;
+  property.SetData(42);
 
-  auto clone = utils::CloneItem(*item);
-  EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
-  EXPECT_EQ(item->GetIdentifier(), clone->GetIdentifier());
-  EXPECT_EQ(item->Data(), clone->Data());
+  {  // checking clone, when pointer to SessionItem is used
+    SessionItem* to_clone = &property;
+    auto clone = utils::CloneItem(*to_clone);
+    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+    EXPECT_EQ(property.GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(property.Data(), clone->Data());
+  }
+
+  {  // checking when return type was preserved
+    std::unique_ptr<PropertyItem> clone = utils::CloneItem(property);
+    EXPECT_EQ(property.GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(property.Data(), clone->Data());
+  }
 }
 
 //! Testing utility function CopyItem.
@@ -453,12 +461,20 @@ TEST_F(ItemUtilsTests, CloneItem)
 
 TEST_F(ItemUtilsTests, CopyItem)
 {
-  SessionModel model;
-  auto item = model.InsertItem<PropertyItem>();
-  item->SetData(42);
+  PropertyItem property;
+  property.SetData(42);
 
-  auto clone = utils::CopyItem(*item);
-  EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
-  EXPECT_NE(item->GetIdentifier(), clone->GetIdentifier());
-  EXPECT_EQ(item->Data(), clone->Data());
+  {  // checking copy, when pointer to SessionItem is used
+    SessionItem* to_clone = &property;
+    auto clone = utils::CopyItem(*to_clone);
+    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+    EXPECT_NE(property.GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(property.Data(), clone->Data());
+  }
+
+  {  // checking when return type was preserved
+    std::unique_ptr<PropertyItem> clone = utils::CopyItem(property);
+    EXPECT_NE(property.GetIdentifier(), clone->GetIdentifier());
+    EXPECT_EQ(property.Data(), clone->Data());
+  }
 }

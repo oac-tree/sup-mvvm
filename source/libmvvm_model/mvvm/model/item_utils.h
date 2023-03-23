@@ -104,13 +104,43 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
 //! double
 MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
 
-//! Returns deep clone of the item (identifiers are preserved).
-//! Current limitation: item should be the part of the model (see explanations in the code).
-std::unique_ptr<SessionItem> CloneItem(const SessionItem& item);
+//! Returns deep copy or clone of the item.
+//!
+//! @note If \it make_unique_id is true, identifiers of the item and all its children will be
+//! regenerated. The item will be unique it and will allow its usage (serialization, memory pool)
+//! along with the original. If \it make_unique_id is false, the result will be an exact clone of
+//! the original.
 
-//! Returns deep copy of the item (identifiers are preserved).
-//! Current limitation: item should be the part of the model (see explanations in the code).
-std::unique_ptr<SessionItem> CopyItem(const SessionItem& item);
+template <typename T>
+std::unique_ptr<T> CreateDeepCopy(const T& item, bool make_unique_id)
+{
+  if constexpr (std::is_same_v<T, SessionItem>)
+  {
+    // return cloned object as it is (i.e. unique_ptr<SessionItem>)
+    return item.Clone(make_unique_id);
+  }
+  else
+  {
+    // Converting unique_ptr<SessionItem> to the correct type
+    return std::unique_ptr<T>(static_cast<T*>(item.Clone(make_unique_id).release()));
+  }
+}
+
+//! Returns clone of the item (identifiers are preserved).
+
+template <typename T>
+std::unique_ptr<T> CloneItem(const T& item)
+{
+  return CreateDeepCopy(item, /* make_unique_id */ false);
+}
+
+//! Returns deep copy of the item (identifiers are regenerated).
+
+template <typename T>
+std::unique_ptr<T> CopyItem(const T& item)
+{
+  return CreateDeepCopy(item, /* make_unique_id */ true);
+}
 
 }  // namespace mvvm::utils
 
