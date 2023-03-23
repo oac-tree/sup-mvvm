@@ -40,6 +40,11 @@ GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
   AddProperty(kDisplayed, true)->SetDisplayName("Displayed");
 }
 
+std::unique_ptr<SessionItem> GraphItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<GraphItem>(*this, make_unique_id);
+}
+
 //! Sets link to the data item.
 
 void GraphItem::SetDataItem(const Data1DItem* data_item)

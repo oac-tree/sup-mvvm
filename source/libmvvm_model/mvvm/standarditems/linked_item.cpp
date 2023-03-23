@@ -35,6 +35,11 @@ LinkedItem::LinkedItem() : SessionItem(Type)
   SetEditable(false);  // prevent editing in widgets, link is set programmatically.
 }
 
+std::unique_ptr<SessionItem> LinkedItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<LinkedItem>(*this, make_unique_id);
+}
+
 //! Set link to given item.
 
 void LinkedItem::SetLink(const SessionItem* item)

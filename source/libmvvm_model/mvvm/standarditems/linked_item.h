@@ -39,6 +39,9 @@ public:
 
   LinkedItem();
 
+  using SessionItem::SessionItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+
   void SetLink(const SessionItem* item);
 
   template <typename T = SessionItem>

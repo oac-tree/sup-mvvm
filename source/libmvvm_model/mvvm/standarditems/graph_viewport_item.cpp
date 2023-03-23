@@ -58,6 +58,11 @@ GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportIt
   RegisterTag(TagInfo::CreateUniversalTag(kItems, {GraphItem::Type}), /*set_default*/ true);
 }
 
+std::unique_ptr<SessionItem> GraphViewportItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<GraphViewportItem>(*this, make_unique_id);
+}
+
 int GraphViewportItem::GetGraphCount() const
 {
   return GetItemCount(kItems);

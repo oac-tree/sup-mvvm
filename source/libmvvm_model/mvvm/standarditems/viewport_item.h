@@ -37,6 +37,7 @@ public:
   static inline const std::string kYaxis = "kYaxis";
   static inline const std::string kItems = "kItems";
 
+  using CompoundItem::CompoundItem;
   explicit ViewportItem(const std::string& item_type);
 
   ViewportAxisItem* GetXAxis() const;

@@ -55,6 +55,11 @@ TextItem::TextItem() : CompoundItem(Type)
   AddProperty(kSize, default_title_size)->SetDisplayName("Size");
 }
 
+std::unique_ptr<SessionItem> TextItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<TextItem>(*this, make_unique_id);
+}
+
 std::string TextItem::GetText() const
 {
   return Property<std::string>(kText);
@@ -100,6 +105,11 @@ PenItem::PenItem() : CompoundItem(Type)
       ->SetDisplayName("Width")
       ->SetLimits(IntLimits::CreateLimited(pen_min_width, pen_max_width))
       ->SetToolTip("Pen width");
+}
+
+std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<PenItem>(*this, make_unique_id);
 }
 
 bool PenItem::IsSelected() const

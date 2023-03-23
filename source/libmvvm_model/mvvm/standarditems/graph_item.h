@@ -41,6 +41,9 @@ public:
 
   explicit GraphItem(const std::string& model_type = Type);
 
+  using CompoundItem::CompoundItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+
   void SetDataItem(const Data1DItem* item);
 
   void SetFromGraphItem(const GraphItem* graph_item);
