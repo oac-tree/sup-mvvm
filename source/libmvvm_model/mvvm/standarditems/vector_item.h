@@ -29,12 +29,16 @@ namespace mvvm
 class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
 public:
+  using CompoundItem::CompoundItem;
+
   static inline const std::string Type = "VectorItem";
   static inline const std::string kX = "kX";
   static inline const std::string kY = "kY";
   static inline const std::string kZ = "kZ";
 
   VectorItem();
+
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
   double X() const;
   void SetX(double value);

@@ -91,3 +91,53 @@ TEST_F(VectorItemTests, SetXYZ)
 //  // Updated thanks to VectorItem::Activate
 //  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
 //}
+
+TEST_F(VectorItemTests, Clone)
+{
+  VectorItem item;
+  item.SetXYZ(1.0, 2.0, 3.0);
+
+  {  // deep copy
+    auto clone = item.Clone(/* make_unique_id*/ true);
+    auto vector_clone = dynamic_cast<VectorItem*>(clone.get());
+
+    ASSERT_NE(vector_clone, nullptr);
+
+    EXPECT_NE(vector_clone->GetIdentifier(), item.GetIdentifier());
+    EXPECT_DOUBLE_EQ(vector_clone->X(), 1.0);
+    EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
+    EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kX), item.GetItem(VectorItem::kX));
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kY), item.GetItem(VectorItem::kY));
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kZ), item.GetItem(VectorItem::kZ));
+
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kX)->GetIdentifier(),
+              item.GetItem(VectorItem::kX)->GetIdentifier());
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kY)->GetIdentifier(),
+              item.GetItem(VectorItem::kY)->GetIdentifier());
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kZ)->GetIdentifier(),
+              item.GetItem(VectorItem::kZ)->GetIdentifier());
+  }
+
+  {  // clone
+    auto clone = item.Clone(/* make_unique_id*/ false);
+    auto vector_clone = dynamic_cast<VectorItem*>(clone.get());
+
+    ASSERT_NE(vector_clone, nullptr);
+
+    EXPECT_EQ(vector_clone->GetIdentifier(), item.GetIdentifier());
+    EXPECT_DOUBLE_EQ(vector_clone->X(), 1.0);
+    EXPECT_DOUBLE_EQ(vector_clone->Y(), 2.0);
+    EXPECT_DOUBLE_EQ(vector_clone->Z(), 3.0);
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kX), item.GetItem(VectorItem::kX));
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kY), item.GetItem(VectorItem::kY));
+    EXPECT_NE(vector_clone->GetItem(VectorItem::kZ), item.GetItem(VectorItem::kZ));
+
+    EXPECT_EQ(vector_clone->GetItem(VectorItem::kX)->GetIdentifier(),
+              item.GetItem(VectorItem::kX)->GetIdentifier());
+    EXPECT_EQ(vector_clone->GetItem(VectorItem::kY)->GetIdentifier(),
+              item.GetItem(VectorItem::kY)->GetIdentifier());
+    EXPECT_EQ(vector_clone->GetItem(VectorItem::kZ)->GetIdentifier(),
+              item.GetItem(VectorItem::kZ)->GetIdentifier());
+  }
+}

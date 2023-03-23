@@ -36,6 +36,11 @@ VectorItem::VectorItem() : CompoundItem(Type)
   UpdateLabel();
 }
 
+std::unique_ptr<SessionItem> VectorItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<VectorItem>(*this, make_unique_id);
+}
+
 double VectorItem::X() const
 {
   return Property<double>(kX);
