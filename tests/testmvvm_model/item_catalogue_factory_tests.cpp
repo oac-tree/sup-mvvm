@@ -38,7 +38,7 @@ public:
     return dynamic_cast<const T*>(item) != nullptr;
   }
 
-  //! Returns trus if clone is correctly implemented.
+  //! Returns true if clone is correctly implemented.
   template <typename T>
   bool IsCloneImplemented()
   {
