@@ -38,7 +38,7 @@ public:
 
   explicit CompoundItem(const std::string& item_type = Type);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   //! Adds and item of given type, and registers it under the given `name`.
   //! Beneath will create a tag intended to store a single item without a possibility to remove.

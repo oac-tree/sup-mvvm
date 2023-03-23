@@ -38,10 +38,10 @@ class TextItem;
 class MVVM_MODEL_EXPORT BasicAxisItem : public CompoundItem
 {
 public:
-  using CompoundItem::CompoundItem;
-
   static inline const std::string kMin = "kMin";
   static inline const std::string kMax = "kMax";
+
+  using CompoundItem::CompoundItem;
   explicit BasicAxisItem(const std::string& model_type);
 
   double GetMin() const;
@@ -60,14 +60,13 @@ protected:
 class MVVM_MODEL_EXPORT ViewportAxisItem : public BasicAxisItem
 {
 public:
-  using BasicAxisItem::BasicAxisItem;
-
   static inline const std::string Type = "ViewportAxis";
   static inline const std::string kIsLog = "kIsLog";
 
   explicit ViewportAxisItem(const std::string& model_type = Type);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  using BasicAxisItem::BasicAxisItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   TextItem* GetTitle() const;
 
@@ -87,7 +86,6 @@ class MVVM_MODEL_EXPORT BinnedAxisItem : public BasicAxisItem
 {
 public:
   using BasicAxisItem::BasicAxisItem;
-
   explicit BinnedAxisItem(const std::string& model_type);
 
   virtual std::pair<double, double> GetRange() const = 0;
@@ -103,13 +101,12 @@ public:
 class MVVM_MODEL_EXPORT FixedBinAxisItem : public BinnedAxisItem
 {
 public:
-  using BinnedAxisItem::BinnedAxisItem;
-
   static inline const std::string Type = "FixedBinAxis";
 
   explicit FixedBinAxisItem(const std::string& model_type = Type);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  using BinnedAxisItem::BinnedAxisItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   void SetParameters(int nbins, double xmin, double xmax);
 
@@ -128,13 +125,12 @@ public:
 class MVVM_MODEL_EXPORT PointwiseAxisItem : public BinnedAxisItem
 {
 public:
-  using BinnedAxisItem::BinnedAxisItem;
-
   static inline const std::string Type = "PointwiseAxis";
 
   explicit PointwiseAxisItem(const std::string& model_type = Type);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  using BinnedAxisItem::BinnedAxisItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   void SetParameters(const std::vector<double>& data);
 

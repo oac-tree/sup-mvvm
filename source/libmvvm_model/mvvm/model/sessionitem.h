@@ -53,7 +53,7 @@ public:
 
   SessionItem(const SessionItem& other, bool make_unique_id);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  virtual std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
   // basic item properties
 

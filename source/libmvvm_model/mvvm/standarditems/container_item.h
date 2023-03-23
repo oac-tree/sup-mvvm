@@ -24,8 +24,8 @@
 
 namespace mvvm
 {
-//! Simple container to store any type of children.
-//! Used as convenience item to create branch with uniform children beneath.
+//! Simple container to store any type of children. May be used as a convenience item to create
+//! branch with uniform children beneath, for example.
 
 class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
 {
@@ -34,6 +34,9 @@ public:
   static inline const std::string kChildren = "kChildren";
 
   explicit ContainerItem(const std::string& model_type = Type);
+
+  using CompoundItem::CompoundItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
   bool IsEmpty() const;
 

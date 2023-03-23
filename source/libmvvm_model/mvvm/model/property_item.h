@@ -39,7 +39,7 @@ public:
 
   PropertyItem();
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   PropertyItem* SetDisplayName(const std::string& name) override;
 

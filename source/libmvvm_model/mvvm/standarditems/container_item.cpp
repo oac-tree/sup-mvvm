@@ -28,6 +28,11 @@ ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model
   RegisterTag(TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
 }
 
+std::unique_ptr<SessionItem> ContainerItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<ContainerItem>(*this, make_unique_id);
+}
+
 bool ContainerItem::IsEmpty() const
 {
   return GetSize() == 0;
