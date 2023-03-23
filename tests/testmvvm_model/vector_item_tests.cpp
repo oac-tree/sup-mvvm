@@ -151,3 +151,40 @@ TEST_F(VectorItemTests, Clone)
     EXPECT_EQ(z_clone->GetIdentifier(), item.GetItem(VectorItem::kZ)->GetIdentifier());
   }
 }
+
+//! Testing clone when vector is the part of the model.
+//! Model should be cleared in the clone.
+
+TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
+{
+  SessionModel model;
+  auto item = model.InsertItem<VectorItem>();
+
+  {  // deep copy
+    auto clone = item->Clone(/* make_unique_id*/ true);
+    EXPECT_EQ(clone->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetParent(), nullptr);
+
+    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetModel(), nullptr);
+
+    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetParent(), clone.get());
+  }
+
+  {  // clone
+    auto clone = item->Clone(/* make_unique_id*/ false);
+    EXPECT_EQ(clone->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetParent(), nullptr);
+
+    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetModel(), nullptr);
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetModel(), nullptr);
+
+    EXPECT_EQ(clone->GetItem(VectorItem::kX)->GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetParent(), clone.get());
+    EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetParent(), clone.get());
+  }
+}
