@@ -20,7 +20,6 @@
 #include "mvvm/model/model_utils.h"
 
 #include <mvvm/commands/command_stack_interface.h>
-#include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/path.h>
@@ -77,8 +76,7 @@ SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path)
 SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, SessionItem* parent,
                       const TagIndex& tag_index)
 {
-  auto copy_strategy = CreateItemCopyStrategy(model->GetFactory());
-  return model->InsertItem(copy_strategy->CreateCopy(item), parent, tag_index);
+  return model->InsertItem(item->Clone(/* make_unique_id*/ true), parent, tag_index);
 }
 
 //! FIXME restore functionality PopulateEmptyModel json
