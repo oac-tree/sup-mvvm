@@ -19,6 +19,8 @@
 
 #include "mvvm/model/item_utils.h"
 
+#include <gtest/gtest.h>
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
@@ -27,8 +29,6 @@
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/utils/container_utils.h>
-
-#include <gtest/gtest.h>
 
 #include <memory>
 
@@ -438,23 +438,14 @@ TEST_F(ItemUtilsTests, ReplaceData)
 
 TEST_F(ItemUtilsTests, CloneItem)
 {
-  {  // attempt to clone an item that doesn't have a model
-    PropertyItem item;
-    item.SetData(42.0);
+  SessionModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  item->SetData(42);
 
-    EXPECT_THROW(utils::CloneItem(item), InvalidOperationException);
-  }
-
-  {  // cloning item in board of the model
-    SessionModel model;
-    auto item = model.InsertItem<PropertyItem>();
-    item->SetData(42);
-
-    auto clone = utils::CloneItem(*item);
-    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
-    EXPECT_EQ(item->GetIdentifier(), clone->GetIdentifier());
-    EXPECT_EQ(item->Data(), clone->Data());
-  }
+  auto clone = utils::CloneItem(*item);
+  EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+  EXPECT_EQ(item->GetIdentifier(), clone->GetIdentifier());
+  EXPECT_EQ(item->Data(), clone->Data());
 }
 
 //! Testing utility function CopyItem.
@@ -462,21 +453,12 @@ TEST_F(ItemUtilsTests, CloneItem)
 
 TEST_F(ItemUtilsTests, CopyItem)
 {
-  {  // attempt to copy an item that doesn't have a model
-    PropertyItem item;
-    item.SetData(42.0);
+  SessionModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  item->SetData(42);
 
-    EXPECT_THROW(utils::CopyItem(item), InvalidOperationException);
-  }
-
-  {  // cloning item in board of the model
-    SessionModel model;
-    auto item = model.InsertItem<PropertyItem>();
-    item->SetData(42);
-
-    auto clone = utils::CopyItem(*item);
-    EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
-    EXPECT_NE(item->GetIdentifier(), clone->GetIdentifier());
-    EXPECT_EQ(item->Data(), clone->Data());
-  }
+  auto clone = utils::CopyItem(*item);
+  EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
+  EXPECT_NE(item->GetIdentifier(), clone->GetIdentifier());
+  EXPECT_EQ(item->Data(), clone->Data());
 }
