@@ -48,6 +48,11 @@ Data1DItem::Data1DItem() : CompoundItem(Type)
   RegisterTag(TagInfo(kAxis, 0, 1, {FixedBinAxisItem::Type, PointwiseAxisItem::Type}), true);
 }
 
+std::unique_ptr<SessionItem> Data1DItem::Clone(bool make_unique_id) const
+{
+  return std::make_unique<Data1DItem>(*this, make_unique_id);
+}
+
 //! Returns coordinates of bin centers.
 
 std::vector<double> Data1DItem::GetBinCenters() const

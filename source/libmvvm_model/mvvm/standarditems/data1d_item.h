@@ -42,6 +42,9 @@ public:
 
   Data1DItem();
 
+  using CompoundItem::CompoundItem;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+
   std::vector<double> GetBinCenters() const;
 
   void SetValues(const std::vector<double>& data);

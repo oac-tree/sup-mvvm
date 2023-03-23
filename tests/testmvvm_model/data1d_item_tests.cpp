@@ -201,3 +201,25 @@ TEST_F(Data1DItemTests, SetErrors)
 //    // trigger change
 //    item->setValues(std::vector<double>{1.0, 2.0, 3.0});
 //}
+
+//! Testing clone
+
+TEST_F(Data1DItemTests, Clone)
+{
+  SessionModel model;
+  auto data_item = model.InsertItem<Data1DItem>();
+  auto axis_item = data_item->SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+
+  auto clone = data_item->Clone(/* make_unique_id*/ false);
+  auto data_clone = dynamic_cast<Data1DItem*>(clone.get());
+  ASSERT_NE(data_clone, nullptr);
+  auto axis_clone = data_clone->GetAxis();
+
+  EXPECT_EQ(axis_clone->GetIdentifier(), axis_item->GetIdentifier());
+
+  // check bin centers and values
+  std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
+  EXPECT_EQ(data_clone->GetBinCenters(), expected_centers);
+  std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
+  EXPECT_EQ(data_clone->GetValues(), expected_values);
+}
