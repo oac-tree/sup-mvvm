@@ -25,8 +25,27 @@
 
 using namespace mvvm;
 
+#include <iostream>
+#include <typeinfo>
+
 class ItemCatalogueFactoryTests : public ::testing::Test
 {
+public:
+  //! Returns true if given item can be casted to specified type.
+  template <typename T>
+  bool IsCorrectType(const mvvm::SessionItem* item)
+  {
+    return dynamic_cast<const T*>(item) != nullptr;
+  }
+
+  //! Returns trus if clone is correctly implemented.
+  template <typename T>
+  bool IsCloneImplemented()
+  {
+    T item;
+    auto clone = item.Clone();
+    return IsCorrectType<T>(clone.get());
+  }
 };
 
 TEST_F(ItemCatalogueFactoryTests, CreateStandardItemCatalogue)
@@ -62,4 +81,37 @@ TEST_F(ItemCatalogueFactoryTests, AddStandardItemsToCatalogue)
 
   item = catalogue.Create(CompoundItem::Type);
   EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
+}
+
+//! This is poor man's check that we didn't forget to override SessionItem::Clone
+
+TEST_F(ItemCatalogueFactoryTests, CloneOfItemsRegisteredInCatalogue)
+{
+  auto catalogue = CreateStandardItemCatalogue();
+
+  for (const auto& item_type : catalogue->GetItemTypes())
+  {
+    auto item = catalogue->Create(item_type);
+    auto clone = item->Clone();
+    EXPECT_EQ(item->GetType(), clone->GetType());
+  }
+}
+
+//! Another check for SessionItem::Clone
+
+TEST_F(ItemCatalogueFactoryTests, CheckCloneImplementation)
+{
+  EXPECT_TRUE(IsCloneImplemented<CompoundItem>());
+  EXPECT_TRUE(IsCloneImplemented<ContainerItem>());
+  EXPECT_TRUE(IsCloneImplemented<Data1DItem>());
+  EXPECT_TRUE(IsCloneImplemented<FixedBinAxisItem>());
+  EXPECT_TRUE(IsCloneImplemented<GraphItem>());
+  EXPECT_TRUE(IsCloneImplemented<GraphViewportItem>());
+  EXPECT_TRUE(IsCloneImplemented<LinkedItem>());
+  EXPECT_TRUE(IsCloneImplemented<PenItem>());
+  EXPECT_TRUE(IsCloneImplemented<PointwiseAxisItem>());
+  EXPECT_TRUE(IsCloneImplemented<PropertyItem>());
+  EXPECT_TRUE(IsCloneImplemented<TextItem>());
+  EXPECT_TRUE(IsCloneImplemented<VectorItem>());
+  EXPECT_TRUE(IsCloneImplemented<ViewportAxisItem>());
 }

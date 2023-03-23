@@ -20,7 +20,6 @@
 #ifndef MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_
 #define MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_
 
-//! @file standard_item_includes.h
 //! Collection of all includes with items supported by the model out-of-the-box.
 
 #include <mvvm/model/compound_item.h>
