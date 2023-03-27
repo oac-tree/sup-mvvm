@@ -19,6 +19,7 @@
 
 #include "mvvm/signals/model_listener_base.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
 namespace mvvm
@@ -36,6 +37,16 @@ struct ModelListenerBase::ModelListenerBaseImpl
   explicit ModelListenerBaseImpl(const SessionModelInterface *model)
       : m_model(model), m_slot(std::make_unique<Slot>())
   {
+    if (!m_model)
+    {
+      throw NullArgumentException("Attempt to set-up listener for uninitialized model");
+    }
+
+    if (!m_model->GetEventHandler())
+    {
+      throw NullArgumentException(
+          "Attempt to set-up listener for the model which lacks event handler");
+    }
   }
 };
 

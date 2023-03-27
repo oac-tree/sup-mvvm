@@ -34,7 +34,7 @@ template <typename T>
 class ModelListener : public ModelListenerBase
 {
 public:
-  explicit ModelListener(T* model) : ModelListenerBase(model) {}
+  explicit ModelListener(const T* model) : ModelListenerBase(model) {}
   const T* GetModel() const { return static_cast<const T*>(GetModelBase()); }
 };
 

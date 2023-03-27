@@ -24,6 +24,8 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/signals/model_listener.h>
 
+#include <mvvm/core/exceptions.h>
+
 using namespace mvvm;
 using ::testing::_;
 
@@ -54,6 +56,15 @@ TEST_F(ModelListenerTests, InitialState)
   ModelListener<ApplicationModel> listener(&model);
   EXPECT_EQ(listener.GetModel(), &model);
 }
+
+TEST_F(ModelListenerTests, AttemptToInitializeToWrongModel)
+{
+  EXPECT_THROW(ModelListener<SessionModel>(nullptr), NullArgumentException);
+
+  SessionModel model;
+  EXPECT_THROW((ModelListener<SessionModel>(&model)), NullArgumentException);
+}
+
 
 //! Creating the model with item and listener attached.
 //! The client is setup to receive DataChangedEvents.
