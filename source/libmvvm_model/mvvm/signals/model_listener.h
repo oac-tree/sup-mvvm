@@ -35,7 +35,7 @@ class ModelListener : public ModelListenerBase
 {
 public:
   explicit ModelListener(T* model) : ModelListenerBase(model) {}
-  T* GetModel() const { return static_cast<T*>(GetModelBase()); }
+  const T* GetModel() const { return static_cast<const T*>(GetModelBase()); }
 };
 
 }  // namespace mvvm

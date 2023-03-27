@@ -35,7 +35,7 @@ class ModelEventHandler;
 class MVVM_MODEL_EXPORT ModelListenerBase
 {
 public:
-  explicit ModelListenerBase(SessionModelInterface* model);
+  explicit ModelListenerBase(const SessionModelInterface* model);
   virtual ~ModelListenerBase();
 
   ModelListenerBase& operator=(const ModelListenerBase& other) = delete;
@@ -71,7 +71,7 @@ public:
   }
 
 protected:
-  SessionModelInterface* GetModelBase() const;
+  const SessionModelInterface *GetModelBase() const;
 
 private:
   ModelEventHandler* GetEventHandler();
