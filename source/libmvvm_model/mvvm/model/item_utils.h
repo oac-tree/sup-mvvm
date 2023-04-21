@@ -21,18 +21,13 @@
 #define MVVM_MODEL_ITEM_UTILS_H_
 
 #include <mvvm/core/variant.h>
-#include <mvvm/model/mvvm_types.h>
+#include <mvvm/model/sessionitem.h>
 #include <mvvm/model_export.h>
 
 #include <functional>
 #include <memory>
 #include <string>
 #include <vector>
-
-namespace mvvm
-{
-class SessionItem;
-}
 
 namespace mvvm::utils
 {
@@ -103,6 +98,25 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
 //! ReplaceData(&item, "abc", role) <-- will succeed, new data will be std::string, instead of
 //! double
 MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
+
+//! Finds first parent item of given type.
+//! Returns nullptr if no parent of given type found.
+template <typename T>
+SessionItem* FindParent(const SessionItem* item)
+{
+  if (item == nullptr)
+  {
+    return nullptr;
+  }
+
+  auto parent = item->GetParent();
+  while (parent != nullptr && dynamic_cast<T*>(parent) == nullptr)
+  {
+    parent = parent->GetParent();
+  }
+
+  return parent;
+}
 
 //! Returns deep copy or clone of the item.
 //!

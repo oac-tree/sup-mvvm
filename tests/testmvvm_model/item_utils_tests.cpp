@@ -434,6 +434,35 @@ TEST_F(ItemUtilsTests, ReplaceData)
   EXPECT_EQ(item.Data(), variant_t(std::string("abc")));
 }
 
+TEST_F(ItemUtilsTests, FindParent)
+{
+  SessionModel model;
+
+  auto item0 = model.InsertItem<CompoundItem>(model.GetRootItem());
+  item0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto item1 = model.InsertItem<PropertyItem>(item0);
+  item1->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto item2 = model.InsertItem<VectorItem>(item1);
+
+  EXPECT_NO_THROW(nullptr);
+
+  EXPECT_EQ(utils::FindParent<VectorItem>(item2), nullptr);
+  EXPECT_EQ(utils::FindParent<PropertyItem>(item2), item1);
+  EXPECT_EQ(utils::FindParent<CompoundItem>(item2), item0);
+
+  EXPECT_EQ(utils::FindParent<VectorItem>(item1), nullptr);
+  EXPECT_EQ(utils::FindParent<PropertyItem>(item1), nullptr);
+  EXPECT_EQ(utils::FindParent<CompoundItem>(item1), item0);
+
+  EXPECT_EQ(utils::FindParent<VectorItem>(item0), nullptr);
+  EXPECT_EQ(utils::FindParent<PropertyItem>(item0), nullptr);
+  EXPECT_EQ(utils::FindParent<CompoundItem>(item0), nullptr);
+
+  EXPECT_EQ(utils::FindParent<SessionItem>(item0), model.GetRootItem());
+}
+
 //! Testing utility function CloneItem.
 
 TEST_F(ItemUtilsTests, CloneItem)
