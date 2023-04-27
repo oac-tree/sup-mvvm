@@ -6,7 +6,7 @@
  *
  * Author        : Gennady Pospelov (IO)
  *
- * Copyright (c) : 2010-2023 ITER Organization,
+ * Copyright (c) : 2010-2022 ITER Organization,
  *                 CS 90 046
  *                 13067 St. Paul-lez-Durance Cedex
  *                 France
@@ -31,31 +31,31 @@ namespace mvvm
 //! Returns major project version.
 inline int ProjectVersionMajor()
 {
-    const int project_version_major = 0;
+    const int project_version_major = 1;
     return project_version_major;
 }
 
 //! Returns minor project version.
 inline int ProjectVersionMinor()
 {
-    const int project_version_minor = 4;
+    const int project_version_minor = 0;
     return project_version_minor;
 }
 
 //! Returns patch project version.
 inline int ProjectVersionPatch()
 {
-    const int project_version_path = 99;
+    const int project_version_path = 0;
     return project_version_path;
 }
 
 //! Returns project version string
 inline std::string ProjectVersion()
 {
-    const std::string project_version = "0.4.99";
+    const std::string project_version = "1.0.0";
     return project_version;
 }
 
 } // namespace ModelView
 
-#endif  // MVVM_CORE_VERSION_H_
+#endif // MVVM_CORE_VERSION_H_

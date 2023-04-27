@@ -1,4 +1,9 @@
-Changes for development branch:
+Changes for 1.0.0:
+
+- Introduced new event machinery
+- New benchmarking tests
+- Implemented new clone machinery
+- Multiple minor changes in the API
 
 Changes for 0.4.0:
 
