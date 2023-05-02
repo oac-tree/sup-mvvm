@@ -47,10 +47,10 @@ endfunction()
 # Setups targets for code processing.
 
 function(project_codetools_setup)
-    if (SUP_MVVM_SETUP_CLANGFORMAT)
+    if (COA_SETUP_CLANGFORMAT)
         project_clangformat_setup()
     endif()
-    if (SUP_MVVM_SETUP_COVERAGE)
+    if (COA_SETUP_COVERAGE)
         project_testcoverage_setup()
     endif()
 endfunction()

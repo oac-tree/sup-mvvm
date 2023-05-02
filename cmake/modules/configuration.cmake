@@ -7,7 +7,7 @@ include(CodeTools)
 include(GenerateExportHeader)
 include(GNUInstallDirs)
 
-if (SUP_MVVM_SETUP_COVERAGE)
+if (COA_SETUP_COVERAGE)
   include(CodeCoverage)
   append_coverage_compiler_flags()
 #    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage --coverage")
@@ -86,7 +86,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Threads)
 
-if (SUP_MVVM_USE_QT6)
+if (COA_USE_QT6)
   find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets Core Gui PrintSupport Test)
 else()
   find_package(QT NAMES Qt5 REQUIRED COMPONENTS Widgets Core Gui PrintSupport Test)
