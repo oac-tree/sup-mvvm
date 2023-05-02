@@ -37,7 +37,7 @@
         <integrity.level>1</integrity.level>
         <!-- -->
         <cppcheck.args>--enable=all --suppress=missingInclude --inline-suppr</cppcheck.args>
-        <sonar.sources.cpp>source</sonar.sources.cpp>
+        <sonar.sources.cpp>src</sonar.sources.cpp>
         <sonar.tests.cpp>tests</sonar.tests.cpp>
         <sonar.exclusions>tests/**</sonar.exclusions>
         <coverage>false</coverage>
@@ -85,7 +85,7 @@
                 <configuration>
                     <!-- Copy the sources over to target -->
                     <init>
-                        <copy source="source" target="main/source" />
+                        <copy source="src" target="main/src" />
                         <copy source="tests" target="main/tests" />
                         <copy source="extern" target="main/extern" />
                         <copy source="doc" target="main/doc" />

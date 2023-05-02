@@ -16,7 +16,7 @@ option(COA_NO_CODAC "Don't look for the presence of CODAC environment" OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 include(configuration)
 
-add_subdirectory(source)
+add_subdirectory(src)
 add_subdirectory(extern)
 
 if(COA_BUILD_TESTS)
