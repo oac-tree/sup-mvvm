@@ -3,7 +3,6 @@ project(sup-mvvm-project VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-option(SUP_MVVM_BUMP_VERSION "Propagate version number" OFF)
 option(COA_EXPORT_BUILD_TREE "Export build tree in /home/user/.cmake registry" OFF)
 option(COA_SETUP_CLANGFORMAT "Setups target to beautify the code with 'make clangformat'" OFF)
 option(COA_SETUP_COVERAGE "Setups target for code coverage" OFF)

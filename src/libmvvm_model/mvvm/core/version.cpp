@@ -17,28 +17,29 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_CORE_VERSION_H_
-#define MVVM_CORE_VERSION_H_
-
-//! Project version information as defined by CMake project
-
-#include <string>
+#include "version_constants.h"  // from <build>/autogen
 
 namespace mvvm
 {
 
-//! Returns major project version.
-int ProjectVersionMajor();
+int ProjectVersionMajor()
+{
+  return kProjectVersionMajor;
+}
 
-//! Returns minor project version.
-int ProjectVersionMinor();
+int ProjectVersionMinor()
+{
+  return kProjectVersionMinor;
+}
 
-//! Returns patch project version.
-int ProjectVersionPatch();
+int ProjectVersionPatch()
+{
+  return kProjectVersionPatch;
+}
 
-//! Returns project version string.
-std::string ProjectVersion();
+std::string ProjectVersion()
+{
+  return kProjectVersionString;
+}
 
-}  // namespace sequencergui
-
-#endif  // MVVM_CORE_VERSION_H_
+}  // namespace mvvm
