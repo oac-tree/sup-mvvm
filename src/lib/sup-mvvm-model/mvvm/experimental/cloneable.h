@@ -75,4 +75,4 @@ public:
 
 }  // namespace experimental
 
-#endif
+#endif  // MVVM_EXPERIMENTAL_CLONEABLE_H_
