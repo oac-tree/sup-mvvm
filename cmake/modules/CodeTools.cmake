@@ -39,7 +39,7 @@ function(project_testcoverage_setup)
             "${PROJECT_SOURCE_DIR}/EXTERNAL_OBJECT/*"
             "${PROJECT_SOURCE_DIR}/test/*"
             "${PROJECT_SOURCE_DIR}/examples/*"
-            "${PROJECT_SOURCE_DIR}/src/libmvvm_view/*"
+            "${PROJECT_SOURCE_DIR}/src/lib/sup-mvvm-view/*"
             "**CompilerId*" "/usr/*"  "${CMAKE_BINARY_DIR}/*"
         )
 endfunction()
