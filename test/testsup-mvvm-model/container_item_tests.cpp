@@ -19,9 +19,9 @@
 
 #include "mvvm/standarditems/container_item.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/standarditems/vector_item.h>
+
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 #include <iostream>

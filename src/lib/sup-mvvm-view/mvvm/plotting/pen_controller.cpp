@@ -21,6 +21,7 @@
 
 #include <mvvm/model/combo_property.h>
 #include <mvvm/standarditems/plottable_items.h>
+
 #include <qcustomplot.h>
 
 #include <stdexcept>

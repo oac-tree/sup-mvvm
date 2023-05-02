@@ -19,9 +19,9 @@
 
 #include "mvvm/model/property_item.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/limits.h>
+
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 

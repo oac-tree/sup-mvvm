@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/standard_item_includes.h>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <testutils/mock_callback_listener.h>
 #include <testutils/mock_item_listener.h>
 

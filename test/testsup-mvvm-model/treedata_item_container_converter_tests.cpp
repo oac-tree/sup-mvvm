@@ -19,14 +19,14 @@
 
 #include "mvvm/serialization/treedata_item_container_converter.h"
 
-#include <gtest/gtest.h>
-#include <testutils/test_utils.h>
-
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionitem_container.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>
+
+#include <gtest/gtest.h>
+#include <testutils/test_utils.h>
 
 using namespace mvvm;
 

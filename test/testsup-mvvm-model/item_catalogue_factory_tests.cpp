@@ -19,9 +19,9 @@
 
 #include "mvvm/factories/item_catalogue_factory.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/standarditems/standard_item_includes.h>
+
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 

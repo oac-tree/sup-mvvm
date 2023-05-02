@@ -50,8 +50,7 @@ bool IsPossibleProjectDir(const std::string& project_dir);
 //! @cond DoNotParse
 MVVM_MODEL_EXPORT
 //! @endcond
-std::unique_ptr<ProjectInterface> CreateUntitledProject(
-    const ProjectContext& context);
+std::unique_ptr<ProjectInterface> CreateUntitledProject(const ProjectContext& context);
 
 //! @cond DoNotParse
 MVVM_MODEL_EXPORT

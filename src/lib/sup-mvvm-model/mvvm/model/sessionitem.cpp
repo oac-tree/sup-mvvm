@@ -86,7 +86,7 @@ SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
   {
     SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   }
-  for(auto child : GetAllItems())
+  for (auto child : GetAllItems())
   {
     child->SetParent(this);
   }

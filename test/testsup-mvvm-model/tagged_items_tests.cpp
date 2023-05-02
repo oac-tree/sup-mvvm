@@ -19,12 +19,12 @@
 
 #include "mvvm/model/tagged_items.h"
 
-#include <gtest/gtest.h>
-#include <testutils/test_utils.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
+
+#include <gtest/gtest.h>
+#include <testutils/test_utils.h>
 
 #include <stdexcept>
 

@@ -19,9 +19,9 @@
 
 #include "mvvm/model/item_pool.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/sessionitem.h>
+
+#include <gtest/gtest.h>
 
 #include <memory>
 #include <stdexcept>

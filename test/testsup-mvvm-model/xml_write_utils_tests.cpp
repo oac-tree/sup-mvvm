@@ -19,10 +19,10 @@
 
 #include "mvvm/serialization/xml_write_utils.h"
 
+#include <mvvm/serialization/treedata.h>
+
 #include <testutils/folder_based_test.h>
 #include <testutils/test_utils.h>
-
-#include <mvvm/serialization/treedata.h>
 
 using namespace mvvm;
 

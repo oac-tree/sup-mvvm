@@ -19,12 +19,13 @@
 
 #include "mvvm/signals/item_connect_utils.h"
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/standard_item_includes.h>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 #include <memory>
 

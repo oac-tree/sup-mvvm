@@ -83,7 +83,7 @@ std::unique_ptr<TreeData> ToTreeData(const SessionItemContainer &container,
 {
   auto result = std::make_unique<TreeData>(kItemContainerElementType);
   result->AddChild(ToTreeData(container.GetTagInfo()));
-  for (const auto& item : container)
+  for (const auto &item : container)
   {
     result->AddChild(*func(*item));
   }

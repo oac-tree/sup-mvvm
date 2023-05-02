@@ -19,12 +19,12 @@
 
 #include "mvvm/signals/model_event_handler.h"
 
+#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/sessionmodel.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/mock_event_listener.h>
-
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
 
 #include <variant>
 

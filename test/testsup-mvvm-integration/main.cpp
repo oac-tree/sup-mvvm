@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include <mvvm/model/sessionitem.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
-
-#include <mvvm/model/sessionitem.h>
 
 #include <QApplication>
 #include <QMetaType>

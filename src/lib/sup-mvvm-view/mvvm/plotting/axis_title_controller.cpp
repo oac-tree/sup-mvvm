@@ -20,6 +20,7 @@
 #include "mvvm/plotting/axis_title_controller.h"
 
 #include <mvvm/standarditems/plottable_items.h>
+
 #include <qcustomplot.h>
 
 #include <stdexcept>

@@ -19,14 +19,14 @@
 
 #include "mvvm/viewmodel/viewmodel_utils.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
+
+#include <gtest/gtest.h>
 
 #include <QColor>
 

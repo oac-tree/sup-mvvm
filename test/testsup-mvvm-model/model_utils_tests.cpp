@@ -19,15 +19,15 @@
 
 #include "mvvm/model/model_utils.h"
 
-#include <gtest/gtest.h>
-#include <testutils/toy_items.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/path.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
+
+#include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 

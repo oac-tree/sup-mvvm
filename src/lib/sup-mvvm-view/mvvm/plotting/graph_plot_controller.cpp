@@ -24,6 +24,7 @@
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/plottable_items.h>
+
 #include <qcustomplot.h>
 
 namespace mvvm

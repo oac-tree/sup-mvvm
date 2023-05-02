@@ -19,10 +19,10 @@
 
 #include "mvvm/commands/abstract_command.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
-#include <mvvm/core/exceptions.h>
 
 using namespace mvvm;
 using ::testing::_;

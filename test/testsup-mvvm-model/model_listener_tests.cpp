@@ -17,14 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/signals/model_listener.h>
 
-#include <mvvm/core/exceptions.h>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -64,7 +63,6 @@ TEST_F(ModelListenerTests, AttemptToInitializeToWrongModel)
   SessionModel model;
   EXPECT_THROW((ModelListener<SessionModel>(&model)), NullArgumentException);
 }
-
 
 //! Creating the model with item and listener attached.
 //! The client is setup to receive DataChangedEvents.

@@ -19,13 +19,13 @@
 
 #include "mvvm/delegates/viewmodel_delegate.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/editors/custom_editor.h>
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+
+#include <gtest/gtest.h>
 
 #include <QDataWidgetMapper>
 #include <QStyleOptionViewItem>

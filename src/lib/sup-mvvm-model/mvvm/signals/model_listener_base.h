@@ -71,7 +71,7 @@ public:
   }
 
 protected:
-  const SessionModelInterface *GetModelBase() const;
+  const SessionModelInterface* GetModelBase() const;
 
 private:
   ModelEventHandler* GetEventHandler();

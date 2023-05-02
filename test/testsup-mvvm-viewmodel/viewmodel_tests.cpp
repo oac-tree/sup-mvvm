@@ -23,11 +23,11 @@
 #include "mvvm/viewmodel/viewmodel_controller.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
+
+#include <gtest/gtest.h>
 
 #include <memory>
 

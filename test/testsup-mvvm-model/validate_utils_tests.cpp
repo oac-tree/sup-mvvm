@@ -19,13 +19,13 @@
 
 #include "mvvm/model/validate_utils.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/tagged_items.h>
+
+#include <gtest/gtest.h>
 
 #include <memory>
 #include <stdexcept>

@@ -19,9 +19,6 @@
 
 #include "mvvm/serialization/treedata_item_converter.h"
 
-#include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
-
 #include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/external_property.h>
@@ -34,6 +31,9 @@
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
+
+#include <gtest/gtest.h>
+#include <testutils/folder_based_test.h>
 
 #include <iostream>
 

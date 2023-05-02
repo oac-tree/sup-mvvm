@@ -19,12 +19,12 @@
 
 #include "mvvm/plotting/viewport_axis_plot_controller.h"
 
-#include <qcustomplot.h>
-
 #include <mvvm/plotting/axis_title_controller.h>
 #include <mvvm/plotting/custom_plot_utils.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
+
+#include <qcustomplot.h>
 
 #include <QObject>
 #include <stdexcept>

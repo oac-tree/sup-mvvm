@@ -19,8 +19,6 @@
 
 #include "mvvm/viewmodel/viewmodel_controller.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/sessionitem.h>
@@ -31,6 +29,8 @@
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
+
+#include <gtest/gtest.h>
 
 #include <QDebug>
 #include <QSignalSpy>

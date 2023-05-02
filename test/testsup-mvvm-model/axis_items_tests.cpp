@@ -19,9 +19,9 @@
 
 #include "mvvm/standarditems/axis_items.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/standarditems/plottable_items.h>
+
+#include <gtest/gtest.h>
 
 using namespace mvvm;
 

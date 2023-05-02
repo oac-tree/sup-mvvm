@@ -19,10 +19,10 @@
 
 #include "mvvm/signals/signal_slot.h"
 
+#include <mvvm/model/sessionitem.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-
-#include <mvvm/model/sessionitem.h>
 
 using ::testing::_;
 

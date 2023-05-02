@@ -19,10 +19,6 @@
 
 #include "mvvm/model/application_model.h"
 
-#include <gtest/gtest.h>
-#include <testutils/mock_model_listener.h>
-#include <testutils/toy_items.h>
-
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
@@ -31,6 +27,10 @@
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/standard_item_includes.h>
+
+#include <gtest/gtest.h>
+#include <testutils/mock_model_listener.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 using ::testing::_;

@@ -38,10 +38,10 @@ TEST_F(CloneableTests, InitialState)
   {
     experimental::MyDerivedItem derived;
     std::unique_ptr<experimental::MyDerivedItem> derived_clone = derived.Clone();
-    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(derived_clone.get()));
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(derived_clone.get()));
 
     std::unique_ptr<experimental::MyItem> derived_clone2 = derived.Clone();
-    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(derived_clone2.get()));
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(derived_clone2.get()));
   }
 
   {
@@ -51,7 +51,7 @@ TEST_F(CloneableTests, InitialState)
     auto derived_clone = derived.Clone();
     auto base_clone = base->Clone();
 
-    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(derived_clone.get()));
-    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem*>(base_clone.get()));
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(derived_clone.get()));
+    EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(base_clone.get()));
   }
 }

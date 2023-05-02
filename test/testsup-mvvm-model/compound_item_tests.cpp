@@ -19,11 +19,11 @@
 
 #include "mvvm/model/compound_item.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
+
+#include <gtest/gtest.h>
 
 #include <stdexcept>
 
@@ -275,7 +275,8 @@ TEST_F(CompoundItemTests, Clone)
     EXPECT_NE(compound_clone->GetIdentifier(), item.GetIdentifier());
     EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
     EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
-    EXPECT_NE(compound_clone->GetItem({"thickness", 0})->GetIdentifier(), property0->GetIdentifier());
+    EXPECT_NE(compound_clone->GetItem({"thickness", 0})->GetIdentifier(),
+              property0->GetIdentifier());
   }
 
   {  // clone
@@ -287,7 +288,7 @@ TEST_F(CompoundItemTests, Clone)
     EXPECT_EQ(compound_clone->GetIdentifier(), item.GetIdentifier());
     EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
     EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
-    EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(), property0->GetIdentifier());
+    EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(),
+              property0->GetIdentifier());
   }
-
 }

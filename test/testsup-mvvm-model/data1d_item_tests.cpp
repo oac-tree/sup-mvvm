@@ -19,10 +19,10 @@
 
 #include "mvvm/standarditems/data1d_item.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/axis_items.h>
+
+#include <gtest/gtest.h>
 
 #include <stdexcept>
 

@@ -19,13 +19,13 @@
 
 #include "mvvm/commands/set_value_command.h"
 
-#include <gtest/gtest.h>
-#include <testutils/mock_event_listener.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
+
+#include <gtest/gtest.h>
+#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

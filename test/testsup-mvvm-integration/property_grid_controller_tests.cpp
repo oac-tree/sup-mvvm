@@ -19,8 +19,6 @@
 
 #include "mvvm/widgets/property_grid_controller.h"
 
-#include <gtest/gtest.h>
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
@@ -28,6 +26,8 @@
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
+
+#include <gtest/gtest.h>
 
 #include <QDataWidgetMapper>
 #include <QDoubleSpinBox>

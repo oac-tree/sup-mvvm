@@ -19,10 +19,6 @@
 
 #include "mvvm/model/notifying_model_composer.h"
 
-#include <gtest/gtest.h>
-#include <testutils/mock_event_listener.h>
-#include <testutils/mock_model.h>
-
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>
@@ -30,6 +26,10 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
+
+#include <gtest/gtest.h>
+#include <testutils/mock_event_listener.h>
+#include <testutils/mock_model.h>
 
 using namespace mvvm;
 using ::testing::_;

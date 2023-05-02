@@ -20,14 +20,14 @@
 #include "custom_plot_test_utils.h"
 #include "mvvm/plotting/graph_viewport_plot_controller.h"
 
-#include <gtest/gtest.h>
-#include <qcustomplot.h>
-
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
+
+#include <gtest/gtest.h>
+#include <qcustomplot.h>
 
 using namespace mvvm;
 

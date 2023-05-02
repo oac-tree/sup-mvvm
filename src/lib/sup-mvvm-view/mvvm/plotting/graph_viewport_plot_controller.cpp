@@ -24,6 +24,7 @@
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
+
 #include <qcustomplot.h>
 
 #include <list>

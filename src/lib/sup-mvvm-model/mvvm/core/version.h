@@ -39,6 +39,6 @@ int ProjectVersionPatch();
 //! Returns project version string.
 std::string ProjectVersion();
 
-}  // namespace sequencergui
+}  // namespace mvvm
 
 #endif  // MVVM_CORE_VERSION_H_
