@@ -29,12 +29,12 @@ endfunction()
 
 # Setups test coverage target.
 # Use 'make codecoverage' or 'cmake --build . --target coverage' to generate coverage report.
-# Requires -DSUP_MVVM_GENERATE_COVERAGE=ON
+# Requires -DCOA_SETUP_COVERAGE=ON
 
 function(project_testcoverage_setup)
     setup_target_for_coverage_lcov(NAME coverage
         EXECUTABLE ctest -j 4
-        DEPENDENCIES testmvvm_model testmvvm_viewmodel testmvvm_view testmvvm_integration
+        DEPENDENCIES testsup-mvvm-model testsup-mvvm-viewmodel testsup-mvvm-integration
         EXCLUDE
             "${PROJECT_SOURCE_DIR}/EXTERNAL_OBJECT/*"
             "${PROJECT_SOURCE_DIR}/test/*"

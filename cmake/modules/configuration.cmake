@@ -44,7 +44,7 @@ endif()
 # Variables
 # -----------------------------------------------------------------------------
 
-if(COVERAGE)
+if(COA_SETUP_COVERAGE)
   # On coverage builds  alsways skip building docs and build tests
   set(COA_BUILD_DOCUMENTATION OFF)
 endif()
