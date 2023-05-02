@@ -14,12 +14,12 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Test REQUIRED)
 find_package(Threads)
 
 add_subdirectory(libtest-utils)
-add_subdirectory(testmvvm_integration)
-add_subdirectory(testmvvm_model)
-add_subdirectory(testmvvm_viewmodel)
-add_subdirectory(testmvvm_view)
+add_subdirectory(testsup-mvvm-integration)
+add_subdirectory(testsup-mvvm-model)
+add_subdirectory(testsup-mvvm-viewmodel)
+add_subdirectory(testsup-mvvm-view)
 if (benchmark_FOUND)
-  add_subdirectory(testmvvm-benchmark)
+  add_subdirectory(testsup-mvvm-benchmark)
 endif()
 
 # Add custom target `make testall` which will run test executables one after another.
@@ -28,20 +28,20 @@ endif()
 # instantiations of QApplication.
 
 add_custom_target(testall
-  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_view
-  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_integration
-  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_viewmodel
-  COMMAND ${TEST_OUTPUT_DIRECTORY}/testmvvm_model
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-view
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-integration
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-model
 )
 
 file(WRITE ${TEST_OUTPUT_DIRECTORY}/test.sh
 "#!/bin/bash
 export QT_QPA_PLATFORM=offscreen
 fail=0
-" ${TEST_OUTPUT_DIRECTORY}/testmvvm_view " || fail=1
-" ${TEST_OUTPUT_DIRECTORY}/testmvvm_integration " || fail=1
-" ${TEST_OUTPUT_DIRECTORY}/testmvvm_viewmodel " || fail=1
-" ${TEST_OUTPUT_DIRECTORY}/testmvvm_model " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-view " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-integration " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-model " || fail=1
 exit $fail
 ")
 

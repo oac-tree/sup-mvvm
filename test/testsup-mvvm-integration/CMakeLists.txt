@@ -1,6 +1,6 @@
 # Test executable for all classes requiring QApplication
 
-set(test testmvvm_integration)
+set(test testsup-mvvm-integration)
 
 file(GLOB source_files "*.cpp")
 file(GLOB include_files "*.h")

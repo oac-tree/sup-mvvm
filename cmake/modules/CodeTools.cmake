@@ -2,7 +2,7 @@
 include(ClangFormat)
 
 # List of targets for project code beautification.
-set(BEAUTIFICATION_TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view testmvvm_model testmvvm_viewmodel testmvvm_view testmvvm_integration)
+set(BEAUTIFICATION_TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view testsup-mvvm-model testsup-mvvm-viewmodel testsup-mvvm-view testsup-mvvm-integration)
 set(BEAUTIFICATION_EXAMPLES celleditorscore plotgraphscore concurrentplotcore dragandmovecore flatviewcore)
 
 # Defines new target for 'clangformat' to beautify whole project.
@@ -37,9 +37,9 @@ function(project_testcoverage_setup)
         DEPENDENCIES testmvvm_model testmvvm_viewmodel testmvvm_view testmvvm_integration
         EXCLUDE
             "${PROJECT_SOURCE_DIR}/EXTERNAL_OBJECT/*"
-            "${PROJECT_SOURCE_DIR}/tests/*"
+            "${PROJECT_SOURCE_DIR}/test/*"
             "${PROJECT_SOURCE_DIR}/examples/*"
-            "${PROJECT_SOURCE_DIR}/source/libmvvm_view/*"
+            "${PROJECT_SOURCE_DIR}/src/libmvvm_view/*"
             "**CompilerId*" "/usr/*"  "${CMAKE_BINARY_DIR}/*"
         )
 endfunction()
