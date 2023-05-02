@@ -1,5 +1,5 @@
-#  SUP_MVVM_INCLUDE_DIRS - include directories for qt-mvvm
-#  SUP_MVVM_LIBRARIES    - libraries to link against
+
+@PACKAGE_INIT@
 
 get_filename_component(SUP_MVVM_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
@@ -13,13 +13,9 @@ find_dependency(LibXml2)
 
 if(TARGET sup-mvvm::model OR TARGET sup-mvvm::viewmodel OR TARGET sup-mvvm::view)
 else()
-  message(STATUS "sup-mvvm-config.cmake including ${SUP_MVVM_CMAKE_DIR}/sup-mvvm-targets.cmake")
- include("${SUP_MVVM_CMAKE_DIR}/sup-mvvm-targets.cmake")
+  include("${SUP_MVVM_CMAKE_DIR}/sup-mvvm-targets.cmake")
 endif()
 
-set(SUP_MVVM_LIBRARIES sup-mvvm::model sup-mvvm::viewmodel sup-mvvm::view)
+message(STATUS "Found sup-mvvm: ${CMAKE_CURRENT_LIST_FILE}")
 
-message(STATUS "sup-mvvm-config.cmake in ${CMAKE_CURRENT_LIST_FILE}")
-message(STATUS "SUP_MVVM_LIBRARIES ${SUP_MVVM_LIBRARIES}")
-
-
+check_required_components("@PROJECT_NAME@")
