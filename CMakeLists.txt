@@ -20,7 +20,7 @@ add_subdirectory(src)
 add_subdirectory(extern)
 
 if(COA_BUILD_TESTS)
-    add_subdirectory(tests)
+  add_subdirectory(test)
 endif()
 
 add_subdirectory(doc)
@@ -28,7 +28,7 @@ add_subdirectory(doc)
 include(installation)
 
 if(SUP_MVVM_BUILD_EXAMPLES)
-    add_subdirectory(examples)
+  add_subdirectory(examples)
 endif()
 
 project_codetools_setup()
