@@ -76,7 +76,10 @@ TEST_F(SessionModelTest, SetData)
 
   // inserting single item
   auto item = model.InsertItem<SessionItem>();
-  EXPECT_TRUE(utils::IsValid(item->Data(DataRole::kDisplay)));
+  EXPECT_FALSE(utils::IsValid(item->Data(DataRole::kDisplay)));
+
+  // setting display name
+  item->SetDisplayName("abc");
 
   // setting wrong type of data
   variant_t value(42.0);

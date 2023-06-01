@@ -21,11 +21,13 @@
 
 #include <mvvm/model/item_utils.h>
 
+#include <iostream>
+
 namespace
 {
 bool HasCustomDisplayName(const mvvm::SessionItem *item)
 {
-  return item->SessionItem::GetDisplayName() != item->GetType();
+  return item->HasData(mvvm::DataRole::kDisplay);
 }
 }  // namespace
 
@@ -57,7 +59,7 @@ std::string CompoundItem::GetDisplayName() const
     return SessionItem::GetDisplayName();
   }
 
-  int copy_number = utils::CopyNumber(this);
+  const int copy_number = utils::CopyNumber(this);
   return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)
                            : SessionItem::GetDisplayName();
 }

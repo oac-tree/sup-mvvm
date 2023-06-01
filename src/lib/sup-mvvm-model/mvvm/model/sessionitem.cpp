@@ -53,7 +53,6 @@ SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
 {
   SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
-  SetData(p_impl->m_item_type, DataRole::kDisplay);
 }
 
 SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
@@ -126,7 +125,7 @@ SessionItem* SessionItem::SetDisplayName(const std::string& name)
 
 std::string SessionItem::GetDisplayName() const
 {
-  return Data<std::string>(DataRole::kDisplay);
+  return HasData(DataRole::kDisplay) ? Data<std::string>(DataRole::kDisplay) : GetType();
 }
 
 //! Returns the model to which given item belongs to. Will return nullptr if item doesn't have a
