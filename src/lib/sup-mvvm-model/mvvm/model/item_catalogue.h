@@ -75,7 +75,7 @@ template <typename U>
 void ItemCatalogue<T>::RegisterItem(const std::string& label)
 {
   RegisterItem(
-      U().GetType(), []() { return std::make_unique<U>(); }, label);
+      U::Type, []() { return std::make_unique<U>(); }, label);
 }
 
 template <typename T>
