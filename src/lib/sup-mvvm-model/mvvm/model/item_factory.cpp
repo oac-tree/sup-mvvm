@@ -43,4 +43,9 @@ std::unique_ptr<SessionItem> ItemFactory::CreateItem(const std::string& item_typ
   return m_catalogue->Create(item_type);
 }
 
+std::vector<std::string> ItemFactory::GetItemTypes() const
+{
+  return m_catalogue->GetItemTypes();
+}
+
 }  // namespace mvvm

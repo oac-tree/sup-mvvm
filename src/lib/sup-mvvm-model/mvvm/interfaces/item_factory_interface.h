@@ -38,6 +38,8 @@ public:
                             const std::string& label) = 0;
 
   virtual std::unique_ptr<SessionItem> CreateItem(const std::string& item_type) const = 0;
+
+  virtual std::vector<std::string> GetItemTypes() const = 0;
 };
 
 }  // namespace mvvm

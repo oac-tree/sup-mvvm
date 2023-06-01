@@ -43,6 +43,8 @@ public:
 
   std::unique_ptr<SessionItem> CreateItem(const std::string& item_type) const override;
 
+  std::vector<std::string> GetItemTypes() const override;
+
 private:
   std::unique_ptr<ItemCatalogue<SessionItem>> m_catalogue;
 };
