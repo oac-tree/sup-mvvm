@@ -91,7 +91,7 @@ TEST_F(PropertyTableViewModelTests, VectorItem)
   // switching to vectorItem and checking that it has 3 properties
   view_model.SetRootSessionItem(parent);
   EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 2);
+  EXPECT_EQ(view_model.columnCount(), 3);
 }
 
 //! MultiLayer with layers, view model still looks to the RootItem.

@@ -194,7 +194,7 @@ TEST_F(TopItemsViewModelTests, MultiLayerAsRooItem)
 
   // initial conditions
   EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(QModelIndex()), multilayer);  // our new root
 
   // adding layer
