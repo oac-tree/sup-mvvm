@@ -100,6 +100,11 @@ QModelIndexList ViewModel::GetIndexOfSessionItem(const SessionItem* item) const
   return result;
 }
 
+int ViewModel::columnCount(const QModelIndex &parent) const
+{
+  return m_controller->GetHorizontalHeaderLabels().count();
+}
+
 void ViewModel::SetController(std::unique_ptr<AbstractViewModelController> controller)
 {
   m_controller = std::move(controller);

@@ -54,6 +54,8 @@ public:
 
   QModelIndexList GetIndexOfSessionItem(const SessionItem* item) const;
 
+  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
 protected:
   void SetController(std::unique_ptr<AbstractViewModelController> controller);
   AbstractViewModelController* Controller();
