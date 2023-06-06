@@ -187,20 +187,16 @@ void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
 QStringList GetStringList(const std::vector<std::string>& vec)
 {
   QStringList result;
-  for (const auto& x : vec)
-  {
-    result.push_back(QString::fromStdString(x));
-  }
+  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
+                 [](const auto& str) { return QString::fromStdString(str); });
   return result;
 }
 
 std::vector<std::string> GetStdStringVector(const QStringList& string_list)
 {
   std::vector<std::string> result;
-  for (const auto& x : string_list)
-  {
-    result.push_back(x.toStdString());
-  }
+  std::transform(string_list.begin(), string_list.end(), std::back_inserter(result),
+                 [](const auto& str) { return str.toStdString(); });
   return result;
 }
 
