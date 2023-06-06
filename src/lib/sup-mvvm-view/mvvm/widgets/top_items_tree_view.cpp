@@ -41,7 +41,6 @@ QTreeView *TopItemsTreeView::GetTreeView() const
 void TopItemsTreeView::UpdateView()
 {
   m_tree_view->expandAll();
-  m_tree_view->resizeColumnToContents(0);
 }
 
 }  // namespace mvvm
