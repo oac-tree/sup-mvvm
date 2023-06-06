@@ -149,7 +149,7 @@ TEST_F(AllItemsTreeViewTests, DestroyModel)
   EXPECT_EQ(provider->GetViewModel(), view_model);
 
   EXPECT_EQ(view_model->rowCount(), 0);
-  EXPECT_EQ(view_model->columnCount(), 0);
+  EXPECT_EQ(view_model->columnCount(), 2);
 
   EXPECT_TRUE(provider->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);

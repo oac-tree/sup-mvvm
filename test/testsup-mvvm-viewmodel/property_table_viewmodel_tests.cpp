@@ -69,7 +69,7 @@ TEST_F(PropertyTableViewModelTests, PropertyItem)
 
   // one cell corresponding to single item at property_tag of our parent
   EXPECT_EQ(view_model.rowCount(), 1);
-  EXPECT_EQ(view_model.columnCount(), 1);
+  EXPECT_EQ(view_model.columnCount(), 0);
 
   view_model.SetRootSessionItem(parent);
   EXPECT_EQ(view_model.rowCount(), 0);
@@ -91,7 +91,7 @@ TEST_F(PropertyTableViewModelTests, VectorItem)
   // switching to vectorItem and checking that it has 3 properties
   view_model.SetRootSessionItem(parent);
   EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
 }
 
 //! MultiLayer with layers, view model still looks to the RootItem.

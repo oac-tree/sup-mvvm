@@ -52,7 +52,7 @@ TEST_F(AllItemsViewModelTests, InitialState)
 {
   AllItemsViewModel viewmodel(&m_model);
   EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(viewmodel.columnCount(), 2);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(viewmodel.GetRootSessionItem(), m_model.GetRootItem());
 }
@@ -622,7 +622,7 @@ TEST_F(AllItemsViewModelTests, SetPropertyItemAsRoot)
 
   // new root item doesn't have children
   EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -658,7 +658,7 @@ TEST_F(AllItemsViewModelTests, SetPropertyItemAsRootAfter)
 
   // new root item doesn't have children
   EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -781,7 +781,7 @@ TEST_F(AllItemsViewModelTests, RemoveCustomRootItem)
   EXPECT_EQ(spy_reset.count(), 1);
 
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
@@ -812,7 +812,7 @@ TEST_F(AllItemsViewModelTests, RemoveFarAncestor)
   EXPECT_EQ(spy_reset.count(), 1);
 
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
@@ -833,7 +833,7 @@ TEST_F(AllItemsViewModelTests, OnModelReset)
 
   m_model.Clear({});
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -852,7 +852,7 @@ TEST_F(AllItemsViewModelTests, OnModelDestroyed)
 
   model.reset();
   EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 0);
+  EXPECT_EQ(viewModel.columnCount(), 2);
 }
 
 TEST_F(AllItemsViewModelTests, horizontalLabels)
@@ -883,7 +883,7 @@ TEST_F(AllItemsViewModelTests, XmlDocumentLoadEmptyModel)
   EXPECT_EQ(spy_reset.count(), 1);
 
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
 //! Testing ViewModel signals while loading data with the help of XML document. Model contains item.

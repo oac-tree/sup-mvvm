@@ -43,7 +43,7 @@ TEST_F(PropertyViewModelTests, InitialState)
   ApplicationModel model;
   PropertyViewModel viewModel(&model);
   EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 0);
+  EXPECT_EQ(viewModel.columnCount(), 2);
   EXPECT_EQ(viewModel.GetSessionItemFromIndex(QModelIndex()), model.GetRootItem());
 }
 
@@ -57,7 +57,7 @@ TEST_F(PropertyViewModelTests, BaseItem)
   // Root item has default tag and all items considered as top items.
   // PropertyViewModel shouldn't see any items.
   EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 0);
+  EXPECT_EQ(viewModel.columnCount(), 2);
 }
 
 TEST_F(PropertyViewModelTests, PropertyItem)
@@ -88,7 +88,7 @@ TEST_F(PropertyViewModelTests, VectorItem)
   PropertyViewModel viewModel(&model);
 
   EXPECT_EQ(viewModel.rowCount(), 0);  // root item doesn't have properties
-  EXPECT_EQ(viewModel.columnCount(), 0);
+  EXPECT_EQ(viewModel.columnCount(), 2);
 
   // switching to vectorItem and checking that it has 3 properties
   viewModel.SetRootSessionItem(parent);
@@ -109,7 +109,7 @@ TEST_F(PropertyViewModelTests, VectorItemWithHiddenComponent)
   PropertyViewModel viewModel(&model);
 
   EXPECT_EQ(viewModel.rowCount(), 0);  // root item doesn't have properties
-  EXPECT_EQ(viewModel.columnCount(), 0);
+  EXPECT_EQ(viewModel.columnCount(), 2);
 
   // switching to vectorItem and checking that it has only 2 properties (y-item was skipped).
   viewModel.SetRootSessionItem(vector_item);
@@ -158,7 +158,7 @@ TEST_F(PropertyViewModelTests, LayerInMultiLayerAsRootItem)
   model.RemoveItem(multilayer);
 
   EXPECT_EQ(viewmodel.rowCount(), 0);
-  EXPECT_EQ(viewmodel.columnCount(), 0);
+  EXPECT_EQ(viewmodel.columnCount(), 2);
 }
 
 //! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
@@ -258,7 +258,7 @@ TEST_F(PropertyViewModelTests, LayerPropertyWhileInsertingParticle)
 //! View model is set to look at VectorItem.
 //! Then ApplicationModel is reset
 
-TEST_F(PropertyViewModelTests, ShowVectorItemWhenClearWhenShowAnother)
+TEST_F(PropertyViewModelTests, ShowVectorItemThenClearThenShowAnother)
 {
   ApplicationModel model;
   auto vector0 = model.InsertItem<VectorItem>();
@@ -283,12 +283,12 @@ TEST_F(PropertyViewModelTests, ShowVectorItemWhenClearWhenShowAnother)
   EXPECT_EQ(spy_reset.count(), 1);
 
   EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
 
   auto vector1 = model.InsertItem<VectorItem>();
   // property model doesn't see vector1 if it is not root
   EXPECT_EQ(view_model.rowCount(), 0);
-  EXPECT_EQ(view_model.columnCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
 
   view_model.SetRootSessionItem(vector1);
   EXPECT_EQ(view_model.rowCount(), 3);

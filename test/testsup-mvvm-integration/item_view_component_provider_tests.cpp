@@ -158,7 +158,7 @@ TEST_F(ItemViewComponentProviderTests, SetItemAfterSetModel)
 
   // no rows and columns since our item plays the role of root item
   EXPECT_EQ(new_viewmodel->rowCount(), 0);
-  EXPECT_EQ(new_viewmodel->columnCount(), 0);
+  EXPECT_EQ(new_viewmodel->columnCount(), 2);
 }
 
 //! Initialising provider with application model, then setting it to nullptr.
@@ -328,7 +328,7 @@ TEST_F(ItemViewComponentProviderTests, DestroyModel)
   EXPECT_EQ(provider.GetViewModel(), viewmodel);
 
   EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), nullptr);
 
   EXPECT_TRUE(provider.GetSelectedItems().empty());

@@ -79,7 +79,7 @@ public:
 TEST_F(TopItemsViewModelTests, InitialState)
 {
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), m_model.GetRootItem());
 }
@@ -104,7 +104,7 @@ TEST_F(TopItemsViewModelTests, InsertLayerThenRemove)
   EXPECT_EQ(spyInsert.count(), 1);
 
   EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
 
 //! Hidden LayerItem in a model. An item with setVisible(false) set shouldn't appear in a view
@@ -171,14 +171,14 @@ TEST_F(TopItemsViewModelTests, InsertLayerInMultiLayerThenRemove)
   EXPECT_EQ(m_viewmodel.rowCount(multilayer_index), 1);
   EXPECT_EQ(m_viewmodel.columnCount(multilayer_index), 2);
   EXPECT_EQ(m_viewmodel.rowCount(layer_index), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(layer_index), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(layer_index), 2);
 
   // removing layer
   m_model.RemoveItem(layer);
   EXPECT_EQ(spyRemove.count(), 1);
   EXPECT_EQ(spyInsert.count(), 2);
   EXPECT_EQ(m_viewmodel.rowCount(multilayer_index), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(multilayer_index), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(multilayer_index), 2);
 }
 
 //! Insert LayerItem in MultiLayer while multilayer is root item. Then deleting multilayer.
@@ -209,5 +209,5 @@ TEST_F(TopItemsViewModelTests, MultiLayerAsRooItem)
 
   EXPECT_EQ(spyReset.count(), 1);
   EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
-  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 0);
+  EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }

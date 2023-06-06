@@ -70,7 +70,7 @@ TEST_F(AbstractItemViewTests, ModelInConstructor)
 
   EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
   EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
 }
 
 TEST_F(AbstractItemViewTests, SetApplicationModel)
@@ -105,9 +105,10 @@ TEST_F(AbstractItemViewTests, SetItem)
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->GetRootSessionItem(), item);
 
-  // no rows and columns since our item plays the role of root item
+  // no rows since our item plays the role of root item
   EXPECT_EQ(viewmodel->rowCount(), 0);
-  EXPECT_EQ(viewmodel->columnCount(), 0);
+  // columns are always fixed and depend on the model
+  EXPECT_EQ(viewmodel->columnCount(), 2);
 }
 
 //! Attempt to set one item after another, when they belongs to different models
