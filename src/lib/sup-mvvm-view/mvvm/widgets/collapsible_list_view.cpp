@@ -65,4 +65,9 @@ CollapsibleToolBar *CollapsibleListView::AddCollapsibleWidget(QWidget *content,
   return collapsible_widget->GetToolBar();
 }
 
+QSplitter *CollapsibleListView::GetSplitter() const
+{
+  return m_splitter;
+}
+
 }  // namespace mvvm

@@ -44,6 +44,8 @@ public:
 
   CollapsibleToolBar* AddCollapsibleWidget(QWidget* content, const QList<QAction*>& actions);
 
+  QSplitter* GetSplitter() const;
+
 private:
   QSplitter* m_splitter{nullptr};
 };
