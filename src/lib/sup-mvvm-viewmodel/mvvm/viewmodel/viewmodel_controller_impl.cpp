@@ -29,6 +29,7 @@
 
 #include <stack>
 #include <stdexcept>
+#include <iostream>
 
 namespace mvvm
 {
@@ -169,7 +170,7 @@ void ViewModelControllerImpl::SetRootSessionItemIntern(SessionItem *item)
   m_view_model->ResetRootViewItem(CreateRootViewItem(root_item), /*notify*/ false);
 }
 
-std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(SessionItem *item)
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(SessionItem &item)
 {
   struct Node
   {
@@ -178,18 +179,22 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(Sessi
   };
   std::stack<Node> stack;
 
-  auto row_of_views = m_row_strategy->ConstructRow(item);
+  auto row_of_views = m_row_strategy->ConstructRow(&item);
 
   if (!row_of_views.empty())
   {
     auto *next_parent_view = row_of_views.at(0).get();
-    stack.push({item, next_parent_view});
+    stack.push({&item, next_parent_view});
   }
 
   while (!stack.empty())
   {
     auto *current_parent = stack.top().item;
     auto *current_parent_view = stack.top().view_item;
+
+    stack.pop();
+
+    m_view_item_map.Update(current_parent, current_parent_view);
 
     auto children = m_children_strategy->GetChildren(current_parent);
 
@@ -200,16 +205,20 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(Sessi
       if (!row.empty())
       {
         auto *next_parent_view = row.at(0).get();
-        int insert_view_index = GetInsertViewIndexOfChild(current_parent, *it);
-        current_parent_view->insertRow(insert_view_index, std::move(row));
+//        int insert_view_index = GetInsertViewIndexOfChild(current_parent, *it);
+//        std::cout << "XXX " << (*it)->GetDisplayName() << " " << insert_view_index << " " << (children.size() - 1 - insert_view_index) << std::endl;;
+        current_parent_view->insertRow(0, std::move(row));
         stack.push({*it, next_parent_view});
       }
     }
-
-    stack.pop();
   }
 
   return row_of_views;
+}
+
+ViewItemMap &ViewModelControllerImpl::GetViewItemMap()
+{
+  return m_view_item_map;
 }
 
 }  // namespace mvvm

@@ -21,19 +21,14 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/taginfo.h>
-#include <mvvm/standarditems/container_item.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
-#include <mvvm/viewmodel/viewmodel_utils.h>
+#include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
 
 #include <gtest/gtest.h>
-
-#include <QDebug>
-#include <QSignalSpy>
 
 using namespace mvvm;
 
@@ -60,6 +55,89 @@ public:
   ViewModelBase m_viewmodel;
 };
 
-//! Empty model.
+TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
+{
+  auto controller = CreateController();
 
-TEST_F(ViewModelControllerImplTests, EmptyProcedure) {}
+  SessionItem item;
+  item.SetDisplayName("abc");
+  item.SetData(42);
+
+  auto row = controller->CreateRow(item);
+  EXPECT_EQ(row.size(), 2);
+
+  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 1);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(&item), row.at(0).get());
+
+  auto view_item0 = row.at(0).get();
+  auto view_item1 = row.at(1).get();
+
+  EXPECT_EQ(view_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("abc"));
+  EXPECT_EQ(view_item1->data(Qt::EditRole).toInt(), 42);
+}
+
+TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
+{
+  auto controller = CreateController();
+
+  VectorItem item;
+  item.SetX(1.0);
+  item.SetY(2.0);
+  item.SetZ(3.0);
+
+  // parent item
+  auto parent_row = controller->CreateRow(item);
+  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);  // parent, x, y, z
+
+  EXPECT_EQ(parent_row.size(), 2);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(&item), parent_row.at(0).get());
+  auto view_item0 = parent_row.at(0).get();
+  auto view_item1 = parent_row.at(1).get();
+  EXPECT_EQ(view_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
+  EXPECT_EQ(view_item1->data(Qt::EditRole).toString().toStdString(),
+            std::string("(0, 0, 0)"));  // label is broken for the moment
+
+  EXPECT_EQ(view_item0->rowCount(), 3);
+  EXPECT_EQ(view_item0->columnCount(), 2);
+  EXPECT_EQ(view_item1->rowCount(), 0);
+  EXPECT_EQ(view_item1->columnCount(), 0);
+
+  // x item
+  auto x_item0 = view_item0->child(0, 0);
+  auto x_item1 = view_item0->child(0, 1);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
+  EXPECT_EQ(x_item0->parent(), view_item0);
+  EXPECT_EQ(x_item1->parent(), view_item0);
+  EXPECT_EQ(x_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
+  EXPECT_EQ(x_item1->data(Qt::EditRole).toDouble(), 1.0);
+  EXPECT_EQ(x_item0->rowCount(), 0);
+  EXPECT_EQ(x_item0->columnCount(), 0);
+  EXPECT_EQ(x_item1->rowCount(), 0);
+  EXPECT_EQ(x_item1->columnCount(), 0);
+
+  // y item
+  auto y_item0 = view_item0->child(1, 0);
+  auto y_item1 = view_item0->child(1, 1);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kY)), y_item0);
+  EXPECT_EQ(y_item0->parent(), view_item0);
+  EXPECT_EQ(y_item1->parent(), view_item0);
+  EXPECT_EQ(y_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Y"));
+  EXPECT_EQ(y_item1->data(Qt::EditRole).toDouble(), 2.0);
+  EXPECT_EQ(y_item0->rowCount(), 0);
+  EXPECT_EQ(y_item0->columnCount(), 0);
+  EXPECT_EQ(y_item1->rowCount(), 0);
+  EXPECT_EQ(y_item1->columnCount(), 0);
+
+  // z item
+  auto z_item0 = view_item0->child(2, 0);
+  auto z_item1 = view_item0->child(2, 1);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
+  EXPECT_EQ(z_item0->parent(), view_item0);
+  EXPECT_EQ(z_item1->parent(), view_item0);
+  EXPECT_EQ(z_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
+  EXPECT_EQ(z_item1->data(Qt::EditRole).toDouble(), 3.0);
+  EXPECT_EQ(z_item0->rowCount(), 0);
+  EXPECT_EQ(z_item0->columnCount(), 0);
+  EXPECT_EQ(z_item1->rowCount(), 0);
+  EXPECT_EQ(z_item1->columnCount(), 0);
+}

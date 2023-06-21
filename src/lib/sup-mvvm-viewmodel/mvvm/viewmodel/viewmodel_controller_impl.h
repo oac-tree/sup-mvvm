@@ -67,7 +67,9 @@ public:
 
   void SetRootSessionItemIntern(SessionItem *item);
 
-  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem *item);
+  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem& item);
+
+  ViewItemMap& GetViewItemMap();
 
 private:
   SessionModelInterface *m_model{nullptr};
