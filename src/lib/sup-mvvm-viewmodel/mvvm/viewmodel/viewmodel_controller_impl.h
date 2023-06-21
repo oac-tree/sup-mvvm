@@ -39,6 +39,10 @@ class ViewModelControllerImpl
 public:
   ViewModelControllerImpl(SessionModelInterface *model, ViewModelBase *view_model);
 
+  void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
+
+  void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
+
   void CheckInitialState() const;
 
   const SessionItem *GetRootItem() const;
@@ -62,6 +66,8 @@ public:
   void InitViewModel();
 
   void SetRootSessionItemIntern(SessionItem *item);
+
+  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem *item);
 
 private:
   SessionModelInterface *m_model{nullptr};

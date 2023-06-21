@@ -27,6 +27,7 @@
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 
+#include <stack>
 #include <stdexcept>
 
 namespace mvvm
@@ -36,6 +37,17 @@ ViewModelControllerImpl::ViewModelControllerImpl(SessionModelInterface *model,
                                                  ViewModelBase *view_model)
     : m_model(model), m_view_model(view_model)
 {
+}
+
+void ViewModelControllerImpl::SetChildrenStrategy(
+    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
+{
+  m_children_strategy = std::move(children_strategy);
+}
+
+void ViewModelControllerImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
+{
+  m_row_strategy = std::move(row_strategy);
 }
 
 void ViewModelControllerImpl::CheckInitialState() const
@@ -155,6 +167,49 @@ void ViewModelControllerImpl::SetRootSessionItemIntern(SessionItem *item)
   }
 
   m_view_model->ResetRootViewItem(CreateRootViewItem(root_item), /*notify*/ false);
+}
+
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(SessionItem *item)
+{
+  struct Node
+  {
+    SessionItem *item{nullptr};
+    ViewItem *view_item{nullptr};
+  };
+  std::stack<Node> stack;
+
+  auto row_of_views = m_row_strategy->ConstructRow(item);
+
+  if (!row_of_views.empty())
+  {
+    auto *next_parent_view = row_of_views.at(0).get();
+    stack.push({item, next_parent_view});
+  }
+
+  while (!stack.empty())
+  {
+    auto *current_parent = stack.top().item;
+    auto *current_parent_view = stack.top().view_item;
+
+    auto children = m_children_strategy->GetChildren(current_parent);
+
+    for (auto it = children.rbegin(); it != children.rend(); ++it)
+    {
+      auto row = m_row_strategy->ConstructRow(*it);
+
+      if (!row.empty())
+      {
+        auto *next_parent_view = row.at(0).get();
+        int insert_view_index = GetInsertViewIndexOfChild(current_parent, *it);
+        current_parent_view->insertRow(insert_view_index, std::move(row));
+        stack.push({*it, next_parent_view});
+      }
+    }
+
+    stack.pop();
+  }
+
+  return row_of_views;
 }
 
 }  // namespace mvvm
