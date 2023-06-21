@@ -37,18 +37,20 @@ using namespace mvvm;
 class ViewModelControllerImplTests : public ::testing::Test
 {
 public:
+  template <typename ChildrenT, typename RowT>
   std::unique_ptr<ViewModelControllerImpl> CreateController(SessionModelInterface* model,
                                                             ViewModelBase* view_model)
   {
     auto result = std::make_unique<ViewModelControllerImpl>(model, view_model);
-    result->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-    result->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    result->SetChildrenStrategy(std::make_unique<ChildrenT>());
+    result->SetRowStrategy(std::make_unique<RowT>());
     return result;
   }
 
+  template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
   std::unique_ptr<ViewModelControllerImpl> CreateController()
   {
-    return CreateController(&m_model, &m_viewmodel);
+    return CreateController<ChildrenT, RowT>(&m_model, &m_viewmodel);
   }
 
   ApplicationModel m_model;
@@ -75,6 +77,8 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
   EXPECT_EQ(view_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("abc"));
   EXPECT_EQ(view_item1->data(Qt::EditRole).toInt(), 42);
 }
+
+//! Validate CreateRow() method for VectorItem.
 
 TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
 {
@@ -140,4 +144,131 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
   EXPECT_EQ(z_item0->columnCount(), 0);
   EXPECT_EQ(z_item1->rowCount(), 0);
   EXPECT_EQ(z_item1->columnCount(), 0);
+}
+
+//! Validate CreateRow() method for VectorItem with hidden coordinate.
+
+TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItemWithHiddenCoordinate)
+{
+  // controller that filters out hidden item thanks to PropertyItemsStrategy
+  auto controller = CreateController<PropertyItemsStrategy, LabelDataRowStrategy>();
+
+  VectorItem item;
+  item.SetX(1.0);
+  item.SetY(2.0);
+  item.SetZ(3.0);
+
+  item.GetItem(VectorItem::kY)->SetVisible(false);
+
+  // parent item
+  auto parent_row = controller->CreateRow(item);
+  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 3);  // parent, x, z
+
+  EXPECT_EQ(parent_row.size(), 2);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(&item), parent_row.at(0).get());
+  auto view_item0 = parent_row.at(0).get();
+  auto view_item1 = parent_row.at(1).get();
+  EXPECT_EQ(view_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
+  EXPECT_EQ(view_item1->data(Qt::EditRole).toString().toStdString(),
+            std::string("(0, 0, 0)"));  // label is broken for the moment
+
+  EXPECT_EQ(view_item0->rowCount(), 2);
+  EXPECT_EQ(view_item0->columnCount(), 2);
+  EXPECT_EQ(view_item1->rowCount(), 0);
+  EXPECT_EQ(view_item1->columnCount(), 0);
+
+  // x item
+  auto x_item0 = view_item0->child(0, 0);
+  auto x_item1 = view_item0->child(0, 1);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
+  EXPECT_EQ(x_item0->parent(), view_item0);
+  EXPECT_EQ(x_item1->parent(), view_item0);
+  EXPECT_EQ(x_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
+  EXPECT_EQ(x_item1->data(Qt::EditRole).toDouble(), 1.0);
+  EXPECT_EQ(x_item0->rowCount(), 0);
+  EXPECT_EQ(x_item0->columnCount(), 0);
+  EXPECT_EQ(x_item1->rowCount(), 0);
+  EXPECT_EQ(x_item1->columnCount(), 0);
+
+  // z item
+  auto z_item0 = view_item0->child(1, 0);
+  auto z_item1 = view_item0->child(1, 1);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
+  EXPECT_EQ(z_item0->parent(), view_item0);
+  EXPECT_EQ(z_item1->parent(), view_item0);
+  EXPECT_EQ(z_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
+  EXPECT_EQ(z_item1->data(Qt::EditRole).toDouble(), 3.0);
+  EXPECT_EQ(z_item0->rowCount(), 0);
+  EXPECT_EQ(z_item0->columnCount(), 0);
+  EXPECT_EQ(z_item1->rowCount(), 0);
+  EXPECT_EQ(z_item1->columnCount(), 0);
+}
+
+//! Validate CreateRow() method for compound item with child and grandchild.
+
+TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
+{
+  CompoundItem parent;
+  parent.SetDisplayName("parent");
+  parent.AddProperty("width", 42);
+  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = std::make_unique<CompoundItem>();
+  child->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child_ptr = child.get();
+  child->SetDisplayName("child");
+  parent.InsertItem(std::move(child), TagIndex::Append());
+
+  auto grandchild = std::make_unique<CompoundItem>();
+  auto grandchild_ptr = grandchild.get();
+  grandchild->SetDisplayName("grandchild");
+  grandchild->AddProperty("length", 44);
+
+  child_ptr->InsertItem(std::move(grandchild), TagIndex::Append());
+  child_ptr->AddProperty("height", 43);
+
+  // - parent
+  //   - width
+  //   - child
+  //     - grandchild
+  //       - length
+  //     - height
+
+  auto controller = CreateController();
+  auto parent_row = controller->CreateRow(parent);
+
+  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 6);
+  EXPECT_EQ(controller->GetViewItemMap().FindView(&parent), parent_row.at(0).get());
+
+  auto parent_view0 = parent_row.at(0).get();
+  auto parent_view1 = parent_row.at(1).get();
+
+  EXPECT_EQ(parent_view0->data(Qt::DisplayRole).toString(), QString("parent"));
+  EXPECT_EQ(parent_view1->data(Qt::EditRole), QVariant());
+
+  auto width_view0 = parent_view0->child(0, 0);
+  auto width_view1 = parent_view0->child(0, 1);
+
+  EXPECT_EQ(width_view0->data(Qt::DisplayRole).toString(), QString("width"));
+  EXPECT_EQ(width_view1->data(Qt::EditRole).toInt(), 42);
+
+  auto child_view0 = parent_view0->child(1, 0);
+  auto child_view1 = parent_view0->child(1, 1);
+  EXPECT_EQ(child_view0->data(Qt::DisplayRole).toString(), QString("child"));
+  EXPECT_EQ(child_view1->data(Qt::EditRole), QVariant());
+
+  auto grandchild_view0 = child_view0->child(0, 0);
+  auto grandchild_view1 = child_view0->child(0, 1);
+  EXPECT_EQ(grandchild_view0->data(Qt::DisplayRole).toString(), QString("grandchild"));
+  EXPECT_EQ(grandchild_view1->data(Qt::EditRole), QVariant());
+
+  auto height_view0 = child_view0->child(1, 0);
+  auto height_view1 = child_view0->child(1, 1);
+  EXPECT_EQ(height_view0->data(Qt::DisplayRole).toString(), QString("height"));
+  EXPECT_EQ(height_view1->data(Qt::EditRole).toInt(), 43);
+
+  auto length_view0 = grandchild_view0->child(0, 0);
+  auto length_view1 = grandchild_view0->child(0, 1);
+  EXPECT_EQ(length_view0->data(Qt::DisplayRole).toString(), QString("length"));
+  EXPECT_EQ(length_view1->data(Qt::EditRole).toInt(), 44);
 }
