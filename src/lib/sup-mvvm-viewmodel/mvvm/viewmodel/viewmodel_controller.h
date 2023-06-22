@@ -30,6 +30,8 @@ class SessionModelInterface;
 class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
+class ViewModelControllerImpl;
+class ViewModelControllerOldImpl;
 
 //! Propagates changes from SessionModel to its ViewModelBase.
 //!
@@ -60,8 +62,7 @@ public:
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:
-  struct ViewModelControllerImpl;
-  std::unique_ptr<ViewModelControllerImpl> p_impl;
+  std::unique_ptr<ViewModelControllerOldImpl> p_impl;
 };
 
 }  // namespace mvvm

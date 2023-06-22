@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
-#define MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
+#ifndef MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_OLD_IMPL_H_
+#define MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_OLD_IMPL_H_
 
 #include <mvvm/model/path.h>
 #include <mvvm/model/tagindex.h>
@@ -36,10 +36,10 @@ class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
 
-class ViewModelControllerImpl
+class ViewModelControllerOldImpl
 {
 public:
-  ViewModelControllerImpl(SessionModelInterface *model, ViewModelBase *view_model);
+  ViewModelControllerOldImpl(SessionModelInterface *model, ViewModelBase *view_model);
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
 
@@ -83,10 +83,6 @@ public:
 
   QStringList GetHorizontalHeaderLabels() const;
 
-  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem &item);
-
-  ViewItemMap &GetViewItemMap();
-
   bool isValidItemRole(const mvvm::ViewItem *view, int item_role);
 
 private:
@@ -101,4 +97,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_H_
+#endif  // MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_OLD_IMPL_H_
