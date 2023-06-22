@@ -206,19 +206,15 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 
   SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
   m_root_item_path = utils::PathFromItem(custom_root_item);
+
   if (root_item->GetModel() != m_model)
   {
     throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
   }
-  m_view_model->ResetRootViewItem(CreateRootViewItem(root_item), /*notify*/ false);
 
-  CheckInitialState();
   m_view_item_map.Clear();
-  m_view_item_map.Update(GetRootItem(), m_view_model->rootItem());
-  Iterate(GetRootItem(), m_view_model->rootItem());
-
+  m_view_model->ResetRootViewItem(std::move(CreateRow(*root_item, true).at(0)), /*notify*/ false);
   m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
-  m_mute_notify = false;
 }
 
 void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
