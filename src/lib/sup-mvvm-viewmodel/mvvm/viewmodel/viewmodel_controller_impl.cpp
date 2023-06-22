@@ -243,8 +243,8 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
       {
         auto *next_parent_view = row.at(0).get();
 
-        // Inserting row of views into their parent. We insert at index 0 which means appending.
-        // This compensate the reverse order above.
+        // Inserting row of views into their parent. We always insert at index 0 to compensate
+        // reverse order.
         current_parent_view->insertRow(0, std::move(row));
 
         stack.push({*it, next_parent_view});
