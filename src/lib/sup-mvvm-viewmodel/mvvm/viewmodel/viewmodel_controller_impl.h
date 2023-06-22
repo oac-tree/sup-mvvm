@@ -36,6 +36,10 @@ class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
 
+/**
+ * @brief The ViewModelControllerImpl class contains implementation details for ViewModelController.
+ */
+
 class ViewModelControllerImpl
 {
 public:
@@ -44,6 +48,22 @@ public:
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
 
   void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
+
+  void OnModelEvent(const ItemInsertedEvent &event);
+
+  void OnModelEvent(const AboutToRemoveItemEvent &event);
+
+  void OnModelEvent(const DataChangedEvent &event);
+
+  void OnModelEvent(const ModelResetEvent &event);
+
+  void OnModelEvent(const ModelAboutToBeResetEvent &event);
+
+  void OnModelEvent(const ModelAboutToBeDestroyedEvent &event);
+
+  void Init(SessionItem *custom_root_item);
+
+  QStringList GetHorizontalHeaderLabels() const;
 
   void CheckInitialState() const;
 
@@ -54,27 +74,16 @@ public:
   //! as hidden, we have to recalculate a view index.
   int GetInsertViewIndexOfChild(const SessionItem *parent, const SessionItem *child);
 
-  //! Insert views for parent's child at position `tag_index`.
-  void InsertView(SessionItem *parent, const TagIndex &tag_index);
-
-  //! Remove row of ViewItem's corresponding to given item.
-  void RemoveRowOfViews(SessionItem *item);
-
-  void Init(SessionItem *root_item);
-
-  void OnModelEvent(const AboutToRemoveItemEvent &event);
-
-  void OnModelEvent(const DataChangedEvent &event);
-
-  void OnModelEvent(const ModelAboutToBeResetEvent &event);
-
-  void OnModelEvent(const ModelResetEvent &event);
-
-  void OnModelEvent(const ModelAboutToBeDestroyedEvent &event);
-
-  QStringList GetHorizontalHeaderLabels() const;
-
-  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem &item, bool is_root = false);
+  /**
+   * @brief Creates tree of rows with ViewItems representing given SessionItem and all its children.
+   * @param item The item to explore.
+   * @param is_root Item is treated as root item, when false.
+   * @return Vector of ViewItem's containing other ViewItem's
+   *
+   * @details The method visits the item and all its children in non-recursive manner and creates a
+   * tree of rows intended for ViewModel. The tree is formed basing on childred/row strategies.
+   */
+  std::vector<std::unique_ptr<ViewItem>> CreateTreeOfRows(SessionItem &item, bool is_root = false);
 
   ViewItemMap &GetViewItemMap();
 
@@ -86,8 +95,7 @@ private:
   ViewItemMap m_view_item_map;
   std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
   std::unique_ptr<RowStrategyInterface> m_row_strategy;
-  bool m_mute_notify{false};  // allows to build ViewModel without notification
-  Path m_root_item_path;      // saves path to custom root item, to restore it on model reset
+  Path m_root_item_path;  // saves path to custom root item, to restore it on model reset
 };
 
 }  // namespace mvvm

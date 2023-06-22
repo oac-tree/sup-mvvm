@@ -22,7 +22,6 @@
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/viewmodel/viewmodel_controller_impl.h>
-#include <mvvm/viewmodel/viewmodel_controller_old_impl.h>
 
 namespace mvvm
 {
@@ -31,6 +30,8 @@ ViewModelController::ViewModelController(SessionModelInterface *model, ViewModel
     : p_impl(std::make_unique<ViewModelControllerImpl>(model, view_model))
 {
 }
+
+ViewModelController::~ViewModelController() = default;
 
 void ViewModelController::SetChildrenStrategy(
     std::unique_ptr<ChildrenStrategyInterface> children_strategy)
@@ -43,11 +44,9 @@ void ViewModelController::SetRowStrategy(std::unique_ptr<RowStrategyInterface> r
   p_impl->SetRowStrategy(std::move(row_strategy));
 }
 
-ViewModelController::~ViewModelController() = default;
-
 void ViewModelController::OnModelEvent(const ItemInsertedEvent &event)
 {
-  p_impl->InsertView(event.m_item, event.m_tag_index);
+  p_impl->OnModelEvent(event);
 }
 
 void ViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)

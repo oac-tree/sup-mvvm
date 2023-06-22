@@ -31,7 +31,6 @@ class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
 class ViewModelControllerImpl;
-class ViewModelControllerOldImpl;
 
 //! Propagates changes from SessionModel to its ViewModelBase.
 //!

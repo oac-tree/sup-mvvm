@@ -27,7 +27,6 @@
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 
-#include <iostream>
 #include <stack>
 #include <stdexcept>
 
@@ -49,6 +48,109 @@ void ViewModelControllerImpl::SetChildrenStrategy(
 void ViewModelControllerImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
 {
   m_row_strategy = std::move(row_strategy);
+}
+
+void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
+{
+  auto [parent, tag_index] = event;
+
+  auto new_child = parent->GetItem(tag_index);
+
+  int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
+  auto parent_view = m_view_item_map.FindView(parent);
+
+  if (insert_view_index != -1 && parent_view)
+  {
+    m_view_model->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*new_child));
+  }
+}
+
+void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
+{
+  auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
+
+  if (item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove))
+  {
+    // special case when user removes SessionItem which is one of ancestors of our root item
+    // or root item itself
+    m_root_item_path = {};
+    m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
+    return;
+  }
+
+  if (auto view = m_view_item_map.FindView(item_to_remove); view)
+  {
+    m_view_model->removeRow(view->parent(), view->row());
+    m_view_item_map.Remove(item_to_remove);
+  }
+}
+
+void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
+{
+  for (auto view : utils::FindViewsForItem(m_view_model, event.m_item))
+  {
+    if (isValidItemRole(view, event.m_data_role))
+    {
+      auto index = m_view_model->indexFromItem(view);
+      emit m_view_model->dataChanged(index, index, utils::ItemRoleToQtRole(event.m_data_role));
+    }
+  }
+}
+
+void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event)
+{
+  (void)event;
+  // Here we are notified that the model content will be destroyed soon.
+  // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
+  // emit internal QAbstractViewModel::beginResetModel already now, while `model` content is still
+  // alive.
+  m_view_model->BeginResetModelNotify();
+}
+
+void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
+{
+  auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
+
+  SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
+  m_root_item_path = utils::PathFromItem(custom_root_item);
+
+  if (root_item->GetModel() != m_model)
+  {
+    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
+  }
+
+  m_view_item_map.Clear();
+  m_view_model->ResetRootViewItem(std::move(CreateTreeOfRows(*root_item, true).at(0)),
+                                  /*notify*/ false);
+  m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
+}
+
+void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
+{
+  (void)event;
+  m_root_item_path = {};
+  m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
+}
+
+void ViewModelControllerImpl::Init(SessionItem *custom_root_item)
+{
+  CheckInitialState();
+
+  SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
+  m_root_item_path = utils::PathFromItem(custom_root_item);
+  if (root_item->GetModel() != m_model)
+  {
+    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
+  }
+
+  m_view_item_map.Clear();
+  auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
+  m_view_model->ResetRootViewItem(std::move(root_view_item));
+}
+
+QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
+{
+  return m_row_strategy->GetHorizontalHeaderLabels();
 }
 
 void ViewModelControllerImpl::CheckInitialState() const
@@ -88,127 +190,27 @@ int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent
   return utils::IndexOfItem(children, child);
 }
 
-void ViewModelControllerImpl::InsertView(SessionItem *parent, const TagIndex &tag_index)
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(SessionItem &item,
+                                                                                  bool is_root)
 {
-  auto new_child = parent->GetItem(tag_index);
-  int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
-  if (insert_view_index == -1)
-  {
-    return;
-  }
+  // Every SessionItem will be represented by the vector of ViewItem's.  The first element of this
+  // vector plays the role of parent view for SessionItem's children. So it might contain another
+  // ViewItem vectors.
 
-  if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
-  {
-    m_view_model->insertRow(parent_view, insert_view_index, CreateRow(*new_child));
-  }
-}
-
-void ViewModelControllerImpl::RemoveRowOfViews(SessionItem *item)
-{
-  if (auto view = m_view_item_map.FindView(item); view)
-  {
-    m_view_model->removeRow(view->parent(), view->row());
-    m_view_item_map.Remove(item);
-  }
-}
-
-void ViewModelControllerImpl::Init(SessionItem *root_item)
-{
-  CheckInitialState();
-
-  SessionItem *root_item2 = root_item ? root_item : m_model->GetRootItem();
-  m_root_item_path = utils::PathFromItem(root_item);
-  if (root_item2->GetModel() != m_model)
-  {
-    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
-  }
-
-  m_view_item_map.Clear();
-  m_view_model->ResetRootViewItem(std::move(CreateRow(*root_item2, true).at(0)));
-}
-
-void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
-{
-  auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
-
-  if (item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove))
-  {
-    // special case when user removes SessionItem which is one of ancestors of our root item
-    // or root item itself
-    m_root_item_path = {};
-    m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
-  }
-  else
-  {
-    RemoveRowOfViews(item_to_remove);
-  }
-}
-
-void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
-{
-  for (auto view : utils::FindViewsForItem(m_view_model, event.m_item))
-  {
-    if (isValidItemRole(view, event.m_data_role))
-    {
-      auto index = m_view_model->indexFromItem(view);
-      emit m_view_model->dataChanged(index, index, utils::ItemRoleToQtRole(event.m_data_role));
-    }
-  }
-}
-
-void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event)
-{
-  (void)event;
-  // Here we are notified that the model content will be destroyed soon.
-  // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
-  // emit internal QAbstractViewModel::beginResetModel already now, while `model` content is still
-  // alive.
-  m_view_model->BeginResetModelNotify();
-}
-
-void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
-{
-  auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
-  m_mute_notify = true;
-
-  SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
-  m_root_item_path = utils::PathFromItem(custom_root_item);
-
-  if (root_item->GetModel() != m_model)
-  {
-    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
-  }
-
-  m_view_item_map.Clear();
-  m_view_model->ResetRootViewItem(std::move(CreateRow(*root_item, true).at(0)), /*notify*/ false);
-  m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
-}
-
-void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
-{
-  (void)event;
-  m_root_item_path = {};
-  m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
-}
-
-QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
-{
-  return m_row_strategy->GetHorizontalHeaderLabels();
-}
-
-std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(SessionItem &item,
-                                                                           bool is_root)
-{
+  // A helper structure to visit SessionItem hierarchy in non iterative manner.
   struct Node
   {
-    SessionItem *item{nullptr};
-    ViewItem *view_item{nullptr};
+    SessionItem *item{nullptr};    // a SessionItem being visited
+    ViewItem *view_item{nullptr};  // first ViewItem in a row of item's views
   };
+
   std::stack<Node> stack;
 
   std::vector<std::unique_ptr<ViewItem> > row_of_views;
   if (is_root)
   {
+    // If the item is marked as root, where is no need to call any strategy to find the row.
+    // There can be only one root item an it will be invisible for trees and tables.
     row_of_views.push_back(CreateRootViewItem(&item));
   }
   else
@@ -218,21 +220,21 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(Sessi
 
   if (!row_of_views.empty())
   {
-    auto *next_parent_view = row_of_views.at(0).get();
-    stack.push({&item, next_parent_view});
+    auto *view_item = row_of_views.at(0).get();  // a parent for the following row of views
+    stack.push({&item, view_item});
   }
 
   while (!stack.empty())
   {
     auto *current_parent = stack.top().item;
     auto *current_parent_view = stack.top().view_item;
-
     stack.pop();
 
     m_view_item_map.Update(current_parent, current_parent_view);
 
     auto children = m_children_strategy->GetChildren(current_parent);
 
+    // visited in reverse order to populate the stack properly
     for (auto it = children.rbegin(); it != children.rend(); ++it)
     {
       auto row = m_row_strategy->ConstructRow(*it);
@@ -240,10 +242,11 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(Sessi
       if (!row.empty())
       {
         auto *next_parent_view = row.at(0).get();
-        //        int insert_view_index = GetInsertViewIndexOfChild(current_parent, *it);
-        //        std::cout << "XXX " << (*it)->GetDisplayName() << " " << insert_view_index << " "
-        //        << (children.size() - 1 - insert_view_index) << std::endl;;
+
+        // Inserting row of views into their parent. We insert at index 0 which means appending.
+        // This compensate the reverse order above.
         current_parent_view->insertRow(0, std::move(row));
+
         stack.push({*it, next_parent_view});
       }
     }

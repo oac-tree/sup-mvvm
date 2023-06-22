@@ -65,7 +65,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
   item.SetDisplayName("abc");
   item.SetData(42);
 
-  auto row = controller->CreateRow(item);
+  auto row = controller->CreateTreeOfRows(item);
   EXPECT_EQ(row.size(), 2);
 
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 1);
@@ -90,7 +90,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
   item.SetZ(3.0);
 
   // parent item
-  auto parent_row = controller->CreateRow(item);
+  auto parent_row = controller->CreateTreeOfRows(item);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);  // parent, x, y, z
 
   EXPECT_EQ(parent_row.size(), 2);
@@ -161,7 +161,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItemWithHiddenCoordinate
   item.GetItem(VectorItem::kY)->SetVisible(false);
 
   // parent item
-  auto parent_row = controller->CreateRow(item);
+  auto parent_row = controller->CreateTreeOfRows(item);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 3);  // parent, x, z
 
   EXPECT_EQ(parent_row.size(), 2);
@@ -235,7 +235,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
   //     - height
 
   auto controller = CreateController();
-  auto parent_row = controller->CreateRow(parent);
+  auto parent_row = controller->CreateTreeOfRows(parent);
 
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 6);
   EXPECT_EQ(controller->GetViewItemMap().FindView(&parent), parent_row.at(0).get());
