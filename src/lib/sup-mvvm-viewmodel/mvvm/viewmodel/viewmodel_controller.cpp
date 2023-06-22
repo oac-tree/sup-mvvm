@@ -28,7 +28,7 @@ namespace mvvm
 {
 
 ViewModelController::ViewModelController(SessionModelInterface *model, ViewModelBase *view_model)
-    : p_impl(std::make_unique<ViewModelControllerOldImpl>(model, view_model))
+    : p_impl(std::make_unique<ViewModelControllerImpl>(model, view_model))
 {
 }
 

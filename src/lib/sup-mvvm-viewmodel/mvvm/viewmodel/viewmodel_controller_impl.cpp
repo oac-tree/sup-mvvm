@@ -132,11 +132,13 @@ void ViewModelControllerImpl::InsertView(SessionItem *parent, const TagIndex &ta
 
   if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
   {
-    auto next_parent_view = ProcessItem(new_child, parent_view, insert_view_index);
-    if (next_parent_view)
-    {
-      Iterate(new_child, next_parent_view);
-    }
+        auto next_parent_view = ProcessItem(new_child, parent_view, insert_view_index);
+        if (next_parent_view)
+        {
+          Iterate(new_child, next_parent_view);
+        }
+//    auto row = CreateRow(*new_child);
+//    m_view_model->insertRow(parent_view, insert_view_index, std::move(row));
   }
 }
 
@@ -149,25 +151,29 @@ void ViewModelControllerImpl::RemoveRowOfViews(SessionItem *item)
   }
 }
 
-void ViewModelControllerImpl::InitViewModel()
+void ViewModelControllerImpl::Init(SessionItem *root_item)
 {
   CheckInitialState();
-  m_view_item_map.Clear();
-  m_view_item_map.Update(GetRootItem(), m_view_model->rootItem());
-  Iterate(GetRootItem(), m_view_model->rootItem());
-}
 
-void ViewModelControllerImpl::SetRootSessionItemIntern(SessionItem *item)
-{
-  SessionItem *root_item = item ? item : m_model->GetRootItem();
-  m_root_item_path = utils::PathFromItem(item);
+  m_mute_notify = true;
+  m_view_model->BeginResetModelNotify();
 
-  if (root_item->GetModel() != m_model)
+  SessionItem *root_item2 = root_item ? root_item : m_model->GetRootItem();
+  m_root_item_path = utils::PathFromItem(root_item);
+  if (root_item2->GetModel() != m_model)
   {
     throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
   }
 
-  m_view_model->ResetRootViewItem(CreateRootViewItem(root_item), /*notify*/ false);
+  m_view_model->ResetRootViewItem(CreateRootViewItem(root_item2), /*notify*/ false);
+
+  CheckInitialState();
+  m_view_item_map.Clear();
+  m_view_item_map.Update(GetRootItem(), m_view_model->rootItem());
+  Iterate(GetRootItem(), m_view_model->rootItem());
+
+  m_view_model->EndResetModelNotify();
+  m_mute_notify = false;
 }
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
@@ -212,10 +218,21 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event
 void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 {
   auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
-
   m_mute_notify = true;
-  SetRootSessionItemIntern(custom_root_item);
-  InitViewModel();
+
+  SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
+  m_root_item_path = utils::PathFromItem(custom_root_item);
+  if (root_item->GetModel() != m_model)
+  {
+    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
+  }
+  m_view_model->ResetRootViewItem(CreateRootViewItem(root_item), /*notify*/ false);
+
+  CheckInitialState();
+  m_view_item_map.Clear();
+  m_view_item_map.Update(GetRootItem(), m_view_model->rootItem());
+  Iterate(GetRootItem(), m_view_model->rootItem());
+
   m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
   m_mute_notify = false;
 }
@@ -225,18 +242,6 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &e
   (void)event;
   m_root_item_path = {};
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
-}
-
-void ViewModelControllerImpl::Init(SessionItem *root_item)
-{
-  CheckInitialState();
-
-  m_mute_notify = true;
-  m_view_model->BeginResetModelNotify();
-  SetRootSessionItemIntern(root_item);
-  InitViewModel();
-  m_view_model->EndResetModelNotify();
-  m_mute_notify = false;
 }
 
 QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const

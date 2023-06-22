@@ -65,9 +65,7 @@ public:
   //! Remove row of ViewItem's corresponding to given item.
   void RemoveRowOfViews(SessionItem *item);
 
-  void InitViewModel();
-
-  void SetRootSessionItemIntern(SessionItem *item);
+  void Init(SessionItem *root_item);
 
   void OnModelEvent(const AboutToRemoveItemEvent &event);
 
@@ -78,8 +76,6 @@ public:
   void OnModelEvent(const ModelResetEvent &event);
 
   void OnModelEvent(const ModelAboutToBeDestroyedEvent &event);
-
-  void Init(SessionItem *root_item);
 
   QStringList GetHorizontalHeaderLabels() const;
 

@@ -62,7 +62,7 @@ public:
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:
-  std::unique_ptr<ViewModelControllerOldImpl> p_impl;
+  std::unique_ptr<ViewModelControllerImpl> p_impl;
 };
 
 }  // namespace mvvm
