@@ -79,39 +79,6 @@ const SessionItem *ViewModelControllerImpl::GetRootItem() const
   return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
 }
 
-void ViewModelControllerImpl::Iterate(const SessionItem *item, ViewItem *parent_view)
-{
-  for (auto *child : m_children_strategy->GetChildren(item))
-  {
-    auto *next_parent_view = ProcessItem(child, parent_view, parent_view->rowCount());
-    if (next_parent_view)
-    {
-      Iterate(child, next_parent_view);
-    }
-  }
-}
-
-ViewItem *ViewModelControllerImpl::ProcessItem(SessionItem *item, ViewItem *parent_view, int row)
-{
-  auto row_of_views = m_row_strategy->ConstructRow(item);
-  if (!row_of_views.empty())
-  {
-    auto *next_parent_view = row_of_views.at(0).get();
-    if (m_mute_notify)
-    {
-      // to avoid emiting signals rowsAboutToBeInserted, rowsInserted (used when full rebuild)
-      parent_view->insertRow(row, std::move(row_of_views));
-    }
-    else
-    {
-      m_view_model->insertRow(parent_view, row, std::move(row_of_views));
-    }
-    m_view_item_map.Update(item, next_parent_view);
-    return next_parent_view;
-  }
-  return nullptr;
-}
-
 int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent,
                                                        const SessionItem *child)
 {

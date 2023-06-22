@@ -49,11 +49,6 @@ public:
 
   const SessionItem *GetRootItem() const;
 
-  void Iterate(const SessionItem *item, ViewItem *parent_view);
-
-  //! Constructs row of views for given `item` and inserts them into a `parent_view`.
-  ViewItem *ProcessItem(SessionItem *item, ViewItem *parent_view, int row);
-
   //! Returns an insert index for a view representing a child.
   //! Since number of views might not coincide with number of items (some items are marked)
   //! as hidden, we have to recalculate a view index.
