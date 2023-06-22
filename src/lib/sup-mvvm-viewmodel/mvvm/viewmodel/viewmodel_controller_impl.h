@@ -79,7 +79,7 @@ public:
 
   QStringList GetHorizontalHeaderLabels() const;
 
-  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem &item);
+  std::vector<std::unique_ptr<ViewItem>> CreateRow(SessionItem &item, bool is_root = false);
 
   ViewItemMap &GetViewItemMap();
 

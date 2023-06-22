@@ -132,13 +132,13 @@ void ViewModelControllerImpl::InsertView(SessionItem *parent, const TagIndex &ta
 
   if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
   {
-        auto next_parent_view = ProcessItem(new_child, parent_view, insert_view_index);
-        if (next_parent_view)
-        {
-          Iterate(new_child, next_parent_view);
-        }
-//    auto row = CreateRow(*new_child);
-//    m_view_model->insertRow(parent_view, insert_view_index, std::move(row));
+    auto next_parent_view = ProcessItem(new_child, parent_view, insert_view_index);
+    if (next_parent_view)
+    {
+      Iterate(new_child, next_parent_view);
+    }
+    //    auto row = CreateRow(*new_child);
+    //    m_view_model->insertRow(parent_view, insert_view_index, std::move(row));
   }
 }
 
@@ -155,9 +155,6 @@ void ViewModelControllerImpl::Init(SessionItem *root_item)
 {
   CheckInitialState();
 
-  m_mute_notify = true;
-  m_view_model->BeginResetModelNotify();
-
   SessionItem *root_item2 = root_item ? root_item : m_model->GetRootItem();
   m_root_item_path = utils::PathFromItem(root_item);
   if (root_item2->GetModel() != m_model)
@@ -165,15 +162,8 @@ void ViewModelControllerImpl::Init(SessionItem *root_item)
     throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
   }
 
-  m_view_model->ResetRootViewItem(CreateRootViewItem(root_item2), /*notify*/ false);
-
-  CheckInitialState();
   m_view_item_map.Clear();
-  m_view_item_map.Update(GetRootItem(), m_view_model->rootItem());
-  Iterate(GetRootItem(), m_view_model->rootItem());
-
-  m_view_model->EndResetModelNotify();
-  m_mute_notify = false;
+  m_view_model->ResetRootViewItem(std::move(CreateRow(*root_item2, true).at(0)));
 }
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
@@ -249,7 +239,8 @@ QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
   return m_row_strategy->GetHorizontalHeaderLabels();
 }
 
-std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(SessionItem &item)
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(SessionItem &item,
+                                                                           bool is_root)
 {
   struct Node
   {
@@ -258,7 +249,15 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateRow(Sessi
   };
   std::stack<Node> stack;
 
-  auto row_of_views = m_row_strategy->ConstructRow(&item);
+  std::vector<std::unique_ptr<ViewItem> > row_of_views;
+  if (is_root)
+  {
+    row_of_views.push_back(CreateRootViewItem(&item));
+  }
+  else
+  {
+    row_of_views = std::move(m_row_strategy->ConstructRow(&item));
+  }
 
   if (!row_of_views.empty())
   {
