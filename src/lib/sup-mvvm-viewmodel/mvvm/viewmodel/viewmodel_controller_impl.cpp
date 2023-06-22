@@ -132,13 +132,7 @@ void ViewModelControllerImpl::InsertView(SessionItem *parent, const TagIndex &ta
 
   if (auto parent_view = m_view_item_map.FindView(parent); parent_view)
   {
-    auto next_parent_view = ProcessItem(new_child, parent_view, insert_view_index);
-    if (next_parent_view)
-    {
-      Iterate(new_child, next_parent_view);
-    }
-    //    auto row = CreateRow(*new_child);
-    //    m_view_model->insertRow(parent_view, insert_view_index, std::move(row));
+    m_view_model->insertRow(parent_view, insert_view_index, CreateRow(*new_child));
   }
 }
 

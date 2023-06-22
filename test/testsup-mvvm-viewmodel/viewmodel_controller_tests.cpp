@@ -477,7 +477,8 @@ TEST_F(ViewModelControllerTests, TakeChildThenInsert)
   // inserting it to another parent
   EXPECT_NO_FATAL_FAILURE(m_model.InsertItem(std::move(taken), container1, TagIndex::Append()));
 
-  EXPECT_EQ(spyInsert.count(), 4);  // vectorItem and 3 coordinates
+  // vectorItem and its 3 coordinate property items are inserted atomically
+  EXPECT_EQ(spyInsert.count(), 1);
   EXPECT_EQ(spyRemove.count(), 1);
 
   EXPECT_EQ(m_viewmodel.rowCount(container0_index), 0);
