@@ -58,9 +58,22 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
   {
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
-      auto widget = CreateWidget(m_view_model->index(row, col));
+      const auto index = m_view_model->index(row, col);
+
+      auto widget = CreateWidget(index);
       auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
-      mapper->addMapping(widget.get(), col);
+
+      if (IsLabel(index))
+      {
+        // Workaround for QTBUG-10672
+        // QDataWidgetMapper does not update non-editable fields
+        mapper->addMapping(widget.get(), col, "text");
+      }
+      else
+      {
+        mapper->addMapping(widget.get(), col);
+      }
+
       result[row].push_back(std::move(widget));
     }
   }
