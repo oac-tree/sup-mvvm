@@ -260,6 +260,55 @@ TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
   EXPECT_DOUBLE_EQ(vector->X(), 42.1);
 }
 
+//! Validating that internal mapping is working.
+//! The data is set via the model and then checked in the editor
+
+TEST_F(PropertyGridControllerTests, SetDataThroughModel)
+{
+  ApplicationModel model;
+  auto root_item = model.InsertItem<CompoundItem>();
+
+  auto editable_property = root_item->AddProperty("edit", 0.0)->SetDisplayName("Editable Property");
+  auto non_editable_property = root_item->AddProperty("nedit", 0.0)
+                                   ->SetDisplayName("Non-editable Property")
+                                   ->SetEditable(false);
+
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(root_item);
+
+  PropertyGridController controller(&view_model);
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  // we expect here a grid (row, col) = (2, 2) of widgets
+  // the first column is a label, the second is an editor/label
+  EXPECT_EQ(editor_grid.size(), 2);
+  EXPECT_EQ(editor_grid[0].size(), 2);
+
+  // First row is editable property
+  // The first column is a label, the second is an editor
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid[0][0].get()), nullptr);
+  auto editable_double_spin_box = dynamic_cast<QDoubleSpinBox*>(editor_grid[0][1].get());
+  EXPECT_NE(editable_double_spin_box, nullptr);
+
+  // First row is non-editable property
+  // The first and second column are a label
+  EXPECT_NE(dynamic_cast<QLabel*>(editor_grid[1][0].get()), nullptr);
+  auto non_editable_value_label = dynamic_cast<QLabel*>(editor_grid[1][1].get());
+  EXPECT_NE(non_editable_value_label, nullptr);
+
+  // Original data
+  EXPECT_DOUBLE_EQ(editable_double_spin_box->value(), 0.0);
+  EXPECT_DOUBLE_EQ(non_editable_value_label->text().toDouble(), 0.0);
+
+  // Setting the data via model
+  editable_property->SetData(42.1);
+  non_editable_property->SetData(42.1);
+
+  // Checking that data is set on widgets
+  EXPECT_DOUBLE_EQ(editable_double_spin_box->value(), 42.1);
+  EXPECT_DOUBLE_EQ(non_editable_value_label->text().toDouble(), 42.1);
+}
+
 //! Validating that GridController survives after model clearing
 
 TEST_F(PropertyGridControllerTests, ClearModel)
