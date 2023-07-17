@@ -271,3 +271,26 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
   EXPECT_EQ(length_view0->data(Qt::DisplayRole).toString(), QString("length"));
   EXPECT_EQ(length_view1->data(Qt::EditRole).toInt(), 44);
 }
+
+TEST_F(ViewModelControllerImplTests, SetItem)
+{
+  auto controller = CreateController();
+
+  VectorItem item;
+  item.SetX(1.0);
+  item.SetY(2.0);
+  item.SetZ(3.0);
+
+  controller->SetItem(&item);
+
+  EXPECT_EQ(m_viewmodel.columnCount(), 2);
+  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);
+  EXPECT_EQ(controller->GetRootItem(), &item);
+
+  controller->SetItem(nullptr);
+  EXPECT_EQ(m_viewmodel.columnCount(), 0);
+  EXPECT_EQ(m_viewmodel.rowCount(), 0);
+  EXPECT_EQ(controller->GetViewItemMap().GetSize(), 0);
+  EXPECT_EQ(controller->GetRootItem(), nullptr);
+}

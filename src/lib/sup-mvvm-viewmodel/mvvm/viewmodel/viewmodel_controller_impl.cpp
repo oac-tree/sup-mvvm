@@ -126,15 +126,23 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &e
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
-void ViewModelControllerImpl::SetItem(SessionItem *custom_root_item)
+void ViewModelControllerImpl::SetItem(SessionItem *root_item)
 {
   CheckInitialState();
 
-  m_root_item_path = utils::PathFromItem(custom_root_item);
-
-  m_view_item_map.Clear();
-  auto root_view_item = std::move(CreateTreeOfRows(*custom_root_item, true).at(0));
-  m_view_model->ResetRootViewItem(std::move(root_view_item));
+  if (root_item)
+  {
+    m_root_item_path = utils::PathFromItem(root_item);
+    m_view_item_map.Clear();
+    auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
+    m_view_model->ResetRootViewItem(std::move(root_view_item));
+  }
+  else
+  {
+    m_view_item_map.Clear();
+    m_root_item_path = {};
+    m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
+  }
 }
 
 QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const

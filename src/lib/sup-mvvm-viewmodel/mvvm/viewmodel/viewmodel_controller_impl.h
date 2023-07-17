@@ -62,10 +62,9 @@ public:
   void OnModelEvent(const ModelAboutToBeDestroyedEvent &event);
 
   /**
-   * @brief SetItem
-   * @param custom_root_item
+   * @brief Sets new root item.
    */
-  void SetItem(SessionItem *custom_root_item);
+  void SetItem(SessionItem *root_item);
 
   QStringList GetHorizontalHeaderLabels() const;
 
