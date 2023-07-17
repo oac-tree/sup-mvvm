@@ -77,9 +77,10 @@ public:
   /**
    * @brief Sets an item as a new root item.
    *
-   * @details
+   * @details If an item is nullptr, will reset the view model, and unsubscribe from all SessionModel
+   * notifications. It same item was already set, will do nothing.
    */
-  virtual void SetItem(SessionItem* root_item = nullptr);
+  virtual void SetItem(SessionItem* root_item);
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 

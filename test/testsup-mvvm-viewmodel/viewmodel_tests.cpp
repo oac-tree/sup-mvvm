@@ -26,6 +26,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/application_model.h>
 
 #include <gtest/gtest.h>
 
@@ -47,6 +48,7 @@ public:
     explicit TestViewModel(SessionModel *model)
     {
       auto controller = std::make_unique<ViewModelController>(model, this);
+      controller->Subscribe(model);
       controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
       controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
       SetController(std::move(controller));
@@ -55,7 +57,7 @@ public:
 
   ViewModelTests() { m_model.InsertItem<PropertyItem>(); }
 
-  SessionModel m_model;
+  ApplicationModel m_model;
 };
 
 //! The map is initially empty.

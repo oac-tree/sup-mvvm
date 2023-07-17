@@ -37,6 +37,7 @@ class ViewModelControllerImpl;
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
 public:
+  explicit ViewModelController(ViewModelBase* view_model);
   ViewModelController(SessionModelInterface* model, ViewModelBase* view_model);
   ~ViewModelController() override;
 
@@ -56,7 +57,7 @@ public:
 
   void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
-  void SetItem(SessionItem* root_item = nullptr) override;
+  void SetItem(SessionItem* root_item) override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 
