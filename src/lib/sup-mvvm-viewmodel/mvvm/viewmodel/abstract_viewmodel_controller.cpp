@@ -107,7 +107,7 @@ void AbstractViewModelController::OnModelEvent(const ModelResetEvent &event) {}
 
 void AbstractViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event) {}
 
-void AbstractViewModelController::SetItem(SessionItem *) {}
+void AbstractViewModelController::SetRootItem(SessionItem *) {}
 
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {

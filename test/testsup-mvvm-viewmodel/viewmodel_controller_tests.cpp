@@ -47,7 +47,7 @@ public:
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
     m_controller.Subscribe(&m_model);
-    m_controller.SetItem(m_model.GetRootItem());
+    m_controller.SetRootItem(m_model.GetRootItem());
   }
 
   std::unique_ptr<ViewModelController> CreateController(SessionModelInterface* model,
@@ -56,7 +56,7 @@ public:
     auto result = std::make_unique<ViewModelController>(model, view_model);
     result->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     result->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    result->SetItem(model->GetRootItem());
+    result->SetRootItem(model->GetRootItem());
     return result;
   }
 
@@ -86,7 +86,7 @@ public:
 
 TEST_F(ViewModelControllerTests, EmptyProcedure)
 {
-  m_controller.SetItem(m_model.GetRootItem());
+  m_controller.SetRootItem(m_model.GetRootItem());
 
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
@@ -105,7 +105,7 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
   // should throw if input parameters are invalid
   {
     ViewModelController controller(nullptr, nullptr);
-    EXPECT_THROW(controller.SetItem(nullptr), std::runtime_error);
+    EXPECT_THROW(controller.SetRootItem(nullptr), std::runtime_error);
   }
 
   // current approach: if ViewModel is not-empty, it will be cleaned up
@@ -116,7 +116,7 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
     ViewModelController controller(&m_model, &m_viewmodel);
     controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    EXPECT_NO_THROW(controller.SetItem(m_model.GetRootItem()));
+    EXPECT_NO_THROW(controller.SetRootItem(m_model.GetRootItem()));
     EXPECT_EQ(m_viewmodel.rowCount(), 0);
     EXPECT_EQ(m_viewmodel.columnCount(), 0);
   }
@@ -203,7 +203,7 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
   ViewModelController controller(&m_model, &m_viewmodel);
   controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
   controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-  controller.SetItem(vector_item);
+  controller.SetRootItem(vector_item);
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
@@ -517,7 +517,7 @@ TEST_F(ViewModelControllerTests, SetPropertyItemAsRoot)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
-  m_controller.SetItem(item);
+  m_controller.SetRootItem(item);
 
   // new root item doesn't have children
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
@@ -533,7 +533,7 @@ TEST_F(ViewModelControllerTests, SetCompoundAsRootItem)
   item->AddProperty<VectorItem>("position");
   item->AddProperty("radius", 43.0);
 
-  m_controller.SetItem(item);
+  m_controller.SetRootItem(item);
 
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
