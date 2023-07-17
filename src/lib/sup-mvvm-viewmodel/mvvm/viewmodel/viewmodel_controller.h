@@ -59,7 +59,7 @@ public:
 
   const SessionItem* GetRootItem() const override;
 
-  void SetRootItem(SessionItem* root_item) override;
+  void SetRootItemImpl(SessionItem* root_item) override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 

@@ -43,6 +43,7 @@ public:
   AbstractViewModelController& operator=(const AbstractViewModelController& other) = delete;
 
   void SetModel(SessionModelInterface* model);
+
   const SessionModelInterface* GetModel() const;
 
   void Subscribe(SessionModelInterface* model);
@@ -77,16 +78,21 @@ public:
   /**
    * @brief Sets an item as a new root item.
    *
-   * @details If an item is nullptr, will reset the view model, and unsubscribe from all SessionModel
-   * notifications. It same item was already set, will do nothing.
+   * @details If an item is nullptr, will reset the view model, and unsubscribe from all
+   * SessionModel notifications. It same item was already set, will do nothing.
    */
-  virtual void SetRootItem(SessionItem* root_item);
+  void SetRootItem(SessionItem* root_item);
 
+  /**
+   * @brief Returns current root item.
+   */
   virtual const SessionItem* GetRootItem() const = 0;
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 
 private:
+  virtual void SetRootItemImpl(SessionItem* root_item) = 0;
+
   struct AbstractViewModelControllerImpl;
   std::unique_ptr<AbstractViewModelControllerImpl> p_impl;
 };

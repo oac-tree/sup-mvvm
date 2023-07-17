@@ -281,14 +281,14 @@ TEST_F(ViewModelControllerImplTests, SetItem)
   item.SetY(2.0);
   item.SetZ(3.0);
 
-  controller->SetItem(&item);
+  controller->SetRootItem(&item);
 
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 4);
   EXPECT_EQ(controller->GetRootItem(), &item);
 
-  controller->SetItem(nullptr);
+  controller->SetRootItem(nullptr);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 0);

@@ -36,7 +36,7 @@ public:
   {
   public:
     const SessionItem* GetRootItem() const override {return nullptr;}
-
+    void SetRootItemImpl(SessionItem* root_item) override {(void)root_item;};
   };
 };
 

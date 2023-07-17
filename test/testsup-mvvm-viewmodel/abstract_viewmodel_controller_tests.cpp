@@ -66,6 +66,7 @@ public:
     MOCK_METHOD(void, OnModelEvent, (const ModelAboutToBeDestroyedEvent& event), (override));
 
     const SessionItem* GetRootItem() const override { return nullptr; };
+    void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; };
   };
 
   using mock_controller_t = ::testing::StrictMock<TestController>;

@@ -86,9 +86,9 @@ const SessionItem *ViewModelController::GetRootItem() const
 
 //! Inits ViewModel by iterating through SessionModel.
 
-void ViewModelController::SetRootItem(SessionItem *root_item)
+void ViewModelController::SetRootItemImpl(SessionItem *root_item)
 {
-  p_impl->SetItem(root_item);
+  p_impl->SetRootItem(root_item);
 }
 
 QStringList ViewModelController::GetHorizontalHeaderLabels() const

@@ -126,7 +126,12 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &e
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
-void ViewModelControllerImpl::SetItem(SessionItem *root_item)
+const SessionItem *ViewModelControllerImpl::GetRootItem() const
+{
+  return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
+}
+
+void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
 {
   CheckInitialState();
 
@@ -166,11 +171,6 @@ void ViewModelControllerImpl::CheckInitialState() const
   {
     throw std::runtime_error("Error in ViewModewlController: row strategy is not defined");
   }
-}
-
-const SessionItem *ViewModelControllerImpl::GetRootItem() const
-{
-  return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
 }
 
 int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent,

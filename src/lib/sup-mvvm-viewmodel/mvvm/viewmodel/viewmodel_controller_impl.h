@@ -62,15 +62,18 @@ public:
   void OnModelEvent(const ModelAboutToBeDestroyedEvent &event);
 
   /**
+   * @brief Returns current root item.
+   */
+  const SessionItem *GetRootItem() const;
+
+  /**
    * @brief Sets new root item.
    */
-  void SetItem(SessionItem *root_item);
+  void SetRootItem(SessionItem *root_item);
 
   QStringList GetHorizontalHeaderLabels() const;
 
   void CheckInitialState() const;
-
-  const SessionItem *GetRootItem() const;
 
   //! Returns an insert index for a view representing a child.
   //! Since number of views might not coincide with number of items (some items are marked)
