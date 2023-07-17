@@ -39,7 +39,7 @@ public:
   class TestModel : public SessionModel
   {
   public:
-    TestModel(ModelEventHandler* event_handler) : m_event_handler(event_handler) {}
+    explicit TestModel(ModelEventHandler* event_handler) : m_event_handler(event_handler) {}
 
     ModelEventHandler* GetEventHandler() const override { return m_event_handler; }
 
@@ -76,11 +76,15 @@ public:
 TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 {
   mvvm::SessionItem item;
-  int role{42};
+  const int role{42};
 
   auto controller = std::make_unique<mock_controller_t>();
 
+  EXPECT_EQ(controller->GetModel(), nullptr);
+
   controller->Subscribe(&m_model);
+
+  EXPECT_EQ(controller->GetModel(), &m_model);
 
   EXPECT_CALL(*controller, OnModelEvent(DataChangedEvent{&item, role})).Times(1);
 
@@ -178,7 +182,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
 TEST_F(AbstractViewModelControllerTests, ItemRemoved)
 {
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
   controller.Subscribe(&m_model);
@@ -194,7 +198,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
 TEST_F(AbstractViewModelControllerTests, DataChanged)
 {
   mvvm::SessionItem item;
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller;
   controller.Subscribe(&m_model);
@@ -208,7 +212,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
 TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
 {
   mvvm::SessionModel model;
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller;
   controller.Subscribe(&m_model);
@@ -222,7 +226,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
 TEST_F(AbstractViewModelControllerTests, OnModelReset)
 {
   mvvm::SessionModel model;
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller;
   controller.Subscribe(&m_model);
@@ -236,7 +240,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
 TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
 {
   mvvm::SessionModel model;
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller;
   controller.Subscribe(&m_model);
@@ -262,7 +266,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller;
   controller.Subscribe(&m_model);
@@ -288,7 +292,7 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller1;
   mock_controller_t controller2;
@@ -341,7 +345,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
+  const int role{42};
 
   mock_controller_t controller1;
   mock_controller_t controller2;

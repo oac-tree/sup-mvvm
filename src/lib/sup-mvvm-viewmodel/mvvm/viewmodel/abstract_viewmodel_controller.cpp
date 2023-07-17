@@ -62,6 +62,19 @@ AbstractViewModelController::AbstractViewModelController()
 {
 }
 
+void AbstractViewModelController::SetModel(SessionModelInterface *model)
+{
+  if (GetModel() != model)
+  {
+    Subscribe(model);
+  }
+}
+
+const SessionModelInterface *AbstractViewModelController::GetModel() const
+{
+  return p_impl->m_listener ? p_impl->m_listener->GetModel() : nullptr;
+}
+
 void AbstractViewModelController::Subscribe(SessionModelInterface *model)
 {
   p_impl->Subscribe(model, this);

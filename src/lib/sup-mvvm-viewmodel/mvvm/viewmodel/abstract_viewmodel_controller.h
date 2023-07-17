@@ -42,6 +42,9 @@ public:
   AbstractViewModelController(const AbstractViewModelController& other) = delete;
   AbstractViewModelController& operator=(const AbstractViewModelController& other) = delete;
 
+  void SetModel(SessionModelInterface* model);
+  const SessionModelInterface* GetModel() const;
+
   void Subscribe(SessionModelInterface* model);
   void Unsubscribe();
 
