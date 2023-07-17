@@ -79,6 +79,11 @@ void ViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event
   p_impl->OnModelEvent(event);
 }
 
+const SessionItem *ViewModelController::GetRootItem() const
+{
+  return p_impl->GetRootItem();
+}
+
 //! Inits ViewModel by iterating through SessionModel.
 
 void ViewModelController::SetItem(SessionItem *root_item)

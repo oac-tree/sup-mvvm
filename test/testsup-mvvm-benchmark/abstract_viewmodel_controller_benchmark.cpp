@@ -31,6 +31,13 @@ using namespace mvvm;
 
 class AbstractViewmodelControllerBenchmark : public benchmark::Fixture
 {
+public:
+  class TestController : public AbstractViewModelController
+  {
+  public:
+    const SessionItem* GetRootItem() const override {return nullptr;}
+
+  };
 };
 
 BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetData)(benchmark::State &state)
@@ -38,7 +45,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetData)(benchmark::State &sta
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
 
-  AbstractViewModelController controller;
+  TestController controller;
   controller.Subscribe(&model);
 
   int value{0};
@@ -53,7 +60,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetSameData)(benchmark::State 
   mvvm::ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
 
-  AbstractViewModelController controller;
+  TestController controller;
   controller.Subscribe(&model);
 
   int value{0};
@@ -70,7 +77,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &
   auto parent = model.GetRootItem();
   TagIndex tag_index{"rootTag", 0};
 
-  AbstractViewModelController controller;
+  TestController controller;
   controller.Subscribe(&model);
 
   int value{0};
@@ -90,7 +97,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &st
   auto parent = model.GetRootItem();
   TagIndex tag_index{"rootTag", 0};
 
-  AbstractViewModelController controller;
+  TestController controller;
   controller.Subscribe(&model);
 
   int value{0};
@@ -110,7 +117,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertAndTake)(benchmark::Stat
   auto parent = model.GetRootItem();
   TagIndex tag_index{"rootTag", 0};
 
-  AbstractViewModelController controller;
+  TestController controller;
   controller.Subscribe(&model);
 
   int value{0};

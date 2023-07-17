@@ -82,6 +82,8 @@ public:
    */
   virtual void SetItem(SessionItem* root_item);
 
+  virtual const SessionItem* GetRootItem() const = 0;
+
   virtual QStringList GetHorizontalHeaderLabels() const;
 
 private:
