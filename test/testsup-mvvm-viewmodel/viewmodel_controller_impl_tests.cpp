@@ -38,10 +38,9 @@ class ViewModelControllerImplTests : public ::testing::Test
 {
 public:
   template <typename ChildrenT, typename RowT>
-  std::unique_ptr<ViewModelControllerImpl> CreateController(SessionModelInterface* model,
-                                                            ViewModelBase* view_model)
+  std::unique_ptr<ViewModelControllerImpl> CreateController(ViewModelBase* view_model)
   {
-    auto result = std::make_unique<ViewModelControllerImpl>(model, view_model);
+    auto result = std::make_unique<ViewModelControllerImpl>(view_model);
     result->SetChildrenStrategy(std::make_unique<ChildrenT>());
     result->SetRowStrategy(std::make_unique<RowT>());
     return result;
@@ -50,7 +49,7 @@ public:
   template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
   std::unique_ptr<ViewModelControllerImpl> CreateController()
   {
-    return CreateController<ChildrenT, RowT>(&m_model, &m_viewmodel);
+    return CreateController<ChildrenT, RowT>(&m_viewmodel);
   }
 
   ApplicationModel m_model;

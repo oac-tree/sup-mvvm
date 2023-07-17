@@ -43,7 +43,7 @@ class RowStrategyInterface;
 class ViewModelControllerImpl
 {
 public:
-  ViewModelControllerImpl(SessionModelInterface *model, ViewModelBase *view_model);
+  ViewModelControllerImpl(ViewModelBase *view_model);
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
 
@@ -94,7 +94,6 @@ public:
   bool isValidItemRole(const mvvm::ViewItem *view, int item_role);
 
 private:
-  SessionModelInterface *m_model{nullptr};
   ViewModelBase *m_view_model{nullptr};
   ViewItemMap m_view_item_map;
   std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;

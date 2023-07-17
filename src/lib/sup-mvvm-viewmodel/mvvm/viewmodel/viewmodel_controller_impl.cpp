@@ -33,9 +33,8 @@
 namespace mvvm
 {
 
-ViewModelControllerImpl::ViewModelControllerImpl(SessionModelInterface *model,
-                                                 ViewModelBase *view_model)
-    : m_model(model), m_view_model(view_model)
+ViewModelControllerImpl::ViewModelControllerImpl(ViewModelBase *view_model)
+    : m_view_model(view_model)
 {
 }
 
@@ -111,13 +110,8 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 {
   auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
 
-  SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
+  SessionItem *root_item = custom_root_item ? custom_root_item : event.m_model->GetRootItem();
   m_root_item_path = utils::PathFromItem(custom_root_item);
-
-  if (root_item->GetModel() != m_model)
-  {
-    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
-  }
 
   m_view_item_map.Clear();
   m_view_model->ResetRootViewItem(std::move(CreateTreeOfRows(*root_item, true).at(0)),
@@ -136,15 +130,10 @@ void ViewModelControllerImpl::SetItem(SessionItem *custom_root_item)
 {
   CheckInitialState();
 
-  SessionItem *root_item = custom_root_item ? custom_root_item : m_model->GetRootItem();
   m_root_item_path = utils::PathFromItem(custom_root_item);
-  if (root_item->GetModel() != m_model)
-  {
-    throw std::runtime_error("Error: atttemp to use item from alien model as new root.");
-  }
 
   m_view_item_map.Clear();
-  auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
+  auto root_view_item = std::move(CreateTreeOfRows(*custom_root_item, true).at(0));
   m_view_model->ResetRootViewItem(std::move(root_view_item));
 }
 
@@ -155,11 +144,6 @@ QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
 
 void ViewModelControllerImpl::CheckInitialState() const
 {
-  if (!m_model)
-  {
-    throw std::runtime_error("Error in ViewModewlController: model is absent");
-  }
-
   if (!m_view_model)
   {
     throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
