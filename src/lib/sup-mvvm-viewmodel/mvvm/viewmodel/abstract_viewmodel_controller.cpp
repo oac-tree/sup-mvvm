@@ -64,6 +64,12 @@ AbstractViewModelController::AbstractViewModelController()
 
 void AbstractViewModelController::SetModel(SessionModelInterface *model)
 {
+  if (!model)
+  {
+    Unsubscribe();
+    return;
+  }
+
   if (GetModel() != model)
   {
     Subscribe(model);
@@ -101,7 +107,7 @@ void AbstractViewModelController::OnModelEvent(const ModelResetEvent &event) {}
 
 void AbstractViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event) {}
 
-void AbstractViewModelController::Init(SessionItem *) {}
+void AbstractViewModelController::SetItem(SessionItem *) {}
 
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {

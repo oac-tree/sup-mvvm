@@ -56,7 +56,7 @@ public:
 
   void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
-  void Init(SessionItem* root_item = nullptr) override;
+  void SetItem(SessionItem* root_item = nullptr) override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 

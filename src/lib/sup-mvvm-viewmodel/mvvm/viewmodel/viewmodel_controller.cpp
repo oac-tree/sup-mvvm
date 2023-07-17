@@ -76,9 +76,9 @@ void ViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event
 
 //! Inits ViewModel by iterating through SessionModel.
 
-void ViewModelController::Init(SessionItem *root_item)
+void ViewModelController::SetItem(SessionItem *root_item)
 {
-  p_impl->Init(root_item);
+  p_impl->SetItem(root_item);
 }
 
 QStringList ViewModelController::GetHorizontalHeaderLabels() const

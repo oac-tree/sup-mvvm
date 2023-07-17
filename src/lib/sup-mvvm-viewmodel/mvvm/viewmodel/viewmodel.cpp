@@ -59,7 +59,7 @@ void ViewModel::SetRootSessionItem(SessionItem* item)
     throw std::runtime_error("Error: attemp to set nulptr as root item");
   }
 
-  m_controller->Init(item);
+  m_controller->SetItem(item);
 }
 
 const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) const
@@ -109,7 +109,7 @@ int ViewModel::columnCount(const QModelIndex& parent) const
 void ViewModel::SetController(std::unique_ptr<AbstractViewModelController> controller)
 {
   m_controller = std::move(controller);
-  m_controller->Init();
+  m_controller->SetItem();
 }
 
 AbstractViewModelController* ViewModel::Controller()

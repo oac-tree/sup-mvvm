@@ -74,7 +74,12 @@ public:
   //! Lets the controller know at the beginning of model destruction.
   virtual void OnModelEvent(const ModelAboutToBeDestroyedEvent& event);
 
-  virtual void Init(SessionItem* root_item = nullptr);
+  /**
+   * @brief Sets an item as a new root item.
+   *
+   * @details
+   */
+  virtual void SetItem(SessionItem* root_item = nullptr);
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 

@@ -132,7 +132,7 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &e
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
-void ViewModelControllerImpl::Init(SessionItem *custom_root_item)
+void ViewModelControllerImpl::SetItem(SessionItem *custom_root_item)
 {
   CheckInitialState();
 
