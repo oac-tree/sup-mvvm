@@ -69,6 +69,7 @@ void AbstractViewModelController::SetModel(SessionModelInterface *model)
   if (!model)
   {
     Unsubscribe();
+    SetRootItemImpl(nullptr);
     return;
   }
 
@@ -118,7 +119,10 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
     Subscribe(root_item->GetModel());
   }
 
-  SetRootItemImpl(root_item);
+  if (GetRootItem() != root_item)
+  {
+    SetRootItemImpl(root_item);
+  }
 }
 
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const

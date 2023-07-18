@@ -109,15 +109,16 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
 
   // current approach: if ViewModel is not-empty, it will be cleaned up
   {
+    ViewModelBase viewmodel;
     std::vector<std::unique_ptr<mvvm::ViewItem>> children;
     children.emplace_back(std::make_unique<mvvm::ViewItem>());
-    m_viewmodel.appendRow(m_viewmodel.rootItem(), std::move(children));
-    ViewModelController controller(&m_viewmodel);
+    viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
+    ViewModelController controller(&viewmodel);
     controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
     EXPECT_NO_THROW(controller.SetRootItem(m_model.GetRootItem()));
-    EXPECT_EQ(m_viewmodel.rowCount(), 0);
-    EXPECT_EQ(m_viewmodel.columnCount(), 0);
+    EXPECT_EQ(viewmodel.rowCount(), 0);
+    EXPECT_EQ(viewmodel.columnCount(), 0);
   }
 }
 

@@ -19,6 +19,7 @@
 
 #include "mvvm/viewmodel/abstract_viewmodel_controller.h"
 
+#include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/signals/model_event_handler.h>
@@ -68,7 +69,7 @@ public:
 
     MOCK_METHOD(void, OnModelEvent, (const ModelAboutToBeDestroyedEvent& event), (override));
 
-    MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem* item), ());
+    MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem * item), ());
 
     const SessionItem* GetRootItem() const override { return m_root_item; };
     void SetRootItemImpl(SessionItem* root_item) override
@@ -85,13 +86,68 @@ public:
   ModelEventHandler m_event_handler;
 };
 
-//! Setting the model;
+//! Setting the model, checking calls of SetRootItemImpl
 
 TEST_F(AbstractViewModelControllerTests, SetModel)
 {
+  ApplicationModel model;
+  mock_controller_t controller;
 
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
+  controller.SetModel(&model);
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+
+  // setting same model shouldn't trigger a call
+  EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
+  controller.SetModel(&model);
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+
+  // setting nullptr as a model
+  EXPECT_CALL(controller, OnSetRootItemImpl(nullptr)).Times(1);
+  controller.SetModel(nullptr);
+
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
 }
 
+//! Setting root item, checking calls of SetRootItemImpl.
+
+TEST_F(AbstractViewModelControllerTests, SetRootItem)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<SessionItem>();
+  mock_controller_t controller;
+
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
+  controller.SetRootItem(model.GetRootItem());
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+
+  // setting same item shouldn't trigger a call
+  EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
+  controller.SetRootItem(model.GetRootItem());
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+
+  // setting nullptr as a root item
+  EXPECT_CALL(controller, OnSetRootItemImpl(nullptr)).Times(1);
+  controller.SetRootItem(nullptr);
+
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+}
 
 //! Controller subscription.
 
@@ -316,8 +372,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
 
   controller.SetModel(&m_model);
 
-  // expecting no signals
-  // StricktMock will fail if it's not the case
+  EXPECT_CALL(controller, OnSetRootItemImpl(nullptr)).Times(1);
 
   // triggering action
   controller.SetModel(nullptr);
@@ -408,6 +463,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
 
   controller2.SetModel(&m_model);
 
+  EXPECT_CALL(controller1, OnSetRootItemImpl(nullptr)).Times(1);
   controller1.SetModel(nullptr);
 
   {
@@ -432,9 +488,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   m_event_handler.Notify<ModelResetEvent>(&model);
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 
-  // expecting no signals here
-  // StricktMock will fail if it s not the case
-
+  EXPECT_CALL(controller2, OnSetRootItemImpl(nullptr)).Times(1);
   controller2.SetModel(nullptr);
 
   m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
