@@ -31,6 +31,9 @@ namespace mvvm
 
 class SessionModelInterface;
 
+template <typename T>
+class ModelListener;
+
 //! Propagate changes
 
 class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
@@ -88,21 +91,26 @@ public:
 
   virtual QStringList GetHorizontalHeaderLabels() const;
 
+protected:
+  /**
+   * @brief Convenience method that subscribes to all signals.
+   */
+  void SubscribeAll(SessionModelInterface* model);
+
 private:
   virtual void SetRootItemImpl(SessionItem* root_item) = 0;
 
   /**
-   * @brief Subscribe to model notifications.
+   * @brief Subscribe to the model notifications.
    */
   void Subscribe(SessionModelInterface* model);
 
   /**
-   * @brief Unsubscribe from model notifications.
+   * @brief Unsubscribe from the model notifications.
    */
   void Unsubscribe();
 
-  struct AbstractViewModelControllerImpl;
-  std::unique_ptr<AbstractViewModelControllerImpl> p_impl;
+  std::unique_ptr<ModelListener<SessionModelInterface>> m_listener;
 };
 
 }  // namespace mvvm

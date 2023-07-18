@@ -26,43 +26,8 @@
 namespace mvvm
 {
 
-struct AbstractViewModelController::AbstractViewModelControllerImpl
-{
-  void Subscribe(SessionModelInterface *model, AbstractViewModelController *self)
-  {
-    if (!model)
-    {
-      throw RuntimeException("Subscriber is not initialised");
-    }
-
-    m_listener = std::make_unique<mvvm::ModelListener<SessionModelInterface>>(model);
-
-    m_listener->Connect<mvvm::DataChangedEvent>(self, &AbstractViewModelController::OnModelEvent);
-
-    m_listener->Connect<mvvm::AboutToInsertItemEvent>(self,
-                                                      &AbstractViewModelController::OnModelEvent);
-    m_listener->Connect<mvvm::ItemInsertedEvent>(self, &AbstractViewModelController::OnModelEvent);
-    m_listener->Connect<mvvm::AboutToRemoveItemEvent>(self,
-                                                      &AbstractViewModelController::OnModelEvent);
-    m_listener->Connect<mvvm::ItemRemovedEvent>(self, &AbstractViewModelController::OnModelEvent);
-
-    m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(self,
-                                                        &AbstractViewModelController::OnModelEvent);
-    m_listener->Connect<mvvm::ModelResetEvent>(self, &AbstractViewModelController::OnModelEvent);
-
-    m_listener->Connect<mvvm::ModelAboutToBeDestroyedEvent>(
-        self, &AbstractViewModelController::OnModelEvent);
-  }
-
-  std::unique_ptr<ModelListener<SessionModelInterface>> m_listener;
-};
-
+AbstractViewModelController::AbstractViewModelController() = default;
 AbstractViewModelController::~AbstractViewModelController() = default;
-
-AbstractViewModelController::AbstractViewModelController()
-    : p_impl(std::make_unique<AbstractViewModelControllerImpl>())
-{
-}
 
 void AbstractViewModelController::SetModel(SessionModelInterface *model)
 {
@@ -86,7 +51,7 @@ void AbstractViewModelController::SetModel(SessionModelInterface *model)
 
 const SessionModelInterface *AbstractViewModelController::GetModel() const
 {
-  return p_impl->m_listener ? p_impl->m_listener->GetModel() : nullptr;
+  return m_listener ? m_listener->GetModel() : nullptr;
 }
 
 void AbstractViewModelController::OnModelEvent(const AboutToInsertItemEvent &event) {}
@@ -130,14 +95,40 @@ QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
   return {};
 }
 
+void AbstractViewModelController::SubscribeAll(SessionModelInterface *model)
+{
+  if (!model)
+  {
+    throw RuntimeException("Subscriber is not initialised");
+  }
+
+  m_listener = std::make_unique<mvvm::ModelListener<SessionModelInterface>>(model);
+
+  m_listener->Connect<mvvm::DataChangedEvent>(this, &AbstractViewModelController::OnModelEvent);
+
+  m_listener->Connect<mvvm::AboutToInsertItemEvent>(this,
+                                                    &AbstractViewModelController::OnModelEvent);
+  m_listener->Connect<mvvm::ItemInsertedEvent>(this, &AbstractViewModelController::OnModelEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this,
+                                                    &AbstractViewModelController::OnModelEvent);
+  m_listener->Connect<mvvm::ItemRemovedEvent>(this, &AbstractViewModelController::OnModelEvent);
+
+  m_listener->Connect<mvvm::ModelAboutToBeResetEvent>(this,
+                                                      &AbstractViewModelController::OnModelEvent);
+  m_listener->Connect<mvvm::ModelResetEvent>(this, &AbstractViewModelController::OnModelEvent);
+
+  m_listener->Connect<mvvm::ModelAboutToBeDestroyedEvent>(
+      this, &AbstractViewModelController::OnModelEvent);
+}
+
 void AbstractViewModelController::Subscribe(SessionModelInterface *model)
 {
-  p_impl->Subscribe(model, this);
+  SubscribeAll(model);
 }
 
 void AbstractViewModelController::Unsubscribe()
 {
-  p_impl->m_listener.reset();
+  m_listener.reset();
 }
 
 }  // namespace mvvm
