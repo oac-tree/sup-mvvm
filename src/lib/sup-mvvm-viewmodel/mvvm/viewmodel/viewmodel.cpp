@@ -56,6 +56,12 @@ const SessionModelInterface* ViewModel::GetModel() const
   return m_controller ? m_controller->GetModel() : nullptr;
 }
 
+void ViewModel::SetModel(SessionModelInterface* model)
+{
+  ValidateController();
+  m_controller->SetModel(model);
+}
+
 const SessionItem* ViewModel::GetRootSessionItem() const
 {
   return m_controller ? m_controller->GetRootItem() : nullptr;

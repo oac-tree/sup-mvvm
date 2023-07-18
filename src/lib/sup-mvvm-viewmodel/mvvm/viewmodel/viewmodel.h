@@ -45,6 +45,7 @@ public:
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
   const SessionModelInterface* GetModel() const;
+  void SetModel(SessionModelInterface* model);
 
   const SessionItem* GetRootSessionItem() const;
 

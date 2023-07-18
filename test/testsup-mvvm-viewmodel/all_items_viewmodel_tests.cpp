@@ -712,6 +712,78 @@ TEST_F(AllItemsViewModelTests, SetVectorItemAsRoot)
   EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
 }
 
+//! Setting nullptr as new item.
+
+TEST_F(AllItemsViewModelTests, SetNullptrAsNewRoot)
+{
+  ApplicationModel model;
+  auto vector_item = model.InsertItem<VectorItem>();
+
+  AllItemsViewModel view_model(&model);
+  view_model.SetRootSessionItem(vector_item);
+
+  EXPECT_EQ(view_model.rowCount(), 3);
+  EXPECT_EQ(view_model.columnCount(), 2);
+
+  EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
+
+  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+
+  view_model.SetRootSessionItem(nullptr);
+  EXPECT_EQ(view_model.GetRootSessionItem(), nullptr);
+  EXPECT_EQ(view_model.GetModel(), nullptr);
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 0);
+
+  EXPECT_EQ(view_model.rowCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
+}
+
+//! Setting the model, and then different model
+
+TEST_F(AllItemsViewModelTests, SetAnotherModel)
+{
+  ApplicationModel model1;
+  ApplicationModel model2;
+  auto vector_item = model2.InsertItem<VectorItem>();
+
+  AllItemsViewModel view_model(&model1);
+  view_model.SetModel(&model1);
+
+  EXPECT_EQ(view_model.GetModel(), &model1);
+  EXPECT_EQ(view_model.GetRootSessionItem(), model1.GetRootItem());
+
+  EXPECT_EQ(view_model.rowCount(), 0);
+  EXPECT_EQ(view_model.columnCount(), 2);
+
+  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+
+  view_model.SetModel(&model2);
+  EXPECT_EQ(view_model.GetModel(), &model2);
+  EXPECT_EQ(view_model.GetRootSessionItem(), model2.GetRootItem());
+
+  // modifying original model
+  model1.InsertItem<VectorItem>();
+
+  EXPECT_EQ(spy_about_reset.count(), 1);
+  EXPECT_EQ(spy_reset.count(), 1);
+  // no reaction on modification in previous model
+  EXPECT_EQ(spy_insert.count(), 0);
+  EXPECT_EQ(spy_remove.count(), 0);
+
+  EXPECT_EQ(view_model.rowCount(), 1);
+  EXPECT_EQ(view_model.columnCount(), 2);
+}
+
 //! Inserting two VectorItems. Setting second VectorItem as root item.
 //! Removing first VectorItem. ViewModel should remain unchanged, no signals issued.
 
