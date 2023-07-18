@@ -42,20 +42,15 @@ using namespace mvvm;
 class ViewModelControllerTests : public ::testing::Test
 {
 public:
-  ViewModelControllerTests() : m_controller(&m_viewmodel)
-  {
-    m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-    m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    m_controller.SetModel(&m_model);
-  }
+  ViewModelControllerTests() {}
 
-  std::unique_ptr<ViewModelController> CreateController(SessionModelInterface* model,
-                                                        ViewModelBase* view_model)
+  std::unique_ptr<ViewModelController> CreateController(SessionModelInterface& model,
+                                                        ViewModelBase& view_model)
   {
-    auto result = std::make_unique<ViewModelController>(view_model);
+    auto result = std::make_unique<ViewModelController>(&view_model);
     result->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     result->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    result->SetModel(model);
+    result->SetModel(&model);
     return result;
   }
 
@@ -78,14 +73,16 @@ public:
 
   ApplicationModel m_model;
   ViewModelBase m_viewmodel;
-  ViewModelController m_controller;
 };
 
-//! Empty model.
+//! Controller pointed to empty model.
 
-TEST_F(ViewModelControllerTests, EmptyProcedure)
+TEST_F(ViewModelControllerTests, InitialState)
 {
-  m_controller.SetRootItem(m_model.GetRootItem());
+  auto controller = CreateController(m_model, m_viewmodel);
+
+  EXPECT_EQ(controller->GetModel(), &m_model);
+  EXPECT_EQ(controller->GetRootItem(), m_model.GetRootItem());
 
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(m_viewmodel.columnCount(), 0);
@@ -129,7 +126,7 @@ TEST_F(ViewModelControllerTests, ModelWithSingleItem)
   auto* item = m_model.InsertItem<SessionItem>();
   item->SetData(42.0);
 
-  auto controller = CreateController(&m_model, &m_viewmodel);
+  auto controller = CreateController(m_model, m_viewmodel);
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -144,7 +141,7 @@ TEST_F(ViewModelControllerTests, ModelWithSingleItem)
   auto view_item_data = m_viewmodel.itemFromIndex(data_index);
   EXPECT_EQ(GetSessionItem(view_item_data), item);
 
-  // display roleof first item in a row  should coincide with item's DisplayName
+  // display role of the first item in a row  should coincide with item's DisplayName
   EXPECT_EQ(m_viewmodel.data(label_index, Qt::DisplayRole).toString().toStdString(),
             item->GetDisplayName());
 
@@ -164,7 +161,7 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItem)
   vector_item->SetY(2.0);
   vector_item->SetZ(3.0);
 
-  auto controller = CreateController(&m_model, &m_viewmodel);
+  auto controller = CreateController(m_model, m_viewmodel);
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -224,10 +221,12 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
 }
 
 //! Initialise controller with the empty model. Then insert new item and check that view model
-//! hass been updated.
+//! has been updated.
 
 TEST_F(ViewModelControllerTests, InsertIntoEmptyModel)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
@@ -272,6 +271,8 @@ TEST_F(ViewModelControllerTests, InsertIntoEmptyModel)
 
 TEST_F(ViewModelControllerTests, InitThenInsertProperties)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
@@ -280,7 +281,7 @@ TEST_F(ViewModelControllerTests, InitThenInsertProperties)
   auto item2 = m_model.InsertItem<PropertyItem>();
 
   // checking signaling
-  EXPECT_EQ(spy_insert.count(), 3);
+  ASSERT_EQ(spy_insert.count(), 3);
 
   // checking model layout
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
@@ -304,6 +305,8 @@ TEST_F(ViewModelControllerTests, InitThenInsertProperties)
 
 TEST_F(ViewModelControllerTests, InsertInFront)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
@@ -325,6 +328,8 @@ TEST_F(ViewModelControllerTests, InsertInFront)
 
 TEST_F(ViewModelControllerTests, InsertBetween)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
@@ -348,6 +353,8 @@ TEST_F(ViewModelControllerTests, InsertBetween)
 
 TEST_F(ViewModelControllerTests, InsertParentAndThenChild)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
@@ -378,6 +385,8 @@ TEST_F(ViewModelControllerTests, InsertParentAndThenChild)
 
 TEST_F(ViewModelControllerTests, RemoveSingleTopItem)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   auto item = m_model.InsertItem<PropertyItem>();
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
@@ -401,6 +410,8 @@ TEST_F(ViewModelControllerTests, RemoveSingleTopItem)
 
 TEST_F(ViewModelControllerTests, RemoveMiddleChild)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
   auto child0 = m_model.InsertItem<SessionItem>(parent, {"", 0});
@@ -450,6 +461,8 @@ TEST_F(ViewModelControllerTests, RemoveMiddleChild)
 
 TEST_F(ViewModelControllerTests, TakeChildThenInsert)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   auto container0 = m_model.InsertItem<ContainerItem>();
   auto container1 = m_model.InsertItem<ContainerItem>();
   auto child0 = m_model.InsertItem<VectorItem>(container0, TagIndex::Append());
@@ -491,6 +504,8 @@ TEST_F(ViewModelControllerTests, TakeChildThenInsert)
 
 TEST_F(ViewModelControllerTests, SetData)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
 
@@ -515,9 +530,11 @@ TEST_F(ViewModelControllerTests, SetData)
 
 TEST_F(ViewModelControllerTests, SetPropertyItemAsRoot)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   auto item = m_model.InsertItem<PropertyItem>();
 
-  m_controller.SetRootItem(item);
+  controller->SetRootItem(item);
 
   // new root item doesn't have children
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
@@ -528,12 +545,14 @@ TEST_F(ViewModelControllerTests, SetPropertyItemAsRoot)
 
 TEST_F(ViewModelControllerTests, SetCompoundAsRootItem)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   auto item = m_model.InsertItem<CompoundItem>();
   item->AddProperty("thickness", 42.0);
   item->AddProperty<VectorItem>("position");
   item->AddProperty("radius", 43.0);
 
-  m_controller.SetRootItem(item);
+  controller->SetRootItem(item);
 
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
@@ -548,6 +567,8 @@ TEST_F(ViewModelControllerTests, SetCompoundAsRootItem)
 
 TEST_F(ViewModelControllerTests, onModelReset)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
@@ -571,6 +592,8 @@ TEST_F(ViewModelControllerTests, onModelReset)
 
 TEST_F(ViewModelControllerTests, onEmptyModelResetAndContinue)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
   m_model.Clear({});
 
@@ -585,7 +608,9 @@ TEST_F(ViewModelControllerTests, onEmptyModelResetAndContinue)
 
 TEST_F(ViewModelControllerTests, GetHorizontalHeaderLabels)
 {
+  auto controller = CreateController(m_model, m_viewmodel);
+
   const QStringList expected_labels = QStringList() << "Name"
                                                     << "Value";
-  EXPECT_EQ(m_controller.GetHorizontalHeaderLabels(), expected_labels);
+  EXPECT_EQ(controller->GetHorizontalHeaderLabels(), expected_labels);
 }
