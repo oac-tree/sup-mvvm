@@ -23,7 +23,6 @@
 #include <mvvm/utils/container_utils.h>
 
 #include <QObject>
-#include <functional>
 #include <memory>
 
 class QAbstractItemView;
@@ -45,9 +44,7 @@ class ItemViewComponentProvider : public QObject
   Q_OBJECT
 
 public:
-  using create_viewmodel_t = std::function<std::unique_ptr<ViewModel>(SessionModelInterface*)>;
-
-  ItemViewComponentProvider(create_viewmodel_t model_func, QAbstractItemView* view);
+  ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model, QAbstractItemView* view);
   ~ItemViewComponentProvider() override;
 
   void SetApplicationModel(SessionModelInterface* model);
@@ -75,15 +72,11 @@ signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
-  void Reset();
-  void InitViewModel(SessionModelInterface* model);
   std::vector<SessionItem*> GetSelectedItemsIntern() const;
 
   std::unique_ptr<ViewModelDelegate> m_delegate;
   std::unique_ptr<ItemSelectionModel> m_selection_model;
   std::unique_ptr<ViewModel> m_view_model;
-  create_viewmodel_t m_create_viewmodel;  //!< to create new ViewModel on ApplicationModel change
-
   QAbstractItemView* m_view{nullptr};
 };
 
@@ -99,17 +92,12 @@ std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
   return utils::CastItems<T>(GetSelectedItemsIntern());
 }
 
-template <typename T>
-std::unique_ptr<T> CreateViewModel(SessionModelInterface* model)
-{
-  return std::make_unique<T>(model);
-}
-
 template <typename ViewModelT>
 std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
                                                           SessionModelInterface* model = nullptr)
 {
-  auto result = std::make_unique<ItemViewComponentProvider>(CreateViewModel<ViewModelT>, view);
+  auto result =
+      std::make_unique<ItemViewComponentProvider>(std::make_unique<ViewModelT>(model), view);
   result->SetApplicationModel(model);
   return result;
 }

@@ -60,8 +60,10 @@ TEST_F(TopItemsTreeViewTests, SetNullptrAsItem)
   view.SetApplicationModel(nullptr);
   model.reset();
 
-  // checking that underlying model was destroyed
-  EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), nullptr);
+  ASSERT_EQ(view.GetComponentProvider()->GetViewModel(), viewmodel);
+  EXPECT_EQ(viewmodel->rowCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
+  EXPECT_EQ(viewmodel->GetModel(), nullptr);
 }
 
 TEST_F(TopItemsTreeViewTests, DestroyModel)

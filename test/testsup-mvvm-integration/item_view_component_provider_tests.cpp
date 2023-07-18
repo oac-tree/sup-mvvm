@@ -45,12 +45,12 @@ TEST_F(ItemViewComponentProviderTests, InitialState)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
+  ItemViewComponentProvider provider(std::make_unique<mvvm::AllItemsViewModel>(nullptr), &view);
 
   EXPECT_EQ(provider.GetView(), &view);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);
-  EXPECT_EQ(provider.GetSelectionModel()->model(), nullptr);
-  EXPECT_EQ(provider.GetViewModel(), nullptr);
+  EXPECT_NE(provider.GetSelectionModel()->model(), nullptr);
+  EXPECT_NE(provider.GetViewModel(), nullptr);
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
   EXPECT_TRUE(provider.GetSelectedItems().empty());
 }
@@ -61,18 +61,17 @@ TEST_F(ItemViewComponentProviderTests, SetEmptyModel)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  EXPECT_EQ(provider.GetView(), &view);
-  EXPECT_NE(provider.GetSelectionModel(), nullptr);
-  EXPECT_NE(provider.GetViewModel(), nullptr);
-  EXPECT_NE(dynamic_cast<mvvm::AllItemsViewModel*>(provider.GetViewModel()), nullptr);
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
-  EXPECT_TRUE(provider.GetSelectedItems().empty());
+  EXPECT_EQ(provider->GetView(), &view);
+  EXPECT_NE(provider->GetSelectionModel(), nullptr);
+  EXPECT_NE(provider->GetViewModel(), nullptr);
+  EXPECT_NE(dynamic_cast<mvvm::AllItemsViewModel*>(provider->GetViewModel()), nullptr);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+  EXPECT_TRUE(provider->GetSelectedItems().empty());
 
-  EXPECT_EQ(provider.GetView()->model(), provider.GetViewModel());
-  EXPECT_EQ(provider.GetSelectionModel()->model(), provider.GetViewModel());
+  EXPECT_EQ(provider->GetView()->model(), provider->GetViewModel());
+  EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 }
 
 //! Setting ApplicationModel with single item to the provider.
@@ -84,16 +83,15 @@ TEST_F(ItemViewComponentProviderTests, SetNonEmptyModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  EXPECT_EQ(provider.GetView(), &view);
-  EXPECT_NE(provider.GetSelectionModel(), nullptr);
+  EXPECT_EQ(provider->GetView(), &view);
+  EXPECT_NE(provider->GetSelectionModel(), nullptr);
 
-  auto viewmodel = provider.GetViewModel();
+  auto viewmodel = provider->GetViewModel();
 
   ASSERT_NE(viewmodel, nullptr);
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), m_model.GetRootItem());
 
   EXPECT_EQ(viewmodel->rowCount(), 1);
@@ -108,17 +106,17 @@ TEST_F(ItemViewComponentProviderTests, SetItem)
 
   auto item = m_model.InsertItem<mvvm::VectorItem>();
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  provider.SetItem(item);
+  provider->SetItem(item);
 
-  auto viewmodel = provider.GetViewModel();
+  auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
   EXPECT_EQ(viewmodel->rowCount(), 3);  // x, y, z
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
-  EXPECT_EQ(provider.GetView()->model(), viewmodel);
-  EXPECT_EQ(provider.GetSelectionModel()->model(), provider.GetViewModel());
+  EXPECT_EQ(provider->GetView()->model(), viewmodel);
+  EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 }
 
 //! Initialising provider with application model, then changing root item.
@@ -130,31 +128,29 @@ TEST_F(ItemViewComponentProviderTests, SetItemAfterSetModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  auto viewmodel = provider.GetViewModel();
+  auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
   EXPECT_EQ(viewmodel->rowCount(), 1);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
-  EXPECT_EQ(provider.GetView()->model(), viewmodel);
-  EXPECT_EQ(provider.GetSelectionModel()->model(), provider.GetViewModel());
+  EXPECT_EQ(provider->GetView()->model(), viewmodel);
+  EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 
   // setting new item as root item
-  provider.SetItem(item);
+  provider->SetItem(item);
 
-  auto new_viewmodel = provider.GetViewModel();
+  auto new_viewmodel = provider->GetViewModel();
 
-  // in the current implementation of ItemViewComponentProvider, setting a new item will regenerate
-  // a view model
-  EXPECT_NE(viewmodel, new_viewmodel);
-  EXPECT_EQ(provider.GetView()->model(), new_viewmodel);
-  EXPECT_EQ(provider.GetSelectionModel()->model(), new_viewmodel);
+  // in the current implementation view model stays the same
+  EXPECT_EQ(viewmodel, new_viewmodel);
+  EXPECT_EQ(provider->GetView()->model(), new_viewmodel);
+  EXPECT_EQ(provider->GetSelectionModel()->model(), new_viewmodel);
 
   EXPECT_EQ(new_viewmodel->GetRootSessionItem(), item);
 
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
 
   // no rows and columns since our item plays the role of root item
   EXPECT_EQ(new_viewmodel->rowCount(), 0);
@@ -170,23 +166,27 @@ TEST_F(ItemViewComponentProviderTests, SetNullptrAfterSetModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  auto viewmodel = provider.GetViewModel();
+  auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
   EXPECT_EQ(viewmodel->rowCount(), 1);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
-  EXPECT_EQ(provider.GetView()->model(), viewmodel);
-  EXPECT_EQ(provider.GetSelectionModel()->model(), provider.GetViewModel());
+  EXPECT_EQ(provider->GetView()->model(), viewmodel);
+  EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 
   // resetting the model
-  provider.SetApplicationModel(nullptr);
+  provider->SetApplicationModel(nullptr);
 
-  EXPECT_EQ(provider.GetViewModel(), nullptr);
-  EXPECT_EQ(provider.GetView()->model(), nullptr);
-  EXPECT_EQ(provider.GetSelectionModel()->model(), nullptr);
+  // it doesn't remove viewmodel and selection model
+  EXPECT_EQ(provider->GetViewModel(), viewmodel);
+  EXPECT_EQ(provider->GetView()->model(), viewmodel);
+  EXPECT_EQ(provider->GetSelectionModel()->model(), viewmodel);
+
+  // viewmodel now shows itself empty
+  EXPECT_EQ(viewmodel->rowCount(), 0);
+  EXPECT_EQ(viewmodel->columnCount(), 2);
 }
 
 //! Attempt to set one item after another, when they belongs to different models
@@ -204,34 +204,32 @@ TEST_F(ItemViewComponentProviderTests, SetItemAfterItem)
 
   auto item2 = model2.InsertItem<mvvm::CompoundItem>();
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
   // setting item from the first model
-  provider.SetItem(item1);
+  provider->SetItem(item1);
 
-  EXPECT_EQ(provider.GetViewModel()->GetRootSessionItem(), item1);
-  EXPECT_EQ(provider.GetViewModel()->rowCount(), 1);
+  EXPECT_EQ(provider->GetViewModel()->GetRootSessionItem(), item1);
+  EXPECT_EQ(provider->GetViewModel()->rowCount(), 1);
 
   // setting item from the second model
-  EXPECT_NO_THROW(provider.SetItem(item2));
-  EXPECT_EQ(provider.GetViewModel()->rowCount(), 0);
+  EXPECT_NO_THROW(provider->SetItem(item2));
+  EXPECT_EQ(provider->GetViewModel()->rowCount(), 0);
 }
 
 TEST_F(ItemViewComponentProviderTests, SelectItem)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  QSignalSpy spy_selected(&provider, &ItemViewComponentProvider::SelectedItemChanged);
-
-  provider.SetApplicationModel(&m_model);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
-  provider.SetSelectedItem(item);
+  provider->SetSelectedItem(item);
 
-  EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
+  EXPECT_EQ(provider->GetSelectedItem(), item);
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
@@ -242,8 +240,8 @@ TEST_F(ItemViewComponentProviderTests, SelectItem)
 
   // removing selection
 
-  provider.SetSelectedItem(nullptr);
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
+  provider->SetSelectedItem(nullptr);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
   EXPECT_EQ(spy_selected.count(), 1);
 
   arguments = spy_selected.takeFirst();
@@ -257,20 +255,19 @@ TEST_F(ItemViewComponentProviderTests, SetCurrentIndex)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 
-  QSignalSpy spy_selected(&provider, &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   // selecting an item and checking results
-  auto indexes = provider.GetViewModel()->GetIndexOfSessionItem(item);
+  auto indexes = provider->GetViewModel()->GetIndexOfSessionItem(item);
   ASSERT_EQ(indexes.size(), 2);
-  provider.GetView()->setCurrentIndex(indexes.at(0));
+  provider->GetView()->setCurrentIndex(indexes.at(0));
 
-  EXPECT_EQ(provider.GetSelectedItem(), item);
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
+  EXPECT_EQ(provider->GetSelectedItem(), item);
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
   EXPECT_EQ(spy_selected.count(), 1);
   QList<QVariant> arguments = spy_selected.takeFirst();
   EXPECT_EQ(arguments.size(), 1);
@@ -285,24 +282,23 @@ TEST_F(ItemViewComponentProviderTests, SelectRow)
 {
   QTreeView view;
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
   auto vector_item = m_model.InsertItem<mvvm::VectorItem>();
 
   auto x_item = vector_item->GetItem(mvvm::VectorItem::kX);
 
-  provider.SetItem(vector_item);
+  provider->SetItem(vector_item);
 
-  auto x_item_index = provider.GetViewModel()->index(0, 1);
+  auto x_item_index = provider->GetViewModel()->index(0, 1);
 
-  QSignalSpy spy_selected(&provider, &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   // selecting row where xItem is located
   view.selectionModel()->select(x_item_index,
                                 QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({x_item}));
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({x_item}));
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
@@ -315,43 +311,41 @@ TEST_F(ItemViewComponentProviderTests, DestroyModel)
 
   auto vector_item = model->InsertItem<mvvm::VectorItem>();
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(model.get());
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, model.get());
 
-  auto viewmodel = provider.GetViewModel();
+  auto viewmodel = provider->GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 1);
   EXPECT_EQ(viewmodel->columnCount(), 2);
 
   // destroying the model
   model.reset();
 
-  EXPECT_EQ(provider.GetViewModel(), viewmodel);
+  EXPECT_EQ(provider->GetViewModel(), viewmodel);
 
   EXPECT_EQ(viewmodel->rowCount(), 0);
   EXPECT_EQ(viewmodel->columnCount(), 2);
   EXPECT_EQ(viewmodel->GetRootSessionItem(), nullptr);
 
-  EXPECT_TRUE(provider.GetSelectedItems().empty());
-  EXPECT_EQ(provider.GetSelectedItem(), nullptr);
+  EXPECT_TRUE(provider->GetSelectedItems().empty());
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
 }
 
-//! Removing selected and checking notifications
+//! Removing selected and checking notifications.
 
 TEST_F(ItemViewComponentProviderTests, SelectionAfterRemoval)
 {
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
-  ItemViewComponentProvider provider(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider.SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
-  QSignalSpy spy_selected(&provider, &ItemViewComponentProvider::SelectedItemChanged);
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
   // selecting single item
-  provider.SetSelectedItem(property0);
+  provider->SetSelectedItem(property0);
 
   // checking selections
-  EXPECT_EQ(provider.GetSelectedItems(), std::vector<mvvm::SessionItem*>({property0}));
+  EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({property0}));
 
   // checking signaling
   EXPECT_EQ(spy_selected.count(), 1);
@@ -380,9 +374,7 @@ TEST_F(ItemViewComponentProviderTests, DeleteProvider)
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
-  auto provider =
-      std::make_unique<ItemViewComponentProvider>(CreateViewModel<mvvm::AllItemsViewModel>, &view);
-  provider->SetApplicationModel(&m_model);
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
 
   EXPECT_EQ(view.model(), provider->GetViewModel());
   EXPECT_EQ(view.selectionModel(), provider->GetSelectionModel());
@@ -393,25 +385,4 @@ TEST_F(ItemViewComponentProviderTests, DeleteProvider)
 
   EXPECT_EQ(view.model(), nullptr);
   EXPECT_EQ(view.selectionModel(), nullptr);
-}
-
-//! No model initialisation, setting an item.
-
-TEST_F(ItemViewComponentProviderTests, CreateProvider)
-{
-  QTreeView view;
-
-  auto item = m_model.InsertItem<mvvm::VectorItem>();
-
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view);
-
-  provider->SetItem(item);
-
-  auto viewmodel = provider->GetViewModel();
-  ASSERT_NE(viewmodel, nullptr);
-  EXPECT_EQ(viewmodel->rowCount(), 3);  // x, y, z
-  EXPECT_EQ(viewmodel->columnCount(), 2);
-
-  EXPECT_EQ(provider->GetView()->model(), viewmodel);
-  EXPECT_EQ(provider->GetSelectionModel()->model(), provider->GetViewModel());
 }

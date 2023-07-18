@@ -41,9 +41,7 @@ public:
   public:
     explicit TestView(mvvm::ApplicationModel* model) : m_tree_view(new QTreeView)
     {
-      auto provider = std::make_unique<ItemViewComponentProvider>(
-          CreateViewModel<TopItemsViewModel>, m_tree_view);
-      provider->SetApplicationModel(model);
+      auto provider = CreateProvider<TopItemsViewModel>(m_tree_view, model);
       SetComponentProvider(std::move(provider));
     }
 
@@ -56,7 +54,7 @@ public:
 TEST_F(AbstractItemViewTests, InitialState)
 {
   TestView view(nullptr);
-  EXPECT_EQ(view.GetComponentProvider()->GetViewModel(), nullptr);
+  EXPECT_NE(view.GetComponentProvider()->GetViewModel(), nullptr);
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
   EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
 }

@@ -211,5 +211,7 @@ TEST_F(AllItemsTreeViewTests, SetNullptrAsModel)
 
   view.SetApplicationModel(nullptr);
 
-  EXPECT_EQ(provider->GetViewModel(), nullptr);
+  EXPECT_EQ(provider->GetViewModel(), view_model);
+  EXPECT_EQ(view_model->rowCount(), 0);
+  EXPECT_EQ(view_model->columnCount(), 2);
 }

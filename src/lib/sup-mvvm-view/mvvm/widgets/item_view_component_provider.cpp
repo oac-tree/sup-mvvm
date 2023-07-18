@@ -30,39 +30,31 @@
 namespace mvvm
 {
 
-ItemViewComponentProvider::ItemViewComponentProvider(create_viewmodel_t model_func,
+ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model,
                                                      QAbstractItemView *view)
     : m_delegate(std::make_unique<ViewModelDelegate>())
     , m_selection_model(std::make_unique<ItemSelectionModel>())
-    , m_create_viewmodel(std::move(model_func))
+    , m_view_model(std::move(view_model))
     , m_view(view)
 {
   connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
           [this](auto item) { emit SelectedItemChanged(const_cast<SessionItem *>(item)); });
+
+  m_selection_model->SetViewModel(m_view_model.get());
+  m_view->setModel(m_view_model.get());
+  m_view->setItemDelegate(m_delegate.get());
+  m_view->setSelectionModel(m_selection_model.get());
 }
 
 ItemViewComponentProvider::~ItemViewComponentProvider() = default;
 
 void ItemViewComponentProvider::SetApplicationModel(SessionModelInterface *model)
 {
-  if (!model)
-  {
-    Reset();
-    return;
-  }
-
-  InitViewModel(model);
+  m_view_model->SetModel(model);
 }
 
 void ItemViewComponentProvider::SetItem(SessionItem *item)
 {
-  if (!item)
-  {
-    Reset();
-    return;
-  }
-
-  InitViewModel(item->GetModel());
   m_view_model->SetRootSessionItem(item);
 }
 
@@ -96,22 +88,6 @@ void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> item
   std::vector<const SessionItem *> to_set_items;
   std::copy(items.begin(), items.end(), std::back_inserter(to_set_items));
   m_selection_model->SetSelectedItems(std::move(to_set_items));
-}
-
-void ItemViewComponentProvider::Reset()
-{
-  m_view->setModel(nullptr);
-  m_selection_model->setModel(nullptr);
-  m_view_model.reset();
-}
-
-void ItemViewComponentProvider::InitViewModel(SessionModelInterface *model)
-{
-  m_view_model = m_create_viewmodel(model);
-  m_selection_model->SetViewModel(m_view_model.get());
-  m_view->setModel(m_view_model.get());
-  m_view->setItemDelegate(m_delegate.get());
-  m_view->setSelectionModel(m_selection_model.get());
 }
 
 std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() const
