@@ -27,6 +27,7 @@ namespace mvvm
 class SessionItem;
 class ViewItem;
 class AbstractViewModelController;
+class SessionModelInterface;
 
 //! Main class to represent content of SessionModel in Qt's trees and tables.
 
@@ -41,7 +42,12 @@ public:
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const override;
 
+  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
+
+  const SessionModelInterface* GetModel() const;
+
   const SessionItem* GetRootSessionItem() const;
+
   SessionItem* GetRootSessionItem();
 
   void SetRootSessionItem(SessionItem* item);
@@ -54,13 +60,12 @@ public:
 
   QModelIndexList GetIndexOfSessionItem(const SessionItem* item) const;
 
-  int columnCount(const QModelIndex& parent = QModelIndex()) const override;
-
 protected:
   void SetController(std::unique_ptr<AbstractViewModelController> controller);
   AbstractViewModelController* Controller();
 
 private:
+  void ValidateController() const;
   std::unique_ptr<AbstractViewModelController> m_controller;
 };
 

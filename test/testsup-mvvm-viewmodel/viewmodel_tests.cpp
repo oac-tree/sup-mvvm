@@ -23,10 +23,10 @@
 #include "mvvm/viewmodel/viewmodel_controller.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
+#include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
-#include <mvvm/model/application_model.h>
 
 #include <gtest/gtest.h>
 
@@ -36,7 +36,7 @@ using namespace mvvm;
 
 //! Tests ViewModel class.
 //! This are tests for ViewModel API only. Full functionality is covered in all details in
-//! defaultviewmodel.test.cpp and viewmodel_base_tests.cpp
+//! all_items_viewmodel.test.cpp and viewmodel_base_tests.cpp
 
 class ViewModelTests : public ::testing::Test
 {
@@ -65,6 +65,7 @@ public:
 TEST_F(ViewModelTests, InitialState)
 {
   ViewModel view_model;
+  EXPECT_EQ(view_model.GetModel(), nullptr);
   EXPECT_EQ(view_model.rowCount(), 0);
   EXPECT_EQ(view_model.columnCount(), 0);
   EXPECT_EQ(view_model.GetRootSessionItem(), nullptr);

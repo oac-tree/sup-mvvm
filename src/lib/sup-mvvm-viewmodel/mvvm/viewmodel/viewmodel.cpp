@@ -19,8 +19,8 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-#include <mvvm/model/sessionitem.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodel/abstract_viewmodel_controller.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 
@@ -28,8 +28,12 @@ namespace mvvm
 {
 ViewModel::ViewModel(QObject* parent) : ViewModelBase(parent) {}
 
+ViewModel::~ViewModel() = default;
+
 QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+  ValidateController();
+
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
   {
     auto data = m_controller->GetHorizontalHeaderLabels();
@@ -41,11 +45,20 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
   return {};
 }
 
-ViewModel::~ViewModel() = default;
+int ViewModel::columnCount(const QModelIndex& parent) const
+{
+  return m_controller ? m_controller->GetHorizontalHeaderLabels().count()
+                      : ViewModelBase::columnCount(parent);
+}
+
+const SessionModelInterface* ViewModel::GetModel() const
+{
+  return m_controller ? m_controller->GetModel() : nullptr;
+}
 
 const SessionItem* ViewModel::GetRootSessionItem() const
 {
-  return utils::GetItemFromView<SessionItem>(rootItem());
+  return m_controller ? m_controller->GetRootItem() : nullptr;
 }
 
 SessionItem* ViewModel::GetRootSessionItem()
@@ -55,20 +68,12 @@ SessionItem* ViewModel::GetRootSessionItem()
 
 void ViewModel::SetRootSessionItem(SessionItem* item)
 {
-  if (!item)
-  {
-    throw std::runtime_error("Error: attemp to set nulptr as root item");
-  }
-
   m_controller->SetRootItem(item);
 }
 
 const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) const
 {
-  if (!m_controller)
-  {
-    throw std::runtime_error("Invalid controller");
-  }
+  ValidateController();
   return index.isValid() ? utils::GetItemFromView<SessionItem>(itemFromIndex(index))
                          : GetRootSessionItem();
 }
@@ -101,12 +106,6 @@ QModelIndexList ViewModel::GetIndexOfSessionItem(const SessionItem* item) const
   return result;
 }
 
-int ViewModel::columnCount(const QModelIndex& parent) const
-{
-  return m_controller ? m_controller->GetHorizontalHeaderLabels().count()
-                      : ViewModelBase::columnCount(parent);
-}
-
 void ViewModel::SetController(std::unique_ptr<AbstractViewModelController> controller)
 {
   m_controller = std::move(controller);
@@ -115,6 +114,14 @@ void ViewModel::SetController(std::unique_ptr<AbstractViewModelController> contr
 AbstractViewModelController* ViewModel::Controller()
 {
   return m_controller.get();
+}
+
+void ViewModel::ValidateController() const
+{
+  if (!m_controller)
+  {
+    throw std::runtime_error("Invalid controller");
+  }
 }
 
 }  // namespace mvvm

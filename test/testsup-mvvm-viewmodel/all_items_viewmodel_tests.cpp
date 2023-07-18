@@ -628,9 +628,6 @@ TEST_F(AllItemsViewModelTests, SetPropertyItemAsRoot)
   EXPECT_EQ(spy_reset.count(), 1);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), item);
-
-  // attempt to use nullptr as root item
-  EXPECT_THROW(view_model.SetRootSessionItem(nullptr), std::runtime_error);
 }
 
 //! Setting property item as ROOT item.
@@ -662,9 +659,6 @@ TEST_F(AllItemsViewModelTests, SetPropertyItemAsRootAfter)
   EXPECT_EQ(spy_remove.count(), 0);
 
   EXPECT_EQ(view_model.GetRootSessionItem(), item);
-
-  // attempt to use nullptr as root item
-  EXPECT_THROW(view_model.SetRootSessionItem(nullptr), std::runtime_error);
 }
 
 //! Setting top level item as ROOT item (case parent and children).
