@@ -69,14 +69,23 @@ public:
 
     MOCK_METHOD(void, OnModelEvent, (const ModelAboutToBeDestroyedEvent& event), (override));
 
-    MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem * item), ());
-
     const SessionItem* GetRootItem() const override { return m_root_item; };
     void SetRootItemImpl(SessionItem* root_item) override
     {
       m_root_item = root_item;
       OnSetRootItemImpl(root_item);
     };
+
+    void SubscribeImpl(SessionModelInterface* model) override
+    {
+      SubscribeAll(model);
+      OnSubscribeImpl(model);
+    }
+
+    MOCK_METHOD(void, UnsubscribeImpl, (), ());
+
+    MOCK_METHOD(void, OnSubscribeImpl, (SessionModelInterface* root_item), ());
+    MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem * item), ());
 
     SessionItem* m_root_item{nullptr};
   };
@@ -96,6 +105,7 @@ TEST_F(AbstractViewModelControllerTests, SetModel)
   EXPECT_EQ(controller.GetModel(), nullptr);
   EXPECT_EQ(controller.GetRootItem(), nullptr);
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
   controller.SetModel(&model);
 
@@ -103,6 +113,7 @@ TEST_F(AbstractViewModelControllerTests, SetModel)
   EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
 
   // setting same model shouldn't trigger a call
+  EXPECT_CALL(controller, OnSubscribeImpl(_)).Times(0);
   EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
   controller.SetModel(&model);
 
@@ -111,6 +122,7 @@ TEST_F(AbstractViewModelControllerTests, SetModel)
 
   // setting nullptr as a model
   EXPECT_CALL(controller, OnSetRootItemImpl(nullptr)).Times(1);
+  EXPECT_CALL(controller, UnsubscribeImpl()).Times(1);
   controller.SetModel(nullptr);
 
   EXPECT_EQ(controller.GetModel(), nullptr);
@@ -128,6 +140,7 @@ TEST_F(AbstractViewModelControllerTests, SetRootItem)
   EXPECT_EQ(controller.GetModel(), nullptr);
   EXPECT_EQ(controller.GetRootItem(), nullptr);
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
   controller.SetRootItem(model.GetRootItem());
 
@@ -143,6 +156,7 @@ TEST_F(AbstractViewModelControllerTests, SetRootItem)
 
   // setting nullptr as a root item
   EXPECT_CALL(controller, OnSetRootItemImpl(nullptr)).Times(1);
+  EXPECT_CALL(controller, UnsubscribeImpl()).Times(1);
   controller.SetRootItem(nullptr);
 
   EXPECT_EQ(controller.GetModel(), nullptr);
@@ -160,6 +174,7 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 
   EXPECT_EQ(controller->GetModel(), nullptr);
 
+  EXPECT_CALL(*controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(*controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller->SetModel(&m_model);
@@ -182,6 +197,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
   auto controller = std::make_unique<mock_controller_t>();
 
+  EXPECT_CALL(*controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(*controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller->SetModel(&m_model);
@@ -203,6 +219,7 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 
   auto controller = std::make_unique<mock_controller_t>();
 
+  EXPECT_CALL(*controller, OnSubscribeImpl(&model)).Times(1);
   EXPECT_CALL(*controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
 
   controller->SetModel(&model);
@@ -222,6 +239,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -241,6 +259,7 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -260,6 +279,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -279,6 +299,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -298,6 +319,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -315,6 +337,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -332,6 +355,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -349,6 +373,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
@@ -368,10 +393,12 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
 
   mock_controller_t controller;
 
+  EXPECT_CALL(controller, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller.SetModel(&m_model);
 
+  EXPECT_CALL(controller, UnsubscribeImpl()).Times(1);
   EXPECT_CALL(controller, OnSetRootItemImpl(nullptr)).Times(1);
 
   // triggering action
@@ -397,10 +424,12 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   mock_controller_t controller1;
   mock_controller_t controller2;
 
+  EXPECT_CALL(controller1, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller1, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller1.SetModel(&m_model);
 
+  EXPECT_CALL(controller2, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller2, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller2.SetModel(&m_model);
@@ -455,14 +484,17 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   mock_controller_t controller1;
   mock_controller_t controller2;
 
+  EXPECT_CALL(controller1, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller1, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller1.SetModel(&m_model);
 
+  EXPECT_CALL(controller2, OnSubscribeImpl(&m_model)).Times(1);
   EXPECT_CALL(controller2, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller2.SetModel(&m_model);
 
+  EXPECT_CALL(controller1, UnsubscribeImpl()).Times(1);
   EXPECT_CALL(controller1, OnSetRootItemImpl(nullptr)).Times(1);
   controller1.SetModel(nullptr);
 
@@ -488,6 +520,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   m_event_handler.Notify<ModelResetEvent>(&model);
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 
+  EXPECT_CALL(controller2, UnsubscribeImpl()).Times(1);
   EXPECT_CALL(controller2, OnSetRootItemImpl(nullptr)).Times(1);
   controller2.SetModel(nullptr);
 

@@ -106,9 +106,23 @@ private:
   void Subscribe(SessionModelInterface* model);
 
   /**
+   * @brief Implementation to subscribe to the model notifications.
+   *
+   * @note Should be reimplemented in the derived class (non-virtual interface idiom).
+   */
+  virtual void SubscribeImpl(SessionModelInterface* model);
+
+  /**
    * @brief Unsubscribe from the model notifications.
    */
   void Unsubscribe();
+
+  /**
+   * @brief Implementation to unsubscribe from the model notifications.
+   *
+   * @note Should be reimplemented in the derived class (non-virtual interface idiom).
+   */
+  virtual void UnsubscribeImpl();
 
   std::unique_ptr<ModelListener<SessionModelInterface>> m_listener;
 };

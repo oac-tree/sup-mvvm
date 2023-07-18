@@ -123,12 +123,20 @@ void AbstractViewModelController::SubscribeAll(SessionModelInterface *model)
 
 void AbstractViewModelController::Subscribe(SessionModelInterface *model)
 {
+  SubscribeImpl(model);
+}
+
+void AbstractViewModelController::SubscribeImpl(SessionModelInterface *model)
+{
   SubscribeAll(model);
 }
 
 void AbstractViewModelController::Unsubscribe()
 {
+  UnsubscribeImpl();
   m_listener.reset();
 }
+
+void AbstractViewModelController::UnsubscribeImpl() {}
 
 }  // namespace mvvm
