@@ -42,21 +42,20 @@ using namespace mvvm;
 class ViewModelControllerTests : public ::testing::Test
 {
 public:
-  ViewModelControllerTests() : m_controller(&m_model, &m_viewmodel)
+  ViewModelControllerTests() : m_controller(&m_viewmodel)
   {
-    m_controller.SetModel(&m_model);
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    m_controller.SetRootItem(m_model.GetRootItem());
+    m_controller.SetModel(&m_model);
   }
 
   std::unique_ptr<ViewModelController> CreateController(SessionModelInterface* model,
                                                         ViewModelBase* view_model)
   {
-    auto result = std::make_unique<ViewModelController>(model, view_model);
+    auto result = std::make_unique<ViewModelController>(view_model);
     result->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     result->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    result->SetRootItem(model->GetRootItem());
+    result->SetModel(model);
     return result;
   }
 
@@ -104,7 +103,7 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
 {
   // should throw if input parameters are invalid
   {
-    ViewModelController controller(nullptr, nullptr);
+    ViewModelController controller(nullptr);
     EXPECT_THROW(controller.SetRootItem(nullptr), std::runtime_error);
   }
 
@@ -113,7 +112,7 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
     std::vector<std::unique_ptr<mvvm::ViewItem>> children;
     children.emplace_back(std::make_unique<mvvm::ViewItem>());
     m_viewmodel.appendRow(m_viewmodel.rootItem(), std::move(children));
-    ViewModelController controller(&m_model, &m_viewmodel);
+    ViewModelController controller(&m_viewmodel);
     controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
     EXPECT_NO_THROW(controller.SetRootItem(m_model.GetRootItem()));
@@ -200,7 +199,7 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
   vector_item->SetY(2.0);
   vector_item->SetZ(3.0);
 
-  ViewModelController controller(&m_model, &m_viewmodel);
+  ViewModelController controller(&m_viewmodel);
   controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
   controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
   controller.SetRootItem(vector_item);

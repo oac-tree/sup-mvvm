@@ -38,7 +38,6 @@ class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelContro
 {
 public:
   explicit ViewModelController(ViewModelBase* view_model);
-  ViewModelController(SessionModelInterface* model, ViewModelBase* view_model);
   ~ViewModelController() override;
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
@@ -59,11 +58,11 @@ public:
 
   const SessionItem* GetRootItem() const override;
 
-  void SetRootItemImpl(SessionItem* root_item) override;
-
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:
+  void SetRootItemImpl(SessionItem* root_item) override;
+
   std::unique_ptr<ViewModelControllerImpl> p_impl;
 };
 

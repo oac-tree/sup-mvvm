@@ -55,10 +55,10 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
     throw std::runtime_error("Model doesn't have an event handler.");
   }
 
-  auto result = std::make_unique<ViewModelController>(m_context.model, m_context.view_model);
-  result->SetModel(m_context.model);
+  auto result = std::make_unique<ViewModelController>(m_context.view_model);
   result->SetChildrenStrategy(std::move(m_context.children_strategy));
   result->SetRowStrategy(std::move(m_context.row_strategy));
+  result->SetModel(m_context.model);
 
   return result;
 }

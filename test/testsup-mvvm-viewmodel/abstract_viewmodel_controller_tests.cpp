@@ -46,7 +46,10 @@ public:
     mvvm::ModelEventHandler* m_event_handler;
   };
 
-  class TestController : public AbstractViewModelController
+  /**
+   * @brief The NotifyingTestController is a mocking class to controll notifications.
+   */
+  class NotifyingTestController : public AbstractViewModelController
   {
   public:
     MOCK_METHOD(void, OnModelEvent, (const AboutToInsertItemEvent& event), (override));
@@ -65,14 +68,30 @@ public:
 
     MOCK_METHOD(void, OnModelEvent, (const ModelAboutToBeDestroyedEvent& event), (override));
 
-    const SessionItem* GetRootItem() const override { return nullptr; };
-    void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; };
+    MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem* item), ());
+
+    const SessionItem* GetRootItem() const override { return m_root_item; };
+    void SetRootItemImpl(SessionItem* root_item) override
+    {
+      m_root_item = root_item;
+      OnSetRootItemImpl(root_item);
+    };
+
+    SessionItem* m_root_item{nullptr};
   };
 
-  using mock_controller_t = ::testing::StrictMock<TestController>;
+  using mock_controller_t = ::testing::StrictMock<NotifyingTestController>;
   TestModel m_model;
   ModelEventHandler m_event_handler;
 };
+
+//! Setting the model;
+
+TEST_F(AbstractViewModelControllerTests, SetModel)
+{
+
+}
+
 
 //! Controller subscription.
 
@@ -84,6 +103,8 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
   auto controller = std::make_unique<mock_controller_t>();
 
   EXPECT_EQ(controller->GetModel(), nullptr);
+
+  EXPECT_CALL(*controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
 
   controller->SetModel(&m_model);
 
@@ -105,6 +126,8 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
   auto controller = std::make_unique<mock_controller_t>();
 
+  EXPECT_CALL(*controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller->SetModel(&m_model);
 
   controller.reset();
@@ -124,6 +147,8 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 
   auto controller = std::make_unique<mock_controller_t>();
 
+  EXPECT_CALL(*controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
+
   controller->SetModel(&model);
 
   // destroying event_handler
@@ -140,6 +165,9 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(AboutToInsertItemEvent{&item, tag_index})).Times(1);
@@ -156,6 +184,9 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ItemInsertedEvent{&item, tag_index})).Times(1);
@@ -172,6 +203,9 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(AboutToRemoveItemEvent{&item, tag_index})).Times(1);
@@ -188,6 +222,9 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ItemRemovedEvent{&item, tag_index})).Times(1);
@@ -204,6 +241,9 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   const int role{42};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(DataChangedEvent{&item, role})).Times(1);
@@ -218,6 +258,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   const int role{42};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ModelAboutToBeResetEvent{&model})).Times(1);
@@ -232,6 +275,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   const int role{42};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ModelResetEvent{&model})).Times(1);
@@ -246,6 +292,9 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   const int role{42};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ModelAboutToBeDestroyedEvent{&model})).Times(1);
@@ -262,6 +311,9 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   const int role{42};
 
   mock_controller_t controller;
+
+  EXPECT_CALL(controller, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller.SetModel(&m_model);
 
   // expecting no signals
@@ -290,7 +342,12 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   mock_controller_t controller1;
   mock_controller_t controller2;
 
+  EXPECT_CALL(controller1, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller1.SetModel(&m_model);
+
+  EXPECT_CALL(controller2, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller2.SetModel(&m_model);
 
   DataChangedEvent expected_event{&item, role};
@@ -343,7 +400,12 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   mock_controller_t controller1;
   mock_controller_t controller2;
 
+  EXPECT_CALL(controller1, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller1.SetModel(&m_model);
+
+  EXPECT_CALL(controller2, OnSetRootItemImpl(m_model.GetRootItem())).Times(1);
+
   controller2.SetModel(&m_model);
 
   controller1.SetModel(nullptr);

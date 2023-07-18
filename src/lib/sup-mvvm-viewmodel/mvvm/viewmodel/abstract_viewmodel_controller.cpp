@@ -19,6 +19,8 @@
 
 #include "abstract_viewmodel_controller.h"
 
+#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/sessionmodel.h>
 #include <mvvm/signals/model_listener.h>
 
 namespace mvvm
@@ -74,6 +76,11 @@ void AbstractViewModelController::SetModel(SessionModelInterface *model)
   {
     Subscribe(model);
   }
+
+  if (GetRootItem() != model->GetRootItem())
+  {
+    SetRootItemImpl(model->GetRootItem());
+  }
 }
 
 const SessionModelInterface *AbstractViewModelController::GetModel() const
@@ -99,6 +106,18 @@ void AbstractViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEven
 
 void AbstractViewModelController::SetRootItem(SessionItem *root_item)
 {
+  if (!root_item)
+  {
+    Unsubscribe();
+    SetRootItemImpl(nullptr);
+    return;
+  }
+
+  if (root_item->GetModel() != GetModel())
+  {
+    Subscribe(root_item->GetModel());
+  }
+
   SetRootItemImpl(root_item);
 }
 

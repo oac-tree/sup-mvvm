@@ -110,8 +110,6 @@ int ViewModel::columnCount(const QModelIndex& parent) const
 void ViewModel::SetController(std::unique_ptr<AbstractViewModelController> controller)
 {
   m_controller = std::move(controller);
-  auto model = m_controller->GetModel();
-  m_controller->SetRootItem(model->GetRootItem());
 }
 
 AbstractViewModelController* ViewModel::Controller()

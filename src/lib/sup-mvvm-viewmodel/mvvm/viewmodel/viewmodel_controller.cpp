@@ -31,11 +31,6 @@ ViewModelController::ViewModelController(ViewModelBase *view_model)
 {
 }
 
-ViewModelController::ViewModelController(SessionModelInterface *model, ViewModelBase *view_model)
-    : p_impl(std::make_unique<ViewModelControllerImpl>(view_model))
-{
-}
-
 ViewModelController::~ViewModelController() = default;
 
 void ViewModelController::SetChildrenStrategy(
@@ -84,16 +79,14 @@ const SessionItem *ViewModelController::GetRootItem() const
   return p_impl->GetRootItem();
 }
 
-//! Inits ViewModel by iterating through SessionModel.
+QStringList ViewModelController::GetHorizontalHeaderLabels() const
+{
+  return p_impl->GetHorizontalHeaderLabels();
+}
 
 void ViewModelController::SetRootItemImpl(SessionItem *root_item)
 {
   p_impl->SetRootItem(root_item);
-}
-
-QStringList ViewModelController::GetHorizontalHeaderLabels() const
-{
-  return p_impl->GetHorizontalHeaderLabels();
 }
 
 }  // namespace mvvm
