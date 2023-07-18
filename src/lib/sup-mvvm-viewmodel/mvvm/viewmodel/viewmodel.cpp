@@ -53,7 +53,7 @@ int ViewModel::columnCount(const QModelIndex& parent) const
 
 const SessionModelInterface* ViewModel::GetModel() const
 {
-  return m_controller ? m_controller->GetModel() : nullptr;
+  return GetRootSessionItem() ? GetRootSessionItem()->GetModel() : nullptr;
 }
 
 void ViewModel::SetModel(SessionModelInterface* model)

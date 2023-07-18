@@ -35,22 +35,17 @@ ViewModelControllerBuilder::~ViewModelControllerBuilder() = default;
 
 ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController>()
 {
-  if (!m_context.model)
-  {
-    throw std::runtime_error("Error in ViewModelController: undefined model");
-  }
-
   if (!m_context.children_strategy)
   {
-    throw std::runtime_error("Error in ViewModelController: no children strategy defined.");
+    throw std::runtime_error("Error in ViewModelControllerBuilder: no children strategy defined.");
   }
 
   if (!m_context.row_strategy)
   {
-    throw std::runtime_error("Error in ViewModelController: no row strategy defined.");
+    throw std::runtime_error("Error in ViewModelControllerBuilder: no row strategy defined.");
   }
 
-  if (!m_context.model->GetEventHandler())
+  if (m_context.model && !m_context.model->GetEventHandler())
   {
     throw std::runtime_error("Model doesn't have an event handler.");
   }
@@ -58,7 +53,10 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
   auto result = std::make_unique<ViewModelController>(m_context.view_model);
   result->SetChildrenStrategy(std::move(m_context.children_strategy));
   result->SetRowStrategy(std::move(m_context.row_strategy));
-  result->SetModel(m_context.model);
+  if (m_context.model)
+  {
+    result->SetModel(m_context.model);
+  }
 
   return result;
 }

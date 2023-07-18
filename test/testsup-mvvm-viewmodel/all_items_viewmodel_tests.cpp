@@ -904,13 +904,17 @@ TEST_F(AllItemsViewModelTests, OnModelDestroyed)
   auto model = std::make_unique<ApplicationModel>();
   model->InsertItem<SessionItem>();
 
-  AllItemsViewModel viewModel(model.get());
-  EXPECT_EQ(viewModel.rowCount(), 1);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  AllItemsViewModel viewmodel(model.get());
+  EXPECT_EQ(viewmodel.GetModel(), model.get());
+  EXPECT_EQ(viewmodel.GetRootSessionItem(), model->GetRootItem());
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 2);
 
   model.reset();
-  EXPECT_EQ(viewModel.rowCount(), 0);
-  EXPECT_EQ(viewModel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.rowCount(), 0);
+  EXPECT_EQ(viewmodel.columnCount(), 2);
+  EXPECT_EQ(viewmodel.GetModel(), nullptr);
+  EXPECT_EQ(viewmodel.GetRootSessionItem(), nullptr);
 }
 
 TEST_F(AllItemsViewModelTests, horizontalLabels)
