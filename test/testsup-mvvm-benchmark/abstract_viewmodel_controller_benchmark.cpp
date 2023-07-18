@@ -46,7 +46,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetData)(benchmark::State &sta
   auto item = model.InsertItem<PropertyItem>();
 
   TestController controller;
-  controller.Subscribe(&model);
+  controller.SetModel(&model);
 
   int value{0};
   for (auto dummy : state)
@@ -61,7 +61,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetSameData)(benchmark::State 
   auto item = model.InsertItem<PropertyItem>();
 
   TestController controller;
-  controller.Subscribe(&model);
+  controller.SetModel(&model);
 
   int value{0};
   for (auto dummy : state)
@@ -78,7 +78,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &
   TagIndex tag_index{"rootTag", 0};
 
   TestController controller;
-  controller.Subscribe(&model);
+  controller.SetModel(&model);
 
   int value{0};
   for (auto dummy : state)
@@ -98,7 +98,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &st
   TagIndex tag_index{"rootTag", 0};
 
   TestController controller;
-  controller.Subscribe(&model);
+  controller.SetModel(&model);
 
   int value{0};
   for (auto dummy : state)
@@ -118,7 +118,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertAndTake)(benchmark::Stat
   TagIndex tag_index{"rootTag", 0};
 
   TestController controller;
-  controller.Subscribe(&model);
+  controller.SetModel(&model);
 
   int value{0};
   for (auto dummy : state)

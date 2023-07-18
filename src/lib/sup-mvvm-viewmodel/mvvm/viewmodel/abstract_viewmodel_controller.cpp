@@ -81,16 +81,6 @@ const SessionModelInterface *AbstractViewModelController::GetModel() const
   return p_impl->m_listener ? p_impl->m_listener->GetModel() : nullptr;
 }
 
-void AbstractViewModelController::Subscribe(SessionModelInterface *model)
-{
-  p_impl->Subscribe(model, this);
-}
-
-void AbstractViewModelController::Unsubscribe()
-{
-  p_impl->m_listener.reset();
-}
-
 void AbstractViewModelController::OnModelEvent(const AboutToInsertItemEvent &event) {}
 
 void AbstractViewModelController::OnModelEvent(const ItemInsertedEvent &event) {}
@@ -115,6 +105,16 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {
   return {};
+}
+
+void AbstractViewModelController::Subscribe(SessionModelInterface *model)
+{
+  p_impl->Subscribe(model, this);
+}
+
+void AbstractViewModelController::Unsubscribe()
+{
+  p_impl->m_listener.reset();
 }
 
 }  // namespace mvvm

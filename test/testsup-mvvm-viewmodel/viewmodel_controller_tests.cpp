@@ -44,9 +44,9 @@ class ViewModelControllerTests : public ::testing::Test
 public:
   ViewModelControllerTests() : m_controller(&m_model, &m_viewmodel)
   {
+    m_controller.SetModel(&m_model);
     m_controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
     m_controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    m_controller.Subscribe(&m_model);
     m_controller.SetRootItem(m_model.GetRootItem());
   }
 

@@ -85,7 +85,7 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 
   EXPECT_EQ(controller->GetModel(), nullptr);
 
-  controller->Subscribe(&m_model);
+  controller->SetModel(&m_model);
 
   EXPECT_EQ(controller->GetModel(), &m_model);
 
@@ -105,7 +105,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
   auto controller = std::make_unique<mock_controller_t>();
 
-  controller->Subscribe(&m_model);
+  controller->SetModel(&m_model);
 
   controller.reset();
 
@@ -124,7 +124,7 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 
   auto controller = std::make_unique<mock_controller_t>();
 
-  controller->Subscribe(&model);
+  controller->SetModel(&model);
 
   // destroying event_handler
   event_handler.reset();
@@ -140,7 +140,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(AboutToInsertItemEvent{&item, tag_index})).Times(1);
 
@@ -156,7 +156,7 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ItemInsertedEvent{&item, tag_index})).Times(1);
 
@@ -172,7 +172,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(AboutToRemoveItemEvent{&item, tag_index})).Times(1);
 
@@ -188,7 +188,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
   const mvvm::TagIndex tag_index{"tag", 0};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ItemRemovedEvent{&item, tag_index})).Times(1);
 
@@ -204,7 +204,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   const int role{42};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(DataChangedEvent{&item, role})).Times(1);
 
@@ -218,7 +218,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   const int role{42};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ModelAboutToBeResetEvent{&model})).Times(1);
 
@@ -232,7 +232,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   const int role{42};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ModelResetEvent{&model})).Times(1);
 
@@ -246,23 +246,13 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   const int role{42};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   EXPECT_CALL(controller, OnModelEvent(ModelAboutToBeDestroyedEvent{&model})).Times(1);
 
   // triggering action
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
-
-// FIXME restore AttemptToEstablishConnectionsTwice
-// TEST_F(AbstractViewModelControllerTest, AttemptToEstablishConnectionsTwice)
-//{
-//  mvvm::ModelEventNotifier notifier;
-//  TestController controller;
-//  controller.SubscribeTo(&notifier);
-
-//  EXPECT_THROW(controller.SubscribeTo(&notifier), std::runtime_error);
-//}
 
 TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
 {
@@ -272,13 +262,13 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   const int role{42};
 
   mock_controller_t controller;
-  controller.Subscribe(&m_model);
+  controller.SetModel(&m_model);
 
   // expecting no signals
   // StricktMock will fail if it's not the case
 
   // triggering action
-  controller.Unsubscribe();
+  controller.SetModel(nullptr);
 
   m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
   m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
@@ -300,8 +290,8 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   mock_controller_t controller1;
   mock_controller_t controller2;
 
-  controller1.Subscribe(&m_model);
-  controller2.Subscribe(&m_model);
+  controller1.SetModel(&m_model);
+  controller2.SetModel(&m_model);
 
   DataChangedEvent expected_event{&item, role};
 
@@ -353,10 +343,10 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   mock_controller_t controller1;
   mock_controller_t controller2;
 
-  controller1.Subscribe(&m_model);
-  controller2.Subscribe(&m_model);
+  controller1.SetModel(&m_model);
+  controller2.SetModel(&m_model);
 
-  controller1.Unsubscribe();
+  controller1.SetModel(nullptr);
 
   {
     ::testing::InSequence seq;
@@ -383,7 +373,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
   // expecting no signals here
   // StricktMock will fail if it s not the case
 
-  controller2.Unsubscribe();
+  controller2.SetModel(nullptr);
 
   m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
   m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);

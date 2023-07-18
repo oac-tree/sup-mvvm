@@ -46,9 +46,6 @@ public:
 
   const SessionModelInterface* GetModel() const;
 
-  void Subscribe(SessionModelInterface* model);
-  void Unsubscribe();
-
   //! Lets the controller know that a child is about to be inserted into the parent.
   virtual void OnModelEvent(const AboutToInsertItemEvent& event);
 
@@ -78,8 +75,9 @@ public:
   /**
    * @brief Sets an item as a new root item.
    *
-   * @details If an item is nullptr, will reset the view model, and unsubscribe from all
-   * SessionModel notifications. It same item was already set, will do nothing.
+   * @details It will subscribe to model notifications, and regenerate view model according to
+   * child/row strategies. If an item is nullptr, will reset the view model, and unsubscribe from
+   * all SessionModel notifications. If same item was already set, will do nothing.
    */
   void SetRootItem(SessionItem* root_item);
 
@@ -92,6 +90,16 @@ public:
 
 private:
   virtual void SetRootItemImpl(SessionItem* root_item) = 0;
+
+  /**
+   * @brief Subscribe to model notifications.
+   */
+  void Subscribe(SessionModelInterface* model);
+
+  /**
+   * @brief Unsubscribe from model notifications.
+   */
+  void Unsubscribe();
 
   struct AbstractViewModelControllerImpl;
   std::unique_ptr<AbstractViewModelControllerImpl> p_impl;

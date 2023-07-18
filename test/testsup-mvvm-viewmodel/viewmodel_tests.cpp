@@ -48,9 +48,9 @@ public:
     explicit TestViewModel(SessionModel *model)
     {
       auto controller = std::make_unique<ViewModelController>(model, this);
-      controller->Subscribe(model);
       controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
       controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
+      controller->SetModel(model);
       SetController(std::move(controller));
     }
   };
