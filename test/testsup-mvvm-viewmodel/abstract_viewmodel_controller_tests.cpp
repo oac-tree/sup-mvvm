@@ -84,7 +84,7 @@ public:
 
     MOCK_METHOD(void, UnsubscribeImpl, (), ());
 
-    MOCK_METHOD(void, OnSubscribeImpl, (SessionModelInterface* root_item), ());
+    MOCK_METHOD(void, OnSubscribeImpl, (SessionModelInterface * root_item), ());
     MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem * item), ());
 
     SessionItem* m_root_item{nullptr};
@@ -161,6 +161,89 @@ TEST_F(AbstractViewModelControllerTests, SetRootItem)
 
   EXPECT_EQ(controller.GetModel(), nullptr);
   EXPECT_EQ(controller.GetRootItem(), nullptr);
+}
+
+//! Setting the model, then setting same root item.
+
+TEST_F(AbstractViewModelControllerTests, SetModelThenSetSameTooItem)
+{
+  ApplicationModel model;
+  mock_controller_t controller;
+
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+
+  EXPECT_CALL(controller, OnSubscribeImpl(&model)).Times(1);
+  EXPECT_CALL(controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
+  controller.SetModel(&model);
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+
+  // setting same root item shouldn't trigger a call
+  EXPECT_CALL(controller, OnSubscribeImpl(_)).Times(0);
+  EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
+  controller.SetRootItem(model.GetRootItem());
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+}
+
+//! Setting root item, then setting another root item from the same model.
+
+TEST_F(AbstractViewModelControllerTests, SetRootItemThenAnotherItem)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<SessionItem>();
+  mock_controller_t controller;
+
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+
+  EXPECT_CALL(controller, OnSubscribeImpl(&model)).Times(1);
+  EXPECT_CALL(controller, OnSetRootItemImpl(model.GetRootItem())).Times(1);
+  controller.SetRootItem(model.GetRootItem());
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
+
+  // setting another item shouldn trigger a call
+  EXPECT_CALL(controller, OnSetRootItemImpl(item)).Times(1);
+  controller.SetRootItem(item);
+
+  EXPECT_EQ(controller.GetModel(), &model);
+  EXPECT_EQ(controller.GetRootItem(), item);
+}
+
+//! Setting root item, then setting anothers item from different model.
+
+TEST_F(AbstractViewModelControllerTests, SetRootItemThenAnotherItemFromDifferentModel)
+{
+  ApplicationModel model1;
+  ApplicationModel model2;
+
+  auto item = model2.InsertItem<SessionItem>();
+  mock_controller_t controller;
+
+  EXPECT_EQ(controller.GetModel(), nullptr);
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+
+  EXPECT_CALL(controller, OnSubscribeImpl(&model1)).Times(1);
+  EXPECT_CALL(controller, OnSetRootItemImpl(model1.GetRootItem())).Times(1);
+  controller.SetRootItem(model1.GetRootItem());
+
+  EXPECT_EQ(controller.GetModel(), &model1);
+  EXPECT_EQ(controller.GetRootItem(), model1.GetRootItem());
+
+  // setting another item from different model shouldn trigger corresponding unsubscribe/subscribe
+  // calls
+  EXPECT_CALL(controller, UnsubscribeImpl()).Times(1);
+  EXPECT_CALL(controller, OnSubscribeImpl(&model2)).Times(1);
+  EXPECT_CALL(controller, OnSetRootItemImpl(item)).Times(1);
+  controller.SetRootItem(item);
+
+  EXPECT_EQ(controller.GetModel(), &model2);
+  EXPECT_EQ(controller.GetRootItem(), item);
 }
 
 //! Controller subscription.

@@ -81,6 +81,7 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
 
   if (root_item->GetModel() != GetModel())
   {
+    Unsubscribe();
     Subscribe(root_item->GetModel());
   }
 
@@ -133,8 +134,11 @@ void AbstractViewModelController::SubscribeImpl(SessionModelInterface *model)
 
 void AbstractViewModelController::Unsubscribe()
 {
-  UnsubscribeImpl();
-  m_listener.reset();
+  if (m_listener)
+  {
+    UnsubscribeImpl();
+    m_listener.reset();
+  }
 }
 
 void AbstractViewModelController::UnsubscribeImpl() {}
