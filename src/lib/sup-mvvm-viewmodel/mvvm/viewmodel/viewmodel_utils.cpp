@@ -103,6 +103,16 @@ QVariant ToolTipRole(const SessionItem& item)
                                           : QVariant();
 }
 
+SessionItem* ItemFromIndex(const QModelIndex& index)
+{
+  if (auto model = dynamic_cast<const ViewModel*>(index.model()); model)
+  {
+    return const_cast<SessionItem*>(model->GetSessionItemFromIndex(index));
+  }
+
+  return nullptr;
+}
+
 std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list)
 {
   if (index_list.empty())

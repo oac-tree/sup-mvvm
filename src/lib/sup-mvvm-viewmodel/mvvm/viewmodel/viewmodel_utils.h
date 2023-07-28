@@ -90,6 +90,9 @@ MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
 //! Returns tooltip role for given item.
 MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
 
+//! Returns underlying SessionItem's for given index.
+MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromIndex(const QModelIndex& index);
+
 //! Returns vector of underlying SessionItem's for given index list.
 MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
 

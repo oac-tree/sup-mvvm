@@ -23,6 +23,7 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
 
@@ -152,11 +153,28 @@ TEST_F(ViewModelUtilsTests, ItemToolTipRole)
   EXPECT_EQ(utils::ToolTipRole(item).toString(), QString("abc"));
 }
 
+//! Check ItemFromIndex.
+
+TEST_F(ViewModelUtilsTests, ItemFromIndex)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
+  AllItemsViewModel view_model(&model);
+
+  // Difference from ViewModel::GetSessionItemFromIndex, which returns root item.
+  EXPECT_EQ(utils::ItemFromIndex(QModelIndex()), nullptr);
+
+  auto parent_index = view_model.index(0, 0);
+  EXPECT_EQ(utils::ItemFromIndex(parent_index), parent);
+  EXPECT_EQ(utils::ItemFromIndex(view_model.index(0, 0, parent_index)),
+            parent->GetItem(VectorItem::kX));
+}
+
 //! Check ItemsFromIndex in PropertyTableViewModel context.
 //! ViewItem with its three property x, y, z forms one row. All corresponding
 //! indices of (x,y,z) should give us pointers to VectorItem's properties.
 
-TEST_F(ViewModelUtilsTests, itemsFromIndex)
+TEST_F(ViewModelUtilsTests, ItemsFromIndex)
 {
   // creating VectorItem and viewModel to see it as a table
   ApplicationModel model;
@@ -186,7 +204,7 @@ TEST_F(ViewModelUtilsTests, itemsFromIndex)
 //! ViewItem with its three property x, y, z forms one row. All corresponding
 //! indices of (x,y,z) should give us pointer to VectorItem.
 
-TEST_F(ViewModelUtilsTests, parentItemsFromIndex)
+TEST_F(ViewModelUtilsTests, ParentItemsFromIndex)
 {
   // creating VectorItem and viewModel to see it as a table
   ApplicationModel model;
