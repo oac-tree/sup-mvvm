@@ -147,9 +147,11 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
 {
+  using ::mvvm::utils::CanMoveItem;
   using ::mvvm::utils::ValidateItemMove;
 
   // invalid items
+  EXPECT_FALSE(CanMoveItem(nullptr, nullptr, TagIndex()).first);
   EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   // item without model

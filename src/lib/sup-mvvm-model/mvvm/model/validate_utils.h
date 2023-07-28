@@ -20,9 +20,11 @@
 #ifndef MVVM_MODEL_VALIDATE_UTILS_H_
 #define MVVM_MODEL_VALIDATE_UTILS_H_
 
-//! @file
-//! Collection of utility function to check if certain operations on the model are valid.
-//! Used to report errors via exception mechanism in an extendable way.
+/**
+ * Collection of utility function to check if certain operations on the model are valid.
+ */
+
+#include <string>
 
 namespace mvvm
 {
@@ -41,7 +43,17 @@ TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_
 void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
                         const TagIndex& tag_index);
 
-//! Perform validation if item move is allowed. Will throw InvalidMoveException otherwise.
+/**
+ * @brief Perform validation if item move is allowed.
+ *
+ * @return Success flag, and the reason if moving is not possible.
+ */
+std::pair<bool, std::string> CanMoveItem(const SessionItem* item, const SessionItem* new_parent,
+                                         const TagIndex& tag_index);
+
+/**
+ * @brief Perform validation if item move is allowed. Will throw InvalidMoveException otherwise.
+ */
 void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
                       const TagIndex& tag_index);
 

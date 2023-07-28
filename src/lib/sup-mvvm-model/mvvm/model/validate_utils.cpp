@@ -23,6 +23,12 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/tagindex.h>
 
+namespace
+{
+const bool kSuccess = true;
+const bool kFailure = false;
+}  // namespace
+
 namespace mvvm::utils
 {
 
@@ -80,44 +86,55 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
   }
 }
 
-void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
-                      const TagIndex &tag_index)
+std::pair<bool, std::string> CanMoveItem(const SessionItem *item, const SessionItem *new_parent,
+                                         const TagIndex &tag_index)
 {
   if (!item || !item->GetModel() || !item->GetParent())
   {
-    throw InvalidOperationException("Invalid input item");
+    return {kFailure, "Invalid input item"};
   }
 
   if (!new_parent || !new_parent->GetModel())
   {
-    throw InvalidOperationException("Invalid parent item");
+    return {kFailure, "Invalid parent item"};
   }
 
   if (item->GetModel() != new_parent->GetModel())
   {
-    throw InvalidOperationException("Items belong to different models");
+    return {kFailure, "Items belong to different models"};
   }
 
   auto current_parent = item->GetParent();
   if (!current_parent->GetTaggedItems()->CanTakeItem(item->GetTagIndex()))
   {
-    throw InvalidOperationException("Can't take item from parent");
+    return {kFailure, "Can't take item from parent"};
   }
 
   if (!new_parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    throw InvalidOperationException(
-        "Can't insert item to a new parent. It doesn't allow more children of this type.");
+    return {kFailure,
+            "Can't insert item to a new parent. It doesn't allow more children of this type"};
   }
 
   if (item == new_parent)
   {
-    throw InvalidOperationException("Attempt to insert an item to itself");
+    return {kFailure, "Attempt to insert an item to itself"};
   }
 
   if (utils::IsItemAncestor(new_parent, item))
   {
-    throw InvalidOperationException("Attempt to make ancestor a child");
+    return {kFailure, "Attempt to make ancestor a child"};
+  }
+
+  return {kSuccess, ""};
+}
+
+void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
+                      const TagIndex &tag_index)
+{
+  if (auto [flag, reason] = CanMoveItem(item, new_parent, tag_index); !flag)
+  {
+    throw InvalidOperationException(reason);
   }
 }
 
