@@ -55,9 +55,13 @@ public:
 
   const SessionItem* GetSessionItemFromIndex(const QModelIndex& index) const;
 
-  ViewItem* GetViewItemFromIndex(const QModelIndex& index) const;
+  SessionItem* GetSessionItemFromIndex(const QModelIndex& index);
 
-  std::vector<ViewItem*> FindViews(const mvvm::SessionItem* item) const;
+  const ViewItem* GetViewItemFromIndex(const QModelIndex& index) const;
+
+  ViewItem* GetViewItemFromIndex(const QModelIndex& index);
+
+  std::vector<const ViewItem*> FindViews(const mvvm::SessionItem* item) const;
 
   QModelIndexList GetIndexOfSessionItem(const SessionItem* item) const;
 

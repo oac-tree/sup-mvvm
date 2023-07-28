@@ -73,7 +73,7 @@ TEST_F(ViewModelTests, InitialState)
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
 
   SessionItem item;
-  EXPECT_EQ(view_model.FindViews(&item), std::vector<ViewItem *>());
+  EXPECT_EQ(view_model.FindViews(&item), std::vector<const ViewItem *>());
   EXPECT_EQ(view_model.GetIndexOfSessionItem(&item), QModelIndexList());
 }
 
@@ -100,10 +100,10 @@ TEST_F(ViewModelTests, FindViews)
 {
   TestViewModel view_model(&m_model);
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()),
-            std::vector<ViewItem *>({view_model.rootItem()}));
+            std::vector<const ViewItem *>({view_model.rootItem()}));
 
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem({"", 0})),
-            std::vector<ViewItem *>(
+            std::vector<const ViewItem *>(
                 {view_model.rootItem()->child(0, 0), view_model.rootItem()->child(0, 1)}));
 }
 

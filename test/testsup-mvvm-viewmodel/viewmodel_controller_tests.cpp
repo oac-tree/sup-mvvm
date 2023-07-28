@@ -66,7 +66,7 @@ public:
     return utils::GetItemFromView<SessionItem>(m_viewmodel.itemFromIndex(index));
   }
 
-  std::vector<mvvm::ViewItem*> FindViews(SessionItem* item)
+  std::vector<const mvvm::ViewItem*> FindViews(const SessionItem* item)
   {
     return utils::FindViewsForItem<SessionItem>(&m_viewmodel, item);
   }
@@ -91,7 +91,7 @@ TEST_F(ViewModelControllerTests, InitialState)
             m_model.GetRootItem());
 
   EXPECT_EQ(mvvm::utils::FindViewsForItem(&m_viewmodel, m_model.GetRootItem()),
-            std::vector<mvvm::ViewItem*>({m_viewmodel.rootItem()}));
+            std::vector<const mvvm::ViewItem*>({m_viewmodel.rootItem()}));
 }
 
 //! Attempt to initialize controller with wrong initial parameters.
@@ -149,7 +149,7 @@ TEST_F(ViewModelControllerTests, ModelWithSingleItem)
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
   // Finding view from item
-  EXPECT_EQ(FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+  EXPECT_EQ(FindViews(item), std::vector<const ViewItem*>({view_item_label, view_item_data}));
 }
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
@@ -264,7 +264,7 @@ TEST_F(ViewModelControllerTests, InsertIntoEmptyModel)
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
   // Finding view from instruction
-  EXPECT_EQ(FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+  EXPECT_EQ(FindViews(item), std::vector<const ViewItem*>({view_item_label, view_item_data}));
 }
 
 //! Insert three property items in a model, inserted after controller was setup.

@@ -84,14 +84,25 @@ const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) 
                          : GetRootSessionItem();
 }
 
-ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
+SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index)
+{
+  return const_cast<SessionItem*>(
+      static_cast<const ViewModel*>(this)->GetSessionItemFromIndex(index));
+}
+
+const ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
 {
   return itemFromIndex(index);
 }
 
+ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index)
+{
+  return const_cast<ViewItem*>(static_cast<const ViewModel*>(this)->GetViewItemFromIndex(index));
+}
+
 //! Returns vector of all ViewItem's representing given SessionItem.
 
-std::vector<ViewItem*> ViewModel::FindViews(const SessionItem* item) const
+std::vector<const ViewItem*> ViewModel::FindViews(const SessionItem* item) const
 {
   return mvvm::utils::FindViewsForItem<SessionItem>(this, item);
 }

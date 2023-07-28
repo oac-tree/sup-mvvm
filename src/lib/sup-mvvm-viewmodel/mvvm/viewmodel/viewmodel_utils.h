@@ -49,15 +49,27 @@ const T* GetItemFromView(const ViewItem* view_item)
   return nullptr;
 }
 
+template <typename T = SessionItem>
+T* GetItemFromView(ViewItem* view_item)
+{
+  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->item());
+      presentation)
+  {
+    return dynamic_cast<T*>(presentation->GetItem());
+  }
+
+  return nullptr;
+}
+
 template <typename T>
-std::vector<ViewItem*> FindViewsForItem(const ViewModelBase* view_model, const T* item)
+std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, const T* item)
 {
   if (!item)
   {
     return {};
   }
 
-  std::vector<ViewItem*> result;
+  std::vector<const ViewItem*> result;
   if (item == GetItemFromView<T>(view_model->rootItem()))
   {
     result.push_back(view_model->rootItem());

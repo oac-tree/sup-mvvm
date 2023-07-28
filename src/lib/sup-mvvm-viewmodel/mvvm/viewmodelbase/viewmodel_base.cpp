@@ -114,17 +114,27 @@ bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int
 
 //! Returns a pointer to invisible root item.
 
-ViewItem* ViewModelBase::rootItem() const
+const ViewItem* ViewModelBase::rootItem() const
 {
   return p_impl->root.get();
+}
+
+ViewItem* ViewModelBase::rootItem()
+{
+  return const_cast<ViewItem*>(static_cast<const ViewModelBase*>(this)->rootItem());
 }
 
 //! Returns a pointer to the ViewItem associated with the given index.
 //! If index is invalid, returns nullptr.
 
-ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const
+ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index)
 {
-  return index.isValid() ? static_cast<ViewItem*>(index.internalPointer()) : nullptr;
+  return const_cast<ViewItem*>(static_cast<const ViewModelBase*>(this)->itemFromIndex(index));
+}
+
+const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const
+{
+  return index.isValid() ? static_cast<const ViewItem*>(index.internalPointer()) : nullptr;
 }
 
 //! Returns the QModelIndex associated with the given item.

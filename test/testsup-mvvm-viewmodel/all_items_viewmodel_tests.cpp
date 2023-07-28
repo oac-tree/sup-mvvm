@@ -122,7 +122,8 @@ TEST_F(AllItemsViewModelTests, ModelWithSingleItem)
   // Finding view from item
   auto view_item_label = viewmodel.itemFromIndex(label_index);
   auto view_item_data = viewmodel.itemFromIndex(data_index);
-  EXPECT_EQ(viewmodel.FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+  EXPECT_EQ(viewmodel.FindViews(item),
+            std::vector<const ViewItem*>({view_item_label, view_item_data}));
 
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
 }
@@ -157,7 +158,8 @@ TEST_F(AllItemsViewModelTests, FromPropertyItemWhenHidden)
   // Finding view from item
   auto view_item_label = viewmodel.itemFromIndex(label_index);
   auto view_item_data = viewmodel.itemFromIndex(data_index);
-  EXPECT_EQ(viewmodel.FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+  EXPECT_EQ(viewmodel.FindViews(item),
+            std::vector<const ViewItem*>({view_item_label, view_item_data}));
 
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
 }
@@ -239,7 +241,7 @@ TEST_F(AllItemsViewModelTests, InsertIntoEmptyModel)
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
   // Finding view from instruction
-  EXPECT_EQ(m_viewmodel.FindViews(item), std::vector<ViewItem*>({view_item_label, view_item_data}));
+  EXPECT_EQ(m_viewmodel.FindViews(item), std::vector<const ViewItem*>({view_item_label, view_item_data}));
 }
 
 //! Insert three property items in a model, inserted after controller was setup.

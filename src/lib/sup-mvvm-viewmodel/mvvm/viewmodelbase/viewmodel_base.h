@@ -54,9 +54,13 @@ public:
 
   bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 
-  ViewItem* rootItem() const;
+  const ViewItem* rootItem() const;
 
-  ViewItem* itemFromIndex(const QModelIndex& index) const;
+  ViewItem* rootItem();
+
+  ViewItem* itemFromIndex(const QModelIndex& index);
+
+  const ViewItem* itemFromIndex(const QModelIndex& index) const;
 
   QModelIndex indexFromItem(const ViewItem* item) const;
 
