@@ -64,14 +64,17 @@ TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
 {
+  using ::mvvm::utils::CanInsertItem;
   using ::mvvm::utils::ValidateItemInsert;
 
   // invalid items
+  EXPECT_FALSE(CanInsertItem(nullptr, nullptr, TagIndex()).first);
   EXPECT_THROW(ValidateItemInsert(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   // item without model
   SessionItem item;
   CompoundItem parent;
+  EXPECT_FALSE(CanInsertItem(&item, &parent, TagIndex()).first);
   EXPECT_THROW(ValidateItemInsert(&item, &parent, TagIndex()), InvalidOperationException);
 }
 
@@ -79,11 +82,13 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
 {
+  using ::mvvm::utils::CanInsertItem;
   using ::mvvm::utils::ValidateItemInsert;
 
   auto item = std::make_unique<CompoundItem>();
   item->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
+  EXPECT_FALSE(CanInsertItem(item.get(), item.get(), {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemInsert(item.get(), item.get(), {"tag1", 0}), InvalidOperationException);
 }
 
@@ -91,11 +96,13 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
 {
+  using ::mvvm::utils::CanInsertItem;
   using ::mvvm::utils::ValidateItemInsert;
 
   auto child = m_model.InsertItem<CompoundItem>();
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
+  EXPECT_FALSE(CanInsertItem(m_model.GetRootItem(), child, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemInsert(m_model.GetRootItem(), child, {"tag1", 0}),
                InvalidOperationException);
 }
@@ -104,12 +111,14 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
 {
+  using ::mvvm::utils::CanInsertItem;
   using ::mvvm::utils::ValidateItemInsert;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
 
+  EXPECT_FALSE(CanInsertItem(child, parent0, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemInsert(child, parent0, {"tag1", 0}), InvalidOperationException);
 }
 
@@ -117,6 +126,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 {
+  using ::mvvm::utils::CanInsertItem;
   using ::mvvm::utils::ValidateItemInsert;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -124,7 +134,9 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 
   CompoundItem candidate;
 
+  EXPECT_TRUE(CanInsertItem(&candidate, parent0, {"tag1", 0}).first);
   EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"tag1", 0}));
+  EXPECT_TRUE(CanInsertItem(&candidate, parent0, {"", -1}).first);
   EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}));
 }
 
@@ -132,6 +144,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 {
+  using ::mvvm::utils::CanInsertItem;
   using ::mvvm::utils::ValidateItemInsert;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -139,6 +152,7 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 
   CompoundItem candidate;
 
+  EXPECT_FALSE(CanInsertItem(&candidate, parent0, {"", -1}).first);
   EXPECT_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}), InvalidOperationException);
 }
 
@@ -157,6 +171,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
   // item without model
   SessionItem item;
   CompoundItem parent;
+  EXPECT_FALSE(CanMoveItem(&item, &parent, TagIndex()).first);
   EXPECT_THROW(ValidateItemMove(&item, &parent, TagIndex()), InvalidOperationException);
 }
 
@@ -164,18 +179,21 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
 {
+  using ::mvvm::utils::CanMoveItem;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
   parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move parent into parent
+  EXPECT_FALSE(CanMoveItem(parent0, parent0, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemMove(parent0, parent0, {"tag1", 0}), InvalidOperationException);
 
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move parent to child
+  EXPECT_FALSE(CanMoveItem(parent0, child, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemMove(parent0, child, {"tag1", 0}), InvalidOperationException);
 }
 
@@ -183,9 +201,11 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 {
+  using ::mvvm::utils::CanMoveItem;
   using ::mvvm::utils::ValidateItemMove;
 
   // invalid items
+  EXPECT_FALSE(CanMoveItem(nullptr, nullptr, TagIndex()).first);
   EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -195,7 +215,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  // item without model
+  EXPECT_TRUE(CanMoveItem(child, parent1, {"tag1", 0}).first);
   EXPECT_NO_THROW(ValidateItemMove(child, parent1, {"tag1", 0}));
 }
 
@@ -203,6 +223,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
 {
+  using ::mvvm::utils::CanMoveItem;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -212,6 +233,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // it is not allowed to take property item
+  EXPECT_FALSE(CanMoveItem(property, parent1, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemMove(property, parent1, {"tag1", 0}), InvalidOperationException);
 }
 
@@ -219,6 +241,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
 {
+  using ::mvvm::utils::CanMoveItem;
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
@@ -229,6 +252,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   auto property = parent1->AddProperty("thickness", 42);
 
   // invalid move of property item
+  EXPECT_FALSE(CanMoveItem(child, parent1, {"thickness", 0}).first);
   EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidOperationException);
 }
 
@@ -236,9 +260,11 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)
 {
+  using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
   SessionItem item;
 
+  EXPECT_FALSE(CanTakeItem(&m_model, nullptr, {}).first);
   EXPECT_THROW(ValidateTakeItem(&m_model, nullptr, {}), InvalidOperationException);
 }
 
@@ -246,9 +272,11 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenModelIsNotDefined)
 {
+  using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
   auto parent = m_model.InsertItem<CompoundItem>();
 
+  EXPECT_FALSE(CanTakeItem(nullptr, parent, {}).first);
   EXPECT_THROW(ValidateTakeItem(nullptr, parent, {}), InvalidOperationException);
 }
 
@@ -256,10 +284,12 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenModelIsNotDefined)
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentDoesntBelongToModel)
 {
+  using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
 
   SessionItem parent;
 
+  EXPECT_FALSE(CanTakeItem(nullptr, &parent, {}).first);
   EXPECT_THROW(ValidateTakeItem(nullptr, &parent, {}), InvalidOperationException);
 }
 
@@ -267,11 +297,13 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentDoesntBelongToModel)
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
 {
+  using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
 
   auto parent = m_model.InsertItem<CompoundItem>();
   auto property = parent->AddProperty("thickness", 42);
 
+  EXPECT_FALSE(CanTakeItem(&m_model, parent, {"thickness", 0}).first);
   EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"thickness", 0}), InvalidOperationException);
 }
 
@@ -279,12 +311,14 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
 {
+  using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
 
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
 
+  EXPECT_FALSE(CanTakeItem(&m_model, parent, {"tag1", 1}).first);
   EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"tag1", 1}), InvalidOperationException);
 }
 
@@ -292,11 +326,13 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
 {
+  using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
 
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
 
+  EXPECT_TRUE(CanTakeItem(&m_model, parent, {"tag1", 0}).first);
   EXPECT_NO_THROW(ValidateTakeItem(&m_model, parent, {"tag1", 0}));
 }

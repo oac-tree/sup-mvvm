@@ -36,10 +36,22 @@ class TagIndex;
 namespace mvvm::utils
 {
 
-//! Converts TagIndex::Append() into actual TagIndex.
+/**
+ * @brief Converts TagIndex::Append() into actual TagIndex.
+ */
 TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
 
-//! Perform validation if item insert is allowed. Will throw InvalidInsertException otherwise.
+/**
+ * @brief Perform validation if item insert is allowed.
+ *
+ * @return Success flag, and the reason if insert is not possible.
+ */
+std::pair<bool, std::string> CanInsertItem(const SessionItem* item, const SessionItem* parent,
+                                           const TagIndex& tag_index);
+
+/**
+ * @brief Perform validation if item insert is allowed. Will throw InvalidInsertException otherwise.
+ */
 void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
                         const TagIndex& tag_index);
 
@@ -57,7 +69,18 @@ std::pair<bool, std::string> CanMoveItem(const SessionItem* item, const SessionI
 void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
                       const TagIndex& tag_index);
 
-//! Perform validation if item take is allowed. Will throw InvalidOperationException otherwise.
+/**
+ * @brief Perform validation if item take is allowed.
+ *
+ * @return Success flag, and the reason if take is not possible.
+ */
+std::pair<bool, std::string> CanTakeItem(const SessionModelInterface* model,
+                                         const SessionItem* parent, const TagIndex& tag_index);
+
+/**
+ * @brief Perform validation if item take is allowed. Will throw InvalidOperationException
+ * otherwise.
+ */
 void ValidateTakeItem(const SessionModelInterface* model, const SessionItem* parent,
                       const TagIndex& tag_index);
 

@@ -52,37 +52,48 @@ TagIndex GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_
   return {TagIndex{actual_tag, actual_index}};
 }
 
-void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
-                        const TagIndex &tag_index)
+std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const SessionItem *parent,
+                                           const TagIndex &tag_index)
 {
   if (!item)
   {
-    throw InvalidOperationException("Invalid input item");
+    return {kFailure, "Invalid input item"};
   }
 
   if (item == parent)
   {
-    throw InvalidOperationException("Attempt to insert to itself");
+    return {kFailure, "Attempt to insert to itself"};
   }
 
   if (item->GetParent())
   {
-    throw InvalidOperationException("Item belongs to another parent");
+    return {kFailure, "Item belongs to another parent"};
   }
 
   if (!parent)
   {
-    throw InvalidOperationException("Invalid parent item");
+    return {kFailure, "Invalid parent item"};
   }
 
   if (utils::IsItemAncestor(parent, item))
   {
-    throw InvalidOperationException("Attempt to turn ancestor into a child");
+    return {kFailure, "Attempt to turn ancestor into a child"};
   }
 
   if (!parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    throw InvalidOperationException("Can't insert item to parent");
+    return {kFailure, "Can't insert item to parent"};
+  }
+
+  return {kSuccess, ""};
+}
+
+void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
+                        const TagIndex &tag_index)
+{
+  if (auto [flag, reason] = CanInsertItem(item, parent, tag_index); !flag)
+  {
+    throw InvalidOperationException(reason);
   }
 }
 
@@ -138,27 +149,38 @@ void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
   }
 }
 
-void ValidateTakeItem(const SessionModelInterface *model, const SessionItem *parent,
-                      const TagIndex &tag_index)
+std::pair<bool, std::string> CanTakeItem(const SessionModelInterface *model,
+                                         const SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
   {
-    throw InvalidOperationException("Parent is not defined");
+    return {kFailure, "Parent is not defined"};
   }
 
   if (!model)
   {
-    throw InvalidOperationException("Model is not defined");
+    return {kFailure, "Model is not defined"};
   }
 
   if (parent->GetModel() != model)
   {
-    throw InvalidOperationException("Parent doesn't belong to given model");
+    return {kFailure, "Parent doesn't belong to given model"};
   }
 
   if (!parent->GetTaggedItems()->CanTakeItem(tag_index))
   {
-    throw InvalidOperationException("Can't take item from parent");
+    return {kFailure, "Can't take item from parent"};
+  }
+
+  return {kSuccess, ""};
+}
+
+void ValidateTakeItem(const SessionModelInterface *model, const SessionItem *parent,
+                      const TagIndex &tag_index)
+{
+  if (auto [flag, reason] = CanTakeItem(model, parent, tag_index); !flag)
+  {
+    throw InvalidOperationException(reason);
   }
 }
 
