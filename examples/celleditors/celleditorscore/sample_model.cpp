@@ -21,6 +21,8 @@
 
 #include <mvvm/standarditems/editor_constants.h>
 
+#include <QtCore>
+
 namespace
 {
 const std::string kBool = "kBool";
@@ -32,6 +34,7 @@ const std::string kCombo = "kCombo";
 const std::string kSelectableCombo = "kSelectableCombo";
 const std::string kExternal = "kExternal";
 const std::string kScientificDouble = "kScientificDouble";
+const std::string kLongInteger = "kLongInteger";
 }  // namespace
 
 namespace celleditors
@@ -46,6 +49,9 @@ DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
   AddProperty(kScientificDouble, 42.12e-09)
       ->SetDisplayName("Scientific")
       ->SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
+  AddProperty(kLongInteger, INT64_C(4294967296)) /* UINT32_MAX + 1 */
+      ->SetDisplayName("Long Integer")
+      ->SetEditorType(mvvm::constants::kLongIntSpinBoxEditorType);
   AddProperty(kColor, "green")
       ->SetDisplayName("Color")
       ->SetEditorType(mvvm::constants::kColorEditorType);
