@@ -103,6 +103,24 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
   return builder;
 }
 
+editorbuilder_t LongIntSpinBoxEditorBuilder()
+{
+  auto builder = [](const SessionItem* item) -> editor_t
+  {
+    auto editor = std::make_unique<LongIntSpinBoxEditor>();
+    if (item)
+    {
+      if (item->HasData(DataRole::kLimits))
+      {
+        auto limits = item->Data<Limits<long long>>(DataRole::kLimits);
+        editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+      }
+    }
+    return editor;
+  };
+  return builder;
+}
+
 editorbuilder_t IntegerEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t
