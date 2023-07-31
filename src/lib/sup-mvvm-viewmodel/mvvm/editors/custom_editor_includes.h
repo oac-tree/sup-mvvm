@@ -28,6 +28,7 @@
 #include <mvvm/editors/combo_property_editor.h>
 #include <mvvm/editors/external_property_editor.h>
 #include <mvvm/editors/scientific_spinbox_editor.h>
+#include <mvvm/editors/longint_spinbox_editor.h>
 #include <mvvm/editors/selectable_combobox_editor.h>
 
 #endif  // MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_

@@ -19,6 +19,8 @@ target_sources(${library_name} PRIVATE
   editor_types_fwd.h
   external_property_editor.cpp
   external_property_editor.h
+  longint_spinbox_editor.cpp
+  longint_spinbox_editor.h
   longint_spinbox.cpp
   longint_spinbox.h
   scientific_spinbox.cpp
