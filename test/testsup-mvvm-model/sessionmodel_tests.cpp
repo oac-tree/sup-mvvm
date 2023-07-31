@@ -488,6 +488,18 @@ TEST_F(SessionModelTest, MoveItemRootContextLast2)
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
 
+TEST_F(SessionModelTest, MoveItemRootContextLast3)
+{
+  SessionModel model;
+  auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());  // 0
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());  // 1
+  auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());  // 2
+  auto item3 = model.InsertItem<SessionItem>(model.GetRootItem());  // 3
+
+  // attempt to move item too far back
+  EXPECT_THROW(model.MoveItem(item0, model.GetRootItem(), {"", 4}), InvalidOperationException);
+}
+
 TEST_F(SessionModelTest, MoveItemFromRootToParent)
 {
   SessionModel model;

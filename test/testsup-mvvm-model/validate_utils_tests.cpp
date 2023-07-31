@@ -256,6 +256,26 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidOperationException);
 }
 
+//! Check ValidateItemMove when trying to move item into property tag of another item.
+
+TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
+{
+  using ::mvvm::utils::CanMoveItem;
+  using ::mvvm::utils::ValidateItemMove;
+
+  auto item0 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 0
+  auto item1 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 1
+  auto item2 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 2
+  auto item3 = m_model.InsertItem<SessionItem>(m_model.GetRootItem());  // 3
+
+  EXPECT_TRUE(CanMoveItem(item0, m_model.GetRootItem(), {"", 3}).first);
+  EXPECT_NO_THROW(ValidateItemMove(item0, m_model.GetRootItem(), {"", 3}));
+
+  // invalid move of item too far back
+  EXPECT_FALSE(CanMoveItem(item0, m_model.GetRootItem(), {"", 4}).first);
+  EXPECT_THROW(ValidateItemMove(item0, m_model.GetRootItem(), {"", 4}), InvalidOperationException);
+}
+
 //! Check ValidateTakeItem when parent is not defined.
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)

@@ -108,7 +108,12 @@ bool SessionItemContainer::CanTakeItem(int index) const
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
-  const bool valid_index = (index >= 0 && index <= GetItemCount());
+  // if item belongs to this container already, a request to insert an item will
+  // be prepended by item removal. Should adjust max number of items accordingly.
+
+  const int max_item_count = IndexOfItem(item) >= 0 ? GetItemCount() - 1 : GetItemCount();
+
+  const bool valid_index = (index >= 0 && index <= max_item_count);
   const bool enough_place = !IsMaximumReached();
   const bool valid_type = item && m_tag_info.IsValidType(item->GetType());
   return valid_index && enough_place && valid_type;
