@@ -79,6 +79,8 @@ private:
   qint64 m_minimum;
   qint64 m_maximum;
   qint64 m_step_value;
+
+  QAbstractSpinBox::StepEnabled m_step_enabled;
 };
 
 }  // namespace mvvm

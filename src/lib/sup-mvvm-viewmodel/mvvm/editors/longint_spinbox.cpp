@@ -21,11 +21,9 @@
 
 #include <mvvm/standarditems/editor_constants.h>
 
-#include <QByteArray>
+#include <QEvent>
 #include <QLineEdit>
 #include <QLocale>
-#include <QValidator>
-#include <cmath>
 #include <limits>
 
 namespace mvvm
@@ -37,6 +35,7 @@ LongIntSpinBox::LongIntSpinBox(QWidget *parent)
     , m_minimum{std::numeric_limits<qint64>::min()}
     , m_maximum{std::numeric_limits<qint64>::max()}
     , m_step_value{INT64_C(1)}
+    , m_step_enabled{stepEnabled()}
 {
   // Modify locale to omit group separators
   auto current_locale{locale()};
@@ -45,7 +44,7 @@ LongIntSpinBox::LongIntSpinBox(QWidget *parent)
 
   // Propagate editor value to internal value
   connect(this, &QAbstractSpinBox::editingFinished, this, &LongIntSpinBox::updateValue);
-  // Propagate value changes to editor
+  // Propagate value changes to editor and handle step enabled states
   connect(this, &LongIntSpinBox::valueChanged, this, &LongIntSpinBox::updateEdit);
 }
 
@@ -214,6 +213,26 @@ void LongIntSpinBox::updateEdit()
   if (value_text != text())
   {
     lineEdit()->setText(value_text);
+  }
+
+  // Handle StepEnabled state
+  const auto step_enabled = stepEnabled();
+  if (step_enabled != m_step_enabled)
+  {
+    m_step_enabled = step_enabled;
+
+    // Workaround to update and propagate StepEnabled state in AbstractSpinBox.
+    //
+    // Normally, AbstractSpinBox internally manages StepEnabled updates. However, in this
+    // implementation, we are not implementing/calling the necessary methods to do so properly. As
+    // AbstractSpinBox keeps the relevant members private, we work around this issue by triggering a
+    // StyleChange event. This causes AbstractSpinBox to call methods that handle StepEnabled
+    // updates for us, such as QAbstractSpinBoxPrivate::updateEdit.
+    QEvent style_change_event(QEvent::StyleChange);
+    changeEvent(&style_change_event);
+
+    // After handling the required state changes, trigger an update to ensure proper visual updates.
+    update();
   }
 }
 
