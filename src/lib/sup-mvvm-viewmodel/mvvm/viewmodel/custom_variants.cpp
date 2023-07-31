@@ -72,6 +72,11 @@ bool IsDoubleVariant(const QVariant& variant)
 #endif
 }
 
+bool IsLongIntVariant(const QVariant& variant)
+{
+  return variant.typeName() == constants::kLongIntQtTypeName;
+}
+
 bool IsStdStringVariant(const QVariant& variant)
 {
   return variant.typeName() == constants::kStdStringQtTypeName;
@@ -100,6 +105,11 @@ bool IsIntLimitsVariant(const QVariant& variant)
 bool IsRealLimitsVariant(const QVariant& variant)
 {
   return variant.typeName() == constants::kRealLimitsPropertyQtTypeName;
+}
+
+bool IsLongIntLimitsVariant(const QVariant& variant)
+{
+  return variant.typeName() == constants::kLongIntLimitsPropertyQtTypeName;
 }
 
 }  // namespace mvvm::utils

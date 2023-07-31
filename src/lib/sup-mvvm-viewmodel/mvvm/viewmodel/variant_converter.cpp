@@ -40,6 +40,8 @@ std::map<std::string, converter_func_t> CreateConverterMap()
        [](const QVariant& variant) { return variant_t(variant.toInt()); }},
       {mvvm::constants::kDoubleQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toDouble()); }},
+      {mvvm::constants::kLongIntQtTypeName,
+       [](const QVariant& variant) { return variant_t(variant.value<long long>()); }},
       {mvvm::constants::kStringQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.toString().toStdString()); }},
       {mvvm::constants::kStdVectorDoubleQtTypeName,
@@ -51,7 +53,10 @@ std::map<std::string, converter_func_t> CreateConverterMap()
       {mvvm::constants::kIntLimitsPropertyQtTypeName,
        [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<int>>()); }},
       {mvvm::constants::kRealLimitsPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<double>>()); }}};
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<double>>()); }},
+      {mvvm::constants::kLongIntLimitsPropertyQtTypeName,
+       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<long long>>()); }},
+  };
   return result;
 };
 
