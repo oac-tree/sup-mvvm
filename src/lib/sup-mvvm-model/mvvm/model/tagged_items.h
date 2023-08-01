@@ -88,9 +88,11 @@ public:
 
   std::unique_ptr<TaggedItems> Clone(bool make_unique_id) const;
 
-private:
   SessionItemContainer* GetContainer(const std::string& tag_name) const;
+
   SessionItemContainer* FindContainer(const std::string& tag_name) const;
+
+private:
 
   container_t m_containers;
   std::string m_default_tag;

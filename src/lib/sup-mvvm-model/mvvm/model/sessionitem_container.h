@@ -73,9 +73,11 @@ public:
 
   std::unique_ptr<SessionItemContainer> Clone(bool make_unique_id) const;
 
-private:
   bool IsMaximumReached() const;
+
   bool IsMinimumReached() const;
+
+private:
 
   TagInfo m_tag_info;
   container_t m_items;
