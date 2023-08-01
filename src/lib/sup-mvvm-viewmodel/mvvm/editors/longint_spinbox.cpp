@@ -31,10 +31,10 @@ namespace mvvm
 
 LongIntSpinBox::LongIntSpinBox(QWidget *parent)
     : QAbstractSpinBox(parent)
-    , m_value{INT64_C(0)}
+    , m_value{0}
     , m_minimum{std::numeric_limits<qint64>::min()}
     , m_maximum{std::numeric_limits<qint64>::max()}
-    , m_step_value{INT64_C(1)}
+    , m_step_value{1}
     , m_step_enabled{stepEnabled()}
 {
   // Modify locale to omit group separators
@@ -75,7 +75,7 @@ qint64 LongIntSpinBox::singleStep() const
 
 void LongIntSpinBox::setSingleStep(const qint64 step_value)
 {
-  if (step_value >= INT64_C(0))
+  if (step_value >= 0LL)
   {
     m_step_value = step_value;
   }
@@ -168,7 +168,7 @@ qint64 LongIntSpinBox::valueFromText(const QString &text) const
 {
   bool conversion_ok;
   const qint64 converted_value = locale().toLongLong(text, &conversion_ok);
-  return conversion_ok ? converted_value : INT64_C(0);
+  return conversion_ok ? converted_value : 0LL;
 }
 
 QString LongIntSpinBox::textFromValue(const qint64 value) const
