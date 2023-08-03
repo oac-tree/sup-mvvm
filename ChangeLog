@@ -1,3 +1,13 @@
+Changes for 1.1.0:
+
+- COA Release v1.9, August 2023
+- Prevent zero column count on empty models
+- Do not set display name by default
+- Refactor view model to allow the usage with different models
+- Implement editor for long long integer
+- Make consistent constantness of ViewModel getters
+- Implement functions CanInsert and CanMove
+
 Changes for 1.0.0:
 
 - Introduced new event machinery
