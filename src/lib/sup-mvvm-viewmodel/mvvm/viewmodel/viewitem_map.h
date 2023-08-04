@@ -37,12 +37,19 @@ class MVVM_VIEWMODEL_EXPORT ViewItemMap
 public:
   ViewItemMap();
 
+  /**
+   * @brief Insert item and its corresponding view to the database.
+   */
   void Insert(const SessionItem* item, ViewItem* view_item);
 
-  void Update(const SessionItem* item, ViewItem* view_item);
-
+  /**
+   * @brief Find view for given item.
+   */
   ViewItem* FindView(const SessionItem* item);
 
+  /**
+   * @brief Removes view corresponding to given item.
+   */
   void Remove(const SessionItem* item);
 
   /**
@@ -50,8 +57,14 @@ public:
    */
   void OnItemRemove(const SessionItem* item);
 
+  /**
+   * @brief Clear the whole map.
+   */
   void Clear();
 
+  /**
+   * @brief Returns number of entries in a map.
+   */
   int GetSize() const;
 
 private:

@@ -27,8 +27,6 @@ namespace mvvm
 {
 ViewItemMap::ViewItemMap() = default;
 
-//! Save instruction and its corresponding view.
-
 void ViewItemMap::Insert(const SessionItem *item, ViewItem *view_item)
 {
   auto it = m_item_to_view.find(item);
@@ -39,22 +37,11 @@ void ViewItemMap::Insert(const SessionItem *item, ViewItem *view_item)
   m_item_to_view.insert(it, {item, view_item});
 }
 
-//! Update the instruction for view.
-
-void ViewItemMap::Update(const SessionItem *item, ViewItem *view_item)
-{
-  m_item_to_view.insert_or_assign(item, view_item);
-}
-
-//! Find view for given item.
-
 ViewItem *ViewItemMap::FindView(const SessionItem *item)
 {
   auto it = m_item_to_view.find(item);
   return it == m_item_to_view.end() ? nullptr : it->second;
 }
-
-//! Removes views corresponding to given instruction.
 
 void ViewItemMap::Remove(const SessionItem *item)
 {

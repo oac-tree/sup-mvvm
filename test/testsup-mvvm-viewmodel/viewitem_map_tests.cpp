@@ -77,20 +77,6 @@ TEST_F(ViewItemMapTests, InsertThenRemove)
   EXPECT_FALSE(map.FindView(&item));
 }
 
-TEST_F(ViewItemMapTests, Update)
-{
-  ViewItemMap map;
-  SessionItem item;
-  ViewItem view1;
-  ViewItem view2;
-
-  map.Update(&item, &view1);
-  EXPECT_EQ(map.FindView(&item), &view1);
-
-  map.Update(&item, &view2);
-  EXPECT_EQ(map.FindView(&item), &view2);
-}
-
 //! Validating method
 
 TEST_F(ViewItemMapTests, OnItemRemove)
