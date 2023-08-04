@@ -27,44 +27,63 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/utils/container_utils.h>
 
-#include <iterator>
+#include <stack>
 
 namespace mvvm::utils
 {
+
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
 {
-  if (item)
-  {
-    fun(item);
-  }
-  else
+  if (!item)
   {
     return;
   }
 
-  for (auto child : item->GetAllItems())
+  std::stack<SessionItem*> stack;
+  stack.push(item);
+
+  while (!stack.empty())
   {
-    iterate(child, fun);
+    auto top_item = stack.top();
+    fun(top_item);
+
+    stack.pop();
+
+    auto children = top_item->GetAllItems();
+    // push in reverse order to provide correct child order processing
+    for (auto it = children.rbegin(); it != children.rend(); ++it)
+    {
+      stack.push(*it);
+    }
   }
 }
 
 void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
 {
-  bool proceed_with_children(true);
-
-  if (item)
-  {
-    proceed_with_children = fun(item);
-  }
-
-  if (!item || !proceed_with_children)
+  if (!item)
   {
     return;
   }
 
-  for (auto child : item->GetAllItems())
+  std::stack<const SessionItem*> stack;
+  stack.push(item);
+
+  while (!stack.empty())
   {
-    iterate_if(child, fun);
+    auto top_item = stack.top();
+    if (!fun(top_item))
+    {
+      break;
+    }
+
+    stack.pop();
+
+    auto children = top_item->GetAllItems();
+    // push in reverse order to provide correct child order processing
+    for (auto it = children.rbegin(); it != children.rend(); ++it)
+    {
+      stack.push(*it);
+    }
   }
 }
 
