@@ -80,7 +80,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   if (auto view = m_view_item_map.FindView(item_to_remove); view)
   {
     m_view_model->removeRow(view->parent(), view->row());
-    m_view_item_map.Remove(item_to_remove);
+    m_view_item_map.OnItemRemove(item_to_remove);
   }
 }
 
@@ -222,7 +222,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
     auto *current_parent_view = stack.top().view_item;
     stack.pop();
 
-    m_view_item_map.Update(current_parent, current_parent_view);
+    m_view_item_map.Insert(current_parent, current_parent_view);
 
     auto children = m_children_strategy->GetChildren(current_parent);
 
