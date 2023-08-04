@@ -19,6 +19,7 @@
 
 #include "mvvm/widgets/item_view_component_provider.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/vector_item.h>
@@ -44,6 +45,10 @@ public:
 TEST_F(ItemViewComponentProviderTests, InitialState)
 {
   QTreeView view;
+
+  EXPECT_THROW(
+      ItemViewComponentProvider(std::make_unique<mvvm::AllItemsViewModel>(nullptr), nullptr),
+      RuntimeException);
 
   ItemViewComponentProvider provider(std::make_unique<mvvm::AllItemsViewModel>(nullptr), &view);
 

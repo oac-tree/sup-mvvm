@@ -37,6 +37,11 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
     , m_view_model(std::move(view_model))
     , m_view(view)
 {
+  if (!view)
+  {
+    throw RuntimeException("View is not initialised");
+  }
+
   connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
           [this](auto item) { emit SelectedItemChanged(const_cast<SessionItem *>(item)); });
 
