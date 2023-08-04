@@ -19,6 +19,8 @@
 
 #include "mvvm/viewmodel/viewitem_map.h"
 
+#include <mvvm/model/item_utils.h>
+
 #include <stdexcept>
 
 namespace mvvm
@@ -65,6 +67,19 @@ void ViewItemMap::Remove(const SessionItem *item)
   {
     throw std::runtime_error("Error in ViewItemMap: not exist");
   }
+}
+
+void ViewItemMap::OnItemRemove(const SessionItem *item)
+{
+  auto on_item = [this](auto item) -> bool
+  {
+    if (auto it = m_item_to_view.find(item); it != m_item_to_view.end())
+    {
+      m_item_to_view.erase(it);
+    }
+    return true;
+  };
+  utils::iterate_if(item, on_item);
 }
 
 void ViewItemMap::Clear()

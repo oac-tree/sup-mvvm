@@ -20,6 +20,7 @@
 #include "mvvm/viewmodel/viewitem_map.h"
 
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
 #include <gtest/gtest.h>
@@ -88,4 +89,27 @@ TEST_F(ViewItemMapTests, Update)
 
   map.Update(&item, &view2);
   EXPECT_EQ(map.FindView(&item), &view2);
+}
+
+//! Validating method
+
+TEST_F(ViewItemMapTests, OnItemRemove)
+{
+  ViewItemMap map;
+  SessionItem item;
+  VectorItem vector;
+
+  ViewItem item_view;
+  ViewItem vector_view, x_view, y_view, z_view;
+
+  map.Insert(&item, &item_view);
+  map.Insert(&vector, &vector_view);
+  map.Insert(vector.GetItem(VectorItem::kX), &x_view);
+  map.Insert(vector.GetItem(VectorItem::kY), &y_view);
+  map.Insert(vector.GetItem(VectorItem::kZ), &z_view);
+
+  EXPECT_EQ(map.GetSize(), 5);
+
+  map.OnItemRemove(&vector);
+  EXPECT_EQ(map.GetSize(), 1);
 }

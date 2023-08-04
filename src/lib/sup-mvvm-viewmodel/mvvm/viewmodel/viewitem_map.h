@@ -45,6 +45,11 @@ public:
 
   void Remove(const SessionItem* item);
 
+  /**
+   * @brief Remove item, all its children and their corresponsding views from the map.
+   */
+  void OnItemRemove(const SessionItem* item);
+
   void Clear();
 
   int GetSize() const;
