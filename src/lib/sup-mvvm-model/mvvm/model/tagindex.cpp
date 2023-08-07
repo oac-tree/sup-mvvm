@@ -21,32 +21,21 @@
 
 namespace mvvm
 {
-//! Constructs new TagIndex representing next index in given tag.
-//! No validity check.
 
 TagIndex TagIndex::Next() const
 {
   return {tag, index + 1};
 }
 
-//! Constructs new TagIndex representing previous index in given tag.
-//! No validity check.
-
 TagIndex TagIndex::Prev() const
 {
   return {tag, index - 1};
 }
 
-//! Returns TagIndex corresponding to the append operation to container with tag_name.
-//! If tag_name =="" the default name will be used in SessionItemTags context.
-
 TagIndex TagIndex::Append(const std::string& tag_name)
 {
   return {tag_name, -1};
 }
-
-//! Returns TagIndex corresponding to prepending to tag_name.
-//! If tag_name =="" the default name will be used in SessionItemTags context.
 
 TagIndex TagIndex::Prepend(const std::string& tag_name)
 {
