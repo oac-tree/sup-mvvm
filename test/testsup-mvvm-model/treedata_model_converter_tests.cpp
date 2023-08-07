@@ -85,7 +85,7 @@ TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBack)
   converter.PopulateSessionModel(*tree_data, target);
 
   EXPECT_EQ(target.GetRootItem()->GetTotalItemCount(), 1);
-  auto reco_item = target.GetRootItem()->GetItem({"", 0});
+  auto reco_item = target.GetRootItem()->GetItem(TagIndex::Prepend());
   EXPECT_EQ(reco_item->GetParent(), target.GetRootItem());
   EXPECT_EQ(reco_item->GetType(), item->GetType());
   EXPECT_EQ(reco_item->GetIdentifier(), item->GetIdentifier());
@@ -115,8 +115,8 @@ TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
   converter.PopulateSessionModel(*tree_data, target);
 
   // accessing reconstructed parent and child
-  auto reco_parent = target.GetRootItem()->GetItem({"", 0});
-  auto reco_child = reco_parent->GetItem({"", 0});
+  auto reco_parent = target.GetRootItem()->GetItem(TagIndex::Prepend());
+  auto reco_child = reco_parent->GetItem(TagIndex::Prepend());
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetModel(), &target);
@@ -157,7 +157,7 @@ TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
   SessionModel target("SourceModel", CreateDefaultItemManager(pool2));
   converter.PopulateSessionModel(*tree_data, target);
 
-  auto reco_parent = target.GetRootItem()->GetItem({"", 0});
+  auto reco_parent = target.GetRootItem()->GetItem(TagIndex::Prepend());
 
   // comparing identifiers of two items from different models
   auto id1 = parent1->GetIdentifier();

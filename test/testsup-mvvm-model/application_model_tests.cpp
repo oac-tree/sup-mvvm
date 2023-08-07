@@ -156,7 +156,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
   auto item = std::make_unique<PropertyItem>();
   auto item_ptr = item.get();
 
-  auto inserted = m_model.InsertItem(std::move(item), m_model.GetRootItem(), {"", 0});
+  auto inserted = m_model.InsertItem(std::move(item), m_model.GetRootItem(), TagIndex::Prepend());
   EXPECT_EQ(item_ptr, m_model.GetRootItem()->GetAllItems()[0]);
   EXPECT_TRUE(item == nullptr);
   EXPECT_EQ(inserted, item_ptr);

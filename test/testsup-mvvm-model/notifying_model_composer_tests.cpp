@@ -80,7 +80,7 @@ TEST_F(NotifyingModelComposerTests, InsertItem)
   }
 
   // inserting child
-  auto inserted = composer->InsertItem(std::move(child), parent.get(), {"", 0});
+  auto inserted = composer->InsertItem(std::move(child), parent.get(), TagIndex::Prepend());
 
   EXPECT_EQ(inserted, p_child);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);
@@ -114,7 +114,7 @@ TEST_F(NotifyingModelComposerTests, TakeItem)
   }
 
   // taking item via composer
-  auto taken = composer->TakeItem(parent.get(), {"", 0});
+  auto taken = composer->TakeItem(parent.get(), TagIndex::Prepend());
 
   EXPECT_EQ(taken->GetParent(), nullptr);
   EXPECT_EQ(taken.get(), child);

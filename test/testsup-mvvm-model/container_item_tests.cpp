@@ -41,7 +41,7 @@ TEST_F(ContainerItemTests, InitialState)
 TEST_F(ContainerItemTests, IsEmpty)
 {
   ContainerItem item;
-  item.InsertItem<PropertyItem>({"", 0});
+  item.InsertItem<PropertyItem>(TagIndex::Prepend());
   EXPECT_FALSE(item.IsEmpty());
 }
 
@@ -49,7 +49,7 @@ TEST_F(ContainerItemTests, GetSize)
 {
   ContainerItem item;
   EXPECT_EQ(item.GetSize(), 0);
-  item.InsertItem<PropertyItem>({"", 0});
+  item.InsertItem<PropertyItem>(TagIndex::Prepend());
   EXPECT_FALSE(item.IsEmpty());
   EXPECT_EQ(item.GetSize(), 1);
 }
@@ -72,14 +72,14 @@ TEST_F(ContainerItemTests, Clone)
   EXPECT_EQ(cloned_container->GetSize(), 2);
 
   // validating first element
-  auto property_clone = cloned_container->GetItem<PropertyItem>({"", 0});
+  auto property_clone = cloned_container->GetItem<PropertyItem>(TagIndex::Default(0));
   ASSERT_NE(property_clone, nullptr);
   EXPECT_EQ(property_clone->GetToolTip(), std::string("abc"));
   EXPECT_EQ(property_clone->Data<int>(), 42);
   EXPECT_EQ(property_clone->GetParent(), cloned_container);
 
   // validating vector
-  auto vector_clone = cloned_container->GetItem<VectorItem>({"", 1});
+  auto vector_clone = cloned_container->GetItem<VectorItem>(TagIndex::Default(1));
   ASSERT_NE(vector_clone, nullptr);
   EXPECT_EQ(vector_clone->GetIdentifier(), vector->GetIdentifier());
   EXPECT_EQ(vector_clone->GetParent(), cloned_container);

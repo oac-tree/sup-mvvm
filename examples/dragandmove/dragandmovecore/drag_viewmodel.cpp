@@ -100,7 +100,8 @@ bool DragViewModel::dropMimeData(const QMimeData* data, Qt::DropAction action, i
 
     int row =
         std::clamp(requested_row, 0, item->GetParent()->GetItemCount(item->GetTagIndex().tag) - 1);
-    GetRootSessionItem()->GetModel()->MoveItem(item, GetRootSessionItem(), {"", row});
+    GetRootSessionItem()->GetModel()->MoveItem(item, GetRootSessionItem(),
+                                               mvvm::TagIndex::Default(row));
   }
 
   return false;

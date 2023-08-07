@@ -82,7 +82,7 @@ void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
   item->SetProperty("String", GetRandomName());
   item->SetProperty("Integer", mvvm::utils::RandInt(0, 10));
 
-  InsertItem(std::move(item), container, {"", -1});
+  InsertItem(std::move(item), container, mvvm::TagIndex::Append());
 }
 
 //! Generates initial model content.

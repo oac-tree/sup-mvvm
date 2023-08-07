@@ -241,7 +241,8 @@ TEST_F(AllItemsViewModelTests, InsertIntoEmptyModel)
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), item->Data<double>());
 
   // Finding view from instruction
-  EXPECT_EQ(m_viewmodel.FindViews(item), std::vector<const ViewItem*>({view_item_label, view_item_data}));
+  EXPECT_EQ(m_viewmodel.FindViews(item),
+            std::vector<const ViewItem*>({view_item_label, view_item_data}));
 }
 
 //! Insert three property items in a model, inserted after controller was setup.
@@ -284,7 +285,7 @@ TEST_F(AllItemsViewModelTests, InsertInFront)
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>();
-  auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
+  auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(0));
 
   // checking signaling
   EXPECT_EQ(spy_insert.count(), 2);
@@ -304,9 +305,10 @@ TEST_F(AllItemsViewModelTests, InsertBetween)
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
-  auto item0 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 0});
-  auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});
-  auto item2 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), {"", 1});  // between
+  auto item0 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(0));
+  auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(1));
+  auto item2 =
+      m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(1));  // between
 
   // checking signaling
   EXPECT_EQ(spy_insert.count(), 3);
@@ -356,9 +358,9 @@ TEST_F(AllItemsViewModelTests, RemoveMiddleChild)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
-  auto child0 = m_model.InsertItem<SessionItem>(parent, {"", 0});
-  auto child1 = m_model.InsertItem<SessionItem>(parent, {"", 1});
-  auto child2 = m_model.InsertItem<SessionItem>(parent, {"", 2});
+  auto child0 = m_model.InsertItem<SessionItem>(parent, TagIndex::Default(0));
+  auto child1 = m_model.InsertItem<SessionItem>(parent, TagIndex::Default(1));
+  auto child2 = m_model.InsertItem<SessionItem>(parent, TagIndex::Default(2));
 
   // one entry (parent)
   EXPECT_EQ(m_viewmodel.rowCount(), 1);

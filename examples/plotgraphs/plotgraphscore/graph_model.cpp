@@ -94,12 +94,12 @@ void GraphModel::RemoveGraph()
 
   if (graph_count)
   {
-    TakeItem(GetViewport(), {"", graph_count - 1});
+    TakeItem(GetViewport(), mvvm::TagIndex::Default(graph_count - 1));
   }
 
   if (data_count)
   {
-    TakeItem(GetDataContainer(), {"", data_count - 1});
+    TakeItem(GetDataContainer(), mvvm::TagIndex::Default(data_count - 1));
   }
 }
 

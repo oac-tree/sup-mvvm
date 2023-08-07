@@ -141,7 +141,7 @@ TEST_F(GraphViewportPlotControllerTests, AddAndRemoveGraphs)
   data2->SetValues(expected_values2);
 
   // adding graph item to viewport
-  auto graph_item1 = model.InsertItem<GraphItem>(viewport_item, {"", 0});
+  auto graph_item1 = model.InsertItem<GraphItem>(viewport_item, TagIndex::Default(0));
 
   // check that QCustomPlot knows about graph
   EXPECT_EQ(custom_plot->graphCount(), 1);
@@ -152,7 +152,7 @@ TEST_F(GraphViewportPlotControllerTests, AddAndRemoveGraphs)
   EXPECT_EQ(custom_plot->graphCount(), 1);
 
   // adding secong graph
-  auto graph_item2 = model.InsertItem<GraphItem>(viewport_item, {"", 1});
+  auto graph_item2 = model.InsertItem<GraphItem>(viewport_item, TagIndex::Default(1));
   graph_item2->SetDataItem(data2);
 
   // check that QCustomPlot knows about two graph
