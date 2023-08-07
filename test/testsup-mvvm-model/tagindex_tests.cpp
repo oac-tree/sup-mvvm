@@ -114,6 +114,10 @@ TEST_F(TagIndexTests, FactoryMethods)
   tag_index = TagIndex::Prepend(expected_name);
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, 0);
+
+  tag_index = TagIndex::Default(42);
+  EXPECT_EQ(tag_index.tag, "");
+  EXPECT_EQ(tag_index.index, 42);
 }
 
 //! Implicit type convertion

@@ -42,6 +42,11 @@ TagIndex TagIndex::Prepend(const std::string& tag_name)
   return {tag_name, 0};
 }
 
+TagIndex TagIndex::Default(int index)
+{
+  return {kDefaultTag, index};
+}
+
 bool TagIndex::operator==(const TagIndex& other) const
 {
   return index == other.index && tag == other.tag;

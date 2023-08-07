@@ -82,6 +82,11 @@ public:
    */
   static TagIndex Prepend(const std::string& tag_name = kDefaultTag);
 
+  /**
+   * @brief Returns TagIndex corresponding to the container marked as a default one and given index.
+   */
+  static TagIndex Default(int index);
+
   bool operator==(const TagIndex& other) const;
   bool operator!=(const TagIndex& other) const;
 };
