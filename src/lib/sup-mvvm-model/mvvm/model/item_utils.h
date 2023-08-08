@@ -228,6 +228,16 @@ std::unique_ptr<T> CopyItem(const T& item)
   return CreateDeepCopy(item, /* make_unique_id */ true);
 }
 
+/**
+ * @brief Moves item up (decrements row of the item). Works on children belonging to single tag.
+ */
+MVVM_MODEL_EXPORT void MoveUp(SessionItem* item);
+
+/**
+ * @brief Moves item down (increments row of the item). Works on children belonging to single tag.
+ */
+MVVM_MODEL_EXPORT void MoveDown(SessionItem* item);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

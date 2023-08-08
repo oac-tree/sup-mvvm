@@ -268,4 +268,24 @@ bool ReplaceData(SessionItem& item, const variant_t& value, int role)
   return item.SetData(value, role);  // will succeed
 }
 
+void MoveUp(SessionItem* item)
+{
+  auto tag_index = item->GetTagIndex();
+  if (tag_index.index == 0)
+  {
+    return;  // item already at the top
+  }
+  item->GetModel()->MoveItem(item, item->GetParent(), tag_index.Prev());
+}
+
+void MoveDown(SessionItem* item)
+{
+  auto tag_index = item->GetTagIndex();
+  if (tag_index.index == item->GetParent()->GetItemCount(tag_index.tag) - 1)
+  {
+    return;  // item already at the buttom
+  }
+  item->GetModel()->MoveItem(item, item->GetParent(), tag_index.Next());
+}
+
 }  // namespace mvvm::utils
