@@ -131,12 +131,12 @@ MVVM_MODEL_EXPORT bool IsItemAncestor(const SessionItem* item, const SessionItem
 MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items);
 
 /**
- * @brief Returns nestling depth of 'item' with respect to the 'basis'.
+ * @brief Returns nesting depth of 'item' with respect to the 'basis'.
  *
- * @param basis A reference item which we use to explore nestling depth.
- * @param item An item those nestling depth we are interesting in.
+ * @param basis A reference item which we use to explore nesting depth.
+ * @param item An item those nesting depth we are interesting in.
  *
- * @return Nestling depth
+ * @return Nesting depth
  *
  * @details Here are examples:
  * result = 0 if `item` == `basis`
@@ -144,7 +144,7 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  * result = 2 if `item` is a grandchild of `basis`
  * result = -1 if item is above `basis` or doesn't belong same branch
  */
-MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionItem* item);
+MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
 
 //! Returns true if given item has appearance flag set.
 MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance flag);

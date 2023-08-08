@@ -229,7 +229,7 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
   return result;
 }
 
-int GetNestlingDepth(const SessionItem* basis, const SessionItem* item)
+int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
 {
   if (!basis || !item)
   {
