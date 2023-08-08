@@ -111,7 +111,7 @@ TEST_F(TagIndexTests, FactoryMethods)
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, -1);
 
-  tag_index = TagIndex::Prepend(expected_name);
+  tag_index = TagIndex::First(expected_name);
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, 0);
 

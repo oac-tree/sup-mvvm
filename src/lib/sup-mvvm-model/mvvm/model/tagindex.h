@@ -80,7 +80,7 @@ public:
    * @brief Returns TagIndex corresponding to the beginning of the container with given name.
    * If the default name is used, will look for container marked as a default.
    */
-  static TagIndex Prepend(const std::string& tag_name = kDefaultTag);
+  static TagIndex First(const std::string& tag_name = kDefaultTag);
 
   /**
    * @brief Returns TagIndex corresponding to the container marked as a default one and given index.

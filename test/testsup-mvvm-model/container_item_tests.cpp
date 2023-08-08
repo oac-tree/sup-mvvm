@@ -41,7 +41,7 @@ TEST_F(ContainerItemTests, InitialState)
 TEST_F(ContainerItemTests, IsEmpty)
 {
   ContainerItem item;
-  item.InsertItem<PropertyItem>(TagIndex::Prepend());
+  item.InsertItem<PropertyItem>(TagIndex::First());
   EXPECT_FALSE(item.IsEmpty());
 }
 
@@ -49,7 +49,7 @@ TEST_F(ContainerItemTests, GetSize)
 {
   ContainerItem item;
   EXPECT_EQ(item.GetSize(), 0);
-  item.InsertItem<PropertyItem>(TagIndex::Prepend());
+  item.InsertItem<PropertyItem>(TagIndex::First());
   EXPECT_FALSE(item.IsEmpty());
   EXPECT_EQ(item.GetSize(), 1);
 }

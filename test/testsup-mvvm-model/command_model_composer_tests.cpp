@@ -319,7 +319,7 @@ TEST_F(CommandModelComposerTests, SetDataThenRemove)
   child1->SetData(42);
 
   EXPECT_TRUE(composer->SetData(child1, 43, DataRole::kData));
-  auto taken = composer->TakeItem(m_model.GetRootItem(), TagIndex::Prepend());
+  auto taken = composer->TakeItem(m_model.GetRootItem(), TagIndex::First());
 
   // status of stack
   EXPECT_TRUE(m_commands.CanUndo());
@@ -369,7 +369,7 @@ TEST_F(CommandModelComposerTests, InsertItemToRoot)
 
   // command to insert item from the model
   auto inserted =
-      composer->InsertItem(std::move(to_insert), m_model.GetRootItem(), TagIndex::Prepend());
+      composer->InsertItem(std::move(to_insert), m_model.GetRootItem(), TagIndex::First());
 
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());

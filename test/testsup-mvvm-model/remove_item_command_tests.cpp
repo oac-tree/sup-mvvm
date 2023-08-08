@@ -67,7 +67,7 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromRoot)
 
   // command to remove item from the model
   auto command = std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(),
-                                                     TagIndex::Prepend());
+                                                     TagIndex::First());
 
   // item is still there
   EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex()), item);
@@ -157,7 +157,7 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChild)
 
   // command to remove parent
   auto command =
-      std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex::Prepend());
+      std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex::First());
   command->Execute();  // removal
   EXPECT_FALSE(command->IsObsolete());
 

@@ -37,7 +37,7 @@ TagIndex TagIndex::Append(const std::string& tag_name)
   return {tag_name, -1};
 }
 
-TagIndex TagIndex::Prepend(const std::string& tag_name)
+TagIndex TagIndex::First(const std::string& tag_name)
 {
   return {tag_name, 0};
 }
