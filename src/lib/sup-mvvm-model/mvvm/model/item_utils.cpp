@@ -32,7 +32,7 @@
 namespace mvvm::utils
 {
 
-void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
+void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
 {
   if (!item)
   {
@@ -45,7 +45,7 @@ void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
   while (!stack.empty())
   {
     auto top_item = stack.top();
-    fun(top_item);
+    func(top_item);
 
     stack.pop();
 

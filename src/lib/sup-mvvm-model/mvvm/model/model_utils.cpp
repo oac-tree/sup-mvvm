@@ -79,15 +79,6 @@ SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, Ses
   return model->InsertItem(item->Clone(/* make_unique_id*/ true), parent, tag_index);
 }
 
-//! FIXME restore functionality PopulateEmptyModel json
-
-// void Utils::PopulateEmptyModel(const JsonModelConverterInterface* converter,
-//                               const SessionModel& source, SessionModel& target)
-//{
-//    QJsonObject object = converter->to_json(source);
-//    converter->from_json(object, target);
-//}
-
 void Undo(SessionModelInterface& model)
 {
   if (auto command_stack = GetCommandStack(model); command_stack)
@@ -103,40 +94,6 @@ void Redo(SessionModelInterface& model)
     command_stack->Redo();
   }
 }
-
-//! FIXME restore beginMacros
-
-// void Utils::BeginMacros(const SessionItem* item, const std::string& macro_name)
-//{
-//    if (!item)
-//        return;
-//    BeginMacros(item->model(), macro_name);
-//}
-
-// void Utils::EndMacros(const SessionItem* item)
-//{
-//    if (!item)
-//        return;
-//    EndMacros(item->model());
-//}
-
-// void Utils::BeginMacros(const SessionModel* model, const std::string& macro_name)
-//{
-//    if (!model)
-//        return;
-//    if (auto stack = model->undoStack(); stack)
-//        stack->beginMacro(macro_name);
-//}
-
-//! FIXME restore endMacros
-
-// void Utils::EndMacros(const SessionModel* model)
-//{
-//    if (!model)
-//        return;
-//    if (auto stack = model->undoStack(); stack)
-//        stack->endMacro();
-//}
 
 std::unique_ptr<SessionItem> CreateEmptyRootItem()
 {

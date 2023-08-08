@@ -39,7 +39,7 @@ namespace mvvm::utils
  * @param item Item to start iterating.
  * @param func User function to call.
  */
-MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun);
+MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
