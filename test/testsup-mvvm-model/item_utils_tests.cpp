@@ -581,3 +581,25 @@ TEST_F(ItemUtilsTests, RemoveItem)
 
   // extra test when item is a part of the model is in application_model_tests.cpp
 }
+
+//! Testing helper method InsertItem.
+
+TEST_F(ItemUtilsTests, InsertItem)
+{
+  auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = std::make_unique<SessionItem>();
+  auto p_child = child.get();
+
+  auto inserted = utils::InsertItem(std::move(child), parent.get(), TagIndex::Append());
+
+  EXPECT_EQ(inserted, p_child);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::IndexOfChild(parent.get(), inserted), 0);
+  EXPECT_EQ(parent->GetAllItems()[0], inserted);
+  EXPECT_EQ(parent->GetItem({"", 0}), inserted);
+  EXPECT_EQ(inserted->GetParent(), parent.get());
+
+  // extra test when item is a part of the model is in application_model_tests.cpp
+}

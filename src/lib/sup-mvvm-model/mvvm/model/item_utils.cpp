@@ -305,4 +305,14 @@ void RemoveItem(SessionItem& item)
   }
 }
 
+SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                        const TagIndex& tag_index)
+{
+  if (auto model = parent->GetModel(); model)
+  {
+    return model->InsertItem(std::move(item), parent, tag_index);
+  }
+  return parent->InsertItem(std::move(item), tag_index);
+}
+
 }  // namespace mvvm::utils

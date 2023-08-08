@@ -247,6 +247,16 @@ MVVM_MODEL_EXPORT void MoveDown(SessionItem& item);
  */
 void RemoveItem(SessionItem& item);
 
+/**
+ * @brief Insert item into a parent at given 'tag_index'
+ *
+ * @details If parent belongs to the model, will insert an item using the model API. This will
+ * invoke notification mechanism, and undo/redo, if the model is equipped with it. If parent doesn't
+ * belong to the model, will act via SessionItem API.
+ */
+SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                        const TagIndex& tag_index);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

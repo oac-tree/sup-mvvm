@@ -22,8 +22,8 @@
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/property_item.h>
 
 #include <gtest/gtest.h>
 #include <testutils/mock_model_listener.h>
@@ -112,7 +112,7 @@ TEST_F(ApplicationModelTests, SetSameData)
 TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 {
   auto parent = m_model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  const TagIndex tag_index{"rootTag", 0};  // default tag of root item
 
   mock_listener_t listener(&m_model);
 
@@ -139,7 +139,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 {
   auto parent = m_model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  const TagIndex tag_index{"rootTag", 0};  // default tag of root item
 
   mock_listener_t listener(&m_model);
 
@@ -174,7 +174,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -204,7 +204,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -226,6 +226,37 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
+//! Inserting item using a helper method from item_utils.h
+
+TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+  const TagIndex tag_index{"tag", 0};
+
+  mock_listener_t listener(&m_model);
+
+  {
+    ::testing::InSequence seq;
+
+    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+  }
+
+  // inserting item (pretending that we do not have direct access to the model)
+  auto child = std::make_unique<PropertyItem>();
+  auto child_ptr = child.get();
+  auto item = utils::InsertItem(std::move(child), parent, {"tag", 0});
+  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, child_ptr);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
 
@@ -233,7 +264,7 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -299,7 +330,7 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -331,7 +362,7 @@ TEST_F(ApplicationModelTests, TakeItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -359,7 +390,7 @@ TEST_F(ApplicationModelTests, RemoveItem)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -386,7 +417,7 @@ TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
   auto child = m_model.InsertItem<PropertyItem>(parent);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
   mock_listener_t listener(&m_model);
 
