@@ -135,7 +135,6 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  *
  * @param basis A reference item which we use to explore nestling depth.
  * @param item An item those nestling depth we are interesting in.
- * @param level Tech parameter to use during the recursion.
  *
  * @return Nestling depth
  *
@@ -145,8 +144,7 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  * result = 2 if `item` is a grandchild of `basis`
  * result = -1 if item is above `basis` or doesn't belong same branch
  */
-MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionItem* item,
-                                       int level = 0);
+MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionItem* item);
 
 //! Returns true if given item has appearance flag set.
 MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance flag);

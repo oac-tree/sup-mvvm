@@ -229,7 +229,7 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
   return result;
 }
 
-int GetNestlingDepth(const SessionItem* basis, const SessionItem* item, int level)
+int GetNestlingDepth(const SessionItem* basis, const SessionItem* item)
 {
   if (!basis || !item)
   {
@@ -238,16 +238,21 @@ int GetNestlingDepth(const SessionItem* basis, const SessionItem* item, int leve
 
   SessionItem* root_item = basis->GetModel() ? basis->GetModel()->GetRootItem() : nullptr;
 
-  if (item == basis)
+  int level = 0;
+  auto current_item = item;
+
+  while (current_item != nullptr)
   {
-    return level;
+    if (current_item == basis)
+    {
+      return level;
+    }
+
+    level += 1;
+    current_item = current_item->GetParent();
   }
 
-  if (item == nullptr || item == root_item)
-  {
-    return -1;
-  }
-  return GetNestlingDepth(basis, item->GetParent(), level + 1);
+  return -1;
 }
 
 bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
