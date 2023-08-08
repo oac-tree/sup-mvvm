@@ -58,7 +58,7 @@ void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
   }
 }
 
-void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
+void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& func)
 {
   if (!item)
   {
@@ -71,7 +71,7 @@ void iterate_if(const SessionItem* item, const std::function<bool(const SessionI
   while (!stack.empty())
   {
     auto top_item = stack.top();
-    if (!fun(top_item))
+    if (!func(top_item))
     {
       break;
     }
@@ -134,9 +134,9 @@ int IndexOfChild(const SessionItem* parent, const SessionItem* child)
   return IndexOfItem(parent->GetAllItems(), child);
 }
 
-bool HasTag(const SessionItem& item, const std::string& tag)
+bool HasTag(const SessionItem& item, const std::string& tag_name)
 {
-  return item.GetTaggedItems()->HasTag(tag);
+  return item.GetTaggedItems()->HasTag(tag_name);
 }
 
 std::vector<std::string> RegisteredTags(const SessionItem& item)

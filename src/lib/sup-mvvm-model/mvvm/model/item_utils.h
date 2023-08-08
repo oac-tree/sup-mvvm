@@ -31,76 +31,142 @@
 
 namespace mvvm::utils
 {
-//! Iterates through item and all its children.
+
+/**
+ * @brief Iterates through all items down through the whole item hierarchy and calls a user function
+ * for every item.
+ *
+ * @param item Item to start iterating.
+ * @param func User function to call.
+ */
 MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun);
 
-//! Iterates through all model indices and calls user function.
-//! If function returns false for given index, iteration will not go down to children.
+/**
+ * @brief Iterates through all items down through the whole item hierarchy and calls a user function
+ * for every item.
+ *
+ * @param item Item to start iterating.
+ * @param func User function to call.
+ *
+ * @details Will stop iterating when 'func' returns false.
+ */
 MVVM_MODEL_EXPORT void iterate_if(const SessionItem* item,
-                                  const std::function<bool(const SessionItem*)>& fun);
+                                  const std::function<bool(const SessionItem*)>& func);
 
-//! Returns copy number of a given item in its parent hierarchy. Takes into account only items with
-//! same type.
+/**
+ * @brief Returns copy number of a given item among all children of given parent.
+ *
+ * @details Takes into account only items with same type.
+ */
 MVVM_MODEL_EXPORT int CopyNumber(const SessionItem* item);
 
-//! Returns child at given index of parent. No tags are involved, index is considered
-//! as global index in the combined array of all children.
+/**
+ * @brief Returns child at given index of a parent.
+ *
+ * #details No tags are involved, index is considered as global index in the combined array of all
+ * children.
+ */
 MVVM_MODEL_EXPORT SessionItem* ChildAt(const SessionItem* parent, int index);
 
-//! Returns index in children array corresponding to given child. No tags are involved,
-//! index is considered as global index in the combined array of all children.
+/**
+ * @brief Returns index in children array corresponding to given child.
+ *
+ * @details No tags are involved, index is considered as global index in the combined array of all
+ * children.
+ */
 MVVM_MODEL_EXPORT int IndexOfChild(const SessionItem* parent, const SessionItem* child);
 
-//! Returns true if given item has registered tag.
-MVVM_MODEL_EXPORT bool HasTag(const SessionItem& item, const std::string& tag);
+/**
+ * @brief Returns true if given item has registered tag with the given name.
+ */
+MVVM_MODEL_EXPORT bool HasTag(const SessionItem& item, const std::string& tag_name);
 
-//! Returns vector of strings containing all registered tags of the given item.
+/**
+ * @brief Returns vector of strings containing all registered tags of the given item.
+ */
 MVVM_MODEL_EXPORT std::vector<std::string> RegisteredTags(const SessionItem& item);
 
-//! Returns vector of all visible children representing top level items.
+/**
+ * @brief Returns vector of all visible children representing top level items.
+ *
+ * @details A top level item is any item not marked as a property item.
+ */
 MVVM_MODEL_EXPORT std::vector<SessionItem*> TopLevelItems(const SessionItem& item);
 
-//! Returns vector of all visible children representing property items.
+/**
+ * @brief Returns vector of all visible children representing property items.
+ *
+ * @details A property item is an item created with AddProperty method, it can be a leave with a
+ * scalar data, moer complex VectorItem, etc. The main thing is that it is parked with kProperty
+ * appearance flag.
+ */
 MVVM_MODEL_EXPORT std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item);
 
-//! Returns next sibling with same tag.
+/**
+ * @brief Returns next sibling within the same tag.
+ */
 MVVM_MODEL_EXPORT SessionItem* FindNextSibling(SessionItem* item);
 
-//! Returns previous sibling with same tag.
+/**
+ * @brief Returns previous sibling within the same tag.
+ */
 MVVM_MODEL_EXPORT SessionItem* FindPreviousSibling(SessionItem* item);
 
-//! Finds next item to select
-//! Method is used in the context of next item selection after given item was deleted.
+/**
+ * @brief Finds next item to select.
+ *
+ * @details Method is used in the context of next item selection after given item was deleted. In
+ * this implementation we suggest to select next item in the list, if possible.
+ */
 MVVM_MODEL_EXPORT SessionItem* FindNextItemToSelect(SessionItem* item);
 
-//! Returns true if 'candidate' is one of ancestor of given item.
+/**
+ * @brief Returns true if 'candidate' is one of ancestor (parent, grand-parent etc) of given item.
+ */
 MVVM_MODEL_EXPORT bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate);
 
-//! Returns vector with duplicates and 'nullptr' filtered out.
+/**
+ * @brief Returns vector with duplicates and 'nullptr' filtered out.
+ */
 MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items);
 
-//! Returns nestling depth of `item` with respect to the `basis`.
-//! result = 0 if `item` == `basis`
-//! result = 1 if `item` is a child of `basis`
-//! result = 2 if `item` is a grandchild of `basis`
-//! result = -1 if item is above `basis` or doesn't belong same branch
+/**
+ * @brief Returns nestling depth of 'item' with respect to the 'basis'.
+ *
+ * @param basis A reference item which we use to explore nestling depth.
+ * @param item An item those nestling depth we are interesting in.
+ * @param level Tech parameter to use during the recursion.
+ *
+ * @return Nestling depth
+ *
+ * @details Here are examples:
+ * result = 0 if `item` == `basis`
+ * result = 1 if `item` is a child of `basis`
+ * result = 2 if `item` is a grandchild of `basis`
+ * result = -1 if item is above `basis` or doesn't belong same branch
+ */
 MVVM_MODEL_EXPORT int GetNestlingDepth(const SessionItem* basis, const SessionItem* item,
                                        int level = 0);
 
 //! Returns true if given item has appearance flag set.
 MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance flag);
 
-//! Replace data of given item with provided value for given role.
-//! This method allow to set the data to the item, even if the type of the data doesn't match
-//! the original. For example
-//! item.SetData(42.0, role);
-//! item.SetData("abc", role); <-- will fail because we do not allow to switch data type
-//! ReplaceData(&item, "abc", role) <-- will succeed, new data will be std::string, instead of
-//! double
+/**
+ * @brief Replace data of given item with provided value for given role, returns true in the case of
+ * success.
+ *
+ * @details This method allow to set the data to the item, even if the type of the data doesn't
+ * match the original. For example:
+ * item.SetData(42.0, role);
+ * item.SetData("abc", role); <-- will fail because we do not allow to switch data
+ * ReplaceData(&item, "abc", role); <-- will succeed, new data will be std::string, instead of
+ * double
+ */
 MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
 
-//! Finds first parent item of given type.
-//! Returns nullptr if no parent of given type found.
+/**
+ * @brief Finds first parent item of given type. Returns nullptr if no parent of given type found.
+ */
 template <typename T>
 SessionItem* FindParent(const SessionItem* item)
 {
@@ -118,13 +184,19 @@ SessionItem* FindParent(const SessionItem* item)
   return parent;
 }
 
-//! Returns deep copy or clone of the item.
-//!
-//! @note If \it make_unique_id is true, identifiers of the item and all its children will be
-//! regenerated. The item will be unique it and will allow its usage (serialization, memory pool)
-//! along with the original. If \it make_unique_id is false, the result will be an exact clone of
-//! the original.
-
+/**
+ * @brief Returns deep copy or clone of the item.
+ *
+ * @param item Item to clone
+ * @param make_unique_id Flag requesting identifier regeneration
+ *
+ * @return New item casted to necessary type.
+ *
+ * @details If 'make_unique_id' is true, identifiers of the item and all its children will be
+ * regenerated. The item will be unique it and will allow its usage (serialization, memory pool)
+ * along with the original. If 'make_unique_id' is false, the result will be an exact clone of the
+ * original.
+ */
 template <typename T>
 std::unique_ptr<T> CreateDeepCopy(const T& item, bool make_unique_id)
 {
@@ -140,16 +212,18 @@ std::unique_ptr<T> CreateDeepCopy(const T& item, bool make_unique_id)
   }
 }
 
-//! Returns clone of the item (identifiers are preserved).
-
+/**
+ * @brief Returns clone of the item (identifiers are preserved).
+ */
 template <typename T>
 std::unique_ptr<T> CloneItem(const T& item)
 {
   return CreateDeepCopy(item, /* make_unique_id */ false);
 }
 
-//! Returns deep copy of the item (identifiers are regenerated).
-
+/**
+ * @brief Returns deep copy of the item (identifiers are regenerated).
+ */
 template <typename T>
 std::unique_ptr<T> CopyItem(const T& item)
 {
