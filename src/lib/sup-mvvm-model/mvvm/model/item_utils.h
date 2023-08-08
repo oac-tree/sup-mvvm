@@ -238,6 +238,15 @@ MVVM_MODEL_EXPORT void MoveUp(SessionItem& item);
  */
 MVVM_MODEL_EXPORT void MoveDown(SessionItem& item);
 
+/**
+ * @brief Removes item from its parent and destroys it.
+ *
+ * @details If item belongs to the model, will remove an item using the model API. This will
+ * invoke notification mechanism, and undo/redo, if the model is equipped with it. If item doesn't
+ * belong to the model, will act via SessionItem API.
+ */
+void RemoveItem(SessionItem& item);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

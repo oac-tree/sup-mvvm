@@ -23,6 +23,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/item_utils.h>
 
 #include <gtest/gtest.h>
 #include <testutils/mock_model_listener.h>
@@ -372,6 +373,33 @@ TEST_F(ApplicationModelTests, RemoveItem)
 
   // removing item
   m_model.RemoveItem(child);
+  EXPECT_EQ(parent->GetTotalItemCount(), 0);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
+//! Removing item using helper method from item_utils.h
+
+TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  auto child = m_model.InsertItem<PropertyItem>(parent);
+  TagIndex tag_index{"tag", 0};
+
+  mock_listener_t listener(&m_model);
+
+  {
+    ::testing::InSequence seq;
+    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+  }
+
+  // removing item
+  utils::RemoveItem(*child);
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)

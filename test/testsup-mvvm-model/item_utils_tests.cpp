@@ -558,3 +558,26 @@ TEST_F(ItemUtilsTests, MoveItemDown)
   expected = {layer1, layer0, layer2};
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 }
+
+//! Testing helper method RemoveItem.
+
+TEST_F(ItemUtilsTests, RemoveItem)
+{
+  {  // item doesn't belong to a parent
+    SessionItem item;
+    EXPECT_THROW(utils::RemoveItem(item), LogicErrorException);
+  }
+
+  {  // item belong to parent
+    CompoundItem parent;
+    parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+    auto item = parent.InsertItem<PropertyItem>(TagIndex::Append());
+
+    EXPECT_EQ(parent.GetTotalItemCount(), 1);
+
+    utils::RemoveItem(*item);
+    EXPECT_EQ(parent.GetTotalItemCount(), 0);
+  }
+
+  // extra test when item is a part of the model is in application_model_tests.cpp
+}
