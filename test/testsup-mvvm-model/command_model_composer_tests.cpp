@@ -264,7 +264,7 @@ TEST_F(CommandModelComposerTests, RemoveParentWithChild)
   auto child1_identifier = child1->GetIdentifier();
 
   // command to remove parent
-  auto taken = composer->TakeItem(m_model.GetRootItem(), TagIndex::Default(0));
+  auto taken = composer->TakeItem(m_model.GetRootItem(), TagIndex::First());
 
   // status of stack
   EXPECT_TRUE(m_commands.CanUndo());

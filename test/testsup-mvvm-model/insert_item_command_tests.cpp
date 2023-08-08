@@ -71,7 +71,7 @@ TEST_F(InsertItemCommandTests, InsertItemToRoot)
 
   // command to insert item from the model
   InsertItemCommand command(composer.get(), std::move(to_insert), m_model.GetRootItem(),
-                            TagIndex::Default(0));
+                            TagIndex::First());
 
   // model is still empty
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
