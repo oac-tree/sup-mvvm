@@ -231,12 +231,12 @@ std::unique_ptr<T> CopyItem(const T& item)
 /**
  * @brief Moves item up (decrements row of the item). Works on children belonging to single tag.
  */
-MVVM_MODEL_EXPORT void MoveUp(SessionItem* item);
+MVVM_MODEL_EXPORT void MoveUp(SessionItem& item);
 
 /**
  * @brief Moves item down (increments row of the item). Works on children belonging to single tag.
  */
-MVVM_MODEL_EXPORT void MoveDown(SessionItem* item);
+MVVM_MODEL_EXPORT void MoveDown(SessionItem& item);
 
 }  // namespace mvvm::utils
 

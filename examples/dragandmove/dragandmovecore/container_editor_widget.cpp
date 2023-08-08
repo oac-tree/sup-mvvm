@@ -102,7 +102,7 @@ void ContainerEditorWidget::OnMoveDown()
   std::reverse(items.begin(), items.end());  // to correctly move multiple selections
   for (auto item : items)
   {
-    mvvm::utils::MoveDown(item);
+    mvvm::utils::MoveDown(*item);
   }
 }
 
@@ -110,7 +110,7 @@ void ContainerEditorWidget::OnMoveUp()
 {
   for (auto item : GetSelectedItems())
   {
-    mvvm::utils::MoveUp(item);
+    mvvm::utils::MoveUp(*item);
   }
 }
 
