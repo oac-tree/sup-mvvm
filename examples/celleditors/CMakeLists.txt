@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.13.5)
+cmake_minimum_required(VERSION 3.13)
+
 project(celleditors_example VERSION 0.2.0 LANGUAGES CXX)
 
 if(NOT TARGET sup-mvvm::view)
