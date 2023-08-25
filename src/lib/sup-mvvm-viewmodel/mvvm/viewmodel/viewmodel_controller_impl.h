@@ -27,6 +27,7 @@
 
 #include <QStringList>
 #include <memory>
+#include <tuple>
 
 namespace mvvm
 {
@@ -78,7 +79,11 @@ public:
   //! Returns an insert index for a view representing a child.
   //! Since number of views might not coincide with number of items (some items are marked)
   //! as hidden, we have to recalculate a view index.
-  int GetInsertViewIndexOfChild(const SessionItem *parent, const SessionItem *child);
+  int GetInsertViewIndexOfChild(const SessionItem *parent, const SessionItem *child) const;
+
+  //! Returns the parent view and the insert index for a child
+  //! Walks up the tree until it finds a parent that wants to show the child
+  std::tuple<ViewItem *, int> GetParentViewAndIndex(const SessionItem *item) const;
 
   /**
    * @brief Creates tree of rows with ViewItems representing given SessionItem and all its children.
@@ -93,7 +98,7 @@ public:
 
   ViewItemMap &GetViewItemMap();
 
-  bool isValidItemRole(const ViewItem *view, int item_role);
+  bool isValidItemRole(const ViewItem *view, int item_role) const;
 
 private:
   ViewModelBase *m_view_model{nullptr};

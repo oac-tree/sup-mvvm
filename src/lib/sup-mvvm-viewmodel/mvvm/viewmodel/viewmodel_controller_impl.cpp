@@ -51,22 +51,34 @@ void ViewModelControllerImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterfac
 
 void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
 {
-  auto [parent, tag_index] = event;
+  const auto added_item = event.m_item->GetItem(event.m_tag_index);
 
-  auto new_child = parent->GetItem(tag_index);
-
-  int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
-  auto parent_view = m_view_item_map.FindView(parent);
-
-  if (insert_view_index != -1 && parent_view)
+  std::stack<SessionItem *> stack{{added_item}};
+  while (!stack.empty())
   {
-    m_view_model->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*new_child));
+    const auto item = stack.top();
+    stack.pop();
+
+    const auto [parent_view, insert_view_index] = GetParentViewAndIndex(item);
+    if (parent_view != nullptr)
+    {
+      m_view_model->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*item));
+      continue;
+    }
+
+    // No parent wants to show this child
+    // Add its children to the stack as they may be visible under a different parent
+    auto children = item->GetAllItems();
+    for (auto it = children.rbegin(); it != children.rend(); ++it)
+    {
+      stack.push(*it);
+    }
   }
 }
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
-  auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
+  const auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
 
   if (item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove))
   {
@@ -77,11 +89,17 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
     return;
   }
 
-  if (auto view = m_view_item_map.FindView(item_to_remove); view)
+  const auto remove_item_func = [this](SessionItem *const item)
   {
-    m_view_model->removeRow(view->parent(), view->row());
-    m_view_item_map.OnItemRemove(item_to_remove);
-  }
+    const auto view = m_view_item_map.FindView(item);
+    if (view)
+    {
+      m_view_model->removeRow(view->parent(), view->row());
+      m_view_item_map.OnItemRemove(item);
+    }
+  };
+  // Remove views for all children of the item being removed
+  utils::iterate(item_to_remove, remove_item_func);
 }
 
 void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
@@ -173,8 +191,8 @@ void ViewModelControllerImpl::CheckInitialState() const
   }
 }
 
-int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent,
-                                                       const SessionItem *child)
+int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *const parent,
+                                                       const SessionItem *const child) const
 {
   // children that should get their views
   auto children = m_children_strategy->GetChildren(parent);
@@ -182,8 +200,28 @@ int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent
   return utils::IndexOfItem(children, child);
 }
 
-std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(SessionItem &item,
-                                                                                  bool is_root)
+std::tuple<ViewItem *, int> ViewModelControllerImpl::GetParentViewAndIndex(
+    const SessionItem *const item) const
+{
+  const auto root_item = GetRootItem();
+
+  auto parent{item};
+  int insert_view_index{-1};
+  while (insert_view_index == -1 && parent != nullptr && parent != root_item)
+  {
+    // Handle items with virtual/hidden parents
+    // If the parent doesn't return index of the child, go up the tree until we find one that does
+    parent = parent->GetParent();
+    insert_view_index = GetInsertViewIndexOfChild(parent, item);
+  }
+
+  return insert_view_index != -1
+             ? std::make_tuple(m_view_item_map.FindView(parent), insert_view_index)
+             : std::make_tuple(nullptr, -1);
+}
+
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(
+    SessionItem & item, const bool is_root)
 {
   // Every SessionItem will be represented by the vector of ViewItem's.  The first element of this
   // vector plays the role of parent view for SessionItem's children. So it might contain another
@@ -254,16 +292,16 @@ ViewItemMap &ViewModelControllerImpl::GetViewItemMap()
 
 //! Returns true if given SessionItem role is valid for view
 
-bool ViewModelControllerImpl::isValidItemRole(const ViewItem *view, int item_role)
+bool ViewModelControllerImpl::isValidItemRole(const ViewItem *const view, const int item_role) const
 {
-  if (auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item()); presentation)
+  if (const auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item());
+      presentation)
   {
     if (presentation->GetDataRole() == item_role)
     {
       return true;
     }
   }
-
   return item_role == DataRole::kAppearance || item_role == DataRole::kTooltip;
 }
 
