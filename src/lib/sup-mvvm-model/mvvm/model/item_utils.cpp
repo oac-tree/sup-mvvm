@@ -315,4 +315,24 @@ SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
   return parent->InsertItem(std::move(item), tag_index);
 }
 
+SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                         const TagIndex& tag_index)
+{
+  if (parent == nullptr)
+  {
+    throw LogicErrorException("No parent item provided");
+  }
+
+  if (auto model = parent->GetModel(); model)
+  {
+    model->TakeItem(parent, tag_index);
+    return model->InsertItem(std::move(item), parent, tag_index);
+  }
+  else
+  {
+    parent->TakeItem(tag_index);
+    return parent->InsertItem(std::move(item), tag_index);
+  }
+}
+
 }  // namespace mvvm::utils

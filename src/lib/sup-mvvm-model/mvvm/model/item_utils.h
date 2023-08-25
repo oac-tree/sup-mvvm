@@ -257,6 +257,16 @@ void RemoveItem(SessionItem& item);
 SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                         const TagIndex& tag_index);
 
+/**
+ * @brief remove an existing item at given 'tag_index' and insert a new one in its place
+ *
+ * @details If parent belongs to a model, will insert an item using the model API. This will
+ * invoke notification mechanism, if the model is equipped with it. If parent doesn't
+ * belong to a model, will act via SessionItem API.
+ */
+SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                         const TagIndex& tag_index);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_
