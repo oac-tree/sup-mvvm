@@ -437,6 +437,45 @@ TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
+//! Inserting item using a helper method from item_utils.h
+
+TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  auto child = m_model.InsertItem<PropertyItem>(parent);
+  const TagIndex tag_index{"tag", 0};
+
+  mock_listener_t listener(&m_model);
+
+  {
+    ::testing::InSequence seq;
+
+    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
+    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
+    event_variant_t expected_event3 = AboutToInsertItemEvent{parent, tag_index};
+    event_variant_t expected_event4 = ItemInsertedEvent{parent, tag_index};
+
+    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event3)).Times(1);
+    EXPECT_CALL(listener, OnEvent(expected_event4)).Times(1);
+  }
+
+  // inserting item (pretending that we do not have direct access to the model)
+  auto new_child = std::make_unique<PropertyItem>();
+  auto new_child_ptr = new_child.get();
+
+  auto item = utils::ReplaceItem(std::move(new_child), parent, tag_index);
+
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(item, parent->GetItem("tag"));
+  EXPECT_EQ(item, new_child_ptr);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
 //! Moving item item.
 
 TEST_F(ApplicationModelTests, MoveItem)
