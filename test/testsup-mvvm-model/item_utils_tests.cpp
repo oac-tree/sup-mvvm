@@ -603,3 +603,27 @@ TEST_F(ItemUtilsTests, InsertItem)
 
   // extra test when item is a part of the model is in application_model_tests.cpp
 }
+
+//! Testing helper method ReplaceItem.
+
+TEST_F(ItemUtilsTests, ReplaceItem)
+{
+  const auto parent = std::make_unique<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  const auto old_item = parent->InsertItem<SessionItem>(TagIndex::Append());
+
+  auto new_item = std::make_unique<SessionItem>();
+  const auto p_new_item = new_item.get();
+
+  const auto replacee =
+      utils::ReplaceItem(std::move(new_item), old_item->GetParent(), old_item->GetTagIndex());
+
+  EXPECT_EQ(replacee, p_new_item);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(utils::IndexOfChild(parent.get(), p_new_item), 0);
+  EXPECT_EQ(parent->GetAllItems()[0], p_new_item);
+  EXPECT_EQ(parent->GetItem({"", 0}), p_new_item);
+  EXPECT_EQ(replacee->GetParent(), parent.get());
+
+  // extra test when item is a part of the model is in application_model_tests.cpp
+}
