@@ -43,6 +43,10 @@ public:
 
   bool IsPersistent() const override;
 
+  int64 GetMinimum() const;
+
+  int64 GetMaximum() const;
+
 private:
   void OnValueChanged(qint64 value);
 

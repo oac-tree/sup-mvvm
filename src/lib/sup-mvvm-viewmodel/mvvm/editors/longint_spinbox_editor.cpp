@@ -64,6 +64,16 @@ bool LongIntSpinBoxEditor::IsPersistent() const
   return true;
 }
 
+int64 LongIntSpinBoxEditor::GetMinimum() const
+{
+  return m_longint_editor->minimum();
+}
+
+int64 LongIntSpinBoxEditor::GetMaximum() const
+{
+  return m_longint_editor->maximum();
+}
+
 void LongIntSpinBoxEditor::OnValueChanged(const qint64 value)
 {
   SetDataIntern(QVariant::fromValue(value));
