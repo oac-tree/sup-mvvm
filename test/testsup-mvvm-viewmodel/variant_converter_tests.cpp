@@ -19,9 +19,12 @@
 
 #include "mvvm/viewmodel/variant_converter.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
 
 #include <QColor>
+#include <QDebug>
 
 using namespace mvvm;
 
@@ -37,7 +40,16 @@ TEST_F(VariantConverterTests, GetStdVariant)
 {
   EXPECT_EQ(GetStdVariant(QVariant()), variant_t());
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(true)), variant_t(true));
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(42)), variant_t(42));
+
+  auto std_variant_from_qint = GetStdVariant(QVariant::fromValue(42));
+  EXPECT_EQ(utils::TypeName(std_variant_from_qint), constants::kLongIntVariantName);
+  EXPECT_EQ(std_variant_from_qint, variant_t(42));
+
+  qint64 num(42);
+  auto std_variant_from_qint64 = GetStdVariant(QVariant(num));
+  EXPECT_EQ(utils::TypeName(std_variant_from_qint64), constants::kLongIntVariantName);
+  EXPECT_EQ(std_variant_from_qint64, variant_t(42LL));
+
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(1.0)), variant_t(1.0));
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(QString("abc"))), variant_t(std::string("abc")));
 
@@ -57,7 +69,7 @@ TEST_F(VariantConverterTests, GetStdVariant)
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(int_limits)), variant_t(int_limits));
 
   // other Qt variants are unsupported
-  EXPECT_THROW(GetStdVariant(QVariant(QColor(Qt::red))), std::runtime_error);
+  EXPECT_THROW(GetStdVariant(QVariant(QColor(Qt::red))), RuntimeException);
 }
 
 //! Testing function to convert std variant to Qt variant.
@@ -71,8 +83,15 @@ TEST_F(VariantConverterTests, GetQtVariant)
   EXPECT_EQ(GetQtVariant(variant_t(true)), QVariant::fromValue(true));
   EXPECT_EQ(GetQtVariant(variant_t(false)), QVariant::fromValue(false));
 
-  // from int
+  // from int (internally it is stored as int64)
   EXPECT_EQ(GetQtVariant(variant_t(42)), QVariant::fromValue(42));
+  EXPECT_EQ(QString(GetQtVariant(variant_t(42)).typeName()), QString("qlonglong"));
+  EXPECT_EQ(GetQtVariant(variant_t(42)).type(), QMetaType::LongLong);
+
+  // from int64 (the same)
+  EXPECT_EQ(GetQtVariant(variant_t(42LL)), QVariant::fromValue(42LL));
+  EXPECT_EQ(QString(GetQtVariant(variant_t(42)).typeName()), QString("qlonglong"));
+  EXPECT_EQ(GetQtVariant(variant_t(42)).type(), QMetaType::LongLong);
 
   // from double
   EXPECT_EQ(GetQtVariant(variant_t(1.1)), QVariant::fromValue(1.1));

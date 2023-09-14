@@ -49,7 +49,7 @@ const std::string kStdStringQtTypeName = "std::__cxx11::basic_string<char>";
 #endif  // MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_
 
 const std::string kDoubleQtTypeName = "double";
-const std::string kLongIntQtTypeName = "long";
+const std::string kLongIntQtTypeName = "qlonglong";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
 const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
 const std::string kExternalPropertyQtTypeName = "mvvm::ExternalProperty";

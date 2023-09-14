@@ -19,6 +19,7 @@
 
 #include "mvvm/viewmodel/variant_converter.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/viewmodel/custom_variants.h>
 
 #include <QMetaType>
@@ -78,18 +79,25 @@ QVariant GetQtVariant(const variant_t& variant)
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));
   }
 
+  if (utils::TypeName(variant) == constants::kLongIntVariantName)
+  {
+    //  Explicitely converting to qlonglong. For some reason QVariant::fromStdValue would generate
+    //  here QVariant(long).
+    return QVariant(static_cast<qint64>(std::get<mvvm::int64>(variant)));
+  }
+
   return QVariant::fromStdVariant(variant);
 }
 
 variant_t GetStdVariant(const QVariant& variant)
 {
-  static auto converter_map = CreateConverterMap();
-  auto it = converter_map.find(utils::GetQtVariantName(variant));
-  if (it == converter_map.end())
+  const static auto converter_map = CreateConverterMap();
+  auto iter = converter_map.find(utils::GetQtVariantName(variant));
+  if (iter == converter_map.end())
   {
-    throw std::runtime_error("Unsupported Qt variant");
+    throw RuntimeException("Unsupported Qt variant");
   }
-  return it->second(variant);
+  return iter->second(variant);
 }
 
 }  // namespace mvvm
