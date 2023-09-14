@@ -235,8 +235,8 @@ mvvm::TreeData from_int(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntVariantName);
-  auto value = std::get<int>(datarole.first);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kLongIntVariantName);
+  auto value = std::get<mvvm::int64>(datarole.first);
   result.SetContent(std::to_string(value));
   return result;
 }
@@ -374,7 +374,7 @@ std::map<std::string, Converters> GetConverters()
   static std::map<std::string, Converters> result = {
       {mvvm::constants::kUndefinedVariantName, {from_undefined, to_undefined}},
       {mvvm::constants::kBoolVariantName, {from_bool, to_bool}},
-      {mvvm::constants::kIntVariantName, {from_int, to_int}},
+      {mvvm::constants::kLongIntVariantName, {from_int, to_int}},
       {mvvm::constants::kStringVariantName, {from_string, to_string}},
       {mvvm::constants::kDoubleVariantName, {from_double, to_double}},
       {mvvm::constants::kVectorDoubleVariantName, {from_vector_double, to_vector_double}},

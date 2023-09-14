@@ -25,8 +25,6 @@
 #include <mvvm/viewmodel/custom_variants.h>
 #include <mvvm/viewmodel/viewmodel.h>
 
-#include <iostream>
-
 namespace
 {
 
@@ -82,6 +80,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
   RegisterBuilder(constants::kIntQtTypeName, IntegerEditorBuilder());
+  RegisterBuilder(constants::kLongIntQtTypeName, LongIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kDoubleQtTypeName, DoubleEditorBuilder());
 }
 

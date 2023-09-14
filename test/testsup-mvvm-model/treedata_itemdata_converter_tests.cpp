@@ -39,7 +39,7 @@ class TreeDataItemDataConverterTests : public ::testing::Test
 TEST_F(TreeDataItemDataConverterTests, TwoRoles)
 {
   const std::string body{
-      R"(<ItemData><Variant role="0" type="int">42</Variant><Variant role="1" type="string">abc</Variant></ItemData>)"};
+      R"(<ItemData><Variant role="0" type="int64">42</Variant><Variant role="1" type="string">abc</Variant></ItemData>)"};
 
   TreeDataItemDataConverter converter;
   auto tree_data = ParseXMLElementString(body);

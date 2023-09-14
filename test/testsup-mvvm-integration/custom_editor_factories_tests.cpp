@@ -29,6 +29,7 @@
 #include <gtest/gtest.h>
 
 #include <QSpinBox>
+#include <typeinfo>
 
 using namespace mvvm;
 
@@ -111,9 +112,14 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
 
-  // int
+  // Internally integer will be saved as int64, then variant_t will be converted to QVariant(long),
+  // and this will trigger LongIntSpinBoxEditor creation
   index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+
+  // int64
+  index = AddDataToModel(variant_t(42LL));
+  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
   // double
   index = AddDataToModel(variant_t(42.1));
@@ -140,9 +146,13 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 
-  // editor for int types
+  // editor for int types (internally converted to int64)
   index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+
+  // editor for int64 types
+  index = AddDataToModel(variant_t(42LL));
+  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
   // double
   index = AddDataToModel(variant_t(42.1));
@@ -159,12 +169,12 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<LongIntSpinBoxEditor*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // checking default limits (defined in editor_builders.cpp)
-  EXPECT_EQ(spin_box->minimum(), -65536);
-  EXPECT_EQ(spin_box->maximum(), 65536);
+  EXPECT_EQ(spin_box->GetMinimum(), -65536);
+  EXPECT_EQ(spin_box->GetMaximum(), 65536);
 }
 
 //! Checking integer editor construction when limits are set.
@@ -177,17 +187,17 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
 
   // setting limits to corresponding role
   auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
-  item->SetData(Limits<int>::CreateLimited(0, 10), DataRole::kLimits);
+  item->SetData(Limits<int64>::CreateLimited(0, 10), DataRole::kLimits);
 
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<QSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<LongIntSpinBoxEditor*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // check if limits have been propagated
-  EXPECT_EQ(spin_box->minimum(), 0);
-  EXPECT_EQ(spin_box->maximum(), 10);
+  EXPECT_EQ(spin_box->GetMinimum(), 0);
+  EXPECT_EQ(spin_box->GetMaximum(), 10);
 }
 
 //! Checking double editor construction when limits are not set.

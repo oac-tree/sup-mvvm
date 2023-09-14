@@ -125,7 +125,8 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
     SessionItem item;
     const int role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43, DataRole::kData));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kIntVariantName);
+    // internally data is saved as int64
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kLongIntVariantName);
   }
 }
 
@@ -152,6 +153,8 @@ TEST_F(SessionItemTests, SetDoubleData)
   EXPECT_TRUE(item.SetData(expected));
   EXPECT_EQ(item.Data<double>(), expected);
 }
+
+//! Setting integer data. Internally it will be saved as int64, but this is invisible for the user.
 
 TEST_F(SessionItemTests, SetIntData)
 {

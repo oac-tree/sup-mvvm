@@ -100,7 +100,7 @@ TEST_F(TreeDataVariantConverterTests, IntDataRole)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing int variant with role=0.
-  const std::string body{R"(<Variant role="42" type="int">48</Variant>)"};
+  const std::string body{R"(<Variant role="42" type="int64">48</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
@@ -113,7 +113,7 @@ TEST_F(TreeDataVariantConverterTests, IntDataRole)
   EXPECT_EQ(new_tree_data, *tree_data);
 
   // Another convertion, now spaces are added.
-  tree_data = ParseXMLElementString(R"(<Variant role = "42 " type="int"> 48 </Variant>)");
+  tree_data = ParseXMLElementString(R"(<Variant role = "42 " type="int64"> 48 </Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // Converting tree_data to data_role
@@ -121,7 +121,7 @@ TEST_F(TreeDataVariantConverterTests, IntDataRole)
   EXPECT_EQ(data_role, datarole_t(variant_t(48), 42));
 
   // Attempting to construct invalid tree (integer value is missed)
-  tree_data = ParseXMLElementString(R"(<Variant role="42" type="int"></Variant>)");
+  tree_data = ParseXMLElementString(R"(<Variant role="42" type="int64"></Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
   EXPECT_THROW(ToDataRole(*tree_data), std::invalid_argument);
 }

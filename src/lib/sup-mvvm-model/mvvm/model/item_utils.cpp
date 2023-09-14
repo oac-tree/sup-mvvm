@@ -280,9 +280,8 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
 
 bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
 {
-  return item.HasData(mvvm::DataRole::kAppearance)
-             ? item.Data<int>(mvvm::DataRole::kAppearance) & flag
-             : false;
+  return item.HasData(DataRole::kAppearance) ? item.Data<int64>(DataRole::kAppearance) & flag
+                                             : false;
 }
 
 bool ReplaceData(SessionItem& item, const variant_t& value, int role)

@@ -155,7 +155,7 @@ TEST_F(VariantTests, TypeName)
   using utils::TypeName;
   EXPECT_EQ(TypeName(variant_t()), constants::kUndefinedVariantName);
   EXPECT_EQ(TypeName(variant_t(true)), constants::kBoolVariantName);
-  EXPECT_EQ(TypeName(variant_t(42)), constants::kIntVariantName);
+  EXPECT_EQ(TypeName(variant_t(42)), constants::kLongIntVariantName);
   EXPECT_EQ(TypeName(variant_t(42.4)), constants::kDoubleVariantName);
   EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringVariantName);
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),

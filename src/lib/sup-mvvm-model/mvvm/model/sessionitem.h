@@ -177,7 +177,13 @@ inline T SessionItem::Data(int role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
   {
-    return DataInternal(role);  // if variant_it is required, simply return it
+    // if variant_it is required, simply return it
+    return DataInternal(role);
+  }
+  else if constexpr (std::is_same_v<T, int>)
+  {
+    // if user wants int (which is not part of variant_t), we allow narrowing to happen
+    return static_cast<int>(std::get<int64>(DataInternal(role)));
   }
   else
   {

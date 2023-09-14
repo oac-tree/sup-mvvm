@@ -115,6 +115,10 @@ editorbuilder_t LongIntSpinBoxEditorBuilder()
         auto limits = item->Data<Limits<int64>>(DataRole::kLimits);
         editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
       }
+      else
+      {
+        editor->SetRange(-65536, 65536);
+      }
     }
     return editor;
   };

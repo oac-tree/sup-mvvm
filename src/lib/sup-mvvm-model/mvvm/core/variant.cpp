@@ -56,16 +56,15 @@ std::string TypeName(const variant_t &variant)
   static std::map<int, std::string> type_name_map = {
       {0, constants::kUndefinedVariantName},
       {1, constants::kBoolVariantName},
-      {2, constants::kIntVariantName},
-      {3, constants::kLongIntVariantName},
-      {4, constants::kDoubleVariantName},
-      {5, constants::kStringVariantName},
-      {6, constants::kVectorDoubleVariantName},
-      {7, constants::kComboPropertyVariantName},
-      {8, constants::kExternalPropertyVariantName},
-      {9, constants::kIntLimitsVariantName},
-      {10, constants::kLongIntLimitsVariantName},
-      {11, constants::kRealLimitsVariantName},
+      {2, constants::kLongIntVariantName},
+      {3, constants::kDoubleVariantName},
+      {4, constants::kStringVariantName},
+      {5, constants::kVectorDoubleVariantName},
+      {6, constants::kComboPropertyVariantName},
+      {7, constants::kExternalPropertyVariantName},
+      {8, constants::kIntLimitsVariantName},
+      {9, constants::kLongIntLimitsVariantName},
+      {10, constants::kRealLimitsVariantName},
   };
   return type_name_map[static_cast<int>(variant.index())];
 }

@@ -36,7 +36,7 @@
 namespace mvvm
 {
 
-using variant_t = std::variant<std::monostate, boolean, int, int64, double, std::string,
+using variant_t = std::variant<std::monostate, boolean, int64, double, std::string,
                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
                                mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
 
@@ -50,8 +50,7 @@ namespace mvvm::constants
 {
 const std::string kUndefinedVariantName = "undefined";
 const std::string kBoolVariantName = "bool";
-const std::string kIntVariantName = "int";
-const std::string kLongIntVariantName = "long_int_t";
+const std::string kLongIntVariantName = "int64";
 const std::string kStringVariantName = "string";
 const std::string kDoubleVariantName = "double";
 const std::string kVectorDoubleVariantName = "vector_double_t";
