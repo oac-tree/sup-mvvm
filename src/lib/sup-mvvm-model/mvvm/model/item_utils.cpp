@@ -39,7 +39,7 @@ void MoveTo(mvvm::SessionItem& item, const mvvm::TagIndex& tag_index)
 {
   if (auto model = item.GetModel(); model)
   {
-    item.GetModel()->MoveItem(&item, item.GetParent(), tag_index);
+    model->MoveItem(&item, item.GetParent(), tag_index);
   }
   else
   {
