@@ -1,4 +1,6 @@
 target_sources(${library_name} PRIVATE
+  basic_scalar_types.h
+  basic_scalar_types.cpp
   exceptions.cpp
   exceptions.h
   filesystem.h
