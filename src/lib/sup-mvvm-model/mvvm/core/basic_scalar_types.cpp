@@ -28,4 +28,4 @@ static_assert(sizeof(int64) == 8, "int64 type needs to have size 8 bytes");
 static_assert(sizeof(uint64) == 8, "uint64 type needs to have size 8 bytes");
 static_assert(sizeof(float64) == 8, "float64 type needs to have size 8 bytes");
 
-}  // namespace mvvm
+}

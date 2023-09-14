@@ -32,12 +32,17 @@
 #include <variant>
 #include <vector>
 
+namespace mvvm
+{
+
 using variant_t = std::variant<std::monostate, bool, int, double, long long, std::string,
                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
                                mvvm::Limits<int>, mvvm::Limits<double>, mvvm::Limits<long long>>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
+
+}  // namespace mvvm
 
 //! Defines names of all supported (serializable) data types.
 namespace mvvm::constants

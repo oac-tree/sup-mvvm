@@ -28,34 +28,34 @@
 
 namespace
 {
-using converter_func_t = std::function<variant_t(const QVariant& variant)>;
+using converter_func_t = std::function<mvvm::variant_t(const QVariant& variant)>;
 std::map<std::string, converter_func_t> CreateConverterMap()
 {
   std::map<std::string, converter_func_t> result = {
       {mvvm::constants::kInvalidQtTypeName,
-       [](const QVariant& /*variant*/) { return variant_t(); }},
+       [](const QVariant& /*variant*/) { return mvvm::variant_t(); }},
       {mvvm::constants::kBoolQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.toBool()); }},
+       [](const QVariant& variant) { return mvvm::variant_t(variant.toBool()); }},
       {mvvm::constants::kIntQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.toInt()); }},
+       [](const QVariant& variant) { return mvvm::variant_t(variant.toInt()); }},
       {mvvm::constants::kDoubleQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.toDouble()); }},
+       [](const QVariant& variant) { return mvvm::variant_t(variant.toDouble()); }},
       {mvvm::constants::kLongIntQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<long long>()); }},
+       [](const QVariant& variant) { return mvvm::variant_t(variant.value<long long>()); }},
       {mvvm::constants::kStringQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.toString().toStdString()); }},
-      {mvvm::constants::kStdVectorDoubleQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }},
-      {mvvm::constants::kComboPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ComboProperty>()); }},
-      {mvvm::constants::kExternalPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::ExternalProperty>()); }},
+       [](const QVariant& variant) { return mvvm::variant_t(variant.toString().toStdString()); }},
+      {mvvm::constants::kStdVectorDoubleQtTypeName, [](const QVariant& variant)
+       { return mvvm::variant_t(variant.value<std::vector<double>>()); }},
+      {mvvm::constants::kComboPropertyQtTypeName, [](const QVariant& variant)
+       { return mvvm::variant_t(variant.value<mvvm::ComboProperty>()); }},
+      {mvvm::constants::kExternalPropertyQtTypeName, [](const QVariant& variant)
+       { return mvvm::variant_t(variant.value<mvvm::ExternalProperty>()); }},
       {mvvm::constants::kIntLimitsPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<int>>()); }},
-      {mvvm::constants::kRealLimitsPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<double>>()); }},
-      {mvvm::constants::kLongIntLimitsPropertyQtTypeName,
-       [](const QVariant& variant) { return variant_t(variant.value<mvvm::Limits<long long>>()); }},
+       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::Limits<int>>()); }},
+      {mvvm::constants::kRealLimitsPropertyQtTypeName, [](const QVariant& variant)
+       { return mvvm::variant_t(variant.value<mvvm::Limits<double>>()); }},
+      {mvvm::constants::kLongIntLimitsPropertyQtTypeName, [](const QVariant& variant)
+       { return mvvm::variant_t(variant.value<mvvm::Limits<long long>>()); }},
   };
   return result;
 };

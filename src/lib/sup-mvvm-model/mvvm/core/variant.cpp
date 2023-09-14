@@ -21,10 +21,15 @@
 
 #include <map>
 
+namespace mvvm
+{
+
 bool operator==(const datarole_t &lhs, const datarole_t &rhs)
 {
   return lhs.first == rhs.first && lhs.second == rhs.second;
 }
+
+}  // namespace mvvm
 
 namespace mvvm::utils
 {

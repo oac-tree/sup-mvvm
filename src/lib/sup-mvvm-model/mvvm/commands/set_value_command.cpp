@@ -29,7 +29,7 @@
 namespace
 {
 
-std::string GenerateDescription(const variant_t &value, int role)
+std::string GenerateDescription(const mvvm::variant_t &value, int role)
 {
   (void)value;
   std::ostringstream ostr;
