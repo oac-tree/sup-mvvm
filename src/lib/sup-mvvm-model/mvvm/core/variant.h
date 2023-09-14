@@ -23,6 +23,7 @@
 //! @file
 //! Defines all supported elementary data types.
 
+#include <mvvm/core/basic_scalar_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/model/limits.h>
@@ -35,9 +36,9 @@
 namespace mvvm
 {
 
-using variant_t = std::variant<std::monostate, bool, int, double, long long, std::string,
+using variant_t = std::variant<std::monostate, boolean, int, double, int64, std::string,
                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
-                               mvvm::Limits<int>, mvvm::Limits<double>, mvvm::Limits<long long>>;
+                               mvvm::Limits<int>, mvvm::Limits<double>, mvvm::Limits<int64>>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);

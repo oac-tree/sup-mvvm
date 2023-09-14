@@ -112,7 +112,7 @@ editorbuilder_t LongIntSpinBoxEditorBuilder()
     {
       if (item->HasData(DataRole::kLimits))
       {
-        auto limits = item->Data<Limits<long long>>(DataRole::kLimits);
+        auto limits = item->Data<Limits<int64>>(DataRole::kLimits);
         editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
       }
     }
