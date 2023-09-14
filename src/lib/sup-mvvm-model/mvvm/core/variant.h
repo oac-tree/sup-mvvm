@@ -36,9 +36,9 @@
 namespace mvvm
 {
 
-using variant_t = std::variant<std::monostate, boolean, int, double, int64, std::string,
+using variant_t = std::variant<std::monostate, boolean, int, int64, double, std::string,
                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
-                               mvvm::Limits<int>, mvvm::Limits<double>, mvvm::Limits<int64>>;
+                               mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
@@ -51,15 +51,15 @@ namespace mvvm::constants
 const std::string kUndefinedVariantName = "undefined";
 const std::string kBoolVariantName = "bool";
 const std::string kIntVariantName = "int";
+const std::string kLongIntVariantName = "long_int_t";
 const std::string kStringVariantName = "string";
 const std::string kDoubleVariantName = "double";
-const std::string kLongIntVariantName = "long_int_t";
 const std::string kVectorDoubleVariantName = "vector_double_t";
 const std::string kComboPropertyVariantName = "ComboProperty";
 const std::string kExternalPropertyVariantName = "ExternalProperty";
-const std::string kRealLimitsVariantName = "RealLimits";
 const std::string kIntLimitsVariantName = "IntLimits";
 const std::string kLongIntLimitsVariantName = "LongIntLimits";
+const std::string kRealLimitsVariantName = "RealLimits";
 }  // namespace mvvm::constants
 
 namespace mvvm::utils
