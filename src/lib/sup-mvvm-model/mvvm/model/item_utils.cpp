@@ -275,7 +275,16 @@ void MoveUp(SessionItem& item)
   {
     return;  // item already at the top
   }
-  item.GetModel()->MoveItem(&item, item.GetParent(), tag_index.Prev());
+  if (auto model = item.GetModel(); model)
+  {
+    item.GetModel()->MoveItem(&item, item.GetParent(), tag_index.Prev());
+  }
+  else
+  {
+    auto parent = item.GetParent();
+    auto taken = parent->TakeItem(tag_index);
+    parent->InsertItem(std::move(taken), tag_index.Prev());
+  }
 }
 
 void MoveDown(SessionItem& item)
@@ -285,7 +294,18 @@ void MoveDown(SessionItem& item)
   {
     return;  // item already at the buttom
   }
-  item.GetModel()->MoveItem(&item, item.GetParent(), tag_index.Next());
+
+  if (auto model = item.GetModel(); model)
+  {
+    item.GetModel()->MoveItem(&item, item.GetParent(), tag_index.Next());
+  }
+  else
+  {
+    auto parent = item.GetParent();
+
+    auto taken = parent->TakeItem(tag_index);
+    parent->InsertItem(std::move(taken), tag_index.Next());
+  }
 }
 
 void RemoveItem(SessionItem& item)

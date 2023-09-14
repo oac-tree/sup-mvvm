@@ -511,6 +511,30 @@ TEST_F(ItemUtilsTests, CopyItem)
 
 TEST_F(ItemUtilsTests, MoveItemUp)
 {
+  testutils::toyitems::MultiLayerItem multilayer;
+
+  auto layer0 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+  auto layer1 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+  auto layer2 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+
+  std::vector<SessionItem*> expected = {layer0, layer1, layer2};
+
+  // original layout
+  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
+  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+
+  // moving top layer up doesn't change the order
+  utils::MoveUp(*layer0);
+  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+
+  // moving bottom layer up does change the order
+  utils::MoveUp(*layer2);
+  expected = {layer0, layer2, layer1};
+  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+}
+
+TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
+{
   testutils::toyitems::SampleModel model;
 
   auto multilayer = model.InsertItem<testutils::toyitems::MultiLayerItem>();
@@ -535,6 +559,30 @@ TEST_F(ItemUtilsTests, MoveItemUp)
 }
 
 TEST_F(ItemUtilsTests, MoveItemDown)
+{
+  testutils::toyitems::MultiLayerItem multilayer;
+
+  auto layer0 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+  auto layer1 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+  auto layer2 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+
+  std::vector<SessionItem*> expected = {layer0, layer1, layer2};
+
+  // original layout
+  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
+  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+
+  // moving bottom layer down doesn't change the order
+  utils::MoveDown(*layer2);
+  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+
+  // moving top layer down doesn't change the order
+  utils::MoveDown(*layer0);
+  expected = {layer1, layer0, layer2};
+  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+}
+
+TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
 {
   testutils::toyitems::SampleModel model;
 
