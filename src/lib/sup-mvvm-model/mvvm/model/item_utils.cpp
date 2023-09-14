@@ -29,6 +29,29 @@
 
 #include <stack>
 
+namespace
+{
+/**
+ * @brief Move item to a new index within the same parent. No check is performed for index
+ * validity.
+ */
+void MoveTo(mvvm::SessionItem& item, const mvvm::TagIndex& tag_index)
+{
+  if (auto model = item.GetModel(); model)
+  {
+    item.GetModel()->MoveItem(&item, item.GetParent(), tag_index);
+  }
+  else
+  {
+    auto parent = item.GetParent();
+    auto current_tag_index = item.GetTagIndex();
+    auto taken = parent->TakeItem(current_tag_index);
+    parent->InsertItem(std::move(taken), tag_index);
+  }
+}
+
+}  // namespace
+
 namespace mvvm::utils
 {
 
@@ -275,16 +298,8 @@ void MoveUp(SessionItem& item)
   {
     return;  // item already at the top
   }
-  if (auto model = item.GetModel(); model)
-  {
-    item.GetModel()->MoveItem(&item, item.GetParent(), tag_index.Prev());
-  }
-  else
-  {
-    auto parent = item.GetParent();
-    auto taken = parent->TakeItem(tag_index);
-    parent->InsertItem(std::move(taken), tag_index.Prev());
-  }
+
+  MoveTo(item, tag_index.Prev());
 }
 
 void MoveDown(SessionItem& item)
@@ -295,17 +310,7 @@ void MoveDown(SessionItem& item)
     return;  // item already at the buttom
   }
 
-  if (auto model = item.GetModel(); model)
-  {
-    item.GetModel()->MoveItem(&item, item.GetParent(), tag_index.Next());
-  }
-  else
-  {
-    auto parent = item.GetParent();
-
-    auto taken = parent->TakeItem(tag_index);
-    parent->InsertItem(std::move(taken), tag_index.Next());
-  }
+  MoveTo(item, tag_index.Next());
 }
 
 void RemoveItem(SessionItem& item)
