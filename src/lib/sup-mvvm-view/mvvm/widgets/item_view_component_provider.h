@@ -36,8 +36,12 @@ class ViewModel;
 class ViewModelDelegate;
 class SessionModelInterface;
 
-//! Provides QAbstractItemView with custom components: viewmodel, delegate
-//! and selection model. It owns all components, but doesn't own a view.
+/**
+ * @brief The ItemViewComponentProvider class provides QAbstractItemView with custom components:
+ * viewmodel, delegate and selection model.
+ *
+ * @details It owns all components, but doesn't own a view.
+ */
 
 class ItemViewComponentProvider : public QObject
 {
@@ -47,25 +51,74 @@ public:
   ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model, QAbstractItemView* view);
   ~ItemViewComponentProvider() override;
 
+  ItemViewComponentProvider(const ItemViewComponentProvider& other) = delete;
+  ItemViewComponentProvider& operator=(const ItemViewComponentProvider&) = delete;
+  ItemViewComponentProvider(ItemViewComponentProvider&& other) = delete;
+  ItemViewComponentProvider& operator=(ItemViewComponentProvider&&) = delete;
+
+  /**
+   * @brief Sets application model.
+   *
+   * @details Internal viewmodel will be subscribed to model notification and will present a model
+   * starting from its root item.
+   */
   void SetApplicationModel(SessionModelInterface* model);
 
+  /**
+   * @brief Set an item to be a new invisible root item for view model.
+   */
   void SetItem(SessionItem* item);
 
+  /**
+   * @brief Returns current invisible root item we are looking at.
+   */
+  const SessionItem* GetItem() const;
+
+  /**
+   * @brief Returns current invisible root item we are looking at.
+   */
+  SessionItem* GetItem();
+
+  /**
+   * @brief Returns a view which we are currently serving.
+   */
   QAbstractItemView* GetView() const;
 
+  /**
+   * @brief Returns used selection model.
+   */
   ItemSelectionModel* GetSelectionModel() const;
 
+  /**
+   * @brief Returns a view model.
+   */
   ViewModel* GetViewModel() const;
 
+  /**
+   * @brief Returns an item currently selected in a view.
+   */
   SessionItem* GetSelectedItem() const;
+
+  /**
+   * @brief Make given item selected in a view.
+   */
   void SetSelectedItem(SessionItem* item);
 
+  /**
+   * @brief Returns an item currently selected in a view and casted to specified type.
+   */
   template <typename T>
   T* GetSelected() const;
 
+  /**
+   * @brief Returns items currently selected in a view and casted to specified type.
+   */
   template <typename T = SessionItem>
   std::vector<T*> GetSelectedItems() const;
 
+  /**
+   * @brief Makes all specified items selected in a view.
+   */
   void SetSelectedItems(std::vector<SessionItem*> items);
 
 signals:
@@ -92,6 +145,15 @@ std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
   return utils::CastItems<T>(GetSelectedItemsIntern());
 }
 
+/**
+ * @brief Convenience function to create component provider for a view.
+ *
+ * @tparam ViewModelT The type of ViewModel which will be created.
+ * @param view The view which will be served by the provider.
+ * @param model The model which will be used to setup viewmodel.
+ *
+ * @return Component provider.
+ */
 template <typename ViewModelT>
 std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
                                                           SessionModelInterface* model = nullptr)

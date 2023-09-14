@@ -63,6 +63,16 @@ void ItemViewComponentProvider::SetItem(SessionItem *item)
   m_view_model->SetRootSessionItem(item);
 }
 
+const SessionItem *ItemViewComponentProvider::GetItem() const
+{
+  return m_view_model->GetRootSessionItem();
+}
+
+SessionItem *ItemViewComponentProvider::GetItem()
+{
+  return m_view_model->GetRootSessionItem();
+}
+
 QAbstractItemView *ItemViewComponentProvider::GetView() const
 {
   return m_view;
@@ -100,7 +110,7 @@ std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() c
   std::vector<SessionItem *> result;
   auto items = m_selection_model->GetSelectedItems();
   std::transform(items.begin(), items.end(), std::back_inserter(result),
-                 [](auto it) { return const_cast<SessionItem *>(it); });
+                 [](auto iter) { return const_cast<SessionItem *>(iter); });
   return result;
 }
 
