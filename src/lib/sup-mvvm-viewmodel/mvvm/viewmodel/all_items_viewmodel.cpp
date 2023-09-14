@@ -31,4 +31,10 @@ AllItemsViewModel::AllItemsViewModel(SessionModelInterface *model, QObject *pare
   SetController(factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this));
 }
 
+int AllItemsViewModel::columnCount(const QModelIndex &parent) const
+{
+  Q_UNUSED(parent);
+  return 2;
+}
+
 }  // namespace mvvm
