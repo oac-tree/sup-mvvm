@@ -159,14 +159,14 @@ TEST_F(VariantTests, TypeName)
   EXPECT_EQ(TypeName(variant_t(42.4)), constants::kFloat64TypeName);
   EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringTypeName);
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
-            constants::kVectorDoubleVariantName);
+            constants::kVectorDoubleTypeName);
   EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
-            constants::kComboPropertyVariantName);
+            constants::kComboPropertyTypeName);
   EXPECT_EQ(TypeName(variant_t(ExternalProperty("text", "red"))),
-            constants::kExternalPropertyVariantName);
+            constants::kExternalPropertyTypeName);
   EXPECT_EQ(TypeName(variant_t(RealLimits::CreateLimited(1.0, 2.0))),
-            constants::kRealLimitsVariantName);
-  EXPECT_EQ(TypeName(variant_t(IntLimits::CreateLimited(1, 2))), constants::kIntLimitsVariantName);
+            constants::kRealLimitsTypeName);
+  EXPECT_EQ(TypeName(variant_t(IntLimits::CreateLimited(1, 2))), constants::kIntLimitsTypeName);
 }
 
 TEST_F(VariantTests, DataRoleComparison)

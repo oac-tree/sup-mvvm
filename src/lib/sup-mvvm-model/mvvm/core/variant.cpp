@@ -59,12 +59,12 @@ std::string TypeName(const variant_t &variant)
       {2, constants::kInt64TypeName},
       {3, constants::kFloat64TypeName},
       {4, constants::kStringTypeName},
-      {5, constants::kVectorDoubleVariantName},
-      {6, constants::kComboPropertyVariantName},
-      {7, constants::kExternalPropertyVariantName},
-      {8, constants::kIntLimitsVariantName},
-      {9, constants::kLongIntLimitsVariantName},
-      {10, constants::kRealLimitsVariantName},
+      {5, constants::kVectorDoubleTypeName},
+      {6, constants::kComboPropertyTypeName},
+      {7, constants::kExternalPropertyTypeName},
+      {8, constants::kIntLimitsTypeName},
+      {9, constants::kLongIntLimitsTypeName},
+      {10, constants::kRealLimitsTypeName},
   };
   return type_name_map[static_cast<int>(variant.index())];
 }

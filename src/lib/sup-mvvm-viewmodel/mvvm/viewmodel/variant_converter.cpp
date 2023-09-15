@@ -67,7 +67,7 @@ namespace mvvm
 {
 QVariant GetQtVariant(const variant_t& variant)
 {
-  if (utils::TypeName(variant) == constants::kVectorDoubleVariantName)
+  if (utils::TypeName(variant) == constants::kVectorDoubleTypeName)
   {
     // shall we convert to supported QVector<double> instead?
     return QVariant::fromValue(std::get<std::vector<double>>(variant));

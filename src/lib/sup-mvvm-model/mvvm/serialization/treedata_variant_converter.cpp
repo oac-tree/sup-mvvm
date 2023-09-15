@@ -286,7 +286,7 @@ mvvm::TreeData from_vector_double(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kVectorDoubleVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kVectorDoubleTypeName);
   auto values = std::get<std::vector<double>>(datarole.first);
   result.SetContent(mvvm::utils::ToCommaSeparatedString(values));
   return result;
@@ -302,7 +302,7 @@ mvvm::TreeData from_combo_property(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
   auto combo = std::get<mvvm::ComboProperty>(datarole.first);
   result.AddAttribute(kSelectionsAttributeKey, combo.GetStringOfSelections());
   result.SetContent(combo.GetStringOfValues());
@@ -325,7 +325,7 @@ mvvm::TreeData from_external_property(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kExternalPropertyVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kExternalPropertyTypeName);
   auto property = std::get<mvvm::ExternalProperty>(datarole.first);
   result.SetContent(property.ToString());
   return result;
@@ -341,7 +341,7 @@ mvvm::TreeData from_int_limits(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntLimitsVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntLimitsTypeName);
   auto limits = std::get<mvvm::Limits<int>>(datarole.first);
   result.SetContent(mvvm::utils::ToString(limits));
   return result;
@@ -357,7 +357,7 @@ mvvm::TreeData from_real_limits(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kRealLimitsVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kRealLimitsTypeName);
   auto limits = std::get<mvvm::Limits<double>>(datarole.first);
   result.SetContent(mvvm::utils::ToString(limits));
   return result;
@@ -377,12 +377,12 @@ std::map<std::string, Converters> GetConverters()
       {mvvm::constants::kInt64TypeName, {from_int, to_int}},
       {mvvm::constants::kStringTypeName, {from_string, to_string}},
       {mvvm::constants::kFloat64TypeName, {from_double, to_double}},
-      {mvvm::constants::kVectorDoubleVariantName, {from_vector_double, to_vector_double}},
-      {mvvm::constants::kComboPropertyVariantName, {from_combo_property, to_combo_property}},
-      {mvvm::constants::kExternalPropertyVariantName,
+      {mvvm::constants::kVectorDoubleTypeName, {from_vector_double, to_vector_double}},
+      {mvvm::constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
+      {mvvm::constants::kExternalPropertyTypeName,
        {from_external_property, to_external_property}},
-      {mvvm::constants::kIntLimitsVariantName, {from_int_limits, to_int_limits}},
-      {mvvm::constants::kRealLimitsVariantName, {from_real_limits, to_real_limits}},
+      {mvvm::constants::kIntLimitsTypeName, {from_int_limits, to_int_limits}},
+      {mvvm::constants::kRealLimitsTypeName, {from_real_limits, to_real_limits}},
   };
 
   return result;
