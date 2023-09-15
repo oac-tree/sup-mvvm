@@ -36,9 +36,38 @@
 namespace mvvm
 {
 
-using variant_t = std::variant<std::monostate, boolean, int64, double, std::string,
-                               std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
-                               mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
+enum class TypeCode : uint32
+{
+  Empty = 0,
+  Bool,
+  Char8,
+  Int8,
+  UInt8,
+  Int16,
+  UInt16,
+  Int32,
+  UInt32,
+  Int64,
+  UInt64,
+  Float32,
+  Float64,
+  String,
+  VectorOfDouble,
+  ComboProperty,
+  ExternalProperty,
+  LimitsInt,
+  LimitsInt64,
+  LimitsDouble
+};
+
+ using variant_t = std::variant<std::monostate, boolean, int64, double, std::string,
+                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
+                                mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
+
+//using variant_t =
+//    std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32, uint32, int64,
+//                 uint64, float32, float64, std::string, std::vector<double>, ComboProperty,
+//                 ExternalProperty, Limits<int>, Limits<int64>, Limits<double>>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);

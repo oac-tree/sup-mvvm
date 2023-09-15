@@ -22,15 +22,24 @@
 
 /**
  * @file
- * Defines basic scalar types supported by the framework.
+ * Defines basic scalar types supported by the framework. Definitions are taken as it is from
+ * sup-dto framework.
  */
 
 namespace mvvm
 {
 
 using boolean = bool;
+using char8 = char;
+using int8 = signed char;
+using uint8 = unsigned char;
+using int16 = signed short;
+using uint16 = unsigned short;
+using int32 = signed int;
+using uint32 = unsigned int;
 using int64 = signed long;
 using uint64 = unsigned long;
+using float32 = float;
 using float64 = double;
 
 }  // namespace mvvm
