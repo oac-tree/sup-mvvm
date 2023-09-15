@@ -280,7 +280,7 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
 
 bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
 {
-  return item.HasData(DataRole::kAppearance) ? item.Data<int64>(DataRole::kAppearance) & flag
+  return item.HasData(DataRole::kAppearance) ? item.Data<int>(DataRole::kAppearance) & flag
                                              : false;
 }
 

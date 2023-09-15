@@ -233,9 +233,11 @@ mvvm::datarole_t to_bool(const mvvm::TreeData& tree_data)
 
 mvvm::TreeData from_int(const mvvm::datarole_t& datarole)
 {
+  auto type_name = mvvm::utils::TypeName(datarole.first);
+
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kInt64TypeName);
+  result.AddAttribute(kTypeAttributeKey, type_name);
   auto value = std::get<mvvm::int64>(datarole.first);
   result.SetContent(std::to_string(value));
   return result;

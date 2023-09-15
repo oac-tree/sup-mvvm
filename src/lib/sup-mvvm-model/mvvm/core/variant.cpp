@@ -19,7 +19,66 @@
 
 #include "mvvm/core/variant.h"
 
+#include <mvvm/core/exceptions.h>
+#include <mvvm/utils/string_utils.h>
+
 #include <map>
+
+namespace
+{
+
+/**
+ * @brief Helper structure to visit variant and report string representation of its value.
+ */
+struct VariantValueVisitor
+{
+  std::string operator()(std::monostate) { return {}; }
+  std::string operator()(mvvm::boolean value) { return mvvm::utils::FromBool(value); }
+  std::string operator()(mvvm::char8 value) { return std::string(1, value); }
+  std::string operator()(mvvm::int8 value) { return {std::to_string(value)}; }
+  std::string operator()(mvvm::uint8 value) { return {std::to_string(value)}; }
+
+  std::string operator()(mvvm::int16 value) { return {std::to_string(value)}; }
+  std::string operator()(mvvm::uint16 value) { return {std::to_string(value)}; }
+
+  std::string operator()(mvvm::int32 value) { return {std::to_string(value)}; }
+  std::string operator()(mvvm::uint32 value) { return {std::to_string(value)}; }
+
+  std::string operator()(mvvm::int64 value) { return {std::to_string(value)}; }
+  std::string operator()(mvvm::uint64 value) { return {std::to_string(value)}; }
+
+  std::string operator()(mvvm::float32 value) { return mvvm::utils::DoubleToString(value); }
+
+  std::string operator()(mvvm::float64 value) { return mvvm::utils::DoubleToString(value); }
+
+  std::string operator()(std::string value) { return value; }
+
+  std::string operator()(std::vector<double> value)
+  {
+    return {mvvm::utils::ToCommaSeparatedString(value)};
+  }
+
+  std::string operator()(mvvm::ComboProperty value) { return {value.GetStringOfValues()}; }
+
+  std::string operator()(mvvm::ExternalProperty value) { return value.ToString(); }
+
+  std::string operator()(mvvm::Limits<int> value)
+  {
+    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
+  }
+
+  std::string operator()(mvvm::Limits<mvvm::int64> value)
+  {
+    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
+  }
+
+  std::string operator()(mvvm::Limits<double> value)
+  {
+    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
+  }
+};
+
+}  // namespace
 
 namespace mvvm
 {
@@ -51,24 +110,6 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
   return var1.index() == var2.index();
 }
 
-// std::string TypeName(const variant_t &variant)
-//{
-//   static std::map<int, std::string> type_name_map = {
-//       {0, constants::kEmptyTypeName},
-//       {1, constants::kBooleanTypeName},
-//       {2, constants::kInt64TypeName},
-//       {3, constants::kFloat64TypeName},
-//       {4, constants::kStringTypeName},
-//       {5, constants::kVectorDoubleTypeName},
-//       {6, constants::kComboPropertyTypeName},
-//       {7, constants::kExternalPropertyTypeName},
-//       {8, constants::kIntLimitsTypeName},
-//       {9, constants::kLongIntLimitsTypeName},
-//       {10, constants::kRealLimitsTypeName},
-//   };
-//   return type_name_map[static_cast<int>(variant.index())];
-// }
-
 std::string TypeName(const variant_t &variant)
 {
   static std::map<TypeCode, std::string> type_name_map = {
@@ -94,6 +135,11 @@ std::string TypeName(const variant_t &variant)
       {TypeCode::LimitsDouble, constants::kRealLimitsTypeName},
   };
   return type_name_map[static_cast<TypeCode>(variant.index())];
+}
+
+std::string ValueToString(const variant_t &variant)
+{
+  return std::visit(VariantValueVisitor{}, variant);
 }
 
 }  // namespace mvvm::utils

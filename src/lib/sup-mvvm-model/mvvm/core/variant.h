@@ -60,10 +60,6 @@ enum class TypeCode : uint32
   LimitsDouble
 };
 
-// using variant_t = std::variant<std::monostate, boolean, int64, double, std::string,
-//                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
-//                                mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
-
 using variant_t =
     std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32, uint32, int64,
                  uint64, float32, float64, std::string, std::vector<double>, ComboProperty,
@@ -112,6 +108,9 @@ MVVM_MODEL_EXPORT bool AreCompatible(const variant_t& var1, const variant_t& var
 
 //! Returns string representing type name.
 MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
+
+//! Returns string representing variant value.
+MVVM_MODEL_EXPORT std::string ValueToString(const variant_t& variant);
 
 }  // namespace mvvm::utils
 

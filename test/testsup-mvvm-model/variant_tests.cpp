@@ -19,6 +19,8 @@
 
 #include "mvvm/core/variant.h"
 
+#include <mvvm/utils/string_utils.h>
+
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -153,11 +155,48 @@ TEST_F(VariantTests, AreCompatible)
 TEST_F(VariantTests, TypeName)
 {
   using utils::TypeName;
+
   EXPECT_EQ(TypeName(variant_t()), constants::kEmptyTypeName);
-  EXPECT_EQ(TypeName(variant_t(true)), constants::kBooleanTypeName);
-  EXPECT_EQ(TypeName(variant_t(42)), constants::kInt64TypeName);
-  EXPECT_EQ(TypeName(variant_t(42.4)), constants::kFloat64TypeName);
-  EXPECT_EQ(TypeName(variant_t(std::string("abc"))), constants::kStringTypeName);
+
+  mvvm::boolean bool_value{true};
+  EXPECT_EQ(TypeName(variant_t(bool_value)), constants::kBooleanTypeName);
+
+  mvvm::char8 char_value{'a'};
+  EXPECT_EQ(TypeName(variant_t(char_value)), constants::kChar8TypeName);
+
+  mvvm::int8 int8_value{16};
+  EXPECT_EQ(TypeName(variant_t(int8_value)), constants::kInt8TypeName);
+
+  mvvm::uint8 uint8_value{16};
+  EXPECT_EQ(TypeName(variant_t(uint8_value)), constants::kUInt8TypeName);
+
+  mvvm::int16 int16_value{42};
+  EXPECT_EQ(TypeName(variant_t(int16_value)), constants::kInt16TypeName);
+
+  mvvm::uint16 uint16_value{42};
+  EXPECT_EQ(TypeName(variant_t(uint16_value)), constants::kUInt16TypeName);
+
+  mvvm::int32 int32_value{42};
+  EXPECT_EQ(TypeName(variant_t(int32_value)), constants::kInt32TypeName);
+
+  mvvm::uint32 uint32_value{42};
+  EXPECT_EQ(TypeName(variant_t(uint32_value)), constants::kUInt32TypeName);
+
+  mvvm::int64 int64_value{42};
+  EXPECT_EQ(TypeName(variant_t(int64_value)), constants::kInt64TypeName);
+
+  mvvm::uint64 uint64_value{42};
+  EXPECT_EQ(TypeName(variant_t(uint64_value)), constants::kUInt64TypeName);
+
+  mvvm::float32 float32_value{42.1};
+  EXPECT_EQ(TypeName(variant_t(float32_value)), constants::kFloat32TypeName);
+
+  mvvm::float64 float64_value{42.1};
+  EXPECT_EQ(TypeName(variant_t(float64_value)), constants::kFloat64TypeName);
+
+  std::string string_value;
+  EXPECT_EQ(TypeName(variant_t(string_value)), constants::kStringTypeName);
+
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
             constants::kVectorDoubleTypeName);
   EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
@@ -182,4 +221,60 @@ TEST_F(VariantTests, DataRoleComparison)
   datarole_t data_role5{std::vector<double>{1, 2}, 42};
   datarole_t data_role6{std::vector<double>{1, 2, 3}, 42};
   EXPECT_FALSE(data_role5 == data_role6);
+}
+
+TEST_F(VariantTests, ValueToString)
+{
+  using utils::ValueToString;
+
+  EXPECT_EQ(ValueToString(variant_t{}), std::string());
+
+  mvvm::boolean bool_value{true};
+  EXPECT_EQ(ValueToString(variant_t(bool_value)), std::string("true"));
+
+  mvvm::char8 char_value{'a'};
+  EXPECT_EQ(ValueToString(variant_t(char_value)), std::string("a"));
+
+  mvvm::int8 int8_value{-8};
+  EXPECT_EQ(ValueToString(variant_t(int8_value)), std::string("-8"));
+
+  mvvm::uint8 uint8_value{16};
+  EXPECT_EQ(ValueToString(variant_t(uint8_value)), std::string("16"));
+
+  mvvm::int16 int16_value{-42};
+  EXPECT_EQ(ValueToString(variant_t(int16_value)), std::string("-42"));
+
+  mvvm::int16 uint16_value{42};
+  EXPECT_EQ(ValueToString(variant_t(uint16_value)), std::string("42"));
+
+  mvvm::int32 int32_value{-42};
+  EXPECT_EQ(ValueToString(variant_t(int32_value)), std::string("-42"));
+
+  mvvm::int32 uint32_value{42};
+  EXPECT_EQ(ValueToString(variant_t(uint32_value)), std::string("42"));
+
+  mvvm::int64 int64_value{-42};
+  EXPECT_EQ(ValueToString(variant_t(int64_value)), std::string("-42"));
+
+  mvvm::int32 uint64_value{42};
+  EXPECT_EQ(ValueToString(variant_t(uint64_value)), std::string("42"));
+
+  mvvm::float32 float32_value{48.0};
+  EXPECT_EQ(ValueToString(variant_t(float32_value)), std::string("48.0"));
+
+  mvvm::float64 float64_value{48.0};
+  EXPECT_EQ(ValueToString(variant_t(float64_value)), std::string("48.0"));
+
+  std::string string_value{"abc"};
+  EXPECT_EQ(ValueToString(variant_t(string_value)), string_value);
+
+  std::vector<double> vector_value{1.0, 2.0, 3.0};
+  EXPECT_EQ(ValueToString(variant_t(vector_value)), std::string("1.0, 2.0, 3.0"));
+
+  ComboProperty combo_value = ComboProperty::CreateFrom(std::vector<std::string>{"a1", "a2"});
+  EXPECT_EQ(ValueToString(variant_t(combo_value)), std::string("a1;a2"));
+
+  ExternalProperty external_property_value("text", "color", "identifier");
+  EXPECT_EQ(ValueToString(variant_t(external_property_value)),
+            std::string("text;color;identifier"));
 }
