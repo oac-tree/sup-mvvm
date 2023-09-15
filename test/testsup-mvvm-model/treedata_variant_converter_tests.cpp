@@ -53,7 +53,7 @@ TEST_F(TreeDataVariantConverterTests, UndefinedDataRole)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing undefined variant with role=0.
-  const std::string body{R"(<Variant role="0" type="undefined"></Variant>)"};
+  const std::string body{R"(<Variant role="0" type="empty"></Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
@@ -133,7 +133,7 @@ TEST_F(TreeDataVariantConverterTests, DoubleDataRole)
   using mvvm::ParseXMLElementString;
 
   // Constructing TreeData representing double variant with role=0.
-  const std::string body{R"(<Variant role="43" type="double">42.3</Variant>)"};
+  const std::string body{R"(<Variant role="43" type="float64">42.3</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 

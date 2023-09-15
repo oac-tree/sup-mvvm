@@ -77,11 +77,12 @@ bool operator==(const datarole_t& lhs, const datarole_t& rhs);
 //! Defines names of all supported (serializable) data types.
 namespace mvvm::constants
 {
-const std::string kUndefinedVariantName = "undefined";
-const std::string kBoolVariantName = "bool";
-const std::string kLongIntVariantName = "int64";
-const std::string kStringVariantName = "string";
-const std::string kDoubleVariantName = "double";
+const std::string kEmptyTypeName = "empty";
+const std::string kBooleanTypeName = "bool";
+const std::string kInt64TypeName = "int64";
+const std::string kFloat64TypeName = "float64";
+const std::string kStringTypeName = "string";
+
 const std::string kVectorDoubleVariantName = "vector_double_t";
 const std::string kComboPropertyVariantName = "ComboProperty";
 const std::string kExternalPropertyVariantName = "ExternalProperty";

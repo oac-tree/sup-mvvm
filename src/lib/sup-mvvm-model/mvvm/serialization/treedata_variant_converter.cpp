@@ -206,7 +206,7 @@ mvvm::TreeData from_undefined(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kUndefinedVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kEmptyTypeName);
   return result;
 }
 
@@ -219,7 +219,7 @@ mvvm::TreeData from_bool(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kBoolVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kBooleanTypeName);
   bool value = std::get<bool>(datarole.first);
   result.SetContent(mvvm::utils::FromBool(value));
   return result;
@@ -235,7 +235,7 @@ mvvm::TreeData from_int(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kLongIntVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kInt64TypeName);
   auto value = std::get<mvvm::int64>(datarole.first);
   result.SetContent(std::to_string(value));
   return result;
@@ -251,7 +251,7 @@ mvvm::TreeData from_string(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kStringVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kStringTypeName);
   auto value = std::get<std::string>(datarole.first);
   result.SetContent(value);
   return result;
@@ -266,7 +266,7 @@ mvvm::TreeData from_double(const mvvm::datarole_t& datarole)
 {
   mvvm::TreeData result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kDoubleVariantName);
+  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kFloat64TypeName);
   auto value = std::get<double>(datarole.first);
   result.SetContent(mvvm::utils::DoubleToString(value));
   return result;
@@ -372,11 +372,11 @@ mvvm::datarole_t to_real_limits(const mvvm::TreeData& tree_data)
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
-      {mvvm::constants::kUndefinedVariantName, {from_undefined, to_undefined}},
-      {mvvm::constants::kBoolVariantName, {from_bool, to_bool}},
-      {mvvm::constants::kLongIntVariantName, {from_int, to_int}},
-      {mvvm::constants::kStringVariantName, {from_string, to_string}},
-      {mvvm::constants::kDoubleVariantName, {from_double, to_double}},
+      {mvvm::constants::kEmptyTypeName, {from_undefined, to_undefined}},
+      {mvvm::constants::kBooleanTypeName, {from_bool, to_bool}},
+      {mvvm::constants::kInt64TypeName, {from_int, to_int}},
+      {mvvm::constants::kStringTypeName, {from_string, to_string}},
+      {mvvm::constants::kFloat64TypeName, {from_double, to_double}},
       {mvvm::constants::kVectorDoubleVariantName, {from_vector_double, to_vector_double}},
       {mvvm::constants::kComboPropertyVariantName, {from_combo_property, to_combo_property}},
       {mvvm::constants::kExternalPropertyVariantName,

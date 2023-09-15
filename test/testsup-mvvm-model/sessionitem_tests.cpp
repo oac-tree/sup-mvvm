@@ -118,7 +118,7 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
     SessionItem item;
     const int role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43.0, DataRole::kData));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kDoubleVariantName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kFloat64TypeName);
   }
 
   {
@@ -126,7 +126,7 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
     const int role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43, DataRole::kData));
     // internally data is saved as int64
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kLongIntVariantName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
   }
 }
 

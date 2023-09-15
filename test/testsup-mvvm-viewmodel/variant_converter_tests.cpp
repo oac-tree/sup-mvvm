@@ -42,12 +42,12 @@ TEST_F(VariantConverterTests, GetStdVariant)
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(true)), variant_t(true));
 
   auto std_variant_from_qint = GetStdVariant(QVariant::fromValue(42));
-  EXPECT_EQ(utils::TypeName(std_variant_from_qint), constants::kLongIntVariantName);
+  EXPECT_EQ(utils::TypeName(std_variant_from_qint), constants::kInt64TypeName);
   EXPECT_EQ(std_variant_from_qint, variant_t(42));
 
   qint64 num(42);
   auto std_variant_from_qint64 = GetStdVariant(QVariant(num));
-  EXPECT_EQ(utils::TypeName(std_variant_from_qint64), constants::kLongIntVariantName);
+  EXPECT_EQ(utils::TypeName(std_variant_from_qint64), constants::kInt64TypeName);
   EXPECT_EQ(std_variant_from_qint64, variant_t(42LL));
 
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(1.0)), variant_t(1.0));
