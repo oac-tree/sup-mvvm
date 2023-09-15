@@ -31,7 +31,7 @@ namespace
 {
 int appearance(const mvvm::SessionItem& item)
 {
-  return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<mvvm::int64>(mvvm::DataRole::kAppearance)
+  return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<int>(mvvm::DataRole::kAppearance)
                                                    : mvvm::Appearance::kDefault;
 }
 }  // namespace

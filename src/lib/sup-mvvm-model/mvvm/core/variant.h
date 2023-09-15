@@ -60,15 +60,14 @@ enum class TypeCode : uint32
   LimitsDouble
 };
 
-using variant_t = std::variant<std::monostate, boolean, int64, double, std::string,
-                               std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
-                               mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
+// using variant_t = std::variant<std::monostate, boolean, int64, double, std::string,
+//                                std::vector<double>, mvvm::ComboProperty, mvvm::ExternalProperty,
+//                                mvvm::Limits<int>, mvvm::Limits<int64>, mvvm::Limits<double>>;
 
-// using variant_t =
-//     std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32, uint32,
-//     int64,
-//                  uint64, float32, float64, std::string, std::vector<double>, ComboProperty,
-//                  ExternalProperty, Limits<int>, Limits<int64>, Limits<double>>;
+using variant_t =
+    std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32, uint32, int64,
+                 uint64, float32, float64, std::string, std::vector<double>, ComboProperty,
+                 ExternalProperty, Limits<int>, Limits<int64>, Limits<double>>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);

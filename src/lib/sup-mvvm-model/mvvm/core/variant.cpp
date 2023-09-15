@@ -51,22 +51,49 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
   return var1.index() == var2.index();
 }
 
+// std::string TypeName(const variant_t &variant)
+//{
+//   static std::map<int, std::string> type_name_map = {
+//       {0, constants::kEmptyTypeName},
+//       {1, constants::kBooleanTypeName},
+//       {2, constants::kInt64TypeName},
+//       {3, constants::kFloat64TypeName},
+//       {4, constants::kStringTypeName},
+//       {5, constants::kVectorDoubleTypeName},
+//       {6, constants::kComboPropertyTypeName},
+//       {7, constants::kExternalPropertyTypeName},
+//       {8, constants::kIntLimitsTypeName},
+//       {9, constants::kLongIntLimitsTypeName},
+//       {10, constants::kRealLimitsTypeName},
+//   };
+//   return type_name_map[static_cast<int>(variant.index())];
+// }
+
 std::string TypeName(const variant_t &variant)
 {
-  static std::map<int, std::string> type_name_map = {
-      {0, constants::kEmptyTypeName},
-      {1, constants::kBooleanTypeName},
-      {2, constants::kInt64TypeName},
-      {3, constants::kFloat64TypeName},
-      {4, constants::kStringTypeName},
-      {5, constants::kVectorDoubleTypeName},
-      {6, constants::kComboPropertyTypeName},
-      {7, constants::kExternalPropertyTypeName},
-      {8, constants::kIntLimitsTypeName},
-      {9, constants::kLongIntLimitsTypeName},
-      {10, constants::kRealLimitsTypeName},
+  static std::map<TypeCode, std::string> type_name_map = {
+      {TypeCode::Empty, constants::kEmptyTypeName},
+      {TypeCode::Bool, constants::kBooleanTypeName},
+      {TypeCode::Char8, constants::kChar8TypeName},
+      {TypeCode::Int8, constants::kInt8TypeName},
+      {TypeCode::UInt8, constants::kUInt8TypeName},
+      {TypeCode::Int16, constants::kInt16TypeName},
+      {TypeCode::UInt16, constants::kUInt16TypeName},
+      {TypeCode::Int32, constants::kInt32TypeName},
+      {TypeCode::UInt32, constants::kUInt32TypeName},
+      {TypeCode::Int64, constants::kInt64TypeName},
+      {TypeCode::UInt64, constants::kUInt64TypeName},
+      {TypeCode::Float32, constants::kFloat32TypeName},
+      {TypeCode::Float64, constants::kFloat64TypeName},
+      {TypeCode::String, constants::kStringTypeName},
+      {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
+      {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
+      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName},
+      {TypeCode::LimitsInt, constants::kIntLimitsTypeName},
+      {TypeCode::LimitsInt64, constants::kLongIntLimitsTypeName},
+      {TypeCode::LimitsDouble, constants::kRealLimitsTypeName},
   };
-  return type_name_map[static_cast<int>(variant.index())];
+  return type_name_map[static_cast<TypeCode>(variant.index())];
 }
 
 }  // namespace mvvm::utils
