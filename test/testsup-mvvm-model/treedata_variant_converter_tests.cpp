@@ -106,7 +106,7 @@ TEST_F(TreeDataVariantConverterTests, IntDataRole)
 
   // Converting tree_data to data_role
   auto data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(48), 42));
+  EXPECT_EQ(data_role, datarole_t(variant_t(48LL), 42));
 
   // Converting back
   auto new_tree_data = ToTreeData(data_role);
@@ -118,7 +118,7 @@ TEST_F(TreeDataVariantConverterTests, IntDataRole)
 
   // Converting tree_data to data_role
   data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(48), 42));
+  EXPECT_EQ(data_role, datarole_t(variant_t(48LL), 42));
 
   // Attempting to construct invalid tree (integer value is missed)
   tree_data = ParseXMLElementString(R"(<Variant role="42" type="int64"></Variant>)");
