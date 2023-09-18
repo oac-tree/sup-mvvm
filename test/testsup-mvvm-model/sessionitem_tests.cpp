@@ -110,22 +110,35 @@ TEST_F(SessionItemTests, SetData)
   EXPECT_EQ(item.Data(role), variant_t(43.0));
 }
 
-//! Validating ::setData in the context of implicit conversion.
+//! Validating ::setData in the context of implicit conversion from scalar to variant.
 
 TEST_F(SessionItemTests, SetDataAndImplicitConversion)
 {
   {
     SessionItem item;
     const int role = DataRole::kData;
-    EXPECT_TRUE(item.SetData(43.0, DataRole::kData));
+    EXPECT_TRUE(item.SetData(43.0, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kFloat64TypeName);
   }
 
   {
     SessionItem item;
     const int role = DataRole::kData;
-    EXPECT_TRUE(item.SetData(43, DataRole::kData));
-    // internally data is saved as int64
+    EXPECT_TRUE(item.SetData(43, role));
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt32TypeName);
+  }
+
+  {
+    SessionItem item;
+    const int role = DataRole::kData;
+    EXPECT_TRUE(item.SetData(43L, role));
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
+  }
+
+  {
+    SessionItem item;
+    const int role = DataRole::kData;
+    EXPECT_TRUE(item.SetData(43LL, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
   }
 }
