@@ -29,7 +29,7 @@
 //! - <Variant role = "0" type = "int">42</Variant>
 //! - <Variant role = "0" type = "string">James</Variant>
 //! - <Variant role = "0" type = "double">42.3</Variant>
-//! - <Variant role = "0" type = "vector_double_t">1.0, 2.0</Variant>
+//! - <Variant role = "0" type = "vector_double">1.0, 2.0</Variant>
 //! - <Variant role = "0" type = "ComboProperty" selections="1,2">a1;a2</Variant>
 //! - <Variant role = "0" type = "ExternalProperty">text;color;identifier</Variant>
 //! - <Variant role = "0" type = "RealLimits">Limited;1.0;2.0</Variant>

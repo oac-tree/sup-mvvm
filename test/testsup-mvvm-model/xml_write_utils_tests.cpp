@@ -169,7 +169,7 @@ TEST_F(XMLWriteUtilsTests, WriteItemData)
   variant1.AddAttribute("role", "0");
   variant1.SetContent("42");
   mvvm::TreeData variant2("Variant");
-  variant2.AddAttribute("type", "vector_double_t");
+  variant2.AddAttribute("type", "vector_double");
   variant2.AddAttribute("role", "0");
   variant2.SetContent("42.1, 42.2, 42.3");
   tree_data.AddChild(variant1);
@@ -178,7 +178,7 @@ TEST_F(XMLWriteUtilsTests, WriteItemData)
   const std::string expected{R"(<?xml version="1.0" encoding="UTF-8"?>
 <ItemData>
   <Variant role="0" type="int">42</Variant>
-  <Variant role="0" type="vector_double_t">42.1, 42.2, 42.3</Variant>
+  <Variant role="0" type="vector_double">42.1, 42.2, 42.3</Variant>
 </ItemData>
 )"};
 

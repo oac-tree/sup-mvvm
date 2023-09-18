@@ -27,7 +27,7 @@
 //! Plays supporting role in converting XML elements
 //! <ItemData>
 //!   <Variant role="0" type="int">42</Variant>
-//!   <Variant role="1" type="vector_double_t">42.1, 42.2, 42.3</Variant>
+//!   <Variant role="1" type="vector_double">42.1, 42.2, 42.3</Variant>
 //! </ItemData>
 
 #include <mvvm/model_export.h>
