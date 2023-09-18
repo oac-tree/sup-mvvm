@@ -27,9 +27,9 @@ namespace mvvm
 {
 ViewItemMap::ViewItemMap() = default;
 
-void ViewItemMap::Insert(const SessionItem *item, ViewItem *view_item)
+void ViewItemMap::Insert(const SessionItem *const item, ViewItem *const view_item)
 {
-  auto it = m_item_to_view.find(item);
+  const auto it = m_item_to_view.find(item);
   if (it != m_item_to_view.end())
   {
     throw std::runtime_error("Error in ViewItemMap: item is already registered");
@@ -37,15 +37,15 @@ void ViewItemMap::Insert(const SessionItem *item, ViewItem *view_item)
   m_item_to_view.insert(it, {item, view_item});
 }
 
-ViewItem *ViewItemMap::FindView(const SessionItem *item)
+ViewItem *ViewItemMap::FindView(const SessionItem *const item) const
 {
-  auto it = m_item_to_view.find(item);
+  const auto it = m_item_to_view.find(item);
   return it == m_item_to_view.end() ? nullptr : it->second;
 }
 
-void ViewItemMap::Remove(const SessionItem *item)
+void ViewItemMap::Remove(const SessionItem *const item)
 {
-  auto it = m_item_to_view.find(item);
+  const auto it = m_item_to_view.find(item);
   if (it != m_item_to_view.end())
   {
     m_item_to_view.erase(it);
@@ -56,11 +56,11 @@ void ViewItemMap::Remove(const SessionItem *item)
   }
 }
 
-void ViewItemMap::OnItemRemove(const SessionItem *item)
+void ViewItemMap::OnItemRemove(const SessionItem *const item)
 {
-  auto on_item = [this](auto item) -> bool
+  const auto on_item = [this](auto item) -> bool
   {
-    if (auto it = m_item_to_view.find(item); it != m_item_to_view.end())
+    if (const auto it = m_item_to_view.find(item); it != m_item_to_view.end())
     {
       m_item_to_view.erase(it);
     }

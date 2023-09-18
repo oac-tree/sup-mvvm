@@ -45,7 +45,7 @@ public:
   /**
    * @brief Find view for given item.
    */
-  ViewItem* FindView(const SessionItem* item);
+  ViewItem* FindView(const SessionItem* item) const;
 
   /**
    * @brief Removes view corresponding to given item.
