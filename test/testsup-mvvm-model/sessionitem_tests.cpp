@@ -138,7 +138,8 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
   {
     SessionItem item;
     const int role = DataRole::kData;
-    EXPECT_TRUE(item.SetData(43LL, role));
+    int64 num(43);
+    EXPECT_TRUE(item.SetData(num, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
   }
 }

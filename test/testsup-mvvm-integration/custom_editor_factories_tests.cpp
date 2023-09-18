@@ -88,7 +88,8 @@ TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
   EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
   // long int
-  index = AddDataToModel(variant_t(4294967296LL), constants::kLongIntSpinBoxEditorType);
+  const int64 num(4294967296);
+  index = AddDataToModel(variant_t(num), constants::kLongIntSpinBoxEditorType);
   EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
   // for int we use adapted QSpinBox with limits set
@@ -118,7 +119,8 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 
   // int64
-  index = AddDataToModel(variant_t(42LL));
+  const int64 num(42);
+  index = AddDataToModel(variant_t(num));
   EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
   // double
@@ -151,7 +153,8 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 
   // editor for int64 types
-  index = AddDataToModel(variant_t(42LL));
+  const int64 num(42);
+  index = AddDataToModel(variant_t(num));
   EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
   // double

@@ -48,7 +48,7 @@ TEST_F(VariantConverterTests, GetStdVariant)
   const qint64 num(42);
   auto std_variant_from_qint64 = GetStdVariant(QVariant(num));
   EXPECT_EQ(utils::TypeName(std_variant_from_qint64), constants::kInt64TypeName);
-  EXPECT_EQ(std_variant_from_qint64, variant_t(42LL));
+  EXPECT_EQ(std_variant_from_qint64, variant_t(42L));
 
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(1.0)), variant_t(1.0));
   EXPECT_EQ(GetStdVariant(QVariant::fromValue(QString("abc"))), variant_t(std::string("abc")));
@@ -89,9 +89,9 @@ TEST_F(VariantConverterTests, GetQtVariant)
   EXPECT_EQ(GetQtVariant(variant_t(42)).type(), QMetaType::Int);
 
   // from int64 (the same)
-  EXPECT_EQ(GetQtVariant(variant_t(42LL)), QVariant::fromValue(42LL));
-  EXPECT_EQ(QString(GetQtVariant(variant_t(42LL)).typeName()), QString("qlonglong"));
-  EXPECT_EQ(GetQtVariant(variant_t(42LL)).type(), QMetaType::LongLong);
+  EXPECT_EQ(GetQtVariant(variant_t(42L)), QVariant::fromValue(42L));
+  EXPECT_EQ(QString(GetQtVariant(variant_t(42L)).typeName()), QString("qlonglong"));
+  EXPECT_EQ(GetQtVariant(variant_t(42L)).type(), QMetaType::LongLong);
 
   // from double
   EXPECT_EQ(GetQtVariant(variant_t(1.1)), QVariant::fromValue(1.1));
