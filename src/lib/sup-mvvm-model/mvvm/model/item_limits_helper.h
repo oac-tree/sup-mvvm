@@ -32,6 +32,34 @@ class SessionItem;
  */
 bool HasLowerLimit(const SessionItem& item);
 
+/**
+ * @brief Returns non-empty variant representing lower limit of the given item, if it was set.
+ * Returns empty variant otherwise.
+ */
+variant_t GetLowerLimit(const SessionItem& item);
+
+/**
+ * @brief Returns true if given item has user defined upper limit.
+ */
+bool HasUpperLimit(const SessionItem& item);
+
+/**
+ * @brief Returns non-empty variant representing upper limit of the given item, if it was set.
+ * Returns empty variant otherwise.
+ */
+variant_t GetUpperLimit(const SessionItem& item);
+
+/**
+ * @brief Returns true if proposed value is in limits range for given item.
+ *
+ * @param item The item which possibly carries the data role, and limits.
+ * @param value The value to test if it is in alowed range.
+ *
+ * @details If item has data role set, the proposed value should have the same type. As long as it
+ * is the case, the value is checked against limits.
+ */
+bool IsInRange(const SessionItem& item, const variant_t& value);
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_LIMITS_HELPER_H_
