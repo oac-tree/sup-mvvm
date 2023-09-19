@@ -221,7 +221,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
   EXPECT_DOUBLE_EQ(spin_box->maximum(), 65536);
 }
 
-//! Checking integer editor construction when limits are set.
+//! Checking double editor construction when limits are set.
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
 {
@@ -233,6 +233,32 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
   auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
   item->SetData(Limits<double>::CreateLimited(0.0, 55.1), DataRole::kLimits);
 
+  auto editor = factory.CreateEditor(index);
+
+  // accessing underlying QSpinBox
+  auto spin_box = dynamic_cast<QDoubleSpinBox*>(editor.get());
+  ASSERT_TRUE(spin_box != nullptr);
+
+  // check if limits have been propagated
+  EXPECT_DOUBLE_EQ(spin_box->minimum(), 0);
+  EXPECT_DOUBLE_EQ(spin_box->maximum(), 55.1);
+}
+
+//! Checking double editor construction when lower limit is set.
+//! Test is failing because current version of DoubleEditorBuilder() can handle only two limits
+//! present.
+
+TEST_F(CustomEditorFactoriesTests, DISABLED_DefaultEditorFactoryRealEditorForLowerLimited)
+{
+  DefaultEditorFactory factory;
+
+  auto index = AddDataToModel(variant_t(42.1));
+
+  // setting limits to corresponding role
+  auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
+  item->SetData(Limits<double>::CreateLowerLimited(42.0), DataRole::kLimits);
+
+  // FIXME test is failing here because we are not handling well onse-side limits
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
