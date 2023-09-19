@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   item_catalogue.h
   item_factory.cpp
   item_factory.h
+  item_limits_helper.cpp
+  item_limits_helper.h
   item_manager.cpp
   item_manager.h
   item_pool.cpp
@@ -18,10 +20,10 @@ target_sources(${library_name} PRIVATE
   item_utils.cpp
   item_utils.h
   limits.h
-  model_utils.cpp
-  model_utils.h
   model_composer.cpp
   model_composer.h
+  model_utils.cpp
+  model_utils.h
   mvvm_types.h
   notifying_model_composer.h
   path.cpp
