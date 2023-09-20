@@ -56,6 +56,7 @@ public:
   bool operator==(const ComboProperty& other) const;
   bool operator!=(const ComboProperty& other) const;
   bool operator<(const ComboProperty& other) const;
+  bool operator>=(const ComboProperty& other) const;
 
   std::string GetStringOfValues() const;
   void SetStringOfValues(const std::string& values);

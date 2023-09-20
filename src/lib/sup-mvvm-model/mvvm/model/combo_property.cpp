@@ -194,7 +194,13 @@ bool ComboProperty::operator!=(const ComboProperty& other) const
 
 bool ComboProperty::operator<(const ComboProperty& other) const
 {
-  return m_selected_indices < other.m_selected_indices && m_values < other.m_values;
+  return std::tie(m_selected_indices, m_values)
+         < std::tie(other.m_selected_indices, other.m_values);
+}
+
+bool ComboProperty::operator>=(const ComboProperty& other) const
+{
+  return (other < *this) || (*this == other);
 }
 
 //! Returns a single string containing values delimited with ';'.

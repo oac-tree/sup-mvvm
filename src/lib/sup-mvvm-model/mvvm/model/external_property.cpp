@@ -22,6 +22,7 @@
 #include <mvvm/utils/string_utils.h>
 
 #include <sstream>
+#include <tuple>
 
 namespace
 {
@@ -77,7 +78,13 @@ bool ExternalProperty::operator!=(const ExternalProperty& other) const
 
 bool ExternalProperty::operator<(const ExternalProperty& other) const
 {
-  return m_identifier < other.m_identifier && m_text < other.m_text && m_color < other.m_color;
+  return std::tie(m_identifier, m_text, m_color)
+         < std::tie(other.m_identifier, other.m_text, other.m_color);
+}
+
+bool ExternalProperty::operator>=(const ExternalProperty &other) const
+{
+  return (other < *this) || (*this == other);
 }
 
 //! Converts class into its string representation.

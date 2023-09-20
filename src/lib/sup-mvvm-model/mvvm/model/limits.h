@@ -24,6 +24,7 @@
 
 #include <limits>
 #include <optional>
+#include <tuple>
 
 namespace mvvm
 {
@@ -57,6 +58,8 @@ public:
 
   bool operator==(const Limits<T>& other) const;
   bool operator!=(const Limits<T>& other) const;
+  bool operator<(const Limits<T>& other) const;
+  bool operator>=(const Limits<T>& other) const;
 
 private:
   Limits(const std::optional<T>& lower_limit, const std::optional<T>& upper_limit)
@@ -220,6 +223,19 @@ template <typename T>
 bool Limits<T>::operator!=(const Limits<T>& other) const
 {
   return !(*this == other);
+}
+
+template <typename T>
+bool Limits<T>::operator<(const Limits<T>& other) const
+{
+  return std::tie(m_lower_limit, m_upper_limit)
+         < std::tie(other.m_lower_limit, other.m_upper_limit);
+}
+
+template <typename T>
+bool Limits<T>::operator>=(const Limits<T>& other) const
+{
+  return (other < *this) || (*this == other);
 }
 
 }  // namespace mvvm
