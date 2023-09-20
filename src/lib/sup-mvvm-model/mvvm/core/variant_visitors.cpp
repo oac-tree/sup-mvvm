@@ -51,7 +51,7 @@ std::pair<int, int> GetMinMaxInt32Pair(const mvvm::variant_t& lower_bound,
 
   if (mvvm::utils::IsValid(upper_bound))
   {
-    result.first = static_cast<int>(std::get<T>(upper_bound));
+    result.second = static_cast<int>(std::get<T>(upper_bound));
   }
 
   return result;

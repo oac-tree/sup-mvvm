@@ -77,9 +77,8 @@ TEST_F(VariantVisitorsTests, GetInt32MinMaxNumericWithUserDefinedLimits)
 
   {  // uint8 additionally bounded from right
     uint8 num(1);
-    auto limits = GetInt32MinMaxNumeric(num, {}, 20);
+    auto limits = GetInt32MinMaxNumeric(num, {}, uint8{20});
     EXPECT_EQ(limits.first, std::numeric_limits<uint8>::min());
-    EXPECT_EQ(limits.second, 20);
     EXPECT_EQ(limits.first, 0);
     EXPECT_EQ(limits.second, 20);
   }
