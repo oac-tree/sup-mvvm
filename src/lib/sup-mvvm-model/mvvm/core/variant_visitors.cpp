@@ -64,17 +64,17 @@ namespace mvvm
 
 std::pair<int, int> VariantLimits32Visitor::operator()(std::monostate)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for monostate is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(boolean value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for boolean is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(char8 value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for char8 is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(int8 value)
@@ -104,27 +104,27 @@ std::pair<int, int> VariantLimits32Visitor::operator()(int32 value)
 
 std::pair<int, int> VariantLimits32Visitor::operator()(uint32 value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for uint32 is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(int64 value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for int64 is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(uint64 value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for uint64 is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(float32 value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for float32 is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(float64 value)
 {
-  throw mvvm::RuntimeException("Visitor for string is not implemented");
+  throw mvvm::RuntimeException("Visitor for float64 is not implemented");
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(std::string value)
