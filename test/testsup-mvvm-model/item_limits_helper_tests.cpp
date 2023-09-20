@@ -185,5 +185,30 @@ TEST_F(ItemLimitsHelperTests, UpperLimited)
     EXPECT_FALSE(IsInRange(item, 5.0));
     EXPECT_FALSE(IsInRange(item, std::numeric_limits<double>::infinity()));
   }
+}
 
+//! Testing all methods related to SetLimited.
+
+TEST_F(ItemLimitsHelperTests, Limited)
+{
+  {  // item has double data, setting limit [-inf, 5.0[
+    SessionItem item;
+    item.SetData(1.0);
+
+    SetLimited(-10.0, 2.0, item);
+
+    EXPECT_EQ(GetLowerLimit(item), variant_t{-10.0});
+    EXPECT_EQ(GetUpperLimit(item), variant_t(2.0));
+    EXPECT_TRUE(HasLowerLimit(item));
+    EXPECT_TRUE(HasUpperLimit(item));
+    EXPECT_TRUE(IsLimited(item));
+    EXPECT_FALSE(IsLimitless(item));
+
+    EXPECT_FALSE(IsInRange(item, -11.0));
+    EXPECT_TRUE(IsInRange(item, -9.0));
+    EXPECT_TRUE(IsInRange(item, 0.0));
+    EXPECT_TRUE(IsInRange(item, 1.0));
+    EXPECT_FALSE(IsInRange(item, 2.0));
+    EXPECT_FALSE(IsInRange(item, 3.0));
+  }
 }

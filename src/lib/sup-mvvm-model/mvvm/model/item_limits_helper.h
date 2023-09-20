@@ -50,7 +50,8 @@ bool HasUpperLimit(const SessionItem& item);
 variant_t GetUpperLimit(const SessionItem& item);
 
 /**
- * @brief Returns true if proposed value is in limits range for given item.
+ * @brief Returns true if proposed value is in range for given item limits (lower_limit <= value <
+ * upper_limit).
  *
  * @param item The item which possibly carries the data role, and limits.
  * @param value The value to test if it is in alowed range.
@@ -91,6 +92,19 @@ void SetLowerLimited(const variant_t& bound_value, SessionItem& item);
  * the same type. There is no check if old value satisfy new bound value.
  */
 void SetUpperLimited(const variant_t& bound_value, SessionItem& item);
+
+/**
+ * @brief Set limits for values bounded from left and right.
+ *
+ * @param left_bound_value The value of lower bound.
+ * @param right_bound_value The value of upper bound.
+ * @param item The item to set limits.
+ *
+ * @details All previous limits will be removed. If item has data already, bound value should have
+ * the same type. There is no check if old value satisfy new bound values.
+ */
+void SetLimited(const variant_t& left_bound_value, const variant_t& right_bound_value,
+                SessionItem& item);
 
 /**
  * @brief Removes limits from the given item.

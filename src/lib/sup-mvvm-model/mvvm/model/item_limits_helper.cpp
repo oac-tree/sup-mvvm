@@ -138,4 +138,20 @@ void RemoveLimits(SessionItem &item)
   }
 }
 
+void SetLimited(const variant_t &left_bound_value, const variant_t &right_bound_value,
+                SessionItem &item)
+{
+  if (left_bound_value.index() != right_bound_value.index())
+  {
+    throw LogicErrorException("Attempt to set limits with different underlying data type");
+  }
+
+  // type of bound value should match the type of variant stored in kData role
+  ValidateDataType(item, left_bound_value, DataRole::kData);
+  ValidateDataType(item, right_bound_value, DataRole::kData);
+
+  item.SetData(left_bound_value, DataRole::kLowerLimit);
+  item.SetData(right_bound_value, DataRole::kUpperLimit);
+}
+
 }  // namespace mvvm
