@@ -19,7 +19,6 @@
 
 #include "item_limits_helper.h"
 
-#include "item_utils.h"
 #include "sessionitem.h"
 
 #include <mvvm/core/exceptions.h>
@@ -106,25 +105,35 @@ bool IsLimited(const SessionItem &item)
 
 void SetLowerLimited(const variant_t &bound_value, SessionItem &item)
 {
-  RemoveLimits(item);
-
   // type of bound value should match the type of variant stored in kData role
   ValidateDataType(item, bound_value, DataRole::kData);
 
+  RemoveLimits(item);
+
   item.SetData(bound_value, DataRole::kLowerLimit);
+}
+
+void SetUpperLimited(const variant_t &bound_value, SessionItem &item)
+{
+  // type of bound value should match the type of variant stored in kData role
+  ValidateDataType(item, bound_value, DataRole::kData);
+
+  RemoveLimits(item);
+
+  item.SetData(bound_value, DataRole::kUpperLimit);
 }
 
 void RemoveLimits(SessionItem &item)
 {
   if (item.HasData(DataRole::kLowerLimit))
   {
-    // empty variant remove role, if it is not present
+    // setting empty variant will remove role, if it is not present
     item.SetData(mvvm::variant_t{}, DataRole::kLowerLimit);
   }
 
   if (item.HasData(DataRole::kUpperLimit))
   {
-    // empty variant remove role, if it is not present
+    // setting empty variant will remove role, if it is not present
     item.SetData(mvvm::variant_t{}, DataRole::kUpperLimit);
   }
 }

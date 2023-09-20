@@ -20,6 +20,8 @@
 #include "mvvm/model/item_limits_helper.h"
 #include "mvvm/model/sessionitem.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -76,6 +78,8 @@ TEST_F(ItemLimitsHelperTests, RemoveLimits)
   }
 }
 
+//! Testing all methods related to SetLowerLimited.
+
 TEST_F(ItemLimitsHelperTests, LowerLimited)
 {
   {  // item has int data, setting limit [40, inf[
@@ -85,25 +89,101 @@ TEST_F(ItemLimitsHelperTests, LowerLimited)
     EXPECT_FALSE(HasUpperLimit(item));
 
     SetLowerLimited(40, item);
-    EXPECT_TRUE(HasLowerLimit(item));
-    EXPECT_FALSE(HasUpperLimit(item));
-    EXPECT_TRUE(IsInRange(item, 42));
-    EXPECT_FALSE(IsInRange(item, 39));
 
     EXPECT_EQ(GetLowerLimit(item), variant_t(40));
+    EXPECT_TRUE(HasLowerLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_FALSE(IsLimited(item));
+    EXPECT_FALSE(IsLimitless(item));
+
+    EXPECT_FALSE(IsInRange(item, 39));
+    EXPECT_TRUE(IsInRange(item, 40));
+    EXPECT_TRUE(IsInRange(item, 42));
   }
 
-  {  // item do not have initial data, setting limit [40, inf[
+  {
+    // Item do not have initial data, setting limit [40, inf[. The behavior is the same is before,
+    // since it is allowed to have limits without the data
     SessionItem item;
     EXPECT_FALSE(HasLowerLimit(item));
     EXPECT_FALSE(HasUpperLimit(item));
 
     SetLowerLimited(40, item);
-    EXPECT_TRUE(HasLowerLimit(item));
-    EXPECT_FALSE(HasUpperLimit(item));
-    EXPECT_TRUE(IsInRange(item, 42));
-    EXPECT_FALSE(IsInRange(item, 39));
 
     EXPECT_EQ(GetLowerLimit(item), variant_t(40));
+    EXPECT_TRUE(HasLowerLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_FALSE(IsLimited(item));
+    EXPECT_FALSE(IsLimitless(item));
+
+    EXPECT_FALSE(IsInRange(item, 39));
+    EXPECT_TRUE(IsInRange(item, 40));
+    EXPECT_TRUE(IsInRange(item, 42));
   }
+
+  {  // setting lower limit twice
+    SessionItem item;
+    item.SetData(42);
+    EXPECT_FALSE(HasLowerLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+
+    SetLowerLimited(40, item);
+    SetLowerLimited(41, item);
+
+    EXPECT_EQ(GetLowerLimit(item), variant_t(41));
+    EXPECT_TRUE(HasLowerLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_FALSE(IsLimited(item));
+    EXPECT_FALSE(IsLimitless(item));
+
+    EXPECT_FALSE(IsInRange(item, 39));
+    EXPECT_FALSE(IsInRange(item, 40));
+    EXPECT_TRUE(IsInRange(item, 42));
+  }
+
+  {  // attempt to set limits of wrong type
+    SessionItem item;
+    item.SetData(42.2);
+    EXPECT_FALSE(HasLowerLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+
+    SetLowerLimited(42.0, item);
+
+    // setting integer limit instead of the double
+    EXPECT_THROW(SetLowerLimited(40, item), LogicErrorException);
+
+    // old limits should be preserved
+    EXPECT_TRUE(HasLowerLimit(item));
+    EXPECT_FALSE(HasUpperLimit(item));
+    EXPECT_EQ(GetLowerLimit(item), variant_t(42.0));
+  }
+}
+
+//! Testing all methods related to SetUpperLimited.
+
+TEST_F(ItemLimitsHelperTests, UpperLimited)
+{
+  {  // item has double data, setting limit [-inf, 5.0[
+    SessionItem item;
+    item.SetData(1.0);
+
+    SetUpperLimited(5.0, item);
+
+    EXPECT_EQ(GetLowerLimit(item), variant_t{});
+    EXPECT_EQ(GetUpperLimit(item), variant_t(5.0));
+    EXPECT_FALSE(HasLowerLimit(item));
+    EXPECT_TRUE(HasUpperLimit(item));
+    EXPECT_FALSE(IsLimited(item));
+    EXPECT_FALSE(IsLimitless(item));
+
+    EXPECT_TRUE(IsInRange(item, -std::numeric_limits<double>::infinity()));
+    EXPECT_TRUE(IsInRange(item, -2.0));
+    EXPECT_TRUE(IsInRange(item, 4.9));
+    EXPECT_FALSE(IsInRange(item, 5.0));
+    EXPECT_FALSE(IsInRange(item, std::numeric_limits<double>::infinity()));
+  }
+
 }

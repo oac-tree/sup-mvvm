@@ -82,6 +82,17 @@ bool IsLimited(const SessionItem& item);
 void SetLowerLimited(const variant_t& bound_value, SessionItem& item);
 
 /**
+ * @brief Set limits so item is bounded from the right.
+ *
+ * @param bound_value The value of lower bound.
+ * @param item The item to set limits.
+ *
+ * @details All previous limits will be removed. If item has data already, bound value should have
+ * the same type. There is no check if old value satisfy new bound value.
+ */
+void SetUpperLimited(const variant_t& bound_value, SessionItem& item);
+
+/**
  * @brief Removes limits from the given item.
  */
 void RemoveLimits(mvvm::SessionItem& item);
