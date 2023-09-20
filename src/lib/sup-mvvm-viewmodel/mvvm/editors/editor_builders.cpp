@@ -20,6 +20,7 @@
 #include "mvvm/editors/editor_builders.h"
 
 #include <mvvm/editors/custom_editor_includes.h>
+#include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 
@@ -132,15 +133,8 @@ editorbuilder_t IntegerEditorBuilder()
     auto editor = std::make_unique<QSpinBox>();
     if (item)
     {
-      if (item->HasData(DataRole::kLimits))
-      {
-        auto limits = item->Data<IntLimits>(DataRole::kLimits);
-        editor->setRange(limits.GetLowerLimit(), limits.GetUpperLimit());
-      }
-      else
-      {
-        editor->setRange(kMinDefaultEditableIntegerValue, kMaxDefaultEditableIntegerValue);
-      }
+      auto limits = GetInt32Limits(*item);
+      editor->setRange(limits.first, limits.second);
     }
     return editor;
   };

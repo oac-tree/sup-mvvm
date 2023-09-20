@@ -122,7 +122,7 @@ void RemoveLimits(mvvm::SessionItem& item);
  * function will throw if item' holds limits that can't be fit's data limits can't be fit into pair
  * of integers.
  */
-std::pair<int, int> GetInt32Limits(mvvm::SessionItem& item);
+std::pair<int, int> GetInt32Limits(const SessionItem &item);
 
 }  // namespace mvvm
 

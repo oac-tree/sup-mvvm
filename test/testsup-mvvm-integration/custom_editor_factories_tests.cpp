@@ -22,6 +22,7 @@
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/limits.h>
+#include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
@@ -176,8 +177,8 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
   ASSERT_TRUE(spin_box != nullptr);
 
   // checking default limits (defined in editor_builders.cpp)
-  EXPECT_EQ(spin_box->minimum(), -65536);
-  EXPECT_EQ(spin_box->maximum(), 65536);
+  EXPECT_EQ(spin_box->minimum(), std::numeric_limits<int32>::min());
+  EXPECT_EQ(spin_box->maximum(), std::numeric_limits<int32>::max());
 }
 
 //! Checking integer editor construction when limits are set.
@@ -190,7 +191,8 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
 
   // setting limits to corresponding role
   auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
-  item->SetData(Limits<int>::CreateLimited(0, 10), DataRole::kLimits);
+
+  SetLimited(0, 10, *item);
 
   auto editor = factory.CreateEditor(index);
 
