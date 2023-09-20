@@ -77,17 +77,25 @@ struct VariantLimits32Visitor
   std::pair<int, int> operator()(mvvm::Limits<mvvm::int64> value);
 
   std::pair<int, int> operator()(mvvm::Limits<double> value);
+
+  variant_t m_lower_bound;
+  variant_t m_upper_bound;
 };
 
 /**
- * @brief Returns pairs of integers representing numeric limits of stored type.
+ * @brief Returns pairs of integers representing limits of stored type.
+ *
+ * @param value The value for which we have to find min and max values.
+ * @param lower_bound User defined additional lower bound.
+ * @param upper_bound User defined additional upper bound.
  *
  * @details Used in the context of integer editors. It is implemented only for types which we can
- * fit into int32: int8, uint8, int16, uint16, int32.
+ * fit into int32: int8, uint8, int16, uint16, int32. When no user defined limits are provided, will
+ * return limits deduced from std::numeric.
  */
-std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value);
+std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value, const variant_t& lower_bound = {},
+                                          const variant_t& upper_bound = {});
 
-
-} // namespace mvvm
+}  // namespace mvvm
 
 #endif  // MVVM_CORE_VARIANT_VISITORS_H_

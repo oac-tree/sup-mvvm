@@ -25,14 +25,38 @@ namespace
 {
 
 /**
- * @brief Returns pair of integer representing
+ * @brief Returns pair of integer representing numeric limits of given type.
  */
-
 template <typename T>
-std::pair<int, int> GetMinMaxInt32Pair()
+std::pair<int, int> GetNumericMinMaxInt32Pair()
 {
   return {std::numeric_limits<T>::min(), std::numeric_limits<T>::max()};
 }
+
+/**
+ * @brief Returns pair of integer representing min/max limits of given type.
+ *
+ * @details It combines user provided limits with numeric limits.
+ */
+template <typename T>
+std::pair<int, int> GetMinMaxInt32Pair(const mvvm::variant_t& lower_bound,
+                                       const mvvm::variant_t& upper_bound)
+{
+  auto result = GetNumericMinMaxInt32Pair<T>();
+
+  if (mvvm::utils::IsValid(lower_bound))
+  {
+    result.first = static_cast<int>(std::get<T>(lower_bound));
+  }
+
+  if (mvvm::utils::IsValid(upper_bound))
+  {
+    result.first = static_cast<int>(std::get<T>(upper_bound));
+  }
+
+  return result;
+}
+
 }  // namespace
 
 namespace mvvm
@@ -55,27 +79,27 @@ std::pair<int, int> VariantLimits32Visitor::operator()(char8 value)
 
 std::pair<int, int> VariantLimits32Visitor::operator()(int8 value)
 {
-  return GetMinMaxInt32Pair<int8>();
+  return GetMinMaxInt32Pair<int8>(m_lower_bound, m_upper_bound);
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(uint8 value)
 {
-  return GetMinMaxInt32Pair<uint8>();
+  return GetMinMaxInt32Pair<uint8>(m_lower_bound, m_upper_bound);
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(int16 value)
 {
-  return GetMinMaxInt32Pair<int16>();
+  return GetMinMaxInt32Pair<int16>(m_lower_bound, m_upper_bound);
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(uint16 value)
 {
-  return GetMinMaxInt32Pair<uint16>();
+  return GetMinMaxInt32Pair<uint16>(m_lower_bound, m_upper_bound);
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(int32 value)
 {
-  return GetMinMaxInt32Pair<int32>();
+  return GetMinMaxInt32Pair<int32>(m_lower_bound, m_upper_bound);
 }
 
 std::pair<int, int> VariantLimits32Visitor::operator()(uint32 value)
@@ -138,9 +162,14 @@ std::pair<int, int> VariantLimits32Visitor::operator()(mvvm::Limits<double> valu
   throw mvvm::RuntimeException("Visitor for Limits is not implemented");
 }
 
-std::pair<int, int> GetInt32MinMaxNumeric(const variant_t &value)
+std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value, const variant_t& lower_bound,
+                                          const variant_t& upper_bound)
 {
-  return std::visit(VariantLimits32Visitor{}, value);
+  VariantLimits32Visitor visitor;
+  visitor.m_lower_bound = lower_bound;
+  visitor.m_upper_bound = upper_bound;
+
+  return std::visit(visitor, value);
 }
 
 }  // namespace mvvm
