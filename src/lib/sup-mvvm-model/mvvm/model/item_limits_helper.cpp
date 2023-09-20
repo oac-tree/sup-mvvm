@@ -22,6 +22,7 @@
 #include "sessionitem.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/core/variant_visitors.h>
 
 #include <sstream>
 
@@ -152,6 +153,19 @@ void SetLimited(const variant_t &left_bound_value, const variant_t &right_bound_
 
   item.SetData(left_bound_value, DataRole::kLowerLimit);
   item.SetData(right_bound_value, DataRole::kUpperLimit);
+}
+
+std::pair<int, int> GetInt32Limits(SessionItem &item)
+{
+  if (!item.HasData(DataRole::kData))
+  {
+    throw LogicErrorException("Given item doesn't contain any data");
+  }
+
+  auto lower_bound = GetLowerLimit(item);
+  auto upper_bound = GetUpperLimit(item);
+
+  return GetInt32MinMaxNumeric(item.Data(), lower_bound, upper_bound);
 }
 
 }  // namespace mvvm

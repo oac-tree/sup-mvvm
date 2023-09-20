@@ -111,6 +111,19 @@ void SetLimited(const variant_t& left_bound_value, const variant_t& right_bound_
  */
 void RemoveLimits(mvvm::SessionItem& item);
 
+/**
+ * @brief Return pair of integer representing limits of the given item.
+ *
+ * @details The function is used to set min/max limits of QSpinBox. It is intended for editing
+ * all integer-like numbers that can fit inside `int32` type: int8, uint8, int16, uint16, int32.
+ *
+ * If the user has lower and upper limit defined on board of the item, they will be returned to the
+ * user as it is. If some limits are not defined, std::numeric_limits will be used instead. The
+ * function will throw if item' holds limits that can't be fit's data limits can't be fit into pair
+ * of integers.
+ */
+std::pair<int, int> GetInt32Limits(mvvm::SessionItem& item);
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_LIMITS_HELPER_H_

@@ -212,3 +212,47 @@ TEST_F(ItemLimitsHelperTests, Limited)
     EXPECT_FALSE(IsInRange(item, 3.0));
   }
 }
+
+//! Testing all methods related to SetLimited.
+
+TEST_F(ItemLimitsHelperTests, GetInt32Limits)
+{
+  {  // int32 with no user limits defined
+    SessionItem item;
+    item.SetData(42);
+
+    auto limits = GetInt32Limits(item);
+    EXPECT_EQ(limits.first, std::numeric_limits<int32>::min());
+    EXPECT_EQ(limits.second, std::numeric_limits<int32>::max());
+  }
+
+  {  // int32 bounded from the right
+    SessionItem item;
+    item.SetData(42);
+
+    SetUpperLimited(50, item);
+
+    auto limits = GetInt32Limits(item);
+    EXPECT_EQ(limits.first, std::numeric_limits<int32>::min());
+    EXPECT_EQ(limits.second, 50);
+  }
+
+  {  // uint8 bounded from the left
+    SessionItem item;
+    uint8 num{2};
+    item.SetData(num);
+
+    SetLowerLimited(num, item);
+
+    auto limits = GetInt32Limits(item);
+    EXPECT_EQ(limits.first, num);
+    EXPECT_EQ(limits.second, 255);
+  }
+
+  {  //   it is not possible to get limits from unsigned long which fits into int32
+    SessionItem item;
+    item.SetData(42U);
+
+    EXPECT_THROW(GetInt32Limits(item), RuntimeException);
+  }
+}
