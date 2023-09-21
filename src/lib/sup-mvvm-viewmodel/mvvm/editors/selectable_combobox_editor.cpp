@@ -23,7 +23,7 @@
 // https://gist.github.com/mistic100/c3b7f3eabc65309687153fe3e0a9a720
 // ----------------------------------------------------------------------------
 
-#include "mvvm/editors/selectable_combobox_editor.h"
+#include "selectable_combobox_editor.h"
 
 #include <mvvm/editors/custom_event_filters.h>
 #include <mvvm/model/combo_property.h>

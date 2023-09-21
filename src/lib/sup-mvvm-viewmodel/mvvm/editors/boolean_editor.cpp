@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/boolean_editor.h"
+#include "boolean_editor.h"
 
 #include <QCheckBox>
 #include <QHBoxLayout>

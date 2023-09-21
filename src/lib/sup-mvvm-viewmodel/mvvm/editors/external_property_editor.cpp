@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/external_property_editor.h"
+#include "external_property_editor.h"
 
 #include <mvvm/editors/custom_event_filters.h>
 #include <mvvm/editors/style_utils.h>

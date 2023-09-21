@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/combo_property_editor.h"
+#include "combo_property_editor.h"
 
 #include <mvvm/model/combo_property.h>
 

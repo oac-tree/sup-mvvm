@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/custom_editor.h"
+#include "custom_editor.h"
 
 namespace mvvm
 {

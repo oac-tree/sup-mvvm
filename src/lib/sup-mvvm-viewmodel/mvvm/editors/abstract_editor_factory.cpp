@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/abstract_editor_factory.h"
+#include "abstract_editor_factory.h"
 
 #include <stdexcept>
 

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/longint_spinbox_editor.h"
+#include "longint_spinbox_editor.h"
 
 #include <mvvm/editors/longint_spinbox.h>
 

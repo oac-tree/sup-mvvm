@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/custom_event_filters.h"
+#include "custom_event_filters.h"
 
 #include <QAbstractSpinBox>
 #include <QComboBox>
