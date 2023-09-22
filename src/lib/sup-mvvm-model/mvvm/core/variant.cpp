@@ -88,6 +88,11 @@ bool operator==(const datarole_t &lhs, const datarole_t &rhs)
   return lhs.first == rhs.first && lhs.second == rhs.second;
 }
 
+TypeCode GetTypeCode(const variant_t &variant)
+{
+  return static_cast<TypeCode>(variant.index());
+}
+
 }  // namespace mvvm
 
 namespace mvvm::utils

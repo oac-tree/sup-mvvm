@@ -68,6 +68,8 @@ using variant_t =
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
 
+TypeCode GetTypeCode(const variant_t& variant);
+
 }  // namespace mvvm
 
 //! Defines names of all supported (serializable) data types.
