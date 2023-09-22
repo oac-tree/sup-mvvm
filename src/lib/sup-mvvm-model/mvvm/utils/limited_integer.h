@@ -59,6 +59,16 @@ public:
   variant_t GetValue() const;
 
   /**
+   * @brief Returns lower bound.
+   */
+  variant_t GetLowerBound() const;
+
+  /**
+   * @brief Returns upper bound.
+   */
+  variant_t GetUpperBound() const;
+
+  /**
    * @brief Sets the value.
    * @return True in the case of success (when current value has changed).
    *

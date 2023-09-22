@@ -19,8 +19,9 @@
 
 #include "mvvm/utils/limited_integer.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
-#include <testutils/toy_items.h>
 
 #include <memory>
 
@@ -32,4 +33,25 @@ class LimitedIntegerTests : public ::testing::Test
 {
 };
 
-TEST_F(LimitedIntegerTests, Constructor) {}
+TEST_F(LimitedIntegerTests, Constructor)
+{
+  {  // number without bounds defined
+    const LimitedInteger num(42, {}, {});
+    EXPECT_EQ(num.GetValue(), variant_t(42));
+    EXPECT_EQ(num.GetLowerBound(), variant_t());
+    EXPECT_EQ(num.GetUpperBound(), variant_t());
+  }
+
+  {  // number with bounds
+    const LimitedInteger num(42, 1, 45);
+    EXPECT_EQ(num.GetValue(), variant_t(42));
+    EXPECT_EQ(num.GetLowerBound(), variant_t(1));
+    EXPECT_EQ(num.GetUpperBound(), variant_t(45));
+  }
+
+  {  // attempt to mix types
+    EXPECT_THROW(LimitedInteger(42.1, {}, {}), RuntimeException);
+    EXPECT_THROW(LimitedInteger(42, 42.1, {}), RuntimeException);
+    EXPECT_THROW(LimitedInteger(42, 10, 64U), RuntimeException);
+  }
+}
