@@ -1,6 +1,8 @@
 target_sources(${library_name} PRIVATE
   abstract_editor_factory.cpp
   abstract_editor_factory.h
+  allint_sphinbox.cpp
+  allint_sphinbox.h
   boolean_editor.cpp
   boolean_editor.h
   color_editor.cpp
@@ -19,10 +21,10 @@ target_sources(${library_name} PRIVATE
   editor_types_fwd.h
   external_property_editor.cpp
   external_property_editor.h
-  longint_spinbox_editor.cpp
-  longint_spinbox_editor.h
   longint_spinbox.cpp
   longint_spinbox.h
+  longint_spinbox_editor.cpp
+  longint_spinbox_editor.h
   scientific_spinbox.cpp
   scientific_spinbox.h
   scientific_spinbox_editor.cpp

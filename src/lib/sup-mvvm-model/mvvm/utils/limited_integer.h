@@ -100,43 +100,6 @@ public:
 
   bool IsAtMaximum() const override;
 
-  /**
-   * @brief Adds the value to the current value.
-   *
-   * @param value The value to add.
-   * @param as_much_as_possible When item is close to its bound, will add as mush as possible and
-   * report success.
-   *
-   * @return True in the case of success (when current value has changed).
-   *
-   * @details When as_much_as_possible is false the behavior is the following: the method can fail
-   * if the value is close to the upper bound and adding would lead to overflow. In this case will
-   * return false, the value will remain unchanged.
-   *
-   * @details If as_much_as_possible is true, and adding the value could lead to overflow, will
-   stop
-   * at the upper bound, and report success.
-   */
-  bool AddValue(const variant_t& value, bool as_much_as_possible);
-
-  /**
-   * @brief Substracts the value from the current value.
-   *
-   * @param value The value to substract.
-   * @param as_much_as_possible When item is close to its bound, will substract as mush as possible
-   * and report success.
-   *
-   * @return True in the case of success (when current value has changed).
-   *
-   * @details When as_much_as_possible is false the behavior is the following: the method can fail
-   * if the value is close to the lower bound and adding would lead to underflow. In this case will
-   * return false, the value will remain unchanged.
-   *
-   * @details If as_much_as_possible is true, and substracting the value could lead to underflow,
-   * will stop at the lower bound, and report success.
-   */
-  bool SubstractValue(const variant_t& value, bool as_much_as_possible);
-
 private:
   bool IsSupportedVariant(const variant_t& variant) const;
 
@@ -302,18 +265,6 @@ template <typename T>
 inline bool LimitedInteger<T>::IsAtMaximum() const
 {
   return m_value == m_upper_bound;
-}
-
-template <typename T>
-inline bool LimitedInteger<T>::AddValue(const variant_t& value, bool as_much_as_possible)
-{
-  return false;
-}
-
-template <typename T>
-inline bool LimitedInteger<T>::SubstractValue(const variant_t& value, bool as_much_as_possible)
-{
-  return false;
 }
 
 template <typename T>

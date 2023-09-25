@@ -92,7 +92,6 @@ public:
    * @brief Returns true if the value coincides with lower bound.
    */
   virtual bool IsAtMaximum() const = 0;
-
 };
 
 }  // namespace mvvm
