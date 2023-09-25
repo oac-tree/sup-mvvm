@@ -94,6 +94,8 @@ public:
 
   bool Decrement() override;
 
+  bool StepBy(int steps) override;
+
   bool IsAtMinimum() const override;
 
   bool IsAtMaximum() const override;
@@ -258,6 +260,36 @@ inline bool LimitedInteger<T>::Decrement()
 
   m_value--;
   return true;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::StepBy(int steps)
+{
+  if (steps > 0)
+  {
+    // converting steps to current type
+    T n_steps = steps > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max()
+                                                      : static_cast<T>(steps);
+    // avoiding using the sum to not to overflow
+    T diff = m_upper_bound - m_value;
+
+    // increasing the value, but not more than the maximum
+    return SetValue(diff > n_steps ? m_value + n_steps : m_upper_bound);
+  }
+
+  if (steps < 0)
+  {
+    // converting steps to current type
+    T n_steps = steps < std::numeric_limits<T>::min() ? std::numeric_limits<T>::min()
+                                                      : static_cast<T>(steps);
+    // avoiding using the sum to not to overflow
+    T diff = m_value - m_lower_bound;
+
+    // decreasing the value, but not less than the minimum
+    return SetValue(diff < std::abs(n_steps) ? m_lower_bound : m_value + n_steps);
+  }
+
+  return false;
 }
 
 template <typename T>

@@ -58,6 +58,14 @@ public:
   virtual bool SetValueFromText(const std::string& text) = 0;
 
   /**
+   * @brief Performs number of steps.
+   *
+   * @param steps Number of increments (if positive) or number of decrements (if negative).
+   * @return True if the value was changed.
+   */
+  virtual bool StepBy(int steps) = 0;
+
+  /**
    * @brief Increments internal value.
    * @return True in the case of success (when current value has changed).
    *

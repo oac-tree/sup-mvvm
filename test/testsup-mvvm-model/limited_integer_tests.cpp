@@ -201,3 +201,59 @@ TEST_F(LimitedIntegerTests, SetValueFromText)
 
   EXPECT_FALSE(num.SetValueFromText("aaaa"));
 }
+
+TEST_F(LimitedIntegerTests, StepBy)
+{
+  {  // limited integer, several incrementing steps
+    LimitedInteger<int> num(42, 40, 50);
+
+    EXPECT_FALSE(num.StepBy(0));
+    EXPECT_EQ(num.GetValue(), 42);
+
+    EXPECT_TRUE(num.StepBy(1));
+    EXPECT_EQ(num.GetValue(), 43);
+
+    EXPECT_TRUE(num.StepBy(2));
+    EXPECT_EQ(num.GetValue(), 45);
+
+    EXPECT_TRUE(num.StepBy(5));
+    EXPECT_EQ(num.GetValue(), 50);
+
+    EXPECT_FALSE(num.StepBy(1));
+    EXPECT_EQ(num.GetValue(), 50);
+  }
+
+  {  // limited integer, several decrementing steps
+    LimitedInteger<int> num(45, 40, 50);
+
+    EXPECT_FALSE(num.StepBy(0));
+    EXPECT_EQ(num.GetValue(), 45);
+
+    EXPECT_TRUE(num.StepBy(-1));
+    EXPECT_EQ(num.GetValue(), 44);
+
+    EXPECT_TRUE(num.StepBy(-2));
+    EXPECT_EQ(num.GetValue(), 42);
+
+    EXPECT_TRUE(num.StepBy(-5));
+    EXPECT_EQ(num.GetValue(), 40);  // stopped at minimum border
+
+    EXPECT_FALSE(num.StepBy(-1));
+    EXPECT_EQ(num.GetValue(), 40);
+  }
+
+  {  // unlimited int8, several decrementing steps
+    int8 initial_value{0};
+    LimitedInteger<int8> num(initial_value, {}, {});
+
+    EXPECT_TRUE(num.StepBy(300));
+    EXPECT_EQ(num.GetValue(), 127);
+    EXPECT_FALSE(num.StepBy(1));
+    EXPECT_EQ(num.GetValue(), 127);
+
+    EXPECT_TRUE(num.StepBy(-300));
+    EXPECT_EQ(num.GetValue(), -128);
+    EXPECT_FALSE(num.StepBy(-1));
+    EXPECT_EQ(num.GetValue(), -128);
+  }
+}
