@@ -23,13 +23,56 @@
 #include <mvvm/utils/container_utils.h>
 
 #include <sstream>
+#include <functional>
+#include <map>
 
 namespace
 {
 const std::vector<mvvm::TypeCode> kSupportedTypes{
     mvvm::TypeCode::Int8,  mvvm::TypeCode::UInt8,  mvvm::TypeCode::Int16, mvvm::TypeCode::UInt16,
     mvvm::TypeCode::Int32, mvvm::TypeCode::UInt32, mvvm::TypeCode::Int64, mvvm::TypeCode::UInt64};
+
+/**
+ * @brief Returns true if given value is in the range.
+ */
+bool IsInRange(const mvvm::variant_t &value, const mvvm::variant_t &lower_bound,
+               const mvvm::variant_t &upper_bound)
+{
+  if (mvvm::utils::IsValid(lower_bound) && value < lower_bound)
+  {
+    return false;
+  }
+
+  if (mvvm::utils::IsValid(upper_bound) && upper_bound < value)
+  {
+    return false;
+  }
+
+  return true;
 }
+
+template <typename T>
+bool Increment(mvvm::variant_t &value, const mvvm::variant_t &lower_bound,
+               const mvvm::variant_t &upper_bound)
+{
+  T x_upper_limit =
+      mvvm::utils::IsValid(upper_bound) ? std::get<T>(upper_bound) : std::numeric_limits<T>::max();
+
+  T x_lower_limit =
+      mvvm::utils::IsValid(lower_bound) ? std::get<T>(lower_bound) : std::numeric_limits<T>::min();
+
+  T x_value = std::get<T>(value);
+
+  if (x_value < x_upper_limit)
+  {
+    value = x_value + static_cast<T>(1);
+    return true;
+  }
+
+  return false;
+}
+
+}  // namespace
 
 namespace mvvm
 {
@@ -74,7 +117,17 @@ variant_t LimitedInteger::GetUpperBound() const
 
 bool LimitedInteger::SetValue(const variant_t &value)
 {
-  return {};
+  if (m_value.index() != value.index())
+  {
+    return false;
+  }
+  if (IsInRange(value, m_lower_bound, m_upper_bound))
+  {
+    m_value = value;
+    return true;
+  }
+
+  return false;
 }
 
 bool LimitedInteger::Increment()

@@ -55,3 +55,42 @@ TEST_F(LimitedIntegerTests, Constructor)
     EXPECT_THROW(LimitedInteger(42, 10, 64U), RuntimeException);
   }
 }
+
+TEST_F(LimitedIntegerTests, SetValue)
+{
+  {  // number without limits
+    LimitedInteger num(42, {}, {});
+    EXPECT_TRUE(num.SetValue(42));
+    EXPECT_TRUE(num.SetValue(43));
+    EXPECT_EQ(num.GetValue(), variant_t{43});
+
+    // it is not possible to change type
+    EXPECT_FALSE(num.SetValue(3.14));
+    EXPECT_FALSE(num.SetValue(50UL));
+  }
+
+  {  // number with  upper limit
+    LimitedInteger num(42, {}, {50});
+    EXPECT_TRUE(num.SetValue(49));
+    EXPECT_TRUE(num.SetValue(50));
+    EXPECT_FALSE(num.SetValue(51));
+    EXPECT_EQ(num.GetValue(), variant_t{50});
+  }
+
+  {  // number with lower limit
+    LimitedInteger num(42, {40}, {});
+    EXPECT_TRUE(num.SetValue(41));
+    EXPECT_TRUE(num.SetValue(40));
+    EXPECT_FALSE(num.SetValue(39));
+    EXPECT_EQ(num.GetValue(), variant_t{40});
+  }
+
+  {  // number with upper and lower limits
+    LimitedInteger num(42, {40}, {50});
+    EXPECT_TRUE(num.SetValue(40));
+    EXPECT_TRUE(num.SetValue(50));
+    EXPECT_FALSE(num.SetValue(39));
+    EXPECT_FALSE(num.SetValue(51));
+    EXPECT_EQ(num.GetValue(), variant_t{50});
+  }
+}
