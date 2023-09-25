@@ -22,7 +22,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/variant.h>
-#include <mvvm/model_export.h>
+#include <mvvm/utils/i_limited_integer.h>
 
 #include <algorithm>
 #include <vector>
@@ -39,7 +39,7 @@ namespace mvvm
  */
 
 template <typename T>
-class LimitedInteger
+class LimitedInteger : public ILimitedInteger
 {
 public:
   /**
@@ -82,38 +82,21 @@ public:
    */
   bool SetValue(const T& value);
 
-  /**
-   * @brief Increments internal value.
-   * @return True in the case of success (when current value has changed).
-   *
-   * @details Can fail if current value is at the upper boundary already. In this case current value
-   * remain unchanged. Call is safe for all types of integers, no overflow can occur.
-   */
-  bool Increment();
+  bool Increment() override;
 
-  /**
-   * @brief Decrements internal value.
-   * @return True in the case of success (when current value has changed).
-   *
-   * @details Can fail if current value is at the lower boundary already. In this case current value
-   * remain unchanged. Call is safe for all types of integers, no underflow can occur.
-   */
-  bool Decrement();
+  bool Decrement() override;
 
   /**
    * @brief Adds the value to the current value.
    *
    * @param value The value to add.
-   * @param as_much_as_possible When item is close to its bound, will add as mush as possible
-   and
+   * @param as_much_as_possible When item is close to its bound, will add as mush as possible and
    * report success.
    *
    * @return True in the case of success (when current value has changed).
    *
-   * @details When as_much_as_possible is false the behavior is the following: the method can
-   fail
-   * if the value is close to the upper bound and adding would lead to overflow. In this case
-   will
+   * @details When as_much_as_possible is false the behavior is the following: the method can fail
+   * if the value is close to the upper bound and adding would lead to overflow. In this case will
    * return false, the value will remain unchanged.
    *
    * @details If as_much_as_possible is true, and adding the value could lead to overflow, will
@@ -126,20 +109,16 @@ public:
    * @brief Substracts the value from the current value.
    *
    * @param value The value to substract.
-   * @param as_much_as_possible When item is close to its bound, will substract as mush as
-   possible
+   * @param as_much_as_possible When item is close to its bound, will substract as mush as possible
    * and report success.
    *
    * @return True in the case of success (when current value has changed).
    *
-   * @details When as_much_as_possible is false the behavior is the following: the method can
-   fail
-   * if the value is close to the lower bound and adding would lead to underflow. In this case
-   will
+   * @details When as_much_as_possible is false the behavior is the following: the method can fail
+   * if the value is close to the lower bound and adding would lead to underflow. In this case will
    * return false, the value will remain unchanged.
    *
-   * @details If as_much_as_possible is true, and substracting the value could lead to
-   underflow,
+   * @details If as_much_as_possible is true, and substracting the value could lead to underflow,
    * will stop at the lower bound, and report success.
    */
   bool SubstractValue(const variant_t& value, bool as_much_as_possible);
