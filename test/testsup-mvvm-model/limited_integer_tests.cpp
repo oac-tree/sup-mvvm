@@ -60,7 +60,7 @@ TEST_F(LimitedIntegerTests, SetValue)
 {
   {  // number without limits
     LimitedInteger<int> num(42, {}, {});
-    EXPECT_TRUE(num.SetValue(42));
+    EXPECT_FALSE(num.SetValue(42));  // same value
     EXPECT_TRUE(num.SetValue(43));
     EXPECT_EQ(num.GetValue(), 43);
   }
@@ -89,6 +89,14 @@ TEST_F(LimitedIntegerTests, SetValue)
     EXPECT_FALSE(num.SetValue(51));
     EXPECT_EQ(num.GetValue(), 50);
   }
+}
+
+TEST_F(LimitedIntegerTests, SetValueFromVariant)
+{
+  LimitedInteger<int> num(42, {}, {});
+  EXPECT_FALSE(num.SetValueFromVariant(variant_t{42}));  // same value
+  EXPECT_TRUE(num.SetValueFromVariant(variant_t{43}));
+  EXPECT_EQ(num.GetValue(), 43);
 }
 
 TEST_F(LimitedIntegerTests, Increment)

@@ -21,7 +21,6 @@
 #define MVVM_UTILS_LIMITED_INTEGER_H
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/core/variant.h>
 #include <mvvm/utils/i_limited_integer.h>
 
 #include <algorithm>
@@ -81,6 +80,8 @@ public:
    * located outside of bounds. In this case will return false.
    */
   bool SetValue(const T& value);
+
+  bool SetValueFromVariant(const variant_t& value) override;
 
   bool Increment() override;
 
@@ -186,13 +187,19 @@ inline T LimitedInteger<T>::GetUpperBound() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
-  if (value < m_lower_bound || value > m_upper_bound)
+  if (value < m_lower_bound || value > m_upper_bound || value == m_value)
   {
     return false;
   }
 
   m_value = value;
   return true;
+}
+
+template<typename T>
+inline bool LimitedInteger<T>::SetValueFromVariant(const variant_t &value)
+{
+  return SetValue(std::get<T>(value));
 }
 
 template <typename T>

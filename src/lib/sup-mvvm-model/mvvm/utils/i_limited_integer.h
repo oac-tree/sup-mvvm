@@ -21,6 +21,7 @@
 #define MVVM_UTILS_I_LIMITED_INTEGER_H
 
 #include <mvvm/model_export.h>
+#include <mvvm/core/variant.h>
 
 namespace mvvm
 {
@@ -33,6 +34,11 @@ class ILimitedInteger
 {
 public:
   virtual ~ILimitedInteger() = default;
+
+  /**
+   * @brief Sets the value from variant and returns true in the case of success.
+   */
+  virtual bool SetValueFromVariant(const variant_t& variant) = 0;
 
   /**
    * @brief Increments internal value.
@@ -61,6 +67,7 @@ public:
    * @brief Returns true if the value coincides with lower bound.
    */
   virtual bool IsAtMaximum() const = 0;
+
 };
 
 }  // namespace mvvm
