@@ -49,10 +49,10 @@ public:
    * @param lower_bound Lower bound.
    * @param upper_bound Upper bound.
    *
-   * @details The type of all 3 variants should be the same and represent one of int8, uin8, int16,
-   * uin16, int32, uint32, int64, uint64.
+   * @details The type of all 3 variants should be the same (except the case with bounds are absent)
+   * and represent one of int8, uin8, int16, uin16, int32, uint32, int64, uint64.
    *
-   * @details Although, lower_bound and upper_bound can be default-constructed. In this case all
+   * @details Lower_bound and upper_bound can be default-constructed. In this case all
    * limits will be deduced from std::numeric_limits.
    */
   LimitedInteger(const variant_t& value, const variant_t& lower_bound,
