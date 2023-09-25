@@ -2,7 +2,6 @@ target_sources(${library_name} PRIVATE
   container_utils.h
   file_utils.cpp
   file_utils.h
-  limited_integer.cpp
   limited_integer.h
   numeric_utils.cpp
   numeric_utils.h

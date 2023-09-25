@@ -20,8 +20,12 @@
 #ifndef MVVM_UTILS_LIMITED_INTEGER_H
 #define MVVM_UTILS_LIMITED_INTEGER_H
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/core/variant.h>
 #include <mvvm/model_export.h>
+
+#include <algorithm>
+#include <vector>
 
 namespace mvvm
 {
@@ -34,6 +38,7 @@ namespace mvvm
  * decrement. It is used in the context of spin box editors.
  */
 
+template <typename T>
 class LimitedInteger
 {
 public:
@@ -56,17 +61,17 @@ public:
   /**
    * @brief Returns current value.
    */
-  variant_t GetValue() const;
+  T GetValue() const;
 
   /**
    * @brief Returns lower bound.
    */
-  variant_t GetLowerBound() const;
+  T GetLowerBound() const;
 
   /**
    * @brief Returns upper bound.
    */
-  variant_t GetUpperBound() const;
+  T GetUpperBound() const;
 
   /**
    * @brief Sets the value.
@@ -75,7 +80,7 @@ public:
    * @details Can fail if variant has different type then stored value, or new value is
    * located outside of bounds. In this case will return false.
    */
-  bool SetValue(const variant_t& value);
+  bool SetValue(const T& value);
 
   /**
    * @brief Increments internal value.
@@ -99,16 +104,20 @@ public:
    * @brief Adds the value to the current value.
    *
    * @param value The value to add.
-   * @param as_much_as_possible When item is close to its bound, will add as mush as possible and
+   * @param as_much_as_possible When item is close to its bound, will add as mush as possible
+   and
    * report success.
    *
    * @return True in the case of success (when current value has changed).
    *
-   * @details When as_much_as_possible is false the behavior is the following: the method can fail
-   * if the value is close to the upper bound and adding would lead to overflow. In this case will
+   * @details When as_much_as_possible is false the behavior is the following: the method can
+   fail
+   * if the value is close to the upper bound and adding would lead to overflow. In this case
+   will
    * return false, the value will remain unchanged.
    *
-   * @details If as_much_as_possible is true, and adding the value could lead to overflow, will stop
+   * @details If as_much_as_possible is true, and adding the value could lead to overflow, will
+   stop
    * at the upper bound, and report success.
    */
   bool AddValue(const variant_t& value, bool as_much_as_possible);
@@ -117,25 +126,138 @@ public:
    * @brief Substracts the value from the current value.
    *
    * @param value The value to substract.
-   * @param as_much_as_possible When item is close to its bound, will substract as mush as possible
+   * @param as_much_as_possible When item is close to its bound, will substract as mush as
+   possible
    * and report success.
    *
    * @return True in the case of success (when current value has changed).
    *
-   * @details When as_much_as_possible is false the behavior is the following: the method can fail
-   * if the value is close to the lower bound and adding would lead to underflow. In this case will
+   * @details When as_much_as_possible is false the behavior is the following: the method can
+   fail
+   * if the value is close to the lower bound and adding would lead to underflow. In this case
+   will
    * return false, the value will remain unchanged.
    *
-   * @details If as_much_as_possible is true, and substracting the value could lead to underflow,
+   * @details If as_much_as_possible is true, and substracting the value could lead to
+   underflow,
    * will stop at the lower bound, and report success.
    */
   bool SubstractValue(const variant_t& value, bool as_much_as_possible);
 
 private:
-  variant_t m_value;
-  variant_t m_lower_bound;
-  variant_t m_upper_bound;
+  bool IsSupportedVariant(const variant_t& variant) const;
+
+  T m_value;
+  T m_lower_bound;
+  T m_upper_bound;
 };
+
+template <typename T>
+inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& lower_bound,
+                                         const variant_t& upper_bound)
+{
+  if (!IsSupportedVariant(value))
+  {
+    throw RuntimeException("The value type [" + utils::TypeName(value) + "] is not supported");
+  }
+
+  if (utils::IsValid(lower_bound) && lower_bound.index() != value.index())
+  {
+    throw RuntimeException("The lower bound type=[" + utils::TypeName(lower_bound)
+                           + "] doesn't coincide with value type=[" + utils::TypeName(lower_bound)
+                           + "]");
+  }
+
+  if (utils::IsValid(upper_bound) && upper_bound.index() != value.index())
+  {
+    throw RuntimeException("The upper bound type=[" + utils::TypeName(upper_bound)
+                           + "] doesn't coincide with value type=[" + utils::TypeName(upper_bound)
+                           + "]");
+  }
+
+  m_value = std::get<T>(value);
+  m_lower_bound =
+      utils::IsValid(lower_bound) ? std::get<T>(lower_bound) : std::numeric_limits<T>::min();
+  m_upper_bound =
+      utils::IsValid(upper_bound) ? std::get<T>(upper_bound) : std::numeric_limits<T>::max();
+}
+
+template <typename T>
+inline T LimitedInteger<T>::GetValue() const
+{
+  return m_value;
+}
+
+template <typename T>
+inline T LimitedInteger<T>::GetLowerBound() const
+{
+  return m_lower_bound;
+}
+
+template <typename T>
+inline T LimitedInteger<T>::GetUpperBound() const
+{
+  return m_upper_bound;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::SetValue(const T& value)
+{
+  if (value < m_lower_bound || value > m_upper_bound)
+  {
+    return false;
+  }
+
+  m_value = value;
+  return true;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::Increment()
+{
+  if (m_value >= m_upper_bound)
+  {
+    return false;
+  }
+
+  m_value++;
+  return true;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::Decrement()
+{
+  if (m_value <= m_lower_bound)
+  {
+    return false;
+  }
+
+  m_value--;
+  return true;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::AddValue(const variant_t& value, bool as_much_as_possible)
+{
+  return false;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::SubstractValue(const variant_t& value, bool as_much_as_possible)
+{
+  return false;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::IsSupportedVariant(const variant_t& variant) const
+{
+  static const std::vector<mvvm::TypeCode> kSupportedTypes{
+      mvvm::TypeCode::Int8,  mvvm::TypeCode::UInt8,  mvvm::TypeCode::Int16, mvvm::TypeCode::UInt16,
+      mvvm::TypeCode::Int32, mvvm::TypeCode::UInt32, mvvm::TypeCode::Int64, mvvm::TypeCode::UInt64};
+
+  return std::find(kSupportedTypes.begin(), kSupportedTypes.end(), GetTypeCode(variant))
+         != kSupportedTypes.end();
+}
 
 }  // namespace mvvm
 
