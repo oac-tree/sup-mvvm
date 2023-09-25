@@ -97,6 +97,8 @@ TEST_F(LimitedIntegerTests, SetValueFromVariant)
   EXPECT_FALSE(num.SetValueFromVariant(variant_t{42}));  // same value
   EXPECT_TRUE(num.SetValueFromVariant(variant_t{43}));
   EXPECT_EQ(num.GetValue(), 43);
+
+  EXPECT_EQ(num.GetValueAsVariant(), variant_t{43});
 }
 
 TEST_F(LimitedIntegerTests, Increment)

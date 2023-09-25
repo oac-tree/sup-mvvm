@@ -82,11 +82,13 @@ public:
    */
   bool SetValue(const T& value);
 
+  variant_t GetValueAsVariant() const override;
+
   bool SetValueFromVariant(const variant_t& value) override;
 
-  bool SetValueFromText(const std::string& text) override;
-
   std::string GetValueAsText() const override;
+
+  bool SetValueFromText(const std::string& text) override;
 
   bool Increment() override;
 
@@ -202,9 +204,21 @@ inline bool LimitedInteger<T>::SetValue(const T& value)
 }
 
 template <typename T>
+inline variant_t LimitedInteger<T>::GetValueAsVariant() const
+{
+  return variant_t{m_value};
+}
+
+template <typename T>
 inline bool LimitedInteger<T>::SetValueFromVariant(const variant_t& value)
 {
   return SetValue(std::get<T>(value));
+}
+
+template <typename T>
+inline std::string LimitedInteger<T>::GetValueAsText() const
+{
+  return std::to_string(m_value);
 }
 
 template <typename T>
@@ -220,12 +234,6 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
   }
 
   return SetValue(parsed_value);
-}
-
-template <typename T>
-inline std::string LimitedInteger<T>::GetValueAsText() const
-{
-  return std::to_string(m_value);
 }
 
 template <typename T>
