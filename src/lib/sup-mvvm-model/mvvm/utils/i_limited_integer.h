@@ -23,6 +23,8 @@
 #include <mvvm/model_export.h>
 #include <mvvm/core/variant.h>
 
+#include <string>
+
 namespace mvvm
 {
 
@@ -36,9 +38,20 @@ public:
   virtual ~ILimitedInteger() = default;
 
   /**
-   * @brief Sets the value from variant and returns true in the case of success.
+   * @brief Sets the value from variant, returns true if the value was changed.
    */
   virtual bool SetValueFromVariant(const variant_t& variant) = 0;
+
+  /**
+   * @brief Sets the value from text, returns true if the value was changed.
+   */
+
+  virtual bool SetValueFromText(const std::string& text) = 0;
+
+  /**
+   * @brief Returns the value as a string.
+   */
+  virtual std::string GetValueAsText() const = 0;
 
   /**
    * @brief Increments internal value.

@@ -24,6 +24,7 @@
 #include <mvvm/utils/i_limited_integer.h>
 
 #include <algorithm>
+#include <charconv>
 #include <vector>
 
 namespace mvvm
@@ -82,6 +83,10 @@ public:
   bool SetValue(const T& value);
 
   bool SetValueFromVariant(const variant_t& value) override;
+
+  bool SetValueFromText(const std::string& text) override;
+
+  std::string GetValueAsText() const override;
 
   bool Increment() override;
 
@@ -196,10 +201,31 @@ inline bool LimitedInteger<T>::SetValue(const T& value)
   return true;
 }
 
-template<typename T>
-inline bool LimitedInteger<T>::SetValueFromVariant(const variant_t &value)
+template <typename T>
+inline bool LimitedInteger<T>::SetValueFromVariant(const variant_t& value)
 {
   return SetValue(std::get<T>(value));
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
+{
+  T parsed_value;
+  std::from_chars_result result =
+      std::from_chars(text.data(), text.data() + text.size(), parsed_value);
+
+  if (result.ec == std::errc::invalid_argument || result.ec == std::errc::result_out_of_range)
+  {
+    return false;
+  }
+
+  return SetValue(parsed_value);
+}
+
+template <typename T>
+inline std::string LimitedInteger<T>::GetValueAsText() const
+{
+  return std::to_string(m_value);
 }
 
 template <typename T>

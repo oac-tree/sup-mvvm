@@ -181,3 +181,21 @@ TEST_F(LimitedIntegerTests, Decrement)
     EXPECT_EQ(num.GetValue(), 0);
   }
 }
+
+TEST_F(LimitedIntegerTests, SetValueFromText)
+{
+  LimitedInteger<int> num(42, {}, {});
+
+  EXPECT_TRUE(num.SetValueFromText("43"));
+  EXPECT_EQ(num.GetValue(), 43);
+  EXPECT_EQ(num.GetValueAsText(), std::string("43"));
+
+  EXPECT_FALSE(num.SetValueFromText("43"));  // // same value
+
+  // Our current implementation allows such conversions. We rely on validators on board of cell
+  // editors.
+  EXPECT_TRUE(num.SetValueFromText("44.1"));
+  EXPECT_EQ(num.GetValue(), 44);
+
+  EXPECT_FALSE(num.SetValueFromText("aaaa"));
+}
