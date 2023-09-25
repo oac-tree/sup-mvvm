@@ -90,3 +90,51 @@ TEST_F(LimitedIntegerTests, SetValue)
     EXPECT_EQ(num.GetValue(), 50);
   }
 }
+
+TEST_F(LimitedIntegerTests, Increment)
+{
+  {  // number without limits
+    LimitedInteger<int> num(42, {}, {});
+    EXPECT_TRUE(num.Increment());
+    EXPECT_EQ(num.GetValue(), 43);
+  }
+
+  {  // number with limits
+    LimitedInteger<int> num(49, 40, 50);
+    EXPECT_TRUE(num.Increment());
+    EXPECT_FALSE(num.Increment());
+    EXPECT_EQ(num.GetValue(), 50);
+  }
+
+  {  // uint8 without limits
+    uint8 initial_value(254);
+    LimitedInteger<uint8> num(initial_value, {}, {});
+    EXPECT_TRUE(num.Increment());
+    EXPECT_FALSE(num.Increment());
+    EXPECT_EQ(num.GetValue(), 255);
+  }
+}
+
+TEST_F(LimitedIntegerTests, Decrement)
+{
+  {  // number without limits
+    LimitedInteger<int> num(42, {}, {});
+    EXPECT_TRUE(num.Decrement());
+    EXPECT_EQ(num.GetValue(), 41);
+  }
+
+  {  // number with limits
+    LimitedInteger<int> num(41, 40, 50);
+    EXPECT_TRUE(num.Decrement());
+    EXPECT_FALSE(num.Decrement());
+    EXPECT_EQ(num.GetValue(), 40);
+  }
+
+  {  // uint8 without limits
+    uint8 initial_value(1);
+    LimitedInteger<uint8> num(initial_value, {}, {});
+    EXPECT_TRUE(num.Decrement());
+    EXPECT_FALSE(num.Decrement());
+    EXPECT_EQ(num.GetValue(), 0);
+  }
+}
