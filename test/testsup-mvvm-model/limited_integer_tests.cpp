@@ -95,23 +95,43 @@ TEST_F(LimitedIntegerTests, Increment)
 {
   {  // number without limits
     LimitedInteger<int> num(42, {}, {});
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
     EXPECT_TRUE(num.Increment());
     EXPECT_EQ(num.GetValue(), 43);
   }
 
   {  // number with limits
     LimitedInteger<int> num(49, 40, 50);
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
+
     EXPECT_TRUE(num.Increment());
+
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_TRUE(num.IsAtMaximum());
+
     EXPECT_FALSE(num.Increment());
+
     EXPECT_EQ(num.GetValue(), 50);
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_TRUE(num.IsAtMaximum());
   }
 
   {  // uint8 without limits
     uint8 initial_value(254);
     LimitedInteger<uint8> num(initial_value, {}, {});
+
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
+
     EXPECT_TRUE(num.Increment());
     EXPECT_FALSE(num.Increment());
+
     EXPECT_EQ(num.GetValue(), 255);
+
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_TRUE(num.IsAtMaximum());
   }
 }
 
@@ -119,15 +139,30 @@ TEST_F(LimitedIntegerTests, Decrement)
 {
   {  // number without limits
     LimitedInteger<int> num(42, {}, {});
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
+
     EXPECT_TRUE(num.Decrement());
+
     EXPECT_EQ(num.GetValue(), 41);
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
   }
 
   {  // number with limits
     LimitedInteger<int> num(41, 40, 50);
+    EXPECT_FALSE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
+
     EXPECT_TRUE(num.Decrement());
+    EXPECT_TRUE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
+
     EXPECT_FALSE(num.Decrement());
+
     EXPECT_EQ(num.GetValue(), 40);
+    EXPECT_TRUE(num.IsAtMinimum());
+    EXPECT_FALSE(num.IsAtMaximum());
   }
 
   {  // uint8 without limits

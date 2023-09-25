@@ -86,6 +86,10 @@ public:
 
   bool Decrement() override;
 
+  bool IsAtMinimum() const override;
+
+  bool IsAtMaximum() const override;
+
   /**
    * @brief Adds the value to the current value.
    *
@@ -213,6 +217,18 @@ inline bool LimitedInteger<T>::Decrement()
 
   m_value--;
   return true;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::IsAtMinimum() const
+{
+  return m_value == m_lower_bound;
+}
+
+template <typename T>
+inline bool LimitedInteger<T>::IsAtMaximum() const
+{
+  return m_value == m_upper_bound;
 }
 
 template <typename T>

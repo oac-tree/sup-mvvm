@@ -51,6 +51,16 @@ public:
    * remain unchanged. Call is safe for all types of integers, no underflow can occur.
    */
   virtual bool Decrement() = 0;
+
+  /**
+   * @brief Returns true if the value coincides with lower bound.
+   */
+  virtual bool IsAtMinimum() const = 0;
+
+  /**
+   * @brief Returns true if the value coincides with lower bound.
+   */
+  virtual bool IsAtMaximum() const = 0;
 };
 
 }  // namespace mvvm
