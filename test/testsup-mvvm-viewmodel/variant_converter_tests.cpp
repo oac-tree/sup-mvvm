@@ -34,8 +34,7 @@ class VariantConverterTests : public ::testing::Test
 {
 };
 
-//! Testing original method to construct QVariant from std::variant. Please note that method
-//! QVariant::canConvert can converts in many close types.
+//! Testing original method to construct QVariant from std::variant.
 
 TEST_F(VariantConverterTests, fromStdVariant)
 {
@@ -194,9 +193,135 @@ TEST_F(VariantConverterTests, GetStdVariant)
   EXPECT_THROW(GetStdVariant(QVariant(QColor(Qt::red))), RuntimeException);
 }
 
-//! Testing function to convert std variant to Qt variant.
+//! Testing method GetQtVariant. It is slightly different from original QVariant::fromStdVariant.
 
 TEST_F(VariantConverterTests, GetQtVariant)
+{
+  {
+    auto variant = GetQtVariant(variant_t{});
+    EXPECT_FALSE(variant.isValid());
+  }
+
+  {
+    auto variant = GetQtVariant(variant_t{true});
+    EXPECT_TRUE(utils::IsBoolVariant(variant));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kBooleanQtTypeName);
+  }
+
+  {
+    const mvvm::char8 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::char8>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kChar8QtTypeName);
+  }
+
+  {
+    const mvvm::int8 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int8>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt8QtTypeName);
+  }
+
+  {
+    const mvvm::uint8 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint8>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt8QtTypeName);
+  }
+
+  {
+    const mvvm::int16 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int16>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt16QtTypeName);
+  }
+
+  {
+    const mvvm::uint16 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint16>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt16QtTypeName);
+  }
+
+  {
+    const mvvm::int32 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int32>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt32QtTypeName);
+  }
+
+  {
+    const mvvm::uint32 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint32>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt32QtTypeName);
+  }
+
+  {
+    const mvvm::int64 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int64>());
+    // different with the original QVariant::GetQtVariant
+    //    EXPECT_EQ(std::string(variant.typeName()), constants::kInt64QtTypeName);
+    EXPECT_EQ(std::string(variant.typeName()), constants::kLongLongQtTypeName);
+  }
+
+  {
+    const mvvm::uint64 value{0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint64>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt64QtTypeName);
+  }
+
+  {
+    const mvvm::float32 value{0.0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::float32>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kFloat32QtTypeName);
+  }
+
+  {
+    const mvvm::float64 value{0.0};
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::float64>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kFloat64QtTypeName);
+  }
+
+  {
+    std::string value;
+    auto variant = GetQtVariant(variant_t{value});
+    // different with the original QVariant::GetQtVariant
+    //    EXPECT_TRUE(variant.canConvert<std::string>());
+    //    EXPECT_EQ(std::string(variant.typeName()), constants::kStdStringQtTypeName);
+    EXPECT_TRUE(variant.canConvert<QString>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kStringQtTypeName);
+  }
+
+  {
+    std::vector<double> value;
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<std::vector<double>>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kStdVectorDoubleQtTypeName);
+  }
+
+  {
+    ComboProperty value;
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<ComboProperty>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kComboPropertyQtTypeName);
+  }
+
+  {
+    ExternalProperty value;
+    auto variant = GetQtVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<ExternalProperty>());
+    EXPECT_EQ(std::string(variant.typeName()), constants::kExternalPropertyQtTypeName);
+  }
+}
+
+//! Testing function to convert std variant to Qt variant.
+
+TEST_F(VariantConverterTests, GetQtVariantExtended)
 {
   // from undefined variant
   EXPECT_EQ(GetQtVariant(variant_t()), QVariant());
