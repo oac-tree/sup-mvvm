@@ -34,6 +34,128 @@ class VariantConverterTests : public ::testing::Test
 {
 };
 
+//! Testing original method to construct QVariant from std::variant. Please note that method
+//! QVariant::canConvert can converts in many close types.
+
+TEST_F(VariantConverterTests, fromStdVariant)
+{
+  {
+    auto variant = QVariant::fromStdVariant(variant_t{});
+    EXPECT_FALSE(variant.isValid());
+  }
+
+  {
+    auto variant = QVariant::fromStdVariant(variant_t{true});
+    EXPECT_TRUE(utils::IsBoolVariant(variant));
+    EXPECT_EQ(std::string(variant.typeName()), std::string("bool"));
+  }
+
+  {
+    const mvvm::char8 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::char8>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("char"));
+  }
+
+  {
+    const mvvm::int8 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int8>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("signed char"));
+  }
+
+  {
+    const mvvm::uint8 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint8>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("uchar"));
+  }
+
+  {
+    const mvvm::int16 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int16>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("short"));
+  }
+
+  {
+    const mvvm::uint16 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint16>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("ushort"));
+  }
+
+  {
+    const mvvm::int32 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int32>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("int"));
+  }
+
+  {
+    const mvvm::uint32 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint32>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("uint"));
+  }
+
+  {
+    const mvvm::int64 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::int64>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("long"));
+  }
+
+  {
+    const mvvm::uint64 value{0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::uint64>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("ulong"));
+  }
+
+  {
+    const mvvm::float32 value{0.0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::float32>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("float"));
+  }
+
+  {
+    const mvvm::float64 value{0.0};
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<mvvm::float64>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("double"));
+  }
+
+  {
+    std::string value;
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<std::string>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("std::string"));
+  }
+
+  {
+    std::vector<double> value;
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<std::vector<double>>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("std::vector<double>"));
+  }
+
+  {
+    ComboProperty value;
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<ComboProperty>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("mvvm::ComboProperty"));
+  }
+
+  {
+    ExternalProperty value;
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<ExternalProperty>());
+    EXPECT_EQ(std::string(variant.typeName()), std::string("mvvm::ExternalProperty"));
+  }
+}
+
 //! Testing function to convert Qt variant to std variant.
 
 TEST_F(VariantConverterTests, GetStdVariant)

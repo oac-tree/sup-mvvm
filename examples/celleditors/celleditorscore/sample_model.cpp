@@ -66,7 +66,14 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
-  AddProperty("int32 1", 42);
+  AddProperty("integer_1", 42)->SetDisplayName("int32 orig");
+  AddProperty("integer_2", 42)
+      ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
+      ->SetDisplayName("int32 all-int");
+
+  AddProperty("integer_3", static_cast<mvvm::int8>(0))
+      ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
+      ->SetDisplayName("int8 all-int");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

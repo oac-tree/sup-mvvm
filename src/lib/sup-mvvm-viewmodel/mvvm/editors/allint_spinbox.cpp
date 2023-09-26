@@ -25,6 +25,7 @@
 
 #include <QEvent>
 #include <QLineEdit>
+#include <QDebug>
 
 namespace mvvm
 {
@@ -73,12 +74,6 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
   {
     return QValidator::Invalid;
   }
-
-  //    // Ensure the value is within bounds, but allow out of bounds values as an intermediate
-  //    state
-
-  //    const bool within_bounds{converted_value >= m_minimum && converted_value <= m_maximum};
-  //    return within_bounds ? QValidator::Acceptable : QValidator::Intermediate;
 
   return QValidator::Acceptable;
 }
