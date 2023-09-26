@@ -1,8 +1,10 @@
 target_sources(${library_name} PRIVATE
   abstract_editor_factory.cpp
   abstract_editor_factory.h
-  allint_sphinbox.cpp
-  allint_sphinbox.h
+  allint_spinbox.cpp
+  allint_spinbox.h
+  allint_spinbox_editor.cpp
+  allint_spinbox_editor.h
   boolean_editor.cpp
   boolean_editor.h
   color_editor.cpp
