@@ -23,7 +23,7 @@ namespace mvvm::utils
 {
 std::string GetQtVariantName(const QVariant& variant)
 {
-  return variant.isValid() ? variant.typeName() : constants::kInvalidQtTypeName;
+  return variant.isValid() ? variant.typeName() : constants::kEmptyQtTypeName;
 }
 
 int GetQtVariantType(const QVariant& variant)
@@ -74,7 +74,7 @@ bool IsDoubleVariant(const QVariant& variant)
 
 bool IsLongIntVariant(const QVariant& variant)
 {
-  return variant.typeName() == constants::kLongIntQtTypeName;
+  return variant.typeName() == constants::kLongLongQtTypeName;
 }
 
 bool IsStdStringVariant(const QVariant& variant)

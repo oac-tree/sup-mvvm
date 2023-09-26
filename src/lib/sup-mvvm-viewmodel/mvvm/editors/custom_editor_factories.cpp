@@ -77,12 +77,12 @@ editor_t RoleDependentEditorFactory::CreateItemEditor(const SessionItem* item) c
 VariantDependentEditorFactory::VariantDependentEditorFactory()
 {
   // registering set of builders for given variant names
-  RegisterBuilder(constants::kBoolQtTypeName, BoolEditorBuilder());
+  RegisterBuilder(constants::kBooleanQtTypeName, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
-  RegisterBuilder(constants::kIntQtTypeName, IntegerEditorBuilder());
-  RegisterBuilder(constants::kLongIntQtTypeName, LongIntSpinBoxEditorBuilder());
-  RegisterBuilder(constants::kDoubleQtTypeName, DoubleEditorBuilder());
+  RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
+  RegisterBuilder(constants::kLongLongQtTypeName, LongIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kFloat64QtTypeName, DoubleEditorBuilder());
 }
 
 //! Creates cell editor basing on variant name.

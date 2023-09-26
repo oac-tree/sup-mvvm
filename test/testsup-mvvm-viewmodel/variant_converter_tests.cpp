@@ -47,112 +47,112 @@ TEST_F(VariantConverterTests, fromStdVariant)
   {
     auto variant = QVariant::fromStdVariant(variant_t{true});
     EXPECT_TRUE(utils::IsBoolVariant(variant));
-    EXPECT_EQ(std::string(variant.typeName()), std::string("bool"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kBooleanQtTypeName);
   }
 
   {
     const mvvm::char8 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::char8>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("char"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kChar8QtTypeName);
   }
 
   {
     const mvvm::int8 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::int8>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("signed char"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt8QtTypeName);
   }
 
   {
     const mvvm::uint8 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::uint8>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("uchar"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt8QtTypeName);
   }
 
   {
     const mvvm::int16 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::int16>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("short"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt16QtTypeName);
   }
 
   {
     const mvvm::uint16 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::uint16>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("ushort"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt16QtTypeName);
   }
 
   {
     const mvvm::int32 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::int32>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("int"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt32QtTypeName);
   }
 
   {
     const mvvm::uint32 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::uint32>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("uint"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt32QtTypeName);
   }
 
   {
     const mvvm::int64 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::int64>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("long"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt64QtTypeName);
   }
 
   {
     const mvvm::uint64 value{0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::uint64>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("ulong"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kUInt64QtTypeName);
   }
 
   {
     const mvvm::float32 value{0.0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::float32>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("float"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kFloat32QtTypeName);
   }
 
   {
     const mvvm::float64 value{0.0};
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::float64>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("double"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kFloat64QtTypeName);
   }
 
   {
     std::string value;
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<std::string>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("std::string"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kStdStringQtTypeName);
   }
 
   {
     std::vector<double> value;
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<std::vector<double>>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("std::vector<double>"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kStdVectorDoubleQtTypeName);
   }
 
   {
     ComboProperty value;
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<ComboProperty>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("mvvm::ComboProperty"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kComboPropertyQtTypeName);
   }
 
   {
     ExternalProperty value;
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<ExternalProperty>());
-    EXPECT_EQ(std::string(variant.typeName()), std::string("mvvm::ExternalProperty"));
+    EXPECT_EQ(std::string(variant.typeName()), constants::kExternalPropertyQtTypeName);
   }
 }
 

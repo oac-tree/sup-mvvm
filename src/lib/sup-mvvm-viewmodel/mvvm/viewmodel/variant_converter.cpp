@@ -33,15 +33,15 @@ using converter_func_t = std::function<mvvm::variant_t(const QVariant& variant)>
 std::map<std::string, converter_func_t> CreateConverterMap()
 {
   std::map<std::string, converter_func_t> result = {
-      {mvvm::constants::kInvalidQtTypeName,
+      {mvvm::constants::kEmptyQtTypeName,
        [](const QVariant& /*variant*/) { return mvvm::variant_t(); }},
-      {mvvm::constants::kBoolQtTypeName,
+      {mvvm::constants::kBooleanQtTypeName,
        [](const QVariant& variant) { return mvvm::variant_t(variant.toBool()); }},
-      {mvvm::constants::kIntQtTypeName,
+      {mvvm::constants::kInt32QtTypeName,
        [](const QVariant& variant) { return mvvm::variant_t(variant.toInt()); }},
-      {mvvm::constants::kDoubleQtTypeName,
+      {mvvm::constants::kFloat64QtTypeName,
        [](const QVariant& variant) { return mvvm::variant_t(variant.toDouble()); }},
-      {mvvm::constants::kLongIntQtTypeName,
+      {mvvm::constants::kLongLongQtTypeName,
        [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::int64>()); }},
       {mvvm::constants::kStringQtTypeName,
        [](const QVariant& variant) { return mvvm::variant_t(variant.toString().toStdString()); }},
