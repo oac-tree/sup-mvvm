@@ -155,39 +155,154 @@ TEST_F(VariantConverterTests, fromStdVariant)
   }
 }
 
-//! Testing function to convert Qt variant to std variant.
+//! Testing function to convert Qt variant to std variant. Please note, that QVariant has limited
+//! set of constructors, QVariant::fromValue shall be used.
 
 TEST_F(VariantConverterTests, GetStdVariant)
 {
-  EXPECT_EQ(GetStdVariant(QVariant()), variant_t());
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(true)), variant_t(true));
+  {
+    EXPECT_EQ(GetStdVariant(QVariant()), variant_t());
+    EXPECT_EQ(GetStdVariant(QVariant::fromValue(true)), variant_t(true));
+  }
 
-  auto std_variant_from_qint = GetStdVariant(QVariant::fromValue(42));
-  EXPECT_EQ(utils::TypeName(std_variant_from_qint), constants::kInt32TypeName);
-  EXPECT_EQ(std_variant_from_qint, variant_t(42));
+  {
+    auto variant = GetStdVariant(QVariant{true});
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Bool);
+  }
 
-  const qint64 num(42);
-  auto std_variant_from_qint64 = GetStdVariant(QVariant(num));
-  EXPECT_EQ(utils::TypeName(std_variant_from_qint64), constants::kInt64TypeName);
-  EXPECT_EQ(std_variant_from_qint64, variant_t(42L));
+  {
+    const mvvm::char8 value{0};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Char8);
+  }
 
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(1.0)), variant_t(1.0));
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(QString("abc"))), variant_t(std::string("abc")));
+  {
+    const mvvm::int8 value{0};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Int8);
+  }
 
-  const std::vector<double> vec{1.0, 2.0};
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(vec)), variant_t(vec));
+  {
+    const mvvm::uint8 value{0};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::UInt8);
+  }
 
-  const ComboProperty combo = ComboProperty::CreateFrom({"a1"});
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(combo)), variant_t(combo));
+  {
+    const mvvm::int16 value{0};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Int16);
+  }
 
-  const ExternalProperty external_property("text", "color", "identifier");
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(external_property)), variant_t(external_property));
+  {
+    const mvvm::uint16 value{0};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::UInt16);
+  }
 
-  const RealLimits real_limits = RealLimits::CreateLimited(1.0, 2.0);
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(real_limits)), variant_t(real_limits));
+  {
+    const mvvm::int32 value{42};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Int32);
+    EXPECT_EQ(variant, variant_t(value));
+  }
 
-  const IntLimits int_limits = IntLimits::CreateLimited(1, 42);
-  EXPECT_EQ(GetStdVariant(QVariant::fromValue(int_limits)), variant_t(int_limits));
+  {
+    const mvvm::uint32 value{42};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::UInt32);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const mvvm::int64 value{42};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Int64);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const mvvm::uint64 value{42};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::UInt64);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  // FIXME do we need separate support to qint64?
+  {
+    const qint64 value{42};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Int64);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const mvvm::float32 value{42.1};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::Float32);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const QString value{"abc"};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::String);
+    EXPECT_EQ(variant, variant_t(value.toStdString()));
+  }
+
+  {
+    const std::string value{"abc"};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::String);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const std::vector<double> value{1.0, 2.0};
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::VectorOfDouble);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const ComboProperty value = ComboProperty::CreateFrom({"a1"});
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::ComboProperty);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const ExternalProperty value("text", "color", "identifier");
+    auto qt_variant = QVariant::fromValue(value);
+    auto variant = GetStdVariant(qt_variant);
+    EXPECT_EQ(GetTypeCode(variant), TypeCode::ExternalProperty);
+    EXPECT_EQ(variant, variant_t(value));
+  }
+
+  {
+    const RealLimits real_limits = RealLimits::CreateLimited(1.0, 2.0);
+    EXPECT_EQ(GetStdVariant(QVariant::fromValue(real_limits)), variant_t(real_limits));
+  }
+
+  {
+    const IntLimits int_limits = IntLimits::CreateLimited(1, 42);
+    EXPECT_EQ(GetStdVariant(QVariant::fromValue(int_limits)), variant_t(int_limits));
+  }
 
   // other Qt variants are unsupported
   EXPECT_THROW(GetStdVariant(QVariant(QColor(Qt::red))), RuntimeException);
