@@ -242,7 +242,7 @@ TEST_F(LimitedIntegerTests, StepBy)
     EXPECT_EQ(num.GetValue(), 40);
   }
 
-  {  // unlimited int8, several decrementing steps
+  {  // unlimited int8, several steps
     int8 initial_value{0};
     LimitedInteger<int8> num(initial_value, {}, {});
 
@@ -255,5 +255,17 @@ TEST_F(LimitedIntegerTests, StepBy)
     EXPECT_EQ(num.GetValue(), -128);
     EXPECT_FALSE(num.StepBy(-1));
     EXPECT_EQ(num.GetValue(), -128);
+  }
+
+  {  // unlimited uint8, several steps
+    uint8 initial_value{0};
+    LimitedInteger<uint8> num(initial_value, {}, {});
+
+    EXPECT_TRUE(num.StepBy(2));
+    EXPECT_EQ(num.GetValue(), static_cast<mvvm::uint8>(2));
+    EXPECT_TRUE(num.StepBy(-2));
+    EXPECT_EQ(num.GetValue(), static_cast<mvvm::uint8>(0));
+    EXPECT_FALSE(num.StepBy(-2));
+    EXPECT_EQ(num.GetValue(), static_cast<mvvm::uint8>(0));
   }
 }

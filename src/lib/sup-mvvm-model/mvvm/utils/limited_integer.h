@@ -242,14 +242,15 @@ inline bool LimitedInteger<T>::StepBy(int steps)
 
   if (steps < 0)
   {
-    // converting steps to current type
-    T n_steps = steps < std::numeric_limits<T>::min() ? std::numeric_limits<T>::min()
-                                                      : static_cast<T>(steps);
+    // converting steps to current type, removing sign
+    const size_t no_sign_step = steps * -1;
+    T n_steps = no_sign_step > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max()
+                                                             : static_cast<T>(no_sign_step);
     // avoiding using the sum to not to overflow
     T diff = m_value - m_lower_bound;
 
     // decreasing the value, but not less than the minimum
-    return SetValue(diff < std::abs(n_steps) ? m_lower_bound : m_value + n_steps);
+    return SetValue(diff < n_steps ? m_lower_bound : m_value - n_steps);
   }
 
   return false;
