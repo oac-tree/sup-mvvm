@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "allint_sphinbox.h"
+#include "allint_spinbox.h"
 
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/limited_integer.h>
@@ -40,6 +40,7 @@ AllIntSpinBox::AllIntSpinBox(QWidget *parent) : QAbstractSpinBox(parent)
 void AllIntSpinBox::SetInteger(std::unique_ptr<ILimitedInteger> value)
 {
   m_value = std::move(value);
+  emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
 }
 
 AllIntSpinBox::~AllIntSpinBox() = default;
