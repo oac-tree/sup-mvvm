@@ -8,6 +8,8 @@ target_link_libraries(${library_name} PRIVATE sup-mvvm::view)
 target_sources(${library_name} PRIVATE
     main_window.cpp
     main_window.h
+    property_panel.cpp
+    property_panel.h
     model_editor_widget.cpp
     model_editor_widget.h
     sample_model.cpp

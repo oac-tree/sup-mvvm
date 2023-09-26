@@ -23,22 +23,15 @@
 #include <QWidget>
 #include <memory>
 
-class QBoxLayout;
-class QTreeView;
-class QTableView;
-
-namespace mvvm
-{
-class ViewModel;
-class ViewModelDelegate;
-}  // namespace mvvm
+class QTabWidget;
 
 namespace celleditors
 {
 
 class SampleModel;
+class PropertyPanel;
 
-//! Shows content of the model as vertical tree, horizontal tree and table.
+//! Widget with two tabs for different property set.
 
 class ModelEditorWidget : public QWidget
 {
@@ -46,21 +39,13 @@ class ModelEditorWidget : public QWidget
 
 public:
   explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
-  ~ModelEditorWidget() override;
 
   void SetModel(SampleModel* model);
 
 private:
-  QBoxLayout* CreateLeftLayout();
-  QBoxLayout* CreateRightLayout();
-
-  QTreeView* m_vertical_tree{nullptr};
-  QTreeView* m_horizontal_tree{nullptr};
-  QTableView* m_table_view{nullptr};
-
-  std::unique_ptr<mvvm::ViewModel> m_vertical_view_model;
-  std::unique_ptr<mvvm::ViewModel> m_horizontal_view_model;
-  std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
+  QTabWidget* m_tab_widget{nullptr};
+  PropertyPanel* m_panel0{nullptr};
+  PropertyPanel* m_panel1{nullptr};
 };
 
 }  // namespace celleditors

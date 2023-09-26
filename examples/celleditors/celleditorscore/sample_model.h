@@ -28,12 +28,20 @@
 namespace celleditors
 {
 
-//! Demo item demonstrating supported properties.
+//! Demo item demonstrating basing supported properties.
 
-class DemoItem : public mvvm::CompoundItem
+class BasicPropertyItem : public mvvm::CompoundItem
 {
 public:
-  DemoItem();
+  BasicPropertyItem();
+};
+
+//! Demo item showing all kinds of integer-like properties.
+
+class AllIntPropertyItem : public mvvm::CompoundItem
+{
+public:
+  AllIntPropertyItem();
 };
 
 //! Main application model.

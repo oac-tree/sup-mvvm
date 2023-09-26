@@ -40,7 +40,7 @@ const std::string kLongInteger = "kLongInteger";
 namespace celleditors
 {
 
-DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
+BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 {
   AddProperty(kBool, true)->SetDisplayName("Bool")->SetToolTip("tooltip");
   AddProperty(kInteger, 42)->SetDisplayName("Integer");
@@ -64,9 +64,15 @@ DemoItem::DemoItem() : mvvm::CompoundItem("DemoItem")
   AddProperty(kExternal, mvvm::ExternalProperty({"text", "gold"}))->SetDisplayName("External");
 }
 
+AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
+{
+  AddProperty("int32 1", 42);
+}
+
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
-  RegisterItem<DemoItem>();
+  RegisterItem<BasicPropertyItem>();
+  RegisterItem<AllIntPropertyItem>();
 }
 
 }  // namespace celleditors
