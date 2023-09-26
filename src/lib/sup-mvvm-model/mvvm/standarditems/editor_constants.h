@@ -37,6 +37,7 @@ const std::string kScientificSpinboxEditorType = "ScientificSpinboxEditor";
 const std::string kLongIntSpinBoxEditorType = "LongIntSpinBoxEditor";
 const std::string kIntegerEditorType = "IntegerEditor";
 const std::string kDoubleEditorType = "DoubleEditor";
+const std::string kAllIntSpinBoxEditorType = "AllIntSpinBoxEditor";
 
 const int kDefaultDoubleDecimals = 4;  //! number of digits after decimal points
 

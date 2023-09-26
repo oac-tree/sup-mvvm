@@ -141,6 +141,20 @@ editorbuilder_t IntegerEditorBuilder()
   return builder;
 }
 
+editorbuilder_t AllIntSpinBoxEditorBuilder()
+{
+  auto builder = [](const SessionItem* item) -> editor_t
+  {
+    auto editor = std::make_unique<AllIntSpinBoxEditor>();
+    if (item)
+    {
+      editor->SetRange(GetLowerLimit(*item), GetUpperLimit(*item));
+    }
+    return editor;
+  };
+  return builder;
+}
+
 editorbuilder_t DoubleEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t

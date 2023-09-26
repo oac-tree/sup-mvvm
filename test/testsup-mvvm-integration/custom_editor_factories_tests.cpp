@@ -21,8 +21,8 @@
 
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/limits.h>
 #include <mvvm/model/item_limits_helper.h>
+#include <mvvm/model/limits.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
@@ -96,6 +96,9 @@ TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
   // for int we use adapted QSpinBox with limits set
   index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+
+  index = AddDataToModel(variant_t(42), constants::kAllIntSpinBoxEditorType);
+  EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 }
 
 TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)

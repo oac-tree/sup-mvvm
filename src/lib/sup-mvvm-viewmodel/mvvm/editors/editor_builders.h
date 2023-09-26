@@ -52,6 +52,9 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t LongIntSpinBoxEditorBuilder();
 //! Builder for integer values editor with possibilities to set limits.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t IntegerEditorBuilder();
 
+//! Builder for all integer editor.
+MVVM_VIEWMODEL_EXPORT editorbuilder_t AllIntSpinBoxEditorBuilder();
+
 //! Builder for editor of integer values with possibilities to set limits.
 MVVM_VIEWMODEL_EXPORT editorbuilder_t DoubleEditorBuilder();
 
