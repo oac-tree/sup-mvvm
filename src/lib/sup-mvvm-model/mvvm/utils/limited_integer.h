@@ -228,32 +228,24 @@ inline bool LimitedInteger<T>::Decrement()
 template <typename T>
 inline bool LimitedInteger<T>::StepBy(int steps)
 {
-  if (steps > 0)
+  // This is a simplified implementation which is not very efficient for large amount of steps,
+  // but it guarantees that no bit flip can happen with any comparison/add/substract operations
+  // applied to any possible values of `steps` and
+  // INT_MIN...lower_bound....0...value...upper_bound...INT_MAX.
+
+  bool value_was_changed{false};
+  for (size_t step = 0; step < std::abs(steps); ++step)
   {
-    // converting steps to current type
-    T n_steps = steps > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max()
-                                                      : static_cast<T>(steps);
-    // avoiding using the sum to not to overflow
-    T diff = m_upper_bound - m_value;
-
-    // increasing the value, but not more than the maximum
-    return SetValue(diff > n_steps ? m_value + n_steps : m_upper_bound);
+    bool value_changed = steps > 0 ? Increment() : Decrement();
+    if (!value_changed)
+    {
+      break;
+    }
+    {
+      value_was_changed = true;
+    }
   }
-
-  if (steps < 0)
-  {
-    // converting steps to current type, removing sign
-    const size_t no_sign_step = steps * -1;
-    T n_steps = no_sign_step > std::numeric_limits<T>::max() ? std::numeric_limits<T>::max()
-                                                             : static_cast<T>(no_sign_step);
-    // avoiding using the sum to not to overflow
-    T diff = m_value - m_lower_bound;
-
-    // decreasing the value, but not less than the minimum
-    return SetValue(diff < n_steps ? m_lower_bound : m_value - n_steps);
-  }
-
-  return false;
+  return value_was_changed;
 }
 
 template <typename T>
