@@ -32,6 +32,14 @@ class ILimitedInteger;
 /**
  * @brief The AllIntSpinBox class is intended for editing all integer-like types: int8, uin8,
  * int16, uin16, int32, uint32, int64 and uint64.
+ *
+ * @details Current behavior: when user enters manually long integer which is above current limits,
+ * and pushes enter, the value is returning to initial value. Desired behavior: the value should be
+ * set to allowed maximum. Requires fix in LimitedInteger::SetValueFromText.
+ *
+ * @details Current behavior: when user change the value in the text editor and then switches to
+ * another window (focus out event), no signals are emitted, and the value returns to initial value.
+ * QSpinBox behaves itself differently and set last entered value.
  */
 
 class MVVM_VIEWMODEL_EXPORT AllIntSpinBox : public QAbstractSpinBox
@@ -54,6 +62,12 @@ public:
 
   void stepBy(int steps) override;
 
+  /**
+   * @brief Provide check if cached value has been changed and notify valueChanged if it was the
+   * case.
+   */
+  void CheckNotify();
+
 protected:
   QAbstractSpinBox::StepEnabled stepEnabled() const override;
 
@@ -66,9 +80,10 @@ signals:
 private:
   void OnEditingFinished();
   void updateEdit();
-  void CheckNotify();
 
   std::unique_ptr<ILimitedInteger> m_value;
+  //!< flag to prevent notifications in the course of value change, but before "editingFinished"
+  //!< event
   bool m_cached_value_was_changed{false};
 };
 

@@ -35,7 +35,7 @@ AllIntSpinBox::AllIntSpinBox(QWidget *parent) : QAbstractSpinBox(parent)
   // Propagate editor value to internal value
   connect(this, &QAbstractSpinBox::editingFinished, this, &AllIntSpinBox::OnEditingFinished);
   // Propagate value changes to editor and handle step enabled states
-  connect(this, &AllIntSpinBox::valueChanged, this, &AllIntSpinBox::updateEdit);
+//  connect(this, &AllIntSpinBox::valueChanged, this, &AllIntSpinBox::updateEdit);
 }
 
 void AllIntSpinBox::SetInteger(std::unique_ptr<ILimitedInteger> value)
@@ -98,6 +98,18 @@ void AllIntSpinBox::stepBy(int steps)
   }
 }
 
+void AllIntSpinBox::CheckNotify()
+{
+  qDebug() << "CheckNotify() 1.1";
+  if (m_cached_value_was_changed)
+  {
+    qDebug() << "CheckNotify() 1.2";
+    m_cached_value_was_changed = false;
+    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+  }
+  qDebug() << "CheckNotify() 1.3";
+}
+
 QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
 {
   if (isReadOnly())
@@ -125,6 +137,7 @@ void AllIntSpinBox::setValue(const QVariant &value)
   if (m_value->SetValueFromVariant(GetStdVariant(value)))
   {
     m_cached_value_was_changed = true;
+    updateEdit();
   }
 
   CheckNotify();
@@ -162,18 +175,6 @@ void AllIntSpinBox::updateEdit()
     lineEdit()->setText(value_text);
     qDebug() << "   updateEdit() 1.4";
   }
-}
-
-void AllIntSpinBox::CheckNotify()
-{
-  qDebug() << "CheckNotify() 1.1";
-  if (m_cached_value_was_changed)
-  {
-    qDebug() << "CheckNotify() 1.2";
-    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
-    m_cached_value_was_changed = false;
-  }
-  qDebug() << "CheckNotify() 1.3";
 }
 
 }  // namespace mvvm
