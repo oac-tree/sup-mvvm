@@ -20,6 +20,7 @@
 #include "sample_model.h"
 
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/model/item_limits_helper.h>
 
 #include <QtCore>
 
@@ -67,13 +68,16 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
   AddProperty("integer_1", 42)->SetDisplayName("int32 orig");
-  AddProperty("integer_2", 42)
+  auto prop = AddProperty("integer_2", 42)->SetDisplayName("int32 orig lim");
+  mvvm::SetLimited(30, 40, *prop);
+
+  AddProperty("integer_3", 42)
       ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
       ->SetDisplayName("int32 all-int");
 
-  AddProperty("integer_3", static_cast<mvvm::int8>(0))
+  AddProperty("integer_4", static_cast<mvvm::int16>(0))
       ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
-      ->SetDisplayName("int8 all-int");
+      ->SetDisplayName("int16 all-int");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

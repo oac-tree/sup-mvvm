@@ -40,8 +40,11 @@ AllIntSpinBox::AllIntSpinBox(QWidget *parent) : QAbstractSpinBox(parent)
 
 void AllIntSpinBox::SetInteger(std::unique_ptr<ILimitedInteger> value)
 {
+  qDebug() << "SetInteger() 1.1";
   m_value = std::move(value);
-  emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+  updateEdit();
+//  emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+  qDebug() << "SetInteger() 1.2";
 }
 
 AllIntSpinBox::~AllIntSpinBox() = default;
@@ -53,6 +56,7 @@ QVariant AllIntSpinBox::value() const
 
 QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
 {
+  qDebug() << "validate() 1.1";
   //    (void)pos;
 
   if (input.isEmpty())
@@ -67,6 +71,7 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
     return QValidator::Intermediate;
   }
 
+  qDebug() << "validate() 1.2";
   // Try to do a formal conversion through locale
   bool conversion_ok;
   const QVariant converted_value = locale().toLongLong(input, &conversion_ok);
@@ -75,14 +80,18 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
     return QValidator::Invalid;
   }
 
+  qDebug() << "validate() 1.3";
   return QValidator::Acceptable;
 }
 
 void AllIntSpinBox::stepBy(int steps)
 {
+  qDebug() << "stepBy() 1.1";
   if (m_value->StepBy(steps))
   {
+    qDebug() << "stepBy() 1.2";
     emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+    qDebug() << "stepBy() 1.3";
   }
 }
 
@@ -109,29 +118,40 @@ QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
 
 void AllIntSpinBox::setValue(const QVariant &value)
 {
+  qDebug() << "setValue() 1.1";
   m_value->SetValueFromVariant(GetStdVariant(value));
+  emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+  qDebug() << "setValue() 1.2";
 }
 
 void AllIntSpinBox::OnEditingFinished()
-{
+{  
+  qDebug() << "OnEditingFinished() 1.1";
   auto text_value = text();
   int pos = 0;  // unused
   if (validate(text_value, pos) == QValidator::Acceptable)
   {
+    qDebug() << "   OnEditingFinished() 1.2";
     if (m_value->SetValueFromText(text_value.toStdString()))
     {
+      qDebug() << "   OnEditingFinished() 1.3";
       emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
     }
   }
+  qDebug() << "   OnEditingFinished() 1.4";
 }
 
 void AllIntSpinBox::updateEdit()
 {
+  qDebug() << "updateEdit() 1.1";
   // Propagate new value to the text line editor
   const auto value_text = QString::fromStdString(m_value->GetValueAsText());
+  qDebug() << "   updateEdit() 1.2" << value_text << "text()" << text() << GetQtVariant(m_value->GetValueAsVariant());
   if (value_text != text())
   {
+    qDebug() << "   updateEdit() 1.3";
     lineEdit()->setText(value_text);
+    qDebug() << "   updateEdit() 1.4";
   }
 }
 

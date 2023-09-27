@@ -60,7 +60,7 @@ void ModelEditorWidget::SetModel(SampleModel* model)
     return;
   }
 
-  m_panel0->SetItem(containers.at(0));
-  m_panel1->SetItem(containers.at(1));
+  m_panel0->SetItem(containers.at(1));
+//  m_panel1->SetItem(containers.at(1));
 }
 }  // namespace celleditors

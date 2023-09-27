@@ -24,6 +24,7 @@
 #include <mvvm/viewmodel/variant_converter.h>
 
 #include <QVBoxLayout>
+#include <QDebug>
 
 namespace mvvm
 {
@@ -63,11 +64,14 @@ void AllIntSpinBoxEditor::SetRange(const variant_t& lower_limit, const variant_t
 
 void AllIntSpinBoxEditor::OnValueChanged(const QVariant& value)
 {
+  qDebug() << "AllIntSpinBoxEditor::OnValueChanged()() 1.1";
   SetDataIntern(value);
 }
 
 void AllIntSpinBoxEditor::UpdateComponents()
 {
+  qDebug() << "AllIntSpinBoxEditor::UpdateComponents()() 1.1";
+
   auto limited_int = CreateLimitedInteger(GetStdVariant(GetData()), m_lower_limit, m_upper_limit);
   m_allint_editor->SetInteger(std::move(limited_int));
 }

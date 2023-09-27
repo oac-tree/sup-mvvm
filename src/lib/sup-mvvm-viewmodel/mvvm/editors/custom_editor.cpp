@@ -19,6 +19,7 @@
 
 #include "custom_editor.h"
 
+#include <QDebug>
 namespace mvvm
 {
 
@@ -40,16 +41,20 @@ bool CustomEditor::IsPersistent() const
 
 void CustomEditor::SetData(const QVariant& data)
 {
+  qDebug() << "CustomEditor::SetData 1.1";
   m_data = data;
   UpdateComponents();
+  qDebug() << "CustomEditor::SetData 1.2";
 }
 
 //! Saves the data as given by editor's internal components and notifies the model.
 
 void CustomEditor::SetDataIntern(const QVariant& data)
 {
+  qDebug() << "CustomEditor::SetDataIntern 1.1";
   m_data = data;
   emit dataChanged(m_data);
+  qDebug() << "CustomEditor::SetDataIntern 1.2";
 }
 
 }  // namespace mvvm
