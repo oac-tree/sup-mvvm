@@ -25,6 +25,7 @@
 
 #include <algorithm>
 #include <charconv>
+#include <iostream>
 #include <vector>
 
 namespace mvvm
@@ -136,6 +137,21 @@ inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t
       utils::IsValid(lower_bound) ? std::get<T>(lower_bound) : std::numeric_limits<T>::min();
   m_upper_bound =
       utils::IsValid(upper_bound) ? std::get<T>(upper_bound) : std::numeric_limits<T>::max();
+
+  if (m_upper_bound < m_lower_bound)
+  {
+    throw RuntimeException("Upper bound is smaller than lower bound");
+  }
+
+  if (m_value < m_lower_bound)
+  {
+    m_value = m_lower_bound;
+  }
+
+  if (m_value > m_upper_bound)
+  {
+    m_value = m_upper_bound;
+  }
 }
 
 template <typename T>
@@ -159,6 +175,10 @@ inline T LimitedInteger<T>::GetUpperBound() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
+  std::cout << "LimitedInteger<T>::SetValue "
+            << " m_value " << m_value << " value " << value << " m_lower_bound " << m_lower_bound
+            << " m_upper_bound " << m_upper_bound << " " << std::endl;
+
   if (value < m_lower_bound || value > m_upper_bound || value == m_value)
   {
     return false;
@@ -189,15 +209,20 @@ inline std::string LimitedInteger<T>::GetValueAsText() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 {
+  std::cout << "Limited Integer " << text << std::endl;
   T parsed_value;
   std::from_chars_result result =
       std::from_chars(text.data(), text.data() + text.size(), parsed_value);
 
+  std::cout << "Limited Integer 1.2 " << static_cast<int>(result.ec) << std::endl;
+
   if (result.ec == std::errc::invalid_argument || result.ec == std::errc::result_out_of_range)
   {
+    std::cout << "Limited Integer 1.3 " << std::endl;
     return false;
   }
 
+  std::cout << "Limited Integer 1.4 " << std::endl;
   return SetValue(parsed_value);
 }
 

@@ -54,6 +54,27 @@ TEST_F(LimitedIntegerTests, Constructor)
     EXPECT_THROW(LimitedInteger<int>(42, 42.1, {}), RuntimeException);
     EXPECT_THROW(LimitedInteger<int>(42, 10, 64U), RuntimeException);
   }
+
+  {  // attempt to ser upper limit smaller than lower limit
+    EXPECT_THROW(LimitedInteger<int>(42, 10, 5), RuntimeException);
+  }
+}
+
+TEST_F(LimitedIntegerTests, ConstructorWithValueShift)
+{
+  { // value forced to upper limit
+    const LimitedInteger<int> num(42, 10, 20);
+    EXPECT_EQ(num.GetValue(), 20);
+    EXPECT_EQ(num.GetLowerBound(), 10);
+    EXPECT_EQ(num.GetUpperBound(), 20);
+  }
+
+  { // value forced to lower limit
+    const LimitedInteger<int> num(1, 10, 20);
+    EXPECT_EQ(num.GetValue(), 10);
+    EXPECT_EQ(num.GetLowerBound(), 10);
+    EXPECT_EQ(num.GetUpperBound(), 20);
+  }
 }
 
 TEST_F(LimitedIntegerTests, SetValue)
@@ -204,7 +225,6 @@ TEST_F(LimitedIntegerTests, SetValueFromText)
 
 TEST_F(LimitedIntegerTests, StepBy)
 {
-
   {  // positive ulimited integer
     LimitedInteger<int> num(42, {}, {});
 
