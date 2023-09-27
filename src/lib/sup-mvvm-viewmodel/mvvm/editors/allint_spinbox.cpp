@@ -86,12 +86,14 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
 
 void AllIntSpinBox::stepBy(int steps)
 {
-  qDebug() << "stepBy() 1.1";
+  qDebug() << "stepBy() 1.1" << steps << GetQtVariant(m_value->GetValueAsVariant());
   if (m_value->StepBy(steps))
   {
-    qDebug() << "stepBy() 1.2";
-    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+    qDebug() << "stepBy() 1.2" << GetQtVariant(m_value->GetValueAsVariant());
+//    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+    updateEdit();
     qDebug() << "stepBy() 1.3";
+    qDebug() << " ";
   }
 }
 
@@ -126,8 +128,8 @@ void AllIntSpinBox::setValue(const QVariant &value)
 
 void AllIntSpinBox::OnEditingFinished()
 {  
-  qDebug() << "OnEditingFinished() 1.1";
   auto text_value = text();
+  qDebug() << "OnEditingFinished() 1.1" << text_value;
   int pos = 0;  // unused
   if (validate(text_value, pos) == QValidator::Acceptable)
   {
