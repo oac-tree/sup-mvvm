@@ -66,8 +66,10 @@ signals:
 private:
   void OnEditingFinished();
   void updateEdit();
+  void CheckNotify();
 
   std::unique_ptr<ILimitedInteger> m_value;
+  bool m_cached_value_was_changed{false};
 };
 
 }  // namespace mvvm

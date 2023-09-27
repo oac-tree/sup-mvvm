@@ -92,6 +92,7 @@ void AllIntSpinBox::stepBy(int steps)
     qDebug() << "stepBy() 1.2" << GetQtVariant(m_value->GetValueAsVariant());
 //    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
     updateEdit();
+    m_cached_value_was_changed = true;
     qDebug() << "stepBy() 1.3";
     qDebug() << " ";
   }
@@ -121,8 +122,12 @@ QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
 void AllIntSpinBox::setValue(const QVariant &value)
 {
   qDebug() << "setValue() 1.1";
-  m_value->SetValueFromVariant(GetStdVariant(value));
-  emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+  if (m_value->SetValueFromVariant(GetStdVariant(value)))
+  {
+    m_cached_value_was_changed = true;
+  }
+
+  CheckNotify();
   qDebug() << "setValue() 1.2";
 }
 
@@ -136,10 +141,12 @@ void AllIntSpinBox::OnEditingFinished()
     qDebug() << "   OnEditingFinished() 1.2";
     if (m_value->SetValueFromText(text_value.toStdString()))
     {
+      m_cached_value_was_changed = true;
       qDebug() << "   OnEditingFinished() 1.3";
-      emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
     }
   }
+
+  CheckNotify();
   qDebug() << "   OnEditingFinished() 1.4";
 }
 
@@ -155,6 +162,18 @@ void AllIntSpinBox::updateEdit()
     lineEdit()->setText(value_text);
     qDebug() << "   updateEdit() 1.4";
   }
+}
+
+void AllIntSpinBox::CheckNotify()
+{
+  qDebug() << "CheckNotify() 1.1";
+  if (m_cached_value_was_changed)
+  {
+    qDebug() << "CheckNotify() 1.2";
+    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
+    m_cached_value_was_changed = false;
+  }
+  qDebug() << "CheckNotify() 1.3";
 }
 
 }  // namespace mvvm
