@@ -37,9 +37,13 @@ class ILimitedInteger;
  * and pushes enter, the value is returning to initial value. Desired behavior: the value should be
  * set to allowed maximum. Requires fix in LimitedInteger::SetValueFromText.
  *
- * @details Current behavior: when user change the value in the text editor and then switches to
+ * @details Current behavior: when user changes the value in the text editor and then switches to
  * another window (focus out event), no signals are emitted, and the value returns to initial value.
  * QSpinBox behaves itself differently and set last entered value.
+ *
+ * @details Current behavior: when the user increases or decreases the value with spin up/down
+ * buttons, no signals are emitted until he presses the enter button. That's Ok since QSpinBox
+ * behaves itself by default the same.
  */
 
 class MVVM_VIEWMODEL_EXPORT AllIntSpinBox : public QAbstractSpinBox
@@ -79,7 +83,7 @@ signals:
 
 private:
   void OnEditingFinished();
-  void updateEdit();
+  void UpdateTextField();
 
   std::unique_ptr<ILimitedInteger> m_value;
   //!< flag to prevent notifications in the course of value change, but before "editingFinished"

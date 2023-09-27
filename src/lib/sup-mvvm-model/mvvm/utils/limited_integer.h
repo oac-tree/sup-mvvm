@@ -214,13 +214,13 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
   std::from_chars_result result =
       std::from_chars(text.data(), text.data() + text.size(), parsed_value);
 
-  std::cout << "Limited Integer 1.2 " << static_cast<int>(result.ec) << std::endl;
-
   if (result.ec == std::errc::invalid_argument || result.ec == std::errc::result_out_of_range)
   {
-    std::cout << "Limited Integer 1.3 " << std::endl;
     return false;
   }
+
+  // FIXME Another behavior is necessary. If text value is outside of allowed range, it should be
+  // forced to one of the bounds.
 
   std::cout << "Limited Integer 1.4 " << std::endl;
   return SetValue(parsed_value);

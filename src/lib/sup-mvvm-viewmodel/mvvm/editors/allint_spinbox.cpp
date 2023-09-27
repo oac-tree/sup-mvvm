@@ -25,26 +25,27 @@
 
 #include <QEvent>
 #include <QLineEdit>
-#include <QDebug>
+
+namespace
+{
+bool has_digits_only(const std::string &str)
+{
+  return str.find_first_not_of("0123456789+-") == std::string::npos;
+}
+}  // namespace
 
 namespace mvvm
 {
 
 AllIntSpinBox::AllIntSpinBox(QWidget *parent) : QAbstractSpinBox(parent)
 {
-  // Propagate editor value to internal value
   connect(this, &QAbstractSpinBox::editingFinished, this, &AllIntSpinBox::OnEditingFinished);
-  // Propagate value changes to editor and handle step enabled states
-//  connect(this, &AllIntSpinBox::valueChanged, this, &AllIntSpinBox::updateEdit);
 }
 
 void AllIntSpinBox::SetInteger(std::unique_ptr<ILimitedInteger> value)
 {
-  qDebug() << "SetInteger() 1.1";
   m_value = std::move(value);
-  updateEdit();
-//  emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
-  qDebug() << "SetInteger() 1.2";
+  UpdateTextField();
 }
 
 AllIntSpinBox::~AllIntSpinBox() = default;
@@ -56,9 +57,6 @@ QVariant AllIntSpinBox::value() const
 
 QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
 {
-  qDebug() << "validate() 1.1";
-  //    (void)pos;
-
   if (input.isEmpty())
   {
     // An empty field is a valid intermediate state
@@ -71,43 +69,33 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
     return QValidator::Intermediate;
   }
 
-  qDebug() << "validate() 1.2";
-  // Try to do a formal conversion through locale
-  bool conversion_ok;
-  const QVariant converted_value = locale().toLongLong(input, &conversion_ok);
-  if (!conversion_ok)
+  if (!has_digits_only(input.toStdString()))
   {
     return QValidator::Invalid;
   }
 
-  qDebug() << "validate() 1.3";
+  // We are performing final conversion check on board of ILimitedInteger::SetValueFromText.
+  // Let's not worry here if the value is outside limits.
+
   return QValidator::Acceptable;
 }
 
 void AllIntSpinBox::stepBy(int steps)
 {
-  qDebug() << "stepBy() 1.1" << steps << GetQtVariant(m_value->GetValueAsVariant());
   if (m_value->StepBy(steps))
   {
-    qDebug() << "stepBy() 1.2" << GetQtVariant(m_value->GetValueAsVariant());
-//    emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
-    updateEdit();
+    UpdateTextField();
     m_cached_value_was_changed = true;
-    qDebug() << "stepBy() 1.3";
-    qDebug() << " ";
   }
 }
 
 void AllIntSpinBox::CheckNotify()
 {
-  qDebug() << "CheckNotify() 1.1";
   if (m_cached_value_was_changed)
   {
-    qDebug() << "CheckNotify() 1.2";
     m_cached_value_was_changed = false;
     emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
   }
-  qDebug() << "CheckNotify() 1.3";
 }
 
 QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
@@ -133,47 +121,36 @@ QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
 
 void AllIntSpinBox::setValue(const QVariant &value)
 {
-  qDebug() << "setValue() 1.1";
   if (m_value->SetValueFromVariant(GetStdVariant(value)))
   {
     m_cached_value_was_changed = true;
-    updateEdit();
+    UpdateTextField();
   }
 
   CheckNotify();
-  qDebug() << "setValue() 1.2";
 }
 
 void AllIntSpinBox::OnEditingFinished()
-{  
+{
   auto text_value = text();
-  qDebug() << "OnEditingFinished() 1.1" << text_value;
   int pos = 0;  // unused
   if (validate(text_value, pos) == QValidator::Acceptable)
   {
-    qDebug() << "   OnEditingFinished() 1.2";
     if (m_value->SetValueFromText(text_value.toStdString()))
     {
       m_cached_value_was_changed = true;
-      qDebug() << "   OnEditingFinished() 1.3";
     }
   }
 
   CheckNotify();
-  qDebug() << "   OnEditingFinished() 1.4";
 }
 
-void AllIntSpinBox::updateEdit()
+void AllIntSpinBox::UpdateTextField()
 {
-  qDebug() << "updateEdit() 1.1";
-  // Propagate new value to the text line editor
   const auto value_text = QString::fromStdString(m_value->GetValueAsText());
-  qDebug() << "   updateEdit() 1.2" << value_text << "text()" << text() << GetQtVariant(m_value->GetValueAsVariant());
   if (value_text != text())
   {
-    qDebug() << "   updateEdit() 1.3";
     lineEdit()->setText(value_text);
-    qDebug() << "   updateEdit() 1.4";
   }
 }
 

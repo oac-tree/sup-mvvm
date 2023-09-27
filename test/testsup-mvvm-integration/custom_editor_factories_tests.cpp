@@ -34,7 +34,7 @@
 
 using namespace mvvm;
 
-//! Tests for AbstractEditorFactory.
+//! Tests for editor factories from custom_editor_factories.h
 
 class CustomEditorFactoriesTests : public ::testing::Test
 {
