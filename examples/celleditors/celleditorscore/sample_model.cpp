@@ -19,8 +19,8 @@
 
 #include "sample_model.h"
 
-#include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/model/item_limits_helper.h>
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <QtCore>
 
@@ -67,17 +67,27 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
+  // original QSpinBox editor
   AddProperty("integer_1", 42)->SetDisplayName("int32 orig");
+
+  // original QSpinBox editor with limits set
   auto prop = AddProperty("integer_2", 42)->SetDisplayName("int32 orig lim");
   mvvm::SetLimited(30, 40, *prop);
 
+  // new AllIntSpinBoxEditor
   AddProperty("integer_3", 42)
-      ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
-      ->SetDisplayName("int32 all-int");
+      ->SetDisplayName("int32 all-int")
+      ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
 
-  AddProperty("integer_4", static_cast<mvvm::int16>(0))
+  // new AllIntSpinBoxEditor with limits set
+  prop = AddProperty("integer_4", 42)->SetDisplayName("int32 all-int lim");
+  prop->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
+  mvvm::SetLimited(30, 40, *prop);
+
+  // new AllIntSpinBoxEditor with smal numbers (int8)
+  AddProperty("integer_5", static_cast<mvvm::int8>(0))
       ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
-      ->SetDisplayName("int16 all-int");
+      ->SetDisplayName("int8 all-int");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

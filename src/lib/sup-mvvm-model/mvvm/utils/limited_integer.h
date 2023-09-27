@@ -25,7 +25,6 @@
 
 #include <algorithm>
 #include <charconv>
-#include <iostream>
 #include <vector>
 
 namespace mvvm
@@ -175,10 +174,6 @@ inline T LimitedInteger<T>::GetUpperBound() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValue(const T& value)
 {
-  std::cout << "LimitedInteger<T>::SetValue "
-            << " m_value " << m_value << " value " << value << " m_lower_bound " << m_lower_bound
-            << " m_upper_bound " << m_upper_bound << " " << std::endl;
-
   if (value < m_lower_bound || value > m_upper_bound || value == m_value)
   {
     return false;
@@ -209,7 +204,6 @@ inline std::string LimitedInteger<T>::GetValueAsText() const
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 {
-  std::cout << "Limited Integer " << text << std::endl;
   T parsed_value;
   std::from_chars_result result =
       std::from_chars(text.data(), text.data() + text.size(), parsed_value);
@@ -222,7 +216,6 @@ inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
   // FIXME Another behavior is necessary. If text value is outside of allowed range, it should be
   // forced to one of the bounds.
 
-  std::cout << "Limited Integer 1.4 " << std::endl;
   return SetValue(parsed_value);
 }
 
