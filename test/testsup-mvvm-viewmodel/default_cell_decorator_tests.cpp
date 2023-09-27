@@ -103,6 +103,25 @@ TEST_F(DefaultCellDecoratorTests, DoubleDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("42.1234"));
 }
 
+TEST_F(DefaultCellDecoratorTests, Int8Decoration)
+{
+  TestDecorator decorator;
+
+  {
+    const mvvm::int8 value{-42};
+    auto index = AddDataToModel(value);
+    EXPECT_TRUE(decorator.HasCustomDecoration(index));
+    EXPECT_EQ(decorator.GetText(index), std::string("-42"));
+  }
+
+  {
+    const mvvm::uint8 value{42};
+    auto index = AddDataToModel(value);
+    EXPECT_TRUE(decorator.HasCustomDecoration(index));
+    EXPECT_EQ(decorator.GetText(index), std::string("42"));
+  }
+}
+
 //! Variants that do not nave special decorations
 
 TEST_F(DefaultCellDecoratorTests, DefaultDecorations)

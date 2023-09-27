@@ -65,6 +65,22 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
     return std::optional<std::string>{str.toStdString()};
   }
 
+  if (utils::IsDoubleVariant(variant))
+  {
+    auto str = ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
+                                           constants::kDefaultDoubleDecimals);
+    return std::optional<std::string>{str.toStdString()};
+  }
+
+  if (utils::GetQtVariantName(variant) == constants::kInt8QtTypeName
+      || utils::GetQtVariantName(variant) == constants::kUInt8QtTypeName)
+  {
+    // Default decoration for int8 and uint8 types in Qt cells are some weired ASCII characters.
+    // We force it here to a string, so int8{127} would look like "127".
+    const int num(variant.value<int>());
+    return std::optional<std::string>{std::to_string(num)};
+  }
+
   return {};
 }
 
