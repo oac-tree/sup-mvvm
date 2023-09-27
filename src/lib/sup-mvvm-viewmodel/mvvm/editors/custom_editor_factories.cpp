@@ -81,7 +81,11 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
   RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
-  RegisterBuilder(constants::kLongLongQtTypeName, LongIntSpinBoxEditorBuilder());
+
+  RegisterBuilder(constants::kUInt32QtTypeName, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kInt64QtTypeName, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kUInt64QtTypeName, AllIntSpinBoxEditorBuilder());
+
   RegisterBuilder(constants::kFloat64QtTypeName, DoubleEditorBuilder());
 }
 
@@ -105,7 +109,7 @@ DefaultEditorFactory::DefaultEditorFactory()
 
 editor_t DefaultEditorFactory::CreateEditor(const QModelIndex& index) const
 {
-  // trying to created an editor basing on possibly defined DataRole::kEdito role
+  // trying to created an editor basing on possibly defined DataRole::kEditor role
   auto editor = m_role_dependent_factory->CreateEditor(index);
   // if we do not succeed, then creating editor from variant type
   return editor ? std::move(editor) : m_variant_dependent_factory->CreateEditor(index);

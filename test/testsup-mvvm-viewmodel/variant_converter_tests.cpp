@@ -378,9 +378,7 @@ TEST_F(VariantConverterTests, GetQtVariant)
     const mvvm::int64 value{0};
     auto variant = GetQtVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<mvvm::int64>());
-    // different with the original QVariant::GetQtVariant
-    //    EXPECT_EQ(std::string(variant.typeName()), constants::kInt64QtTypeName);
-    EXPECT_EQ(std::string(variant.typeName()), constants::kLongLongQtTypeName);
+    EXPECT_EQ(std::string(variant.typeName()), constants::kInt64QtTypeName);
   }
 
   {
@@ -449,21 +447,21 @@ TEST_F(VariantConverterTests, GetQtVariantExtended)
 
   // from int
   EXPECT_EQ(GetQtVariant(variant_t(42)), QVariant::fromValue(42));
-  EXPECT_EQ(QString(GetQtVariant(variant_t(42)).typeName()), QString("int"));
+  EXPECT_EQ(utils::GetQtVariantName(GetQtVariant(variant_t(42))), constants::kInt32QtTypeName);
   EXPECT_EQ(GetQtVariant(variant_t(42)).type(), QMetaType::Int);
 
-  // from int64 (the same)
+  // from int64
   EXPECT_EQ(GetQtVariant(variant_t(42L)), QVariant::fromValue(42L));
-  EXPECT_EQ(QString(GetQtVariant(variant_t(42L)).typeName()), QString("qlonglong"));
-  EXPECT_EQ(GetQtVariant(variant_t(42L)).type(), QMetaType::LongLong);
+  EXPECT_EQ(utils::GetQtVariantName(GetQtVariant(variant_t(42L))), constants::kInt64QtTypeName);
+  EXPECT_EQ(GetQtVariant(variant_t(42L)).type(), QMetaType::Long);
 
   // from double
   EXPECT_EQ(GetQtVariant(variant_t(1.1)), QVariant::fromValue(1.1));
 
   // from std::string to QString
   const std::string str{"abc"};
-  variant_t mvvm_str_variant(str);
-  QVariant qt_str_variant(QString::fromStdString(str));
+  const variant_t mvvm_str_variant(str);
+  const QVariant qt_str_variant(QString::fromStdString(str));
   EXPECT_EQ(qt_str_variant, GetQtVariant(mvvm_str_variant));
 
   // This part is verbose because we are comparing underlying objects, and not Qt variants directly.
@@ -516,8 +514,8 @@ TEST_F(VariantConverterTests, GetQtVariantExtended)
 TEST_F(VariantConverterTests, QVariantComparisonForDoubleVector)
 {
   const std::vector<double> vec({1.0, 2.0});
-  QVariant variant1 = QVariant::fromValue(vec);
-  QVariant variant2 = QVariant::fromValue(vec);
+  const QVariant variant1 = QVariant::fromValue(vec);
+  const QVariant variant2 = QVariant::fromValue(vec);
 
   // Direct variant comparison requires comparator registration.
 
@@ -533,8 +531,8 @@ TEST_F(VariantConverterTests, QVariantComparisonForDoubleVector)
 TEST_F(VariantConverterTests, QVariantComparisonForComboProperty)
 {
   const ComboProperty combo = ComboProperty::CreateFrom({"a1", "a2"});
-  QVariant variant1 = QVariant::fromValue(combo);
-  QVariant variant2 = QVariant::fromValue(combo);
+  const QVariant variant1 = QVariant::fromValue(combo);
+  const QVariant variant2 = QVariant::fromValue(combo);
 
   // Direct variant comparison requires comparator registration.
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

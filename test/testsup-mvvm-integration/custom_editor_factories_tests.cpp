@@ -117,15 +117,26 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(factory.CreateEditor(index));
 
-  // Internally integer will be saved as int64, then variant_t will be converted to QVariant(long),
-  // and this will trigger LongIntSpinBoxEditor creation
   index = AddDataToModel(variant_t(42));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 
-  // int64
-  const int64 num(42);
-  index = AddDataToModel(variant_t(num));
-  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  {  // uint32
+    const uint32 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // int64
+    const int64 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // uint64
+    const uint64 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
 
   // double
   index = AddDataToModel(variant_t(42.1));
@@ -134,7 +145,7 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
 {
-  DefaultEditorFactory factory;
+  const DefaultEditorFactory factory;
 
   // editor for bool types
   auto index = AddDataToModel(variant_t(true));
@@ -152,14 +163,26 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 
-  // editor for int types (internally converted to int64)
   index = AddDataToModel(variant_t(42));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 
-  // editor for int64 types
-  const int64 num(42);
-  index = AddDataToModel(variant_t(num));
-  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  {  // uint32
+    const uint32 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // int64
+    const int64 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // uint64
+    const uint64 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
 
   // double
   index = AddDataToModel(variant_t(42.1));
@@ -170,7 +193,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
 {
-  DefaultEditorFactory factory;
+  const DefaultEditorFactory factory;
 
   auto index = AddDataToModel(variant_t(42));
   auto editor = factory.CreateEditor(index);
@@ -188,7 +211,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
 {
-  DefaultEditorFactory factory;
+  const DefaultEditorFactory factory;
 
   auto index = AddDataToModel(variant_t(42));
 
@@ -212,7 +235,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
 {
-  DefaultEditorFactory factory;
+  const DefaultEditorFactory factory;
 
   auto index = AddDataToModel(variant_t(42.1));
   auto editor = factory.CreateEditor(index);
@@ -230,7 +253,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
 {
-  DefaultEditorFactory factory;
+  const DefaultEditorFactory factory;
 
   auto index = AddDataToModel(variant_t(42.1));
 
@@ -255,7 +278,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
 
 TEST_F(CustomEditorFactoriesTests, DISABLED_DefaultEditorFactoryRealEditorForLowerLimited)
 {
-  DefaultEditorFactory factory;
+  const DefaultEditorFactory factory;
 
   auto index = AddDataToModel(variant_t(42.1));
 

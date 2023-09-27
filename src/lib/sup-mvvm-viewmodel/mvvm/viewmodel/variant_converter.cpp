@@ -120,13 +120,6 @@ QVariant GetQtVariant(const variant_t& variant)
     return QVariant::fromValue(QString::fromStdString(std::get<std::string>(variant)));
   }
 
-  if (utils::TypeName(variant) == constants::kInt64TypeName)
-  {
-    //  Explicitely converting to qlonglong. For some reason QVariant::fromStdValue would generate
-    //  here QVariant(long).
-    return QVariant(static_cast<qint64>(std::get<mvvm::int64>(variant)));
-  }
-
   return QVariant::fromStdVariant(variant);
 }
 

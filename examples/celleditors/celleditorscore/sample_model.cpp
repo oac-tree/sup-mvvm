@@ -52,8 +52,7 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
       ->SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
 
   AddProperty(kLongInteger, 4294967296L) /* UINT32_MAX + 1 */
-      ->SetDisplayName("Long Integer")
-      ->SetEditorType(mvvm::constants::kLongIntSpinBoxEditorType);
+      ->SetDisplayName("Long Integer");
   AddProperty(kColor, "green")
       ->SetDisplayName("Color")
       ->SetEditorType(mvvm::constants::kColorEditorType);
