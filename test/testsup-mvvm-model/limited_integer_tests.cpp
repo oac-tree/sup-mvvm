@@ -204,6 +204,27 @@ TEST_F(LimitedIntegerTests, SetValueFromText)
 
 TEST_F(LimitedIntegerTests, StepBy)
 {
+
+  {  // positive ulimited integer
+    LimitedInteger<int> num(42, {}, {});
+
+    EXPECT_TRUE(num.StepBy(1));
+    EXPECT_EQ(num.GetValue(), 43);
+
+    EXPECT_TRUE(num.StepBy(-1));
+    EXPECT_EQ(num.GetValue(), 42);
+  }
+
+  {  // negative ulimited integer
+    LimitedInteger<int> num(-42, {}, {});
+
+    EXPECT_TRUE(num.StepBy(1));
+    EXPECT_EQ(num.GetValue(), -41);
+
+    EXPECT_TRUE(num.StepBy(-1));
+    EXPECT_EQ(num.GetValue(), -42);
+  }
+
   {  // limited integer, several incrementing steps
     LimitedInteger<int> num(42, 40, 50);
 
