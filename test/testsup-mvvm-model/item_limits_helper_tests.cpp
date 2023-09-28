@@ -213,7 +213,7 @@ TEST_F(ItemLimitsHelperTests, Limited)
   }
 }
 
-//! Testing all methods related to SetLimited.
+//! Testing all methods related to GetInt32Limits methods.
 
 TEST_F(ItemLimitsHelperTests, GetInt32Limits)
 {

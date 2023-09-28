@@ -119,10 +119,21 @@ void RemoveLimits(mvvm::SessionItem& item);
  *
  * If the user has lower and upper limit defined on board of the item, they will be returned to the
  * user as it is. If some limits are not defined, std::numeric_limits will be used instead. The
- * function will throw if item' holds limits that can't be fit's data limits can't be fit into pair
- * of integers.
+ * function will throw if item' holds limits that can't be fit into pair of integers.
  */
-std::pair<int, int> GetInt32Limits(const SessionItem &item);
+std::pair<int, int> GetInt32Limits(const SessionItem& item);
+
+/**
+ * @brief Return pair of doubles representing limits of the given item.
+ *
+ * @details The function is used to set min/max limits of QDoubleSpinBox. It is intended for editing
+ * mvvm::float32 and mvvm::float64.
+ *
+ * If the user has lower and upper limit defined on board of the item, they will be returned to the
+ * user as it is. If some limits are not defined, std::numeric_limits will be used instead. The
+ * function will throw if item' users limits are based on types other than float32 and float64.
+ */
+std::pair<double, double> GetFloat64Limits(const SessionItem& item);
 
 }  // namespace mvvm
 

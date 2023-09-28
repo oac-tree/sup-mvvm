@@ -22,7 +22,7 @@
 #include "sessionitem.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/core/variant_visitors.h>
+#include <mvvm/utils/variant_limits_helper.h>
 
 #include <sstream>
 
@@ -166,6 +166,19 @@ std::pair<int, int> GetInt32Limits(const SessionItem &item)
   auto upper_bound = GetUpperLimit(item);
 
   return GetInt32MinMaxNumeric(item.Data(), lower_bound, upper_bound);
+}
+
+std::pair<double, double> GetFloat64Limits(const SessionItem &item)
+{
+  if (!item.HasData(DataRole::kData))
+  {
+    throw LogicErrorException("Given item doesn't contain any data");
+  }
+
+  auto lower_bound = GetLowerLimit(item);
+  auto upper_bound = GetUpperLimit(item);
+
+  return GetFloat64MinMaxNumeric(item.Data(), lower_bound, upper_bound);
 }
 
 }  // namespace mvvm
