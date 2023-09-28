@@ -94,10 +94,31 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
       ->SetDisplayName("int64 LongIntEditor");
 }
 
+FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
+{
+  // original QSpinBox editor
+  AddProperty("double_1", 42.1)->SetDisplayName("double QDoubleSpinBox");
+  AddProperty("double_2", 42.2)->SetDisplayName("double QDoubleSpinBox");
+  AddProperty("double_3", 42.3)->SetDisplayName("double QDoubleSpinBox");
+
+  AddProperty("double_4", static_cast<mvvm::float64>(42.1))
+      ->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType)
+      ->SetDisplayName("float64 FloatSpinBox");
+  AddProperty("double_5", static_cast<mvvm::float64>(42.2))
+      ->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType)
+      ->SetDisplayName("float64 FloatSpinBox");
+  AddProperty("double_6", static_cast<mvvm::float64>(42.3))
+      ->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType)
+      ->SetDisplayName("float64 FloatSpinBox");
+}
+
+
+
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
   RegisterItem<BasicPropertyItem>();
   RegisterItem<AllIntPropertyItem>();
+  RegisterItem<FloatPropertyItem>();
 }
 
 }  // namespace celleditors

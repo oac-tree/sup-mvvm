@@ -46,6 +46,7 @@ private:
   QTabWidget* m_tab_widget{nullptr};
   PropertyPanel* m_panel0{nullptr};
   PropertyPanel* m_panel1{nullptr};
+  PropertyPanel* m_panel2{nullptr};
 };
 
 }  // namespace celleditors

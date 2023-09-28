@@ -36,11 +36,13 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     , m_tab_widget(new QTabWidget)
     , m_panel0(new PropertyPanel)
     , m_panel1(new PropertyPanel)
+    , m_panel2(new PropertyPanel)
 {
   auto layout = new QHBoxLayout(this);
 
   m_tab_widget->addTab(m_panel0, "Basic properties");
   m_tab_widget->addTab(m_panel1, "All integers");
+  m_tab_widget->addTab(m_panel2, "Floats");
 
   layout->addWidget(m_tab_widget);
 
@@ -55,12 +57,13 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   }
 
   auto containers = mvvm::utils::GetTopItems<mvvm::ContainerItem>(model);
-  if (containers.size() != 2)
+  if (containers.size() != 3)
   {
     return;
   }
 
   m_panel0->SetItem(containers.at(0));
   m_panel1->SetItem(containers.at(1));
+  m_panel2->SetItem(containers.at(2));
 }
 }  // namespace celleditors

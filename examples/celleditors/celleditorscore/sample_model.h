@@ -44,6 +44,14 @@ public:
   AllIntPropertyItem();
 };
 
+//! Demo item showing all kinds of float properties.
+
+class FloatPropertyItem : public mvvm::CompoundItem
+{
+public:
+  FloatPropertyItem();
+};
+
 //! Main application model.
 
 class SampleModel : public mvvm::ApplicationModel

@@ -90,6 +90,11 @@ void MainWindow::PopulateModel()
   m_model->InsertItem<AllIntPropertyItem>(container1);
   m_model->InsertItem<AllIntPropertyItem>(container1);
   m_model->InsertItem<AllIntPropertyItem>(container1);
+
+  auto container2 = m_model->InsertItem<mvvm::ContainerItem>();
+  m_model->InsertItem<FloatPropertyItem>(container2);
+  m_model->InsertItem<FloatPropertyItem>(container2);
+  m_model->InsertItem<FloatPropertyItem>(container2);
 }
 
 }  // namespace celleditors
