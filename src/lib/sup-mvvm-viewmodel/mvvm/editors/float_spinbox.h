@@ -23,7 +23,8 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/viewmodel_export.h>
 
-#include <QAbstractSpinBox>
+#include <QVariant>
+#include <QWidget>
 
 class QDoubleSpinBox;
 
@@ -44,7 +45,7 @@ namespace mvvm
  * The output value of the editor will be the same as input, QVariant(double).
  */
 
-class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QAbstractSpinBox
+class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QWidget
 {
   Q_OBJECT
 
@@ -60,6 +61,13 @@ public:
 
   void setValue(const QVariant& value);
 
+  /**
+   * @brief Sets allowed range for the value.
+   *
+   * @details It is user's responsibility to set the proper range while editing QVariant(float32)
+   * based values, to not to exceed numeric limits. We do it in FloatEditorBuilder() factory
+   * function.
+   */
   void SetRange(double lower_limit, double upper_limit);
 
 signals:
