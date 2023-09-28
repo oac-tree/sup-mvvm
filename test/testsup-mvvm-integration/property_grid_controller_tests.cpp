@@ -26,6 +26,7 @@
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
+#include <mvvm/editors/float_spinbox.h>
 
 #include <gtest/gtest.h>
 
@@ -249,7 +250,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
 
   auto x_label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
   EXPECT_NE(x_label, nullptr);
-  auto x_double_spin_box = dynamic_cast<QDoubleSpinBox*>(editor_grid[0][1].get());
+  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid[0][1].get());
   EXPECT_NE(x_double_spin_box, nullptr);
 
   // setting the data
@@ -287,7 +288,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughModel)
   // First row is editable property
   // The first column is a label, the second is an editor
   EXPECT_NE(dynamic_cast<QLabel*>(editor_grid[0][0].get()), nullptr);
-  auto editable_double_spin_box = dynamic_cast<QDoubleSpinBox*>(editor_grid[0][1].get());
+  auto editable_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid[0][1].get());
   EXPECT_NE(editable_double_spin_box, nullptr);
 
   // First row is non-editable property
@@ -297,7 +298,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughModel)
   EXPECT_NE(non_editable_value_label, nullptr);
 
   // Original data
-  EXPECT_DOUBLE_EQ(editable_double_spin_box->value(), 0.0);
+  EXPECT_DOUBLE_EQ(editable_double_spin_box->value().toDouble(), 0.0);
   EXPECT_DOUBLE_EQ(non_editable_value_label->text().toDouble(), 0.0);
 
   // Setting the data via model
@@ -305,7 +306,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughModel)
   non_editable_property->SetData(42.1);
 
   // Checking that data is set on widgets
-  EXPECT_DOUBLE_EQ(editable_double_spin_box->value(), 42.1);
+  EXPECT_DOUBLE_EQ(editable_double_spin_box->value().toDouble(), 42.1);
   EXPECT_DOUBLE_EQ(non_editable_value_label->text().toDouble(), 42.1);
 }
 
@@ -340,7 +341,7 @@ TEST_F(PropertyGridControllerTests, ClearModel)
 
   auto x_label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
   EXPECT_NE(x_label, nullptr);
-  auto x_double_spin_box = dynamic_cast<QDoubleSpinBox*>(editor_grid[0][1].get());
+  auto x_double_spin_box = dynamic_cast<FloatSpinBox*>(editor_grid[0][1].get());
   EXPECT_NE(x_double_spin_box, nullptr);
 
   // setting the data

@@ -81,13 +81,16 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kBooleanQtTypeName, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
+
+  // we keep editing int32 numbers with QSpinBox
   RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
 
   RegisterBuilder(constants::kUInt32QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt64QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt64QtTypeName, AllIntSpinBoxEditorBuilder());
 
-  RegisterBuilder(constants::kFloat64QtTypeName, DoubleEditorBuilder());
+  RegisterBuilder(constants::kFloat32QtTypeName, FloatEditorBuilder());
+  RegisterBuilder(constants::kFloat64QtTypeName, FloatEditorBuilder());
 }
 
 //! Creates cell editor basing on variant name.

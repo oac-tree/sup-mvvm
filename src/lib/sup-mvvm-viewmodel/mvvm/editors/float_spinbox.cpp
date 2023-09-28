@@ -27,8 +27,7 @@
 namespace mvvm
 {
 
-FloatSpinBox::FloatSpinBox(QWidget *parent)
-    : QWidget(parent), m_double_editor(new QDoubleSpinBox)
+FloatSpinBox::FloatSpinBox(QWidget *parent) : QWidget(parent), m_double_editor(new QDoubleSpinBox)
 {
   auto layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
@@ -70,12 +69,22 @@ void FloatSpinBox::SetRange(double lower_limit, double upper_limit)
   m_double_editor->setRange(m_lower_limit, m_upper_limit);
 }
 
+double FloatSpinBox::minimum() const
+{
+  return m_lower_limit;
+}
+
+double FloatSpinBox::maximum() const
+{
+  return m_upper_limit;
+}
+
 void FloatSpinBox::OnEditingFinished(double value)
 {
   QVariant new_value;
 
   // since we are using float64 values to edit both, float32 and float64 with the help of
-  // QDoubleSpinBox editor, we need to convert double to original QVariant
+  // QDoubleSpinBox editor, we need to convert double to original QVariant.
 
   if (utils::GetQtVariantName(m_value) == constants::kFloat64QtTypeName)
   {

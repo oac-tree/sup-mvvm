@@ -51,8 +51,6 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
       ->SetDisplayName("Scientific")
       ->SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
 
-  AddProperty(kLongInteger, 4294967296L) /* UINT32_MAX + 1 */
-      ->SetDisplayName("Long Integer");
   AddProperty(kColor, "green")
       ->SetDisplayName("Color")
       ->SetEditorType(mvvm::constants::kColorEditorType);
@@ -96,27 +94,26 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 
 FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 {
-  // original QSpinBox editor
-  AddProperty("double_1", 42.1)->SetDisplayName("double QDoubleSpinBox");
-  AddProperty("double_2", 42.2)->SetDisplayName("double QDoubleSpinBox");
+  // original QDoubleSpinBox editor should be invoked manually
+  AddProperty("double_1", 42.1)
+      ->SetEditorType(mvvm::constants::kDoubleEditorType)
+      ->SetDisplayName("double QDoubleSpinBox");
+  AddProperty("double_2", 42.2)
+      ->SetEditorType(mvvm::constants::kDoubleEditorType)
+      ->SetDisplayName("double QDoubleSpinBox");
   auto prop = AddProperty("double_3", 42.3)->SetDisplayName("double lim QDoubleSpinBox");
   mvvm::SetLimited(30.0, 40.0, *prop);
 
-  AddProperty("double_4", static_cast<mvvm::float64>(42.1))
-      ->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType)
-      ->SetDisplayName("float64 FloatSpinBox");
-  AddProperty("double_5", static_cast<mvvm::float64>(42.2))
-      ->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType)
-      ->SetDisplayName("float64 FloatSpinBox");
+  // new FloatSpinBoxEditor is invoked by the default in DefaultEditorFactory()
+
+  AddProperty("double_4", static_cast<mvvm::float64>(42.1))->SetDisplayName("float64 FloatSpinBox");
+  AddProperty("double_5", static_cast<mvvm::float64>(42.2))->SetDisplayName("float64 FloatSpinBox");
 
   prop = AddProperty("double_6", static_cast<mvvm::float64>(42.3))
              ->SetDisplayName("float64 lim FloatSpinBox");
-  prop->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType);
   mvvm::SetLimited(30.0, 40.0, *prop);
 
-  prop = AddProperty("double_7", static_cast<mvvm::float32>(42.3))
-             ->SetDisplayName("float32 lim FloatSpinBox");
-  prop->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType);
+  AddProperty("double_7", static_cast<mvvm::float32>(42.3));
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

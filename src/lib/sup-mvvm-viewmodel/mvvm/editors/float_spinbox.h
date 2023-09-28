@@ -70,10 +70,18 @@ public:
    */
   void SetRange(double lower_limit, double upper_limit);
 
+  double minimum() const;
+
+  double maximum() const;
+
 signals:
   void valueChanged(const QVariant& value);
 
 private:
+  /**
+   * @brief Provide update of cahced value and emit sygnals, when underlying QDoubleSpinBox has
+   * finished its work.
+   */
   void OnEditingFinished(double value);
 
   QDoubleSpinBox* m_double_editor{nullptr};

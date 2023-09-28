@@ -138,9 +138,17 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
     EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
   }
 
-  // double
-  index = AddDataToModel(variant_t(42.1));
-  EXPECT_TRUE(dynamic_cast<QDoubleSpinBox*>(factory.CreateEditor(index).get()));
+  { // float32
+    const float32 num(42.1);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
+
+  { // float64
+    const float64 num(42.1);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
 }
 
 TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
@@ -184,9 +192,17 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
     EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
   }
 
-  // double
-  index = AddDataToModel(variant_t(42.1));
-  EXPECT_TRUE(dynamic_cast<QDoubleSpinBox*>(factory.CreateEditor(index).get()));
+  { // float32
+    const float32 num(42.1);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
+
+  { // float64
+    const float64 num(42.1);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
 }
 
 //! Checking integer editor construction when limits are not set.
@@ -240,8 +256,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
   auto index = AddDataToModel(variant_t(42.1));
   auto editor = factory.CreateEditor(index);
 
-  // accessing underlying QDoubleSpinBox
-  auto spin_box = dynamic_cast<QDoubleSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<FloatSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // checking default limits (defined in editor_builders.cpp)
@@ -264,7 +279,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<QDoubleSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<FloatSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // check if limits have been propagated
@@ -289,7 +304,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLowerLimited
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
-  auto spin_box = dynamic_cast<QDoubleSpinBox*>(editor.get());
+  auto spin_box = dynamic_cast<FloatSpinBox*>(editor.get());
   ASSERT_TRUE(spin_box != nullptr);
 
   // check if limits have been propagated
