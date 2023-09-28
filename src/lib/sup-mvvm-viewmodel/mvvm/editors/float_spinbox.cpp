@@ -19,7 +19,7 @@
 
 #include "float_spinbox.h"
 
-#include <mvvm/utils/numeric_utils.h>
+#include <mvvm/viewmodel/custom_variants.h>
 
 #include <QDoubleSpinBox>
 #include <QVBoxLayout>
@@ -72,8 +72,26 @@ void FloatSpinBox::SetRange(double lower_limit, double upper_limit)
 
 void FloatSpinBox::OnEditingFinished(double value)
 {
-  m_value = QVariant(value);
-  emit valueChanged(m_value);
+  QVariant new_value;
+
+  // since we are using float64 values to edit both, float32 and float64 with the help of
+  // QDoubleSpinBox editor, we need to convert double to original QVariant
+
+  if (utils::GetQtVariantName(m_value) == constants::kFloat64QtTypeName)
+  {
+    new_value = QVariant::fromValue(value);
+  }
+  else if (utils::GetQtVariantName(m_value) == constants::kFloat32QtTypeName)
+  {
+    // editor was instructed already for correct min and max, no harm to downcast
+    new_value = QVariant::fromValue(static_cast<mvvm::float32>(value));
+  }
+
+  if (new_value.isValid() && new_value != m_value)
+  {
+    m_value = new_value;
+    emit valueChanged(m_value);
+  }
 }
 
 }  // namespace mvvm

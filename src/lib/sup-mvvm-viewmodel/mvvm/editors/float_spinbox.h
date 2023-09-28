@@ -47,6 +47,8 @@ namespace mvvm
 class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QAbstractSpinBox
 {
   Q_OBJECT
+
+  // Thanks to this property model delegates knows how to commit the data using this editor
   Q_PROPERTY(QVariant value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:

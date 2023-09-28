@@ -108,10 +108,15 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
   AddProperty("double_5", static_cast<mvvm::float64>(42.2))
       ->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType)
       ->SetDisplayName("float64 FloatSpinBox");
+
   prop = AddProperty("double_6", static_cast<mvvm::float64>(42.3))
              ->SetDisplayName("float64 lim FloatSpinBox");
   prop->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType);
   mvvm::SetLimited(30.0, 40.0, *prop);
+
+  prop = AddProperty("double_7", static_cast<mvvm::float32>(42.3))
+             ->SetDisplayName("float32 lim FloatSpinBox");
+  prop->SetEditorType(mvvm::constants::kFloatSpinBoxEditorType);
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
