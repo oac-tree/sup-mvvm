@@ -178,4 +178,15 @@ editorbuilder_t DoubleEditorBuilder()
   return builder;
 }
 
+editorbuilder_t FloatEditorBuilder()
+{
+  auto builder = [](const SessionItem* item) -> editor_t
+  {
+    auto editor = std::make_unique<FloatSpinBox>();
+    editor->setDecimals(constants::kDefaultDoubleDecimals);
+    return editor;
+  };
+  return builder;
+}
+
 }  // namespace mvvm

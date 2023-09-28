@@ -54,6 +54,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
   RegisterBuilder(constants::kLongIntSpinBoxEditorType, LongIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kDoubleEditorType, DoubleEditorBuilder());
   RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kFloatSpinBoxEditorType, FloatEditorBuilder());
 }
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
