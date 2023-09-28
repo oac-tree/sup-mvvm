@@ -24,7 +24,7 @@ namespace mvvm
 std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value, const variant_t& lower_bound,
                                           const variant_t& upper_bound)
 {
-  VariantLimits32Visitor visitor;
+  VariantLimits32Visitor<int> visitor;
   visitor.m_lower_bound = lower_bound;
   visitor.m_upper_bound = upper_bound;
 

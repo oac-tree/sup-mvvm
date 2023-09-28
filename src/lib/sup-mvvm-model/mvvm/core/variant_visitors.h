@@ -25,39 +25,47 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/variant.h>
+
 #include <limits>
 
 namespace mvvm
 {
 
 /**
- * @brief Returns pair of integer representing numeric limits of given type.
+ * @brief Returns pair representing numeric limits of given type.
+ *
+ * @tparam ActualT Type which limits we want to know.
+ * @tparam OutputT Typw to cast the result.
  */
-template <typename T>
-std::pair<int, int> GetNumericMinMaxInt32Pair()
+template <typename OutputT, typename ActualT>
+std::pair<OutputT, OutputT> GetNumericMinMaxPair()
 {
-  return {std::numeric_limits<T>::min(), std::numeric_limits<T>::max()};
+  return {static_cast<OutputT>(std::numeric_limits<ActualT>::min()),
+          static_cast<OutputT>(std::numeric_limits<ActualT>::max())};
 }
 
 /**
- * @brief Returns pair of integer representing min/max limits of given type.
+ * @brief Returns pair representing min/max limits of given type.
+ *
+ * @tparam OutputLimitsT Limits will be casted to this type.
+ * @tparam ActualLimitsT Type of user provided limits.
  *
  * @details It combines user provided limits with numeric limits.
  */
-template <typename T>
-std::pair<int, int> GetMinMaxInt32Pair(const mvvm::variant_t& lower_bound,
-                                       const mvvm::variant_t& upper_bound)
+template <typename OutputLimitsT, typename ActualLimitsT>
+std::pair<OutputLimitsT, OutputLimitsT> GetMinMaxLimitsPair(const mvvm::variant_t& lower_bound,
+                                                            const mvvm::variant_t& upper_bound)
 {
-  auto result = GetNumericMinMaxInt32Pair<T>();
+  auto result = GetNumericMinMaxPair<OutputLimitsT, ActualLimitsT>();
 
   if (mvvm::utils::IsValid(lower_bound))
   {
-    result.first = static_cast<int>(std::get<T>(lower_bound));
+    result.first = static_cast<OutputLimitsT>(std::get<ActualLimitsT>(lower_bound));
   }
 
   if (mvvm::utils::IsValid(upper_bound))
   {
-    result.second = static_cast<int>(std::get<T>(upper_bound));
+    result.second = static_cast<OutputLimitsT>(std::get<ActualLimitsT>(upper_bound));
   }
 
   return result;
@@ -66,112 +74,117 @@ std::pair<int, int> GetMinMaxInt32Pair(const mvvm::variant_t& lower_bound,
 /**
  * @brief Helper structure to visit variant and report numeric limits of stored type.
  *
- * @details Used in the context of integer editors. It is implemented only for types which we can
- * fit into int32: int8, uint8, int16, uint16, int32.
+ * @tparam Type of limits to report.
+ *
+ * @details Reported limits will obtained by the combination of user defined limits and numeric
+ * limits. If one of user limits is not set, std::numeric_limit::min() and std::numeric_limit::max()
+ * will be used for lower and upper bounds.
+ *
+ * @details Deduced limits will be casted to LimitsT parameter.
  */
 
+template <typename LimitsT>
 struct VariantLimits32Visitor
 {
-  std::pair<int, int> operator()(std::monostate)
+  std::pair<LimitsT, LimitsT> operator()(std::monostate)
   {
     throw mvvm::RuntimeException("Visitor for monostate is not implemented");
   }
 
-  std::pair<int, int> operator()(boolean value)
+  std::pair<LimitsT, LimitsT> operator()(boolean value)
   {
     throw mvvm::RuntimeException("Visitor for boolean is not implemented");
   }
 
-  std::pair<int, int> operator()(char8 value)
+  std::pair<LimitsT, LimitsT> operator()(char8 value)
   {
     throw mvvm::RuntimeException("Visitor for char8 is not implemented");
   }
 
-  std::pair<int, int> operator()(int8 value)
+  std::pair<LimitsT, LimitsT> operator()(int8 value)
   {
-    return GetMinMaxInt32Pair<int8>(m_lower_bound, m_upper_bound);
+    return GetMinMaxLimitsPair<LimitsT, int8>(m_lower_bound, m_upper_bound);
   }
 
-  std::pair<int, int> operator()(uint8 value)
+  std::pair<LimitsT, LimitsT> operator()(uint8 value)
   {
-    return GetMinMaxInt32Pair<uint8>(m_lower_bound, m_upper_bound);
+    return GetMinMaxLimitsPair<LimitsT, uint8>(m_lower_bound, m_upper_bound);
   }
 
-  std::pair<int, int> operator()(int16 value)
+  std::pair<LimitsT, LimitsT> operator()(int16 value)
   {
-    return GetMinMaxInt32Pair<int16>(m_lower_bound, m_upper_bound);
+    return GetMinMaxLimitsPair<LimitsT, int16>(m_lower_bound, m_upper_bound);
   }
 
-  std::pair<int, int> operator()(uint16 value)
+  std::pair<LimitsT, LimitsT> operator()(uint16 value)
   {
-    return GetMinMaxInt32Pair<uint16>(m_lower_bound, m_upper_bound);
+    return GetMinMaxLimitsPair<LimitsT, uint16>(m_lower_bound, m_upper_bound);
   }
 
-  std::pair<int, int> operator()(int32 value)
+  std::pair<LimitsT, LimitsT> operator()(int32 value)
   {
-    return GetMinMaxInt32Pair<int32>(m_lower_bound, m_upper_bound);
+    return GetMinMaxLimitsPair<LimitsT, int32>(m_lower_bound, m_upper_bound);
   }
 
-  std::pair<int, int> operator()(uint32 value)
+  std::pair<LimitsT, LimitsT> operator()(uint32 value)
   {
     throw mvvm::RuntimeException("Visitor for uint32 is not implemented");
   }
 
-  std::pair<int, int> operator()(int64 value)
+  std::pair<LimitsT, LimitsT> operator()(int64 value)
   {
     throw mvvm::RuntimeException("Visitor for int64 is not implemented");
   }
 
-  std::pair<int, int> operator()(uint64 value)
+  std::pair<LimitsT, LimitsT> operator()(uint64 value)
   {
     throw mvvm::RuntimeException("Visitor for uint64 is not implemented");
   }
 
-  std::pair<int, int> operator()(float32 value)
+  std::pair<LimitsT, LimitsT> operator()(float32 value)
   {
     throw mvvm::RuntimeException("Visitor for float32 is not implemented");
   }
 
-  std::pair<int, int> operator()(float64 value)
+  std::pair<LimitsT, LimitsT> operator()(float64 value)
   {
     throw mvvm::RuntimeException("Visitor for float64 is not implemented");
   }
 
-  std::pair<int, int> operator()(std::string value)
+  std::pair<LimitsT, LimitsT> operator()(std::string value)
   {
     throw mvvm::RuntimeException("Visitor for string is not implemented");
   }
 
-  std::pair<int, int> operator()(std::vector<double> value)
+  std::pair<LimitsT, LimitsT> operator()(std::vector<double> value)
   {
     throw mvvm::RuntimeException("Visitor for vector<double> is not implemented");
   }
 
-  std::pair<int, int> operator()(ComboProperty value)
+  std::pair<LimitsT, LimitsT> operator()(ComboProperty value)
   {
     throw mvvm::RuntimeException("Visitor for ComboProperty is not implemented");
   }
 
-  std::pair<int, int> operator()(ExternalProperty value)
+  std::pair<LimitsT, LimitsT> operator()(ExternalProperty value)
   {
     throw mvvm::RuntimeException("Visitor for ExternalProperty is not implemented");
   }
 
-  std::pair<int, int> operator()(mvvm::Limits<int> value)
+  std::pair<LimitsT, LimitsT> operator()(mvvm::Limits<int> value)
   {
     throw mvvm::RuntimeException("Visitor for Limits is not implemented");
   }
 
-  std::pair<int, int> operator()(mvvm::Limits<int64> value)
+  std::pair<LimitsT, LimitsT> operator()(mvvm::Limits<int64> value)
   {
     throw mvvm::RuntimeException("Visitor for Limits is not implemented");
   }
 
-  std::pair<int, int> operator()(mvvm::Limits<double> value)
+  std::pair<LimitsT, LimitsT> operator()(mvvm::Limits<double> value)
   {
     throw mvvm::RuntimeException("Visitor for Limits is not implemented");
   }
-
 
   variant_t m_lower_bound;
   variant_t m_upper_bound;
