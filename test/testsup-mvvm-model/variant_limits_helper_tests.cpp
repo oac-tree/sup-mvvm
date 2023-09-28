@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/core/variant_visitors.h"
+#include "mvvm/utils/variant_limits_helper.h"
 
 #include <gtest/gtest.h>
 
@@ -25,16 +25,16 @@
 
 using namespace mvvm;
 
-//! Unit tests for visitors defined in variant_visitors.h.
+//! Unit tests for helper methods in variant_limits_helper.h
 
-class VariantVisitorsTests : public ::testing::Test
+class VariantLimitsHelper : public ::testing::Test
 {
 };
 
 //! Testing GetInt32MinMaxNumeric function. We test numeric limits for various types casted to
 //! integer.
 
-TEST_F(VariantVisitorsTests, GetInt32MinMaxNumeric)
+TEST_F(VariantLimitsHelper, GetInt32MinMaxNumeric)
 {
   {  // int32
     int32 num(42);
@@ -59,7 +59,7 @@ TEST_F(VariantVisitorsTests, GetInt32MinMaxNumeric)
 
 //! Testing GetInt32MinMaxNumeric function with additional user bounds.
 
-TEST_F(VariantVisitorsTests, GetInt32MinMaxNumericWithUserDefinedLimits)
+TEST_F(VariantLimitsHelper, GetInt32MinMaxNumericWithUserDefinedLimits)
 {
   {  // int32, additionally bounded from left
     int32 num(42);

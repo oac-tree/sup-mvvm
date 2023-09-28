@@ -12,6 +12,8 @@ target_sources(${library_name} PRIVATE
   string_utils.cpp
   string_utils.h
   threadsafe_container_adapter.h
-  threadsafe_stack.h
   threadsafe_queue.h
+  threadsafe_stack.h
+  variant_limits_helper.cpp
+  variant_limits_helper.h
   )
