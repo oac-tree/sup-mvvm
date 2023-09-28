@@ -43,6 +43,10 @@ namespace mvvm
 std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value, const variant_t& lower_bound = {},
                                           const variant_t& upper_bound = {});
 
+std::pair<double, double> GetFloat64MinMaxNumeric(const variant_t& value,
+                                                  const variant_t& lower_bound = {},
+                                                  const variant_t& upper_bound = {});
+
 }  // namespace mvvm
 
 #endif  // MVVM_UTILS_VARIANT_LIMITS_HELPER_H_

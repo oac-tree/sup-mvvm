@@ -33,8 +33,19 @@ namespace
 template <typename OutputT, typename ActualT>
 std::pair<OutputT, OutputT> GetNumericMinMaxPair()
 {
-  return {static_cast<OutputT>(std::numeric_limits<ActualT>::min()),
-          static_cast<OutputT>(std::numeric_limits<ActualT>::max())};
+  auto max = static_cast<OutputT>(std::numeric_limits<ActualT>::max());
+
+  if constexpr (std::is_same_v<ActualT, mvvm::float64>)
+  {
+    return {static_cast<OutputT>(std::numeric_limits<ActualT>::lowest()), max};
+  }
+
+  if constexpr (std::is_same_v<ActualT, mvvm::float32>)
+  {
+    return {static_cast<OutputT>(std::numeric_limits<ActualT>::lowest()), max};
+  }
+
+  return {static_cast<OutputT>(std::numeric_limits<ActualT>::min()), max};
 }
 
 /**
@@ -136,12 +147,12 @@ struct VariantLimits32Visitor
 
   std::pair<LimitsT, LimitsT> operator()(mvvm::float32 value)
   {
-    throw mvvm::RuntimeException("Visitor for float32 is not implemented");
+    return GetMinMaxLimitsPair<LimitsT, mvvm::float32>(m_lower_bound, m_upper_bound);
   }
 
   std::pair<LimitsT, LimitsT> operator()(mvvm::float64 value)
   {
-    throw mvvm::RuntimeException("Visitor for float64 is not implemented");
+    return GetMinMaxLimitsPair<LimitsT, mvvm::float64>(m_lower_bound, m_upper_bound);
   }
 
   std::pair<LimitsT, LimitsT> operator()(std::string value)
@@ -192,6 +203,17 @@ std::pair<int, int> GetInt32MinMaxNumeric(const variant_t& value, const variant_
                                           const variant_t& upper_bound)
 {
   VariantLimits32Visitor<int> visitor;
+  visitor.m_lower_bound = lower_bound;
+  visitor.m_upper_bound = upper_bound;
+
+  return std::visit(visitor, value);
+}
+
+std::pair<double, double> GetFloat64MinMaxNumeric(const variant_t& value,
+                                                  const variant_t& lower_bound,
+                                                  const variant_t& upper_bound)
+{
+  VariantLimits32Visitor<double> visitor;
   visitor.m_lower_bound = lower_bound;
   visitor.m_upper_bound = upper_bound;
 

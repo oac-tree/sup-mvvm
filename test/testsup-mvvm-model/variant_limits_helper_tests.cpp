@@ -54,7 +54,7 @@ TEST_F(VariantLimitsHelper, GetInt32MinMaxNumeric)
 
   // uint32, double limits can't be handled by given helper function
   EXPECT_THROW(GetInt32MinMaxNumeric(42U), RuntimeException);
-  EXPECT_THROW(GetInt32MinMaxNumeric(42.2), RuntimeException);
+  EXPECT_THROW(GetInt32MinMaxNumeric(std::string()), RuntimeException);
 }
 
 //! Testing GetInt32MinMaxNumeric function with additional user bounds.
@@ -81,5 +81,51 @@ TEST_F(VariantLimitsHelper, GetInt32MinMaxNumericWithUserDefinedLimits)
     EXPECT_EQ(limits.first, std::numeric_limits<uint8>::min());
     EXPECT_EQ(limits.first, 0);
     EXPECT_EQ(limits.second, 20);
+  }
+}
+
+//! Testing GetFloat64MinMaxNumeric for mvvm::float32 and mvvm::float64 casted to float64.
+
+TEST_F(VariantLimitsHelper, GetFloat64MinMaxNumeric)
+{
+  {  // float64
+    float64 num(42.1);
+    auto limits = GetFloat64MinMaxNumeric(num);
+    EXPECT_EQ(limits.first, std::numeric_limits<float64>::lowest());
+    EXPECT_EQ(limits.second, std::numeric_limits<float64>::max());
+  }
+
+  {  // float32
+    float32 num(42.1);
+    auto limits = GetFloat64MinMaxNumeric(num);
+    EXPECT_EQ(limits.first, std::numeric_limits<float32>::lowest());
+    EXPECT_EQ(limits.second, std::numeric_limits<float32>::max());
+  }
+}
+
+//! Testing GetFloat64MinMaxNumeric for mvvm::float32 and mvvm::float64 with additional limits
+//! implied.
+
+TEST_F(VariantLimitsHelper, GetFloat64MinMaxNumericWithUserDefinedLimits)
+{
+  {  // float64 bounded from left
+    float64 num(42.1);
+    auto limits = GetFloat64MinMaxNumeric(num, float64{10.0});
+    EXPECT_EQ(limits.first, 10.0);
+    EXPECT_EQ(limits.second, std::numeric_limits<float64>::max());
+  }
+
+  {  // float32 bounded from right
+    float32 num(42.1);
+    auto limits = GetFloat64MinMaxNumeric(num, {}, float32{60});
+    EXPECT_EQ(limits.first, std::numeric_limits<float32>::lowest());
+    EXPECT_EQ(limits.second, 60);
+  }
+
+  {  // float32 bounded from left and right
+    float32 num(42.1);
+    auto limits = GetFloat64MinMaxNumeric(num, float32{50}, float32{60});
+    EXPECT_EQ(limits.first, 50);
+    EXPECT_EQ(limits.second, 60);
   }
 }
