@@ -28,37 +28,91 @@
 namespace mvvm
 {
 
-//! Builder for boolean property editor.
+/**
+ * @brief Returns builder function to create editors for bool based variants.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t BoolEditorBuilder();
 
-//! Builder for ComboProperty editor.
+/**
+ * @brief Returns builder function to create editors for ComboProperty based variants.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ComboPropertyEditorBuilder();
 
-//! Builder for ComboProperty property editor with selections.
+/**
+ * @brief Returns builder function to create editors for ComboProperty based variants.
+ *
+ * @details It has a fancy feature with possibility to make multiple selections.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t SelectableComboPropertyEditorBuilder();
 
-//! Builder for color property editor.
+/**
+ * @brief Returns builder function to create color editors.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ColorEditorBuilder();
 
-//! Builder for external property editor.
+/**
+ * @brief Returns builder function to create ExternalPropertyEditors editors.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ExternalPropertyEditorBuilder();
 
-//! Builder for double editor with scientific notation and spinbox functionality.
+/**
+ * @brief Returns builder function to create ExternalPropertyEditors editors.
+ */
+
+/**
+ * @brief Returns builder function to create editors for double based variants.
+ *
+ * @details It relies on ScientificSpinBox with additional option to edit text with scientific
+ * notations 10e-12.
+ *
+ * @details About to be integrated to FloatEditorBuilder().
+ */
+
 MVVM_VIEWMODEL_EXPORT editorbuilder_t ScientificSpinBoxEditorBuilder();
 
-//! Builder for long integer editor with possibilities to set limits.
+/**
+ * @brief Returns builder function to create editors for int64 based variants.
+ *
+ * @details About to become obsolete in the favor of AllIntSpinBoxEditorBuilder()
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t LongIntSpinBoxEditorBuilder();
 
-//! Builder for integer values editor with possibilities to set limits.
+/**
+ * @brief Returns builder function to create editors for integer based variants.
+ *
+ * @details It relies on QSpinBox with additional option to set limits from SessionItem.
+ *
+ * @details About to become obsolete in the favor of AllIntSpinBoxEditorBuilder()
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t IntegerEditorBuilder();
 
-//! Builder for all integer editor.
+/**
+ * @brief Returns builder function to create editors for all integer-like QVariants.
+ *
+ * @details It relies on AllIntSpinBoxEditor which knows how to work with all integer-like types:
+ * int8, uint8, int16, uin16, int32, uin32, int64, uin64.
+ *
+ * @details This builder will eventually replace IntegerEditorBuilder.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t AllIntSpinBoxEditorBuilder();
 
-//! Builder for editor of integer values with possibilities to set limits.
+/**
+ * @brief Returns builder function to create editors for double based variants.
+ *
+ * @details It relies on QDoubleSpinBox with additional option to set limits from SessionItem.
+ *
+ * @details About to become obsolete in the favor of FloatEditorBuilder()
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t DoubleEditorBuilder();
 
-//! Builder for editor of integer values with possibilities to set limits.
+/**
+ * @brief Returns builder function to create editors for float32 and float64 based variants.
+ *
+ * @details It relies on FloatSpinBox which knows how to work with both QVariant(float32) and
+ * QVariant(float64).
+ *
+ * @details This builder will eventually replace DoubleEditorBuilder.
+ */
 MVVM_VIEWMODEL_EXPORT editorbuilder_t FloatEditorBuilder();
 
 }  // namespace mvvm

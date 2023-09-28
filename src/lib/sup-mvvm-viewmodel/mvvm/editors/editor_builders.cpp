@@ -180,7 +180,7 @@ editorbuilder_t FloatEditorBuilder()
     editor->setDecimals(constants::kDefaultDoubleDecimals);
     if (item)
     {
-      auto limits = GetInt32Limits(*item);
+      auto limits = GetFloat64Limits(*item);
       editor->SetRange(limits.first, limits.second);
     }
     return editor;
