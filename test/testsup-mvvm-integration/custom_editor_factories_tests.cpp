@@ -171,8 +171,34 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 
-  index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+  { // int32 is handled for the moment by original QSpinBox editor
+    index = AddDataToModel(variant_t(42));
+    EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // int8
+    const int8 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // uint8
+    const uint8 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // int16
+    const int8 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // uint16
+    const uint8 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
 
   {  // uint32
     const uint32 num(42);

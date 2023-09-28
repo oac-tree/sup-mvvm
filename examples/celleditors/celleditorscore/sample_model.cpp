@@ -64,37 +64,43 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
-  // original QSpinBox editor
+  // Here we want to compare visual appearance of QSpinBox editor and AllIntSpinBoxEditor.
+  // QSpinBox is the default for int32, AllIntSpinBox is the default for the rest.
+
+  // QSpinBox editor for int32
   AddProperty("integer_1", 42)->SetDisplayName("int32 QSpinBox");
 
-  // original QSpinBox editor with limits set
+  // QSpinBox editor for int32 with limits set
   auto prop = AddProperty("integer_2", 42)->SetDisplayName("int32 QSpinBox lim");
   mvvm::SetLimited(30, 40, *prop);
 
-  // new AllIntSpinBoxEditor
+  // AllIntSpinBoxEditor for int32 should be set manually
   AddProperty("integer_3", 42)
       ->SetDisplayName("int32 AllIntEditor")
       ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
 
-  // new AllIntSpinBoxEditor with limits set
+  // AllIntSpinBoxEditor with limits, for int32 should be set manually
   prop = AddProperty("integer_4", 42)->SetDisplayName("int32 AllIntEditor lim");
   prop->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
   mvvm::SetLimited(30, 40, *prop);
 
-  // new AllIntSpinBoxEditor with small numbers (int8)
-  AddProperty("integer_5", static_cast<mvvm::int8>(0))
-      ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
-      ->SetDisplayName("int8 AllIntEditor");
+  // AllIntSpinBoxEditor for int8
+  AddProperty("integer_5", static_cast<mvvm::int8>(0))->SetDisplayName("int8 AllIntEditor");
 
-  // LongIntSpinBoxEditor with int64
-  AddProperty("integer_6", static_cast<mvvm::int64>(0))
+  // AllIntSpinBoxEditor for int64
+  AddProperty("integer_6", static_cast<mvvm::int64>(0))->SetDisplayName("int64 AllIntEditor");
+
+  // LongIntSpinBoxEditor with int64 should be set manually
+  AddProperty("integer_7", static_cast<mvvm::int64>(0))
       ->SetEditorType(mvvm::constants::kLongIntSpinBoxEditorType)
       ->SetDisplayName("int64 LongIntEditor");
 }
 
 FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 {
-  // original QDoubleSpinBox editor should be invoked manually
+  // Here we want to compare visual appearance of QDoubleSpinBox and FloatSpinBox.
+  // FloatSpinBox is the default for float32 and float64, QDoubleSpinBox should be set manually.
+
   AddProperty("double_1", 42.1)
       ->SetEditorType(mvvm::constants::kDoubleEditorType)
       ->SetDisplayName("double QDoubleSpinBox");
@@ -104,16 +110,18 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
   auto prop = AddProperty("double_3", 42.3)->SetDisplayName("double lim QDoubleSpinBox");
   mvvm::SetLimited(30.0, 40.0, *prop);
 
-  // new FloatSpinBoxEditor is invoked by the default in DefaultEditorFactory()
-
+  // FloatSpinBox for float64
   AddProperty("double_4", static_cast<mvvm::float64>(42.1))->SetDisplayName("float64 FloatSpinBox");
-  AddProperty("double_5", static_cast<mvvm::float64>(42.2))->SetDisplayName("float64 FloatSpinBox");
 
+  // FloatSpinBox with limits, for float64
+  AddProperty("double_5", static_cast<mvvm::float64>(42.2))->SetDisplayName("float64 FloatSpinBox");
   prop = AddProperty("double_6", static_cast<mvvm::float64>(42.3))
              ->SetDisplayName("float64 lim FloatSpinBox");
   mvvm::SetLimited(30.0, 40.0, *prop);
 
-  AddProperty("double_7", static_cast<mvvm::float32>(42.3));
+  // FloatSpinBox for float32
+  AddProperty("double_7", static_cast<mvvm::float32>(42.3))
+      ->SetDisplayName("float32 lim FloatSpinBox");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

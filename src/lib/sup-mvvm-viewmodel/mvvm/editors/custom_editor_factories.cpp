@@ -43,6 +43,8 @@ namespace mvvm
 
 RoleDependentEditorFactory::RoleDependentEditorFactory()
 {
+  // registering all existing builders under their names
+
   RegisterBuilder(constants::kBoolEditorType, BoolEditorBuilder());
   RegisterBuilder(constants::kComboPropertyEditorType, ComboPropertyEditorBuilder());
   RegisterBuilder(constants::kSelectableComboPropertyEditorType,
@@ -77,20 +79,28 @@ editor_t RoleDependentEditorFactory::CreateItemEditor(const SessionItem* item) c
 
 VariantDependentEditorFactory::VariantDependentEditorFactory()
 {
-  // registering set of builders for given variant names
-  RegisterBuilder(constants::kBooleanQtTypeName, BoolEditorBuilder());
-  RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
-  RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
+  // registering default builders for given variant names
 
-  // we keep editing int32 numbers with QSpinBox
+  // we keep editing int32 numbers with QSpinBox to be able to compare the appearance with the rest
   RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
 
+  // new AllIntSpinBoxEditor for all other integer-like types
+  RegisterBuilder(constants::kInt8QtTypeName, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kUInt8QtTypeName, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kInt16QtTypeName, AllIntSpinBoxEditorBuilder());
+  RegisterBuilder(constants::kUInt16QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt32QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt64QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt64QtTypeName, AllIntSpinBoxEditorBuilder());
 
+  // new FloatSpinBox editor for float32 and float64
   RegisterBuilder(constants::kFloat32QtTypeName, FloatEditorBuilder());
   RegisterBuilder(constants::kFloat64QtTypeName, FloatEditorBuilder());
+
+  // other custom editors
+  RegisterBuilder(constants::kBooleanQtTypeName, BoolEditorBuilder());
+  RegisterBuilder(constants::kComboPropertyQtTypeName, ComboPropertyEditorBuilder());
+  RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
 }
 
 //! Creates cell editor basing on variant name.
