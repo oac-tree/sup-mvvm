@@ -31,5 +31,6 @@
 #include <mvvm/editors/longint_spinbox_editor.h>
 #include <mvvm/editors/selectable_combobox_editor.h>
 #include <mvvm/editors/allint_spinbox_editor.h>
+#include <mvvm/editors/float_spinbox.h>
 
 #endif  // MVVM_EDITORS_CUSTOM_EDITOR_INCLUDES_H_
