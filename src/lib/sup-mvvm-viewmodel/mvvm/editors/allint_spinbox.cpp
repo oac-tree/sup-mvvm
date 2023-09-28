@@ -151,6 +151,7 @@ void AllIntSpinBox::UpdateTextField()
   if (value_text != text())
   {
     lineEdit()->setText(value_text);
+    lineEdit()->selectAll();
   }
 }
 

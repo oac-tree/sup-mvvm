@@ -52,7 +52,7 @@ AllIntSpinBoxEditor::AllIntSpinBoxEditor(QWidget* parent)
 
 bool AllIntSpinBoxEditor::IsPersistent() const
 {
-  return true;
+  return false;
 }
 
 void AllIntSpinBoxEditor::SetRange(const variant_t& lower_limit, const variant_t& upper_limit)
