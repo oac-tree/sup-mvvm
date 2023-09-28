@@ -20,6 +20,7 @@
 #include "longint_spinbox_editor.h"
 
 #include <mvvm/editors/longint_spinbox.h>
+#include <mvvm/viewmodel/custom_variants.h>
 
 #include <QVBoxLayout>
 #include <stdexcept>
@@ -41,7 +42,8 @@ LongIntSpinBoxEditor::LongIntSpinBoxEditor(QWidget* parent)
 
   layout->addWidget(m_longint_editor);
 
-  connect(m_longint_editor, &LongIntSpinBox::valueChanged, this, &LongIntSpinBoxEditor::OnValueChanged);
+  connect(m_longint_editor, &LongIntSpinBox::valueChanged, this,
+          &LongIntSpinBoxEditor::OnValueChanged);
 
   setLayout(layout);
 
@@ -83,7 +85,8 @@ void LongIntSpinBoxEditor::UpdateComponents()
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   const auto type_id = GetData().type();
-  if (type_id != QVariant::LongLong)
+  if (type_id != QVariant::LongLong
+      && utils::GetQtVariantName(GetData()) != constants::kInt64QtTypeName)
 #else
   const auto type_id = GetData().type();
   if (type_id != QMetaType::LongLong)

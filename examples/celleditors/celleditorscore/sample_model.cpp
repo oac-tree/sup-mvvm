@@ -67,26 +67,31 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 {
   // original QSpinBox editor
-  AddProperty("integer_1", 42)->SetDisplayName("int32 orig");
+  AddProperty("integer_1", 42)->SetDisplayName("int32 QSpinBox");
 
   // original QSpinBox editor with limits set
-  auto prop = AddProperty("integer_2", 42)->SetDisplayName("int32 orig lim");
+  auto prop = AddProperty("integer_2", 42)->SetDisplayName("int32 QSpinBox lim");
   mvvm::SetLimited(30, 40, *prop);
 
   // new AllIntSpinBoxEditor
   AddProperty("integer_3", 42)
-      ->SetDisplayName("int32 all-int")
+      ->SetDisplayName("int32 AllIntEditor")
       ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
 
   // new AllIntSpinBoxEditor with limits set
-  prop = AddProperty("integer_4", 42)->SetDisplayName("int32 all-int lim");
+  prop = AddProperty("integer_4", 42)->SetDisplayName("int32 AllIntEditor lim");
   prop->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
   mvvm::SetLimited(30, 40, *prop);
 
-  // new AllIntSpinBoxEditor with smal numbers (int8)
+  // new AllIntSpinBoxEditor with small numbers (int8)
   AddProperty("integer_5", static_cast<mvvm::int8>(0))
       ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType)
-      ->SetDisplayName("int8 all-int");
+      ->SetDisplayName("int8 AllIntEditor");
+
+  // LongIntSpinBoxEditor with int64
+  AddProperty("integer_6", static_cast<mvvm::int64>(0))
+      ->SetEditorType(mvvm::constants::kLongIntSpinBoxEditorType)
+      ->SetDisplayName("int64 LongIntEditor");
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
