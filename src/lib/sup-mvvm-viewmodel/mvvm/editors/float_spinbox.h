@@ -42,9 +42,6 @@ namespace mvvm
  * @details If initial value is QVariant(double) (which is the result of the conversion of
  * variant_t(mvvm::float64), when QDoubleSpinBox will have min/max limits corresponding to float64.
  * The output value of the editor will be the same as input, QVariant(double).
- *
- * @details It is possible to setup additional user limits in advance, in this case their type
- * (float or double) should coincide with the type of the value being set.
  */
 
 class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QAbstractSpinBox
@@ -61,11 +58,7 @@ public:
 
   void setValue(const QVariant& value);
 
-  void SetRange(const QVariant& lower_limit, const QVariant& upper_limit);
-
-  void stepBy(int steps) override;
-  QValidator::State validate(QString& str, int& pos) const override;
-  void fixup(QString& str) const override;
+  void SetRange(double lower_limit, double upper_limit);
 
 signals:
   void valueChanged(const QVariant& value);
@@ -76,8 +69,8 @@ private:
   QDoubleSpinBox* m_double_editor{nullptr};
 
   QVariant m_value;
-  QVariant m_lower_limit;
-  QVariant m_upper_limit;
+  double m_lower_limit;
+  double m_upper_limit;
 };
 
 }  // namespace mvvm

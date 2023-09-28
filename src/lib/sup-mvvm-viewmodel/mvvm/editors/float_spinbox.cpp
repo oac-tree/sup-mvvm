@@ -23,7 +23,6 @@
 
 #include <QDoubleSpinBox>
 #include <QVBoxLayout>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -64,25 +63,11 @@ void FloatSpinBox::setValue(const QVariant &value)
   }
 }
 
-void FloatSpinBox::SetRange(const QVariant &lower_limit, const QVariant &upper_limit)
+void FloatSpinBox::SetRange(double lower_limit, double upper_limit)
 {
   m_lower_limit = lower_limit;
   m_upper_limit = upper_limit;
-}
-
-void FloatSpinBox::stepBy(int steps)
-{
-  return m_double_editor->stepBy(steps);
-}
-
-QValidator::State FloatSpinBox::validate(QString &str, int &pos) const
-{
-  return m_double_editor->validate(str, pos);
-}
-
-void FloatSpinBox::fixup(QString &str) const
-{
-  return m_double_editor->fixup(str);
+  m_double_editor->setRange(m_lower_limit, m_upper_limit);
 }
 
 void FloatSpinBox::OnEditingFinished(double value)

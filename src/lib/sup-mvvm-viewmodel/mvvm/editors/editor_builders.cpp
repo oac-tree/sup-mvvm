@@ -23,6 +23,7 @@
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/viewmodel/variant_converter.h>
 
 #include <QDoubleSpinBox>
 #include <QSpinBox>
@@ -163,15 +164,8 @@ editorbuilder_t DoubleEditorBuilder()
     editor->setDecimals(constants::kDefaultDoubleDecimals);
     if (item)
     {
-      if (item->HasData(DataRole::kLimits))
-      {
-        auto limits = item->Data<RealLimits>(DataRole::kLimits);
-        editor->setRange(limits.GetLowerLimit(), limits.GetUpperLimit());
-      }
-      else
-      {
-        editor->setRange(kMinDefaultEditableIntegerValue, kMaxDefaultEditableIntegerValue);
-      }
+      auto limits = GetFloat64Limits(*item);
+      editor->setRange(limits.first, limits.second);
     }
     return editor;
   };
@@ -184,6 +178,11 @@ editorbuilder_t FloatEditorBuilder()
   {
     auto editor = std::make_unique<FloatSpinBox>();
     editor->setDecimals(constants::kDefaultDoubleDecimals);
+    if (item)
+    {
+      auto limits = GetInt32Limits(*item);
+      editor->SetRange(limits.first, limits.second);
+    }
     return editor;
   };
   return builder;

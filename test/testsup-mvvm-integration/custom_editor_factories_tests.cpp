@@ -245,8 +245,8 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
   ASSERT_TRUE(spin_box != nullptr);
 
   // checking default limits (defined in editor_builders.cpp)
-  EXPECT_DOUBLE_EQ(spin_box->minimum(), -65536);
-  EXPECT_DOUBLE_EQ(spin_box->maximum(), 65536);
+  EXPECT_DOUBLE_EQ(spin_box->minimum(), std::numeric_limits<double>::lowest());
+  EXPECT_DOUBLE_EQ(spin_box->maximum(), std::numeric_limits<double>::max());
 }
 
 //! Checking double editor construction when limits are set.
@@ -259,7 +259,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
 
   // setting limits to corresponding role
   auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
-  item->SetData(Limits<double>::CreateLimited(0.0, 55.1), DataRole::kLimits);
+  SetLimited(0.0, 55.1, *item);
 
   auto editor = factory.CreateEditor(index);
 
@@ -276,7 +276,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
 //! Test is failing because current version of DoubleEditorBuilder() can handle only two limits
 //! present.
 
-TEST_F(CustomEditorFactoriesTests, DISABLED_DefaultEditorFactoryRealEditorForLowerLimited)
+TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLowerLimited)
 {
   const DefaultEditorFactory factory;
 
@@ -284,9 +284,8 @@ TEST_F(CustomEditorFactoriesTests, DISABLED_DefaultEditorFactoryRealEditorForLow
 
   // setting limits to corresponding role
   auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
-  item->SetData(Limits<double>::CreateLowerLimited(42.0), DataRole::kLimits);
+  SetLowerLimited(42.0, *item);
 
-  // FIXME test is failing here because we are not handling well onse-side limits
   auto editor = factory.CreateEditor(index);
 
   // accessing underlying QSpinBox
@@ -294,6 +293,6 @@ TEST_F(CustomEditorFactoriesTests, DISABLED_DefaultEditorFactoryRealEditorForLow
   ASSERT_TRUE(spin_box != nullptr);
 
   // check if limits have been propagated
-  EXPECT_DOUBLE_EQ(spin_box->minimum(), 0);
-  EXPECT_DOUBLE_EQ(spin_box->maximum(), 55.1);
+  EXPECT_DOUBLE_EQ(spin_box->minimum(), 42.0);
+  EXPECT_DOUBLE_EQ(spin_box->maximum(), std::numeric_limits<double>::max());
 }
