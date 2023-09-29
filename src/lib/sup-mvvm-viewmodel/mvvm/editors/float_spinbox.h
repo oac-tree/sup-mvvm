@@ -79,7 +79,7 @@ signals:
 
 private:
   /**
-   * @brief Provide update of cahced value and emit sygnals, when underlying QDoubleSpinBox has
+   * @brief Provide update of cached value and emit signals, when underlying QDoubleSpinBox has
    * finished its work.
    */
   void OnEditingFinished(double value);
