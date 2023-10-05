@@ -178,6 +178,35 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemSetDataForDouble)
   EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
 
+TEST_F(StandardPresentationItemsTests, DataPresentationItemForSecondaryDataRole)
+{
+  const int kSecondaryDataRole{42};
+  SessionItem item;
+  item.SetData(42.0);
+  item.SetData(std::string("abc"), kSecondaryDataRole);
+
+  DataPresentationItem presentation(&item, kSecondaryDataRole);
+
+  const QString new_data("def");
+
+  // not possible to set DisplayRole
+  EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::DisplayRole));
+
+  EXPECT_TRUE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole), QVariant::fromValue(new_data));  // new data
+  EXPECT_EQ(presentation.Data(Qt::EditRole), QVariant::fromValue(new_data));     // new data
+
+  // SessionItem itself should have new data
+  EXPECT_EQ(item.Data<std::string>(kSecondaryDataRole), new_data.toStdString());  // new data
+
+  // attempt to set same data twice
+  EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
+
+//  // it is not allowed to set another type of data
+//  QVariant not_allowed_value("Layer");
+//  EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
+}
+
 //! Testing tooltip tole.
 
 TEST_F(StandardPresentationItemsTests, DataPresentationItemTooltipRole)

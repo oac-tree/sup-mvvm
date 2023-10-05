@@ -109,8 +109,8 @@ QVariant LabelPresentationItem::Data(int qt_role) const
 // DataPresentationItem
 // ----------------------------------------------------------------------------
 
-DataPresentationItem::DataPresentationItem(SessionItem *item)
-    : SessionItemPresentation(item, DataRole::kData)
+DataPresentationItem::DataPresentationItem(SessionItem *item, int role)
+    : SessionItemPresentation(item, role)
 {
   if (!item)
   {
@@ -122,7 +122,7 @@ QVariant DataPresentationItem::Data(int qt_role) const
 {
   if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
   {
-    return GetQtVariant(GetItem()->Data(DataRole::kData));
+    return GetQtVariant(GetItem()->Data(GetDataRole()));
   }
 
   if (qt_role == Qt::CheckStateRole)
@@ -140,7 +140,7 @@ QVariant DataPresentationItem::Data(int qt_role) const
 
 bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
 {
-  return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), DataRole::kData) : false;
+  return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) : false;
 }
 
 // ----------------------------------------------------------------------------

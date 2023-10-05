@@ -24,6 +24,7 @@
 //! Defines standard presentations for sessionitem.
 
 #include <mvvm/viewmodelbase/viewitem_data_interface.h>
+#include <mvvm/model/mvvm_types.h>
 
 #include <memory>
 
@@ -81,7 +82,13 @@ private:
 class MVVM_VIEWMODEL_EXPORT DataPresentationItem : public SessionItemPresentation
 {
 public:
-  explicit DataPresentationItem(SessionItem* item);
+  /**
+   * @brief Main c-tor of the DataPresentationItem.
+   *
+   * @param item An item those data will be presented.
+   * @param role The data role of SessionItem
+   */
+  explicit DataPresentationItem(SessionItem* item, int role = DataRole::kData);
 
   QVariant Data(int qt_role) const override;
 
