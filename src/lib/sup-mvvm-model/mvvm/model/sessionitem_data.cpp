@@ -97,8 +97,8 @@ void SessionItemData::AssureCompatibility(const variant_t& variant, int role) co
   {
     std::ostringstream ostr;
     ostr << "Error in SessionItemData: variant types mismatch. "
-         << "Old variant index '" << Data(role).index() << "' "
-         << "new variant index '" << variant.index() << "\n";
+         << "Old variant [" << utils::TypeName(Data(role)) << "], "
+         << "new variant [" << utils::TypeName(variant) << "].\n";
     throw RuntimeException(ostr.str());
   }
 }
