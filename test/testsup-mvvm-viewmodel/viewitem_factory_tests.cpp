@@ -96,6 +96,34 @@ TEST_F(ViewItemFactoryTests, CreateDataViewItem)
   EXPECT_EQ(viewitem->data(Qt::EditRole).toInt(), new_value);
 }
 
+//! Testing CreateDataViewItem (case of integer data).
+
+TEST_F(ViewItemFactoryTests, CreateDataViewItemForSecondaryRole)
+{
+  const int kSecondaryDataRole{42};
+  const int value{42};
+  const std::string secondary_value{"abc"};
+
+  SessionItem item;
+  item.SetData(value, DataRole::kData);
+  item.SetData(secondary_value, kSecondaryDataRole);
+
+  auto viewitem = CreateDataViewItem(&item, kSecondaryDataRole);
+
+  // item has a display role, which coincide with data
+  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(), QString::fromStdString(secondary_value));
+  EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), QString::fromStdString(secondary_value));
+
+  const std::string new_secondary_value{"def"};
+  // not sure if it's correct, but current convention is to disallow set another display role
+  EXPECT_FALSE(viewitem->setData(QString::fromStdString(new_secondary_value), Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->setData(QString::fromStdString(new_secondary_value), Qt::EditRole));
+
+  // data is the new one
+  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(), QString::fromStdString(new_secondary_value));
+  EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), QString::fromStdString(new_secondary_value));
+}
+
 //! Testing CreateDataViewItem (case of std::string data).
 
 TEST_F(ViewItemFactoryTests, CreateDataViewItemString)

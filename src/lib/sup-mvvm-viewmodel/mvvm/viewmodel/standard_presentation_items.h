@@ -107,14 +107,10 @@ public:
 
 //! Represents editable display role of SessionItem.
 
-class MVVM_VIEWMODEL_EXPORT EditableDisplayNamePresentationItem : public SessionItemPresentation
+class MVVM_VIEWMODEL_EXPORT EditableDisplayNamePresentationItem : public DataPresentationItem
 {
 public:
   explicit EditableDisplayNamePresentationItem(SessionItem* item);
-
-  QVariant Data(int qt_role) const override;
-
-  bool SetData(const QVariant& data, int qt_role) override;
 };
 
 }  // namespace mvvm

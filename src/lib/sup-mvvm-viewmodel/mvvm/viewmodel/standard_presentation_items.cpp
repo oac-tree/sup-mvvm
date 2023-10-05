@@ -168,37 +168,12 @@ QVariant DisplayNamePresentationItem::Data(int qt_role) const
 }
 
 // ----------------------------------------------------------------------------
-// DisplayNamePresentationItem
+// EditableDisplayNamePresentationItem
 // ----------------------------------------------------------------------------
 
 EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(SessionItem *item)
-    : SessionItemPresentation(item, DataRole::kDisplay)
+    : DataPresentationItem(item, DataRole::kDisplay)
 {
-  if (!item)
-  {
-    throw std::runtime_error("Uninitialized item");
-  }
-}
-
-QVariant EditableDisplayNamePresentationItem::Data(int qt_role) const
-{
-  // use item's display role
-  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
-  {
-    return QString::fromStdString(GetItem()->GetDisplayName());
-  }
-
-  return SessionItemPresentation::Data(qt_role);
-}
-
-bool EditableDisplayNamePresentationItem::SetData(const QVariant &data, int qt_role)
-{
-  if (qt_role == Qt::EditRole)
-  {
-    return GetItem()->SetData(GetStdVariant(data), DataRole::kDisplay);
-  }
-
-  return false;
 }
 
 }  // namespace mvvm

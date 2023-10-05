@@ -23,6 +23,7 @@
 //! @file viewitem_factory.h
 //! Contains factory methods to construct ViewItem's looking at different SessionItem parts.
 
+#include <mvvm/model/mvvm_types.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <memory>
@@ -44,7 +45,8 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem*
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 
 //! Creates ViewItem for SessionItem's data.
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item);
+MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item,
+                                                                   int role = DataRole::kData);
 
 //! Creates editable ViewItem for SessionItem's display name.
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(
