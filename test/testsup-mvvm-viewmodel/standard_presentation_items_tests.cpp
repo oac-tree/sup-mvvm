@@ -202,9 +202,9 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemForSecondaryDataRole)
   // attempt to set same data twice
   EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
 
-//  // it is not allowed to set another type of data
-//  QVariant not_allowed_value("Layer");
-//  EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
+  //  // it is not allowed to set another type of data
+  //  QVariant not_allowed_value("Layer");
+  //  EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
 
 //! Testing tooltip tole.
@@ -316,6 +316,35 @@ TEST_F(StandardPresentationItemsTests, EditableDisplayNamePresentationItem)
   EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
   EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("abc"));
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("abc"));
+
+  EXPECT_TRUE(presentation.SetData("abcabc", Qt::EditRole));
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));
+
+  EXPECT_EQ(item.GetDisplayName(), std::string("abcabc"));
+
+  // it is not possible to set same data twice
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::EditRole));
+}
+
+//! The behavior of editable display item when no initial name was set (real-life bug).
+
+TEST_F(StandardPresentationItemsTests, EditableDisplayNamePresentationItemWithoutInitialSet)
+{
+  SessionItem item;
+  // We do not set item, expect default display name "SessionItem"
+  // item.SetDisplayName("abc");
+
+  EditableDisplayNamePresentationItem presentation(&item);
+  EXPECT_EQ(presentation.GetItem(), &item);
+  EXPECT_EQ(presentation.GetDataRole(), DataRole::kDisplay);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_TRUE(presentation.IsEditable());
+
+  EXPECT_TRUE(presentation.Data(Qt::EditRole).isValid());
+  EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString::fromStdString(SessionItem::Type));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(),
+            QString::fromStdString(SessionItem::Type));
 
   EXPECT_TRUE(presentation.SetData("abcabc", Qt::EditRole));
   EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));

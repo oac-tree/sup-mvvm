@@ -23,8 +23,8 @@
 //! @file standardpresentationitems.h
 //! Defines standard presentations for sessionitem.
 
-#include <mvvm/viewmodelbase/viewitem_data_interface.h>
 #include <mvvm/model/mvvm_types.h>
+#include <mvvm/viewmodelbase/viewitem_data_interface.h>
 
 #include <memory>
 
@@ -111,6 +111,8 @@ class MVVM_VIEWMODEL_EXPORT EditableDisplayNamePresentationItem : public DataPre
 {
 public:
   explicit EditableDisplayNamePresentationItem(SessionItem* item);
+
+  QVariant Data(int qt_role) const override;
 };
 
 }  // namespace mvvm

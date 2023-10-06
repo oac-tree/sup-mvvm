@@ -176,4 +176,18 @@ EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(Session
 {
 }
 
+QVariant EditableDisplayNamePresentationItem::Data(int qt_role) const
+{
+  // use item's display role
+  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
+  {
+    // Display name is different from other roles. When display name is not present, we use item
+    // type for that. This is why we are using GetDisplayName() method and not directly call
+    // DataPresentationItem::Data() method.
+    return QString::fromStdString(GetItem()->GetDisplayName());
+  }
+
+  return DataPresentationItem::Data(qt_role);
+}
+
 }  // namespace mvvm
