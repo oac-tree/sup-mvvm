@@ -68,6 +68,29 @@ TEST_F(ProjectUtilsTests, CreateUntitledProject)
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitle)
 {
+  // untitled and unmodified project
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string(""), false), "Untitled");
+
+  // untitled and modified project
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string(""), true), "*Untitled");
+
+  // unmodified project without projectDir
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("Untitled"), false), "Untitled");
+
+  // modified project without projectDir
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("Untitled"), true), "*Untitled");
+
+  // unmodified project with projectDir
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("/home/user/project1"), false),
+            "project1");
+
+  // modified project with projectDir
+  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("/home/user/project1"), true),
+            "*project1");
+}
+
+TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
+{
   auto project = ProjectUtils::CreateUntitledProject(createContext());
 
   // unmodified project without projectDir

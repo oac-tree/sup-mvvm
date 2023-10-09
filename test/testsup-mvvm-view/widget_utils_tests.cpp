@@ -52,29 +52,6 @@ TEST_F(WidgetUtilsTests, SizeOfLetterM)
   EXPECT_EQ(utils::SizeOfLetterM().height(), expected_height);
 }
 
-//! Test of WithTildeHomePath function.
-
-TEST_F(WidgetUtilsTests, ProjectWindowTitle)
-{
-  // untitled and unmodified project
-  EXPECT_EQ(utils::ProjectWindowTitle(QString(""), false), "Untitled");
-
-  // untitled and modified project
-  EXPECT_EQ(utils::ProjectWindowTitle(QString(""), true), "*Untitled");
-
-  // unmodified project without projectDir
-  EXPECT_EQ(utils::ProjectWindowTitle(QString("Untitled"), false), "Untitled");
-
-  // modified project without projectDir
-  EXPECT_EQ(utils::ProjectWindowTitle(QString("Untitled"), true), "*Untitled");
-
-  // unmodified project with projectDir
-  EXPECT_EQ(utils::ProjectWindowTitle(QString("/home/user/project1"), false), "project1");
-
-  // modified project with projectDir
-  EXPECT_EQ(utils::ProjectWindowTitle(QString("/home/user/project1"), true), "*project1");
-}
-
 TEST_F(WidgetUtilsTests, ClickableText)
 {
   EXPECT_EQ(utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));

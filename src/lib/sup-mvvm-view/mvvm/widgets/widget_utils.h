@@ -54,9 +54,6 @@ bool IsLinuxHost();
 //! Returns a string where Linux path to the file is striped using '~/'.
 QString WithTildeHomePath(const QString& path);
 
-//! Returns a title composed from last part of project path, and `is_modified` flag.
-QString ProjectWindowTitle(const QString& project_dir, bool is_modified);
-
 //! Returns width of the letter 'M' deduced from current font metrics.
 int WidthOfLetterM();
 

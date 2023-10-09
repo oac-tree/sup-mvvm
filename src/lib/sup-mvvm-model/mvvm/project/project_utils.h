@@ -20,6 +20,9 @@
 #ifndef MVVM_PROJECT_PROJECT_UTILS_H_
 #define MVVM_PROJECT_PROJECT_UTILS_H_
 
+//! @file
+//! Collection of utility functions to handle project saving and loading.
+
 #include <mvvm/model_export.h>
 
 #include <memory>
@@ -32,34 +35,38 @@ class SessionModelInterface;
 class ProjectInterface;
 struct ProjectContext;
 
-//! Collection of utility functions to handle project saving and loading.
-
 namespace ProjectUtils
 {
 
-//! @cond DoNotParse
-MVVM_MODEL_EXPORT
-//! @endcond
+/**
+ * @brief Suggests file name which can be used to store Xml content of given model. Uses the model
+ * type to construct a filename: MaterialModel -> materialmodel.xml
+ */
 std::string SuggestFileName(const SessionModelInterface& model);
 
-//! @cond DoNotParse
-MVVM_MODEL_EXPORT
-//! @endcond
-bool IsPossibleProjectDir(const std::string& project_dir);
-
-//! @cond DoNotParse
-MVVM_MODEL_EXPORT
-//! @endcond
+/**
+ * @brief Creates new untitled project.
+ */
 std::unique_ptr<ProjectInterface> CreateUntitledProject(const ProjectContext& context);
 
-//! @cond DoNotParse
-MVVM_MODEL_EXPORT
-//! @endcond
+/**
+ * @brief Returns 'true' if given directory might be a project directory.
+ *
+ * @details This simplified check counts number of files with XML extention.
+ */
+bool IsPossibleProjectDir(const std::string& project_dir);
+
+/**
+ * @brief Returns a MainWindow title for given project.
+ */
 std::string ProjectWindowTitle(const ProjectInterface& project);
 
-//! @cond DoNotParse
-MVVM_MODEL_EXPORT
-//! @endcond
+/**
+ * @brief Returns a title composed from last part of project path, and `is_modified` flag.
+ *
+ * @details Project without projectDir will be "Untitled", modified project will be "*Untitled".
+ * Project with projectDir in "/home/user/project1" will get title "project1".
+ */
 std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified);
 
 }  // namespace ProjectUtils

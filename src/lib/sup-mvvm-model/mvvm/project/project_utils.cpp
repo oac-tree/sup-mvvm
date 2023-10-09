@@ -35,9 +35,6 @@ const std::string untitled_name = "Untitled";
 namespace mvvm
 {
 
-//! Suggests file name which can be used to store Xml content of given model.
-//! Uses the model type to construct a filename: MaterialModel -> materialmodel.xml
-
 std::string ProjectUtils::SuggestFileName(const SessionModelInterface& model)
 {
   std::string result = model.GetType();
@@ -45,31 +42,20 @@ std::string ProjectUtils::SuggestFileName(const SessionModelInterface& model)
   return result + xml_extention;
 }
 
-//! Returns 'true' if given directory might be a project directory.
-//! This simplified check counts number of files with XML extention.
-
 bool ProjectUtils::IsPossibleProjectDir(const std::string& project_dir)
 {
   return !utils::FindFiles(project_dir, xml_extention).empty();
 }
-
-//! Creates new untitled project.
 
 std::unique_ptr<ProjectInterface> ProjectUtils::CreateUntitledProject(const ProjectContext& context)
 {
   return std::make_unique<Project>(context);
 }
 
-//! Returns a MainWindow title for given project.
-
 std::string ProjectUtils::ProjectWindowTitle(const ProjectInterface& project)
 {
   return ProjectWindowTitle(project.GetProjectDir(), project.IsModified());
 }
-
-//! Returns a title composed from last part of project path, and `is_modified` flag.
-//! Project without projectDir will be "Untitled", modified project will be "*Untitled".
-//! Project with projectDir in "/home/user/project1" will get title "project1".
 
 std::string ProjectUtils::ProjectWindowTitle(const std::string& project_dir, bool is_modified)
 {
