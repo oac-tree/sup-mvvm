@@ -35,7 +35,7 @@ class SessionModelInterface;
 class ProjectInterface;
 struct ProjectContext;
 
-namespace ProjectUtils
+namespace utils
 {
 
 /**

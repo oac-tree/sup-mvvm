@@ -57,65 +57,63 @@ public:
 TEST_F(ProjectUtilsTests, SuggestFileName)
 {
   ApplicationModel model("TestModel");
-  EXPECT_EQ(std::string("testmodel.xml"), ProjectUtils::SuggestFileName(model));
+  EXPECT_EQ(std::string("testmodel.xml"), utils::SuggestFileName(model));
 }
 
 TEST_F(ProjectUtilsTests, CreateUntitledProject)
 {
-  auto project = ProjectUtils::CreateUntitledProject(createContext());
+  auto project = utils::CreateUntitledProject(createContext());
   EXPECT_TRUE(project->GetProjectDir().empty());
 }
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitle)
 {
   // untitled and unmodified project
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string(""), false), "Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(std::string(""), false), "Untitled");
 
   // untitled and modified project
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string(""), true), "*Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(std::string(""), true), "*Untitled");
 
   // unmodified project without projectDir
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("Untitled"), false), "Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(std::string("Untitled"), false), "Untitled");
 
   // modified project without projectDir
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("Untitled"), true), "*Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(std::string("Untitled"), true), "*Untitled");
 
   // unmodified project with projectDir
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("/home/user/project1"), false),
-            "project1");
+  EXPECT_EQ(utils::ProjectWindowTitle(std::string("/home/user/project1"), false), "project1");
 
   // modified project with projectDir
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(std::string("/home/user/project1"), true),
-            "*project1");
+  EXPECT_EQ(utils::ProjectWindowTitle(std::string("/home/user/project1"), true), "*project1");
 }
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
 {
-  auto project = ProjectUtils::CreateUntitledProject(createContext());
+  auto project = utils::CreateUntitledProject(createContext());
 
   // unmodified project without projectDir
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(*project), "Untitled");
 
   sample_model->InsertItem<PropertyItem>();
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "*Untitled");
+  EXPECT_EQ(utils::ProjectWindowTitle(*project), "*Untitled");
 
   // saving in a project directory
   project->Save(GetTestHomeDir());
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), GetTestHomeDirName());
+  EXPECT_EQ(utils::ProjectWindowTitle(*project), GetTestHomeDirName());
 
   // modifying
   sample_model->InsertItem<PropertyItem>();
-  EXPECT_EQ(ProjectUtils::ProjectWindowTitle(*project), "*" + GetTestHomeDirName());
+  EXPECT_EQ(utils::ProjectWindowTitle(*project), "*" + GetTestHomeDirName());
 }
 
 TEST_F(ProjectUtilsTests, IsPossibleProjectDir)
 {
-  auto project = ProjectUtils::CreateUntitledProject(createContext());
+  auto project = utils::CreateUntitledProject(createContext());
 
   // empty directory can't be a project directory
   auto dirname = CreateEmptyDir("test_IsPossibleProjectDir");
-  EXPECT_FALSE(ProjectUtils::IsPossibleProjectDir(dirname));
+  EXPECT_FALSE(utils::IsPossibleProjectDir(dirname));
 
   project->Save(dirname);
-  EXPECT_TRUE(ProjectUtils::IsPossibleProjectDir(dirname));
+  EXPECT_TRUE(utils::IsPossibleProjectDir(dirname));
 }

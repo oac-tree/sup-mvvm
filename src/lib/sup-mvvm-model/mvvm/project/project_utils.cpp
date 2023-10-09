@@ -32,32 +32,32 @@ const std::string xml_extention = ".xml";
 const std::string untitled_name = "Untitled";
 }  // namespace
 
-namespace mvvm
+namespace mvvm::utils
 {
 
-std::string ProjectUtils::SuggestFileName(const SessionModelInterface& model)
+std::string SuggestFileName(const SessionModelInterface& model)
 {
   std::string result = model.GetType();
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);
   return result + xml_extention;
 }
 
-bool ProjectUtils::IsPossibleProjectDir(const std::string& project_dir)
+bool IsPossibleProjectDir(const std::string& project_dir)
 {
   return !utils::FindFiles(project_dir, xml_extention).empty();
 }
 
-std::unique_ptr<ProjectInterface> ProjectUtils::CreateUntitledProject(const ProjectContext& context)
+std::unique_ptr<ProjectInterface> CreateUntitledProject(const ProjectContext& context)
 {
   return std::make_unique<Project>(context);
 }
 
-std::string ProjectUtils::ProjectWindowTitle(const ProjectInterface& project)
+std::string ProjectWindowTitle(const ProjectInterface& project)
 {
   return ProjectWindowTitle(project.GetProjectDir(), project.IsModified());
 }
 
-std::string ProjectUtils::ProjectWindowTitle(const std::string& project_dir, bool is_modified)
+std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified)
 {
   auto pos = project_dir.find_last_of('/');
   auto project_name = (pos == std::string::npos ? untitled_name : project_dir.substr(pos + 1));
@@ -65,4 +65,4 @@ std::string ProjectUtils::ProjectWindowTitle(const std::string& project_dir, boo
   return unsaved_status + project_name;
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::utils

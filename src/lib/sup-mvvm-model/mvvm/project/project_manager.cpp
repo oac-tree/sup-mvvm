@@ -46,7 +46,7 @@ struct ProjectManager::ProjectManagerImpl
   //! saved.
   void CreateNewProject()
   {
-    m_current_project = ProjectUtils::CreateUntitledProject(m_project_context);
+    m_current_project = utils::CreateUntitledProject(m_project_context);
   }
 
   //! Returns true if the project has directory already defined.

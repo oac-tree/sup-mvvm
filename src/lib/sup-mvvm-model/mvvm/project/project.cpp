@@ -58,7 +58,7 @@ struct Project::ProjectImpl
     for (auto model : GetModels())
     {
       auto document = CreateXmlDocument({model});
-      auto filename = utils::Join(dirname, ProjectUtils::SuggestFileName(*model));
+      auto filename = utils::Join(dirname, utils::SuggestFileName(*model));
       std::invoke(method, document, filename);
     }
     m_project_dir = dirname;
