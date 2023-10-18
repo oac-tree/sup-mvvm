@@ -19,6 +19,8 @@
 
 #include "mvvm/viewmodel/viewmodel_controller.h"
 
+#include <mvvm/core/exceptions.h>
+#include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/sessionitem.h>
@@ -44,14 +46,17 @@ class ViewModelControllerTests : public ::testing::Test
 public:
   ViewModelControllerTests() {}
 
-  std::unique_ptr<ViewModelController> CreateController(SessionModelInterface& model,
-                                                        ViewModelBase& view_model)
+  std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface& model,
+                                                                ViewModelBase& view_model)
   {
-    auto result = std::make_unique<ViewModelController>(&view_model);
-    result->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-    result->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    result->SetModel(&model);
-    return result;
+    return factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(&model,
+                                                                                &view_model);
+  }
+
+  std::unique_ptr<AbstractViewModelController> CreateController(ViewModelBase& view_model)
+  {
+    return factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(nullptr,
+                                                                                &view_model);
   }
 
   //! Returns underlying SessionItem from given ViewItem
@@ -100,8 +105,7 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
 {
   // should throw if input parameters are invalid
   {
-    ViewModelController controller(nullptr);
-    EXPECT_THROW(controller.SetRootItem(nullptr), std::runtime_error);
+    EXPECT_THROW(ViewModelController({}), RuntimeException);
   }
 
   // current approach: if ViewModel is not-empty, it will be cleaned up
@@ -110,10 +114,10 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
     std::vector<std::unique_ptr<mvvm::ViewItem>> children;
     children.emplace_back(std::make_unique<mvvm::ViewItem>());
     viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
-    ViewModelController controller(&viewmodel);
-    controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-    controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-    EXPECT_NO_THROW(controller.SetRootItem(m_model.GetRootItem()));
+
+    auto controller = CreateController(viewmodel);
+
+    EXPECT_NO_THROW(controller->SetRootItem(m_model.GetRootItem()));
     EXPECT_EQ(viewmodel.rowCount(), 0);
     EXPECT_EQ(viewmodel.columnCount(), 0);
   }
@@ -197,10 +201,8 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
   vector_item->SetY(2.0);
   vector_item->SetZ(3.0);
 
-  ViewModelController controller(&m_viewmodel);
-  controller.SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-  controller.SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-  controller.SetRootItem(vector_item);
+  auto controller = CreateController(m_viewmodel);
+  controller->SetRootItem(vector_item);
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 3);

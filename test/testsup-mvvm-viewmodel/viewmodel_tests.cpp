@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/factories/viewmodel_controller_factory.h"
 #include "mvvm/viewmodel/standard_children_strategies.h"
 #include "mvvm/viewmodel/standard_row_strategies.h"
 #include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/viewmodel/viewmodel_controller.h"
 #include "mvvm/viewmodelbase/viewitem.h"
 
 #include <mvvm/model/application_model.h>
@@ -47,10 +47,8 @@ public:
   public:
     explicit TestViewModel(SessionModel *model)
     {
-      auto controller = std::make_unique<ViewModelController>(this);
-      controller->SetChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-      controller->SetRowStrategy(std::make_unique<LabelDataRowStrategy>());
-      controller->SetModel(model);
+      auto controller =
+          factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this);
       SetController(std::move(controller));
     }
   };

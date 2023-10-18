@@ -23,17 +23,23 @@
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/viewmodel/viewmodel_controller_impl.h>
 
+#include <mvvm/core/exceptions.h>
+
 namespace mvvm
 {
 
-ViewModelController::ViewModelController(ViewModelBase *view_model)
-    : p_impl(std::make_unique<ViewModelControllerImpl>(view_model))
-{
-}
+//ViewModelController::ViewModelController(ViewModelBase *view_model)
+//    : p_impl(std::make_unique<ViewModelControllerImpl>(view_model))
+//{
+//}
 
 ViewModelController::ViewModelController(std::unique_ptr<IViewModelController> impl)
     : p_impl(std::move(impl))
 {
+  if (!p_impl)
+  {
+    throw RuntimeException("Invalid controller");
+  }
 }
 
 ViewModelController::~ViewModelController() = default;

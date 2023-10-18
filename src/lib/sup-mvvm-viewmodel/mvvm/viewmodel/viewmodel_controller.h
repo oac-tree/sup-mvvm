@@ -36,8 +36,8 @@ class ViewModelControllerImpl;
 //!
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
-public:  
-  explicit ViewModelController(ViewModelBase* view_model);
+public:
+//  explicit ViewModelController(ViewModelBase* view_model);
 
   explicit ViewModelController(std::unique_ptr<IViewModelController> impl);
 
