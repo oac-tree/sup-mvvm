@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_controller_impl.h"
+#include "mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -34,21 +34,21 @@ using namespace mvvm;
 
 //! Tests for ViewModelControllerImpl class.
 
-class ViewModelControllerImplTests : public ::testing::Test
+class ViewModelControllerVirtualParentImplTests : public ::testing::Test
 {
 public:
   template <typename ChildrenT, typename RowT>
-  std::unique_ptr<ViewModelControllerImpl> CreateController(ViewModelBase* view_model)
+  std::unique_ptr<ViewModelControllerVirtualParentImpl> CreateController(ViewModelBase* view_model)
   {
     auto children_strategy = std::make_unique<ChildrenT>();
     auto row_strategy = std::make_unique<RowT>();
-    auto result = std::make_unique<ViewModelControllerImpl>(
+    auto result = std::make_unique<ViewModelControllerVirtualParentImpl>(
         view_model, std::move(children_strategy), std::move(row_strategy));
     return result;
   }
 
   template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
-  std::unique_ptr<ViewModelControllerImpl> CreateController()
+  std::unique_ptr<ViewModelControllerVirtualParentImpl> CreateController()
   {
     return CreateController<ChildrenT, RowT>(&m_viewmodel);
   }
@@ -57,7 +57,7 @@ public:
   ViewModelBase m_viewmodel;
 };
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
+TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromSingleItem)
 {
   auto controller = CreateController();
 
@@ -80,7 +80,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
 
 //! Validate CreateRow() method for VectorItem.
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
+TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromVectorItem)
 {
   auto controller = CreateController();
 
@@ -148,7 +148,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
 
 //! Validate CreateRow() method for VectorItem with hidden coordinate.
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItemWithHiddenCoordinate)
+TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromVectorItemWithHiddenCoordinate)
 {
   // controller that filters out hidden item thanks to PropertyItemsStrategy
   auto controller = CreateController<PropertyItemsStrategy, LabelDataRowStrategy>();
@@ -206,7 +206,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItemWithHiddenCoordinate
 
 //! Validate CreateRow() method for compound item with child and grandchild.
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
+TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromCompoundItem)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent");
@@ -273,7 +273,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
   EXPECT_EQ(length_view1->data(Qt::EditRole).toInt(), 44);
 }
 
-TEST_F(ViewModelControllerImplTests, SetItem)
+TEST_F(ViewModelControllerVirtualParentImplTests, SetItem)
 {
   auto controller = CreateController();
 
