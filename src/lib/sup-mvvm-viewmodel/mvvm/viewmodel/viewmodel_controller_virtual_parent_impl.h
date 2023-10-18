@@ -49,10 +49,6 @@ public:
                                    std::unique_ptr<ChildrenStrategyInterface> children_strategy,
                                    std::unique_ptr<RowStrategyInterface> row_strategy);
 
-  void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
-
-  void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
-
   void OnModelEvent(const AboutToInsertItemEvent &event) override;
 
   void OnModelEvent(const ItemInsertedEvent &event) override;

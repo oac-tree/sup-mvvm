@@ -42,17 +42,6 @@ ViewModelControllerVirtualParentImpl::ViewModelControllerVirtualParentImpl(
 {
 }
 
-void ViewModelControllerVirtualParentImpl::SetChildrenStrategy(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
-{
-  m_children_strategy = std::move(children_strategy);
-}
-
-void ViewModelControllerVirtualParentImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
-{
-  m_row_strategy = std::move(row_strategy);
-}
-
 void ViewModelControllerVirtualParentImpl::OnModelEvent(const AboutToInsertItemEvent &event)
 {
   // nothing to do
