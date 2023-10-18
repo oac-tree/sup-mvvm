@@ -19,19 +19,10 @@
 
 #include "mvvm/viewmodel/viewmodel_controller.h"
 
-#include <mvvm/interfaces/children_strategy_interface.h>
-#include <mvvm/interfaces/row_strategy_interface.h>
-#include <mvvm/viewmodel/viewmodel_controller_impl.h>
-
 #include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
-
-//ViewModelController::ViewModelController(ViewModelBase *view_model)
-//    : p_impl(std::make_unique<ViewModelControllerImpl>(view_model))
-//{
-//}
 
 ViewModelController::ViewModelController(std::unique_ptr<IViewModelController> impl)
     : p_impl(std::move(impl))
@@ -43,17 +34,6 @@ ViewModelController::ViewModelController(std::unique_ptr<IViewModelController> i
 }
 
 ViewModelController::~ViewModelController() = default;
-
-void ViewModelController::SetChildrenStrategy(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
-{
-  p_impl->SetChildrenStrategy(std::move(children_strategy));
-}
-
-void ViewModelController::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
-{
-  p_impl->SetRowStrategy(std::move(row_strategy));
-}
 
 void ViewModelController::OnModelEvent(const ItemInsertedEvent &event)
 {

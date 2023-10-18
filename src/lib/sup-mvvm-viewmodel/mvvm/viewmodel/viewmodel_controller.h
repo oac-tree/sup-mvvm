@@ -26,26 +26,17 @@
 
 namespace mvvm
 {
-class SessionModelInterface;
-class ViewModelBase;
-class ChildrenStrategyInterface;
-class RowStrategyInterface;
-class ViewModelControllerImpl;
 
-//! Propagates changes from SessionModel to its ViewModelBase.
-//!
+/**
+ * @brief The ViewModelController class propagates changes from SessionModel to ViewModel.
+ */
+
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
 public:
-//  explicit ViewModelController(ViewModelBase* view_model);
-
   explicit ViewModelController(std::unique_ptr<IViewModelController> impl);
 
   ~ViewModelController() override;
-
-  void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
-
-  void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
 
   void OnModelEvent(const ItemInsertedEvent& event) override;
 
