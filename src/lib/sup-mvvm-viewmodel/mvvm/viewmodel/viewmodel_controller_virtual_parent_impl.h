@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
-#define MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
+#ifndef MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_VIRTUAL_PARENT_IMPL_H_
+#define MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_VIRTUAL_PARENT_IMPL_H_
 
 #include <mvvm/model/path.h>
 #include <mvvm/model/tagindex.h>
@@ -38,12 +38,14 @@ class RowStrategyInterface;
 
 /**
  * @brief The ViewModelControllerImpl class contains implementation details for ViewModelController.
+ *
+ * @details This is a version which addresses virtual parentage issue.
  */
 
-class ViewModelControllerImpl : public IViewModelController
+class ViewModelControllerVirtualParentImpl : public IViewModelController
 {
 public:
-  explicit ViewModelControllerImpl(ViewModelBase *viewmodel,
+  explicit ViewModelControllerVirtualParentImpl(ViewModelBase *viewmodel,
                                    std::unique_ptr<ChildrenStrategyInterface> children_strategy,
                                    std::unique_ptr<RowStrategyInterface> row_strategy);
 
@@ -115,4 +117,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_H_
+#endif  // MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_VIRTUAL_PARENT_IMPL_H_

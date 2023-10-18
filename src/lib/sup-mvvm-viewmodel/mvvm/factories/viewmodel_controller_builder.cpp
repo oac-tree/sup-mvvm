@@ -23,7 +23,7 @@
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/viewmodel/viewmodel_controller.h>
-#include <mvvm/viewmodel/viewmodel_controller_impl.h>
+#include <mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h>
 
 #include <stdexcept>
 
@@ -50,8 +50,8 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
   {
     throw std::runtime_error("Model doesn't have an event handler.");
   }
-
-  auto controller_impl = std::make_unique<ViewModelControllerImpl>(
+  
+  auto controller_impl = std::make_unique<ViewModelControllerVirtualParentImpl>(
       m_context.view_model, std::move(m_context.children_strategy),
       std::move(m_context.row_strategy));
   auto result = std::make_unique<ViewModelController>(std::move(controller_impl));

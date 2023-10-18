@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "viewmodel_controller_impl.h"
+#include "viewmodel_controller_virtual_parent_impl.h"
 
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
@@ -33,7 +33,7 @@
 namespace mvvm
 {
 
-ViewModelControllerImpl::ViewModelControllerImpl(
+ViewModelControllerVirtualParentImpl::ViewModelControllerVirtualParentImpl(
     ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
     std::unique_ptr<RowStrategyInterface> row_strategy)
     : m_viewmodel(viewmodel)
@@ -42,23 +42,23 @@ ViewModelControllerImpl::ViewModelControllerImpl(
 {
 }
 
-void ViewModelControllerImpl::SetChildrenStrategy(
+void ViewModelControllerVirtualParentImpl::SetChildrenStrategy(
     std::unique_ptr<ChildrenStrategyInterface> children_strategy)
 {
   m_children_strategy = std::move(children_strategy);
 }
 
-void ViewModelControllerImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
+void ViewModelControllerVirtualParentImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
 {
   m_row_strategy = std::move(row_strategy);
 }
 
-void ViewModelControllerImpl::OnModelEvent(const AboutToInsertItemEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const AboutToInsertItemEvent &event)
 {
   // nothing to do
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const ItemInsertedEvent &event)
 {
   const auto added_item = event.m_item->GetItem(event.m_tag_index);
 
@@ -85,7 +85,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
   const auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
 
@@ -112,12 +112,12 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   utils::iterate(item_to_remove, remove_item_func);
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ItemRemovedEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const ItemRemovedEvent &event)
 {
   // nothing to do
 }
 
-void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const DataChangedEvent &event)
 {
   for (auto view : utils::FindViewsForItem(m_viewmodel, event.m_item))
   {
@@ -129,7 +129,7 @@ void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const ModelAboutToBeResetEvent &event)
 {
   (void)event;
   // Here we are notified that the model content will be destroyed soon.
@@ -139,7 +139,7 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event
   m_viewmodel->BeginResetModelNotify();
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const ModelResetEvent &event)
 {
   auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
 
@@ -152,19 +152,19 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
   m_viewmodel->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
+void ViewModelControllerVirtualParentImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
 {
   (void)event;
   m_root_item_path = {};
   m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
-const SessionItem *ViewModelControllerImpl::GetRootItem() const
+const SessionItem *ViewModelControllerVirtualParentImpl::GetRootItem() const
 {
   return utils::GetItemFromView<SessionItem>(m_viewmodel->rootItem());
 }
 
-void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
+void ViewModelControllerVirtualParentImpl::SetRootItem(SessionItem *root_item)
 {
   CheckInitialState();
 
@@ -183,12 +183,12 @@ void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
   }
 }
 
-QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
+QStringList ViewModelControllerVirtualParentImpl::GetHorizontalHeaderLabels() const
 {
   return m_row_strategy->GetHorizontalHeaderLabels();
 }
 
-void ViewModelControllerImpl::CheckInitialState() const
+void ViewModelControllerVirtualParentImpl::CheckInitialState() const
 {
   if (!m_viewmodel)
   {
@@ -206,7 +206,7 @@ void ViewModelControllerImpl::CheckInitialState() const
   }
 }
 
-int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *const parent,
+int ViewModelControllerVirtualParentImpl::GetInsertViewIndexOfChild(const SessionItem *const parent,
                                                        const SessionItem *const child) const
 {
   // children that should get their views
@@ -215,7 +215,7 @@ int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *const 
   return utils::IndexOfItem(children, child);
 }
 
-std::tuple<ViewItem *, int> ViewModelControllerImpl::GetParentViewAndIndex(
+std::tuple<ViewItem *, int> ViewModelControllerVirtualParentImpl::GetParentViewAndIndex(
     const SessionItem *const item) const
 {
   const auto root_item = GetRootItem();
@@ -235,7 +235,7 @@ std::tuple<ViewItem *, int> ViewModelControllerImpl::GetParentViewAndIndex(
              : std::make_tuple(nullptr, -1);
 }
 
-std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(
+std::vector<std::unique_ptr<ViewItem> > ViewModelControllerVirtualParentImpl::CreateTreeOfRows(
     SessionItem &item, const bool is_root)
 {
   // Every SessionItem will be represented by the vector of ViewItem's.  The first element of this
@@ -300,14 +300,14 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
   return row_of_views;
 }
 
-ViewItemMap &ViewModelControllerImpl::GetViewItemMap()
+ViewItemMap &ViewModelControllerVirtualParentImpl::GetViewItemMap()
 {
   return m_view_item_map;
 }
 
 //! Returns true if given SessionItem role is valid for view
 
-bool ViewModelControllerImpl::isValidItemRole(const ViewItem *const view, const int item_role) const
+bool ViewModelControllerVirtualParentImpl::isValidItemRole(const ViewItem *const view, const int item_role) const
 {
   if (const auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item());
       presentation)

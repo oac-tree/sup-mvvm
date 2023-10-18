@@ -18,7 +18,7 @@
  *****************************************************************************/
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 #include "mvvm/viewmodel/viewmodel_controller.h"
-#include "mvvm/viewmodel/viewmodel_controller_impl.h"
+#include "mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/interfaces/children_strategy_interface.h>

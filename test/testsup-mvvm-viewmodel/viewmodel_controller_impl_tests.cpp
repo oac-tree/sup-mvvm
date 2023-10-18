@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_controller_impl.h"
+#include "mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -38,17 +38,17 @@ class ViewModelControllerImplTests : public ::testing::Test
 {
 public:
   template <typename ChildrenT, typename RowT>
-  std::unique_ptr<ViewModelControllerImpl> CreateController(ViewModelBase* view_model)
+  std::unique_ptr<ViewModelControllerVirtualParentImpl> CreateController(ViewModelBase* view_model)
   {
     auto children_strategy = std::make_unique<ChildrenT>();
     auto row_strategy = std::make_unique<RowT>();
-    auto result = std::make_unique<ViewModelControllerImpl>(
+    auto result = std::make_unique<ViewModelControllerVirtualParentImpl>(
         view_model, std::move(children_strategy), std::move(row_strategy));
     return result;
   }
 
   template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
-  std::unique_ptr<ViewModelControllerImpl> CreateController()
+  std::unique_ptr<ViewModelControllerVirtualParentImpl> CreateController()
   {
     return CreateController<ChildrenT, RowT>(&m_viewmodel);
   }
