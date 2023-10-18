@@ -20,7 +20,6 @@
 #ifndef MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
 #define MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
 
-#include <mvvm/signals/event_types.h>
 #include <mvvm/viewmodel/i_viewmodel_controller.h>
 
 #include <memory>
@@ -49,9 +48,9 @@ public:
   AbstractViewModelController(AbstractViewModelController&& other) = delete;
   AbstractViewModelController& operator=(AbstractViewModelController&&) = delete;
 
-  void SetModel(SessionModelInterface* model) override;
+  const SessionModelInterface* GetModel() const;
 
-  const SessionModelInterface* GetModel() const override;
+  void SetModel(SessionModelInterface* model);
 
   void OnModelEvent(const AboutToInsertItemEvent& event) override;
 

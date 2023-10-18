@@ -65,9 +65,10 @@ public:
 
   QModelIndexList GetIndexOfSessionItem(const SessionItem* item) const;
 
+  AbstractViewModelController* Controller();
+
 protected:
   void SetController(std::unique_ptr<AbstractViewModelController> controller);
-  AbstractViewModelController* Controller();
 
 private:
   void ValidateController() const;

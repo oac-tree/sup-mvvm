@@ -49,6 +49,11 @@ void ViewModelControllerImpl::SetRowStrategy(std::unique_ptr<RowStrategyInterfac
   m_row_strategy = std::move(row_strategy);
 }
 
+void ViewModelControllerImpl::OnModelEvent(const AboutToInsertItemEvent &event)
+{
+  // nothing to do
+}
+
 void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
 {
   const auto added_item = event.m_item->GetItem(event.m_tag_index);
@@ -101,6 +106,11 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   };
   // Remove views for all children of the item being removed
   utils::iterate(item_to_remove, remove_item_func);
+}
+
+void ViewModelControllerImpl::OnModelEvent(const ItemRemovedEvent &event)
+{
+  // nothing to do
 }
 
 void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
@@ -222,7 +232,7 @@ std::tuple<ViewItem *, int> ViewModelControllerImpl::GetParentViewAndIndex(
 }
 
 std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRows(
-    SessionItem & item, const bool is_root)
+    SessionItem &item, const bool is_root)
 {
   // Every SessionItem will be represented by the vector of ViewItem's.  The first element of this
   // vector plays the role of parent view for SessionItem's children. So it might contain another

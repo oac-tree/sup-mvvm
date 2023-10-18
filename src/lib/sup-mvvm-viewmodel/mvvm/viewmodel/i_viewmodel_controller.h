@@ -42,15 +42,15 @@ class MVVM_VIEWMODEL_EXPORT IViewModelController
 public:
   virtual ~IViewModelController() = default;
 
-  /**
-   * @brief Sets the model to listen.
-   */
-  virtual void SetModel(SessionModelInterface* model) = 0;
+//  /**
+//   * @brief Returns the model served by this controller.
+//   */
+//  virtual const SessionModelInterface* GetModel() const = 0;
 
-  /**
-   * @brief Returns the model served by this controller.
-   */
-  virtual const SessionModelInterface* GetModel() const = 0;
+//  /**
+//   * @brief Sets the model to listen.
+//   */
+//  virtual void SetModel(SessionModelInterface* model) = 0;
 
   /**
    * @brief Lets the controller know that a child is about to be inserted into the parent.
@@ -94,14 +94,14 @@ public:
   virtual void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) = 0;
 
   /**
-   * @brief Sets an item as a new root item.
-   */
-  virtual void SetRootItem(SessionItem* root_item) = 0;
-
-  /**
    * @brief Returns current root item.
    */
   virtual const SessionItem* GetRootItem() const = 0;
+
+  /**
+   * @brief Sets an item as a new root item.
+   */
+  virtual void SetRootItem(SessionItem* root_item) = 0;
 
   /**
    * @brief Returns list representing horizontal labels.

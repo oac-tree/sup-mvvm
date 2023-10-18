@@ -22,10 +22,9 @@
 
 #include <mvvm/model/path.h>
 #include <mvvm/model/tagindex.h>
-#include <mvvm/signals/event_types.h>
 #include <mvvm/viewmodel/viewitem_map.h>
+#include <mvvm/viewmodel/i_viewmodel_controller.h>
 
-#include <QStringList>
 #include <memory>
 #include <tuple>
 
@@ -41,38 +40,42 @@ class RowStrategyInterface;
  * @brief The ViewModelControllerImpl class contains implementation details for ViewModelController.
  */
 
-class ViewModelControllerImpl
+class ViewModelControllerImpl : public IViewModelController
 {
 public:
-  ViewModelControllerImpl(ViewModelBase *view_model);
+  explicit ViewModelControllerImpl(ViewModelBase *view_model);
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
 
   void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
 
-  void OnModelEvent(const ItemInsertedEvent &event);
+  void OnModelEvent(const AboutToInsertItemEvent &event) override;
 
-  void OnModelEvent(const AboutToRemoveItemEvent &event);
+  void OnModelEvent(const ItemInsertedEvent &event) override;
 
-  void OnModelEvent(const DataChangedEvent &event);
+  void OnModelEvent(const AboutToRemoveItemEvent &event) override;
 
-  void OnModelEvent(const ModelResetEvent &event);
+  void OnModelEvent(const ItemRemovedEvent& event) override;
 
-  void OnModelEvent(const ModelAboutToBeResetEvent &event);
+  void OnModelEvent(const DataChangedEvent &event) override;
 
-  void OnModelEvent(const ModelAboutToBeDestroyedEvent &event);
+  void OnModelEvent(const ModelResetEvent &event) override;
+
+  void OnModelEvent(const ModelAboutToBeResetEvent &event) override;
+
+  void OnModelEvent(const ModelAboutToBeDestroyedEvent &event) override;
 
   /**
    * @brief Returns current root item.
    */
-  const SessionItem *GetRootItem() const;
+  const SessionItem *GetRootItem() const override;
 
   /**
    * @brief Sets new root item.
    */
-  void SetRootItem(SessionItem *root_item);
+  void SetRootItem(SessionItem *root_item) override;
 
-  QStringList GetHorizontalHeaderLabels() const;
+  QStringList GetHorizontalHeaderLabels() const  override;
 
   void CheckInitialState() const;
 
