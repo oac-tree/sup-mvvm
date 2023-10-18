@@ -31,6 +31,11 @@ ViewModelController::ViewModelController(ViewModelBase *view_model)
 {
 }
 
+ViewModelController::ViewModelController(std::unique_ptr<IViewModelController> impl)
+    : p_impl(std::move(impl))
+{
+}
+
 ViewModelController::~ViewModelController() = default;
 
 void ViewModelController::SetChildrenStrategy(

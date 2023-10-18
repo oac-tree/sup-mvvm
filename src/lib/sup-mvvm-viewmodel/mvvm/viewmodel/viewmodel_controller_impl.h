@@ -22,8 +22,8 @@
 
 #include <mvvm/model/path.h>
 #include <mvvm/model/tagindex.h>
-#include <mvvm/viewmodel/viewitem_map.h>
 #include <mvvm/viewmodel/i_viewmodel_controller.h>
+#include <mvvm/viewmodel/viewitem_map.h>
 
 #include <memory>
 #include <tuple>
@@ -43,7 +43,11 @@ class RowStrategyInterface;
 class ViewModelControllerImpl : public IViewModelController
 {
 public:
-  explicit ViewModelControllerImpl(ViewModelBase *view_model);
+  explicit ViewModelControllerImpl(ViewModelBase *viewmodel);
+
+  explicit ViewModelControllerImpl(ViewModelBase *viewmodel,
+                                   std::unique_ptr<ChildrenStrategyInterface> children_strategy,
+                                   std::unique_ptr<RowStrategyInterface> row_strategy);
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
 
@@ -55,7 +59,7 @@ public:
 
   void OnModelEvent(const AboutToRemoveItemEvent &event) override;
 
-  void OnModelEvent(const ItemRemovedEvent& event) override;
+  void OnModelEvent(const ItemRemovedEvent &event) override;
 
   void OnModelEvent(const DataChangedEvent &event) override;
 
@@ -75,7 +79,7 @@ public:
    */
   void SetRootItem(SessionItem *root_item) override;
 
-  QStringList GetHorizontalHeaderLabels() const  override;
+  QStringList GetHorizontalHeaderLabels() const override;
 
   void CheckInitialState() const;
 
@@ -104,7 +108,7 @@ public:
   bool isValidItemRole(const ViewItem *view, int item_role) const;
 
 private:
-  ViewModelBase *m_view_model{nullptr};
+  ViewModelBase *m_viewmodel{nullptr};
   ViewItemMap m_view_item_map;
   std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
   std::unique_ptr<RowStrategyInterface> m_row_strategy;

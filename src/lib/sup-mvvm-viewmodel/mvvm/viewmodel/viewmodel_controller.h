@@ -36,8 +36,11 @@ class ViewModelControllerImpl;
 //!
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
-public:
+public:  
   explicit ViewModelController(ViewModelBase* view_model);
+
+  explicit ViewModelController(std::unique_ptr<IViewModelController> impl);
+
   ~ViewModelController() override;
 
   void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
@@ -63,7 +66,7 @@ public:
 private:
   void SetRootItemImpl(SessionItem* root_item) override;
 
-  std::unique_ptr<ViewModelControllerImpl> p_impl;
+  std::unique_ptr<IViewModelController> p_impl;
 };
 
 }  // namespace mvvm

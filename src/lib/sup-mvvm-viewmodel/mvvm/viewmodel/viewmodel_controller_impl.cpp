@@ -33,8 +33,16 @@
 namespace mvvm
 {
 
-ViewModelControllerImpl::ViewModelControllerImpl(ViewModelBase *view_model)
-    : m_view_model(view_model)
+ViewModelControllerImpl::ViewModelControllerImpl(ViewModelBase *viewmodel)
+    : m_viewmodel(viewmodel)
+{
+}
+
+ViewModelControllerImpl::ViewModelControllerImpl(ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
+    std::unique_ptr<RowStrategyInterface> row_strategy)
+    : m_viewmodel(viewmodel)
+    , m_children_strategy(std::move(children_strategy))
+    , m_row_strategy(std::move(row_strategy))
 {
 }
 
@@ -67,7 +75,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
     const auto [parent_view, insert_view_index] = GetParentViewAndIndex(item);
     if (parent_view != nullptr)
     {
-      m_view_model->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*item));
+      m_viewmodel->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*item));
       continue;
     }
 
@@ -91,7 +99,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
     // or root item itself
     m_root_item_path = {};
     m_view_item_map.Clear();
-    m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
+    m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
     return;
   }
 
@@ -100,7 +108,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
     const auto view = m_view_item_map.FindView(item);
     if (view)
     {
-      m_view_model->removeRow(view->parent(), view->row());
+      m_viewmodel->removeRow(view->parent(), view->row());
       m_view_item_map.OnItemRemove(item);
     }
   };
@@ -115,12 +123,12 @@ void ViewModelControllerImpl::OnModelEvent(const ItemRemovedEvent &event)
 
 void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
 {
-  for (auto view : utils::FindViewsForItem(m_view_model, event.m_item))
+  for (auto view : utils::FindViewsForItem(m_viewmodel, event.m_item))
   {
     if (isValidItemRole(view, event.m_data_role))
     {
-      auto index = m_view_model->indexFromItem(view);
-      emit m_view_model->dataChanged(index, index, utils::ItemRoleToQtRole(event.m_data_role));
+      auto index = m_viewmodel->indexFromItem(view);
+      emit m_viewmodel->dataChanged(index, index, utils::ItemRoleToQtRole(event.m_data_role));
     }
   }
 }
@@ -132,7 +140,7 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event
   // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
   // emit internal QAbstractViewModel::beginResetModel already now, while `model` content is still
   // alive.
-  m_view_model->BeginResetModelNotify();
+  m_viewmodel->BeginResetModelNotify();
 }
 
 void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
@@ -143,21 +151,21 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
   m_root_item_path = utils::PathFromItem(custom_root_item);
 
   m_view_item_map.Clear();
-  m_view_model->ResetRootViewItem(std::move(CreateTreeOfRows(*root_item, true).at(0)),
+  m_viewmodel->ResetRootViewItem(std::move(CreateTreeOfRows(*root_item, true).at(0)),
                                   /*notify*/ false);
-  m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
+  m_viewmodel->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
 void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
 {
   (void)event;
   m_root_item_path = {};
-  m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
+  m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
 const SessionItem *ViewModelControllerImpl::GetRootItem() const
 {
-  return utils::GetItemFromView<SessionItem>(m_view_model->rootItem());
+  return utils::GetItemFromView<SessionItem>(m_viewmodel->rootItem());
 }
 
 void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
@@ -169,13 +177,13 @@ void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
     m_root_item_path = utils::PathFromItem(root_item);
     m_view_item_map.Clear();
     auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
-    m_view_model->ResetRootViewItem(std::move(root_view_item));
+    m_viewmodel->ResetRootViewItem(std::move(root_view_item));
   }
   else
   {
     m_view_item_map.Clear();
     m_root_item_path = {};
-    m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
+    m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
   }
 }
 
@@ -186,7 +194,7 @@ QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
 
 void ViewModelControllerImpl::CheckInitialState() const
 {
-  if (!m_view_model)
+  if (!m_viewmodel)
   {
     throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
   }

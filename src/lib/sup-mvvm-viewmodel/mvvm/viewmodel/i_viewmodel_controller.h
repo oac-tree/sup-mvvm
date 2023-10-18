@@ -30,6 +30,8 @@ namespace mvvm
 {
 
 class SessionModelInterface;
+class ChildrenStrategyInterface;
+class RowStrategyInterface;
 
 /**
  * @brief The IViewModelController class is a base class for all ViewModel controllers.
@@ -51,6 +53,11 @@ public:
 //   * @brief Sets the model to listen.
 //   */
 //  virtual void SetModel(SessionModelInterface* model) = 0;
+
+  virtual void SetChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy) {};
+
+  virtual void SetRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy) {};
+
 
   /**
    * @brief Lets the controller know that a child is about to be inserted into the parent.
