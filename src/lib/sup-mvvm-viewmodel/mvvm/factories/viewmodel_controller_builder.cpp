@@ -50,7 +50,7 @@ ViewModelControllerBuilder::operator std::unique_ptr<AbstractViewModelController
   {
     throw std::runtime_error("Model doesn't have an event handler.");
   }
-  
+
   auto controller_impl = std::make_unique<ViewModelControllerVirtualParentImpl>(
       m_context.view_model, std::move(m_context.children_strategy),
       std::move(m_context.row_strategy));
