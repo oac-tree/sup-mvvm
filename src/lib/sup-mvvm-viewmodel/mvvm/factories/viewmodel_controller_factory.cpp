@@ -19,10 +19,10 @@
 
 #include "viewmodel_controller_factory.h"
 
-#include "viewmodel_controller_builder.h"
-
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/viewmodel/viewmodel_controller.h>
+#include <mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h>
 
 namespace mvvm::factory
 {
@@ -32,11 +32,17 @@ std::unique_ptr<AbstractViewModelController> CreateViewModelController(
     std::unique_ptr<RowStrategyInterface> row_strategy, SessionModelInterface *model,
     ViewModelBase *view_model)
 {
-  return mvvm::ViewModelControllerBuilder()
-      .SetModel(model)
-      .SetViewModel(view_model)
-      .SetChildrenStrategy(std::move(children_strategy))
-      .SetRowStrategy(std::move(row_strategy));
+  auto impl = std::make_unique<ViewModelControllerVirtualParentImpl>(
+      view_model, std::move(children_strategy), std::move(row_strategy));
+
+  auto result = std::make_unique<ViewModelController>(std::move(impl));
+
+  if (model)
+  {
+    result->SetModel(model);
+  }
+
+  return result;
 }
 
 }  // namespace mvvm::factory
