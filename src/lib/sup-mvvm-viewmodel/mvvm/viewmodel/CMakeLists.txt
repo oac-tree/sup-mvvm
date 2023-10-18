@@ -32,6 +32,8 @@ target_sources(${library_name} PRIVATE
   viewmodel_controller.h
   viewmodel_controller_virtual_parent_impl.cpp
   viewmodel_controller_virtual_parent_impl.h
+  viewmodel_controller_impl.cpp
+  viewmodel_controller_impl.h
   viewmodel_utils.cpp
   viewmodel_utils.h
   )
