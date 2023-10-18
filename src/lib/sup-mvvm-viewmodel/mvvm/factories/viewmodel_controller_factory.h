@@ -37,20 +37,22 @@ class ViewModelBase;
 namespace factory
 {
 
+struct ViewModelControllerFactoryContext
+{
+  std::unique_ptr<ChildrenStrategyInterface> children_strategy;
+  std::unique_ptr<RowStrategyInterface> row_strategy;
+  SessionModelInterface* model{nullptr};
+  ViewModelBase* view_model{nullptr};
+  bool virtual_parent{false};
+};
+
 /**
  * @brief Creates viewmodel controller.
  *
- * @param children_strategy The strategy to look for children.
- * @param row_strategy The strategy to construct the row.
- * @param model The model to listen.
- * @param view_model The view model to update.
+ * @param context The structure with parameters necessary for controller creation.
  */
 std::unique_ptr<AbstractViewModelController> CreateViewModelController(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy,
-    std::unique_ptr<RowStrategyInterface> row_strategy, SessionModelInterface* model,
-    ViewModelBase* view_model);
-
-//! Creates controller for view model using given strategies.
+    ViewModelControllerFactoryContext&& context);
 
 /**
  * @brief Creates viewmodel controller.
@@ -65,8 +67,25 @@ template <typename ChildrenStrategyT, typename RowStrategyT>
 std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface* model,
                                                               ViewModelBase* view_model)
 {
-  return CreateViewModelController(std::make_unique<ChildrenStrategyT>(),
-                                   std::make_unique<RowStrategyT>(), model, view_model);
+  return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
+                                    std::make_unique<RowStrategyT>(), model, view_model, false});
+}
+
+/**
+ * @brief Creates viewmodel controller capable to handle complex "virtual parent" scenario.
+ *
+ * @tparam ChildrenStrategyT The strategy to look for children.
+ * @taram RowStrategyT The strategy to construct the row.
+ *
+ * @param model The model to listen.
+ * @param view_model The view model to update.
+ */
+template <typename ChildrenStrategyT, typename RowStrategyT>
+std::unique_ptr<AbstractViewModelController> CreateVirtualParentController(
+    SessionModelInterface* model, ViewModelBase* view_model)
+{
+  return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
+                                    std::make_unique<RowStrategyT>(), model, view_model, true});
 }
 
 }  // namespace factory

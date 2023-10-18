@@ -22,24 +22,33 @@
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/viewmodel/viewmodel_controller.h>
+#include <mvvm/viewmodel/viewmodel_controller_impl.h>
 #include <mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h>
 
 namespace mvvm::factory
 {
 
 std::unique_ptr<AbstractViewModelController> CreateViewModelController(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy,
-    std::unique_ptr<RowStrategyInterface> row_strategy, SessionModelInterface *model,
-    ViewModelBase *view_model)
+    ViewModelControllerFactoryContext &&context)
 {
-  auto impl = std::make_unique<ViewModelControllerVirtualParentImpl>(
-      view_model, std::move(children_strategy), std::move(row_strategy));
+  std::unique_ptr<AbstractViewModelController> result;
 
-  auto result = std::make_unique<ViewModelController>(std::move(impl));
-
-  if (model)
+  if (context.virtual_parent)
   {
-    result->SetModel(model);
+    auto impl = std::make_unique<ViewModelControllerVirtualParentImpl>(
+        context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
+    result = std::make_unique<ViewModelController>(std::move(impl));
+  }
+  else
+  {
+    auto impl = std::make_unique<ViewModelControllerImpl>(
+        context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
+    result = std::make_unique<ViewModelController>(std::move(impl));
+  }
+
+  if (context.model)
+  {
+    result->SetModel(context.model);
   }
 
   return result;

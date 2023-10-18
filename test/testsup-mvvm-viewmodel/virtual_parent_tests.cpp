@@ -98,7 +98,8 @@ public:
       : ViewModel(parent)
   {
     SetController(
-        factory::CreateController<TestExcludeContainerStrategy, LabelDataRowStrategy>(model, this));
+        factory::CreateVirtualParentController<TestExcludeContainerStrategy, LabelDataRowStrategy>(
+            model, this));
   };
 };
 
@@ -119,10 +120,7 @@ public:
 class VirtualParentTests : public ::testing::Test
 {
 public:
-  void SetUp() override
-  {
-    m_model = std::make_unique<ApplicationModel>();
-  }
+  void SetUp() override { m_model = std::make_unique<ApplicationModel>(); }
 
 protected:
   std::unique_ptr<SessionModelInterface> m_model;
