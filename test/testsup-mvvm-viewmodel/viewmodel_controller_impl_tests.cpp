@@ -40,9 +40,10 @@ public:
   template <typename ChildrenT, typename RowT>
   std::unique_ptr<ViewModelControllerImpl> CreateController(ViewModelBase* view_model)
   {
-    auto result = std::make_unique<ViewModelControllerImpl>(view_model);
-    result->SetChildrenStrategy(std::make_unique<ChildrenT>());
-    result->SetRowStrategy(std::make_unique<RowT>());
+    auto children_strategy = std::make_unique<ChildrenT>();
+    auto row_strategy = std::make_unique<RowT>();
+    auto result = std::make_unique<ViewModelControllerImpl>(
+        view_model, std::move(children_strategy), std::move(row_strategy));
     return result;
   }
 

@@ -43,8 +43,6 @@ class RowStrategyInterface;
 class ViewModelControllerImpl : public IViewModelController
 {
 public:
-  explicit ViewModelControllerImpl(ViewModelBase *viewmodel);
-
   explicit ViewModelControllerImpl(ViewModelBase *viewmodel,
                                    std::unique_ptr<ChildrenStrategyInterface> children_strategy,
                                    std::unique_ptr<RowStrategyInterface> row_strategy);

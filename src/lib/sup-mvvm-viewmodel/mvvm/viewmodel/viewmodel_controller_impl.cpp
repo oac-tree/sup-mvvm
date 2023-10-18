@@ -33,12 +33,8 @@
 namespace mvvm
 {
 
-ViewModelControllerImpl::ViewModelControllerImpl(ViewModelBase *viewmodel)
-    : m_viewmodel(viewmodel)
-{
-}
-
-ViewModelControllerImpl::ViewModelControllerImpl(ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
+ViewModelControllerImpl::ViewModelControllerImpl(
+    ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
     std::unique_ptr<RowStrategyInterface> row_strategy)
     : m_viewmodel(viewmodel)
     , m_children_strategy(std::move(children_strategy))
@@ -152,7 +148,7 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 
   m_view_item_map.Clear();
   m_viewmodel->ResetRootViewItem(std::move(CreateTreeOfRows(*root_item, true).at(0)),
-                                  /*notify*/ false);
+                                 /*notify*/ false);
   m_viewmodel->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
