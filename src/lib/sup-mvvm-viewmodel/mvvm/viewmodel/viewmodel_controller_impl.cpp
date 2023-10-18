@@ -85,6 +85,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself
     m_root_item_path = {};
+    m_view_item_map.Clear();
     m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
     return;
   }
