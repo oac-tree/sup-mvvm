@@ -72,6 +72,10 @@ void AbstractViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEven
 
 void AbstractViewModelController::SetRootItem(SessionItem *root_item)
 {
+  // It will subscribe to model notifications, and regenerate view model according to child/row
+  // strategies. If an item is nullptr, will reset the view model, and unsubscribe from all
+  // SessionModel notifications. If same item was already set, will do nothing.
+
   if (!root_item)
   {
     Unsubscribe();

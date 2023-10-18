@@ -31,9 +31,6 @@ namespace mvvm
 
 class SessionModelInterface;
 
-template <typename T>
-class ModelListener;
-
 /**
  * @brief The IViewModelController class is a base class for all ViewModel controllers.
  *
@@ -43,7 +40,6 @@ class ModelListener;
 class MVVM_VIEWMODEL_EXPORT IViewModelController
 {
 public:
-  IViewModelController();
   virtual ~IViewModelController() = default;
 
   /**
@@ -100,7 +96,7 @@ public:
   /**
    * @brief Sets an item as a new root item.
    */
-  void SetRootItem(SessionItem* root_item);
+  virtual void SetRootItem(SessionItem* root_item) = 0;
 
   /**
    * @brief Returns current root item.
@@ -110,7 +106,7 @@ public:
   /**
    * @brief Returns list representing horizontal labels.
    */
-  virtual QStringList GetHorizontalHeaderLabels() const;
+  virtual QStringList GetHorizontalHeaderLabels() const = 0;
 };
 
 }  // namespace mvvm

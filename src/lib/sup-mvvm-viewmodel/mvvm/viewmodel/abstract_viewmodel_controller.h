@@ -21,9 +21,8 @@
 #define MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
 
 #include <mvvm/signals/event_types.h>
-#include <mvvm/viewmodel_export.h>
+#include <mvvm/viewmodel/i_viewmodel_controller.h>
 
-#include <QStringList>
 #include <memory>
 
 namespace mvvm
@@ -34,62 +33,45 @@ class SessionModelInterface;
 template <typename T>
 class ModelListener;
 
-//! Propagate changes
+/**
+ * @brief The AbstractViewModelController class partially implements IViewModelController interface
+ * and provides the logic to subscribe/unsubscribe from the model.
+ */
 
-class MVVM_VIEWMODEL_EXPORT AbstractViewModelController
+class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public IViewModelController
 {
 public:
   AbstractViewModelController();
-  virtual ~AbstractViewModelController();
+  ~AbstractViewModelController() override;
 
   AbstractViewModelController(const AbstractViewModelController& other) = delete;
   AbstractViewModelController& operator=(const AbstractViewModelController& other) = delete;
+  AbstractViewModelController(AbstractViewModelController&& other) = delete;
+  AbstractViewModelController& operator=(AbstractViewModelController&&) = delete;
 
-  void SetModel(SessionModelInterface* model);
+  void SetModel(SessionModelInterface* model) override;
 
-  const SessionModelInterface* GetModel() const;
+  const SessionModelInterface* GetModel() const override;
 
-  //! Lets the controller know that a child is about to be inserted into the parent.
-  virtual void OnModelEvent(const AboutToInsertItemEvent& event);
+  void OnModelEvent(const AboutToInsertItemEvent& event) override;
 
-  //! Lets the controller know that a child has been inserted into the parent.
-  virtual void OnModelEvent(const ItemInsertedEvent& event);
+  void OnModelEvent(const ItemInsertedEvent& event) override;
 
-  //! Lets the controller know that a child is about to be removed from the `parent`s position
-  //! `tag_index`.
-  virtual void OnModelEvent(const AboutToRemoveItemEvent& event);
+  void OnModelEvent(const AboutToRemoveItemEvent& event) override;
 
-  //! Lets the controller know that a child has been removed from the `parent`s position
-  //! `tag_index`.
-  virtual void OnModelEvent(const ItemRemovedEvent& event);
+  void OnModelEvent(const ItemRemovedEvent& event) override;
 
-  //! Lets the controller know that `item`s data with given `role` has been changed.
-  virtual void OnModelEvent(const DataChangedEvent& event);
+  void OnModelEvent(const DataChangedEvent& event) override;
 
-  //! Lets the controller know when the root item is about to be reset.
-  virtual void OnModelEvent(const ModelAboutToBeResetEvent& event);
+  void OnModelEvent(const ModelAboutToBeResetEvent& event) override;
 
-  //! Lets the controller know at the end of root item recreation.
-  virtual void OnModelEvent(const ModelResetEvent& event);
+  void OnModelEvent(const ModelResetEvent& event) override;
 
-  //! Lets the controller know at the beginning of model destruction.
-  virtual void OnModelEvent(const ModelAboutToBeDestroyedEvent& event);
+  void OnModelEvent(const ModelAboutToBeDestroyedEvent& event) override;
 
-  /**
-   * @brief Sets an item as a new root item.
-   *
-   * @details It will subscribe to model notifications, and regenerate view model according to
-   * child/row strategies. If an item is nullptr, will reset the view model, and unsubscribe from
-   * all SessionModel notifications. If same item was already set, will do nothing.
-   */
-  void SetRootItem(SessionItem* root_item);
+  void SetRootItem(SessionItem* root_item) final;
 
-  /**
-   * @brief Returns current root item.
-   */
-  virtual const SessionItem* GetRootItem() const = 0;
-
-  virtual QStringList GetHorizontalHeaderLabels() const;
+  QStringList GetHorizontalHeaderLabels() const override;
 
 protected:
   /**
