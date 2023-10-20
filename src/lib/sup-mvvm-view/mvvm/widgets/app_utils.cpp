@@ -34,16 +34,32 @@
 
 namespace
 {
+
+/**
+ * @brief Return text of the header.
+ * "str" will become "str       : "
+ */
+QString GetHeaderText(const QString& str)
+{
+  const int length(30);
+  QString result(str);
+  result.resize(length, ' ');
+  result.append(": ");
+  return result;
+}
+
 //! Generate string with environment variables, if any, related to scaling.
 
 QString GetEnvironmentInfo()
 {
   QString result;
-  result += "QT_AUTO_SCREEN_SCALE_FACTOR  : " + qEnvironmentVariable("QT_AUTO_SCREEN_SCALE_FACTOR");
+  result += GetHeaderText("QT_AUTO_SCREEN_SCALE_FACTOR")
+            + qEnvironmentVariable("QT_AUTO_SCREEN_SCALE_FACTOR");
   result += "\n";
-  result += "QT_SCALE_FACTOR              : " + qEnvironmentVariable("QT_SCALE_FACTOR");
+  result += GetHeaderText("QT_SCALE_FACTOR") + qEnvironmentVariable("QT_SCALE_FACTOR");
   result += "\n";
-  result += "QT_SCREEN_SCALE_FACTORS      : " + qEnvironmentVariable("QT_SCREEN_SCALE_FACTORS");
+  result +=
+      GetHeaderText("QT_SCREEN_SCALE_FACTORS") + qEnvironmentVariable("QT_SCREEN_SCALE_FACTORS");
   result += "\n";
   return result;
 }
@@ -55,11 +71,11 @@ QString GetFontInfo()
   QString result;
   auto size = ::mvvm::utils::SizeOfLetterM();
   result +=
-      "Size of letter M             : " + QString("(%1, %2)").arg(size.width()).arg(size.height());
+      GetHeaderText("Size of letter M") + QString("(%1, %2)").arg(size.width()).arg(size.height());
   result += "\n";
 
   auto font = QGuiApplication::font();
-  result += "Default font point size      : "
+  result += GetHeaderText("Default font point size")
             + QString("%1 (%2F)").arg(font.pointSize()).arg(font.pointSizeF()) + " "
             + font.defaultFamily();
   result += "\n";
@@ -74,25 +90,25 @@ QString GetScreenInfo()
   QString result;
   auto screen = QGuiApplication::primaryScreen();
   auto size = screen->physicalSize();
-  result +=
-      "Screen physical size         : " + QString("(%1, %2)").arg(size.height()).arg(size.width());
+  result += GetHeaderText("Screen physical size")
+            + QString("(%1, %2)").arg(size.height()).arg(size.width());
   result += "\n";
   auto geometry = screen->geometry();
-  result += "Screen geometry              : "
+  result += GetHeaderText("Screen geometry")
             + QString("(%1, %2)").arg(geometry.height()).arg(geometry.width());
   result += "\n";
 
-  result += "Device pixel ratio           : " + QString("%1").arg(screen->devicePixelRatio());
+  result += GetHeaderText("Device pixel ratio") + QString("%1").arg(screen->devicePixelRatio());
   result += "\n";
 
-  result += "Logical dots per inch        : "
+  result += GetHeaderText("Logical dots per inch")
             + QString("%1 (%2, %3)")
                   .arg(screen->logicalDotsPerInch())
                   .arg(screen->logicalDotsPerInchX())
                   .arg(screen->logicalDotsPerInchY());
   result += "\n";
 
-  result += "Physical dots per inch       : "
+  result += GetHeaderText("Physical dots per inch")
             + QString("%1 (%2, %3)")
                   .arg(screen->physicalDotsPerInch())
                   .arg(screen->physicalDotsPerInchX())
@@ -106,7 +122,7 @@ QString GetScreenInfo()
 
 QString GetStyleInfo()
 {
-  QString result("Available UI styles          : ");
+  QString result(GetHeaderText("Available UI styles"));
   int index{0};
   result.append(QApplication::style()->objectName() + " (");
   for (const auto& style : QStyleFactory::keys())
