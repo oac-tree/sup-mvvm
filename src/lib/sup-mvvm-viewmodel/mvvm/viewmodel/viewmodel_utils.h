@@ -37,6 +37,10 @@ class ViewItem;
 
 namespace mvvm::utils
 {
+
+/**
+ * @brief Returns an item served by given view.
+ */
 template <typename T = SessionItem>
 const T* GetItemFromView(const ViewItem* view_item)
 {
@@ -49,11 +53,13 @@ const T* GetItemFromView(const ViewItem* view_item)
   return nullptr;
 }
 
+/**
+ * @brief Returns an item served by given view.
+ */
 template <typename T = SessionItem>
 T* GetItemFromView(ViewItem* view_item)
 {
-  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->item());
-      presentation)
+  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->item()); presentation)
   {
     return dynamic_cast<T*>(presentation->GetItem());
   }
@@ -61,6 +67,9 @@ T* GetItemFromView(ViewItem* view_item)
   return nullptr;
 }
 
+/**
+ * @brief Returns vector of views for given item.
+ */
 template <typename T>
 std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, const T* item)
 {
@@ -93,25 +102,40 @@ MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 //! Returns text color for given item.
 MVVM_VIEWMODEL_EXPORT QVariant TextColorRole(const SessionItem& item);
 
-//! Returns check state role of given item.
+/**
+ * @brief Returns check state role of given item.
+ * @param item
+ * @return
+ */
 MVVM_VIEWMODEL_EXPORT QVariant CheckStateRole(const SessionItem& item);
 
-//! Returns decoration role for given item.
+/**
+ * @brief Returns decoration role for given item.
+ */
 MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
 
-//! Returns tooltip role for given item.
+/**
+ * @brief Returns tooltip role for given item.
+ */
 MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
 
-//! Returns underlying SessionItem's for given index.
+/**
+ * @brief Returns underlying SessionItem's for given index.
+ */
 MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromIndex(const QModelIndex& index);
 
-//! Returns vector of underlying SessionItem's for given index list.
+/**
+ * @brief Returns vector of underlying SessionItem's for given index list.
+ */
 MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
 
-//! Returns vector of parent items from given index list.
-//! Finds all SessionItems corresponding to given index list and collect their parents.
-//! Function is usefull in the context of table-like views when we want to find compound items
-//! (i.e. Layers) from table cells containing LayerItem's properties (i.e. thickness).
+/**
+ * @brief Returns vector of parent items from given index list.
+ *
+ * @details Finds all SessionItems corresponding to given index list and collect their parents.
+ * Function is usefull in the context of table-like views when we want to find compound items (i.e.
+ * Layers) from table cells containing LayerItem's properties (i.e. thickness).
+ */
 MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ParentItemsFromIndex(
     const QModelIndexList& index_list);
 

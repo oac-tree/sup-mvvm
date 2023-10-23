@@ -24,17 +24,7 @@
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/custom_variants.h>
 #include <mvvm/viewmodel/viewmodel.h>
-
-namespace
-{
-
-const mvvm::SessionItem* GetItemFromIndex(const QModelIndex& index)
-{
-  auto model = dynamic_cast<const mvvm::ViewModel*>(index.model());
-  return model ? model->GetSessionItemFromIndex(index) : nullptr;
-}
-
-}  // namespace
+#include <mvvm/viewmodel/viewmodel_utils.h>
 
 namespace mvvm
 {
@@ -63,7 +53,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 
 editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
-  auto item = GetItemFromIndex(index);
+  auto item = utils::ItemFromIndex(index);
   return item ? CreateItemEditor(item) : editor_t{};
 }
 
@@ -108,7 +98,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 editor_t VariantDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
-  return builder ? builder(GetItemFromIndex(index)) : editor_t{};
+  return builder ? builder(utils::ItemFromIndex(index)) : editor_t{};
 }
 
 // ----------------------------------------------------------------------------
