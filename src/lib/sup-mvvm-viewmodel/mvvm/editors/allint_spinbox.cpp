@@ -52,6 +52,11 @@ AllIntSpinBox::~AllIntSpinBox() = default;
 
 QVariant AllIntSpinBox::value() const
 {
+  if (!m_value)
+  {
+    return {};
+  }
+
   return GetQtVariant(m_value->GetValueAsVariant());
 }
 
@@ -82,6 +87,11 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
 
 void AllIntSpinBox::stepBy(int steps)
 {
+  if (!m_value)
+  {
+    return;
+  }
+
   if (m_value->StepBy(steps))
   {
     UpdateTextField();
@@ -91,6 +101,11 @@ void AllIntSpinBox::stepBy(int steps)
 
 void AllIntSpinBox::CheckNotify()
 {
+  if (!m_value)
+  {
+    return;
+  }
+
   if (m_cached_value_was_changed)
   {
     m_cached_value_was_changed = false;
@@ -100,7 +115,7 @@ void AllIntSpinBox::CheckNotify()
 
 QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
 {
-  if (isReadOnly())
+  if (isReadOnly() || !m_value)
   {
     return StepNone;
   }
@@ -121,6 +136,11 @@ QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const
 
 void AllIntSpinBox::setValue(const QVariant &value)
 {
+  if (!m_value)
+  {
+    return;
+  }
+
   if (m_value->SetValueFromVariant(GetStdVariant(value)))
   {
     m_cached_value_was_changed = true;
