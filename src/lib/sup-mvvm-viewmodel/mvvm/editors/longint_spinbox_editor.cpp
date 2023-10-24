@@ -88,8 +88,7 @@ void LongIntSpinBoxEditor::UpdateComponents()
   if (type_id != QVariant::LongLong
       && utils::GetQtVariantName(GetData()) != constants::kInt64QtTypeName)
 #else
-  const auto type_id = GetData().type();
-  if (type_id != QMetaType::LongLong)
+  if (GetData().typeId() != QMetaType::LongLong)
 #endif
   {
     throw std::runtime_error(

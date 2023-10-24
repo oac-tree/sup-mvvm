@@ -448,12 +448,22 @@ TEST_F(VariantConverterTests, GetQtVariantExtended)
   // from int
   EXPECT_EQ(GetQtVariant(variant_t(42)), QVariant::fromValue(42));
   EXPECT_EQ(utils::GetQtVariantName(GetQtVariant(variant_t(42))), constants::kInt32QtTypeName);
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   EXPECT_EQ(GetQtVariant(variant_t(42)).type(), QMetaType::Int);
+#else
+  EXPECT_EQ(GetQtVariant(variant_t(42)).typeId(), QMetaType::Int);
+#endif
 
   // from int64
   EXPECT_EQ(GetQtVariant(variant_t(42L)), QVariant::fromValue(42L));
   EXPECT_EQ(utils::GetQtVariantName(GetQtVariant(variant_t(42L))), constants::kInt64QtTypeName);
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   EXPECT_EQ(GetQtVariant(variant_t(42L)).type(), QMetaType::Long);
+#else
+  EXPECT_EQ(GetQtVariant(variant_t(42L)).typeId(), QMetaType::Long);
+#endif
 
   // from double
   EXPECT_EQ(GetQtVariant(variant_t(1.1)), QVariant::fromValue(1.1));
