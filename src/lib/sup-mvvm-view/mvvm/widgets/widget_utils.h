@@ -29,6 +29,7 @@ class QColor;
 class QSize;
 class QMainWindow;
 class QLabel;
+class QFont;
 
 //! Collection of various widget-related utils.
 
@@ -62,6 +63,9 @@ int HeightOfLetterM();
 
 //! Returns size corresponding to actual size of letter `M` basing on current font metrics.
 QSize SizeOfLetterM();
+
+//! Sets global font for the application.
+void SetApplicationFont(const QFont& font);
 
 //! Returns size in points of default system font.
 int SystemPointSize();

@@ -21,6 +21,7 @@
 
 #include <QApplication>
 #include <QColor>
+#include <QDebug>
 #include <QDir>
 #include <QFontMetrics>
 #include <QLabel>
@@ -30,22 +31,41 @@
 
 namespace
 {
-//! Calculates size of letter `M` for current system font settings.
 
+/**
+ * @brief Calculates size of letter `M` from given font.
+ */
+QSize GetUnitSizeFromFont(const QFont& font)
+{
+  QFontMetrics fontMetric(font);
+  auto em = fontMetric.horizontalAdvance('M');
+  auto fontAscent = fontMetric.ascent();
+  return {em, fontAscent};
+}
+
+/**
+ * @brief Calculate size of letter 'M' from system font.
+ */
 QSize FindSizeOfLetterM()
 {
   if (QApplication::instance())
   {
-    QFontMetrics fontMetric(QApplication::font());
-    auto em = fontMetric.horizontalAdvance('M');
-    auto fontAscent = fontMetric.ascent();
-    return {em, fontAscent};
+    return GetUnitSizeFromFont(QApplication::font());
   }
 
-  // when no QApplication is running
+  // when no QApplication is running return something for purpose of unit tests
   const int default_width = 11;
   const int default_height = 14;
   return {default_width, default_height};
+}
+
+/**
+ * @brief Returns reference for M-size constant.
+ */
+QSize& GetGlobalSizeReference()
+{
+  static QSize result = FindSizeOfLetterM();
+  return result;
 }
 
 const QString untitled_name = "Untitled";
@@ -135,8 +155,17 @@ int HeightOfLetterM()
 
 QSize SizeOfLetterM()
 {
-  static QSize result = FindSizeOfLetterM();
-  return result;
+  // returning copy
+  return GetGlobalSizeReference();
+}
+
+void SetApplicationFont(const QFont& font)
+{
+  // assigning new size to our global M constant
+  auto& ref = GetGlobalSizeReference();
+  ref = GetUnitSizeFromFont(font);
+
+  QApplication::setFont(font);
 }
 
 int SystemPointSize()
