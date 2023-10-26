@@ -42,6 +42,7 @@ public:
 TEST_F(StandardPresentationItemsTests, SessionItemPresentationInitialState)
 {
   SessionItem item;
+
   TestPresentation presentation(&item, 42);
   EXPECT_EQ(presentation.GetItem(), &item);
   EXPECT_EQ(presentation.GetDataRole(), 42);
@@ -55,6 +56,8 @@ TEST_F(StandardPresentationItemsTests, SessionItemPresentationInitialState)
 TEST_F(StandardPresentationItemsTests, DataPresentationItemDataForNoData)
 {
   SessionItem item;
+
+  EXPECT_THROW(DataPresentationItem(nullptr), RuntimeException);
 
   DataPresentationItem presentation(&item);
   EXPECT_EQ(presentation.GetItem(), &item);
@@ -90,6 +93,8 @@ TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItem)
 TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemTooltipRole)
 {
   SessionItem item;
+
+  EXPECT_THROW(DisplayNamePresentationItem(nullptr), RuntimeException);
 
   DisplayNamePresentationItem presentation(&item);
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());

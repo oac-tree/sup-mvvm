@@ -19,11 +19,10 @@
 
 #include "mvvm/viewmodel/standard_presentation_items.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodel/variant_converter.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
-
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -114,7 +113,7 @@ DataPresentationItem::DataPresentationItem(SessionItem *item, int role)
 {
   if (!item)
   {
-    throw std::runtime_error("Error in DataPresentationItem: uninitialized item");
+    throw RuntimeException("Error in DataPresentationItem: uninitialized item");
   }
 }
 
@@ -152,7 +151,7 @@ DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
 {
   if (!item)
   {
-    throw std::runtime_error("Error in DataPresentationItem: uninitialized item");
+    throw RuntimeException("Error in DisplayNamePresentationItem: uninitialized item");
   }
 }
 
