@@ -29,10 +29,10 @@ using namespace mvvm;
 
 //! Tests for DefaultCellDecorator.
 
-class DefaultCellDecoratorTests : public ::testing::Test
+class DefaultCellDecoratorTest : public ::testing::Test
 {
 public:
-  DefaultCellDecoratorTests() : m_view_model(&m_model) {}
+  DefaultCellDecoratorTest() : m_view_model(&m_model) {}
 
   class TestDecorator : public DefaultCellDecorator
   {
@@ -63,7 +63,7 @@ public:
 // std::vector<double>,
 //                                mvvm::ComboProperty, mvvm::ExternalProperty>;
 
-TEST_F(DefaultCellDecoratorTests, BoolDecorations)
+TEST_F(DefaultCellDecoratorTest, BoolDecorations)
 {
   TestDecorator decorator;
 
@@ -76,7 +76,7 @@ TEST_F(DefaultCellDecoratorTests, BoolDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("False"));
 }
 
-TEST_F(DefaultCellDecoratorTests, ComboPropertyDecorations)
+TEST_F(DefaultCellDecoratorTest, ComboPropertyDecorations)
 {
   TestDecorator decorator;
 
@@ -85,7 +85,7 @@ TEST_F(DefaultCellDecoratorTests, ComboPropertyDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("a1"));
 }
 
-TEST_F(DefaultCellDecoratorTests, ExternalPropertyDecorations)
+TEST_F(DefaultCellDecoratorTest, ExternalPropertyDecorations)
 {
   TestDecorator decorator;
 
@@ -94,7 +94,7 @@ TEST_F(DefaultCellDecoratorTests, ExternalPropertyDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("text"));
 }
 
-TEST_F(DefaultCellDecoratorTests, DoubleDecorations)
+TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
 {
   TestDecorator decorator;
 
@@ -103,7 +103,7 @@ TEST_F(DefaultCellDecoratorTests, DoubleDecorations)
   EXPECT_EQ(decorator.GetText(index), std::string("42.1234"));
 }
 
-TEST_F(DefaultCellDecoratorTests, Int8Decoration)
+TEST_F(DefaultCellDecoratorTest, Int8Decoration)
 {
   TestDecorator decorator;
 
@@ -124,7 +124,7 @@ TEST_F(DefaultCellDecoratorTests, Int8Decoration)
 
 //! Variants that do not nave special decorations
 
-TEST_F(DefaultCellDecoratorTests, DefaultDecorations)
+TEST_F(DefaultCellDecoratorTest, DefaultDecorations)
 {
   TestDecorator decorator;
 

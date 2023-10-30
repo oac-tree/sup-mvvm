@@ -29,7 +29,7 @@
 
 using namespace mvvm;
 
-class StandardPresentationItemsTests : public ::testing::Test
+class StandardPresentationItemsTest : public ::testing::Test
 {
 public:
   class TestPresentation : public SessionItemPresentation
@@ -39,7 +39,7 @@ public:
   };
 };
 
-TEST_F(StandardPresentationItemsTests, SessionItemPresentationInitialState)
+TEST_F(StandardPresentationItemsTest, SessionItemPresentationInitialState)
 {
   SessionItem item;
 
@@ -53,7 +53,7 @@ TEST_F(StandardPresentationItemsTests, SessionItemPresentationInitialState)
   EXPECT_FALSE(presentation.SetData(42, Qt::EditRole));
 }
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemDataForNoData)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)
 {
   SessionItem item;
 
@@ -69,7 +69,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemDataForNoData)
   EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
 }
 
-TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItem)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItem)
 {
   SessionItem item;
   item.SetDisplayName("abc");
@@ -90,7 +90,7 @@ TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItem)
 
 //! Testing tooltip tole.
 
-TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemTooltipRole)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemTooltipRole)
 {
   SessionItem item;
 
@@ -105,7 +105,7 @@ TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemTooltipRole)
 
 //! Testing color of item depending on enable/disable status.
 
-TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemForegroundRole)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemForegroundRole)
 {
   SessionItem item;
   item.SetData(42);
@@ -129,7 +129,7 @@ TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemForegroundRole
   EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
 }
 
-TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemCheckStateRole)
+TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemCheckStateRole)
 {
   SessionItem item;
   item.SetData(false);
@@ -139,7 +139,7 @@ TEST_F(StandardPresentationItemsTests, DisplayNamePresentationItemCheckStateRole
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
 }
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemDataForDouble)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForDouble)
 {
   const double expected{42.0};
 
@@ -156,7 +156,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemDataForDouble)
   EXPECT_EQ(presentation.Data(Qt::DisplayRole), expected);
 }
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemSetDataForDouble)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
 {
   SessionItem item;
   item.SetData(42.0);
@@ -183,7 +183,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemSetDataForDouble)
   EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemForSecondaryDataRole)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemForSecondaryDataRole)
 {
   const int kSecondaryDataRole{42};
   SessionItem item;
@@ -214,7 +214,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemForSecondaryDataRole)
 
 //! Testing tooltip tole.
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemTooltipRole)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemTooltipRole)
 {
   SessionItem item;
 
@@ -227,7 +227,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemTooltipRole)
 
 //! Testing color of item depending on enable/disable status.
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemForegroundRole)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemForegroundRole)
 {
   SessionItem item;
   item.SetData(42);
@@ -253,7 +253,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemForegroundRole)
 
 //! Testing color of item depending on enable/disable status.
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemCheckStateRole)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
 {
   // Item carrying integer doesn't have CheckStateRole
   SessionItem item1;
@@ -274,7 +274,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemCheckStateRole)
 
 //! Decoration role (string with additional property ColorEditor set)
 
-TEST_F(StandardPresentationItemsTests, DataPresentationItemDecorationRole)
+TEST_F(StandardPresentationItemsTest, DataPresentationItemDecorationRole)
 {
   // create SessionItem with data on board
   SessionItem item;
@@ -287,7 +287,7 @@ TEST_F(StandardPresentationItemsTests, DataPresentationItemDecorationRole)
   EXPECT_EQ(viewItem.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
 }
 
-TEST_F(StandardPresentationItemsTests, CreateLabelPresentation)
+TEST_F(StandardPresentationItemsTest, CreateLabelPresentation)
 {
   SessionItem item;
   item.SetData(42);
@@ -306,7 +306,7 @@ TEST_F(StandardPresentationItemsTests, CreateLabelPresentation)
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString().toStdString(), expected_label);
 }
 
-TEST_F(StandardPresentationItemsTests, EditableDisplayNamePresentationItem)
+TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItem)
 {
   SessionItem item;
   item.SetDisplayName("abc");
@@ -333,7 +333,7 @@ TEST_F(StandardPresentationItemsTests, EditableDisplayNamePresentationItem)
 
 //! The behavior of editable display item when no initial name was set (real-life bug).
 
-TEST_F(StandardPresentationItemsTests, EditableDisplayNamePresentationItemWithoutInitialSet)
+TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemWithoutInitialSet)
 {
   SessionItem item;
   // We do not set item, expect default display name "SessionItem"

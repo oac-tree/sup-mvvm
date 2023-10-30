@@ -27,7 +27,7 @@ using namespace mvvm;
 
 //! Tests for AbstractEditorFactory.
 
-class AbstractEditorFactoryTests : public ::testing::Test
+class AbstractEditorFactoryTest : public ::testing::Test
 {
 public:
   class TestFactory : public AbstractEditorFactory
@@ -43,7 +43,7 @@ public:
   };
 };
 
-TEST_F(AbstractEditorFactoryTests, RegisterBuilder)
+TEST_F(AbstractEditorFactoryTest, RegisterBuilder)
 {
   TestFactory factory;
 

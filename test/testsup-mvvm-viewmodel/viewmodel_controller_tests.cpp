@@ -41,10 +41,10 @@ using namespace mvvm;
 
 //! Tests for ViewModelController class.
 
-class ViewModelControllerTests : public ::testing::Test
+class ViewModelControllerTest : public ::testing::Test
 {
 public:
-  ViewModelControllerTests() {}
+  ViewModelControllerTest() {}
 
   std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface& model,
                                                                 ViewModelBase& view_model)
@@ -82,7 +82,7 @@ public:
 
 //! Controller pointed to empty model.
 
-TEST_F(ViewModelControllerTests, InitialState)
+TEST_F(ViewModelControllerTest, InitialState)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -101,7 +101,7 @@ TEST_F(ViewModelControllerTests, InitialState)
 
 //! Attempt to initialize controller with wrong initial parameters.
 
-TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
+TEST_F(ViewModelControllerTest, InvalidControllerInitialization)
 {
   // should throw if input parameters are invalid
   {
@@ -125,7 +125,7 @@ TEST_F(ViewModelControllerTests, InvalidControllerInitialization)
 
 //! SessionModel is populated with a single item. The controller is initialised after.
 
-TEST_F(ViewModelControllerTests, ModelWithSingleItem)
+TEST_F(ViewModelControllerTest, ModelWithSingleItem)
 {
   auto* item = m_model.InsertItem<SessionItem>();
   item->SetData(42.0);
@@ -158,7 +158,7 @@ TEST_F(ViewModelControllerTests, ModelWithSingleItem)
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 
-TEST_F(ViewModelControllerTests, ModelWithVectorItem)
+TEST_F(ViewModelControllerTest, ModelWithVectorItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -194,7 +194,7 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItem)
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 //! VectorItem is used as new rootItem.
 
-TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
+TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -225,7 +225,7 @@ TEST_F(ViewModelControllerTests, ModelWithVectorItemAsRootItem)
 //! Initialise controller with the empty model. Then insert new item and check that view model
 //! has been updated.
 
-TEST_F(ViewModelControllerTests, InsertIntoEmptyModel)
+TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -271,7 +271,7 @@ TEST_F(ViewModelControllerTests, InsertIntoEmptyModel)
 
 //! Insert three property items in a model, inserted after controller was setup.
 
-TEST_F(ViewModelControllerTests, InitThenInsertProperties)
+TEST_F(ViewModelControllerTest, InitThenInsertProperties)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -305,7 +305,7 @@ TEST_F(ViewModelControllerTests, InitThenInsertProperties)
 
 //! Inserting property items in reversed order.
 
-TEST_F(ViewModelControllerTests, InsertInFront)
+TEST_F(ViewModelControllerTest, InsertInFront)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -328,7 +328,7 @@ TEST_F(ViewModelControllerTests, InsertInFront)
 
 //! Inserting item between two other.
 
-TEST_F(ViewModelControllerTests, InsertBetween)
+TEST_F(ViewModelControllerTest, InsertBetween)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -353,7 +353,7 @@ TEST_F(ViewModelControllerTests, InsertBetween)
 
 //! Initialise controller with the empty model. Insert parent and then child into it.
 
-TEST_F(ViewModelControllerTests, InsertParentAndThenChild)
+TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -385,7 +385,7 @@ TEST_F(ViewModelControllerTests, InsertParentAndThenChild)
 
 //! Removing single top level item.
 
-TEST_F(ViewModelControllerTests, RemoveSingleTopItem)
+TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -410,7 +410,7 @@ TEST_F(ViewModelControllerTests, RemoveSingleTopItem)
 
 //! Sequence with 3 children. Removing the middle one.
 
-TEST_F(ViewModelControllerTests, RemoveMiddleChild)
+TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -461,7 +461,7 @@ TEST_F(ViewModelControllerTests, RemoveMiddleChild)
 //! Taking child from one container to insert it after in the another.
 //! Checking that controller correctly "forgets" that children was already served (real-life-bug).
 
-TEST_F(ViewModelControllerTests, TakeChildThenInsert)
+TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -504,7 +504,7 @@ TEST_F(ViewModelControllerTests, TakeChildThenInsert)
 
 //! SetData.
 
-TEST_F(ViewModelControllerTests, SetData)
+TEST_F(ViewModelControllerTest, SetData)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -530,7 +530,7 @@ TEST_F(ViewModelControllerTests, SetData)
 
 //! Setting top level item as ROOT item
 
-TEST_F(ViewModelControllerTests, SetPropertyItemAsRoot)
+TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -545,7 +545,7 @@ TEST_F(ViewModelControllerTests, SetPropertyItemAsRoot)
 
 //! Setting top level item as ROOT item (case parent and children).
 
-TEST_F(ViewModelControllerTests, SetCompoundAsRootItem)
+TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -567,7 +567,7 @@ TEST_F(ViewModelControllerTests, SetCompoundAsRootItem)
 
 //! On model reset.
 
-TEST_F(ViewModelControllerTests, onModelReset)
+TEST_F(ViewModelControllerTest, onModelReset)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -592,7 +592,7 @@ TEST_F(ViewModelControllerTests, onModelReset)
 
 //! Real life scenario: initially empty SessionModel, apply ::clean, and then start to insert item.
 
-TEST_F(ViewModelControllerTests, onEmptyModelResetAndContinue)
+TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 
@@ -608,7 +608,7 @@ TEST_F(ViewModelControllerTests, onEmptyModelResetAndContinue)
   EXPECT_EQ(spy_insert.count(), 1);
 }
 
-TEST_F(ViewModelControllerTests, GetHorizontalHeaderLabels)
+TEST_F(ViewModelControllerTest, GetHorizontalHeaderLabels)
 {
   auto controller = CreateController(m_model, m_viewmodel);
 

@@ -34,7 +34,7 @@ using namespace mvvm;
 
 //! Tests for ViewModelControllerImpl class.
 
-class ViewModelControllerImplTests : public ::testing::Test
+class ViewModelControllerImplTest : public ::testing::Test
 {
 public:
   template <typename ChildrenT, typename RowT>
@@ -57,7 +57,7 @@ public:
   ViewModelBase m_viewmodel;
 };
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
+TEST_F(ViewModelControllerImplTest, CreateRowFromSingleItem)
 {
   auto controller = CreateController();
 
@@ -80,7 +80,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromSingleItem)
 
 //! Validate CreateRow() method for VectorItem.
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
+TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
 {
   auto controller = CreateController();
 
@@ -148,7 +148,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItem)
 
 //! Validate CreateRow() method for VectorItem with hidden coordinate.
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItemWithHiddenCoordinate)
+TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
 {
   // controller that filters out hidden item thanks to PropertyItemsStrategy
   auto controller = CreateController<PropertyItemsStrategy, LabelDataRowStrategy>();
@@ -206,7 +206,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromVectorItemWithHiddenCoordinate
 
 //! Validate CreateRow() method for compound item with child and grandchild.
 
-TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
+TEST_F(ViewModelControllerImplTest, CreateRowFromCompoundItem)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent");
@@ -273,7 +273,7 @@ TEST_F(ViewModelControllerImplTests, CreateRowFromCompoundItem)
   EXPECT_EQ(length_view1->data(Qt::EditRole).toInt(), 44);
 }
 
-TEST_F(ViewModelControllerImplTests, SetItem)
+TEST_F(ViewModelControllerImplTest, SetItem)
 {
   auto controller = CreateController();
 

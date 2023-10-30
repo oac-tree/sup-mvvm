@@ -34,7 +34,7 @@ using namespace mvvm;
 
 //! Tests for ViewModelControllerImpl class.
 
-class ViewModelControllerVirtualParentImplTests : public ::testing::Test
+class ViewModelControllerVirtualParentImplTest : public ::testing::Test
 {
 public:
   template <typename ChildrenT, typename RowT>
@@ -57,7 +57,7 @@ public:
   ViewModelBase m_viewmodel;
 };
 
-TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromSingleItem)
+TEST_F(ViewModelControllerVirtualParentImplTest, CreateRowFromSingleItem)
 {
   auto controller = CreateController();
 
@@ -80,7 +80,7 @@ TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromSingleItem)
 
 //! Validate CreateRow() method for VectorItem.
 
-TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromVectorItem)
+TEST_F(ViewModelControllerVirtualParentImplTest, CreateRowFromVectorItem)
 {
   auto controller = CreateController();
 
@@ -148,7 +148,7 @@ TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromVectorItem)
 
 //! Validate CreateRow() method for VectorItem with hidden coordinate.
 
-TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromVectorItemWithHiddenCoordinate)
+TEST_F(ViewModelControllerVirtualParentImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
 {
   // controller that filters out hidden item thanks to PropertyItemsStrategy
   auto controller = CreateController<PropertyItemsStrategy, LabelDataRowStrategy>();
@@ -206,7 +206,7 @@ TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromVectorItemWithHid
 
 //! Validate CreateRow() method for compound item with child and grandchild.
 
-TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromCompoundItem)
+TEST_F(ViewModelControllerVirtualParentImplTest, CreateRowFromCompoundItem)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent");
@@ -273,7 +273,7 @@ TEST_F(ViewModelControllerVirtualParentImplTests, CreateRowFromCompoundItem)
   EXPECT_EQ(length_view1->data(Qt::EditRole).toInt(), 44);
 }
 
-TEST_F(ViewModelControllerVirtualParentImplTests, SetItem)
+TEST_F(ViewModelControllerVirtualParentImplTest, SetItem)
 {
   auto controller = CreateController();
 

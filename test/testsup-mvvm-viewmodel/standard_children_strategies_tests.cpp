@@ -30,7 +30,7 @@
 
 using namespace mvvm;
 
-class StandardChildrenStrategiesTests : public ::testing::Test
+class StandardChildrenStrategiesTest : public ::testing::Test
 {
 public:
   //! Helper class with two properties and one top level item on board.
@@ -69,7 +69,7 @@ public:
 
 //! Testing AllChildrenStrategy.
 
-TEST_F(StandardChildrenStrategiesTests, AllChildrenStrategy)
+TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
 {
   AllChildrenStrategy strategy;
 
@@ -102,7 +102,7 @@ TEST_F(StandardChildrenStrategiesTests, AllChildrenStrategy)
 //! Testing AllChildrenStrategy when one of children is hidden.
 //! By the current convention this strategy still show all items.
 
-TEST_F(StandardChildrenStrategiesTests, AllChildrenStrategyWhenHidden)
+TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 {
   AllChildrenStrategy strategy;
   VectorItem item;
@@ -113,7 +113,7 @@ TEST_F(StandardChildrenStrategiesTests, AllChildrenStrategyWhenHidden)
 
 //! Testing TopItemsStrategy.
 
-TEST_F(StandardChildrenStrategiesTests, TopItemsStrategy)
+TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
 {
   TopItemsStrategy strategy;
 
@@ -145,7 +145,7 @@ TEST_F(StandardChildrenStrategiesTests, TopItemsStrategy)
 
 //! Testing TopItemsStrategy when some items are hidden.
 
-TEST_F(StandardChildrenStrategiesTests, TopItemsStrategyWhenHidden)
+TEST_F(StandardChildrenStrategiesTest, TopItemsStrategyWhenHidden)
 {
   TopItemsStrategy strategy;
 
@@ -161,7 +161,7 @@ TEST_F(StandardChildrenStrategiesTests, TopItemsStrategyWhenHidden)
 
 //! Testing PropertyItemsStrategy.
 
-TEST_F(StandardChildrenStrategiesTests, PropertyItemsStrategy)
+TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
 {
   PropertyItemsStrategy strategy;
 
@@ -216,7 +216,7 @@ TEST_F(StandardChildrenStrategiesTests, PropertyItemsStrategy)
 
 //! Testing PropertyItemsStrategy when some items are hidden.
 
-TEST_F(StandardChildrenStrategiesTests, PropertyItemsStrategyWhenHidden)
+TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
 {
   PropertyItemsStrategy strategy;
 

@@ -33,14 +33,14 @@
 
 using namespace mvvm;
 
-class ViewModelUtilsTests : public ::testing::Test
+class ViewModelUtilsTest : public ::testing::Test
 {
 public:
 };
 
 //! Validate Utils::GetItemFromView
 
-TEST_F(ViewModelUtilsTests, GetItemFromView)
+TEST_F(ViewModelUtilsTest, GetItemFromView)
 {
   VectorItem item;
 
@@ -50,7 +50,7 @@ TEST_F(ViewModelUtilsTests, GetItemFromView)
 
 //! Validate Utils::iterate_model function with user callback.
 
-TEST_F(ViewModelUtilsTests, ItemRoleToQtRole)
+TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
 {
   // DATA role of SessionItem should be translated to two Qt roles (edit and display)
   auto roles = utils::ItemRoleToQtRole(DataRole::kData);
@@ -70,7 +70,7 @@ TEST_F(ViewModelUtilsTests, ItemRoleToQtRole)
 
 //! Testing color role of item.
 
-TEST_F(ViewModelUtilsTests, ItemTextColorRole)
+TEST_F(ViewModelUtilsTest, ItemTextColorRole)
 {
   SessionItem item;
 
@@ -91,7 +91,7 @@ TEST_F(ViewModelUtilsTests, ItemTextColorRole)
 
 //! Testing check state role of item.
 
-TEST_F(ViewModelUtilsTests, ItemCheckStateRole)
+TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
 {
   SessionItem item;
 
@@ -108,7 +108,7 @@ TEST_F(ViewModelUtilsTests, ItemCheckStateRole)
 
 //! Testing decoration role of the item when it carries a string
 
-TEST_F(ViewModelUtilsTests, StringDataDecorationRole)
+TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
 {
   SessionItem item;
 
@@ -130,7 +130,7 @@ TEST_F(ViewModelUtilsTests, StringDataDecorationRole)
 
 //! Testing decoration role of the item when it carries ExtendedProperty
 
-TEST_F(ViewModelUtilsTests, ExternalPropertyDataDecorationRole)
+TEST_F(ViewModelUtilsTest, ExternalPropertyDataDecorationRole)
 {
   SessionItem item;
 
@@ -142,7 +142,7 @@ TEST_F(ViewModelUtilsTests, ExternalPropertyDataDecorationRole)
 
 //! Testing tooltip role of the item.
 
-TEST_F(ViewModelUtilsTests, ItemToolTipRole)
+TEST_F(ViewModelUtilsTest, ItemToolTipRole)
 {
   SessionItem item;
 
@@ -155,7 +155,7 @@ TEST_F(ViewModelUtilsTests, ItemToolTipRole)
 
 //! Check ItemFromIndex.
 
-TEST_F(ViewModelUtilsTests, ItemFromIndex)
+TEST_F(ViewModelUtilsTest, ItemFromIndex)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
@@ -174,7 +174,7 @@ TEST_F(ViewModelUtilsTests, ItemFromIndex)
 //! ViewItem with its three property x, y, z forms one row. All corresponding
 //! indices of (x,y,z) should give us pointers to VectorItem's properties.
 
-TEST_F(ViewModelUtilsTests, ItemsFromIndex)
+TEST_F(ViewModelUtilsTest, ItemsFromIndex)
 {
   // creating VectorItem and viewModel to see it as a table
   ApplicationModel model;
@@ -204,7 +204,7 @@ TEST_F(ViewModelUtilsTests, ItemsFromIndex)
 //! ViewItem with its three property x, y, z forms one row. All corresponding
 //! indices of (x,y,z) should give us pointer to VectorItem.
 
-TEST_F(ViewModelUtilsTests, ParentItemsFromIndex)
+TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
 {
   // creating VectorItem and viewModel to see it as a table
   ApplicationModel model;

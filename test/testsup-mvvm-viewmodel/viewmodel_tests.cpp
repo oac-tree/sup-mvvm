@@ -38,7 +38,7 @@ using namespace mvvm;
 //! This are tests for ViewModel API only. Full functionality is covered in all details in
 //! all_items_viewmodel.test.cpp and viewmodel_base_tests.cpp
 
-class ViewModelTests : public ::testing::Test
+class ViewModelTest : public ::testing::Test
 {
 public:
   //! Simple TestModel to validate ViewModel own API
@@ -53,14 +53,14 @@ public:
     }
   };
 
-  ViewModelTests() { m_model.InsertItem<PropertyItem>(); }
+  ViewModelTest() { m_model.InsertItem<PropertyItem>(); }
 
   ApplicationModel m_model;
 };
 
 //! The map is initially empty.
 
-TEST_F(ViewModelTests, InitialState)
+TEST_F(ViewModelTest, InitialState)
 {
   ViewModel view_model;
   EXPECT_EQ(view_model.GetModel(), nullptr);
@@ -75,7 +75,7 @@ TEST_F(ViewModelTests, InitialState)
   EXPECT_EQ(view_model.GetIndexOfSessionItem(&item), QModelIndexList());
 }
 
-TEST_F(ViewModelTests, GetSessionItem)
+TEST_F(ViewModelTest, GetSessionItem)
 {
   TestViewModel view_model(&m_model);
   EXPECT_EQ(view_model.GetRootSessionItem(), m_model.GetRootItem());
@@ -85,7 +85,7 @@ TEST_F(ViewModelTests, GetSessionItem)
             m_model.GetRootItem()->GetItem({"", 0}));
 }
 
-TEST_F(ViewModelTests, GetViewItemFromIndex)
+TEST_F(ViewModelTest, GetViewItemFromIndex)
 {
   TestViewModel view_model(&m_model);
   // behavior duplicates QStandardItemModel. I would make it view_model->rootItem()
@@ -94,7 +94,7 @@ TEST_F(ViewModelTests, GetViewItemFromIndex)
             view_model.rootItem()->child(0, 0));
 }
 
-TEST_F(ViewModelTests, FindViews)
+TEST_F(ViewModelTest, FindViews)
 {
   TestViewModel view_model(&m_model);
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()),
@@ -105,7 +105,7 @@ TEST_F(ViewModelTests, FindViews)
                 {view_model.rootItem()->child(0, 0), view_model.rootItem()->child(0, 1)}));
 }
 
-TEST_F(ViewModelTests, GetIndexOfSessionItem)
+TEST_F(ViewModelTest, GetIndexOfSessionItem)
 {
   TestViewModel view_model(&m_model);
 

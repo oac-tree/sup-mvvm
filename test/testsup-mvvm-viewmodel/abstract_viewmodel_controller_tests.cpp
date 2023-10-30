@@ -32,10 +32,10 @@ using ::testing::_;
 
 //! Tests for AbstractViewModelController class.
 
-class AbstractViewModelControllerTests : public ::testing::Test
+class AbstractViewModelControllerTest : public ::testing::Test
 {
 public:
-  AbstractViewModelControllerTests() : m_model(&m_event_handler) {}
+  AbstractViewModelControllerTest() : m_model(&m_event_handler) {}
 
   class TestModel : public SessionModel
   {
@@ -97,7 +97,7 @@ public:
 
 //! Setting the model, checking calls of SetRootItemImpl
 
-TEST_F(AbstractViewModelControllerTests, SetModel)
+TEST_F(AbstractViewModelControllerTest, SetModel)
 {
   ApplicationModel model;
   mock_controller_t controller;
@@ -131,7 +131,7 @@ TEST_F(AbstractViewModelControllerTests, SetModel)
 
 //! Setting root item, checking calls of SetRootItemImpl.
 
-TEST_F(AbstractViewModelControllerTests, SetRootItem)
+TEST_F(AbstractViewModelControllerTest, SetRootItem)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -165,7 +165,7 @@ TEST_F(AbstractViewModelControllerTests, SetRootItem)
 
 //! Setting the model, then setting same root item.
 
-TEST_F(AbstractViewModelControllerTests, SetModelThenSetSameTooItem)
+TEST_F(AbstractViewModelControllerTest, SetModelThenSetSameTooItem)
 {
   ApplicationModel model;
   mock_controller_t controller;
@@ -191,7 +191,7 @@ TEST_F(AbstractViewModelControllerTests, SetModelThenSetSameTooItem)
 
 //! Setting root item, then setting another root item from the same model.
 
-TEST_F(AbstractViewModelControllerTests, SetRootItemThenAnotherItem)
+TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItem)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -217,7 +217,7 @@ TEST_F(AbstractViewModelControllerTests, SetRootItemThenAnotherItem)
 
 //! Setting root item, then setting anothers item from different model.
 
-TEST_F(AbstractViewModelControllerTests, SetRootItemThenAnotherItemFromDifferentModel)
+TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItemFromDifferentModel)
 {
   ApplicationModel model1;
   ApplicationModel model2;
@@ -248,7 +248,7 @@ TEST_F(AbstractViewModelControllerTests, SetRootItemThenAnotherItemFromDifferent
 
 //! Controller subscription.
 
-TEST_F(AbstractViewModelControllerTests, SubscribeTo)
+TEST_F(AbstractViewModelControllerTest, SubscribeTo)
 {
   mvvm::SessionItem item;
   const int role{42};
@@ -271,7 +271,7 @@ TEST_F(AbstractViewModelControllerTests, SubscribeTo)
 
 //! Controller unsubscription on deletion.
 
-TEST_F(AbstractViewModelControllerTests, Unsubscribe)
+TEST_F(AbstractViewModelControllerTest, Unsubscribe)
 {
   mvvm::SessionItem item;
   const int role{42};
@@ -292,7 +292,7 @@ TEST_F(AbstractViewModelControllerTests, Unsubscribe)
 
 //! Check the case when EventHandler is destroyed before the controller.
 
-TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
+TEST_F(AbstractViewModelControllerTest, DestroyNotifierBefore)
 {
   mvvm::SessionItem item;
   const int role{42};
@@ -315,7 +315,7 @@ TEST_F(AbstractViewModelControllerTests, DestroyNotifierBefore)
 
 //! Checking listener methods when AboutToInsertItem is fired.
 
-TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
+TEST_F(AbstractViewModelControllerTest, AboutToInsertItem)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -335,7 +335,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToInsertItem)
 
 //! Checking controller's methods when ItemInserted is fired.
 
-TEST_F(AbstractViewModelControllerTests, ItemInserted)
+TEST_F(AbstractViewModelControllerTest, ItemInserted)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -355,7 +355,7 @@ TEST_F(AbstractViewModelControllerTests, ItemInserted)
 
 //! Checking listener methods when AboutToRemoveItem is fired.
 
-TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
+TEST_F(AbstractViewModelControllerTest, AboutToRemoveItem)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -375,7 +375,7 @@ TEST_F(AbstractViewModelControllerTests, AboutToRemoveItem)
 
 //! Checking listener methods when ItemRemoved is fired.
 
-TEST_F(AbstractViewModelControllerTests, ItemRemoved)
+TEST_F(AbstractViewModelControllerTest, ItemRemoved)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -395,7 +395,7 @@ TEST_F(AbstractViewModelControllerTests, ItemRemoved)
 
 //! Checking listener methods when DataChanged is fired.
 
-TEST_F(AbstractViewModelControllerTests, DataChanged)
+TEST_F(AbstractViewModelControllerTest, DataChanged)
 {
   mvvm::SessionItem item;
   const int role{42};
@@ -413,7 +413,7 @@ TEST_F(AbstractViewModelControllerTests, DataChanged)
   m_event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
-TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
+TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeReset)
 {
   mvvm::SessionModel model;
   const int role{42};
@@ -431,7 +431,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeReset)
   m_event_handler.Notify<ModelAboutToBeResetEvent>(&model);
 }
 
-TEST_F(AbstractViewModelControllerTests, OnModelReset)
+TEST_F(AbstractViewModelControllerTest, OnModelReset)
 {
   mvvm::SessionModel model;
   const int role{42};
@@ -449,7 +449,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelReset)
   m_event_handler.Notify<ModelResetEvent>(&model);
 }
 
-TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
+TEST_F(AbstractViewModelControllerTest, OnModelAboutToBeDestroyed)
 {
   mvvm::SessionModel model;
   const int role{42};
@@ -467,7 +467,7 @@ TEST_F(AbstractViewModelControllerTests, OnModelAboutToBeDestroyed)
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
-TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
+TEST_F(AbstractViewModelControllerTest, UnsubscribeV2)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
@@ -497,7 +497,7 @@ TEST_F(AbstractViewModelControllerTests, UnsubscribeV2)
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
-TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
+TEST_F(AbstractViewModelControllerTest, TwoSubscriptions)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;
@@ -557,7 +557,7 @@ TEST_F(AbstractViewModelControllerTests, TwoSubscriptions)
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
-TEST_F(AbstractViewModelControllerTests, UnsubscribeOne)
+TEST_F(AbstractViewModelControllerTest, UnsubscribeOne)
 {
   mvvm::SessionModel model;
   mvvm::SessionItem item;

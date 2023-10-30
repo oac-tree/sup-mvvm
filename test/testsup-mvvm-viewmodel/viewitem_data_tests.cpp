@@ -23,14 +23,14 @@
 
 //! Tests for ViewItemData class.
 
-class ViewItemDataTests : public ::testing::Test
+class ViewItemDataTest : public ::testing::Test
 {
 public:
 };
 
 //! Initial state.
 
-TEST_F(ViewItemDataTests, InitialState)
+TEST_F(ViewItemDataTest, InitialState)
 {
   mvvm::ViewItemData item;
   EXPECT_FALSE(item.Data().isValid());
@@ -42,7 +42,7 @@ TEST_F(ViewItemDataTests, InitialState)
   EXPECT_TRUE(item.IsEditable());
 }
 
-TEST_F(ViewItemDataTests, SetAppearance)
+TEST_F(ViewItemDataTest, SetAppearance)
 {
   mvvm::ViewItemData item;
 
@@ -55,7 +55,7 @@ TEST_F(ViewItemDataTests, SetAppearance)
   EXPECT_FALSE(item.IsEditable());
 }
 
-TEST_F(ViewItemDataTests, SetData)
+TEST_F(ViewItemDataTest, SetData)
 {
   mvvm::ViewItemData item;
 

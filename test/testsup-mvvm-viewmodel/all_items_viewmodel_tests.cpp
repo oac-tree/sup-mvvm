@@ -34,21 +34,20 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_based_test.h>
 
-#include <QDebug>
 #include <QSignalSpy>
 
 using namespace mvvm;
 
-class AllItemsViewModelTests : public testutils::FolderBasedTest
+class AllItemsViewModelTest : public testutils::FolderBasedTest
 {
 public:
-  AllItemsViewModelTests() : FolderBasedTest("test_AllItemsViewModel"), m_viewmodel(&m_model) {}
+  AllItemsViewModelTest() : FolderBasedTest("test_AllItemsViewModel"), m_viewmodel(&m_model) {}
 
   ApplicationModel m_model;
   AllItemsViewModel m_viewmodel;
 };
 
-TEST_F(AllItemsViewModelTests, InitialState)
+TEST_F(AllItemsViewModelTest, InitialState)
 {
   AllItemsViewModel viewmodel(&m_model);
   EXPECT_EQ(viewmodel.rowCount(), 0);
@@ -57,7 +56,7 @@ TEST_F(AllItemsViewModelTests, InitialState)
   EXPECT_EQ(viewmodel.GetRootSessionItem(), m_model.GetRootItem());
 }
 
-TEST_F(AllItemsViewModelTests, GetSessionItemFromIndex)
+TEST_F(AllItemsViewModelTest, GetSessionItemFromIndex)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -77,7 +76,7 @@ TEST_F(AllItemsViewModelTests, GetSessionItemFromIndex)
 
 //! Index from single property item.
 
-TEST_F(AllItemsViewModelTests, GetIndexOfSessionItem)
+TEST_F(AllItemsViewModelTest, GetIndexOfSessionItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -96,7 +95,7 @@ TEST_F(AllItemsViewModelTests, GetIndexOfSessionItem)
 
 //! Single property item in a model.
 
-TEST_F(AllItemsViewModelTests, ModelWithSingleItem)
+TEST_F(AllItemsViewModelTest, ModelWithSingleItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -131,7 +130,7 @@ TEST_F(AllItemsViewModelTests, ModelWithSingleItem)
 //! Hidden property item in a model. Current DefaultViewModel implementation deliberately doesn't
 //! respect `hidden` property. Item will be shown as usual, test is identical to the test above.
 
-TEST_F(AllItemsViewModelTests, FromPropertyItemWhenHidden)
+TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHidden)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -166,7 +165,7 @@ TEST_F(AllItemsViewModelTests, FromPropertyItemWhenHidden)
 
 //! SessionModel is populated with a VectorItem item. The controller is initialised after.
 
-TEST_F(AllItemsViewModelTests, ModelWithVectorItem)
+TEST_F(AllItemsViewModelTest, ModelWithVectorItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -202,7 +201,7 @@ TEST_F(AllItemsViewModelTests, ModelWithVectorItem)
 //! Initialise controller with the empty model. Then insert new item and check that view model
 //! hass been updated.
 
-TEST_F(AllItemsViewModelTests, InsertIntoEmptyModel)
+TEST_F(AllItemsViewModelTest, InsertIntoEmptyModel)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -247,7 +246,7 @@ TEST_F(AllItemsViewModelTests, InsertIntoEmptyModel)
 
 //! Insert three property items in a model, inserted after controller was setup.
 
-TEST_F(AllItemsViewModelTests, InitThenInsertProperties)
+TEST_F(AllItemsViewModelTest, InitThenInsertProperties)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -279,7 +278,7 @@ TEST_F(AllItemsViewModelTests, InitThenInsertProperties)
 
 //! Inserting property items in reversed order.
 
-TEST_F(AllItemsViewModelTests, InsertInFront)
+TEST_F(AllItemsViewModelTest, InsertInFront)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -300,7 +299,7 @@ TEST_F(AllItemsViewModelTests, InsertInFront)
 
 //! Inserting item between two other.
 
-TEST_F(AllItemsViewModelTests, InsertBetween)
+TEST_F(AllItemsViewModelTest, InsertBetween)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -324,7 +323,7 @@ TEST_F(AllItemsViewModelTests, InsertBetween)
 
 //! Initialise controller with the empty model. Insert parent and then child into it.
 
-TEST_F(AllItemsViewModelTests, InsertParentAndThenChild)
+TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -354,7 +353,7 @@ TEST_F(AllItemsViewModelTests, InsertParentAndThenChild)
 
 //! Sequence with 3 children. Removing the middle one.
 
-TEST_F(AllItemsViewModelTests, RemoveMiddleChild)
+TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
@@ -402,7 +401,7 @@ TEST_F(AllItemsViewModelTests, RemoveMiddleChild)
 
 //! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
 
-TEST_F(AllItemsViewModelTests, SetData)
+TEST_F(AllItemsViewModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
@@ -429,7 +428,7 @@ TEST_F(AllItemsViewModelTests, SetData)
 //! The data is manipulated through the view_model. Checking that the view_model emits the signal,
 //! and that the change is propagated through the composer.
 
-TEST_F(AllItemsViewModelTests, SetDataThroughModel)
+TEST_F(AllItemsViewModelTest, SetDataThroughModel)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
@@ -458,7 +457,7 @@ TEST_F(AllItemsViewModelTests, SetDataThroughModel)
 //! Two ViewModels are looking to the same ApplicationModel.
 //! Change through one ViewModel should modify another.
 
-TEST_F(AllItemsViewModelTests, SetDataThroughTwoModels)
+TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
 {
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -479,7 +478,7 @@ TEST_F(AllItemsViewModelTests, SetDataThroughTwoModels)
 
 //! Single property item in ViewModel with various appearance flags.
 
-TEST_F(AllItemsViewModelTests, PropertyItemAppearance)
+TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
 {
   ApplicationModel model;
 
@@ -519,7 +518,7 @@ TEST_F(AllItemsViewModelTests, PropertyItemAppearance)
 
 //! Signals in ViewModel when property item changes its appearance.
 
-TEST_F(AllItemsViewModelTests, PropertyItemAppearanceChanged)
+TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
 {
   ApplicationModel model;
 
@@ -564,7 +563,7 @@ TEST_F(AllItemsViewModelTests, PropertyItemAppearanceChanged)
 
 //! Signals in ViewModel when property item changes its tooltips.
 
-TEST_F(AllItemsViewModelTests, TooltipChanged)
+TEST_F(AllItemsViewModelTest, TooltipChanged)
 {
   ApplicationModel model;
 
@@ -613,7 +612,7 @@ TEST_F(AllItemsViewModelTests, TooltipChanged)
 
 //! Setting property item as ROOT item.
 
-TEST_F(AllItemsViewModelTests, SetPropertyItemAsRoot)
+TEST_F(AllItemsViewModelTest, SetPropertyItemAsRoot)
 {
   ApplicationModel model;
   AllItemsViewModel view_model(&model);
@@ -637,7 +636,7 @@ TEST_F(AllItemsViewModelTests, SetPropertyItemAsRoot)
 //! Setting property item as ROOT item.
 //! Same as above, only view model was initialized after.
 
-TEST_F(AllItemsViewModelTests, SetPropertyItemAsRootAfter)
+TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
 {
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
@@ -667,7 +666,7 @@ TEST_F(AllItemsViewModelTests, SetPropertyItemAsRootAfter)
 
 //! Setting top level item as ROOT item (case parent and children).
 
-TEST_F(AllItemsViewModelTests, SetCompoundAsRootItem)
+TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
 {
   ApplicationModel model;
   AllItemsViewModel view_model(&model);
@@ -702,7 +701,7 @@ TEST_F(AllItemsViewModelTests, SetCompoundAsRootItem)
 
 //! Setting vector item as ROOT item.
 
-TEST_F(AllItemsViewModelTests, SetVectorItemAsRoot)
+TEST_F(AllItemsViewModelTest, SetVectorItemAsRoot)
 {
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
@@ -718,7 +717,7 @@ TEST_F(AllItemsViewModelTests, SetVectorItemAsRoot)
 
 //! Setting nullptr as new item.
 
-TEST_F(AllItemsViewModelTests, SetNullptrAsNewRoot)
+TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
 {
   ApplicationModel model;
   auto vector_item = model.InsertItem<VectorItem>();
@@ -751,7 +750,7 @@ TEST_F(AllItemsViewModelTests, SetNullptrAsNewRoot)
 
 //! Setting the model, and then different model
 
-TEST_F(AllItemsViewModelTests, SetAnotherModel)
+TEST_F(AllItemsViewModelTest, SetAnotherModel)
 {
   ApplicationModel model1;
   ApplicationModel model2;
@@ -791,7 +790,7 @@ TEST_F(AllItemsViewModelTests, SetAnotherModel)
 //! Inserting two VectorItems. Setting second VectorItem as root item.
 //! Removing first VectorItem. ViewModel should remain unchanged, no signals issued.
 
-TEST_F(AllItemsViewModelTests, RemoveItemAboveCustomRootItem)
+TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
 {
   auto vector_item0 = m_model.InsertItem<VectorItem>();
   auto vector_item1 = m_model.InsertItem<VectorItem>();
@@ -822,7 +821,7 @@ TEST_F(AllItemsViewModelTests, RemoveItemAboveCustomRootItem)
 //! Inserting VectorItem and setting it as root item.
 //! Removing VectorItem, model has to reset to empty state.
 
-TEST_F(AllItemsViewModelTests, RemoveCustomRootItem)
+TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
 
@@ -851,7 +850,7 @@ TEST_F(AllItemsViewModelTests, RemoveCustomRootItem)
 //! Inserting grandparent -> parent -> child, setting `parent` as new root item.
 //! Removing grandparent. The viewmodel should reset.
 
-TEST_F(AllItemsViewModelTests, RemoveFarAncestor)
+TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
 {
   auto grandparent = m_model.InsertItem<CompoundItem>();
   grandparent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
@@ -881,7 +880,7 @@ TEST_F(AllItemsViewModelTests, RemoveFarAncestor)
 
 //! On model reset.
 
-TEST_F(AllItemsViewModelTests, OnModelReset)
+TEST_F(AllItemsViewModelTest, OnModelReset)
 {
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
@@ -903,7 +902,7 @@ TEST_F(AllItemsViewModelTests, OnModelReset)
 
 //! On model destroyed.
 
-TEST_F(AllItemsViewModelTests, OnModelDestroyed)
+TEST_F(AllItemsViewModelTest, OnModelDestroyed)
 {
   auto model = std::make_unique<ApplicationModel>();
   model->InsertItem<SessionItem>();
@@ -921,7 +920,7 @@ TEST_F(AllItemsViewModelTests, OnModelDestroyed)
   EXPECT_EQ(viewmodel.GetRootSessionItem(), nullptr);
 }
 
-TEST_F(AllItemsViewModelTests, horizontalLabels)
+TEST_F(AllItemsViewModelTest, horizontalLabels)
 {
   EXPECT_EQ(m_viewmodel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(), QString("Name"));
   EXPECT_EQ(m_viewmodel.headerData(1, Qt::Horizontal, Qt::DisplayRole).toString(),
@@ -930,7 +929,7 @@ TEST_F(AllItemsViewModelTests, horizontalLabels)
 
 //! Testing ViewModel signals while loading data with the help of XML document. Model is empty.
 
-TEST_F(AllItemsViewModelTests, XmlDocumentLoadEmptyModel)
+TEST_F(AllItemsViewModelTest, XmlDocumentLoadEmptyModel)
 {
   const auto file_path = GetFilePath("XmlDocumentLoadEmptyModel.xml");
   XmlDocument document({&m_model});
@@ -954,7 +953,7 @@ TEST_F(AllItemsViewModelTests, XmlDocumentLoadEmptyModel)
 
 //! Testing ViewModel signals while loading data with the help of XML document. Model contains item.
 
-TEST_F(AllItemsViewModelTests, XmlDocumentLoadModel)
+TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
 {
   const auto file_path = GetFilePath("XmlDocumentLoadModel.xml");
 
@@ -989,7 +988,7 @@ TEST_F(AllItemsViewModelTests, XmlDocumentLoadModel)
 
 //! Testing view model after restoring from XML document.
 
-TEST_F(AllItemsViewModelTests, VectorItemInXmlDocument)
+TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
 {
   const auto file_path = GetFilePath("VectorItemInXmlDocument.xml");
 
@@ -1025,7 +1024,7 @@ TEST_F(AllItemsViewModelTests, VectorItemInXmlDocument)
 //! VectorItem is made root item. Test demonstrates that controller is capable
 //! to restore old rootSessionItem on onModelReset signal
 
-TEST_F(AllItemsViewModelTests, VectorItemAsRootInXmlDocument)
+TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 {
   const auto file_path = GetFilePath("VectorItemAsRootInXmlDocument.xml");
 
@@ -1066,7 +1065,7 @@ TEST_F(AllItemsViewModelTests, VectorItemAsRootInXmlDocument)
 
 //! Moving item from one parent to another.
 
-TEST_F(AllItemsViewModelTests, MoveItemFromOneParentToAnother)
+TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
 {
   auto container0 = m_model.InsertItem<ContainerItem>();
   auto property = m_model.InsertItem<PropertyItem>(container0, TagIndex::Append());
@@ -1093,7 +1092,7 @@ TEST_F(AllItemsViewModelTests, MoveItemFromOneParentToAnother)
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.
 
-TEST_F(AllItemsViewModelTests, DeleteGraphVromViewport)
+TEST_F(AllItemsViewModelTest, DeleteGraphVromViewport)
 {
   ApplicationModel model;
 
@@ -1127,7 +1126,7 @@ TEST_F(AllItemsViewModelTests, DeleteGraphVromViewport)
 //! Inserting item in an empty tag.
 //! This is to validate that item inserted in empty tag appears in the right order (real life bug).
 
-TEST_F(AllItemsViewModelTests, InsertIntoEmptyTag)
+TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
 {
   ApplicationModel model;
 

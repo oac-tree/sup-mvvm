@@ -25,11 +25,11 @@
 
 using namespace mvvm;
 
-class ScientificSpinBoxTests : public ::testing::Test
+class ScientificSpinBoxTest : public ::testing::Test
 {
 };
 
-TEST_F(ScientificSpinBoxTests, testValueFromText)
+TEST_F(ScientificSpinBoxTest, testValueFromText)
 {
   QLocale locale(QLocale::C);
   locale.setNumberOptions(QLocale::RejectGroupSeparator);
@@ -75,7 +75,7 @@ TEST_F(ScientificSpinBoxTests, testValueFromText)
   EXPECT_EQ(0.012, to_value_2(QString("0.012")));
 }
 
-TEST_F(ScientificSpinBoxTests, toString)
+TEST_F(ScientificSpinBoxTest, toString)
 {
   int decimals = 3;
   auto to_string = [&decimals](double val) { return ScientificSpinBox::toString(val, decimals); };
@@ -123,7 +123,7 @@ TEST_F(ScientificSpinBoxTests, toString)
   EXPECT_EQ(std::string("1.26556e+12"), to_string(1.265556e+12).toStdString());
 }
 
-TEST_F(ScientificSpinBoxTests, round)
+TEST_F(ScientificSpinBoxTest, round)
 {
   auto round_3 = [](double val) { return ScientificSpinBox::round(val, 3); };
   EXPECT_DOUBLE_EQ(1.232e-12, round_3(1.2323e-12));

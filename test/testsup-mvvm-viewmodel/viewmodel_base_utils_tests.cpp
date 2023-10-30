@@ -44,7 +44,7 @@ QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
 
 using namespace mvvm;
 
-class ViewModelBaseUtilsTests : public ::testing::Test
+class ViewModelBaseUtilsTest : public ::testing::Test
 {
 public:
   class TestItem
@@ -54,7 +54,7 @@ public:
 
 //! Validate Utils::iterate_model function with user callback.
 
-TEST_F(ViewModelBaseUtilsTests, iterate)
+TEST_F(ViewModelBaseUtilsTest, iterate)
 {
   QStandardItemModel model;
 
@@ -83,7 +83,7 @@ TEST_F(ViewModelBaseUtilsTests, iterate)
 
 //! Validate Utils::GetPresentaiton function.
 
-TEST_F(ViewModelBaseUtilsTests, GetPresentation)
+TEST_F(ViewModelBaseUtilsTest, GetPresentation)
 {
   TestItem wait;
   auto presentation = std::make_unique<PresentationItem<TestItem>>(&wait);

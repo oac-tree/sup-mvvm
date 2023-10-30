@@ -23,7 +23,7 @@
 
 //! Tests for PresentationItem class.
 
-class PresentationItemTests : public ::testing::Test
+class PresentationItemTest : public ::testing::Test
 {
 public:
   class TestContext
@@ -35,7 +35,7 @@ public:
 
 //! PresentationItem without context can't be used to modify/access the data.
 
-TEST_F(PresentationItemTests, InitialState)
+TEST_F(PresentationItemTest, InitialState)
 {
   mvvm::PresentationItem<TestContext> item{nullptr};
   EXPECT_EQ(item.GetContext(), nullptr);
@@ -53,7 +53,7 @@ TEST_F(PresentationItemTests, InitialState)
 
 //! Callbacks validation.
 
-TEST_F(PresentationItemTests, OnData)
+TEST_F(PresentationItemTest, OnData)
 {
   TestContext context;
 

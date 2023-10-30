@@ -28,7 +28,7 @@ using namespace mvvm;
 
 //! Tests for ViewItem class.
 
-class ViewItemTests : public ::testing::Test
+class ViewItemTest : public ::testing::Test
 {
 public:
   using children_t = std::vector<std::unique_ptr<ViewItem>>;
@@ -49,7 +49,7 @@ public:
 
 //! Initial state of RefViewItem.
 
-TEST_F(ViewItemTests, InitialState)
+TEST_F(ViewItemTest, InitialState)
 {
   ViewItem view_item;
 
@@ -64,7 +64,7 @@ TEST_F(ViewItemTests, InitialState)
 
 //! Append single item as row.
 
-TEST_F(ViewItemTests, AppendRow)
+TEST_F(ViewItemTest, AppendRow)
 {
   auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
@@ -86,7 +86,7 @@ TEST_F(ViewItemTests, AppendRow)
 
 //! Remove row.
 
-TEST_F(ViewItemTests, RemoveRow)
+TEST_F(ViewItemTest, RemoveRow)
 {
   auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
@@ -102,7 +102,7 @@ TEST_F(ViewItemTests, RemoveRow)
 
 //! Append two rows with two items each.
 
-TEST_F(ViewItemTests, AppendTwoRows)
+TEST_F(ViewItemTest, AppendTwoRows)
 {
   // preparing two rows of children, two columns each
   auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
@@ -146,7 +146,7 @@ TEST_F(ViewItemTests, AppendTwoRows)
 
 //! Append two rows with two items each.
 
-TEST_F(ViewItemTests, InsertRowsThenRemove)
+TEST_F(ViewItemTest, InsertRowsThenRemove)
 {
   // preparing two rows of children, two columns each
   auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
@@ -200,7 +200,7 @@ TEST_F(ViewItemTests, InsertRowsThenRemove)
 
 //! Clean item's children.
 
-TEST_F(ViewItemTests, Clear)
+TEST_F(ViewItemTest, Clear)
 {
   auto [children, expected] = GetTestData(/*ncolumns*/ 1);
 
@@ -212,7 +212,7 @@ TEST_F(ViewItemTests, Clear)
   EXPECT_EQ(view_item.columnCount(), 0);
 }
 
-TEST_F(ViewItemTests, Children)
+TEST_F(ViewItemTest, Children)
 {
   auto [children_row0, expected_row0] = GetTestData(/*ncolumns*/ 2);
   auto [children_row1, expected_row1] = GetTestData(/*ncolumns*/ 2);
@@ -228,7 +228,7 @@ TEST_F(ViewItemTests, Children)
   EXPECT_EQ(view_item.children(), expected);
 }
 
-TEST_F(ViewItemTests, GetFlags)
+TEST_F(ViewItemTest, GetFlags)
 {
   ViewItem view_item;
 

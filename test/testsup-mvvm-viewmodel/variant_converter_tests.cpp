@@ -30,13 +30,13 @@ using namespace mvvm;
 
 //! Tests for utilities related to variant conversion.
 
-class VariantConverterTests : public ::testing::Test
+class VariantConverterTest : public ::testing::Test
 {
 };
 
 //! Testing original method to construct QVariant from std::variant.
 
-TEST_F(VariantConverterTests, fromStdVariant)
+TEST_F(VariantConverterTest, fromStdVariant)
 {
   {
     auto variant = QVariant::fromStdVariant(variant_t{});
@@ -158,7 +158,7 @@ TEST_F(VariantConverterTests, fromStdVariant)
 //! Testing function to convert Qt variant to std variant. Please note, that QVariant has limited
 //! set of constructors, QVariant::fromValue shall be used.
 
-TEST_F(VariantConverterTests, GetStdVariant)
+TEST_F(VariantConverterTest, GetStdVariant)
 {
   {
     EXPECT_EQ(GetStdVariant(QVariant()), variant_t());
@@ -312,7 +312,7 @@ TEST_F(VariantConverterTests, GetStdVariant)
 
 //! Testing method GetQtVariant. It is slightly different from original QVariant::fromStdVariant.
 
-TEST_F(VariantConverterTests, GetQtVariant)
+TEST_F(VariantConverterTest, GetQtVariant)
 {
   {
     auto variant = GetQtVariant(variant_t{});
@@ -436,7 +436,7 @@ TEST_F(VariantConverterTests, GetQtVariant)
 
 //! Testing function to convert std variant to Qt variant.
 
-TEST_F(VariantConverterTests, GetQtVariantExtended)
+TEST_F(VariantConverterTest, GetQtVariantExtended)
 {
   // from undefined variant
   EXPECT_EQ(GetQtVariant(variant_t()), QVariant());
@@ -521,7 +521,7 @@ TEST_F(VariantConverterTests, GetQtVariantExtended)
 //! Special test for comparison of Qt variants based on vector<double>.
 //! We are not comparing those in normal application.
 
-TEST_F(VariantConverterTests, QVariantComparisonForDoubleVector)
+TEST_F(VariantConverterTest, QVariantComparisonForDoubleVector)
 {
   const std::vector<double> vec({1.0, 2.0});
   const QVariant variant1 = QVariant::fromValue(vec);
@@ -538,7 +538,7 @@ TEST_F(VariantConverterTests, QVariantComparisonForDoubleVector)
 //! Special test for comparison of Qt variants based on ComboProperty.
 //! We are not comparing those in normal application.
 
-TEST_F(VariantConverterTests, QVariantComparisonForComboProperty)
+TEST_F(VariantConverterTest, QVariantComparisonForComboProperty)
 {
   const ComboProperty combo = ComboProperty::CreateFrom({"a1", "a2"});
   const QVariant variant1 = QVariant::fromValue(combo);

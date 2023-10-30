@@ -30,20 +30,20 @@ using namespace mvvm;
 
 //! Testing functions from utils.
 
-class WidgetUtilsTests : public ::testing::Test
+class WidgetUtilsTest : public ::testing::Test
 {
 };
 
 //! Test of system font (performed deliberately without QApplication running).
 //! Checking that the method SystemPointSize() known hardcoded value.
 
-TEST_F(WidgetUtilsTests, SystemPointSize)
+TEST_F(WidgetUtilsTest, SystemPointSize)
 {
   const int expected_system_font_size = 10;  // hardcoded in SystemPointSize
   EXPECT_EQ(utils::SystemPointSize(), expected_system_font_size);
 }
 
-TEST_F(WidgetUtilsTests, SizeOfLetterM)
+TEST_F(WidgetUtilsTest, SizeOfLetterM)
 {
   const int expected_width = 11;
   const int expected_height = 14;
@@ -52,26 +52,26 @@ TEST_F(WidgetUtilsTests, SizeOfLetterM)
   EXPECT_EQ(utils::SizeOfLetterM().height(), expected_height);
 }
 
-TEST_F(WidgetUtilsTests, ClickableText)
+TEST_F(WidgetUtilsTest, ClickableText)
 {
   EXPECT_EQ(utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));
 }
 
-TEST_F(WidgetUtilsTests, GetStringList)
+TEST_F(WidgetUtilsTest, GetStringList)
 {
   using vec_t = std::vector<std::string>;
   EXPECT_EQ(utils::GetStringList(vec_t()), QStringList());
   EXPECT_EQ(utils::GetStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
 }
 
-TEST_F(WidgetUtilsTests, GetStdStringVector)
+TEST_F(WidgetUtilsTest, GetStdStringVector)
 {
   using vec_t = std::vector<std::string>;
   EXPECT_EQ(utils::GetStdStringVector(QStringList()), vec_t());
   EXPECT_EQ(utils::GetStdStringVector(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
 }
 
-TEST_F(WidgetUtilsTests, GetByteArray)
+TEST_F(WidgetUtilsTest, GetByteArray)
 {
   QStringList expected = QStringList() << "aaa"
                                        << "bbb"
@@ -81,7 +81,7 @@ TEST_F(WidgetUtilsTests, GetByteArray)
   EXPECT_EQ(utils::GetStringList(array), expected);
 }
 
-TEST_F(WidgetUtilsTests, CreatePathPresentation)
+TEST_F(WidgetUtilsTest, CreatePathPresentation)
 {
   using utils::CreatePathPresentation;
 

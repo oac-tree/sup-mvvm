@@ -117,7 +117,7 @@ public:
 };
 
 //! Tests for ViewModelControler Virtual parentage handling.
-class VirtualParentTests : public ::testing::Test
+class VirtualParentTest : public ::testing::Test
 {
 public:
   void SetUp() override { m_model = std::make_unique<ApplicationModel>(); }
@@ -147,7 +147,7 @@ protected:
 //  │Property2 │  │Property3 │
 //  └──────────┘  └──────────┘
 //
-TEST_F(VirtualParentTests, Control)
+TEST_F(VirtualParentTest, Control)
 {
   const auto root_item = m_model->InsertItem<TestItem>();
 
@@ -209,7 +209,7 @@ TEST_F(VirtualParentTests, Control)
 //  │Property2 │  │Property3 │  │Property0│  │Property1│
 //  └──────────┘  └──────────┘  └─────────┘  └─────────┘
 //
-TEST_F(VirtualParentTests, InitialState)
+TEST_F(VirtualParentTest, InitialState)
 {
   const auto root_item = m_model->InsertItem<TestItem>();
 
@@ -253,7 +253,7 @@ TEST_F(VirtualParentTests, InitialState)
   EXPECT_EQ(viewmodel.FindViews(container1).size(), 0);
 }
 
-TEST_F(VirtualParentTests, ContainerAsRootItem)
+TEST_F(VirtualParentTest, ContainerAsRootItem)
 {
   const auto root_container = m_model->InsertItem<ContainerItem>();
   const auto property0 = m_model->InsertItem<PropertyItem>(root_container);
@@ -275,7 +275,7 @@ TEST_F(VirtualParentTests, ContainerAsRootItem)
   EXPECT_EQ(viewmodel.FindViews(root_container).size(), 0);
 }
 
-TEST_F(VirtualParentTests, InsertVirtualParent)
+TEST_F(VirtualParentTest, InsertVirtualParent)
 {
   const auto root_item = m_model->InsertItem<TestItem>();
 
@@ -315,7 +315,7 @@ TEST_F(VirtualParentTests, InsertVirtualParent)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(property1_index), property1);
 }
 
-TEST_F(VirtualParentTests, RemoveVirtualParent)
+TEST_F(VirtualParentTest, RemoveVirtualParent)
 {
   const auto root_item = m_model->InsertItem<TestItem>();
 
@@ -354,7 +354,7 @@ TEST_F(VirtualParentTests, RemoveVirtualParent)
   EXPECT_EQ(viewmodel.FindViews(property1).size(), 0);
 }
 
-TEST_F(VirtualParentTests, InsertChildOfVirtualParent)
+TEST_F(VirtualParentTest, InsertChildOfVirtualParent)
 {
   const auto root_item = m_model->InsertItem<TestItem>();
 
@@ -390,7 +390,7 @@ TEST_F(VirtualParentTests, InsertChildOfVirtualParent)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(property1_index), property1);
 }
 
-TEST_F(VirtualParentTests, RemoveParentOfVirtualParent)
+TEST_F(VirtualParentTest, RemoveParentOfVirtualParent)
 {
   const auto root_item = m_model->InsertItem<TestItem>();
 

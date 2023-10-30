@@ -38,11 +38,11 @@ const QStringList expected_labels = QStringList() << "Name"
 
 using namespace mvvm;
 
-class StandardRowStrategiesTests : public ::testing::Test
+class StandardRowStrategiesTest : public ::testing::Test
 {
 };
 
-TEST_F(StandardRowStrategiesTests, LabelDataRowStrategyInitialState)
+TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyInitialState)
 {
   LabelDataRowStrategy constructor;
   EXPECT_EQ(constructor.ConstructRow(nullptr).size(), 0);
@@ -51,7 +51,7 @@ TEST_F(StandardRowStrategiesTests, LabelDataRowStrategyInitialState)
 
 //! Checks row construction for standard top level item, like Level, MultiLayer etc.
 
-TEST_F(StandardRowStrategiesTests, LabelDataRowStrategyRowForTopLevelItem)
+TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForTopLevelItem)
 {
   SessionItem item;
 
@@ -75,7 +75,7 @@ TEST_F(StandardRowStrategiesTests, LabelDataRowStrategyRowForTopLevelItem)
 
 //! Checks row construction for property item.
 
-TEST_F(StandardRowStrategiesTests, LabelDataRowStrategyRowForPropertyItem)
+TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForPropertyItem)
 {
   SessionItem item;
   std::string expected_name{"test_name"};
@@ -107,7 +107,7 @@ TEST_F(StandardRowStrategiesTests, LabelDataRowStrategyRowForPropertyItem)
   EXPECT_EQ(data_view_item->data(Qt::EditRole).toString().toStdString(), "bbb");
 }
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyInitialState)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyInitialState)
 {
   PropertiesRowStrategy strategy;
   EXPECT_EQ(strategy.ConstructRow(nullptr).size(), 0);
@@ -116,7 +116,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyInitialState)
 
 //! Checks row construction for standard top level item. It shouldn't generate any rows.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyTopLevelItem)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyTopLevelItem)
 {
   SessionItem item;
 
@@ -128,7 +128,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyTopLevelItem)
 
 //! Checks row construction for property item. It shouldn't generate any rows.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyPropertyItem)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItem)
 {
   SessionItem item;
   item.SetData(42.0);
@@ -142,7 +142,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyPropertyItem)
 //! Checks row construction for vector item.
 //! There should be 3 view items looking to x, y, z properties.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemCustomLabels)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemCustomLabels)
 {
   VectorItem item;
 
@@ -165,7 +165,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemCustomLabels)
 
 //! Checks row label construction for vector item.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemAutoLabels)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemAutoLabels)
 {
   VectorItem item;
 
@@ -178,7 +178,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemAutoLabels)
 
 //! Row construction for rootItem with single item inserted. Shouldn't generate any row.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyBaseItemInModelContext)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyBaseItemInModelContext)
 {
   ApplicationModel model("testModel");
 
@@ -193,7 +193,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyBaseItemInModelContext)
 
 //! Row construction for rootItem with single item inserted. Shouldn't generate any row.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyPropertyItemTree)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItemTree)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -215,7 +215,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyPropertyItemTree)
 
 //! Row construction for rootItem when vectorItem is present. Shouldn't generate any row.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemInModelContext)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemInModelContext)
 {
   ApplicationModel model;
   model.InsertItem<VectorItem>();
@@ -228,7 +228,7 @@ TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemInModelContext
 //! Checks row construction for vector item when 'y' is hidden.
 //! There should be 2 view items looking to 'x' and 'z' properties.
 
-TEST_F(StandardRowStrategiesTests, PropertiesRowStrategyVectorItemWhenChildHidden)
+TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemWhenChildHidden)
 {
   VectorItem item;
   item.GetItem(VectorItem::kY)->SetVisible(false);

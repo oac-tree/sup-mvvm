@@ -32,12 +32,12 @@ using namespace mvvm;
 
 //! Tests for factory methods related to ViewItem.
 
-class ViewItemFactoryTests : public ::testing::Test
+class ViewItemFactoryTest : public ::testing::Test
 {
 public:
 };
 
-TEST_F(ViewItemFactoryTests, CreateDisplayNameViewItem)
+TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
 {
   SessionItem item;
   item.SetDisplayName("abc");
@@ -57,7 +57,7 @@ TEST_F(ViewItemFactoryTests, CreateDisplayNameViewItem)
 
 //! Checking that context method can't cast to underlying item.
 
-TEST_F(ViewItemFactoryTests, CreateDisplayNameViewItemAndContext)
+TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
 {
   VectorItem item;
   item.SetDisplayName("abc");
@@ -73,7 +73,7 @@ TEST_F(ViewItemFactoryTests, CreateDisplayNameViewItemAndContext)
 
 //! Testing CreateDataViewItem (case of integer data).
 
-TEST_F(ViewItemFactoryTests, CreateDataViewItem)
+TEST_F(ViewItemFactoryTest, CreateDataViewItem)
 {
   const int value{42};
 
@@ -98,7 +98,7 @@ TEST_F(ViewItemFactoryTests, CreateDataViewItem)
 
 //! Testing CreateDataViewItem (case of integer data).
 
-TEST_F(ViewItemFactoryTests, CreateDataViewItemForSecondaryRole)
+TEST_F(ViewItemFactoryTest, CreateDataViewItemForSecondaryRole)
 {
   const int kSecondaryDataRole{42};
   const int value{42};
@@ -127,7 +127,7 @@ TEST_F(ViewItemFactoryTests, CreateDataViewItemForSecondaryRole)
 
 //! Testing CreateDataViewItem (case of std::string data).
 
-TEST_F(ViewItemFactoryTests, CreateDataViewItemString)
+TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
 {
   const std::string value{"abc"};
 
@@ -150,7 +150,7 @@ TEST_F(ViewItemFactoryTests, CreateDataViewItemString)
   EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), new_value);
 }
 
-TEST_F(ViewItemFactoryTests, CreateEditableDisplayNameViewItem)
+TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
 {
   SessionItem item;
   item.SetDisplayName("abc");
