@@ -138,13 +138,13 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
     EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
   }
 
-  { // float32
+  {  // float32
     const float32 num(42.1);
     index = AddDataToModel(variant_t(num));
     EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
   }
 
-  { // float64
+  {  // float64
     const float64 num(42.1);
     index = AddDataToModel(variant_t(num));
     EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
@@ -171,7 +171,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
   index = AddDataToModel(std::string("abc"), constants::kColorEditorType);
   EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
 
-  { // int32 is handled for the moment by original QSpinBox editor
+  {  // int32 is handled for the moment by original QSpinBox editor
     index = AddDataToModel(variant_t(42));
     EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
   }
@@ -218,13 +218,13 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
     EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
   }
 
-  { // float32
+  {  // float32
     const float32 num(42.1);
     index = AddDataToModel(variant_t(num));
     EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
   }
 
-  { // float64
+  {  // float64
     const float64 num(42.1);
     index = AddDataToModel(variant_t(num));
     EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));

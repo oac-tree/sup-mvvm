@@ -120,7 +120,8 @@ TEST_F(ViewItemFactoryTests, CreateDataViewItemForSecondaryRole)
   EXPECT_TRUE(viewitem->setData(QString::fromStdString(new_secondary_value), Qt::EditRole));
 
   // data is the new one
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(), QString::fromStdString(new_secondary_value));
+  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(),
+            QString::fromStdString(new_secondary_value));
   EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), QString::fromStdString(new_secondary_value));
 }
 

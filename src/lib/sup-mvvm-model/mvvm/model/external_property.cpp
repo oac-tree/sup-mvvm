@@ -82,7 +82,7 @@ bool ExternalProperty::operator<(const ExternalProperty& other) const
          < std::tie(other.m_identifier, other.m_text, other.m_color);
 }
 
-bool ExternalProperty::operator>=(const ExternalProperty &other) const
+bool ExternalProperty::operator>=(const ExternalProperty& other) const
 {
   return (other < *this) || (*this == other);
 }

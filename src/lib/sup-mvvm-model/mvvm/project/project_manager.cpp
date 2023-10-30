@@ -44,10 +44,7 @@ struct ProjectManager::ProjectManagerImpl
 
   //! Creates new project. Closes current project. Used in assumption that project was already
   //! saved.
-  void CreateNewProject()
-  {
-    m_current_project = utils::CreateUntitledProject(m_project_context);
-  }
+  void CreateNewProject() { m_current_project = utils::CreateUntitledProject(m_project_context); }
 
   //! Returns true if the project has directory already defined.
   bool ProjectHasDir() const { return !m_current_project->GetProjectDir().empty(); }

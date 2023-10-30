@@ -69,7 +69,7 @@ std::string ProjectWindowTitle(const ProjectInterface& project);
  */
 std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified);
 
-}  // namespace ProjectUtils
+}  // namespace utils
 
 }  // namespace mvvm
 

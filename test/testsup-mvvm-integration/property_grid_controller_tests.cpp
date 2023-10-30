@@ -20,13 +20,13 @@
 #include "mvvm/widgets/property_grid_controller.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/editors/float_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
-#include <mvvm/editors/float_spinbox.h>
 
 #include <gtest/gtest.h>
 

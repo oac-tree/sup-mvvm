@@ -45,9 +45,9 @@ class RowStrategyInterface;
 class ViewModelControllerVirtualParentImpl : public IViewModelController
 {
 public:
-  explicit ViewModelControllerVirtualParentImpl(ViewModelBase *viewmodel,
-                                   std::unique_ptr<ChildrenStrategyInterface> children_strategy,
-                                   std::unique_ptr<RowStrategyInterface> row_strategy);
+  explicit ViewModelControllerVirtualParentImpl(
+      ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
+      std::unique_ptr<RowStrategyInterface> row_strategy);
 
   void OnModelEvent(const AboutToInsertItemEvent &event) override;
 

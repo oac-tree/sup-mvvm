@@ -297,4 +297,3 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
 //    // This will require change in JsonModelConverter
 //    EXPECT_FALSE(model.rootItem()->identifier() == modelCopy->rootItem()->identifier());
 //}
-

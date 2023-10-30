@@ -195,8 +195,8 @@ void ViewModelControllerVirtualParentImpl::CheckInitialState() const
   }
 }
 
-int ViewModelControllerVirtualParentImpl::GetInsertViewIndexOfChild(const SessionItem *const parent,
-                                                       const SessionItem *const child) const
+int ViewModelControllerVirtualParentImpl::GetInsertViewIndexOfChild(
+    const SessionItem *const parent, const SessionItem *const child) const
 {
   // children that should get their views
   auto children = m_children_strategy->GetChildren(parent);
@@ -296,7 +296,8 @@ ViewItemMap &ViewModelControllerVirtualParentImpl::GetViewItemMap()
 
 //! Returns true if given SessionItem role is valid for view
 
-bool ViewModelControllerVirtualParentImpl::isValidItemRole(const ViewItem *const view, const int item_role) const
+bool ViewModelControllerVirtualParentImpl::isValidItemRole(const ViewItem *const view,
+                                                           const int item_role) const
 {
   if (const auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item());
       presentation)

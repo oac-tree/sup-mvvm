@@ -88,7 +88,7 @@ QVariant DecorationRole(const SessionItem& item)
   {
     return QColor(QString::fromStdString(item.Data<std::string>()));
   }
-  
+
   if (TypeName(item.Data()) == ::mvvm::constants::kExternalPropertyTypeName)
   {
     return QColor(QString::fromStdString(item.Data<ExternalProperty>().GetColorName()));

@@ -66,8 +66,8 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromRoot)
   auto item_identifier = item->GetIdentifier();
 
   // command to remove item from the model
-  auto command = std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(),
-                                                     TagIndex::First());
+  auto command =
+      std::make_unique<RemoveItemCommand>(composer.get(), m_model.GetRootItem(), TagIndex::First());
 
   // item is still there
   EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex()), item);

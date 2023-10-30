@@ -93,7 +93,6 @@ public:
   SessionItemContainer* FindContainer(const std::string& tag_name) const;
 
 private:
-
   container_t m_containers;
   std::string m_default_tag;
 };

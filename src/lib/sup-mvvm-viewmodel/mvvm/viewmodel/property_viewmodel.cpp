@@ -32,7 +32,7 @@ PropertyViewModel::PropertyViewModel(SessionModelInterface* model, QObject* pare
       factory::CreateController<PropertyItemsStrategy, LabelDataRowStrategy>(model, this));
 }
 
-int PropertyViewModel::columnCount(const QModelIndex &parent) const
+int PropertyViewModel::columnCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent);
   return 2;

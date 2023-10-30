@@ -262,8 +262,7 @@ ViewItemMap &ViewModelControllerImpl::GetViewItemMap()
 
 bool ViewModelControllerImpl::isValidItemRole(const ViewItem *view, int item_role)
 {
-  if (auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item());
-      presentation)
+  if (auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item()); presentation)
   {
     if (presentation->GetDataRole() == item_role)
     {

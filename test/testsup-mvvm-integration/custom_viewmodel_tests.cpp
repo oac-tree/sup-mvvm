@@ -24,12 +24,12 @@
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
-#include <mvvm/standarditems/vector_item.h>
-#include <mvvm/standarditems/container_item.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
-#include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
+#include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/vector_item.h>
+#include <mvvm/viewmodel/standard_children_strategies.h>
+#include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
 #include <gtest/gtest.h>
@@ -119,9 +119,8 @@ TEST_F(CustomViewModelTests, StressInsertRemove)
 
   auto container0 = model.InsertItem<mvvm::ContainerItem>();
 
-  for(int i=0; i<n_max_count; ++i)
+  for (int i = 0; i < n_max_count; ++i)
   {
-
     auto container1 = model.InsertItem<mvvm::ContainerItem>(container0);
     viewmodel.SetRootSessionItem(container1);
 

@@ -176,12 +176,12 @@ template <typename T>
 inline T SessionItem::Data(int role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
-  {    
+  {
     return DataInternal(role);
   }
   else
   {
-    return std::get<T>(DataInternal(role)); // if variant_it is required, simply return it
+    return std::get<T>(DataInternal(role));  // if variant_it is required, simply return it
   }
 }
 

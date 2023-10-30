@@ -62,14 +62,14 @@ TEST_F(LimitedIntegerTests, Constructor)
 
 TEST_F(LimitedIntegerTests, ConstructorWithValueShift)
 {
-  { // value forced to upper limit
+  {  // value forced to upper limit
     const LimitedInteger<int> num(42, 10, 20);
     EXPECT_EQ(num.GetValue(), 20);
     EXPECT_EQ(num.GetLowerBound(), 10);
     EXPECT_EQ(num.GetUpperBound(), 20);
   }
 
-  { // value forced to lower limit
+  {  // value forced to lower limit
     const LimitedInteger<int> num(1, 10, 20);
     EXPECT_EQ(num.GetValue(), 10);
     EXPECT_EQ(num.GetLowerBound(), 10);

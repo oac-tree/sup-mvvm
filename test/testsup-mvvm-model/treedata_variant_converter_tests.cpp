@@ -144,7 +144,7 @@ TEST_F(TreeDataVariantConverterTests, Int64DataRole)
   tree_data = ParseXMLElementString(R"(<Variant role="42" type="int64"></Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
   EXPECT_THROW(ToDataRole(*tree_data), std::invalid_argument);
- }
+}
 
 //! Parsing XML data string representing datarole_t with double data.
 

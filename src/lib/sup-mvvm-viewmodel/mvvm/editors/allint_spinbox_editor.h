@@ -43,7 +43,7 @@ public:
   void SetRange(const variant_t& lower_limit, const variant_t& upper_limit);
 
 private:
-  void OnValueChanged(const QVariant &value);
+  void OnValueChanged(const QVariant& value);
 
   void UpdateComponents() override;
   AllIntSpinBox* m_allint_editor{nullptr};

@@ -78,7 +78,6 @@ public:
   bool IsMinimumReached() const;
 
 private:
-
   TagInfo m_tag_info;
   container_t m_items;
 };
