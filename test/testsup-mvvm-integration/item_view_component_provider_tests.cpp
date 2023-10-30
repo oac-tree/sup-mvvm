@@ -34,7 +34,7 @@
 
 using namespace mvvm;
 
-class ItemViewComponentProviderTests : public ::testing::Test
+class ItemViewComponentProviderTest : public ::testing::Test
 {
 public:
   mvvm::ApplicationModel m_model;
@@ -42,7 +42,7 @@ public:
 
 //! Initial state when no ApplicationModel is set.
 
-TEST_F(ItemViewComponentProviderTests, InitialState)
+TEST_F(ItemViewComponentProviderTest, InitialState)
 {
   QTreeView view;
 
@@ -62,7 +62,7 @@ TEST_F(ItemViewComponentProviderTests, InitialState)
 
 //! Setting empty ApplicationModel to the provider.
 
-TEST_F(ItemViewComponentProviderTests, SetEmptyModel)
+TEST_F(ItemViewComponentProviderTest, SetEmptyModel)
 {
   QTreeView view;
 
@@ -81,7 +81,7 @@ TEST_F(ItemViewComponentProviderTests, SetEmptyModel)
 
 //! Setting ApplicationModel with single item to the provider.
 
-TEST_F(ItemViewComponentProviderTests, SetNonEmptyModel)
+TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
 {
   QTreeView view;
 
@@ -105,7 +105,7 @@ TEST_F(ItemViewComponentProviderTests, SetNonEmptyModel)
 
 //! No model initialisation, setting an item.
 
-TEST_F(ItemViewComponentProviderTests, SetItem)
+TEST_F(ItemViewComponentProviderTest, SetItem)
 {
   QTreeView view;
 
@@ -126,7 +126,7 @@ TEST_F(ItemViewComponentProviderTests, SetItem)
 
 //! Initialising provider with application model, then changing root item.
 
-TEST_F(ItemViewComponentProviderTests, SetItemAfterSetModel)
+TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
 {
   QTreeView view;
 
@@ -164,7 +164,7 @@ TEST_F(ItemViewComponentProviderTests, SetItemAfterSetModel)
 
 //! Initialising provider with application model, then setting it to nullptr.
 
-TEST_F(ItemViewComponentProviderTests, SetNullptrAfterSetModel)
+TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
 {
   QTreeView view;
 
@@ -197,7 +197,7 @@ TEST_F(ItemViewComponentProviderTests, SetNullptrAfterSetModel)
 //! Attempt to set one item after another, when they belongs to different models
 //! (real life bug)
 
-TEST_F(ItemViewComponentProviderTests, SetItemAfterItem)
+TEST_F(ItemViewComponentProviderTest, SetItemAfterItem)
 {
   QTreeView view;
 
@@ -222,7 +222,7 @@ TEST_F(ItemViewComponentProviderTests, SetItemAfterItem)
   EXPECT_EQ(provider->GetViewModel()->rowCount(), 0);
 }
 
-TEST_F(ItemViewComponentProviderTests, SelectItem)
+TEST_F(ItemViewComponentProviderTest, SelectItem)
 {
   QTreeView view;
 
@@ -256,7 +256,7 @@ TEST_F(ItemViewComponentProviderTests, SelectItem)
 
 //! Checking selection when acting through the view.
 
-TEST_F(ItemViewComponentProviderTests, SetCurrentIndex)
+TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
 {
   QTreeView view;
 
@@ -283,7 +283,7 @@ TEST_F(ItemViewComponentProviderTests, SetCurrentIndex)
 //! Selecting whole row and checking list of selected items.
 //! There should be no duplications.
 
-TEST_F(ItemViewComponentProviderTests, SelectRow)
+TEST_F(ItemViewComponentProviderTest, SelectRow)
 {
   QTreeView view;
 
@@ -307,7 +307,7 @@ TEST_F(ItemViewComponentProviderTests, SelectRow)
   EXPECT_EQ(spy_selected.count(), 1);
 }
 
-TEST_F(ItemViewComponentProviderTests, DestroyModel)
+TEST_F(ItemViewComponentProviderTest, DestroyModel)
 {
   QTreeView view;
 
@@ -337,7 +337,7 @@ TEST_F(ItemViewComponentProviderTests, DestroyModel)
 
 //! Removing selected and checking notifications.
 
-TEST_F(ItemViewComponentProviderTests, SelectionAfterRemoval)
+TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
 {
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
@@ -374,7 +374,7 @@ TEST_F(ItemViewComponentProviderTests, SelectionAfterRemoval)
 
 //! Delete provider before the view.
 
-TEST_F(ItemViewComponentProviderTests, DeleteProvider)
+TEST_F(ItemViewComponentProviderTest, DeleteProvider)
 {
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();

@@ -36,7 +36,7 @@ using namespace mvvm;
 
 //! Testing PropertyFlatView.
 
-class PropertyFlatViewTests : public ::testing::Test
+class PropertyFlatViewTest : public ::testing::Test
 {
 public:
   //! Returns 2D vector with widgets populating QGridLayout.
@@ -69,7 +69,7 @@ public:
 //! Model with two items is assigned to PropertyFlatView.
 //! Check that grid layout is properly populated with editors.
 
-TEST_F(PropertyFlatViewTests, SetViewModel)
+TEST_F(PropertyFlatViewTest, SetViewModel)
 {
   PropertyFlatView flat_view;
 
@@ -97,7 +97,7 @@ TEST_F(PropertyFlatViewTests, SetViewModel)
 //! Model with two items is assigned to PropertyFlatView.
 //! Check that grid layout is updated when the model gets new rows.
 
-TEST_F(PropertyFlatViewTests, GridLayoutUpdate)
+TEST_F(PropertyFlatViewTest, GridLayoutUpdate)
 {
   PropertyFlatView flat_view;
 
@@ -128,7 +128,7 @@ TEST_F(PropertyFlatViewTests, GridLayoutUpdate)
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(layout_widgets[1][1]));
 }
 
-TEST_F(PropertyFlatViewTests, CreateGridForPropertyTableViewModel)
+TEST_F(PropertyFlatViewTest, CreateGridForPropertyTableViewModel)
 {
   ApplicationModel model;
   model.InsertItem<VectorItem>();

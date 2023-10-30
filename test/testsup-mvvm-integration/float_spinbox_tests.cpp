@@ -32,12 +32,12 @@ using namespace mvvm;
 
 //! Tests for FloatSpinBox class.
 
-class FloatSpinBoxTests : public ::testing::Test
+class FloatSpinBoxTest : public ::testing::Test
 {
 };
 
 //! Out of curiocity comparing variants
-TEST_F(FloatSpinBoxTests, ComparingVariants)
+TEST_F(FloatSpinBoxTest, ComparingVariants)
 {
   const mvvm::float32 value_float32(42.0);
   const QVariant variant_float32 = QVariant::fromValue(value_float32);
@@ -50,7 +50,7 @@ TEST_F(FloatSpinBoxTests, ComparingVariants)
 }
 
 //! We expect that FloatSpinBox works for both QVariants, based on float and on double
-TEST_F(FloatSpinBoxTests, SetFloat)
+TEST_F(FloatSpinBoxTest, SetFloat)
 {
   // setting a double, should get double back
   {
@@ -83,7 +83,7 @@ TEST_F(FloatSpinBoxTests, SetFloat)
   }
 }
 
-TEST_F(FloatSpinBoxTests, SetValueForFloat64)
+TEST_F(FloatSpinBoxTest, SetValueForFloat64)
 {
   FloatSpinBox editor;
   QSignalSpy spy_value_changed(&editor, &FloatSpinBox::valueChanged);
@@ -108,7 +108,7 @@ TEST_F(FloatSpinBoxTests, SetValueForFloat64)
   EXPECT_EQ(reported_data, QVariant{43.0});
 }
 
-TEST_F(FloatSpinBoxTests, SetValueForFloat32)
+TEST_F(FloatSpinBoxTest, SetValueForFloat32)
 {
   FloatSpinBox editor;
   QSignalSpy spy_value_changed(&editor, &FloatSpinBox::valueChanged);

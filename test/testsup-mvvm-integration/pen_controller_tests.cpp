@@ -31,13 +31,13 @@ using namespace mvvm;
 
 //! Testing PenController.
 
-class PenControllerTests : public ::testing::Test
+class PenControllerTest : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(PenControllerTests, InitialState)
+TEST_F(PenControllerTest, InitialState)
 {
   // Constructor accept valid QCPGraph
   EXPECT_THROW(PenController(nullptr), std::runtime_error);
@@ -49,7 +49,7 @@ TEST_F(PenControllerTests, InitialState)
   EXPECT_EQ(controller.GetItem(), nullptr);
 }
 
-TEST_F(PenControllerTests, GraphItemInInitialState)
+TEST_F(PenControllerTest, GraphItemInInitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   auto graph = custom_plot->addGraph();
@@ -68,7 +68,7 @@ TEST_F(PenControllerTests, GraphItemInInitialState)
   EXPECT_EQ(graph->pen().width(), 1);
 }
 
-TEST_F(PenControllerTests, SetPenSelected)
+TEST_F(PenControllerTest, SetPenSelected)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   auto graph = custom_plot->addGraph();
@@ -87,7 +87,7 @@ TEST_F(PenControllerTests, SetPenSelected)
   EXPECT_EQ(graph->pen().width(), 1);
 }
 
-TEST_F(PenControllerTests, SetColorAndWidth)
+TEST_F(PenControllerTest, SetColorAndWidth)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   auto graph = custom_plot->addGraph();

@@ -33,7 +33,7 @@
 
 using namespace mvvm;
 
-class AbstractItemViewTests : public ::testing::Test
+class AbstractItemViewTest : public ::testing::Test
 {
 public:
   class TestView : public mvvm::AbstractItemView
@@ -51,7 +51,7 @@ public:
   ApplicationModel m_model;
 };
 
-TEST_F(AbstractItemViewTests, InitialState)
+TEST_F(AbstractItemViewTest, InitialState)
 {
   TestView view(nullptr);
   EXPECT_NE(view.GetComponentProvider()->GetViewModel(), nullptr);
@@ -59,7 +59,7 @@ TEST_F(AbstractItemViewTests, InitialState)
   EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
 }
 
-TEST_F(AbstractItemViewTests, ModelInConstructor)
+TEST_F(AbstractItemViewTest, ModelInConstructor)
 {
   TestView view(&m_model);
   auto viewmodel = view.GetComponentProvider()->GetViewModel();
@@ -71,7 +71,7 @@ TEST_F(AbstractItemViewTests, ModelInConstructor)
   EXPECT_EQ(viewmodel->columnCount(), 2);
 }
 
-TEST_F(AbstractItemViewTests, SetApplicationModel)
+TEST_F(AbstractItemViewTest, SetApplicationModel)
 {
   TestView view(nullptr);
 
@@ -90,7 +90,7 @@ TEST_F(AbstractItemViewTests, SetApplicationModel)
   EXPECT_EQ(viewmodel->columnCount(), 2);
 }
 
-TEST_F(AbstractItemViewTests, SetItem)
+TEST_F(AbstractItemViewTest, SetItem)
 {
   TestView view(nullptr);
 
@@ -112,7 +112,7 @@ TEST_F(AbstractItemViewTests, SetItem)
 //! Attempt to set one item after another, when they belongs to different models
 //! (real life bug)
 
-TEST_F(AbstractItemViewTests, SetItemAfterItem)
+TEST_F(AbstractItemViewTest, SetItemAfterItem)
 {
   TestView view(nullptr);
 

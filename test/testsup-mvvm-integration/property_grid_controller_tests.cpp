@@ -46,7 +46,7 @@ using namespace mvvm;
 
 //! Testing PropertyGridController.
 
-class PropertyGridControllerTests : public ::testing::Test
+class PropertyGridControllerTest : public ::testing::Test
 {
 public:
   static QList<QStandardItem*> CreateItemRow(const QString& name, int value)
@@ -60,7 +60,7 @@ public:
 
 //! To learn how QDataWidgetMapper is functioning.
 
-TEST_F(PropertyGridControllerTests, DataWidgetMapperBasics)
+TEST_F(PropertyGridControllerTest, DataWidgetMapperBasics)
 {
   QStandardItemModel view_model;
   auto parent_item = view_model.invisibleRootItem();
@@ -94,7 +94,7 @@ TEST_F(PropertyGridControllerTests, DataWidgetMapperBasics)
   EXPECT_EQ(view_model.data(view_model.index(0, 1)).toInt(), 98);
 }
 
-TEST_F(PropertyGridControllerTests, UninitialisedModel)
+TEST_F(PropertyGridControllerTest, UninitialisedModel)
 {
   EXPECT_THROW(PropertyGridController(nullptr), NullArgumentException);
 }
@@ -102,7 +102,7 @@ TEST_F(PropertyGridControllerTests, UninitialisedModel)
 //! Checking method CreateWidget.
 //! Use QStandardItemModel with single row with label and data.
 
-TEST_F(PropertyGridControllerTests, CreateWidget)
+TEST_F(PropertyGridControllerTest, CreateWidget)
 {
   // preparing the model
   QStandardItemModel view_model;
@@ -133,7 +133,7 @@ TEST_F(PropertyGridControllerTests, CreateWidget)
 //! Checking method CreateGrid.
 //! Use QStandardItemModel with two rows and three columns.
 
-TEST_F(PropertyGridControllerTests, CreateGridForStandardModel)
+TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
 {
   // preparing the model
   QStandardItemModel view_model;
@@ -156,7 +156,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForStandardModel)
 //! Checking method CreateGrid.
 //! Use PropertyViewModel and single VectorItem in it.
 
-TEST_F(PropertyGridControllerTests, CreateGridForPropertyViewModel)
+TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModel)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
@@ -174,7 +174,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForPropertyViewModel)
 //! Checking method CreateGrid for VectorItem in PropertyViewModel.
 //! VectorItem is set after controller creation, thus checking reset signal.
 
-TEST_F(PropertyGridControllerTests, CreateGridForVectorItemProperties)
+TEST_F(PropertyGridControllerTest, CreateGridForVectorItemProperties)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
@@ -197,7 +197,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForVectorItemProperties)
 //! Checking method CreateGrid.
 //! Use PropertyTableViewModel with two VectorItem in it.
 
-TEST_F(PropertyGridControllerTests, CreateGridForPropertyTableViewModel)
+TEST_F(PropertyGridControllerTest, CreateGridForPropertyTableViewModel)
 {
   ApplicationModel model;
   model.InsertItem<VectorItem>();
@@ -214,7 +214,7 @@ TEST_F(PropertyGridControllerTests, CreateGridForPropertyTableViewModel)
 
 //! Checking controller signaling while inserting item through the model.
 
-TEST_F(PropertyGridControllerTests, GridChanged)
+TEST_F(PropertyGridControllerTest, GridChanged)
 {
   ApplicationModel model;
 
@@ -232,7 +232,7 @@ TEST_F(PropertyGridControllerTests, GridChanged)
 //! Validating that internal mapping is working.
 //! The data is set via the editor
 
-TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
+TEST_F(PropertyGridControllerTest, SetDataThroughObtainedEditor)
 {
   ApplicationModel model;
   auto vector = model.InsertItem<VectorItem>();
@@ -264,7 +264,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughObtainedEditor)
 //! Validating that internal mapping is working.
 //! The data is set via the model and then checked in the editor
 
-TEST_F(PropertyGridControllerTests, SetDataThroughModel)
+TEST_F(PropertyGridControllerTest, SetDataThroughModel)
 {
   ApplicationModel model;
   auto root_item = model.InsertItem<CompoundItem>();
@@ -312,7 +312,7 @@ TEST_F(PropertyGridControllerTests, SetDataThroughModel)
 
 //! Validating that GridController survives after model clearing
 
-TEST_F(PropertyGridControllerTests, ClearModel)
+TEST_F(PropertyGridControllerTest, ClearModel)
 {
   ApplicationModel model;
   auto vector = model.InsertItem<VectorItem>();

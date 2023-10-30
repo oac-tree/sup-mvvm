@@ -33,13 +33,13 @@ using namespace mvvm;
 
 //! Testing Data1DPlotController.
 
-class Data1DPlotControllerTests : public ::testing::Test
+class Data1DPlotControllerTest : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(Data1DPlotControllerTests, InitialState)
+TEST_F(Data1DPlotControllerTest, InitialState)
 {
   // Constructor accept valid QCPGraph
   EXPECT_THROW(Data1DPlotController(nullptr), std::runtime_error);
@@ -57,7 +57,7 @@ TEST_F(Data1DPlotControllerTests, InitialState)
 
 //! Testing controller when Data1DItem is not initialized properly.
 
-TEST_F(Data1DPlotControllerTests, DataItemInInitialState)
+TEST_F(Data1DPlotControllerTest, DataItemInInitialState)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -78,7 +78,7 @@ TEST_F(Data1DPlotControllerTests, DataItemInInitialState)
 
 //! Testing controller when Data1DItem get it's axis after controller setup.
 
-TEST_F(Data1DPlotControllerTests, AxisAfter)
+TEST_F(Data1DPlotControllerTest, AxisAfter)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -101,7 +101,7 @@ TEST_F(Data1DPlotControllerTests, AxisAfter)
 
 //! Testing graph points update.
 
-TEST_F(Data1DPlotControllerTests, DataPoints)
+TEST_F(Data1DPlotControllerTest, DataPoints)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -130,7 +130,7 @@ TEST_F(Data1DPlotControllerTests, DataPoints)
 
 //! Testing graph errors update.
 
-TEST_F(Data1DPlotControllerTests, ErrorBars)
+TEST_F(Data1DPlotControllerTest, ErrorBars)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -157,7 +157,7 @@ TEST_F(Data1DPlotControllerTests, ErrorBars)
 
 //! Testing two graph scenario.
 
-TEST_F(Data1DPlotControllerTests, TwoDataItems)
+TEST_F(Data1DPlotControllerTest, TwoDataItems)
 {
   // creating custom plot and empty graph on it
   auto custom_plot = std::make_unique<QCustomPlot>();

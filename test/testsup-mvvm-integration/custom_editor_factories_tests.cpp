@@ -36,10 +36,10 @@ using namespace mvvm;
 
 //! Tests for editor factories from custom_editor_factories.h
 
-class CustomEditorFactoriesTests : public ::testing::Test
+class CustomEditorFactoriesTest : public ::testing::Test
 {
 public:
-  CustomEditorFactoriesTests() : m_view_model(&m_model) {}
+  CustomEditorFactoriesTest() : m_view_model(&m_model) {}
 
   //! Convenience function to add given data to the model as PropertyItem.
   //! Returns back an index corresponding to the item's position in a view model.
@@ -64,7 +64,7 @@ public:
   AllItemsViewModel m_view_model;
 };
 
-TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
+TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
 {
   RoleDependentEditorFactory factory;
 
@@ -101,7 +101,7 @@ TEST_F(CustomEditorFactoriesTests, RoleDependentEditorFactory)
   EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 }
 
-TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
+TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
 {
   VariantDependentEditorFactory factory;
 
@@ -151,7 +151,7 @@ TEST_F(CustomEditorFactoriesTests, VariantDependentEditorFactory)
   }
 }
 
-TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
 {
   const DefaultEditorFactory factory;
 
@@ -233,7 +233,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactory)
 
 //! Checking integer editor construction when limits are not set.
 
-TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditor)
 {
   const DefaultEditorFactory factory;
 
@@ -251,7 +251,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditor)
 
 //! Checking integer editor construction when limits are set.
 
-TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditorForLimits)
 {
   const DefaultEditorFactory factory;
 
@@ -275,7 +275,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryIntEditorForLimits)
 
 //! Checking double editor construction when limits are not set.
 
-TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryDoubleEditor)
 {
   const DefaultEditorFactory factory;
 
@@ -292,7 +292,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryDoubleEditor)
 
 //! Checking double editor construction when limits are set.
 
-TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLimits)
 {
   const DefaultEditorFactory factory;
 
@@ -317,7 +317,7 @@ TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLimits)
 //! Test is failing because current version of DoubleEditorBuilder() can handle only two limits
 //! present.
 
-TEST_F(CustomEditorFactoriesTests, DefaultEditorFactoryRealEditorForLowerLimited)
+TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLowerLimited)
 {
   const DefaultEditorFactory factory;
 

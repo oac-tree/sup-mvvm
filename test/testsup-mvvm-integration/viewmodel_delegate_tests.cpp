@@ -34,10 +34,10 @@ using namespace mvvm;
 
 //! Tests of ViewModelDelegate class.
 
-class ViewModelDelegateTests : public ::testing::Test
+class ViewModelDelegateTest : public ::testing::Test
 {
 public:
-  ViewModelDelegateTests() : m_view_model(&m_model)
+  ViewModelDelegateTest() : m_view_model(&m_model)
   {
     m_mapper.setModel(&m_view_model);
     m_mapper.setItemDelegate(&m_delegate);
@@ -74,7 +74,7 @@ public:
   QDataWidgetMapper m_mapper;
 };
 
-TEST_F(ViewModelDelegateTests, createEditor)
+TEST_F(ViewModelDelegateTest, createEditor)
 {
   auto index1 = GetIndex(variant_t(true));
   EXPECT_TRUE(CreateEditor(index1).get() != nullptr);
@@ -86,7 +86,7 @@ TEST_F(ViewModelDelegateTests, createEditor)
 
 //! Check that ViewModelDelegate can work with widget mapper.
 
-// TEST_F(ViewModelDelegateTests, widgetMapper)
+// TEST_F(ViewModelDelegateTest, widgetMapper)
 //{
 //   TestData test_data;
 //   auto vector_item = test_data.model.insertItem<VectorItem>();

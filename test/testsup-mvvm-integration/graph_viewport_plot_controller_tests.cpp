@@ -17,7 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "custom_plot_test_utils.h"
 #include "mvvm/plotting/graph_viewport_plot_controller.h"
 
 #include <mvvm/model/application_model.h>
@@ -33,13 +32,13 @@ using namespace mvvm;
 
 //! Testing GraphViewportPlotController.
 
-class GraphViewportPlotControllerTests : public ::testing::Test
+class GraphViewportPlotControllerTest : public ::testing::Test
 {
 };
 
 //! Initial state.
 
-TEST_F(GraphViewportPlotControllerTests, InitialState)
+TEST_F(GraphViewportPlotControllerTest, InitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -48,7 +47,7 @@ TEST_F(GraphViewportPlotControllerTests, InitialState)
 
 //! Check ::setItem() method when no graphs exist.
 
-TEST_F(GraphViewportPlotControllerTests, SetItem)
+TEST_F(GraphViewportPlotControllerTest, SetItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -74,9 +73,9 @@ TEST_F(GraphViewportPlotControllerTests, SetItem)
 // FIXME restore test on Qt 6.4.0.
 // It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
 // While triggering custom_plot->replot() from ViewportAxisPlotController
-TEST_F(GraphViewportPlotControllerTests, DISABLED_AddGraphAndSetItem)
+TEST_F(GraphViewportPlotControllerTest, DISABLED_AddGraphAndSetItem)
 #else
-TEST_F(GraphViewportPlotControllerTests, AddGraphAndSetItem)
+TEST_F(GraphViewportPlotControllerTest, AddGraphAndSetItem)
 #endif
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -112,9 +111,9 @@ TEST_F(GraphViewportPlotControllerTests, AddGraphAndSetItem)
 // FIXME restore test on Qt 6.4.0.
 // It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
 // While triggering custom_plot->replot() from ViewportAxisPlotController
-TEST_F(GraphViewportPlotControllerTests, DISABLED_AddAndRemoveGraphs)
+TEST_F(GraphViewportPlotControllerTest, DISABLED_AddAndRemoveGraphs)
 #else
-TEST_F(GraphViewportPlotControllerTests, AddAndRemoveGraphs)
+TEST_F(GraphViewportPlotControllerTest, AddAndRemoveGraphs)
 #endif
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -174,7 +173,7 @@ TEST_F(GraphViewportPlotControllerTests, AddAndRemoveGraphs)
 
 //! Checks consequitive graph adding/removal
 
-TEST_F(GraphViewportPlotControllerTests, AddMoreGraphs)
+TEST_F(GraphViewportPlotControllerTest, AddMoreGraphs)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -200,7 +199,7 @@ TEST_F(GraphViewportPlotControllerTests, AddMoreGraphs)
 
 //! Checks The fucntionality of selection in the viewport
 
-TEST_F(GraphViewportPlotControllerTests, CheckVisible)
+TEST_F(GraphViewportPlotControllerTest, CheckVisible)
 {
   // Convenience
   struct FindVisible
@@ -250,9 +249,9 @@ TEST_F(GraphViewportPlotControllerTests, CheckVisible)
 // FIXME restore test on Qt 6.4.0.
 // It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
 // While triggering custom_plot->replot() from ViewportAxisPlotController
-TEST_F(GraphViewportPlotControllerTests, DISABLED_SwitchBetweenTwoViewports)
+TEST_F(GraphViewportPlotControllerTest, DISABLED_SwitchBetweenTwoViewports)
 #else
-TEST_F(GraphViewportPlotControllerTests, SwitchBetweenTwoViewports)
+TEST_F(GraphViewportPlotControllerTest, SwitchBetweenTwoViewports)
 #endif
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -285,7 +284,7 @@ TEST_F(GraphViewportPlotControllerTests, SwitchBetweenTwoViewports)
 
 //! FIXME restore test after undo/redo ready
 
-// TEST_F(GraphViewportPlotControllerTests, addGraphUndoRedo)
+// TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
 //{
 //     auto custom_plot = std::make_unique<QCustomPlot>();
 //     GraphViewportPlotController controller(custom_plot.get());
@@ -353,7 +352,7 @@ TEST_F(GraphViewportPlotControllerTests, SwitchBetweenTwoViewports)
 
 //! FIXME restore test after undo/redo ready
 
-// TEST_F(GraphViewportPlotControllerTests, addGraphUndoRedoMacro)
+// TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
 //{
 //     auto custom_plot = std::make_unique<QCustomPlot>();
 //     GraphViewportPlotController controller(custom_plot.get());

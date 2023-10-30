@@ -29,13 +29,13 @@
 
 using namespace mvvm;
 
-//! Tests for AllIntSpinBoxTests class.
+//! Tests for AllIntSpinBox class.
 
-class AllIntSpinBoxTests : public ::testing::Test
+class AllIntSpinBoxTest : public ::testing::Test
 {
 };
 
-TEST_F(AllIntSpinBoxTests, SetInt32)
+TEST_F(AllIntSpinBoxTest, SetInt32)
 {
   AllIntSpinBox editor;
   QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
@@ -55,7 +55,7 @@ TEST_F(AllIntSpinBoxTests, SetInt32)
   EXPECT_EQ(GetStdVariant(qt_variant), initial_value);
 }
 
-TEST_F(AllIntSpinBoxTests, StepBy)
+TEST_F(AllIntSpinBoxTest, StepBy)
 {
   AllIntSpinBox editor;
   QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);
@@ -85,7 +85,7 @@ TEST_F(AllIntSpinBoxTests, StepBy)
   EXPECT_EQ(GetStdVariant(reported_data), variant_t{43});
 }
 
-TEST_F(AllIntSpinBoxTests, SetValue)
+TEST_F(AllIntSpinBoxTest, SetValue)
 {
   AllIntSpinBox editor;
   QSignalSpy spy_value_changed(&editor, &AllIntSpinBox::valueChanged);

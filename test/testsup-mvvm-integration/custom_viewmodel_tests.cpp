@@ -92,12 +92,12 @@ using namespace mvvm;
 //! Testing custom viewmodels. This is an integration test to reproduce viewmodels similar to what
 //! we have in other GUIs.
 
-class CustomViewModelTests : public ::testing::Test
+class CustomViewModelTest : public ::testing::Test
 {
 public:
 };
 
-TEST_F(CustomViewModelTests, InsertItem)
+TEST_F(CustomViewModelTest, InsertItem)
 {
   ApplicationModel model;
   TableViewModel viewmodel(&model);
@@ -107,7 +107,7 @@ TEST_F(CustomViewModelTests, InsertItem)
   EXPECT_EQ(viewmodel.columnCount(), 4);
 }
 
-TEST_F(CustomViewModelTests, StressInsertRemove)
+TEST_F(CustomViewModelTest, StressInsertRemove)
 {
   const int n_max_count{10};
   const int container_count{10};
