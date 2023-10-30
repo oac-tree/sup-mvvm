@@ -137,4 +137,4 @@ std::pair<double, double> GetFloat64Limits(const SessionItem& item);
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_LIMITS_HELPER_H_
+#endif  // MVVM_MODEL_ITEM_LIMITS_HELPER_H_

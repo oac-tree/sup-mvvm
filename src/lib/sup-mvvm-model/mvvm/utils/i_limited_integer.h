@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_I_LIMITED_INTEGER_H
-#define MVVM_UTILS_I_LIMITED_INTEGER_H
+#ifndef MVVM_UTILS_I_LIMITED_INTEGER_H_
+#define MVVM_UTILS_I_LIMITED_INTEGER_H_
 
 #include <mvvm/model_export.h>
 #include <mvvm/core/variant.h>
@@ -96,4 +96,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_LIMITED_INTEGER_H
+#endif  // MVVM_UTILS_I_LIMITED_INTEGER_H_

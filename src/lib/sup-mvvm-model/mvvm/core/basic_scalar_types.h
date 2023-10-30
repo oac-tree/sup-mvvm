@@ -46,4 +46,4 @@ using float64 = double;
 
 }  // namespace mvvm
 
-#endif  // MVVM_CORE_VARIANT_H_
+#endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_

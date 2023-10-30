@@ -109,4 +109,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_H_
+#endif  // MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_

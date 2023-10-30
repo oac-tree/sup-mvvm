@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_LIMITED_INTEGER_H
-#define MVVM_UTILS_LIMITED_INTEGER_H
+#ifndef MVVM_UTILS_LIMITED_INTEGER_H_
+#define MVVM_UTILS_LIMITED_INTEGER_H_
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/utils/i_limited_integer.h>
@@ -291,4 +291,4 @@ inline bool LimitedInteger<T>::IsSupportedVariant(const variant_t& variant) cons
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_LIMITED_INTEGER_H
+#endif  // MVVM_UTILS_LIMITED_INTEGER_H_

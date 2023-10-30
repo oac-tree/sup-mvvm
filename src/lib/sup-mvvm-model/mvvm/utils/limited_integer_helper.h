@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_LIMITED_INTEGER_HELPER_H
-#define MVVM_UTILS_LIMITED_INTEGER_HELPER_H
+#ifndef MVVM_UTILS_LIMITED_INTEGER_HELPER_H_
+#define MVVM_UTILS_LIMITED_INTEGER_HELPER_H_
 
 #include <mvvm/core/variant.h>
 #include <mvvm/utils/i_limited_integer.h>
@@ -43,4 +43,4 @@ std::unique_ptr<ILimitedInteger> CreateLimitedInteger(const variant_t& value,
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_LIMITED_INTEGER_HELPER_H
+#endif  // MVVM_UTILS_LIMITED_INTEGER_HELPER_H_

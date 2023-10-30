@@ -101,4 +101,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_ABSTRACT_VIEWMODEL_CONTROLLER_H_
+#endif  // MVVM_VIEWMODEL_I_VIEWMODEL_CONTROLLER_H_
