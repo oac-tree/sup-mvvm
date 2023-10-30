@@ -1,3 +1,11 @@
+Changes for 1.2.0:
+
+- COA Release v2.0, October 2023
+- Refactoring of the machinery for scalar data property and limits to support editing of all
+  sup-dto types
+- Refactoring ViewModelController abstract interface
+- New virtual parent ViewModelController
+
 Changes for 1.1.0:
 
 - COA Release v1.9, August 2023
