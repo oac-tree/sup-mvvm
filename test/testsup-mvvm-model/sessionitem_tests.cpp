@@ -813,7 +813,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   // set kDisabled
   item.SetData(Appearance::kDefault, DataRole::kAppearance);
-  EXPECT_EQ(item.SetFlag(kDisabled, true), &item);
+  EXPECT_EQ(&item.SetFlag(kDisabled, true), &item);
   EXPECT_TRUE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
   EXPECT_FALSE(item.HasFlag(kHidden));
@@ -822,7 +822,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   // set kReadOnly
   item.SetData(Appearance::kDefault, DataRole::kAppearance);
-  EXPECT_EQ(item.SetFlag(kReadOnly, true), &item);
+  EXPECT_EQ(&item.SetFlag(kReadOnly, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_TRUE(item.HasFlag(kReadOnly));
   EXPECT_FALSE(item.HasFlag(kHidden));
@@ -831,7 +831,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   // set kHidden
   item.SetData(Appearance::kDefault, DataRole::kAppearance);
-  EXPECT_EQ(item.SetFlag(kHidden, true), &item);
+  EXPECT_EQ(&item.SetFlag(kHidden, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
   EXPECT_TRUE(item.HasFlag(kHidden));
@@ -840,7 +840,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   // set kProperty
   item.SetData(Appearance::kDefault, DataRole::kAppearance);
-  EXPECT_EQ(item.SetFlag(kProperty, true), &item);
+  EXPECT_EQ(&item.SetFlag(kProperty, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
   EXPECT_FALSE(item.HasFlag(kHidden));
@@ -849,7 +849,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
 
   // set kHighlighted
   item.SetData(Appearance::kDefault, DataRole::kAppearance);
-  EXPECT_EQ(item.SetFlag(kHighlighted, true), &item);
+  EXPECT_EQ(&item.SetFlag(kHighlighted, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
   EXPECT_FALSE(item.HasFlag(kHidden));
@@ -866,7 +866,7 @@ TEST_F(SessionItemTests, Tooltip)
   EXPECT_EQ(item.GetToolTip(), "");
   EXPECT_FALSE(item.HasData(DataRole::kTooltip));
 
-  EXPECT_EQ(item.SetToolTip("abc"), &item);
+  EXPECT_EQ(&item.SetToolTip("abc"), &item);
   EXPECT_TRUE(item.HasData(DataRole::kTooltip));
   EXPECT_EQ(item.GetToolTip(), "abc");
 }
@@ -880,7 +880,7 @@ TEST_F(SessionItemTests, EditorType)
   EXPECT_EQ(item.GetEditorType(), "");
   EXPECT_FALSE(item.HasData(DataRole::kEditor));
 
-  EXPECT_EQ(item.SetEditorType("abc"), &item);
+  EXPECT_EQ(&item.SetEditorType("abc"), &item);
   EXPECT_TRUE(item.HasData(DataRole::kEditor));
   EXPECT_EQ(item.GetEditorType(), "abc");
 }

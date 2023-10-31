@@ -269,10 +269,10 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
   ApplicationModel model;
   auto root_item = model.InsertItem<CompoundItem>();
 
-  auto editable_property = root_item->AddProperty("edit", 0.0)->SetDisplayName("Editable Property");
-  auto non_editable_property = root_item->AddProperty("nedit", 0.0)
+  auto& editable_property = root_item->AddProperty("edit", 0.0)->SetDisplayName("Editable Property");
+  auto& non_editable_property = root_item->AddProperty("nedit", 0.0)
                                    ->SetDisplayName("Non-editable Property")
-                                   ->SetEditable(false);
+                                   .SetEditable(false);
 
   PropertyViewModel view_model(&model);
   view_model.SetRootSessionItem(root_item);
@@ -302,8 +302,8 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
   EXPECT_DOUBLE_EQ(non_editable_value_label->text().toDouble(), 0.0);
 
   // Setting the data via model
-  editable_property->SetData(42.1);
-  non_editable_property->SetData(42.1);
+  editable_property.SetData(42.1);
+  non_editable_property.SetData(42.1);
 
   // Checking that data is set on widgets
   EXPECT_DOUBLE_EQ(editable_double_spin_box->value().toDouble(), 42.1);

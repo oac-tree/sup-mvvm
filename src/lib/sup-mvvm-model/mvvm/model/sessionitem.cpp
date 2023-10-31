@@ -115,10 +115,10 @@ std::string SessionItem::GetIdentifier() const
 
 //! Sets display name (fluent interface).
 
-SessionItem* SessionItem::SetDisplayName(const std::string& name)
+SessionItem& SessionItem::SetDisplayName(const std::string& name)
 {
   SetData(name, DataRole::kDisplay);
-  return this;
+  return *this;
 }
 
 //! Returns display name.
@@ -312,7 +312,7 @@ bool SessionItem::IsEditable() const
 
 //! Sets `editable` flag to given value (fluent interface).
 
-SessionItem* SessionItem::SetEditable(bool value)
+SessionItem& SessionItem::SetEditable(bool value)
 {
   return SetFlag(Appearance::kReadOnly, !value);
 }
@@ -328,7 +328,7 @@ bool SessionItem::IsEnabled() const
 //! property is currently enabled. Enabled items appear in normal color, disabled items are grayed
 //! out.
 
-SessionItem* SessionItem::SetEnabled(bool value)
+SessionItem& SessionItem::SetEnabled(bool value)
 {
   return SetFlag(Appearance::kDisabled, !value);
 }
@@ -344,7 +344,7 @@ bool SessionItem::IsVisible() const
 //! property from a view. For example, `PropertyTreeView` will not show PropertyItem with the given
 //! flag set to `true` among other properties.
 
-SessionItem* SessionItem::SetVisible(bool value)
+SessionItem& SessionItem::SetVisible(bool value)
 {
   return SetFlag(Appearance::kHidden, !value);
 }
@@ -358,10 +358,10 @@ std::string SessionItem::GetToolTip() const
 
 //! Sets item tooltip (fluent interface).
 
-SessionItem* SessionItem::SetToolTip(const std::string& tooltip)
+SessionItem& SessionItem::SetToolTip(const std::string& tooltip)
 {
   SetData(tooltip, DataRole::kTooltip);
-  return this;
+  return *this;
 }
 
 std::string SessionItem::GetEditorType() const
@@ -369,10 +369,10 @@ std::string SessionItem::GetEditorType() const
   return HasData(DataRole::kEditor) ? Data<std::string>(DataRole::kEditor) : std::string();
 }
 
-SessionItem* SessionItem::SetEditorType(const std::string& editor_type)
+SessionItem& SessionItem::SetEditorType(const std::string& editor_type)
 {
   SetData(editor_type, DataRole::kEditor);
-  return this;
+  return *this;
 }
 
 bool SessionItem::HasFlag(Appearance flag) const
@@ -382,7 +382,7 @@ bool SessionItem::HasFlag(Appearance flag) const
 
 //! Sets appearance flag to given value.
 
-SessionItem* SessionItem::SetFlag(Appearance flag, bool value)
+SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
 {
   int flags = appearance(*this);
   if (value)
@@ -395,7 +395,7 @@ SessionItem* SessionItem::SetFlag(Appearance flag, bool value)
   }
 
   SetData(flags, DataRole::kAppearance);
-  return this;
+  return *this;
 }
 
 //! Activates business logic.

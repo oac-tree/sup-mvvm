@@ -98,13 +98,13 @@ PenItem::PenItem() : CompoundItem(Type)
 {
   AddProperty(kColor, "black")
       ->SetDisplayName("Color")
-      ->SetToolTip("Pen color")
-      ->SetEditorType(constants::kColorEditorType);
-  AddProperty(kStyle, penStyleCombo)->SetDisplayName("Style")->SetToolTip("Pen style");
+      .SetToolTip("Pen color")
+      .SetEditorType(constants::kColorEditorType);
+  AddProperty(kStyle, penStyleCombo)->SetDisplayName("Style").SetToolTip("Pen style");
   AddProperty(kWidth, pen_default_width)
       ->SetDisplayName("Width")
-      ->SetLimits(IntLimits::CreateLimited(pen_min_width, pen_max_width))
-      ->SetToolTip("Pen width");
+      .SetLimits(IntLimits::CreateLimited(pen_min_width, pen_max_width))
+      .SetToolTip("Pen width");
 }
 
 std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const

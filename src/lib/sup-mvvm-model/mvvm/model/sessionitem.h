@@ -63,7 +63,7 @@ public:
 
   virtual std::string GetDisplayName() const;
 
-  virtual SessionItem* SetDisplayName(const std::string& name);
+  virtual SessionItem& SetDisplayName(const std::string& name);
 
   SessionModelInterface* GetModel() const;
 
@@ -121,22 +121,22 @@ public:
   // more convenience methods
 
   bool IsEditable() const;
-  SessionItem* SetEditable(bool value);
+  SessionItem& SetEditable(bool value);
 
   bool IsEnabled() const;
-  SessionItem* SetEnabled(bool value);
+  SessionItem& SetEnabled(bool value);
 
   bool IsVisible() const;
-  SessionItem* SetVisible(bool value);
+  SessionItem &SetVisible(bool value);
 
   std::string GetToolTip() const;
-  SessionItem* SetToolTip(const std::string& tooltip);
+  SessionItem &SetToolTip(const std::string& tooltip);
 
   std::string GetEditorType() const;
-  SessionItem* SetEditorType(const std::string& editor_type);
+  SessionItem& SetEditorType(const std::string& editor_type);
 
   bool HasFlag(Appearance flag) const;
-  SessionItem* SetFlag(Appearance flag, bool value);
+  SessionItem& SetFlag(Appearance flag, bool value);
 
   virtual void Activate();
 
