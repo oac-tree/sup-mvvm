@@ -40,27 +40,66 @@ public:
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
-  //! Adds and item of given type, and registers it under the given `name`.
-  //! Beneath will create a tag intended to store a single item without a possibility to remove.
+  /**
+   * @brief Adds and item of given type, and registers it under the given name.
+   *
+   * @param name The name of the tag to register.
+   * @return Reference to just created item.
+   *
+   * @details Beneath will create a tag intended to store a single item without a possibility to
+   * remove.
+   */
   template <typename T>
   T* AddBranch(const std::string& name);
 
-  //! Adds an item of a given type and register it under the given 'name' as a property item.
-  //! A property item is an item with the following features: it can't be removed, it appears in
-  //! property editors, it doesn't appear in a list of top-level items.
+  /**
+   * @brief Adds an item of a given type and register it under the given 'name' as a property item.
+   *
+   * @param name The name of the tag to register.
+   * @return Reference to just created item.
+   *
+   * @details A property item is an item with the following features: it can't be removed, it
+   * appears in property editors, it doesn't appear in a list of top-level items.
+   */
   template <typename T>
   T* AddProperty(const std::string& name);
 
-  //! Adds PropertyItem and sets its value to 'value'.
+  /**
+   * @brief Adds property item and sets its value.
+   */
   template <typename V>
   PropertyItem* AddProperty(const std::string& name, const V& value);
+
+  /**
+   * @brief Adds property item and sets its value (specialised for char).
+   *
+   * @details Specialized version for const char is introduced to avoid "const char" conversion into
+   variant<bool>.
+   */
   PropertyItem* AddProperty(const std::string& name, const char* value);
 
+  /**
+   * @brief Returns item display name.
+   */
   std::string GetDisplayName() const override;
 
+  /**
+   * @brief Returns value stored in property item.
+   *
+   * @param tag The name under which corresponding property item is registered.
+   * @tparam T The type to cast the value.
+   *
+   * @return The property value.
+   */
   template <typename T>
   T Property(const std::string& tag) const;
 
+  /**
+   * @brief Sets the value of the property.
+   *
+   * @param tag The name under which corresponding property item is registered.
+   * @param value The value to set.
+   */
   template <typename T>
   void SetProperty(const std::string& tag, const T& value);
 };
@@ -90,18 +129,11 @@ PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
   return property;
 }
 
-//! Returns data stored in property item.
-//! Property is single item registered under certain tag via CompoundItem::AddProperty method.
-
 template <typename T>
 inline T CompoundItem::Property(const std::string& tag) const
 {
   return GetItem(tag)->Data<T>();
 }
-
-//! Sets value to property item.
-//! Property is single item registered under certain tag via CompoundItem::AddProperty method, the
-//! value will be assigned to it's data role.
 
 template <typename T>
 inline void CompoundItem::SetProperty(const std::string& tag, const T& value)

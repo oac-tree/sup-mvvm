@@ -41,15 +41,10 @@ std::unique_ptr<SessionItem> CompoundItem::Clone(bool make_unique_id) const
   return std::make_unique<CompoundItem>(*this, make_unique_id);
 }
 
-//! Specialized version for const char: method is introduced to avoid "const char" conversion into
-//! variant<bool>.
 PropertyItem *CompoundItem::AddProperty(const std::string &name, const char *value)
 {
   return AddProperty(name, std::string(value));
 }
-
-//! Returns custom display name with index appended.
-//! CompoundItem0, CompoundItem1, CompoundItem2, ...
 
 std::string CompoundItem::GetDisplayName() const
 {
@@ -59,6 +54,7 @@ std::string CompoundItem::GetDisplayName() const
     return SessionItem::GetDisplayName();
   }
 
+  // add index to default display name
   const int copy_number = utils::CopyNumber(this);
   return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)
                            : SessionItem::GetDisplayName();
