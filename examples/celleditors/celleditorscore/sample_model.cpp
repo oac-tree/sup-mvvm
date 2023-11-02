@@ -43,22 +43,22 @@ namespace celleditors
 
 BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 {
-  AddProperty(kBool, true)->SetDisplayName("Bool")->SetToolTip("tooltip");
+  AddProperty(kBool, true)->SetDisplayName("Bool").SetToolTip("tooltip");
   AddProperty(kInteger, 42)->SetDisplayName("Integer");
   AddProperty(kString, "abc")->SetDisplayName("String");
   AddProperty(kDouble, 42.1234)->SetDisplayName("Double");
   AddProperty(kScientificDouble, 42.12e-09)
       ->SetDisplayName("Scientific")
-      ->SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
+      .SetEditorType(mvvm::constants::kScientificSpinboxEditorType);
 
   AddProperty(kColor, "green")
       ->SetDisplayName("Color")
-      ->SetEditorType(mvvm::constants::kColorEditorType);
+      .SetEditorType(mvvm::constants::kColorEditorType);
   AddProperty(kCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
       ->SetDisplayName("Combo");
   AddProperty(kSelectableCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
       ->SetDisplayName("Selectable")
-      ->SetEditorType(mvvm::constants::kSelectableComboPropertyEditorType);
+      .SetEditorType(mvvm::constants::kSelectableComboPropertyEditorType);
   AddProperty(kExternal, mvvm::ExternalProperty({"text", "gold"}))->SetDisplayName("External");
 }
 
@@ -71,16 +71,18 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
   AddProperty("integer_1", 42)->SetDisplayName("int32 QSpinBox");
 
   // QSpinBox editor for int32 with limits set
-  auto prop = AddProperty("integer_2", 42)->SetDisplayName("int32 QSpinBox lim");
+  auto prop = AddProperty("integer_2", 42);
+  prop->SetDisplayName("int32 QSpinBox lim");
   mvvm::SetLimited(30, 40, *prop);
 
   // AllIntSpinBoxEditor for int32 should be set manually
   AddProperty("integer_3", 42)
       ->SetDisplayName("int32 AllIntEditor")
-      ->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
+      .SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
 
   // AllIntSpinBoxEditor with limits, for int32 should be set manually
-  prop = AddProperty("integer_4", 42)->SetDisplayName("int32 AllIntEditor lim");
+  prop = AddProperty("integer_4", 42);
+  prop->SetDisplayName("int32 AllIntEditor lim");
   prop->SetEditorType(mvvm::constants::kAllIntSpinBoxEditorType);
   mvvm::SetLimited(30, 40, *prop);
 
@@ -93,7 +95,7 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
   // LongIntSpinBoxEditor with int64 should be set manually
   AddProperty("integer_7", static_cast<mvvm::int64>(0))
       ->SetEditorType(mvvm::constants::kLongIntSpinBoxEditorType)
-      ->SetDisplayName("int64 LongIntEditor");
+      .SetDisplayName("int64 LongIntEditor");
 }
 
 FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
@@ -103,11 +105,12 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 
   AddProperty("double_1", 42.1)
       ->SetEditorType(mvvm::constants::kDoubleEditorType)
-      ->SetDisplayName("double QDoubleSpinBox");
+      .SetDisplayName("double QDoubleSpinBox");
   AddProperty("double_2", 42.2)
       ->SetEditorType(mvvm::constants::kDoubleEditorType)
-      ->SetDisplayName("double QDoubleSpinBox");
-  auto prop = AddProperty("double_3", 42.3)->SetDisplayName("double lim QDoubleSpinBox");
+      .SetDisplayName("double QDoubleSpinBox");
+  auto prop = AddProperty("double_3", 42.3);
+  prop->SetDisplayName("double lim QDoubleSpinBox");
   mvvm::SetLimited(30.0, 40.0, *prop);
 
   // FloatSpinBox for float64
@@ -115,8 +118,9 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 
   // FloatSpinBox with limits, for float64
   AddProperty("double_5", static_cast<mvvm::float64>(42.2))->SetDisplayName("float64 FloatSpinBox");
-  prop = AddProperty("double_6", static_cast<mvvm::float64>(42.3))
-             ->SetDisplayName("float64 lim FloatSpinBox");
+
+  prop = AddProperty("double_6", static_cast<mvvm::float64>(42.3));
+  prop->SetDisplayName("float64 lim FloatSpinBox");
   mvvm::SetLimited(30.0, 40.0, *prop);
 
   // FloatSpinBox for float32
