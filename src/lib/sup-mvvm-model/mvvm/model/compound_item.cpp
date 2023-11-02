@@ -21,16 +21,6 @@
 
 #include <mvvm/model/item_utils.h>
 
-#include <iostream>
-
-namespace
-{
-bool HasCustomDisplayName(const mvvm::SessionItem *item)
-{
-  return item->HasData(mvvm::DataRole::kDisplay);
-}
-}  // namespace
-
 namespace mvvm
 {
 
@@ -49,15 +39,14 @@ PropertyItem *CompoundItem::AddProperty(const std::string &name, const char *val
 std::string CompoundItem::GetDisplayName() const
 {
   // if item has already display name, use it
-  if (HasCustomDisplayName(this))
+  if (HasData(mvvm::DataRole::kDisplay))
   {
-    return SessionItem::GetDisplayName();
+    return Data<std::string>(DataRole::kDisplay);
   }
 
-  // add index to default display name
+  // add index to type name
   const int copy_number = utils::CopyNumber(this);
-  return copy_number != -1 ? SessionItem::GetDisplayName() + std::to_string(copy_number)
-                           : SessionItem::GetDisplayName();
+  return copy_number < 0 ? GetType() : GetType() + std::to_string(copy_number);
 }
 
 }  // namespace mvvm
