@@ -1135,17 +1135,17 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
   // for the moment, AddProperty doesn't trigger signaling
   // so we have to initialise viewmodel later
 
-  auto property = parent->AddProperty("name", "abc");
+  auto& property = parent->AddProperty("name", "abc");
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
 
   AllItemsViewModel viewmodel(&model);
 
   QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
 
-  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({property}));
+  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({&property}));
 
   auto child = model.InsertItem<SessionItem>(parent);
-  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({property, child}));
+  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({&property, child}));
 
   EXPECT_EQ(spy_insert.count(), 1);
 
@@ -1155,7 +1155,7 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(parent_index), parent);
 
   auto child_index1 = viewmodel.index(0, 0, parent_index);
-  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index1), property);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index1), &property);
 
   auto child_index2 = viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), child);

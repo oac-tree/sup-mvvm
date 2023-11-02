@@ -50,7 +50,7 @@ public:
    * remove.
    */
   template <typename T>
-  T* AddBranch(const std::string& name);
+  T& AddBranch(const std::string& name);
 
   /**
    * @brief Adds an item of a given type and register it under the given 'name' as a property item.
@@ -62,13 +62,13 @@ public:
    * appears in property editors, it doesn't appear in a list of top-level items.
    */
   template <typename T>
-  T* AddProperty(const std::string& name);
+  T& AddProperty(const std::string& name);
 
   /**
    * @brief Adds property item and sets its value.
    */
   template <typename V>
-  PropertyItem* AddProperty(const std::string& name, const V& value);
+  PropertyItem& AddProperty(const std::string& name, const V& value);
 
   /**
    * @brief Adds property item and sets its value (specialised for char).
@@ -76,7 +76,7 @@ public:
    * @details Specialized version for const char is introduced to avoid "const char" conversion into
    variant<bool>.
    */
-  PropertyItem* AddProperty(const std::string& name, const char* value);
+  PropertyItem& AddProperty(const std::string& name, const char* value);
 
   /**
    * @brief Returns item display name.
@@ -105,27 +105,27 @@ public:
 };
 
 template <typename T>
-T* CompoundItem::AddBranch(const std::string& name)
+T &CompoundItem::AddBranch(const std::string& name)
 {
   RegisterTag(TagInfo::CreatePropertyTag(name, T().GetType()));
   auto result = InsertItem<T>({name, 0});
-  return result;
+  return *result;
 }
 
 template <typename T>
-T* CompoundItem::AddProperty(const std::string& name)
+T &CompoundItem::AddProperty(const std::string& name)
 {
-  auto result = AddBranch<T>(name);
-  result->SetDisplayName(name);
-  result->SetFlag(Appearance::kProperty, true);
+  auto& result = AddBranch<T>(name);
+  result.SetDisplayName(name);
+  result.SetFlag(Appearance::kProperty, true);
   return result;
 }
 
 template <typename V>
-PropertyItem* CompoundItem::AddProperty(const std::string& name, const V& value)
+PropertyItem& CompoundItem::AddProperty(const std::string& name, const V& value)
 {
-  auto property = AddProperty<PropertyItem>(name);
-  property->SetData(value);
+  auto& property = AddProperty<PropertyItem>(name);
+  property.SetData(value);
   return property;
 }
 

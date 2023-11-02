@@ -227,14 +227,14 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
   using ::mvvm::utils::ValidateItemMove;
 
   auto parent0 = m_model.InsertItem<CompoundItem>();
-  auto property = parent0->AddProperty("thickness", 42);
+  auto& property = parent0->AddProperty("thickness", 42);
 
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // it is not allowed to take property item
-  EXPECT_FALSE(CanMoveItem(property, parent1, {"tag1", 0}).first);
-  EXPECT_THROW(ValidateItemMove(property, parent1, {"tag1", 0}), InvalidOperationException);
+  EXPECT_FALSE(CanMoveItem(&property, parent1, {"tag1", 0}).first);
+  EXPECT_THROW(ValidateItemMove(&property, parent1, {"tag1", 0}), InvalidOperationException);
 }
 
 //! Check ValidateItemMove when trying to move item into property tag of another item.
@@ -249,7 +249,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   auto child = m_model.InsertItem<CompoundItem>(parent0, {"tag1", 0});
 
   auto parent1 = m_model.InsertItem<CompoundItem>();
-  auto property = parent1->AddProperty("thickness", 42);
+  auto& property = parent1->AddProperty("thickness", 42);
 
   // invalid move of property item
   EXPECT_FALSE(CanMoveItem(child, parent1, {"thickness", 0}).first);
@@ -321,7 +321,7 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
   using ::mvvm::utils::ValidateTakeItem;
 
   auto parent = m_model.InsertItem<CompoundItem>();
-  auto property = parent->AddProperty("thickness", 42);
+  auto& property = parent->AddProperty("thickness", 42);
 
   EXPECT_FALSE(CanTakeItem(&m_model, parent, {"thickness", 0}).first);
   EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"thickness", 0}), InvalidOperationException);

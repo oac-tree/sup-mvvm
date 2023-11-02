@@ -61,7 +61,7 @@ TEST_F(PropertyTableViewModelTest, PropertyItem)
   ApplicationModel model;
 
   auto parent = model.InsertItem<CompoundItem>();
-  auto property = parent->AddProperty("thickness", 42.0);
+  parent->AddProperty("thickness", 42.0);
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
   model.InsertItem<SessionItem>(parent, "universal_tag");
 

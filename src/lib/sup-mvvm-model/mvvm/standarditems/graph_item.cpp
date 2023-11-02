@@ -34,10 +34,10 @@ static inline const std::string kDisplayed = "kDisplayed";
 
 GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  AddProperty<LinkedItem>(kLink)->SetDisplayName("Link");
-  AddProperty<TextItem>(kGraphTitle)->SetDisplayName("Graph title");
-  AddProperty<PenItem>(kPen)->SetDisplayName("Pen");
-  AddProperty(kDisplayed, true)->SetDisplayName("Displayed");
+  AddProperty<LinkedItem>(kLink).SetDisplayName("Link");
+  AddProperty<TextItem>(kGraphTitle).SetDisplayName("Graph title");
+  AddProperty<PenItem>(kPen).SetDisplayName("Pen");
+  AddProperty(kDisplayed, true).SetDisplayName("Displayed");
 }
 
 std::unique_ptr<SessionItem> GraphItem::Clone(bool make_unique_id) const

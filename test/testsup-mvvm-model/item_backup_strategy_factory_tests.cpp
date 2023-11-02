@@ -90,15 +90,15 @@ TEST_F(ItemBackupStrategyFactoryTests, compoundItem)
   auto strategy = CreateItemTreeDataBackupStrategy(m_factory.get());
 
   CompoundItem item;
-  auto property = item.AddProperty("thickness", 42.0);
+  auto& property = item.AddProperty("thickness", 42.0);
 
   strategy->SaveItem(item);
   auto restored = strategy->RestoreItem();
 
   EXPECT_EQ(item.GetType(), restored->GetType());
   EXPECT_EQ(item.GetIdentifier(), restored->GetIdentifier());
-  EXPECT_EQ(restored->GetItem("thickness")->Data<double>(), property->Data<double>());
-  EXPECT_EQ(restored->GetItem("thickness")->GetIdentifier(), property->GetIdentifier());
+  EXPECT_EQ(restored->GetItem("thickness")->Data<double>(), property.Data<double>());
+  EXPECT_EQ(restored->GetItem("thickness")->GetIdentifier(), property.GetIdentifier());
 }
 
 //! Backup custom item.

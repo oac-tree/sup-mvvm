@@ -526,17 +526,17 @@ TEST_F(SessionModelTest, InvalidMoveOfParentProperty)
 {
   SessionModel model;
   auto compound = model.InsertItem<CompoundItem>(model.GetRootItem());
-  auto property = compound->AddProperty("thickness", 42);
+  auto& property = compound->AddProperty("thickness", 42);
 
   auto new_parent = model.InsertItem<SessionItem>(model.GetRootItem());
   new_parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   // attempt to move property from parent to root
-  EXPECT_THROW(model.MoveItem(property, new_parent, {"", 0}), InvalidOperationException);
+  EXPECT_THROW(model.MoveItem(&property, new_parent, {"", 0}), InvalidOperationException);
 
   // items as before
   EXPECT_EQ(new_parent->GetTotalItemCount(), 0);
-  EXPECT_EQ(compound->GetItem("thickness"), property);
+  EXPECT_EQ(compound->GetItem("thickness"), &property);
 }
 
 //! More similar test scenarious in validate_utils_tests.cpp

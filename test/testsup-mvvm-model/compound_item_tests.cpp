@@ -51,24 +51,24 @@ TEST_F(CompoundItemTests, AddIntProperty)
   CompoundItem item;
 
   const int expected = 42;
-  auto propertyItem = item.AddProperty(property_name, expected);
+  auto& property = item.AddProperty(property_name, expected);
   EXPECT_TRUE(utils::HasTag(item, "name"));
 
-  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
-  EXPECT_EQ(propertyItem->Data<int>(), expected);
+  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetDisplayName(), property_name);
+  EXPECT_EQ(property.Data<int>(), expected);
 }
 
 TEST_F(CompoundItemTests, SetIntProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.AddProperty(property_name, 41);
+  auto& property = item.AddProperty(property_name, 41);
 
   const int expected = 42;
   item.SetProperty(property_name, expected);
 
   EXPECT_EQ(item.Property<int>(property_name), expected);
-  EXPECT_EQ(propertyItem->Data<int>(), expected);
+  EXPECT_EQ(property.Data<int>(), expected);
 }
 
 TEST_F(CompoundItemTests, AddDoubleProperty)
@@ -76,70 +76,70 @@ TEST_F(CompoundItemTests, AddDoubleProperty)
   CompoundItem item;
 
   const double expected = 42.1;
-  auto propertyItem = item.AddProperty(property_name, expected);
+  auto& property = item.AddProperty(property_name, expected);
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->GetDisplayName(), property_name);
-  EXPECT_EQ(propertyItem->Data<double>(), expected);
+  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetDisplayName(), property_name);
+  EXPECT_EQ(property.Data<double>(), expected);
 }
 
 TEST_F(CompoundItemTests, SetDoubleProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.AddProperty(property_name, 41.11);
+  auto& property = item.AddProperty(property_name, 41.11);
 
   const double expected = 42.0;
   item.SetProperty(property_name, expected);
 
   EXPECT_EQ(item.Property<double>(property_name), expected);
-  EXPECT_EQ(propertyItem->Data<double>(), expected);
+  EXPECT_EQ(property.Data<double>(), expected);
 }
 
 TEST_F(CompoundItemTests, AddCharProperty)
 {
   CompoundItem item;
 
-  auto propertyItem = item.AddProperty(property_name, "abc");
+  auto& property = item.AddProperty(property_name, "abc");
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
+  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.Data<std::string>(), std::string("abc"));
 }
 
 TEST_F(CompoundItemTests, SetCharProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.AddProperty(property_name, "aaa");
+  auto& property = item.AddProperty(property_name, "aaa");
 
   const char* expected{"bbb"};
   item.SetProperty(property_name, expected);
 
   EXPECT_EQ(item.Property<std::string>(property_name), std::string(expected));
-  EXPECT_EQ(propertyItem->Data<std::string>(), std::string(expected));
+  EXPECT_EQ(property.Data<std::string>(), std::string(expected));
 }
 
 TEST_F(CompoundItemTests, AddStringProperty)
 {
   CompoundItem item;
 
-  auto propertyItem = item.AddProperty(property_name, std::string("abc"));
+  auto& property = item.AddProperty(property_name, std::string("abc"));
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->Data<std::string>(), std::string("abc"));
+  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.Data<std::string>(), std::string("abc"));
 }
 
 TEST_F(CompoundItemTests, SetStringProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.AddProperty(property_name, std::string("aaa"));
+  auto& property = item.AddProperty(property_name, std::string("aaa"));
 
   const std::string expected{"bbb"};
   item.SetProperty(property_name, expected);
 
   EXPECT_EQ(item.Property<std::string>(property_name), expected);
-  EXPECT_EQ(propertyItem->Data<std::string>(), expected);
+  EXPECT_EQ(property.Data<std::string>(), expected);
 }
 
 TEST_F(CompoundItemTests, AddBoolProperty)
@@ -147,23 +147,23 @@ TEST_F(CompoundItemTests, AddBoolProperty)
   CompoundItem item;
 
   const bool expected = true;
-  auto propertyItem = item.AddProperty(property_name, expected);
+  auto& property = item.AddProperty(property_name, expected);
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(propertyItem->GetType(), PropertyItem::Type);
-  EXPECT_EQ(propertyItem->Data<bool>(), expected);
+  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.Data<bool>(), expected);
 }
 
 TEST_F(CompoundItemTests, SetBoolProperty)
 {
   CompoundItem item;
-  auto propertyItem = item.AddProperty(property_name, false);
+  auto& property = item.AddProperty(property_name, false);
 
   const bool expected = true;
   item.SetProperty(property_name, expected);
 
   EXPECT_EQ(item.Property<bool>(property_name), expected);
-  EXPECT_EQ(propertyItem->Data<bool>(), expected);
+  EXPECT_EQ(property.Data<bool>(), expected);
 }
 
 TEST_F(CompoundItemTests, ItemAccess)
@@ -230,8 +230,8 @@ TEST_F(CompoundItemTests, Children)
 {
   CompoundItem item;
   EXPECT_TRUE(item.GetAllItems().empty());
-  auto propertyItem = item.AddProperty(property_name, false);
-  EXPECT_EQ(item.GetAllItems(), std::vector<SessionItem*>({propertyItem}));
+  auto& property = item.AddProperty(property_name, false);
+  EXPECT_EQ(item.GetAllItems(), std::vector<SessionItem*>({&property}));
 }
 
 //! Test AddBranch method.
@@ -240,16 +240,16 @@ TEST_F(CompoundItemTests, AddBranch)
 {
   CompoundItem item;
 
-  auto branch0 = item.AddBranch<CompoundItem>("branch0");
-  auto property0 = item.AddProperty("thickness", 0.0);
-  auto property1 = item.AddProperty<VectorItem>("position");
-  auto branch1 = item.AddBranch<CompoundItem>("branch1");
+  auto& branch0 = item.AddBranch<CompoundItem>("branch0");
+  auto& property0 = item.AddProperty("thickness", 0.0);
+  auto& property1 = item.AddProperty<VectorItem>("position");
+  auto& branch1 = item.AddBranch<CompoundItem>("branch1");
 
   // it is not possible to add another branch with same name
   EXPECT_THROW(item.AddBranch<CompoundItem>("branch0"), std::runtime_error);
 
-  EXPECT_EQ(utils::TopLevelItems(item), std::vector<SessionItem*>({branch0, branch1}));
-  EXPECT_EQ(utils::SinglePropertyItems(item), std::vector<SessionItem*>({property0, property1}));
+  EXPECT_EQ(utils::TopLevelItems(item), std::vector<SessionItem*>({&branch0, &branch1}));
+  EXPECT_EQ(utils::SinglePropertyItems(item), std::vector<SessionItem*>({&property0, &property1}));
 }
 
 //! Test Clone method.
@@ -258,7 +258,7 @@ TEST_F(CompoundItemTests, Clone)
 {
   CompoundItem item;
 
-  auto property0 = item.AddProperty("thickness", 42);
+  auto& property0 = item.AddProperty("thickness", 42);
 
   {  // deep copy
     auto clone = item.Clone(/* make_unique_id*/ true);
@@ -276,7 +276,7 @@ TEST_F(CompoundItemTests, Clone)
     EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
     EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
     EXPECT_NE(compound_clone->GetItem({"thickness", 0})->GetIdentifier(),
-              property0->GetIdentifier());
+              property0.GetIdentifier());
   }
 
   {  // clone
@@ -289,6 +289,6 @@ TEST_F(CompoundItemTests, Clone)
     EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
     EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
     EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(),
-              property0->GetIdentifier());
+              property0.GetIdentifier());
   }
 }

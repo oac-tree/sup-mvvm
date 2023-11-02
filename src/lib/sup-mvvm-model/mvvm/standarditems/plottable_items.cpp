@@ -50,9 +50,9 @@ static inline const std::string kSize = "kSize";
 
 TextItem::TextItem() : CompoundItem(Type)
 {
-  AddProperty(kText, "")->SetDisplayName("Text");
-  AddProperty(kFont, default_title_family)->SetDisplayName("Font");
-  AddProperty(kSize, default_title_size)->SetDisplayName("Size");
+  AddProperty(kText, "").SetDisplayName("Text");
+  AddProperty(kFont, default_title_family).SetDisplayName("Font");
+  AddProperty(kSize, default_title_size).SetDisplayName("Size");
 }
 
 std::unique_ptr<SessionItem> TextItem::Clone(bool make_unique_id) const
@@ -97,12 +97,12 @@ void TextItem::SetSize(double value)
 PenItem::PenItem() : CompoundItem(Type)
 {
   AddProperty(kColor, "black")
-      ->SetDisplayName("Color")
+      .SetDisplayName("Color")
       .SetToolTip("Pen color")
       .SetEditorType(constants::kColorEditorType);
-  AddProperty(kStyle, penStyleCombo)->SetDisplayName("Style").SetToolTip("Pen style");
+  AddProperty(kStyle, penStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
   AddProperty(kWidth, pen_default_width)
-      ->SetDisplayName("Width")
+      .SetDisplayName("Width")
       .SetLimits(IntLimits::CreateLimited(pen_min_width, pen_max_width))
       .SetToolTip("Pen width");
 }

@@ -69,8 +69,8 @@ void ViewportItem::SetViewportToContent()
 
 void ViewportItem::RegisterAxes()
 {
-  AddProperty<ViewportAxisItem>(kXaxis)->SetDisplayName("X axis");
-  AddProperty<ViewportAxisItem>(kYaxis)->SetDisplayName("Y axis");
+  AddProperty<ViewportAxisItem>(kXaxis).SetDisplayName("X axis");
+  AddProperty<ViewportAxisItem>(kYaxis).SetDisplayName("Y axis");
 }
 
 }  // namespace mvvm

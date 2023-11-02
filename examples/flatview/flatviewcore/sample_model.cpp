@@ -43,12 +43,12 @@ namespace flatview
 DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 {
   AddProperty("Name", GetRandomName());
-  AddProperty("Available", true)->SetToolTip("tooltip");
+  AddProperty("Available", true).SetToolTip("tooltip");
   AddProperty("Answer", 42);
-  AddProperty("Distance", 42.1234)->SetDisplayName("Double");
+  AddProperty("Distance", 42.1234).SetDisplayName("Double");
   AddProperty("Options", mvvm::ComboProperty({"option 1", "option 2", "option 3"}));
   AddProperty("Access", mvvm::utils::RandomNamedColor())
-      ->SetEditorType(mvvm::constants::kColorEditorType);
+      .SetEditorType(mvvm::constants::kColorEditorType);
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

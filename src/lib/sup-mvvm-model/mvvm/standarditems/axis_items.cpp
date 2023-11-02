@@ -57,8 +57,8 @@ void BasicAxisItem::SetMax(double value)
 
 void BasicAxisItem::RegisterMinMax()
 {
-  AddProperty(kMin, default_axis_min)->SetDisplayName("Min");
-  AddProperty(kMax, default_axis_max)->SetDisplayName("Max");
+  AddProperty(kMin, default_axis_min).SetDisplayName("Min");
+  AddProperty(kMax, default_axis_max).SetDisplayName("Max");
 }
 
 // --- ViewportAxisItem ------------------------------------------------------
@@ -68,9 +68,9 @@ static inline const std::string kIsLog = "kIsLog";
 
 ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisItem(model_type)
 {
-  AddProperty<TextItem>(kTitle)->SetDisplayName("Title");
+  AddProperty<TextItem>(kTitle).SetDisplayName("Title");
   RegisterMinMax();
-  AddProperty(kIsLog, false)->SetDisplayName("log10");
+  AddProperty(kIsLog, false).SetDisplayName("log10");
 }
 
 std::unique_ptr<SessionItem> ViewportAxisItem::Clone(bool make_unique_id) const
@@ -118,7 +118,7 @@ static inline const std::string kNbins = "kNbins";
 
 FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisItem(model_type)
 {
-  AddProperty(kNbins, 1)->SetDisplayName("Nbins");
+  AddProperty(kNbins, 1).SetDisplayName("Nbins");
   RegisterMinMax();
 }
 

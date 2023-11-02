@@ -519,7 +519,7 @@ TEST_F(ApplicationModelTests, MoveItem)
 TEST_F(ApplicationModelTests, IvalidItemMove)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
-  auto property = parent1->AddProperty("thickness", 42);
+  auto& property = parent1->AddProperty("thickness", 42);
   auto parent2 = m_model.InsertItem<CompoundItem>();
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
 
@@ -528,7 +528,7 @@ TEST_F(ApplicationModelTests, IvalidItemMove)
   // Expecting no signals. StrictMock will fail if it is not the case.
 
   // removing item
-  EXPECT_THROW(m_model.MoveItem(property, parent2, {"tag2", 0}), InvalidOperationException);
+  EXPECT_THROW(m_model.MoveItem(&property, parent2, {"tag2", 0}), InvalidOperationException);
   EXPECT_EQ(parent1->GetTotalItemCount(), 1);
   EXPECT_EQ(parent2->GetTotalItemCount(), 0);
 

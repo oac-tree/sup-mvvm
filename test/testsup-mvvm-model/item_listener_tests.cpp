@@ -166,7 +166,7 @@ TEST_F(ItemListenerTests, OnPropertyChanged)
 
   ApplicationModel model;
   auto item = model.InsertItem<CompoundItem>();
-  auto property = item->AddProperty(property_name, 42.0);
+  auto& property = item->AddProperty(property_name, 42.0);
 
   mock_listener_t listener(item);
 

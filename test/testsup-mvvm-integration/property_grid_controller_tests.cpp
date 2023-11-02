@@ -269,9 +269,9 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
   ApplicationModel model;
   auto root_item = model.InsertItem<CompoundItem>();
 
-  auto& editable_property = root_item->AddProperty("edit", 0.0)->SetDisplayName("Editable Property");
+  auto& editable_property = root_item->AddProperty("edit", 0.0).SetDisplayName("Editable Property");
   auto& non_editable_property = root_item->AddProperty("nedit", 0.0)
-                                   ->SetDisplayName("Non-editable Property")
+                                   .SetDisplayName("Non-editable Property")
                                    .SetEditable(false);
 
   PropertyViewModel view_model(&model);

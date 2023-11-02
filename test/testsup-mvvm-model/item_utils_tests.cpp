@@ -172,7 +172,7 @@ TEST_F(ItemUtilsTests, TopLevelItems)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
 
   auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
-  auto child2 = parent->AddProperty("thickness", 42.0);
+  auto& child2 = parent->AddProperty("thickness", 42.0);
   auto child3 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
 
   EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
@@ -196,7 +196,7 @@ TEST_F(ItemUtilsTests, TopLevelItemsWhenHidden)
   child2->SetVisible(false);
   auto child3 = model.InsertItem<SessionItem>(parent, "default_tag2");
 
-  auto child4 = parent->AddProperty("thickness", 42.0);
+  auto& child4 = parent->AddProperty("thickness", 42.0);
 
   EXPECT_EQ(utils::TopLevelItems(*model.GetRootItem()), std::vector<SessionItem*>({parent}));
   EXPECT_EQ(utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
@@ -215,14 +215,14 @@ TEST_F(ItemUtilsTests, SinglePropertyItems)
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
   auto child2 = model.InsertItem<PropertyItem>(parent, "property_tag");
-  auto child3 = parent->AddProperty<VectorItem>("position");
-  auto child4 = parent->AddProperty("thickness", 42.0);
+  auto& child3 = parent->AddProperty<VectorItem>("position");
+  auto& child4 = parent->AddProperty("thickness", 42.0);
 
   model.InsertItem<SessionItem>(parent, "default_tag");
 
   EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child3, child4}));
+  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({&child3, &child4}));
 }
 
 //! Check access to top level and property items when some of items are hidden via corresponding
@@ -236,13 +236,13 @@ TEST_F(ItemUtilsTests, SinglePropertyItemsWhenHidden)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child2 = parent->AddProperty<VectorItem>("position");
-  child2->SetVisible(false);
-  auto child3 = parent->AddProperty("thickness", 42.0);
+  auto& child2 = parent->AddProperty<VectorItem>("position");
+  child2.SetVisible(false);
+  auto& child3 = parent->AddProperty("thickness", 42.0);
 
   EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
-  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({child3}));
+  EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({&child3}));
 }
 
 //! Looking for next item.

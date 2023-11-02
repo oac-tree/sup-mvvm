@@ -64,7 +64,7 @@ TEST_F(PropertyViewModelTest, PropertyItem)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
-  auto property = parent->AddProperty("thickness", 0.0);
+  auto& property = parent->AddProperty("thickness", 0.0);
 
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
 
@@ -167,7 +167,7 @@ TEST_F(PropertyViewModelTest, SetData)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
-  auto item = parent->AddProperty("Property", 0.0);
+  auto& item = parent->AddProperty("Property", 0.0);
 
   PropertyViewModel viewmodel(&model);
   viewmodel.SetRootSessionItem(parent);
@@ -175,7 +175,7 @@ TEST_F(PropertyViewModelTest, SetData)
   QSignalSpy spy_data_changed(&viewmodel, &ViewModelBase::dataChanged);
 
   // modifying data through the composer
-  model.SetData(item, 42.0, DataRole::kData);
+  model.SetData(&item, 42.0, DataRole::kData);
 
   ASSERT_EQ(spy_data_changed.count(), 1);
 
@@ -198,7 +198,7 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<CompoundItem>();
-  auto item = parent->AddProperty("Property", 0.0);
+  auto& item = parent->AddProperty("Property", 0.0);
 
   PropertyViewModel viewmodel1(&model);
   viewmodel1.SetRootSessionItem(parent);
@@ -318,10 +318,10 @@ TEST_F(PropertyViewModelTest, InsertIntoEmptyTag)
   // for the moment, AddProperty doesn't trigger signaling
   // so we have to initialise viewmodel later
 
-  auto height_property = parent->AddProperty("height", 42);
-  auto& hidden_property = parent->AddProperty("name", "abc")->SetVisible(false);
+  auto& height_property = parent->AddProperty("height", 42);
+  auto& hidden_property = parent->AddProperty("name", "abc").SetVisible(false);
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
-  auto width_property = parent->AddProperty("width", 0);
+  auto& width_property = parent->AddProperty("width", 0);
 
   PropertyViewModel viewmodel(&model);
   viewmodel.SetRootSessionItem(parent);
@@ -329,15 +329,15 @@ TEST_F(PropertyViewModelTest, InsertIntoEmptyTag)
   QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
 
   EXPECT_EQ(parent->GetAllItems(),
-            std::vector<SessionItem*>({height_property, &hidden_property, width_property}));
+            std::vector<SessionItem*>({&height_property, &hidden_property, &width_property}));
 
   // we construct an item which is mimiking a dynamic property item
   // will be refactored
   auto child = std::make_unique<SessionItem>();
   child->SetFlag(Appearance::kProperty, true);
   auto child_ptr = model.InsertItem(std::move(child), parent, {"ITEMS", 0});
-  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({height_property, &hidden_property,
-                                                              child_ptr, width_property}));
+  EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({&height_property, &hidden_property,
+                                                              child_ptr, &width_property}));
 
   EXPECT_EQ(spy_insert.count(), 1);
 
@@ -347,11 +347,11 @@ TEST_F(PropertyViewModelTest, InsertIntoEmptyTag)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(parent_index), parent);
 
   auto child_index0 = viewmodel.index(0, 0, parent_index);
-  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index0), height_property);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index0), &height_property);
 
   auto child_index1 = viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index1), child_ptr);
 
   auto child_index2 = viewmodel.index(2, 0, parent_index);
-  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), width_property);
+  EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), &width_property);
 }

@@ -50,7 +50,7 @@ namespace dragandmove
 
 DemoItem::DemoItem() : CompoundItem(kDemoItemType)
 {
-  AddProperty("Color", "green")->SetEditorType(mvvm::constants::kColorEditorType);
+  AddProperty("Color", "green").SetEditorType(mvvm::constants::kColorEditorType);
   AddProperty("Bool", true);
   AddProperty("Integer", 42);
   AddProperty("String", "abc");

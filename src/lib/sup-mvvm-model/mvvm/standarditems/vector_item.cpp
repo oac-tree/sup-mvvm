@@ -27,9 +27,9 @@ namespace mvvm
 {
 VectorItem::VectorItem() : CompoundItem(Type)
 {
-  AddProperty(kX, 0.0)->SetDisplayName("X");
-  AddProperty(kY, 0.0)->SetDisplayName("Y");
-  AddProperty(kZ, 0.0)->SetDisplayName("Z");
+  AddProperty(kX, 0.0).SetDisplayName("X");
+  AddProperty(kY, 0.0).SetDisplayName("Y");
+  AddProperty(kZ, 0.0).SetDisplayName("Z");
 
   SetEditable(false);
 

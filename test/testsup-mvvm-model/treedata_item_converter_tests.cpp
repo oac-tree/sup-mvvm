@@ -243,8 +243,8 @@ TEST_F(TreeDataItemConverterTests, CompoundItemToTreeDataAndBack)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent_name");
-  auto position_item = parent.AddProperty<VectorItem>("Position");
-  position_item->SetXYZ(1.0, 2.0, 3.0);
+  auto& position_item = parent.AddProperty<VectorItem>("Position");
+  position_item.SetXYZ(1.0, 2.0, 3.0);
 
   // to TreeData
   auto converter = CreateCloneConverter();
@@ -268,10 +268,10 @@ TEST_F(TreeDataItemConverterTests, CompoundItemToTreeDataAndBack)
   EXPECT_EQ(reco_child->GetTotalItemCount(), 3);
   EXPECT_EQ(reco_child->GetType(), VectorItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "Position");
-  EXPECT_EQ(reco_child->GetIdentifier(), position_item->GetIdentifier());
-  EXPECT_EQ(reco_child->X(), position_item->X());
-  EXPECT_EQ(reco_child->Y(), position_item->Y());
-  EXPECT_EQ(reco_child->Z(), position_item->Z());
+  EXPECT_EQ(reco_child->GetIdentifier(), position_item.GetIdentifier());
+  EXPECT_EQ(reco_child->X(), position_item.X());
+  EXPECT_EQ(reco_child->Y(), position_item.Y());
+  EXPECT_EQ(reco_child->Z(), position_item.Z());
 }
 
 //! Parent and child to TreeData object and back.
@@ -280,8 +280,8 @@ TEST_F(TreeDataItemConverterTests, CompoundItemFileAndBack)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent_name");
-  auto position_item = parent.AddProperty<VectorItem>("Position");
-  position_item->SetXYZ(1.0, 2.0, 3.0);
+  auto& position_item = parent.AddProperty<VectorItem>("Position");
+  position_item.SetXYZ(1.0, 2.0, 3.0);
 
   const auto file_path = GetFilePath("CompoundItemFileAndBack.xml");
   WriteToXMLFile(file_path, parent);
@@ -303,10 +303,10 @@ TEST_F(TreeDataItemConverterTests, CompoundItemFileAndBack)
   EXPECT_EQ(reco_child->GetTotalItemCount(), 3);
   EXPECT_EQ(reco_child->GetType(), VectorItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "Position");
-  EXPECT_EQ(reco_child->GetIdentifier(), position_item->GetIdentifier());
-  EXPECT_EQ(reco_child->X(), position_item->X());
-  EXPECT_EQ(reco_child->Y(), position_item->Y());
-  EXPECT_EQ(reco_child->Z(), position_item->Z());
+  EXPECT_EQ(reco_child->GetIdentifier(), position_item.GetIdentifier());
+  EXPECT_EQ(reco_child->X(), position_item.X());
+  EXPECT_EQ(reco_child->Y(), position_item.Y());
+  EXPECT_EQ(reco_child->Z(), position_item.Z());
 }
 
 //! Parent and child to TreeData object and back (converter in copy mode).

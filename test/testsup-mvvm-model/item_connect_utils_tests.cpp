@@ -112,9 +112,9 @@ TEST_F(ItemConnectUtilsTests, ConvertToPropertyChangedEvent)
 {
   ApplicationModel model;
   auto compound = model.InsertItem<CompoundItem>();
-  auto property_item = compound->AddProperty("height", 42);
+  auto& property_item = compound->AddProperty("height", 42);
 
-  DataChangedEvent event{property_item, DataRole::kData};
+  DataChangedEvent event{&property_item, DataRole::kData};
 
   {  // successfull convertion
     auto result = connect::ConvertToPropertyChangedEvent(compound, event_variant_t(event));
@@ -126,7 +126,7 @@ TEST_F(ItemConnectUtilsTests, ConvertToPropertyChangedEvent)
 
   {  // wrong convertion
     // DataChangedEvent happened with property_item can't be PropertyChangedEvent of the same item
-    auto result = connect::ConvertToPropertyChangedEvent(property_item, event_variant_t(event));
+    auto result = connect::ConvertToPropertyChangedEvent(&property_item, event_variant_t(event));
     EXPECT_FALSE(result.has_value());
   }
 }
