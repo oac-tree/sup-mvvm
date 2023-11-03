@@ -40,7 +40,6 @@ endif()
 # -----------------------------------------------------------------------------
 # Variables
 # -----------------------------------------------------------------------------
-
 if(COA_SETUP_COVERAGE)
   # On coverage builds  alsways skip building docs and build tests
   set(COA_BUILD_DOCUMENTATION OFF)
@@ -55,7 +54,6 @@ set(SUP_MVVM_TESTRESULT_DIR ${CMAKE_BINARY_DIR}/test_result)
 # -----------------------------------------------------------------------------
 # Directories
 # -----------------------------------------------------------------------------
-
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
@@ -65,7 +63,7 @@ file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 file(MAKE_DIRECTORY ${SUP_MVVM_TESTRESULT_DIR})
 
-if (DEFINED TEST_OUTPUT_DIRECTORY)
+if(DEFINED TEST_OUTPUT_DIRECTORY)
   file(MAKE_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 else()
   set(TEST_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -98,14 +96,8 @@ message(STATUS " Core library: ${QtWidgets_location}")
 
 find_package(Threads)
 
-find_package(benchmark QUIET)
-if (benchmark_FOUND)
-  message(STATUS "Found benchmark v${benchmark_VERSION}")
-endif()
-
 # -----------------------------------------------------------------------------
 # Generating config files
 # -----------------------------------------------------------------------------
-
-configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/testconfig.h.in  ${SUP_MVVM_AUTOGEN_DIR}/testconfig.h @ONLY)
+configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/testconfig.h.in ${SUP_MVVM_AUTOGEN_DIR}/testconfig.h @ONLY)
 configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/version_constants.h.in ${SUP_MVVM_AUTOGEN_DIR}/version_constants.h @ONLY)

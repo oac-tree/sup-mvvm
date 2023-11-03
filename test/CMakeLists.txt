@@ -10,8 +10,10 @@ endif()
 
 include(GoogleTest)
 
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Core Test REQUIRED)
-find_package(Threads)
+find_package(benchmark QUIET)
+if(benchmark_FOUND)
+  message(STATUS "Found benchmark v${benchmark_VERSION}")
+endif()
 
 add_subdirectory(libtest-utils)
 add_subdirectory(testsup-mvvm-integration)
