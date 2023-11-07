@@ -34,7 +34,7 @@ struct ViewItem::ViewItemImpl
   int m_rows{0};
   int m_columns{0};
   std::unique_ptr<ViewItemDataInterface> m_view_item_data;
-  ViewItem* m_self{nullptr};
+  ViewItem* m_parent{nullptr};
 
   explicit ViewItemImpl(std::unique_ptr<ViewItemDataInterface> view_item_data)
       : m_view_item_data(std::move(view_item_data))
@@ -101,8 +101,6 @@ struct ViewItem::ViewItemImpl
 
     return m_children.at(static_cast<size_t>(column + row * m_columns)).get();
   }
-
-  ViewItem* parent() { return m_self; }
 
   int index_of_child(const ViewItem* child)
   {
@@ -183,7 +181,7 @@ void ViewItem::clear()
 
 ViewItem* ViewItem::parent() const
 {
-  return p_impl->parent();
+  return p_impl->m_parent;
 }
 
 ViewItem* ViewItem::child(int row, int column) const
@@ -257,7 +255,7 @@ std::vector<ViewItem*> ViewItem::children() const
 
 void ViewItem::setParent(ViewItem* parent)
 {
-  p_impl->m_self = parent;
+  p_impl->m_parent = parent;
 }
 
 }  // namespace mvvm
