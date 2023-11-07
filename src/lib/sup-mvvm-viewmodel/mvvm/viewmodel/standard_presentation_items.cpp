@@ -186,6 +186,11 @@ QVariant EditableDisplayNamePresentationItem::Data(int qt_role) const
     return QString::fromStdString(GetItem()->GetDisplayName());
   }
 
+  if (qt_role == Qt::CheckStateRole)
+  {
+    return {};
+  }
+
   return DataPresentationItem::Data(qt_role);
 }
 

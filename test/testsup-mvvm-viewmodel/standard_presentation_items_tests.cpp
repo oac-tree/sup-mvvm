@@ -359,3 +359,33 @@ TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemWithout
   // it is not possible to set same data twice
   EXPECT_FALSE(presentation.SetData("abcabc", Qt::EditRole));
 }
+
+//! The behavior of editable display item when showing an item with bool data on bopard.
+//! There shouldn't be any CheckState role visible (real-life bug).
+
+TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemForBoolean)
+{
+  SessionItem item;
+  // We do not set item, expect default display name "SessionItem"
+  item.SetData(true);
+  item.SetDisplayName("abc");
+
+  EditableDisplayNamePresentationItem presentation(&item);
+  EXPECT_EQ(presentation.GetItem(), &item);
+  EXPECT_EQ(presentation.GetDataRole(), DataRole::kDisplay);
+  EXPECT_TRUE(presentation.IsEnabled());
+  EXPECT_TRUE(presentation.IsEditable());
+
+  // thre shouldn't be any check state role
+  EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
+
+  EXPECT_TRUE(presentation.Data(Qt::EditRole).isValid());
+  EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("abc"));
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("abc"));
+
+  EXPECT_TRUE(presentation.SetData("abcabc", Qt::EditRole));
+  EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));
+
+  EXPECT_EQ(item.GetDisplayName(), std::string("abcabc"));
+}
