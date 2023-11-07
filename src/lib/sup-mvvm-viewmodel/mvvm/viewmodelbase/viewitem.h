@@ -74,6 +74,11 @@ public:
 protected:
   void setParent(ViewItem* parent);
 
+  /**
+   * @brief Update cached values of row and col.
+   */
+  void updatePositionCache(int row, int col);
+
 private:
   struct ViewItemImpl;
   std::unique_ptr<ViewItemImpl> p_impl;

@@ -33,6 +33,8 @@ struct ViewItem::ViewItemImpl
   std::vector<std::unique_ptr<ViewItem>> m_children;  //! buffer to hold rows x columns
   int m_rows{0};
   int m_columns{0};
+  int m_my_row{-1};
+  int m_my_col{-1};
   std::unique_ptr<ViewItemDataInterface> m_view_item_data;
   ViewItem* m_parent{nullptr};
 
@@ -44,6 +46,7 @@ struct ViewItem::ViewItemImpl
   void appendRow(std::vector<std::unique_ptr<ViewItem>> items)
   {
     insertRow(m_rows, std::move(items));
+    updateChildrenCache();
   }
 
   void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
@@ -68,6 +71,8 @@ struct ViewItem::ViewItemImpl
 
     m_columns = static_cast<int>(items.size());
     ++m_rows;
+
+    updateChildrenCache();
   }
 
   void removeRow(int row)
@@ -78,13 +83,14 @@ struct ViewItem::ViewItemImpl
     }
 
     auto begin = std::next(m_children.begin(), row * m_columns);
-    auto end = std::next(begin, m_columns);
-    m_children.erase(begin, end);
+    m_children.erase(begin, std::next(begin, m_columns));
     --m_rows;
     if (m_rows == 0)
     {
       m_columns = 0;
     }
+
+    updateChildrenCache();
   }
 
   ViewItem* child(int row, int column) const
@@ -115,6 +121,19 @@ struct ViewItem::ViewItemImpl
     std::transform(m_children.begin(), m_children.end(), std::back_inserter(result),
                    [](const auto& x) { return x.get(); });
     return result;
+  }
+
+  /**
+   * @brief Updates cached row,col values for children.
+   */
+  void updateChildrenCache()
+  {
+    for (size_t index = 0; index < m_children.size(); ++index)
+    {
+      const int row = index / m_columns;
+      const int col = index % m_columns;
+      m_children[index]->updatePositionCache(row, col);
+    }
   }
 };
 
@@ -204,8 +223,7 @@ const ViewItemDataInterface* ViewItem::item() const
 
 int ViewItem::row() const
 {
-  auto index = parent() ? parent()->p_impl->index_of_child(this) : -1;
-  return index >= 0 ? index / parent()->p_impl->m_columns : -1;
+  return p_impl->m_my_row;
 }
 
 //! Returns the column where the item is located in its parent's child table, or
@@ -213,8 +231,7 @@ int ViewItem::row() const
 
 int ViewItem::column() const
 {
-  auto index = parent() ? parent()->p_impl->index_of_child(this) : -1;
-  return index >= 0 ? index % parent()->p_impl->m_columns : -1;
+  return p_impl->m_my_col;
 }
 
 //! Returns the data for given role according to Qt::ItemDataRole namespace
@@ -256,6 +273,12 @@ std::vector<ViewItem*> ViewItem::children() const
 void ViewItem::setParent(ViewItem* parent)
 {
   p_impl->m_parent = parent;
+}
+
+void ViewItem::updatePositionCache(int row, int col)
+{
+  p_impl->m_my_row = row;
+  p_impl->m_my_col = col;
 }
 
 }  // namespace mvvm

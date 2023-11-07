@@ -196,6 +196,16 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
   EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
   EXPECT_EQ(view_item.child(1, 0), expected_row1[0]);
   EXPECT_EQ(view_item.child(1, 1), expected_row1[1]);
+
+  // checking row and column of children again
+  EXPECT_EQ(expected_row0[0]->row(), 0);
+  EXPECT_EQ(expected_row0[1]->row(), 0);
+  EXPECT_EQ(expected_row1[0]->row(), 1);
+  EXPECT_EQ(expected_row1[1]->row(), 1);
+  EXPECT_EQ(expected_row0[0]->column(), 0);
+  EXPECT_EQ(expected_row0[1]->column(), 1);
+  EXPECT_EQ(expected_row1[0]->column(), 0);
+  EXPECT_EQ(expected_row1[1]->column(), 1);
 }
 
 //! Clean item's children.
