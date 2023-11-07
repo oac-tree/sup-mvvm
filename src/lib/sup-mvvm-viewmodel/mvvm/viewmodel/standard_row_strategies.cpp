@@ -33,7 +33,8 @@ namespace mvvm
 
 QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
 {
-  return {"Name", "Value"};
+  const static QStringList result{"Name", "Value"};
+  return result;
 }
 
 std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRow(SessionItem* item)
