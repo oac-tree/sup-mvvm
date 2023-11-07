@@ -48,9 +48,13 @@ int IndexOfItem(It begin, It end, const T& item)
 {
   It pos;
   if constexpr (is_unique_ptr<typename std::iterator_traits<It>::value_type>::value)
+  {
     pos = find_if(begin, end, [&item](const auto& x) { return x.get() == item; });
+  }
   else
-    pos = find_if(begin, end, [&item](const auto& x) { return x == item; });
+  {
+    pos = find(begin, end, item);
+  }
 
   return pos == end ? -1 : static_cast<int>(std::distance(begin, pos));
 }
