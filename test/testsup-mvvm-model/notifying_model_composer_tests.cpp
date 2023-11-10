@@ -25,11 +25,13 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/model/sessionmodel.h>
 #include <mvvm/signals/model_event_handler.h>
 
 #include <gtest/gtest.h>
 #include <testutils/mock_event_listener.h>
-#include <testutils/mock_model.h>
+
+#include <iostream>
 
 using namespace mvvm;
 using ::testing::_;
@@ -46,7 +48,7 @@ public:
 
   NotifyingModelComposerTests() { m_listener.SubscribeAll(&m_event_handler); }
 
-  testutils::MockModel m_model;
+  SessionModel m_model;
   ModelEventHandler m_event_handler;
   MockEventListener m_listener;
 };
