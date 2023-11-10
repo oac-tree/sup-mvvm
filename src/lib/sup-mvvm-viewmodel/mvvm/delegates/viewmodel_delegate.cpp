@@ -22,13 +22,26 @@
 #include <mvvm/delegates/default_cell_decorator.h>
 #include <mvvm/editors/custom_editor.h>
 #include <mvvm/editors/custom_editor_factories.h>
+#include <mvvm/editors/custom_event_filters.h>
 
 #include <QApplication>
 
 namespace
 {
 const double scale_default_height_factor{1.2};
+
+/**
+ * @brief Helper function that creates and installs special custom event filter to help process tab
+ * events.
+ */
+void InstallTabFocusProxy(QWidget* widget)
+{
+  auto filter = new mvvm::TabFromFocusProxy(widget);
+  Q_UNUSED(filter);
+  // will be deleted by widget itself
 }
+
+}  // namespace
 
 namespace mvvm
 {
@@ -60,6 +73,7 @@ QWidget* ViewModelDelegate::createEditor(QWidget* parent, const QStyleOptionView
     editor->setParent(parent);
     if (auto custom_editor = dynamic_cast<CustomEditor*>(editor.get()); custom_editor)
     {
+      InstallTabFocusProxy(custom_editor);
       connect(custom_editor, &CustomEditor::dataChanged, this,
               &ViewModelDelegate::onCustomEditorDataChanged);
     }

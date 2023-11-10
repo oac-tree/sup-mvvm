@@ -32,6 +32,7 @@ namespace mvvm
 class SpaceKeyEater : public QObject
 {
   Q_OBJECT
+
 public:
   explicit SpaceKeyEater(QObject* parent = nullptr);
 
@@ -74,6 +75,7 @@ protected:
 class ShortcodeFilter : public QObject
 {
   Q_OBJECT
+
 public:
   explicit ShortcodeFilter(const QString& shortcode, QObject* parent = nullptr);
 
@@ -86,6 +88,21 @@ protected:
 private:
   QString m_shortcode;
   int m_index;
+};
+
+//! Propagate tab events from focusProxy to parent.
+
+class TabFromFocusProxy : public QObject {
+  Q_OBJECT
+
+public:
+  TabFromFocusProxy(QWidget* parent = nullptr);
+
+protected:
+  bool eventFilter(QObject* obj, QEvent* event);
+
+public:
+  QWidget* m_parent{nullptr};
 };
 
 }  // namespace mvvm
