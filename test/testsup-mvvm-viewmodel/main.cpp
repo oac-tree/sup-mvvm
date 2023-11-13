@@ -21,11 +21,15 @@
 #include <gtest/gtest.h>
 
 #include <QMetaType>
+#include <QPersistentModelIndex>
 
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
   ::testing::InitGoogleMock(&argc, argv);
+
+  qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
+  qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
 
   // run all google tests
   return RUN_ALL_TESTS();
