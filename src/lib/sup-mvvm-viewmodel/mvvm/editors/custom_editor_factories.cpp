@@ -43,7 +43,6 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
   RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
   RegisterBuilder(constants::kIntegerEditorType, IntegerEditorBuilder());
   RegisterBuilder(constants::kScientificSpinboxEditorType, ScientificSpinBoxEditorBuilder());
-  RegisterBuilder(constants::kLongIntSpinBoxEditorType, LongIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kDoubleEditorType, DoubleEditorBuilder());
   RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kFloatSpinBoxEditorType, FloatEditorBuilder());

@@ -102,21 +102,6 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
   return builder;
 }
 
-editorbuilder_t LongIntSpinBoxEditorBuilder()
-{
-  auto builder = [](const SessionItem* item) -> editor_t
-  {
-    auto editor = std::make_unique<LongIntSpinBoxEditor>();
-    if (item)
-    {
-//      auto limits = GetInt32Limits(*item);
-//      editor->SetRange(limits.first, limits.second);
-    }
-    return editor;
-  };
-  return builder;
-}
-
 editorbuilder_t IntegerEditorBuilder()
 {
   auto builder = [](const SessionItem* item) -> editor_t

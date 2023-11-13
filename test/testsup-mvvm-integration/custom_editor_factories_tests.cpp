@@ -87,11 +87,6 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
   index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
   EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
 
-  // long int
-  const int64 num(4294967296);
-  index = AddDataToModel(variant_t(num), constants::kLongIntSpinBoxEditorType);
-  EXPECT_TRUE(dynamic_cast<LongIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
-
   // for int we use adapted QSpinBox with limits set
   index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));

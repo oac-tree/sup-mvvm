@@ -34,7 +34,6 @@ const std::string kSelectableComboPropertyEditorType = "SelectableComboPropertyE
 const std::string kColorEditorType = "ColorEditor";
 const std::string kExternalPropertyEditorType = "ExternalPropertyEditor";
 const std::string kScientificSpinboxEditorType = "ScientificSpinboxEditor";
-const std::string kLongIntSpinBoxEditorType = "LongIntSpinBoxEditor";
 const std::string kIntegerEditorType = "IntegerEditor";
 const std::string kDoubleEditorType = "DoubleEditor";
 const std::string kAllIntSpinBoxEditorType = "AllIntSpinBoxEditor";
