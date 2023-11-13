@@ -2,8 +2,6 @@ target_sources(${library_name} PRIVATE
   attribute_map.cpp
   attribute_map.h
   converter_types.h
-  limits_utils.cpp
-  limits_utils.h
   treedata.cpp
   treedata.h
   treedata_item_container_converter.cpp
