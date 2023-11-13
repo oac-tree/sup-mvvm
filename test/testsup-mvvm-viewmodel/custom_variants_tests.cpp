@@ -43,8 +43,6 @@ TEST_F(CustomVariantTest, IsVariantType)
       {QVariant::fromValue(std::vector<double>({1, 2})), utils::IsDoubleVectorVariant},
       {QVariant::fromValue(ComboProperty::CreateFrom({"a1", "a2"})), utils::IsComboPropertyVariant},
       {QVariant::fromValue(ExternalProperty("text", "color")), utils::IsExternalPropertyVariant},
-      {QVariant::fromValue(Limits<int>()), utils::IsIntLimitsVariant},
-      {QVariant::fromValue(Limits<double>()), utils::IsRealLimitsVariant},
   };
 
   for (size_t i = 0; i < data.size(); ++i)

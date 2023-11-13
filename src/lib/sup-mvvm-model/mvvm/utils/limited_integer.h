@@ -25,6 +25,7 @@
 
 #include <algorithm>
 #include <charconv>
+#include <limits>
 #include <vector>
 
 namespace mvvm

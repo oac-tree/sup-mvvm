@@ -26,7 +26,6 @@
 #include <mvvm/core/basic_scalar_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
-#include <mvvm/model/limits.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
@@ -62,9 +61,6 @@ const std::string kStdStringQtTypeName = "std::__cxx11::basic_string<char>";
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
 const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
 const std::string kExternalPropertyQtTypeName = "mvvm::ExternalProperty";
-const std::string kIntLimitsPropertyQtTypeName = "mvvm::Limits<int>";
-const std::string kRealLimitsPropertyQtTypeName = "mvvm::Limits<double>";
-const std::string kLongIntLimitsPropertyQtTypeName = "mvvm::Limits<mvvm::int64>";
 
 const std::string kLongLongQtTypeName = "qlonglong";
 const std::string kStringQtTypeName = "QString";
@@ -99,15 +95,6 @@ MVVM_VIEWMODEL_EXPORT bool IsComboPropertyVariant(const QVariant& variant);
 //! Returns true if variant is based on ExternalProperty.
 MVVM_VIEWMODEL_EXPORT bool IsExternalPropertyVariant(const QVariant& variant);
 
-//! Returns true if variant is based on Limits<int>.
-MVVM_VIEWMODEL_EXPORT bool IsIntLimitsVariant(const QVariant& variant);
-
-//! Returns true if variant is based on Limits<int>.
-MVVM_VIEWMODEL_EXPORT bool IsRealLimitsVariant(const QVariant& variant);
-
-//! Returns true if variant is based on Limits<int64>.
-MVVM_VIEWMODEL_EXPORT bool IsLongIntLimitsVariant(const QVariant& variant);
-
 }  // namespace utils
 
 }  // namespace mvvm
@@ -116,8 +103,5 @@ Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)
 Q_DECLARE_METATYPE(mvvm::ComboProperty)
 Q_DECLARE_METATYPE(mvvm::ExternalProperty)
-Q_DECLARE_METATYPE(mvvm::Limits<int>)
-Q_DECLARE_METATYPE(mvvm::Limits<double>)
-Q_DECLARE_METATYPE(mvvm::Limits<mvvm::int64>)
 
 #endif  // MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_

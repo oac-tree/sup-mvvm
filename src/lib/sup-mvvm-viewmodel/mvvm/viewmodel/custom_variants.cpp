@@ -97,19 +97,4 @@ bool IsExternalPropertyVariant(const QVariant& variant)
   return variant.typeName() == constants::kExternalPropertyQtTypeName;
 }
 
-bool IsIntLimitsVariant(const QVariant& variant)
-{
-  return variant.typeName() == constants::kIntLimitsPropertyQtTypeName;
-}
-
-bool IsRealLimitsVariant(const QVariant& variant)
-{
-  return variant.typeName() == constants::kRealLimitsPropertyQtTypeName;
-}
-
-bool IsLongIntLimitsVariant(const QVariant& variant)
-{
-  return variant.typeName() == constants::kLongIntLimitsPropertyQtTypeName;
-}
-
 }  // namespace mvvm::utils

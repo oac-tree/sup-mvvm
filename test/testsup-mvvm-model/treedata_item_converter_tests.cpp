@@ -23,7 +23,6 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/model/item_factory.h>
-#include <mvvm/model/limits.h>
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/sessionitem_data.h>
 #include <mvvm/model/tagged_items.h>

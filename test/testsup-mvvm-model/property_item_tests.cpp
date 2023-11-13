@@ -19,8 +19,6 @@
 
 #include "mvvm/model/property_item.h"
 
-#include <mvvm/model/limits.h>
-
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -35,7 +33,8 @@ TEST_F(PropertyItemTests, SetLimits)
 {
   PropertyItem item;
 
-  EXPECT_FALSE(item.HasData(DataRole::kLimits));
+  EXPECT_FALSE(item.HasData(DataRole::kLowerLimit));
+  EXPECT_FALSE(item.HasData(DataRole::kUpperLimit));
   item.SetData(42);
 }
 

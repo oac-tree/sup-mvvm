@@ -175,21 +175,6 @@ struct VariantLimits32Visitor
     throw mvvm::RuntimeException("Visitor for ExternalProperty is not implemented");
   }
 
-  std::pair<LimitsT, LimitsT> operator()(mvvm::Limits<int> value)
-  {
-    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
-  }
-
-  std::pair<LimitsT, LimitsT> operator()(mvvm::Limits<mvvm::int64> value)
-  {
-    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
-  }
-
-  std::pair<LimitsT, LimitsT> operator()(mvvm::Limits<double> value)
-  {
-    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
-  }
-
   mvvm::variant_t m_lower_bound;
   mvvm::variant_t m_upper_bound;
 };

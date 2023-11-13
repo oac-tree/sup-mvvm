@@ -61,21 +61,6 @@ struct VariantValueVisitor
   std::string operator()(mvvm::ComboProperty value) { return {value.GetStringOfValues()}; }
 
   std::string operator()(mvvm::ExternalProperty value) { return value.ToString(); }
-
-  std::string operator()(mvvm::Limits<int> value)
-  {
-    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
-  }
-
-  std::string operator()(mvvm::Limits<mvvm::int64> value)
-  {
-    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
-  }
-
-  std::string operator()(mvvm::Limits<double> value)
-  {
-    throw mvvm::RuntimeException("Visitor for Limits is not implemented");
-  }
 };
 
 }  // namespace
