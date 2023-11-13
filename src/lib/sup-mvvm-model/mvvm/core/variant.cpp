@@ -134,10 +134,7 @@ std::string TypeName(const variant_t &variant)
       {TypeCode::String, constants::kStringTypeName},
       {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
       {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
-      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName},
-      {TypeCode::LimitsInt, constants::kIntLimitsTypeName},
-      {TypeCode::LimitsInt64, constants::kLongIntLimitsTypeName},
-      {TypeCode::LimitsDouble, constants::kRealLimitsTypeName},
+      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}
   };
   return type_name_map[static_cast<TypeCode>(variant.index())];
 }

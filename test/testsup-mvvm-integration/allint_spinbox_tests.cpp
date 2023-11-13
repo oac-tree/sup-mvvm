@@ -103,7 +103,6 @@ TEST_F(AllIntSpinBoxTest, SetValue)
   EXPECT_EQ(spy_value_changed.count(), 1);
 
   EXPECT_EQ(editor.text(), QString("43"));
-  qDebug() << editor.text() << editor.value();
 
   EXPECT_EQ(spy_value_changed.count(), 1);
   auto arguments = spy_value_changed.takeFirst();

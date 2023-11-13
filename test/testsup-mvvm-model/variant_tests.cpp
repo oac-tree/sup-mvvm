@@ -44,7 +44,6 @@ TEST_F(VariantTests, IsValid)
   EXPECT_TRUE(IsValid(variant_t(std::vector<double>({1.0, 1.1, 1.2}))));
   EXPECT_TRUE(IsValid(variant_t(ComboProperty::CreateFrom({"a1"}))));
   EXPECT_TRUE(IsValid(variant_t(ExternalProperty("text", "color"))));
-  EXPECT_TRUE(IsValid(variant_t(RealLimits())));
 }
 
 //! Special case of const char
@@ -109,20 +108,6 @@ TEST_F(VariantTests, ExternalPropertyVariantEquality)
   EXPECT_FALSE(variant_t(c1) == variant_t(c3));
 }
 
-//! Checks uquality of variants based on Limits.
-TEST_F(VariantTests, LimitsVariantEquality)
-{
-  auto limits1 = RealLimits::CreateLimited(1.0, 2.0);
-  auto limits2 = RealLimits::CreateLimited(1.0, 2.0);
-  auto limits3 = RealLimits::CreateLimited(1.0, 2.1);
-
-  EXPECT_TRUE(variant_t(limits1) == variant_t(limits2));
-  EXPECT_FALSE(variant_t(limits1) != variant_t(limits2));
-
-  EXPECT_FALSE(variant_t(limits1) == variant_t(limits3));
-  EXPECT_TRUE(variant_t(limits1) != variant_t(limits3));
-}
-
 //! Testing Utils::AreCompatible function.
 
 TEST_F(VariantTests, AreCompatible)
@@ -133,8 +118,7 @@ TEST_F(VariantTests, AreCompatible)
                                      variant_t(std::string("abc")),
                                      variant_t(std::vector<double>({1.1, 2.2, 3.3})),
                                      variant_t(ComboProperty::CreateFrom({"a1"})),
-                                     variant_t(ExternalProperty("text", "color")),
-                                     variant_t(RealLimits())};
+                                     variant_t(ExternalProperty("text", "color"))};
   for (size_t i = 0; i < variants.size(); ++i)
   {
     EXPECT_TRUE(utils::AreCompatible(variant_t(), variants[i]));
@@ -203,9 +187,6 @@ TEST_F(VariantTests, TypeName)
             constants::kComboPropertyTypeName);
   EXPECT_EQ(TypeName(variant_t(ExternalProperty("text", "red"))),
             constants::kExternalPropertyTypeName);
-  EXPECT_EQ(TypeName(variant_t(RealLimits::CreateLimited(1.0, 2.0))),
-            constants::kRealLimitsTypeName);
-  EXPECT_EQ(TypeName(variant_t(IntLimits::CreateLimited(1, 2))), constants::kIntLimitsTypeName);
 }
 
 TEST_F(VariantTests, DataRoleComparison)

@@ -88,16 +88,8 @@ std::map<std::string, converter_func_t> CreateConverterMap()
        { return mvvm::variant_t(variant.value<mvvm::ComboProperty>()); }},
 
       {mvvm::constants::kExternalPropertyQtTypeName, [](const QVariant& variant)
-       { return mvvm::variant_t(variant.value<mvvm::ExternalProperty>()); }},
+       { return mvvm::variant_t(variant.value<mvvm::ExternalProperty>()); }}
 
-      {mvvm::constants::kIntLimitsPropertyQtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::Limits<int>>()); }},
-
-      {mvvm::constants::kRealLimitsPropertyQtTypeName, [](const QVariant& variant)
-       { return mvvm::variant_t(variant.value<mvvm::Limits<double>>()); }},
-
-      {mvvm::constants::kLongIntLimitsPropertyQtTypeName, [](const QVariant& variant)
-       { return mvvm::variant_t(variant.value<mvvm::Limits<mvvm::int64>>()); }},
   };
   return result;
 };

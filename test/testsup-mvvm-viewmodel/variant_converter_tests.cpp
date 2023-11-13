@@ -296,16 +296,6 @@ TEST_F(VariantConverterTest, GetStdVariant)
     EXPECT_EQ(variant, variant_t(value));
   }
 
-  {
-    const RealLimits real_limits = RealLimits::CreateLimited(1.0, 2.0);
-    EXPECT_EQ(GetStdVariant(QVariant::fromValue(real_limits)), variant_t(real_limits));
-  }
-
-  {
-    const IntLimits int_limits = IntLimits::CreateLimited(1, 42);
-    EXPECT_EQ(GetStdVariant(QVariant::fromValue(int_limits)), variant_t(int_limits));
-  }
-
   // other Qt variants are unsupported
   EXPECT_THROW(GetStdVariant(QVariant(QColor(Qt::red))), RuntimeException);
 }
@@ -510,12 +500,6 @@ TEST_F(VariantConverterTest, GetQtVariantExtended)
   auto external_from_mvvm = std::get<ExternalProperty>(mvvm_external_variant);
   EXPECT_EQ(external_from_qt, external);
   EXPECT_EQ(external_from_mvvm, external);
-
-  // from RealLimits
-  const RealLimits limits = RealLimits::CreateLimited(1.0, 2.0);
-  variant_t limits_variant(limits);
-  auto qt_limits_variant = GetQtVariant(limits_variant);
-  EXPECT_EQ(qt_limits_variant.value<RealLimits>(), limits);
 }
 
 //! Special test for comparison of Qt variants based on vector<double>.

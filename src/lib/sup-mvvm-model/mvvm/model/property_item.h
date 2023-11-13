@@ -42,17 +42,7 @@ public:
   std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   PropertyItem& SetDisplayName(const std::string& name) override;
-
-  template <typename T>
-  PropertyItem& SetLimits(const Limits<T>& value);
 };
-
-template <typename T>
-PropertyItem &PropertyItem::SetLimits(const Limits<T>& value)
-{
-  SetData(value, DataRole::kLimits);
-  return *this;
-}
 
 }  // namespace mvvm
 

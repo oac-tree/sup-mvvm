@@ -19,6 +19,7 @@
 
 #include "mvvm/standarditems/plottable_items.h"
 
+#include <mvvm/model/item_limits_helper.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/container_utils.h>
 
@@ -101,10 +102,9 @@ PenItem::PenItem() : CompoundItem(Type)
       .SetToolTip("Pen color")
       .SetEditorType(constants::kColorEditorType);
   AddProperty(kStyle, penStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
-  AddProperty(kWidth, pen_default_width)
-      .SetDisplayName("Width")
-      .SetLimits(IntLimits::CreateLimited(pen_min_width, pen_max_width))
-      .SetToolTip("Pen width");
+  auto &width_property =
+      AddProperty(kWidth, pen_default_width).SetDisplayName("Width").SetToolTip("Pen width");
+  SetLimited(pen_min_width, pen_max_width, width_property);
 }
 
 std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const

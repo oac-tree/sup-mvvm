@@ -54,16 +54,13 @@ enum class TypeCode : uint32
   String,
   VectorOfDouble,
   ComboProperty,
-  ExternalProperty,
-  LimitsInt,
-  LimitsInt64,
-  LimitsDouble
+  ExternalProperty
 };
 
 using variant_t =
     std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32, uint32, int64,
                  uint64, float32, float64, std::string, std::vector<float64>, ComboProperty,
-                 ExternalProperty, Limits<int32>, Limits<int64>, Limits<float64>>;
+                 ExternalProperty>;
 
 using datarole_t = std::pair<variant_t, int>;
 bool operator==(const datarole_t& lhs, const datarole_t& rhs);
@@ -94,9 +91,6 @@ const std::string kStringTypeName = "string";
 const std::string kVectorDoubleTypeName = "vector_double";
 const std::string kComboPropertyTypeName = "ComboProperty";
 const std::string kExternalPropertyTypeName = "ExternalProperty";
-const std::string kIntLimitsTypeName = "IntLimits";
-const std::string kLongIntLimitsTypeName = "LongIntLimits";
-const std::string kRealLimitsTypeName = "RealLimits";
 }  // namespace mvvm::constants
 
 namespace mvvm::utils

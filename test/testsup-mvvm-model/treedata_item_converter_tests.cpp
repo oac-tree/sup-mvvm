@@ -24,6 +24,7 @@
 #include <mvvm/model/external_property.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/limits.h>
+#include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/sessionitem_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/serialization/treedata.h>
@@ -141,10 +142,7 @@ TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToFileAndBack)
   item.SetData(ComboProperty({"a1", "abc edf", "a3"}, "abc edf"), custom_role2);
   const int custom_role3 = 101;
   item.SetData(ExternalProperty("text", "color", "identifier"), custom_role3);
-  const int custom_role4 = 102;
-  item.SetData(Limits<int>::CreateLimited(11, 12), custom_role4);
-  const int custom_role5 = 103;
-  item.SetData(Limits<double>::CreateLimited(41.1, 43.1), custom_role5);
+  SetLimited(11, 12, item);
 
   const auto file_path = GetFilePath("PropertyItemWithDataToFileAndBack.xml");
   WriteToXMLFile(file_path, item);
@@ -161,8 +159,8 @@ TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToFileAndBack)
   EXPECT_EQ(reco->Data(custom_role1), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
   EXPECT_EQ(reco->Data(custom_role2), variant_t(ComboProperty({"a1", "abc edf", "a3"}, "abc edf")));
   EXPECT_EQ(reco->Data(custom_role3), variant_t(ExternalProperty("text", "color", "identifier")));
-  EXPECT_EQ(reco->Data(custom_role4), variant_t(Limits<int>::CreateLimited(11, 12)));
-  EXPECT_EQ(reco->Data(custom_role5), variant_t(Limits<double>::CreateLimited(41.1, 43.1)));
+  EXPECT_EQ(reco->Data(DataRole::kLowerLimit), variant_t(11));
+  EXPECT_EQ(reco->Data(DataRole::kUpperLimit), variant_t(12));
 }
 
 //! Parent and child to TreeData object and back.

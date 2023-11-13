@@ -84,18 +84,6 @@ mvvm::datarole_t to_combo_property(const mvvm::TreeData& tree_data);
 //! Converts TreeData to datarole_t holding ExternalProperty data.
 mvvm::datarole_t to_external_property(const mvvm::TreeData& tree_data);
 
-//! Converts datarole_t holding Limits<int> to the TreeData object.
-mvvm::TreeData from_int_limits(const mvvm::datarole_t& datarole);
-
-//! Converts TreeData to datarole_t holding Limits<int> data.
-mvvm::datarole_t to_int_limits(const mvvm::TreeData& tree_data);
-
-//! Converts datarole_t holding Limits<double> to the TreeData object.
-mvvm::TreeData from_real_limits(const mvvm::datarole_t& datarole);
-
-//! Converts TreeData to datarole_t holding Limits<double> data.
-mvvm::datarole_t to_real_limits(const mvvm::TreeData& tree_data);
-
 //! Returns map of all defined converters.
 std::map<std::string, Converters> GetConverters();
 
@@ -263,38 +251,6 @@ mvvm::datarole_t to_external_property(const mvvm::TreeData& tree_data)
   return {property, GetRole(tree_data)};
 }
 
-mvvm::TreeData from_int_limits(const mvvm::datarole_t& datarole)
-{
-  mvvm::TreeData result(kVariantElementType);
-  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kIntLimitsTypeName);
-  auto limits = std::get<mvvm::Limits<int>>(datarole.first);
-  result.SetContent(mvvm::utils::ToString(limits));
-  return result;
-}
-
-mvvm::datarole_t to_int_limits(const mvvm::TreeData& tree_data)
-{
-  auto limits = mvvm::utils::IntLimitsFromString(tree_data.GetContent());
-  return {limits, GetRole(tree_data)};
-}
-
-mvvm::TreeData from_real_limits(const mvvm::datarole_t& datarole)
-{
-  mvvm::TreeData result(kVariantElementType);
-  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kRealLimitsTypeName);
-  auto limits = std::get<mvvm::Limits<double>>(datarole.first);
-  result.SetContent(mvvm::utils::ToString(limits));
-  return result;
-}
-
-mvvm::datarole_t to_real_limits(const mvvm::TreeData& tree_data)
-{
-  auto limits = mvvm::utils::RealLimitsFromString(tree_data.GetContent());
-  return {limits, GetRole(tree_data)};
-}
-
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
@@ -319,10 +275,7 @@ std::map<std::string, Converters> GetConverters()
       {mvvm::constants::kVectorDoubleTypeName, {from_datarole_default_impl, to_vector_double}},
       {mvvm::constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
       {mvvm::constants::kExternalPropertyTypeName,
-       {from_datarole_default_impl, to_external_property}},
-      {mvvm::constants::kIntLimitsTypeName, {from_int_limits, to_int_limits}},
-      {mvvm::constants::kRealLimitsTypeName, {from_real_limits, to_real_limits}},
-  };
+       {from_datarole_default_impl, to_external_property}}};
 
   return result;
 }

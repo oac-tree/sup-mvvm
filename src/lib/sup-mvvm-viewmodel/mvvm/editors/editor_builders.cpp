@@ -94,8 +94,8 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
     {
       if (item->HasData(DataRole::kLimits))
       {
-        auto limits = item->Data<RealLimits>(DataRole::kLimits);
-        editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+        auto limits = GetFloat64Limits(*item);
+        editor->SetRange(limits.first, limits.second);
       }
       editor->SetSingleStep(getStep(item->Data<double>()));
     }
@@ -114,8 +114,8 @@ editorbuilder_t LongIntSpinBoxEditorBuilder()
     {
       if (item->HasData(DataRole::kLimits))
       {
-        auto limits = item->Data<Limits<int64>>(DataRole::kLimits);
-        editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
+//        auto limits = item->Data<Limits<int64>>(DataRole::kLimits);
+//        editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
       }
       else
       {

@@ -37,11 +37,6 @@ TEST_F(PropertyItemTests, SetLimits)
 
   EXPECT_FALSE(item.HasData(DataRole::kLimits));
   item.SetData(42);
-
-  item.SetLimits(Limits<int>::CreateLimited(0, 100));
-  EXPECT_TRUE(item.HasData(DataRole::kLimits));
-
-  EXPECT_EQ(item.Data<Limits<int>>(DataRole::kLimits), Limits<int>::CreateLimited(0, 100));
 }
 
 TEST_F(PropertyItemTests, Clone)
