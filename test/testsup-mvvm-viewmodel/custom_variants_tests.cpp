@@ -21,9 +21,6 @@
 
 #include <gtest/gtest.h>
 
-#include <QDebug>
-#include <iostream>
-
 using namespace mvvm;
 
 //! Tests for utilities related to custom
@@ -58,8 +55,6 @@ TEST_F(CustomVariantTest, IsVariantType)
       auto variant = data[j].first;
       if (i == j)
       {
-        std::cout << " " << i << " " << j << std::endl;
-        qDebug() << variant;
         EXPECT_TRUE(is_variant_func(variant));
       }
       else

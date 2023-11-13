@@ -25,7 +25,6 @@
 
 #include <gtest/gtest.h>
 
-#include <QDebug>
 #include <QGridLayout>
 #include <QLabel>
 #include <QSpinBox>
@@ -89,7 +88,6 @@ TEST_F(PropertyFlatViewTest, SetViewModel)
   ASSERT_EQ(layout_widgets.size(), 1);
   ASSERT_EQ(layout_widgets[0].size(), 2);
 
-  qDebug() << layout_widgets[0][0];
   EXPECT_TRUE(dynamic_cast<QLabel*>(layout_widgets[0][0]));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(layout_widgets[0][1]));
 }
