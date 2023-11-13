@@ -92,11 +92,8 @@ editorbuilder_t ScientificSpinBoxEditorBuilder()
     auto editor = std::make_unique<ScientificSpinBoxEditor>();
     if (item)
     {
-      if (item->HasData(DataRole::kLimits))
-      {
-        auto limits = GetFloat64Limits(*item);
-        editor->SetRange(limits.first, limits.second);
-      }
+      auto limits = GetFloat64Limits(*item);
+      editor->SetRange(limits.first, limits.second);
       editor->SetSingleStep(getStep(item->Data<double>()));
     }
     editor->SetDecimals(constants::kDefaultDoubleDecimals);
@@ -112,15 +109,8 @@ editorbuilder_t LongIntSpinBoxEditorBuilder()
     auto editor = std::make_unique<LongIntSpinBoxEditor>();
     if (item)
     {
-      if (item->HasData(DataRole::kLimits))
-      {
-//        auto limits = item->Data<Limits<int64>>(DataRole::kLimits);
-//        editor->SetRange(limits.GetLowerLimit(), limits.GetUpperLimit());
-      }
-      else
-      {
-        editor->SetRange(-65536, 65536);
-      }
+//      auto limits = GetInt32Limits(*item);
+//      editor->SetRange(limits.first, limits.second);
     }
     return editor;
   };

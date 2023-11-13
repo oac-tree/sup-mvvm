@@ -154,7 +154,8 @@ TEST_F(SessionItemTests, HasData)
   EXPECT_FALSE(item.HasData(DataRole::kDisplay));
   EXPECT_FALSE(item.HasData(DataRole::kAppearance));
   EXPECT_FALSE(item.HasData(DataRole::kTooltip));
-  EXPECT_FALSE(item.HasData(DataRole::kLimits));
+  EXPECT_FALSE(item.HasData(DataRole::kLowerLimit));
+  EXPECT_FALSE(item.HasData(DataRole::kUpperLimit));
 
   item.SetData(42.0);
   EXPECT_TRUE(item.HasData());
