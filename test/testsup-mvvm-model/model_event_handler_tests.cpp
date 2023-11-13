@@ -168,14 +168,14 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   listener.Unsubscribe();
 
   // triggering action
-  m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
-  m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
-  m_event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
-  m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
-  m_event_handler.Notify<DataChangedEvent>(&item, role);
-  m_event_handler.Notify<ModelAboutToBeResetEvent>(&model);
-  m_event_handler.Notify<ModelResetEvent>(&model);
-  m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
+  event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
+  event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
+  event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
+  event_handler.Notify<DataChangedEvent>(&item, role);
+  event_handler.Notify<ModelAboutToBeResetEvent>(&model);
+  event_handler.Notify<ModelResetEvent>(&model);
+  event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
 //! Two listeners are subscribed to different events.
