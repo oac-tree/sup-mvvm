@@ -23,6 +23,7 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/taginfo.h>
 
 #include <gtest/gtest.h>
@@ -108,7 +109,16 @@ TEST_F(ModelComposerTests, Reset)
   parent0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   auto child0 = parent0->InsertItem<PropertyItem>(TagIndex::Append());
 
-  composer.Reset(parent0, {});
+  auto new_root = utils::CreateEmptyRootItem();
+  auto new_root_ptr = new_root.get();
+
+  EXPECT_CALL(model, CheckIn(new_root_ptr)).Times(1);
+
+  composer.Reset(parent0, std::move(new_root));
+
   EXPECT_EQ(parent0->GetTotalItemCount(), 0);
   EXPECT_EQ(parent0->GetModel(), &model);
+
+  EXPECT_CALL(model, CheckOut(new_root_ptr)).Times(1);
+  parent0.reset();
 }
