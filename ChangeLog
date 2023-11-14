@@ -1,3 +1,10 @@
+Changes for 1.3.0:
+
+- Switch fluent interfaced to references
+- Remove obsolete limits machinery
+- View model performance improvements for filtering of large trees
+- Fix to find system's qt5 on CODAC
+
 Changes for 1.2.0:
 
 - COA Release v2.0, October 2023
