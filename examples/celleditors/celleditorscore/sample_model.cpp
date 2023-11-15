@@ -90,11 +90,6 @@ AllIntPropertyItem::AllIntPropertyItem() : mvvm::CompoundItem("AllInt")
 
   // AllIntSpinBoxEditor for int64
   AddProperty("integer_6", static_cast<mvvm::int64>(0)).SetDisplayName("int64 AllIntEditor");
-
-  // LongIntSpinBoxEditor with int64 should be set manually
-  AddProperty("integer_7", static_cast<mvvm::int64>(0))
-      .SetEditorType(mvvm::constants::kLongIntSpinBoxEditorType)
-      .SetDisplayName("int64 LongIntEditor");
 }
 
 FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
