@@ -52,7 +52,7 @@ public:
 
   SessionModel m_model;
   ModelEventHandler m_event_handler;
-  MockEventListener m_listener;
+  mvvm::test::MockEventListener m_listener;
 };
 
 //! Remove item from the model.

@@ -21,7 +21,7 @@
 
 #include <mvvm/standarditems/vector_item.h>
 
-namespace testutils::toyitems
+namespace mvvm::test::toyitems
 {
 
 ParticleItem::ParticleItem() : CompoundItem(ParticleItem::Type)
@@ -51,4 +51,4 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
   RegisterItem<MultiLayerItem>();
 }
 
-}  // namespace testutils::toyitems
+}  // namespace mvvm::test::toyitems

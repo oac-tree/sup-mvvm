@@ -32,7 +32,7 @@
 
 using namespace mvvm;
 
-class TopItemsViewModelTest : public testutils::FolderBasedTest
+class TopItemsViewModelTest : public mvvm::test::FolderBasedTest
 {
 public:
   class LayerItem : public mvvm::CompoundItem

@@ -26,7 +26,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 
-namespace testutils::toyitems
+namespace mvvm::test::toyitems
 {
 
 class ParticleItem : public mvvm::CompoundItem
@@ -56,6 +56,6 @@ public:
   SampleModel();
 };
 
-}  // namespace testutils::toyitems
+}  // namespace mvvm::test::toyitems
 
 #endif  // LIBTEST_UTILS_TESTUTILS_TOY_ITEMS_H_

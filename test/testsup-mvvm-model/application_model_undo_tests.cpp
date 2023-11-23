@@ -43,8 +43,8 @@ class ApplicationModelUndoTests : public ::testing::Test
 public:
   ApplicationModelUndoTests() : m_model("TestModelType", CreateDefaultItemManager(m_pool))
   {
-    m_model.RegisterItem<testutils::toyitems::LayerItem>();
-    m_model.RegisterItem<testutils::toyitems::MultiLayerItem>();
+    m_model.RegisterItem<mvvm::test::toyitems::LayerItem>();
+    m_model.RegisterItem<mvvm::test::toyitems::MultiLayerItem>();
   }
 
   ApplicationModel m_model;
@@ -168,9 +168,9 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
   auto commands = m_model.GetCommandStack();
 
   // creating multi layer and two layers
-  auto parent = m_model.InsertItem<testutils::toyitems::MultiLayerItem>();
-  auto layer0 = m_model.InsertItem<testutils::toyitems::LayerItem>(parent);
-  auto layer1 = m_model.InsertItem<testutils::toyitems::LayerItem>(parent);
+  auto parent = m_model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
+  auto layer0 = m_model.InsertItem<mvvm::test::toyitems::LayerItem>(parent);
+  auto layer1 = m_model.InsertItem<mvvm::test::toyitems::LayerItem>(parent);
 
   // saving identifiers for further reference
   auto id_parent = parent->GetIdentifier();
@@ -223,7 +223,7 @@ TEST_F(ApplicationModelUndoTests, Clear)
   auto commands = m_model.GetCommandStack();
 
   // creating multi layer and two layers
-  auto parent = m_model.InsertItem<testutils::toyitems::MultiLayerItem>();
+  auto parent = m_model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
 
   EXPECT_EQ(commands->GetSize(), 1);
   EXPECT_TRUE(commands->CanUndo());

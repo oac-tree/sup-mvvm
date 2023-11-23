@@ -29,7 +29,7 @@
 
 //! Various common utils for unit tests.
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Returns full path to the main test folder, as defined by CMake at compile time.

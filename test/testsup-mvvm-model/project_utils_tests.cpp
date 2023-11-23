@@ -31,7 +31,7 @@ using namespace mvvm;
 
 //! Tests of ProjectUtils namespace functions.
 
-class ProjectUtilsTests : public testutils::FolderBasedTest
+class ProjectUtilsTests : public mvvm::test::FolderBasedTest
 {
 public:
   ProjectUtilsTests()

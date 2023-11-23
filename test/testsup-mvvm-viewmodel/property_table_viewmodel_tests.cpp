@@ -99,7 +99,7 @@ TEST_F(PropertyTableViewModelTest, VectorItem)
 
 TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
 {
-  using namespace testutils::toyitems;
+  using namespace mvvm::test::toyitems;
 
   SampleModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
@@ -117,7 +117,7 @@ TEST_F(PropertyTableViewModelTest, MultiLayerAndRootItem)
 
 TEST_F(PropertyTableViewModelTest, MultiLayer)
 {
-  using namespace testutils::toyitems;
+  using namespace mvvm::test::toyitems;
 
   SampleModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();

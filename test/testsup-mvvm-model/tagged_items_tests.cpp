@@ -44,7 +44,7 @@ public:
   template <typename T = SessionItem, typename... Args>
   static auto CreateItem(Args&&... args)
   {
-    return testutils::CreateTestData<T>(std::forward<Args>(args)...);
+    return mvvm::test::CreateTestData<T>(std::forward<Args>(args)...);
   }
 };
 

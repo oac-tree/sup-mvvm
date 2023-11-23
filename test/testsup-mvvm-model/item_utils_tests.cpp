@@ -447,8 +447,6 @@ TEST_F(ItemUtilsTests, FindParent)
 
   auto item2 = model.InsertItem<VectorItem>(item1);
 
-  EXPECT_NO_THROW(nullptr);
-
   EXPECT_EQ(utils::FindParent<VectorItem>(item2), nullptr);
   EXPECT_EQ(utils::FindParent<PropertyItem>(item2), item1);
   EXPECT_EQ(utils::FindParent<CompoundItem>(item2), item0);
@@ -511,11 +509,11 @@ TEST_F(ItemUtilsTests, CopyItem)
 
 TEST_F(ItemUtilsTests, MoveItemUp)
 {
-  testutils::toyitems::MultiLayerItem multilayer;
+  mvvm::test::toyitems::MultiLayerItem multilayer;
 
-  auto layer0 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
-  auto layer1 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
-  auto layer2 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+  auto layer0 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
+  auto layer1 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
+  auto layer2 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
@@ -535,12 +533,12 @@ TEST_F(ItemUtilsTests, MoveItemUp)
 
 TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
 {
-  testutils::toyitems::SampleModel model;
+  mvvm::test::toyitems::SampleModel model;
 
-  auto multilayer = model.InsertItem<testutils::toyitems::MultiLayerItem>();
-  auto layer0 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
-  auto layer1 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
-  auto layer2 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
+  auto multilayer = model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
+  auto layer0 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto layer1 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
@@ -560,11 +558,11 @@ TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
 
 TEST_F(ItemUtilsTests, MoveItemDown)
 {
-  testutils::toyitems::MultiLayerItem multilayer;
+  mvvm::test::toyitems::MultiLayerItem multilayer;
 
-  auto layer0 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
-  auto layer1 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
-  auto layer2 = multilayer.InsertItem<testutils::toyitems::LayerItem>(TagIndex::Append());
+  auto layer0 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
+  auto layer1 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
+  auto layer2 = multilayer.InsertItem<mvvm::test::toyitems::LayerItem>(TagIndex::Append());
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
@@ -584,12 +582,12 @@ TEST_F(ItemUtilsTests, MoveItemDown)
 
 TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
 {
-  testutils::toyitems::SampleModel model;
+  mvvm::test::toyitems::SampleModel model;
 
-  auto multilayer = model.InsertItem<testutils::toyitems::MultiLayerItem>();
-  auto layer0 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
-  auto layer1 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
-  auto layer2 = model.InsertItem<testutils::toyitems::LayerItem>(multilayer);
+  auto multilayer = model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
+  auto layer0 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto layer1 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
 
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 

@@ -30,7 +30,7 @@
 
 using namespace mvvm;
 
-class FileUtilsTests : public testutils::FolderBasedTest
+class FileUtilsTests : public mvvm::test::FolderBasedTest
 {
 public:
   FileUtilsTests() : FolderBasedTest("test_FileUtils") {}
@@ -82,9 +82,9 @@ TEST_F(FileUtilsTests, GetPathStem)
 
 TEST_F(FileUtilsTests, FindFiles)
 {
-  testutils::CreateTextFile(GetTestHomeDir() + "/a.txt", "");
-  testutils::CreateTextFile(GetTestHomeDir() + "/name0.xml", "");
-  testutils::CreateTextFile(GetTestHomeDir() + "/name1.xml", "");
+  mvvm::test::CreateTextFile(GetTestHomeDir() + "/a.txt", "");
+  mvvm::test::CreateTextFile(GetTestHomeDir() + "/name0.xml", "");
+  mvvm::test::CreateTextFile(GetTestHomeDir() + "/name1.xml", "");
 
   auto found_files = utils::FindFiles(GetTestHomeDir(), ".xml");
 
@@ -99,10 +99,10 @@ TEST_F(FileUtilsTests, GetParentPath)
 {
   // parent path of testPath() is the main test folder
   // "<build>/test_output/test_FileUtils" -> "<build>/test_output/"
-  EXPECT_EQ(utils::GetParentPath(GetTestHomeDir()), testutils::GetTestSuiteOutputDir());
+  EXPECT_EQ(utils::GetParentPath(GetTestHomeDir()), mvvm::test::GetTestSuiteOutputDir());
 
   // "<build>/test_output/test_FileUtils/a.txt" -> "<build>/test_output/test_FileUtils/"
-  testutils::CreateTextFile(GetTestHomeDir() + "/a.txt", "");
+  mvvm::test::CreateTextFile(GetTestHomeDir() + "/a.txt", "");
   EXPECT_EQ(utils::GetParentPath(GetTestHomeDir() + "/a.txt"), GetTestHomeDir());
 }
 
@@ -117,12 +117,12 @@ TEST_F(FileUtilsTests, IsEmpty)
   EXPECT_TRUE(utils::IsEmpty(dirname));
 
   // creating file in it, directory should be not empty
-  testutils::CreateTextFile(dirname + "/a.txt", "file content");
+  mvvm::test::CreateTextFile(dirname + "/a.txt", "file content");
   EXPECT_FALSE(utils::IsEmpty(dirname));
   // file itself should be not empty
   EXPECT_FALSE(utils::IsEmpty(dirname + "/a.txt"));
 
   // creating empty file
-  testutils::CreateTextFile(dirname + "/a2.txt", "");
+  mvvm::test::CreateTextFile(dirname + "/a2.txt", "");
   EXPECT_TRUE(utils::IsEmpty(dirname + "/a2.txt"));
 }

@@ -24,7 +24,7 @@
 
 #include <functional>
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Convenience class to test callbacks with gmock. Template parameter defines callback signature
@@ -52,6 +52,6 @@ public:
   MOCK_METHOD(void, OnCallback, (const T& arg));
 };
 
-}  // namespace testutils
+}  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_CALLBACK_LISTENER_H_

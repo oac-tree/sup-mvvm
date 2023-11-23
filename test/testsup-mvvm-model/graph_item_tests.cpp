@@ -38,7 +38,7 @@ using ::testing::_;
 class GraphItemTests : public ::testing::Test
 {
 public:
-  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
+  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 };
 
 //! Initial state.

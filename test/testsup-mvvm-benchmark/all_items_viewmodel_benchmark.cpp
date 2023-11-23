@@ -31,14 +31,14 @@ using namespace mvvm;
 class AllItemsViewModelBenchmark : public benchmark::Fixture
 {
 public:
-  std::unique_ptr<testutils::toyitems::MultiLayerItem> CreateMultiLayer()
+  std::unique_ptr<mvvm::test::toyitems::MultiLayerItem> CreateMultiLayer()
   {
     const int max_layer_count = 10;
-    auto multilayer = std::make_unique<testutils::toyitems::MultiLayerItem>();
+    auto multilayer = std::make_unique<mvvm::test::toyitems::MultiLayerItem>();
     for (int i = 0; i < max_layer_count; ++i)
     {
-      auto layer = multilayer->InsertItem<testutils::toyitems::LayerItem>(mvvm::TagIndex::Append());
-      layer->InsertItem<testutils::toyitems::ParticleItem>(mvvm::TagIndex::Append());
+      auto layer = multilayer->InsertItem<mvvm::test::toyitems::LayerItem>(mvvm::TagIndex::Append());
+      layer->InsertItem<mvvm::test::toyitems::ParticleItem>(mvvm::TagIndex::Append());
     }
     return multilayer;
   }

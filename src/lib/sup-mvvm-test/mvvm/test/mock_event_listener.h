@@ -20,10 +20,14 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
 #define LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
 
-#include <gmock/gmock.h>
 #include <mvvm/signals/model_event_handler.h>
 
+#include <gmock/gmock.h>
+
 #include <memory>
+
+namespace mvvm::test
+{
 
 //! Mock class to validate events coming from the EventHandler.
 
@@ -59,5 +63,7 @@ public:
 
   std::unique_ptr<mvvm::Slot> m_slot;
 };
+
+}  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_

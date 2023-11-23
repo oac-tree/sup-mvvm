@@ -52,7 +52,7 @@ public:
         static_cast<void (QCPAxis::*)(const QCPRange&, const QCPRange&)>(&QCPAxis::rangeChanged));
   }
 
-  using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
+  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 };
 
 //! Initial state.

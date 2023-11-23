@@ -141,7 +141,7 @@ TEST_F(PropertyViewModelTest, VectorItemWithHiddenComponent)
 
 TEST_F(PropertyViewModelTest, LayerInMultiLayerAsRootItem)
 {
-  using namespace testutils::toyitems;
+  using namespace mvvm::test::toyitems;
 
   SampleModel model;
   auto multilayer = model.InsertItem<MultiLayerItem>();
@@ -222,7 +222,7 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
 
 TEST_F(PropertyViewModelTest, LayerPropertyWhileInsertingParticle)
 {
-  using namespace testutils::toyitems;
+  using namespace mvvm::test::toyitems;
 
   SampleModel model;
   auto layer = model.InsertItem<LayerItem>();

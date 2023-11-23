@@ -49,7 +49,7 @@ public:
 
   SessionModel m_model;
   ModelEventHandler m_event_handler;
-  MockEventListener m_listener;
+  mvvm::test::MockEventListener m_listener;
 };
 
 //! Set item value through SetValueCommand command using ModelComposer.

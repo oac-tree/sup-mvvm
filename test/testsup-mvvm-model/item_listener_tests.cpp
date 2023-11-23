@@ -28,7 +28,7 @@
 
 using namespace mvvm;
 using ::testing::_;
-using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
+using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 
 class ItemListenerTests : public ::testing::Test
 {
@@ -142,7 +142,7 @@ TEST_F(ItemListenerTests, OnDataChangedCallback)
   item->SetData(42, DataRole::kData);
 
   mock_listener_t listener(item);
-  testutils::MockCallbackListener<event_variant_t> widget;
+  mvvm::test::MockCallbackListener<event_variant_t> widget;
 
   listener.Connect<DataChangedEvent>(widget.CreateCallback());
 
@@ -260,7 +260,7 @@ TEST_F(ItemListenerTests, OnControllerDelete)
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
   {
-    testutils::MockItemListener listener(compound);
+    mvvm::test::MockItemListener listener(compound);
   }
 
   // controller was deleted, signals disconnected

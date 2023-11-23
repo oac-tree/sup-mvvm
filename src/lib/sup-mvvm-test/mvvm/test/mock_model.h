@@ -20,13 +20,12 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
 #define LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
 
-#include <gmock/gmock.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/sessionitem.h>
 
-#include <memory>
+#include <gmock/gmock.h>
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Mocking class for SessionModelInterface.
@@ -69,6 +68,6 @@ public:
   MOCK_METHOD(void, CheckOut, (mvvm::SessionItem *), (override));
 };
 
-}  // namespace testutils
+}  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_

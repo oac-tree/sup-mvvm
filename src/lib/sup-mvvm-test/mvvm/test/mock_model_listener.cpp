@@ -19,7 +19,7 @@
 
 #include "mock_model_listener.h"
 
-namespace testutils
+namespace mvvm::test
 {
 
 MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : ModelListener(model)
@@ -34,4 +34,4 @@ MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : Model
   Connect<mvvm::ModelAboutToBeDestroyedEvent>(this, &MockModelListener::OnEvent);
 }
 
-}  // namespace testutils
+}  // namespace mvvm::test

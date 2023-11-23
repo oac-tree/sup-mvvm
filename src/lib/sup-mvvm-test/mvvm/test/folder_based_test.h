@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Convenience class which creates a directory on disk for test content.

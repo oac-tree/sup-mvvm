@@ -35,7 +35,7 @@ using ::testing::_;
 class EventHandlerTests : public ::testing::Test
 {
 public:
-  using mock_callback_listener_t = testutils::MockCallbackListener<event_variant_t>;
+  using mock_callback_listener_t = mvvm::test::MockCallbackListener<event_variant_t>;
 
   //! Helper class for gmock to validate overload resolution for a concrete event inside variant.
   class MockSpecializedWidget

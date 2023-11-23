@@ -35,7 +35,7 @@ const std::string footer{R"RAW(</root>
 
 }  // namespace
 
-namespace testutils
+namespace mvvm::test
 {
 std::string GetTestSuiteOutputDir()
 {

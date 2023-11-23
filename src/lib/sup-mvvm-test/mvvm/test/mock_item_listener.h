@@ -31,7 +31,7 @@ class SessionItem;
 class TagIndex;
 }  // namespace mvvm
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Mocking class to test ModelEventListenerInterface reactions on notifications issued by

@@ -42,8 +42,8 @@ public:
 
   std::pair<children_t, expected_t> GetTestData(int ncolumns)
   {
-    auto vector_of_unique = testutils::CreateRow<ViewItem, ViewItem>(ncolumns);
-    auto vector_of_pointers = testutils::GetPointers(vector_of_unique);
+    auto vector_of_unique = mvvm::test::CreateRow<ViewItem, ViewItem>(ncolumns);
+    auto vector_of_pointers = mvvm::test::GetPointers(vector_of_unique);
     return std::make_pair(std::move(vector_of_unique), std::move(vector_of_pointers));
   }
 };

@@ -30,7 +30,7 @@
 
 using namespace mvvm;
 using ::testing::_;
-using mock_listener_t = ::testing::StrictMock<testutils::MockItemListener>;
+using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 
 //! Testing AxesItems.
 

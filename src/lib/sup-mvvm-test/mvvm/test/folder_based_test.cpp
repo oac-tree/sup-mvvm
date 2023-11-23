@@ -23,7 +23,7 @@
 
 #include <mvvm/utils/file_utils.h>
 
-namespace testutils
+namespace mvvm::test
 {
 
 FolderBasedTest::FolderBasedTest(std::string test_home_dirname)
@@ -41,7 +41,7 @@ std::string FolderBasedTest::GetTestHomeDirName() const
 
 std::string FolderBasedTest::GetTestHomeDir() const
 {
-  return testutils::GetTestSuiteOutputDir() + std::string("/") + GetTestHomeDirName();
+  return test::GetTestSuiteOutputDir() + std::string("/") + GetTestHomeDirName();
 }
 
 //! Returns full path to the file with given name located in test home directory.

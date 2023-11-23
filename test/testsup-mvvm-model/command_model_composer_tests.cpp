@@ -58,7 +58,7 @@ public:
   SessionModel m_model;
   CommandStack m_commands;
   ModelEventHandler m_event_handler;
-  MockEventListener m_listener;
+  test::MockEventListener m_listener;
 };
 
 TEST_F(CommandModelComposerTests, InitialState)

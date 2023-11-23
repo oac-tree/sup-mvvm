@@ -20,13 +20,12 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_LISTENER_H_
 #define LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_LISTENER_H_
 
-#include <gmock/gmock.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/signals/model_listener.h>
 
-#include <memory>
+#include <gmock/gmock.h>
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Mocking class to test events coming from the model.
@@ -39,6 +38,6 @@ public:
   MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
 };
 
-}  // namespace testutils
+}  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_LISTENER_H_

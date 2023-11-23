@@ -40,7 +40,7 @@ class ModelComposerTests : public ::testing::Test
 
 TEST_F(ModelComposerTests, InitialState)
 {
-  testutils::MockModel model;
+  mvvm::test::MockModel model;
   ModelComposer composer(model);
 
   EXPECT_EQ(composer.GetModel(), &model);
@@ -48,7 +48,7 @@ TEST_F(ModelComposerTests, InitialState)
 
 TEST_F(ModelComposerTests, InsertItem)
 {
-  testutils::MockModel model;
+  mvvm::test::MockModel model;
   ModelComposer composer(model);
 
   auto parent = std::make_unique<SessionItem>();
@@ -70,7 +70,7 @@ TEST_F(ModelComposerTests, InsertItem)
 
 TEST_F(ModelComposerTests, TakeItem)
 {
-  testutils::MockModel model;
+  mvvm::test::MockModel model;
   ModelComposer composer(model);
 
   // preparing parent
@@ -89,7 +89,7 @@ TEST_F(ModelComposerTests, TakeItem)
 
 TEST_F(ModelComposerTests, SetData)
 {
-  testutils::MockModel model;
+  mvvm::test::MockModel model;
   ModelComposer composer(model);
 
   SessionItem item;
@@ -102,7 +102,7 @@ TEST_F(ModelComposerTests, SetData)
 
 TEST_F(ModelComposerTests, Reset)
 {
-  testutils::MockModel model;
+  mvvm::test::MockModel model;
   ModelComposer composer(model);
 
   auto parent0 = std::make_unique<SessionItem>();

@@ -24,7 +24,7 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/tagindex.h>
 
-namespace testutils
+namespace mvvm::test
 {
 
 void MockItemListener::Subscribe()

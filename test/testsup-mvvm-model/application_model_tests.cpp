@@ -38,7 +38,7 @@ using ::testing::_;
 class ApplicationModelTests : public ::testing::Test
 {
 public:
-  using mock_listener_t = ::testing::StrictMock<testutils::MockModelListener>;
+  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 
   ApplicationModel m_model;
 };
