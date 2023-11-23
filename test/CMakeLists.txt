@@ -7,6 +7,7 @@ if(benchmark_FOUND)
   message(STATUS "Found benchmark v${benchmark_VERSION}")
 endif()
 
+add_subdirectory(libtest-utils)
 add_subdirectory(testsup-mvvm-integration)
 add_subdirectory(testsup-mvvm-model)
 add_subdirectory(testsup-mvvm-viewmodel)

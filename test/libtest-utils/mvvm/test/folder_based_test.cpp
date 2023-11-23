@@ -19,9 +19,9 @@
 
 #include "folder_based_test.h"
 
-#include "test_utils.h"
 
 #include <mvvm/utils/file_utils.h>
+#include <mvvm/test/test_utils.h>
 
 namespace mvvm::test
 {
