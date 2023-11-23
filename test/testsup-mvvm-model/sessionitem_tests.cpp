@@ -26,9 +26,9 @@
 #include <mvvm/model/sessionitem_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 #include <stdexcept>
 

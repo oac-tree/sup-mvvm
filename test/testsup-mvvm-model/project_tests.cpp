@@ -22,10 +22,10 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/project_types.h>
+#include <mvvm/test/folder_based_test.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
 
 #include <cctype>
 

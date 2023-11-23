@@ -19,8 +19,9 @@
 
 #include "mvvm/widgets/widget_utils.h"
 
+#include <mvvm/test/toy_items.h>
+
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 #include <QDebug>
 #include <QDir>

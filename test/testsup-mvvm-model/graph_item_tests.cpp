@@ -23,10 +23,10 @@
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/test/mock_item_listener.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/mock_item_listener.h>
 
 #include <QColor>
 

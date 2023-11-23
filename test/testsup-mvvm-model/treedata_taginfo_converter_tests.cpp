@@ -22,9 +22,9 @@
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 using namespace mvvm;
 

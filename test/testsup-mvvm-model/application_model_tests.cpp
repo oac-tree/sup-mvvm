@@ -24,9 +24,11 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/test/mock_model_listener.h>
+#include <mvvm/test/toy_items.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/mock_model_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

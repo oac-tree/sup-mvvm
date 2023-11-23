@@ -19,9 +19,10 @@
 
 #include "mvvm/utils/file_utils.h"
 
+#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/test_utils.h>
+
 #include <gtest/gtest.h>
-#include <testutils/folder_based_test.h>
-#include <testutils/test_utils.h>
 
 #include <QDir>
 #include <stdexcept>

@@ -26,9 +26,11 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/test/mock_event_listener.h>
+#include <mvvm/test/toy_items.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

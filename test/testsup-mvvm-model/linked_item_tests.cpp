@@ -25,9 +25,9 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/test/mock_item_listener.h>
 
 #include <gtest/gtest.h>
-#include <testutils/mock_item_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

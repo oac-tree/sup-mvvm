@@ -19,8 +19,9 @@
 
 #include "mvvm/serialization/xml_parse_utils.h"
 
+#include <mvvm/test/test_utils.h>
+
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 using namespace mvvm;
 

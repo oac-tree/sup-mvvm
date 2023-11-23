@@ -24,14 +24,12 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/model/taginfo.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
+#include <mvvm/test/mock_event_listener.h>
 
 #include <gtest/gtest.h>
-#include <testutils/mock_event_listener.h>
-
-#include <iostream>
 
 using namespace mvvm;
 using ::testing::_;

@@ -17,8 +17,6 @@
  * of the distribution package.
  *****************************************************************************/
 #include "mvvm/viewmodel/all_items_viewmodel.h"
-#include "mvvm/viewmodel/viewmodel_controller.h"
-#include "mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/interfaces/children_strategy_interface.h>
@@ -28,6 +26,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/test/mock_event_listener.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
@@ -35,7 +34,6 @@
 #include <mvvm/viewmodelbase/viewmodel_base.h>
 
 #include <gtest/gtest.h>
-#include <testutils/mock_event_listener.h>
 
 #include <stack>
 

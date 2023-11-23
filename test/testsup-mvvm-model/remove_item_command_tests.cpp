@@ -26,9 +26,9 @@
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/test/mock_event_listener.h>
 
 #include <gtest/gtest.h>
-#include <testutils/mock_event_listener.h>
 
 using namespace mvvm;
 using ::testing::_;

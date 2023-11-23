@@ -20,9 +20,9 @@
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/test/toy_items.h>
 
 #include <benchmark/benchmark.h>
-#include <testutils/toy_items.h>
 
 using namespace mvvm;
 

@@ -23,9 +23,9 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/test/toy_items.h>
 
 #include <gtest/gtest.h>
-#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 #include <QStandardItemModel>

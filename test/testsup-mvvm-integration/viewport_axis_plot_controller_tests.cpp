@@ -22,10 +22,10 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/test/mock_item_listener.h>
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
-#include <testutils/mock_item_listener.h>
 
 #include <QSignalSpy>
 

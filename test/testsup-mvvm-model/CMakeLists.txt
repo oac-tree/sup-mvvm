@@ -7,7 +7,7 @@ file(GLOB_RECURSE include_files "*.h")
 #file(GLOB include_files "experimental/*.h")
 
 add_executable(${test} ${source_files} ${include_files})
-target_link_libraries(${test} PRIVATE test-utils)
+target_link_libraries(${test} PRIVATE sup-mvvm::test)
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 

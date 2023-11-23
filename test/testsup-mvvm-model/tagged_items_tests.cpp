@@ -22,9 +22,9 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_utils.h>
 
 #include <stdexcept>
 

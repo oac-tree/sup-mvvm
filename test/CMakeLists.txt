@@ -1,13 +1,5 @@
 enable_testing()
 
-find_package(GTest 1.10 QUIET CONFIG)
-if (GTest_FOUND)
-  message(STATUS "Found GTest: suitable version \"${GTest_VERSION}\", with minimum required \"1.10\"" )
-else()
-  message(STATUS "GTest with version >= \"1.10\" was not found, fetching from internet" )
-  fetch_googletest()
-endif()
-
 include(GoogleTest)
 
 find_package(benchmark QUIET)
@@ -15,7 +7,6 @@ if(benchmark_FOUND)
   message(STATUS "Found benchmark v${benchmark_VERSION}")
 endif()
 
-add_subdirectory(libtest-utils)
 add_subdirectory(testsup-mvvm-integration)
 add_subdirectory(testsup-mvvm-model)
 add_subdirectory(testsup-mvvm-viewmodel)
