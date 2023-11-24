@@ -17,44 +17,39 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "folder_based_test.h"
-
+#include "folder_output_based_test.h"
 
 #include <mvvm/utils/file_utils.h>
-#include <mvvm/test/test_utils.h>
 
 namespace mvvm::test
 {
 
-FolderBasedTest::FolderBasedTest(std::string test_home_dirname)
-    : m_test_home_dirname(std::move(test_home_dirname))
+FolderOutputBasedTest::FolderOutputBasedTest(std::string test_suite_output_dir,
+                                             std::string test_home_dirname)
+    : m_test_suite_output_dir(std::move(test_suite_output_dir))
+    , m_test_home_dirname(std::move(test_home_dirname))
 {
   mvvm::utils::CreateDirectory(GetTestHomeDir());
 }
 
-std::string FolderBasedTest::GetTestHomeDirName() const
+FolderOutputBasedTest::~FolderOutputBasedTest() = default;
+
+std::string FolderOutputBasedTest::GetTestHomeDirName() const
 {
   return m_test_home_dirname;
 }
 
-//! Returns full path to the test folder. Located in CMAKE_BINARY_DIR/test_output/<m_test_dir>.
-
-std::string FolderBasedTest::GetTestHomeDir() const
+std::string FolderOutputBasedTest::GetTestHomeDir() const
 {
-  return test::GetTestSuiteOutputDir() + std::string("/") + GetTestHomeDirName();
+  return m_test_suite_output_dir + std::string("/") + GetTestHomeDirName();
 }
 
-//! Returns full path to the file with given name located in test home directory.
-
-std::string FolderBasedTest::GetFilePath(const std::string &file_name) const
+std::string FolderOutputBasedTest::GetFilePath(const std::string &file_name) const
 {
   return GetTestHomeDir() + std::string("/") + file_name;
 }
 
-//! Creates an empty directory in main test folder.
-//! Remove recursively previous one with the same name, if exist.
-
-std::string FolderBasedTest::CreateEmptyDir(const std::string &subdir) const
+std::string FolderOutputBasedTest::CreateEmptyDir(const std::string &subdir) const
 {
   auto path = mvvm::utils::Join(GetTestHomeDir(), subdir);
   mvvm::utils::RemoveAll(path);
@@ -62,6 +57,4 @@ std::string FolderBasedTest::CreateEmptyDir(const std::string &subdir) const
   return path;
 }
 
-FolderBasedTest::~FolderBasedTest() = default;
-
-}  // namespace testutils
+}  // namespace mvvm::test

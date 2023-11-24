@@ -63,4 +63,4 @@ void CreateTextFile(const std::string &file_name, const std::string &content)
   file_out.write(content.c_str(), content.size());
 }
 
-}  // namespace testutils
+}  // namespace mvvm::test
