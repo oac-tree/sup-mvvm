@@ -28,16 +28,4 @@ int DefaultPixmapSize()
   return default_pixmap_size;
 }
 
-int DefaultInfoBarHeight()
-{
-  const int default_info_bar_height = 24;
-  return default_info_bar_height;
-}
-
-int DefaultInfoBarTextSize()
-{
-  const int default_info_bar_text_saize = 8;
-  return default_info_bar_text_saize;
-}
-
 }  // namespace mvvm::style
