@@ -1,10 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>icons</file>
-        <file>icons/chevron-right.svg</file>
-        <file>icons/chevron-right.png</file>
-        <file>icons/chevron-down.svg</file>
-        <file>icons/chevron-down.png</file>
         <file>icons/branch-more.svg</file>
         <file>icons/branch-more.png</file>
         <file>icons/branch-end.svg</file>
