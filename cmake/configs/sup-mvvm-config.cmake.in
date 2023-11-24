@@ -10,8 +10,9 @@ find_dependency(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui Print
 
 find_dependency(Threads)
 find_dependency(LibXml2)
+find_dependency(GTest)
 
-if(TARGET sup-mvvm::model OR TARGET sup-mvvm::viewmodel OR TARGET sup-mvvm::view)
+if(TARGET sup-mvvm::model OR TARGET sup-mvvm::viewmodel OR TARGET sup-mvvm::view OR TARGET sup-mvvm::test)
 else()
   include("${SUP_MVVM_CMAKE_DIR}/sup-mvvm-targets.cmake")
 endif()
