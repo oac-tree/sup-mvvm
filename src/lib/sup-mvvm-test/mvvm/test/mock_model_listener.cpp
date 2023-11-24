@@ -34,4 +34,21 @@ MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : Model
   Connect<mvvm::ModelAboutToBeDestroyedEvent>(this, &MockModelListener::OnEvent);
 }
 
+MockModelListenerV2::MockModelListenerV2(const mvvm::SessionModelInterface *model)
+    : ModelListener(model)
+{
+  Connect<mvvm::DataChangedEvent>(this, &MockModelListenerV2::OnDataChangedEvent);
+
+  Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelListenerV2::OnAboutToInsertItemEvent);
+  Connect<mvvm::ItemInsertedEvent>(this, &MockModelListenerV2::OnItemInsertedEvent);
+  Connect<mvvm::AboutToRemoveItemEvent>(this, &MockModelListenerV2::OnAboutToRemoveItemEvent);
+  Connect<mvvm::ItemRemovedEvent>(this, &MockModelListenerV2::OnItemRemovedEvent);
+
+  Connect<mvvm::ModelAboutToBeResetEvent>(this, &MockModelListenerV2::OnModelAboutToBeResetEvent);
+  Connect<mvvm::ModelResetEvent>(this, &MockModelListenerV2::OnModelResetEvent);
+
+  Connect<mvvm::ModelAboutToBeDestroyedEvent>(this,
+                                              &MockModelListenerV2::OnModelAboutToBeDestroyedEvent);
+}
+
 }  // namespace mvvm::test
