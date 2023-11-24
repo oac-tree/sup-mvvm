@@ -20,7 +20,7 @@
 #ifndef MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
 #define MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
 
-//! @file custom_editor_factories.h
+//! @file
 //! Defines DefaultEditorFactory and auxiliary classes for custom view model delegates.
 
 #include <mvvm/editors/abstract_editor_factory.h>

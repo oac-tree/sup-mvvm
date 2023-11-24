@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_STYLE_UTILS_H_
-#define MVVM_EDITORS_STYLE_UTILS_H_
+#ifndef MVVM_EDITORS_EDITOR_HELPER_H_
+#define MVVM_EDITORS_EDITOR_HELPER_H_
 
 #include <mvvm/viewmodel_export.h>
 
-namespace mvvm::style
+namespace mvvm::utils
 {
 
 //! Returns int value corresponding to pixmap in standard Qt table/tree decorations.
@@ -30,4 +30,4 @@ MVVM_VIEWMODEL_EXPORT int DefaultPixmapSize();
 
 }  // namespace mvvm::style
 
-#endif  // MVVM_EDITORS_STYLE_UTILS_H_
+#endif  // MVVM_EDITORS_EDITOR_HELPER_H_

@@ -19,8 +19,8 @@
 
 #include "color_editor.h"
 
-#include <mvvm/editors/custom_event_filters.h>
-#include <mvvm/editors/style_utils.h>
+#include "custom_event_filters.h"
+#include "editor_helper.h"
 
 #include <QColorDialog>
 #include <QHBoxLayout>
@@ -85,7 +85,7 @@ void ColorEditor::UpdateComponents()
     throw std::runtime_error("ColorEditor::update_components() -> Error. Wrong variant type");
   }
 
-  QPixmap pixmap(style::DefaultPixmapSize(), style::DefaultPixmapSize());
+  QPixmap pixmap(utils::DefaultPixmapSize(), utils::DefaultPixmapSize());
   pixmap.fill(GetCurrentColor());
   m_text_label->setText(GetCurrentColor().name());
   m_pixmap_label->setPixmap(pixmap);

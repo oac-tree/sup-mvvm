@@ -17,14 +17,15 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/custom_editor_factories.h"
+#include "custom_editor_factories.h"
 
-#include <mvvm/editors/custom_editor.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/custom_variants.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
+
+#include <QWidget>
 
 namespace mvvm
 {

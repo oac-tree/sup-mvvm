@@ -19,7 +19,8 @@
 
 #include "editor_builders.h"
 
-#include <mvvm/editors/custom_editor_includes.h>
+#include "custom_editor_includes.h"
+
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>

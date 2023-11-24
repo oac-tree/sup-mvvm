@@ -19,8 +19,9 @@
 
 #include "external_property_editor.h"
 
-#include <mvvm/editors/custom_event_filters.h>
-#include <mvvm/editors/style_utils.h>
+#include "custom_event_filters.h"
+#include "editor_helper.h"
+
 #include <mvvm/model/external_property.h>
 #include <mvvm/viewmodel/custom_variants.h>
 
@@ -86,7 +87,7 @@ void ExternalPropertyEditor::UpdateComponents()
   }
 
   auto prop = GetData().value<ExternalProperty>();
-  QPixmap pixmap(style::DefaultPixmapSize(), style::DefaultPixmapSize());
+  QPixmap pixmap(utils::DefaultPixmapSize(), utils::DefaultPixmapSize());
   pixmap.fill(QColor(QString::fromStdString(prop.GetColorName())));
   m_text_label->setText(QString::fromStdString(prop.GetText()));
   m_pixmap_label->setPixmap(pixmap);

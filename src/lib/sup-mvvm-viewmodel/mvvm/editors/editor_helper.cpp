@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/style_utils.h"
+#include "editor_helper.h"
 
-namespace mvvm::style
+namespace mvvm::utils
 {
 
 int DefaultPixmapSize()

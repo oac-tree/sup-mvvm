@@ -19,7 +19,8 @@
 
 #include "allint_spinbox_editor.h"
 
-#include <mvvm/editors/allint_spinbox.h>
+#include "allint_spinbox.h"
+
 #include <mvvm/utils/limited_integer_helper.h>
 #include <mvvm/viewmodel/variant_converter.h>
 

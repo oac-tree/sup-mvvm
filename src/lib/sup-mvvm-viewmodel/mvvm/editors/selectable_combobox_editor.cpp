@@ -25,7 +25,8 @@
 
 #include "selectable_combobox_editor.h"
 
-#include <mvvm/editors/custom_event_filters.h>
+#include "custom_event_filters.h"
+
 #include <mvvm/model/combo_property.h>
 #include <mvvm/utils/container_utils.h>
 

@@ -31,6 +31,6 @@ target_sources(${library_name} PRIVATE
   scientific_spinbox_editor.h
   selectable_combobox_editor.cpp
   selectable_combobox_editor.h
-  style_utils.cpp
-  style_utils.h
+  editor_helper.cpp
+  editor_helper.h
 )
