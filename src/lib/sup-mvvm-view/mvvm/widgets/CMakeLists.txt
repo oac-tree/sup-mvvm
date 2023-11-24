@@ -25,8 +25,6 @@ target_sources(${library_name} PRIVATE
   property_tree_view.h
   status_label.cpp
   status_label.h
-  style_utils.cpp
-  style_utils.h
   top_items_tree_view.cpp
   top_items_tree_view.h
   widget_utils.cpp
