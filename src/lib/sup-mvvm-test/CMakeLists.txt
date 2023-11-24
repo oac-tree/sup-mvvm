@@ -8,7 +8,7 @@ else()
   fetch_googletest()
 endif()
 
-add_library(${library_name} SHARED "")
+add_library(${library_name} STATIC "")
 add_subdirectory(mvvm)
 add_library(sup-mvvm::test ALIAS ${library_name}) # alias for build-tree usage
 

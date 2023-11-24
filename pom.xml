@@ -122,7 +122,8 @@
                         </include>
                         <!--  Libraries  -->
                         <include type="file" source="lib" target="lib">
-                            <include>*.so</include>
+                        <include>*.so</include>
+                        <include>*.a</include>
                         </include>
                         <!--  Public API headers  -->
                         <include type="file" source="include/mvvm" target="include/mvvm"/>
