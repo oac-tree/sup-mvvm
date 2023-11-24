@@ -40,10 +40,6 @@ QSize NarrowToolBarIconSize();
 
 QIcon GetIcon(const std::string& icon_name);
 
-//! Sets Breeze style for the tree to use in property editors.
-//! Used for X-environments that do not have Breeze theme.
-void SetBreezePropertyStyle(QTreeView* tree);
-
 }  // namespace mvvm::utils
 
 #endif  // MVVM_WIDGETS_STYLE_UTILS_H_
