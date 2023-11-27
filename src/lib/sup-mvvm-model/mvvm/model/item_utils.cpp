@@ -289,26 +289,28 @@ bool ReplaceData(SessionItem& item, const variant_t& value, int role)
   return item.SetData(value, role);  // will succeed
 }
 
-void MoveUp(SessionItem& item)
+bool MoveUp(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
   if (tag_index.index == 0)
   {
-    return;  // item already at the top
+    return false;  // item already at the top
   }
 
   MoveTo(item, tag_index.Prev());
+  return true;
 }
 
-void MoveDown(SessionItem& item)
+bool MoveDown(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
   if (tag_index.index == item.GetParent()->GetItemCount(tag_index.tag) - 1)
   {
-    return;  // item already at the buttom
+    return false;  // item already at the buttom
   }
 
   MoveTo(item, tag_index.Next());
+  return true;
 }
 
 void RemoveItem(SessionItem& item)

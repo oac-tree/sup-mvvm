@@ -229,14 +229,18 @@ std::unique_ptr<T> CopyItem(const T& item)
 }
 
 /**
- * @brief Moves item up (decrements row of the item). Works on children belonging to single tag.
+ * @brief Moves item up (decrements row of the item), returns true in the case of success.
+ *
+ * Works on children belonging to the same tag.
  */
-MVVM_MODEL_EXPORT void MoveUp(SessionItem& item);
+MVVM_MODEL_EXPORT bool MoveUp(SessionItem& item);
 
 /**
- * @brief Moves item down (increments row of the item). Works on children belonging to single tag.
+ * @brief Moves item down (increments row of the item), returns true in the case of success.
+ *
+ * Works on children belonging to the same tag.
  */
-MVVM_MODEL_EXPORT void MoveDown(SessionItem& item);
+MVVM_MODEL_EXPORT bool MoveDown(SessionItem& item);
 
 /**
  * @brief Removes item from its parent and destroys it.

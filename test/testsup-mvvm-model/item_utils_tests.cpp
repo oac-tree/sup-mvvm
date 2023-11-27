@@ -522,11 +522,11 @@ TEST_F(ItemUtilsTests, MoveItemUp)
   EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
 
   // moving top layer up doesn't change the order
-  utils::MoveUp(*layer0);
+  EXPECT_FALSE(utils::MoveUp(*layer0));
   EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
 
   // moving bottom layer up does change the order
-  utils::MoveUp(*layer2);
+  EXPECT_TRUE(utils::MoveUp(*layer2));
   expected = {layer0, layer2, layer1};
   EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
 }
@@ -547,11 +547,11 @@ TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
   // moving top layer up doesn't change the order
-  utils::MoveUp(*layer0);
+  EXPECT_FALSE(utils::MoveUp(*layer0));
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
   // moving bottom layer up does change the order
-  utils::MoveUp(*layer2);
+  EXPECT_TRUE(utils::MoveUp(*layer2));
   expected = {layer0, layer2, layer1};
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 }
@@ -571,11 +571,11 @@ TEST_F(ItemUtilsTests, MoveItemDown)
   EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
 
   // moving bottom layer down doesn't change the order
-  utils::MoveDown(*layer2);
+  EXPECT_FALSE(utils::MoveDown(*layer2));
   EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
 
-  // moving top layer down doesn't change the order
-  utils::MoveDown(*layer0);
+  // moving top layer down changes the order
+  EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
   EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
 }
@@ -596,11 +596,11 @@ TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
   // moving bottom layer down doesn't change the order
-  utils::MoveDown(*layer2);
+  EXPECT_FALSE(utils::MoveDown(*layer2));
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 
-  // moving top layer down doesn't change the order
-  utils::MoveDown(*layer0);
+  // moving top layer down changes the order
+  EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
   EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
 }
