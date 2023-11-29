@@ -183,6 +183,24 @@ SessionItem* FindParent(const SessionItem* item)
 }
 
 /**
+ * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type.
+ */
+
+template <typename T>
+const T* FindItemUp(const SessionItem* item)
+{
+  while (item)
+  {
+    if (const T* result = dynamic_cast<const T*>(item); result)
+    {
+      return result;
+    }
+    item = item->GetParent();
+  }
+  return nullptr;
+}
+
+/**
  * @brief Returns deep copy or clone of the item.
  *
  * @param item Item to clone

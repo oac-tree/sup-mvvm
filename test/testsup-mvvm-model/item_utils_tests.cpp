@@ -462,6 +462,23 @@ TEST_F(ItemUtilsTests, FindParent)
   EXPECT_EQ(utils::FindParent<SessionItem>(item0), model.GetRootItem());
 }
 
+//! Testing FindItemUp method.
+
+TEST_F(ItemUtilsTests, FindItemUp)
+{
+  EXPECT_EQ(utils::FindItemUp<VectorItem>(nullptr), nullptr);
+
+  VectorItem vector_item;
+  SessionItem* item = &vector_item;
+  EXPECT_EQ(utils::FindItemUp<VectorItem>(item), &vector_item);
+  EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
+
+  test::toyitems::ParticleItem particle;
+  auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
+  EXPECT_EQ(utils::FindItemUp<test::toyitems::ParticleItem>(x_item), &particle);
+  EXPECT_EQ(utils::FindItemUp<test::toyitems::LayerItem>(x_item), nullptr);
+}
+
 //! Testing utility function CloneItem.
 
 TEST_F(ItemUtilsTests, CloneItem)
