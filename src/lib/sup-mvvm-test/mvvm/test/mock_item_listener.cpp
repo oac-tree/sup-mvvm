@@ -36,4 +36,13 @@ void MockItemListener::Subscribe()
   Connect<mvvm::PropertyChangedEvent>(this, &MockItemListener::OnEvent);
 }
 
-}  // namespace testutils
+void MockItemListenerV2::Subscribe()
+{
+  Connect<mvvm::ItemInsertedEvent>(this, &MockItemListenerV2::OnItemInsertedEvent);
+  Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListenerV2::OnAboutToRemoveItemEvent);
+  Connect<mvvm::ItemRemovedEvent>(this, &MockItemListenerV2::OnItemRemovedEvent);
+  Connect<mvvm::DataChangedEvent>(this, &MockItemListenerV2::OnDataChangedEvent);
+  Connect<mvvm::PropertyChangedEvent>(this, &MockItemListenerV2::OnPropertyChangedEvent);
+}
+
+}  // namespace mvvm::test
