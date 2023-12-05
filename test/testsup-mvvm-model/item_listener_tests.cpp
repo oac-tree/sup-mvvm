@@ -28,10 +28,11 @@
 
 using namespace mvvm;
 using ::testing::_;
-using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 
 class ItemListenerTests : public ::testing::Test
 {
+public:
+  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListenerV2>;
 };
 
 TEST_F(ItemListenerTests, InitialState)
@@ -75,7 +76,7 @@ TEST_F(ItemListenerTests, OnDataChanged)
   const auto expected_item = item;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -96,7 +97,7 @@ TEST_F(ItemListenerTests, OnDataChangedSubscribeTwice)
   const auto expected_item = item;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -118,7 +119,7 @@ TEST_F(ItemListenerTests, OnDataChangedAfterDisconnection)
 
   // expect notification
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   EXPECT_CALL(listener, Unsubscribe()).Times(1);
   item->SetData(45, expected_role);
@@ -151,7 +152,7 @@ TEST_F(ItemListenerTests, OnDataChangedCallback)
   const auto expected_item = item;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
   EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
@@ -172,7 +173,7 @@ TEST_F(ItemListenerTests, OnPropertyChanged)
 
   const auto expected_item = item;
   PropertyChangedEvent expected_event{expected_item, property_name};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnPropertyChanged(expected_event)).Times(1);
 
   // trigger calls
   item->SetProperty(property_name, 43.0);
@@ -190,7 +191,7 @@ TEST_F(ItemListenerTests, OnItemInserted)
 
   const TagIndex expected_tagindex{"tag1", 0};
   ItemInsertedEvent expected_event{compound, expected_tagindex};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(expected_event)).Times(1);
 
   // perform action
   model.InsertItem<CompoundItem>(compound, expected_tagindex);
@@ -212,9 +213,9 @@ TEST_F(ItemListenerTests, OnItemRemoved)
   {
     ::testing::InSequence seq;
     AboutToRemoveItemEvent expected_event1{compound, expected_tagindex};
-    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event1))).Times(1);
+    EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
     ItemRemovedEvent expected_event2{compound, expected_tagindex};
-    EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event2))).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
 
   // perform action
@@ -234,7 +235,7 @@ TEST_F(ItemListenerTests, SetAnotherItem)
   mock_listener_t listener(compound);
 
   ItemInsertedEvent expected_event{compound, expected_tagindex};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnItemInserted(expected_event)).Times(1);
 
   auto child = model.InsertItem<CompoundItem>(compound, expected_tagindex);
 
