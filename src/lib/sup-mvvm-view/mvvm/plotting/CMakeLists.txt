@@ -18,6 +18,8 @@ target_sources(${library_name} PRIVATE
   mouse_pos_info.h
   pen_controller.cpp
   pen_controller.h
+  plot_helper.cpp
+  plot_helper.h
   status_string_formatter_interface.h
   status_string_reporter.cpp
   status_string_reporter.h

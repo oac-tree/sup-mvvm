@@ -17,7 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/pen_controller.h"
+#include "pen_controller.h"
+
+#include "plot_helper.h"
 
 #include <mvvm/model/combo_property.h>
 #include <mvvm/standarditems/plottable_items.h>
@@ -25,16 +27,6 @@
 #include <qcustomplot.h>
 
 #include <stdexcept>
-
-namespace
-{
-//! Returns Qt pen style from current PenItem.
-Qt::PenStyle GetQtPenStyle(mvvm::PenItem* item)
-{
-  // our ComboProperty for pens coincide with Qt definition
-  return static_cast<Qt::PenStyle>(item->GetStyleIndex());
-}
-}  // namespace
 
 namespace mvvm
 {
