@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/axis_items.h"
+#include "axis_items.h"
 
-#include <mvvm/standarditems/plottable_items.h>
+#include "plottable_items.h"
 
 namespace
 {

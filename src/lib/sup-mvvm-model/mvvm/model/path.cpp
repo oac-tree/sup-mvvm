@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/path.h"
+#include "path.h"
 
 #include <algorithm>
 #include <iterator>

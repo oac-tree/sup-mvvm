@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/tagged_items.h"
+#include "tagged_items.h"
+
+#include "sessionitem.h"
+#include "sessionitem_container.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionitem_container.h>
 
 #include <stdexcept>
 

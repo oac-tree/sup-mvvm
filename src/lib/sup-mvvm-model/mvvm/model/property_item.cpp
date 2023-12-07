@@ -17,9 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/property_item.h"
-
-#include <mvvm/model/mvvm_types.h>
+#include "property_item.h"
 
 namespace mvvm
 {

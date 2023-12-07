@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/project_manager_decorator.h"
+#include "project_manager_decorator.h"
 
-#include <mvvm/project/project_manager.h>
-#include <mvvm/project/project_types.h>
+#include "project_manager.h"
+#include "project_types.h"
 
 #include <stdexcept>
 

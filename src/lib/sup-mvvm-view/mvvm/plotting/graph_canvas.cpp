@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/graph_canvas.h"
+#include "graph_canvas.h"
 
-#include <mvvm/plotting/graph_viewport_plot_controller.h>
-#include <mvvm/plotting/status_string_reporter.h>
-#include <mvvm/plotting/status_string_reporter_factory.h>
+#include "graph_viewport_plot_controller.h"
+#include "status_string_reporter.h"
+#include "status_string_reporter_factory.h"
+
 #include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/widgets/status_label.h>
 

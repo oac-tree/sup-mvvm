@@ -17,9 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/core/variant.h"
+#include "variant.h"
 
-#include <mvvm/core/exceptions.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <map>
@@ -119,8 +118,7 @@ std::string TypeName(const variant_t &variant)
       {TypeCode::String, constants::kStringTypeName},
       {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
       {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
-      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}
-  };
+      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}};
   return type_name_map[static_cast<TypeCode>(variant.index())];
 }
 

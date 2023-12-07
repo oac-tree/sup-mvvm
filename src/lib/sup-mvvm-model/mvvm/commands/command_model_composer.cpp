@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/command_model_composer.h"
+#include "command_model_composer.h"
 
-#include <mvvm/commands/insert_item_command.h>
-#include <mvvm/commands/remove_item_command.h>
-#include <mvvm/commands/set_value_command.h>
+#include "insert_item_command.h"
+#include "remove_item_command.h"
+#include "set_value_command.h"
+
 #include <mvvm/model/sessionitem.h>
 
 #include <stdexcept>

@@ -17,13 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedata_item_container_converter.h"
+#include "treedata_item_container_converter.h"
+
+#include "treedata.h"
+#include "treedata_taginfo_converter.h"
 
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionitem_container.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/serialization/treedata.h>
-#include <mvvm/serialization/treedata_taginfo_converter.h>
 
 #include <stdexcept>
 

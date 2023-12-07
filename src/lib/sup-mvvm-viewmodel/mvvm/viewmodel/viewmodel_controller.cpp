@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_controller.h"
+#include "viewmodel_controller.h"
 
 #include <mvvm/core/exceptions.h>
 

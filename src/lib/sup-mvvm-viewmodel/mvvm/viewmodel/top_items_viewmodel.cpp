@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/top_items_viewmodel.h"
+#include "top_items_viewmodel.h"
+
+#include "standard_children_strategies.h"
+#include "standard_row_strategies.h"
+#include "viewmodel_controller.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
-#include <mvvm/viewmodel/standard_row_strategies.h>
-#include <mvvm/viewmodel/viewmodel_controller.h>
 
 namespace mvvm
 {

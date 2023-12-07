@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/taginfo.h"
+#include "taginfo.h"
 
 #include <mvvm/utils/container_utils.h>
 

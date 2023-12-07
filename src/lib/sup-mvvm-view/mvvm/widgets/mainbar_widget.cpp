@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/mainbar_widget.h"
+#include "mainbar_widget.h"
 
-#include <mvvm/widgets/fancytab.h>
+#include "fancytab.h"
 
 #include <QHBoxLayout>
 #include <QLabel>

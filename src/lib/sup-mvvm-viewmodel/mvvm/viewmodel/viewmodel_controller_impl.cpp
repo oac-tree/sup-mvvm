@@ -19,14 +19,15 @@
 
 #include "viewmodel_controller_impl.h"
 
+#include "viewitem_factory.h"
+#include "viewmodel_utils.h"
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/viewmodel/viewitem_factory.h>
-#include <mvvm/viewmodel/viewmodel_utils.h>
 
 #include <stack>
 

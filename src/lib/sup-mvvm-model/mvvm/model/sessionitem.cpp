@@ -17,15 +17,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem.h"
+#include "sessionitem.h"
+
+#include "item_utils.h"
+#include "sessionitem_data.h"
+#include "tagged_items.h"
+#include "taginfo.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/item_utils.h>
-#include <mvvm/model/sessionitem_data.h>
-#include <mvvm/model/tagged_items.h>
-#include <mvvm/model/taginfo.h>
 
 namespace
 {

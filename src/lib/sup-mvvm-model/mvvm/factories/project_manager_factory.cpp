@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/project_manager_factory.h"
+#include "project_manager_factory.h"
 
 #include <mvvm/project/project_manager_decorator.h>
 

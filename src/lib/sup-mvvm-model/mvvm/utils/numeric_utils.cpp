@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/numeric_utils.h"
+#include "numeric_utils.h"
 
 #include <algorithm>
 #include <limits>

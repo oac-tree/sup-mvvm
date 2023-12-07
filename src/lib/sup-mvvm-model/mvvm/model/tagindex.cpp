@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/tagindex.h"
+#include "tagindex.h"
 
 namespace mvvm
 {

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/linked_item.h"
+#include "linked_item.h"
 
 #include <mvvm/model/sessionmodel.h>
 

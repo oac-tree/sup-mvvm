@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/plottable_items.h"
+#include "plottable_items.h"
+
+#include "editor_constants.h"
 
 #include <mvvm/model/item_limits_helper.h>
-#include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/container_utils.h>
 
 namespace

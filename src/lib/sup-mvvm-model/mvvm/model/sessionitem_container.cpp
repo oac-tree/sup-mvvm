@@ -17,9 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem_container.h"
+#include "sessionitem_container.h"
 
-#include <mvvm/model/sessionitem.h>
+#include "sessionitem.h"
+
 #include <mvvm/utils/container_utils.h>
 
 #include <algorithm>

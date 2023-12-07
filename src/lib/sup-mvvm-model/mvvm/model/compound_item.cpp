@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/compound_item.h"
+#include "compound_item.h"
 
 #include <mvvm/model/item_utils.h>
 

@@ -19,9 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-// Global header files
-
-#include "mvvm/serialization/attribute_map.h"
+#include "attribute_map.h"
 
 #include <type_traits>
 

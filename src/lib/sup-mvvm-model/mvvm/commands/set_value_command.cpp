@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/set_value_command.h"
+#include "set_value_command.h"
 
 #include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/model/model_utils.h>

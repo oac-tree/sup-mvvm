@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/model_utils.h"
+#include "model_utils.h"
+
+#include "application_model.h"
+#include "path.h"
+#include "taginfo.h"
 
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/application_model.h>
-#include <mvvm/model/path.h>
-#include <mvvm/model/taginfo.h>
-#include <mvvm/model/validate_utils.h>
 
 namespace
 {

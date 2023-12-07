@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem_data.h"
+#include "sessionitem_data.h"
 
 #include <mvvm/core/exceptions.h>
 

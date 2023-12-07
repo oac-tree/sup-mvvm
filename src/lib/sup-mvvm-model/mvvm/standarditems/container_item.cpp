@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/container_item.h"
+#include "container_item.h"
 
 #include <sstream>
 

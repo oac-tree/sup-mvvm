@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/core/unique_id_generator.h"
+#include "unique_id_generator.h"
 
 #include "uuid.h"
 

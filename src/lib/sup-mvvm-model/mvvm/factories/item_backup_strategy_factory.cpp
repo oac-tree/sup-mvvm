@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/item_backup_strategy_factory.h"
+#include "item_backup_strategy_factory.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>

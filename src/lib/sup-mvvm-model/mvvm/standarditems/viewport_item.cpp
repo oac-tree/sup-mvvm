@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/viewport_item.h"
+#include "viewport_item.h"
+
+#include "axis_items.h"
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/standarditems/axis_items.h>
 
 namespace mvvm
 {

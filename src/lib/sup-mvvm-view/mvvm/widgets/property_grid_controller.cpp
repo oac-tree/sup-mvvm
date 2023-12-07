@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/property_grid_controller.h"
+#include "property_grid_controller.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/delegates/viewmodel_delegate.h>

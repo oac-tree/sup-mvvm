@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/combo_property.h"
+#include "combo_property.h"
 
 #include <mvvm/utils/container_utils.h>
 

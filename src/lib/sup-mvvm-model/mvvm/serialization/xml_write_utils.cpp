@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/xml_write_utils.h"
+#include "xml_write_utils.h"
 
-#include <mvvm/serialization/treedata.h>
+#include "treedata.h"
 
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/string_utils.h"
+#include "string_utils.h"
 
 #include <algorithm>
 #include <cctype>

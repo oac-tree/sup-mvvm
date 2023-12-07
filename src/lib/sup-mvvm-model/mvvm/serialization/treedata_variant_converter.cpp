@@ -17,9 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedata_variant_converter.h"
+#include "treedata_variant_converter.h"
 
-#include <mvvm/serialization/treedata.h>
+#include "treedata.h"
+
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 

@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "mvvm/serialization/treedata.h"
+#include "treedata.h"
 
 namespace mvvm
 {

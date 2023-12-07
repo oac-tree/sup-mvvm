@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodelbase/viewitem_data.h"
+#include "viewitem_data.h"
 
 namespace mvvm
 {

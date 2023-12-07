@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/core/exceptions.h"
+#include "exceptions.h"
 
 namespace mvvm
 {

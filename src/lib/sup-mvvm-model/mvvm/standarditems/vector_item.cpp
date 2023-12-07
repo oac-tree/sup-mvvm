@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/standarditems/vector_item.h"
+#include "vector_item.h"
 
 #include <mvvm/signals/item_connect_utils.h>
 

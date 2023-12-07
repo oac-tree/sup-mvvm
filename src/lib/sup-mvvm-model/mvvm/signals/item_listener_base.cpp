@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/item_listener_base.h"
+#include "item_listener_base.h"
+
+#include "item_connect_utils.h"
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
-#include <mvvm/signals/item_connect_utils.h>
 
 namespace mvvm
 {

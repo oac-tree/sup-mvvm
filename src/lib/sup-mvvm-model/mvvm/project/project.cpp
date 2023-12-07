@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/project.h"
+#include "project.h"
+
+#include "project_change_controller.h"
+#include "project_types.h"
+#include "project_utils.h"
 
 #include <mvvm/factories/model_document_factory.h>
-#include <mvvm/project/project_change_controller.h>
-#include <mvvm/project/project_types.h>
-#include <mvvm/project/project_utils.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <functional>

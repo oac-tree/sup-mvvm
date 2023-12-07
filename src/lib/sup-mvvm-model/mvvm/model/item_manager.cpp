@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/item_manager.h"
+#include "item_manager.h"
+
+#include "item_factory.h"
+#include "item_pool.h"
+#include "sessionitem.h"
 
 #include <mvvm/factories/item_catalogue_factory.h>
-#include <mvvm/model/item_factory.h>
-#include <mvvm/model/item_pool.h>
-#include <mvvm/model/sessionitem.h>
 
 namespace mvvm
 {

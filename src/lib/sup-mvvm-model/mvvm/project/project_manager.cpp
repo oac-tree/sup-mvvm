@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/project_manager.h"
+#include "project_manager.h"
+
+#include "project_types.h"
+#include "project_utils.h"
 
 #include <mvvm/interfaces/project_interface.h>
-#include <mvvm/project/project_types.h>
-#include <mvvm/project/project_utils.h>
 
 namespace
 {

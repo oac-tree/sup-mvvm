@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/item_pool.h"
+#include "item_pool.h"
 
 #include <stdexcept>
 

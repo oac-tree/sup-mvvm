@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/status_label.h"
+#include "status_label.h"
 
-#include <mvvm/widgets/widget_utils.h>
+#include "widget_utils.h"
 
 #include <QColor>
 #include <QFont>

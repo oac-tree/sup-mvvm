@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/delegates/default_cell_decorator.h"
+#include "default_cell_decorator.h"
 
 #include <mvvm/editors/scientific_spinbox.h>
 #include <mvvm/standarditems/editor_constants.h>

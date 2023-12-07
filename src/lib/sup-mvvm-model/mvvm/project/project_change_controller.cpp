@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/project_change_controller.h"
+#include "project_change_controller.h"
 
 #include <mvvm/project/model_has_changed_controller.h>
 

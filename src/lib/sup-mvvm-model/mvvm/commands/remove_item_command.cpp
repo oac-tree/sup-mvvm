@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/remove_item_command.h"
+#include "remove_item_command.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>

@@ -17,14 +17,15 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/item_utils.h"
+#include "item_utils.h"
+
+#include "sessionitem.h"
+#include "sessionitem_container.h"
+#include "tagged_items.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionitem_container.h>
-#include <mvvm/model/tagged_items.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <stack>

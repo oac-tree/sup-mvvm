@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedata_taginfo_converter.h"
+#include "treedata_taginfo_converter.h"
+
+#include "treedata.h"
 
 #include <mvvm/model/taginfo.h>
-#include <mvvm/serialization/treedata.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <algorithm>

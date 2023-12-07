@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/graph_plot_controller.h"
+#include "graph_plot_controller.h"
 
-#include <mvvm/plotting/data1d_plot_controller.h>
-#include <mvvm/plotting/pen_controller.h>
+#include "data1d_plot_controller.h"
+#include "pen_controller.h"
+
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/plottable_items.h>

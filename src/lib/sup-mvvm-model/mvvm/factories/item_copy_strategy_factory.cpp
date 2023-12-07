@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/item_copy_strategy_factory.h"
+#include "item_copy_strategy_factory.h"
 
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/serialization/treedata.h>

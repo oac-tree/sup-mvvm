@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/insert_item_command.h"
+#include "insert_item_command.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>

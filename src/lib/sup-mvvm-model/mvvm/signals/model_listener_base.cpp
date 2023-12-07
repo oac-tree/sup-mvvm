@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/model_listener_base.h"
+#include "model_listener_base.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>

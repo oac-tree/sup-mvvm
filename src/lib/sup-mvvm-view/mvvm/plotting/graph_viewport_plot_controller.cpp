@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/graph_viewport_plot_controller.h"
+#include "graph_viewport_plot_controller.h"
 
-#include <mvvm/plotting/graph_plot_controller.h>
-#include <mvvm/plotting/viewport_axis_plot_controller.h>
+#include "graph_plot_controller.h"
+#include "viewport_axis_plot_controller.h"
+
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/axis_title_controller.h"
+#include "axis_title_controller.h"
 
 #include <mvvm/standarditems/plottable_items.h>
 

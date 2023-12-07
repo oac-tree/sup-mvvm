@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/file_utils.h"
+#include "file_utils.h"
 
 #include <mvvm/core/filesystem.h>
 

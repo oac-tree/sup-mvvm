@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/item_factory.h"
+#include "item_factory.h"
 
 #include <mvvm/model/item_catalogue.h>
 #include <mvvm/model/sessionitem.h>

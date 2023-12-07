@@ -17,9 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewitem_factory.h"
+#include "viewitem_factory.h"
 
-#include <mvvm/viewmodel/standard_presentation_items.h>
+#include "standard_presentation_items.h"
+
 #include <mvvm/viewmodelbase/viewitem.h>
 
 namespace mvvm

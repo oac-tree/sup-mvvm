@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/layout_utils.h"
+#include "layout_utils.h"
 
 #include <QBoxLayout>
 #include <QGridLayout>

@@ -17,13 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/xml_document.h"
+#include "xml_document.h"
+
+#include "treedata.h"
+#include "treedata_model_converter.h"
+#include "xml_parse_utils.h"
+#include "xml_write_utils.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/serialization/treedata.h>
-#include <mvvm/serialization/treedata_model_converter.h>
-#include <mvvm/serialization/xml_parse_utils.h>
-#include <mvvm/serialization/xml_write_utils.h>
 
 #include <stdexcept>
 

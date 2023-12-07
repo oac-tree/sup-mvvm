@@ -17,11 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "validate_utils.h"
+
+#include "item_utils.h"
+#include "sessionitem.h"
+#include "tagged_items.h"
+#include "tagindex.h"
+
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/item_utils.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/tagged_items.h>
-#include <mvvm/model/tagindex.h>
 
 namespace
 {

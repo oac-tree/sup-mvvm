@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/utils/progress_handler.h"
+#include "progress_handler.h"
 
 namespace mvvm
 {

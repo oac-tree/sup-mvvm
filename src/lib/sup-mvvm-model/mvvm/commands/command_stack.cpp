@@ -17,9 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/command_stack.h"
+#include "command_stack.h"
 
-#include <mvvm/commands/command_interface.h>
+#include "command_interface.h"
+
 #include <mvvm/core/exceptions.h>
 
 #include <iostream>

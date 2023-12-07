@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "mvvm/serialization/xml_parse_utils.h"
+#include "xml_parse_utils.h"
 
 #include <mvvm/core/filesystem.h>
 

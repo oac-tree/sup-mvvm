@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/custom_plot_utils.h"
+#include "custom_plot_utils.h"
 
 #include <qcustomplot.h>
 

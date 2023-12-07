@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/app_utils.h"
+#include "app_utils.h"
 
-#include <mvvm/widgets/widget_utils.h>
+#include "widget_utils.h"
 
 #include <QApplication>
 #include <QDebug>

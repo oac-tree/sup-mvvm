@@ -17,12 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_utils.h"
+#include "viewmodel_utils.h"
+
+#include "viewmodel.h"
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/standarditems/editor_constants.h>
-#include <mvvm/viewmodel/viewmodel.h>
 
 #include <QColor>
 #include <set>

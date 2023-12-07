@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/model_document_factory.h"
+#include "model_document_factory.h"
 
 #include <mvvm/serialization/xml_document.h>
 

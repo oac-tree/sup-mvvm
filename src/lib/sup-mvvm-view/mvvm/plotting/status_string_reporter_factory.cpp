@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/status_string_reporter_factory.h"
+#include "status_string_reporter_factory.h"
 
-#include <mvvm/plotting/graph_info_formatter.h>
-#include <mvvm/plotting/status_string_reporter.h>
+#include "graph_info_formatter.h"
+#include "status_string_reporter.h"
 
 namespace mvvm
 {

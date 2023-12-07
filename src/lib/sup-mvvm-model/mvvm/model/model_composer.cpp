@@ -17,11 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/model_composer.h"
+#include "model_composer.h"
+
+#include "model_utils.h"
+#include "sessionitem.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/model_utils.h>
-#include <mvvm/model/sessionitem.h>
 
 namespace mvvm
 {

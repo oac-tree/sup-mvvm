@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/application_model.h"
+#include "application_model.h"
 
 #include <mvvm/commands/command_model_composer.h>
 #include <mvvm/commands/command_stack.h>

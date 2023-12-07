@@ -17,9 +17,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodelbase/viewmodel_base_utils.h"
+#include "viewmodel_base_utils.h"
 
-#include <mvvm/viewmodelbase/viewmodel_base.h>
+#include "viewmodel_base.h"
 
 namespace mvvm::utils
 {
