@@ -21,9 +21,13 @@
 
 #include <mvvm/model/item_catalogue.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/standarditems/standard_item_includes.h>
+
+#include <mutex>
 
 namespace mvvm
 {
+std::once_flag global_item_factory_initialized_flag;
 
 ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
     : m_catalogue(std::move(catalogue))
@@ -46,6 +50,35 @@ std::unique_ptr<SessionItem> ItemFactory::CreateItem(const std::string& item_typ
 std::vector<std::string> ItemFactory::GetItemTypes() const
 {
   return m_catalogue->GetItemTypes();
+}
+
+void InitItemFactory(ItemFactory& factory)
+{
+  // basic items
+  factory.RegisterItem<CompoundItem>();
+  factory.RegisterItem<PropertyItem>();
+  factory.RegisterItem<ContainerItem>();
+  factory.RegisterItem<SessionItem>();
+  factory.RegisterItem<LinkedItem>();
+  factory.RegisterItem<VectorItem>();
+
+  // plotting items
+  factory.RegisterItem<Data1DItem>();
+  factory.RegisterItem<FixedBinAxisItem>();
+  factory.RegisterItem<GraphItem>();
+  factory.RegisterItem<GraphViewportItem>();
+  factory.RegisterItem<PenItem>();
+  factory.RegisterItem<PointwiseAxisItem>();
+  factory.RegisterItem<TextItem>();
+  factory.RegisterItem<ViewportAxisItem>();
+}
+
+ItemFactory& GetGlobalItemFactory()
+{
+  static ItemFactory global_item_factory(std::make_unique<ItemCatalogue<SessionItem>>());
+  std::call_once(global_item_factory_initialized_flag, InitItemFactory,
+                 std::ref(global_item_factory));
+  return global_item_factory;
 }
 
 }  // namespace mvvm

@@ -29,7 +29,9 @@ namespace mvvm
 template <typename T>
 class ItemCatalogue;
 
-//! Default SessionItem factory.
+/**
+ * @brief The ItemFactory class represent a factory of SessionItems.
+ */
 
 class MVVM_MODEL_EXPORT ItemFactory : public ItemFactoryInterface
 {
@@ -45,9 +47,20 @@ public:
 
   std::vector<std::string> GetItemTypes() const override;
 
+  template <typename T>
+  void RegisterItem(const std::string& label = {})
+  {
+    RegisterItem(T().GetType(), ItemFactoryFunction<T>, label);
+  }
+
 private:
   std::unique_ptr<ItemCatalogue<SessionItem>> m_catalogue;
 };
+
+/**
+ * @brief Returns a reference to global item factory.
+ */
+ItemFactory& GetGlobalItemFactory();
 
 }  // namespace mvvm
 

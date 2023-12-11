@@ -28,7 +28,7 @@ using namespace mvvm;
 #include <iostream>
 #include <typeinfo>
 
-class ItemCatalogueFactoryTests : public ::testing::Test
+class ItemFactoryTests : public ::testing::Test
 {
 public:
   //! Returns true if given item can be casted to specified type.
@@ -48,7 +48,7 @@ public:
   }
 };
 
-TEST_F(ItemCatalogueFactoryTests, CreateStandardItemCatalogue)
+TEST_F(ItemFactoryTests, CreateStandardItemCatalogue)
 {
   auto catalogue = CreateStandardItemCatalogue();
 
@@ -65,7 +65,7 @@ TEST_F(ItemCatalogueFactoryTests, CreateStandardItemCatalogue)
   EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
 }
 
-TEST_F(ItemCatalogueFactoryTests, AddStandardItemsToCatalogue)
+TEST_F(ItemFactoryTests, AddStandardItemsToCatalogue)
 {
   ItemCatalogue<SessionItem> catalogue;
   AddStandardItemsToCatalogue(catalogue);
@@ -85,7 +85,7 @@ TEST_F(ItemCatalogueFactoryTests, AddStandardItemsToCatalogue)
 
 //! This is poor man's check that we didn't forget to override SessionItem::Clone
 
-TEST_F(ItemCatalogueFactoryTests, CloneOfItemsRegisteredInCatalogue)
+TEST_F(ItemFactoryTests, CloneOfItemsRegisteredInCatalogue)
 {
   auto catalogue = CreateStandardItemCatalogue();
 
@@ -99,7 +99,7 @@ TEST_F(ItemCatalogueFactoryTests, CloneOfItemsRegisteredInCatalogue)
 
 //! Another check for SessionItem::Clone
 
-TEST_F(ItemCatalogueFactoryTests, CheckCloneImplementation)
+TEST_F(ItemFactoryTests, CheckCloneImplementation)
 {
   EXPECT_TRUE(IsCloneImplemented<CompoundItem>());
   EXPECT_TRUE(IsCloneImplemented<ContainerItem>());
