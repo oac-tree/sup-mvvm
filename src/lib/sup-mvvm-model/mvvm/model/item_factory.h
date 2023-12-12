@@ -41,8 +41,8 @@ public:
 
   ~ItemFactory() override;
 
-  using ItemFactoryInterface::RegisterItem;
   using ItemFactoryInterface::IsRegistered;
+  using ItemFactoryInterface::RegisterItem;
 
   void RegisterItem(const std::string& type_name, item_factory_func_t func,
                     const std::string& label) override;
@@ -61,6 +61,19 @@ private:
  * @brief Returns a reference to global item factory.
  */
 ItemFactory& GetGlobalItemFactory();
+
+/**
+ * @brief Register item in global factory, or throw if it is already registered.
+ *
+ * @details Functions returns true in the case of success. It can be used to initialise static flag
+ * to assure a single call.
+ */
+template <typename T>
+bool RegisterGlobalItem()
+{
+  GetGlobalItemFactory().RegisterItem<T>();
+  return true;
+}
 
 }  // namespace mvvm
 

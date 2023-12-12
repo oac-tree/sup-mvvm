@@ -43,7 +43,9 @@ public:
   class TestItem : public SessionItem
   {
   public:
-    TestItem() : SessionItem("TestItemType"){};
+    static inline const std::string Type = "TestItemType";
+
+    TestItem() : SessionItem(Type){};
   };
 
   class TestModel : public SessionModel

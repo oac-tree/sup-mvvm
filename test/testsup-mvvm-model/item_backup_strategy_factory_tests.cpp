@@ -40,7 +40,9 @@ public:
   class TestItem : public CompoundItem
   {
   public:
-    TestItem() : CompoundItem("Test")
+    static inline const std::string Type = "TestItem";
+
+    TestItem() : CompoundItem(Type)
     {
       SetDisplayName("parent_name");
       RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);

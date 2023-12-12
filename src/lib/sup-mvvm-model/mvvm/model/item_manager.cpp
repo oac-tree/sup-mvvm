@@ -28,17 +28,13 @@
 namespace mvvm
 {
 
-ItemManager::ItemManager(std::unique_ptr<ItemFactoryInterface> factory,
-                         std::shared_ptr<ItemPool> pool)
-    : m_item_factory(std::move(factory)), m_item_pool(std::move(pool))
-{
-}
+ItemManager::ItemManager(std::shared_ptr<ItemPool> pool) : m_item_pool(std::move(pool)) {}
 
 ItemManager::~ItemManager() = default;
 
 std::unique_ptr<SessionItem> ItemManager::CreateItem(const std::string& model_type) const
 {
-  return m_item_factory->CreateItem(model_type);
+  return GetGlobalItemFactory().CreateItem(model_type);
 }
 
 SessionItem* ItemManager::FindItem(const std::string& id) const
@@ -71,34 +67,10 @@ void ItemManager::UnregisterFromPool(SessionItem* item)
   m_item_pool->UnregisterItem(item);
 }
 
-const ItemFactoryInterface* ItemManager::GetFactory() const
-{
-  return m_item_factory.get();
-}
-
-ItemFactoryInterface* ItemManager::GetFactory()
-{
-  return const_cast<ItemFactoryInterface*>(static_cast<const ItemManager*>(this)->GetFactory());
-}
-
 std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool)
 {
-  return CreateDefaultItemManager(/* no user items catalogue */ {}, pool);
-}
-
-std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(
-    std::unique_ptr<ItemCatalogue<SessionItem> > user_catalogue, std::shared_ptr<ItemPool> pool)
-{
-  // creating standard item catalogue and merging users items into it
-  auto catalogue = mvvm::CreateStandardItemCatalogue();
-  if (user_catalogue)
-  {
-    catalogue->Merge(*user_catalogue);
-  }
-
-  auto factory = std::make_unique<mvvm::ItemFactory>(std::move(catalogue));
   auto item_pool = pool ? pool : std::make_shared<ItemPool>();
-  return std::make_unique<ItemManager>(std::move(factory), std::move(item_pool));
+  return std::make_unique<ItemManager>(std::move(item_pool));
 }
 
 }  // namespace mvvm

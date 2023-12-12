@@ -92,7 +92,10 @@ T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_in
 template <typename T>
 void SessionModelInterface::RegisterItem(const std::string& label)
 {
-  GetFactory()->RegisterItem(T().GetType(), ItemFactoryFunction<T>, label);
+  if (!GetFactory()->IsRegistered(T::Type))
+  {
+    GetFactory()->RegisterItem(T::Type, ItemFactoryFunction<T>, label);
+  }
 }
 
 inline ItemFactoryInterface* SessionModelInterface::GetFactory()

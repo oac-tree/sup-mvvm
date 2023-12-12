@@ -33,7 +33,7 @@ class ItemCatalogue;
 class MVVM_MODEL_EXPORT ItemManager : public ItemManagerInterface
 {
 public:
-  ItemManager(std::unique_ptr<ItemFactoryInterface> factory, std::shared_ptr<ItemPool> pool);
+  explicit ItemManager(std::shared_ptr<ItemPool> pool);
 
   ~ItemManager() override;
 
@@ -47,26 +47,16 @@ public:
 
   void UnregisterFromPool(SessionItem* item) override;
 
-  const ItemFactoryInterface* GetFactory() const override;
-
-  ItemFactoryInterface* GetFactory() override;
-
   const ItemPool* GetItemPool() const override;
 
   ItemPool* GetItemPool() override;
 
 private:
-  std::unique_ptr<ItemFactoryInterface> m_item_factory;
   std::shared_ptr<ItemPool> m_item_pool;
 };
 
 //! Creates default item manager, relies on external pool if provided.
 std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(std::shared_ptr<ItemPool> pool = {});
-
-//! Creates default item manager using catalogue of items from the user, and external pool.
-std::unique_ptr<ItemManagerInterface> CreateDefaultItemManager(
-    std::unique_ptr<ItemCatalogue<SessionItem>> user_catalogue,
-    std::shared_ptr<ItemPool> pool = {});
 
 }  // namespace mvvm
 

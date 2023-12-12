@@ -65,7 +65,7 @@ public:
   class TestItem : public SessionItem
   {
   public:
-    static inline const std::string Type = "TestItem";
+    static inline const std::string Type = "ItemFactoryTestItem";
     TestItem() : SessionItem(Type) {}
   };
 };

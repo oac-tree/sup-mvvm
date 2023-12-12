@@ -55,13 +55,10 @@ public:
 TEST_F(ItemManagerTests, Constructor)
 {
   auto pool = std::make_shared<ItemPool>();
-  auto factory = std::make_unique<mvvm::ItemFactory>(mvvm::CreateStandardItemCatalogue());
-  auto factory_ptr = factory.get();
 
-  ItemManager manager(std::move(factory), pool);
+  ItemManager manager(pool);
   EXPECT_EQ(manager.GetItemPool(), pool.get());
   EXPECT_EQ(manager.GetItemPool()->GetSize(), 0);
-  EXPECT_EQ(manager.GetFactory(), factory_ptr);
 }
 
 //! Testing global function to consruct default ItemManager.
@@ -71,7 +68,6 @@ TEST_F(ItemManagerTests, CreateDefaultItemManager)
   auto manager = CreateDefaultItemManager();
 
   EXPECT_NE(manager->GetItemPool(), nullptr);
-  EXPECT_NE(manager->GetFactory(), nullptr);
 
   // checking that at least one standard item is there
   auto item = manager->CreateItem(VectorItem::Type);
@@ -86,29 +82,8 @@ TEST_F(ItemManagerTests, CreateDefaultItemManagerFromPool)
   auto manager = CreateDefaultItemManager(pool);
 
   EXPECT_EQ(manager->GetItemPool(), pool.get());
-  EXPECT_NE(manager->GetFactory(), nullptr);
 
   // checking that at least one standard item is there
   auto item = manager->CreateItem(VectorItem::Type);
   EXPECT_EQ(item->GetType(), VectorItem::Type);
-}
-
-//! Testing global function to consruct default ItemManager, with user catalogue and external pool
-//! provided.
-
-TEST_F(ItemManagerTests, CreateDefaultItemManagerFromCatalogueAndPool)
-{
-  auto pool = std::make_shared<ItemPool>();
-  auto manager = CreateDefaultItemManager(CreateCatalogue(), pool);
-
-  EXPECT_EQ(manager->GetItemPool(), pool.get());
-  EXPECT_NE(manager->GetFactory(), nullptr);
-
-  // checking that at least one standard item is there
-  auto item = manager->CreateItem(VectorItem::Type);
-  EXPECT_EQ(item->GetType(), VectorItem::Type);
-
-  // checking that test item sit ehre
-  item = manager->CreateItem(TestItem::Type);
-  EXPECT_EQ(item->GetType(), TestItem::Type);
 }

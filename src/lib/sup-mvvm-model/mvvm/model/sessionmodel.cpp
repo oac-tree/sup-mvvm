@@ -19,6 +19,7 @@
 
 #include "sessionmodel.h"
 
+#include "item_factory.h"
 #include "item_manager.h"
 #include "model_composer.h"
 #include "model_utils.h"
@@ -163,7 +164,7 @@ bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 
 const ItemFactoryInterface* SessionModel::GetFactory() const
 {
-  return p_impl->m_item_manager->GetFactory();
+  return &GetGlobalItemFactory();
 }
 
 //! Returns SessionItem for given identifier.

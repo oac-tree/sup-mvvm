@@ -51,10 +51,6 @@ public:
   virtual const ItemPool* GetItemPool() const = 0;
 
   virtual ItemPool* GetItemPool() = 0;
-
-  virtual const ItemFactoryInterface* GetFactory() const = 0;
-
-  virtual ItemFactoryInterface* GetFactory() = 0;
 };
 
 }  // namespace mvvm
