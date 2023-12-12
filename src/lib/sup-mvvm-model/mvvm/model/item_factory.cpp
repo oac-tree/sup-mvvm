@@ -52,6 +52,11 @@ std::vector<std::string> ItemFactory::GetItemTypes() const
   return m_catalogue->GetItemTypes();
 }
 
+bool ItemFactory::IsRegistered(const std::string& type_name) const
+{
+  return m_catalogue->IsRegistered(type_name);
+}
+
 void InitItemFactory(ItemFactory& factory)
 {
   // basic items

@@ -64,12 +64,29 @@ public:
    * @brief Returns vector of all registered types.
    */
   virtual std::vector<std::string> GetItemTypes() const = 0;
+
+  /**
+   * @brief Returns true if given type name was registered.
+   */
+  virtual bool IsRegistered(const std::string& type_name) const = 0;
+
+  /**
+   * @brief Returns true if given type was registered.
+   */
+  template <typename T>
+  bool IsRegistered() const;
 };
 
 template <typename T>
 void ItemFactoryInterface::RegisterItem(const std::string& label)
 {
   RegisterItem(T::Type, ItemFactoryFunction<T>, label);
+}
+
+template <typename T>
+bool ItemFactoryInterface::IsRegistered() const
+{
+  return IsRegistered(T::Type);
 }
 
 }  // namespace mvvm

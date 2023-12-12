@@ -123,13 +123,13 @@ TEST_F(ItemCatalogueTests, AssignmentOperator)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 }
 
-TEST_F(ItemCatalogueTests, Contains)
+TEST_F(ItemCatalogueTests, IsRegistered)
 {
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
 
-  EXPECT_TRUE(catalogue.Contains(PropertyItem::Type));
-  EXPECT_FALSE(catalogue.Contains(TestItem::Type));
+  EXPECT_TRUE(catalogue.IsRegistered(PropertyItem::Type));
+  EXPECT_FALSE(catalogue.IsRegistered(TestItem::Type));
 }
 
 TEST_F(ItemCatalogueTests, AddLabeledItem)
@@ -156,9 +156,9 @@ TEST_F(ItemCatalogueTests, Merge)
   // adding two catalogue together
   catalogue1.Merge(catalogue2);
 
-  std::vector<std::string> expected_models = {PropertyItem::Type, TestItem::Type,
-                                              AnotherTestItem::Type};
-  std::vector<std::string> expected_labels = {"property", "test", "another"};
+  const std::vector<std::string> expected_models = {PropertyItem::Type, TestItem::Type,
+                                                    AnotherTestItem::Type};
+  const std::vector<std::string> expected_labels = {"property", "test", "another"};
 
   EXPECT_EQ(catalogue1.GetItemTypes(), expected_models);
   EXPECT_EQ(catalogue1.GetLabels(), expected_labels);

@@ -42,6 +42,7 @@ public:
   ~ItemFactory() override;
 
   using ItemFactoryInterface::RegisterItem;
+  using ItemFactoryInterface::IsRegistered;
 
   void RegisterItem(const std::string& type_name, item_factory_func_t func,
                     const std::string& label) override;
@@ -49,6 +50,8 @@ public:
   std::unique_ptr<SessionItem> CreateItem(const std::string& type_name) const override;
 
   std::vector<std::string> GetItemTypes() const override;
+
+  bool IsRegistered(const std::string& type_name) const override;
 
 private:
   std::unique_ptr<ItemCatalogue<SessionItem>> m_catalogue;

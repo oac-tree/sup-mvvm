@@ -56,7 +56,7 @@ public:
    * @brief Returns true if given item is registered in the catalogue.
    */
   template <typename T>
-  bool IsRegisteredItem(const ItemFactory& factory)
+  bool CanCreateCorrectType(const ItemFactory& factory)
   {
     auto item = factory.CreateItem(T::Type);
     return IsCorrectType<T>(item.get());
@@ -107,21 +107,21 @@ TEST_F(ItemFactoryTests, GetGlobalItemFactory)
 {
   const auto& factory = GetGlobalItemFactory();
 
-  EXPECT_TRUE(IsRegisteredItem<CompoundItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<PropertyItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<ContainerItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<SessionItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<LinkedItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<VectorItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<CompoundItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<PropertyItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<ContainerItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<SessionItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<LinkedItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<VectorItem>(factory));
 
-  EXPECT_TRUE(IsRegisteredItem<Data1DItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<FixedBinAxisItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<GraphItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<GraphViewportItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<PenItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<PointwiseAxisItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<TextItem>(factory));
-  EXPECT_TRUE(IsRegisteredItem<ViewportAxisItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<Data1DItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<FixedBinAxisItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<GraphItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<GraphViewportItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<PenItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<PointwiseAxisItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<TextItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<ViewportAxisItem>(factory));
 }
 
 TEST_F(ItemFactoryTests, RegisteringItem)
@@ -131,7 +131,9 @@ TEST_F(ItemFactoryTests, RegisteringItem)
   const size_t registration_count = factory.GetItemTypes().size();
 
   factory.RegisterItem<TestItem>();
-  EXPECT_TRUE(IsRegisteredItem<TestItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<TestItem>(factory));
+  EXPECT_TRUE(factory.IsRegistered(TestItem::Type));
+  EXPECT_TRUE(factory.IsRegistered<TestItem>());
 
   EXPECT_NO_THROW(factory.CreateItem(TestItem::Type));
   EXPECT_EQ(factory.GetItemTypes().size(), registration_count + 1);

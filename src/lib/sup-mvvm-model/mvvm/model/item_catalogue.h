@@ -73,7 +73,7 @@ public:
   /**
    * @brief Returns true if given type name is registered.
    */
-  bool Contains(const std::string& type_name) const;
+  bool IsRegistered(const std::string& type_name) const;
 
   /**
    * @brief Create item with the given type name.
@@ -116,7 +116,7 @@ template <typename T>
 void ItemCatalogue<T>::RegisterItem(const std::string& type_name, const factory_func_t& func,
                                     const std::string& label)
 {
-  if (Contains(type_name))
+  if (IsRegistered(type_name))
   {
     throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + type_name + "'");
   }
@@ -132,7 +132,7 @@ void ItemCatalogue<T>::RegisterItem(const std::string& label)
 }
 
 template <typename T>
-bool ItemCatalogue<T>::Contains(const std::string& type_name) const
+bool ItemCatalogue<T>::IsRegistered(const std::string& type_name) const
 {
   auto iter = find_if(m_info.begin(), m_info.end(),
                       [type_name](auto element) { return element.type_name == type_name; });
@@ -184,7 +184,7 @@ void ItemCatalogue<T>::Merge(const ItemCatalogue& other)
 {
   for (const auto& iter : other.m_info)
   {
-    if (Contains(iter.type_name))
+    if (IsRegistered(iter.type_name))
     {
       throw ExistingKeyException("Catalogue contains duplicated records");
     }
