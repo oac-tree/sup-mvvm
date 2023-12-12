@@ -40,23 +40,37 @@ public:
   /**
    * @brief Registers item factory function.
    *
-   * @param item_type Registration key representing item's type.
+   * @param type_name Registration key representing item's type.
    * @param func The factory function.
-   * @param label Optional label which can be used in widgets instead of item_type.
+   * @param label Optional label which should be used in widgets instead of item_type.
    */
-  virtual void RegisterItem(const std::string& item_type, item_factory_func_t func,
+  virtual void RegisterItem(const std::string& type_name, item_factory_func_t func,
                             const std::string& label) = 0;
+
+  /**
+   * @brief Registers a type.
+   *
+   * @param label Optional label  which should be used in widgets instead of SessionItyem::Type.
+   */
+  template <typename T>
+  void RegisterItem(const std::string& label = {});
 
   /**
    * @brief Creates item of given type.
    */
-  virtual std::unique_ptr<SessionItem> CreateItem(const std::string& item_type) const = 0;
+  virtual std::unique_ptr<SessionItem> CreateItem(const std::string& type_name) const = 0;
 
   /**
    * @brief Returns vector of all registered types.
    */
   virtual std::vector<std::string> GetItemTypes() const = 0;
 };
+
+template <typename T>
+void ItemFactoryInterface::RegisterItem(const std::string& label)
+{
+  RegisterItem(T::Type, ItemFactoryFunction<T>, label);
+}
 
 }  // namespace mvvm
 

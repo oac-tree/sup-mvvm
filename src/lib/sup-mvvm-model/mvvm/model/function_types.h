@@ -27,6 +27,7 @@
 
 namespace mvvm
 {
+
 class SessionItem;
 
 //! Definition for item factory funciton.

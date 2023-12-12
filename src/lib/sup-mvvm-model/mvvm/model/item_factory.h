@@ -41,18 +41,14 @@ public:
 
   ~ItemFactory() override;
 
-  void RegisterItem(const std::string& item_type, item_factory_func_t func,
+  using ItemFactoryInterface::RegisterItem;
+
+  void RegisterItem(const std::string& type_name, item_factory_func_t func,
                     const std::string& label) override;
 
-  std::unique_ptr<SessionItem> CreateItem(const std::string& item_type) const override;
+  std::unique_ptr<SessionItem> CreateItem(const std::string& type_name) const override;
 
   std::vector<std::string> GetItemTypes() const override;
-
-  template <typename T>
-  void RegisterItem(const std::string& label = {})
-  {
-    RegisterItem(T().GetType(), ItemFactoryFunction<T>, label);
-  }
 
 private:
   std::unique_ptr<ItemCatalogue<SessionItem>> m_catalogue;
