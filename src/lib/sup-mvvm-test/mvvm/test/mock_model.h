@@ -37,8 +37,6 @@ public:
 
   MOCK_METHOD(mvvm::SessionItem *, GetRootItem, (), (const, override));
 
-  MOCK_METHOD(const mvvm::ItemFactoryInterface *, GetFactory, (), (const, override));
-
   MOCK_METHOD(mvvm::ModelEventHandler *, GetEventHandler, (), (const, override));
 
   MOCK_METHOD(mvvm::SessionItem *, InsertItem,

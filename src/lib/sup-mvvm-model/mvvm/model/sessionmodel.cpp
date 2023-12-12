@@ -19,7 +19,6 @@
 
 #include "sessionmodel.h"
 
-#include "item_factory.h"
 #include "item_manager.h"
 #include "model_composer.h"
 #include "model_utils.h"
@@ -158,13 +157,6 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
   return p_impl->m_composer->SetData(item, value, role);
-}
-
-//! Returns item factory which can generate all items supported by this model.
-
-const ItemFactoryInterface* SessionModel::GetFactory() const
-{
-  return &GetGlobalItemFactory();
 }
 
 //! Returns SessionItem for given identifier.

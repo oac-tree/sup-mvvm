@@ -692,8 +692,8 @@ TEST_F(SessionModelTest, RegisterItem)
 
   TestModel model;
 
-  auto item =
-      model.InsertItem(model.GetFactory()->CreateItem(expectedItemType), model.GetRootItem(), {});
+  auto item = model.InsertItem(GetGlobalItemFactory().CreateItem(expectedItemType),
+                               model.GetRootItem(), {});
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
   EXPECT_EQ(item->GetType(), expectedItemType);

@@ -70,8 +70,6 @@ public:
 
   // Various getters.
 
-  const ItemFactoryInterface* GetFactory() const override;
-
   SessionItem* FindItem(const std::string& id) const override;
 
   // Methods to steer global behaviour.

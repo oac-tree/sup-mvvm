@@ -23,6 +23,7 @@
 #include "treedata_item_converter.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
 
@@ -71,7 +72,7 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data
 std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(
     const SessionModelInterface &model) const
 {
-  auto item_converter = CreateConverter(model.GetFactory());
+  auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
   auto result = std::make_unique<TreeData>(kModelElementType);
 
@@ -99,7 +100,7 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
         "Error in TreeDataModelConverter: attempt to reconstruct different model type.");
   }
 
-  auto item_converter = CreateConverter(model.GetFactory());
+  auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
   auto root_item = utils::CreateEmptyRootItem();
   for (const auto &tree_child : tree_data.Children())

@@ -51,13 +51,9 @@ public:
     }
   };
 
-  ItemBackupStrategyFactoryTests()
-      : m_factory(std::make_unique<ItemFactory>(CreateStandardItemCatalogue()))
-  {
-    RegisterGlobalItem<TestItem>();
-  }
+  ItemFactoryInterface* GetFactory() { return &GetGlobalItemFactory(); }
 
-  std::unique_ptr<ItemFactory> m_factory;
+  ItemBackupStrategyFactoryTests() { RegisterGlobalItem<TestItem>(); }
   SessionModel m_model;
 };
 
@@ -65,7 +61,7 @@ public:
 
 TEST_F(ItemBackupStrategyFactoryTests, PropertyItem)
 {
-  auto strategy = CreateItemTreeDataBackupStrategy(m_factory.get());
+  auto strategy = CreateItemTreeDataBackupStrategy(GetFactory());
 
   PropertyItem item;
   item.SetData(42.0);
@@ -89,7 +85,7 @@ TEST_F(ItemBackupStrategyFactoryTests, PropertyItem)
 
 TEST_F(ItemBackupStrategyFactoryTests, compoundItem)
 {
-  auto strategy = CreateItemTreeDataBackupStrategy(m_factory.get());
+  auto strategy = CreateItemTreeDataBackupStrategy(GetFactory());
 
   CompoundItem item;
   auto& property = item.AddProperty("thickness", 42.0);
@@ -107,7 +103,7 @@ TEST_F(ItemBackupStrategyFactoryTests, compoundItem)
 
 TEST_F(ItemBackupStrategyFactoryTests, BackupCustomItem)
 {
-  auto strategy = CreateItemTreeDataBackupStrategy(m_model.GetFactory());
+  auto strategy = CreateItemTreeDataBackupStrategy(GetFactory());
 
   TestItem item;
 

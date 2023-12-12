@@ -25,11 +25,11 @@
 #include <mvvm/model/tagindex.h>
 #include <mvvm/model_export.h>
 
-#include <functional>
 #include <memory>
 
 namespace mvvm
 {
+
 class SessionItem;
 class ModelEventHandler;
 
@@ -43,10 +43,6 @@ public:
   virtual std::string GetType() const = 0;
 
   virtual SessionItem* GetRootItem() const = 0;
-
-  virtual const ItemFactoryInterface* GetFactory() const = 0;
-
-  ItemFactoryInterface* GetFactory();
 
   virtual ModelEventHandler* GetEventHandler() const = 0;
 
@@ -73,9 +69,6 @@ public:
   virtual void CheckIn(SessionItem* item) = 0;
 
   virtual void CheckOut(SessionItem* item) = 0;
-
-  template <typename T>
-  void RegisterItem(const std::string& label = {});
 };
 
 //! Inserts item of given type into given parent under given tag_index.
@@ -84,12 +77,6 @@ template <typename T>
 T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
   return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
-}
-
-inline ItemFactoryInterface* SessionModelInterface::GetFactory()
-{
-  return const_cast<ItemFactoryInterface*>(
-      static_cast<const SessionModelInterface*>(this)->GetFactory());
 }
 
 }  // namespace mvvm
