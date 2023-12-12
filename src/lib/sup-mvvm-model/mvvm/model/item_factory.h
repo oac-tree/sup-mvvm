@@ -26,6 +26,7 @@
 
 namespace mvvm
 {
+
 template <typename T>
 class ItemCatalogue;
 

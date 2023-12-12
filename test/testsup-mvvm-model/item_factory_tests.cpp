@@ -17,28 +17,33 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/item_catalogue_factory.h"
+#include "mvvm/model/item_factory.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 
 #include <gtest/gtest.h>
 
 using namespace mvvm;
 
-#include <iostream>
-#include <typeinfo>
+//! Testing ItemFactory class and registrations in the global factory.
+//! More tests in item_catalogue_tests.cpp
 
 class ItemFactoryTests : public ::testing::Test
 {
 public:
-  //! Returns true if given item can be casted to specified type.
+  /**
+   * @brief Returns true if given item can be casted to specified type.
+   */
   template <typename T>
   bool IsCorrectType(const mvvm::SessionItem* item)
   {
     return dynamic_cast<const T*>(item) != nullptr;
   }
 
-  //! Returns true if clone is correctly implemented.
+  /**
+   * @brief Returns true if clone is correctly implemented.
+   */
   template <typename T>
   bool IsCloneImplemented()
   {
@@ -46,58 +51,26 @@ public:
     auto clone = item.Clone();
     return IsCorrectType<T>(clone.get());
   }
+
+  /**
+   * @brief Returns true if given item is registered in the catalogue.
+   */
+  template <typename T>
+  bool IsRegisteredItem(const ItemFactory& factory)
+  {
+    auto item = factory.CreateItem(T::Type);
+    return IsCorrectType<T>(item.get());
+  }
+
+  class TestItem : public SessionItem
+  {
+  public:
+    static inline const std::string Type = "TestItem";
+    TestItem() : SessionItem(Type) {}
+  };
 };
 
-TEST_F(ItemFactoryTests, CreateStandardItemCatalogue)
-{
-  auto catalogue = CreateStandardItemCatalogue();
-
-  auto item = catalogue->Create(SessionItem::Type);
-  EXPECT_TRUE(dynamic_cast<SessionItem*>(item.get()) != nullptr);
-
-  item = catalogue->Create(PropertyItem::Type);
-  EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
-
-  item = catalogue->Create(VectorItem::Type);
-  EXPECT_TRUE(dynamic_cast<VectorItem*>(item.get()) != nullptr);
-
-  item = catalogue->Create(CompoundItem::Type);
-  EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
-}
-
-TEST_F(ItemFactoryTests, AddStandardItemsToCatalogue)
-{
-  ItemCatalogue<SessionItem> catalogue;
-  AddStandardItemsToCatalogue(catalogue);
-
-  auto item = catalogue.Create(SessionItem::Type);
-  EXPECT_TRUE(dynamic_cast<SessionItem*>(item.get()) != nullptr);
-
-  item = catalogue.Create(PropertyItem::Type);
-  EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
-
-  item = catalogue.Create(VectorItem::Type);
-  EXPECT_TRUE(dynamic_cast<VectorItem*>(item.get()) != nullptr);
-
-  item = catalogue.Create(CompoundItem::Type);
-  EXPECT_TRUE(dynamic_cast<CompoundItem*>(item.get()) != nullptr);
-}
-
-//! This is poor man's check that we didn't forget to override SessionItem::Clone
-
-TEST_F(ItemFactoryTests, CloneOfItemsRegisteredInCatalogue)
-{
-  auto catalogue = CreateStandardItemCatalogue();
-
-  for (const auto& item_type : catalogue->GetItemTypes())
-  {
-    auto item = catalogue->Create(item_type);
-    auto clone = item->Clone();
-    EXPECT_EQ(item->GetType(), clone->GetType());
-  }
-}
-
-//! Another check for SessionItem::Clone
+//! Check for SessionItem::Clone.
 
 TEST_F(ItemFactoryTests, CheckCloneImplementation)
 {
@@ -114,4 +87,52 @@ TEST_F(ItemFactoryTests, CheckCloneImplementation)
   EXPECT_TRUE(IsCloneImplemented<TextItem>());
   EXPECT_TRUE(IsCloneImplemented<VectorItem>());
   EXPECT_TRUE(IsCloneImplemented<ViewportAxisItem>());
+}
+
+//! Another check for SessionItem::Clone.
+
+TEST_F(ItemFactoryTests, CloneOfItemsRegisteredInCatalogue)
+{
+  const auto& factory = GetGlobalItemFactory();
+
+  for (const auto& item_type : factory.GetItemTypes())
+  {
+    auto item = factory.CreateItem(item_type);
+    auto clone = item->Clone();
+    EXPECT_EQ(item->GetType(), clone->GetType());
+  }
+}
+
+TEST_F(ItemFactoryTests, GetGlobalItemFactory)
+{
+  const auto& factory = GetGlobalItemFactory();
+
+  EXPECT_TRUE(IsRegisteredItem<CompoundItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<PropertyItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<ContainerItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<SessionItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<LinkedItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<VectorItem>(factory));
+
+  EXPECT_TRUE(IsRegisteredItem<Data1DItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<FixedBinAxisItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<GraphItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<GraphViewportItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<PenItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<PointwiseAxisItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<TextItem>(factory));
+  EXPECT_TRUE(IsRegisteredItem<ViewportAxisItem>(factory));
+}
+
+TEST_F(ItemFactoryTests, RegisteringItem)
+{
+  auto& factory = GetGlobalItemFactory();
+  EXPECT_THROW(factory.CreateItem(TestItem::Type), KeyNotFoundException);
+  const size_t registration_count = factory.GetItemTypes().size();
+
+  factory.RegisterItem<TestItem>();
+  EXPECT_TRUE(IsRegisteredItem<TestItem>(factory));
+
+  EXPECT_NO_THROW(factory.CreateItem(TestItem::Type));
+  EXPECT_EQ(factory.GetItemTypes().size(), registration_count + 1);
 }
