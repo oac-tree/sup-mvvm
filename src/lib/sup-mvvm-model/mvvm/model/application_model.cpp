@@ -62,7 +62,7 @@ ApplicationModel::ApplicationModel(std::string model_type)
 
 ApplicationModel::ApplicationModel(std::string model_type,
                                    std::unique_ptr<ItemManagerInterface> manager)
-    : SessionModel(std::move(model_type), std::move(manager), {})
+    : SessionModel(std::move(model_type), manager->GetSharedPool())
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
   SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));

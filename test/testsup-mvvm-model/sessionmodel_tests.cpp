@@ -52,9 +52,7 @@ public:
   class TestModel : public SessionModel
   {
   public:
-    TestModel()
-        : SessionModel("TestModelType", CreateDefaultItemManager(m_pool),
-                       std::make_unique<ModelComposer>(*this))
+    TestModel() : SessionModel("TestModelType", m_pool, std::make_unique<ModelComposer>(*this))
     {
       RegisterGlobalItem<TestItem>();
     };
@@ -663,8 +661,8 @@ TEST_F(SessionModelTest, FindItemInAlienModel)
 {
   // two models with common pool
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model1("Test1", CreateDefaultItemManager(pool));
-  SessionModel model2("Test2", CreateDefaultItemManager(pool));
+  SessionModel model1("Test1", pool);
+  SessionModel model2("Test2", pool);
 
   // inserting items in both models
   auto parent1 = model1.InsertItem<SessionItem>();
@@ -704,7 +702,7 @@ TEST_F(SessionModelTest, RegisterItem)
 TEST_F(SessionModelTest, SetComposer)
 {
   // setting composer after
-  SessionModel model("TestModelType", CreateDefaultItemManager(m_pool), {});
+  SessionModel model("TestModelType", m_pool, {});
   model.SetComposer(std::make_unique<ModelComposer>(model));
 
   // inserting single item

@@ -146,7 +146,7 @@ TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 
   // creating source model with own pool for item registration
   auto pool1 = std::make_shared<ItemPool>();
-  SessionModel source("SourceModel", CreateDefaultItemManager(pool1));
+  SessionModel source("SourceModel", pool1);
   auto parent1 = source.InsertItem<SessionItem>();
 
   // writing model to TreeData
@@ -154,7 +154,7 @@ TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 
   // creating target with own pool for item registration
   auto pool2 = std::make_shared<ItemPool>();
-  SessionModel target("SourceModel", CreateDefaultItemManager(pool2));
+  SessionModel target("SourceModel", pool2);
   converter.PopulateSessionModel(*tree_data, target);
 
   auto reco_parent = target.GetRootItem()->GetItem(TagIndex::First());
@@ -181,7 +181,7 @@ TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBackToSameModel)
   TreeDataModelConverter converter(ConverterMode::kClone);
 
   auto pool = std::make_shared<ItemPool>();
-  SessionModel model("TestModel", CreateDefaultItemManager(pool));
+  SessionModel model("TestModel", pool);
   auto item = model.InsertItem<SessionItem>();
 
   auto root_item = model.GetRootItem();

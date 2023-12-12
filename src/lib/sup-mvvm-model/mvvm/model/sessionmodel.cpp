@@ -39,6 +39,11 @@ std::unique_ptr<mvvm::ModelComposerInterface> CreateDefaultComposer(
   return std::make_unique<mvvm::ModelComposer>(*model);
 }
 
+std::shared_ptr<mvvm::ItemPool> CreateDefaultItemPool()
+{
+  return std::make_shared<mvvm::ItemPool>();
+}
+
 }  // namespace
 
 namespace mvvm
@@ -57,7 +62,7 @@ struct SessionModel::SessionModelImpl
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
                    std::unique_ptr<ModelComposerInterface> composer)
       : m_self(self)
-      , m_pool(pool)
+      , m_pool(std::move(pool))
       , m_model_type(std::move(model_type))
       , m_composer(composer ? std::move(composer) : CreateDefaultComposer(m_self))
       , m_root_item(utils::CreateEmptyRootItem())
@@ -66,13 +71,7 @@ struct SessionModel::SessionModelImpl
 };
 
 SessionModel::SessionModel(std::string model_type)
-    : SessionModel(model_type, CreateDefaultItemManager(), CreateDefaultComposer(this))
-{
-}
-
-SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager,
-                           std::unique_ptr<ModelComposerInterface> composer)
-    : SessionModel(model_type, manager->GetSharedPool())
+    : SessionModel(std::move(model_type), CreateDefaultItemPool(), CreateDefaultComposer(this))
 {
 }
 
