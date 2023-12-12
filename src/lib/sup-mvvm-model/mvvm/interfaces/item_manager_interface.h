@@ -51,6 +51,8 @@ public:
   virtual const ItemPool* GetItemPool() const = 0;
 
   virtual ItemPool* GetItemPool() = 0;
+
+  virtual std::shared_ptr<ItemPool> GetSharedPool() = 0;
 };
 
 }  // namespace mvvm

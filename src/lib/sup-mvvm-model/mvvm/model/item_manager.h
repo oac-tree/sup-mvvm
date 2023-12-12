@@ -51,6 +51,8 @@ public:
 
   ItemPool* GetItemPool() override;
 
+  std::shared_ptr<ItemPool> GetSharedPool() override;
+
 private:
   std::shared_ptr<ItemPool> m_item_pool;
 };

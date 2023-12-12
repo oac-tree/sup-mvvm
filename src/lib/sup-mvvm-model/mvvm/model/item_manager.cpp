@@ -55,6 +55,11 @@ ItemPool* ItemManager::GetItemPool()
   return m_item_pool.get();
 }
 
+std::shared_ptr<ItemPool> ItemManager::GetSharedPool()
+{
+  return m_item_pool;
+}
+
 void ItemManager::RegisterInPool(SessionItem* item)
 {
   m_item_pool->RegisterItem(item, item->GetIdentifier());

@@ -20,6 +20,7 @@
 #include "sessionmodel.h"
 
 #include "item_manager.h"
+#include "item_pool.h"
 #include "model_composer.h"
 #include "model_utils.h"
 #include "sessionitem.h"
@@ -51,6 +52,7 @@ struct SessionModel::SessionModelImpl
   std::unique_ptr<ItemManagerInterface> m_item_manager;
   std::unique_ptr<ModelComposerInterface> m_composer;
   std::unique_ptr<SessionItem> m_root_item;
+  std::shared_ptr<ItemPool> m_pool;
 
   SessionModelImpl(SessionModel* self, std::string model_type,
                    std::unique_ptr<ItemManagerInterface> manager,
@@ -61,6 +63,7 @@ struct SessionModel::SessionModelImpl
       , m_composer(composer ? std::move(composer) : CreateDefaultComposer(m_self))
       , m_root_item(utils::CreateEmptyRootItem())
   {
+    m_pool = m_item_manager->GetSharedPool();
   }
 };
 
@@ -163,7 +166,7 @@ bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 
 SessionItem* SessionModel::FindItem(const std::string& id) const
 {
-  return p_impl->m_item_manager->FindItem(id);
+  return p_impl->m_pool->ItemForKey(id);
 }
 
 void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
@@ -175,14 +178,14 @@ void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
 
 void SessionModel::CheckIn(SessionItem* item)
 {
-  p_impl->m_item_manager->RegisterInPool(item);
+  return p_impl->m_pool->RegisterItem(item, item->GetIdentifier());
 }
 
 //! Unregister item from pool.
 
 void SessionModel::CheckOut(SessionItem* item)
 {
-  p_impl->m_item_manager->UnregisterFromPool(item);
+  return p_impl->m_pool->UnregisterItem(item);
 }
 
 void SessionModel::SetComposer(std::unique_ptr<ModelComposerInterface> composer)
