@@ -41,7 +41,7 @@ using ::testing::_;
 class ApplicationModelUndoTests : public ::testing::Test
 {
 public:
-  ApplicationModelUndoTests() : m_model("TestModelType", CreateDefaultItemManager(m_pool))
+  ApplicationModelUndoTests() : m_model("TestModelType", m_pool)
   {
   }
 

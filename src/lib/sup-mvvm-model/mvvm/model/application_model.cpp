@@ -56,13 +56,12 @@ struct ApplicationModel::ApplicationModelImpl
 };
 
 ApplicationModel::ApplicationModel(std::string model_type)
-    : ApplicationModel(std::move(model_type), std::move(CreateDefaultItemManager()))
+    : ApplicationModel(std::move(model_type), {})
 {
 }
 
-ApplicationModel::ApplicationModel(std::string model_type,
-                                   std::unique_ptr<ItemManagerInterface> manager)
-    : SessionModel(std::move(model_type), manager->GetSharedPool())
+ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
+    : SessionModel(std::move(model_type), std::move(pool))
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
   SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));

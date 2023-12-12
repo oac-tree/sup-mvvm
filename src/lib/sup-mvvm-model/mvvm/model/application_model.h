@@ -27,7 +27,6 @@
 namespace mvvm
 {
 class ModelEventHandler;
-class ItemManagerInterface;
 class CommandStackInterface;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.
@@ -40,7 +39,7 @@ public:
   using SessionModelInterface::InsertItem;
 
   explicit ApplicationModel(std::string model_type = {});
-  ApplicationModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager);
+  ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool);
 
   ~ApplicationModel() override;
 
