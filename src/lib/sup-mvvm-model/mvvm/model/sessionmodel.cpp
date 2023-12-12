@@ -49,10 +49,10 @@ struct SessionModel::SessionModelImpl
 {
   SessionModel* m_self{nullptr};
   std::string m_model_type;
+  std::shared_ptr<ItemPool> m_pool;
   std::unique_ptr<ItemManagerInterface> m_item_manager;
   std::unique_ptr<ModelComposerInterface> m_composer;
   std::unique_ptr<SessionItem> m_root_item;
-  std::shared_ptr<ItemPool> m_pool;
 
   SessionModelImpl(SessionModel* self, std::string model_type,
                    std::unique_ptr<ItemManagerInterface> manager,
@@ -65,6 +65,16 @@ struct SessionModel::SessionModelImpl
   {
     m_pool = m_item_manager->GetSharedPool();
   }
+
+  SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
+                   std::unique_ptr<ModelComposerInterface> composer)
+      : m_self(self)
+      , m_pool(pool)
+      , m_model_type(std::move(model_type))
+      , m_composer(composer ? std::move(composer) : CreateDefaultComposer(m_self))
+      , m_root_item(utils::CreateEmptyRootItem())
+  {
+  }
 };
 
 SessionModel::SessionModel(std::string model_type)
@@ -74,7 +84,13 @@ SessionModel::SessionModel(std::string model_type)
 
 SessionModel::SessionModel(std::string model_type, std::unique_ptr<ItemManagerInterface> manager,
                            std::unique_ptr<ModelComposerInterface> composer)
-    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(manager),
+    : SessionModel(model_type, manager->GetSharedPool())
+{
+}
+
+SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
+                           std::unique_ptr<ModelComposerInterface> composer)
+    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool),
                                                 std::move(composer)))
 {
   GetRootItem()->SetModel(this);
