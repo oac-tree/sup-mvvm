@@ -19,7 +19,6 @@
 
 #include "mvvm/serialization/treedata_item_converter.h"
 
-#include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/model/item_factory.h>
@@ -42,18 +41,16 @@ using namespace mvvm;
 class TreeDataItemConverterTests : public mvvm::test::FolderBasedTest
 {
 public:
-  TreeDataItemConverterTests()
-      : FolderBasedTest("test_TreeDataItemConverter")
-      , m_factory(mvvm::CreateStandardItemCatalogue()){};
+  TreeDataItemConverterTests() : FolderBasedTest("test_TreeDataItemConverter") {}
 
-  std::unique_ptr<TreeDataItemConverter> CreateCloneConverter() const
+  static std::unique_ptr<TreeDataItemConverter> CreateCloneConverter()
   {
-    return std::make_unique<TreeDataItemConverter>(&m_factory, ConverterMode::kClone);
+    return std::make_unique<TreeDataItemConverter>(GetFactory(), ConverterMode::kClone);
   }
 
-  std::unique_ptr<TreeDataItemConverter> CreateCopyConverter() const
+  static std::unique_ptr<TreeDataItemConverter> CreateCopyConverter()
   {
-    return std::make_unique<TreeDataItemConverter>(&m_factory, ConverterMode::kCopy);
+    return std::make_unique<TreeDataItemConverter>(GetFactory(), ConverterMode::kCopy);
   }
 
   void WriteToXMLFile(const std::string& file_name, const SessionItem& item) const
@@ -73,8 +70,7 @@ public:
     return std::unique_ptr<T>(static_cast<T*>(result.release()));
   }
 
-private:
-  mvvm::ItemFactory m_factory;
+  static ItemFactoryInterface* GetFactory() { return &GetGlobalItemFactory(); }
 };
 
 //! Default PropertyItem to TreeData and back.

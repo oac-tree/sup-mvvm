@@ -23,8 +23,6 @@
 #include "item_pool.h"
 #include "sessionitem.h"
 
-#include <mvvm/factories/item_catalogue_factory.h>
-
 namespace mvvm
 {
 

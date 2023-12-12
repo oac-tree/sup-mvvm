@@ -19,7 +19,6 @@
 
 #include "mvvm/model/item_manager.h"
 
-#include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/standarditems/vector_item.h>
@@ -41,13 +40,6 @@ public:
     static inline const std::string Type = "TestItem";
     TestItem() : SessionItem(Type) {}
   };
-
-  std::unique_ptr<ItemCatalogue<SessionItem>> CreateCatalogue()
-  {
-    auto result = std::make_unique<ItemCatalogue<SessionItem>>();
-    result->RegisterItem<TestItem>();
-    return result;
-  }
 };
 
 //! Testing ItemManager constructed with pool and factory injected.

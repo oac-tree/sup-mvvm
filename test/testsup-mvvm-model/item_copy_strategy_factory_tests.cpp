@@ -19,7 +19,6 @@
 
 #include "mvvm/factories/item_copy_strategy_factory.h"
 
-#include <mvvm/factories/item_catalogue_factory.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/tagged_items.h>
@@ -34,19 +33,14 @@ using namespace mvvm;
 class ItemCopyStrategyFactoryTests : public ::testing::Test
 {
 public:
-  ItemCopyStrategyFactoryTests()
-      : m_factory(std::make_unique<ItemFactory>(CreateStandardItemCatalogue()))
-  {
-  }
-
-  std::unique_ptr<ItemFactory> m_factory;
+  static ItemFactoryInterface* GetFactory() { return &GetGlobalItemFactory(); }
 };
 
 //! Copy PropertyItem.
 
 TEST_F(ItemCopyStrategyFactoryTests, CopyPropertyItem)
 {
-  auto strategy = CreateItemCopyStrategy(m_factory.get());
+  auto strategy = CreateItemCopyStrategy(GetFactory());
 
   PropertyItem item;
   item.SetData(42.0);
@@ -63,7 +57,7 @@ TEST_F(ItemCopyStrategyFactoryTests, CopyPropertyItem)
 
 TEST_F(ItemCopyStrategyFactoryTests, ClonePropertyItem)
 {
-  auto strategy = CreateItemCloneStrategy(m_factory.get());
+  auto strategy = CreateItemCloneStrategy(GetFactory());
 
   PropertyItem item;
   item.SetData(42.0);
@@ -80,7 +74,7 @@ TEST_F(ItemCopyStrategyFactoryTests, ClonePropertyItem)
 
 TEST_F(ItemCopyStrategyFactoryTests, CopyCustomItem)
 {
-  auto strategy = CreateItemCopyStrategy(m_factory.get());
+  auto strategy = CreateItemCopyStrategy(GetFactory());
 
   // creating parent with one child
   auto parent = std::make_unique<SessionItem>();
@@ -111,7 +105,7 @@ TEST_F(ItemCopyStrategyFactoryTests, CopyCustomItem)
 
 TEST_F(ItemCopyStrategyFactoryTests, CloneCustomItem)
 {
-  auto strategy = CreateItemCloneStrategy(m_factory.get());
+  auto strategy = CreateItemCloneStrategy(GetFactory());
 
   // creating parent with one child
   auto parent = std::make_unique<SessionItem>();
