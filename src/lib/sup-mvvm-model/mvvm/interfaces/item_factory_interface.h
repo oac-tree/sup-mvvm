@@ -50,7 +50,7 @@ public:
   /**
    * @brief Registers a type.
    *
-   * @param label Optional label  which should be used in widgets instead of SessionItyem::Type.
+   * @param label Optional label  which should be used in widgets instead of SessionItem::Type.
    */
   template <typename T>
   void RegisterItem(const std::string& label = {});
