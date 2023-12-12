@@ -64,8 +64,6 @@ DemoContainerItem::DemoContainerItem() : CompoundItem(kDemoContainerItemType)
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
-  RegisterItem<DemoItem>();
-  RegisterItem<DemoContainerItem>();
   PopulateModel();
   SetUndoEnabled(true);
 }

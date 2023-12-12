@@ -61,11 +61,7 @@ public:
   class TestModel : public ApplicationModel
   {
   public:
-    TestModel() : ApplicationModel("TestModel")
-    {
-      RegisterItem<LayerItem>();
-      RegisterItem<MultiLayerItem>();
-    }
+    TestModel() : ApplicationModel("TestModel") {}
   };
 
   //! Represents a layer, with thickness and color, and possibly populated with particles.

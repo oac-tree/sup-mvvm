@@ -86,18 +86,6 @@ T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_in
   return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
 }
 
-//! Register used defined item to use with the model. It will become possible to undo/redo
-//! operations with this item, as well as serialize it to/from XML.
-
-template <typename T>
-void SessionModelInterface::RegisterItem(const std::string& label)
-{
-  if (!GetFactory()->IsRegistered(T::Type))
-  {
-    GetFactory()->RegisterItem(T::Type, ItemFactoryFunction<T>, label);
-  }
-}
-
 inline ItemFactoryInterface* SessionModelInterface::GetFactory()
 {
   return const_cast<ItemFactoryInterface*>(

@@ -123,9 +123,6 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
-  RegisterItem<BasicPropertyItem>();
-  RegisterItem<AllIntPropertyItem>();
-  RegisterItem<FloatPropertyItem>();
 }
 
 }  // namespace celleditors

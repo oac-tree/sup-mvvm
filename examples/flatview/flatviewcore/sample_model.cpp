@@ -53,7 +53,6 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 {
-  RegisterItem<DemoItem>();
 }
 
 }  // namespace flatview

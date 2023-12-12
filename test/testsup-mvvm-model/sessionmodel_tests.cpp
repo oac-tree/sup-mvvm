@@ -21,6 +21,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
@@ -55,7 +56,7 @@ public:
         : SessionModel("TestModelType", CreateDefaultItemManager(m_pool),
                        std::make_unique<ModelComposer>(*this))
     {
-      RegisterItem<TestItem>();
+      RegisterGlobalItem<TestItem>();
     };
   };
 

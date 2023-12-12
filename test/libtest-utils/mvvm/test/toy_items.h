@@ -20,7 +20,7 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_TOY_ITEMS_H_
 #define LIBTEST_UTILS_TESTUTILS_TOY_ITEMS_H_
 
-//! @file toyitems.h
+//! @file
 //! Collection of toy items for testing purpose.
 
 #include <mvvm/model/application_model.h>

@@ -43,8 +43,6 @@ class ApplicationModelUndoTests : public ::testing::Test
 public:
   ApplicationModelUndoTests() : m_model("TestModelType", CreateDefaultItemManager(m_pool))
   {
-    m_model.RegisterItem<mvvm::test::toyitems::LayerItem>();
-    m_model.RegisterItem<mvvm::test::toyitems::MultiLayerItem>();
   }
 
   ApplicationModel m_model;

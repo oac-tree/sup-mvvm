@@ -45,7 +45,7 @@ public:
   class TestModel : public SessionModel
   {
   public:
-    TestModel() : SessionModel("TestModel") { RegisterItem<TestCompoundItem>(); }
+    TestModel() : SessionModel("TestModel") {}
   };
 };
 

@@ -19,7 +19,23 @@
 
 #include "toy_items.h"
 
+#include <mvvm/model/item_factory.h>
 #include <mvvm/standarditems/vector_item.h>
+
+namespace
+{
+
+bool RegisterToyItems()
+{
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::ParticleItem>();
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::LayerItem>();
+  mvvm::RegisterGlobalItem<mvvm::test::toyitems::MultiLayerItem>();
+  return true;
+}
+
+bool toy_items_registered_flag = RegisterToyItems();
+
+}  // namespace
 
 namespace mvvm::test::toyitems
 {
@@ -44,11 +60,6 @@ MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
               /*set_as_default*/ true);
 }
 
-SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
-{
-  RegisterItem<ParticleItem>();
-  RegisterItem<LayerItem>();
-  RegisterItem<MultiLayerItem>();
-}
+SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace mvvm::test::toyitems

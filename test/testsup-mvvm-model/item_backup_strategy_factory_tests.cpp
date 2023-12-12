@@ -54,7 +54,7 @@ public:
   ItemBackupStrategyFactoryTests()
       : m_factory(std::make_unique<ItemFactory>(CreateStandardItemCatalogue()))
   {
-    m_model.RegisterItem<TestItem>();
+    RegisterGlobalItem<TestItem>();
   }
 
   std::unique_ptr<ItemFactory> m_factory;

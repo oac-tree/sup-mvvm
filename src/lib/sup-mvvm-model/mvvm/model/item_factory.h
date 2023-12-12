@@ -63,14 +63,19 @@ private:
 ItemFactory& GetGlobalItemFactory();
 
 /**
- * @brief Register item in global factory, or throw if it is already registered.
+ * @brief Registers item in global factory and returns true in the case of success.
  *
- * @details Functions returns true in the case of success. It can be used to initialise static flag
- * to assure a single call.
+ * @details Will return false if item has been already registered. The return value can be used to
+ * initialise static flag to assure a single call.
  */
 template <typename T>
 bool RegisterGlobalItem()
 {
+  if (GetGlobalItemFactory().IsRegistered<T>())
+  {
+    return false;
+  }
+
   GetGlobalItemFactory().RegisterItem<T>();
   return true;
 }
