@@ -21,8 +21,6 @@
 
 #include <mvvm/commands/command_model_composer.h>
 #include <mvvm/commands/command_stack.h>
-#include <mvvm/interfaces/item_manager_interface.h>
-#include <mvvm/model/item_manager.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/notifying_model_composer.h>

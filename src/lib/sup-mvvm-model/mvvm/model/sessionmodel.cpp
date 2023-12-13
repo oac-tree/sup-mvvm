@@ -19,7 +19,6 @@
 
 #include "sessionmodel.h"
 
-#include "item_manager.h"
 #include "item_pool.h"
 #include "model_composer.h"
 #include "model_utils.h"

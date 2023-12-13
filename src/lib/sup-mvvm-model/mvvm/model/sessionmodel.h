@@ -30,7 +30,6 @@
 namespace mvvm
 {
 class SessionItem;
-class ItemManagerInterface;
 class ItemFactoryInterface;
 class ItemPool;
 

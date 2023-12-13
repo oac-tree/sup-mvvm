@@ -20,7 +20,6 @@
 #include "mvvm/standarditems/linked_item.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/property_item.h>

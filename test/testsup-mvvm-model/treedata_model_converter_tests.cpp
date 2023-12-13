@@ -19,7 +19,6 @@
 
 #include "mvvm/serialization/treedata_model_converter.h"
 
-#include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>

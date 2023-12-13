@@ -22,7 +22,6 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
-#include <mvvm/model/item_manager.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>

@@ -13,8 +13,6 @@ target_sources(${library_name} PRIVATE
   item_factory.h
   item_limits_helper.cpp
   item_limits_helper.h
-  item_manager.cpp
-  item_manager.h
   item_pool.cpp
   item_pool.h
   item_utils.cpp

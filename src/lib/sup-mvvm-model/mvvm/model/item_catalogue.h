@@ -34,7 +34,7 @@ class SessionItem;
 
 /**
  * @brief The ItemCatalogue class contains collection of factory functions associated with type
- * names and optional labels.
+ * name and optional label.
  *
  * @tparam T The type to create with this catalogue.
  *
