@@ -17,3 +17,11 @@ try:
 except ImportError:
     import sys
     sys.stderr.write('Warning: Read The Docs theme is not available.\n')
+
+# Set syntax highlighting default to C++.
+highlight_language = 'cpp'
+
+# Set primary domain to C++.
+primary_domain = 'cpp'
+
+cpp_index_common_prefix = ["mvvm::"]

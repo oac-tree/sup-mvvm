@@ -35,10 +35,10 @@ if(COA_BUILD_DOCUMENTATION)
     message(WARNING "Sphinx theme RTD not found, building documentation with default theme")
   endif()
 
-  doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/source/libmvvm_model COMMENT
+  doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/src/lib/sup-mvvm-model COMMENT
     "Generating API documentation with Doxygen")
 
-  configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
+  configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/sphinx-conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
 
   add_custom_target(sphinx-doc ALL
     COMMAND ${SPHINX_BUILD_EXECUTABLE} -q -b html -c ${CMAKE_CURRENT_BINARY_DIR}

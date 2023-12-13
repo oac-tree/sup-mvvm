@@ -20,7 +20,8 @@
 #ifndef MVVM_SIGNALS_EVENT_UTILS_H_
 #define MVVM_SIGNALS_EVENT_UTILS_H_
 
-//! @file Utility functions for model events.
+//! @file
+//! Utility functions for model events.
 
 #include <mvvm/signals/event_types.h>
 
