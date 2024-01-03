@@ -193,3 +193,9 @@ There are other alternative ways to add children::
   auto another = std::make_unique<VectorItem>
   auto child2 = item.InsertItem(std::move(another), {tag, 1});
 
+
+SessionItem API
+------------------
+
+.. doxygenclass:: mvvm::SessionItem
+  :members:

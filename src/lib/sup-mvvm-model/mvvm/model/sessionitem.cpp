@@ -73,11 +73,6 @@ SessionItem::~SessionItem()
   }
 }
 
-//! Parameterized copy constructor to allow item clone and deep item copy.
-//! If \it make_unique_id is true, identifiers of the item and all its children will be regenerated.
-//! This will make an item unique and will allow its usage (serialization, memory pool) along with
-//! the original. If \it make_unique_id is false, the result will be an exact clone of the original.
-
 SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
     : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.GetItemData()),
                   other.GetTaggedItems()->Clone(make_unique_id))
@@ -92,29 +87,25 @@ SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
   }
 }
 
-//! Creates clone of the item. If \it make_unique_id is true (the default case),
-//! identifiers of the item and all its children will be regenerated.
-
 std::unique_ptr<SessionItem> SessionItem::Clone(bool make_unique_id) const
 {
   return std::make_unique<SessionItem>(*this, make_unique_id);
 }
-
-//! Returns item's model type.
 
 std::string SessionItem::GetType() const
 {
   return p_impl->m_item_type;
 }
 
-//! Returns unique identifier.
-
 std::string SessionItem::GetIdentifier() const
 {
   return Data<std::string>(DataRole::kIdentifier);
 }
 
-//! Sets display name (fluent interface).
+std::string SessionItem::GetDisplayName() const
+{
+  return HasData(DataRole::kDisplay) ? Data<std::string>(DataRole::kDisplay) : GetType();
+}
 
 SessionItem& SessionItem::SetDisplayName(const std::string& name)
 {
@@ -122,22 +113,10 @@ SessionItem& SessionItem::SetDisplayName(const std::string& name)
   return *this;
 }
 
-//! Returns display name.
-
-std::string SessionItem::GetDisplayName() const
-{
-  return HasData(DataRole::kDisplay) ? Data<std::string>(DataRole::kDisplay) : GetType();
-}
-
-//! Returns the model to which given item belongs to. Will return nullptr if item doesn't have a
-//! model.
-
 SessionModelInterface* SessionItem::GetModel() const
 {
   return p_impl->m_model;
 }
-
-//! Returns parent item. Will return nullptr if item doesn't have a parent.
 
 SessionItem* SessionItem::GetParent() const
 {

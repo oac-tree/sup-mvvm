@@ -31,14 +31,17 @@
 
 namespace mvvm
 {
+
 class SessionModelInterface;
 class TagInfo;
 class SessionItemData;
 class TaggedItems;
 
-//! A base element to build a hierarchical structure representing all the data of the application
-//! running. SessionItem can contain an arbitrary amount of basic data types, and can be a parent
-//! for other SessionItems.
+/**
+ * @brief The SessionItem class is a base element to build a hierarchical structure representing all
+ * the data of the application. It can contain an arbitrary amount of basic data types, and can be a
+ * parent for other SessionItems.
+ */
 
 class MVVM_MODEL_EXPORT SessionItem
 {
@@ -51,22 +54,64 @@ public:
   SessionItem(const SessionItem& other) = delete;
   SessionItem& operator=(const SessionItem&) = delete;
 
+  /**
+   * @brief Parameterized copy constructor.
+   *
+   * @param other Item to copy from.
+   * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
+   * true.
+   *
+   * @details This copy constructor is used to create item's deep copies and clones.
+   * If make_unique_id is true (the deep copy case), identifiers of the item and all its children
+   * will be regenerated. This will make a new item unique and will allow its usage (serialization,
+   * memory pool) along with the original. If make_unique_id is false, the result
+   * will be an exact clone of the original.
+   */
   SessionItem(const SessionItem& other, bool make_unique_id);
 
+  /**
+   * @brief Creates clone of the item.
+   *
+   * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
+   * true.
+   * @return Clone of the item.
+   *
+   * @details This method is used to create item's deep copies and clones. If make_unique_id is true
+   * (the deep copy case), identifiers of the item and all its children will be regenerated. This
+   * will make a new item unique and will allow its usage (serialization, memory pool) along with
+   * the original. If make_unique_id is false, the result will be an exact clone of the original.
+   */
   virtual std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
-  // basic item properties
-
+  /**
+   * @brief Returns the type of the item.
+   */
   std::string GetType() const;
 
+  /**
+   * @brief Returns item unique identifier.
+   */
   std::string GetIdentifier() const;
 
+  /**
+   * @brief Returns item's display name.
+   */
   virtual std::string GetDisplayName() const;
 
+  /**
+   * @brief Sets the display name.
+   */
   virtual SessionItem& SetDisplayName(const std::string& name);
 
+  /**
+   * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a
+   * model.
+   */
   SessionModelInterface* GetModel() const;
 
+  /**
+   * @brief Returns item parent.
+   */
   SessionItem* GetParent() const;
 
   TagIndex GetTagIndex() const;
@@ -127,10 +172,10 @@ public:
   SessionItem& SetEnabled(bool value);
 
   bool IsVisible() const;
-  SessionItem &SetVisible(bool value);
+  SessionItem& SetVisible(bool value);
 
   std::string GetToolTip() const;
-  SessionItem &SetToolTip(const std::string& tooltip);
+  SessionItem& SetToolTip(const std::string& tooltip);
 
   std::string GetEditorType() const;
   SessionItem& SetEditorType(const std::string& editor_type);
@@ -177,7 +222,7 @@ inline T SessionItem::Data(int role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
   {
-    return DataInternal(role); // if variant_it is required, simply return it
+    return DataInternal(role);  // if variant_it is required, simply return it
   }
   else
   {
