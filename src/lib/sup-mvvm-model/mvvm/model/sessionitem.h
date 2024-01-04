@@ -114,77 +114,253 @@ public:
    */
   SessionItem* GetParent() const;
 
+  /**
+   * @brief  Returns TagIndex of this item under which it is accessible through its parent.
+   */
   TagIndex GetTagIndex() const;
 
-  // methods to deal with item data
-
+  /**
+   * @brief Returns true if item has data on board with given role.
+   *
+   * @details
+   */
   bool HasData(int role = DataRole::kData) const;
 
+  /**
+   * @brief Returns data for the given role.
+   *
+   * @param role The role of the data.
+   * @tparam T The type to convert the data.
+   *
+   * @return The variant with the data, or data itself if template parameter is specified.
+   *
+   * @details If given role doesn't exist, will return uninitialized variant_t{}. If role exists,
+   * will perform convertion to the given T. Will throw, if conversion is not possible.
+   */
   template <typename T = variant_t>
   T Data(int role = DataRole::kData) const;
 
+  /**
+   * @brief Sets the data for the given role.
+   *
+   * @param value The value to set.
+   * @param role The role of the data.
+   * @param direct Set the data through the model, if set to false.
+   *
+   * @return Returns true, if the data was changed.
+   *
+   * @details When extra parameter direct is false (default case), will act through the model.
+   * This will invoke a notification mechanism and provide the possibility for undo, if implemented.
+   * When direct is true, will set the data via SessionItem API to bypass notifications.
+   *
+   * @details If the data is the same as before, will return false as a sign that no data was
+   * changed. It is not possible to change the data type for a given role, once the role was set for
+   * the first time. I.e. attempt to set an integer to the role containing a string will lead to
+   * the exception.
+   */
   template <typename T>
   bool SetData(const T& value, int role = DataRole::kData, bool direct = false);
+
+  /**
+   * @brief Specialized version for const char to avoid its conversion to bool.
+   */
   bool SetData(const char* value, int role = DataRole::kData, bool direct = false);
 
+  /**
+   * @brief Returns pointer to item's data container (non-const version).
+   */
   SessionItemData* GetItemData();
+
+  /**
+   * @brief Returns pointer to item's data container (const version).
+   */
   const SessionItemData* GetItemData() const;
 
-  // children access
-
+  /**
+   * @brief Returns total number of children in all tags.
+   */
   int GetTotalItemCount() const;
 
+  /**
+   * @brief Returns vector of children formed from all children from all tags.
+   */
   std::vector<SessionItem*> GetAllItems() const;
 
+  /**
+   * @brief Returns number of items in given tag.
+   */
   int GetItemCount(const std::string& tag) const;
 
+  /**
+   * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
+   *
+   * @details If the tag name is empty, the tag registered as default will be used. Will throw, when
+   * provided non-empty tag wasn't registered.
+   */
   SessionItem* GetItem(const TagIndex& tag_index) const;
 
+  /**
+   * @brief Returns vector of items in the container with given tag name. If tag name is empty,
+   * container registered as default will be used.
+   */
   std::vector<SessionItem*> GetItems(const std::string& tag) const;
 
+  /**
+   * @brief Returns item under given tag and index casted to a specified type.
+   *
+   * @details Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
+   */
   template <typename T>
   T* GetItem(const TagIndex& tag_index) const;
   template <typename T = SessionItem>
+
+  /**
+   * @brief Returns all items under given tag casted to specific type.
+   * @param tag The name of container's tag name.
+   * @return Vector of items.
+   */
   std::vector<T*> GetItems(const std::string& tag) const;
 
+  /**
+   * @brief Returns pair of tag and index corresponding to given item.
+   *
+   * @param item Possible child whose tag_index we want to find.
+   * @return Items' tag_index.
+   *
+   * @details If given item is not direct child, will returns {"", -1}.
+   */
   TagIndex TagIndexOfItem(const SessionItem* item) const;
 
-  void RegisterTag(const TagInfo& tagInfo, bool set_as_default = false);
+  /**
+   * @brief Registers tag info to hold items under given name.
+   *
+   * @param tag_info A tag info object to register.
+   * @param set_as_default Given tag will be used as default when empty tag name is used.
+   */
+  void RegisterTag(const TagInfo& tag_info, bool set_as_default = false);
 
-  TaggedItems* GetTaggedItems();
+  /**
+   * @brief Returns pointer to internal collection of registered item containers (const version).
+   */
   const TaggedItems* GetTaggedItems() const;
 
-  // item manipulation
+  /**
+   * @brief Returns pointer to internal collection of registered item containers (non-const
+   * version).
+   */
+  TaggedItems* GetTaggedItems();
 
+  /**
+   * @brief Insert item into the given tag_index, ownership is taken.
+   *
+   * @param item Item to insert.
+   * @param tag_index A tag_index pointing to the insert place.
+   *
+   * @return Convenience pointer to just inserted item.
+   */
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
 
+  /**
+   * @brief Creates a new item of given type and insert it into the given tag_index.
+   * @tparam Type of the iotem to create.
+   * @param tag_index A tag_index pointing to the insert place.
+   *
+   * @return Convenience pointer to just inserted item.
+   */
   template <typename T = SessionItem>
   T* InsertItem(const TagIndex& tag_index);
 
+  /**
+   * @brief Removes item from the given tag_index, returns it to the caller.
+   */
   std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
 
-  // more convenience methods
-
+  /**
+   * @brief Returns true if this item has editable flag set.
+   *
+   * @details The data role of editable items can be normally changed in Qt trees and tables by
+   * double-clicking on the corresponding cell.
+   */
   bool IsEditable() const;
+
+  /**
+   * @brief Sets item's editable flag to given value.
+   * @return The reference to the same item (fluent interface).
+   */
   SessionItem& SetEditable(bool value);
 
+  /**
+   * @brief Returns true if this item has enabled flag set.
+   *
+   * @details Enabled items normally appear in default color in Qt trees and tables, while disabled
+   * items are shown in gray.
+   */
   bool IsEnabled() const;
+
+  /**
+   * @brief Sets item's enabled flag to given value.
+   * @return The reference to the same item (fluent interface).
+   */
   SessionItem& SetEnabled(bool value);
 
+  /**
+   * @brief Returns true if this item has visibility flag set.
+   *
+   * @details Visible items normally appear in Qt tree's and tables, while invisible items are
+   * hidden from the user.
+   */
   bool IsVisible() const;
+
+  /**
+   * @brief Sets item's visibility flag to given value.
+   * @return The reference to the same item (fluent interface).
+   */
   SessionItem& SetVisible(bool value);
 
+  /**
+   * @brief Returns item tooltip, if exists.
+   */
   std::string GetToolTip() const;
+
+  /**
+   * @brief Sets item's tooltip to given value.
+   * @return The reference to the same item (fluent interface).
+   */
   SessionItem& SetToolTip(const std::string& tooltip);
 
+  /**
+   * @brief Returns editor type which is used to edit data role.
+   */
   std::string GetEditorType() const;
+
+  /**
+   * @brief Sets editor type.
+   *
+   * @details This allows to define custom cell editors to edit data role of the item.
+   */
   SessionItem& SetEditorType(const std::string& editor_type);
 
+  /**
+   * @brief Returns true if the item has given appearance flag set.
+   */
   bool HasFlag(Appearance flag) const;
+
+  /**
+   * @brief Sets appearance flag to given value.
+   */
   SessionItem& SetFlag(Appearance flag, bool value);
 
+  /**
+   * @brief Activates buisiness logic.
+   *
+   * @details The method is called by the model when item is inserted to the model. It can
+   * be provide custom connections so item reacts on own properties change. See VectorItem example.
+   */
   virtual void Activate();
 
+  /**
+   * @brief Set item's model to the given value.
+   */
   void SetModel(SessionModelInterface* model);
 
 protected:
@@ -195,19 +371,23 @@ protected:
 private:
   friend class TreeDataItemConverter;
 
+  /**
+   * @brief Sets the data for the given role.
+   */
   bool SetDataInternal(const variant_t& value, int role, bool direct);
+
+  /**
+   * @brief Returns the data stored for the given role.
+   */
   variant_t DataInternal(int role) const;
 
   void SetParent(SessionItem* parent);
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
-  struct SessionItemImpl;
+  struct SessionItemImpl; //!< implementation details
   std::unique_ptr<SessionItemImpl> p_impl;
 };
-
-//! Sets data for a given role. When extra parameter `direct` is false (default case), will act
-//! through the model to invoke notifications/undo-redo (if implemented).
 
 template <typename T>
 inline bool SessionItem::SetData(const T& value, int role, bool direct)
@@ -215,23 +395,18 @@ inline bool SessionItem::SetData(const T& value, int role, bool direct)
   return SetDataInternal(value, role, direct);
 }
 
-//! Returns data of given type T for given role.
-
 template <typename T>
 inline T SessionItem::Data(int role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
   {
-    return DataInternal(role);  // if variant_it is required, simply return it
+    return DataInternal(role);  // if variant_t is required, simply return it
   }
   else
   {
-    return std::get<T>(DataInternal(role));
+    return std::get<T>(DataInternal(role));  // convert the data to required type
   }
 }
-
-//! Returns item under given tag and index casted to a specified type.
-//! Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
 
 template <typename T>
 inline T* SessionItem::GetItem(const TagIndex& tag_index) const
@@ -248,16 +423,11 @@ inline T* SessionItem::GetItem(const TagIndex& tag_index) const
   return nullptr;
 }
 
-//! Returns all items under given tag casted to specific type.
-
 template <typename T>
 std::vector<T*> SessionItem::GetItems(const std::string& tag) const
 {
   return utils::CastItems<T>(GetItems(tag));
 }
-
-//! Creates a new item and insert it into given tag under the given row.
-//! Returns pointer to inserted item to the user.
 
 template <typename T>
 inline T* SessionItem::InsertItem(const TagIndex& tag_index)

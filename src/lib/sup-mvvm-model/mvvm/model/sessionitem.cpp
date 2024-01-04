@@ -123,108 +123,75 @@ SessionItem* SessionItem::GetParent() const
   return p_impl->m_parent;
 }
 
-//! Returns TagIndex of this item under which it is accessible through its parent.
-
 TagIndex SessionItem::GetTagIndex() const
 {
   return GetParent() ? GetParent()->TagIndexOfItem(this) : TagIndex();
 }
-
-//! Returns true if item has data on board with given role.
 
 bool SessionItem::HasData(int role) const
 {
   return p_impl->m_data->HasData(role);
 }
 
-//! Specialized version for const char: method is introduced to avoid "const char" conversion into
-//! variant<bool>.
 bool SessionItem::SetData(const char* value, int role, bool direct)
 {
   return SetData(std::string(value), role, direct);
 }
-
-//! Returns pointer to item's data container (const version).
-
-const SessionItemData* SessionItem::GetItemData() const
-{
-  return p_impl->m_data.get();
-}
-
-//! Returns pointer to item's data container (non-const version).
 
 SessionItemData* SessionItem::GetItemData()
 {
   return const_cast<SessionItemData*>(static_cast<const SessionItem*>(this)->GetItemData());
 }
 
-//! Returns total number of children in all tags.
+const SessionItemData* SessionItem::GetItemData() const
+{
+  return p_impl->m_data.get();
+}
 
 int SessionItem::GetTotalItemCount() const
 {
   return static_cast<int>(GetAllItems().size());
 }
 
-//! Returns vector of children formed from all chidlren from all tags.
-
 std::vector<SessionItem*> SessionItem::GetAllItems() const
 {
   return p_impl->m_tags->GetAllItems();
 }
-
-//! Returns number of items in given tag.
 
 int SessionItem::GetItemCount(const std::string& tag) const
 {
   return p_impl->m_tags->GetItemCount(tag);
 }
 
-//! Returns item located at given \it tag_index.
-//! Will throw if \it tag_index is invalid (wrong index, non-existing container).
-
 SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
 {
   return p_impl->m_tags->GetItem(tag_index);
 }
-
-//! Returns all children stored at given tag.
 
 std::vector<SessionItem*> SessionItem::GetItems(const std::string& tag) const
 {
   return p_impl->m_tags->GetItems(tag);
 }
 
-//! Returns pair of tag and index corresponding to given item.
-//! Returns {"", -1} if given item doesn't belong to children.
-
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const
 {
   return p_impl->m_tags->TagIndexOfItem(item);
 }
 
-//! Returns pointer to internal collection of tag-registered items (const version).
+void SessionItem::RegisterTag(const TagInfo& tag_info, bool set_as_default)
+{
+  p_impl->m_tags->RegisterTag(tag_info, set_as_default);
+}
 
 const TaggedItems* SessionItem::GetTaggedItems() const
 {
   return p_impl->m_tags.get();
 }
 
-//! Registers tag to hold items under given name.
-
-void SessionItem::RegisterTag(const TagInfo& tagInfo, bool set_as_default)
-{
-  p_impl->m_tags->RegisterTag(tagInfo, set_as_default);
-}
-
-//! Returns pointer to internal collection of tag-registered items (non-const version).
-
 TaggedItems* SessionItem::GetTaggedItems()
 {
   return const_cast<TaggedItems*>(static_cast<const SessionItem*>(this)->GetTaggedItems());
 }
-
-//! Insert item into given tag under the given index. Will take ownership of inserted item.
-//! Returns back a pointer to the same item for convenience.
 
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
@@ -265,9 +232,6 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   return result;
 }
 
-//! Removes item from given index from given tag, returns it to the caller.
-//! Ownership is granted to the caller.
-
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   if (!p_impl->m_tags->CanTakeItem(tag_index))
@@ -282,61 +246,40 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   return std::move(result);
 }
 
-//! Returns true if this item has `editable` flag set.
-//! The data value of an editable item normally can be changed when it appears in trees and tables.
-
 bool SessionItem::IsEditable() const
 {
   return !(appearance(*this) & Appearance::kReadOnly);
 }
-
-//! Sets `editable` flag to given value (fluent interface).
 
 SessionItem& SessionItem::SetEditable(bool value)
 {
   return SetFlag(Appearance::kReadOnly, !value);
 }
 
-//! Returns true if this item has `enabled` flag set.
-
 bool SessionItem::IsEnabled() const
 {
   return !(appearance(*this) & Appearance::kDisabled);
 }
-
-//! Sets `enabled` flag to given value (fluent interface). Used in Qt-widgets to show that given
-//! property is currently enabled. Enabled items appear in normal color, disabled items are grayed
-//! out.
 
 SessionItem& SessionItem::SetEnabled(bool value)
 {
   return SetFlag(Appearance::kDisabled, !value);
 }
 
-//! Returns true if this item has `visible` flag set.
-
 bool SessionItem::IsVisible() const
 {
   return !(appearance(*this) & Appearance::kHidden);
 }
-
-//! Sets `visible` flag to given value (fluent interface). Used in Qt-widgets to hide given
-//! property from a view. For example, `PropertyTreeView` will not show PropertyItem with the given
-//! flag set to `true` among other properties.
 
 SessionItem& SessionItem::SetVisible(bool value)
 {
   return SetFlag(Appearance::kHidden, !value);
 }
 
-//! Returns item tooltip, if exists.
-
 std::string SessionItem::GetToolTip() const
 {
   return HasData(DataRole::kTooltip) ? Data<std::string>(DataRole::kTooltip) : std::string();
 }
-
-//! Sets item tooltip (fluent interface).
 
 SessionItem& SessionItem::SetToolTip(const std::string& tooltip)
 {
@@ -360,8 +303,6 @@ bool SessionItem::HasFlag(Appearance flag) const
   return HasData(DataRole::kAppearance) ? Data<int>(DataRole::kAppearance) & flag : false;
 }
 
-//! Sets appearance flag to given value.
-
 SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
 {
   int flags = appearance(*this);
@@ -377,9 +318,6 @@ SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
   SetData(flags, DataRole::kAppearance);
   return *this;
 }
-
-//! Activates business logic.
-//! The method is called from the model when on item insertion.
 
 void SessionItem::Activate() {}
 
@@ -403,20 +341,19 @@ void SessionItem::SetModel(SessionModelInterface* model)
   }
 }
 
-//! Sets the data for given role. Method invented to hide implementaiton details.
-
 bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
 {
+  // Method invented to hide implementaiton details and avoid placing SessionItemData header into
+  // SessionItem header.
   const bool act_through_model = !direct && GetModel();
   return act_through_model ? GetModel()->SetData(this, value, role)
                            : p_impl->m_data->SetData(value, role);
 }
 
-//! Returns data for given role. Method invented to hide implementaiton details and avoid
-//! placing sessionitem_data.h into 'sessionitem.h' header.
-
 variant_t SessionItem::DataInternal(int role) const
 {
+  // Method invented to hide implementaiton details and avoid placing SessionItemData header into
+  // SessionItem header.
   return p_impl->m_data->Data(role);
 }
 
