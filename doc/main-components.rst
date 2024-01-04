@@ -5,5 +5,4 @@ Main components
   :maxdepth: 1
 
   session-item
-
-:cpp:class:`mvvm::AbstractCommand`
+  standard-items
