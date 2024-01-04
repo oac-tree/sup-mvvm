@@ -5,4 +5,5 @@ Main components
   :maxdepth: 1
 
   session-item
+  compound-item
   standard-items

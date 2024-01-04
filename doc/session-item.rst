@@ -188,9 +188,3 @@ SessionItem and related classes API
 
 .. doxygenclass:: mvvm::SessionItem
   :members:
-
-.. doxygenclass:: mvvm::PropertyItem
-  :members:
-
-.. doxygenclass:: mvvm::CompoundItem
-  :members:
