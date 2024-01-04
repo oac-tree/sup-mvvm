@@ -131,7 +131,7 @@ for items to be inserted. In another example, we define a tag with the name
   // item.RegisterTag(TagInfo::CreatePropertyTag("Position", VectorItem::Type));
 
 The `TagIndex` class
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 The `TagIndex` class is a simple aggregate carrying a string with container
 name, and an index indicating the position in the container::
@@ -145,8 +145,8 @@ name, and an index indicating the position in the container::
 The `TagIndex` class uniquely defines the position of a child and it is used in
 the `SessionItem` interface to access and manipulate items in containers.
 
-4.3 Adding children
--------------------
+Adding children
+---------------
 
 There are multiple ways to add children to a parent. In snipped below we
 register a tag with the name "`ITEMS`" intended for storing an unlimited amount

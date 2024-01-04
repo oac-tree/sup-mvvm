@@ -169,7 +169,7 @@ In file `GaussianItem.h`::
     void SetMean(double value);
   };
 
-In file `GaussianItem.cpp:`::
+In file `GaussianItem.cpp`::
 
   static const std::string kMean = "kMean";
   static const std::string kStdDev = "kStdDev";
@@ -193,3 +193,9 @@ In file `GaussianItem.cpp:`::
 With this approach class API explicitly communicates its responsibilities, and
 implementation details of property machinery remain hidden from the users of the
 class.
+
+CompoundItem API
+----------------
+
+.. doxygenclass:: mvvm::CompoundItem
+  :members:
