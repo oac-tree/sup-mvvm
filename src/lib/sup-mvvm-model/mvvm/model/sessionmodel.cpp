@@ -27,8 +27,6 @@
 
 #include <mvvm/core/exceptions.h>
 
-#include <sstream>
-
 namespace
 {
 std::unique_ptr<mvvm::ModelComposerInterface> CreateDefaultComposer(
@@ -146,14 +144,10 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
   InsertItem(std::move(taken), new_parent, tag_index);
 }
 
-//! Sets the data for given item.
-
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
   return p_impl->m_composer->SetData(item, value, role);
 }
-
-//! Returns SessionItem for given identifier.
 
 SessionItem* SessionModel::FindItem(const std::string& id) const
 {

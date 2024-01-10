@@ -26,6 +26,7 @@
 #include <mvvm/utils/file_utils.h>
 
 #include <cctype>
+#include <algorithm>
 
 namespace
 {

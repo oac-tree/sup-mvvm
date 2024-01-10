@@ -4,16 +4,16 @@ SessionItem
 Introduction
 ------------
 
-`SessionItem` class is a base element to build a hierarchical structure
-representing all the data of the GUI application. `SessionItem` can contain
+``SessionItem`` class is a base element to build a hierarchical structure
+representing all the data of the GUI application. ``SessionItem`` can contain
 an arbitrary amount of basic data types, and can be a parent for other
-`SessionItems`.
+``SessionItems``.
 
-The tree of `SessionItem` objects can be built programmatically via
-`SessionItem` API, or be reconstructed from persistent XML content.
+The tree of ``SessionItem`` objects can be built programmatically via
+``SessionItem`` API, or be reconstructed from persistent XML content.
 
-While being an end leaf in some ramified hierarchy the `SessionItem` often plays
-a role of a single editable/displayable entity. For example, a `SessionItem` can
+While being an end leaf in some ramified hierarchy the ``SessionItem`` often plays
+a role of a single editable/displayable entity. For example, a ``SessionItem`` can
 be seen as an aggregate of information necessary to display/edit a single
 integer number `42` in the context of some view. Then, it will carry:
 
@@ -24,10 +24,10 @@ integer number `42` in the context of some view. Then, it will carry:
 - Other auxiliary information (tooltips to be shown, allowed limits to change,
   and similar).
 
-The data of `SessionItem`
+The data of ``SessionItem``
 -------------------------
 
-The data carried by `SessionItem` is always associated with the role - a unique
+The data carried by ``SessionItem`` is always associated with the role - a unique
 integer number defining the context in which the data has to be used. They both
 came in pairs, and the item can have multiple `data/roles` defined::
 
@@ -60,10 +60,10 @@ display role holding a label and the data role, holding the value.::
   auto number = item.Data<int>(kData);
   auto label = item.Data<std::string>(kDisplay);
 
-Inheriting from `SessionItem`
+Inheriting from ``SessionItem``
 -----------------------------
 
-The `SessionItem` class type name is stored in a string variable and can be
+The ``SessionItem`` class type name is stored in a string variable and can be
 accessed via the `GetType()` method::
 
   SessionItem item;
@@ -73,7 +73,7 @@ accessed via the `GetType()` method::
 This name is used during item serialization/deserialization and during undo/redo
 operations to create objects of the correct type in item factories.
 
-To inherit from `SessionItem` the new unique name has to be provided in the
+To inherit from ``SessionItem`` the new unique name has to be provided in the
 constructor of the derived class. It is convenient to make this name identical
 to the class name itself::
 
@@ -84,10 +84,10 @@ to the class name itself::
     SegmentItem() : SessionItem(Type) {}
   }
 
-Children of SessionItem
------------------------
+Children of ``SessionItem``
+---------------------------
 
-`SessionItem` can have an arbitrary amount of children stored in named
+``SessionItem`` can have an arbitrary amount of children stored in named
 containers. In pseudo code, it can be expressed::
 
   class SessionItem
@@ -98,42 +98,42 @@ containers. In pseudo code, it can be expressed::
 
 Named containers are a convenient way to have items tied to a certain context.
 The name of the container, `tag`, and the position in it, `index`, can be used to
-access and manipulate items through their parent `SessionItem`. Before adding
+access and manipulate items through their parent ``SessionItem``. Before adding
 any child to `SessionItem`, the container has to be created and its properties
 defined.
 
-The `TagInfo` class
+The ``TagInfo`` class
 -------------------
 
-The `TagInfo` specifies information about children that can be added to a
-`SessionItem`. A `TagInfo` has a name, min, max allowed number of children, and
+The ``TagInfo`` specifies information about children that can be added to a
+``SessionItem``. A ``TagInfo`` has a name, min, max allowed number of children, and
 vector of all types that children can have.
 
 In the snippet below we register a tag with the name `ITEMS` intended for
-storing unlimited amount of other `SessionItems`::
+storing unlimited amount of other ``SessionItems``::
 
   SessionItem item;
   item.RegisterTag(TagInfo("ITEMS", 0, -1));
 
 An equivalent way of doing the same is to use convenience
-factory methods of the `TagInfo` class::
+factory methods of the ``TagInfo`` class::
 
   SessionItem item;
   item.RegisterTag(TagInfo::CreateUniversalTag("ITEMS"));
 
 Internally, it leads to the creation of a corresponding named container ready
 for items to be inserted. In another example, we define a tag with the name
-`Position` intended for storing the only item of type `VectorItem`::
+`Position` intended for storing the only item of type ``VectorItem``::
 
   item.RegisterTag(TagInfo("Position", 1, 1, {VectorItem::Type});
 
   // or
   // item.RegisterTag(TagInfo::CreatePropertyTag("Position", VectorItem::Type));
 
-The `TagIndex` class
+The ``TagIndex`` class
 --------------------
 
-The `TagIndex` class is a simple aggregate carrying a string with container
+The ``TagIndex`` class is a simple aggregate carrying a string with container
 name, and an index indicating the position in the container::
 
   struct TagIndex
@@ -142,8 +142,8 @@ name, and an index indicating the position in the container::
     int index = -1;
   }
 
-The `TagIndex` class uniquely defines the position of a child and it is used in
-the `SessionItem` interface to access and manipulate items in containers.
+The ``TagIndex`` class uniquely defines the position of a child and it is used in
+the ``SessionItem`` interface to access and manipulate items in containers.
 
 Adding children
 ---------------
@@ -152,7 +152,7 @@ There are multiple ways to add children to a parent. In snipped below we
 register a tag with the name "`ITEMS`" intended for storing an unlimited amount
 of items of any type. In the next step, we insert a child into the corresponding
 container and modify its display name. Later, we access the child using the
-known `TagIndex` to print the child's display name::
+known ``TagIndex`` to print the child's display name::
 
   const std::string tag("ITEMS");
   SessionItem item;

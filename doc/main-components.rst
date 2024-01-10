@@ -7,3 +7,5 @@ Main components
   session-item
   compound-item
   standard-items
+  sessionmodel
+

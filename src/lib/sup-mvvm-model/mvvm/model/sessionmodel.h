@@ -22,7 +22,6 @@
 
 #include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/function_types.h>
 #include <mvvm/model/sessionitem.h>
 
 #include <memory>
@@ -55,8 +54,6 @@ public:
 
   ModelEventHandler* GetEventHandler() const override;
 
-  // Methods to manipulate data and items.
-
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override;
 
@@ -68,11 +65,7 @@ public:
 
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
-  // Various getters.
-
   SessionItem* FindItem(const std::string& id) const override;
-
-  // Methods to steer global behaviour.
 
   void Clear(std::unique_ptr<SessionItem> root_item) override;
 
@@ -80,6 +73,9 @@ public:
 
   void CheckOut(SessionItem* item) override;
 
+  /**
+   * @brief A tech method which allows to change composer's engine.
+   */
   void SetComposer(std::unique_ptr<ModelComposerInterface> composer);
 
 private:

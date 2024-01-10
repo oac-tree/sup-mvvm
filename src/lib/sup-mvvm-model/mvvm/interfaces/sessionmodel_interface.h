@@ -43,7 +43,7 @@ public:
   virtual ~SessionModelInterface() = default;
 
   /**
-   * @brief Get model type.
+   * @brief Returns model type.
    * @return Model type.
    */
   virtual std::string GetType() const = 0;
@@ -55,7 +55,7 @@ public:
   virtual SessionItem* GetRootItem() const = 0;
 
   /**
-   * @brief Get event handler.
+   * @brief Returns event handler.
    * @return Event handler.
    */
   virtual ModelEventHandler* GetEventHandler() const = 0;
@@ -63,7 +63,7 @@ public:
   /**
    * @brief Inserts item into the given parent and take ownership of it.
    *
-   * @param And item to insert.
+   * @param An item to insert.
    * @param parent The parent where to insert.
    * @param tag_index A tag_index pointing to the insert place.
    * @return The pointer to just inserted item.
