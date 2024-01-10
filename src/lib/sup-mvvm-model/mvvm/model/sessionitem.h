@@ -351,10 +351,12 @@ public:
   SessionItem& SetFlag(Appearance flag, bool value);
 
   /**
-   * @brief Activates buisiness logic.
+   * @brief Activates business logic.
    *
-   * @details The method is called by the model when item is inserted to the model. It can
-   * be provide custom connections so item reacts on own properties change. See VectorItem example.
+   * @details The method is called by the model when an item is inserted into the model. It allows
+   * to perform some additional initialization on the item's board, if necessary. For example, it
+   * can provide custom connections so the item reacts on its own properties change. See VectorItem
+   * example.
    */
   virtual void Activate();
 
@@ -385,7 +387,7 @@ private:
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
-  struct SessionItemImpl; //!< implementation details
+  struct SessionItemImpl;  //!< implementation details
   std::unique_ptr<SessionItemImpl> p_impl;
 };
 

@@ -26,7 +26,6 @@
 #include "validate_utils.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/interfaces/item_factory_interface.h>
 
 #include <sstream>
 
@@ -98,8 +97,6 @@ std::string SessionModel::GetType() const
   return p_impl->m_model_type;
 }
 
-//! Returns root item of the model.
-
 SessionItem* SessionModel::GetRootItem() const
 {
   return p_impl->m_root_item.get();
@@ -107,10 +104,9 @@ SessionItem* SessionModel::GetRootItem() const
 
 ModelEventHandler* SessionModel::GetEventHandler() const
 {
+  // this implementation doesn't have any notification capabilities
   return nullptr;
 }
-
-//! Insert item via move into the given `parent` under given `tag_index`.
 
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                       const TagIndex& tag_index)
@@ -126,15 +122,11 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
   return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
 }
 
-//! Removes item with given tag_index from the parent and returns it to the user.
-
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(this, parent, tag_index);
   return p_impl->m_composer->TakeItem(parent, tag_index);
 }
-
-//! Removes give item from the model.
 
 void SessionModel::RemoveItem(SessionItem* item)
 {
@@ -145,9 +137,6 @@ void SessionModel::RemoveItem(SessionItem* item)
 
   TakeItem(item->GetParent(), item->GetTagIndex());
 }
-
-//! Move item from it's current parent to a new parent under given tag and row.
-//! Old and new parents should belong to this model.
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
@@ -176,14 +165,10 @@ void SessionModel::Clear(std::unique_ptr<SessionItem> root_item)
   p_impl->m_composer->Reset(p_impl->m_root_item, std::move(root_item));
 }
 
-//! Registers item in pool. This will allow to find item pointer using its unique identifier.
-
 void SessionModel::CheckIn(SessionItem* item)
 {
   return p_impl->m_pool->RegisterItem(item, item->GetIdentifier());
 }
-
-//! Unregister item from pool.
 
 void SessionModel::CheckOut(SessionItem* item)
 {
