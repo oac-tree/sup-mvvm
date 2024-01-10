@@ -41,13 +41,13 @@ public:
   std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
   /**
-   * @brief Adds and item of given type, and registers it under the given name.
+   * @brief Adds and item of given type, and registers it under the given name as branch item.
    *
    * @param name The name of the tag to register.
    * @return Reference to just created item.
    *
-   * @details Beneath will create a tag intended to store a single item without a possibility to
-   * remove.
+   * @details A branch item is an item which is normally shown in top-level item hierarchies, but
+   * hidden from property editors. Once cerated, it can't be removed.
    */
   template <typename T>
   T& AddBranch(const std::string& name);
@@ -58,8 +58,8 @@ public:
    * @param name The name of the tag to register.
    * @return Reference to just created item.
    *
-   * @details A property item is an item with the following features: it can't be removed, it
-   * appears in property editors, it doesn't appear in a list of top-level items.
+   * @details A property item is an item which is normally hidden in top-level item hierarchies, but
+   * shown in property editors. Once cerated, it can't be removed.
    */
   template <typename T>
   T& AddProperty(const std::string& name);
@@ -105,7 +105,7 @@ public:
 };
 
 template <typename T>
-T &CompoundItem::AddBranch(const std::string& name)
+T& CompoundItem::AddBranch(const std::string& name)
 {
   RegisterTag(TagInfo::CreatePropertyTag(name, T().GetType()));
   auto result = InsertItem<T>({name, 0});
@@ -113,8 +113,10 @@ T &CompoundItem::AddBranch(const std::string& name)
 }
 
 template <typename T>
-T &CompoundItem::AddProperty(const std::string& name)
+T& CompoundItem::AddProperty(const std::string& name)
 {
+  // A property item is a branch with additional kProperty flag. Properties are normally shown in
+  // property editors and hidden in top-level-items editors.
   auto& result = AddBranch<T>(name);
   result.SetDisplayName(name);
   result.SetFlag(Appearance::kProperty, true);

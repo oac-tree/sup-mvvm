@@ -172,12 +172,10 @@ In file `GaussianItem.h`::
 In file `GaussianItem.cpp`::
 
   static const std::string kMean = "kMean";
-  static const std::string kStdDev = "kStdDev";
 
   GaussianItem::GaussianItem() : CompoundItem("GaussianItem")
   {
     AddProperty(kMean, 0.0)->SetDisplayName("Mean");
-    AddProperty(kStdDev, 1.0)->SetDisplayName("StdDev");
   }
 
   double GaussianItem::GetMean() const

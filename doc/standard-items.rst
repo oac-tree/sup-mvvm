@@ -1,6 +1,9 @@
 Standard items
 ==============
 
+.. doxygenclass:: mvvm::PropertyItem
+  :members:
+
 .. doxygenclass:: mvvm::VectorItem
   :members:
 
