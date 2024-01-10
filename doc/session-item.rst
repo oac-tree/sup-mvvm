@@ -103,7 +103,7 @@ any child to `SessionItem`, the container has to be created and its properties
 defined.
 
 The ``TagInfo`` class
--------------------
+---------------------
 
 The ``TagInfo`` specifies information about children that can be added to a
 ``SessionItem``. A ``TagInfo`` has a name, min, max allowed number of children, and
@@ -131,7 +131,7 @@ for items to be inserted. In another example, we define a tag with the name
   // item.RegisterTag(TagInfo::CreatePropertyTag("Position", VectorItem::Type));
 
 The ``TagIndex`` class
---------------------
+----------------------
 
 The ``TagIndex`` class is a simple aggregate carrying a string with container
 name, and an index indicating the position in the container::

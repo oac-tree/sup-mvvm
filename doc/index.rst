@@ -1,22 +1,23 @@
 The model-view-viewmodel library of generic UI components
 =========================================================
 
-Collection of C++/Qt common components for Operational Application User Interfaces.
+**sup-mvvm** is a C++/Qt library of common components to build large scale standalone graphical user
+interfaces.
+
+The library is created as a part of the ITER CODAC Operation Applications
+and will be mainly consumed by the Supervision and Automation System (SUP) and the Pulse
+Schedule Preparation System (PSPS).
 
 .. toctree::
   :maxdepth: 1
   :caption: Contents:
 
-  Introduction <self>
+  overview
   installation
   quick-start
-  context
   main-components
-  features
-  api_reference
 
-Indices and tables
-==================
+Indices
+=======
 
 * :ref:`genindex`
-* :ref:`search`
