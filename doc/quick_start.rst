@@ -25,6 +25,3 @@ Minimal example to create a model, populate it with the content, and then edit i
   // After editing is complete, save the content in the XML file.
   XmlDocument document({&model});
   document.save("filename.xml");
-
-.. contents::
-   :local:

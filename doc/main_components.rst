@@ -4,8 +4,8 @@ Main components
 .. toctree::
   :maxdepth: 1
 
-  session-item
-  compound-item
-  standard-items
+  session_item
+  compound_item
+  standard_items
   sessionmodel
 

@@ -14,10 +14,6 @@ Schedule Preparation System (PSPS).
 
   overview
   installation
-  quick-start
-  main-components
-
-Indices
-=======
-
-* :ref:`genindex`
+  quick_start
+  main_components
+  api_reference
