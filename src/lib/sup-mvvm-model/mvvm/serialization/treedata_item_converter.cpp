@@ -73,7 +73,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
 
     if (item_type != item.GetType())
     {
-      throw std::runtime_error("Item model mismatch");
+      throw RuntimeException("Error in TreeDataItemConverter: item model mismatch");
     }
 
     auto item_data = m_itemdata_converter->ToSessionItemData(tree_data.Children().at(0));
@@ -122,7 +122,7 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData
 {
   if (!IsSessionItemConvertible(tree_data))
   {
-    throw std::runtime_error("Error in TreeDataItemConverter: uncompatible TreeData");
+    throw RuntimeException("Error in TreeDataItemConverter: uncompatible TreeData");
   }
 
   auto model_type = tree_data.GetAttribute(kTypelAttributeKey);

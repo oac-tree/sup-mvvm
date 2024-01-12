@@ -293,7 +293,7 @@ TEST_F(SessionItemTests, RegisterTag)
   EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("tagname")), RuntimeException);
 
   // registering empty tag is forbidden
-  EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("")), std::runtime_error);
+  EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("")), RuntimeException);
 }
 
 //! Registering tag and setting it as default

@@ -22,7 +22,7 @@
 #include "project_manager.h"
 #include "project_types.h"
 
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace
 {
@@ -85,7 +85,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
         project_manager->CloseCurrentProject();
         return kSucceeded;
       default:
-        throw std::runtime_error("Error in ProjectManager: unexpected answer.");
+        throw RuntimeException("Error in ProjectManager: unexpected answer.");
       }
     }
     return kSucceeded;
@@ -96,7 +96,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   {
     if (!m_user_context.m_answer_callback)
     {
-      throw std::runtime_error("Error in ProjectManager: absent save_callback");
+      throw RuntimeException("Error in ProjectManager: absent save_callback");
     }
     return m_user_context.m_answer_callback();
   }
@@ -106,7 +106,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   {
     if (!m_user_context.m_create_dir_callback)
     {
-      throw std::runtime_error("Error in ProjectManager: absent creat_dir callback.");
+      throw RuntimeException("Error in ProjectManager: absent creat_dir callback.");
     }
     return m_user_context.m_create_dir_callback();
   }
@@ -116,7 +116,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   {
     if (!m_user_context.m_select_dir_callback)
     {
-      throw std::runtime_error("Error in ProjectManager: absent open_dir callback.");
+      throw RuntimeException("Error in ProjectManager: absent open_dir callback.");
     }
     return m_user_context.m_select_dir_callback();
   }

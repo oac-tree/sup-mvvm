@@ -26,8 +26,6 @@
 #include <mvvm/model/sessionitem_container.h>
 #include <mvvm/model/taginfo.h>
 
-#include <stdexcept>
-
 namespace
 {
 const std::string kItemContainerElementType = "ItemContainer";
@@ -48,7 +46,7 @@ std::unique_ptr<SessionItemContainer> ToSessionItemContainer(const TreeData &tre
 {
   if (!IsItemContainerConvertible(tree_data))
   {
-    throw std::runtime_error("Error in SessionItemContainerConverter: invalid TreeData");
+    throw RuntimeException("Error in SessionItemContainerConverter: invalid TreeData");
   }
 
   auto tag_info = ToTagInfo(tree_data.Children().at(0));
@@ -63,12 +61,12 @@ void PopulateSessionItemContainer(const TreeData &tree_data, SessionItemContaine
 {
   if (!IsItemContainerConvertible(tree_data))
   {
-    throw std::runtime_error("Error in SessionItemContainerConverter: invalid TreeData");
+    throw RuntimeException("Error in SessionItemContainerConverter: invalid TreeData");
   }
 
   if (!container.IsEmpty())
   {
-    throw std::runtime_error("Error in PopulateSessionItemContainer: container is not empty.");
+    throw RuntimeException("Error in PopulateSessionItemContainer: container is not empty");
   }
 
   // first child in TreeData corresponds to TagInfo which has been already processed

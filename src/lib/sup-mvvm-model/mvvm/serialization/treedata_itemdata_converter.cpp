@@ -22,9 +22,8 @@
 #include "treedata.h"
 #include "treedata_variant_converter.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem_data.h>
-
-#include <stdexcept>
 
 namespace
 {
@@ -59,7 +58,9 @@ void TreeDataItemDataConverter::PopulateItemData(const TreeData &tree_data,
 {
   if (!IsSessionItemDataConvertible(tree_data))
   {
-    throw std::runtime_error("Given TreeData can't be converted in SessionItemData object");
+    throw RuntimeException(
+        "Error in TreeDataItemDataConverter: given TreeData can't be converted in SessionItemData "
+        "object");
   }
 
   // In the future filtering of roles will be implemented

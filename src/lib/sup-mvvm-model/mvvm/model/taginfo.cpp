@@ -19,10 +19,10 @@
 
 #include "taginfo.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <sstream>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -36,7 +36,7 @@ TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> it
     std::ostringstream ostr;
     ostr << "Invalid constructor parameters"
          << " " << m_name << " " << m_min << " " << m_max;
-    throw std::runtime_error(ostr.str());
+    throw RuntimeException(ostr.str());
   }
 }
 
