@@ -19,12 +19,12 @@
 
 #include "mvvm/model/item_pool.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem.h>
 
 #include <gtest/gtest.h>
 
 #include <memory>
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -70,7 +70,7 @@ TEST_F(ItemPoolTests, RegisterItem)
 
   // attempt to register item twice
   const std::string key3("abc3");
-  EXPECT_THROW(pool->RegisterItem(item2.get(), key3), std::runtime_error);
+  EXPECT_THROW(pool->RegisterItem(item2.get(), key3), RuntimeException);
 }
 
 //! Explicit item de-registrations.
@@ -97,7 +97,7 @@ TEST_F(ItemPoolTests, DeregisterItem)
   EXPECT_EQ(item2.get(), pool->ItemForKey(key2));
 
   // attempt to deregister twice
-  EXPECT_THROW(pool->UnregisterItem(item1.get()), std::runtime_error);
+  EXPECT_THROW(pool->UnregisterItem(item1.get()), RuntimeException);
 
   // deregistering last remaining item
   pool->UnregisterItem(item2.get());
@@ -108,17 +108,15 @@ TEST_F(ItemPoolTests, DeregisterItem)
 
 TEST_F(ItemPoolTests, CustomKey)
 {
-  std::shared_ptr<ItemPool> pool(new ItemPool);
+  auto pool = std::make_shared<ItemPool>();
   EXPECT_EQ(pool.use_count(), 1L);
 
   // explicit item registration
   const ItemPool::identifier_t id("abc-cde-fgh");
-  auto item = new SessionItem;
-  pool->RegisterItem(item, id);
+  auto item = std::make_unique<SessionItem>();
+  pool->RegisterItem(item.get(), id);
 
   // attempt to reuse key again
-  std::unique_ptr<SessionItem> item2(new SessionItem);
-  EXPECT_THROW(pool->RegisterItem(item2.get(), id), std::runtime_error);
-
-  delete item;
+  auto item2 = std::make_unique<SessionItem>();
+  EXPECT_THROW(pool->RegisterItem(item2.get(), id), RuntimeException);
 }

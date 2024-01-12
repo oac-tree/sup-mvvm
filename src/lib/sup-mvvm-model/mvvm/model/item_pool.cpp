@@ -19,7 +19,7 @@
 
 #include "item_pool.h"
 
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -28,7 +28,7 @@ size_t ItemPool::GetSize() const
 {
   if (m_key_to_item.size() != m_item_to_key.size())
   {
-    throw std::runtime_error("Error in ItemPool: array size mismatch");
+    throw RuntimeException("Error in ItemPool::GetSize(): array size mismatch");
   }
   return m_key_to_item.size();
 }
@@ -38,12 +38,13 @@ void ItemPool::RegisterItem(SessionItem* item, ItemPool::identifier_t key)
 {
   if (m_item_to_key.find(item) != m_item_to_key.end())
   {
-    throw std::runtime_error("Attempt to register already registered item.");
+    throw RuntimeException(
+        "Error in ItemPool::RegisterItem(): attempt to register already registered item.");
   }
 
   if (m_key_to_item.find(key) != m_key_to_item.end())
   {
-    throw std::runtime_error("Attempt to reuse existing key");
+    throw RuntimeException("Error in ItemPool::RegisterItem(): attempt to reuse existing key");
   }
 
   m_key_to_item.insert(std::make_pair(key, item));
@@ -52,28 +53,29 @@ void ItemPool::RegisterItem(SessionItem* item, ItemPool::identifier_t key)
 
 void ItemPool::UnregisterItem(SessionItem* item)
 {
-  auto it = m_item_to_key.find(item);
-  if (it == m_item_to_key.end())
+  auto iter = m_item_to_key.find(item);
+  if (iter == m_item_to_key.end())
   {
-    throw std::runtime_error("Attempt to deregister non existing item.");
+    throw RuntimeException(
+        "Error in ItemPool::UnregisterItem: attempt to deregister non existing item.");
   }
-  auto key = it->second;
-  m_item_to_key.erase(it);
+  auto key = iter->second;
+  m_item_to_key.erase(iter);
 
-  auto it2 = m_key_to_item.find(key);
-  m_key_to_item.erase(it2);
+  auto iter2 = m_key_to_item.find(key);
+  m_key_to_item.erase(iter2);
 }
 
 ItemPool::identifier_t ItemPool::KeyForItem(const SessionItem* item) const
 {
-  const auto it = m_item_to_key.find(item);
-  return it == m_item_to_key.end() ? identifier_t() : it->second;
+  const auto iter = m_item_to_key.find(item);
+  return iter == m_item_to_key.end() ? identifier_t() : iter->second;
 }
 
 SessionItem* ItemPool::ItemForKey(const ItemPool::identifier_t& key) const
 {
-  auto it = m_key_to_item.find(key);
-  return it == m_key_to_item.end() ? nullptr : it->second;
+  auto iter = m_key_to_item.find(key);
+  return iter == m_key_to_item.end() ? nullptr : iter->second;
 }
 
 }  // namespace mvvm

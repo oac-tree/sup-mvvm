@@ -20,6 +20,7 @@
 #include "external_property.h"
 
 #include <mvvm/utils/string_utils.h>
+#include <mvvm/core/exceptions.h>
 
 #include <sstream>
 #include <tuple>
@@ -104,7 +105,7 @@ ExternalProperty ExternalProperty::CreateFromString(const std::string& text)
   auto parts = utils::SplitString(text, delim);
   if (parts.size() != 3)
   {
-    throw std::runtime_error("Error in ExternalProperty: malformed string");
+    throw RuntimeException("Error in ExternalProperty: malformed string");
   }
   return {parts.at(0), parts.at(1), parts.at(2)};
 }
