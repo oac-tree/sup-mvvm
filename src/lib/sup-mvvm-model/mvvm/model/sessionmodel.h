@@ -20,19 +20,20 @@
 #ifndef MVVM_MODEL_SESSIONMODEL_H_
 #define MVVM_MODEL_SESSIONMODEL_H_
 
-#include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/model/sessionitem.h>
 
 #include <memory>
 
 namespace mvvm
 {
-class SessionItem;
-class ItemFactoryInterface;
-class ItemPool;
 
-//! Main class to hold hierarchy of SessionItem objects.
+class SessionItem;
+class ItemPool;
+class ModelComposerInterface;
+
+/**
+ * @brief The SessionModel class is the main model to hold hierarchy of SessionItem objects.
+ */
 
 class MVVM_MODEL_EXPORT SessionModel : public SessionModelInterface
 {
