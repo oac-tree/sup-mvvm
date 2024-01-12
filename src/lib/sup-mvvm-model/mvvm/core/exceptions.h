@@ -29,8 +29,9 @@
 namespace mvvm
 {
 
-//! Base Exception class with message.
-
+/**
+ * @brief The MessageException class is a base exception with the message.
+ */
 class MessageException : public std::exception
 {
 public:
@@ -41,55 +42,64 @@ private:
   std::string message;
 };
 
-//! Generic error happening at runtime.
-
+/**
+ * @brief The RuntimeException class shall be used for generic errors happening at runtime.
+ */
 class RuntimeException : public MessageException
 {
 public:
   explicit RuntimeException(const std::string& message);
 };
 
-//! Exception is thrown when no such key exists in a map.
-
+/**
+ * @brief The KeyNotFoundException class shall be used on non-existing key in a map.
+ */
 class KeyNotFoundException : public MessageException
 {
 public:
   explicit KeyNotFoundException(const std::string& message);
 };
 
-//! Exception is thrown when such key already exists in the map.
-
+/**
+ * @brief The ExistingKeyException class shall be used when the key already exists in the
+ * map.
+ */
 class ExistingKeyException : public MessageException
 {
 public:
   explicit ExistingKeyException(const std::string& message);
 };
 
-//! Exception is thrown when the argument is nullptr.
-
+/**
+ * @brief The NullArgumentException class shall be used when the argument is nullptr.
+ */
 class NullArgumentException : public MessageException
 {
 public:
   explicit NullArgumentException(const std::string& message);
 };
 
-//! Exception is thrown when code is not implemented.
-
+/**
+ * @brief The NotImplementedException class shall be used when code is not implemented.
+ */
 class NotImplementedException : public MessageException
 {
 public:
   explicit NotImplementedException(const std::string& message);
 };
 
-//! Exception is thrown on attempt to perform ivalid operation.
-
+/**
+ * @brief The InvalidOperationException class shall be used on attempt to perform invalid operation.
+ */
 class InvalidOperationException : public MessageException
 {
 public:
   explicit InvalidOperationException(const std::string& message);
 };
 
-//! Exception is thrown when faulty logic is discovered.
+/**
+ * @brief The LogicErrorException class shall be used when faulty logic is discovered.
+ */
 class LogicErrorException : public MessageException
 {
 public:
