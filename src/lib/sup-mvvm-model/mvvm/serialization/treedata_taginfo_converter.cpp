@@ -21,11 +21,11 @@
 
 #include "treedata.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <algorithm>
-#include <stdexcept>
 
 // ----------------------------------------------------------------------------
 // Declarations of constants and helper methods in anonymous namespace.
@@ -68,7 +68,7 @@ TagInfo ToTagInfo(const TreeData &tree_data)
 {
   if (!IsTagInfoConvertible(tree_data))
   {
-    throw std::runtime_error("Error in variant converter: invalid TreeData object.");
+    throw RuntimeException("Error in variant converter: invalid TreeData object.");
   }
 
   int min = std::stoi(tree_data.GetAttribute(kMinAttributeKey));

@@ -21,10 +21,10 @@
 
 #include "treedata.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
-
-#include <stdexcept>
 
 // ----------------------------------------------------------------------------
 // Declarations of helper methods and constants in anonymous namespace.
@@ -69,7 +69,7 @@ void WriteToXMLFile(const std::string &file_name, const TreeData &tree_data)
   // Create a new XmlWriter for uri, with no compression.
   writer = xmlNewTextWriterFilename(file_name.c_str(), 0);
   if (!writer)
-    throw std::runtime_error("Error creating the XML writer");
+    throw RuntimeException("Error creating the XML writer");
   SetupWriterIndentation(writer);
 
   xmlTextWriterStartDocument(writer, nullptr, "UTF-8", nullptr);
@@ -91,14 +91,14 @@ std::string GetXMLString(const TreeData &tree_data)
   buf = xmlBufferCreate();
   if (!buf)
   {
-    throw std::runtime_error("testXmlwriterMemory: Error creating the xml buffer");
+    throw RuntimeException("testXmlwriterMemory: Error creating the xml buffer");
   }
 
   // Create a new XmlWriter for memory, with no compression.
   writer = xmlNewTextWriterMemory(buf, 0);
   if (!writer)
   {
-    throw std::runtime_error("testXmlwriterMemory: Error creating the xml writer");
+    throw RuntimeException("testXmlwriterMemory: Error creating the xml writer");
   }
   SetupWriterIndentation(writer);
 
@@ -126,14 +126,14 @@ void AddTreeData(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data)
 {
   if (tree_data.GetType().empty())
   {
-    throw std::runtime_error("Error in AddTreeData: missed type in TreeData.");
+    throw mvvm::RuntimeException("Error in AddTreeData: missed type in TreeData.");
   }
 
   // opening element
   int rc = xmlTextWriterStartElement(writer, FromString(tree_data.GetType()));
   if (rc < 0)
   {
-    throw std::runtime_error("testXmlwriterFilename: Error at xmlTextWriterStartElement");
+    throw mvvm::RuntimeException("testXmlwriterFilename: Error at xmlTextWriterStartElement");
   }
 
   // writing attribute
@@ -145,7 +145,7 @@ void AddTreeData(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data)
     rc = xmlTextWriterWriteString(writer, FromString(tree_data.GetContent()));
     if (rc < 0)
     {
-      throw std::runtime_error("Error in xmlTextWriterWriteString");
+      throw mvvm::RuntimeException("Error in xmlTextWriterWriteString");
     }
   }
 
@@ -159,7 +159,7 @@ void AddTreeData(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data)
   rc = xmlTextWriterEndElement(writer);
   if (rc < 0)
   {
-    throw std::runtime_error("testXmlwriterFilename: Error at xmlTextWriterEndElement");
+    throw mvvm::RuntimeException("testXmlwriterFilename: Error at xmlTextWriterEndElement");
   }
 }
 
@@ -170,7 +170,7 @@ void AddTreeAttributes(xmlTextWriterPtr writer, const mvvm::TreeData &tree_data)
     int rc = xmlTextWriterWriteAttribute(writer, FromString(attr.first), FromString(attr.second));
     if (rc < 0)
     {
-      throw std::runtime_error("testXmlwriterFilename: Error at xmlTextWriterWriteAttribute");
+      throw mvvm::RuntimeException("testXmlwriterFilename: Error at xmlTextWriterWriteAttribute");
     }
   }
 }

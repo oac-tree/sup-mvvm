@@ -19,6 +19,7 @@
 
 #include "mvvm/serialization/xml_parse_utils.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
@@ -35,7 +36,7 @@ class XMLParseUtilsTests : public ::testing::Test
 
 TEST_F(XMLParseUtilsTests, ParseXMLDataString_EmptyString)
 {
-  EXPECT_THROW(mvvm::ParseXMLDataString(""), std::runtime_error);
+  EXPECT_THROW(mvvm::ParseXMLDataString(""), RuntimeException);
 
   // empty xml file with default root node
   auto tree = mvvm::ParseXMLDataString(mvvm::test::CreateXMLDocumentString(""));

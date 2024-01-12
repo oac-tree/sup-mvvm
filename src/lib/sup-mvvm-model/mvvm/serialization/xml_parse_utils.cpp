@@ -21,11 +21,10 @@
 
 #include "xml_parse_utils.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/core/filesystem.h>
 
 #include <libxml/parser.h>
-
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -44,13 +43,13 @@ std::unique_ptr<TreeData> ParseXMLDataFile(const std::string &filename)
   // Read file into xmlDocPtr
   if (!std::filesystem::exists(filename))
   {
-    throw std::runtime_error("Error in ParseXMLDataFile: files '" + filename + "' doesn't exist");
+    throw RuntimeException("Error in ParseXMLDataFile: files '" + filename + "' doesn't exist");
   }
 
   xmlDocPtr doc = xmlParseFile(filename.c_str());
   if (doc == nullptr)
   {
-    throw std::runtime_error("Error in ParseXMLDataFile: parse error");
+    throw RuntimeException("Error in ParseXMLDataFile: parse error");
   }
 
   return ParseXMLDoc(doc);
@@ -63,7 +62,7 @@ std::unique_ptr<TreeData> ParseXMLDataString(const std::string &xml_str)
   auto xml_head = xml_str.substr(0, 1024);
   if (doc == nullptr)
   {
-    throw std::runtime_error("Error in ParseXMLDataFile: parse error");
+    throw RuntimeException("Error in ParseXMLDataFile: parse error");
   }
 
   return ParseXMLDoc(doc);
@@ -80,7 +79,7 @@ std::unique_ptr<TreeData> ParseXMLElementString(const std::string &xml_str)
   auto xml_head = xml_str.substr(0, 1024);
   if (doc == nullptr)
   {
-    throw std::runtime_error("Error in ParseXMLDataFile: parse error");
+    throw RuntimeException("Error in ParseXMLDataFile: parse error");
   }
 
   return ParseXMLDoc(doc);
@@ -92,7 +91,7 @@ static std::unique_ptr<TreeData> ParseXMLDoc(xmlDocPtr doc)
   xmlNodePtr root_node = xmlDocGetRootElement(doc);
   if (root_node == nullptr)
   {
-    throw std::runtime_error("Error in ParseXMLDataFile: couldn't retrieve root element");
+    throw RuntimeException("Error in ParseXMLDataFile: couldn't retrieve root element");
   }
 
   auto data_tree = ParseDataTree(doc, root_node);

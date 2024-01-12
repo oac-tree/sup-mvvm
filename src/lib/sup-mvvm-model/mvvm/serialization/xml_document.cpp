@@ -24,9 +24,8 @@
 #include "xml_parse_utils.h"
 #include "xml_write_utils.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
-
-#include <stdexcept>
 
 namespace
 {
@@ -71,7 +70,7 @@ void XmlDocument::Load(const std::string& file_name)
   auto document_tree = ParseXMLDataFile(file_name);
   if (document_tree->GetType() != kDocumentElementType)
   {
-    throw std::runtime_error(
+    throw RuntimeException(
         "Error in XmlDocument: given XML doesn't containt correct entry element");
   }
 

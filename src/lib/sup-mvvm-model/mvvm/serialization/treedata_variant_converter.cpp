@@ -21,11 +21,11 @@
 
 #include "treedata.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <functional>
-#include <stdexcept>
 
 // ----------------------------------------------------------------------------
 // Declarations of constants and helper methods in anonymous namespace.
@@ -110,15 +110,14 @@ datarole_t ToDataRole(const TreeData& tree_data)
 
   if (!IsDataRoleConvertible(tree_data))
   {
-    throw std::runtime_error("Error in variant converter: invalid TreeData object.");
+    throw RuntimeException("Error in variant converter: invalid TreeData object");
   }
 
   const auto type_name = GetTypeName(tree_data);
   auto it = converters.find(type_name);
   if (it == converters.end())
   {
-    throw std::runtime_error("Error in variant converter: can't find type name '" + type_name
-                             + "'");
+    throw RuntimeException("Error in variant converter: can't find type name [" + type_name + "]");
   }
 
   return it->second.treedata_to_datarole(tree_data);
@@ -133,8 +132,7 @@ TreeData ToTreeData(const datarole_t& data_role)
   auto it = converters.find(type_name);
   if (it == converters.end())
   {
-    throw std::runtime_error("Error in variant converter: can't find type name '" + type_name
-                             + "'");
+    throw RuntimeException("Error in variant converter: can't find type name [" + type_name + "]");
   }
   return it->second.datarole_to_treedata(data_role);
 }
@@ -158,7 +156,7 @@ int GetRole(const mvvm::TreeData& tree_data)
 {
   if (!tree_data.HasAttribute(kRoleAttributeKey))
   {
-    throw std::runtime_error("Error in variant converter: absent 'role' attribute.");
+    throw mvvm::RuntimeException("Error in variant converter: absent [role] attribute");
   }
   return std::stoi(tree_data.GetAttribute(kRoleAttributeKey));
 }
@@ -167,7 +165,7 @@ std::string GetTypeName(const mvvm::TreeData& tree_data)
 {
   if (!tree_data.HasAttribute(kTypeAttributeKey))
   {
-    throw std::runtime_error("Error in variant converter: absent 'role' attribute.");
+    throw mvvm::RuntimeException("Error in variant converter: absent [role] attribute");
   }
   return tree_data.GetAttribute(kTypeAttributeKey);
 }
@@ -213,7 +211,7 @@ mvvm::datarole_t to_double(const mvvm::TreeData& tree_data)
     T concrete_value(value.value());
     return {mvvm::variant_t(concrete_value), GetRole(tree_data)};
   }
-  throw std::runtime_error("Error in variant converter: malformed double number.");
+  throw mvvm::RuntimeException("Error in variant converter: malformed double number");
 }
 
 mvvm::datarole_t to_vector_double(const mvvm::TreeData& tree_data)

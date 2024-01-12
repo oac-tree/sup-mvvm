@@ -91,12 +91,12 @@ void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
 {
   if (!IsSessionModelConvertible(tree_data))
   {
-    throw std::runtime_error("Error in TreeDataModelConverter: inappropriate TreeData");
+    throw RuntimeException("Error in TreeDataModelConverter: inappropriate TreeData");
   }
 
   if (tree_data.GetAttribute(kTypelAttributeKey) != model.GetType())
   {
-    throw std::runtime_error(
+    throw RuntimeException(
         "Error in TreeDataModelConverter: attempt to reconstruct different model type.");
   }
 

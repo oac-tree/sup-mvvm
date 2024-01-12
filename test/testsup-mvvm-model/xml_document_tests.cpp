@@ -220,5 +220,5 @@ TEST_F(XmlDocumentTests, LoadModelsInWrongOrder)
   XmlDocument document({&model2, &model1});  // intentional wrong order
 
   // loading model from file
-  EXPECT_THROW(document.Load(file_path), std::runtime_error);
+  EXPECT_THROW(document.Load(file_path), RuntimeException);
 }

@@ -61,7 +61,7 @@ TEST_F(TreeDataModelConverterTests, EmptyModelToTreeDataAndBack)
 
   // attempt to reconstruct model of different type.
   SessionModel target1("NewModel");
-  EXPECT_THROW(converter.PopulateSessionModel(*tree_data, target1), std::runtime_error);
+  EXPECT_THROW(converter.PopulateSessionModel(*tree_data, target1), RuntimeException);
 
   // succesfull reconstruction
   SessionModel target2("TestModel");

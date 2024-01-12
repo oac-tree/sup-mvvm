@@ -22,10 +22,9 @@
 #include "treedata.h"
 #include "treedata_item_container_converter.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionitem_container.h>
 #include <mvvm/model/tagged_items.h>
-
-#include <stdexcept>
 
 namespace
 {
@@ -73,7 +72,7 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const TreeData &tree_data
 {
   if (!IsTaggedItemsConvertible(tree_data))
   {
-    throw std::runtime_error("Error in TreeDataTaggedItemsConverter: uncompatible TreeData");
+    throw RuntimeException("Error in TreeDataTaggedItemsConverter: uncompatible TreeData");
   }
 
   tagged_items.SetDefaultTag(tree_data.GetAttribute(kDefaultTagKey));
