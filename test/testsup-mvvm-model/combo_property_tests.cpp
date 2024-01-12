@@ -19,6 +19,8 @@
 
 #include "mvvm/model/combo_property.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
 
 #include <stdexcept>
@@ -73,7 +75,7 @@ TEST_F(ComboPropertyTests, SetValue)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 
   // setting non-existing value
-  EXPECT_THROW(combo.SetValue("c0"), std::runtime_error);
+  EXPECT_THROW(combo.SetValue("c0"), RuntimeException);
   EXPECT_EQ(combo.GetValues(), expected);
   EXPECT_EQ(combo.GetCurrentIndex(), 1);
   EXPECT_EQ(combo.GetValue(), "a2");
@@ -94,7 +96,7 @@ TEST_F(ComboPropertyTests, SetCurrentIndex)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 
   // setting unexpected index
-  EXPECT_THROW(combo.SetCurrentIndex(3), std::runtime_error);
+  EXPECT_THROW(combo.SetCurrentIndex(3), RuntimeException);
   EXPECT_EQ(combo.GetValue(), std::string("c2"));
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 }

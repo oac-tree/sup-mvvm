@@ -19,10 +19,10 @@
 
 #include "combo_property.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <sstream>
-#include <stdexcept>
 
 namespace
 {
@@ -99,10 +99,8 @@ void ComboProperty::SetValue(const std::string& name)
 {
   if (!utils::Contains(m_values, name))
   {
-    throw std::runtime_error(
-        "ComboProperty::setValue() -> Error. Combo doesn't contain "
-        "value "
-        + name);
+    throw RuntimeException("Error in ComboProperty::setValue(): combo doesn't contain value ["
+                           + name + "]");
   }
   SetCurrentIndex(utils::IndexOfItem(m_values, name));
 }
@@ -146,9 +144,7 @@ void ComboProperty::SetCurrentIndex(int index)
 {
   if (index < 0 || index >= static_cast<int>(m_values.size()))
   {
-    throw std::runtime_error(
-        "ComboProperty::setCurrentIndex(int index) -> Error. "
-        "Invalid index");
+    throw RuntimeException("Error in ComboProperty::setCurrentIndex(): invalid index");
   }
   m_selected_indices.clear();
   m_selected_indices.push_back(index);

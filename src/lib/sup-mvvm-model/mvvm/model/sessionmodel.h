@@ -75,7 +75,7 @@ public:
   void CheckOut(SessionItem* item) override;
 
   /**
-   * @brief A tech method which allows to change composer's engine.
+   * @brief Sets internal composer to given value.
    */
   void SetComposer(std::unique_ptr<ModelComposerInterface> composer);
 

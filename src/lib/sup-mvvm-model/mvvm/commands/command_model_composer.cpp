@@ -25,8 +25,6 @@
 
 #include <mvvm/model/sessionitem.h>
 
-#include <stdexcept>
-
 namespace mvvm
 {
 
