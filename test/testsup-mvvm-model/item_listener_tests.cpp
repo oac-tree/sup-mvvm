@@ -47,12 +47,12 @@ TEST_F(ItemListenerTests, SetItem)
 
   // listener can't listen an item without the model
   SessionItem item1;
-  EXPECT_THROW(listener.SetItem(&item1), std::runtime_error);
+  EXPECT_THROW(listener.SetItem(&item1), RuntimeException);
 
   // listener can't listen an item belonging to the model without notifications
   SessionModel session_model;
   auto item2 = session_model.InsertItem<PropertyItem>();
-  EXPECT_THROW(listener.SetItem(item2), std::runtime_error);
+  EXPECT_THROW(listener.SetItem(item2), RuntimeException);
 
   // set proper item
   ApplicationModel app_model;

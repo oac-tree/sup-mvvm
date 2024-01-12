@@ -19,9 +19,10 @@
 
 #include "boolean_editor.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <QCheckBox>
 #include <QHBoxLayout>
-#include <stdexcept>
 
 namespace
 {
@@ -67,7 +68,7 @@ void BoolEditor::UpdateComponents()
   if (GetData().typeId() != QMetaType::Bool)
 #endif
   {
-    throw std::runtime_error("BoolEditor::update_components() -> Error. Wrong variant type");
+    throw RuntimeException("BoolEditor: wrong variant type");
   }
 
   bool value = GetData().value<bool>();

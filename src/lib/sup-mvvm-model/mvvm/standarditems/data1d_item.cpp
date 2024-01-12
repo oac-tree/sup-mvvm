@@ -69,7 +69,7 @@ void Data1DItem::SetValues(const std::vector<double>& data)
 {
   if (total_bin_count(this) != data.size())
   {
-    throw std::runtime_error("Data1DItem::setValues() -> Data doesn't match size of axis");
+    throw RuntimeException("Error in Data1DItem: data doesn't match size of axis");
   }
 
   SetProperty(kValues, data);
@@ -88,7 +88,7 @@ void Data1DItem::SetErrors(const std::vector<double>& errors)
 {
   if (total_bin_count(this) != errors.size())
   {
-    throw std::runtime_error("Data1DItem::setErrors() -> Data doesn't match size of axis");
+    throw RuntimeException("Error in Data1DItem: data doesn't match size of axis");
   }
 
   SetProperty(kErrors, errors);
@@ -111,7 +111,7 @@ void Data1DItem::SetAxis(std::unique_ptr<BinnedAxisItem> axis)
   // we disable possibility to re-create axis to facilitate undo/redo
   if (GetAxis())
   {
-    throw std::runtime_error("Axis was already set. Currently we do not support axis change");
+    throw RuntimeException("Error in Data1DItem: axis was already set");
   }
 
   GetModel() ? GetModel()->InsertItem(std::move(axis), this, {kAxis, 0})

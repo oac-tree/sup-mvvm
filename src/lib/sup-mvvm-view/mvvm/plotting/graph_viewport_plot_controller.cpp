@@ -29,7 +29,6 @@
 #include <qcustomplot.h>
 
 #include <list>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -95,7 +94,8 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl
     {
       if (controller->GetItem() == added_child)
       {
-        throw std::runtime_error("Attempt to create second controller");
+        throw RuntimeException(
+            "Error in GraphViewportPlotController: attempt to create second controller");
       }
     }
 

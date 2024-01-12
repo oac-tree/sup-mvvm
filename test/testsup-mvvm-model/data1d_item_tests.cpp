@@ -19,12 +19,11 @@
 
 #include "mvvm/standarditems/data1d_item.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/axis_items.h>
 
 #include <gtest/gtest.h>
-
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -66,7 +65,7 @@ TEST_F(Data1DItemTests, SetFixedBinAxis)
 
   // setting another axis
   // for the moment we have disabled possibility to re-create axes to faciltate undo/redo
-  EXPECT_THROW(item.SetAxis(FixedBinAxisItem::Create(1, 1.0, 2.0)), std::runtime_error);
+  EXPECT_THROW(item.SetAxis(FixedBinAxisItem::Create(1, 1.0, 2.0)), RuntimeException);
 }
 
 //! Sets fixed bin axis via templated method.
@@ -134,7 +133,7 @@ TEST_F(Data1DItemTests, SetValues)
 
   // check that it is not possible to set content to uninitialized axis
   std::vector<double> expected_content = {1.0, 2.0, 3.0};
-  EXPECT_THROW(item.SetValues(expected_content), std::runtime_error);
+  EXPECT_THROW(item.SetValues(expected_content), RuntimeException);
 
   item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
   item.SetValues(expected_content);
@@ -150,7 +149,7 @@ TEST_F(Data1DItemTests, SetErrors)
   // check that it is not possible to errors to uninitialized axis
   std::vector<double> expected_errors = {10.0, 20.0, 30.0};
 
-  EXPECT_THROW(item.SetErrors(expected_errors), std::runtime_error);
+  EXPECT_THROW(item.SetErrors(expected_errors), RuntimeException);
 
   item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
   item.SetErrors(expected_errors);

@@ -28,7 +28,6 @@
 #include <qcustomplot.h>
 
 #include <QObject>
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -45,7 +44,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
   {
     if (!axis)
     {
-      throw std::runtime_error("AxisPlotController: axis is not initialized.");
+      throw RuntimeException("AxisPlotController: axis is not initialized");
     }
     m_axis_connection = std::make_unique<QMetaObject::Connection>();
   }

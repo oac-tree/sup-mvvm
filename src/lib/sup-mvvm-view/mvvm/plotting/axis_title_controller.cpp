@@ -23,8 +23,6 @@
 
 #include <qcustomplot.h>
 
-#include <stdexcept>
-
 namespace mvvm
 {
 
@@ -36,7 +34,7 @@ struct AxisTitleController::AxisTitleControllerImpl
   {
     if (!axis)
     {
-      throw std::runtime_error("AxisTitleController: axis is not initialized.");
+      throw RuntimeException("AxisTitleController: axis is not initialized.");
     }
   }
 

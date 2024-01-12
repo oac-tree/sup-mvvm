@@ -22,10 +22,11 @@
 #include "custom_event_filters.h"
 #include "editor_helper.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <QColorDialog>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -82,7 +83,7 @@ void ColorEditor::UpdateComponents()
   if (GetData().typeId() != QMetaType::QString)
 #endif
   {
-    throw std::runtime_error("ColorEditor::update_components() -> Error. Wrong variant type");
+    throw RuntimeException("ColorEditor: wrong variant type");
   }
 
   QPixmap pixmap(utils::DefaultPixmapSize(), utils::DefaultPixmapSize());

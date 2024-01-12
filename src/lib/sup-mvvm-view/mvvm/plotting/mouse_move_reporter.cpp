@@ -21,10 +21,11 @@
 
 #include "mouse_pos_info.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <qcustomplot.h>
 
 #include <QMouseEvent>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -38,7 +39,9 @@ struct MouseMoveReporter::MouseMoveReporterImpl
       : reporter(reporter), custom_plot(custom_plot), callback(std::move(callback))
   {
     if (!custom_plot)
-      throw std::runtime_error("MouseMoveReporter: not initialized custom plot.");
+    {
+      throw RuntimeException("MouseMoveReporter: not initialized custom plot");
+    }
 
     custom_plot->setMouseTracking(true);
     set_connected();

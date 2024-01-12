@@ -19,7 +19,7 @@
 
 #include "abstract_editor_factory.h"
 
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -29,7 +29,7 @@ void AbstractEditorFactory::RegisterBuilder(const std::string& name, editorbuild
   auto it = m_name_to_builder.find(name);
   if (it != m_name_to_builder.end())
   {
-    throw std::runtime_error("Error in AbstractEditorFactory: name exists.");
+    throw RuntimeException("AbstractEditorFactory: editor name exists");
   }
 
   m_name_to_builder.insert(it, {name, std::move(builder)});

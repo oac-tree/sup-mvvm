@@ -24,8 +24,6 @@
 
 #include <qcustomplot.h>
 
-#include <stdexcept>
-
 namespace
 {
 template <typename T>
@@ -50,7 +48,7 @@ struct Data1DPlotController::Data1DPlotControllerImpl
   {
     if (!m_graph)
     {
-      throw std::runtime_error("Uninitialised graph in Data1DPlotController");
+      throw RuntimeException("Error in Data1DPlotController: uninitialised graph");
     }
   }
 

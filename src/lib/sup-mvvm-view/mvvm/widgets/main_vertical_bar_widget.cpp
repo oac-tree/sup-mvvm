@@ -19,7 +19,7 @@
 
 #include "main_vertical_bar_widget.h"
 
-#include "fancytab.h"
+#include <mvvm/core/exceptions.h>
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
@@ -123,7 +123,7 @@ void MainVerticalBarWidget::SetCurrentIndex(int index)
   }
   else
   {
-    throw std::runtime_error("Can't find button for index");
+    throw RuntimeException("MainVerticalBarWidget: can't find button for index");
   }
 }
 

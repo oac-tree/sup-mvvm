@@ -19,6 +19,8 @@
 
 #include "string_utils.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <algorithm>
 #include <cctype>
 #include <iomanip>
@@ -101,7 +103,7 @@ bool StringToBool(const std::string& str)
     return false;
   }
 
-  throw std::runtime_error("Can't parse string to bool");
+  throw RuntimeException("Can't parse string to bool");
 }
 
 std::string FromBool(bool value)
@@ -133,7 +135,7 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
   // splitting string following Python's str.split()
   if (delimeter.empty())
   {
-    throw std::runtime_error("Empty delimeter");
+    throw RuntimeException("Empty delimeter");
   }
   if (str.empty())
   {
@@ -177,7 +179,7 @@ std::vector<double> ParseCommaSeparatedDoubles(const std::string& str)
     auto converted = StringToDouble(token);
     if (!converted.has_value())
     {
-      throw std::runtime_error("Error while parsing string of comma separated doubles");
+      throw RuntimeException("Error while parsing string of comma separated doubles");
     }
     result.push_back(converted.value());
   }

@@ -19,6 +19,7 @@
 
 #include "mvvm/editors/abstract_editor_factory.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/editors/custom_editor.h>
 
 #include <gtest/gtest.h>
@@ -56,5 +57,5 @@ TEST_F(AbstractEditorFactoryTest, RegisterBuilder)
   // non existing builder
   EXPECT_FALSE(static_cast<bool>(factory.FindBuilder("edf")));
 
-  EXPECT_THROW(factory.RegisterBuilder("abc", builder), std::runtime_error);
+  EXPECT_THROW(factory.RegisterBuilder("abc", builder), RuntimeException);
 }

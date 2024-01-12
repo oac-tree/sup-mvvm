@@ -19,6 +19,8 @@
 
 #include "mvvm/utils/string_utils.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
 
 namespace
@@ -96,7 +98,7 @@ TEST_F(StringUtilsTests, StringToBool)
   EXPECT_TRUE(StringToBool("True "));
   EXPECT_FALSE(StringToBool(" False"));
 
-  EXPECT_THROW(StringToBool("abc "), std::runtime_error);
+  EXPECT_THROW(StringToBool("abc "), RuntimeException);
 }
 
 TEST_F(StringUtilsTests, FromBool)
@@ -171,7 +173,7 @@ TEST_F(StringUtilsTests, SplitString)
   using utils::SplitString;
   using vec_t = std::vector<std::string>;
 
-  EXPECT_THROW(SplitString("", ""), std::runtime_error);
+  EXPECT_THROW(SplitString("", ""), RuntimeException);
   EXPECT_EQ(SplitString("", " "), toVector());
   EXPECT_EQ(SplitString("", ","), toVector());
   EXPECT_EQ(SplitString(" ", ","), toVector(" "));
@@ -243,7 +245,7 @@ TEST_F(StringUtilsTests, ParseCommaSeparatedDoubles)
   EXPECT_EQ(ParseCommaSeparatedDoubles("1.0"), toVector<double>(1.0));
   EXPECT_EQ(ParseCommaSeparatedDoubles("1.0, 2.0"), toVector<double>(1.0, 2.0));
   EXPECT_EQ(ParseCommaSeparatedDoubles("1.0,2.0"), toVector<double>(1.0, 2.0));
-  EXPECT_THROW(ParseCommaSeparatedDoubles(", 1.0"), std::runtime_error);
+  EXPECT_THROW(ParseCommaSeparatedDoubles(", 1.0"), RuntimeException);
 }
 
 TEST_F(StringUtilsTests, ToComaSeparatedString)

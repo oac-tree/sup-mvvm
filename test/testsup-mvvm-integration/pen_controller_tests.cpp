@@ -25,8 +25,6 @@
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
-#include <stdexcept>
-
 using namespace mvvm;
 
 //! Testing PenController.
@@ -40,7 +38,7 @@ class PenControllerTest : public ::testing::Test
 TEST_F(PenControllerTest, InitialState)
 {
   // Constructor accept valid QCPGraph
-  EXPECT_THROW(PenController(nullptr), std::runtime_error);
+  EXPECT_THROW(PenController(nullptr), RuntimeException);
 
   auto custom_plot = std::make_unique<QCustomPlot>();
   auto graph = custom_plot->addGraph();

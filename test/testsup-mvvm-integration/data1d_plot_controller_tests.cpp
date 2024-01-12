@@ -27,8 +27,6 @@
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
-#include <stdexcept>
-
 using namespace mvvm;
 
 //! Testing Data1DPlotController.
@@ -42,7 +40,7 @@ class Data1DPlotControllerTest : public ::testing::Test
 TEST_F(Data1DPlotControllerTest, InitialState)
 {
   // Constructor accept valid QCPGraph
-  EXPECT_THROW(Data1DPlotController(nullptr), std::runtime_error);
+  EXPECT_THROW(Data1DPlotController(nullptr), RuntimeException);
 
   auto custom_plot = std::make_unique<QCustomPlot>();
   auto graph = custom_plot->addGraph();

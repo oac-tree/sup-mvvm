@@ -23,7 +23,7 @@
 #include "mouse_pos_info.h"
 #include "status_string_formatter_interface.h"
 
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -46,7 +46,9 @@ struct StatusStringReporter::StatusStringReporterImpl
       , fmt(std::move(formatter))
   {
     if (!custom_plot)
-      throw std::runtime_error("StatusStringReporter: not initialized custom plot.");
+    {
+      throw RuntimeException("StatusStringReporter: not initialized custom plot.");
+    }
 
     auto on_mouse_move = [this](const MousePosInfo& pos)
     {

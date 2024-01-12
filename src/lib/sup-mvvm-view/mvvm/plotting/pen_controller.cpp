@@ -26,8 +26,6 @@
 
 #include <qcustomplot.h>
 
-#include <stdexcept>
-
 namespace mvvm
 {
 
@@ -38,7 +36,7 @@ struct PenController::PenControllerImpl
   {
     if (!m_graph)
     {
-      throw std::runtime_error("Error in PenController: uninitialised graph.");
+      throw RuntimeException("Error in PenController: uninitialised graph");
     }
   }
 

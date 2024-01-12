@@ -20,8 +20,7 @@
 #include "file_utils.h"
 
 #include <mvvm/core/filesystem.h>
-
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm::utils
 {
@@ -75,7 +74,7 @@ std::vector<std::string> FindFiles(const std::string& dirname, const std::string
     }
   }
 #else
-  throw std::runtime_error("Sorry, your compiler is too old to use <filesystem>");
+  throw RuntimeException("Sorry, your compiler is too old to use <filesystem>");
 #endif
 
   return result;
