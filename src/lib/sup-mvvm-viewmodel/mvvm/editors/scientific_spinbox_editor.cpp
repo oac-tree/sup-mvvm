@@ -21,10 +21,10 @@
 
 #include "scientific_spinbox.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/utils/numeric_utils.h>
 
 #include <QVBoxLayout>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -89,8 +89,7 @@ void ScientificSpinBoxEditor::UpdateComponents()
   if (GetData().typeId() != QMetaType::Double)
 #endif
   {
-    throw std::runtime_error(
-        "ScientificSpinBoxEditor::UpdateComponents() -> Error. Wrong variant type");
+    throw RuntimeException("ScientificSpinBoxEditor: wrong variant type");
   }
 
   m_double_editor->setValue(GetData().value<double>());

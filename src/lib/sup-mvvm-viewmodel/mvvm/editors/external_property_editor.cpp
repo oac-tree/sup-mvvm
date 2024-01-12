@@ -22,6 +22,7 @@
 #include "custom_event_filters.h"
 #include "editor_helper.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/viewmodel/custom_variants.h>
 
@@ -29,7 +30,6 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QToolButton>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -83,7 +83,7 @@ void ExternalPropertyEditor::UpdateComponents()
 {
   if (!utils::IsExternalPropertyVariant(GetData()))
   {
-    throw std::runtime_error("Error. Wrong variant type (ExternalProperty is required).");
+    throw RuntimeException("ExternalPropertyEditor: wrong variant type");
   }
 
   auto prop = GetData().value<ExternalProperty>();

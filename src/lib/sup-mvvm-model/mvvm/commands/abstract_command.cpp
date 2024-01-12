@@ -52,7 +52,7 @@ void AbstractCommand::Execute()
 {
   if (!p_impl->CanExecute())
   {
-    throw mvvm::RuntimeException("Can't execute the command. Wrong order.");
+    throw RuntimeException("Can't execute the command. Wrong order.");
   }
 
   ExecuteImpl();
@@ -64,7 +64,7 @@ void AbstractCommand::Undo()
 {
   if (!p_impl->CanUndo())
   {
-    throw mvvm::RuntimeException("Can't undo the command. Wrong order.");
+    throw RuntimeException("Can't undo the command. Wrong order.");
   }
 
   UndoImpl();

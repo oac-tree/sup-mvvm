@@ -138,7 +138,7 @@ void ViewModel::ValidateController() const
 {
   if (!m_controller)
   {
-    throw std::runtime_error("Invalid controller");
+    throw RuntimeException("ViewModel: invalid controller");
   }
 }
 

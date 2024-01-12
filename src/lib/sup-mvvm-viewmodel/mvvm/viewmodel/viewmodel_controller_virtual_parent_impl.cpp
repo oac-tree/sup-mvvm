@@ -182,17 +182,17 @@ void ViewModelControllerVirtualParentImpl::CheckInitialState() const
 {
   if (!m_viewmodel)
   {
-    throw std::runtime_error("Error in ViewModewlController: viewmodel is absent");
+    throw RuntimeException("Error in ViewModewlController: viewmodel is absent");
   }
 
   if (!m_children_strategy)
   {
-    throw std::runtime_error("Error in ViewModewlController: children strategy is not defined");
+    throw RuntimeException("Error in ViewModewlController: children strategy is not defined");
   }
 
   if (!m_row_strategy)
   {
-    throw std::runtime_error("Error in ViewModewlController: row strategy is not defined");
+    throw RuntimeException("Error in ViewModewlController: row strategy is not defined");
   }
 }
 

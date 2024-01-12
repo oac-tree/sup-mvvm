@@ -20,8 +20,7 @@
 #include "viewitem_map.h"
 
 #include <mvvm/model/item_utils.h>
-
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -32,7 +31,7 @@ void ViewItemMap::Insert(const SessionItem *const item, ViewItem *const view_ite
   const auto it = m_item_to_view.find(item);
   if (it != m_item_to_view.end())
   {
-    throw std::runtime_error("Error in ViewItemMap: item is already registered");
+    throw RuntimeException("ViewItemMap: item is already registered");
   }
   m_item_to_view.insert(it, {item, view_item});
 }
@@ -52,7 +51,7 @@ void ViewItemMap::Remove(const SessionItem *const item)
   }
   else
   {
-    throw std::runtime_error("Error in ViewItemMap: not exist");
+    throw RuntimeException("ViewItemMap: non-existing item");
   }
 }
 

@@ -21,7 +21,7 @@
 
 #include "viewitem.h"
 
-#include <stdexcept>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -150,7 +150,7 @@ void ViewModelBase::removeRow(ViewItem* parent, int row)
 {
   if (!p_impl->IsItemBelongsToModel(parent))
   {
-    throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
+    throw RuntimeException("Error in ViewModelBase: attempt to use parent from another model");
   }
 
   beginRemoveRows(indexFromItem(parent), row, row);
@@ -162,7 +162,7 @@ void ViewModelBase::clearRows(ViewItem* parent)
 {
   if (!p_impl->IsItemBelongsToModel(parent))
   {
-    throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
+    throw RuntimeException("Error in ViewModelBase: attempt to use parent from another model");
   }
 
   if (!parent->rowCount())
@@ -182,7 +182,7 @@ void ViewModelBase::insertRow(ViewItem* parent, int row,
 {
   if (!p_impl->IsItemBelongsToModel(parent))
   {
-    throw std::runtime_error("Error in ViewModelBase: attempt to use parent from another model");
+    throw RuntimeException("Error in ViewModelBase: attempt to use parent from another model");
   }
 
   beginInsertRows(indexFromItem(parent), row, row);

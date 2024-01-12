@@ -67,7 +67,7 @@ TEST_F(ViewModelTest, InitialState)
   EXPECT_EQ(view_model.rowCount(), 0);
   EXPECT_EQ(view_model.columnCount(), 0);
   EXPECT_EQ(view_model.GetRootSessionItem(), nullptr);
-  EXPECT_THROW(view_model.GetSessionItemFromIndex(QModelIndex()), std::runtime_error);
+  EXPECT_THROW(view_model.GetSessionItemFromIndex(QModelIndex()), RuntimeException);
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
 
   SessionItem item;

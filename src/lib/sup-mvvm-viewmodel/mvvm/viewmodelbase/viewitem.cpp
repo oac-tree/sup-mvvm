@@ -21,10 +21,10 @@
 
 #include "viewitem_data.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <algorithm>
-#include <stdexcept>
 #include <vector>
 
 namespace mvvm
@@ -54,17 +54,17 @@ struct ViewItem::ViewItemImpl
   {
     if (items.empty())
     {
-      throw std::runtime_error("Error in ViewItemImpl: attempt to insert empty row");
+      throw RuntimeException("ViewItem: attempt to insert empty row");
     }
 
     if (m_columns > 0 && items.size() != static_cast<size_t>(m_columns))
     {
-      throw std::runtime_error("Error in ViewItemImpl: wrong number of columns.");
+      throw RuntimeException("ViewItem: wrong number of columns");
     }
 
     if (row < 0 || row > m_rows)
     {
-      throw std::runtime_error("Error in ViewItemImpl: invalid row index.");
+      throw RuntimeException("ViewItem: invalid row index");
     }
 
     m_children.insert(std::next(m_children.begin(), row * m_columns),
@@ -80,7 +80,7 @@ struct ViewItem::ViewItemImpl
   {
     if (row < 0 || row >= m_rows)
     {
-      throw std::runtime_error("Error in ViewItem: invalid row index.");
+      throw RuntimeException("Error in ViewItem: invalid row index.");
     }
 
     auto begin = std::next(m_children.begin(), row * m_columns);
@@ -98,12 +98,12 @@ struct ViewItem::ViewItemImpl
   {
     if (row < 0 || row >= m_rows)
     {
-      throw std::runtime_error("Error in ViewItem: wrong row)");
+      throw RuntimeException("ViewItem: wrong row");
     }
 
     if (column < 0 || column >= m_columns)
     {
-      throw std::runtime_error("Error in ViewItem: wrong column)");
+      throw RuntimeException("ViewItem: wrong column");
     }
 
     return m_children.at(static_cast<size_t>(column + row * m_columns)).get();

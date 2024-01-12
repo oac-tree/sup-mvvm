@@ -20,10 +20,9 @@
 #include "mvvm/viewmodelbase/viewitem.h"
 
 #include <mvvm/test/test_utils.h>
+#include <mvvm/core/exceptions.h>
 
 #include <gtest/gtest.h>
-
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -59,7 +58,7 @@ TEST_F(ViewItemTest, InitialState)
   EXPECT_EQ(view_item.row(), -1);
   EXPECT_EQ(view_item.column(), -1);
   EXPECT_EQ(view_item.parent(), nullptr);
-  EXPECT_THROW(view_item.child(0, 0), std::runtime_error);
+  EXPECT_THROW(view_item.child(0, 0), RuntimeException);
   EXPECT_NE(view_item.item(), nullptr);  // has ViewItemData on board
 }
 
@@ -77,7 +76,7 @@ TEST_F(ViewItemTest, AppendRow)
   EXPECT_EQ(view_item.rowCount(), 1);
   EXPECT_EQ(view_item.columnCount(), 1);
   EXPECT_EQ(view_item.child(0, 0), expected[0]);
-  EXPECT_THROW(view_item.child(0, 1), std::runtime_error);
+  EXPECT_THROW(view_item.child(0, 1), RuntimeException);
 
   // checking appended child
   EXPECT_EQ(expected[0]->parent(), &view_item);
@@ -120,7 +119,7 @@ TEST_F(ViewItemTest, AppendTwoRows)
   EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
   EXPECT_EQ(view_item.child(1, 0), expected_row1[0]);
   EXPECT_EQ(view_item.child(1, 1), expected_row1[1]);
-  EXPECT_THROW(view_item.child(2, 2), std::runtime_error);
+  EXPECT_THROW(view_item.child(2, 2), RuntimeException);
 
   // checking parents
   EXPECT_EQ(expected_row0[0]->parent(), &view_item);
@@ -140,7 +139,7 @@ TEST_F(ViewItemTest, AppendTwoRows)
 
   // attempt to add row with different amount of children should fail
   auto [children_row2, expected_row2] = GetTestData(/*ncolumns*/ 1);
-  EXPECT_THROW(view_item.appendRow(std::move(children_row2)), std::runtime_error);
+  EXPECT_THROW(view_item.appendRow(std::move(children_row2)), RuntimeException);
   EXPECT_EQ(view_item.rowCount(), 2);
   EXPECT_EQ(view_item.columnCount(), 2);
 }
