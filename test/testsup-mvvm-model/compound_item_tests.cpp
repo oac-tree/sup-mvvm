@@ -244,7 +244,7 @@ TEST_F(CompoundItemTests, AddBranch)
   auto& branch1 = item.AddBranch<CompoundItem>("branch1");
 
   // it is not possible to add another branch with same name
-  EXPECT_THROW(item.AddBranch<CompoundItem>("branch0"), std::runtime_error);
+  EXPECT_THROW(item.AddBranch<CompoundItem>("branch0"), RuntimeException);
 
   EXPECT_EQ(utils::TopLevelItems(item), std::vector<SessionItem*>({&branch0, &branch1}));
   EXPECT_EQ(utils::SinglePropertyItems(item), std::vector<SessionItem*>({&property0, &property1}));

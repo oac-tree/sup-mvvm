@@ -78,7 +78,7 @@ TEST_F(TaggedItemsTests, RegisterTag)
   EXPECT_EQ(items.GetDefaultTag(), "abc2");
 
   // registering tag with same name is not allowed
-  EXPECT_THROW(items.RegisterTag(TagInfo::CreateUniversalTag("abc")), std::runtime_error);
+  EXPECT_THROW(items.RegisterTag(TagInfo::CreateUniversalTag("abc")), RuntimeException);
 }
 
 //! Testing ::canInsertItem.
@@ -132,7 +132,7 @@ TEST_F(TaggedItemsTests, InsertItem)
 
   // inserting items without tags defined
   auto item = std::make_unique<SessionItem>();
-  EXPECT_THROW(items.InsertItem(std::move(item), TagIndex::Append()), std::runtime_error);
+  EXPECT_THROW(items.InsertItem(std::move(item), TagIndex::Append()), RuntimeException);
 
   // registering tags
   items.RegisterTag(TagInfo::CreateUniversalTag(tag1));

@@ -290,7 +290,7 @@ TEST_F(SessionItemTests, RegisterTag)
   EXPECT_TRUE(utils::HasTag(item, "tagname"));
 
   // registering of tag with same name forbidden
-  EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("tagname")), std::runtime_error);
+  EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("tagname")), RuntimeException);
 
   // registering empty tag is forbidden
   EXPECT_THROW(item.RegisterTag(TagInfo::CreateUniversalTag("")), std::runtime_error);

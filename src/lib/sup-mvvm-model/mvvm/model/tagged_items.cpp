@@ -24,8 +24,6 @@
 
 #include <mvvm/core/exceptions.h>
 
-#include <stdexcept>
-
 namespace mvvm
 {
 
@@ -37,8 +35,7 @@ void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 {
   if (HasTag(tag_info.GetName()))
   {
-    throw std::runtime_error("SessionItemTags::registerTag() -> Error. Existing name '"
-                             + tag_info.GetName() + "'");
+    throw RuntimeException("Error in TaggedItems: existing name [" + tag_info.GetName() + "]");
   }
 
   m_containers.emplace_back(std::make_unique<SessionItemContainer>(tag_info));
@@ -157,7 +154,7 @@ TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
 {
   for (auto& cont : m_containers)
   {
-    int index = cont->IndexOfItem(item);
+    const int index = cont->IndexOfItem(item);
     if (index != -1)
     {
       return {cont->GetName(), index};
@@ -186,7 +183,7 @@ SessionItemContainer& TaggedItems::ContainerAt(int index)
 {
   if (index < 0 || index >= GetTagCount())
   {
-    throw std::runtime_error("Error it SessionItemTags: wrong container index");
+    throw RuntimeException("Error it SessionItemTags: wrong container index");
   }
   return *m_containers.at(index);
 }
@@ -212,12 +209,11 @@ std::unique_ptr<TaggedItems> TaggedItems::Clone(bool make_unique_id) const
 
 SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) const
 {
-  std::string tagName = tag_name.empty() ? GetDefaultTag() : tag_name;
-  auto container = FindContainer(tagName);
+  std::string tag_name_to_use = tag_name.empty() ? GetDefaultTag() : tag_name;
+  auto container = FindContainer(tag_name_to_use);
   if (!container)
   {
-    throw std::runtime_error("SessionItemTags::container() -> Error. No such container '" + tagName
-                             + "'");
+    throw RuntimeException("Error in SessionItemTags: No such container [" + tag_name_to_use + "]");
   }
 
   return container;
