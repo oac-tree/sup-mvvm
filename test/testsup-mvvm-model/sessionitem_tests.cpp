@@ -19,7 +19,6 @@
 
 #include "mvvm/model/sessionitem.h"
 
-#include <mvvm/core/exceptions.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
@@ -29,8 +28,6 @@
 #include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
-
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -917,7 +914,7 @@ TEST_F(SessionItemTests, CastedItemAccess)
 
   EXPECT_EQ(parent->GetItem<ItemA>(tag), item0);
   // current behavior of item<> method, consider to change
-  EXPECT_THROW(parent->GetItem<ItemB>(tag), std::runtime_error);
+  EXPECT_THROW(parent->GetItem<ItemB>(tag), RuntimeException);
 
   EXPECT_EQ(parent->GetItems<ItemA>(tag), std::vector<ItemA*>({item0, item2}));
   EXPECT_EQ(parent->GetItems<ItemB>(tag), std::vector<ItemB*>({item1}));

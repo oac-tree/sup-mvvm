@@ -21,12 +21,12 @@
 #define MVVM_MODEL_SESSIONITEM_H_
 
 #include <mvvm/core/variant.h>
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/tagindex.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <memory>
-#include <stdexcept>
 #include <vector>
 
 namespace mvvm
@@ -418,7 +418,7 @@ inline T* SessionItem::GetItem(const TagIndex& tag_index) const
     T* tag_item = dynamic_cast<T*>(item);
     if (!tag_item)
     {
-      throw std::runtime_error("Can't cast an item to given type");
+      throw RuntimeException("Error in SessionItem::GetItem(): can't cast an item to given type");
     }
     return tag_item;
   }

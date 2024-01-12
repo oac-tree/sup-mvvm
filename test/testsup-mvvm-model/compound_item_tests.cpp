@@ -25,8 +25,6 @@
 
 #include <gtest/gtest.h>
 
-#include <stdexcept>
-
 using namespace mvvm;
 
 namespace
@@ -177,7 +175,7 @@ TEST_F(CompoundItemTests, ItemAccess)
   // inserting two children
   auto property = parent.InsertItem<PropertyItem>({tag, 0});
   EXPECT_TRUE(parent.GetItem<PropertyItem>(tag) == property);
-  EXPECT_THROW(parent.GetItem<CompoundItem>(tag), std::runtime_error);
+  EXPECT_THROW(parent.GetItem<CompoundItem>(tag), RuntimeException);
 }
 
 TEST_F(CompoundItemTests, ItemVectorAccess)
