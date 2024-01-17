@@ -39,6 +39,8 @@ const int kTooltip = 4;     //!< tooltip for item's data
 const int kEditor = 5;      //!< type of custom editor for the data role
 const int kLowerLimit = 6;  //!< lower limit on main data role
 const int kUpperLimit = 7;  //!< upper limit on main data role
+const int kDataBackup = 8;  //!< secondary data role
+const int kUser = 100;      //!< user role
 }  // namespace DataRole
 
 //! Defines bit fields for appearance flag (kAppearance data role).
