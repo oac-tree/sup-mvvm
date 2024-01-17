@@ -258,7 +258,7 @@ Qt::ItemFlags ViewItem::flags() const
 {
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
-  if (item() && item()->IsEditable() && item()->IsEnabled() && item()->Data(Qt::EditRole).isValid())
+  if (item() && item()->IsEditable() && item()->Data(Qt::EditRole).isValid())
   {
     result |= Qt::ItemIsEditable;
   }

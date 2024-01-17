@@ -510,9 +510,9 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
 
   // ViewLabel and ViewDataItem of item2
   EXPECT_FALSE(viewModel.flags(viewModel.index(1, 0)) & Qt::ItemIsEditable);
-  EXPECT_FALSE(viewModel.flags(viewModel.index(1, 1)) & Qt::ItemIsEditable);
+  EXPECT_TRUE(viewModel.flags(viewModel.index(1, 1)) & Qt::ItemIsEditable);
 
-  // ViewLabel and ViewDataItem of item2
+  // ViewLabel and ViewDataItem of item3
   EXPECT_FALSE(viewModel.flags(viewModel.index(2, 0)) & Qt::ItemIsEditable);
   EXPECT_FALSE(viewModel.flags(viewModel.index(2, 1)) & Qt::ItemIsEditable);
 }
