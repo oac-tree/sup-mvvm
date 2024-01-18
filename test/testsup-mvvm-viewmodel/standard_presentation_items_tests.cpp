@@ -69,6 +69,31 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)
 
   EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
+
+  EXPECT_TRUE(presentation.IsValidItemDataRole(DataRole::kAppearance));
+  EXPECT_TRUE(presentation.IsValidItemDataRole(DataRole::kTooltip));
+  EXPECT_TRUE(presentation.IsValidItemDataRole(DataRole::kData));
+  EXPECT_FALSE(presentation.IsValidItemDataRole(DataRole::kDisplay));
+
+  {
+    auto roles = presentation.GetQtRoles(DataRole::kDisplay);
+    EXPECT_TRUE(roles.isEmpty());
+  }
+
+  {
+    auto roles = presentation.GetQtRoles(DataRole::kData);
+    EXPECT_EQ(roles, QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+  }
+
+  {
+    auto roles = presentation.GetQtRoles(DataRole::kAppearance);
+    EXPECT_EQ(roles, QVector<int>({Qt::ForegroundRole}));
+  }
+
+  {
+    auto roles = presentation.GetQtRoles(DataRole::kTooltip);
+    EXPECT_EQ(roles, QVector<int>({Qt::ToolTipRole}));
+  }
 }
 
 TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItem)

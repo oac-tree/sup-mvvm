@@ -63,6 +63,11 @@ public:
    */
   virtual bool IsValidItemDataRole(int data_role) const;
 
+  /**
+   * @brief Returns vector of Qt data roles corresponding.
+   */
+  virtual QVector<int> GetQtRoles(int data_role) const;
+
 protected:
   explicit SessionItemPresentation(SessionItem* item, int role);
 

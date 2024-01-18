@@ -87,7 +87,13 @@ int SessionItemPresentation::GetDataRole() const
 
 bool SessionItemPresentation::IsValidItemDataRole(int data_role) const
 {
-  return m_data_role == data_role;
+  return m_data_role == data_role || data_role == DataRole::kAppearance
+         || data_role == DataRole::kTooltip;
+}
+
+QVector<int> SessionItemPresentation::GetQtRoles(int data_role) const
+{
+  return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<int>();
 }
 
 // ------------------------------------------------------------------------------------------------
