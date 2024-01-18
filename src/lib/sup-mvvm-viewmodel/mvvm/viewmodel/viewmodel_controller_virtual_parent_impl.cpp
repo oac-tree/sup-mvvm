@@ -111,10 +111,10 @@ void ViewModelControllerVirtualParentImpl::OnModelEvent(const DataChangedEvent &
 {
   for (auto view : utils::FindViewsForItem(m_viewmodel, event.m_item))
   {
-    if (isValidItemRole(view, event.m_data_role))
+    if (auto roles = utils::GetQtRoles(view, event.m_data_role); !roles.empty())
     {
       auto index = m_viewmodel->indexFromItem(view);
-      emit m_viewmodel->dataChanged(index, index, utils::ItemRoleToQtRole(event.m_data_role));
+      emit m_viewmodel->dataChanged(index, index, roles);
     }
   }
 }
@@ -293,22 +293,6 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerVirtualParentImpl::Cr
 ViewItemMap &ViewModelControllerVirtualParentImpl::GetViewItemMap()
 {
   return m_view_item_map;
-}
-
-//! Returns true if given SessionItem role is valid for view
-
-bool ViewModelControllerVirtualParentImpl::isValidItemRole(const ViewItem *const view,
-                                                           const int item_role) const
-{
-  if (const auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item());
-      presentation)
-  {
-    if (presentation->IsValidItemDataRole(item_role))
-    {
-      return true;
-    }
-  }
-  return item_role == DataRole::kAppearance || item_role == DataRole::kTooltip;
 }
 
 }  // namespace mvvm

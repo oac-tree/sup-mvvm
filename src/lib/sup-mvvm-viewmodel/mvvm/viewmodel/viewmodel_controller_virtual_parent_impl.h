@@ -101,8 +101,6 @@ public:
 
   ViewItemMap &GetViewItemMap();
 
-  bool isValidItemRole(const ViewItem *view, int item_role) const;
-
 private:
   ViewModelBase *m_viewmodel{nullptr};
   ViewItemMap m_view_item_map;
