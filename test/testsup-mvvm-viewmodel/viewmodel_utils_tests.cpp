@@ -240,3 +240,14 @@ TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
   index_list.push_back(viewModel.index(0, 2));
   EXPECT_EQ(utils::ParentItemsFromIndex(index_list), expected);
 }
+
+TEST_F(ViewModelUtilsTest, GetQtRoles)
+{
+  SessionItem item;
+  item.SetData(42);
+
+  auto view_item = CreateDataViewItem(&item);
+
+  auto roles = utils::GetQtRoles(view_item.get(), DataRole::kData);
+  EXPECT_EQ(roles, QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+}

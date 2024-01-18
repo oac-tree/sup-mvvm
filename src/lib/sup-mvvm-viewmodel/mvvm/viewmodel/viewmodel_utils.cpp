@@ -19,6 +19,7 @@
 
 #include "viewmodel_utils.h"
 
+#include "standard_presentation_items.h"
 #include "viewmodel.h"
 
 #include <mvvm/core/variant.h>
@@ -147,6 +148,16 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
   std::vector<SessionItem*> result;
   std::copy(unique_parents.begin(), unique_parents.end(), std::back_inserter(result));
   return result;
+}
+
+QVector<int> GetQtRoles(const ViewItem* view, int item_role)
+{
+  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view->item()); presentation)
+  {
+    return presentation->GetQtRoles(item_role);
+  }
+
+  return {};
 }
 
 }  // namespace mvvm::utils

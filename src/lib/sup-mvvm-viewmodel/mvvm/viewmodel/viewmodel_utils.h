@@ -139,6 +139,11 @@ MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndex
 MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ParentItemsFromIndex(
     const QModelIndexList& index_list);
 
+/**
+ * @brief Returns vector of Qt roles corresponding to the given item role.
+ */
+QVector<int> GetQtRoles(const ViewItem *view, int item_role);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
