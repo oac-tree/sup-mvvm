@@ -370,13 +370,13 @@ protected:
   SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
               std::unique_ptr<TaggedItems> tags);
 
-private:
-  friend class TreeDataItemConverter;
-
   /**
    * @brief Sets the data for the given role.
    */
-  bool SetDataInternal(const variant_t& value, int role, bool direct);
+  virtual bool SetDataInternal(const variant_t& value, int role, bool direct);
+
+private:
+  friend class TreeDataItemConverter;
 
   /**
    * @brief Returns the data stored for the given role.
