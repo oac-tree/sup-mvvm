@@ -1,7 +1,6 @@
 # Contains source specific for ViewModelBase (non-specific to SessionItem)
 
 target_sources(${library_name} PRIVATE
-  presentation_item.h
   viewitem.cpp
   viewitem_data.cpp
   viewitem_data.h

@@ -37,14 +37,6 @@ namespace mvvm::utils
 MVVM_VIEWMODEL_EXPORT void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                                          const std::function<void(const QModelIndex& child)>& fun);
 
-//! Returns underlying presentation item casted to given type.
-
-template <typename T>
-const T* GetPresentation(const ViewItem* view_item)
-{
-  return dynamic_cast<const T*>(view_item->item());
-}
-
 }  // namespace mvvm::utils
 
 #endif  // MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_

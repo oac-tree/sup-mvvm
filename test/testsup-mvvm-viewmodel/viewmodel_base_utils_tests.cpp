@@ -20,7 +20,6 @@
 #include "mvvm/viewmodelbase/viewmodel_base_utils.h"
 
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/viewmodelbase/presentation_item.h>
 
 #include <gtest/gtest.h>
 
@@ -46,10 +45,6 @@ using namespace mvvm;
 
 class ViewModelBaseUtilsTest : public ::testing::Test
 {
-public:
-  class TestItem
-  {
-  };
 };
 
 //! Validate Utils::iterate_model function with user callback.
@@ -79,16 +74,4 @@ TEST_F(ViewModelBaseUtilsTest, iterate)
                        });
 
   EXPECT_EQ(result, expected);
-}
-
-//! Validate Utils::GetPresentaiton function.
-
-TEST_F(ViewModelBaseUtilsTest, GetPresentation)
-{
-  TestItem wait;
-  auto presentation = std::make_unique<PresentationItem<TestItem>>(&wait);
-
-  auto expected_ptr = presentation.get();
-  mvvm::ViewItem item(std::move(presentation));
-  EXPECT_EQ(utils::GetPresentation<PresentationItem<TestItem>>(&item), expected_ptr);
 }
