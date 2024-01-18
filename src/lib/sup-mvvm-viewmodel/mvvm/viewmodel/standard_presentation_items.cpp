@@ -85,9 +85,9 @@ int SessionItemPresentation::GetDataRole() const
   return m_data_role;
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // LabelPresentationItem
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 
 LabelPresentationItem::LabelPresentationItem(SessionItem *item, const std::string &label)
     : SessionItemPresentation(item, DataRole::kDisplay), m_label(label)
@@ -105,9 +105,9 @@ QVariant LabelPresentationItem::Data(int qt_role) const
   return SessionItemPresentation::Data(qt_role);
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // DataPresentationItem
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 
 DataPresentationItem::DataPresentationItem(SessionItem *item, int role)
     : SessionItemPresentation(item, role)
@@ -143,9 +143,9 @@ bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
   return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) : false;
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // DisplayNamePresentationItem
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 
 DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
     : SessionItemPresentation(item, DataRole::kDisplay)
@@ -167,9 +167,9 @@ QVariant DisplayNamePresentationItem::Data(int qt_role) const
   return SessionItemPresentation::Data(qt_role);
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 // EditableDisplayNamePresentationItem
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 
 EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(SessionItem *item)
     : DataPresentationItem(item, DataRole::kDisplay)

@@ -33,10 +33,12 @@ namespace mvvm
 
 class SessionItem;
 
-//! @brief Defines base class to provide ViewItem with access to the SessionItem's data.
-
-//! Serves as an adapter to convert std::variant based data to QVariant. Provides additional Qt's
-//! data roles (background, color) that aren't defined in the underlying SessionItem.
+/**
+ * @brief The SessionItemPresentation class provides ViewItem with access to the SessionItem's data.
+ *
+ * @details Serves as an adapter to convert std::variant based data to QVariant. Provides additional
+ Qt's data roles (background, color) that aren't defined in the underlying SessionItem.
+ */
 
 class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : public ViewItemDataInterface
 {
@@ -62,10 +64,12 @@ private:
   int m_data_role{0};            // main role to present
 };
 
-//! Presentation to show the label associated with the given context.
-//! Context itself is not used directly. It might be used by ViewModelController to find
-//! corresponding views.
-
+/**
+ * @brief The LabelPresentationItem class shows the label associated with the given context.
+ *
+ * @details Context itself is not used directly. It might be used by ViewModelController to find
+ * corresponding views.
+ */
 class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
 {
 public:
@@ -77,8 +81,9 @@ private:
   std::string m_label;
 };
 
-//! Represents a data role of SessionItem.
-
+/**
+ * @brief The DataPresentationItem class represents a data role of SessionItem.
+ */
 class MVVM_VIEWMODEL_EXPORT DataPresentationItem : public SessionItemPresentation
 {
 public:
@@ -95,8 +100,9 @@ public:
   bool SetData(const QVariant& data, int qt_role) override;
 };
 
-//! Represents non-editable display role of SessionItem.
-
+/**
+ * @brief The DisplayNamePresentationItem class represents non-editable display role of SessionItem.
+ */
 class MVVM_VIEWMODEL_EXPORT DisplayNamePresentationItem : public SessionItemPresentation
 {
 public:
@@ -105,8 +111,10 @@ public:
   QVariant Data(int qt_role) const override;
 };
 
-//! Represents editable display role of SessionItem.
-
+/**
+ * @brief The EditableDisplayNamePresentationItem class represents editable display role of
+ * SessionItem.
+ */
 class MVVM_VIEWMODEL_EXPORT EditableDisplayNamePresentationItem : public DataPresentationItem
 {
 public:
