@@ -265,7 +265,7 @@ bool ViewModelControllerImpl::isValidItemRole(const ViewItem *view, int item_rol
 {
   if (auto presentation = dynamic_cast<const SessionItemPresentation *>(view->item()); presentation)
   {
-    if (presentation->GetDataRole() == item_role)
+    if (presentation->IsValidItemDataRole(item_role))
     {
       return true;
     }

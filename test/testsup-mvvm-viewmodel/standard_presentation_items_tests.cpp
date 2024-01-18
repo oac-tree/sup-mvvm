@@ -51,6 +51,8 @@ TEST_F(StandardPresentationItemsTest, SessionItemPresentationInitialState)
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
   EXPECT_FALSE(presentation.SetData(42, Qt::EditRole));
+  EXPECT_TRUE(presentation.IsValidItemDataRole(42));
+  EXPECT_FALSE(presentation.IsValidItemDataRole(43));
 }
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemDataForNoData)

@@ -26,8 +26,11 @@
 
 namespace mvvm
 {
-//! Defines interface for ViewItem's data access.
 
+/**
+ * @brief The ViewItemDataInterface class is an interface to provide ViewItem with the access to the
+ * data.
+ */
 class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
 {
 public:

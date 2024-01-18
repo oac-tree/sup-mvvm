@@ -85,6 +85,11 @@ int SessionItemPresentation::GetDataRole() const
   return m_data_role;
 }
 
+bool SessionItemPresentation::IsValidItemDataRole(int data_role) const
+{
+  return m_data_role == data_role;
+}
+
 // ------------------------------------------------------------------------------------------------
 // LabelPresentationItem
 // ------------------------------------------------------------------------------------------------

@@ -39,7 +39,6 @@ class SessionItem;
  * @details Serves as an adapter to convert std::variant based data to QVariant. Provides additional
  Qt's data roles (background, color) that aren't defined in the underlying SessionItem.
  */
-
 class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : public ViewItemDataInterface
 {
 public:
@@ -54,14 +53,22 @@ public:
   SessionItem* GetItem();
   const SessionItem* GetItem() const;
 
+  /**
+   * @brief Returns main item data role served by this presentation.
+   */
   int GetDataRole() const;
+
+  /**
+   * @brief Returns true if given item data role is served by this presentation.
+   */
+  virtual bool IsValidItemDataRole(int data_role) const;
 
 protected:
   explicit SessionItemPresentation(SessionItem* item, int role);
 
 private:
   SessionItem* m_item{nullptr};  // the item to present
-  int m_data_role{0};            // main role to present
+  int m_data_role{0};            // the main item's data role to present
 };
 
 /**
