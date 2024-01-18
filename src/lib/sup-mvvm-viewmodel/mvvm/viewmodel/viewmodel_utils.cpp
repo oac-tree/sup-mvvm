@@ -53,6 +53,11 @@ QVector<int> ItemRoleToQtRole(int role)
 
 QVariant TextColorRole(const SessionItem& item)
 {
+  if (item.HasData(DataRole::kTextColor))
+  {
+    return QColor(QString::fromStdString(item.Data<std::string>(DataRole::kTextColor)));
+  }
+
   // disabled item is displayed by gray color
   if (item.HasFlag(Appearance::kDisabled))
   {
@@ -71,7 +76,7 @@ QVariant TextColorRole(const SessionItem& item)
     return QColor(Qt::darkRed);
   }
 
-  return QVariant();
+  return {};
 }
 
 QVariant CheckStateRole(const SessionItem& item)
