@@ -25,13 +25,14 @@
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/utils/file_utils.h>
 
-#include <cctype>
 #include <algorithm>
+#include <cctype>
 
 namespace
 {
-const std::string xml_extention = ".xml";
-const std::string untitled_name = "Untitled";
+const std::string kXMLExtension = ".xml";
+const std::string kUntitledName = "Untitled";
+const std::string kDefaultModelName = "application_model";
 }  // namespace
 
 namespace mvvm::utils
@@ -39,14 +40,14 @@ namespace mvvm::utils
 
 std::string SuggestFileName(const SessionModelInterface& model)
 {
-  std::string result = model.GetType().empty() ? std::string("application_model") : model.GetType();
+  std::string result = model.GetType().empty() ? kDefaultModelName : model.GetType();
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-  return result + xml_extention;
+  return result + kXMLExtension;
 }
 
 bool IsPossibleProjectDir(const std::string& project_dir)
 {
-  return !utils::FindFiles(project_dir, xml_extention).empty();
+  return !utils::FindFiles(project_dir, kXMLExtension).empty();
 }
 
 std::unique_ptr<ProjectInterface> CreateUntitledProject(const ProjectContext& context)
@@ -62,7 +63,7 @@ std::string ProjectWindowTitle(const ProjectInterface& project)
 std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified)
 {
   auto pos = project_dir.find_last_of('/');
-  auto project_name = (pos == std::string::npos ? untitled_name : project_dir.substr(pos + 1));
+  auto project_name = (pos == std::string::npos ? kUntitledName : project_dir.substr(pos + 1));
   auto unsaved_status = is_modified ? "*" : "";
   return unsaved_status + project_name;
 }
