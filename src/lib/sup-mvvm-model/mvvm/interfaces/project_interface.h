@@ -27,20 +27,46 @@
 namespace mvvm
 {
 
-//! Interface to manipulate projects on disk.
-//! Project represents content of all application models in a folder on disk.
+/**
+ * @brief The ProjectInterface class is an interface to save and load projects to/from disk.
+ *
+ * @details Conceptually, a project is a folder on disk containing files with serialized models.
+ * The ProjectInterface derived classes contain the logic how to save and load the data from certain
+ * place. The logic of directory creation, rewriting existing project, discarding unsaved project
+ * etc is handled by the ProjectManagerInterface.
+ */
 
 class MVVM_MODEL_EXPORT ProjectInterface
 {
 public:
   virtual ~ProjectInterface() = default;
 
+  /**
+   * @brief Returns the full path to a project directory.
+   *
+   * @details It is a name where the project has been last time saved, or loaded from.
+   */
   virtual std::string GetProjectDir() const = 0;
 
+  /**
+   * @brief Saves the content to a given directory.
+   * @param dirname The full path to existing directory on disk.
+   * @return True in the case of success.
+   *
+   * @details Provided directory name will become new project directory as reported by
+   * GetProjectDir() method.
+   */
   virtual bool Save(const std::string& dirname) const = 0;
 
+  /**
+   * @brief Loads all content from the given directory.
+   * @return True in the case of success.
+   */
   virtual bool Load(const std::string& dirname) = 0;
 
+  /**
+   * @brief Returns true if the project has been modified since the last save.
+   */
   virtual bool IsModified() const = 0;
 };
 

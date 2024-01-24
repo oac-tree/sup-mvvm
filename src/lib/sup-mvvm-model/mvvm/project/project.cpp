@@ -72,23 +72,16 @@ Project::Project(const ProjectContext& context) : p_impl(std::make_unique<Projec
 
 Project::~Project() = default;
 
-//! Returns the full path to a project directory. It is a name where the project has been last time
-//! saved, or loaded from.
-
 std::string Project::GetProjectDir() const
 {
   return p_impl->m_project_dir;
 }
-
-//! Saves all models to a given directory. Directory should exist.
-//! Provided name will become 'projectDir'.
 
 bool Project::Save(const std::string& dirname) const
 {
   return p_impl->Process(dirname, &ModelDocumentInterface::Save);
 }
 
-//! Loads all models from the given directory.
 bool Project::Load(const std::string& dirname)
 {
   return p_impl->Process(dirname, &ModelDocumentInterface::Load);

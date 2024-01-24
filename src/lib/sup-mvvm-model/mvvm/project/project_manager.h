@@ -29,12 +29,18 @@ namespace mvvm
 
 struct ProjectContext;
 
-//! Responsible for handling new/save/save-as/close Project logic, where the Project represents
-//! a collection of serialized application models in the project directory.
-
-//! This ProjectManager requires certain prerequisites to function properly: for example,
-//! the creation of a new project will be possible only if the old project is in a saved state. See
-//! description to the class methods.
+/**
+ * @brief The ProjectManager class is responsible for handling new/save/save-as/close Project logic,
+ * where the Project represents a collection of serialized application models in the project
+ * directory.
+ *
+ * @details This ProjectManager requires certain prerequisites to function properly: for example,
+ * the creation of a new project will be possible only if the old project is in a saved state. See
+ * description to the class methods.
+ *
+ * @details The ProjectManager shall not be used directly. Use ProjectManagerDecorator instead,
+ * which provide additional safety checks, and necessary interactions with the user.
+ */
 
 class MVVM_MODEL_EXPORT ProjectManager : public ProjectManagerInterface
 {
@@ -45,12 +51,43 @@ public:
   ProjectManager(const ProjectManager& other) = delete;
   ProjectManager& operator=(const ProjectManager& other) = delete;
 
+  /**
+   * @brief Creates new project.
+   *
+   * @param dirname The full path to the project directory to create a new project.
+   * @return True in the case of success.
+   *
+   * @details Call to this method will first close current project. So it is assumed that current
+   * project was already saved, otherwise will return false.
+   */
   bool CreateNewProject(const std::string& dirname) override;
 
+  /**
+   * @brief Saves current project.
+   * @return True in the case of success.
+   *
+   * @details The project should have a project directory defined to succeed.
+   */
   bool SaveCurrentProject() override;
 
+  /**
+   * @brief Saves the project under a given directory
+   *
+   * @param dirname The full path to the project directory.
+   * @return Returns true in the case of success.
+   *
+   * @details The directory should exist already.
+   */
   bool SaveProjectAs(const std::string& dirname) override;
 
+  /**
+   * @brief Opens existing project.
+   *
+   * @param dirname The full path to the project directory.
+   * @return Returns true in the case of success.
+   *
+   * @details Current project should be in a saved state, new project should exist.
+   */
   bool OpenExistingProject(const std::string& dirname) override;
 
   std::string CurrentProjectDir() const override;

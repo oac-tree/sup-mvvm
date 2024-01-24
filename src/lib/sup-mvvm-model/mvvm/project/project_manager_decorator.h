@@ -30,11 +30,14 @@ namespace mvvm
 struct ProjectContext;
 struct UserInteractionContext;
 
-//! Decorator for ProjectManager to provide interaction with the user on open/save-as requests.
-//! It relies on the same interface and adds additional logic related to "unsaved" data.
-
-//! For example, on createNewProject, it will check if the previous project is saved, and will
-//! call external dialog save/discard/cancel via the provided callback.
+/**
+ * @brief The ProjectManagerDecorator class provides interaction with the user on open/save-as
+ * requests.
+ *
+ * @details It relies on the same interface and adds additional logic related to "unsaved" data. For
+ * example, on createNewProject, it will check if the previous project is saved, and will call
+ * external dialog save/discard/cancel via the provided callback.
+ */
 
 class MVVM_MODEL_EXPORT ProjectManagerDecorator : public ProjectManagerInterface
 {
@@ -46,18 +49,62 @@ public:
   ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
   ProjectManagerDecorator& operator=(const ProjectManagerDecorator& other) = delete;
 
+  /**
+   * @brief Creates new project.
+   *
+   * @param dirname The full path to the project directory to create a new project.
+   * @return True in the case of success.
+   *
+   * @details The directory should exist. If provided name is empty, will call directory selector
+   * dialog using callback provided. If current project is in unsaved state, will perform
+   * 'save-before-closing' procedure before proceeding further.
+   */
   bool CreateNewProject(const std::string& dirname = {}) override;
 
+  /**
+   * @brief Saves current project.
+   * @return True in the case of success.
+   *
+   * @details The project should have a project directory defined to succeed. If it is not the case,
+   * it will launch the procedure of directory selection using callback provided.
+   */
   bool SaveCurrentProject() override;
 
+  /**
+   * @brief Saves the project under a given directory
+   *
+   * @param dirname The full path to the project directory.
+   * @return Returns true in the case of success.
+   *
+   * @details The directory should exist already. If provided 'dirname' variable is empty, it will
+   * acquire a new project directory using dialog provided.
+   */
   bool SaveProjectAs(const std::string& dirname = {}) override;
 
+  /**
+   * @brief Opens existing project.
+   *
+   * @param dirname The full path to the project directory.
+   * @return Returns true in the case of success.
+   *
+   * @details If provided name is empty, will call directory selector dialog using callback
+   * provided. If current project is in unsaved state, it will perform 'save-before-closing'
+   * procedure before proceeding further.
+   */
   bool OpenExistingProject(const std::string& dirname = {}) override;
 
   std::string CurrentProjectDir() const override;
 
   bool IsModified() const override;
 
+  /**
+   * @brief Closes current project (without saving).
+   *
+   * @return Returns true in the case of success.
+   *
+   * @details Will show the dialog, via callback provided, asking the user whether to
+   * save/discard/cancel. Returns 'false' only if user has selected 'cancel' button.
+   */
   bool CloseCurrentProject() const override;
 
 private:

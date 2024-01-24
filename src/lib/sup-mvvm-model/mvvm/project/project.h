@@ -29,8 +29,9 @@ namespace mvvm
 
 struct ProjectContext;
 
-//! Project represents content of all application models in a folder on disk.
-//! Responsible for saving/loading application models to/from disk.
+/**
+ * @brief The Project class represents content of all application models in a folder on disk.
+ */
 
 class MVVM_MODEL_EXPORT Project : public ProjectInterface
 {
