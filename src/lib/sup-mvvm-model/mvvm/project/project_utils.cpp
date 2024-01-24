@@ -39,7 +39,7 @@ namespace mvvm::utils
 
 std::string SuggestFileName(const SessionModelInterface& model)
 {
-  std::string result = model.GetType();
+  std::string result = model.GetType().empty() ? std::string("application_model") : model.GetType();
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);
   return result + xml_extention;
 }
