@@ -46,17 +46,17 @@ class ViewModelControllerTest : public ::testing::Test
 public:
   ViewModelControllerTest() {}
 
+  template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
   std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface& model,
                                                                 ViewModelBase& view_model)
   {
-    return factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(&model,
-                                                                                &view_model);
+    return factory::CreateController<ChildrenT, RowT>(&model, &view_model);
   }
 
+  template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
   std::unique_ptr<AbstractViewModelController> CreateController(ViewModelBase& view_model)
   {
-    return factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(nullptr,
-                                                                                &view_model);
+    return factory::CreateController<ChildrenT, RowT>(nullptr, &view_model);
   }
 
   //! Returns underlying SessionItem from given ViewItem
@@ -75,6 +75,21 @@ public:
   {
     return utils::FindViewsForItem<SessionItem>(&m_viewmodel, item);
   }
+
+  /**
+   * @brief The EmptyRowTestStrategy class represents broken controller for testing purposes which
+   * always returns empty row.
+   */
+  class EmptyRowTestStrategy : public mvvm::RowStrategyInterface
+  {
+  public:
+    QStringList GetHorizontalHeaderLabels() const override { return {}; }
+
+    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem*) override
+    {
+      return {};
+    }
+  };
 
   ApplicationModel m_model;
   ViewModelBase m_viewmodel;
@@ -615,4 +630,15 @@ TEST_F(ViewModelControllerTest, GetHorizontalHeaderLabels)
   const QStringList expected_labels = QStringList() << "Name"
                                                     << "Value";
   EXPECT_EQ(controller->GetHorizontalHeaderLabels(), expected_labels);
+}
+
+TEST_F(ViewModelControllerTest, BrokenRowStrategy)
+{
+  // We are deliberatly constructing controller based on broken row strategy, which always returns
+  // empty rows. This is abnormal situation when RowStrategy sees an unknown item for which it
+  // doesn't know what to do. We do not want empty rows to be inserted in the model, so we expect an
+  // exception.
+
+  auto controller = CreateController<AllChildrenStrategy, EmptyRowTestStrategy>(m_model, m_viewmodel);
+  EXPECT_THROW(m_model.InsertItem<SessionItem>(), RuntimeException);
 }

@@ -53,6 +53,21 @@ public:
     return CreateController<ChildrenT, RowT>(&m_viewmodel);
   }
 
+  /**
+   * @brief The EmptyRowTestStrategy class represents broken controller for testing purposes which
+   * always returns empty row.
+   */
+  class EmptyRowTestStrategy : public mvvm::RowStrategyInterface
+  {
+  public:
+    QStringList GetHorizontalHeaderLabels() const override { return {}; }
+
+    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem*) override
+    {
+      return {};
+    }
+  };
+
   ApplicationModel m_model;
   ViewModelBase m_viewmodel;
 };
@@ -294,4 +309,19 @@ TEST_F(ViewModelControllerImplTest, SetItem)
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
   EXPECT_EQ(controller->GetViewItemMap().GetSize(), 0);
   EXPECT_EQ(controller->GetRootItem(), nullptr);
+}
+
+//! Validate CreateRow method when RowStrategy reports empty rows.
+TEST_F(ViewModelControllerImplTest, CreateRowForBrokenConrtoller)
+{
+  // We are deliberatly constructing controller based on broken row strategy, which always returns
+  // empty rows. This is abnormal situation when RowStrategy sees an unknown item for which it
+  // doesn't know what to do. We do not want empty rows to be inserted in the model, so we expect an
+  // exception.
+
+  auto controller = CreateController<AllChildrenStrategy, EmptyRowTestStrategy>();
+
+  VectorItem item;
+
+  EXPECT_THROW(controller->CreateTreeOfRows(item), RuntimeException);
 }
