@@ -20,39 +20,45 @@
 #ifndef MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_
 #define MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_
 
-//! @file standard_children_strategies.h
-//! @brief Collection of strategies to find children, actual of fictional, of given SessionItem.
-//! Used for ViewModel generation when underlying SessionModel changes its layout.
+//! @file
+//! Collection of strategies to find children, actual of fictional, of given SessionItem. Used for
+//! ViewModel generation when underlying SessionModel changes its layout.
 
 #include <mvvm/interfaces/children_strategy_interface.h>
 
 namespace mvvm
 {
+
 class SessionItem;
 
-//! Strategy to find children of given item: gives all actual children back.
-//! Hidden children by the current convention will be also in the list.
-
+/**
+ * @brief The AllChildrenStrategy class finds all actual children of given item.
+ *
+ * @details Hidden children by the current convention will be also in the list.
+ */
 class MVVM_VIEWMODEL_EXPORT AllChildrenStrategy : public ChildrenStrategyInterface
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
 
-//! Strategy to find children of given item: only top level items will be given, all
-//! property items will be filtered out. All items explicitly marked with setVisible(false)
-//! will not show up.
-
+/**
+ * @brief The TopItemsStrategy class finds children of given item which are top-level items.
+ *
+ * @details This will filter out all items marked with property flag. Also, all items explicitly
+ * marked with setVisible(false) will not show up.
+ */
 class MVVM_VIEWMODEL_EXPORT TopItemsStrategy : public ChildrenStrategyInterface
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
 
-//! Strategy to find children of given item: only property item will be given, all top level items
-//! will be filtered out, all inactive children of GroupItem will be filtered out. See example
-//! in code.
-
+/**
+ * @brief The PropertyItemsStrategy class finds children which are marked as properties.
+ *
+ * @details All top level items will be filtered out.
+ */
 class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public ChildrenStrategyInterface
 {
 public:

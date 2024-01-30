@@ -27,13 +27,17 @@
 
 namespace mvvm
 {
+
 class SessionItem;
 class ViewItem;
 
-//! Constructs row of ViewItem's for given SessionItem.
-//! Row consists of two columns, ViewLabelItem for SessionItem's display role and
-//! ViewDataItem for Session's item data role.
-
+/**
+ * @brief The LabelDataRowStrategy class constructs the rows with label and data for given
+ * SessionItem.
+ *
+ * @details Row consists of two columns, ViewLabelItem for SessionItem's read-only display role and
+ * ViewDataItem for Session's item data role.
+ */
 class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface
 {
 public:
@@ -42,9 +46,10 @@ public:
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
 };
 
-//! Constructs row of ViewItem's for given SessionItem.
-//! Row consists of columns with all PropertyItem's of given SessionItem.
-
+/**
+ * @brief The PropertiesRowStrategy class constructs the row with columns representing all
+ * properties of the given SessionItem.
+ */
 class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public RowStrategyInterface
 {
 public:
@@ -55,7 +60,11 @@ public:
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
 
 private:
+  /**
+   * @brief Updates current column labels using display names of given items.
+   */
   void UpdateColumnLabels(std::vector<SessionItem*> items);
+
   std::vector<std::string> m_current_column_labels;
   std::vector<std::string> m_user_defined_column_labels;
 };

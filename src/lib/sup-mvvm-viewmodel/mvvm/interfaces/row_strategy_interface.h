@@ -28,19 +28,29 @@
 
 namespace mvvm
 {
+
 class SessionItem;
 class ViewItem;
 
-//! Base class to construct row of ViewItem's from given SessionItem.
-//! Used in context of AbstractViewModel while exposing SessionModel to Qt.
-
+/**
+ * @brief The RowStrategyInterface class is an insterface for all strategies to construct the row of
+ * ViewItems for given SessionItem.
+ *
+ * @details Used in context of AbstractViewModel while exposing SessionModel to Qt.
+ */
 class MVVM_VIEWMODEL_EXPORT RowStrategyInterface
 {
 public:
   virtual ~RowStrategyInterface() = default;
 
+  /**
+   * @brief Returns vector of horizontal labels which view model might want to use.
+   */
   virtual QStringList GetHorizontalHeaderLabels() const = 0;
 
+  /**
+   * @brief Returns vector of ViewItems for given SessionItem.
+   */
   virtual std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem*) = 0;
 };
 

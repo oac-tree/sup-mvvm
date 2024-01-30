@@ -104,8 +104,6 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRow(Sessi
   return result;
 }
 
-//! Updates current column labels.
-
 void PropertiesRowStrategy::UpdateColumnLabels(std::vector<SessionItem*> items)
 {
   m_current_column_labels.clear();

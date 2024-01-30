@@ -26,19 +26,27 @@
 
 namespace mvvm
 {
+
 class SessionItem;
 
-//! Base class for strategies to find children, actual or fictional, of a given item.
-//! The reported vector of children might be different from the actual children of a given item.
-//! The strategy is used in the context of AbstractViewModel while exposing SessionModel to Qt.
-//! Thanks to this strategy ViewModel decides which items to visit.
+/**
+ * @brief The ChildrenStrategyInterface class is an iterface for all strategies to find children,
+ * actual or fictional, of a given item.
+ *
+ * @details The reported vector of children might be different from the actual children of a given
+ * item.
+ */
 
 class MVVM_VIEWMODEL_EXPORT ChildrenStrategyInterface
 {
 public:
   virtual ~ChildrenStrategyInterface() = default;
 
-  //! Returns vector of children of given item.
+  /**
+   * @brief Returns vector of children of given item. The strategy is used in the context of
+   * AbstractViewModel while exposing SessionModel to Qt. Thanks to this strategy ViewModel decides
+   * which items to visit.
+   */
   virtual std::vector<SessionItem*> GetChildren(const SessionItem* item) const = 0;
 };
 

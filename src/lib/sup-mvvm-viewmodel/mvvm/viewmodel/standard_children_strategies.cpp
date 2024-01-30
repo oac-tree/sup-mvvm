@@ -24,7 +24,6 @@
 
 namespace mvvm
 {
-// ----------------------------------------------------------------------------
 
 std::vector<SessionItem*> AllChildrenStrategy::GetChildren(const SessionItem* item) const
 {
@@ -36,8 +35,6 @@ std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item)
 {
   return item ? utils::TopLevelItems(*item) : std::vector<SessionItem*>();
 }
-
-// ----------------------------------------------------------------------------
 
 std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* item) const
 {
