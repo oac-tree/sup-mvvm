@@ -26,6 +26,8 @@
 
 #include <mvvm/interfaces/children_strategy_interface.h>
 
+#include <string>
+
 namespace mvvm
 {
 
@@ -64,6 +66,21 @@ class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public ChildrenStrategyInter
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
 };
+
+/**
+ * @brief The FixedItemTypeStrategy class finds children which belongs to one of the given type.
+ */
+class MVVM_VIEWMODEL_EXPORT FixedItemTypeStrategy : public ChildrenStrategyInterface
+{
+public:
+  explicit FixedItemTypeStrategy(std::vector<std::string> item_types);
+
+  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
+
+private:
+  std::vector<std::string> m_item_types;
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_STANDARD_CHILDREN_STRATEGIES_H_

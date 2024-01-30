@@ -23,8 +23,8 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
-#include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/test/toy_items.h>
 
 #include <gtest/gtest.h>
 
@@ -45,33 +45,13 @@ public:
       AddProperty("height", 12.0);
     }
   };
-
-  struct ChildrenData
-  {
-    std::string model_type;
-    std::string tag;
-    bool operator==(const ChildrenData& other) const
-    {
-      return model_type == other.model_type && tag == other.tag;
-    }
-  };
-
-  std::vector<ChildrenData> children_data(std::vector<SessionItem*> children)
-  {
-    std::vector<ChildrenData> result;
-    for (auto child : children)
-    {
-      result.push_back({child->GetType(), child->GetTagIndex().tag});
-    }
-    return result;
-  }
 };
 
 //! Testing AllChildrenStrategy.
 
 TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
 {
-  AllChildrenStrategy strategy;
+  const AllChildrenStrategy strategy;
 
   // nullptr
   auto children = strategy.GetChildren(nullptr);
@@ -104,7 +84,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
 
 TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 {
-  AllChildrenStrategy strategy;
+  const AllChildrenStrategy strategy;
   VectorItem item;
   item.GetItem(VectorItem::kX)->SetVisible(false);
   auto children = strategy.GetChildren(&item);
@@ -115,7 +95,7 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 
 TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
 {
-  TopItemsStrategy strategy;
+  const TopItemsStrategy strategy;
 
   // nullptr
   auto children = strategy.GetChildren(nullptr);
@@ -147,7 +127,7 @@ TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
 
 TEST_F(StandardChildrenStrategiesTest, TopItemsStrategyWhenHidden)
 {
-  TopItemsStrategy strategy;
+  const TopItemsStrategy strategy;
 
   SessionModel model;
   auto vec1 = model.InsertItem<VectorItem>();
@@ -163,7 +143,7 @@ TEST_F(StandardChildrenStrategiesTest, TopItemsStrategyWhenHidden)
 
 TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
 {
-  PropertyItemsStrategy strategy;
+  const PropertyItemsStrategy strategy;
 
   // nullptr
   {
@@ -199,26 +179,13 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
     auto children = strategy.GetChildren(&item);
     EXPECT_EQ(children.size(), 2);
   }
-
-  // GroupItem FIXME restore ShapeGroupItem
-  //  {
-  //    ToyItems::ShapeGroupItem item;
-  //    item.setCurrentType(ToyItems::Constants::CylinderItemType);
-  //    auto children = strategy.children(&item);
-  //    EXPECT_EQ(children.size(), 2);
-
-  //    std::vector<ChildrenData> expected_children_data{
-  //        {Constants::PropertyType, ToyItems::CylinderItem::P_RADIUS},
-  //        {Constants::PropertyType, ToyItems::CylinderItem::P_HEIGHT}};
-  //    EXPECT_EQ(children_data(children), expected_children_data);
-  //  }
 }
 
 //! Testing PropertyItemsStrategy when some items are hidden.
 
 TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
 {
-  PropertyItemsStrategy strategy;
+  const PropertyItemsStrategy strategy;
 
   // VectorItem
   {
@@ -227,4 +194,17 @@ TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
     auto children = strategy.GetChildren(&item);
     EXPECT_EQ(children.size(), 2);
   }
+}
+
+TEST_F(StandardChildrenStrategiesTest, FixedTopItemsStrategy)
+{
+  test::toyitems::ParticleItem particle_item;
+  VectorItem vector_item;
+
+  const FixedItemTypeStrategy strategy({VectorItem::Type});
+  EXPECT_TRUE(strategy.GetChildren(&vector_item).empty());
+
+  ASSERT_EQ(strategy.GetChildren(&particle_item).size(), 1);
+  EXPECT_EQ(strategy.GetChildren(&particle_item),
+            std::vector<SessionItem*>({particle_item.GetItem("position")}));
 }

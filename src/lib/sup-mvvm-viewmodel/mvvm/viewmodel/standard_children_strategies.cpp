@@ -21,6 +21,7 @@
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/utils/container_utils.h>
 
 namespace mvvm
 {
@@ -38,16 +39,25 @@ std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item)
 
 std::vector<SessionItem*> PropertyItemsStrategy::GetChildren(const SessionItem* item) const
 {
-  if (!item)
-  {
-    return {};
-  }
+  return item ? utils::SinglePropertyItems(*item) : std::vector<SessionItem*>();
+}
 
-  // FIXME restore, when group property is there
-  //    auto group = dynamic_cast<const GroupItem*>(item);
-  //    auto next_item = group ? group->currentItem() : item;
-  //    return Utils::SinglePropertyItems(*next_item);
-  return utils::SinglePropertyItems(*item);
+FixedItemTypeStrategy::FixedItemTypeStrategy(std::vector<std::string> item_types)
+    : m_item_types(std::move(item_types))
+{
+}
+
+std::vector<SessionItem*> FixedItemTypeStrategy::GetChildren(const SessionItem* item) const
+{
+  std::vector<SessionItem*> result;
+  for (auto child : item->GetAllItems())
+  {
+    if (utils::Contains(m_item_types, child->GetType()))
+    {
+      result.push_back(child);
+    }
+  }
+  return result;
 }
 
 }  // namespace mvvm
