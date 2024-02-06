@@ -10,6 +10,8 @@ target_sources(${library_name} PRIVATE
   numeric_utils.h
   progress_handler.cpp
   progress_handler.h
+  string_format.cpp
+  string_format.h
   string_utils.cpp
   string_utils.h
   threadsafe_container_adapter.h

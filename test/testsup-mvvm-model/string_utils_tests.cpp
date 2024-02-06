@@ -39,7 +39,7 @@ std::vector<T> toVector(Args&&... args)
 
 using namespace mvvm;
 
-//! Testing strint related utility functions.
+//! Testing string related utility functions.
 
 class StringUtilsTests : public ::testing::Test
 {
