@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <cctype>
 #include <iomanip>
+#include <iostream>
 #include <iterator>
 #include <limits>
 #include <numeric>
@@ -201,6 +202,24 @@ std::string ToCommaSeparatedString(const std::vector<std::string>& vec)
   { return std::move(a) + ", " + value; };
   return vec.empty() ? std::string()
                      : std::accumulate(std::next(vec.begin()), vec.end(), vec[0], comma_fold);
+}
+
+std::string ReplaceSubString(const std::string& str, const std::string& substr,
+                             const std::string& replacement)
+{
+  if (str.empty() || substr.empty() || replacement.empty())
+  {
+    return str;
+  }
+
+  std::string result(str);
+  auto pos = result.find(substr);
+  while (pos != std::string::npos)
+  {
+    result.replace(pos, substr.length(), replacement);
+    pos = result.find(substr, pos + replacement.length());
+  }
+  return result;
 }
 
 }  // namespace mvvm::utils

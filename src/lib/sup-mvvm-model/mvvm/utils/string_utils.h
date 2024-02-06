@@ -139,6 +139,18 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<double>& 
  */
 MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::string>& vec);
 
+/**
+ * @brief Replaces substrint in a srting and returns result to the user.
+ *
+ * @param str Original string.
+ * @param substr A substring to replace.
+ * @param replacement New substring.
+ *
+ * @return Resulting string.
+ */
+MVVM_MODEL_EXPORT std::string ReplaceSubString(const std::string& str, const std::string& substr,
+                                               const std::string& replacement);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_STRING_UTILS_H_

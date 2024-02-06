@@ -261,3 +261,14 @@ TEST_F(StringUtilsTests, ToComaSeparatedString)
   EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({"abc", "cde"})),
             std::string("abc, cde"));
 }
+
+TEST_F(StringUtilsTests, ReplaceSubString)
+{
+  using utils::ReplaceSubString;
+  EXPECT_EQ(ReplaceSubString("", "", ""), std::string(""));
+  EXPECT_EQ(ReplaceSubString("abc", "abc", "abc"), std::string("abc"));
+  EXPECT_EQ(ReplaceSubString("abc", "abc", "def"), std::string("def"));
+  EXPECT_EQ(ReplaceSubString("abc abc", "abc", "def"), std::string("def def"));
+  EXPECT_EQ(ReplaceSubString("abc def abc", "def", "123"), std::string("abc 123 abc"));
+  EXPECT_EQ(ReplaceSubString("abc def abc", "123", "456"), std::string("abc def abc"));
+}
