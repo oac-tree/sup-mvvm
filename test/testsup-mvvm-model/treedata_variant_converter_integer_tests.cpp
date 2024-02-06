@@ -65,7 +65,7 @@ TEST_P(TreeDataVariantConverterIntegerTest, IntegerDataRole)
   // constructing XML string representing variant with given parameters
   auto xml_str = GetVariantXMLString(param.type_name, param.value_str);
 
-  // nuilding data from XML string
+  // building tree data from XML string
   auto tree_data = ParseXMLElementString(xml_str);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
@@ -73,10 +73,17 @@ TEST_P(TreeDataVariantConverterIntegerTest, IntegerDataRole)
   auto data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(param.value, kRole));
 
-  // converting data role to a new tree data and checking against original
+  // converting data role to a new tree data and checking against the original
   auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
 INSTANTIATE_TEST_SUITE_P(FunctionalTests, TreeDataVariantConverterIntegerTest,
-                         ::testing::Values(TestData{mvvm::int32{42}, "int32", "42"}));
+                         ::testing::Values(TestData{mvvm::int8{-42}, "int8", "-42"},
+                                           TestData{mvvm::uint8{42}, "uint8", "42"},
+                                           TestData{mvvm::int16{-42}, "int16", "-42"},
+                                           TestData{mvvm::uint16{42}, "uint16", "42"},
+                                           TestData{mvvm::int32{-42}, "int32", "-42"},
+                                           TestData{mvvm::uint32{42}, "uint32", "42"},
+                                           TestData{mvvm::int64{-42}, "int64", "-42"},
+                                           TestData{mvvm::uint64{42}, "uint64", "42"}));

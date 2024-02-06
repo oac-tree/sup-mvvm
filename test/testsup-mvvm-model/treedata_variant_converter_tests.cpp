@@ -32,17 +32,6 @@ using namespace mvvm;
 
 class TreeDataVariantConverterTests : public ::testing::Test
 {
-public:
-  void PrintTreeData(const TreeData& tree_data)
-  {
-    std::cout << "Type:" << tree_data.GetType() << " "
-              << "Name:" << tree_data.GetName() << " "
-              << "Children:" << tree_data.GetNumberOfChildren() << std::endl;
-    for (const auto& it : tree_data.Attributes())
-    {
-      std::cout << it.first << " " << it.second << "\n";
-    }
-  }
 };
 
 //! Parsing XML data string representing datarole_t with undefined data.
@@ -92,46 +81,6 @@ TEST_F(TreeDataVariantConverterTests, BoolDataRole)
   EXPECT_EQ(data_role, datarole_t(variant_t(false), 42));
 }
 
-//! Parsing XML data string representing datarole_t with int8 data.
-
-TEST_F(TreeDataVariantConverterTests, Int8DataRole)
-{
-  using mvvm::ParseXMLElementString;
-
-  // constructing TreeData representing int8 variant
-  const std::string body{R"(<Variant role="42" type="int8">-2</Variant>)"};
-  auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-
-  // converting tree_data to data_role
-  auto data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(int8{-2}), 42));
-
-  // converting back
-  auto new_tree_data = ToTreeData(data_role);
-  EXPECT_EQ(new_tree_data, *tree_data);
-}
-
-//! Parsing XML data string representing datarole_t with uint8 data.
-
-TEST_F(TreeDataVariantConverterTests, UInt8DataRole)
-{
-  using mvvm::ParseXMLElementString;
-
-  // constructing TreeData representing int8 variant
-  const std::string body{R"(<Variant role="42" type="uint8">2</Variant>)"};
-  auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-
-  // converting tree_data to data_role
-  auto data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(uint8{2}), 42));
-
-  // converting back
-  auto new_tree_data = ToTreeData(data_role);
-  EXPECT_EQ(new_tree_data, *tree_data);
-}
-
 //! Parsing XML data string representing datarole_t with integer data.
 
 TEST_F(TreeDataVariantConverterTests, Int32DataRole)
@@ -150,59 +99,17 @@ TEST_F(TreeDataVariantConverterTests, Int32DataRole)
   // converting back
   auto new_tree_data = ToTreeData(data_role);
   EXPECT_EQ(new_tree_data, *tree_data);
-}
-
-//! Parsing XML data string representing datarole_t with integer data.
-
-TEST_F(TreeDataVariantConverterTests, UInt32DataRole)
-{
-  using mvvm::ParseXMLElementString;
-
-  // constructing TreeData representing uint32 variant
-  const std::string body{R"(<Variant role="42" type="uint32">48</Variant>)"};
-  auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-
-  // converting tree_data to data_role
-  auto data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(uint32(48)), 42));
-
-  // converting back
-  auto new_tree_data = ToTreeData(data_role);
-  EXPECT_EQ(new_tree_data, *tree_data);
-}
-
-//! Parsing XML data string representing datarole_t with integer data.
-
-TEST_F(TreeDataVariantConverterTests, Int64DataRole)
-{
-  using mvvm::ParseXMLElementString;
-
-  // constructing TreeData representing int64 variant
-  const std::string body{R"(<Variant role="42" type="int64">48</Variant>)"};
-  auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-
-  // converting tree_data to data_role
-  auto data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(48L), 42));
-
-  // converting back
-  auto new_tree_data = ToTreeData(data_role);
-  EXPECT_EQ(new_tree_data, *tree_data);
 
   // another convertion, now spaces are added.
-  tree_data = ParseXMLElementString(R"(<Variant role = "42 " type="int64"> 48 </Variant>)");
+  tree_data = ParseXMLElementString(R"(<Variant role = "42 " type="int32"> 48 </Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-
-  // converting tree_data to data_role
-  data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(variant_t(48L), 42));
 
   // attempting to construct invalid tree (integer value is missed)
-  tree_data = ParseXMLElementString(R"(<Variant role="42" type="int64"></Variant>)");
+  tree_data = ParseXMLElementString(R"(<Variant role="42" type="int32"></Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
   EXPECT_THROW(ToDataRole(*tree_data), std::invalid_argument);
+
+  // more tests for other inetgers in treedata_variant_converter_tests.cpp
 }
 
 //! Parsing XML data string representing datarole_t with double data.
