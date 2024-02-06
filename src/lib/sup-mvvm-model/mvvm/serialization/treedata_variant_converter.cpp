@@ -190,6 +190,12 @@ mvvm::datarole_t to_bool(const mvvm::TreeData& tree_data)
   return {mvvm::variant_t(value), GetRole(tree_data)};
 }
 
+mvvm::datarole_t to_char8(const mvvm::TreeData& tree_data)
+{
+  mvvm::char8 value = tree_data.GetContent().empty() ? '\0' : tree_data.GetContent()[0];
+  return {mvvm::variant_t(value), GetRole(tree_data)};
+}
+
 template <typename T>
 mvvm::datarole_t to_int(const mvvm::TreeData& tree_data)
 {
@@ -254,7 +260,7 @@ std::map<std::string, Converters> GetConverters()
   static std::map<std::string, Converters> result = {
       {mvvm::constants::kEmptyTypeName, {from_datarole_default_impl, to_undefined}},
       {mvvm::constants::kBooleanTypeName, {from_datarole_default_impl, to_bool}},
-      {mvvm::constants::kChar8TypeName, {from_datarole_default_impl, to_int<mvvm::char8>}},
+      {mvvm::constants::kChar8TypeName, {from_datarole_default_impl, to_char8}},
       {mvvm::constants::kInt8TypeName, {from_datarole_default_impl, to_int<mvvm::int8>}},
       {mvvm::constants::kUInt8TypeName, {from_datarole_default_impl, to_int<mvvm::uint8>}},
 

@@ -225,6 +225,12 @@ TEST_F(VariantTests, GetTypeCode)
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("a"));
   }
 
+  { // special case, null char
+    const mvvm::char8 value{'\0'};
+    EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Char8);
+    EXPECT_EQ(ValueToString(variant_t(value)), std::string(""));
+  }
+
   {
     const mvvm::int8 value{-8};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Int8);

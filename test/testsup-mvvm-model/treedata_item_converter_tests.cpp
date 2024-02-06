@@ -193,6 +193,25 @@ TEST_F(TreeDataItemConverterTests, ParentAndChildToTreeDataAndBack)
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
 
+//! Char8 to TreeData object and back.
+
+TEST_F(TreeDataItemConverterTests, Char8ToFileAndBack)
+{
+  SessionItem item;
+  item.SetData(mvvm::char8{0});
+  item.SetData(mvvm::char8{'A'}, 42);
+
+  const auto file_path = GetFilePath("Char8ToFileAndBack.xml");
+  WriteToXMLFile(file_path, item);
+
+  // reconstructiong back
+  auto reco_item = ReadFromXMLFile<SessionItem>(file_path);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_item->Data<char8>(), '\0');
+  EXPECT_EQ(reco_item->Data<char8>(42), 'A');
+}
+
 //! Parent and child to TreeData object and back.
 
 TEST_F(TreeDataItemConverterTests, ParentAndChildToFileAndBack)

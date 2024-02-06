@@ -32,6 +32,20 @@ using namespace mvvm;
 
 class TreeDataVariantConverterTests : public ::testing::Test
 {
+public:
+  void PrintTreeData(const TreeData& tree_data)
+  {
+    std::cout << "Type:'" << tree_data.GetType() << "' "
+              << "Name:'" << tree_data.GetName() << "' "
+              << "Content:'" << tree_data.GetContent() << "' "
+              << "Children:" << tree_data.GetNumberOfChildren() << " "
+              << " attribute_count: " << tree_data.Attributes().GetNumberOfAttributes()
+              << std::endl;
+    for (const auto& it : tree_data.Attributes())
+    {
+      std::cout << it.first << " " << it.second << "\n";
+    }
+  }
 };
 
 //! Parsing XML data string representing datarole_t with undefined data.
@@ -79,6 +93,45 @@ TEST_F(TreeDataVariantConverterTests, BoolDataRole)
   // converting tree_data to data_role
   data_role = ToDataRole(*tree_data);
   EXPECT_EQ(data_role, datarole_t(variant_t(false), 42));
+}
+
+//! Parsing XML data string representing datarole_t with char8 data.
+
+TEST_F(TreeDataVariantConverterTests, Char8DataRole)
+{
+  using mvvm::ParseXMLElementString;
+
+  {  // char8 'A'
+    // constructing TreeData representing char8 variant
+    const std::string body{R"(<Variant role="42" type="char8">A</Variant>)"};
+    auto tree_data = ParseXMLElementString(body);
+    EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+    // converting tree_data to data_role
+    auto data_role = ToDataRole(*tree_data);
+    EXPECT_EQ(data_role, datarole_t(variant_t(mvvm::char8{'A'}), 42));
+
+    // converting back
+    auto new_tree_data = ToTreeData(data_role);
+    EXPECT_EQ(new_tree_data, *tree_data);
+  }
+
+  {  // char8 '\0'
+    // constructing TreeData representing null char8 variant
+    // By our convention, empty content means null-char. See also VariantValueVisitor for char8
+    // case.
+    const std::string body{R"(<Variant role="42" type="char8"></Variant>)"};
+    auto tree_data = ParseXMLElementString(body);
+    EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
+
+    // converting tree_data to data_role
+    auto data_role = ToDataRole(*tree_data);
+    EXPECT_EQ(data_role, datarole_t(variant_t(mvvm::char8{'\0'}), 42));
+
+    // converting back
+    auto new_tree_data = ToTreeData(data_role);
+    EXPECT_EQ(new_tree_data, *tree_data);
+  }
 }
 
 //! Parsing XML data string representing datarole_t with integer data.
