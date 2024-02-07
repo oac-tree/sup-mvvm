@@ -101,9 +101,8 @@ TEST_F(TreeDataVariantConverterTests, Char8DataRole)
 {
   using mvvm::ParseXMLElementString;
 
-  {  // char8 'A'
-    // constructing TreeData representing char8 variant
-    const std::string body{R"(<Variant role="42" type="char8">A</Variant>)"};
+  {  // char8, 'A', ASCII code 65
+    const std::string body{R"(<Variant role="42" type="char8">65</Variant>)"};
     auto tree_data = ParseXMLElementString(body);
     EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
@@ -116,11 +115,8 @@ TEST_F(TreeDataVariantConverterTests, Char8DataRole)
     EXPECT_EQ(new_tree_data, *tree_data);
   }
 
-  {  // char8 '\0'
-    // constructing TreeData representing null char8 variant
-    // By our convention, empty content means null-char. See also VariantValueVisitor for char8
-    // case.
-    const std::string body{R"(<Variant role="42" type="char8"></Variant>)"};
+  {  // char8 '\0', ASCII code 0
+    const std::string body{R"(<Variant role="42" type="char8">0</Variant>)"};
     auto tree_data = ParseXMLElementString(body);
     EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 

@@ -35,11 +35,7 @@ struct VariantValueVisitor
   std::string operator()(mvvm::boolean value) { return mvvm::utils::FromBool(value); }
   std::string operator()(mvvm::char8 value)
   {
-    // Let's agree that we present '\0' char with an empty string, while all other chars we present
-    // with the string of length 1, with single char at the beginning. This will simplify null-char
-    // creation while manually editing XML files. See also to_char8(const mvvm::TreeData& tree_data)
-    // from treedata_variant_converter.cpp.
-    return value == '\0' ? std::string() : std::string(1, value);
+    return std::to_string(value);
   }
   std::string operator()(mvvm::int8 value) { return {std::to_string(value)}; }
   std::string operator()(mvvm::uint8 value) { return {std::to_string(value)}; }
