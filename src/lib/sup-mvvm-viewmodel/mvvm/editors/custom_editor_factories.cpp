@@ -75,6 +75,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kInt32QtTypeName, IntegerEditorBuilder());
 
   // new AllIntSpinBoxEditor for all other integer-like types
+  RegisterBuilder(constants::kChar8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kUInt8QtTypeName, AllIntSpinBoxEditorBuilder());
   RegisterBuilder(constants::kInt16QtTypeName, AllIntSpinBoxEditorBuilder());

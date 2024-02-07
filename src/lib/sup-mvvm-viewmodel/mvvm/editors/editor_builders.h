@@ -90,7 +90,7 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t IntegerEditorBuilder();
  * @brief Returns builder function to create editors for all integer-like QVariants.
  *
  * @details It relies on AllIntSpinBoxEditor which knows how to work with all integer-like types:
- * int8, uint8, int16, uin16, int32, uin32, int64, uin64.
+ * char8, int8, uint8, int16, uin16, int32, uin32, int64, uin64.
  *
  * @details This builder will eventually replace IntegerEditorBuilder.
  */

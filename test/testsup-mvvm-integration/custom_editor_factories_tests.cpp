@@ -170,6 +170,12 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
     EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
   }
 
+  {  // char8
+    const char8 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
   {  // int8
     const int8 num(42);
     index = AddDataToModel(variant_t(num));
