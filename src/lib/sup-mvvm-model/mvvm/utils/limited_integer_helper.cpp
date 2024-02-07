@@ -45,6 +45,7 @@ using factory_funct_t = std::function<std::unique_ptr<mvvm::ILimitedInteger>(
     const mvvm::variant_t &upper_bound)>;
 
 const std::map<mvvm::TypeCode, factory_funct_t> factory_map = {
+    {mvvm::TypeCode::Char8, FactoryFunc<mvvm::char8>},
     {mvvm::TypeCode::Int8, FactoryFunc<mvvm::int8>},
     {mvvm::TypeCode::UInt8, FactoryFunc<mvvm::uint8>},
     {mvvm::TypeCode::Int16, FactoryFunc<mvvm::int16>},

@@ -50,6 +50,7 @@ public:
 
 TEST_F(LimitedIntegerHelperTests, CreateLimitedInteger)
 {
+  EXPECT_TRUE(CanCreateLimitedInteger<char8>());
   EXPECT_TRUE(CanCreateLimitedInteger<int8>());
   EXPECT_TRUE(CanCreateLimitedInteger<uint8>());
   EXPECT_TRUE(CanCreateLimitedInteger<int16>());

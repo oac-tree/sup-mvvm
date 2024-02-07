@@ -283,8 +283,9 @@ template <typename T>
 inline bool LimitedInteger<T>::IsSupportedVariant(const variant_t& variant) const
 {
   static const std::vector<mvvm::TypeCode> kSupportedTypes{
-      mvvm::TypeCode::Int8,  mvvm::TypeCode::UInt8,  mvvm::TypeCode::Int16, mvvm::TypeCode::UInt16,
-      mvvm::TypeCode::Int32, mvvm::TypeCode::UInt32, mvvm::TypeCode::Int64, mvvm::TypeCode::UInt64};
+      mvvm::TypeCode::Char8,  mvvm::TypeCode::Int8,   mvvm::TypeCode::UInt8,
+      mvvm::TypeCode::Int16,  mvvm::TypeCode::UInt16, mvvm::TypeCode::Int32,
+      mvvm::TypeCode::UInt32, mvvm::TypeCode::Int64,  mvvm::TypeCode::UInt64};
 
   return std::find(kSupportedTypes.begin(), kSupportedTypes.end(), GetTypeCode(variant))
          != kSupportedTypes.end();
