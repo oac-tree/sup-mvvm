@@ -73,7 +73,8 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
   }
 
   if (utils::GetQtVariantName(variant) == constants::kInt8QtTypeName
-      || utils::GetQtVariantName(variant) == constants::kUInt8QtTypeName)
+      || utils::GetQtVariantName(variant) == constants::kUInt8QtTypeName
+      || utils::GetQtVariantName(variant) == constants::kChar8QtTypeName)
   {
     // Default decoration for int8 and uint8 types in Qt cells looks like  some weired ASCII
     // characters. We force it here to a string, so int8{127} would look like "127".

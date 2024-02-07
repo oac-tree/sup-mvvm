@@ -120,6 +120,13 @@ TEST_F(DefaultCellDecoratorTest, Int8Decoration)
     EXPECT_TRUE(decorator.HasCustomDecoration(index));
     EXPECT_EQ(decorator.GetText(index), std::string("42"));
   }
+
+  {
+    const mvvm::char8 value{42};
+    auto index = AddDataToModel(value);
+    EXPECT_TRUE(decorator.HasCustomDecoration(index));
+    EXPECT_EQ(decorator.GetText(index), std::string("42"));
+  }
 }
 
 //! Variants that do not nave special decorations
