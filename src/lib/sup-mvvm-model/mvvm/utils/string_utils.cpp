@@ -207,7 +207,7 @@ std::string ToCommaSeparatedString(const std::vector<std::string>& vec)
 std::string ReplaceSubString(const std::string& str, const std::string& substr,
                              const std::string& replacement)
 {
-  if (str.empty() || substr.empty() || replacement.empty())
+  if (str.empty() || substr.empty())
   {
     return str;
   }

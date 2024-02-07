@@ -41,7 +41,7 @@ namespace mvvm::utils
 
 StringFormat::StringFormat(std::string str) : m_value(std::move(str)) {}
 
-StringFormat::self &StringFormat::arg(const std::string &replacement)
+StringFormat &StringFormat::arg(const std::string &replacement)
 {
   m_value = ReplaceSubString(m_value, GetArgString(m_arg_count), replacement);
   m_arg_count++;

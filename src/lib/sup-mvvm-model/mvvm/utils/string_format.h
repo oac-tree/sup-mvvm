@@ -42,8 +42,6 @@ namespace mvvm::utils
 class StringFormat
 {
 public:
-  using self = StringFormat;
-
   explicit StringFormat(std::string str);
 
   StringFormat(const StringFormat& other) = delete;
@@ -59,7 +57,7 @@ public:
    * time, it will replace pattern "%1" with the given replacement string. The second call will look
    * for "%2", etc.
    */
-  self& arg(const std::string& replacement);
+  StringFormat& arg(const std::string& replacement);
 
   /**
    * @brief Cast operator to construct strings.

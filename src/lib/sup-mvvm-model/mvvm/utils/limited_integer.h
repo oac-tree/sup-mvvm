@@ -34,9 +34,9 @@ namespace mvvm
 /**
  * @brief The LimitedInteger class represents an integer number with limits.
  *
- * @details It can be one of (int8, uin8, int16, uin16, int32, uint32, int64, uin64), as supported
- * by our mvvm::variant_t type. The class provides aditional machinery for safe increment and
- * decrement. It is used in the context of spin box editors.
+ * @details It can be one of (char8, int8, uin8, int16, uin16, int32, uint32, int64, uin64), as
+ * supported by our mvvm::variant_t type. The class provides aditional machinery for safe increment
+ * and decrement. It is used in the context of spin box editors.
  */
 
 template <typename T>
