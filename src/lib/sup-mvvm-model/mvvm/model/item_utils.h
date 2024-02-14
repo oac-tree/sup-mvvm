@@ -163,39 +163,32 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
 MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
 
 /**
- * @brief Finds first parent item of given type. Returns nullptr if no parent of given type found.
+ * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type.
+ *
+ * @param item The item to investigate.
+ * @param start_from_self Will start from item itself, if true, otherwise will start from its
+ * parent.
+ *
+ * @return First found item casted to necessary type.
  */
+
 template <typename T>
-SessionItem* FindParent(const SessionItem* item)
+const T* FindItemUp(const SessionItem* item, bool start_from_self = true)
 {
-  if (item == nullptr)
+  if (!item)
   {
     return nullptr;
   }
 
-  auto parent = item->GetParent();
-  while (parent != nullptr && dynamic_cast<T*>(parent) == nullptr)
+  const SessionItem* current = start_from_self ? item : item->GetParent();
+
+  while (current)
   {
-    parent = parent->GetParent();
-  }
-
-  return parent;
-}
-
-/**
- * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type.
- */
-
-template <typename T>
-const T* FindItemUp(const SessionItem* item)
-{
-  while (item)
-  {
-    if (const T* result = dynamic_cast<const T*>(item); result)
+    if (const T* result = dynamic_cast<const T*>(current); result)
     {
       return result;
     }
-    item = item->GetParent();
+    current = current->GetParent();
   }
   return nullptr;
 }

@@ -435,48 +435,49 @@ TEST_F(ItemUtilsTests, ReplaceData)
   EXPECT_EQ(item.Data(), variant_t(std::string("abc")));
 }
 
-TEST_F(ItemUtilsTests, FindParent)
-{
-  SessionModel model;
-
-  auto item0 = model.InsertItem<CompoundItem>(model.GetRootItem());
-  item0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-
-  auto item1 = model.InsertItem<PropertyItem>(item0);
-  item1->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-
-  auto item2 = model.InsertItem<VectorItem>(item1);
-
-  EXPECT_EQ(utils::FindParent<VectorItem>(item2), nullptr);
-  EXPECT_EQ(utils::FindParent<PropertyItem>(item2), item1);
-  EXPECT_EQ(utils::FindParent<CompoundItem>(item2), item0);
-
-  EXPECT_EQ(utils::FindParent<VectorItem>(item1), nullptr);
-  EXPECT_EQ(utils::FindParent<PropertyItem>(item1), nullptr);
-  EXPECT_EQ(utils::FindParent<CompoundItem>(item1), item0);
-
-  EXPECT_EQ(utils::FindParent<VectorItem>(item0), nullptr);
-  EXPECT_EQ(utils::FindParent<PropertyItem>(item0), nullptr);
-  EXPECT_EQ(utils::FindParent<CompoundItem>(item0), nullptr);
-
-  EXPECT_EQ(utils::FindParent<SessionItem>(item0), model.GetRootItem());
-}
-
 //! Testing FindItemUp method.
 
 TEST_F(ItemUtilsTests, FindItemUp)
 {
-  EXPECT_EQ(utils::FindItemUp<VectorItem>(nullptr), nullptr);
+  {  // start from parent mode
+    SessionModel model;
 
-  VectorItem vector_item;
-  SessionItem* item = &vector_item;
-  EXPECT_EQ(utils::FindItemUp<VectorItem>(item), &vector_item);
-  EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
+    auto item0 = model.InsertItem<CompoundItem>(model.GetRootItem());
+    item0->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
-  test::toyitems::ParticleItem particle;
-  auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
-  EXPECT_EQ(utils::FindItemUp<test::toyitems::ParticleItem>(x_item), &particle);
-  EXPECT_EQ(utils::FindItemUp<test::toyitems::LayerItem>(x_item), nullptr);
+    auto item1 = model.InsertItem<PropertyItem>(item0);
+    item1->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+    auto item2 = model.InsertItem<VectorItem>(item1);
+
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(item2, false), nullptr);
+    EXPECT_EQ(utils::FindItemUp<PropertyItem>(item2, false), item1);
+    EXPECT_EQ(utils::FindItemUp<CompoundItem>(item2, false), item0);
+
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(item1, false), nullptr);
+    EXPECT_EQ(utils::FindItemUp<PropertyItem>(item1, false), nullptr);
+    EXPECT_EQ(utils::FindItemUp<CompoundItem>(item1, false), item0);
+
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(item0, false), nullptr);
+    EXPECT_EQ(utils::FindItemUp<PropertyItem>(item0, false), nullptr);
+    EXPECT_EQ(utils::FindItemUp<CompoundItem>(item0, false), nullptr);
+
+    EXPECT_EQ(utils::FindItemUp<SessionItem>(item0, false), model.GetRootItem());
+  }
+
+  {  // start from self mode
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(nullptr), nullptr);
+
+    VectorItem vector_item;
+    SessionItem* item = &vector_item;
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(item), &vector_item);
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
+
+    test::toyitems::ParticleItem particle;
+    auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
+    EXPECT_EQ(utils::FindItemUp<test::toyitems::ParticleItem>(x_item), &particle);
+    EXPECT_EQ(utils::FindItemUp<test::toyitems::LayerItem>(x_item), nullptr);
+  }
 }
 
 //! Testing utility function CloneItem.
