@@ -466,7 +466,7 @@ TEST_F(ItemUtilsTests, FindItemUp)
   }
 
   {  // start from self mode
-    EXPECT_EQ(utils::FindItemUp<VectorItem>(nullptr), nullptr);
+    EXPECT_EQ(utils::FindItemUp<VectorItem>(nullptr, true), nullptr);
 
     VectorItem vector_item;
     SessionItem* item = &vector_item;

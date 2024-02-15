@@ -24,6 +24,7 @@
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model_export.h>
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>
@@ -163,7 +164,8 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
 MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
 
 /**
- * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type.
+ * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type
+ * (const version).
  *
  * @param item The item to investigate.
  * @param start_from_self Will start from item itself, if true, otherwise will start from its
@@ -171,7 +173,6 @@ MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, in
  *
  * @return First found item casted to necessary type.
  */
-
 template <typename T>
 const T* FindItemUp(const SessionItem* item, bool start_from_self = true)
 {
@@ -190,6 +191,32 @@ const T* FindItemUp(const SessionItem* item, bool start_from_self = true)
     }
     current = current->GetParent();
   }
+  return nullptr;
+}
+
+/**
+ * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type
+ * (non-const version).
+ *
+ * @param item The item to investigate.
+ * @param start_from_self Will start from item itself, if true, otherwise will start from its
+ * parent.
+ *
+ * @return First found item casted to necessary type.
+ */
+template <typename T>
+T* FindItemUp(SessionItem* item, bool start_from_self = true)
+{
+  return const_cast<T*>(FindItemUp<T>(const_cast<const SessionItem*>(item), start_from_self));
+}
+
+/**
+ * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type
+ * (nullptr specialisation).
+ */
+template <typename T>
+std::nullptr_t FindItemUp(std::nullptr_t, bool start_from_self = true)
+{
   return nullptr;
 }
 
