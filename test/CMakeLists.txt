@@ -4,7 +4,10 @@ include(GoogleTest)
 
 find_package(benchmark QUIET)
 if(benchmark_FOUND)
-  message(DEBUG "Found benchmark: version ${benchmark_VERSION}")
+  find_package_message(
+    benchmark_details
+    "Found benchmark: ${benchmark_DIR} (version \"${benchmark_VERSION}\")"
+    "[${benchmark_DIR}][v${benchmark_VERSION}]")
 endif()
 
 add_subdirectory(libtest-utils)
