@@ -14,7 +14,7 @@ generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename} EXPOR
 target_link_libraries(${library_name} PRIVATE stduuid PUBLIC LibXml2::LibXml2)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.1))
-message(STATUS "Linking stdc++fs")
+message(VERBOSE "Linking stdc++fs")
 target_link_libraries(${library_name} PRIVATE stdc++fs)
 endif ()
 
