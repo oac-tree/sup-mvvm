@@ -206,4 +206,40 @@ QVariant EditableDisplayNamePresentationItem::Data(int qt_role) const
   return DataPresentationItem::Data(qt_role);
 }
 
+// ------------------------------------------------------------------------------------------------
+// FixedDataPresentationItem
+// ------------------------------------------------------------------------------------------------
+
+FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
+                                                     std::map<int, QVariant> fixed_data)
+    : SessionItemPresentation(item, DataRole::kUser), m_data(std::move(fixed_data))
+{
+  for (auto &[qt_role, data] : m_data)
+  {
+    SetData(data, qt_role);
+  }
+}
+
+QVector<int> FixedDataPresentationItem::GetQtRoles(int data_role) const
+{
+  QVector<int> result;
+  for (auto &[qt_role, data] : m_data)
+  {
+    result.push_back(qt_role);
+  }
+  return result;
+}
+
+QVariant FixedDataPresentationItem::Data(int qt_role) const
+{
+  auto iter = m_data.find(qt_role);
+  return iter != m_data.end() ? iter->second : QVariant();
+}
+
+bool FixedDataPresentationItem::SetData(const QVariant &data, int qt_role)
+{
+  m_data[qt_role] = data;
+  return true;
+}
+
 }  // namespace mvvm

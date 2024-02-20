@@ -416,3 +416,37 @@ TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemForBool
 
   EXPECT_EQ(item.GetDisplayName(), std::string("abcabc"));
 }
+
+TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
+{
+  SessionItem item;
+  item.SetData(42);
+
+  {  // no data on board
+    FixedDataPresentationItem presentation(&item, {});
+    EXPECT_EQ(presentation.GetItem(), &item);
+    EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
+    EXPECT_TRUE(presentation.GetQtRoles(DataRole::kDisplay).empty());
+  }
+
+  {  // label on board
+    QString expected_label("abc");
+    FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
+    EXPECT_EQ(presentation.GetItem(), &item);
+    EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+    EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+
+    // item has a display role, which coincide with the label, the rest is blocked
+    EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), expected_label);
+    EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+
+    // setting both roles, internal data should be updated
+    EXPECT_TRUE(presentation.SetData(QString("aaa"), Qt::DisplayRole));
+    EXPECT_TRUE(presentation.SetData(QString("bbb"), Qt::EditRole));
+
+    EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("aaa"));
+    EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("bbb"));
+    EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay),
+              QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+  }
+}

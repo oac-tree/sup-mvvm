@@ -77,10 +77,11 @@ private:
 };
 
 /**
- * @brief The LabelPresentationItem class shows the label associated with the given context.
+ * @brief The LabelPresentationItem class shows the label associated with the given item.
  *
- * Context itself is not used directly. It might be used by ViewModelController to find
- * corresponding views.
+ * Item itself is not used directly. It might be used by ViewModelController to find
+ * corresponding views. The label is non-editable, and it is not possible to set any other data to
+ * it.
  */
 class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
 {
@@ -133,6 +134,37 @@ public:
   explicit EditableDisplayNamePresentationItem(SessionItem* item);
 
   QVariant Data(int qt_role) const override;
+};
+
+/**
+ * @brief The FixedDataPresentationItem class shows any type of QVariant based data associated with
+ * given qt_role and given item.
+ *
+ * The item itself is not used directly. It might be used by ViewModelController to find
+ * corresponding views.
+ *
+ * The data is fixed and has no connection with the original item. It is used to show any types of
+ * icons, labels and background color in a cell associated with the item.
+ */
+class MVVM_VIEWMODEL_EXPORT FixedDataPresentationItem : public SessionItemPresentation
+{
+public:
+  /**
+   * @brief Main c-tor.
+   *
+   * @param item Reference item.
+   * @param fixed_data Map of qt roles associated with the data
+   */
+  FixedDataPresentationItem(SessionItem* item, std::map<int, QVariant> fixed_data);
+
+  QVariant Data(int qt_role) const override;
+
+  bool SetData(const QVariant& data, int qt_role) override;
+
+  QVector<int> GetQtRoles(int data_role) const override;
+
+private:
+  std::map<int, QVariant> m_data;
 };
 
 }  // namespace mvvm
