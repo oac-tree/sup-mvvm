@@ -29,6 +29,10 @@
 
 namespace mvvm
 {
+
+/**
+ * @brief The ViewItemImpl class is a pointer implementation (pimpl) for ViewItem.
+ */
 struct ViewItem::ViewItemImpl
 {
   std::vector<std::unique_ptr<ViewItem>> m_children;  //! buffer to hold rows x columns
@@ -147,23 +151,15 @@ ViewItem::ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data)
 
 ViewItem::~ViewItem() = default;
 
-//! Returns the number of child item rows that the item has.
-
 int ViewItem::rowCount() const
 {
   return p_impl->m_rows;
 }
 
-//! Returns the number of child item columns that the item has.
-
 int ViewItem::columnCount() const
 {
   return p_impl->m_columns;
 }
-
-//! Appends a row containing items. Number of items should be the same as
-//! columnCount() (if there are already some rows). If it is a first row, then
-//! items can be of any size.
 
 void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 {
@@ -174,8 +170,6 @@ void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
   p_impl->appendRow(std::move(items));
 }
 
-//! Insert a row of items at index 'row'.
-
 void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
@@ -184,8 +178,6 @@ void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
   }
   p_impl->insertRow(row, std::move(items));
 }
-
-//! Removes row of items at given 'row'. Items will be deleted.
 
 void ViewItem::removeRow(int row)
 {
@@ -219,40 +211,25 @@ const ViewItemDataInterface* ViewItem::item() const
   return p_impl->m_view_item_data.get();
 }
 
-//! Returns the row where the item is located in its parent's child table, or -1
-//! if the item has no parent.
-
 int ViewItem::row() const
 {
   return p_impl->m_my_row;
 }
-
-//! Returns the column where the item is located in its parent's child table, or
-//! -1 if the item has no parent.
 
 int ViewItem::column() const
 {
   return p_impl->m_my_col;
 }
 
-//! Returns the data for given role according to Qt::ItemDataRole namespace
-//! definitions.
-
 QVariant ViewItem::data(int qt_role) const
 {
   return item() ? item()->Data(qt_role) : QVariant();
 }
 
-//! Sets the data to underlying PresentationItem.
-
 bool ViewItem::setData(const QVariant& value, int qt_role)
 {
   return item() ? item()->SetData(value, qt_role) : false;
 }
-
-//! Returns Qt's item flags.
-//! Converts internal SessionItem's status enable/disabled/readonly to what Qt
-//! expects.
 
 Qt::ItemFlags ViewItem::flags() const
 {

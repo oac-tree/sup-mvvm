@@ -28,10 +28,12 @@
 
 namespace mvvm
 {
+
 class ViewItemDataInterface;
 
-//! Represents a single editable/displayable entity in cells of ViewModelBase.
-
+/**
+ * @brief The ViewItem class represents a single editable/displayable entity in cells of ViewModel.
+ */
 class MVVM_VIEWMODEL_EXPORT ViewItem
 {
 public:
@@ -39,36 +41,108 @@ public:
   explicit ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data);
   virtual ~ViewItem();
 
+  /**
+   * @brief Returns the number of child item rows that the item has.
+   */
   int rowCount() const;
 
+  /**
+   * @brief Returns the number of child item columns that the item has.
+   */
   int columnCount() const;
 
+  /**
+   * @brief Appends a row containing items.
+   *
+   * Number of items should be the same as columnCount() (if there are already some rows). If it is
+   * a first row, then items can be of any size.
+   */
   void appendRow(std::vector<std::unique_ptr<ViewItem>> items);
 
+  /**
+   * @brief Inserts a row of items at given position.
+   *
+   * @param row Row index.
+   * @param items The row of items to insert.
+   */
   void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
 
+  /**
+   * @brief Removes row of items at given position.
+   * Items will be deleted.
+   *
+   * @param row Row index.
+   */
   void removeRow(int row);
 
+  /**
+   * @brief Clears all children.
+   */
   void clear();
 
+  /**
+   * @brief Returns parent view.
+   */
   ViewItem* parent() const;
 
+  /**
+   * @brief Returns a child at given position.
+   *
+   * @param row Row index of a child.
+   * @param column Column index of a child.
+   *
+   * @return A child.
+   */
   ViewItem* child(int row, int column) const;
 
+  /**
+   * @brief Returns underlying data item (non-const version).
+   */
   ViewItemDataInterface* item();
 
+  /**
+   * @brief Returns underlying data item (const version).
+   */
   const ViewItemDataInterface* item() const;
 
+  /**
+   * @brief Returns the row where the item is located in its parent's child table, or -1 if the item
+   * has no parent.
+   */
   int row() const;
 
+  /**
+   * @brief Returns the column where the item is located in its parent's child table, or -1 if the
+   * item has no parent.
+   */
   int column() const;
 
+  /**
+   * @brief Returns the data for given role according to Qt::ItemDataRole namespace definitions.
+   *
+   * @param qt_role Standard Qt role.
+   *
+   * @return QVariant representing given role.
+   */
   virtual QVariant data(int qt_role) const;
 
+  /**
+   * @brief Sets the data for given role.
+   *
+   * Internally sets the data to the underlying presentation item.
+   */
   virtual bool setData(const QVariant& value, int qt_role);
 
+  /**
+   * @brief Returns Qt's item flags.
+   *
+   * Converts internal SessionItem's status enable/disabled/readonly to what Qt expects.
+   */
   virtual Qt::ItemFlags flags() const;
 
+  /**
+   * @brief Gets buffer vector of children.
+   */
   std::vector<ViewItem*> children() const;
 
 protected:

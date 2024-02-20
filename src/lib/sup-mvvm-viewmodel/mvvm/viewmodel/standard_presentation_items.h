@@ -36,8 +36,8 @@ class SessionItem;
 /**
  * @brief The SessionItemPresentation class provides ViewItem with access to the SessionItem's data.
  *
- * @details Serves as an adapter to convert std::variant based data to QVariant. Provides additional
- Qt's data roles (background, color) that aren't defined in the underlying SessionItem.
+ * Serves as an adapter to convert std::variant based data to QVariant. Provides additional Qt's
+ * data roles (background, color) that aren't defined in the underlying SessionItem.
  */
 class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : public ViewItemDataInterface
 {
@@ -79,7 +79,7 @@ private:
 /**
  * @brief The LabelPresentationItem class shows the label associated with the given context.
  *
- * @details Context itself is not used directly. It might be used by ViewModelController to find
+ * Context itself is not used directly. It might be used by ViewModelController to find
  * corresponding views.
  */
 class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
