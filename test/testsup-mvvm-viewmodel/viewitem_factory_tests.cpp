@@ -46,13 +46,13 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
 
   // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
   // blocked
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
-  EXPECT_FALSE(viewitem->data(Qt::EditRole).isValid());
-  EXPECT_FALSE(viewitem->setData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_FALSE(viewitem->setData(QString("bbb"), Qt::EditRole));
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_FALSE(viewitem->Data(Qt::EditRole).isValid());
+  EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_FALSE(viewitem->SetData(QString("bbb"), Qt::EditRole));
 
   // data is the same as before, despite of all attempts to change it
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }
 
 //! Checking that context method can't cast to underlying item.
@@ -71,7 +71,7 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
   EXPECT_EQ(utils::GetItemFromView<VectorItem>(viewitem.get()), &item);
 }
 
-//! Testing CreateDataViewItem (case of integer data).
+//! Testing CreateDataViewItem (case of integer Data).
 
 TEST_F(ViewItemFactoryTest, CreateDataViewItem)
 {
@@ -83,20 +83,20 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
   auto viewitem = CreateDataViewItem(&item);
 
   // item has a display role, which coincide with data
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toInt(), value);
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toInt(), value);
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toInt(), value);
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toInt(), value);
 
   const int new_value{43};
   // not sure if it's correct, but current convention is to disallow set another display role
-  EXPECT_FALSE(viewitem->setData(new_value, Qt::DisplayRole));
-  EXPECT_TRUE(viewitem->setData(new_value, Qt::EditRole));
+  EXPECT_FALSE(viewitem->SetData(new_value, Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(new_value, Qt::EditRole));
 
   // data is the new one
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toInt(), new_value);
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toInt(), new_value);
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toInt(), new_value);
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toInt(), new_value);
 }
 
-//! Testing CreateDataViewItem (case of integer data).
+//! Testing CreateDataViewItem (case of integer Data).
 
 TEST_F(ViewItemFactoryTest, CreateDataViewItemForSecondaryRole)
 {
@@ -111,21 +111,21 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemForSecondaryRole)
   auto viewitem = CreateDataViewItem(&item, kSecondaryDataRole);
 
   // item has a display role, which coincide with data
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(), QString::fromStdString(secondary_value));
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), QString::fromStdString(secondary_value));
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), QString::fromStdString(secondary_value));
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString(), QString::fromStdString(secondary_value));
 
   const std::string new_secondary_value{"def"};
   // not sure if it's correct, but current convention is to disallow set another display role
-  EXPECT_FALSE(viewitem->setData(QString::fromStdString(new_secondary_value), Qt::DisplayRole));
-  EXPECT_TRUE(viewitem->setData(QString::fromStdString(new_secondary_value), Qt::EditRole));
+  EXPECT_FALSE(viewitem->SetData(QString::fromStdString(new_secondary_value), Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(QString::fromStdString(new_secondary_value), Qt::EditRole));
 
   // data is the new one
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(),
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(),
             QString::fromStdString(new_secondary_value));
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), QString::fromStdString(new_secondary_value));
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString(), QString::fromStdString(new_secondary_value));
 }
 
-//! Testing CreateDataViewItem (case of std::string data).
+//! Testing CreateDataViewItem (case of std::string Data).
 
 TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
 {
@@ -137,17 +137,17 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
   auto viewitem = CreateDataViewItem(&item);
 
   // item has a display role, which coincide with attribute value
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), value);
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toString().toStdString(), value);
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), value);
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), value);
 
   const QString new_value{"cde"};
   // not sure if it's correct, but current convention is to disallow set another display role
-  EXPECT_FALSE(viewitem->setData(new_value, Qt::DisplayRole));
-  EXPECT_TRUE(viewitem->setData(new_value, Qt::EditRole));
+  EXPECT_FALSE(viewitem->SetData(new_value, Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(new_value, Qt::EditRole));
 
   // data is the new one
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString(), new_value);
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toString(), new_value);
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), new_value);
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString(), new_value);
 }
 
 TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
@@ -159,11 +159,11 @@ TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
 
   // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
   // blocked
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
-  EXPECT_EQ(viewitem->data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
-
-  EXPECT_FALSE(viewitem->setData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_TRUE(viewitem->setData(QString("bbb"), Qt::EditRole));
-
-  EXPECT_EQ(viewitem->data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+  
+  EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
+  
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }

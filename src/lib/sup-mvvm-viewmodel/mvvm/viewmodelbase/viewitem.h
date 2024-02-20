@@ -118,27 +118,27 @@ public:
   int Column() const;
 
   /**
-   * @brief Returns the data for given role according to Qt::ItemDataRole namespace definitions.
+   * @brief Returns the Data for given role according to Qt::ItemDataRole namespace definitions.
    *
    * @param qt_role Standard Qt role.
    *
    * @return QVariant representing given role.
    */
-  virtual QVariant data(int qt_role) const;
+  virtual QVariant Data(int qt_role) const;
 
   /**
    * @brief Sets the data for given role.
    *
    * Internally sets the data to the underlying presentation item.
    */
-  virtual bool setData(const QVariant& value, int qt_role);
+  virtual bool SetData(const QVariant& value, int qt_role);
 
   /**
-   * @brief Returns Qt's item flags.
+   * @brief Returns Qt's item Flags.
    *
    * Converts internal SessionItem's status enable/disabled/readonly to what Qt expects.
    */
-  virtual Qt::ItemFlags flags() const;
+  virtual Qt::ItemFlags Flags() const;
 
   /**
    * @brief Gets buffer vector of GetChildren.

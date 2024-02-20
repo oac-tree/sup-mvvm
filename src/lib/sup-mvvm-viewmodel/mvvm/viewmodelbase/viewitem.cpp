@@ -222,17 +222,17 @@ int ViewItem::Column() const
   return p_impl->m_my_col;
 }
 
-QVariant ViewItem::data(int qt_role) const
+QVariant ViewItem::Data(int qt_role) const
 {
   return GetItemData() ? GetItemData()->Data(qt_role) : QVariant();
 }
 
-bool ViewItem::setData(const QVariant& value, int qt_role)
+bool ViewItem::SetData(const QVariant& value, int qt_role)
 {
   return GetItemData() ? GetItemData()->SetData(value, qt_role) : false;
 }
 
-Qt::ItemFlags ViewItem::flags() const
+Qt::ItemFlags ViewItem::Flags() const
 {
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 

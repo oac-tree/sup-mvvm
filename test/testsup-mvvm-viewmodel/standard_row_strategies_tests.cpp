@@ -62,15 +62,15 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForTopLevelItem)
 
   // non editable display name
   auto view_item = items.at(0).get();
-  EXPECT_EQ(view_item->data(Qt::DisplayRole).toString().toStdString(), item.GetType());
-  EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
-  EXPECT_FALSE(view_item->setData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_FALSE(view_item->setData(QString("bbb"), Qt::EditRole));
+  EXPECT_EQ(view_item->Data(Qt::DisplayRole).toString().toStdString(), item.GetType());
+  EXPECT_FALSE(view_item->Data(Qt::EditRole).isValid());
+  EXPECT_FALSE(view_item->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_FALSE(view_item->SetData(QString("bbb"), Qt::EditRole));
   EXPECT_EQ(utils::GetItemFromView<SessionItem>(view_item), &item);
 
   view_item = items.at(1).get();
-  EXPECT_FALSE(view_item->data(Qt::DisplayRole).isValid());
-  EXPECT_FALSE(view_item->data(Qt::EditRole).isValid());
+  EXPECT_FALSE(view_item->Data(Qt::DisplayRole).isValid());
+  EXPECT_FALSE(view_item->Data(Qt::EditRole).isValid());
 }
 
 //! Checks row construction for property item.
@@ -88,23 +88,23 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForPropertyItem)
 
   // first cell with Type is readonly
   auto label_view_item = items.at(0).get();
-  EXPECT_EQ(label_view_item->data(Qt::DisplayRole).toString().toStdString(), item.GetType());
-  EXPECT_FALSE(label_view_item->data(Qt::EditRole).isValid());
-  EXPECT_FALSE(label_view_item->setData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_FALSE(label_view_item->setData(QString("bbb"), Qt::EditRole));
+  EXPECT_EQ(label_view_item->Data(Qt::DisplayRole).toString().toStdString(), item.GetType());
+  EXPECT_FALSE(label_view_item->Data(Qt::EditRole).isValid());
+  EXPECT_FALSE(label_view_item->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_FALSE(label_view_item->SetData(QString("bbb"), Qt::EditRole));
 
   // second cell has editable name
   auto data_view_item = items.at(1).get();
-  EXPECT_EQ(data_view_item->data(Qt::DisplayRole).toString().toStdString(), expected_name);
-  EXPECT_EQ(data_view_item->data(Qt::EditRole).toString().toStdString(), expected_name);
+  EXPECT_EQ(data_view_item->Data(Qt::DisplayRole).toString().toStdString(), expected_name);
+  EXPECT_EQ(data_view_item->Data(Qt::EditRole).toString().toStdString(), expected_name);
   // by current convention it is not possible to change display role
-  EXPECT_FALSE(data_view_item->setData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_EQ(data_view_item->data(Qt::DisplayRole).toString().toStdString(), expected_name);
-  EXPECT_EQ(data_view_item->data(Qt::EditRole).toString().toStdString(), expected_name);
+  EXPECT_FALSE(data_view_item->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_EQ(data_view_item->Data(Qt::DisplayRole).toString().toStdString(), expected_name);
+  EXPECT_EQ(data_view_item->Data(Qt::EditRole).toString().toStdString(), expected_name);
   // but it is possible to set a new data, then editable data and display data changes
-  EXPECT_TRUE(data_view_item->setData(QString("bbb"), Qt::EditRole));
-  EXPECT_EQ(data_view_item->data(Qt::DisplayRole).toString().toStdString(), "bbb");
-  EXPECT_EQ(data_view_item->data(Qt::EditRole).toString().toStdString(), "bbb");
+  EXPECT_TRUE(data_view_item->SetData(QString("bbb"), Qt::EditRole));
+  EXPECT_EQ(data_view_item->Data(Qt::DisplayRole).toString().toStdString(), "bbb");
+  EXPECT_EQ(data_view_item->Data(Qt::EditRole).toString().toStdString(), "bbb");
 }
 
 TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyInitialState)

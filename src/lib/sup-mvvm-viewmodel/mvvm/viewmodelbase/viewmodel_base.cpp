@@ -89,7 +89,7 @@ QVariant ViewModelBase::data(const QModelIndex& index, int role) const
   }
 
   auto item = itemFromIndex(index);
-  return item ? item->data(role) : QVariant();
+  return item ? item->Data(role) : QVariant();
 }
 
 bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -101,7 +101,7 @@ bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int
 
   if (auto item = itemFromIndex(index); item)
   {
-    bool result = item->setData(value, role);
+    bool result = item->SetData(value, role);
     if (result)
     {
       emit dataChanged(index, index, QVector<int>() << role);
@@ -204,7 +204,7 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
   Qt::ItemFlags result = QAbstractItemModel::flags(index);
   if (auto item = itemFromIndex(index); item)
   {
-    result |= item->flags();
+    result |= item->Flags();
   }
   return result;
 }

@@ -242,11 +242,11 @@ TEST_F(ViewItemTest, GetFlags)
 {
   ViewItem view_item;
 
-  EXPECT_TRUE(view_item.flags() & Qt::ItemIsSelectable);
-  EXPECT_TRUE(view_item.flags() & Qt::ItemIsEnabled);
+  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsSelectable);
+  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsEnabled);
 
   // Current implementation is that ViewItem should have a data role set, to be editable
-  EXPECT_FALSE(view_item.flags() & Qt::ItemIsEditable);
-  view_item.setData(42, Qt::EditRole);
-  EXPECT_TRUE(view_item.flags() & Qt::ItemIsEditable);
+  EXPECT_FALSE(view_item.Flags() & Qt::ItemIsEditable);
+  view_item.SetData(42, Qt::EditRole);
+  EXPECT_TRUE(view_item.Flags() & Qt::ItemIsEditable);
 }

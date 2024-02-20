@@ -96,10 +96,14 @@ std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, c
   return result;
 }
 
-//! Returns vector of Qt roles corresponding to given ItemDataRole.
+/**
+ * @brief Returns vector of Qt roles corresponding to given ItemDataRole.
+ */
 MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(int role);
 
-//! Returns text color for given item.
+/**
+ * @brief Returns text color for given item.
+ */
 MVVM_VIEWMODEL_EXPORT QVariant TextColorRole(const SessionItem& item);
 
 /**
