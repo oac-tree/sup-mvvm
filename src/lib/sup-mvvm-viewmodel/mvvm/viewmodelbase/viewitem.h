@@ -78,22 +78,22 @@ public:
   /**
    * @brief Clears all children.
    */
-  void clear();
+  void Clear();
 
   /**
-   * @brief Returns parent view.
+   * @brief Returns GetParent view.
    */
-  ViewItem* parent() const;
+  ViewItem* GetParent() const;
 
   /**
-   * @brief Returns a child at given position.
+   * @brief Returns a GetChild at given position.
    *
-   * @param row Row index of a child.
-   * @param column Column index of a child.
+   * @param row Row index of a GetChild.
+   * @param column Column index of a GetChild.
    *
-   * @return A child.
+   * @return A GetChild.
    */
-  ViewItem* child(int row, int column) const;
+  ViewItem* GetChild(int row, int column) const;
 
   /**
    * @brief Returns underlying data item (non-const version).

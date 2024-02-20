@@ -57,8 +57,8 @@ TEST_F(ViewItemTest, InitialState)
   EXPECT_EQ(view_item.GetColumnCount(), 0);
   EXPECT_EQ(view_item.row(), -1);
   EXPECT_EQ(view_item.column(), -1);
-  EXPECT_EQ(view_item.parent(), nullptr);
-  EXPECT_THROW(view_item.child(0, 0), RuntimeException);
+  EXPECT_EQ(view_item.GetParent(), nullptr);
+  EXPECT_THROW(view_item.GetChild(0, 0), RuntimeException);
   EXPECT_NE(view_item.item(), nullptr);  // has ViewItemData on board
 }
 
@@ -75,11 +75,11 @@ TEST_F(ViewItemTest, AppendRow)
   // checking parent
   EXPECT_EQ(view_item.GetRowCount(), 1);
   EXPECT_EQ(view_item.GetColumnCount(), 1);
-  EXPECT_EQ(view_item.child(0, 0), expected[0]);
-  EXPECT_THROW(view_item.child(0, 1), RuntimeException);
+  EXPECT_EQ(view_item.GetChild(0, 0), expected[0]);
+  EXPECT_THROW(view_item.GetChild(0, 1), RuntimeException);
 
   // checking appended child
-  EXPECT_EQ(expected[0]->parent(), &view_item);
+  EXPECT_EQ(expected[0]->GetParent(), &view_item);
   EXPECT_EQ(expected[0]->row(), 0);
   EXPECT_EQ(expected[0]->column(), 0);
 }
@@ -115,17 +115,17 @@ TEST_F(ViewItemTest, AppendTwoRows)
 
   EXPECT_EQ(view_item.GetRowCount(), 2);
   EXPECT_EQ(view_item.GetColumnCount(), 2);
-  EXPECT_EQ(view_item.child(0, 0), expected_row0[0]);
-  EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
-  EXPECT_EQ(view_item.child(1, 0), expected_row1[0]);
-  EXPECT_EQ(view_item.child(1, 1), expected_row1[1]);
-  EXPECT_THROW(view_item.child(2, 2), RuntimeException);
+  EXPECT_EQ(view_item.GetChild(0, 0), expected_row0[0]);
+  EXPECT_EQ(view_item.GetChild(0, 1), expected_row0[1]);
+  EXPECT_EQ(view_item.GetChild(1, 0), expected_row1[0]);
+  EXPECT_EQ(view_item.GetChild(1, 1), expected_row1[1]);
+  EXPECT_THROW(view_item.GetChild(2, 2), RuntimeException);
 
   // checking parents
-  EXPECT_EQ(expected_row0[0]->parent(), &view_item);
-  EXPECT_EQ(expected_row0[1]->parent(), &view_item);
-  EXPECT_EQ(expected_row1[0]->parent(), &view_item);
-  EXPECT_EQ(expected_row1[1]->parent(), &view_item);
+  EXPECT_EQ(expected_row0[0]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row0[1]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row1[0]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row1[1]->GetParent(), &view_item);
 
   // checking row and column of children
   EXPECT_EQ(expected_row0[0]->row(), 0);
@@ -161,20 +161,20 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
 
   EXPECT_EQ(view_item.GetRowCount(), 3);
   EXPECT_EQ(view_item.GetColumnCount(), 2);
-  EXPECT_EQ(view_item.child(0, 0), expected_row0[0]);
-  EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
-  EXPECT_EQ(view_item.child(1, 0), expected_row2[0]);
-  EXPECT_EQ(view_item.child(1, 1), expected_row2[1]);
-  EXPECT_EQ(view_item.child(2, 0), expected_row1[0]);
-  EXPECT_EQ(view_item.child(2, 1), expected_row1[1]);
+  EXPECT_EQ(view_item.GetChild(0, 0), expected_row0[0]);
+  EXPECT_EQ(view_item.GetChild(0, 1), expected_row0[1]);
+  EXPECT_EQ(view_item.GetChild(1, 0), expected_row2[0]);
+  EXPECT_EQ(view_item.GetChild(1, 1), expected_row2[1]);
+  EXPECT_EQ(view_item.GetChild(2, 0), expected_row1[0]);
+  EXPECT_EQ(view_item.GetChild(2, 1), expected_row1[1]);
 
   // checking parents
-  EXPECT_EQ(expected_row0[0]->parent(), &view_item);
-  EXPECT_EQ(expected_row0[1]->parent(), &view_item);
-  EXPECT_EQ(expected_row1[0]->parent(), &view_item);
-  EXPECT_EQ(expected_row1[1]->parent(), &view_item);
-  EXPECT_EQ(expected_row2[0]->parent(), &view_item);
-  EXPECT_EQ(expected_row2[1]->parent(), &view_item);
+  EXPECT_EQ(expected_row0[0]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row0[1]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row1[0]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row1[1]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row2[0]->GetParent(), &view_item);
+  EXPECT_EQ(expected_row2[1]->GetParent(), &view_item);
 
   // checking row and column of children
   EXPECT_EQ(expected_row0[0]->row(), 0);
@@ -192,10 +192,10 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
 
   // removing middle row
   view_item.RemoveRow(1);
-  EXPECT_EQ(view_item.child(0, 0), expected_row0[0]);
-  EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
-  EXPECT_EQ(view_item.child(1, 0), expected_row1[0]);
-  EXPECT_EQ(view_item.child(1, 1), expected_row1[1]);
+  EXPECT_EQ(view_item.GetChild(0, 0), expected_row0[0]);
+  EXPECT_EQ(view_item.GetChild(0, 1), expected_row0[1]);
+  EXPECT_EQ(view_item.GetChild(1, 0), expected_row1[0]);
+  EXPECT_EQ(view_item.GetChild(1, 1), expected_row1[1]);
 
   // checking row and column of children again
   EXPECT_EQ(expected_row0[0]->row(), 0);
@@ -216,7 +216,7 @@ TEST_F(ViewItemTest, Clear)
 
   ViewItem view_item;
   view_item.AppendRow(std::move(children));
-  view_item.clear();
+  view_item.Clear();
 
   EXPECT_EQ(view_item.GetRowCount(), 0);
   EXPECT_EQ(view_item.GetColumnCount(), 0);

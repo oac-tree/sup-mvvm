@@ -184,19 +184,19 @@ void ViewItem::RemoveRow(int row)
   p_impl->removeRow(row);
 }
 
-void ViewItem::clear()
+void ViewItem::Clear()
 {
   p_impl->m_children.clear();
   p_impl->m_rows = 0;
   p_impl->m_columns = 0;
 }
 
-ViewItem* ViewItem::parent() const
+ViewItem* ViewItem::GetParent() const
 {
   return p_impl->m_parent;
 }
 
-ViewItem* ViewItem::child(int row, int column) const
+ViewItem* ViewItem::GetChild(int row, int column) const
 {
   return p_impl->child(row, column);
 }

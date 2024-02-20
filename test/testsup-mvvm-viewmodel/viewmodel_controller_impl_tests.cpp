@@ -122,11 +122,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(view_item1->GetColumnCount(), 0);
 
   // x item
-  auto x_item0 = view_item0->child(0, 0);
-  auto x_item1 = view_item0->child(0, 1);
+  auto x_item0 = view_item0->GetChild(0, 0);
+  auto x_item1 = view_item0->GetChild(0, 1);
   EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
-  EXPECT_EQ(x_item0->parent(), view_item0);
-  EXPECT_EQ(x_item1->parent(), view_item0);
+  EXPECT_EQ(x_item0->GetParent(), view_item0);
+  EXPECT_EQ(x_item1->GetParent(), view_item0);
   EXPECT_EQ(x_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
   EXPECT_EQ(x_item1->data(Qt::EditRole).toDouble(), 1.0);
   EXPECT_EQ(x_item0->GetRowCount(), 0);
@@ -135,11 +135,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(x_item1->GetColumnCount(), 0);
 
   // y item
-  auto y_item0 = view_item0->child(1, 0);
-  auto y_item1 = view_item0->child(1, 1);
+  auto y_item0 = view_item0->GetChild(1, 0);
+  auto y_item1 = view_item0->GetChild(1, 1);
   EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kY)), y_item0);
-  EXPECT_EQ(y_item0->parent(), view_item0);
-  EXPECT_EQ(y_item1->parent(), view_item0);
+  EXPECT_EQ(y_item0->GetParent(), view_item0);
+  EXPECT_EQ(y_item1->GetParent(), view_item0);
   EXPECT_EQ(y_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Y"));
   EXPECT_EQ(y_item1->data(Qt::EditRole).toDouble(), 2.0);
   EXPECT_EQ(y_item0->GetRowCount(), 0);
@@ -148,11 +148,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(y_item1->GetColumnCount(), 0);
 
   // z item
-  auto z_item0 = view_item0->child(2, 0);
-  auto z_item1 = view_item0->child(2, 1);
+  auto z_item0 = view_item0->GetChild(2, 0);
+  auto z_item1 = view_item0->GetChild(2, 1);
   EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
-  EXPECT_EQ(z_item0->parent(), view_item0);
-  EXPECT_EQ(z_item1->parent(), view_item0);
+  EXPECT_EQ(z_item0->GetParent(), view_item0);
+  EXPECT_EQ(z_item1->GetParent(), view_item0);
   EXPECT_EQ(z_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
   EXPECT_EQ(z_item1->data(Qt::EditRole).toDouble(), 3.0);
   EXPECT_EQ(z_item0->GetRowCount(), 0);
@@ -193,11 +193,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
   EXPECT_EQ(view_item1->GetColumnCount(), 0);
 
   // x item
-  auto x_item0 = view_item0->child(0, 0);
-  auto x_item1 = view_item0->child(0, 1);
+  auto x_item0 = view_item0->GetChild(0, 0);
+  auto x_item1 = view_item0->GetChild(0, 1);
   EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kX)), x_item0);
-  EXPECT_EQ(x_item0->parent(), view_item0);
-  EXPECT_EQ(x_item1->parent(), view_item0);
+  EXPECT_EQ(x_item0->GetParent(), view_item0);
+  EXPECT_EQ(x_item1->GetParent(), view_item0);
   EXPECT_EQ(x_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
   EXPECT_EQ(x_item1->data(Qt::EditRole).toDouble(), 1.0);
   EXPECT_EQ(x_item0->GetRowCount(), 0);
@@ -206,11 +206,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
   EXPECT_EQ(x_item1->GetColumnCount(), 0);
 
   // z item
-  auto z_item0 = view_item0->child(1, 0);
-  auto z_item1 = view_item0->child(1, 1);
+  auto z_item0 = view_item0->GetChild(1, 0);
+  auto z_item1 = view_item0->GetChild(1, 1);
   EXPECT_EQ(controller->GetViewItemMap().FindView(item.GetItem(VectorItem::kZ)), z_item0);
-  EXPECT_EQ(z_item0->parent(), view_item0);
-  EXPECT_EQ(z_item1->parent(), view_item0);
+  EXPECT_EQ(z_item0->GetParent(), view_item0);
+  EXPECT_EQ(z_item1->GetParent(), view_item0);
   EXPECT_EQ(z_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
   EXPECT_EQ(z_item1->data(Qt::EditRole).toDouble(), 3.0);
   EXPECT_EQ(z_item0->GetRowCount(), 0);
@@ -261,29 +261,29 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromCompoundItem)
   EXPECT_EQ(parent_view0->data(Qt::DisplayRole).toString(), QString("parent"));
   EXPECT_EQ(parent_view1->data(Qt::EditRole), QVariant());
 
-  auto width_view0 = parent_view0->child(0, 0);
-  auto width_view1 = parent_view0->child(0, 1);
+  auto width_view0 = parent_view0->GetChild(0, 0);
+  auto width_view1 = parent_view0->GetChild(0, 1);
 
   EXPECT_EQ(width_view0->data(Qt::DisplayRole).toString(), QString("width"));
   EXPECT_EQ(width_view1->data(Qt::EditRole).toInt(), 42);
 
-  auto child_view0 = parent_view0->child(1, 0);
-  auto child_view1 = parent_view0->child(1, 1);
+  auto child_view0 = parent_view0->GetChild(1, 0);
+  auto child_view1 = parent_view0->GetChild(1, 1);
   EXPECT_EQ(child_view0->data(Qt::DisplayRole).toString(), QString("child"));
   EXPECT_EQ(child_view1->data(Qt::EditRole), QVariant());
 
-  auto grandchild_view0 = child_view0->child(0, 0);
-  auto grandchild_view1 = child_view0->child(0, 1);
+  auto grandchild_view0 = child_view0->GetChild(0, 0);
+  auto grandchild_view1 = child_view0->GetChild(0, 1);
   EXPECT_EQ(grandchild_view0->data(Qt::DisplayRole).toString(), QString("grandchild"));
   EXPECT_EQ(grandchild_view1->data(Qt::EditRole), QVariant());
 
-  auto height_view0 = child_view0->child(1, 0);
-  auto height_view1 = child_view0->child(1, 1);
+  auto height_view0 = child_view0->GetChild(1, 0);
+  auto height_view1 = child_view0->GetChild(1, 1);
   EXPECT_EQ(height_view0->data(Qt::DisplayRole).toString(), QString("height"));
   EXPECT_EQ(height_view1->data(Qt::EditRole).toInt(), 43);
 
-  auto length_view0 = grandchild_view0->child(0, 0);
-  auto length_view1 = grandchild_view0->child(0, 1);
+  auto length_view0 = grandchild_view0->GetChild(0, 0);
+  auto length_view1 = grandchild_view0->GetChild(0, 1);
   EXPECT_EQ(length_view0->data(Qt::DisplayRole).toString(), QString("length"));
   EXPECT_EQ(length_view1->data(Qt::EditRole).toInt(), 44);
 }

@@ -91,7 +91,7 @@ TEST_F(ViewModelTest, GetViewItemFromIndex)
   // behavior duplicates QStandardItemModel. I would make it view_model->rootItem()
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
   EXPECT_EQ(view_model.GetViewItemFromIndex(view_model.index(0, 0)),
-            view_model.rootItem()->child(0, 0));
+            view_model.rootItem()->GetChild(0, 0));
 }
 
 TEST_F(ViewModelTest, FindViews)
@@ -102,7 +102,7 @@ TEST_F(ViewModelTest, FindViews)
 
   EXPECT_EQ(view_model.FindViews(m_model.GetRootItem()->GetItem({"", 0})),
             std::vector<const ViewItem *>(
-                {view_model.rootItem()->child(0, 0), view_model.rootItem()->child(0, 1)}));
+                {view_model.rootItem()->GetChild(0, 0), view_model.rootItem()->GetChild(0, 1)}));
 }
 
 TEST_F(ViewModelTest, GetIndexOfSessionItem)

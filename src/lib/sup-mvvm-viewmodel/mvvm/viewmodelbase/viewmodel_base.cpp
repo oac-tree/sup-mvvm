@@ -52,7 +52,7 @@ QModelIndex ViewModelBase::index(int row, int column, const QModelIndex& parent)
   auto parent_item = itemFromIndex(parent) ? itemFromIndex(parent) : rootItem();
   const bool is_valid_row = row >= 0 && row < rowCount(parent);
   const bool is_valid_column = column >= 0 && column < columnCount(parent);
-  return is_valid_row && is_valid_column ? createIndex(row, column, parent_item->child(row, column))
+  return is_valid_row && is_valid_column ? createIndex(row, column, parent_item->GetChild(row, column))
                                          : QModelIndex();
 }
 
@@ -60,7 +60,7 @@ QModelIndex ViewModelBase::parent(const QModelIndex& child) const
 {
   if (auto child_item = itemFromIndex(child); child_item)
   {
-    auto parent_item = child_item->parent();
+    auto parent_item = child_item->GetParent();
     return parent_item == rootItem()
                ? QModelIndex()
                : createIndex(parent_item->row(), parent_item->column(), parent_item);
@@ -141,7 +141,7 @@ const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const
 
 QModelIndex ViewModelBase::indexFromItem(const ViewItem* item) const
 {
-  return item && item->parent()
+  return item && item->GetParent()
              ? createIndex(item->row(), item->column(), const_cast<ViewItem*>(item))
              : QModelIndex();
 }
@@ -171,7 +171,7 @@ void ViewModelBase::clearRows(ViewItem* parent)
   }
 
   beginRemoveRows(indexFromItem(parent), 0, parent->GetRowCount() - 1);
-  parent->clear();
+  parent->Clear();
   endRemoveRows();
 }
 
