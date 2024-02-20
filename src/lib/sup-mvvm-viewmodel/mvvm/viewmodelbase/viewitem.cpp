@@ -161,7 +161,7 @@ int ViewItem::GetColumnCount() const
   return p_impl->m_columns;
 }
 
-void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
+void ViewItem::AppendRow(std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
   {
@@ -170,7 +170,7 @@ void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
   p_impl->appendRow(std::move(items));
 }
 
-void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
+void ViewItem::InsertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
   {
@@ -179,7 +179,7 @@ void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
   p_impl->insertRow(row, std::move(items));
 }
 
-void ViewItem::removeRow(int row)
+void ViewItem::RemoveRow(int row)
 {
   p_impl->removeRow(row);
 }

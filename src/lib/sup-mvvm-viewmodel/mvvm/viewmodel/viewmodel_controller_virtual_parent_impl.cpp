@@ -280,7 +280,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerVirtualParentImpl::Cr
 
         // Inserting row of views into their parent. We always insert at index 0 to compensate
         // reverse order.
-        current_parent_view->insertRow(0, std::move(row));
+        current_parent_view->InsertRow(0, std::move(row));
 
         stack.push({*it, next_parent_view});
       }

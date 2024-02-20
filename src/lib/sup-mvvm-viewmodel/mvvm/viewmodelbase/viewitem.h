@@ -57,7 +57,7 @@ public:
    * Number of items should be the same as columnCount() (if there are already some rows). If it is
    * a first row, then items can be of any size.
    */
-  void appendRow(std::vector<std::unique_ptr<ViewItem>> items);
+  void AppendRow(std::vector<std::unique_ptr<ViewItem>> items);
 
   /**
    * @brief Inserts a row of items at given position.
@@ -65,7 +65,7 @@ public:
    * @param row Row index.
    * @param items The row of items to insert.
    */
-  void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
+  void InsertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
 
   /**
    * @brief Removes row of items at given position.
@@ -73,7 +73,7 @@ public:
    *
    * @param row Row index.
    */
-  void removeRow(int row);
+  void RemoveRow(int row);
 
   /**
    * @brief Clears all children.

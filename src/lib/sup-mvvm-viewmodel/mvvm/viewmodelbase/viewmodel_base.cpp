@@ -154,7 +154,7 @@ void ViewModelBase::removeRow(ViewItem* parent, int row)
   }
 
   beginRemoveRows(indexFromItem(parent), row, row);
-  parent->removeRow(row);
+  parent->RemoveRow(row);
   endRemoveRows();
 }
 
@@ -186,7 +186,7 @@ void ViewModelBase::insertRow(ViewItem* parent, int row,
   }
 
   beginInsertRows(indexFromItem(parent), row, row);
-  parent->insertRow(row, std::move(items));
+  parent->InsertRow(row, std::move(items));
   endInsertRows();
 }
 
