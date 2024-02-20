@@ -146,12 +146,12 @@ public:
   std::vector<ViewItem*> children() const;
 
 protected:
-  void setParent(ViewItem* parent);
+  void SetParent(ViewItem* parent);
 
   /**
    * @brief Update cached values of row and col.
    */
-  void updatePositionCache(int row, int col);
+  void UpdatePositionCache(int row, int col);
 
 private:
   struct ViewItemImpl;

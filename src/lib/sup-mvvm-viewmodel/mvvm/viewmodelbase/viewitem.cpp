@@ -48,13 +48,13 @@ struct ViewItem::ViewItemImpl
   {
   }
 
-  void appendRow(std::vector<std::unique_ptr<ViewItem>> items)
+  void AppendRow(std::vector<std::unique_ptr<ViewItem>> items)
   {
-    insertRow(m_rows, std::move(items));
-    updateChildrenCache();
+    InsertRow(m_rows, std::move(items));
+    UpdateChildrenCache();
   }
 
-  void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
+  void InsertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
   {
     if (items.empty())
     {
@@ -77,10 +77,10 @@ struct ViewItem::ViewItemImpl
     m_columns = static_cast<int>(items.size());
     ++m_rows;
 
-    updateChildrenCache();
+    UpdateChildrenCache();
   }
 
-  void removeRow(int row)
+  void RemoveRow(int row)
   {
     if (row < 0 || row >= m_rows)
     {
@@ -95,10 +95,10 @@ struct ViewItem::ViewItemImpl
       m_columns = 0;
     }
 
-    updateChildrenCache();
+    UpdateChildrenCache();
   }
 
-  ViewItem* child(int row, int column) const
+  ViewItem* GetChild(int row, int column) const
   {
     if (row < 0 || row >= m_rows)
     {
@@ -113,14 +113,15 @@ struct ViewItem::ViewItemImpl
     return m_children.at(static_cast<size_t>(column + row * m_columns)).get();
   }
 
-  int index_of_child(const ViewItem* child)
+  int GetIndexOfChild(const ViewItem* child)
   {
     return utils::IndexOfItem(m_children.begin(), m_children.end(), child);
   }
 
-  //! Returns vector of children.
-
-  std::vector<ViewItem*> get_children() const
+  /**
+   * @brief Returns vector of children.
+   */
+  std::vector<ViewItem*> GetChildren() const
   {
     std::vector<ViewItem*> result;
     std::transform(m_children.begin(), m_children.end(), std::back_inserter(result),
@@ -131,13 +132,13 @@ struct ViewItem::ViewItemImpl
   /**
    * @brief Updates cached row,col values for children.
    */
-  void updateChildrenCache()
+  void UpdateChildrenCache()
   {
     for (size_t index = 0; index < m_children.size(); ++index)
     {
       const int row = index / m_columns;
       const int col = index % m_columns;
-      m_children[index]->updatePositionCache(row, col);
+      m_children[index]->UpdatePositionCache(row, col);
     }
   }
 };
@@ -165,23 +166,23 @@ void ViewItem::AppendRow(std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
   {
-    x->setParent(this);
+    x->SetParent(this);
   }
-  p_impl->appendRow(std::move(items));
+  p_impl->AppendRow(std::move(items));
 }
 
 void ViewItem::InsertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
 {
   for (auto& x : items)
   {
-    x->setParent(this);
+    x->SetParent(this);
   }
-  p_impl->insertRow(row, std::move(items));
+  p_impl->InsertRow(row, std::move(items));
 }
 
 void ViewItem::RemoveRow(int row)
 {
-  p_impl->removeRow(row);
+  p_impl->RemoveRow(row);
 }
 
 void ViewItem::Clear()
@@ -198,7 +199,7 @@ ViewItem* ViewItem::GetParent() const
 
 ViewItem* ViewItem::GetChild(int row, int column) const
 {
-  return p_impl->child(row, column);
+  return p_impl->GetChild(row, column);
 }
 
 ViewItemDataInterface* ViewItem::GetItemData()
@@ -246,15 +247,15 @@ Qt::ItemFlags ViewItem::flags() const
 
 std::vector<ViewItem*> ViewItem::children() const
 {
-  return p_impl->get_children();
+  return p_impl->GetChildren();
 }
 
-void ViewItem::setParent(ViewItem* parent)
+void ViewItem::SetParent(ViewItem* parent)
 {
   p_impl->m_parent = parent;
 }
 
-void ViewItem::updatePositionCache(int row, int col)
+void ViewItem::UpdatePositionCache(int row, int col)
 {
   p_impl->m_my_row = row;
   p_impl->m_my_col = col;
