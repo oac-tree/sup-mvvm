@@ -26,8 +26,10 @@
 
 namespace mvvm
 {
-//! Carries the data for ViewItem.
 
+/**
+ * @brief The ViewItemData class carries the data for ViewItem.
+ */
 class MVVM_VIEWMODEL_EXPORT ViewItemData : public ViewItemDataInterface
 {
 public:

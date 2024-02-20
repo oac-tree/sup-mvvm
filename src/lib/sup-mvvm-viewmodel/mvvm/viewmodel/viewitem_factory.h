@@ -31,24 +31,34 @@
 
 namespace mvvm
 {
+
 class ViewItem;
 class SessionItem;
 
-//! Creates ViewItem playing the role of root.
+/**
+ * @brief Creates ViewItem playing the role of root.
+ */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item);
 
-//! Creates read-only ViewItem displaying a label.
+/**
+ * @brief Creates read-only ViewItem displaying a label.
+ */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item,
                                                                     const std::string& label = {});
-
-//! Creates read-only ViewItem for SessionItem's display name.
+/**
+ * @brief Creates read-only ViewItem for SessionItem's display name.
+ */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 
-//! Creates ViewItem for SessionItem's data.
+/**
+ * @brief Creates ViewItem for SessionItem's data.
+ */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item,
                                                                    int role = DataRole::kData);
 
-//! Creates editable ViewItem for SessionItem's display name.
+/**
+ * @brief Creates editable ViewItem for SessionItem's display name.
+ */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(
     SessionItem* item);
 
