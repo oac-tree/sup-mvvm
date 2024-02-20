@@ -27,6 +27,7 @@
 
 namespace mvvm
 {
+
 class ViewItem;
 
 //! Base class for all view models to show content of SessionModel in Qt views.

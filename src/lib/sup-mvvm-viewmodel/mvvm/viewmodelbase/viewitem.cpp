@@ -151,12 +151,12 @@ ViewItem::ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data)
 
 ViewItem::~ViewItem() = default;
 
-int ViewItem::rowCount() const
+int ViewItem::GetRowCount() const
 {
   return p_impl->m_rows;
 }
 
-int ViewItem::columnCount() const
+int ViewItem::GetColumnCount() const
 {
   return p_impl->m_columns;
 }

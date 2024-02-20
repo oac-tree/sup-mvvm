@@ -72,13 +72,13 @@ QModelIndex ViewModelBase::parent(const QModelIndex& child) const
 int ViewModelBase::rowCount(const QModelIndex& parent) const
 {
   auto parent_item = itemFromIndex(parent);
-  return parent_item ? parent_item->rowCount() : rootItem()->rowCount();
+  return parent_item ? parent_item->GetRowCount() : rootItem()->GetRowCount();
 }
 
 int ViewModelBase::columnCount(const QModelIndex& parent) const
 {
   auto parent_item = itemFromIndex(parent);
-  return parent_item ? parent_item->columnCount() : rootItem()->columnCount();
+  return parent_item ? parent_item->GetColumnCount() : rootItem()->GetColumnCount();
 }
 
 QVariant ViewModelBase::data(const QModelIndex& index, int role) const
@@ -165,12 +165,12 @@ void ViewModelBase::clearRows(ViewItem* parent)
     throw RuntimeException("Error in ViewModelBase: attempt to use parent from another model");
   }
 
-  if (!parent->rowCount())
+  if (!parent->GetRowCount())
   {
     return;
   }
 
-  beginRemoveRows(indexFromItem(parent), 0, parent->rowCount() - 1);
+  beginRemoveRows(indexFromItem(parent), 0, parent->GetRowCount() - 1);
   parent->clear();
   endRemoveRows();
 }
@@ -194,7 +194,7 @@ void ViewModelBase::insertRow(ViewItem* parent, int row,
 
 void ViewModelBase::appendRow(ViewItem* parent, std::vector<std::unique_ptr<ViewItem>> items)
 {
-  insertRow(parent, parent->rowCount(), std::move(items));
+  insertRow(parent, parent->GetRowCount(), std::move(items));
 }
 
 //! Returns the item flags for the given index.

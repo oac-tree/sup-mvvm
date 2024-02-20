@@ -115,11 +115,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(view_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
   EXPECT_EQ(view_item1->data(Qt::EditRole).toString().toStdString(),
             std::string("(0, 0, 0)"));  // label is broken for the moment
-
-  EXPECT_EQ(view_item0->rowCount(), 3);
-  EXPECT_EQ(view_item0->columnCount(), 2);
-  EXPECT_EQ(view_item1->rowCount(), 0);
-  EXPECT_EQ(view_item1->columnCount(), 0);
+  
+  EXPECT_EQ(view_item0->GetRowCount(), 3);
+  EXPECT_EQ(view_item0->GetColumnCount(), 2);
+  EXPECT_EQ(view_item1->GetRowCount(), 0);
+  EXPECT_EQ(view_item1->GetColumnCount(), 0);
 
   // x item
   auto x_item0 = view_item0->child(0, 0);
@@ -129,10 +129,10 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(x_item1->parent(), view_item0);
   EXPECT_EQ(x_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
   EXPECT_EQ(x_item1->data(Qt::EditRole).toDouble(), 1.0);
-  EXPECT_EQ(x_item0->rowCount(), 0);
-  EXPECT_EQ(x_item0->columnCount(), 0);
-  EXPECT_EQ(x_item1->rowCount(), 0);
-  EXPECT_EQ(x_item1->columnCount(), 0);
+  EXPECT_EQ(x_item0->GetRowCount(), 0);
+  EXPECT_EQ(x_item0->GetColumnCount(), 0);
+  EXPECT_EQ(x_item1->GetRowCount(), 0);
+  EXPECT_EQ(x_item1->GetColumnCount(), 0);
 
   // y item
   auto y_item0 = view_item0->child(1, 0);
@@ -142,10 +142,10 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(y_item1->parent(), view_item0);
   EXPECT_EQ(y_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Y"));
   EXPECT_EQ(y_item1->data(Qt::EditRole).toDouble(), 2.0);
-  EXPECT_EQ(y_item0->rowCount(), 0);
-  EXPECT_EQ(y_item0->columnCount(), 0);
-  EXPECT_EQ(y_item1->rowCount(), 0);
-  EXPECT_EQ(y_item1->columnCount(), 0);
+  EXPECT_EQ(y_item0->GetRowCount(), 0);
+  EXPECT_EQ(y_item0->GetColumnCount(), 0);
+  EXPECT_EQ(y_item1->GetRowCount(), 0);
+  EXPECT_EQ(y_item1->GetColumnCount(), 0);
 
   // z item
   auto z_item0 = view_item0->child(2, 0);
@@ -155,10 +155,10 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(z_item1->parent(), view_item0);
   EXPECT_EQ(z_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
   EXPECT_EQ(z_item1->data(Qt::EditRole).toDouble(), 3.0);
-  EXPECT_EQ(z_item0->rowCount(), 0);
-  EXPECT_EQ(z_item0->columnCount(), 0);
-  EXPECT_EQ(z_item1->rowCount(), 0);
-  EXPECT_EQ(z_item1->columnCount(), 0);
+  EXPECT_EQ(z_item0->GetRowCount(), 0);
+  EXPECT_EQ(z_item0->GetColumnCount(), 0);
+  EXPECT_EQ(z_item1->GetRowCount(), 0);
+  EXPECT_EQ(z_item1->GetColumnCount(), 0);
 }
 
 //! Validate CreateRow() method for VectorItem with hidden coordinate.
@@ -186,11 +186,11 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
   EXPECT_EQ(view_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
   EXPECT_EQ(view_item1->data(Qt::EditRole).toString().toStdString(),
             std::string("(0, 0, 0)"));  // label is broken for the moment
-
-  EXPECT_EQ(view_item0->rowCount(), 2);
-  EXPECT_EQ(view_item0->columnCount(), 2);
-  EXPECT_EQ(view_item1->rowCount(), 0);
-  EXPECT_EQ(view_item1->columnCount(), 0);
+  
+  EXPECT_EQ(view_item0->GetRowCount(), 2);
+  EXPECT_EQ(view_item0->GetColumnCount(), 2);
+  EXPECT_EQ(view_item1->GetRowCount(), 0);
+  EXPECT_EQ(view_item1->GetColumnCount(), 0);
 
   // x item
   auto x_item0 = view_item0->child(0, 0);
@@ -200,10 +200,10 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
   EXPECT_EQ(x_item1->parent(), view_item0);
   EXPECT_EQ(x_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("X"));
   EXPECT_EQ(x_item1->data(Qt::EditRole).toDouble(), 1.0);
-  EXPECT_EQ(x_item0->rowCount(), 0);
-  EXPECT_EQ(x_item0->columnCount(), 0);
-  EXPECT_EQ(x_item1->rowCount(), 0);
-  EXPECT_EQ(x_item1->columnCount(), 0);
+  EXPECT_EQ(x_item0->GetRowCount(), 0);
+  EXPECT_EQ(x_item0->GetColumnCount(), 0);
+  EXPECT_EQ(x_item1->GetRowCount(), 0);
+  EXPECT_EQ(x_item1->GetColumnCount(), 0);
 
   // z item
   auto z_item0 = view_item0->child(1, 0);
@@ -213,10 +213,10 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
   EXPECT_EQ(z_item1->parent(), view_item0);
   EXPECT_EQ(z_item0->data(Qt::DisplayRole).toString().toStdString(), std::string("Z"));
   EXPECT_EQ(z_item1->data(Qt::EditRole).toDouble(), 3.0);
-  EXPECT_EQ(z_item0->rowCount(), 0);
-  EXPECT_EQ(z_item0->columnCount(), 0);
-  EXPECT_EQ(z_item1->rowCount(), 0);
-  EXPECT_EQ(z_item1->columnCount(), 0);
+  EXPECT_EQ(z_item0->GetRowCount(), 0);
+  EXPECT_EQ(z_item0->GetColumnCount(), 0);
+  EXPECT_EQ(z_item1->GetRowCount(), 0);
+  EXPECT_EQ(z_item1->GetColumnCount(), 0);
 }
 
 //! Validate CreateRow() method for compound item with child and grandchild.

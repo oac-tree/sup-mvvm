@@ -44,12 +44,12 @@ public:
   /**
    * @brief Returns the number of child item rows that the item has.
    */
-  int rowCount() const;
+  int GetRowCount() const;
 
   /**
    * @brief Returns the number of child item columns that the item has.
    */
-  int columnCount() const;
+  int GetColumnCount() const;
 
   /**
    * @brief Appends a row containing items.

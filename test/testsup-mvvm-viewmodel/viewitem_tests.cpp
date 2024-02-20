@@ -53,8 +53,8 @@ TEST_F(ViewItemTest, InitialState)
 {
   ViewItem view_item;
 
-  EXPECT_EQ(view_item.rowCount(), 0);
-  EXPECT_EQ(view_item.columnCount(), 0);
+  EXPECT_EQ(view_item.GetRowCount(), 0);
+  EXPECT_EQ(view_item.GetColumnCount(), 0);
   EXPECT_EQ(view_item.row(), -1);
   EXPECT_EQ(view_item.column(), -1);
   EXPECT_EQ(view_item.parent(), nullptr);
@@ -73,8 +73,8 @@ TEST_F(ViewItemTest, AppendRow)
   view_item.appendRow(std::move(children));
 
   // checking parent
-  EXPECT_EQ(view_item.rowCount(), 1);
-  EXPECT_EQ(view_item.columnCount(), 1);
+  EXPECT_EQ(view_item.GetRowCount(), 1);
+  EXPECT_EQ(view_item.GetColumnCount(), 1);
   EXPECT_EQ(view_item.child(0, 0), expected[0]);
   EXPECT_THROW(view_item.child(0, 1), RuntimeException);
 
@@ -96,8 +96,8 @@ TEST_F(ViewItemTest, RemoveRow)
   view_item.removeRow(0);
 
   // checking parent
-  EXPECT_EQ(view_item.rowCount(), 0);
-  EXPECT_EQ(view_item.columnCount(), 0);
+  EXPECT_EQ(view_item.GetRowCount(), 0);
+  EXPECT_EQ(view_item.GetColumnCount(), 0);
 }
 
 //! Append two rows with two items each.
@@ -113,8 +113,8 @@ TEST_F(ViewItemTest, AppendTwoRows)
   view_item.appendRow(std::move(children_row0));
   view_item.appendRow(std::move(children_row1));
 
-  EXPECT_EQ(view_item.rowCount(), 2);
-  EXPECT_EQ(view_item.columnCount(), 2);
+  EXPECT_EQ(view_item.GetRowCount(), 2);
+  EXPECT_EQ(view_item.GetColumnCount(), 2);
   EXPECT_EQ(view_item.child(0, 0), expected_row0[0]);
   EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
   EXPECT_EQ(view_item.child(1, 0), expected_row1[0]);
@@ -140,8 +140,8 @@ TEST_F(ViewItemTest, AppendTwoRows)
   // attempt to add row with different amount of children should fail
   auto [children_row2, expected_row2] = GetTestData(/*ncolumns*/ 1);
   EXPECT_THROW(view_item.appendRow(std::move(children_row2)), RuntimeException);
-  EXPECT_EQ(view_item.rowCount(), 2);
-  EXPECT_EQ(view_item.columnCount(), 2);
+  EXPECT_EQ(view_item.GetRowCount(), 2);
+  EXPECT_EQ(view_item.GetColumnCount(), 2);
 }
 
 //! Append two rows with two items each.
@@ -159,8 +159,8 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
   view_item.appendRow(std::move(children_row1));
   view_item.insertRow(1, std::move(children_row2));  // inserting in-between
 
-  EXPECT_EQ(view_item.rowCount(), 3);
-  EXPECT_EQ(view_item.columnCount(), 2);
+  EXPECT_EQ(view_item.GetRowCount(), 3);
+  EXPECT_EQ(view_item.GetColumnCount(), 2);
   EXPECT_EQ(view_item.child(0, 0), expected_row0[0]);
   EXPECT_EQ(view_item.child(0, 1), expected_row0[1]);
   EXPECT_EQ(view_item.child(1, 0), expected_row2[0]);
@@ -218,8 +218,8 @@ TEST_F(ViewItemTest, Clear)
   view_item.appendRow(std::move(children));
   view_item.clear();
 
-  EXPECT_EQ(view_item.rowCount(), 0);
-  EXPECT_EQ(view_item.columnCount(), 0);
+  EXPECT_EQ(view_item.GetRowCount(), 0);
+  EXPECT_EQ(view_item.GetColumnCount(), 0);
 }
 
 TEST_F(ViewItemTest, Children)

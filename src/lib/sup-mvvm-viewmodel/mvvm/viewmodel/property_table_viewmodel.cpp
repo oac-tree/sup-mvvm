@@ -40,9 +40,9 @@ void PropertyTableViewModel::insertRow(ViewItem* parent, int row,
   // The code below is used to inform QTableView about layout change if the number
   // of columns before the insertion doesn't coincide with the length of `items` vector to insert.
   // This happens when PropertyTableViewModel is looking on empty SessionModel.
-  int prevColumnCount = parent->columnCount();
+  int prev_column_count = parent->GetColumnCount();
   ViewModel::insertRow(parent, row, std::move(items));
-  if (parent->columnCount() != prevColumnCount)
+  if (parent->GetColumnCount() != prev_column_count)
   {
     emit layoutChanged();
   }
