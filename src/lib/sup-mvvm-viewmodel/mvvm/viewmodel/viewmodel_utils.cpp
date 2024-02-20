@@ -157,7 +157,8 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
 
 QVector<int> GetQtRoles(const ViewItem* view, int item_role)
 {
-  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view->item()); presentation)
+  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view->GetItemData());
+      presentation)
   {
     return presentation->GetQtRoles(item_role);
   }

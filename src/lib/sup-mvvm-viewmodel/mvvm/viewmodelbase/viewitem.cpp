@@ -201,12 +201,12 @@ ViewItem* ViewItem::GetChild(int row, int column) const
   return p_impl->child(row, column);
 }
 
-ViewItemDataInterface* ViewItem::item()
+ViewItemDataInterface* ViewItem::GetItemData()
 {
-  return const_cast<ViewItemDataInterface*>(static_cast<const ViewItem*>(this)->item());
+  return const_cast<ViewItemDataInterface*>(static_cast<const ViewItem*>(this)->GetItemData());
 }
 
-const ViewItemDataInterface* ViewItem::item() const
+const ViewItemDataInterface* ViewItem::GetItemData() const
 {
   return p_impl->m_view_item_data.get();
 }
@@ -223,19 +223,20 @@ int ViewItem::column() const
 
 QVariant ViewItem::data(int qt_role) const
 {
-  return item() ? item()->Data(qt_role) : QVariant();
+  return GetItemData() ? GetItemData()->Data(qt_role) : QVariant();
 }
 
 bool ViewItem::setData(const QVariant& value, int qt_role)
 {
-  return item() ? item()->SetData(value, qt_role) : false;
+  return GetItemData() ? GetItemData()->SetData(value, qt_role) : false;
 }
 
 Qt::ItemFlags ViewItem::flags() const
 {
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
-  if (item() && item()->IsEditable() && item()->Data(Qt::EditRole).isValid())
+  auto item_data = GetItemData();
+  if (item_data && item_data->IsEditable() && item_data->Data(Qt::EditRole).isValid())
   {
     result |= Qt::ItemIsEditable;
   }

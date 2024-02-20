@@ -59,7 +59,7 @@ TEST_F(ViewItemTest, InitialState)
   EXPECT_EQ(view_item.column(), -1);
   EXPECT_EQ(view_item.GetParent(), nullptr);
   EXPECT_THROW(view_item.GetChild(0, 0), RuntimeException);
-  EXPECT_NE(view_item.item(), nullptr);  // has ViewItemData on board
+  EXPECT_NE(view_item.GetItemData(), nullptr);  // has ViewItemData on board
 }
 
 //! Append single item as row.

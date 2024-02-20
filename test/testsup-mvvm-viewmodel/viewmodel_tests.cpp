@@ -110,10 +110,10 @@ TEST_F(ViewModelTest, GetIndexOfSessionItem)
   TestViewModel view_model(&m_model);
 
   // accessing first child under the root item
-  QModelIndex labelIndex = view_model.index(0, 0);
-  QModelIndex dataIndex = view_model.index(0, 1);
+  QModelIndex label_index = view_model.index(0, 0);
+  QModelIndex data_index = view_model.index(0, 1);
 
-  QModelIndexList expected{labelIndex, dataIndex};
+  QModelIndexList expected{label_index, data_index};
   EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem({"", 0})), expected);
 
   // FIXME Is this behavior correct? Might be having QModelIndex() in a list is more consistent.

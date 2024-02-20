@@ -96,14 +96,14 @@ public:
   ViewItem* GetChild(int row, int column) const;
 
   /**
-   * @brief Returns underlying data item (non-const version).
+   * @brief Returns underlying data GetItemData (non-const version).
    */
-  ViewItemDataInterface* item();
+  ViewItemDataInterface* GetItemData();
 
   /**
    * @brief Returns underlying data item (const version).
    */
-  const ViewItemDataInterface* item() const;
+  const ViewItemDataInterface* GetItemData() const;
 
   /**
    * @brief Returns the row where the item is located in its parent's child table, or -1 if the item

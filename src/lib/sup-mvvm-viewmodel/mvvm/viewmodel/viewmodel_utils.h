@@ -44,7 +44,7 @@ namespace mvvm::utils
 template <typename T = SessionItem>
 const T* GetItemFromView(const ViewItem* view_item)
 {
-  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->item());
+  if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->GetItemData());
       presentation)
   {
     return dynamic_cast<const T*>(presentation->GetItem());
@@ -59,7 +59,7 @@ const T* GetItemFromView(const ViewItem* view_item)
 template <typename T = SessionItem>
 T* GetItemFromView(ViewItem* view_item)
 {
-  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->item()); presentation)
+  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->GetItemData()); presentation)
   {
     return dynamic_cast<T*>(presentation->GetItem());
   }
