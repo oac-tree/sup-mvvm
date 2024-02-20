@@ -125,7 +125,7 @@ struct ViewItem::ViewItemImpl
   {
     std::vector<ViewItem*> result;
     std::transform(m_children.begin(), m_children.end(), std::back_inserter(result),
-                   [](const auto& x) { return x.get(); });
+                   [](const auto& child_uptr) { return child_uptr.get(); });
     return result;
   }
 
@@ -212,12 +212,12 @@ const ViewItemDataInterface* ViewItem::GetItemData() const
   return p_impl->m_view_item_data.get();
 }
 
-int ViewItem::row() const
+int ViewItem::Row() const
 {
   return p_impl->m_my_row;
 }
 
-int ViewItem::column() const
+int ViewItem::Column() const
 {
   return p_impl->m_my_col;
 }
@@ -245,7 +245,7 @@ Qt::ItemFlags ViewItem::flags() const
   return result;
 }
 
-std::vector<ViewItem*> ViewItem::children() const
+std::vector<ViewItem*> ViewItem::GetChildren() const
 {
   return p_impl->GetChildren();
 }

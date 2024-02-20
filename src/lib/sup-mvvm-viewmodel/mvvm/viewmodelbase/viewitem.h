@@ -91,12 +91,12 @@ public:
    * @param row Row index of a GetChild.
    * @param column Column index of a GetChild.
    *
-   * @return A GetChild.
+   * @return A child at given position.
    */
   ViewItem* GetChild(int row, int column) const;
 
   /**
-   * @brief Returns underlying data GetItemData (non-const version).
+   * @brief Returns underlying data data item (non-const version).
    */
   ViewItemDataInterface* GetItemData();
 
@@ -106,16 +106,16 @@ public:
   const ViewItemDataInterface* GetItemData() const;
 
   /**
-   * @brief Returns the row where the item is located in its parent's child table, or -1 if the item
+   * @brief Returns the Row where the item is located in its parent's child table, or -1 if the item
    * has no parent.
    */
-  int row() const;
+  int Row() const;
 
   /**
-   * @brief Returns the column where the item is located in its parent's child table, or -1 if the
+   * @brief Returns the Column where the item is located in its parent's child table, or -1 if the
    * item has no parent.
    */
-  int column() const;
+  int Column() const;
 
   /**
    * @brief Returns the data for given role according to Qt::ItemDataRole namespace definitions.
@@ -141,9 +141,9 @@ public:
   virtual Qt::ItemFlags flags() const;
 
   /**
-   * @brief Gets buffer vector of children.
+   * @brief Gets buffer vector of GetChildren.
    */
-  std::vector<ViewItem*> children() const;
+  std::vector<ViewItem*> GetChildren() const;
 
 protected:
   void SetParent(ViewItem* parent);

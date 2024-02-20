@@ -55,14 +55,14 @@ TEST_F(ViewItemTest, InitialState)
 
   EXPECT_EQ(view_item.GetRowCount(), 0);
   EXPECT_EQ(view_item.GetColumnCount(), 0);
-  EXPECT_EQ(view_item.row(), -1);
-  EXPECT_EQ(view_item.column(), -1);
+  EXPECT_EQ(view_item.Row(), -1);
+  EXPECT_EQ(view_item.Column(), -1);
   EXPECT_EQ(view_item.GetParent(), nullptr);
   EXPECT_THROW(view_item.GetChild(0, 0), RuntimeException);
   EXPECT_NE(view_item.GetItemData(), nullptr);  // has ViewItemData on board
 }
 
-//! Append single item as row.
+//! Append single item as Row.
 
 TEST_F(ViewItemTest, AppendRow)
 {
@@ -80,8 +80,8 @@ TEST_F(ViewItemTest, AppendRow)
 
   // checking appended child
   EXPECT_EQ(expected[0]->GetParent(), &view_item);
-  EXPECT_EQ(expected[0]->row(), 0);
-  EXPECT_EQ(expected[0]->column(), 0);
+  EXPECT_EQ(expected[0]->Row(), 0);
+  EXPECT_EQ(expected[0]->Column(), 0);
 }
 
 //! Remove row.
@@ -128,14 +128,14 @@ TEST_F(ViewItemTest, AppendTwoRows)
   EXPECT_EQ(expected_row1[1]->GetParent(), &view_item);
 
   // checking row and column of children
-  EXPECT_EQ(expected_row0[0]->row(), 0);
-  EXPECT_EQ(expected_row0[1]->row(), 0);
-  EXPECT_EQ(expected_row1[0]->row(), 1);
-  EXPECT_EQ(expected_row1[1]->row(), 1);
-  EXPECT_EQ(expected_row0[0]->column(), 0);
-  EXPECT_EQ(expected_row0[1]->column(), 1);
-  EXPECT_EQ(expected_row1[0]->column(), 0);
-  EXPECT_EQ(expected_row1[1]->column(), 1);
+  EXPECT_EQ(expected_row0[0]->Row(), 0);
+  EXPECT_EQ(expected_row0[1]->Row(), 0);
+  EXPECT_EQ(expected_row1[0]->Row(), 1);
+  EXPECT_EQ(expected_row1[1]->Row(), 1);
+  EXPECT_EQ(expected_row0[0]->Column(), 0);
+  EXPECT_EQ(expected_row0[1]->Column(), 1);
+  EXPECT_EQ(expected_row1[0]->Column(), 0);
+  EXPECT_EQ(expected_row1[1]->Column(), 1);
 
   // attempt to add row with different amount of children should fail
   auto [children_row2, expected_row2] = GetTestData(/*ncolumns*/ 1);
@@ -177,18 +177,18 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
   EXPECT_EQ(expected_row2[1]->GetParent(), &view_item);
 
   // checking row and column of children
-  EXPECT_EQ(expected_row0[0]->row(), 0);
-  EXPECT_EQ(expected_row0[1]->row(), 0);
-  EXPECT_EQ(expected_row1[0]->row(), 2);
-  EXPECT_EQ(expected_row1[1]->row(), 2);
-  EXPECT_EQ(expected_row2[0]->row(), 1);
-  EXPECT_EQ(expected_row2[1]->row(), 1);
-  EXPECT_EQ(expected_row0[0]->column(), 0);
-  EXPECT_EQ(expected_row0[1]->column(), 1);
-  EXPECT_EQ(expected_row1[0]->column(), 0);
-  EXPECT_EQ(expected_row1[1]->column(), 1);
-  EXPECT_EQ(expected_row2[0]->column(), 0);
-  EXPECT_EQ(expected_row2[1]->column(), 1);
+  EXPECT_EQ(expected_row0[0]->Row(), 0);
+  EXPECT_EQ(expected_row0[1]->Row(), 0);
+  EXPECT_EQ(expected_row1[0]->Row(), 2);
+  EXPECT_EQ(expected_row1[1]->Row(), 2);
+  EXPECT_EQ(expected_row2[0]->Row(), 1);
+  EXPECT_EQ(expected_row2[1]->Row(), 1);
+  EXPECT_EQ(expected_row0[0]->Column(), 0);
+  EXPECT_EQ(expected_row0[1]->Column(), 1);
+  EXPECT_EQ(expected_row1[0]->Column(), 0);
+  EXPECT_EQ(expected_row1[1]->Column(), 1);
+  EXPECT_EQ(expected_row2[0]->Column(), 0);
+  EXPECT_EQ(expected_row2[1]->Column(), 1);
 
   // removing middle row
   view_item.RemoveRow(1);
@@ -198,14 +198,14 @@ TEST_F(ViewItemTest, InsertRowsThenRemove)
   EXPECT_EQ(view_item.GetChild(1, 1), expected_row1[1]);
 
   // checking row and column of children again
-  EXPECT_EQ(expected_row0[0]->row(), 0);
-  EXPECT_EQ(expected_row0[1]->row(), 0);
-  EXPECT_EQ(expected_row1[0]->row(), 1);
-  EXPECT_EQ(expected_row1[1]->row(), 1);
-  EXPECT_EQ(expected_row0[0]->column(), 0);
-  EXPECT_EQ(expected_row0[1]->column(), 1);
-  EXPECT_EQ(expected_row1[0]->column(), 0);
-  EXPECT_EQ(expected_row1[1]->column(), 1);
+  EXPECT_EQ(expected_row0[0]->Row(), 0);
+  EXPECT_EQ(expected_row0[1]->Row(), 0);
+  EXPECT_EQ(expected_row1[0]->Row(), 1);
+  EXPECT_EQ(expected_row1[1]->Row(), 1);
+  EXPECT_EQ(expected_row0[0]->Column(), 0);
+  EXPECT_EQ(expected_row0[1]->Column(), 1);
+  EXPECT_EQ(expected_row1[0]->Column(), 0);
+  EXPECT_EQ(expected_row1[1]->Column(), 1);
 }
 
 //! Clean item's children.
@@ -235,7 +235,7 @@ TEST_F(ViewItemTest, Children)
   std::copy(expected_row0.begin(), expected_row0.end(), std::back_inserter(expected));
   std::copy(expected_row1.begin(), expected_row1.end(), std::back_inserter(expected));
 
-  EXPECT_EQ(view_item.children(), expected);
+  EXPECT_EQ(view_item.GetChildren(), expected);
 }
 
 TEST_F(ViewItemTest, GetFlags)

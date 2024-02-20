@@ -63,7 +63,7 @@ QModelIndex ViewModelBase::parent(const QModelIndex& child) const
     auto parent_item = child_item->GetParent();
     return parent_item == rootItem()
                ? QModelIndex()
-               : createIndex(parent_item->row(), parent_item->column(), parent_item);
+               : createIndex(parent_item->Row(), parent_item->Column(), parent_item);
   }
 
   return {};
@@ -142,7 +142,7 @@ const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const
 QModelIndex ViewModelBase::indexFromItem(const ViewItem* item) const
 {
   return item && item->GetParent()
-             ? createIndex(item->row(), item->column(), const_cast<ViewItem*>(item))
+             ? createIndex(item->Row(), item->Column(), const_cast<ViewItem*>(item))
              : QModelIndex();
 }
 

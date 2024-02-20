@@ -94,7 +94,7 @@ void ViewModelControllerVirtualParentImpl::OnModelEvent(const AboutToRemoveItemE
     const auto view = m_view_item_map.FindView(item);
     if (view)
     {
-      m_viewmodel->removeRow(view->GetParent(), view->row());
+      m_viewmodel->removeRow(view->GetParent(), view->Row());
       m_view_item_map.OnItemRemove(item);
     }
   };
