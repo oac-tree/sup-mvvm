@@ -55,4 +55,11 @@ std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item)
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
+std::unique_ptr<ViewItem> CreateFixedDataViewItem(SessionItem* item,
+                                                  std::map<int, QVariant> fixed_data)
+{
+  auto presentation = std::make_unique<FixedDataPresentationItem>(item, std::move(fixed_data));
+  return std::make_unique<ViewItem>(std::move(presentation));
+}
+
 }  // namespace mvvm

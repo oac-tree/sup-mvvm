@@ -28,6 +28,8 @@
 
 #include <gtest/gtest.h>
 
+#include <QColor>
+
 using namespace mvvm;
 
 //! Tests for factory methods related to ViewItem.
@@ -161,9 +163,25 @@ TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
   // blocked
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
   EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
-  
+
   EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
   EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
-  
+
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+}
+
+TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  QString expected_label("abc");
+  auto viewitem = CreateFixedDataViewItem(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
+  // setting decoration role too
+  QColor expected_color(Qt::red);
+  viewitem->SetData(QVariant::fromValue(expected_color), Qt::DecorationRole);
+
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), expected_label);
+  EXPECT_FALSE(viewitem->Data(Qt::EditRole).isValid());
+  EXPECT_EQ(viewitem->Data(Qt::DecorationRole).value<QColor>(), expected_color);
 }

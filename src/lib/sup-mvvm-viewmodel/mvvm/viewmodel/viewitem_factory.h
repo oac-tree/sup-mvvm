@@ -28,6 +28,9 @@
 
 #include <memory>
 #include <string>
+#include <map>
+
+class QVariant;
 
 namespace mvvm
 {
@@ -61,6 +64,14 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* 
  */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(
     SessionItem* item);
+
+/**
+ * @brief Creates ViewItem for SessionItem's with arbitrary data for any Qt role.
+ *
+ * The data of item doesn't have any connection with SessionItem signals.
+ */
+MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateFixedDataViewItem(
+    SessionItem* item, std::map<int, QVariant> fixed_data = {});
 
 }  // namespace mvvm
 
