@@ -299,7 +299,7 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
 }
 
-//! Decoration role (string with additional property ColorEditor set)
+//! Decoration role (string with additional property ColorEditor set).
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemDecorationRole)
 {
@@ -427,6 +427,8 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
     EXPECT_TRUE(presentation.GetQtRoles(DataRole::kDisplay).empty());
+    EXPECT_TRUE(presentation.IsEnabled());
+    EXPECT_TRUE(presentation.IsEditable());
   }
 
   {  // label on board
@@ -435,10 +437,13 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
     EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+    EXPECT_TRUE(presentation.IsEnabled());
+    EXPECT_TRUE(presentation.IsEditable());
 
     // item has a display role, which coincide with the label, the rest is blocked
     EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), expected_label);
     EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+    EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
 
     // setting both roles, internal data should be updated
     EXPECT_TRUE(presentation.SetData(QString("aaa"), Qt::DisplayRole));
@@ -448,5 +453,33 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("bbb"));
     EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay),
               QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+  }
+
+  {  // label on board, when item is disabled, and there is no explicit ForegroundRoles
+    SessionItem item;
+    item.SetData(42);
+    item.SetEnabled(false);
+
+    QString expected_label("abc");
+    FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
+    EXPECT_EQ(presentation.GetItem(), &item);
+    EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
+    EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
+    EXPECT_FALSE(presentation.IsEnabled());
+    EXPECT_TRUE(presentation.IsEditable());
+
+    // item has a display role, which coincide with the label
+    EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), expected_label);
+    EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+
+    // Our current FixedDataPresentationItem implementation should report ForegroundRole as from
+    // parent SessionItemPresentation (gray color corresponding to disabled item).
+    EXPECT_TRUE(presentation.Data(Qt::ForegroundRole).isValid());
+    EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
+
+    // however, if we set foreground role by ourself, it should override "gray" color of disabled
+    // item.
+    EXPECT_TRUE(presentation.SetData(QVariant::fromValue(QColor(Qt::red)), Qt::ForegroundRole));
+    EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::red));
   }
 }

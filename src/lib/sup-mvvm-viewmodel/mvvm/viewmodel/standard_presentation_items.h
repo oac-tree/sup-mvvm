@@ -137,14 +137,13 @@ public:
 };
 
 /**
- * @brief The FixedDataPresentationItem class shows any type of QVariant based data associated with
+ * @brief The FixedDataPresentationItem class shows any type of QVariant-based data associated with
  * given qt_role and given item.
  *
- * The item itself is not used directly. It might be used by ViewModelController to find
- * corresponding views.
- *
- * The data is fixed and has no connection with the original item. It is used to show any types of
- * icons, labels and background color in a cell associated with the item.
+ * Ideologically, it is similar to LabelPresentationItem, where the label has no connection with
+ * item itself, and item pointer are used only by the controller to associate items and presentation
+ * items. This class goes a step further and allows one to add any Qt role that has no direct
+ * counterpart among SessionItem's roles.
  */
 class MVVM_VIEWMODEL_EXPORT FixedDataPresentationItem : public SessionItemPresentation
 {
@@ -153,7 +152,7 @@ public:
    * @brief Main c-tor.
    *
    * @param item Reference item.
-   * @param fixed_data Map of qt roles associated with the data
+   * @param fixed_data Map of qt roles associated with the data.
    */
   FixedDataPresentationItem(SessionItem* item, std::map<int, QVariant> fixed_data);
 

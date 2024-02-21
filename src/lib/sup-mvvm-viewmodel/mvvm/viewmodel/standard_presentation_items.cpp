@@ -233,6 +233,14 @@ QVector<int> FixedDataPresentationItem::GetQtRoles(int data_role) const
 QVariant FixedDataPresentationItem::Data(int qt_role) const
 {
   auto iter = m_data.find(qt_role);
+
+  if (iter == m_data.end() && qt_role == Qt::ForegroundRole)
+  {
+    // if there is no dedicated ForegroundRole, have to use this from parent class
+    // this will allow to show text in gray, if SessionItem is disabled
+    return SessionItemPresentation::Data(qt_role);
+  }
+
   return iter != m_data.end() ? iter->second : QVariant();
 }
 
