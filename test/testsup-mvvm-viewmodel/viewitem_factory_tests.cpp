@@ -184,4 +184,8 @@ TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), expected_label);
   EXPECT_FALSE(viewitem->Data(Qt::EditRole).isValid());
   EXPECT_EQ(viewitem->Data(Qt::DecorationRole).value<QColor>(), expected_color);
+
+  // item should be read only since we didn't assing edit role
+  Qt::ItemFlags expected_flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+  EXPECT_EQ(viewitem->Flags(), expected_flags);
 }
