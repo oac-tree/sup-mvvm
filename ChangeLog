@@ -1,5 +1,13 @@
 Changes for 1.3.0:
 
+- COA Release v2.1, March 2024
+- Capitalize ViewItem API
+- Implement char8 cell editor
+- Implement consistent FindItemUp
+- Use own exceptions everywhere
+- Update documentation for base classes
+- Remove ItemManager and implement global item catalogue
+- Extract test utils into separate library
 - Switch fluent interfaced to references
 - Remove obsolete limits machinery
 - View model performance improvements for filtering of large trees
