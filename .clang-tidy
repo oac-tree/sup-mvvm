@@ -25,6 +25,7 @@ cert-*,
 -google-readability-todo,
 -bugprone-reserved-identifier,
 -cert-err58-cpp,
+-misc-include-cleaner
 '
 CheckOptions:
   - key:             misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
