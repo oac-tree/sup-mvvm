@@ -24,7 +24,6 @@
 #include "tagged_items.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/factories/item_copy_strategy_factory.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/utils/container_utils.h>
 
