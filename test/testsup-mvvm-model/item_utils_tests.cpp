@@ -24,6 +24,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/test/toy_items.h>
@@ -480,7 +481,7 @@ TEST_F(ItemUtilsTests, FindItemUp)
   }
 }
 
-//! Testing utility function CloneItem.
+//! Testing utility function CloneItem for simple PropertyItem.
 
 TEST_F(ItemUtilsTests, CloneItem)
 {
@@ -502,8 +503,37 @@ TEST_F(ItemUtilsTests, CloneItem)
   }
 }
 
-//! Testing utility function CopyItem.
-//! The difference with previous class is that identifier of copied item shouldn't coincide.
+//! Testing utility function CloneItem for parent item with child.
+
+TEST_F(ItemUtilsTests, CloneCustomItem)
+{
+  // creating parent with one child
+  auto parent = std::make_unique<SessionItem>();
+  parent->SetDisplayName("parent_name");
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append());
+  child->SetDisplayName("child_name");
+
+  // creating copy
+  auto parent_copy = utils::CloneItem(*parent);
+
+  EXPECT_EQ(parent_copy->GetTotalItemCount(), 1);
+  EXPECT_EQ(parent_copy->GetDisplayName(), "parent_name");
+  EXPECT_EQ(parent_copy->GetTaggedItems()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(parent_copy->GetModel(), nullptr);
+  EXPECT_EQ(parent_copy->GetIdentifier(), parent->GetIdentifier());  // same identifiers
+
+  // checking child reconstruction
+  auto child_copy = parent_copy->GetItem("defaultTag");
+  EXPECT_EQ(child_copy->GetParent(), parent_copy.get());
+  EXPECT_EQ(child_copy->GetTotalItemCount(), 0);
+  EXPECT_EQ(child_copy->GetDisplayName(), "child_name");
+  EXPECT_EQ(child_copy->GetTaggedItems()->GetDefaultTag(), "");
+  EXPECT_EQ(child_copy->GetIdentifier(), child->GetIdentifier());  // same identifiers
+}
+
+//! Testing utility function CopyItem for simple PropertyItem. Copied items looks the same as cloned
+//! one, except that identifiers are different.
 
 TEST_F(ItemUtilsTests, CopyItem)
 {
@@ -511,18 +541,47 @@ TEST_F(ItemUtilsTests, CopyItem)
   property.SetData(42);
 
   {  // checking copy, when pointer to SessionItem is used
-    SessionItem* to_clone = &property;
-    auto clone = utils::CopyItem(*to_clone);
+    SessionItem* to_copy = &property;
+    auto clone = utils::CopyItem(*to_copy);
     EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
     EXPECT_NE(property.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(property.Data(), clone->Data());
   }
 
   {  // checking when return type was preserved
-    std::unique_ptr<PropertyItem> clone = utils::CopyItem(property);
-    EXPECT_NE(property.GetIdentifier(), clone->GetIdentifier());
-    EXPECT_EQ(property.Data(), clone->Data());
+    std::unique_ptr<PropertyItem> copy = utils::CopyItem(property);
+    EXPECT_NE(property.GetIdentifier(), copy->GetIdentifier());
+    EXPECT_EQ(property.Data(), copy->Data());
   }
+}
+
+//! Testing utility function CopyItem for parent with child.
+
+TEST_F(ItemUtilsTests, CopyCustomItem)
+{
+  // creating parent with one child
+  auto parent = std::make_unique<SessionItem>();
+  parent->SetDisplayName("parent_name");
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+  auto child = parent->InsertItem(std::make_unique<SessionItem>(), TagIndex::Append());
+  child->SetDisplayName("child_name");
+
+  // creating copy
+  auto parent_copy = utils::CopyItem(*parent);
+
+  EXPECT_EQ(parent_copy->GetTotalItemCount(), 1);
+  EXPECT_EQ(parent_copy->GetDisplayName(), "parent_name");
+  EXPECT_EQ(parent_copy->GetTaggedItems()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(parent_copy->GetModel(), nullptr);
+  EXPECT_NE(parent_copy->GetIdentifier(), parent->GetIdentifier());  // different identifiers
+
+  // checking child reconstruction
+  auto child_copy = parent_copy->GetItem("defaultTag");
+  EXPECT_EQ(child_copy->GetParent(), parent_copy.get());
+  EXPECT_EQ(child_copy->GetTotalItemCount(), 0);
+  EXPECT_EQ(child_copy->GetDisplayName(), "child_name");
+  EXPECT_EQ(child_copy->GetTaggedItems()->GetDefaultTag(), "");
+  EXPECT_NE(child_copy->GetIdentifier(), child->GetIdentifier());  // different identifiers
 }
 
 TEST_F(ItemUtilsTests, MoveItemUp)
