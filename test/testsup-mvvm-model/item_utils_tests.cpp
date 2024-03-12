@@ -750,3 +750,36 @@ TEST_F(ItemUtilsTests, ReplaceItem)
 
   // extra test when item is a part of the model is in application_model_tests.cpp
 }
+
+TEST_F(ItemUtilsTests, ToStringAndBack)
+{
+  SessionItem parent;
+  parent.SetDisplayName("parent_name");
+  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child = parent.InsertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  child->SetDisplayName("child_name");
+
+  // to string
+  auto str = utils::ToXMLString(parent);
+
+  // reconstructiong back
+  auto reco_parent = utils::SessionItemFromXMLString(str);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
+  EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
+  EXPECT_EQ(reco_parent->GetTaggedItems()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent->GetModel(), nullptr);
+
+  // checking child reconstruction
+  auto reco_child = reco_parent->GetItem("defaultTag");
+  EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
+  EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
+  EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());
+  EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
+}

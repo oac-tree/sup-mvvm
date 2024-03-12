@@ -309,6 +309,16 @@ SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
 SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                          const TagIndex& tag_index);
 
+/**
+ * @brief Converts given item to XML string.
+ */
+std::string ToXMLString(const SessionItem& item);
+
+/**
+ * @brief Returns SessionItem from its XML representation.
+ */
+std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

@@ -25,6 +25,10 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/item_factory.h>
+#include <mvvm/serialization/treedata_item_converter.h>
+#include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <stack>
@@ -356,6 +360,20 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
 
   parent->TakeItem(tag_index);
   return parent->InsertItem(std::move(item), tag_index);
+}
+
+std::string ToXMLString(const SessionItem& item)
+{
+  TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone);
+  auto tree_data = converter.ToTreeData(item);
+  return GetXMLString(*tree_data);
+}
+
+std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str)
+{
+  TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone);
+  auto tree_data = ParseXMLDataString(str);
+  return converter.ToSessionItem(*tree_data);
 }
 
 }  // namespace mvvm::utils
