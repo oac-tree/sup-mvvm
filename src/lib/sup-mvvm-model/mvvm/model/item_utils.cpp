@@ -353,11 +353,9 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
     model->TakeItem(parent, tag_index);
     return model->InsertItem(std::move(item), parent, tag_index);
   }
-  else
-  {
-    parent->TakeItem(tag_index);
-    return parent->InsertItem(std::move(item), tag_index);
-  }
+
+  parent->TakeItem(tag_index);
+  return parent->InsertItem(std::move(item), tag_index);
 }
 
 }  // namespace mvvm::utils
