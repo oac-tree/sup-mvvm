@@ -290,7 +290,7 @@ TEST_F(ItemUtilsTests, FindPreviousSibling)
   EXPECT_EQ(utils::FindPreviousSibling(parent), nullptr);
 }
 
-//! Looking for previous item.
+//! Checking method FindNextItemToSelect.
 
 TEST_F(ItemUtilsTests, FindNextItemToSelect)
 {
@@ -310,6 +310,28 @@ TEST_F(ItemUtilsTests, FindNextItemToSelect)
   EXPECT_EQ(utils::FindNextItemToSelect(child2), child1);
   EXPECT_EQ(utils::FindNextItemToSelect(property), parent);
   EXPECT_EQ(utils::FindNextItemToSelect(parent), model.GetRootItem());
+}
+
+//! Checking method FindNextSiblingToSelect.
+
+TEST_F(ItemUtilsTests, FindNextSiblingToSelect)
+{
+  SessionModel model;
+
+  auto parent = model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
+  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+
+  auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+
+  EXPECT_EQ(utils::FindNextSiblingToSelect(child0), child1);
+  EXPECT_EQ(utils::FindNextSiblingToSelect(child1), child2);
+  EXPECT_EQ(utils::FindNextSiblingToSelect(child2), child1);
+  EXPECT_EQ(utils::FindNextSiblingToSelect(property), nullptr);
+  EXPECT_EQ(utils::FindNextSiblingToSelect(parent), nullptr);
 }
 
 //! Checking IsItemAncestor.

@@ -229,6 +229,13 @@ SessionItem* FindNextItemToSelect(SessionItem* item)
   return closest ? closest : item->GetParent();
 }
 
+SessionItem* FindNextSiblingToSelect(SessionItem* item)
+{
+  auto next = FindNextSibling(item);
+  auto closest = next ? next : FindPreviousSibling(item);
+  return closest ? closest : nullptr;
+}
+
 bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
 {
   if (!item || !candidate)
