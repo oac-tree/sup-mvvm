@@ -375,9 +375,10 @@ std::string ToXMLString(const SessionItem& item)
   return GetXMLString(*tree_data);
 }
 
-std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str)
+std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str, bool make_unique_id)
 {
-  TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone);
+  TreeDataItemConverter converter(&GetGlobalItemFactory(),
+                                  make_unique_id ? ConverterMode::kCopy : ConverterMode::kClone);
   auto tree_data = ParseXMLDataString(str);
   return converter.ToSessionItem(*tree_data);
 }

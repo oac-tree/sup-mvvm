@@ -773,7 +773,7 @@ TEST_F(ItemUtilsTests, ReplaceItem)
   // extra test when item is a part of the model is in application_model_tests.cpp
 }
 
-TEST_F(ItemUtilsTests, ToStringAndBack)
+TEST_F(ItemUtilsTests, ToStringAndBackNewID)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");
@@ -792,7 +792,7 @@ TEST_F(ItemUtilsTests, ToStringAndBack)
   EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
   EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
-  EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
+  EXPECT_NE(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->GetTaggedItems()->GetDefaultTag(), "defaultTag");
   EXPECT_EQ(reco_parent->GetModel(), nullptr);
 
@@ -802,6 +802,22 @@ TEST_F(ItemUtilsTests, ToStringAndBack)
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
   EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
-  EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());
+  EXPECT_NE(reco_child->GetIdentifier(), child->GetIdentifier());
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
+}
+
+TEST_F(ItemUtilsTests, ToStringAndBackClonedID)
+{
+  SessionItem parent;
+  parent.SetDisplayName("abc");
+
+  // to string
+  auto str = utils::ToXMLString(parent);
+
+  // reconstructiong back in full clone mode
+  auto reco_parent = utils::SessionItemFromXMLString(str, /*generate new id*/false);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
+  EXPECT_EQ(reco_parent->GetDisplayName(), "abc");
 }

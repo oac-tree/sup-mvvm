@@ -333,8 +333,12 @@ std::string ToXMLString(const SessionItem& item);
 
 /**
  * @brief Returns SessionItem from its XML representation.
+ *
+ * @param str A string containing XML representaion.
+ * @param make_unique_id Generates new ID during item creation.
  */
-std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str);
+std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str,
+                                                      bool make_unique_id = true);
 
 }  // namespace mvvm::utils
 
