@@ -224,8 +224,7 @@ SessionItem* FindPreviousSibling(SessionItem* item)
 
 SessionItem* FindNextItemToSelect(SessionItem* item)
 {
-  auto next = FindNextSibling(item);
-  auto closest = next ? next : FindPreviousSibling(item);
+  auto closest = FindNextSiblingToSelect(item);
   return closest ? closest : item->GetParent();
 }
 

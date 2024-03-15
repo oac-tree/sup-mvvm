@@ -118,7 +118,7 @@ MVVM_MODEL_EXPORT SessionItem* FindPreviousSibling(SessionItem* item);
  *
  * Method is used in the context of the next item selection after the given item was deleted. This
  * implementation suggests first selecting the next item in the list. If it is not possible, the
- * previous item will be selected, if possible. As a last resort, the item's parent will be
+ * previous item will be selected, if exist. As a last resort, the item's parent will be
  * returned.
  *
  * @param item Item which will be deleted soon.
@@ -131,7 +131,7 @@ MVVM_MODEL_EXPORT SessionItem* FindNextItemToSelect(SessionItem* item);
  *
  * Method is used in the context of the next item selection after the given item was deleted. This
  * implementation suggests first selecting the next item in the list. If it is not possible, the
- * previous item will be selected, if possible.
+ * previous item will be selected, if exist.
  *
  * @param item Item which will be deleted soon.
  * @return An item which should be selected instead, or nullptr if no selection was found.
