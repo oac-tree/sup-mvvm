@@ -27,9 +27,12 @@ namespace mvvm
 
 class SessionModelInterface;
 
-//! The standard ModelComposer to modify the model (add/remove items, reset the model).
-//! Doesn't contains any undo/redo, or signaling and is used for decorations.
-
+/**
+ * @brief The ModelComposer class represents the basic composer to modify the model.
+ *
+ * It doesn't provide any notifications, or undo/redo, and simply forwards the method call to the
+ * corresponding model's API.
+ */
 class ModelComposer : public ModelComposerInterface
 {
 public:

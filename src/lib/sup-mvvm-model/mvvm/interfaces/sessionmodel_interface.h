@@ -44,13 +44,11 @@ public:
 
   /**
    * @brief Returns model type.
-   * @return Model type.
    */
   virtual std::string GetType() const = 0;
 
   /**
    * @brief Returns root item.
-   * @return Root item.
    */
   virtual SessionItem* GetRootItem() const = 0;
 
@@ -61,29 +59,29 @@ public:
   virtual ModelEventHandler* GetEventHandler() const = 0;
 
   /**
-   * @brief Inserts item into the given parent and take ownership of it.
+   * @brief Inserts an item into the given parent and takes ownership of it.
    *
    * @param An item to insert.
    * @param parent The parent where to insert.
-   * @param tag_index A tag_index pointing to the insert place.
-   * @return The pointer to just inserted item.
+   * @param tag_index A tag_index pointing to the inserted place.
+   * @return The pointer to the inserted item.
    */
   virtual SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                   const TagIndex& tag_index) = 0;
 
   /**
-   * @brief Creates and inserts item of given type into the given parent and take ownership of it.
+   * @brief Creates and inserts an item of a given type into the given parent and takes ownership of it.
    *
    * @tparam Type of item to create.
    * @param parent The parent where to insert.
-   * @param tag_index A tag_index pointing to the insert place.
-   * @return The pointer to just inserted item.
+   * @param tag_index A tag_index pointing to the place to insert.
+   * @return The pointer to the inserted item.
    */
   template <typename T>
   T* InsertItem(SessionItem* parent = nullptr, const TagIndex& tag_index = TagIndex::Append());
 
   /**
-   * @brief Takes a child from parent and return it to the caller.
+   * @brief Takes a child from a parent and returns it to the caller.
    *
    * @param parent A parent item from where take the item.
    * @param tag_index A tag_index pointing to the child.
@@ -93,39 +91,39 @@ public:
 
   /**
    * @brief Removes an item from the model and discards it.
-   * @param item The item to remove.
    *
-   * @details The item should belong to the model. It's exact parent and tag_index will be deduced
-   * from the item itself.
+   * The item should belong to the model. Its exact parent and tag_index will be deduced from the
+   * item itself.
+   *
+   * @param item The item to remove.
    */
   virtual void RemoveItem(SessionItem* item) = 0;
 
   /**
    * @brief Moves an item from it's current parent to a new parent.
    *
+   * Old and new parents should belong to the same model. Please note, that the current
+   * implementation moves and item via combination of take/insert. This leads to corresponding
+   * notifications: about-to-remove, item removed, about-to-insert, item inserted.
+   *
    * @param item The item to move.
    * @param new_parent New parent where to insert.
    * @param tag_index A tag_index pointing to the insert place.
-   *
-   * @details Old and new parents should belong to the same model. Please note, that the current
-   * implementation moves and item via combination of take/insert. This leads to corresponding
-   * notifications: about-to-remove, item removed, about-to-insert, item inserted.
    */
   virtual void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) = 0;
 
   /**
    * @brief Sets the value to the given data role of the given item.
    *
+   * If the data is the same as before, will return false and will suppress notifications. It is not
+   * possible to change the data type for a given role, once the role is set for the first time.
+   * I.e. an attempt to set an integer to the role containing a string will lead to the exception.
+   * User utils::ReplaceData if you need to change a data type.
+   *
    * @param item The item to set the data.
    * @param value The value.
    * @param role The data role.
    * @return Returns true, if the data was changed.
-   *
-   * @details If the data is the same as before, will return false and will suppress notifications.
-   *
-   * @details It is not possible to change the data type for a given role, once the role was set for
-   * the first time. I.e. attempt to set an integer to the role containing a string will lead to
-   * the exception.
    */
   virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
 
@@ -147,14 +145,14 @@ public:
   /**
    * @brief A tech method to inform the model about new item.
    *
-   * @details Internally it just registers an item in memory pool for faster search.
+   * Internally it just registers an item in memory pool for faster search.
    */
   virtual void CheckIn(SessionItem* item) = 0;
 
   /**
    * @brief A tech method to inform the model that item is no longer belongs to the model.
    *
-   * @details Internally it just un-registers an item from memory pool.
+   * Internally it just un-registers an item from memory pool.
    */
   virtual void CheckOut(SessionItem* item) = 0;
 };

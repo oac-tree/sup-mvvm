@@ -29,8 +29,10 @@ namespace mvvm
 
 class SessionModelInterface;
 
-//! The decorator class to enhance standard ModelComposer with notification abilities.
-
+/**
+ * @brief The NotifyingModelComposer class enhances standard ModelComposer with notification
+ * abilities.
+ */
 template <typename T>
 class NotifyingModelComposer : public T
 {

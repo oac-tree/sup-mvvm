@@ -30,8 +30,10 @@ namespace mvvm
 
 class CommandStackInterface;
 
-//! The decorator class to enhance standard ModelComposer with undo/redo capabilities.
-
+/**
+ * @brief The CommandModelComposer class is a decorator class to enhance standard ModelComposer with
+ * undo/redo capabilities.
+ */
 class CommandModelComposer : public ModelComposerInterface
 {
 public:
