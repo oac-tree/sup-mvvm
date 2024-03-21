@@ -96,6 +96,11 @@ public:
   bool CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const;
 
   /**
+   * @brief Checks if item type can be inserted into the given place.
+   */
+  bool CanInsertType(const std::string& item_type, const TagIndex& tag_index) const;
+
+  /**
    * @brief Inserts item into the given tag_index, ownership is taken.
    *
    * @param item Item to insert.

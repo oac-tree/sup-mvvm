@@ -83,14 +83,19 @@ public:
   std::unique_ptr<SessionItem> TakeItem(int index);
 
   /**
-   * @brief Returns true if the item can be removed from the given index.
+   * @brief Checks if the item can be removed from the given index.
    */
   bool CanTakeItem(int index) const;
 
   /**
-   * @brief Returns true if the item can be inserted into the given index.
+   * @brief Checks if the item can be inserted into the given index.
    */
   bool CanInsertItem(const SessionItem* item, int index) const;
+
+  /**
+   * @brief Checks if an item with the given type can be inserted into the given index.
+   */
+  bool CanInsertType(const std::string& item_type, int index) const;
 
   /**
    * @brief Returns index of item in a vector of items, or -1 if an item doesn't belong to us.

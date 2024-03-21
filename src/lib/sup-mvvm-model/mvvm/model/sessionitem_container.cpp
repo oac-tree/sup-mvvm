@@ -99,6 +99,14 @@ bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) con
   return valid_index && enough_place && valid_type;
 }
 
+bool SessionItemContainer::CanInsertType(const std::string& item_type, int index) const
+{
+  const bool valid_index = (index >= 0 && index <= GetItemCount());
+  const bool enough_place = !IsMaximumReached();
+  const bool valid_type = m_tag_info.IsValidType(item_type);
+  return valid_index && enough_place && valid_type;
+}
+
 int SessionItemContainer::IndexOfItem(const SessionItem* item) const
 {
   return utils::IndexOfItem(m_items, item);

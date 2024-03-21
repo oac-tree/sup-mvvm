@@ -350,6 +350,21 @@ TEST_F(SessionItemContainerTests, CanInsertOwnItem)
   EXPECT_FALSE(tag.CanInsertItem(child0_ptr, 4));
 }
 
+//! Checking ::canInsertItem.
+
+TEST_F(SessionItemContainerTests, CanInsertType)
+{
+  const std::string tag_name("tag");
+  const std::string model_type("model_a");
+
+  SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name, {tag_name}));
+
+  // inserting non-existing item
+  EXPECT_FALSE(tag.CanInsertType("non-existing", 0));
+  EXPECT_TRUE(tag.CanInsertType(tag_name, 0));
+  EXPECT_FALSE(tag.CanInsertType(tag_name, 1));
+}
+
 //! Checking ::takeItem when tag is related to property tag.
 
 TEST_F(SessionItemContainerTests, TakeItemPropertyType)

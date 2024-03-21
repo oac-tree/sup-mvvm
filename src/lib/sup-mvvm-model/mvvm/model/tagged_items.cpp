@@ -84,6 +84,11 @@ bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_ind
   return false;
 }
 
+bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& tag_index) const
+{
+  return GetContainer(tag_index.tag)->CanInsertType(item_type, tag_index.index);
+}
+
 SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   if (auto actual_tag_index = GetInsertTagIndex(tag_index); actual_tag_index.has_value())
