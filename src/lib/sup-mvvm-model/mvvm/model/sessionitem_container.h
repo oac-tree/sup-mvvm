@@ -81,9 +81,16 @@ public:
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, int index);
 
   /**
-   * @brief Checks if an item with the given type can be inserted into the given index.
+   * @brief Checks if a new item with the given type can be inserted into the given index.
    */
-  bool CanInsertType(const std::string& item_type, int index) const;
+  bool CanInsertType(const std::string& item_type, int new_index) const;
+
+  /**
+   * @brief Checks if the item can be moved into the given index.
+   *
+   * The behavior depends on if the item belongs already to the container, or not.
+   */
+  bool CanMoveItem(const SessionItem* item, int index) const;
 
   /**
    * @brief Checks if the item can be removed from the given index.

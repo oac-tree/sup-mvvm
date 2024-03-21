@@ -407,3 +407,21 @@ TEST_F(SessionItemContainerTests, Clone)
     EXPECT_EQ(clone->ItemAt(0)->GetIdentifier(), child1_ptr->GetIdentifier());
   }
 }
+
+TEST_F(SessionItemContainerTests, CanMoveWithinContainer)
+{
+  const std::string tag_name("tag");
+  SessionItemContainer container(TagInfo::CreateUniversalTag(tag_name));
+
+  auto [child1, child1_ptr] = CreateItem();
+  container.InsertItem(std::move(child1), container.GetItemCount());
+  auto [child2, child2_ptr] = CreateItem();
+  container.InsertItem(std::move(child2), container.GetItemCount());
+  auto [child3, child3_ptr] = CreateItem();
+  container.InsertItem(std::move(child3), container.GetItemCount());
+
+  EXPECT_FALSE(container.CanMoveItem(child1_ptr, 0));
+  EXPECT_TRUE(container.CanMoveItem(child1_ptr, 1));
+  EXPECT_TRUE(container.CanMoveItem(child1_ptr, 2));
+  EXPECT_FALSE(container.CanMoveItem(child1_ptr, 3));
+}

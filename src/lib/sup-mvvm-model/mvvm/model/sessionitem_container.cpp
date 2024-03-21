@@ -54,6 +54,11 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
+  if (!item)
+  {
+    return false;
+  }
+
   // if item belongs to this container already, a request to insert an item will
   // be prepended by item removal. Should adjust max number of items accordingly.
 
@@ -71,6 +76,36 @@ bool SessionItemContainer::CanInsertType(const std::string& item_type, int index
   const bool enough_place = !IsMaximumReached();
   const bool valid_type = m_tag_info.IsValidType(item_type);
   return valid_index && enough_place && valid_type;
+}
+
+bool SessionItemContainer::CanMoveItem(const SessionItem* item, int index) const
+{
+  if (!item || !m_tag_info.IsValidType(item->GetType()))
+  {
+    return false;
+  }
+
+  auto current_item_index = IndexOfItem(item);
+
+  // item belongs to another container
+  if (current_item_index < 0)
+  {
+    return CanInsertItem(item, index);
+  }
+
+  // item is already in proper place
+  if (current_item_index == index)
+  {
+    return false;
+  }
+
+  // item belongs already to this container, and we can't remove it
+  if (!CanTakeItem(current_item_index))
+  {
+    return false;
+  }
+
+  return index >= 0 && index < GetItemCount();
 }
 
 SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, int index)

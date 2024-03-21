@@ -89,7 +89,7 @@ public:
   /**
    * @brief Checks if the given item can be inserted into the given place.
    *
-   * @param item Item top insert.
+   * @param item Item to insert.
    * @param tag_index A TagIndex pointing to the insert place.
    * @return True if insertion is possible.
    */
@@ -119,6 +119,14 @@ public:
    * @brief Removes an item from the given tag_index, returns it to the caller.
    */
   std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
+
+  /**
+   * @brief Checks if the item can be moved into the given index.
+   *
+   * @param item Item to insert.
+   * @param tag_index A TagIndex pointing to the insert place.
+   */
+  bool CanMoveItem(const SessionItem* item, const TagIndex& tag_index) const;
 
   /**
    * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
