@@ -142,10 +142,23 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-  utils::ValidateItemMove(item, new_parent, tag_index);
 
-  auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
-  InsertItem(std::move(taken), new_parent, tag_index);
+  if (auto actual_tagindex = utils::GetActualInsertTagIndex(new_parent, tag_index); actual_tagindex.has_value())
+  {
+    if (item->GetParent() == new_parent && item->GetTagIndex() == actual_tagindex.value())
+    {
+      return;
+    }
+
+    utils::ValidateItemMove(item, new_parent, actual_tagindex.value());
+
+    auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
+    InsertItem(std::move(taken), new_parent, tag_index);
+  }
+  else
+  {
+    throw RuntimeException("Shouldn't be here");
+  }
 }
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)

@@ -86,6 +86,7 @@ std::pair<bool, std::string> CanTakeItem(const SessionModelInterface* model,
 void ValidateTakeItem(const SessionModelInterface* model, const SessionItem* parent,
                       const TagIndex& tag_index);
 
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_VALIDATE_UTILS_H_

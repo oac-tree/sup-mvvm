@@ -35,7 +35,8 @@ const bool kFailure = false;
 namespace mvvm::utils
 {
 
-std::optional<TagIndex> GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
+std::optional<TagIndex> GetActualInsertTagIndex(const SessionItem *parent,
+                                                const TagIndex &tag_index)
 {
   if (!parent)
   {
@@ -72,9 +73,17 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const Sessio
     return {kFailure, "Attempt to turn ancestor into a child"};
   }
 
-  if (!parent->GetTaggedItems()->CanInsertItem(item, tag_index))
+  auto actual_index = GetActualInsertTagIndex(parent, tag_index);
+  if (actual_index.has_value())
   {
-    return {kFailure, "Can't insert item to parent"};
+    if (!parent->GetTaggedItems()->CanInsertItem(item, actual_index.value()))
+    {
+      return {kFailure, "Can't insert item to parent"};
+    }
+  }
+  else
+  {
+    return {kFailure, "Can't get a tag"};
   }
 
   return {kSuccess, ""};
@@ -108,25 +117,25 @@ std::pair<bool, std::string> CanMoveItem(const SessionItem *item, const SessionI
   }
 
   auto current_parent = item->GetParent();
+
   if (!current_parent->GetTaggedItems()->CanTakeItem(item->GetTagIndex()))
   {
     return {kFailure, "Can't take item from parent"};
   }
 
-  if (!new_parent->GetTaggedItems()->CanInsertItem(item, tag_index))
+  if (!new_parent->GetTaggedItems()->CanMoveItem(item, tag_index))
   {
-    return {kFailure,
-            "Can't insert item to a new parent. It doesn't allow more children of this type"};
-  }
-
-  if (item == new_parent)
-  {
-    return {kFailure, "Attempt to insert an item to itself"};
+    return {kFailure, "Can't move item to this place"};
   }
 
   if (utils::IsItemAncestor(new_parent, item))
   {
     return {kFailure, "Attempt to make ancestor a child"};
+  }
+
+  if (item == new_parent)
+  {
+    return {kFailure, "Attempt to insert an item to itself"};
   }
 
   return {kSuccess, ""};

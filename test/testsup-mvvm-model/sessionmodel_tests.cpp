@@ -435,7 +435,7 @@ TEST_F(SessionModelTest, MoveItemRootContextSamePos)
   // moving item1 to the same position
   model.MoveItem(item1, model.GetRootItem(), {"", 1});
 
-  // expecting new order of items
+  // expecting same order of items
   std::vector<SessionItem*> expected = {item0, item1, item2, item3};
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }

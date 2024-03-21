@@ -74,14 +74,7 @@ int TaggedItems::GetItemCount(const std::string& tag) const
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  // for indices like TagIndex::Append we have to find actual index
-  if (auto actual_tag_index = GetInsertTagIndex(tag_index); actual_tag_index.has_value())
-  {
-    auto [tag, index] = actual_tag_index.value();
-    return GetContainer(tag)->CanInsertItem(item, index);
-  }
-
-  return false;
+  return GetContainer(tag_index.tag)->CanInsertItem(item, tag_index.index);
 }
 
 bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& tag_index) const
@@ -91,13 +84,7 @@ bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& ta
 
 SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
-  if (auto actual_tag_index = GetInsertTagIndex(tag_index); actual_tag_index.has_value())
-  {
-    auto [tag, index] = actual_tag_index.value();
-    return GetContainer(tag)->InsertItem(std::move(item), index);
-  }
-
-  throw RuntimeException("Can't insert item");
+  return GetContainer(tag_index.tag)->InsertItem(std::move(item), tag_index.index);
 }
 
 bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const

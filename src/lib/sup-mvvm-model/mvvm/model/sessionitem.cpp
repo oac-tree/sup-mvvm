@@ -220,16 +220,31 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
     throw InvalidOperationException("Attempt to turn ancestor into a child");
   }
 
-  if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
+  // if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
+  // {
+  //   throw InvalidOperationException("Wrong tags");
+  // }
+
+  // auto result = p_impl->m_tags->InsertItem(std::move(item), tag_index);
+  // result->SetParent(this);
+  // result->SetModel(GetModel());
+
+  // return result;
+
+  if (auto insert_index = p_impl->m_tags->GetInsertTagIndex(tag_index); insert_index.has_value())
   {
-    throw InvalidOperationException("Wrong tags");
+    if (p_impl->m_tags->CanInsertItem(item.get(), insert_index.value()))
+    {
+      auto result = p_impl->m_tags->InsertItem(std::move(item), insert_index.value());
+      result->SetParent(this);
+      result->SetModel(GetModel());
+      return result;
+    }
   }
 
-  auto result = p_impl->m_tags->InsertItem(std::move(item), tag_index);
-  result->SetParent(this);
-  result->SetModel(GetModel());
+  throw InvalidOperationException("Wrong tags");
 
-  return result;
+
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)

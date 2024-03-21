@@ -103,16 +103,16 @@ TEST_F(TaggedItemsTests, CanInsertItemForUniversalTag)
 
   auto [child1, child1_ptr] = CreateItem();
   EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, 0}));
-  EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, -1}));
+  EXPECT_FALSE(items.CanInsertItem(child1.get(), {tagname, -1}));
   EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, items.GetItemCount(tagname)}));
-  EXPECT_EQ(items.InsertItem(std::move(child1), {tagname, -1}), child1_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child1), {tagname, -1}), nullptr);
 
   // inserting second child
   auto [child2, child2_ptr] = CreateItem();
   EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, 0}));
-  EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, -1}));
+  EXPECT_FALSE(items.CanInsertItem(child2.get(), {tagname, -1}));
   EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, items.GetItemCount(tagname)}));
-  EXPECT_EQ(items.InsertItem(std::move(child2), {tagname, -1}), child2_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child2), {tagname, -1}), nullptr);
 
   // inserting third child is not possible
   auto child3 = std::make_unique<SessionItem>();
@@ -145,10 +145,10 @@ TEST_F(TaggedItemsTests, InsertItem)
   auto [child_t2_b, child_t2_b_ptr] = CreateItem();
   auto [child_t2_c, child_t2_c_ptr] = CreateItem();
 
-  EXPECT_EQ(items.InsertItem(std::move(child_t2_a), TagIndex::Append(tag2)), child_t2_a_ptr);
-  EXPECT_EQ(items.InsertItem(std::move(child_t2_c), TagIndex::Append(tag2)), child_t2_c_ptr);
-  EXPECT_EQ(items.InsertItem(std::move(child_t1_a), TagIndex::Append(tag1)), child_t1_a_ptr);
-  EXPECT_EQ(items.InsertItem(std::move(child_t1_b), TagIndex::Append(tag1)), child_t1_b_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child_t2_a), {tag2, 0}), child_t2_a_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child_t2_c), {tag2, 1}), child_t2_c_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child_t1_a), {tag1, 0}), child_t1_a_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child_t1_b), {tag1, 1}), child_t1_b_ptr);
   // child_t2_b will be between child_t2_a and child_t2_c
   EXPECT_EQ(items.InsertItem(std::move(child_t2_b), {tag2, 1}), child_t2_b_ptr);
 
@@ -179,9 +179,11 @@ TEST_F(TaggedItemsTests, GetTagIndexOfItem)
   auto [child_t1_a, child_t1_a_ptr] = CreateItem();
   auto [child_t1_b, child_t1_b_ptr] = CreateItem();
   auto [child_t2_a, child_t2_a_ptr] = CreateItem();
-  items.InsertItem(std::move(child_t1_a), TagIndex::Append());  // 0
-  items.InsertItem(std::move(child_t1_b), TagIndex::Append());  // 1
-  items.InsertItem(std::move(child_t2_a), {tag2, 0});           // 0
+  items.InsertItem(std::move(child_t1_a),
+                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 0
+  items.InsertItem(std::move(child_t1_b),
+                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 1
+  items.InsertItem(std::move(child_t2_a), {tag2, 0});                     // 0
 
   // checking children tag and row
   EXPECT_EQ(items.TagIndexOfItem(child_t1_a_ptr).tag, tag1);
@@ -215,9 +217,11 @@ TEST_F(TaggedItemsTests, GetItem)
   auto [child_t1_a, child_t1_a_ptr] = CreateItem();
   auto [child_t1_b, child_t1_b_ptr] = CreateItem();
   auto [child_t2_a, child_t2_a_ptr] = CreateItem();
-  items.InsertItem(std::move(child_t1_a), TagIndex::Append());  // 0
-  items.InsertItem(std::move(child_t1_b), TagIndex::Append());  // 1
-  items.InsertItem(std::move(child_t2_a), {tag2, 0});           // 0
+  items.InsertItem(std::move(child_t1_a),
+                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 0
+  items.InsertItem(std::move(child_t1_b),
+                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 1
+  items.InsertItem(std::move(child_t2_a), {tag2, 0});                     // 0
 
   EXPECT_EQ(items.GetItem({tag1, 0}), child_t1_a_ptr);
   EXPECT_EQ(items.GetItem({tag1, 1}), child_t1_b_ptr);
@@ -245,10 +249,18 @@ TEST_F(TaggedItemsTests, TakeItem)
   auto [child2, child2_ptr] = CreateItem<TestItem>(model_type);
   auto [child3, child3_ptr] = CreateItem<TestItem>(model_type);
   auto [child4, child4_ptr] = CreateItem<TestItem>(model_type);
-  EXPECT_EQ(items.InsertItem(std::move(child1), TagIndex::Append()), child1_ptr);
-  EXPECT_EQ(items.InsertItem(std::move(child2), TagIndex::Append()), child2_ptr);
-  EXPECT_EQ(items.InsertItem(std::move(child3), TagIndex::Append()), child3_ptr);
-  EXPECT_EQ(items.InsertItem(std::move(child4), TagIndex::Append(tag2)), child4_ptr);
+  EXPECT_EQ(
+      items.InsertItem(std::move(child1), items.GetInsertTagIndex(TagIndex::Append()).value()),
+      child1_ptr);
+  EXPECT_EQ(
+      items.InsertItem(std::move(child2), items.GetInsertTagIndex(TagIndex::Append()).value()),
+      child2_ptr);
+  EXPECT_EQ(
+      items.InsertItem(std::move(child3), items.GetInsertTagIndex(TagIndex::Append()).value()),
+      child3_ptr);
+  EXPECT_EQ(
+      items.InsertItem(std::move(child4), items.GetInsertTagIndex(TagIndex::Append(tag2)).value()),
+      child4_ptr);
 
   // taking item in between
   EXPECT_TRUE(items.CanTakeItem({"", 1}));
@@ -278,7 +290,8 @@ TEST_F(TaggedItemsTests, Clone)
 
   auto [child_t1, child_t1_ptr] = CreateItem();
   auto [child_t2, child_t2_ptr] = CreateItem();
-  items.InsertItem(std::move(child_t1), TagIndex::Append())->SetDisplayName("abc");
+  items.InsertItem(std::move(child_t1), items.GetInsertTagIndex(TagIndex::Append()).value())
+      ->SetDisplayName("abc");
   items.InsertItem(std::move(child_t2), {tag2, 0})->SetDisplayName("def");
 
   {  // deep copy
