@@ -345,3 +345,51 @@ TEST_F(TaggedItemsTests, FindContainer)
   EXPECT_EQ(items.FindContainer(""), &items.ContainerAt(1));
   EXPECT_EQ(items.FindContainer(tag2), &items.ContainerAt(1));
 }
+
+TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
+{
+  {  // no tags
+    TaggedItems items;
+    EXPECT_FALSE(items.GetInsertTagIndex(TagIndex::Append()).has_value());
+  }
+
+  {  // default tag
+    TaggedItems items;
+    // registering default tag
+    items.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+
+    // checking that uninitialised tag is correctly converted to the right tag
+    auto tag_index = items.GetInsertTagIndex({"", -1});
+    ASSERT_TRUE(tag_index.has_value());
+    EXPECT_EQ(tag_index.value(), TagIndex("tag", 0));
+
+    // inserting an item, checking if tag points to the next one after
+    items.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
+    auto tag_index2 = items.GetInsertTagIndex({"", -1});
+    ASSERT_TRUE(tag_index2.has_value());
+    EXPECT_EQ(tag_index2.value(), TagIndex("tag", 1));
+
+    // it is not possible to convert wrong tag to something meaningful
+    EXPECT_FALSE(items.GetInsertTagIndex({"abc", 0}).has_value());
+  }
+
+  {  // non-default tag
+    TaggedItems items;
+    // registering default tag
+    items.RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
+
+    // It is not possible to convert empty tag name into something meaningfull
+    EXPECT_FALSE(items.GetInsertTagIndex({"", -1}).has_value());
+
+    // if tag is ok, index wwill be converted
+    auto tag_index = items.GetInsertTagIndex({"tag", -1});
+    ASSERT_TRUE(tag_index.has_value());
+    EXPECT_EQ(tag_index.value(), TagIndex("tag", 0));
+
+    // inserting an item, checking if tag points to the next one after
+    items.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
+    auto tag_index2 = items.GetInsertTagIndex({"tag", -1});
+    ASSERT_TRUE(tag_index2.has_value());
+    EXPECT_EQ(tag_index2.value(), TagIndex("tag", 1));
+  }
+}

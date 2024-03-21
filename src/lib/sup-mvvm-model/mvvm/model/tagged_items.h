@@ -24,6 +24,7 @@
 #include <mvvm/model_export.h>
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -193,6 +194,18 @@ public:
    * If the provided tag name is empty, will try to find a container registered by default.
    */
   SessionItemContainer* FindContainer(const std::string& tag) const;
+
+  /**
+   * @brief Converts TagIndex::Append() into an actual TagIndex.
+   *
+   * The method is mainly used to convert TagIndex::Append() to the actual insert index. Also
+   * performs validation if index is valid and tag name exists. Will return an empty result if it is
+   * not the case.
+   *
+   * @param index A tag index for item insert.
+   * @return An optional
+   */
+  std::optional<TagIndex> GetInsertTagIndex(const TagIndex& index) const;
 
 private:
   container_t m_containers;
