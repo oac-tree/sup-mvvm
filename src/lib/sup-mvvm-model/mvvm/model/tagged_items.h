@@ -180,16 +180,17 @@ public:
   std::unique_ptr<TaggedItems> Clone(bool make_unique_id) const;
 
   /**
-   * @brief Returns container corresponding to the given name.
+   * @brief Returns container corresponding to the given name, or throw if container doesn't exist.
    *
-   * If tag name is empty, container registered as default will be used. If non-empty tag name
-   * doesn't exist, will throw.
+   * If the provided tag name is empty, will try to find a container registered by default.
    */
   SessionItemContainer* GetContainer(const std::string& tag) const;
 
   /**
    * @brief Returns container corresponding to the given tag name, or nullptr if container doesn't
    * exist.
+   *
+   * If the provided tag name is empty, will try to find a container registered by default.
    */
   SessionItemContainer* FindContainer(const std::string& tag) const;
 

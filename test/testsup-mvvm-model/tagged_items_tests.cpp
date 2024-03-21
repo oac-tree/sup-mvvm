@@ -26,8 +26,6 @@
 
 #include <gtest/gtest.h>
 
-#include <stdexcept>
-
 using namespace mvvm;
 
 //! Tests for SessionItemTags class.
@@ -304,4 +302,46 @@ TEST_F(TaggedItemsTests, Clone)
     EXPECT_EQ(clone->GetItem({tag1, 0})->GetDisplayName(), std::string("abc"));
     EXPECT_EQ(clone->GetItem({tag2, 0})->GetDisplayName(), std::string("def"));
   }
+}
+
+TEST_F(TaggedItemsTests, GetContainer)
+{
+  TaggedItems items;
+
+  EXPECT_THROW(items.GetContainer(""), RuntimeException);
+  EXPECT_THROW(items.GetContainer("abc"), RuntimeException);
+
+  // non-default container
+  const std::string tag1("tag1");
+  items.RegisterTag(TagInfo::CreateUniversalTag(tag1), /*set_as_default*/ false);
+  EXPECT_THROW(items.GetContainer(""), RuntimeException);
+  EXPECT_EQ(items.GetContainer(tag1), &items.ContainerAt(0));
+
+  // non-default container
+  const std::string tag2("tag2");
+  items.RegisterTag(TagInfo::CreateUniversalTag(tag2), /*set_as_default*/ true);
+  EXPECT_EQ(items.FindContainer(""), &items.ContainerAt(1));
+  EXPECT_EQ(items.FindContainer(tag2), &items.ContainerAt(1));
+}
+
+TEST_F(TaggedItemsTests, FindContainer)
+{
+  TaggedItems items;
+
+  EXPECT_EQ(items.FindContainer(""), nullptr);
+  EXPECT_EQ(items.FindContainer("abc"), nullptr);
+
+  // non-default container
+  const std::string tag1("tag1");
+  items.RegisterTag(TagInfo::CreateUniversalTag(tag1), /*set_as_default*/ false);
+  EXPECT_EQ(items.FindContainer(""), nullptr);
+  EXPECT_NE(items.FindContainer(tag1), nullptr);
+  EXPECT_EQ(items.FindContainer(tag1), &items.ContainerAt(0));
+
+  // non-default container
+  const std::string tag2("tag2");
+  items.RegisterTag(TagInfo::CreateUniversalTag(tag2), /*set_as_default*/ true);
+  EXPECT_NE(items.FindContainer(""), nullptr);
+  EXPECT_EQ(items.FindContainer(""), &items.ContainerAt(1));
+  EXPECT_EQ(items.FindContainer(tag2), &items.ContainerAt(1));
 }

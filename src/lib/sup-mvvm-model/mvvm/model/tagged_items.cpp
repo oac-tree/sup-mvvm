@@ -184,21 +184,20 @@ std::unique_ptr<TaggedItems> TaggedItems::Clone(bool make_unique_id) const
 
 SessionItemContainer* TaggedItems::GetContainer(const std::string& tag) const
 {
-  const std::string tag_name_to_use = tag.empty() ? GetDefaultTag() : tag;
-  auto container = FindContainer(tag_name_to_use);
-  if (!container)
+  if (auto container = FindContainer(tag); container)
   {
-    throw RuntimeException("Error in SessionItemTags: No such container [" + tag_name_to_use + "]");
+    return container;
   }
 
-  return container;
+  throw RuntimeException("Error in SessionItemTags: No such container [" + tag + "]");
 }
 
 SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
 {
+  const std::string tag_name_to_use = tag.empty() ? GetDefaultTag() : tag;
   for (auto& container : m_containers)
   {
-    if (container->GetName() == tag)
+    if (container->GetName() == tag_name_to_use)
     {
       return container.get();
     }
