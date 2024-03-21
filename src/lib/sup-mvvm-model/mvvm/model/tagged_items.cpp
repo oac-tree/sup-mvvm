@@ -45,13 +45,11 @@ void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
   }
 }
 
-//! Returns true if container with such name exists.
-
-bool TaggedItems::HasTag(const std::string& name) const
+bool TaggedItems::HasTag(const std::string& tag) const
 {
-  for (auto& tag : m_containers)
+  for (auto& container : m_containers)
   {
-    if (tag->GetName() == name)
+    if (container->GetName() == tag)
     {
       return true;
     }
@@ -59,24 +57,20 @@ bool TaggedItems::HasTag(const std::string& name) const
   return false;
 }
 
-//! Returns the name of the default tag.
-
 std::string TaggedItems::GetDefaultTag() const
 {
   return m_default_tag;
 }
 
-void TaggedItems::SetDefaultTag(const std::string& name)
+void TaggedItems::SetDefaultTag(const std::string& tag)
 {
-  m_default_tag = name;
+  m_default_tag = tag;
 }
 
-int TaggedItems::GetItemCount(const std::string& tag_name) const
+int TaggedItems::GetItemCount(const std::string& tag) const
 {
-  return GetContainer(tag_name)->GetItemCount();
+  return GetContainer(tag)->GetItemCount();
 }
-
-//! Returns true if item can be inserted.
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
@@ -94,9 +88,6 @@ bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_ind
   return tag_container->CanInsertItem(item, index);
 }
 
-//! Inserts item in container with given tag name and at given index.
-//! Returns pointer to item in the case of success. If tag name is empty, default tag will be used.
-
 SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   auto tag_container = GetContainer(tag_index.tag);
@@ -105,36 +96,25 @@ SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   return GetContainer(tag_index.tag)->InsertItem(std::move(item), index);
 }
 
-//! Returns true if item can be taken.
-
 bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
 {
   return GetContainer(tag_index.tag)->CanTakeItem(tag_index.index);
 }
-
-//! Removes item at given index and for given tag, returns it to the user.
 
 std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
 {
   return GetContainer(tag_index.tag)->TakeItem(tag_index.index);
 }
 
-//! Returns item at given index of given tag.
-
 SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const
 {
   return GetContainer(tag_index.tag)->ItemAt(tag_index.index);
 }
 
-//! Returns vector of items in the container with given name.
-//! If tag name is empty, default tag will be used.
-
 std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag) const
 {
   return GetContainer(tag)->GetItems();
 }
-
-//! Returns vector of all items in all containers.
 
 std::vector<SessionItem*> TaggedItems::GetAllItems() const
 {
@@ -147,8 +127,6 @@ std::vector<SessionItem*> TaggedItems::GetAllItems() const
 
   return result;
 }
-
-//! Returns tag name and index of item in container.
 
 TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
 {
@@ -204,12 +182,9 @@ std::unique_ptr<TaggedItems> TaggedItems::Clone(bool make_unique_id) const
   return result;
 }
 
-//! Returns container corresponding to given tag name. If name is empty,
-//! default tag will be used. Exception is thrown if no such tag exists.
-
-SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) const
+SessionItemContainer* TaggedItems::GetContainer(const std::string& tag) const
 {
-  std::string tag_name_to_use = tag_name.empty() ? GetDefaultTag() : tag_name;
+  const std::string tag_name_to_use = tag.empty() ? GetDefaultTag() : tag;
   auto container = FindContainer(tag_name_to_use);
   if (!container)
   {
@@ -219,15 +194,13 @@ SessionItemContainer* TaggedItems::GetContainer(const std::string& tag_name) con
   return container;
 }
 
-//! Returns container corresponding to given tag name.
-
-SessionItemContainer* TaggedItems::FindContainer(const std::string& tag_name) const
+SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
 {
-  for (auto& cont : m_containers)
+  for (auto& container : m_containers)
   {
-    if (cont->GetName() == tag_name)
+    if (container->GetName() == tag)
     {
-      return cont.get();
+      return container.get();
     }
   }
 

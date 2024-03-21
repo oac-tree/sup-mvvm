@@ -200,7 +200,7 @@ public:
   SessionItem* GetItem(const TagIndex& tag_index) const;
 
   /**
-   * @brief Returns vector of items in the container with given tag name. If tag name is empty,
+   * @brief Returns vector of items in the container with given tag name. If the tag name is empty,
    * container registered as default will be used.
    */
   std::vector<SessionItem*> GetItems(const std::string& tag) const;
@@ -251,7 +251,7 @@ public:
   TaggedItems* GetTaggedItems();
 
   /**
-   * @brief Insert item into the given tag_index, ownership is taken.
+   * @brief Inserts item into the given tag_index, ownership is taken.
    *
    * @param item Item to insert.
    * @param tag_index A tag_index pointing to the insert place.
@@ -262,7 +262,7 @@ public:
 
   /**
    * @brief Creates a new item of given type and insert it into the given tag_index.
-   * @tparam Type of the iotem to create.
+   * @tparam Type of the item to create.
    * @param tag_index A tag_index pointing to the insert place.
    *
    * @return Convenience pointer to just inserted item.
@@ -271,7 +271,7 @@ public:
   T* InsertItem(const TagIndex& tag_index);
 
   /**
-   * @brief Removes item from the given tag_index, returns it to the caller.
+   * @brief Removes an item from the given tag_index, returns it to the caller.
    */
   std::unique_ptr<SessionItem> TakeItem(const TagIndex& tag_index);
 
