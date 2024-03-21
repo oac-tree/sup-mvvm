@@ -39,14 +39,10 @@ bool SessionItemContainer::IsEmpty() const
   return m_items.empty();
 }
 
-//! Returns number of items in given tag.
-
 int SessionItemContainer::GetItemCount() const
 {
   return static_cast<int>(m_items.size());
 }
-
-//! Returns vector of items in this container.
 
 std::vector<SessionItem*> SessionItemContainer::GetItems() const
 {
@@ -55,16 +51,6 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
                  [](const auto& item) { return item.get(); });
   return result;
 }
-
-/*!
-@brief Inserts item in a vector of children at given index, returns pointer to the item in the case
-of success.
-@param item Item to be inserted, ownership will be taken.
-@param index Item insert index in a range [0, itemCount]
-
-Insert index is an index which item will have after insertion. If item can't be inserted
-(wrong model type, wrong index or maximum number of items reached), will return nullptr.
-*/
 
 SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, int index)
 {
@@ -77,9 +63,6 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
   m_items.insert(std::next(m_items.begin(), index), std::move(item));
   return result;
 }
-
-//! Removes item at given index and returns it to the user.
-//! If item can't be removed (item is a property item), will return nullptr.
 
 std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
 {
@@ -98,14 +81,10 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
   return nullptr;
 }
 
-//! Returns true if item can be taken.
-
 bool SessionItemContainer::CanTakeItem(int index) const
 {
   return ItemAt(index) && !IsMinimumReached();
 }
-
-//! Returns true if given item can be inserted under given index.
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
@@ -120,29 +99,20 @@ bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) con
   return valid_index && enough_place && valid_type;
 }
 
-//! Returns index of item in vector of items.
-//! Returns -1 if item doesn't belong to us.
-
 int SessionItemContainer::IndexOfItem(const SessionItem* item) const
 {
   return utils::IndexOfItem(m_items, item);
 }
-
-//! Returns item at given index. Returns nullptr if index is invalid.
 
 SessionItem* SessionItemContainer::ItemAt(int index) const
 {
   return index >= 0 && index < GetItemCount() ? m_items[static_cast<size_t>(index)].get() : nullptr;
 }
 
-//! Returns the name of the container.
-
 std::string SessionItemContainer::GetName() const
 {
   return m_tag_info.GetName();
 }
-
-//! Returns TagInfo of this container.
 
 TagInfo SessionItemContainer::GetTagInfo() const
 {
@@ -159,9 +129,6 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
   return m_items.end();
 }
 
-//! Provides container clone. The flag \it make_unique_id will be propagated to the underlying
-//! SessionItem::Clone machinery, allowing to generate either exact clones or deep copies.
-
 std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone(bool make_unique_id) const
 {
   auto result = std::make_unique<SessionItemContainer>(m_tag_info);
@@ -172,14 +139,10 @@ std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone(bool make_uniq
   return result;
 }
 
-//! Returns true if no more items are allowed.
-
 bool SessionItemContainer::IsMaximumReached() const
 {
   return m_tag_info.GetMax() != -1 && m_tag_info.GetMax() == GetItemCount();
 }
-
-//! Returns true if less items than now is not allowed.
 
 bool SessionItemContainer::IsMinimumReached() const
 {

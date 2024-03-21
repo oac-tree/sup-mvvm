@@ -27,10 +27,13 @@
 
 namespace mvvm
 {
+
 class SessionItem;
 
-//! Holds collection of SessionItem objects related to the same tag.
-
+/**
+ * @brief The SessionItemContainer class holds a collection of SessionItem objects related to the
+ * same tag.
+ */
 class MVVM_MODEL_EXPORT SessionItemContainer
 {
 public:
@@ -38,43 +41,107 @@ public:
   using const_iterator = container_t::const_iterator;
 
   explicit SessionItemContainer(TagInfo tag_info);
-
   SessionItemContainer(const SessionItemContainer& other) = delete;
-
   SessionItemContainer& operator=(const SessionItemContainer&) = delete;
 
   ~SessionItemContainer();
 
+  /**
+   * @brief Checks if the container is empty.
+   */
   bool IsEmpty() const;
 
+  /**
+   * @brief Returns the number of all items in the container.
+   */
   int GetItemCount() const;
 
+  /**
+   * @brief Returns all items in this container.
+   */
   std::vector<SessionItem*> GetItems() const;
 
+  /**
+   * @brief Inserts item in a vector of children at given index, returns pointer to the item in the
+   * case of success.
+   *
+   * @param item Item to be inserted, ownership will be taken.
+   * @param index Insert index in a range [0, itemCount]
+   * @return A pointer to just inserted item.
+   *
+   * Insert index is an index which item will have after insertion. If item can't be inserted (wrong
+   * model type, wrong index or maximum number of items reached), will return nullptr.
+   *
+   */
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, int index);
 
+  /**
+   * @brief Removes an item at given index and returns it to the user.
+   *
+   * If item can't be removed (item is a property item), will return nullptr.
+   */
   std::unique_ptr<SessionItem> TakeItem(int index);
 
+  /**
+   * @brief Returns true if the item can be removed from the given index.
+   */
   bool CanTakeItem(int index) const;
 
+  /**
+   * @brief Returns true if the item can be inserted into the given index.
+   */
   bool CanInsertItem(const SessionItem* item, int index) const;
 
+  /**
+   * @brief Returns index of item in a vector of items, or -1 if an item doesn't belong to us.
+   */
   int IndexOfItem(const SessionItem* item) const;
 
+  /**
+   * @brief Returns item at given index, or nullptr of index is invalid.
+   */
   SessionItem* ItemAt(int index) const;
 
+  /**
+   * @brief Returns the name of the container.
+   */
   std::string GetName() const;
 
+  /**
+   * @brief Returns TagInfo describing this container.
+   */
   TagInfo GetTagInfo() const;
 
+  /**
+   * @brief The begin of the vector with items.
+   */
   const_iterator begin() const;
 
+  /**
+   * @brief The end of the vector with items.
+   */
   const_iterator end() const;
 
+  /**
+   * @brief Creates clones.
+   *
+   * The flag make_unique_id will be propagated to the underlying SessionItem::Clone machinery,
+   * allowing to generate either exact clones (make_unique_id = false) or deep copies
+   * ((make_unique_id = true).
+   *
+   * @param make_unique_id Regenerates unique identifiers.
+   * @return Full clone of this.
+   */
   std::unique_ptr<SessionItemContainer> Clone(bool make_unique_id) const;
 
+  /**
+   * @brief Returns true if no more items are allowed.
+   */
   bool IsMaximumReached() const;
 
+  /**
+   * @brief Returns true if less items than now is not allowed.
+   */
   bool IsMinimumReached() const;
 
 private:
