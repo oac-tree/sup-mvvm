@@ -87,7 +87,7 @@ public:
   int GetItemCount(const std::string& tag) const;
 
   /**
-   * @brief Checks if given item can be inserted into given place.
+   * @brief Checks if the given item can be inserted into the given place.
    *
    * @param item Item top insert.
    * @param tag_index A TagIndex pointing to the insert place.

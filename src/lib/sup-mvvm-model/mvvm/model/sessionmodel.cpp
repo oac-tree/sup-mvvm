@@ -114,10 +114,14 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
     parent = GetRootItem();
   }
 
-  auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
-  utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
+  if (auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index); actual_tagindex.has_value())
+  {
+    utils::ValidateItemInsert(item.get(), parent, actual_tagindex.value());
 
-  return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
+    return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex.value());
+  }
+
+  throw InvalidOperationException("Error");
 }
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)

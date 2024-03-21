@@ -194,7 +194,7 @@ SessionItemContainer* TaggedItems::GetContainer(const std::string& tag) const
 SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
 {
   const std::string tag_name_to_use = tag.empty() ? GetDefaultTag() : tag;
-  for (auto& container : m_containers)
+  for (const auto& container : m_containers)
   {
     if (container->GetName() == tag_name_to_use)
     {

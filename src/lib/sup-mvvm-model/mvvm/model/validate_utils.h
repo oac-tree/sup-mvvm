@@ -24,6 +24,7 @@
  * Collection of utility function to check if certain operations on the model are valid.
  */
 
+#include <optional>
 #include <string>
 
 namespace mvvm
@@ -39,7 +40,8 @@ namespace mvvm::utils
 /**
  * @brief Converts TagIndex::Append() into actual TagIndex.
  */
-TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
+std::optional<TagIndex> GetActualInsertTagIndex(const SessionItem* parent,
+                                                const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item insert is allowed.

@@ -43,7 +43,7 @@ TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
   using ::mvvm::utils::GetActualInsertTagIndex;
 
   CompoundItem item;
-  EXPECT_THROW(GetActualInsertTagIndex(&item, TagIndex::Append()), InvalidOperationException);
+  EXPECT_FALSE(GetActualInsertTagIndex(&item, TagIndex::Append()).has_value());
 
   // registering default tag
   item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -55,8 +55,8 @@ TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
   item.InsertItem<SessionItem>({"tag", 0});
   EXPECT_EQ(GetActualInsertTagIndex(&item, {"", -1}), TagIndex("tag", 1));
 
-  // Wrong tag will be returned as it is. It will be validated in ValidateItemInsert method.
-  EXPECT_EQ(GetActualInsertTagIndex(&item, {"abc", 0}), TagIndex("abc", 0));
+  // Wrong tag
+  EXPECT_FALSE(GetActualInsertTagIndex(&item, {"abc", 0}).has_value());
 }
 
 //! Check throw in ValidateItemInsert when items are not defined, or do not have model/parent
