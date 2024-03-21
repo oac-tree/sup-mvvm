@@ -52,40 +52,6 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
   return result;
 }
 
-SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, int index)
-{
-  if (!CanInsertItem(item.get(), index))
-  {
-    return nullptr;
-  }
-
-  auto result = item.get();
-  m_items.insert(std::next(m_items.begin(), index), std::move(item));
-  return result;
-}
-
-std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
-{
-  if (IsMinimumReached())
-  {
-    return nullptr;
-  }
-
-  if (index >= 0 && index < GetItemCount())
-  {
-    auto item = std::move(m_items.at(index));
-    m_items.erase(std::next(m_items.begin(), index));
-    return std::move(item);
-  }
-
-  return nullptr;
-}
-
-bool SessionItemContainer::CanTakeItem(int index) const
-{
-  return ItemAt(index) && !IsMinimumReached();
-}
-
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
   // if item belongs to this container already, a request to insert an item will
@@ -105,6 +71,40 @@ bool SessionItemContainer::CanInsertType(const std::string& item_type, int index
   const bool enough_place = !IsMaximumReached();
   const bool valid_type = m_tag_info.IsValidType(item_type);
   return valid_index && enough_place && valid_type;
+}
+
+SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, int index)
+{
+  if (!CanInsertItem(item.get(), index))
+  {
+    return nullptr;
+  }
+
+  auto result = item.get();
+  m_items.insert(std::next(m_items.begin(), index), std::move(item));
+  return result;
+}
+
+bool SessionItemContainer::CanTakeItem(int index) const
+{
+  return ItemAt(index) && !IsMinimumReached();
+}
+
+std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
+{
+  if (IsMinimumReached())
+  {
+    return nullptr;
+  }
+
+  if (index >= 0 && index < GetItemCount())
+  {
+    auto item = std::move(m_items.at(index));
+    m_items.erase(std::next(m_items.begin(), index));
+    return std::move(item);
+  }
+
+  return nullptr;
 }
 
 int SessionItemContainer::IndexOfItem(const SessionItem* item) const

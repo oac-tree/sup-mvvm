@@ -62,6 +62,11 @@ public:
   std::vector<SessionItem*> GetItems() const;
 
   /**
+   * @brief Checks if the item can be inserted into the given index.
+   */
+  bool CanInsertItem(const SessionItem* item, int index) const;
+
+  /**
    * @brief Inserts item in a vector of children at given index, returns pointer to the item in the
    * case of success.
    *
@@ -76,11 +81,9 @@ public:
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, int index);
 
   /**
-   * @brief Removes an item at given index and returns it to the user.
-   *
-   * If item can't be removed (item is a property item), will return nullptr.
+   * @brief Checks if an item with the given type can be inserted into the given index.
    */
-  std::unique_ptr<SessionItem> TakeItem(int index);
+  bool CanInsertType(const std::string& item_type, int index) const;
 
   /**
    * @brief Checks if the item can be removed from the given index.
@@ -88,14 +91,11 @@ public:
   bool CanTakeItem(int index) const;
 
   /**
-   * @brief Checks if the item can be inserted into the given index.
+   * @brief Removes an item at given index and returns it to the user.
+   *
+   * If item can't be removed (item is a property item), will return nullptr.
    */
-  bool CanInsertItem(const SessionItem* item, int index) const;
-
-  /**
-   * @brief Checks if an item with the given type can be inserted into the given index.
-   */
-  bool CanInsertType(const std::string& item_type, int index) const;
+  std::unique_ptr<SessionItem> TakeItem(int index);
 
   /**
    * @brief Returns index of item in a vector of items, or -1 if an item doesn't belong to us.
