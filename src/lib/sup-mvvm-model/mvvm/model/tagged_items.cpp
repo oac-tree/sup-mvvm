@@ -74,26 +74,25 @@ int TaggedItems::GetItemCount(const std::string& tag) const
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  if (tag_index.tag.empty() && GetDefaultTag().empty())
+  // for indices like TagIndex::Append we have to find actual index
+  if (auto actual_tag_index = GetInsertTagIndex(tag_index); actual_tag_index.has_value())
   {
-    return false;
+    auto [tag, index] = actual_tag_index.value();
+    return GetContainer(tag)->CanInsertItem(item, index);
   }
 
-  // FIXME (!) remove implicit convertion of invalid tag/index into something meaningful
-  // simplify code below, remove check above
-
-  auto tag_container = GetContainer(tag_index.tag);
-  // negative index means appending to the vector
-  auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return tag_container->CanInsertItem(item, index);
+  return false;
 }
 
 SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
-  auto tag_container = GetContainer(tag_index.tag);
-  // negative index means appending to the vector
-  auto index = tag_index.index < 0 ? tag_container->GetItemCount() : tag_index.index;
-  return GetContainer(tag_index.tag)->InsertItem(std::move(item), index);
+  if (auto actual_tag_index = GetInsertTagIndex(tag_index); actual_tag_index.has_value())
+  {
+    auto [tag, index] = actual_tag_index.value();
+    return GetContainer(tag)->InsertItem(std::move(item), index);
+  }
+
+  throw RuntimeException("Can't insert item");
 }
 
 bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const

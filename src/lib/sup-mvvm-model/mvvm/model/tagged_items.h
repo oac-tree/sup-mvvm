@@ -42,8 +42,8 @@ class SessionItem;
  * accessible via its name (we use the words "name" and "tag" interchangeably). One of the
  * container can be marked as default, it will be used when no name is provided.
  *
- * For container manipulation (insert. take) and item retrieval one have to know the position of the
- * item, given by TagIndex class.
+ * For container manipulation (insert, take, get) one have to know the position of the item, given
+ * by TagIndex class.
  */
 class MVVM_MODEL_EXPORT TaggedItems
 {
@@ -196,7 +196,7 @@ public:
   SessionItemContainer* FindContainer(const std::string& tag) const;
 
   /**
-   * @brief Converts TagIndex::Append() into an actual TagIndex.
+   * @brief Converts insert index into an actual TagIndex.
    *
    * The method is mainly used to convert TagIndex::Append() to the actual insert index. Also
    * performs validation if index is valid and tag name exists. Will return an empty result if it is
