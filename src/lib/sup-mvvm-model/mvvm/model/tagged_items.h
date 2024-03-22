@@ -58,7 +58,8 @@ public:
   /**
    * @brief Registers tag.
    *
-   * Creates new container intended for storage of certain item types.
+   * Creates new container intended for storage of certain item types. The container, marked as
+   * default, allow to address it later without knowing its name.
    *
    * @param tag_info A tag information describing properties of the container.
    * @param set_as_default A flag to mark a container as default.
@@ -88,6 +89,9 @@ public:
   /**
    * @brief Checks if the given item can be inserted into the given place.
    *
+   * A TagIndex should be in a valid state, TagIndex::Append() should be converted already to normal
+   * index using TaggedItems::GetInsertTagIndex().
+   *
    * @param item Item to insert.
    * @param tag_index A TagIndex pointing to the insert place.
    * @return True if insertion is possible.
@@ -96,6 +100,9 @@ public:
 
   /**
    * @brief Checks if item type can be inserted into the given place.
+   *
+   * A TagIndex should be in a valid state, TagIndex::Append() should be converted already to normal
+   * index using TaggedItems::GetInsertTagIndex().
    */
   bool CanInsertType(const std::string& item_type, const TagIndex& tag_index) const;
 
@@ -122,7 +129,10 @@ public:
   /**
    * @brief Checks if the item can be moved into the given index.
    *
-   * @param item Item to insert.
+   * A TagIndex should be in a valid state, TagIndex::Append() should be converted already to normal
+   * index using TaggedItems::GetInsertTagIndex().
+   *
+   * @param item An item which well be moved.
    * @param tag_index A TagIndex pointing to the insert place.
    */
   bool CanMoveItem(const SessionItem* item, const TagIndex& tag_index) const;
@@ -149,7 +159,7 @@ public:
   std::vector<SessionItem*> GetAllItems() const;
 
   /**
-   * @brief Returns pair of tag and index corresponding to given item.
+   * @brief Returns a pair of tag and index corresponding to a given item.
    *
    * @param item Possible child whose tag_index we want to find.
    * @return Items' tag_index.

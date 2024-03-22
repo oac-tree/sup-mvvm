@@ -135,8 +135,10 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 
   EXPECT_TRUE(CanInsertItem(&candidate, parent0, {"tag1", 0}).first);
   EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"tag1", 0}));
-  EXPECT_TRUE(CanInsertItem(&candidate, parent0, {"", -1}).first);
-  EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}));
+
+  // we do not allow anymore implecit conversion of TagIndex::Append into something meaningful
+  EXPECT_FALSE(CanInsertItem(&candidate, parent0, TagIndex::Append()).first);
+  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()), InvalidOperationException);
 }
 
 //! Check throw in ValidateItemInsert when no default tag is present.
@@ -151,8 +153,8 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 
   CompoundItem candidate;
 
-  EXPECT_FALSE(CanInsertItem(&candidate, parent0, {"", -1}).first);
-  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, {"", -1}), InvalidOperationException);
+  EXPECT_FALSE(CanInsertItem(&candidate, parent0, TagIndex::Append()).first);
+  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()), InvalidOperationException);
 }
 
 //! Check throw in ValidateItemMove when items are not defined, or do not have model/parent

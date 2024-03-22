@@ -74,12 +74,20 @@ int TaggedItems::GetItemCount(const std::string& tag) const
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  return GetContainer(tag_index.tag)->CanInsertItem(item, tag_index.index);
+  if (auto container = FindContainer(tag_index.tag); container)
+  {
+    return container->CanInsertItem(item, tag_index.index);
+  }
+  return false;
 }
 
 bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& tag_index) const
 {
-  return GetContainer(tag_index.tag)->CanInsertType(item_type, tag_index.index);
+  if (auto container = FindContainer(tag_index.tag); container)
+  {
+    return container->CanInsertType(item_type, tag_index.index);
+  }
+  return false;
 }
 
 SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
@@ -89,7 +97,11 @@ SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 
 bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
 {
-  return GetContainer(tag_index.tag)->CanTakeItem(tag_index.index);
+  if (auto container = FindContainer(tag_index.tag); container)
+  {
+    return container->CanTakeItem(tag_index.index);
+  }
+  return false;
 }
 
 std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
@@ -99,7 +111,11 @@ std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
 
 bool TaggedItems::CanMoveItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  return GetContainer(tag_index.tag)->CanMoveItem(item, tag_index.index);
+  if (auto container = FindContainer(tag_index.tag); container)
+  {
+    return container->CanMoveItem(item, tag_index.index);
+  }
+  return false;
 }
 
 SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const

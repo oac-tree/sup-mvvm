@@ -72,17 +72,9 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const Sessio
     return {kFailure, "Attempt to turn ancestor into a child"};
   }
 
-  auto actual_index = GetActualInsertTagIndex(parent, tag_index);
-  if (actual_index.IsValid())
+  if (!parent->GetTaggedItems()->CanInsertItem(item, tag_index))
   {
-    if (!parent->GetTaggedItems()->CanInsertItem(item, actual_index))
-    {
-      return {kFailure, "Can't insert item to parent"};
-    }
-  }
-  else
-  {
-    return {kFailure, "Can't get a tag"};
+    return {kFailure, "Can't insert item to parent"};
   }
 
   return {kSuccess, ""};
