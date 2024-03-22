@@ -195,10 +195,11 @@ TEST_F(TaggedItemsTests, GetTagIndexOfItem)
 
   // alien item has no tag and -1 row
   auto alien = std::make_unique<SessionItem>();
-  EXPECT_EQ(items.TagIndexOfItem(alien.get()), TagIndex("", -1));
+  EXPECT_EQ(items.TagIndexOfItem(alien.get()), TagIndex::Invalid());
+  EXPECT_FALSE(items.TagIndexOfItem(alien.get()).IsValid());
 
   // the same for nullptr
-  EXPECT_EQ(items.TagIndexOfItem(nullptr), TagIndex("", -1));
+  EXPECT_EQ(items.TagIndexOfItem(nullptr), TagIndex::Invalid());
 }
 
 //! Testing method getItem.

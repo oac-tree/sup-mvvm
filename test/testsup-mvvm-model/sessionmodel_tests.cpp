@@ -290,7 +290,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
   auto item_ptr = item.get();
 
   // inserting single item
-  auto inserted = model.InsertItem(std::move(item), parent, {"", -1});
+  auto inserted = model.InsertItem(std::move(item), parent, TagIndex::Append());
 
   EXPECT_TRUE(item == nullptr);
   EXPECT_EQ(inserted, item_ptr);

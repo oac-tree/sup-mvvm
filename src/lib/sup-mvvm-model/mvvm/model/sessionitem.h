@@ -227,7 +227,7 @@ public:
    * @param item Possible child whose tag_index we want to find.
    * @return Items' tag_index.
    *
-   * @details If given item is not direct child, will returns {"", -1}.
+   * @details If given item is not direct child, will returns TagIndex::Invalid().
    */
   TagIndex TagIndexOfItem(const SessionItem* item) const;
 

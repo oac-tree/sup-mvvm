@@ -131,9 +131,9 @@ std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag) const
 std::vector<SessionItem*> TaggedItems::GetAllItems() const
 {
   std::vector<SessionItem*> result;
-  for (auto& cont : m_containers)
+  for (auto& container : m_containers)
   {
-    auto container_items = cont->GetItems();
+    auto container_items = container->GetItems();
     result.insert(result.end(), container_items.begin(), container_items.end());
   }
 
@@ -142,16 +142,16 @@ std::vector<SessionItem*> TaggedItems::GetAllItems() const
 
 TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
 {
-  for (auto& cont : m_containers)
+  for (auto& container : m_containers)
   {
-    const int index = cont->IndexOfItem(item);
+    const int index = container->IndexOfItem(item);
     if (index != -1)
     {
-      return {cont->GetName(), index};
+      return {container->GetName(), index};
     }
   }
 
-  return {"", -1};
+  return TagIndex::Invalid();
 }
 
 TaggedItems::const_iterator TaggedItems::begin() const
@@ -220,7 +220,7 @@ SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
 
 TagIndex TaggedItems::GetInsertTagIndex(const TagIndex& tag_index) const
 {
-  if (auto container = FindContainer(tag_index.tag); container)
+  if (const auto container = FindContainer(tag_index.tag); container)
   {
     const int actual_index = tag_index.index < 0 ? container->GetItemCount() : tag_index.index;
     return TagIndex{container->GetName(), actual_index};
