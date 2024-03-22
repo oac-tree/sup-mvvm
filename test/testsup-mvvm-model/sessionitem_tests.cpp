@@ -454,12 +454,11 @@ TEST_F(SessionItemTests, TakeItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
 
   // taking non-existing rows
-  EXPECT_EQ(parent->TakeItem({"", -1}), nullptr);
-  EXPECT_EQ(parent->TakeItem({"", parent->GetTotalItemCount()}), nullptr);
+  EXPECT_THROW(parent->TakeItem({"", -1}), InvalidOperationException);
+  EXPECT_THROW(parent->TakeItem({"", parent->GetTotalItemCount()}), InvalidOperationException);
 
   // taking first row
-  auto taken = parent->TakeItem({"", 0});
-  EXPECT_EQ(taken->GetParent(), nullptr);
+  EXPECT_NO_THROW(parent->TakeItem({"", 0}));
   std::vector<SessionItem*> expected = {child2, child3};
   EXPECT_EQ(parent->GetAllItems(), expected);
 }
@@ -502,7 +501,7 @@ TEST_F(SessionItemTests, SingleTagAndItems)
   EXPECT_EQ(parent->GetItems(tag1), std::vector<SessionItem*>() = {});
 
   // removing from already empty container
-  EXPECT_EQ(parent->TakeItem({tag1, 0}), nullptr);
+  EXPECT_THROW(parent->TakeItem({tag1, 0}), InvalidOperationException);
 }
 
 //! Insert and take tagged items when two tags are present.

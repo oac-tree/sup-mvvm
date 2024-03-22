@@ -19,7 +19,6 @@
 
 #include "sessionitem.h"
 
-#include "item_utils.h"
 #include "sessionitem_data.h"
 #include "tagged_items.h"
 #include "taginfo.h"
@@ -207,10 +206,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
-  if (!utils::CanTakeItem(this, tag_index).first)
-  {
-    return {};
-  }
+  utils::ValidateTakeItem(this, tag_index);
 
   auto result = p_impl->m_tags->TakeItem(tag_index);
   result->SetParent(nullptr);

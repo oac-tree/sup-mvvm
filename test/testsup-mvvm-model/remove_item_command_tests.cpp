@@ -300,5 +300,5 @@ TEST_F(RemoveItemCommandTests, AttemptToRemoveItem)
   auto command =
       std::make_unique<RemoveItemCommand>(composer.get(), parent, TagIndex{"thickness", 0});
 
-  EXPECT_THROW(command->Execute(), RuntimeException);
+  EXPECT_THROW(command->Execute(), InvalidOperationException);
 }
