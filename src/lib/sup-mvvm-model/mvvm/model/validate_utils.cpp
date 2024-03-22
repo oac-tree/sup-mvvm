@@ -35,7 +35,7 @@ const bool kFailure = false;
 namespace mvvm::utils
 {
 
-TagIndex GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
+TagIndex GetInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
   {

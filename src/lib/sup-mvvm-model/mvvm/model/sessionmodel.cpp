@@ -114,7 +114,7 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
     parent = GetRootItem();
   }
 
-  auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
+  auto actual_tagindex = utils::GetInsertTagIndex(parent, tag_index);
   utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
   return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
 }
@@ -137,7 +137,7 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-  auto actual_tagindex = utils::GetActualInsertTagIndex(new_parent, tag_index);
+  auto actual_tagindex = utils::GetInsertTagIndex(new_parent, tag_index);
   // FIXME move check to utils::ValidateItemMove
   if (item->GetParent() == new_parent && item->GetTagIndex() == actual_tagindex)
   {

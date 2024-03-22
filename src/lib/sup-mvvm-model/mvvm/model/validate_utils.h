@@ -38,9 +38,9 @@ namespace mvvm::utils
 {
 
 /**
- * @brief Converts TagIndex::Append() into actual TagIndex.
+ * @brief Converts TagIndex::Append() to the actual TagIndex.
  */
-TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
+TagIndex GetInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item insert is allowed.
