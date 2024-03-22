@@ -136,10 +136,9 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
   EXPECT_TRUE(CanInsertItem(&candidate, parent0, {"tag1", 0}).first);
   EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, {"tag1", 0}));
 
-  // we do not allow anymore implecit conversion of TagIndex::Append into something meaningful
-  EXPECT_FALSE(CanInsertItem(&candidate, parent0, TagIndex::Append()).first);
-  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()),
-               InvalidOperationException);
+  // we do allow  implicit conversion of TagIndex::Append into real index
+  EXPECT_TRUE(CanInsertItem(&candidate, parent0, TagIndex::Append()).first);
+  EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()));
 }
 
 //! Check throw in ValidateItemInsert when no default tag is present.

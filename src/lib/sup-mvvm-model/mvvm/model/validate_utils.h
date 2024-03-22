@@ -20,11 +20,9 @@
 #ifndef MVVM_MODEL_VALIDATE_UTILS_H_
 #define MVVM_MODEL_VALIDATE_UTILS_H_
 
-/**
- * Collection of utility function to check if certain operations on the model are valid.
- */
+//! @file
+//! Collection of utility function to check if certain operations on the model are valid.
 
-#include <optional>
 #include <string>
 
 namespace mvvm
