@@ -32,6 +32,11 @@ TagIndex TagIndex::Prev() const
   return {tag, index - 1};
 }
 
+bool TagIndex::IsValid() const
+{
+  return index != kInvalidIndex;
+}
+
 TagIndex TagIndex::Append(const std::string& tag_name)
 {
   return {tag_name, kAppendIndex};
@@ -45,6 +50,11 @@ TagIndex TagIndex::First(const std::string& tag_name)
 TagIndex TagIndex::Default(int index)
 {
   return {kDefaultTag, index};
+}
+
+TagIndex TagIndex::Invalid()
+{
+  return {kDefaultTag, kInvalidIndex};
 }
 
 bool TagIndex::operator==(const TagIndex& other) const

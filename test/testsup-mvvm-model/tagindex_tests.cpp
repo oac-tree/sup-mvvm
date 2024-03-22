@@ -23,7 +23,7 @@
 
 using namespace mvvm;
 
-//! Testing AxisItems.
+//! Testing TagIndex.
 
 class TagIndexTests : public ::testing::Test
 {
@@ -38,6 +38,7 @@ TEST_F(TagIndexTests, InitialState)
   TagIndex tag_index;
   EXPECT_EQ(tag_index.tag, "");
   EXPECT_EQ(tag_index.index, 0);
+  EXPECT_TRUE(tag_index.IsValid());
 }
 
 //! Brace initializer.
@@ -51,6 +52,7 @@ TEST_F(TagIndexTests, BraceInitializer)
   tag_index = {};
   EXPECT_EQ(tag_index.tag, "");
   EXPECT_EQ(tag_index.index, 0);
+  EXPECT_TRUE(tag_index.IsValid());
 
   tag_index = {"cde", 43};
   EXPECT_EQ(tag_index.tag, "cde");
@@ -59,6 +61,7 @@ TEST_F(TagIndexTests, BraceInitializer)
   TagIndex tag_index2 = {"cde"};
   EXPECT_EQ(tag_index2.tag, "cde");
   EXPECT_EQ(tag_index2.index, 0);
+  EXPECT_TRUE(tag_index2.IsValid());
 }
 
 //! Equality operators.
@@ -103,21 +106,30 @@ TEST_F(TagIndexTests, AssignmentOperator)
 TEST_F(TagIndexTests, FactoryMethods)
 {
   auto tag_index = TagIndex::Append();
-  EXPECT_EQ(tag_index.tag, "");
+  EXPECT_EQ(tag_index.tag, TagIndex::kDefaultTag);
   EXPECT_EQ(tag_index.index, -1);
+  EXPECT_TRUE(tag_index.IsValid());
 
   const std::string expected_name("tag");
   tag_index = TagIndex::Append(expected_name);
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, -1);
+  EXPECT_TRUE(tag_index.IsValid());
 
   tag_index = TagIndex::First(expected_name);
   EXPECT_EQ(tag_index.tag, expected_name);
   EXPECT_EQ(tag_index.index, 0);
+  EXPECT_TRUE(tag_index.IsValid());
 
   tag_index = TagIndex::Default(42);
-  EXPECT_EQ(tag_index.tag, "");
+  EXPECT_EQ(tag_index.tag, TagIndex::kDefaultTag);
   EXPECT_EQ(tag_index.index, 42);
+  EXPECT_TRUE(tag_index.IsValid());
+
+  tag_index = TagIndex::Invalid();
+  EXPECT_EQ(tag_index.tag, TagIndex::kDefaultTag);
+  EXPECT_EQ(tag_index.index, TagIndex::kInvalidIndex);
+  EXPECT_FALSE(tag_index.IsValid());
 }
 
 //! Implicit type convertion

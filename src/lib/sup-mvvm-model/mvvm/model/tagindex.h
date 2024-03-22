@@ -46,8 +46,14 @@ public:
    */
   static inline int kAppendIndex = -1;
 
-  std::string tag = {}; //!< The name of the item container.
-  int index = 0; //!< The position in the item container.
+  /**
+   * @brief An integer constant used to mark TagIndex as invalid state.
+   * @see TagIndex::IsValid()
+   */
+  static inline int kInvalidIndex = -2;
+
+  std::string tag = {};  //!< The name of the item container.
+  int index = 0;         //!< The position in the item container.
 
   /**
    * @brief The default c-tor.
@@ -71,18 +77,28 @@ public:
   TagIndex(const char* name, int index = 0) : tag(name), index(index) {}
 
   /**
-   * @brief Constructs new TagIndex representing following index in given tag.
+   * @brief Constructs a new TagIndex representing the following index in a given tag.
    *
    * No validity check.
    */
   TagIndex Next() const;
 
   /**
-   * @brief Constructs new TagIndex representing previous index in given tag.
+   * @brief Constructs a new TagIndex representing the previous index in a given tag.
    *
    * No validity check.
    */
   TagIndex Prev() const;
+
+  /**
+   * @brief Checks if TagIndex is in a valid state.
+   *
+   * A valid state is any TagIndex that can be used to try to address the position in the item
+   * container. It is not guaranteed, however, that such a position exists. An invalid state is
+   * normally used as a return value from functions, when a given item doesn't belong to the
+   * container.
+   */
+  bool IsValid() const;
 
   /**
    * @brief Returns TagIndex corresponding to the end of the container with the given name.
@@ -104,6 +120,12 @@ public:
    * @brief Returns TagIndex corresponding to the given index in the container marked as a default.
    */
   static TagIndex Default(int index);
+
+  /**
+   * @brief Returns TagIndex corresponding to an invalid state.
+   * @see TagIndex::IsValid()
+   */
+  static TagIndex Invalid();
 
   bool operator==(const TagIndex& other) const;
   bool operator!=(const TagIndex& other) const;
