@@ -51,10 +51,28 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem* item, const Sessio
                                            const TagIndex& tag_index);
 
 /**
- * @brief Perform validation if item insert is allowed. Will throw InvalidInsertException otherwise.
+ * @brief Perform validation if item insert is allowed.
+ *
+ * Will throw InvalidInsertException otherwise.
  */
 void ValidateItemInsert(const SessionItem* item, const SessionItem* parent,
                         const TagIndex& tag_index);
+
+/**
+ * @brief Perform validation if insert of the new item of the given type is allowed.
+ *
+ * @return Success flag, and the reason if insert is not possible.
+ */
+std::pair<bool, std::string> CanInsertType(const std::string& item_type, const SessionItem* parent,
+                                           const TagIndex& tag_index);
+
+/**
+ * @brief Perform validation if insert of the new item of the given type insert is allowed.
+ *
+ * Will throw InvalidInsertException otherwise.
+ */
+void ValidateItemTypeInsert(const std::string& item_type, const SessionItem* parent,
+                            const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item move is allowed.
@@ -78,8 +96,9 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
 std::pair<bool, std::string> CanTakeItem(const SessionItem* parent, const TagIndex& tag_index);
 
 /**
- * @brief Perform validation if item take is allowed. Will throw InvalidOperationException
- * otherwise.
+ * @brief Perform validation if item take is allowed.
+ *
+ * Will throw InvalidOperationException otherwise.
  */
 void ValidateTakeItem(const SessionItem* parent, const TagIndex& tag_index);
 

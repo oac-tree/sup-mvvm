@@ -138,7 +138,8 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 
   // we do not allow anymore implecit conversion of TagIndex::Append into something meaningful
   EXPECT_FALSE(CanInsertItem(&candidate, parent0, TagIndex::Append()).first);
-  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()), InvalidOperationException);
+  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()),
+               InvalidOperationException);
 }
 
 //! Check throw in ValidateItemInsert when no default tag is present.
@@ -154,7 +155,35 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
   CompoundItem candidate;
 
   EXPECT_FALSE(CanInsertItem(&candidate, parent0, TagIndex::Append()).first);
-  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()), InvalidOperationException);
+  EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()),
+               InvalidOperationException);
+}
+
+//! Check  ValidateItemTypeInsert when item belongs already to another item.
+
+TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
+{
+  using ::mvvm::utils::CanInsertType;
+  using ::mvvm::utils::ValidateItemTypeInsert;
+
+  const std::string item_type("some-item-type");
+
+  auto parent0 = m_model.InsertItem<CompoundItem>();
+  parent0->RegisterTag(TagInfo::CreateUniversalTag("tag1", {item_type}), /*set_as_default*/ true);
+
+  // inserting a child of correct type
+  auto child = std::make_unique<CompoundItem>(item_type);
+  m_model.InsertItem(std::move(child), parent0, {"tag1", 0});
+
+  EXPECT_TRUE(CanInsertType(item_type, parent0, {"tag1", 0}).first);
+  EXPECT_TRUE(CanInsertType(item_type, parent0, {"tag1", 1}).first);
+  EXPECT_FALSE(CanInsertType(item_type, parent0, {"tag1", 2}).first);               // wrong index
+  EXPECT_FALSE(CanInsertType(item_type, parent0, {"non-existing-type", 1}).first);  // wrong tag
+
+  // not-registered item type
+  EXPECT_FALSE(CanInsertType("wrong-type", parent0, {"tag1", 0}).first);  // wrong index
+  EXPECT_THROW(ValidateItemTypeInsert("wrong-type", parent0, {"tag1", 0}),
+               InvalidOperationException);
 }
 
 //! Check throw in ValidateItemMove when items are not defined, or do not have model/parent

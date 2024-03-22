@@ -89,6 +89,31 @@ void ValidateItemInsert(const SessionItem *item, const SessionItem *parent,
   }
 }
 
+std::pair<bool, std::string> CanInsertType(const std::string &item_type, const SessionItem *parent,
+                                           const TagIndex &tag_index)
+{
+  if (!parent)
+  {
+    return {kFailure, "Invalid parent item"};
+  }
+
+  if (!parent->GetTaggedItems()->CanInsertType(item_type, tag_index))
+  {
+    return {kFailure, "Can't insert item of the given type to the parent"};
+  }
+
+  return {kSuccess, ""};
+}
+
+void ValidateItemTypeInsert(const std::string &item_type, const SessionItem *parent,
+                            const TagIndex &tag_index)
+{
+  if (auto [flag, reason] = CanInsertType(item_type, parent, tag_index); !flag)
+  {
+    throw InvalidOperationException(reason);
+  }
+}
+
 std::pair<bool, std::string> CanMoveItem(const SessionItem *item, const SessionItem *new_parent,
                                          const TagIndex &tag_index)
 {

@@ -138,7 +138,8 @@ void SessionModel::RemoveItem(SessionItem* item)
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
   auto actual_tagindex = utils::GetInsertTagIndex(new_parent, tag_index);
-  // FIXME move check to utils::ValidateItemMove
+
+  // moving to the same position we are now is noop (no move, no notifications)
   if (item->GetParent() == new_parent && item->GetTagIndex() == actual_tagindex)
   {
     return;
