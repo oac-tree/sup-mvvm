@@ -30,60 +30,78 @@ namespace mvvm
 /**
  * @brief The TagIndex class is an aggregate to hold (tag, index) information for SessionModel.
  *
- * @details It encodes all information needed to find a child inside its parent. A tag is a
- * name of the container with items, and index is a position of an item in this container.
+ * It encodes all information needed to find a child inside its parent. A tag is a name of the
+ * container with items, and index is a position of an item in this container.
  */
-
 class MVVM_MODEL_EXPORT TagIndex
 {
 public:
   /**
-   * @brief kDefaultTag String constant is used to address the container which if marked with the
-   * default flag.
+   * @brief A string constant used to address the container marked with the default flag.
    */
   static inline const std::string kDefaultTag = {};
 
-  std::string tag = {};
-  int index = 0;
+  /**
+   * @brief An integer constant to specify the end of the container.
+   */
+  static inline int kAppendIndex = -1;
 
+  std::string tag = {}; //!< The name of the item container.
+  int index = 0; //!< The position in the item container.
+
+  /**
+   * @brief The default c-tor.
+   *
+   * It represents a TagIndex addressing the first element of the item container marked as default.
+   */
   TagIndex() = default;
 
   /**
-   * @brief Constructor to construct TagIndex from the given parameters. Implicit conversion is
-   * allowed.
+   * @brief The constructor to build TagIndex from name and index.
+   *
+   * Implicit conversion is allowed.
    */
   TagIndex(const std::string& name, int index = 0) : tag(name), index(index) {}
 
   /**
-   * @brief Constructor to construct TagIndex from the given parameters. Implicit conversion is
-   * allowed.
+   * @brief The constructor to build TagIndex from name and index.
+   *
+   * Implicit conversion is allowed.
    */
   TagIndex(const char* name, int index = 0) : tag(name), index(index) {}
 
   /**
-   * @brief Constructs new TagIndex representing following index in given tag. No validity check.
+   * @brief Constructs new TagIndex representing following index in given tag.
+   *
+   * No validity check.
    */
   TagIndex Next() const;
 
   /**
-   * @brief Constructs new TagIndex representing previous index in given tag. No validity check.
+   * @brief Constructs new TagIndex representing previous index in given tag.
+   *
+   * No validity check.
    */
   TagIndex Prev() const;
 
   /**
-   * @brief Returns TagIndex corresponding to the end of the container with given name.
-   * If the default name is used, will look for container marked as a default.
+   * @brief Returns TagIndex corresponding to the end of the container with the given name.
+   *
+   * If the default tag name is used, the SessionModel will try to find a container marked as
+   * default.
    */
   static TagIndex Append(const std::string& tag_name = kDefaultTag);
 
   /**
-   * @brief Returns TagIndex corresponding to the beginning of the container with given name.
-   * If the default name is used, will look for container marked as a default.
+   * @brief Returns TagIndex corresponding to the first index in the container with the given name.
+   *
+   * If the default tag name is used, the SessionModel will try to find a container marked as
+   * default.
    */
   static TagIndex First(const std::string& tag_name = kDefaultTag);
 
   /**
-   * @brief Returns TagIndex corresponding to the container marked as a default one and given index.
+   * @brief Returns TagIndex corresponding to the given index in the container marked as a default.
    */
   static TagIndex Default(int index);
 
