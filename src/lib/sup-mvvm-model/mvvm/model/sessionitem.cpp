@@ -23,6 +23,7 @@
 #include "sessionitem_data.h"
 #include "tagged_items.h"
 #include "taginfo.h"
+#include "validate_utils.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
@@ -195,47 +196,8 @@ TaggedItems* SessionItem::GetTaggedItems()
 
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
-  if (!item)
-  {
-    throw InvalidOperationException("Invalid item");
-  }
-
-  if (item.get() == this)
-  {
-    throw InvalidOperationException("Attempt to insert to itself");
-  }
-
-  if (item->GetParent())
-  {
-    throw InvalidOperationException("Item already has a parent");
-  }
-
-  if (item->GetModel())
-  {
-    throw InvalidOperationException("Item already has a model");
-  }
-
-  if (utils::IsItemAncestor(this, item.get()))
-  {
-    throw InvalidOperationException("Attempt to turn ancestor into a child");
-  }
-
-  // if (!p_impl->m_tags->CanInsertItem(item.get(), tag_index))
-  // {
-  //   throw InvalidOperationException("Wrong tags");
-  // }
-
-  // auto result = p_impl->m_tags->InsertItem(std::move(item), tag_index);
-  // result->SetParent(this);
-  // result->SetModel(GetModel());
-
-  // return result;
-
   auto insert_tag_index = p_impl->m_tags->GetInsertTagIndex(tag_index);
-  if (!p_impl->m_tags->CanInsertItem(item.get(), insert_tag_index))
-  {
-    throw InvalidOperationException("Invalid insert index");
-  }
+  utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
   auto result = p_impl->m_tags->InsertItem(std::move(item), insert_tag_index);
   result->SetParent(this);
