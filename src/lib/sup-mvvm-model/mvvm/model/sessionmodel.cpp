@@ -121,7 +121,7 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
-  utils::ValidateTakeItem(this, parent, tag_index);
+  utils::ValidateTakeItem(parent, tag_index);
   return p_impl->m_composer->TakeItem(parent, tag_index);
 }
 

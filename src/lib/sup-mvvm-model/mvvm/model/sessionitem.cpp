@@ -207,7 +207,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
-  if (!p_impl->m_tags->CanTakeItem(tag_index))
+  if (!utils::CanTakeItem(this, tag_index).first)
   {
     return {};
   }

@@ -75,15 +75,13 @@ void ValidateItemMove(const SessionItem* item, const SessionItem* new_parent,
  *
  * @return Success flag, and the reason if take is not possible.
  */
-std::pair<bool, std::string> CanTakeItem(const SessionModelInterface* model,
-                                         const SessionItem* parent, const TagIndex& tag_index);
+std::pair<bool, std::string> CanTakeItem(const SessionItem* parent, const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item take is allowed. Will throw InvalidOperationException
  * otherwise.
  */
-void ValidateTakeItem(const SessionModelInterface* model, const SessionItem* parent,
-                      const TagIndex& tag_index);
+void ValidateTakeItem(const SessionItem* parent, const TagIndex& tag_index);
 
 }  // namespace mvvm::utils
 

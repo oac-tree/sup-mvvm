@@ -141,22 +141,11 @@ void ValidateItemMove(const SessionItem *item, const SessionItem *new_parent,
   }
 }
 
-std::pair<bool, std::string> CanTakeItem(const SessionModelInterface *model,
-                                         const SessionItem *parent, const TagIndex &tag_index)
+std::pair<bool, std::string> CanTakeItem(const SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
   {
     return {kFailure, "Parent is not defined"};
-  }
-
-  if (!model)
-  {
-    return {kFailure, "Model is not defined"};
-  }
-
-  if (parent->GetModel() != model)
-  {
-    return {kFailure, "Parent doesn't belong to given model"};
   }
 
   if (!parent->GetTaggedItems()->CanTakeItem(tag_index))
@@ -167,10 +156,9 @@ std::pair<bool, std::string> CanTakeItem(const SessionModelInterface *model,
   return {kSuccess, ""};
 }
 
-void ValidateTakeItem(const SessionModelInterface *model, const SessionItem *parent,
-                      const TagIndex &tag_index)
+void ValidateTakeItem(const SessionItem *parent, const TagIndex &tag_index)
 {
-  if (auto [flag, reason] = CanTakeItem(model, parent, tag_index); !flag)
+  if (auto [flag, reason] = CanTakeItem(parent, tag_index); !flag)
   {
     throw InvalidOperationException(reason);
   }

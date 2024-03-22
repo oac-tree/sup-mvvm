@@ -285,8 +285,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)
   using ::mvvm::utils::ValidateTakeItem;
   SessionItem item;
 
-  EXPECT_FALSE(CanTakeItem(&m_model, nullptr, {}).first);
-  EXPECT_THROW(ValidateTakeItem(&m_model, nullptr, {}), InvalidOperationException);
+  EXPECT_FALSE(CanTakeItem(nullptr, {}).first);
+  EXPECT_THROW(ValidateTakeItem(nullptr, {}), InvalidOperationException);
 }
 
 //! Check ValidateTakeItem when model is not defined.
@@ -297,8 +297,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenModelIsNotDefined)
   using ::mvvm::utils::ValidateTakeItem;
   auto parent = m_model.InsertItem<CompoundItem>();
 
-  EXPECT_FALSE(CanTakeItem(nullptr, parent, {}).first);
-  EXPECT_THROW(ValidateTakeItem(nullptr, parent, {}), InvalidOperationException);
+  EXPECT_FALSE(CanTakeItem(parent, {}).first);
+  EXPECT_THROW(ValidateTakeItem(parent, {}), InvalidOperationException);
 }
 
 //! Check ValidateTakeItem when parent doesn't belong to a model.
@@ -310,8 +310,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentDoesntBelongToModel)
 
   SessionItem parent;
 
-  EXPECT_FALSE(CanTakeItem(nullptr, &parent, {}).first);
-  EXPECT_THROW(ValidateTakeItem(nullptr, &parent, {}), InvalidOperationException);
+  EXPECT_FALSE(CanTakeItem(&parent, {}).first);
+  EXPECT_THROW(ValidateTakeItem(&parent, {}), InvalidOperationException);
 }
 
 //! Check ValidateTakeItem on attempt to remove property.
@@ -324,8 +324,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
   auto parent = m_model.InsertItem<CompoundItem>();
   auto& property = parent->AddProperty("thickness", 42);
 
-  EXPECT_FALSE(CanTakeItem(&m_model, parent, {"thickness", 0}).first);
-  EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"thickness", 0}), InvalidOperationException);
+  EXPECT_FALSE(CanTakeItem(parent, {"thickness", 0}).first);
+  EXPECT_THROW(ValidateTakeItem(parent, {"thickness", 0}), InvalidOperationException);
 }
 
 //! Check ValidateTakeItem when parent doesn't belong to a model.
@@ -339,8 +339,8 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
 
-  EXPECT_FALSE(CanTakeItem(&m_model, parent, {"tag1", 1}).first);
-  EXPECT_THROW(ValidateTakeItem(&m_model, parent, {"tag1", 1}), InvalidOperationException);
+  EXPECT_FALSE(CanTakeItem(parent, {"tag1", 1}).first);
+  EXPECT_THROW(ValidateTakeItem(parent, {"tag1", 1}), InvalidOperationException);
 }
 
 //! Check ValidateTakeItem on valid request.
@@ -354,6 +354,6 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = m_model.InsertItem<CompoundItem>(parent, {"tag1", 0});
 
-  EXPECT_TRUE(CanTakeItem(&m_model, parent, {"tag1", 0}).first);
-  EXPECT_NO_THROW(ValidateTakeItem(&m_model, parent, {"tag1", 0}));
+  EXPECT_TRUE(CanTakeItem(parent, {"tag1", 0}).first);
+  EXPECT_NO_THROW(ValidateTakeItem(parent, {"tag1", 0}));
 }
