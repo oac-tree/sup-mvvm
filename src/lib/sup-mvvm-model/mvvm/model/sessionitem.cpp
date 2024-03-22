@@ -231,20 +231,16 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
 
   // return result;
 
-  if (auto insert_index = p_impl->m_tags->GetInsertTagIndex(tag_index); insert_index.has_value())
+  auto insert_tag_index = p_impl->m_tags->GetInsertTagIndex(tag_index);
+  if (!p_impl->m_tags->CanInsertItem(item.get(), insert_tag_index))
   {
-    if (p_impl->m_tags->CanInsertItem(item.get(), insert_index.value()))
-    {
-      auto result = p_impl->m_tags->InsertItem(std::move(item), insert_index.value());
-      result->SetParent(this);
-      result->SetModel(GetModel());
-      return result;
-    }
+    throw InvalidOperationException("Invalid insert index");
   }
 
-  throw InvalidOperationException("Wrong tags");
-
-
+  auto result = p_impl->m_tags->InsertItem(std::move(item), insert_tag_index);
+  result->SetParent(this);
+  result->SetModel(GetModel());
+  return result;
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)

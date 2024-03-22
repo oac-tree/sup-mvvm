@@ -202,7 +202,7 @@ SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
   return nullptr;
 }
 
-std::optional<TagIndex> TaggedItems::GetInsertTagIndex(const TagIndex& tag_index) const
+TagIndex TaggedItems::GetInsertTagIndex(const TagIndex& tag_index) const
 {
   if (auto container = FindContainer(tag_index.tag); container)
   {
@@ -210,6 +210,6 @@ std::optional<TagIndex> TaggedItems::GetInsertTagIndex(const TagIndex& tag_index
     return TagIndex{container->GetName(), actual_index};
   }
 
-  return {};
+  return TagIndex::Invalid();
 }
 }  // namespace mvvm

@@ -36,7 +36,7 @@ public:
   class TestItem : public SessionItem
   {
   public:
-    TestItem(const std::string& model_type) : SessionItem(model_type) {}
+    explicit TestItem(const std::string& model_type) : SessionItem(model_type) {}
   };
 
   template <typename T = SessionItem, typename... Args>
@@ -180,10 +180,10 @@ TEST_F(TaggedItemsTests, GetTagIndexOfItem)
   auto [child_t1_b, child_t1_b_ptr] = CreateItem();
   auto [child_t2_a, child_t2_a_ptr] = CreateItem();
   items.InsertItem(std::move(child_t1_a),
-                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 0
+                   items.GetInsertTagIndex(TagIndex::Append()));  // 0
   items.InsertItem(std::move(child_t1_b),
-                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 1
-  items.InsertItem(std::move(child_t2_a), {tag2, 0});                     // 0
+                   items.GetInsertTagIndex(TagIndex::Append()));  // 1
+  items.InsertItem(std::move(child_t2_a), {tag2, 0});             // 0
 
   // checking children tag and row
   EXPECT_EQ(items.TagIndexOfItem(child_t1_a_ptr).tag, tag1);
@@ -218,10 +218,10 @@ TEST_F(TaggedItemsTests, GetItem)
   auto [child_t1_b, child_t1_b_ptr] = CreateItem();
   auto [child_t2_a, child_t2_a_ptr] = CreateItem();
   items.InsertItem(std::move(child_t1_a),
-                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 0
+                   items.GetInsertTagIndex(TagIndex::Append()));  // 0
   items.InsertItem(std::move(child_t1_b),
-                   items.GetInsertTagIndex(TagIndex::Append()).value());  // 1
-  items.InsertItem(std::move(child_t2_a), {tag2, 0});                     // 0
+                   items.GetInsertTagIndex(TagIndex::Append()));  // 1
+  items.InsertItem(std::move(child_t2_a), {tag2, 0});             // 0
 
   EXPECT_EQ(items.GetItem({tag1, 0}), child_t1_a_ptr);
   EXPECT_EQ(items.GetItem({tag1, 1}), child_t1_b_ptr);
@@ -249,18 +249,14 @@ TEST_F(TaggedItemsTests, TakeItem)
   auto [child2, child2_ptr] = CreateItem<TestItem>(model_type);
   auto [child3, child3_ptr] = CreateItem<TestItem>(model_type);
   auto [child4, child4_ptr] = CreateItem<TestItem>(model_type);
-  EXPECT_EQ(
-      items.InsertItem(std::move(child1), items.GetInsertTagIndex(TagIndex::Append()).value()),
-      child1_ptr);
-  EXPECT_EQ(
-      items.InsertItem(std::move(child2), items.GetInsertTagIndex(TagIndex::Append()).value()),
-      child2_ptr);
-  EXPECT_EQ(
-      items.InsertItem(std::move(child3), items.GetInsertTagIndex(TagIndex::Append()).value()),
-      child3_ptr);
-  EXPECT_EQ(
-      items.InsertItem(std::move(child4), items.GetInsertTagIndex(TagIndex::Append(tag2)).value()),
-      child4_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child1), items.GetInsertTagIndex(TagIndex::Append())),
+            child1_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child2), items.GetInsertTagIndex(TagIndex::Append())),
+            child2_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child3), items.GetInsertTagIndex(TagIndex::Append())),
+            child3_ptr);
+  EXPECT_EQ(items.InsertItem(std::move(child4), items.GetInsertTagIndex(TagIndex::Append(tag2))),
+            child4_ptr);
 
   // taking item in between
   EXPECT_TRUE(items.CanTakeItem({"", 1}));
@@ -290,7 +286,7 @@ TEST_F(TaggedItemsTests, Clone)
 
   auto [child_t1, child_t1_ptr] = CreateItem();
   auto [child_t2, child_t2_ptr] = CreateItem();
-  items.InsertItem(std::move(child_t1), items.GetInsertTagIndex(TagIndex::Append()).value())
+  items.InsertItem(std::move(child_t1), items.GetInsertTagIndex(TagIndex::Append()))
       ->SetDisplayName("abc");
   items.InsertItem(std::move(child_t2), {tag2, 0})->SetDisplayName("def");
 
@@ -363,7 +359,7 @@ TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
 {
   {  // no tags
     TaggedItems items;
-    EXPECT_FALSE(items.GetInsertTagIndex(TagIndex::Append()).has_value());
+    EXPECT_FALSE(items.GetInsertTagIndex(TagIndex::Append()).IsValid());
   }
 
   {  // default tag
@@ -373,17 +369,17 @@ TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
 
     // checking that uninitialised tag is correctly converted to the right tag
     auto tag_index = items.GetInsertTagIndex({"", -1});
-    ASSERT_TRUE(tag_index.has_value());
-    EXPECT_EQ(tag_index.value(), TagIndex("tag", 0));
+    ASSERT_TRUE(tag_index.IsValid());
+    EXPECT_EQ(tag_index, TagIndex("tag", 0));
 
     // inserting an item, checking if tag points to the next one after
     items.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
     auto tag_index2 = items.GetInsertTagIndex({"", -1});
-    ASSERT_TRUE(tag_index2.has_value());
-    EXPECT_EQ(tag_index2.value(), TagIndex("tag", 1));
+    ASSERT_TRUE(tag_index2.IsValid());
+    EXPECT_EQ(tag_index2, TagIndex("tag", 1));
 
     // it is not possible to convert wrong tag to something meaningful
-    EXPECT_FALSE(items.GetInsertTagIndex({"abc", 0}).has_value());
+    EXPECT_FALSE(items.GetInsertTagIndex({"abc", 0}).IsValid());
   }
 
   {  // non-default tag
@@ -392,17 +388,17 @@ TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
     items.RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
 
     // It is not possible to convert empty tag name into something meaningfull
-    EXPECT_FALSE(items.GetInsertTagIndex({"", -1}).has_value());
+    EXPECT_FALSE(items.GetInsertTagIndex({"", -1}).IsValid());
 
     // if tag is ok, index wwill be converted
     auto tag_index = items.GetInsertTagIndex({"tag", -1});
-    ASSERT_TRUE(tag_index.has_value());
-    EXPECT_EQ(tag_index.value(), TagIndex("tag", 0));
+    ASSERT_TRUE(tag_index.IsValid());
+    EXPECT_EQ(tag_index, TagIndex("tag", 0));
 
     // inserting an item, checking if tag points to the next one after
     items.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
     auto tag_index2 = items.GetInsertTagIndex({"tag", -1});
-    ASSERT_TRUE(tag_index2.has_value());
-    EXPECT_EQ(tag_index2.value(), TagIndex("tag", 1));
+    ASSERT_TRUE(tag_index2.IsValid());
+    EXPECT_EQ(tag_index2, TagIndex("tag", 1));
   }
 }

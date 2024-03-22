@@ -24,7 +24,6 @@
 #include <mvvm/model_export.h>
 
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -211,14 +210,14 @@ public:
   /**
    * @brief Converts insert index into an actual TagIndex.
    *
-   * The method is mainly used to convert TagIndex::Append() to the actual insert index. Also
-   * performs validation if index is valid and tag name exists. Will return an empty result if it is
-   * not the case.
+   * The method is used to convert TagIndex::Append() to the actual insert index. Also performs
+   * validation if index is valid and tag name exists. Will return a TagIndex in invalid state if it
+   * is not the case.
    *
    * @param index A tag index for item insert.
-   * @return An optional
+   * @return Converted TagIndex.
    */
-  std::optional<TagIndex> GetInsertTagIndex(const TagIndex& index) const;
+  TagIndex GetInsertTagIndex(const TagIndex& index) const;
 
 private:
   container_t m_containers;

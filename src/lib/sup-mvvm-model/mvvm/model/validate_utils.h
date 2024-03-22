@@ -40,8 +40,7 @@ namespace mvvm::utils
 /**
  * @brief Converts TagIndex::Append() into actual TagIndex.
  */
-std::optional<TagIndex> GetActualInsertTagIndex(const SessionItem* parent,
-                                                const TagIndex& tag_index);
+TagIndex GetActualInsertTagIndex(const SessionItem* parent, const TagIndex& tag_index);
 
 /**
  * @brief Perform validation if item insert is allowed.
@@ -85,7 +84,6 @@ std::pair<bool, std::string> CanTakeItem(const SessionModelInterface* model,
  */
 void ValidateTakeItem(const SessionModelInterface* model, const SessionItem* parent,
                       const TagIndex& tag_index);
-
 
 }  // namespace mvvm::utils
 

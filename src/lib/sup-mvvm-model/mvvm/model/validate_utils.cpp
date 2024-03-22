@@ -35,8 +35,7 @@ const bool kFailure = false;
 namespace mvvm::utils
 {
 
-std::optional<TagIndex> GetActualInsertTagIndex(const SessionItem *parent,
-                                                const TagIndex &tag_index)
+TagIndex GetActualInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
   {
@@ -74,9 +73,9 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const Sessio
   }
 
   auto actual_index = GetActualInsertTagIndex(parent, tag_index);
-  if (actual_index.has_value())
+  if (actual_index.IsValid())
   {
-    if (!parent->GetTaggedItems()->CanInsertItem(item, actual_index.value()))
+    if (!parent->GetTaggedItems()->CanInsertItem(item, actual_index))
     {
       return {kFailure, "Can't insert item to parent"};
     }

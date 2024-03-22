@@ -114,14 +114,9 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
     parent = GetRootItem();
   }
 
-  if (auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index); actual_tagindex.has_value())
-  {
-    utils::ValidateItemInsert(item.get(), parent, actual_tagindex.value());
-
-    return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex.value());
-  }
-
-  throw InvalidOperationException("Error");
+  auto actual_tagindex = utils::GetActualInsertTagIndex(parent, tag_index);
+  utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
+  return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
 }
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
@@ -142,23 +137,16 @@ void SessionModel::RemoveItem(SessionItem* item)
 
 void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index)
 {
-
-  if (auto actual_tagindex = utils::GetActualInsertTagIndex(new_parent, tag_index); actual_tagindex.has_value())
+  auto actual_tagindex = utils::GetActualInsertTagIndex(new_parent, tag_index);
+  // FIXME move check to utils::ValidateItemMove
+  if (item->GetParent() == new_parent && item->GetTagIndex() == actual_tagindex)
   {
-    if (item->GetParent() == new_parent && item->GetTagIndex() == actual_tagindex.value())
-    {
-      return;
-    }
-
-    utils::ValidateItemMove(item, new_parent, actual_tagindex.value());
-
-    auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
-    InsertItem(std::move(taken), new_parent, tag_index);
+    return;
   }
-  else
-  {
-    throw RuntimeException("Shouldn't be here");
-  }
+
+  utils::ValidateItemMove(item, new_parent, actual_tagindex);
+  auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
+  InsertItem(std::move(taken), new_parent, tag_index);
 }
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)

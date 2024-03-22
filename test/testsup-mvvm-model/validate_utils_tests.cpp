@@ -28,7 +28,6 @@
 #include <gtest/gtest.h>
 
 #include <memory>
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -43,7 +42,7 @@ TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
   using ::mvvm::utils::GetActualInsertTagIndex;
 
   CompoundItem item;
-  EXPECT_FALSE(GetActualInsertTagIndex(&item, TagIndex::Append()).has_value());
+  EXPECT_FALSE(GetActualInsertTagIndex(&item, TagIndex::Append()).IsValid());
 
   // registering default tag
   item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -56,7 +55,7 @@ TEST_F(ValidateUtilsTests, GetActualInsertTagIndex)
   EXPECT_EQ(GetActualInsertTagIndex(&item, {"", -1}), TagIndex("tag", 1));
 
   // Wrong tag
-  EXPECT_FALSE(GetActualInsertTagIndex(&item, {"abc", 0}).has_value());
+  EXPECT_FALSE(GetActualInsertTagIndex(&item, {"abc", 0}).IsValid());
 }
 
 //! Check throw in ValidateItemInsert when items are not defined, or do not have model/parent
