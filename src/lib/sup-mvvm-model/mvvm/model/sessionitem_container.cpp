@@ -54,20 +54,12 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
-  if (!item)
+  if (!item || IndexOfItem(item) != -1)
   {
     return false;
   }
 
-  // if item belongs to this container already, a request to insert an item will
-  // be prepended by item removal. Should adjust max number of items accordingly.
-
-  const int max_item_count = IndexOfItem(item) >= 0 ? GetItemCount() - 1 : GetItemCount();
-
-  const bool valid_index = (index >= 0 && index <= max_item_count);
-  const bool enough_place = !IsMaximumReached();
-  const bool valid_type = item && m_tag_info.IsValidType(item->GetType());
-  return valid_index && enough_place && valid_type;
+  return CanInsertType(item->GetType(), index);
 }
 
 bool SessionItemContainer::CanInsertType(const std::string& item_type, int index) const

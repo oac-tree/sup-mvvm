@@ -323,8 +323,7 @@ TEST_F(SessionItemContainerTests, CanInsertItemForUniversalTag)
   EXPECT_FALSE(tag.CanInsertItem(child3.get(), tag.GetItemCount()));
 }
 
-//! Checking ::canInsertItem for own item. A request to insert own item is triggered by move
-//! command.
+//! Checking ::CanInsertItem for own item.
 
 TEST_F(SessionItemContainerTests, CanInsertOwnItem)
 {
@@ -335,22 +334,12 @@ TEST_F(SessionItemContainerTests, CanInsertOwnItem)
 
   // inserting child
   auto [child0, child0_ptr] = CreateItem<SessionItem>();
-  auto [child1, child1_ptr] = CreateItem<SessionItem>();
-  auto [child2, child2_ptr] = CreateItem<SessionItem>();
-  auto [child3, child3_ptr] = CreateItem<SessionItem>();
   tag.InsertItem(std::move(child0), 0);
-  tag.InsertItem(std::move(child1), 1);
-  tag.InsertItem(std::move(child2), 2);
-  tag.InsertItem(std::move(child3), 3);
 
-  EXPECT_TRUE(tag.CanInsertItem(child0_ptr, 3));
-
-  // should't be possible to insert at this index, since own item will be first removed and total
-  // item count should be adjusted
-  EXPECT_FALSE(tag.CanInsertItem(child0_ptr, 4));
+  EXPECT_FALSE(tag.CanInsertItem(child0_ptr, 0));
 }
 
-//! Checking ::canInsertItem.
+//! Checking ::CanInsertItem.
 
 TEST_F(SessionItemContainerTests, CanInsertType)
 {
@@ -365,7 +354,7 @@ TEST_F(SessionItemContainerTests, CanInsertType)
   EXPECT_FALSE(tag.CanInsertType(tag_name, 1));
 }
 
-//! Checking ::takeItem when tag is related to property tag.
+//! Checking ::TakeItem when tag is related to property tag.
 
 TEST_F(SessionItemContainerTests, TakeItemPropertyType)
 {
