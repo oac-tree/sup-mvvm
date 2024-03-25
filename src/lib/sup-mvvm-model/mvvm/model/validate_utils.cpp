@@ -72,7 +72,7 @@ std::pair<bool, std::string> CanInsertItem(const SessionItem *item, const Sessio
     return {kFailure, "Attempt to turn ancestor into a child"};
   }
 
-  if (!parent->GetTaggedItems()->CanInsertItem(item,  GetInsertTagIndex(parent, tag_index)))
+  if (!parent->GetTaggedItems()->CanInsertItem(item, GetInsertTagIndex(parent, tag_index)))
   {
     return {kFailure, "Can't insert item to parent"};
   }
@@ -97,7 +97,7 @@ std::pair<bool, std::string> CanInsertType(const std::string &item_type, const S
     return {kFailure, "Invalid parent item"};
   }
 
-  if (!parent->GetTaggedItems()->CanInsertType(item_type, tag_index))
+  if (!parent->GetTaggedItems()->CanInsertType(item_type, GetInsertTagIndex(parent, tag_index)))
   {
     return {kFailure, "Can't insert item of the given type to the parent"};
   }

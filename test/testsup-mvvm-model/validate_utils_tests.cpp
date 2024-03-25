@@ -179,6 +179,9 @@ TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
   EXPECT_FALSE(CanInsertType(item_type, parent0, {"tag1", 2}).first);               // wrong index
   EXPECT_FALSE(CanInsertType(item_type, parent0, {"non-existing-type", 1}).first);  // wrong tag
 
+  // we do allow  implicit conversion of TagIndex::Append into real index
+  EXPECT_TRUE(CanInsertType(item_type, parent0, TagIndex::Append()).first);
+
   // not-registered item type
   EXPECT_FALSE(CanInsertType("wrong-type", parent0, {"tag1", 0}).first);  // wrong index
   EXPECT_THROW(ValidateItemTypeInsert("wrong-type", parent0, {"tag1", 0}),
