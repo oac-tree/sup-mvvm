@@ -1,4 +1,4 @@
-Changes for 1.3.0:
+Changes for 1.4.0:
 
 - COA Release v2.1, March 2024
 - Capitalize ViewItem API
@@ -9,9 +9,13 @@ Changes for 1.3.0:
 - Remove ItemManager and implement global item catalogue
 - Extract test utils into separate library
 - Switch fluent interfaced to references
-- Remove obsolete limits machinery
-- View model performance improvements for filtering of large trees
+
+Changes for 1.3.0:
+
+- Special TMCR bugfix Release, November 2023
 - Fix to find system's qt5 on CODAC
+- View model performance improvements for filtering of large trees
+- Remove obsolete limits machinery
 
 Changes for 1.2.0:
 
