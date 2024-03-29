@@ -8,15 +8,8 @@ include(GenerateExportHeader)
 include(GNUInstallDirs)
 include(FindPackageMessage)
 
-if(COA_SETUP_COVERAGE)
-  include(CodeCoverage)
-  append_coverage_compiler_flags()
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage --coverage")
-  message(STATUS " Coverage enabled ${CMAKE_CXX_FLAGS}")
-endif()
-
 # -----------------------------------------------------------------------------
-# CODAC enviorenment
+# CODAC environment
 # -----------------------------------------------------------------------------
 if(NOT COA_NO_CODAC)
   find_package(CODAC OPTIONAL_COMPONENTS site-packages Python MODULE QUIET)
@@ -51,14 +44,15 @@ else()
   find_package_message(CODAC_DETAILS "Building without CODAC environment" "[${CODAC_FOUND}]")
 endif()
 
-# -----------------------------------------------------------------------------
-# Variables
-# -----------------------------------------------------------------------------
-if(COA_SETUP_COVERAGE)
-  # On coverage builds  alsways skip building docs and build tests
+if(COA_COVERAGE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fno-inline --coverage")
+  message(STATUS "Enabling test coverage information: ${CMAKE_CXX_FLAGS}")
   set(COA_BUILD_DOCUMENTATION OFF)
 endif()
 
+# -----------------------------------------------------------------------------
+# Variables
+# -----------------------------------------------------------------------------
 get_filename_component(SUP_MVVM_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
 
 set(SUP_MVVM_SOVERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
