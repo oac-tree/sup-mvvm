@@ -49,6 +49,14 @@ public:
     GetEventHandler()->Connect<EventT>(callback, GetSlot());
   }
 
+  template <typename EventT>
+  void Connect(const void (*func)(const EventT& event))
+  {
+    auto adapter = [func](const event_variant_t& event_variant)
+    { func(std::get<EventT>(event_variant)); };
+    Connect<EventT>(adapter);
+  }
+
   //! Connect object's method to all events specified by the given event type.
   //! The method is expected to be based on event_variant_t.
   template <typename EventT, typename WidgetT>
