@@ -104,6 +104,9 @@ public:
    * If the slot is provided, its lifetime will be coupled with the provided callback. After the
    * slot's destruction, no callbacks will be called.
    *
+   * @tparam EventT Concrete event type to subscribe.
+   * @tparam ReceiverT The type of receiver object.
+   *
    * @param receiver A pointer to the event receiver.
    * @param method A pointer to receiver's method.
    * @param slot A slot object to specify time of life of the callback.

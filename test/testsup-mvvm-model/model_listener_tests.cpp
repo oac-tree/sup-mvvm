@@ -21,6 +21,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/signals/model_listener.h>
+#include <mvvm/test/mock_callback_listener.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -51,8 +52,8 @@ public:
 
 TEST_F(ModelListenerTests, InitialState)
 {
-  ApplicationModel model;
-  ModelListener<ApplicationModel> listener(&model);
+  const ApplicationModel model;
+  const ModelListener<ApplicationModel> listener(&model);
   EXPECT_EQ(listener.GetModel(), &model);
 }
 
@@ -60,8 +61,53 @@ TEST_F(ModelListenerTests, AttemptToInitializeToWrongModel)
 {
   EXPECT_THROW(ModelListener<SessionModel>(nullptr), NullArgumentException);
 
-  SessionModel model;
+  const SessionModel model;
+  // expect exception in the absence of signaling capabilities
   EXPECT_THROW((ModelListener<SessionModel>(&model)), NullArgumentException);
+}
+
+//! Creating the model with item and listener attached. The client is a lambda listening for
+//! DataChangedEvent in the form of event_variant_t.
+TEST_F(ModelListenerTests, LambdaOnVariant)
+{
+  // the model with the item and listener attached
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  ModelListener<ApplicationModel> listener(&model);
+
+  mvvm::test::MockCallbackListener<event_variant_t> client;
+
+  // the client is setup to receive DataChangedEvent in the form of event_variant_t.
+  listener.Connect<DataChangedEvent>(client.CreateCallback());
+
+  // setting up expectation
+  DataChangedEvent expected_event{item, DataRole::kData};
+  EXPECT_CALL(client, OnCallback(event_variant_t(expected_event))).Times(1);
+
+  // triggering expectations by changing the data
+  EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
+}
+
+//! Creating the model with item and listener attached. The client is a lambda listening directly
+//! for DataChangedEvent (no variant).
+TEST_F(ModelListenerTests, LambdaOnConcreteEvent)
+{
+  // the model with the item and listener attached
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  ModelListener<ApplicationModel> listener(&model);
+
+  mvvm::test::MockCallbackListener<DataChangedEvent> client;
+
+  // the client is setup to receive DataChangedEvent in the form of event_variant_t.
+  listener.Connect<DataChangedEvent>(client.CreateCallback());
+
+  // setting up expectation
+  const DataChangedEvent expected_event{item, DataRole::kData};
+  EXPECT_CALL(client, OnCallback(expected_event)).Times(1);
+
+  // triggering expectations by changing the data
+  EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
 }
 
 //! Creating the model with item and listener attached.
@@ -86,7 +132,7 @@ TEST_F(ModelListenerTests, SingleClientOnEvent)
 }
 
 //! Same test as previous.
-//! Additionally we check if we can connect callback methods based pn the concrete event type.
+//! Additionally we check if we can connect callback methods based on the concrete event type.
 TEST_F(ModelListenerTests, SingleClientOnEventVariousConnectionAPI)
 {
   // the model with the item and listener attached
@@ -103,7 +149,7 @@ TEST_F(ModelListenerTests, SingleClientOnEventVariousConnectionAPI)
 
   DataChangedEvent expected_event{item, DataRole::kData};
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(client, OnEvent(event_variant_t(expected_event))).Times(1);
     EXPECT_CALL(client, OnConcreteEvent(expected_event)).Times(1);
     EXPECT_CALL(client, OnConcreteEvent(expected_event)).Times(1);
@@ -143,14 +189,14 @@ TEST_F(ModelListenerTests, ListenerTimeOfLife)
   EXPECT_TRUE(model.SetData(item, 43, DataRole::kData));
 }
 
-//! Connecting to the client with two methosd with the same name
+//! Connecting to the client with two methods with the same name
 
 TEST_F(ModelListenerTests, MethodOverload)
 {
   // the model with the item and listener attached
   ApplicationModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  const TagIndex tag_index{"rootTag", 0};  // default tag of root item
 
   auto listener = std::make_unique<ModelListener<ApplicationModel>>(&model);
 
@@ -160,7 +206,7 @@ TEST_F(ModelListenerTests, MethodOverload)
   listener->Connect<ItemInsertedEvent>(&client, &TestClientV2::OnEvent);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
     auto expected_event1 = AboutToInsertItemEvent{parent, tag_index};
     auto expected_event2 = ItemInsertedEvent{parent, tag_index};
