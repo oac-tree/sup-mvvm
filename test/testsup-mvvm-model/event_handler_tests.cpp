@@ -26,9 +26,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <string>
-#include <variant>
-
 using namespace mvvm;
 using ::testing::_;
 
@@ -83,7 +80,7 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{&item, role};
+  const DataChangedEvent data_changed_event{&item, role};
 
   EventHandler<event_variant_t> event_handler;
 
@@ -100,7 +97,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{&item, role};
+  const DataChangedEvent data_changed_event{&item, role};
 
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
@@ -124,7 +121,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{&item, role};
+  const DataChangedEvent data_changed_event{&item, role};
 
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
@@ -136,7 +133,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
 }
 
 //! Connecting MockSpecializedWidget with two events. Validating that the notification
-//! is calling a method for concrete event type DataChangedEvent.
+//! is calling a method for concrete event type DataChangedEvent via std::visit mechanism.
 
 TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 {
@@ -144,7 +141,7 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 
   const int role{42};
   SessionItem item;
-  DataChangedEvent data_changed_event{&item, role};
+  const DataChangedEvent data_changed_event{&item, role};
 
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();

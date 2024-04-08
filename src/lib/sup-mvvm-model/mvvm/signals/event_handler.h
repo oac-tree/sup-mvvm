@@ -26,58 +26,99 @@
 
 #include <functional>
 #include <memory>
-#include <stdexcept>
 
 namespace mvvm
 {
 
-//! Provides subscription mechanism to various event types.
-//! @code{.cpp}
-//! EventHandler<event_t> handler;
-//!
-//! // to connect to signal
-//! event_handler.Connect<DataChangedEvent>(&widget, &Widget::OnEvent);
-//! event_handler.Connect<ItemInsertedEvent>(&widget, &Widget::OnEvent);
-//!
-//! // to notify widgets connected to one signal
-//! event_handler.Notify<DataChangedEvent>(role, item);
-//! @endcode
-
+/**
+ * @brief The EventHandler class provides a subscription/notification mechanism for various event
+ * types.
+ *
+ * It relies on the functionality, provided by lsignal library.
+ *
+ * @tparam EventVariantT A variant to store the value of concrete event.
+ * @see event_variant_t, ModelEventHandler
+ *
+ * @code{.cpp}
+ *
+ * class Widget
+ * {
+ *   void OnDataChangedEvent(const event_variant_t& event)
+ *   {
+ *     auto concrete_event = std::get<DataChangedEvent>(event);
+ *     ...
+ *   }
+ *
+ *   void OnItemInsertedEvent(const event_variant_t& event)
+ *   {
+ *     auto concrete_event = std::get<ItemInsertedEvent>(event);
+ *     ...
+ *   }
+ * };
+ *
+ * Widget widget;
+ *
+ * EventHandler<event_variant_t> handler;
+ * event_handler.Connect<DataChangedEvent>(&widget, &Widget::OnDataChangedEvent);
+ * event_handler.Connect<ItemInsertedEvent>(&widget, &Widget::OnItemInsertedEvent);
+ *
+ * DataChangedEvent new_event{role, item};
+ * event_handler.Notify<DataChangedEvent>(new_event);
+ * @endcode
+ */
 template <typename EventVariantT>
 class EventHandler
 {
+  /**
+   * A definition of user callback type.
+   */
   using callback_t = typename std::function<void(const EventVariantT&)>;
+
+  /**
+   * A definition of a signal. It stores a collection of callbacks, and notifies them when
+   * necessary.
+   */
   using signal_t = typename ::mvvm::Signal<void(const EventVariantT&)>;
 
 public:
-  //! Connect given callback to all events specified by the given event type.
-  //! @param callback A callback to be notified.
-  //! @param slot A slot object to specify time of life of the callback.
-  //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
-  //! slot's destruction no callbacks will be called.
-
+  /**
+   * @brief Connects given callback to events specified by the given event type.
+   *
+   * If the slot is provided, its lifetime will be coupled with the provided callback. After the
+   * slot's destruction, no callbacks will be called.
+   *
+   * @tparam EventT Concrete event type to subscribe.
+   * @param callback A callback to notify the user.
+   * @param slot A slot object to specify time of life of the callback.
+   * @return Established connection (not used).
+   */
   template <typename EventT>
   Connection Connect(const callback_t& callback, Slot* slot = nullptr)
   {
     return GetSignal<EventT>().connect(callback, slot);
   }
 
-  //! Connect receiver's method to all events specified by the given event type.
-  //! @param widget A pointer to the event receiver.
-  //! @param method A pointer to receiver's method.
-  //! @param slot A slot object to specify time of life of the callback.
-  //! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
-  //! slot's destruction no callbacks will be called.
-
+  /**
+   * @brief Connects the receiver's method to all events specified by the given event type.
+   *
+   * If the slot is provided, its lifetime will be coupled with the provided callback. After the
+   * slot's destruction, no callbacks will be called.
+   *
+   * @param receiver A pointer to the event receiver.
+   * @param method A pointer to receiver's method.
+   * @param slot A slot object to specify time of life of the callback.
+   * @return Established connection (not used).
+   */
   template <typename EventT, typename ReceiverT, typename Fn>
   Connection Connect(ReceiverT* receiver, const Fn& method, Slot* slot = nullptr)
   {
     return GetSignal<EventT>().connect(receiver, method, slot);
   }
 
-  //! Notifies all slots connected to a given event type.
-  //! @note Method constructs event using all provided arguments.
-
+  /**
+   * @brief Notifies all slots connected to a given event type.
+   * @param args Variadic arguments to construct concrete event to notify subscribers.
+   */
   template <typename EventT, typename... Args>
   void Notify(Args&&... args)
   {
@@ -85,15 +126,21 @@ public:
     Notify(event);
   }
 
-  //! Notifies all slots connected to a given event.
-
+  /**
+   * @brief Notifies all slots connected to a given event type.
+   * @param event A concrete event to notify subscribers.
+   */
   template <typename EventT>
   void Notify(const EventT& event)
   {
     GetSignal<EventT>().operator()(event);
   }
 
-  //! Registers given event type for subscription and notifications.
+  /**
+   * @brief Registers given event type for subscription and notifications.
+   *
+   * @tparam EventT Concrete event type to register a signal.
+   */
   template <typename EventT>
   void Register()
   {
@@ -102,6 +149,9 @@ public:
   }
 
 private:
+  /**
+   * @brief Returns reference to a signal, registered for a given event type.
+   */
   template <typename EventT>
   signal_t& GetSignal()
   {
@@ -113,6 +163,11 @@ private:
     return *iter->second.get();
   }
 
+  /**
+   * @brief A map of signals, registered for concret event types.
+   *
+   * A single signal holds a collection of callbacks to notify.
+   */
   TypeMap<std::unique_ptr<signal_t>> m_signals;
 };
 
