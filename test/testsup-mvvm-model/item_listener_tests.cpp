@@ -160,9 +160,9 @@ TEST_F(ItemListenerTests, OnDataChangedCallback)
 }
 
 //! Single call OnDataChanged expected when data was changed.
-//! Same as before, external callback is used, initialisation in c-tor.
+//! Same as before, external event_variant_t callback is used.
 
-TEST_F(ItemListenerTests, OnDataChangedCallbackInitInCtor)
+TEST_F(ItemListenerTests, LambdaOnEventVariant)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -179,6 +179,31 @@ TEST_F(ItemListenerTests, OnDataChangedCallbackInitInCtor)
 
   DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+
+  // trigger calls
+  item->SetData(45, expected_role);
+}
+
+//! Single call OnDataChanged expected when data was changed.
+//! Same as before, external callback based on concrete event is used.
+
+TEST_F(ItemListenerTests, LambdaOnConcreteEvent)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<SessionItem>();
+  item->SetData(42, DataRole::kData);
+
+  ItemListener<SessionItem> listener(item);
+  mvvm::test::MockCallbackListener<DataChangedEvent> widget;
+
+  listener.Connect<DataChangedEvent>(widget.CreateCallback());
+
+  EXPECT_EQ(listener.GetItem(), item);
+  const auto expected_role = DataRole::kData;
+  const auto expected_item = item;
+
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(widget, OnCallback(expected_event)).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);

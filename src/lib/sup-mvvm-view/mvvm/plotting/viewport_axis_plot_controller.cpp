@@ -122,25 +122,24 @@ ViewportAxisPlotController::~ViewportAxisPlotController() = default;
 
 void ViewportAxisPlotController::Subscribe()
 {
-  auto on_property_change = [this](const auto& event)
+  auto on_property_change = [this](const PropertyChangedEvent& event)
   {
-    auto concrete_event = std::get<PropertyChangedEvent>(event);
     if (p_impl->m_block_update)
     {
       return;
     }
 
-    if (concrete_event.m_name == ViewportAxisItem::kMin)
+    if (event.m_name == ViewportAxisItem::kMin)
     {
       p_impl->UpdateLowerRange(GetItem());
     }
 
-    if (concrete_event.m_name == ViewportAxisItem::kMax)
+    if (event.m_name == ViewportAxisItem::kMax)
     {
       p_impl->UpdateUpperRange(GetItem());
     }
 
-    if (concrete_event.m_name == ViewportAxisItem::kIsLog)
+    if (event.m_name == ViewportAxisItem::kIsLog)
     {
       p_impl->SetAxisLogScaleFromItem();
     }

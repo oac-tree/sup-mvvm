@@ -70,10 +70,10 @@ public:
    * @param callback A callback based on event_variant_t.
    */
   template <typename EventT>
-  void Connect(const std::function<void(const EventT&)>& func)
+  void Connect(const std::function<void(const EventT&)>& callback)
   {
-    auto adapter = [func](const event_variant_t& event_variant)
-    { func(std::get<EventT>(event_variant)); };
+    auto adapter = [callback](const event_variant_t& event_variant)
+    { callback(std::get<EventT>(event_variant)); };
     Connect<EventT>(adapter);
   }
 

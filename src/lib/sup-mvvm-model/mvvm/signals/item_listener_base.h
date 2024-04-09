@@ -66,6 +66,22 @@ public:
   }
 
   /**
+   * @brief Connects a callback to events specified by the given event type.
+   *
+   * This version is intended for user callbacks accepting concrete event.
+   *
+   * @tparam EventT The type of the event to subscribe.
+   * @param callback A callback based on event_variant_t.
+   */
+  template <typename EventT>
+  void Connect(const std::function<void(const EventT&)>& callback)
+  {
+    auto adapter = [callback](const event_variant_t& event_variant)
+    { callback(std::get<EventT>(event_variant)); };
+    Connect<EventT>(adapter);
+  }
+
+  /**
    * @brief Connects object's method to events specified by the given event type.
    *
    * This version is intended for methods accepting concrete event.
