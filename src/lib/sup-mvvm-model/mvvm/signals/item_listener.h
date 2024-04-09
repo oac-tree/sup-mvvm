@@ -74,6 +74,22 @@ template <typename ItemT>
 class ItemListener : public ItemListenerBase
 {
 public:
+  /**
+   * @brief Default c-tor when no item is set for listening yet.
+   */
+  ItemListener() = default;
+
+  /**
+   * @brief c-tor that starts listening item from the beginning.
+   */
+  explicit ItemListener(ItemT* item)
+  {
+    SetItem(item);
+  }
+
+  /**
+   * @brief Returns current item which was set for listening.
+   */
   ItemT* GetItem() const { return static_cast<ItemT*>(GetCurrentItem()); }
 };
 

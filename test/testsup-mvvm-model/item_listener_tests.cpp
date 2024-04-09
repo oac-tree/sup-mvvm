@@ -82,7 +82,7 @@ TEST_F(ItemListenerTests, OnDataChanged)
   item->SetData(45, expected_role);
 }
 
-//! Single call OnDataChanged expected when data was changed (double subscription).
+//! Single call OnDataChanged expected when data was changed.
 
 TEST_F(ItemListenerTests, OnDataChangedSubscribeTwice)
 {
@@ -153,6 +153,31 @@ TEST_F(ItemListenerTests, OnDataChangedCallback)
 
   DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
+  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+
+  // trigger calls
+  item->SetData(45, expected_role);
+}
+
+//! Single call OnDataChanged expected when data was changed.
+//! Same as before, external callback is used, initialisation in c-tor.
+
+TEST_F(ItemListenerTests, OnDataChangedCallbackInitInCtor)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<SessionItem>();
+  item->SetData(42, DataRole::kData);
+
+  ItemListener<SessionItem> listener(item);
+  mvvm::test::MockCallbackListener<event_variant_t> widget;
+
+  listener.Connect<DataChangedEvent>(widget.CreateCallback());
+
+  EXPECT_EQ(listener.GetItem(), item);
+  const auto expected_role = DataRole::kData;
+  const auto expected_item = item;
+
+  DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
