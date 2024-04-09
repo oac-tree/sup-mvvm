@@ -31,10 +31,10 @@ class SessionModelInterface;
 class ModelEventHandler;
 
 /**
- * @brief The ModelListenerBase is a base class for all objects willing to listen for changes in
+ * @brief The ModelListenerBase is a base for all objects willing to listen for changes in
  * ApplicationModel.
  *
- * The time of life of all callbacks, or connected objects should exceed the time of life of this
+ * The time of life of all callbacks, or connected objects, should exceed the time of life of this
  * ModelListener. When ModelListener is deleted, it safely unsubscribes everything from the model
  * notifications.
  */
@@ -83,7 +83,7 @@ public:
    * This version is intended for methods accepting event_variant_t.
    *
    * @tparam EventT The type of the event to subscribe.
-   * @tparam ReceiverT The type of the listener.
+   * @tparam ReceiverT The type of the receiver.
    *
    * @param receiver A pointer to the event receiver.
    * @param method A pointer to receiver's method.
@@ -100,7 +100,7 @@ public:
    * This version is intended for methods accepting concrete event.
    *
    * @tparam EventT The type of the event to subscribe.
-   * @tparam ReceiverT The type of the listener.
+   * @tparam ReceiverT The type of the receiver.
    *
    * @param receiver A pointer to the event receiver.
    * @param method A pointer to receiver's method.

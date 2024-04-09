@@ -24,8 +24,6 @@
 
 #include <gmock/gmock.h>
 
-#include <memory>
-
 namespace mvvm
 {
 class SessionItem;
