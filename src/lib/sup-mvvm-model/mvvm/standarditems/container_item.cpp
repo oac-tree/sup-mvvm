@@ -19,7 +19,7 @@
 
 #include "container_item.h"
 
-#include <sstream>
+#include <mvvm/model/item_utils.h>
 
 namespace mvvm
 {
@@ -41,6 +41,20 @@ bool ContainerItem::IsEmpty() const
 int ContainerItem::GetSize() const
 {
   return GetItemCount(kChildren);
+}
+
+std::vector<SessionItem*> ContainerItem::GetChildren() const
+{
+  return GetAllItems();
+}
+
+void ContainerItem::Clear()
+{
+  for (auto child : GetChildren())
+  {
+    // using universal function to provide notifications, if possible
+    utils::RemoveItem(*child);
+  }
 }
 
 }  // namespace mvvm

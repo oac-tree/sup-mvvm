@@ -24,9 +24,12 @@
 
 namespace mvvm
 {
-//! Simple container to store any type of children. May be used as a convenience item to create
-//! branch with uniform children beneath, for example.
 
+/**
+ * @brief The ContainerItem class is a simple container to store any type of child.
+ *
+ * May be used as a convenience item to create a branch with uniform children beneath, for example.
+ */
 class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
 {
 public:
@@ -36,11 +39,27 @@ public:
   explicit ContainerItem(const std::string& model_type = Type);
 
   using CompoundItem::CompoundItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
 
+  /**
+   * @brief Checks if container is empty.
+   */
   bool IsEmpty() const;
 
+  /**
+   * @brief Returns number of children in the container.
+   */
   int GetSize() const;
+
+  /**
+   * @brief Returns all children in the container.
+   */
+  std::vector<SessionItem*> GetChildren() const;
+
+  /**
+   * @brief Removes all children from the container.
+   */
+  void Clear();
 };
 
 }  // namespace mvvm

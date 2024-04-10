@@ -98,3 +98,15 @@ TEST_F(ContainerItemTests, Clone)
   EXPECT_EQ(y_clone->GetParent(), vector_clone);
   EXPECT_EQ(z_clone->GetParent(), vector_clone);
 }
+
+TEST_F(ContainerItemTests, GetChildren)
+{
+  ContainerItem item;
+  EXPECT_EQ(item.GetSize(), 0);
+  auto prop0 = item.InsertItem<PropertyItem>(TagIndex::Append());
+  auto prop1 = item.InsertItem<PropertyItem>(TagIndex::Append());
+  EXPECT_EQ(item.GetChildren(), std::vector<SessionItem*>({prop0, prop1}));
+
+  item.Clear();
+  EXPECT_EQ(item.GetChildren(), std::vector<SessionItem*>({}));
+}
