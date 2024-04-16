@@ -43,7 +43,7 @@ ViewModelControllerImpl::ViewModelControllerImpl(
 {
 }
 
-ViewModelControllerImpl::~ViewModelControllerImpl() {}
+ViewModelControllerImpl::~ViewModelControllerImpl() = default;
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToInsertItemEvent &event)
 {
@@ -196,7 +196,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
   // vector plays the role of parent view for SessionItem's children. So it might contain another
   // ViewItem vectors.
 
-  // A helper structure to visit SessionItem hierarchy in non iterative manner.
+  // A helper structure to visit SessionItem hierarchy in non recursive manner.
   struct Node
   {
     SessionItem *item{nullptr};    // a SessionItem being visited
