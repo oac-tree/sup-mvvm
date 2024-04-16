@@ -22,6 +22,7 @@
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/test/mock_model_listener.h>
@@ -114,7 +115,7 @@ TEST_F(ApplicationModelTests, SetSameData)
 TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 {
   auto parent = m_model.GetRootItem();
-  const TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
   mock_listener_t listener(&m_model);
 
@@ -141,7 +142,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 {
   auto parent = m_model.GetRootItem();
-  const TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
   mock_listener_t listener(&m_model);
 

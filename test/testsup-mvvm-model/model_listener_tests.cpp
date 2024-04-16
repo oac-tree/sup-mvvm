@@ -19,6 +19,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/signals/model_listener.h>
 #include <mvvm/test/mock_callback_listener.h>
@@ -196,7 +197,7 @@ TEST_F(ModelListenerTests, MethodOverload)
   // the model with the item and listener attached
   ApplicationModel model;
   auto parent = model.GetRootItem();
-  const TagIndex tag_index{"rootTag", 0};  // default tag of root item
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
   auto listener = std::make_unique<ModelListener<ApplicationModel>>(&model);
 

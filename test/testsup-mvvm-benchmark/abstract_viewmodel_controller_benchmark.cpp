@@ -23,6 +23,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/item_constants.h>
 
 using namespace mvvm;
 
@@ -75,7 +76,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};
+  TagIndex tag_index{constants::kRootItemTag, 0};
 
   TestController controller;
   controller.SetModel(&model);
@@ -95,7 +96,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &st
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};
+  TagIndex tag_index{constants::kRootItemTag, 0};
 
   TestController controller;
   controller.SetModel(&model);
@@ -115,7 +116,7 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertAndTake)(benchmark::Stat
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};
+  TagIndex tag_index{constants::kRootItemTag, 0};
 
   TestController controller;
   controller.SetModel(&model);

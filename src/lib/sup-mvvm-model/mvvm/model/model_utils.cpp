@@ -22,6 +22,7 @@
 #include "application_model.h"
 #include "path.h"
 #include "taginfo.h"
+#include "item_constants.h"
 
 #include <mvvm/commands/command_stack_interface.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
@@ -98,7 +99,9 @@ void Redo(SessionModelInterface& model)
 std::unique_ptr<SessionItem> CreateEmptyRootItem()
 {
   auto result = std::make_unique<SessionItem>();
-  result->RegisterTag(TagInfo::CreateUniversalTag("rootTag"), /*set_as_default*/ true);
+  // root item is invisible in widgets, so display name is for debugging purpose
+  result->SetDisplayName(constants::kRootItemName);
+  result->RegisterTag(TagInfo::CreateUniversalTag(constants::kRootItemTag), /*set_as_default*/ true);
   return result;
 }
 

@@ -22,6 +22,7 @@
 #include <benchmark/benchmark.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/model/item_constants.h>
 
 using namespace mvvm;
 
@@ -60,7 +61,7 @@ BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};
+  TagIndex tag_index{constants::kRootItemTag, 0};
 
   int value{0};
   for (auto dummy : state)
@@ -77,7 +78,7 @@ BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};
+  TagIndex tag_index{constants::kRootItemTag, 0};
 
   int value{0};
   for (auto dummy : state)
@@ -94,7 +95,7 @@ BENCHMARK_F(SessionModelBenchmark, InsertAndTake)(benchmark::State &state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{"rootTag", 0};
+  TagIndex tag_index{constants::kRootItemTag, 0};
 
   int value{0};
   for (auto dummy : state)
