@@ -29,7 +29,6 @@
 #include <mvvm/model/sessionitem.h>
 
 #include <stack>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -83,7 +82,6 @@ void ViewModelControllerVirtualParentImpl::OnModelEvent(const AboutToRemoveItemE
   {
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself
-    m_root_item_path = {};
     m_view_item_map.Clear();
     m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
     return;
@@ -131,21 +129,15 @@ void ViewModelControllerVirtualParentImpl::OnModelEvent(const ModelAboutToBeRese
 
 void ViewModelControllerVirtualParentImpl::OnModelEvent(const ModelResetEvent &event)
 {
-  auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
-
-  SessionItem *root_item = custom_root_item ? custom_root_item : event.m_model->GetRootItem();
-  m_root_item_path = utils::PathFromItem(custom_root_item);
-
   m_view_item_map.Clear();
-  m_viewmodel->ResetRootViewItem(std::move(CreateTreeOfRows(*root_item, true).at(0)),
-                                 /*notify*/ false);
+  auto root_view_item = std::move(CreateTreeOfRows(*event.m_model->GetRootItem(), true).at(0));
+  m_viewmodel->ResetRootViewItem(std::move(root_view_item), /*notify*/ false);
   m_viewmodel->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
 void ViewModelControllerVirtualParentImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
 {
   (void)event;
-  m_root_item_path = {};
   m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
@@ -160,7 +152,6 @@ void ViewModelControllerVirtualParentImpl::SetRootItem(SessionItem *root_item)
 
   if (root_item)
   {
-    m_root_item_path = utils::PathFromItem(root_item);
     m_view_item_map.Clear();
     auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
     m_viewmodel->ResetRootViewItem(std::move(root_view_item));
@@ -168,7 +159,6 @@ void ViewModelControllerVirtualParentImpl::SetRootItem(SessionItem *root_item)
   else
   {
     m_view_item_map.Clear();
-    m_root_item_path = {};
     m_viewmodel->ResetRootViewItem(CreateRootViewItem(nullptr));
   }
 }

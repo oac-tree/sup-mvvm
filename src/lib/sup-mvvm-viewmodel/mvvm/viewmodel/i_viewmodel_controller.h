@@ -24,7 +24,6 @@
 #include <mvvm/viewmodel_export.h>
 
 #include <QStringList>
-#include <memory>
 
 namespace mvvm
 {

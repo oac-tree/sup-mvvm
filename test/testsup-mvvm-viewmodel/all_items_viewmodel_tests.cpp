@@ -1021,9 +1021,9 @@ TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Testing view model after restoring from XML document.
-//! VectorItem is made root item. Test demonstrates that controller is capable
-//! to restore old rootSessionItem on onModelReset signal
+//! Testing view model after restoring from XML document. VectorItem is made root item.
+//! Before reset, the model shows three top-level items X, Y, Z. After reset, it shows VectorItem as
+//! top level item.
 
 TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 {
@@ -1045,9 +1045,6 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
   QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
-  // if we uncomment this, information about customrootSessionItem will be lost
-  // m_model.clear();
-
   // Loading the document: will rewrite m_model and trigger m_viewmodel rebuild.
   document.Load(file_path);
 
@@ -1056,11 +1053,10 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   EXPECT_EQ(spyAboutReset.count(), 1);
   EXPECT_EQ(spyReset.count(), 1);
 
-  // viewmodel now is looking to vectorItem as root ViewItem
-  EXPECT_EQ(m_viewmodel.GetRootSessionItem(),
-            m_model.GetRootItem()->GetAllItems().at(0));  // vectorItem
+  // After reset, viewmodel doesn't remember anymore the old root item.
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(), m_model.GetRootItem());
 
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
