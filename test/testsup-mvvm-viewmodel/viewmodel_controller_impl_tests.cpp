@@ -28,6 +28,8 @@
 #include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
 
+#include <mvvm/test/test_strategies.h>
+
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -52,22 +54,6 @@ public:
   {
     return CreateController<ChildrenT, RowT>(&m_viewmodel);
   }
-
-  /**
-   * @brief The EmptyRowTestStrategy class represents broken controller for testing purposes which
-   * always returns empty row.
-   */
-  class EmptyRowTestStrategy : public mvvm::AbstractRowStrategy
-  {
-  public:
-    QStringList GetHorizontalHeaderLabels() const override { return {}; }
-
-  private:
-    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem*) override
-    {
-      return {};
-    }
-  };
 
   ApplicationModel m_model;
   ViewModelBase m_viewmodel;
@@ -320,7 +306,7 @@ TEST_F(ViewModelControllerImplTest, CreateRowForBrokenConrtoller)
   // doesn't know what to do. We do not want empty rows to be inserted in the model, so we expect an
   // exception.
 
-  auto controller = CreateController<AllChildrenStrategy, EmptyRowTestStrategy>();
+  auto controller = CreateController<AllChildrenStrategy, test::EmptyRowTestStrategy>();
 
   VectorItem item;
 

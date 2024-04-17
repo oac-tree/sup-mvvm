@@ -32,9 +32,10 @@
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
 
+#include <mvvm/test/test_strategies.h>
+
 #include <gtest/gtest.h>
 
-#include <QDebug>
 #include <QSignalSpy>
 
 using namespace mvvm;
@@ -75,22 +76,6 @@ public:
   {
     return utils::FindViewsForItem<SessionItem>(&m_viewmodel, item);
   }
-
-  /**
-   * @brief The EmptyRowTestStrategy class represents broken controller for testing purposes which
-   * always returns empty row.
-   */
-  class EmptyRowTestStrategy : public mvvm::AbstractRowStrategy
-  {
-  public:
-    QStringList GetHorizontalHeaderLabels() const override { return {}; }
-
-  private:
-    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem*) override
-    {
-      return {};
-    }
-  };
 
   ApplicationModel m_model;
   ViewModelBase m_viewmodel;
@@ -641,6 +626,6 @@ TEST_F(ViewModelControllerTest, BrokenRowStrategy)
   // exception.
 
   auto controller =
-      CreateController<AllChildrenStrategy, EmptyRowTestStrategy>(m_model, m_viewmodel);
+      CreateController<AllChildrenStrategy, test::EmptyRowTestStrategy>(m_model, m_viewmodel);
   EXPECT_THROW(m_model.InsertItem<SessionItem>(), RuntimeException);
 }
