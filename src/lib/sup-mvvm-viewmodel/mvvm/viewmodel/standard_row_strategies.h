@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
 #define MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
 
-#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/viewmodel/abstract_row_strategy.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <vector>
@@ -35,35 +35,36 @@ class ViewItem;
  * @brief The LabelDataRowStrategy class constructs the rows with label and data for given
  * SessionItem.
  *
- * @details Row consists of two columns, ViewLabelItem for SessionItem's read-only display role and
+ * Row consists of two columns, ViewLabelItem for SessionItem's read-only display role and
  * ViewDataItem for Session's item data role.
  */
-class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface
+class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public AbstractRowStrategy
 {
 public:
   QStringList GetHorizontalHeaderLabels() const override;
 
-  std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
+private:
+  std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem* item) override;
 };
 
 /**
  * @brief The PropertiesRowStrategy class constructs the row with columns representing all
  * properties of the given SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public RowStrategyInterface
+class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public AbstractRowStrategy
 {
 public:
   explicit PropertiesRowStrategy(std::vector<std::string> labels = {});
 
   QStringList GetHorizontalHeaderLabels() const override;
 
-  std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
-
 private:
   /**
    * @brief Updates current column labels using display names of given items.
    */
   void UpdateColumnLabels(std::vector<SessionItem*> items);
+
+  std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem* item) override;
 
   std::vector<std::string> m_current_column_labels;
   std::vector<std::string> m_user_defined_column_labels;

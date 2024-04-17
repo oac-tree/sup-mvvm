@@ -38,8 +38,8 @@ public:
    * @brief Returns number of elements in a row (i.e. model's column count).
    *
    * This number represents a number of columns in the model. It is a constant for all MVVM
-   * trees/tables. In opposite to Qt, we do not support dynamic change (i.e. silent insertion
-   * removal of necessary hidden items) of the number of columns.
+   * trees/tables. In opposite to Qt, we do not support dynamic change (i.e. silent insertion or
+   * removal) of the number of columns.
    */
   virtual int GetSize() const;
 

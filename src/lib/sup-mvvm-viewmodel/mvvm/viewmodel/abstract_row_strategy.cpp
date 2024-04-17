@@ -32,6 +32,11 @@ int AbstractRowStrategy::GetSize() const
 
 std::vector<std::unique_ptr<ViewItem> > AbstractRowStrategy::ConstructRow(SessionItem *item)
 {
+  if (!item)
+  {
+    return {};
+  }
+
   return ConstructRowImpl(item);
 }
 
