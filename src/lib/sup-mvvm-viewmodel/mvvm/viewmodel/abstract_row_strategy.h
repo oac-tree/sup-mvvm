@@ -34,14 +34,7 @@ namespace mvvm
 class AbstractRowStrategy : public RowStrategyInterface
 {
 public:
-  /**
-   * @brief Returns number of elements in a row (i.e. model's column count).
-   *
-   * This number represents a number of columns in the model. It is a constant for all MVVM
-   * trees/tables. In opposite to Qt, we do not support dynamic change (i.e. silent insertion or
-   * removal) of the number of columns.
-   */
-  virtual int GetSize() const;
+  virtual int GetSize() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
 

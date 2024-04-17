@@ -26,8 +26,7 @@ namespace mvvm
 
 int AbstractRowStrategy::GetSize() const
 {
-  static int result = GetHorizontalHeaderLabels().size();
-  return result;
+  return GetHorizontalHeaderLabels().size();
 }
 
 std::vector<std::unique_ptr<ViewItem> > AbstractRowStrategy::ConstructRow(SessionItem *item)

@@ -33,15 +33,24 @@ class SessionItem;
 class ViewItem;
 
 /**
- * @brief The RowStrategyInterface class is an insterface for all strategies to construct the row of
- * ViewItems for given SessionItem.
+ * @brief The RowStrategyInterface class is an interface for all strategies to construct the row of
+ * ViewItems for the given SessionItem.
  *
- * Used in context of AbstractViewModel while exposing SessionModel to Qt.
+ * Used in the context of AbstractViewModel while exposing SessionModel to Qt.
  */
 class MVVM_VIEWMODEL_EXPORT RowStrategyInterface
 {
 public:
   virtual ~RowStrategyInterface() = default;
+
+  /**
+   * @brief Returns number of elements in a row (i.e. model's column count).
+   *
+   * This number represents a number of columns in the model. It is a constant for all MVVM
+   * trees/tables. In opposite to Qt, we do not support dynamic change (i.e. silent insertion or
+   * removal) of the number of columns.
+   */
+  virtual int GetSize() const = 0;
 
   /**
    * @brief Returns vector of horizontal labels which view model might want to use.

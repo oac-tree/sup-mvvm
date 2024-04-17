@@ -23,11 +23,11 @@
 #include "mvvm/viewmodel/viewmodel.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/viewmodel/abstract_row_strategy.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
@@ -43,7 +43,7 @@ namespace
  * @brief The TableRowStrategy class is a custom strategy which forms a row with display name and
  * x,y,z values of vector item.
  */
-class TableRowStrategy : public mvvm::RowStrategyInterface
+class TableRowStrategy : public mvvm::AbstractRowStrategy
 {
 public:
   QStringList GetHorizontalHeaderLabels() const override
@@ -52,7 +52,8 @@ public:
     return result;
   }
 
-  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem *item) override
+private:
+  std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem *item) override
   {
     std::vector<std::unique_ptr<mvvm::ViewItem>> result;
 

@@ -80,12 +80,13 @@ public:
    * @brief The EmptyRowTestStrategy class represents broken controller for testing purposes which
    * always returns empty row.
    */
-  class EmptyRowTestStrategy : public mvvm::RowStrategyInterface
+  class EmptyRowTestStrategy : public mvvm::AbstractRowStrategy
   {
   public:
     QStringList GetHorizontalHeaderLabels() const override { return {}; }
 
-    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem*) override
+  private:
+    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem*) override
     {
       return {};
     }
@@ -639,6 +640,7 @@ TEST_F(ViewModelControllerTest, BrokenRowStrategy)
   // doesn't know what to do. We do not want empty rows to be inserted in the model, so we expect an
   // exception.
 
-  auto controller = CreateController<AllChildrenStrategy, EmptyRowTestStrategy>(m_model, m_viewmodel);
+  auto controller =
+      CreateController<AllChildrenStrategy, EmptyRowTestStrategy>(m_model, m_viewmodel);
   EXPECT_THROW(m_model.InsertItem<SessionItem>(), RuntimeException);
 }

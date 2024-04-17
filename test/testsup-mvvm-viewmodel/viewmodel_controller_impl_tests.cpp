@@ -57,12 +57,13 @@ public:
    * @brief The EmptyRowTestStrategy class represents broken controller for testing purposes which
    * always returns empty row.
    */
-  class EmptyRowTestStrategy : public mvvm::RowStrategyInterface
+  class EmptyRowTestStrategy : public mvvm::AbstractRowStrategy
   {
   public:
     QStringList GetHorizontalHeaderLabels() const override { return {}; }
 
-    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRow(mvvm::SessionItem*) override
+  private:
+    std::vector<std::unique_ptr<mvvm::ViewItem>> ConstructRowImpl(mvvm::SessionItem*) override
     {
       return {};
     }
