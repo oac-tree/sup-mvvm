@@ -56,14 +56,11 @@ class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public AbstractRowStrategy
 public:
   explicit PropertiesRowStrategy(std::vector<std::string> labels = {});
 
+  int GetSize() const override;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:
-  /**
-   * @brief Updates current column labels using display names of given items.
-   */
-  void UpdateColumnLabels(std::vector<SessionItem*> items);
-
   std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem* item) override;
 
   std::vector<std::string> m_current_column_labels;

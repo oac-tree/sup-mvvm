@@ -57,6 +57,11 @@ PropertiesRowStrategy::PropertiesRowStrategy(std::vector<std::string> labels)
 {
 }
 
+int PropertiesRowStrategy::GetSize() const
+{
+  return m_current_column_labels.size();
+}
+
 QStringList PropertiesRowStrategy::GetHorizontalHeaderLabels() const
 {
   QStringList result;
@@ -71,13 +76,8 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRowImpl(S
 {
   std::vector<std::unique_ptr<ViewItem>> result;
 
-  auto items_in_row = utils::SinglePropertyItems(*item);
-  if (m_user_defined_column_labels.empty())
-  {
-    UpdateColumnLabels(items_in_row);
-  }
-
-  for (auto child : items_in_row)
+  m_current_column_labels.clear();
+  for (auto child : utils::SinglePropertyItems(*item))
   {
     if (child->HasData())
     {
@@ -87,16 +87,10 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRowImpl(S
     {
       result.emplace_back(mvvm::CreateDisplayNameViewItem(child));
     }
+    m_current_column_labels.push_back(child->GetDisplayName());
   }
 
   return result;
-}
-
-void PropertiesRowStrategy::UpdateColumnLabels(std::vector<SessionItem*> items)
-{
-  m_current_column_labels.clear();
-  std::transform(items.begin(), items.end(), std::back_inserter(m_current_column_labels),
-                 [](const SessionItem* item) { return item->GetDisplayName(); });
 }
 
 }  // namespace mvvm

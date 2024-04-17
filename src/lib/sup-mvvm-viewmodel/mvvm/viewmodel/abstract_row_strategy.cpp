@@ -20,6 +20,7 @@
 #include "abstract_row_strategy.h"
 
 #include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -34,6 +35,12 @@ std::vector<std::unique_ptr<ViewItem> > AbstractRowStrategy::ConstructRow(Sessio
   if (!item)
   {
     return {};
+  }
+
+  auto result = ConstructRowImpl(item);
+  if (result.size() != GetSize())
+  {
+    throw RuntimeException("Size of row doesn't match");
   }
 
   return ConstructRowImpl(item);
