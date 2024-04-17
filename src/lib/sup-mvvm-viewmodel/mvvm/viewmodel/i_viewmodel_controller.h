@@ -33,9 +33,8 @@ class SessionModelInterface;
 /**
  * @brief The IViewModelController class is a base class for all ViewModel controllers.
  *
- * @details It's main purpose is to listen SessionModel and make certain changes in a viewmodel.
+ * Its main purpose is to listen SessionModel and make certain changes in a viewmodel.
  */
-
 class MVVM_VIEWMODEL_EXPORT IViewModelController
 {
 public:

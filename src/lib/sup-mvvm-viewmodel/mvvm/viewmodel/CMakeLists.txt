@@ -1,6 +1,8 @@
 # ViewModel to represent SessionItem and SessionModel.
 
 target_sources(${library_name} PRIVATE
+  abstract_row_strategy.cpp
+  abstract_row_strategy.h
   abstract_viewmodel_controller.cpp
   abstract_viewmodel_controller.h
   all_items_viewmodel.cpp
@@ -30,10 +32,10 @@ target_sources(${library_name} PRIVATE
   viewmodel.h
   viewmodel_controller.cpp
   viewmodel_controller.h
-  viewmodel_controller_virtual_parent_impl.cpp
-  viewmodel_controller_virtual_parent_impl.h
   viewmodel_controller_impl.cpp
   viewmodel_controller_impl.h
+  viewmodel_controller_virtual_parent_impl.cpp
+  viewmodel_controller_virtual_parent_impl.h
   viewmodel_utils.cpp
   viewmodel_utils.h
   )

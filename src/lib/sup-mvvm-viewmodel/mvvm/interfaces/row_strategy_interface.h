@@ -36,7 +36,7 @@ class ViewItem;
  * @brief The RowStrategyInterface class is an insterface for all strategies to construct the row of
  * ViewItems for given SessionItem.
  *
- * @details Used in context of AbstractViewModel while exposing SessionModel to Qt.
+ * Used in context of AbstractViewModel while exposing SessionModel to Qt.
  */
 class MVVM_VIEWMODEL_EXPORT RowStrategyInterface
 {
