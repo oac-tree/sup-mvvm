@@ -42,6 +42,11 @@ public:
   virtual ~ViewItem();
 
   /**
+   * @brief Checks if item has children.
+   */
+  bool HasChildren() const;
+
+  /**
    * @brief Returns the number of child item rows that the item has.
    */
   int GetRowCount() const;

@@ -58,6 +58,7 @@ TEST_F(ViewModelBaseTest, StandardItemModelIndex)
   QStandardItemModel model;
   auto parent = model.invisibleRootItem();
 
+  EXPECT_FALSE(model.hasChildren());
   EXPECT_EQ(model.rowCount(), 0);
   EXPECT_EQ(model.columnCount(), 0);
 
@@ -65,6 +66,8 @@ TEST_F(ViewModelBaseTest, StandardItemModelIndex)
   parent->appendRow(children);
   auto index = model.index(0, 1, QModelIndex());
   EXPECT_EQ(model.itemFromIndex(index), children.at(1));
+
+  EXPECT_TRUE(model.hasChildren());
 
   // construction of index for non-existing column leads to invalid index
   auto non_existing_index = model.index(0, 2, QModelIndex());

@@ -60,6 +60,7 @@ TEST_F(ViewItemTest, InitialState)
   EXPECT_EQ(view_item.GetParent(), nullptr);
   EXPECT_THROW(view_item.GetChild(0, 0), RuntimeException);
   EXPECT_NE(view_item.GetItemData(), nullptr);  // has ViewItemData on board
+  EXPECT_FALSE(view_item.HasChildren());
 }
 
 //! Append single item as Row.
@@ -71,6 +72,7 @@ TEST_F(ViewItemTest, AppendRow)
   // appending row with single item
   ViewItem view_item;
   view_item.AppendRow(std::move(children));
+  EXPECT_TRUE(view_item.HasChildren());
 
   // checking parent
   EXPECT_EQ(view_item.GetRowCount(), 1);

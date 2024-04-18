@@ -75,6 +75,8 @@ public:
 
   Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+  bool hasChildren(const QModelIndex& parent = QModelIndex()) const override;
+
   void ResetRootViewItem(std::unique_ptr<ViewItem> root_item, bool notify = true);
 
   void BeginResetModelNotify();

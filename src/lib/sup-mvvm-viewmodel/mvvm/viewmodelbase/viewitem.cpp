@@ -150,6 +150,11 @@ ViewItem::ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data)
 {
 }
 
+bool ViewItem::HasChildren() const
+{
+  return !p_impl->m_children.empty();
+}
+
 ViewItem::~ViewItem() = default;
 
 int ViewItem::GetRowCount() const

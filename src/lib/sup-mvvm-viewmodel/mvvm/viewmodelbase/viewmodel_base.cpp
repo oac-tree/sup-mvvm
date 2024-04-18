@@ -209,6 +209,12 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
   return result;
 }
 
+bool ViewModelBase::hasChildren(const QModelIndex &parent) const
+{
+  auto parent_item = itemFromIndex(parent);
+  return parent_item ? parent_item->HasChildren() : rootItem()->HasChildren();
+}
+
 //! Sets new root item. Previous item will be deleted, model will be reset.
 
 void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item, bool notify)
