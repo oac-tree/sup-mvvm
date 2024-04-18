@@ -34,9 +34,22 @@ namespace mvvm
 class AbstractRowStrategy : public RowStrategyInterface
 {
 public:
-  virtual int GetSize() const override;
+
+  int GetSize() const override;
+
+  QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
+
+  /**
+   * @brief Returns a placeholder row of fixed size.
+   *
+   * The row will contain a label with the item's display name as the first element, and empty view
+   * items after that. The length of the row will match GetSize() method. This method shall be used
+   * in the case when AbstractRowStrategy receives an item that it can't handle. Having a
+   * placeholder row should help to debug the tree layout when looking in QTreeView.
+   */
+  std::vector<std::unique_ptr<ViewItem>> CreatePlaceholderRow(SessionItem *item) const;
 
 private:
   virtual std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem*) = 0;

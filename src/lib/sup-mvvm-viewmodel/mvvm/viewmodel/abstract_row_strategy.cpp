@@ -19,8 +19,9 @@
 
 #include "abstract_row_strategy.h"
 
-#include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/core/exceptions.h>
+#include <mvvm/viewmodel/viewitem_factory.h>
+#include <mvvm/viewmodelbase/viewitem.h>
 
 namespace mvvm
 {
@@ -30,7 +31,12 @@ int AbstractRowStrategy::GetSize() const
   return GetHorizontalHeaderLabels().size();
 }
 
-std::vector<std::unique_ptr<ViewItem> > AbstractRowStrategy::ConstructRow(SessionItem *item)
+QStringList AbstractRowStrategy::GetHorizontalHeaderLabels() const
+{
+  return {};
+}
+
+std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(SessionItem *item)
 {
   if (!item)
   {
@@ -44,6 +50,23 @@ std::vector<std::unique_ptr<ViewItem> > AbstractRowStrategy::ConstructRow(Sessio
   }
 
   return ConstructRowImpl(item);
+}
+
+std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::CreatePlaceholderRow(
+    SessionItem *item) const
+{
+  std::vector<std::unique_ptr<mvvm::ViewItem>> result;
+
+  if (GetSize() > 0)
+  {
+    result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+    for (int i_row = 1; i_row < GetSize(); ++i_row)
+    {
+      result.emplace_back(mvvm::CreateLabelViewItem(item));
+    }
+  }
+
+  return result;
 }
 
 }  // namespace mvvm
