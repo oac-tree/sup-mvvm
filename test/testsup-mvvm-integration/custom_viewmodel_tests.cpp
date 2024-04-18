@@ -64,13 +64,6 @@ private:
       result.emplace_back(mvvm::CreateDataViewItem(vector->GetItem(mvvm::VectorItem::kY)));
       result.emplace_back(mvvm::CreateDataViewItem(vector->GetItem(mvvm::VectorItem::kZ)));
     }
-    else
-    {
-      result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
-      result.emplace_back(mvvm::CreateLabelViewItem(item));
-      result.emplace_back(mvvm::CreateLabelViewItem(item));
-      result.emplace_back(mvvm::CreateLabelViewItem(item));
-    }
 
     return result;
   }

@@ -30,6 +30,9 @@ using namespace mvvm;
 class AbstractRowStrategyTest : public ::testing::Test
 {
 public:
+  /**
+   * @brief The TestStrategy class to validate AbstractRowStrategy::CreatePlaceholderRow method.
+   */
   class TestStrategy : public AbstractRowStrategy
   {
   public:
@@ -58,8 +61,29 @@ TEST_F(AbstractRowStrategyTest, CreatePlaceholderRow)
   EXPECT_EQ(strategy.GetSize(), expected_size);
 
   auto row = strategy.CreatePlaceholderRow(&item);
-  ASSERT_EQ(row.size(), expected_size);
 
+  // the length  should match expected size
+  ASSERT_EQ(row.size(), expected_size);
+  EXPECT_EQ(row.at(0)->Data(Qt::DisplayRole).toString(), QString("abc"));
+  EXPECT_EQ(row.at(1)->Data(Qt::DisplayRole).toString(), QString(""));
+}
+
+TEST_F(AbstractRowStrategyTest, ConstructRow)
+{
+  const int expected_size(2);
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  TestStrategy strategy(expected_size);
+
+  EXPECT_EQ(strategy.GetSize(), expected_size);
+
+  // Our implementation of ConstructRowImpl returns an empty row. Check that it is silently replaced
+  // with the placeholder row.
+  auto row = strategy.ConstructRow(&item);
+
+  // the length  should match expected size
+  ASSERT_EQ(row.size(), expected_size);
   EXPECT_EQ(row.at(0)->Data(Qt::DisplayRole).toString(), QString("abc"));
   EXPECT_EQ(row.at(1)->Data(Qt::DisplayRole).toString(), QString(""));
 }

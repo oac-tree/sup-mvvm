@@ -20,8 +20,11 @@
 #include "abstract_row_strategy.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/sessionitem.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
+
+#include <sstream>
 
 namespace mvvm
 {
@@ -44,9 +47,23 @@ std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(Session
   }
 
   auto result = ConstructRowImpl(item);
+
+  // If the result is empty, we silently create a placeholder row.
+  if (result.empty())
+  {
+    return CreatePlaceholderRow(item);
+  }
+
+  // If user implementation creates a non-empty row with wrong size, then probably something went
+  // wrong.
   if (result.size() != GetSize())
   {
-    throw RuntimeException("Size of row doesn't match");
+    std::ostringstream ostr;
+    ostr << "Size of generated row [" << result.size() << "] ";
+    ostr << "for item with type=[" + item->GetType() << "], ";
+    ostr << "name=[" + item->GetDisplayName() << "] ";
+    ostr << "doesn't coincide with size reported by the strategy [" << GetSize() << "]";
+    throw RuntimeException(ostr.str());
   }
 
   return ConstructRowImpl(item);
