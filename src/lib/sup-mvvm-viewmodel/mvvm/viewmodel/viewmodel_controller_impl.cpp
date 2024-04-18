@@ -148,6 +148,11 @@ void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
   }
 }
 
+int ViewModelControllerImpl::GetColumnCount() const
+{
+  return m_row_strategy->GetSize();
+}
+
 QStringList ViewModelControllerImpl::GetHorizontalHeaderLabels() const
 {
   return m_row_strategy->GetHorizontalHeaderLabels();

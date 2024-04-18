@@ -69,6 +69,8 @@ public:
 
   void SetRootItem(SessionItem* root_item) final;
 
+  int GetColumnCount() const override;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
 protected:

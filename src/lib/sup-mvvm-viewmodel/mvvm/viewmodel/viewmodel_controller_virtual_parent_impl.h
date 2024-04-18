@@ -74,6 +74,8 @@ public:
    */
   void SetRootItem(SessionItem *root_item) override;
 
+  int GetColumnCount() const override;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
   void CheckInitialState() const;

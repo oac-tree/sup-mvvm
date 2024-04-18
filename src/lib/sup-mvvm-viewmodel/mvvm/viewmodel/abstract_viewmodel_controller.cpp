@@ -81,6 +81,11 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
   }
 }
 
+int AbstractViewModelController::GetColumnCount() const
+{
+  return 0;
+}
+
 QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 {
   return {};

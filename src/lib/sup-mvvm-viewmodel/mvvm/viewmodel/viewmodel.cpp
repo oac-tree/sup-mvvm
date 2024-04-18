@@ -48,8 +48,7 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
 
 int ViewModel::columnCount(const QModelIndex& parent) const
 {
-  return m_controller ? m_controller->GetHorizontalHeaderLabels().count()
-                      : ViewModelBase::columnCount(parent);
+  return m_controller ? m_controller->GetColumnCount() : ViewModelBase::columnCount(parent);
 }
 
 const SessionModelInterface* ViewModel::GetModel() const

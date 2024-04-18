@@ -92,6 +92,11 @@ public:
   virtual void SetRootItem(SessionItem* root_item) = 0;
 
   /**
+   * @brief Returns number of columns.
+   */
+  virtual int GetColumnCount() const = 0;
+
+  /**
    * @brief Returns list representing horizontal labels.
    */
   virtual QStringList GetHorizontalHeaderLabels() const = 0;

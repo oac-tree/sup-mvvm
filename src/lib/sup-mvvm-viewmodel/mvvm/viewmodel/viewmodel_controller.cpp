@@ -70,6 +70,11 @@ const SessionItem *ViewModelController::GetRootItem() const
   return p_impl->GetRootItem();
 }
 
+int ViewModelController::GetColumnCount() const
+{
+  return p_impl->GetColumnCount();
+}
+
 QStringList ViewModelController::GetHorizontalHeaderLabels() const
 {
   return p_impl->GetHorizontalHeaderLabels();

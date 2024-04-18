@@ -163,6 +163,11 @@ void ViewModelControllerVirtualParentImpl::SetRootItem(SessionItem *root_item)
   }
 }
 
+int ViewModelControllerVirtualParentImpl::GetColumnCount() const
+{
+  return m_row_strategy->GetSize();
+}
+
 QStringList ViewModelControllerVirtualParentImpl::GetHorizontalHeaderLabels() const
 {
   return m_row_strategy->GetHorizontalHeaderLabels();

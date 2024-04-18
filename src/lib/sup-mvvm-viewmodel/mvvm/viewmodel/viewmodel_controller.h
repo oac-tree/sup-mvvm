@@ -52,6 +52,8 @@ public:
 
   const SessionItem* GetRootItem() const override;
 
+  int GetColumnCount() const override;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:
