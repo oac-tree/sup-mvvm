@@ -78,6 +78,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   {
     // special case when user removes SessionItem which is one of ancestors of our root item
     // or root item itself
+    m_root_item_path = {};
     m_view_item_map.Clear();
     m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
     return;
@@ -114,9 +115,13 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event
 
 void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 {
+  auto custom_root_item = utils::ItemFromPath(*event.m_model, m_root_item_path);
+  SessionItem *root_item = custom_root_item ? custom_root_item : event.m_model->GetRootItem();
+
   m_view_item_map.Clear();
-  auto root_view_item = std::move(CreateTreeOfRows(*event.m_model->GetRootItem(), true).at(0));
+  auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
   m_view_model->ResetRootViewItem(std::move(root_view_item), /*notify*/ false);
+
   m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
@@ -137,12 +142,14 @@ void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
 
   if (root_item)
   {
+    m_root_item_path = utils::PathFromItem(root_item);
     m_view_item_map.Clear();
     auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));
     m_view_model->ResetRootViewItem(std::move(root_view_item));
   }
   else
   {
+    m_root_item_path = {};
     m_view_item_map.Clear();
     m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
   }
