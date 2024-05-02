@@ -41,7 +41,6 @@ struct ProjectContext;
  * @details The ProjectManager shall not be used directly. Use ProjectManagerDecorator instead,
  * which provide additional safety checks, and necessary interactions with the user.
  */
-
 class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
 {
 public:

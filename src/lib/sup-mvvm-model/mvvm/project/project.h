@@ -32,7 +32,6 @@ struct ProjectContext;
 /**
  * @brief The Project class represents content of all application models in a folder on disk.
  */
-
 class MVVM_MODEL_EXPORT Project : public IProject
 {
 public:

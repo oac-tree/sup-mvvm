@@ -20,7 +20,7 @@
 #ifndef MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_
 #define MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_
 
-#include <mvvm/interfaces/model_document_interface.h>
+#include <mvvm/serialization/model_document_interface.h>
 
 #include <memory>
 #include <vector>
