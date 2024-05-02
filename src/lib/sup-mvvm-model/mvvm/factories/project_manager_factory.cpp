@@ -23,7 +23,7 @@
 
 namespace mvvm
 {
-std::unique_ptr<ProjectManagerInterface> CreateProjectManager(
+std::unique_ptr<IProjectManager> CreateProjectManager(
     const ProjectContext& project_context, const UserInteractionContext& user_context)
 {
   return std::make_unique<ProjectManagerDecorator>(project_context, user_context);

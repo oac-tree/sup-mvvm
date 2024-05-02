@@ -20,7 +20,7 @@
 #ifndef MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_
 #define MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_
 
-#include <mvvm/project/project_manager_interface.h>
+#include <mvvm/project/i_project_manager.h>
 
 #include <memory>
 
@@ -31,7 +31,7 @@ struct ProjectContext;
 struct UserInteractionContext;
 
 //! Creates default ProjectManager to save and load models.
-MVVM_MODEL_EXPORT std::unique_ptr<ProjectManagerInterface> CreateProjectManager(
+MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
     const ProjectContext& project_context, const UserInteractionContext& user_context);
 
 }  // namespace mvvm

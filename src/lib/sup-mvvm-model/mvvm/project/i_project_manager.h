@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECT_MANAGER_INTERFACE_H_
-#define MVVM_PROJECT_PROJECT_MANAGER_INTERFACE_H_
+#ifndef MVVM_PROJECT_I_PROJECT_MANAGER_H_
+#define MVVM_PROJECT_I_PROJECT_MANAGER_H_
 
 #include <mvvm/model_export.h>
 
@@ -28,18 +28,17 @@ namespace mvvm
 {
 
 /**
- * @brief The ProjectManagerInterface class is an interface for the ProjectManager family to save
- * and load projects.
+ * @brief The IProjectManager class is an interface for the ProjectManager family to save and load
+ * projects.
  *
  * @details Responsible for handling new/save/save-as/close project logic. Conceptually, a project
  * is a folder on disk containing files with serialized models. A project is represented by the
  * ProjectInterface class, which does actual save/load job.
  */
-
-class MVVM_MODEL_EXPORT ProjectManagerInterface
+class MVVM_MODEL_EXPORT IProjectManager
 {
 public:
-  virtual ~ProjectManagerInterface() = default;
+  virtual ~IProjectManager() = default;
 
   /**
    * @brief Creates new project.
@@ -91,4 +90,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECT_MANAGER_INTERFACE_H_
+#endif  // MVVM_PROJECT_I_PROJECT_MANAGER_H_

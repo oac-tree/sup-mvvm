@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
 #define MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
 
-#include <mvvm/project/project_manager_interface.h>
+#include <mvvm/project/i_project_manager.h>
 
 #include <memory>
 
@@ -39,7 +39,7 @@ struct UserInteractionContext;
  * external dialog save/discard/cancel via the provided callback.
  */
 
-class MVVM_MODEL_EXPORT ProjectManagerDecorator : public ProjectManagerInterface
+class MVVM_MODEL_EXPORT ProjectManagerDecorator : public IProjectManager
 {
 public:
   ProjectManagerDecorator(const ProjectContext& project_context,

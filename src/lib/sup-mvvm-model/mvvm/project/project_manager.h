@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_PROJECT_MANAGER_H_
 #define MVVM_PROJECT_PROJECT_MANAGER_H_
 
-#include <mvvm/project/project_manager_interface.h>
+#include <mvvm/project/i_project_manager.h>
 
 #include <memory>
 
@@ -42,7 +42,7 @@ struct ProjectContext;
  * which provide additional safety checks, and necessary interactions with the user.
  */
 
-class MVVM_MODEL_EXPORT ProjectManager : public ProjectManagerInterface
+class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
 {
 public:
   explicit ProjectManager(const ProjectContext& context);

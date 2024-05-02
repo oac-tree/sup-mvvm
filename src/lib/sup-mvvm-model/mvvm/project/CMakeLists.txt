@@ -1,5 +1,6 @@
 target_sources(${library_name} PRIVATE
   i_project.h
+  i_project_manager.h
   model_has_changed_controller.cpp
   model_has_changed_controller.h
   project.cpp
@@ -10,7 +11,6 @@ target_sources(${library_name} PRIVATE
   project_manager.h
   project_manager_decorator.cpp
   project_manager_decorator.h
-  project_manager_interface.h
   project_types.h
   project_utils.cpp
   project_utils.h
