@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECT_INTERFACE_H_
-#define MVVM_PROJECT_PROJECT_INTERFACE_H_
+#ifndef MVVM_PROJECT_IPROJECT_H_
+#define MVVM_PROJECT_IPROJECT_H_
 
 #include <mvvm/model_export.h>
 
@@ -28,17 +28,17 @@ namespace mvvm
 {
 
 /**
- * @brief The ProjectInterface class is an interface to save and load projects to/from disk.
+ * @brief The IProject class is an interface to save and load projects to/from disk.
  *
  * @details Conceptually, a project is a folder on disk containing files with serialized models.
  * The ProjectInterface derived classes contain the logic how to save and load the data from certain
  * place. The logic of directory creation, rewriting existing project, discarding unsaved project
  * etc is handled by the ProjectManagerInterface.
  */
-class MVVM_MODEL_EXPORT ProjectInterface
+class MVVM_MODEL_EXPORT IProject
 {
 public:
-  virtual ~ProjectInterface() = default;
+  virtual ~IProject() = default;
 
   /**
    * @brief Returns the full path to a project directory.
@@ -71,4 +71,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECT_INTERFACE_H_
+#endif  // MVVM_PROJECT_IPROJECT_H_

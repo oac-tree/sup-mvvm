@@ -32,7 +32,7 @@ namespace mvvm
 {
 
 class SessionModelInterface;
-class ProjectInterface;
+class IProject;
 struct ProjectContext;
 
 namespace utils
@@ -47,7 +47,7 @@ std::string SuggestFileName(const SessionModelInterface& model);
 /**
  * @brief Creates new untitled project.
  */
-std::unique_ptr<ProjectInterface> CreateUntitledProject(const ProjectContext& context);
+std::unique_ptr<IProject> CreateUntitledProject(const ProjectContext& context);
 
 /**
  * @brief Returns 'true' if given directory might be a project directory.
@@ -59,7 +59,7 @@ bool IsPossibleProjectDir(const std::string& project_dir);
 /**
  * @brief Returns a MainWindow title for given project.
  */
-std::string ProjectWindowTitle(const ProjectInterface& project);
+std::string ProjectWindowTitle(const IProject& project);
 
 /**
  * @brief Returns a title composed from last part of project path, and `is_modified` flag.

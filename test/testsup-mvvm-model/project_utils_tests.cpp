@@ -21,7 +21,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/project/project_interface.h>
+#include <mvvm/project/i_project.h>
 #include <mvvm/project/project_types.h>
 #include <mvvm/test/folder_based_test.h>
 

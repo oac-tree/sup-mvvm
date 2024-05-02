@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_PROJECT_H_
 #define MVVM_PROJECT_PROJECT_H_
 
-#include <mvvm/project/project_interface.h>
+#include <mvvm/project/i_project.h>
 
 #include <memory>
 
@@ -33,7 +33,7 @@ struct ProjectContext;
  * @brief The Project class represents content of all application models in a folder on disk.
  */
 
-class MVVM_MODEL_EXPORT Project : public ProjectInterface
+class MVVM_MODEL_EXPORT Project : public IProject
 {
 public:
   explicit Project(const ProjectContext& context);

@@ -22,7 +22,7 @@
 #include "project_types.h"
 #include "project_utils.h"
 
-#include <mvvm/project/project_interface.h>
+#include <mvvm/project/i_project.h>
 
 namespace
 {
@@ -35,7 +35,7 @@ namespace mvvm
 
 struct ProjectManager::ProjectManagerImpl
 {
-  std::unique_ptr<ProjectInterface> m_current_project;
+  std::unique_ptr<IProject> m_current_project;
   ProjectContext m_project_context;
 
   explicit ProjectManagerImpl(ProjectContext context) : m_project_context(std::move(context))

@@ -22,7 +22,7 @@
 #include "project.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
-#include <mvvm/project/project_interface.h>
+#include <mvvm/project/i_project.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <algorithm>
@@ -50,12 +50,12 @@ bool IsPossibleProjectDir(const std::string& project_dir)
   return !utils::FindFiles(project_dir, kXMLExtension).empty();
 }
 
-std::unique_ptr<ProjectInterface> CreateUntitledProject(const ProjectContext& context)
+std::unique_ptr<IProject> CreateUntitledProject(const ProjectContext& context)
 {
   return std::make_unique<Project>(context);
 }
 
-std::string ProjectWindowTitle(const ProjectInterface& project)
+std::string ProjectWindowTitle(const IProject& project)
 {
   return ProjectWindowTitle(project.GetProjectDir(), project.IsModified());
 }
