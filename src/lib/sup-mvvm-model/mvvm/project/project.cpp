@@ -79,12 +79,12 @@ std::string Project::GetProjectDir() const
 
 bool Project::Save(const std::string& dirname) const
 {
-  return p_impl->Process(dirname, &ModelDocumentInterface::Save);
+  return p_impl->Process(dirname, &IModelDocument::Save);
 }
 
 bool Project::Load(const std::string& dirname)
 {
-  return p_impl->Process(dirname, &ModelDocumentInterface::Load);
+  return p_impl->Process(dirname, &IModelDocument::Load);
 }
 
 bool Project::IsModified() const

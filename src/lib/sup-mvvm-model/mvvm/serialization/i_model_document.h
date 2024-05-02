@@ -27,14 +27,29 @@
 namespace mvvm
 {
 
-//! Pure virtual interface to save and restore models to/from disk.
-
-class MVVM_MODEL_EXPORT ModelDocumentInterface
+/**
+ * @brief The IModelDocument class is an interface for all documents that can be stored on disk as a
+ * file.
+ *
+ * It can be an XML file representing the content of one or several SessionModels.
+ */
+class MVVM_MODEL_EXPORT IModelDocument
 {
 public:
-  virtual ~ModelDocumentInterface() = default;
+  virtual ~IModelDocument() = default;
 
+  /**
+   * @brief Saves the document to a file.
+   *
+   * @param file_name A full file name (path included) to a file on disk.
+   */
   virtual void Save(const std::string& file_name) const = 0;
+
+  /**
+   * @brief Loads the document from a file.
+   *
+   * @param file_name A full file name (path included) to a file on disk.
+   */
   virtual void Load(const std::string& file_name) = 0;
 };
 

@@ -24,7 +24,7 @@
 namespace mvvm
 {
 
-std::unique_ptr<ModelDocumentInterface> CreateXmlDocument(
+std::unique_ptr<IModelDocument> CreateXmlDocument(
     const std::vector<SessionModelInterface *> &models)
 {
   return std::make_unique<XmlDocument>(models);

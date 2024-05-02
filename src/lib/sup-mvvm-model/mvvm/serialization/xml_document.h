@@ -20,7 +20,7 @@
 #ifndef MVVM_SERIALIZATION_XML_DOCUMENT_H_
 #define MVVM_SERIALIZATION_XML_DOCUMENT_H_
 
-#include <mvvm/serialization/model_document_interface.h>
+#include <mvvm/serialization/i_model_document.h>
 
 #include <memory>
 #include <vector>
@@ -32,7 +32,7 @@ class SessionModelInterface;
 //! Saves and restores list of SessionModel's to/from disk using XML format.
 //! Single XMLDocument corresponds to a single file on disk.
 
-class MVVM_MODEL_EXPORT XmlDocument : public ModelDocumentInterface
+class MVVM_MODEL_EXPORT XmlDocument : public IModelDocument
 {
 public:
   explicit XmlDocument(const std::vector<SessionModelInterface*>& models);

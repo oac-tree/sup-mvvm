@@ -20,7 +20,7 @@
 #ifndef MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_
 #define MVVM_FACTORIES_MODEL_DOCUMENT_FACTORY_H_
 
-#include <mvvm/serialization/model_document_interface.h>
+#include <mvvm/serialization/i_model_document.h>
 
 #include <memory>
 #include <vector>
@@ -31,7 +31,7 @@ namespace mvvm
 class SessionModelInterface;
 
 //! Creates XmlDocument to save and load models.
-MVVM_MODEL_EXPORT std::unique_ptr<ModelDocumentInterface> CreateXmlDocument(
+MVVM_MODEL_EXPORT std::unique_ptr<IModelDocument> CreateXmlDocument(
     const std::vector<SessionModelInterface*>& models);
 
 }  // namespace mvvm
