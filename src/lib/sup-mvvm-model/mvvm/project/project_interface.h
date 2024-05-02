@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_PROJECT_INTERFACE_H_
-#define MVVM_INTERFACES_PROJECT_INTERFACE_H_
+#ifndef MVVM_PROJECT_PROJECT_INTERFACE_H_
+#define MVVM_PROJECT_PROJECT_INTERFACE_H_
 
 #include <mvvm/model_export.h>
 
@@ -35,7 +35,6 @@ namespace mvvm
  * place. The logic of directory creation, rewriting existing project, discarding unsaved project
  * etc is handled by the ProjectManagerInterface.
  */
-
 class MVVM_MODEL_EXPORT ProjectInterface
 {
 public:
@@ -72,4 +71,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_PROJECT_INTERFACE_H_
+#endif  // MVVM_PROJECT_PROJECT_INTERFACE_H_

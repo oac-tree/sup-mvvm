@@ -20,7 +20,7 @@
 #ifndef MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_
 #define MVVM_FACTORIES_PROJECT_MANAGER_FACTORY_H_
 
-#include <mvvm/interfaces/project_manager_interface.h>
+#include <mvvm/project/project_manager_interface.h>
 
 #include <memory>
 

@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
 #define MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
 
-#include <mvvm/interfaces/project_manager_interface.h>
+#include <mvvm/project/project_manager_interface.h>
 
 #include <memory>
 

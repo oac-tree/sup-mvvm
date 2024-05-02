@@ -22,7 +22,7 @@
 #include "project_types.h"
 #include "project_utils.h"
 
-#include <mvvm/interfaces/project_interface.h>
+#include <mvvm/project/project_interface.h>
 
 namespace
 {
