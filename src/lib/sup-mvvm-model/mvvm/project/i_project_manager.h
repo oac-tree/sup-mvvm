@@ -31,9 +31,8 @@ namespace mvvm
  * @brief The IProjectManager class is an interface for the ProjectManager family to save and load
  * projects.
  *
- * @details Responsible for handling new/save/save-as/close project logic. Conceptually, a project
- * is a folder on disk containing files with serialized models. A project is represented by the
- * ProjectInterface class, which does actual save/load job.
+ * Responsible for handling new/save/save-as/close project logic. A project is represented by the
+ * IProject class, which does actual save/load job.
  */
 class MVVM_MODEL_EXPORT IProjectManager
 {
@@ -41,37 +40,49 @@ public:
   virtual ~IProjectManager() = default;
 
   /**
-   * @brief Creates new project.
-   * @param dirname The full path to the project directory to create a new project.
+   * @brief Creates new project in a given path.
+   *
+   * For folder-based projects path is a full path to the project folder. For file-based projects,
+   * it is a full path to a project file.
+   *
+   * @param path The full path where to create a new project.
+   * @return True in the case of success.
    */
-  virtual bool CreateNewProject(const std::string& dirname) = 0;
+  virtual bool CreateNewProject(const std::string& path) = 0;
 
   /**
-   * @brief Saves current project
+   * @brief Saves current project.
+   *
    * @return True in the case of success.
    */
   virtual bool SaveCurrentProject() = 0;
 
   /**
-   * @brief Saves the project under a given directory
+   * @brief Saves the project using a given path.
    *
-   * @param dirname The full path to the project directory.
+   * For folder-based projects path is a full path to the project folder. For file-based projects,
+   * it is a full path to a project file.
+   *
+   * @param path The full path to the project.
    * @return Returns true in the case of success.
    */
-  virtual bool SaveProjectAs(const std::string& dirname) = 0;
+  virtual bool SaveProjectAs(const std::string& path) = 0;
 
   /**
    * @brief Opens existing project.
    *
-   * @param dirname The full path to the project directory.
+   * @param dirname The full path to the project.
    * @return Returns true in the case of success.
    */
-  virtual bool OpenExistingProject(const std::string& dirname) = 0;
+  virtual bool OpenExistingProject(const std::string& path) = 0;
 
   /**
-   * @brief Returns current project directory.
+   * @brief Returns current project path.
+   *
+   * For folder-based projects path is a full path to the project folder. For file-based projects,
+   * it is a full path to a project file.
    */
-  virtual std::string CurrentProjectDir() const = 0;
+  virtual std::string CurrentProjectPath() const = 0;
 
   /**
    * @brief Returns true if project was modified since last save.

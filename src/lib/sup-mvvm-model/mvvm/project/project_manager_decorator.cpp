@@ -48,7 +48,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   /**
    * @brief Returns true if the project has directory already defined.
    */
-  bool ProjectHasDir() const { return !project_manager->CurrentProjectDir().empty(); }
+  bool ProjectHasPath() const { return !project_manager->CurrentProjectPath().empty(); }
 
   /**
    * @brief Saves project in project directory. If directory is not defined, will acquire directory
@@ -59,20 +59,20 @@ struct ProjectManagerDecorator::ProjectManagerImpl
     // Feature FIXME?: already saved project (i.e. isModified=false) will be saved again.
     // Files will be same, but creation date will be changed.
 
-    auto save_dir = ProjectHasDir() ? project_manager->CurrentProjectDir() : AcquireNewProjectDir();
+    auto save_dir = ProjectHasPath() ? project_manager->CurrentProjectPath() : AcquireNewProjectPath();
     return SaveCurrentProjectAs(save_dir);
   }
 
   /**
    * @brief Saves current project under directory selected.
    */
-  bool SaveCurrentProjectAs(const std::string& dirname) const
+  bool SaveCurrentProjectAs(const std::string& path) const
   {
     // empty dirname varible means 'cancel' during directory selection
-    return dirname.empty() ? kFailed : project_manager->SaveProjectAs(dirname);
+    return path.empty() ? kFailed : project_manager->SaveProjectAs(path);
   }
 
-  std::string CurrentProjectDir() const { return project_manager->CurrentProjectDir(); }
+  std::string CurrentProjectDir() const { return project_manager->CurrentProjectPath(); }
 
   bool IsModified() const { return project_manager->IsModified(); }
 
@@ -114,7 +114,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   /**
    * @brief Acquire the name of the new project directory using callback provided.
    */
-  std::string AcquireNewProjectDir()
+  std::string AcquireNewProjectPath()
   {
     if (!m_user_context.m_create_dir_callback)
     {
@@ -126,7 +126,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   /**
    * @brief Acquire the name of the existing project directory using callback provided.
    */
-  std::string AcquireExistingProjectDir()
+  std::string AcquireExistingProjectPath()
   {
     if (!m_user_context.m_select_dir_callback)
     {
@@ -144,14 +144,14 @@ ProjectManagerDecorator::ProjectManagerDecorator(const ProjectContext& project_c
 
 ProjectManagerDecorator::~ProjectManagerDecorator() = default;
 
-bool ProjectManagerDecorator::CreateNewProject(const std::string& dirname)
+bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
 {
   if (!p_impl->SaveBeforeClosing())
   {
     return kFailed;
   }
 
-  auto project_dir = dirname.empty() ? p_impl->AcquireNewProjectDir() : dirname;
+  auto project_dir = path.empty() ? p_impl->AcquireNewProjectPath() : path;
   // empty project_dir string denotes 'cancel' during directory creation dialog
   return project_dir.empty() ? kFailed : p_impl->project_manager->CreateNewProject(project_dir);
 }
@@ -161,25 +161,25 @@ bool ProjectManagerDecorator::SaveCurrentProject()
   return p_impl->SaveCurrentProject();
 }
 
-bool ProjectManagerDecorator::SaveProjectAs(const std::string& dirname)
+bool ProjectManagerDecorator::SaveProjectAs(const std::string& path)
 {
-  auto project_dir = dirname.empty() ? p_impl->AcquireNewProjectDir() : dirname;
+  auto project_dir = path.empty() ? p_impl->AcquireNewProjectPath() : path;
   // empty project_dir variable denotes 'cancel' during directory creation dialog
   return project_dir.empty() ? kFailed : p_impl->SaveCurrentProjectAs(project_dir);
 }
 
-bool ProjectManagerDecorator::OpenExistingProject(const std::string& dirname)
+bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
 {
   if (!p_impl->SaveBeforeClosing())
   {
     return kFailed;
   }
-  auto project_dir = dirname.empty() ? p_impl->AcquireExistingProjectDir() : dirname;
+  auto project_dir = path.empty() ? p_impl->AcquireExistingProjectPath() : path;
   // empty project_dir variable denotes 'cancel' during directory selection dialog
   return project_dir.empty() ? kFailed : p_impl->project_manager->OpenExistingProject(project_dir);
 }
 
-std::string ProjectManagerDecorator::CurrentProjectDir() const
+std::string ProjectManagerDecorator::CurrentProjectPath() const
 {
   return p_impl->CurrentProjectDir();
 }

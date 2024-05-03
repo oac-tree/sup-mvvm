@@ -63,7 +63,7 @@ public:
 TEST_F(ProjectManagerTests, InitialState)
 {
   ProjectManager manager(CreateContext());
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
   EXPECT_FALSE(manager.IsModified());
 }
 
@@ -81,7 +81,7 @@ TEST_F(ProjectManagerTests, UntitledEmptyNew)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
   EXPECT_TRUE(manager.CreateNewProject(project_dir));
 
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
   EXPECT_FALSE(manager.IsModified());
 
   // project directory should contain a json file with the model
@@ -134,7 +134,7 @@ TEST_F(ProjectManagerTests, UntitledModifiedNew)
   const auto project_dir = CreateEmptyDir("Project_untitledModifiedNew");
   EXPECT_FALSE(manager.CreateNewProject(project_dir));
 
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
   EXPECT_TRUE(manager.IsModified());
 
   // project directory should be empty
@@ -185,12 +185,12 @@ TEST_F(ProjectManagerTests, TitledUnmodifiedNew)
 
   const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
 
   const auto project_dir2 = CreateEmptyDir("Project_titledUnmodifiedNew2");
   EXPECT_TRUE(manager.CreateNewProject(project_dir2));
 
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir2);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir2);
   EXPECT_FALSE(manager.IsModified());
 
   // project directory should contain a json file with the model
@@ -211,7 +211,7 @@ TEST_F(ProjectManagerTests, TitledModifiedSave)
 
   const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
 
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
@@ -238,7 +238,7 @@ TEST_F(ProjectManagerTests, Callback)
   // saving the project
   const auto project_dir = CreateEmptyDir("Project_callback");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
   EXPECT_EQ(project_modified_count, 0);
 
   // modifying the model

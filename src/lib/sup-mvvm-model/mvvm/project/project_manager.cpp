@@ -60,15 +60,15 @@ struct ProjectManager::ProjectManagerImpl
   /**
    * @brief Saves the project into a given directory.
    */
-  bool SaveCurrentProjectAs(const std::string& dirname) const
+  bool SaveCurrentProjectAs(const std::string& path) const
   {
-    return m_current_project->Save(dirname);
+    return m_current_project->Save(path);
   }
 
   /**
    * @brief Loads the project from a given directory.
    */
-  bool LoadFrom(const std::string& dirname) const { return m_current_project->Load(dirname); }
+  bool LoadFrom(const std::string& path) const { return m_current_project->Load(path); }
 
   /**
    * @brief Returns true if project has been modified after the last save.
@@ -83,14 +83,14 @@ ProjectManager::ProjectManager(const ProjectContext& context)
 
 ProjectManager::~ProjectManager() = default;
 
-bool ProjectManager::CreateNewProject(const std::string& dirname)
+bool ProjectManager::CreateNewProject(const std::string& path)
 {
   if (p_impl->IsModified())
   {
     return kFailed;
   }
   p_impl->CreateNewProject();
-  return p_impl->SaveCurrentProjectAs(dirname);
+  return p_impl->SaveCurrentProjectAs(path);
 }
 
 bool ProjectManager::SaveCurrentProject()
@@ -102,22 +102,22 @@ bool ProjectManager::SaveCurrentProject()
   return p_impl->SaveCurrentProject();
 }
 
-bool ProjectManager::SaveProjectAs(const std::string& dirname)
+bool ProjectManager::SaveProjectAs(const std::string& path)
 {
-  return p_impl->SaveCurrentProjectAs(dirname);
+  return p_impl->SaveCurrentProjectAs(path);
 }
 
-bool ProjectManager::OpenExistingProject(const std::string& dirname)
+bool ProjectManager::OpenExistingProject(const std::string& path)
 {
   if (p_impl->IsModified())
   {
     return kFailed;
   }
   p_impl->CreateNewProject();
-  return p_impl->LoadFrom(dirname);
+  return p_impl->LoadFrom(path);
 }
 
-std::string ProjectManager::CurrentProjectDir() const
+std::string ProjectManager::CurrentProjectPath() const
 {
   return p_impl->m_current_project ? p_impl->m_current_project->GetProjectPath() : std::string();
 }

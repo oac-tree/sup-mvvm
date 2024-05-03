@@ -43,6 +43,9 @@ public:
 
   std::string GetProjectPath() const override;
 
+  /**
+   * @details The directory should exist to succeed.
+   */
   bool Save(const std::string& path) const override;
 
   bool Load(const std::string& path) override;

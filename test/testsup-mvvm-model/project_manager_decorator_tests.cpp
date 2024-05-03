@@ -72,7 +72,7 @@ public:
 TEST_F(ProjectManagerDecoratorTests, InitialState)
 {
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext());
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 }
 
 //! Starting from new document (without project dir defined).
@@ -83,13 +83,13 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptyCreateNew)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager.CreateNewProject());
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
@@ -104,13 +104,13 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveCurrentProject)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager.SaveCurrentProject());
 
   // checking thaxt current projectDir has pointing to the right place
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
@@ -125,13 +125,13 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAs)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
   EXPECT_TRUE(manager.SaveProjectAs());
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager.CurrentProjectDir(), project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
@@ -145,11 +145,11 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsCancel)
 {
   ProjectManagerDecorator manager(CreateProjectContext(),
                                   CreateUserContext({}, {}));  // immitates canceling
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager.SaveProjectAs());
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 }
 
 //! Starting from new document (without project dir defined).
@@ -161,7 +161,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsWrongDir)
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager.SaveProjectAs());
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 }
 
 //! Untitled, modified document. Attempt to open existing project will lead to
@@ -198,7 +198,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
   // modifying untitled project
   sample_model->InsertItem<PropertyItem>();
   EXPECT_TRUE(manager.IsModified());
-  EXPECT_TRUE(manager.CurrentProjectDir().empty());
+  EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // attempt to open existing project
   manager.OpenExistingProject();
@@ -212,5 +212,5 @@ TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
 
   // currently manager is pointing to existing project
   EXPECT_FALSE(manager.IsModified());
-  EXPECT_EQ(manager.CurrentProjectDir(), existing_project_dir);
+  EXPECT_EQ(manager.CurrentProjectPath(), existing_project_dir);
 }
