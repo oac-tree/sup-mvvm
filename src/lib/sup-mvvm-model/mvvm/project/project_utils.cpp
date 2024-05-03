@@ -19,7 +19,7 @@
 
 #include "project_utils.h"
 
-#include "project.h"
+#include "folder_based_project.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/project/i_project.h>
@@ -52,7 +52,7 @@ bool IsPossibleProjectDir(const std::string& project_dir)
 
 std::unique_ptr<IProject> CreateUntitledProject(const ProjectContext& context)
 {
-  return std::make_unique<Project>(context);
+  return std::make_unique<FolderBasedProject>(context);
 }
 
 std::string ProjectWindowTitle(const IProject& project)

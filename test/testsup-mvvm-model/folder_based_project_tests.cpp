@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/project.h"
+#include "mvvm/project/folder_based_project.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
@@ -46,12 +46,12 @@ std::string GetXmlFilename(const std::string& model_name)
 
 }  // namespace
 
-//! Tests for Project class.
+//! Tests for FolderBasedProject class.
 
-class ProjectTests : public mvvm::test::FolderBasedTest
+class FolderBasedProjectTest : public mvvm::test::FolderBasedTest
 {
 public:
-  ProjectTests()
+  FolderBasedProjectTest()
       : FolderBasedTest("test_ProjectTests")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
       , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
@@ -74,18 +74,18 @@ public:
   std::unique_ptr<ApplicationModel> m_material_model;
 };
 
-TEST_F(ProjectTests, InitialState)
+TEST_F(FolderBasedProjectTest, InitialState)
 {
-  const Project project(CreateContext());
+  const FolderBasedProject project(CreateContext());
   EXPECT_TRUE(project.GetProjectDir().empty());
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
 }
 
 //! Testing model saving.
-TEST_F(ProjectTests, SaveModel)
+TEST_F(FolderBasedProjectTest, SaveModel)
 {
-  const Project project(CreateContext());
+  const FolderBasedProject project(CreateContext());
 
   // create project directory and save file
   auto project_dir = CreateEmptyDir("Untitled1");
@@ -102,9 +102,9 @@ TEST_F(ProjectTests, SaveModel)
 }
 
 //! Testing model loading.
-TEST_F(ProjectTests, LoadModel)
+TEST_F(FolderBasedProjectTest, LoadModel)
 {
-  Project project(CreateContext());
+  FolderBasedProject project(CreateContext());
 
   auto item0 = m_sample_model->InsertItem<PropertyItem>();
   item0->SetData(std::string("sample_model_item"));

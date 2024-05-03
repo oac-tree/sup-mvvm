@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * Project       : Operational Applications UI Foundation
+ * FolderBasedProject       : Operational Applications UI Foundation
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECT_H_
-#define MVVM_PROJECT_PROJECT_H_
+#ifndef MVVM_PROJECT_FOLDER_BASED_PROJECT_H_
+#define MVVM_PROJECT_FOLDER_BASED_PROJECT_H_
 
 #include <mvvm/project/i_project.h>
 
@@ -30,13 +30,14 @@ namespace mvvm
 struct ProjectContext;
 
 /**
- * @brief The Project class represents content of all application models in a folder on disk.
+ * @brief The FolderBasedProject class represents content of all application models in a folder on
+ * disk.
  */
-class MVVM_MODEL_EXPORT Project : public IProject
+class MVVM_MODEL_EXPORT FolderBasedProject : public IProject
 {
 public:
-  explicit Project(const ProjectContext& context);
-  ~Project() override;
+  explicit FolderBasedProject(const ProjectContext& context);
+  ~FolderBasedProject() override;
 
   ProjectType GetProjectType() const override;
 
@@ -49,10 +50,10 @@ public:
   bool IsModified() const override;
 
 private:
-  struct ProjectImpl;
-  std::unique_ptr<ProjectImpl> p_impl;
+  struct FolderBasedProjectImpl;
+  std::unique_ptr<FolderBasedProjectImpl> p_impl;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECT_H_
+#endif  // MVVM_PROJECT_FOLDER_BASED_PROJECT_H_

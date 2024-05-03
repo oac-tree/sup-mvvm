@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * Project       : Operational Applications UI Foundation
+ * FolderBasedProject       : Operational Applications UI Foundation
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "project.h"
+#include "folder_based_project.h"
 
 #include "project_change_controller.h"
 #include "project_types.h"
@@ -31,13 +31,13 @@
 namespace mvvm
 {
 
-struct Project::ProjectImpl
+struct FolderBasedProject::FolderBasedProjectImpl
 {
   std::string m_project_dir;
   ProjectContext m_context;
   ProjectChangedController m_change_controller;
 
-  explicit ProjectImpl(const ProjectContext& context)
+  explicit FolderBasedProjectImpl(const ProjectContext& context)
       : m_context(context)
       , m_change_controller(context.m_models_callback(), context.m_modified_callback)
   {
@@ -68,31 +68,34 @@ struct Project::ProjectImpl
   }
 };
 
-Project::Project(const ProjectContext& context) : p_impl(std::make_unique<ProjectImpl>(context)) {}
+FolderBasedProject::FolderBasedProject(const ProjectContext& context)
+    : p_impl(std::make_unique<FolderBasedProjectImpl>(context))
+{
+}
 
-ProjectType Project::GetProjectType() const
+ProjectType FolderBasedProject::GetProjectType() const
 {
   return ProjectType::kFolderBased;
 }
 
-Project::~Project() = default;
+FolderBasedProject::~FolderBasedProject() = default;
 
-std::string Project::GetProjectDir() const
+std::string FolderBasedProject::GetProjectDir() const
 {
   return p_impl->m_project_dir;
 }
 
-bool Project::Save(const std::string& dirname) const
+bool FolderBasedProject::Save(const std::string& dirname) const
 {
   return p_impl->Process(dirname, &IModelDocument::Save);
 }
 
-bool Project::Load(const std::string& dirname)
+bool FolderBasedProject::Load(const std::string& dirname)
 {
   return p_impl->Process(dirname, &IModelDocument::Load);
 }
 
-bool Project::IsModified() const
+bool FolderBasedProject::IsModified() const
 {
   return p_impl->m_change_controller.IsChanged();
 }
