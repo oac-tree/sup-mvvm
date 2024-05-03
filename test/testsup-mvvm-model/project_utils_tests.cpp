@@ -63,7 +63,7 @@ TEST_F(ProjectUtilsTests, SuggestFileName)
 TEST_F(ProjectUtilsTests, CreateUntitledProject)
 {
   auto project = utils::CreateUntitledProject(createContext());
-  EXPECT_TRUE(project->GetProjectDir().empty());
+  EXPECT_TRUE(project->GetProjectPath().empty());
 }
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitle)

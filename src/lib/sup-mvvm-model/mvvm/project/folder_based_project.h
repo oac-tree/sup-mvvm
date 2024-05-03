@@ -41,11 +41,11 @@ public:
 
   ProjectType GetProjectType() const override;
 
-  std::string GetProjectDir() const override;
+  std::string GetProjectPath() const override;
 
-  bool Save(const std::string& dirname) const override;
+  bool Save(const std::string& path) const override;
 
-  bool Load(const std::string& dirname) override;
+  bool Load(const std::string& path) override;
 
   bool IsModified() const override;
 

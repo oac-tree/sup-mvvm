@@ -80,19 +80,19 @@ ProjectType FolderBasedProject::GetProjectType() const
 
 FolderBasedProject::~FolderBasedProject() = default;
 
-std::string FolderBasedProject::GetProjectDir() const
+std::string FolderBasedProject::GetProjectPath() const
 {
   return p_impl->m_project_dir;
 }
 
-bool FolderBasedProject::Save(const std::string& dirname) const
+bool FolderBasedProject::Save(const std::string& path) const
 {
-  return p_impl->Process(dirname, &IModelDocument::Save);
+  return p_impl->Process(path, &IModelDocument::Save);
 }
 
-bool FolderBasedProject::Load(const std::string& dirname)
+bool FolderBasedProject::Load(const std::string& path)
 {
-  return p_impl->Process(dirname, &IModelDocument::Load);
+  return p_impl->Process(path, &IModelDocument::Load);
 }
 
 bool FolderBasedProject::IsModified() const

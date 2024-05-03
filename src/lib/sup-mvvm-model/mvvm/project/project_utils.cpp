@@ -57,7 +57,7 @@ std::unique_ptr<IProject> CreateUntitledProject(const ProjectContext& context)
 
 std::string ProjectWindowTitle(const IProject& project)
 {
-  return ProjectWindowTitle(project.GetProjectDir(), project.IsModified());
+  return ProjectWindowTitle(project.GetProjectPath(), project.IsModified());
 }
 
 std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified)

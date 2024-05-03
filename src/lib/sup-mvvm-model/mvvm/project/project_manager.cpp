@@ -47,14 +47,14 @@ struct ProjectManager::ProjectManagerImpl
   /**
    * @brief Returns true if the project has directory already defined.
    */
-  bool ProjectHasDir() const { return !m_current_project->GetProjectDir().empty(); }
+  bool ProjectHasDir() const { return !m_current_project->GetProjectPath().empty(); }
 
   /**
    * @brief Saves project in project directory.
    */
   bool SaveCurrentProject() const
   {
-    return SaveCurrentProjectAs(m_current_project->GetProjectDir());
+    return SaveCurrentProjectAs(m_current_project->GetProjectPath());
   }
 
   /**
@@ -119,7 +119,7 @@ bool ProjectManager::OpenExistingProject(const std::string& dirname)
 
 std::string ProjectManager::CurrentProjectDir() const
 {
-  return p_impl->m_current_project ? p_impl->m_current_project->GetProjectDir() : std::string();
+  return p_impl->m_current_project ? p_impl->m_current_project->GetProjectPath() : std::string();
 }
 
 bool ProjectManager::IsModified() const

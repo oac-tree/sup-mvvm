@@ -50,27 +50,34 @@ public:
   virtual ProjectType GetProjectType() const = 0;
 
   /**
-   * @brief Returns the full path to a project directory.
+   * @brief Returns the full path to a project.
    *
-   * @details It is a name where the project has been last time saved, or loaded from.
+   * For folder-based projects it is a full path to the project folder. For file-based projects, it
+   * is a full path to a project file. The path can be empty if a project was just created and never
+   * saved.
+   *
+   * @return The project path where the project has been last time saved or loaded from.
    */
-  virtual std::string GetProjectDir() const = 0;
+  virtual std::string GetProjectPath() const = 0;
 
   /**
-   * @brief Saves the content to a given directory.
-   * @param dirname The full path to existing directory on disk.
-   * @return True in the case of success.
+   * @brief Saves the project content to a given path.
    *
-   * @details Provided directory name will become new project directory as reported by
-   * GetProjectDir() method.
+   * Given path will become new project path as reported by GetProjectPath() method.
+   *
+   * @param path The full path where to save.
+   * @return True in the case of success.
    */
-  virtual bool Save(const std::string& dirname) const = 0;
+  virtual bool Save(const std::string& path) const = 0;
 
   /**
-   * @brief Loads all content from the given directory.
+   * @brief Loads project content from the given path.
+   *
+   * Given path will become new project path as reported by GetProjectPath() method.
+   *
    * @return True in the case of success.
    */
-  virtual bool Load(const std::string& dirname) = 0;
+  virtual bool Load(const std::string& path) = 0;
 
   /**
    * @brief Returns true if the project has been modified since the last save.
