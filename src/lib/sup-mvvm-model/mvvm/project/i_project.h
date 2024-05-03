@@ -32,7 +32,8 @@ namespace mvvm
  * @brief The IProject class is an interface to save and load application state.
  *
  * Conceptually, a project is a serialized content of all application models. Depending on the type
- * of the project, it can be either a single file or a folder on disk with several files in it.
+ * of the project, it can be either a single file on disk, or a folder on disk with several files in
+ * it.
  *
  * The IProject-derived classes contain the logic on how to save and load the data from certain
  * place. The logic of directory creation, rewriting existing projects, discarding unsaved project

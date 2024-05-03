@@ -20,7 +20,7 @@
 #include "project_manager_decorator.h"
 
 #include "project_manager.h"
-#include "project_types.h"
+#include "project_context.h"
 
 #include <mvvm/core/exceptions.h>
 

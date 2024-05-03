@@ -20,7 +20,7 @@
 #include "folder_based_project.h"
 
 #include "project_change_controller.h"
-#include "project_types.h"
+#include "project_context.h"
 #include "project_utils.h"
 
 #include <mvvm/factories/model_document_factory.h>

@@ -19,10 +19,9 @@
 
 #include "project_manager.h"
 
-#include "project_types.h"
+#include "i_project.h"
+#include "project_context.h"
 #include "project_utils.h"
-
-#include <mvvm/project/i_project.h>
 
 namespace
 {

@@ -22,7 +22,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/i_project.h>
-#include <mvvm/project/project_types.h>
+#include <mvvm/project/project_context.h>
 #include <mvvm/test/folder_based_test.h>
 
 #include <gtest/gtest.h>

@@ -21,7 +21,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/project/project_types.h>
+#include <mvvm/project/project_context.h>
 #include <mvvm/test/folder_based_test.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -56,6 +56,7 @@ public:
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
       , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
   {
+#include <mvvm/project/project_types.h>
   }
 
   std::vector<SessionModelInterface*> GetModels() const

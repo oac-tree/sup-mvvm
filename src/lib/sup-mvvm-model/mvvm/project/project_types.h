@@ -22,14 +22,8 @@
 
 #include <mvvm/model_export.h>
 
-#include <functional>
-#include <string>
-#include <vector>
-
 namespace mvvm
 {
-
-class SessionModelInterface;
 
 /**
  * @brief The ProjectType enum defines possible types of the project.
@@ -42,47 +36,15 @@ enum class ProjectType
   kFileBased     //!< project is a single file
 };
 
-//! Possible user answers on question "Project was modified".
+/**
+ * @brief The SaveChangesAnswer enum represents user answers to the question "Project was modified,
+ * do you want to save it?".
+ */
 enum class SaveChangesAnswer
 {
   kSave = 0,     //!< save project
   kDiscard = 1,  //!< discard changes
   kCancel = 2    //!< cancel current action, leave everything unsaved
-};
-
-//! Provides necessary information for Project construction.
-
-struct MVVM_MODEL_EXPORT ProjectContext
-{
-  //!< To notify about the change of the project with respect to what was written on disk.
-  using modified_callback_t = std::function<void()>;
-
-  //! To ask for a vector of models to save/load to/from disk.
-  //! This is intentionally obtained via callback since save request might come after
-  //! the Project construction.
-  using models_callback_t = std::function<std::vector<SessionModelInterface*>()>;
-
-  modified_callback_t m_modified_callback;
-  models_callback_t m_models_callback;
-};
-
-//! Defines the context to interact with the user regarding save/save-as/create-new project
-//! scenarious.
-
-struct MVVM_MODEL_EXPORT UserInteractionContext
-{
-  //!< To ask the user to select existing directory, returns full path to the directory.
-  using select_dir_callback_t = std::function<std::string()>;
-
-  //!< To ask the user to create a new directory, returns full path to the directory.
-  using create_dir_callback_t = std::function<std::string()>;
-
-  //!< To ask the user what to do with modified project.
-  using answer_callback_t = std::function<SaveChangesAnswer()>;
-
-  select_dir_callback_t m_select_dir_callback;
-  create_dir_callback_t m_create_dir_callback;
-  answer_callback_t m_answer_callback;
 };
 
 }  // namespace mvvm
