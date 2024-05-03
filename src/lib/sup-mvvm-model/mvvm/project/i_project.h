@@ -21,6 +21,7 @@
 #define MVVM_PROJECT_IPROJECT_H_
 
 #include <mvvm/model_export.h>
+#include <mvvm/project/project_types.h>
 
 #include <string>
 
@@ -28,17 +29,24 @@ namespace mvvm
 {
 
 /**
- * @brief The IProject class is an interface to save and load projects to/from disk.
+ * @brief The IProject class is an interface to save and load application state.
  *
- * @details Conceptually, a project is a folder on disk containing files with serialized models.
- * The ProjectInterface derived classes contain the logic how to save and load the data from certain
- * place. The logic of directory creation, rewriting existing project, discarding unsaved project
- * etc is handled by the ProjectManagerInterface.
+ * Conceptually, a project is a serialized content of all application models. Depending on the type
+ * of the project, it can be either a single file or a folder on disk with several files in it.
+ *
+ * The IProject-derived classes contain the logic on how to save and load the data from certain
+ * place. The logic of directory creation, rewriting existing projects, discarding unsaved project
+ * etc is handled by the IProjectManager.
  */
 class MVVM_MODEL_EXPORT IProject
 {
 public:
   virtual ~IProject() = default;
+
+  /**
+   * @brief Returns type of the project.
+   */
+  virtual ProjectType GetProjectType() const = 0;
 
   /**
    * @brief Returns the full path to a project directory.

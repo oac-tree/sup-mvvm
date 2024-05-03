@@ -31,6 +31,17 @@ namespace mvvm
 
 class SessionModelInterface;
 
+/**
+ * @brief The ProjectType enum defines possible types of the project.
+ *
+ * The project is a class derived from IProject, representing a serialized content of the model.
+ */
+enum class ProjectType
+{
+  kFolderBased,  //!< project is a folder on disk with some files in it
+  kFileBased     //!< project is a single file
+};
+
 //! Possible user answers on question "Project was modified".
 enum class SaveChangesAnswer
 {

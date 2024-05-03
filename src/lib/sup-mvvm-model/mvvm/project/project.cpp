@@ -70,6 +70,11 @@ struct Project::ProjectImpl
 
 Project::Project(const ProjectContext& context) : p_impl(std::make_unique<ProjectImpl>(context)) {}
 
+ProjectType Project::GetProjectType() const
+{
+  return ProjectType::kFolderBased;
+}
+
 Project::~Project() = default;
 
 std::string Project::GetProjectDir() const

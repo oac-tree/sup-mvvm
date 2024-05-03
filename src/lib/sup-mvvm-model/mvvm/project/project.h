@@ -38,6 +38,8 @@ public:
   explicit Project(const ProjectContext& context);
   ~Project() override;
 
+  ProjectType GetProjectType() const override;
+
   std::string GetProjectDir() const override;
 
   bool Save(const std::string& dirname) const override;

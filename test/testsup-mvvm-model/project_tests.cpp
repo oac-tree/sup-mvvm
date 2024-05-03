@@ -33,8 +33,8 @@ using namespace mvvm;
 
 namespace
 {
-const std::string samplemodel_name = "SampleModel";
-const std::string materialmodel_name = "MaterialModel";
+const std::string kSampleModelName = "SampleModel";
+const std::string kMaterialModelName = "MaterialModel";
 
 //! Constructs XML file name from SessionModel typeName (as it is done internaly by Project).
 std::string GetXmlFilename(const std::string& model_name)
@@ -53,39 +53,39 @@ class ProjectTests : public mvvm::test::FolderBasedTest
 public:
   ProjectTests()
       : FolderBasedTest("test_ProjectTests")
-      , sample_model(std::make_unique<ApplicationModel>(samplemodel_name))
-      , material_model(std::make_unique<ApplicationModel>(materialmodel_name))
+      , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
+      , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
   {
   }
 
-  std::vector<SessionModelInterface*> models() const
+  std::vector<SessionModelInterface*> GetModels() const
   {
-    return {sample_model.get(), material_model.get()};
+    return {m_sample_model.get(), m_material_model.get()};
   };
 
   ProjectContext CreateContext()
   {
     ProjectContext result;
-    result.m_models_callback = [this]() { return models(); };
+    result.m_models_callback = [this]() { return GetModels(); };
     return result;
   }
 
-  std::unique_ptr<ApplicationModel> sample_model;
-  std::unique_ptr<ApplicationModel> material_model;
+  std::unique_ptr<ApplicationModel> m_sample_model;
+  std::unique_ptr<ApplicationModel> m_material_model;
 };
 
 TEST_F(ProjectTests, InitialState)
 {
-  Project project(CreateContext());
+  const Project project(CreateContext());
   EXPECT_TRUE(project.GetProjectDir().empty());
   EXPECT_FALSE(project.IsModified());
+  EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
 }
 
-//! Testing saveModel.
-
+//! Testing model saving.
 TEST_F(ProjectTests, SaveModel)
 {
-  Project project(CreateContext());
+  const Project project(CreateContext());
 
   // create project directory and save file
   auto project_dir = CreateEmptyDir("Untitled1");
@@ -94,24 +94,23 @@ TEST_F(ProjectTests, SaveModel)
   EXPECT_EQ(project.GetProjectDir(), project_dir);
   EXPECT_FALSE(project.IsModified());
 
-  auto sample_xml = utils::Join(project_dir, GetXmlFilename(samplemodel_name));
+  auto sample_xml = utils::Join(project_dir, GetXmlFilename(kSampleModelName));
   EXPECT_TRUE(utils::IsExists(sample_xml));
 
-  auto material_xml = utils::Join(project_dir, GetXmlFilename(materialmodel_name));
+  auto material_xml = utils::Join(project_dir, GetXmlFilename(kMaterialModelName));
   EXPECT_TRUE(utils::IsExists(material_xml));
 }
 
-//! Testing loadModel.
-
+//! Testing model loading.
 TEST_F(ProjectTests, LoadModel)
 {
   Project project(CreateContext());
 
-  auto item0 = sample_model->InsertItem<PropertyItem>();
+  auto item0 = m_sample_model->InsertItem<PropertyItem>();
   item0->SetData(std::string("sample_model_item"));
   auto item0_identifier = item0->GetIdentifier();
 
-  auto item1 = material_model->InsertItem<PropertyItem>();
+  auto item1 = m_material_model->InsertItem<PropertyItem>();
   item1->SetData(std::string("material_model_item"));
   auto item1_identifier = item1->GetIdentifier();
 
@@ -125,20 +124,20 @@ TEST_F(ProjectTests, LoadModel)
   EXPECT_EQ(project.GetProjectDir(), project_dir);
 
   // cleaning models
-  sample_model->Clear({});
-  material_model->Clear({});
-  EXPECT_EQ(sample_model->GetRootItem()->GetTotalItemCount(), 0);
-  EXPECT_EQ(material_model->GetRootItem()->GetTotalItemCount(), 0);
+  m_sample_model->Clear({});
+  m_material_model->Clear({});
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(m_material_model->GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_TRUE(project.IsModified());
 
   // loading
   project.Load(project_dir);
-  EXPECT_EQ(sample_model->GetRootItem()->GetTotalItemCount(), 1);
-  EXPECT_EQ(material_model->GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 1);
+  EXPECT_EQ(m_material_model->GetRootItem()->GetTotalItemCount(), 1);
 
   // checking identifiers
-  EXPECT_EQ(sample_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item0_identifier);
-  EXPECT_EQ(material_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item1_identifier);
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item0_identifier);
+  EXPECT_EQ(m_material_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item1_identifier);
 
   EXPECT_EQ(project.GetProjectDir(), project_dir);
   EXPECT_FALSE(project.IsModified());
