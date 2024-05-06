@@ -72,7 +72,7 @@ public:
 
   bool IsModified() const override;
 
-  bool CloseCurrentProject() const override;
+  bool CloseCurrentProject() override;
 
 private:
   struct ProjectManagerImpl;

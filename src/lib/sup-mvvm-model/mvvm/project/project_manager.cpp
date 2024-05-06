@@ -127,7 +127,7 @@ bool ProjectManager::IsModified() const
   return p_impl->IsModified();
 }
 
-bool ProjectManager::CloseCurrentProject() const
+bool ProjectManager::CloseCurrentProject()
 {
   // no special operation is required to close the project
   p_impl->CreateNewProject();  // ready for further actions

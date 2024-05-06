@@ -189,7 +189,7 @@ bool ProjectManagerDecorator::IsModified() const
   return p_impl->IsModified();
 }
 
-bool ProjectManagerDecorator::CloseCurrentProject() const
+bool ProjectManagerDecorator::CloseCurrentProject()
 {
   if (!p_impl->SaveBeforeClosing())
   {

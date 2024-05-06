@@ -82,7 +82,7 @@ public:
    * @details Will show the dialog, via callback provided, asking the user whether to
    * save/discard/cancel. Returns 'false' only if user has selected 'cancel' button.
    */
-  bool CloseCurrentProject() const override;
+  bool CloseCurrentProject() override;
 
 private:
   struct ProjectManagerImpl;

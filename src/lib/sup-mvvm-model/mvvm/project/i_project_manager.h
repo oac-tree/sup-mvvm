@@ -96,7 +96,7 @@ public:
    *
    * @details No checks whether it is modified or not being performed.
    */
-  virtual bool CloseCurrentProject() const = 0;
+  virtual bool CloseCurrentProject() = 0;
 };
 
 }  // namespace mvvm
