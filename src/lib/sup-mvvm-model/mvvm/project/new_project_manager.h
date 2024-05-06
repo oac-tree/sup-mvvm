@@ -22,8 +22,8 @@
 
 #include <mvvm/project/i_project_manager.h>
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace mvvm
 {

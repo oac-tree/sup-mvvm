@@ -86,7 +86,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptyCreateNew)
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to 'project_dir' directory.
-  EXPECT_TRUE(manager.CreateNewProject());
+  EXPECT_TRUE(manager.CreateNewProject({}));
 
   // checking that current projectDir has pointing to the right place
   EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
@@ -128,7 +128,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAs)
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
-  EXPECT_TRUE(manager.SaveProjectAs());
+  EXPECT_TRUE(manager.SaveProjectAs({}));
 
   // checking that current projectDir has pointing to the right place
   EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
@@ -148,7 +148,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsCancel)
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
-  EXPECT_FALSE(manager.SaveProjectAs());
+  EXPECT_FALSE(manager.SaveProjectAs({}));
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 }
 
@@ -160,7 +160,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsWrongDir)
   ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext("non-existing", {}));
 
   // saving new project to "project_dir" directory.
-  EXPECT_FALSE(manager.SaveProjectAs());
+  EXPECT_FALSE(manager.SaveProjectAs({}));
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 }
 
@@ -177,7 +177,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
   {
     ProjectManagerDecorator manager(CreateProjectContext(),
                                     CreateUserContext(existing_project_dir, {}));
-    manager.SaveProjectAs();
+    manager.SaveProjectAs({});
   }
 
   // preparing manager with untitled, unmodified project
@@ -201,7 +201,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
   // attempt to open existing project
-  manager.OpenExistingProject();
+  manager.OpenExistingProject({});
 
   // check if user was asked and his answer coincide with expectation
   EXPECT_EQ(result, SaveChangesAnswer::kSave);

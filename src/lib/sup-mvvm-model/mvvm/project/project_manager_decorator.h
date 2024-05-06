@@ -53,7 +53,7 @@ public:
    * dialog using callback provided. If current project is in unsaved state, will perform
    * 'save-before-closing' procedure before proceeding further.
    */
-  bool CreateNewProject(const std::string& path = {}) override;
+  bool CreateNewProject(const std::string& path) override;
 
   /**
    * @details The project should have a project directory defined to succeed. If it is not the case,
@@ -65,14 +65,14 @@ public:
    * @details The directory should exist already. If provided 'dirname' variable is empty, it will
    * acquire a new project directory using dialog provided.
    */
-  bool SaveProjectAs(const std::string& path = {}) override;
+  bool SaveProjectAs(const std::string& path) override;
 
   /**
    * @details If provided name is empty, will call directory selector dialog using callback
    * provided. If current project is in unsaved state, it will perform 'save-before-closing'
    * procedure before proceeding further.
    */
-  bool OpenExistingProject(const std::string& path = {}) override;
+  bool OpenExistingProject(const std::string& path) override;
 
   std::string CurrentProjectPath() const override;
 
