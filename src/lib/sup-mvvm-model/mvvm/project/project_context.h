@@ -32,8 +32,9 @@ namespace mvvm
 
 class SessionModelInterface;
 
-//! Provides necessary information for Project construction.
-
+/**
+ * @brief The ProjectContext class defines context necessary for Project construction.
+ */
 struct MVVM_MODEL_EXPORT ProjectContext
 {
   //!< To notify about the change of the project with respect to what was written on disk.
