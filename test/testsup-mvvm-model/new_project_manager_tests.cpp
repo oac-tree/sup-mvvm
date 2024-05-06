@@ -21,7 +21,9 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
+#include <mvvm/project/project_utils.h>
 #include <mvvm/test/folder_based_test.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -48,14 +50,21 @@ public:
 
   std::vector<SessionModelInterface*> GetModels() const { return {sample_model.get()}; };
 
-  ProjectContext CreateContext()
+  NewProjectManager::create_project_t CreateContext()
   {
-    ProjectContext result;
-    result.m_models_callback = [this]() { return GetModels(); };
+    auto result = [this]() -> std::unique_ptr<IProject>
+    {
+      ProjectContext context;
+      context.m_models_callback = [this]() { return GetModels(); };
+      context.m_modified_callback = [this]() { ++m_project_modified_count; };
+      return mvvm::utils::CreateUntitledProject(context);
+    };
+
     return result;
   }
 
   std::unique_ptr<ApplicationModel> sample_model;
+  int m_project_modified_count{0};
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
@@ -226,32 +235,29 @@ TEST_F(NewProjectManagerTests, TitledModifiedSave)
 
 TEST_F(NewProjectManagerTests, Callback)
 {
-  int project_modified_count{0};
-
   auto context = CreateContext();
-  context.m_modified_callback = [&project_modified_count]() { ++project_modified_count; };
 
   NewProjectManager manager(context);
 
-  EXPECT_EQ(project_modified_count, 0);
+  EXPECT_EQ(m_project_modified_count, 0);
 
   // saving the project
   const auto project_dir = CreateEmptyDir("Project_callback");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
   EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
-  EXPECT_EQ(project_modified_count, 0);
+  EXPECT_EQ(m_project_modified_count, 0);
 
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
-  EXPECT_EQ(project_modified_count, 1);
+  EXPECT_EQ(m_project_modified_count, 1);
   EXPECT_TRUE(manager.IsModified());
 
   // modifying the model second time
   sample_model->InsertItem<PropertyItem>();
-  EXPECT_EQ(project_modified_count, 1);  // do not sum up
+  EXPECT_EQ(m_project_modified_count, 1);  // do not sum up
   EXPECT_TRUE(manager.IsModified());
 
   EXPECT_TRUE(manager.SaveCurrentProject());
   EXPECT_FALSE(manager.IsModified());
-  EXPECT_EQ(project_modified_count, 1);
+  EXPECT_EQ(m_project_modified_count, 1);
 }

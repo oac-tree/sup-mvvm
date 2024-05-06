@@ -23,12 +23,12 @@
 #include <mvvm/project/i_project_manager.h>
 
 #include <memory>
+#include <functional>
 
 namespace mvvm
 {
 
 class IProject;
-struct ProjectContext;
 
 /**
  * @brief The NewProjectManager class is responsible for handling new/save/save-as/close project
@@ -43,7 +43,9 @@ struct ProjectContext;
 class MVVM_MODEL_EXPORT NewProjectManager : public IProjectManager
 {
 public:
-  explicit NewProjectManager(const ProjectContext& context);
+  using create_project_t = std::function<std::unique_ptr<IProject>()>;
+
+  explicit NewProjectManager(create_project_t create_project);
   ~NewProjectManager() override;
 
   NewProjectManager(const NewProjectManager& other) = delete;
@@ -74,11 +76,14 @@ public:
 
   bool IsModified() const override;
 
-  bool CloseCurrentProject() const override;
+  bool CloseCurrentProject() override;
 
 private:
-  struct NewProjectManagerImpl;
-  std::unique_ptr<NewProjectManagerImpl> p_impl;
+  void CreateUntitledProject();
+  bool ProjectHasPath();
+
+  create_project_t m_create_project_callback;
+  std::unique_ptr<IProject> m_current_project;
 };
 
 }  // namespace mvvm
