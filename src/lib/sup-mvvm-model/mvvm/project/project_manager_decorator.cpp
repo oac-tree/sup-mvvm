@@ -19,8 +19,10 @@
 
 #include "project_manager_decorator.h"
 
+#include "i_project.h"
 #include "project_manager.h"
 #include "project_context.h"
+#include "project_utils.h"
 
 #include <mvvm/core/exceptions.h>
 
@@ -42,7 +44,10 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   ProjectManagerImpl(ProjectContext project_context, UserInteractionContext user_context)
       : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
   {
-    project_manager = std::make_unique<ProjectManager>(m_project_context);
+    auto project_func = [this]() -> std::unique_ptr<IProject>
+    { return mvvm::utils::CreateUntitledProject(m_project_context); };
+
+    project_manager = std::make_unique<ProjectManager>(project_func);
   }
 
   /**
@@ -59,7 +64,8 @@ struct ProjectManagerDecorator::ProjectManagerImpl
     // Feature FIXME?: already saved project (i.e. isModified=false) will be saved again.
     // Files will be same, but creation date will be changed.
 
-    auto save_dir = ProjectHasPath() ? project_manager->CurrentProjectPath() : AcquireNewProjectPath();
+    auto save_dir =
+        ProjectHasPath() ? project_manager->CurrentProjectPath() : AcquireNewProjectPath();
     return SaveCurrentProjectAs(save_dir);
   }
 

@@ -22,15 +22,17 @@
 
 #include <mvvm/project/i_project_manager.h>
 
+#include <functional>
 #include <memory>
 
 namespace mvvm
 {
 
-struct ProjectContext;
+class IProject;
 
 /**
- * @brief The ProjectManager class is responsible for handling new/save/save-as/close project logic.
+ * @brief The ProjectManager class is responsible for handling new/save/save-as/close project
+ * logic.
  *
  * This ProjectManager requires certain prerequisites to function properly: for example, the
  * creation of a new project will be possible only if the old project is in a saved state. See the
@@ -41,7 +43,9 @@ struct ProjectContext;
 class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
 {
 public:
-  explicit ProjectManager(const ProjectContext& context);
+  using create_project_t = std::function<std::unique_ptr<IProject>()>;
+
+  explicit ProjectManager(create_project_t create_project);
   ~ProjectManager() override;
 
   ProjectManager(const ProjectManager& other) = delete;
@@ -75,8 +79,11 @@ public:
   bool CloseCurrentProject() override;
 
 private:
-  struct ProjectManagerImpl;
-  std::unique_ptr<ProjectManagerImpl> p_impl;
+  void CreateUntitledProject();
+  bool ProjectHasPath();
+
+  create_project_t m_create_project_callback;
+  std::unique_ptr<IProject> m_current_project;
 };
 
 }  // namespace mvvm

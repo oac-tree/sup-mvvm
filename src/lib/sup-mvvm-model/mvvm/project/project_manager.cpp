@@ -20,8 +20,8 @@
 #include "project_manager.h"
 
 #include "i_project.h"
-#include "project_context.h"
-#include "project_utils.h"
+
+#include <mvvm/core/exceptions.h>
 
 namespace
 {
@@ -32,106 +32,79 @@ const bool kFailed = false;
 namespace mvvm
 {
 
-struct ProjectManager::ProjectManagerImpl
+ProjectManager::ProjectManager(create_project_t create_project)
+    : m_create_project_callback(std::move(create_project))
 {
-  std::unique_ptr<IProject> m_current_project;
-  ProjectContext m_project_context;
-
-  explicit ProjectManagerImpl(ProjectContext context) : m_project_context(std::move(context))
-  {
-    CreateNewProject();
-  }
-
-  void CreateNewProject() { m_current_project = utils::CreateUntitledProject(m_project_context); }
-
-  /**
-   * @brief Returns true if the project has directory already defined.
-   */
-  bool ProjectHasDir() const { return !m_current_project->GetProjectPath().empty(); }
-
-  /**
-   * @brief Saves project in project directory.
-   */
-  bool SaveCurrentProject() const
-  {
-    return SaveCurrentProjectAs(m_current_project->GetProjectPath());
-  }
-
-  /**
-   * @brief Saves the project into a given directory.
-   */
-  bool SaveCurrentProjectAs(const std::string& path) const
-  {
-    return m_current_project->Save(path);
-  }
-
-  /**
-   * @brief Loads the project from a given directory.
-   */
-  bool LoadFrom(const std::string& path) const { return m_current_project->Load(path); }
-
-  /**
-   * @brief Returns true if project has been modified after the last save.
-   */
-  bool IsModified() const { return m_current_project->IsModified(); }
-};
-
-ProjectManager::ProjectManager(const ProjectContext& context)
-    : p_impl(std::make_unique<ProjectManagerImpl>(context))
-{
+  CreateUntitledProject();
 }
 
 ProjectManager::~ProjectManager() = default;
 
 bool ProjectManager::CreateNewProject(const std::string& path)
 {
-  if (p_impl->IsModified())
+  if (m_current_project->IsModified())
   {
     return kFailed;
   }
-  p_impl->CreateNewProject();
-  return p_impl->SaveCurrentProjectAs(path);
+
+  CreateUntitledProject();
+  return m_current_project->Save(path);
 }
 
 bool ProjectManager::SaveCurrentProject()
 {
-  if (!p_impl->ProjectHasDir())
+  if (!ProjectHasPath())
   {
     return kFailed;
   }
-  return p_impl->SaveCurrentProject();
+
+  return SaveProjectAs(m_current_project->GetProjectPath());
 }
 
 bool ProjectManager::SaveProjectAs(const std::string& path)
 {
-  return p_impl->SaveCurrentProjectAs(path);
+  return m_current_project->Save(path);
 }
 
 bool ProjectManager::OpenExistingProject(const std::string& path)
 {
-  if (p_impl->IsModified())
+  if (m_current_project->IsModified())
   {
     return kFailed;
   }
-  p_impl->CreateNewProject();
-  return p_impl->LoadFrom(path);
+  CreateUntitledProject();
+  return m_current_project->Load(path);
 }
 
 std::string ProjectManager::CurrentProjectPath() const
 {
-  return p_impl->m_current_project ? p_impl->m_current_project->GetProjectPath() : std::string();
+  return m_current_project->GetProjectPath();
 }
 
 bool ProjectManager::IsModified() const
 {
-  return p_impl->IsModified();
+  return m_current_project->IsModified();
 }
 
 bool ProjectManager::CloseCurrentProject()
 {
   // no special operation is required to close the project
-  p_impl->CreateNewProject();  // ready for further actions
+  CreateUntitledProject();
   return kSucceeded;
+}
+
+void ProjectManager::CreateUntitledProject()
+{
+  if (!m_create_project_callback)
+  {
+    throw RuntimeException("Can't create project");
+  }
+  m_current_project = m_create_project_callback();
+}
+
+bool ProjectManager::ProjectHasPath()
+{
+  return !m_current_project->GetProjectPath().empty();
 }
 
 }  // namespace mvvm

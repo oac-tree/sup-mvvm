@@ -8,8 +8,6 @@ target_sources(${library_name} PRIVATE
   project_change_controller.cpp
   project_change_controller.h
   project_context.h
-  new_project_manager.cpp
-  new_project_manager.h
   project_manager.cpp
   project_manager.h
   project_manager_decorator.cpp
