@@ -41,6 +41,9 @@ struct UserInteractionContext;
 class MVVM_MODEL_EXPORT ProjectManagerDecorator : public IProjectManager
 {
 public:
+  ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
+                          const UserInteractionContext& user_context);
+
   ProjectManagerDecorator(const ProjectContext& project_context,
                           const UserInteractionContext& user_context);
 

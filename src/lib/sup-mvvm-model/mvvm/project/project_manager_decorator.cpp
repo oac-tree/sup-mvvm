@@ -20,8 +20,8 @@
 #include "project_manager_decorator.h"
 
 #include "i_project.h"
-#include "project_manager.h"
 #include "project_context.h"
+#include "project_manager.h"
 #include "project_utils.h"
 
 #include <mvvm/core/exceptions.h>
@@ -39,7 +39,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
 {
   ProjectContext m_project_context;
   UserInteractionContext m_user_context;
-  std::unique_ptr<ProjectManager> project_manager;
+  std::unique_ptr<IProjectManager> m_project_manager;
 
   ProjectManagerImpl(ProjectContext project_context, UserInteractionContext user_context)
       : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
@@ -47,13 +47,19 @@ struct ProjectManagerDecorator::ProjectManagerImpl
     auto project_func = [this]() -> std::unique_ptr<IProject>
     { return mvvm::utils::CreateUntitledFolderBasedProject(m_project_context); };
 
-    project_manager = std::make_unique<ProjectManager>(project_func);
+    m_project_manager = std::make_unique<ProjectManager>(project_func);
+  }
+
+  ProjectManagerImpl(std::unique_ptr<IProjectManager> decoratee,
+                     UserInteractionContext user_context)
+      : m_user_context(std::move(user_context)), m_project_manager(std::move(decoratee))
+  {
   }
 
   /**
    * @brief Returns true if the project has directory already defined.
    */
-  bool ProjectHasPath() const { return !project_manager->CurrentProjectPath().empty(); }
+  bool ProjectHasPath() const { return !m_project_manager->CurrentProjectPath().empty(); }
 
   /**
    * @brief Saves project in project directory. If directory is not defined, will acquire directory
@@ -65,7 +71,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
     // Files will be same, but creation date will be changed.
 
     auto save_dir =
-        ProjectHasPath() ? project_manager->CurrentProjectPath() : AcquireNewProjectPath();
+        ProjectHasPath() ? m_project_manager->CurrentProjectPath() : AcquireNewProjectPath();
     return SaveCurrentProjectAs(save_dir);
   }
 
@@ -75,12 +81,12 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   bool SaveCurrentProjectAs(const std::string& path) const
   {
     // empty dirname varible means 'cancel' during directory selection
-    return path.empty() ? kFailed : project_manager->SaveProjectAs(path);
+    return path.empty() ? kFailed : m_project_manager->SaveProjectAs(path);
   }
 
-  std::string CurrentProjectDir() const { return project_manager->CurrentProjectPath(); }
+  std::string CurrentProjectDir() const { return m_project_manager->CurrentProjectPath(); }
 
-  bool IsModified() const { return project_manager->IsModified(); }
+  bool IsModified() const { return m_project_manager->IsModified(); }
 
   /**
    * @brief Performs saving of previous project before creating a new one.
@@ -96,7 +102,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
       case SaveChangesAnswer::kCancel:
         return kFailed;  // saving was interrupted by the 'cancel' button
       case SaveChangesAnswer::kDiscard:
-        project_manager->CloseCurrentProject();
+        m_project_manager->CloseCurrentProject();
         return kSucceeded;
       default:
         throw RuntimeException("Error in ProjectManager: unexpected answer.");
@@ -142,6 +148,12 @@ struct ProjectManagerDecorator::ProjectManagerImpl
   }
 };
 
+ProjectManagerDecorator::ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
+                                                 const UserInteractionContext& user_context)
+    : p_impl(std::make_unique<ProjectManagerImpl>(std::move(decoratee), user_context))
+{
+}
+
 ProjectManagerDecorator::ProjectManagerDecorator(const ProjectContext& project_context,
                                                  const UserInteractionContext& user_context)
     : p_impl(std::make_unique<ProjectManagerImpl>(project_context, user_context))
@@ -159,7 +171,7 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
 
   auto project_dir = path.empty() ? p_impl->AcquireNewProjectPath() : path;
   // empty project_dir string denotes 'cancel' during directory creation dialog
-  return project_dir.empty() ? kFailed : p_impl->project_manager->CreateNewProject(project_dir);
+  return project_dir.empty() ? kFailed : p_impl->m_project_manager->CreateNewProject(project_dir);
 }
 
 bool ProjectManagerDecorator::SaveCurrentProject()
@@ -182,7 +194,8 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
   }
   auto project_dir = path.empty() ? p_impl->AcquireExistingProjectPath() : path;
   // empty project_dir variable denotes 'cancel' during directory selection dialog
-  return project_dir.empty() ? kFailed : p_impl->project_manager->OpenExistingProject(project_dir);
+  return project_dir.empty() ? kFailed
+                             : p_impl->m_project_manager->OpenExistingProject(project_dir);
 }
 
 std::string ProjectManagerDecorator::CurrentProjectPath() const

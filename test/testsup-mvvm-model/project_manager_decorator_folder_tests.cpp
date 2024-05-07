@@ -21,7 +21,10 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
+#include <mvvm/project/project_manager.h>
+#include <mvvm/project/project_utils.h>
 #include <mvvm/test/folder_based_test.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -48,10 +51,15 @@ public:
 
   std::vector<SessionModelInterface*> GetModels() const { return {sample_model.get()}; };
 
-  ProjectContext CreateProjectContext()
+  std::function<std::unique_ptr<IProject>()> CreateContext()
   {
-    ProjectContext result;
-    result.m_models_callback = [this]() { return GetModels(); };
+    auto result = [this]() -> std::unique_ptr<IProject>
+    {
+      ProjectContext context;
+      context.m_models_callback = [this]() { return GetModels(); };
+      return mvvm::utils::CreateUntitledFolderBasedProject(context);
+    };
+
     return result;
   }
 
@@ -67,7 +75,8 @@ public:
   std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& create_dir = {},
                                                         const std::string& select_dir = {})
   {
-    return std::make_unique<ProjectManagerDecorator>(CreateProjectContext(),
+    auto project_manager = std::make_unique<ProjectManager>(CreateContext());
+    return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),
                                                      CreateUserContext(create_dir, select_dir));
   }
 
@@ -150,7 +159,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
 
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
 {
-  auto manager = CreateProjectManager({}, {}); // imitates dialog canceling
+  auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
@@ -198,7 +207,9 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   user_context.m_create_dir_callback = create_dir;
   user_context.m_select_dir_callback = open_dir;
   user_context.m_answer_callback = ask_create;
-  ProjectManagerDecorator manager(CreateProjectContext(), user_context);
+
+  auto project_manager = std::make_unique<ProjectManager>(CreateContext());
+  ProjectManagerDecorator manager(std::move(project_manager), user_context);
 
   // modifying untitled project
   sample_model->InsertItem<PropertyItem>();

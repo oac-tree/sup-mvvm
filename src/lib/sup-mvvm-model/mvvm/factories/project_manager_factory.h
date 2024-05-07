@@ -22,6 +22,7 @@
 
 #include <mvvm/project/i_project_manager.h>
 
+#include <functional>
 #include <memory>
 
 namespace mvvm
@@ -29,10 +30,24 @@ namespace mvvm
 
 struct ProjectContext;
 struct UserInteractionContext;
+class IProject;
 
-//! Creates default ProjectManager to save and load models.
+/**
+ * @brief Creates default project manager based on project context.
+ */
 MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
     const ProjectContext& project_context, const UserInteractionContext& user_context);
+
+/**
+ * @brief Creates default project manager.
+ *
+ * @param project_factory_func Factory function to create projects.
+ * @param user_context The context to interact with the user.
+ * @return New project manager.
+ */
+MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
+    std::function<std::unique_ptr<IProject>()> project_factory_func,
+    const UserInteractionContext& user_context);
 
 }  // namespace mvvm
 
