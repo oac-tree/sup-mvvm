@@ -26,8 +26,6 @@
 
 #include <gtest/gtest.h>
 
-#include <memory>
-
 using namespace mvvm;
 
 class PathTests : public ::testing::Test

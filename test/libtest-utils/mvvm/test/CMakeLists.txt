@@ -1,5 +1,7 @@
 target_sources(${library_name} PRIVATE
   folder_based_test.h
+  mock_project.cpp
+  mock_project.h
   test_strategies.cpp
   test_strategies.h
   test_utils.cpp

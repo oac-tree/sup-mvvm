@@ -97,9 +97,15 @@ void ProjectManager::CreateUntitledProject()
 {
   if (!m_create_project_callback)
   {
+    throw RuntimeException("Can't create project, no callback specified");
+  }
+
+  m_current_project = m_create_project_callback();
+
+  if (!m_current_project)
+  {
     throw RuntimeException("Can't create project");
   }
-  m_current_project = m_create_project_callback();
 }
 
 bool ProjectManager::ProjectHasPath()
