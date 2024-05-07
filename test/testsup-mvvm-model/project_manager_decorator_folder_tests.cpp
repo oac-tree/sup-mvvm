@@ -26,6 +26,7 @@
 #include <mvvm/project/project_manager.h>
 #include <mvvm/project/project_utils.h>
 #include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/mock_user_interactor.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
@@ -182,9 +183,10 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 //! Untitled, modified document. Attempt to open existing project will lead to
 //! the dialog save/discard/cancel. As a result of whole exersize, existing project
 //! should be opened, previous project saved.
-
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 {
+  test::MockUserInteractor mock_interactor;
+
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
   const auto unsaved_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting2");
 
@@ -194,33 +196,32 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
     manager->SaveProjectAs({});
   }
 
-  // preparing manager with untitled, unmodified project
-  auto open_dir = [existing_project_dir]() -> std::string { return existing_project_dir; };
-  auto create_dir = [unsaved_project_dir]() -> std::string { return unsaved_project_dir; };
-  auto result = SaveChangesAnswer::kDiscard;
-  auto ask_create = [&result]()
-  {
-    result = SaveChangesAnswer::kSave;
-    return SaveChangesAnswer::kSave;
-  };
-  auto user_context = CreateUserContext({}, {});
-  user_context.m_create_dir_callback = create_dir;
-  user_context.m_select_dir_callback = open_dir;
-  user_context.m_answer_callback = ask_create;
+  // instructing mock interactor to return necessary values
+  ON_CALL(mock_interactor, OnSelectDirRequest())
+      .WillByDefault(::testing::Return(existing_project_dir));
+  ON_CALL(mock_interactor, OnCreateDirRequest())
+      .WillByDefault(::testing::Return(unsaved_project_dir));
+  ON_CALL(mock_interactor, OnSaveChangesRequest())
+      .WillByDefault(::testing::Return(SaveChangesAnswer::kSave));
 
   auto project_manager = std::make_unique<ProjectManager>(CreateContext());
-  ProjectManagerDecorator manager(std::move(project_manager), user_context);
+  ProjectManagerDecorator manager(std::move(project_manager), mock_interactor.CreateContext());
 
   // modifying untitled project
   sample_model->InsertItem<PropertyItem>();
   EXPECT_TRUE(manager.IsModified());
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
 
+  // setting up expectations: attempt to open existing project will lead to the following chain
+  // 1) question whether to save currently modified project
+  // 2) request to select directory for changes
+  // 3) request to open new project
+  EXPECT_CALL(mock_interactor, OnSaveChangesRequest()).Times(1);
+  EXPECT_CALL(mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(mock_interactor, OnSelectDirRequest()).Times(1);
+
   // attempt to open existing project
   manager.OpenExistingProject({});
-
-  // check if user was asked and his answer coincide with expectation
-  EXPECT_EQ(result, SaveChangesAnswer::kSave);
 
   // check that previous project was saved
   auto model_filename = utils::Join(unsaved_project_dir, kSampleModelName + ".xml");
