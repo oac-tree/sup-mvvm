@@ -33,18 +33,18 @@ using namespace mvvm;
 
 namespace
 {
-const std::string samplemodel_name = "samplemodel";
+const std::string kSampleModelName = "samplemodel";
 
 }  // namespace
 
-//! Tests for ProjectManager class.
+//! Tests for ProjectManager class for folder-based documents.
 
-class ProjectManagerTests : public mvvm::test::FolderBasedTest
+class ProjectManagerFolderTests : public mvvm::test::FolderBasedTest
 {
 public:
-  ProjectManagerTests()
+  ProjectManagerFolderTests()
       : FolderBasedTest("test_ProjectManager")
-      , sample_model(std::make_unique<ApplicationModel>(samplemodel_name))
+      , sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
 
@@ -57,7 +57,7 @@ public:
       ProjectContext context;
       context.m_models_callback = [this]() { return GetModels(); };
       context.m_modified_callback = [this]() { ++m_project_modified_count; };
-      return mvvm::utils::CreateUntitledProject(context);
+      return mvvm::utils::CreateUntitledFolderBasedProject(context);
     };
 
     return result;
@@ -69,7 +69,7 @@ public:
 
 //! Initial state of ProjectManager. Project created, and not-saved.
 
-TEST_F(ProjectManagerTests, InitialState)
+TEST_F(ProjectManagerFolderTests, InitialState)
 {
   ProjectManager manager(CreateContext());
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
@@ -83,7 +83,7 @@ TEST_F(ProjectManagerTests, InitialState)
 //! Creating new project. Use untitled+empty project as a starting point.
 //! Should succeed, since old empty project doesn't need to be saved.
 
-TEST_F(ProjectManagerTests, UntitledEmptyNew)
+TEST_F(ProjectManagerFolderTests, UntitledEmptyNew)
 {
   ProjectManager manager(CreateContext());
 
@@ -94,14 +94,14 @@ TEST_F(ProjectManagerTests, UntitledEmptyNew)
   EXPECT_FALSE(manager.IsModified());
 
   // project directory should contain a json file with the model
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! Saving of new project. Use untitled+empty project as a starting point.
 //! Should fail since project directory is not defined.
 
-TEST_F(ProjectManagerTests, UntitledEmptySave)
+TEST_F(ProjectManagerFolderTests, UntitledEmptySave)
 {
   ProjectManager manager(CreateContext());
   EXPECT_FALSE(manager.SaveCurrentProject());
@@ -111,7 +111,7 @@ TEST_F(ProjectManagerTests, UntitledEmptySave)
 //! Saving of new project. Use untitled+empty project as a starting point.
 //! Should be saved, file sould appear on disk.
 
-TEST_F(ProjectManagerTests, UntitledEmptySaveAs)
+TEST_F(ProjectManagerFolderTests, UntitledEmptySaveAs)
 {
   ProjectManager manager(CreateContext());
 
@@ -120,7 +120,7 @@ TEST_F(ProjectManagerTests, UntitledEmptySaveAs)
   EXPECT_FALSE(manager.IsModified());
 
   // project directory should contain a json file with the model
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
@@ -131,7 +131,7 @@ TEST_F(ProjectManagerTests, UntitledEmptySaveAs)
 //! Creating new project. Use untitled+modified project as a starting point.
 //! Should fail, since modified old project will prevent creation of the new one.
 
-TEST_F(ProjectManagerTests, UntitledModifiedNew)
+TEST_F(ProjectManagerFolderTests, UntitledModifiedNew)
 {
   ProjectManager manager(CreateContext());
 
@@ -147,14 +147,14 @@ TEST_F(ProjectManagerTests, UntitledModifiedNew)
   EXPECT_TRUE(manager.IsModified());
 
   // project directory should be empty
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_FALSE(utils::IsExists(model_filename));
 }
 
 //! Saving of new project. Use untitled+modified project as a starting point.
 //! Should fail since project directory is not defined.
 
-TEST_F(ProjectManagerTests, UntitledModifiedSave)
+TEST_F(ProjectManagerFolderTests, UntitledModifiedSave)
 {
   ProjectManager manager(CreateContext());
   // modifying the model
@@ -167,7 +167,7 @@ TEST_F(ProjectManagerTests, UntitledModifiedSave)
 //! Saving of new project. Use untitled+empty project as a starting point.
 //! Should be saved, file sould appear on disk.
 
-TEST_F(ProjectManagerTests, UntitledModifiedSaveAs)
+TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
 {
   ProjectManager manager(CreateContext());
   sample_model->InsertItem<PropertyItem>();  // modifying the model
@@ -177,7 +177,7 @@ TEST_F(ProjectManagerTests, UntitledModifiedSaveAs)
   EXPECT_FALSE(manager.IsModified());
 
   // project directory should contain a json file with the model
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
@@ -188,7 +188,7 @@ TEST_F(ProjectManagerTests, UntitledModifiedSaveAs)
 //! Creating new project. Use titled+unmodified project as a starting point.
 //! Should succeed, since old empty project doesn't need to be saved.
 
-TEST_F(ProjectManagerTests, TitledUnmodifiedNew)
+TEST_F(ProjectManagerFolderTests, TitledUnmodifiedNew)
 {
   ProjectManager manager(CreateContext());
 
@@ -203,7 +203,7 @@ TEST_F(ProjectManagerTests, TitledUnmodifiedNew)
   EXPECT_FALSE(manager.IsModified());
 
   // project directory should contain a json file with the model
-  auto model_filename = utils::Join(project_dir2, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir2, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
@@ -214,7 +214,7 @@ TEST_F(ProjectManagerTests, TitledUnmodifiedNew)
 //! Saving of new project. Use titled+modified project as a starting point.
 //! Should succeed.
 
-TEST_F(ProjectManagerTests, TitledModifiedSave)
+TEST_F(ProjectManagerFolderTests, TitledModifiedSave)
 {
   ProjectManager manager(CreateContext());
 
@@ -233,7 +233,7 @@ TEST_F(ProjectManagerTests, TitledModifiedSave)
 // Callbacks
 // ----------------------------------------------------------------------------
 
-TEST_F(ProjectManagerTests, Callback)
+TEST_F(ProjectManagerFolderTests, Callback)
 {
   auto context = CreateContext();
 

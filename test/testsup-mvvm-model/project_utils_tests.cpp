@@ -36,20 +36,20 @@ class ProjectUtilsTests : public mvvm::test::FolderBasedTest
 public:
   ProjectUtilsTests()
       : FolderBasedTest("test_ProjectUtils")
-      , sample_model(std::make_unique<ApplicationModel>("SampleModel"))
+      , m_sample_model(std::make_unique<ApplicationModel>("SampleModel"))
   {
   }
 
-  std::vector<SessionModelInterface*> models() const { return {sample_model.get()}; };
+  std::vector<SessionModelInterface*> GetModels() const { return {m_sample_model.get()}; };
 
   ProjectContext createContext()
   {
     ProjectContext result;
-    result.m_models_callback = [this]() { return models(); };
+    result.m_models_callback = [this]() { return GetModels(); };
     return result;
   }
 
-  std::unique_ptr<ApplicationModel> sample_model;
+  std::unique_ptr<ApplicationModel> m_sample_model;
 };
 
 //! Testing helper structure.
@@ -62,7 +62,7 @@ TEST_F(ProjectUtilsTests, SuggestFileName)
 
 TEST_F(ProjectUtilsTests, CreateUntitledProject)
 {
-  auto project = utils::CreateUntitledProject(createContext());
+  auto project = utils::CreateUntitledFolderBasedProject(createContext());
   EXPECT_TRUE(project->GetProjectPath().empty());
 }
 
@@ -89,12 +89,12 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitle)
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
 {
-  auto project = utils::CreateUntitledProject(createContext());
+  auto project = utils::CreateUntitledFolderBasedProject(createContext());
 
   // unmodified project without projectDir
   EXPECT_EQ(utils::ProjectWindowTitle(*project), "Untitled");
 
-  sample_model->InsertItem<PropertyItem>();
+  m_sample_model->InsertItem<PropertyItem>();
   EXPECT_EQ(utils::ProjectWindowTitle(*project), "*Untitled");
 
   // saving in a project directory
@@ -102,13 +102,13 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
   EXPECT_EQ(utils::ProjectWindowTitle(*project), GetTestHomeDirName());
 
   // modifying
-  sample_model->InsertItem<PropertyItem>();
+  m_sample_model->InsertItem<PropertyItem>();
   EXPECT_EQ(utils::ProjectWindowTitle(*project), "*" + GetTestHomeDirName());
 }
 
 TEST_F(ProjectUtilsTests, IsPossibleProjectDir)
 {
-  auto project = utils::CreateUntitledProject(createContext());
+  auto project = utils::CreateUntitledFolderBasedProject(createContext());
 
   // empty directory can't be a project directory
   auto dirname = CreateEmptyDir("test_IsPossibleProjectDir");

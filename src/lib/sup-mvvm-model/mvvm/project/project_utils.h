@@ -45,9 +45,9 @@ namespace utils
 std::string SuggestFileName(const SessionModelInterface& model);
 
 /**
- * @brief Creates new untitled project.
+ * @brief Creates new untitled folder-based project.
  */
-std::unique_ptr<IProject> CreateUntitledProject(const ProjectContext& context);
+std::unique_ptr<IProject> CreateUntitledFolderBasedProject(const ProjectContext& context);
 
 /**
  * @brief Returns 'true' if given directory might be a project directory.

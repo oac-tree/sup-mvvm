@@ -50,7 +50,7 @@ bool IsPossibleProjectDir(const std::string& project_dir)
   return !utils::FindFiles(project_dir, kXMLExtension).empty();
 }
 
-std::unique_ptr<IProject> CreateUntitledProject(const ProjectContext& context)
+std::unique_ptr<IProject> CreateUntitledFolderBasedProject(const ProjectContext& context)
 {
   return std::make_unique<FolderBasedProject>(context);
 }

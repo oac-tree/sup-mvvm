@@ -45,7 +45,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl
       : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
   {
     auto project_func = [this]() -> std::unique_ptr<IProject>
-    { return mvvm::utils::CreateUntitledProject(m_project_context); };
+    { return mvvm::utils::CreateUntitledFolderBasedProject(m_project_context); };
 
     project_manager = std::make_unique<ProjectManager>(project_func);
   }
