@@ -19,10 +19,7 @@
 
 #include "project_manager_decorator.h"
 
-#include "i_project.h"
 #include "project_context.h"
-#include "project_manager.h"
-#include "project_utils.h"
 
 #include <mvvm/core/exceptions.h>
 
@@ -37,18 +34,8 @@ namespace mvvm
 
 struct ProjectManagerDecorator::ProjectManagerImpl
 {
-  ProjectContext m_project_context;
   UserInteractionContext m_user_context;
   std::unique_ptr<IProjectManager> m_project_manager;
-
-  ProjectManagerImpl(ProjectContext project_context, UserInteractionContext user_context)
-      : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
-  {
-    auto project_func = [this]() -> std::unique_ptr<IProject>
-    { return mvvm::utils::CreateUntitledFolderBasedProject(m_project_context); };
-
-    m_project_manager = std::make_unique<ProjectManager>(project_func);
-  }
 
   ProjectManagerImpl(std::unique_ptr<IProjectManager> decoratee,
                      UserInteractionContext user_context)
@@ -151,12 +138,6 @@ struct ProjectManagerDecorator::ProjectManagerImpl
 ProjectManagerDecorator::ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
                                                  const UserInteractionContext& user_context)
     : p_impl(std::make_unique<ProjectManagerImpl>(std::move(decoratee), user_context))
-{
-}
-
-ProjectManagerDecorator::ProjectManagerDecorator(const ProjectContext& project_context,
-                                                 const UserInteractionContext& user_context)
-    : p_impl(std::make_unique<ProjectManagerImpl>(project_context, user_context))
 {
 }
 

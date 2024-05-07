@@ -28,15 +28,8 @@
 namespace mvvm
 {
 
-struct ProjectContext;
 struct UserInteractionContext;
 class IProject;
-
-/**
- * @brief Creates default project manager based on project context.
- */
-MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
-    const ProjectContext& project_context, const UserInteractionContext& user_context);
 
 /**
  * @brief Creates default project manager.
