@@ -31,18 +31,18 @@ using namespace mvvm;
 
 namespace
 {
-const std::string samplemodel_name = "samplemodel";
+const std::string kSampleModelName = "samplemodel";
 
 }  // namespace
 
-//! Tests for ProjectManager class.
+//! Tests for ProjectManagerDecorator class for folder-based documents.
 
-class ProjectManagerDecoratorTests : public mvvm::test::FolderBasedTest
+class ProjectManagerDecoratorFolderTest : public mvvm::test::FolderBasedTest
 {
 public:
-  ProjectManagerDecoratorTests()
+  ProjectManagerDecoratorFolderTest()
       : FolderBasedTest("test_ProjectManagerDecorator")
-      , sample_model(std::make_unique<ApplicationModel>(samplemodel_name))
+      , sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
 
@@ -64,120 +64,125 @@ public:
     return result;
   }
 
+  std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& create_dir = {},
+                                                        const std::string& select_dir = {})
+  {
+    return std::make_unique<ProjectManagerDecorator>(CreateProjectContext(),
+                                                     CreateUserContext(create_dir, select_dir));
+  }
+
   std::unique_ptr<ApplicationModel> sample_model;
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
 
-TEST_F(ProjectManagerDecoratorTests, InitialState)
+TEST_F(ProjectManagerDecoratorFolderTest, InitialState)
 {
-  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext());
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  auto manager = CreateProjectManager();
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 }
 
 //! Starting from new document (without project dir defined).
 //! Create new project in given directory.
 
-TEST_F(ProjectManagerDecoratorTests, UntitledEmptyCreateNew)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
-  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  auto manager = CreateProjectManager(project_dir);
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   // saving new project to 'project_dir' directory.
-  EXPECT_TRUE(manager.CreateNewProject({}));
+  EXPECT_TRUE(manager->CreateNewProject({}));
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir);
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! Starting from new document (without project dir defined).
 //! Saving project. Same behavior as SaveAs.
 
-TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveCurrentProject)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveCurrentProject)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
-  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  auto manager = CreateProjectManager(project_dir);
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   // saving new project to 'project_dir' directory.
-  EXPECT_TRUE(manager.SaveCurrentProject());
+  EXPECT_TRUE(manager->SaveCurrentProject());
 
   // checking thaxt current projectDir has pointing to the right place
-  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir);
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! Starting from new document (without project dir defined).
 //! Save under given name.
 
-TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAs)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
-  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext(project_dir, {}));
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  auto manager = CreateProjectManager(project_dir);
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
-  EXPECT_TRUE(manager.SaveProjectAs({}));
+  EXPECT_TRUE(manager->SaveProjectAs({}));
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir);
 
   // project directory should contain a file with the model
-  auto model_filename = utils::Join(project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! Starting from new document (without project dir defined).
 //! Attempt to save under empty name, immitating the user canceled directory selection dialog.
 
-TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsCancel)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
 {
-  ProjectManagerDecorator manager(CreateProjectContext(),
-                                  CreateUserContext({}, {}));  // immitates canceling
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  auto manager = CreateProjectManager({}, {}); // imitates dialog canceling
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   // saving new project to "project_dir" directory.
-  EXPECT_FALSE(manager.SaveProjectAs({}));
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  EXPECT_FALSE(manager->SaveProjectAs({}));
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 }
 
 //! Starting from new document (without project dir defined).
 //! Attempt to save in the non-existing directory.
 
-TEST_F(ProjectManagerDecoratorTests, UntitledEmptySaveAsWrongDir)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 {
-  ProjectManagerDecorator manager(CreateProjectContext(), CreateUserContext("non-existing", {}));
+  auto manager = CreateProjectManager("non-existing", {});
 
   // saving new project to "project_dir" directory.
-  EXPECT_FALSE(manager.SaveProjectAs({}));
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  EXPECT_FALSE(manager->SaveProjectAs({}));
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 }
 
 //! Untitled, modified document. Attempt to open existing project will lead to
 //! the dialog save/discard/cancel. As a result of whole exersize, existing project
 //! should be opened, previous project saved.
 
-TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 {
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
   const auto unsaved_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting2");
 
   // create "existing project"
   {
-    ProjectManagerDecorator manager(CreateProjectContext(),
-                                    CreateUserContext(existing_project_dir, {}));
-    manager.SaveProjectAs({});
+    auto manager = CreateProjectManager(existing_project_dir, {});
+    manager->SaveProjectAs({});
   }
 
   // preparing manager with untitled, unmodified project
@@ -207,7 +212,7 @@ TEST_F(ProjectManagerDecoratorTests, UntitledModifiedOpenExisting)
   EXPECT_EQ(result, SaveChangesAnswer::kSave);
 
   // check that previous project was saved
-  auto model_filename = utils::Join(unsaved_project_dir, samplemodel_name + ".xml");
+  auto model_filename = utils::Join(unsaved_project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 
   // currently manager is pointing to existing project
