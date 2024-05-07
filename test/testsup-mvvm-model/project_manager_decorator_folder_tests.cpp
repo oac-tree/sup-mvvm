@@ -46,13 +46,16 @@ class ProjectManagerDecoratorFolderTest : public mvvm::test::FolderBasedTest
 public:
   ProjectManagerDecoratorFolderTest()
       : FolderBasedTest("test_ProjectManagerDecorator")
-      , sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
+      , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
 
-  std::vector<SessionModelInterface*> GetModels() const { return {sample_model.get()}; };
+  std::vector<SessionModelInterface*> GetModels() const { return {m_sample_model.get()}; };
 
-  std::function<std::unique_ptr<IProject>()> CreateContext()
+  /**
+   * @brief Returns factory function to create projects.
+   */
+  std::function<std::unique_ptr<IProject>()> ProjectFactoryFunc()
   {
     auto result = [this]() -> std::unique_ptr<IProject>
     {
@@ -64,24 +67,30 @@ public:
     return result;
   }
 
-  static UserInteractionContext CreateUserContext(const std::string& create_dir = {},
-                                                  const std::string& select_dir = {})
+  /**
+   * @brief Creates user context with callbacks mimicking user responce.
+   */
+  UserInteractionContext CreateUserContext(const std::string& create_dir = {},
+                                           const std::string& select_dir = {})
   {
-    UserInteractionContext result;
-    result.m_create_dir_callback = [create_dir]() -> std::string { return create_dir; };
-    result.m_select_dir_callback = [select_dir]() -> std::string { return select_dir; };
-    return result;
+    ON_CALL(m_mock_interactor, OnSelectDirRequest()).WillByDefault(::testing::Return(select_dir));
+    ON_CALL(m_mock_interactor, OnCreateDirRequest()).WillByDefault(::testing::Return(create_dir));
+    return m_mock_interactor.CreateContext();
   }
 
+  /**
+   * @brief Creates project manager decorator.
+   */
   std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& create_dir = {},
                                                         const std::string& select_dir = {})
   {
-    auto project_manager = std::make_unique<ProjectManager>(CreateContext());
+    auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc());
     return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),
                                                      CreateUserContext(create_dir, select_dir));
   }
 
-  std::unique_ptr<ApplicationModel> sample_model;
+  std::unique_ptr<ApplicationModel> m_sample_model;
+  test::MockUserInteractor m_mock_interactor;
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
@@ -101,6 +110,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
 
   auto manager = CreateProjectManager(project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
+
+  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->CreateNewProject({}));
@@ -123,6 +134,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveCurrentProject)
   auto manager = CreateProjectManager(project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
+  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->SaveCurrentProject());
 
@@ -144,6 +157,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
   auto manager = CreateProjectManager(project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
+  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+
   // saving new project to "project_dir" directory.
   EXPECT_TRUE(manager->SaveProjectAs({}));
 
@@ -163,6 +178,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
+  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
@@ -175,6 +192,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 {
   auto manager = CreateProjectManager("non-existing", {});
 
+  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
@@ -185,49 +204,44 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 //! should be opened, previous project saved.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 {
-  test::MockUserInteractor mock_interactor;
-
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
   const auto unsaved_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting2");
 
   // create "existing project"
   {
+    EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
     auto manager = CreateProjectManager(existing_project_dir, {});
     manager->SaveProjectAs({});
   }
 
   // instructing mock interactor to return necessary values
-  ON_CALL(mock_interactor, OnSelectDirRequest())
-      .WillByDefault(::testing::Return(existing_project_dir));
-  ON_CALL(mock_interactor, OnCreateDirRequest())
-      .WillByDefault(::testing::Return(unsaved_project_dir));
-  ON_CALL(mock_interactor, OnSaveChangesRequest())
+  ON_CALL(m_mock_interactor, OnSaveChangesRequest())
       .WillByDefault(::testing::Return(SaveChangesAnswer::kSave));
 
-  auto project_manager = std::make_unique<ProjectManager>(CreateContext());
-  ProjectManagerDecorator manager(std::move(project_manager), mock_interactor.CreateContext());
+  auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc());
+  auto manager = CreateProjectManager(unsaved_project_dir, existing_project_dir);
 
   // modifying untitled project
-  sample_model->InsertItem<PropertyItem>();
-  EXPECT_TRUE(manager.IsModified());
-  EXPECT_TRUE(manager.CurrentProjectPath().empty());
+  m_sample_model->InsertItem<PropertyItem>();
+  EXPECT_TRUE(manager->IsModified());
+  EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   // setting up expectations: attempt to open existing project will lead to the following chain
   // 1) question whether to save currently modified project
   // 2) request to select directory for changes
   // 3) request to open new project
-  EXPECT_CALL(mock_interactor, OnSaveChangesRequest()).Times(1);
-  EXPECT_CALL(mock_interactor, OnCreateDirRequest()).Times(1);
-  EXPECT_CALL(mock_interactor, OnSelectDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnSelectDirRequest()).Times(1);
 
   // attempt to open existing project
-  manager.OpenExistingProject({});
+  manager->OpenExistingProject({});
 
   // check that previous project was saved
   auto model_filename = utils::Join(unsaved_project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 
   // currently manager is pointing to existing project
-  EXPECT_FALSE(manager.IsModified());
-  EXPECT_EQ(manager.CurrentProjectPath(), existing_project_dir);
+  EXPECT_FALSE(manager->IsModified());
+  EXPECT_EQ(manager->CurrentProjectPath(), existing_project_dir);
 }
