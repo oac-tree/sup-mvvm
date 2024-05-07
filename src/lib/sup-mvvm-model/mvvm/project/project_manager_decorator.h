@@ -21,6 +21,7 @@
 #define MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
 
 #include <mvvm/project/i_project_manager.h>
+#include <mvvm/project/project_context.h>
 
 #include <memory>
 
@@ -41,7 +42,7 @@ class MVVM_MODEL_EXPORT ProjectManagerDecorator : public IProjectManager
 {
 public:
   ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
-                          const UserInteractionContext& user_context);
+                          UserInteractionContext user_context);
 
   ~ProjectManagerDecorator() override;
   ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
@@ -84,8 +85,33 @@ public:
   bool CloseCurrentProject() override;
 
 private:
-  struct ProjectManagerImpl;
-  std::unique_ptr<ProjectManagerImpl> p_impl;
+  /**
+   * @brief Returns true if the project has directory already defined.
+   */
+  bool ProjectHasPath() const;
+
+  /**
+   * @brief Performs saving of previous project before creating a new one.
+   */
+  bool SaveBeforeClosing();
+
+  /**
+   * @brief Asks the user whether to save/cancel/discard the project using callback provided.
+   */
+  SaveChangesAnswer AcquireSaveChangesAnswer() const;
+
+  /**
+   * @brief Acquire the name of the new project directory using callback provided.
+   */
+  std::string AcquireNewProjectPath() const;
+
+  /**
+   * @brief Acquire the name of the existing project directory using callback provided.
+   */
+  std::string AcquireExistingProjectPath() const;
+
+  std::unique_ptr<IProjectManager> m_project_manager;
+  UserInteractionContext m_user_context;
 };
 
 }  // namespace mvvm
