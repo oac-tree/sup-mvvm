@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include <future>
+#include <algorithm>
 
 using namespace mvvm;
 

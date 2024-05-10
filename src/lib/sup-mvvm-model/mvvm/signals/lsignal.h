@@ -30,7 +30,7 @@ SOFTWARE.
 #include <functional>
 #include <list>
 #include <memory>
-#include <mutex>
+#include <algorithm>
 #include <vector>
 
 namespace lsignal
