@@ -1,0 +1,147 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2024 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mvvm/project/abstract_project.h"
+
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/property_item.h>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+using namespace mvvm;
+
+//! Tests for AbstractProject class.
+
+class AbstractProjectTest : public ::testing::Test
+{
+public:
+  class MockAbstractProject : public mvvm::AbstractProject
+  {
+  public:
+    MockAbstractProject(ProjectType project_type, const std::vector<SessionModelInterface*>& models,
+                        modified_callback_t callback)
+        : mvvm::AbstractProject(project_type, models, std::move(callback))
+    {
+    }
+
+    MOCK_METHOD(bool, SaveImpl, (const std::string&), (override));
+    MOCK_METHOD(bool, LoadImpl, (const std::string&), (override));
+  };
+
+  ApplicationModel m_model;
+  ::testing::MockFunction<void(void)> m_callback;
+};
+
+TEST_F(AbstractProjectTest, InitialState)
+{
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+  EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
+  EXPECT_FALSE(project.IsModified());
+  EXPECT_TRUE(project.GetProjectPath().empty());
+}
+
+//! Testing successfull save. Correct methods should be called, the project should get correct path.
+TEST_F(AbstractProjectTest, SuccessfullSave)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+
+  EXPECT_TRUE(project.GetProjectPath().empty());
+
+  // mimicking successfull save
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+
+  // setting expectations
+  EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+
+  // performing save and triggering expectations
+  EXPECT_TRUE(project.Save(expected_path));
+
+  EXPECT_FALSE(project.IsModified());
+  EXPECT_EQ(project.GetProjectPath(), expected_path);
+}
+
+//! Testing failed save. Correct methods should be called, the project should stay without path.
+TEST_F(AbstractProjectTest, FailedSave)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+
+  EXPECT_TRUE(project.GetProjectPath().empty());
+
+  // mimicking failed save
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(false));
+
+  // setting expectations
+  EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+
+  // performing save and triggering expectations
+  EXPECT_FALSE(project.Save(expected_path));
+
+  EXPECT_FALSE(project.IsModified());
+
+  // path remained empty
+  EXPECT_TRUE(project.GetProjectPath().empty());
+}
+
+//! Testing successfull load. Correct methods should be called, the project should get correct path.
+TEST_F(AbstractProjectTest, SuccessfullLoad)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+
+  EXPECT_TRUE(project.GetProjectPath().empty());
+
+  // mimicking successfull load
+  ON_CALL(project, LoadImpl(expected_path)).WillByDefault(::testing::Return(true));
+
+  // setting expectations
+  EXPECT_CALL(project, LoadImpl(expected_path)).Times(1);
+
+  // performing save and triggering expectations
+  EXPECT_TRUE(project.Load(expected_path));
+
+  EXPECT_FALSE(project.IsModified());
+  EXPECT_EQ(project.GetProjectPath(), expected_path);
+}
+
+//! Testing successfull load. Correct methods should be called, the project should stay without
+//! path.
+TEST_F(AbstractProjectTest, FailedLoad)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+
+  EXPECT_TRUE(project.GetProjectPath().empty());
+
+  // mimicking failed load
+  ON_CALL(project, LoadImpl(expected_path)).WillByDefault(::testing::Return(false));
+
+  // setting expectations
+  EXPECT_CALL(project, LoadImpl(expected_path)).Times(1);
+
+  // performing save and triggering expectations
+  EXPECT_FALSE(project.Load(expected_path));
+
+  EXPECT_FALSE(project.IsModified());
+
+  // path remained empty
+  EXPECT_TRUE(project.GetProjectPath().empty());
+}

@@ -1,4 +1,6 @@
 target_sources(${library_name} PRIVATE
+  abstract_project.cpp
+  abstract_project.h
   file_based_project.cpp
   file_based_project.h
   folder_based_project.cpp
