@@ -68,7 +68,7 @@ public:
    * @param path The full path where to save.
    * @return True in the case of success.
    */
-  virtual bool Save(const std::string& path) const = 0;
+  virtual bool Save(const std::string& path) = 0;
 
   /**
    * @brief Loads project content from the given path.

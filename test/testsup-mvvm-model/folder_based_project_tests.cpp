@@ -76,7 +76,7 @@ public:
 
 TEST_F(FolderBasedProjectTest, InitialState)
 {
-  const FolderBasedProject project(CreateContext());
+  FolderBasedProject project(CreateContext());
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
@@ -85,7 +85,7 @@ TEST_F(FolderBasedProjectTest, InitialState)
 //! Testing model saving.
 TEST_F(FolderBasedProjectTest, SaveModel)
 {
-  const FolderBasedProject project(CreateContext());
+  FolderBasedProject project(CreateContext());
 
   // create project directory and save file
   auto project_dir = CreateEmptyDir("Untitled1");

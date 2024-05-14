@@ -42,7 +42,7 @@ std::string ProjectDecorator::GetProjectPath() const
   return m_project->GetProjectPath();
 }
 
-bool ProjectDecorator::Save(const std::string &path) const
+bool ProjectDecorator::Save(const std::string &path)
 {
   return m_project->Save(path);
 }

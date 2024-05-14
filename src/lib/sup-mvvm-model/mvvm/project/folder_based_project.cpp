@@ -85,7 +85,7 @@ std::string FolderBasedProject::GetProjectPath() const
   return p_impl->m_project_dir;
 }
 
-bool FolderBasedProject::Save(const std::string& path) const
+bool FolderBasedProject::Save(const std::string& path)
 {
   return p_impl->Process(path, &IModelDocument::Save);
 }

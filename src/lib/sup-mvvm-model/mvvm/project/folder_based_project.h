@@ -46,7 +46,7 @@ public:
   /**
    * @details The directory should exist to succeed.
    */
-  bool Save(const std::string& path) const override;
+  bool Save(const std::string& path) override;
 
   bool Load(const std::string& path) override;
 

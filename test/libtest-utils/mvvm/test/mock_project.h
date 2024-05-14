@@ -35,7 +35,7 @@ class MockProject : public mvvm::IProject
 public:
   MOCK_METHOD(mvvm::ProjectType, GetProjectType, (), (const, override));
   MOCK_METHOD(std::string, GetProjectPath, (), (const, override));
-  MOCK_METHOD(bool, Save, (const std::string&), (const, override));
+  MOCK_METHOD(bool, Save, (const std::string&), (override));
   MOCK_METHOD(bool, Load, (const std::string&), (override));
   MOCK_METHOD(bool, IsModified, (), (const, override));
 };
@@ -54,7 +54,7 @@ public:
 
   ProjectType GetProjectType() const override;
   std::string GetProjectPath() const override;
-  bool Save(const std::string& path) const override;
+  bool Save(const std::string& path) override;
   bool Load(const std::string& path) override;
   bool IsModified() const override;
 

@@ -77,7 +77,7 @@ std::string FileBasedProject::GetProjectPath() const
   return p_impl->m_project_path;
 }
 
-bool FileBasedProject::Save(const std::string& path) const
+bool FileBasedProject::Save(const std::string& path)
 {
   return p_impl->Process(path, &IModelDocument::Save);
 }

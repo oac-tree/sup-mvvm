@@ -30,8 +30,8 @@ namespace mvvm
 struct ProjectContext;
 
 /**
- * @brief The FileBasedProject class represents content of all application models in a folder on
- * disk.
+ * @brief The FileBasedProject class represents content of several application models in a single
+ * XML file on disk.
  */
 class MVVM_MODEL_EXPORT FileBasedProject : public IProject
 {
@@ -43,10 +43,7 @@ public:
 
   std::string GetProjectPath() const override;
 
-  /**
-   * @details The directory should exist to succeed.
-   */
-  bool Save(const std::string& path) const override;
+  bool Save(const std::string& path) override;
 
   bool Load(const std::string& path) override;
 

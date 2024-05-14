@@ -74,7 +74,7 @@ TEST_F(FileBasedProjectTest, InitialState)
 //! Testing model saving. It should be a single file for all models.
 TEST_F(FileBasedProjectTest, SaveModel)
 {
-  const FileBasedProject project(CreateContext());
+  FileBasedProject project(CreateContext());
 
   const std::string file_name("untitled.xml");
   const std::string expected_path = mvvm::utils::Join(GetTestHomeDir(), file_name);
