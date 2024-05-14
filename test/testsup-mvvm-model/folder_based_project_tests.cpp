@@ -52,11 +52,10 @@ class FolderBasedProjectTest : public mvvm::test::FolderBasedTest
 {
 public:
   FolderBasedProjectTest()
-      : FolderBasedTest("test_ProjectTests")
+      : FolderBasedTest("test_FolderBasedProject")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
       , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
   {
-#include <mvvm/project/project_types.h>
   }
 
   std::vector<SessionModelInterface*> GetModels() const

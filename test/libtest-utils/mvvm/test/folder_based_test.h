@@ -30,7 +30,6 @@ namespace mvvm::test
  * @brief The FolderBasedTest class is intended for unit tests that producing some output on
  * disk.
  */
-
 class FolderBasedTest : public FolderOutputBasedTest
 {
 public:
