@@ -38,7 +38,7 @@ TEST_F(ThreadSafeQueueTests, InitialState)
 {
   threadsafe_queue<int> queue;
   EXPECT_TRUE(queue.empty());
-  int value;
+  int value{0};
   EXPECT_FALSE(queue.try_pop(value));
   EXPECT_EQ(queue.size(), 0);
 
@@ -168,7 +168,7 @@ TEST_F(ThreadSafeQueueTests, ConcurentPushAndPop)
     EXPECT_EQ(*std::max_element(result.begin(), result.end()), 19);
 
     // checking there is no duplication
-    std::set<int> filtered_result(result.begin(), result.end());
+    const std::set<int> filtered_result(result.begin(), result.end());
     EXPECT_EQ(filtered_result.size(), 20);
   }
   catch (...)

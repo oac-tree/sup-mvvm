@@ -34,36 +34,23 @@ const std::string kDocumentElementType = "Document";
 
 namespace mvvm
 {
-struct XmlDocument::XmlDocumentImpl
-{
-  std::vector<SessionModelInterface*> models;
-  explicit XmlDocumentImpl(std::vector<SessionModelInterface*> models) : models(std::move(models))
-  {
-  }
-};
 
-//! Models will be writen/restored to and from XML according to the order given in `models` vector.
+XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models) : m_models(models) {}
 
-XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models)
-    : p_impl(std::make_unique<XmlDocumentImpl>(models))
-{
-}
+XmlDocument::~XmlDocument() = default;
 
-//! Saves models on disk.
 void XmlDocument::Save(const std::string& file_name) const
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter(ConverterMode::kClone);
 
   TreeData document_tree(kDocumentElementType);
-  for (auto model : p_impl->models)
+  for (auto model : m_models)
   {
     document_tree.AddChild(*converter.ToTreeData(*model));
   }
 
   ::mvvm::WriteToXMLFile(file_name, document_tree);
 }
-
-//! Loads models from disk. If models have some data already, it will be rewritten.
 
 void XmlDocument::Load(const std::string& file_name)
 {
@@ -74,14 +61,12 @@ void XmlDocument::Load(const std::string& file_name)
         "Error in XmlDocument: given XML doesn't containt correct entry element");
   }
 
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter(ConverterMode::kClone);
   int index{0};
   for (const auto& child : document_tree->Children())
   {
-    converter.PopulateSessionModel(child, *p_impl->models.at(index++));
+    converter.PopulateSessionModel(child, *m_models.at(index++));
   }
 }
-
-XmlDocument::~XmlDocument() = default;
 
 }  // namespace mvvm

@@ -39,7 +39,7 @@ TEST_F(ThreadSafeStackTests, InitialState)
 {
   threadsafe_stack<int> stack;
   EXPECT_TRUE(stack.empty());
-  int value;
+  int value{0};
   EXPECT_FALSE(stack.try_pop(value));
   EXPECT_EQ(stack.size(), 0);
 

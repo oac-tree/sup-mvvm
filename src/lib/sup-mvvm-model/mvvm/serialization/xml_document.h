@@ -22,28 +22,41 @@
 
 #include <mvvm/serialization/i_model_document.h>
 
-#include <memory>
 #include <vector>
 
 namespace mvvm
 {
+
 class SessionModelInterface;
 
-//! Saves and restores list of SessionModel's to/from disk using XML format.
-//! Single XMLDocument corresponds to a single file on disk.
-
+/**
+ * @brief The XmlDocument class saves and restores list of SessionModel's to/from disk using XML
+ * format.
+ *
+ * Single XmlDocument corresponds to a single file on disk but can store multiple models.
+ */
 class MVVM_MODEL_EXPORT XmlDocument : public IModelDocument
 {
 public:
+  /**
+   * @brief Main c-tor.
+   *
+   * Models will be saved/restored according to the model list given at construction.
+   *
+   * @param models List of models to process.
+   */
   explicit XmlDocument(const std::vector<SessionModelInterface*>& models);
   ~XmlDocument() override;
 
   void Save(const std::string& file_name) const override;
+
+  /**
+   * @details If model contains the data already, it will be reset.
+   */
   void Load(const std::string& file_name) override;
 
 private:
-  struct XmlDocumentImpl;
-  std::unique_ptr<XmlDocumentImpl> p_impl;
+  std::vector<SessionModelInterface*> m_models;
 };
 }  // namespace mvvm
 
