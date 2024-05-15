@@ -32,8 +32,8 @@ struct ProjectChangedController::ProjectChangedControllerImpl
   bool m_project_has_changed{false};
 
   ProjectChangedControllerImpl(const std::vector<SessionModelInterface*>& models,
-                               const callback_t& callback)
-      : m_models(models), m_project_changed_callback(callback)
+                               callback_t callback)
+      : m_models(models), m_project_changed_callback(std::move(callback))
   {
     CreateControllers();
   }
@@ -74,22 +74,18 @@ struct ProjectChangedController::ProjectChangedControllerImpl
 };
 
 ProjectChangedController::ProjectChangedController(
-    const std::vector<SessionModelInterface*>& models, const callback_t& project_changed_callback)
-    : p_impl(std::make_unique<ProjectChangedControllerImpl>(models, project_changed_callback))
+    const std::vector<SessionModelInterface*>& models, callback_t project_changed_callback)
+    : p_impl(
+        std::make_unique<ProjectChangedControllerImpl>(models, std::move(project_changed_callback)))
 {
 }
 
 ProjectChangedController::~ProjectChangedController() = default;
 
-//! Returns true if the change in the models has been registered since the last call of
-//! resetChanged.
-
 bool ProjectChangedController::IsChanged() const
 {
   return p_impl->IsChanged();
 }
-
-//! Reset controller to initial state, pretending that no changes has been registered.
 
 void ProjectChangedController::ResetIsChanged()
 {
