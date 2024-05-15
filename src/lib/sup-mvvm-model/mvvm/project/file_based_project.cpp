@@ -20,7 +20,6 @@
 #include "file_based_project.h"
 
 #include "project_context.h"
-#include "project_utils.h"
 
 #include <mvvm/factories/model_document_factory.h>
 

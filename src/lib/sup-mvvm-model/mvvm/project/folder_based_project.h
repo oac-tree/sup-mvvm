@@ -20,9 +20,7 @@
 #ifndef MVVM_PROJECT_FOLDER_BASED_PROJECT_H_
 #define MVVM_PROJECT_FOLDER_BASED_PROJECT_H_
 
-#include <mvvm/project/i_project.h>
-
-#include <memory>
+#include <mvvm/project/abstract_project.h>
 
 namespace mvvm
 {
@@ -32,29 +30,17 @@ struct ProjectContext;
 /**
  * @brief The FolderBasedProject class represents content of all application models in a folder on
  * disk.
+ *
+ * The folder contains xml files, one file per model.
  */
-class MVVM_MODEL_EXPORT FolderBasedProject : public IProject
+class MVVM_MODEL_EXPORT FolderBasedProject : public AbstractProject
 {
 public:
   explicit FolderBasedProject(const ProjectContext& context);
-  ~FolderBasedProject() override;
-
-  ProjectType GetProjectType() const override;
-
-  std::string GetProjectPath() const override;
-
-  /**
-   * @details The directory should exist to succeed.
-   */
-  bool Save(const std::string& path) override;
-
-  bool Load(const std::string& path) override;
-
-  bool IsModified() const override;
 
 private:
-  struct FolderBasedProjectImpl;
-  std::unique_ptr<FolderBasedProjectImpl> p_impl;
+  bool SaveImpl(const std::string& path) override;
+  bool LoadImpl(const std::string& path) override;
 };
 
 }  // namespace mvvm
