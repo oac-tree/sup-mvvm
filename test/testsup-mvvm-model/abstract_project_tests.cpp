@@ -64,6 +64,13 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_FALSE(project.IsModified());
+
+  // modifying model
+  EXPECT_CALL(m_callback, Call()).Times(1);
+
+  m_model.InsertItem<PropertyItem>();
+  EXPECT_TRUE(project.IsModified());
 
   // mimicking successfull save
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
