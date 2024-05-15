@@ -29,6 +29,7 @@ AbstractProject::AbstractProject(ProjectType project_type,
                                  modified_callback_t callback)
     : m_project_type(project_type)
     , m_change_controller(std::make_unique<ProjectChangedController>(models, std::move(callback)))
+    , m_models(models)
 {
 }
 
@@ -69,6 +70,11 @@ bool AbstractProject::Load(const std::string &path)
 bool AbstractProject::IsModified() const
 {
   return m_change_controller->IsChanged();
+}
+
+std::vector<SessionModelInterface *> AbstractProject::GetModels() const
+{
+  return m_models;
 }
 
 }  // namespace mvvm

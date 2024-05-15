@@ -63,12 +63,16 @@ public:
 
   bool IsModified() const override;
 
+protected:
+  std::vector<SessionModelInterface*> GetModels() const;
+
 private:
   virtual bool SaveImpl(const std::string&) = 0;
   virtual bool LoadImpl(const std::string&) = 0;
 
   std::string m_project_path;
   ProjectType m_project_type;
+  std::vector<SessionModelInterface*> m_models;
   std::unique_ptr<ProjectChangedController> m_change_controller;
 };
 
