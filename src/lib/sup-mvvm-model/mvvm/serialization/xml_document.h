@@ -38,6 +38,8 @@ class SessionModelInterface;
 class MVVM_MODEL_EXPORT XmlDocument : public IModelDocument
 {
 public:
+  static inline const std::string kRootElementType = "MvvmDocument";
+
   /**
    * @brief Main c-tor.
    *

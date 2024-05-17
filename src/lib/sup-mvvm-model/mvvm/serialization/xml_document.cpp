@@ -27,11 +27,6 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
-namespace
-{
-const std::string kDocumentElementType = "Document";
-}  // namespace
-
 namespace mvvm
 {
 
@@ -43,7 +38,7 @@ void XmlDocument::Save(const std::string& file_name) const
 {
   const TreeDataModelConverter converter(ConverterMode::kClone);
 
-  TreeData document_tree(kDocumentElementType);
+  TreeData document_tree(kRootElementType);
   for (auto model : m_models)
   {
     document_tree.AddChild(*converter.ToTreeData(*model));
@@ -55,7 +50,7 @@ void XmlDocument::Save(const std::string& file_name) const
 void XmlDocument::Load(const std::string& file_name)
 {
   auto document_tree = ParseXMLDataFile(file_name);
-  if (document_tree->GetType() != kDocumentElementType)
+  if (document_tree->GetType() != kRootElementType)
   {
     throw RuntimeException(
         "Error in XmlDocument: given XML doesn't containt correct entry element");
