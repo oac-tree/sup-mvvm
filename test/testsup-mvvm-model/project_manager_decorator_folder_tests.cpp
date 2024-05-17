@@ -61,7 +61,7 @@ public:
     {
       ProjectContext context;
       context.m_models_callback = [this]() { return GetModels(); };
-      return mvvm::utils::CreateUntitledFolderBasedProject(context);
+      return mvvm::utils::CreateUntitledProject(ProjectType::kFolderBased, context);
     };
 
     return result;

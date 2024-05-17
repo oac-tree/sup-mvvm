@@ -19,6 +19,7 @@
 
 #include "project_utils.h"
 
+#include "file_based_project.h"
 #include "folder_based_project.h"
 
 #include <mvvm/interfaces/sessionmodel_interface.h>
@@ -50,8 +51,14 @@ bool IsPossibleProjectDir(const std::string& project_dir)
   return !utils::FindFiles(project_dir, kXMLExtension).empty();
 }
 
-std::unique_ptr<IProject> CreateUntitledFolderBasedProject(const ProjectContext& context)
+std::unique_ptr<IProject> CreateUntitledProject(ProjectType project_type,
+                                                           const ProjectContext& context)
 {
+  if (project_type == ProjectType::kFileBased)
+  {
+    return std::make_unique<FileBasedProject>(context);
+  }
+
   return std::make_unique<FolderBasedProject>(context);
 }
 

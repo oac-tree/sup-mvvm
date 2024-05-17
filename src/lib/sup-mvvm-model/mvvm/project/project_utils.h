@@ -24,6 +24,7 @@
 //! Collection of utility functions to handle project saving and loading.
 
 #include <mvvm/model_export.h>
+#include <mvvm/project/project_types.h>
 
 #include <memory>
 #include <string>
@@ -45,9 +46,10 @@ namespace utils
 std::string SuggestFileName(const SessionModelInterface& model);
 
 /**
- * @brief Creates new untitled folder-based project.
+ * @brief Creates new untitled project.
  */
-std::unique_ptr<IProject> CreateUntitledFolderBasedProject(const ProjectContext& context);
+std::unique_ptr<IProject> CreateUntitledProject(ProjectType project_type,
+                                                const ProjectContext& context);
 
 /**
  * @brief Returns 'true' if given directory might be a project directory.

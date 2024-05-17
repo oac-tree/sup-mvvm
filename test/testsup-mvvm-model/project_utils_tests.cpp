@@ -62,7 +62,7 @@ TEST_F(ProjectUtilsTests, SuggestFileName)
 
 TEST_F(ProjectUtilsTests, CreateUntitledProject)
 {
-  auto project = utils::CreateUntitledFolderBasedProject(createContext());
+  auto project = utils::CreateUntitledProject(ProjectType::kFileBased, createContext());
   EXPECT_TRUE(project->GetProjectPath().empty());
 }
 
@@ -89,7 +89,7 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitle)
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
 {
-  auto project = utils::CreateUntitledFolderBasedProject(createContext());
+  auto project = utils::CreateUntitledProject(ProjectType::kFolderBased, createContext());
 
   // unmodified project without projectDir
   EXPECT_EQ(utils::ProjectWindowTitle(*project), "Untitled");
@@ -108,7 +108,7 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
 
 TEST_F(ProjectUtilsTests, IsPossibleProjectDir)
 {
-  auto project = utils::CreateUntitledFolderBasedProject(createContext());
+  auto project = utils::CreateUntitledProject(ProjectType::kFolderBased, createContext());
 
   // empty directory can't be a project directory
   auto dirname = CreateEmptyDir("test_IsPossibleProjectDir");
