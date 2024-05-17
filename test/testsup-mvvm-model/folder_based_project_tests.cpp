@@ -22,7 +22,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/project_context.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
@@ -48,11 +48,11 @@ std::string GetXmlFilename(const std::string& model_name)
 
 //! Tests for FolderBasedProject class.
 
-class FolderBasedProjectTest : public mvvm::test::FolderBasedTest
+class FolderBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
   FolderBasedProjectTest()
-      : FolderBasedTest("test_FolderBasedProject")
+      : FolderTest("test_FolderBasedProject")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
       , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
   {

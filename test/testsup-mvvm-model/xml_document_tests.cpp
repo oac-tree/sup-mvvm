@@ -24,7 +24,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
 
@@ -32,10 +32,10 @@ using namespace mvvm;
 
 //! Testing XmlDocument.
 
-class XmlDocumentTests : public mvvm::test::FolderBasedTest
+class XmlDocumentTests : public mvvm::test::FolderTest
 {
 public:
-  XmlDocumentTests() : FolderBasedTest("test_XmlDocument") {}
+  XmlDocumentTests() : FolderTest("test_XmlDocument") {}
 
   class TestModel1 : public ApplicationModel
   {

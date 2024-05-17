@@ -22,7 +22,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/project_context.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
@@ -37,11 +37,11 @@ const std::string kMaterialModelName = "MaterialModel";
 
 //! Tests for FileBasedProject class.
 
-class FileBasedProjectTest : public mvvm::test::FolderBasedTest
+class FileBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
   FileBasedProjectTest()
-      : FolderBasedTest("test_FileBasedProject")
+      : FolderTest("test_FileBasedProject")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
       , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
   {

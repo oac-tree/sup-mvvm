@@ -30,7 +30,7 @@
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 #include <mvvm/test/toy_items.h>
 
 #include <gtest/gtest.h>
@@ -39,10 +39,10 @@
 
 using namespace mvvm;
 
-class AllItemsViewModelTest : public mvvm::test::FolderBasedTest
+class AllItemsViewModelTest : public mvvm::test::FolderTest
 {
 public:
-  AllItemsViewModelTest() : FolderBasedTest("test_AllItemsViewModel"), m_viewmodel(&m_model) {}
+  AllItemsViewModelTest() : FolderTest("test_AllItemsViewModel"), m_viewmodel(&m_model) {}
 
   ApplicationModel m_model;
   AllItemsViewModel m_viewmodel;

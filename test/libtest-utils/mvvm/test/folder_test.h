@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_FOLDER_BASED_TEST_H_
-#define LIBTEST_UTILS_TESTUTILS_FOLDER_BASED_TEST_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_FOLDER_TEST_H_
+#define LIBTEST_UTILS_TESTUTILS_FOLDER_TEST_H_
 
 #include <mvvm/test/folder_output_based_test.h>
 #include <mvvm/test/test_utils.h>
@@ -27,13 +27,13 @@ namespace mvvm::test
 {
 
 /**
- * @brief The FolderBasedTest class is intended for unit tests that producing some output on
+ * @brief The FolderTest class is intended for unit tests that producing some output on
  * disk.
  */
-class FolderBasedTest : public FolderOutputBasedTest
+class FolderTest : public FolderOutputBasedTest
 {
 public:
-  explicit FolderBasedTest(std::string test_home_dirname)
+  explicit FolderTest(std::string test_home_dirname)
       : FolderOutputBasedTest(GetTestSuiteOutputDir(), std::move(test_home_dirname))
   {
   }
@@ -41,4 +41,4 @@ public:
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_FOLDER_BASED_TEST_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_FOLDER_TEST_H_

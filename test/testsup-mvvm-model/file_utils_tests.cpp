@@ -19,21 +19,20 @@
 
 #include "mvvm/utils/file_utils.h"
 
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 #include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
 
 #include <QDir>
-#include <stdexcept>
 #include <string>
 
 using namespace mvvm;
 
-class FileUtilsTests : public mvvm::test::FolderBasedTest
+class FileUtilsTests : public mvvm::test::FolderTest
 {
 public:
-  FileUtilsTests() : FolderBasedTest("test_FileUtils") {}
+  FileUtilsTests() : FolderTest("test_FileUtils") {}
 };
 
 TEST_F(FileUtilsTests, IsExists)

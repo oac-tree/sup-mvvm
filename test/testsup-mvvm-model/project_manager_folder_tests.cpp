@@ -24,7 +24,7 @@
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_utils.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
@@ -39,11 +39,11 @@ const std::string kSampleModelName = "samplemodel";
 
 //! Tests for ProjectManager class for folder-based documents.
 
-class ProjectManagerFolderTests : public mvvm::test::FolderBasedTest
+class ProjectManagerFolderTests : public mvvm::test::FolderTest
 {
 public:
   ProjectManagerFolderTests()
-      : FolderBasedTest("test_ProjectManager")
+      : FolderTest("test_ProjectManager")
       , sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }

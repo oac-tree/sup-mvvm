@@ -20,7 +20,7 @@
 #include "mvvm/serialization/xml_write_utils.h"
 
 #include <mvvm/serialization/treedata.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 #include <mvvm/test/test_utils.h>
 
 #include <gmock/gmock.h>
@@ -30,10 +30,10 @@ using namespace mvvm;
 
 //! Testing utilities to ite XML files
 
-class XMLWriteUtilsTests : public mvvm::test::FolderBasedTest
+class XMLWriteUtilsTests : public mvvm::test::FolderTest
 {
 public:
-  XMLWriteUtilsTests() : FolderBasedTest("test_XMLWriteUtils") {}
+  XMLWriteUtilsTests() : FolderTest("test_XMLWriteUtils") {}
 };
 
 //! Write a single element.

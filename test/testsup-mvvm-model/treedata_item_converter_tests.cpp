@@ -30,7 +30,7 @@
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
 
@@ -38,10 +38,10 @@ using namespace mvvm;
 
 //! Testing TreeDataItemConverter.
 
-class TreeDataItemConverterTests : public mvvm::test::FolderBasedTest
+class TreeDataItemConverterTests : public mvvm::test::FolderTest
 {
 public:
-  TreeDataItemConverterTests() : FolderBasedTest("test_TreeDataItemConverter") {}
+  TreeDataItemConverterTests() : FolderTest("test_TreeDataItemConverter") {}
 
   static std::unique_ptr<TreeDataItemConverter> CreateCloneConverter()
   {

@@ -24,7 +24,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
 
@@ -32,7 +32,7 @@
 
 using namespace mvvm;
 
-class TopItemsViewModelTest : public mvvm::test::FolderBasedTest
+class TopItemsViewModelTest : public mvvm::test::FolderTest
 {
 public:
   class LayerItem : public mvvm::CompoundItem
@@ -66,7 +66,7 @@ public:
 
   //! Represents a layer, with thickness and color, and possibly populated with particles.
 
-  TopItemsViewModelTest() : FolderBasedTest("test_TopItemsViewModel"), m_viewmodel(&m_model) {}
+  TopItemsViewModelTest() : FolderTest("test_TopItemsViewModel"), m_viewmodel(&m_model) {}
 
   TestModel m_model;
   TopItemsViewModel m_viewmodel;

@@ -23,7 +23,7 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
-#include <mvvm/test/folder_based_test.h>
+#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
 
@@ -31,11 +31,11 @@ using namespace mvvm;
 
 //! Tests of ProjectUtils namespace functions.
 
-class ProjectUtilsTests : public mvvm::test::FolderBasedTest
+class ProjectUtilsTests : public mvvm::test::FolderTest
 {
 public:
   ProjectUtilsTests()
-      : FolderBasedTest("test_ProjectUtils")
+      : FolderTest("test_ProjectUtils")
       , m_sample_model(std::make_unique<ApplicationModel>("SampleModel"))
   {
   }
