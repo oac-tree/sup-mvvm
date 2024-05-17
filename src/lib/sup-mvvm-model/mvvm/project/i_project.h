@@ -50,9 +50,11 @@ public:
   virtual ProjectType GetProjectType() const = 0;
 
   /**
-   * @brief Returns the name of the project.
+   * @brief Returns the type of the application.
+   *
+   * The value is used to determine if the document can be opened by the application.
    */
-  virtual std::string GetProjectName() const = 0;
+  virtual std::string GetApplicationType() const = 0;
 
   /**
    * @brief Returns the full path to a project.

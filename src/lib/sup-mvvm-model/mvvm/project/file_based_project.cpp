@@ -34,14 +34,14 @@ FileBasedProject::FileBasedProject(const ProjectContext &context)
 
 bool FileBasedProject::SaveImpl(const std::string &path)
 {
-  auto document = CreateXmlDocument(GetModels(), GetProjectName());
+  auto document = CreateXmlDocument(GetModels(), GetApplicationType());
   document->Save(path);
   return true;
 }
 
 bool FileBasedProject::LoadImpl(const std::string &path)
 {
-  auto document = CreateXmlDocument(GetModels(), GetProjectName());
+  auto document = CreateXmlDocument(GetModels(), GetApplicationType());
   document->Load(path);
   return true;
 }

@@ -50,32 +50,29 @@ public:
   };
 };
 
-//! Saving empty document with project name.
-
+//! Saving empty document, application type is provided.
 TEST_F(XmlDocumentTests, SaveLoadEmptyDocument)
 {
   const auto file_path = GetFilePath("SaveLoadEmptyDocument.xml");
 
-  const std::string project_name("MyProject");
-  XmlDocument document({}, project_name);
+  const std::string application_type("my-gui");
+  XmlDocument document({}, application_type);
 
-  EXPECT_EQ(document.GetProjectName(), project_name);
+  EXPECT_EQ(document.GetApplicationType(), application_type);
 
   // saving and loading
   document.Save(file_path);
   document.Load(file_path);
-  EXPECT_EQ(document.GetProjectName(), project_name);
+  EXPECT_EQ(document.GetApplicationType(), application_type);
 
-  // attempt to load document from another project
-  XmlDocument document2({}, "AnotherProject");
+  // attempt to load document saved in different gui
+  XmlDocument document2({}, "another-gui");
   EXPECT_THROW(document2.Load(file_path), RuntimeException);
-
-  // another attempt to load document from another project without name
   XmlDocument document3({});
   EXPECT_THROW(document3.Load(file_path), RuntimeException);
 }
 
-//! Saving empty document without project name.
+//! Saving empty document, application name is not provided.
 
 TEST_F(XmlDocumentTests, SaveLoadEmptyDocumentWithoutProjectName)
 {
@@ -83,15 +80,15 @@ TEST_F(XmlDocumentTests, SaveLoadEmptyDocumentWithoutProjectName)
 
   XmlDocument document({});
 
-  EXPECT_TRUE(document.GetProjectName().empty());
+  EXPECT_TRUE(document.GetApplicationType().empty());
 
   // saving and loading
   document.Save(file_path);
   document.Load(file_path);
-  EXPECT_TRUE(document.GetProjectName().empty());
+  EXPECT_TRUE(document.GetApplicationType().empty());
 
-  // attempt to load document from another project
-  XmlDocument document2({}, "AnotherProject");
+  // attempt to load document saved in different gui
+  XmlDocument document2({}, "another-gui");
   EXPECT_THROW(document2.Load(file_path), RuntimeException);
 }
 

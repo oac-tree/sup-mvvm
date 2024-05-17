@@ -43,20 +43,20 @@ public:
   /**
    * @brief Main c-tor.
    *
-   * Models will be saved/restored according to the model list given at construction. When project
-   * name is provided, it will be added as attribute to root element.
+   * Models will be saved/restored according to the model list given at construction. When
+   * application type name is provided, it will be added as an attribute to the root element.
    *
    * @param models List of models to process.
-   * @param project_name Project name.
+   * @param application_type The type name of the application that can open this document.
    */
   explicit XmlDocument(const std::vector<SessionModelInterface*>& models,
-                       const std::string& project_name = {});
+                       const std::string& application_type = {});
   ~XmlDocument() override;
 
   /**
-   * @brief Returns the name of the project.
+   * @brief Returns the type name of the application.
    */
-  std::string GetProjectName() const override;
+  std::string GetApplicationType() const override;
 
   void Save(const std::string& file_name) const override;
 
@@ -64,9 +64,10 @@ public:
    * @details If model contains the data already, it will be reset.
    */
   void Load(const std::string& file_name) override;
+
 private:
   std::vector<SessionModelInterface*> m_models;
-  std::string m_project_name;
+  std::string m_application_type;
 };
 }  // namespace mvvm
 

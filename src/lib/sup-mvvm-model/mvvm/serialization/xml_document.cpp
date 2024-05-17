@@ -29,21 +29,21 @@
 
 namespace
 {
-const std::string kProjectNameAttribute = "project";
+const std::string kApplicationTypeAttribute = "application";
 }
 
 namespace mvvm
 {
 
 XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models,
-                         const std::string& project_name)
-    : m_models(models), m_project_name(project_name)
+                         const std::string& application_type)
+    : m_models(models), m_application_type(application_type)
 {
 }
 
-std::string XmlDocument::GetProjectName() const
+std::string XmlDocument::GetApplicationType() const
 {
-  return m_project_name;
+  return m_application_type;
 }
 
 XmlDocument::~XmlDocument() = default;
@@ -53,9 +53,9 @@ void XmlDocument::Save(const std::string& file_name) const
   const TreeDataModelConverter converter(ConverterMode::kClone);
 
   TreeData document_tree(kRootElementType);
-  if (!GetProjectName().empty())
+  if (!GetApplicationType().empty())
   {
-    document_tree.AddAttribute(kProjectNameAttribute, GetProjectName());
+    document_tree.AddAttribute(kApplicationTypeAttribute, GetApplicationType());
   }
 
   for (auto model : m_models)
@@ -75,13 +75,13 @@ void XmlDocument::Load(const std::string& file_name)
         "Error in XML document: given XML doesn't containt correct entry element");
   }
 
-  if (document_tree->HasAttribute(kProjectNameAttribute) || !GetProjectName().empty())
+  if (document_tree->HasAttribute(kApplicationTypeAttribute) || !GetApplicationType().empty())
   {
-    if (document_tree->GetAttribute(kProjectNameAttribute) != GetProjectName())
+    if (document_tree->GetAttribute(kApplicationTypeAttribute) != GetApplicationType())
     {
-      throw RuntimeException("Error in XML document: expected project name [" + GetProjectName()
-                             + "] doesn't coincide with XML project attribute ["
-                             + document_tree->GetAttribute(kProjectNameAttribute) + "]");
+      throw RuntimeException("Error in XML document: expected application name ["
+                             + GetApplicationType() + "] doesn't coincide with XML attribute ["
+                             + document_tree->GetAttribute(kApplicationTypeAttribute) + "]");
     }
   }
 

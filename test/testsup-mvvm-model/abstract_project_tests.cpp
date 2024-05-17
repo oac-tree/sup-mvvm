@@ -51,11 +51,11 @@ public:
 
 TEST_F(AbstractProjectTest, InitialState)
 {
-  const std::string expected_name("ProjectName");
+  const std::string expected_name("MyApp");
   MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction(),
                               expected_name);
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
-  EXPECT_EQ(project.GetProjectName(), expected_name);
+  EXPECT_EQ(project.GetApplicationType(), expected_name);
   EXPECT_FALSE(project.IsModified());
   EXPECT_TRUE(project.GetProjectPath().empty());
 }

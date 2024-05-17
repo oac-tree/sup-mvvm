@@ -39,12 +39,12 @@ public:
   virtual ~IModelDocument() = default;
 
   /**
-   * @brief Returns the name of the project.
+   * @brief Returns the type of the application.
    *
-   * This name normally coincides with the name of IProject and helps to distinguish XML documents
-   * intended for various MVVM projects.
+   * This name comes from IProject and helps to distinguish XML documents intended for various MVVM
+   * projects.
    */
-  virtual std::string GetProjectName() const = 0;
+  virtual std::string GetApplicationType() const = 0;
 
   /**
    * @brief Saves the document to a file.

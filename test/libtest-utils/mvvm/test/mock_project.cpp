@@ -37,9 +37,9 @@ ProjectType ProjectDecorator::GetProjectType() const
   return m_project->GetProjectType();
 }
 
-std::string ProjectDecorator::GetProjectName() const
+std::string ProjectDecorator::GetApplicationType() const
 {
-  return m_project->GetProjectName();
+  return m_project->GetApplicationType();
 }
 
 std::string ProjectDecorator::GetProjectPath() const

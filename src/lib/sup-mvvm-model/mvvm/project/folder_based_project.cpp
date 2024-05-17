@@ -39,7 +39,7 @@ namespace
  */
 template <typename T>
 bool Process(const std::string& dirname, T method, std::vector<mvvm::SessionModelInterface*> models,
-             const std::string& project_name)
+             const std::string& application_type)
 {
   if (!mvvm::utils::IsExists(dirname))
   {
@@ -49,7 +49,7 @@ bool Process(const std::string& dirname, T method, std::vector<mvvm::SessionMode
   for (auto model : models)
   {
     // single xml file per model
-    auto document = mvvm::CreateXmlDocument({model}, project_name);
+    auto document = mvvm::CreateXmlDocument({model}, application_type);
     auto filename = mvvm::utils::Join(dirname, mvvm::utils::SuggestFileName(*model));
     std::invoke(method, document, filename);
   }
@@ -70,12 +70,12 @@ FolderBasedProject::FolderBasedProject(const ProjectContext& context)
 
 bool FolderBasedProject::SaveImpl(const std::string& path)
 {
-  return Process(path, &IModelDocument::Save, GetModels(), GetProjectName());
+  return Process(path, &IModelDocument::Save, GetModels(), GetApplicationType());
 }
 
 bool FolderBasedProject::LoadImpl(const std::string& path)
 {
-  return Process(path, &IModelDocument::Load, GetModels(), GetProjectName());
+  return Process(path, &IModelDocument::Load, GetModels(), GetApplicationType());
 }
 
 }  // namespace mvvm
