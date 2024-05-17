@@ -30,9 +30,14 @@ namespace mvvm
 
 class SessionModelInterface;
 
-//! Creates XmlDocument to save and load models.
+/**
+ * @brief Creates XmlDocument to save and load models.
+ *
+ * @param models Models to save in a single XML file.
+ * @param application_name The name of the aplication which.
+ */
 MVVM_MODEL_EXPORT std::unique_ptr<IModelDocument> CreateXmlDocument(
-    const std::vector<SessionModelInterface*>& models);
+    const std::vector<SessionModelInterface*>& models, const std::string& application_name);
 
 }  // namespace mvvm
 
