@@ -55,8 +55,8 @@ public:
     auto result = [this, project_type]() -> std::unique_ptr<IProject>
     {
       ProjectContext context;
-      context.m_models_callback = [this]() { return GetModels(); };
-      context.m_modified_callback = [this]() { ++m_project_modified_count; };
+      context.models_callback = [this]() { return GetModels(); };
+      context.modified_callback = [this]() { ++m_project_modified_count; };
       return mvvm::utils::CreateUntitledProject(project_type, context);
     };
 

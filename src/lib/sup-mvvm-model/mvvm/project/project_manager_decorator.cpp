@@ -115,29 +115,29 @@ bool ProjectManagerDecorator::SaveBeforeClosing()
 
 SaveChangesAnswer ProjectManagerDecorator::AcquireSaveChangesAnswer() const
 {
-  if (!m_user_context.m_answer_callback)
+  if (!m_user_context.answer_callback)
   {
     throw RuntimeException("Error in ProjectManager: absent save_callback");
   }
-  return m_user_context.m_answer_callback();
+  return m_user_context.answer_callback();
 }
 
 std::string ProjectManagerDecorator::AcquireNewProjectPath() const
 {
-  if (!m_user_context.m_create_dir_callback)
+  if (!m_user_context.new_path_callback)
   {
     throw RuntimeException("Error in ProjectManager: absent creat_dir callback.");
   }
-  return m_user_context.m_create_dir_callback();
+  return m_user_context.new_path_callback();
 }
 
 std::string ProjectManagerDecorator::AcquireExistingProjectPath() const
 {
-  if (!m_user_context.m_select_dir_callback)
+  if (!m_user_context.existing_path_callback)
   {
     throw RuntimeException("Error in ProjectManager: absent open_dir callback.");
   }
-  return m_user_context.m_select_dir_callback();
+  return m_user_context.existing_path_callback();
 }
 
 }  // namespace mvvm

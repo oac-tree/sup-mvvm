@@ -45,28 +45,31 @@ struct MVVM_MODEL_EXPORT ProjectContext
   //! the Project construction.
   using models_callback_t = std::function<std::vector<SessionModelInterface*>()>;
 
-  modified_callback_t m_modified_callback;
-  models_callback_t m_models_callback;
+  modified_callback_t modified_callback;
+  models_callback_t models_callback;
 };
 
 /**
  * @brief The UserInteractionContext class defines the context to interact with the user regarding
  * save/save-as/create-new project scenario.
+ *
+ * Callbacks returning paths should return full path to a project file (for file-based projects),
+ * or project folder (for folder-based projects.
  */
 struct MVVM_MODEL_EXPORT UserInteractionContext
 {
-  //!< To ask the user to select existing directory, returns full path to the directory.
-  using select_dir_callback_t = std::function<std::string()>;
+  //!< to ask the user existing project path
+  using existing_path_callback_t = std::function<std::string()>;
 
-  //!< To ask the user to create a new directory, returns full path to the directory.
-  using create_dir_callback_t = std::function<std::string()>;
+  //!< to ask the user for new path
+  using new_path_callback_t = std::function<std::string()>;
 
-  //!< To ask the user what to do with modified project.
+  //!< to ask the user what to do with modified project
   using answer_callback_t = std::function<SaveChangesAnswer()>;
 
-  select_dir_callback_t m_select_dir_callback;
-  create_dir_callback_t m_create_dir_callback;
-  answer_callback_t m_answer_callback;
+  existing_path_callback_t existing_path_callback;
+  new_path_callback_t new_path_callback;
+  answer_callback_t answer_callback;
 };
 
 }  // namespace mvvm

@@ -55,7 +55,7 @@ public:
   ProjectContext CreateContext()
   {
     ProjectContext result;
-    result.m_models_callback = [this]() { return GetModels(); };
+    result.models_callback = [this]() { return GetModels(); };
     return result;
   }
 

@@ -26,9 +26,9 @@ UserInteractionContext MockUserInteractor::CreateContext()
 {
   UserInteractionContext result;
 
-  result.m_select_dir_callback = [this]() { return OnSelectDirRequest(); };
-  result.m_create_dir_callback = [this]() { return OnCreateDirRequest(); };
-  result.m_answer_callback = [this]() { return OnSaveChangesRequest(); };
+  result.existing_path_callback = [this]() { return GetExistingProjectPath(); };
+  result.new_path_callback = [this]() { return OnGetNewProjectPath(); };
+  result.answer_callback = [this]() { return OnSaveChangesRequest(); };
 
   return result;
 }

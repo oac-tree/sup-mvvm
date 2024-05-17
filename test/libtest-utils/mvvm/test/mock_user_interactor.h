@@ -34,8 +34,8 @@ namespace mvvm::test
 class MockUserInteractor
 {
 public:
-  MOCK_METHOD(std::string, OnSelectDirRequest, (), (const));
-  MOCK_METHOD(std::string, OnCreateDirRequest, (), (const));
+  MOCK_METHOD(std::string, GetExistingProjectPath, (), (const));
+  MOCK_METHOD(std::string, OnGetNewProjectPath, (), (const));
   MOCK_METHOD(mvvm::SaveChangesAnswer, OnSaveChangesRequest, (), (const));
 
   UserInteractionContext CreateContext();

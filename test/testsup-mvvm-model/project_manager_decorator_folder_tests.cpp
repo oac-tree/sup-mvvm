@@ -60,7 +60,7 @@ public:
     auto result = [this]() -> std::unique_ptr<IProject>
     {
       ProjectContext context;
-      context.m_models_callback = [this]() { return GetModels(); };
+      context.models_callback = [this]() { return GetModels(); };
       return mvvm::utils::CreateUntitledProject(ProjectType::kFolderBased, context);
     };
 
@@ -70,23 +70,24 @@ public:
   /**
    * @brief Creates user context with callbacks mimicking user responce.
    */
-  UserInteractionContext CreateUserContext(const std::string& create_dir = {},
-                                           const std::string& select_dir = {})
+  UserInteractionContext CreateUserContext(const std::string& new_path = {},
+                                           const std::string& existing_path = {})
   {
-    ON_CALL(m_mock_interactor, OnSelectDirRequest()).WillByDefault(::testing::Return(select_dir));
-    ON_CALL(m_mock_interactor, OnCreateDirRequest()).WillByDefault(::testing::Return(create_dir));
+    ON_CALL(m_mock_interactor, GetExistingProjectPath())
+        .WillByDefault(::testing::Return(existing_path));
+    ON_CALL(m_mock_interactor, OnGetNewProjectPath()).WillByDefault(::testing::Return(new_path));
     return m_mock_interactor.CreateContext();
   }
 
   /**
    * @brief Creates project manager decorator.
    */
-  std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& create_dir = {},
-                                                        const std::string& select_dir = {})
+  std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& new_path = {},
+                                                        const std::string& existing_path = {})
   {
     auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc());
     return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),
-                                                     CreateUserContext(create_dir, select_dir));
+                                                     CreateUserContext(new_path, existing_path));
   }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
@@ -111,7 +112,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
   auto manager = CreateProjectManager(project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
-  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->CreateNewProject({}));
@@ -134,7 +135,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveCurrentProject)
   auto manager = CreateProjectManager(project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
-  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->SaveCurrentProject());
@@ -157,7 +158,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
   auto manager = CreateProjectManager(project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
-  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
   EXPECT_TRUE(manager->SaveProjectAs({}));
@@ -178,7 +179,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
-  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
@@ -192,7 +193,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 {
   auto manager = CreateProjectManager("non-existing", {});
 
-  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
@@ -209,7 +210,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 
   // create "existing project"
   {
-    EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
+    EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
     auto manager = CreateProjectManager(existing_project_dir, {});
     manager->SaveProjectAs({});
   }
@@ -231,8 +232,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   // 2) request to select directory for changes
   // 3) request to open new project
   EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
-  EXPECT_CALL(m_mock_interactor, OnCreateDirRequest()).Times(1);
-  EXPECT_CALL(m_mock_interactor, OnSelectDirRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(1);
 
   // attempt to open existing project
   manager->OpenExistingProject({});
