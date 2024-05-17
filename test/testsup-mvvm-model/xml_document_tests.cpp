@@ -19,6 +19,7 @@
 
 #include "mvvm/serialization/xml_document.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/tagged_items.h>
@@ -48,6 +49,51 @@ public:
     TestModel2() : ApplicationModel("TestModel2") {}
   };
 };
+
+//! Saving empty document with project name.
+
+TEST_F(XmlDocumentTests, SaveLoadEmptyDocument)
+{
+  const auto file_path = GetFilePath("SaveLoadEmptyDocument.xml");
+
+  const std::string project_name("MyProject");
+  XmlDocument document({}, project_name);
+
+  EXPECT_EQ(document.GetProjectName(), project_name);
+
+  // saving and loading
+  document.Save(file_path);
+  document.Load(file_path);
+  EXPECT_EQ(document.GetProjectName(), project_name);
+
+  // attempt to load document from another project
+  XmlDocument document2({}, "AnotherProject");
+  EXPECT_THROW(document2.Load(file_path), RuntimeException);
+
+  // another attempt to load document from another project without name
+  XmlDocument document3({});
+  EXPECT_THROW(document3.Load(file_path), RuntimeException);
+}
+
+//! Saving empty document without project name.
+
+TEST_F(XmlDocumentTests, SaveLoadEmptyDocumentWithoutProjectName)
+{
+  const auto file_path = GetFilePath("SaveLoadEmptyNoNameDocument.xml");
+
+  XmlDocument document({});
+
+  EXPECT_TRUE(document.GetProjectName().empty());
+
+  // saving and loading
+  document.Save(file_path);
+  document.Load(file_path);
+  EXPECT_TRUE(document.GetProjectName().empty());
+
+  // attempt to load document from another project
+  XmlDocument document2({}, "AnotherProject");
+  EXPECT_THROW(document2.Load(file_path), RuntimeException);
+}
 
 //! Saving the model with content into document and restoring it after.
 

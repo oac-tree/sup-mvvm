@@ -27,10 +27,24 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
+namespace
+{
+const std::string kProjectNameAttribute = "project";
+}
+
 namespace mvvm
 {
 
-XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models) : m_models(models) {}
+XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models,
+                         const std::string& project_name)
+    : m_models(models), m_project_name(project_name)
+{
+}
+
+std::string XmlDocument::GetProjectName() const
+{
+  return m_project_name;
+}
 
 XmlDocument::~XmlDocument() = default;
 
@@ -39,6 +53,11 @@ void XmlDocument::Save(const std::string& file_name) const
   const TreeDataModelConverter converter(ConverterMode::kClone);
 
   TreeData document_tree(kRootElementType);
+  if (!GetProjectName().empty())
+  {
+    document_tree.AddAttribute(kProjectNameAttribute, GetProjectName());
+  }
+
   for (auto model : m_models)
   {
     document_tree.AddChild(*converter.ToTreeData(*model));
@@ -53,7 +72,17 @@ void XmlDocument::Load(const std::string& file_name)
   if (document_tree->GetType() != kRootElementType)
   {
     throw RuntimeException(
-        "Error in XmlDocument: given XML doesn't containt correct entry element");
+        "Error in XML document: given XML doesn't containt correct entry element");
+  }
+
+  if (document_tree->HasAttribute(kProjectNameAttribute) || !GetProjectName().empty())
+  {
+    if (document_tree->GetAttribute(kProjectNameAttribute) != GetProjectName())
+    {
+      throw RuntimeException("Error in XML document: expected project name [" + GetProjectName()
+                             + "] doesn't coincide with XML project attribute ["
+                             + document_tree->GetAttribute(kProjectNameAttribute) + "]");
+    }
   }
 
   const TreeDataModelConverter converter(ConverterMode::kClone);
