@@ -26,10 +26,11 @@ namespace mvvm
 
 AbstractProject::AbstractProject(ProjectType project_type,
                                  const std::vector<SessionModelInterface *> &models,
-                                 modified_callback_t callback)
+                                 modified_callback_t callback, const std::string &project_name)
     : m_project_type(project_type)
     , m_change_controller(std::make_unique<ProjectChangedController>(models, std::move(callback)))
     , m_models(models)
+    , m_project_name(project_name)
 {
 }
 
@@ -38,6 +39,11 @@ AbstractProject::~AbstractProject() = default;
 ProjectType AbstractProject::GetProjectType() const
 {
   return m_project_type;
+}
+
+std::string AbstractProject::GetProjectName() const
+{
+  return m_project_name;
 }
 
 std::string AbstractProject::GetProjectPath() const

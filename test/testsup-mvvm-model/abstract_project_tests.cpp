@@ -36,8 +36,8 @@ public:
   {
   public:
     MockAbstractProject(ProjectType project_type, const std::vector<SessionModelInterface*>& models,
-                        modified_callback_t callback)
-        : mvvm::AbstractProject(project_type, models, std::move(callback))
+                        modified_callback_t callback, const std::string& name = {})
+        : mvvm::AbstractProject(project_type, models, std::move(callback), name)
     {
     }
 
@@ -51,8 +51,11 @@ public:
 
 TEST_F(AbstractProjectTest, InitialState)
 {
-  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+  const std::string expected_name("ProjectName");
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction(),
+                              expected_name);
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
+  EXPECT_EQ(project.GetProjectName(), expected_name);
   EXPECT_FALSE(project.IsModified());
   EXPECT_TRUE(project.GetProjectPath().empty());
 }

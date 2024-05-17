@@ -45,9 +45,14 @@ public:
   virtual ~IProject() = default;
 
   /**
-   * @brief Returns type of the project.
+   * @brief Returns the type of the project.
    */
   virtual ProjectType GetProjectType() const = 0;
+
+  /**
+   * @brief Returns the name of the project.
+   */
+  virtual std::string GetProjectName() const = 0;
 
   /**
    * @brief Returns the full path to a project.

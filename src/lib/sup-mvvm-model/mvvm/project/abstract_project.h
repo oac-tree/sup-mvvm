@@ -48,12 +48,15 @@ public:
    * @param project_type Type of the project.
    * @param models List of models participating in save/load.
    * @param callback A callback to report notifications.
+   * @param project_name The name of the project to form XML document.
    */
   AbstractProject(ProjectType project_type, const std::vector<SessionModelInterface*>& models,
-                  modified_callback_t callback);
+                  modified_callback_t callback, const std::string& project_name = {});
   ~AbstractProject() override;
 
   ProjectType GetProjectType() const override;
+
+  std::string GetProjectName() const override;
 
   std::string GetProjectPath() const override;
 
@@ -74,6 +77,7 @@ private:
   ProjectType m_project_type;
   std::vector<SessionModelInterface*> m_models;
   std::unique_ptr<ProjectChangedController> m_change_controller;
+  std::string m_project_name;
 };
 
 }  // namespace mvvm
