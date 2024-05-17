@@ -61,7 +61,7 @@ TEST_F(ProjectManagerTests, InitialState)
 }
 
 //! Mocking project pretend it has a path defined, and it is in modified state.
-//! Checking behavior om ProjectManager::SaveCurrentProject
+//! Checking behavior on ProjectManager::SaveCurrentProject
 
 TEST_F(ProjectManagerTests, TitledModifiedSave)
 {

@@ -50,14 +50,14 @@ public:
 
   std::vector<SessionModelInterface*> GetModels() const { return {sample_model.get()}; };
 
-  ProjectManager::create_project_t CreateContext()
+  ProjectManager::create_project_t CreateContext(ProjectType project_type)
   {
-    auto result = [this]() -> std::unique_ptr<IProject>
+    auto result = [this, project_type]() -> std::unique_ptr<IProject>
     {
       ProjectContext context;
       context.m_models_callback = [this]() { return GetModels(); };
       context.m_modified_callback = [this]() { ++m_project_modified_count; };
-      return mvvm::utils::CreateUntitledProject(ProjectType::kFolderBased, context);
+      return mvvm::utils::CreateUntitledProject(project_type, context);
     };
 
     return result;
@@ -71,7 +71,7 @@ public:
 
 TEST_F(ProjectManagerFolderTests, InitialState)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
   EXPECT_FALSE(manager.IsModified());
 }
@@ -85,7 +85,7 @@ TEST_F(ProjectManagerFolderTests, InitialState)
 
 TEST_F(ProjectManagerFolderTests, UntitledEmptyNew)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
   EXPECT_TRUE(manager.CreateNewProject(project_dir));
@@ -103,7 +103,7 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptyNew)
 
 TEST_F(ProjectManagerFolderTests, UntitledEmptySave)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
   EXPECT_FALSE(manager.SaveCurrentProject());
   EXPECT_FALSE(manager.IsModified());
 }
@@ -113,7 +113,7 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptySave)
 
 TEST_F(ProjectManagerFolderTests, UntitledEmptySaveAs)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -133,7 +133,7 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptySaveAs)
 
 TEST_F(ProjectManagerFolderTests, UntitledModifiedNew)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
 
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
@@ -156,7 +156,7 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedNew)
 
 TEST_F(ProjectManagerFolderTests, UntitledModifiedSave)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
 
@@ -169,7 +169,7 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedSave)
 
 TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
   sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   const auto project_dir = CreateEmptyDir("Project_untitledModifiedSaveAs");
@@ -181,6 +181,22 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
+//! File based version.
+
+TEST_F(ProjectManagerFolderTests, FileBasedUntitledModifiedSaveAs)
+{
+  ProjectManager manager(CreateContext(ProjectType::kFileBased));
+  sample_model->InsertItem<PropertyItem>();  // modifying the model
+
+  auto path = GetFilePath("FileBasedUntitledModifiedSaveAs.xml");
+
+  EXPECT_TRUE(manager.SaveProjectAs(path));
+  EXPECT_FALSE(manager.IsModified());
+
+  // project directory should contain a json file with the model
+  EXPECT_TRUE(utils::IsExists(path));
+}
+
 // ----------------------------------------------------------------------------
 // Titled, unmodified
 // ----------------------------------------------------------------------------
@@ -190,7 +206,7 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
 
 TEST_F(ProjectManagerFolderTests, TitledUnmodifiedNew)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -216,7 +232,7 @@ TEST_F(ProjectManagerFolderTests, TitledUnmodifiedNew)
 
 TEST_F(ProjectManagerFolderTests, TitledModifiedSave)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -235,7 +251,7 @@ TEST_F(ProjectManagerFolderTests, TitledModifiedSave)
 
 TEST_F(ProjectManagerFolderTests, Callback)
 {
-  auto context = CreateContext();
+  auto context = CreateContext(ProjectType::kFolderBased);
 
   ProjectManager manager(context);
 
