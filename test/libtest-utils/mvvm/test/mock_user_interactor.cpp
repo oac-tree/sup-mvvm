@@ -29,6 +29,7 @@ UserInteractionContext MockUserInteractor::CreateContext()
   result.existing_path_callback = [this]() { return GetExistingProjectPath(); };
   result.new_path_callback = [this]() { return OnGetNewProjectPath(); };
   result.answer_callback = [this]() { return OnSaveChangesRequest(); };
+  result.message_callback = [this](const std::string& message) { return OnMessage(message); };
 
   return result;
 }

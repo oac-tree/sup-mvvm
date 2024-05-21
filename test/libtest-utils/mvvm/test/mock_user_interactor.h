@@ -37,6 +37,7 @@ public:
   MOCK_METHOD(std::string, GetExistingProjectPath, (), (const));
   MOCK_METHOD(std::string, OnGetNewProjectPath, (), (const));
   MOCK_METHOD(mvvm::SaveChangesAnswer, OnSaveChangesRequest, (), (const));
+  MOCK_METHOD(void, OnMessage, (const std::string&), (const));
 
   UserInteractionContext CreateContext();
 };

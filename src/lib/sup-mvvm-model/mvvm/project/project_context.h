@@ -61,7 +61,7 @@ struct MVVM_MODEL_EXPORT UserInteractionContext
   std::function<std::string()> existing_path_callback;  //!< to ask existing project path
   std::function<std::string()> new_path_callback;       //!< to ask for new path
   std::function<SaveChangesAnswer()> answer_callback;   //!< to ask what to do with modified project
-  std::function<void(std::string)> message_callback;    //!< to report the user exception message
+  std::function<void(std::string)> message_callback;    //!< to report exception message to the user
 };
 
 }  // namespace mvvm
