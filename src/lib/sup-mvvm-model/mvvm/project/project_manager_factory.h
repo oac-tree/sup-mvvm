@@ -17,22 +17,31 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "project_manager_factory.h"
+#ifndef MVVM_PROJECT_PROJECT_MANAGER_FACTORY_H_
+#define MVVM_PROJECT_PROJECT_MANAGER_FACTORY_H_
 
-#include <mvvm/project/project_manager.h>
-#include <mvvm/project/project_manager_decorator.h>
+#include <mvvm/project/i_project_manager.h>
+
+#include <functional>
+#include <memory>
 
 namespace mvvm
 {
-std::unique_ptr<IProjectManager> CreateProjectManager(
-    std::function<std::unique_ptr<IProject>()> project_factory_func,
-    const UserInteractionContext& user_context)
-{
-  // creating ProjectManager with basic save/save-as/open functionality
-  auto project_manager = std::make_unique<ProjectManager>(project_factory_func);
 
-  // creating decoration for user interaction
-  return std::make_unique<ProjectManagerDecorator>(std::move(project_manager), user_context);
-}
+struct UserInteractionContext;
+class IProject;
+
+/**
+ * @brief Creates default project manager.
+ *
+ * @param project_factory_func Factory function to create projects.
+ * @param user_context The context to interact with the user.
+ * @return New project manager.
+ */
+MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
+    std::function<std::unique_ptr<IProject>()> project_factory_func,
+    const UserInteractionContext& user_context);
 
 }  // namespace mvvm
+
+#endif  // MVVM_PROJECT_PROJECT_MANAGER_FACTORY_H_

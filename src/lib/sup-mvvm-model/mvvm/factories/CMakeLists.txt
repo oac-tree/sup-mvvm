@@ -3,6 +3,4 @@ target_sources(${library_name} PRIVATE
     item_backup_strategy_factory.h
     model_document_factory.cpp
     model_document_factory.h
-    project_manager_factory.cpp
-    project_manager_factory.h
 )
