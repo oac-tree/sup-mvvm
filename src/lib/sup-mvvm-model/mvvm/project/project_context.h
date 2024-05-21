@@ -54,22 +54,14 @@ struct MVVM_MODEL_EXPORT ProjectContext
  * save/save-as/create-new project scenario.
  *
  * Callbacks returning paths should return full path to a project file (for file-based projects),
- * or project folder (for folder-based projects.
+ * or full path to a project folder (for folder-based projects).
  */
 struct MVVM_MODEL_EXPORT UserInteractionContext
 {
-  //!< to ask the user existing project path
-  using existing_path_callback_t = std::function<std::string()>;
-
-  //!< to ask the user for new path
-  using new_path_callback_t = std::function<std::string()>;
-
-  //!< to ask the user what to do with modified project
-  using answer_callback_t = std::function<SaveChangesAnswer()>;
-
-  existing_path_callback_t existing_path_callback;
-  new_path_callback_t new_path_callback;
-  answer_callback_t answer_callback;
+  std::function<std::string()> existing_path_callback;  //!< to ask existing project path
+  std::function<std::string()> new_path_callback;       //!< to ask for new path
+  std::function<SaveChangesAnswer()> answer_callback;   //!< to ask what to do with modified project
+  std::function<void(std::string)> message_callback;    //!< to report the user exception message
 };
 
 }  // namespace mvvm
