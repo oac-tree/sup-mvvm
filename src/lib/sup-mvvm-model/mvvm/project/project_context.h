@@ -37,16 +37,14 @@ class SessionModelInterface;
  */
 struct MVVM_MODEL_EXPORT ProjectContext
 {
-  //!< To notify about the change of the project with respect to what was written on disk.
-  using modified_callback_t = std::function<void()>;
+  //!< notifies about the change of the project with respect to what was written on disk
+  std::function<void()> modified_callback;
 
-  //! To ask for a vector of models to save/load to/from disk.
-  //! This is intentionally obtained via callback since save request might come after
-  //! the Project construction.
-  using models_callback_t = std::function<std::vector<SessionModelInterface*>()>;
+  //!< to ask for a vector of models to save/load to/from disk
+  std::function<std::vector<SessionModelInterface*>()> models_callback;
 
-  modified_callback_t modified_callback;
-  models_callback_t models_callback;
+  //!< application type allows to distinguish models documents created by various MVVM applications
+  std::string application_type;
 };
 
 /**

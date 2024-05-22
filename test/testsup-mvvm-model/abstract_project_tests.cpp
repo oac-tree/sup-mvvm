@@ -35,9 +35,8 @@ public:
   class MockAbstractProject : public mvvm::AbstractProject
   {
   public:
-    MockAbstractProject(ProjectType project_type, ProjectContext context,
-                        const std::string& name = {})
-        : mvvm::AbstractProject(project_type, context, name)
+    MockAbstractProject(ProjectType project_type, ProjectContext context)
+        : mvvm::AbstractProject(project_type, context)
     {
     }
 
@@ -45,11 +44,12 @@ public:
     MOCK_METHOD(bool, LoadImpl, (const std::string&), (override));
   };
 
-  ProjectContext CreateContext()
+  ProjectContext CreateContext(const std::string& application_type = {})
   {
     ProjectContext result;
     result.modified_callback = m_callback.AsStdFunction();
     result.models_callback = [this]() { return std::vector<SessionModelInterface*>({&m_model}); };
+    result.application_type = application_type;
     return result;
   }
 
@@ -59,10 +59,10 @@ public:
 
 TEST_F(AbstractProjectTest, InitialState)
 {
-  const std::string expected_name("MyApp");
-  MockAbstractProject project(ProjectType::kFolderBased, CreateContext(), expected_name);
+  const std::string expected_app_type("MyApp");
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext(expected_app_type));
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
-  EXPECT_EQ(project.GetApplicationType(), expected_name);
+  EXPECT_EQ(project.GetApplicationType(), expected_app_type);
   EXPECT_FALSE(project.IsModified());
   EXPECT_TRUE(project.GetProjectPath().empty());
 }

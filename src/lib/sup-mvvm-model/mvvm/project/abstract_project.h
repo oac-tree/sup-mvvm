@@ -48,10 +48,8 @@ public:
    *
    * @param project_type Type of the project.
    * @param context Data necessary for project creation.
-   * @param application_type The name of the application that has generated this project.
    */
-  AbstractProject(ProjectType project_type, const ProjectContext& context,
-                  const std::string& application_type = {});
+  AbstractProject(ProjectType project_type, const ProjectContext& context);
   ~AbstractProject() override;
 
   ProjectType GetProjectType() const override;
@@ -77,7 +75,6 @@ private:
   ProjectType m_project_type;
   ProjectContext m_project_context;
   std::unique_ptr<ProjectChangedController> m_change_controller;
-  std::string m_application_type;
 };
 
 }  // namespace mvvm

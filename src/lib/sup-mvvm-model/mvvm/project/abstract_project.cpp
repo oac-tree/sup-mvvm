@@ -24,9 +24,8 @@
 namespace mvvm
 {
 
-AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context,
-                                 const std::string &application_type)
-    : m_project_type(project_type), m_project_context(context), m_application_type(application_type)
+AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context)
+    : m_project_type(project_type), m_project_context(context)
 {
   m_change_controller = std::make_unique<ProjectChangedController>(
       GetModels(), std::move(m_project_context.modified_callback));
@@ -41,7 +40,7 @@ ProjectType AbstractProject::GetProjectType() const
 
 std::string AbstractProject::GetApplicationType() const
 {
-  return m_application_type;
+  return m_project_context.application_type;
 }
 
 std::string AbstractProject::GetProjectPath() const
