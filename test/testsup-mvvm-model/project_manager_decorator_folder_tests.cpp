@@ -241,9 +241,9 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 }
 
-//! Untitled, modified document. Attempt to open existing project will lead to
-//! the dialog save/discard/cancel. As a result of whole exercize, existing project
-//! should be opened, previous project saved.
+//! Untitled, modified document. Attempt to open an existing project will lead to
+//! the dialog save/discard/cancel. As a result of the whole exercise, the existing project
+//! should be opened, and the previous project saved.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 {
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
