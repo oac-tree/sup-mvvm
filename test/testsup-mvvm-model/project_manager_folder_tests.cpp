@@ -37,7 +37,7 @@ const std::string kSampleModelName = "samplemodel";
 
 }  // namespace
 
-//! Tests for ProjectManager class for folder-based documents.
+//! Tests for ProjectManager class for folder-based and file-based documents.
 
 class ProjectManagerFolderTests : public mvvm::test::FolderTest
 {

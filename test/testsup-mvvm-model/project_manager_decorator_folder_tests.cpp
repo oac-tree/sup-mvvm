@@ -55,13 +55,13 @@ public:
   /**
    * @brief Returns factory function to create projects.
    */
-  std::function<std::unique_ptr<IProject>()> ProjectFactoryFunc()
+  std::function<std::unique_ptr<IProject>()> ProjectFactoryFunc(ProjectType project_type)
   {
-    auto result = [this]() -> std::unique_ptr<IProject>
+    auto result = [this, project_type]() -> std::unique_ptr<IProject>
     {
       ProjectContext context;
       context.models_callback = [this]() { return GetModels(); };
-      return mvvm::utils::CreateUntitledProject(ProjectType::kFolderBased, context);
+      return mvvm::utils::CreateUntitledProject(project_type, context);
     };
 
     return result;
@@ -82,10 +82,11 @@ public:
   /**
    * @brief Creates project manager decorator.
    */
-  std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& new_path = {},
+  std::unique_ptr<IProjectManager> CreateProjectManager(ProjectType project_type,
+                                                        const std::string& new_path = {},
                                                         const std::string& existing_path = {})
   {
-    auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc());
+    auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc(project_type));
     return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),
                                                      CreateUserContext(new_path, existing_path));
   }
@@ -98,7 +99,7 @@ public:
 
 TEST_F(ProjectManagerDecoratorFolderTest, InitialState)
 {
-  auto manager = CreateProjectManager();
+  auto manager = CreateProjectManager(ProjectType::kFolderBased);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 }
 
@@ -109,7 +110,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
-  auto manager = CreateProjectManager(project_dir);
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
@@ -132,7 +133,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveCurrentProject)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
-  auto manager = CreateProjectManager(project_dir);
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
@@ -155,7 +156,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
-  auto manager = CreateProjectManager(project_dir);
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, project_dir);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
@@ -191,7 +192,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
 
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 {
-  auto manager = CreateProjectManager("non-existing", {});
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, "non-existing", {});
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
@@ -211,7 +212,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   // create "existing project"
   {
     EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
-    auto manager = CreateProjectManager(existing_project_dir, {});
+    auto manager = CreateProjectManager(ProjectType::kFolderBased, existing_project_dir, {});
     manager->SaveProjectAs({});
   }
 
@@ -219,8 +220,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   ON_CALL(m_mock_interactor, OnSaveChangesRequest())
       .WillByDefault(::testing::Return(SaveChangesAnswer::kSave));
 
-  auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc());
-  auto manager = CreateProjectManager(unsaved_project_dir, existing_project_dir);
+  auto manager =
+      CreateProjectManager(ProjectType::kFolderBased, unsaved_project_dir, existing_project_dir);
 
   // modifying untitled project
   m_sample_model->InsertItem<PropertyItem>();
