@@ -45,8 +45,7 @@ class ProjectManagerDecoratorFolderTest : public mvvm::test::FolderTest
 {
 public:
   ProjectManagerDecoratorFolderTest()
-      : FolderTest("test_ProjectManagerDecorator")
-      , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
+      : FolderTest(""), m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
 
@@ -101,6 +100,47 @@ TEST_F(ProjectManagerDecoratorFolderTest, InitialState)
 {
   auto manager = CreateProjectManager(ProjectType::kFolderBased);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
+}
+
+//! File based project. Saving untitled modified project under given name.
+
+TEST_F(ProjectManagerDecoratorFolderTest, FileBasedUntitledModifiedSaveAs)
+{
+  auto manager = CreateProjectManager(ProjectType::kFileBased, {}, {});
+
+  m_sample_model->InsertItem<PropertyItem>();  // modifying the model
+
+  auto path = GetFilePath("FileBasedUntitledModifiedSaveAs.xml");
+
+  EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(0);
+  EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(0);
+  EXPECT_CALL(m_mock_interactor, OnMessage(testing::_)).Times(0);
+
+  EXPECT_TRUE(manager->SaveProjectAs(path));
+  EXPECT_FALSE(manager->IsModified());
+
+  // project directory should contain a file with the model
+  EXPECT_TRUE(utils::IsExists(path));
+}
+
+//! File based project. Opening non-existing file.
+
+TEST_F(ProjectManagerDecoratorFolderTest, AttemptToOpenNonExistingFile)
+{
+  auto manager = CreateProjectManager(ProjectType::kFileBased, {}, {});
+
+  auto path = GetFilePath("no-such-file.xml");
+
+  EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(0);
+  EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(0);
+
+  // expection will be thrown, caught, and turned into the message
+  EXPECT_CALL(m_mock_interactor, OnMessage(testing::_)).Times(1);
+
+  EXPECT_FALSE(manager->OpenExistingProject(path));
+  EXPECT_FALSE(manager->IsModified());
 }
 
 //! Starting from new document (without project dir defined).
@@ -202,7 +242,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 }
 
 //! Untitled, modified document. Attempt to open existing project will lead to
-//! the dialog save/discard/cancel. As a result of whole exersize, existing project
+//! the dialog save/discard/cancel. As a result of whole exercize, existing project
 //! should be opened, previous project saved.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 {

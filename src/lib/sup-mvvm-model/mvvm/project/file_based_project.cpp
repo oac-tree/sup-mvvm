@@ -27,8 +27,7 @@ namespace mvvm
 {
 
 FileBasedProject::FileBasedProject(const ProjectContext &context)
-    : AbstractProject(ProjectType::kFileBased, context.models_callback(),
-                      context.modified_callback)
+    : AbstractProject(ProjectType::kFileBased, context.models_callback(), context.modified_callback)
 {
 }
 
@@ -36,6 +35,7 @@ bool FileBasedProject::SaveImpl(const std::string &path)
 {
   auto document = CreateXmlDocument(GetModels(), GetApplicationType());
   document->Save(path);
+  // underlying XmlDocument reports errors as exceptions
   return true;
 }
 
@@ -43,6 +43,7 @@ bool FileBasedProject::LoadImpl(const std::string &path)
 {
   auto document = CreateXmlDocument(GetModels(), GetApplicationType());
   document->Load(path);
+  // underlying XmlDocument reports errors as exceptions
   return true;
 }
 

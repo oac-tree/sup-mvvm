@@ -61,7 +61,8 @@ public:
   void Save(const std::string& file_name) const override;
 
   /**
-   * @details If model contains the data already, it will be reset.
+   * @details If model contains the data already, it will be reset. If loading is not possible due
+   * absent file, or XML parsing error, will throw.
    */
   void Load(const std::string& file_name) override;
 

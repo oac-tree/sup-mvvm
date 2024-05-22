@@ -93,7 +93,7 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptyNew)
   EXPECT_EQ(manager.CurrentProjectPath(), project_dir);
   EXPECT_FALSE(manager.IsModified());
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
@@ -119,7 +119,7 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptySaveAs)
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
   EXPECT_FALSE(manager.IsModified());
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
@@ -176,7 +176,7 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
   EXPECT_FALSE(manager.IsModified());
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
@@ -193,7 +193,7 @@ TEST_F(ProjectManagerFolderTests, FileBasedUntitledModifiedSaveAs)
   EXPECT_TRUE(manager.SaveProjectAs(path));
   EXPECT_FALSE(manager.IsModified());
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   EXPECT_TRUE(utils::IsExists(path));
 }
 
@@ -218,7 +218,7 @@ TEST_F(ProjectManagerFolderTests, TitledUnmodifiedNew)
   EXPECT_EQ(manager.CurrentProjectPath(), project_dir2);
   EXPECT_FALSE(manager.IsModified());
 
-  // project directory should contain a json file with the model
+  // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir2, kSampleModelName + ".xml");
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
