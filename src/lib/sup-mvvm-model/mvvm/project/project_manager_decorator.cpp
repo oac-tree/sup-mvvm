@@ -34,6 +34,25 @@ ProjectManagerDecorator::ProjectManagerDecorator(std::unique_ptr<IProjectManager
                                                  UserInteractionContext user_context)
     : m_project_manager(std::move(decoratee)), m_user_context(std::move(user_context))
 {
+  if (!m_user_context.answer_callback)
+  {
+    throw RuntimeException("Error in ProjectManager: absent answer_callback");
+  }
+
+  if (!m_user_context.new_path_callback)
+  {
+    throw RuntimeException("Error in ProjectManager: absent new_path_callback");
+  }
+
+  if (!m_user_context.existing_path_callback)
+  {
+    throw RuntimeException("Error in ProjectManager: absent existing_path_callback");
+  }
+
+  if (!m_user_context.message_callback)
+  {
+    throw RuntimeException("Error in ProjectManager: absent message_callback");
+  }
 }
 
 ProjectManagerDecorator::~ProjectManagerDecorator() = default;
@@ -130,28 +149,16 @@ bool ProjectManagerDecorator::SaveBeforeClosing()
 
 SaveChangesAnswer ProjectManagerDecorator::AcquireSaveChangesAnswer() const
 {
-  if (!m_user_context.answer_callback)
-  {
-    throw RuntimeException("Error in ProjectManager: absent save_callback");
-  }
   return m_user_context.answer_callback();
 }
 
 std::string ProjectManagerDecorator::AcquireNewProjectPath() const
 {
-  if (!m_user_context.new_path_callback)
-  {
-    throw RuntimeException("Error in ProjectManager: absent creat_dir callback.");
-  }
   return m_user_context.new_path_callback();
 }
 
 std::string ProjectManagerDecorator::AcquireExistingProjectPath() const
 {
-  if (!m_user_context.existing_path_callback)
-  {
-    throw RuntimeException("Error in ProjectManager: absent open_dir callback.");
-  }
   return m_user_context.existing_path_callback();
 }
 
