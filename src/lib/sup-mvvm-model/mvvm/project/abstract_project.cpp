@@ -24,14 +24,12 @@
 namespace mvvm
 {
 
-AbstractProject::AbstractProject(ProjectType project_type,
-                                 const std::vector<SessionModelInterface *> &models,
-                                 modified_callback_t callback, const std::string &application_type)
-    : m_project_type(project_type)
-    , m_change_controller(std::make_unique<ProjectChangedController>(models, std::move(callback)))
-    , m_models(models)
-    , m_application_type(application_type)
+AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context,
+                                 const std::string &application_type)
+    : m_project_type(project_type), m_project_context(context), m_application_type(application_type)
 {
+  m_change_controller = std::make_unique<ProjectChangedController>(
+      GetModels(), std::move(m_project_context.modified_callback));
 }
 
 AbstractProject::~AbstractProject() = default;
@@ -80,7 +78,7 @@ bool AbstractProject::IsModified() const
 
 std::vector<SessionModelInterface *> AbstractProject::GetModels() const
 {
-  return m_models;
+  return m_project_context.models_callback();
 }
 
 }  // namespace mvvm

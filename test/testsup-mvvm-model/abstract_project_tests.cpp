@@ -35,15 +35,23 @@ public:
   class MockAbstractProject : public mvvm::AbstractProject
   {
   public:
-    MockAbstractProject(ProjectType project_type, const std::vector<SessionModelInterface*>& models,
-                        modified_callback_t callback, const std::string& name = {})
-        : mvvm::AbstractProject(project_type, models, std::move(callback), name)
+    MockAbstractProject(ProjectType project_type, ProjectContext context,
+                        const std::string& name = {})
+        : mvvm::AbstractProject(project_type, context, name)
     {
     }
 
     MOCK_METHOD(bool, SaveImpl, (const std::string&), (override));
     MOCK_METHOD(bool, LoadImpl, (const std::string&), (override));
   };
+
+  ProjectContext CreateContext()
+  {
+    ProjectContext result;
+    result.modified_callback = m_callback.AsStdFunction();
+    result.models_callback = [this]() { return std::vector<SessionModelInterface*>({&m_model}); };
+    return result;
+  }
 
   ApplicationModel m_model;
   ::testing::MockFunction<void(void)> m_callback;
@@ -52,8 +60,7 @@ public:
 TEST_F(AbstractProjectTest, InitialState)
 {
   const std::string expected_name("MyApp");
-  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction(),
-                              expected_name);
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext(), expected_name);
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
   EXPECT_EQ(project.GetApplicationType(), expected_name);
   EXPECT_FALSE(project.IsModified());
@@ -64,7 +71,7 @@ TEST_F(AbstractProjectTest, InitialState)
 TEST_F(AbstractProjectTest, SuccessfullSave)
 {
   const std::string expected_path("path");
-  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
@@ -92,7 +99,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
 TEST_F(AbstractProjectTest, FailedSave)
 {
   const std::string expected_path("path");
-  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
 
@@ -115,7 +122,7 @@ TEST_F(AbstractProjectTest, FailedSave)
 TEST_F(AbstractProjectTest, SuccessfullLoad)
 {
   const std::string expected_path("path");
-  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
 
@@ -137,7 +144,7 @@ TEST_F(AbstractProjectTest, SuccessfullLoad)
 TEST_F(AbstractProjectTest, FailedLoad)
 {
   const std::string expected_path("path");
-  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, m_callback.AsStdFunction());
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
 

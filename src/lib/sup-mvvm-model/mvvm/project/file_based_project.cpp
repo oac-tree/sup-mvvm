@@ -27,7 +27,7 @@ namespace mvvm
 {
 
 FileBasedProject::FileBasedProject(const ProjectContext &context)
-    : AbstractProject(ProjectType::kFileBased, context.models_callback(), context.modified_callback)
+    : AbstractProject(ProjectType::kFileBased, context)
 {
 }
 

@@ -63,8 +63,7 @@ namespace mvvm
 {
 
 FolderBasedProject::FolderBasedProject(const ProjectContext& context)
-    : AbstractProject(ProjectType::kFolderBased, context.models_callback(),
-                      context.modified_callback)
+    : AbstractProject(ProjectType::kFolderBased, context)
 {
 }
 

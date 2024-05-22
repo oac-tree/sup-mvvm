@@ -21,6 +21,7 @@
 #define MVVM_PROJECT_ABSTRACT_PROJECT_H_
 
 #include <mvvm/project/i_project.h>
+#include <mvvm/project/project_context.h>
 
 #include <functional>
 #include <memory>
@@ -46,12 +47,11 @@ public:
    * @brief Main c-tor.
    *
    * @param project_type Type of the project.
-   * @param models List of models participating in save/load.
-   * @param callback A callback to report notifications.
+   * @param context Data necessary for project creation.
    * @param application_type The name of the application that has generated this project.
    */
-  AbstractProject(ProjectType project_type, const std::vector<SessionModelInterface*>& models,
-                  modified_callback_t callback, const std::string& application_type = {});
+  AbstractProject(ProjectType project_type, const ProjectContext& context,
+                  const std::string& application_type = {});
   ~AbstractProject() override;
 
   ProjectType GetProjectType() const override;
@@ -73,9 +73,9 @@ private:
   virtual bool SaveImpl(const std::string&) = 0;
   virtual bool LoadImpl(const std::string&) = 0;
 
-  std::string m_project_path;
+  std::string m_project_path;  //!< full path to the project (the place of last save or load)
   ProjectType m_project_type;
-  std::vector<SessionModelInterface*> m_models;
+  ProjectContext m_project_context;
   std::unique_ptr<ProjectChangedController> m_change_controller;
   std::string m_application_type;
 };
