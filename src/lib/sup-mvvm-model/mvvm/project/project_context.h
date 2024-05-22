@@ -43,7 +43,9 @@ struct MVVM_MODEL_EXPORT ProjectContext
   //!< to ask for a vector of models to save/load to/from disk
   std::function<std::vector<SessionModelInterface*>()> models_callback;
 
-  //!< application type allows to distinguish models documents created by various MVVM applications
+  //!< Application type allows to distinguish model documents created by various MVVM applications.
+  //! The name is used during document save as an attribute of root XML element, and is validated on
+  //! document load.
   std::string application_type;
 };
 

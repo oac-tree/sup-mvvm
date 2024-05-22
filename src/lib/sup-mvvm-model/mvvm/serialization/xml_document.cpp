@@ -72,16 +72,17 @@ void XmlDocument::Load(const std::string& file_name)
   if (document_tree->GetType() != kRootElementType)
   {
     throw RuntimeException(
-        "Error in XML document: given XML doesn't containt correct entry element");
+        "Error in XML document: given XML doesn't containt correct entry element ["
+        + kRootElementType + "].");
   }
 
   if (document_tree->HasAttribute(kApplicationTypeAttribute) || !GetApplicationType().empty())
   {
     if (document_tree->GetAttribute(kApplicationTypeAttribute) != GetApplicationType())
     {
-      throw RuntimeException("Error in XML document: expected application name ["
-                             + GetApplicationType() + "] doesn't coincide with XML attribute ["
-                             + document_tree->GetAttribute(kApplicationTypeAttribute) + "]");
+      throw RuntimeException("Error in XML document: application type attribute ["
+                             + document_tree->GetAttribute(kApplicationTypeAttribute)
+                             + "] doesn't match expectations [" + GetApplicationType() + "]");
     }
   }
 
