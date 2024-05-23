@@ -291,8 +291,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 //! Untitled modified project. User decides to create new project, and discards all previous
 //! changes. As a result, new XML file should appear on disk, the model should be cleared.
 
-// FIXME enable disabled test
-TEST_F(ProjectManagerDecoratorFolderTest, DISABLED_UntitledModifiedDiscardAndCreateNew)
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNew)
 {
   auto new_path = GetFilePath("UntitledModifiedDiscardAndCreateNew.xml");
 
@@ -317,5 +316,5 @@ TEST_F(ProjectManagerDecoratorFolderTest, DISABLED_UntitledModifiedDiscardAndCre
   EXPECT_TRUE(utils::IsExists(new_path));
 
   // model should be empty
-  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 0); // Failing here
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 0);
 }
