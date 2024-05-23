@@ -70,7 +70,8 @@ public:
                                   const TagIndex& tag_index) = 0;
 
   /**
-   * @brief Creates and inserts an item of a given type into the given parent and takes ownership of it.
+   * @brief Creates and inserts an item of a given type into the given parent and takes ownership of
+   * it.
    *
    * @tparam Type of item to create.
    * @param parent The parent where to insert.
@@ -136,9 +137,12 @@ public:
   virtual SessionItem* FindItem(const std::string& id) const = 0;
 
   /**
-   * @brief Removes all items from the model and recreates a new empty root item.
+   * @brief Clears the model and replaces existing root item with new root item.
    *
-   * @param root_item Optional new root item, possibly pre-filled with some content.
+   * This method is used in serialization to restore the model from persistent content. If provided
+   * unique_ptr is empty, a new empty root item will be created.
+   *
+   * @param root_item New root item, possibly pre-filled with some content.
    */
   virtual void Clear(std::unique_ptr<SessionItem> root_item) = 0;
 
