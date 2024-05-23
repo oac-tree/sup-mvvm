@@ -287,3 +287,33 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   EXPECT_FALSE(manager->IsModified());
   EXPECT_EQ(manager->CurrentProjectPath(), existing_project_dir);
 }
+
+//! Untitled modified project. User decides to create new project, and discards all previous
+//! changes. As a result, new XML file should appear on disk, the model should be cleared.
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNew)
+{
+  auto new_path = GetFilePath("UntitledModifiedDiscardAndCreateNew.xml");
+
+  // instructing mock interactor to return necessary values
+  ON_CALL(m_mock_interactor, OnSaveChangesRequest())
+      .WillByDefault(::testing::Return(SaveChangesAnswer::kDiscard));
+
+  auto manager = CreateProjectManager(ProjectType::kFileBased, new_path, {});
+
+  m_sample_model->InsertItem<PropertyItem>();  // modifying the model
+
+  // setting up expectations: attempt to open existing project will lead to the following chain
+  // 1) question whether to save currently modified project
+  // 2) request to open new project
+  EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
+
+  EXPECT_TRUE(manager->CreateNewProject({}));
+
+  // new project file should be there
+  EXPECT_TRUE(utils::IsExists(new_path));
+
+  // model should be empty
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 0); // Failing here
+}
