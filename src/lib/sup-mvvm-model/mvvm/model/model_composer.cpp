@@ -19,9 +19,9 @@
 
 #include "model_composer.h"
 
-#include "model_utils.h"
 #include "sessionitem.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/sessionmodel_interface.h>
 
 namespace mvvm
@@ -48,7 +48,12 @@ bool ModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
 void ModelComposer::Reset(std::unique_ptr<SessionItem> &old_root_item,
                           std::unique_ptr<SessionItem> new_root_item)
 {
-  old_root_item = new_root_item ? std::move(new_root_item) : utils::CreateEmptyRootItem();
+  if (!new_root_item)
+  {
+    throw RuntimeException("Attempt to set uninitialised root item.");
+  }
+
+  old_root_item = std::move(new_root_item);
   old_root_item->SetModel(&m_model);
 }
 

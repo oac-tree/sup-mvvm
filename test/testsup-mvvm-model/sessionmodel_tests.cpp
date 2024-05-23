@@ -591,6 +591,20 @@ TEST_F(SessionModelTest, MoveItemFromParentToRoot)
   EXPECT_EQ(parent->GetAllItems(), expected);
 }
 
+TEST_F(SessionModelTest, ReplaceRootItem)
+{
+  TestModel model;
+  model.InsertItem<SessionItem>();
+
+  EXPECT_THROW(model.ReplaceRootItem({}), RuntimeException);
+
+  auto new_root = utils::CreateEmptyRootItem();
+  auto new_root_ptr = new_root.get();
+
+  model.ReplaceRootItem(std::move(new_root));
+  EXPECT_EQ(model.GetRootItem(), new_root_ptr);
+}
+
 TEST_F(SessionModelTest, ClearModel)
 {
   TestModel model;

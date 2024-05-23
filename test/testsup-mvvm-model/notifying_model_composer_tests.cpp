@@ -22,6 +22,7 @@
 #include <mvvm/interfaces/sessionmodel_interface.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_composer.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionmodel.h>
@@ -162,7 +163,7 @@ TEST_F(NotifyingModelComposerTests, Reset)
     EXPECT_CALL(m_listener, OnEvent(event_variant_t(model_reset_event))).Times(1);
   }
 
-  composer->Reset(parent0, {});
+  composer->Reset(parent0, utils::CreateEmptyRootItem());
 
   EXPECT_EQ(parent0->GetTotalItemCount(), 0);
   EXPECT_EQ(parent0->GetModel(), &m_model);
