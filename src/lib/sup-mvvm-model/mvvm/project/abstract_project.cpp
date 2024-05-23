@@ -21,12 +21,19 @@
 
 #include "project_change_controller.h"
 
+#include <mvvm/interfaces/sessionmodel_interface.h>
+
 namespace mvvm
 {
 
 AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context)
     : m_project_type(project_type), m_project_context(context)
 {
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   m_change_controller = std::make_unique<ProjectChangedController>(
       GetModels(), std::move(m_project_context.modified_callback));
 }

@@ -67,6 +67,20 @@ TEST_F(AbstractProjectTest, InitialState)
   EXPECT_TRUE(project.GetProjectPath().empty());
 }
 
+//! The project should automatically clean models.
+
+TEST_F(AbstractProjectTest, ModelCleanup)
+{
+  m_model.InsertItem<PropertyItem>();
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
+
+  const std::string expected_app_type("MyApp");
+  MockAbstractProject project(ProjectType::kFileBased, CreateContext(expected_app_type));
+
+  EXPECT_FALSE(project.IsModified());
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+}
+
 //! Testing successfull save. Correct methods should be called, the project should get correct path.
 TEST_F(AbstractProjectTest, SuccessfullSave)
 {
