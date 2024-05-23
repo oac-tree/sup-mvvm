@@ -212,7 +212,7 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
   EXPECT_EQ(parent_at->GetItems(expected_tag), expected);
 }
 
-//! Checking that Clear commands cleans-up the command stack
+//! Checking that ReplaceRootItem commands cleans-up the command stack
 
 TEST_F(ApplicationModelUndoTests, Clear)
 {
@@ -226,7 +226,7 @@ TEST_F(ApplicationModelUndoTests, Clear)
   EXPECT_TRUE(commands->CanUndo());
   EXPECT_FALSE(commands->CanRedo());
 
-  m_model.Clear({});
+  m_model.ReplaceRootItem({});
 
   EXPECT_EQ(commands->GetSize(), 0);
   EXPECT_FALSE(commands->CanUndo());

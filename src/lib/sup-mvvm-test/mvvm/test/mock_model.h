@@ -59,7 +59,7 @@ public:
 
   MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));
 
-  MOCK_METHOD(void, Clear, (std::unique_ptr<mvvm::SessionItem>), (override));
+  MOCK_METHOD(void, ReplaceRootItem, (std::unique_ptr<mvvm::SessionItem>), (override));
 
   MOCK_METHOD(void, CheckIn, (mvvm::SessionItem *), (override));
 

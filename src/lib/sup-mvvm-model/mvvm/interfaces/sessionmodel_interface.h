@@ -137,14 +137,14 @@ public:
   virtual SessionItem* FindItem(const std::string& id) const = 0;
 
   /**
-   * @brief Clears the model and replaces existing root item with new root item.
+   * @brief Replaces existing root item with new root item.
    *
    * This method is used in serialization to restore the model from persistent content. If provided
    * unique_ptr is empty, a new empty root item will be created.
    *
    * @param root_item New root item, possibly pre-filled with some content.
    */
-  virtual void Clear(std::unique_ptr<SessionItem> root_item) = 0;
+  virtual void ReplaceRootItem(std::unique_ptr<SessionItem> root_item) = 0;
 
   /**
    * @brief A tech method to inform the model about new item.

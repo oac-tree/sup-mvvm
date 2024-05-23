@@ -581,7 +581,7 @@ TEST_F(ViewModelControllerTest, onModelReset)
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
 
-  m_model.Clear({});
+  m_model.ReplaceRootItem({});
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -598,7 +598,7 @@ TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
   auto controller = CreateController(m_model, m_viewmodel);
 
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
-  m_model.Clear({});
+  m_model.ReplaceRootItem({});
 
   EXPECT_EQ(spy_reset.count(), 1);
 
