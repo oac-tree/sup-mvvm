@@ -558,7 +558,7 @@ TEST_F(ApplicationModelTests, Clear)
   }
 
   // removing item
-  m_model.ReplaceRootItem({});
+  m_model.Clear();
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
   // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)

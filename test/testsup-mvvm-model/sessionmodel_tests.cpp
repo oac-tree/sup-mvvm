@@ -604,7 +604,7 @@ TEST_F(SessionModelTest, ClearModel)
   model.InsertItem<SessionItem>();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 2);
 
-  model.ReplaceRootItem({});
+  model.Clear();
   EXPECT_EQ(model.GetRootItem()->GetTotalItemCount(), 0);
   EXPECT_FALSE(model.GetRootItem() == first_root);
   EXPECT_EQ(m_pool->KeyForItem(first_root), "");

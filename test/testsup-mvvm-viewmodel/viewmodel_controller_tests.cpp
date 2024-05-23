@@ -27,12 +27,11 @@
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/test/test_strategies.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
-
-#include <mvvm/test/test_strategies.h>
 
 #include <gtest/gtest.h>
 
@@ -581,7 +580,7 @@ TEST_F(ViewModelControllerTest, onModelReset)
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
 
-  m_model.ReplaceRootItem({});
+  m_model.Clear();
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);
@@ -598,7 +597,7 @@ TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
   auto controller = CreateController(m_model, m_viewmodel);
 
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
-  m_model.ReplaceRootItem({});
+  m_model.Clear();
 
   EXPECT_EQ(spy_reset.count(), 1);
 

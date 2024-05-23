@@ -68,6 +68,8 @@ public:
 
   SessionItem* FindItem(const std::string& id) const override;
 
+  void Clear() override;
+
   void ReplaceRootItem(std::unique_ptr<SessionItem> root_item) override;
 
   void CheckIn(SessionItem* item) override;

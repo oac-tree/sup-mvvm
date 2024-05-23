@@ -327,7 +327,7 @@ TEST_F(PropertyGridControllerTest, ClearModel)
     auto editor_grid0 = controller.CreateWidgetGrid();
   }
   // clear the model
-  model.ReplaceRootItem({});
+  model.Clear();
 
   // we populate model again and create new set of editors
   vector = model.InsertItem<VectorItem>();

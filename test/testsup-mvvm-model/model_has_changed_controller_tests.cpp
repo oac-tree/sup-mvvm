@@ -94,7 +94,7 @@ TEST_F(ModelHasChangedControllerTests, modelReset)
   ModelHasChangedController controller(&model);
   EXPECT_FALSE(controller.IsChanged());
 
-  model.ReplaceRootItem({});
+  model.Clear();
   EXPECT_TRUE(controller.IsChanged());
 }
 

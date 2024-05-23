@@ -277,7 +277,7 @@ TEST_F(PropertyViewModelTest, ShowVectorItemThenClearThenShowAnother)
   auto x_index_value = view_model.index(0, 1, vector_index);
   EXPECT_TRUE(view_model.setData(x_index_value, QVariant(42.1), Qt::EditRole));
 
-  model.ReplaceRootItem({});
+  model.Clear();
 
   EXPECT_EQ(spy_about_reset.count(), 1);
   EXPECT_EQ(spy_reset.count(), 1);

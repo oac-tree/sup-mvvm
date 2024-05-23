@@ -137,6 +137,13 @@ public:
   virtual SessionItem* FindItem(const std::string& id) const = 0;
 
   /**
+   * @brief Clears the model.
+   *
+   * Internally replaces root item with new empty root item.
+   */
+  virtual void Clear() = 0;
+
+  /**
    * @brief Replaces existing root item with new root item.
    *
    * This method is used in serialization to restore the model from persistent content. If provided
