@@ -21,7 +21,6 @@
 
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/signals/event_types.h>
-#include <mvvm/test/mock_callback_listener.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -32,7 +31,7 @@ using ::testing::_;
 class EventHandlerTests : public ::testing::Test
 {
 public:
-  using mock_callback_listener_t = mvvm::test::MockCallbackListener<event_variant_t>;
+  using mock_callback_listener_t = testing::MockFunction<void(const event_variant_t&)>;
 
   //! Helper class for gmock to validate overload resolution for a concrete event inside variant.
   class MockSpecializedWidget
@@ -84,7 +83,7 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 
   EventHandler<event_variant_t> event_handler;
 
-  EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.CreateCallback()),
+  EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.AsStdFunction()),
                KeyNotFoundException);
 }
 
@@ -102,34 +101,15 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
   EventHandler<event_variant_t> event_handler;
   event_handler.Register<DataChangedEvent>();
 
-  event_handler.Connect<DataChangedEvent>(widget.CreateCallback());
+  event_handler.Connect<DataChangedEvent>(widget.AsStdFunction());
 
   // check notification when triggering Notify via templated method
-  EXPECT_CALL(widget, OnCallback(event_variant_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, Call(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify<DataChangedEvent>(&item, role);
 
   // check notification when triggering Notify via already constructed event
-  EXPECT_CALL(widget, OnCallback(event_variant_t(data_changed_event))).Times(1);
+  EXPECT_CALL(widget, Call(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify(data_changed_event);
-}
-
-//! Same as above, connection is established via object and method's pointer.
-
-TEST_F(EventHandlerTests, EventHandlerConnectViaObjectMethod)
-{
-  mock_callback_listener_t widget;
-
-  const int role{42};
-  SessionItem item;
-  const DataChangedEvent data_changed_event{&item, role};
-
-  EventHandler<event_variant_t> event_handler;
-  event_handler.Register<DataChangedEvent>();
-
-  event_handler.Connect<DataChangedEvent>(&widget, &mock_callback_listener_t::OnCallback);
-
-  EXPECT_CALL(widget, OnCallback(event_variant_t(data_changed_event))).Times(1);
-  event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
 //! Connecting MockSpecializedWidget with two events. Validating that the notification

@@ -20,7 +20,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/standarditems/standard_item_includes.h>
-#include <mvvm/test/mock_callback_listener.h>
 #include <mvvm/test/mock_item_listener.h>
 
 #include <gmock/gmock.h>
@@ -143,9 +142,9 @@ TEST_F(ItemListenerTests, OnDataChangedCallback)
   item->SetData(42, DataRole::kData);
 
   mock_listener_t listener(item);
-  mvvm::test::MockCallbackListener<event_variant_t> widget;
+  testing::MockFunction<void(const event_variant_t&)> widget;
 
-  listener.Connect<DataChangedEvent>(widget.CreateCallback());
+  listener.Connect<DataChangedEvent>(widget.AsStdFunction());
 
   EXPECT_EQ(listener.GetItem(), item);
   const auto expected_role = DataRole::kData;
@@ -153,7 +152,7 @@ TEST_F(ItemListenerTests, OnDataChangedCallback)
 
   DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, Call(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -169,16 +168,16 @@ TEST_F(ItemListenerTests, LambdaOnEventVariant)
   item->SetData(42, DataRole::kData);
 
   ItemListener<SessionItem> listener(item);
-  mvvm::test::MockCallbackListener<event_variant_t> widget;
+  testing::MockFunction<void(const event_variant_t&)> widget;
 
-  listener.Connect<DataChangedEvent>(widget.CreateCallback());
+  listener.Connect<DataChangedEvent>(widget.AsStdFunction());
 
   EXPECT_EQ(listener.GetItem(), item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, Call(event_variant_t(expected_event))).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);
@@ -194,16 +193,16 @@ TEST_F(ItemListenerTests, LambdaOnConcreteEvent)
   item->SetData(42, DataRole::kData);
 
   ItemListener<SessionItem> listener(item);
-  mvvm::test::MockCallbackListener<DataChangedEvent> widget;
+  testing::MockFunction<void(const DataChangedEvent&)> widget;
 
-  listener.Connect<DataChangedEvent>(widget.CreateCallback());
+  listener.Connect<DataChangedEvent>(widget.AsStdFunction());
 
   EXPECT_EQ(listener.GetItem(), item);
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnCallback(expected_event)).Times(1);
+  EXPECT_CALL(widget, Call(expected_event)).Times(1);
 
   // trigger calls
   item->SetData(45, expected_role);

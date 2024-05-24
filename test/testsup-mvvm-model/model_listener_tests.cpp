@@ -22,7 +22,6 @@
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/signals/model_listener.h>
-#include <mvvm/test/mock_callback_listener.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -76,14 +75,14 @@ TEST_F(ModelListenerTests, LambdaOnVariant)
   auto item = model.InsertItem<PropertyItem>();
   ModelListener<ApplicationModel> listener(&model);
 
-  mvvm::test::MockCallbackListener<event_variant_t> client;
+  testing::MockFunction<void(const event_variant_t&)> client;
 
   // the client is setup to receive DataChangedEvent in the form of event_variant_t.
-  listener.Connect<DataChangedEvent>(client.CreateCallback());
+  listener.Connect<DataChangedEvent>(client.AsStdFunction());
 
   // setting up expectation
   DataChangedEvent expected_event{item, DataRole::kData};
-  EXPECT_CALL(client, OnCallback(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(client, Call(event_variant_t(expected_event))).Times(1);
 
   // triggering expectations by changing the data
   EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
@@ -98,14 +97,14 @@ TEST_F(ModelListenerTests, LambdaOnConcreteEvent)
   auto item = model.InsertItem<PropertyItem>();
   ModelListener<ApplicationModel> listener(&model);
 
-  mvvm::test::MockCallbackListener<DataChangedEvent> client;
+  testing::MockFunction<void(const DataChangedEvent&)> client;
 
   // the client is setup to receive DataChangedEvent in the form of event_variant_t.
-  listener.Connect<DataChangedEvent>(client.CreateCallback());
+  listener.Connect<DataChangedEvent>(client.AsStdFunction());
 
   // setting up expectation
   const DataChangedEvent expected_event{item, DataRole::kData};
-  EXPECT_CALL(client, OnCallback(expected_event)).Times(1);
+  EXPECT_CALL(client, Call(expected_event)).Times(1);
 
   // triggering expectations by changing the data
   EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
