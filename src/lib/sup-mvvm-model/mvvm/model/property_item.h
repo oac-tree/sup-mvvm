@@ -40,7 +40,7 @@ public:
 
   PropertyItem();
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 };
 
 }  // namespace mvvm

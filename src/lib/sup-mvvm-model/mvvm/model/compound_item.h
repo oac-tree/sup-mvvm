@@ -38,7 +38,7 @@ public:
 
   explicit CompoundItem(const std::string& item_type = Type);
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   /**
    * @brief Adds and item of given type, and registers it under the given name as branch item.

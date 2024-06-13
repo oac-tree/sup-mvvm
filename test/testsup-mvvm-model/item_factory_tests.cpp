@@ -48,7 +48,7 @@ public:
   bool IsCloneImplemented()
   {
     T item;
-    auto clone = item.Clone();
+    auto clone = item.Clone(/*make unique*/true);
     return IsCorrectType<T>(clone.get());
   }
 
@@ -98,7 +98,7 @@ TEST_F(ItemFactoryTests, CloneOfItemsRegisteredInCatalogue)
   for (const auto& item_type : factory.GetItemTypes())
   {
     auto item = factory.CreateItem(item_type);
-    auto clone = item->Clone();
+    auto clone = item->Clone(/*make unique*/true);
     EXPECT_EQ(item->GetType(), clone->GetType());
   }
 }

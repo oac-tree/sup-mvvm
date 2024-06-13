@@ -37,7 +37,7 @@ public:
   VectorItem();
 
   using CompoundItem::CompoundItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   double X() const;
   void SetX(double value);

@@ -38,7 +38,7 @@ public:
   TextItem();
 
   using CompoundItem::CompoundItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   std::string GetText() const;
   void SetText(const std::string& value);
@@ -64,7 +64,7 @@ public:
   PenItem();
 
   using CompoundItem::CompoundItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   bool IsSelected() const;
   void SetSelected(bool is_selected);

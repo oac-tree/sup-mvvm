@@ -66,7 +66,7 @@ public:
   explicit ViewportAxisItem(const std::string& model_type = Type);
 
   using BasicAxisItem::BasicAxisItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   TextItem* GetTitle() const;
 
@@ -106,7 +106,7 @@ public:
   explicit FixedBinAxisItem(const std::string& model_type = Type);
 
   using BinnedAxisItem::BinnedAxisItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   void SetParameters(int nbins, double xmin, double xmax);
 
@@ -130,7 +130,7 @@ public:
   explicit PointwiseAxisItem(const std::string& model_type = Type);
 
   using BinnedAxisItem::BinnedAxisItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
+  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   void SetParameters(const std::vector<double>& data);
 
