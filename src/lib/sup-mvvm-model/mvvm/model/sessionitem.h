@@ -101,7 +101,7 @@ public:
   /**
    * @brief Sets the display name.
    */
-  virtual SessionItem& SetDisplayName(const std::string& name);
+  SessionItem& SetDisplayName(const std::string& name);
 
   /**
    * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a

@@ -25,12 +25,13 @@
 namespace mvvm
 {
 
-template <typename T>
-class Limits;
-
-//! Item to carry concrete editable entity (e.g. 'double' value with limits).
-//! Intended for use as a child or CompountItem, not expected to have own children.
-
+/**
+ * @brief The PropertyItem class is an item to carry concrete editable entity (e.g. float64
+ * value with limits).
+ *
+ * Intended for use as a child or CompoundItem, not expected to have own children. For the moment,
+ * it has no extra behavior and it is here for historical reasons.
+ */
 class MVVM_MODEL_EXPORT PropertyItem : public SessionItem
 {
 public:
@@ -40,8 +41,6 @@ public:
   PropertyItem();
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const override;
-
-  PropertyItem& SetDisplayName(const std::string& name) override;
 };
 
 }  // namespace mvvm
