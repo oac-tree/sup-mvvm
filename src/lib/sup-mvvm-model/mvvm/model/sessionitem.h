@@ -78,12 +78,11 @@ public:
    * make a new item unique and will allow its usage (serialization, memory pool) along with the
    * original. If make_unique_id is false, the result will be an exact clone of the original.
    *
-   *
    * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
    * true.
    * @return Clone of the item.
    */
-  virtual std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
+  virtual std::unique_ptr<SessionItem> Clone(bool make_unique_id) const;
 
   /**
    * @brief Returns the type of the item.
@@ -377,7 +376,7 @@ protected:
   /**
    * @brief Sets the data for the given role.
    */
-  virtual bool SetDataInternal(const variant_t& value, int role, bool direct);
+  bool SetDataInternal(const variant_t& value, int role, bool direct);
 
 private:
   friend class TreeDataItemConverter;
