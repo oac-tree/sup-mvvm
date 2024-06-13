@@ -20,8 +20,8 @@
 #ifndef MVVM_MODEL_SESSIONITEM_H_
 #define MVVM_MODEL_SESSIONITEM_H_
 
-#include <mvvm/core/variant.h>
 #include <mvvm/core/exceptions.h>
+#include <mvvm/core/variant.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/tagindex.h>
 #include <mvvm/utils/container_utils.h>
@@ -39,10 +39,11 @@ class TaggedItems;
 
 /**
  * @brief The SessionItem class is a base element to build a hierarchical structure representing all
- * the data of the application. It can contain an arbitrary amount of basic data types, and can be a
- * parent for other SessionItems.
+ * the data of the application.
+ *
+ * It can contain an arbitrary amount of basic data types and can be a parent for other
+ * SessionItems.
  */
-
 class MVVM_MODEL_EXPORT SessionItem
 {
 public:
@@ -57,29 +58,30 @@ public:
   /**
    * @brief Parameterized copy constructor.
    *
+   * This copy constructor is used to create item's deep copies and clones. If make_unique_id is
+   * true (the deep copy case), identifiers of the item and all its children will be regenerated.
+   * This will make a new item unique and will allow its usage (serialization, memory pool) along
+   * with the original. If make_unique_id is false, the result will be an exact clone of the
+   * original.
+   *
    * @param other Item to copy from.
    * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
    * true.
-   *
-   * @details This copy constructor is used to create item's deep copies and clones.
-   * If make_unique_id is true (the deep copy case), identifiers of the item and all its children
-   * will be regenerated. This will make a new item unique and will allow its usage (serialization,
-   * memory pool) along with the original. If make_unique_id is false, the result
-   * will be an exact clone of the original.
    */
   SessionItem(const SessionItem& other, bool make_unique_id);
 
   /**
    * @brief Creates clone of the item.
    *
+   * This method is used to create item's deep copies and clones. If make_unique_id is true (the
+   * deep copy case), identifiers of the item and all its children will be regenerated. This will
+   * make a new item unique and will allow its usage (serialization, memory pool) along with the
+   * original. If make_unique_id is false, the result will be an exact clone of the original.
+   *
+   *
    * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
    * true.
    * @return Clone of the item.
-   *
-   * @details This method is used to create item's deep copies and clones. If make_unique_id is true
-   * (the deep copy case), identifiers of the item and all its children will be regenerated. This
-   * will make a new item unique and will allow its usage (serialization, memory pool) along with
-   * the original. If make_unique_id is false, the result will be an exact clone of the original.
    */
   virtual std::unique_ptr<SessionItem> Clone(bool make_unique_id = true) const;
 
@@ -129,13 +131,13 @@ public:
   /**
    * @brief Returns data for the given role.
    *
+   * If given role doesn't exist, will return uninitialized variant_t{}. If role exists, will
+   * perform convertion to the given T. Will throw, if conversion is not possible.
+   *
    * @param role The role of the data.
    * @tparam T The type to convert the data.
    *
    * @return The variant with the data, or data itself if template parameter is specified.
-   *
-   * @details If given role doesn't exist, will return uninitialized variant_t{}. If role exists,
-   * will perform convertion to the given T. Will throw, if conversion is not possible.
    */
   template <typename T = variant_t>
   T Data(int role = DataRole::kData) const;
@@ -143,20 +145,20 @@ public:
   /**
    * @brief Sets the data for the given role.
    *
+   * When extra parameter direct is false (default case), will act through the model. This will
+   * invoke a notification mechanism and provide the possibility for undo, if implemented. When
+   * direct is true, will set the data via SessionItem API to bypass notifications.
+   *
+   * If the data is the same as before, will return false as a sign that no data was changed. It is
+   * not possible to change the data type for a given role, once the role was set for the first
+   * time. Thus, an attempt to set an integer to the role containing a string will lead to the
+   * exception.
+   *
    * @param value The value to set.
    * @param role The role of the data.
    * @param direct Set the data through the model, if set to false.
    *
    * @return Returns true, if the data was changed.
-   *
-   * @details When extra parameter direct is false (default case), will act through the model.
-   * This will invoke a notification mechanism and provide the possibility for undo, if implemented.
-   * When direct is true, will set the data via SessionItem API to bypass notifications.
-   *
-   * @details If the data is the same as before, will return false as a sign that no data was
-   * changed. It is not possible to change the data type for a given role, once the role was set for
-   * the first time. I.e. attempt to set an integer to the role containing a string will lead to
-   * the exception.
    */
   template <typename T>
   bool SetData(const T& value, int role = DataRole::kData, bool direct = false);
@@ -194,21 +196,22 @@ public:
   /**
    * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
    *
-   * @details If the tag name is empty, the tag registered as default will be used. Will throw, when
-   * provided non-empty tag wasn't registered.
+   * If the tag name is empty, the tag registered as default will be used. Will throw, when provided
+   * non-empty tag wasn't registered.
    */
   SessionItem* GetItem(const TagIndex& tag_index) const;
 
   /**
-   * @brief Returns vector of items in the container with given tag name. If the tag name is empty,
-   * container registered as default will be used.
+   * @brief Returns vector of items in the container with given tag name.
+   *
+   * If the tag name is empty, container registered as default will be used.
    */
   std::vector<SessionItem*> GetItems(const std::string& tag) const;
 
   /**
    * @brief Returns item under given tag and index casted to a specified type.
    *
-   * @details Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
+   * Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
    */
   template <typename T>
   T* GetItem(const TagIndex& tag_index) const;
@@ -216,6 +219,7 @@ public:
 
   /**
    * @brief Returns all items under given tag casted to specific type.
+   *
    * @param tag The name of container's tag name.
    * @return Vector of items.
    */
@@ -224,10 +228,10 @@ public:
   /**
    * @brief Returns pair of tag and index corresponding to given item.
    *
+   * If given item is not direct child, will returns TagIndex::Invalid().
+   *
    * @param item Possible child whose tag_index we want to find.
    * @return Items' tag_index.
-   *
-   * @details If given item is not direct child, will returns TagIndex::Invalid().
    */
   TagIndex TagIndexOfItem(const SessionItem* item) const;
 
@@ -255,7 +259,6 @@ public:
    *
    * @param item Item to insert.
    * @param tag_index A tag_index pointing to the insert place.
-   *
    * @return Convenience pointer to just inserted item.
    */
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index);
@@ -264,7 +267,6 @@ public:
    * @brief Creates a new item of given type and insert it into the given tag_index.
    * @tparam Type of the item to create.
    * @param tag_index A tag_index pointing to the insert place.
-   *
    * @return Convenience pointer to just inserted item.
    */
   template <typename T = SessionItem>
@@ -278,13 +280,14 @@ public:
   /**
    * @brief Returns true if this item has editable flag set.
    *
-   * @details The data role of editable items can be normally changed in Qt trees and tables by
+   * The data role of editable items can be normally changed in Qt trees and tables by
    * double-clicking on the corresponding cell.
    */
   bool IsEditable() const;
 
   /**
    * @brief Sets item's editable flag to given value.
+   *
    * @return The reference to the same item (fluent interface).
    */
   SessionItem& SetEditable(bool value);
@@ -292,8 +295,8 @@ public:
   /**
    * @brief Returns true if this item has enabled flag set.
    *
-   * @details Enabled items normally appear in default color in Qt trees and tables, while disabled
-   * items are shown in gray.
+   * Enabled items normally appear in default color in Qt trees and tables, while disabled items are
+   * shown in gray.
    */
   bool IsEnabled() const;
 
@@ -313,6 +316,7 @@ public:
 
   /**
    * @brief Sets item's visibility flag to given value.
+   *
    * @return The reference to the same item (fluent interface).
    */
   SessionItem& SetVisible(bool value);
@@ -324,6 +328,7 @@ public:
 
   /**
    * @brief Sets item's tooltip to given value.
+   *
    * @return The reference to the same item (fluent interface).
    */
   SessionItem& SetToolTip(const std::string& tooltip);
@@ -353,10 +358,9 @@ public:
   /**
    * @brief Activates business logic.
    *
-   * @details The method is called by the model when an item is inserted into the model. It allows
-   * to perform some additional initialization on the item's board, if necessary. For example, it
-   * can provide custom connections so the item reacts on its own properties change. See VectorItem
-   * example.
+   * The method is called by the model when an item is inserted into the model. It allows to perform
+   * some additional initialization on the item's board, if necessary. For example, it can provide
+   * custom connections so the item reacts on its own properties change. See VectorItem example.
    */
   virtual void Activate();
 
