@@ -37,7 +37,7 @@ template <typename T>
 class NotifyingModelComposer : public T
 {
 public:
-  static_assert(std::is_base_of<ModelComposerInterface, T>::value, "Invalid template argument");
+  static_assert(std::is_base_of<IModelComposer, T>::value, "Invalid template argument");
 
   template <typename... Args>
   explicit NotifyingModelComposer(ModelEventHandler* notifier, Args&&... args)
@@ -72,11 +72,11 @@ public:
     return result;
   }
 
-  void Reset(std::unique_ptr<SessionItem>& old_root_item,
+  void ReplaceRootItem(std::unique_ptr<SessionItem>& old_root_item,
              std::unique_ptr<SessionItem> new_root_item) override
   {
     m_event_handler->Notify<ModelAboutToBeResetEvent>(T::GetModel());
-    T::Reset(old_root_item, std::move(new_root_item));
+    T::ReplaceRootItem(old_root_item, std::move(new_root_item));
     m_event_handler->Notify<ModelResetEvent>(T::GetModel());
   }
 

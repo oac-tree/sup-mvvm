@@ -29,14 +29,14 @@ namespace mvvm
 {
 
 class SessionItem;
-class ModelComposerInterface;
+class IModelComposer;
 
 //! Interface class for generic command.
 
 class MVVM_MODEL_EXPORT SetValueCommand : public AbstractCommand
 {
 public:
-  SetValueCommand(ModelComposerInterface* composer, SessionItem* item, const variant_t& value,
+  SetValueCommand(IModelComposer* composer, SessionItem* item, const variant_t& value,
                   int role);
 
   ~SetValueCommand() override;

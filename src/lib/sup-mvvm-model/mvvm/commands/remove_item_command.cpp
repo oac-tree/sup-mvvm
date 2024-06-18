@@ -48,13 +48,13 @@ namespace mvvm
 
 struct RemoveItemCommand::RemoveItemCommandImpl
 {
-  ModelComposerInterface* m_composer{nullptr};
+  IModelComposer* m_composer{nullptr};
   Path m_parent_path;
   TagIndex m_tag_index;
   std::unique_ptr<ItemBackupStrategyInterface> m_backup_strategy;
   std::unique_ptr<SessionItem> m_taken;
 
-  RemoveItemCommandImpl(ModelComposerInterface* composer, SessionItem* parent,
+  RemoveItemCommandImpl(IModelComposer* composer, SessionItem* parent,
                         const TagIndex& tag_index)
       : m_composer(composer), m_tag_index(tag_index)
   {
@@ -69,7 +69,7 @@ struct RemoveItemCommand::RemoveItemCommandImpl
   }
 };
 
-RemoveItemCommand::RemoveItemCommand(ModelComposerInterface* composer, SessionItem* parent,
+RemoveItemCommand::RemoveItemCommand(IModelComposer* composer, SessionItem* parent,
                                      const TagIndex& tag_index)
     : p_impl(std::make_unique<RemoveItemCommandImpl>(composer, parent, tag_index))
 {

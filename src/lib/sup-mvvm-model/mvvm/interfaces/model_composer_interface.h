@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_MODEL_COMPOSER_INTERFACE_H_
-#define MVVM_INTERFACES_MODEL_COMPOSER_INTERFACE_H_
+#ifndef MVVM_MODEL_I_MODEL_COMPOSER_H_
+#define MVVM_MODEL_I_MODEL_COMPOSER_H_
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model_export.h>
@@ -33,14 +33,14 @@ class TagIndex;
 class ISessionModel;
 
 /**
- * @brief The ModelComposerInterface class is an nterface for all classes to compose the model.
+ * @brief The IModelComposer class is an nterface for all classes to compose the model.
  *
  * Used in various decorators for undo/redo and notifications while composing the model.
  */
-class MVVM_MODEL_EXPORT ModelComposerInterface
+class MVVM_MODEL_EXPORT IModelComposer
 {
 public:
-  virtual ~ModelComposerInterface() = default;
+  virtual ~IModelComposer() = default;
 
   /**
    * @brief Inserts an item into the given parent and takes ownership of it.
@@ -84,14 +84,14 @@ public:
    */
 
   /**
-   * @brief Replaces existing root item with new root item by moving from it.
+   * @brief Replaces existing root item with the new root item by moving from it.
    *
    * This method is used in serialization to restore the model from persistent content.
    *
    * @param root_item New root item, possibly pre-filled with some content.
    */
   virtual void ReplaceRootItem(std::unique_ptr<SessionItem>& old_root_item,
-                     std::unique_ptr<SessionItem> new_root_item) = 0;
+                               std::unique_ptr<SessionItem> new_root_item) = 0;
 
   /**
    * @brief Returns a model server by this composer.
@@ -101,4 +101,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_MODEL_COMPOSER_INTERFACE_H_
+#endif  // MVVM_MODEL_I_MODEL_COMPOSER_H_

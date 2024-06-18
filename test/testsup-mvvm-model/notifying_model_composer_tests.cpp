@@ -146,7 +146,7 @@ TEST_F(NotifyingModelComposerTests, SetSameData)
   EXPECT_FALSE(composer->SetData(&expected_item, 42, expected_role));
 }
 
-TEST_F(NotifyingModelComposerTests, Reset)
+TEST_F(NotifyingModelComposerTests, ReplaceRootItem)
 {
   auto composer = CreateComposer();
 
@@ -163,7 +163,7 @@ TEST_F(NotifyingModelComposerTests, Reset)
     EXPECT_CALL(m_listener, OnEvent(event_variant_t(model_reset_event))).Times(1);
   }
 
-  composer->Reset(parent0, utils::CreateEmptyRootItem());
+  composer->ReplaceRootItem(parent0, utils::CreateEmptyRootItem());
 
   EXPECT_EQ(parent0->GetTotalItemCount(), 0);
   EXPECT_EQ(parent0->GetModel(), &m_model);

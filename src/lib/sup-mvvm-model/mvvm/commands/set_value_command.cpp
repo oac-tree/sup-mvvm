@@ -47,19 +47,19 @@ namespace mvvm
 
 struct SetValueCommand::SetValueCommandImpl
 {
-  ModelComposerInterface *m_composer{nullptr};
+  IModelComposer *m_composer{nullptr};
   variant_t m_value;  //! Value to set as a result of command execution.
   int m_role;
   Path m_item_path;
   bool m_result{false};
 
-  SetValueCommandImpl(ModelComposerInterface *composer, const variant_t &value, int role)
+  SetValueCommandImpl(IModelComposer *composer, const variant_t &value, int role)
       : m_composer(composer), m_value(value), m_role(role)
   {
   }
 };
 
-SetValueCommand::SetValueCommand(ModelComposerInterface *composer, SessionItem *item,
+SetValueCommand::SetValueCommand(IModelComposer *composer, SessionItem *item,
                                  const variant_t &value, int role)
     : p_impl(std::make_unique<SetValueCommandImpl>(composer, value, role))
 {

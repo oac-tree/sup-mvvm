@@ -34,11 +34,11 @@ class CommandStackInterface;
  * @brief The CommandModelComposer class is a decorator class to enhance standard ModelComposer with
  * undo/redo capabilities.
  */
-class CommandModelComposer : public ModelComposerInterface
+class CommandModelComposer : public IModelComposer
 {
 public:
   explicit CommandModelComposer(CommandStackInterface* command_stack,
-                                std::unique_ptr<ModelComposerInterface> composer)
+                                std::unique_ptr<IModelComposer> composer)
       : m_command_stack(command_stack), m_composer(std::move(composer))
   {
   }
@@ -60,7 +60,7 @@ private:
   C* ProcessCommand(Args&&... args);
 
   CommandStackInterface* m_command_stack{nullptr};
-  std::unique_ptr<ModelComposerInterface> m_composer;
+  std::unique_ptr<IModelComposer> m_composer;
 };
 
 template <typename C, typename... Args>

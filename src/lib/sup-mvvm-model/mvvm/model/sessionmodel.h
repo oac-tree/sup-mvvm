@@ -29,7 +29,7 @@ namespace mvvm
 
 class SessionItem;
 class ItemPool;
-class ModelComposerInterface;
+class IModelComposer;
 
 /**
  * @brief The SessionModel class is the main model to hold hierarchy of SessionItem objects.
@@ -42,7 +42,7 @@ public:
   explicit SessionModel(std::string model_type = {});
 
   SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
-               std::unique_ptr<ModelComposerInterface> composer = {});
+               std::unique_ptr<IModelComposer> composer = {});
 
   ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;
@@ -78,7 +78,7 @@ public:
   /**
    * @brief Sets internal composer to given value.
    */
-  void SetComposer(std::unique_ptr<ModelComposerInterface> composer);
+  void SetComposer(std::unique_ptr<IModelComposer> composer);
 
 private:
   friend class SessionItem;

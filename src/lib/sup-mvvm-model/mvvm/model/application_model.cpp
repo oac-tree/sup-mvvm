@@ -29,15 +29,15 @@
 
 namespace
 {
-std::unique_ptr<mvvm::ModelComposerInterface> CreateNotifyingComposer(
+std::unique_ptr<mvvm::IModelComposer> CreateNotifyingComposer(
     mvvm::ModelEventHandler* notifier, mvvm::ISessionModel* model)
 {
   return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(notifier, *model);
 }
 
-std::unique_ptr<mvvm::ModelComposerInterface> CreateCommandComposer(
+std::unique_ptr<mvvm::IModelComposer> CreateCommandComposer(
     mvvm::CommandStackInterface* command_stack,
-    std::unique_ptr<mvvm::ModelComposerInterface> composer)
+    std::unique_ptr<mvvm::IModelComposer> composer)
 {
   return std::make_unique<mvvm::CommandModelComposer>(command_stack, std::move(composer));
 }

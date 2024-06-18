@@ -29,7 +29,7 @@
 
 namespace
 {
-std::unique_ptr<mvvm::ModelComposerInterface> CreateDefaultComposer(
+std::unique_ptr<mvvm::IModelComposer> CreateDefaultComposer(
     mvvm::ISessionModel* model)
 {
   return std::make_unique<mvvm::ModelComposer>(*model);
@@ -52,11 +52,11 @@ struct SessionModel::SessionModelImpl
   SessionModel* m_self{nullptr};
   std::string m_model_type;
   std::shared_ptr<ItemPool> m_pool;
-  std::unique_ptr<ModelComposerInterface> m_composer;
+  std::unique_ptr<IModelComposer> m_composer;
   std::unique_ptr<SessionItem> m_root_item;
 
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
-                   std::unique_ptr<ModelComposerInterface> composer)
+                   std::unique_ptr<IModelComposer> composer)
       : m_self(self)
       , m_pool(pool ? std::move(pool) : CreateDefaultItemPool())
       , m_model_type(std::move(model_type))
@@ -72,7 +72,7 @@ SessionModel::SessionModel(std::string model_type)
 }
 
 SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
-                           std::unique_ptr<ModelComposerInterface> composer)
+                           std::unique_ptr<IModelComposer> composer)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool),
                                                 std::move(composer)))
 {
@@ -180,7 +180,7 @@ void SessionModel::CheckOut(SessionItem* item)
   return p_impl->m_pool->UnregisterItem(item);
 }
 
-void SessionModel::SetComposer(std::unique_ptr<ModelComposerInterface> composer)
+void SessionModel::SetComposer(std::unique_ptr<IModelComposer> composer)
 {
   p_impl->m_composer = std::move(composer);
 }

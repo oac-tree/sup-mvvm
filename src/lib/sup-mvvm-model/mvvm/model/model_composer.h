@@ -33,7 +33,7 @@ class ISessionModel;
  * It doesn't provide any notifications, or undo/redo, and simply forwards the method call to the
  * corresponding model's API.
  */
-class ModelComposer : public ModelComposerInterface
+class ModelComposer : public IModelComposer
 {
 public:
   explicit ModelComposer(ISessionModel& model);

@@ -38,12 +38,12 @@ using ::testing::_;
 class RemoveItemCommandTests : public ::testing::Test
 {
 public:
-  std::unique_ptr<ModelComposerInterface> CreateStandardComposer()
+  std::unique_ptr<IModelComposer> CreateStandardComposer()
   {
     return std::make_unique<ModelComposer>(m_model);
   }
 
-  std::unique_ptr<ModelComposerInterface> CreateNotifyingComposer()
+  std::unique_ptr<IModelComposer> CreateNotifyingComposer()
   {
     return std::make_unique<NotifyingModelComposer<ModelComposer>>(&m_event_handler, m_model);
   }

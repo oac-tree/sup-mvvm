@@ -29,7 +29,7 @@ namespace mvvm
 {
 
 class SessionItem;
-class ModelComposerInterface;
+class IModelComposer;
 class TagIndex;
 
 //! Interface class for generic command.
@@ -37,7 +37,7 @@ class TagIndex;
 class MVVM_MODEL_EXPORT InsertItemCommand : public AbstractCommand
 {
 public:
-  InsertItemCommand(ModelComposerInterface* composer, std::unique_ptr<SessionItem> item,
+  InsertItemCommand(IModelComposer* composer, std::unique_ptr<SessionItem> item,
                     SessionItem* parent, const TagIndex& tag_index);
 
   ~InsertItemCommand() override;

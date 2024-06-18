@@ -48,14 +48,14 @@ namespace mvvm
 
 struct InsertItemCommand::InsertItemCommandImpl
 {
-  ModelComposerInterface* m_composer{nullptr};
+  IModelComposer* m_composer{nullptr};
   Path m_parent_path;
   TagIndex m_tag_index;
   std::unique_ptr<ItemBackupStrategyInterface> m_backup_strategy;
   std::unique_ptr<SessionItem> m_to_insert;
   SessionItem* m_result{nullptr};
 
-  InsertItemCommandImpl(ModelComposerInterface* composer, std::unique_ptr<SessionItem> item,
+  InsertItemCommandImpl(IModelComposer* composer, std::unique_ptr<SessionItem> item,
                         SessionItem* parent, const TagIndex& tag_index)
       : m_composer(composer), m_tag_index(tag_index), m_to_insert(std::move(item))
   {
@@ -71,7 +71,7 @@ struct InsertItemCommand::InsertItemCommandImpl
   }
 };
 
-InsertItemCommand::InsertItemCommand(ModelComposerInterface* composer,
+InsertItemCommand::InsertItemCommand(IModelComposer* composer,
                                      std::unique_ptr<SessionItem> item, SessionItem* parent,
                                      const TagIndex& tag_index)
     : p_impl(std::make_unique<InsertItemCommandImpl>(composer, std::move(item), parent, tag_index))
