@@ -1,6 +1,5 @@
 add_subdirectory(delegates)
 add_subdirectory(editors)
 add_subdirectory(factories)
-add_subdirectory(interfaces)
 add_subdirectory(viewmodel)
 add_subdirectory(viewmodelbase)

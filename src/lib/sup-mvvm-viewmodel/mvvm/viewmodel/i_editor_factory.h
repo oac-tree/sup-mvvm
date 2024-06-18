@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
-#define MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
+#ifndef MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
+#define MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
 
 #include <mvvm/editors/editor_types_fwd.h>
 
@@ -27,17 +27,19 @@ class QModelIndex;
 namespace mvvm
 {
 
-//! Interface for custom editor factory.
-//! Intended for editor construction in cells of tables and trees in the context of delegate.
-
-class MVVM_VIEWMODEL_EXPORT EditorFactoryInterface
+/**
+ * @brief The IEditorFactory class is an interface for custom editor factory.
+ *
+ *  Intended for editor construction in cells of tables and trees in the context of delegate.
+ */
+class MVVM_VIEWMODEL_EXPORT IEditorFactory
 {
 public:
-  virtual ~EditorFactoryInterface() = default;
+  virtual ~IEditorFactory() = default;
 
   virtual editor_t CreateEditor(const QModelIndex& index) const = 0;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_EDITOR_FACTORY_INTERFACE_H_
+#endif  // MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_

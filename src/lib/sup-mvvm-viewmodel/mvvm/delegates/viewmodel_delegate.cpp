@@ -55,7 +55,7 @@ ViewModelDelegate::ViewModelDelegate(QObject* parent)
 
 ViewModelDelegate::~ViewModelDelegate() = default;
 
-void ViewModelDelegate::setEditorFactory(std::unique_ptr<EditorFactoryInterface> editor_factory)
+void ViewModelDelegate::setEditorFactory(std::unique_ptr<IEditorFactory> editor_factory)
 {
   m_editor_factory = std::move(editor_factory);
 }

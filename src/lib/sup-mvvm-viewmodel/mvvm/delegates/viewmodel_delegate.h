@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-class EditorFactoryInterface;
+class IEditorFactory;
 class ICellDecorator;
 
 //! Model delegate to provide editing/painting for custom variants.
@@ -41,7 +41,7 @@ public:
   explicit ViewModelDelegate(QObject* parent = nullptr);
   ~ViewModelDelegate() override;
 
-  void setEditorFactory(std::unique_ptr<EditorFactoryInterface> editor_factory);
+  void setEditorFactory(std::unique_ptr<IEditorFactory> editor_factory);
   void setCellDecoration(std::unique_ptr<ICellDecorator> cell_decoration);
 
   QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option,
@@ -62,7 +62,7 @@ protected:
   void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const override;
 
 private:
-  std::unique_ptr<EditorFactoryInterface> m_editor_factory;
+  std::unique_ptr<IEditorFactory> m_editor_factory;
   std::unique_ptr<ICellDecorator> m_cell_decoration;
 };
 

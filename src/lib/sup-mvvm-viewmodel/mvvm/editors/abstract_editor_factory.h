@@ -21,7 +21,7 @@
 #define MVVM_EDITORS_ABSTRACT_EDITOR_FACTORY_H_
 
 #include <mvvm/editors/editor_builders.h>
-#include <mvvm/interfaces/editor_factory_interface.h>
+#include <mvvm/viewmodel/i_editor_factory.h>
 
 #include <map>
 
@@ -32,7 +32,7 @@ namespace mvvm
 //! Creates cell editors for Qt trees and tables from model index. Cell editor is
 //! Qt widget intended for editing DATA role of some SessionItem.
 
-class MVVM_VIEWMODEL_EXPORT AbstractEditorFactory : public EditorFactoryInterface
+class MVVM_VIEWMODEL_EXPORT AbstractEditorFactory : public IEditorFactory
 {
 public:
   void RegisterBuilder(const std::string& name, editorbuilder_t builder);

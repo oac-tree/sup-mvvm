@@ -58,7 +58,7 @@ public:
 //! Default editor factory for cell editors in Qt trees and tables.
 //! Internaly it uses two factories
 
-class MVVM_VIEWMODEL_EXPORT DefaultEditorFactory : public EditorFactoryInterface
+class MVVM_VIEWMODEL_EXPORT DefaultEditorFactory : public IEditorFactory
 {
 public:
   DefaultEditorFactory();
