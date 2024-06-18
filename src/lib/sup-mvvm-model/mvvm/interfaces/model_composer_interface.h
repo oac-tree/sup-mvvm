@@ -62,8 +62,6 @@ public:
    */
   virtual std::unique_ptr<SessionItem> TakeItem(SessionItem* parent, const TagIndex& tag_index) = 0;
 
-  virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
-
   /**
    * @brief Sets the value to the given data role of the given item.
    *
@@ -77,7 +75,22 @@ public:
    * @param role The data role.
    * @return Returns true, if the data was changed.
    */
-  virtual void Reset(std::unique_ptr<SessionItem>& old_root_item,
+  virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
+
+  /**
+   * @brief Resets the model by
+   * @param old_root_item
+   * @param new_root_item
+   */
+
+  /**
+   * @brief Replaces existing root item with new root item by moving from it.
+   *
+   * This method is used in serialization to restore the model from persistent content.
+   *
+   * @param root_item New root item, possibly pre-filled with some content.
+   */
+  virtual void ReplaceRootItem(std::unique_ptr<SessionItem>& old_root_item,
                      std::unique_ptr<SessionItem> new_root_item) = 0;
 
   /**

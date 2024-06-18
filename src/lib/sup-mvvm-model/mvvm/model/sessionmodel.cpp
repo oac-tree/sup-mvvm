@@ -167,7 +167,7 @@ void SessionModel::Clear()
 
 void SessionModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
 {
-  p_impl->m_composer->Reset(p_impl->m_root_item, std::move(root_item));
+  p_impl->m_composer->ReplaceRootItem(p_impl->m_root_item, std::move(root_item));
 }
 
 void SessionModel::CheckIn(SessionItem* item)

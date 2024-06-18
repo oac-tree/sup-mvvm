@@ -114,7 +114,7 @@ TEST_F(ModelComposerTests, Reset)
 
   EXPECT_CALL(model, CheckIn(new_root_ptr)).Times(1);
 
-  composer.Reset(parent0, std::move(new_root));
+  composer.ReplaceRootItem(parent0, std::move(new_root));
 
   EXPECT_EQ(parent0->GetTotalItemCount(), 0);
   EXPECT_EQ(parent0->GetModel(), &model);

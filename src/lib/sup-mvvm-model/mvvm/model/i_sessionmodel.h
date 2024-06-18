@@ -145,8 +145,8 @@ public:
   /**
    * @brief Replaces existing root item with new root item.
    *
-   * This method is used in serialization to restore the model from persistent content. If provided
-   * unique_ptr is empty, a new empty root item will be created.
+   * This method is used in serialization to restore the model from persistent content. New root
+   * item must be initialized (unique_ptr shall not be empty).
    *
    * @param root_item New root item, possibly pre-filled with some content.
    */

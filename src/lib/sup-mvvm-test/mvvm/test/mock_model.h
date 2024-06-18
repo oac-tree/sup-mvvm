@@ -28,7 +28,7 @@
 namespace mvvm::test
 {
 
-//! Mocking class for SessionModelInterface.
+//! Mocking class for ISessionModel.
 
 class MockModel : public mvvm::ISessionModel
 {
