@@ -60,7 +60,7 @@ void ViewModelDelegate::setEditorFactory(std::unique_ptr<EditorFactoryInterface>
   m_editor_factory = std::move(editor_factory);
 }
 
-void ViewModelDelegate::setCellDecoration(std::unique_ptr<CellDecoratorInterface> cell_decoration)
+void ViewModelDelegate::setCellDecoration(std::unique_ptr<ICellDecorator> cell_decoration)
 {
   m_cell_decoration = std::move(cell_decoration);
 }

@@ -17,12 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_CELL_DECORATOR_INTERFACE_H_
-#define MVVM_INTERFACES_CELL_DECORATOR_INTERFACE_H_
+#ifndef MVVM_VIEWMODEL_I_CELL_DECORATOR_H_
+#define MVVM_VIEWMODEL_I_CELL_DECORATOR_H_
 
 #include <mvvm/viewmodel_export.h>
-
-#include <string>
 
 class QModelIndex;
 class QStyleOptionViewItem;
@@ -32,10 +30,10 @@ namespace mvvm
 
 //! Interface class to generate cell decorations (i.e. text) in Qt trees and tables.
 
-class MVVM_VIEWMODEL_EXPORT CellDecoratorInterface
+class MVVM_VIEWMODEL_EXPORT ICellDecorator
 {
 public:
-  virtual ~CellDecoratorInterface() = default;
+  virtual ~ICellDecorator() = default;
 
   virtual bool HasCustomDecoration(const QModelIndex& index) const = 0;
   virtual void InitStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) = 0;
@@ -43,4 +41,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_CELL_DECORATOR_INTERFACE_H_
+#endif  // MVVM_VIEWMODEL_I_CELL_DECORATOR_H_

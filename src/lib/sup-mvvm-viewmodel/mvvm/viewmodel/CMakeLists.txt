@@ -9,6 +9,7 @@ target_sources(${library_name} PRIVATE
   all_items_viewmodel.h
   custom_variants.cpp
   custom_variants.h
+  i_cell_decorator.h
   i_children_strategy.h
   i_row_strategy.h
   i_viewmodel_controller.h
