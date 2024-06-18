@@ -47,7 +47,7 @@ public:
   ViewModelControllerTest() {}
 
   template <typename ChildrenT = AllChildrenStrategy, typename RowT = LabelDataRowStrategy>
-  std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface& model,
+  std::unique_ptr<AbstractViewModelController> CreateController(ISessionModel& model,
                                                                 ViewModelBase& view_model)
   {
     return factory::CreateController<ChildrenT, RowT>(&model, &view_model);

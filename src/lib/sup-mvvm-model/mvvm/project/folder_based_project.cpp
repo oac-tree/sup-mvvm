@@ -38,7 +38,7 @@ namespace
  * @return True in the case of success, otherwise false.
  */
 template <typename T>
-bool Process(const std::string& dirname, T method, std::vector<mvvm::SessionModelInterface*> models,
+bool Process(const std::string& dirname, T method, std::vector<mvvm::ISessionModel*> models,
              const std::string& application_type)
 {
   if (!mvvm::utils::IsExists(dirname))

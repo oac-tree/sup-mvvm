@@ -27,7 +27,7 @@ namespace mvvm
 class SessionItem;
 class ViewItem;
 class AbstractViewModelController;
-class SessionModelInterface;
+class ISessionModel;
 
 //! Main class to represent content of SessionModel in Qt's trees and tables.
 
@@ -44,8 +44,8 @@ public:
 
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
-  const SessionModelInterface* GetModel() const;
-  void SetModel(SessionModelInterface* model);
+  const ISessionModel* GetModel() const;
+  void SetModel(ISessionModel* model);
 
   const SessionItem* GetRootSessionItem() const;
 

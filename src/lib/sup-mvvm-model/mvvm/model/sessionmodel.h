@@ -35,10 +35,10 @@ class ModelComposerInterface;
  * @brief The SessionModel class is the main model to hold hierarchy of SessionItem objects.
  */
 
-class MVVM_MODEL_EXPORT SessionModel : public SessionModelInterface
+class MVVM_MODEL_EXPORT SessionModel : public ISessionModel
 {
 public:
-  using SessionModelInterface::InsertItem;
+  using ISessionModel::InsertItem;
 
   explicit SessionModel(std::string model_type = {});
 

@@ -25,7 +25,7 @@
 namespace mvvm
 {
 class SessionItem;
-class SessionModelInterface;
+class ISessionModel;
 
 //! Defines constants to be used as SessionItem data role.
 

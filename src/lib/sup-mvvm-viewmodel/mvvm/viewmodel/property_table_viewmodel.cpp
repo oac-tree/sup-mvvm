@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-PropertyTableViewModel::PropertyTableViewModel(SessionModelInterface* model, QObject* parent)
+PropertyTableViewModel::PropertyTableViewModel(ISessionModel* model, QObject* parent)
     : ViewModel(parent)
 {
   SetController(factory::CreateController<TopItemsStrategy, PropertiesRowStrategy>(model, this));

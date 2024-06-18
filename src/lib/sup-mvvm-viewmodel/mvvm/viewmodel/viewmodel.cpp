@@ -51,12 +51,12 @@ int ViewModel::columnCount(const QModelIndex& parent) const
   return m_controller ? m_controller->GetColumnCount() : ViewModelBase::columnCount(parent);
 }
 
-const SessionModelInterface* ViewModel::GetModel() const
+const ISessionModel* ViewModel::GetModel() const
 {
   return GetRootSessionItem() ? GetRootSessionItem()->GetModel() : nullptr;
 }
 
-void ViewModel::SetModel(SessionModelInterface* model)
+void ViewModel::SetModel(ISessionModel* model)
 {
   ValidateController();
   m_controller->SetModel(model);

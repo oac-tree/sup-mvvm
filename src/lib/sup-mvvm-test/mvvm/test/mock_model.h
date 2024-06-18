@@ -30,7 +30,7 @@ namespace mvvm::test
 
 //! Mocking class for SessionModelInterface.
 
-class MockModel : public mvvm::SessionModelInterface
+class MockModel : public mvvm::ISessionModel
 {
 public:
   MOCK_METHOD(std::string, GetType, (), (const, override));

@@ -29,7 +29,7 @@ class QAbstractItemView;
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 class SessionItem;
 class ItemViewComponentProvider;
 
@@ -45,7 +45,7 @@ public:
 
   void SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider);
 
-  void SetApplicationModel(SessionModelInterface* model);
+  void SetApplicationModel(ISessionModel* model);
 
   void SetItem(SessionItem* item);
 

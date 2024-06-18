@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The XmlDocument class saves and restores list of SessionModel's to/from disk using XML
@@ -49,7 +49,7 @@ public:
    * @param models List of models to process.
    * @param application_type The type name of the application that can open this document.
    */
-  explicit XmlDocument(const std::vector<SessionModelInterface*>& models,
+  explicit XmlDocument(const std::vector<ISessionModel*>& models,
                        const std::string& application_type = {});
   ~XmlDocument() override;
 
@@ -67,7 +67,7 @@ public:
   void Load(const std::string& file_name) override;
 
 private:
-  std::vector<SessionModelInterface*> m_models;
+  std::vector<ISessionModel*> m_models;
   std::string m_application_type;
 };
 }  // namespace mvvm

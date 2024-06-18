@@ -30,12 +30,12 @@ namespace mvvm
 AbstractViewModelController::AbstractViewModelController() = default;
 AbstractViewModelController::~AbstractViewModelController() = default;
 
-void AbstractViewModelController::SetModel(SessionModelInterface *model)
+void AbstractViewModelController::SetModel(ISessionModel *model)
 {
   SetRootItem(model ? model->GetRootItem() : nullptr);
 }
 
-const SessionModelInterface *AbstractViewModelController::GetModel() const
+const ISessionModel *AbstractViewModelController::GetModel() const
 {
   return m_listener ? m_listener->GetModel() : nullptr;
 }
@@ -91,14 +91,14 @@ QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
   return {};
 }
 
-void AbstractViewModelController::SubscribeAll(SessionModelInterface *model)
+void AbstractViewModelController::SubscribeAll(ISessionModel *model)
 {
   if (!model)
   {
     throw RuntimeException("Subscriber is not initialised");
   }
 
-  m_listener = std::make_unique<mvvm::ModelListener<SessionModelInterface>>(model);
+  m_listener = std::make_unique<mvvm::ModelListener<ISessionModel>>(model);
 
   m_listener->Connect<mvvm::DataChangedEvent>(this, &AbstractViewModelController::OnModelEvent);
 
@@ -117,12 +117,12 @@ void AbstractViewModelController::SubscribeAll(SessionModelInterface *model)
       this, &AbstractViewModelController::OnModelEvent);
 }
 
-void AbstractViewModelController::Subscribe(SessionModelInterface *model)
+void AbstractViewModelController::Subscribe(ISessionModel *model)
 {
   SubscribeImpl(model);
 }
 
-void AbstractViewModelController::SubscribeImpl(SessionModelInterface *model)
+void AbstractViewModelController::SubscribeImpl(ISessionModel *model)
 {
   SubscribeAll(model);
 }

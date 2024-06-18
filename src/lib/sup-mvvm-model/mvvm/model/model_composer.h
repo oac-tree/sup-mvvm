@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The ModelComposer class represents the basic composer to modify the model.
@@ -36,7 +36,7 @@ class SessionModelInterface;
 class ModelComposer : public ModelComposerInterface
 {
 public:
-  explicit ModelComposer(SessionModelInterface& model);
+  explicit ModelComposer(ISessionModel& model);
 
   SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                           const TagIndex& tag_index) override;
@@ -48,10 +48,10 @@ public:
   void Reset(std::unique_ptr<SessionItem>& old_root_item,
              std::unique_ptr<SessionItem> new_root_item) override;
 
-  SessionModelInterface* GetModel() const override;
+  ISessionModel* GetModel() const override;
 
 private:
-  SessionModelInterface& m_model;
+  ISessionModel& m_model;
 };
 
 }  // namespace mvvm

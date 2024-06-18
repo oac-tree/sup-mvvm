@@ -36,7 +36,7 @@ class CommandStackInterface;
 class MVVM_MODEL_EXPORT ApplicationModel : public SessionModel
 {
 public:
-  using SessionModelInterface::InsertItem;
+  using ISessionModel::InsertItem;
 
   explicit ApplicationModel(std::string model_type = {});
   ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool);

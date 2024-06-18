@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 //! View model to show the whole content of SessionModel in Qt widgets. Represents two-column tree
 //! with label/data, with one-to-one child/parent correspondence as in the original SessionModel.
@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT AllItemsViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  explicit AllItemsViewModel(SessionModelInterface* model, QObject* parent = nullptr);
+  explicit AllItemsViewModel(ISessionModel* model, QObject* parent = nullptr);
 
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 };

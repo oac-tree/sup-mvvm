@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-ModelComposer::ModelComposer(SessionModelInterface &model) : m_model(model) {}
+ModelComposer::ModelComposer(ISessionModel &model) : m_model(model) {}
 
 SessionItem *ModelComposer::InsertItem(std::unique_ptr<SessionItem> item, SessionItem *parent,
                                        const TagIndex &tag_index)
@@ -57,7 +57,7 @@ void ModelComposer::Reset(std::unique_ptr<SessionItem> &old_root_item,
   old_root_item->SetModel(&m_model);
 }
 
-SessionModelInterface *ModelComposer::GetModel() const
+ISessionModel *ModelComposer::GetModel() const
 {
   return &m_model;
 }

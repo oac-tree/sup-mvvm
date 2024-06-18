@@ -76,7 +76,7 @@ public:
       OnSetRootItemImpl(root_item);
     };
 
-    void SubscribeImpl(SessionModelInterface* model) override
+    void SubscribeImpl(ISessionModel* model) override
     {
       SubscribeAll(model);
       OnSubscribeImpl(model);
@@ -84,7 +84,7 @@ public:
 
     MOCK_METHOD(void, UnsubscribeImpl, (), ());
 
-    MOCK_METHOD(void, OnSubscribeImpl, (SessionModelInterface * root_item), ());
+    MOCK_METHOD(void, OnSubscribeImpl, (ISessionModel * root_item), ());
     MOCK_METHOD(void, OnSetRootItemImpl, (SessionItem * item), ());
 
     SessionItem* m_root_item{nullptr};

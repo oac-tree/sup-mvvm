@@ -32,7 +32,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 class IProject;
 struct ProjectContext;
 
@@ -43,7 +43,7 @@ namespace utils
  * @brief Suggests file name which can be used to store Xml content of given model. Uses the model
  * type to construct a filename: MaterialModel -> materialmodel.xml
  */
-std::string SuggestFileName(const SessionModelInterface& model);
+std::string SuggestFileName(const ISessionModel& model);
 
 /**
  * @brief Creates new untitled project.

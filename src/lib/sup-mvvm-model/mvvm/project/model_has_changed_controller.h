@@ -32,11 +32,11 @@ namespace mvvm
 //! Allows to check if model has been changed (e.g. modified, inserted or removed items) since last
 //! call of resetChanged().
 
-class MVVM_MODEL_EXPORT ModelHasChangedController : public ModelListener<SessionModelInterface>
+class MVVM_MODEL_EXPORT ModelHasChangedController : public ModelListener<ISessionModel>
 {
 public:
   using callback_t = std::function<void()>;
-  explicit ModelHasChangedController(SessionModelInterface* model, const callback_t& callback = {});
+  explicit ModelHasChangedController(ISessionModel* model, const callback_t& callback = {});
 
   bool IsChanged() const;
 

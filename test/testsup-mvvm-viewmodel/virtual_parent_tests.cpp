@@ -92,7 +92,7 @@ public:
 class TestViewModel : public ViewModel
 {
 public:
-  explicit TestViewModel(SessionModelInterface* model, QObject* parent = nullptr)
+  explicit TestViewModel(ISessionModel* model, QObject* parent = nullptr)
       : ViewModel(parent)
   {
     SetController(
@@ -121,7 +121,7 @@ public:
   void SetUp() override { m_model = std::make_unique<ApplicationModel>(); }
 
 protected:
-  std::unique_ptr<SessionModelInterface> m_model;
+  std::unique_ptr<ISessionModel> m_model;
 };
 
 // Controls test to verify the default behaviour, the model topology is as follows:

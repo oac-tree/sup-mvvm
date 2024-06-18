@@ -30,7 +30,7 @@
 namespace
 {
 std::unique_ptr<mvvm::ModelComposerInterface> CreateDefaultComposer(
-    mvvm::SessionModelInterface* model)
+    mvvm::ISessionModel* model)
 {
   return std::make_unique<mvvm::ModelComposer>(*model);
 }

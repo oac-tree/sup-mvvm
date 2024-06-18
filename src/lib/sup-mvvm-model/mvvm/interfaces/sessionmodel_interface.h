@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_SESSIONMODEL_INTERFACE_H_
-#define MVVM_INTERFACES_SESSIONMODEL_INTERFACE_H_
+#ifndef MVVM_MODEL_I_SESSIONMODEL_H_
+#define MVVM_MODEL_I_SESSIONMODEL_H_
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/tagindex.h>
@@ -33,14 +33,13 @@ class SessionItem;
 class ModelEventHandler;
 
 /**
- * @brief The SessionModelInterface class is an interface for all application models holding
+ * @brief The ISessionModel class is an interface for all application models holding
  * SessionItem hierarchy.
  */
-
-class MVVM_MODEL_EXPORT SessionModelInterface
+class MVVM_MODEL_EXPORT ISessionModel
 {
 public:
-  virtual ~SessionModelInterface() = default;
+  virtual ~ISessionModel() = default;
 
   /**
    * @brief Returns model type.
@@ -169,11 +168,11 @@ public:
 };
 
 template <typename T>
-T* SessionModelInterface::InsertItem(SessionItem* parent, const TagIndex& tag_index)
+T* ISessionModel::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 {
   return static_cast<T*>(InsertItem(std::make_unique<T>(), parent, tag_index));
 }
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_SESSIONMODEL_INTERFACE_H_
+#endif  // MVVM_MODEL_I_SESSIONMODEL_H_

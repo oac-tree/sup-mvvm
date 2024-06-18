@@ -82,7 +82,7 @@ bool AbstractProject::IsModified() const
   return m_change_controller->IsChanged();
 }
 
-std::vector<SessionModelInterface *> AbstractProject::GetModels() const
+std::vector<ISessionModel *> AbstractProject::GetModels() const
 {
   return m_project_context.models_callback();
 }

@@ -47,7 +47,7 @@ public:
   {
   }
 
-  std::vector<SessionModelInterface*> GetModels() const
+  std::vector<ISessionModel*> GetModels() const
   {
     return {m_sample_model.get(), m_material_model.get()};
   };

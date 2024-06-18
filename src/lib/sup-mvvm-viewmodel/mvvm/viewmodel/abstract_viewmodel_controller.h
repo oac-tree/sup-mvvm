@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 template <typename T>
 class ModelListener;
@@ -47,9 +47,9 @@ public:
   AbstractViewModelController(AbstractViewModelController&& other) = delete;
   AbstractViewModelController& operator=(AbstractViewModelController&&) = delete;
 
-  const SessionModelInterface* GetModel() const;
+  const ISessionModel* GetModel() const;
 
-  void SetModel(SessionModelInterface* model);
+  void SetModel(ISessionModel* model);
 
   void OnModelEvent(const AboutToInsertItemEvent& event) override;
 
@@ -77,7 +77,7 @@ protected:
   /**
    * @brief Convenience method that subscribes to all signals.
    */
-  void SubscribeAll(SessionModelInterface* model);
+  void SubscribeAll(ISessionModel* model);
 
 private:
   virtual void SetRootItemImpl(SessionItem* root_item) = 0;
@@ -85,14 +85,14 @@ private:
   /**
    * @brief Subscribe to the model notifications.
    */
-  void Subscribe(SessionModelInterface* model);
+  void Subscribe(ISessionModel* model);
 
   /**
    * @brief Implementation to subscribe to the model notifications.
    *
    * @note Should be reimplemented in the derived class (non-virtual interface idiom).
    */
-  virtual void SubscribeImpl(SessionModelInterface* model);
+  virtual void SubscribeImpl(ISessionModel* model);
 
   /**
    * @brief Unsubscribe from the model notifications.
@@ -106,7 +106,7 @@ private:
    */
   virtual void UnsubscribeImpl();
 
-  std::unique_ptr<ModelListener<SessionModelInterface>> m_listener;
+  std::unique_ptr<ModelListener<ISessionModel>> m_listener;
 };
 
 }  // namespace mvvm

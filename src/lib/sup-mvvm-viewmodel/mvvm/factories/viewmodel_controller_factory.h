@@ -31,7 +31,7 @@ namespace mvvm
 class ChildrenStrategyInterface;
 class RowStrategyInterface;
 class AbstractViewModelController;
-class SessionModelInterface;
+class ISessionModel;
 class ViewModelBase;
 
 namespace factory
@@ -41,7 +41,7 @@ struct ViewModelControllerFactoryContext
 {
   std::unique_ptr<ChildrenStrategyInterface> children_strategy;
   std::unique_ptr<RowStrategyInterface> row_strategy;
-  SessionModelInterface* model{nullptr};
+  ISessionModel* model{nullptr};
   ViewModelBase* view_model{nullptr};
   bool virtual_parent{false};
 };
@@ -64,7 +64,7 @@ std::unique_ptr<AbstractViewModelController> CreateViewModelController(
  * @param view_model The view model to update.
  */
 template <typename ChildrenStrategyT, typename RowStrategyT>
-std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterface* model,
+std::unique_ptr<AbstractViewModelController> CreateController(ISessionModel* model,
                                                               ViewModelBase* view_model)
 {
   return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
@@ -82,7 +82,7 @@ std::unique_ptr<AbstractViewModelController> CreateController(SessionModelInterf
  */
 template <typename ChildrenStrategyT, typename RowStrategyT>
 std::unique_ptr<AbstractViewModelController> CreateVirtualParentController(
-    SessionModelInterface* model, ViewModelBase* view_model)
+    ISessionModel* model, ViewModelBase* view_model)
 {
   return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
                                     std::make_unique<RowStrategyT>(), model, view_model, true});

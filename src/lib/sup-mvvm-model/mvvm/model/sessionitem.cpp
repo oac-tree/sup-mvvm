@@ -42,7 +42,7 @@ namespace mvvm
 struct SessionItem::SessionItemImpl
 {
   SessionItem* m_parent{nullptr};
-  SessionModelInterface* m_model{nullptr};
+  ISessionModel* m_model{nullptr};
   std::unique_ptr<SessionItemData> m_data;
   std::unique_ptr<TaggedItems> m_tags;
   std::string m_item_type;
@@ -113,7 +113,7 @@ SessionItem& SessionItem::SetDisplayName(const std::string& name)
   return *this;
 }
 
-SessionModelInterface* SessionItem::GetModel() const
+ISessionModel* SessionItem::GetModel() const
 {
   return p_impl->m_model;
 }
@@ -290,7 +290,7 @@ SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
 
 void SessionItem::Activate() {}
 
-void SessionItem::SetModel(SessionModelInterface* model)
+void SessionItem::SetModel(ISessionModel* model)
 {
   if (p_impl->m_model)
   {

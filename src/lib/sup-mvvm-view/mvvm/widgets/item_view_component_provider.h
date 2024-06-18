@@ -34,7 +34,7 @@ class SessionItem;
 class ItemSelectionModel;
 class ViewModel;
 class ViewModelDelegate;
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The ItemViewComponentProvider class provides QAbstractItemView with custom components:
@@ -62,7 +62,7 @@ public:
    * @details Internal viewmodel will be subscribed to model notification and will present a model
    * starting from its root item.
    */
-  void SetApplicationModel(SessionModelInterface* model);
+  void SetApplicationModel(ISessionModel* model);
 
   /**
    * @brief Set an item to be a new invisible root item for view model.
@@ -156,7 +156,7 @@ std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
  */
 template <typename ViewModelT>
 std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
-                                                          SessionModelInterface* model = nullptr)
+                                                          ISessionModel* model = nullptr)
 {
   auto result =
       std::make_unique<ItemViewComponentProvider>(std::make_unique<ViewModelT>(model), view);

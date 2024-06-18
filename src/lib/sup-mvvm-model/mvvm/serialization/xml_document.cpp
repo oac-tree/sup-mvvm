@@ -35,7 +35,7 @@ const std::string kApplicationTypeAttribute = "application";
 namespace mvvm
 {
 
-XmlDocument::XmlDocument(const std::vector<SessionModelInterface*>& models,
+XmlDocument::XmlDocument(const std::vector<ISessionModel*>& models,
                          const std::string& application_type)
     : m_models(models), m_application_type(application_type)
 {

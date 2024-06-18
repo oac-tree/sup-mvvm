@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-PropertyViewModel::PropertyViewModel(SessionModelInterface* model, QObject* parent)
+PropertyViewModel::PropertyViewModel(ISessionModel* model, QObject* parent)
     : ViewModel(parent)
 {
   SetController(

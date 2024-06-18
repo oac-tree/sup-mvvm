@@ -30,7 +30,7 @@ namespace mvvm
 {
 
 class ProjectChangedController;
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The AbstractProject class implements common functionality for file-based and folder-based
@@ -65,7 +65,7 @@ public:
   bool IsModified() const override;
 
 protected:
-  std::vector<SessionModelInterface*> GetModels() const;
+  std::vector<ISessionModel*> GetModels() const;
 
 private:
   virtual bool SaveImpl(const std::string&) = 0;

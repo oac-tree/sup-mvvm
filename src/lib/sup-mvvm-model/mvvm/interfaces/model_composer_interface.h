@@ -30,7 +30,7 @@ namespace mvvm
 
 class SessionItem;
 class TagIndex;
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The ModelComposerInterface class is an nterface for all classes to compose the model.
@@ -83,7 +83,7 @@ public:
   /**
    * @brief Returns a model server by this composer.
    */
-  virtual SessionModelInterface* GetModel() const = 0;
+  virtual ISessionModel* GetModel() const = 0;
 };
 
 }  // namespace mvvm

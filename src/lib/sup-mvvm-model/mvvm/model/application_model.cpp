@@ -30,7 +30,7 @@
 namespace
 {
 std::unique_ptr<mvvm::ModelComposerInterface> CreateNotifyingComposer(
-    mvvm::ModelEventHandler* notifier, mvvm::SessionModelInterface* model)
+    mvvm::ModelEventHandler* notifier, mvvm::ISessionModel* model)
 {
   return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(notifier, *model);
 }

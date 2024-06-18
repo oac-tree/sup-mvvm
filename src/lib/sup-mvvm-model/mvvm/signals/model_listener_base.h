@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 class ModelEventHandler;
 
 /**
@@ -41,7 +41,7 @@ class ModelEventHandler;
 class MVVM_MODEL_EXPORT ModelListenerBase
 {
 public:
-  explicit ModelListenerBase(const SessionModelInterface* model);
+  explicit ModelListenerBase(const ISessionModel* model);
   virtual ~ModelListenerBase();
 
   ModelListenerBase& operator=(const ModelListenerBase& other) = delete;
@@ -117,7 +117,7 @@ public:
   }
 
 protected:
-  const SessionModelInterface* GetModelBase() const;
+  const ISessionModel* GetModelBase() const;
 
 private:
   ModelEventHandler* GetEventHandler();

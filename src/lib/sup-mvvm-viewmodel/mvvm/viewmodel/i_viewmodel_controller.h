@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The IViewModelController class is a base class for all ViewModel controllers.

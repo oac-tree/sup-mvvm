@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The ProjectContext class defines context necessary for Project construction.
@@ -41,7 +41,7 @@ struct MVVM_MODEL_EXPORT ProjectContext
   std::function<void()> modified_callback;
 
   //!< to ask for a vector of models to save/load to/from disk
-  std::function<std::vector<SessionModelInterface*>()> models_callback;
+  std::function<std::vector<ISessionModel*>()> models_callback;
 
   //!< Application type allows to distinguish model documents created by various MVVM applications.
   //! The name is used during document save as an attribute of root XML element, and is validated on

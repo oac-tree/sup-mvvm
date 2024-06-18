@@ -22,7 +22,7 @@
 namespace mvvm::test
 {
 
-MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : ModelListener(model)
+MockModelListener::MockModelListener(mvvm::ISessionModel *model) : ModelListener(model)
 {
   Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnEvent);
   Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelListener::OnEvent);
@@ -34,7 +34,7 @@ MockModelListener::MockModelListener(mvvm::SessionModelInterface *model) : Model
   Connect<mvvm::ModelAboutToBeDestroyedEvent>(this, &MockModelListener::OnEvent);
 }
 
-MockModelListenerV2::MockModelListenerV2(const mvvm::SessionModelInterface *model)
+MockModelListenerV2::MockModelListenerV2(const mvvm::ISessionModel *model)
     : ModelListener(model)
 {
   Connect<mvvm::DataChangedEvent>(this, &MockModelListenerV2::OnDataChangedEvent);

@@ -31,7 +31,7 @@ namespace mvvm
 {
 
 class SessionItem;
-class SessionModelInterface;
+class ISessionModel;
 
 //! An event when item's data has changed.
 
@@ -109,7 +109,7 @@ struct ItemRemovedEvent
 
 struct ModelAboutToBeResetEvent
 {
-  SessionModelInterface* m_model{nullptr};  //! the model being reset
+  ISessionModel* m_model{nullptr};  //! the model being reset
 
   bool operator==(const ModelAboutToBeResetEvent& other) const;
   bool operator!=(const ModelAboutToBeResetEvent& other) const;
@@ -119,7 +119,7 @@ struct ModelAboutToBeResetEvent
 
 struct ModelResetEvent
 {
-  SessionModelInterface* m_model{nullptr};  //! the model being reset
+  ISessionModel* m_model{nullptr};  //! the model being reset
 
   bool operator==(const ModelResetEvent& other) const;
   bool operator!=(const ModelResetEvent& other) const;
@@ -129,7 +129,7 @@ struct ModelResetEvent
 
 struct ModelAboutToBeDestroyedEvent
 {
-  SessionModelInterface* m_model{nullptr};  //! the model being destroyed
+  ISessionModel* m_model{nullptr};  //! the model being destroyed
 
   bool operator==(const ModelAboutToBeDestroyedEvent& other) const;
   bool operator!=(const ModelAboutToBeDestroyedEvent& other) const;

@@ -53,7 +53,7 @@ public:
   void Reset(std::unique_ptr<SessionItem>& old_root_item,
              std::unique_ptr<SessionItem> new_root_item) override;
 
-  SessionModelInterface* GetModel() const override;
+  ISessionModel* GetModel() const override;
 
 private:
   template <typename C, typename... Args>

@@ -36,7 +36,7 @@ TEST_F(ProjectChangeControllerTests, InitialState)
 {
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
-  std::vector<SessionModelInterface*> models = {&sample_model, &material_model};
+  std::vector<ISessionModel*> models = {&sample_model, &material_model};
 
   ProjectChangedController controller(models);
   EXPECT_FALSE(controller.IsChanged());
@@ -46,7 +46,7 @@ TEST_F(ProjectChangeControllerTests, TwoModelsChange)
 {
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
-  std::vector<SessionModelInterface*> models = {&sample_model, &material_model};
+  std::vector<ISessionModel*> models = {&sample_model, &material_model};
 
   ProjectChangedController controller(models);
 
@@ -65,7 +65,7 @@ TEST_F(ProjectChangeControllerTests, Callback)
 
   ApplicationModel sample_model("SampleModel");
   ApplicationModel material_model("MaterialModel");
-  std::vector<SessionModelInterface*> models = {&sample_model, &material_model};
+  std::vector<ISessionModel*> models = {&sample_model, &material_model};
 
   auto on_model_changed = [&model_changed_count]() { ++model_changed_count; };
   ProjectChangedController controller(models, on_model_changed);

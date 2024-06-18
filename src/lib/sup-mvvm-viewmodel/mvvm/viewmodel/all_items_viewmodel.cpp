@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-AllItemsViewModel::AllItemsViewModel(SessionModelInterface *model, QObject *parent)
+AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent)
     : ViewModel(parent)
 {
   SetController(factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this));

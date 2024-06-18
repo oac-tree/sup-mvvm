@@ -40,10 +40,10 @@ public:
   bool IsSessionModelConvertible(const TreeData& tree_data) const;
 
   //! Creates TreeData from SessionModel.
-  std::unique_ptr<TreeData> ToTreeData(const SessionModelInterface& model) const override;
+  std::unique_ptr<TreeData> ToTreeData(const ISessionModel& model) const override;
 
   //! Populates empty SessionModel from TreeData.
-  void PopulateSessionModel(const TreeData& tree_data, SessionModelInterface& model) const override;
+  void PopulateSessionModel(const TreeData& tree_data, ISessionModel& model) const override;
 
 private:
   struct TreeDataModelConverterImpl;

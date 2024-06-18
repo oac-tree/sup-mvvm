@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 //! View model to show top level items of SessionModel in Qt trees and tables.
 //! All property items (i.e. "thickness", "color" etc) will be filtered out, top level items
@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT TopItemsViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  explicit TopItemsViewModel(SessionModelInterface* model, QObject* parent = nullptr);
+  explicit TopItemsViewModel(ISessionModel* model, QObject* parent = nullptr);
 
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 };

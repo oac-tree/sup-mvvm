@@ -39,7 +39,7 @@ const std::string kDefaultModelName = "application_model";
 namespace mvvm::utils
 {
 
-std::string SuggestFileName(const SessionModelInterface& model)
+std::string SuggestFileName(const ISessionModel& model)
 {
   std::string result = model.GetType().empty() ? kDefaultModelName : model.GetType();
   std::transform(result.begin(), result.end(), result.begin(), ::tolower);

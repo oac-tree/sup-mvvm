@@ -70,7 +70,7 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data
 }
 
 std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(
-    const SessionModelInterface &model) const
+    const ISessionModel &model) const
 {
   auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
@@ -87,7 +87,7 @@ std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(
 }
 
 void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
-                                                  SessionModelInterface &model) const
+                                                  ISessionModel &model) const
 {
   if (!IsSessionModelConvertible(tree_data))
   {

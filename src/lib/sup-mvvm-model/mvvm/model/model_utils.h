@@ -43,7 +43,7 @@ namespace mvvm::utils
  * @details The top item is an item that is a child of an invisible root item.
  */
 template <typename T = SessionItem>
-std::vector<T*> GetTopItems(const SessionModelInterface* model)
+std::vector<T*> GetTopItems(const ISessionModel* model)
 {
   if (!model)
   {
@@ -59,7 +59,7 @@ std::vector<T*> GetTopItems(const SessionModelInterface* model)
  * child of an invisible root item.
  */
 template <typename T = SessionItem>
-T* GetTopItem(const SessionModelInterface* model)
+T* GetTopItem(const ISessionModel* model)
 {
   auto items = GetTopItems<T>(model);
   return items.empty() ? nullptr : items.front();
@@ -69,7 +69,7 @@ T* GetTopItem(const SessionModelInterface* model)
  * @brief Returns all items in a tree of given type.
  */
 template <typename T = SessionItem>
-std::vector<T*> FindItems(const SessionModelInterface* model)
+std::vector<T*> FindItems(const ISessionModel* model)
 {
   std::vector<T*> result;
 
@@ -94,7 +94,7 @@ MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
 /**
  * @brief Returns item found in the model following given Path.
  */
-MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path);
+MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const ISessionModel& model, const Path& path);
 
 /**
  * @brief Copies a given item and inserts result into the model using provided parent and tag_index.
@@ -106,18 +106,18 @@ MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const SessionModelInterface& model, 
  *
  * @return Returns pointer to just inserted item to the user.
  */
-MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model,
+MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, ISessionModel* model,
                                         SessionItem* parent, const TagIndex& tag_index);
 
 /**
  * @brief Undo last model operation. If undo/redo is disabled, will do nothing.
  */
-MVVM_MODEL_EXPORT void Undo(SessionModelInterface& model);
+MVVM_MODEL_EXPORT void Undo(ISessionModel& model);
 
 /**
  * @brief Redo last model operation. If undo/redo is disabled, will do nothing.
  */
-MVVM_MODEL_EXPORT void Redo(SessionModelInterface& model);
+MVVM_MODEL_EXPORT void Redo(ISessionModel& model);
 
 /**
  * @brief Creates new empty root item.

@@ -30,10 +30,10 @@ namespace mvvm::test
 
 //! Mocking class to test events coming from the model.
 
-class MockModelListener : public mvvm::ModelListener<mvvm::SessionModelInterface>
+class MockModelListener : public mvvm::ModelListener<mvvm::ISessionModel>
 {
 public:
-  explicit MockModelListener(mvvm::SessionModelInterface* model);
+  explicit MockModelListener(mvvm::ISessionModel* model);
 
   MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
 };
@@ -41,10 +41,10 @@ public:
 //! Mocking class to test events coming from the model. The difference with the class above is a
 //! connection to separate slots to simplify wiring of unit tests.
 
-class MockModelListenerV2 : public mvvm::ModelListener<mvvm::SessionModelInterface>
+class MockModelListenerV2 : public mvvm::ModelListener<mvvm::ISessionModel>
 {
 public:
-  explicit MockModelListenerV2(const mvvm::SessionModelInterface* model);
+  explicit MockModelListenerV2(const mvvm::ISessionModel* model);
 
   MOCK_METHOD(void, OnAboutToInsertItem, (const mvvm::AboutToInsertItemEvent& event), ());
 

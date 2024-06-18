@@ -54,7 +54,7 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
 
 ItemViewComponentProvider::~ItemViewComponentProvider() = default;
 
-void ItemViewComponentProvider::SetApplicationModel(SessionModelInterface *model)
+void ItemViewComponentProvider::SetApplicationModel(ISessionModel *model)
 {
   m_view_model->SetModel(model);
 }

@@ -32,7 +32,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 class TagInfo;
 class SessionItemData;
 class TaggedItems;
@@ -108,7 +108,7 @@ public:
    * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a
    * model.
    */
-  SessionModelInterface* GetModel() const;
+  ISessionModel* GetModel() const;
 
   /**
    * @brief Returns item parent.
@@ -366,7 +366,7 @@ public:
   /**
    * @brief Set item's model to the given value.
    */
-  void SetModel(SessionModelInterface* model);
+  void SetModel(ISessionModel* model);
 
 protected:
   explicit SessionItem(const std::string& item_type);

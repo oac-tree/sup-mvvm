@@ -57,7 +57,7 @@ void CommandModelComposer::Reset(std::unique_ptr<SessionItem> &old_root_item,
   m_command_stack->Clear();
 }
 
-SessionModelInterface *CommandModelComposer::GetModel() const
+ISessionModel *CommandModelComposer::GetModel() const
 {
   return m_composer->GetModel();
 }

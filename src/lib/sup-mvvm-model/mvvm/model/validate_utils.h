@@ -27,7 +27,7 @@
 
 namespace mvvm
 {
-class SessionModelInterface;
+class ISessionModel;
 class SessionItem;
 class TagIndex;
 }  // namespace mvvm

@@ -27,14 +27,14 @@ namespace mvvm
 
 struct ModelListenerBase::ModelListenerBaseImpl
 {
-  const SessionModelInterface *m_model{nullptr};
+  const ISessionModel *m_model{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 
   ModelEventHandler *GetEventHandler() const { return m_model->GetEventHandler(); }
 
   Slot *GetSlot() const { return m_slot.get(); }
 
-  explicit ModelListenerBaseImpl(const SessionModelInterface *model)
+  explicit ModelListenerBaseImpl(const ISessionModel *model)
       : m_model(model), m_slot(std::make_unique<Slot>())
   {
     if (!m_model)
@@ -50,14 +50,14 @@ struct ModelListenerBase::ModelListenerBaseImpl
   }
 };
 
-ModelListenerBase::ModelListenerBase(const SessionModelInterface *model)
+ModelListenerBase::ModelListenerBase(const ISessionModel *model)
     : p_impl(std::make_unique<ModelListenerBaseImpl>(model))
 {
 }
 
 ModelListenerBase::~ModelListenerBase() = default;
 
-const SessionModelInterface *ModelListenerBase::GetModelBase() const
+const ISessionModel *ModelListenerBase::GetModelBase() const
 {
   return p_impl->m_model;
 }

@@ -29,7 +29,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 /**
  * @brief The ProjectChangedController class tracks changes in all models.
@@ -43,7 +43,7 @@ class MVVM_MODEL_EXPORT ProjectChangedController
 {
 public:
   using callback_t = std::function<void()>;
-  explicit ProjectChangedController(const std::vector<SessionModelInterface*>& models,
+  explicit ProjectChangedController(const std::vector<ISessionModel*>& models,
                                     callback_t project_changed_callback = {});
   ~ProjectChangedController();
 

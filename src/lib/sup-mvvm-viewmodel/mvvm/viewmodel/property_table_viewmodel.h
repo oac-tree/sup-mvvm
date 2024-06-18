@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 
 //! View model to show content of SessionModel in Qt widgets: all item properties as a table row.
 //! Intended to show registered properties of items in table-like view.
@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT PropertyTableViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  explicit PropertyTableViewModel(SessionModelInterface* model, QObject* parent = nullptr);
+  explicit PropertyTableViewModel(ISessionModel* model, QObject* parent = nullptr);
 
   void insertRow(ViewItem* parent, int row, std::vector<std::unique_ptr<ViewItem>> items) override;
 };

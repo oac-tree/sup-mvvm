@@ -31,7 +31,7 @@
 namespace mvvm
 {
 
-class SessionModelInterface;
+class ISessionModel;
 class ViewModelBase;
 class ChildrenStrategyInterface;
 class RowStrategyInterface;

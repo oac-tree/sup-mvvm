@@ -30,7 +30,7 @@
 namespace
 {
 //! Returns CommandStack from the model, or nullptr if the stack doesn't exist.
-mvvm::CommandStackInterface* GetCommandStack(const mvvm::SessionModelInterface& model)
+mvvm::CommandStackInterface* GetCommandStack(const mvvm::ISessionModel& model)
 {
   if (auto application_model = dynamic_cast<const mvvm::ApplicationModel*>(&model);
       application_model)
@@ -60,7 +60,7 @@ Path PathFromItem(const SessionItem* item)
   return result;
 }
 
-SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path)
+SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
 {
   SessionItem* result(model.GetRootItem());
   for (const auto& x : path)
@@ -74,13 +74,13 @@ SessionItem* ItemFromPath(const SessionModelInterface& model, const Path& path)
   return result;
 }
 
-SessionItem* CopyItem(const SessionItem* item, SessionModelInterface* model, SessionItem* parent,
+SessionItem* CopyItem(const SessionItem* item, ISessionModel* model, SessionItem* parent,
                       const TagIndex& tag_index)
 {
   return model->InsertItem(item->Clone(/* make_unique_id*/ true), parent, tag_index);
 }
 
-void Undo(SessionModelInterface& model)
+void Undo(ISessionModel& model)
 {
   if (auto command_stack = GetCommandStack(model); command_stack)
   {
@@ -88,7 +88,7 @@ void Undo(SessionModelInterface& model)
   }
 }
 
-void Redo(SessionModelInterface& model)
+void Redo(ISessionModel& model)
 {
   if (auto command_stack = GetCommandStack(model); command_stack)
   {

@@ -75,7 +75,7 @@ private:
 class TableViewModel : public mvvm::ViewModel
 {
 public:
-  TableViewModel(mvvm::SessionModelInterface *model, QObject *parent = nullptr) : ViewModel(parent)
+  TableViewModel(mvvm::ISessionModel *model, QObject *parent = nullptr) : ViewModel(parent)
   {
     SetController(
         mvvm::factory::CreateController<mvvm::AllChildrenStrategy, TableRowStrategy>(model, this));
