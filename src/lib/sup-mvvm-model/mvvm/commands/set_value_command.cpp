@@ -19,7 +19,7 @@
 
 #include "set_value_command.h"
 
-#include <mvvm/interfaces/model_composer_interface.h>
+#include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
 #include <mvvm/model/sessionitem.h>

@@ -8,8 +8,10 @@ target_sources(${library_name} PRIVATE
   external_property.cpp
   external_property.h
   function_types.h
+  i_model_composer.h
   i_sessionmodel.h
   item_catalogue.h
+  item_constants.h
   item_factory.cpp
   item_factory.h
   item_limits_helper.cpp
@@ -18,7 +20,6 @@ target_sources(${library_name} PRIVATE
   item_pool.h
   item_utils.cpp
   item_utils.h
-  item_constants.h
   model_composer.cpp
   model_composer.h
   model_utils.cpp

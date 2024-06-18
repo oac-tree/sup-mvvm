@@ -22,7 +22,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/interfaces/item_backup_strategy_interface.h>
-#include <mvvm/interfaces/model_composer_interface.h>
+#include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
@@ -54,8 +54,7 @@ struct RemoveItemCommand::RemoveItemCommandImpl
   std::unique_ptr<ItemBackupStrategyInterface> m_backup_strategy;
   std::unique_ptr<SessionItem> m_taken;
 
-  RemoveItemCommandImpl(IModelComposer* composer, SessionItem* parent,
-                        const TagIndex& tag_index)
+  RemoveItemCommandImpl(IModelComposer* composer, SessionItem* parent, const TagIndex& tag_index)
       : m_composer(composer), m_tag_index(tag_index)
   {
     m_backup_strategy = std::move(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()));

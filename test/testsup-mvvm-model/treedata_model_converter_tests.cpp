@@ -19,12 +19,12 @@
 
 #include "mvvm/serialization/treedata_model_converter.h"
 
+#include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/sessionmodel.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/interfaces/model_composer_interface.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/test/test_utils.h>

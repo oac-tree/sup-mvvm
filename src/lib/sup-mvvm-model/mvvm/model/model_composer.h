@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_MODEL_COMPOSER_H_
 #define MVVM_MODEL_MODEL_COMPOSER_H_
 
-#include <mvvm/interfaces/model_composer_interface.h>
+#include <mvvm/model/i_model_composer.h>
 
 namespace mvvm
 {
@@ -46,7 +46,7 @@ public:
   bool SetData(SessionItem* item, const variant_t& value, int role) override;
 
   void ReplaceRootItem(std::unique_ptr<SessionItem>& old_root_item,
-             std::unique_ptr<SessionItem> new_root_item) override;
+                       std::unique_ptr<SessionItem> new_root_item) override;
 
   ISessionModel* GetModel() const override;
 

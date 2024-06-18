@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_NOTIFYING_MODEL_COMPOSER_H_
 #define MVVM_MODEL_NOTIFYING_MODEL_COMPOSER_H_
 
-#include <mvvm/interfaces/model_composer_interface.h>
+#include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/signals/model_event_handler.h>
 
