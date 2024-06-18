@@ -35,10 +35,10 @@ target_sources(${library_name} PRIVATE
   property_item.h
   session_item.cpp
   session_item.h
-  sessionitem_container.cpp
-  sessionitem_container.h
-  sessionitem_data.cpp
-  sessionitem_data.h
+  session_item_container.cpp
+  session_item_container.h
+  session_item_data.cpp
+  session_item_data.h
   session_model.cpp
   session_model.h
   tagged_items.cpp

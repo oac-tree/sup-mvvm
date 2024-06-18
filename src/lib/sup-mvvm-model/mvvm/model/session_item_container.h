@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_SESSIONITEM_CONTAINER_H_
-#define MVVM_MODEL_SESSIONITEM_CONTAINER_H_
+#ifndef MVVM_MODEL_SESSION_ITEM_CONTAINER_H_
+#define MVVM_MODEL_SESSION_ITEM_CONTAINER_H_
 
 #include <mvvm/model/taginfo.h>
 

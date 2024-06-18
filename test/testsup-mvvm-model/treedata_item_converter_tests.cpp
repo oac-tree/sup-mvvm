@@ -23,7 +23,7 @@
 #include <mvvm/model/external_property.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_limits_helper.h>
-#include <mvvm/model/sessionitem_data.h>
+#include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_parse_utils.h>

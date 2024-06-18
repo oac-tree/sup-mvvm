@@ -20,7 +20,7 @@
 #include "item_utils.h"
 
 #include "session_item.h"
-#include "sessionitem_container.h"
+#include "session_item_container.h"
 #include "tagged_items.h"
 
 #include <mvvm/core/exceptions.h>

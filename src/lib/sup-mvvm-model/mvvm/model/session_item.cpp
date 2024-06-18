@@ -19,7 +19,7 @@
 
 #include "session_item.h"
 
-#include "sessionitem_data.h"
+#include "session_item_data.h"
 #include "tagged_items.h"
 #include "taginfo.h"
 #include "validate_utils.h"

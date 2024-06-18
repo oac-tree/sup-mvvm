@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sessionitem_container.h"
+#include "session_item_container.h"
 
 #include "session_item.h"
 

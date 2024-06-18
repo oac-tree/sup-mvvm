@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_SESSIONITEM_H_
-#define MVVM_MODEL_SESSIONITEM_H_
+#ifndef MVVM_MODEL_SESSION_ITEM_H_
+#define MVVM_MODEL_SESSION_ITEM_H_
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/variant.h>

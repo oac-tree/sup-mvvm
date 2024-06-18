@@ -20,7 +20,7 @@
 #include "mvvm/serialization/treedata_tagged_items_converter.h"
 
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionitem_container.h>
+#include <mvvm/model/session_item_container.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>

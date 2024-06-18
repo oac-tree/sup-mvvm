@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem_container.h"
+#include "mvvm/model/session_item_container.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/test/test_utils.h>

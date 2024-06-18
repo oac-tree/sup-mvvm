@@ -27,7 +27,7 @@
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_item_factory.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/sessionitem_data.h>
+#include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 
 namespace
