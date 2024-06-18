@@ -20,7 +20,7 @@
 #include "item_listener_base.h"
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 namespace mvvm
 {

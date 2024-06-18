@@ -26,7 +26,7 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 #include <sstream>
 

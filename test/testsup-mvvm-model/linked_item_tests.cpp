@@ -23,7 +23,7 @@
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/test/mock_item_listener.h>
 
 #include <gtest/gtest.h>

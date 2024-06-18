@@ -22,7 +22,7 @@
 #include "item_view_component_provider.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/viewmodel.h>
 
 #include <QTreeView>

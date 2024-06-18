@@ -19,8 +19,8 @@
 
 #include "mvvm/viewmodel/viewitem_factory.h"
 
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/viewmodelbase/viewitem.h>

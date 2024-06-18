@@ -25,7 +25,7 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/signals/model_event_handler.h>
 #include <mvvm/test/mock_event_listener.h>

@@ -25,7 +25,7 @@
 #include "taginfo.h"
 
 #include <mvvm/commands/command_stack_interface.h>
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 
 namespace
 {

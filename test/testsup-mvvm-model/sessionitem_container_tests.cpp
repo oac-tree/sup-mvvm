@@ -19,7 +19,7 @@
 
 #include "mvvm/model/sessionitem_container.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>

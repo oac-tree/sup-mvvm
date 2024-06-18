@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sessionmodel.h"
+#include "session_model.h"
 
 #include "item_pool.h"
 #include "model_composer.h"
 #include "model_utils.h"
-#include "sessionitem.h"
+#include "session_item.h"
 #include "validate_utils.h"
 
 #include <mvvm/core/exceptions.h>

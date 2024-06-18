@@ -21,8 +21,8 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model/tagged_items.h>
 
 #include <gtest/gtest.h>

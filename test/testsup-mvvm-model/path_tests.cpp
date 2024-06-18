@@ -20,8 +20,8 @@
 #include "mvvm/model/path.h"
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/model/sessionitem.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model/taginfo.h>
 
 #include <gtest/gtest.h>

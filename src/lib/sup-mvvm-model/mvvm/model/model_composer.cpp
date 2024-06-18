@@ -19,10 +19,10 @@
 
 #include "model_composer.h"
 
-#include "sessionitem.h"
+#include "session_item.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 
 namespace mvvm
 {

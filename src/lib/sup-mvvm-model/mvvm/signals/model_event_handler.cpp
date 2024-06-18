@@ -19,8 +19,8 @@
 
 #include "model_event_handler.h"
 
-#include <mvvm/model/i_sessionmodel.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/i_session_model.h>
+#include <mvvm/model/session_item.h>
 
 namespace mvvm
 {

@@ -19,11 +19,11 @@
 
 #include "mvvm/model/model_composer.h"
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/test/mock_model.h>
 

@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
 #define MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/standard_presentation_items.h>
 #include <mvvm/viewmodel_export.h>
 #include <mvvm/viewmodelbase/viewmodel_base_utils.h>

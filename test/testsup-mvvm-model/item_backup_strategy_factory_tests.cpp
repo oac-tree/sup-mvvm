@@ -23,7 +23,7 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 

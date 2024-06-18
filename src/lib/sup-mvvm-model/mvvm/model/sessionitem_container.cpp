@@ -19,7 +19,7 @@
 
 #include "sessionitem_container.h"
 
-#include "sessionitem.h"
+#include "session_item.h"
 
 #include <mvvm/utils/container_utils.h>
 

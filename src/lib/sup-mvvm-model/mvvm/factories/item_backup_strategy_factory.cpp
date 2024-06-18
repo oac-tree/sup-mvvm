@@ -20,7 +20,7 @@
 #include "item_backup_strategy_factory.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/treedata_item_converter.h>
 

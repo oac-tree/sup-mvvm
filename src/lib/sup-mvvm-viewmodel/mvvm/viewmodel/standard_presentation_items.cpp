@@ -23,7 +23,7 @@
 #include "viewmodel_utils.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 namespace mvvm
 {

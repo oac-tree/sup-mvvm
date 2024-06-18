@@ -21,7 +21,7 @@
 #define MVVM_MODEL_ITEM_UTILS_H_
 
 #include <mvvm/core/variant.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/model_export.h>
 
 #include <cstddef>

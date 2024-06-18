@@ -24,7 +24,7 @@
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/notifying_model_composer.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace

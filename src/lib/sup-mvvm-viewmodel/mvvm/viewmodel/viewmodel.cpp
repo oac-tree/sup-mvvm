@@ -22,8 +22,8 @@
 #include "abstract_viewmodel_controller.h"
 #include "viewmodel_utils.h"
 
-#include <mvvm/model/i_sessionmodel.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/i_session_model.h>
+#include <mvvm/model/session_item.h>
 
 namespace mvvm
 {

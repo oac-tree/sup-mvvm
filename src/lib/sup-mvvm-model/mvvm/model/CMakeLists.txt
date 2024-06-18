@@ -10,7 +10,7 @@ target_sources(${library_name} PRIVATE
   function_types.h
   i_item_factory.h
   i_model_composer.h
-  i_sessionmodel.h
+  i_session_model.h
   i_item_backup_strategy.h
   item_catalogue.h
   item_constants.h
@@ -33,14 +33,14 @@ target_sources(${library_name} PRIVATE
   path.h
   property_item.cpp
   property_item.h
-  sessionitem.cpp
-  sessionitem.h
+  session_item.cpp
+  session_item.h
   sessionitem_container.cpp
   sessionitem_container.h
   sessionitem_data.cpp
   sessionitem_data.h
-  sessionmodel.cpp
-  sessionmodel.h
+  session_model.cpp
+  session_model.h
   tagged_items.cpp
   tagged_items.h
   tagindex.cpp

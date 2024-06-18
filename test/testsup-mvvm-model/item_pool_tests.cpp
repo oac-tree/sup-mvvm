@@ -20,7 +20,7 @@
 #include "mvvm/model/item_pool.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 #include <gtest/gtest.h>
 

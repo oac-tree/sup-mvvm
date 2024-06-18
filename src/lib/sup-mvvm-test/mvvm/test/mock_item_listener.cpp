@@ -21,7 +21,7 @@
 
 #include "mvvm/signals/event_types.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/model/tagindex.h>
 
 namespace mvvm::test

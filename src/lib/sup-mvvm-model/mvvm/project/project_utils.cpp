@@ -22,7 +22,7 @@
 #include "file_based_project.h"
 #include "folder_based_project.h"
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/utils/file_utils.h>
 

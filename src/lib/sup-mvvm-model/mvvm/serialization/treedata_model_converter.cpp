@@ -22,10 +22,10 @@
 #include "treedata.h"
 #include "treedata_item_converter.h"
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 #include <string>
 #include <vector>

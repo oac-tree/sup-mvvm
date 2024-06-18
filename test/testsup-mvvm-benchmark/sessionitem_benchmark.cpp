@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem.h"
+#include "mvvm/model/session_item.h"
 
 #include <benchmark/benchmark.h>
 #include <mvvm/model/property_item.h>

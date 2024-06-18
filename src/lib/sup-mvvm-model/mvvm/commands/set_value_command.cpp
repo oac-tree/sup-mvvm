@@ -22,7 +22,7 @@
 #include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/path.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 #include <sstream>
 

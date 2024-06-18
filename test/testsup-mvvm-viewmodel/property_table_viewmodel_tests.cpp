@@ -21,7 +21,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/test/toy_items.h>
 

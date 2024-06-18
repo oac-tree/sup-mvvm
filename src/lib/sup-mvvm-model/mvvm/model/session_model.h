@@ -17,10 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_SESSIONMODEL_H_
-#define MVVM_MODEL_SESSIONMODEL_H_
+#ifndef MVVM_MODEL_SESSION_MODEL_H_
+#define MVVM_MODEL_SESSION_MODEL_H_
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 
 #include <memory>
 

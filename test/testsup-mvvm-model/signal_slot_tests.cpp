@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/signal_slot.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

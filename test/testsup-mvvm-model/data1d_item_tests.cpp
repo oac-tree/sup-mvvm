@@ -20,7 +20,7 @@
 #include "mvvm/standarditems/data1d_item.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/axis_items.h>
 
 #include <gtest/gtest.h>

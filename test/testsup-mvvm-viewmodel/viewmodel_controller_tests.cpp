@@ -23,7 +23,7 @@
 #include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>

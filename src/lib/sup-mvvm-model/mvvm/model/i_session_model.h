@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_I_SESSIONMODEL_H_
-#define MVVM_MODEL_I_SESSIONMODEL_H_
+#ifndef MVVM_MODEL_I_SESSION_MODEL_H_
+#define MVVM_MODEL_I_SESSION_MODEL_H_
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/tagindex.h>

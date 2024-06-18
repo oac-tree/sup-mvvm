@@ -20,7 +20,7 @@
 #include "mvvm/standarditems/graph_viewport_item.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>

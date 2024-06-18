@@ -22,7 +22,7 @@
 #include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>

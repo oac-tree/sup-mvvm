@@ -23,7 +23,7 @@
 #include "viewmodel.h"
 
 #include <mvvm/core/variant.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 
 #include <QColor>

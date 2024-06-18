@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
+#include "mvvm/model/session_item.h"
+#include "mvvm/model/session_model.h"
 #include "mvvm/signals/event_utils.h"
 
 #include <gmock/gmock.h>

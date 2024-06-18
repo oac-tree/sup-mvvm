@@ -23,7 +23,7 @@
 #include "remove_item_command.h"
 #include "set_value_command.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 
 namespace mvvm
 {

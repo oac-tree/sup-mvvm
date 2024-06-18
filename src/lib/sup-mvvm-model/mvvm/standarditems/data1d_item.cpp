@@ -21,7 +21,7 @@
 
 #include "axis_items.h"
 
-#include <mvvm/model/i_sessionmodel.h>
+#include <mvvm/model/i_session_model.h>
 
 namespace
 {

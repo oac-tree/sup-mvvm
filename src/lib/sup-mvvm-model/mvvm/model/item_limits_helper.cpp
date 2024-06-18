@@ -19,7 +19,7 @@
 
 #include "item_limits_helper.h"
 
-#include "sessionitem.h"
+#include "session_item.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/utils/variant_limits_helper.h>

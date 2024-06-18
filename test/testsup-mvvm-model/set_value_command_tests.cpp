@@ -22,7 +22,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/test/mock_event_listener.h>
 
 #include <gtest/gtest.h>

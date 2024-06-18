@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/test/mock_item_listener.h>
 

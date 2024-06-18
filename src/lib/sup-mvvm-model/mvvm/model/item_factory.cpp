@@ -20,7 +20,7 @@
 #include "item_factory.h"
 
 #include <mvvm/model/item_catalogue.h>
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 
 #include <mutex>

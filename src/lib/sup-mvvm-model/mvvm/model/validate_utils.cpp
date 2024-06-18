@@ -20,7 +20,7 @@
 #include "validate_utils.h"
 
 #include "item_utils.h"
-#include "sessionitem.h"
+#include "session_item.h"
 #include "tagged_items.h"
 #include "tagindex.h"
 

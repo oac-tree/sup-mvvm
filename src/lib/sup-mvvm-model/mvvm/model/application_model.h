@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_APPLICATION_MODEL_H_
 #define MVVM_MODEL_APPLICATION_MODEL_H_
 
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 
 #include <memory>
 

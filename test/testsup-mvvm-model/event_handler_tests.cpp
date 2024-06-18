@@ -19,7 +19,7 @@
 
 #include "mvvm/signals/event_handler.h"
 
-#include <mvvm/model/sessionitem.h>
+#include <mvvm/model/session_item.h>
 #include <mvvm/signals/event_types.h>
 
 #include <gmock/gmock.h>
