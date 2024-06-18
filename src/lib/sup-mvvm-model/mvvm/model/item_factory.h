@@ -34,15 +34,15 @@ class ItemCatalogue;
  * @brief The ItemFactory class represent a factory of SessionItems.
  */
 
-class MVVM_MODEL_EXPORT ItemFactory : public ItemFactoryInterface
+class MVVM_MODEL_EXPORT ItemFactory : public IItemFactory
 {
 public:
   explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue);
 
   ~ItemFactory() override;
 
-  using ItemFactoryInterface::IsRegistered;
-  using ItemFactoryInterface::RegisterItem;
+  using IItemFactory::IsRegistered;
+  using IItemFactory::RegisterItem;
 
   void RegisterItem(const std::string& type_name, item_factory_func_t func,
                     const std::string& label) override;

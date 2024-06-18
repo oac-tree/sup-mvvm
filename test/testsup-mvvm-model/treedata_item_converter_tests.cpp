@@ -70,7 +70,7 @@ public:
     return std::unique_ptr<T>(static_cast<T*>(result.release()));
   }
 
-  static ItemFactoryInterface* GetFactory() { return &GetGlobalItemFactory(); }
+  static IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
 };
 
 //! Default PropertyItem to TreeData and back.

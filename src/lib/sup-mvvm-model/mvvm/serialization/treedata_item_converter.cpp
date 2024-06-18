@@ -41,12 +41,12 @@ namespace mvvm
 struct TreeDataItemConverter::TreeDataItemConverterImpl
 {
   TreeDataItemConverter* m_self{nullptr};
-  const ItemFactoryInterface* m_factory{nullptr};
+  const IItemFactory* m_factory{nullptr};
   ConverterMode m_mode{ConverterMode::kNone};
   std::unique_ptr<TreeDataItemDataConverter> m_itemdata_converter;
   std::unique_ptr<TreeDataTaggedItemsConverter> m_taggedtems_converter;
 
-  TreeDataItemConverterImpl(TreeDataItemConverter* self, const ItemFactoryInterface* factory,
+  TreeDataItemConverterImpl(TreeDataItemConverter* self, const IItemFactory* factory,
                             ConverterMode mode)
       : m_self(self), m_factory(factory), m_mode(mode)
   {
@@ -99,7 +99,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   }
 };
 
-TreeDataItemConverter::TreeDataItemConverter(const ItemFactoryInterface* factory,
+TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory,
                                              ConverterMode mode)
     : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode))
 {

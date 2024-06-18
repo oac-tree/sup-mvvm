@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEM_FACTORY_INTERFACE_H_
-#define MVVM_INTERFACES_ITEM_FACTORY_INTERFACE_H_
+#ifndef MVVM_MODEL_I_ITEM_FACTORY_H_
+#define MVVM_MODEL_I_ITEM_FACTORY_H_
 
 #include <mvvm/model/function_types.h>
 #include <mvvm/model_export.h>
@@ -29,13 +29,12 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The ItemFactoryInterface class is an interface for all SessionItem factories.
+ * @brief The IItemFactory class is an interface for all SessionItem factories.
  */
-
-class MVVM_MODEL_EXPORT ItemFactoryInterface
+class MVVM_MODEL_EXPORT IItemFactory
 {
 public:
-  virtual ~ItemFactoryInterface() = default;
+  virtual ~IItemFactory() = default;
 
   /**
    * @brief Registers item factory function.
@@ -78,17 +77,17 @@ public:
 };
 
 template <typename T>
-void ItemFactoryInterface::RegisterItem(const std::string& label)
+void IItemFactory::RegisterItem(const std::string& label)
 {
   RegisterItem(T::Type, ItemFactoryFunction<T>, label);
 }
 
 template <typename T>
-bool ItemFactoryInterface::IsRegistered() const
+bool IItemFactory::IsRegistered() const
 {
   return IsRegistered(T::Type);
 }
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_ITEM_FACTORY_INTERFACE_H_
+#endif  // MVVM_MODEL_I_ITEM_FACTORY_H_

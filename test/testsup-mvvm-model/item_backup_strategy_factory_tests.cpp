@@ -50,7 +50,7 @@ public:
     }
   };
 
-  ItemFactoryInterface* GetFactory() { return &GetGlobalItemFactory(); }
+  IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
 
   ItemBackupStrategyFactoryTests() { RegisterGlobalItem<TestItem>(); }
   SessionModel m_model;

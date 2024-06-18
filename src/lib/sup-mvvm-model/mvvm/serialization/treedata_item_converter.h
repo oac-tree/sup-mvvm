@@ -25,7 +25,7 @@
 
 namespace mvvm
 {
-class ItemFactoryInterface;
+class IItemFactory;
 
 //! Converters SessionItem to/from TreeData object.
 //! Requires ItemFactory to operate. On the way from SessionItem to TreeData creates
@@ -35,7 +35,7 @@ class ItemFactoryInterface;
 class MVVM_MODEL_EXPORT TreeDataItemConverter : public TreeDataItemConverterInterface
 {
 public:
-  TreeDataItemConverter(const ItemFactoryInterface* factory, ConverterMode mode);
+  TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode);
   ~TreeDataItemConverter() override;
 
   //! Returns true if given TreeData represents SessionItem object.

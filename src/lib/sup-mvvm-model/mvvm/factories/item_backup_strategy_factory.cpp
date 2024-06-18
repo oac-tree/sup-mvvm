@@ -31,7 +31,7 @@ namespace
 class TreeDataItemBackupStrategy : public mvvm::ItemBackupStrategyInterface
 {
 public:
-  explicit TreeDataItemBackupStrategy(const ::mvvm::ItemFactoryInterface* factory)
+  explicit TreeDataItemBackupStrategy(const ::mvvm::IItemFactory* factory)
       : m_converter(
           std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone))
   {
@@ -62,7 +62,7 @@ namespace mvvm
 {
 
 std::unique_ptr<ItemBackupStrategyInterface> CreateItemTreeDataBackupStrategy(
-    const ItemFactoryInterface* factory)
+    const IItemFactory* factory)
 {
   return std::make_unique<TreeDataItemBackupStrategy>(factory);
 }
