@@ -24,6 +24,7 @@ target_sources(${library_name} PRIVATE
   item_utils.h
   model_composer.cpp
   model_composer.h
+  model_fwd.h
   model_utils.cpp
   model_utils.h
   mvvm_types.h
