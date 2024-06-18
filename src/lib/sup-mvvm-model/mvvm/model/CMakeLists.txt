@@ -11,6 +11,7 @@ target_sources(${library_name} PRIVATE
   i_item_factory.h
   i_model_composer.h
   i_sessionmodel.h
+  i_item_backup_strategy.h
   item_catalogue.h
   item_constants.h
   item_factory.cpp

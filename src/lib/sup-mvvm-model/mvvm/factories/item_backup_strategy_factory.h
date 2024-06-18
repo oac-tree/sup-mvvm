@@ -20,7 +20,7 @@
 #ifndef MVVM_FACTORIES_ITEM_BACKUP_STRATEGY_FACTORY_H_
 #define MVVM_FACTORIES_ITEM_BACKUP_STRATEGY_FACTORY_H_
 
-#include <mvvm/interfaces/item_backup_strategy_interface.h>
+#include <mvvm/model/i_item_backup_strategy.h>
 
 #include <memory>
 

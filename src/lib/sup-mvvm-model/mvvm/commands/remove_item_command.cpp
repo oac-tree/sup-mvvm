@@ -21,7 +21,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
-#include <mvvm/interfaces/item_backup_strategy_interface.h>
+#include <mvvm/model/i_item_backup_strategy.h>
 #include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
