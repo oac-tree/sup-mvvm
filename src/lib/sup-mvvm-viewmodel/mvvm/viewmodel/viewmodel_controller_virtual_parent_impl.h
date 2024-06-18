@@ -34,7 +34,7 @@ namespace mvvm
 class ISessionModel;
 class ViewModelBase;
 class IChildrenStrategy;
-class RowStrategyInterface;
+class IRowStrategy;
 
 /**
  * @brief The ViewModelControllerImpl class contains implementation details for ViewModelController.
@@ -47,7 +47,7 @@ class ViewModelControllerVirtualParentImpl : public IViewModelController
 public:
   explicit ViewModelControllerVirtualParentImpl(
       ViewModelBase *viewmodel, std::unique_ptr<IChildrenStrategy> children_strategy,
-      std::unique_ptr<RowStrategyInterface> row_strategy);
+      std::unique_ptr<IRowStrategy> row_strategy);
 
   void OnModelEvent(const AboutToInsertItemEvent &event) override;
 
@@ -107,7 +107,7 @@ private:
   ViewModelBase *m_viewmodel{nullptr};
   ViewItemMap m_view_item_map;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;
-  std::unique_ptr<RowStrategyInterface> m_row_strategy;
+  std::unique_ptr<IRowStrategy> m_row_strategy;
   Path m_root_item_path;  // saves path to custom root item, to restore it on model reset
 };
 

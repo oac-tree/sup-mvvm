@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_ABSTRACT_ROW_STRATEGY_H_
 #define MVVM_VIEWMODEL_ABSTRACT_ROW_STRATEGY_H_
 
-#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/viewmodel/i_row_strategy.h>
 
 namespace mvvm
 {
@@ -31,7 +31,7 @@ namespace mvvm
  *
  * It provides additional checks for constructed rows via non-virtual-interface idiom.
  */
-class AbstractRowStrategy : public RowStrategyInterface
+class AbstractRowStrategy : public IRowStrategy
 {
 public:
 

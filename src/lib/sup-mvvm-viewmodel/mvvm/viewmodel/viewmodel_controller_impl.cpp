@@ -23,11 +23,11 @@
 #include "viewmodel_utils.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/viewmodel/i_children_strategy.h>
-#include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
+#include <mvvm/viewmodel/i_children_strategy.h>
+#include <mvvm/viewmodel/i_row_strategy.h>
 
 #include <stack>
 
@@ -36,7 +36,7 @@ namespace mvvm
 
 ViewModelControllerImpl::ViewModelControllerImpl(
     ViewModelBase *viewmodel, std::unique_ptr<IChildrenStrategy> children_strategy,
-    std::unique_ptr<RowStrategyInterface> row_strategy)
+    std::unique_ptr<IRowStrategy> row_strategy)
     : m_view_model(viewmodel)
     , m_children_strategy(std::move(children_strategy))
     , m_row_strategy(std::move(row_strategy))

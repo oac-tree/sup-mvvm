@@ -10,6 +10,7 @@ target_sources(${library_name} PRIVATE
   custom_variants.cpp
   custom_variants.h
   i_children_strategy.h
+  i_row_strategy.h
   i_viewmodel_controller.h
   property_table_viewmodel.cpp
   property_table_viewmodel.h

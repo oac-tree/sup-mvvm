@@ -20,7 +20,7 @@
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/viewmodel/i_children_strategy.h>
-#include <mvvm/interfaces/row_strategy_interface.h>
+#include <mvvm/viewmodel/i_row_strategy.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>

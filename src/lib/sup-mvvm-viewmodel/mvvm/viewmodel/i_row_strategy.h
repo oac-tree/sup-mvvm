@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ROW_STRATEGY_INTERFACE_H_
-#define MVVM_INTERFACES_ROW_STRATEGY_INTERFACE_H_
+#ifndef MVVM_VIEWMODEL_I_ROW_STRATEGY_H_
+#define MVVM_VIEWMODEL_I_ROW_STRATEGY_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -33,15 +33,15 @@ class SessionItem;
 class ViewItem;
 
 /**
- * @brief The RowStrategyInterface class is an interface for all strategies to construct the row of
+ * @brief The IRowStrategy class is an interface for all strategies to construct the row of
  * ViewItems for the given SessionItem.
  *
  * Used in the context of AbstractViewModel while exposing SessionModel to Qt.
  */
-class MVVM_VIEWMODEL_EXPORT RowStrategyInterface
+class MVVM_VIEWMODEL_EXPORT IRowStrategy
 {
 public:
-  virtual ~RowStrategyInterface() = default;
+  virtual ~IRowStrategy() = default;
 
   /**
    * @brief Returns number of elements in a row (i.e. model's column count).
@@ -65,4 +65,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_ROW_STRATEGY_INTERFACE_H_
+#endif  // MVVM_VIEWMODEL_I_ROW_STRATEGY_H_
