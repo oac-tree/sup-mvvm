@@ -8,6 +8,7 @@ target_sources(${library_name} PRIVATE
   external_property.cpp
   external_property.h
   function_types.h
+  i_item_factory.h
   i_model_composer.h
   i_sessionmodel.h
   item_catalogue.h

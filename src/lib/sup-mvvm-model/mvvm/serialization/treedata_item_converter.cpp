@@ -25,7 +25,7 @@
 #include "treedata_tagged_items_converter.h"
 
 #include <mvvm/core/unique_id_generator.h>
-#include <mvvm/interfaces/item_factory_interface.h>
+#include <mvvm/model/i_item_factory.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model/sessionitem_data.h>
 #include <mvvm/model/tagged_items.h>
@@ -99,8 +99,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   }
 };
 
-TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory,
-                                             ConverterMode mode)
+TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode)
     : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode))
 {
 }
