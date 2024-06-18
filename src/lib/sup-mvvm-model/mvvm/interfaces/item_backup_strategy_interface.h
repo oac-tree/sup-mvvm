@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_ITEM_BACKUP_STRATEGY_INTERFACE_H_
-#define MVVM_INTERFACES_ITEM_BACKUP_STRATEGY_INTERFACE_H_
+#ifndef MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_
+#define MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_
 
 #include <mvvm/model_export.h>
 
@@ -31,10 +31,10 @@ class SessionItem;
 
 //! Interface to backup items for later restore.
 
-class MVVM_MODEL_EXPORT ItemBackupStrategyInterface
+class MVVM_MODEL_EXPORT IItemBackupStrategy
 {
 public:
-  virtual ~ItemBackupStrategyInterface() = default;
+  virtual ~IItemBackupStrategy() = default;
 
   //! Save item's content.
   virtual void SaveItem(const SessionItem& item) = 0;
@@ -45,4 +45,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_ITEM_BACKUP_STRATEGY_INTERFACE_H_
+#endif  // MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_

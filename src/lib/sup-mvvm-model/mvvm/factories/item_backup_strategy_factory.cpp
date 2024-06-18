@@ -28,7 +28,7 @@ namespace
 {
 
 //! Implements copy strategy for SessionItem using TreeDataItemConverter.
-class TreeDataItemBackupStrategy : public mvvm::ItemBackupStrategyInterface
+class TreeDataItemBackupStrategy : public mvvm::IItemBackupStrategy
 {
 public:
   explicit TreeDataItemBackupStrategy(const ::mvvm::IItemFactory* factory)
@@ -61,7 +61,7 @@ private:
 namespace mvvm
 {
 
-std::unique_ptr<ItemBackupStrategyInterface> CreateItemTreeDataBackupStrategy(
+std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(
     const IItemFactory* factory)
 {
   return std::make_unique<TreeDataItemBackupStrategy>(factory);

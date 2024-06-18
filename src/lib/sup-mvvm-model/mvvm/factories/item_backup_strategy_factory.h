@@ -29,7 +29,7 @@ namespace mvvm
 class IItemFactory;
 
 //! Returns default strategy for item backup based on a TreeData objects.
-MVVM_MODEL_EXPORT std::unique_ptr<ItemBackupStrategyInterface> CreateItemTreeDataBackupStrategy(
+MVVM_MODEL_EXPORT std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(
     const IItemFactory* factory);
 
 }  // namespace mvvm

@@ -51,7 +51,7 @@ struct InsertItemCommand::InsertItemCommandImpl
   IModelComposer* m_composer{nullptr};
   Path m_parent_path;
   TagIndex m_tag_index;
-  std::unique_ptr<ItemBackupStrategyInterface> m_backup_strategy;
+  std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
   std::unique_ptr<SessionItem> m_to_insert;
   SessionItem* m_result{nullptr};
 

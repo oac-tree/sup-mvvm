@@ -51,7 +51,7 @@ struct RemoveItemCommand::RemoveItemCommandImpl
   IModelComposer* m_composer{nullptr};
   Path m_parent_path;
   TagIndex m_tag_index;
-  std::unique_ptr<ItemBackupStrategyInterface> m_backup_strategy;
+  std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
   std::unique_ptr<SessionItem> m_taken;
 
   RemoveItemCommandImpl(IModelComposer* composer, SessionItem* parent, const TagIndex& tag_index)
