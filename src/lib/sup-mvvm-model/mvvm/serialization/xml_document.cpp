@@ -25,7 +25,7 @@
 #include "xml_write_utils.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 
 namespace
 {

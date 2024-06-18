@@ -25,7 +25,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/interfaces/children_strategy_interface.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
 

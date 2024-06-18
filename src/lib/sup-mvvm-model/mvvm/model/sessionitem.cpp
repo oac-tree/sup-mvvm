@@ -26,7 +26,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 
 namespace
 {

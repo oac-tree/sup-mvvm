@@ -19,7 +19,7 @@
 
 #include "mvvm/model/model_composer.h"
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>

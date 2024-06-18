@@ -22,7 +22,7 @@
 #include "treedata.h"
 #include "treedata_item_converter.h"
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/sessionitem.h>
@@ -69,8 +69,7 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data
   return correct_type && correct_attributes;
 }
 
-std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(
-    const ISessionModel &model) const
+std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const ISessionModel &model) const
 {
   auto item_converter = CreateConverter(&GetGlobalItemFactory());
 

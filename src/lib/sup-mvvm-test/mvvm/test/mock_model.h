@@ -20,7 +20,7 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
 #define LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/sessionitem.h>
 
 #include <gmock/gmock.h>

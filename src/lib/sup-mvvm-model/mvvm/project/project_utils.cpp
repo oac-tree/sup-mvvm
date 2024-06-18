@@ -22,7 +22,7 @@
 #include "file_based_project.h"
 #include "folder_based_project.h"
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/utils/file_utils.h>
 
@@ -52,7 +52,7 @@ bool IsPossibleProjectDir(const std::string& project_dir)
 }
 
 std::unique_ptr<IProject> CreateUntitledProject(ProjectType project_type,
-                                                           const ProjectContext& context)
+                                                const ProjectContext& context)
 {
   if (project_type == ProjectType::kFileBased)
   {

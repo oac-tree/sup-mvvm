@@ -21,7 +21,7 @@
 
 #include "project_change_controller.h"
 
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 
 namespace mvvm
 {

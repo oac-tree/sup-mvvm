@@ -21,7 +21,7 @@
 #define MVVM_MODEL_MODEL_UTILS_H_
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/sessionitem.h>
 #include <mvvm/model_export.h>

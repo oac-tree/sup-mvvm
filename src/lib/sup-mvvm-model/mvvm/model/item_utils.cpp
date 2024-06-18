@@ -24,7 +24,7 @@
 #include "tagged_items.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/interfaces/sessionmodel_interface.h>
+#include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/serialization/treedata_item_converter.h>
 #include <mvvm/serialization/xml_parse_utils.h>
