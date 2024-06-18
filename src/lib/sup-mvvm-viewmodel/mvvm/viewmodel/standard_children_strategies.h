@@ -24,7 +24,7 @@
 //! Collection of strategies to find children, actual of fictional, of given SessionItem. Used for
 //! ViewModel generation when underlying SessionModel changes its layout.
 
-#include <mvvm/interfaces/children_strategy_interface.h>
+#include <mvvm/viewmodel/i_children_strategy.h>
 
 #include <string>
 
@@ -38,7 +38,7 @@ class SessionItem;
  *
  * @details Hidden children by the current convention will be also in the list.
  */
-class MVVM_VIEWMODEL_EXPORT AllChildrenStrategy : public ChildrenStrategyInterface
+class MVVM_VIEWMODEL_EXPORT AllChildrenStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -50,7 +50,7 @@ public:
  * @details This will filter out all items marked with property flag. Also, all items explicitly
  * marked with setVisible(false) will not show up.
  */
-class MVVM_VIEWMODEL_EXPORT TopItemsStrategy : public ChildrenStrategyInterface
+class MVVM_VIEWMODEL_EXPORT TopItemsStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -61,7 +61,7 @@ public:
  *
  * @details All top level items will be filtered out.
  */
-class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public ChildrenStrategyInterface
+class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -70,7 +70,7 @@ public:
 /**
  * @brief The FixedItemTypeStrategy class finds children which belongs to one of the given type.
  */
-class MVVM_VIEWMODEL_EXPORT FixedItemTypeStrategy : public ChildrenStrategyInterface
+class MVVM_VIEWMODEL_EXPORT FixedItemTypeStrategy : public IChildrenStrategy
 {
 public:
   explicit FixedItemTypeStrategy(std::vector<std::string> item_types);

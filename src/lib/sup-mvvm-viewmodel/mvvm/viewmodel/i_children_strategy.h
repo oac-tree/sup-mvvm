@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_INTERFACES_CHILDREN_STRATEGY_INTERFACE_H_
-#define MVVM_INTERFACES_CHILDREN_STRATEGY_INTERFACE_H_
+#ifndef MVVM_VIEMODEL_I_CHILDREN_STRATEGY_H_
+#define MVVM_VIEMODEL_I_CHILDREN_STRATEGY_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -30,26 +30,25 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The ChildrenStrategyInterface class is an iterface for all strategies to find children,
+ * @brief The IChildrenStrategy class is an interface for all strategies to find children,
  * actual or fictional, of a given item.
  *
- * @details The reported vector of children might be different from the actual children of a given
- * item.
+ * The reported vector of children might be different from the actual children of a given item.
  */
-
-class MVVM_VIEWMODEL_EXPORT ChildrenStrategyInterface
+class MVVM_VIEWMODEL_EXPORT IChildrenStrategy
 {
 public:
-  virtual ~ChildrenStrategyInterface() = default;
+  virtual ~IChildrenStrategy() = default;
 
   /**
-   * @brief Returns vector of children of given item. The strategy is used in the context of
-   * AbstractViewModel while exposing SessionModel to Qt. Thanks to this strategy ViewModel decides
-   * which items to visit.
+   * @brief Returns vector of children of given item.
+   *
+   * The strategy is used in the context of AbstractViewModel while exposing SessionModel to Qt.
+   * Thanks to this strategy ViewModel decides which items to visit.
    */
   virtual std::vector<SessionItem*> GetChildren(const SessionItem* item) const = 0;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_INTERFACES_CHILDREN_STRATEGY_INTERFACE_H_
+#endif  // MVVM_VIEMODEL_I_CHILDREN_STRATEGY_H_

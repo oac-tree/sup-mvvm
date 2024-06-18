@@ -22,7 +22,7 @@
 #include "viewitem_factory.h"
 #include "viewmodel_utils.h"
 
-#include <mvvm/interfaces/children_strategy_interface.h>
+#include <mvvm/viewmodel/i_children_strategy.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/model/i_sessionmodel.h>
 #include <mvvm/model/model_utils.h>
@@ -34,7 +34,7 @@ namespace mvvm
 {
 
 ViewModelControllerVirtualParentImpl::ViewModelControllerVirtualParentImpl(
-    ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
+    ViewModelBase *viewmodel, std::unique_ptr<IChildrenStrategy> children_strategy,
     std::unique_ptr<RowStrategyInterface> row_strategy)
     : m_viewmodel(viewmodel)
     , m_children_strategy(std::move(children_strategy))

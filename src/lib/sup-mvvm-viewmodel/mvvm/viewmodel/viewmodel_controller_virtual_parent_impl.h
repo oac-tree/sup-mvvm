@@ -33,7 +33,7 @@ namespace mvvm
 
 class ISessionModel;
 class ViewModelBase;
-class ChildrenStrategyInterface;
+class IChildrenStrategy;
 class RowStrategyInterface;
 
 /**
@@ -46,7 +46,7 @@ class ViewModelControllerVirtualParentImpl : public IViewModelController
 {
 public:
   explicit ViewModelControllerVirtualParentImpl(
-      ViewModelBase *viewmodel, std::unique_ptr<ChildrenStrategyInterface> children_strategy,
+      ViewModelBase *viewmodel, std::unique_ptr<IChildrenStrategy> children_strategy,
       std::unique_ptr<RowStrategyInterface> row_strategy);
 
   void OnModelEvent(const AboutToInsertItemEvent &event) override;
@@ -106,7 +106,7 @@ public:
 private:
   ViewModelBase *m_viewmodel{nullptr};
   ViewItemMap m_view_item_map;
-  std::unique_ptr<ChildrenStrategyInterface> m_children_strategy;
+  std::unique_ptr<IChildrenStrategy> m_children_strategy;
   std::unique_ptr<RowStrategyInterface> m_row_strategy;
   Path m_root_item_path;  // saves path to custom root item, to restore it on model reset
 };

@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-class ChildrenStrategyInterface;
+class IChildrenStrategy;
 class RowStrategyInterface;
 class AbstractViewModelController;
 class ISessionModel;
@@ -39,7 +39,7 @@ namespace factory
 
 struct ViewModelControllerFactoryContext
 {
-  std::unique_ptr<ChildrenStrategyInterface> children_strategy;
+  std::unique_ptr<IChildrenStrategy> children_strategy;
   std::unique_ptr<RowStrategyInterface> row_strategy;
   ISessionModel* model{nullptr};
   ViewModelBase* view_model{nullptr};

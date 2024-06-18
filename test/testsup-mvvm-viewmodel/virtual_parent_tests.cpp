@@ -19,7 +19,7 @@
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
 #include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/interfaces/children_strategy_interface.h>
+#include <mvvm/viewmodel/i_children_strategy.h>
 #include <mvvm/interfaces/row_strategy_interface.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -41,7 +41,7 @@ using namespace mvvm;
 
 // Children strategy that excludes container items from the model but shows their children
 // as if they were direct children of the container's parent. All other items are shown as is.
-class TestExcludeContainerStrategy : public ChildrenStrategyInterface
+class TestExcludeContainerStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const
