@@ -1,4 +1,4 @@
-# Components for Qt delegates
+# Components for Qt models (selection models, delegates)
 
 target_sources(${library_name} PRIVATE
   default_cell_decorator.cpp

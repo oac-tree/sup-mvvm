@@ -20,7 +20,7 @@
 #include "property_grid_controller.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/delegates/viewmodel_delegate.h>
+#include <mvvm/providers/viewmodel_delegate.h>
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>

@@ -19,10 +19,10 @@
 
 #include "viewmodel_delegate.h"
 
-#include <mvvm/delegates/default_cell_decorator.h>
 #include <mvvm/editors/custom_editor.h>
 #include <mvvm/editors/custom_editor_factories.h>
 #include <mvvm/editors/custom_event_filters.h>
+#include <mvvm/providers/default_cell_decorator.h>
 
 #include <QApplication>
 
