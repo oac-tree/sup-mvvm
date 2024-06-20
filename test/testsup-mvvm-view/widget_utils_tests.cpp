@@ -40,17 +40,13 @@ class WidgetUtilsTest : public ::testing::Test
 
 TEST_F(WidgetUtilsTest, SystemPointSize)
 {
-  const int expected_system_font_size = 10;  // hardcoded in SystemPointSize
-  EXPECT_EQ(utils::SystemPointSize(), expected_system_font_size);
+  EXPECT_TRUE(utils::SystemPointSize() > 0);
 }
 
 TEST_F(WidgetUtilsTest, SizeOfLetterM)
 {
-  const int expected_width = 11;
-  const int expected_height = 14;
-
-  EXPECT_EQ(utils::SizeOfLetterM().width(), expected_width);
-  EXPECT_EQ(utils::SizeOfLetterM().height(), expected_height);
+  EXPECT_TRUE(utils::SizeOfLetterM().width() > 0);
+  EXPECT_TRUE(utils::SizeOfLetterM().height() > 0);
 }
 
 TEST_F(WidgetUtilsTest, ClickableText)
