@@ -20,7 +20,7 @@
 #include "top_items_tree_view.h"
 
 #include <mvvm/viewmodel/top_items_viewmodel.h>
-#include <mvvm/widgets/item_view_component_provider.h>
+#include <mvvm/providers/item_view_component_provider.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>

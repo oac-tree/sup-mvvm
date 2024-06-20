@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/item_view_component_provider.h"
+#include "mvvm/providers/item_view_component_provider.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/providers/item_selection_model.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
-#include <mvvm/widgets/item_selection_model.h>
 
 #include <gtest/gtest.h>
 

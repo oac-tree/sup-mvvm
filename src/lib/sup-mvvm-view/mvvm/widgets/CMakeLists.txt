@@ -3,10 +3,6 @@ target_sources(${library_name} PRIVATE
   app_utils.h
   fancytab.cpp
   fancytab.h
-  item_selection_model.cpp
-  item_selection_model.h
-  item_view_component_provider.cpp
-  item_view_component_provider.h
   layout_utils.cpp
   layout_utils.h
   main_vertical_bar_widget.cpp
