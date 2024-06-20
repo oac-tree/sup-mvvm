@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/abstract_item_view.h"
+#include "mvvm/views/abstract_item_view.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>

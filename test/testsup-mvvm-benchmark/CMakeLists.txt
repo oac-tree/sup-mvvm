@@ -1,3 +1,5 @@
+# benchmark tests
+
 set(test testsup-mvvm-benchmark)
 
 file(GLOB_RECURSE source_files "*.cpp")

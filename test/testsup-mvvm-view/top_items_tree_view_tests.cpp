@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/top_items_tree_view.h"
+#include "mvvm/views/top_items_tree_view.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/standard_item_includes.h>

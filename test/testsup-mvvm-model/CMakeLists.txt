@@ -1,3 +1,5 @@
+# tests for all classes from sup-mvvm-model
+
 set(test testsup-mvvm-model)
 
 file(GLOB_RECURSE source_files "*.cpp")

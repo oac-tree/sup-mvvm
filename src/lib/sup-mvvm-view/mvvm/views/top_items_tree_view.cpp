@@ -17,29 +17,28 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "all_items_tree_view.h"
+#include "top_items_tree_view.h"
 
-#include "item_view_component_provider.h"
-
-#include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/top_items_viewmodel.h>
+#include <mvvm/widgets/item_view_component_provider.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>
 
 namespace mvvm
 {
-AllItemsTreeView::AllItemsTreeView(ISessionModel* model, QWidget* parent)
+TopItemsTreeView::TopItemsTreeView(ISessionModel *model, QWidget *parent)
     : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  SetComponentProvider(CreateProvider<AllItemsViewModel>(m_tree_view, model));
+  SetComponentProvider(CreateProvider<TopItemsViewModel>(m_tree_view, model));
 }
 
-QTreeView* AllItemsTreeView::GetTreeView() const
+QTreeView *TopItemsTreeView::GetTreeView() const
 {
   return m_tree_view;
 }
 
-void AllItemsTreeView::UpdateView()
+void TopItemsTreeView::UpdateView()
 {
   m_tree_view->expandAll();
 }

@@ -11,7 +11,7 @@ if(benchmark_FOUND)
 endif()
 
 add_subdirectory(libtest-utils)
-add_subdirectory(testsup-mvvm-integration)
+add_subdirectory(testsup-mvvm-viewmodel-app)
 add_subdirectory(testsup-mvvm-model)
 add_subdirectory(testsup-mvvm-viewmodel)
 add_subdirectory(testsup-mvvm-view)
@@ -26,7 +26,7 @@ endif()
 
 add_custom_target(testall
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-view
-  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-integration
+  COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel-app
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-model
 )
@@ -36,7 +36,7 @@ file(WRITE ${TEST_OUTPUT_DIRECTORY}/test.sh
 export QT_QPA_PLATFORM=offscreen
 fail=0
 " ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-view " || fail=1
-" ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-integration " || fail=1
+" ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel-app " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel " || fail=1
 " ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-model " || fail=1
 exit $fail

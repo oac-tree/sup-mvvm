@@ -17,11 +17,21 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include <mvvm/model/session_item.h>
+
 #include <gtest/gtest.h>
+
+#include <QApplication>
+#include <QMetaType>
 
 int main(int argc, char** argv)
 {
   ::testing::InitGoogleTest(&argc, argv);
+
+  QApplication app(argc, argv);
+  Q_UNUSED(app)
+
+  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
 
   // run all google tests
   return RUN_ALL_TESTS();

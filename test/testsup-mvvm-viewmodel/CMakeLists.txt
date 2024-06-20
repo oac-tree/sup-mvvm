@@ -1,3 +1,5 @@
+# tests for all classes from sup-mvvm-viewmodel
+
 set(test testsup-mvvm-viewmodel)
 
 file(GLOB source_files "*.cpp")

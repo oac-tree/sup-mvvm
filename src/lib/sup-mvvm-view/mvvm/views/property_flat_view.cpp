@@ -19,8 +19,8 @@
 
 #include "property_flat_view.h"
 
-#include "layout_utils.h"
-#include "property_grid_controller.h"
+#include <mvvm/widgets/layout_utils.h>
+#include <mvvm/widgets/property_grid_controller.h>
 
 #include <QAbstractItemModel>
 #include <QGridLayout>

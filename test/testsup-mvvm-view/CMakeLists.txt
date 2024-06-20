@@ -1,3 +1,5 @@
+# tests for all classes from sup-mvvm-view (require QApplication)
+
 set(test testsup-mvvm-view)
 
 file(GLOB source_files "*.cpp")

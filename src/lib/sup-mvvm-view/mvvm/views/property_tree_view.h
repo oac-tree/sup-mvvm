@@ -17,32 +17,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_TOP_ITEMS_TREE_VIEW_H_
-#define MVVM_WIDGETS_TOP_ITEMS_TREE_VIEW_H_
+#ifndef MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
+#define MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
 
-#include <mvvm/widgets/abstract_item_view.h>
+#include "abstract_item_view.h"
 
 class QTreeView;
 
 namespace mvvm
 {
 
-//! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
+//! Widget holding standard QTreeView and intended for displaying all properties of given
+//! SessionItem.
 
-class MVVM_VIEW_EXPORT TopItemsTreeView : public AbstractItemView
+class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemView
 {
   Q_OBJECT
 
 public:
-  explicit TopItemsTreeView(ISessionModel* model = nullptr, QWidget* parent = nullptr);
+  explicit PropertyTreeView(QWidget* parent = nullptr);
 
   QTreeView* GetTreeView() const;
 
 private:
   void UpdateView() override;
+
   QTreeView* m_tree_view{nullptr};
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_TOP_ITEMS_TREE_VIEW_H_
+#endif  // MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_

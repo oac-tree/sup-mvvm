@@ -17,34 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
-#define MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
+#include "all_items_tree_view.h"
 
-#include <mvvm/widgets/abstract_item_view.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/widgets/item_view_component_provider.h>
 
-class QTreeView;
+#include <QTreeView>
+#include <QVBoxLayout>
 
 namespace mvvm
 {
-
-//! Widget holding standard QTreeView and intended for displaying all properties of given
-//! SessionItem.
-
-class MVVM_VIEW_EXPORT PropertyTreeView : public AbstractItemView
+AllItemsTreeView::AllItemsTreeView(ISessionModel* model, QWidget* parent)
+    : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  Q_OBJECT
+  SetComponentProvider(CreateProvider<AllItemsViewModel>(m_tree_view, model));
+}
 
-public:
-  explicit PropertyTreeView(QWidget* parent = nullptr);
+QTreeView* AllItemsTreeView::GetTreeView() const
+{
+  return m_tree_view;
+}
 
-  QTreeView* GetTreeView() const;
-
-private:
-  void UpdateView() override;
-
-  QTreeView* m_tree_view{nullptr};
-};
+void AllItemsTreeView::UpdateView()
+{
+  m_tree_view->expandAll();
+}
 
 }  // namespace mvvm
-
-#endif  // MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_

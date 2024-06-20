@@ -19,11 +19,10 @@
 
 #include "abstract_item_view.h"
 
-#include "item_view_component_provider.h"
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/widgets/item_view_component_provider.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>

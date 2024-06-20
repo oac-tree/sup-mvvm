@@ -24,7 +24,6 @@
 
 #include <functional>
 #include <memory>
-#include <string>
 
 class QWidget;
 

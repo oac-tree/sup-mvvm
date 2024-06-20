@@ -1,6 +1,6 @@
-# Test executable for all classes requiring QApplication
+# tests for all classes from sup-mvvm-viewmodel (that require QApplication)
 
-set(test testsup-mvvm-integration)
+set(test testsup-mvvm-viewmodel-app)
 
 file(GLOB source_files "*.cpp")
 file(GLOB include_files "*.h")

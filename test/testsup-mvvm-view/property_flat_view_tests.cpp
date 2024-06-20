@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/property_flat_view.h"
+#include "mvvm/views/property_flat_view.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/vector_item.h>

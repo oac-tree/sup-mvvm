@@ -1,8 +1,4 @@
 target_sources(${library_name} PRIVATE
-  abstract_item_view.cpp
-  abstract_item_view.h
-  all_items_tree_view.cpp
-  all_items_tree_view.h
   app_utils.cpp
   app_utils.h
   fancytab.cpp
@@ -17,16 +13,10 @@ target_sources(${library_name} PRIVATE
   main_vertical_bar_widget.h
   mainbar_widget.cpp
   mainbar_widget.h
-  property_flat_view.cpp
-  property_flat_view.h
   property_grid_controller.cpp
   property_grid_controller.h
-  property_tree_view.cpp
-  property_tree_view.h
   status_label.cpp
   status_label.h
-  top_items_tree_view.cpp
-  top_items_tree_view.h
   widget_utils.cpp
   widget_utils.h
 )
