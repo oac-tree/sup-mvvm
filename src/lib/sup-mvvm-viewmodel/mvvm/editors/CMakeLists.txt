@@ -1,6 +1,4 @@
 target_sources(${library_name} PRIVATE
-  abstract_editor_factory.cpp
-  abstract_editor_factory.h
   allint_spinbox.cpp
   allint_spinbox.h
   allint_spinbox_editor.cpp

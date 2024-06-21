@@ -1,8 +1,11 @@
-# Components for Qt models (selection models, delegates)
+# Components to provide Qt views with necessary components (selection models, delegates, editors)
 
 target_sources(${library_name} PRIVATE
+  abstract_editor_factory.cpp
+  abstract_editor_factory.h
   default_cell_decorator.cpp
   default_cell_decorator.h
+  i_editor_factory.h
   item_selection_model.cpp
   item_selection_model.h
   item_view_component_provider.cpp

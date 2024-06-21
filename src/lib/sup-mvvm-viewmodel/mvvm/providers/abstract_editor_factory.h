@@ -21,7 +21,7 @@
 #define MVVM_EDITORS_ABSTRACT_EDITOR_FACTORY_H_
 
 #include <mvvm/editors/editor_builders.h>
-#include <mvvm/viewmodel/i_editor_factory.h>
+#include <mvvm/providers/i_editor_factory.h>
 
 #include <map>
 
