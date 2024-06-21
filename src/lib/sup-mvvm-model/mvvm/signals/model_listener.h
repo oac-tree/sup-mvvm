@@ -21,6 +21,7 @@
 #define MVVM_SIGNALS_MODEL_LISTENER_H_
 
 #include <mvvm/signals/model_listener_base.h>
+#include <mvvm/signals/model_listener_fwd.h>  // to pick up the default template parameter
 
 namespace mvvm
 {

@@ -88,6 +88,27 @@ TEST_F(ModelListenerTests, LambdaOnVariant)
   EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
 }
 
+TEST_F(ModelListenerTests, DefaultTemplateParameter)
+{
+  // the model with the item and listener attached
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+
+  auto listener = std::make_unique<ModelListener<>>(&model);
+
+  testing::MockFunction<void(const event_variant_t&)> client;
+
+  // the client is setup to receive DataChangedEvent in the form of event_variant_t.
+  listener->Connect<DataChangedEvent>(client.AsStdFunction());
+
+  // setting up expectation
+  DataChangedEvent expected_event{item, DataRole::kData};
+  EXPECT_CALL(client, Call(event_variant_t(expected_event))).Times(1);
+
+  // triggering expectations by changing the data
+  EXPECT_TRUE(model.SetData(item, 42, DataRole::kData));
+}
+
 //! Creating the model with item and listener attached. The client is a lambda listening directly
 //! for DataChangedEvent (no variant).
 TEST_F(ModelListenerTests, LambdaOnConcreteEvent)

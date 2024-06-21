@@ -8,6 +8,7 @@ target_sources(${library_name} PRIVATE
   model_event_handler.cpp
   model_event_handler.h
   model_listener.h
+  model_listener_fwd.h
   model_listener_base.cpp
   model_listener_base.h
   signal_slot.h
