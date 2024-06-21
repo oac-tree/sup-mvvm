@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/viewport_axis_plot_controller.h"
+#include "mvvm/plotting/customplot/viewport_axis_plot_controller.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/axis_items.h>

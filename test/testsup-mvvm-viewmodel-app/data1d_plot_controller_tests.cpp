@@ -20,7 +20,7 @@
 #include "custom_plot_test_utils.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/plotting/data1d_plot_controller.h>
+#include <mvvm/plotting/customplot/data1d_plot_controller.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 

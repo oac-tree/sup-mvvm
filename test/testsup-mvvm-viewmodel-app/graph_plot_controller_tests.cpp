@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 #include "custom_plot_test_utils.h"
-#include "mvvm/plotting/graph_plot_controller.h"
+#include "mvvm/plotting/customplot/graph_plot_controller.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/combo_property.h>

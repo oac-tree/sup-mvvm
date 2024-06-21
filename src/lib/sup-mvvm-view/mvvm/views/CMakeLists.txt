@@ -9,5 +9,7 @@ target_sources(${library_name} PRIVATE
   property_tree_view.h
   top_items_tree_view.cpp
   top_items_tree_view.h
+  graph_canvas.cpp
+  graph_canvas.h
 )
 

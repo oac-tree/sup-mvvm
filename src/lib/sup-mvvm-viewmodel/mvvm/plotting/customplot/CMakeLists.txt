@@ -1,3 +1,5 @@
+# Integration of plotting items and qcustomplot framework
+
 target_sources(${library_name} PRIVATE
   axis_title_controller.cpp
   axis_title_controller.h
@@ -5,8 +7,6 @@ target_sources(${library_name} PRIVATE
   custom_plot_utils.h
   data1d_plot_controller.cpp
   data1d_plot_controller.h
-  graph_canvas.cpp
-  graph_canvas.h
   graph_info_formatter.cpp
   graph_info_formatter.h
   graph_plot_controller.cpp
