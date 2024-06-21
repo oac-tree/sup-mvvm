@@ -19,9 +19,8 @@
 
 #include "pen_controller.h"
 
-#include "plot_helper.h"
-
 #include <mvvm/model/combo_property.h>
+#include <mvvm/plotting/plot_helper.h>
 #include <mvvm/standarditems/plottable_items.h>
 
 #include <qcustomplot.h>
