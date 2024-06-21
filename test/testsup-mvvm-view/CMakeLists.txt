@@ -10,5 +10,5 @@ target_link_libraries(${test} PRIVATE sup-mvvm::test qcustomplot test-utils)
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 
-gtest_discover_tests(${test} TEST_PREFIX "View." DISCOVERY_TIMEOUT 10)
+gtest_discover_tests(${test} TEST_PREFIX "View." DISCOVERY_TIMEOUT 10 PRE_TEST)
 
