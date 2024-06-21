@@ -163,4 +163,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_SESSIONITEM_CONTAINER_H_
+#endif  // MVVM_MODEL_SESSION_ITEM_CONTAINER_H_

@@ -442,4 +442,4 @@ inline T* SessionItem::InsertItem(const TagIndex& tag_index)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_SESSIONITEM_H_
+#endif  // MVVM_MODEL_SESSION_ITEM_H_

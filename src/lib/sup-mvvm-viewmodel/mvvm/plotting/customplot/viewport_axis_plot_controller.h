@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_VIEWPORT_AXIS_PLOT_CONTROLLER_H_
-#define MVVM_PLOTTING_VIEWPORT_AXIS_PLOT_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CUSTOMPLOT_VIEWPORT_AXIS_PLOT_CONTROLLER_H_
+#define MVVM_PLOTTING_CUSTOMPLOT_VIEWPORT_AXIS_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_listener.h>
 #include <mvvm/view_export.h>
@@ -52,4 +52,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_VIEWPORT_AXIS_PLOT_CONTROLLER_H_
+#endif  // MVVM_PLOTTING_CUSTOMPLOT_VIEWPORT_AXIS_PLOT_CONTROLLER_H_

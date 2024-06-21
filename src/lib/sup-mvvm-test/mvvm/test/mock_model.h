@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
+#ifndef MVVM_TEST_MOCK_MODEL_H_
+#define MVVM_TEST_MOCK_MODEL_H_
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
@@ -70,4 +70,4 @@ public:
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_MODEL_H_
+#endif  // MVVM_TEST_MOCK_MODEL_H_

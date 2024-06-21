@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_ITEM_LISTENER_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_ITEM_LISTENER_H_
+#ifndef MVVM_TEST_MOCK_ITEM_LISTENER_H_
+#define MVVM_TEST_MOCK_ITEM_LISTENER_H_
 
 #include <mvvm/signals/item_listener.h>
 
@@ -82,4 +82,4 @@ protected:
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_ITEM_LISTENER_H_
+#endif  // MVVM_TEST_MOCK_ITEM_LISTENER_H_

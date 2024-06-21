@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_MOUSE_MOVE_REPORTER_H_
-#define MVVM_PLOTTING_MOUSE_MOVE_REPORTER_H_
+#ifndef MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_
+#define MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_
 
 #include <mvvm/view_export.h>
 
@@ -50,4 +50,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_MOUSE_MOVE_REPORTER_H_
+#endif  // MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_

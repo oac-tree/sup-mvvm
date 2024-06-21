@@ -66,4 +66,4 @@ struct MVVM_MODEL_EXPORT UserInteractionContext
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECT_TYPES_H_
+#endif  // MVVM_PROJECT_PROJECT_CONTEXT_H_

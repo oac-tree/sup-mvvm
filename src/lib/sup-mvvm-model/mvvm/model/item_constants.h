@@ -33,4 +33,4 @@ const std::string kRootItemTag = "RootTag";
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_COMPOUND_ITEM_H_
+#endif  // MVVM_MODEL_ITEM_CONSTANTS_H_

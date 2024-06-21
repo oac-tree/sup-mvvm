@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_ITEM_SELECTION_MODEL_H_
-#define MVVM_WIDGETS_ITEM_SELECTION_MODEL_H_
+#ifndef MVVM_PROVIDERS_ITEM_SELECTION_MODEL_H_
+#define MVVM_PROVIDERS_ITEM_SELECTION_MODEL_H_
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/view_export.h>
@@ -61,4 +61,4 @@ private:
 Q_DECLARE_METATYPE(const mvvm::SessionItem*)
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
 
-#endif  // MVVM_WIDGETS_ITEM_SELECTION_MODEL_H_
+#endif  // MVVM_PROVIDERS_ITEM_SELECTION_MODEL_H_

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
-#define MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
+#ifndef MVVM_PROVIDERS_I_EDITOR_FACTORY_H_
+#define MVVM_PROVIDERS_I_EDITOR_FACTORY_H_
 
 #include <mvvm/providers/editor_types_fwd.h>
 
@@ -42,4 +42,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
+#endif  // MVVM_PROVIDERS_I_EDITOR_FACTORY_H_

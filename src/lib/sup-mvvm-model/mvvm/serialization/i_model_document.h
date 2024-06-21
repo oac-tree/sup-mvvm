@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_MODEL_DOCUMENT_INTERFACE_H_
-#define MVVM_SERIALIZATION_MODEL_DOCUMENT_INTERFACE_H_
+#ifndef MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_
+#define MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_
 
 #include <mvvm/model_export.h>
 
@@ -63,4 +63,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_MODEL_DOCUMENT_INTERFACE_H_
+#endif  // MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_

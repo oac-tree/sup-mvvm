@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
+#ifndef MVVM_TEST_MOCK_EVENT_LISTENER_H_
+#define MVVM_TEST_MOCK_EVENT_LISTENER_H_
 
 #include <mvvm/signals/model_event_handler.h>
 
@@ -66,4 +66,4 @@ public:
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_EVENT_LISTENER_H_
+#endif  // MVVM_TEST_MOCK_EVENT_LISTENER_H_

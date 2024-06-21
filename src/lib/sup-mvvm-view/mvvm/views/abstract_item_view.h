@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_ABSTRACT_ITEM_VIEW_H_
-#define MVVM_WIDGETS_ABSTRACT_ITEM_VIEW_H_
+#ifndef MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_
+#define MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_
 
 #include <mvvm/view_export.h>
 
@@ -76,4 +76,4 @@ T* AbstractItemView::GetSelected() const
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_ABSTRACT_ITEM_VIEW_H_
+#endif  // MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_

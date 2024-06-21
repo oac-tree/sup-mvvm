@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_CUSTOM_PLOT_UTILS_H_
-#define MVVM_PLOTTING_CUSTOM_PLOT_UTILS_H_
+#ifndef MVVM_PLOTTING_CUSTOMPLOT_CUSTOM_PLOT_UTILS_H_
+#define MVVM_PLOTTING_CUSTOMPLOT_CUSTOM_PLOT_UTILS_H_
 
 #include <mvvm/view_export.h>
 
@@ -36,4 +36,4 @@ MVVM_VIEW_EXPORT void SetLogarithmicScale(QCPAxis* axis, bool is_log_scale);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_PLOTTING_CUSTOM_PLOT_UTILS_H_
+#endif  // MVVM_PLOTTING_CUSTOMPLOT_CUSTOM_PLOT_UTILS_H_

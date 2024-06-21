@@ -71,4 +71,4 @@ private:
 
 }  // namespace mvvm::utils
 
-#endif
+#endif  // MVVM_UTILS_STRING_FORMAT_H_

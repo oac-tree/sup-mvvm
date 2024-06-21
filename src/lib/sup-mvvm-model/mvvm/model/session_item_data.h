@@ -53,4 +53,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_SESSIONITEM_DATA_H_
+#endif  // MVVM_MODEL_SESSION_ITEM_DATA_H_

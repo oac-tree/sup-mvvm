@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
-#define MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
+#ifndef MVVM_VIEWS_PROPERTY_TREE_VIEW_H_
+#define MVVM_VIEWS_PROPERTY_TREE_VIEW_H_
 
 #include "abstract_item_view.h"
 
@@ -47,4 +47,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_PROPERTY_TREE_VIEW_H_
+#endif  // MVVM_VIEWS_PROPERTY_TREE_VIEW_H_

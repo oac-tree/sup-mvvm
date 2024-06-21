@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_IPROJECT_H_
-#define MVVM_PROJECT_IPROJECT_H_
+#ifndef MVVM_PROJECT_I_PROJECT_H_
+#define MVVM_PROJECT_I_PROJECT_H_
 
 #include <mvvm/model_export.h>
 #include <mvvm/project/project_types.h>
@@ -94,4 +94,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_IPROJECT_H_
+#endif  // MVVM_PROJECT_I_PROJECT_H_

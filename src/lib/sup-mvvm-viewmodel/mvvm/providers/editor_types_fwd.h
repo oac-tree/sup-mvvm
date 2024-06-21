@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_EDITOR_TYPES_FWD_H_
-#define MVVM_EDITORS_EDITOR_TYPES_FWD_H_
+#ifndef MVVM_PROVIDERS_EDITOR_TYPES_FWD_H_
+#define MVVM_PROVIDERS_EDITOR_TYPES_FWD_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -38,4 +38,4 @@ using editorbuilder_t = std::function<editor_t(const SessionItem*)>;
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_EDITOR_TYPES_FWD_H_
+#endif  // MVVM_PROVIDERS_EDITOR_TYPES_FWD_H_

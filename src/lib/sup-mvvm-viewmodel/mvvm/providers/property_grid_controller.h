@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_WIDGETS_PROPERTY_GRID_CONTROLLER_H_
-#define MVVM_WIDGETS_PROPERTY_GRID_CONTROLLER_H_
+#ifndef MVVM_PROVIDERS_PROPERTY_GRID_CONTROLLER_H_
+#define MVVM_PROVIDERS_PROPERTY_GRID_CONTROLLER_H_
 
 #include <mvvm/view_export.h>
 
@@ -72,4 +72,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_WIDGETS_PROPERTY_GRID_CONTROLLER_H_
+#endif  // MVVM_PROVIDERS_PROPERTY_GRID_CONTROLLER_H_

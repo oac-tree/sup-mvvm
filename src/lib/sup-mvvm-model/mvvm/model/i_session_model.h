@@ -175,4 +175,4 @@ T* ISessionModel::InsertItem(SessionItem* parent, const TagIndex& tag_index)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_I_SESSIONMODEL_H_
+#endif  // MVVM_MODEL_I_SESSION_MODEL_H_
