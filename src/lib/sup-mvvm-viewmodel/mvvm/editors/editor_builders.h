@@ -23,7 +23,7 @@
 //! @file editor_builders.h
 //! Collection of builders for various custom editors
 
-#include <mvvm/editors/editor_types_fwd.h>
+#include <mvvm/providers/editor_types_fwd.h>
 
 namespace mvvm
 {

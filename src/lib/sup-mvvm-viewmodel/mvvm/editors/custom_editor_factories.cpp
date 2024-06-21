@@ -19,6 +19,8 @@
 
 #include "custom_editor_factories.h"
 
+#include "editor_builders.h"
+
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/custom_variants.h>

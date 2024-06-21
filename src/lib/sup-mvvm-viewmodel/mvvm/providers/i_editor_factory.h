@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
 #define MVVM_VIEWMODEL_I_EDITOR_FACTORY_H_
 
-#include <mvvm/editors/editor_types_fwd.h>
+#include <mvvm/providers/editor_types_fwd.h>
 
 class QModelIndex;
 

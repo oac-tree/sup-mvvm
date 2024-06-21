@@ -1,4 +1,4 @@
-# Contains source specific for ViewModelBase (non-specific to SessionItem)
+# Contains source for generic ViewModel (no SessionItem dependency)
 
 target_sources(${library_name} PRIVATE
   viewitem.cpp
