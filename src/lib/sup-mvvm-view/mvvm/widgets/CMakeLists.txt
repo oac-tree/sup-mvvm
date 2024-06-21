@@ -9,8 +9,6 @@ target_sources(${library_name} PRIVATE
   main_vertical_bar_widget.h
   mainbar_widget.cpp
   mainbar_widget.h
-  property_grid_controller.cpp
-  property_grid_controller.h
   status_label.cpp
   status_label.h
   widget_utils.cpp

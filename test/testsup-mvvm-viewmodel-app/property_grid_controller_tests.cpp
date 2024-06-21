@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/widgets/property_grid_controller.h"
+#include "mvvm/providers/property_grid_controller.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/editors/float_spinbox.h>
@@ -40,7 +40,6 @@
 #include <QStandardItemModel>
 #include <QTest>
 #include <QWidget>
-#include <iostream>
 
 using namespace mvvm;
 
@@ -271,8 +270,8 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
 
   auto& editable_property = root_item->AddProperty("edit", 0.0).SetDisplayName("Editable Property");
   auto& non_editable_property = root_item->AddProperty("nedit", 0.0)
-                                   .SetDisplayName("Non-editable Property")
-                                   .SetEditable(false);
+                                    .SetDisplayName("Non-editable Property")
+                                    .SetEditable(false);
 
   PropertyViewModel view_model(&model);
   view_model.SetRootSessionItem(root_item);

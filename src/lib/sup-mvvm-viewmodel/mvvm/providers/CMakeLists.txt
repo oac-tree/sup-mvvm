@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   item_selection_model.h
   item_view_component_provider.cpp
   item_view_component_provider.h
+  property_grid_controller.cpp
+  property_grid_controller.h
   viewmodel_delegate.cpp
   viewmodel_delegate.h
   )
