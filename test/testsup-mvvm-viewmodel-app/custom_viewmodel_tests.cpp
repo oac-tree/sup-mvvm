@@ -22,7 +22,6 @@
 
 #include "mvvm/viewmodel/viewmodel.h"
 
-#include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
@@ -30,6 +29,7 @@
 #include <mvvm/viewmodel/abstract_row_strategy.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
+#include <mvvm/viewmodel/viewmodel_controller_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
 #include <gtest/gtest.h>

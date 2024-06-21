@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/factories/viewmodel_controller_factory.h"
+#include "mvvm/viewmodel/viewmodel_controller_factory.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>

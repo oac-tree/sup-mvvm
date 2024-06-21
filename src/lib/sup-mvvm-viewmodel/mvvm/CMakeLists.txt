@@ -1,6 +1,5 @@
 add_subdirectory(providers)
 add_subdirectory(editors)
-add_subdirectory(factories)
 add_subdirectory(viewmodel)
 add_subdirectory(viewmodelbase)
 add_subdirectory(plotting)

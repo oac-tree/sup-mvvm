@@ -18,18 +18,18 @@
  *****************************************************************************/
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
-#include <mvvm/factories/viewmodel_controller_factory.h>
-#include <mvvm/viewmodel/i_children_strategy.h>
-#include <mvvm/viewmodel/i_row_strategy.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/test/mock_event_listener.h>
+#include <mvvm/viewmodel/i_children_strategy.h>
+#include <mvvm/viewmodel/i_row_strategy.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
+#include <mvvm/viewmodel/viewmodel_controller_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
 
@@ -92,8 +92,7 @@ public:
 class TestViewModel : public ViewModel
 {
 public:
-  explicit TestViewModel(ISessionModel* model, QObject* parent = nullptr)
-      : ViewModel(parent)
+  explicit TestViewModel(ISessionModel* model, QObject* parent = nullptr) : ViewModel(parent)
   {
     SetController(
         factory::CreateVirtualParentController<TestExcludeContainerStrategy, LabelDataRowStrategy>(

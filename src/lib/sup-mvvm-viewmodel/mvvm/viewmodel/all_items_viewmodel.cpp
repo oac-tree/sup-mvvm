@@ -21,13 +21,11 @@
 
 #include "standard_children_strategies.h"
 #include "standard_row_strategies.h"
-
-#include <mvvm/factories/viewmodel_controller_factory.h>
+#include "viewmodel_controller_factory.h"
 
 namespace mvvm
 {
-AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent)
-    : ViewModel(parent)
+AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent) : ViewModel(parent)
 {
   SetController(factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this));
 }

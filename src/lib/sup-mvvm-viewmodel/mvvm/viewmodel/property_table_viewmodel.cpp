@@ -21,8 +21,8 @@
 
 #include "standard_children_strategies.h"
 #include "standard_row_strategies.h"
+#include "viewmodel_controller_factory.h"
 
-#include <mvvm/factories/viewmodel_controller_factory.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
 namespace mvvm
