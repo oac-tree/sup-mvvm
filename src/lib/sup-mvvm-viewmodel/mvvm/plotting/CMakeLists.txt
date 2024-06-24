@@ -7,3 +7,4 @@ target_sources(${library_name} PRIVATE
   )
 
 add_subdirectory(customplot)
+add_subdirectory(charts)

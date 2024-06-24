@@ -90,10 +90,10 @@ file(MAKE_DIRECTORY ${SUP_MVVM_AUTOGEN_DIR})
 # -----------------------------------------------------------------------------
 if(COA_USE_QT6)
   set(QT_VERSION_MAJOR 6)
-  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Test)
+  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Charts Test)
 else()
   set(QT_VERSION_MAJOR 5)
-  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Test)
+  set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Charts Test)
 endif()
 
 if(CODAC_FOUND)

@@ -9,7 +9,7 @@ add_library(sup-mvvm::viewmodel ALIAS ${library_name}) # alias for build-tree us
 set(export_filename ${SUP_MVVM_AUTOGEN_DIR}/mvvm/viewmodel_export.h)
 generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename}  EXPORT_MACRO_NAME MVVM_VIEWMODEL_EXPORT)
 
-target_link_libraries(${library_name} PUBLIC sup-mvvm-model Qt${QT_VERSION_MAJOR}::Widgets PRIVATE qcustomplot)
+target_link_libraries(${library_name} PUBLIC sup-mvvm-model Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Widgets PRIVATE qcustomplot)
 
 target_include_directories(${library_name} PUBLIC
   $<INSTALL_INTERFACE:include>
