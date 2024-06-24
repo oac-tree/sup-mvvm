@@ -20,6 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_
 #define MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_
 
+//! @file
 //! Collection of all includes with items supported by the model out-of-the-box.
 
 #include <mvvm/model/compound_item.h>
@@ -29,8 +30,11 @@
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
+#include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/linked_item.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/standarditems/point_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
 #endif  // MVVM_STANDARDITEMS_STANDARD_ITEM_INCLUDES_H_

@@ -76,6 +76,10 @@ void InitItemFactory(ItemFactory& factory)
   factory.RegisterItem<PointwiseAxisItem>();
   factory.RegisterItem<TextItem>();
   factory.RegisterItem<ViewportAxisItem>();
+
+  factory.RegisterItem<LineSeriesDataItem>();
+  factory.RegisterItem<PointItem>();
+  factory.RegisterItem<LineSeriesItem>();
 }
 
 ItemFactory& GetGlobalItemFactory()

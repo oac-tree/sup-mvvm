@@ -10,10 +10,16 @@ target_sources(${library_name} PRIVATE
     graph_item.h
     graph_viewport_item.cpp
     graph_viewport_item.h
+    line_series_data_item.cpp
+    line_series_data_item.h
+    line_series_item.cpp
+    line_series_item.h
     linked_item.cpp
     linked_item.h
     plottable_items.cpp
     plottable_items.h
+    point_item.cpp
+    point_item.h
     standard_item_includes.h
     vector_item.cpp
     vector_item.h
