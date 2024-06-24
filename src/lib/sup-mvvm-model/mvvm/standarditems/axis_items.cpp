@@ -83,14 +83,10 @@ TextItem* ViewportAxisItem::GetTitle() const
   return GetItem<TextItem>(kTitle);
 }
 
-//! Returns pair of lower, upper axis range.
-
 std::pair<double, double> ViewportAxisItem::GetRange() const
 {
   return std::make_pair(GetMin(), GetMax());
 }
-
-//! Sets lower, upper range of axis to given values.
 
 void ViewportAxisItem::SetRange(double lower, double upper)
 {
@@ -154,8 +150,8 @@ int FixedBinAxisItem::GetSize() const
 std::vector<double> FixedBinAxisItem::GetBinCenters() const
 {
   std::vector<double> result;
-  int nbins = GetSize();
-  double step = (GetMax() - GetMin()) / nbins;
+  const int nbins = GetSize();
+  const double step = (GetMax() - GetMin()) / nbins;
 
   result.resize(static_cast<size_t>(nbins), 0.0);
   for (int i = 0; i < nbins; ++i)
