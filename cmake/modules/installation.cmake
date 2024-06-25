@@ -20,7 +20,10 @@ set(PACKAGE_TARGETS_FILE ${BUILD_CONFIGDIR}/${PACKAGE_TARGETS_FILENAME})
 install(EXPORT sup-mvvm-targets FILE ${PACKAGE_TARGETS_FILENAME} NAMESPACE sup-mvvm:: DESTINATION ${INSTALL_CONFIGDIR})
 
 # Generate the export targets for the build tree usage
-export(TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view sup-mvvm-test NAMESPACE sup-mvvm:: FILE ${PACKAGE_TARGETS_FILE})
+export(TARGETS sup-mvvm-model sup-mvvm-viewmodel sup-mvvm-view NAMESPACE sup-mvvm:: FILE ${PACKAGE_TARGETS_FILE})
+if(COA_BUILD_TESTS)
+  export(TARGETS sup-mvvm-test NAMESPACE sup-mvvm:: APPEND FILE ${PACKAGE_TARGETS_FILE})
+endif()
 
 # Export the package to CMake registry for build tree usage (goes to $HOME/.cmake)
 if(COA_EXPORT_BUILD_TREE)
