@@ -19,14 +19,80 @@
 
 #include "line_series_item.h"
 
+#include "line_series_data_item.h"
+
+#include <mvvm/standarditems/linked_item.h>
+#include <mvvm/standarditems/plottable_items.h>
+
+namespace
+{
+const std::string kLink = "kLink";
+const std::string kOffset = "kOffset";
+const int kDefaultLineWidth = 2;
+const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
+const std::string kPen = "kPen";
+const std::string kDisplayed = "kDisplayed";
+}  // namespace
+
 namespace mvvm
 {
 
-LineSeriesItem::LineSeriesItem() : CompoundItem(Type) {}
+LineSeriesItem::LineSeriesItem() : CompoundItem(Type)
+{
+  AddProperty<mvvm::LinkedItem>(kLink).SetDisplayName("Link");
+  AddProperty(kOffset, 0.0).SetDisplayName("Offset");
+
+  auto &pen = AddProperty<mvvm::PenItem>(kPen);
+  pen.SetDisplayName("Pen");
+  pen.SetWidth(kDefaultLineWidth);
+  pen.SetNamedColor(kDefaultLineColor);
+
+  AddProperty(kDisplayed, true).SetDisplayName("Displayed");
+}
 
 std::unique_ptr<SessionItem> LineSeriesItem::Clone(bool make_unique_id) const
 {
   return std::make_unique<LineSeriesItem>(*this, make_unique_id);
+}
+
+void LineSeriesItem::SetDataItem(LineSeriesDataItem *item)
+{
+  GetItem<mvvm::LinkedItem>(kLink)->SetLink(item);
+}
+
+LineSeriesDataItem *LineSeriesItem::GetDataItem()
+{
+  return const_cast<LineSeriesDataItem *>(static_cast<const LineSeriesItem *>(this)->GetDataItem());
+}
+
+const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
+{
+  return GetItem<mvvm::LinkedItem>(kLink)->Get<LineSeriesDataItem>();
+}
+
+double LineSeriesItem::GetXOffset() const
+{
+  return Property<double>(kOffset);
+}
+
+void LineSeriesItem::SetXOffset(double value)
+{
+  SetProperty<double>(kOffset, value);
+}
+
+std::string LineSeriesItem::GetNamedColor() const
+{
+  return GetPenItem()->GetNamedColor();
+}
+
+void LineSeriesItem::SetNamedColor(const std::string &named_color)
+{
+  GetPenItem()->SetNamedColor(named_color);
+}
+
+mvvm::PenItem *LineSeriesItem::GetPenItem() const
+{
+  return GetItem<mvvm::PenItem>(kPen);
 }
 
 }  // namespace mvvm
