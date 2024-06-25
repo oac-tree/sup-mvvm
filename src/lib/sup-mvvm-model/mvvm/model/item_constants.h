@@ -31,6 +31,8 @@ namespace mvvm::constants
 const std::string kRootItemName = "RootItem";
 const std::string kRootItemTag = "RootTag";
 
+const std::string kChildrenTag = "kChildrenTag";
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEM_CONSTANTS_H_

@@ -34,7 +34,6 @@ class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
 {
 public:
   static inline const std::string Type = "Container";
-  static inline const std::string kChildren = "kChildren";
 
   explicit ContainerItem(const std::string& model_type = Type);
 

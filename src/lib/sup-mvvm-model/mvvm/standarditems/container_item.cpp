@@ -20,12 +20,13 @@
 #include "container_item.h"
 
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/item_constants.h>
 
 namespace mvvm
 {
 ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  RegisterTag(TagInfo::CreateUniversalTag(kChildren), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
 }
 
 std::unique_ptr<SessionItem> ContainerItem::Clone(bool make_unique_id) const
@@ -40,7 +41,7 @@ bool ContainerItem::IsEmpty() const
 
 int ContainerItem::GetSize() const
 {
-  return GetItemCount(kChildren);
+  return GetItemCount(constants::kChildrenTag);
 }
 
 std::vector<SessionItem*> ContainerItem::GetChildren() const
