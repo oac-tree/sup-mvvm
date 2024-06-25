@@ -25,6 +25,11 @@
 namespace mvvm
 {
 
+class PointItem;
+
+/**
+ * @brief The LineSeriesDataItem provides an access for waveform data information.
+ */
 class MVVM_MODEL_EXPORT LineSeriesDataItem : public CompoundItem
 {
 public:
@@ -35,6 +40,8 @@ public:
   using CompoundItem::CompoundItem;
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+
+  std::vector<PointItem*> GetPoints() const;
 };
 
 }  // namespace mvvm

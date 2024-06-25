@@ -29,4 +29,9 @@ class LineSeriesDataItemTest : public ::testing::Test
 {
 };
 
-TEST_F(LineSeriesDataItemTest, InitialState) {}
+TEST_F(LineSeriesDataItemTest, InitialState)
+{
+  LineSeriesDataItem item;
+
+  EXPECT_TRUE(item.GetPoints().empty());
+}

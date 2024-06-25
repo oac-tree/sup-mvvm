@@ -19,14 +19,25 @@
 
 #include "line_series_data_item.h"
 
+#include <mvvm/model/item_constants.h>
+#include <mvvm/standarditems/point_item.h>
+
 namespace mvvm
 {
 
-LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(Type) {}
+LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(Type)
+{
+  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
+}
 
 std::unique_ptr<SessionItem> LineSeriesDataItem::Clone(bool make_unique_id) const
 {
   return std::make_unique<LineSeriesDataItem>(*this, make_unique_id);
+}
+
+std::vector<PointItem *> LineSeriesDataItem::GetPoints() const
+{
+  return GetItems<PointItem>(constants::kChildrenTag);
 }
 
 }  // namespace mvvm

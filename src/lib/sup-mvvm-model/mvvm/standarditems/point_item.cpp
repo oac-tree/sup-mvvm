@@ -19,14 +19,40 @@
 
 #include "point_item.h"
 
+#include <mvvm/model/item_constants.h>
+
 namespace mvvm
 {
 
-PointItem::PointItem() : CompoundItem(Type) {}
+PointItem::PointItem() : CompoundItem(Type)
+{
+  AddProperty(constants::kX, 0.0).SetDisplayName("X");
+  AddProperty(constants::kY, 0.0).SetDisplayName("Y");
+}
 
 std::unique_ptr<SessionItem> PointItem::Clone(bool make_unique_id) const
 {
   return std::make_unique<PointItem>(*this, make_unique_id);
+}
+
+double PointItem::GetX() const
+{
+  return Property<double>(constants::kX);
+}
+
+void PointItem::SetX(double value)
+{
+  SetProperty(constants::kX, value);
+}
+
+double PointItem::GetY() const
+{
+  return Property<double>(constants::kY);
+}
+
+void PointItem::SetY(double value)
+{
+  SetProperty(constants::kY, value);
 }
 
 }  // namespace mvvm

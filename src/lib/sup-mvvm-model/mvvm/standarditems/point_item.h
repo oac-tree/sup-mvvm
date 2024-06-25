@@ -25,6 +25,9 @@
 namespace mvvm
 {
 
+/**
+ * @brief The PointItem class represents a point on X,Y plane.
+ */
 class MVVM_MODEL_EXPORT PointItem : public CompoundItem
 {
 public:
@@ -35,6 +38,14 @@ public:
   using CompoundItem::CompoundItem;
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+
+  double GetX() const;
+
+  void SetX(double value);
+
+  double GetY() const;
+
+  void SetY(double value);
 };
 
 }  // namespace mvvm
