@@ -22,6 +22,8 @@
 
 #include <mvvm/model/compound_item.h>
 
+#include <vector>
+
 namespace mvvm
 {
 
@@ -41,7 +43,22 @@ public:
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
-  std::vector<PointItem*> GetPoints() const;
+  /**
+   * @brief Returns vector of (x,y) points representing a waveform.
+   */
+  std::vector<std::pair<double, double>> GetWaveform() const;
+
+  /**
+   * @brief Set waveform according to data provided.
+   *
+   * All previous points will be erased.
+   */
+  void SetWaveform(const std::vector<std::pair<double, double>>& data);
+
+  /**
+   * @brief Clears all points in the waveform.
+   */
+  void Clear();
 };
 
 }  // namespace mvvm

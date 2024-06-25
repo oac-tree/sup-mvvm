@@ -31,7 +31,21 @@ class LineSeriesDataItemTest : public ::testing::Test
 
 TEST_F(LineSeriesDataItemTest, InitialState)
 {
+  const LineSeriesDataItem item;
+
+  EXPECT_TRUE(item.GetWaveform().empty());
+}
+
+TEST_F(LineSeriesDataItemTest, GetSetWaveform)
+{
   LineSeriesDataItem item;
 
-  EXPECT_TRUE(item.GetPoints().empty());
+  const std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {2.0, 20.0}});
+  item.SetWaveform(expected);
+
+  EXPECT_EQ(item.GetWaveform(), expected);
+
+  const std::vector<std::pair<double, double>> expected2({{3.0, 30.0}, {4.0, 40.0}, {5.0, 50.0}});
+  item.SetWaveform(expected2);
+  EXPECT_EQ(item.GetWaveform(), expected2);
 }
