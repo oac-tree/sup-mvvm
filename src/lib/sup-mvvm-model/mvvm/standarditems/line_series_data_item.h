@@ -85,6 +85,11 @@ public:
    */
   void RemovePoint(int index);
 
+  /**
+   * @brief Insert new point into the given index.
+   */
+  void InsertPoint(int index, const std::pair<double, double>& coordinates);
+
 private:
   void ValidateIndex(int index) const;
   std::vector<PointItem*> GetPoints() const;

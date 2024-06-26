@@ -77,3 +77,16 @@ TEST_F(LineSeriesDataItemTest, RemovePoint)
   const std::vector<std::pair<double, double>> expected({{2.0, 20.0}});
   EXPECT_EQ(item.GetWaveform(), expected);
 }
+
+TEST_F(LineSeriesDataItemTest, InsertPoint)
+{
+  LineSeriesDataItem item;
+
+  const std::vector<std::pair<double, double>> waveform({{1.0, 10.0}, {3.0, 30.0}});
+  item.SetWaveform(waveform);
+
+  item.InsertPoint(1, {2.0, 20.0});
+
+  const std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
+  EXPECT_EQ(item.GetWaveform(), expected);
+}

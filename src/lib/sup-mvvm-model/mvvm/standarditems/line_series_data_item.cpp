@@ -88,6 +88,14 @@ void LineSeriesDataItem::RemovePoint(int index)
   utils::RemoveItem(*point);
 }
 
+void LineSeriesDataItem::InsertPoint(int index, const std::pair<double, double>& coordinates)
+{
+  auto point = std::make_unique<PointItem>();
+  point->SetX(coordinates.first);
+  point->SetY(coordinates.second);
+  utils::InsertItem(std::move(point), this, TagIndex::Default(index));
+}
+
 void LineSeriesDataItem::ValidateIndex(int index) const
 {
   auto points = GetPoints();
