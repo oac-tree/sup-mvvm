@@ -73,11 +73,22 @@ public:
 
   /**
    * @brief Sets coordinates of the point with given index.
+   *
+   * @throw RuntimeErrorException if index doesn't match number of points
    */
   void SetPointCoordinates(int index, const std::pair<double, double>& coordinates);
 
+  /**
+   * @brief Removes point with given index.
+   *
+   * @throw RuntimeErrorException if index doesn't match number of points
+   */
+  void RemovePoint(int index);
+
 private:
+  void ValidateIndex(int index) const;
   std::vector<PointItem*> GetPoints() const;
+  PointItem* GetPoint(int index) const;
 };
 
 }  // namespace mvvm

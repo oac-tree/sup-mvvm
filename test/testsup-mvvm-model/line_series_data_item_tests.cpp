@@ -64,3 +64,16 @@ TEST_F(LineSeriesDataItemTest, GetAndSetPointCoordinates)
   item.SetPointCoordinates(0, {3.0, 30.0});
   EXPECT_EQ(item.GetPointCoordinates(0), std::make_pair(3.0, 30.0));
 }
+
+TEST_F(LineSeriesDataItemTest, RemovePoint)
+{
+  LineSeriesDataItem item;
+
+  const std::vector<std::pair<double, double>> waveform({{1.0, 10.0}, {2.0, 20.0}});
+  item.SetWaveform(waveform);
+
+  item.RemovePoint(0);
+
+  const std::vector<std::pair<double, double>> expected({{2.0, 20.0}});
+  EXPECT_EQ(item.GetWaveform(), expected);
+}
