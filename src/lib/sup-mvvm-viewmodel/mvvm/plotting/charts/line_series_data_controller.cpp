@@ -19,6 +19,7 @@
 
 #include "line_series_data_controller.h"
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_listener.h>
 #include <mvvm/standarditems/line_series_data_item.h>
@@ -68,17 +69,14 @@ void LineSeriesDataController::SetItem(const LineSeriesDataItem *item)
 
 void LineSeriesDataController::OnModelEvent(const mvvm::ItemInsertedEvent &event)
 {
-  // auto [parent, tag_index] = event;
+  auto [parent, tag_index] = event;
 
-  // if (parent == m_data_item)
-  // {
-  //   auto index = tag_index.index;
-  //   auto new_child = parent->GetItem(tag_index);
-
-  //   auto point_item = dynamic_cast<AnyValueItem *>(new_child);
-  //   auto [x, y] = GetXY(*point_item);
-  //   m_qt_line_series->insert(index, {x, y});
-  // }
+  if (parent == m_data_item)
+  {
+    auto index = tag_index.index;
+    auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
+    m_qt_line_series->insert(index, {new_x, new_y});
+  }
 }
 
 void LineSeriesDataController::OnModelEvent(const mvvm::AboutToRemoveItemEvent &event)
@@ -93,16 +91,22 @@ void LineSeriesDataController::OnModelEvent(const mvvm::AboutToRemoveItemEvent &
 void LineSeriesDataController::OnModelEvent(const mvvm::DataChangedEvent &event)
 {
   // We are here becase the data of either x-item, or y-item was changed.
-  // Structure representing a point is a parent.
+  // Expected hierarchy:
+  // - LineSeriesDataItem
+  //   - PointItem
+  //     - X PropertyItem
+  //     - Y PropertyItem
 
-  // auto point_item = dynamic_cast<AnyValueItem *>(event.m_item->GetParent());
-  // auto index = mvvm::utils::IndexOfItem(m_data_item->GetChildren(), point_item);
+  const int expected_distance_to_data_item = 2;
+  if (auto depth = utils::GetNestingDepth(m_data_item, event.m_item);
+      depth == expected_distance_to_data_item)
+  {
+    auto point_item = event.m_item->GetParent();
+    auto index = point_item->GetTagIndex().index;
 
-  // if (index != -1)
-  // {
-  //   auto [new_x, new_y] = GetXY(*point_item);
-  //   m_qt_line_series->replace(index, new_x + m_x_offset, new_y);
-  // }
+    auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
+    m_qt_line_series->replace(index, new_x + m_x_offset, new_y);
+  }
 }
 
 const LineSeriesDataItem *LineSeriesDataController::GetDataItem() const
