@@ -30,7 +30,11 @@ namespace mvvm
 class PointItem;
 
 /**
- * @brief The LineSeriesDataItem provides an access for waveform data information.
+ * @brief The LineSeriesDataItem provides access to waveform data information.
+ *
+ * In this implementation waveform information is stored as vector of PointItems, in usual
+ * children tag. Nevertheless, we are trying to hide this by providing parallel waveform-related
+ * API, so the underlying mechanism could be changed later (i.e. AnyValueItem).
  */
 class MVVM_MODEL_EXPORT LineSeriesDataItem : public CompoundItem
 {
@@ -59,6 +63,21 @@ public:
    * @brief Clears all points in the waveform.
    */
   void Clear();
+
+  /**
+   * @brief Returns coordinates of point with given index.
+   *
+   * @throw RuntimeErrorException if index doesn't match number of points
+   */
+  std::pair<double, double> GetPointCoordinates(int index) const;
+
+  /**
+   * @brief Sets coordinates of the point with given index.
+   */
+  void SetPointCoordinates(int index, const std::pair<double, double>& coordinates);
+
+private:
+  std::vector<PointItem*> GetPoints() const;
 };
 
 }  // namespace mvvm

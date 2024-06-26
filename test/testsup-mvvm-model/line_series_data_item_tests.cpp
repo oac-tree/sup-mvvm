@@ -49,3 +49,18 @@ TEST_F(LineSeriesDataItemTest, GetSetWaveform)
   item.SetWaveform(expected2);
   EXPECT_EQ(item.GetWaveform(), expected2);
 }
+
+TEST_F(LineSeriesDataItemTest, GetAndSetPointCoordinates)
+{
+  LineSeriesDataItem item;
+
+  const std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {2.0, 20.0}});
+  item.SetWaveform(expected);
+
+  EXPECT_EQ(item.GetPointCoordinates(0), std::make_pair(1.0, 10.0));
+  EXPECT_EQ(item.GetPointCoordinates(1), std::make_pair(2.0, 20.0));
+  EXPECT_THROW(item.GetPointCoordinates(2), RuntimeException);
+
+  item.SetPointCoordinates(0, {3.0, 30.0});
+  EXPECT_EQ(item.GetPointCoordinates(0), std::make_pair(3.0, 30.0));
+}

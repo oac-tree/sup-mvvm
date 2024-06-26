@@ -61,11 +61,42 @@ void LineSeriesDataItem::SetWaveform(const std::vector<std::pair<double, double>
 
 void LineSeriesDataItem::Clear()
 {
-  for (auto* child : GetItems<PointItem>(constants::kChildrenTag))
+  for (auto* child : GetPoints())
   {
     // using universal function to provide notifications, if possible
     utils::RemoveItem(*child);
   }
+}
+
+std::pair<double, double> LineSeriesDataItem::GetPointCoordinates(int index) const
+{
+  auto points = GetPoints();
+  if (index < 0 || index >= points.size())
+  {
+    throw RuntimeException("Index [" + std::to_string(index) + "] doesn't match number of points ["
+                           + std::to_string(points.size()) + "]");
+  }
+
+  return std::make_pair(points.at(index)->GetX(), points.at(index)->GetY());
+}
+
+void LineSeriesDataItem::SetPointCoordinates(int index,
+                                             const std::pair<double, double>& coordinates)
+{
+  auto points = GetPoints();
+  if (index < 0 || index >= points.size())
+  {
+    throw RuntimeException("Index [" + std::to_string(index) + "] doesn't match number of points ["
+                           + std::to_string(points.size()) + "]");
+  }
+
+  points.at(index)->SetX(coordinates.first);
+  points.at(index)->SetY(coordinates.second);
+}
+
+std::vector<PointItem*> LineSeriesDataItem::GetPoints() const
+{
+  return GetItems<PointItem>(constants::kChildrenTag);
 }
 
 }  // namespace mvvm
