@@ -45,10 +45,23 @@ public:
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
+  /**
+   * @brief Sets the waveform data item.
+   *
+   * The item is stored via persistent link machinery. LineSeriesItem and LineSeriesDataItem
+   * should be either from the same model or from different models sharing the same item pool.
+   */
   void SetDataItem(LineSeriesDataItem* item);
 
-  LineSeriesDataItem* GetDataItem();
+  /**
+   * @brief Returns waveform data to which this LineSeriesItem is linked (const version).
+   */
   const LineSeriesDataItem* GetDataItem() const;
+
+  /**
+   * @brief Returns waveform data to which this LineSeriesItem is linked (non-const version).
+   */
+  LineSeriesDataItem* GetDataItem();
 
   /**
    * @brief Returns the value of x-axis offset.
@@ -66,11 +79,33 @@ public:
    */
   void SetXOffset(double value);
 
+  /**
+   * @brief Returns named color (html notation).
+   */
   std::string GetNamedColor() const;
 
+  /**
+   * @brief Sets the named color.
+   */
   void SetNamedColor(const std::string& named_color);
 
+  /**
+   * @brief Returns underlying pen item.
+   */
   PenItem* GetPenItem() const;
+
+  /**
+   * @brief Returns x-values.
+   *
+   * Values are obtained from underlying LineSeriesDataItem, x-offset is applied.
+   */
+  std::vector<double> GetBinCenters() const;
+
+  /**
+   * @brief Returns y-values.
+   */
+  std::vector<double> GetValues() const;
+
 };
 
 }  // namespace mvvm

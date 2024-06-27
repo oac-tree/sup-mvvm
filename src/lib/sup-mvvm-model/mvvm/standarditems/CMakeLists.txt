@@ -1,6 +1,8 @@
 target_sources(${library_name} PRIVATE
     axis_items.cpp
     axis_items.h
+    chart_viewport_item.cpp
+    chart_viewport_item.h
     container_item.cpp
     container_item.h
     data1d_item.cpp
@@ -25,4 +27,6 @@ target_sources(${library_name} PRIVATE
     vector_item.h
     viewport_item.cpp
     viewport_item.h
+    waveform_helper.cpp
+    waveform_helper.h
 )

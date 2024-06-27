@@ -59,3 +59,33 @@ TEST_F(LineSeriesItemTest, LineSeriesItemSetData)
   // checking that link is working
   EXPECT_EQ(line_series_item->GetDataItem(), data_item);
 }
+
+TEST_F(LineSeriesItemTest, BinCentersAndValues)
+{
+  mvvm::ApplicationModel model;
+  auto line_series_item = model.InsertItem<LineSeriesItem>();
+  auto data_item = model.InsertItem<LineSeriesDataItem>();
+  line_series_item->SetDataItem(data_item);
+
+  // adding points to the model, make LineSeriesLooking at it
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 25.0}, {3.0, 10.0}});
+
+  EXPECT_EQ(line_series_item->GetBinCenters(), std::vector<double>({1.0, 2.0, 3.0}));
+  EXPECT_EQ(line_series_item->GetValues(), std::vector<double>({10.0, 25.0, 10.0}));
+}
+
+TEST_F(LineSeriesItemTest, BinCentersAndValuesWhenOffsetIsPresent)
+{
+  mvvm::ApplicationModel model;
+  auto line_series_item = model.InsertItem<LineSeriesItem>();
+  auto data_item = model.InsertItem<LineSeriesDataItem>();
+  line_series_item->SetDataItem(data_item);
+
+  // adding points to the model, make LineSeriesLooking at it
+  data_item->SetWaveform({{1.0, 10.0}, {2.0, 25.0}, {3.0, 10.0}});
+
+  line_series_item->SetXOffset(10.0);
+
+  EXPECT_EQ(line_series_item->GetBinCenters(), std::vector<double>({11.0, 12.0, 13.0}));
+  EXPECT_EQ(line_series_item->GetValues(), std::vector<double>({10.0, 25.0, 10.0}));
+}

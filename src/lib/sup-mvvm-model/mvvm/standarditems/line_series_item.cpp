@@ -20,6 +20,7 @@
 #include "line_series_item.h"
 
 #include "line_series_data_item.h"
+#include "waveform_helper.h"
 
 #include <mvvm/standarditems/linked_item.h>
 #include <mvvm/standarditems/plottable_items.h>
@@ -60,14 +61,14 @@ void LineSeriesItem::SetDataItem(LineSeriesDataItem *item)
   GetItem<mvvm::LinkedItem>(kLink)->SetLink(item);
 }
 
-LineSeriesDataItem *LineSeriesItem::GetDataItem()
-{
-  return const_cast<LineSeriesDataItem *>(static_cast<const LineSeriesItem *>(this)->GetDataItem());
-}
-
 const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
 {
   return GetItem<mvvm::LinkedItem>(kLink)->Get<LineSeriesDataItem>();
+}
+
+LineSeriesDataItem *LineSeriesItem::GetDataItem()
+{
+  return const_cast<LineSeriesDataItem *>(static_cast<const LineSeriesItem *>(this)->GetDataItem());
 }
 
 double LineSeriesItem::GetXOffset() const
@@ -93,6 +94,20 @@ void LineSeriesItem::SetNamedColor(const std::string &named_color)
 mvvm::PenItem *LineSeriesItem::GetPenItem() const
 {
   return GetItem<mvvm::PenItem>(kPen);
+}
+
+std::vector<double> LineSeriesItem::GetBinCenters() const
+{
+  // retrieving x-coordinates and shifting them by the offset value
+  auto result = GetPairOfVectors(GetDataItem()->GetWaveform()).first;
+  std::transform(result.begin(), result.end(), result.begin(),
+                 [this](auto element) { return element += GetXOffset(); });
+  return result;
+}
+
+std::vector<double> LineSeriesItem::GetValues() const
+{
+  return GetPairOfVectors(GetDataItem()->GetWaveform()).second;
 }
 
 }  // namespace mvvm
