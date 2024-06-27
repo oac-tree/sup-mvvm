@@ -23,12 +23,11 @@
 #include "waveform_helper.h"
 
 #include <mvvm/standarditems/linked_item.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/standarditems/plottable_items.h>
 
 namespace
 {
-const std::string kLink = "kLink";
-const std::string kOffset = "kOffset";
 const int kDefaultLineWidth = 2;
 const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
 const std::string kPen = "kPen";
@@ -40,7 +39,7 @@ namespace mvvm
 
 LineSeriesItem::LineSeriesItem() : CompoundItem(Type)
 {
-  AddProperty<mvvm::LinkedItem>(kLink).SetDisplayName("Link");
+  AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link");
   AddProperty(kOffset, 0.0).SetDisplayName("Offset");
 
   auto &pen = AddProperty<mvvm::PenItem>(kPen);
@@ -58,12 +57,12 @@ std::unique_ptr<SessionItem> LineSeriesItem::Clone(bool make_unique_id) const
 
 void LineSeriesItem::SetDataItem(LineSeriesDataItem *item)
 {
-  GetItem<mvvm::LinkedItem>(kLink)->SetLink(item);
+  GetItem<mvvm::LinkedItem>(constants::kLink)->SetLink(item);
 }
 
 const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
 {
-  return GetItem<mvvm::LinkedItem>(kLink)->Get<LineSeriesDataItem>();
+  return GetItem<mvvm::LinkedItem>(constants::kLink)->Get<LineSeriesDataItem>();
 }
 
 LineSeriesDataItem *LineSeriesItem::GetDataItem()

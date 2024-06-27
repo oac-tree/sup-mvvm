@@ -32,10 +32,12 @@ const std::string kRootItemName = "RootItem";
 const std::string kRootItemTag = "RootTag";
 
 const std::string kChildrenTag = "kChildrenTag";
+const std::string kLink = "kLink";
 
 const std::string kX = "kX";
 const std::string kY = "kY";
 const std::string kZ = "kZ";
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_ITEM_CONSTANTS_H_

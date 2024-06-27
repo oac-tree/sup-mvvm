@@ -20,6 +20,7 @@
 #ifndef MVVM_STANDARDITEMS_WAVEFORM_HELPER_H_
 #define MVVM_STANDARDITEMS_WAVEFORM_HELPER_H_
 
+#include <string>
 #include <vector>
 
 namespace mvvm
@@ -27,11 +28,16 @@ namespace mvvm
 
 using waveform_data_t = std::vector<std::pair<double, double>>;
 
+namespace constants
+{
+const int kDefaultLineWidth = 2;
+const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
+}  // namespace constants
+
 /**
  * @brief Make pair of vectors instead of vector of pairs.
  */
 std::pair<std::vector<double>, std::vector<double>> GetPairOfVectors(const waveform_data_t& data);
-
 
 }  // namespace mvvm
 
