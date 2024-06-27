@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef SUP_GUI_PLOTTING_LINE_SERIES_CONTROLLER_H_
-#define SUP_GUI_PLOTTING_LINE_SERIES_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CHARTS_LINE_SERIES_CONTROLLER_H_
+#define MVVM_PLOTTING_CHARTS_LINE_SERIES_CONTROLLER_H_
 
 #include <mvvm/signals/item_listener.h>
 
@@ -80,4 +80,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // SUP_GUI_PLOTTING_LINE_SERIES_CONTROLLER_H_
+#endif  // MVVM_PLOTTING_CHARTS_LINE_SERIES_CONTROLLER_H_
