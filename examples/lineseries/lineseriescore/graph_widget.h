@@ -28,8 +28,8 @@ class QAction;
 
 namespace mvvm
 {
-class GraphCanvas;
 class AllItemsTreeView;
+class ChartCanvas;
 }  // namespace mvvm
 
 namespace lineseries
@@ -58,12 +58,12 @@ private:
   QAction* m_remove_graph_action{nullptr};
   QAction* m_randomize_action{nullptr};
 
-  mvvm::GraphCanvas* m_graph_canvas{nullptr};
+  mvvm::ChartCanvas* m_chart_canvas{nullptr};
   mvvm::AllItemsTreeView* m_tree_view{nullptr};
 
   GraphModel* m_model{nullptr};
 };
 
-}  // namespace plotgraphs
+}  // namespace lineseries
 
 #endif  // PLOTGRAPHS_PLOTGRAPHSCORE_GRAPH_WIDGET_H_

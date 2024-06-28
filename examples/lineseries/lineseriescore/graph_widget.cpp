@@ -22,9 +22,9 @@
 #include "graph_model.h"
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/standarditems/graph_viewport_item.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/views/all_items_tree_view.h>
-#include <mvvm/views/graph_canvas.h>
+#include <mvvm/views/chart_canvas.h>
 
 #include <QAction>
 #include <QBoxLayout>
@@ -36,11 +36,11 @@ namespace lineseries
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_tool_bar(new QToolBar)
-    , m_graph_canvas(new mvvm::GraphCanvas)
+    , m_chart_canvas(new mvvm::ChartCanvas)
     , m_tree_view(new mvvm::AllItemsTreeView)
 {
   auto central_layout = new QHBoxLayout;
-  central_layout->addWidget(m_graph_canvas, 3);
+  central_layout->addWidget(m_chart_canvas, 3);
   central_layout->addWidget(m_tree_view, 1);
 
   auto main_layout = new QVBoxLayout;
@@ -64,7 +64,7 @@ void GraphWidget::SetModel(GraphModel* model)
 
   m_model = model;
   m_tree_view->SetApplicationModel(model);
-  m_graph_canvas->SetItem(::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(model));
+  m_chart_canvas->SetViewport(model->GetViewport());
 }
 
 void GraphWidget::InitActions()
@@ -74,7 +74,7 @@ void GraphWidget::InitActions()
 
   // reset view action
   m_reset_viewport_action = new QAction("Reset view", this);
-  auto on_reset = [this]() { m_model->GetViewport()->SetViewportToContent(0.0, 0.1, 0.0, 0.1); };
+  auto on_reset = [this]() { m_chart_canvas->SetViewportToContent(); };
   connect(m_reset_viewport_action, &QAction::triggered, on_reset);
   m_tool_bar->addAction(m_reset_viewport_action);
 
@@ -97,4 +97,4 @@ void GraphWidget::InitActions()
   m_tool_bar->addAction(m_randomize_action);
 }
 
-}  // namespace plotgraphs
+}  // namespace lineseries

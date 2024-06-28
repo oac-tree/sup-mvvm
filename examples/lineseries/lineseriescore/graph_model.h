@@ -24,7 +24,7 @@
 
 namespace mvvm
 {
-class GraphViewportItem;
+class ChartViewportItem;
 class ContainerItem;
 }  // namespace mvvm
 
@@ -58,7 +58,7 @@ public:
   /**
    * @brief Returns viewport containing line series items.
    */
-  mvvm::GraphViewportItem* GetViewport();
+  mvvm::ChartViewportItem* GetViewport();
 
   /**
    * @brief Returns container with data items.
