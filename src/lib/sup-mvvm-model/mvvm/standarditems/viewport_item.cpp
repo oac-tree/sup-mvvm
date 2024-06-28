@@ -38,11 +38,10 @@ ViewportAxisItem* ViewportItem::GetYAxis() const
   return GetItem<ViewportAxisItem>(kYaxis);
 }
 
-//! Sets range of x,y window to show all data.
-//! Allows adding an additional margin to automatically calculated axis range. Margins are
-//! given in relative units wrt calculated axis range.
-//! Example: setViewportToContent(0.0, 0.1, 0.0, 0.1) will set axes to show all graphs with 10% gap
-//! above and below graph's max and min.
+void ViewportItem::SetViewportToContent()
+{
+  SetViewportToContent(0.0, 0.0, 0.0, 0.0);
+}
 
 void ViewportItem::SetViewportToContent(double left, double top, double right, double bottom)
 {
@@ -52,19 +51,6 @@ void ViewportItem::SetViewportToContent(double left, double top, double right, d
 
   auto [ymin, ymax] = GetDataYRange();
   GetYAxis()->SetRange(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
-  //  Utils::EndMacros(this);
-}
-
-//! Sets range of x,y window to show all data.
-
-void ViewportItem::SetViewportToContent()
-{
-  //  Utils::BeginMacros(this, "setViewportToContent"); // FIXME restore undo/redo
-  auto [xmin, xmax] = GetDataXRange();
-  GetXAxis()->SetRange(xmin, xmax);
-
-  auto [ymin, ymax] = GetDataYRange();
-  GetYAxis()->SetRange(ymin, ymax);
   //  Utils::EndMacros(this);
 }
 

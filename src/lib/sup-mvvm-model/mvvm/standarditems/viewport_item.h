@@ -27,9 +27,11 @@ namespace mvvm
 
 class ViewportAxisItem;
 
-//! Base class to represent 2D viewport.
-//! Contains x,y axis, indended to display graphs or 2d colormaps.
-
+/**
+ * @brief The ViewportItem class is a base class for all viewports representing 1D, and 2D data.
+ *
+ * Contains x,y axis, to display graphs, line series, or 2D colormaps.
+ */
 class MVVM_MODEL_EXPORT ViewportItem : public CompoundItem
 {
 public:
@@ -40,18 +42,44 @@ public:
   using CompoundItem::CompoundItem;
   explicit ViewportItem(const std::string& item_type);
 
+  /**
+   * @brief Returns x-axis.
+   */
   ViewportAxisItem* GetXAxis() const;
 
+  /**
+   * @brief Returns y-axis.
+   */
   ViewportAxisItem* GetYAxis() const;
 
-  virtual void SetViewportToContent(double left, double top, double right, double bottom);
-
+  /**
+   * @brief Sets the range of x,y window to show all data.
+   */
   virtual void SetViewportToContent();
 
+  /**
+   * @brief Sets range of x,y window to show all data.
+   *
+   * Allows adding an additional margin to automatically calculated axis range. Margins are given in
+   * relative units wrt calculated axis range. For example, setViewportToContent(0.0, 0.1, 0.0, 0.1)
+   * will set axes to show all graphs with 10% gap above and below graph's max and min.
+   */
+  virtual void SetViewportToContent(double left, double top, double right, double bottom);
+
 protected:
+  /**
+   * @brief Register tags to attach axes.
+   */
   void RegisterAxes();
 
+  /**
+   * @brief Returns the area occupied by the data along the x-axis.
+   */
   virtual std::pair<double, double> GetDataXRange() const = 0;
+
+  /**
+   * @brief Returns the area occupied by the data along the y-axis.
+   */
   virtual std::pair<double, double> GetDataYRange() const = 0;
 };
 
