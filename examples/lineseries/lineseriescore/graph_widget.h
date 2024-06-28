@@ -32,7 +32,7 @@ class GraphCanvas;
 class AllItemsTreeView;
 }  // namespace mvvm
 
-namespace plotgraphs
+namespace lineseries
 {
 
 class GraphModel;
