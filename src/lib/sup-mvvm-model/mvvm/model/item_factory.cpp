@@ -80,6 +80,7 @@ void InitItemFactory(ItemFactory& factory)
   factory.RegisterItem<LineSeriesDataItem>();
   factory.RegisterItem<PointItem>();
   factory.RegisterItem<LineSeriesItem>();
+  factory.RegisterItem<ChartViewportItem>();
 }
 
 ItemFactory& GetGlobalItemFactory()

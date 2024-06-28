@@ -41,6 +41,8 @@ public:
 
   std::vector<LineSeriesItem*> GetLineSeries() const;
 
+  int GetLineSeriesCount() const;
+
 protected:
   std::pair<double, double> GetDataXRange() const override;
   std::pair<double, double> GetDataYRange() const override;

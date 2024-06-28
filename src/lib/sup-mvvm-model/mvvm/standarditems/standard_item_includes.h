@@ -26,6 +26,7 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>

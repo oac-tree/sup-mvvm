@@ -70,6 +70,11 @@ std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const
   return GetItems<LineSeriesItem>(kItems);
 }
 
+int ChartViewportItem::GetLineSeriesCount() const
+{
+  return GetItemCount(kItems);
+}
+
 std::pair<double, double> ChartViewportItem::GetDataXRange() const
 {
   return GetMinMax(GetLineSeries(), &LineSeriesItem::GetBinCenters);

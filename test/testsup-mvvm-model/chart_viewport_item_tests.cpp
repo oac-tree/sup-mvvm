@@ -39,6 +39,17 @@ TEST_F(ChartViewportItemTest, ViewportAxisInitialState)
   mvvm::ApplicationModel model;
 
   auto viewport_item = model.InsertItem<ChartViewportItem>();
+
+  EXPECT_EQ(viewport_item->GetLineSeriesCount(), 0);
+  EXPECT_NE(viewport_item->GetXAxis(), nullptr);
+  EXPECT_NE(viewport_item->GetYAxis(), nullptr);
+}
+
+TEST_F(ChartViewportItemTest, SingleLineSeries)
+{
+  mvvm::ApplicationModel model;
+
+  auto viewport_item = model.InsertItem<ChartViewportItem>();
   auto line_series_item = model.InsertItem<LineSeriesItem>(viewport_item);
 
   EXPECT_NE(viewport_item->GetXAxis(), nullptr);
@@ -50,6 +61,7 @@ TEST_F(ChartViewportItemTest, ViewportAxisInitialState)
   EXPECT_EQ(viewport_item->GetYAxis()->GetMax(), 1.0);
 
   EXPECT_EQ(viewport_item->GetLineSeries(), std::vector<LineSeriesItem*>({line_series_item}));
+  EXPECT_EQ(viewport_item->GetLineSeriesCount(), 1);
 }
 
 TEST_F(ChartViewportItemTest, SetViewportToContent)
