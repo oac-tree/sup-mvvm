@@ -24,9 +24,9 @@
 #include "job_manager.h"
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/plotting/graph_canvas.h>
 #include <mvvm/standarditems/graph_viewport_item.h>
-#include <mvvm/widgets/all_items_tree_view.h>
+#include <mvvm/views/all_items_tree_view.h>
+#include <mvvm/views/graph_canvas.h>
 
 #include <QBoxLayout>
 

@@ -20,9 +20,8 @@
 #include "flat_widget.h"
 
 #include <mvvm/viewmodel/viewmodel.h>
-#include <mvvm/widgets/property_flat_view.h>
+#include <mvvm/views/property_flat_view.h>
 
-#include <QDebug>
 #include <QVBoxLayout>
 
 namespace flatview

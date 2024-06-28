@@ -19,7 +19,7 @@
 
 #include "drag_viewmodel.h"
 
-#include <mvvm/model/sessionmodel.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 

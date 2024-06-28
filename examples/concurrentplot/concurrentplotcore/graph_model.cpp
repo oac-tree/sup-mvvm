@@ -57,7 +57,7 @@ GraphModel::GraphModel() : ApplicationModel("GraphModel")
 void GraphModel::SetData(const std::vector<double>& data)
 {
   auto item = mvvm::utils::GetTopItem<mvvm::ContainerItem>(this)->GetItem<mvvm::Data1DItem>(
-      mvvm::ContainerItem::kChildren);
+      mvvm::TagIndex::kDefaultTag);
   item->SetValues(data);
 }
 
