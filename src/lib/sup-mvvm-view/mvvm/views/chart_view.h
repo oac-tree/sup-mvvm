@@ -81,6 +81,6 @@ private:
   QPointF m_last_pos;
 };
 
-}  // namespace pspsdemo
+}  // namespace mvvm
 
 #endif  // MVVM_VIEWS_CHART_VIEW_H_
