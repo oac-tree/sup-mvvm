@@ -3,7 +3,7 @@
 The example shows how to copy and move items between two tables and use
 undo-redo.
 
-![dragandmove](../../doc/assets/dragandmove.png)
+![dragandmove](dragandmove.png)
 
 The application model contains two containers with a collection of items.
 Containers are shown using two table views, where rows are maid of items, and
