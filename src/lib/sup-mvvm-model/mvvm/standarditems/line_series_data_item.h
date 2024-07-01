@@ -95,10 +95,18 @@ public:
    */
   void InsertPoint(int index, const std::pair<double, double>& coordinates);
 
+  /**
+   * @brief Returns vector of points.
+   */
+  std::vector<PointItem*> GetPoints() const;
+
+  /**
+   * @brief Returns point at given index.
+   */
+  PointItem* GetPoint(int index) const;
+
 private:
   void ValidateIndex(int index) const;
-  std::vector<PointItem*> GetPoints() const;
-  PointItem* GetPoint(int index) const;
 };
 
 }  // namespace mvvm

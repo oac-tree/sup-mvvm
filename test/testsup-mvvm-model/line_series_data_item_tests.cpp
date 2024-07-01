@@ -19,6 +19,8 @@
 
 #include "mvvm/standarditems/line_series_data_item.h"
 
+#include <mvvm/standarditems/point_item.h>
+
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -46,6 +48,10 @@ TEST_F(LineSeriesDataItemTest, GetSetWaveform)
 
   EXPECT_EQ(item.GetWaveform(), expected);
   EXPECT_EQ(item.GetPointCount(), 2);
+  auto points = item.GetPoints();
+  ASSERT_EQ(points.size(), 2);
+  EXPECT_EQ(item.GetPoint(0)->GetX(), 1.0);
+  EXPECT_EQ(item.GetPoint(0)->GetY(), 10.0);
 
   const std::vector<std::pair<double, double>> expected2({{3.0, 30.0}, {4.0, 40.0}, {5.0, 50.0}});
   item.SetWaveform(expected2);
