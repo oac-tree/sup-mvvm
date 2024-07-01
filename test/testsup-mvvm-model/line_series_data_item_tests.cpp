@@ -34,6 +34,7 @@ TEST_F(LineSeriesDataItemTest, InitialState)
   const LineSeriesDataItem item;
 
   EXPECT_TRUE(item.GetWaveform().empty());
+  EXPECT_EQ(item.GetPointCount(), 0);
 }
 
 TEST_F(LineSeriesDataItemTest, GetSetWaveform)
@@ -44,6 +45,7 @@ TEST_F(LineSeriesDataItemTest, GetSetWaveform)
   item.SetWaveform(expected);
 
   EXPECT_EQ(item.GetWaveform(), expected);
+  EXPECT_EQ(item.GetPointCount(), 2);
 
   const std::vector<std::pair<double, double>> expected2({{3.0, 30.0}, {4.0, 40.0}, {5.0, 50.0}});
   item.SetWaveform(expected2);

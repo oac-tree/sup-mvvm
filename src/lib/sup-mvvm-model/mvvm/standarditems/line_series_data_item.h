@@ -48,6 +48,11 @@ public:
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
   /**
+   * @brief Returns number of points.
+   */
+  int GetPointCount() const;
+
+  /**
    * @brief Returns vector of (x,y) points representing a waveform.
    */
   std::vector<std::pair<double, double>> GetWaveform() const;

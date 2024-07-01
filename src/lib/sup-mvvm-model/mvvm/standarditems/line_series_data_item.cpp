@@ -36,6 +36,11 @@ std::unique_ptr<SessionItem> LineSeriesDataItem::Clone(bool make_unique_id) cons
   return std::make_unique<LineSeriesDataItem>(*this, make_unique_id);
 }
 
+int LineSeriesDataItem::GetPointCount() const
+{
+  return GetItemCount(constants::kChildrenTag);
+}
+
 std::vector<std::pair<double, double> > LineSeriesDataItem::GetWaveform() const
 {
   std::vector<std::pair<double, double> > result;
