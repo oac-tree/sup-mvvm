@@ -37,6 +37,10 @@ TEST_F(PointItemTest, GetAndSet)
 
   item.SetX(42.0);
   item.SetY(43.0);
-  EXPECT_DOUBLE_EQ(item.GetX(), 42.0);
-  EXPECT_DOUBLE_EQ(item.GetY(), 43.0);
+  EXPECT_EQ(item.GetX(), 42.0);
+  EXPECT_EQ(item.GetY(), 43.0);
+  EXPECT_EQ(item.GetPointCoordinates(), std::make_pair(42.0, 43.0));
+
+  item.SetPointCoordinates({1.0, 2.0});
+  EXPECT_EQ(item.GetPointCoordinates(), std::make_pair(1.0, 2.0));
 }

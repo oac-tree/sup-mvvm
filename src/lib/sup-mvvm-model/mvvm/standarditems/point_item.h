@@ -42,13 +42,35 @@ public:
 
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
+  /**
+   * @brief Returns x-coordinate of the point.
+   */
   double GetX() const;
 
+  /**
+   * @brief Sets x-coordinate of the point to a given value.
+   */
   void SetX(double value);
 
+  /**
+   * @brief Returns y-coordinate of the point.
+   */
   double GetY() const;
 
+  /**
+   * @brief Sets y-coordinate of the point to a given value.
+   */
   void SetY(double value);
+
+  /**
+   * @brief Returns coordinates of point with given index.
+   */
+  std::pair<double, double> GetPointCoordinates() const;
+
+  /**
+   * @brief Set x,y to given value.
+   */
+  void SetPointCoordinates(const std::pair<double, double>& coordinates);
 };
 
 }  // namespace mvvm

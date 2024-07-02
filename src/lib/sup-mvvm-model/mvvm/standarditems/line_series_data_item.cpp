@@ -75,16 +75,13 @@ void LineSeriesDataItem::Clear()
 
 std::pair<double, double> LineSeriesDataItem::GetPointCoordinates(int index) const
 {
-  auto point = GetPoint(index);
-  return std::make_pair(point->GetX(), point->GetY());
+  return GetPoint(index)->GetPointCoordinates();
 }
 
 void LineSeriesDataItem::SetPointCoordinates(int index,
                                              const std::pair<double, double>& coordinates)
 {
-  auto point = GetPoint(index);
-  point->SetX(coordinates.first);
-  point->SetY(coordinates.second);
+  GetPoint(index)->SetPointCoordinates(coordinates);
 }
 
 void LineSeriesDataItem::RemovePoint(int index)
