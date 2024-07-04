@@ -59,6 +59,8 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
   EXPECT_NE(provider.GetViewModel(), nullptr);
   EXPECT_EQ(provider.GetSelectedItem(), nullptr);
   EXPECT_TRUE(provider.GetSelectedItems().empty());
+  EXPECT_EQ(provider.GetLastProxyModel(), nullptr);
+  EXPECT_TRUE(provider.GetProxyModelChain().empty());
 }
 
 //! Setting empty ApplicationModel to the provider.

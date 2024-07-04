@@ -27,6 +27,7 @@
 
 class QAbstractItemView;
 class QItemSelectionModel;
+class QAbstractProxyModel;
 
 namespace mvvm
 {
@@ -78,6 +79,29 @@ public:
    * @brief Returns current invisible root item we are looking at.
    */
   SessionItem* GetItem();
+
+  /**
+   * @brief Adds proxy model.
+   *
+   * Proxy model will get original ViewModel as a source, and the view will be set to a proxy model.
+   * Every subsequent proxy model will get previous proxy model as a source.
+   */
+  void AddProxyModel(std::unique_ptr<QAbstractProxyModel> proxy);
+
+  /**
+   * @brief Returns last proxy model in a chain.
+   *
+   * This is the model which view is looking at.
+   */
+  QAbstractProxyModel* GetLastProxyModel() const;
+
+  /**
+   * @brief Returns chain of proxy models.
+   *
+   * The last model in this list is what view sees. The first model in this list is using
+   * mvvm::ViewModel as a source.
+   */
+  std::vector<QAbstractProxyModel*> GetProxyModelChain();
 
   /**
    * @brief Returns a view which we are currently serving.
@@ -149,6 +173,7 @@ private:
   std::unique_ptr<ViewModelDelegate> m_delegate;
   std::unique_ptr<ViewModel> m_view_model;
   QAbstractItemView* m_view{nullptr};
+  std::vector<std::unique_ptr<QAbstractProxyModel>> m_proxy_chain;
 };
 
 template <typename T>

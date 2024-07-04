@@ -26,6 +26,7 @@
 #include <mvvm/viewmodel/viewmodel.h>
 
 #include <QAbstractItemView>
+#include <QAbstractProxyModel>
 
 namespace mvvm
 {
@@ -71,6 +72,34 @@ const SessionItem *ItemViewComponentProvider::GetItem() const
 SessionItem *ItemViewComponentProvider::GetItem()
 {
   return m_view_model->GetRootSessionItem();
+}
+
+void ItemViewComponentProvider::AddProxyModel(std::unique_ptr<QAbstractProxyModel> proxy)
+{
+  if (auto last_proxy = GetLastProxyModel(); last_proxy)
+  {
+    proxy->setSourceModel(last_proxy);
+  }
+  else
+  {
+    proxy->setSourceModel(GetViewModel());
+  }
+
+  m_view->setModel(proxy.get());
+  m_proxy_chain.push_back(std::move(proxy));
+}
+
+QAbstractProxyModel *ItemViewComponentProvider::GetLastProxyModel() const
+{
+  return m_proxy_chain.empty() ? nullptr : m_proxy_chain.back().get();
+}
+
+std::vector<QAbstractProxyModel *> ItemViewComponentProvider::GetProxyModelChain()
+{
+  std::vector<QAbstractProxyModel *> result;
+  std::transform(m_proxy_chain.begin(), m_proxy_chain.end(), std::back_inserter(result),
+                 [](const auto &child_uptr) { return child_uptr.get(); });
+  return result;
 }
 
 QAbstractItemView *ItemViewComponentProvider::GetView() const
