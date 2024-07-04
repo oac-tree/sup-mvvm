@@ -24,6 +24,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/viewmodel_delegate.h>
+#include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewmodel.h>
 
 #include <QAbstractItemView>
@@ -79,7 +80,7 @@ QAbstractItemView *ItemViewComponentProvider::GetView() const
   return m_view;
 }
 
-ItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
+QItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
 {
   return m_selection_model.get();
 }
@@ -87,6 +88,16 @@ ItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
 ViewModel *ItemViewComponentProvider::GetViewModel() const
 {
   return m_view_model.get();
+}
+
+const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelIndex &index) const
+{
+  return GetViewModel()->GetSessionItemFromIndex(index);
+}
+
+QList<QModelIndex> ItemViewComponentProvider::GetViewIndices(const SessionItem *item) const
+{
+  return GetViewModel()->GetIndexOfSessionItem(item);
 }
 
 SessionItem *ItemViewComponentProvider::GetSelectedItem() const
@@ -101,18 +112,35 @@ void ItemViewComponentProvider::SetSelectedItem(SessionItem *item)
 
 void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> items)
 {
-  std::vector<const SessionItem *> to_set_items;
-  std::copy(items.begin(), items.end(), std::back_inserter(to_set_items));
-  m_selection_model->SetSelectedItems(std::move(to_set_items));
+  GetSelectionModel()->clearSelection();
+  QItemSelection selection;
+  for (auto item : items)
+  {
+    for (auto index : GetViewIndices(item))
+    {
+      selection.push_back(QItemSelectionRange(index));
+    }
+  }
+
+  //  auto flags = QItemSelectionModel::Select;  // not clear, which one to use
+  auto flags = QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows;
+  GetSelectionModel()->select(selection, flags);
 }
 
 std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() const
 {
-  std::vector<SessionItem *> result;
-  auto items = m_selection_model->GetSelectedItems();
-  std::transform(items.begin(), items.end(), std::back_inserter(result),
-                 [](auto iter) { return const_cast<SessionItem *>(iter); });
-  return result;
+  std::vector<mvvm::SessionItem *> result;
+
+  for (auto index : GetSelectionModel()->selectedIndexes())
+  {
+    // skipping nullptr
+    if (auto item = GetItemFromViewIndex(index); item)
+    {
+      result.push_back(const_cast<SessionItem *>(item));
+    }
+  }
+
+  return mvvm::utils::UniqueWithOrder(result);
 }
 
 }  // namespace mvvm

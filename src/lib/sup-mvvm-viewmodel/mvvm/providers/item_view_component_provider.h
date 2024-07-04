@@ -26,15 +26,16 @@
 #include <memory>
 
 class QAbstractItemView;
+class QItemSelectionModel;
 
 namespace mvvm
 {
 
 class SessionItem;
-class ItemSelectionModel;
 class ViewModel;
 class ViewModelDelegate;
 class ISessionModel;
+class ItemSelectionModel;
 
 /**
  * @brief The ItemViewComponentProvider class provides QAbstractItemView with custom components:
@@ -87,12 +88,30 @@ public:
   /**
    * @brief Returns used selection model.
    */
-  ItemSelectionModel* GetSelectionModel() const;
+  QItemSelectionModel* GetSelectionModel() const;
 
   /**
    * @brief Returns a view model.
    */
   ViewModel* GetViewModel() const;
+
+  /**
+   * @brief Returns item from view index.
+   *
+   * The method takes into account the existence of proxy model. When proxy model is set, the result
+   * is obtained by applying QAbstractItemProxyModel::mapToSource to given index, and then getting
+   * item out of it.
+   */
+  const mvvm::SessionItem* GetItemFromViewIndex(const QModelIndex& index) const;
+
+  /**
+   * @brief Returns view indices for given item.
+   *
+   * View indices can be used for operation through a view. The method takes into account
+   * the existence of proxy model. When proxy model is set, the result is obtained by applying
+   * QAbstractItemProxyModel::mapFromSource to the original item's indices.
+   */
+  QList<QModelIndex> GetViewIndices(const mvvm::SessionItem* item) const;
 
   /**
    * @brief Returns an item currently selected in a view.
