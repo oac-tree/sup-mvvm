@@ -6,8 +6,6 @@ target_sources(${library_name} PRIVATE
   default_cell_decorator.cpp
   default_cell_decorator.h
   i_editor_factory.h
-  item_selection_model.cpp
-  item_selection_model.h
   item_view_component_provider.cpp
   item_view_component_provider.h
   property_grid_controller.cpp
