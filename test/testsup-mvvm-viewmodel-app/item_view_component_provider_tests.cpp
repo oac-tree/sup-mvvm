@@ -389,5 +389,8 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
   provider.reset();
 
   EXPECT_EQ(view.model(), nullptr);
-  EXPECT_EQ(view.selectionModel(), nullptr);
+
+  // provider was using default selectionModel of a view, so it was created by the view and still
+  // leaves there
+  EXPECT_NE(view.selectionModel(), nullptr);
 }

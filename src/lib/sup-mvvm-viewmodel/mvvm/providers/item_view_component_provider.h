@@ -35,7 +35,6 @@ class SessionItem;
 class ViewModel;
 class ViewModelDelegate;
 class ISessionModel;
-class ItemSelectionModel;
 
 /**
  * @brief The ItemViewComponentProvider class provides QAbstractItemView with custom components:
@@ -144,10 +143,10 @@ signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 
 private:
+  void OnViewModelReset();
   std::vector<SessionItem*> GetSelectedItemsIntern() const;
 
   std::unique_ptr<ViewModelDelegate> m_delegate;
-  std::unique_ptr<ItemSelectionModel> m_selection_model;
   std::unique_ptr<ViewModel> m_view_model;
   QAbstractItemView* m_view{nullptr};
 };

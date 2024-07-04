@@ -19,8 +19,6 @@
 
 #include "item_view_component_provider.h"
 
-#include "item_selection_model.h"
-
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/viewmodel_delegate.h>
@@ -35,7 +33,6 @@ namespace mvvm
 ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model,
                                                      QAbstractItemView *view)
     : m_delegate(std::make_unique<ViewModelDelegate>())
-    , m_selection_model(std::make_unique<ItemSelectionModel>())
     , m_view_model(std::move(view_model))
     , m_view(view)
 {
@@ -44,13 +41,14 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
     throw RuntimeException("View is not initialised");
   }
 
-  connect(m_selection_model.get(), &ItemSelectionModel::SelectedItemChanged, this,
-          [this](auto item) { emit SelectedItemChanged(const_cast<SessionItem *>(item)); });
-
-  m_selection_model->SetViewModel(m_view_model.get());
   m_view->setModel(m_view_model.get());
   m_view->setItemDelegate(m_delegate.get());
-  m_view->setSelectionModel(m_selection_model.get());
+
+  connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this,
+          [this](auto, auto) { emit SelectedItemChanged(GetSelectedItem()); });
+
+  connect(m_view_model.get(), &mvvm::ViewModel::modelAboutToBeReset, this,
+          &ItemViewComponentProvider::OnViewModelReset, Qt::UniqueConnection);
 }
 
 ItemViewComponentProvider::~ItemViewComponentProvider() = default;
@@ -82,7 +80,8 @@ QAbstractItemView *ItemViewComponentProvider::GetView() const
 
 QItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
 {
-  return m_selection_model.get();
+  return m_view->selectionModel();
+  // return m_selection_model.get();
 }
 
 ViewModel *ItemViewComponentProvider::GetViewModel() const
@@ -102,12 +101,13 @@ QList<QModelIndex> ItemViewComponentProvider::GetViewIndices(const SessionItem *
 
 SessionItem *ItemViewComponentProvider::GetSelectedItem() const
 {
-  return const_cast<SessionItem *>(m_selection_model->GetSelectedItem());
+  auto selected = GetSelectedItems();
+  return selected.empty() ? nullptr : selected.front();
 }
 
 void ItemViewComponentProvider::SetSelectedItem(SessionItem *item)
 {
-  m_selection_model->SetSelectedItem(item);
+  SetSelectedItems({item});
 }
 
 void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> items)
@@ -125,6 +125,11 @@ void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> item
   //  auto flags = QItemSelectionModel::Select;  // not clear, which one to use
   auto flags = QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows;
   GetSelectionModel()->select(selection, flags);
+}
+
+void ItemViewComponentProvider::OnViewModelReset()
+{
+  GetSelectionModel()->clearSelection();
 }
 
 std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() const
