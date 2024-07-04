@@ -101,7 +101,7 @@ public:
    * The last model in this list is what view sees. The first model in this list is using
    * mvvm::ViewModel as a source.
    */
-  std::vector<QAbstractProxyModel*> GetProxyModelChain();
+  std::vector<QAbstractProxyModel*> GetProxyModelChain() const;
 
   /**
    * @brief Returns a view which we are currently serving.

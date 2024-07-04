@@ -24,9 +24,11 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <gtest/gtest.h>
 
+#include <QDebug>
 #include <QItemSelectionModel>
 #include <QSignalSpy>
 #include <QTreeView>
@@ -396,4 +398,59 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
   // provider was using default selectionModel of a view, so it was created by the view and still
   // leaves there
   EXPECT_NE(view.selectionModel(), nullptr);
+}
+
+//! Testing provider in the presence of proxy model. We create the model with 3 items, and then
+//! filtering out the first item. The provider should let us access two remaining items via view
+//! indexes.
+TEST_F(ItemViewComponentProviderTest, FilterNameProxy)
+{
+  QTreeView view;
+
+  // model with 3 items
+  auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
+  property0->SetDisplayName("A");
+  auto property1 = m_model.InsertItem<mvvm::PropertyItem>();
+  property1->SetDisplayName("AB");
+  auto property2 = m_model.InsertItem<mvvm::PropertyItem>();
+  property2->SetDisplayName("ABC");
+
+  // provider charged with the proxy model
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto proxy = std::make_unique<FilterNameViewModel>();
+  auto proxy_ptr = proxy.get();
+  provider->AddProxyModel(std::move(proxy));
+
+  // view is looking to the proxy
+  EXPECT_EQ(provider->GetLastProxyModel(), proxy_ptr);
+  EXPECT_EQ(view.model(), proxy_ptr);
+  EXPECT_EQ(provider->GetProxyModelChain(), std::vector<QAbstractProxyModel*>({proxy_ptr}));
+
+  // proxy model sees all items
+  EXPECT_EQ(proxy_ptr->rowCount(QModelIndex()), 3);
+  EXPECT_EQ(proxy_ptr->columnCount(QModelIndex()), 2);
+
+  // filtering out first item "A"; items "AB" and "ABC" should be there
+  proxy_ptr->SetPattern("AB");
+  EXPECT_EQ(proxy_ptr->rowCount(QModelIndex()), 2);
+  EXPECT_EQ(proxy_ptr->columnCount(QModelIndex()), 2);
+
+  // view indexes of items "AB" and "ABC"
+  auto displayname_index0 = proxy_ptr->index(0, 0, QModelIndex());
+  auto value_index0 = proxy_ptr->index(0, 1, QModelIndex());
+  auto displayname_index1 = proxy_ptr->index(1, 0, QModelIndex());
+  auto value_index1 = proxy_ptr->index(1, 1, QModelIndex());
+
+  // we can get access to the original property items via new indexes
+  EXPECT_EQ(provider->GetItemFromViewIndex(displayname_index0), property1);
+  EXPECT_EQ(provider->GetItemFromViewIndex(value_index0), property1);
+  EXPECT_EQ(provider->GetItemFromViewIndex(displayname_index1), property2);
+  EXPECT_EQ(provider->GetItemFromViewIndex(value_index1), property2);
+
+  // we can get new view indices back from items
+  EXPECT_TRUE(provider->GetViewIndices(property0).empty());  // was filtered out
+  EXPECT_EQ(provider->GetViewIndices(property1),
+            QModelIndexList({displayname_index0, value_index0}));
+  EXPECT_EQ(provider->GetViewIndices(property2),
+            QModelIndexList({displayname_index1, value_index1}));
 }

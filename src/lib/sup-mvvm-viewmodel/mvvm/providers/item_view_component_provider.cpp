@@ -94,7 +94,7 @@ QAbstractProxyModel *ItemViewComponentProvider::GetLastProxyModel() const
   return m_proxy_chain.empty() ? nullptr : m_proxy_chain.back().get();
 }
 
-std::vector<QAbstractProxyModel *> ItemViewComponentProvider::GetProxyModelChain()
+std::vector<QAbstractProxyModel *> ItemViewComponentProvider::GetProxyModelChain() const
 {
   std::vector<QAbstractProxyModel *> result;
   std::transform(m_proxy_chain.begin(), m_proxy_chain.end(), std::back_inserter(result),
@@ -110,7 +110,6 @@ QAbstractItemView *ItemViewComponentProvider::GetView() const
 QItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
 {
   return m_view->selectionModel();
-  // return m_selection_model.get();
 }
 
 ViewModel *ItemViewComponentProvider::GetViewModel() const
@@ -120,12 +119,35 @@ ViewModel *ItemViewComponentProvider::GetViewModel() const
 
 const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelIndex &index) const
 {
-  return GetViewModel()->GetSessionItemFromIndex(index);
+  auto source_index = index;
+  auto proxies = GetProxyModelChain();
+  for (auto it = proxies.rbegin(); it != proxies.rend(); ++it)
+  {
+    source_index = (*it)->mapToSource(index);
+  }
+
+  return GetViewModel()->GetSessionItemFromIndex(source_index);
 }
 
 QList<QModelIndex> ItemViewComponentProvider::GetViewIndices(const SessionItem *item) const
 {
-  return GetViewModel()->GetIndexOfSessionItem(item);
+  auto source_indices = GetViewModel()->GetIndexOfSessionItem(item);
+
+  for (const auto proxy : GetProxyModelChain())
+  {
+    QModelIndexList proxy_indexes;
+    for (auto index : source_indices)
+    {
+      auto proxy_index = proxy->mapFromSource(index);
+      if (proxy_index.isValid())
+      {
+        proxy_indexes.push_back(proxy_index);
+      }
+    }
+    source_indices = proxy_indexes;
+  }
+
+  return source_indices;
 }
 
 SessionItem *ItemViewComponentProvider::GetSelectedItem() const
