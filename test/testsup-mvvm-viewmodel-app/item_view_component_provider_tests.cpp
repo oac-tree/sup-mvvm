@@ -395,9 +395,8 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
 
   EXPECT_EQ(view.model(), nullptr);
 
-  // provider was using default selectionModel of a view, so it was created by the view and still
-  // leaves there
-  EXPECT_NE(view.selectionModel(), nullptr);
+  // provider has own selectionModel, and it dies together with provider
+  EXPECT_EQ(view.selectionModel(), nullptr);
 }
 
 //! Testing provider in the presence of proxy model. We create the model with 3 items, and then
@@ -555,4 +554,36 @@ TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
   provider->SetSelectedItem(property2);
   EXPECT_EQ(provider->GetSelectedItem(), property2);
+}
+
+//! Setting the new model leads to the change in view's underlying selection model. This test
+//! checks, that after adding new proxy model, provinder still sends ItemSelected signals.
+TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
+{
+  QTreeView view;
+
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+
+  QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
+
+  auto item = m_model.InsertItem<mvvm::CompoundItem>();
+  item->SetDisplayName("ABC");
+  provider->SetSelectedItem(item);
+
+  EXPECT_EQ(spy_selected.count(), 1);
+
+  spy_selected.clear();
+
+  // removing selection
+  provider->SetSelectedItem(nullptr);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+  EXPECT_EQ(spy_selected.count(), 1);
+
+  spy_selected.clear();
+
+  auto proxy0 = std::make_unique<FilterNameViewModel>();
+  provider->AddProxyModel(std::move(proxy0));
+
+  provider->SetSelectedItem(item);
+  EXPECT_EQ(spy_selected.count(), 1);
 }

@@ -190,6 +190,7 @@ private:
   std::unique_ptr<ViewModelDelegate> m_delegate;
   std::unique_ptr<ViewModel> m_view_model;
   QAbstractItemView* m_view{nullptr};
+  QItemSelectionModel* m_selection_model{nullptr};
   std::vector<std::unique_ptr<QAbstractProxyModel>> m_proxy_chain;
   QItemSelectionModel::SelectionFlags m_selection_flags;
 };

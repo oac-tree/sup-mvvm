@@ -27,6 +27,7 @@
 
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>
+#include <QItemSelectionModel>
 
 namespace mvvm
 {
@@ -36,6 +37,7 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
     : m_delegate(std::make_unique<ViewModelDelegate>())
     , m_view_model(std::move(view_model))
     , m_view(view)
+    , m_selection_model(new QItemSelectionModel(m_view_model.get(), this))
     , m_selection_flags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows)
 {
   if (!view)
@@ -45,8 +47,9 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
 
   m_view->setModel(m_view_model.get());
   m_view->setItemDelegate(m_delegate.get());
+  m_view->setSelectionModel(m_selection_model);
 
-  connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this,
+  connect(m_selection_model, &QItemSelectionModel::selectionChanged, this,
           &ItemViewComponentProvider::OnSelectionChanged, Qt::UniqueConnection);
 
   connect(m_view_model.get(), &mvvm::ViewModel::modelAboutToBeReset, this,
@@ -87,10 +90,10 @@ void ItemViewComponentProvider::AddProxyModel(std::unique_ptr<QAbstractProxyMode
   }
 
   m_view->setModel(proxy.get());
+  m_selection_model->setModel(proxy.get());
 
-  // setModel rewrites previous selection model, need to connect new selection model again
-  connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this,
-          &ItemViewComponentProvider::OnSelectionChanged, Qt::UniqueConnection);
+  // setModel rewrites previous selection model, need to set it again
+  m_view->setSelectionModel(m_selection_model);
 
   m_proxy_chain.push_back(std::move(proxy));
 }
@@ -115,7 +118,7 @@ QAbstractItemView *ItemViewComponentProvider::GetView() const
 
 QItemSelectionModel *ItemViewComponentProvider::GetSelectionModel() const
 {
-  return m_view->selectionModel();
+  return m_selection_model;
 }
 
 ViewModel *ItemViewComponentProvider::GetViewModel() const
