@@ -26,6 +26,22 @@ namespace mvvm::test
 {
 
 /**
+ * @brief Creates string representing XML document. User provided body will be enclosed between
+ * standard header and footer.
+ */
+std::string CreateXMLDocumentString(const std::string& body);
+
+/**
+ * @brief Returns text file content.
+ */
+std::string GetTextFileContent(const std::string& file_name);
+
+/**
+ * @brief Create ASCII file with given content.
+ */
+void CreateTextFile(const std::string& file_name, const std::string& content);
+
+/**
  * @brief Helper function that retrieves an object from QSignalSpy arguments.
  */
 template <typename T>

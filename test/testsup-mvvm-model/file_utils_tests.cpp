@@ -20,7 +20,7 @@
 #include "mvvm/utils/file_utils.h"
 
 #include <mvvm/test/folder_test.h>
-#include <mvvm/test/test_utils.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 

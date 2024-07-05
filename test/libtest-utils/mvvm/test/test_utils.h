@@ -67,17 +67,7 @@ auto CreateTestData(Args&&... args)
   return std::make_pair(std::move(uptr), raw_ptr);
 }
 
-//! Creates string representing XML document. User provided body will be enclosed between standard
-//! header and footer.
 
-std::string CreateXMLDocumentString(const std::string& body);
-
-//! Returns text file content.
-std::string GetTextFileContent(const std::string& file_name);
-
-//! Create ASCII file with given content.
-void CreateTextFile(const std::string& file_name, const std::string& content);
-
-}  // namespace testutils
+}  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_

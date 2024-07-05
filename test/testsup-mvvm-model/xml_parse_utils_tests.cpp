@@ -20,7 +20,7 @@
 #include "mvvm/serialization/xml_parse_utils.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/test/test_utils.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 

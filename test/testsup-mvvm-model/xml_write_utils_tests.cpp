@@ -21,7 +21,7 @@
 
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/test/folder_test.h>
-#include <mvvm/test/test_utils.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
