@@ -123,7 +123,7 @@ const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelI
   auto proxies = GetProxyModelChain();
   for (auto it = proxies.rbegin(); it != proxies.rend(); ++it)
   {
-    source_index = (*it)->mapToSource(index);
+    source_index = (*it)->mapToSource(source_index);
   }
 
   return GetViewModel()->GetSessionItemFromIndex(source_index);

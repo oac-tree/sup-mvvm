@@ -454,3 +454,105 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxy)
   EXPECT_EQ(provider->GetViewIndices(property2),
             QModelIndexList({displayname_index1, value_index1}));
 }
+
+//! Testing provider in the presence of proxy model.
+//! Same test as above, with focus on SetSelected/GetSelected.
+TEST_F(ItemViewComponentProviderTest, FilterNameProxySetSelected)
+{
+  QTreeView view;
+
+  // model with 3 items
+  auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
+  property0->SetDisplayName("A");
+  auto property1 = m_model.InsertItem<mvvm::PropertyItem>();
+  property1->SetDisplayName("AB");
+  auto property2 = m_model.InsertItem<mvvm::PropertyItem>();
+  property2->SetDisplayName("ABC");
+
+  // provider charged with the proxy model
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto proxy = std::make_unique<FilterNameViewModel>();
+  auto proxy_ptr = proxy.get();
+  provider->AddProxyModel(std::move(proxy));
+
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+
+  provider->SetSelectedItem(property0);
+  EXPECT_EQ(provider->GetSelectedItem(), property0);
+
+  // filtering out first item "A"; items "AB" and "ABC" should be there
+  proxy_ptr->SetPattern("AB");
+  EXPECT_EQ(proxy_ptr->rowCount(QModelIndex()), 2);
+  EXPECT_EQ(proxy_ptr->columnCount(QModelIndex()), 2);
+
+  // after filtering, selecte item has gone
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+  provider->SetSelectedItem(property2);
+  EXPECT_EQ(provider->GetSelectedItem(), property2);
+}
+
+//! Testing provider in the presence of two proxy model. We create the model with 3 items, and then
+//! filtering out two of them. The provider should let us access remaining item via view
+//! indexes.
+TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
+{
+  QTreeView view;
+
+  // model with 3 items
+  auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
+  property0->SetDisplayName("A");
+  auto property1 = m_model.InsertItem<mvvm::PropertyItem>();
+  property1->SetDisplayName("AB");
+  auto property2 = m_model.InsertItem<mvvm::PropertyItem>();
+  property2->SetDisplayName("ABC");
+
+  // provider charged with the proxy model
+  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+
+  auto proxy0 = std::make_unique<FilterNameViewModel>();
+  auto proxy0_ptr = proxy0.get();
+  provider->AddProxyModel(std::move(proxy0));
+
+  auto proxy1 = std::make_unique<FilterNameViewModel>();
+  auto proxy1_ptr = proxy1.get();
+  provider->AddProxyModel(std::move(proxy1));
+
+  // view is looking to the proxy
+  EXPECT_EQ(provider->GetLastProxyModel(), proxy1_ptr);
+  EXPECT_EQ(view.model(), proxy1_ptr);
+  EXPECT_EQ(provider->GetProxyModelChain(),
+            std::vector<QAbstractProxyModel*>({proxy0_ptr, proxy1_ptr}));
+
+  // proxy model sees all items
+  EXPECT_EQ(proxy1_ptr->rowCount(QModelIndex()), 3);
+  EXPECT_EQ(proxy1_ptr->columnCount(QModelIndex()), 2);
+
+  // filtering out first item "A"; then second item "AB". "ABC" should be there
+  proxy0_ptr->SetPattern("AB");
+  proxy1_ptr->SetPattern("ABC");
+
+  EXPECT_EQ(proxy1_ptr->rowCount(QModelIndex()), 1);
+  EXPECT_EQ(proxy1_ptr->columnCount(QModelIndex()), 2);
+
+  // view indexes of item "ABC"
+  auto displayname_index2 = proxy1_ptr->index(0, 0, QModelIndex());
+  auto value_index2 = proxy1_ptr->index(0, 1, QModelIndex());
+
+  // we can get access to the original property items via new indexes
+  EXPECT_EQ(provider->GetItemFromViewIndex(displayname_index2), property2);
+  EXPECT_EQ(provider->GetItemFromViewIndex(value_index2), property2);
+
+  // we can get new view indices back from the item
+  EXPECT_TRUE(provider->GetViewIndices(property0).empty());  // was filtered out
+  EXPECT_TRUE(provider->GetViewIndices(property1).empty());  // was filtered out
+  EXPECT_EQ(provider->GetViewIndices(property2),
+            QModelIndexList({displayname_index2, value_index2}));
+
+  // only property2 is selectable, others are filtered out
+  provider->SetSelectedItem(property0);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+  provider->SetSelectedItem(property1);
+  EXPECT_EQ(provider->GetSelectedItem(), nullptr);
+  provider->SetSelectedItem(property2);
+  EXPECT_EQ(provider->GetSelectedItem(), property2);
+}
