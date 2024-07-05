@@ -41,14 +41,23 @@ class ISessionModel;
  * @brief The ItemViewComponentProvider class provides QAbstractItemView with custom components:
  * viewmodel, delegate and selection model.
  *
- * @details It owns all components, but doesn't own a view.
+ * It owns all components, but doesn't own a view. Provider allows to install additional proxy
+ * models, one after another. Proxy model will get original ViewModel as a source, and the view will
+ * be set to a proxy model. Every subsequent proxy model will get previous proxy model as a source.
  */
-
 class ItemViewComponentProvider : public QObject
 {
   Q_OBJECT
 
 public:
+  /**
+   * @brief Main c-tor.
+   *
+   * Setups a view so it gets proper delegate and viewmodel.
+   *
+   * @param view_model The viewmodel.
+   * @param view The view to serve.
+   */
   ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model, QAbstractItemView* view);
   ~ItemViewComponentProvider() override;
 
@@ -134,7 +143,7 @@ public:
    * the existence of proxy model. When proxy model is set, the result is obtained by applying
    * QAbstractItemProxyModel::mapFromSource to the original item's indices.
    */
-  QList<QModelIndex> GetViewIndices(const mvvm::SessionItem* item) const;
+  QList<QModelIndex> GetViewIndexes(const mvvm::SessionItem* item) const;
 
   /**
    * @brief Returns an item currently selected in a view.

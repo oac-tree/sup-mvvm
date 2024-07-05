@@ -448,10 +448,10 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxy)
   EXPECT_EQ(provider->GetItemFromViewIndex(value_index1), property2);
 
   // we can get new view indices back from items
-  EXPECT_TRUE(provider->GetViewIndices(property0).empty());  // was filtered out
-  EXPECT_EQ(provider->GetViewIndices(property1),
+  EXPECT_TRUE(provider->GetViewIndexes(property0).empty());  // was filtered out
+  EXPECT_EQ(provider->GetViewIndexes(property1),
             QModelIndexList({displayname_index0, value_index0}));
-  EXPECT_EQ(provider->GetViewIndices(property2),
+  EXPECT_EQ(provider->GetViewIndexes(property2),
             QModelIndexList({displayname_index1, value_index1}));
 }
 
@@ -543,9 +543,9 @@ TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
   EXPECT_EQ(provider->GetItemFromViewIndex(value_index2), property2);
 
   // we can get new view indices back from the item
-  EXPECT_TRUE(provider->GetViewIndices(property0).empty());  // was filtered out
-  EXPECT_TRUE(provider->GetViewIndices(property1).empty());  // was filtered out
-  EXPECT_EQ(provider->GetViewIndices(property2),
+  EXPECT_TRUE(provider->GetViewIndexes(property0).empty());  // was filtered out
+  EXPECT_TRUE(provider->GetViewIndexes(property1).empty());  // was filtered out
+  EXPECT_EQ(provider->GetViewIndexes(property2),
             QModelIndexList({displayname_index2, value_index2}));
 
   // only property2 is selectable, others are filtered out

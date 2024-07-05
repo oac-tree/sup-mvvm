@@ -121,6 +121,8 @@ const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelI
 {
   auto source_index = index;
   auto proxies = GetProxyModelChain();
+  // The first element in proxy array is looking to the original viewmodel. The last element in
+  // proxy array is what the view looks at. Iterating in reverse order.
   for (auto it = proxies.rbegin(); it != proxies.rend(); ++it)
   {
     source_index = (*it)->mapToSource(source_index);
@@ -129,14 +131,14 @@ const SessionItem *ItemViewComponentProvider::GetItemFromViewIndex(const QModelI
   return GetViewModel()->GetSessionItemFromIndex(source_index);
 }
 
-QList<QModelIndex> ItemViewComponentProvider::GetViewIndices(const SessionItem *item) const
+QList<QModelIndex> ItemViewComponentProvider::GetViewIndexes(const SessionItem *item) const
 {
-  auto source_indices = GetViewModel()->GetIndexOfSessionItem(item);
+  auto source_indexes = GetViewModel()->GetIndexOfSessionItem(item);
 
   for (const auto proxy : GetProxyModelChain())
   {
     QModelIndexList proxy_indexes;
-    for (auto index : source_indices)
+    for (auto index : source_indexes)
     {
       auto proxy_index = proxy->mapFromSource(index);
       if (proxy_index.isValid())
@@ -144,10 +146,10 @@ QList<QModelIndex> ItemViewComponentProvider::GetViewIndices(const SessionItem *
         proxy_indexes.push_back(proxy_index);
       }
     }
-    source_indices = proxy_indexes;
+    source_indexes = proxy_indexes;
   }
 
-  return source_indices;
+  return source_indexes;
 }
 
 SessionItem *ItemViewComponentProvider::GetSelectedItem() const
@@ -167,7 +169,7 @@ void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> item
   QItemSelection selection;
   for (auto item : items)
   {
-    for (auto index : GetViewIndices(item))
+    for (auto index : GetViewIndexes(item))
     {
       selection.push_back(QItemSelectionRange(index));
     }
