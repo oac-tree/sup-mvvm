@@ -22,7 +22,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/test/test_utils.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
 

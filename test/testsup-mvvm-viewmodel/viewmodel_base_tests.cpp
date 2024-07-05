@@ -19,11 +19,11 @@
 
 #include "mvvm/viewmodelbase/viewmodel_base.h"
 
-#include <mvvm/test/test_utils.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewitem_data.h>
 
 #include <gtest/gtest.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <QSignalSpy>
 #include <QStandardItemModel>

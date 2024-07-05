@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodelbase/viewitem.h"
 
-#include <mvvm/test/test_utils.h>
+#include <mvvm/test/test_container_helper.h>
 #include <mvvm/core/exceptions.h>
 
 #include <gtest/gtest.h>

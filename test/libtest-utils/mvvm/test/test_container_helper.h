@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_
-#define LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_TEST_CONTAINER_HELPER_H_
+#define LIBTEST_UTILS_TESTUTILS_TEST_CONTAINER_HELPER_H_
 
 //! @file test_utils.h
 //! Collection of utility functions for various unit tests.
@@ -27,16 +27,12 @@
 #include <memory>
 #include <vector>
 
-//! Various common utils for unit tests.
-
 namespace mvvm::test
 {
 
-//! Returns full path to the main test folder, as defined by CMake at compile time.
-//! Shoud point to CMAKE_BINARY_DIR/test_output
-std::string GetTestSuiteOutputDir();
-
-//! Creates vector of unique_ptr of given type.
+/**
+ * @brief Creates vector of unique_ptr of given type.
+ */
 template <typename B, typename D>
 auto CreateRow(int ncolumns)
 {
@@ -48,7 +44,9 @@ auto CreateRow(int ncolumns)
   return result;
 }
 
-//! Creates vector of pointers from vector of unique_ptr.
+/**
+ * @brief Creates vector of pointers from vector of unique_ptr.
+ */
 template <typename T>
 auto GetPointers(const std::vector<std::unique_ptr<T>>& vec)
 {
@@ -58,7 +56,9 @@ auto GetPointers(const std::vector<std::unique_ptr<T>>& vec)
   return result;
 }
 
-//! Create a pair of unique_ptr and raw ptr to the object of given type.
+/**
+ * @brief Creates a pair of unique_ptr and raw ptr to the object of given type.
+ */
 template <typename T, class... Args>
 auto CreateTestData(Args&&... args)
 {
@@ -67,7 +67,6 @@ auto CreateTestData(Args&&... args)
   return std::make_pair(std::move(uptr), raw_ptr);
 }
 
-
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_TEST_UTILS_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_TEST_CONTAINER_HELPER_H_

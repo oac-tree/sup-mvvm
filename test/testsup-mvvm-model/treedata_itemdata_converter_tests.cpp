@@ -22,7 +22,6 @@
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/serialization/treedata.h>
 #include <mvvm/serialization/xml_parse_utils.h>
-#include <mvvm/test/test_utils.h>
 
 #include <gtest/gtest.h>
 
@@ -35,7 +34,6 @@ class TreeDataItemDataConverterTests : public ::testing::Test
 };
 
 //! Parsing XML data string representing empty document.
-
 TEST_F(TreeDataItemDataConverterTests, TwoRoles)
 {
   const std::string body{

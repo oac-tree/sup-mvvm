@@ -25,7 +25,7 @@
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/test/test_utils.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
 
