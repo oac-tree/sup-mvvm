@@ -21,6 +21,7 @@
 
 #include <mvvm/utils/limited_integer_helper.h>
 #include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -101,11 +102,8 @@ TEST_F(FloatSpinBoxTest, SetValueForFloat64)
   ASSERT_TRUE(double_spinbox);
 
   double_spinbox->setValue(43.0);
-  EXPECT_EQ(spy_value_changed.count(), 1);
 
-  auto arguments = spy_value_changed.takeFirst();
-  auto reported_data = arguments.at(0).value<QVariant>();
-  EXPECT_EQ(reported_data, QVariant{43.0});
+  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant{43.0});
 }
 
 TEST_F(FloatSpinBoxTest, SetValueForFloat32)
@@ -126,16 +124,15 @@ TEST_F(FloatSpinBoxTest, SetValueForFloat32)
   ASSERT_TRUE(double_spinbox);
 
   double_spinbox->setValue(43.0);
-  EXPECT_EQ(spy_value_changed.count(), 1);
 
-  auto arguments = spy_value_changed.takeFirst();
-  auto reported_data = arguments.at(0).value<QVariant>();
+  auto reported_data = mvvm::test::GetSendItem<QVariant>(spy_value_changed);
 
   const mvvm::float32 new_value(43.0);
   const QVariant expected_variant = QVariant::fromValue(new_value);
 
   // reported value
   EXPECT_EQ(reported_data, expected_variant);
+
   EXPECT_EQ(utils::GetQtVariantName(reported_data), constants::kFloat32QtTypeName);
 
   // value on board of the editor

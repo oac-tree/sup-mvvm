@@ -22,6 +22,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -121,11 +122,8 @@ TEST_F(LineSeriesDataControllerTest, OnDataChanged)
   // changing the value of second point
   data_item_ptr->SetPointCoordinates(1, {2.0, 25.0});
 
-  // expecting notification on Qt side
-  EXPECT_EQ(spy_point_replaced.count(), 1);
-  auto arguments = spy_point_replaced.takeFirst();
-  ASSERT_EQ(arguments.size(), 1);
-  EXPECT_EQ(arguments.at(0).value<int>(), 1);  // index of replaced point
+  // expecting notification on Qt side, index of replaced point
+  EXPECT_EQ(mvvm::test::GetSendItem<int>(spy_point_replaced), 1);
 
   // validating (x,y) of points in QLineSeries
   auto qt_points = line_series.points();
@@ -157,10 +155,8 @@ TEST_F(LineSeriesDataControllerTest, OnPointRemoved)
   // removing middle point
   data_item_ptr->RemovePoint(1);
 
-  EXPECT_EQ(spy_point_removed.count(), 1);
-  auto arguments = spy_point_removed.takeFirst();
-  ASSERT_EQ(arguments.size(), 1);
-  EXPECT_EQ(arguments.at(0).value<int>(), 1);  // index of removed point
+  // expecting notification on Qt side, index of removed point
+  EXPECT_EQ(mvvm::test::GetSendItem<int>(spy_point_removed), 1);
 
   // validating (x,y) of points in QLineSeries
   auto qt_points = line_series.points();
@@ -190,10 +186,8 @@ TEST_F(LineSeriesDataControllerTest, OnPointInserted)
   // inserting point in the middle
   data_item_ptr->InsertPoint(1, {2.0, 20.0});
 
-  EXPECT_EQ(spy_point_inserted.count(), 1);
-  auto arguments = spy_point_inserted.takeFirst();
-  ASSERT_EQ(arguments.size(), 1);
-  EXPECT_EQ(arguments.at(0).value<int>(), 1);  // index of inserted point
+  // expecting notification on Qt side, index of inserted point
+  EXPECT_EQ(mvvm::test::GetSendItem<int>(spy_point_inserted), 1);
 
   // validating (x,y) of points in QLineSeries
   auto qt_points = line_series.points();

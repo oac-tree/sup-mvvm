@@ -7,4 +7,6 @@ target_sources(${library_name} PRIVATE
   mock_model_listener.h
   folder_output_based_test.cpp
   folder_output_based_test.h
+  test_helper.cpp
+  test_helper.h
   )

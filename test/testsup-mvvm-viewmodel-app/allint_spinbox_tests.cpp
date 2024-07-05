@@ -20,6 +20,7 @@
 #include "mvvm/editors/allint_spinbox.h"
 #include "mvvm/viewmodel/variant_converter.h"
 
+#include <mvvm/test/test_helper.h>
 #include <mvvm/utils/limited_integer_helper.h>
 
 #include <gtest/gtest.h>
@@ -79,9 +80,7 @@ TEST_F(AllIntSpinBoxTest, StepBy)
   // in editor this method is called on editing finished event
   editor.CheckNotify();
 
-  EXPECT_EQ(spy_value_changed.count(), 1);
-  auto arguments = spy_value_changed.takeFirst();
-  auto reported_data = arguments.at(0).value<QVariant>();
+  auto reported_data = mvvm::test::GetSendItem<QVariant>(spy_value_changed);
   EXPECT_EQ(GetStdVariant(reported_data), variant_t{43});
 }
 
@@ -104,9 +103,7 @@ TEST_F(AllIntSpinBoxTest, SetValue)
 
   EXPECT_EQ(editor.text(), QString("43"));
 
-  EXPECT_EQ(spy_value_changed.count(), 1);
-  auto arguments = spy_value_changed.takeFirst();
-  auto reported_data = arguments.at(0).value<QVariant>();
+  auto reported_data = mvvm::test::GetSendItem<QVariant>(spy_value_changed);
   EXPECT_EQ(GetStdVariant(reported_data), variant_t{43});
 
   auto qt_variant = editor.value();

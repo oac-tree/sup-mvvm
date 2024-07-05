@@ -24,6 +24,7 @@
 #include <mvvm/providers/item_view_component_provider.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -177,11 +178,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<SessionItem*>({property0}));
 
   // checking signaling
-  EXPECT_EQ(spy_selected.count(), 1);
-  QList<QVariant> arguments = spy_selected.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  auto item = arguments.at(0).value<SessionItem*>();
-  EXPECT_EQ(item, property0);
+  EXPECT_EQ(mvvm::test::GetSendItem<SessionItem*>(spy_selected), property0);
 
   spy_selected.clear();
 
@@ -189,11 +186,7 @@ TEST_F(AllItemsTreeViewTest, SelectionAfterRemoval)
   model.RemoveItem(property0);
 
   // signal should emit once and report nullptr as selected item
-  EXPECT_EQ(spy_selected.count(), 1);
-  arguments = spy_selected.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  item = arguments.at(0).value<SessionItem*>();
-  EXPECT_EQ(item, nullptr);
+  EXPECT_EQ(mvvm::test::GetSendItem<SessionItem*>(spy_selected), nullptr);
 }
 
 TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)

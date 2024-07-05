@@ -23,6 +23,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/vector_item.h>
+#include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 
@@ -240,23 +241,16 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 
   EXPECT_EQ(provider->GetSelectedItem(), item);
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
-  EXPECT_EQ(spy_selected.count(), 1);
-  QList<QVariant> arguments = spy_selected.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(selected_item, item);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
 
   spy_selected.clear();
 
   // removing selection
-
   provider->SetSelectedItem(nullptr);
   EXPECT_EQ(provider->GetSelectedItem(), nullptr);
-  EXPECT_EQ(spy_selected.count(), 1);
 
-  arguments = spy_selected.takeFirst();
-  selected_item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(selected_item, nullptr);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
 }
 
 //! Checking selection when acting through the view.
@@ -278,11 +272,8 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
 
   EXPECT_EQ(provider->GetSelectedItem(), item);
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({item}));
-  EXPECT_EQ(spy_selected.count(), 1);
-  QList<QVariant> arguments = spy_selected.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  auto selected_item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(selected_item, item);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), item);
 }
 
 //! Selecting whole row and checking list of selected items.
@@ -358,11 +349,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   EXPECT_EQ(provider->GetSelectedItems(), std::vector<mvvm::SessionItem*>({property0}));
 
   // checking signaling
-  EXPECT_EQ(spy_selected.count(), 1);
-  QList<QVariant> arguments = spy_selected.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  auto item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(item, property0);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), property0);
 
   spy_selected.clear();
 
@@ -370,11 +357,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   m_model.RemoveItem(property0);
 
   // signal should emit once and report nullptr as selected item
-  EXPECT_EQ(spy_selected.count(), 1);
-  arguments = spy_selected.takeFirst();
-  EXPECT_EQ(arguments.size(), 1);
-  item = arguments.at(0).value<mvvm::SessionItem*>();
-  EXPECT_EQ(item, nullptr);
+  EXPECT_EQ(mvvm::test::GetSendItem<mvvm::SessionItem*>(spy_selected), nullptr);
 }
 
 //! Delete provider before the view.
