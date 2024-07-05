@@ -47,7 +47,7 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
   m_view->setItemDelegate(m_delegate.get());
 
   connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this,
-          [this](auto, auto) { emit SelectedItemChanged(GetSelectedItem()); });
+          &ItemViewComponentProvider::OnSelectionChanged, Qt::UniqueConnection);
 
   connect(m_view_model.get(), &mvvm::ViewModel::modelAboutToBeReset, this,
           &ItemViewComponentProvider::OnViewModelReset, Qt::UniqueConnection);
@@ -87,6 +87,11 @@ void ItemViewComponentProvider::AddProxyModel(std::unique_ptr<QAbstractProxyMode
   }
 
   m_view->setModel(proxy.get());
+
+  // setModel rewrites previous selection model, need to connect new selection model again
+  connect(GetSelectionModel(), &QItemSelectionModel::selectionChanged, this,
+          &ItemViewComponentProvider::OnSelectionChanged, Qt::UniqueConnection);
+
   m_proxy_chain.push_back(std::move(proxy));
 }
 
@@ -170,9 +175,10 @@ void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> item
   QItemSelection selection;
   for (auto item : items)
   {
-    for (auto index : GetViewIndexes(item))
+    auto view_indexes = GetViewIndexes(item);
+    if (!view_indexes.empty())
     {
-      selection.push_back(QItemSelectionRange(index));
+      selection.push_back(QItemSelectionRange(view_indexes.front(), view_indexes.back()));
     }
   }
 
@@ -203,6 +209,14 @@ std::vector<SessionItem *> ItemViewComponentProvider::GetSelectedItemsIntern() c
   }
 
   return mvvm::utils::UniqueWithOrder(result);
+}
+
+void ItemViewComponentProvider::OnSelectionChanged(const QItemSelection &selected,
+                                                   const QItemSelection &deselected)
+{
+  Q_UNUSED(selected);
+  Q_UNUSED(deselected);
+  emit SelectedItemChanged(GetSelectedItem());
 }
 
 }  // namespace mvvm

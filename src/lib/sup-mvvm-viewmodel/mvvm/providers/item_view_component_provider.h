@@ -22,9 +22,9 @@
 
 #include <mvvm/utils/container_utils.h>
 
+#include <QItemSelectionModel>
 #include <QObject>
 #include <memory>
-#include <QItemSelectionModel>
 
 class QAbstractItemView;
 class QItemSelectionModel;
@@ -184,6 +184,8 @@ signals:
 private:
   void OnViewModelReset();
   std::vector<SessionItem*> GetSelectedItemsIntern() const;
+  void OnSelectionChanged(const QItemSelection &selected,
+                          const QItemSelection &deselected);
 
   std::unique_ptr<ViewModelDelegate> m_delegate;
   std::unique_ptr<ViewModel> m_view_model;
