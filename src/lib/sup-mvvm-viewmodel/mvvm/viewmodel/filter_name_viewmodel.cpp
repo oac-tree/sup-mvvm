@@ -22,7 +22,10 @@
 namespace mvvm
 {
 
-FilterNameViewModel::FilterNameViewModel(QObject *parent) : QSortFilterProxyModel(parent) {}
+FilterNameViewModel::FilterNameViewModel(QObject *parent) : QSortFilterProxyModel(parent)
+{
+  setRecursiveFilteringEnabled(true);
+}
 
 void FilterNameViewModel::SetPattern(const QString &pattern)
 {
@@ -32,6 +35,11 @@ void FilterNameViewModel::SetPattern(const QString &pattern)
 
 bool FilterNameViewModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
+  if (m_pattern.isEmpty())
+  {
+    return true;
+  }
+
   const QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
 
   return sourceModel()->data(index0).toString().toLower().contains(m_pattern);
