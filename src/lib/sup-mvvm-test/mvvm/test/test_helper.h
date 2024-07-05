@@ -58,6 +58,28 @@ T GetSendItem(QSignalSpy& signal_spy)
   return {};
 }
 
+/**
+ * @brief Returns true if given item can be casted to desired type.
+ */
+template <typename DesiredT, typename ItemT>
+bool CanCast(const ItemT* item)
+{
+  return dynamic_cast<const DesiredT*>(item) != nullptr;
+}
+
+/**
+ * @brief Checks if clone method is implemented.
+ */
+template <typename T>
+bool IsCloneImplemented()
+{
+  // We expect that the specified object can be created, cloned, and the result of clone can
+  // be casted to the object type itself.
+  T item;
+  auto clone = item.Clone(/*make_unique_id*/ false);
+  return CanCast<T>(clone.get());
+}
+
 }  // namespace mvvm::test
 
 #endif  // MVVM_TEST_TEST_HELPER_H_
