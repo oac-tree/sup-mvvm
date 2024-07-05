@@ -36,6 +36,7 @@ ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> 
     : m_delegate(std::make_unique<ViewModelDelegate>())
     , m_view_model(std::move(view_model))
     , m_view(view)
+    , m_selection_flags(QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows)
 {
   if (!view)
   {
@@ -175,9 +176,12 @@ void ItemViewComponentProvider::SetSelectedItems(std::vector<SessionItem *> item
     }
   }
 
-  //  auto flags = QItemSelectionModel::Select;  // not clear, which one to use
-  auto flags = QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows;
-  GetSelectionModel()->select(selection, flags);
+  GetSelectionModel()->select(selection, m_selection_flags);
+}
+
+void ItemViewComponentProvider::SetSelectionFlags(QItemSelectionModel::SelectionFlags flags)
+{
+  m_selection_flags = flags;
 }
 
 void ItemViewComponentProvider::OnViewModelReset()

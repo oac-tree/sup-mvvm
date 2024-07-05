@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <memory>
+#include <QItemSelectionModel>
 
 class QAbstractItemView;
 class QItemSelectionModel;
@@ -172,6 +173,11 @@ public:
    */
   void SetSelectedItems(std::vector<SessionItem*> items);
 
+  /**
+   * @brief Sets Qt selection flags.
+   */
+  void SetSelectionFlags(QItemSelectionModel::SelectionFlags flags);
+
 signals:
   void SelectedItemChanged(mvvm::SessionItem*);
 
@@ -183,6 +189,7 @@ private:
   std::unique_ptr<ViewModel> m_view_model;
   QAbstractItemView* m_view{nullptr};
   std::vector<std::unique_ptr<QAbstractProxyModel>> m_proxy_chain;
+  QItemSelectionModel::SelectionFlags m_selection_flags;
 };
 
 template <typename T>
