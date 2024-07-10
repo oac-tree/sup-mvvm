@@ -923,9 +923,11 @@ TEST_F(AllItemsViewModelTest, OnModelDestroyed)
 
 TEST_F(AllItemsViewModelTest, horizontalLabels)
 {
+  EXPECT_FALSE(m_viewmodel.headerData(-1, Qt::Horizontal, Qt::DisplayRole).isValid());
   EXPECT_EQ(m_viewmodel.headerData(0, Qt::Horizontal, Qt::DisplayRole).toString(), QString("Name"));
   EXPECT_EQ(m_viewmodel.headerData(1, Qt::Horizontal, Qt::DisplayRole).toString(),
             QString("Value"));
+  EXPECT_FALSE(m_viewmodel.headerData(2, Qt::Horizontal, Qt::DisplayRole).isValid());
 }
 
 //! Testing ViewModel signals while loading data with the help of XML document. Model is empty.

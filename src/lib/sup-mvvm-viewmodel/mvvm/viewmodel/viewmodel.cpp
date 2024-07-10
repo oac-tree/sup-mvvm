@@ -38,7 +38,7 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
   {
     auto data = m_controller->GetHorizontalHeaderLabels();
-    if (section < data.size())
+    if (section >= 0 && section < data.size())
     {
       return data.at(section);
     }
