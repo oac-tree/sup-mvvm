@@ -394,8 +394,8 @@ TEST_F(ItemUtilsTests, UniqueItems)
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
   auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());
   auto item2 = model.InsertItem<SessionItem>(model.GetRootItem());
-  std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item2, nullptr};
-  std::vector<SessionItem*> expected = {item0, item1, item2};
+  const std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item2, nullptr};
+  const std::vector<SessionItem*> expected = {item0, item1, item2};
   EXPECT_EQ(utils::UniqueItems(data), expected);
 }
 
@@ -530,6 +530,53 @@ TEST_F(ItemUtilsTests, FindItemUp)
     auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
     EXPECT_EQ(utils::FindItemUp<test::toyitems::ParticleItem>(x_item), &particle);
     EXPECT_EQ(utils::FindItemUp<test::toyitems::LayerItem>(x_item), nullptr);
+  }
+}
+
+TEST_F(ItemUtilsTests, FindItemDown)
+{
+  using mvvm::test::toyitems::LayerItem;
+  using mvvm::test::toyitems::MultiLayerItem;
+  using mvvm::test::toyitems::ParticleItem;
+
+  EXPECT_TRUE(utils::FindItemDown<ParticleItem>(nullptr).empty());
+
+  {  // single particle
+    ParticleItem particle;
+    const std::vector<const ParticleItem*> expected = {&particle};
+    EXPECT_EQ(utils::FindItemDown<ParticleItem>(&particle), expected);
+
+    EXPECT_TRUE(
+        utils::FindItemDown<ParticleItem>(&particle, {}, /*start_from_self*/ false).empty());
+  }
+
+  {  // multilayer with two layers
+    MultiLayerItem multilayer;
+    auto layer0 = multilayer.InsertItem<LayerItem>(mvvm::TagIndex::Append());
+    auto particle0 = layer0->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
+    auto particle1 = layer0->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
+    auto layer1 = multilayer.InsertItem<LayerItem>(mvvm::TagIndex::Append());
+    auto particle2 = layer1->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
+
+    EXPECT_EQ(utils::FindItemDown<LayerItem>(&multilayer),
+              std::vector<const LayerItem*>({layer0, layer1}));
+    EXPECT_EQ(utils::FindItemDown<ParticleItem>(&multilayer),
+              std::vector<const ParticleItem*>({particle0, particle1, particle2}));
+  }
+
+  {  // multilayer with two layers, using check on model type
+    MultiLayerItem multilayer;
+    auto layer0 = multilayer.InsertItem<LayerItem>(mvvm::TagIndex::Append());
+    auto particle0 = layer0->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
+    auto particle1 = layer0->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
+    auto layer1 = multilayer.InsertItem<LayerItem>(mvvm::TagIndex::Append());
+    auto particle2 = layer1->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
+
+    EXPECT_EQ(utils::FindItemDown<SessionItem>(&multilayer, ParticleItem::Type),
+              std::vector<const SessionItem*>({particle0, particle1, particle2}));
+
+    EXPECT_EQ(utils::FindItemDown(&multilayer, ParticleItem::Type),
+              std::vector<const SessionItem*>({particle0, particle1, particle2}));
   }
 }
 

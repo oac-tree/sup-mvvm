@@ -61,7 +61,7 @@ namespace mvvm::utils
 
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
 {
-  auto adapter = [&func](const SessionItem* child) { func(const_cast<SessionItem*>(child)); };
+  auto adapter = [&func](const SessionItem* current) { func(const_cast<SessionItem*>(current)); };
   iterate(const_cast<const SessionItem*>(item), adapter);
 }
 

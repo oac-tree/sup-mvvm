@@ -256,6 +256,54 @@ std::nullptr_t FindItemUp(std::nullptr_t, bool start_from_self = true)
 }
 
 /**
+ * @brief Finds if a given item or one of its children down in the hierarchy can be cast to given
+ * type (const version).
+ *
+ * If a non-empty model_type is given, an additional check will be performed so that the result
+ * contains only items with the given type.
+ *
+ * @tparam The concrete type of the item.
+ * @param item The item to investigate.
+ * @param model_type Required model type of all casted items.
+ * @param start_from_self Will start from item itself, if true, otherwise will start from its
+ * children.
+ *
+ * @return List of found items casted to necessary type.
+ */
+template <typename T = SessionItem>
+std::vector<const T*> FindItemDown(const SessionItem* item, const std::string& model_type = {},
+                                   bool start_from_self = true)
+{
+  if (!item)
+  {
+    return {};
+  }
+
+  std::vector<const T*> result;
+
+  auto on_item = [item, start_from_self, &model_type, &result](const SessionItem* current)
+  {
+    if (!start_from_self && current == item)
+    {
+      return;
+    }
+
+    if (const T* casted = dynamic_cast<const T*>(current); casted)
+    {
+      const bool skip_check_for_type = model_type.empty();
+      const bool type_is_ok = !model_type.empty() && casted->GetType() == model_type;
+      if (skip_check_for_type || type_is_ok)
+      {
+        result.push_back(casted);
+      }
+    }
+  };
+  iterate(item, on_item);
+
+  return result;
+}
+
+/**
  * @brief Returns deep copy or clone of the item.
  *
  * @param item Item to clone
