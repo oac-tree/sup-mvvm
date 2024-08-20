@@ -50,13 +50,13 @@ LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::Type)
 {
   AddProperty("Thickness", 42.0);
   AddProperty("Color", "green");
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag("Particles", {ParticleItem::Type}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kParticleTag, {ParticleItem::Type}),
               /*set_as_default*/ true);
 }
 
 MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag("Layers", {LayerItem::Type}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kLayerTag, {LayerItem::Type}),
               /*set_as_default*/ true);
 }
 

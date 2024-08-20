@@ -617,17 +617,16 @@ TEST_F(ItemUtilsTests, MoveItemUp)
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
-  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving top layer up doesn't change the order
   EXPECT_FALSE(utils::MoveUp(*layer0));
-  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving bottom layer up does change the order
   EXPECT_TRUE(utils::MoveUp(*layer2));
   expected = {layer0, layer2, layer1};
-  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
@@ -642,17 +641,16 @@ TEST_F(ItemUtilsTests, MoveItemUpWhenInModel)
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
-  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving top layer up doesn't change the order
   EXPECT_FALSE(utils::MoveUp(*layer0));
-  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving bottom layer up does change the order
   EXPECT_TRUE(utils::MoveUp(*layer2));
   expected = {layer0, layer2, layer1};
-  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemDown)
@@ -666,17 +664,16 @@ TEST_F(ItemUtilsTests, MoveItemDown)
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
-  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving bottom layer down doesn't change the order
   EXPECT_FALSE(utils::MoveDown(*layer2));
-  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving top layer down changes the order
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
-  EXPECT_EQ(multilayer.GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer.GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 
 TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
@@ -691,17 +688,16 @@ TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
   std::vector<SessionItem*> expected = {layer0, layer1, layer2};
 
   // original layout
-  const std::string layer_tag("Layers");  // hardcoded in MultiLayerItem
-  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving bottom layer down doesn't change the order
   EXPECT_FALSE(utils::MoveDown(*layer2));
-  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 
   // moving top layer down changes the order
   EXPECT_TRUE(utils::MoveDown(*layer0));
   expected = {layer1, layer0, layer2};
-  EXPECT_EQ(multilayer->GetItems(layer_tag), expected);
+  EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 
 //! Testing helper method RemoveItem.

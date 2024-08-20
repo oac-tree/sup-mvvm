@@ -29,6 +29,9 @@
 namespace mvvm::test::toyitems
 {
 
+const std::string kParticleTag = "Particles";
+const std::string kLayerTag = "Layers";
+
 class ParticleItem : public mvvm::CompoundItem
 {
 public:
