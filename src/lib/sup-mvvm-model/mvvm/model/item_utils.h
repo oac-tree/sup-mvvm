@@ -35,12 +35,28 @@ namespace mvvm::utils
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
- * for every item.
+ * for every item (non-const version).
  *
  * @param item Item to start iterating.
  * @param func User function to call.
  */
 MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func);
+
+/**
+ * @brief Iterates through all items down through the whole item hierarchy and calls a user function
+ * for every item (const version).
+ *
+ * @param item Item to start iterating.
+ * @param func User function to call.
+ */
+MVVM_MODEL_EXPORT void iterate(const SessionItem* item,
+                               const std::function<void(const SessionItem*)>& func);
+
+/**
+ * @brief Iterates through all items down through the whole item hierarchy and calls a user function
+ * for every item (nullptr version).
+ */
+MVVM_MODEL_EXPORT void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
@@ -164,7 +180,9 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  */
 MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
 
-//! Returns true if given item has appearance flag set.
+/**
+ * @brief Checks if given item has appearance flag set.
+ */
 MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance flag);
 
 /**

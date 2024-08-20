@@ -57,6 +57,36 @@ TEST_F(ItemUtilsTests, IterateItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
 
   std::vector<const SessionItem*> expected = {parent.get()};
+  const SessionItem* const_parent = parent.get();
+  utils::iterate(const_parent, fun);
+  EXPECT_EQ(visited_items, expected);
+
+  // adding children
+  auto child1 = parent->InsertItem<SessionItem>(TagIndex::Append());
+  auto child2 = parent->InsertItem<SessionItem>(TagIndex::Append());
+
+  visited_items.clear();
+  utils::iterate(const_parent, fun);
+
+  expected = {parent.get(), child1, child2};
+  EXPECT_EQ(visited_items, expected);
+}
+
+TEST_F(ItemUtilsTests, NonConstIterateItem)
+{
+  std::vector<SessionItem*> visited_items;
+
+  auto fun = [&](SessionItem* item) { visited_items.push_back(item); };
+
+  // iteration over nullptr
+  utils::iterate(nullptr, fun);
+  EXPECT_TRUE(visited_items.empty());
+
+  // iteration over lonely parent
+  std::unique_ptr<SessionItem> parent(new SessionItem);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  std::vector<SessionItem*> expected = {parent.get()};
   utils::iterate(parent.get(), fun);
   EXPECT_EQ(visited_items, expected);
 
@@ -811,7 +841,7 @@ TEST_F(ItemUtilsTests, ToStringAndBackClonedID)
   auto str = utils::ToXMLString(parent);
 
   // reconstructiong back in full clone mode
-  auto reco_parent = utils::SessionItemFromXMLString(str, /*generate new id*/false);
+  auto reco_parent = utils::SessionItemFromXMLString(str, /*generate new id*/ false);
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());

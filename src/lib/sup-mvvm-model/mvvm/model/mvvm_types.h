@@ -20,10 +20,9 @@
 #ifndef MVVM_MODEL_MVVM_TYPES_H_
 #define MVVM_MODEL_MVVM_TYPES_H_
 
-#include <string>
-
 namespace mvvm
 {
+
 class SessionItem;
 class ISessionModel;
 

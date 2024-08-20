@@ -61,12 +61,18 @@ namespace mvvm::utils
 
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
 {
+  auto adapter = [&func](const SessionItem* child) { func(const_cast<SessionItem*>(child)); };
+  iterate(const_cast<const SessionItem*>(item), adapter);
+}
+
+void iterate(const SessionItem* item, const std::function<void(const SessionItem*)>& func)
+{
   if (!item)
   {
     return;
   }
 
-  std::stack<SessionItem*> stack;
+  std::stack<const SessionItem*> stack;
   stack.push(item);
 
   while (!stack.empty())
@@ -83,6 +89,11 @@ void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
       stack.push(*it);
     }
   }
+}
+
+void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func)
+{
+  (void)func;
 }
 
 void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& func)
