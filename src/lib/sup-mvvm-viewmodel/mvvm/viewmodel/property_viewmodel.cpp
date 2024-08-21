@@ -25,17 +25,10 @@
 
 namespace mvvm
 {
-PropertyViewModel::PropertyViewModel(ISessionModel* model, QObject* parent)
-    : ViewModel(parent)
+PropertyViewModel::PropertyViewModel(ISessionModel* model, QObject* parent) : ViewModel(parent)
 {
   SetController(
       factory::CreateController<PropertyItemsStrategy, LabelDataRowStrategy>(model, this));
-}
-
-int PropertyViewModel::columnCount(const QModelIndex& parent) const
-{
-  Q_UNUSED(parent);
-  return 2;
 }
 
 }  // namespace mvvm

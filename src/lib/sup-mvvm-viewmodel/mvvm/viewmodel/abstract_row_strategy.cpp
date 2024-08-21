@@ -29,11 +29,6 @@
 namespace mvvm
 {
 
-int AbstractRowStrategy::GetSize() const
-{
-  return GetHorizontalHeaderLabels().size();
-}
-
 QStringList AbstractRowStrategy::GetHorizontalHeaderLabels() const
 {
   return {};

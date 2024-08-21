@@ -46,6 +46,8 @@ namespace
 class TableRowStrategy : public mvvm::AbstractRowStrategy
 {
 public:
+  int GetSize() const override { return 4; }
+
   QStringList GetHorizontalHeaderLabels() const override
   {
     static const QStringList result = {"Name", "X", "Y", "Z"};

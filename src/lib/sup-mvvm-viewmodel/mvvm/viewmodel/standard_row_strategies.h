@@ -41,6 +41,9 @@ class ViewItem;
 class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public AbstractRowStrategy
 {
 public:
+
+  int GetSize() const override;
+
   QStringList GetHorizontalHeaderLabels() const override;
 
 private:

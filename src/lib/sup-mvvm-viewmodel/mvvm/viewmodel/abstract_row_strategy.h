@@ -35,8 +35,6 @@ class AbstractRowStrategy : public IRowStrategy
 {
 public:
 
-  int GetSize() const override;
-
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;

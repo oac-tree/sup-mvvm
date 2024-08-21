@@ -31,10 +31,4 @@ TopItemsViewModel::TopItemsViewModel(ISessionModel *model, QObject *parent)
   SetController(factory::CreateController<TopItemsStrategy, LabelDataRowStrategy>(model, this));
 }
 
-int TopItemsViewModel::columnCount(const QModelIndex &parent) const
-{
-  Q_UNUSED(parent);
-  return 2;
-}
-
 }  // namespace mvvm

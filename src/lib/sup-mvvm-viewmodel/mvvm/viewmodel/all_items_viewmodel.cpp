@@ -25,15 +25,10 @@
 
 namespace mvvm
 {
+
 AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent) : ViewModel(parent)
 {
   SetController(factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this));
-}
-
-int AllItemsViewModel::columnCount(const QModelIndex &parent) const
-{
-  Q_UNUSED(parent);
-  return 2;
 }
 
 }  // namespace mvvm

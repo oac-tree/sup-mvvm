@@ -32,6 +32,11 @@ namespace mvvm
 // LabelDataRowStrategy
 // ----------------------------------------------------------------------------
 
+int LabelDataRowStrategy::GetSize() const
+{
+  return 2;
+}
+
 QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
 {
   const static QStringList result{"Name", "Value"};
