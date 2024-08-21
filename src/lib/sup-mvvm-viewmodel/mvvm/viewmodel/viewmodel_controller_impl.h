@@ -64,14 +64,8 @@ public:
 
   void OnModelEvent(const ModelAboutToBeDestroyedEvent &event) override;
 
-  /**
-   * @brief Returns current root item.
-   */
   const SessionItem *GetRootItem() const override;
 
-  /**
-   * @brief Sets new root item.
-   */
   void SetRootItem(SessionItem *root_item) override;
 
   int GetColumnCount() const override;
@@ -80,19 +74,23 @@ public:
 
   void CheckInitialState() const;
 
-  //! Returns an insert index for a view representing a child.
-  //! Since number of views might not coincide with number of items (some items are marked)
-  //! as hidden, we have to recalculate a view index.
+  /**
+   * @brief Returns an insert index for a view representing a child.
+   *
+   * Since number of views might not coincide with number of items (some items are marked) as
+   * hidden, we have to recalculate a view index.
+   */
   int GetInsertViewIndexOfChild(const SessionItem *parent, const SessionItem *child);
 
   /**
    * @brief Creates tree of rows with ViewItems representing given SessionItem and all its children.
+   *
+   * The method visits the item and all its children in non-recursive manner and creates a tree of
+   * rows intended for ViewModel. The tree is formed basing on childred/row strategies.
+   *
    * @param item The item to explore.
    * @param is_root Item is treated as root item, when false.
    * @return Vector of ViewItem's containing other ViewItem's
-   *
-   * @details The method visits the item and all its children in non-recursive manner and creates a
-   * tree of rows intended for ViewModel. The tree is formed basing on childred/row strategies.
    */
   std::vector<std::unique_ptr<ViewItem>> CreateTreeOfRows(SessionItem &item, bool is_root = false);
 

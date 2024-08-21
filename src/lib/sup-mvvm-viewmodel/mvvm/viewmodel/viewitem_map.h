@@ -26,12 +26,14 @@
 
 namespace mvvm
 {
+
 class ViewItem;
 class SessionItem;
 
-//! Stores correspondance of the SessionItem and ViewItem. Plays a supporting role during ViewModel
-//! rebuild.
-
+/**
+ * @brief The ViewItemMap class stores correspondance of the SessionItem and ViewItem. Plays a
+ * supporting role during ViewModel rebuild.
+ */
 class MVVM_VIEWMODEL_EXPORT ViewItemMap
 {
 public:

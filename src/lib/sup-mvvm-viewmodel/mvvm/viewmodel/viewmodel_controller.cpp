@@ -29,7 +29,7 @@ ViewModelController::ViewModelController(std::unique_ptr<IViewModelController> i
 {
   if (!p_impl)
   {
-    throw RuntimeException("Invalid controller");
+    throw RuntimeException("Invalid controller implementation");
   }
 }
 

@@ -30,7 +30,6 @@ namespace mvvm
 /**
  * @brief The ViewModelController class propagates changes from SessionModel to ViewModel.
  */
-
 class MVVM_VIEWMODEL_EXPORT ViewModelController : public AbstractViewModelController
 {
 public:

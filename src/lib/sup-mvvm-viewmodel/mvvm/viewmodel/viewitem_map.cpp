@@ -28,26 +28,26 @@ ViewItemMap::ViewItemMap() = default;
 
 void ViewItemMap::Insert(const SessionItem *const item, ViewItem *const view_item)
 {
-  const auto it = m_item_to_view.find(item);
-  if (it != m_item_to_view.end())
+  const auto iter = m_item_to_view.find(item);
+  if (iter != m_item_to_view.end())
   {
     throw RuntimeException("ViewItemMap: item is already registered");
   }
-  m_item_to_view.insert(it, {item, view_item});
+  m_item_to_view.insert(iter, {item, view_item});
 }
 
 ViewItem *ViewItemMap::FindView(const SessionItem *const item) const
 {
-  const auto it = m_item_to_view.find(item);
-  return it == m_item_to_view.end() ? nullptr : it->second;
+  const auto iter = m_item_to_view.find(item);
+  return iter == m_item_to_view.end() ? nullptr : iter->second;
 }
 
 void ViewItemMap::Remove(const SessionItem *const item)
 {
-  const auto it = m_item_to_view.find(item);
-  if (it != m_item_to_view.end())
+  const auto iter = m_item_to_view.find(item);
+  if (iter != m_item_to_view.end())
   {
-    m_item_to_view.erase(it);
+    m_item_to_view.erase(iter);
   }
   else
   {
@@ -59,9 +59,9 @@ void ViewItemMap::OnItemRemove(const SessionItem *const item)
 {
   const auto on_item = [this](auto item) -> bool
   {
-    if (const auto it = m_item_to_view.find(item); it != m_item_to_view.end())
+    if (const auto iter = m_item_to_view.find(item); iter != m_item_to_view.end())
     {
-      m_item_to_view.erase(it);
+      m_item_to_view.erase(iter);
     }
     return true;
   };
