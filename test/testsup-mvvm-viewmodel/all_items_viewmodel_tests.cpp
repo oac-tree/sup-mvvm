@@ -1023,10 +1023,9 @@ TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Testing view model after restoring from XML document.
-//! VectorItem is made root item. Test demonstrates that controller is capable
-//! to restore old rootSessionItem on onModelReset signal
-
+//! Testing view model after restoring from XML document. VectorItem is made root item.
+//! Our new behavior: after reset the controller forgets about old root item and starts looking to
+//! the top of the model.
 TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 {
   const auto file_path = GetFilePath("VectorItemAsRootInXmlDocument.xml");
@@ -1055,11 +1054,9 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   EXPECT_EQ(spyAboutReset.count(), 1);
   EXPECT_EQ(spyReset.count(), 1);
 
-  // viewmodel now is looking to vectorItem as root ViewItem
-  EXPECT_EQ(m_viewmodel.GetRootSessionItem(),
-            m_model.GetRootItem()->GetAllItems().at(0));  // vectorItem
-
-  EXPECT_EQ(m_viewmodel.rowCount(), 3);
+  // after reload viewmodel forgets about VectorItem and is looking to original root
+  EXPECT_EQ(m_viewmodel.GetRootSessionItem(), m_model.GetRootItem());
+  EXPECT_EQ(m_viewmodel.rowCount(), 1);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 

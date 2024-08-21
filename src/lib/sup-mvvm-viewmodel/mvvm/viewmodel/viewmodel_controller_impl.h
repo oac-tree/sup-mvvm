@@ -20,7 +20,6 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
 #define MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
 
-#include <mvvm/model/path.h>
 #include <mvvm/signals/event_types.h>
 #include <mvvm/viewmodel/i_viewmodel_controller.h>
 #include <mvvm/viewmodel/viewitem_map.h>
@@ -101,7 +100,6 @@ private:
   ViewItemMap m_view_item_map;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;
   std::unique_ptr<IRowStrategy> m_row_strategy;
-  Path m_root_item_path;  // saves path to custom root item, to restore it on model reset
 };
 
 }  // namespace mvvm
