@@ -23,7 +23,6 @@
 #include <mvvm/viewmodel/i_row_strategy.h>
 #include <mvvm/viewmodel/viewmodel_controller.h>
 #include <mvvm/viewmodel/viewmodel_controller_impl.h>
-#include <mvvm/viewmodel/viewmodel_controller_virtual_parent_impl.h>
 
 namespace mvvm::factory
 {
@@ -33,18 +32,9 @@ std::unique_ptr<AbstractViewModelController> CreateViewModelController(
 {
   std::unique_ptr<AbstractViewModelController> result;
 
-  if (context.virtual_parent)
-  {
-    auto impl = std::make_unique<ViewModelControllerVirtualParentImpl>(
-        context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
-    result = std::make_unique<ViewModelController>(std::move(impl));
-  }
-  else
-  {
-    auto impl = std::make_unique<ViewModelControllerImpl>(
-        context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
-    result = std::make_unique<ViewModelController>(std::move(impl));
-  }
+  auto impl = std::make_unique<ViewModelControllerImpl>(
+      context.view_model, std::move(context.children_strategy), std::move(context.row_strategy));
+  result = std::make_unique<ViewModelController>(std::move(impl));
 
   if (context.model)
   {

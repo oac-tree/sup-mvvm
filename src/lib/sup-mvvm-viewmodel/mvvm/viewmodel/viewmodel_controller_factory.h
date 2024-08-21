@@ -43,7 +43,6 @@ struct ViewModelControllerFactoryContext
   std::unique_ptr<IRowStrategy> row_strategy;
   ISessionModel* model{nullptr};
   ViewModelBase* view_model{nullptr};
-  bool virtual_parent{false};
 };
 
 /**
@@ -55,7 +54,7 @@ std::unique_ptr<AbstractViewModelController> CreateViewModelController(
     ViewModelControllerFactoryContext&& context);
 
 /**
- * @brief Creates viewmodel controller.
+ * @brief Creates default viewmodel controller.
  *
  * @tparam ChildrenStrategyT The strategy to look for children.
  * @taram RowStrategyT The strategy to construct the row.
@@ -68,24 +67,7 @@ std::unique_ptr<AbstractViewModelController> CreateController(ISessionModel* mod
                                                               ViewModelBase* view_model)
 {
   return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
-                                    std::make_unique<RowStrategyT>(), model, view_model, false});
-}
-
-/**
- * @brief Creates viewmodel controller capable to handle complex "virtual parent" scenario.
- *
- * @tparam ChildrenStrategyT The strategy to look for children.
- * @taram RowStrategyT The strategy to construct the row.
- *
- * @param model The model to listen.
- * @param view_model The view model to update.
- */
-template <typename ChildrenStrategyT, typename RowStrategyT>
-std::unique_ptr<AbstractViewModelController> CreateVirtualParentController(
-    ISessionModel* model, ViewModelBase* view_model)
-{
-  return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
-                                    std::make_unique<RowStrategyT>(), model, view_model, true});
+                                    std::make_unique<RowStrategyT>(), model, view_model});
 }
 
 }  // namespace factory
