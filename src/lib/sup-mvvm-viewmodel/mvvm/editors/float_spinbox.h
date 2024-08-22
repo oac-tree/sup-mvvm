@@ -87,8 +87,8 @@ private:
   QDoubleSpinBox* m_double_editor{nullptr};
 
   QVariant m_value;
-  double m_lower_limit;
-  double m_upper_limit;
+  double m_lower_limit{0.0};
+  double m_upper_limit{0.0};
 };
 
 }  // namespace mvvm

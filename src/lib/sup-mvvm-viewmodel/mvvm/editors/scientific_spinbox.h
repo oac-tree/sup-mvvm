@@ -71,7 +71,9 @@ private:
   void updateText();
   bool inRange(double val) const;
 
-  double m_value, m_min, m_max;
+  double m_value;
+  int m_min;
+  int m_max;
   double m_step;
   int m_decimals;
   QDoubleValidator m_validator;

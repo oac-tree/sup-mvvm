@@ -323,7 +323,7 @@ TEST_F(PropertyGridControllerTest, ClearModel)
 
   {
     // set of editors created and immediately deleted
-    auto editor_grid0 = controller.CreateWidgetGrid();
+    [[maybe_unused]] auto editor_grid0 = controller.CreateWidgetGrid();
   }
   // clear the model
   model.Clear();
