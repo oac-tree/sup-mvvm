@@ -78,6 +78,31 @@ TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
   }
 }
 
+//! Testing AllVisibleChildrenStrategy.
+TEST_F(StandardChildrenStrategiesTest, AllVisibleChildrenStrategy)
+{
+  AllVisibleChildrenStrategy strategy;
+
+  {  // VectorItem
+    const VectorItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
+
+    item.GetItem(VectorItem::kY)->SetVisible(false);
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
+    EXPECT_EQ(
+        strategy.GetChildren(&item),
+        std::vector<SessionItem*>({item.GetItem(VectorItem::kX), item.GetItem(VectorItem::kZ)}));
+  }
+
+  {  // TestItem
+    const TestItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
+
+    item.GetItem("children")->SetVisible(false);
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
+  }
+}
+
 //! Testing AllChildrenStrategy when one of children is hidden.
 //! By the current convention this strategy still show all items.
 TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)

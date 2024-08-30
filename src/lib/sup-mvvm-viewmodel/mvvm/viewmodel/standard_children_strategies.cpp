@@ -23,6 +23,8 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/utils/container_utils.h>
 
+#include <algorithm>
+
 namespace mvvm
 {
 
@@ -30,6 +32,20 @@ std::vector<SessionItem*> AllChildrenStrategy::GetChildren(const SessionItem* it
 {
   // we returns all children, even if some marked as invisible
   return item ? item->GetAllItems() : std::vector<SessionItem*>();
+}
+
+std::vector<SessionItem*> AllVisibleChildrenStrategy::GetChildren(const SessionItem* item) const
+{
+  if (!item)
+  {
+    return {};
+  }
+
+  std::vector<SessionItem*> result;
+  auto children = item->GetAllItems();
+  std::copy_if(children.begin(), children.end(), std::back_inserter(result),
+                 [](auto item) { return item->IsVisible(); });
+  return result;
 }
 
 std::vector<SessionItem*> TopItemsStrategy::GetChildren(const SessionItem* item) const
@@ -49,6 +65,11 @@ FixedItemTypeStrategy::FixedItemTypeStrategy(std::vector<std::string> item_types
 
 std::vector<SessionItem*> FixedItemTypeStrategy::GetChildren(const SessionItem* item) const
 {
+  if (!item)
+  {
+    return {};
+  }
+
   std::vector<SessionItem*> result;
   for (auto child : item->GetAllItems())
   {
