@@ -48,79 +48,75 @@ public:
 };
 
 //! Testing AllChildrenStrategy.
-
 TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategy)
 {
   const AllChildrenStrategy strategy;
 
-  // nullptr
-  auto children = strategy.GetChildren(nullptr);
-  EXPECT_EQ(children.size(), 0);
+  {  // nullptr
+    EXPECT_EQ(strategy.GetChildren(nullptr).size(), 0);
+  }
 
-  // empty item
-  SessionItem item1;
-  children = strategy.GetChildren(&item1);
-  EXPECT_EQ(children.size(), 0);
+  {  // empty item
+    const SessionItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
+  }
 
-  // VectorItem
-  VectorItem item2;
-  children = strategy.GetChildren(&item2);
-  EXPECT_EQ(children.size(), 3);
+  {  // VectorItem
+    VectorItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
+  }
 
-  // CompoundItem
-  CompoundItem item3;
-  item3.AddProperty("height", 42.0);
-  children = strategy.GetChildren(&item3);
-  EXPECT_EQ(children.size(), 1);
+  {  // CompoundItem
+    CompoundItem item;
+    item.AddProperty("height", 42.0);
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 1);
+  }
 
-  // TestItem
-  TestItem item4;
-  children = strategy.GetChildren(&item4);
-  EXPECT_EQ(children.size(), 3);
+  {  // TestItem
+    TestItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
+  }
 }
 
 //! Testing AllChildrenStrategy when one of children is hidden.
 //! By the current convention this strategy still show all items.
-
 TEST_F(StandardChildrenStrategiesTest, AllChildrenStrategyWhenHidden)
 {
   const AllChildrenStrategy strategy;
   VectorItem item;
   item.GetItem(VectorItem::kX)->SetVisible(false);
-  auto children = strategy.GetChildren(&item);
-  EXPECT_EQ(children.size(), 3);  // hidden items are still shown
+  EXPECT_EQ(strategy.GetChildren(&item).size(), 3);  // hidden items are still shown
 }
 
 //! Testing TopItemsStrategy.
-
 TEST_F(StandardChildrenStrategiesTest, TopItemsStrategy)
 {
   const TopItemsStrategy strategy;
 
-  // nullptr
-  auto children = strategy.GetChildren(nullptr);
-  EXPECT_EQ(children.size(), 0);
+  {  // nullptr
+    EXPECT_EQ(strategy.GetChildren(nullptr).size(), 0);
+  }
 
-  // empty item
-  SessionItem item1;
-  children = strategy.GetChildren(&item1);
-  EXPECT_EQ(children.size(), 0);
+  {  // empty item
+    const SessionItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
+  }
 
-  // VectorItem
-  VectorItem item2;
-  children = strategy.GetChildren(&item2);
-  EXPECT_EQ(children.size(), 0);
+  {  // VectorItem
+    VectorItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
+  }
 
-  // CompoundItem
-  CompoundItem item3;
-  item3.AddProperty("height", 42.0);
-  children = strategy.GetChildren(&item3);
-  EXPECT_EQ(children.size(), 0);
+  {  // CompoundItem
+    CompoundItem item;
+    item.AddProperty("height", 42.0);
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
+  }
 
-  // TestItem
-  TestItem item4;
-  children = strategy.GetChildren(&item4);
-  EXPECT_EQ(children.size(), 1);
+  {  // TestItem
+    TestItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 1);
+  }
 }
 
 //! Testing TopItemsStrategy when some items are hidden.
@@ -140,68 +136,54 @@ TEST_F(StandardChildrenStrategiesTest, TopItemsStrategyWhenHidden)
 }
 
 //! Testing PropertyItemsStrategy.
-
 TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategy)
 {
   const PropertyItemsStrategy strategy;
 
-  // nullptr
-  {
-    auto children = strategy.GetChildren(nullptr);
-    EXPECT_EQ(children.size(), 0);
+  {  // nullptr
+    EXPECT_EQ(strategy.GetChildren(nullptr).size(), 0);
   }
 
-  // empty item
-  {
-    SessionItem item;
-    auto children = strategy.GetChildren(&item);
-    EXPECT_EQ(children.size(), 0);
+  {  // empty item
+    const SessionItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 0);
   }
 
-  // VectorItem
-  {
-    VectorItem item;
-    auto children = strategy.GetChildren(&item);
-    EXPECT_EQ(children.size(), 3);
+  {  // VectorItem
+    const VectorItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 3);
   }
 
-  // CompoundItem
-  {
+  {  // CompoundItem
     CompoundItem item;
     item.AddProperty("height", 42.0);
-    auto children = strategy.GetChildren(&item);
-    EXPECT_EQ(children.size(), 1);
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 1);
   }
 
-  // TestItem
-  {
-    TestItem item;
-    auto children = strategy.GetChildren(&item);
-    EXPECT_EQ(children.size(), 2);
+  {  // TestItem
+    const TestItem item;
+    EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
   }
 }
 
 //! Testing PropertyItemsStrategy when some items are hidden.
-
 TEST_F(StandardChildrenStrategiesTest, PropertyItemsStrategyWhenHidden)
 {
   const PropertyItemsStrategy strategy;
 
-  // VectorItem
-  {
-    VectorItem item;
-    item.GetItem(VectorItem::kY)->SetVisible(false);
-    auto children = strategy.GetChildren(&item);
-    EXPECT_EQ(children.size(), 2);
-  }
+  const VectorItem item;
+  item.GetItem(VectorItem::kY)->SetVisible(false);
+  EXPECT_EQ(strategy.GetChildren(&item).size(), 2);
 }
 
-TEST_F(StandardChildrenStrategiesTest, FixedTopItemsStrategy)
+//! Testing FixedItemTypeStrategy
+TEST_F(StandardChildrenStrategiesTest, FixedItemTypeStrategy)
 {
   test::toyitems::ParticleItem particle_item;
   VectorItem vector_item;
 
   const FixedItemTypeStrategy strategy({VectorItem::Type});
+  EXPECT_TRUE(strategy.GetChildren(nullptr).empty());
   EXPECT_TRUE(strategy.GetChildren(&vector_item).empty());
 
   ASSERT_EQ(strategy.GetChildren(&particle_item).size(), 1);
