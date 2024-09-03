@@ -124,7 +124,7 @@ void Data1DPlotController::Subscribe()
       p_impl->UpdateErrorBarsFromItem(GetItem());
     }
   };
-  Connect<PropertyChangedEvent>(on_property_change);
+  Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
   p_impl->InitGraphFromItem(GetItem());
 }

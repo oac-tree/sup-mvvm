@@ -110,7 +110,8 @@ GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
 
 void GraphPlotController::Subscribe()
 {
-  Connect<PropertyChangedEvent>(p_impl.get(), &GraphItemControllerImpl::OnPropertyChanged);
+  Listener()->Connect<PropertyChangedEvent>(p_impl.get(),
+                                            &GraphItemControllerImpl::OnPropertyChanged);
 
   p_impl->InitGraph();
 }

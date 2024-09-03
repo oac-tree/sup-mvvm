@@ -50,8 +50,8 @@ void LineSeriesController::Subscribe()
 
   GetQtLineSeries()->setName(QString::fromStdString(line_series_item->GetDisplayName()));
 
-  Connect<PropertyChangedEvent>(this, &LineSeriesController::OnPropertyChanged);
-  Connect<DataChangedEvent>(this, &LineSeriesController::OnDataChanged);
+  Listener()->Connect<PropertyChangedEvent>(this, &LineSeriesController::OnPropertyChanged);
+  Listener()->Connect<DataChangedEvent>(this, &LineSeriesController::OnDataChanged);
 }
 
 QtCharts::QLineSeries *LineSeriesController::GetQtLineSeries() const

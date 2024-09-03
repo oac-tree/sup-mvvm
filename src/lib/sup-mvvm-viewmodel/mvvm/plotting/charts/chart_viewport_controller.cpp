@@ -40,8 +40,8 @@ void ChartViewportController::Subscribe()
 {
   SetupChart();
 
-  Connect<ItemInsertedEvent>(this, &ChartViewportController::OnItemInsertedEvent);
-  Connect<AboutToRemoveItemEvent>(this, &ChartViewportController::OnAboutToRemoveItemEvent);
+  Listener()->Connect<ItemInsertedEvent>(this, &ChartViewportController::OnItemInsertedEvent);
+  Listener()->Connect<AboutToRemoveItemEvent>(this, &ChartViewportController::OnAboutToRemoveItemEvent);
 }
 
 QtCharts::QAbstractAxis *ChartViewportController::GetXQtAxis() const

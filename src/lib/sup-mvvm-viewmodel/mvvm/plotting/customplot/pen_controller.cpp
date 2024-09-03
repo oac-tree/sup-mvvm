@@ -62,7 +62,7 @@ PenController::~PenController() = default;
 void PenController::Subscribe()
 {
   auto on_property_change = [this](auto) { p_impl->UpdateGraphFromItem(GetItem()); };
-  Connect<PropertyChangedEvent>(on_property_change);
+  Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
   p_impl->UpdateGraphFromItem(GetItem());
 }

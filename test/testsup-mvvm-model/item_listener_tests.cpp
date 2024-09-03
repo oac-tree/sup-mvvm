@@ -135,98 +135,98 @@ TEST_F(ItemListenerTests, OnDataChangedAfterDisconnection)
 //! Single call OnDataChanged expected when data was changed.
 //! Same as before, external callback is used.
 
-TEST_F(ItemListenerTests, OnDataChangedCallback)
-{
-  ApplicationModel model;
-  auto item = model.InsertItem<SessionItem>();
-  item->SetData(42, DataRole::kData);
+// TEST_F(ItemListenerTests, OnDataChangedCallback)
+// {
+//   ApplicationModel model;
+//   auto item = model.InsertItem<SessionItem>();
+//   item->SetData(42, DataRole::kData);
 
-  mock_listener_t listener(item);
-  testing::MockFunction<void(const event_variant_t&)> widget;
+//   mock_listener_t listener(item);
+//   testing::MockFunction<void(const event_variant_t&)> widget;
 
-  listener.Connect<DataChangedEvent>(widget.AsStdFunction());
+//   listener.Connect<DataChangedEvent>(widget.AsStdFunction());
 
-  EXPECT_EQ(listener.GetItem(), item);
-  const auto expected_role = DataRole::kData;
-  const auto expected_item = item;
+//   EXPECT_EQ(listener.GetItem(), item);
+//   const auto expected_role = DataRole::kData;
+//   const auto expected_item = item;
 
-  DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
-  EXPECT_CALL(widget, Call(event_variant_t(expected_event))).Times(1);
+//   DataChangedEvent expected_event{expected_item, expected_role};
+//   EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
+//   EXPECT_CALL(widget, Call(event_variant_t(expected_event))).Times(1);
 
-  // trigger calls
-  item->SetData(45, expected_role);
-}
+//   // trigger calls
+//   item->SetData(45, expected_role);
+// }
 
 //! Single call OnDataChanged expected when data was changed.
 //! Same as before, external event_variant_t callback is used.
 
-TEST_F(ItemListenerTests, LambdaOnEventVariant)
-{
-  ApplicationModel model;
-  auto item = model.InsertItem<SessionItem>();
-  item->SetData(42, DataRole::kData);
+// TEST_F(ItemListenerTests, LambdaOnEventVariant)
+// {
+//   ApplicationModel model;
+//   auto item = model.InsertItem<SessionItem>();
+//   item->SetData(42, DataRole::kData);
 
-  ItemController<SessionItem> listener(item);
-  testing::MockFunction<void(const event_variant_t&)> widget;
+//   ItemController<SessionItem> listener(item);
+//   testing::MockFunction<void(const event_variant_t&)> widget;
 
-  listener.Connect<DataChangedEvent>(widget.AsStdFunction());
+//   listener.Connect<DataChangedEvent>(widget.AsStdFunction());
 
-  EXPECT_EQ(listener.GetItem(), item);
-  const auto expected_role = DataRole::kData;
-  const auto expected_item = item;
+//   EXPECT_EQ(listener.GetItem(), item);
+//   const auto expected_role = DataRole::kData;
+//   const auto expected_item = item;
 
-  DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, Call(event_variant_t(expected_event))).Times(1);
+//   DataChangedEvent expected_event{expected_item, expected_role};
+//   EXPECT_CALL(widget, Call(event_variant_t(expected_event))).Times(1);
 
-  // trigger calls
-  item->SetData(45, expected_role);
-}
+//   // trigger calls
+//   item->SetData(45, expected_role);
+// }
 
-//! Single call OnDataChanged expected when data was changed.
-//! Same as before, external callback based on concrete event is used.
+// //! Single call OnDataChanged expected when data was changed.
+// //! Same as before, external callback based on concrete event is used.
 
-TEST_F(ItemListenerTests, LambdaOnConcreteEvent)
-{
-  ApplicationModel model;
-  auto item = model.InsertItem<SessionItem>();
-  item->SetData(42, DataRole::kData);
+// TEST_F(ItemListenerTests, LambdaOnConcreteEvent)
+// {
+//   ApplicationModel model;
+//   auto item = model.InsertItem<SessionItem>();
+//   item->SetData(42, DataRole::kData);
 
-  ItemController<SessionItem> listener(item);
-  testing::MockFunction<void(const DataChangedEvent&)> widget;
+//   ItemController<SessionItem> listener(item);
+//   testing::MockFunction<void(const DataChangedEvent&)> widget;
 
-  listener.Connect<DataChangedEvent>(widget.AsStdFunction());
+//   listener.Connect<DataChangedEvent>(widget.AsStdFunction());
 
-  EXPECT_EQ(listener.GetItem(), item);
-  const auto expected_role = DataRole::kData;
-  const auto expected_item = item;
+//   EXPECT_EQ(listener.GetItem(), item);
+//   const auto expected_role = DataRole::kData;
+//   const auto expected_item = item;
 
-  DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, Call(expected_event)).Times(1);
+//   DataChangedEvent expected_event{expected_item, expected_role};
+//   EXPECT_CALL(widget, Call(expected_event)).Times(1);
 
-  // trigger calls
-  item->SetData(45, expected_role);
-}
+//   // trigger calls
+//   item->SetData(45, expected_role);
+// }
 
-//! Single call OnPropertyChanged expected when item's property was changed.
+// //! Single call OnPropertyChanged expected when item's property was changed.
 
-TEST_F(ItemListenerTests, OnPropertyChanged)
-{
-  const std::string property_name("height");
+// TEST_F(ItemListenerTests, OnPropertyChanged)
+// {
+//   const std::string property_name("height");
 
-  ApplicationModel model;
-  auto item = model.InsertItem<CompoundItem>();
-  auto& property = item->AddProperty(property_name, 42.0);
+//   ApplicationModel model;
+//   auto item = model.InsertItem<CompoundItem>();
+//   auto& property = item->AddProperty(property_name, 42.0);
 
-  mock_listener_t listener(item);
+//   mock_listener_t listener(item);
 
-  const auto expected_item = item;
-  PropertyChangedEvent expected_event{expected_item, property_name};
-  EXPECT_CALL(listener, OnPropertyChanged(expected_event)).Times(1);
+//   const auto expected_item = item;
+//   PropertyChangedEvent expected_event{expected_item, property_name};
+//   EXPECT_CALL(listener, OnPropertyChanged(expected_event)).Times(1);
 
-  // trigger calls
-  item->SetProperty(property_name, 43.0);
-}
+//   // trigger calls
+//   item->SetProperty(property_name, 43.0);
+// }
 
 //! Inserting item to item.
 

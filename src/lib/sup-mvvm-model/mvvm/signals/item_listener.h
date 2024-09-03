@@ -116,8 +116,9 @@ public:
     connect::Connect<EventT>(GetCurrentItem(), receiver, method, GetSlot());
   }
 
-protected:
   SessionItem* GetCurrentItem() const;
+
+protected:
 
   /**
    * @brief Subscribe to a new item.

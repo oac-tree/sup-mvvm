@@ -126,8 +126,10 @@ GraphViewportPlotController::GraphViewportPlotController(QCustomPlot* custom_plo
 
 void GraphViewportPlotController::Subscribe()
 {
-  Connect<ItemInsertedEvent>(p_impl.get(), &GraphViewportPlotControllerImpl::AddController);
-  Connect<AboutToRemoveItemEvent>(p_impl.get(), &GraphViewportPlotControllerImpl::RemoveController);
+  Listener()->Connect<ItemInsertedEvent>(p_impl.get(),
+                                         &GraphViewportPlotControllerImpl::AddController);
+  Listener()->Connect<AboutToRemoveItemEvent>(p_impl.get(),
+                                              &GraphViewportPlotControllerImpl::RemoveController);
   p_impl->SetupComponents();
 }
 

@@ -44,7 +44,7 @@ QtCharts::QLineSeries *ChartsPenController::GetQtLineSeries() const
 
 void ChartsPenController::Subscribe()
 {
-  Connect<PropertyChangedEvent>(this, &ChartsPenController::OnPropertyChanged);
+  Listener()->Connect<PropertyChangedEvent>(this, &ChartsPenController::OnPropertyChanged);
   UpdateLineSeriesFromItem();
 }
 

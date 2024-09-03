@@ -29,20 +29,22 @@ namespace mvvm::test
 
 void MockItemListener::Subscribe()
 {
-  Connect<mvvm::ItemInsertedEvent>(this, &MockItemListener::OnEvent);
-  Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListener::OnEvent);
-  Connect<mvvm::ItemRemovedEvent>(this, &MockItemListener::OnEvent);
-  Connect<mvvm::DataChangedEvent>(this, &MockItemListener::OnEvent);
-  Connect<mvvm::PropertyChangedEvent>(this, &MockItemListener::OnEvent);
+  Listener()->Connect<mvvm::ItemInsertedEvent>(this, &MockItemListener::OnEvent);
+  Listener()->Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListener::OnEvent);
+  Listener()->Connect<mvvm::ItemRemovedEvent>(this, &MockItemListener::OnEvent);
+  Listener()->Connect<mvvm::DataChangedEvent>(this, &MockItemListener::OnEvent);
+  Listener()->Connect<mvvm::PropertyChangedEvent>(this, &MockItemListener::OnEvent);
 }
 
 void MockItemListenerV2::Subscribe()
 {
-  Connect<mvvm::ItemInsertedEvent>(this, &MockItemListenerV2::OnItemInsertedEvent);
-  Connect<mvvm::AboutToRemoveItemEvent>(this, &MockItemListenerV2::OnAboutToRemoveItemEvent);
-  Connect<mvvm::ItemRemovedEvent>(this, &MockItemListenerV2::OnItemRemovedEvent);
-  Connect<mvvm::DataChangedEvent>(this, &MockItemListenerV2::OnDataChangedEvent);
-  Connect<mvvm::PropertyChangedEvent>(this, &MockItemListenerV2::OnPropertyChangedEvent);
+  Listener()->Connect<mvvm::ItemInsertedEvent>(this, &MockItemListenerV2::OnItemInsertedEvent);
+  Listener()->Connect<mvvm::AboutToRemoveItemEvent>(this,
+                                                    &MockItemListenerV2::OnAboutToRemoveItemEvent);
+  Listener()->Connect<mvvm::ItemRemovedEvent>(this, &MockItemListenerV2::OnItemRemovedEvent);
+  Listener()->Connect<mvvm::DataChangedEvent>(this, &MockItemListenerV2::OnDataChangedEvent);
+  Listener()->Connect<mvvm::PropertyChangedEvent>(this,
+                                                  &MockItemListenerV2::OnPropertyChangedEvent);
 }
 
 }  // namespace mvvm::test

@@ -68,7 +68,7 @@ class SessionItem;
  */
 
 template <typename ItemT>
-class ItemController : public ItemListener
+class ItemController
 {
 public:
   /**
@@ -76,25 +76,69 @@ public:
    */
   ItemController() = default;
 
+  virtual ~ItemController() = default;
+
   /**
    * @brief c-tor that starts listening item from the beginning.
    */
   explicit ItemController(ItemT* item) { SetItem(item); }
 
+  void SetItem(SessionItem* item)
+  {
+    if (GetItem() == item)
+    {
+      return;
+    }
+
+    if (GetItem())
+    {
+      Unsubscribe();
+      m_listener.reset();
+    }
+
+    if (!item)
+    {
+      return;
+    }
+
+    m_listener = std::make_unique<ItemListener>(item);
+    Subscribe();
+  }
+
   /**
    * @brief Returns current item which was set for listening.
    */
-  ItemT* GetItem() const { return static_cast<ItemT*>(GetCurrentItem()); }
+  ItemT* GetItem() const
+  {
+    return static_cast<ItemT*>(m_listener ? m_listener->GetCurrentItem() : nullptr);
+  }
 
   /**
    * @brief Returns underlying item listener.
    *
    * On every new item set, underlying listener is regenerated.
    */
-  ItemListener* GetListener() const
-  {
-    return m_listener.get();
-  }
+  ItemListener* Listener() const { return m_listener.get(); }
+
+protected:
+  /**
+   * @brief Subscribe to a new item.
+   *
+   * Will be called on new item set. This method should be overridden in the derived class if the
+   * user wants to perform certain actions for the new item. For example, this is the place to
+   * subscribe other methods or lambdas to certain event types.
+   */
+  virtual void Subscribe() {}
+
+  /**
+   * @brief Unsubscribe from the previous item.
+   *
+   * Will be called on new item set. This method should be overridden in the derived class if the
+   * user wants to perform additional unsubscription-related activity for the previous item. For
+   * example, it can be the cleanup of some view items, or controllers. Please note, that
+   * unsubscription from signals of the previous item will be performed automatically.
+   */
+  virtual void Unsubscribe() {}
 
 private:
   std::unique_ptr<ItemListener> m_listener;

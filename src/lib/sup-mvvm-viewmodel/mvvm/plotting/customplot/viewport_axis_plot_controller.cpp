@@ -146,7 +146,7 @@ void ViewportAxisPlotController::Subscribe()
 
     p_impl->m_axis->parentPlot()->replot();
   };
-  Connect<PropertyChangedEvent>(on_property_change);
+  Listener()->Connect<PropertyChangedEvent>(on_property_change);
 
   p_impl->InitAxis();
 }

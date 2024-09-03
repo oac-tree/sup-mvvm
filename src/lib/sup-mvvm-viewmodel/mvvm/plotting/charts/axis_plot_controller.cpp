@@ -48,7 +48,8 @@ void AxisPlotController::Subscribe()
 
   SetQtConnected();
 
-  Connect<mvvm::PropertyChangedEvent>(this, &AxisPlotController::OnPropertyChangedEvent);
+  Listener()->Connect<mvvm::PropertyChangedEvent>(this,
+                                                  &AxisPlotController::OnPropertyChangedEvent);
 }
 
 void AxisPlotController::Unsubscribe()
