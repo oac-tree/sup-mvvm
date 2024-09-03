@@ -21,7 +21,6 @@
 #define MVVM_PLOTTING_LINE_SERIES_DATA_CONTROLLER_H_
 
 #include <mvvm/signals/event_types.h>
-#include <mvvm/signals/model_listener_fwd.h>
 
 #include <memory>
 
@@ -34,6 +33,7 @@ namespace mvvm
 {
 
 class LineSeriesDataItem;
+class ModelListener;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesDataItem
@@ -90,7 +90,7 @@ private:
 
   QtCharts::QLineSeries* m_qt_line_series{nullptr};
   const LineSeriesDataItem* m_data_item{nullptr};
-  std::unique_ptr<mvvm::ModelListener<>> m_listener;
+  std::unique_ptr<mvvm::ModelListener> m_listener;
   double m_x_offset{0.0};
 };
 

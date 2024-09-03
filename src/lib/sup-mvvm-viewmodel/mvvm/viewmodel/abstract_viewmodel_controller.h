@@ -28,8 +28,6 @@ namespace mvvm
 {
 
 class ISessionModel;
-
-template <typename T>
 class ModelListener;
 
 /**
@@ -106,7 +104,7 @@ private:
    */
   virtual void UnsubscribeImpl();
 
-  std::unique_ptr<ModelListener<ISessionModel>> m_listener;
+  std::unique_ptr<ModelListener> m_listener;
 };
 
 }  // namespace mvvm

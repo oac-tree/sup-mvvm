@@ -53,17 +53,17 @@ public:
 TEST_F(ModelListenerTests, InitialState)
 {
   const ApplicationModel model;
-  const ModelListener<ApplicationModel> listener(&model);
+  const ModelListener listener(&model);
   EXPECT_EQ(listener.GetModel(), &model);
 }
 
 TEST_F(ModelListenerTests, AttemptToInitializeToWrongModel)
 {
-  EXPECT_THROW(ModelListener<SessionModel>(nullptr), NullArgumentException);
+  EXPECT_THROW(ModelListener(nullptr), NullArgumentException);
 
   const SessionModel model;
   // expect exception in the absence of signaling capabilities
-  EXPECT_THROW((ModelListener<SessionModel>(&model)), NullArgumentException);
+  EXPECT_THROW((ModelListener(&model)), NullArgumentException);
 }
 
 //! Creating the model with item and listener attached. The client is a lambda listening for
@@ -73,7 +73,7 @@ TEST_F(ModelListenerTests, LambdaOnVariant)
   // the model with the item and listener attached
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
-  ModelListener<ApplicationModel> listener(&model);
+  ModelListener listener(&model);
 
   testing::MockFunction<void(const event_variant_t&)> client;
 
@@ -94,7 +94,7 @@ TEST_F(ModelListenerTests, DefaultTemplateParameter)
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
 
-  auto listener = std::make_unique<ModelListener<>>(&model);
+  auto listener = std::make_unique<ModelListener>(&model);
 
   testing::MockFunction<void(const event_variant_t&)> client;
 
@@ -116,7 +116,7 @@ TEST_F(ModelListenerTests, LambdaOnConcreteEvent)
   // the model with the item and listener attached
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
-  ModelListener<ApplicationModel> listener(&model);
+  ModelListener listener(&model);
 
   testing::MockFunction<void(const DataChangedEvent&)> client;
 
@@ -138,7 +138,7 @@ TEST_F(ModelListenerTests, SingleClientOnEvent)
   // the model with the item and listener attached
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
-  ModelListener<ApplicationModel> listener(&model);
+  ModelListener listener(&model);
 
   // the client is setup to receive DataChangedEvent
   TestClient client;
@@ -159,7 +159,7 @@ TEST_F(ModelListenerTests, SingleClientOnEventVariousConnectionAPI)
   // the model with the item and listener attached
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
-  ModelListener<ApplicationModel> listener(&model);
+  ModelListener listener(&model);
 
   // the client is setup to receive DataChangedEvent
   // (testing connection to the method based on event_variant_t and on concrete DataChangedEvent)
@@ -189,7 +189,7 @@ TEST_F(ModelListenerTests, ListenerTimeOfLife)
   ApplicationModel model;
   auto item = model.InsertItem<PropertyItem>();
 
-  auto listener = std::make_unique<ModelListener<ApplicationModel>>(&model);
+  auto listener = std::make_unique<ModelListener>(&model);
 
   // the client is setup to receive DataChangedEvent
   TestClient client;
@@ -219,7 +219,7 @@ TEST_F(ModelListenerTests, MethodOverload)
   auto parent = model.GetRootItem();
   const TagIndex tag_index{constants::kRootItemTag, 0};
 
-  auto listener = std::make_unique<ModelListener<ApplicationModel>>(&model);
+  auto listener = std::make_unique<ModelListener>(&model);
 
   // the client is setup to receive DataChangedEvent
   TestClientV2 client;

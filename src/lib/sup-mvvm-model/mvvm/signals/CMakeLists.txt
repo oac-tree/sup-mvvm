@@ -2,16 +2,13 @@ target_sources(${library_name} PRIVATE
   item_connect_utils.cpp
   item_connect_utils.h
   item_controller.h
-  item_controller.cpp
   item_listener.cpp
   item_listener.h
   lsignal.h
   model_event_handler.cpp
   model_event_handler.h
+  model_listener.cpp
   model_listener.h
-  model_listener_fwd.h
-  model_listener_base.cpp
-  model_listener_base.h
   signal_slot.h
   event_types.cpp
   event_types.h

@@ -98,7 +98,7 @@ void AbstractViewModelController::SubscribeAll(ISessionModel *model)
     throw RuntimeException("Subscriber is not initialised");
   }
 
-  m_listener = std::make_unique<mvvm::ModelListener<ISessionModel>>(model);
+  m_listener = std::make_unique<mvvm::ModelListener>(model);
 
   m_listener->Connect<mvvm::DataChangedEvent>(this, &AbstractViewModelController::OnModelEvent);
 

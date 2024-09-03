@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "model_listener_base.h"
+#include "model_listener.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/i_session_model.h>
@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-struct ModelListenerBase::ModelListenerBaseImpl
+struct ModelListener::ModelListenerImpl
 {
   const ISessionModel *m_model{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
@@ -34,7 +34,7 @@ struct ModelListenerBase::ModelListenerBaseImpl
 
   Slot *GetSlot() const { return m_slot.get(); }
 
-  explicit ModelListenerBaseImpl(const ISessionModel *model)
+  explicit ModelListenerImpl(const ISessionModel *model)
       : m_model(model), m_slot(std::make_unique<Slot>())
   {
     if (!m_model)
@@ -50,24 +50,24 @@ struct ModelListenerBase::ModelListenerBaseImpl
   }
 };
 
-ModelListenerBase::ModelListenerBase(const ISessionModel *model)
-    : p_impl(std::make_unique<ModelListenerBaseImpl>(model))
+ModelListener::ModelListener(const ISessionModel *model)
+    : p_impl(std::make_unique<ModelListenerImpl>(model))
 {
 }
 
-ModelListenerBase::~ModelListenerBase() = default;
+ModelListener::~ModelListener() = default;
 
-const ISessionModel *ModelListenerBase::GetModelBase() const
+const ISessionModel *ModelListener::GetModel() const
 {
   return p_impl->m_model;
 }
 
-ModelEventHandler *ModelListenerBase::GetEventHandler()
+ModelEventHandler *ModelListener::GetEventHandler()
 {
   return p_impl->GetEventHandler();
 }
 
-Slot *ModelListenerBase::GetSlot() const
+Slot *ModelListener::GetSlot() const
 {
   return p_impl->GetSlot();
 }

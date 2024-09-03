@@ -147,7 +147,7 @@ void LineSeriesDataController::Subscribe()
 {
   InitLineSeriesData();
 
-  m_listener = std::make_unique<mvvm::ModelListener<mvvm::ISessionModel>>(m_data_item->GetModel());
+  m_listener = std::make_unique<mvvm::ModelListener>(m_data_item->GetModel());
 
   m_listener->Connect<mvvm::DataChangedEvent>(this, &LineSeriesDataController::OnModelEvent);
   m_listener->Connect<mvvm::ItemInsertedEvent>(this, &LineSeriesDataController::OnModelEvent);
