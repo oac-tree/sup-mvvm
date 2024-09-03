@@ -25,70 +25,24 @@
 namespace mvvm
 {
 
-struct ItemListener::ItemListenerImpl
+ItemListener::ItemListener(SessionItem *item) : m_item(item), m_slot(std::make_unique<Slot>())
 {
-  SessionItem *m_item{nullptr};
-  std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
-  ItemListener *m_self{nullptr};
-
-  explicit ItemListenerImpl(ItemListener *self) : m_self(self), m_slot(std::make_unique<Slot>()) {}
-
-  Slot *GetSlot() const { return m_slot.get(); }
-
-  void UnsubscribeFromCurrent()
-  {
-    if (!m_item)
-    {
-      return;
-    }
-
-    m_self->Unsubscribe();              // let derived classes to do some peculiar job
-    m_slot = std::make_unique<Slot>();  // drops all previous connections
-    m_item = nullptr;
-  }
-};
-
-ItemListener::ItemListener() : ItemListener(nullptr){};
-
-ItemListener::ItemListener(SessionItem *item) : p_impl(std::make_unique<ItemListenerImpl>(this))
-{
-  SetItem(item);
-}
-
-ItemListener::~ItemListener() = default;  // destruction of m_slot will destruct all connections
-
-void ItemListener::SetItem(SessionItem *item)
-{
-  if (GetCurrentItem() == item)
-  {
-    return;
-  }
-
-  p_impl->UnsubscribeFromCurrent();
-
-  if (!item)
-  {
-    return;
-  }
-
-  if (!item->GetModel() || !item->GetModel()->GetEventHandler())
+  if (!m_item->GetModel() || !m_item->GetModel()->GetEventHandler())
   {
     throw RuntimeException("Error in ItemListenerBase: model doesn't have signals");
   }
-
-  p_impl->m_item = item;
-
-  Subscribe();
 }
 
-SessionItem *ItemListener::GetCurrentItem() const
+ItemListener::~ItemListener() = default;
+
+SessionItem *ItemListener::GetItem() const
 {
-  return p_impl->m_item;
+  return m_item;
 }
 
 Slot *ItemListener::GetSlot() const
 {
-  return p_impl->m_slot.get();
+  return m_slot.get();
 }
 
 }  // namespace mvvm

@@ -39,32 +39,6 @@ class SessionItem;
  *
  * @tparam ItemT Type of the concrete SessionItem to listen.
  *
- * @code{.cpp}
- *
- * class Widget
- * {
- *   void OnAnyEvent(const event_variant_t& event)
- *   {
- *     ...
- *   }
- *
- *   void OnItemInsertedEvent(const ItemInsertedEvent& event)
- *   {
- *     ...
- *   }
- * };
- *
- * Widget widget;
- *
- * VectorItem item;
- *
- * ItemListener<VectorItem> listener;
- * listener.SetItem(&item);
- *
- * listener.Connect<DataChangedEvent>(&widget, &Widget::OnAnyEvent);
- * listener.Connect<ItemInsertedEvent>(&widget, &Widget::OnAnyEvent);
- * listener.Connect<ItemInsertedEvent>(&widget, &Widget::OnItemInsertedEvent);
- * @endcode
  */
 
 template <typename ItemT>
@@ -85,22 +59,26 @@ public:
 
   void SetItem(SessionItem* item)
   {
+    // no need to subscribe again if item is the same
     if (GetItem() == item)
     {
       return;
     }
 
+    // break previous subscription, if exist
     if (GetItem())
     {
       Unsubscribe();
       m_listener.reset();
     }
 
+    // if provided item is nullptr, leave everything unconnected
     if (!item)
     {
       return;
     }
 
+    // subscribe to new item
     m_listener = std::make_unique<ItemListener>(item);
     Subscribe();
   }
@@ -110,7 +88,7 @@ public:
    */
   ItemT* GetItem() const
   {
-    return static_cast<ItemT*>(m_listener ? m_listener->GetCurrentItem() : nullptr);
+    return static_cast<ItemT*>(m_listener ? m_listener->GetItem() : nullptr);
   }
 
   /**

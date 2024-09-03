@@ -30,27 +30,57 @@ namespace mvvm
 {
 
 /**
- * @brief The ItemListener class is a base for all objects willing to receive various signals
- * on SessionItem change.
+ * @brief The ItemListener class allows to subscribe to different event notifications related to
+ * given item.
+ *
+ * All subscribers should outlive ItemListener. On ItemListener's desrtuctions all connections will
+ * be terminated.
+ *
+ * @code{.cpp}
+ *
+ * class Widget
+ * {
+ *   void OnAnyEvent(const event_variant_t& event)
+ *   {
+ *     ...
+ *   }
+ *
+ *   void OnItemInsertedEvent(const ItemInsertedEvent& event)
+ *   {
+ *     ...
+ *   }
+ * };
+ *
+ * Widget widget;
+ * VectorItem vector_item;
+ *
+ * ItemListener<VectorItem> listener(&vector_item);
+ *
+ * // connect single method accepting event variant to two different events
+ * listener.Connect<DataChangedEvent>(&widget, &Widget::OnAnyEvent);
+ * listener.Connect<ItemInsertedEvent>(&widget, &Widget::OnAnyEvent);
+ *
+ * // connect method with concrete event signature
+ * listener.Connect<ItemInsertedEvent>(&widget, &Widget::OnItemInsertedEvent);
+ *
+ * // lambda to event variant
+ * auto on_event1 = [](const event_variant_t& event_variant) { ...};
+ * listener.Connect<ItemInsertedEvent>(on_event1);
+ *
+ * // lambda to concrete event
+ * auto on_event2 = [](const ItemInsertedEvent& event) { ...};
+ * listener.Connect<ItemInsertedEvent>(on_event2);
+ *
+ * @endcode
  */
 class MVVM_MODEL_EXPORT ItemListener
 {
 public:
-  ItemListener();
   explicit ItemListener(SessionItem* item);
   virtual ~ItemListener();
 
   ItemListener& operator=(const ItemListener& other) = delete;
   ItemListener(const ItemListener& other) = delete;
-
-  /**
-   * @brief Sets the item for listening.
-   *
-   * The call of this method will automatically unsubscribe from all notifications of the previous
-   * item, and then call the Unsubscribe method to let the derived class do additional bookkeeping.
-   * After that, it will call the Subscribe method to let the user subscribe to new signals.
-   */
-  void SetItem(SessionItem* item);
 
   /**
    * @brief Connects a callback to events specified by the given event type.
@@ -63,7 +93,7 @@ public:
   template <typename EventT>
   void Connect(const std::function<void(const event_variant_t&)>& callback)
   {
-    connect::Connect<EventT>(GetCurrentItem(), callback, GetSlot());
+    connect::Connect<EventT>(GetItem(), callback, GetSlot());
   }
 
   /**
@@ -96,7 +126,7 @@ public:
   template <typename EventT, typename ReceiverT>
   void Connect(ReceiverT* receiver, void (ReceiverT::*method)(const EventT&))
   {
-    connect::Connect<EventT>(GetCurrentItem(), receiver, method, GetSlot());
+    connect::Connect<EventT>(GetItem(), receiver, method, GetSlot());
   }
 
   /**
@@ -113,37 +143,19 @@ public:
   template <typename EventT, typename ReceiverT>
   void Connect(ReceiverT* receiver, void (ReceiverT::*method)(const event_variant_t&))
   {
-    connect::Connect<EventT>(GetCurrentItem(), receiver, method, GetSlot());
+    connect::Connect<EventT>(GetItem(), receiver, method, GetSlot());
   }
 
-  SessionItem* GetCurrentItem() const;
-
-protected:
-
   /**
-   * @brief Subscribe to a new item.
-   *
-   * Will be called on new item set. This method should be overridden in the derived class if the
-   * user wants to perform certain actions for the new item. For example, this is the place to
-   * subscribe other methods or lambdas to certain event types.
+   * @brief Returns current served item.
    */
-  virtual void Subscribe() {}
-
-  /**
-   * @brief Unsubscribe from the previous item.
-   *
-   * Will be called on new item set. This method should be overridden in the derived class if the
-   * user wants to perform additional unsubscription-related activity for the previous item. For
-   * example, it can be the cleanup of some view items, or controllers. Please note, that
-   * unsubscription from signals of the previous item will be performed automatically.
-   */
-  virtual void Unsubscribe() {}
+  SessionItem* GetItem() const;
 
 private:
   Slot* GetSlot() const;
 
-  struct ItemListenerImpl;
-  std::unique_ptr<ItemListenerImpl> p_impl;
+  SessionItem* m_item{nullptr};
+  std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 };
 
 }  // namespace mvvm
