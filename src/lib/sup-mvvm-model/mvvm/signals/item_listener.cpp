@@ -31,10 +31,7 @@ struct ItemListener::ItemListenerImpl
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
   ItemListener *m_self{nullptr};
 
-  explicit ItemListenerImpl(ItemListener *self)
-      : m_self(self), m_slot(std::make_unique<Slot>())
-  {
-  }
+  explicit ItemListenerImpl(ItemListener *self) : m_self(self), m_slot(std::make_unique<Slot>()) {}
 
   Slot *GetSlot() const { return m_slot.get(); }
 
@@ -51,10 +48,14 @@ struct ItemListener::ItemListenerImpl
   }
 };
 
-ItemListener::ItemListener() : p_impl(std::make_unique<ItemListenerImpl>(this)) {}
+ItemListener::ItemListener() : ItemListener(nullptr){};
 
-ItemListener::~ItemListener() =
-    default;  // destruction of m_slot will destruct all connections
+ItemListener::ItemListener(SessionItem *item) : p_impl(std::make_unique<ItemListenerImpl>(this))
+{
+  SetItem(item);
+}
+
+ItemListener::~ItemListener() = default;  // destruction of m_slot will destruct all connections
 
 void ItemListener::SetItem(SessionItem *item)
 {

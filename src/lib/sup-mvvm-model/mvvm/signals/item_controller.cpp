@@ -19,3 +19,8 @@
 
 #include "item_controller.h"
 
+namespace mvvm
+{
+
+
+}

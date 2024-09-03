@@ -85,6 +85,19 @@ public:
    * @brief Returns current item which was set for listening.
    */
   ItemT* GetItem() const { return static_cast<ItemT*>(GetCurrentItem()); }
+
+  /**
+   * @brief Returns underlying item listener.
+   *
+   * On every new item set, underlying listener is regenerated.
+   */
+  ItemListener* GetListener() const
+  {
+    return m_listener.get();
+  }
+
+private:
+  std::unique_ptr<ItemListener> m_listener;
 };
 
 }  // namespace mvvm

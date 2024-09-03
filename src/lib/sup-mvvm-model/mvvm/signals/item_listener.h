@@ -37,6 +37,7 @@ class MVVM_MODEL_EXPORT ItemListener
 {
 public:
   ItemListener();
+  explicit ItemListener(SessionItem* item);
   virtual ~ItemListener();
 
   ItemListener& operator=(const ItemListener& other) = delete;
