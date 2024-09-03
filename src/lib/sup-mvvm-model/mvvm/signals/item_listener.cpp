@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "item_listener_base.h"
+#include "item_listener.h"
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_item.h>
@@ -25,13 +25,13 @@
 namespace mvvm
 {
 
-struct ItemListenerBase::ItemListenerBaseImpl
+struct ItemListener::ItemListenerImpl
 {
   SessionItem *m_item{nullptr};
   std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
-  ItemListenerBase *m_self{nullptr};
+  ItemListener *m_self{nullptr};
 
-  explicit ItemListenerBaseImpl(ItemListenerBase *self)
+  explicit ItemListenerImpl(ItemListener *self)
       : m_self(self), m_slot(std::make_unique<Slot>())
   {
   }
@@ -51,12 +51,12 @@ struct ItemListenerBase::ItemListenerBaseImpl
   }
 };
 
-ItemListenerBase::ItemListenerBase() : p_impl(std::make_unique<ItemListenerBaseImpl>(this)) {}
+ItemListener::ItemListener() : p_impl(std::make_unique<ItemListenerImpl>(this)) {}
 
-ItemListenerBase::~ItemListenerBase() =
+ItemListener::~ItemListener() =
     default;  // destruction of m_slot will destruct all connections
 
-void ItemListenerBase::SetItem(SessionItem *item)
+void ItemListener::SetItem(SessionItem *item)
 {
   if (GetCurrentItem() == item)
   {
@@ -80,12 +80,12 @@ void ItemListenerBase::SetItem(SessionItem *item)
   Subscribe();
 }
 
-SessionItem *ItemListenerBase::GetCurrentItem() const
+SessionItem *ItemListener::GetCurrentItem() const
 {
   return p_impl->m_item;
 }
 
-Slot *ItemListenerBase::GetSlot() const
+Slot *ItemListener::GetSlot() const
 {
   return p_impl->m_slot.get();
 }

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_ITEM_LISTENER_BASE_H_
-#define MVVM_SIGNALS_ITEM_LISTENER_BASE_H_
+#ifndef MVVM_SIGNALS_ITEM_LISTENER_H_
+#define MVVM_SIGNALS_ITEM_LISTENER_H_
 
 #include <mvvm/model_export.h>
 #include <mvvm/signals/item_connect_utils.h>
@@ -30,17 +30,17 @@ namespace mvvm
 {
 
 /**
- * @brief The ItemListenerBase class is a base for all objects willing to receive various signals
+ * @brief The ItemListener class is a base for all objects willing to receive various signals
  * on SessionItem change.
  */
-class MVVM_MODEL_EXPORT ItemListenerBase
+class MVVM_MODEL_EXPORT ItemListener
 {
 public:
-  ItemListenerBase();
-  virtual ~ItemListenerBase();
+  ItemListener();
+  virtual ~ItemListener();
 
-  ItemListenerBase& operator=(const ItemListenerBase& other) = delete;
-  ItemListenerBase(const ItemListenerBase& other) = delete;
+  ItemListener& operator=(const ItemListener& other) = delete;
+  ItemListener(const ItemListener& other) = delete;
 
   /**
    * @brief Sets the item for listening.
@@ -140,10 +140,10 @@ protected:
 private:
   Slot* GetSlot() const;
 
-  struct ItemListenerBaseImpl;
-  std::unique_ptr<ItemListenerBaseImpl> p_impl;
+  struct ItemListenerImpl;
+  std::unique_ptr<ItemListenerImpl> p_impl;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_ITEM_LISTENER_BASE_H_
+#endif  // MVVM_SIGNALS_ITEM_LISTENER_H_

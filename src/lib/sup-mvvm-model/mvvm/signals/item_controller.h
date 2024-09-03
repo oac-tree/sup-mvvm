@@ -20,7 +20,7 @@
 #ifndef MVVM_SIGNALS_ITEM_CONTROLLER_H_
 #define MVVM_SIGNALS_ITEM_CONTROLLER_H_
 
-#include <mvvm/signals/item_listener_base.h>
+#include <mvvm/signals/item_listener.h>
 
 namespace mvvm
 {
@@ -68,7 +68,7 @@ class SessionItem;
  */
 
 template <typename ItemT>
-class ItemController : public ItemListenerBase
+class ItemController : public ItemListener
 {
 public:
   /**

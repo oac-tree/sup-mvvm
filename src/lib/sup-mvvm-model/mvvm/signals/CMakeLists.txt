@@ -3,8 +3,8 @@ target_sources(${library_name} PRIVATE
   item_connect_utils.h
   item_controller.h
   item_controller.cpp
-  item_listener_base.cpp
-  item_listener_base.h
+  item_listener.cpp
+  item_listener.h
   lsignal.h
   model_event_handler.cpp
   model_event_handler.h
