@@ -20,7 +20,7 @@
 #ifndef MVVM_PLOTTING_CHARTS_LINE_SERIES_CONTROLLER_H_
 #define MVVM_PLOTTING_CHARTS_LINE_SERIES_CONTROLLER_H_
 
-#include <mvvm/signals/item_listener.h>
+#include <mvvm/signals/item_controller.h>
 
 #include <memory>
 

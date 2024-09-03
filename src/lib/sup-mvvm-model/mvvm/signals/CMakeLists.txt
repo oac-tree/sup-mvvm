@@ -1,7 +1,8 @@
 target_sources(${library_name} PRIVATE
   item_connect_utils.cpp
   item_connect_utils.h
-  item_listener.h
+  item_controller.h
+  item_controller.cpp
   item_listener_base.cpp
   item_listener_base.h
   lsignal.h

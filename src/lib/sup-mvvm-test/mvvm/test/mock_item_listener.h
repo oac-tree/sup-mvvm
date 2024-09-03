@@ -20,7 +20,7 @@
 #ifndef MVVM_TEST_MOCK_ITEM_LISTENER_H_
 #define MVVM_TEST_MOCK_ITEM_LISTENER_H_
 
-#include <mvvm/signals/item_listener.h>
+#include <mvvm/signals/item_controller.h>
 
 #include <gmock/gmock.h>
 

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_ITEM_LISTENER_H_
-#define MVVM_SIGNALS_ITEM_LISTENER_H_
+#ifndef MVVM_SIGNALS_ITEM_CONTROLLER_H_
+#define MVVM_SIGNALS_ITEM_CONTROLLER_H_
 
 #include <mvvm/signals/item_listener_base.h>
 
@@ -28,17 +28,14 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The ItemListener class is a templated class to listen for changes in concrete SessionItem.
+ * @brief The ItemController class provides a subscription/unsubscription mechanism to listen for
+ * changes in SessionItem.
  *
- * It can be used as a base class, or as a standalone listener. Objects connect to an item via the
- * listener with their callbacks. The lifetime of connected objects should exceed the lifetime
- * of this listener. The callbacks will be called on the item change as long as the listener is
- * alive.
+ * It is normally intended to be a base class for a controller to work with multiple items (one item
+ * at a time). The user should override Subscribe/Unsubscribe methods to provide automatic
+ * connections and additional bookkeeping on new item changes.
  *
- * When used as a base class, the user can override Subscribe Unsubscribe methods to provide
- * automatic connections and additional bookkeeping on new item changes. In this case, the listener
- * can play the role of the single controller, capable of working with multiple items (one item at a
- * time).
+ * To provide simple item listening of a single item, use the ItemListener class instead.
  *
  * @tparam ItemT Type of the concrete SessionItem to listen.
  *
@@ -82,10 +79,7 @@ public:
   /**
    * @brief c-tor that starts listening item from the beginning.
    */
-  explicit ItemController(ItemT* item)
-  {
-    SetItem(item);
-  }
+  explicit ItemController(ItemT* item) { SetItem(item); }
 
   /**
    * @brief Returns current item which was set for listening.
@@ -95,4 +89,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_ITEM_LISTENER_H_
+#endif  // MVVM_SIGNALS_ITEM_CONTROLLER_H_
