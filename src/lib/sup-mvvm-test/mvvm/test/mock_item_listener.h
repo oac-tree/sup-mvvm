@@ -33,28 +33,13 @@ class TagIndex;
 namespace mvvm::test
 {
 
-//! Mocking class to test events coming on item change.
-
-class MockItemListener : public mvvm::ItemController<mvvm::SessionItem>
+/**
+ * @brief The MockItemListener class is a mocking class to test events coming on item change.
+ */
+class MockItemListener : public mvvm::ItemListener
 {
 public:
-  explicit MockItemListener(mvvm::SessionItem* item) { SetItem(item); }
-
-  MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
-
-  MOCK_METHOD(void, Unsubscribe, ());
-
-protected:
-  void Subscribe() override;
-};
-
-//! Mocking class to test events coming on item change. The difference with the class above is a
-//! connection to separate slots to simplify wiring of unit tests.
-
-class MockItemListenerV2 : public mvvm::ItemController<mvvm::SessionItem>
-{
-public:
-  explicit MockItemListenerV2(mvvm::SessionItem* item) { SetItem(item); }
+  explicit MockItemListener(mvvm::SessionItem* item);
 
   MOCK_METHOD(void, OnItemInserted, (const mvvm::ItemInsertedEvent& event), ());
   MOCK_METHOD(void, OnAboutToRemoveItem, (const mvvm::AboutToRemoveItemEvent& event), ());
@@ -73,11 +58,6 @@ public:
   void OnItemRemovedEvent(const mvvm::ItemRemovedEvent& event) { OnItemRemoved(event); }
   void OnDataChangedEvent(const mvvm::DataChangedEvent& event) { OnDataChanged(event); }
   void OnPropertyChangedEvent(const mvvm::PropertyChangedEvent& event) { OnPropertyChanged(event); }
-
-  MOCK_METHOD(void, Unsubscribe, ());
-
-protected:
-  void Subscribe() override;
 };
 
 }  // namespace mvvm::test

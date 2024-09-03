@@ -103,7 +103,7 @@ TEST_F(LinkedItemTests, onSetLink)
   auto expected_item = link;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnDataChanged(expected_event)).Times(1);
 
   // making action
   link->SetLink(item);

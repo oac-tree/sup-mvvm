@@ -93,7 +93,7 @@ TEST_F(GraphViewportItemTests, OnAddItem)
 
   const TagIndex expected_tagrow{ViewportItem::kItems, 0};
   ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
-  EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnItemInserted(expected_event)).Times(1);
 
   // triggering action
   auto graph = model.InsertItem<GraphItem>(viewport_item);

@@ -80,7 +80,7 @@ TEST_F(AxisPlotControllerTests, SetItemRange)
   // update loops.
   mock_listener_t widget(axis_item);
   mvvm::PropertyChangedEvent expected_event{axis_item, mvvm::ViewportAxisItem::kMax};
-  EXPECT_CALL(widget, OnEvent(mvvm::event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnPropertyChanged(expected_event)).Times(1);
 
   axis_item->SetMax(5.0);
 
@@ -105,7 +105,7 @@ TEST_F(AxisPlotControllerTests, SetQtQxisRange)
 
   mock_listener_t widget(axis_item);
   mvvm::PropertyChangedEvent expected_event{axis_item, mvvm::ViewportAxisItem::kMax};
-  EXPECT_CALL(widget, OnEvent(mvvm::event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(widget, OnPropertyChanged(expected_event)).Times(1);
 
   axis.setMax(5.0);
 

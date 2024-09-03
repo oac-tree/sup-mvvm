@@ -53,10 +53,8 @@ public:
   virtual ~ItemController() = default;
 
   /**
-   * @brief c-tor that starts listening item from the beginning.
+   * @brief Sets and item for listening.
    */
-  explicit ItemController(ItemT* item) { SetItem(item); }
-
   void SetItem(SessionItem* item)
   {
     // no need to subscribe again if item is the same
