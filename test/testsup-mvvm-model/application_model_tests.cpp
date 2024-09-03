@@ -61,7 +61,7 @@ TEST_F(ApplicationModelTests, SetData)
   mock_listener_t listener(&m_model);
 
   DataChangedEvent expected_event{item, DataRole::kData};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   // changing the data and checking result
   EXPECT_TRUE(m_model.SetData(item, 42, DataRole::kData));
@@ -80,7 +80,7 @@ TEST_F(ApplicationModelTests, SetDataThroughItem)
   mock_listener_t listener(&m_model);
 
   DataChangedEvent expected_event{item, DataRole::kData};
-  EXPECT_CALL(listener, OnEvent(event_variant_t(expected_event))).Times(1);
+  EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   // changing the data through the item (should still trigger notifications through the model)
   EXPECT_TRUE(item->SetData(42, DataRole::kData));
@@ -122,11 +122,11 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item into the root
@@ -149,11 +149,11 @@ TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item into the root
@@ -184,11 +184,11 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item
@@ -214,11 +214,11 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item (pretending that we do not have direct access to the model)
@@ -242,11 +242,11 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item (pretending that we do not have direct access to the model)
@@ -274,11 +274,11 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item
@@ -340,11 +340,11 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemInsertedEvent{parent, tag_index};
+    AboutToInsertItemEvent expected_event1{parent, tag_index};
+    ItemInsertedEvent expected_event2{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
   }
 
   // inserting item
@@ -371,10 +371,10 @@ TEST_F(ApplicationModelTests, TakeItem)
 
   {
     ::testing::InSequence seq;
-    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    ItemRemovedEvent expected_event2{parent, tag_index};
+    EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
 
   // removing item
@@ -399,10 +399,10 @@ TEST_F(ApplicationModelTests, RemoveItem)
 
   {
     ::testing::InSequence seq;
-    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    ItemRemovedEvent expected_event2{parent, tag_index};
+    EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
 
   // removing item
@@ -426,10 +426,10 @@ TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
 
   {
     ::testing::InSequence seq;
-    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    ItemRemovedEvent expected_event2{parent, tag_index};
+    EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
 
   // removing item
@@ -454,15 +454,15 @@ TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_event1 = AboutToRemoveItemEvent{parent, tag_index};
-    event_variant_t expected_event2 = ItemRemovedEvent{parent, tag_index};
-    event_variant_t expected_event3 = AboutToInsertItemEvent{parent, tag_index};
-    event_variant_t expected_event4 = ItemInsertedEvent{parent, tag_index};
+    AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    ItemRemovedEvent expected_event2{parent, tag_index};
+    AboutToInsertItemEvent expected_event3{parent, tag_index};
+    ItemInsertedEvent expected_event4{parent, tag_index};
 
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event3)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event4)).Times(1);
+    EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event3)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event4)).Times(1);
   }
 
   // inserting item (pretending that we do not have direct access to the model)
@@ -496,15 +496,15 @@ TEST_F(ApplicationModelTests, MoveItem)
   {
     ::testing::InSequence seq;
 
-    event_variant_t expected_remove_event1 = AboutToRemoveItemEvent{parent1, tag_index1};
-    event_variant_t expected_remove_event2 = ItemRemovedEvent{parent1, tag_index1};
-    EXPECT_CALL(listener, OnEvent(expected_remove_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_remove_event2)).Times(1);
+    AboutToRemoveItemEvent expected_event1{parent1, tag_index1};
+    ItemRemovedEvent expected_event2{parent1, tag_index1};
+    EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
 
-    event_variant_t expected_insert_event1 = AboutToInsertItemEvent{parent2, tag_index2};
-    event_variant_t expected_insert_event2 = ItemInsertedEvent{parent2, tag_index2};
-    EXPECT_CALL(listener, OnEvent(expected_insert_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_insert_event2)).Times(1);
+    AboutToInsertItemEvent expected_event3{parent2, tag_index2};
+    ItemInsertedEvent expected_event4{parent2, tag_index2};
+    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event3)).Times(1);
+    EXPECT_CALL(listener, OnItemInserted(expected_event4)).Times(1);
   }
 
   // removing item
@@ -551,10 +551,10 @@ TEST_F(ApplicationModelTests, Clear)
 
   {
     ::testing::InSequence seq;
-    event_variant_t expected_event1 = ModelAboutToBeResetEvent{&m_model};
-    event_variant_t expected_event2 = ModelResetEvent{&m_model};
-    EXPECT_CALL(listener, OnEvent(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnEvent(expected_event2)).Times(1);
+    ModelAboutToBeResetEvent expected_event1{&m_model};
+    ModelResetEvent expected_event2{&m_model};
+    EXPECT_CALL(listener, OnModelAboutToBeReset(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnModelReset(expected_event2)).Times(1);
   }
 
   // removing item
@@ -577,8 +577,8 @@ TEST_F(ApplicationModelTests, Destroy)
 
   mock_listener_t listener(model.get());
 
-  event_variant_t expected_event = ModelAboutToBeDestroyedEvent{model.get()};
-  EXPECT_CALL(listener, OnEvent(expected_event)).Times(1);
+  ModelAboutToBeDestroyedEvent expected_event{model.get()};
+  EXPECT_CALL(listener, OnModelAboutToBeDestroyed(expected_event)).Times(1);
 
   // triggering expectations
   model.reset();
