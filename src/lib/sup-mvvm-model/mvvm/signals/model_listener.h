@@ -145,8 +145,8 @@ private:
   ModelEventHandler* GetEventHandler();
   Slot* GetSlot() const;
 
-  struct ModelListenerImpl;
-  std::unique_ptr<ModelListenerImpl> p_impl;
+  const ISessionModel* m_model{nullptr};
+  std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
 };
 
 }  // namespace mvvm

@@ -25,51 +25,36 @@
 namespace mvvm
 {
 
-struct ModelListener::ModelListenerImpl
-{
-  const ISessionModel *m_model{nullptr};
-  std::unique_ptr<Slot> m_slot;  //!< slot used to define time-of-life of all connections
-
-  ModelEventHandler *GetEventHandler() const { return m_model->GetEventHandler(); }
-
-  Slot *GetSlot() const { return m_slot.get(); }
-
-  explicit ModelListenerImpl(const ISessionModel *model)
-      : m_model(model), m_slot(std::make_unique<Slot>())
-  {
-    if (!m_model)
-    {
-      throw NullArgumentException("Attempt to set-up listener for uninitialized model");
-    }
-
-    if (!m_model->GetEventHandler())
-    {
-      throw NullArgumentException(
-          "Attempt to set-up listener for the model which lacks event handler");
-    }
-  }
-};
-
 ModelListener::ModelListener(const ISessionModel *model)
-    : p_impl(std::make_unique<ModelListenerImpl>(model))
+    : m_model(model), m_slot(std::make_unique<Slot>())
 {
+  if (!m_model)
+  {
+    throw NullArgumentException("Attempt to set-up listener for uninitialized model");
+  }
+
+  if (!m_model->GetEventHandler())
+  {
+    throw NullArgumentException(
+        "Attempt to set-up listener for the model which lacks event handler");
+  }
 }
 
 ModelListener::~ModelListener() = default;
 
 const ISessionModel *ModelListener::GetModel() const
 {
-  return p_impl->m_model;
+  return m_model;
 }
 
 ModelEventHandler *ModelListener::GetEventHandler()
 {
-  return p_impl->GetEventHandler();
+  return m_model->GetEventHandler();
 }
 
 Slot *ModelListener::GetSlot() const
 {
-  return p_impl->GetSlot();
+  return m_slot.get();
 }
 
 }  // namespace mvvm
