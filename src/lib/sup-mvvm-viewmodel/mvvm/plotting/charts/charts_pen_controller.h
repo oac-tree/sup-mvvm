@@ -36,7 +36,7 @@ class PenItem;
  * @brief The ChartsPenController class propagates color, line style and width changes from PenItem to
  * QtChart::QLineSeries.
  */
-class ChartsPenController : public mvvm::ItemListener<mvvm::PenItem>
+class ChartsPenController : public mvvm::ItemController<mvvm::PenItem>
 {
 public:
   explicit ChartsPenController(QtCharts::QLineSeries* line_series);

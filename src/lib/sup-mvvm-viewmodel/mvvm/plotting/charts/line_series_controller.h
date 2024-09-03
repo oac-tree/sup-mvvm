@@ -45,7 +45,7 @@ class ChartsPenController;
  *
  * In the future it will be extended to control generic graph  properties, like a pen, titles, etc.
  */
-class LineSeriesController : public mvvm::ItemListener<LineSeriesItem>
+class LineSeriesController : public mvvm::ItemController<LineSeriesItem>
 {
 public:
   /**

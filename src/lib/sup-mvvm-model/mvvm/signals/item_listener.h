@@ -71,18 +71,18 @@ class SessionItem;
  */
 
 template <typename ItemT>
-class ItemListener : public ItemListenerBase
+class ItemController : public ItemListenerBase
 {
 public:
   /**
    * @brief Default c-tor when no item is set for listening yet.
    */
-  ItemListener() = default;
+  ItemController() = default;
 
   /**
    * @brief c-tor that starts listening item from the beginning.
    */
-  explicit ItemListener(ItemT* item)
+  explicit ItemController(ItemT* item)
   {
     SetItem(item);
   }

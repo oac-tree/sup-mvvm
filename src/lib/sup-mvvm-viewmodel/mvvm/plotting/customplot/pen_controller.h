@@ -35,7 +35,7 @@ class PenItem;
 //! Establishes communication between QCPGraph and PenItem.
 //! Provides update of QCPGraph's color, line style and width when PenItem is changed.
 
-class MVVM_VIEW_EXPORT PenController : public ItemListener<PenItem>
+class MVVM_VIEW_EXPORT PenController : public ItemController<PenItem>
 {
 public:
   explicit PenController(QCPGraph* graph);

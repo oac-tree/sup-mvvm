@@ -34,7 +34,7 @@ class TextItem;
 
 //! Propagates title settings from TextItem to QCPAxis.
 
-class MVVM_VIEW_EXPORT AxisTitleController : public ItemListener<TextItem>
+class MVVM_VIEW_EXPORT AxisTitleController : public ItemController<TextItem>
 {
 public:
   explicit AxisTitleController(QCPAxis* axis);

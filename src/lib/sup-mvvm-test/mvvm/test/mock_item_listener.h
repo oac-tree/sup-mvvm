@@ -35,7 +35,7 @@ namespace mvvm::test
 
 //! Mocking class to test events coming on item change.
 
-class MockItemListener : public mvvm::ItemListener<mvvm::SessionItem>
+class MockItemListener : public mvvm::ItemController<mvvm::SessionItem>
 {
 public:
   explicit MockItemListener(mvvm::SessionItem* item) { SetItem(item); }
@@ -51,7 +51,7 @@ protected:
 //! Mocking class to test events coming on item change. The difference with the class above is a
 //! connection to separate slots to simplify wiring of unit tests.
 
-class MockItemListenerV2 : public mvvm::ItemListener<mvvm::SessionItem>
+class MockItemListenerV2 : public mvvm::ItemController<mvvm::SessionItem>
 {
 public:
   explicit MockItemListenerV2(mvvm::SessionItem* item) { SetItem(item); }

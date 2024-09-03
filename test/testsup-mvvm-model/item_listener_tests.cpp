@@ -36,13 +36,13 @@ public:
 
 TEST_F(ItemListenerTests, InitialState)
 {
-  const ItemListener<SessionItem> listener;
+  const ItemController<SessionItem> listener;
   EXPECT_EQ(listener.GetItem(), nullptr);
 }
 
 TEST_F(ItemListenerTests, SetItem)
 {
-  ItemListener<SessionItem> listener;
+  ItemController<SessionItem> listener;
 
   // listener can't listen an item without the model
   SessionItem item1;
@@ -167,7 +167,7 @@ TEST_F(ItemListenerTests, LambdaOnEventVariant)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  ItemListener<SessionItem> listener(item);
+  ItemController<SessionItem> listener(item);
   testing::MockFunction<void(const event_variant_t&)> widget;
 
   listener.Connect<DataChangedEvent>(widget.AsStdFunction());
@@ -192,7 +192,7 @@ TEST_F(ItemListenerTests, LambdaOnConcreteEvent)
   auto item = model.InsertItem<SessionItem>();
   item->SetData(42, DataRole::kData);
 
-  ItemListener<SessionItem> listener(item);
+  ItemController<SessionItem> listener(item);
   testing::MockFunction<void(const DataChangedEvent&)> widget;
 
   listener.Connect<DataChangedEvent>(widget.AsStdFunction());

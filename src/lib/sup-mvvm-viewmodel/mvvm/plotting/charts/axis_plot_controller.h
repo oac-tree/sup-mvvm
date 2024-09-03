@@ -41,7 +41,7 @@ class ViewportAxisItem;
  *
  * It provides mutual updates of axis parameters (min, max) between two axes representations.
  */
-class AxisPlotController : public mvvm::ItemListener<mvvm::ViewportAxisItem>
+class AxisPlotController : public mvvm::ItemController<mvvm::ViewportAxisItem>
 {
 public:
   explicit AxisPlotController(QtCharts::QAbstractAxis* axis);

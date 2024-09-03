@@ -46,7 +46,7 @@ class LineSeriesItem;
  * It listens ChartViewportItems and propagates changes into QChart scene. On insertion/removal of
  * LineSeriesItem it will create/remove corresponding QtCharts::QLineSeries object.
  */
-class ChartViewportController : public ItemListener<ChartViewportItem>
+class ChartViewportController : public ItemController<ChartViewportItem>
 {
 public:
   /**
