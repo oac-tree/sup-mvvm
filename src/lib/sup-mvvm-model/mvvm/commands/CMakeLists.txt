@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   i_command_stack.h
   insert_item_command.cpp
   insert_item_command.h
+  macro_command.cpp
+  macro_command.h
   remove_item_command.cpp
   remove_item_command.h
   set_value_command.cpp
