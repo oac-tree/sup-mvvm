@@ -48,6 +48,9 @@ struct AbstractCommand::AbstractCommandImpl
 
 AbstractCommand::AbstractCommand() : p_impl(std::make_unique<AbstractCommandImpl>(this)) {}
 
+
+AbstractCommand::~AbstractCommand() = default;
+
 void AbstractCommand::Execute()
 {
   if (!p_impl->CanExecute())
@@ -91,7 +94,5 @@ void AbstractCommand::SetDescription(const std::string& text) const
 {
   p_impl->m_description = text;
 }
-
-AbstractCommand::~AbstractCommand() = default;
 
 }  // namespace mvvm

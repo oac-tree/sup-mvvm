@@ -27,8 +27,9 @@
 namespace mvvm
 {
 
-//! Interface class for generic command.
-
+/**
+ * @brief The AbstractCommand class provides partial implementation of ICommand interface.
+ */
 class MVVM_MODEL_EXPORT AbstractCommand : public ICommand
 {
 public:

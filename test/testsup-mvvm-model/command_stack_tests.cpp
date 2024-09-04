@@ -25,8 +25,6 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <functional>
-
 using namespace mvvm;
 using ::testing::_;
 

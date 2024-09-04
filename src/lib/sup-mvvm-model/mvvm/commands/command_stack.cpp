@@ -49,7 +49,7 @@ ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 
   if (command->IsObsolete())
   {
-    throw RuntimeException("Attempt to inser obsolete command");
+    throw RuntimeException("Attempt to insert obsolete command");
   }
 
   // removing commands from the 'next redo` position till the end

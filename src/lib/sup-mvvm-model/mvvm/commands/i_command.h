@@ -27,29 +27,44 @@
 namespace mvvm
 {
 
-//! Interface class for generic command.
-
+/**
+ * @brief The ICommand class is an interface for generic command of the undo/redo framework.
+ */
 class MVVM_MODEL_EXPORT ICommand
 {
 public:
   virtual ~ICommand() = default;
 
-  //! Execute the command.
+  /**
+   * @brief Executes the command.
+   */
   virtual void Execute() = 0;
 
-  //! Undo command as it was before execution.
+  /**
+   * @brief Undoes command as it was before execution.
+   */
   virtual void Undo() = 0;
 
-  //! Returns whether the command is obsolete (which means that it shouldn't be kept in the stack).
+  /**
+   * @brief Checks whether the command is obsolete.
+   *
+   * Obsolete command is considered as unimportant, and will not be kept in the command stack.
+   */
   virtual bool IsObsolete() const = 0;
 
-  //! Sets obsolete flag.
+  /**
+   * @brief Sets obsolete flag to a given value.
+   */
   virtual void SetIsObsolete(bool value) = 0;
 
-  //! Returns the command description.
+  /**
+   * @brief Returns command description.
+   */
   virtual std::string GetDescription() const = 0;
 
-  //! Set command description.
+  /**
+   * @brief Sets command description.
+   */
   virtual void SetDescription(const std::string& text) const = 0;
 };
 
