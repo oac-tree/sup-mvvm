@@ -22,53 +22,19 @@
 #include <mvvm/commands/abstract_command.h>
 #include <mvvm/core/exceptions.h>
 
+#include <mvvm/test/mock_command.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace mvvm;
 using ::testing::_;
 
-class CommandStackTests : public ::testing::Test
+class CommandStackTest : public ::testing::Test
 {
-public:
-  //! Mock class to test AbstractCommand.
-  class MockCommand : public AbstractCommand
-  {
-  public:
-    MOCK_METHOD(void, ExecuteImpl, ());
-    MOCK_METHOD(void, UndoImpl, ());
-  };
-
-  //! Command decorator to use together with CommandStack. It wraps MockCommand to prevent passing
-  //! an ownership to CommandStack. Will help with googletest warnings related to
-  //! testing::Mock::AllowLeak.
-  class CommandDecorator : public AbstractCommand
-  {
-  public:
-    explicit CommandDecorator(MockCommand& decoratee) : m_decoratee(&decoratee) {}
-
-    bool IsObsolete() const override { return m_decoratee->IsObsolete(); }
-
-    void SetMakeObsoleteAfterExecution() { m_make_obsolete = true; }
-
-  private:
-    void ExecuteImpl() override
-    {
-      m_decoratee->ExecuteImpl();
-      if (m_make_obsolete)
-      {
-        m_decoratee->SetIsObsolete(true);
-      }
-    }
-
-    void UndoImpl() override { m_decoratee->UndoImpl(); }
-
-    MockCommand* m_decoratee{nullptr};
-    bool m_make_obsolete{false};
-  };
 };
 
-TEST_F(CommandStackTests, InitialState)
+TEST_F(CommandStackTest, InitialState)
 {
   CommandStack stack;
 
@@ -79,14 +45,13 @@ TEST_F(CommandStackTests, InitialState)
 }
 
 //! Execute single command.
-
-TEST_F(CommandStackTests, SingleCommandExecution)
+TEST_F(CommandStackTest, SingleCommandExecution)
 {
-  MockCommand mock_command;
+  test::MockCommand mock_command;
 
   CommandStack stack;
 
-  auto command = std::make_unique<CommandDecorator>(mock_command);
+  auto command = std::make_unique<test::CommandDecorator>(mock_command);
   auto command_ptr = command.get();
 
   EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
@@ -101,15 +66,14 @@ TEST_F(CommandStackTests, SingleCommandExecution)
 }
 
 //! Execute single command which is obsolete already before the execution.
-
-TEST_F(CommandStackTests, SingleCommandIsObsoleteBeforeExecution)
+TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
 {
-  MockCommand mock_command;
+  test::MockCommand mock_command;
   mock_command.SetIsObsolete(true);
 
   CommandStack stack;
 
-  auto command = std::make_unique<CommandDecorator>(mock_command);
+  auto command = std::make_unique<test::CommandDecorator>(mock_command);
 
   EXPECT_CALL(mock_command, ExecuteImpl()).Times(0);
   EXPECT_CALL(mock_command, UndoImpl()).Times(0);
@@ -123,14 +87,14 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteBeforeExecution)
 }
 
 //! Execute single command which gets obsolete after execution.
-
-TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
+TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
 {
-  MockCommand mock_command;
+  test::MockCommand mock_command;
 
   CommandStack stack;
 
-  auto command = std::make_unique<CommandDecorator>(mock_command);
+  auto command = std::make_unique<test::CommandDecorator>(mock_command);
+
   command->SetMakeObsoleteAfterExecution();
 
   EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
@@ -145,17 +109,16 @@ TEST_F(CommandStackTests, SingleCommandIsObsoleteAfterExecution)
 }
 
 //! Execute single command, then undo, then redo again
-
-TEST_F(CommandStackTests, SingleCommandExecuteUndoRedo)
+TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
 {
-  MockCommand mock_command;
+  test::MockCommand mock_command;
 
   CommandStack stack;
 
-  auto command = std::make_unique<CommandDecorator>(mock_command);
+  auto command = std::make_unique<test::CommandDecorator>(mock_command);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command, UndoImpl()).Times(1);
     EXPECT_CALL(mock_command, ExecuteImpl()).Times(1);
@@ -182,16 +145,15 @@ TEST_F(CommandStackTests, SingleCommandExecuteUndoRedo)
 }
 
 //! Execute two commands, then two undo, then two redo.
-
-TEST_F(CommandStackTests, TwoCommandsExecution)
+TEST_F(CommandStackTest, TwoCommandsExecution)
 {
-  MockCommand mock_command1;
-  MockCommand mock_command2;
+  test::MockCommand mock_command1;
+  test::MockCommand mock_command2;
 
   CommandStack stack;
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command2, UndoImpl()).Times(1);
@@ -200,14 +162,14 @@ TEST_F(CommandStackTests, TwoCommandsExecution)
     EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
   }
 
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command1));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command1));
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
   EXPECT_EQ(stack.GetSize(), 1);
 
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command2));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command2));
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
@@ -243,20 +205,19 @@ TEST_F(CommandStackTests, TwoCommandsExecution)
   EXPECT_EQ(stack.GetSize(), 2);
 }
 
-//! Inserts three commands, make undo twice, and then insert new command.
-//! It should replace two last commands.
-
-TEST_F(CommandStackTests, InsertInTheMiddleOfUndo)
+//! Inserts three commands, make undo twice, and then insert new command. It should replace two last
+//! commands.
+TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
 {
-  MockCommand mock_command1;
-  MockCommand mock_command2;
-  MockCommand mock_command3;
-  MockCommand mock_command4;
+  test::MockCommand mock_command1;
+  test::MockCommand mock_command2;
+  test::MockCommand mock_command3;
+  test::MockCommand mock_command4;
 
   CommandStack stack;
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command3, ExecuteImpl()).Times(1);
@@ -265,9 +226,9 @@ TEST_F(CommandStackTests, InsertInTheMiddleOfUndo)
     EXPECT_CALL(mock_command4, ExecuteImpl()).Times(1);
   }
 
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command1));
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command2));
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command3));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command1));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command2));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command3));
 
   stack.Undo();
   stack.Undo();
@@ -278,7 +239,7 @@ TEST_F(CommandStackTests, InsertInTheMiddleOfUndo)
   EXPECT_EQ(stack.GetSize(), 3);
 
   // insertion of a new command should remove command2 and command3 from the stack
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command4));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command4));
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
@@ -286,28 +247,27 @@ TEST_F(CommandStackTests, InsertInTheMiddleOfUndo)
   EXPECT_EQ(stack.GetSize(), 2);
 }
 
-//! Inserts three commands, make undo twice, and then insert new command.
-//! It should replace two last commands.
-
-TEST_F(CommandStackTests, CleanCommands)
+//! Inserts three commands, make undo twice, and then insert new command. It should replace two last
+//! commands.
+TEST_F(CommandStackTest, CleanCommands)
 {
-  MockCommand mock_command1;
-  MockCommand mock_command2;
-  MockCommand mock_command3;
+  test::MockCommand mock_command1;
+  test::MockCommand mock_command2;
+  test::MockCommand mock_command3;
 
   CommandStack stack;
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(mock_command1, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command2, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command3, ExecuteImpl()).Times(1);
     EXPECT_CALL(mock_command3, UndoImpl()).Times(1);
   }
 
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command1));
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command2));
-  stack.Execute(std::make_unique<CommandDecorator>(mock_command3));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command1));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command2));
+  stack.Execute(std::make_unique<test::CommandDecorator>(mock_command3));
 
   stack.Undo();
 

@@ -21,6 +21,8 @@
 
 #include <mvvm/core/exceptions.h>
 
+#include <mvvm/test/mock_command.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -31,20 +33,13 @@ using ::testing::_;
 
 class AbstractCommandTests : public ::testing::Test
 {
-public:
-  class TestCommand : public AbstractCommand
-  {
-  public:
-    MOCK_METHOD(void, ExecuteImpl, ());
-    MOCK_METHOD(void, UndoImpl, ());
-  };
 };
 
 //! Initial state.
 
 TEST_F(AbstractCommandTests, InitialState)
 {
-  TestCommand command;
+  test::MockCommand command;
 
   EXPECT_TRUE(command.GetDescription().empty());
   EXPECT_FALSE(command.IsObsolete());
@@ -60,7 +55,7 @@ TEST_F(AbstractCommandTests, InitialState)
 
 TEST_F(AbstractCommandTests, Execute)
 {
-  TestCommand command;
+  test::MockCommand command;
 
   EXPECT_CALL(command, ExecuteImpl()).Times(1);
   EXPECT_CALL(command, UndoImpl()).Times(0);
@@ -76,7 +71,7 @@ TEST_F(AbstractCommandTests, Execute)
 
 TEST_F(AbstractCommandTests, UndoOnStart)
 {
-  TestCommand command;
+  test::MockCommand command;
 
   EXPECT_CALL(command, ExecuteImpl()).Times(0);
   EXPECT_CALL(command, UndoImpl()).Times(0);
@@ -90,7 +85,7 @@ TEST_F(AbstractCommandTests, UndoOnStart)
 
 TEST_F(AbstractCommandTests, Undo)
 {
-  TestCommand command;
+  test::MockCommand command;
 
   {
     ::testing::InSequence seq;
@@ -111,7 +106,7 @@ TEST_F(AbstractCommandTests, Undo)
 
 TEST_F(AbstractCommandTests, ExecuteUndoExecute)
 {
-  TestCommand command;
+  test::MockCommand command;
 
   {
     ::testing::InSequence seq;
@@ -129,7 +124,7 @@ TEST_F(AbstractCommandTests, ExecuteUndoExecute)
 
 TEST_F(AbstractCommandTests, UndoOfObsoleteCommand)
 {
-  TestCommand command;
+  test::MockCommand command;
 
   {
     ::testing::InSequence seq;
