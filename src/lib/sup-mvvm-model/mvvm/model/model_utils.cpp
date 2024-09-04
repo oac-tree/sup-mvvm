@@ -24,13 +24,13 @@
 #include "path.h"
 #include "taginfo.h"
 
-#include <mvvm/commands/command_stack_interface.h>
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_session_model.h>
 
 namespace
 {
 //! Returns CommandStack from the model, or nullptr if the stack doesn't exist.
-mvvm::CommandStackInterface* GetCommandStack(const mvvm::ISessionModel& model)
+mvvm::ICommandStack* GetCommandStack(const mvvm::ISessionModel& model)
 {
   if (auto application_model = dynamic_cast<const mvvm::ApplicationModel*>(&model);
       application_model)

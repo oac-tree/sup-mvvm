@@ -27,7 +27,7 @@
 namespace mvvm
 {
 class ModelEventHandler;
-class CommandStackInterface;
+class ICommandStack;
 
 //! Main class to hold application data. Extends SessionModel with signaling capabilities.
 //! All modification of the model are done through the composer, which takes care
@@ -49,7 +49,7 @@ public:
 
   void SetUndoEnabled(bool value);
 
-  CommandStackInterface* GetCommandStack() const;
+  ICommandStack* GetCommandStack() const;
 
 private:
   struct ApplicationModelImpl;

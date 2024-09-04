@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_COMMAND_MODEL_COMPOSER_H_
 #define MVVM_COMMANDS_COMMAND_MODEL_COMPOSER_H_
 
-#include <mvvm/commands/command_stack_interface.h>
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_model_composer.h>
 
 #include <memory>
@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-class CommandStackInterface;
+class ICommandStack;
 
 /**
  * @brief The CommandModelComposer class is a decorator class to enhance standard ModelComposer with
@@ -37,7 +37,7 @@ class CommandStackInterface;
 class CommandModelComposer : public IModelComposer
 {
 public:
-  explicit CommandModelComposer(CommandStackInterface* command_stack,
+  explicit CommandModelComposer(ICommandStack* command_stack,
                                 std::unique_ptr<IModelComposer> composer)
       : m_command_stack(command_stack), m_composer(std::move(composer))
   {
@@ -59,7 +59,7 @@ private:
   template <typename C, typename... Args>
   C* ProcessCommand(Args&&... args);
 
-  CommandStackInterface* m_command_stack{nullptr};
+  ICommandStack* m_command_stack{nullptr};
   std::unique_ptr<IModelComposer> m_composer;
 };
 

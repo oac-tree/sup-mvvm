@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_COMMAND_STACK_INTERFACE_H_
-#define MVVM_COMMANDS_COMMAND_STACK_INTERFACE_H_
+#ifndef MVVM_COMMANDS_I_COMMAND_STACK_H_
+#define MVVM_COMMANDS_I_COMMAND_STACK_H_
 
 #include <mvvm/model_export.h>
 
@@ -31,10 +31,10 @@ class ICommand;
 
 //! Interface class for command stack.
 
-class MVVM_MODEL_EXPORT CommandStackInterface
+class MVVM_MODEL_EXPORT ICommandStack
 {
 public:
-  virtual ~CommandStackInterface() = default;
+  virtual ~ICommandStack() = default;
 
   //! Push command in the stack and immediately executes it.
   //! Returns pointer to this command, if command was executed successfully. Returns nullptr if
@@ -70,4 +70,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_COMMAND_STACK_INTERFACE_H_
+#endif  // MVVM_COMMANDS_I_COMMAND_STACK_H_

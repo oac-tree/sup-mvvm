@@ -36,7 +36,7 @@ std::unique_ptr<mvvm::IModelComposer> CreateNotifyingComposer(
 }
 
 std::unique_ptr<mvvm::IModelComposer> CreateCommandComposer(
-    mvvm::CommandStackInterface* command_stack,
+    mvvm::ICommandStack* command_stack,
     std::unique_ptr<mvvm::IModelComposer> composer)
 {
   return std::make_unique<mvvm::CommandModelComposer>(command_stack, std::move(composer));
@@ -50,7 +50,7 @@ namespace mvvm
 struct ApplicationModel::ApplicationModelImpl
 {
   ModelEventHandler m_event_handler;
-  std::unique_ptr<CommandStackInterface> m_command_stack;
+  std::unique_ptr<ICommandStack> m_command_stack;
 };
 
 ApplicationModel::ApplicationModel(std::string model_type)
@@ -96,7 +96,7 @@ void ApplicationModel::SetUndoEnabled(bool value)
   }
 }
 
-CommandStackInterface* ApplicationModel::GetCommandStack() const
+ICommandStack* ApplicationModel::GetCommandStack() const
 {
   return p_impl->m_command_stack.get();
 }

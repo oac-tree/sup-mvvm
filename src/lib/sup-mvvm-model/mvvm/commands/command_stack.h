@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_COMMAND_STACK_H_
 #define MVVM_COMMANDS_COMMAND_STACK_H_
 
-#include <mvvm/commands/command_stack_interface.h>
+#include <mvvm/commands/i_command_stack.h>
 
 #include <memory>
 
@@ -29,7 +29,7 @@ namespace mvvm
 
 //! Base implementation of command stack.
 
-class MVVM_MODEL_EXPORT CommandStack : public CommandStackInterface
+class MVVM_MODEL_EXPORT CommandStack : public ICommandStack
 {
 public:
   CommandStack();
