@@ -20,10 +20,12 @@
 #include "command_stack.h"
 
 #include "i_command.h"
+#include "macro_command.h"
 
 #include <mvvm/core/exceptions.h>
 
 #include <list>
+#include <stack>
 
 namespace mvvm
 {
@@ -31,6 +33,7 @@ namespace mvvm
 struct CommandStack::CommandStackImpl
 {
   std::list<std::unique_ptr<ICommand>> m_commands;
+  std::stack<MacroCommand *> m_macro_stack;
 
   // Points to the position in the list corresponding to the command which will be redone on the
   // next call to Redo()
@@ -39,24 +42,31 @@ struct CommandStack::CommandStackImpl
   CommandStackImpl() { m_pos = m_commands.end(); }
 
   /**
-   * @brief Saves single command in the command stack.
+   * @brief Saves a command in the command stack.
    */
-  ICommand *SaveSingleCommand(std::unique_ptr<ICommand> command)
+  void SaveSingleCommand(std::unique_ptr<ICommand> command)
   {
-    // removing commands from the 'next redo` position till the end
+    // we do not allow command tree branching: removing commands from the 'next redo` position till
+    // the end
     m_commands.erase(m_pos, m_commands.end());
 
-    auto command_ptr = command.get();
     m_commands.emplace_back(std::move(command));
     m_pos = m_commands.end();
+  }
 
-    return command_ptr;
+  /**
+   * @brief Saves a command in macro.
+   */
+  void SaveMacroCommand(std::unique_ptr<ICommand> command)
+  {
+    auto last_macro = m_macro_stack.top();
+    last_macro->Append(std::move(command));
   }
 };
 
-CommandStack::~CommandStack() = default;
-
 CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
+
+CommandStack::~CommandStack() = default;
 
 ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 {
@@ -67,22 +77,33 @@ ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 
   command->Execute();
 
-  if (!command->IsObsolete())
+  if (command->IsObsolete())
   {
-    return p_impl->SaveSingleCommand(std::move(command));
+    return nullptr;
   }
 
-  return nullptr;
+  auto command_ptr = command.get();
+
+  if (IsMacroMode())
+  {
+    p_impl->SaveMacroCommand(std::move(command));
+  }
+  else
+  {
+    p_impl->SaveSingleCommand(std::move(command));
+  }
+
+  return command_ptr;
 }
 
 bool CommandStack::CanUndo() const
 {
-  return p_impl->m_pos != p_impl->m_commands.begin();
+  return p_impl->m_pos != p_impl->m_commands.begin() && !IsMacroMode();
 }
 
 bool CommandStack::CanRedo() const
 {
-  return p_impl->m_pos != p_impl->m_commands.end();
+  return p_impl->m_pos != p_impl->m_commands.end() && !IsMacroMode();
 }
 
 int CommandStack::GetIndex() const
@@ -121,8 +142,27 @@ void CommandStack::Clear()
 
 void CommandStack::SetUndoLimit(int limit) {}
 
-void CommandStack::BeginMacro(const std::string &name) {}
+void CommandStack::BeginMacro(const std::string &name)
+{
+  auto macro = std::make_unique<MacroCommand>(name);
+  auto macro_ptr = macro.get();
+  p_impl->m_macro_stack.push(macro_ptr);
+  p_impl->SaveSingleCommand(std::move(macro));
+}
 
-void CommandStack::EndMacro() {}
+void CommandStack::EndMacro()
+{
+  if (!IsMacroMode())
+  {
+    throw RuntimeException("No command macro is currently recording");
+  }
+  // removing macro pointer fro macro stack, the macro command itself remains in the command stack
+  p_impl->m_macro_stack.pop();
+}
+
+bool CommandStack::IsMacroMode() const
+{
+  return !p_impl->m_macro_stack.empty();
+}
 
 }  // namespace mvvm

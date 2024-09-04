@@ -48,6 +48,11 @@ public:
   void BeginMacro(const std::string &name) override;
   void EndMacro() override;
 
+  /**
+   * @brief Checks if we are currently recording a macro command.
+   */
+  bool IsMacroMode() const;
+
 private:
   struct CommandStackImpl;
   std::unique_ptr<CommandStackImpl> p_impl;
