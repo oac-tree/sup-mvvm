@@ -37,6 +37,21 @@ struct CommandStack::CommandStackImpl
   std::list<std::unique_ptr<ICommand>>::iterator m_pos;  //!< position in the command list
 
   CommandStackImpl() { m_pos = m_commands.end(); }
+
+  /**
+   * @brief Saves single command in the command stack.
+   */
+  ICommand *SaveSingleCommand(std::unique_ptr<ICommand> command)
+  {
+    // removing commands from the 'next redo` position till the end
+    m_commands.erase(m_pos, m_commands.end());
+
+    auto command_ptr = command.get();
+    m_commands.emplace_back(std::move(command));
+    m_pos = m_commands.end();
+
+    return command_ptr;
+  }
 };
 
 CommandStack::~CommandStack() = default;
@@ -45,26 +60,19 @@ CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
 
 ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 {
-  ICommand *result{nullptr};
-
   if (command->IsObsolete())
   {
     throw RuntimeException("Attempt to insert obsolete command");
   }
 
-  // removing commands from the 'next redo` position till the end
-  p_impl->m_commands.erase(p_impl->m_pos, p_impl->m_commands.end());
-
   command->Execute();
 
   if (!command->IsObsolete())
   {
-    result = command.get();
-    p_impl->m_commands.emplace_back(std::move(command));
-    p_impl->m_pos = p_impl->m_commands.end();
+    return p_impl->SaveSingleCommand(std::move(command));
   }
 
-  return result;
+  return nullptr;
 }
 
 bool CommandStack::CanUndo() const
