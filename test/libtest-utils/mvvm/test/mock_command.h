@@ -28,7 +28,7 @@ namespace mvvm::test
 {
 
 /**
- * @brief The MockCommand class to test AbstractCommand.
+ * @brief The MockCommand class to test AbstractCommand logic.
  */
 class MockCommand : public AbstractCommand
 {
@@ -38,35 +38,55 @@ public:
 };
 
 /**
- * @brief The CommandDecorator class decorates MockCommand to use together with CommandStack.
- *
- * It prevents passing ownership of a mock  object to the CommandStack, thus resolving googletest
- * warning related to testing::Mock::AllowLeak.
+ * @brief The TestCommand class is intended to test the order of execution of ExecuteImpl and
+ * UndoImpl, when several commands are placed in a stack.
  */
-class CommandDecorator : public AbstractCommand
+class TestCommand : public AbstractCommand
 {
 public:
-  explicit CommandDecorator(MockCommand& decoratee) : m_decoratee(&decoratee) {}
+  using callback_t = std::function<void(ICommand*)>;
 
-  bool IsObsolete() const override { return m_decoratee->IsObsolete(); }
+  explicit TestCommand(callback_t execute_callback, callback_t undo_callback)
+      : m_execute_callback(std::move(execute_callback)), m_undo_callback(std::move(undo_callback))
+  {
+  }
 
   void SetMakeObsoleteAfterExecution() { m_make_obsolete = true; }
 
 private:
   void ExecuteImpl() override
   {
-    m_decoratee->ExecuteImpl();
+    m_execute_callback(this);
     if (m_make_obsolete)
     {
-      m_decoratee->SetIsObsolete(true);
+      SetIsObsolete(true);
     }
   }
 
-  void UndoImpl() override { m_decoratee->UndoImpl(); }
+  void UndoImpl() override { m_undo_callback(this); }
 
-  MockCommand* m_decoratee{nullptr};
+  callback_t m_execute_callback;
+  callback_t m_undo_callback;
   bool m_make_obsolete{false};
 };
+
+/**
+ * @brief The MockTestCommandListener class is to solely listen to TestCommand.
+ */
+class MockTestCommandListener
+{
+public:
+  MOCK_METHOD(void, OnExecute, (ICommand*));
+  MOCK_METHOD(void, OnUndo, (ICommand*));
+};
+
+/**
+ * @brief Creates test command.
+ *
+ * @param listener The external listener to send command's reports.
+ * @return Unique_ptr to the command, and convenience raw pointer.
+ */
+std::pair<std::unique_ptr<TestCommand>, ICommand*> CreateCommand(MockTestCommandListener& listener);
 
 }  // namespace mvvm::test
 

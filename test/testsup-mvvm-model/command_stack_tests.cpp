@@ -32,55 +32,6 @@ using ::testing::_;
 class CommandStackTest : public ::testing::Test
 {
 public:
-  using callback_t = std::function<void(int)>;
-
-  /**
-   * @brief The TestCommand class is intended to test the order of execution of ExecuteImpl and
-   * UndoImpl, when several commands are placed in a stack.
-   */
-  class TestCommand : public AbstractCommand
-  {
-  public:
-    explicit TestCommand(int command_id, callback_t execute_callback, callback_t undo_callback)
-        : m_command_id(command_id)
-        , m_execute_callback(std::move(execute_callback))
-        , m_undo_callback(std::move(undo_callback))
-    {
-    }
-
-    void SetMakeObsoleteAfterExecution() { m_make_obsolete = true; }
-
-  private:
-    void ExecuteImpl() override
-    {
-      m_execute_callback(m_command_id);
-      if (m_make_obsolete)
-      {
-        SetIsObsolete(true);
-      }
-    }
-
-    void UndoImpl() override { m_undo_callback(m_command_id); }
-
-    int m_command_id;
-    callback_t m_execute_callback;
-    callback_t m_undo_callback;
-    bool m_make_obsolete{false};
-  };
-
-  class MockCommandListener
-  {
-  public:
-    MOCK_METHOD(void, OnExecute, (int));
-    MOCK_METHOD(void, OnUndo, (int));
-  };
-
-  std::unique_ptr<TestCommand> CreateCommand(MockCommandListener& listener, int command_id = 0)
-  {
-    auto on_execute = [&listener](int command_id) { listener.OnExecute(command_id); };
-    auto on_undo = [&listener](int command_id) { listener.OnUndo(command_id); };
-    return std::make_unique<TestCommand>(command_id, on_execute, on_undo);
-  }
 };
 
 TEST_F(CommandStackTest, InitialState)
@@ -96,11 +47,10 @@ TEST_F(CommandStackTest, InitialState)
 //! Execute single command.
 TEST_F(CommandStackTest, SingleCommandExecution)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  auto command = CreateCommand(listener);
-  auto command_ptr = command.get();
+  auto [command, command_ptr] = CreateCommand(listener);
 
   EXPECT_CALL(listener, OnExecute(_)).Times(1);
   EXPECT_CALL(listener, OnUndo(_)).Times(0);
@@ -116,10 +66,10 @@ TEST_F(CommandStackTest, SingleCommandExecution)
 //! Execute single command which is obsolete already before the execution.
 TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  auto command = CreateCommand(listener);
+  auto [command, command_ptr] = CreateCommand(listener);
   command->SetIsObsolete(true);
 
   EXPECT_CALL(listener, OnExecute(_)).Times(0);
@@ -136,10 +86,10 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
 //! Execute single command which gets obsolete after execution.
 TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  auto command = CreateCommand(listener);
+  auto [command, command_ptr] = CreateCommand(listener);
   command->SetMakeObsoleteAfterExecution();
 
   EXPECT_CALL(listener, OnExecute(_)).Times(1);
@@ -156,10 +106,10 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
 //! Execute single command, then undo, then redo again
 TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  auto command = CreateCommand(listener);
+  auto [command, command_ptr] = CreateCommand(listener);
 
   {
     const ::testing::InSequence seq;
@@ -191,22 +141,20 @@ TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
 //! Execute two commands, then two undo, then two redo.
 TEST_F(CommandStackTest, TwoCommandsExecution)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  const int command_id1{1};
-  auto command1 = CreateCommand(listener, command_id1);
-  const int command_id2{2};
-  auto command2 = CreateCommand(listener, command_id2);
+  auto [command1, command_ptr1] = CreateCommand(listener);
+  auto [command2, command_ptr2] = CreateCommand(listener);
 
   {
     const ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnExecute(command_id1)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id2)).Times(1);
-    EXPECT_CALL(listener, OnUndo(command_id2)).Times(1);
-    EXPECT_CALL(listener, OnUndo(command_id1)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id1)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id2)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
   }
 
   stack.Execute(std::move(command1));
@@ -256,26 +204,22 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 //! commands.
 TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  const int command_id1{1};
-  auto command1 = CreateCommand(listener, command_id1);
-  const int command_id2{2};
-  auto command2 = CreateCommand(listener, command_id2);
-  const int command_id3{3};
-  auto command3 = CreateCommand(listener, command_id3);
-  const int command_id4{4};
-  auto command4 = CreateCommand(listener, command_id4);
+  auto [command1, command_ptr1] = CreateCommand(listener);
+  auto [command2, command_ptr2] = CreateCommand(listener);
+  auto [command3, command_ptr3] = CreateCommand(listener);
+  auto [command4, command_ptr4] = CreateCommand(listener);
 
   {
     const ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnExecute(command_id1)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id2)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id3)).Times(1);
-    EXPECT_CALL(listener, OnUndo(command_id3)).Times(1);
-    EXPECT_CALL(listener, OnUndo(command_id2)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id4)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr4)).Times(1);
   }
 
   stack.Execute(std::move(command1));
@@ -303,22 +247,19 @@ TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
 //! commands.
 TEST_F(CommandStackTest, CleanCommands)
 {
-  MockCommandListener listener;
+  test::MockTestCommandListener listener;
   CommandStack stack;
 
-  const int command_id1{1};
-  auto command1 = CreateCommand(listener, command_id1);
-  const int command_id2{2};
-  auto command2 = CreateCommand(listener, command_id2);
-  const int command_id3{3};
-  auto command3 = CreateCommand(listener, command_id3);
+  auto [command1, command_ptr1] = CreateCommand(listener);
+  auto [command2, command_ptr2] = CreateCommand(listener);
+  auto [command3, command_ptr3] = CreateCommand(listener);
 
   {
     const ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnExecute(command_id1)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id2)).Times(1);
-    EXPECT_CALL(listener, OnExecute(command_id3)).Times(1);
-    EXPECT_CALL(listener, OnUndo(command_id3)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
   }
 
   stack.Execute(std::move(command1));
