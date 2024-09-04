@@ -41,6 +41,8 @@ public:
   MacroCommand(const MacroCommand& other) = delete;
   MacroCommand& operator=(const MacroCommand& other) = delete;
 
+  CommandStatus GetCommandStatus() const override;
+
   /**
    * @brief Appends children command to the list of children.
    */

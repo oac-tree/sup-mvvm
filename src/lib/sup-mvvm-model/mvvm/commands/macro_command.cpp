@@ -19,6 +19,8 @@
 
 #include "macro_command.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <algorithm>
 
 namespace mvvm
@@ -27,6 +29,13 @@ namespace mvvm
 MacroCommand::MacroCommand(const std::string& macro_name)
 {
   SetDescription(macro_name);
+}
+
+CommandStatus MacroCommand::GetCommandStatus() const
+{
+  // we assume that all children are in the same state
+  return m_children.empty() ? AbstractCommand::GetCommandStatus()
+                            : m_children[0]->GetCommandStatus();
 }
 
 void MacroCommand::Append(std::unique_ptr<ICommand> command)
