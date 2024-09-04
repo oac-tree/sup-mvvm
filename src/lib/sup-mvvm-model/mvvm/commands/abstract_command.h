@@ -20,7 +20,7 @@
 #ifndef MVVM_COMMANDS_ABSTRACT_COMMAND_H_
 #define MVVM_COMMANDS_ABSTRACT_COMMAND_H_
 
-#include <mvvm/commands/command_interface.h>
+#include <mvvm/commands/i_command.h>
 
 #include <memory>
 
@@ -29,7 +29,7 @@ namespace mvvm
 
 //! Interface class for generic command.
 
-class MVVM_MODEL_EXPORT AbstractCommand : public CommandInterface
+class MVVM_MODEL_EXPORT AbstractCommand : public ICommand
 {
 public:
   AbstractCommand();

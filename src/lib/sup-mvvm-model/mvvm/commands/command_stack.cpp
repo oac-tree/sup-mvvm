@@ -19,11 +19,10 @@
 
 #include "command_stack.h"
 
-#include "command_interface.h"
+#include "i_command.h"
 
 #include <mvvm/core/exceptions.h>
 
-#include <iostream>
 #include <list>
 
 namespace mvvm
@@ -31,11 +30,11 @@ namespace mvvm
 
 struct CommandStack::CommandStackImpl
 {
-  std::list<std::unique_ptr<CommandInterface>> m_commands;
+  std::list<std::unique_ptr<ICommand>> m_commands;
 
   // Points to the position in the list corresponding to the command which will be redone on the
   // next call to Redo()
-  std::list<std::unique_ptr<CommandInterface>>::iterator m_pos;  //!< position in the command list
+  std::list<std::unique_ptr<ICommand>>::iterator m_pos;  //!< position in the command list
 
   CommandStackImpl() { m_pos = m_commands.end(); }
 };
@@ -44,9 +43,9 @@ CommandStack::~CommandStack() = default;
 
 CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
 
-CommandInterface *CommandStack::Execute(std::unique_ptr<CommandInterface> command)
+ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 {
-  CommandInterface *result{nullptr};
+  ICommand *result{nullptr};
 
   if (command->IsObsolete())
   {

@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-class CommandInterface;
+class ICommand;
 
 //! Interface class for command stack.
 
@@ -39,7 +39,7 @@ public:
   //! Push command in the stack and immediately executes it.
   //! Returns pointer to this command, if command was executed successfully. Returns nullptr if
   //! command is obsolete.
-  virtual CommandInterface* Execute(std::unique_ptr<CommandInterface> command) = 0;
+  virtual ICommand* Execute(std::unique_ptr<ICommand> command) = 0;
 
   //! Returns true if there is a command available for undo; otherwise returns false.
   virtual bool CanUndo() const = 0;

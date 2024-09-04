@@ -17,23 +17,22 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_COMMAND_INTERFACE_H_
-#define MVVM_COMMANDS_COMMAND_INTERFACE_H_
+#ifndef MVVM_COMMANDS_I_COMMAND_H_
+#define MVVM_COMMANDS_I_COMMAND_H_
 
 #include <mvvm/model_export.h>
 
 #include <string>
-#include <vector>
 
 namespace mvvm
 {
 
 //! Interface class for generic command.
 
-class MVVM_MODEL_EXPORT CommandInterface
+class MVVM_MODEL_EXPORT ICommand
 {
 public:
-  virtual ~CommandInterface() = default;
+  virtual ~ICommand() = default;
 
   //! Execute the command.
   virtual void Execute() = 0;
@@ -56,4 +55,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_COMMAND_INTERFACE_H_
+#endif  // MVVM_COMMANDS_I_COMMAND_H_
