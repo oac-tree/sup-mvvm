@@ -82,7 +82,7 @@ int CommandStack::GetIndex() const
   return static_cast<int>(std::distance(p_impl->m_commands.begin(), p_impl->m_pos));
 }
 
-int CommandStack::GetSize() const
+int CommandStack::GetCommandCount() const
 {
   return static_cast<int>(p_impl->m_commands.size());
 }

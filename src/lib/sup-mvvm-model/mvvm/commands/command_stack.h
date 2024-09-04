@@ -40,7 +40,7 @@ public:
   bool CanUndo() const override;
   bool CanRedo() const override;
   int GetIndex() const override;
-  int GetSize() const override;
+  int GetCommandCount() const override;
   void Undo() override;
   void Redo() override;
   void Clear() override;

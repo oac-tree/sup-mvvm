@@ -66,7 +66,7 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
   EXPECT_TRUE(commands->CanUndo());
   EXPECT_FALSE(commands->CanRedo());
   EXPECT_EQ(commands->GetIndex(), 2);
-  EXPECT_EQ(commands->GetSize(), 2);
+  EXPECT_EQ(commands->GetCommandCount(), 2);
 
   // removing item
   m_model.RemoveItem(item);
@@ -75,7 +75,7 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
   EXPECT_TRUE(commands->CanUndo());
   EXPECT_FALSE(commands->CanRedo());
   EXPECT_EQ(commands->GetIndex(), 3);
-  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetCommandCount(), 3);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
@@ -86,7 +86,7 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
   EXPECT_TRUE(commands->CanUndo());
   EXPECT_TRUE(commands->CanRedo());
   EXPECT_EQ(commands->GetIndex(), 2);
-  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetCommandCount(), 3);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex())->Data(), variant_t(42));
@@ -110,7 +110,7 @@ TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
 
   // model has two elements, graph is pointing to the data
   EXPECT_EQ(commands->GetIndex(), 3);
-  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetCommandCount(), 3);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
   EXPECT_EQ(graph_item->GetDataItem(), data_item);
 
@@ -122,7 +122,7 @@ TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
   commands->Undo();
 
   EXPECT_EQ(commands->GetIndex(), 2);
-  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetCommandCount(), 3);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
   EXPECT_EQ(graph_item->GetDataItem(), nullptr);
 
@@ -130,7 +130,7 @@ TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
   commands->Undo();
   commands->Undo();
   EXPECT_EQ(commands->GetIndex(), 0);
-  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetCommandCount(), 3);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
   // redoing (dataItem is back)
@@ -175,12 +175,12 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
   auto id_layer1 = layer1->GetIdentifier();
 
   // checking status of unddo stack
-  EXPECT_EQ(commands->GetSize(), 3);
+  EXPECT_EQ(commands->GetCommandCount(), 3);
   EXPECT_EQ(commands->GetIndex(), 3);
 
   // removing multi layer completely
   m_model.RemoveItem(parent);
-  EXPECT_EQ(commands->GetSize(), 4);
+  EXPECT_EQ(commands->GetCommandCount(), 4);
   EXPECT_EQ(commands->GetIndex(), 4);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
@@ -191,7 +191,7 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
 
   // undoing multilayer removal
   commands->Undo();
-  EXPECT_EQ(commands->GetSize(), 4);
+  EXPECT_EQ(commands->GetCommandCount(), 4);
   EXPECT_EQ(commands->GetIndex(), 3);
 
   // restoring pointers back
@@ -222,13 +222,13 @@ TEST_F(ApplicationModelUndoTests, Clear)
   // creating multi layer and two layers
   auto parent = m_model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
 
-  EXPECT_EQ(commands->GetSize(), 1);
+  EXPECT_EQ(commands->GetCommandCount(), 1);
   EXPECT_TRUE(commands->CanUndo());
   EXPECT_FALSE(commands->CanRedo());
 
   m_model.Clear();
 
-  EXPECT_EQ(commands->GetSize(), 0);
+  EXPECT_EQ(commands->GetCommandCount(), 0);
   EXPECT_FALSE(commands->CanUndo());
   EXPECT_FALSE(commands->CanRedo());
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);

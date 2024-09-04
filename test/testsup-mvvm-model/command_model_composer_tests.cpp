@@ -65,7 +65,7 @@ TEST_F(CommandModelComposerTests, InitialState)
 {
   auto composer = CreateComposer();
   EXPECT_EQ(composer->GetModel(), &m_model);
-  EXPECT_EQ(m_commands.GetSize(), 0);
+  EXPECT_EQ(m_commands.GetCommandCount(), 0);
 }
 
 TEST_F(CommandModelComposerTests, SetData)
@@ -86,7 +86,7 @@ TEST_F(CommandModelComposerTests, SetData)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   // undoing the command
   m_commands.Undo();
@@ -96,7 +96,7 @@ TEST_F(CommandModelComposerTests, SetData)
   EXPECT_FALSE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 0);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   // redoing command
   m_commands.Redo();
@@ -106,7 +106,7 @@ TEST_F(CommandModelComposerTests, SetData)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 }
 
 TEST_F(CommandModelComposerTests, SetSameData)
@@ -130,7 +130,7 @@ TEST_F(CommandModelComposerTests, SetSameData)
   EXPECT_FALSE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 0);
-  EXPECT_EQ(m_commands.GetSize(), 0);
+  EXPECT_EQ(m_commands.GetCommandCount(), 0);
 }
 
 //! Setting the data several times.
@@ -155,7 +155,7 @@ TEST_F(CommandModelComposerTests, SetDataSeveralTimes)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 3);
-  EXPECT_EQ(m_commands.GetSize(), 3);
+  EXPECT_EQ(m_commands.GetCommandCount(), 3);
 
   // undoing twice and checking status
   m_commands.Undo();
@@ -164,7 +164,7 @@ TEST_F(CommandModelComposerTests, SetDataSeveralTimes)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 3);
+  EXPECT_EQ(m_commands.GetCommandCount(), 3);
 
   // while being in partly undone state, make a new command
   // this will remove two last commands
@@ -174,7 +174,7 @@ TEST_F(CommandModelComposerTests, SetDataSeveralTimes)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 2);
-  EXPECT_EQ(m_commands.GetSize(), 2);
+  EXPECT_EQ(m_commands.GetCommandCount(), 2);
 
   // two undo should give us initial value
   m_commands.Undo();
@@ -184,7 +184,7 @@ TEST_F(CommandModelComposerTests, SetDataSeveralTimes)
   EXPECT_FALSE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 0);
-  EXPECT_EQ(m_commands.GetSize(), 2);
+  EXPECT_EQ(m_commands.GetCommandCount(), 2);
 
   m_commands.Redo();
   EXPECT_EQ(item->Data(), variant_t(11));
@@ -221,7 +221,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   // undoing the command
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
@@ -232,7 +232,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_FALSE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 0);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   // redoing command
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(data_changed_event))).Times(1);
@@ -243,7 +243,7 @@ TEST_F(CommandModelComposerTests, SetDataWithNotifyingComposer)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   // setting same data and checking absence of notifications
   EXPECT_CALL(m_listener, OnEvent(_)).Times(0);
@@ -272,7 +272,7 @@ TEST_F(CommandModelComposerTests, RemoveParentWithChild)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   EXPECT_EQ(taken.get(), parent);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
@@ -284,7 +284,7 @@ TEST_F(CommandModelComposerTests, RemoveParentWithChild)
   EXPECT_FALSE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 0);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   auto restored_parent = utils::ChildAt(m_model.GetRootItem(), 0);
@@ -303,7 +303,7 @@ TEST_F(CommandModelComposerTests, RemoveParentWithChild)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }
@@ -327,7 +327,7 @@ TEST_F(CommandModelComposerTests, SetDataThenRemove)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 2);
-  EXPECT_EQ(m_commands.GetSize(), 2);
+  EXPECT_EQ(m_commands.GetCommandCount(), 2);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 
@@ -342,7 +342,7 @@ TEST_F(CommandModelComposerTests, SetDataThenRemove)
   EXPECT_FALSE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 0);
-  EXPECT_EQ(m_commands.GetSize(), 2);
+  EXPECT_EQ(m_commands.GetCommandCount(), 2);
 
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_DOUBLE_EQ(restored_child->Data<int>(), 42);
@@ -353,7 +353,7 @@ TEST_F(CommandModelComposerTests, SetDataThenRemove)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_TRUE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 2);
+  EXPECT_EQ(m_commands.GetCommandCount(), 2);
 
   EXPECT_DOUBLE_EQ(restored_child->Data<int>(), 43);
 }
@@ -376,7 +376,7 @@ TEST_F(CommandModelComposerTests, InsertItemToRoot)
   EXPECT_TRUE(m_commands.CanUndo());
   EXPECT_FALSE(m_commands.CanRedo());
   EXPECT_EQ(m_commands.GetIndex(), 1);
-  EXPECT_EQ(m_commands.GetSize(), 1);
+  EXPECT_EQ(m_commands.GetCommandCount(), 1);
 
   EXPECT_EQ(inserted, to_insert_ptr);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);

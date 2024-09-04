@@ -41,7 +41,7 @@ TEST_F(CommandStackTest, InitialState)
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
-  EXPECT_EQ(stack.GetSize(), 0);
+  EXPECT_EQ(stack.GetCommandCount(), 0);
 }
 
 //! Execute single command.
@@ -62,7 +62,7 @@ TEST_F(CommandStackTest, SingleCommandExecution)
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
 }
 
 //! Execute single command which is obsolete already before the execution.
@@ -83,7 +83,7 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
-  EXPECT_EQ(stack.GetSize(), 0);
+  EXPECT_EQ(stack.GetCommandCount(), 0);
 }
 
 //! Execute single command which gets obsolete after execution.
@@ -105,7 +105,7 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
-  EXPECT_EQ(stack.GetSize(), 0);
+  EXPECT_EQ(stack.GetCommandCount(), 0);
 }
 
 //! Execute single command, then undo, then redo again
@@ -129,19 +129,19 @@ TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
 
   stack.Undo();
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
-  EXPECT_EQ(stack.GetSize(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
 
   stack.Redo();
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
 }
 
 //! Execute two commands, then two undo, then two redo.
@@ -167,42 +167,42 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
 
   stack.Execute(std::make_unique<test::CommandDecorator>(mock_command2));
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
-  EXPECT_EQ(stack.GetSize(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 
   stack.Undo();
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 
   stack.Undo();
 
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
-  EXPECT_EQ(stack.GetSize(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 
   stack.Redo();
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 
   stack.Redo();
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
-  EXPECT_EQ(stack.GetSize(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 }
 
 //! Inserts three commands, make undo twice, and then insert new command. It should replace two last
@@ -236,7 +236,7 @@ TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
-  EXPECT_EQ(stack.GetSize(), 3);
+  EXPECT_EQ(stack.GetCommandCount(), 3);
 
   // insertion of a new command should remove command2 and command3 from the stack
   stack.Execute(std::make_unique<test::CommandDecorator>(mock_command4));
@@ -244,7 +244,7 @@ TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
-  EXPECT_EQ(stack.GetSize(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 }
 
 //! Inserts three commands, make undo twice, and then insert new command. It should replace two last
@@ -274,12 +274,12 @@ TEST_F(CommandStackTest, CleanCommands)
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
-  EXPECT_EQ(stack.GetSize(), 3);
+  EXPECT_EQ(stack.GetCommandCount(), 3);
 
   stack.Clear();
 
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
-  EXPECT_EQ(stack.GetSize(), 0);
+  EXPECT_EQ(stack.GetCommandCount(), 0);
 }
