@@ -54,18 +54,25 @@ public:
     callback_t m_undo_callback;
   };
 
-  std::unique_ptr<TestCommand> CreateCommand(int command_id)
+  class MockCommandListener
   {
-    return std::make_unique<TestCommand>(command_id, m_execute_mock.AsStdFunction(),
-                                         m_undo_mock.AsStdFunction());
-  }
+  public:
+    MOCK_METHOD(void, OnExecute, (int));
+    MOCK_METHOD(void, OnUndo, (int));
+  };
 
-  testing::MockFunction<callback_t> m_execute_mock;
-  testing::MockFunction<callback_t> m_undo_mock;
+  std::unique_ptr<TestCommand> CreateCommand(int command_id, MockCommandListener& listener)
+  {
+    auto on_execute = [&listener](int command_id) { listener.OnExecute(command_id); };
+    auto on_undo = [&listener](int command_id) { listener.OnUndo(command_id); };
+    return std::make_unique<TestCommand>(command_id, on_execute, on_undo);
+  }
 };
 
 TEST_F(MacroCommandTest, InitialState)
 {
+  MockCommandListener listener;
+
   const std::string description("description");
   const int command_id1{1};
   const int command_id2{2};
@@ -74,26 +81,26 @@ TEST_F(MacroCommandTest, InitialState)
   EXPECT_EQ(macro_command.GetCommandCount(), 0);
   EXPECT_EQ(macro_command.GetDescription(), description);
 
-  macro_command.Append(CreateCommand(command_id1));
-  macro_command.Append(CreateCommand(command_id2));
+  macro_command.Append(CreateCommand(command_id1, listener));
+  macro_command.Append(CreateCommand(command_id2, listener));
 
   EXPECT_EQ(macro_command.GetCommandCount(), 2);
 
   {
     const ::testing::InSequence seq;
-    EXPECT_CALL(m_execute_mock, Call(command_id1)).Times(1);
-    EXPECT_CALL(m_execute_mock, Call(command_id2)).Times(1);
-    EXPECT_CALL(m_undo_mock, Call(_)).Times(0);
+    EXPECT_CALL(listener, OnExecute(command_id1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_id2)).Times(1);
+    EXPECT_CALL(listener, OnUndo(_)).Times(0);
   }
 
   macro_command.Execute();
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnExecute(_)).Times(0);
     // undo in reverse order
-    EXPECT_CALL(m_undo_mock, Call(command_id2)).Times(1);
-    EXPECT_CALL(m_undo_mock, Call(command_id1)).Times(1);
-    EXPECT_CALL(m_execute_mock, Call(_)).Times(0);
+    EXPECT_CALL(listener, OnUndo(command_id2)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_id1)).Times(1);
   }
 
   macro_command.Undo();
