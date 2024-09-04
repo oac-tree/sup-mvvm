@@ -26,28 +26,23 @@ namespace mvvm
 
 struct AbstractCommand::AbstractCommandImpl
 {
-  enum class CommandStatus
-  {
-    Initial,
-    AfterExecute,
-    AfterUndo
-  };
-
   bool m_is_obsolete{false};
   std::string m_description;
   CommandStatus m_status{CommandStatus::Initial};
-  AbstractCommand* m_self{nullptr};
+  AbstractCommand* m_command{nullptr};
 
-  explicit AbstractCommandImpl(AbstractCommand* self) : m_self(self){};
+  explicit AbstractCommandImpl(AbstractCommand* self) : m_command(self) {};
 
   void SetAfterExecute() { m_status = CommandStatus::AfterExecute; }
   void SetAfterUndo() { m_status = CommandStatus::AfterUndo; }
-  bool CanExecute() const { return m_status != CommandStatus::AfterExecute; }
-  bool CanUndo() const { return m_status == CommandStatus::AfterExecute && !m_self->IsObsolete(); }
+  bool CanExecute() const { return m_command->GetCommandStatus() != CommandStatus::AfterExecute; }
+  bool CanUndo() const
+  {
+    return m_command->GetCommandStatus() == CommandStatus::AfterExecute && !m_command->IsObsolete();
+  }
 };
 
 AbstractCommand::AbstractCommand() : p_impl(std::make_unique<AbstractCommandImpl>(this)) {}
-
 
 AbstractCommand::~AbstractCommand() = default;
 
@@ -61,6 +56,11 @@ void AbstractCommand::Execute()
   ExecuteImpl();
 
   p_impl->SetAfterExecute();
+}
+
+CommandStatus AbstractCommand::GetCommandStatus() const
+{
+  return p_impl->m_status;
 }
 
 void AbstractCommand::Undo()

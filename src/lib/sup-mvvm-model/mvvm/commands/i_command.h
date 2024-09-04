@@ -21,6 +21,7 @@
 #define MVVM_COMMANDS_I_COMMAND_H_
 
 #include <mvvm/model_export.h>
+#include <mvvm/commands/command_status.h>
 
 #include <string>
 
@@ -39,6 +40,11 @@ public:
    * @brief Executes the command.
    */
   virtual void Execute() = 0;
+
+  /**
+   * @brief Returns command status.
+   */
+  virtual CommandStatus GetCommandStatus() const = 0;
 
   /**
    * @brief Undoes command as it was before execution.

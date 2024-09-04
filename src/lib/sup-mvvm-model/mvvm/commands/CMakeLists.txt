@@ -5,6 +5,7 @@ target_sources(${library_name} PRIVATE
   command_model_composer.h
   command_stack.cpp
   command_stack.h
+  command_status.h
   i_command.h
   i_command_stack.h
   insert_item_command.cpp

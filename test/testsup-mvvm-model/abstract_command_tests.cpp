@@ -20,7 +20,6 @@
 #include "mvvm/commands/abstract_command.h"
 
 #include <mvvm/core/exceptions.h>
-
 #include <mvvm/test/mock_command.h>
 
 #include <gmock/gmock.h>
@@ -43,6 +42,7 @@ TEST_F(AbstractCommandTests, InitialState)
 
   EXPECT_TRUE(command.GetDescription().empty());
   EXPECT_FALSE(command.IsObsolete());
+  EXPECT_EQ(command.GetCommandStatus(), CommandStatus::Initial);
 
   command.SetDescription("abc");
   EXPECT_EQ(command.GetDescription(), std::string("abc"));
@@ -62,6 +62,8 @@ TEST_F(AbstractCommandTests, Execute)
 
   // triggering action
   command.Execute();
+
+  EXPECT_EQ(command.GetCommandStatus(), CommandStatus::AfterExecute);
 
   // second execution is not possible
   EXPECT_THROW(command.Execute(), RuntimeException);
@@ -97,6 +99,8 @@ TEST_F(AbstractCommandTests, Undo)
   command.Execute();
 
   command.Undo();
+
+  EXPECT_EQ(command.GetCommandStatus(), CommandStatus::AfterUndo);
 
   // second undo is not possible
   EXPECT_THROW(command.Undo(), RuntimeException);

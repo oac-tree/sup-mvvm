@@ -47,6 +47,8 @@ TEST_F(MacroCommandTest, InitialState)
   macro_command.Append(std::move(command1));
   macro_command.Append(std::move(command2));
 
+  EXPECT_EQ(macro_command.GetCommandStatus(), CommandStatus::Initial);
+
   EXPECT_EQ(macro_command.GetCommandCount(), 2);
 
   {
@@ -57,6 +59,7 @@ TEST_F(MacroCommandTest, InitialState)
   }
 
   macro_command.Execute();
+  EXPECT_EQ(macro_command.GetCommandStatus(), CommandStatus::AfterExecute);
 
   {
     const ::testing::InSequence seq;
@@ -67,4 +70,5 @@ TEST_F(MacroCommandTest, InitialState)
   }
 
   macro_command.Undo();
+  EXPECT_EQ(macro_command.GetCommandStatus(), CommandStatus::AfterUndo);
 }
