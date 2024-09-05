@@ -113,9 +113,14 @@ SessionItem& SessionItem::SetDisplayName(const std::string& name)
   return *this;
 }
 
-ISessionModel* SessionItem::GetModel() const
+const ISessionModel* SessionItem::GetModel() const
 {
   return p_impl->m_model;
+}
+
+ISessionModel* SessionItem::GetModel()
+{
+  return const_cast<ISessionModel*>(const_cast<const SessionItem*>(this)->GetModel());
 }
 
 SessionItem* SessionItem::GetParent() const

@@ -110,6 +110,11 @@ MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, ISessionModel* 
                                         SessionItem* parent, const TagIndex& tag_index);
 
 /**
+ * @brief Creates new empty root item.
+ */
+MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> CreateEmptyRootItem();
+
+/**
  * @brief Undo last model operation. If undo/redo is disabled, will do nothing.
  */
 MVVM_MODEL_EXPORT void Undo(ISessionModel& model);
@@ -120,9 +125,18 @@ MVVM_MODEL_EXPORT void Undo(ISessionModel& model);
 MVVM_MODEL_EXPORT void Redo(ISessionModel& model);
 
 /**
- * @brief Creates new empty root item.
+ * @brief Begin command macros with the given name.
+ *
+ * Works only if the model has undo/redo enabled. Otherwise, do nothing.
  */
-MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> CreateEmptyRootItem();
+MVVM_MODEL_EXPORT void BeginMacro(const ISessionModel &model, const std::string& macro_name);
+
+/**
+ * @brief Finished ercording of the command macro.
+ *
+ * Works only if the model has undo/redo enabled. Otherwise, do nothing.
+ */
+MVVM_MODEL_EXPORT void EndMacro(const ISessionModel& model);
 
 }  // namespace mvvm::utils
 

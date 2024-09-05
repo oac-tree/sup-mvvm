@@ -22,6 +22,8 @@
 #include "session_item.h"
 #include "session_item_container.h"
 #include "tagged_items.h"
+#include "model_utils.h"
+#include "i_session_model.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/i_session_model.h>
@@ -392,6 +394,22 @@ std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str, bo
                                   make_unique_id ? ConverterMode::kCopy : ConverterMode::kClone);
   auto tree_data = ParseXMLDataString(str);
   return converter.ToSessionItem(*tree_data);
+}
+
+void BeginMacro(const SessionItem &item, const std::string &macro_name)
+{
+  if (const auto model = item.GetModel(); model)
+  {
+    BeginMacro(*model, macro_name);
+  }
+}
+
+void EndMacro(const SessionItem &item)
+{
+  if (const auto model = item.GetModel(); model)
+  {
+    EndMacro(*model);
+  }
 }
 
 }  // namespace mvvm::utils

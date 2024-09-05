@@ -27,20 +27,6 @@
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/i_session_model.h>
 
-namespace
-{
-//! Returns CommandStack from the model, or nullptr if the stack doesn't exist.
-mvvm::ICommandStack* GetCommandStack(const mvvm::ISessionModel& model)
-{
-  if (auto application_model = dynamic_cast<const mvvm::ApplicationModel*>(&model);
-      application_model)
-  {
-    return application_model->GetCommandStack();
-  }
-  return nullptr;
-}
-}  // namespace
-
 namespace mvvm::utils
 {
 Path PathFromItem(const SessionItem* item)
@@ -80,22 +66,6 @@ SessionItem* CopyItem(const SessionItem* item, ISessionModel* model, SessionItem
   return model->InsertItem(item->Clone(/* make_unique_id*/ true), parent, tag_index);
 }
 
-void Undo(ISessionModel& model)
-{
-  if (auto command_stack = GetCommandStack(model); command_stack)
-  {
-    command_stack->Undo();
-  }
-}
-
-void Redo(ISessionModel& model)
-{
-  if (auto command_stack = GetCommandStack(model); command_stack)
-  {
-    command_stack->Redo();
-  }
-}
-
 std::unique_ptr<SessionItem> CreateEmptyRootItem()
 {
   auto result = std::make_unique<SessionItem>();
@@ -104,6 +74,38 @@ std::unique_ptr<SessionItem> CreateEmptyRootItem()
   result->RegisterTag(TagInfo::CreateUniversalTag(constants::kRootItemTag),
                       /*set_as_default*/ true);
   return result;
+}
+
+void Undo(ISessionModel& model)
+{
+  if (auto command_stack = model.GetCommandStack(); command_stack)
+  {
+    command_stack->Undo();
+  }
+}
+
+void Redo(ISessionModel& model)
+{
+  if (auto command_stack = model.GetCommandStack(); command_stack)
+  {
+    command_stack->Redo();
+  }
+}
+
+void BeginMacro(const ISessionModel &model, const std::string& macro_name)
+{
+  if (auto command_stack = model.GetCommandStack(); command_stack)
+  {
+    command_stack->BeginMacro(macro_name);
+  }
+}
+
+void EndMacro(const ISessionModel &model)
+{
+  if (auto command_stack = model.GetCommandStack(); command_stack)
+  {
+    command_stack->EndMacro();
+  }
 }
 
 }  // namespace mvvm::utils

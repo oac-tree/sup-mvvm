@@ -108,7 +108,13 @@ public:
    * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a
    * model.
    */
-  ISessionModel* GetModel() const;
+  const ISessionModel* GetModel() const;
+
+  /**
+   * @brief Returns the model to which given item belongs to, or nullptr if item doesn't belong to a
+   * model.
+   */
+  ISessionModel* GetModel();
 
   /**
    * @brief Returns item parent.
