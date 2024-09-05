@@ -24,6 +24,7 @@
 
 #include <mvvm/core/exceptions.h>
 
+#include <algorithm>
 #include <list>
 #include <stack>
 
@@ -56,11 +57,25 @@ struct CommandStack::CommandStackImpl
 
   /**
    * @brief Saves a command in macro.
+   *
+   * Command will be added to the macro command, and not directly to the stack.
    */
   void SaveMacroCommand(std::unique_ptr<ICommand> command)
   {
     auto last_macro = m_macro_stack.top();
     last_macro->Append(std::move(command));
+  }
+
+  void SaveCommand(std::unique_ptr<ICommand> command, bool macro_mode)
+  {
+    if (macro_mode)
+    {
+      SaveMacroCommand(std::move(command));
+    }
+    else
+    {
+      SaveSingleCommand(std::move(command));
+    }
   }
 };
 
@@ -83,15 +98,7 @@ ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
   }
 
   auto command_ptr = command.get();
-
-  if (IsMacroMode())
-  {
-    p_impl->SaveMacroCommand(std::move(command));
-  }
-  else
-  {
-    p_impl->SaveSingleCommand(std::move(command));
-  }
+  p_impl->SaveCommand(std::move(command), IsMacroMode());
 
   return command_ptr;
 }
@@ -144,10 +151,14 @@ void CommandStack::SetUndoLimit(int limit) {}
 
 void CommandStack::BeginMacro(const std::string &name)
 {
+  const bool nested_macro_mode = IsMacroMode();
+
   auto macro = std::make_unique<MacroCommand>(name);
   auto macro_ptr = macro.get();
+
+  p_impl->SaveCommand(std::move(macro), nested_macro_mode);
+
   p_impl->m_macro_stack.push(macro_ptr);
-  p_impl->SaveSingleCommand(std::move(macro));
 }
 
 void CommandStack::EndMacro()
@@ -163,6 +174,16 @@ void CommandStack::EndMacro()
 bool CommandStack::IsMacroMode() const
 {
   return !p_impl->m_macro_stack.empty();
+}
+
+std::vector<const ICommand *> CommandStack::GetCommands() const
+{
+  std::vector<const ICommand *> result;
+
+  std::transform(p_impl->m_commands.begin(), p_impl->m_commands.end(), std::back_inserter(result),
+                 [](auto &iter) { return iter.get(); });
+
+  return result;
 }
 
 }  // namespace mvvm

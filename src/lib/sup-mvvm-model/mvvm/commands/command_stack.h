@@ -23,6 +23,7 @@
 #include <mvvm/commands/i_command_stack.h>
 
 #include <memory>
+#include <vector>
 
 namespace mvvm
 {
@@ -52,6 +53,11 @@ public:
    * @brief Checks if we are currently recording a macro command.
    */
   bool IsMacroMode() const;
+
+  /**
+   * @brief Returns list of all commands.
+   */
+  std::vector<const ICommand *> GetCommands() const;
 
 private:
   struct CommandStackImpl;

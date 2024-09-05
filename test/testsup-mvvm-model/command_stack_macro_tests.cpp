@@ -142,7 +142,7 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
   stack.Execute(std::move(command6));
   stack.EndMacro();
 
-  EXPECT_EQ(stack.GetCommandCount(), 3); // macro, single command, macro
+  EXPECT_EQ(stack.GetCommandCount(), 3);  // macro, single command, macro
   EXPECT_EQ(stack.GetIndex(), 3);
   EXPECT_FALSE(stack.IsMacroMode());
 
@@ -190,4 +190,66 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
   EXPECT_EQ(stack.GetCommandCount(), 2);
+}
+
+//! Inserts macro inside macro.
+TEST_F(CommandStackMacroTest, NestedMacro)
+{
+  test::MockTestCommandListener listener;
+  CommandStack stack;
+
+  auto [command1, command_ptr1] = CreateCommand(listener);
+  auto [command2, command_ptr2] = CreateCommand(listener);
+  auto [command3, command_ptr3] = CreateCommand(listener);
+  auto [command4, command_ptr4] = CreateCommand(listener);
+  auto [command5, command_ptr5] = CreateCommand(listener);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr5)).Times(1);
+  }
+
+  stack.BeginMacro("macro1");
+  stack.Execute(std::move(command1));
+  stack.Execute(std::move(command2));
+  stack.BeginMacro("macro2");
+  stack.Execute(std::move(command3));
+  stack.Execute(std::move(command4));
+  stack.Execute(std::move(command5));
+  stack.EndMacro();
+  stack.EndMacro();
+
+  ASSERT_EQ(stack.GetCommands().size(), 1);
+
+  // checking command tree in two macros
+  auto macro1 = dynamic_cast<const MacroCommand*>(stack.GetCommands().at(0));
+  ASSERT_NE(macro1, nullptr);
+  ASSERT_EQ(macro1->GetCommandCount(), 3);  // command1, command2, and macro2
+  auto macro2 = dynamic_cast<const MacroCommand*>(macro1->GetCommands().at(2));
+  ASSERT_NE(macro2, nullptr);
+  EXPECT_EQ(macro1->GetCommands(),
+            std::vector<const ICommand*>({command_ptr1, command_ptr2, macro2}));
+  EXPECT_EQ(macro2->GetCommands(),
+            std::vector<const ICommand*>({command_ptr3, command_ptr4, command_ptr5}));
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnUndo(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+  }
+
+  // all 5 commands will be undone in one go
+  stack.Undo();
 }
