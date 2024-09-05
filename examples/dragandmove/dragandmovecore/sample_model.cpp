@@ -20,6 +20,7 @@
 #include "sample_model.h"
 
 #include <mvvm/model/combo_property.h>
+#include <mvvm/model/item_factory.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
@@ -31,8 +32,6 @@
 namespace
 {
 
-const std::string kDemoItemType = "DemoItem";
-const std::string kDemoContainerItemType = "DemoItemContainer";
 const std::string kItems = "kItems";
 
 std::string GetRandomName()
@@ -43,12 +42,21 @@ std::string GetRandomName()
   return alphabet.substr(0, 6);
 }
 
+bool RegisterDemoItems()
+{
+  mvvm::RegisterGlobalItem<dragandmove::DemoItem>();
+  mvvm::RegisterGlobalItem<dragandmove::DemoContainerItem>();
+  return true;
+}
+
+static bool registered_flag = RegisterDemoItems();
+
 }  // namespace
 
 namespace dragandmove
 {
 
-DemoItem::DemoItem() : CompoundItem(kDemoItemType)
+DemoItem::DemoItem() : CompoundItem(Type)
 {
   AddProperty("Color", "green").SetEditorType(mvvm::constants::kColorEditorType);
   AddProperty("Bool", true);
@@ -57,9 +65,9 @@ DemoItem::DemoItem() : CompoundItem(kDemoItemType)
   AddProperty("Double", 42.1);
 }
 
-DemoContainerItem::DemoContainerItem() : CompoundItem(kDemoContainerItemType)
+DemoContainerItem::DemoContainerItem() : CompoundItem(Type)
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {kDemoItemType}), /*set_default*/ true);
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {DemoItem::Type}), /*set_default*/ true);
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

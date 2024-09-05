@@ -36,6 +36,8 @@ namespace dragandmove
 class DemoItem : public mvvm::CompoundItem
 {
 public:
+  static inline const std::string Type = "DemoItem";
+
   DemoItem();
 };
 
@@ -44,6 +46,7 @@ public:
 class DemoContainerItem : public mvvm::CompoundItem
 {
 public:
+  static inline const std::string Type = "DemoContainerItem";
   DemoContainerItem();
 };
 
