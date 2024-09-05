@@ -60,6 +60,11 @@ MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
               /*set_as_default*/ true);
 }
 
+std::vector<LayerItem *> MultiLayerItem::GetLayers() const
+{
+  return GetItems<LayerItem>(kLayerTag);
+}
+
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace mvvm::test::toyitems

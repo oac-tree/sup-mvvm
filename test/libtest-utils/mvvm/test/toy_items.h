@@ -51,6 +51,8 @@ class MultiLayerItem : public mvvm::CompoundItem
 public:
   static inline const std::string Type = "MultiLayer";
   MultiLayerItem();
+
+  std::vector<LayerItem*> GetLayers() const;
 };
 
 class SampleModel : public mvvm::ApplicationModel

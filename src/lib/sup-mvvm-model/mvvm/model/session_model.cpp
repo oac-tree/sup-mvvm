@@ -152,8 +152,10 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
   }
 
   utils::ValidateItemMove(item, new_parent, actual_tagindex);
+  utils::BeginMacro(*this, "MoveItem");
   auto taken = TakeItem(item->GetParent(), item->GetTagIndex());
   InsertItem(std::move(taken), new_parent, tag_index);
+  utils::EndMacro(*this);
 }
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)

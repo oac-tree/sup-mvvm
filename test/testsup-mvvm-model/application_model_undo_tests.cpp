@@ -204,6 +204,38 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
   EXPECT_EQ(parent_at->GetItems(expected_tag), expected);
 }
 
+//! Move layer between two multi layers.
+TEST_F(ApplicationModelUndoTests, MoveLayer)
+{
+  m_model.SetUndoEnabled(true);
+  auto commands = m_model.GetCommandStack();
+
+  // creating multi layer and two layers
+  auto parent0 = m_model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
+  auto layer0 = m_model.InsertItem<mvvm::test::toyitems::LayerItem>(parent0);
+  auto parent1 = m_model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
+
+  // checking status of unddo stack
+  EXPECT_EQ(commands->GetCommandCount(), 3);
+  EXPECT_EQ(commands->GetIndex(), 3);
+
+  m_model.MoveItem(layer0, parent1, TagIndex::Append());
+
+  // one command thanks to command macro invokation in SessionModel::MoveItem
+  EXPECT_EQ(commands->GetCommandCount(), 4);
+  EXPECT_EQ(commands->GetIndex(), 4);
+
+  EXPECT_EQ(parent0->GetLayers().size(), 0);
+  EXPECT_EQ(parent1->GetLayers().size(), 1);
+
+  commands->Undo();
+
+  EXPECT_EQ(parent0->GetLayers().size(), 1);
+  EXPECT_EQ(parent1->GetLayers().size(), 0);
+  EXPECT_EQ(commands->GetCommandCount(), 4);
+  EXPECT_EQ(commands->GetIndex(), 3);
+}
+
 //! Checking that ReplaceRootItem commands cleans-up the command stack
 TEST_F(ApplicationModelUndoTests, Clear)
 {
