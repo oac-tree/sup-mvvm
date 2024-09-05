@@ -46,6 +46,8 @@ class TestCommand : public AbstractCommand
 public:
   using callback_t = std::function<void(ICommand*)>;
 
+  TestCommand() = default;
+
   explicit TestCommand(callback_t execute_callback, callback_t undo_callback)
       : m_execute_callback(std::move(execute_callback)), m_undo_callback(std::move(undo_callback))
   {
@@ -56,14 +58,24 @@ public:
 private:
   void ExecuteImpl() override
   {
-    m_execute_callback(this);
+    if (m_execute_callback)
+    {
+      m_execute_callback(this);
+    }
+
     if (m_make_obsolete)
     {
       SetIsObsolete(true);
     }
   }
 
-  void UndoImpl() override { m_undo_callback(this); }
+  void UndoImpl() override
+  {
+    if (m_undo_callback)
+    {
+      m_undo_callback(this);
+    }
+  }
 
   callback_t m_execute_callback;
   callback_t m_undo_callback;
@@ -87,6 +99,11 @@ public:
  * @return Unique_ptr to the command, and convenience raw pointer.
  */
 std::pair<std::unique_ptr<TestCommand>, ICommand*> CreateCommand(MockTestCommandListener& listener);
+
+/**
+ * @brief Creates test command.
+ */
+std::pair<std::unique_ptr<TestCommand>, ICommand*> CreateCommand();
 
 }  // namespace mvvm::test
 

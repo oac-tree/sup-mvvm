@@ -31,4 +31,11 @@ std::pair<std::unique_ptr<TestCommand>, ICommand *> CreateCommand(MockTestComman
   return {std::move(command), command_ptr};
 }
 
+std::pair<std::unique_ptr<TestCommand>, ICommand *> CreateCommand()
+{
+  auto command = std::make_unique<TestCommand>();
+  auto command_ptr = command.get();
+  return {std::move(command), command_ptr};
+}
+
 }  // namespace mvvm::test
