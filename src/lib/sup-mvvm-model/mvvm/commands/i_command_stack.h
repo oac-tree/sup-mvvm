@@ -96,8 +96,10 @@ public:
    *
    * When the number of commands on a stack exceedes the stack's undoLimit, commands are deleted
    * from the bottom of the stack.
+   *
+   * Limit set to zero means infinite command stack (and thus potential memory overflow).
    */
-  virtual void SetUndoLimit(int limit) = 0;
+  virtual void SetUndoLimit(size_t limit) = 0;
 
   /**
    * @brief Begins composition of a macro command with the given text description.

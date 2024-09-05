@@ -280,3 +280,98 @@ TEST_F(CommandStackTest, CleanCommands)
   EXPECT_EQ(stack.GetIndex(), 0);
   EXPECT_EQ(stack.GetCommandCount(), 0);
 }
+
+//! Checking that number of commands do not exeed undo limit. Undo limit is set at the very
+//! beginning.
+TEST_F(CommandStackTest, UndoLimit)
+{
+  using mvvm::test::CreateCommand;
+
+  CommandStack stack;
+  stack.SetUndoLimit(2);
+
+  auto [command1, command_ptr1] = CreateCommand();
+  auto [command2, command_ptr2] = CreateCommand();
+  auto [command3, command_ptr3] = CreateCommand();
+  auto [command4, command_ptr4] = CreateCommand();
+
+  stack.Execute(std::move(command1));
+  stack.Execute(std::move(command2));
+  stack.Execute(std::move(command3));
+  stack.Execute(std::move(command4));
+
+  EXPECT_EQ(stack.GetCommandCount(), 2);
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr3, command_ptr4}));
+}
+
+//! Undo limit is set when stack already got 4 commands
+TEST_F(CommandStackTest, SetUndoLimitAfterExecution)
+{
+  using mvvm::test::CreateCommand;
+
+  CommandStack stack;
+
+  auto [command1, command_ptr1] = CreateCommand();
+  auto [command2, command_ptr2] = CreateCommand();
+  auto [command3, command_ptr3] = CreateCommand();
+  auto [command4, command_ptr4] = CreateCommand();
+
+  stack.Execute(std::move(command1));
+  stack.Execute(std::move(command2));
+  stack.Execute(std::move(command3));
+  stack.Execute(std::move(command4));
+
+  EXPECT_EQ(stack.GetIndex(), 4);
+
+  stack.SetUndoLimit(2);
+
+  // command1 and command2 should be removed, index should point "after" command4
+  EXPECT_EQ(stack.GetIndex(), 2);
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr3, command_ptr4}));
+}
+
+TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
+{
+  using mvvm::test::CreateCommand;
+
+  CommandStack stack;
+
+  auto [command1, command_ptr1] = CreateCommand();
+  auto [command2, command_ptr2] = CreateCommand();
+  auto [command3, command_ptr3] = CreateCommand();
+  auto [command4, command_ptr4] = CreateCommand();
+
+  stack.Execute(std::move(command1));
+  stack.Execute(std::move(command2));
+  stack.Execute(std::move(command3));
+  stack.Execute(std::move(command4));
+
+  stack.Undo();
+  stack.Undo();
+
+  // at this point command4, command3 are undone, index is pointing after command2
+  EXPECT_EQ(stack.GetIndex(), 2);
+
+  // Setting undo limit to 1 item only. Current algorithm only allow to erase items which are in
+  // "AfterExecution" state. This means that command3 should stay.
+  stack.SetUndoLimit(1);
+
+  EXPECT_EQ(stack.GetIndex(), 0);
+
+  // Thus, despite of undo limit 1, we still have 2 commands in the list.
+  EXPECT_EQ(stack.GetCommandCount(), 2);
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr3, command_ptr4}));
+
+  // Lets redo and check the list again.
+  stack.Redo();
+
+  //There is only one single command4, and it is in undone state
+  EXPECT_EQ(stack.GetIndex(), 0);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));
+
+  stack.Redo();
+  EXPECT_EQ(stack.GetIndex(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 1);
+  EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));
+}

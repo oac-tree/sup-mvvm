@@ -38,7 +38,9 @@ struct CommandStack::CommandStackImpl
 
   // Points to the position in the list corresponding to the command which will be redone on the
   // next call to Redo()
-  std::list<std::unique_ptr<ICommand>>::iterator m_pos;  //!< position in the command list
+  std::list<std::unique_ptr<ICommand>>::const_iterator m_pos;  //!< position in the command list
+
+  size_t m_undo_limit{0};  // no limit by default
 
   CommandStackImpl() { m_pos = m_commands.end(); }
 
@@ -77,6 +79,29 @@ struct CommandStack::CommandStackImpl
       SaveSingleCommand(std::move(command));
     }
   }
+
+  size_t GetIndex() const { return std::distance(m_commands.cbegin(), m_pos); }
+
+  /**
+   * @brief Cleanup commands if they count exeeds number of commands.
+   */
+  void AssureCommandLimit()
+  {
+    if (m_undo_limit == 0 || m_undo_limit >= m_commands.size())
+    {
+      return;
+    }
+
+    // Ideally, we want to remove commands from the beginning of the list if their count exceeds the
+    // limit. But we don't want to cross current position in the command list. This mean that we
+    // allow only erasing items which are in AfterExecute state, and we disallow erasing items in
+    // AfterUndo state.
+    size_t del_count = std::min(m_commands.size() - m_undo_limit, GetIndex());
+    for (size_t index = 0; index < del_count; ++index)
+    {
+      m_commands.pop_front();
+    }
+  }
 };
 
 CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
@@ -100,6 +125,8 @@ ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
   auto command_ptr = command.get();
   p_impl->SaveCommand(std::move(command), IsMacroMode());
 
+  p_impl->AssureCommandLimit();
+
   return command_ptr;
 }
 
@@ -115,7 +142,7 @@ bool CommandStack::CanRedo() const
 
 int CommandStack::GetIndex() const
 {
-  return static_cast<int>(std::distance(p_impl->m_commands.begin(), p_impl->m_pos));
+  return static_cast<int>(p_impl->GetIndex());
 }
 
 int CommandStack::GetCommandCount() const
@@ -129,6 +156,7 @@ void CommandStack::Undo()
   {
     p_impl->m_pos--;
     (*p_impl->m_pos)->Undo();
+    p_impl->AssureCommandLimit();
   }
 }
 
@@ -138,6 +166,7 @@ void CommandStack::Redo()
   {
     (*p_impl->m_pos)->Execute();
     p_impl->m_pos++;
+    p_impl->AssureCommandLimit();
   }
 }
 
@@ -147,7 +176,11 @@ void CommandStack::Clear()
   p_impl->m_pos = p_impl->m_commands.end();
 }
 
-void CommandStack::SetUndoLimit(int limit) {}
+void CommandStack::SetUndoLimit(size_t limit)
+{
+  p_impl->m_undo_limit = limit;
+  p_impl->AssureCommandLimit();
+}
 
 void CommandStack::BeginMacro(const std::string &name)
 {

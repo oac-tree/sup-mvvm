@@ -45,7 +45,15 @@ public:
   void Undo() override;
   void Redo() override;
   void Clear() override;
-  void SetUndoLimit(int limit) override;
+
+  /**
+   * @details If the method is used after the stack gets the first commands, and first Undo calls,
+   * the algorithm will proceed in the following way. It will try to remove as many as possible
+   * commands from the beginning of the stack but will stop just before the first command in the
+   * AfterUndo state.
+   */
+  void SetUndoLimit(size_t limit) override;
+
   void BeginMacro(const std::string &name) override;
   void EndMacro() override;
 
