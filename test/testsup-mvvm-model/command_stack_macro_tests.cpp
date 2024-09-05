@@ -45,7 +45,7 @@ TEST_F(CommandStackMacroTest, BeginEndEmptyMacro)
   EXPECT_FALSE(stack.IsMacroMode());
 
   // starting macro
-  stack.BeginMacro("test");
+  stack.BeginMacro("macro");
   EXPECT_TRUE(stack.IsMacroMode());
   EXPECT_EQ(stack.GetCommandCount(), 1);
 
@@ -59,13 +59,13 @@ TEST_F(CommandStackMacroTest, BeginEndEmptyMacro)
   EXPECT_EQ(stack.GetCommandCount(), 1);
 }
 
-//! Recording two commands in single macro.
+//! Recording two commands in a single macro.
 TEST_F(CommandStackMacroTest, AddTwoCommandsToMacro)
 {
   test::MockTestCommandListener listener;
   CommandStack stack;
 
-  stack.BeginMacro("test");
+  stack.BeginMacro("macro");
 
   auto [command1, command_ptr1] = CreateCommand(listener);
   auto [command2, command_ptr2] = CreateCommand(listener);
@@ -103,4 +103,91 @@ TEST_F(CommandStackMacroTest, AddTwoCommandsToMacro)
 
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
+}
+
+//! Inserts three commands: macro, command, and another macro. Make undo twice, and then insert new
+//! command. It should replace two last commands.
+TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
+{
+  test::MockTestCommandListener listener;
+  CommandStack stack;
+
+  auto [command1, command_ptr1] = CreateCommand(listener);
+  auto [command2, command_ptr2] = CreateCommand(listener);
+  auto [command3, command_ptr3] = CreateCommand(listener);
+  auto [command4, command_ptr4] = CreateCommand(listener);
+  auto [command5, command_ptr5] = CreateCommand(listener);
+  auto [command6, command_ptr6] = CreateCommand(listener);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr6)).Times(1);
+  }
+
+  stack.BeginMacro("macro1");
+  stack.Execute(std::move(command1));
+  stack.Execute(std::move(command2));
+  stack.EndMacro();
+
+  stack.Execute(std::move(command3));
+
+  stack.BeginMacro("macro2");
+  stack.Execute(std::move(command4));
+  stack.Execute(std::move(command5));
+  stack.Execute(std::move(command6));
+  stack.EndMacro();
+
+  EXPECT_EQ(stack.GetCommandCount(), 3); // macro, single command, macro
+  EXPECT_EQ(stack.GetIndex(), 3);
+  EXPECT_FALSE(stack.IsMacroMode());
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnUndo(command_ptr6)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnUndo(command_ptr4)).Times(1);
+  }
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_FALSE(stack.IsMacroMode());
+
+  stack.Undo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetCommandCount(), 3);
+  EXPECT_EQ(stack.GetIndex(), 2);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+  }
+
+  stack.Undo();
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.GetCommandCount(), 3);
+  EXPECT_EQ(stack.GetIndex(), 1);
+
+  // insertion of a new command should remove command3 and macro2 from the stack
+  auto [command7, command_ptr7] = CreateCommand(listener);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnExecute(command_ptr7)).Times(1);
+  }
+
+  stack.Execute(std::move(command7));
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 2);
+  EXPECT_EQ(stack.GetCommandCount(), 2);
 }
