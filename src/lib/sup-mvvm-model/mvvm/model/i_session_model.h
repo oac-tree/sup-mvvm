@@ -31,6 +31,7 @@ namespace mvvm
 
 class SessionItem;
 class ModelEventHandler;
+class ICommandStack;
 
 /**
  * @brief The ISessionModel class is an interface for all application models holding
@@ -56,6 +57,11 @@ public:
    * @return Event handler.
    */
   virtual ModelEventHandler* GetEventHandler() const = 0;
+
+  /**
+   * @brief Returns command stack.
+   */
+  virtual ICommandStack* GetCommandStack() const = 0;
 
   /**
    * @brief Inserts an item into the given parent and takes ownership of it.

@@ -28,8 +28,9 @@
 namespace mvvm::test
 {
 
-//! Mocking class for ISessionModel.
-
+/**
+ * @brief Mocking class for ISessionModel.
+ */
 class MockModel : public mvvm::ISessionModel
 {
 public:
@@ -38,6 +39,8 @@ public:
   MOCK_METHOD(mvvm::SessionItem *, GetRootItem, (), (const, override));
 
   MOCK_METHOD(mvvm::ModelEventHandler *, GetEventHandler, (), (const, override));
+
+  MOCK_METHOD(mvvm::ICommandStack *, GetCommandStack, (), (const, override));
 
   MOCK_METHOD(mvvm::SessionItem *, InsertItem,
               (std::unique_ptr<mvvm::SessionItem> item, mvvm::SessionItem *parent,

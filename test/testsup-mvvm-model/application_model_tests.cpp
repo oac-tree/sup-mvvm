@@ -53,14 +53,13 @@ TEST_F(ApplicationModelTests, InitialState)
 }
 
 //! Setting data through the model and checking the result.
-
 TEST_F(ApplicationModelTests, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
   mock_listener_t listener(&m_model);
 
-  DataChangedEvent expected_event{item, DataRole::kData};
+  const DataChangedEvent expected_event{item, DataRole::kData};
   EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   // changing the data and checking result
@@ -72,14 +71,13 @@ TEST_F(ApplicationModelTests, SetData)
 }
 
 //! Setting data through the item.
-
 TEST_F(ApplicationModelTests, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
   mock_listener_t listener(&m_model);
 
-  DataChangedEvent expected_event{item, DataRole::kData};
+  const DataChangedEvent expected_event{item, DataRole::kData};
   EXPECT_CALL(listener, OnDataChanged(expected_event)).Times(1);
 
   // changing the data through the item (should still trigger notifications through the model)
@@ -92,7 +90,6 @@ TEST_F(ApplicationModelTests, SetDataThroughItem)
 
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
-
 TEST_F(ApplicationModelTests, SetSameData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -111,7 +108,6 @@ TEST_F(ApplicationModelTests, SetSameData)
 }
 
 //! Inserting new item into the root item through the composer.
-
 TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 {
   auto parent = m_model.GetRootItem();
@@ -120,10 +116,10 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -138,7 +134,6 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 }
 
 //! Inserting new item into the root item via move.
-
 TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 {
   auto parent = m_model.GetRootItem();
@@ -147,10 +142,10 @@ TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -172,7 +167,6 @@ TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 }
 
 //! Inserting item using templated insertion.
-
 TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -182,10 +176,10 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -202,7 +196,6 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
 //! Inserting item using templated insertion.
 //! Test is identical to the previous one, except the way event is triggered.
 //! Here we access the model via parent->GetModel().
-
 TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -212,10 +205,10 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -230,7 +223,6 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 }
 
 //! Inserting item using a helper method from item_utils.h
-
 TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -240,10 +232,10 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -262,7 +254,6 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
 
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
-
 TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -272,10 +263,10 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -291,7 +282,6 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
 
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug) when where is no default tag defined.
-
 TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -309,7 +299,6 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 }
 
 //! Attempt to insert item into property tag.
-
 TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -328,7 +317,6 @@ TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
 }
 
 //! Inserting item through the composer into another parent using move insertion.
-
 TEST_F(ApplicationModelTests, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -338,10 +326,10 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToInsertItemEvent expected_event1{parent, tag_index};
-    ItemInsertedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event1{parent, tag_index};
+    const ItemInsertedEvent expected_event2{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
@@ -359,7 +347,6 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
 }
 
 //! Removing item.
-
 TEST_F(ApplicationModelTests, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -370,9 +357,9 @@ TEST_F(ApplicationModelTests, TakeItem)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
-    AboutToRemoveItemEvent expected_event1{parent, tag_index};
-    ItemRemovedEvent expected_event2{parent, tag_index};
+    const ::testing::InSequence seq;
+    const AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    const ItemRemovedEvent expected_event2{parent, tag_index};
     EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
@@ -387,7 +374,6 @@ TEST_F(ApplicationModelTests, TakeItem)
 }
 
 //! Removing item.
-
 TEST_F(ApplicationModelTests, RemoveItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -398,9 +384,9 @@ TEST_F(ApplicationModelTests, RemoveItem)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
-    AboutToRemoveItemEvent expected_event1{parent, tag_index};
-    ItemRemovedEvent expected_event2{parent, tag_index};
+    const ::testing::InSequence seq;
+    const AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    const ItemRemovedEvent expected_event2{parent, tag_index};
     EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
@@ -414,7 +400,6 @@ TEST_F(ApplicationModelTests, RemoveItem)
 }
 
 //! Removing item using helper method from item_utils.h
-
 TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -425,9 +410,9 @@ TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
-    AboutToRemoveItemEvent expected_event1{parent, tag_index};
-    ItemRemovedEvent expected_event2{parent, tag_index};
+    const ::testing::InSequence seq;
+    const AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    const ItemRemovedEvent expected_event2{parent, tag_index};
     EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
   }
@@ -441,7 +426,6 @@ TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
 }
 
 //! Inserting item using a helper method from item_utils.h
-
 TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -452,12 +436,12 @@ TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToRemoveItemEvent expected_event1{parent, tag_index};
-    ItemRemovedEvent expected_event2{parent, tag_index};
-    AboutToInsertItemEvent expected_event3{parent, tag_index};
-    ItemInsertedEvent expected_event4{parent, tag_index};
+    const AboutToRemoveItemEvent expected_event1{parent, tag_index};
+    const ItemRemovedEvent expected_event2{parent, tag_index};
+    const AboutToInsertItemEvent expected_event3{parent, tag_index};
+    const ItemInsertedEvent expected_event4{parent, tag_index};
 
     EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
@@ -480,7 +464,6 @@ TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
 }
 
 //! Moving item item.
-
 TEST_F(ApplicationModelTests, MoveItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
@@ -494,15 +477,15 @@ TEST_F(ApplicationModelTests, MoveItem)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
-    AboutToRemoveItemEvent expected_event1{parent1, tag_index1};
-    ItemRemovedEvent expected_event2{parent1, tag_index1};
+    const AboutToRemoveItemEvent expected_event1{parent1, tag_index1};
+    const ItemRemovedEvent expected_event2{parent1, tag_index1};
     EXPECT_CALL(listener, OnAboutToRemoveItem(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnItemRemoved(expected_event2)).Times(1);
 
-    AboutToInsertItemEvent expected_event3{parent2, tag_index2};
-    ItemInsertedEvent expected_event4{parent2, tag_index2};
+    const AboutToInsertItemEvent expected_event3{parent2, tag_index2};
+    const ItemInsertedEvent expected_event4{parent2, tag_index2};
     EXPECT_CALL(listener, OnAboutToInsertItem(expected_event3)).Times(1);
     EXPECT_CALL(listener, OnItemInserted(expected_event4)).Times(1);
   }
@@ -518,7 +501,6 @@ TEST_F(ApplicationModelTests, MoveItem)
 
 //! Attempt to move property item from compound item.
 //! The operation should fail via exception throw, no signals should be emitted.
-
 TEST_F(ApplicationModelTests, IvalidItemMove)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
@@ -540,7 +522,6 @@ TEST_F(ApplicationModelTests, IvalidItemMove)
 }
 
 //! Destroying the model.
-
 TEST_F(ApplicationModelTests, Clear)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -550,9 +531,9 @@ TEST_F(ApplicationModelTests, Clear)
   mock_listener_t listener(&m_model);
 
   {
-    ::testing::InSequence seq;
-    ModelAboutToBeResetEvent expected_event1{&m_model};
-    ModelResetEvent expected_event2{&m_model};
+    const ::testing::InSequence seq;
+    const ModelAboutToBeResetEvent expected_event1{&m_model};
+    const ModelResetEvent expected_event2{&m_model};
     EXPECT_CALL(listener, OnModelAboutToBeReset(expected_event1)).Times(1);
     EXPECT_CALL(listener, OnModelReset(expected_event2)).Times(1);
   }
@@ -566,7 +547,6 @@ TEST_F(ApplicationModelTests, Clear)
 }
 
 //! Destroying the model.
-
 TEST_F(ApplicationModelTests, Destroy)
 {
   auto model = std::make_unique<ApplicationModel>();
@@ -585,7 +565,6 @@ TEST_F(ApplicationModelTests, Destroy)
 }
 
 //! Check SetUndoEnabled.
-
 TEST_F(ApplicationModelTests, SetUndoEnabled)
 {
   m_model.SetUndoEnabled(true);

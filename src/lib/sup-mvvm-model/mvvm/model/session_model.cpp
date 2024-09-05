@@ -106,6 +106,12 @@ ModelEventHandler* SessionModel::GetEventHandler() const
   return nullptr;
 }
 
+ICommandStack *SessionModel::GetCommandStack() const
+{
+  // this implementation doesn't have any undo/redo capabilities
+  return nullptr;
+}
+
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                       const TagIndex& tag_index)
 {

@@ -49,7 +49,7 @@ public:
 
   void SetUndoEnabled(bool value);
 
-  ICommandStack* GetCommandStack() const;
+  ICommandStack* GetCommandStack() const override;
 
 private:
   struct ApplicationModelImpl;
