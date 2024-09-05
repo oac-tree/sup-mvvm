@@ -19,6 +19,7 @@
 
 #include "graph_model.h"
 
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/utils/numeric_utils.h>
@@ -56,6 +57,8 @@ namespace plotgraphs
 
 GraphModel::GraphModel() : mvvm::ApplicationModel("GraphModel")
 {
+  SetUndoEnabled(true);
+
   auto container = InsertItem<mvvm::ContainerItem>();
   container->SetDisplayName("Data container");
 
@@ -65,12 +68,10 @@ GraphModel::GraphModel() : mvvm::ApplicationModel("GraphModel")
   AddGraph();
 }
 
-//! Adds a graph to the model.
-//! Internally it adds Data1DItem carrying data points, and GraphItem containing presentation
-//! details and linked to Data1DItem.
-
 void GraphModel::AddGraph()
 {
+  mvvm::utils::BeginMacro(*this, "AddGraph");
+
   auto data = InsertItem<mvvm::Data1DItem>(GetDataContainer());
   data->SetAxis<mvvm::FixedBinAxisItem>(npoints, xmin, xmax);
   data->SetValues(GetBinValues(mvvm::utils::RandDouble(0.5, 1.0)));
@@ -78,12 +79,14 @@ void GraphModel::AddGraph()
   auto graph = InsertItem<mvvm::GraphItem>(GetViewport());
   graph->SetDataItem(data);
   graph->SetNamedColor(mvvm::utils::RandomNamedColor());
-}
 
-//! Remove last graph and data item.
+  mvvm::utils::EndMacro(*this);
+}
 
 void GraphModel::RemoveGraph()
 {
+  mvvm::utils::BeginMacro(*this, "RemoveGraph");
+
   const int graph_count = GetViewport()->GetGraphCount();
   const int data_count = GetDataContainer()->GetSize();
 
@@ -101,9 +104,9 @@ void GraphModel::RemoveGraph()
   {
     TakeItem(GetDataContainer(), mvvm::TagIndex::Default(data_count - 1));
   }
-}
 
-//! Put random noise to graphs.
+  mvvm::utils::EndMacro(*this);
+}
 
 void GraphModel::RandomizeGraphs()
 {
@@ -116,14 +119,20 @@ void GraphModel::RandomizeGraphs()
   }
 }
 
-//! Returns viewport item containig graph items.
+void GraphModel::Undo()
+{
+  GetCommandStack()->Undo();
+}
+
+void GraphModel::Redo()
+{
+  GetCommandStack()->Redo();
+}
 
 mvvm::GraphViewportItem* GraphModel::GetViewport()
 {
   return ::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(this);
 }
-
-//! Returns container with data items.
 
 mvvm::ContainerItem* GraphModel::GetDataContainer()
 {

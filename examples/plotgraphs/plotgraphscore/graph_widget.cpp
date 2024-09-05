@@ -95,6 +95,18 @@ void GraphWidget::InitActions()
   auto on_randomize = [this]() { m_model->RandomizeGraphs(); };
   connect(m_randomize_action, &QAction::triggered, on_randomize);
   m_tool_bar->addAction(m_randomize_action);
+
+  // undo action
+  m_undo_action = new QAction("Undo", this);
+  auto on_undo = [this]() { m_model->Undo(); };
+  connect(m_undo_action, &QAction::triggered, on_undo);
+  m_tool_bar->addAction(m_undo_action);
+
+  // redo action
+  m_redo_action = new QAction("Redo", this);
+  auto on_redo = [this]() { m_model->Redo(); };
+  connect(m_redo_action, &QAction::triggered, on_redo);
+  m_tool_bar->addAction(m_redo_action);
 }
 
 }  // namespace plotgraphs

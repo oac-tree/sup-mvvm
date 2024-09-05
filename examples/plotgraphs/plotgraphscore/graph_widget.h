@@ -57,6 +57,8 @@ private:
   QAction* m_add_graph_action{nullptr};
   QAction* m_remove_graph_action{nullptr};
   QAction* m_randomize_action{nullptr};
+  QAction* m_undo_action{nullptr};
+  QAction* m_redo_action{nullptr};
 
   mvvm::GraphCanvas* m_graph_canvas{nullptr};
   mvvm::AllItemsTreeView* m_tree_view{nullptr};

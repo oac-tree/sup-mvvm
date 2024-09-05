@@ -31,23 +31,53 @@ class ContainerItem;
 namespace plotgraphs
 {
 
-//! Main application model to demonstrate how to plot data.
-//! Contains a few Data1DItem's, GraphItem's, and ViewPortItem. Provides functionality to easily
-//! add and remove graphs.
-
+/**
+ * @brief  Main application model to demonstrate how to plot data.
+ *
+ * Contains a few Data1DItem's, GraphItem's, and ViewPortItem. Provides functionality to easily add
+ * and remove graphs.
+ */
 class GraphModel : public mvvm::ApplicationModel
 {
 public:
   GraphModel();
 
+  /**
+   * @brief Adds graphto the model.
+   *
+   * Internally it adds Data1DItem carrying data points, and GraphItem containing presentation
+   * details and linked to Data1DItem.
+   */
   void AddGraph();
 
+  /**
+   * @brief Removes last added graph.
+   */
   void RemoveGraph();
 
+  /**
+   * @brief Put random noise to graphs.
+   */
   void RandomizeGraphs();
 
+  /**
+   * @brief Undo last action.
+   */
+  void Undo();
+
+  /**
+   * @brief Redo previously undone action.
+   */
+  void Redo();
+
+  /**
+   * @brief  Returns viewport item containig graph items.
+   */
   mvvm::GraphViewportItem* GetViewport();
 
+  /**
+   * @brief Returns container with data items.
+   */
   mvvm::ContainerItem* GetDataContainer();
 };
 
