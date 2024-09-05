@@ -74,7 +74,7 @@ TEST_F(MacroCommandTest, InitialState)
 }
 
 //! This reproduces how MacroCommand works inside CommandStack.
-//! It gets its children after thety have been already executed
+//! It gets its children after they have been already executed
 TEST_F(MacroCommandTest, AddCommandAfterExecution)
 {
   test::MockTestCommandListener listener;
@@ -103,7 +103,7 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
 
   EXPECT_EQ(macro_command.GetCommandStatus(), CommandStatus::AfterExecute);
   EXPECT_EQ(macro_command.GetCommandCount(), 2);
-
+  EXPECT_EQ(macro_command.GetCommands(), std::vector<const ICommand*>({command_ptr1, command_ptr2}));
 
   {
     const ::testing::InSequence seq;

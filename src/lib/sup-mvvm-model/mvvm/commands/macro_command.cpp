@@ -48,6 +48,16 @@ size_t MacroCommand::GetCommandCount() const
   return m_children.size();
 }
 
+std::vector<const ICommand*> MacroCommand::GetCommands() const
+{
+  std::vector<const ICommand*> result;
+
+  std::transform(m_children.begin(), m_children.end(), std::back_inserter(result),
+                 [](auto& iter) { return iter.get(); });
+
+  return result;
+}
+
 void MacroCommand::ExecuteImpl()
 {
   std::for_each(m_children.begin(), m_children.end(), [](auto& iter) { (*iter).Execute(); });

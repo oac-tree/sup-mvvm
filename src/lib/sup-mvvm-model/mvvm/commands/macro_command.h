@@ -53,6 +53,11 @@ public:
    */
   size_t GetCommandCount() const;
 
+  /**
+   * @brief Returns list of all commands.
+   */
+  std::vector<const ICommand *> GetCommands() const;
+
 private:
   void ExecuteImpl() override;
 
