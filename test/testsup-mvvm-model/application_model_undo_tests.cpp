@@ -34,15 +34,12 @@
 using namespace mvvm;
 using ::testing::_;
 
-//! Tests for ModelComposer class.
-//! Class is used to manipulate the model and generate necessary notifications.
+//! Tests for ApplicationModel in undo/redo scenario.
 
 class ApplicationModelUndoTests : public ::testing::Test
 {
 public:
-  ApplicationModelUndoTests() : m_model("TestModelType", m_pool)
-  {
-  }
+  ApplicationModelUndoTests() : m_model("TestModelType", m_pool) {}
 
   ApplicationModel m_model;
   static std::shared_ptr<ItemPool> m_pool;
@@ -51,7 +48,6 @@ public:
 std::shared_ptr<ItemPool> ApplicationModelUndoTests::m_pool = std::make_shared<ItemPool>();
 
 //! Inserting item, changing the data, removing item, undoing.
-
 TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
 {
   m_model.SetUndoEnabled(true);
@@ -92,10 +88,8 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
   EXPECT_EQ(m_model.GetRootItem()->GetItem(TagIndex())->Data(), variant_t(42));
 }
 
-//! Add GraphItem and Data1DItem, addisgn data to graph, undo, then redo.
-//! GraphItem should be pointing again to Data1DItem.
-//! This is real bug case.
-
+//! Add GraphItem and Data1DItem, add data to graph, undo, then redo. GraphItem should be pointing
+//! again to Data1DItem. This is real bug case.
 TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
 {
   m_model.SetUndoEnabled(true);
@@ -156,9 +150,7 @@ TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
   EXPECT_EQ(restored_graph_item->GetDataItem(), restored_data_item);
 }
 
-//! Create multilayer, add two layers, remove everything and undo.
-//! Toy models are used here.
-
+//! Create multilayer, add two layers, remove everything and undo. Toy models are used here.
 TEST_F(ApplicationModelUndoTests, MultiLayer)
 {
   m_model.SetUndoEnabled(true);
@@ -213,7 +205,6 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
 }
 
 //! Checking that ReplaceRootItem commands cleans-up the command stack
-
 TEST_F(ApplicationModelUndoTests, Clear)
 {
   m_model.SetUndoEnabled(true);

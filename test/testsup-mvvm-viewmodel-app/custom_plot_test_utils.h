@@ -22,7 +22,6 @@
 
 #include <qcustomplot.h>
 
-#include <algorithm>
 #include <vector>
 
 //! Various common utils for unit tests.

@@ -21,7 +21,7 @@
 
 #include "axis_items.h"
 
-#include <mvvm/model/model_utils.h>
+#include <mvvm/model/item_utils.h>
 
 namespace mvvm
 {
@@ -45,13 +45,13 @@ void ViewportItem::SetViewportToContent()
 
 void ViewportItem::SetViewportToContent(double left, double top, double right, double bottom)
 {
-  //  Utils::BeginMacros(this, "setViewportToContent");  // FIXME restore undo/redo
+  utils::BeginMacro(*this, "SetViewportToContent");
   auto [xmin, xmax] = GetDataXRange();
   GetXAxis()->SetRange(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
 
   auto [ymin, ymax] = GetDataYRange();
   GetYAxis()->SetRange(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
-  //  Utils::EndMacros(this);
+  utils::EndMacro(*this);
 }
 
 void ViewportItem::RegisterAxes()

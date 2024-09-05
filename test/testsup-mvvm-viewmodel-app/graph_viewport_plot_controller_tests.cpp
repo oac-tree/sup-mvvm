@@ -17,9 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "custom_plot_test_utils.h"
 #include "mvvm/plotting/customplot/graph_viewport_plot_controller.h"
 
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
@@ -37,7 +40,6 @@ class GraphViewportPlotControllerTest : public ::testing::Test
 };
 
 //! Initial state.
-
 TEST_F(GraphViewportPlotControllerTest, InitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -45,8 +47,7 @@ TEST_F(GraphViewportPlotControllerTest, InitialState)
   EXPECT_EQ(custom_plot->graphCount(), 0);
 }
 
-//! Check ::setItem() method when no graphs exist.
-
+//! Check ::SetItem() method when no graphs exist.
 TEST_F(GraphViewportPlotControllerTest, SetItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -106,7 +107,6 @@ TEST_F(GraphViewportPlotControllerTest, AddGraphAndSetItem)
 }
 
 //! Checks consequitive graph adding/removal
-
 #if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
 // FIXME restore test on Qt 6.4.0.
 // It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
@@ -172,7 +172,6 @@ TEST_F(GraphViewportPlotControllerTest, AddAndRemoveGraphs)
 }
 
 //! Checks consequitive graph adding/removal
-
 TEST_F(GraphViewportPlotControllerTest, AddMoreGraphs)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -198,7 +197,6 @@ TEST_F(GraphViewportPlotControllerTest, AddMoreGraphs)
 }
 
 //! Checks The fucntionality of selection in the viewport
-
 TEST_F(GraphViewportPlotControllerTest, CheckVisible)
 {
   // Convenience
@@ -244,7 +242,6 @@ TEST_F(GraphViewportPlotControllerTest, CheckVisible)
 }
 
 //! Two GraphViewportItem's and switch between them.
-
 #if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
 // FIXME restore test on Qt 6.4.0.
 // It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
@@ -281,139 +278,135 @@ TEST_F(GraphViewportPlotControllerTest, SwitchBetweenTwoViewports)
 }
 
 //! Adding graph, then undo, then redo again.
+TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
+{
+  auto custom_plot = std::make_unique<QCustomPlot>();
+  GraphViewportPlotController controller(custom_plot.get());
 
-//! FIXME restore test after undo/redo ready
+  // setting up controller with viewport item
+  ApplicationModel model;
 
-// TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
-//{
-//     auto custom_plot = std::make_unique<QCustomPlot>();
-//     GraphViewportPlotController controller(custom_plot.get());
+  auto viewport_item = model.InsertItem<GraphViewportItem>();
+  controller.SetItem(viewport_item);
 
-//    // setting up controller with viewport item
-//    SessionModel model;
+  // No graphs yet.
+  EXPECT_EQ(custom_plot->graphCount(), 0);
 
-//    auto viewport_item = model.insertItem<GraphViewportItem>();
-//    controller.setItem(viewport_item);
+  // Populating with data items
+  auto data1 = model.InsertItem<Data1DItem>();
+  const std::vector<double> expected_values = {1.0, 2.0, 3.0};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
+  data1->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data1->SetValues(expected_values);
 
-//    // No graphs yet.
-//    EXPECT_EQ(custom_plot->graphCount(), 0);
+  // beginning of our undo/redo story
+  model.SetUndoEnabled(true);
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 0);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 0);
 
-//    // Populating with data items
-//    auto data1 = model.insertItem<Data1DItem>();
-//    const std::vector<double> expected_values = {1.0, 2.0, 3.0};
-//    const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-//    data1->setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
-//    data1->setValues(expected_values);
+  // adding graph item to viewport
+  auto graph_item = model.InsertItem<GraphItem>(viewport_item, {"", 0});
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 1);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 1);
 
-//    // beginning of our undo/redo story
-//    model.setUndoRedoEnabled(true);
-//    EXPECT_EQ(model.undoStack()->index(), 0);
-//    EXPECT_EQ(model.undoStack()->count(), 0);
+  // assigning data to graph
+  graph_item->SetDataItem(data1);
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 2);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 2);
 
-//    // adding graph item to viewport
-//    auto graph_item = model.insertItem<GraphItem>(viewport_item, {"", 0});
-//    EXPECT_EQ(model.undoStack()->index(), 1);
-//    EXPECT_EQ(model.undoStack()->count(), 1);
+  // validating graph in custom plot
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
 
-//    // assigning data to graph
-//    graph_item->setDataItem(data1);
-//    EXPECT_EQ(model.undoStack()->index(), 2);
-//    EXPECT_EQ(model.undoStack()->count(), 2);
+  // undoing data assignment
+  model.GetCommandStack()->Undo();
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 1);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 2);
 
-//    // validating graph in custom plot
-//    EXPECT_EQ(custom_plot->graphCount(), 1);
-//    EXPECT_EQ(TestUtils::binCenters(custom_plot->graph()), expected_centers);
-//    EXPECT_EQ(TestUtils::binValues(custom_plot->graph()), expected_values);
+  // graph is still there, but empty
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), std::vector<double>());
+  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), std::vector<double>());
+  EXPECT_EQ(graph_item->GetDataItem(), nullptr);
 
-//    // undoing data assignment
-//    model.undoStack()->undo();
-//    EXPECT_EQ(model.undoStack()->index(), 1);
-//    EXPECT_EQ(model.undoStack()->count(), 2);
+  // redoing data assignment
+  model.GetCommandStack()->Redo();
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 2);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 2);
 
-//    // graph is still there, but empty
-//    EXPECT_EQ(custom_plot->graphCount(), 1);
-//    EXPECT_EQ(TestUtils::binCenters(custom_plot->graph()), std::vector<double>());
-//    EXPECT_EQ(TestUtils::binValues(custom_plot->graph()), std::vector<double>());
-//    EXPECT_EQ(graph_item->dataItem(), nullptr);
-
-//    // redoing data assignment
-//    model.undoStack()->redo();
-//    EXPECT_EQ(model.undoStack()->index(), 2);
-//    EXPECT_EQ(model.undoStack()->count(), 2);
-
-//    // graph is complete again
-//    EXPECT_EQ(graph_item->dataItem(), data1);
-//    EXPECT_EQ(custom_plot->graphCount(), 1);
-//    EXPECT_EQ(TestUtils::binCenters(custom_plot->graph()), expected_centers);
-//    EXPECT_EQ(TestUtils::binValues(custom_plot->graph()), expected_values);
-//}
+  // graph is complete again
+  EXPECT_EQ(graph_item->GetDataItem(), data1);
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
+}
 
 //! Adding graph together with data in macro, then undo, then redo again.
+TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
+{
+  auto custom_plot = std::make_unique<QCustomPlot>();
+  GraphViewportPlotController controller(custom_plot.get());
 
-//! FIXME restore test after undo/redo ready
+  // setting up controller with viewport item
+  ApplicationModel model;
 
-// TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
-//{
-//     auto custom_plot = std::make_unique<QCustomPlot>();
-//     GraphViewportPlotController controller(custom_plot.get());
+  auto viewport_item = model.InsertItem<GraphViewportItem>();
+  controller.SetItem(viewport_item);
 
-//    // setting up controller with viewport item
-//    SessionModel model;
+  // No graphs yet.
+  EXPECT_EQ(custom_plot->graphCount(), 0);
 
-//    auto viewport_item = model.insertItem<GraphViewportItem>();
-//    controller.setItem(viewport_item);
+  // beginning of our undo/redo story
+  model.SetUndoEnabled(true);
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 0);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 0);
 
-//    // No graphs yet.
-//    EXPECT_EQ(custom_plot->graphCount(), 0);
+  // adding data and graph as macro
+  model.GetCommandStack()->BeginMacro("addGraph");
+  // Populating with data items
+  auto data1 = model.InsertItem<Data1DItem>();
+  const std::vector<double> expected_values = {1.0, 2.0, 3.0};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
+  data1->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data1->SetValues(expected_values);
+  auto data_identifier = data1->GetIdentifier();
+  // adding graph item to viewport
+  auto graph_item = model.InsertItem<GraphItem>(viewport_item, {"", 0});
+  // assigning data to graph
+  graph_item->SetDataItem(data1);
+  model.GetCommandStack()->EndMacro();
 
-//    // beginning of our undo/redo story
-//    model.setUndoRedoEnabled(true);
-//    EXPECT_EQ(model.undoStack()->index(), 0);
-//    EXPECT_EQ(model.undoStack()->count(), 0);
+  EXPECT_EQ(viewport_item->GetGraphItems()[0]->GetDataItem(),
+            utils::GetTopItems<Data1DItem>(&model).at(0));
 
-//    // adding data and graph as macro
-//    model.undoStack()->beginMacro("addGraph");
-//    // Populating with data items
-//    auto data1 = model.insertItem<Data1DItem>();
-//    const std::vector<double> expected_values = {1.0, 2.0, 3.0};
-//    const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-//    data1->setAxis<FixedBinAxisItem>(3, 0.0, 3.0);
-//    data1->setValues(expected_values);
-//    auto data_identifier = data1->identifier();
-//    // adding graph item to viewport
-//    auto graph_item = model.insertItem<GraphItem>(viewport_item, {"", 0});
-//    // assigning data to graph
-//    graph_item->setDataItem(data1);
-//    model.undoStack()->endMacro();
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 1);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 1);
 
-//    EXPECT_EQ(viewport_item->graphItems()[0]->dataItem(), model.topItem<Data1DItem>());
+  // validating graph in custom plot
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
 
-//    EXPECT_EQ(model.undoStack()->index(), 1);
-//    EXPECT_EQ(model.undoStack()->count(), 1);
+  // undoing macro
+  model.GetCommandStack()->Undo();
+  EXPECT_EQ(model.GetCommandStack()->GetIndex(), 0);
+  EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 1);
 
-//    // validating graph in custom plot
-//    EXPECT_EQ(custom_plot->graphCount(), 1);
-//    EXPECT_EQ(TestUtils::binCenters(custom_plot->graph()), expected_centers);
-//    EXPECT_EQ(TestUtils::binValues(custom_plot->graph()), expected_values);
+  // no graph and no items
+  EXPECT_EQ(viewport_item->GetGraphItems().size(), 0);
+  EXPECT_EQ(utils::GetTopItems<Data1DItem>(&model).size(), 0);
+  EXPECT_EQ(custom_plot->graphCount(), 0);
 
-//    // undoing macro
-//    model.undoStack()->undo();
-//    EXPECT_EQ(model.undoStack()->index(), 0);
-//    EXPECT_EQ(model.undoStack()->count(), 1);
+  // redoing macro
+  model.GetCommandStack()->Redo();
+  EXPECT_EQ(custom_plot->graphCount(), 1);
+  EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
 
-//    // no graph and no items
-//    EXPECT_EQ(viewport_item->graphItems().size(), 0);
-//    EXPECT_EQ(model.topItem<Data1DItem>(), nullptr);
-//    EXPECT_EQ(custom_plot->graphCount(), 0);
+  EXPECT_EQ(utils::GetTopItems<Data1DItem>(&model).at(0)->GetIdentifier(), data_identifier);
+  EXPECT_EQ(viewport_item->GetGraphItems()[0]->GetDataItem(),
+            utils::GetTopItems<Data1DItem>(&model).at(0));
 
-//    // redoing macro
-//    model.undoStack()->redo();
-//    EXPECT_EQ(custom_plot->graphCount(), 1);
-//    EXPECT_EQ(viewport_item->graphItems().size(), 1);
-
-//    EXPECT_EQ(model.topItem<Data1DItem>()->identifier(), data_identifier);
-//    EXPECT_EQ(viewport_item->graphItems()[0]->dataItem(), model.topItem<Data1DItem>());
-
-//    EXPECT_EQ(TestUtils::binCenters(custom_plot->graph()), expected_centers);
-//    EXPECT_EQ(TestUtils::binValues(custom_plot->graph()), expected_values);
-//}
+  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
+}
