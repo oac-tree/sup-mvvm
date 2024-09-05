@@ -21,6 +21,7 @@
 
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/item_factory.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
@@ -78,17 +79,12 @@ SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
 
 void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
 {
-  // auto item = InsertItem<DemoItem>(container);
-
-  // First fill item, then insert. This is done to provide possibility to undo in one step.
-  // Will be replace as soon as undo macros are ready.
-
-  auto item = std::make_unique<DemoItem>();
+  mvvm::utils::BeginMacro(*this, "ItemCreation");
+  auto item = InsertItem<DemoItem>(container);
   item->SetProperty("Color", mvvm::utils::RandomNamedColor());
   item->SetProperty("String", GetRandomName());
   item->SetProperty("Integer", mvvm::utils::RandInt(0, 10));
-
-  InsertItem(std::move(item), container, mvvm::TagIndex::Append());
+  mvvm::utils::EndMacro(*this);
 }
 
 //! Generates initial model content.
