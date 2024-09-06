@@ -180,12 +180,12 @@ void SessionModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
 
 void SessionModel::CheckIn(SessionItem* item)
 {
-  return p_impl->m_pool->RegisterItem(item, item->GetIdentifier());
+  p_impl->m_pool->RegisterItem(item, item->GetIdentifier());
 }
 
 void SessionModel::CheckOut(SessionItem* item)
 {
-  return p_impl->m_pool->UnregisterItem(item);
+  p_impl->m_pool->UnregisterItem(item);
 }
 
 void SessionModel::SetComposer(std::unique_ptr<IModelComposer> composer)

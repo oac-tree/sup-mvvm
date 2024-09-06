@@ -54,6 +54,8 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
 
   auto commands = m_model.GetCommandStack();
 
+  EXPECT_EQ(commands->GetCommandCount(), 0);
+
   // inserting item and setting the data
   auto item = m_model.InsertItem<SessionItem>();
   item->SetData(42);
