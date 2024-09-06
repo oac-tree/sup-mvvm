@@ -33,7 +33,7 @@ class TagIndex;
 class ISessionModel;
 
 /**
- * @brief The IModelComposer class is an nterface for all classes to compose the model.
+ * @brief The IModelComposer class is an interface for all classes to compose the model.
  *
  * Used in various decorators for undo/redo and notifications while composing the model.
  */

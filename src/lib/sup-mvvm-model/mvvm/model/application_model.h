@@ -26,13 +26,15 @@
 
 namespace mvvm
 {
+
 class ModelEventHandler;
 class ICommandStack;
 
-//! Main class to hold application data. Extends SessionModel with signaling capabilities.
-//! All modification of the model are done through the composer, which takes care
-//! about notifications and all subscribers.
-
+/**
+ * @brief The ApplicationModel class is the main model to hold application data.
+ *
+ * It extends SessionModel with signalling capabilites, and undo/redo.
+ */
 class MVVM_MODEL_EXPORT ApplicationModel : public SessionModel
 {
 public:
@@ -45,11 +47,19 @@ public:
 
   ModelEventHandler* GetEventHandler() const override;
 
+  ICommandStack* GetCommandStack() const override;
+
   void CheckIn(SessionItem* item) override;
 
-  void SetUndoEnabled(bool value);
-
-  ICommandStack* GetCommandStack() const override;
+  /**
+   * @brief Enables or disables undo/redo framework.
+   *
+   * When disabled, all command history is cleared.
+   *
+   * @param value To enable undo.
+   * @param undo_limit Maximum number of commands stored in undo stack (0 = no limits).
+   */
+  void SetUndoEnabled(bool value, size_t undo_limit = 0);
 
 private:
   struct ApplicationModelImpl;

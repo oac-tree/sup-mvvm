@@ -22,19 +22,26 @@
 #include <mvvm/commands/command_model_composer.h>
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/model/model_composer.h>
-#include <mvvm/model/model_utils.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace
 {
+
+/**
+ * @brief Creates model composer which knows hot to send signals.
+ */
 std::unique_ptr<mvvm::IModelComposer> CreateNotifyingComposer(
-    mvvm::ModelEventHandler* notifier, mvvm::ISessionModel* model)
+    mvvm::ModelEventHandler* event_handler, mvvm::ISessionModel* model)
 {
-  return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(notifier, *model);
+  return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(event_handler, *model);
 }
 
+
+/**
+ * @brief Creates model composer which knows how to undo changes.
+ */
 std::unique_ptr<mvvm::IModelComposer> CreateCommandComposer(
     mvvm::ICommandStack* command_stack,
     std::unique_ptr<mvvm::IModelComposer> composer)
@@ -75,30 +82,31 @@ ModelEventHandler* ApplicationModel::GetEventHandler() const
   return &p_impl->m_event_handler;
 }
 
+ICommandStack* ApplicationModel::GetCommandStack() const
+{
+  return p_impl->m_command_stack.get();
+}
+
 void ApplicationModel::CheckIn(SessionItem* item)
 {
   SessionModel::CheckIn(item);
   item->Activate();
 }
 
-void ApplicationModel::SetUndoEnabled(bool value)
+void ApplicationModel::SetUndoEnabled(bool value, size_t undo_limit)
 {
   if (value)
   {
     p_impl->m_command_stack = std::make_unique<CommandStack>();
     auto notifying_composer = CreateNotifyingComposer(&p_impl->m_event_handler, this);
     SetComposer(std::move(CreateCommandComposer(GetCommandStack(), std::move(notifying_composer))));
+    p_impl->m_command_stack->SetUndoLimit(undo_limit);
   }
   else
   {
     p_impl->m_command_stack.reset();
     SetComposer(std::move(CreateNotifyingComposer(&p_impl->m_event_handler, this)));
   }
-}
-
-ICommandStack* ApplicationModel::GetCommandStack() const
-{
-  return p_impl->m_command_stack.get();
 }
 
 }  // namespace mvvm
