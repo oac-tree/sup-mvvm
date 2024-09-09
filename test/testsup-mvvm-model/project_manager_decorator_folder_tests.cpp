@@ -45,7 +45,7 @@ class ProjectManagerDecoratorFolderTest : public mvvm::test::FolderTest
 {
 public:
   ProjectManagerDecoratorFolderTest()
-      : FolderTest(""), m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
+      : FolderTest("test_ProjectManagerDecoratorFolder"), m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
 
