@@ -30,7 +30,7 @@ namespace
 {
 
 /**
- * @brief Creates model composer which knows hot to send signals.
+ * @brief Creates model composer which knows how to send signals.
  */
 std::unique_ptr<mvvm::IModelComposer> CreateNotifyingComposer(
     mvvm::ModelEventHandler* event_handler, mvvm::ISessionModel* model)
