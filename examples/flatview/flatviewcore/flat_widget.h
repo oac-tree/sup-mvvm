@@ -21,7 +21,6 @@
 #define FLATVIEW_FLATVIEWCORE_FLAT_WIDGET_H_
 
 #include <QWidget>
-#include <functional>
 #include <memory>
 
 namespace mvvm
