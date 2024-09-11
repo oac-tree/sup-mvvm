@@ -253,3 +253,53 @@ TEST_F(CommandStackMacroTest, NestedMacro)
   // all 5 commands will be undone in one go
   stack.Undo();
 }
+
+//! Recording two commands in a single macro. The first command announce, that it is obsolete.
+TEST_F(CommandStackMacroTest, AddTwoCommandsToMacroOneIsObsolete)
+{
+  test::MockTestCommandListener listener;
+  CommandStack stack;
+
+  stack.BeginMacro("macro");
+
+  auto [command1, command_ptr1] = CreateCommand(listener);
+  auto [command2, command_ptr2] = CreateCommand(listener);
+  command1->SetMakeObsoleteAfterExecution();
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+  }
+
+  // adding two commands to macro will immediately execute them
+  stack.Execute(std::move(command1));
+  stack.Execute(std::move(command2));
+
+  // one commands are seen as a single macro command
+  EXPECT_TRUE(stack.IsMacroMode());
+  EXPECT_EQ(stack.GetIndex(), 1);
+  ASSERT_EQ(stack.GetCommandCount(), 1);
+
+  auto macro_command = dynamic_cast<const MacroCommand*>(stack.GetCommands().at(0));
+  ASSERT_NE(macro_command, nullptr);
+  EXPECT_EQ(macro_command->GetCommands(), std::vector<const ICommand*>({command_ptr2}));
+
+  // undo/redo is possible after closing macro
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  stack.EndMacro();
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+
+  // single undo will undo two commands one after another
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+  }
+
+  stack.Undo();
+
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_TRUE(stack.CanRedo());
+}
