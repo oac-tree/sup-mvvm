@@ -42,7 +42,7 @@ struct CommandStack::CommandStackImpl
 
   size_t m_undo_limit{0};  // no limit by default
 
-  CommandStackImpl() { m_pos = m_commands.end(); }
+  CommandStackImpl() { m_pos = m_commands.cend(); }
 
   /**
    * @brief Saves a command in the command stack.
@@ -51,10 +51,10 @@ struct CommandStack::CommandStackImpl
   {
     // we do not allow command tree branching: removing commands from the 'next redo` position till
     // the end
-    m_commands.erase(m_pos, m_commands.end());
+    m_commands.erase(m_pos, m_commands.cend());
 
     m_commands.emplace_back(std::move(command));
-    m_pos = m_commands.end();
+    m_pos = m_commands.cend();
   }
 
   /**
@@ -96,7 +96,7 @@ struct CommandStack::CommandStackImpl
     // limit. But we don't want to cross current position in the command list. This mean that we
     // allow only erasing items which are in AfterExecute state, and we disallow erasing items in
     // AfterUndo state.
-    size_t del_count = std::min(m_commands.size() - m_undo_limit, GetIndex());
+    const size_t del_count = std::min(m_commands.size() - m_undo_limit, GetIndex());
     for (size_t index = 0; index < del_count; ++index)
     {
       m_commands.pop_front();
@@ -132,12 +132,12 @@ ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 
 bool CommandStack::CanUndo() const
 {
-  return p_impl->m_pos != p_impl->m_commands.begin() && !IsMacroMode();
+  return p_impl->m_pos != p_impl->m_commands.cbegin() && !IsMacroMode();
 }
 
 bool CommandStack::CanRedo() const
 {
-  return p_impl->m_pos != p_impl->m_commands.end() && !IsMacroMode();
+  return p_impl->m_pos != p_impl->m_commands.cend() && !IsMacroMode();
 }
 
 int CommandStack::GetIndex() const
@@ -183,7 +183,7 @@ void CommandStack::Redo()
 void CommandStack::Clear()
 {
   p_impl->m_commands.clear();
-  p_impl->m_pos = p_impl->m_commands.end();
+  p_impl->m_pos = p_impl->m_commands.cend();
 }
 
 void CommandStack::SetUndoLimit(size_t limit)
