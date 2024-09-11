@@ -36,13 +36,39 @@ struct CommandStack::CommandStackImpl
   std::list<std::unique_ptr<ICommand>> m_commands;
   std::stack<MacroCommand *> m_macro_stack;
 
-  // Points to the position in the list corresponding to the command which will be redone on the
-  // next call to Redo()
-  std::list<std::unique_ptr<ICommand>>::const_iterator m_pos;  //!< position in the command list
+  //!< Position in the command list. This command will be redone on the next call to Redo().
+  std::list<std::unique_ptr<ICommand>>::const_iterator m_pos;
 
   size_t m_undo_limit{0};  // no limit by default
+  bool m_operation_is_in_progress{false};
 
   CommandStackImpl() { m_pos = m_commands.cend(); }
+
+  /**
+   * @brief Sets operation in progress flag to a given value.
+   *
+   * Will throw on attempt to set the same flag as before. See @IsOperationInProgress() for more
+   * explanations.
+   */
+  void SetInProgress(bool value)
+  {
+    if (m_operation_is_in_progress == value)
+    {
+      throw RuntimeException(
+          "Attempt to execute new command before current one has finished its work");
+    }
+
+    m_operation_is_in_progress = value;
+  }
+
+  /**
+   * @brief Checks if we are in the middle of undo/redo operation.
+   *
+   * It happens when ICommand::UndoImpl() or ICommand::RedoImpl() calls back to the command stack.
+   * For example, at the moment of undo of some macro, some of the command has tried to create
+   * another macro. This means vicious model/view callback circle somewhere.
+   */
+  bool IsOperationInProgress() const { return m_operation_is_in_progress; }
 
   /**
    * @brief Saves a command in the command stack.
@@ -115,7 +141,9 @@ ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
     throw RuntimeException("Attempt to insert obsolete command");
   }
 
+  p_impl->SetInProgress(true);
   command->Execute();
+  p_impl->SetInProgress(false);
 
   if (command->IsObsolete())
   {
@@ -165,7 +193,9 @@ void CommandStack::Undo()
   if (CanUndo())
   {
     p_impl->m_pos--;
+    p_impl->SetInProgress(true);
     (*p_impl->m_pos)->Undo();
+    p_impl->SetInProgress(false);
     p_impl->AssureCommandLimit();
   }
 }
@@ -174,7 +204,9 @@ void CommandStack::Redo()
 {
   if (CanRedo())
   {
+    p_impl->SetInProgress(true);
     (*p_impl->m_pos)->Execute();
+    p_impl->SetInProgress(false);
     p_impl->m_pos++;
     p_impl->AssureCommandLimit();
   }
@@ -194,6 +226,12 @@ void CommandStack::SetUndoLimit(size_t limit)
 
 void CommandStack::BeginMacro(const std::string &name)
 {
+  if (p_impl->IsOperationInProgress())
+  {
+    throw RuntimeException(
+        "Attempt to start macro operation before current command has finished its work");
+  }
+
   const bool nested_macro_mode = IsMacroMode();
 
   auto macro = std::make_unique<MacroCommand>(name);
@@ -206,11 +244,18 @@ void CommandStack::BeginMacro(const std::string &name)
 
 void CommandStack::EndMacro()
 {
+  if (p_impl->IsOperationInProgress())
+  {
+    throw RuntimeException(
+        "Attempt to stop macro operation before current command has finished its work");
+  }
+
   if (!IsMacroMode())
   {
     throw RuntimeException("No command macro is currently recording");
   }
-  // removing macro pointer fro macro stack, the macro command itself remains in the command stack
+
+  // removing macro pointer from macro stack, the macro command itself remains in the command stack
   p_impl->m_macro_stack.pop();
 }
 

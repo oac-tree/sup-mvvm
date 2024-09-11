@@ -33,10 +33,7 @@ std::string GenerateDescription(const mvvm::variant_t &value, int role)
 {
   (void)value;
   std::ostringstream ostr;
-  // FIXME provide variant_t -> toString conversion
-  ostr << "Set value: "
-       << "not implemented"
-       << ", role:" << role;
+  ostr << "Set value: " << mvvm::utils::ValueToString(value) << ", role:" << role;
   return ostr.str();
 }
 

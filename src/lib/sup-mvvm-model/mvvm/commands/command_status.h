@@ -22,13 +22,16 @@
 
 namespace mvvm
 {
+
+/**
+ * @brief The CommandStatus enum defines 3 states in which a command can be.
+ */
 enum class CommandStatus
 {
-  Initial,
-  AfterExecute,
-  AfterUndo
+  Initial,       //! after construction
+  AfterExecute,  //! method Execute was called, and successfully finished
+  AfterUndo      //! method Undo was called, and successfully finished
 };
-
 
 }  // namespace mvvm
 
