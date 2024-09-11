@@ -42,6 +42,7 @@ public:
   bool CanRedo() const override;
   int GetIndex() const override;
   int GetCommandCount() const override;
+  std::vector<const ICommand *> GetCommands() const override;
   void Undo() override;
   void Redo() override;
   void Clear() override;
@@ -61,11 +62,6 @@ public:
    * @brief Checks if we are currently recording a macro command.
    */
   bool IsMacroMode() const;
-
-  /**
-   * @brief Returns list of all commands.
-   */
-  std::vector<const ICommand *> GetCommands() const;
 
 private:
   struct CommandStackImpl;

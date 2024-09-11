@@ -23,6 +23,7 @@
 #include <mvvm/model_export.h>
 
 #include <memory>
+#include <vector>
 
 namespace mvvm
 {
@@ -71,6 +72,11 @@ public:
    * Macro commands are treated as single command.
    */
   virtual int GetCommandCount() const = 0;
+
+  /**
+   * @brief Returns list of all commands.
+   */
+  virtual std::vector<const ICommand *> GetCommands() const = 0;
 
   /**
    * @brief Undoes the command below the current command by calling ICommand::Undo().
