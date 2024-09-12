@@ -65,8 +65,16 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
   }
 
   auto project_dir = path.empty() ? AcquireNewProjectPath() : path;
-  // empty project_dir string denotes 'cancel' during directory creation dialog
-  return project_dir.empty() ? kFailed : m_project_manager->CreateNewProject(project_dir);
+
+  if (project_dir.empty())
+  {
+    // empty project_dir string denotes 'cancel' during directory creation dialog
+    return kFailed;
+  }
+
+  m_project_manager->CloseCurrentProject();
+
+  return m_project_manager->CreateNewProject(project_dir);
 }
 
 bool ProjectManagerDecorator::SaveCurrentProject()
@@ -87,6 +95,8 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
   {
     return kFailed;
   }
+
+  m_project_manager->CloseCurrentProject();
 
   auto project_dir = path.empty() ? AcquireExistingProjectPath() : path;
   if (project_dir.empty())
@@ -119,7 +129,14 @@ bool ProjectManagerDecorator::IsModified() const
 
 bool ProjectManagerDecorator::CloseCurrentProject()
 {
-  return SaveBeforeClosing() ? kSucceeded : kFailed;
+  if (!SaveBeforeClosing())
+  {
+    return kFailed;
+  }
+
+  m_project_manager->CloseCurrentProject();
+
+  return kSucceeded;
 }
 
 bool ProjectManagerDecorator::ProjectHasPath() const
@@ -138,7 +155,6 @@ bool ProjectManagerDecorator::SaveBeforeClosing()
     case SaveChangesAnswer::kCancel:
       return kFailed;  // saving was interrupted by the 'cancel' button
     case SaveChangesAnswer::kDiscard:
-      m_project_manager->CloseCurrentProject();
       return kSucceeded;
     default:
       throw RuntimeException("Error in ProjectManager: unexpected answer.");

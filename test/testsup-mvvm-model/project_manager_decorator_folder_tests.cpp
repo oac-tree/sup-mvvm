@@ -45,7 +45,8 @@ class ProjectManagerDecoratorFolderTest : public mvvm::test::FolderTest
 {
 public:
   ProjectManagerDecoratorFolderTest()
-      : FolderTest("test_ProjectManagerDecoratorFolder"), m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
+      : FolderTest("test_ProjectManagerDecoratorFolder")
+      , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
   }
 
@@ -95,7 +96,6 @@ public:
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
-
 TEST_F(ProjectManagerDecoratorFolderTest, InitialState)
 {
   auto manager = CreateProjectManager(ProjectType::kFolderBased);
@@ -103,7 +103,6 @@ TEST_F(ProjectManagerDecoratorFolderTest, InitialState)
 }
 
 //! File based project. Saving untitled modified project under given name.
-
 TEST_F(ProjectManagerDecoratorFolderTest, FileBasedUntitledModifiedSaveAs)
 {
   auto manager = CreateProjectManager(ProjectType::kFileBased, {}, {});
@@ -125,7 +124,6 @@ TEST_F(ProjectManagerDecoratorFolderTest, FileBasedUntitledModifiedSaveAs)
 }
 
 //! File based project. Opening non-existing file.
-
 TEST_F(ProjectManagerDecoratorFolderTest, AttemptToOpenNonExistingFile)
 {
   auto manager = CreateProjectManager(ProjectType::kFileBased, {}, {});
@@ -143,9 +141,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, AttemptToOpenNonExistingFile)
   EXPECT_FALSE(manager->IsModified());
 }
 
-//! Starting from new document (without project dir defined).
-//! Create new project in given directory.
-
+//! Starting from new document (without project dir defined). Create new project in given directory.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
@@ -166,9 +162,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
-//! Starting from new document (without project dir defined).
-//! Saving project. Same behavior as SaveAs.
-
+//! Starting from new document (without project dir defined). Saving project. Same behavior as
+//! SaveAs.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveCurrentProject)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
@@ -189,9 +184,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveCurrentProject)
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
-//! Starting from new document (without project dir defined).
-//! Save under given name.
-
+//! Starting from new document (without project dir defined). Save under given name.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
@@ -212,9 +205,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
-//! Starting from new document (without project dir defined).
-//! Attempt to save under empty name, immitating the user canceled directory selection dialog.
-
+//! Starting from new document (without project dir defined). Attempt to save under empty name,
+//! immitating the user canceled directory selection dialog.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
 {
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
@@ -229,7 +221,6 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
 
 //! Starting from new document (without project dir defined).
 //! Attempt to save in the non-existing directory.
-
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsWrongDir)
 {
   auto manager = CreateProjectManager(ProjectType::kFolderBased, "non-existing", {});
@@ -290,7 +281,6 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
 
 //! Untitled modified project. User decides to create new project, and discards all previous
 //! changes. As a result, new XML file should appear on disk, the model should be cleared.
-
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNew)
 {
   auto new_path = GetFilePath("UntitledModifiedDiscardAndCreateNew.xml");
@@ -317,4 +307,31 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNew)
 
   // model should be empty
   EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 0);
+}
+
+//! Untitled modified project. User decides to create new project, and discards all previous
+//! changes. While selecting the name for the new file he suddenly push "Cancel". As a result old
+//! content should remain, the project should be in modified state.
+TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNewButThenCancel)
+{
+  // instructing mock interactor to return necessary values
+  ON_CALL(m_mock_interactor, OnSaveChangesRequest())
+      .WillByDefault(::testing::Return(SaveChangesAnswer::kDiscard));
+
+  // empty path denotes "Cancel" button during file name selection
+  auto manager = CreateProjectManager(ProjectType::kFileBased, "", {});
+
+  m_sample_model->InsertItem<PropertyItem>();  // modifying the model
+
+  // setting up expectations: attempt to open existing project will lead to the following chain
+  // 1) question whether to save currently modified project
+  // 2) request to open new project
+  EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
+
+  EXPECT_FALSE(manager->CreateNewProject({}));
+
+  // model should be still full
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 1);
 }
