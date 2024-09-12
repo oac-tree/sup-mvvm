@@ -58,12 +58,13 @@ public:
   bool CreateNewProject(const std::string& path) override;
 
   /**
-   * @details The project should have a project directory defined to succeed.
+   * @details The project should have a project path defined to succeed.
    */
   bool SaveCurrentProject() override;
 
   /**
-   * @details The directory should exist already.
+   * @details The path (a folder for folder-based projects, or project file for file-based projects)
+   * should exist already.
    */
   bool SaveProjectAs(const std::string& path) override;
 

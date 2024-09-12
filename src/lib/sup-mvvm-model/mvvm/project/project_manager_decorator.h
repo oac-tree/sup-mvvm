@@ -49,28 +49,31 @@ public:
   ProjectManagerDecorator& operator=(const ProjectManagerDecorator& other) = delete;
 
   /**
-   * @details The directory should exist. If provided name is empty, will call directory selector
-   * dialog using callback provided. If current project is in unsaved state, will perform
-   * 'save-before-closing' procedure before proceeding further.
+   * @details If the path is empty will call a dialog for folder selection (for folder-based
+   * projects) or file selection (for file-based projects). If the current project is unsaved, will
+   * perform 'save-before-closing' procedure before proceeding further.
    */
   bool CreateNewProject(const std::string& path) override;
 
   /**
-   * @details The project should have a project directory defined to succeed. If it is not the case,
-   * it will launch the procedure of directory selection using callback provided.
+   * @details The project should have a path defined for success. If this is not the case, it will
+   * launch a dialog to select a folder (for folder-based projects) or file (for file-based
+   * projects) using callback provided.
    */
   bool SaveCurrentProject() override;
 
   /**
-   * @details The directory should exist already. If provided 'dirname' variable is empty, it will
-   * acquire a new project directory using dialog provided.
+   * @details If the path variable is non-empty, then it should exist. If the provided path is
+   * empty, it will launch a dialog to select a folder (for folder-based projects) or file (for
+   * file-based projects) using callback provided.
    */
   bool SaveProjectAs(const std::string& path) override;
 
   /**
-   * @details If provided name is empty, will call directory selector dialog using callback
-   * provided. If current project is in unsaved state, it will perform 'save-before-closing'
-   * procedure before proceeding further.
+   * @details If the provided path is empty, it will launch a dialog to select a folder (for
+   * folder-based projects) or file (for file-based projects) using callback provided. If current
+   * project is in unsaved state, it will perform 'save-before-closing' procedure before proceeding
+   * further.
    */
   bool OpenExistingProject(const std::string& path) override;
 
@@ -86,7 +89,7 @@ public:
 
 private:
   /**
-   * @brief Returns true if the project has directory already defined.
+   * @brief Returns true if the project has path already defined.
    */
   bool ProjectHasPath() const;
 
@@ -101,12 +104,12 @@ private:
   SaveChangesAnswer AcquireSaveChangesAnswer() const;
 
   /**
-   * @brief Acquire the name of the new project directory using callback provided.
+   * @brief Acquire the name of the new project path using callback provided.
    */
   std::string AcquireNewProjectPath() const;
 
   /**
-   * @brief Acquire the name of the existing project directory using callback provided.
+   * @brief Acquire the name of the existing project path using callback provided.
    */
   std::string AcquireExistingProjectPath() const;
 
