@@ -1,5 +1,9 @@
 Changes for 1.5.0:
 
+- CODAC Core System Release 7.2.1
+- Add macro capabilities to the model's API
+- Provide limit for number of undo commands
+- Implement macro command for undo/redo framework
 - COA Release v2.2, August 2024
 - New ItemViewComponentProvider with the possibility to install proxy models
 - New machinery for time series plots via QtCharts
