@@ -44,51 +44,74 @@ ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item);
 std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* source,
                                                                   const event_variant_t& event);
 
-//! Connect object's method to all events specified by the given event type and event source.
-//! @param source A pointer to item that triggers events.
-//! @param receiver A pointer to the object interested to receive events.
-//! @param method A receiver's method.
-//! @param slot A slot object to specify time of life of the callback.
-//! @note If slot is provided, it's lifetime will be coupled with the provided callback. After
-//! slot's destruction no callbacks will be called.
-
+/**
+ * @brief Connects object's method to events specified by the given event type.
+ *
+ * This version is intended for methods accepting concrete event (PropertyChangedEvent excluded).
+ *
+ * If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
+ * destruction no callbacks will be called.
+ *
+ * @tparam EventT The type of the event to subscribe.
+ * @tparam ReceiverT The type of the receiver.
+ *
+ * @param source A pointer to an item that trigger events.
+ * @param receiver A pointer to the event receiver.
+ * @param method A pointer to receiver's method.
+ * @param slot A slot object to specify time of life of the callback.
+ */
 template <typename EventT, typename ReceiverT>
-void Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(const EventT&),
-             Slot* slot = nullptr)
+inline typename std::enable_if_t<(not std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
+Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(const EventT&),
+        Slot* slot = nullptr)
 {
-  // special case for PropertyChangedEvent
-  if constexpr (std::is_same_v<EventT, PropertyChangedEvent>)
+  // a callback with filtering capabilities to subscribe to the model
+  auto adapter = [source, receiver, method](const event_variant_t& event)
   {
-    // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
-    // event type: DataChangedEvent will turn to the PropertyChangedEvent.
-    auto adapter = [source, receiver, method](const event_variant_t& event)
+    auto concrete_event = std::get<EventT>(event);
+    // only events which are coming from the requested source will be propagated
+    if (concrete_event.m_item == source)
     {
-      auto concrete_event = ConvertToPropertyChangedEvent(source, event);
+      std::invoke(method, *receiver, concrete_event);
+    }
+  };
+  GetEventHandler(source)->Connect<EventT>(adapter, slot);
+}
 
-      if (concrete_event.has_value())
-      {
-        std::invoke(method, *receiver, concrete_event.value());
-      }
-    };
-    // note: subscribe to DataChangedEvent, not PropertyChangedEvent
-    GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
-  }
-
-  // all other events
-  else
+/**
+ * @brief Connects object's method to events specified by the given event type.
+ *
+ * This version is intended for methods accepting concrete PropertyChangedEvent only.
+ *
+ * If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
+ * destruction no callbacks will be called.
+ *
+ * @tparam EventT The type of the event to subscribe.
+ * @tparam ReceiverT The type of the receiver.
+ *
+ * @param source A pointer to an item that trigger events.
+ * @param receiver A pointer to the event receiver.
+ * @param method A pointer to receiver's method.
+ * @param slot A slot object to specify time of life of the callback.
+ */
+template <typename EventT, typename ReceiverT>
+inline typename std::enable_if_t<(std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
+Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(const EventT&),
+        Slot* slot = nullptr)
+{
+  // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
+  // event type: DataChangedEvent will turn to the PropertyChangedEvent.
+  auto adapter = [source, receiver, method](const event_variant_t& event)
   {
-    // a callback with filtering capabilities to subscribe to the model
-    auto adapter = [source, receiver, method](const event_variant_t& event)
+    auto concrete_event = ConvertToPropertyChangedEvent(source, event);
+
+    if (concrete_event.has_value())
     {
-      auto concrete_event = std::get<EventT>(event);
-      // only events which are coming from the requested source will be propagated
-      if (concrete_event.m_item == source)
-      {
-        std::invoke(method, *receiver, concrete_event);
-      }
-    };
-    GetEventHandler(source)->Connect<EventT>(adapter, slot);
-  }
+      std::invoke(method, *receiver, concrete_event.value());
+    }
+  };
+  // note: subscribe to DataChangedEvent, not PropertyChangedEvent
+  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
 }
 
 template <typename EventT, typename ReceiverT>
