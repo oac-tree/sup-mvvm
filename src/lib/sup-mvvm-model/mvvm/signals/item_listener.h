@@ -107,9 +107,7 @@ public:
   template <typename EventT>
   void Connect(const std::function<void(const EventT&)>& callback)
   {
-    auto adapter = [callback](const event_variant_t& event_variant)
-    { callback(std::get<EventT>(event_variant)); };
-    Connect<EventT>(adapter);
+    connect::Connect<EventT>(GetItem(), callback, GetSlot());
   }
 
   /**
