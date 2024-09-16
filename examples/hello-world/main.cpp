@@ -20,6 +20,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/serialization/xml_document.h>
+#include <mvvm/signals/item_connect.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <QApplication>
@@ -38,10 +39,16 @@ int main(int argc, char** argv)
   auto item = model.InsertItem<mvvm::CompoundItem>();
   item->AddProperty("Greeting", "Hello");
   item->AddProperty("Addressee", "World!");
-  item->AddProperty("Number", 42);
 
   std::cout << item->Property<std::string>("Greeting") << " "
             << item->Property<std::string>("Addressee") << "\n";
+
+  // add two more properties, make "Number" enabled/disabled when "Flag" changes
+  auto& number_property = item->AddProperty("Number", 42);
+  auto& flag_property = item->AddProperty("Flag", true);
+  auto on_property = [&number_property, &flag_property](const mvvm::DataChangedEvent& event)
+  { number_property.SetEnabled(flag_property.Data<bool>()); };
+  mvvm::connect::Connect<mvvm::DataChangedEvent>(&flag_property, on_property);
 
   mvvm::AllItemsViewModel viewmodel(&model);
 
