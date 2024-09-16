@@ -37,10 +37,152 @@ class SessionItem;
 namespace mvvm::connect
 {
 
+/**
+ * @brief Returns event handler.
+ */
 ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item);
 
+/**
+ * @brief Converts event to PropertyChangedEvent.
+ *
+ * It is assumed that the underlying event is DataChangedEvent which happened with one of the
+ * property items.
+ */
 std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* source,
                                                                   const event_variant_t& event);
+
+/**
+ * @brief Connects a callback to events specified by the given event type.
+ *
+ * This version is intended for user callbacks accepting event_variant_t (PropertyChangedEvent
+ * excluded).
+ *
+ * @tparam EventT The type of the event to subscribe.
+ *
+ * @param source A pointer to an item that trigger events.
+ * @param callback A callback based on event_variant_t.
+ * @param slot A slot object to specify time of life of the callback.
+ *
+ * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
+ * destruction no callbacks will be called.
+ */
+template <typename EventT>
+inline typename std::enable_if_t<(not std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
+Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& callback,
+        Slot* slot = nullptr)
+{
+  // a callback with filtering capabilities to subscribe to the model
+  auto adapter = [source, callback](const event_variant_t& event)
+  {
+    // only events which are coming from the requested source will be propagated
+    if (GetEventSource(event) == source)
+    {
+      callback(event);
+    }
+  };
+  GetEventHandler(source)->Connect<EventT>(adapter, slot);
+}
+
+/**
+ * @brief Connects a callback to events specified by the given event type.
+ *
+ * This version is intended for user callbacks accepting event_variant_t (PropertyChangedEvent
+ * only).
+ *
+ * @tparam EventT The type of the event to subscribe.
+ *
+ * @param source A pointer to an item that trigger events.
+ * @param callback A callback based on event_variant_t.
+ * @param slot A slot object to specify time of life of the callback.
+ *
+ * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
+ * destruction no callbacks will be called.
+ */
+template <typename EventT>
+inline typename std::enable_if_t<(std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
+Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& callback,
+        Slot* slot = nullptr)
+{
+  // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
+  // event type: DataChangedEvent will turn to the PropertyChangedEvent.
+  auto adapter = [source, callback](const event_variant_t& event)
+  {
+    auto concrete_event = ConvertToPropertyChangedEvent(source, event);
+
+    if (concrete_event.has_value())
+    {
+      callback(concrete_event.value());
+    }
+  };
+  // note: subscribe to DataChangedEvent, not PropertyChangedEvent
+  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+}
+
+/**
+ * @brief Connects a callback to events specified by the given event type.
+ *
+ * This version is intended for user callbacks accepting concrete event (except
+ * PropertyChangedEvent).
+ *
+ * @tparam EventT The type of the event to subscribe.
+ *
+ * @param source A pointer to an item that trigger events.
+ * @param callback A callback based on EventT.
+ * @param slot A slot object to specify time of life of the callback.
+ *
+ * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
+ * destruction no callbacks will be called.
+ */
+template <typename EventT>
+inline typename std::enable_if_t<(not std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
+Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
+        Slot* slot = nullptr)
+{
+  // a callback with filtering capabilities to subscribe to the model
+  auto adapter = [source, callback](const event_variant_t& event_variant)
+  {
+    // only events which are coming from the requested source will be propagated
+    if (GetEventSource(event_variant) == source)
+    {
+      callback(std::get<EventT>(event_variant));
+    }
+  };
+  GetEventHandler(source)->Connect<EventT>(adapter, slot);
+}
+
+/**
+ * @brief Connects a callback to events specified by the given event type.
+ *
+ * This version is intended for user callbacks accepting concrete event (PropertyChangedEvent only).
+ *
+ * @tparam EventT The type of the event to subscribe.
+ *
+ * @param source A pointer to an item that trigger events.
+ * @param callback A callback based on EventT.
+ * @param slot A slot object to specify time of life of the callback.
+ *
+ * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
+ * destruction no callbacks will be called.
+ */
+template <typename EventT>
+inline typename std::enable_if_t<(std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
+Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
+        Slot* slot = nullptr)
+{
+  // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
+  // event type: DataChangedEvent will turn to the PropertyChangedEvent.
+  auto adapter = [source, callback](const event_variant_t& event)
+  {
+    auto concrete_event = ConvertToPropertyChangedEvent(source, event);
+
+    if (concrete_event.has_value())
+    {
+      callback(concrete_event.value());
+    }
+  };
+  // note: subscribe to DataChangedEvent, not PropertyChangedEvent
+  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+}
 
 /**
  * @brief Connects object's method to events specified by the given event type.
@@ -174,139 +316,6 @@ Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(cons
     if (concrete_event.has_value())
     {
       std::invoke(method, *receiver, concrete_event.value());
-    }
-  };
-  // note: subscribe to DataChangedEvent, not PropertyChangedEvent
-  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
-}
-
-/**
- * @brief Connects a callback to events specified by the given event type.
- *
- * This version is intended for user callbacks accepting event_variant_t (PropertyChangedEvent
- * excluded).
- *
- * @tparam EventT The type of the event to subscribe.
- *
- * @param source A pointer to an item that trigger events.
- * @param callback A callback based on event_variant_t.
- * @param slot A slot object to specify time of life of the callback.
- *
- * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
- * destruction no callbacks will be called.
- */
-template <typename EventT>
-inline typename std::enable_if_t<(not std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
-Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& callback,
-        Slot* slot = nullptr)
-{
-  // a callback with filtering capabilities to subscribe to the model
-  auto adapter = [source, callback](const event_variant_t& event)
-  {
-    // only events which are coming from the requested source will be propagated
-    if (GetEventSource(event) == source)
-    {
-      callback(event);
-    }
-  };
-  GetEventHandler(source)->Connect<EventT>(adapter, slot);
-}
-
-/**
- * @brief Connects a callback to events specified by the given event type.
- *
- * This version is intended for user callbacks accepting event_variant_t (PropertyChangedEvent
- * only).
- *
- * @tparam EventT The type of the event to subscribe.
- *
- * @param source A pointer to an item that trigger events.
- * @param callback A callback based on event_variant_t.
- * @param slot A slot object to specify time of life of the callback.
- *
- * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
- * destruction no callbacks will be called.
- */
-template <typename EventT>
-inline typename std::enable_if_t<(std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
-Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& callback,
-        Slot* slot = nullptr)
-{
-  // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
-  // event type: DataChangedEvent will turn to the PropertyChangedEvent.
-  auto adapter = [source, callback](const event_variant_t& event)
-  {
-    auto concrete_event = ConvertToPropertyChangedEvent(source, event);
-
-    if (concrete_event.has_value())
-    {
-      callback(concrete_event.value());
-    }
-  };
-  // note: subscribe to DataChangedEvent, not PropertyChangedEvent
-  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
-}
-
-/**
- * @brief Connects a callback to events specified by the given event type.
- *
- * This version is intended for user callbacks accepting concrete event (except
- * PropertyChangedEvent).
- *
- * @tparam EventT The type of the event to subscribe.
- *
- * @param source A pointer to an item that trigger events.
- * @param callback A callback based on EventT.
- * @param slot A slot object to specify time of life of the callback.
- *
- * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
- * destruction no callbacks will be called.
- */
-template <typename EventT>
-inline typename std::enable_if_t<(not std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
-Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
-        Slot* slot = nullptr)
-{
-  // a callback with filtering capabilities to subscribe to the model
-  auto adapter = [source, callback](const event_variant_t& event_variant)
-  {
-    // only events which are coming from the requested source will be propagated
-    if (GetEventSource(event_variant) == source)
-    {
-      callback(std::get<EventT>(event_variant));
-    }
-  };
-  GetEventHandler(source)->Connect<EventT>(adapter, slot);
-}
-
-/**
- * @brief Connects a callback to events specified by the given event type.
- *
- * This version is intended for user callbacks accepting concrete event (PropertyChangedEvent only).
- *
- * @tparam EventT The type of the event to subscribe.
- *
- * @param source A pointer to an item that trigger events.
- * @param callback A callback based on EventT.
- * @param slot A slot object to specify time of life of the callback.
- *
- * @note If slot is provided, it's lifetime will be coupled with the provided callback. After slot's
- * destruction no callbacks will be called.
- */
-template <typename EventT>
-inline typename std::enable_if_t<(std::is_same_v<EventT, mvvm::PropertyChangedEvent>), void>
-Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
-        Slot* slot = nullptr)
-{
-  // A callback with filtering capabilities to subscribe to the model. Additionally it changes an
-  // event type: DataChangedEvent will turn to the PropertyChangedEvent.
-  auto adapter = [source, callback](const event_variant_t& event)
-  {
-    auto concrete_event = ConvertToPropertyChangedEvent(source, event);
-
-    if (concrete_event.has_value())
-    {
-      callback(concrete_event.value());
     }
   };
   // note: subscribe to DataChangedEvent, not PropertyChangedEvent
