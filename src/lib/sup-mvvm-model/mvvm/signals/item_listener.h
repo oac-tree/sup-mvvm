@@ -102,7 +102,7 @@ public:
    * This version is intended for user callbacks accepting concrete event.
    *
    * @tparam EventT The type of the event to subscribe.
-   * @param callback A callback based on event_variant_t.
+   * @param callback A callback based on EventT.
    */
   template <typename EventT>
   void Connect(const std::function<void(const EventT&)>& callback)

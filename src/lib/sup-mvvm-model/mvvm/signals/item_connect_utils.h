@@ -306,7 +306,7 @@ Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
 
     if (concrete_event.has_value())
     {
-      callback(std::get<EventT>(concrete_event.value()));
+      callback(concrete_event.value());
     }
   };
   // note: subscribe to DataChangedEvent, not PropertyChangedEvent

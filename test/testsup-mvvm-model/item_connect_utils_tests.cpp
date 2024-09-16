@@ -42,38 +42,25 @@ public:
 
     void SetItem(mvvm::SessionItem* item)
     {
-      connect::Connect<ItemInsertedEvent>(item, CreateCallback(), m_slot.get());
       connect::Connect<ItemInsertedEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<ItemInsertedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
-      connect::Connect<AboutToRemoveItemEvent>(item, CreateCallback(), m_slot.get());
       connect::Connect<AboutToRemoveItemEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<AboutToRemoveItemEvent>(item, this, &MockWidget::OnConcreteEvent,
                                                m_slot.get());
 
-      connect::Connect<ItemRemovedEvent>(item, CreateCallback(), m_slot.get());
       connect::Connect<ItemRemovedEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<ItemRemovedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
-      connect::Connect<DataChangedEvent>(item, CreateCallback(), m_slot.get());
       connect::Connect<DataChangedEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<DataChangedEvent>(item, this, &MockWidget::OnConcreteEvent, m_slot.get());
 
-      connect::Connect<PropertyChangedEvent>(item, CreateCallback(), m_slot.get());
       connect::Connect<PropertyChangedEvent>(item, this, &MockWidget::OnEvent, m_slot.get());
       connect::Connect<PropertyChangedEvent>(item, this, &MockWidget::OnConcreteEvent,
                                              m_slot.get());
     }
 
     MOCK_METHOD(void, OnEvent, (const mvvm::event_variant_t& event));
-
-    MOCK_METHOD(void, OnCallback, (const mvvm::event_variant_t& arg));
-
-    std::function<void(const mvvm::event_variant_t& arg)> CreateCallback()
-    {
-      return [this](const mvvm::event_variant_t& arg) { OnCallback(arg); };
-    }
-
     MOCK_METHOD(void, OnConcreteEvent, (const ItemInsertedEvent& event));
     MOCK_METHOD(void, OnConcreteEvent, (const AboutToRemoveItemEvent& event));
     MOCK_METHOD(void, OnConcreteEvent, (const ItemRemovedEvent& event));
@@ -87,7 +74,6 @@ public:
 };
 
 //! Testing utility function GetEventHandler.
-
 TEST_F(ItemConnectUtilsTests, GetEventHandler)
 {
   EXPECT_THROW(connect::GetEventHandler(nullptr), NullArgumentException);
@@ -107,7 +93,6 @@ TEST_F(ItemConnectUtilsTests, GetEventHandler)
 }
 
 //! Testing utility function ConvertToPropertyChangedEvent.
-
 TEST_F(ItemConnectUtilsTests, ConvertToPropertyChangedEvent)
 {
   ApplicationModel model;
@@ -132,7 +117,6 @@ TEST_F(ItemConnectUtilsTests, ConvertToPropertyChangedEvent)
 }
 
 //! Initialisation of the connection with wrong type of the model.
-
 TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
 {
   auto on_data_change = [this](const auto& event) {};
@@ -150,7 +134,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
 }
 
 //! Single call OnDataChanged expected when data was changed.
-
 TEST_F(ItemConnectUtilsTests, OnDataChanged)
 {
   ApplicationModel model;
@@ -162,7 +145,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
   const auto expected_item = item;
 
   DataChangedEvent expected_event{expected_item, expected_role};
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
@@ -170,8 +152,33 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
   item->SetData(45, expected_role);
 }
 
-//! Expect no calls OnDataChanged after disconnection.
+//! Single call OnDataChanged expected when data was changed. Callback versions based on concrete
+//! event, and event variant.
+TEST_F(ItemConnectUtilsTests, OnDataChangedCallbackVersion)
+{
+  testing::MockFunction<void(const DataChangedEvent&)> mock_event_based_cb;
+  testing::MockFunction<void(const event_variant_t&)> mock_variant_based_cb;
 
+  ApplicationModel model;
+  auto item = model.InsertItem<SessionItem>();
+
+  connect::Connect<DataChangedEvent>(item, mock_event_based_cb.AsStdFunction(), nullptr);
+  connect::Connect<DataChangedEvent>(item, mock_variant_based_cb.AsStdFunction(), nullptr);
+
+  item->SetData(42, DataRole::kData);
+
+  const auto expected_role = DataRole::kData;
+  const auto expected_item = item;
+
+  DataChangedEvent expected_event{expected_item, expected_role};
+  EXPECT_CALL(mock_event_based_cb, Call(expected_event)).Times(1);
+  EXPECT_CALL(mock_variant_based_cb, Call(event_variant_t(expected_event))).Times(1);
+
+  // trigger calls
+  item->SetData(45, expected_role);
+}
+
+//! Expect no calls OnDataChanged after disconnection.
 TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
 {
   ApplicationModel model;
@@ -181,7 +188,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
   mock_listener_t widget(item);
   DataChangedEvent expected_event{item, DataRole::kData};
 
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
@@ -196,7 +202,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
 }
 
 //! Expect no calls OnDataChanged when data is the same.
-
 TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
 {
   ApplicationModel model;
@@ -206,7 +211,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
   mock_listener_t widget(item);
   DataChangedEvent expected_event{item, DataRole::kData};
 
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
@@ -218,7 +222,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
 }
 
 //! Expect no calls OnDataChanged when other item is changed.
-
 TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
 {
   ApplicationModel model;
@@ -235,7 +238,6 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
 }
 
 //! Single call OnPropertyChanged expected when item's property was changed.
-
 TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
 {
   const std::string property_name("height");
@@ -247,7 +249,6 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
   mock_listener_t widget(item);
   PropertyChangedEvent expected_event{item, property_name};
 
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
@@ -255,8 +256,31 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
   item->SetProperty(property_name, 43.0);
 }
 
-//! Inserting item to item.
+//! Single call OnPropertyChanged expected when item's property was changed.
+TEST_F(ItemConnectUtilsTests, OnPropertyChangedCallbackVersion)
+{
+  testing::MockFunction<void(const PropertyChangedEvent&)> mock_event_based_cb;
+  testing::MockFunction<void(const event_variant_t&)> mock_variant_based_cb;
 
+  const std::string property_name("height");
+
+  ApplicationModel model;
+  auto item = model.InsertItem<CompoundItem>();
+  item->AddProperty(property_name, 42.0);
+
+  connect::Connect<PropertyChangedEvent>(item, mock_event_based_cb.AsStdFunction(), nullptr);
+  connect::Connect<PropertyChangedEvent>(item, mock_variant_based_cb.AsStdFunction(), nullptr);
+
+  PropertyChangedEvent expected_event{item, property_name};
+
+  EXPECT_CALL(mock_event_based_cb, Call(expected_event)).Times(1);
+  EXPECT_CALL(mock_variant_based_cb, Call(event_variant_t(expected_event))).Times(1);
+
+  // trigger calls
+  item->SetProperty(property_name, 43.0);
+}
+
+//! Inserting item to item.
 TEST_F(ItemConnectUtilsTests, OnItemInserted)
 {
   ApplicationModel model;
@@ -267,7 +291,6 @@ TEST_F(ItemConnectUtilsTests, OnItemInserted)
   const TagIndex expected_tagindex{"tag1", 0};
   ItemInsertedEvent expected_event{compound, expected_tagindex};
 
-  EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event))).Times(1);
   EXPECT_CALL(widget, OnConcreteEvent(expected_event)).Times(1);
 
@@ -276,7 +299,6 @@ TEST_F(ItemConnectUtilsTests, OnItemInserted)
 }
 
 //! Removing item.
-
 TEST_F(ItemConnectUtilsTests, OnItemRemoved)
 {
   const TagIndex expected_tagindex{"tag1", 0};
@@ -289,15 +311,13 @@ TEST_F(ItemConnectUtilsTests, OnItemRemoved)
   mock_listener_t widget(compound);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
 
     AboutToRemoveItemEvent expected_event1{compound, expected_tagindex};
-    EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event1))).Times(1);
     EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event1))).Times(1);
     EXPECT_CALL(widget, OnConcreteEvent(expected_event1)).Times(1);
 
     ItemRemovedEvent expected_event2{compound, expected_tagindex};
-    EXPECT_CALL(widget, OnCallback(event_variant_t(expected_event2))).Times(1);
     EXPECT_CALL(widget, OnEvent(event_variant_t(expected_event2))).Times(1);
     EXPECT_CALL(widget, OnConcreteEvent(expected_event2)).Times(1);
   }
