@@ -22,6 +22,7 @@
 #include <mvvm/serialization/xml_document.h>
 #include <mvvm/signals/item_connect.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/providers/item_view_component_provider.h>
 
 #include <QApplication>
 #include <QLocale>
@@ -43,17 +44,18 @@ int main(int argc, char** argv)
   std::cout << item->Property<std::string>("Greeting") << " "
             << item->Property<std::string>("Addressee") << "\n";
 
-  // add two more properties, make "Number" enabled/disabled when "Flag" changes
+  // add two more properties
   auto& number_property = item->AddProperty("Number", 42);
   auto& flag_property = item->AddProperty("Flag", true);
+
+  // make "Number" enabled/disabled when "Flag" changes
   auto on_property = [&number_property, &flag_property](const mvvm::DataChangedEvent& event)
   { number_property.SetEnabled(flag_property.Data<bool>()); };
   mvvm::connect::Connect<mvvm::DataChangedEvent>(&flag_property, on_property);
 
-  mvvm::AllItemsViewModel viewmodel(&model);
-
   QTreeView view;
-  view.setModel(&viewmodel);
+  auto provider = mvvm::CreateProvider<mvvm::AllItemsViewModel>(&view, &model);
+
   view.show();
 
   auto result = app.exec();
