@@ -17,23 +17,22 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_SIGNAL_SLOT_H_
-#define MVVM_SIGNALS_SIGNAL_SLOT_H_
+#ifndef MVVM_SIGNALS_SIGNAL_SLOT_FWD_H_
+#define MVVM_SIGNALS_SIGNAL_SLOT_FWD_H_
 
 //! @file
-//! Defines signal/slot types. For the moment relies on `lsignal` library, see
-//! lsignal.h for copyright.
+//! Forward declaration of signal/slot classes.
 
-#include <mvvm/signals/lsignal.h>
-#include <mvvm/signals/signal_slot_fwd.h>
+namespace lsignal
+{
+class slot;
+}
 
 namespace mvvm
 {
 
-template <typename T>
-using Signal = lsignal::signal<T>;
+using Slot = lsignal::slot;
 
-using Connection = lsignal::connection;
 }  // namespace mvvm
 
 #endif  // MVVM_SIGNALS_SIGNAL_SLOT_H_

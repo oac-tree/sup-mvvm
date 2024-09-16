@@ -9,6 +9,7 @@ target_sources(${library_name} PRIVATE
   model_listener.cpp
   model_listener.h
   signal_slot.h
+  signal_slot_fwd.h
   event_types.cpp
   event_types.h
   item_connect_helper.cpp
