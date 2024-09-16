@@ -17,19 +17,17 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "celleditorscore/main_window.h"
-
+#include "collidingmicecore/mainwindow.h"
 #include <QApplication>
 #include <QLocale>
 
 int main(int argc, char** argv)
 {
-  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
 
-  QApplication app(argc, argv);
+    QApplication app(argc, argv);
+    collidingmice::MainWindow win;
+    win.show();
 
-  celleditors::MainWindow win;
-  win.show();
-
-  return app.exec();
+    return app.exec();
 }

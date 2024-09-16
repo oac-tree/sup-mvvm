@@ -1,4 +1,5 @@
 add_subdirectory(celleditors)
+add_subdirectory(collidingmice)
 add_subdirectory(concurrentplot)
 add_subdirectory(dragandmove)
 add_subdirectory(flatview)
