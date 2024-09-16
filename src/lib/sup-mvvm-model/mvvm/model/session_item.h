@@ -24,6 +24,7 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/tagindex.h>
+#include <mvvm/signals/signal_slot_fwd.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <memory>
@@ -367,6 +368,14 @@ public:
    * @brief Set item's model to the given value.
    */
   void SetModel(ISessionModel* model);
+
+  /**
+   * @brief Returns a slot for signal connection.
+   *
+   * Time of life of the slot is coupled with the item. After item destruction, all connections will
+   * be safely cut.
+   */
+  Slot* GetSlot() const;
 
 protected:
   explicit SessionItem(const std::string& item_type);

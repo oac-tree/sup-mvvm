@@ -21,6 +21,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_model.h>
 
 #include <gtest/gtest.h>
@@ -28,13 +29,11 @@
 using namespace mvvm;
 
 //! VectorItem tests.
-
 class VectorItemTests : public ::testing::Test
 {
 };
 
 //! Initial state of item when it is created outside of model context.
-
 TEST_F(VectorItemTests, InitialState)
 {
   const VectorItem item;
@@ -50,7 +49,6 @@ TEST_F(VectorItemTests, InitialState)
 }
 
 //! Initial state of item in model context
-
 TEST_F(VectorItemTests, InitialStateFromModel)
 {
   SessionModel model;
@@ -75,22 +73,31 @@ TEST_F(VectorItemTests, SetXYZ)
   EXPECT_EQ(item->Z(), 3.0);
 }
 
-//! Checking label update in ApplicationModel context
-//! FIXME uncomment test
+//! Checking label update in ApplicationModel context.
+TEST_F(VectorItemTests, LabelUpdate)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<VectorItem>();
 
-// TEST_F(VectorItemTests, LabelUpdate)
-//{
-//   ApplicationModel model;
-//   auto item = model.InsertItem<VectorItem>();
+  EXPECT_NE(item->GetSlot(), nullptr);
 
-//  EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
+  EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
 
-//  // Modification of one of the property should lead to label update
-//  item->SetProperty(VectorItem::kX, 1.0);
+  // Modification of one of the property should lead to label update
+  item->SetProperty(VectorItem::kX, 1.0);
 
-//  // Updated thanks to VectorItem::Activate
-//  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
-//}
+  // Updated thanks to VectorItem::Activate
+  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
+
+  // Removing item from the model
+  auto taken = model.TakeItem(model.GetRootItem(), mvvm::TagIndex::Default(0));
+  EXPECT_EQ(taken.get(), item);
+
+  // after item was taken from the model, it looses its listening capabilities
+  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
+  item->SetProperty(VectorItem::kX, 2.0);
+  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");  // still old label
+}
 
 TEST_F(VectorItemTests, Clone)
 {

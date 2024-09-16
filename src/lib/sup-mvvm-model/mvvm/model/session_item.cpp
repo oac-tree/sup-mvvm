@@ -27,6 +27,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/signals/signal_slot.h>
 
 namespace
 {
@@ -45,6 +46,7 @@ struct SessionItem::SessionItemImpl
   ISessionModel* m_model{nullptr};
   std::unique_ptr<SessionItemData> m_data;
   std::unique_ptr<TaggedItems> m_tags;
+  std::unique_ptr<Slot> m_slot;
   std::string m_item_type;
 };
 
@@ -295,6 +297,7 @@ void SessionItem::SetModel(ISessionModel* model)
   if (p_impl->m_model)
   {
     p_impl->m_model->CheckOut(this);
+    p_impl->m_slot.reset();  // we do not want to receive notification after removal from the model
   }
 
   p_impl->m_model = model;
@@ -308,6 +311,16 @@ void SessionItem::SetModel(ISessionModel* model)
   {
     child->SetModel(model);
   }
+}
+
+Slot* SessionItem::GetSlot() const
+{
+  if (!p_impl->m_slot)
+  {
+    p_impl->m_slot = std::make_unique<Slot>();
+  }
+
+  return p_impl->m_slot.get();
 }
 
 bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)

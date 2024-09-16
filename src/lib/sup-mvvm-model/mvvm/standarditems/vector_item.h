@@ -24,8 +24,10 @@
 
 namespace mvvm
 {
-//! Vector item with three x,y,z property items.
 
+/**
+ * @brief The VectorItem class is a compound item with three x,y,z property items.
+ */
 class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
 public:
@@ -50,8 +52,13 @@ public:
 
   void SetXYZ(double x, double y, double Z);
 
-private:
+  /**
+   * @details Activates listening on own properties change. It will update own label on any of x,y,z
+   * children change.
+   */
   void Activate() override;
+
+private:
   void UpdateLabel();
 };
 
