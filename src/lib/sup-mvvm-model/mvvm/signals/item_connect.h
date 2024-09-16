@@ -17,14 +17,14 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
-#define MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
+#ifndef MVVM_SIGNALS_ITEM_CONNECT_H_
+#define MVVM_SIGNALS_ITEM_CONNECT_H_
 
 //! @file
 //! Utility functions to connect user callbacks with events happening with given item.
 
 #include <mvvm/model_export.h>
-#include <mvvm/signals/event_utils.h>
+#include <mvvm/signals/item_connect_helper.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
@@ -308,4 +308,4 @@ Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(cons
 
 }  // namespace mvvm::connect
 
-#endif  // MVVM_SIGNALS_ITEM_CONNECT_UTILS_H_
+#endif  // MVVM_SIGNALS_ITEM_CONNECT_H_

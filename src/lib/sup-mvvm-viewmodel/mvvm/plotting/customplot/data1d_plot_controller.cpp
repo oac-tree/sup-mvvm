@@ -19,7 +19,6 @@
 
 #include "data1d_plot_controller.h"
 
-#include <mvvm/signals/item_connect_utils.h>
 #include <mvvm/standarditems/data1d_item.h>
 
 #include <qcustomplot.h>

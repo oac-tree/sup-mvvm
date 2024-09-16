@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "event_utils.h"
+#include "item_connect_helper.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/i_session_model.h>

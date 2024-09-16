@@ -1,5 +1,5 @@
 target_sources(${library_name} PRIVATE
-  item_connect_utils.h
+  item_connect.h
   item_controller.h
   item_listener.cpp
   item_listener.h
@@ -11,7 +11,7 @@ target_sources(${library_name} PRIVATE
   signal_slot.h
   event_types.cpp
   event_types.h
-  event_utils.cpp
-  event_utils.h
+  item_connect_helper.cpp
+  item_connect_helper.h
   event_handler.h
 )

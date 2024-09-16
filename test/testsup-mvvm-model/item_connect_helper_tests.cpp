@@ -18,7 +18,7 @@
  *****************************************************************************/
 
 #include "mvvm/model/session_item.h"
-#include "mvvm/signals/event_utils.h"
+#include "mvvm/signals/item_connect_helper.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -29,13 +29,12 @@
 using namespace mvvm;
 using ::testing::_;
 
-class EventUtilsTests : public ::testing::Test
+class ItemConnectHelperTest : public ::testing::Test
 {
 };
 
 //! Testing method GetEventSource for all type of events.
-
-TEST_F(EventUtilsTests, GetEventSource)
+TEST_F(ItemConnectHelperTest, GetEventSource)
 {
   SessionItem item;
   const TagIndex tagindex{"abc", 1};
@@ -53,7 +52,7 @@ TEST_F(EventUtilsTests, GetEventSource)
 }
 
 //! Testing utility function GetEventHandler.
-TEST_F(EventUtilsTests, GetEventHandler)
+TEST_F(ItemConnectHelperTest, GetEventHandler)
 {
   EXPECT_THROW(GetEventHandler(nullptr), NullArgumentException);
 
@@ -72,7 +71,7 @@ TEST_F(EventUtilsTests, GetEventHandler)
 }
 
 //! Testing utility function ConvertToPropertyChangedEvent.
-TEST_F(EventUtilsTests, ConvertToPropertyChangedEvent)
+TEST_F(ItemConnectHelperTest, ConvertToPropertyChangedEvent)
 {
   ApplicationModel model;
   auto compound = model.InsertItem<CompoundItem>();

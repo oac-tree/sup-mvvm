@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/signals/item_connect_utils.h"
+#include "mvvm/signals/item_connect.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
@@ -31,7 +31,7 @@
 using namespace mvvm;
 using ::testing::_;
 
-class ItemConnectUtilsTests : public ::testing::Test
+class ItemConnectTest : public ::testing::Test
 {
 public:
   class MockWidget
@@ -73,7 +73,7 @@ public:
 };
 
 //! Initialisation of the connection with wrong type of the model.
-TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
+TEST_F(ItemConnectTest, OnDataChangeWrongModel)
 {
   auto on_data_change = [this](const auto& event) {};
 
@@ -90,7 +90,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
 }
 
 //! Single call OnDataChanged expected when data was changed.
-TEST_F(ItemConnectUtilsTests, OnDataChanged)
+TEST_F(ItemConnectTest, OnDataChanged)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -110,7 +110,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChanged)
 
 //! Single call OnDataChanged expected when data was changed. Callback versions based on concrete
 //! event, and event variant.
-TEST_F(ItemConnectUtilsTests, OnDataChangedCallbackVersion)
+TEST_F(ItemConnectTest, OnDataChangedCallbackVersion)
 {
   testing::MockFunction<void(const DataChangedEvent&)> mock_event_based_cb;
   testing::MockFunction<void(const event_variant_t&)> mock_variant_based_cb;
@@ -135,7 +135,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedCallbackVersion)
 }
 
 //! Expect no calls OnDataChanged after disconnection.
-TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
+TEST_F(ItemConnectTest, OnDataChangedAfterDisconnection)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -158,7 +158,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedAfterDisconnection)
 }
 
 //! Expect no calls OnDataChanged when data is the same.
-TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
+TEST_F(ItemConnectTest, OnDataChangedSameData)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -178,7 +178,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedSameData)
 }
 
 //! Expect no calls OnDataChanged when other item is changed.
-TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
+TEST_F(ItemConnectTest, OnDataChangedDifferentItem)
 {
   ApplicationModel model;
   auto item1 = model.InsertItem<SessionItem>();
@@ -194,7 +194,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
 }
 
 //! Single call OnPropertyChanged expected when item's property was changed.
-TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
+TEST_F(ItemConnectTest, OnPropertyChanged)
 {
   const std::string property_name("height");
 
@@ -213,7 +213,7 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChanged)
 }
 
 //! Single call OnPropertyChanged expected when item's property was changed.
-TEST_F(ItemConnectUtilsTests, OnPropertyChangedCallbackVersion)
+TEST_F(ItemConnectTest, OnPropertyChangedCallbackVersion)
 {
   testing::MockFunction<void(const PropertyChangedEvent&)> mock_event_based_cb;
   testing::MockFunction<void(const event_variant_t&)> mock_variant_based_cb;
@@ -237,7 +237,7 @@ TEST_F(ItemConnectUtilsTests, OnPropertyChangedCallbackVersion)
 }
 
 //! Inserting item to item.
-TEST_F(ItemConnectUtilsTests, OnItemInserted)
+TEST_F(ItemConnectTest, OnItemInserted)
 {
   ApplicationModel model;
   auto compound = model.InsertItem<CompoundItem>();
@@ -255,7 +255,7 @@ TEST_F(ItemConnectUtilsTests, OnItemInserted)
 }
 
 //! Removing item.
-TEST_F(ItemConnectUtilsTests, OnItemRemoved)
+TEST_F(ItemConnectTest, OnItemRemoved)
 {
   const TagIndex expected_tagindex{"tag1", 0};
 
