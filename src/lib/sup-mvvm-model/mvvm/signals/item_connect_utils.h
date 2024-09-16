@@ -27,8 +27,6 @@
 #include <mvvm/signals/event_utils.h>
 #include <mvvm/signals/model_event_handler.h>
 
-#include <optional>
-
 namespace mvvm
 {
 class SessionItem;
@@ -36,20 +34,6 @@ class SessionItem;
 
 namespace mvvm::connect
 {
-
-/**
- * @brief Returns event handler.
- */
-ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item);
-
-/**
- * @brief Converts event to PropertyChangedEvent.
- *
- * It is assumed that the underlying event is DataChangedEvent which happened with one of the
- * property items.
- */
-std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* source,
-                                                                  const event_variant_t& event);
 
 /**
  * @brief Connects a callback to events specified by the given event type.

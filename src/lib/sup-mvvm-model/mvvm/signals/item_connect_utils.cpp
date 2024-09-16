@@ -29,36 +29,5 @@
 namespace mvvm::connect
 {
 
-mvvm::ModelEventHandler *GetEventHandler(const mvvm::SessionItem *item)
-{
-  if (!item)
-  {
-    throw NullArgumentException("Error in ItemConnectUtils: uninitialised item");
-  }
-
-  if (!item->GetModel())
-  {
-    throw NullArgumentException("Error in ItemConnectUtils: item doesn't have a model");
-  }
-
-  if (auto event_handler = item->GetModel()->GetEventHandler(); event_handler)
-  {
-    return event_handler;
-  }
-  throw LogicErrorException("The model doesn't have signaling capabilities");
-}
-
-std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem *source,
-                                                                  const event_variant_t &event)
-{
-  // DataChangedEvent happened with property item can be converted to PropertyChangedEvent of its
-  // parent.
-  auto concrete_event = std::get<DataChangedEvent>(event);
-  if (source == concrete_event.m_item->GetParent())
-  {
-    return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.m_item).tag};
-  }
-  return {};
-}
 
 }  // namespace mvvm::connect

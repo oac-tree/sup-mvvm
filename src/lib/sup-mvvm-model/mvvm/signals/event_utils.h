@@ -21,15 +21,35 @@
 #define MVVM_SIGNALS_EVENT_UTILS_H_
 
 //! @file
-//! Utility functions for model events.
+//! Utility functions for item connection.
 
 #include <mvvm/signals/event_types.h>
+
+#include <optional>
 
 namespace mvvm
 {
 
-//! Returns an item which is the source of given event.
+class ModelEventHandler;
+
+/**
+ * @brief Returns an item which is the source of given event.
+ */
 SessionItem* GetEventSource(const event_variant_t& event);
+
+/**
+ * @brief Returns event handler.
+ */
+ModelEventHandler* GetEventHandler(const mvvm::SessionItem* item);
+
+/**
+ * @brief Converts event to PropertyChangedEvent.
+ *
+ * It is assumed that the underlying event is DataChangedEvent which happened with one of the
+ * property items.
+ */
+std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* source,
+                                                                  const event_variant_t& event);
 
 }  // namespace mvvm
 

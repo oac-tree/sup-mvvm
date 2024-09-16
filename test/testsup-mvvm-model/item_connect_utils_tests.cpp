@@ -20,9 +20,8 @@
 #include "mvvm/signals/item_connect_utils.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/compound_item.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/session_model.h>
-#include <mvvm/standarditems/standard_item_includes.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -72,49 +71,6 @@ public:
 
   using mock_listener_t = ::testing::StrictMock<MockWidget>;
 };
-
-//! Testing utility function GetEventHandler.
-TEST_F(ItemConnectUtilsTests, GetEventHandler)
-{
-  EXPECT_THROW(connect::GetEventHandler(nullptr), NullArgumentException);
-
-  // item without the model doesn't have an event handler
-  const SessionItem item;
-  EXPECT_THROW(connect::GetEventHandler(&item), NullArgumentException);
-
-  // item belonging to SessionModel doesn't have an event handler
-  const SessionModel model;
-  EXPECT_THROW(connect::GetEventHandler(model.GetRootItem()), LogicErrorException);
-
-  // item belonging to ApplicationModel does have an event handler
-  const ApplicationModel application_model;
-  EXPECT_NO_THROW(connect::GetEventHandler(application_model.GetRootItem()));
-  EXPECT_NE(connect::GetEventHandler(application_model.GetRootItem()), nullptr);
-}
-
-//! Testing utility function ConvertToPropertyChangedEvent.
-TEST_F(ItemConnectUtilsTests, ConvertToPropertyChangedEvent)
-{
-  ApplicationModel model;
-  auto compound = model.InsertItem<CompoundItem>();
-  auto& property_item = compound->AddProperty("height", 42);
-
-  DataChangedEvent event{&property_item, DataRole::kData};
-
-  {  // successfull convertion
-    auto result = connect::ConvertToPropertyChangedEvent(compound, event_variant_t(event));
-    EXPECT_TRUE(result.has_value());
-
-    const PropertyChangedEvent expected_converted_event{compound, "height"};
-    EXPECT_EQ(result.value(), expected_converted_event);
-  }
-
-  {  // wrong convertion
-    // DataChangedEvent happened with property_item can't be PropertyChangedEvent of the same item
-    auto result = connect::ConvertToPropertyChangedEvent(&property_item, event_variant_t(event));
-    EXPECT_FALSE(result.has_value());
-  }
-}
 
 //! Initialisation of the connection with wrong type of the model.
 TEST_F(ItemConnectUtilsTests, OnDataChangeWrongModel)
@@ -230,7 +186,7 @@ TEST_F(ItemConnectUtilsTests, OnDataChangedDifferentItem)
   auto item2 = model.InsertItem<SessionItem>();
   item2->SetData(43, DataRole::kData);
 
-  mock_listener_t widget(item1);
+  const mock_listener_t widget(item1);
 
   // no notifications are expected here, strict mock will notify us if it's not the case
 
