@@ -19,8 +19,6 @@
 
 #include "viewmodel_base_utils.h"
 
-#include "viewmodel_base.h"
-
 namespace mvvm::utils
 {
 void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,

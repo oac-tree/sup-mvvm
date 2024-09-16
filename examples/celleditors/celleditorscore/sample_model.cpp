@@ -22,8 +22,6 @@
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/standarditems/editor_constants.h>
 
-#include <QtCore>
-
 namespace
 {
 const std::string kBool = "kBool";

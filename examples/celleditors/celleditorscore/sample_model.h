@@ -23,8 +23,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 
-#include <string>
-
 namespace celleditors
 {
 
