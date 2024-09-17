@@ -43,8 +43,9 @@
 
 using namespace mvvm;
 
-//! Testing PropertyGridController.
-
+/**
+ * @brief Testing PropertyGridController.
+ */
 class PropertyGridControllerTest : public ::testing::Test
 {
 public:
@@ -58,7 +59,6 @@ public:
 };
 
 //! To learn how QDataWidgetMapper is functioning.
-
 TEST_F(PropertyGridControllerTest, DataWidgetMapperBasics)
 {
   QStandardItemModel view_model;
@@ -98,9 +98,7 @@ TEST_F(PropertyGridControllerTest, UninitialisedModel)
   EXPECT_THROW(PropertyGridController(nullptr), NullArgumentException);
 }
 
-//! Checking method CreateWidget.
-//! Use QStandardItemModel with single row with label and data.
-
+//! Checking method CreateWidget. Use QStandardItemModel with single row with label and data.
 TEST_F(PropertyGridControllerTest, CreateWidget)
 {
   // preparing the model
@@ -129,9 +127,7 @@ TEST_F(PropertyGridControllerTest, CreateWidget)
   EXPECT_EQ(spinbox_widget->value(), 42);
 }
 
-//! Checking method CreateGrid.
-//! Use QStandardItemModel with two rows and three columns.
-
+//! Checking method CreateGrid. Use QStandardItemModel with two rows and three columns.
 TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
 {
   // preparing the model
@@ -152,9 +148,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
   EXPECT_EQ(editor_grid[0].size(), 3);
 }
 
-//! Checking method CreateGrid.
-//! Use PropertyViewModel and single VectorItem in it.
-
+//! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.
 TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModel)
 {
   ApplicationModel model;
@@ -170,9 +164,35 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModel)
   EXPECT_EQ(editor_grid[0].size(), 2);
 }
 
-//! Checking method CreateGrid for VectorItem in PropertyViewModel.
-//! VectorItem is set after controller creation, thus checking reset signal.
+//! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.
+//! Property item representing "y" is disabled. Real-life bug.
+TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModelDisabled)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
 
+  PropertyViewModel view_model(&model);
+  view_model.SetRootSessionItem(parent);
+
+  PropertyGridController controller(&view_model);
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  ASSERT_EQ(editor_grid.size(), 3);
+  ASSERT_EQ(editor_grid[0].size(), 2);
+  ASSERT_EQ(editor_grid[1].size(), 2);
+  ASSERT_EQ(editor_grid[2].size(), 2);
+
+  auto y_label = dynamic_cast<QLabel*>(editor_grid[1][0].get());
+  EXPECT_EQ(y_label->text(), QString("Y"));
+
+  parent->GetItem(VectorItem::kY)->SetEnabled(false);
+
+  ASSERT_NE(y_label, nullptr);
+  EXPECT_EQ(y_label->text(), QString("Y")); // Failing here, "" instead of "Y"
+}
+
+//! Checking method CreateGrid for VectorItem in PropertyViewModel. VectorItem is set after
+//! controller creation, thus checking reset signal.
 TEST_F(PropertyGridControllerTest, CreateGridForVectorItemProperties)
 {
   ApplicationModel model;
@@ -193,9 +213,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForVectorItemProperties)
   EXPECT_EQ(spy_grid_changed.count(), 1);
 }
 
-//! Checking method CreateGrid.
-//! Use PropertyTableViewModel with two VectorItem in it.
-
+//! Checking method CreateGrid. Use PropertyTableViewModel with two VectorItem in it.
 TEST_F(PropertyGridControllerTest, CreateGridForPropertyTableViewModel)
 {
   ApplicationModel model;
@@ -212,7 +230,6 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyTableViewModel)
 }
 
 //! Checking controller signaling while inserting item through the model.
-
 TEST_F(PropertyGridControllerTest, GridChanged)
 {
   ApplicationModel model;
@@ -228,9 +245,7 @@ TEST_F(PropertyGridControllerTest, GridChanged)
   EXPECT_EQ(spy_grid_changed.count(), 1);
 }
 
-//! Validating that internal mapping is working.
-//! The data is set via the editor
-
+//! Validating that internal mapping is working. The data is set via the editor
 TEST_F(PropertyGridControllerTest, SetDataThroughObtainedEditor)
 {
   ApplicationModel model;
@@ -260,9 +275,8 @@ TEST_F(PropertyGridControllerTest, SetDataThroughObtainedEditor)
   EXPECT_DOUBLE_EQ(vector->X(), 42.1);
 }
 
-//! Validating that internal mapping is working.
-//! The data is set via the model and then checked in the editor
-
+//! Validating that internal mapping is working. The data is set via the model and then checked in
+//! the editor
 TEST_F(PropertyGridControllerTest, SetDataThroughModel)
 {
   ApplicationModel model;
@@ -309,8 +323,7 @@ TEST_F(PropertyGridControllerTest, SetDataThroughModel)
   EXPECT_DOUBLE_EQ(non_editable_value_label->text().toDouble(), 42.1);
 }
 
-//! Validating that GridController survives after model clearing
-
+//! Validating that GridController survives after model clearing.
 TEST_F(PropertyGridControllerTest, ClearModel)
 {
   ApplicationModel model;
