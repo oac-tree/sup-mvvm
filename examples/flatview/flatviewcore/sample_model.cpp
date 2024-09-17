@@ -19,6 +19,7 @@
 
 #include "sample_model.h"
 
+#include <mvvm/signals/item_connect.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -51,8 +52,15 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
       .SetEditorType(mvvm::constants::kColorEditorType);
 }
 
-SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
+void DemoItem::Activate()
 {
+  // Enable/disable property "Answer" when property "Available" changes
+  auto on_property_changed = [this](auto)
+  { GetItem("Answer")->SetEnabled(GetItem("Available")->Data<bool>()); };
+  mvvm::connect::Connect<mvvm::PropertyChangedEvent>(
+      /*source*/ this, on_property_changed, GetSlot());
 }
+
+SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace flatview

@@ -23,8 +23,6 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 
-#include <string>
-
 namespace flatview
 {
 
@@ -34,6 +32,8 @@ class DemoItem : public mvvm::CompoundItem
 {
 public:
   DemoItem();
+
+  void Activate() override;
 };
 
 //! Main application model.
@@ -42,6 +42,8 @@ class SampleModel : public mvvm::ApplicationModel
 {
 public:
   SampleModel();
+
+
 };
 
 }  // namespace flatview
