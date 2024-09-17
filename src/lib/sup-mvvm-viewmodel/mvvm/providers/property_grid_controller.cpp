@@ -42,11 +42,6 @@ PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObjec
 
 PropertyGridController::~PropertyGridController() = default;
 
-std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex &index)
-{
-  return IsLabel(index) ? CreateLabel(index) : CreateEditor(index);
-}
-
 std::vector<PropertyGridController::widget_row_t> PropertyGridController::CreateWidgetGrid()
 {
   std::vector<PropertyGridController::widget_row_t> result;
@@ -91,20 +86,21 @@ bool PropertyGridController::Submit()
   return is_success;
 }
 
+std::unique_ptr<QWidget> PropertyGridController::CreateWidget(const QModelIndex &index)
+{
+  return IsLabel(index) ? CreateLabel(index) : CreateEditor(index);
+}
+
 void PropertyGridController::ClearContent()
 {
   m_widget_mappers.clear();
   m_delegates.clear();
 }
 
-//! Returns true if given cell has to be represented by the label.
-
 bool PropertyGridController::IsLabel(const QModelIndex &index) const
 {
   return !(m_view_model->flags(index) & Qt::ItemIsEditable);
 }
-
-//! Create a label for a given cell index.
 
 std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &index)
 {
@@ -113,25 +109,23 @@ std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &
   return result;
 }
 
-//! Create an editor for a given cell index.
-
 std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
 {
   if (index.row() >= m_delegates.size())
   {
     throw RuntimeException("Error in delegates");
   }
+
   auto delegate = m_delegates.at(index.row()).get();
-  QStyleOptionViewItem view_item;
+  const QStyleOptionViewItem view_item;
   auto result = std::unique_ptr<QWidget>(delegate->createEditor(nullptr, view_item, index));
   delegate->setEditorData(result.get(), index);
   return result;
 }
 
-//! Update internal mappers for new model layout.
-
 void PropertyGridController::OnLayoutChange()
 {
+  // all we can do currently, is to clear everything and notify the user
   ClearContent();
   emit GridChanged();
 }
