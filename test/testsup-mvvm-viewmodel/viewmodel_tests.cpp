@@ -34,14 +34,18 @@
 
 using namespace mvvm;
 
-//! Tests ViewModel class.
-//! This are tests for ViewModel API only. Full functionality is covered in all details in
-//! all_items_viewmodel.test.cpp and viewmodel_base_tests.cpp
-
+/**
+ * @brief Tests ViewModel class.
+ *
+ * This are tests for ViewModel API only. Full functionality is covered in all details in
+ * all_items_viewmodel.test.cpp and viewmodel_base_tests.cpp
+ */
 class ViewModelTest : public ::testing::Test
 {
 public:
-  //! Simple TestModel to validate ViewModel own API
+  /**
+   * @brief The TestViewModel class is a simple viewmodel for API testing.
+   */
   class TestViewModel : public ViewModel
   {
   public:
@@ -58,8 +62,6 @@ public:
   ApplicationModel m_model;
 };
 
-//! The map is initially empty.
-
 TEST_F(ViewModelTest, InitialState)
 {
   ViewModel view_model;
@@ -70,7 +72,7 @@ TEST_F(ViewModelTest, InitialState)
   EXPECT_THROW(view_model.GetSessionItemFromIndex(QModelIndex()), RuntimeException);
   EXPECT_EQ(view_model.GetViewItemFromIndex(QModelIndex()), nullptr);
 
-  SessionItem item;
+  const SessionItem item;
   EXPECT_EQ(view_model.FindViews(&item), std::vector<const ViewItem *>());
   EXPECT_EQ(view_model.GetIndexOfSessionItem(&item), QModelIndexList());
 }
@@ -107,11 +109,11 @@ TEST_F(ViewModelTest, FindViews)
 
 TEST_F(ViewModelTest, GetIndexOfSessionItem)
 {
-  TestViewModel view_model(&m_model);
+  const TestViewModel view_model(&m_model);
 
   // accessing first child under the root item
-  QModelIndex label_index = view_model.index(0, 0);
-  QModelIndex data_index = view_model.index(0, 1);
+  const QModelIndex label_index = view_model.index(0, 0);
+  const QModelIndex data_index = view_model.index(0, 1);
 
   QModelIndexList expected{label_index, data_index};
   EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()->GetItem({"", 0})), expected);

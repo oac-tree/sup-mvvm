@@ -100,14 +100,10 @@ ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index)
   return const_cast<ViewItem*>(static_cast<const ViewModel*>(this)->GetViewItemFromIndex(index));
 }
 
-//! Returns vector of all ViewItem's representing given SessionItem.
-
 std::vector<const ViewItem*> ViewModel::FindViews(const SessionItem* item) const
 {
   return mvvm::utils::FindViewsForItem<SessionItem>(this, item);
 }
-
-//! Returns list of model indices representing given SessionItem.
 
 QModelIndexList ViewModel::GetIndexOfSessionItem(const SessionItem* item) const
 {
