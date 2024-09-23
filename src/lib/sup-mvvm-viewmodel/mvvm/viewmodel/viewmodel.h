@@ -53,6 +53,8 @@ public:
 
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
+  bool setData(const QModelIndex& index, const QVariant& value, int role) override;
+
   /**
    * @brief Returns SessionModel which is currently presented.
    */
@@ -113,7 +115,6 @@ public:
    *
    * Expensive call.
    */
-
   QModelIndexList GetIndexOfSessionItem(const SessionItem* item) const;
 
   /**

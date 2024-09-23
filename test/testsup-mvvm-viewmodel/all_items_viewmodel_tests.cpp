@@ -441,9 +441,7 @@ TEST_F(AllItemsViewModelTest, SetDataThroughModel)
   // modifying data through the composer
   m_viewmodel.setData(item_index, 42.0, Qt::EditRole);
 
-  // FIXME Should be one. Currently reported two times because of first emit from
-  // ViewModelBase::setData, and second emit from ViewModelController::OnDataChanged.
-  EXPECT_EQ(spy_data_changed.count(), 2);  // should be 1
+  EXPECT_EQ(spy_data_changed.count(), 1);
 
   QModelIndex data_index = m_viewmodel.index(0, 1);
 
@@ -473,7 +471,7 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
   // modifying data through the composer
   viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
 
-  EXPECT_EQ(spy_data_changed1.count(), 2);  // FIXME should be 1
+  EXPECT_EQ(spy_data_changed1.count(), 1);
   EXPECT_EQ(spy_data_changed2.count(), 1);
 }
 

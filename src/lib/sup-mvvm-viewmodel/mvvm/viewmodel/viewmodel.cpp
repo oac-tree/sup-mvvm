@@ -51,6 +51,23 @@ int ViewModel::columnCount(const QModelIndex& parent) const
   return m_controller ? m_controller->GetColumnCount() : ViewModelBase::columnCount(parent);
 }
 
+bool ViewModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+  if (!index.isValid())
+  {
+    return false;
+  }
+
+  if (auto item = itemFromIndex(index); item)
+  {
+    // Please note the following difference with ViewModelBase::setData. Here we do not have explicit
+    // notification. ViewModelController will do it for us after the change on SessionModel side.
+    return item->SetData(value, role);
+  }
+
+  return false;
+}
+
 const ISessionModel* ViewModel::GetModel() const
 {
   return GetRootSessionItem() ? GetRootSessionItem()->GetModel() : nullptr;

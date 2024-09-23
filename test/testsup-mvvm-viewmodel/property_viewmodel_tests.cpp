@@ -212,7 +212,7 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
   // modifying data through the composer
   viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
 
-  EXPECT_EQ(spy_data_changed1.count(), 2);  // FIXME should be 1
+  EXPECT_EQ(spy_data_changed1.count(), 1);
   EXPECT_EQ(spy_data_changed2.count(), 1);
 }
 
