@@ -23,6 +23,7 @@
 #include <mvvm/editors/float_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
@@ -122,6 +123,37 @@ TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabel)
   EXPECT_EQ(label.text(), QString("def"));
 }
 
+//! To learn how QDataWidgetMapper is functioning when mapping QLabel.
+TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabelWithDelegatePresence)
+{
+  QStandardItemModel view_model;
+  auto parent_item = view_model.invisibleRootItem();
+  parent_item->insertRow(0, CreateItemRow("abc", 42));
+
+  // setting up external widgets and the mapper
+  QLabel label;
+  QDataWidgetMapper widget_mapper;
+  ViewModelDelegate delegate;
+  widget_mapper.setModel(&view_model);
+  widget_mapper.setItemDelegate(&delegate);
+  // non-editable widgets needs third "property" parameter for mapping
+  // See QTBUG-10672
+  widget_mapper.addMapping(&label, 0, "text");
+  widget_mapper.toFirst();
+
+  // checking values in the model and widget
+  EXPECT_EQ(view_model.data(view_model.index(0, 0)).toString(), QString("abc"));
+  EXPECT_EQ(label.text(), QString("abc"));
+
+  // changing the value via model
+  view_model.setData(view_model.index(0, 0), QString("def"), Qt::EditRole);
+  EXPECT_EQ(label.text(), QString("def"));
+
+  // changing color, text should be the same (this wasn't the case in PropertyFlatView)
+  view_model.setData(view_model.index(0, 0), QColor(Qt::red), Qt::ForegroundRole);
+  EXPECT_EQ(label.text(), QString("def"));
+}
+
 TEST_F(PropertyGridControllerTest, UninitialisedModel)
 {
   EXPECT_THROW(PropertyGridController(nullptr), NullArgumentException);
@@ -195,7 +227,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModel)
 
 //! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.
 //! Property item representing "y" is disabled. Real-life bug.
-TEST_F(PropertyGridControllerTest, DISABLED_CreateGridForPropertyViewModelDisabled)
+TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModelDisabled)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
@@ -217,7 +249,7 @@ TEST_F(PropertyGridControllerTest, DISABLED_CreateGridForPropertyViewModelDisabl
   parent->GetItem(VectorItem::kY)->SetEnabled(false);
 
   ASSERT_NE(y_label, nullptr);
-  EXPECT_EQ(y_label->text(), QString("Y")); // Failing here, "" instead of "Y"
+  EXPECT_EQ(y_label->text(), QString("Y"));
   EXPECT_EQ(parent->GetItem(VectorItem::kY)->GetDisplayName(), "Y");
 }
 

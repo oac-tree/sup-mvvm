@@ -24,6 +24,7 @@
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
+#include <QDebug>
 #include <QLabel>
 #include <QStyleOptionViewItem>
 
@@ -51,12 +52,15 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
   result.resize(m_view_model->rowCount());
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
+    auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
+    mapper->setCurrentIndex(row);
+    mapper->toFirst();
+
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
       const auto index = m_view_model->index(row, col);
 
       auto widget = CreateWidget(index);
-      auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
 
       if (IsLabel(index))
       {
@@ -68,9 +72,9 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
       {
         mapper->addMapping(widget.get(), col);
       }
-
       result[row].push_back(std::move(widget));
     }
+
   }
 
   return result;
@@ -138,10 +142,9 @@ void PropertyGridController::UpdateMappers()
   {
     auto mapper = std::make_unique<QDataWidgetMapper>();
     auto delegate = std::make_unique<ViewModelDelegate>();
+    mapper->setOrientation(Qt::Horizontal);
     mapper->setModel(m_view_model);
     mapper->setItemDelegate(delegate.get());
-    mapper->setRootIndex(QModelIndex());
-    mapper->setCurrentModelIndex(m_view_model->index(row, 0));
     m_widget_mappers.emplace_back(std::move(mapper));
     m_delegates.emplace_back(std::move(delegate));
   }
