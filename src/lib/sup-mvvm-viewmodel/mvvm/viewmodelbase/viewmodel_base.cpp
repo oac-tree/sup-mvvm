@@ -31,7 +31,7 @@ struct ViewModelBase::ViewModelBaseImpl
   std::unique_ptr<ViewItem> root;
   explicit ViewModelBaseImpl(ViewModelBase* model) : model(model) {}
 
-  bool IsItemBelongsToModel(ViewItem* item)
+  bool IsItemBelongsToModel(ViewItem* item) const
   {
     return model->indexFromItem(item).isValid() || item == model->rootItem();
   }
@@ -52,8 +52,9 @@ QModelIndex ViewModelBase::index(int row, int column, const QModelIndex& parent)
   auto parent_item = itemFromIndex(parent) ? itemFromIndex(parent) : rootItem();
   const bool is_valid_row = row >= 0 && row < rowCount(parent);
   const bool is_valid_column = column >= 0 && column < columnCount(parent);
-  return is_valid_row && is_valid_column ? createIndex(row, column, parent_item->GetChild(row, column))
-                                         : QModelIndex();
+  return is_valid_row && is_valid_column
+             ? createIndex(row, column, parent_item->GetChild(row, column))
+             : QModelIndex();
 }
 
 QModelIndex ViewModelBase::parent(const QModelIndex& child) const
@@ -101,7 +102,7 @@ bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int
 
   if (auto item = itemFromIndex(index); item)
   {
-    bool result = item->SetData(value, role);
+    const bool result = item->SetData(value, role);
     if (result)
     {
       emit dataChanged(index, index, QVector<int>() << role);
@@ -111,8 +112,6 @@ bool ViewModelBase::setData(const QModelIndex& index, const QVariant& value, int
 
   return false;
 }
-
-//! Returns a pointer to invisible root item.
 
 const ViewItem* ViewModelBase::rootItem() const
 {
@@ -124,9 +123,6 @@ ViewItem* ViewModelBase::rootItem()
   return const_cast<ViewItem*>(static_cast<const ViewModelBase*>(this)->rootItem());
 }
 
-//! Returns a pointer to the ViewItem associated with the given index.
-//! If index is invalid, returns nullptr.
-
 ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index)
 {
   return const_cast<ViewItem*>(static_cast<const ViewModelBase*>(this)->itemFromIndex(index));
@@ -136,8 +132,6 @@ const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const
 {
   return index.isValid() ? static_cast<const ViewItem*>(index.internalPointer()) : nullptr;
 }
-
-//! Returns the QModelIndex associated with the given item.
 
 QModelIndex ViewModelBase::indexFromItem(const ViewItem* item) const
 {
@@ -175,8 +169,6 @@ void ViewModelBase::clearRows(ViewItem* parent)
   endRemoveRows();
 }
 
-//! Insert a row of items at index 'row' to given parent.
-
 void ViewModelBase::insertRow(ViewItem* parent, int row,
                               std::vector<std::unique_ptr<ViewItem>> items)
 {
@@ -190,14 +182,10 @@ void ViewModelBase::insertRow(ViewItem* parent, int row,
   endInsertRows();
 }
 
-//! Appends row of items to given parent.
-
 void ViewModelBase::appendRow(ViewItem* parent, std::vector<std::unique_ptr<ViewItem>> items)
 {
   insertRow(parent, parent->GetRowCount(), std::move(items));
 }
-
-//! Returns the item flags for the given index.
 
 Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
 {
@@ -209,13 +197,11 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
   return result;
 }
 
-bool ViewModelBase::hasChildren(const QModelIndex &parent) const
+bool ViewModelBase::hasChildren(const QModelIndex& parent) const
 {
   auto parent_item = itemFromIndex(parent);
   return parent_item ? parent_item->HasChildren() : rootItem()->HasChildren();
 }
-
-//! Sets new root item. Previous item will be deleted, model will be reset.
 
 void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item, bool notify)
 {
@@ -230,14 +216,10 @@ void ViewModelBase::ResetRootViewItem(std::unique_ptr<ViewItem> root_item, bool 
   }
 }
 
-//! Allows to call internal method from outside.
-
 void ViewModelBase::BeginResetModelNotify()
 {
   beginResetModel();
 }
-
-//! Allows to call internal method from outside.
 
 void ViewModelBase::EndResetModelNotify()
 {
