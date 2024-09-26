@@ -302,14 +302,14 @@ void SessionItem::SetModel(ISessionModel* model)
 
   p_impl->m_model = model;
 
-  if (p_impl->m_model)
-  {
-    p_impl->m_model->CheckIn(this);
-  }
-
+  // First we assign the model to all children, and then we register item.
   for (auto child : GetAllItems())
   {
     child->SetModel(model);
+  }
+  if (p_impl->m_model)
+  {
+    p_impl->m_model->CheckIn(this);
   }
 }
 

@@ -25,17 +25,20 @@
 
 #include <algorithm>
 #include <chrono>
+#include <iostream>
 #include <random>
 
 namespace
 {
+
 std::string GetRandomName()
 {
   std::string alphabet{"abcdefghijklmnopqrstuvwxyz"};
-  unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::shuffle(alphabet.begin(), alphabet.end(), std::default_random_engine(seed));
   return alphabet.substr(0, 6);
 }
+
 }  // namespace
 
 namespace flatview
@@ -55,10 +58,11 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 void DemoItem::Activate()
 {
   // Enable/disable property "Answer" when property "Available" changes
-  auto on_property_changed = [this](auto)
+  auto on_property_changed = [this](const mvvm::DataChangedEvent& event)
   { GetItem("Answer")->SetEnabled(GetItem("Available")->Data<bool>()); };
-  mvvm::connect::Connect<mvvm::PropertyChangedEvent>(
-      /*source*/ this, on_property_changed, GetSlot());
+
+  mvvm::connect::Connect<mvvm::DataChangedEvent>(
+      /*source*/ GetItem("Available"), on_property_changed, GetSlot());
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
