@@ -21,9 +21,11 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/providers/viewmodel_delegate.h>
+#include <mvvm/viewmodel/viewmodel_utils.h>
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
+#include <QDebug>
 #include <QLabel>
 #include <QStyleOptionViewItem>
 
@@ -49,6 +51,8 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
   UpdateMappers();
 
   result.resize(m_view_model->rowCount());
+  m_widgets.resize(m_view_model->rowCount());
+
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
     auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
@@ -69,6 +73,7 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
       {
         mapper->addMapping(widget.get(), col);
       }
+      m_widgets[row].push_back(widget.get());
       result[row].push_back(std::move(widget));
     }
 
@@ -97,6 +102,7 @@ void PropertyGridController::ClearContent()
 {
   m_widget_mappers.clear();
   m_delegates.clear();
+  m_widgets.clear();
 }
 
 bool PropertyGridController::IsLabel(const QModelIndex &index) const
@@ -157,6 +163,22 @@ void PropertyGridController::SetupConnections(QAbstractItemModel *model)
   connect(model, &QAbstractItemModel::rowsRemoved, on_row_removed);
 
   connect(model, &QAbstractItemModel::modelReset, this, [this]() { OnLayoutChange(); });
+
+  auto on_data_change =
+      [this](const QModelIndex &index, const QModelIndex &, const QVector<int> &roles)
+  {
+    qDebug() << index << roles;
+    QVector<int> expected_roles = {Qt::ForegroundRole};
+    if (roles == expected_roles)
+    {
+      if (auto item = utils::ItemFromIndex(index); item)
+      {
+        qDebug() << index << item->IsEnabled() << QString::fromStdString(item->GetDisplayName());
+        m_widgets[index.row()][index.column()]->setEnabled(item->IsEnabled());
+      }
+    }
+  };
+  connect(m_view_model, &QAbstractItemModel::dataChanged, on_data_change);
 }
 
 }  // namespace mvvm

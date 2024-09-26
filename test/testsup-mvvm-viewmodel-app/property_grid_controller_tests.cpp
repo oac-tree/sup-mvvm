@@ -308,9 +308,14 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModelDisabled)
   auto y_label = dynamic_cast<QLabel*>(editor_grid[1][0].get());
   EXPECT_EQ(y_label->text(), QString("Y"));
 
+  EXPECT_TRUE(y_label->isEnabled());
+  EXPECT_TRUE(editor_grid[1][1]);
+
   parent->GetItem(VectorItem::kY)->SetEnabled(false);
 
   ASSERT_NE(y_label, nullptr);
+  EXPECT_FALSE(y_label->isEnabled());
+  EXPECT_FALSE(editor_grid[1][1]);
   EXPECT_EQ(y_label->text(), QString("Y"));
   EXPECT_EQ(parent->GetItem(VectorItem::kY)->GetDisplayName(), "Y");
 }

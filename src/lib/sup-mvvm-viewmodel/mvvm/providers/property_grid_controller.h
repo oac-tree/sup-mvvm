@@ -121,6 +121,7 @@ private:
   QAbstractItemModel* m_view_model{nullptr};
   std::vector<std::unique_ptr<ViewModelDelegate>> m_delegates;
   std::vector<std::unique_ptr<QDataWidgetMapper>> m_widget_mappers;
+  std::vector<std::vector<QWidget*>> m_widgets;
 };
 
 }  // namespace mvvm
