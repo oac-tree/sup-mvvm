@@ -25,7 +25,6 @@
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
-#include <QDebug>
 #include <QLabel>
 #include <QStyleOptionViewItem>
 
@@ -164,16 +163,17 @@ void PropertyGridController::SetupConnections(QAbstractItemModel *model)
 
   connect(model, &QAbstractItemModel::modelReset, this, [this]() { OnLayoutChange(); });
 
+  // This hack simply disable/enable widgets when viewmodel reports change of text color (which
+  // basically means change of item's enable status). FIXME listen for SessionItem->IsEnabled()
+  // directly.
   auto on_data_change =
       [this](const QModelIndex &index, const QModelIndex &, const QVector<int> &roles)
   {
-    qDebug() << index << roles;
     QVector<int> expected_roles = {Qt::ForegroundRole};
     if (roles == expected_roles)
     {
       if (auto item = utils::ItemFromIndex(index); item)
       {
-        qDebug() << index << item->IsEnabled() << QString::fromStdString(item->GetDisplayName());
         m_widgets[index.row()][index.column()]->setEnabled(item->IsEnabled());
       }
     }

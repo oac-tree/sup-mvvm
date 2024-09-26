@@ -228,9 +228,9 @@ TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
   QStandardItemModel view_model;
   auto parent_item = view_model.invisibleRootItem();
   const QList<QStandardItem*> row0 = {new QStandardItem("a"), new QStandardItem("b"),
-                                new QStandardItem("b")};
+                                      new QStandardItem("b")};
   const QList<QStandardItem*> row1 = {new QStandardItem("a"), new QStandardItem("b"),
-                                new QStandardItem("b")};
+                                      new QStandardItem("b")};
   parent_item->insertRow(0, row0);
   parent_item->insertRow(0, row1);
 
@@ -309,13 +309,13 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModelDisabled)
   EXPECT_EQ(y_label->text(), QString("Y"));
 
   EXPECT_TRUE(y_label->isEnabled());
-  EXPECT_TRUE(editor_grid[1][1]);
+  EXPECT_TRUE(editor_grid[1][1]->isEnabled());
 
   parent->GetItem(VectorItem::kY)->SetEnabled(false);
 
   ASSERT_NE(y_label, nullptr);
   EXPECT_FALSE(y_label->isEnabled());
-  EXPECT_FALSE(editor_grid[1][1]);
+  EXPECT_FALSE(editor_grid[1][1]->isEnabled());
   EXPECT_EQ(y_label->text(), QString("Y"));
   EXPECT_EQ(parent->GetItem(VectorItem::kY)->GetDisplayName(), "Y");
 }
