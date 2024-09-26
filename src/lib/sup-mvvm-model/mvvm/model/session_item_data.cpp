@@ -26,16 +26,15 @@
 
 namespace mvvm
 {
-//! Returns vector of all roles for which data exist.
+
 std::vector<int> SessionItemData::GetRoles() const
 {
   std::vector<int> result;
   std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
-                 [](auto x) { return x.second; });
+                 [](const auto& data_pair) { return data_pair.second; });
   return result;
 }
 
-//! Returns data for a given role, if exist. Will return non-initialized variant otherwise.
 variant_t SessionItemData::Data(int role) const
 {
   for (const auto& value : m_values)
@@ -47,11 +46,6 @@ variant_t SessionItemData::Data(int role) const
   }
   return {};
 }
-
-//! Sets the data for given role. Returns true if data was changed.
-//! If new value is invalid, old value with this role will be removed. If new variant is
-//! incompatible with existing variant, exception will be thrown. This means that it is not possible
-//! to change type of variant, once the role was set.
 
 bool SessionItemData::SetData(const variant_t& value, int role)
 {
@@ -76,20 +70,15 @@ bool SessionItemData::SetData(const variant_t& value, int role)
       return true;
     }
   }
-  m_values.push_back(datarole_t(value, role));
+  m_values.emplace_back(value, role);
   return true;
 }
 
-//! Returns true if item has data with given role.
-
 bool SessionItemData::HasData(int role) const
 {
-  auto has_role = [role](const auto& x) { return x.second == role; };
+  auto has_role = [role](const auto& data_pair) { return data_pair.second == role; };
   return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();
 }
-
-//! Makes sure that the new variant is compatible with the old variant stored with the given role.
-//! Throws exception otherwise.
 
 void SessionItemData::AssureCompatibility(const variant_t& variant, int role) const
 {
@@ -97,8 +86,11 @@ void SessionItemData::AssureCompatibility(const variant_t& variant, int role) co
   {
     std::ostringstream ostr;
     ostr << "Error in SessionItemData: variant types mismatch. "
-         << "Old variant [" << utils::TypeName(Data(role)) << "], "
-         << "new variant [" << utils::TypeName(variant) << "].\n";
+         << "Old variant type [" << utils::TypeName(Data(role)) << "], "
+         << "old value [" << utils::ValueToString(Data(role)) << "], "
+         << "new variant type [" << utils::TypeName(variant) << "], "
+         << "new value [" << utils::ValueToString(variant) << "], "
+         << "role [" << role << "].\n";
     throw RuntimeException(ostr.str());
   }
 }
