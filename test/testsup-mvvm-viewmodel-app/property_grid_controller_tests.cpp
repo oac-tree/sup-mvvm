@@ -131,6 +131,7 @@ TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabelWithDelegatePresence
   parent_item->insertRow(0, CreateItemRow("abc", 42));
 
   // setting up external widgets and the mapper
+  QSpinBox spinbox;
   QLabel label;
   QDataWidgetMapper widget_mapper;
   ViewModelDelegate delegate;
@@ -139,11 +140,13 @@ TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabelWithDelegatePresence
   // non-editable widgets needs third "property" parameter for mapping
   // See QTBUG-10672
   widget_mapper.addMapping(&label, 0, "text");
-  widget_mapper.toFirst();
+  widget_mapper.addMapping(&spinbox, 1);
+  widget_mapper.setCurrentIndex(0);
 
   // checking values in the model and widget
   EXPECT_EQ(view_model.data(view_model.index(0, 0)).toString(), QString("abc"));
   EXPECT_EQ(label.text(), QString("abc"));
+  EXPECT_EQ(spinbox.value(), 42);
 
   // changing the value via model
   view_model.setData(view_model.index(0, 0), QString("def"), Qt::EditRole);
@@ -152,6 +155,36 @@ TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabelWithDelegatePresence
   // changing color, text should be the same (this wasn't the case in PropertyFlatView)
   view_model.setData(view_model.index(0, 0), QColor(Qt::red), Qt::ForegroundRole);
   EXPECT_EQ(label.text(), QString("def"));
+}
+
+TEST_F(PropertyGridControllerTest, DataWidgetMapperAndQLabelWithOurViewModel)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  item->SetDisplayName("abc");
+  item->SetData(42);
+
+  AllItemsViewModel view_model(&model);
+
+  QSpinBox spinbox;
+  QLabel label;
+  QDataWidgetMapper widget_mapper;
+  ViewModelDelegate delegate;
+  widget_mapper.setModel(&view_model);
+  widget_mapper.setItemDelegate(&delegate);
+  // non-editable widgets needs third "property" parameter for mapping
+  // See QTBUG-10672
+  widget_mapper.addMapping(&label, 0, "text");
+  widget_mapper.addMapping(&spinbox, 1);
+  widget_mapper.setCurrentIndex(0);
+
+  EXPECT_EQ(view_model.data(view_model.index(0, 0)), QString("abc"));
+  EXPECT_EQ(label.text(), QString("abc"));
+
+  item->SetEnabled(false);
+
+  EXPECT_EQ(label.text(), QString("abc"));
+  EXPECT_EQ(item->GetDisplayName(), "abc");
 }
 
 TEST_F(PropertyGridControllerTest, UninitialisedModel)
@@ -165,7 +198,7 @@ TEST_F(PropertyGridControllerTest, CreateWidget)
   // preparing the model
   QStandardItemModel view_model;
   auto parent_item = view_model.invisibleRootItem();
-  QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
+  const QList<QStandardItem*> items = {new QStandardItem("a"), new QStandardItem("b")};
 
   // first item in a row is a label
   items.at(0)->setEditable(false);
@@ -194,9 +227,9 @@ TEST_F(PropertyGridControllerTest, CreateGridForStandardModel)
   // preparing the model
   QStandardItemModel view_model;
   auto parent_item = view_model.invisibleRootItem();
-  QList<QStandardItem*> row0 = {new QStandardItem("a"), new QStandardItem("b"),
+  const QList<QStandardItem*> row0 = {new QStandardItem("a"), new QStandardItem("b"),
                                 new QStandardItem("b")};
-  QList<QStandardItem*> row1 = {new QStandardItem("a"), new QStandardItem("b"),
+  const QList<QStandardItem*> row1 = {new QStandardItem("a"), new QStandardItem("b"),
                                 new QStandardItem("b")};
   parent_item->insertRow(0, row0);
   parent_item->insertRow(0, row1);
@@ -223,6 +256,35 @@ TEST_F(PropertyGridControllerTest, CreateGridForPropertyViewModel)
 
   EXPECT_EQ(editor_grid.size(), 3);
   EXPECT_EQ(editor_grid[0].size(), 2);
+}
+
+TEST_F(PropertyGridControllerTest, CreateGridForPropertyItemDisabled)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<PropertyItem>();
+  item->SetDisplayName("aaa");
+  item->SetData(42);
+
+  AllItemsViewModel view_model(&model);
+
+  PropertyGridController controller(&view_model);
+  auto editor_grid = controller.CreateWidgetGrid();
+
+  item->SetDisplayName("abc");
+
+  ASSERT_EQ(editor_grid.size(), 1);
+  ASSERT_EQ(editor_grid[0].size(), 2);
+
+  auto label = dynamic_cast<QLabel*>(editor_grid[0][0].get());
+  ASSERT_NE(label, nullptr);
+  EXPECT_EQ(view_model.data(view_model.index(0, 0)), QString("abc"));
+  EXPECT_EQ(label->text(), QString("abc"));
+
+  item->SetEnabled(false);
+
+  ASSERT_NE(label, nullptr);
+  EXPECT_EQ(label->text(), QString("abc"));
+  EXPECT_EQ(item->GetDisplayName(), "abc");
 }
 
 //! Checking method CreateGrid. Use PropertyViewModel and single VectorItem in it.
@@ -263,7 +325,7 @@ TEST_F(PropertyGridControllerTest, CreateGridForVectorItemProperties)
   PropertyViewModel view_model(&model);
 
   PropertyGridController controller(&view_model);
-  QSignalSpy spy_grid_changed(&controller, &PropertyGridController::GridChanged);
+  const QSignalSpy spy_grid_changed(&controller, &PropertyGridController::GridChanged);
 
   view_model.SetRootSessionItem(parent);
 
@@ -298,9 +360,9 @@ TEST_F(PropertyGridControllerTest, GridChanged)
 
   AllItemsViewModel view_model(&model);
 
-  PropertyGridController controller(&view_model);
+  const PropertyGridController controller(&view_model);
 
-  QSignalSpy spy_grid_changed(&controller, &PropertyGridController::GridChanged);
+  const QSignalSpy spy_grid_changed(&controller, &PropertyGridController::GridChanged);
 
   model.InsertItem<PropertyItem>();
 

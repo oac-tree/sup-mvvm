@@ -24,7 +24,6 @@
 
 #include <QAbstractItemModel>
 #include <QDataWidgetMapper>
-#include <QDebug>
 #include <QLabel>
 #include <QStyleOptionViewItem>
 
@@ -53,8 +52,6 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
     auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
-    mapper->setCurrentIndex(row);
-    mapper->toFirst();
 
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
@@ -75,6 +72,7 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
       result[row].push_back(std::move(widget));
     }
 
+    mapper->setCurrentIndex(row);
   }
 
   return result;
@@ -123,7 +121,6 @@ std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex 
   auto delegate = m_delegates.at(index.row()).get();
   const QStyleOptionViewItem view_item;
   auto result = std::unique_ptr<QWidget>(delegate->createEditor(nullptr, view_item, index));
-  delegate->setEditorData(result.get(), index);
   return result;
 }
 
@@ -145,6 +142,7 @@ void PropertyGridController::UpdateMappers()
     mapper->setOrientation(Qt::Horizontal);
     mapper->setModel(m_view_model);
     mapper->setItemDelegate(delegate.get());
+    mapper->setRootIndex(QModelIndex());
     m_widget_mappers.emplace_back(std::move(mapper));
     m_delegates.emplace_back(std::move(delegate));
   }
