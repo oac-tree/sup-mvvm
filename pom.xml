@@ -106,10 +106,12 @@
                         <requires version="current">qt5-qtbase</requires>
                         <requires version="current">qt5-qtsvg</requires>
                         <requires version="current">qt5-qttools</requires>
+                        <requires version="current">qt5-qtcharts</requires>
                         <requires version="current" buildOnly="true">libxml2-devel</requires>
                         <requires version="current" buildOnly="true">qt5-qtbase-devel</requires>
                         <requires version="current" buildOnly="true">qt5-qtsvg-devel</requires>
                         <requires version="current" buildOnly="true">qt5-qttools-devel</requires>
+                        <requires version="current" buildOnly="true">qt5-qtcharts-devel</requires>
                         <requires version="current" buildOnly="true">mesa-libGL-devel</requires>
                         <requires version="current" buildOnly="true">pcre2-utf16</requires>
                         <requires codac="true" buildOnly="true">gtest-1.12.1-devel</requires>
