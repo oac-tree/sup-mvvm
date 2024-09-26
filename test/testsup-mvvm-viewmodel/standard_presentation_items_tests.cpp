@@ -105,9 +105,9 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItem)
   EXPECT_EQ(presentation.GetItem(), &item);
   EXPECT_EQ(presentation.GetDataRole(), DataRole::kDisplay);
   EXPECT_TRUE(presentation.IsEnabled());
-  EXPECT_TRUE(presentation.IsEditable());
+  EXPECT_FALSE(presentation.IsEditable());
 
-  EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString("abc"));
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), QString("abc"));
 
   // for the moment it is not possible to set display name from a view
@@ -428,7 +428,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_FALSE(presentation.Data(Qt::DisplayRole).isValid());
     EXPECT_TRUE(presentation.GetQtRoles(DataRole::kDisplay).empty());
     EXPECT_TRUE(presentation.IsEnabled());
-    EXPECT_TRUE(presentation.IsEditable());
+    EXPECT_FALSE(presentation.IsEditable());
   }
 
   {  // label on board
@@ -438,7 +438,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
     EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
     EXPECT_TRUE(presentation.IsEnabled());
-    EXPECT_TRUE(presentation.IsEditable());
+    EXPECT_FALSE(presentation.IsEditable());
 
     // item has a display role, which coincide with the label, the rest is blocked
     EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), expected_label);
@@ -466,7 +466,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
     EXPECT_EQ(presentation.GetQtRoles(DataRole::kDisplay), QVector<int>({Qt::DisplayRole}));
     EXPECT_FALSE(presentation.IsEnabled());
-    EXPECT_TRUE(presentation.IsEditable());
+    EXPECT_FALSE(presentation.IsEditable());
 
     // item has a display role, which coincide with the label
     EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(), expected_label);

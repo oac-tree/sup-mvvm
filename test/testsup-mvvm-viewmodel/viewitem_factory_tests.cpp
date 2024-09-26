@@ -46,14 +46,15 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
 
   auto viewitem = CreateDisplayNameViewItem(&item);
 
-  // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
-  // blocked
+  // presentation has a display role, and edit role
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
-  EXPECT_FALSE(viewitem->Data(Qt::EditRole).isValid());
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+
   EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
   EXPECT_FALSE(viewitem->SetData(QString("bbb"), Qt::EditRole));
 
   // data is the same as before, despite of all attempts to change it
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }
 
@@ -175,17 +176,16 @@ TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
   SessionItem item;
   item.SetDisplayName("abc");
 
-  QString expected_label("abc");
+  const QString expected_label("abc");
   auto viewitem = CreateFixedDataViewItem(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
   // setting decoration role too
-  QColor expected_color(Qt::red);
+  const QColor expected_color(Qt::red);
   viewitem->SetData(QVariant::fromValue(expected_color), Qt::DecorationRole);
 
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), expected_label);
   EXPECT_FALSE(viewitem->Data(Qt::EditRole).isValid());
   EXPECT_EQ(viewitem->Data(Qt::DecorationRole).value<QColor>(), expected_color);
 
-  // item should be read only since we didn't assing edit role
   Qt::ItemFlags expected_flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
   EXPECT_EQ(viewitem->Flags(), expected_flags);
 }

@@ -26,8 +26,6 @@
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/viewmodelbase/viewitem_data_interface.h>
 
-#include <memory>
-
 namespace mvvm
 {
 
@@ -122,6 +120,8 @@ public:
   explicit DisplayNamePresentationItem(SessionItem* item);
 
   QVariant Data(int qt_role) const override;
+
+  bool IsEditable() const override;
 };
 
 /**
@@ -162,6 +162,7 @@ public:
 
   QVector<int> GetQtRoles(int data_role) const override;
 
+  bool IsEditable() const override;
 private:
   std::map<int, QVariant> m_data;
 };

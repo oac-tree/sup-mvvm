@@ -27,8 +27,6 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
-
 namespace
 {
 const int expected_column_count = 2;
@@ -63,7 +61,7 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForTopLevelItem)
   // non editable display name
   auto view_item = items.at(0).get();
   EXPECT_EQ(view_item->Data(Qt::DisplayRole).toString().toStdString(), item.GetType());
-  EXPECT_FALSE(view_item->Data(Qt::EditRole).isValid());
+  EXPECT_EQ(view_item->Data(Qt::EditRole).toString().toStdString(), item.GetType());
   EXPECT_FALSE(view_item->SetData(QString("aaa"), Qt::DisplayRole));
   EXPECT_FALSE(view_item->SetData(QString("bbb"), Qt::EditRole));
   EXPECT_EQ(utils::GetItemFromView<SessionItem>(view_item), &item);
@@ -78,7 +76,7 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForTopLevelItem)
 TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForPropertyItem)
 {
   SessionItem item;
-  std::string expected_name{"test_name"};
+  const std::string expected_name{"test_name"};
   item.SetData(expected_name);
 
   LabelDataRowStrategy constructor;
@@ -89,7 +87,7 @@ TEST_F(StandardRowStrategiesTest, LabelDataRowStrategyRowForPropertyItem)
   // first cell with Type is readonly
   auto label_view_item = items.at(0).get();
   EXPECT_EQ(label_view_item->Data(Qt::DisplayRole).toString().toStdString(), item.GetType());
-  EXPECT_FALSE(label_view_item->Data(Qt::EditRole).isValid());
+  EXPECT_EQ(label_view_item->Data(Qt::EditRole).toString().toStdString(), item.GetType());
   EXPECT_FALSE(label_view_item->SetData(QString("aaa"), Qt::DisplayRole));
   EXPECT_FALSE(label_view_item->SetData(QString("bbb"), Qt::EditRole));
 

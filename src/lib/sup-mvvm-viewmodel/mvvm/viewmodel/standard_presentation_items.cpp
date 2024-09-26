@@ -169,13 +169,19 @@ DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
 
 QVariant DisplayNamePresentationItem::Data(int qt_role) const
 {
-  // use item's display role
-  if (qt_role == Qt::DisplayRole)
+  // Here we also report correct data for EditRole, even if item is not editable. This is because
+  // QDataWidgetMapper uses EditRole while mapping to QLabel.
+  if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
   {
     return QString::fromStdString(GetItem()->GetDisplayName());
   }
 
   return SessionItemPresentation::Data(qt_role);
+}
+
+bool DisplayNamePresentationItem::IsEditable() const
+{
+  return false;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -222,12 +228,18 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
 
 QVector<int> FixedDataPresentationItem::GetQtRoles(int data_role) const
 {
+
   QVector<int> result;
   for (auto &[qt_role, data] : m_data)
   {
     result.push_back(qt_role);
   }
   return result;
+}
+
+bool FixedDataPresentationItem::IsEditable() const
+{
+  return false;
 }
 
 QVariant FixedDataPresentationItem::Data(int qt_role) const

@@ -242,7 +242,7 @@ Qt::ItemFlags ViewItem::Flags() const
   Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
   auto item_data = GetItemData();
-  if (item_data && item_data->IsEditable() && item_data->Data(Qt::EditRole).isValid())
+  if (item_data && item_data->IsEditable())
   {
     result |= Qt::ItemIsEditable;
   }
