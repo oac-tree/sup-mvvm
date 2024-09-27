@@ -25,7 +25,6 @@
 
 #include <algorithm>
 #include <chrono>
-#include <iostream>
 #include <random>
 
 namespace
@@ -58,8 +57,8 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 void DemoItem::Activate()
 {
   // Enable/disable property "Answer" when property "Available" changes
-  auto on_property_changed = [this](const mvvm::DataChangedEvent& event)
-  { GetItem("Answer")->SetEnabled(GetItem("Available")->Data<bool>()); };
+  auto on_property_changed = [this](const mvvm::DataChangedEvent&)
+  { GetItem("Answer")->SetEnabled(Property<bool>("Available")); };
 
   mvvm::connect::Connect<mvvm::DataChangedEvent>(
       /*source*/ GetItem("Available"), on_property_changed, GetSlot());
