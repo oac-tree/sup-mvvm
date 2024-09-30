@@ -33,8 +33,9 @@ namespace mvvm
 class SessionItem;
 class ISessionModel;
 
-//! An event when item's data has changed.
-
+/**
+ * @brief The DataChangedEvent struct represents an event when item's data has changed.
+ */
 struct DataChangedEvent
 {
   SessionItem* m_item{nullptr};  //! item whose data has changed
@@ -44,10 +45,12 @@ struct DataChangedEvent
   bool operator!=(const DataChangedEvent& other) const;
 };
 
-//! An event when an item's property has changed.
-//! An item's property is another child item added with CompoundItem::AddProperty(name) command.
-//! The change of the data of this child will trigger PropertyChangedEvent for it's parent.
-
+/**
+ * @brief The PropertyChangedEvent struct represents an event when an item's property has changed.
+ *
+ * An item's property is another child item added with CompoundItem::AddProperty(name) command. The
+ * change of the data of this child will trigger PropertyChangedEvent for its parent.
+ */
 struct PropertyChangedEvent
 {
   SessionItem* m_item{nullptr};  //! item whose property has changed
@@ -57,9 +60,12 @@ struct PropertyChangedEvent
   bool operator!=(const PropertyChangedEvent& other) const;
 };
 
-//! An event when item is about to be inserted in the model. It reports the parent, and address of
-//! the child.
-
+/**
+ * @brief The AboutToInsertItemEvent struct represents nn event when the item is about to be
+ * inserted in the model.
+ *
+ * It reports the parent and address of the child.
+ */
 struct AboutToInsertItemEvent
 {
   SessionItem* m_item{nullptr};  //! item that is about to get a new child
@@ -69,9 +75,11 @@ struct AboutToInsertItemEvent
   bool operator!=(const AboutToInsertItemEvent& other) const;
 };
 
-//! An event when item was inserted in the model. It reports the parent, and address of
-//! the child.
-
+/**
+ * @brief The ItemInsertedEvent struct represents nn event when the item was inserted in the model.
+ *
+ * It reports the parent, and address of the child.
+ */
 struct ItemInsertedEvent
 {
   SessionItem* m_item{nullptr};  //! item that got a new child (i.e. parent)
@@ -81,9 +89,12 @@ struct ItemInsertedEvent
   bool operator!=(const ItemInsertedEvent& other) const;
 };
 
-//! An event when item is about to be removed from the model. It reports the parent, and address of
-//! the child.
-
+/**
+ * @brief The AboutToRemoveItemEvent struct represents an event when the item is about to be removed
+ * from the model.
+ *
+ * It reports the parent and address of the child.
+ */
 struct AboutToRemoveItemEvent
 {
   SessionItem* m_item{nullptr};  //! item whose child is about to be removed
@@ -93,9 +104,11 @@ struct AboutToRemoveItemEvent
   bool operator!=(const AboutToRemoveItemEvent& other) const;
 };
 
-//! An event when item was removed from the model. It reports the parent, and address of
-//! the child.
-
+/**
+ * @brief The ItemRemovedEvent struct represents an event when the item was removed from the model.
+ *
+ * It reports the parent and address of the child.
+ */
 struct ItemRemovedEvent
 {
   SessionItem* m_item{nullptr};  //! item whose child was removed
@@ -105,8 +118,10 @@ struct ItemRemovedEvent
   bool operator!=(const ItemRemovedEvent& other) const;
 };
 
-//! An event when the root item of the model is about to be reset.
-
+/**
+ * @brief The ModelAboutToBeResetEvent struct represents an event when the root item of the model is
+ * about to be reset.
+ */
 struct ModelAboutToBeResetEvent
 {
   ISessionModel* m_model{nullptr};  //! the model being reset
@@ -115,8 +130,9 @@ struct ModelAboutToBeResetEvent
   bool operator!=(const ModelAboutToBeResetEvent& other) const;
 };
 
-//! An event at the end of root item reset.
-
+/**
+ * @brief The ModelResetEvent struct represents an event at the end of the root item reset.
+ */
 struct ModelResetEvent
 {
   ISessionModel* m_model{nullptr};  //! the model being reset
@@ -125,8 +141,10 @@ struct ModelResetEvent
   bool operator!=(const ModelResetEvent& other) const;
 };
 
-//! An event at the beginning of the model destruction.
-
+/**
+ * @brief The ModelAboutToBeDestroyedEvent class represents an event at the beginning of the model
+ * destruction.
+ */
 struct ModelAboutToBeDestroyedEvent
 {
   ISessionModel* m_model{nullptr};  //! the model being destroyed
