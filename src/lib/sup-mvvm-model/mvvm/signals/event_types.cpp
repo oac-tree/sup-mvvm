@@ -28,7 +28,7 @@ namespace mvvm
 
 bool DataChangedEvent::operator==(const DataChangedEvent& other) const
 {
-  return m_item == other.m_item && m_data_role == other.m_data_role;
+  return item == other.item && data_role == other.data_role;
 }
 
 bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
@@ -42,7 +42,7 @@ bool DataChangedEvent::operator!=(const DataChangedEvent& other) const
 
 bool PropertyChangedEvent::operator==(const PropertyChangedEvent& other) const
 {
-  return m_item == other.m_item && m_name == other.m_name;
+  return item == other.item && name == other.name;
 }
 
 bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
@@ -56,7 +56,7 @@ bool PropertyChangedEvent::operator!=(const PropertyChangedEvent& other) const
 
 bool AboutToInsertItemEvent::operator==(const AboutToInsertItemEvent& other) const
 {
-  return m_item == other.m_item && m_tag_index == other.m_tag_index;
+  return item == other.item && tag_index == other.tag_index;
 }
 
 bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) const
@@ -70,7 +70,7 @@ bool AboutToInsertItemEvent::operator!=(const AboutToInsertItemEvent& other) con
 
 bool ItemInsertedEvent::operator==(const ItemInsertedEvent& other) const
 {
-  return m_item == other.m_item && m_tag_index == other.m_tag_index;
+  return item == other.item && tag_index == other.tag_index;
 }
 
 bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
@@ -84,7 +84,7 @@ bool ItemInsertedEvent::operator!=(const ItemInsertedEvent& other) const
 
 bool AboutToRemoveItemEvent::operator==(const AboutToRemoveItemEvent& other) const
 {
-  return m_item == other.m_item && m_tag_index == other.m_tag_index;
+  return item == other.item && tag_index == other.tag_index;
 }
 
 bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) const
@@ -98,7 +98,7 @@ bool AboutToRemoveItemEvent::operator!=(const AboutToRemoveItemEvent& other) con
 
 bool ItemRemovedEvent::operator==(const ItemRemovedEvent& other) const
 {
-  return m_item == other.m_item && m_tag_index == other.m_tag_index;
+  return item == other.item && tag_index == other.tag_index;
 }
 
 bool ItemRemovedEvent::operator!=(const ItemRemovedEvent& other) const
@@ -112,7 +112,7 @@ bool ItemRemovedEvent::operator!=(const ItemRemovedEvent& other) const
 
 bool ModelAboutToBeResetEvent::operator==(const ModelAboutToBeResetEvent& other) const
 {
-  return m_model == other.m_model;
+  return model == other.model;
 }
 
 bool ModelAboutToBeResetEvent::operator!=(const ModelAboutToBeResetEvent& other) const
@@ -126,7 +126,7 @@ bool ModelAboutToBeResetEvent::operator!=(const ModelAboutToBeResetEvent& other)
 
 bool ModelResetEvent::operator==(const ModelResetEvent& other) const
 {
-  return m_model == other.m_model;
+  return model == other.model;
 }
 
 bool ModelResetEvent::operator!=(const ModelResetEvent& other) const
@@ -140,7 +140,7 @@ bool ModelResetEvent::operator!=(const ModelResetEvent& other) const
 
 bool ModelAboutToBeDestroyedEvent::operator==(const ModelAboutToBeDestroyedEvent& other) const
 {
-  return m_model == other.m_model;
+  return model == other.model;
 }
 
 bool ModelAboutToBeDestroyedEvent::operator!=(const ModelAboutToBeDestroyedEvent& other) const

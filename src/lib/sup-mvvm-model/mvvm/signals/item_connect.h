@@ -194,7 +194,7 @@ Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(cons
   {
     auto concrete_event = std::get<EventT>(event);
     // only events which are coming from the requested source will be propagated
-    if (concrete_event.m_item == source)
+    if (concrete_event.item == source)
     {
       std::invoke(method, *receiver, concrete_event);
     }

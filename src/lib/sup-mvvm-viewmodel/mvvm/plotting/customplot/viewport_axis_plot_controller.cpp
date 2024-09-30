@@ -129,17 +129,17 @@ void ViewportAxisPlotController::Subscribe()
       return;
     }
 
-    if (event.m_name == ViewportAxisItem::kMin)
+    if (event.name == ViewportAxisItem::kMin)
     {
       p_impl->UpdateLowerRange(GetItem());
     }
 
-    if (event.m_name == ViewportAxisItem::kMax)
+    if (event.name == ViewportAxisItem::kMax)
     {
       p_impl->UpdateUpperRange(GetItem());
     }
 
-    if (event.m_name == ViewportAxisItem::kIsLog)
+    if (event.name == ViewportAxisItem::kIsLog)
     {
       p_impl->SetAxisLogScaleFromItem();
     }

@@ -34,17 +34,17 @@ struct ItemEventVisitor
 {
   mvvm::SessionItem* m_source{nullptr};
 
-  void operator()(const mvvm::DataChangedEvent& event) { m_source = event.m_item; }
+  void operator()(const mvvm::DataChangedEvent& event) { m_source = event.item; }
 
-  void operator()(const mvvm::PropertyChangedEvent& event) { m_source = event.m_item; }
+  void operator()(const mvvm::PropertyChangedEvent& event) { m_source = event.item; }
 
-  void operator()(const mvvm::AboutToInsertItemEvent& event) { m_source = event.m_item; }
+  void operator()(const mvvm::AboutToInsertItemEvent& event) { m_source = event.item; }
 
-  void operator()(const mvvm::ItemInsertedEvent& event) { m_source = event.m_item; }
+  void operator()(const mvvm::ItemInsertedEvent& event) { m_source = event.item; }
 
-  void operator()(const mvvm::AboutToRemoveItemEvent& event) { m_source = event.m_item; }
+  void operator()(const mvvm::AboutToRemoveItemEvent& event) { m_source = event.item; }
 
-  void operator()(const mvvm::ItemRemovedEvent& event) { m_source = event.m_item; }
+  void operator()(const mvvm::ItemRemovedEvent& event) { m_source = event.item; }
 
   void operator()(const mvvm::ModelAboutToBeResetEvent& event)
   {
@@ -99,9 +99,9 @@ std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* s
   // DataChangedEvent happened with property item can be converted to PropertyChangedEvent of its
   // parent.
   auto concrete_event = std::get<DataChangedEvent>(event);
-  if (source == concrete_event.m_item->GetParent())
+  if (source == concrete_event.item->GetParent())
   {
-    return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.m_item).tag};
+    return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.item).tag};
   }
   return {};
 }

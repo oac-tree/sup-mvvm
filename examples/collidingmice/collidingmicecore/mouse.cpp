@@ -60,20 +60,20 @@ Mouse::Mouse(MouseItem* item)
 {
   auto on_property_change = [this](const mvvm::PropertyChangedEvent& event)
   {
-    if (event.m_name == MouseItem::P_XPOS)
+    if (event.name == MouseItem::P_XPOS)
     {
       setX(mouse_item->Property<double>(MouseItem::P_XPOS));
     }
-    if (event.m_name == MouseItem::P_YPOS)
+    if (event.name == MouseItem::P_YPOS)
     {
       setY(mouse_item->Property<double>(MouseItem::P_YPOS));
     }
-    if (event.m_name == MouseItem::P_COLOR)
+    if (event.name == MouseItem::P_COLOR)
     {
       color = QColor(QString::fromStdString(mouse_item->Property<std::string>(MouseItem::P_COLOR)));
       update();
     }
-    if (event.m_name == MouseItem::P_ANGLE)
+    if (event.name == MouseItem::P_ANGLE)
     {
       qreal dx = std::sin(mouse_item->Property<double>(MouseItem::P_ANGLE)) * 10;
       setRotation(rotation() + dx);

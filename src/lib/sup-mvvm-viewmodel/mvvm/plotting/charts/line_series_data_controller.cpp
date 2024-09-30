@@ -81,9 +81,9 @@ void LineSeriesDataController::OnModelEvent(const mvvm::ItemInsertedEvent &event
 
 void LineSeriesDataController::OnModelEvent(const mvvm::AboutToRemoveItemEvent &event)
 {
-  if (event.m_item == m_data_item)
+  if (event.item == m_data_item)
   {
-    auto index = event.m_tag_index.index;
+    auto index = event.tag_index.index;
     m_qt_line_series->remove(index);
   }
 }
@@ -98,10 +98,10 @@ void LineSeriesDataController::OnModelEvent(const mvvm::DataChangedEvent &event)
   //     - Y PropertyItem
 
   const int expected_distance_to_data_item = 2;
-  if (auto depth = utils::GetNestingDepth(m_data_item, event.m_item);
+  if (auto depth = utils::GetNestingDepth(m_data_item, event.item);
       depth == expected_distance_to_data_item)
   {
-    auto point_item = event.m_item->GetParent();
+    auto point_item = event.item->GetParent();
     auto index = point_item->GetTagIndex().index;
 
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);

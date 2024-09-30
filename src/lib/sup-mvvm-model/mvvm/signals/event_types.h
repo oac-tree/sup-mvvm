@@ -38,8 +38,8 @@ class ISessionModel;
  */
 struct DataChangedEvent
 {
-  SessionItem* m_item{nullptr};  //! item whose data has changed
-  int m_data_role{0};            //! the role associated with the data
+  SessionItem* item{nullptr};  //! item whose data has changed
+  int data_role{0};            //! the role associated with the data
 
   bool operator==(const DataChangedEvent& other) const;
   bool operator!=(const DataChangedEvent& other) const;
@@ -53,8 +53,8 @@ struct DataChangedEvent
  */
 struct PropertyChangedEvent
 {
-  SessionItem* m_item{nullptr};  //! item whose property has changed
-  std::string m_name;            //! the name of the changed property
+  SessionItem* item{nullptr};  //! item whose property has changed
+  std::string name;            //! the name of the changed property
 
   bool operator==(const PropertyChangedEvent& other) const;
   bool operator!=(const PropertyChangedEvent& other) const;
@@ -68,8 +68,8 @@ struct PropertyChangedEvent
  */
 struct AboutToInsertItemEvent
 {
-  SessionItem* m_item{nullptr};  //! item that is about to get a new child
-  TagIndex m_tag_index;          //! position of a child
+  SessionItem* item{nullptr};  //! item that is about to get a new child
+  TagIndex tag_index;          //! position of a child
 
   bool operator==(const AboutToInsertItemEvent& other) const;
   bool operator!=(const AboutToInsertItemEvent& other) const;
@@ -82,8 +82,8 @@ struct AboutToInsertItemEvent
  */
 struct ItemInsertedEvent
 {
-  SessionItem* m_item{nullptr};  //! item that got a new child (i.e. parent)
-  TagIndex m_tag_index;          //! position of a child
+  SessionItem* item{nullptr};  //! item that got a new child (i.e. parent)
+  TagIndex tag_index;          //! position of a child
 
   bool operator==(const ItemInsertedEvent& other) const;
   bool operator!=(const ItemInsertedEvent& other) const;
@@ -97,8 +97,8 @@ struct ItemInsertedEvent
  */
 struct AboutToRemoveItemEvent
 {
-  SessionItem* m_item{nullptr};  //! item whose child is about to be removed
-  TagIndex m_tag_index;          //! position of a child
+  SessionItem* item{nullptr};  //! item whose child is about to be removed
+  TagIndex tag_index;          //! position of a child
 
   bool operator==(const AboutToRemoveItemEvent& other) const;
   bool operator!=(const AboutToRemoveItemEvent& other) const;
@@ -111,8 +111,8 @@ struct AboutToRemoveItemEvent
  */
 struct ItemRemovedEvent
 {
-  SessionItem* m_item{nullptr};  //! item whose child was removed
-  TagIndex m_tag_index;          //! position of a child
+  SessionItem* item{nullptr};  //! item whose child was removed
+  TagIndex tag_index;          //! position of a child
 
   bool operator==(const ItemRemovedEvent& other) const;
   bool operator!=(const ItemRemovedEvent& other) const;
@@ -124,7 +124,7 @@ struct ItemRemovedEvent
  */
 struct ModelAboutToBeResetEvent
 {
-  ISessionModel* m_model{nullptr};  //! the model being reset
+  ISessionModel* model{nullptr};  //! the model being reset
 
   bool operator==(const ModelAboutToBeResetEvent& other) const;
   bool operator!=(const ModelAboutToBeResetEvent& other) const;
@@ -135,7 +135,7 @@ struct ModelAboutToBeResetEvent
  */
 struct ModelResetEvent
 {
-  ISessionModel* m_model{nullptr};  //! the model being reset
+  ISessionModel* model{nullptr};  //! the model being reset
 
   bool operator==(const ModelResetEvent& other) const;
   bool operator!=(const ModelResetEvent& other) const;
@@ -147,7 +147,7 @@ struct ModelResetEvent
  */
 struct ModelAboutToBeDestroyedEvent
 {
-  ISessionModel* m_model{nullptr};  //! the model being destroyed
+  ISessionModel* model{nullptr};  //! the model being destroyed
 
   bool operator==(const ModelAboutToBeDestroyedEvent& other) const;
   bool operator!=(const ModelAboutToBeDestroyedEvent& other) const;

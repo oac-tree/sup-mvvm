@@ -61,14 +61,14 @@ QtCharts::QLineSeries *LineSeriesController::GetQtLineSeries() const
 
 void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent &event)
 {
-  if (event.m_name == constants::kLink)
+  if (event.name == constants::kLink)
   {
     // If linked property has changed, it could mean that we've got a new data to look at.
     auto line_series_item = GetItem();
     m_data_controller->SetItem(line_series_item->GetDataItem());
   }
 
-  if (event.m_name == LineSeriesItem::kOffset)
+  if (event.name == LineSeriesItem::kOffset)
   {
     m_data_controller->SetXOffset(GetItem()->GetXOffset());
   }
@@ -76,7 +76,7 @@ void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent &event)
 
 void LineSeriesController::OnDataChanged(const mvvm::DataChangedEvent &event)
 {
-  if (event.m_data_role == mvvm::DataRole::kDisplay)
+  if (event.data_role == mvvm::DataRole::kDisplay)
   {
     GetQtLineSeries()->setName(QString::fromStdString(GetItem()->GetDisplayName()));
   }

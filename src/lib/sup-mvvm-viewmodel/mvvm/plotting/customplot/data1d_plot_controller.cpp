@@ -114,11 +114,11 @@ void Data1DPlotController::Subscribe()
   auto on_property_change = [this](const event_variant_t& event)
   {
     auto concrete_event = std::get<PropertyChangedEvent>(event);
-    if (concrete_event.m_name == Data1DItem::kValues)
+    if (concrete_event.name == Data1DItem::kValues)
     {
       p_impl->UpdateGraphPointsFromItem(GetItem());
     }
-    if (concrete_event.m_name == Data1DItem::kErrors)
+    if (concrete_event.name == Data1DItem::kErrors)
     {
       p_impl->UpdateErrorBarsFromItem(GetItem());
     }

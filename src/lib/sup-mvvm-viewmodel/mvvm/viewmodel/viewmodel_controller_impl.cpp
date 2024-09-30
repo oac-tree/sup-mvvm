@@ -72,7 +72,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemRemovedEvent &event)
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
-  auto item_to_remove = event.m_item->GetItem(event.m_tag_index);
+  auto item_to_remove = event.item->GetItem(event.tag_index);
 
   if (item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove))
   {
@@ -92,9 +92,9 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
 
 void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
 {
-  for (auto view : utils::FindViewsForItem(m_view_model, event.m_item))
+  for (auto view : utils::FindViewsForItem(m_view_model, event.item))
   {
-    if (auto roles = utils::GetQtRoles(view, event.m_data_role); !roles.empty())
+    if (auto roles = utils::GetQtRoles(view, event.data_role); !roles.empty())
     {
       auto index = m_view_model->indexFromItem(view);
       emit m_view_model->dataChanged(index, index, roles);
@@ -114,7 +114,7 @@ void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event
 
 void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
 {
-  SessionItem *root_item = event.m_model->GetRootItem();
+  SessionItem *root_item = event.model->GetRootItem();
 
   m_view_item_map.Clear();
   auto root_view_item = std::move(CreateTreeOfRows(*root_item, true).at(0));

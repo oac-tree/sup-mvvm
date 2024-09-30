@@ -91,12 +91,12 @@ struct GraphPlotController::GraphItemControllerImpl
 
   void OnPropertyChanged(const PropertyChangedEvent& event)
   {
-    if (event.m_name == GraphItem::kLink)
+    if (event.name == GraphItem::kLink)
     {
       UpdateDataController();
     }
 
-    if (event.m_name == GraphItem::kDisplayed)
+    if (event.name == GraphItem::kDisplayed)
     {
       UpdateVisibility();
     }
