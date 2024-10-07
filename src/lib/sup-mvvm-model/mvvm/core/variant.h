@@ -56,19 +56,21 @@ enum class TypeCode : uint32
   ExternalProperty
 };
 
-using variant_t =
-    std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32, uint32, int64,
-                 uint64, float32, float64, std::string, std::vector<float64>, ComboProperty,
-                 ExternalProperty>;
+using variant_t = std::variant<std::monostate, boolean, char8, int8, uint8, int16, uint16, int32,
+                               uint32, int64, uint64, float32, float64, std::string,
+                               std::vector<float64>, ComboProperty, ExternalProperty>;
 
 using role_data_t = std::pair<int, variant_t>;
 bool operator==(const role_data_t& lhs, const role_data_t& rhs);
 
+/**
+ * @brief Returns type code for given variant.
+ */
 TypeCode GetTypeCode(const variant_t& variant);
 
 }  // namespace mvvm
 
-//! Defines names of all supported (serializable) data types.
+//! Defines names of all supported data types.
 namespace mvvm::constants
 {
 
@@ -94,17 +96,31 @@ const std::string kExternalPropertyTypeName = "ExternalProperty";
 
 namespace mvvm::utils
 {
-//! Returns true if given variant is properly initialized (i.e. is not default-constructed).
+
+/**
+ * @brief Checks if the given variant is properly initialized with one of the supported data types.
+ *
+ * The default constructed variant (i.e. which contains a monostate) is invalid.
+ */
 MVVM_MODEL_EXPORT bool IsValid(const variant_t& value);
 
-//! Returns true if two variants are compatible, i.e. we are alowed to replace one variant with
-//! another.
+/**
+ * @brief Checks if two variants are compatible, i.e. we are alowed to replace one variant with
+ * another.
+ *
+ * Two valid variants are considered compatible, when they both have the same underlying type. If
+ * one of the variants is invalid, they are considered compatible too.
+ */
 MVVM_MODEL_EXPORT bool AreCompatible(const variant_t& var1, const variant_t& var2);
 
-//! Returns string representing type name.
+/**
+ * @brief Returns a string representing the variant type.
+ */
 MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
 
-//! Returns string representing variant value.
+/**
+ * @brief Returns a string representing the variant value.
+ */
 MVVM_MODEL_EXPORT std::string ValueToString(const variant_t& variant);
 
 }  // namespace mvvm::utils

@@ -73,10 +73,11 @@ public:
 
 private:
   /**
-   * @brief Makes sure that the new variant is compatible with the old variant stored with the given
-   * role. Throws exception otherwise.
+   * @brief Makes sure that the old variant is compatible with the new variant for given role.
+   *
+   * Throws an exception if variants are incompatible.
    */
-  void AssureCompatibility(const variant_t& variant, int role) const;
+  void AssureCompatibility(const variant_t& old_data, const variant_t& new_data, int role) const;
 
   container_t m_values;
 };

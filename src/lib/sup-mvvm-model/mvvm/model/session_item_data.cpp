@@ -49,7 +49,7 @@ variant_t SessionItemData::Data(int role) const
 
 bool SessionItemData::SetData(const variant_t& value, int role)
 {
-  AssureCompatibility(value, role);
+  AssureCompatibility(Data(role), value, role);
 
   for (auto it = m_values.begin(); it != m_values.end(); ++it)
   {
@@ -80,16 +80,17 @@ bool SessionItemData::HasData(int role) const
   return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();
 }
 
-void SessionItemData::AssureCompatibility(const variant_t& variant, int role) const
+void SessionItemData::AssureCompatibility(const variant_t& old_data, const variant_t& new_data,
+                                          int role) const
 {
-  if (!utils::AreCompatible(Data(role), variant))
+  if (!utils::AreCompatible(old_data, new_data))
   {
     std::ostringstream ostr;
     ostr << "Error in SessionItemData: variant types mismatch. "
-         << "Old variant type [" << utils::TypeName(Data(role)) << "], "
-         << "old value [" << utils::ValueToString(Data(role)) << "], "
-         << "new variant type [" << utils::TypeName(variant) << "], "
-         << "new value [" << utils::ValueToString(variant) << "], "
+         << "Old variant type [" << utils::TypeName(old_data) << "], "
+         << "old value [" << utils::ValueToString(old_data) << "], "
+         << "new variant type [" << utils::TypeName(new_data) << "], "
+         << "new value [" << utils::ValueToString(new_data) << "], "
          << "role [" << role << "].\n";
     throw RuntimeException(ostr.str());
   }
