@@ -19,6 +19,8 @@
 
 #include "test_helper.h"
 
+#include <mvvm/model/session_item.h>
+
 #include <fstream>
 #include <sstream>
 
@@ -54,6 +56,22 @@ void CreateTextFile(const std::string &file_name, const std::string &content)
 {
   std::ofstream file_out(file_name);
   file_out.write(content.c_str(), content.size());
+}
+
+std::string ItemToDebugString(const SessionItem *item)
+{
+  std::ostringstream ostr;
+  if (item)
+  {
+    ostr << (item);
+    ostr << " " << "[" + item->GetDisplayName() + "]";
+    ostr << " value [" + utils::ValueToString(item->Data()) + "]";
+  }
+  else
+  {
+    ostr << "nullptr";
+  }
+  return ostr.str();
 }
 
 }  // namespace mvvm::test

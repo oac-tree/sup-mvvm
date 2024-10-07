@@ -22,6 +22,11 @@
 
 #include <QSignalSpy>
 
+namespace mvvm
+{
+class SessionItem;
+}
+
 namespace mvvm::test
 {
 
@@ -79,6 +84,11 @@ bool IsCloneImplemented()
   auto clone = item.Clone(/*make_unique_id*/ false);
   return CanCast<T>(clone.get());
 }
+
+/**
+ * @brief Returns string representing item.
+ */
+std::string ItemToDebugString(const SessionItem* item);
 
 }  // namespace mvvm::test
 
