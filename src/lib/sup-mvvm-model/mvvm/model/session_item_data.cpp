@@ -37,60 +37,61 @@ std::vector<int> SessionItemData::GetRoles() const
 
 variant_t SessionItemData::Data(int role) const
 {
-  for (const auto& value : m_values)
-  {
-    if (value.first == role)
-    {
-      return value.second;
-    }
-  }
-  return {};
+  auto iter = m_values.find(role);
+  return iter == m_values.end() ? variant_t() : iter->second;
 }
 
 bool SessionItemData::SetData(const variant_t& value, int role)
 {
-  AssureCompatibility(Data(role), value, role);
+  auto iter = m_values.find(role);
 
-  for (auto it = m_values.begin(); it != m_values.end(); ++it)
+  // if the role doesn't exist yet, the value will be set for this role
+  if (iter == m_values.end())
   {
-    if (it->first == role)
+    if (utils::IsValid(value))
     {
-      if (utils::IsValid(value))
-      {
-        if (it->second == value)
-        {
-          return false;
-        }
-        it->second = value;
-      }
-      else
-      {
-        m_values.erase(it);
-      }
+      m_values.insert(iter, {role, value});
       return true;
     }
+    return false;  // invalid value is ignored
   }
-  m_values.emplace_back(role, value);
+
+  // if the role already exists, underlying types should coincide for old and new values
+  const auto& old_value = iter->second;
+  AssureCompatibility(old_value, value, role);
+
+  // if new value is valid, it will replace old value
+  if (utils::IsValid(value))
+  {
+    if (old_value == value)
+    {
+      return false;  // same value is ignored
+    }
+    iter->second = value;
+    return true;
+  }
+
+  // if new value is invalid, it will erase old value and role
+  m_values.erase(iter);
   return true;
 }
 
 bool SessionItemData::HasData(int role) const
 {
-  auto has_role = [role](const auto& role_data) { return role_data.first == role; };
-  return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();
+  return m_values.find(role) != m_values.end();
 }
 
-void SessionItemData::AssureCompatibility(const variant_t& old_data, const variant_t& new_data,
+void SessionItemData::AssureCompatibility(const variant_t& old_value, const variant_t& new_value,
                                           int role) const
 {
-  if (!utils::AreCompatible(old_data, new_data))
+  if (!utils::AreCompatible(old_value, new_value))
   {
     std::ostringstream ostr;
     ostr << "Error in SessionItemData: variant types mismatch. "
-         << "Old variant type [" << utils::TypeName(old_data) << "], "
-         << "old value [" << utils::ValueToString(old_data) << "], "
-         << "new variant type [" << utils::TypeName(new_data) << "], "
-         << "new value [" << utils::ValueToString(new_data) << "], "
+         << "Old variant type [" << utils::TypeName(old_value) << "], "
+         << "old value [" << utils::ValueToString(old_value) << "], "
+         << "new variant type [" << utils::TypeName(new_value) << "], "
+         << "new value [" << utils::ValueToString(new_value) << "], "
          << "role [" << role << "].\n";
     throw RuntimeException(ostr.str());
   }

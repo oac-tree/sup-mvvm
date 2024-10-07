@@ -22,7 +22,7 @@
 
 #include <mvvm/core/variant.h>
 
-#include <vector>
+#include <map>
 
 namespace mvvm
 {
@@ -33,7 +33,7 @@ namespace mvvm
 class MVVM_MODEL_EXPORT SessionItemData
 {
 public:
-  using container_t = std::vector<role_data_t>;
+  using container_t = std::map<int, variant_t>;
   using const_iterator = container_t::const_iterator;
 
   /**
@@ -77,7 +77,7 @@ private:
    *
    * Throws an exception if variants are incompatible.
    */
-  void AssureCompatibility(const variant_t& old_data, const variant_t& new_data, int role) const;
+  void AssureCompatibility(const variant_t& old_value, const variant_t& new_value, int role) const;
 
   container_t m_values;
 };

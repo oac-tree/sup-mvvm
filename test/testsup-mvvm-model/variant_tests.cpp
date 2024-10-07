@@ -191,16 +191,16 @@ TEST_F(VariantTests, TypeName)
 
 TEST_F(VariantTests, DataRoleComparison)
 {
-  role_data_t role_data1{0, 42};
-  role_data_t role_data2{0, 42};
+  const role_data_t role_data1{0, 42};
+  const role_data_t role_data2{0, 42};
   EXPECT_TRUE(role_data1 == role_data2);
 
-  role_data_t role_data3{42, std::vector<double>{1, 2, 3}};
-  role_data_t role_data4{42, std::vector<double>{1, 2, 3}};
+  const role_data_t role_data3{42, std::vector<double>{1, 2, 3}};
+  const role_data_t role_data4{42, std::vector<double>{1, 2, 3}};
   EXPECT_TRUE(role_data3 == role_data4);
 
-  role_data_t role_data5{42, std::vector<double>{1, 2}};
-  role_data_t role_data6{42, std::vector<double>{1, 2, 3}};
+  const role_data_t role_data5{42, std::vector<double>{1, 2}};
+  const role_data_t role_data6{42, std::vector<double>{1, 2, 3}};
   EXPECT_FALSE(role_data5 == role_data6);
 }
 
