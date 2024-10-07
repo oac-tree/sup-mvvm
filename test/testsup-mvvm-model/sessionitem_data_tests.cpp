@@ -128,7 +128,7 @@ TEST_F(SessionItemDataTests, RangeLoop)
   std::vector<double> values;
   std::vector<int> roles;
 
-  for (const auto& [data, role] : item_data)
+  for (const auto& [role, data] : item_data)
   {
     values.push_back(std::get<double>(data));
     roles.push_back(role);

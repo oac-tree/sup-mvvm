@@ -41,7 +41,7 @@ class SessionItemData;
 
 //! Convert SessionItemData to/from TreeData objects.
 
-//! TODO For the moment convertion is performed for every datarole_t found.
+//! TODO For the moment convertion is performed for every role_data_t found.
 //! In the future the filtering of roles should be implemented, as in original qt-mvm.
 class MVVM_MODEL_EXPORT TreeDataItemDataConverter
 {

@@ -61,8 +61,8 @@ using variant_t =
                  uint64, float32, float64, std::string, std::vector<float64>, ComboProperty,
                  ExternalProperty>;
 
-using datarole_t = std::pair<variant_t, int>;
-bool operator==(const datarole_t& lhs, const datarole_t& rhs);
+using role_data_t = std::pair<int, variant_t>;
+bool operator==(const role_data_t& lhs, const role_data_t& rhs);
 
 TypeCode GetTypeCode(const variant_t& variant);
 

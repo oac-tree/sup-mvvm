@@ -33,7 +33,7 @@ namespace mvvm
 class MVVM_MODEL_EXPORT SessionItemData
 {
 public:
-  using container_t = std::vector<datarole_t>;
+  using container_t = std::vector<role_data_t>;
   using const_iterator = container_t::const_iterator;
 
   /**

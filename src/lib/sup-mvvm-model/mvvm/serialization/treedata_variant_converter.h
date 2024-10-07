@@ -21,7 +21,7 @@
 #define MVVM_SERIALIZATION_TREEDATA_VARIANT_CONVERTER_H_
 
 //! @file
-//! Declares utility functions to convert between TreeData and datarole_t objects.
+//! Declares utility functions to convert between TreeData and role_data_t objects.
 
 //! These are auxiliary functions to provide parsing of xml elements
 //! - <Variant role = "0" type = "undefined"></Variant>
@@ -40,15 +40,15 @@ namespace mvvm
 {
 class TreeData;
 
-//! Returns true if given TreeData represents datarole_t object.
+//! Returns true if given TreeData represents role_data_t object.
 MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const TreeData& tree_data);
 
-//! Returns datarole_t object from its TreeData representation. Will throw if convertions is not
+//! Returns role_data_t object from its TreeData representation. Will throw if convertions is not
 //! possible.
-MVVM_MODEL_EXPORT datarole_t ToDataRole(const TreeData& tree_data);
+MVVM_MODEL_EXPORT role_data_t ToRoleData(const TreeData& tree_data);
 
-//! Returns TreeData object constructed from datarole_t object.
-MVVM_MODEL_EXPORT TreeData ToTreeData(const datarole_t& data_role);
+//! Returns TreeData object constructed from role_data_t object.
+MVVM_MODEL_EXPORT TreeData ToTreeData(const role_data_t& role_data);
 
 }  // namespace mvvm
 

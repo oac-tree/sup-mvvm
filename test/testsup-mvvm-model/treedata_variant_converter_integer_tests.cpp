@@ -68,12 +68,12 @@ TEST_P(TreeDataVariantConverterIntegerTest, IntegerDataRole)
   auto tree_data = ParseXMLElementString(xml_str);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
-  // converting tree_data to data_role and validating result
-  auto data_role = ToDataRole(*tree_data);
-  EXPECT_EQ(data_role, datarole_t(param.value, kRole));
+  // converting tree_data to role_data and validating result
+  auto role_data = ToRoleData(*tree_data);
+  EXPECT_EQ(role_data, role_data_t(kRole, param.value));
 
   // converting data role to a new tree data and checking against the original
-  auto new_tree_data = ToTreeData(data_role);
+  auto new_tree_data = ToTreeData(role_data);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 

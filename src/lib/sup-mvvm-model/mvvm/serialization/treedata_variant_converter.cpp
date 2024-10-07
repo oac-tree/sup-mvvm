@@ -38,11 +38,11 @@ const std::string kRoleAttributeKey = "role";
 const std::string kTypeAttributeKey = "type";
 const std::string kSelectionsAttributeKey = "selections";
 
-//! Aggregates call backs for convertion between datarole_t and TreeData.
+//! Aggregates call backs for convertion between role_data_t and TreeData.
 struct Converters
 {
-  std::function<mvvm::TreeData(const mvvm::datarole_t& datarole)> datarole_to_treedata;
-  std::function<mvvm::datarole_t(const mvvm::TreeData& treedata)> treedata_to_datarole;
+  std::function<mvvm::TreeData(const mvvm::role_data_t& role_data)> roledata_to_treedata;
+  std::function<mvvm::role_data_t(const mvvm::TreeData& treedata)> treedata_to_roledata;
 };
 
 ////! Returns vector of attributes which TreeData object should have.
@@ -54,35 +54,35 @@ int GetRole(const mvvm::TreeData& tree_data);
 //! Returns variant type name.
 std::string GetTypeName(const mvvm::TreeData& tree_data);
 
-//! Converts datarole_t holdingto the TreeData object, basic implementation that fits most needs.
-mvvm::TreeData from_datarole_default_impl(const mvvm::datarole_t& datarole);
+//! Converts role_data_t holdingto the TreeData object, basic implementation that fits most needs.
+mvvm::TreeData from_roledata_default_impl(const mvvm::role_data_t& role_data);
 
-//! Converts TreeData to datarole_t, basic implementation that feets most needs
-mvvm::datarole_t to_undefined(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t, basic implementation that feets most needs
+mvvm::role_data_t to_undefined(const mvvm::TreeData& tree_data);
 
-//! Converts TreeData to datarole_t holding boolean.
-mvvm::datarole_t to_bool(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding boolean.
+mvvm::role_data_t to_bool(const mvvm::TreeData& tree_data);
 
-//! Converts TreeData to datarole_t holding integer data.
-mvvm::datarole_t to_int(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding integer data.
+mvvm::role_data_t to_int(const mvvm::TreeData& tree_data);
 
-//! Converts TreeData to datarole_t holding string data.
-mvvm::datarole_t to_string(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding string data.
+mvvm::role_data_t to_string(const mvvm::TreeData& tree_data);
 
-//! Converts TreeData to datarole_t holding double data.
-mvvm::datarole_t to_double(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding double data.
+mvvm::role_data_t to_double(const mvvm::TreeData& tree_data);
 
-//! Converts TreeData to datarole_t holding vector<double>.
-mvvm::datarole_t to_vector_double(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding vector<double>.
+mvvm::role_data_t to_vector_double(const mvvm::TreeData& tree_data);
 
-//! Converts datarole_t holding ComboProperty to the TreeData object.
-mvvm::TreeData from_combo_property(const mvvm::datarole_t& datarole);
+//! Converts role_data_t holding ComboProperty to the TreeData object.
+mvvm::TreeData from_combo_property(const mvvm::role_data_t& role_data);
 
-//! Converts TreeData to datarole_t holding ComboProperty data.
-mvvm::datarole_t to_combo_property(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding ComboProperty data.
+mvvm::role_data_t to_combo_property(const mvvm::TreeData& tree_data);
 
-//! Converts TreeData to datarole_t holding ExternalProperty data.
-mvvm::datarole_t to_external_property(const mvvm::TreeData& tree_data);
+//! Converts TreeData to role_data_t holding ExternalProperty data.
+mvvm::role_data_t to_external_property(const mvvm::TreeData& tree_data);
 
 //! Returns map of all defined converters.
 std::map<std::string, Converters> GetConverters();
@@ -104,7 +104,7 @@ bool IsDataRoleConvertible(const TreeData& tree_data)
          && tree_data.GetNumberOfChildren() == 0;
 }
 
-datarole_t ToDataRole(const TreeData& tree_data)
+role_data_t ToRoleData(const TreeData& tree_data)
 {
   static const std::map<std::string, Converters> converters = GetConverters();
 
@@ -120,21 +120,21 @@ datarole_t ToDataRole(const TreeData& tree_data)
     throw RuntimeException("Error in variant converter: can't find type name [" + type_name + "]");
   }
 
-  return it->second.treedata_to_datarole(tree_data);
+  return it->second.treedata_to_roledata(tree_data);
 }
 
-TreeData ToTreeData(const datarole_t& data_role)
+TreeData ToTreeData(const role_data_t& role_data)
 {
   static const std::map<std::string, Converters> converters = GetConverters();
 
-  const std::string type_name = utils::TypeName(data_role.first);
+  const std::string type_name = utils::TypeName(role_data.second);
 
   auto it = converters.find(type_name);
   if (it == converters.end())
   {
     throw RuntimeException("Error in variant converter: can't find type name [" + type_name + "]");
   }
-  return it->second.datarole_to_treedata(data_role);
+  return it->second.roledata_to_treedata(role_data);
 }
 
 }  // namespace mvvm
@@ -170,68 +170,68 @@ std::string GetTypeName(const mvvm::TreeData& tree_data)
   return tree_data.GetAttribute(kTypeAttributeKey);
 }
 
-mvvm::TreeData from_datarole_default_impl(const mvvm::datarole_t& datarole)
+mvvm::TreeData from_roledata_default_impl(const mvvm::role_data_t& role_data)
 {
   mvvm::TreeData result(kVariantElementType);
-  result.AddAttribute(kTypeAttributeKey, mvvm::utils::TypeName(datarole.first));
-  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
-  result.SetContent(mvvm::utils::ValueToString(datarole.first));
+  result.AddAttribute(kTypeAttributeKey, mvvm::utils::TypeName(role_data.second));
+  result.AddAttribute(kRoleAttributeKey, std::to_string(role_data.first));
+  result.SetContent(mvvm::utils::ValueToString(role_data.second));
   return result;
 }
 
-mvvm::datarole_t to_undefined(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_undefined(const mvvm::TreeData& tree_data)
 {
-  return {mvvm::variant_t(), GetRole(tree_data)};
+  return {GetRole(tree_data), mvvm::variant_t()};
 }
 
-mvvm::datarole_t to_bool(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_bool(const mvvm::TreeData& tree_data)
 {
   bool value = mvvm::utils::StringToBool(tree_data.GetContent());
-  return {mvvm::variant_t(value), GetRole(tree_data)};
+  return {GetRole(tree_data), mvvm::variant_t(value)};
 }
 
 template <typename T>
-mvvm::datarole_t to_int(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_int(const mvvm::TreeData& tree_data)
 {
   T value = std::stoi(tree_data.GetContent());
-  return {mvvm::variant_t(value), GetRole(tree_data)};
+  return {GetRole(tree_data), mvvm::variant_t(value)};
 }
 
-mvvm::datarole_t to_string(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_string(const mvvm::TreeData& tree_data)
 {
-  return {mvvm::variant_t(tree_data.GetContent()), GetRole(tree_data)};
+  return {GetRole(tree_data), mvvm::variant_t(tree_data.GetContent())};
 }
 
 template <typename T>
-mvvm::datarole_t to_double(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_double(const mvvm::TreeData& tree_data)
 {
   // we use own conversion to double instead of std::stod to not to depend on user's locale
   if (auto value = mvvm::utils::StringToDouble(tree_data.GetContent()); value)
   {
     T concrete_value(value.value());
-    return {mvvm::variant_t(concrete_value), GetRole(tree_data)};
+    return {GetRole(tree_data), mvvm::variant_t(concrete_value)};
   }
   throw mvvm::RuntimeException("Error in variant converter: malformed double number");
 }
 
-mvvm::datarole_t to_vector_double(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_vector_double(const mvvm::TreeData& tree_data)
 {
   auto values = mvvm::utils::ParseCommaSeparatedDoubles(tree_data.GetContent());
-  return {mvvm::variant_t(values), GetRole(tree_data)};
+  return {GetRole(tree_data), mvvm::variant_t(values)};
 }
 
-mvvm::TreeData from_combo_property(const mvvm::datarole_t& datarole)
+mvvm::TreeData from_combo_property(const mvvm::role_data_t& role_data)
 {
   mvvm::TreeData result(kVariantElementType);
-  result.AddAttribute(kRoleAttributeKey, std::to_string(datarole.second));
+  result.AddAttribute(kRoleAttributeKey, std::to_string(role_data.first));
   result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
-  auto combo = std::get<mvvm::ComboProperty>(datarole.first);
+  auto combo = std::get<mvvm::ComboProperty>(role_data.second);
   result.AddAttribute(kSelectionsAttributeKey, combo.GetStringOfSelections());
   result.SetContent(combo.GetStringOfValues());
   return result;
 }
 
-mvvm::datarole_t to_combo_property(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_combo_property(const mvvm::TreeData& tree_data)
 {
   mvvm::ComboProperty combo;
   combo.SetStringOfValues(tree_data.GetContent());
@@ -240,40 +240,40 @@ mvvm::datarole_t to_combo_property(const mvvm::TreeData& tree_data)
   {
     combo.SetStringOfSelections(selections);
   }
-  return {combo, GetRole(tree_data)};
+  return {GetRole(tree_data), combo};
 }
 
-mvvm::datarole_t to_external_property(const mvvm::TreeData& tree_data)
+mvvm::role_data_t to_external_property(const mvvm::TreeData& tree_data)
 {
   auto property = mvvm::ExternalProperty::CreateFromString(tree_data.GetContent());
-  return {property, GetRole(tree_data)};
+  return {GetRole(tree_data), property};
 }
 
 std::map<std::string, Converters> GetConverters()
 {
   static std::map<std::string, Converters> result = {
-      {mvvm::constants::kEmptyTypeName, {from_datarole_default_impl, to_undefined}},
-      {mvvm::constants::kBooleanTypeName, {from_datarole_default_impl, to_bool}},
-      {mvvm::constants::kChar8TypeName, {from_datarole_default_impl, to_int<mvvm::char8>}},
-      {mvvm::constants::kInt8TypeName, {from_datarole_default_impl, to_int<mvvm::int8>}},
-      {mvvm::constants::kUInt8TypeName, {from_datarole_default_impl, to_int<mvvm::uint8>}},
+      {mvvm::constants::kEmptyTypeName, {from_roledata_default_impl, to_undefined}},
+      {mvvm::constants::kBooleanTypeName, {from_roledata_default_impl, to_bool}},
+      {mvvm::constants::kChar8TypeName, {from_roledata_default_impl, to_int<mvvm::char8>}},
+      {mvvm::constants::kInt8TypeName, {from_roledata_default_impl, to_int<mvvm::int8>}},
+      {mvvm::constants::kUInt8TypeName, {from_roledata_default_impl, to_int<mvvm::uint8>}},
 
-      {mvvm::constants::kInt16TypeName, {from_datarole_default_impl, to_int<mvvm::int16>}},
-      {mvvm::constants::kUInt16TypeName, {from_datarole_default_impl, to_int<mvvm::uint16>}},
+      {mvvm::constants::kInt16TypeName, {from_roledata_default_impl, to_int<mvvm::int16>}},
+      {mvvm::constants::kUInt16TypeName, {from_roledata_default_impl, to_int<mvvm::uint16>}},
 
-      {mvvm::constants::kInt32TypeName, {from_datarole_default_impl, to_int<mvvm::int32>}},
-      {mvvm::constants::kUInt32TypeName, {from_datarole_default_impl, to_int<mvvm::uint32>}},
+      {mvvm::constants::kInt32TypeName, {from_roledata_default_impl, to_int<mvvm::int32>}},
+      {mvvm::constants::kUInt32TypeName, {from_roledata_default_impl, to_int<mvvm::uint32>}},
 
-      {mvvm::constants::kInt64TypeName, {from_datarole_default_impl, to_int<mvvm::int64>}},
-      {mvvm::constants::kUInt64TypeName, {from_datarole_default_impl, to_int<mvvm::uint64>}},
+      {mvvm::constants::kInt64TypeName, {from_roledata_default_impl, to_int<mvvm::int64>}},
+      {mvvm::constants::kUInt64TypeName, {from_roledata_default_impl, to_int<mvvm::uint64>}},
 
-      {mvvm::constants::kStringTypeName, {from_datarole_default_impl, to_string}},
-      {mvvm::constants::kFloat32TypeName, {from_datarole_default_impl, to_double<mvvm::float32>}},
-      {mvvm::constants::kFloat64TypeName, {from_datarole_default_impl, to_double<mvvm::float64>}},
-      {mvvm::constants::kVectorDoubleTypeName, {from_datarole_default_impl, to_vector_double}},
+      {mvvm::constants::kStringTypeName, {from_roledata_default_impl, to_string}},
+      {mvvm::constants::kFloat32TypeName, {from_roledata_default_impl, to_double<mvvm::float32>}},
+      {mvvm::constants::kFloat64TypeName, {from_roledata_default_impl, to_double<mvvm::float64>}},
+      {mvvm::constants::kVectorDoubleTypeName, {from_roledata_default_impl, to_vector_double}},
       {mvvm::constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
       {mvvm::constants::kExternalPropertyTypeName,
-       {from_datarole_default_impl, to_external_property}}};
+       {from_roledata_default_impl, to_external_property}}};
 
   return result;
 }

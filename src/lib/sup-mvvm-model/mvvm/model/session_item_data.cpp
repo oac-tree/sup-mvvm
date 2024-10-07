@@ -31,7 +31,7 @@ std::vector<int> SessionItemData::GetRoles() const
 {
   std::vector<int> result;
   std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
-                 [](const auto& data_pair) { return data_pair.second; });
+                 [](const auto& role_data) { return role_data.first; });
   return result;
 }
 
@@ -39,9 +39,9 @@ variant_t SessionItemData::Data(int role) const
 {
   for (const auto& value : m_values)
   {
-    if (value.second == role)
+    if (value.first == role)
     {
-      return value.first;
+      return value.second;
     }
   }
   return {};
@@ -53,15 +53,15 @@ bool SessionItemData::SetData(const variant_t& value, int role)
 
   for (auto it = m_values.begin(); it != m_values.end(); ++it)
   {
-    if (it->second == role)
+    if (it->first == role)
     {
       if (utils::IsValid(value))
       {
-        if (it->first == value)
+        if (it->second == value)
         {
           return false;
         }
-        it->first = value;
+        it->second = value;
       }
       else
       {
@@ -70,13 +70,13 @@ bool SessionItemData::SetData(const variant_t& value, int role)
       return true;
     }
   }
-  m_values.emplace_back(value, role);
+  m_values.emplace_back(role, value);
   return true;
 }
 
 bool SessionItemData::HasData(int role) const
 {
-  auto has_role = [role](const auto& data_pair) { return data_pair.second == role; };
+  auto has_role = [role](const auto& role_data) { return role_data.first == role; };
   return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();
 }
 

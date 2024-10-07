@@ -38,9 +38,9 @@ std::unique_ptr<TreeData> TreeDataItemDataConverter::ToTreeData(
     const SessionItemData &item_data) const
 {
   auto result = std::make_unique<TreeData>(kItemDataElementType);
-  for (const auto &datarole : item_data)
+  for (const auto &role_data : item_data)
   {
-    result->AddChild(::mvvm::ToTreeData(datarole));
+    result->AddChild(::mvvm::ToTreeData(role_data));
   }
   return result;
 }
@@ -66,8 +66,8 @@ void TreeDataItemDataConverter::PopulateItemData(const TreeData &tree_data,
   // In the future filtering of roles will be implemented
   for (const auto &child : tree_data.Children())
   {
-    auto datarole = ToDataRole(child);
-    item_data.SetData(datarole.first, datarole.second);
+    auto role_data = ToRoleData(child);
+    item_data.SetData(role_data.second, role_data.first);
   }
 }
 

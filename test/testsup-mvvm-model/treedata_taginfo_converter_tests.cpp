@@ -44,7 +44,7 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
 
-  // Converting tree_data to data_role
+  // Converting tree_data to tag_info
   auto tag_info = ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), 1);
@@ -68,7 +68,7 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
 
-  // Converting tree_data to data_role
+  // Converting tree_data to tag_info
   auto tag_info = ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), -1);

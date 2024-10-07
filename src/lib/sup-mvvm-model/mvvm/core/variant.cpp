@@ -70,7 +70,7 @@ struct VariantValueVisitor
 namespace mvvm
 {
 
-bool operator==(const datarole_t &lhs, const datarole_t &rhs)
+bool operator==(const role_data_t &lhs, const role_data_t &rhs)
 {
   return lhs.first == rhs.first && lhs.second == rhs.second;
 }
