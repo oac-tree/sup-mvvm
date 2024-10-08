@@ -34,6 +34,7 @@
 #include <mvvm/utils/container_utils.h>
 
 #include <stack>
+#include <sstream>
 
 namespace
 {
@@ -410,6 +411,22 @@ void EndMacro(const SessionItem &item)
   {
     EndMacro(*model);
   }
+}
+
+std::string ItemToDebugString(const SessionItem *item)
+{
+  std::ostringstream ostr;
+  if (item)
+  {
+    ostr << (item);
+    ostr << " " << "[" + item->GetDisplayName() + "]";
+    ostr << " value [" + utils::ValueToString(item->Data()) + "]";
+  }
+  else
+  {
+    ostr << "nullptr";
+  }
+  return ostr.str();
 }
 
 }  // namespace mvvm::utils

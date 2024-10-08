@@ -420,6 +420,11 @@ MVVM_MODEL_EXPORT void BeginMacro(const SessionItem& item, const std::string& ma
  */
 MVVM_MODEL_EXPORT void EndMacro(const SessionItem& item);
 
+/**
+ * @brief Returns string representing item.
+ */
+std::string ItemToDebugString(const SessionItem* item);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_
