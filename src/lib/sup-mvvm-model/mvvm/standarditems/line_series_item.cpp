@@ -39,7 +39,7 @@ namespace mvvm
 
 LineSeriesItem::LineSeriesItem() : CompoundItem(Type)
 {
-  AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link");
+  AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
   AddProperty(kOffset, 0.0).SetDisplayName("Offset");
 
   auto &pen = AddProperty<mvvm::PenItem>(kPen);
