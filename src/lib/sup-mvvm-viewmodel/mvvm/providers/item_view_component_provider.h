@@ -184,8 +184,7 @@ signals:
 private:
   void OnViewModelReset();
   std::vector<SessionItem*> GetSelectedItemsIntern() const;
-  void OnSelectionChanged(const QItemSelection &selected,
-                          const QItemSelection &deselected);
+  void OnSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
   std::unique_ptr<ViewModelDelegate> m_delegate;
   std::unique_ptr<ViewModel> m_view_model;
@@ -220,10 +219,7 @@ template <typename ViewModelT>
 std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
                                                           ISessionModel* model = nullptr)
 {
-  auto result =
-      std::make_unique<ItemViewComponentProvider>(std::make_unique<ViewModelT>(model), view);
-  result->SetApplicationModel(model);
-  return result;
+  return std::make_unique<ItemViewComponentProvider>(std::make_unique<ViewModelT>(model), view);
 }
 
 }  // namespace mvvm
