@@ -27,16 +27,22 @@ namespace mvvm
 
 class ISessionModel;
 
-//! View model to show the whole content of SessionModel in Qt widgets. Represents two-column tree
-//! with label/data, with one-to-one child/parent correspondence as in the original SessionModel.
-//! All items (including hidden) are shown.
-
+/**
+ * @brief The AllItemsViewModel class is a view model to show the whole content of SessionModel in
+ * Qt trees.
+ *
+ * Represents a two-column tree with label/data, with one-to-one child/parent correspondence as in
+ the
+ * original SessionModel. All visible items, like top-level items and property items, are shown.
+ * With an additional flag it is possible to show hidden items too.
+ */
 class MVVM_VIEWMODEL_EXPORT AllItemsViewModel : public ViewModel
 {
   Q_OBJECT
 
 public:
-  explicit AllItemsViewModel(ISessionModel* model, QObject* parent = nullptr);
+  explicit AllItemsViewModel(ISessionModel* model, QObject* parent = nullptr,
+                             bool show_hidden = false);
 };
 
 }  // namespace mvvm

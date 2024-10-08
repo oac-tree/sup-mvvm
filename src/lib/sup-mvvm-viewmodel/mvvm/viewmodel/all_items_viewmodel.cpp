@@ -26,9 +26,19 @@
 namespace mvvm
 {
 
-AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent) : ViewModel(parent)
+AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent, bool show_hidden)
+    : ViewModel(parent)
 {
-  SetController(factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this));
+  if (show_hidden)
+  {
+    SetController(
+        factory::CreateController<AllChildrenStrategy, LabelDataRowStrategy>(model, this));
+  }
+  else
+  {
+    SetController(
+        factory::CreateController<AllVisibleChildrenStrategy, LabelDataRowStrategy>(model, this));
+  }
 }
 
 }  // namespace mvvm

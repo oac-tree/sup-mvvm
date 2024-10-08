@@ -39,6 +39,9 @@
 
 using namespace mvvm;
 
+/**
+ * @brief Tests for AllItemsViewModel class.
+ */
 class AllItemsViewModelTest : public mvvm::test::FolderTest
 {
 public:
@@ -67,8 +70,8 @@ TEST_F(AllItemsViewModelTest, GetSessionItemFromIndex)
   EXPECT_EQ(view_model.columnCount(), 2);
 
   // accessing first child under the root item
-  QModelIndex label_index = view_model.index(0, 0);
-  QModelIndex data_index = view_model.index(0, 1);
+  const QModelIndex label_index = view_model.index(0, 0);
+  const QModelIndex data_index = view_model.index(0, 1);
 
   EXPECT_EQ(view_model.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
   EXPECT_EQ(view_model.GetSessionItemFromIndex(label_index), item);
@@ -76,26 +79,24 @@ TEST_F(AllItemsViewModelTest, GetSessionItemFromIndex)
 }
 
 //! Index from single property item.
-
 TEST_F(AllItemsViewModelTest, GetIndexOfSessionItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
 
-  AllItemsViewModel view_model(&m_model);
+  const AllItemsViewModel view_model(&m_model);
   EXPECT_EQ(view_model.rowCount(), 1);
   EXPECT_EQ(view_model.columnCount(), 2);
 
   // accessing first child under the root item
-  QModelIndex label_index = view_model.index(0, 0);
-  QModelIndex data_index = view_model.index(0, 1);
+  const QModelIndex label_index = view_model.index(0, 0);
+  const QModelIndex data_index = view_model.index(0, 1);
 
-  QModelIndexList expected{label_index, data_index};
+  const QModelIndexList expected{label_index, data_index};
   EXPECT_EQ(view_model.GetIndexOfSessionItem(item), expected);
 }
 
 //! Single property item in a model.
-
 TEST_F(AllItemsViewModelTest, ModelWithSingleItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -128,16 +129,15 @@ TEST_F(AllItemsViewModelTest, ModelWithSingleItem)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
 }
 
-//! Hidden property item in a model. Current DefaultViewModel implementation deliberately doesn't
-//! respect `hidden` property. Item will be shown as usual, test is identical to the test above.
-
+//! Hidden property item in a model. Special flag is used, to show hidden items too.
+//! Test is identical to the test above.
 TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHidden)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
   item->SetVisible(false);
 
-  AllItemsViewModel viewmodel(&m_model);
+  AllItemsViewModel viewmodel(&m_model, nullptr, true);
   EXPECT_EQ(viewmodel.rowCount(), 1);
   EXPECT_EQ(viewmodel.columnCount(), 2);
 
@@ -164,8 +164,20 @@ TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHidden)
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(QModelIndex()), m_model.GetRootItem());
 }
 
-//! SessionModel is populated with a VectorItem item. The controller is initialised after.
+//! Hidden property item in a model. Curernt implementation do not show hidden item without special
+//! flag used.
+TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHiddenDefault)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(42.0);
+  item->SetVisible(false);
 
+  const AllItemsViewModel viewmodel(&m_model);
+  EXPECT_EQ(viewmodel.rowCount(), 0);
+  EXPECT_EQ(viewmodel.columnCount(), 2);
+}
+
+//! SessionModel is populated with a VectorItem item. The controller is initialised after.
 TEST_F(AllItemsViewModelTest, ModelWithVectorItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
@@ -180,8 +192,8 @@ TEST_F(AllItemsViewModelTest, ModelWithVectorItem)
   EXPECT_EQ(viewmodel.columnCount(), 2);
 
   // accessing first child under the root item
-  QModelIndex vector_label_index = viewmodel.index(0, 0);
-  QModelIndex vector_data_index = viewmodel.index(0, 1);
+  const QModelIndex vector_label_index = viewmodel.index(0, 0);
+  const QModelIndex vector_data_index = viewmodel.index(0, 1);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(vector_label_index), vector_item);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(vector_data_index), vector_item);
 
@@ -201,11 +213,10 @@ TEST_F(AllItemsViewModelTest, ModelWithVectorItem)
 
 //! Initialise controller with the empty model. Then insert new item and check that view model
 //! hass been updated.
-
 TEST_F(AllItemsViewModelTest, InsertIntoEmptyModel)
 {
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -246,11 +257,10 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyModel)
 }
 
 //! Insert three property items in a model, inserted after controller was setup.
-
 TEST_F(AllItemsViewModelTest, InitThenInsertProperties)
 {
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>();
   auto item1 = m_model.InsertItem<PropertyItem>();
@@ -278,11 +288,10 @@ TEST_F(AllItemsViewModelTest, InitThenInsertProperties)
 }
 
 //! Inserting property items in reversed order.
-
 TEST_F(AllItemsViewModelTest, InsertInFront)
 {
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>();
   auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(0));
@@ -299,11 +308,10 @@ TEST_F(AllItemsViewModelTest, InsertInFront)
 }
 
 //! Inserting item between two other.
-
 TEST_F(AllItemsViewModelTest, InsertBetween)
 {
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto item0 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(0));
   auto item1 = m_model.InsertItem<PropertyItem>(m_model.GetRootItem(), TagIndex::Default(1));
@@ -323,11 +331,10 @@ TEST_F(AllItemsViewModelTest, InsertBetween)
 }
 
 //! Initialise controller with the empty model. Insert parent and then child into it.
-
 TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
 {
-  QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
 
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
@@ -353,7 +360,6 @@ TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
 }
 
 //! Sequence with 3 children. Removing the middle one.
-
 TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -370,7 +376,7 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   EXPECT_EQ(m_viewmodel.rowCount(parent_index), 3);
   EXPECT_EQ(m_viewmodel.columnCount(parent_index), 2);
 
-  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   // removing middle child
@@ -393,7 +399,7 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   auto child2_index = m_viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(child2_index), child2);
 
-  QList<QVariant> arguments = spy_remove.takeFirst();
+  const QList<QVariant> arguments = spy_remove.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex &parent, int first, int last
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), parent_index);
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
@@ -401,7 +407,6 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
 }
 
 //! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
-
 TEST_F(AllItemsViewModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -414,13 +419,13 @@ TEST_F(AllItemsViewModelTest, SetData)
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex data_index = m_viewmodel.index(0, 1);
+  const QModelIndex data_index = m_viewmodel.index(0, 1);
 
-  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  const QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
-  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), 42.0);
@@ -428,7 +433,6 @@ TEST_F(AllItemsViewModelTest, SetData)
 
 //! The data is manipulated through the view_model. Checking that the view_model emits the signal,
 //! and that the change is propagated through the composer.
-
 TEST_F(AllItemsViewModelTest, SetDataThroughModel)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -443,19 +447,18 @@ TEST_F(AllItemsViewModelTest, SetDataThroughModel)
 
   EXPECT_EQ(spy_data_changed.count(), 1);
 
-  QModelIndex data_index = m_viewmodel.index(0, 1);
+  const QModelIndex data_index = m_viewmodel.index(0, 1);
 
-  QList<QVariant> arguments = spy_data_changed.takeFirst();
+  const QList<QVariant> arguments = spy_data_changed.takeFirst();
   EXPECT_EQ(arguments.size(), 3);  // QModelIndex left, QModelIndex right, QVector<int> roles
   EXPECT_EQ(arguments.at(0).value<QModelIndex>(), m_viewmodel.index(0, 1));
   EXPECT_EQ(arguments.at(1).value<QModelIndex>(), m_viewmodel.index(0, 1));
-  QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
+  const QVector<int> expectedRoles = {Qt::DisplayRole, Qt::EditRole};
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
 
-//! Two ViewModels are looking to the same ApplicationModel.
-//! Change through one ViewModel should modify another.
-
+//! Two ViewModels are looking to the same ApplicationModel. Change through one ViewModel should
+//! modify another.
 TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
 {
   ApplicationModel model;
@@ -465,8 +468,8 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
   AllItemsViewModel viewmodel1(&model);
   AllItemsViewModel viewmodel2(&model);
 
-  QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
-  QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
+  const QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
+  const QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
 
   // modifying data through the composer
   viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
@@ -476,7 +479,6 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
 }
 
 //! Single property item in ViewModel with various appearance flags.
-
 TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
 {
   ApplicationModel model;
@@ -496,7 +498,7 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
   item3->SetEditable(false);  // our convention: normal color, read only
 
   // making view model
-  AllItemsViewModel viewModel(&model);
+  const AllItemsViewModel viewModel(&model);
 
   // In tests below is important that SessionItem::isEnabled==false means that item is
   // shown in gray color. While QStandardItem::isEnabled means "no interaction".
@@ -516,7 +518,6 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
 }
 
 //! Signals in ViewModel when property item changes its appearance.
-
 TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
 {
   ApplicationModel model;
@@ -561,7 +562,6 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
 }
 
 //! Signals in ViewModel when property item changes its tooltips.
-
 TEST_F(AllItemsViewModelTest, TooltipChanged)
 {
   ApplicationModel model;
@@ -610,14 +610,13 @@ TEST_F(AllItemsViewModelTest, TooltipChanged)
 }
 
 //! Setting property item as ROOT item.
-
 TEST_F(AllItemsViewModelTest, SetPropertyItemAsRoot)
 {
   ApplicationModel model;
   AllItemsViewModel view_model(&model);
 
-  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
 
   auto item = model.InsertItem<PropertyItem>();
   view_model.SetRootSessionItem(item);
@@ -632,9 +631,7 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRoot)
   EXPECT_EQ(view_model.GetRootSessionItem(), item);
 }
 
-//! Setting property item as ROOT item.
-//! Same as above, only view model was initialized after.
-
+//! Setting property item as ROOT item. Same as above, only view model was initialized after.
 TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
 {
   ApplicationModel model;
@@ -644,10 +641,10 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
   EXPECT_EQ(view_model.rowCount(), 1);
   EXPECT_EQ(view_model.columnCount(), 2);
 
-  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   view_model.SetRootSessionItem(item);
 
@@ -664,7 +661,6 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
 }
 
 //! Setting top level item as ROOT item (case parent and children).
-
 TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
 {
   ApplicationModel model;
@@ -675,10 +671,10 @@ TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
   item->AddProperty<VectorItem>("position");
   item->AddProperty("radius", 43.0);
 
-  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   view_model.SetRootSessionItem(item);
 
@@ -699,7 +695,6 @@ TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
 }
 
 //! Setting vector item as ROOT item.
-
 TEST_F(AllItemsViewModelTest, SetVectorItemAsRoot)
 {
   ApplicationModel model;
@@ -715,7 +710,6 @@ TEST_F(AllItemsViewModelTest, SetVectorItemAsRoot)
 }
 
 //! Setting nullptr as new item.
-
 TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
 {
   ApplicationModel model;
@@ -729,10 +723,10 @@ TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
 
   EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
 
-  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   view_model.SetRootSessionItem(nullptr);
   EXPECT_EQ(view_model.GetRootSessionItem(), nullptr);
@@ -748,7 +742,6 @@ TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
 }
 
 //! Setting the model, and then different model
-
 TEST_F(AllItemsViewModelTest, SetAnotherModel)
 {
   ApplicationModel model1;
@@ -764,10 +757,10 @@ TEST_F(AllItemsViewModelTest, SetAnotherModel)
   EXPECT_EQ(view_model.rowCount(), 0);
   EXPECT_EQ(view_model.columnCount(), 2);
 
-  QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
+  const QSignalSpy spy_about_reset(&view_model, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&view_model, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_insert(&m_viewmodel, &mvvm::ViewModelBase::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &mvvm::ViewModelBase::rowsRemoved);
 
   view_model.SetModel(&model2);
   EXPECT_EQ(view_model.GetModel(), &model2);
@@ -788,7 +781,6 @@ TEST_F(AllItemsViewModelTest, SetAnotherModel)
 
 //! Inserting two VectorItems. Setting second VectorItem as root item.
 //! Removing first VectorItem. ViewModel should remain unchanged, no signals issued.
-
 TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
 {
   auto vector_item0 = m_model.InsertItem<VectorItem>();
@@ -801,10 +793,10 @@ TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
 
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), vector_item1);
 
-  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
-  QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
+  const QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
 
   m_model.TakeItem(m_model.GetRootItem(), {"", 0});
 
@@ -817,9 +809,8 @@ TEST_F(AllItemsViewModelTest, RemoveItemAboveCustomRootItem)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Inserting VectorItem and setting it as root item.
-//! Removing VectorItem, model has to reset to empty state.
-
+//! Inserting VectorItem and setting it as root item. Removing VectorItem, model has to reset to
+//! empty state.
 TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
@@ -829,10 +820,10 @@ TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
-  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
-  QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
+  const QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
 
   // removing vector_item
   m_model.RemoveItem(vector_item);
@@ -860,10 +851,10 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
 
   m_viewmodel.SetRootSessionItem(parent);
 
-  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
-  QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
-  QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_about_remove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
+  const QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
 
   // removing grandparent
   m_model.RemoveItem(grandparent);
@@ -878,7 +869,6 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
 }
 
 //! On model reset.
-
 TEST_F(AllItemsViewModelTest, OnModelReset)
 {
   m_model.InsertItem<SessionItem>();
@@ -888,8 +878,8 @@ TEST_F(AllItemsViewModelTest, OnModelReset)
   EXPECT_EQ(m_viewmodel.rowCount(), 3);
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 
-  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   m_model.Clear();
   EXPECT_EQ(m_viewmodel.rowCount(), 0);
@@ -900,7 +890,6 @@ TEST_F(AllItemsViewModelTest, OnModelReset)
 }
 
 //! On model destroyed.
-
 TEST_F(AllItemsViewModelTest, OnModelDestroyed)
 {
   auto model = std::make_unique<ApplicationModel>();
@@ -929,17 +918,16 @@ TEST_F(AllItemsViewModelTest, horizontalLabels)
 }
 
 //! Testing ViewModel signals while loading data with the help of XML document. Model is empty.
-
 TEST_F(AllItemsViewModelTest, XmlDocumentLoadEmptyModel)
 {
   const auto file_path = GetFilePath("XmlDocumentLoadEmptyModel.xml");
   XmlDocument document({&m_model});
   document.Save(file_path);
 
-  QSignalSpy spy_insert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-  QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-  QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spy_insert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  const QSignalSpy spy_remove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spy_about_reset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spy_reset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   document.Load(file_path);
 
@@ -953,7 +941,6 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadEmptyModel)
 }
 
 //! Testing ViewModel signals while loading data with the help of XML document. Model contains item.
-
 TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
 {
   const auto file_path = GetFilePath("XmlDocumentLoadModel.xml");
@@ -971,10 +958,10 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
   // loading into our empty model
   XmlDocument document({&m_model});
 
-  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  const QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   document.Load(file_path);
 
@@ -988,7 +975,6 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
 }
 
 //! Testing view model after restoring from XML document.
-
 TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
 {
   const auto file_path = GetFilePath("VectorItemInXmlDocument.xml");
@@ -1005,10 +991,10 @@ TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
   // loading into our empty model
   XmlDocument document({&m_model});
 
-  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  const QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   document.Load(file_path);
 
@@ -1039,10 +1025,10 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   XmlDocument document({&m_model});
   document.Save(file_path);
 
-  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  const QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   // Loading the document: will rewrite m_model and trigger m_viewmodel rebuild.
   document.Load(file_path);
@@ -1059,7 +1045,6 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
 }
 
 //! Moving item from one parent to another.
-
 TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
 {
   auto container0 = m_model.InsertItem<ContainerItem>();
@@ -1069,12 +1054,12 @@ TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
   EXPECT_EQ(m_viewmodel.rowCount(), 2);
   EXPECT_EQ(m_viewmodel.rowCount(m_viewmodel.index(0, 0)), 1);
 
-  QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
-  QSignalSpy spyAboutInsert(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeInserted);
-  QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
-  QSignalSpy spyAboutRemove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
-  QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
-  QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
+  const QSignalSpy spyInsert(&m_viewmodel, &AllItemsViewModel::rowsInserted);
+  const QSignalSpy spyAboutInsert(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeInserted);
+  const QSignalSpy spyRemove(&m_viewmodel, &AllItemsViewModel::rowsRemoved);
+  const QSignalSpy spyAboutRemove(&m_viewmodel, &AllItemsViewModel::rowsAboutToBeRemoved);
+  const QSignalSpy spyAboutReset(&m_viewmodel, &AllItemsViewModel::modelAboutToBeReset);
+  const QSignalSpy spyReset(&m_viewmodel, &AllItemsViewModel::modelReset);
 
   m_model.MoveItem(property, container1, TagIndex::Append());
 
@@ -1086,7 +1071,6 @@ TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
 
 //! Real life bug. One container with Data1DItem's, one ViewportItem with single graph.
 //! DefaultViewModel is looking on ViewPortItem. Graph is deleted first.
-
 TEST_F(AllItemsViewModelTest, DeleteGraphVromViewport)
 {
   ApplicationModel model;
@@ -1118,9 +1102,8 @@ TEST_F(AllItemsViewModelTest, DeleteGraphVromViewport)
   EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y, graph
 }
 
-//! Inserting item in an empty tag.
-//! This is to validate that item inserted in empty tag appears in the right order (real life bug).
-
+//! Inserting item in an empty tag. This is to validate that item inserted in empty tag appears in
+//! the right order (real life bug).
 TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
 {
   ApplicationModel model;
@@ -1135,7 +1118,7 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
 
   AllItemsViewModel viewmodel(&model);
 
-  QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
+  const QSignalSpy spy_insert(&viewmodel, &ViewModelBase::rowsInserted);
 
   EXPECT_EQ(parent->GetAllItems(), std::vector<SessionItem*>({&property}));
 
