@@ -52,6 +52,7 @@ static inline const std::string kSize = "kSize";
 
 TextItem::TextItem() : CompoundItem(Type)
 {
+  SetEditable(false); // to disable editing of on-board data
   AddProperty(kText, "").SetDisplayName("Text");
   AddProperty(kFont, default_title_family).SetDisplayName("Font");
   AddProperty(kSize, default_title_size).SetDisplayName("Size");
@@ -98,6 +99,7 @@ void TextItem::SetSize(double value)
 
 PenItem::PenItem() : CompoundItem(Type)
 {
+  SetEditable(false); // to disable editing of on-board data
   AddProperty(kColor, "black")
       .SetDisplayName("Color")
       .SetToolTip("Pen color")
