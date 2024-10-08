@@ -19,18 +19,21 @@
 
 #include "all_items_tree_view.h"
 
-#include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/providers/item_view_component_provider.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>
 
 namespace mvvm
 {
-AllItemsTreeView::AllItemsTreeView(ISessionModel* model, QWidget* parent)
+
+AllItemsTreeView::AllItemsTreeView(ISessionModel* model, QWidget* parent, bool show_hidden)
     : AbstractItemView(parent), m_tree_view(new QTreeView)
 {
-  SetComponentProvider(CreateProvider<AllItemsViewModel>(m_tree_view, model));
+  auto viewmodel = std::make_unique<AllItemsViewModel>(model, parent, show_hidden);
+  SetComponentProvider(
+      std::make_unique<ItemViewComponentProvider>(std::move(viewmodel), m_tree_view));
 }
 
 QTreeView* AllItemsTreeView::GetTreeView() const
