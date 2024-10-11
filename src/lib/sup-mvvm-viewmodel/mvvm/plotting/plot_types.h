@@ -34,7 +34,7 @@ namespace mvvm
  * This is steered either from the toolbar via signal/slot, or keyboard shortcuts. For the moment it
  * can be either object selection or panning of the viewport (the space bar key is pressed).
  */
-enum CanvasOperationMode : std::uint8_t
+enum class CanvasOperationMode : std::uint8_t
 {
   kSelection,          //!< allows to select graphs and points
   kPan,                //!< allows to pan axes

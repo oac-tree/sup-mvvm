@@ -64,7 +64,7 @@ private:
     kActivityCount
   };
 
-  CanvasOperationMode m_operation_mode{kSelection};
+  CanvasOperationMode m_operation_mode{CanvasOperationMode::kSelection};
   CurrentActivity m_current_activity{kIdle};
   QPointF m_last_pos;
 };

@@ -25,7 +25,7 @@ namespace mvvm
 ChartView::ChartView(QWidget *parent) : QtCharts::QChartView(parent)
 {
   setMouseTracking(true);
-  SetOperationMode(kSelection);
+  SetOperationMode(CanvasOperationMode::kSelection);
 }
 
 CanvasOperationMode ChartView::GetOperationMode() const
@@ -42,21 +42,21 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 
   m_operation_mode = operation_mode;
 
-  switch (m_operation_mode)
+  if (m_operation_mode == CanvasOperationMode::kSelection)
   {
-  case kSelection:
     setDragMode(QGraphicsView::NoDrag);
     setInteractive(true);
-    emit OperationModeChanged(kSelection);
-    break;
-  case kPan:
+    emit OperationModeChanged(static_cast<int>(CanvasOperationMode::kSelection));
+    return;
+  }
+
+  if (m_operation_mode == CanvasOperationMode::kPan)
+  {
     setInteractive(false);
     setRubberBand(QChartView::NoRubberBand);
     setDragMode(QChartView::ScrollHandDrag);
-    emit OperationModeChanged(kPan);
-    break;
-  default:
-    break;
+    emit OperationModeChanged(static_cast<int>(CanvasOperationMode::kPan));
+    return;
   }
 }
 
@@ -64,10 +64,10 @@ void ChartView::keyPressEvent(QKeyEvent *event)
 {
   if (event->key() == Qt::Key_Space)
   {
-    if (GetOperationMode() != kPan && !event->isAutoRepeat())
+    if (GetOperationMode() != CanvasOperationMode::kPan && !event->isAutoRepeat())
     {
       // user pressed a spacebar, switching operation mode to "pan"
-      SetOperationMode(kPan);
+      SetOperationMode(CanvasOperationMode::kPan);
       return;
     }
   }
@@ -78,10 +78,10 @@ void ChartView::keyReleaseEvent(QKeyEvent *event)
 {
   if (event->key() == Qt::Key_Space)
   {
-    if (GetOperationMode() != kSelection && !event->isAutoRepeat())
+    if (GetOperationMode() != CanvasOperationMode::kSelection && !event->isAutoRepeat())
     {
       // user released a spacebar, switching operation mode to "selection"
-      SetOperationMode(kSelection);
+      SetOperationMode(CanvasOperationMode::kSelection);
       return;
     }
   }
@@ -90,7 +90,7 @@ void ChartView::keyReleaseEvent(QKeyEvent *event)
 
 void ChartView::mousePressEvent(QMouseEvent *event)
 {
-  if (m_operation_mode == kPan)
+  if (m_operation_mode == CanvasOperationMode::kPan)
   {
     // user pressed and holding the mouse while in "pan" mode, preparing to scroll canvas
     m_last_pos = event->localPos();
@@ -121,4 +121,4 @@ void ChartView::mouseReleaseEvent(QMouseEvent *event)
   QChartView::mouseReleaseEvent(event);
 }
 
-}  // namespace sup::gui
+}  // namespace mvvm
