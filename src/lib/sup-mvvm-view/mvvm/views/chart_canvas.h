@@ -61,6 +61,9 @@ public:
 signals:
   void OperationModeChanged(int mode);
 
+protected:
+  void wheelEvent(QWheelEvent* event) override;
+
 private:
   std::unique_ptr<ChartViewportController> m_viewport_controller;
 

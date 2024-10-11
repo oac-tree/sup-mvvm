@@ -30,7 +30,8 @@
 namespace
 {
 const double kDefaultZoomInFactor = 1.5;
-}
+const double kWheelDefaultZoomInFactor = 1.4;
+}  // namespace
 
 namespace mvvm
 {
@@ -79,6 +80,18 @@ void ChartCanvas::SetViewportToContent()
 void ChartCanvas::SetOperationMode(int mode)
 {
   m_chart_view->SetOperationMode(static_cast<mvvm::ChartView::OperationMode>(mode));
+}
+
+void ChartCanvas::wheelEvent(QWheelEvent *event)
+{
+  if (event->angleDelta().y() > 0)
+  {
+    m_chart->zoom(kWheelDefaultZoomInFactor);
+  }
+  else
+  {
+    m_chart->zoom(1. / kWheelDefaultZoomInFactor);
+  }
 }
 
 }  // namespace mvvm
