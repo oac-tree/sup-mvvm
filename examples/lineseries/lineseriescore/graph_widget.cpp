@@ -28,6 +28,7 @@
 
 #include <QAction>
 #include <QBoxLayout>
+#include <QSplitter>
 #include <QToolBar>
 
 namespace lineseries
@@ -38,15 +39,20 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     , m_tool_bar(new QToolBar)
     , m_chart_canvas(new mvvm::ChartCanvas)
     , m_tree_view(new mvvm::AllItemsTreeView)
+    , m_splitter(new QSplitter)
 {
   auto central_layout = new QHBoxLayout;
-  central_layout->addWidget(m_chart_canvas, 3);
-  central_layout->addWidget(m_tree_view, 1);
+  central_layout->setContentsMargins(0, 0, 0, 0);
 
-  auto main_layout = new QVBoxLayout;
+  m_splitter->addWidget(m_chart_canvas);
+  m_splitter->addWidget(m_tree_view);
+  m_splitter->setSizes({300, 150});
+  central_layout->addWidget(m_splitter);
+
+  auto main_layout = new QVBoxLayout(this);
+  central_layout->setContentsMargins(0, 0, 0, 0);
   main_layout->addWidget(m_tool_bar);
   main_layout->addLayout(central_layout);
-  setLayout(main_layout);
 
   InitActions();
 

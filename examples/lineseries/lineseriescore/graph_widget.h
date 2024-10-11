@@ -25,6 +25,7 @@
 class QBoxLayout;
 class QToolBar;
 class QAction;
+class QSplitter;
 
 namespace mvvm
 {
@@ -37,8 +38,10 @@ namespace lineseries
 
 class GraphModel;
 
-//! Shows canvas with plots on the left and property editor on the right.
-
+/**
+ * @brief The GraphWidget class shows canvas with plots on the left and property editor on the
+ * right.
+ */
 class GraphWidget : public QWidget
 {
   Q_OBJECT
@@ -60,6 +63,7 @@ private:
 
   mvvm::ChartCanvas* m_chart_canvas{nullptr};
   mvvm::AllItemsTreeView* m_tree_view{nullptr};
+  QSplitter* m_splitter{nullptr};
 
   GraphModel* m_model{nullptr};
 };
