@@ -78,7 +78,7 @@ void ChartCanvas::SetViewportToContent()
 
 void ChartCanvas::SetOperationMode(int mode)
 {
-  m_chart_view->SetOperationMode(static_cast<mvvm::ChartView::OperationMode>(mode));
+  m_chart_view->SetOperationMode(static_cast<CanvasOperationMode>(mode));
 }
 
 void ChartCanvas::wheelEvent(QWheelEvent *event)

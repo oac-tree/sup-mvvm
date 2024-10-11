@@ -22,6 +22,8 @@
 
 #include <QtCharts/QChartView>
 
+#include <mvvm/plotting/plot_types.h>
+
 namespace mvvm
 {
 
@@ -34,25 +36,11 @@ class ChartView : public QtCharts::QChartView
   Q_OBJECT
 
 public:
-  /**
-   * @brief The OperationMode enum defines the mode in which the chart view is.
-   *
-   * @details This is steered either from the toolbar via signal/slot, or keyboard shortcuts.
-   * For the moment it can be either object selection or panning of the viewport (the space bar key
-   * is pressed).
-   */
-  enum OperationMode
-  {
-    kSelection,          //!< allows to select graphs and points
-    kPan,                //!< allows to pan axes
-    kOperationModeCount  //!< total number of operation mode
-  };
-
   explicit ChartView(QWidget* parent = nullptr);
 
-  OperationMode GetOperationMode() const;
+  CanvasOperationMode GetOperationMode() const;
 
-  void SetOperationMode(OperationMode operation_mode);
+  void SetOperationMode(CanvasOperationMode operation_mode);
 
 signals:
   void OperationModeChanged(int mode);
@@ -76,7 +64,7 @@ private:
     kActivityCount
   };
 
-  OperationMode m_operation_mode{kSelection};
+  CanvasOperationMode m_operation_mode{kSelection};
   CurrentActivity m_current_activity{kIdle};
   QPointF m_last_pos;
 };

@@ -28,12 +28,12 @@ ChartView::ChartView(QWidget *parent) : QtCharts::QChartView(parent)
   SetOperationMode(kSelection);
 }
 
-ChartView::OperationMode ChartView::GetOperationMode() const
+CanvasOperationMode ChartView::GetOperationMode() const
 {
   return m_operation_mode;
 }
 
-void ChartView::SetOperationMode(OperationMode operation_mode)
+void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 {
   if (operation_mode == m_operation_mode)
   {
