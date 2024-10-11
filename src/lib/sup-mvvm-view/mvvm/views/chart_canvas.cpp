@@ -20,18 +20,13 @@
 #include "chart_canvas.h"
 
 #include <mvvm/plotting/charts/chart_viewport_controller.h>
+#include <mvvm/plotting/plot_constants.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/views/chart_view.h>
 
 #include <QVBoxLayout>
 #include <QtCharts/QChart>
 #include <QtCharts/QLineSeries>
-
-namespace
-{
-const double kDefaultZoomInFactor = 1.5;
-const double kWheelDefaultZoomInFactor = 1.4;
-}  // namespace
 
 namespace mvvm
 {
@@ -67,12 +62,12 @@ void ChartCanvas::SetViewport(ChartViewportItem *viewport)
 
 void ChartCanvas::ZoomIn()
 {
-  m_chart->zoom(kDefaultZoomInFactor);
+  m_chart->zoom(constants::kDefaultZoomInFactor);
 }
 
 void ChartCanvas::ZoomOut()
 {
-  m_chart->zoom(1. / kDefaultZoomInFactor);
+  m_chart->zoom(1. / constants::kDefaultZoomInFactor);
 }
 
 void ChartCanvas::SetViewportToContent()
@@ -90,11 +85,11 @@ void ChartCanvas::wheelEvent(QWheelEvent *event)
 {
   if (event->angleDelta().y() > 0)
   {
-    m_chart->zoom(kWheelDefaultZoomInFactor);
+    m_chart->zoom(constants::kWheelDefaultZoomInFactor);
   }
   else
   {
-    m_chart->zoom(1. / kWheelDefaultZoomInFactor);
+    m_chart->zoom(1. / constants::kWheelDefaultZoomInFactor);
   }
 }
 
