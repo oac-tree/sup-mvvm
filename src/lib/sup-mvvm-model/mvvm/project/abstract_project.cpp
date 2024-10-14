@@ -84,11 +84,13 @@ bool AbstractProject::IsModified() const
 
 bool AbstractProject::CreateNewProject()
 {
+  m_project_path.clear();
   return true;
 }
 
 bool AbstractProject::CloseProject()
 {
+  m_project_path.clear();
   return true;
 }
 

@@ -109,6 +109,50 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   EXPECT_EQ(project.GetProjectPath(), expected_path);
 }
 
+//! Testing CreateNewProject() method. The project should loose its path.
+TEST_F(AbstractProjectTest, CreateNewProject)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
+
+  // mimicking successfull save
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+
+  // setting expectations
+  EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+
+  // performing save and triggering expectations
+  EXPECT_TRUE(project.Save(expected_path));
+
+  EXPECT_FALSE(project.IsModified());
+  EXPECT_EQ(project.GetProjectPath(), expected_path);
+
+  EXPECT_TRUE(project.CreateNewProject());
+  EXPECT_TRUE(project.GetProjectPath().empty());
+}
+
+//! Testing CloseProject() method. The project should loose its path.
+TEST_F(AbstractProjectTest, CloseProject)
+{
+  const std::string expected_path("path");
+  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
+
+  // mimicking successfull save
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+
+  // setting expectations
+  EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+
+  // performing save and triggering expectations
+  EXPECT_TRUE(project.Save(expected_path));
+
+  EXPECT_FALSE(project.IsModified());
+  EXPECT_EQ(project.GetProjectPath(), expected_path);
+
+  EXPECT_TRUE(project.CloseProject());
+  EXPECT_TRUE(project.GetProjectPath().empty());
+}
+
 //! Testing failed save. Correct methods should be called, the project should stay without path.
 TEST_F(AbstractProjectTest, FailedSave)
 {

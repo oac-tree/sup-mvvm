@@ -47,6 +47,8 @@ bool ProjectManager::CreateNewProject(const std::string& path)
     return kFailed;
   }
 
+  m_current_project->CreateNewProject();
+
   return m_current_project->Save(path);
 }
 
