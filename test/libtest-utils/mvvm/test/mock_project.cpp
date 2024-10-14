@@ -62,4 +62,14 @@ bool ProjectDecorator::IsModified() const
   return m_project->IsModified();
 }
 
+bool ProjectDecorator::CreateNewProject()
+{
+  return m_project->CreateNewProject();
+}
+
+bool ProjectDecorator::CloseProject()
+{
+  return m_project->CloseProject();
+}
+
 }  // namespace mvvm::test

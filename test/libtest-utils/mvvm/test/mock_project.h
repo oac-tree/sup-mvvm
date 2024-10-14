@@ -39,6 +39,8 @@ public:
   MOCK_METHOD(bool, Save, (const std::string&), (override));
   MOCK_METHOD(bool, Load, (const std::string&), (override));
   MOCK_METHOD(bool, IsModified, (), (const, override));
+  MOCK_METHOD(bool, CreateNewProject, (), (override));
+  MOCK_METHOD(bool, CloseProject, (), (override));
 };
 
 /**
@@ -59,6 +61,8 @@ public:
   bool Save(const std::string& path) override;
   bool Load(const std::string& path) override;
   bool IsModified() const override;
+  bool CreateNewProject() override;
+  bool CloseProject() override;
 
 private:
   mvvm::IProject* m_project{nullptr};

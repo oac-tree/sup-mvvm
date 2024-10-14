@@ -82,6 +82,16 @@ bool AbstractProject::IsModified() const
   return m_change_controller->IsChanged();
 }
 
+bool AbstractProject::CreateNewProject()
+{
+  return true;
+}
+
+bool AbstractProject::CloseProject()
+{
+  return true;
+}
+
 std::vector<ISessionModel *> AbstractProject::GetModels() const
 {
   return m_project_context.models_callback();

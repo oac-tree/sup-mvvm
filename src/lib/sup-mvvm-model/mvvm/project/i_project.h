@@ -87,9 +87,23 @@ public:
   virtual bool Load(const std::string& path) = 0;
 
   /**
-   * @brief Returns true if the project has been modified since the last save.
+   * @brief Checks if the project has been modified since the last save.
    */
   virtual bool IsModified() const = 0;
+
+  /**
+   * @brief Creates new project.
+   *
+   * FIXME this is refactoring method. It is intended to create all models from scratch.
+   */
+  virtual bool CreateNewProject() = 0;
+
+  /**
+   * @brief Close the project.
+   *
+   * FIXME this is refactoring method. It is intended to destrocy all models.
+   */
+  virtual bool CloseProject() = 0;
 };
 
 }  // namespace mvvm

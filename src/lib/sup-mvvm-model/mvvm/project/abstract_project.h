@@ -64,6 +64,10 @@ public:
 
   bool IsModified() const override;
 
+  bool CreateNewProject() override;
+
+  bool CloseProject() override;
+
 protected:
   std::vector<ISessionModel*> GetModels() const;
 
