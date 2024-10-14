@@ -25,12 +25,11 @@
 namespace mvvm
 {
 
-std::unique_ptr<IProjectManager> CreateProjectManager(
-    std::function<std::unique_ptr<IProject>()> project_factory_func,
-    const UserInteractionContext& user_context)
+std::unique_ptr<IProjectManager> CreateProjectManager(IProject& project_agent,
+                                                      const UserInteractionContext& user_context)
 {
   // creating ProjectManager with basic save/save-as/open functionality
-  auto project_manager = std::make_unique<ProjectManager>(project_factory_func);
+  auto project_manager = std::make_unique<ProjectManager>(&project_agent);
 
   // creating decoration for user interaction
   return std::make_unique<ProjectManagerDecorator>(std::move(project_manager), user_context);

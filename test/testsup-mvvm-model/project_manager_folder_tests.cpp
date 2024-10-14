@@ -37,8 +37,9 @@ const std::string kSampleModelName = "samplemodel";
 
 }  // namespace
 
-//! Tests for ProjectManager class for folder-based and file-based documents.
-
+/**
+ * @brief Tests for ProjectManager class for folder-based and file-based documents.
+ */
 class ProjectManagerFolderTests : public mvvm::test::FolderTest
 {
 public:
@@ -50,28 +51,24 @@ public:
 
   std::vector<ISessionModel*> GetModels() const { return {sample_model.get()}; };
 
-  ProjectManager::create_project_t CreateContext(ProjectType project_type)
+  IProject* GetProject(ProjectType project_type)
   {
-    auto result = [this, project_type]() -> std::unique_ptr<IProject>
-    {
-      ProjectContext context;
-      context.models_callback = [this]() { return GetModels(); };
-      context.modified_callback = [this]() { ++m_project_modified_count; };
-      return mvvm::utils::CreateUntitledProject(project_type, context);
-    };
-
-    return result;
+    ProjectContext context;
+    context.models_callback = [this]() { return GetModels(); };
+    context.modified_callback = [this]() { ++m_project_modified_count; };
+    m_project = mvvm::utils::CreateUntitledProject(project_type, context);
+    return m_project.get();
   }
 
   std::unique_ptr<ApplicationModel> sample_model;
+  std::unique_ptr<IProject> m_project;
   int m_project_modified_count{0};
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
-
 TEST_F(ProjectManagerFolderTests, InitialState)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  const ProjectManager manager(GetProject(ProjectType::kFolderBased));
   EXPECT_TRUE(manager.CurrentProjectPath().empty());
   EXPECT_FALSE(manager.IsModified());
 }
@@ -80,12 +77,11 @@ TEST_F(ProjectManagerFolderTests, InitialState)
 // Untitled, empty project
 // ----------------------------------------------------------------------------
 
-//! Creating new project. Use untitled+empty project as a starting point.
-//! Should succeed, since old empty project doesn't need to be saved.
-
+//! Creating new project. Use untitled+empty project as a starting point. Should succeed, since old
+//! empty project doesn't need to be saved.
 TEST_F(ProjectManagerFolderTests, UntitledEmptyNew)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
   EXPECT_TRUE(manager.CreateNewProject(project_dir));
@@ -98,22 +94,20 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptyNew)
   EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
-//! Saving of new project. Use untitled+empty project as a starting point.
-//! Should fail since project directory is not defined.
-
+//! Saving of new project. Use untitled+empty project as a starting point. Should fail since project
+//! directory is not defined.
 TEST_F(ProjectManagerFolderTests, UntitledEmptySave)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
   EXPECT_FALSE(manager.SaveCurrentProject());
   EXPECT_FALSE(manager.IsModified());
 }
 
-//! Saving of new project. Use untitled+empty project as a starting point.
-//! Should be saved, file sould appear on disk.
-
+//! Saving of new project. Use untitled+empty project as a starting point. Should be saved, file
+//! sould appear on disk.
 TEST_F(ProjectManagerFolderTests, UntitledEmptySaveAs)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -128,12 +122,11 @@ TEST_F(ProjectManagerFolderTests, UntitledEmptySaveAs)
 // Untitled, modified
 // ----------------------------------------------------------------------------
 
-//! Creating new project. Use untitled+modified project as a starting point.
-//! Should fail, since modified old project will prevent creation of the new one.
-
+//! Creating new project. Use untitled+modified project as a starting point. Should fail, since
+//! modified old project will prevent creation of the new one.
 TEST_F(ProjectManagerFolderTests, UntitledModifiedNew)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
 
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
@@ -151,12 +144,11 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedNew)
   EXPECT_FALSE(utils::IsExists(model_filename));
 }
 
-//! Saving of new project. Use untitled+modified project as a starting point.
-//! Should fail since project directory is not defined.
-
+//! Saving of new project. Use untitled+modified project as a starting point. Should fail since
+//! project directory is not defined.
 TEST_F(ProjectManagerFolderTests, UntitledModifiedSave)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
   // modifying the model
   sample_model->InsertItem<PropertyItem>();
 
@@ -164,12 +156,11 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedSave)
   EXPECT_TRUE(manager.IsModified());
 }
 
-//! Saving of new project. Use untitled+empty project as a starting point.
-//! Should be saved, file sould appear on disk.
-
+//! Saving of new project. Use untitled+empty project as a starting point. Should be saved, file
+//! sould appear on disk.
 TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
   sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   const auto project_dir = CreateEmptyDir("Project_untitledModifiedSaveAs");
@@ -182,10 +173,9 @@ TEST_F(ProjectManagerFolderTests, UntitledModifiedSaveAs)
 }
 
 //! File based version.
-
 TEST_F(ProjectManagerFolderTests, FileBasedUntitledModifiedSaveAs)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFileBased));
+  ProjectManager manager(GetProject(ProjectType::kFileBased));
   sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   auto path = GetFilePath("FileBasedUntitledModifiedSaveAs.xml");
@@ -201,12 +191,11 @@ TEST_F(ProjectManagerFolderTests, FileBasedUntitledModifiedSaveAs)
 // Titled, unmodified
 // ----------------------------------------------------------------------------
 
-//! Creating new project. Use titled+unmodified project as a starting point.
-//! Should succeed, since old empty project doesn't need to be saved.
-
+//! Creating new project. Use titled+unmodified project as a starting point. Should succeed, since
+//! old empty project doesn't need to be saved.
 TEST_F(ProjectManagerFolderTests, TitledUnmodifiedNew)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -227,12 +216,10 @@ TEST_F(ProjectManagerFolderTests, TitledUnmodifiedNew)
 // Titled, modified
 // ----------------------------------------------------------------------------
 
-//! Saving of new project. Use titled+modified project as a starting point.
-//! Should succeed.
-
+//! Saving of new project. Use titled+modified project as a starting point. Should succeed.
 TEST_F(ProjectManagerFolderTests, TitledModifiedSave)
 {
-  ProjectManager manager(CreateContext(ProjectType::kFolderBased));
+  ProjectManager manager(GetProject(ProjectType::kFolderBased));
 
   const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
   EXPECT_TRUE(manager.SaveProjectAs(project_dir));
@@ -251,7 +238,7 @@ TEST_F(ProjectManagerFolderTests, TitledModifiedSave)
 
 TEST_F(ProjectManagerFolderTests, Callback)
 {
-  auto context = CreateContext(ProjectType::kFolderBased);
+  auto context = GetProject(ProjectType::kFolderBased);
 
   ProjectManager manager(context);
 

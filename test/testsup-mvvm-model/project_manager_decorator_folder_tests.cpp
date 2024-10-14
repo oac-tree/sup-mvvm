@@ -53,21 +53,6 @@ public:
   std::vector<ISessionModel*> GetModels() const { return {m_sample_model.get()}; };
 
   /**
-   * @brief Returns factory function to create projects.
-   */
-  std::function<std::unique_ptr<IProject>()> ProjectFactoryFunc(ProjectType project_type)
-  {
-    auto result = [this, project_type]() -> std::unique_ptr<IProject>
-    {
-      ProjectContext context;
-      context.models_callback = [this]() { return GetModels(); };
-      return mvvm::utils::CreateUntitledProject(project_type, context);
-    };
-
-    return result;
-  }
-
-  /**
    * @brief Creates user context with callbacks mimicking user responce.
    */
   UserInteractionContext CreateUserContext(const std::string& new_path = {},
@@ -86,13 +71,18 @@ public:
                                                         const std::string& new_path = {},
                                                         const std::string& existing_path = {})
   {
-    auto project_manager = std::make_unique<ProjectManager>(ProjectFactoryFunc(project_type));
+    ProjectContext context;
+    context.models_callback = [this]() { return GetModels(); };
+    m_project = mvvm::utils::CreateUntitledProject(project_type, context);
+
+    auto project_manager = std::make_unique<ProjectManager>(m_project.get());
     return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),
                                                      CreateUserContext(new_path, existing_path));
   }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
   test::MockUserInteractor m_mock_interactor;
+  std::unique_ptr<IProject> m_project;
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
@@ -206,7 +196,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAs)
 }
 
 //! Starting from new document (without project dir defined). Attempt to save under empty name,
-//! immitating the user canceled directory selection dialog.
+//! imitating the user canceled directory selection dialog.
 TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptySaveAsCancel)
 {
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling

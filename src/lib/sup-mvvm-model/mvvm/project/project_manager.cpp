@@ -32,19 +32,12 @@ const bool kFailed = false;
 namespace mvvm
 {
 
-ProjectManager::ProjectManager(create_project_t create_project)
-    : m_create_project_callback(std::move(create_project))
+ProjectManager::ProjectManager(IProject *project_agent)
+    : m_project_agent(project_agent)
 {
-  if (!m_create_project_callback)
-  {
-    throw RuntimeException("Can't create project, no callback specified");
-  }
-
-  m_project_agent = m_create_project_callback();
-
   if (!m_project_agent)
   {
-    throw RuntimeException("Can't create project");
+    throw RuntimeException("Uninitialized project agent");
   }
 }
 

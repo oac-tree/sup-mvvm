@@ -22,7 +22,6 @@
 
 #include <mvvm/project/i_project_manager.h>
 
-#include <functional>
 #include <memory>
 
 namespace mvvm
@@ -39,8 +38,7 @@ class IProject;
  * @return New project manager.
  */
 MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
-    std::function<std::unique_ptr<IProject>()> project_factory_func,
-    const UserInteractionContext& user_context);
+    IProject& project_agent, const UserInteractionContext& user_context);
 
 }  // namespace mvvm
 

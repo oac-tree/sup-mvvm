@@ -26,32 +26,34 @@
 
 using namespace mvvm;
 
-//! Tests for ProjectManager class for mock documents.
-
+/**
+ * @brief Tests for ProjectManager class.
+ */
 class ProjectManagerTests : public ::testing::Test
 {
 public:
-  ProjectManager::create_project_t CreateContext()
+  /**
+   * @brief Returns a project necessary to initialize ProjectManager.
+   */
+  IProject* GetProject()
   {
-    auto result = [this]() -> std::unique_ptr<IProject>
-    { return std::make_unique<test::ProjectDecorator>(&m_mock_project); };
-
-    return result;
+    m_project = std::make_unique<test::ProjectDecorator>(&m_mock_project);
+    return m_project.get();
   }
 
   mvvm::test::MockProject m_mock_project;
+  std::unique_ptr<IProject> m_project;
 };
 
 TEST_F(ProjectManagerTests, AttemptToCreateProject)
 {
   // callback which creates null project
-  ProjectManager::create_project_t callback = [this]() -> std::unique_ptr<IProject> { return {}; };
-  EXPECT_THROW((ProjectManager(callback)), RuntimeException);
+  EXPECT_THROW((ProjectManager(nullptr)), RuntimeException);
 }
 
 TEST_F(ProjectManagerTests, InitialState)
 {
-  ProjectManager manager(CreateContext());
+  const ProjectManager manager(GetProject());
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
@@ -60,12 +62,11 @@ TEST_F(ProjectManagerTests, InitialState)
   EXPECT_FALSE(manager.IsModified());
 }
 
-//! Mocking project pretend it has a path defined, and it is in modified state.
-//! Checking behavior on ProjectManager::SaveCurrentProject
-
+//! Mocking project pretend it has a path defined, and it is in modified state. Checking behavior on
+//! ProjectManager::SaveCurrentProject
 TEST_F(ProjectManagerTests, TitledModifiedSave)
 {
-  ProjectManager manager(CreateContext());
+  ProjectManager manager(GetProject());
 
   // setting up what mock project should return
   const std::string path("path");

@@ -22,6 +22,7 @@
 #include "project_change_controller.h"
 
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/core/exceptions.h>
 
 namespace mvvm
 {
@@ -103,6 +104,11 @@ bool AbstractProject::CloseProject()
 
 std::vector<ISessionModel *> AbstractProject::GetModels() const
 {
+  if (!m_project_context.models_callback)
+  {
+    throw RuntimeException("Uninitialized callback");
+  }
+
   return m_project_context.models_callback();
 }
 

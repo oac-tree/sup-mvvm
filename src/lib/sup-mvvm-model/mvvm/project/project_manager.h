@@ -22,9 +22,6 @@
 
 #include <mvvm/project/i_project_manager.h>
 
-#include <functional>
-#include <memory>
-
 namespace mvvm
 {
 
@@ -43,9 +40,7 @@ class IProject;
 class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
 {
 public:
-  using create_project_t = std::function<std::unique_ptr<IProject>()>;
-
-  explicit ProjectManager(create_project_t create_project);
+  explicit ProjectManager(IProject* project_agent);
   ~ProjectManager() override;
 
   ProjectManager(const ProjectManager& other) = delete;
@@ -82,8 +77,7 @@ public:
 private:
   bool ProjectHasPath();
 
-  create_project_t m_create_project_callback;
-  std::unique_ptr<IProject> m_project_agent;
+  IProject *m_project_agent{nullptr};
 };
 
 }  // namespace mvvm
