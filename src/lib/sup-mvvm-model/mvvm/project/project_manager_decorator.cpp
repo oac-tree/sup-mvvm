@@ -134,9 +134,7 @@ bool ProjectManagerDecorator::CloseCurrentProject()
     return kFailed;
   }
 
-  m_project_manager->CloseCurrentProject();
-
-  return kSucceeded;
+  return m_project_manager->CloseCurrentProject();
 }
 
 bool ProjectManagerDecorator::ProjectHasPath() const

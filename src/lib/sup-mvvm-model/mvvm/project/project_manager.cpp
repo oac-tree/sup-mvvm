@@ -47,7 +47,6 @@ bool ProjectManager::CreateNewProject(const std::string& path)
     return kFailed;
   }
 
-  CreateUntitledProject();
   return m_current_project->Save(path);
 }
 
@@ -72,7 +71,7 @@ bool ProjectManager::OpenExistingProject(const std::string& path)
   {
     return kFailed;
   }
-  CreateUntitledProject();
+
   return m_current_project->Load(path);
 }
 
