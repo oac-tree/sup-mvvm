@@ -80,11 +80,10 @@ public:
   bool CloseCurrentProject() override;
 
 private:
-  void CreateUntitledProject();
   bool ProjectHasPath();
 
   create_project_t m_create_project_callback;
-  std::unique_ptr<IProject> m_current_project;
+  std::unique_ptr<IProject> m_project_agent;
 };
 
 }  // namespace mvvm

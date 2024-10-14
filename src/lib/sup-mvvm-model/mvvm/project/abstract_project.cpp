@@ -91,6 +91,13 @@ bool AbstractProject::CreateNewProject()
 bool AbstractProject::CloseProject()
 {
   m_project_path.clear();
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
+  m_change_controller = std::make_unique<ProjectChangedController>(
+      GetModels(), std::move(m_project_context.modified_callback));
   return true;
 }
 

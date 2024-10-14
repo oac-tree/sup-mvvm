@@ -35,21 +35,31 @@ namespace mvvm
 ProjectManager::ProjectManager(create_project_t create_project)
     : m_create_project_callback(std::move(create_project))
 {
-  CreateUntitledProject();
+  if (!m_create_project_callback)
+  {
+    throw RuntimeException("Can't create project, no callback specified");
+  }
+
+  m_project_agent = m_create_project_callback();
+
+  if (!m_project_agent)
+  {
+    throw RuntimeException("Can't create project");
+  }
 }
 
 ProjectManager::~ProjectManager() = default;
 
 bool ProjectManager::CreateNewProject(const std::string& path)
 {
-  if (m_current_project->IsModified())
+  if (m_project_agent->IsModified())
   {
     return kFailed;
   }
 
-  m_current_project->CreateNewProject();
+  m_project_agent->CreateNewProject();
 
-  return m_current_project->Save(path);
+  return m_project_agent->Save(path);
 }
 
 bool ProjectManager::SaveCurrentProject()
@@ -59,59 +69,42 @@ bool ProjectManager::SaveCurrentProject()
     return kFailed;
   }
 
-  return SaveProjectAs(m_current_project->GetProjectPath());
+  return SaveProjectAs(m_project_agent->GetProjectPath());
 }
 
 bool ProjectManager::SaveProjectAs(const std::string& path)
 {
-  return m_current_project->Save(path);
+  return m_project_agent->Save(path);
 }
 
 bool ProjectManager::OpenExistingProject(const std::string& path)
 {
-  if (m_current_project->IsModified())
+  if (m_project_agent->IsModified())
   {
     return kFailed;
   }
 
-  return m_current_project->Load(path);
+  return m_project_agent->Load(path);
 }
 
 std::string ProjectManager::CurrentProjectPath() const
 {
-  return m_current_project->GetProjectPath();
+  return m_project_agent->GetProjectPath();
 }
 
 bool ProjectManager::IsModified() const
 {
-  return m_current_project->IsModified();
+  return m_project_agent->IsModified();
 }
 
 bool ProjectManager::CloseCurrentProject()
 {
-  // no special operation is required to close the project
-  CreateUntitledProject();
-  return kSucceeded;
-}
-
-void ProjectManager::CreateUntitledProject()
-{
-  if (!m_create_project_callback)
-  {
-    throw RuntimeException("Can't create project, no callback specified");
-  }
-
-  m_current_project = m_create_project_callback();
-
-  if (!m_current_project)
-  {
-    throw RuntimeException("Can't create project");
-  }
+  return m_project_agent->CloseProject();
 }
 
 bool ProjectManager::ProjectHasPath()
 {
-  return !m_current_project->GetProjectPath().empty();
+  return !m_project_agent->GetProjectPath().empty();
 }
 
 }  // namespace mvvm
