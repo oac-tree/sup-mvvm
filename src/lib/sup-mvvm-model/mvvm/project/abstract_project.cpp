@@ -21,8 +21,8 @@
 
 #include "project_change_controller.h"
 
-#include <mvvm/model/i_session_model.h>
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/i_session_model.h>
 
 namespace mvvm
 {
@@ -30,13 +30,8 @@ namespace mvvm
 AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context)
     : m_project_type(project_type), m_project_context(context)
 {
-  for (auto model : GetModels())
-  {
-    model->Clear();
-  }
-
   m_change_controller = std::make_unique<ProjectChangedController>(
-      GetModels(), std::move(m_project_context.modified_callback));
+      GetModels(), m_project_context.modified_callback);
 }
 
 AbstractProject::~AbstractProject() = default;
@@ -62,44 +57,54 @@ bool AbstractProject::Save(const std::string &path)
   if (result)
   {
     m_project_path = path;
-    m_change_controller->ResetIsChanged();
+    ResetIsChanged();
   }
   return result;
 }
 
 bool AbstractProject::Load(const std::string &path)
 {
-  auto result = LoadImpl(path);
-  if (result)
+  auto is_success = LoadImpl(path);
+  if (is_success)
   {
     m_project_path = path;
-    m_change_controller->ResetIsChanged();
+    ResetIsChanged();
+    ProjectLoadedNotify();
   }
-  return result;
+  return is_success;
 }
 
 bool AbstractProject::IsModified() const
 {
-  return m_change_controller->IsChanged();
+  return m_change_controller ? m_change_controller->IsChanged() : false;
 }
 
 bool AbstractProject::CreateNewProject()
 {
   m_project_path.clear();
-  return true;
+  m_change_controller.reset();
+
+  auto is_success = CreateNewProjectImpl();
+  if (is_success)
+  {
+    m_change_controller = std::make_unique<ProjectChangedController>(
+        GetModels(), m_project_context.modified_callback);
+    ProjectLoadedNotify();
+  }
+
+  return is_success;
 }
 
 bool AbstractProject::CloseProject()
 {
-  m_project_path.clear();
-  for (auto model : GetModels())
+  auto is_success = CloseProjectImpl();
+  if (is_success)
   {
-    model->Clear();
+    m_project_path.clear();
+    m_change_controller.reset();
   }
 
-  m_change_controller = std::make_unique<ProjectChangedController>(
-      GetModels(), std::move(m_project_context.modified_callback));
-  return true;
+  return is_success;
 }
 
 std::vector<ISessionModel *> AbstractProject::GetModels() const
@@ -110,6 +115,16 @@ std::vector<ISessionModel *> AbstractProject::GetModels() const
   }
 
   return m_project_context.models_callback();
+}
+
+void AbstractProject::ProjectLoadedNotify() {}
+
+void AbstractProject::ResetIsChanged()
+{
+  if (m_change_controller)
+  {
+    m_change_controller->ResetIsChanged();
+  }
 }
 
 }  // namespace mvvm

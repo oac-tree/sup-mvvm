@@ -23,6 +23,7 @@
 #include "project_utils.h"
 
 #include <mvvm/factories/model_document_factory.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/utils/file_utils.h>
 
 namespace
@@ -79,11 +80,21 @@ bool FolderBasedProject::LoadImpl(const std::string& path)
 
 bool FolderBasedProject::CloseProjectImpl()
 {
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   return true;
 }
 
 bool FolderBasedProject::CreateNewProjectImpl()
 {
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   return true;
 }
 

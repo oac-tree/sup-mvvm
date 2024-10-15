@@ -77,6 +77,9 @@ private:
   virtual bool CloseProjectImpl() = 0;
   virtual bool CreateNewProjectImpl() = 0;
 
+  void ProjectLoadedNotify();
+  void ResetIsChanged();
+
   std::string m_project_path;  //!< full path to the project (the place of last save or load)
   ProjectType m_project_type;
   ProjectContext m_project_context;

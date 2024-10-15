@@ -22,6 +22,7 @@
 #include "project_context.h"
 
 #include <mvvm/factories/model_document_factory.h>
+#include <mvvm/model/i_session_model.h>
 
 namespace mvvm
 {
@@ -49,11 +50,21 @@ bool FileBasedProject::LoadImpl(const std::string &path)
 
 bool FileBasedProject::CloseProjectImpl()
 {
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   return true;
 }
 
 bool FileBasedProject::CreateNewProjectImpl()
 {
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   return true;
 }
 

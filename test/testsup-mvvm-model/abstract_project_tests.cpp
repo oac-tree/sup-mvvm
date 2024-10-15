@@ -69,8 +69,7 @@ TEST_F(AbstractProjectTest, InitialState)
   EXPECT_TRUE(project.GetProjectPath().empty());
 }
 
-//! The project should automatically clean models.
-
+//! By default AbstractProject doesn't clear models.
 TEST_F(AbstractProjectTest, ModelCleanup)
 {
   m_model.InsertItem<PropertyItem>();
@@ -80,7 +79,7 @@ TEST_F(AbstractProjectTest, ModelCleanup)
   MockAbstractProject project(ProjectType::kFileBased, CreateContext(expected_app_type));
 
   EXPECT_FALSE(project.IsModified());
-  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
+  EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
 }
 
 //! Testing successfull save. Correct methods should be called, the project should get correct path.
@@ -89,17 +88,22 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   const std::string expected_path("path");
   MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
+  // mimicking successfull save
+  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+  // mimicking successfull new project creation
+  ON_CALL(project, CreateNewProjectImpl()).WillByDefault(::testing::Return(true));
+
+  // setting expectations
+  EXPECT_CALL(project, CreateNewProjectImpl()).Times(1);
+  EXPECT_TRUE(project.CreateNewProject());
+
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
 
   // modifying model
   EXPECT_CALL(m_callback, Call()).Times(1);
-
   m_model.InsertItem<PropertyItem>();
   EXPECT_TRUE(project.IsModified());
-
-  // mimicking successfull save
-  ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
@@ -118,6 +122,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
   // mimicking successfull save
+  ON_CALL(project, CreateNewProjectImpl()).WillByDefault(::testing::Return(true));
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
 
   // setting expectations
@@ -141,6 +146,7 @@ TEST_F(AbstractProjectTest, CloseProject)
 
   // mimicking successfull save
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+  ON_CALL(project, CloseProjectImpl()).WillByDefault(::testing::Return(true));
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
