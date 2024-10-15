@@ -80,7 +80,7 @@ private:
   virtual bool CreateNewProjectImpl() = 0;
 
   void ProjectLoadedNotify();
-  void ResetIsChanged();
+  void MarkProjectAsUnmodified();
 
   std::string m_project_path;  //!< full path to the project (the place of last save or load)
   ProjectType m_project_type;

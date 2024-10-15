@@ -101,7 +101,7 @@ public:
   /**
    * @brief Close the project.
    *
-   * FIXME this is refactoring method. It is intended to destrocy all models.
+   * FIXME this is refactoring method. It is intended to destroy all models.
    */
   virtual bool CloseProject() = 0;
 };

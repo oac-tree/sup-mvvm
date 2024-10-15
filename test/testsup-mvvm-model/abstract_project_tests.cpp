@@ -59,13 +59,15 @@ public:
   ProjectContext CreateContext(const std::string& application_type = {})
   {
     ProjectContext result;
-    result.modified_callback = m_callback.AsStdFunction();
+    result.modified_callback = m_modified_callback.AsStdFunction();
+    result.loaded_callback = m_loaded_callback.AsStdFunction();
     result.application_type = application_type;
     return result;
   }
 
   ApplicationModel m_model;
-  ::testing::MockFunction<void(void)> m_callback;
+  ::testing::MockFunction<void(void)> m_modified_callback;
+  ::testing::MockFunction<void(void)> m_loaded_callback;
 };
 
 TEST_F(AbstractProjectTest, InitialState)
@@ -96,9 +98,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
 {
   const std::string expected_path("path");
 
-  std::cout << "PPP 1.1\n";
   MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, CreateContext());
-  std::cout << "PPP 1.2\n";
 
   // mimicking successfull save
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
@@ -106,14 +106,16 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   ON_CALL(project, CreateNewProjectImpl()).WillByDefault(::testing::Return(true));
 
   // setting expectations
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
   EXPECT_CALL(project, CreateNewProjectImpl()).Times(1);
+
   EXPECT_TRUE(project.CreateNewProject());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
 
   // modifying model
-  EXPECT_CALL(m_callback, Call()).Times(1);
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
   m_model.InsertItem<PropertyItem>();
   EXPECT_TRUE(project.IsModified());
 
@@ -136,6 +138,10 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   // mimicking successfull save
   ON_CALL(project, CreateNewProjectImpl()).WillByDefault(::testing::Return(true));
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
+
+  // setting up expectations
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(project, CreateNewProjectImpl()).Times(1);
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
@@ -162,6 +168,7 @@ TEST_F(AbstractProjectTest, CloseProject)
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+  EXPECT_CALL(project, CloseProjectImpl()).Times(1);
 
   // performing save and triggering expectations
   EXPECT_TRUE(project.Save(expected_path));
@@ -209,6 +216,7 @@ TEST_F(AbstractProjectTest, SuccessfullLoad)
 
   // setting expectations
   EXPECT_CALL(project, LoadImpl(expected_path)).Times(1);
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
   // performing save and triggering expectations
   EXPECT_TRUE(project.Load(expected_path));
@@ -231,6 +239,7 @@ TEST_F(AbstractProjectTest, FailedLoad)
 
   // setting expectations
   EXPECT_CALL(project, LoadImpl(expected_path)).Times(1);
+  EXPECT_CALL(m_loaded_callback, Call()).Times(0);
 
   // performing save and triggering expectations
   EXPECT_FALSE(project.Load(expected_path));

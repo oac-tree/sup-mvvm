@@ -39,6 +39,9 @@ struct MVVM_MODEL_EXPORT ProjectContext
   //!< notifies about the change of the project with respect to what was written on disk
   std::function<void()> modified_callback;
 
+  //!< notifies at the end of successfull project load (loaded from disk, re-created as new)
+  std::function<void()> loaded_callback;
+
   //!< Application type allows to distinguish model documents created by various MVVM applications.
   //! The name is used during document save as an attribute of root XML element, and is validated on
   //! document load.

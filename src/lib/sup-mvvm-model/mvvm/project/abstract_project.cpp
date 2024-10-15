@@ -55,7 +55,7 @@ bool AbstractProject::Save(const std::string &path)
   if (result)
   {
     m_project_path = path;
-    ResetIsChanged();
+    MarkProjectAsUnmodified();
   }
   return result;
 }
@@ -66,7 +66,7 @@ bool AbstractProject::Load(const std::string &path)
   if (is_success)
   {
     m_project_path = path;
-    ResetIsChanged();
+    MarkProjectAsUnmodified();
     ProjectLoadedNotify();
   }
   return is_success;
@@ -115,9 +115,15 @@ void AbstractProject::SetupListener(const std::vector<ISessionModel *> &models)
       std::make_unique<ProjectChangedController>(models, m_project_context.modified_callback);
 }
 
-void AbstractProject::ProjectLoadedNotify() {}
+void AbstractProject::ProjectLoadedNotify()
+{
+  if (m_project_context.loaded_callback)
+  {
+    m_project_context.loaded_callback();
+  }
+}
 
-void AbstractProject::ResetIsChanged()
+void AbstractProject::MarkProjectAsUnmodified()
 {
   if (m_change_controller)
   {
