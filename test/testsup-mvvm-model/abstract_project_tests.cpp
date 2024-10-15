@@ -50,7 +50,7 @@ public:
   {
     ProjectContext result;
     result.modified_callback = m_callback.AsStdFunction();
-    result.models_callback = [this]() { return std::vector<ISessionModel*>({&m_model}); };
+    result.models = std::vector<ISessionModel*>({&m_model});
     result.application_type = application_type;
     return result;
   }

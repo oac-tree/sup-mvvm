@@ -72,7 +72,7 @@ public:
                                                         const std::string& existing_path = {})
   {
     ProjectContext context;
-    context.models_callback = [this]() { return GetModels(); };
+    context.models = GetModels();
     m_project = mvvm::utils::CreateUntitledProject(project_type, context);
 
     auto project_manager = std::make_unique<ProjectManager>(m_project.get());

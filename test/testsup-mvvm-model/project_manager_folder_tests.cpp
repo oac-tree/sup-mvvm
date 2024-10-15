@@ -54,7 +54,7 @@ public:
   IProject* GetProject(ProjectType project_type)
   {
     ProjectContext context;
-    context.models_callback = [this]() { return GetModels(); };
+    context.models = GetModels();
     context.modified_callback = [this]() { ++m_project_modified_count; };
     m_project = mvvm::utils::CreateUntitledProject(project_type, context);
     return m_project.get();

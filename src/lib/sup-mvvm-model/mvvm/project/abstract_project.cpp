@@ -109,12 +109,7 @@ bool AbstractProject::CloseProject()
 
 std::vector<ISessionModel *> AbstractProject::GetModels() const
 {
-  if (!m_project_context.models_callback)
-  {
-    throw RuntimeException("Uninitialized callback");
-  }
-
-  return m_project_context.models_callback();
+  return m_project_context.models;
 }
 
 void AbstractProject::ProjectLoadedNotify() {}
