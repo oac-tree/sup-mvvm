@@ -106,13 +106,13 @@ bool AbstractProject::CloseProject()
 
 std::vector<ISessionModel *> AbstractProject::GetModels() const
 {
-  return m_project_context.models;
+  return {};
 }
 
-void AbstractProject::SetupListener(const std::vector<ISessionModel *>& models)
+void AbstractProject::SetupListener(const std::vector<ISessionModel *> &models)
 {
-  m_change_controller = std::make_unique<ProjectChangedController>(
-      models, m_project_context.modified_callback);
+  m_change_controller =
+      std::make_unique<ProjectChangedController>(models, m_project_context.modified_callback);
 }
 
 void AbstractProject::ProjectLoadedNotify() {}

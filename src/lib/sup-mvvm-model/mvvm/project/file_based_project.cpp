@@ -27,10 +27,16 @@
 namespace mvvm
 {
 
-FileBasedProject::FileBasedProject(const ProjectContext &context)
-    : AbstractProject(ProjectType::kFileBased, context)
+FileBasedProject::FileBasedProject(const std::vector<ISessionModel *> &models,
+                                   const ProjectContext &context)
+    : AbstractProject(ProjectType::kFileBased, context), m_models(models)
 {
-  SetupListener(context.models);
+  SetupListener(m_models);
+}
+
+std::vector<ISessionModel *> FileBasedProject::GetModels() const
+{
+  return m_models;
 }
 
 bool FileBasedProject::SaveImpl(const std::string &path)

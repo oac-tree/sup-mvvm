@@ -65,9 +65,7 @@ public:
 
   ProjectContext CreateContext()
   {
-    ProjectContext result;
-    result.models = GetModels();
-    return result;
+    return {};
   }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
@@ -76,7 +74,7 @@ public:
 
 TEST_F(FolderBasedProjectTest, InitialState)
 {
-  FolderBasedProject project(CreateContext());
+  FolderBasedProject project(GetModels(), CreateContext());
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
@@ -85,7 +83,7 @@ TEST_F(FolderBasedProjectTest, InitialState)
 //! Testing model saving.
 TEST_F(FolderBasedProjectTest, SaveModel)
 {
-  FolderBasedProject project(CreateContext());
+  FolderBasedProject project(GetModels(), CreateContext());
 
   // create project directory and save file
   auto project_dir = CreateEmptyDir("Untitled1");
@@ -104,7 +102,7 @@ TEST_F(FolderBasedProjectTest, SaveModel)
 //! Testing model loading.
 TEST_F(FolderBasedProjectTest, LoadModel)
 {
-  FolderBasedProject project(CreateContext());
+  FolderBasedProject project(GetModels(), CreateContext());
 
   auto item0 = m_sample_model->InsertItem<PropertyItem>();
   item0->SetData(std::string("sample_model_item"));

@@ -36,13 +36,18 @@ struct ProjectContext;
 class MVVM_MODEL_EXPORT FolderBasedProject : public AbstractProject
 {
 public:
-  explicit FolderBasedProject(const ProjectContext& context);
+  explicit FolderBasedProject(const std::vector<ISessionModel*>& models,
+                              const ProjectContext& context);
+
+  std::vector<ISessionModel*> GetModels() const override;
 
 private:
   bool SaveImpl(const std::string& path) override;
   bool LoadImpl(const std::string& path) override;
   bool CloseProjectImpl() override;
   bool CreateNewProjectImpl() override;
+
+  std::vector<ISessionModel*> m_models;
 };
 
 }  // namespace mvvm

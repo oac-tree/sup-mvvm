@@ -72,8 +72,7 @@ public:
                                                         const std::string& existing_path = {})
   {
     ProjectContext context;
-    context.models = GetModels();
-    m_project = mvvm::utils::CreateUntitledProject(project_type, context);
+    m_project = mvvm::utils::CreateUntitledProject(project_type, GetModels(), context);
 
     auto project_manager = std::make_unique<ProjectManager>(m_project.get());
     return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),

@@ -25,7 +25,6 @@
 
 #include <functional>
 #include <string>
-#include <vector>
 
 namespace mvvm
 {
@@ -39,9 +38,6 @@ struct MVVM_MODEL_EXPORT ProjectContext
 {
   //!< notifies about the change of the project with respect to what was written on disk
   std::function<void()> modified_callback;
-
-  //!< models to serve
-  std::vector<ISessionModel*> models;
 
   //!< Application type allows to distinguish model documents created by various MVVM applications.
   //! The name is used during document save as an attribute of root XML element, and is validated on

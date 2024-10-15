@@ -42,12 +42,7 @@ public:
 
   std::vector<ISessionModel*> GetModels() const { return {m_sample_model.get()}; };
 
-  ProjectContext CreateContext()
-  {
-    ProjectContext result;
-    result.models = GetModels();
-    return result;
-  }
+  ProjectContext CreateContext() { return {}; }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
 };
@@ -62,7 +57,8 @@ TEST_F(ProjectUtilsTests, SuggestFileName)
 
 TEST_F(ProjectUtilsTests, CreateUntitledProject)
 {
-  auto project = utils::CreateUntitledProject(ProjectType::kFileBased, CreateContext());
+  auto project =
+      utils::CreateUntitledProject(ProjectType::kFileBased, GetModels(), CreateContext());
   EXPECT_TRUE(project->GetProjectPath().empty());
 }
 
@@ -89,7 +85,8 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitle)
 
 TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
 {
-  auto project = utils::CreateUntitledProject(ProjectType::kFolderBased, CreateContext());
+  auto project =
+      utils::CreateUntitledProject(ProjectType::kFolderBased, GetModels(), CreateContext());
 
   // unmodified project without projectDir
   EXPECT_EQ(utils::ProjectWindowTitle(*project), "Untitled");
@@ -108,7 +105,8 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
 
 TEST_F(ProjectUtilsTests, IsPossibleProjectDir)
 {
-  auto project = utils::CreateUntitledProject(ProjectType::kFolderBased, CreateContext());
+  auto project =
+      utils::CreateUntitledProject(ProjectType::kFolderBased, GetModels(), CreateContext());
 
   // empty directory can't be a project directory
   auto dirname = CreateEmptyDir("test_IsPossibleProjectDir");

@@ -34,13 +34,18 @@ struct ProjectContext;
 class MVVM_MODEL_EXPORT FileBasedProject : public AbstractProject
 {
 public:
-  explicit FileBasedProject(const ProjectContext& context);
+  explicit FileBasedProject(const std::vector<ISessionModel*>& models,
+                            const ProjectContext& context);
+
+  std::vector<ISessionModel*> GetModels() const override;
 
 private:
   bool SaveImpl(const std::string& path) override;
   bool LoadImpl(const std::string& path) override;
   bool CloseProjectImpl() override;
   bool CreateNewProjectImpl() override;
+
+  std::vector<ISessionModel*> m_models;
 };
 
 }  // namespace mvvm

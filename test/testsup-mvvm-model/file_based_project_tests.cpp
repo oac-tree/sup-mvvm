@@ -54,9 +54,7 @@ public:
 
   ProjectContext CreateContext()
   {
-    ProjectContext result;
-    result.models = GetModels();
-    return result;
+    return {};
   }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
@@ -65,7 +63,7 @@ public:
 
 TEST_F(FileBasedProjectTest, InitialState)
 {
-  const FileBasedProject project(CreateContext());
+  const FileBasedProject project(GetModels(), CreateContext());
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFileBased);
@@ -74,7 +72,7 @@ TEST_F(FileBasedProjectTest, InitialState)
 //! Testing model saving. It should be a single file for all models.
 TEST_F(FileBasedProjectTest, SaveModel)
 {
-  FileBasedProject project(CreateContext());
+  FileBasedProject project(GetModels(), CreateContext());
 
   const std::string file_name("untitled.xml");
   const std::string expected_path = mvvm::utils::Join(GetTestHomeDir(), file_name);
@@ -94,7 +92,7 @@ TEST_F(FileBasedProjectTest, SaveModel)
 //! Testing model loading.
 TEST_F(FileBasedProjectTest, LoadModel)
 {
-  FileBasedProject project(CreateContext());
+  FileBasedProject project(GetModels(), CreateContext());
 
   auto item0 = m_sample_model->InsertItem<PropertyItem>();
   item0->SetData(std::string("sample_model_item"));

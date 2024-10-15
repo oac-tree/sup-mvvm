@@ -63,10 +63,16 @@ bool Process(const std::string& dirname, T method, std::vector<mvvm::ISessionMod
 namespace mvvm
 {
 
-FolderBasedProject::FolderBasedProject(const ProjectContext& context)
-    : AbstractProject(ProjectType::kFolderBased, context)
+FolderBasedProject::FolderBasedProject(const std::vector<ISessionModel*>& models,
+                                       const ProjectContext& context)
+    : AbstractProject(ProjectType::kFolderBased, context), m_models(models)
 {
-  SetupListener(context.models);
+  SetupListener(m_models);
+}
+
+std::vector<ISessionModel*> FolderBasedProject::GetModels() const
+{
+  return m_models;
 }
 
 bool FolderBasedProject::SaveImpl(const std::string& path)

@@ -68,8 +68,9 @@ public:
 
   bool CloseProject() override;
 
+  virtual std::vector<ISessionModel*> GetModels() const;
+
 protected:
-  std::vector<ISessionModel*> GetModels() const;
   void SetupListener(const std::vector<ISessionModel *> &models);
 
 private:

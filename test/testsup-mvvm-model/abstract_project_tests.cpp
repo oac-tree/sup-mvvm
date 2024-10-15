@@ -40,17 +40,26 @@ public:
     {
     }
 
+    MockAbstractProject(ProjectType project_type, const std::vector<ISessionModel*>& models,
+                        ProjectContext context)
+        : mvvm::AbstractProject(project_type, context), m_models(models)
+    {
+    }
+
     MOCK_METHOD(bool, SaveImpl, (const std::string&), (override));
     MOCK_METHOD(bool, LoadImpl, (const std::string&), (override));
     MOCK_METHOD(bool, CloseProjectImpl, (), (override));
     MOCK_METHOD(bool, CreateNewProjectImpl, (), (override));
+
+    std::vector<ISessionModel*> GetModels() const override { return m_models; }
+
+    std::vector<ISessionModel*> m_models;
   };
 
   ProjectContext CreateContext(const std::string& application_type = {})
   {
     ProjectContext result;
     result.modified_callback = m_callback.AsStdFunction();
-    result.models = std::vector<ISessionModel*>({&m_model});
     result.application_type = application_type;
     return result;
   }
@@ -86,7 +95,10 @@ TEST_F(AbstractProjectTest, ModelCleanup)
 TEST_F(AbstractProjectTest, SuccessfullSave)
 {
   const std::string expected_path("path");
-  MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
+
+  std::cout << "PPP 1.1\n";
+  MockAbstractProject project(ProjectType::kFolderBased, {&m_model}, CreateContext());
+  std::cout << "PPP 1.2\n";
 
   // mimicking successfull save
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));

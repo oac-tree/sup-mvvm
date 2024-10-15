@@ -28,6 +28,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace mvvm
 {
@@ -49,6 +50,7 @@ std::string SuggestFileName(const ISessionModel& model);
  * @brief Creates new untitled project.
  */
 std::unique_ptr<IProject> CreateUntitledProject(ProjectType project_type,
+                                                const std::vector<ISessionModel *> &models,
                                                 const ProjectContext& context);
 
 /**

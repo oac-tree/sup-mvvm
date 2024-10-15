@@ -52,14 +52,15 @@ bool IsPossibleProjectDir(const std::string& project_dir)
 }
 
 std::unique_ptr<IProject> CreateUntitledProject(ProjectType project_type,
+                                                const std::vector<ISessionModel*>& models,
                                                 const ProjectContext& context)
 {
   if (project_type == ProjectType::kFileBased)
   {
-    return std::make_unique<FileBasedProject>(context);
+    return std::make_unique<FileBasedProject>(models, context);
   }
 
-  return std::make_unique<FolderBasedProject>(context);
+  return std::make_unique<FolderBasedProject>(models, context);
 }
 
 std::string ProjectWindowTitle(const IProject& project)
