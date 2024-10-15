@@ -22,6 +22,8 @@
 
 #include <mvvm/model_export.h>
 
+#include <cstdint>
+
 namespace mvvm
 {
 
@@ -30,7 +32,7 @@ namespace mvvm
  *
  * The project is a class derived from IProject, representing a serialized content of the model.
  */
-enum class ProjectType
+enum class ProjectType : std::uint8_t
 {
   kFolderBased,  //!< project is a folder on disk with some files in it
   kFileBased     //!< project is a single file
@@ -40,7 +42,7 @@ enum class ProjectType
  * @brief The SaveChangesAnswer enum represents user answers to the question "Project was modified,
  * do you want to save it?".
  */
-enum class SaveChangesAnswer
+enum class SaveChangesAnswer : std::uint8_t
 {
   kSave = 0,     //!< save project
   kDiscard = 1,  //!< discard changes

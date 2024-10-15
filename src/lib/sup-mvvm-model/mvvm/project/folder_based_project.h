@@ -41,6 +41,8 @@ public:
 private:
   bool SaveImpl(const std::string& path) override;
   bool LoadImpl(const std::string& path) override;
+  bool CloseProjectImpl() override;
+  bool CreateNewProjectImpl() override;
 };
 
 }  // namespace mvvm

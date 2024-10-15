@@ -42,6 +42,8 @@ public:
 
     MOCK_METHOD(bool, SaveImpl, (const std::string&), (override));
     MOCK_METHOD(bool, LoadImpl, (const std::string&), (override));
+    MOCK_METHOD(bool, CloseProjectImpl, (), (override));
+    MOCK_METHOD(bool, CreateNewProjectImpl, (), (override));
   };
 
   ProjectContext CreateContext(const std::string& application_type = {})

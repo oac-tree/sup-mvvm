@@ -47,4 +47,14 @@ bool FileBasedProject::LoadImpl(const std::string &path)
   return true;
 }
 
+bool FileBasedProject::CloseProjectImpl()
+{
+  return true;
+}
+
+bool FileBasedProject::CreateNewProjectImpl()
+{
+  return true;
+}
+
 }  // namespace mvvm

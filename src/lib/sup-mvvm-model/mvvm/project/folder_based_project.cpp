@@ -77,4 +77,14 @@ bool FolderBasedProject::LoadImpl(const std::string& path)
   return Process(path, &IModelDocument::Load, GetModels(), GetApplicationType());
 }
 
+bool FolderBasedProject::CloseProjectImpl()
+{
+  return true;
+}
+
+bool FolderBasedProject::CreateNewProjectImpl()
+{
+  return true;
+}
+
 }  // namespace mvvm

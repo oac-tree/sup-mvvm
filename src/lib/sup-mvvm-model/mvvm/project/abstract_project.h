@@ -74,6 +74,8 @@ protected:
 private:
   virtual bool SaveImpl(const std::string&) = 0;
   virtual bool LoadImpl(const std::string&) = 0;
+  virtual bool CloseProjectImpl() = 0;
+  virtual bool CreateNewProjectImpl() = 0;
 
   std::string m_project_path;  //!< full path to the project (the place of last save or load)
   ProjectType m_project_type;
