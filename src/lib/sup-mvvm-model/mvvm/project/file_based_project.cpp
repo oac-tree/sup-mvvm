@@ -30,6 +30,7 @@ namespace mvvm
 FileBasedProject::FileBasedProject(const ProjectContext &context)
     : AbstractProject(ProjectType::kFileBased, context)
 {
+  SetupListener(context.models);
 }
 
 bool FileBasedProject::SaveImpl(const std::string &path)

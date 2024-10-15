@@ -30,8 +30,6 @@ namespace mvvm
 AbstractProject::AbstractProject(ProjectType project_type, const ProjectContext &context)
     : m_project_type(project_type), m_project_context(context)
 {
-  m_change_controller = std::make_unique<ProjectChangedController>(
-      GetModels(), m_project_context.modified_callback);
 }
 
 AbstractProject::~AbstractProject() = default;
@@ -87,8 +85,7 @@ bool AbstractProject::CreateNewProject()
   auto is_success = CreateNewProjectImpl();
   if (is_success)
   {
-    m_change_controller = std::make_unique<ProjectChangedController>(
-        GetModels(), m_project_context.modified_callback);
+    SetupListener(GetModels());
     ProjectLoadedNotify();
   }
 
@@ -110,6 +107,12 @@ bool AbstractProject::CloseProject()
 std::vector<ISessionModel *> AbstractProject::GetModels() const
 {
   return m_project_context.models;
+}
+
+void AbstractProject::SetupListener(const std::vector<ISessionModel *>& models)
+{
+  m_change_controller = std::make_unique<ProjectChangedController>(
+      models, m_project_context.modified_callback);
 }
 
 void AbstractProject::ProjectLoadedNotify() {}

@@ -70,6 +70,7 @@ public:
 
 protected:
   std::vector<ISessionModel*> GetModels() const;
+  void SetupListener(const std::vector<ISessionModel *> &models);
 
 private:
   virtual bool SaveImpl(const std::string&) = 0;

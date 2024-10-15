@@ -66,6 +66,7 @@ namespace mvvm
 FolderBasedProject::FolderBasedProject(const ProjectContext& context)
     : AbstractProject(ProjectType::kFolderBased, context)
 {
+  SetupListener(context.models);
 }
 
 bool FolderBasedProject::SaveImpl(const std::string& path)
