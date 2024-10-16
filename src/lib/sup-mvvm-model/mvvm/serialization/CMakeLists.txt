@@ -25,6 +25,7 @@ target_sources(${library_name} PRIVATE
   treedata_variant_converter.h
   xml_document.cpp
   xml_document.h
+  xml_document_helper.h
   xml_parse_utils.cpp
   xml_parse_utils.h
   xml_write_utils.cpp
