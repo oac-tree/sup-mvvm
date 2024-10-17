@@ -39,10 +39,12 @@ struct is_unique_ptr<std::unique_ptr<T, D>> : std::true_type
 {
 };
 
-//! Returns index corresponding to the first occurance of the item in the
-//! container. If item doesn't exist, will return -1. Works with containers
-//! containing unique_ptr.
-
+/**
+ * @brief Returns index corresponding to the first occurrence of the item in the container (iterator
+ * version).
+ *
+ * If the item doesn't exist, will return -1. Works with containers containing unique_ptr.
+ */
 template <typename It, typename T>
 int IndexOfItem(It begin, It end, const T& item)
 {
@@ -59,18 +61,21 @@ int IndexOfItem(It begin, It end, const T& item)
   return pos == end ? -1 : static_cast<int>(std::distance(begin, pos));
 }
 
-//! Returns index corresponding to the first occurance of the item in the
-//! container. If item doesn't exist, will return -1. Works with containers
-//! containing unique_ptr.
-
+/**
+ * @brief Returns index corresponding to the first occurrence of the item in the container.
+ *
+ * If the item doesn't exist, will return -1. Works with containers containing unique_ptr.
+ */
 template <typename C, typename T>
 int IndexOfItem(const C& container, const T& item)
 {
   return IndexOfItem(container.begin(), container.end(), item);
 }
 
-//! Returns copy of container with all duplicated elements filtered our. The order is preserved.
-
+/**
+ * @brief Returns the copy of the container with all duplicated elements filtered out. The order is
+ * preserved.
+ */
 template <typename C>
 C UniqueWithOrder(const C& container)
 {
@@ -85,14 +90,20 @@ C UniqueWithOrder(const C& container)
   return result;
 }
 
-//! Returns true if container contains a given element.
-
+/**
+ * @brief Checks if the container holds the given element.
+ */
 template <typename A, typename B>
 bool Contains(const A& container, const B& element)
 {
   return std::find(container.begin(), container.end(), element) != container.end();
 }
 
+/**
+ * @brief Cast items in the container to the given type and return the result to the user.
+ *
+ * The new container holds new types. If the item can't be casted it will be filtered out.
+ */
 template <typename T, typename C>
 std::vector<T*> CastItems(const C& container)
 {
