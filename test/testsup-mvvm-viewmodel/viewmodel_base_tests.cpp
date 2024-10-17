@@ -20,6 +20,7 @@
 #include "mvvm/viewmodelbase/viewmodel_base.h"
 
 #include <mvvm/test/test_container_helper.h>
+#include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewitem_data.h>
 
@@ -49,7 +50,7 @@ public:
   static std::pair<children_t, expected_t> test_data(int ncolumns)
   {
     auto vector_of_unique = mvvm::test::CreateRow<ViewItem, ViewItem>(ncolumns);
-    auto vector_of_pointers = mvvm::test::GetPointers(vector_of_unique);
+    auto vector_of_pointers = mvvm::utils::GetVectorOfPtrs(vector_of_unique);
     return std::make_pair(std::move(vector_of_unique), std::move(vector_of_pointers));
   }
 };

@@ -19,12 +19,15 @@
 
 #include "mvvm/utils/container_utils.h"
 
+#include <mvvm/test/test_container_helper.h>
+
 #include <gtest/gtest.h>
 
 using namespace mvvm;
 
-//! Tests of container utils.
-
+/**
+ * @brief Tests for functions defined in container_utils.h
+ */
 class ContainerUtilsTests : public ::testing::Test
 {
 public:
@@ -57,22 +60,22 @@ TEST_F(ContainerUtilsTests, isUniquePtr)
 TEST_F(ContainerUtilsTests, IndexOfItem)
 {
   // searching in vector of integers
-  std::vector<int> vv{1, 7, 5};
-  EXPECT_EQ(utils::IndexOfItem(vv, 1), 0);
-  EXPECT_EQ(utils::IndexOfItem(vv, 10), -1);
-  EXPECT_EQ(utils::IndexOfItem(vv, 5), 2);
-  EXPECT_EQ(utils::IndexOfItem(vv.begin(), vv.end(), 7), 1);
+  const std::vector<int> vec{1, 7, 5};
+  EXPECT_EQ(utils::IndexOfItem(vec, 1), 0);
+  EXPECT_EQ(utils::IndexOfItem(vec, 10), -1);
+  EXPECT_EQ(utils::IndexOfItem(vec, 5), 2);
+  EXPECT_EQ(utils::IndexOfItem(vec.begin(), vec.end(), 7), 1);
 
   // searching in vector of SessionItem's
-  std::vector<TestItemA*> items{new TestItemA, new TestItemA, new TestItemA};
-  TestItemA other;
+  const std::vector<TestItemA*> items{new TestItemA, new TestItemA, new TestItemA};
+  const TestItemA other;
   EXPECT_EQ(utils::IndexOfItem(items, items[0]), 0);
   EXPECT_EQ(utils::IndexOfItem(items, items[1]), 1);
   EXPECT_EQ(utils::IndexOfItem(items, items[2]), 2);
   EXPECT_EQ(utils::IndexOfItem(items, &other), -1);
-  for (auto x : items)
+  for (auto item : items)
   {
-    delete x;
+    delete item;
   }
 
   // searching in vector of unique_ptr
@@ -86,18 +89,32 @@ TEST_F(ContainerUtilsTests, IndexOfItem)
 
 TEST_F(ContainerUtilsTests, UniqueWithOrder)
 {
-  std::vector<int> data = {1, 42, 1, 6, 43, 6};
+  const std::vector<int> data = {1, 42, 1, 6, 43, 6};
   EXPECT_EQ(utils::UniqueWithOrder(data), (std::vector<int>{1, 42, 6, 43}));
 }
 
 TEST_F(ContainerUtilsTests, CastItems)
 {
-  TestItemA a1;
-  TestItemA a2;
-  TestItemB b1;
+  TestItemA test_item_a1;
+  TestItemA test_item_a2;
+  TestItemB test_item_b1;
 
-  std::vector<TestItem*> vec{&a1, &b1, &a2};
-  EXPECT_EQ(utils::CastItems<TestItemA>(vec), std::vector<TestItemA*>({&a1, &a2}));
-  EXPECT_EQ(utils::CastItems<TestItem>(vec), std::vector<TestItem*>({&a1, &b1, &a2}));
-  EXPECT_EQ(utils::CastItems<TestItemB>(vec), std::vector<TestItemB*>({&b1}));
+  const std::vector<TestItem*> vec{&test_item_a1, &test_item_b1, &test_item_a2};
+  EXPECT_EQ(utils::CastItems<TestItemA>(vec),
+            std::vector<TestItemA*>({&test_item_a1, &test_item_a2}));
+  EXPECT_EQ(utils::CastItems<TestItem>(vec),
+            std::vector<TestItem*>({&test_item_a1, &test_item_b1, &test_item_a2}));
+  EXPECT_EQ(utils::CastItems<TestItemB>(vec), std::vector<TestItemB*>({&test_item_b1}));
+}
+
+TEST_F(ContainerUtilsTests, GetVectorOfPtrs)
+{
+  auto [item1, item1_ptr] = mvvm::test::CreateTestData<TestItem>();
+  auto [item2, item2_ptr] = mvvm::test::CreateTestData<TestItem>();
+
+  std::vector<std::unique_ptr<TestItem>> vec;
+  vec.push_back(std::move(item1));
+  vec.push_back(std::move(item2));
+
+  EXPECT_EQ(utils::GetVectorOfPtrs(vec), std::vector<TestItem*>({item1_ptr, item2_ptr}));
 }

@@ -45,18 +45,6 @@ auto CreateRow(int ncolumns)
 }
 
 /**
- * @brief Creates vector of pointers from vector of unique_ptr.
- */
-template <typename T>
-auto GetPointers(const std::vector<std::unique_ptr<T>>& vec)
-{
-  std::vector<T*> result;
-  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
-                 [](auto& x) { return x.get(); });
-  return result;
-}
-
-/**
  * @brief Creates a pair of unique_ptr and raw ptr to the object of given type.
  */
 template <typename T, class... Args>

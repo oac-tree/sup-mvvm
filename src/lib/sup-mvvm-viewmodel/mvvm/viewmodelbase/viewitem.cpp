@@ -24,7 +24,6 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 
-#include <algorithm>
 #include <vector>
 
 namespace mvvm
@@ -121,13 +120,7 @@ struct ViewItem::ViewItemImpl
   /**
    * @brief Returns vector of children.
    */
-  std::vector<ViewItem*> GetChildren() const
-  {
-    std::vector<ViewItem*> result;
-    std::transform(m_children.begin(), m_children.end(), std::back_inserter(result),
-                   [](const auto& child_uptr) { return child_uptr.get(); });
-    return result;
-  }
+  std::vector<ViewItem*> GetChildren() const { return mvvm::utils::GetVectorOfPtrs(m_children); }
 
   /**
    * @brief Updates cached row,col values for children.
@@ -136,9 +129,9 @@ struct ViewItem::ViewItemImpl
   {
     for (size_t index = 0; index < m_children.size(); ++index)
     {
-      const int row = index / m_columns;
-      const int col = index % m_columns;
-      m_children[index]->UpdatePositionCache(row, col);
+      const size_t row = index / m_columns;
+      const size_t col = index % m_columns;
+      m_children[index]->UpdatePositionCache(static_cast<int>(row), static_cast<int>(col));
     }
   }
 };

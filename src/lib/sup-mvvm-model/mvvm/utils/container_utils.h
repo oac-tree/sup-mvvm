@@ -118,6 +118,18 @@ std::vector<T*> CastItems(const C& container)
   return result;
 }
 
+/**
+ * @brief Returns vector of pointers from the vector containing unique pointers.
+ */
+template <typename T>
+std::vector<T*> GetVectorOfPtrs(const std::vector<std::unique_ptr<T>>& container)
+{
+  std::vector<T*> result;
+  std::transform(container.begin(), container.end(), std::back_inserter(result),
+                 [](const auto& element_uptr) { return element_uptr.get(); });
+  return result;
+}
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_CONTAINER_UTILS_H_
