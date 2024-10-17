@@ -24,10 +24,10 @@
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_utils.h>
-#include <mvvm/test/folder_test.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 using namespace mvvm;
 

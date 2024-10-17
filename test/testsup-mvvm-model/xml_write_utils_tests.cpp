@@ -20,11 +20,11 @@
 #include "mvvm/serialization/xml_write_utils.h"
 
 #include <mvvm/serialization/treedata.h>
-#include <mvvm/test/folder_test.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 using namespace mvvm;
 

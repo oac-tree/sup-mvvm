@@ -22,10 +22,10 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/project_context.h>
-#include <mvvm/test/folder_test.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 #include <cctype>
 
@@ -63,10 +63,7 @@ public:
     return {m_sample_model.get(), m_material_model.get()};
   };
 
-  ProjectContext CreateContext()
-  {
-    return {};
-  }
+  ProjectContext CreateContext() { return {}; }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
   std::unique_ptr<ApplicationModel> m_material_model;

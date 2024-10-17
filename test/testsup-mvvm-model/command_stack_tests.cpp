@@ -21,10 +21,10 @@
 
 #include <mvvm/commands/abstract_command.h>
 #include <mvvm/core/exceptions.h>
-#include <mvvm/test/mock_command.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_command.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -365,7 +365,7 @@ TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
   // Lets redo and check the list again.
   stack.Redo();
 
-  //There is only one single command4, and it is in undone state
+  // There is only one single command4, and it is in undone state
   EXPECT_EQ(stack.GetIndex(), 0);
   EXPECT_EQ(stack.GetCommandCount(), 1);
   EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));

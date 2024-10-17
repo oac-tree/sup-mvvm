@@ -25,11 +25,11 @@
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_manager.h>
 #include <mvvm/project/project_utils.h>
-#include <mvvm/test/folder_test.h>
-#include <mvvm/test/mock_user_interactor.h>
 #include <mvvm/utils/file_utils.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
+#include <testutils/mock_user_interactor.h>
 
 using namespace mvvm;
 

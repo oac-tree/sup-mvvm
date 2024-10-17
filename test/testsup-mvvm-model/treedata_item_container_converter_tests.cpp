@@ -24,9 +24,9 @@
 #include <mvvm/model/session_item_container.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/treedata.h>
-#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_container_helper.h>
 
 using namespace mvvm;
 

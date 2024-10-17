@@ -21,9 +21,9 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 namespace mvvm
 {
@@ -58,7 +58,7 @@ public:
    * @brief Writes given models to a file.
    */
   static void WriteModels(const std::vector<ISessionModel*>& models, const std::string& path,
-                   const std::string& application_type = {})
+                          const std::string& application_type = {})
   {
     const XmlDocument document(models, application_type);
     document.Save(path);

@@ -20,9 +20,9 @@
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/test/toy_items.h>
 
 #include <benchmark/benchmark.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 
@@ -37,7 +37,8 @@ public:
     auto multilayer = std::make_unique<mvvm::test::toyitems::MultiLayerItem>();
     for (int i = 0; i < max_layer_count; ++i)
     {
-      auto layer = multilayer->InsertItem<mvvm::test::toyitems::LayerItem>(mvvm::TagIndex::Append());
+      auto layer =
+          multilayer->InsertItem<mvvm::test::toyitems::LayerItem>(mvvm::TagIndex::Append());
       layer->InsertItem<mvvm::test::toyitems::ParticleItem>(mvvm::TagIndex::Append());
     }
     return multilayer;

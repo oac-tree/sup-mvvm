@@ -21,10 +21,10 @@
 
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/core/exceptions.h>
-#include <mvvm/test/mock_command.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_command.h>
 
 using namespace mvvm;
 using ::testing::_;

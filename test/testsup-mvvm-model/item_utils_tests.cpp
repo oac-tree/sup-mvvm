@@ -27,10 +27,10 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/toy_items.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 #include <memory>
 

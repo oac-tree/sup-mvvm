@@ -27,10 +27,10 @@
 #include <mvvm/model/session_model.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/test/mock_event_listener.h>
-#include <mvvm/test/toy_items.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 using ::testing::_;

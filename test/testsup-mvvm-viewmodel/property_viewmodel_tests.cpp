@@ -24,9 +24,9 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/toy_items.h>
 
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 #include <QSignalSpy>
 

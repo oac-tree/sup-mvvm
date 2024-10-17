@@ -19,10 +19,9 @@
 
 #include "mvvm/commands/macro_command.h"
 
-#include <mvvm/test/mock_command.h>
-
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_command.h>
 
 using namespace mvvm;
 using ::testing::_;
@@ -103,7 +102,8 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
 
   EXPECT_EQ(macro_command.GetCommandStatus(), CommandStatus::AfterExecute);
   EXPECT_EQ(macro_command.GetCommandCount(), 2);
-  EXPECT_EQ(macro_command.GetCommands(), std::vector<const ICommand*>({command_ptr1, command_ptr2}));
+  EXPECT_EQ(macro_command.GetCommands(),
+            std::vector<const ICommand*>({command_ptr1, command_ptr2}));
 
   {
     const ::testing::InSequence seq;

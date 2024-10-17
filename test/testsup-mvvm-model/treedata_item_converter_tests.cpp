@@ -30,9 +30,9 @@
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 using namespace mvvm;
 

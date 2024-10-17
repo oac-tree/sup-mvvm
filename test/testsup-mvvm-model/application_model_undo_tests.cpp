@@ -27,9 +27,9 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/test/mock_model_listener.h>
-#include <mvvm/test/toy_items.h>
 
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 using namespace mvvm;
 using ::testing::_;

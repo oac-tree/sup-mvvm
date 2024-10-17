@@ -20,9 +20,9 @@
 #include "mvvm/project/project_manager.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/test/mock_project.h>
 
 #include <gtest/gtest.h>
+#include <testutils/mock_project.h>
 
 using namespace mvvm;
 

@@ -28,9 +28,8 @@
 #include <mvvm/viewmodelbase/viewitem.h>
 #include <mvvm/viewmodelbase/viewmodel_base.h>
 
-#include <mvvm/test/test_strategies.h>
-
 #include <gtest/gtest.h>
+#include <testutils/test_strategies.h>
 
 using namespace mvvm;
 
@@ -102,7 +101,7 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItem)
   EXPECT_EQ(view_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
   EXPECT_EQ(view_item1->Data(Qt::EditRole).toString().toStdString(),
             std::string("(0, 0, 0)"));  // label is broken for the moment
-  
+
   EXPECT_EQ(view_item0->GetRowCount(), 3);
   EXPECT_EQ(view_item0->GetColumnCount(), 2);
   EXPECT_EQ(view_item1->GetRowCount(), 0);
@@ -173,7 +172,7 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromVectorItemWithHiddenCoordinate)
   EXPECT_EQ(view_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("VectorItem"));
   EXPECT_EQ(view_item1->Data(Qt::EditRole).toString().toStdString(),
             std::string("(0, 0, 0)"));  // label is broken for the moment
-  
+
   EXPECT_EQ(view_item0->GetRowCount(), 2);
   EXPECT_EQ(view_item0->GetColumnCount(), 2);
   EXPECT_EQ(view_item1->GetRowCount(), 0);

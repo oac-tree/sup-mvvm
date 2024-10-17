@@ -24,9 +24,9 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 #include <QSignalSpy>
 

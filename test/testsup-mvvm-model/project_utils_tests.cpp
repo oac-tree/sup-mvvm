@@ -23,9 +23,9 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
-#include <mvvm/test/folder_test.h>
 
 #include <gtest/gtest.h>
+#include <testutils/folder_test.h>
 
 using namespace mvvm;
 
