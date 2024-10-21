@@ -44,7 +44,7 @@ public:
   public:
     static inline const std::string Type = "TestItemType";
 
-    TestItem() : SessionItem(Type){};
+    TestItem() : SessionItem(Type) {};
   };
 
   class TestModel : public SessionModel
@@ -63,10 +63,12 @@ std::shared_ptr<ItemPool> SessionModelTest::m_pool = std::make_shared<ItemPool>(
 
 TEST_F(SessionModelTest, InitialState)
 {
-  SessionModel model;
+  const SessionModel model;
+  EXPECT_TRUE(model.GetType().empty());
   EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
   EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
   EXPECT_EQ(model.GetEventHandler(), nullptr);
+  EXPECT_EQ(model.GetCommandStack(), nullptr);
 }
 
 TEST_F(SessionModelTest, SetData)
@@ -81,7 +83,7 @@ TEST_F(SessionModelTest, SetData)
   item->SetDisplayName("abc");
 
   // setting wrong type of data
-  variant_t value(42.0);
+  const variant_t value(42.0);
   EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), RuntimeException);
 
   // setting new data
@@ -93,7 +95,6 @@ TEST_F(SessionModelTest, SetData)
 }
 
 //! Insert item into root.
-
 TEST_F(SessionModelTest, InsertItemIntoRoot)
 {
   TestModel model;
@@ -111,7 +112,6 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
 }
 
 //! Inserting item into root via move.
-
 TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 {
   TestModel model;
@@ -133,7 +133,6 @@ TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 }
 
 //! Insert item into parent using tag and index.
-
 TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
   TestModel model;
@@ -171,7 +170,6 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 }
 
 //! Insert item into default tag.
-
 TEST_F(SessionModelTest, InsertItemInDefaultTag)
 {
   TestModel model;
@@ -202,7 +200,6 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
 }
 
 //! Insert item into default tag.
-
 TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 {
   TestModel model;
@@ -233,7 +230,6 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 }
 
 //! Attempt to insert item into default tag when where is no default tag.
-
 TEST_F(SessionModelTest, InsertItemInDefaultTagWhenNoDefaultTagIsPresent)
 {
   SessionModel model("Test");
@@ -247,7 +243,6 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagWhenNoDefaultTagIsPresent)
 }
 
 //! Attempt to insert item in property tag.
-
 TEST_F(SessionModelTest, InsertItemInPropertyTag)
 {
   SessionModel model("Test");
@@ -275,8 +270,6 @@ TEST_F(SessionModelTest, InsertNewItemInPropertyTag)
 }
 
 //! Inserting single PropertyItem using move.
-//! Revise test.
-
 TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
 {
   const std::string tag1("tag1");
@@ -384,7 +377,6 @@ TEST_F(SessionModelTest, TakeRowFromRootItem)
 }
 
 //! Simple move of item from one parent to another.
-
 TEST_F(SessionModelTest, MoveItem)
 {
   SessionModel model;
@@ -402,7 +394,7 @@ TEST_F(SessionModelTest, MoveItem)
   // moving child0 from parent0 to parent 1
   model.MoveItem(child0, parent1, {"", 0});
 
-  std::vector<SessionItem*> expected = {child0, child1};
+  const std::vector<SessionItem*> expected = {child0, child1};
   EXPECT_EQ(parent1->GetAllItems(), expected);
   EXPECT_TRUE(parent0->GetAllItems().empty());
 }
@@ -659,12 +651,12 @@ TEST_F(SessionModelTest, FindItem)
   auto parent = model.InsertItem<SessionItem>();
 
   // check that we can find item using its own identofoer
-  const std::string id = parent->GetIdentifier();
-  EXPECT_EQ(model.FindItem(id), parent);
+  const std::string identifier = parent->GetIdentifier();
+  EXPECT_EQ(model.FindItem(identifier), parent);
 
   // check that we can't find deleted item.
   model.RemoveItem(parent);
-  EXPECT_EQ(model.FindItem(id), nullptr);
+  EXPECT_EQ(model.FindItem(identifier), nullptr);
 }
 
 //! Test items in different models.
@@ -710,7 +702,6 @@ TEST_F(SessionModelTest, RegisterItem)
 }
 
 //! Insert item into root. Composer is set after.
-
 TEST_F(SessionModelTest, SetComposer)
 {
   // setting composer after

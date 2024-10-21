@@ -26,9 +26,10 @@
 
 using namespace mvvm;
 
-//! Tests for SessionItemContainer class.
-
-class SessionItemContainerTests : public ::testing::Test
+/**
+ * @brief Tests for SessionItemContainer class.
+ */
+class SessionItemContainerTest : public ::testing::Test
 {
 public:
   class TestItem : public SessionItem
@@ -44,9 +45,7 @@ public:
   }
 };
 
-//! Initial state of emty SessionItemTag.
-
-TEST_F(SessionItemContainerTests, InitialState)
+TEST_F(SessionItemContainerTest, InitialState)
 {
   const std::string name("tag");
   const SessionItemContainer tag(TagInfo::CreateUniversalTag(name));
@@ -57,9 +56,7 @@ TEST_F(SessionItemContainerTests, InitialState)
   EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>());
 }
 
-//! Checking ::insertItem.
-
-TEST_F(SessionItemContainerTests, InsertItem)
+TEST_F(SessionItemContainerTest, InsertItem)
 {
   const std::string tag_name("tag");
   SessionItemContainer tag(TagInfo::CreateUniversalTag(tag_name));
@@ -103,8 +100,7 @@ TEST_F(SessionItemContainerTests, InsertItem)
 }
 
 //! Checking ::insertItem when item has specific model type.
-
-TEST_F(SessionItemContainerTests, InsertItemWithType)
+TEST_F(SessionItemContainerTest, InsertItemWithType)
 {
   const std::string tag_name("tag");
   const std::vector<std::string> model_types = {"model_a"};
@@ -121,8 +117,7 @@ TEST_F(SessionItemContainerTests, InsertItemWithType)
 }
 
 //! Checking ::insertItem when tag is related to property tag.
-
-TEST_F(SessionItemContainerTests, InsertItemPropertyType)
+TEST_F(SessionItemContainerTest, InsertItemPropertyType)
 {
   const std::string name("tag");
   const std::string property_type("Property");
@@ -141,9 +136,8 @@ TEST_F(SessionItemContainerTests, InsertItemPropertyType)
   EXPECT_EQ(tag.GetItems(), std::vector<SessionItem*>({child1_ptr}));
 }
 
-//! Checking ::indexOfItem.
-
-TEST_F(SessionItemContainerTests, IndexOfItem)
+//! Checking ::IndexOfItem.
+TEST_F(SessionItemContainerTest, IndexOfItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -165,9 +159,8 @@ TEST_F(SessionItemContainerTests, IndexOfItem)
   EXPECT_EQ(tag.IndexOfItem(child3.get()), -1);
 }
 
-//! Checking ::itemAt.
-
-TEST_F(SessionItemContainerTests, ItemAt)
+//! Checking ::ItemAt.
+TEST_F(SessionItemContainerTest, ItemAt)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -187,9 +180,8 @@ TEST_F(SessionItemContainerTests, ItemAt)
   EXPECT_EQ(tag.ItemAt(-1), nullptr);
 }
 
-//! Checking ::takeItem.
-
-TEST_F(SessionItemContainerTests, TakeItem)
+//! Checking ::TakeItem.
+TEST_F(SessionItemContainerTest, TakeItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -219,9 +211,8 @@ TEST_F(SessionItemContainerTests, TakeItem)
   EXPECT_EQ(tag.TakeItem(tag.GetItemCount()), nullptr);
 }
 
-//! Checking ::canTakeItem.
-
-TEST_F(SessionItemContainerTests, CanTakeItem)
+//! Checking ::CanTakeItem.
+TEST_F(SessionItemContainerTest, CanTakeItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -241,9 +232,8 @@ TEST_F(SessionItemContainerTests, CanTakeItem)
   EXPECT_FALSE(tag.CanTakeItem(tag.GetItemCount()));
 }
 
-//! Checking ::canInsertItem.
-
-TEST_F(SessionItemContainerTests, CanInsertItem)
+//! Checking ::CanInsertItem.
+TEST_F(SessionItemContainerTest, CanInsertItem)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -272,9 +262,7 @@ TEST_F(SessionItemContainerTests, CanInsertItem)
   EXPECT_FALSE(tag.CanInsertItem(child2.get(), -1));
 }
 
-//! Checking ::canInsertItem.
-
-TEST_F(SessionItemContainerTests, CanInsertItemForPropertyTag)
+TEST_F(SessionItemContainerTest, CanInsertItemForPropertyTag)
 {
   const std::string name("tag");
   const std::string property_type("Property");
@@ -293,9 +281,7 @@ TEST_F(SessionItemContainerTests, CanInsertItemForPropertyTag)
   EXPECT_FALSE(tag.CanInsertItem(child2.get(), 0));
 }
 
-//! Checking ::canInsertItem.
-
-TEST_F(SessionItemContainerTests, CanInsertItemForUniversalTag)
+TEST_F(SessionItemContainerTest, CanInsertItemForUniversalTag)
 {
   const std::string tag1 = "tag1";
   const int max_items = 2;
@@ -323,9 +309,7 @@ TEST_F(SessionItemContainerTests, CanInsertItemForUniversalTag)
   EXPECT_FALSE(tag.CanInsertItem(child3.get(), tag.GetItemCount()));
 }
 
-//! Checking ::CanInsertItem for own item.
-
-TEST_F(SessionItemContainerTests, CanInsertOwnItem)
+TEST_F(SessionItemContainerTest, CanInsertOwnItem)
 {
   const std::string tag1 = "tag1";
   const int max_items = 2;
@@ -339,9 +323,7 @@ TEST_F(SessionItemContainerTests, CanInsertOwnItem)
   EXPECT_FALSE(tag.CanInsertItem(child0_ptr, 0));
 }
 
-//! Checking ::CanInsertItem.
-
-TEST_F(SessionItemContainerTests, CanInsertType)
+TEST_F(SessionItemContainerTest, CanInsertType)
 {
   const std::string tag_name("tag");
   const std::string model_type("model_a");
@@ -355,8 +337,7 @@ TEST_F(SessionItemContainerTests, CanInsertType)
 }
 
 //! Checking ::TakeItem when tag is related to property tag.
-
-TEST_F(SessionItemContainerTests, TakeItemPropertyType)
+TEST_F(SessionItemContainerTest, TakeItemPropertyType)
 {
   const std::string name("tag");
   const std::string property_type("Property");
@@ -372,7 +353,7 @@ TEST_F(SessionItemContainerTests, TakeItemPropertyType)
   EXPECT_EQ(tag.TakeItem(0), nullptr);
 }
 
-TEST_F(SessionItemContainerTests, Clone)
+TEST_F(SessionItemContainerTest, Clone)
 {
   const std::string tag_name("tag");
   SessionItemContainer container(TagInfo::CreateUniversalTag(tag_name));
@@ -397,7 +378,7 @@ TEST_F(SessionItemContainerTests, Clone)
   }
 }
 
-TEST_F(SessionItemContainerTests, CanMoveWithinContainer)
+TEST_F(SessionItemContainerTest, CanMoveWithinContainer)
 {
   const std::string tag_name("tag");
   SessionItemContainer container(TagInfo::CreateUniversalTag(tag_name));

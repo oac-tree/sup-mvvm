@@ -34,9 +34,10 @@
 using namespace mvvm;
 using ::testing::_;
 
-//! Tests for ApplicationModel class.
-
-class ApplicationModelTests : public ::testing::Test
+/**
+ * @brief Tests of ApplicationModel class.
+ */
+class ApplicationModelTest : public ::testing::Test
 {
 public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
@@ -44,8 +45,9 @@ public:
   ApplicationModel m_model;
 };
 
-TEST_F(ApplicationModelTests, InitialState)
+TEST_F(ApplicationModelTest, InitialState)
 {
+  EXPECT_TRUE(m_model.GetType().empty());
   EXPECT_EQ(m_model.GetRootItem()->GetModel(), &m_model);
   EXPECT_EQ(m_model.GetRootItem()->GetParent(), nullptr);
   EXPECT_NE(m_model.GetEventHandler(), nullptr);
@@ -53,7 +55,7 @@ TEST_F(ApplicationModelTests, InitialState)
 }
 
 //! Setting data through the model and checking the result.
-TEST_F(ApplicationModelTests, SetData)
+TEST_F(ApplicationModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -71,7 +73,7 @@ TEST_F(ApplicationModelTests, SetData)
 }
 
 //! Setting data through the item.
-TEST_F(ApplicationModelTests, SetDataThroughItem)
+TEST_F(ApplicationModelTest, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -90,7 +92,7 @@ TEST_F(ApplicationModelTests, SetDataThroughItem)
 
 //! Setting same data through the composer and checking the result.
 //! No notifications are expected.
-TEST_F(ApplicationModelTests, SetSameData)
+TEST_F(ApplicationModelTest, SetSameData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42, DataRole::kData);
@@ -108,7 +110,7 @@ TEST_F(ApplicationModelTests, SetSameData)
 }
 
 //! Inserting new item into the root item through the composer.
-TEST_F(ApplicationModelTests, InsertItemIntoRoot)
+TEST_F(ApplicationModelTest, InsertItemIntoRoot)
 {
   auto parent = m_model.GetRootItem();
   const TagIndex tag_index{constants::kRootItemTag, 0};
@@ -134,7 +136,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRoot)
 }
 
 //! Inserting new item into the root item via move.
-TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
+TEST_F(ApplicationModelTest, InsertItemIntoRootViaMove)
 {
   auto parent = m_model.GetRootItem();
   const TagIndex tag_index{constants::kRootItemTag, 0};
@@ -167,7 +169,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoRootViaMove)
 }
 
 //! Inserting item using templated insertion.
-TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
+TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -196,7 +198,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndex)
 //! Inserting item using templated insertion.
 //! Test is identical to the previous one, except the way event is triggered.
 //! Here we access the model via parent->GetModel().
-TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
+TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -223,7 +225,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 }
 
 //! Inserting item using a helper method from item_utils.h
-TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
+TEST_F(ApplicationModelTest, InsertItemIntoParentUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -254,7 +256,7 @@ TEST_F(ApplicationModelTests, InsertItemIntoParentUsingHelperMethod)
 
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug).
-TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
+TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -282,7 +284,7 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTag)
 
 //! Inserting item using templated insertion.
 //! Using defaut tag (real-life bug) when where is no default tag defined.
-TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
+TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
@@ -299,7 +301,7 @@ TEST_F(ApplicationModelTests, InsertItemInDefaultTagWhenNoDefaultIsPresent)
 }
 
 //! Attempt to insert item into property tag.
-TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
+TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->AddProperty("thickness", 42);
@@ -317,7 +319,7 @@ TEST_F(ApplicationModelTests, InsertItemInPropertyTag)
 }
 
 //! Inserting item through the composer into another parent using move insertion.
-TEST_F(ApplicationModelTests, InsertItemViaMove)
+TEST_F(ApplicationModelTest, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -347,7 +349,7 @@ TEST_F(ApplicationModelTests, InsertItemViaMove)
 }
 
 //! Removing item.
-TEST_F(ApplicationModelTests, TakeItem)
+TEST_F(ApplicationModelTest, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -374,7 +376,7 @@ TEST_F(ApplicationModelTests, TakeItem)
 }
 
 //! Removing item.
-TEST_F(ApplicationModelTests, RemoveItem)
+TEST_F(ApplicationModelTest, RemoveItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -400,7 +402,7 @@ TEST_F(ApplicationModelTests, RemoveItem)
 }
 
 //! Removing item using helper method from item_utils.h
-TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
+TEST_F(ApplicationModelTest, RemoveItemUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -426,7 +428,7 @@ TEST_F(ApplicationModelTests, RemoveItemUsingHelperMethod)
 }
 
 //! Inserting item using a helper method from item_utils.h
-TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
+TEST_F(ApplicationModelTest, ReplaceItemUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -464,7 +466,7 @@ TEST_F(ApplicationModelTests, ReplaceItemUsingHelperMethod)
 }
 
 //! Moving item item.
-TEST_F(ApplicationModelTests, MoveItem)
+TEST_F(ApplicationModelTest, MoveItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   parent1->RegisterTag(TagInfo::CreateUniversalTag("tag1"), true);
@@ -501,7 +503,7 @@ TEST_F(ApplicationModelTests, MoveItem)
 
 //! Attempt to move property item from compound item.
 //! The operation should fail via exception throw, no signals should be emitted.
-TEST_F(ApplicationModelTests, IvalidItemMove)
+TEST_F(ApplicationModelTest, IvalidItemMove)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   auto& property = parent1->AddProperty("thickness", 42);
@@ -522,7 +524,7 @@ TEST_F(ApplicationModelTests, IvalidItemMove)
 }
 
 //! Destroying the model.
-TEST_F(ApplicationModelTests, Clear)
+TEST_F(ApplicationModelTest, Clear)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
@@ -547,7 +549,7 @@ TEST_F(ApplicationModelTests, Clear)
 }
 
 //! Destroying the model.
-TEST_F(ApplicationModelTests, Destroy)
+TEST_F(ApplicationModelTest, Destroy)
 {
   auto model = std::make_unique<ApplicationModel>();
 
@@ -565,7 +567,7 @@ TEST_F(ApplicationModelTests, Destroy)
 }
 
 //! Check SetUndoEnabled.
-TEST_F(ApplicationModelTests, SetUndoEnabled)
+TEST_F(ApplicationModelTest, SetUndoEnabled)
 {
   m_model.SetUndoEnabled(true);
   EXPECT_NE(m_model.GetCommandStack(), nullptr);

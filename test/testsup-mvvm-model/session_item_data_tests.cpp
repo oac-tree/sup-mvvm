@@ -25,15 +25,14 @@
 
 using namespace mvvm;
 
-//! Test of SessionItemData.
-
-class SessionItemDataTests : public ::testing::Test
+/**
+ * @brief Tests of SessionItemData class.
+ */
+class SessionItemDataTest : public ::testing::Test
 {
 };
 
-//! Initial state of SessionItemData object.
-
-TEST_F(SessionItemDataTests, InitialState)
+TEST_F(SessionItemDataTest, InitialState)
 {
   const SessionItemData item_data;
   EXPECT_TRUE(item_data.GetRoles().empty());
@@ -42,8 +41,7 @@ TEST_F(SessionItemDataTests, InitialState)
 }
 
 //! Basic setData, data operations.
-
-TEST_F(SessionItemDataTests, SetDataDouble)
+TEST_F(SessionItemDataTest, SetDataDouble)
 {
   const int role = 1;
   SessionItemData item_data;
@@ -73,8 +71,7 @@ TEST_F(SessionItemDataTests, SetDataDouble)
 }
 
 //! Using different roles.
-
-TEST_F(SessionItemDataTests, DifferentRoles)
+TEST_F(SessionItemDataTest, DifferentRoles)
 {
   SessionItemData item_data;
 
@@ -94,8 +91,7 @@ TEST_F(SessionItemDataTests, DifferentRoles)
 }
 
 //! Changing type of variant for role should not be allowed.
-
-TEST_F(SessionItemDataTests, ChangingRole)
+TEST_F(SessionItemDataTest, ChangingRole)
 {
   SessionItemData item_data;
 
@@ -113,8 +109,7 @@ TEST_F(SessionItemDataTests, ChangingRole)
 }
 
 //! Access to data and roles via range loop.
-
-TEST_F(SessionItemDataTests, RangeLoop)
+TEST_F(SessionItemDataTest, RangeLoop)
 {
   SessionItemData item_data;
   const std::vector<double> expected_values = {1.2, 1.3};
@@ -138,7 +133,7 @@ TEST_F(SessionItemDataTests, RangeLoop)
   EXPECT_EQ(roles, expected_roles);
 }
 
-TEST_F(SessionItemDataTests, HasRole)
+TEST_F(SessionItemDataTest, HasRole)
 {
   SessionItemData data;
   EXPECT_FALSE(data.HasData(0));
@@ -153,7 +148,7 @@ TEST_F(SessionItemDataTests, HasRole)
   EXPECT_FALSE(data.HasData(role));
 }
 
-TEST_F(SessionItemDataTests, CopyConstructor)
+TEST_F(SessionItemDataTest, CopyConstructor)
 {
   {  // from default constructed
     const SessionItemData item_data;
@@ -178,7 +173,7 @@ TEST_F(SessionItemDataTests, CopyConstructor)
   }
 }
 
-TEST_F(SessionItemDataTests, AssignmentOperator)
+TEST_F(SessionItemDataTest, AssignmentOperator)
 {
   {  // from default constructed
     const SessionItemData data;
