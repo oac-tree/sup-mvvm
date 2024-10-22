@@ -103,8 +103,6 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
     return kFailed;
   }
 
-  m_project_manager->CloseCurrentProject();
-
   try
   {
     return m_project_manager->OpenExistingProject(project_dir);
