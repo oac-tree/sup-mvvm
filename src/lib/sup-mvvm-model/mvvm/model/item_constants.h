@@ -38,6 +38,9 @@ const std::string kX = "kX";
 const std::string kY = "kY";
 const std::string kZ = "kZ";
 
+const std::string kPen = "kPen";
+const std::string kDisplayed = "kDisplayed";
+
 }  // namespace mvvm::constants
 
 #endif  // MVVM_MODEL_ITEM_CONSTANTS_H_

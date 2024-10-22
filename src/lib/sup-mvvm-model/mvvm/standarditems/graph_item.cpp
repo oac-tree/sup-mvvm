@@ -24,21 +24,19 @@
 #include "plottable_items.h"
 
 #include <mvvm/model/combo_property.h>
+#include <mvvm/model/item_constants.h>
 
 namespace mvvm
 {
 
-static inline const std::string kLink = "kLink";
 static inline const std::string kGraphTitle = "kGraphTitle";
-static inline const std::string kPen = "kPen";
-static inline const std::string kDisplayed = "kDisplayed";
 
 GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  AddProperty<LinkedItem>(kLink).SetDisplayName("Link");
+  AddProperty<LinkedItem>(constants::kLink).SetDisplayName("Link");
   AddProperty<TextItem>(kGraphTitle).SetDisplayName("Graph title");
-  AddProperty<PenItem>(kPen).SetDisplayName("Pen");
-  AddProperty(kDisplayed, true).SetDisplayName("Displayed");
+  AddProperty<PenItem>(constants::kPen).SetDisplayName("Pen");
+  AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
 std::unique_ptr<SessionItem> GraphItem::Clone(bool make_unique_id) const
@@ -59,8 +57,8 @@ void GraphItem::SetDataItem(const Data1DItem* data_item)
 void GraphItem::SetFromGraphItem(const GraphItem* graph_item)
 {
   SetDataItem(graph_item->GetDataItem());
-  auto pen = GetItem<PenItem>(kPen);
-  auto source_pen = graph_item->GetItem<PenItem>(kPen);
+  auto pen = GetItem<PenItem>(constants::kPen);
+  auto source_pen = graph_item->GetItem<PenItem>(constants::kPen);
   pen->SetNamedColor(source_pen->GetNamedColor());
   pen->SetWidth(source_pen->GetWidth());
   pen->SetStyle(source_pen->GetStyle());
@@ -105,7 +103,7 @@ void GraphItem::SetNamedColor(const std::string& named_color)
 
 PenItem* GraphItem::GetPenItem() const
 {
-  return GetItem<PenItem>(kPen);
+  return GetItem<PenItem>(constants::kPen);
 }
 
 }  // namespace mvvm

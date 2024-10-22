@@ -22,16 +22,14 @@
 #include "line_series_data_item.h"
 #include "waveform_helper.h"
 
-#include <mvvm/standarditems/linked_item.h>
 #include <mvvm/model/item_constants.h>
+#include <mvvm/standarditems/linked_item.h>
 #include <mvvm/standarditems/plottable_items.h>
 
 namespace
 {
 const int kDefaultLineWidth = 2;
 const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
-const std::string kPen = "kPen";
-const std::string kDisplayed = "kDisplayed";
 }  // namespace
 
 namespace mvvm
@@ -42,12 +40,12 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(Type)
   AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
   AddProperty(kOffset, 0.0).SetDisplayName("Offset");
 
-  auto &pen = AddProperty<mvvm::PenItem>(kPen);
+  auto &pen = AddProperty<mvvm::PenItem>(constants::kPen);
   pen.SetDisplayName("Pen");
   pen.SetWidth(kDefaultLineWidth);
   pen.SetNamedColor(kDefaultLineColor);
 
-  AddProperty(kDisplayed, true).SetDisplayName("Displayed");
+  AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
 std::unique_ptr<SessionItem> LineSeriesItem::Clone(bool make_unique_id) const
@@ -92,7 +90,7 @@ void LineSeriesItem::SetNamedColor(const std::string &named_color)
 
 mvvm::PenItem *LineSeriesItem::GetPenItem() const
 {
-  return GetItem<mvvm::PenItem>(kPen);
+  return GetItem<mvvm::PenItem>(constants::kPen);
 }
 
 std::vector<double> LineSeriesItem::GetBinCenters() const
