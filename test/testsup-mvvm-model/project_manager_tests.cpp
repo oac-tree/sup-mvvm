@@ -32,17 +32,7 @@ using namespace mvvm;
 class ProjectManagerTests : public ::testing::Test
 {
 public:
-  /**
-   * @brief Returns a project necessary to initialize ProjectManager.
-   */
-  IProject* GetProject()
-  {
-    m_project = std::make_unique<test::ProjectDecorator>(&m_mock_project);
-    return m_project.get();
-  }
-
   mvvm::test::MockProject m_mock_project;
-  std::unique_ptr<IProject> m_project;
 };
 
 TEST_F(ProjectManagerTests, AttemptToCreateProject)
@@ -53,7 +43,7 @@ TEST_F(ProjectManagerTests, AttemptToCreateProject)
 
 TEST_F(ProjectManagerTests, InitialState)
 {
-  const ProjectManager manager(GetProject());
+  const ProjectManager manager(&m_mock_project);
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
@@ -66,7 +56,7 @@ TEST_F(ProjectManagerTests, InitialState)
 //! ProjectManager::SaveCurrentProject
 TEST_F(ProjectManagerTests, TitledModifiedSave)
 {
-  ProjectManager manager(GetProject());
+  ProjectManager manager(&m_mock_project);
 
   // setting up what mock project should return
   const std::string path("path");

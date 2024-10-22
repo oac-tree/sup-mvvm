@@ -43,31 +43,6 @@ public:
   MOCK_METHOD(bool, CloseProject, (), (override));
 };
 
-/**
- * @brief The ProjectDecorator class is a decorator that simply forwards all calls to underlying
- * project.
- *
- * It is used when unique_ptr is required, but we don't want to pass ownership to real object. For
- * example, gtest doesn't like gmock objects to be moved from the test to somewhere else.
- */
-class ProjectDecorator : public mvvm::IProject
-{
-public:
-  explicit ProjectDecorator(mvvm::IProject* project);
-
-  ProjectType GetProjectType() const override;
-  std::string GetApplicationType() const override;
-  std::string GetProjectPath() const override;
-  bool Save(const std::string& path) override;
-  bool Load(const std::string& path) override;
-  bool IsModified() const override;
-  bool CreateNewProject() override;
-  bool CloseProject() override;
-
-private:
-  mvvm::IProject* m_project{nullptr};
-};
-
 }  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_PROJECT_H_

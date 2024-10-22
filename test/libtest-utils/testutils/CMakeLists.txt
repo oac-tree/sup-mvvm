@@ -3,7 +3,6 @@ target_sources(${library_name} PRIVATE
   folder_test.h
   mock_command.cpp
   mock_command.h
-  mock_project.cpp
   mock_project.h
   mock_user_interactor.cpp
   mock_user_interactor.h
