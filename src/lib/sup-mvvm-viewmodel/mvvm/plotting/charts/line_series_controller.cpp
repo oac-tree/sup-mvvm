@@ -49,6 +49,7 @@ void LineSeriesController::Subscribe()
   m_pen_controller->SetItem(line_series_item->GetPenItem());
 
   GetQtLineSeries()->setName(QString::fromStdString(line_series_item->GetDisplayName()));
+  GetQtLineSeries()->setVisible(GetItem()->IsDisplayed());
 
   Listener()->Connect<PropertyChangedEvent>(this, &LineSeriesController::OnPropertyChanged);
   Listener()->Connect<DataChangedEvent>(this, &LineSeriesController::OnDataChanged);
@@ -66,11 +67,19 @@ void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent &event)
     // If linked property has changed, it could mean that we've got a new data to look at.
     auto line_series_item = GetItem();
     m_data_controller->SetItem(line_series_item->GetDataItem());
+    return;
   }
 
   if (event.name == LineSeriesItem::kOffset)
   {
     m_data_controller->SetXOffset(GetItem()->GetXOffset());
+    return;
+  }
+
+  if (event.name == constants::kDisplayed)
+  {
+    GetQtLineSeries()->setVisible(GetItem()->IsDisplayed());
+    return;
   }
 }
 

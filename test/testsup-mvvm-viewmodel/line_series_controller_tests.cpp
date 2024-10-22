@@ -104,7 +104,6 @@ TEST_F(LineSeriesControllerTest, InitialPenStyle)
 }
 
 //! Checking propagation of display name from item to QLineSeries.
-
 TEST_F(LineSeriesControllerTest, DisplayName)
 {
   mvvm::ApplicationModel model;
@@ -165,4 +164,24 @@ TEST_F(LineSeriesControllerTest, SetOffset)
   EXPECT_EQ(qt_points.at(1).y(), 20.0);
   EXPECT_EQ(qt_points.at(2).x(), 13.0);
   EXPECT_EQ(qt_points.at(2).y(), 30.0);
+}
+
+//! Checking propagation of kDisplayed property.
+TEST_F(LineSeriesControllerTest, Displayed)
+{
+  mvvm::ApplicationModel model;
+  auto line_series_item = model.InsertItem<LineSeriesItem>();
+  line_series_item->SetDisplayed(false);
+
+  QtCharts::QLineSeries line_series;
+  LineSeriesController controller(&line_series);
+
+  controller.SetItem(line_series_item);
+
+  // initial displayed property was propagated
+  EXPECT_FALSE(line_series.isVisible());
+
+  // changing visibility and checking its propagation to Qt
+  line_series_item->SetDisplayed(true);
+  EXPECT_TRUE(line_series.isVisible());
 }
