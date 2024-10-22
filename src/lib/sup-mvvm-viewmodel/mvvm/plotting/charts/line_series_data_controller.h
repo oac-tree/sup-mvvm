@@ -56,14 +56,14 @@ public:
 
   void SetItem(const LineSeriesDataItem* item);
 
-  void OnModelEvent(const mvvm::ItemInsertedEvent& event);
+  void OnModelEvent(const ItemInsertedEvent& event);
 
-  void OnModelEvent(const mvvm::AboutToRemoveItemEvent& event);
+  void OnModelEvent(const AboutToRemoveItemEvent& event);
 
   /**
    * @brief Propagates change of (x,y) values to QtCharts.
    */
-  void OnModelEvent(const mvvm::DataChangedEvent& event);
+  void OnModelEvent(const DataChangedEvent& event);
 
   const LineSeriesDataItem* GetDataItem() const;
 
@@ -90,7 +90,7 @@ private:
 
   QtCharts::QLineSeries* m_qt_line_series{nullptr};
   const LineSeriesDataItem* m_data_item{nullptr};
-  std::unique_ptr<mvvm::ModelListener> m_listener;
+  std::unique_ptr<ModelListener> m_listener;
   double m_x_offset{0.0};
 };
 

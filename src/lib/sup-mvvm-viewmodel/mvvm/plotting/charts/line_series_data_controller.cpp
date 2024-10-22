@@ -67,7 +67,7 @@ void LineSeriesDataController::SetItem(const LineSeriesDataItem *item)
   Subscribe();
 }
 
-void LineSeriesDataController::OnModelEvent(const mvvm::ItemInsertedEvent &event)
+void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent &event)
 {
   auto [parent, tag_index] = event;
 
@@ -79,7 +79,7 @@ void LineSeriesDataController::OnModelEvent(const mvvm::ItemInsertedEvent &event
   }
 }
 
-void LineSeriesDataController::OnModelEvent(const mvvm::AboutToRemoveItemEvent &event)
+void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
   if (event.item == m_data_item)
   {
@@ -88,7 +88,7 @@ void LineSeriesDataController::OnModelEvent(const mvvm::AboutToRemoveItemEvent &
   }
 }
 
-void LineSeriesDataController::OnModelEvent(const mvvm::DataChangedEvent &event)
+void LineSeriesDataController::OnModelEvent(const DataChangedEvent &event)
 {
   // We are here becase the data of either x-item, or y-item was changed.
   // Expected hierarchy:
