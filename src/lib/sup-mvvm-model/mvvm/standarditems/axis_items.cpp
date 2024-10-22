@@ -23,8 +23,8 @@
 
 namespace
 {
-const double default_axis_min = 0.0;
-const double default_axis_max = 1.0;
+const double kDefaultAxisMin = 0.0;
+const double kDefaultAxisMax = 1.0;
 }  // namespace
 
 namespace mvvm
@@ -42,7 +42,7 @@ double BasicAxisItem::GetMin() const
 
 void BasicAxisItem::SetMin(double value)
 {
-  return SetProperty(kMin, value);
+  SetProperty(kMin, value);
 }
 
 double BasicAxisItem::GetMax() const
@@ -52,13 +52,13 @@ double BasicAxisItem::GetMax() const
 
 void BasicAxisItem::SetMax(double value)
 {
-  return SetProperty(kMax, value);
+  SetProperty(kMax, value);
 }
 
 void BasicAxisItem::RegisterMinMax()
 {
-  AddProperty(kMin, default_axis_min).SetDisplayName("Min");
-  AddProperty(kMax, default_axis_max).SetDisplayName("Max");
+  AddProperty(kMin, kDefaultAxisMin).SetDisplayName("Min");
+  AddProperty(kMax, kDefaultAxisMax).SetDisplayName("Max");
 }
 
 // --- ViewportAxisItem ------------------------------------------------------
@@ -167,7 +167,7 @@ std::vector<double> FixedBinAxisItem::GetBinCenters() const
 PointwiseAxisItem::PointwiseAxisItem(const std::string& model_type) : BinnedAxisItem(model_type)
 {
   // vector of points matching default xmin, xmax
-  SetData(std::vector<double>{default_axis_min, default_axis_max});
+  SetData(std::vector<double>{kDefaultAxisMin, kDefaultAxisMax});
   SetEditable(false);  // prevent editing in widgets, since there is no corresponding editor
 }
 
@@ -191,7 +191,7 @@ std::unique_ptr<PointwiseAxisItem> PointwiseAxisItem::Create(const std::vector<d
 std::pair<double, double> PointwiseAxisItem::GetRange() const
 {
   auto data = GetBinCenters();
-  return GetBinCenters().empty() ? std::make_pair(default_axis_min, default_axis_max)
+  return GetBinCenters().empty() ? std::make_pair(kDefaultAxisMin, kDefaultAxisMax)
                                  : std::make_pair(data.front(), data.back());
 }
 
