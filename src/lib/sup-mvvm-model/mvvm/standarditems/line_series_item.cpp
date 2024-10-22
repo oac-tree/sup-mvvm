@@ -107,4 +107,14 @@ std::vector<double> LineSeriesItem::GetValues() const
   return GetPairOfVectors(GetDataItem()->GetWaveform()).second;
 }
 
+bool LineSeriesItem::IsDisplayed() const
+{
+  return Property<bool>(constants::kDisplayed);
+}
+
+void LineSeriesItem::SetDisplayed(bool value)
+{
+  SetProperty(constants::kDisplayed, value);
+}
+
 }  // namespace mvvm

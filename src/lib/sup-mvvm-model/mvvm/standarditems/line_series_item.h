@@ -107,6 +107,15 @@ public:
    */
   std::vector<double> GetValues() const;
 
+  /**
+   * @brief Returns the value of kDisplayed property.
+   */
+  bool IsDisplayed() const;
+
+  /**
+   * @brief Makes line series shown or hidden on a chart view.
+   */
+  void SetDisplayed(bool value);
 };
 
 }  // namespace mvvm

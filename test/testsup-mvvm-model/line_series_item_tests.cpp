@@ -36,17 +36,20 @@ TEST_F(LineSeriesItemTest, LineSeriesItemInitialState)
 {
   const LineSeriesItem item;
   EXPECT_TRUE(item.GetDataItem() == nullptr);
+  EXPECT_TRUE(item.IsDisplayed());
 }
 
-TEST_F(LineSeriesItemTest, LineSeriesItemSetNamedColor)
+TEST_F(LineSeriesItemTest, GetAndSet)
 {
   LineSeriesItem item;
   item.SetNamedColor("mediumaquamarine");
   EXPECT_EQ(item.GetNamedColor(), std::string("mediumaquamarine"));
+
+  item.SetDisplayed(false);
+  EXPECT_FALSE(item.IsDisplayed());
 }
 
 //! Validating link mechanism.
-
 TEST_F(LineSeriesItemTest, LineSeriesItemSetData)
 {
   mvvm::ApplicationModel model;
