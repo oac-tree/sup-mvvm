@@ -230,3 +230,24 @@ TEST_F(AppProjectTest, SaveAndLoad)
   // expecting old value which we had at the moment of save
   EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
 }
+
+//! Loading the model from wong file.
+TEST_F(AppProjectTest, LoadFromWrongFile)
+{
+  const auto expected_path = GetFilePath("TestModelA.xml");
+
+  auto project = CreateProject();
+  project->RegisterModel<TestModelA>();
+
+  // attempt to save without project creation
+  EXPECT_THROW(project->Save(expected_path), RuntimeException);
+
+  EXPECT_TRUE(project->CreateNewProject());
+
+  EXPECT_TRUE(project->Save(expected_path));
+
+  // creating project based on another model and trying to load file from another model
+  auto project2 = CreateProject();
+  project2->RegisterModel<TestModelB>();
+  EXPECT_THROW(project2->Load(expected_path), RuntimeException);
+}

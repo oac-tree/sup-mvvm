@@ -53,7 +53,7 @@ bool AppProject::SaveImpl(const std::string &path)
 {
   if (GetModels().empty())
   {
-    return false;
+    throw RuntimeException("Attempt to save unexisting project");
   }
 
   auto document = mvvm::CreateXmlDocument(GetModels(), GetApplicationType());
