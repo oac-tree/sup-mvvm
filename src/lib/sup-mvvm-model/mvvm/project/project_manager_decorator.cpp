@@ -96,14 +96,14 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
     return kFailed;
   }
 
-  m_project_manager->CloseCurrentProject();
-
   auto project_dir = path.empty() ? AcquireExistingProjectPath() : path;
   if (project_dir.empty())
   {
     // Empty project_dir variable denotes 'cancel' during project path selection dialog.
     return kFailed;
   }
+
+  m_project_manager->CloseCurrentProject();
 
   try
   {

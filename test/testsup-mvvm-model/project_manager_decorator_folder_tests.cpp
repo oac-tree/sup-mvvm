@@ -324,3 +324,35 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNewBut
   // model should be still full
   EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 1);
 }
+
+//! Untitled modified project. User decides to load existing project, and discards all previous
+//! changes. While selecting the name for existing project user suddenly pushes "Cancel". As a
+//! result old content should remain, the project should be in modified state.
+//! Real-life bug.
+TEST_F(ProjectManagerDecoratorFolderTest,
+       UntitledModifiedDiscardAndLoadExistingProjectButThenCancel)
+{
+  // instructing mock interactor to return necessary values
+  ON_CALL(m_mock_interactor, OnSaveChangesRequest())
+      .WillByDefault(::testing::Return(SaveChangesAnswer::kDiscard));
+
+  // empty path denotes "Cancel" button during file name selection
+  auto manager = CreateProjectManager(ProjectType::kFileBased, /*new file name*/ {},
+                                      /*existing file name*/ {});
+
+  m_sample_model->InsertItem<PropertyItem>();  // modifying the model
+
+  // setting up expectations: attempt to open existing project will lead to the following chain
+  // 1) question whether to save currently modified project
+  // 2) request to open new project
+  EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
+  EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(0);
+  EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(1);
+
+  // Pretending we want to open existing project. By providing empty name we trigger file selection
+  // dialog.
+  EXPECT_FALSE(manager->OpenExistingProject(""));
+
+  // model should be still full
+  EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 1);
+}
