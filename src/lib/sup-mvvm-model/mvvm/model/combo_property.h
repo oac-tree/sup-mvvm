@@ -40,7 +40,7 @@ namespace mvvm
  * "B" <-- currently shown in a combo box
  * "C"
  *
- * For multiple selections, SelectableComboEditor should be used instead.
+ * For multiple selections, SelectableComboEditor should be used.
  * Example of SelectableComboEditor with selected_indices = {0,1}
  * [x] "A"
  * [x] "B'
@@ -108,6 +108,11 @@ public:
    * @brief Returns list of currently selected indices.
    */
   std::vector<int> GetSelectedIndices() const;
+
+  /**
+   * @brief Sets given list as currently selected indices.
+   */
+  void SetSelectedIndices(const std::vector<int>& selected_indices);
 
   /**
    * @brief Returns list of currently selected values.

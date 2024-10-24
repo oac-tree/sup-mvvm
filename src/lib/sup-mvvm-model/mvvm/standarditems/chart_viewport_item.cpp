@@ -30,6 +30,7 @@ namespace
 const mvvm::ComboProperty CreateAnimationCombo()
 {
   mvvm::ComboProperty result({"Line series animation", "Grid axis animation"});
+  result.SetSelectedIndices({0,1});
   return result;
 }
 

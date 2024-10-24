@@ -23,7 +23,7 @@
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
-#include <sstream>
+#include <numeric>
 
 namespace
 {
@@ -33,37 +33,13 @@ const std::string kSelectionSeparator = ",";
 const std::string kMultipleSelectionLabel = "Multiple";
 const std::string kNoneSelectionLabel = "None";
 
-template <typename C, typename T>
-std::string ToString(const C& container, const T& delim)
+template <typename C>
+std::string ToString(const C& container, const std::string& delim)
 {
-  std::stringstream result;
-  for (auto it = container.begin(); it != container.end(); ++it)
-  {
-    result << *it;
-    if (std::distance(it, container.end()) != 1)
-    {
-      result << delim;
-    }
-  }
-  return result.str();
-}
-
-std::vector<std::string> Tokenize(const std::string& str, const std::string& delimeter)
-{
-  std::vector<std::string> result;
-  size_t start = str.find_first_not_of(delimeter);
-  size_t end = start;
-
-  while (start != std::string::npos)
-  {
-    // Find next occurence of delimiter
-    end = str.find(delimeter, start);
-    // Push back the token found into vector
-    result.push_back(str.substr(start, end - start));
-    // Skip all occurences of the delimiter to find new start
-    start = str.find_first_not_of(delimeter, end);
-  }
-  return result;
+  auto delim_fold = [&delim](std::string a, std::string b) { return std::move(a) + delim + b; };
+  return container.empty() ? std::string()
+                           : std::accumulate(std::next(container.begin()), container.end(),
+                                             container[0], delim_fold);
 }
 
 }  // namespace
@@ -155,7 +131,10 @@ std::vector<int> ComboProperty::GetSelectedIndices() const
   return m_selected_indices;
 }
 
-//! Returns list of string with selected values;
+void ComboProperty::SetSelectedIndices(const std::vector<int> &selected_indices)
+{
+  m_selected_indices = selected_indices;
+}
 
 std::vector<std::string> ComboProperty::GetSelectedValues() const
 {
@@ -167,9 +146,6 @@ std::vector<std::string> ComboProperty::GetSelectedValues() const
   }
   return result;
 }
-
-//! Sets given index selection flag.
-//! If false, index will be excluded from selection.
 
 void ComboProperty::SetSelected(int index, bool value)
 {
@@ -258,7 +234,7 @@ bool ComboProperty::operator!=(const ComboProperty& other) const
 bool ComboProperty::operator<(const ComboProperty& other) const
 {
   return std::tie(m_selected_indices, m_values)
-  < std::tie(other.m_selected_indices, other.m_values);
+         < std::tie(other.m_selected_indices, other.m_values);
 }
 
 bool ComboProperty::operator>=(const ComboProperty& other) const
@@ -274,7 +250,7 @@ std::string ComboProperty::GetStringOfValues() const
 void ComboProperty::SetValuesFromString(const std::string& values)
 {
   auto current = GetValue();
-  m_values = Tokenize(values, kValueSeparator);
+  m_values = utils::SplitString(values, kValueSeparator);
   SetCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
 }
 
@@ -298,7 +274,7 @@ void ComboProperty::SetSelectionFromString(const std::string& values)
     return;
   }
 
-  for (const auto& str : Tokenize(values, kSelectionSeparator))
+  for (const auto& str : utils::SplitString(values, kSelectionSeparator))
   {
     const int num = std::stoi(str);
     SetSelected(num, true);
