@@ -20,11 +20,21 @@
 #include "chart_viewport_item.h"
 
 #include "line_series_item.h"
+#include "mvvm/standarditems/editor_constants.h"
 
 #include <functional>
 
 namespace
 {
+
+const mvvm::ComboProperty CreateAnimationCombo()
+{
+  mvvm::ComboProperty result({"Line series animation", "Grid axis animation"});
+  return result;
+}
+
+const std::string kAnimation = "kAnimation";
+
 const double kFallBackMin = 0.0;
 const double kFallBackMax = 1.0;
 
@@ -63,6 +73,10 @@ ChartViewportItem::ChartViewportItem() : mvvm::ViewportItem(Type)
   RegisterAxes();
   RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {LineSeriesItem::Type}),
               /*set_default*/ true);
+  AddProperty(kAnimation, CreateAnimationCombo())
+      .SetDisplayName("Animation")
+      .SetToolTip("Apply animations on plot change")
+      .SetEditorType(constants::kSelectableComboPropertyEditorType);
 }
 
 std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const
