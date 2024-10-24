@@ -23,10 +23,11 @@
 
 #include <gtest/gtest.h>
 
-#include <stdexcept>
-
 using namespace mvvm;
 
+/**
+ * @brief Tests for ComboProperty class.
+ */
 class ComboPropertyTests : public ::testing::Test
 {
 };
@@ -64,7 +65,7 @@ TEST_F(ComboPropertyTests, CreateFrom)
 
 TEST_F(ComboPropertyTests, SetValue)
 {
-  std::vector<std::string> expected{"a1", "a2"};
+  const std::vector<std::string> expected{"a1", "a2"};
   ComboProperty combo = ComboProperty::CreateFrom(expected);
 
   // setting second value
@@ -84,7 +85,7 @@ TEST_F(ComboPropertyTests, SetValue)
 
 TEST_F(ComboPropertyTests, SetCurrentIndex)
 {
-  std::vector<std::string> expected{"c1", "c2", "c3"};
+  const std::vector<std::string> expected{"c1", "c2", "c3"};
   ComboProperty combo = ComboProperty::CreateFrom(expected);
 
   EXPECT_EQ(combo.GetCurrentIndex(), 0);
@@ -104,7 +105,7 @@ TEST_F(ComboPropertyTests, SetCurrentIndex)
 TEST_F(ComboPropertyTests, SetValues)
 {
   // seting values through stream
-  std::vector<std::string> expectedValues{"a1", "a2"};
+  const std::vector<std::string> expectedValues{"a1", "a2"};
   ComboProperty combo = ComboProperty::CreateFrom(expectedValues);
 
   EXPECT_EQ(combo.GetValues(), expectedValues);
@@ -129,7 +130,7 @@ TEST_F(ComboPropertyTests, SetValues)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
 
   // setting empty list shouldn't change anything
-  std::vector<std::string> empty;
+  const std::vector<std::string> empty;
   combo.SetValues(empty);
   EXPECT_EQ(combo.GetValue(), std::string("b1"));
   EXPECT_EQ(combo.GetValues(), newValues);
@@ -139,14 +140,14 @@ TEST_F(ComboPropertyTests, SetValues)
 
 TEST_F(ComboPropertyTests, SetSelected)
 {
-  std::vector<std::string> expectedValues = {"a1", "a2", "a3"};
+  const std::vector<std::string> expectedValues = {"a1", "a2", "a3"};
   ComboProperty combo = ComboProperty::CreateFrom(expectedValues);
 
   EXPECT_EQ(combo.GetCurrentIndex(), 0);
   EXPECT_EQ(combo.GetValue(), "a1");
   EXPECT_EQ(combo.GetValues(), expectedValues);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0}));
-  EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>({"a1"}));
+  EXPECT_EQ(combo.GetSelectedValues(), std::vector<std::string>({"a1"}));
 
   // selecting already selected element, nothing should change
   combo.SetSelected(0);
@@ -154,7 +155,7 @@ TEST_F(ComboPropertyTests, SetSelected)
   EXPECT_EQ(combo.GetValue(), "a1");
   EXPECT_EQ(combo.GetValues(), expectedValues);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0}));
-  EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>({"a1"}));
+  EXPECT_EQ(combo.GetSelectedValues(), std::vector<std::string>({"a1"}));
 
   // deselecting index
   combo.SetSelected(0, false);
@@ -162,7 +163,7 @@ TEST_F(ComboPropertyTests, SetSelected)
   EXPECT_EQ(combo.GetValue(), "");
   EXPECT_EQ(combo.GetValues(), expectedValues);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>());
-  EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>());
+  EXPECT_EQ(combo.GetSelectedValues(), std::vector<std::string>());
 
   // selecting two indeces
   combo.SetSelected(1, true);
@@ -171,7 +172,7 @@ TEST_F(ComboPropertyTests, SetSelected)
   EXPECT_EQ(combo.GetValue(), "a2");
   EXPECT_EQ(combo.GetValues(), expectedValues);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1, 2}));
-  EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>({"a2", "a3"}));
+  EXPECT_EQ(combo.GetSelectedValues(), std::vector<std::string>({"a2", "a3"}));
 
   // selecting by name
   combo.SetSelected("a2", false);
@@ -180,7 +181,7 @@ TEST_F(ComboPropertyTests, SetSelected)
   EXPECT_EQ(combo.GetValue(), "a1");
   EXPECT_EQ(combo.GetValues(), expectedValues);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0, 2}));
-  EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>({"a1", "a3"}));
+  EXPECT_EQ(combo.GetSelectedValues(), std::vector<std::string>({"a1", "a3"}));
 
   // setting current index invalidates selection
   combo.SetCurrentIndex(1);
@@ -188,7 +189,7 @@ TEST_F(ComboPropertyTests, SetSelected)
   EXPECT_EQ(combo.GetValue(), "a2");
   EXPECT_EQ(combo.GetValues(), expectedValues);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
-  EXPECT_EQ(combo.SetSelectedValues(), std::vector<std::string>({"a2"}));
+  EXPECT_EQ(combo.GetSelectedValues(), std::vector<std::string>({"a2"}));
 }
 
 TEST_F(ComboPropertyTests, FromStream)
@@ -235,7 +236,7 @@ TEST_F(ComboPropertyTests, FromVectorStream)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0, 1}));
 
   // adding from vector stream, old selection state should be preserved
-  std::vector<std::string> more{"c1", "c2"};
+  const std::vector<std::string> more{"c1", "c2"};
   combo << more;
   expected = {"a1", "a2", "c1", "c2"};
   EXPECT_EQ(combo.GetValues(), expected);
@@ -246,7 +247,7 @@ TEST_F(ComboPropertyTests, FromVectorStream)
 
 TEST_F(ComboPropertyTests, SetSringOfValues)
 {
-  std::vector<std::string> expectedValues = {"a1", "a2"};
+  const std::vector<std::string> expectedValues = {"a1", "a2"};
   ComboProperty combo = ComboProperty::CreateFrom(expectedValues);
 
   EXPECT_EQ(combo.GetStringOfValues(), std::string("a1;a2"));
@@ -255,18 +256,18 @@ TEST_F(ComboPropertyTests, SetSringOfValues)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0}));
 
   // setting string of values, current value should change
-  std::string stringOfValues("b1;b2;b3");
-  combo.SetStringOfValues(stringOfValues);
-  EXPECT_EQ(combo.GetStringOfValues(), stringOfValues);
+  std::string string_of_values("b1;b2;b3");
+  combo.SetValuesFromString(string_of_values);
+  EXPECT_EQ(combo.GetStringOfValues(), string_of_values);
   EXPECT_EQ(combo.GetValue(), std::string("b1"));
   EXPECT_EQ(combo.GetValues(), std::vector<std::string>({"b1", "b2", "b3"}));
   EXPECT_EQ(combo.GetCurrentIndex(), 0);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0}));
 
   // setting new string of values, containing current value. Current values should remain.
-  stringOfValues = std::string("c1;b1;c3");
-  combo.SetStringOfValues(stringOfValues);
-  EXPECT_EQ(combo.GetStringOfValues(), stringOfValues);
+  string_of_values = std::string("c1;b1;c3");
+  combo.SetValuesFromString(string_of_values);
+  EXPECT_EQ(combo.GetStringOfValues(), string_of_values);
   EXPECT_EQ(combo.GetValue(), std::string("b1"));
   EXPECT_EQ(combo.GetCurrentIndex(), 1);
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1}));
@@ -289,17 +290,17 @@ TEST_F(ComboPropertyTests, SetStringOfSelections)
   EXPECT_EQ(combo.GetStringOfSelections(), "0,2");
 
   // setting string of selections
-  combo.SetStringOfSelections("");
+  combo.SetSelectionFromString("");
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({}));
   EXPECT_EQ(combo.GetCurrentIndex(), -1);
   EXPECT_EQ(combo.GetStringOfSelections(), "");
 
-  combo.SetStringOfSelections("1,2");
+  combo.SetSelectionFromString("1,2");
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({1, 2}));
   EXPECT_EQ(combo.GetCurrentIndex(), 1);
   EXPECT_EQ(combo.GetStringOfSelections(), "1,2");
 
-  combo.SetStringOfSelections("0,42");
+  combo.SetSelectionFromString("0,42");
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<int>({0}));
   EXPECT_EQ(combo.GetCurrentIndex(), 0);
   EXPECT_EQ(combo.GetStringOfSelections(), "0");
@@ -356,7 +357,7 @@ TEST_F(ComboPropertyTests, cCmboEqualityDiffList)
   c2.SetSelected(2, true);
   EXPECT_TRUE(c1 != c2);
 
-  c1.SetStringOfSelections("2");
-  c2.SetStringOfSelections("2");
+  c1.SetSelectionFromString("2");
+  c2.SetSelectionFromString("2");
   EXPECT_TRUE(c1 == c2);
 }

@@ -92,8 +92,8 @@ TEST_F(VariantTests, ComboPropertyVariantEquality)
   EXPECT_FALSE(variant_t(c1) != variant_t(c2));
 
   // change what is selected to make them different again
-  c1.SetStringOfSelections("0");
-  c2.SetStringOfSelections("1");
+  c1.SetSelectionFromString("0");
+  c2.SetSelectionFromString("1");
   EXPECT_TRUE(variant_t(c1) != variant_t(c2));
   EXPECT_FALSE(variant_t(c1) == variant_t(c2));
 }

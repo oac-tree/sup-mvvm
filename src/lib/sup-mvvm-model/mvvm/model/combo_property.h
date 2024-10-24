@@ -28,8 +28,24 @@
 namespace mvvm
 {
 
-//! Custom property to define list of string values with multiple selections.
-
+/**
+ * @brief The ComboProperty class is a custom property carrying the list of string values with
+ * the possibility to select multiple values.
+ *
+ * Its main usage is to support QComboBox, which contains multiple strings with one string shown at
+ * the given moment.
+ *
+ * Example of combo box with 3 values, and selected_index = 1, selected_value = "B"
+ * "A"
+ * "B" <-- currently shown in a combo box
+ * "C"
+ *
+ * For multiple selections, SelectableComboEditor should be used instead.
+ * Example of SelectableComboEditor with selected_indices = {0,1}
+ * [x] "A"
+ * [x] "B'
+ * [ ] "C"
+ */
 class MVVM_MODEL_EXPORT ComboProperty
 {
 public:
@@ -39,17 +55,83 @@ public:
   static ComboProperty CreateFrom(const std::vector<std::string>& values,
                                   const std::string& current_value = {});
 
+  /**
+   * @brief Returns currently selected value.
+   *
+   * If multiple values are selected, returns the first in the list.
+   */
   std::string GetValue() const;
+
+  /**
+   * @brief Sets given value as currently selected value.
+   *
+   * All possible multiple selections will be dropped. The value should be from the list, used for
+   * construction.
+   */
   void SetValue(const std::string& name);
 
+  /**
+   * @brief Returns all possible values.
+   */
   std::vector<std::string> GetValues() const;
+
+  /**
+   * @brief Sets new values.
+   *
+   * Current value will be preserved, if it exists in a new list.
+   */
   void SetValues(const std::vector<std::string>& values);
 
+  /**
+   * @brief Returns list of tool tips for all values.
+   */
   std::vector<std::string> GetToolTips() const;
+
+  /**
+   * @brief Sets tool tips for all values.
+   */
   void SetToolTips(const std::vector<std::string>& tooltips);
 
+  /**
+   * @brief Returns index of the currently selected item.
+   */
   int GetCurrentIndex() const;
+
+  /**
+   * @brief Sets given index as current selection.
+   *
+   * All multiple selections will be dropped, if exist.
+   */
   void SetCurrentIndex(int index);
+
+  /**
+   * @brief Returns list of currently selected indices.
+   */
+  std::vector<int> GetSelectedIndices() const;
+
+  /**
+   * @brief Returns list of currently selected values.
+   */
+  std::vector<std::string> GetSelectedValues() const;
+
+  /**
+   * @brief Sets selection flag for given index.
+   *
+   * If false, the index will be excluded from selection.
+   */
+  void SetSelected(int index, bool value = true);
+
+  /**
+   * @brief Set selection flag for given value.
+   *
+   * The value should be from the list of values used for construction.
+   */
+  void SetSelected(const std::string& name, bool value = true);
+
+  /**
+   * @brief Returns a label representing current selection status.
+   */
+  std::string GetLabel() const;
 
   ComboProperty& operator<<(const std::string& str);
   ComboProperty& operator<<(const std::vector<std::string>& str);
@@ -58,19 +140,27 @@ public:
   bool operator<(const ComboProperty& other) const;
   bool operator>=(const ComboProperty& other) const;
 
+  // serialization related methods (FIXME they do not belong to this place)
+
+  /**
+   * @brief Returns a single string containing values delimited with ';'.
+   */
   std::string GetStringOfValues() const;
-  void SetStringOfValues(const std::string& values);
 
-  std::vector<int> GetSelectedIndices() const;
-  std::vector<std::string> SetSelectedValues() const;
+  /**
+   * @brief Sets values from the string containing delimeter ';'.
+   */
+  void SetValuesFromString(const std::string& values);
 
-  void SetSelected(int index, bool value = true);
-  void SetSelected(const std::string& name, bool value = true);
-
+  /**
+   * @brief Returns a string with coma separated list of selected indices.
+   */
   std::string GetStringOfSelections() const;
-  void SetStringOfSelections(const std::string& values);
 
-  std::string GetLabel() const;
+  /**
+   * @brief Sets selection from its srting representation.
+   */
+  void SetSelectionFromString(const std::string& values);
 
 private:
   std::vector<std::string> m_values;

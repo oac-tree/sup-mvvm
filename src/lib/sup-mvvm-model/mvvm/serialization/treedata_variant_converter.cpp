@@ -234,11 +234,11 @@ mvvm::TreeData from_combo_property(const mvvm::role_data_t& role_data)
 mvvm::role_data_t to_combo_property(const mvvm::TreeData& tree_data)
 {
   mvvm::ComboProperty combo;
-  combo.SetStringOfValues(tree_data.GetContent());
+  combo.SetValuesFromString(tree_data.GetContent());
   auto selections = tree_data.GetAttribute(kSelectionsAttributeKey);
   if (!selections.empty())
   {
-    combo.SetStringOfSelections(selections);
+    combo.SetSelectionFromString(selections);
   }
   return {GetRole(tree_data), combo};
 }
