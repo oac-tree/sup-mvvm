@@ -40,7 +40,6 @@ ChartCanvas::ChartCanvas(QWidget *parent)
   layout->addWidget(m_chart_view);
 
   m_chart_view->setChart(m_chart);
-  m_chart->setAnimationOptions(QtCharts::QChart::AllAnimations);
 
   // The only way to eliminate the narrow gray frame around canvas which came from underlying scroll
   // area container

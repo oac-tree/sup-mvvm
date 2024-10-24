@@ -26,6 +26,7 @@ ChartView::ChartView(QWidget *parent) : QtCharts::QChartView(parent)
 {
   setMouseTracking(true);
   SetOperationMode(CanvasOperationMode::kSelection);
+  m_animation_options_backup = chart()->animationOptions();
 }
 
 CanvasOperationMode ChartView::GetOperationMode() const
@@ -44,6 +45,7 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 
   if (m_operation_mode == CanvasOperationMode::kSelection)
   {
+    chart()->setAnimationOptions(m_animation_options_backup);
     setDragMode(QGraphicsView::NoDrag);
     setInteractive(true);
     emit OperationModeChanged(static_cast<int>(CanvasOperationMode::kSelection));
@@ -52,6 +54,9 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
 
   if (m_operation_mode == CanvasOperationMode::kPan)
   {
+    m_animation_options_backup = chart()->animationOptions();
+    chart()->setAnimationOptions(QtCharts::QChart::NoAnimation);
+
     setInteractive(false);
     setRubberBand(QChartView::NoRubberBand);
     setDragMode(QChartView::ScrollHandDrag);
@@ -95,7 +100,6 @@ void ChartView::mousePressEvent(QMouseEvent *event)
     // user pressed and holding the mouse while in "pan" mode, preparing to scroll canvas
     m_last_pos = event->localPos();
     m_current_activity = kScrollCanvas;
-    chart()->setAnimationOptions(QtCharts::QChart::NoAnimation);
   }
   QChartView::mousePressEvent(event);
 }
@@ -117,8 +121,8 @@ void ChartView::mouseReleaseEvent(QMouseEvent *event)
 {
   m_current_activity = kIdle;
   m_last_pos = {};
-  chart()->setAnimationOptions(QtCharts::QChart::AllAnimations);
   QChartView::mouseReleaseEvent(event);
+  // chart()->setAnimationOptions(m_animation_options_backup);
 }
 
 }  // namespace mvvm
