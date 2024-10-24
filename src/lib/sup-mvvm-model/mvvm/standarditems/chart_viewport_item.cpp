@@ -29,12 +29,11 @@ namespace
 
 const mvvm::ComboProperty CreateAnimationCombo()
 {
-  mvvm::ComboProperty result({"Line series animation", "Grid axis animation"});
-  result.SetSelectedIndices({0,1});
+  mvvm::ComboProperty result(
+      {mvvm::ChartViewportItem::kSeriesAnimation, mvvm::ChartViewportItem::kGridAnimation});
+  result.SetSelectedIndices({0, 1});
   return result;
 }
-
-const std::string kAnimation = "kAnimation";
 
 const double kFallBackMin = 0.0;
 const double kFallBackMax = 1.0;

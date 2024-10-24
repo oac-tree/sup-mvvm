@@ -266,3 +266,30 @@ TEST_F(ChartViewportControllerTest, AxisControllers)
   EXPECT_EQ(y_axis->min(), 10.0);
   EXPECT_EQ(y_axis->max(), 200.0);
 }
+
+TEST_F(ChartViewportControllerTest, AnimationProperty)
+{
+  QtCharts::QChart chart;
+  ChartViewportController controller(&chart);
+
+  mvvm::ApplicationModel model;
+
+  // creating viewport with line series
+  auto viewport_item = model.InsertItem<ChartViewportItem>();
+
+  // setting viewport to the controller
+  controller.SetItem(viewport_item);
+
+  EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::AllAnimations);
+
+  auto combo = viewport_item->Property<ComboProperty>(ChartViewportItem::kAnimation);
+
+  combo.SetSelected(ChartViewportItem::kGridAnimation, false);
+  viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
+  EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::SeriesAnimations);
+
+  combo.SetSelected(ChartViewportItem::kGridAnimation, true);
+  combo.SetSelected(ChartViewportItem::kSeriesAnimation, false);
+  viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
+  EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::GridAxisAnimations);
+}

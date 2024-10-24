@@ -90,6 +90,11 @@ private:
    */
   void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent &event);
 
+  /**
+   * @brief Process event when one of properties has changed.
+   */
+  void OnPropertyChangedEvent(const PropertyChangedEvent &event);
+
   QtCharts::QChart* m_chart{nullptr};
   std::list<std::unique_ptr<LineSeriesController>> m_line_controllers;
   std::unique_ptr<AxisPlotController> m_x_axis_controller;

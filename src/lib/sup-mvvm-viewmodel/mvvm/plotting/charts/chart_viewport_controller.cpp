@@ -25,12 +25,40 @@
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/viewport_item.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <QtCharts/QChart>
 #include <QtCharts/QLineSeries>
 
 namespace mvvm
 {
+
+namespace
+{
+
+/**
+ * @brief Returns animation option encoded in ChartViewportItem.
+ */
+QtCharts::QChart::AnimationOptions GetAnimationOption(ChartViewportItem *item)
+{
+  auto values = item->Property<ComboProperty>(ChartViewportItem::kAnimation).GetSelectedValues();
+
+  QtCharts::QChart::AnimationOptions result = QtCharts::QChart::NoAnimation;
+
+  if (utils::Contains(values, ChartViewportItem::kSeriesAnimation))
+  {
+    result |= QtCharts::QChart::SeriesAnimations;
+  }
+
+  if (utils::Contains(values, ChartViewportItem::kGridAnimation))
+  {
+    result |= QtCharts::QChart::GridAxisAnimations;
+  }
+
+  return result;
+}
+
+}  // namespace
 
 ChartViewportController::ChartViewportController(QtCharts::QChart *chart) : m_chart(chart) {}
 
@@ -41,7 +69,9 @@ void ChartViewportController::Subscribe()
   SetupChart();
 
   Listener()->Connect<ItemInsertedEvent>(this, &ChartViewportController::OnItemInsertedEvent);
-  Listener()->Connect<AboutToRemoveItemEvent>(this, &ChartViewportController::OnAboutToRemoveItemEvent);
+  Listener()->Connect<AboutToRemoveItemEvent>(this,
+                                              &ChartViewportController::OnAboutToRemoveItemEvent);
+  Listener()->Connect<PropertyChangedEvent>(this, &ChartViewportController::OnPropertyChangedEvent);
 }
 
 QtCharts::QAbstractAxis *ChartViewportController::GetXQtAxis() const
@@ -68,6 +98,8 @@ QtCharts::QLineSeries *ChartViewportController::SetupChartForLineSeries(LineSeri
 
 void ChartViewportController::SetupChart()
 {
+  m_chart->setAnimationOptions(GetAnimationOption(GetItem()));
+
   for (auto line_series_item : GetItem()->GetLineSeries())
   {
     SetupChartForLineSeries(line_series_item);
@@ -102,8 +134,7 @@ void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent &event
   auto added_child = dynamic_cast<LineSeriesItem *>(parent->GetItem(tagindex));
   auto qt_line_series = SetupChartForLineSeries(added_child);
 
-  // FIXME refactor this little mess
-  if (GetXQtAxis() == nullptr)
+  if (GetXQtAxis() == nullptr || GetYQtAxis() == nullptr)
   {
     // no axes exist, this is the first LineSeriesItem
     SetupAxes();  // will create axes and attach them to the line series
@@ -136,6 +167,14 @@ void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEv
     delete qt_line_series;
 
     m_line_controllers.erase(iter);  // removing controllers.
+  }
+}
+
+void ChartViewportController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
+{
+  if (event.name == ChartViewportItem::kAnimation)
+  {
+    m_chart->setAnimationOptions(GetAnimationOption(GetItem()));
   }
 }
 

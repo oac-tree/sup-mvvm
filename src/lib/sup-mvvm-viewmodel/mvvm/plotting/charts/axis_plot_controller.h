@@ -41,7 +41,7 @@ class ViewportAxisItem;
  *
  * It provides mutual updates of axis parameters (min, max) between two axes representations.
  */
-class AxisPlotController : public mvvm::ItemController<mvvm::ViewportAxisItem>
+class AxisPlotController : public ItemController<ViewportAxisItem>
 {
 public:
   explicit AxisPlotController(QtCharts::QAbstractAxis* axis);
@@ -70,7 +70,7 @@ private:
   /**
    * @brief Update Qt axis when some of item's properties has changed.
    */
-  void OnPropertyChangedEvent(const mvvm::PropertyChangedEvent& event);
+  void OnPropertyChangedEvent(const PropertyChangedEvent &event);
 
   QtCharts::QAbstractAxis* m_axis{nullptr};
 

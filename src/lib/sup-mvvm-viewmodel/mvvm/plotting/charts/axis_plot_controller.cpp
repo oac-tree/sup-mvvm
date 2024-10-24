@@ -48,8 +48,7 @@ void AxisPlotController::Subscribe()
 
   SetQtConnected();
 
-  Listener()->Connect<mvvm::PropertyChangedEvent>(this,
-                                                  &AxisPlotController::OnPropertyChangedEvent);
+  Listener()->Connect<PropertyChangedEvent>(this, &AxisPlotController::OnPropertyChangedEvent);
 }
 
 void AxisPlotController::Unsubscribe()
@@ -78,7 +77,7 @@ void AxisPlotController::SetAxisRangeFromItem()
   m_axis->setRange(GetItem()->GetMin(), GetItem()->GetMax());
 }
 
-void AxisPlotController::OnPropertyChangedEvent(const mvvm::PropertyChangedEvent &event)
+void AxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
 {
   if (m_block_update_from_item)
   {
@@ -87,7 +86,7 @@ void AxisPlotController::OnPropertyChangedEvent(const mvvm::PropertyChangedEvent
 
   auto [item, name] = event;
 
-  if (name == mvvm::ViewportAxisItem::kMin || name == mvvm::ViewportAxisItem::kMax)
+  if (name == ViewportAxisItem::kMin || name == ViewportAxisItem::kMax)
   {
     SetQtDisonnected();
     SetAxisRangeFromItem();
