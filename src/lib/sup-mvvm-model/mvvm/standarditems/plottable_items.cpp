@@ -28,19 +28,19 @@ namespace
 {
 
 //! Following Qt styles.
-const mvvm::ComboProperty penStyleCombo({"NoPen", "SolidLine", "DashLine", "DotLine", "DashDotLine",
-                                         "DashDotDotLine"},
-                                        "SolidLine");
-const int pen_default_width = 1;
-const int pen_min_width = 0;
-const int pen_max_width = 7;
-const int penstyle_index_solid = 1;
-const int penstyle_index_dashline = 2;
+const mvvm::ComboProperty kPenStyleCombo({"NoPen", "SolidLine", "DashLine", "DotLine",
+                                          "DashDotLine", "DashDotDotLine"},
+                                         "SolidLine");
+const int kPenDefaultWidth = 1;
+const int kPenMinWidth = 0;
+const int kPenMaxWidth = 7;
+const int kPenStyleIndexSolid = 1;
+const int kPenStyleIndexDashline = 2;
 
 // We do not want to depend from widget_utils.h to get App default font size. Let's stick to
 // hardcoded value for the moment, even if on different systems it can be not-optimal.
-const double default_title_size = 10;
-const std::string default_title_family = "Noto Sans";
+const double kDefaultTitleSize = 10;
+const std::string kDefaultTitleFamily = "Noto Sans";
 }  // namespace
 
 namespace mvvm
@@ -52,10 +52,10 @@ static inline const std::string kSize = "kSize";
 
 TextItem::TextItem() : CompoundItem(Type)
 {
-  SetEditable(false); // to disable editing of on-board data
+  SetEditable(false);  // to disable editing of on-board data
   AddProperty(kText, "").SetDisplayName("Text");
-  AddProperty(kFont, default_title_family).SetDisplayName("Font");
-  AddProperty(kSize, default_title_size).SetDisplayName("Size");
+  AddProperty(kFont, kDefaultTitleFamily).SetDisplayName("Font");
+  AddProperty(kSize, kDefaultTitleSize).SetDisplayName("Size");
 }
 
 std::unique_ptr<SessionItem> TextItem::Clone(bool make_unique_id) const
@@ -99,15 +99,15 @@ void TextItem::SetSize(double value)
 
 PenItem::PenItem() : CompoundItem(Type)
 {
-  SetEditable(false); // to disable editing of on-board data
+  SetEditable(false);  // to disable editing of on-board data
   AddProperty(kColor, "black")
       .SetDisplayName("Color")
       .SetToolTip("Pen color")
       .SetEditorType(constants::kColorEditorType);
-  AddProperty(kStyle, penStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
+  AddProperty(kStyle, kPenStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
   auto &width_property =
-      AddProperty(kWidth, pen_default_width).SetDisplayName("Width").SetToolTip("Pen width");
-  SetLimited(pen_min_width, pen_max_width, width_property);
+      AddProperty(kWidth, kPenDefaultWidth).SetDisplayName("Width").SetToolTip("Pen width");
+  SetLimited(kPenMinWidth, kPenMaxWidth, width_property);
 }
 
 std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const
@@ -117,28 +117,20 @@ std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const
 
 bool PenItem::IsSelected() const
 {
-  return Property<ComboProperty>(kStyle).GetCurrentIndex() == penstyle_index_dashline;
+  return Property<ComboProperty>(kStyle).GetCurrentIndex() == kPenStyleIndexDashline;
 }
-
-//! Sets style of the pen to represent selected object (dash line).
 
 void PenItem::SetSelected(bool is_selected)
 {
-  auto combo = penStyleCombo;
-  combo.SetCurrentIndex(is_selected ? penstyle_index_dashline : penstyle_index_solid);
+  auto combo = kPenStyleCombo;
+  combo.SetCurrentIndex(is_selected ? kPenStyleIndexDashline : kPenStyleIndexSolid);
   SetProperty(kStyle, combo);
 }
-
-//! Returns named color.
-//! https://www.w3.org/TR/css-color-3/#svg-color
 
 std::string PenItem::GetNamedColor() const
 {
   return Property<std::string>(kColor);
 }
-
-//! Sets named color.
-//! https://www.w3.org/TR/css-color-3/#svg-color
 
 void PenItem::SetNamedColor(const std::string &named_color)
 {

@@ -28,8 +28,9 @@
 namespace mvvm
 {
 
-//! Represent text item on plot.
-
+/**
+ * @brief The TextItem class represent text item on plot.
+ */
 class MVVM_MODEL_EXPORT TextItem : public CompoundItem
 {
 public:
@@ -50,13 +51,13 @@ public:
   void SetSize(double value);
 };
 
-//! Represents basics settings of QPen.
-
+/**
+ * @brief The PenItem class represents basics settings of QPen.
+ */
 class MVVM_MODEL_EXPORT PenItem : public CompoundItem
 {
 public:
   static inline const std::string Type = "Pen";
-
   static inline const std::string kColor = "kColor";
   static inline const std::string kStyle = "kStyle";
   static inline const std::string kWidth = "kWidth";
@@ -66,10 +67,32 @@ public:
   using CompoundItem::CompoundItem;
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
+  /**
+   * @brief Checks if the pen style corresponds to the selected object.
+   */
   bool IsSelected() const;
+
+  /**
+   * @brief Set pen style as if the object is selected.
+   */
   void SetSelected(bool is_selected);
 
+  /**
+   * @brief Returns named color.
+   *
+   * @see SetNamedColor()
+   */
   std::string GetNamedColor() const;
+
+  /**
+   * @brief Sets named color.
+   *
+   * The color name can be the one from https://www.w3.org/TR/css-color-3/#svg-color database, like
+   * "red" or "deeppink",
+   *
+   * The color can also be a string of "#RRGGBB" format, e.g. #008000 is a green with
+   * (read:0, green:128, blue:0)
+   */
   void SetNamedColor(const std::string& named_color);
 
   std::string GetStyle() const;
