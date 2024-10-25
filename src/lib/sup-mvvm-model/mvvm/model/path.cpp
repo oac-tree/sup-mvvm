@@ -54,7 +54,7 @@ Path Path::CreateFromVector(const std::vector<int>& data)
 
 std::string Path::GetString() const
 {
-  auto comma_fold = [](std::string a, int b) { return std::move(a) + ',' + std::to_string(b); };
+  auto comma_fold = [](const std::string& a, int b) { return a + ',' + std::to_string(b); };
   return m_data.empty() ? std::string()
                         : std::accumulate(std::next(m_data.begin()), m_data.end(),
                                           std::to_string(m_data[0]), comma_fold);

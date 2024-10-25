@@ -36,7 +36,7 @@ const std::string kNoneSelectionLabel = "None";
 template <typename C>
 std::string ToString(const C& container, const std::string& delim)
 {
-  auto delim_fold = [&delim](std::string a, std::string b) { return std::move(a) + delim + b; };
+  auto delim_fold = [&delim](const std::string& a, const std::string& b) { return a + delim + b; };
   return container.empty() ? std::string()
                            : std::accumulate(std::next(container.begin()), container.end(),
                                              container[0], delim_fold);
@@ -131,7 +131,7 @@ std::vector<int> ComboProperty::GetSelectedIndices() const
   return m_selected_indices;
 }
 
-void ComboProperty::SetSelectedIndices(const std::vector<int> &selected_indices)
+void ComboProperty::SetSelectedIndices(const std::vector<int>& selected_indices)
 {
   m_selected_indices = selected_indices;
 }
