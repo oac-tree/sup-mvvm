@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/charts/charts_pen_controller.h"
+#include "mvvm/plotting/charts/chart_pen_controller.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/plottable_items.h>
@@ -29,15 +29,15 @@
 
 using namespace mvvm;
 
-class ChartsPenControllerTest : public ::testing::Test
+class ChartPenControllerTest : public ::testing::Test
 {
 };
 
 //! Behavior of the controller when no PenItem is set.
 
-TEST_F(ChartsPenControllerTest, InitialState)
+TEST_F(ChartPenControllerTest, InitialState)
 {
-  EXPECT_THROW(ChartsPenController(nullptr), std::runtime_error);
+  EXPECT_THROW(ChartPenController(nullptr), std::runtime_error);
 
   QtCharts::QLineSeries line_series;
   // checking what QLineSeries has as a default pen
@@ -46,7 +46,7 @@ TEST_F(ChartsPenControllerTest, InitialState)
   EXPECT_EQ(pen1.style(), Qt::SolidLine);
   EXPECT_EQ(pen1.width(), 1);
 
-  const ChartsPenController controller(&line_series);
+  const ChartPenController controller(&line_series);
 
   EXPECT_EQ(controller.GetItem(), nullptr);
   EXPECT_EQ(controller.GetQtLineSeries(), &line_series);
@@ -61,7 +61,7 @@ TEST_F(ChartsPenControllerTest, InitialState)
 //! Studying Qt: after adding QLineSeries to the QChart, the latter changes the pen of just added
 //! line series. What is this pen?
 
-TEST_F(ChartsPenControllerTest, DefaultQtLineSeriesPen)
+TEST_F(ChartPenControllerTest, DefaultQtLineSeriesPen)
 {
   QtCharts::QChart chart;
 
@@ -83,11 +83,11 @@ TEST_F(ChartsPenControllerTest, DefaultQtLineSeriesPen)
 
 //! Setting item to the controller and checking the pen of line series after first setup.
 
-TEST_F(ChartsPenControllerTest, GraphItemInInitialState)
+TEST_F(ChartPenControllerTest, GraphItemInInitialState)
 {
   QtCharts::QLineSeries line_series;
 
-  ChartsPenController controller(&line_series);
+  ChartPenController controller(&line_series);
 
   mvvm::ApplicationModel model;
   auto pen_item = model.InsertItem<mvvm::PenItem>();
@@ -105,7 +105,7 @@ TEST_F(ChartsPenControllerTest, GraphItemInInitialState)
 //! Setting item to the controller and checking the pen of line series after first setup.
 //! Same as previous test, except that line series already belongs to the chart.
 
-TEST_F(ChartsPenControllerTest, GraphItemInChartInitialState)
+TEST_F(ChartPenControllerTest, GraphItemInChartInitialState)
 {
   QtCharts::QChart chart;
 
@@ -115,7 +115,7 @@ TEST_F(ChartsPenControllerTest, GraphItemInChartInitialState)
   line_series->append({1.0, 2.0});
   chart.addSeries(line_series.release());  // ownership is taken by Qt
 
-  ChartsPenController controller(line_series_ptr);
+  ChartPenController controller(line_series_ptr);
 
   mvvm::ApplicationModel model;
   auto pen_item = model.InsertItem<mvvm::PenItem>();
@@ -132,7 +132,7 @@ TEST_F(ChartsPenControllerTest, GraphItemInChartInitialState)
 
 //! Changing pen through item and validating QLineSeries.
 
-TEST_F(ChartsPenControllerTest, SetColorAndWidth)
+TEST_F(ChartPenControllerTest, SetColorAndWidth)
 {
   QtCharts::QChart chart;
 
@@ -142,7 +142,7 @@ TEST_F(ChartsPenControllerTest, SetColorAndWidth)
   line_series->append({1.0, 2.0});
   chart.addSeries(line_series.release());  // ownership is taken by Qt
 
-  ChartsPenController controller(line_series_ptr);
+  ChartPenController controller(line_series_ptr);
 
   mvvm::ApplicationModel model;
   auto pen_item = model.InsertItem<mvvm::PenItem>();

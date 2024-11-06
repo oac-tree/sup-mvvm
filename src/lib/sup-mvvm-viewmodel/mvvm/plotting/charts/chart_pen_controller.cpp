@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "charts_pen_controller.h"
+#include "chart_pen_controller.h"
 
 #include <mvvm/plotting/plot_helper.h>
 #include <mvvm/standarditems/plottable_items.h>
@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-ChartsPenController::ChartsPenController(QtCharts::QLineSeries *line_series)
+ChartPenController::ChartPenController(QtCharts::QLineSeries *line_series)
     : m_qt_line_series(line_series)
 {
   if (!line_series)
@@ -37,23 +37,23 @@ ChartsPenController::ChartsPenController(QtCharts::QLineSeries *line_series)
   }
 }
 
-QtCharts::QLineSeries *ChartsPenController::GetQtLineSeries() const
+QtCharts::QLineSeries *ChartPenController::GetQtLineSeries() const
 {
   return m_qt_line_series;
 }
 
-void ChartsPenController::Subscribe()
+void ChartPenController::Subscribe()
 {
-  Listener()->Connect<PropertyChangedEvent>(this, &ChartsPenController::OnPropertyChanged);
+  Listener()->Connect<PropertyChangedEvent>(this, &ChartPenController::OnPropertyChanged);
   UpdateLineSeriesFromItem();
 }
 
-void ChartsPenController::OnPropertyChanged(const PropertyChangedEvent &event)
+void ChartPenController::OnPropertyChanged(const PropertyChangedEvent &event)
 {
   UpdateLineSeriesFromItem();
 }
 
-void ChartsPenController::UpdateLineSeriesFromItem()
+void ChartPenController::UpdateLineSeriesFromItem()
 {
   QColor color(QString::fromStdString(GetItem()->GetNamedColor()));
 

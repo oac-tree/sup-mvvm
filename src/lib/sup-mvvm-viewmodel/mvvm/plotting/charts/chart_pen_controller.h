@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_CHARTS_PEN_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
 #define MVVM_PLOTTING_CHARTS_PEN_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
@@ -33,13 +33,13 @@ namespace mvvm
 class PenItem;
 
 /**
- * @brief The ChartsPenController class propagates color, line style and width changes from PenItem to
+ * @brief The ChartPenController class propagates color, line style and width changes from PenItem to
  * QtChart::QLineSeries.
  */
-class ChartsPenController : public mvvm::ItemController<mvvm::PenItem>
+class ChartPenController : public mvvm::ItemController<mvvm::PenItem>
 {
 public:
-  explicit ChartsPenController(QtCharts::QLineSeries* line_series);
+  explicit ChartPenController(QtCharts::QLineSeries* line_series);
 
   /**
    * @brief Return Qt series under control.

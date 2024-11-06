@@ -118,7 +118,6 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
   EXPECT_EQ(qt_points.at(1).y(), 20.0);
 
   // validating axes
-  auto attached_axes = qt_line_series->attachedAxes();
   EXPECT_EQ(qt_line_series->attachedAxes(),
             QList<QtCharts::QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
 }

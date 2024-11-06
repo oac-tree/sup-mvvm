@@ -34,7 +34,7 @@ namespace mvvm
 
 class LineSeriesItem;
 class LineSeriesDataController;
-class ChartsPenController;
+class ChartPenController;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesItem object
@@ -75,7 +75,7 @@ private:
   void OnDataChanged(const DataChangedEvent& event);
 
   std::unique_ptr<LineSeriesDataController> m_data_controller;
-  std::unique_ptr<ChartsPenController> m_pen_controller;
+  std::unique_ptr<ChartPenController> m_pen_controller;
 };
 
 }  // namespace mvvm
