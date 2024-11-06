@@ -41,6 +41,16 @@ class ChartAxisTitleController : public ItemController<TextItem>
 {
 public:
   explicit ChartAxisTitleController(QtCharts::QAbstractAxis* axis);
+
+  QtCharts::QAbstractAxis* GetQtAxis();
+
+protected:
+  void Subscribe() override;
+
+private:
+  void UpdateAxisTitleFromItem();
+
+  QtCharts::QAbstractAxis* m_axis{nullptr};
 };
 
 }  // namespace mvvm

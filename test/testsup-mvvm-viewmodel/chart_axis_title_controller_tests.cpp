@@ -19,7 +19,12 @@
 
 #include "mvvm/plotting/charts/chart_axis_title_controller.h"
 
+#include <mvvm/model/application_model.h>
+#include <mvvm/standarditems/plottable_items.h>
+
 #include <gtest/gtest.h>
+
+#include <QtCharts/QValueAxis>
 
 using namespace mvvm;
 
@@ -30,4 +35,24 @@ class ChartAxisTitleControllerTest : public ::testing::Test
 {
 };
 
-TEST_F(ChartAxisTitleControllerTest, InitialState) {}
+//! Initial axis title after controller setup.
+TEST_F(ChartAxisTitleControllerTest, InitialState)
+{
+  QtCharts::QValueAxis axis;
+
+  EXPECT_THROW(ChartAxisTitleController(nullptr), RuntimeException);
+
+  mvvm::ApplicationModel model;
+  auto text_item = model.InsertItem<mvvm::TextItem>();
+
+  ChartAxisTitleController controller(&axis);
+  EXPECT_EQ(controller.GetQtAxis(), &axis);
+  EXPECT_EQ(controller.GetItem(), nullptr);
+
+  controller.SetItem(text_item);
+  EXPECT_EQ(controller.GetItem(), text_item);
+
+  EXPECT_EQ(axis.titleText(), QString());
+}
+
+

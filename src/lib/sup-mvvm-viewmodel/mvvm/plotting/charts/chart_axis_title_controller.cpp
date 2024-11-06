@@ -19,9 +19,46 @@
 
 #include "chart_axis_title_controller.h"
 
+#include <mvvm/standarditems/plottable_items.h>
+
+#include <QtCharts/QAbstractAxis>
+
 namespace mvvm
 {
 
-ChartAxisTitleController::ChartAxisTitleController(QtCharts::QAbstractAxis *axis) {}
+ChartAxisTitleController::ChartAxisTitleController(QtCharts::QAbstractAxis *axis) : m_axis(axis)
+{
+  if (!m_axis)
+  {
+    throw RuntimeException("Error in ChartAxisTitleController: axis is not initialized");
+  }
+}
+
+QtCharts::QAbstractAxis *ChartAxisTitleController::GetQtAxis()
+{
+  return m_axis;
+}
+
+void ChartAxisTitleController::Subscribe()
+{
+  auto on_property_change = [this](auto) { UpdateAxisTitleFromItem(); };
+  Listener()->Connect<PropertyChangedEvent>(on_property_change);
+
+  UpdateAxisTitleFromItem();
+}
+
+void ChartAxisTitleController::UpdateAxisTitleFromItem()
+{
+  if (!GetItem()->GetText().empty())
+  {
+    return;
+  }
+
+  auto font = GetQtAxis()->titleFont();
+  font.setPointSize(static_cast<int>(GetItem()->GetSize()));
+  font.setFamily(QString::fromStdString(GetItem()->GetFont()));
+  m_axis->setTitleText(QString::fromStdString(GetItem()->GetText()));
+  m_axis->setTitleFont(font);
+}
 
 }  // namespace mvvm
