@@ -116,6 +116,11 @@ QVariant LabelPresentationItem::Data(int qt_role) const
   return SessionItemPresentation::Data(qt_role);
 }
 
+bool LabelPresentationItem::IsEditable() const
+{
+  return false;
+}
+
 // ------------------------------------------------------------------------------------------------
 // DataPresentationItem
 // ------------------------------------------------------------------------------------------------

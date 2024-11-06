@@ -88,6 +88,8 @@ public:
 
   QVariant Data(int qt_role) const override;
 
+  bool IsEditable() const override;
+
 private:
   std::string m_label;
 };

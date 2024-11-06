@@ -322,6 +322,8 @@ TEST_F(StandardPresentationItemsTest, CreateLabelPresentation)
   const std::string expected_label("abc");
   LabelPresentationItem presentation(&item, expected_label);
 
+  EXPECT_FALSE(presentation.IsEditable());
+
   // item has a display role, which coincide with the label, the rest is blocked
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString().toStdString(), expected_label);
   EXPECT_FALSE(presentation.Data(Qt::EditRole).isValid());
