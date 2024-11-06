@@ -49,13 +49,8 @@ void ChartAxisTitleController::Subscribe()
 
 void ChartAxisTitleController::UpdateAxisTitleFromItem()
 {
-  if (!GetItem()->GetText().empty())
-  {
-    return;
-  }
-
   auto font = GetQtAxis()->titleFont();
-  font.setPointSize(static_cast<int>(GetItem()->GetPointSize()));
+  font.setPointSize(GetItem()->GetPointSize());
   font.setFamily(QString::fromStdString(GetItem()->GetFont()));
   m_axis->setTitleText(QString::fromStdString(GetItem()->GetText()));
   m_axis->setTitleFont(font);

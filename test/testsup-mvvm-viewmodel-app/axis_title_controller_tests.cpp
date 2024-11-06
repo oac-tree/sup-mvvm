@@ -30,13 +30,12 @@
 
 using namespace mvvm;
 
-//! Testing AxisTitleControllers.
-
+/**
+ * @brief Tests for AxisTitleController class.
+ */
 class AxisTitleControllerTest : public ::testing::Test
 {
 };
-
-//! Initial state.
 
 TEST_F(AxisTitleControllerTest, InitialState)
 {
@@ -44,7 +43,6 @@ TEST_F(AxisTitleControllerTest, InitialState)
 
   auto axis = custom_plot->xAxis;
 
-  // controller shouldn''t change axis text
   const AxisTitleController controller(axis);
   EXPECT_EQ(controller.GetItem(), nullptr);
 
@@ -60,7 +58,6 @@ TEST_F(AxisTitleControllerTest, SetTextItem)
 
   auto axis = custom_plot->xAxis;
 
-  // controller shouldn''t change axis range
   AxisTitleController controller(axis);
   controller.SetItem(textItem);
   EXPECT_EQ(controller.GetItem(), textItem);
@@ -79,7 +76,6 @@ TEST_F(AxisTitleControllerTest, SetFont)
 
   auto axis = custom_plot->xAxis;
 
-  // controller shouldn''t change axis range
   AxisTitleController controller(axis);
   controller.SetItem(textItem);
   EXPECT_EQ(controller.GetItem(), textItem);
