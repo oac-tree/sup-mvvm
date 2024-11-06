@@ -23,6 +23,7 @@
 #include <mvvm/signals/event_types.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/test/mock_item_listener.h>
+#include <mvvm/core/exceptions.h>
 
 #include <gtest/gtest.h>
 
@@ -44,6 +45,8 @@ public:
 TEST_F(ChartAxisPlotControllerTest, InitialState)
 {
   QtCharts::QValueAxis axis;
+
+  EXPECT_THROW(ChartAxisPlotController(nullptr), RuntimeException);
 
   mvvm::ApplicationModel model;
   auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();

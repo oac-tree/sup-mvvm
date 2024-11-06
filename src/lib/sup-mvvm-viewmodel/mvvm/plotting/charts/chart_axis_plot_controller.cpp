@@ -19,11 +19,11 @@
 
 #include "chart_axis_plot_controller.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/standarditems/axis_items.h>
 
 #include <QtCharts/QAbstractAxis>
 #include <QtCharts/QValueAxis>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -33,7 +33,7 @@ ChartAxisPlotController::ChartAxisPlotController(QtCharts::QAbstractAxis *axis)
 {
   if (!m_axis)
   {
-    throw std::runtime_error("Error in AxisPlotController: axis is not initialized");
+    throw RuntimeException("Error in ChartAxisPlotController: axis is not initialized");
   }
 }
 

@@ -43,8 +43,8 @@ TEST_F(AxisTitleControllerTest, InitialState)
 
   auto axis = custom_plot->xAxis;
 
-  // controller shouldn''t change axis range
-  AxisTitleController controller(axis);
+  // controller shouldn''t change axis text
+  const AxisTitleController controller(axis);
   EXPECT_EQ(controller.GetItem(), nullptr);
 
   EXPECT_EQ(axis->label(), QString());
