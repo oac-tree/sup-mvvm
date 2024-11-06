@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/plotting/charts/axis_plot_controller.h"
+#include "mvvm/plotting/charts/chart_axis_plot_controller.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/signals/event_types.h>
@@ -31,24 +31,24 @@
 
 using namespace mvvm;
 
-//! Testing AxisPlotController class.
-
-class AxisPlotControllerTests : public ::testing::Test
+/**
+ * @brief Tests for ChartAxisPlotController class.
+ */
+class ChartAxisPlotControllerTest : public ::testing::Test
 {
 public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 };
 
 //! Initial state of the controller and axes after setup.
-
-TEST_F(AxisPlotControllerTests, InitialState)
+TEST_F(ChartAxisPlotControllerTest, InitialState)
 {
   QtCharts::QValueAxis axis;
 
   mvvm::ApplicationModel model;
   auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
 
-  AxisPlotController controller(&axis);
+  ChartAxisPlotController controller(&axis);
   EXPECT_EQ(controller.GetQtAxis(), &axis);
   EXPECT_EQ(controller.GetItem(), nullptr);
 
@@ -63,15 +63,14 @@ TEST_F(AxisPlotControllerTests, InitialState)
 }
 
 //! Testing update of QtCharts::QValueAxis when item range was changed.
-
-TEST_F(AxisPlotControllerTests, SetItemRange)
+TEST_F(ChartAxisPlotControllerTest, SetItemRange)
 {
   QtCharts::QValueAxis axis;
 
   mvvm::ApplicationModel model;
   auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
 
-  AxisPlotController controller(&axis);
+  ChartAxisPlotController controller(&axis);
   controller.SetItem(axis_item);
 
   QSignalSpy spy_range_changed(&axis, &QtCharts::QValueAxis::rangeChanged);
@@ -90,15 +89,14 @@ TEST_F(AxisPlotControllerTests, SetItemRange)
 }
 
 //! Testing update of ViewportAxisItem when QtCharts::QValueAxis axis has changed.
-
-TEST_F(AxisPlotControllerTests, SetQtQxisRange)
+TEST_F(ChartAxisPlotControllerTest, SetQtQxisRange)
 {
   QtCharts::QValueAxis axis;
 
   mvvm::ApplicationModel model;
   auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
 
-  AxisPlotController controller(&axis);
+  ChartAxisPlotController controller(&axis);
   controller.SetItem(axis_item);
 
   QSignalSpy spy_range_changed(&axis, &QtCharts::QValueAxis::rangeChanged);

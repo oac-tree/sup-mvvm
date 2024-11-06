@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "axis_plot_controller.h"
+#include "chart_axis_plot_controller.h"
 
 #include <mvvm/standarditems/axis_items.h>
 
@@ -28,7 +28,7 @@
 namespace mvvm
 {
 
-AxisPlotController::AxisPlotController(QtCharts::QAbstractAxis *axis)
+ChartAxisPlotController::ChartAxisPlotController(QtCharts::QAbstractAxis *axis)
     : m_axis(axis), m_axis_connection(std::make_unique<QMetaObject::Connection>())
 {
   if (!m_axis)
@@ -37,26 +37,26 @@ AxisPlotController::AxisPlotController(QtCharts::QAbstractAxis *axis)
   }
 }
 
-QtCharts::QAbstractAxis *AxisPlotController::GetQtAxis()
+QtCharts::QAbstractAxis *ChartAxisPlotController::GetQtAxis()
 {
   return m_axis;
 }
 
-void AxisPlotController::Subscribe()
+void ChartAxisPlotController::Subscribe()
 {
   SetAxisRangeFromItem();
 
   SetQtConnected();
 
-  Listener()->Connect<PropertyChangedEvent>(this, &AxisPlotController::OnPropertyChangedEvent);
+  Listener()->Connect<PropertyChangedEvent>(this, &ChartAxisPlotController::OnPropertyChangedEvent);
 }
 
-void AxisPlotController::Unsubscribe()
+void ChartAxisPlotController::Unsubscribe()
 {
   SetQtDisonnected();
 }
 
-void AxisPlotController::SetQtConnected()
+void ChartAxisPlotController::SetQtConnected()
 {
   if (auto value_axis = dynamic_cast<QtCharts::QValueAxis *>(m_axis); value_axis)
   {
@@ -67,17 +67,17 @@ void AxisPlotController::SetQtConnected()
   }
 }
 
-void AxisPlotController::SetQtDisonnected()
+void ChartAxisPlotController::SetQtDisonnected()
 {
   QObject::disconnect(*m_axis_connection);
 }
 
-void AxisPlotController::SetAxisRangeFromItem()
+void ChartAxisPlotController::SetAxisRangeFromItem()
 {
   m_axis->setRange(GetItem()->GetMin(), GetItem()->GetMax());
 }
 
-void AxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
+void ChartAxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
 {
   if (m_block_update_from_item)
   {

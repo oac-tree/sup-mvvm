@@ -34,7 +34,7 @@ class QLineSeries;
 namespace mvvm
 {
 
-class AxisPlotController;
+class ChartAxisPlotController;
 class ChartViewportItem;
 class LineSeriesController;
 class LineSeriesItem;
@@ -97,8 +97,8 @@ private:
 
   QtCharts::QChart* m_chart{nullptr};
   std::list<std::unique_ptr<LineSeriesController>> m_line_controllers;
-  std::unique_ptr<AxisPlotController> m_x_axis_controller;
-  std::unique_ptr<AxisPlotController> m_y_axis_controller;
+  std::unique_ptr<ChartAxisPlotController> m_x_axis_controller;
+  std::unique_ptr<ChartAxisPlotController> m_y_axis_controller;
 };
 
 }  // namespace mvvm

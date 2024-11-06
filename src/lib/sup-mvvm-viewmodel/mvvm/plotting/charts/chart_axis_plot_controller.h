@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_CHARTS_AXIS_PLOT_CONTROLLER_H_
-#define MVVM_PLOTTING_CHARTS_AXIS_PLOT_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CHARTS_CHART_AXIS_PLOT_CONTROLLER_H_
+#define MVVM_PLOTTING_CHARTS_CHART_AXIS_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
 
@@ -36,15 +36,15 @@ namespace mvvm
 class ViewportAxisItem;
 
 /**
- * @brief The AxisPlotController class establishes communications between QtCharts::QAbstractAxis
- * and mvvm::ViewportAxisItem.
+ * @brief The ChartAxisPlotController class establishes communications between
+ * QtCharts::QAbstractAxis and mvvm::ViewportAxisItem.
  *
  * It provides mutual updates of axis parameters (min, max) between two axes representations.
  */
-class AxisPlotController : public ItemController<ViewportAxisItem>
+class ChartAxisPlotController : public ItemController<ViewportAxisItem>
 {
 public:
-  explicit AxisPlotController(QtCharts::QAbstractAxis* axis);
+  explicit ChartAxisPlotController(QtCharts::QAbstractAxis* axis);
 
   QtCharts::QAbstractAxis* GetQtAxis();
 
@@ -70,15 +70,15 @@ private:
   /**
    * @brief Update Qt axis when some of item's properties has changed.
    */
-  void OnPropertyChangedEvent(const PropertyChangedEvent &event);
+  void OnPropertyChangedEvent(const PropertyChangedEvent& event);
 
   QtCharts::QAbstractAxis* m_axis{nullptr};
 
-  //! Special connection with Qt axis is necessary since AxisPlotController is not a QObject.
+  //! Special connection with Qt axis is necessary since ChartAxisPlotController is not a QObject.
   std::unique_ptr<QMetaObject::Connection> m_axis_connection;
   bool m_block_update_from_item{false};
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_CHARTS_AXIS_PLOT_CONTROLLER_H_
+#endif  // MVVM_PLOTTING_CHARTS_CHART_AXIS_PLOT_CONTROLLER_H_

@@ -19,7 +19,7 @@
 
 #include "chart_viewport_controller.h"
 
-#include <mvvm/plotting/charts/axis_plot_controller.h>
+#include <mvvm/plotting/charts/chart_axis_plot_controller.h>
 #include <mvvm/plotting/charts/line_series_controller.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
@@ -116,14 +116,14 @@ void ChartViewportController::SetupAxes()
   auto x_axes = m_chart->axes(Qt::Horizontal);
   if (!x_axes.empty())
   {
-    m_x_axis_controller = std::make_unique<mvvm::AxisPlotController>(x_axes.at(0));
+    m_x_axis_controller = std::make_unique<mvvm::ChartAxisPlotController>(x_axes.at(0));
     m_x_axis_controller->SetItem(GetItem()->GetXAxis());
   }
 
   auto y_axes = m_chart->axes(Qt::Vertical);
   if (!y_axes.empty())
   {
-    m_y_axis_controller = std::make_unique<mvvm::AxisPlotController>(y_axes.at(0));
+    m_y_axis_controller = std::make_unique<mvvm::ChartAxisPlotController>(y_axes.at(0));
     m_y_axis_controller->SetItem(GetItem()->GetYAxis());
   }
 }
