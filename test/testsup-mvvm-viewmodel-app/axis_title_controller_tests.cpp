@@ -21,6 +21,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/standarditems/standard_item_helper.h>
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
@@ -58,13 +59,6 @@ TEST_F(AxisTitleControllerTest, SetTextItem)
   auto textItem = model.InsertItem<TextItem>();
 
   auto axis = custom_plot->xAxis;
-  //    auto expected_pointSize = axis->labelFont().pointSize();
-  //    auto expected_family = axis->labelFont().family();
-
-  // this a values hardcoded in plottable_items.cpp. Shell we provide some customized way to create
-  // TextItem with font/size suitable for QCPAxis ?
-  const int expected_pointSize = 10;
-  const std::string expected_family = "Noto Sans";
 
   // controller shouldn''t change axis range
   AxisTitleController controller(axis);
@@ -72,8 +66,8 @@ TEST_F(AxisTitleControllerTest, SetTextItem)
   EXPECT_EQ(controller.GetItem(), textItem);
 
   EXPECT_EQ(axis->label(), QString());
-  EXPECT_EQ(axis->labelFont().family().toStdString(), expected_family);
-  EXPECT_EQ(axis->labelFont().pointSize(), expected_pointSize);
+  EXPECT_EQ(axis->labelFont().family().toStdString(), GetDefaultAxisFontFamily());
+  EXPECT_EQ(axis->labelFont().pointSize(), GetDefaultAxisTitlePointSize());
 }
 
 TEST_F(AxisTitleControllerTest, SetFont)
@@ -95,7 +89,7 @@ TEST_F(AxisTitleControllerTest, SetFont)
   const QString expected_family("Helvetica");
   const int expected_size = 42;
   textItem->SetText(expected_text.toStdString());
-  textItem->SetSize(expected_size);
+  textItem->SetPointSize(expected_size);
   textItem->SetFont(expected_family.toStdString());
 
   // checking that label has updated

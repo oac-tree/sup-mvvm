@@ -41,7 +41,7 @@ struct AxisTitleController::AxisTitleControllerImpl
   void UpdateAxisFromItem(TextItem* item) const
   {
     auto font = m_axis->labelFont();
-    font.setPointSize(item->GetSize());
+    font.setPointSize(item->GetPointSize());
     font.setFamily(QString::fromStdString(item->GetFont()));
     m_axis->setLabel(QString::fromStdString(item->GetText()));
     m_axis->setLabelFont(font);

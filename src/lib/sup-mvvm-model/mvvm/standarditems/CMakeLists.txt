@@ -22,6 +22,8 @@ target_sources(${library_name} PRIVATE
     plottable_items.h
     point_item.cpp
     point_item.h
+    standard_item_helper.cpp
+    standard_item_helper.h
     standard_item_includes.h
     vector_item.cpp
     vector_item.h

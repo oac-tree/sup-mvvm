@@ -34,7 +34,7 @@ TEST_F(PlottableItemsTests, TextItemInitialState)
   TextItem item;
   EXPECT_TRUE(item.GetText().empty());
   EXPECT_EQ(item.GetFont(), std::string("Noto Sans"));
-  EXPECT_EQ(item.GetSize(), 10);
+  EXPECT_EQ(item.GetPointSize(), 10);
 }
 
 TEST_F(PlottableItemsTests, TextItemGetSet)
@@ -47,13 +47,13 @@ TEST_F(PlottableItemsTests, TextItemGetSet)
   item.SetFont("def");
   EXPECT_EQ(item.GetFont(), std::string("def"));
 
-  item.SetSize(42);
-  EXPECT_EQ(item.GetSize(), 42);
+  item.SetPointSize(42);
+  EXPECT_EQ(item.GetPointSize(), 42);
 }
 
 TEST_F(PlottableItemsTests, PenItemInitialState)
 {
-  PenItem item;
+  const PenItem item;
   EXPECT_EQ(item.GetNamedColor(), std::string("black"));
   EXPECT_EQ(item.GetWidth(), 1);
   EXPECT_EQ(item.GetStyle(), std::string("SolidLine"));

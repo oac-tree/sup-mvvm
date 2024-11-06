@@ -22,6 +22,7 @@
 #include "editor_constants.h"
 
 #include <mvvm/model/item_limits_helper.h>
+#include <mvvm/standarditems/standard_item_helper.h>
 #include <mvvm/utils/container_utils.h>
 
 namespace
@@ -36,11 +37,6 @@ const int kPenMinWidth = 0;
 const int kPenMaxWidth = 7;
 const int kPenStyleIndexSolid = 1;
 const int kPenStyleIndexDashline = 2;
-
-// We do not want to depend from widget_utils.h to get App default font size. Let's stick to
-// hardcoded value for the moment, even if on different systems it can be not-optimal.
-const double kDefaultTitleSize = 10;
-const std::string kDefaultTitleFamily = "Noto Sans";
 }  // namespace
 
 namespace mvvm
@@ -54,8 +50,8 @@ TextItem::TextItem() : CompoundItem(Type)
 {
   SetEditable(false);  // to disable editing of on-board data
   AddProperty(kText, "").SetDisplayName("Text");
-  AddProperty(kFont, kDefaultTitleFamily).SetDisplayName("Font");
-  AddProperty(kSize, kDefaultTitleSize).SetDisplayName("Size");
+  AddProperty(kFont, GetDefaultAxisFontFamily()).SetDisplayName("Font");
+  AddProperty(kSize, GetDefaultAxisTitlePointSize()).SetDisplayName("Size");
 }
 
 std::unique_ptr<SessionItem> TextItem::Clone(bool make_unique_id) const
@@ -83,12 +79,12 @@ void TextItem::SetFont(const std::string &value)
   SetProperty(kFont, value);
 }
 
-double TextItem::GetSize() const
+int TextItem::GetPointSize() const
 {
-  return Property<double>(kSize);
+  return Property<int>(kSize);
 }
 
-void TextItem::SetSize(double value)
+void TextItem::SetPointSize(int value)
 {
   SetProperty(kSize, value);
 }

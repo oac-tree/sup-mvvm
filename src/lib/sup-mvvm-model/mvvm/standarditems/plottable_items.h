@@ -47,8 +47,8 @@ public:
   std::string GetFont() const;
   void SetFont(const std::string& value);
 
-  double GetSize() const;
-  void SetSize(double value);
+  int GetPointSize() const;
+  void SetPointSize(int value);
 };
 
 /**
