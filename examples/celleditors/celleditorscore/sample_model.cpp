@@ -41,10 +41,10 @@ namespace celleditors
 
 BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 {
-  auto& item = AddProperty(kBool, true)
-                   .SetDisplayName("Bool")
-                   .SetToolTip("tooltip")
-                   .SetFlag(mvvm::Appearance::kEditableDisplayName, true);
+  AddProperty(kBool, true)
+      .SetDisplayName("Bool")
+      .SetToolTip("tooltip")
+      .SetFlag(mvvm::Appearance::kEditableDisplayName, true);
   AddProperty(kInteger, 42).SetDisplayName("Integer");
   AddProperty(kString, "abc").SetDisplayName("String");
   AddProperty(kDouble, 42.1234).SetDisplayName("Double");
