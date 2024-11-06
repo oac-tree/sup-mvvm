@@ -19,8 +19,11 @@
 
 #include "chart_axis_plot_controller.h"
 
+#include "chart_axis_title_controller.h"
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/plottable_items.h>
 
 #include <QtCharts/QAbstractAxis>
 #include <QtCharts/QValueAxis>
@@ -37,6 +40,8 @@ ChartAxisPlotController::ChartAxisPlotController(QtCharts::QAbstractAxis *axis)
   }
 }
 
+ChartAxisPlotController::~ChartAxisPlotController() = default;
+
 QtCharts::QAbstractAxis *ChartAxisPlotController::GetQtAxis()
 {
   return m_axis;
@@ -45,6 +50,9 @@ QtCharts::QAbstractAxis *ChartAxisPlotController::GetQtAxis()
 void ChartAxisPlotController::Subscribe()
 {
   SetAxisRangeFromItem();
+
+  m_title_controller = std::make_unique<ChartAxisTitleController>(GetQtAxis());
+  m_title_controller->SetItem(GetItem()->GetTitleItem());
 
   SetQtConnected();
 

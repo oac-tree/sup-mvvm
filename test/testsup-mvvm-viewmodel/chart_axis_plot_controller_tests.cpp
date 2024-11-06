@@ -22,6 +22,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/signals/event_types.h>
 #include <mvvm/standarditems/axis_items.h>
+#include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/test/mock_item_listener.h>
 #include <mvvm/core/exceptions.h>
 
@@ -113,4 +114,21 @@ TEST_F(ChartAxisPlotControllerTest, SetQtQxisRange)
   EXPECT_EQ(spy_range_changed.count(), 1);
   EXPECT_EQ(axis_item->GetMin(), 0.0);
   EXPECT_EQ(axis_item->GetMax(), 5.0);
+}
+
+//! Changing axis title via item.
+TEST_F(ChartAxisPlotControllerTest, ChangeAxisTitle)
+{
+  QtCharts::QValueAxis axis;
+
+  mvvm::ApplicationModel model;
+  auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
+
+  ChartAxisPlotController controller(&axis);
+  controller.SetItem(axis_item);
+
+  EXPECT_EQ(axis.titleText(), QString(""));
+
+  axis_item->GetTitleItem()->SetText("abc");
+  EXPECT_EQ(axis.titleText(), QString("abc"));
 }

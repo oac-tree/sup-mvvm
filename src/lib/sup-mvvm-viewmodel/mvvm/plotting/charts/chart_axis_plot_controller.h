@@ -34,6 +34,7 @@ namespace mvvm
 {
 
 class ViewportAxisItem;
+class ChartAxisTitleController;
 
 /**
  * @brief The ChartAxisPlotController class establishes communications between
@@ -45,6 +46,7 @@ class ChartAxisPlotController : public ItemController<ViewportAxisItem>
 {
 public:
   explicit ChartAxisPlotController(QtCharts::QAbstractAxis* axis);
+  ~ChartAxisPlotController() override;
 
   QtCharts::QAbstractAxis* GetQtAxis();
 
@@ -77,6 +79,7 @@ private:
 
   //! Special connection with Qt axis is necessary since ChartAxisPlotController is not a QObject.
   std::unique_ptr<QMetaObject::Connection> m_axis_connection;
+  std::unique_ptr<ChartAxisTitleController> m_title_controller;
 };
 
 }  // namespace mvvm
