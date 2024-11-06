@@ -78,7 +78,7 @@ std::unique_ptr<SessionItem> ViewportAxisItem::Clone(bool make_unique_id) const
   return std::make_unique<ViewportAxisItem>(*this, make_unique_id);
 }
 
-TextItem* ViewportAxisItem::GetTitle() const
+TextItem* ViewportAxisItem::GetTitleItem() const
 {
   return GetItem<TextItem>(kTitle);
 }

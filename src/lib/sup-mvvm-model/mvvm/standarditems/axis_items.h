@@ -74,7 +74,7 @@ public:
   using BasicAxisItem::BasicAxisItem;
   std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
 
-  TextItem* GetTitle() const;
+  TextItem* GetTitleItem() const;
 
   /**
    * @brief Returns pair of lower, upper axis range.

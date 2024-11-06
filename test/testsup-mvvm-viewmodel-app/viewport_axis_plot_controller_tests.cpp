@@ -429,7 +429,7 @@ TEST_F(ViewportAxisPlotControllerTest, ChangeAxisTitle)
   controller.SetItem(axis_item);
 
   // changing title
-  axis_item->GetTitle()->SetText("abc");
+  axis_item->GetTitleItem()->SetText("abc");
 
   // no need to change title size and font (checked in axistitlecontroller.test)
 

@@ -89,7 +89,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
   void InitAxis()
   {
     m_title_controller = std::make_unique<AxisTitleController>(m_axis);
-    auto text_item = m_self->GetItem()->GetTitle();
+    auto text_item = m_self->GetItem()->GetTitleItem();
     m_title_controller->SetItem(text_item);
     SetAxisRangeFromItem();
     SetAxisLogScaleFromItem();
@@ -157,4 +157,4 @@ void ViewportAxisPlotController::Unsubscribe()
   p_impl->SetDisconnected();
 }
 
-}
+}  // namespace mvvm

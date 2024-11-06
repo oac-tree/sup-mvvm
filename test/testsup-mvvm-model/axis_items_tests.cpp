@@ -36,7 +36,7 @@ TEST_F(AxisItemsTests, ViewportAxisInitialState)
   ViewportAxisItem axis;
   EXPECT_EQ(axis.GetMin(), 0.0);
   EXPECT_EQ(axis.GetMax(), 1.0);
-  EXPECT_TRUE(axis.GetTitle()->GetText().empty());
+  EXPECT_TRUE(axis.GetTitleItem()->GetText().empty());
   EXPECT_FALSE(axis.IsInLog());
 
   auto [lower, upper] = axis.GetRange();
