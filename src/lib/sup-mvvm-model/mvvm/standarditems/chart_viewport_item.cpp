@@ -77,6 +77,7 @@ ChartViewportItem::ChartViewportItem() : mvvm::ViewportItem(Type)
       .SetDisplayName("Animation")
       .SetToolTip("Apply animations on plot change")
       .SetEditorType(constants::kSelectableComboPropertyEditorType);
+  AddProperty(kLegendEnabled, true).SetDisplayName("Legend").SetToolTip("Show/hide canvas legend");
 }
 
 std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const

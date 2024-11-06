@@ -28,6 +28,7 @@
 #include <mvvm/utils/container_utils.h>
 
 #include <QtCharts/QChart>
+#include <QtCharts/QLegend>
 #include <QtCharts/QLineSeries>
 
 namespace mvvm
@@ -175,6 +176,11 @@ void ChartViewportController::OnPropertyChangedEvent(const PropertyChangedEvent 
   if (event.name == ChartViewportItem::kAnimation)
   {
     m_chart->setAnimationOptions(GetAnimationOption(GetItem()));
+  }
+
+  if (event.name == ChartViewportItem::kLegendEnabled)
+  {
+    m_chart->legend()->setVisible(GetItem()->Property<bool>(ChartViewportItem::kLegendEnabled));
   }
 }
 

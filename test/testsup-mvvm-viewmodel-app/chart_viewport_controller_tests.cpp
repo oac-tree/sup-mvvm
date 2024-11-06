@@ -292,3 +292,22 @@ TEST_F(ChartViewportControllerTest, AnimationProperty)
   viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
   EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::GridAxisAnimations);
 }
+
+TEST_F(ChartViewportControllerTest, SHowHideLegend)
+{
+  // setting up empty viewport and controller
+  QtCharts::QChart chart;
+  ChartViewportController controller(&chart);
+
+  mvvm::ApplicationModel model;
+  auto viewport_item = model.InsertItem<ChartViewportItem>();
+  controller.SetItem(viewport_item);
+
+  // adding line series to viewport
+  auto line_series_item = model.InsertItem<LineSeriesItem>(viewport_item);
+
+  EXPECT_TRUE(chart.legend()->isVisible());
+
+  viewport_item->SetProperty(ChartViewportItem::kLegendEnabled, false);
+  EXPECT_FALSE(chart.legend()->isVisible());
+}
