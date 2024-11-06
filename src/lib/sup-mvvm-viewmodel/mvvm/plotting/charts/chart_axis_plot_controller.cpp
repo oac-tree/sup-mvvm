@@ -79,11 +79,6 @@ void ChartAxisPlotController::SetAxisRangeFromItem()
 
 void ChartAxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent &event)
 {
-  if (m_block_update_from_item)
-  {
-    return;
-  }
-
   auto [item, name] = event;
 
   if (name == ViewportAxisItem::kMin || name == ViewportAxisItem::kMax)

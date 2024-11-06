@@ -48,6 +48,7 @@ public:
 
   QtCharts::QAbstractAxis* GetQtAxis();
 
+protected:
   void Subscribe() override;
   void Unsubscribe() override;
 
@@ -76,7 +77,6 @@ private:
 
   //! Special connection with Qt axis is necessary since ChartAxisPlotController is not a QObject.
   std::unique_ptr<QMetaObject::Connection> m_axis_connection;
-  bool m_block_update_from_item{false};
 };
 
 }  // namespace mvvm
