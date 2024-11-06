@@ -30,7 +30,7 @@ struct AxisTitleController::AxisTitleControllerImpl
 {
   QCPAxis* m_axis{nullptr};
 
-  AxisTitleControllerImpl(QCPAxis* axis) : m_axis(axis)
+  explicit AxisTitleControllerImpl(QCPAxis* axis) : m_axis(axis)
   {
     if (!axis)
     {
@@ -38,7 +38,7 @@ struct AxisTitleController::AxisTitleControllerImpl
     }
   }
 
-  void UpdateAxisFromItem(TextItem* item)
+  void UpdateAxisFromItem(TextItem* item) const
   {
     auto font = m_axis->labelFont();
     font.setPointSize(item->GetSize());

@@ -17,15 +17,17 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_CUSTOMPLOT_AXIS_TITLE_CONTROLLER_H_
-#define MVVM_PLOTTING_CUSTOMPLOT_AXIS_TITLE_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CHARTS_CHART_AXIS_TITLE_CONTROLLER_H_
+#define MVVM_PLOTTING_CHARTS_CHART_AXIS_TITLE_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-#include <mvvm/view_export.h>
 
-#include <memory>
+#include <QObject>
 
-class QCPAxis;
+namespace QtCharts
+{
+class QAbstractAxis;
+}
 
 namespace mvvm
 {
@@ -33,22 +35,14 @@ namespace mvvm
 class TextItem;
 
 /**
- * @brief The AxisTitleController class propagates title settings from TextItem to QCPAxis.
+ * @brief The ChartAxisTitleController class propagates title settings from TextItem to QCPAxis.
  */
-class MVVM_VIEW_EXPORT AxisTitleController : public ItemController<TextItem>
+class ChartAxisTitleController : public ItemController<TextItem>
 {
 public:
-  explicit AxisTitleController(QCPAxis* axis);
-  ~AxisTitleController() override;
-
-protected:
-  void Subscribe() override;
-
-public:
-  struct AxisTitleControllerImpl;
-  std::unique_ptr<AxisTitleControllerImpl> p_impl;
+  explicit ChartAxisTitleController(QtCharts::QAbstractAxis* axis);
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_CUSTOMPLOT_AXIS_TITLE_CONTROLLER_H_
+#endif  // MVVM_PLOTTING_CHARTS_CHART_AXIS_TITLE_CONTROLLER_H_

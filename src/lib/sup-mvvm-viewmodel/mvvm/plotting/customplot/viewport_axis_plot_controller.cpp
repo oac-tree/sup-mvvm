@@ -29,7 +29,8 @@
 
 #include <QObject>
 
-using namespace mvvm;
+namespace mvvm
+{
 
 struct ViewportAxisPlotController::AxesPlotControllerImpl
 {
@@ -70,7 +71,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
   void SetDisconnected() { QObject::disconnect(*m_axis_connection); }
 
   //! Sets axesRange from SessionItem.
-  void SetAxisRangeFromItem()
+  void SetAxisRangeFromItem() const
   {
     auto [lower, upper] = m_self->GetItem()->GetRange();
     m_axis->setRange(QCPRange(lower, upper));
@@ -154,4 +155,6 @@ void ViewportAxisPlotController::Subscribe()
 void ViewportAxisPlotController::Unsubscribe()
 {
   p_impl->SetDisconnected();
+}
+
 }
