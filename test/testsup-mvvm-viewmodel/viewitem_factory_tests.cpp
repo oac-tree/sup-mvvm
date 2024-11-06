@@ -67,16 +67,46 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemWhenEditableDisplayNameFlag
   item.SetDisplayName("abc");
   item.SetFlag(Appearance::kEditableDisplayName, true);
 
-  auto viewitem = CreateEditableDisplayNameViewItem(&item);
+  auto viewitem = CreateDisplayNameViewItem(&item);
 
-  // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
-  // blocked
+  // presentation has a display role, and edit role
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
   EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
 
+  // it is not possible to change display role, but it is possible to change edit role
   EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
   EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
 
+  // the data was actually changed
+  EXPECT_EQ(item.GetDisplayName(), std::string("bbb"));
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+
+  EXPECT_TRUE(viewitem->Flags() & Qt::ItemIsEditable);
+
+  // if we mark original item as read only, it will disable the possibility to edit display name
+  item.SetEditable(false);
+  EXPECT_FALSE(viewitem->Flags() & Qt::ItemIsEditable);
+}
+
+TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  auto viewitem = CreateEditableDisplayNameViewItem(&item);
+
+  // presentation has a display role, and edit role
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+
+  // it is not possible to change display role, but it is possible to change edit role
+  EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
+
+  // the data was actually changed
+  EXPECT_EQ(item.GetDisplayName(), std::string("bbb"));
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }
 
@@ -115,6 +145,37 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
   // data is the new one
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toInt(), new_value);
   EXPECT_EQ(viewitem->Data(Qt::EditRole).toInt(), new_value);
+
+  EXPECT_TRUE(viewitem->Flags() & Qt::ItemIsEditable);
+}
+
+//! Same as before, only item is marked as read only. All Data methods() works as before, i.e. it is
+//! possible programmatically to change values. The only difference is that Flags() doesn't allow
+//! editing.
+TEST_F(ViewItemFactoryTest, CreateDataViewItemWhenItemIsReadOnly)
+{
+  const int value{42};
+
+  SessionItem item;
+  item.SetData(value, DataRole::kData);
+  item.SetEditable(false);
+
+  auto viewitem = CreateDataViewItem(&item);
+
+  // item has a display role, which coincide with data
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toInt(), value);
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toInt(), value);
+
+  const int new_value{43};
+  // not sure if it's correct, but current convention is to disallow set another display role
+  EXPECT_FALSE(viewitem->SetData(new_value, Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(new_value, Qt::EditRole));
+
+  // data is the new one
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toInt(), new_value);
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toInt(), new_value);
+
+  EXPECT_FALSE(viewitem->Flags() & Qt::ItemIsEditable);
 }
 
 //! Testing CreateDataViewItem (case of integer Data).
@@ -167,24 +228,6 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
   // data is the new one
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString(), new_value);
   EXPECT_EQ(viewitem->Data(Qt::EditRole).toString(), new_value);
-}
-
-TEST_F(ViewItemFactoryTest, CreateEditableDisplayNameViewItem)
-{
-  SessionItem item;
-  item.SetDisplayName("abc");
-
-  auto viewitem = CreateEditableDisplayNameViewItem(&item);
-
-  // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
-  // blocked
-  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
-  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
-
-  EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
-  EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
-
-  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }
 
 TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)

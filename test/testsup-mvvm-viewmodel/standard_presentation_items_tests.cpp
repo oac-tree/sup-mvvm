@@ -245,7 +245,7 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemTooltipRole)
 {
   SessionItem item;
 
-  DataPresentationItem presentation(&item);
+  const DataPresentationItem presentation(&item);
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
 
   item.SetToolTip("abc");
@@ -259,7 +259,7 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemForegroundRole)
   SessionItem item;
   item.SetData(42);
 
-  DataPresentationItem presentation(&item);
+  const DataPresentationItem presentation(&item);
 
   // Enabled item doesn't have valid foreground role.
   // This means that the color of text is left for a view to decide.
@@ -285,13 +285,13 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
   // Item carrying integer doesn't have CheckStateRole
   SessionItem item1;
   item1.SetData(42);
-  DataPresentationItem presentation1(&item1);
+  const DataPresentationItem presentation1(&item1);
   EXPECT_FALSE(presentation1.Data(Qt::CheckStateRole).isValid());
 
   // Item carrying bool has a CheckStateRole
   SessionItem item2;
   item2.SetData(false);
-  DataPresentationItem presentation2(&item2);
+  const DataPresentationItem presentation2(&item2);
   EXPECT_TRUE(presentation2.Data(Qt::CheckStateRole).isValid());
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Unchecked);
 
@@ -308,7 +308,7 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemDecorationRole)
   EXPECT_TRUE(item.SetData("red"));
   item.SetEditorType(constants::kColorEditorType);
 
-  DataPresentationItem viewItem(&item);
+  const DataPresentationItem viewItem(&item);
   EXPECT_EQ(viewItem.Data(Qt::EditRole), QString("red"));
   EXPECT_EQ(viewItem.Data(Qt::DisplayRole), QString("red"));
   EXPECT_EQ(viewItem.Data(Qt::DecorationRole).value<QColor>(), QColor("red"));
@@ -434,7 +434,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
   }
 
   {  // label on board
-    QString expected_label("abc");
+    const QString expected_label("abc");
     FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
@@ -462,7 +462,7 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     item.SetData(42);
     item.SetEnabled(false);
 
-    QString expected_label("abc");
+    const QString expected_label("abc");
     FixedDataPresentationItem presentation(&item, {{Qt::DisplayRole, QVariant(expected_label)}});
     EXPECT_EQ(presentation.GetItem(), &item);
     EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
