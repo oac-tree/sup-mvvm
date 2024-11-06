@@ -414,7 +414,7 @@ std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str,
 MVVM_MODEL_EXPORT void BeginMacro(const SessionItem& item, const std::string& macro_name);
 
 /**
- * @brief Finished ercording of the command macro.
+ * @brief Finished recording of the command macro.
  *
  * Works only if the item belongs to the model with undo/redo enabled. Otherwise, do nothing.
  */

@@ -52,6 +52,7 @@ enum Appearance
   kHighlighted = 4,  //! shown differently than the other items
   kHidden = 8,       //! doesn't appear in trees and tables
   kProperty = 16,    //! item appears in property editors; doesn't appear as top-level item
+  kEditableDisplayName = 32  //! display name of the item can be edited
 };
 
 }  // namespace mvvm

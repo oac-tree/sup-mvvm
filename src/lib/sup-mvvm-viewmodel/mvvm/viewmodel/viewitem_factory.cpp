@@ -21,6 +21,7 @@
 
 #include "standard_presentation_items.h"
 
+#include <mvvm/model/session_item.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
 namespace mvvm
@@ -39,7 +40,15 @@ std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item, const std::stri
 
 std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
 {
-  auto presentation = std::make_unique<DisplayNamePresentationItem>(item);
+  std::unique_ptr<SessionItemPresentation> presentation;
+  if (item->HasFlag(Appearance::kEditableDisplayName))
+  {
+    presentation = std::make_unique<EditableDisplayNamePresentationItem>(item);
+  }
+  else
+  {
+    presentation = std::make_unique<DisplayNamePresentationItem>(item);
+  }
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 

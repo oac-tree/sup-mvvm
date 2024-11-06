@@ -41,7 +41,10 @@ namespace celleditors
 
 BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
 {
-  AddProperty(kBool, true).SetDisplayName("Bool").SetToolTip("tooltip");
+  auto& item = AddProperty(kBool, true)
+                   .SetDisplayName("Bool")
+                   .SetToolTip("tooltip")
+                   .SetFlag(mvvm::Appearance::kEditableDisplayName, true);
   AddProperty(kInteger, 42).SetDisplayName("Integer");
   AddProperty(kString, "abc").SetDisplayName("String");
   AddProperty(kDouble, 42.1234).SetDisplayName("Double");
@@ -119,8 +122,6 @@ FloatPropertyItem::FloatPropertyItem() : mvvm::CompoundItem("Float")
       .SetDisplayName("float32 lim FloatSpinBox");
 }
 
-SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")
-{
-}
+SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace celleditors

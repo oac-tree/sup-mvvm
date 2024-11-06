@@ -30,10 +30,12 @@
 
 #include <QColor>
 
-using namespace mvvm;
+namespace mvvm
+{
 
-//! Tests for factory methods related to ViewItem.
-
+/**
+ * @brief Tests for helper methods from viewitem_factory.h
+ */
 class ViewItemFactoryTest : public ::testing::Test
 {
 public:
@@ -58,8 +60,27 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItem)
   EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
 }
 
-//! Checking that context method can't cast to underlying item.
+//! Testing CreateDisplayNameViewItem() function when kEditableDisplayName is set.
+TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemWhenEditableDisplayNameFlag)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+  item.SetFlag(Appearance::kEditableDisplayName, true);
 
+  auto viewitem = CreateEditableDisplayNameViewItem(&item);
+
+  // presentation has a display role, which coincide with SessionItem::GetDisplayName, the rest is
+  // blocked
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+  EXPECT_EQ(viewitem->Data(Qt::EditRole).toString().toStdString(), item.GetDisplayName());
+
+  EXPECT_FALSE(viewitem->SetData(QString("aaa"), Qt::DisplayRole));
+  EXPECT_TRUE(viewitem->SetData(QString("bbb"), Qt::EditRole));
+
+  EXPECT_EQ(viewitem->Data(Qt::DisplayRole).toString().toStdString(), item.GetDisplayName());
+}
+
+//! Checking that context method can't cast to underlying item.
 TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
 {
   VectorItem item;
@@ -67,15 +88,12 @@ TEST_F(ViewItemFactoryTest, CreateDisplayNameViewItemAndContext)
 
   auto viewitem = CreateDisplayNameViewItem(&item);
 
-  // Context can be casted to SessionItem
+  // context can be casted to original item
   EXPECT_EQ(utils::GetItemFromView<SessionItem>(viewitem.get()), &item);
-
-  // To retrieve original item use GetItem method
   EXPECT_EQ(utils::GetItemFromView<VectorItem>(viewitem.get()), &item);
 }
 
 //! Testing CreateDataViewItem (case of integer Data).
-
 TEST_F(ViewItemFactoryTest, CreateDataViewItem)
 {
   const int value{42};
@@ -100,7 +118,6 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItem)
 }
 
 //! Testing CreateDataViewItem (case of integer Data).
-
 TEST_F(ViewItemFactoryTest, CreateDataViewItemForSecondaryRole)
 {
   const int kSecondaryDataRole{42};
@@ -129,7 +146,6 @@ TEST_F(ViewItemFactoryTest, CreateDataViewItemForSecondaryRole)
 }
 
 //! Testing CreateDataViewItem (case of std::string Data).
-
 TEST_F(ViewItemFactoryTest, CreateDataViewItemString)
 {
   const std::string value{"abc"};
@@ -189,3 +205,4 @@ TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
   Qt::ItemFlags expected_flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
   EXPECT_EQ(viewitem->Flags(), expected_flags);
 }
+}  // namespace mvvm
