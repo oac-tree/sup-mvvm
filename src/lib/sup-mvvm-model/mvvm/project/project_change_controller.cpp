@@ -89,7 +89,7 @@ bool ProjectChangedController::IsChanged() const
 
 void ProjectChangedController::ResetIsChanged()
 {
-  return p_impl->ResetIsChanged();
+  p_impl->ResetIsChanged();
 }
 
 }  // namespace mvvm

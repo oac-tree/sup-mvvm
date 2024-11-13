@@ -19,16 +19,41 @@
 
 #include "project_manager_decorator.h"
 
+#include "i_project.h"
+
 #include <mvvm/core/exceptions.h>
+
+namespace mvvm
+{
 
 namespace
 {
 const bool kSucceeded = true;
 const bool kFailed = false;
-}  // namespace
 
-namespace mvvm
+bool CreateNewProjectV(const std::string& path, IProject& project)
 {
+  if (project.IsModified())
+  {
+    return kFailed;
+  }
+
+  project.CreateNewProject();
+
+  return project.Save(path);
+}
+
+bool OpenExistingProjectV(const std::string& path, IProject& project)
+{
+  if (project.IsModified())
+  {
+    return kFailed;
+  }
+
+  return project.Load(path);
+}
+
+}  // namespace
 
 ProjectManagerDecorator::ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
                                                  UserInteractionContext user_context)
@@ -72,9 +97,9 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
     return kFailed;
   }
 
-  m_project_manager->CloseCurrentProject();
+  GetProject()->CloseProject();
 
-  return m_project_manager->CreateNewProject(project_dir);
+  return CreateNewProjectV(project_dir, *GetProject());
 }
 
 bool ProjectManagerDecorator::SaveCurrentProject()
@@ -86,7 +111,7 @@ bool ProjectManagerDecorator::SaveProjectAs(const std::string& path)
 {
   auto project_dir = path.empty() ? AcquireNewProjectPath() : path;
   // empty project_dir variable denotes 'cancel' during directory creation dialog
-  return project_dir.empty() ? kFailed : m_project_manager->SaveProjectAs(project_dir);
+  return project_dir.empty() ? kFailed : GetProject()->Save(project_dir);
 }
 
 bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
@@ -105,7 +130,7 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
 
   try
   {
-    return m_project_manager->OpenExistingProject(project_dir);
+    return OpenExistingProjectV(project_dir, *GetProject());
   }
   catch (const std::exception& ex)
   {
@@ -117,12 +142,12 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
 
 std::string ProjectManagerDecorator::CurrentProjectPath() const
 {
-  return m_project_manager->CurrentProjectPath();
+  return GetProject()->GetProjectPath();
 }
 
 bool ProjectManagerDecorator::IsModified() const
 {
-  return m_project_manager->IsModified();
+  return GetProject()->IsModified();
 }
 
 bool ProjectManagerDecorator::CloseCurrentProject()
@@ -132,7 +157,7 @@ bool ProjectManagerDecorator::CloseCurrentProject()
     return kFailed;
   }
 
-  return m_project_manager->CloseCurrentProject();
+  return GetProject()->CloseProject();
 }
 
 IProject* ProjectManagerDecorator::GetProject() const
@@ -142,7 +167,7 @@ IProject* ProjectManagerDecorator::GetProject() const
 
 bool ProjectManagerDecorator::ProjectHasPath() const
 {
-  return !m_project_manager->CurrentProjectPath().empty();
+  return !GetProject()->GetProjectPath().empty();
 }
 
 bool ProjectManagerDecorator::SaveBeforeClosing()

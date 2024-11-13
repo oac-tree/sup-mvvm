@@ -72,6 +72,8 @@ public:
                                                         const std::string& existing_path = {})
   {
     ProjectContext context;
+    context.modified_callback = m_modified_callback.AsStdFunction();
+    context.loaded_callback = m_loaded_callback.AsStdFunction();
     m_project = mvvm::utils::CreateUntitledProject(project_type, GetModels(), context);
 
     auto project_manager = std::make_unique<ProjectManager>(m_project.get());
@@ -82,6 +84,8 @@ public:
   std::unique_ptr<ApplicationModel> m_sample_model;
   test::MockUserInteractor m_mock_interactor;
   std::unique_ptr<IProject> m_project;
+  ::testing::MockFunction<void()> m_modified_callback;
+  ::testing::MockFunction<void()> m_loaded_callback;
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
@@ -89,12 +93,41 @@ TEST_F(ProjectManagerDecoratorFolderTest, InitialState)
 {
   auto manager = CreateProjectManager(ProjectType::kFolderBased);
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
+  EXPECT_FALSE(manager->IsModified());
+}
+
+// ----------------------------------------------------------------------------
+// Untitled, empty project
+// ----------------------------------------------------------------------------
+
+//! Creating new project. Use untitled+empty project as a starting point. Should succeed, since old
+//! empty project doesn't need to be saved.
+TEST_F(ProjectManagerDecoratorFolderTest, CreateNewStartingFromUntitledEmptyProject)
+{
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, {}, {});
+
+  const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
+
+  // because File/Folder based projects make clear() on project close
+  EXPECT_CALL(m_modified_callback, Call()).Times(1); // on project close
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1); // on project creation
+
+  EXPECT_TRUE(manager->CreateNewProject(project_dir));
+
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir);
+  EXPECT_FALSE(manager->IsModified());
+
+  // project directory should contain a file with the model
+  auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
+  EXPECT_TRUE(utils::IsExists(model_filename));
 }
 
 //! File based project. Saving untitled modified project under given name.
 TEST_F(ProjectManagerDecoratorFolderTest, FileBasedUntitledModifiedSaveAs)
 {
   auto manager = CreateProjectManager(ProjectType::kFileBased, {}, {});
+
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
 
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
@@ -139,6 +172,8 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledEmptyCreateNew)
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->CreateNewProject({}));
@@ -232,6 +267,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   // create "existing project"
   {
     EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
+
     auto manager = CreateProjectManager(ProjectType::kFolderBased, existing_project_dir, {});
     manager->SaveProjectAs({});
   }
@@ -240,10 +276,14 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   ON_CALL(m_mock_interactor, OnSaveChangesRequest())
       .WillByDefault(::testing::Return(SaveChangesAnswer::kSave));
 
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+
   auto manager =
       CreateProjectManager(ProjectType::kFolderBased, unsaved_project_dir, existing_project_dir);
 
   // modifying untitled project
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+
   m_sample_model->InsertItem<PropertyItem>();
   EXPECT_TRUE(manager->IsModified());
   EXPECT_TRUE(manager->CurrentProjectPath().empty());
@@ -257,6 +297,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedOpenExisting)
   EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(1);
 
   // attempt to open existing project
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
   manager->OpenExistingProject({});
 
   // check that previous project was saved
@@ -280,6 +321,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNew)
 
   auto manager = CreateProjectManager(ProjectType::kFileBased, new_path, {});
 
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   // setting up expectations: attempt to open existing project will lead to the following chain
@@ -289,6 +331,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNew)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
   EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
 
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
   EXPECT_TRUE(manager->CreateNewProject({}));
 
   // new project file should be there
@@ -310,6 +353,7 @@ TEST_F(ProjectManagerDecoratorFolderTest, UntitledModifiedDiscardAndCreateNewBut
   // empty path denotes "Cancel" button during file name selection
   auto manager = CreateProjectManager(ProjectType::kFileBased, "", {});
 
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   // setting up expectations: attempt to open existing project will lead to the following chain
@@ -340,6 +384,7 @@ TEST_F(ProjectManagerDecoratorFolderTest,
   auto manager = CreateProjectManager(ProjectType::kFileBased, /*new file name*/ {},
                                       /*existing file name*/ {});
 
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   // setting up expectations: attempt to open existing project will lead to the following chain
@@ -355,4 +400,53 @@ TEST_F(ProjectManagerDecoratorFolderTest,
 
   // model should be still full
   EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 1);
+}
+
+// ----------------------------------------------------------------------------
+// Titled, unmodified
+// ----------------------------------------------------------------------------
+
+//! Creating new project. Use titled+unmodified project as a starting point. Should succeed, since
+//! old empty project doesn't need to be saved.
+TEST_F(ProjectManagerDecoratorFolderTest, TitledUnmodifiedNew)
+{
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, {}, {});
+
+  const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
+  EXPECT_TRUE(manager->SaveProjectAs(project_dir));
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir);
+
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+
+  const auto project_dir2 = CreateEmptyDir("Project_titledUnmodifiedNew2");
+  EXPECT_TRUE(manager->CreateNewProject(project_dir2));
+
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir2);
+  EXPECT_FALSE(manager->IsModified());
+
+  // project directory should contain a file with the model
+  auto model_filename = utils::Join(project_dir2, kSampleModelName + ".xml");
+  EXPECT_TRUE(utils::IsExists(model_filename));
+}
+
+// ----------------------------------------------------------------------------
+// Titled, modified
+// ----------------------------------------------------------------------------
+
+//! Saving of new project. Use titled+modified project as a starting point. Should succeed.
+TEST_F(ProjectManagerDecoratorFolderTest, TitledModifiedSave)
+{
+  auto manager = CreateProjectManager(ProjectType::kFolderBased, {}, {});
+
+  const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
+  EXPECT_TRUE(manager->SaveProjectAs(project_dir));
+  EXPECT_EQ(manager->CurrentProjectPath(), project_dir);
+
+  // modifying the model
+  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  m_sample_model->InsertItem<PropertyItem>();
+
+  EXPECT_TRUE(manager->SaveCurrentProject());
+  EXPECT_FALSE(manager->IsModified());
 }
