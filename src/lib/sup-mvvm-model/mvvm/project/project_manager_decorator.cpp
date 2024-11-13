@@ -135,6 +135,11 @@ bool ProjectManagerDecorator::CloseCurrentProject()
   return m_project_manager->CloseCurrentProject();
 }
 
+IProject* ProjectManagerDecorator::GetProject() const
+{
+  return m_project_manager->GetProject();
+}
+
 bool ProjectManagerDecorator::ProjectHasPath() const
 {
   return !m_project_manager->CurrentProjectPath().empty();

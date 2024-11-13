@@ -74,10 +74,12 @@ public:
 
   bool CloseCurrentProject() override;
 
+  IProject* GetProject() const override;
+
 private:
   bool ProjectHasPath();
 
-  IProject *m_project_agent{nullptr};
+  IProject* m_project_agent{nullptr};
 };
 
 }  // namespace mvvm

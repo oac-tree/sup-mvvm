@@ -29,6 +29,7 @@
 
 using namespace mvvm;
 using ::testing::_;
+
 /**
  * @brief Tests for ProjectManagerDecorator class.
  */
@@ -51,6 +52,18 @@ public:
   mvvm::test::MockProject m_mock_project;
 };
 
+TEST_F(ProjectManagerDecoratorTest, InitialState)
+{
+  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
+  ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", ""));
+
+  EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
+
+  EXPECT_TRUE(decorator.CurrentProjectPath().empty());
+  EXPECT_FALSE(decorator.IsModified());
+}
+
 //! Testing scenario when project implementation throws an exception during project load.
 TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
 {
@@ -71,4 +84,30 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
   EXPECT_CALL(m_mock_interactor, OnMessage(_)).Times(1);  // report about exception
 
   EXPECT_FALSE(decorator.OpenExistingProject(file_name));
+}
+
+//! Mocking project pretend it has a path defined, and it is in modified state. Checking behavior on
+//! ProjectManager::SaveCurrentProject
+TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
+{
+  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
+  ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", ""));
+
+  // setting up what mock project should return
+  const std::string path("path");
+  ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
+  ON_CALL(m_mock_project, Save(path)).WillByDefault(::testing::Return(true));
+  ON_CALL(m_mock_project, GetProjectPath()).WillByDefault(::testing::Return(path));
+
+  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+
+  // setting expectencies for CurrentProjectPath
+  EXPECT_TRUE(decorator.IsModified());
+  EXPECT_EQ(decorator.CurrentProjectPath(), path);
+
+  // setting expectencies for SaveCurrentProject
+  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);  // GetProjectPath
+  EXPECT_CALL(m_mock_project, Save(path));
+  EXPECT_TRUE(decorator.SaveCurrentProject());
 }

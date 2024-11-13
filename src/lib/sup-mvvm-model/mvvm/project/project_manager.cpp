@@ -32,8 +32,7 @@ const bool kFailed = false;
 namespace mvvm
 {
 
-ProjectManager::ProjectManager(IProject *project_agent)
-    : m_project_agent(project_agent)
+ProjectManager::ProjectManager(IProject* project_agent) : m_project_agent(project_agent)
 {
   if (!m_project_agent)
   {
@@ -93,6 +92,11 @@ bool ProjectManager::IsModified() const
 bool ProjectManager::CloseCurrentProject()
 {
   return m_project_agent->CloseProject();
+}
+
+IProject* ProjectManager::GetProject() const
+{
+  return m_project_agent;
 }
 
 bool ProjectManager::ProjectHasPath()

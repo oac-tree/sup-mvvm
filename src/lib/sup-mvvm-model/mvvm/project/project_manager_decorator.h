@@ -87,6 +87,8 @@ public:
    */
   bool CloseCurrentProject() override;
 
+  IProject* GetProject() const override;
+
 private:
   /**
    * @brief Returns true if the project has path already defined.

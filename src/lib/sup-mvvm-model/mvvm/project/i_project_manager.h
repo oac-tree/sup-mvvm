@@ -27,6 +27,8 @@
 namespace mvvm
 {
 
+class IProject;
+
 /**
  * @brief The IProjectManager class is an interface for the ProjectManager family to save and load
  * projects.
@@ -97,6 +99,9 @@ public:
    * @details No checks whether it is modified or not being performed.
    */
   virtual bool CloseCurrentProject() = 0;
+
+  // FIXME refactoring
+  virtual IProject* GetProject() const = 0;
 };
 
 }  // namespace mvvm
