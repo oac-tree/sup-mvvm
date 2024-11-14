@@ -72,9 +72,12 @@ public:
   virtual bool IsModified() const = 0;
 
   /**
-   * @brief Creates new project.
+   * @brief Creates empty in-memory project.
+   *
+   * The method doesn't perform any check for unsaved data, and it doesn't save empty project after
+   * on disk after creation.
    */
-  virtual bool CreateNewProject() = 0;
+  virtual bool CreateEmptyProject() = 0;
 
   /**
    * @brief Close the project.

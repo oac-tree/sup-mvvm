@@ -96,7 +96,7 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
   }
 
   GetProject()->CloseProject();
-  GetProject()->CreateNewProject();
+  GetProject()->CreateEmptyProject();
 
   return GetProject()->Save(project_dir);
 }

@@ -85,7 +85,7 @@ private:
   bool SaveImpl(const std::string& path) override;
   bool LoadImpl(const std::string& path) override;
   bool CloseProjectImpl() override;
-  bool CreateNewProjectImpl() override;
+  bool CreateEmptyProjectImpl() override;
 
   /**
    * @brief Creates models by calling all registered factory functions.

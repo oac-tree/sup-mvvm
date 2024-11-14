@@ -54,12 +54,12 @@ bool AbstractProject::IsModified() const
   return m_change_controller ? m_change_controller->IsChanged() : false;
 }
 
-bool AbstractProject::CreateNewProject()
+bool AbstractProject::CreateEmptyProject()
 {
   m_project_path.clear();
   m_change_controller.reset();
 
-  auto is_success = CreateNewProjectImpl();
+  auto is_success = CreateEmptyProjectImpl();
   if (is_success)
   {
     SetupListener(GetModels());

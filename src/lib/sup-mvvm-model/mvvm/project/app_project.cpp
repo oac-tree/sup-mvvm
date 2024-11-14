@@ -82,7 +82,7 @@ bool AppProject::CloseProjectImpl()
   return true;
 }
 
-bool AppProject::CreateNewProjectImpl()
+bool AppProject::CreateEmptyProjectImpl()
 {
   if (m_factory_func_list.empty())
   {

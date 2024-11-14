@@ -95,7 +95,7 @@ bool FolderBasedProject::CloseProjectImpl()
   return true;
 }
 
-bool FolderBasedProject::CreateNewProjectImpl()
+bool FolderBasedProject::CreateEmptyProjectImpl()
 {
   for (auto model : GetModels())
   {

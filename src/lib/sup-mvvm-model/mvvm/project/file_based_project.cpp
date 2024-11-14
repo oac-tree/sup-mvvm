@@ -65,7 +65,7 @@ bool FileBasedProject::CloseProjectImpl()
   return true;
 }
 
-bool FileBasedProject::CreateNewProjectImpl()
+bool FileBasedProject::CreateEmptyProjectImpl()
 {
   for (auto model : GetModels())
   {

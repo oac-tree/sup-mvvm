@@ -60,7 +60,7 @@ public:
 
   bool IsModified() const override;
 
-  bool CreateNewProject() override;
+  bool CreateEmptyProject() override;
 
   bool CloseProject() override;
 
@@ -77,7 +77,7 @@ private:
   virtual bool SaveImpl(const std::string&) = 0;
   virtual bool LoadImpl(const std::string&) = 0;
   virtual bool CloseProjectImpl() = 0;
-  virtual bool CreateNewProjectImpl() = 0;
+  virtual bool CreateEmptyProjectImpl() = 0;
 
   void ProjectLoadedNotify();
   void MarkProjectAsUnmodified();

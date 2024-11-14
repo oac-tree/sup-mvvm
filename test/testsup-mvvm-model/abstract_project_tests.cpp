@@ -49,7 +49,7 @@ public:
     MOCK_METHOD(bool, SaveImpl, (const std::string&), (override));
     MOCK_METHOD(bool, LoadImpl, (const std::string&), (override));
     MOCK_METHOD(bool, CloseProjectImpl, (), (override));
-    MOCK_METHOD(bool, CreateNewProjectImpl, (), (override));
+    MOCK_METHOD(bool, CreateEmptyProjectImpl, (), (override));
 
     std::vector<ISessionModel*> GetModels() const override { return m_models; }
 
@@ -103,13 +103,13 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   // mimicking successfull save
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
   // mimicking successfull new project creation
-  ON_CALL(project, CreateNewProjectImpl()).WillByDefault(::testing::Return(true));
+  ON_CALL(project, CreateEmptyProjectImpl()).WillByDefault(::testing::Return(true));
 
   // setting expectations
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
-  EXPECT_CALL(project, CreateNewProjectImpl()).Times(1);
+  EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
 
-  EXPECT_TRUE(project.CreateNewProject());
+  EXPECT_TRUE(project.CreateEmptyProject());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
@@ -129,19 +129,19 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   EXPECT_EQ(project.GetProjectPath(), expected_path);
 }
 
-//! Testing CreateNewProject() method. The project should loose its path.
+//! Testing CreateEmptyProject() method. The project should loose its path.
 TEST_F(AbstractProjectTest, CreateNewProject)
 {
   const std::string expected_path("path");
   MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
   // mimicking successfull save
-  ON_CALL(project, CreateNewProjectImpl()).WillByDefault(::testing::Return(true));
+  ON_CALL(project, CreateEmptyProjectImpl()).WillByDefault(::testing::Return(true));
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
 
   // setting up expectations
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
-  EXPECT_CALL(project, CreateNewProjectImpl()).Times(1);
+  EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
@@ -152,7 +152,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectPath(), expected_path);
 
-  EXPECT_TRUE(project.CreateNewProject());
+  EXPECT_TRUE(project.CreateEmptyProject());
   EXPECT_TRUE(project.GetProjectPath().empty());
 }
 

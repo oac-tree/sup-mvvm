@@ -43,7 +43,7 @@ private:
   bool SaveImpl(const std::string& path) override;
   bool LoadImpl(const std::string& path) override;
   bool CloseProjectImpl() override;
-  bool CreateNewProjectImpl() override;
+  bool CreateEmptyProjectImpl() override;
 
   std::vector<ISessionModel*> m_models;
 };
