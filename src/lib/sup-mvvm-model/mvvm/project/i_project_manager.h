@@ -28,6 +28,8 @@
 namespace mvvm
 {
 
+class IProject;
+
 /**
  * @brief The IProjectManager class is an interface for the ProjectManager family to save and load
  * projects.
@@ -39,18 +41,6 @@ class MVVM_MODEL_EXPORT IProjectManager
 {
 public:
   virtual ~IProjectManager() = default;
-
-  /**
-   * @brief Returns the type of the project.
-   */
-  virtual ProjectType GetProjectType() const = 0;
-
-  /**
-   * @brief Returns the type of the application.
-   *
-   * The value is used to determine if the document can be opened by the application.
-   */
-  virtual std::string GetApplicationType() const = 0;
 
   /**
    * @brief Returns current project path.
@@ -110,6 +100,11 @@ public:
    * @return Returns true in the case of success.
    */
   virtual bool OpenExistingProject(const std::string& path) = 0;
+
+  /**
+   * @brief Returns underlying project.
+   */
+  virtual IProject* GetProject() const = 0;
 };
 
 }  // namespace mvvm

@@ -60,16 +60,6 @@ ProjectManager::ProjectManager(IProject* project_agent,
 
 ProjectManager::~ProjectManager() = default;
 
-ProjectType ProjectManager::GetProjectType() const
-{
-  return GetProject()->GetProjectType();
-}
-
-std::string ProjectManager::GetApplicationType() const
-{
-  return GetProject()->GetApplicationType();
-}
-
 std::string ProjectManager::GetProjectPath() const
 {
   return GetProject()->GetProjectPath();
@@ -149,6 +139,11 @@ bool ProjectManager::OpenExistingProject(const std::string& path)
   }
 }
 
+IProject* ProjectManager::GetProject() const
+{
+  return m_project_manager;
+}
+
 bool ProjectManager::ProjectHasPath() const
 {
   return !GetProject()->GetProjectPath().empty();
@@ -186,11 +181,6 @@ std::string ProjectManager::AcquireNewProjectPath() const
 std::string ProjectManager::AcquireExistingProjectPath() const
 {
   return m_user_context.existing_path_callback();
-}
-
-IProject* ProjectManager::GetProject() const
-{
-  return m_project_manager;
 }
 
 }  // namespace mvvm

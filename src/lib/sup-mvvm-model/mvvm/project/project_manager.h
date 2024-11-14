@@ -46,10 +46,6 @@ public:
   ProjectManager(const ProjectManager& other) = delete;
   ProjectManager& operator=(const ProjectManager& other) = delete;
 
-  ProjectType GetProjectType() const override;
-
-  std::string GetApplicationType() const override;
-
   std::string GetProjectPath() const override;
 
   bool IsModified() const override;
@@ -89,6 +85,8 @@ public:
    */
   bool OpenExistingProject(const std::string& path) override;
 
+  IProject* GetProject() const override;
+
 private:
   /**
    * @brief Returns true if the project has path already defined.
@@ -114,8 +112,6 @@ private:
    * @brief Acquire the name of the existing project path using callback provided.
    */
   std::string AcquireExistingProjectPath() const;
-
-  IProject* GetProject() const;
 
   IProject* m_project_manager{nullptr};
   UserInteractionContext m_user_context;
