@@ -61,7 +61,7 @@ public:
 TEST_F(FileBasedProjectTest, InitialState)
 {
   const FileBasedProject project(GetModels(), CreateContext());
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFileBased);
 }
@@ -76,7 +76,7 @@ TEST_F(FileBasedProjectTest, SaveModel)
 
   project.Save(expected_path);
 
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
   EXPECT_FALSE(project.IsModified());
 
   EXPECT_TRUE(utils::IsExists(expected_path));
@@ -108,7 +108,7 @@ TEST_F(FileBasedProjectTest, LoadModel)
   project.Save(expected_path);
   EXPECT_FALSE(project.IsModified());
 
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
 
   // cleaning models
   m_sample_model->Clear();
@@ -126,6 +126,6 @@ TEST_F(FileBasedProjectTest, LoadModel)
   EXPECT_EQ(m_sample_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item0_identifier);
   EXPECT_EQ(m_material_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item1_identifier);
 
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
   EXPECT_FALSE(project.IsModified());
 }

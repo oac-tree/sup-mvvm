@@ -65,9 +65,8 @@ TEST_F(ProjectManagerTest, InitialState)
   const ProjectManager decorator(&m_mock_project, CreateUserContext("", ""));
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
-  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
 
-  EXPECT_TRUE(decorator.GetProjectPath().empty());
+  EXPECT_FALSE(decorator.GetProject()->HasPath());
   EXPECT_FALSE(decorator.IsModified());
 }
 
@@ -102,17 +101,17 @@ TEST_F(ProjectManagerTest, TitledModifiedSave)
   const std::string path("path");
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
   ON_CALL(m_mock_project, Save(path)).WillByDefault(::testing::Return(true));
-  ON_CALL(m_mock_project, GetProjectPath()).WillByDefault(::testing::Return(path));
+  ON_CALL(m_mock_project, GetPath()).WillByDefault(::testing::Return(path));
 
-  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_project, GetPath()).Times(1);
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
 
   // setting expectencies for CurrentProjectPath
   EXPECT_TRUE(decorator.IsModified());
-  EXPECT_EQ(decorator.GetProjectPath(), path);
+  EXPECT_EQ(decorator.GetProject()->GetPath(), path);
 
   // setting expectencies for SaveCurrentProject
-  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
+  EXPECT_CALL(m_mock_project, GetPath()).Times(1);
   EXPECT_CALL(m_mock_project, Save(path));
   EXPECT_TRUE(decorator.SaveCurrentProject());
 }

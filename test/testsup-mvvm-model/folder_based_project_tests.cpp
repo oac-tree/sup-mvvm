@@ -72,7 +72,7 @@ public:
 TEST_F(FolderBasedProjectTest, InitialState)
 {
   FolderBasedProject project(GetModels(), CreateContext());
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
 }
@@ -86,7 +86,7 @@ TEST_F(FolderBasedProjectTest, SaveModel)
   auto project_dir = CreateEmptyDir("Untitled1");
   project.Save(project_dir);
 
-  EXPECT_EQ(project.GetProjectPath(), project_dir);
+  EXPECT_EQ(project.GetPath(), project_dir);
   EXPECT_FALSE(project.IsModified());
 
   auto sample_xml = utils::Join(project_dir, GetXmlFilename(kSampleModelName));
@@ -116,7 +116,7 @@ TEST_F(FolderBasedProjectTest, LoadModel)
   project.Save(project_dir);
   EXPECT_FALSE(project.IsModified());
 
-  EXPECT_EQ(project.GetProjectPath(), project_dir);
+  EXPECT_EQ(project.GetPath(), project_dir);
 
   // cleaning models
   m_sample_model->Clear();
@@ -134,6 +134,6 @@ TEST_F(FolderBasedProjectTest, LoadModel)
   EXPECT_EQ(m_sample_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item0_identifier);
   EXPECT_EQ(m_material_model->GetRootItem()->GetAllItems()[0]->GetIdentifier(), item1_identifier);
 
-  EXPECT_EQ(project.GetProjectPath(), project_dir);
+  EXPECT_EQ(project.GetPath(), project_dir);
   EXPECT_FALSE(project.IsModified());
 }

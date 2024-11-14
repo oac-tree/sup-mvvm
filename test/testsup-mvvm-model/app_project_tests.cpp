@@ -72,7 +72,7 @@ TEST_F(AppProjectTest, InitialState)
 {
   auto project = CreateProject();
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_TRUE(project->GetPath().empty());
   EXPECT_EQ(project->GetProjectType(), mvvm::ProjectType::kFileBased);
   EXPECT_EQ(project->GetApplicationType(), kApplicationType);
   EXPECT_EQ(project->GetModelCount(), 0);
@@ -88,7 +88,7 @@ TEST_F(AppProjectTest, RegisterModelsAndCreateProject)
 {
   auto project = CreateProject();
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_TRUE(project->GetPath().empty());
   EXPECT_EQ(project->GetProjectType(), mvvm::ProjectType::kFileBased);
   EXPECT_EQ(project->GetApplicationType(), kApplicationType);
 
@@ -121,7 +121,7 @@ TEST_F(AppProjectTest, CreateNewProjectThenModifyThenClose)
 
   EXPECT_TRUE(project->CreateEmpty());
 
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_TRUE(project->GetPath().empty());
   ASSERT_EQ(project->GetModelCount(), 2);
   EXPECT_FALSE(project->IsModified());
 
@@ -165,7 +165,7 @@ TEST_F(AppProjectTest, SaveAndClose)
 
   EXPECT_TRUE(project->Save(expected_path));
 
-  EXPECT_EQ(project->GetProjectPath(), expected_path);
+  EXPECT_EQ(project->GetPath(), expected_path);
   EXPECT_FALSE(project->IsModified());
 
   // closing project

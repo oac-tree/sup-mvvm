@@ -132,13 +132,13 @@ TEST_F(ProjectManagerFileBasedTest, AttemptToOpenNonExistingFile)
 TEST_F(ProjectManagerFileBasedTest, UntitledEmptySaveAsCancel)
 {
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 }
 
 //! Untitled modified project. User decides to create new project, and discards all previous

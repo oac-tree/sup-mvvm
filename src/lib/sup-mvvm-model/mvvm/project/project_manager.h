@@ -46,8 +46,6 @@ public:
   ProjectManager(const ProjectManager& other) = delete;
   ProjectManager& operator=(const ProjectManager& other) = delete;
 
-  std::string GetProjectPath() const override;
-
   bool IsModified() const override;
 
   /**

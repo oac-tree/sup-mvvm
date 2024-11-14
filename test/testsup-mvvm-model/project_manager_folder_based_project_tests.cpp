@@ -92,7 +92,7 @@ public:
 TEST_F(ProjectManagerFolderTest, InitialState)
 {
   auto manager = CreateProjectManager();
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
   EXPECT_FALSE(manager->IsModified());
 }
 
@@ -110,7 +110,7 @@ TEST_F(ProjectManagerFolderTest, CreateNewStartingFromUntitledEmptyProject)
 
   EXPECT_TRUE(manager->CreateNewProject(project_dir));
 
-  EXPECT_EQ(manager->GetProjectPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
   EXPECT_FALSE(manager->IsModified());
 
   // project directory should contain a file with the model
@@ -124,7 +124,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptyCreateNew)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
   auto manager = CreateProjectManager(project_dir);
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
@@ -134,7 +134,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptyCreateNew)
   EXPECT_TRUE(manager->CreateNewProject({}));
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager->GetProjectPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
@@ -148,7 +148,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveCurrentProject)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
   auto manager = CreateProjectManager(project_dir);
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
@@ -156,7 +156,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveCurrentProject)
   EXPECT_TRUE(manager->SaveCurrentProject());
 
   // checking thaxt current projectDir has pointing to the right place
-  EXPECT_EQ(manager->GetProjectPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
@@ -169,7 +169,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAs)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
   auto manager = CreateProjectManager(project_dir);
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
@@ -177,7 +177,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAs)
   EXPECT_TRUE(manager->SaveProjectAs({}));
 
   // checking that current projectDir has pointing to the right place
-  EXPECT_EQ(manager->GetProjectPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
@@ -189,13 +189,13 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAs)
 TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAsCancel)
 {
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 }
 
 //! Starting from new document (without project dir defined).
@@ -208,7 +208,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAsWrongDir)
 
   // saving new project to "project_dir" directory.
   EXPECT_FALSE(manager->SaveProjectAs({}));
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 }
 
 //! Untitled, modified document. Attempt to open an existing project will lead to
@@ -240,7 +240,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
 
   m_sample_model->InsertItem<PropertyItem>();
   EXPECT_TRUE(manager->IsModified());
-  EXPECT_TRUE(manager->GetProjectPath().empty());
+  EXPECT_FALSE(manager->GetProject()->HasPath());
 
   // setting up expectations: attempt to open existing project will lead to the following chain
   // 1) question whether to save currently modified project
@@ -260,7 +260,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
 
   // currently manager is pointing to existing project
   EXPECT_FALSE(manager->IsModified());
-  EXPECT_EQ(manager->GetProjectPath(), existing_project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), existing_project_dir);
 }
 
 //! Creating new project. Use titled+unmodified project as a starting point. Should succeed, since
@@ -271,7 +271,7 @@ TEST_F(ProjectManagerFolderTest, TitledUnmodifiedNew)
 
   const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
   EXPECT_TRUE(manager->SaveProjectAs(project_dir));
-  EXPECT_EQ(manager->GetProjectPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
@@ -279,7 +279,7 @@ TEST_F(ProjectManagerFolderTest, TitledUnmodifiedNew)
   const auto project_dir2 = CreateEmptyDir("Project_titledUnmodifiedNew2");
   EXPECT_TRUE(manager->CreateNewProject(project_dir2));
 
-  EXPECT_EQ(manager->GetProjectPath(), project_dir2);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir2);
   EXPECT_FALSE(manager->IsModified());
 
   // project directory should contain a file with the model
@@ -294,7 +294,7 @@ TEST_F(ProjectManagerFolderTest, TitledModifiedSave)
 
   const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
   EXPECT_TRUE(manager->SaveProjectAs(project_dir));
-  EXPECT_EQ(manager->GetProjectPath(), project_dir);
+  EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   // modifying the model
   EXPECT_CALL(m_modified_callback, Call()).Times(1);

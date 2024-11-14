@@ -44,7 +44,7 @@ std::string AbstractProject::GetApplicationType() const
   return m_project_context.application_type;
 }
 
-std::string AbstractProject::GetProjectPath() const
+std::string AbstractProject::GetPath() const
 {
   return m_project_path;
 }

@@ -56,7 +56,7 @@ public:
 
   std::string GetApplicationType() const override;
 
-  std::string GetProjectPath() const override;
+  std::string GetPath() const override;
 
   bool HasPath() const override;
 

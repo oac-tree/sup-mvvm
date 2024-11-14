@@ -59,7 +59,7 @@ TEST_F(ProjectUtilsTest, CreateUntitledProject)
 {
   auto project =
       utils::CreateUntitledProject(ProjectType::kFileBased, GetModels(), CreateContext());
-  EXPECT_TRUE(project->GetProjectPath().empty());
+  EXPECT_TRUE(project->GetPath().empty());
 }
 
 TEST_F(ProjectUtilsTest, ProjectWindowTitle)

@@ -43,14 +43,6 @@ public:
   virtual ~IProjectManager() = default;
 
   /**
-   * @brief Returns current project path.
-   *
-   * For folder-based projects path is a full path to the project folder. For file-based projects,
-   * it is a full path to a project file.
-   */
-  virtual std::string GetProjectPath() const = 0;
-
-  /**
    * @brief Returns true if project was modified since last save.
    */
   virtual bool IsModified() const = 0;

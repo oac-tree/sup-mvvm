@@ -64,7 +64,7 @@ public:
    *
    * @return The project path where the project has been last time saved or loaded from.
    */
-  virtual std::string GetProjectPath() const = 0;
+  virtual std::string GetPath() const = 0;
 
   /**
    * @brief Checks if project has correct path defined.

@@ -60,11 +60,6 @@ ProjectManager::ProjectManager(IProject* project_agent,
 
 ProjectManager::~ProjectManager() = default;
 
-std::string ProjectManager::GetProjectPath() const
-{
-  return GetProject()->GetProjectPath();
-}
-
 bool ProjectManager::IsModified() const
 {
   return GetProject()->IsModified();
@@ -103,7 +98,7 @@ bool ProjectManager::CloseProject()
 
 bool ProjectManager::SaveCurrentProject()
 {
-  return SaveProjectAs(GetProjectPath());
+  return SaveProjectAs(GetProject()->GetPath());
 }
 
 bool ProjectManager::SaveProjectAs(const std::string& path)

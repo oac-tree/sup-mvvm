@@ -77,7 +77,7 @@ TEST_F(AbstractProjectTest, InitialState)
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFolderBased);
   EXPECT_EQ(project.GetApplicationType(), expected_app_type);
   EXPECT_FALSE(project.IsModified());
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 }
 
 //! By default AbstractProject doesn't clear models.
@@ -111,7 +111,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
 
   EXPECT_TRUE(project.CreateEmpty());
 
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
   EXPECT_FALSE(project.IsModified());
 
   // modifying model
@@ -126,7 +126,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   EXPECT_TRUE(project.Save(expected_path));
 
   EXPECT_FALSE(project.IsModified());
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
 }
 
 //! Testing CreateEmpty() method. The project should loose its path.
@@ -150,10 +150,10 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   EXPECT_TRUE(project.Save(expected_path));
 
   EXPECT_FALSE(project.IsModified());
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
 
   EXPECT_TRUE(project.CreateEmpty());
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 }
 
 //! Testing Close() method. The project should loose its path.
@@ -174,10 +174,10 @@ TEST_F(AbstractProjectTest, CloseProject)
   EXPECT_TRUE(project.Save(expected_path));
 
   EXPECT_FALSE(project.IsModified());
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
 
   EXPECT_TRUE(project.Close());
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 }
 
 //! Testing failed save. Correct methods should be called, the project should stay without path.
@@ -186,7 +186,7 @@ TEST_F(AbstractProjectTest, FailedSave)
   const std::string expected_path("path");
   MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 
   // mimicking failed save
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(false));
@@ -200,7 +200,7 @@ TEST_F(AbstractProjectTest, FailedSave)
   EXPECT_FALSE(project.IsModified());
 
   // path remained empty
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 }
 
 //! Testing successfull load. Correct methods should be called, the project should get correct path.
@@ -209,7 +209,7 @@ TEST_F(AbstractProjectTest, SuccessfullLoad)
   const std::string expected_path("path");
   MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 
   // mimicking successfull load
   ON_CALL(project, LoadImpl(expected_path)).WillByDefault(::testing::Return(true));
@@ -222,7 +222,7 @@ TEST_F(AbstractProjectTest, SuccessfullLoad)
   EXPECT_TRUE(project.Load(expected_path));
 
   EXPECT_FALSE(project.IsModified());
-  EXPECT_EQ(project.GetProjectPath(), expected_path);
+  EXPECT_EQ(project.GetPath(), expected_path);
 }
 
 //! Testing successfull load. Correct methods should be called, the project should stay without
@@ -232,7 +232,7 @@ TEST_F(AbstractProjectTest, FailedLoad)
   const std::string expected_path("path");
   MockAbstractProject project(ProjectType::kFolderBased, CreateContext());
 
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 
   // mimicking failed load
   ON_CALL(project, LoadImpl(expected_path)).WillByDefault(::testing::Return(false));
@@ -247,5 +247,5 @@ TEST_F(AbstractProjectTest, FailedLoad)
   EXPECT_FALSE(project.IsModified());
 
   // path remained empty
-  EXPECT_TRUE(project.GetProjectPath().empty());
+  EXPECT_TRUE(project.GetPath().empty());
 }
