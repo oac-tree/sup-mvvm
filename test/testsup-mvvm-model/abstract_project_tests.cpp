@@ -109,7 +109,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
   EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
 
-  EXPECT_TRUE(project.CreateEmptyProject());
+  EXPECT_TRUE(project.CreateEmpty());
 
   EXPECT_TRUE(project.GetProjectPath().empty());
   EXPECT_FALSE(project.IsModified());
@@ -129,7 +129,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   EXPECT_EQ(project.GetProjectPath(), expected_path);
 }
 
-//! Testing CreateEmptyProject() method. The project should loose its path.
+//! Testing CreateEmpty() method. The project should loose its path.
 TEST_F(AbstractProjectTest, CreateNewProject)
 {
   const std::string expected_path("path");
@@ -152,7 +152,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectPath(), expected_path);
 
-  EXPECT_TRUE(project.CreateEmptyProject());
+  EXPECT_TRUE(project.CreateEmpty());
   EXPECT_TRUE(project.GetProjectPath().empty());
 }
 

@@ -54,7 +54,7 @@ bool AbstractProject::IsModified() const
   return m_change_controller ? m_change_controller->IsChanged() : false;
 }
 
-bool AbstractProject::CreateEmptyProject()
+bool AbstractProject::CreateEmpty()
 {
   m_project_path.clear();
   m_change_controller.reset();

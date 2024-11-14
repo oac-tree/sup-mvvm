@@ -36,7 +36,7 @@ namespace mvvm
  * it.
  *
  * The IProject-derived classes contain the logic on how to save and load the data from certain
- * place.
+ * place. Normally, they do not contain any logic related to unsaved data.
  */
 class MVVM_MODEL_EXPORT IProject
 {
@@ -74,10 +74,13 @@ public:
   /**
    * @brief Creates empty in-memory project.
    *
+   * Depending on the implementation, it recreates application models, or cleans-up existing models
+   * from content.
+   *
    * The method doesn't perform any checks for unsaved data, and it doesn't save empty project on
    * disk after creation.
    */
-  virtual bool CreateEmptyProject() = 0;
+  virtual bool CreateEmpty() = 0;
 
   /**
    * @brief Close the project.

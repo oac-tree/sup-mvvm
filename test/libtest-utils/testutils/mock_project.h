@@ -39,7 +39,7 @@ public:
   MOCK_METHOD(bool, Save, (const std::string&), (override));
   MOCK_METHOD(bool, Load, (const std::string&), (override));
   MOCK_METHOD(bool, IsModified, (), (const, override));
-  MOCK_METHOD(bool, CreateEmptyProject, (), (override));
+  MOCK_METHOD(bool, CreateEmpty, (), (override));
   MOCK_METHOD(bool, Close, (), (override));
 };
 

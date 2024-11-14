@@ -81,7 +81,7 @@ TEST_F(AppProjectTest, InitialState)
   EXPECT_FALSE(project->IsModified());
 
   // attempt to create project when no models are registered
-  EXPECT_FALSE(project->CreateEmptyProject());
+  EXPECT_FALSE(project->CreateEmpty());
 }
 
 TEST_F(AppProjectTest, RegisterModelsAndCreateProject)
@@ -102,7 +102,7 @@ TEST_F(AppProjectTest, RegisterModelsAndCreateProject)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateEmptyProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   ASSERT_EQ(project->GetModelCount(), 2);
   ASSERT_NE(dynamic_cast<TestModelA*>(project->GetModels().at(0)), nullptr);
@@ -119,7 +119,7 @@ TEST_F(AppProjectTest, CreateNewProjectThenModifyThenClose)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateEmptyProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   EXPECT_TRUE(project->GetProjectPath().empty());
   ASSERT_EQ(project->GetModelCount(), 2);
@@ -155,7 +155,7 @@ TEST_F(AppProjectTest, SaveAndClose)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateEmptyProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
@@ -187,7 +187,7 @@ TEST_F(AppProjectTest, SaveAndLoad)
   // setting up expectations before project creation
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);
 
-  EXPECT_TRUE(project->CreateEmptyProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
@@ -242,7 +242,7 @@ TEST_F(AppProjectTest, LoadFromWrongFile)
   // attempt to save without project creation
   EXPECT_THROW(project->Save(expected_path), RuntimeException);
 
-  EXPECT_TRUE(project->CreateEmptyProject());
+  EXPECT_TRUE(project->CreateEmpty());
 
   EXPECT_TRUE(project->Save(expected_path));
 

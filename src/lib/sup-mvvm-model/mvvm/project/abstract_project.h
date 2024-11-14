@@ -60,7 +60,7 @@ public:
 
   bool IsModified() const override;
 
-  bool CreateEmptyProject() override;
+  bool CreateEmpty() override;
 
   bool Close() override;
 
