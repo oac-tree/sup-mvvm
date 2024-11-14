@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/project/project_manager_decorator.h"
+#include "mvvm/project/project_manager.h"
 
 #include <mvvm/core/exceptions.h>
 
@@ -35,7 +35,7 @@ using ::testing::_;
  * In this test we are using mock project and mock user interactor, no actual saving on disk is
  * performed.
  */
-class ProjectManagerDecoratorTest : public ::testing::Test
+class ProjectManagerTest : public ::testing::Test
 {
 public:
   /**
@@ -60,9 +60,9 @@ public:
   mvvm::test::MockProject m_mock_project;
 };
 
-TEST_F(ProjectManagerDecoratorTest, InitialState)
+TEST_F(ProjectManagerTest, InitialState)
 {
-  const ProjectManagerDecorator decorator(&m_mock_project, CreateUserContext("", ""));
+  const ProjectManager decorator(&m_mock_project, CreateUserContext("", ""));
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
@@ -72,11 +72,11 @@ TEST_F(ProjectManagerDecoratorTest, InitialState)
 }
 
 //! Testing scenario when project implementation throws an exception during project load.
-TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
+TEST_F(ProjectManagerTest, ExceptionDuringProjectLoad)
 {
   const std::string file_name = "file.xml";
 
-  ProjectManagerDecorator decorator(&m_mock_project, CreateUserContext("", file_name));
+  ProjectManager decorator(&m_mock_project, CreateUserContext("", file_name));
 
   // setting up the project
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(false));
@@ -86,7 +86,7 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, Load(file_name)).Times(1);
   // we shouldn't close previous project if loading of the new one is failed
-  EXPECT_CALL(m_mock_project, CloseProject()).Times(0);
+  EXPECT_CALL(m_mock_project, Close()).Times(0);
   EXPECT_CALL(m_mock_interactor, OnMessage(_)).Times(1);  // report about exception
 
   EXPECT_FALSE(decorator.OpenExistingProject(file_name));
@@ -94,9 +94,9 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
 
 //! Mocking project pretends it has a path defined, and it is in modified state. Checking behavior
 //! on ProjectManager::SaveCurrentProject
-TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
+TEST_F(ProjectManagerTest, TitledModifiedSave)
 {
-  ProjectManagerDecorator decorator(&m_mock_project, CreateUserContext("", ""));
+  ProjectManager decorator(&m_mock_project, CreateUserContext("", ""));
 
   // setting up what mock project should return
   const std::string path("path");
@@ -119,11 +119,11 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
 
 //! Mocking project pretends it has a path defined, and it is in modified state. Checking the
 //! behavior of ProjectManager::OpenExistingProject when user decides to discard previous changes.
-TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExisting)
+TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExisting)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  ProjectManagerDecorator decorator(
+  ProjectManager decorator(
       &m_mock_project, CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return
@@ -146,11 +146,11 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExisting)
 //! behavior of ProjectManager::OpenExistingProject when user decides to discard previous changes.
 //! Same as previous test, with only difference that no name is provided while opening existing
 //! project. This validates the call to "select existing project" dialog.
-TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExistingV2)
+TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExistingV2)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  ProjectManagerDecorator decorator(
+  ProjectManager decorator(
       &m_mock_project, CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return

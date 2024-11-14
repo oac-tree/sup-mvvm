@@ -33,12 +33,12 @@ class IProject;
 /**
  * @brief Creates default project manager.
  *
- * @param project_factory_func Factory function to create projects.
+ * @param project Project to manipulate.
  * @param user_context The context to interact with the user.
  * @return New project manager.
  */
 MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
-    IProject& project_agent, const UserInteractionContext& user_context);
+    IProject& project, const UserInteractionContext& user_context);
 
 }  // namespace mvvm
 

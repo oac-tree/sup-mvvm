@@ -156,7 +156,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   EXPECT_TRUE(project.GetProjectPath().empty());
 }
 
-//! Testing CloseProject() method. The project should loose its path.
+//! Testing Close() method. The project should loose its path.
 TEST_F(AbstractProjectTest, CloseProject)
 {
   const std::string expected_path("path");
@@ -176,7 +176,7 @@ TEST_F(AbstractProjectTest, CloseProject)
   EXPECT_FALSE(project.IsModified());
   EXPECT_EQ(project.GetProjectPath(), expected_path);
 
-  EXPECT_TRUE(project.CloseProject());
+  EXPECT_TRUE(project.Close());
   EXPECT_TRUE(project.GetProjectPath().empty());
 }
 

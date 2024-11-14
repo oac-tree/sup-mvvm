@@ -139,7 +139,7 @@ TEST_F(AppProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_TRUE(project->IsModified());
 
   // closing project
-  EXPECT_TRUE(project->CloseProject());
+  EXPECT_TRUE(project->Close());
   EXPECT_FALSE(project->IsModified());
   ASSERT_EQ(project->GetModelCount(), 0);
 }
@@ -169,7 +169,7 @@ TEST_F(AppProjectTest, SaveAndClose)
   EXPECT_FALSE(project->IsModified());
 
   // closing project
-  EXPECT_TRUE(project->CloseProject());
+  EXPECT_TRUE(project->Close());
   EXPECT_FALSE(project->IsModified());
   ASSERT_EQ(project->GetModelCount(), 0);
 
@@ -218,7 +218,7 @@ TEST_F(AppProjectTest, SaveAndLoad)
   EXPECT_EQ(recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First())->Data<int>(), 42);
 
   // closing, and loading again
-  EXPECT_TRUE(project->CloseProject());
+  EXPECT_TRUE(project->Close());
 
   // setting up expectation before document load
   EXPECT_CALL(m_loaded_callback, Call()).Times(1);

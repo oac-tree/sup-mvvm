@@ -62,7 +62,7 @@ public:
 
   bool CreateEmptyProject() override;
 
-  bool CloseProject() override;
+  bool Close() override;
 
   bool Save(const std::string& path) override;
 

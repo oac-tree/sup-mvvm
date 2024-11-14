@@ -74,15 +74,20 @@ public:
   /**
    * @brief Creates empty in-memory project.
    *
-   * The method doesn't perform any check for unsaved data, and it doesn't save empty project after
-   * on disk after creation.
+   * The method doesn't perform any checks for unsaved data, and it doesn't save empty project on
+   * disk after creation.
    */
   virtual bool CreateEmptyProject() = 0;
 
   /**
    * @brief Close the project.
+   *
+   * Depending on the implementation, it can clean-up underlying models from content, or destroy
+   * models completely.
+   *
+   * The method doesn't perform any checks for unsaved data.
    */
-  virtual bool CloseProject() = 0;
+  virtual bool Close() = 0;
 
   /**
    * @brief Saves the project content to a given path.

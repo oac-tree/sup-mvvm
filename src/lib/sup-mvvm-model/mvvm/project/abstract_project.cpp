@@ -69,7 +69,7 @@ bool AbstractProject::CreateEmptyProject()
   return is_success;
 }
 
-bool AbstractProject::CloseProject()
+bool AbstractProject::Close()
 {
   auto is_success = CloseProjectImpl();
   if (is_success)

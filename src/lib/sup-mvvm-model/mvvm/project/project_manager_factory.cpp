@@ -19,16 +19,16 @@
 
 #include "project_manager_factory.h"
 
-#include <mvvm/project/project_manager_decorator.h>
+#include <mvvm/project/project_manager.h>
 
 namespace mvvm
 {
 
-std::unique_ptr<IProjectManager> CreateProjectManager(IProject& project_agent,
+std::unique_ptr<IProjectManager> CreateProjectManager(IProject& project,
                                                       const UserInteractionContext& user_context)
 {
   // creating decoration for user interaction
-  return std::make_unique<ProjectManagerDecorator>(&project_agent, user_context);
+  return std::make_unique<ProjectManager>(&project, user_context);
 }
 
 }  // namespace mvvm

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "project_manager_decorator.h"
+#include "project_manager.h"
 
 #include "i_project.h"
 
@@ -33,7 +33,7 @@ const bool kFailed = false;
 
 }  // namespace
 
-ProjectManagerDecorator::ProjectManagerDecorator(IProject* project_agent,
+ProjectManager::ProjectManager(IProject* project_agent,
                                                  UserInteractionContext user_context)
     : m_project_manager(project_agent), m_user_context(std::move(user_context))
 {
@@ -58,29 +58,29 @@ ProjectManagerDecorator::ProjectManagerDecorator(IProject* project_agent,
   }
 }
 
-ProjectManagerDecorator::~ProjectManagerDecorator() = default;
+ProjectManager::~ProjectManager() = default;
 
-ProjectType ProjectManagerDecorator::GetProjectType() const
+ProjectType ProjectManager::GetProjectType() const
 {
   return GetProject()->GetProjectType();
 }
 
-std::string ProjectManagerDecorator::GetApplicationType() const
+std::string ProjectManager::GetApplicationType() const
 {
   return GetProject()->GetApplicationType();
 }
 
-std::string ProjectManagerDecorator::GetProjectPath() const
+std::string ProjectManager::GetProjectPath() const
 {
   return GetProject()->GetProjectPath();
 }
 
-bool ProjectManagerDecorator::IsModified() const
+bool ProjectManager::IsModified() const
 {
   return GetProject()->IsModified();
 }
 
-bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
+bool ProjectManager::CreateNewProject(const std::string& path)
 {
   if (!SaveBeforeClosing())
   {
@@ -95,35 +95,35 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
     return kFailed;
   }
 
-  GetProject()->CloseProject();
+  GetProject()->Close();
   GetProject()->CreateEmptyProject();
 
   return GetProject()->Save(project_dir);
 }
 
-bool ProjectManagerDecorator::CloseProject()
+bool ProjectManager::CloseProject()
 {
   if (!SaveBeforeClosing())
   {
     return kFailed;
   }
 
-  return GetProject()->CloseProject();
+  return GetProject()->Close();
 }
 
-bool ProjectManagerDecorator::SaveCurrentProject()
+bool ProjectManager::SaveCurrentProject()
 {
   return SaveProjectAs(GetProjectPath());
 }
 
-bool ProjectManagerDecorator::SaveProjectAs(const std::string& path)
+bool ProjectManager::SaveProjectAs(const std::string& path)
 {
   auto project_dir = path.empty() ? AcquireNewProjectPath() : path;
   // empty project_dir variable denotes 'cancel' during directory creation dialog
   return project_dir.empty() ? kFailed : GetProject()->Save(project_dir);
 }
 
-bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
+bool ProjectManager::OpenExistingProject(const std::string& path)
 {
   if (!SaveBeforeClosing())
   {
@@ -149,12 +149,12 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
   }
 }
 
-bool ProjectManagerDecorator::ProjectHasPath() const
+bool ProjectManager::ProjectHasPath() const
 {
   return !GetProject()->GetProjectPath().empty();
 }
 
-bool ProjectManagerDecorator::SaveBeforeClosing()
+bool ProjectManager::SaveBeforeClosing()
 {
   if (IsModified())
   {
@@ -173,22 +173,22 @@ bool ProjectManagerDecorator::SaveBeforeClosing()
   return kSucceeded;
 }
 
-SaveChangesAnswer ProjectManagerDecorator::AcquireSaveChangesAnswer() const
+SaveChangesAnswer ProjectManager::AcquireSaveChangesAnswer() const
 {
   return m_user_context.answer_callback();
 }
 
-std::string ProjectManagerDecorator::AcquireNewProjectPath() const
+std::string ProjectManager::AcquireNewProjectPath() const
 {
   return m_user_context.new_path_callback();
 }
 
-std::string ProjectManagerDecorator::AcquireExistingProjectPath() const
+std::string ProjectManager::AcquireExistingProjectPath() const
 {
   return m_user_context.existing_path_callback();
 }
 
-IProject* ProjectManagerDecorator::GetProject() const
+IProject* ProjectManager::GetProject() const
 {
   return m_project_manager;
 }

@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
-#define MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
+#ifndef MVVM_PROJECT_PROJECT_MANAGER_H_
+#define MVVM_PROJECT_PROJECT_MANAGER_H_
 
 #include <mvvm/project/i_project_manager.h>
 #include <mvvm/project/project_context.h>
@@ -30,21 +30,21 @@ struct UserInteractionContext;
 class IProject;
 
 /**
- * @brief The ProjectManagerDecorator class is an extension of ProjectManager to provide an
+ * @brief The ProjectManager class is
  * interaction with the user on open/save-as requests.
  *
  * It relies on the same interface and adds additional logic related to "unsaved" data. For
  * example, on CreateNewProject, it will check if the previous project is saved, and will call
  * external dialog save/discard/cancel via the provided callback.
  */
-class MVVM_MODEL_EXPORT ProjectManagerDecorator : public IProjectManager
+class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
 {
 public:
-  ProjectManagerDecorator(IProject* project_agent, UserInteractionContext user_context);
+  ProjectManager(IProject* project_agent, UserInteractionContext user_context);
 
-  ~ProjectManagerDecorator() override;
-  ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
-  ProjectManagerDecorator& operator=(const ProjectManagerDecorator& other) = delete;
+  ~ProjectManager() override;
+  ProjectManager(const ProjectManager& other) = delete;
+  ProjectManager& operator=(const ProjectManager& other) = delete;
 
   ProjectType GetProjectType() const override;
 
@@ -123,4 +123,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROJECT_PROJECT_MANAGER_DECORATOR_H_
+#endif  // MVVM_PROJECT_PROJECT_MANAGER_H_
