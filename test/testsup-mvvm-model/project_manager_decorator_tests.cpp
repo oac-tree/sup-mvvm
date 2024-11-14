@@ -38,13 +38,19 @@ class ProjectManagerDecoratorTest : public ::testing::Test
 public:
   /**
    * @brief Creates user context with callbacks mimicking user responce.
+   *
+   * @param new_path The user reply to the request to select a new document path.
+   * @param existing_path The user reply to the request to select the existing document path.
+   * @param answer The user reply to the question if changes should be saved.
    */
   UserInteractionContext CreateUserContext(const std::string& new_path = {},
-                                           const std::string& existing_path = {})
+                                           const std::string& existing_path = {},
+                                           SaveChangesAnswer answer = SaveChangesAnswer::kSave)
   {
     ON_CALL(m_mock_interactor, GetExistingProjectPath())
         .WillByDefault(::testing::Return(existing_path));
     ON_CALL(m_mock_interactor, OnGetNewProjectPath()).WillByDefault(::testing::Return(new_path));
+    ON_CALL(m_mock_interactor, OnSaveChangesRequest()).WillByDefault(::testing::Return(answer));
     return m_mock_interactor.CreateContext();
   }
 
@@ -55,7 +61,7 @@ public:
 TEST_F(ProjectManagerDecoratorTest, InitialState)
 {
   auto manager = std::make_unique<ProjectManager>(&m_mock_project);
-  ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", ""));
+  const ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", ""));
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
@@ -86,8 +92,8 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
   EXPECT_FALSE(decorator.OpenExistingProject(file_name));
 }
 
-//! Mocking project pretend it has a path defined, and it is in modified state. Checking behavior on
-//! ProjectManager::SaveCurrentProject
+//! Mocking project pretends it has a path defined, and it is in modified state. Checking behavior
+//! on ProjectManager::SaveCurrentProject
 TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
 {
   auto manager = std::make_unique<ProjectManager>(&m_mock_project);
@@ -110,4 +116,34 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);  // GetProjectPath
   EXPECT_CALL(m_mock_project, Save(path));
   EXPECT_TRUE(decorator.SaveCurrentProject());
+}
+
+//! Mocking project pretends it has a path defined, and it is in modified state.
+//! Checking behavior ProjectManager::OpenExistingProject when user decides to discard previous
+//! changes.
+TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExisting)
+{
+  const std::string current_project_path("current_project_path.xml");
+  const std::string existing_project_path("existing_project_path.xml");
+
+  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
+  ProjectManagerDecorator decorator(
+      std::move(manager),
+      CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
+
+  // setting up what mock project should return
+  ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
+  ON_CALL(m_mock_project, GetProjectPath()).WillByDefault(::testing::Return(existing_project_path));
+
+  // expectations
+  {
+    ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+    EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
+    EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
+    EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+    EXPECT_CALL(m_mock_project, Load(_)).Times(1); // <-- Failing here, no call
+  }
+
+  EXPECT_TRUE(decorator.OpenExistingProject(existing_project_path));  // <-- Failing here, false
 }
