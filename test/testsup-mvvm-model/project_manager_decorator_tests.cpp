@@ -63,8 +63,7 @@ public:
 
 TEST_F(ProjectManagerDecoratorTest, InitialState)
 {
-  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
-  const ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", ""));
+  const ProjectManagerDecorator decorator(&m_mock_project, CreateUserContext("", ""));
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
@@ -78,8 +77,7 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
 {
   const std::string file_name = "file.xml";
 
-  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
-  ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", file_name));
+  ProjectManagerDecorator decorator(&m_mock_project, CreateUserContext("", file_name));
 
   // setting up the project
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(false));
@@ -99,8 +97,7 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
 //! on ProjectManager::SaveCurrentProject
 TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
 {
-  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
-  ProjectManagerDecorator decorator(std::move(manager), CreateUserContext("", ""));
+  ProjectManagerDecorator decorator(&m_mock_project, CreateUserContext("", ""));
 
   // setting up what mock project should return
   const std::string path("path");
@@ -127,9 +124,8 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExisting)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
   ProjectManagerDecorator decorator(
-      std::move(manager),
+      &m_mock_project,
       CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return
@@ -156,9 +152,8 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExistingV2)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
   ProjectManagerDecorator decorator(
-      std::move(manager),
+      &m_mock_project,
       CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return

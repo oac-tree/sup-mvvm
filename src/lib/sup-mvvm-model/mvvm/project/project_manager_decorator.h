@@ -41,7 +41,7 @@ struct UserInteractionContext;
 class MVVM_MODEL_EXPORT ProjectManagerDecorator : public IProjectManager
 {
 public:
-  ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
+  ProjectManagerDecorator(IProject* project_agent,
                           UserInteractionContext user_context);
 
   ~ProjectManagerDecorator() override;
@@ -115,7 +115,7 @@ private:
    */
   std::string AcquireExistingProjectPath() const;
 
-  std::unique_ptr<IProjectManager> m_project_manager;
+  IProject* m_project_manager{nullptr};
   UserInteractionContext m_user_context;
 };
 

@@ -45,9 +45,9 @@ bool CreateNewProjectV(const std::string& path, IProject& project)
 
 }  // namespace
 
-ProjectManagerDecorator::ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
+ProjectManagerDecorator::ProjectManagerDecorator(IProject *project_agent,
                                                  UserInteractionContext user_context)
-    : m_project_manager(std::move(decoratee)), m_user_context(std::move(user_context))
+    : m_project_manager(project_agent), m_user_context(std::move(user_context))
 {
   if (!m_user_context.answer_callback)
   {
@@ -152,7 +152,7 @@ bool ProjectManagerDecorator::CloseCurrentProject()
 
 IProject* ProjectManagerDecorator::GetProject() const
 {
-  return m_project_manager->GetProject();
+  return m_project_manager;
 }
 
 bool ProjectManagerDecorator::ProjectHasPath() const

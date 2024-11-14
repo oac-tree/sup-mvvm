@@ -76,8 +76,7 @@ public:
     context.loaded_callback = m_loaded_callback.AsStdFunction();
     m_project = mvvm::utils::CreateUntitledProject(project_type, GetModels(), context);
 
-    auto project_manager = std::make_unique<ProjectManager>(m_project.get());
-    return std::make_unique<ProjectManagerDecorator>(std::move(project_manager),
+    return std::make_unique<ProjectManagerDecorator>(m_project.get(),
                                                      CreateUserContext(new_path, existing_path));
   }
 
