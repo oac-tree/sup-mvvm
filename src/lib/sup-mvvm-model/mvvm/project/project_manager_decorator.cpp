@@ -45,7 +45,7 @@ bool CreateNewProjectV(const std::string& path, IProject& project)
 
 }  // namespace
 
-ProjectManagerDecorator::ProjectManagerDecorator(IProject *project_agent,
+ProjectManagerDecorator::ProjectManagerDecorator(IProject* project_agent,
                                                  UserInteractionContext user_context)
     : m_project_manager(project_agent), m_user_context(std::move(user_context))
 {
@@ -150,11 +150,6 @@ bool ProjectManagerDecorator::CloseCurrentProject()
   return GetProject()->CloseProject();
 }
 
-IProject* ProjectManagerDecorator::GetProject() const
-{
-  return m_project_manager;
-}
-
 bool ProjectManagerDecorator::ProjectHasPath() const
 {
   return !GetProject()->GetProjectPath().empty();
@@ -192,6 +187,11 @@ std::string ProjectManagerDecorator::AcquireNewProjectPath() const
 std::string ProjectManagerDecorator::AcquireExistingProjectPath() const
 {
   return m_user_context.existing_path_callback();
+}
+
+IProject* ProjectManagerDecorator::GetProject() const
+{
+  return m_project_manager;
 }
 
 }  // namespace mvvm

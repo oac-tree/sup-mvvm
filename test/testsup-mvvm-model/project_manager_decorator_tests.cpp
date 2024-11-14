@@ -20,7 +20,6 @@
 #include "mvvm/project/project_manager_decorator.h"
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/project/project_manager.h>
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>

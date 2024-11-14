@@ -23,12 +23,11 @@
 #include <mvvm/project/i_project_manager.h>
 #include <mvvm/project/project_context.h>
 
-#include <memory>
-
 namespace mvvm
 {
 
 struct UserInteractionContext;
+class IProject;
 
 /**
  * @brief The ProjectManagerDecorator class is an extension of ProjectManager to provide an
@@ -41,8 +40,7 @@ struct UserInteractionContext;
 class MVVM_MODEL_EXPORT ProjectManagerDecorator : public IProjectManager
 {
 public:
-  ProjectManagerDecorator(IProject* project_agent,
-                          UserInteractionContext user_context);
+  ProjectManagerDecorator(IProject* project_agent, UserInteractionContext user_context);
 
   ~ProjectManagerDecorator() override;
   ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
@@ -87,8 +85,6 @@ public:
    */
   bool CloseCurrentProject() override;
 
-  IProject* GetProject() const override;
-
 private:
   /**
    * @brief Returns true if the project has path already defined.
@@ -114,6 +110,8 @@ private:
    * @brief Acquire the name of the existing project path using callback provided.
    */
   std::string AcquireExistingProjectPath() const;
+
+  IProject* GetProject() const;
 
   IProject* m_project_manager{nullptr};
   UserInteractionContext m_user_context;

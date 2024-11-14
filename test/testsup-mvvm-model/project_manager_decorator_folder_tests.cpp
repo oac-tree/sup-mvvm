@@ -23,7 +23,6 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
-#include <mvvm/project/project_manager.h>
 #include <mvvm/project/project_utils.h>
 #include <mvvm/utils/file_utils.h>
 

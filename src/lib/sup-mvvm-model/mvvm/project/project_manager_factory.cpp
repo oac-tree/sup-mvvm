@@ -19,7 +19,6 @@
 
 #include "project_manager_factory.h"
 
-#include <mvvm/project/project_manager.h>
 #include <mvvm/project/project_manager_decorator.h>
 
 namespace mvvm
