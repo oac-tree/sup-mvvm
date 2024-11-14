@@ -67,6 +67,21 @@ public:
   virtual std::string GetProjectPath() const = 0;
 
   /**
+   * @brief Checks if the project has been modified since the last save.
+   */
+  virtual bool IsModified() const = 0;
+
+  /**
+   * @brief Creates new project.
+   */
+  virtual bool CreateNewProject() = 0;
+
+  /**
+   * @brief Close the project.
+   */
+  virtual bool CloseProject() = 0;
+
+  /**
    * @brief Saves the project content to a given path.
    *
    * Given path will become new project path as reported by GetProjectPath() method.
@@ -84,25 +99,6 @@ public:
    * @return True in the case of success.
    */
   virtual bool Load(const std::string& path) = 0;
-
-  /**
-   * @brief Checks if the project has been modified since the last save.
-   */
-  virtual bool IsModified() const = 0;
-
-  /**
-   * @brief Creates new project.
-   *
-   * FIXME this is refactoring method. It is intended to create all models from scratch.
-   */
-  virtual bool CreateNewProject() = 0;
-
-  /**
-   * @brief Close the project.
-   *
-   * FIXME this is refactoring method. It is intended to destroy all models.
-   */
-  virtual bool CloseProject() = 0;
 };
 
 }  // namespace mvvm

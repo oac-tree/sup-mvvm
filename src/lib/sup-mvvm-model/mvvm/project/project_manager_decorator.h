@@ -50,12 +50,22 @@ public:
 
   std::string GetApplicationType() const override;
 
+  std::string GetProjectPath() const override;
+
+  bool IsModified() const override;
+
   /**
    * @details If the path is empty will call a dialog for folder selection (for folder-based
    * projects) or file selection (for file-based projects). If the current project is unsaved, will
    * perform 'save-before-closing' procedure before proceeding further.
    */
   bool CreateNewProject(const std::string& path) override;
+
+  /**
+   * @details Will show the dialog, via callback provided, asking the user whether to
+   * save/discard/cancel. Returns 'false' only if user has selected 'cancel' button.
+   */
+  bool CloseProject() override;
 
   /**
    * @details The project should have a path defined for success. If this is not the case, it will
@@ -78,16 +88,6 @@ public:
    * further.
    */
   bool OpenExistingProject(const std::string& path) override;
-
-  std::string CurrentProjectPath() const override;
-
-  bool IsModified() const override;
-
-  /**
-   * @details Will show the dialog, via callback provided, asking the user whether to
-   * save/discard/cancel. Returns 'false' only if user has selected 'cancel' button.
-   */
-  bool CloseCurrentProject() override;
 
 private:
   /**

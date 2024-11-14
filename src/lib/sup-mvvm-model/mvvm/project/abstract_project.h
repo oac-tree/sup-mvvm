@@ -58,20 +58,20 @@ public:
 
   std::string GetProjectPath() const override;
 
-  bool Save(const std::string& path) override;
-
-  bool Load(const std::string& path) override;
-
   bool IsModified() const override;
 
   bool CreateNewProject() override;
 
   bool CloseProject() override;
 
+  bool Save(const std::string& path) override;
+
+  bool Load(const std::string& path) override;
+
   virtual std::vector<ISessionModel*> GetModels() const;
 
 protected:
-  void SetupListener(const std::vector<ISessionModel *> &models);
+  void SetupListener(const std::vector<ISessionModel*>& models);
 
 private:
   virtual bool SaveImpl(const std::string&) = 0;

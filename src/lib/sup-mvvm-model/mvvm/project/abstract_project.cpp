@@ -49,29 +49,6 @@ std::string AbstractProject::GetProjectPath() const
   return m_project_path;
 }
 
-bool AbstractProject::Save(const std::string &path)
-{
-  auto result = SaveImpl(path);
-  if (result)
-  {
-    m_project_path = path;
-    MarkProjectAsUnmodified();
-  }
-  return result;
-}
-
-bool AbstractProject::Load(const std::string &path)
-{
-  auto is_success = LoadImpl(path);
-  if (is_success)
-  {
-    m_project_path = path;
-    MarkProjectAsUnmodified();
-    ProjectLoadedNotify();
-  }
-  return is_success;
-}
-
 bool AbstractProject::IsModified() const
 {
   return m_change_controller ? m_change_controller->IsChanged() : false;
@@ -101,6 +78,29 @@ bool AbstractProject::CloseProject()
     m_change_controller.reset();
   }
 
+  return is_success;
+}
+
+bool AbstractProject::Save(const std::string &path)
+{
+  auto result = SaveImpl(path);
+  if (result)
+  {
+    m_project_path = path;
+    MarkProjectAsUnmodified();
+  }
+  return result;
+}
+
+bool AbstractProject::Load(const std::string &path)
+{
+  auto is_success = LoadImpl(path);
+  if (is_success)
+  {
+    m_project_path = path;
+    MarkProjectAsUnmodified();
+    ProjectLoadedNotify();
+  }
   return is_success;
 }
 

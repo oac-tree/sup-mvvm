@@ -67,7 +67,7 @@ TEST_F(ProjectManagerDecoratorTest, InitialState)
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
 
-  EXPECT_TRUE(decorator.CurrentProjectPath().empty());
+  EXPECT_TRUE(decorator.GetProjectPath().empty());
   EXPECT_FALSE(decorator.IsModified());
 }
 
@@ -109,7 +109,7 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
 
   // setting expectencies for CurrentProjectPath
   EXPECT_TRUE(decorator.IsModified());
-  EXPECT_EQ(decorator.CurrentProjectPath(), path);
+  EXPECT_EQ(decorator.GetProjectPath(), path);
 
   // setting expectencies for SaveCurrentProject
   EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);

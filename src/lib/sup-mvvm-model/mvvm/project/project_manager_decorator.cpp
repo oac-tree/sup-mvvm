@@ -82,6 +82,16 @@ std::string ProjectManagerDecorator::GetApplicationType() const
   return GetProject()->GetApplicationType();
 }
 
+std::string ProjectManagerDecorator::GetProjectPath() const
+{
+  return GetProject()->GetProjectPath();
+}
+
+bool ProjectManagerDecorator::IsModified() const
+{
+  return GetProject()->IsModified();
+}
+
 bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
 {
   if (!SaveBeforeClosing())
@@ -102,9 +112,19 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
   return CreateNewProjectV(project_dir, *GetProject());
 }
 
+bool ProjectManagerDecorator::CloseProject()
+{
+  if (!SaveBeforeClosing())
+  {
+    return kFailed;
+  }
+
+  return GetProject()->CloseProject();
+}
+
 bool ProjectManagerDecorator::SaveCurrentProject()
 {
-  return SaveProjectAs(CurrentProjectPath());
+  return SaveProjectAs(GetProjectPath());
 }
 
 bool ProjectManagerDecorator::SaveProjectAs(const std::string& path)
@@ -138,26 +158,6 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
     m_user_context.message_callback(ex.what());
     return kFailed;
   }
-}
-
-std::string ProjectManagerDecorator::CurrentProjectPath() const
-{
-  return GetProject()->GetProjectPath();
-}
-
-bool ProjectManagerDecorator::IsModified() const
-{
-  return GetProject()->IsModified();
-}
-
-bool ProjectManagerDecorator::CloseCurrentProject()
-{
-  if (!SaveBeforeClosing())
-  {
-    return kFailed;
-  }
-
-  return GetProject()->CloseProject();
 }
 
 bool ProjectManagerDecorator::ProjectHasPath() const

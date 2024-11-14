@@ -53,6 +53,19 @@ public:
   virtual std::string GetApplicationType() const = 0;
 
   /**
+   * @brief Returns current project path.
+   *
+   * For folder-based projects path is a full path to the project folder. For file-based projects,
+   * it is a full path to a project file.
+   */
+  virtual std::string GetProjectPath() const = 0;
+
+  /**
+   * @brief Returns true if project was modified since last save.
+   */
+  virtual bool IsModified() const = 0;
+
+  /**
    * @brief Creates new project in a given path.
    *
    * For folder-based projects path is a full path to the project folder. For file-based projects,
@@ -62,6 +75,15 @@ public:
    * @return True in the case of success.
    */
   virtual bool CreateNewProject(const std::string& path) = 0;
+
+  /**
+   * @brief Closes current project (without saving).
+   *
+   * @return Returns true in the case of success.
+   *
+   * @details No checks whether it is modified or not being performed.
+   */
+  virtual bool CloseProject() = 0;
 
   /**
    * @brief Saves current project.
@@ -88,28 +110,6 @@ public:
    * @return Returns true in the case of success.
    */
   virtual bool OpenExistingProject(const std::string& path) = 0;
-
-  /**
-   * @brief Returns current project path.
-   *
-   * For folder-based projects path is a full path to the project folder. For file-based projects,
-   * it is a full path to a project file.
-   */
-  virtual std::string CurrentProjectPath() const = 0;
-
-  /**
-   * @brief Returns true if project was modified since last save.
-   */
-  virtual bool IsModified() const = 0;
-
-  /**
-   * @brief Closes current project (without saving).
-   *
-   * @return Returns true in the case of success.
-   *
-   * @details No checks whether it is modified or not being performed.
-   */
-  virtual bool CloseCurrentProject() = 0;
 };
 
 }  // namespace mvvm
