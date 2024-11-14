@@ -46,6 +46,10 @@ public:
   ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
   ProjectManagerDecorator& operator=(const ProjectManagerDecorator& other) = delete;
 
+  ProjectType GetProjectType() const override;
+
+  std::string GetApplicationType() const override;
+
   /**
    * @details If the path is empty will call a dialog for folder selection (for folder-based
    * projects) or file selection (for file-based projects). If the current project is unsaved, will

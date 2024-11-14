@@ -72,6 +72,16 @@ ProjectManagerDecorator::ProjectManagerDecorator(IProject* project_agent,
 
 ProjectManagerDecorator::~ProjectManagerDecorator() = default;
 
+ProjectType ProjectManagerDecorator::GetProjectType() const
+{
+  return GetProject()->GetProjectType();
+}
+
+std::string ProjectManagerDecorator::GetApplicationType() const
+{
+  return GetProject()->GetApplicationType();
+}
+
 bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
 {
   if (!SaveBeforeClosing())

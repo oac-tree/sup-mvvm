@@ -21,6 +21,7 @@
 #define MVVM_PROJECT_I_PROJECT_MANAGER_H_
 
 #include <mvvm/model_export.h>
+#include <mvvm/project/project_types.h>
 
 #include <string>
 
@@ -38,6 +39,18 @@ class MVVM_MODEL_EXPORT IProjectManager
 {
 public:
   virtual ~IProjectManager() = default;
+
+  /**
+   * @brief Returns the type of the project.
+   */
+  virtual ProjectType GetProjectType() const = 0;
+
+  /**
+   * @brief Returns the type of the application.
+   *
+   * The value is used to determine if the document can be opened by the application.
+   */
+  virtual std::string GetApplicationType() const = 0;
 
   /**
    * @brief Creates new project in a given path.
