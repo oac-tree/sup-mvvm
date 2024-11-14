@@ -32,6 +32,9 @@ using ::testing::_;
 
 /**
  * @brief Tests for ProjectManagerDecorator class.
+ *
+ * In this test we are using mock project and mock user interactor, no actual saving on disk is
+ * performed.
  */
 class ProjectManagerDecoratorTest : public ::testing::Test
 {
@@ -83,7 +86,7 @@ TEST_F(ProjectManagerDecoratorTest, ExceptionDuringProjectLoad)
   ON_CALL(m_mock_project, Load(_)).WillByDefault(::testing::Throw(RuntimeException("Failed load")));
 
   // one IsModified() from ProjectManager, another from SaveBeforeClosing
-  EXPECT_CALL(m_mock_project, IsModified()).Times(2);
+  EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, Load(file_name)).Times(1);
   // we shouldn't close previous project if loading of the new one is failed
   EXPECT_CALL(m_mock_project, CloseProject()).Times(0);
@@ -113,17 +116,15 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedSave)
   EXPECT_EQ(decorator.CurrentProjectPath(), path);
 
   // setting expectencies for SaveCurrentProject
-  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);  // GetProjectPath
+  EXPECT_CALL(m_mock_project, GetProjectPath()).Times(1);
   EXPECT_CALL(m_mock_project, Save(path));
   EXPECT_TRUE(decorator.SaveCurrentProject());
 }
 
-//! Mocking project pretends it has a path defined, and it is in modified state.
-//! Checking behavior ProjectManager::OpenExistingProject when user decides to discard previous
-//! changes.
+//! Mocking project pretends it has a path defined, and it is in modified state. Checking the
+//! behavior of ProjectManager::OpenExistingProject when user decides to discard previous changes.
 TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExisting)
 {
-  const std::string current_project_path("current_project_path.xml");
   const std::string existing_project_path("existing_project_path.xml");
 
   auto manager = std::make_unique<ProjectManager>(&m_mock_project);
@@ -133,17 +134,45 @@ TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExisting)
 
   // setting up what mock project should return
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
-  ON_CALL(m_mock_project, GetProjectPath()).WillByDefault(::testing::Return(existing_project_path));
+  ON_CALL(m_mock_project, Load(existing_project_path)).WillByDefault(::testing::Return(true));
 
-  // expectations
-  {
-    ::testing::InSequence seq;
+  {  // expectations
+    const ::testing::InSequence seq;
     EXPECT_CALL(m_mock_project, IsModified()).Times(1);
     EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
     EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
-    EXPECT_CALL(m_mock_project, IsModified()).Times(1);
-    EXPECT_CALL(m_mock_project, Load(_)).Times(1); // <-- Failing here, no call
+    EXPECT_CALL(m_mock_project, Load(existing_project_path)).Times(1);
   }
 
-  EXPECT_TRUE(decorator.OpenExistingProject(existing_project_path));  // <-- Failing here, false
+  // triggering action, the path to existing project is known
+  EXPECT_TRUE(decorator.OpenExistingProject(existing_project_path));
+}
+
+//! Mocking project pretends it has a path defined, and it is in modified state. Checking the
+//! behavior of ProjectManager::OpenExistingProject when user decides to discard previous changes.
+//! Same as previous test, with only difference that no name is provided while opening existing
+//! project. This validates the call to "select existing project" dialog.
+TEST_F(ProjectManagerDecoratorTest, TitledModifiedDiscardAndOpenExistingV2)
+{
+  const std::string existing_project_path("existing_project_path.xml");
+
+  auto manager = std::make_unique<ProjectManager>(&m_mock_project);
+  ProjectManagerDecorator decorator(
+      std::move(manager),
+      CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
+
+  // setting up what mock project should return
+  ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
+  ON_CALL(m_mock_project, Load(existing_project_path)).WillByDefault(::testing::Return(true));
+
+  {  // expectations
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+    EXPECT_CALL(m_mock_interactor, OnSaveChangesRequest()).Times(1);
+    EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(1);
+    EXPECT_CALL(m_mock_project, Load(existing_project_path)).Times(1);
+  }
+
+  // triggering action, the path to existing project is unknown
+  EXPECT_TRUE(decorator.OpenExistingProject(""));
 }

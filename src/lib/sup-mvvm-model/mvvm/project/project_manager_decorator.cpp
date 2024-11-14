@@ -43,16 +43,6 @@ bool CreateNewProjectV(const std::string& path, IProject& project)
   return project.Save(path);
 }
 
-bool OpenExistingProjectV(const std::string& path, IProject& project)
-{
-  if (project.IsModified())
-  {
-    return kFailed;
-  }
-
-  return project.Load(path);
-}
-
 }  // namespace
 
 ProjectManagerDecorator::ProjectManagerDecorator(std::unique_ptr<IProjectManager> decoratee,
@@ -130,7 +120,7 @@ bool ProjectManagerDecorator::OpenExistingProject(const std::string& path)
 
   try
   {
-    return OpenExistingProjectV(project_dir, *GetProject());
+    return GetProject()->Load(project_dir);
   }
   catch (const std::exception& ex)
   {
