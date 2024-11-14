@@ -144,11 +144,6 @@ IProject* ProjectManager::GetProject() const
   return m_project_manager;
 }
 
-bool ProjectManager::ProjectHasPath() const
-{
-  return !GetProject()->GetProjectPath().empty();
-}
-
 bool ProjectManager::SaveBeforeClosing()
 {
   if (IsModified())

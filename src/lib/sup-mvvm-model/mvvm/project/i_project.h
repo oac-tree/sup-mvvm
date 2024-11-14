@@ -67,6 +67,13 @@ public:
   virtual std::string GetProjectPath() const = 0;
 
   /**
+   * @brief Checks if project has correct path defined.
+   *
+   * Meaning it was already correctly saved to, or loaded from certain place.
+   */
+  virtual bool HasPath() const = 0;
+
+  /**
    * @brief Checks if the project has been modified since the last save.
    */
   virtual bool IsModified() const = 0;

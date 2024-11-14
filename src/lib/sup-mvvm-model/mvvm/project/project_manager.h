@@ -89,11 +89,6 @@ public:
 
 private:
   /**
-   * @brief Returns true if the project has path already defined.
-   */
-  bool ProjectHasPath() const;
-
-  /**
    * @brief Performs saving of previous project before creating a new one.
    */
   bool SaveBeforeClosing();

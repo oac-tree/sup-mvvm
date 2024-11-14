@@ -49,6 +49,11 @@ std::string AbstractProject::GetProjectPath() const
   return m_project_path;
 }
 
+bool AbstractProject::HasPath() const
+{
+  return !m_project_path.empty();
+}
+
 bool AbstractProject::IsModified() const
 {
   return m_change_controller ? m_change_controller->IsChanged() : false;

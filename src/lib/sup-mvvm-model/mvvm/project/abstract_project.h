@@ -58,6 +58,8 @@ public:
 
   std::string GetProjectPath() const override;
 
+  bool HasPath() const override;
+
   bool IsModified() const override;
 
   bool CreateEmpty() override;
