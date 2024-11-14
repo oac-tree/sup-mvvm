@@ -41,7 +41,7 @@ class FileBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
   FileBasedProjectTest()
-      : FolderTest("test_FileBasedProject")
+      : FolderTest("FileBasedProjectTest")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
       , m_material_model(std::make_unique<ApplicationModel>(kMaterialModelName))
   {

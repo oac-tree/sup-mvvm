@@ -66,7 +66,7 @@ public:
 
   //! Represents a layer, with thickness and color, and possibly populated with particles.
 
-  TopItemsViewModelTest() : FolderTest("test_TopItemsViewModel"), m_viewmodel(&m_model) {}
+  TopItemsViewModelTest() : FolderTest("TopItemsViewModelTest"), m_viewmodel(&m_model) {}
 
   TestModel m_model;
   TopItemsViewModel m_viewmodel;

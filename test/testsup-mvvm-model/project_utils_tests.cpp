@@ -31,11 +31,11 @@ using namespace mvvm;
 
 //! Tests of ProjectUtils namespace functions.
 
-class ProjectUtilsTests : public mvvm::test::FolderTest
+class ProjectUtilsTest : public mvvm::test::FolderTest
 {
 public:
-  ProjectUtilsTests()
-      : FolderTest("test_ProjectUtils")
+  ProjectUtilsTest()
+      : FolderTest("ProjectUtilsTest")
       , m_sample_model(std::make_unique<ApplicationModel>("SampleModel"))
   {
   }
@@ -49,20 +49,20 @@ public:
 
 //! Testing helper structure.
 
-TEST_F(ProjectUtilsTests, SuggestFileName)
+TEST_F(ProjectUtilsTest, SuggestFileName)
 {
   ApplicationModel model("TestModel");
   EXPECT_EQ(std::string("testmodel.xml"), utils::SuggestFileName(model));
 }
 
-TEST_F(ProjectUtilsTests, CreateUntitledProject)
+TEST_F(ProjectUtilsTest, CreateUntitledProject)
 {
   auto project =
       utils::CreateUntitledProject(ProjectType::kFileBased, GetModels(), CreateContext());
   EXPECT_TRUE(project->GetProjectPath().empty());
 }
 
-TEST_F(ProjectUtilsTests, ProjectWindowTitle)
+TEST_F(ProjectUtilsTest, ProjectWindowTitle)
 {
   // untitled and unmodified project
   EXPECT_EQ(utils::ProjectWindowTitle(std::string(""), false), "Untitled");
@@ -83,7 +83,7 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitle)
   EXPECT_EQ(utils::ProjectWindowTitle(std::string("/home/user/project1"), true), "*project1");
 }
 
-TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
+TEST_F(ProjectUtilsTest, ProjectWindowTitleViaProjectInterface)
 {
   auto project =
       utils::CreateUntitledProject(ProjectType::kFolderBased, GetModels(), CreateContext());
@@ -103,7 +103,7 @@ TEST_F(ProjectUtilsTests, ProjectWindowTitleViaProjectInterface)
   EXPECT_EQ(utils::ProjectWindowTitle(*project), "*" + GetTestHomeDirName());
 }
 
-TEST_F(ProjectUtilsTests, IsPossibleProjectDir)
+TEST_F(ProjectUtilsTest, IsPossibleProjectDir)
 {
   auto project =
       utils::CreateUntitledProject(ProjectType::kFolderBased, GetModels(), CreateContext());

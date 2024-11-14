@@ -38,10 +38,10 @@ using namespace mvvm;
 
 //! Testing TreeDataItemConverter.
 
-class TreeDataItemConverterTests : public mvvm::test::FolderTest
+class TreeDataItemConverterTest : public mvvm::test::FolderTest
 {
 public:
-  TreeDataItemConverterTests() : FolderTest("test_TreeDataItemConverter") {}
+  TreeDataItemConverterTest() : FolderTest("TreeDataItemConverterTest") {}
 
   static std::unique_ptr<TreeDataItemConverter> CreateCloneConverter()
   {
@@ -75,7 +75,7 @@ public:
 
 //! Default PropertyItem to TreeData and back.
 
-TEST_F(TreeDataItemConverterTests, PropertyItemToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 {
   auto converter = CreateCloneConverter();
 
@@ -95,7 +95,7 @@ TEST_F(TreeDataItemConverterTests, PropertyItemToTreeDataAndBack)
 
 //! PropertyItem with data to TreeData and back.
 
-TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
 {
   PropertyItem item;
   item.SetData(42, DataRole::kData);
@@ -123,7 +123,7 @@ TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToTreeDataAndBack)
 
 //! PropertyItem with data to TreeData and back.
 
-TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToFileAndBack)
+TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
 {
   PropertyItem item;
   item.SetData(42, DataRole::kData);
@@ -158,7 +158,7 @@ TEST_F(TreeDataItemConverterTests, PropertyItemWithDataToFileAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTests, ParentAndChildToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");
@@ -195,7 +195,7 @@ TEST_F(TreeDataItemConverterTests, ParentAndChildToTreeDataAndBack)
 
 //! Char8 to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTests, Char8ToFileAndBack)
+TEST_F(TreeDataItemConverterTest, Char8ToFileAndBack)
 {
   SessionItem item;
   item.SetData(mvvm::char8{0});
@@ -214,7 +214,7 @@ TEST_F(TreeDataItemConverterTests, Char8ToFileAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTests, ParentAndChildToFileAndBack)
+TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");
@@ -249,7 +249,7 @@ TEST_F(TreeDataItemConverterTests, ParentAndChildToFileAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTests, CompoundItemToTreeDataAndBack)
+TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent_name");
@@ -286,7 +286,7 @@ TEST_F(TreeDataItemConverterTests, CompoundItemToTreeDataAndBack)
 
 //! Parent and child to TreeData object and back.
 
-TEST_F(TreeDataItemConverterTests, CompoundItemFileAndBack)
+TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
 {
   CompoundItem parent;
   parent.SetDisplayName("parent_name");
@@ -321,7 +321,7 @@ TEST_F(TreeDataItemConverterTests, CompoundItemFileAndBack)
 
 //! Parent and child to TreeData object and back (converter in copy mode).
 
-TEST_F(TreeDataItemConverterTests, ParentAndChildCopy)
+TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
 {
   SessionItem parent;
   parent.SetDisplayName("parent_name");

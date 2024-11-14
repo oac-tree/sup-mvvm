@@ -43,7 +43,7 @@ const std::string ModelTypeB = "ModelTypeB";
 class AppProjectTest : public mvvm::test::FolderTest
 {
 public:
-  AppProjectTest() : FolderTest("test_AppProjectTest") {}
+  AppProjectTest() : FolderTest("AppProjectTest") {}
 
   std::unique_ptr<AppProject> CreateProject()
   {

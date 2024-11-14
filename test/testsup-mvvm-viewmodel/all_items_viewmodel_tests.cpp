@@ -45,7 +45,7 @@ using namespace mvvm;
 class AllItemsViewModelTest : public mvvm::test::FolderTest
 {
 public:
-  AllItemsViewModelTest() : FolderTest("test_AllItemsViewModel"), m_viewmodel(&m_model) {}
+  AllItemsViewModelTest() : FolderTest("AllItemsViewModelTest"), m_viewmodel(&m_model) {}
 
   ApplicationModel m_model;
   AllItemsViewModel m_viewmodel;

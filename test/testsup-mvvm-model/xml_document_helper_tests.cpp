@@ -40,7 +40,7 @@ const std::string ModelTypeB = "ModelTypeB";
 class XmlDocumentHelperTest : public mvvm::test::FolderTest
 {
 public:
-  XmlDocumentHelperTest() : FolderTest("test_XmlDocumentHelperTest") {}
+  XmlDocumentHelperTest() : FolderTest("XmlDocumentHelperTest") {}
 
   class TestModelA : public ApplicationModel
   {
