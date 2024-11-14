@@ -31,18 +31,6 @@ namespace
 const bool kSucceeded = true;
 const bool kFailed = false;
 
-bool CreateNewProjectV(const std::string& path, IProject& project)
-{
-  if (project.IsModified())
-  {
-    return kFailed;
-  }
-
-  project.CreateNewProject();
-
-  return project.Save(path);
-}
-
 }  // namespace
 
 ProjectManagerDecorator::ProjectManagerDecorator(IProject* project_agent,
@@ -108,8 +96,9 @@ bool ProjectManagerDecorator::CreateNewProject(const std::string& path)
   }
 
   GetProject()->CloseProject();
+  GetProject()->CreateNewProject();
 
-  return CreateNewProjectV(project_dir, *GetProject());
+  return GetProject()->Save(project_dir);
 }
 
 bool ProjectManagerDecorator::CloseProject()
