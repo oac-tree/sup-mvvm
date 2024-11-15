@@ -43,19 +43,23 @@ public:
    * @brief Returns a path to a new project to create.
    *
    * Depending on the implementation, it can be either an empty folder on disk, or a new file name.
+   * Method is non-const since its implementation might update internal state (i.e. last used
+   * working directory).
    *
    * @return Full project path.
    */
-  virtual std::string GetNewProjectPath() const = 0;
+  virtual std::string GetNewProjectPath() = 0;
 
   /**
    * @brief Returns a path to existing project.
    *
    * Depending on the implementation, it can be either an existing folder on disk, or existing file.
+   * Method is non-const since its implementation might update internal state (i.e. last used
+   * working directory).
    *
    * @return Full project path.
    */
-  virtual std::string GetExistingProjectPath() const = 0;
+  virtual std::string GetExistingProjectPath() = 0;
 
   /**
    * @brief Returns save/cancel/discard changes choice provided by the user.
