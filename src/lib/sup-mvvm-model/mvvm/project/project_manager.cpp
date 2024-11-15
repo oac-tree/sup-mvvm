@@ -33,9 +33,8 @@ const bool kFailed = false;
 
 }  // namespace
 
-ProjectManager::ProjectManager(IProject* project_agent,
-                                                 UserInteractionContext user_context)
-    : m_project_manager(project_agent), m_user_context(std::move(user_context))
+ProjectManager::ProjectManager(IProject* project, UserInteractionContext user_context)
+    : m_project(project), m_user_context(std::move(user_context))
 {
   if (!m_user_context.answer_callback)
   {
@@ -72,9 +71,9 @@ bool ProjectManager::CreateNewProject(const std::string& path)
     return kFailed;
   }
 
-  auto project_dir = path.empty() ? AcquireNewProjectPath() : path;
+  auto project_path = path.empty() ? AcquireNewProjectPath() : path;
 
-  if (project_dir.empty())
+  if (project_path.empty())
   {
     // empty project_dir string denotes 'cancel' during directory creation dialog
     return kFailed;
@@ -83,7 +82,7 @@ bool ProjectManager::CreateNewProject(const std::string& path)
   GetProject()->Close();
   GetProject()->CreateEmpty();
 
-  return GetProject()->Save(project_dir);
+  return GetProject()->Save(project_path);
 }
 
 bool ProjectManager::CloseProject()
@@ -115,8 +114,8 @@ bool ProjectManager::OpenExistingProject(const std::string& path)
     return kFailed;
   }
 
-  auto project_dir = path.empty() ? AcquireExistingProjectPath() : path;
-  if (project_dir.empty())
+  auto project_path = path.empty() ? AcquireExistingProjectPath() : path;
+  if (project_path.empty())
   {
     // Empty project_dir variable denotes 'cancel' during project path selection dialog.
     return kFailed;
@@ -124,7 +123,7 @@ bool ProjectManager::OpenExistingProject(const std::string& path)
 
   try
   {
-    return GetProject()->Load(project_dir);
+    return GetProject()->Load(project_path);
   }
   catch (const std::exception& ex)
   {
@@ -136,7 +135,7 @@ bool ProjectManager::OpenExistingProject(const std::string& path)
 
 IProject* ProjectManager::GetProject() const
 {
-  return m_project_manager;
+  return m_project;
 }
 
 bool ProjectManager::SaveBeforeClosing()

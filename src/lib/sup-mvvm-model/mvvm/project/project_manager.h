@@ -30,17 +30,17 @@ struct UserInteractionContext;
 class IProject;
 
 /**
- * @brief The ProjectManager class is
- * interaction with the user on open/save-as requests.
+ * @brief The ProjectManager class assists the user in saving projects on disk and loading it from
+ * there.
  *
- * It relies on the same interface and adds additional logic related to "unsaved" data. For
- * example, on CreateNewProject, it will check if the previous project is saved, and will call
- * external dialog save/discard/cancel via the provided callback.
+ * It holds the logic related to "unsaved" data. For example, on CreateNewProject, it will check if
+ * the previous project is saved, and will call external dialog save/discard/cancel via the provided
+ * callback.
  */
 class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
 {
 public:
-  ProjectManager(IProject* project_agent, UserInteractionContext user_context);
+  ProjectManager(IProject* project, UserInteractionContext user_context);
 
   ~ProjectManager() override;
   ProjectManager(const ProjectManager& other) = delete;
@@ -106,7 +106,7 @@ private:
    */
   std::string AcquireExistingProjectPath() const;
 
-  IProject* m_project_manager{nullptr};
+  IProject* m_project{nullptr};
   UserInteractionContext m_user_context;
 };
 

@@ -36,7 +36,8 @@ namespace mvvm
  * it.
  *
  * The IProject-derived classes contain the logic on how to save and load the data from certain
- * place. Normally, they do not contain any logic related to unsaved data.
+ * place. They shouldn't contain any logic related to unsaved data. The latter is handled by
+ * IProjectManager.
  */
 class MVVM_MODEL_EXPORT IProject
 {
