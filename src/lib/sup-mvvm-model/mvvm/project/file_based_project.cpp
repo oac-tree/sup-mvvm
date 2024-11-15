@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * FolderBasedProject       : Operational Applications UI Foundation
+ * Project       : Operational Applications UI Foundation
  *
  * Description   : The model-view-viewmodel library of generic UI components
  *
