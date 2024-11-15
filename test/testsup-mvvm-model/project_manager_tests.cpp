@@ -30,7 +30,7 @@ using namespace mvvm;
 using ::testing::_;
 
 /**
- * @brief Tests for ProjectManagerDecorator class.
+ * @brief Tests for ProjectManager class.
  *
  * In this test we are using mock project and mock user interactor, no actual saving on disk is
  * performed.
@@ -62,12 +62,12 @@ public:
 
 TEST_F(ProjectManagerTest, InitialState)
 {
-  const ProjectManager decorator(&m_mock_project, CreateUserContext("", ""));
+  const ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
 
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
 
-  EXPECT_FALSE(decorator.GetProject()->HasPath());
-  EXPECT_FALSE(decorator.IsModified());
+  EXPECT_FALSE(manager.GetProject()->HasPath());
+  EXPECT_FALSE(manager.GetProject()->IsModified());
 }
 
 //! Testing scenario when project implementation throws an exception during project load.
@@ -75,7 +75,7 @@ TEST_F(ProjectManagerTest, ExceptionDuringProjectLoad)
 {
   const std::string file_name = "file.xml";
 
-  ProjectManager decorator(&m_mock_project, CreateUserContext("", file_name));
+  ProjectManager manager(&m_mock_project, CreateUserContext("", file_name));
 
   // setting up the project
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(false));
@@ -88,14 +88,14 @@ TEST_F(ProjectManagerTest, ExceptionDuringProjectLoad)
   EXPECT_CALL(m_mock_project, Close()).Times(0);
   EXPECT_CALL(m_mock_interactor, OnMessage(_)).Times(1);  // report about exception
 
-  EXPECT_FALSE(decorator.OpenExistingProject(file_name));
+  EXPECT_FALSE(manager.OpenExistingProject(file_name));
 }
 
 //! Mocking project pretends it has a path defined, and it is in modified state. Checking behavior
 //! on ProjectManager::SaveCurrentProject
 TEST_F(ProjectManagerTest, TitledModifiedSave)
 {
-  ProjectManager decorator(&m_mock_project, CreateUserContext("", ""));
+  ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
 
   // setting up what mock project should return
   const std::string path("path");
@@ -107,13 +107,13 @@ TEST_F(ProjectManagerTest, TitledModifiedSave)
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
 
   // setting expectencies for CurrentProjectPath
-  EXPECT_TRUE(decorator.IsModified());
-  EXPECT_EQ(decorator.GetProject()->GetPath(), path);
+  EXPECT_TRUE(manager.GetProject()->IsModified());
+  EXPECT_EQ(manager.GetProject()->GetPath(), path);
 
   // setting expectencies for SaveCurrentProject
   EXPECT_CALL(m_mock_project, GetPath()).Times(1);
   EXPECT_CALL(m_mock_project, Save(path));
-  EXPECT_TRUE(decorator.SaveCurrentProject());
+  EXPECT_TRUE(manager.SaveCurrentProject());
 }
 
 //! Mocking project pretends it has a path defined, and it is in modified state. Checking the
@@ -122,7 +122,7 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExisting)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  ProjectManager decorator(
+  ProjectManager manager(
       &m_mock_project, CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return
@@ -138,7 +138,7 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExisting)
   }
 
   // triggering action, the path to existing project is known
-  EXPECT_TRUE(decorator.OpenExistingProject(existing_project_path));
+  EXPECT_TRUE(manager.OpenExistingProject(existing_project_path));
 }
 
 //! Mocking project pretends it has a path defined, and it is in modified state. Checking the
@@ -149,7 +149,7 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExistingV2)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  ProjectManager decorator(
+  ProjectManager manager(
       &m_mock_project, CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return
@@ -165,5 +165,5 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExistingV2)
   }
 
   // triggering action, the path to existing project is unknown
-  EXPECT_TRUE(decorator.OpenExistingProject(""));
+  EXPECT_TRUE(manager.OpenExistingProject(""));
 }

@@ -67,7 +67,7 @@ public:
   }
 
   /**
-   * @brief Creates project manager decorator.
+   * @brief Creates project manager.
    */
   std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& new_path = {},
                                                         const std::string& existing_path = {})
@@ -93,7 +93,7 @@ TEST_F(ProjectManagerFolderTest, InitialState)
 {
   auto manager = CreateProjectManager();
   EXPECT_FALSE(manager->GetProject()->HasPath());
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
 }
 
 //! Creating new project. Use untitled+empty project as a starting point. Should succeed, since old
@@ -111,7 +111,7 @@ TEST_F(ProjectManagerFolderTest, CreateNewStartingFromUntitledEmptyProject)
   EXPECT_TRUE(manager->CreateNewProject(project_dir));
 
   EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir, kSampleModelName + ".xml");
@@ -239,7 +239,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
   EXPECT_CALL(m_modified_callback, Call()).Times(1);
 
   m_sample_model->InsertItem<PropertyItem>();
-  EXPECT_TRUE(manager->IsModified());
+  EXPECT_TRUE(manager->GetProject()->IsModified());
   EXPECT_FALSE(manager->GetProject()->HasPath());
 
   // setting up expectations: attempt to open existing project will lead to the following chain
@@ -259,7 +259,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
   EXPECT_TRUE(utils::IsExists(model_filename));
 
   // currently manager is pointing to existing project
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
   EXPECT_EQ(manager->GetProject()->GetPath(), existing_project_dir);
 }
 
@@ -280,7 +280,7 @@ TEST_F(ProjectManagerFolderTest, TitledUnmodifiedNew)
   EXPECT_TRUE(manager->CreateNewProject(project_dir2));
 
   EXPECT_EQ(manager->GetProject()->GetPath(), project_dir2);
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
 
   // project directory should contain a file with the model
   auto model_filename = utils::Join(project_dir2, kSampleModelName + ".xml");
@@ -301,5 +301,5 @@ TEST_F(ProjectManagerFolderTest, TitledModifiedSave)
   m_sample_model->InsertItem<PropertyItem>();
 
   EXPECT_TRUE(manager->SaveCurrentProject());
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
 }

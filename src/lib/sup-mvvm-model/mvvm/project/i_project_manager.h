@@ -44,11 +44,6 @@ public:
   virtual ~IProjectManager() = default;
 
   /**
-   * @brief Returns true if project was modified since last save.
-   */
-  virtual bool IsModified() const = 0;
-
-  /**
    * @brief Creates new project in a given path.
    *
    * For folder-based projects path is a full path to the project folder. For file-based projects,

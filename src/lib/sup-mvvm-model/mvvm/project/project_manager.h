@@ -46,8 +46,6 @@ public:
   ProjectManager(const ProjectManager& other) = delete;
   ProjectManager& operator=(const ProjectManager& other) = delete;
 
-  bool IsModified() const override;
-
   /**
    * @details If the path is empty will call a dialog for folder selection (for folder-based
    * projects) or file selection (for file-based projects). If the current project is unsaved, will

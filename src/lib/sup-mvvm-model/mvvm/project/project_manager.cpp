@@ -59,11 +59,6 @@ ProjectManager::ProjectManager(IProject* project, UserInteractionContext user_co
 
 ProjectManager::~ProjectManager() = default;
 
-bool ProjectManager::IsModified() const
-{
-  return GetProject()->IsModified();
-}
-
 bool ProjectManager::CreateNewProject(const std::string& path)
 {
   if (!SaveBeforeClosing())
@@ -151,7 +146,7 @@ std::vector<std::string> ProjectManager::GetRecentProjectList() const
 
 bool ProjectManager::SaveBeforeClosing()
 {
-  if (IsModified())
+  if (GetProject()->IsModified())
   {
     switch (AcquireSaveChangesAnswer())
     {

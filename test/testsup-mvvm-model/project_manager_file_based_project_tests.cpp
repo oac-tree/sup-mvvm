@@ -103,7 +103,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedSaveAs)
   EXPECT_CALL(m_mock_interactor, OnMessage(testing::_)).Times(0);
 
   EXPECT_TRUE(manager->SaveProjectAs(path));
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
 
   // project directory should contain a file with the model
   EXPECT_TRUE(utils::IsExists(path));
@@ -124,7 +124,7 @@ TEST_F(ProjectManagerFileBasedTest, AttemptToOpenNonExistingFile)
   EXPECT_CALL(m_mock_interactor, OnMessage(testing::_)).Times(1);
 
   EXPECT_FALSE(manager->OpenExistingProject(path));
-  EXPECT_FALSE(manager->IsModified());
+  EXPECT_FALSE(manager->GetProject()->IsModified());
 }
 
 //! Starting from new document (without project dir defined). Attempt to save under empty name,
