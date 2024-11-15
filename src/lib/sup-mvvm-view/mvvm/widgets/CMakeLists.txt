@@ -1,4 +1,6 @@
 target_sources(${library_name} PRIVATE
+  adjusting_scroll_area.cpp
+  adjusting_scroll_area.h
   app_utils.cpp
   app_utils.h
   fancytab.cpp

@@ -17,22 +17,35 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "plotgraphscore/main_window.h"
+#ifndef MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_
+#define MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_
 
-#include <QApplication>
-#include <QLocale>
+#include <mvvm/view_export.h>
 
-int main(int argc, char** argv)
+#include <QScrollArea>
+
+namespace mvvm
 {
-  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
-  QCoreApplication::setApplicationName("saveloadproject");
-  QCoreApplication::setApplicationVersion("0.1");
-  QCoreApplication::setOrganizationName("sup-mvvm");
 
-  QApplication app(argc, argv);
+/**
+ * @brief The AdjustingScrollArea class modifies the standard scroll area, allowing widgets with
+ * dynamic layouts to occupy all available space.
+ */
+class MVVM_VIEW_EXPORT AdjustingScrollArea : public QScrollArea
+{
+  Q_OBJECT
 
-  plotgraphs::MainWindow win;
-  win.show();
+public:
+  explicit AdjustingScrollArea(QWidget* parent = nullptr);
 
-  return app.exec();
-}
+  void SetWidget(QWidget* widget);
+
+  QSize sizeHint() const override;
+
+private:
+  bool eventFilter(QObject* object, QEvent* event) override;
+};
+
+}  // namespace mvvm
+
+#endif  // MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_

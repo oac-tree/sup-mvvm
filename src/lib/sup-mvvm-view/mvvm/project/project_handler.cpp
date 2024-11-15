@@ -24,7 +24,6 @@
 #include "recent_project_settings.h"
 
 #include <mvvm/core/exceptions.h>
-
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_manager_factory.h>
@@ -44,21 +43,18 @@ namespace
  *
  * It will provide dialogs to open existing projects, or create new.
  */
-std::unique_ptr<AbstractProjectUserInteractor> CreateUserInteractor(
-    IProject *project)
+std::unique_ptr<AbstractProjectUserInteractor> CreateUserInteractor(IProject *project)
 {
   auto application_type = QString::fromStdString(project->GetApplicationType());
 
   if (project->GetProjectType() == ProjectType::kFolderBased)
   {
-    return std::make_unique<FolderBasedUserInteractor>(application_type,
-                                                                 utils::FindMainWindow());
+    return std::make_unique<FolderBasedUserInteractor>(application_type, utils::FindMainWindow());
   }
 
   if (project->GetProjectType() == ProjectType::kFileBased)
   {
-    return std::make_unique<FileBasedUserInteractor>(application_type,
-                                                               utils::FindMainWindow());
+    return std::make_unique<FileBasedUserInteractor>(application_type, utils::FindMainWindow());
   }
 
   throw RuntimeException("Unknown project type");
@@ -172,4 +168,4 @@ void ProjectHandler::UpdateRecentProjectNames()
       QString::fromStdString(m_project_manager->GetProject()->GetPath()));
 }
 
-}  // namespace sup::gui
+}  // namespace mvvm
