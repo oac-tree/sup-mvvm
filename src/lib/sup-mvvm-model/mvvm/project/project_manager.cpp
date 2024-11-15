@@ -138,6 +138,17 @@ IProject* ProjectManager::GetProject() const
   return m_project;
 }
 
+void ProjectManager::ClearRecentProjectsList()
+{
+  // not implemented
+}
+
+std::vector<std::string> ProjectManager::GetRecentProjectList() const
+{
+  // not implemented
+  return {};
+}
+
 bool ProjectManager::SaveBeforeClosing()
 {
   if (IsModified())

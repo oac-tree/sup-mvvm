@@ -85,6 +85,10 @@ public:
 
   IProject* GetProject() const override;
 
+  void ClearRecentProjectsList() override;
+
+  std::vector<std::string> GetRecentProjectList() const override;
+
 private:
   /**
    * @brief Performs saving of previous project before creating a new one.

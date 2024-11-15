@@ -24,6 +24,7 @@
 #include <mvvm/project/project_types.h>
 
 #include <string>
+#include <vector>
 
 namespace mvvm
 {
@@ -97,6 +98,16 @@ public:
    * @brief Returns underlying project.
    */
   virtual IProject* GetProject() const = 0;
+
+  /**
+   * @brief Clears the list of recent projects.
+   */
+  virtual void ClearRecentProjectsList() = 0;
+
+  /**
+   * @brief Returns the list of recent projects.
+   */
+  virtual std::vector<std::string> GetRecentProjectList() const = 0;
 };
 
 }  // namespace mvvm
