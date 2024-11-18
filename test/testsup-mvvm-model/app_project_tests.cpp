@@ -157,6 +157,7 @@ TEST_F(AppProjectTest, SaveAndClose)
 
   // setting up expectation before project modification
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   project->GetModel<TestModelB>(1U)->InsertItem<mvvm::SessionItem>();
   EXPECT_TRUE(project->IsModified());
@@ -194,6 +195,7 @@ TEST_F(AppProjectTest, SaveAndLoad)
   item->SetData(42);
   EXPECT_TRUE(project->IsModified());
 
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
 
   // setting up expectation before project modification
@@ -244,6 +246,7 @@ TEST_F(AppProjectTest, LoadFromWrongFile)
 
   EXPECT_TRUE(project->CreateEmpty());
 
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(project->Save(expected_path));
 
   // creating project based on another model and trying to load file from another model

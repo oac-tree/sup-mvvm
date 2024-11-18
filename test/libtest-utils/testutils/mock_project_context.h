@@ -35,6 +35,7 @@ class MockProjectContext
 public:
   MOCK_METHOD(void, OnModified, (), (const));
   MOCK_METHOD(void, OnLoaded, (), (const));
+  MOCK_METHOD(void, OnSaved, (), (const));
 
   ProjectContext CreateContext(const std::string& application_type = {});
 };

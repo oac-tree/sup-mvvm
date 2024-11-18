@@ -92,6 +92,12 @@ bool AbstractProject::Save(const std::string &path)
   if (result)
   {
     m_project_path = path;
+
+    if (m_project_context.saved_callback)
+    {
+      m_project_context.saved_callback();
+    }
+
     MarkProjectAsUnmodified();
   }
   return result;

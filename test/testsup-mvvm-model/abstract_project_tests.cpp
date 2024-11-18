@@ -117,6 +117,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // performing save and triggering expectations
   EXPECT_TRUE(project.Save(expected_path));
@@ -138,6 +139,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   // setting up expectations
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
   EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
@@ -165,6 +167,7 @@ TEST_F(AbstractProjectTest, CloseProject)
   // setting expectations
   EXPECT_CALL(project, SaveImpl(expected_path)).Times(1);
   EXPECT_CALL(project, CloseProjectImpl()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // performing save and triggering expectations
   EXPECT_TRUE(project.Save(expected_path));

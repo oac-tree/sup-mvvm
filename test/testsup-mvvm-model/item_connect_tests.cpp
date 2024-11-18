@@ -117,11 +117,10 @@ TEST_F(ItemConnectTest, OnDataChangedCallbackVersion)
 
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
+  item->SetData(42, DataRole::kData);
 
   connect::Connect<DataChangedEvent>(item, mock_event_based_cb.AsStdFunction(), nullptr);
   connect::Connect<DataChangedEvent>(item, mock_variant_based_cb.AsStdFunction(), nullptr);
-
-  item->SetData(42, DataRole::kData);
 
   const auto expected_role = DataRole::kData;
   const auto expected_item = item;

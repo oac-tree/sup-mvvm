@@ -44,10 +44,10 @@ const std::string kSampleModelName = "samplemodel";
 /**
  * @brief Tests for ProjectManager class for.
  */
-class ProjectManagerFolderTest : public mvvm::test::FolderTest
+class ProjectManagerFolderBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
-  ProjectManagerFolderTest()
+  ProjectManagerFolderBasedProjectTest()
       : FolderTest("ProjectManagerFolderTest")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
@@ -92,7 +92,7 @@ public:
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
-TEST_F(ProjectManagerFolderTest, InitialState)
+TEST_F(ProjectManagerFolderBasedProjectTest, InitialState)
 {
   auto manager = CreateProjectManager();
   EXPECT_FALSE(manager->GetProject()->HasPath());
@@ -101,7 +101,7 @@ TEST_F(ProjectManagerFolderTest, InitialState)
 
 //! Creating new project. Use untitled+empty project as a starting point. Should succeed, since old
 //! empty project doesn't need to be saved.
-TEST_F(ProjectManagerFolderTest, CreateNewStartingFromUntitledEmptyProject)
+TEST_F(ProjectManagerFolderBasedProjectTest, CreateNewStartingFromUntitledEmptyProject)
 {
   auto manager = CreateProjectManager({}, {});
 
@@ -111,6 +111,7 @@ TEST_F(ProjectManagerFolderTest, CreateNewStartingFromUntitledEmptyProject)
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->CreateNewProject(project_dir));
 
   EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
@@ -122,7 +123,7 @@ TEST_F(ProjectManagerFolderTest, CreateNewStartingFromUntitledEmptyProject)
 }
 
 //! Starting from new document (without project dir defined). Create new project in given directory.
-TEST_F(ProjectManagerFolderTest, UntitledEmptyCreateNew)
+TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptyCreateNew)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyCreateNew");
 
@@ -132,6 +133,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptyCreateNew)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->CreateNewProject({}));
@@ -146,7 +148,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptyCreateNew)
 
 //! Starting from new document (without project dir defined). Saving project. Same behavior as
 //! SaveAs.
-TEST_F(ProjectManagerFolderTest, UntitledEmptySaveCurrentProject)
+TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveCurrentProject)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveCurrentProject");
 
@@ -156,6 +158,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveCurrentProject)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to 'project_dir' directory.
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->SaveCurrentProject());
 
   // checking thaxt current projectDir has pointing to the right place
@@ -167,7 +170,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveCurrentProject)
 }
 
 //! Starting from new document (without project dir defined). Save under given name.
-TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAs)
+TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAs)
 {
   const auto project_dir = CreateEmptyDir("Project_untitledEmptySaveAs");
 
@@ -177,6 +180,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAs)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
   // saving new project to "project_dir" directory.
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->SaveProjectAs({}));
 
   // checking that current projectDir has pointing to the right place
@@ -189,7 +193,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAs)
 
 //! Starting from new document (without project dir defined). Attempt to save under empty name,
 //! imitating the user canceled directory selection dialog.
-TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAsCancel)
+TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAsCancel)
 {
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
   EXPECT_FALSE(manager->GetProject()->HasPath());
@@ -203,7 +207,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAsCancel)
 
 //! Starting from new document (without project dir defined).
 //! Attempt to save in the non-existing directory.
-TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAsWrongDir)
+TEST_F(ProjectManagerFolderBasedProjectTest, UntitledEmptySaveAsWrongDir)
 {
   auto manager = CreateProjectManager("non-existing", {});
 
@@ -217,7 +221,7 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptySaveAsWrongDir)
 //! Untitled, modified document. Attempt to open an existing project will lead to
 //! the dialog save/discard/cancel. As a result of the whole exercise, the existing project
 //! should be opened, and the previous project saved.
-TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
+TEST_F(ProjectManagerFolderBasedProjectTest, UntitledModifiedOpenExisting)
 {
   const auto existing_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting1");
   const auto unsaved_project_dir = CreateEmptyDir("Project_untitledModifiedOpenExisting2");
@@ -227,6 +231,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
     EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
 
     auto manager = CreateProjectManager(existing_project_dir, {});
+    EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
     manager->SaveProjectAs({});
   }
 
@@ -255,6 +260,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
 
   // attempt to open existing project
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   manager->OpenExistingProject({});
 
   // check that previous project was saved
@@ -268,16 +274,18 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
 
 //! Creating new project. Use titled+unmodified project as a starting point. Should succeed, since
 //! old empty project doesn't need to be saved.
-TEST_F(ProjectManagerFolderTest, TitledUnmodifiedNew)
+TEST_F(ProjectManagerFolderBasedProjectTest, TitledUnmodifiedNew)
 {
   auto manager = CreateProjectManager({}, {});
 
   const auto project_dir = CreateEmptyDir("Project_titledUnmodifiedNew");
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->SaveProjectAs(project_dir));
   EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   const auto project_dir2 = CreateEmptyDir("Project_titledUnmodifiedNew2");
   EXPECT_TRUE(manager->CreateNewProject(project_dir2));
@@ -291,9 +299,11 @@ TEST_F(ProjectManagerFolderTest, TitledUnmodifiedNew)
 }
 
 //! Saving of new project. Use titled+modified project as a starting point. Should succeed.
-TEST_F(ProjectManagerFolderTest, TitledModifiedSave)
+TEST_F(ProjectManagerFolderBasedProjectTest, TitledModifiedSave)
 {
   auto manager = CreateProjectManager({}, {});
+
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   const auto project_dir = CreateEmptyDir("Project_titledModifiedSave");
   EXPECT_TRUE(manager->SaveProjectAs(project_dir));
@@ -301,6 +311,7 @@ TEST_F(ProjectManagerFolderTest, TitledModifiedSave)
 
   // modifying the model
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();
 
   EXPECT_TRUE(manager->SaveCurrentProject());

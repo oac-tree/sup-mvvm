@@ -42,10 +42,10 @@ const std::string kSampleModelName = "samplemodel";
 /**
  * @brief Tests for ProjectManager class for file-based projects.
  */
-class ProjectManagerFileBasedTest : public mvvm::test::FolderTest
+class ProjectManagerFileBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
-  ProjectManagerFileBasedTest()
+  ProjectManagerFileBasedProjectTest()
       : FolderTest("ProjectManagerFileBasedTest")
       , m_sample_model(std::make_unique<ApplicationModel>(kSampleModelName))
   {
@@ -90,12 +90,13 @@ public:
 };
 
 //! Saving untitled modified project under the given name.
-TEST_F(ProjectManagerFileBasedTest, UntitledModifiedSaveAs)
+TEST_F(ProjectManagerFileBasedProjectTest, UntitledModifiedSaveAs)
 {
   auto manager = CreateProjectManager({}, {});
 
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(0);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
 
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
@@ -114,7 +115,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedSaveAs)
 }
 
 //! Opening non-existing file.
-TEST_F(ProjectManagerFileBasedTest, AttemptToOpenNonExistingFile)
+TEST_F(ProjectManagerFileBasedProjectTest, AttemptToOpenNonExistingFile)
 {
   auto manager = CreateProjectManager({}, {});
 
@@ -133,7 +134,7 @@ TEST_F(ProjectManagerFileBasedTest, AttemptToOpenNonExistingFile)
 
 //! Starting from new document (without project dir defined). Attempt to save under empty name,
 //! imitating the user canceled directory selection dialog.
-TEST_F(ProjectManagerFileBasedTest, UntitledEmptySaveAsCancel)
+TEST_F(ProjectManagerFileBasedProjectTest, UntitledEmptySaveAsCancel)
 {
   auto manager = CreateProjectManager({}, {});  // imitates dialog canceling
   EXPECT_FALSE(manager->GetProject()->HasPath());
@@ -147,7 +148,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledEmptySaveAsCancel)
 
 //! Untitled modified project. User decides to create new project, and discards all previous
 //! changes. As a result, new XML file should appear on disk, the model should be cleared.
-TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNew)
+TEST_F(ProjectManagerFileBasedProjectTest, UntitledModifiedDiscardAndCreateNew)
 {
   auto new_path = GetFilePath("UntitledModifiedDiscardAndCreateNew.xml");
 
@@ -168,6 +169,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNew)
   EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
 
   EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
   EXPECT_TRUE(manager->CreateNewProject({}));
 
   // new project file should be there
@@ -180,7 +182,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNew)
 //! Untitled modified project. User decides to create new project, and discards all previous
 //! changes. While selecting the name for the new file he suddenly push "Cancel". As a result old
 //! content should remain, the project should be in modified state.
-TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNewButThenCancel)
+TEST_F(ProjectManagerFileBasedProjectTest, UntitledModifiedDiscardAndCreateNewButThenCancel)
 {
   // instructing mock interactor to return necessary values
   ON_CALL(m_mock_interactor, OnSaveChangesRequest())
@@ -209,7 +211,8 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNewButThenCa
 //! changes. While selecting the name for existing project user suddenly pushes "Cancel". As a
 //! result old content should remain, the project should be in modified state.
 //! Real-life bug.
-TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndLoadExistingProjectButThenCancel)
+TEST_F(ProjectManagerFileBasedProjectTest,
+       UntitledModifiedDiscardAndLoadExistingProjectButThenCancel)
 {
   // instructing mock interactor to return necessary values
   ON_CALL(m_mock_interactor, OnSaveChangesRequest())

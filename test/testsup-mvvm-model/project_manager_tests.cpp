@@ -64,6 +64,7 @@ TEST_F(ProjectManagerTest, InitialState)
 {
   const ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
 
+  EXPECT_CALL(m_mock_project, HasPath()).Times(1);
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
 
   EXPECT_FALSE(manager.GetProject()->HasPath());
