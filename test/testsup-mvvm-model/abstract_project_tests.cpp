@@ -21,10 +21,10 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
+#include <mvvm/test/mock_project_context.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
-#include <testutils/mock_project_context.h>
 
 using namespace mvvm;
 

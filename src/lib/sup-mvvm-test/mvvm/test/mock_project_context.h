@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_PROJECT_CONTEXT_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_PROJECT_CONTEXT_H_
+#ifndef MVVM_TEST_MOCK_PROJECT_CONTEXT_H_
+#define MVVM_TEST_MOCK_PROJECT_CONTEXT_H_
 
 #include <mvvm/project/project_context.h>
 
@@ -42,4 +42,4 @@ public:
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_PROJECT_CONTEXT_H_
+#endif  // MVVM_TEST_MOCK_PROJECT_CONTEXT_H_
