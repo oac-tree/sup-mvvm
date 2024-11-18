@@ -28,6 +28,7 @@
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
+#include <testutils/mock_project_context.h>
 #include <testutils/mock_user_interactor.h>
 
 using namespace mvvm;
@@ -67,15 +68,18 @@ public:
   }
 
   /**
+   * @brief Creates project context with callbacks to preort project staus change.
+   */
+  ProjectContext CreateProjectContext() { return m_mock_project_context.CreateContext(); }
+
+  /**
    * @brief Creates project manager.
    */
   std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& new_path = {},
                                                         const std::string& existing_path = {})
   {
-    ProjectContext context;
-    context.modified_callback = m_modified_callback.AsStdFunction();
-    context.loaded_callback = m_loaded_callback.AsStdFunction();
-    m_project = mvvm::utils::CreateUntitledProject(ProjectType::kFolderBased, GetModels(), context);
+    m_project = mvvm::utils::CreateUntitledProject(ProjectType::kFolderBased, GetModels(),
+                                                   CreateProjectContext());
 
     return std::make_unique<ProjectManager>(m_project.get(),
                                             CreateUserContext(new_path, existing_path));
@@ -83,9 +87,8 @@ public:
 
   std::unique_ptr<ApplicationModel> m_sample_model;
   test::MockUserInteractor m_mock_interactor;
+  test::MockProjectContext m_mock_project_context;
   std::unique_ptr<IProject> m_project;
-  ::testing::MockFunction<void()> m_modified_callback;
-  ::testing::MockFunction<void()> m_loaded_callback;
 };
 
 //! Initial state of ProjectManager. Project created, and not-saved.
@@ -105,8 +108,8 @@ TEST_F(ProjectManagerFolderTest, CreateNewStartingFromUntitledEmptyProject)
   const auto project_dir = CreateEmptyDir("Project_untitledEmptyNew");
 
   // because File/Folder based projects make clear() on project close
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);  // on project close
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);    // on project creation
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(manager->CreateNewProject(project_dir));
 
@@ -127,8 +130,8 @@ TEST_F(ProjectManagerFolderTest, UntitledEmptyCreateNew)
   EXPECT_FALSE(manager->GetProject()->HasPath());
 
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   // saving new project to 'project_dir' directory.
   EXPECT_TRUE(manager->CreateNewProject({}));
@@ -231,12 +234,12 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
   ON_CALL(m_mock_interactor, OnSaveChangesRequest())
       .WillByDefault(::testing::Return(SaveChangesAnswer::kSave));
 
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   auto manager = CreateProjectManager(unsaved_project_dir, existing_project_dir);
 
   // modifying untitled project
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   m_sample_model->InsertItem<PropertyItem>();
   EXPECT_TRUE(manager->GetProject()->IsModified());
@@ -251,7 +254,7 @@ TEST_F(ProjectManagerFolderTest, UntitledModifiedOpenExisting)
   EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(1);
 
   // attempt to open existing project
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   manager->OpenExistingProject({});
 
   // check that previous project was saved
@@ -273,8 +276,8 @@ TEST_F(ProjectManagerFolderTest, TitledUnmodifiedNew)
   EXPECT_TRUE(manager->SaveProjectAs(project_dir));
   EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   const auto project_dir2 = CreateEmptyDir("Project_titledUnmodifiedNew2");
   EXPECT_TRUE(manager->CreateNewProject(project_dir2));
@@ -297,7 +300,7 @@ TEST_F(ProjectManagerFolderTest, TitledModifiedSave)
   EXPECT_EQ(manager->GetProject()->GetPath(), project_dir);
 
   // modifying the model
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();
 
   EXPECT_TRUE(manager->SaveCurrentProject());

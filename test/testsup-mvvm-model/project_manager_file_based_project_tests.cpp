@@ -28,6 +28,7 @@
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
+#include <testutils/mock_project_context.h>
 #include <testutils/mock_user_interactor.h>
 
 namespace mvvm
@@ -65,15 +66,18 @@ public:
   }
 
   /**
+   * @brief Creates project context with callbacks to preort project staus change.
+   */
+  ProjectContext CreateProjectContext() { return m_mock_project_context.CreateContext(); }
+
+  /**
    * @brief Creates project manager.
    */
   std::unique_ptr<IProjectManager> CreateProjectManager(const std::string& new_path = {},
                                                         const std::string& existing_path = {})
   {
-    ProjectContext context;
-    context.modified_callback = m_modified_callback.AsStdFunction();
-    context.loaded_callback = m_loaded_callback.AsStdFunction();
-    m_project = mvvm::utils::CreateUntitledProject(ProjectType::kFileBased, GetModels(), context);
+    m_project = mvvm::utils::CreateUntitledProject(ProjectType::kFileBased, GetModels(),
+                                                   CreateProjectContext());
 
     return std::make_unique<ProjectManager>(m_project.get(),
                                             CreateUserContext(new_path, existing_path));
@@ -81,9 +85,8 @@ public:
 
   std::unique_ptr<ApplicationModel> m_sample_model;
   test::MockUserInteractor m_mock_interactor;
+  test::MockProjectContext m_mock_project_context;
   std::unique_ptr<IProject> m_project;
-  ::testing::MockFunction<void()> m_modified_callback;
-  ::testing::MockFunction<void()> m_loaded_callback;
 };
 
 //! Saving untitled modified project under the given name.
@@ -91,7 +94,8 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedSaveAs)
 {
   auto manager = CreateProjectManager({}, {});
 
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(0);
 
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
@@ -153,7 +157,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNew)
 
   auto manager = CreateProjectManager(new_path, {});
 
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   // setting up expectations: attempt to open existing project will lead to the following chain
@@ -163,7 +167,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNew)
   EXPECT_CALL(m_mock_interactor, OnGetNewProjectPath()).Times(1);
   EXPECT_CALL(m_mock_interactor, GetExistingProjectPath()).Times(0);
 
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
   EXPECT_TRUE(manager->CreateNewProject({}));
 
   // new project file should be there
@@ -185,7 +189,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndCreateNewButThenCa
   // empty path denotes "Cancel" button during file name selection
   auto manager = CreateProjectManager("", {});
 
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   // setting up expectations: attempt to open existing project will lead to the following chain
@@ -215,7 +219,7 @@ TEST_F(ProjectManagerFileBasedTest, UntitledModifiedDiscardAndLoadExistingProjec
   auto manager = CreateProjectManager(/*new file name*/ {},
                                       /*existing file name*/ {});
 
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   m_sample_model->InsertItem<PropertyItem>();  // modifying the model
 
   // setting up expectations: attempt to open existing project will lead to the following chain

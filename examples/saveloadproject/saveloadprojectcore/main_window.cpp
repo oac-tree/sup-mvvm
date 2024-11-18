@@ -28,6 +28,7 @@
 
 #include <QCoreApplication>
 #include <QSettings>
+#include <QDebug>
 
 namespace
 {
@@ -84,6 +85,7 @@ void MainWindow::WriteSettings()
 
 void MainWindow::OnProjectLoad()
 {
+  qDebug() << "AAA OnProjectLoad";
   m_editor_widget->SetModel(m_project->GetModel<SampleModel>());
   m_editor_widget->UpdateCurrentProjectInfo(m_project->GetPath(), m_project->IsModified());
   m_editor_widget->UpdateRecentProjectList(m_actions->GetRecentProjectList());
@@ -91,6 +93,7 @@ void MainWindow::OnProjectLoad()
 
 void MainWindow::OnProjectModified()
 {
+  qDebug() << "AAA OnProjectModified";
   m_actions->UpdateNames();
   m_editor_widget->UpdateCurrentProjectInfo(m_project->GetPath(), m_project->IsModified());
   m_editor_widget->UpdateRecentProjectList(m_actions->GetRecentProjectList());

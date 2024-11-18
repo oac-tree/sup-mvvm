@@ -27,6 +27,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
+#include <testutils/mock_project_context.h>
 
 using namespace mvvm;
 
@@ -47,9 +48,7 @@ public:
 
   std::unique_ptr<AppProject> CreateProject()
   {
-    mvvm::ProjectContext context(
-        {m_modified_callback.AsStdFunction(), m_loaded_callback.AsStdFunction(), kApplicationType});
-    return std::make_unique<AppProject>(context);
+    return std::make_unique<AppProject>(m_mock_project_context.CreateContext(kApplicationType));
   }
 
   class TestModelA : public mvvm::ApplicationModel
@@ -64,8 +63,7 @@ public:
     TestModelB() : ApplicationModel(ModelTypeB) {}
   };
 
-  ::testing::MockFunction<void(void)> m_modified_callback;
-  ::testing::MockFunction<void(void)> m_loaded_callback;
+  test::MockProjectContext m_mock_project_context;
 };
 
 TEST_F(AppProjectTest, InitialState)
@@ -100,7 +98,7 @@ TEST_F(AppProjectTest, RegisterModelsAndCreateProject)
   EXPECT_EQ(project->GetModelCount(), 0);
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
@@ -117,7 +115,7 @@ TEST_F(AppProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_EQ(project->RegisterModel<TestModelB>(), 1);
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
@@ -132,7 +130,7 @@ TEST_F(AppProjectTest, CreateNewProjectThenModifyThenClose)
   EXPECT_THROW(project->GetModel<TestModelB>(2U), RuntimeException);  // wrong index
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   // modifying a project
   project->GetModel<TestModelB>(1U)->InsertItem<mvvm::SessionItem>();
@@ -153,12 +151,12 @@ TEST_F(AppProjectTest, SaveAndClose)
   project->RegisterModel<TestModelB>();
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   project->GetModel<TestModelB>(1U)->InsertItem<mvvm::SessionItem>();
   EXPECT_TRUE(project->IsModified());
@@ -185,12 +183,12 @@ TEST_F(AppProjectTest, SaveAndLoad)
   project->RegisterModel<TestModelB>();
 
   // setting up expectations before project creation
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   auto item = project->GetModel<TestModelB>(1U)->InsertItem<mvvm::SessionItem>();
   item->SetData(42);
@@ -199,13 +197,13 @@ TEST_F(AppProjectTest, SaveAndLoad)
   EXPECT_TRUE(project->Save(expected_path));
 
   // setting up expectation before project modification
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
 
   // modifying further after save was made
   item->SetData(43);
 
   // setting up expectation before document load
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->Load(expected_path));
   EXPECT_FALSE(project->IsModified());
@@ -221,7 +219,7 @@ TEST_F(AppProjectTest, SaveAndLoad)
   EXPECT_TRUE(project->Close());
 
   // setting up expectation before document load
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->Load(expected_path));
   recreated_model = project->GetModel<TestModelB>(1U);
@@ -241,6 +239,8 @@ TEST_F(AppProjectTest, LoadFromWrongFile)
 
   // attempt to save without project creation
   EXPECT_THROW(project->Save(expected_path), RuntimeException);
+
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   EXPECT_TRUE(project->CreateEmpty());
 

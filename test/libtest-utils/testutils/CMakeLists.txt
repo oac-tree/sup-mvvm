@@ -4,6 +4,8 @@ target_sources(${library_name} PRIVATE
   mock_command.cpp
   mock_command.h
   mock_project.h
+  mock_project_context.cpp
+  mock_project_context.h
   mock_user_interactor.cpp
   mock_user_interactor.h
   test_container_helper.h

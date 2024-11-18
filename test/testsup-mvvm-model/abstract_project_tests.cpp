@@ -24,6 +24,7 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_project_context.h>
 
 using namespace mvvm;
 
@@ -58,16 +59,11 @@ public:
 
   ProjectContext CreateContext(const std::string& application_type = {})
   {
-    ProjectContext result;
-    result.modified_callback = m_modified_callback.AsStdFunction();
-    result.loaded_callback = m_loaded_callback.AsStdFunction();
-    result.application_type = application_type;
-    return result;
+    return m_mock_project_context.CreateContext(application_type);
   }
 
   ApplicationModel m_model;
-  ::testing::MockFunction<void(void)> m_modified_callback;
-  ::testing::MockFunction<void(void)> m_loaded_callback;
+  test::MockProjectContext m_mock_project_context;
 };
 
 TEST_F(AbstractProjectTest, InitialState)
@@ -106,7 +102,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   ON_CALL(project, CreateEmptyProjectImpl()).WillByDefault(::testing::Return(true));
 
   // setting expectations
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
   EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
 
   EXPECT_TRUE(project.CreateEmpty());
@@ -115,7 +111,7 @@ TEST_F(AbstractProjectTest, SuccessfullSave)
   EXPECT_FALSE(project.IsModified());
 
   // modifying model
-  EXPECT_CALL(m_modified_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   m_model.InsertItem<PropertyItem>();
   EXPECT_TRUE(project.IsModified());
 
@@ -140,7 +136,7 @@ TEST_F(AbstractProjectTest, CreateNewProject)
   ON_CALL(project, SaveImpl(expected_path)).WillByDefault(::testing::Return(true));
 
   // setting up expectations
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
   EXPECT_CALL(project, CreateEmptyProjectImpl()).Times(1);
 
   // setting expectations
@@ -216,7 +212,7 @@ TEST_F(AbstractProjectTest, SuccessfullLoad)
 
   // setting expectations
   EXPECT_CALL(project, LoadImpl(expected_path)).Times(1);
-  EXPECT_CALL(m_loaded_callback, Call()).Times(1);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
 
   // performing save and triggering expectations
   EXPECT_TRUE(project.Load(expected_path));
@@ -239,7 +235,7 @@ TEST_F(AbstractProjectTest, FailedLoad)
 
   // setting expectations
   EXPECT_CALL(project, LoadImpl(expected_path)).Times(1);
-  EXPECT_CALL(m_loaded_callback, Call()).Times(0);
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(0);
 
   // performing save and triggering expectations
   EXPECT_FALSE(project.Load(expected_path));
