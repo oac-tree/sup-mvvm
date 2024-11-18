@@ -254,3 +254,41 @@ TEST_F(AppProjectTest, LoadFromWrongFile)
   project2->RegisterModel<TestModelB>();
   EXPECT_THROW(project2->Load(expected_path), RuntimeException);
 }
+
+//! Validating that after project load its "modify: notification is still working.
+TEST_F(AppProjectTest, LoadAndThenModify)
+{
+  const auto expected_path = GetFilePath("untitled3.xml");
+
+  auto project = CreateProject();
+  project->RegisterModel<TestModelA>();
+
+  // setting up expectations before project creation
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+
+  EXPECT_TRUE(project->CreateEmpty());
+
+  // setting up expectation before project modification
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+
+  auto item = project->GetModel<TestModelA>(0U)->InsertItem<mvvm::SessionItem>();
+  item->SetData(42);
+  EXPECT_TRUE(project->IsModified());
+
+  EXPECT_CALL(m_mock_project_context, OnSaved()).Times(1);
+  EXPECT_TRUE(project->Save(expected_path));
+
+  // setting up expectation before project load
+  EXPECT_CALL(m_mock_project_context, OnLoaded()).Times(1);
+
+  EXPECT_TRUE(project->Load(expected_path));
+  EXPECT_FALSE(project->IsModified());
+
+  // checking content of the model
+  auto recreated_model = project->GetModel<TestModelA>(0U);
+  auto restored_item = recreated_model->GetRootItem()->GetItem(mvvm::TagIndex::First());
+  EXPECT_EQ(restored_item->Data<int>(), 42);
+
+  EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
+  restored_item->SetData(43);
+}

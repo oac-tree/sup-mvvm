@@ -79,7 +79,7 @@ std::unique_ptr<QAction> CreateSaveCurrentProjectAction(IProjectManager &handler
  */
 std::unique_ptr<QAction> CreateSaveProjectAsAction(IProjectManager &handler)
 {
-  auto result = std::make_unique<QAction>("Save &As...");
+  auto result = std::make_unique<QAction>("Save Project &As...");
   result->setShortcuts(QKeySequence::SaveAs);
   result->setStatusTip("Save project under different name");
   QObject::connect(result.get(), &QAction::triggered,

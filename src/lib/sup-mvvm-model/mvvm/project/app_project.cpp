@@ -73,6 +73,8 @@ bool AppProject::LoadImpl(const std::string &path)
   // replacing old models
   m_models = std::move(models);
 
+  SetupListener(GetModels());
+
   return true;
 }
 
