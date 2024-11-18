@@ -79,52 +79,27 @@ ProjectHandler::~ProjectHandler()
 
 bool ProjectHandler::CreateNewProject(const std::string &path)
 {
-  const bool is_success = m_project_manager->CreateNewProject(path);
-  if (is_success)
-  {
-    UpdateNames();
-  }
-  return is_success;
+  return m_project_manager->CreateNewProject(path);
 }
 
 bool ProjectHandler::CloseProject()
 {
-  const bool is_success = m_project_manager->CloseProject();
-  if (is_success)
-  {
-    UpdateNames();
-  }
-  return is_success;
+  return m_project_manager->CloseProject();
 }
 
 bool ProjectHandler::SaveCurrentProject()
 {
-  const bool is_success = m_project_manager->SaveCurrentProject();
-  if (is_success)
-  {
-    UpdateNames();
-  }
-  return is_success;
+  return m_project_manager->SaveCurrentProject();
 }
 
 bool ProjectHandler::SaveProjectAs(const std::string &path)
 {
-  const bool is_success = m_project_manager->SaveProjectAs(path);
-  if (is_success)
-  {
-    UpdateNames();
-  }
-  return is_success;
+  return m_project_manager->SaveProjectAs(path);
 }
 
 bool ProjectHandler::OpenExistingProject(const std::string &path)
 {
-  const bool is_success = m_project_manager->OpenExistingProject(path);
-  if (is_success)
-  {
-    UpdateNames();
-  }
-  return is_success;
+  return m_project_manager->OpenExistingProject(path);
 }
 
 IProject *ProjectHandler::GetProject() const

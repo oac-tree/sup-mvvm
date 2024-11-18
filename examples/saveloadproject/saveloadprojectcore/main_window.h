@@ -58,9 +58,9 @@ private:
   void OnProjectLoad();
 
   /**
-   * @brief Perform widgets setup on project modification.
+   * @brief Update recent project names and the name of the modified project.
    */
-  void OnProjectModified();
+  void UpdateProjectNames();
 
   /**
    * @brief Creates application project.

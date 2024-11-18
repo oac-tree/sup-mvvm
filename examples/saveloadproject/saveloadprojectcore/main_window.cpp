@@ -28,7 +28,6 @@
 
 #include <QCoreApplication>
 #include <QSettings>
-#include <QDebug>
 
 namespace
 {
@@ -85,15 +84,12 @@ void MainWindow::WriteSettings()
 
 void MainWindow::OnProjectLoad()
 {
-  qDebug() << "AAA OnProjectLoad";
   m_editor_widget->SetModel(m_project->GetModel<SampleModel>());
-  m_editor_widget->UpdateCurrentProjectInfo(m_project->GetPath(), m_project->IsModified());
-  m_editor_widget->UpdateRecentProjectList(m_actions->GetRecentProjectList());
+  UpdateProjectNames();
 }
 
-void MainWindow::OnProjectModified()
+void MainWindow::UpdateProjectNames()
 {
-  qDebug() << "AAA OnProjectModified";
   m_actions->UpdateNames();
   m_editor_widget->UpdateCurrentProjectInfo(m_project->GetPath(), m_project->IsModified());
   m_editor_widget->UpdateRecentProjectList(m_actions->GetRecentProjectList());
@@ -102,8 +98,9 @@ void MainWindow::OnProjectModified()
 std::unique_ptr<mvvm::AppProject> MainWindow::CreateProject()
 {
   mvvm::ProjectContext context;
-  context.modified_callback = [this]() { OnProjectModified(); };
+  context.modified_callback = [this]() { UpdateProjectNames(); };
   context.loaded_callback = [this]() { OnProjectLoad(); };
+  context.saved_callback = [this]() { UpdateProjectNames(); };
 
   auto result = std::make_unique<mvvm::AppProject>(context);
   result->RegisterModel<SampleModel>();
