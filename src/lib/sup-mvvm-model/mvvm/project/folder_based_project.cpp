@@ -65,14 +65,8 @@ namespace mvvm
 
 FolderBasedProject::FolderBasedProject(const std::vector<ISessionModel*>& models,
                                        const ProjectContext& context)
-    : AbstractProject(ProjectType::kFolderBased, context), m_models(models)
+    : ExternalModelProject(ProjectType::kFolderBased, models, context)
 {
-  SetupListener(m_models);
-}
-
-std::vector<ISessionModel*> FolderBasedProject::GetModels() const
-{
-  return m_models;
 }
 
 bool FolderBasedProject::SaveImpl(const std::string& path)
@@ -83,26 +77,6 @@ bool FolderBasedProject::SaveImpl(const std::string& path)
 bool FolderBasedProject::LoadImpl(const std::string& path)
 {
   return Process(path, &IModelDocument::Load, GetModels(), GetApplicationType());
-}
-
-bool FolderBasedProject::CloseProjectImpl()
-{
-  for (auto model : GetModels())
-  {
-    model->Clear();
-  }
-
-  return true;
-}
-
-bool FolderBasedProject::CreateEmptyProjectImpl()
-{
-  for (auto model : GetModels())
-  {
-    model->Clear();
-  }
-
-  return true;
 }
 
 }  // namespace mvvm

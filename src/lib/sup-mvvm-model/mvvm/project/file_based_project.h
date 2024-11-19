@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_FILE_BASED_PROJECT_H_
 #define MVVM_PROJECT_FILE_BASED_PROJECT_H_
 
-#include <mvvm/project/abstract_project.h>
+#include <mvvm/project/external_model_project.h>
 
 namespace mvvm
 {
@@ -31,21 +31,15 @@ struct ProjectContext;
  * @brief The FileBasedProject class represents content of several application models in a single
  * XML file on disk.
  */
-class MVVM_MODEL_EXPORT FileBasedProject : public AbstractProject
+class MVVM_MODEL_EXPORT FileBasedProject : public ExternalModelProject
 {
 public:
   explicit FileBasedProject(const std::vector<ISessionModel*>& models,
                             const ProjectContext& context);
 
-  std::vector<ISessionModel*> GetModels() const override;
-
 private:
   bool SaveImpl(const std::string& path) override;
   bool LoadImpl(const std::string& path) override;
-  bool CloseProjectImpl() override;
-  bool CreateEmptyProjectImpl() override;
-
-  std::vector<ISessionModel*> m_models;
 };
 
 }  // namespace mvvm

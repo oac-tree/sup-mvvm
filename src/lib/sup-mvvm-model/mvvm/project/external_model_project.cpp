@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "file_based_project.h"
+#include "external_model_project.h"
 
 #include "project_context.h"
 
@@ -27,25 +27,36 @@
 namespace mvvm
 {
 
-FileBasedProject::FileBasedProject(const std::vector<ISessionModel *> &models,
-                                   const ProjectContext &context)
-    : ExternalModelProject(ProjectType::kFileBased, models, context)
+ExternalModelProject::ExternalModelProject(ProjectType project_type,
+                                           const std::vector<ISessionModel*>& models,
+                                           const ProjectContext& context)
+    : AbstractProject(project_type, context), m_models(models)
 {
+  SetupListener(m_models);
 }
 
-bool FileBasedProject::SaveImpl(const std::string &path)
+std::vector<ISessionModel*> ExternalModelProject::GetModels() const
 {
-  auto document = CreateXmlDocument(GetModels(), GetApplicationType());
-  document->Save(path);
-  // underlying XmlDocument reports errors as exceptions
+  return m_models;
+}
+
+bool ExternalModelProject::CloseProjectImpl()
+{
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   return true;
 }
 
-bool FileBasedProject::LoadImpl(const std::string &path)
+bool ExternalModelProject::CreateEmptyProjectImpl()
 {
-  auto document = CreateXmlDocument(GetModels(), GetApplicationType());
-  document->Load(path);
-  // underlying XmlDocument reports errors as exceptions
+  for (auto model : GetModels())
+  {
+    model->Clear();
+  }
+
   return true;
 }
 

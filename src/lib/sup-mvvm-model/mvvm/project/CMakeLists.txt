@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
   abstract_project.h
   app_project.cpp
   app_project.h
+  external_model_project.cpp
+  external_model_project.h
   file_based_project.cpp
   file_based_project.h
   folder_based_project.cpp
