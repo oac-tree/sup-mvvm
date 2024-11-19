@@ -86,8 +86,7 @@ void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
 
 void SampleModel::PopulateModel()
 {
-  auto container = InsertItem<DemoContainerItem>();
-  container = InsertItem<DemoContainerItem>();
+  InsertItem<DemoContainerItem>();
 }
 
 }  // namespace saveloadproject

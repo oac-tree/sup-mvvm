@@ -87,12 +87,11 @@ void SampleModel::AppendRandomItem(mvvm::SessionItem* container)
   mvvm::utils::EndMacro(*this);
 }
 
-//! Generates initial model content.
-
 void SampleModel::PopulateModel()
 {
-  auto container = InsertItem<DemoContainerItem>();
-  container = InsertItem<DemoContainerItem>();
+  // we need two continers for left and right widgets
+  InsertItem<DemoContainerItem>();
+  InsertItem<DemoContainerItem>();
 }
 
 }  // namespace dragandmove
