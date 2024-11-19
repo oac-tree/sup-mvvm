@@ -46,6 +46,9 @@ public:
 
   void UpdateRecentProjectList(const std::vector<std::string>& recent_list);
 
+signals:
+  void projectSelected(const QString& project_path);
+
 private:
   RecentProjectWidget* m_recent_project_widget{nullptr};
   ContainerEditorWidget* m_right_widget{nullptr};

@@ -64,6 +64,8 @@ public:
 
   std::vector<std::string> GetRecentProjectList() const;
 
+  void OpenExistingProject(const QString& path);
+
 private:
   void SetupMenu(QMainWindow* main_window);
 

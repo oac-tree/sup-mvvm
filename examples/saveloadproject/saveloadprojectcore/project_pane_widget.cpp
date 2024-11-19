@@ -33,9 +33,9 @@ namespace saveloadproject
 namespace
 {
 
-int widget_height()
+int GetWidgetHeight()
 {
-  return mvvm::utils::SizeOfLetterM().height() * 3;
+  return mvvm::utils::UnitSize(4.5);
 }
 
 }  // namespace
@@ -47,7 +47,7 @@ ProjectPaneWidget::ProjectPaneWidget(QWidget* parent)
     , m_widget_color(QColor(Qt::white))
 {
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-  setFixedHeight(widget_height());
+  setFixedHeight(GetWidgetHeight());
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_current_project_title);
   layout->addWidget(m_current_project_dir);
@@ -81,19 +81,21 @@ void ProjectPaneWidget::SetActive(bool value)
   update();
 }
 
-void ProjectPaneWidget::paintEvent(QPaintEvent*event)
+void ProjectPaneWidget::paintEvent(QPaintEvent* event)
 {
-  (void) event;
+  (void)event;
   QPainter painter(this);
   painter.fillRect(0, 0, size().width(), size().height(), m_widget_color);
 }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-void ProjectPaneWidget::enterEvent(QEvent*)
+void ProjectPaneWidget::enterEvent(QEvent* event)
 #else
-void ProjectPaneWidget::enterEvent(QEnterEvent*)
+void ProjectPaneWidget::enterEvent(QEnterEvent* event)
 #endif
 {
+  (void)event;
+
   if (m_active)
   {
     m_widget_color = QColor(Qt::lightGray);
@@ -103,7 +105,7 @@ void ProjectPaneWidget::enterEvent(QEnterEvent*)
 
 void ProjectPaneWidget::leaveEvent(QEvent* event)
 {
-  (void) event;
+  (void)event;
   m_widget_color = QColor(Qt::white);
   update();
 }

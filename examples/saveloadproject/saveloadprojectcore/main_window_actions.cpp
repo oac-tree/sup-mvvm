@@ -54,6 +54,11 @@ std::vector<std::string> MainWindowActions::GetRecentProjectList() const
   return m_project_handler->GetRecentProjectList();
 }
 
+void MainWindowActions::OpenExistingProject(const QString &path)
+{
+  m_project_handler->OpenExistingProject(path.toStdString());
+}
+
 MainWindowActions::~MainWindowActions() = default;
 
 void MainWindowActions::SetupMenu(QMainWindow *main_window)

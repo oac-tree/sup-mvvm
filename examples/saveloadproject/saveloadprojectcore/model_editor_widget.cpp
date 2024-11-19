@@ -53,6 +53,9 @@ ModelEditorWidget::ModelEditorWidget(QWidget* parent)
 
   main_layout->addLayout(top_layout);
   main_layout->addLayout(container_layout);
+
+  connect(m_recent_project_widget, &RecentProjectWidget::projectSelected, this,
+          &ModelEditorWidget::projectSelected);
 }
 
 ModelEditorWidget::~ModelEditorWidget() = default;

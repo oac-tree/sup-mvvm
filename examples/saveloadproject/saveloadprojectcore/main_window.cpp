@@ -70,6 +70,9 @@ void MainWindow::InitApplication()
   }
 
   m_editor_widget = new ModelEditorWidget;
+  connect(m_editor_widget, &ModelEditorWidget::projectSelected, m_actions,
+          &MainWindowActions::OpenExistingProject);
+
   setCentralWidget(m_editor_widget);
 }
 
