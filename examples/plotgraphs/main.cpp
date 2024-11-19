@@ -24,11 +24,6 @@
 
 int main(int argc, char** argv)
 {
-  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
-  QCoreApplication::setApplicationName("saveloadproject");
-  QCoreApplication::setApplicationVersion("0.1");
-  QCoreApplication::setOrganizationName("sup-mvvm");
-
   QApplication app(argc, argv);
 
   plotgraphs::MainWindow win;
