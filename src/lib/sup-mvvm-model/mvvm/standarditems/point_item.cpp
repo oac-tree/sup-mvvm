@@ -30,7 +30,7 @@ PointItem::PointItem() : CompoundItem(Type)
   AddProperty(constants::kY, 0.0).SetDisplayName("Y");
 }
 
-std::unique_ptr<SessionItem> PointItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> PointItem::Clone() const
 {
   return std::make_unique<PointItem>(*this);
 }

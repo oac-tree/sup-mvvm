@@ -328,12 +328,12 @@ std::unique_ptr<T> CreateDeepCopy(const T& item, bool make_unique_id)
   if constexpr (std::is_same_v<T, SessionItem>)
   {
     // return cloned object as it is (i.e. unique_ptr<SessionItem>)
-    return item.Clone(make_unique_id);
+    return item.Clone();
   }
   else
   {
     // Converting unique_ptr<SessionItem> to the correct type
-    return std::unique_ptr<T>(static_cast<T*>(item.Clone(make_unique_id).release()));
+    return std::unique_ptr<T>(static_cast<T*>(item.Clone().release()));
   }
 }
 

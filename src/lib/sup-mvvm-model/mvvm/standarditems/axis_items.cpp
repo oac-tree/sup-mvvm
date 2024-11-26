@@ -73,7 +73,7 @@ ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisIte
   AddProperty(kIsLog, false).SetDisplayName("log10");
 }
 
-std::unique_ptr<SessionItem> ViewportAxisItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> ViewportAxisItem::Clone() const
 {
   return std::make_unique<ViewportAxisItem>(*this);
 }
@@ -118,7 +118,7 @@ FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisIt
   RegisterMinMax();
 }
 
-std::unique_ptr<SessionItem> FixedBinAxisItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> FixedBinAxisItem::Clone() const
 {
   return std::make_unique<FixedBinAxisItem>(*this);
 }
@@ -171,7 +171,7 @@ PointwiseAxisItem::PointwiseAxisItem(const std::string& model_type) : BinnedAxis
   SetEditable(false);  // prevent editing in widgets, since there is no corresponding editor
 }
 
-std::unique_ptr<SessionItem> PointwiseAxisItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> PointwiseAxisItem::Clone() const
 {
   return std::make_unique<PointwiseAxisItem>(*this);
 }

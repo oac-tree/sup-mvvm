@@ -85,7 +85,7 @@ SessionItem::SessionItem(const SessionItem& other)
   }
 }
 
-std::unique_ptr<SessionItem> SessionItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> SessionItem::Clone() const
 {
   return std::make_unique<SessionItem>(*this);
 }

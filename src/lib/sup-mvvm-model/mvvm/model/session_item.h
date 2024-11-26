@@ -61,18 +61,14 @@ public:
   SessionItem(const SessionItem& other);
 
   /**
-   * @brief Creates clone of the item.
+   * @brief Creates a clone of the item.
    *
-   * This method is used to create item's deep copies and clones. If make_unique_id is true (the
-   * deep copy case), identifiers of the item and all its children will be regenerated. This will
-   * make a new item unique and will allow its usage (serialization, memory pool) along with the
-   * original. If make_unique_id is false, the result will be an exact clone of the original.
-   *
-   * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
-   * true.
-   * @return Clone of the item.
+   * Creates an exact clone of the item together with all its children. All item identifiers will be
+   * the same. Please note, that cloned items can't be used along with the original item in the same
+   * model due to memory pool identifiers collision. Use utils::CopyItem to create deep copies that
+   * have different item identifiers.
    */
-  virtual std::unique_ptr<SessionItem> Clone(bool make_unique_id) const;
+  virtual std::unique_ptr<SessionItem> Clone() const;
 
   /**
    * @brief Returns the type of the item.

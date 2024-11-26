@@ -39,7 +39,7 @@ public:
   explicit GraphViewportItem(const std::string& model_type = Type);
 
   using ViewportItem::ViewportItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone() const override;
 
   int GetGraphCount() const;
 

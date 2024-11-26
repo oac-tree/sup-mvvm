@@ -55,7 +55,7 @@ TEST_F(PropertyItemTests, Clone)
   }
 
   {  // clone
-    auto clone = item.Clone(/* make_unique_id*/ false);
+    auto clone = item.Clone();
     EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
     EXPECT_EQ(clone->GetIdentifier(), item.GetIdentifier());
     EXPECT_EQ(clone->GetDisplayName(), item.GetDisplayName());

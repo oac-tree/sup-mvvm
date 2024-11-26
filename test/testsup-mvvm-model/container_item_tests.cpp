@@ -65,7 +65,7 @@ TEST_F(ContainerItemTests, Clone)
   vector->SetXYZ(1.0, 2.0, 3.0);
 
   // making container clone
-  auto clone = item.Clone(/* make_unique_id*/ false);
+  auto clone = item.Clone();
   auto cloned_container = dynamic_cast<ContainerItem*>(clone.get());
   ASSERT_NE(cloned_container, nullptr);
 

@@ -58,7 +58,7 @@ GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportIt
   RegisterTag(TagInfo::CreateUniversalTag(kItems, {GraphItem::Type}), /*set_default*/ true);
 }
 
-std::unique_ptr<SessionItem> GraphViewportItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> GraphViewportItem::Clone() const
 {
   return std::make_unique<GraphViewportItem>(*this);
 }

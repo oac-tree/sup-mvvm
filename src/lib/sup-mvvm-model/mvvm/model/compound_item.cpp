@@ -26,7 +26,7 @@ namespace mvvm
 
 CompoundItem::CompoundItem(const std::string &item_type) : SessionItem(item_type) {}
 
-std::unique_ptr<SessionItem> CompoundItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> CompoundItem::Clone() const
 {
   return std::make_unique<CompoundItem>(*this);
 }

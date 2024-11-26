@@ -935,7 +935,7 @@ TEST_F(SessionItemTests, Clone)
   }
 
   {  // clone
-    auto clone = item.Clone(/* make_unique_id*/ false);
+    auto clone = item.Clone();
     EXPECT_EQ(item.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
     EXPECT_EQ(item.GetParent(), nullptr);
@@ -970,7 +970,7 @@ TEST_F(SessionItemTests, CloneParentAndChild)
   }
 
   {  // clone
-    auto parent_clone = parent->Clone(/* make_unique_id*/ false);
+    auto parent_clone = parent->Clone();
     EXPECT_EQ(parent->GetIdentifier(), parent_clone->GetIdentifier());
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());

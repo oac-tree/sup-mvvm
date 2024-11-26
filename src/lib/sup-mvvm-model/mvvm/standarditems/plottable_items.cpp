@@ -54,7 +54,7 @@ TextItem::TextItem() : CompoundItem(Type)
   AddProperty(kSize, GetDefaultAxisTitlePointSize()).SetDisplayName("Size");
 }
 
-std::unique_ptr<SessionItem> TextItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> TextItem::Clone() const
 {
   return std::make_unique<TextItem>(*this);
 }
@@ -106,7 +106,7 @@ PenItem::PenItem() : CompoundItem(Type)
   SetLimited(kPenMinWidth, kPenMaxWidth, width_property);
 }
 
-std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> PenItem::Clone() const
 {
   return std::make_unique<PenItem>(*this);
 }

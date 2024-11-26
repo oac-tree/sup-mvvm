@@ -39,7 +39,7 @@ public:
   TextItem();
 
   using CompoundItem::CompoundItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone() const override;
 
   std::string GetText() const;
   void SetText(const std::string& value);
@@ -65,7 +65,7 @@ public:
   PenItem();
 
   using CompoundItem::CompoundItem;
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone() const override;
 
   /**
    * @brief Checks if the pen style corresponds to the selected object.

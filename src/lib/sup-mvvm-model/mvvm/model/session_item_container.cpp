@@ -169,7 +169,7 @@ std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone() const
   auto result = std::make_unique<SessionItemContainer>(m_tag_info);
   for (const auto& item : m_items)
   {
-    result->m_items.push_back(item->Clone(false));
+    result->m_items.push_back(item->Clone());
   }
   return result;
 }

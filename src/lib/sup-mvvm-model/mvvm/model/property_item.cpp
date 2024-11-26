@@ -24,7 +24,7 @@ namespace mvvm
 
 PropertyItem::PropertyItem() : SessionItem(Type) {}
 
-std::unique_ptr<SessionItem> PropertyItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> PropertyItem::Clone() const
 {
   return std::make_unique<PropertyItem>(*this);
 }

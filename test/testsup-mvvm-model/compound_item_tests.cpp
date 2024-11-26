@@ -246,14 +246,13 @@ TEST_F(CompoundItemTests, AddBranch)
   EXPECT_EQ(utils::SinglePropertyItems(item), std::vector<SessionItem*>({&property0, &property1}));
 }
 
-//! Test Clone method.
 TEST_F(CompoundItemTests, Clone)
 {
   CompoundItem item;
 
   auto& property0 = item.AddProperty("thickness", 42);
 
-  auto clone = item.Clone(/* make_unique_id*/ false);
+  auto clone = item.Clone();
 
   auto compound_clone = dynamic_cast<CompoundItem*>(clone.get());
 

@@ -209,7 +209,7 @@ TEST_F(Data1DItemTests, Clone)
   auto data_item = model.InsertItem<Data1DItem>();
   auto axis_item = data_item->SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
 
-  auto clone = data_item->Clone(/* make_unique_id*/ false);
+  auto clone = data_item->Clone();
   auto data_clone = dynamic_cast<Data1DItem*>(clone.get());
   ASSERT_NE(data_clone, nullptr);
   auto axis_clone = data_clone->GetAxis();

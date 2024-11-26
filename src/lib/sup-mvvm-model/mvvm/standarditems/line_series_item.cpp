@@ -48,7 +48,7 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(Type)
   AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
-std::unique_ptr<SessionItem> LineSeriesItem::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItem> LineSeriesItem::Clone() const
 {
   return std::make_unique<LineSeriesItem>(*this);
 }

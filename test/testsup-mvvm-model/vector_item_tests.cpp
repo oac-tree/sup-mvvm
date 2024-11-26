@@ -132,7 +132,7 @@ TEST_F(VectorItemTests, Clone)
   }
 
   {  // clone
-    auto clone = item.Clone(/* make_unique_id*/ false);
+    auto clone = item.Clone();
     auto vector_clone = dynamic_cast<VectorItem*>(clone.get());
 
     ASSERT_NE(vector_clone, nullptr);
@@ -168,7 +168,7 @@ TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
   auto item = model.InsertItem<VectorItem>();
 
   {  // deep copy
-    auto clone = item->Clone(/* make_unique_id*/ true);
+    auto clone = item->Clone();
     EXPECT_EQ(clone->GetModel(), nullptr);
     EXPECT_EQ(clone->GetParent(), nullptr);
 
@@ -182,7 +182,7 @@ TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
   }
 
   {  // clone
-    auto clone = item->Clone(/* make_unique_id*/ false);
+    auto clone = item->Clone();
     EXPECT_EQ(clone->GetModel(), nullptr);
     EXPECT_EQ(clone->GetParent(), nullptr);
 

@@ -45,7 +45,7 @@ public:
 
   using CompoundItem::CompoundItem;
 
-  std::unique_ptr<SessionItem> Clone(bool make_unique_id) const override;
+  std::unique_ptr<SessionItem> Clone() const override;
 
   /**
    * @brief Returns number of points.
