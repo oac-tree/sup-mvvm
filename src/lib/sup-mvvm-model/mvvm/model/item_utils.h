@@ -34,6 +34,11 @@ namespace mvvm::utils
 {
 
 /**
+ * @brief Sets identifier for a given item.
+ */
+void SetIdentifier(SessionItem& item);
+
+/**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
  * for every item (non-const version).
  *
@@ -252,6 +257,7 @@ T* FindItemUp(SessionItem* item, bool start_from_self = true)
 template <typename T>
 std::nullptr_t FindItemUp(std::nullptr_t, bool start_from_self = true)
 {
+  (void)start_from_self;
   return nullptr;
 }
 
@@ -346,7 +352,9 @@ std::unique_ptr<T> CloneItem(const T& item)
 template <typename T>
 std::unique_ptr<T> CopyItem(const T& item)
 {
-  return CreateDeepCopy(item, /* make_unique_id */ true);
+  auto result = CloneItem(item);
+  iterate(result.get(), [](SessionItem* child) { SetIdentifier(*child); });
+  return result;
 }
 
 /**

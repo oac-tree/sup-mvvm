@@ -19,13 +19,14 @@
 
 #include "item_utils.h"
 
+#include "i_session_model.h"
+#include "model_utils.h"
 #include "session_item.h"
 #include "session_item_container.h"
 #include "tagged_items.h"
-#include "model_utils.h"
-#include "i_session_model.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/serialization/treedata_item_converter.h>
@@ -33,8 +34,8 @@
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/utils/container_utils.h>
 
-#include <stack>
 #include <sstream>
+#include <stack>
 
 namespace
 {
@@ -61,6 +62,11 @@ void MoveTo(mvvm::SessionItem& item, const mvvm::TagIndex& tag_index)
 
 namespace mvvm::utils
 {
+
+void SetIdentifier(SessionItem& item)
+{
+  item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+}
 
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
 {
@@ -397,7 +403,7 @@ std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str, bo
   return converter.ToSessionItem(*tree_data);
 }
 
-void BeginMacro(const SessionItem &item, const std::string &macro_name)
+void BeginMacro(const SessionItem& item, const std::string& macro_name)
 {
   if (const auto model = item.GetModel(); model)
   {
@@ -405,7 +411,7 @@ void BeginMacro(const SessionItem &item, const std::string &macro_name)
   }
 }
 
-void EndMacro(const SessionItem &item)
+void EndMacro(const SessionItem& item)
 {
   if (const auto model = item.GetModel(); model)
   {
@@ -413,7 +419,7 @@ void EndMacro(const SessionItem &item)
   }
 }
 
-std::string ItemToDebugString(const SessionItem *item)
+std::string ItemToDebugString(const SessionItem* item)
 {
   std::ostringstream ostr;
   if (item)
