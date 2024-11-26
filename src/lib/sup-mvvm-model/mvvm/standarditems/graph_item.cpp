@@ -41,7 +41,7 @@ GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 
 std::unique_ptr<SessionItem> GraphItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<GraphItem>(*this, make_unique_id);
+  return std::make_unique<GraphItem>(*this);
 }
 
 //! Sets link to the data item.

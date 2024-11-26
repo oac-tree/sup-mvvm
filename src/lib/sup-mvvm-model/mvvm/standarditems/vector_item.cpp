@@ -38,7 +38,7 @@ VectorItem::VectorItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> VectorItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<VectorItem>(*this, make_unique_id);
+  return std::make_unique<VectorItem>(*this);
 }
 
 double VectorItem::X() const

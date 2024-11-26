@@ -49,7 +49,7 @@ Data1DItem::Data1DItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> Data1DItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<Data1DItem>(*this, make_unique_id);
+  return std::make_unique<Data1DItem>(*this);
 }
 
 //! Returns coordinates of bin centers.

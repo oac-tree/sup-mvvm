@@ -75,7 +75,7 @@ ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisIte
 
 std::unique_ptr<SessionItem> ViewportAxisItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<ViewportAxisItem>(*this, make_unique_id);
+  return std::make_unique<ViewportAxisItem>(*this);
 }
 
 TextItem* ViewportAxisItem::GetTitleItem() const
@@ -120,7 +120,7 @@ FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisIt
 
 std::unique_ptr<SessionItem> FixedBinAxisItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<FixedBinAxisItem>(*this, make_unique_id);
+  return std::make_unique<FixedBinAxisItem>(*this);
 }
 
 void FixedBinAxisItem::SetParameters(int nbins, double xmin, double xmax)
@@ -173,7 +173,7 @@ PointwiseAxisItem::PointwiseAxisItem(const std::string& model_type) : BinnedAxis
 
 std::unique_ptr<SessionItem> PointwiseAxisItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<PointwiseAxisItem>(*this, make_unique_id);
+  return std::make_unique<PointwiseAxisItem>(*this);
 }
 
 void PointwiseAxisItem::SetParameters(const std::vector<double>& data)

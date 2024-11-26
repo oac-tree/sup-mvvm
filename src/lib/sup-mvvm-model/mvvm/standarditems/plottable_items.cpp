@@ -56,7 +56,7 @@ TextItem::TextItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> TextItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<TextItem>(*this, make_unique_id);
+  return std::make_unique<TextItem>(*this);
 }
 
 std::string TextItem::GetText() const
@@ -108,7 +108,7 @@ PenItem::PenItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> PenItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<PenItem>(*this, make_unique_id);
+  return std::make_unique<PenItem>(*this);
 }
 
 bool PenItem::IsSelected() const

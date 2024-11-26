@@ -927,7 +927,7 @@ TEST_F(SessionItemTests, Clone)
   item.SetDisplayName("abc");
 
   {  // deep copy
-    auto clone = item.Clone(/* make_unique_id*/ true);
+    auto clone = utils::CopyItem(item);
     EXPECT_NE(item.GetIdentifier(), clone->GetIdentifier());
     EXPECT_EQ(item.GetDisplayName(), clone->GetDisplayName());
     EXPECT_EQ(item.GetParent(), nullptr);

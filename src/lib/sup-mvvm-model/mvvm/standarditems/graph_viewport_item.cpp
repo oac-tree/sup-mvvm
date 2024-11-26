@@ -60,7 +60,7 @@ GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportIt
 
 std::unique_ptr<SessionItem> GraphViewportItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<GraphViewportItem>(*this, make_unique_id);
+  return std::make_unique<GraphViewportItem>(*this);
 }
 
 int GraphViewportItem::GetGraphCount() const

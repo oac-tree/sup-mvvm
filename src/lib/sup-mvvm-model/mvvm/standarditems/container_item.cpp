@@ -31,7 +31,7 @@ ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model
 
 std::unique_ptr<SessionItem> ContainerItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<ContainerItem>(*this, make_unique_id);
+  return std::make_unique<ContainerItem>(*this);
 }
 
 bool ContainerItem::IsEmpty() const

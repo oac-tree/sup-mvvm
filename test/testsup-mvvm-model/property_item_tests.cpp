@@ -19,6 +19,8 @@
 
 #include "mvvm/model/property_item.h"
 
+#include <mvvm/model/item_utils.h>
+
 #include <gtest/gtest.h>
 
 using namespace mvvm;
@@ -45,7 +47,7 @@ TEST_F(PropertyItemTests, Clone)
   item.SetDisplayName("abc");
 
   {  // deep copy
-    auto clone = item.Clone(/* make_unique_id*/ true);
+    auto clone = utils::CopyItem(item);
     EXPECT_NE(dynamic_cast<PropertyItem*>(clone.get()), nullptr);
     EXPECT_NE(clone->GetIdentifier(), item.GetIdentifier());
     EXPECT_EQ(clone->GetDisplayName(), item.GetDisplayName());

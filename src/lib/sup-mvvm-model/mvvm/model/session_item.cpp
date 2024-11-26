@@ -75,14 +75,10 @@ SessionItem::~SessionItem()
   }
 }
 
-SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
+SessionItem::SessionItem(const SessionItem& other)
     : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.GetItemData()),
                   other.GetTaggedItems()->Clone())
 {
-  if (make_unique_id)
-  {
-    SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
-  }
   for (auto child : GetAllItems())
   {
     child->SetParent(this);
@@ -91,7 +87,7 @@ SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
 
 std::unique_ptr<SessionItem> SessionItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<SessionItem>(*this, make_unique_id);
+  return std::make_unique<SessionItem>(*this);
 }
 
 std::string SessionItem::GetType() const

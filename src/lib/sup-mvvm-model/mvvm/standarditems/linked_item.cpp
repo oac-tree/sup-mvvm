@@ -37,7 +37,7 @@ LinkedItem::LinkedItem() : SessionItem(Type)
 
 std::unique_ptr<SessionItem> LinkedItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<LinkedItem>(*this, make_unique_id);
+  return std::make_unique<LinkedItem>(*this);
 }
 
 //! Set link to given item.

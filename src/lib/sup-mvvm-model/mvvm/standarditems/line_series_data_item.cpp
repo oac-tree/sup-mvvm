@@ -33,7 +33,7 @@ LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> LineSeriesDataItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<LineSeriesDataItem>(*this, make_unique_id);
+  return std::make_unique<LineSeriesDataItem>(*this);
 }
 
 int LineSeriesDataItem::GetPointCount() const

@@ -53,23 +53,12 @@ public:
   SessionItem();
   virtual ~SessionItem();
 
-  SessionItem(const SessionItem& other) = delete;
   SessionItem& operator=(const SessionItem&) = delete;
 
   /**
-   * @brief Parameterized copy constructor.
-   *
-   * This copy constructor is used to create item's deep copies and clones. If make_unique_id is
-   * true (the deep copy case), identifiers of the item and all its children will be regenerated.
-   * This will make a new item unique and will allow its usage (serialization, memory pool) along
-   * with the original. If make_unique_id is false, the result will be an exact clone of the
-   * original.
-   *
-   * @param other Item to copy from.
-   * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
-   * true.
+   * @brief Copy constructor.
    */
-  SessionItem(const SessionItem& other, bool make_unique_id);
+  SessionItem(const SessionItem& other);
 
   /**
    * @brief Creates clone of the item.

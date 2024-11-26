@@ -32,7 +32,7 @@ PointItem::PointItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> PointItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<PointItem>(*this, make_unique_id);
+  return std::make_unique<PointItem>(*this);
 }
 
 double PointItem::GetX() const

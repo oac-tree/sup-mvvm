@@ -50,7 +50,7 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(Type)
 
 std::unique_ptr<SessionItem> LineSeriesItem::Clone(bool make_unique_id) const
 {
-  return std::make_unique<LineSeriesItem>(*this, make_unique_id);
+  return std::make_unique<LineSeriesItem>(*this);
 }
 
 void LineSeriesItem::SetDataItem(LineSeriesDataItem *item)
