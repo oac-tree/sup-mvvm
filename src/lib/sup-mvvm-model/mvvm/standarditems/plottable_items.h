@@ -38,7 +38,6 @@ public:
 
   TextItem();
 
-  using CompoundItem::CompoundItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   std::string GetText() const;
@@ -64,7 +63,6 @@ public:
 
   PenItem();
 
-  using CompoundItem::CompoundItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**

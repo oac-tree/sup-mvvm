@@ -37,7 +37,6 @@ public:
 
   explicit ContainerItem(const std::string& model_type = Type);
 
-  using CompoundItem::CompoundItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**

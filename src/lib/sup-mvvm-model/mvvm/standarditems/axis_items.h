@@ -44,7 +44,6 @@ public:
   static inline const std::string kMin = "kMin";
   static inline const std::string kMax = "kMax";
 
-  using CompoundItem::CompoundItem;
   explicit BasicAxisItem(const std::string& model_type);
 
   double GetMin() const;
@@ -71,7 +70,6 @@ public:
 
   explicit ViewportAxisItem(const std::string& model_type = Type);
 
-  using BasicAxisItem::BasicAxisItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   TextItem* GetTitleItem() const;
@@ -101,7 +99,6 @@ public:
 class MVVM_MODEL_EXPORT BinnedAxisItem : public BasicAxisItem
 {
 public:
-  using BasicAxisItem::BasicAxisItem;
   explicit BinnedAxisItem(const std::string& model_type);
 
   virtual std::pair<double, double> GetRange() const = 0;
@@ -123,7 +120,6 @@ public:
 
   explicit FixedBinAxisItem(const std::string& model_type = Type);
 
-  using BinnedAxisItem::BinnedAxisItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   void SetParameters(int nbins, double xmin, double xmax);
@@ -149,7 +145,6 @@ public:
 
   explicit PointwiseAxisItem(const std::string& model_type = Type);
 
-  using BinnedAxisItem::BinnedAxisItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   void SetParameters(const std::vector<double>& data);

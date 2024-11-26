@@ -38,8 +38,6 @@ public:
 
   PointItem();
 
-  using CompoundItem::CompoundItem;
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**

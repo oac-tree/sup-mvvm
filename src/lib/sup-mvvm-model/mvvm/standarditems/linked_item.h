@@ -39,7 +39,6 @@ public:
 
   LinkedItem();
 
-  using SessionItem::SessionItem;
   std::unique_ptr<SessionItem> Clone() const override;
 
   void SetLink(const SessionItem* item);

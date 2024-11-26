@@ -42,8 +42,6 @@ public:
 
   LineSeriesItem();
 
-  using CompoundItem::CompoundItem;
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**
