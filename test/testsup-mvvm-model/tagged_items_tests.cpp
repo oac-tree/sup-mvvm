@@ -291,19 +291,8 @@ TEST_F(TaggedItemsTests, Clone)
       ->SetDisplayName("abc");
   items.InsertItem(std::move(child_t2), {tag2, 0})->SetDisplayName("def");
 
-  {  // deep copy
-    auto clone = items.Clone(/*make_unique_id*/ true);
-    EXPECT_EQ(clone->GetDefaultTag(), tag1);
-    ASSERT_EQ(clone->GetTagCount(), 2);
-    EXPECT_NE(&clone->ContainerAt(0), &items.ContainerAt(0));
-    EXPECT_NE(clone->GetItem({tag1, 0})->GetIdentifier(), child_t1_ptr->GetIdentifier());
-    EXPECT_NE(clone->GetItem({tag2, 0})->GetIdentifier(), child_t2_ptr->GetIdentifier());
-    EXPECT_EQ(clone->GetItem({tag1, 0})->GetDisplayName(), std::string("abc"));
-    EXPECT_EQ(clone->GetItem({tag2, 0})->GetDisplayName(), std::string("def"));
-  }
-
   {  // clone
-    auto clone = items.Clone(/*make_unique_id*/ false);
+    auto clone = items.Clone();
     EXPECT_EQ(clone->GetDefaultTag(), tag1);
     ASSERT_EQ(clone->GetTagCount(), 2);
     EXPECT_NE(&clone->ContainerAt(0), &items.ContainerAt(0));

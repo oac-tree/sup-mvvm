@@ -105,7 +105,7 @@ TEST_F(VectorItemTests, Clone)
   item.SetXYZ(1.0, 2.0, 3.0);
 
   {  // deep copy
-    auto clone = item.Clone(/* make_unique_id*/ true);
+    auto clone = utils::CopyItem(item);
     auto vector_clone = dynamic_cast<VectorItem*>(clone.get());
 
     ASSERT_NE(vector_clone, nullptr);

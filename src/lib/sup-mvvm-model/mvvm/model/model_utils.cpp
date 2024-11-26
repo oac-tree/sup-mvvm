@@ -63,7 +63,7 @@ SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
 SessionItem* CopyItem(const SessionItem* item, ISessionModel* model, SessionItem* parent,
                       const TagIndex& tag_index)
 {
-  return model->InsertItem(item->Clone(/* make_unique_id*/ true), parent, tag_index);
+  return model->InsertItem(CopyItem(*item), parent, tag_index);
 }
 
 std::unique_ptr<SessionItem> CreateEmptyRootItem()

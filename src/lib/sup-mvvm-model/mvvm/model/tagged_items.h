@@ -194,13 +194,9 @@ public:
   void AppendContainer(std::unique_ptr<SessionItemContainer> container);
 
   /**
-   * @brief Creates clones.
-   *
-   * @param make_unique_id Regenerates unique identifiers of the item and all its children, when
-   * true.
-   * @return Full clone of this.
+   * @brief Clone object.
    */
-  std::unique_ptr<TaggedItems> Clone(bool make_unique_id) const;
+  std::unique_ptr<TaggedItems> Clone() const;
 
   /**
    * @brief Returns container corresponding to the given name, or throw if container doesn't exist.

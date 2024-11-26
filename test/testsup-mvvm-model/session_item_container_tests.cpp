@@ -361,16 +361,8 @@ TEST_F(SessionItemContainerTest, Clone)
   auto [child1, child1_ptr] = CreateItem();
   EXPECT_EQ(container.InsertItem(std::move(child1), container.GetItemCount()), child1_ptr);
 
-  {  // deep copy
-    auto clone = container.Clone(/*make_unique_id*/ true);
-    EXPECT_EQ(clone->GetTagInfo(), container.GetTagInfo());
-    ASSERT_EQ(clone->GetItemCount(), 1);
-    EXPECT_NE(clone->ItemAt(0), child1_ptr);
-    EXPECT_NE(clone->ItemAt(0)->GetIdentifier(), child1_ptr->GetIdentifier());
-  }
-
   {  // clone
-    auto clone = container.Clone(/*make_unique_id*/ false);
+    auto clone = container.Clone();
     EXPECT_EQ(clone->GetTagInfo(), container.GetTagInfo());
     ASSERT_EQ(clone->GetItemCount(), 1);
     EXPECT_NE(clone->ItemAt(0), child1_ptr);

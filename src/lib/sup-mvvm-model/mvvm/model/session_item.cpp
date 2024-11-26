@@ -77,7 +77,7 @@ SessionItem::~SessionItem()
 
 SessionItem::SessionItem(const SessionItem& other, bool make_unique_id)
     : SessionItem(other.GetType(), std::make_unique<SessionItemData>(*other.GetItemData()),
-                  other.GetTaggedItems()->Clone(make_unique_id))
+                  other.GetTaggedItems()->Clone())
 {
   if (make_unique_id)
   {

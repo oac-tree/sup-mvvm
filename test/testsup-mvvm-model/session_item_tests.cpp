@@ -944,7 +944,6 @@ TEST_F(SessionItemTests, Clone)
 }
 
 //! Testing SessionItem::Clone for parent with children.
-
 TEST_F(SessionItemTests, CloneParentAndChild)
 {
   const std::string tag = "tag";
@@ -955,7 +954,7 @@ TEST_F(SessionItemTests, CloneParentAndChild)
   child->SetDisplayName("def");
 
   {  // deep copy
-    auto parent_clone = parent->Clone(/* make_unique_id*/ true);
+    auto parent_clone = utils::CopyItem(*parent);
     EXPECT_NE(parent->GetIdentifier(), parent_clone->GetIdentifier());
     ASSERT_EQ(parent_clone->GetTotalItemCount(), 1);
     EXPECT_EQ(parent_clone->GetDisplayName(), parent->GetDisplayName());

@@ -135,16 +135,9 @@ public:
   const_iterator end() const;
 
   /**
-   * @brief Creates clones.
-   *
-   * The flag make_unique_id will be propagated to the underlying SessionItem::Clone machinery,
-   * allowing to generate either exact clones (make_unique_id = false) or deep copies
-   * ((make_unique_id = true).
-   *
-   * @param make_unique_id Regenerates unique identifiers.
-   * @return Full clone of this.
+   * @brief Creates clone.
    */
-  std::unique_ptr<SessionItemContainer> Clone(bool make_unique_id) const;
+  std::unique_ptr<SessionItemContainer> Clone() const;
 
   /**
    * @brief Returns true if no more items are allowed.

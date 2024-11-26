@@ -164,12 +164,12 @@ SessionItemContainer::const_iterator SessionItemContainer::end() const
   return m_items.end();
 }
 
-std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone(bool make_unique_id) const
+std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone() const
 {
   auto result = std::make_unique<SessionItemContainer>(m_tag_info);
   for (const auto& item : m_items)
   {
-    result->m_items.push_back(item->Clone(make_unique_id));
+    result->m_items.push_back(item->Clone(false));
   }
   return result;
 }

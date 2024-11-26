@@ -197,7 +197,6 @@ TEST_F(CompoundItemTests, ItemVectorAccess)
 }
 
 //! Tests automatic index addition to default display name.
-
 TEST_F(CompoundItemTests, DisplayNameIndexAddition)
 {
   const std::string tag = "tag";
@@ -221,9 +220,7 @@ TEST_F(CompoundItemTests, DisplayNameIndexAddition)
   EXPECT_EQ(child1->GetDisplayName(), "Hyde");
 }
 
-//! Test all children method.
-//! Property items are also children.
-
+//! Test all children method. Property items are also children.
 TEST_F(CompoundItemTests, Children)
 {
   CompoundItem item;
@@ -233,7 +230,6 @@ TEST_F(CompoundItemTests, Children)
 }
 
 //! Test AddBranch method.
-
 TEST_F(CompoundItemTests, AddBranch)
 {
   CompoundItem item;
@@ -251,42 +247,19 @@ TEST_F(CompoundItemTests, AddBranch)
 }
 
 //! Test Clone method.
-
 TEST_F(CompoundItemTests, Clone)
 {
   CompoundItem item;
 
   auto& property0 = item.AddProperty("thickness", 42);
 
-  {  // deep copy
-    auto clone = item.Clone(/* make_unique_id*/ true);
+  auto clone = item.Clone(/* make_unique_id*/ false);
 
-    // Since Clone method returns a pointer to SessionItem, we have to cast it to CompoundItem
-    // to be able to validate via CompoundItem's API.
+  auto compound_clone = dynamic_cast<CompoundItem*>(clone.get());
 
-    // This is kind of another hint, why exact types are nice when cloning polymorphic objects.
-
-    auto compound_clone = dynamic_cast<CompoundItem*>(clone.get());
-
-    ASSERT_NE(compound_clone, nullptr);
-
-    EXPECT_NE(compound_clone->GetIdentifier(), item.GetIdentifier());
-    EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
-    EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
-    EXPECT_NE(compound_clone->GetItem({"thickness", 0})->GetIdentifier(),
-              property0.GetIdentifier());
-  }
-
-  {  // clone
-    auto clone = item.Clone(/* make_unique_id*/ false);
-
-    auto compound_clone = dynamic_cast<CompoundItem*>(clone.get());
-
-    ASSERT_NE(compound_clone, nullptr);
-    EXPECT_EQ(compound_clone->GetIdentifier(), item.GetIdentifier());
-    EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
-    EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
-    EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(),
-              property0.GetIdentifier());
-  }
+  ASSERT_NE(compound_clone, nullptr);
+  EXPECT_EQ(compound_clone->GetIdentifier(), item.GetIdentifier());
+  EXPECT_EQ(compound_clone->Property<int>("thickness"), 42);
+  EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
+  EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(), property0.GetIdentifier());
 }
