@@ -310,20 +310,13 @@ std::vector<const T*> FindItemDown(const SessionItem* item, const std::string& m
 }
 
 /**
- * @brief Returns deep copy or clone of the item.
+ * @brief Returns clone of the item (identifiers are preserved).
  *
- * @param item Item to clone
- * @param make_unique_id Flag requesting identifier regeneration
- *
- * @return New item casted to necessary type.
- *
- * @details If 'make_unique_id' is true, identifiers of the item and all its children will be
- * regenerated. The item will be unique it and will allow its usage (serialization, memory pool)
- * along with the original. If 'make_unique_id' is false, the result will be an exact clone of the
- * original.
+ * The purpose of this method is to change type of returned unique_ptr to the type of the original
+ * item.
  */
 template <typename T>
-std::unique_ptr<T> CreateDeepCopy(const T& item, bool make_unique_id)
+std::unique_ptr<T> CloneItem(const T& item)
 {
   if constexpr (std::is_same_v<T, SessionItem>)
   {
@@ -335,15 +328,6 @@ std::unique_ptr<T> CreateDeepCopy(const T& item, bool make_unique_id)
     // Converting unique_ptr<SessionItem> to the correct type
     return std::unique_ptr<T>(static_cast<T*>(item.Clone().release()));
   }
-}
-
-/**
- * @brief Returns clone of the item (identifiers are preserved).
- */
-template <typename T>
-std::unique_ptr<T> CloneItem(const T& item)
-{
-  return CreateDeepCopy(item, /* make_unique_id */ false);
 }
 
 /**
