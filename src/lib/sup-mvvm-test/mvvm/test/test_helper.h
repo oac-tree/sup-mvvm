@@ -76,7 +76,7 @@ bool IsCloneImplemented()
   // We expect that the specified object can be created, cloned, and the result of clone can
   // be casted to the object type itself.
   T item;
-  auto clone = item.Clone(/*make_unique_id*/ false);
+  auto clone = item.Clone();
   return CanCast<T>(clone.get());
 }
 
