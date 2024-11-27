@@ -34,9 +34,9 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The AllChildrenStrategy class finds all actual children of given item.
+ * @brief The AllChildrenStrategy class finds all actual children of a given item.
  *
- * Hidden children by the current convention will be also in the list.
+ * Hidden children by the current convention will also be on the list.
  */
 class MVVM_VIEWMODEL_EXPORT AllChildrenStrategy : public IChildrenStrategy
 {
@@ -45,7 +45,7 @@ public:
 };
 
 /**
- * @brief The AllVisibleChildrenStrategy class finds all visible children of given item.
+ * @brief The AllVisibleChildrenStrategy class finds all visible children of a given item.
  */
 class MVVM_VIEWMODEL_EXPORT AllVisibleChildrenStrategy : public IChildrenStrategy
 {
@@ -54,9 +54,9 @@ public:
 };
 
 /**
- * @brief The TopItemsStrategy class finds children of given item which are top-level items.
+ * @brief The TopItemsStrategy class finds children of given items that are top-level items.
  *
- * This will filter out all items marked with property flag. Also, all items explicitly
+ * This will filter out all items marked with a property flag. Also, all items explicitly
  * marked with setVisible(false) will not show up.
  */
 class MVVM_VIEWMODEL_EXPORT TopItemsStrategy : public IChildrenStrategy
@@ -66,9 +66,9 @@ public:
 };
 
 /**
- * @brief The PropertyItemsStrategy class finds children which are marked as properties.
+ * @brief The PropertyItemsStrategy class finds children who are marked as properties.
  *
- * All top level items will be filtered out.
+ * All top-level items will be filtered out.
  */
 class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public IChildrenStrategy
 {
@@ -77,7 +77,7 @@ public:
 };
 
 /**
- * The FixedItemTypeStrategy class finds children which belongs to one of the given type.
+ * The FixedItemTypeStrategy class finds children that belong to one of the given types.
  */
 class MVVM_VIEWMODEL_EXPORT FixedItemTypeStrategy : public IChildrenStrategy
 {
