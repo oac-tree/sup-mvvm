@@ -36,11 +36,15 @@
         <unit.type>module</unit.type>
         <integrity.level>1</integrity.level>
         <!-- -->
-        <cppcheck.args>--enable=all --suppress=missingInclude --inline-suppr</cppcheck.args>
+        <buildpath>BUILD</buildpath>
+        <sourcepath>SOURCE</sourcepath>
+        <makefile.args>install</makefile.args>
+        <coverage>false</coverage>
+        <!-- -->
+        <sonar.language>cpp</sonar.language>
         <sonar.sources.cpp>src</sonar.sources.cpp>
         <sonar.tests.cpp>test</sonar.tests.cpp>
         <sonar.exclusions>src/lib/sup-mvvm-view/**, src/lib/sup-mvvm-test/**, test/**</sonar.exclusions>
-        <coverage>false</coverage>
     </properties>
 
     <!-- Parent pom.xml -->
@@ -85,61 +89,61 @@
                 <configuration>
                     <!-- Copy the sources over to target -->
                     <init>
-                        <copy source="src" target="main/src" />
-                        <copy source="test" target="main/test" />
-                        <copy source="extern" target="main/extern" />
-                        <copy source="doc" target="main/doc" />
-                        <copy source="cmake" target="main/cmake" />
-                        <copy source="CMakeLists.txt" target="main/CMakeLists.txt" />
+                        <copy source="src" target="${sourcepath}/src" />
+                        <copy source="test" target="${sourcepath}/test" />
+                        <copy source="extern" target="${sourcepath}/extern" />
+                        <copy source="doc" target="${sourcepath}/doc" />
+                        <copy source="cmake" target="${sourcepath}/cmake" />
+                        <copy source="CMakeLists.txt" target="${sourcepath}/CMakeLists.txt" />
                     </init>
                     <!-- Configure packaging and dependencies -->
                     <packaging>
                         <package>
-                        <!-- Libraries  -->
-                        <include type="file" source="lib" target="lib">
-                            <include>*.so.*</include>
-                        </include>
-                        <!-- Package dependencies -->
-                        <requires version="current">libxml2</requires>
-                        <requires version="current">qt5-qtbase-gui</requires>
-                        <requires version="current">adwaita-qt5</requires>
-                        <requires version="current">qt5-qtbase</requires>
-                        <requires version="current">qt5-qtsvg</requires>
-                        <requires version="current">qt5-qttools</requires>
-                        <requires version="current">qt5-qtcharts</requires>
-                        <requires version="current" buildOnly="true">libxml2-devel</requires>
-                        <requires version="current" buildOnly="true">qt5-qtbase-devel</requires>
-                        <requires version="current" buildOnly="true">qt5-qtsvg-devel</requires>
-                        <requires version="current" buildOnly="true">qt5-qttools-devel</requires>
-                        <requires version="current" buildOnly="true">qt5-qtcharts-devel</requires>
-                        <requires version="current" buildOnly="true">mesa-libGL-devel</requires>
-                        <requires version="current" buildOnly="true">pcre2-utf16</requires>
-                        <requires codac="true" buildOnly="true">gtest-1.12.1-devel</requires>
-                        <requires version="current" buildOnly="true">cmake</requires>
-                    </package>
-                    <package name="devel">
-                        <!-- CMAKE -->
-                        <include type="file" source="lib/cmake/sup-mvvm" target="lib/cmake/sup-mvvm">
-                            <include>*.cmake</include>
-                        </include>
-                        <!--  Libraries  -->
-                        <include type="file" source="lib" target="lib">
-                        <include>*.so</include>
-                        <include>*.a</include>
-                        </include>
-                        <!--  Public API headers  -->
-                        <include type="file" source="include/mvvm" target="include/mvvm"/>
-                        <!-- Package dependencies -->
-                        <requires version="current">%{codac_rpm_prefix}-${project.artifactId}</requires>
-                    </package>
-                    <package name="docs">
-                        <!--  Public API headers  -->
-                        <include type="file" source="doc/${project.artifactId}" target="doc/${project.artifactId}"/>
-                        <!-- Package dependencies -->
-                        <requires version="current">%{codac_rpm_prefix}-${project.artifactId}</requires>
-                        <requires version="current" buildOnly="true">doxygen</requires>
-                        <requires codac="true" buildOnly="true">python-sphinx</requires>
-                    </package>
+                            <!-- Libraries  -->
+                            <include type="file" source="lib" target="lib">
+                                <include>*.so.*</include>
+                            </include>
+                            <!-- Package dependencies -->
+                            <requires version="current">libxml2</requires>
+                            <requires version="current">qt5-qtbase-gui</requires>
+                            <requires version="current">adwaita-qt5</requires>
+                            <requires version="current">qt5-qtbase</requires>
+                            <requires version="current">qt5-qtsvg</requires>
+                            <requires version="current">qt5-qttools</requires>
+                            <requires version="current">qt5-qtcharts</requires>
+                            <requires version="current" buildOnly="true">libxml2-devel</requires>
+                            <requires version="current" buildOnly="true">qt5-qtbase-devel</requires>
+                            <requires version="current" buildOnly="true">qt5-qtsvg-devel</requires>
+                            <requires version="current" buildOnly="true">qt5-qttools-devel</requires>
+                            <requires version="current" buildOnly="true">qt5-qtcharts-devel</requires>
+                            <requires version="current" buildOnly="true">mesa-libGL-devel</requires>
+                            <requires version="current" buildOnly="true">pcre2-utf16</requires>
+                            <requires codac="true" buildOnly="true">gtest-1.12.1-devel</requires>
+                            <requires version="current" buildOnly="true">cmake</requires>
+                        </package>
+                        <package name="devel">
+                            <!-- CMAKE -->
+                            <include type="file" source="lib/cmake/sup-mvvm" target="lib/cmake/sup-mvvm">
+                                <include>*.cmake</include>
+                            </include>
+                            <!--  Libraries  -->
+                            <include type="file" source="lib" target="lib">
+                            <include>*.so</include>
+                            <include>*.a</include>
+                            </include>
+                            <!--  Public API headers  -->
+                            <include type="file" source="include/mvvm" target="include/mvvm"/>
+                            <!-- Package dependencies -->
+                            <requires version="current">%{codac_rpm_prefix}-${project.artifactId}</requires>
+                        </package>
+                        <package name="docs">
+                            <!--  Public API headers  -->
+                            <include type="file" source="doc/${project.artifactId}" target="doc/${project.artifactId}"/>
+                            <!-- Package dependencies -->
+                            <requires version="current">%{codac_rpm_prefix}-${project.artifactId}</requires>
+                            <requires version="current" buildOnly="true">doxygen</requires>
+                            <requires codac="true" buildOnly="true">python-sphinx</requires>
+                        </package>
                     </packaging>
                 </configuration>
             </plugin>
@@ -160,31 +164,13 @@
                             <workingDirectory>${project.build.directory}</workingDirectory>
                             <arguments>
                                 <!-- CMAKE configuration options -->
-                                <argument>-B${project.build.directory}/main/build</argument>
+                                <argument>-B${buildpath}</argument>
                                 <argument>-DCMAKE_INSTALL_PREFIX=${project.build.directory}</argument>
                                 <argument>-DCMAKE_INSTALL_LIBDIR=lib</argument>
                                 <argument>-DCMAKE_INSTALL_DOCDIR=doc/${project.artifactId}</argument>
                                 <argument>-DTEST_OUTPUT_DIRECTORY=${project.build.directory}/test</argument>
                                 <argument>-DCOA_COVERAGE=${coverage}</argument>
-                                <argument>${project.build.directory}/main</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <!-- Compile project -->
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>cmake</executable>
-                            <workingDirectory>${project.build.directory}</workingDirectory>
-                            <arguments>
-                                <argument>--build</argument>
-                                <argument>${project.build.directory}/main/build</argument>
-                                <argument>--target</argument>
-                                <argument>install</argument>
+                                <argument>${sourcepath}</argument>
                             </arguments>
                         </configuration>
                     </execution>
