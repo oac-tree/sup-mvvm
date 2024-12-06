@@ -20,14 +20,10 @@
 #ifndef MVVM_PLOTTING_LINE_SERIES_DATA_CONTROLLER_H_
 #define MVVM_PLOTTING_LINE_SERIES_DATA_CONTROLLER_H_
 
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
 #include <mvvm/signals/event_types.h>
 
 #include <memory>
-
-namespace QtCharts
-{
-class QLineSeries;
-}
 
 namespace mvvm
 {
@@ -37,7 +33,7 @@ class ModelListener;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesDataItem
- * object representing waveform data and QtCharts::QLineSeries.
+ * object representing waveform data and QLineSeries.
  *
  * For the moment it is one way communication from LineSeriesDataItem toward QLineSeries. Any
  * change in LineSeriesDataItem (adding, removing data points, changing x,y values) will be
@@ -51,7 +47,7 @@ public:
    *
    *  @param line_series The Qt Line series object to control.
    */
-  explicit LineSeriesDataController(QtCharts::QLineSeries* line_series);
+  explicit LineSeriesDataController(QLineSeries* line_series);
   ~LineSeriesDataController();
 
   void SetItem(const LineSeriesDataItem* item);
@@ -70,7 +66,7 @@ public:
   /**
    * @brief Return Qt series under control.
    */
-  QtCharts::QLineSeries* GetQtLineSeries() const;
+  QLineSeries* GetQtLineSeries() const;
 
   /**
    * @brief Sets the value of x-axis offset.
@@ -88,7 +84,7 @@ private:
    */
   void InitLineSeriesData();
 
-  QtCharts::QLineSeries* m_qt_line_series{nullptr};
+  QLineSeries* m_qt_line_series{nullptr};
   const LineSeriesDataItem* m_data_item{nullptr};
   std::unique_ptr<ModelListener> m_listener;
   double m_x_offset{0.0};

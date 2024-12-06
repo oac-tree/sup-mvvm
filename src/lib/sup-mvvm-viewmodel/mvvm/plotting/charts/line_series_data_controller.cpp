@@ -19,18 +19,18 @@
 
 #include "line_series_data_controller.h"
 
+#include "qt_charts.h"
+
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_listener.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/utils/container_utils.h>
 
-#include <QLineSeries>
-
 namespace mvvm
 {
 
-LineSeriesDataController::LineSeriesDataController(QtCharts::QLineSeries *line_series)
+LineSeriesDataController::LineSeriesDataController(QLineSeries *line_series)
     : m_qt_line_series(line_series)
 {
   if (!line_series)
@@ -114,7 +114,7 @@ const LineSeriesDataItem *LineSeriesDataController::GetDataItem() const
   return m_data_item;
 }
 
-QtCharts::QLineSeries *LineSeriesDataController::GetQtLineSeries() const
+QLineSeries *LineSeriesDataController::GetQtLineSeries() const
 {
   return m_qt_line_series;
 }

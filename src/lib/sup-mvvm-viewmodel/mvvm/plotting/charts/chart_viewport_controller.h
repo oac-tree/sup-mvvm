@@ -20,16 +20,10 @@
 #ifndef MVVM_PLOTTING_CHARTS_CHART_VIEWPORT_CONTROLLER_H_
 #define MVVM_PLOTTING_CHARTS_CHART_VIEWPORT_CONTROLLER_H_
 
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
 #include <mvvm/signals/item_controller.h>
 
 #include <list>
-
-namespace QtCharts
-{
-class QChart;
-class QAbstractAxis;
-class QLineSeries;
-}  // namespace QtCharts
 
 namespace mvvm
 {
@@ -41,10 +35,10 @@ class LineSeriesItem;
 
 /**
  * @brief The ChartViewportController class establishes communication between ChartViewportItem and
- * QtCharts::QChart scene for plotting multiple line series on one canvas.
+ * QChart scene for plotting multiple line series on one canvas.
  *
  * It listens ChartViewportItems and propagates changes into QChart scene. On insertion/removal of
- * LineSeriesItem it will create/remove corresponding QtCharts::QLineSeries object.
+ * LineSeriesItem it will create/remove corresponding QLineSeries object.
  */
 class ChartViewportController : public ItemController<ChartViewportItem>
 {
@@ -53,14 +47,14 @@ public:
    * @brief Main constructor.
    * @param chart The Qt's chart to manipulate.
    */
-  explicit ChartViewportController(QtCharts::QChart* chart);
+  explicit ChartViewportController(QChart* chart);
   ~ChartViewportController() override;
 
   void Subscribe() override;
 
-  QtCharts::QAbstractAxis* GetXQtAxis() const;
+  QAbstractAxis* GetXQtAxis() const;
 
-  QtCharts::QAbstractAxis* GetYQtAxis() const;
+  QAbstractAxis* GetYQtAxis() const;
 
 private:
   /**
@@ -68,7 +62,7 @@ private:
    *
    * It will create necessary controller and add QtChart::QLineSeries to the chart.
    */
-  QtCharts::QLineSeries* SetupChartForLineSeries(LineSeriesItem* item);
+  QLineSeries* SetupChartForLineSeries(LineSeriesItem* item);
 
   /**
    * @brief Performs initial setup of QT chart for already existing line series.
@@ -88,14 +82,14 @@ private:
   /**
    * @brief Process event when LineSeriesItem is removed from viewport.
    */
-  void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent &event);
+  void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event);
 
   /**
    * @brief Process event when one of properties has changed.
    */
-  void OnPropertyChangedEvent(const PropertyChangedEvent &event);
+  void OnPropertyChangedEvent(const PropertyChangedEvent& event);
 
-  QtCharts::QChart* m_chart{nullptr};
+  QChart* m_chart{nullptr};
   std::list<std::unique_ptr<LineSeriesController>> m_line_controllers;
   std::unique_ptr<ChartAxisPlotController> m_x_axis_controller;
   std::unique_ptr<ChartAxisPlotController> m_y_axis_controller;

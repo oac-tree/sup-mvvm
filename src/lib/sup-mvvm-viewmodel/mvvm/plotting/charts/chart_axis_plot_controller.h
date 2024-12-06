@@ -21,14 +21,10 @@
 #define MVVM_PLOTTING_CHARTS_CHART_AXIS_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
 
 #include <QObject>
 #include <memory>
-
-namespace QtCharts
-{
-class QAbstractAxis;
-}
 
 namespace mvvm
 {
@@ -45,10 +41,10 @@ class ChartAxisTitleController;
 class ChartAxisPlotController : public ItemController<ViewportAxisItem>
 {
 public:
-  explicit ChartAxisPlotController(QtCharts::QAbstractAxis* axis);
+  explicit ChartAxisPlotController(QAbstractAxis* axis);
   ~ChartAxisPlotController() override;
 
-  QtCharts::QAbstractAxis* GetQtAxis();
+  QAbstractAxis* GetQtAxis();
 
 protected:
   void Subscribe() override;
@@ -75,7 +71,7 @@ private:
    */
   void OnPropertyChangedEvent(const PropertyChangedEvent& event);
 
-  QtCharts::QAbstractAxis* m_axis{nullptr};
+  QAbstractAxis* m_axis{nullptr};
 
   //! Special connection with Qt axis is necessary since ChartAxisPlotController is not a QObject.
   std::unique_ptr<QMetaObject::Connection> m_axis_connection;

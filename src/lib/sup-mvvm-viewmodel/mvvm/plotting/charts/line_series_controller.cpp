@@ -20,6 +20,7 @@
 #include "line_series_controller.h"
 
 #include "line_series_data_controller.h"
+#include "qt_charts.h"
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/plotting/charts/chart_pen_controller.h>
@@ -27,12 +28,10 @@
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/plottable_items.h>
 
-#include <QLineSeries>
-
 namespace mvvm
 {
 
-LineSeriesController::LineSeriesController(QtCharts::QLineSeries *line_series)
+LineSeriesController::LineSeriesController(QLineSeries *line_series)
     : m_data_controller(std::make_unique<LineSeriesDataController>(line_series))
     , m_pen_controller(std::make_unique<ChartPenController>(line_series))
 {
@@ -55,7 +54,7 @@ void LineSeriesController::Subscribe()
   Listener()->Connect<DataChangedEvent>(this, &LineSeriesController::OnDataChanged);
 }
 
-QtCharts::QLineSeries *LineSeriesController::GetQtLineSeries() const
+QLineSeries *LineSeriesController::GetQtLineSeries() const
 {
   return m_data_controller->GetQtLineSeries();
 }

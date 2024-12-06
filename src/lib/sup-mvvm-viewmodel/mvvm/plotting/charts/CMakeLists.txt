@@ -11,4 +11,6 @@ target_sources(${library_name} PRIVATE
   line_series_controller.h
   line_series_data_controller.cpp
   line_series_data_controller.h
+  qt_charts.h
+  qt_charts_fwd.h
 )

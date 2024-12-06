@@ -21,17 +21,16 @@
 
 #include "chart_axis_title_controller.h"
 
+#include "qt_charts.h"
+
 #include <mvvm/core/exceptions.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
 
-#include <QtCharts/QAbstractAxis>
-#include <QtCharts/QValueAxis>
-
 namespace mvvm
 {
 
-ChartAxisPlotController::ChartAxisPlotController(QtCharts::QAbstractAxis *axis)
+ChartAxisPlotController::ChartAxisPlotController(QAbstractAxis *axis)
     : m_axis(axis), m_axis_connection(std::make_unique<QMetaObject::Connection>())
 {
   if (!m_axis)
@@ -42,7 +41,7 @@ ChartAxisPlotController::ChartAxisPlotController(QtCharts::QAbstractAxis *axis)
 
 ChartAxisPlotController::~ChartAxisPlotController() = default;
 
-QtCharts::QAbstractAxis *ChartAxisPlotController::GetQtAxis()
+QAbstractAxis *ChartAxisPlotController::GetQtAxis()
 {
   return m_axis;
 }
@@ -66,12 +65,12 @@ void ChartAxisPlotController::Unsubscribe()
 
 void ChartAxisPlotController::SetQtConnected()
 {
-  if (auto value_axis = dynamic_cast<QtCharts::QValueAxis *>(m_axis); value_axis)
+  if (auto value_axis = dynamic_cast<QValueAxis *>(m_axis); value_axis)
   {
     auto on_axis_range = [this](double min, double max) { GetItem()->SetRange(min, max); };
 
     *m_axis_connection =
-        QObject::connect(value_axis, &QtCharts::QValueAxis::rangeChanged, on_axis_range);
+        QObject::connect(value_axis, &QValueAxis::rangeChanged, on_axis_range);
   }
 }
 

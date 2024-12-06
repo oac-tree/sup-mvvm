@@ -19,6 +19,8 @@
 
 #include "chart_viewport_controller.h"
 
+#include "qt_charts.h"
+
 #include <mvvm/plotting/charts/chart_axis_plot_controller.h>
 #include <mvvm/plotting/charts/line_series_controller.h>
 #include <mvvm/standarditems/axis_items.h>
@@ -26,10 +28,6 @@
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/viewport_item.h>
 #include <mvvm/utils/container_utils.h>
-
-#include <QtCharts/QChart>
-#include <QtCharts/QLegend>
-#include <QtCharts/QLineSeries>
 
 namespace mvvm
 {
@@ -40,20 +38,20 @@ namespace
 /**
  * @brief Returns animation option encoded in ChartViewportItem.
  */
-QtCharts::QChart::AnimationOptions GetAnimationOption(ChartViewportItem *item)
+QChart::AnimationOptions GetAnimationOption(ChartViewportItem *item)
 {
   auto values = item->Property<ComboProperty>(ChartViewportItem::kAnimation).GetSelectedValues();
 
-  QtCharts::QChart::AnimationOptions result = QtCharts::QChart::NoAnimation;
+  QChart::AnimationOptions result = QChart::NoAnimation;
 
   if (utils::Contains(values, ChartViewportItem::kSeriesAnimation))
   {
-    result |= QtCharts::QChart::SeriesAnimations;
+    result |= QChart::SeriesAnimations;
   }
 
   if (utils::Contains(values, ChartViewportItem::kGridAnimation))
   {
-    result |= QtCharts::QChart::GridAxisAnimations;
+    result |= QChart::GridAxisAnimations;
   }
 
   return result;
@@ -61,7 +59,7 @@ QtCharts::QChart::AnimationOptions GetAnimationOption(ChartViewportItem *item)
 
 }  // namespace
 
-ChartViewportController::ChartViewportController(QtCharts::QChart *chart) : m_chart(chart) {}
+ChartViewportController::ChartViewportController(QChart *chart) : m_chart(chart) {}
 
 ChartViewportController::~ChartViewportController() = default;
 
@@ -75,19 +73,19 @@ void ChartViewportController::Subscribe()
   Listener()->Connect<PropertyChangedEvent>(this, &ChartViewportController::OnPropertyChangedEvent);
 }
 
-QtCharts::QAbstractAxis *ChartViewportController::GetXQtAxis() const
+QAbstractAxis *ChartViewportController::GetXQtAxis() const
 {
   return m_x_axis_controller ? m_x_axis_controller->GetQtAxis() : nullptr;
 }
 
-QtCharts::QAbstractAxis *ChartViewportController::GetYQtAxis() const
+QAbstractAxis *ChartViewportController::GetYQtAxis() const
 {
   return m_y_axis_controller ? m_y_axis_controller->GetQtAxis() : nullptr;
 }
 
-QtCharts::QLineSeries *ChartViewportController::SetupChartForLineSeries(LineSeriesItem *item)
+QLineSeries *ChartViewportController::SetupChartForLineSeries(LineSeriesItem *item)
 {
-  auto qt_line_series = new QtCharts::QLineSeries;
+  auto qt_line_series = new QLineSeries;
   m_chart->addSeries(qt_line_series);  // ownership is taken by Qt
 
   auto controller = std::make_unique<LineSeriesController>(qt_line_series);

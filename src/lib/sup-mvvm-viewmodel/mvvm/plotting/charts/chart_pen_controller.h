@@ -21,11 +21,7 @@
 #define MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-
-namespace QtCharts
-{
-class QLineSeries;
-}
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
 
 namespace mvvm
 {
@@ -39,12 +35,12 @@ class PenItem;
 class ChartPenController : public mvvm::ItemController<mvvm::PenItem>
 {
 public:
-  explicit ChartPenController(QtCharts::QLineSeries* line_series);
+  explicit ChartPenController(QLineSeries* line_series);
 
   /**
    * @brief Return Qt series under control.
    */
-  QtCharts::QLineSeries* GetQtLineSeries() const;
+  QLineSeries* GetQtLineSeries() const;
 
 protected:
   void Subscribe() override;
@@ -60,7 +56,7 @@ private:
    */
   void UpdateLineSeriesFromItem();
 
-  QtCharts::QLineSeries* m_qt_line_series{nullptr};
+  QLineSeries* m_qt_line_series{nullptr};
 };
 
 }  // namespace mvvm

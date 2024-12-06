@@ -21,13 +21,9 @@
 #define MVVM_PLOTTING_CHARTS_LINE_SERIES_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
 
 #include <memory>
-
-namespace QtCharts
-{
-class QLineSeries;
-}
 
 namespace mvvm
 {
@@ -38,7 +34,7 @@ class ChartPenController;
 
 /**
  * @brief The LineSeriesDataController class establishes communication between LineSeriesItem object
- * representing waveform data and QtCharts::QLineSeries.
+ * representing waveform data and QLineSeries.
  *
  * For the moment controller only takes care of proper linking to external data. The most
  * of the work (adding/removal data points) is carried by underlying LineSeriesDataController.
@@ -53,7 +49,7 @@ public:
    *
    * @param line_series The Qt Line series object to control.
    */
-  explicit LineSeriesController(QtCharts::QLineSeries* line_series);
+  explicit LineSeriesController(QLineSeries* line_series);
   ~LineSeriesController() override;
 
   void Subscribe() override;
@@ -61,7 +57,7 @@ public:
   /**
    * @brief Return Qt series under control.
    */
-  QtCharts::QLineSeries* GetQtLineSeries() const;
+  QLineSeries* GetQtLineSeries() const;
 
 private:
   /**

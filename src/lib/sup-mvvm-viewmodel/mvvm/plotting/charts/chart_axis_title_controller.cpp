@@ -21,12 +21,12 @@
 
 #include <mvvm/standarditems/plottable_items.h>
 
-#include <QtCharts/QAbstractAxis>
+#include "qt_charts.h"
 
 namespace mvvm
 {
 
-ChartAxisTitleController::ChartAxisTitleController(QtCharts::QAbstractAxis *axis) : m_axis(axis)
+ChartAxisTitleController::ChartAxisTitleController(QAbstractAxis *axis) : m_axis(axis)
 {
   if (!m_axis)
   {
@@ -34,7 +34,7 @@ ChartAxisTitleController::ChartAxisTitleController(QtCharts::QAbstractAxis *axis
   }
 }
 
-QtCharts::QAbstractAxis *ChartAxisTitleController::GetQtAxis()
+QAbstractAxis *ChartAxisTitleController::GetQtAxis()
 {
   return m_axis;
 }

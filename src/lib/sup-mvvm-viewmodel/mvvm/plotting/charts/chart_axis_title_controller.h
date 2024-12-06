@@ -21,13 +21,9 @@
 #define MVVM_PLOTTING_CHARTS_CHART_AXIS_TITLE_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
 
 #include <QObject>
-
-namespace QtCharts
-{
-class QAbstractAxis;
-}
 
 namespace mvvm
 {
@@ -40,9 +36,9 @@ class TextItem;
 class ChartAxisTitleController : public ItemController<TextItem>
 {
 public:
-  explicit ChartAxisTitleController(QtCharts::QAbstractAxis* axis);
+  explicit ChartAxisTitleController(QAbstractAxis* axis);
 
-  QtCharts::QAbstractAxis* GetQtAxis();
+  QAbstractAxis* GetQtAxis();
 
 protected:
   void Subscribe() override;
@@ -50,7 +46,7 @@ protected:
 private:
   void UpdateAxisTitleFromItem();
 
-  QtCharts::QAbstractAxis* m_axis{nullptr};
+  QAbstractAxis* m_axis{nullptr};
 };
 
 }  // namespace mvvm

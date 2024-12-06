@@ -19,16 +19,17 @@
 
 #include "chart_pen_controller.h"
 
+#include "qt_charts.h"
+
 #include <mvvm/plotting/plot_helper.h>
 #include <mvvm/standarditems/plottable_items.h>
 
-#include <QLineSeries>
 #include <stdexcept>
 
 namespace mvvm
 {
 
-ChartPenController::ChartPenController(QtCharts::QLineSeries *line_series)
+ChartPenController::ChartPenController(QLineSeries *line_series)
     : m_qt_line_series(line_series)
 {
   if (!line_series)
@@ -37,7 +38,7 @@ ChartPenController::ChartPenController(QtCharts::QLineSeries *line_series)
   }
 }
 
-QtCharts::QLineSeries *ChartPenController::GetQtLineSeries() const
+QLineSeries *ChartPenController::GetQtLineSeries() const
 {
   return m_qt_line_series;
 }
