@@ -69,15 +69,9 @@ TEST_F(GraphViewportPlotControllerTest, SetItem)
 }
 
 //! Check ::setItem() method when ViewPortItem contains graphs.
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
-// FIXME restore test on Qt 6.4.0.
-// It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
-// While triggering custom_plot->replot() from ViewportAxisPlotController
-TEST_F(GraphViewportPlotControllerTest, DISABLED_AddGraphAndSetItem)
-#else
+// FYI test was failing on Qt 6.4.0 (Nan in ticks parameters of
+// CPAxisPainterPrivate::placeTickLabel)
 TEST_F(GraphViewportPlotControllerTest, AddGraphAndSetItem)
-#endif
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -107,14 +101,7 @@ TEST_F(GraphViewportPlotControllerTest, AddGraphAndSetItem)
 }
 
 //! Checks consequitive graph adding/removal
-#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
-// FIXME restore test on Qt 6.4.0.
-// It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
-// While triggering custom_plot->replot() from ViewportAxisPlotController
-TEST_F(GraphViewportPlotControllerTest, DISABLED_AddAndRemoveGraphs)
-#else
 TEST_F(GraphViewportPlotControllerTest, AddAndRemoveGraphs)
-#endif
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -242,14 +229,7 @@ TEST_F(GraphViewportPlotControllerTest, CheckVisible)
 }
 
 //! Two GraphViewportItem's and switch between them.
-#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
-// FIXME restore test on Qt 6.4.0.
-// It lead to segfault (Nan in ticks parameters of CPAxisPainterPrivate::placeTickLabel)
-// While triggering custom_plot->replot() from ViewportAxisPlotController
-TEST_F(GraphViewportPlotControllerTest, DISABLED_SwitchBetweenTwoViewports)
-#else
 TEST_F(GraphViewportPlotControllerTest, SwitchBetweenTwoViewports)
-#endif
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
