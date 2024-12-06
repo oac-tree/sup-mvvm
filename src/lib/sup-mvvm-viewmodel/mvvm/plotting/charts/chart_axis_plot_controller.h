@@ -34,7 +34,7 @@ class ChartAxisTitleController;
 
 /**
  * @brief The ChartAxisPlotController class establishes communications between
- * QtCharts::QAbstractAxis and mvvm::ViewportAxisItem.
+ * QAbstractAxis and mvvm::ViewportAxisItem.
  *
  * It provides mutual updates of axis parameters (min, max) between two axes representations.
  */

@@ -24,8 +24,7 @@
 
 #include <gtest/gtest.h>
 
-#include <QLineSeries>
-#include <QtCharts/QChart>
+#include <mvvm/plotting/charts/qt_charts.h>
 
 using namespace mvvm;
 
@@ -39,7 +38,7 @@ TEST_F(ChartPenControllerTest, InitialState)
 {
   EXPECT_THROW(ChartPenController(nullptr), std::runtime_error);
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   // checking what QLineSeries has as a default pen
   const auto pen1 = line_series.pen();
   EXPECT_EQ(pen1.color(), QColor(Qt::black));
@@ -63,9 +62,9 @@ TEST_F(ChartPenControllerTest, InitialState)
 
 TEST_F(ChartPenControllerTest, DefaultQtLineSeriesPen)
 {
-  QtCharts::QChart chart;
+  QChart chart;
 
-  auto line_series = std::make_unique<QtCharts::QLineSeries>();
+  auto line_series = std::make_unique<QLineSeries>();
   auto line_series_ptr = line_series.get();
 
   line_series->append({1.0, 2.0});
@@ -85,7 +84,7 @@ TEST_F(ChartPenControllerTest, DefaultQtLineSeriesPen)
 
 TEST_F(ChartPenControllerTest, GraphItemInInitialState)
 {
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
 
   ChartPenController controller(&line_series);
 
@@ -107,9 +106,9 @@ TEST_F(ChartPenControllerTest, GraphItemInInitialState)
 
 TEST_F(ChartPenControllerTest, GraphItemInChartInitialState)
 {
-  QtCharts::QChart chart;
+  QChart chart;
 
-  auto line_series = std::make_unique<QtCharts::QLineSeries>();
+  auto line_series = std::make_unique<QLineSeries>();
   auto line_series_ptr = line_series.get();
 
   line_series->append({1.0, 2.0});
@@ -134,9 +133,9 @@ TEST_F(ChartPenControllerTest, GraphItemInChartInitialState)
 
 TEST_F(ChartPenControllerTest, SetColorAndWidth)
 {
-  QtCharts::QChart chart;
+  QChart chart;
 
-  auto line_series = std::make_unique<QtCharts::QLineSeries>();
+  auto line_series = std::make_unique<QLineSeries>();
   auto line_series_ptr = line_series.get();
 
   line_series->append({1.0, 2.0});

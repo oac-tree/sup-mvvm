@@ -21,12 +21,12 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
-#include <QLineSeries>
 #include <QSignalSpy>
 
 using namespace mvvm;
@@ -39,7 +39,7 @@ TEST_F(LineSeriesDataControllerTest, InitialState)
 {
   EXPECT_THROW(LineSeriesDataController{nullptr}, std::runtime_error);
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
 
   EXPECT_EQ(controller.GetQtLineSeries(), &line_series);
@@ -52,7 +52,7 @@ TEST_F(LineSeriesDataControllerTest, SetEmptyItem)
 {
   {  // attempt to set item without the model
     LineSeriesDataItem data_item;
-    QtCharts::QLineSeries line_series;
+    QLineSeries line_series;
     LineSeriesDataController controller(&line_series);
     EXPECT_THROW(controller.SetItem(&data_item), std::runtime_error);
   }
@@ -61,7 +61,7 @@ TEST_F(LineSeriesDataControllerTest, SetEmptyItem)
     mvvm::ApplicationModel model;
     auto item = model.InsertItem<LineSeriesDataItem>(model.GetRootItem(), mvvm::TagIndex::Append());
 
-    QtCharts::QLineSeries line_series;
+    QLineSeries line_series;
     LineSeriesDataController controller(&line_series);
     controller.SetItem(item);
     EXPECT_EQ(controller.GetDataItem(), item);
@@ -84,7 +84,7 @@ TEST_F(LineSeriesDataControllerTest, SetItem)
 
   auto item = model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
   controller.SetItem(data_item_ptr);
   EXPECT_EQ(controller.GetDataItem(), data_item_ptr);
@@ -113,11 +113,11 @@ TEST_F(LineSeriesDataControllerTest, OnDataChanged)
   model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
 
   // setting up controller
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
   controller.SetItem(data_item_ptr);
 
-  QSignalSpy spy_point_replaced(&line_series, &QtCharts::QLineSeries::pointReplaced);
+  QSignalSpy spy_point_replaced(&line_series, &QLineSeries::pointReplaced);
 
   // changing the value of second point
   data_item_ptr->SetPointCoordinates(1, {2.0, 25.0});
@@ -146,11 +146,11 @@ TEST_F(LineSeriesDataControllerTest, OnPointRemoved)
   model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
 
   // setting up controller
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
   controller.SetItem(data_item_ptr);
 
-  QSignalSpy spy_point_removed(&line_series, &QtCharts::QLineSeries::pointRemoved);
+  QSignalSpy spy_point_removed(&line_series, &QLineSeries::pointRemoved);
 
   // removing middle point
   data_item_ptr->RemovePoint(1);
@@ -177,11 +177,11 @@ TEST_F(LineSeriesDataControllerTest, OnPointInserted)
   model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
 
   // setting up controller
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
   controller.SetItem(data_item_ptr);
 
-  QSignalSpy spy_point_inserted(&line_series, &QtCharts::QLineSeries::pointAdded);
+  QSignalSpy spy_point_inserted(&line_series, &QLineSeries::pointAdded);
 
   // inserting point in the middle
   data_item_ptr->InsertPoint(1, {2.0, 20.0});
@@ -210,11 +210,11 @@ TEST_F(LineSeriesDataControllerTest, SetXOffset)
   model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
 
   // setting up controller
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesDataController controller(&line_series);
   controller.SetItem(data_item_ptr);
 
-  QSignalSpy spy_points_replaced(&line_series, &QtCharts::QLineSeries::pointsReplaced);
+  QSignalSpy spy_points_replaced(&line_series, &QLineSeries::pointsReplaced);
 
   controller.SetXOffset(10.0);
 

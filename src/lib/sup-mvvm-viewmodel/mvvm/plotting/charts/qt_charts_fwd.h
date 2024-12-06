@@ -32,12 +32,16 @@ namespace QtCharts
 class QAbstractAxis;
 class QLineSeries;
 class QChart;
+class QChartView;
+class QValueAxis;
 }
 using namespace QtCharts;
 #else
 class QAbstractAxis;
 class QLineSeries;
 class QChart;
+class QChartView;
+class QValueAxis;
 #endif
 
 

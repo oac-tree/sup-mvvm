@@ -19,20 +19,20 @@
 
 #include "chart_canvas.h"
 
+#include <mvvm/plotting/charts/qt_charts.h>
+
 #include <mvvm/plotting/charts/chart_viewport_controller.h>
 #include <mvvm/plotting/plot_constants.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/views/chart_view.h>
 
 #include <QVBoxLayout>
-#include <QtCharts/QChart>
-#include <QtCharts/QLineSeries>
 
 namespace mvvm
 {
 
 ChartCanvas::ChartCanvas(QWidget *parent)
-    : QWidget(parent), m_chart(new QtCharts::QChart), m_chart_view(new mvvm::ChartView)
+    : QWidget(parent), m_chart(new QChart), m_chart_view(new mvvm::ChartView)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

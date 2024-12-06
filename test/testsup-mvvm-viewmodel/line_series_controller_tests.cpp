@@ -24,11 +24,10 @@
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/waveform_helper.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 
 #include <gtest/gtest.h>
 
-#include <QLineSeries>
-#include <QSignalSpy>
 
 using namespace mvvm;
 
@@ -40,7 +39,7 @@ TEST_F(LineSeriesControllerTest, InitialState)
 {
   EXPECT_THROW(LineSeriesController{nullptr}, std::runtime_error);
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesController controller(&line_series);
 
   EXPECT_EQ(controller.GetQtLineSeries(), &line_series);
@@ -52,7 +51,7 @@ TEST_F(LineSeriesControllerTest, SetDataItem)
   mvvm::ApplicationModel model;
   auto line_series_item = model.InsertItem<LineSeriesItem>();
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesController controller(&line_series);
 
   // initially there is no points on graph
@@ -82,7 +81,7 @@ TEST_F(LineSeriesControllerTest, InitialPenStyle)
   mvvm::ApplicationModel model;
   auto line_series_item = model.InsertItem<LineSeriesItem>();
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesController controller(&line_series);
 
   controller.SetItem(line_series_item);
@@ -110,7 +109,7 @@ TEST_F(LineSeriesControllerTest, DisplayName)
   auto line_series_item = model.InsertItem<LineSeriesItem>();
   line_series_item->SetDisplayName("abc");
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesController controller(&line_series);
 
   controller.SetItem(line_series_item);
@@ -129,7 +128,7 @@ TEST_F(LineSeriesControllerTest, SetOffset)
   auto line_series_item = model.InsertItem<LineSeriesItem>();
   line_series_item->SetXOffset(100.0);
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesController controller(&line_series);
 
   controller.SetItem(line_series_item);
@@ -173,7 +172,7 @@ TEST_F(LineSeriesControllerTest, Displayed)
   auto line_series_item = model.InsertItem<LineSeriesItem>();
   line_series_item->SetDisplayed(false);
 
-  QtCharts::QLineSeries line_series;
+  QLineSeries line_series;
   LineSeriesController controller(&line_series);
 
   controller.SetItem(line_series_item);

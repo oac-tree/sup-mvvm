@@ -20,11 +20,10 @@
 #include "mvvm/plotting/charts/chart_axis_title_controller.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/standarditems/plottable_items.h>
 
 #include <gtest/gtest.h>
-
-#include <QtCharts/QValueAxis>
 
 using namespace mvvm;
 
@@ -37,7 +36,7 @@ class ChartAxisTitleControllerTest : public ::testing::Test
 
 TEST_F(ChartAxisTitleControllerTest, InitialState)
 {
-  QtCharts::QValueAxis axis;
+  QValueAxis axis;
 
   EXPECT_THROW(ChartAxisTitleController(nullptr), RuntimeException);
 
@@ -56,7 +55,7 @@ TEST_F(ChartAxisTitleControllerTest, InitialState)
 
 TEST_F(ChartAxisTitleControllerTest, SetTextItem)
 {
-  QtCharts::QValueAxis axis;
+  QValueAxis axis;
 
   EXPECT_THROW(ChartAxisTitleController(nullptr), RuntimeException);
 
@@ -78,7 +77,7 @@ TEST_F(ChartAxisTitleControllerTest, SetTextItem)
 
 TEST_F(ChartAxisTitleControllerTest, SetFont)
 {
-  QtCharts::QValueAxis axis;
+  QValueAxis axis;
 
   EXPECT_THROW(ChartAxisTitleController(nullptr), RuntimeException);
 

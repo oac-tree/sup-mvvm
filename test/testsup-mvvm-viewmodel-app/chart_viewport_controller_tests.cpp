@@ -28,10 +28,9 @@
 
 #include <gtest/gtest.h>
 
-#include <QChart>
-#include <QLineSeries>
+#include <mvvm/plotting/charts/qt_charts.h>
+
 #include <QSignalSpy>
-#include <QtCharts/QValueAxis>
 
 using namespace mvvm;
 
@@ -42,7 +41,7 @@ class ChartViewportControllerTest : public ::testing::Test
 //! Setting empty ChartViewportItem to controller.
 TEST_F(ChartViewportControllerTest, SetEmptyViewport)
 {
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   // initial state: no item to listen, no series
@@ -64,7 +63,7 @@ TEST_F(ChartViewportControllerTest, SetEmptyViewport)
 //! It has a single LineSeriesItem without any points.
 TEST_F(ChartViewportControllerTest, SetNonEmptyViewport)
 {
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -77,7 +76,7 @@ TEST_F(ChartViewportControllerTest, SetNonEmptyViewport)
   // checking that QLineSeries object was created, without points
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto line_series = dynamic_cast<QtCharts::QLineSeries *>(qt_series.at(0));
+  auto line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
   ASSERT_NE(line_series, nullptr);
   EXPECT_EQ(line_series->points().size(), 0);
 }
@@ -86,7 +85,7 @@ TEST_F(ChartViewportControllerTest, SetNonEmptyViewport)
 //! It has a single LineSeriesItem without some points on board.
 TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
 {
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -106,7 +105,7 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
   // checking that QLineSeries object was created, with points properly set
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto qt_line_series = dynamic_cast<QtCharts::QLineSeries *>(qt_series.at(0));
+  auto qt_line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
   ASSERT_NE(qt_line_series, nullptr);
 
   auto qt_points = qt_line_series->points();
@@ -119,7 +118,7 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
 
   // validating axes
   EXPECT_EQ(qt_line_series->attachedAxes(),
-            QList<QtCharts::QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
+            QList<QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
 }
 
 //! We setup controller on empty viewport, then add new LineSeriesItem (without points) to it.
@@ -127,7 +126,7 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
 TEST_F(ChartViewportControllerTest, AddLineSeries)
 {
   // setting up empty viewport and controller
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -140,19 +139,19 @@ TEST_F(ChartViewportControllerTest, AddLineSeries)
   // checking that QLineSeries object was created, without points
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto line_series = dynamic_cast<QtCharts::QLineSeries *>(qt_series.at(0));
+  auto line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
   ASSERT_NE(line_series, nullptr);
   EXPECT_EQ(line_series->points().size(), 0);
 
   // validating axes
   EXPECT_EQ(line_series->attachedAxes(),
-            QList<QtCharts::QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
+            QList<QAbstractAxis *>({controller.GetXQtAxis(), controller.GetYQtAxis()}));
 }
 
 TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
 {
   // setting up empty viewport and controller
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -165,7 +164,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
   // checking that we have Qt line series object without points
   auto qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  auto qt_line_series = dynamic_cast<QtCharts::QLineSeries *>(qt_series.at(0));
+  auto qt_line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
   ASSERT_NE(qt_line_series, nullptr);
   auto qt_points = qt_line_series->points();
   ASSERT_TRUE(qt_points.empty());
@@ -177,7 +176,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
   // checking that QLineSeries object was created, with points properly set
   qt_series = chart.series();
   ASSERT_EQ(qt_series.size(), 1);
-  qt_line_series = dynamic_cast<QtCharts::QLineSeries *>(qt_series.at(0));
+  qt_line_series = dynamic_cast<QLineSeries *>(qt_series.at(0));
   ASSERT_NE(qt_line_series, nullptr);
 
   qt_points = qt_line_series->points();
@@ -191,7 +190,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
 
 TEST_F(ChartViewportControllerTest, RemoveLineSeries)
 {
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -224,7 +223,7 @@ TEST_F(ChartViewportControllerTest, RemoveLineSeries)
 
 TEST_F(ChartViewportControllerTest, AxisControllers)
 {
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -244,12 +243,12 @@ TEST_F(ChartViewportControllerTest, AxisControllers)
   // expecting some axes created
   auto horizontal_axes = chart.axes(Qt::Horizontal);
   ASSERT_EQ(horizontal_axes.size(), 1);
-  auto x_axis = dynamic_cast<QtCharts::QValueAxis *>(horizontal_axes.at(0));
+  auto x_axis = dynamic_cast<QValueAxis *>(horizontal_axes.at(0));
   ASSERT_NE(x_axis, nullptr);
 
   auto vertical_axes = chart.axes(Qt::Vertical);
   ASSERT_EQ(vertical_axes.size(), 1);
-  auto y_axis = dynamic_cast<QtCharts::QValueAxis *>(vertical_axes.at(0));
+  auto y_axis = dynamic_cast<QValueAxis *>(vertical_axes.at(0));
   ASSERT_NE(y_axis, nullptr);
 
   // default axes range is (0,1) for both x and y
@@ -268,7 +267,7 @@ TEST_F(ChartViewportControllerTest, AxisControllers)
 
 TEST_F(ChartViewportControllerTest, AnimationProperty)
 {
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;
@@ -279,24 +278,24 @@ TEST_F(ChartViewportControllerTest, AnimationProperty)
   // setting viewport to the controller
   controller.SetItem(viewport_item);
 
-  EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::AllAnimations);
+  EXPECT_EQ(chart.animationOptions(), QChart::AllAnimations);
 
   auto combo = viewport_item->Property<ComboProperty>(ChartViewportItem::kAnimation);
 
   combo.SetSelected(ChartViewportItem::kGridAnimation, false);
   viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
-  EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::SeriesAnimations);
+  EXPECT_EQ(chart.animationOptions(), QChart::SeriesAnimations);
 
   combo.SetSelected(ChartViewportItem::kGridAnimation, true);
   combo.SetSelected(ChartViewportItem::kSeriesAnimation, false);
   viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
-  EXPECT_EQ(chart.animationOptions(), QtCharts::QChart::GridAxisAnimations);
+  EXPECT_EQ(chart.animationOptions(), QChart::GridAxisAnimations);
 }
 
 TEST_F(ChartViewportControllerTest, SHowHideLegend)
 {
   // setting up empty viewport and controller
-  QtCharts::QChart chart;
+  QChart chart;
   ChartViewportController controller(&chart);
 
   mvvm::ApplicationModel model;

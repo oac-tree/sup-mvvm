@@ -59,7 +59,7 @@ protected:
 /**
  * @brief The ViewportAxisItem class represents viewport axis.
  *
- * It can be a counterpart of either QtCharts::QAbstractAxis or QCustomPlot::QCPAxis. Intended to
+ * It can be a counterpart of either Qt's QAbstractAxis or QCustomPlot::QCPAxis. Intended to
  * cary title, fonts etc.
  */
 class MVVM_MODEL_EXPORT ViewportAxisItem : public BasicAxisItem

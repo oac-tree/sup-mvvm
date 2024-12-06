@@ -32,12 +32,15 @@
 #include <QtCharts/QValueAxis>
 #include <QtCharts/QChart>
 #include <QtCharts/QLegend>
+#include <QtCharts/QChartView>
+using namespace QtCharts;
 #else
 #include <QAbstractAxis>
 #include <QLineSeries>
 #include <QValueAxis>
 #include <QChart>
 #include <QLegend>
+#include <QChartView>
 #endif
 
 #endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_H_

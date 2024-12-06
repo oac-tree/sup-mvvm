@@ -20,13 +20,10 @@
 #ifndef MVVM_VIEWS_CHART_CANVAS_H_
 #define MVVM_VIEWS_CHART_CANVAS_H_
 
+#include <mvvm/plotting/charts/qt_charts_fwd.h>
+
 #include <QWidget>
 #include <memory>
-
-namespace QtCharts
-{
-class QChart;
-}  // namespace QtCharts
 
 namespace mvvm
 {
@@ -67,7 +64,7 @@ protected:
 private:
   std::unique_ptr<ChartViewportController> m_viewport_controller;
 
-  QtCharts::QChart* m_chart{nullptr};
+  QChart* m_chart{nullptr};
   ChartView* m_chart_view{nullptr};
   ChartViewportItem* m_viewport{nullptr};
 };

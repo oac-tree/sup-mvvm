@@ -19,10 +19,12 @@
 
 #include "chart_view.h"
 
+#include <mvvm/plotting/charts/qt_charts.h>
+
 namespace mvvm
 {
 
-ChartView::ChartView(QWidget *parent) : QtCharts::QChartView(parent)
+ChartView::ChartView(QWidget *parent) : QChartView(parent)
 {
   setMouseTracking(true);
   SetOperationMode(CanvasOperationMode::kSelection);
@@ -55,7 +57,7 @@ void ChartView::SetOperationMode(CanvasOperationMode operation_mode)
   if (m_operation_mode == CanvasOperationMode::kPan)
   {
     m_animation_options_backup = chart()->animationOptions();
-    chart()->setAnimationOptions(QtCharts::QChart::NoAnimation);
+    chart()->setAnimationOptions(QChart::NoAnimation);
 
     setInteractive(false);
     setRubberBand(QChartView::NoRubberBand);

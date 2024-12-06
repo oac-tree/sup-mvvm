@@ -20,18 +20,17 @@
 #ifndef MVVM_VIEWS_CHART_VIEW_H_
 #define MVVM_VIEWS_CHART_VIEW_H_
 
-#include <QtCharts/QChartView>
-
 #include <mvvm/plotting/plot_types.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 
 namespace mvvm
 {
 
 /**
- * @brief The ChartView class shows the content of QtCharts::QChart, and provides additional
+ * @brief The ChartView class shows the content of QChart, and provides additional
  * selection functionality to pan axes and select graphs.
  */
-class ChartView : public QtCharts::QChartView
+class ChartView : public QChartView
 {
   Q_OBJECT
 
@@ -67,7 +66,7 @@ private:
   CanvasOperationMode m_operation_mode{CanvasOperationMode::kSelection};
   CurrentActivity m_current_activity{kIdle};
   QPointF m_last_pos;
-  QtCharts::QChart::AnimationOptions m_animation_options_backup;
+  QChart::AnimationOptions m_animation_options_backup;
 };
 
 }  // namespace mvvm
