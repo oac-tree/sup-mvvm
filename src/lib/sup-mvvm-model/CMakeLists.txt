@@ -1,7 +1,5 @@
 set(library_name sup-mvvm-model)
 
-find_package(LibXml2 REQUIRED)
-
 add_library(${library_name} SHARED "")
 add_subdirectory(mvvm)
 add_library(sup-mvvm::model ALIAS ${library_name}) # alias for build-tree usage

@@ -62,6 +62,8 @@ endif()
 if(COA_COVERAGE)
   # On coverage builds always build tests
   set(COA_BUILD_TESTS ON)
+  message(STATUS "Enabling test coverage information")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fno-inline --coverage")
 endif()
 
 # -----------------------------------------------------------------------------
@@ -102,6 +104,8 @@ file(MAKE_DIRECTORY ${SUP_MVVM_AUTOGEN_DIR})
 # -----------------------------------------------------------------------------
 # Dependencies
 # -----------------------------------------------------------------------------
+find_package(LibXml2 REQUIRED)
+
 if(COA_USE_QT6)
   set(QT_VERSION_MAJOR 6)
   set(QT_FIND_COMPONENTS Widgets Core Gui PrintSupport Charts Test)

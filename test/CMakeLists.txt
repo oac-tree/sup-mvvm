@@ -18,6 +18,7 @@ add_subdirectory(testsup-mvvm-view)
 if (benchmark_FOUND)
   add_subdirectory(testsup-mvvm-benchmark)
 endif()
+add_subdirectory(parasoft)
 
 # Add custom target `make testall` which will run test executables one after another.
 # This can be used instead of usual `make test` or `ctest` while running tests via an ssh
