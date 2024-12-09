@@ -32,25 +32,20 @@ using namespace mvvm;
 using ::testing::_;
 using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 
-//! Testing AxesItems.
-
 class GraphViewportItemTests : public ::testing::Test
 {
 };
 
-//! Initial state.
-
-TEST_F(GraphViewportItemTests, initialState)
+TEST_F(GraphViewportItemTests, InitialState)
 {
   const GraphViewportItem item;
   EXPECT_EQ(item.GetXAxis()->GetType(), ViewportAxisItem::Type);
   EXPECT_EQ(item.GetYAxis()->GetType(), ViewportAxisItem::Type);
   EXPECT_EQ(item.GetGraphItems().size(), 0);
+  EXPECT_EQ(item.GetGraphCount(), 0);
 }
 
-//! Add graph to viewport.
-
-TEST_F(GraphViewportItemTests, AddItem)
+TEST_F(GraphViewportItemTests, AddGraphToViewport)
 {
   ApplicationModel model;
 
@@ -65,6 +60,7 @@ TEST_F(GraphViewportItemTests, AddItem)
 
   graph_item->SetDataItem(data_item);
   EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
+  EXPECT_EQ(viewport_item->GetGraphCount(), 1);
 
   // updating viewport to graph
   viewport_item->SetViewportToContent();
@@ -82,9 +78,7 @@ TEST_F(GraphViewportItemTests, AddItem)
   EXPECT_DOUBLE_EQ(yaxis->GetMax(), *expected_amax);
 }
 
-//! Check signaling on set data item.
-
-TEST_F(GraphViewportItemTests, OnAddItem)
+TEST_F(GraphViewportItemTests, OnAddGraphToViewport)
 {
   ApplicationModel model;
   auto viewport_item = model.InsertItem<GraphViewportItem>();
@@ -98,8 +92,6 @@ TEST_F(GraphViewportItemTests, OnAddItem)
   // triggering action
   auto graph = model.InsertItem<GraphItem>(viewport_item);
 }
-
-//! Check signaling on set data item.
 
 TEST_F(GraphViewportItemTests, OnSetDataItem)
 {
@@ -123,8 +115,6 @@ TEST_F(GraphViewportItemTests, OnSetDataItem)
   // triggering action
   graph_item->SetDataItem(data_item);
 }
-
-//! Add graph to viewport.
 
 TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
 {
