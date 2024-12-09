@@ -91,7 +91,6 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 
 void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_items)
 {
-  std::vector<GraphItem*> output;
   for (auto graph_item : GetItems<GraphItem>(kItems))
   {
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
