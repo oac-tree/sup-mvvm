@@ -28,15 +28,32 @@
 namespace mvvm::utils
 {
 
-//! Returns multiline-string describing system environment related to the user desktop.
+/**
+ * @brief Returns multiline-string describing system environment related to the user desktop.
+ */
 std::string GetDesktopInfo();
 
-//! Sets up high DPI scaling. If \it scale_from_environment is false (default case),
-//! will explicitly ignore Qt's environment variables QT_SCALE_FACTOR, QT_SCREEN_SCALE_FACTORS and
-//! QT_AUTO_SCREEN_SCALE_FACTOR.
+/**
+ * @brief Sets up high DPI scaling.
+ *
+ * Set up Qt environment to look good on 4K monitors.  If scale_from_environment is false (default
+ * case), will explicitly ignore the possible presence of environment variables QT_SCALE_FACTOR,
+ * QT_SCREEN_SCALE_FACTORS and QT_AUTO_SCREEN_SCALE_FACTOR. This is recommended way since our GUI
+ * is perfect and always looks good on any monitor.
+ *
+ * When scale_from_environment is true, we will let Qt perform extra scaling based on QT_
+ * environment variables. Please note, that this is not recommended, since all those variables have
+ * been invented by Qt to support old GUIs without any idea about 4K.
+ *
+ * @param scale_from_environment Scale using Qt environment variables when true.
+ */
 void SetupHighDpiScaling(bool scale_from_environment = false);
 
-//! Sets point size of the main application font.
+/**
+ * @brief Sets application main font point size.
+ *
+ * @param point_size The font size in points.
+ */
 void SetApplicationFontSize(int point_size);
 
 }  // namespace mvvm::utils

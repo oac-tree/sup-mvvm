@@ -30,7 +30,6 @@
 #include <QString>
 #include <QStyle>
 #include <QStyleFactory>
-#include <sstream>
 
 namespace
 {
@@ -48,8 +47,9 @@ QString GetHeaderText(const QString& str)
   return result;
 }
 
-//! Generate string with environment variables, if any, related to scaling.
-
+/**
+ * @brief Generate string with environment variables, if any, related to scaling.
+ */
 QString GetEnvironmentInfo()
 {
   QString result;
@@ -64,8 +64,9 @@ QString GetEnvironmentInfo()
   return result;
 }
 
-//! Generate string with system font metrics
-
+/**
+ * @brief Generates string with system font metrics.
+ */
 QString GetFontInfo()
 {
   QString result;
@@ -83,8 +84,9 @@ QString GetFontInfo()
   return result;
 }
 
-//! Generate string with screen geometry information.
-
+/**
+ * @brief Generates string with screen geometry information.
+ */
 QString GetScreenInfo()
 {
   QString result;
@@ -118,8 +120,9 @@ QString GetScreenInfo()
   return result;
 }
 
-//! Generate string with list of available UI styles.
-
+/**
+ * @brief Generates string with list of available UI styles.
+ */
 QString GetStyleInfo()
 {
   QString result(GetHeaderText("Available UI styles"));
@@ -139,7 +142,9 @@ QString GetStyleInfo()
   return result;
 }
 
-//! Returns true if there is an attempt to scale via environment variable.
+/**
+ * @brief Checks if there is an attempt to scale via environment variable.
+ */
 bool IsAttemptToScaleViaEnvironment()
 {
   return qEnvironmentVariableIsSet("QT_AUTO_SCREEN_SCALE_FACTOR")
@@ -147,6 +152,9 @@ bool IsAttemptToScaleViaEnvironment()
          || qEnvironmentVariableIsSet("QT_SCREEN_SCALE_FACTORS");
 }
 
+/**
+ * @brief Cleanup environment variables related to scaling.
+ */
 void ResetHighDpiEnvironment()
 {
   qunsetenv("QT_AUTO_SCREEN_SCALE_FACTOR");
