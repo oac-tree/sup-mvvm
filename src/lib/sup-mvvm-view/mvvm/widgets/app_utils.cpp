@@ -143,6 +143,17 @@ QString GetStyleInfo()
 }
 
 /**
+ * @brief Generates string with Qt version.
+ */
+QString GetQtVersion()
+{
+  const QString compile_time_version = QT_VERSION_STR;
+  QString result(GetHeaderText("Qt version"));
+  result.append(QString("Compile time %1, runtime %2\n").arg(compile_time_version, qVersion()));
+  return result;
+}
+
+/**
  * @brief Checks if there is an attempt to scale via environment variable.
  */
 bool IsAttemptToScaleViaEnvironment()
@@ -178,6 +189,7 @@ std::string GetDesktopInfo()
   result += GetFontInfo();
   result += GetScreenInfo();
   result += GetStyleInfo();
+  result += GetQtVersion();
 
   result += QString(line_length, '-');
   result += "\n";
