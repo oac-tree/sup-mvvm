@@ -19,8 +19,6 @@
 
 #include "waveform_helper.h"
 
-#include <algorithm>
-
 namespace mvvm
 {
 
@@ -29,12 +27,11 @@ std::pair<std::vector<double>, std::vector<double> > GetPairOfVectors(const wave
   std::vector<double> first;
   std::vector<double> second;
 
-  auto on_element = [&first, &second](const auto& element)
+  for(const auto& element : data)
   {
     first.push_back(element.first);
     second.push_back(element.second);
-  };
-  std::for_each(std::begin(data), std::end(data), on_element);
+  }
 
   return {first, second};
 }
