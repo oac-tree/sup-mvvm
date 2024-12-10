@@ -47,9 +47,9 @@ TagIndex TagIndex::First(const std::string& tag_name)
   return {tag_name, 0};
 }
 
-TagIndex TagIndex::Default(int index)
+TagIndex TagIndex::Default(int item_index)
 {
-  return {kDefaultTag, index};
+  return {kDefaultTag, item_index};
 }
 
 TagIndex TagIndex::Invalid()
