@@ -56,7 +56,7 @@ void ProgressHandler::SetCompletedTicks(size_t value)
   {
     m_max_ticks_count = m_completed_ticks + 1;
   }
-  int percentage_done = static_cast<int>(100.0 * m_completed_ticks / m_max_ticks_count);
+  size_t percentage_done = 100.0 * m_completed_ticks / m_max_ticks_count;
   m_interrupt_request =
       m_runner_callback ? m_runner_callback(percentage_done) : m_interrupt_request;
 }
