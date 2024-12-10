@@ -82,7 +82,7 @@ TEST_F(LineSeriesDataControllerTest, SetItem)
   data_item->SetWaveform({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
   auto data_item_ptr = data_item.get();
 
-  auto item = model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
+  model.InsertItem(std::move(data_item), model.GetRootItem(), mvvm::TagIndex::Append());
 
   QLineSeries line_series;
   LineSeriesDataController controller(&line_series);

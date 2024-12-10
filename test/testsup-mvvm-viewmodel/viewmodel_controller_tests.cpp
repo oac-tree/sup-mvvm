@@ -85,6 +85,7 @@ public:
 TEST_F(ViewModelControllerTest, InitialState)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   EXPECT_EQ(controller->GetModel(), &m_model);
   EXPECT_EQ(controller->GetRootItem(), m_model.GetRootItem());
@@ -131,6 +132,7 @@ TEST_F(ViewModelControllerTest, ModelWithSingleItem)
   item->SetData(42.0);
 
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -166,6 +168,7 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItem)
   vector_item->SetZ(3.0);
 
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   // the model contains only one entry
   EXPECT_EQ(m_viewmodel.rowCount(), 1);
@@ -228,6 +231,7 @@ TEST_F(ViewModelControllerTest, ModelWithVectorItemAsRootItem)
 TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -274,6 +278,7 @@ TEST_F(ViewModelControllerTest, InsertIntoEmptyModel)
 TEST_F(ViewModelControllerTest, InitThenInsertProperties)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -308,6 +313,7 @@ TEST_F(ViewModelControllerTest, InitThenInsertProperties)
 TEST_F(ViewModelControllerTest, InsertInFront)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -331,6 +337,7 @@ TEST_F(ViewModelControllerTest, InsertInFront)
 TEST_F(ViewModelControllerTest, InsertBetween)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -356,6 +363,7 @@ TEST_F(ViewModelControllerTest, InsertBetween)
 TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
   QSignalSpy spy_remove(&m_viewmodel, &ViewModelBase::rowsRemoved);
@@ -388,6 +396,7 @@ TEST_F(ViewModelControllerTest, InsertParentAndThenChild)
 TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -413,11 +422,13 @@ TEST_F(ViewModelControllerTest, RemoveSingleTopItem)
 TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   auto parent = m_model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
   auto child0 = m_model.InsertItem<SessionItem>(parent, {"", 0});
   auto child1 = m_model.InsertItem<SessionItem>(parent, {"", 1});
+  (void)child1;
   auto child2 = m_model.InsertItem<SessionItem>(parent, {"", 2});
 
   // one entry (parent)
@@ -464,6 +475,7 @@ TEST_F(ViewModelControllerTest, RemoveMiddleChild)
 TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   auto container0 = m_model.InsertItem<ContainerItem>();
   auto container1 = m_model.InsertItem<ContainerItem>();
@@ -507,6 +519,7 @@ TEST_F(ViewModelControllerTest, TakeChildThenInsert)
 TEST_F(ViewModelControllerTest, SetData)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
@@ -533,6 +546,7 @@ TEST_F(ViewModelControllerTest, SetData)
 TEST_F(ViewModelControllerTest, SetPropertyItemAsRoot)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   auto item = m_model.InsertItem<PropertyItem>();
 
@@ -570,6 +584,7 @@ TEST_F(ViewModelControllerTest, SetCompoundAsRootItem)
 TEST_F(ViewModelControllerTest, onModelReset)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   m_model.InsertItem<SessionItem>();
   m_model.InsertItem<SessionItem>();
@@ -595,6 +610,7 @@ TEST_F(ViewModelControllerTest, onModelReset)
 TEST_F(ViewModelControllerTest, onEmptyModelResetAndContinue)
 {
   auto controller = CreateController(m_model, m_viewmodel);
+  (void)controller;
 
   QSignalSpy spy_reset(&m_viewmodel, &ViewModelBase::modelReset);
   m_model.Clear();
@@ -626,5 +642,6 @@ TEST_F(ViewModelControllerTest, BrokenRowStrategy)
 
   auto controller =
       CreateController<AllChildrenStrategy, test::EmptyRowTestStrategy>(m_model, m_viewmodel);
+  (void)controller;
   EXPECT_THROW(m_model.InsertItem<SessionItem>(), RuntimeException);
 }

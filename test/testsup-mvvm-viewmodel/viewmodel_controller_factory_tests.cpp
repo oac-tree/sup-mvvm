@@ -60,7 +60,6 @@ TEST_F(ViewModelControllerFactoryTest, CreateController)
   // accessing first child under the root item
   QModelIndex label_index = m_view_model.index(0, 0);
   QModelIndex data_index = m_view_model.index(0, 1);
-
-  EXPECT_EQ(m_view_model.GetSessionItemFromIndex(m_view_model.index(0, 0)), propertyItem);
-  EXPECT_EQ(m_view_model.GetSessionItemFromIndex(m_view_model.index(0, 1)), propertyItem);
+  EXPECT_EQ(m_view_model.GetSessionItemFromIndex(label_index), propertyItem);
+  EXPECT_EQ(m_view_model.GetSessionItemFromIndex(data_index), propertyItem);
 }

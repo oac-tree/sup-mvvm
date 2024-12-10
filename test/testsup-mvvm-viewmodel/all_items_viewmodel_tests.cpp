@@ -846,8 +846,8 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
   grandparent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
   auto parent = m_model.InsertItem<SessionItem>(grandparent);
   parent->RegisterTag(TagInfo::CreateUniversalTag("ITEMS"), /*set_as_default*/ true);
-  auto child0 = m_model.InsertItem<SessionItem>(parent);
-  auto child1 = m_model.InsertItem<SessionItem>(parent);
+  m_model.InsertItem<SessionItem>(parent);
+  m_model.InsertItem<SessionItem>(parent);
 
   m_viewmodel.SetRootSessionItem(parent);
 
@@ -982,7 +982,7 @@ TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
   // preparing initial file
   {
     ApplicationModel initial_model;
-    auto item = initial_model.InsertItem<VectorItem>();
+    initial_model.InsertItem<VectorItem>();
 
     XmlDocument document({&initial_model});
     document.Save(file_path);
