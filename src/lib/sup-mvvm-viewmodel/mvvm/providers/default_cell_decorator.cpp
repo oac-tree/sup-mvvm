@@ -29,6 +29,28 @@
 namespace mvvm
 {
 
+namespace
+{
+
+/**
+ * @brief Checks if given variant contains one of int8 like types.
+ */
+bool IsInt8Special(const QVariant& variant)
+{
+  return utils::GetQtVariantName(variant) == constants::kInt8QtTypeName
+         || utils::GetQtVariantName(variant) == constants::kUInt8QtTypeName
+         || utils::GetQtVariantName(variant) == constants::kChar8QtTypeName;
+}
+
+std::string GetBoolAsAstring(bool value)
+{
+  static const std::string kTrueStr("True");
+  static const std::string kFalseStr("False");
+  return value ? kTrueStr : kFalseStr;
+}
+
+}  // namespace
+
 bool DefaultCellDecorator::HasCustomDecoration(const QModelIndex& index) const
 {
   return GetCellText(index).has_value();
@@ -44,42 +66,36 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
 
   if (utils::IsComboPropertyVariant(variant))
   {
-    return std::optional<std::string>{variant.value<ComboProperty>().GetLabel()};
+    return variant.value<ComboProperty>().GetLabel();
   }
 
   if (utils::IsBoolVariant(variant))
   {
-    return variant.value<bool>() ? std::optional<std::string>{"True"}
-                                 : std::optional<std::string>{"False"};
+    return GetBoolAsAstring(variant.value<bool>());
   }
 
   if (utils::IsExternalPropertyVariant(variant))
   {
-    return std::optional<std::string>{variant.value<ExternalProperty>().GetText()};
+    return variant.value<ExternalProperty>().GetText();
   }
 
   if (utils::IsDoubleVariant(variant))
   {
-    auto str = ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
-                                           constants::kDefaultDoubleDecimals);
-    return std::optional<std::string>{str.toStdString()};
+    return ScientificSpinBox::toString(variant.value<double>(), constants::kDefaultDoubleDecimals)
+        .toStdString();
   }
 
   if (utils::IsDoubleVariant(variant))
   {
-    auto str = ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
-                                           constants::kDefaultDoubleDecimals);
-    return std::optional<std::string>{str.toStdString()};
+    return ScientificSpinBox::toString(variant.value<double>(), constants::kDefaultDoubleDecimals)
+        .toStdString();
   }
 
-  if (utils::GetQtVariantName(variant) == constants::kInt8QtTypeName
-      || utils::GetQtVariantName(variant) == constants::kUInt8QtTypeName
-      || utils::GetQtVariantName(variant) == constants::kChar8QtTypeName)
+  if (IsInt8Special(variant))
   {
     // Default decoration for int8 and uint8 types in Qt cells looks like  some weired ASCII
     // characters. We force it here to a string, so int8{127} would look like "127".
-    const int num(variant.value<int>());
-    return std::optional<std::string>{std::to_string(num)};
+    return std::to_string(variant.value<int>());
   }
 
   return {};
