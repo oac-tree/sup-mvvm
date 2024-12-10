@@ -155,22 +155,22 @@ struct VariantLimits32Visitor
     return GetMinMaxLimitsPair<LimitsT, mvvm::float64>(m_lower_bound, m_upper_bound);
   }
 
-  std::pair<LimitsT, LimitsT> operator()(std::string value)
+  std::pair<LimitsT, LimitsT> operator()(const std::string& value)
   {
     throw mvvm::RuntimeException("Visitor for string is not implemented");
   }
 
-  std::pair<LimitsT, LimitsT> operator()(std::vector<double> value)
+  std::pair<LimitsT, LimitsT> operator()(const std::vector<double>& value)
   {
     throw mvvm::RuntimeException("Visitor for vector<double> is not implemented");
   }
 
-  std::pair<LimitsT, LimitsT> operator()(mvvm::ComboProperty value)
+  std::pair<LimitsT, LimitsT> operator()(const mvvm::ComboProperty& value)
   {
     throw mvvm::RuntimeException("Visitor for ComboProperty is not implemented");
   }
 
-  std::pair<LimitsT, LimitsT> operator()(mvvm::ExternalProperty value)
+  std::pair<LimitsT, LimitsT> operator()(const mvvm::ExternalProperty& value)
   {
     throw mvvm::RuntimeException("Visitor for ExternalProperty is not implemented");
   }
