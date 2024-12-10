@@ -57,9 +57,11 @@ struct InsertItemCommand::InsertItemCommandImpl
 
   InsertItemCommandImpl(IModelComposer* composer, std::unique_ptr<SessionItem> item,
                         SessionItem* parent, const TagIndex& tag_index)
-      : m_composer(composer), m_tag_index(tag_index), m_to_insert(std::move(item))
+      : m_composer(composer)
+      , m_tag_index(tag_index)
+      , m_backup_strategy(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()))
+      , m_to_insert(std::move(item))
   {
-    m_backup_strategy = std::move(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()));
     m_backup_strategy->SaveItem(*m_to_insert);
     m_parent_path = utils::PathFromItem(parent);
   }
@@ -71,9 +73,8 @@ struct InsertItemCommand::InsertItemCommandImpl
   }
 };
 
-InsertItemCommand::InsertItemCommand(IModelComposer* composer,
-                                     std::unique_ptr<SessionItem> item, SessionItem* parent,
-                                     const TagIndex& tag_index)
+InsertItemCommand::InsertItemCommand(IModelComposer* composer, std::unique_ptr<SessionItem> item,
+                                     SessionItem* parent, const TagIndex& tag_index)
     : p_impl(std::make_unique<InsertItemCommandImpl>(composer, std::move(item), parent, tag_index))
 {
   SetDescription(GenerateDescription(parent, tag_index));
