@@ -36,8 +36,8 @@ Path Path::CreateFromString(const std::string& str)
   std::replace(str_spaces.begin(), str_spaces.end(), ',', ' ');
 
   std::istringstream iss(str_spaces);
-  std::for_each(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(),
-                [&result](auto x) { result.Append(std::stoi(x)); });
+  (void)std::for_each(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(),
+                      [&result](auto x) { result.Append(std::stoi(x)); });
   return result;
 }
 
@@ -46,7 +46,7 @@ Path Path::CreateFromString(const std::string& str)
 Path Path::CreateFromVector(const std::vector<int>& data)
 {
   Path result;
-  std::for_each(data.begin(), data.end(), [&result](auto x) { result.Append(x); });
+  (void)std::for_each(data.begin(), data.end(), [&result](auto x) { result.Append(x); });
   return result;
 }
 
