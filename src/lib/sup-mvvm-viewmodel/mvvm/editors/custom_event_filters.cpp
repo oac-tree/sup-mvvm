@@ -39,7 +39,6 @@ bool SpaceKeyEater::eventFilter(QObject* obj, QEvent* event)
   if (event->type() == QEvent::KeyPress)
   {
     auto key_event = dynamic_cast<QKeyEvent*>(event);
-    bool res = QObject::eventFilter(obj, event);
 
     if (key_event->key() == Qt::Key_Space)
     {
