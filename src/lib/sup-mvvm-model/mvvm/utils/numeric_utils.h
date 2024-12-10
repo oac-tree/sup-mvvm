@@ -29,7 +29,7 @@ namespace mvvm::utils
 MVVM_MODEL_EXPORT
 //! @endcond
 //! Returns true if two doubles agree within epsilon*tolerance.
-bool AreAlmostEqual(double a, double b, double tolerance_factor = 1.0);
+bool AreAlmostEqual(double a, double b, double tolerance = 1.0);
 
 //! @cond DoNotParse
 MVVM_MODEL_EXPORT
