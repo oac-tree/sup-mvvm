@@ -23,26 +23,29 @@
 #include <limits>
 #include <random>
 
-using namespace mvvm;
+namespace mvvm::utils
+{
 
-bool utils::AreAlmostEqual(double a, double b, double tolerance)
+bool AreAlmostEqual(double a, double b, double tolerance)
 {
   constexpr double eps = std::numeric_limits<double>::epsilon();
   return std::abs(a - b) <= eps * std::max(tolerance * eps, std::max(1., tolerance) * std::abs(b));
 }
 
-int utils::RandInt(int low, int high)
+std::int32_t RandInt(std::int32_t low, std::int32_t high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<int> uniform_int(low, high);
+  std::uniform_int_distribution<std::int32_t> uniform_int(low, high);
   return uniform_int(gen);
 }
 
-double utils::RandDouble(double low, double high)
+double RandDouble(double low, double high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_real_distribution<> uniform_real(low, high);
   return uniform_real(gen);
 }
+
+}  // namespace mvvm::utils

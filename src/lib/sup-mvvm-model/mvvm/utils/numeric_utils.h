@@ -21,6 +21,7 @@
 #define MVVM_UTILS_NUMERIC_UTILS_H_
 
 #include <mvvm/model_export.h>
+#include <cstdint>
 
 namespace mvvm::utils
 {
@@ -35,7 +36,7 @@ bool AreAlmostEqual(double a, double b, double tolerance = 1.0);
 MVVM_MODEL_EXPORT
 //! @endcond
 //! Produces random integer values uniformly distributed on the closed interval [low, high].
-int RandInt(int low, int high);
+std::int32_t RandInt(std::int32_t low, std::int32_t high);
 
 //! @cond DoNotParse
 MVVM_MODEL_EXPORT
