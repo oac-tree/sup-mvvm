@@ -67,7 +67,7 @@ void Path::Append(Path::PathElement element)
 
 void Path::Prepend(Path::PathElement element)
 {
-  m_data.insert(m_data.begin(), element);
+  (void)m_data.insert(m_data.begin(), element);
 }
 
 Path::iterator Path::begin()
