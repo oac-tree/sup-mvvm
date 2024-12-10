@@ -26,10 +26,20 @@
 #include <algorithm>
 #include <charconv>
 #include <limits>
-#include <vector>
 
 namespace mvvm
 {
+
+/**
+ * @brief Checks if given variant is supported.
+ */
+bool IsSupportedVariant(const variant_t& variant);
+
+/**
+ * @brief Checks if bounds are correct, throws otherwise.
+ */
+void ValidateBounds(const variant_t& value, const variant_t& lower_bound,
+                    const variant_t& upper_bound);
 
 /**
  * @brief The LimitedInteger class represents an integer number with limits.
@@ -38,7 +48,6 @@ namespace mvvm
  * supported by our mvvm::variant_t type. The class provides aditional machinery for safe increment
  * and decrement. It is used in the context of spin box editors.
  */
-
 template <typename T>
 class LimitedInteger : public ILimitedInteger
 {
@@ -102,8 +111,6 @@ public:
   bool IsAtMaximum() const override;
 
 private:
-  bool IsSupportedVariant(const variant_t& variant) const;
-
   T m_value;
   T m_lower_bound;
   T m_upper_bound;
@@ -113,24 +120,7 @@ template <typename T>
 inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t& lower_bound,
                                          const variant_t& upper_bound)
 {
-  if (!IsSupportedVariant(value))
-  {
-    throw RuntimeException("The value type [" + utils::TypeName(value) + "] is not supported");
-  }
-
-  if (utils::IsValid(lower_bound) && lower_bound.index() != value.index())
-  {
-    throw RuntimeException("The lower bound type=[" + utils::TypeName(lower_bound)
-                           + "] doesn't coincide with value type=[" + utils::TypeName(lower_bound)
-                           + "]");
-  }
-
-  if (utils::IsValid(upper_bound) && upper_bound.index() != value.index())
-  {
-    throw RuntimeException("The upper bound type=[" + utils::TypeName(upper_bound)
-                           + "] doesn't coincide with value type=[" + utils::TypeName(upper_bound)
-                           + "]");
-  }
+  ValidateBounds(value, lower_bound, upper_bound);
 
   m_value = std::get<T>(value);
   m_lower_bound =
@@ -143,15 +133,7 @@ inline LimitedInteger<T>::LimitedInteger(const variant_t& value, const variant_t
     throw RuntimeException("Upper bound is smaller than lower bound");
   }
 
-  if (m_value < m_lower_bound)
-  {
-    m_value = m_lower_bound;
-  }
-
-  if (m_value > m_upper_bound)
-  {
-    m_value = m_upper_bound;
-  }
+  m_value = std::clamp(m_value, m_lower_bound, m_upper_bound);
 }
 
 template <typename T>
@@ -277,18 +259,6 @@ template <typename T>
 inline bool LimitedInteger<T>::IsAtMaximum() const
 {
   return m_value == m_upper_bound;
-}
-
-template <typename T>
-inline bool LimitedInteger<T>::IsSupportedVariant(const variant_t& variant) const
-{
-  static const std::vector<mvvm::TypeCode> kSupportedTypes{
-      mvvm::TypeCode::Char8,  mvvm::TypeCode::Int8,   mvvm::TypeCode::UInt8,
-      mvvm::TypeCode::Int16,  mvvm::TypeCode::UInt16, mvvm::TypeCode::Int32,
-      mvvm::TypeCode::UInt32, mvvm::TypeCode::Int64,  mvvm::TypeCode::UInt64};
-
-  return std::find(kSupportedTypes.begin(), kSupportedTypes.end(), GetTypeCode(variant))
-         != kSupportedTypes.end();
 }
 
 }  // namespace mvvm
