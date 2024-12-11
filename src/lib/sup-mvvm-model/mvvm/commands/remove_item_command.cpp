@@ -56,13 +56,12 @@ struct RemoveItemCommand::RemoveItemCommandImpl
 
   RemoveItemCommandImpl(IModelComposer* composer, SessionItem* parent, const TagIndex& tag_index)
       : m_composer(composer)
+      , m_parent_path(utils::PathFromItem(parent))
       , m_tag_index(tag_index)
       , m_backup_strategy(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()))
   {
-    m_parent_path = utils::PathFromItem(parent);
   }
 
-  //! Find parent item.
   SessionItem* FindParent() const
   {
     return utils::ItemFromPath(*m_composer->GetModel(), m_parent_path);
