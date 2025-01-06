@@ -33,17 +33,10 @@ include(configuration)
 
 add_subdirectory(src)
 add_subdirectory(extern)
-
-if(COA_BUILD_TESTS)
-  add_subdirectory(test)
-endif()
-
+add_subdirectory(test)
 add_subdirectory(doc)
+add_subdirectory(examples)
 
 include(installation)
-
-if(SUP_MVVM_BUILD_EXAMPLES)
-  add_subdirectory(examples)
-endif()
 
 project_codetools_setup()

@@ -1,3 +1,7 @@
+if(NOT SUP_MVVM_BUILD_EXAMPLES)
+  return()
+endif()
+
 add_subdirectory(celleditors)
 add_subdirectory(collidingmice)
 add_subdirectory(concurrentplot)

@@ -1,3 +1,7 @@
+if(NOT COA_BUILD_TESTS)
+  return()
+endif()
+
 enable_testing()
 
 include(GoogleTest)
