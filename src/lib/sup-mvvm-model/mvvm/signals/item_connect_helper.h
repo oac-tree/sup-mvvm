@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SIGNALS_EVENT_UTILS_H_
-#define MVVM_SIGNALS_EVENT_UTILS_H_
+#ifndef MVVM_SIGNALS_ITEM_CONNECT_HELPER_H_
+#define MVVM_SIGNALS_ITEM_CONNECT_HELPER_H_
 
 //! @file
 //! Utility functions for item connection.
@@ -53,4 +53,4 @@ std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* s
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_EVENT_UTILS_H_
+#endif  // MVVM_SIGNALS_ITEM_CONNECT_HELPER_H_

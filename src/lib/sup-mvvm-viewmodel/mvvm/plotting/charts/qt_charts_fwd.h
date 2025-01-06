@@ -42,6 +42,6 @@ class QLineSeries;
 class QChart;
 class QChartView;
 class QValueAxis;
-#endif
+#endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_FWD_H_
 
 #endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_FWD_H_

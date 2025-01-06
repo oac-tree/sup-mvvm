@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_LINE_SERIES_DATA_CONTROLLER_H_
-#define MVVM_PLOTTING_LINE_SERIES_DATA_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CHARTS_LINE_SERIES_DATA_CONTROLLER_H_
+#define MVVM_PLOTTING_CHARTS_LINE_SERIES_DATA_CONTROLLER_H_
 
 #include <mvvm/plotting/charts/qt_charts_fwd.h>
 #include <mvvm/signals/event_types.h>
@@ -92,4 +92,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_LINE_SERIES_DATA_CONTROLLER_H_
+#endif  // MVVM_PLOTTING_CHARTS_LINE_SERIES_DATA_CONTROLLER_H_

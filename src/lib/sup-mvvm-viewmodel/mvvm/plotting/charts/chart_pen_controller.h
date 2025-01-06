@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
-#define MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
+#ifndef MVVM_PLOTTING_CHARTS_CHART_PEN_CONTROLLER_H_
+#define MVVM_PLOTTING_CHARTS_CHART_PEN_CONTROLLER_H_
 
 #include <mvvm/plotting/charts/qt_charts_fwd.h>
 #include <mvvm/signals/item_controller.h>
@@ -61,4 +61,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
+#endif  // MVVM_PLOTTING_CHARTS_CHART_PEN_CONTROLLER_H_

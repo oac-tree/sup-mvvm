@@ -109,4 +109,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_LINE_SERIES_ITEM_H_
+#endif  // MVVM_STANDARDITEMS_LINE_SERIES_DATA_ITEM_H_

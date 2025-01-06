@@ -73,4 +73,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_STANDARDITEMS_LINKED_ITEM_H_
+#endif  // MVVM_STANDARDITEMS_POINT_ITEM_H_

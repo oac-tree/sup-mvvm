@@ -35,4 +35,4 @@ using Slot = lsignal::slot;
 
 }  // namespace mvvm
 
-#endif  // MVVM_SIGNALS_SIGNAL_SLOT_H_
+#endif  // MVVM_SIGNALS_SIGNAL_SLOT_FWD_H_

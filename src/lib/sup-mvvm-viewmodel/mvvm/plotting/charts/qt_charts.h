@@ -41,6 +41,6 @@ using namespace QtCharts;
 #include <QLegend>
 #include <QLineSeries>
 #include <QValueAxis>
-#endif
+#endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_H_
 
 #endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_H_
