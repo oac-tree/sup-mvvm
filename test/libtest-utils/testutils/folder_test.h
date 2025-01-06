@@ -6,7 +6,7 @@
  *
  * Author        : Gennady Pospelov (IO)
  *
- * Copyright (c) : 2010-2024 ITER Organization,
+ * Copyright (c) : 2010-2025 ITER Organization,
  *                 CS 90 046
  *                 13067 St. Paul-lez-Durance Cedex
  *                 France
@@ -38,13 +38,12 @@ public:
 /**
  * @brief  Returns full path to the main test folder, as defined by CMake at compile time.
  *
- * Shoud point to CMAKE_BINARY_DIR/test_output
+ * Should point to CMAKE_BINARY_DIR/test_output
  */
 std::string GetTestSuiteOutputDir();
 
 /**
  * @brief Returns full path to repository source directory.
- * @return
  */
 std::string GetProjectSourceDir();
 
