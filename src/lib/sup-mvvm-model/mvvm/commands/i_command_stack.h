@@ -76,7 +76,7 @@ public:
   /**
    * @brief Returns list of all commands.
    */
-  virtual std::vector<const ICommand *> GetCommands() const = 0;
+  virtual std::vector<const ICommand*> GetCommands() const = 0;
 
   /**
    * @brief Undoes the command below the current command by calling ICommand::Undo().

@@ -92,7 +92,7 @@ void Redo(ISessionModel& model)
   }
 }
 
-void BeginMacro(const ISessionModel &model, const std::string& macro_name)
+void BeginMacro(const ISessionModel& model, const std::string& macro_name)
 {
   if (auto command_stack = model.GetCommandStack(); command_stack)
   {
@@ -100,7 +100,7 @@ void BeginMacro(const ISessionModel &model, const std::string& macro_name)
   }
 }
 
-void EndMacro(const ISessionModel &model)
+void EndMacro(const ISessionModel& model)
 {
   if (auto command_stack = model.GetCommandStack(); command_stack)
   {

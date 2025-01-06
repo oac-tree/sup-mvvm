@@ -34,7 +34,8 @@ class MVVM_VIEW_EXPORT AllItemsTreeView : public AbstractItemView
   Q_OBJECT
 
 public:
-  explicit AllItemsTreeView(ISessionModel* model = nullptr, QWidget* parent = nullptr, bool show_hidden = false);
+  explicit AllItemsTreeView(ISessionModel* model = nullptr, QWidget* parent = nullptr,
+                            bool show_hidden = false);
 
   QTreeView* GetTreeView() const;
 

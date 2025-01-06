@@ -33,10 +33,7 @@ struct VariantValueVisitor
 {
   std::string operator()(std::monostate) { return {}; }
   std::string operator()(mvvm::boolean value) { return mvvm::utils::FromBool(value); }
-  std::string operator()(mvvm::char8 value)
-  {
-    return std::to_string(value);
-  }
+  std::string operator()(mvvm::char8 value) { return std::to_string(value); }
   std::string operator()(mvvm::int8 value) { return {std::to_string(value)}; }
   std::string operator()(mvvm::uint8 value) { return {std::to_string(value)}; }
 

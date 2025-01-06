@@ -29,8 +29,7 @@
 
 namespace
 {
-std::unique_ptr<mvvm::IModelComposer> CreateDefaultComposer(
-    mvvm::ISessionModel* model)
+std::unique_ptr<mvvm::IModelComposer> CreateDefaultComposer(mvvm::ISessionModel* model)
 {
   return std::make_unique<mvvm::ModelComposer>(*model);
 }
@@ -106,7 +105,7 @@ ModelEventHandler* SessionModel::GetEventHandler() const
   return nullptr;
 }
 
-ICommandStack *SessionModel::GetCommandStack() const
+ICommandStack* SessionModel::GetCommandStack() const
 {
   // this implementation doesn't have any undo/redo capabilities
   return nullptr;

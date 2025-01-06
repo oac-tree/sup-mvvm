@@ -21,14 +21,13 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 
 #include <gtest/gtest.h>
-
-#include <mvvm/plotting/charts/qt_charts.h>
 
 #include <QSignalSpy>
 

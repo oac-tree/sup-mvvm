@@ -19,9 +19,8 @@
 
 #include "chart_canvas.h"
 
-#include <mvvm/plotting/charts/qt_charts.h>
-
 #include <mvvm/plotting/charts/chart_viewport_controller.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/plotting/plot_constants.h>
 #include <mvvm/standarditems/chart_viewport_item.h>
 #include <mvvm/views/chart_view.h>

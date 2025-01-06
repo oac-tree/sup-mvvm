@@ -123,8 +123,8 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExisting)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  ProjectManager manager(
-      &m_mock_project, CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
+  ProjectManager manager(&m_mock_project,
+                         CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
@@ -150,8 +150,8 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExistingV2)
 {
   const std::string existing_project_path("existing_project_path.xml");
 
-  ProjectManager manager(
-      &m_mock_project, CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
+  ProjectManager manager(&m_mock_project,
+                         CreateUserContext("", existing_project_path, SaveChangesAnswer::kDiscard));
 
   // setting up what mock project should return
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));

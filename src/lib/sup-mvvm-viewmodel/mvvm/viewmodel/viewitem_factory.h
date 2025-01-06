@@ -26,9 +26,9 @@
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/viewmodel_export.h>
 
+#include <map>
 #include <memory>
 #include <string>
-#include <map>
 
 class QVariant;
 

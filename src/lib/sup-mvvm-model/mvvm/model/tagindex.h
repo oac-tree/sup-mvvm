@@ -22,8 +22,8 @@
 
 #include <mvvm/model_export.h>
 
-#include <string>
 #include <cstdint>
+#include <string>
 
 namespace mvvm
 {
@@ -53,8 +53,8 @@ public:
    */
   static inline const std::int32_t kInvalidIndex = -2;
 
-  std::string tag = {};  //!< The name of the item container.
-  std::int32_t index = 0;         //!< The position in the item container.
+  std::string tag = {};    //!< The name of the item container.
+  std::int32_t index = 0;  //!< The position in the item container.
 
   /**
    * @brief The default c-tor.

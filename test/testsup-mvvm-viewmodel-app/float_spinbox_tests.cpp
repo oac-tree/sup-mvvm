@@ -19,9 +19,9 @@
 
 #include "mvvm/editors/float_spinbox.h"
 
+#include <mvvm/test/test_helper.h>
 #include <mvvm/utils/limited_integer_helper.h>
 #include <mvvm/viewmodel/custom_variants.h>
-#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 

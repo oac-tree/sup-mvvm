@@ -20,8 +20,8 @@
 #ifndef MVVM_VIEWS_CHART_VIEW_H_
 #define MVVM_VIEWS_CHART_VIEW_H_
 
-#include <mvvm/plotting/plot_types.h>
 #include <mvvm/plotting/charts/qt_charts.h>
+#include <mvvm/plotting/plot_types.h>
 
 namespace mvvm
 {

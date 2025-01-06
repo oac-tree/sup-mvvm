@@ -42,8 +42,6 @@ class SampleModel : public mvvm::ApplicationModel
 {
 public:
   SampleModel();
-
-
 };
 
 }  // namespace flatview

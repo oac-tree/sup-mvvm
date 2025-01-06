@@ -28,19 +28,19 @@
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtCharts/QAbstractAxis>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLegend>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QValueAxis>
-#include <QtCharts/QChart>
-#include <QtCharts/QLegend>
-#include <QtCharts/QChartView>
 using namespace QtCharts;
 #else
 #include <QAbstractAxis>
+#include <QChart>
+#include <QChartView>
+#include <QLegend>
 #include <QLineSeries>
 #include <QValueAxis>
-#include <QChart>
-#include <QLegend>
-#include <QChartView>
 #endif
 
 #endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_H_

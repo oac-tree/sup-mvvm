@@ -121,7 +121,7 @@ TEST_F(TreeDataVariantConverterTests, Char8DataRole)
 
     // converting tree_data to role_data
     auto role_data = ToRoleData(*tree_data);
-    EXPECT_EQ(role_data, role_data_t(42,  variant_t(mvvm::char8{'\0'})));
+    EXPECT_EQ(role_data, role_data_t(42, variant_t(mvvm::char8{'\0'})));
 
     // converting back
     auto new_tree_data = ToTreeData(role_data);

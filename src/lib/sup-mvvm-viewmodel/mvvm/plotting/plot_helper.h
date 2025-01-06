@@ -25,7 +25,8 @@
 
 #include <Qt>
 
-namespace AnimationOptions{
+namespace AnimationOptions
+{
 
 }
 

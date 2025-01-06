@@ -20,11 +20,10 @@
 #include "mvvm/plotting/charts/chart_pen_controller.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/standarditems/plottable_items.h>
 
 #include <gtest/gtest.h>
-
-#include <mvvm/plotting/charts/qt_charts.h>
 
 using namespace mvvm;
 

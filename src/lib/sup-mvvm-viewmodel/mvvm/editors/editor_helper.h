@@ -28,6 +28,6 @@ namespace mvvm::utils
 //! Returns int value corresponding to pixmap in standard Qt table/tree decorations.
 MVVM_VIEWMODEL_EXPORT int DefaultPixmapSize();
 
-}  // namespace mvvm::style
+}  // namespace mvvm::utils
 
 #endif  // MVVM_EDITORS_EDITOR_HELPER_H_

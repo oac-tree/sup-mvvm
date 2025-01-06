@@ -92,7 +92,8 @@ private:
 
 //! Propagate tab events from focusProxy to parent.
 
-class TabFromFocusProxy : public QObject {
+class TabFromFocusProxy : public QObject
+{
   Q_OBJECT
 
 public:

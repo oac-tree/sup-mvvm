@@ -21,6 +21,7 @@
 #define MVVM_UTILS_NUMERIC_UTILS_H_
 
 #include <mvvm/model_export.h>
+
 #include <cstdint>
 
 namespace mvvm::utils

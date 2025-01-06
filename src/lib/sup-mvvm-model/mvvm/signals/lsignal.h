@@ -27,10 +27,10 @@ SOFTWARE.
 #ifndef MVVM_SIGNALS_LSIGNAL_H_
 #define MVVM_SIGNALS_LSIGNAL_H_
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <memory>
-#include <algorithm>
 #include <vector>
 
 namespace lsignal

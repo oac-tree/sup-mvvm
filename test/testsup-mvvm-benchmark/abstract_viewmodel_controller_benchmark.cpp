@@ -19,11 +19,12 @@
 
 #include "mvvm/viewmodel/abstract_viewmodel_controller.h"
 
-#include <benchmark/benchmark.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/item_constants.h>
+
+#include <benchmark/benchmark.h>
 
 using namespace mvvm;
 
@@ -36,8 +37,8 @@ public:
   class TestController : public AbstractViewModelController
   {
   public:
-    const SessionItem* GetRootItem() const override {return nullptr;}
-    void SetRootItemImpl(SessionItem* root_item) override {(void)root_item;};
+    const SessionItem *GetRootItem() const override { return nullptr; }
+    void SetRootItemImpl(SessionItem *root_item) override { (void)root_item; };
   };
 };
 

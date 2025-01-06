@@ -20,8 +20,8 @@
 #ifndef MVVM_COMMANDS_I_COMMAND_H_
 #define MVVM_COMMANDS_I_COMMAND_H_
 
-#include <mvvm/model_export.h>
 #include <mvvm/commands/command_status.h>
+#include <mvvm/model_export.h>
 
 #include <string>
 

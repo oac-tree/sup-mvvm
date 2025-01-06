@@ -46,7 +46,7 @@ bool ModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
 }
 
 void ModelComposer::ReplaceRootItem(std::unique_ptr<SessionItem> &old_root_item,
-                          std::unique_ptr<SessionItem> new_root_item)
+                                    std::unique_ptr<SessionItem> new_root_item)
 {
   if (!new_root_item)
   {

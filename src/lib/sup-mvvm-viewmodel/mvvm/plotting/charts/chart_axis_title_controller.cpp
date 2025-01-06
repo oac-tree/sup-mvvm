@@ -19,9 +19,9 @@
 
 #include "chart_axis_title_controller.h"
 
-#include <mvvm/standarditems/plottable_items.h>
-
 #include "qt_charts.h"
+
+#include <mvvm/standarditems/plottable_items.h>
 
 namespace mvvm
 {

@@ -38,7 +38,7 @@ class MVVM_MODEL_EXPORT LineSeriesItem : public CompoundItem
 {
 public:
   static inline const std::string Type = "LineSeries";
-  static inline const  std::string kOffset = "kOffset";
+  static inline const std::string kOffset = "kOffset";
 
   LineSeriesItem();
 

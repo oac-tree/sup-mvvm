@@ -29,6 +29,6 @@ namespace mvvm::constants
 const double kDefaultZoomInFactor = 1.5;
 const double kWheelDefaultZoomInFactor = 1.4;
 
-}  // namespace mvvm
+}  // namespace mvvm::constants
 
 #endif  // MVVM_PLOTTING_PLOT_CONSTANTS_H_

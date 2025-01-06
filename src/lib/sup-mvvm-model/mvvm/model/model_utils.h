@@ -21,9 +21,9 @@
 #define MVVM_MODEL_MODEL_UTILS_H_
 
 #include <mvvm/core/exceptions.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/model_export.h>
 
 #include <memory>
@@ -129,7 +129,7 @@ MVVM_MODEL_EXPORT void Redo(ISessionModel& model);
  *
  * Works only if the model has undo/redo enabled. Otherwise, do nothing.
  */
-MVVM_MODEL_EXPORT void BeginMacro(const ISessionModel &model, const std::string& macro_name);
+MVVM_MODEL_EXPORT void BeginMacro(const ISessionModel& model, const std::string& macro_name);
 
 /**
  * @brief Finished ercording of the command macro.

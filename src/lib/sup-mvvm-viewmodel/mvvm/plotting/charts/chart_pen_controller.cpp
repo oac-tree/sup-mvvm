@@ -29,8 +29,7 @@
 namespace mvvm
 {
 
-ChartPenController::ChartPenController(QLineSeries *line_series)
-    : m_qt_line_series(line_series)
+ChartPenController::ChartPenController(QLineSeries *line_series) : m_qt_line_series(line_series)
 {
   if (!line_series)
   {

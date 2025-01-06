@@ -33,7 +33,6 @@ namespace mvvm
 class MVVM_MODEL_EXPORT AbstractCommand : public ICommand
 {
 public:
-
   AbstractCommand();
   ~AbstractCommand() override;
 

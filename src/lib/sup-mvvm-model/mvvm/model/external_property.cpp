@@ -19,8 +19,8 @@
 
 #include "external_property.h"
 
-#include <mvvm/utils/string_utils.h>
 #include <mvvm/core/exceptions.h>
+#include <mvvm/utils/string_utils.h>
 
 #include <sstream>
 #include <tuple>

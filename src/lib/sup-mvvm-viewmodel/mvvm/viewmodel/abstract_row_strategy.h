@@ -34,7 +34,6 @@ namespace mvvm
 class AbstractRowStrategy : public IRowStrategy
 {
 public:
-
   QStringList GetHorizontalHeaderLabels() const override;
 
   std::vector<std::unique_ptr<ViewItem>> ConstructRow(SessionItem* item) override;
@@ -47,7 +46,7 @@ public:
    * in the case when AbstractRowStrategy receives an item that it can't handle. Having a
    * placeholder row should help to debug the tree layout when looking in QTreeView.
    */
-  std::vector<std::unique_ptr<ViewItem>> CreatePlaceholderRow(SessionItem *item) const;
+  std::vector<std::unique_ptr<ViewItem>> CreatePlaceholderRow(SessionItem* item) const;
 
 private:
   virtual std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem*) = 0;

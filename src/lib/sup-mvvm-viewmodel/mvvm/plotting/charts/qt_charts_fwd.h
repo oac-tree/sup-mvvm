@@ -34,7 +34,7 @@ class QLineSeries;
 class QChart;
 class QChartView;
 class QValueAxis;
-}
+}  // namespace QtCharts
 using namespace QtCharts;
 #else
 class QAbstractAxis;
@@ -43,6 +43,5 @@ class QChart;
 class QChartView;
 class QValueAxis;
 #endif
-
 
 #endif  // MVVM_PLOTTING_CHARTS_QT_CHARTS_FWD_H_

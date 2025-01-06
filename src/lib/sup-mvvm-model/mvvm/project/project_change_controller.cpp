@@ -31,8 +31,7 @@ struct ProjectChangedController::ProjectChangedControllerImpl
   callback_t m_project_changed_callback;
   bool m_project_has_changed{false};
 
-  ProjectChangedControllerImpl(const std::vector<ISessionModel*>& models,
-                               callback_t callback)
+  ProjectChangedControllerImpl(const std::vector<ISessionModel*>& models, callback_t callback)
       : m_models(models), m_project_changed_callback(std::move(callback))
   {
     CreateControllers();
@@ -73,10 +72,10 @@ struct ProjectChangedController::ProjectChangedControllerImpl
   }
 };
 
-ProjectChangedController::ProjectChangedController(
-    const std::vector<ISessionModel*>& models, callback_t project_changed_callback)
-    : p_impl(
-        std::make_unique<ProjectChangedControllerImpl>(models, std::move(project_changed_callback)))
+ProjectChangedController::ProjectChangedController(const std::vector<ISessionModel*>& models,
+                                                   callback_t project_changed_callback)
+    : p_impl(std::make_unique<ProjectChangedControllerImpl>(models,
+                                                            std::move(project_changed_callback)))
 {
 }
 

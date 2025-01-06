@@ -36,8 +36,7 @@ class IModelComposer;
 class MVVM_MODEL_EXPORT SetValueCommand : public AbstractCommand
 {
 public:
-  SetValueCommand(IModelComposer* composer, SessionItem* item, const variant_t& value,
-                  int role);
+  SetValueCommand(IModelComposer* composer, SessionItem* item, const variant_t& value, int role);
 
   ~SetValueCommand() override;
 

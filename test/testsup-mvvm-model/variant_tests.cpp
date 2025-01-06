@@ -222,10 +222,10 @@ TEST_F(VariantTests, GetTypeCode)
   {
     const mvvm::char8 value{'a'};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Char8);
-    EXPECT_EQ(ValueToString(variant_t(value)), std::string("97")); // ASCII code
+    EXPECT_EQ(ValueToString(variant_t(value)), std::string("97"));  // ASCII code
   }
 
-  { // special case, null char
+  {  // special case, null char
     const mvvm::char8 value{'\0'};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Char8);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("0"));  // ASCII code

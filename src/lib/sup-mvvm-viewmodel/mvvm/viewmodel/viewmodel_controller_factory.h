@@ -66,8 +66,8 @@ template <typename ChildrenStrategyT, typename RowStrategyT>
 std::unique_ptr<AbstractViewModelController> CreateController(ISessionModel* model,
                                                               ViewModelBase* view_model)
 {
-  return CreateViewModelController({std::make_unique<ChildrenStrategyT>(),
-                                    std::make_unique<RowStrategyT>(), model, view_model});
+  return CreateViewModelController(
+      {std::make_unique<ChildrenStrategyT>(), std::make_unique<RowStrategyT>(), model, view_model});
 }
 
 }  // namespace factory

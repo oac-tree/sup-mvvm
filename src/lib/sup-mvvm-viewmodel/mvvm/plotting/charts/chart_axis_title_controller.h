@@ -20,8 +20,8 @@
 #ifndef MVVM_PLOTTING_CHARTS_CHART_AXIS_TITLE_CONTROLLER_H_
 #define MVVM_PLOTTING_CHARTS_CHART_AXIS_TITLE_CONTROLLER_H_
 
-#include <mvvm/signals/item_controller.h>
 #include <mvvm/plotting/charts/qt_charts_fwd.h>
+#include <mvvm/signals/item_controller.h>
 
 #include <QObject>
 

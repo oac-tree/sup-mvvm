@@ -28,7 +28,7 @@ namespace mvvm
 class AppProject;
 class ProjectContext;
 class ProjectHandler;
-}
+}  // namespace mvvm
 
 namespace saveloadproject
 {

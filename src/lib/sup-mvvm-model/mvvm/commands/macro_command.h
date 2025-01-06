@@ -56,7 +56,7 @@ public:
   /**
    * @brief Returns list of all commands.
    */
-  std::vector<const ICommand *> GetCommands() const;
+  std::vector<const ICommand*> GetCommands() const;
 
 private:
   void ExecuteImpl() override;

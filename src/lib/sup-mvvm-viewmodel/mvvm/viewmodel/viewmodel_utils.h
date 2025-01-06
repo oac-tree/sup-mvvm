@@ -59,7 +59,8 @@ const T* GetItemFromView(const ViewItem* view_item)
 template <typename T = SessionItem>
 T* GetItemFromView(ViewItem* view_item)
 {
-  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->GetItemData()); presentation)
+  if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->GetItemData());
+      presentation)
   {
     return dynamic_cast<T*>(presentation->GetItem());
   }
@@ -146,7 +147,7 @@ MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ParentItemsFromIndex(
 /**
  * @brief Returns vector of Qt roles corresponding to the given item role.
  */
-QVector<int> GetQtRoles(const ViewItem *view, int item_role);
+QVector<int> GetQtRoles(const ViewItem* view, int item_role);
 
 }  // namespace mvvm::utils
 

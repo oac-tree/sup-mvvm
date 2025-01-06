@@ -19,10 +19,11 @@
 
 #include "mvvm/model/application_model.h"
 
-#include <benchmark/benchmark.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/model/item_constants.h>
+
+#include <benchmark/benchmark.h>
 
 using namespace mvvm;
 

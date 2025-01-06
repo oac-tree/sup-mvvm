@@ -165,6 +165,7 @@ public:
   QVector<int> GetQtRoles(int data_role) const override;
 
   bool IsEditable() const override;
+
 private:
   std::map<int, QVariant> m_data;
 };

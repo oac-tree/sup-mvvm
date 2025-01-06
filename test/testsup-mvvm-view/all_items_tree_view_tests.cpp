@@ -23,8 +23,8 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/item_view_component_provider.h>
 #include <mvvm/standarditems/standard_item_includes.h>
-#include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/test/test_helper.h>
+#include <mvvm/viewmodel/viewmodel.h>
 
 #include <gtest/gtest.h>
 

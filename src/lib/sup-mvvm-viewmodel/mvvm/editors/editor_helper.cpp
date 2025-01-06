@@ -28,4 +28,4 @@ int DefaultPixmapSize()
   return default_pixmap_size;
 }
 
-}  // namespace mvvm::style
+}  // namespace mvvm::utils

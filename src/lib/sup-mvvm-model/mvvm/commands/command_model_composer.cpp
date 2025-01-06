@@ -51,7 +51,7 @@ bool CommandModelComposer::SetData(SessionItem *item, const variant_t &value, in
 }
 
 void CommandModelComposer::ReplaceRootItem(std::unique_ptr<SessionItem> &old_root_item,
-                                 std::unique_ptr<SessionItem> new_root_item)
+                                           std::unique_ptr<SessionItem> new_root_item)
 {
   m_composer->ReplaceRootItem(old_root_item, std::move(new_root_item));
   m_command_stack->Clear();

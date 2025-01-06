@@ -73,7 +73,7 @@ public:
   }
 
   void ReplaceRootItem(std::unique_ptr<SessionItem>& old_root_item,
-             std::unique_ptr<SessionItem> new_root_item) override
+                       std::unique_ptr<SessionItem> new_root_item) override
   {
     m_event_handler->Notify<ModelAboutToBeResetEvent>(T::GetModel());
     T::ReplaceRootItem(old_root_item, std::move(new_root_item));

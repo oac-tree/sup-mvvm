@@ -19,9 +19,8 @@
 
 #include "property_tree_view.h"
 
-#include <mvvm/providers/item_view_component_provider.h>
-
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/item_view_component_provider.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
 #include <mvvm/viewmodel/viewmodel.h>
 

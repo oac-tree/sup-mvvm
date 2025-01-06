@@ -60,8 +60,9 @@ bool ViewModel::setData(const QModelIndex& index, const QVariant& value, int rol
 
   if (auto item = itemFromIndex(index); item)
   {
-    // Please note the following difference with ViewModelBase::setData. Here we do not have explicit
-    // notification. ViewModelController will do it for us after the change on SessionModel side.
+    // Please note the following difference with ViewModelBase::setData. Here we do not have
+    // explicit notification. ViewModelController will do it for us after the change on SessionModel
+    // side.
     return item->SetData(value, role);
   }
 

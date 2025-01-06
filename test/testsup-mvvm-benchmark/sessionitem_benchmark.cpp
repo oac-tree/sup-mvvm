@@ -19,9 +19,10 @@
 
 #include "mvvm/model/session_item.h"
 
-#include <benchmark/benchmark.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
+
+#include <benchmark/benchmark.h>
 
 using namespace mvvm;
 

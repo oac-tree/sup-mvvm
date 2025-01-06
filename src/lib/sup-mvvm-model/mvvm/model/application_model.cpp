@@ -38,13 +38,11 @@ std::unique_ptr<mvvm::IModelComposer> CreateNotifyingComposer(
   return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(event_handler, *model);
 }
 
-
 /**
  * @brief Creates model composer which knows how to undo changes.
  */
 std::unique_ptr<mvvm::IModelComposer> CreateCommandComposer(
-    mvvm::ICommandStack* command_stack,
-    std::unique_ptr<mvvm::IModelComposer> composer)
+    mvvm::ICommandStack* command_stack, std::unique_ptr<mvvm::IModelComposer> composer)
 {
   return std::make_unique<mvvm::CommandModelComposer>(command_stack, std::move(composer));
 }

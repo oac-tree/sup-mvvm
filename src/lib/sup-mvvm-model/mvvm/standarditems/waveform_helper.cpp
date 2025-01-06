@@ -27,7 +27,7 @@ std::pair<std::vector<double>, std::vector<double> > GetPairOfVectors(const wave
   std::vector<double> first;
   std::vector<double> second;
 
-  for(const auto& element : data)
+  for (const auto& element : data)
   {
     first.push_back(element.first);
     second.push_back(element.second);

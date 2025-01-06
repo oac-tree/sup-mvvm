@@ -52,7 +52,6 @@ protected:
   std::pair<double, double> GetDataYRange() const override;
 };
 
-
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_CHART_VIEWPORTITEM_ITEM_H_

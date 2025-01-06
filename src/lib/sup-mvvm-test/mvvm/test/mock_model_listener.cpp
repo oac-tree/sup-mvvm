@@ -22,8 +22,7 @@
 namespace mvvm::test
 {
 
-MockModelListener::MockModelListener(const mvvm::ISessionModel *model)
-    : ModelListener(model)
+MockModelListener::MockModelListener(const mvvm::ISessionModel *model) : ModelListener(model)
 {
   Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnDataChangedEvent);
 

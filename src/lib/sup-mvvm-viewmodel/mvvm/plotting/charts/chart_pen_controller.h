@@ -20,8 +20,8 @@
 #ifndef MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
 #define MVVM_PLOTTING_CHART_PEN_CONTROLLER_H_
 
-#include <mvvm/signals/item_controller.h>
 #include <mvvm/plotting/charts/qt_charts_fwd.h>
+#include <mvvm/signals/item_controller.h>
 
 namespace mvvm
 {
@@ -29,8 +29,8 @@ namespace mvvm
 class PenItem;
 
 /**
- * @brief The ChartPenController class propagates color, line style and width changes from PenItem to
- * QtChart::QLineSeries.
+ * @brief The ChartPenController class propagates color, line style and width changes from PenItem
+ * to QtChart::QLineSeries.
  */
 class ChartPenController : public mvvm::ItemController<mvvm::PenItem>
 {

@@ -20,7 +20,6 @@
 #include "chart_axis_plot_controller.h"
 
 #include "chart_axis_title_controller.h"
-
 #include "qt_charts.h"
 
 #include <mvvm/core/exceptions.h>
@@ -69,8 +68,7 @@ void ChartAxisPlotController::SetQtConnected()
   {
     auto on_axis_range = [this](double min, double max) { GetItem()->SetRange(min, max); };
 
-    *m_axis_connection =
-        QObject::connect(value_axis, &QValueAxis::rangeChanged, on_axis_range);
+    *m_axis_connection = QObject::connect(value_axis, &QValueAxis::rangeChanged, on_axis_range);
   }
 }
 

@@ -233,7 +233,6 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
 
 QVector<int> FixedDataPresentationItem::GetQtRoles(int data_role) const
 {
-
   QVector<int> result;
   for (auto &[qt_role, data] : m_data)
   {

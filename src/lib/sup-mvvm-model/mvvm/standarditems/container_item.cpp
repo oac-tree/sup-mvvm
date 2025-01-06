@@ -19,8 +19,8 @@
 
 #include "container_item.h"
 
-#include <mvvm/model/item_utils.h>
 #include <mvvm/model/item_constants.h>
+#include <mvvm/model/item_utils.h>
 
 namespace mvvm
 {
