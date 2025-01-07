@@ -43,7 +43,7 @@
         <!-- -->
         <sonar.language>cpp</sonar.language>
         <sonar.sources.cpp>src</sonar.sources.cpp>
-        <sonar.exclusions>src/lib/sup-mvvm-view/**, src/lib/sup-mvvm-test/**</sonar.exclusions>
+        <sonar.exclusions>src/lib/sup-mvvm-view/**, src/lib/sup-mvvm-test/**, examples/**</sonar.exclusions>
     </properties>
 
     <!-- Parent pom.xml -->
@@ -89,6 +89,7 @@
                     <!-- Copy the sources over to target -->
                     <init>
                         <copy source="src" target="${sourcepath}/src" />
+                        <copy source="examples" target="${sourcepath}/examples" />
                         <copy source="test" target="${sourcepath}/test" />
                         <copy source="extern" target="${sourcepath}/extern" />
                         <copy source="doc" target="${sourcepath}/doc" />
