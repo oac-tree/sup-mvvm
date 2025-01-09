@@ -41,7 +41,7 @@ public:
 
   template <typename... Args>
   explicit NotifyingModelComposer(ModelEventHandler* notifier, Args&&... args)
-      : m_event_handler(notifier), T(std::forward<Args>(args)...)
+      :  T(std::forward<Args>(args)...), m_event_handler(notifier)
   {
   }
 

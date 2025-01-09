@@ -57,8 +57,8 @@ struct SessionModel::SessionModelImpl
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
                    std::unique_ptr<IModelComposer> composer)
       : m_self(self)
-      , m_pool(pool ? std::move(pool) : CreateDefaultItemPool())
       , m_model_type(std::move(model_type))
+      , m_pool(pool ? std::move(pool) : CreateDefaultItemPool())
       , m_composer(composer ? std::move(composer) : CreateDefaultComposer(m_self))
       , m_root_item(utils::CreateEmptyRootItem())
   {

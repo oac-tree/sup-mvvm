@@ -77,11 +77,11 @@ private:
   //!< knows how to interact with the user
   std::unique_ptr<AbstractProjectUserInteractor> m_user_interactor;
 
-  //!< performs actual model saving
-  std::unique_ptr<IProjectManager> m_project_manager;
-
   //!< tracks recent projects
   std::unique_ptr<RecentProjectSettings> m_recent_projects;
+
+  //!< performs actual model saving
+  std::unique_ptr<IProjectManager> m_project_manager;
 };
 
 }  // namespace mvvm
