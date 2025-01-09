@@ -101,7 +101,7 @@ void LineSeriesDataItem::InsertPoint(int index, const std::pair<double, double>&
 void LineSeriesDataItem::ValidateIndex(int index) const
 {
   auto points = GetPoints();
-  if (index < 0 || index >= points.size())
+  if (index < 0 || static_cast<size_t>(index) >= points.size())
   {
     throw RuntimeException("Index [" + std::to_string(index) + "] doesn't match number of points ["
                            + std::to_string(points.size()) + "]");

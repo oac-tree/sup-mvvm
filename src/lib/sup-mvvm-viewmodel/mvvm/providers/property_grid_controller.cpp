@@ -118,7 +118,7 @@ std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &
 
 std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
 {
-  if (index.row() >= m_delegates.size())
+  if (index.row() < 0 || static_cast<size_t>(index.row()) >= m_delegates.size())
   {
     throw RuntimeException("Error in delegates");
   }

@@ -51,7 +51,7 @@ std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(Session
 
   // If user implementation creates a non-empty row with wrong size, then probably something went
   // wrong.
-  if (result.size() != GetSize())
+  if (GetSize() < 0 || result.size() != static_cast<size_t>(GetSize()))
   {
     std::ostringstream ostr;
     ostr << "Size of generated row [" << result.size() << "] ";
