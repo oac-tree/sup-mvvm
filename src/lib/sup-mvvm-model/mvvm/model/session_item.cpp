@@ -210,7 +210,7 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   result->SetParent(nullptr);
   result->SetModel(nullptr);
 
-  return std::move(result);
+  return result;
 }
 
 bool SessionItem::IsEditable() const

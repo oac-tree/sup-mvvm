@@ -97,13 +97,13 @@ void ApplicationModel::SetUndoEnabled(bool value, size_t undo_limit)
   {
     p_impl->m_command_stack = std::make_unique<CommandStack>();
     auto notifying_composer = CreateNotifyingComposer(&p_impl->m_event_handler, this);
-    SetComposer(std::move(CreateCommandComposer(GetCommandStack(), std::move(notifying_composer))));
+    SetComposer(CreateCommandComposer(GetCommandStack(), std::move(notifying_composer)));
     p_impl->m_command_stack->SetUndoLimit(undo_limit);
   }
   else
   {
     p_impl->m_command_stack.reset();
-    SetComposer(std::move(CreateNotifyingComposer(&p_impl->m_event_handler, this)));
+    SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));
   }
 }
 
