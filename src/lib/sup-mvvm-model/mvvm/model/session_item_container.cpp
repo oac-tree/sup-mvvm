@@ -128,7 +128,7 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
   {
     auto item = std::move(m_items.at(index));
     m_items.erase(std::next(m_items.begin(), index));
-    return std::move(item);
+    return item;
   }
 
   return nullptr;
