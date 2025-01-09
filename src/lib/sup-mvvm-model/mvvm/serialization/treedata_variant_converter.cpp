@@ -64,12 +64,14 @@ mvvm::role_data_t to_undefined(const mvvm::TreeData& tree_data);
 mvvm::role_data_t to_bool(const mvvm::TreeData& tree_data);
 
 //! Converts TreeData to role_data_t holding integer data.
+template<typename T>
 mvvm::role_data_t to_int(const mvvm::TreeData& tree_data);
 
 //! Converts TreeData to role_data_t holding string data.
 mvvm::role_data_t to_string(const mvvm::TreeData& tree_data);
 
 //! Converts TreeData to role_data_t holding double data.
+template<typename T>
 mvvm::role_data_t to_double(const mvvm::TreeData& tree_data);
 
 //! Converts TreeData to role_data_t holding vector<double>.
