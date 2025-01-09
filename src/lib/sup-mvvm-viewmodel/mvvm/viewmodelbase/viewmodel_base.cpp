@@ -37,8 +37,8 @@ struct ViewModelBase::ViewModelBaseImpl
   }
 };
 
-ViewModelBase::ViewModelBase(QObject* parent)
-    : QAbstractItemModel(parent), p_impl(std::make_unique<ViewModelBaseImpl>(this))
+ViewModelBase::ViewModelBase(QObject* parent_object)
+    : QAbstractItemModel(parent_object), p_impl(std::make_unique<ViewModelBaseImpl>(this))
 {
   beginResetModel();
   p_impl->root = std::make_unique<ViewItem>();

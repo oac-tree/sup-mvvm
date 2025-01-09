@@ -36,7 +36,7 @@ class MVVM_VIEW_EXPORT AdjustingScrollArea : public QScrollArea
   Q_OBJECT
 
 public:
-  explicit AdjustingScrollArea(QWidget* parent = nullptr);
+  explicit AdjustingScrollArea(QWidget* parent_widget = nullptr);
 
   void SetWidget(QWidget* widget);
 

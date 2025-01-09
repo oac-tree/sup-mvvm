@@ -34,7 +34,7 @@ class MVVM_VIEWMODEL_EXPORT ScientificSpinBoxEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit ScientificSpinBoxEditor(QWidget* parent = nullptr);
+  explicit ScientificSpinBoxEditor(QWidget* parent_widget = nullptr);
 
   void SetRange(double minimum, double maximum);
   void SetDecimals(int decimals);

@@ -26,8 +26,8 @@
 namespace mvvm
 {
 
-AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent, bool show_hidden)
-    : ViewModel(parent)
+AllItemsViewModel::AllItemsViewModel(ISessionModel *model, QObject *parent_object, bool show_hidden)
+    : ViewModel(parent_object)
 {
   if (show_hidden)
   {

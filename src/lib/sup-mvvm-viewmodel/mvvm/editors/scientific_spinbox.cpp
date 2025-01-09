@@ -44,8 +44,8 @@ bool useExponentialNotation(double val);
 namespace mvvm
 {
 
-ScientificSpinBox::ScientificSpinBox(QWidget* parent)
-    : QAbstractSpinBox(parent)
+ScientificSpinBox::ScientificSpinBox(QWidget* parent_widget)
+    : QAbstractSpinBox(parent_widget)
     , m_value(0.0)
     , m_min(-max_val)
     , m_max(max_val)

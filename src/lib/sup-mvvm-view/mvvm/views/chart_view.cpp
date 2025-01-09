@@ -24,7 +24,7 @@
 namespace mvvm
 {
 
-ChartView::ChartView(QWidget *parent) : QChartView(parent)
+ChartView::ChartView(QWidget *parent_widget) : QChartView(parent_widget)
 {
   setMouseTracking(true);
   SetOperationMode(CanvasOperationMode::kSelection);

@@ -41,7 +41,7 @@ class MVVM_VIEWMODEL_EXPORT AllItemsViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  explicit AllItemsViewModel(ISessionModel* model, QObject* parent = nullptr,
+  explicit AllItemsViewModel(ISessionModel* model, QObject* parent_object = nullptr,
                              bool show_hidden = false);
 };
 

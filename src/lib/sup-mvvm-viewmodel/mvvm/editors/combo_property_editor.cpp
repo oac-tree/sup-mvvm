@@ -40,8 +40,8 @@ QStringList ToList(const std::vector<std::string>& container)
 namespace mvvm
 {
 
-ComboPropertyEditor::ComboPropertyEditor(QWidget* parent)
-    : CustomEditor(parent), m_box(new QComboBox)
+ComboPropertyEditor::ComboPropertyEditor(QWidget* parent_widget)
+    : CustomEditor(parent_widget), m_box(new QComboBox)
 {
   setAutoFillBackground(true);
   setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);

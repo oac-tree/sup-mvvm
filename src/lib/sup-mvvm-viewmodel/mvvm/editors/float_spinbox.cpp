@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-FloatSpinBox::FloatSpinBox(QWidget *parent) : QWidget(parent), m_double_editor(new QDoubleSpinBox)
+FloatSpinBox::FloatSpinBox(QWidget *parent_widget) : QWidget(parent_widget), m_double_editor(new QDoubleSpinBox)
 {
   auto layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);

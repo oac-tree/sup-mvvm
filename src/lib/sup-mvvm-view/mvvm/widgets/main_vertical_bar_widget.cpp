@@ -68,8 +68,8 @@ QString GetButtonStyleString(const QColor& base_color)
 
 namespace mvvm
 {
-MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent)
-    : QFrame(parent)
+MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent_widget)
+    : QFrame(parent_widget)
     , m_stacked_widget(new QStackedWidget)
     , m_button_layout(new QVBoxLayout)
     , m_button_group(new QButtonGroup(this))

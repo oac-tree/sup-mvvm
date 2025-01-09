@@ -38,7 +38,7 @@ class MVVM_VIEW_EXPORT StatusLabel : public QFrame
   Q_OBJECT
 
 public:
-  explicit StatusLabel(QWidget* parent = nullptr);
+  explicit StatusLabel(QWidget* parent_widget = nullptr);
 
   void setText(const QString& text);
   void setFont(const QFont& font);

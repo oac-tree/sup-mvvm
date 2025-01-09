@@ -39,7 +39,7 @@ class MVVM_VIEW_EXPORT GraphCanvas : public QWidget
   Q_OBJECT
 
 public:
-  explicit GraphCanvas(QWidget* parent = nullptr);
+  explicit GraphCanvas(QWidget* parent_widget = nullptr);
   ~GraphCanvas() override;
 
   void SetItem(GraphViewportItem* viewport_item);

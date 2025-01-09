@@ -34,7 +34,7 @@ class SpaceKeyEater : public QObject
   Q_OBJECT
 
 public:
-  explicit SpaceKeyEater(QObject* parent = nullptr);
+  explicit SpaceKeyEater(QObject* parent_object = nullptr);
 
 protected:
   bool eventFilter(QObject* obj, QEvent* event) override;
@@ -50,7 +50,7 @@ class MVVM_VIEWMODEL_EXPORT LostFocusFilter : public QObject
   Q_OBJECT
 
 public:
-  explicit LostFocusFilter(QObject* parent = nullptr);
+  explicit LostFocusFilter(QObject* parent_object = nullptr);
 
 protected:
   bool eventFilter(QObject* obj, QEvent* event) override;
@@ -64,7 +64,7 @@ class MVVM_VIEWMODEL_EXPORT WheelEventFilter : public QObject
   Q_OBJECT
 
 public:
-  explicit WheelEventFilter(QObject* parent = nullptr);
+  explicit WheelEventFilter(QObject* parent_object = nullptr);
 
 protected:
   bool eventFilter(QObject* obj, QEvent* event) override;
@@ -77,7 +77,7 @@ class ShortcodeFilter : public QObject
   Q_OBJECT
 
 public:
-  explicit ShortcodeFilter(const QString& shortcode, QObject* parent = nullptr);
+  explicit ShortcodeFilter(const QString& shortcode, QObject* parent_object = nullptr);
 
 signals:
   void found();
@@ -97,7 +97,7 @@ class TabFromFocusProxy : public QObject
   Q_OBJECT
 
 public:
-  TabFromFocusProxy(QWidget* parent = nullptr);
+  TabFromFocusProxy(QWidget* parent_widget = nullptr);
 
 protected:
   bool eventFilter(QObject* obj, QEvent* event);

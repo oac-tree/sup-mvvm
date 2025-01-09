@@ -93,8 +93,8 @@ struct GraphCanvas::GraphCanvasImpl
   QCustomPlot* customPlot() { return custom_plot; }
 };
 
-GraphCanvas::GraphCanvas(QWidget* parent)
-    : QWidget(parent), p_impl(std::make_unique<GraphCanvasImpl>())
+GraphCanvas::GraphCanvas(QWidget* parent_widget)
+    : QWidget(parent_widget), p_impl(std::make_unique<GraphCanvasImpl>())
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

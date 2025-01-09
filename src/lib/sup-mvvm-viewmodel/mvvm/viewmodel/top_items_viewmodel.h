@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT TopItemsViewModel : public ViewModel
   Q_OBJECT
 
 public:
-  explicit TopItemsViewModel(ISessionModel* model, QObject* parent = nullptr);
+  explicit TopItemsViewModel(ISessionModel* model, QObject* parent_object = nullptr);
 };
 
 }  // namespace mvvm

@@ -34,7 +34,7 @@ class FilterNameViewModel : public QSortFilterProxyModel
   Q_OBJECT
 
 public:
-  explicit FilterNameViewModel(QObject* parent = nullptr);
+  explicit FilterNameViewModel(QObject* parent_object = nullptr);
 
   void SetPattern(const QString& pattern);
 

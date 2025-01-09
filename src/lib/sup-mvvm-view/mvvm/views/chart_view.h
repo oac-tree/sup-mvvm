@@ -35,7 +35,7 @@ class ChartView : public QChartView
   Q_OBJECT
 
 public:
-  explicit ChartView(QWidget* parent = nullptr);
+  explicit ChartView(QWidget* parent_widget = nullptr);
 
   CanvasOperationMode GetOperationMode() const;
 

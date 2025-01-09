@@ -53,7 +53,7 @@ public:
   using widgets_t = std::unique_ptr<QWidget>;
   using widget_row_t = std::vector<widgets_t>;
 
-  explicit PropertyGridController(QAbstractItemModel* model, QObject* parent = nullptr);
+  explicit PropertyGridController(QAbstractItemModel* model, QObject* parent_object = nullptr);
   ~PropertyGridController() override;
 
   /**

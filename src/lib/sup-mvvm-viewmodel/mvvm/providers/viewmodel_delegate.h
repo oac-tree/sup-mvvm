@@ -38,13 +38,13 @@ class MVVM_VIEWMODEL_EXPORT ViewModelDelegate : public QStyledItemDelegate
   Q_OBJECT
 
 public:
-  explicit ViewModelDelegate(QObject* parent = nullptr);
+  explicit ViewModelDelegate(QObject* parent_object = nullptr);
   ~ViewModelDelegate() override;
 
   void setEditorFactory(std::unique_ptr<IEditorFactory> editor_factory);
   void setCellDecoration(std::unique_ptr<ICellDecorator> cell_decoration);
 
-  QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option,
+  QWidget* createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option,
                         const QModelIndex& index) const override;
 
   void setEditorData(QWidget* editor, const QModelIndex& index) const override;

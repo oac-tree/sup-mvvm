@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT AllIntSpinBoxEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit AllIntSpinBoxEditor(QWidget* parent = nullptr);
+  explicit AllIntSpinBoxEditor(QWidget* parent_widget = nullptr);
 
   bool IsPersistent() const override;
 

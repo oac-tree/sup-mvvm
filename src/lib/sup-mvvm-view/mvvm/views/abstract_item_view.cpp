@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-AbstractItemView::AbstractItemView(QWidget *parent) : QWidget(parent)
+AbstractItemView::AbstractItemView(QWidget *parent_widget) : QWidget(parent_widget)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

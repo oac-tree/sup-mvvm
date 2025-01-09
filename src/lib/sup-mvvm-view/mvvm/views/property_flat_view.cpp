@@ -29,8 +29,8 @@
 namespace mvvm
 {
 
-PropertyFlatView::PropertyFlatView(QWidget *parent)
-    : QWidget(parent), m_grid_layout(new QGridLayout)
+PropertyFlatView::PropertyFlatView(QWidget *parent_widget)
+    : QWidget(parent_widget), m_grid_layout(new QGridLayout)
 {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);

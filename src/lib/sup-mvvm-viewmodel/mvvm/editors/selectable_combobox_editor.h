@@ -38,7 +38,7 @@ class MVVM_VIEWMODEL_EXPORT SelectableComboBoxEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit SelectableComboBoxEditor(QWidget* parent = nullptr);
+  explicit SelectableComboBoxEditor(QWidget* parent_widget = nullptr);
 
   QSize sizeHint() const override;
   QSize minimumSizeHint() const override;

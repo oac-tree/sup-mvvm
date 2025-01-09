@@ -32,7 +32,7 @@ namespace mvvm
 // SpaceKeyEater
 // -------------------------------------------------------------------------------------------------
 
-SpaceKeyEater::SpaceKeyEater(QObject* parent) : QObject(parent) {}
+SpaceKeyEater::SpaceKeyEater(QObject* parent_object) : QObject(parent_object) {}
 
 bool SpaceKeyEater::eventFilter(QObject* obj, QEvent* event)
 {
@@ -53,7 +53,7 @@ bool SpaceKeyEater::eventFilter(QObject* obj, QEvent* event)
 // LostFocusFilter
 // -------------------------------------------------------------------------------------------------
 
-LostFocusFilter::LostFocusFilter(QObject* parent) : QObject(parent) {}
+LostFocusFilter::LostFocusFilter(QObject* parent_object) : QObject(parent_object) {}
 
 bool LostFocusFilter::eventFilter(QObject* obj, QEvent* event)
 {
@@ -117,8 +117,8 @@ bool WheelEventFilter::eventFilter(QObject* obj, QEvent* event)
 // ShortcodeFilter
 // -------------------------------------------------------------------------------------------------
 
-ShortcodeFilter::ShortcodeFilter(const QString& shortcode, QObject* parent)
-    : QObject(parent), m_shortcode(shortcode), m_index(0)
+ShortcodeFilter::ShortcodeFilter(const QString& shortcode, QObject* parent_object)
+    : QObject(parent_object), m_shortcode(shortcode), m_index(0)
 {
 }
 
@@ -158,11 +158,11 @@ bool ShortcodeFilter::eventFilter(QObject* obj, QEvent* event)
 // TabFromFocusProxy
 // -------------------------------------------------------------------------------------------------
 
-TabFromFocusProxy::TabFromFocusProxy(QWidget* parent) : QObject(parent), m_parent(parent)
+TabFromFocusProxy::TabFromFocusProxy(QWidget* parent_widget) : QObject(parent_widget), m_parent(parent_widget)
 {
-  if (parent->focusProxy())
+  if (parent_widget->focusProxy())
   {
-    parent->focusProxy()->installEventFilter(this);
+    parent_widget->focusProxy()->installEventFilter(this);
   }
 }
 

@@ -24,7 +24,6 @@
 
 #include <QColor>
 #include <QFrame>
-#include <map>
 
 class QStackedWidget;
 class QVBoxLayout;
@@ -45,7 +44,7 @@ class MVVM_VIEWMODEL_EXPORT MainVerticalBarWidget : public QFrame
   Q_OBJECT
 
 public:
-  MainVerticalBarWidget(QWidget* parent = nullptr);
+  MainVerticalBarWidget(QWidget* parent_widget = nullptr);
   ~MainVerticalBarWidget();
 
   void AddWidget(QWidget* widget, const QString& title, const QIcon& icon);

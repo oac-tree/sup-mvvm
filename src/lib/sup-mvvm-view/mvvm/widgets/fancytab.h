@@ -35,7 +35,7 @@ class MVVM_VIEWMODEL_EXPORT FancyTab : public QWidget
   Q_OBJECT
 
 public:
-  FancyTab(const QString& title, QWidget* parent = nullptr);
+  FancyTab(const QString& title, QWidget* parent_widget = nullptr);
 
   void setSelected(bool value);
 

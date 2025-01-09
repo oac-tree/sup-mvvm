@@ -46,8 +46,8 @@ void InstallTabFocusProxy(QWidget* widget)
 namespace mvvm
 {
 
-ViewModelDelegate::ViewModelDelegate(QObject* parent)
-    : QStyledItemDelegate(parent)
+ViewModelDelegate::ViewModelDelegate(QObject* parent_object)
+    : QStyledItemDelegate(parent_object)
     , m_editor_factory(std::make_unique<DefaultEditorFactory>())
     , m_cell_decoration(std::make_unique<DefaultCellDecorator>())
 {
@@ -65,12 +65,12 @@ void ViewModelDelegate::setCellDecoration(std::unique_ptr<ICellDecorator> cell_d
   m_cell_decoration = std::move(cell_decoration);
 }
 
-QWidget* ViewModelDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
+QWidget* ViewModelDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option,
                                          const QModelIndex& index) const
 {
   if (auto editor = m_editor_factory->CreateEditor(index))
   {
-    editor->setParent(parent);
+    editor->setParent(parent_widget);
     if (auto custom_editor = dynamic_cast<CustomEditor*>(editor.get()); custom_editor)
     {
       InstallTabFocusProxy(custom_editor);
@@ -79,7 +79,7 @@ QWidget* ViewModelDelegate::createEditor(QWidget* parent, const QStyleOptionView
     }
     return editor.release();
   }
-  return QStyledItemDelegate::createEditor(parent, option, index);
+  return QStyledItemDelegate::createEditor(parent_widget, option, index);
 }
 
 void ViewModelDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const

@@ -22,7 +22,7 @@
 namespace mvvm
 {
 
-CustomEditor::CustomEditor(QWidget* parent) : QWidget(parent) {}
+CustomEditor::CustomEditor(QWidget* parent_widget) : QWidget(parent_widget) {}
 
 QVariant CustomEditor::GetData() const
 {

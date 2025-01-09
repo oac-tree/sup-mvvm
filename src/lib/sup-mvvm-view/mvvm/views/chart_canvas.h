@@ -42,7 +42,7 @@ class ChartCanvas : public QWidget
   Q_OBJECT
 
 public:
-  explicit ChartCanvas(QWidget* parent = nullptr);
+  explicit ChartCanvas(QWidget* parent_widget = nullptr);
   ~ChartCanvas() override;
 
   void SetViewport(ChartViewportItem* viewport);

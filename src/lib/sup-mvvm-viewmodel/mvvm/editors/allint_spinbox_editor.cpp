@@ -29,8 +29,8 @@
 namespace mvvm
 {
 
-AllIntSpinBoxEditor::AllIntSpinBoxEditor(QWidget* parent)
-    : CustomEditor(parent), m_allint_editor(new AllIntSpinBox)
+AllIntSpinBoxEditor::AllIntSpinBoxEditor(QWidget* parent_widget)
+    : CustomEditor(parent_widget), m_allint_editor(new AllIntSpinBox)
 {
   setAutoFillBackground(true);
   setFocusPolicy(Qt::StrongFocus);

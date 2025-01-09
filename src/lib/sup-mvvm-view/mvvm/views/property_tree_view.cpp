@@ -29,8 +29,8 @@
 
 namespace mvvm
 {
-PropertyTreeView::PropertyTreeView(QWidget* parent)
-    : AbstractItemView(parent), m_tree_view(new QTreeView)
+PropertyTreeView::PropertyTreeView(QWidget* parent_widget)
+    : AbstractItemView(parent_widget), m_tree_view(new QTreeView)
 {
   SetComponentProvider(CreateProvider<PropertyViewModel>(m_tree_view));
 }

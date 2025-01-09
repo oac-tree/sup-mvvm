@@ -28,10 +28,10 @@
 namespace mvvm
 {
 
-AllItemsTreeView::AllItemsTreeView(ISessionModel* model, QWidget* parent, bool show_hidden)
-    : AbstractItemView(parent), m_tree_view(new QTreeView)
+AllItemsTreeView::AllItemsTreeView(ISessionModel* model, QWidget* parent_widget, bool show_hidden)
+    : AbstractItemView(parent_widget), m_tree_view(new QTreeView)
 {
-  auto viewmodel = std::make_unique<AllItemsViewModel>(model, parent, show_hidden);
+  auto viewmodel = std::make_unique<AllItemsViewModel>(model, parent_widget, show_hidden);
   SetComponentProvider(
       std::make_unique<ItemViewComponentProvider>(std::move(viewmodel), m_tree_view));
 }

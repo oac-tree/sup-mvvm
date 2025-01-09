@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT ColorEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit ColorEditor(QWidget* parent = nullptr);
+  explicit ColorEditor(QWidget* parent_widget = nullptr);
 
 protected:
   void mousePressEvent(QMouseEvent* event) override;

@@ -41,7 +41,7 @@ class MVVM_VIEWMODEL_EXPORT MainBarWidget : public QFrame
   Q_OBJECT
 
 public:
-  MainBarWidget(QWidget* parent = nullptr);
+  MainBarWidget(QWidget* parent_widget = nullptr);
   ~MainBarWidget();
 
   void addWidget(QWidget* widget, const QString& title, bool is_enabled = true);

@@ -35,7 +35,7 @@ class MVVM_VIEWMODEL_EXPORT BoolEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit BoolEditor(QWidget* parent = nullptr);
+  explicit BoolEditor(QWidget* parent_widget = nullptr);
 
   bool IsPersistent() const override;
 

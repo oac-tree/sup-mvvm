@@ -31,8 +31,8 @@
 namespace mvvm
 {
 
-PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObject *parent)
-    : QObject(parent), m_view_model(model)
+PropertyGridController::PropertyGridController(QAbstractItemModel *model, QObject *parent_object)
+    : QObject(parent_object), m_view_model(model)
 {
   if (!m_view_model)
   {

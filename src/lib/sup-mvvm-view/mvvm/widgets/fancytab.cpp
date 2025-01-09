@@ -37,8 +37,8 @@ QColor defaultColor()
 
 namespace mvvm
 {
-FancyTab::FancyTab(const QString& title, QWidget* parent)
-    : QWidget(parent), m_label(new QLabel(title))
+FancyTab::FancyTab(const QString& title, QWidget* parent_widget)
+    : QWidget(parent_widget), m_label(new QLabel(title))
 {
   mvvm::utils::ScaleLabelFont(m_label, 1.25);
   setFixedHeight(mvvm::utils::HeightOfLetterM() * 2.5);

@@ -60,8 +60,8 @@ public:
 
 // ----------------------------------------------------------------------------
 
-SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent)
-    : CustomEditor(parent)
+SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent_widget)
+    : CustomEditor(parent_widget)
     , m_box(new QComboBox)
     , m_wheel_event_filter(new WheelEventFilter(this))
     , m_model(new QStandardItemModel(this))

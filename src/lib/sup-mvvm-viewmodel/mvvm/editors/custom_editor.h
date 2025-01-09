@@ -37,7 +37,7 @@ class MVVM_VIEWMODEL_EXPORT CustomEditor : public QWidget
   Q_PROPERTY(QVariant value MEMBER m_data READ GetData WRITE SetData NOTIFY dataChanged USER true)
 
 public:
-  explicit CustomEditor(QWidget* parent = nullptr);
+  explicit CustomEditor(QWidget* parent_widget = nullptr);
 
   QVariant GetData() const;
 

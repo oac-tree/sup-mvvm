@@ -34,8 +34,8 @@ const int kDefaultInfoBarHeight = 24;
 namespace mvvm
 {
 
-StatusLabel::StatusLabel(QWidget* parent)
-    : QFrame(parent), m_font("Monospace", kDefaultInfoBarTextSize, QFont::Normal, false)
+StatusLabel::StatusLabel(QWidget* parent_widget)
+    : QFrame(parent_widget), m_font("Monospace", kDefaultInfoBarTextSize, QFont::Normal, false)
 {
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   setFixedHeight(kDefaultInfoBarHeight);

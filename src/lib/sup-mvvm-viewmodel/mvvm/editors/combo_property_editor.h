@@ -35,7 +35,7 @@ class MVVM_VIEWMODEL_EXPORT ComboPropertyEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit ComboPropertyEditor(QWidget* parent = nullptr);
+  explicit ComboPropertyEditor(QWidget* parent_widget = nullptr);
 
   QSize sizeHint() const override;
   QSize minimumSizeHint() const override;

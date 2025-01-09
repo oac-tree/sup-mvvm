@@ -41,7 +41,7 @@ class MVVM_VIEW_EXPORT PropertyFlatView : public QWidget
   Q_OBJECT
 
 public:
-  explicit PropertyFlatView(QWidget* parent = nullptr);
+  explicit PropertyFlatView(QWidget* parent_widget = nullptr);
   ~PropertyFlatView() override;
 
   void SetViewModel(QAbstractItemModel* view_model);

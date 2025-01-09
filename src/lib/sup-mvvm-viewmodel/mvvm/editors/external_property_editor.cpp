@@ -34,8 +34,8 @@
 namespace mvvm
 {
 
-ExternalPropertyEditor::ExternalPropertyEditor(QWidget* parent)
-    : CustomEditor(parent)
+ExternalPropertyEditor::ExternalPropertyEditor(QWidget* parent_widget)
+    : CustomEditor(parent_widget)
     , m_text_label(new QLabel)
     , m_pixmap_label(new QLabel)
     , m_focus_filter(new LostFocusFilter(this))

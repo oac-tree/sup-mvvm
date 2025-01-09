@@ -27,7 +27,7 @@
 
 namespace mvvm
 {
-ViewModel::ViewModel(QObject* parent) : ViewModelBase(parent) {}
+ViewModel::ViewModel(QObject* parent_object) : ViewModelBase(parent_object) {}
 
 ViewModel::~ViewModel() = default;
 

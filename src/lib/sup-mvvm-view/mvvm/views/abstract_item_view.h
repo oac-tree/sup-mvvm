@@ -40,7 +40,7 @@ class MVVM_VIEW_EXPORT AbstractItemView : public QWidget
   Q_OBJECT
 
 public:
-  explicit AbstractItemView(QWidget* parent = nullptr);
+  explicit AbstractItemView(QWidget* parent_widget = nullptr);
   ~AbstractItemView() override;
 
   void SetComponentProvider(std::unique_ptr<ItemViewComponentProvider> provider);

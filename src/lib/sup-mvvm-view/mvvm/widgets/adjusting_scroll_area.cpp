@@ -25,7 +25,7 @@
 namespace mvvm
 {
 
-AdjustingScrollArea::AdjustingScrollArea(QWidget* parent) : QScrollArea(parent)
+AdjustingScrollArea::AdjustingScrollArea(QWidget* parent_widget) : QScrollArea(parent_widget)
 {
   setObjectName("AdjustingScrollArea");
   setContentsMargins(0, 0, 0, 0);

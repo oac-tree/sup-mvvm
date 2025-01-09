@@ -29,8 +29,8 @@
 namespace mvvm
 {
 
-ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
-    : CustomEditor(parent), m_double_editor(new ScientificSpinBox)
+ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent_widget)
+    : CustomEditor(parent_widget), m_double_editor(new ScientificSpinBox)
 {
   setAutoFillBackground(true);
   setFocusPolicy(Qt::StrongFocus);

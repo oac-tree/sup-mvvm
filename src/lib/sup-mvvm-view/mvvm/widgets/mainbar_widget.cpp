@@ -29,8 +29,8 @@
 
 namespace mvvm
 {
-MainBarWidget::MainBarWidget(QWidget* parent)
-    : QFrame(parent), m_stacked_widget(new QStackedWidget), m_label_layout(new QHBoxLayout)
+MainBarWidget::MainBarWidget(QWidget* parent_widget)
+    : QFrame(parent_widget), m_stacked_widget(new QStackedWidget), m_label_layout(new QHBoxLayout)
 {
   m_label_layout->setContentsMargins(2, 2, 2, 2);
 

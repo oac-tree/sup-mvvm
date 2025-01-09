@@ -53,7 +53,7 @@ class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QWidget
   Q_PROPERTY(QVariant value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-  explicit FloatSpinBox(QWidget* parent = nullptr);
+  explicit FloatSpinBox(QWidget* parent_widget = nullptr);
 
   void setDecimals(int prec);
 

@@ -33,7 +33,7 @@ class MVVM_VIEWMODEL_EXPORT ScientificSpinBox : public QAbstractSpinBox
   Q_PROPERTY(double value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-  explicit ScientificSpinBox(QWidget* parent = nullptr);
+  explicit ScientificSpinBox(QWidget* parent_widget = nullptr);
   ~ScientificSpinBox() override;
 
   double value() const;

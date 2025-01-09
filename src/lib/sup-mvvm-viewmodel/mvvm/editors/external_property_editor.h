@@ -39,7 +39,7 @@ class MVVM_VIEWMODEL_EXPORT ExternalPropertyEditor : public CustomEditor
   Q_OBJECT
 
 public:
-  explicit ExternalPropertyEditor(QWidget* parent = nullptr);
+  explicit ExternalPropertyEditor(QWidget* parent_widget = nullptr);
 
   void SetCallback(std::function<void(const QVariant&)> callback);
 

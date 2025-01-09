@@ -45,7 +45,7 @@ class MVVM_VIEWMODEL_EXPORT ViewModel : public ViewModelBase
   Q_OBJECT
 
 public:
-  explicit ViewModel(QObject* parent = nullptr);
+  explicit ViewModel(QObject* parent_object = nullptr);
   ~ViewModel() override;
 
   QVariant headerData(int section, Qt::Orientation orientation,

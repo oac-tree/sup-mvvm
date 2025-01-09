@@ -51,7 +51,7 @@ class MVVM_VIEWMODEL_EXPORT ViewModelBase : public QAbstractItemModel
   Q_OBJECT
 
 public:
-  explicit ViewModelBase(QObject* parent = nullptr);
+  explicit ViewModelBase(QObject* parent_object = nullptr);
   ~ViewModelBase() override;
 
   QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const override;
