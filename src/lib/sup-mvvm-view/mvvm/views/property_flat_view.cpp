@@ -63,7 +63,6 @@ void PropertyFlatView::UpdateGridLayout()
   {
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
-      auto index = m_view_model->index(row, col);
       m_grid_layout->addWidget(widgets[row][col].release(), row, col);
     }
   }

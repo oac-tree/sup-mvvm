@@ -233,6 +233,7 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
 
 QVector<int> FixedDataPresentationItem::GetQtRoles(int data_role) const
 {
+  (void) data_role; // we use fixed roles which are unboard
   QVector<int> result;
   for (auto &[qt_role, data] : m_data)
   {
