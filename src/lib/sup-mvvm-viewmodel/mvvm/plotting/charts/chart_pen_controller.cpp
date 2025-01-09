@@ -19,8 +19,6 @@
 
 #include "chart_pen_controller.h"
 
-#include "qt_charts.h"
-
 #include <mvvm/plotting/plot_helper.h>
 #include <mvvm/standarditems/plottable_items.h>
 
@@ -50,6 +48,7 @@ void ChartPenController::Subscribe()
 
 void ChartPenController::OnPropertyChanged(const PropertyChangedEvent &event)
 {
+  (void)event;
   UpdateLineSeriesFromItem();
 }
 

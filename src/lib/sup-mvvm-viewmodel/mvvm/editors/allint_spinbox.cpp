@@ -62,6 +62,8 @@ QVariant AllIntSpinBox::value() const
 
 QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
 {
+  (void)pos;
+
   if (input.isEmpty())
   {
     // An empty field is a valid intermediate state
@@ -83,6 +85,11 @@ QValidator::State AllIntSpinBox::validate(QString &input, int &pos) const
   // Let's not worry here if the value is outside limits.
 
   return QValidator::Acceptable;
+}
+
+void AllIntSpinBox::fixup(QString &input) const
+{
+  (void)input;
 }
 
 void AllIntSpinBox::stepBy(int steps)

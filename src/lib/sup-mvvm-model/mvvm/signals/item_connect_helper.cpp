@@ -48,16 +48,19 @@ struct ItemEventVisitor
 
   void operator()(const mvvm::ModelAboutToBeResetEvent& event)
   {
+    (void)event;
     // nothing to do
   }
 
   void operator()(const mvvm::ModelResetEvent& event)
   {
+    (void)event;
     // nothing to do
   }
 
   void operator()(const mvvm::ModelAboutToBeDestroyedEvent& event)
   {
+    (void)event;
     // nothing to do
   }
 };

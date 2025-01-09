@@ -47,6 +47,7 @@ ViewModelControllerImpl::~ViewModelControllerImpl() = default;
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToInsertItemEvent &event)
 {
+  (void)event;
   // nothing to do
 }
 
@@ -67,6 +68,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
 
 void ViewModelControllerImpl::OnModelEvent(const ItemRemovedEvent &event)
 {
+  (void)event;
   // nothing to do
 }
 
@@ -213,7 +215,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
   }
   else
   {
-    row_of_views = std::move(m_row_strategy->ConstructRow(&item));
+    row_of_views = m_row_strategy->ConstructRow(&item);
   }
 
   if (!row_of_views.empty())

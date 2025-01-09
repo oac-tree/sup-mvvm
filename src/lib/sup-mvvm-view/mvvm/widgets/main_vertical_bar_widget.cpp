@@ -40,7 +40,7 @@ QString GetBackgroundColorName(const QColor& base_color)
 
 QString GetPressedColorName(const QColor& base_color)
 {
-  return QString("#dae7ed");
+  return base_color.darker(150).name(QColor::HexRgb);
 }
 
 QString GetHoverColorName(const QColor& base_color)

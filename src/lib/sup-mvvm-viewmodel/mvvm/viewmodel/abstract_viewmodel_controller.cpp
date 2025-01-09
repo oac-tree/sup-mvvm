@@ -40,21 +40,45 @@ const ISessionModel *AbstractViewModelController::GetModel() const
   return m_listener ? m_listener->GetModel() : nullptr;
 }
 
-void AbstractViewModelController::OnModelEvent(const AboutToInsertItemEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const AboutToInsertItemEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const ItemInsertedEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const ItemInsertedEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const ItemRemovedEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const ItemRemovedEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const DataChangedEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const DataChangedEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const ModelAboutToBeResetEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const ModelAboutToBeResetEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const ModelResetEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const ModelResetEvent &event)
+{
+  (void)event;
+}
 
-void AbstractViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event) {}
+void AbstractViewModelController::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
+{
+  (void)event;
+}
 
 void AbstractViewModelController::SetRootItem(SessionItem *root_item)
 {

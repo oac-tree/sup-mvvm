@@ -62,9 +62,7 @@ namespace mvvm
 {
 void WriteToXMLFile(const std::string &file_name, const TreeData &tree_data)
 {
-  int rc{0};
   xmlTextWriterPtr writer;
-  xmlChar *tmp{nullptr};
 
   // Create a new XmlWriter for uri, with no compression.
   writer = xmlNewTextWriterFilename(file_name.c_str(), 0);
@@ -82,10 +80,8 @@ void WriteToXMLFile(const std::string &file_name, const TreeData &tree_data)
 
 std::string GetXMLString(const TreeData &tree_data)
 {
-  int rc(0);
   xmlTextWriterPtr writer;
   xmlBufferPtr buf;
-  xmlChar *tmp{nullptr};
 
   // Create a new XML buffer, to which the XML document will be written
   buf = xmlBufferCreate();

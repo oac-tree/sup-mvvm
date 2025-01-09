@@ -62,7 +62,7 @@ public:
 
   QValidator::State validate(QString &input, int &pos) const override;
 
-  void fixup(QString &input) const override {}
+  void fixup(QString &input) const override;
 
   void stepBy(int steps) override;
 

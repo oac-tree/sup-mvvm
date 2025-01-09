@@ -289,8 +289,6 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
     return -1;
   }
 
-  SessionItem* root_item = basis->GetModel() ? basis->GetModel()->GetRootItem() : nullptr;
-
   int level = 0;
   auto current_item = item;
 
