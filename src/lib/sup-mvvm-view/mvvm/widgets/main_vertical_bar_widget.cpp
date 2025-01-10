@@ -19,6 +19,8 @@
 
 #include "main_vertical_bar_widget.h"
 
+#include "widget_utils.h"
+
 #include <mvvm/core/exceptions.h>
 
 #include <QButtonGroup>
@@ -64,6 +66,44 @@ QString GetButtonStyleString(const QColor& base_color)
                     GetHoverColorName(base_color), GetCheckedColorName(base_color));
 }
 
+/**
+ * @brief Returns maximum width and height calculated over all button's text labels.
+ */
+std::pair<int, int> GetMaxWidthHeight(const QList<QAbstractButton*>& buttons)
+{
+  int max_text_width{0};
+  int max_text_height{0};
+
+  if (buttons.isEmpty())
+  {
+    return {max_text_width, max_text_height};
+  }
+
+  const QFontMetrics font_metrics = buttons.first()->fontMetrics();
+
+  // Find the maximum text extents
+  for (auto button : buttons)
+  {
+    const auto rect = font_metrics.boundingRect(button->text());
+    max_text_width = std::max(max_text_width, rect.width());
+    max_text_height = std::max(max_text_height, rect.height());
+  }
+  return {max_text_width, max_text_height};
+}
+
+/**
+ * @brief A margin between toolbar buttons.
+ */
+int GetMargin()
+{
+  return mvvm::utils::WidthOfLetterM() * 0.75;
+}
+
+int GetMinimumToolBarWidth()
+{
+  return mvvm::utils::WidthOfLetterM() * 7;
+}
+
 }  // namespace
 
 namespace mvvm
@@ -74,7 +114,7 @@ MainVerticalBarWidget::MainVerticalBarWidget(QWidget* parent_widget)
     , m_button_layout(new QVBoxLayout)
     , m_button_group(new QButtonGroup(this))
     , m_status_bar(new QStatusBar)
-    , m_base_color("#005291")
+    , m_base_color(Qt::darkGray)
 {
   m_button_layout->setContentsMargins(0, 0, 0, 0);
   m_button_layout->setSpacing(0);
@@ -101,17 +141,18 @@ MainVerticalBarWidget::~MainVerticalBarWidget() = default;
 
 void MainVerticalBarWidget::AddWidget(QWidget* widget, const QString& title, const QIcon& icon)
 {
-  int index = m_stacked_widget->addWidget(widget);
+  const int index = m_stacked_widget->addWidget(widget);
 
-  auto button = CreateViewSelectionButton();
-  m_button_layout->insertWidget(m_button_layout->count(), button);
-
+  auto button = CreateControlButton();
   button->setText(title);
   button->setIcon(icon);
   button->setToolTip(title);
-  m_button_group->addButton(button, index);
+  m_button_group->addButton(button.get(), index);
 
-  UpdateViewSelectionButtonsGeometry();
+  // passing ownership
+  m_button_layout->insertWidget(m_button_layout->count(), button.release());
+
+  UpdateButtonLayout();
 }
 
 void MainVerticalBarWidget::SetCurrentIndex(int index)
@@ -129,13 +170,16 @@ void MainVerticalBarWidget::SetCurrentIndex(int index)
 
 void MainVerticalBarWidget::AddSpacer()
 {
-  m_filler_button = CreateViewSelectionButton();
-  m_filler_button->setMinimumSize(5, 5);
-  m_filler_button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-  m_filler_button->setEnabled(false);
-  m_button_layout->insertWidget(m_button_layout->count(), m_filler_button);
+  auto button = CreateControlButton();
+  button->setMinimumSize(5, 5);
+  button->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+  button->setEnabled(false);
+  m_filler_button = button.get();
 
-  UpdateViewSelectionButtonsGeometry();
+  // passing ownership
+  m_button_layout->insertWidget(m_button_layout->count(), button.release());
+
+  UpdateButtonLayout();
 }
 
 void MainVerticalBarWidget::SetBaseColor(const QColor& color)
@@ -148,41 +192,26 @@ QStatusBar* MainVerticalBarWidget::GetStatusBar()
   return m_status_bar;
 }
 
-QToolButton* MainVerticalBarWidget::CreateViewSelectionButton()
+std::unique_ptr<QToolButton> MainVerticalBarWidget::CreateControlButton()
 {
-  auto result = new QToolButton;
+  auto result = std::make_unique<QToolButton>();
   result->setCheckable(true);
   result->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-  //  result->setToolButtonStyle(Qt::ToolButtonIconOnly);
   result->setStyleSheet(GetButtonStyleString(m_base_color));
   return result;
 }
 
-void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
+void MainVerticalBarWidget::UpdateButtonLayout()
 {
   if (m_button_group->buttons().isEmpty())
   {
     return;
   }
 
-  const QFontMetrics font_metrics = m_button_group->buttons().first()->fontMetrics();
+  auto [max_text_width, max_text_height] = GetMaxWidthHeight(m_button_group->buttons());
 
-  // Find the maximum text extents
-  int max_text_width = 0;
-  int max_text_height = 0;
-  for (auto b : m_button_group->buttons())
-  {
-    const auto r = font_metrics.boundingRect(b->text());
-    max_text_width = std::max(max_text_width, r.width());
-    max_text_height = std::max(max_text_height, r.height());
-  }
-
-  // calculate the button extent by width (width == height!). Ensure an extent of 70 for normal
-  // DPI devices (legacy value)
-  const int margin = font_metrics.boundingRect("M").width();
-  const int button_extent = std::max(50, max_text_width + 2 * margin);
-
-  // calculate the icon extent by height (width == height!)
+  const auto margin = GetMargin();
+  const int button_extent = std::max(GetMinimumToolBarWidth(), max_text_width + 2 * margin);
   const int icon_extent = 0.9 * button_extent - margin - max_text_height;
 
   // set new values in all buttons
@@ -191,6 +220,7 @@ void MainVerticalBarWidget::UpdateViewSelectionButtonsGeometry()
     button->setFixedSize(button_extent, button_extent);
     button->setIconSize({icon_extent, icon_extent});
   }
+
   // set fixed width in filler and progress bar
   if (m_filler_button)
   {

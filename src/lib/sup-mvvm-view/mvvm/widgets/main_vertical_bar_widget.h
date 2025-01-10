@@ -24,6 +24,7 @@
 
 #include <QColor>
 #include <QFrame>
+#include <memory>
 
 class QStackedWidget;
 class QVBoxLayout;
@@ -51,19 +52,43 @@ public:
   MainVerticalBarWidget(QWidget* parent_widget = nullptr);
   ~MainVerticalBarWidget();
 
+  /**
+   * @brief Adds widget to the toolbar.
+   *
+   *  The ownerhip of the widget will be taken.
+   *
+   * @param widget Users widget.
+   * @param title A title will be show under the button's icon.
+   * @param icon The icon of the button.
+   */
   void AddWidget(QWidget* widget, const QString& title, const QIcon& icon);
 
+  /**
+   * @brief Set widget corresponding to a given index as visible.
+   */
   void SetCurrentIndex(int index);
 
+  /**
+   * @brief Adds spacer after the last widget.
+   */
   void AddSpacer();
 
+  /**
+   * @brief Sets the base color of toolbar.
+   */
   void SetBaseColor(const QColor& color);
 
+  /**
+   * @brief Returns status bar.
+   *
+   * Initially it is invisible. If the user wants to use it as the main status bar of QMainWindow,
+   * he has to change visibility and add it to the main window.
+   */
   QStatusBar* GetStatusBar();
 
 private:
-  QToolButton* CreateViewSelectionButton();
-  void UpdateViewSelectionButtonsGeometry();
+  std::unique_ptr<QToolButton> CreateControlButton();
+  void UpdateButtonLayout();
 
   QStackedWidget* m_stacked_widget{nullptr};
   QVBoxLayout* m_button_layout{nullptr};
