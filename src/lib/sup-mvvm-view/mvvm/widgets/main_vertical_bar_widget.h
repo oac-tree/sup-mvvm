@@ -36,9 +36,13 @@ class QStatusBar;
 namespace mvvm
 {
 
-//! Widget container with functionality similar to QTabWidget.
-//! Has group of buttons on the left and stacked widget on the right.
-
+/**
+ * @brief The MainVerticalBarWidget class represents a widget container with large buttons on the
+ * left and widget stack on the right.
+ *
+ * It has functionality similar to QTabWidget. The control bar tries to\ mimic main control bar of
+ * Qt creator, or VSCode applications.
+ */
 class MVVM_VIEWMODEL_EXPORT MainVerticalBarWidget : public QFrame
 {
   Q_OBJECT
@@ -66,7 +70,6 @@ private:
   QButtonGroup* m_button_group{nullptr};
   QToolButton* m_filler_button{nullptr};
   QStatusBar* m_status_bar{nullptr};
-
   QColor m_base_color;
 };
 

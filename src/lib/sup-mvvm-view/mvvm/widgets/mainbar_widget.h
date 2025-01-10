@@ -31,11 +31,22 @@ class QPushButton;
 
 namespace mvvm
 {
+
 class FancyTab;
 
-//! Widget container with functionality similar to QTabWidget. Has large button bar on top,
-//! and stacked widget at bottom.
-
+/**
+ * @brief The MainBarWidget class is a widget container with the functionality similar to
+ * QTabWidget.
+ *
+ * It tries to look like horizontal list of typical Android application.
+ *
+ * ITEM1   ITEM2   ITEM3
+ * --------=====--------
+ * !                   !
+ * !                   !
+ * ---------------------
+ * Has large bar with labels on top, and stacked widget at bottom.
+ */
 class MVVM_VIEWMODEL_EXPORT MainBarWidget : public QFrame
 {
   Q_OBJECT
@@ -44,9 +55,9 @@ public:
   MainBarWidget(QWidget* parent_widget = nullptr);
   ~MainBarWidget();
 
-  void addWidget(QWidget* widget, const QString& title, bool is_enabled = true);
+  void AddWidget(QWidget* widget, const QString& title, bool is_enabled = true);
 
-  void setCurrentIndex(int index);
+  void SetCurrentIndex(int index);
 
 private:
   QStackedWidget* m_stacked_widget{nullptr};

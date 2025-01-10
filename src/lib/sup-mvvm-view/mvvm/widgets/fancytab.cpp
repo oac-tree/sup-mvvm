@@ -28,11 +28,13 @@
 
 namespace
 {
-QColor defaultColor()
+
+QColor GetDefaultColor()
 {
   static QWidget tmpWidget;
   return tmpWidget.palette().color(QPalette::Window);
 }
+
 }  // namespace
 
 namespace mvvm
@@ -50,9 +52,9 @@ FancyTab::FancyTab(const QString& title, QWidget* parent_widget)
   setMouseTracking(true);
 }
 
-void FancyTab::setSelected(bool value)
+void FancyTab::SetSelected(bool value)
 {
-  m_isSelected = value;
+  m_is_selected = value;
   update();
 }
 
@@ -60,12 +62,12 @@ void FancyTab::paintEvent(QPaintEvent*)
 {
   QPainter painter(this);
 
-  if (m_widgetColor.isValid())
+  if (m_widget_color.isValid())
   {
-    painter.fillRect(0, 0, size().width(), size().height(), m_widgetColor);
+    painter.fillRect(0, 0, size().width(), size().height(), m_widget_color);
   }
 
-  if (m_isSelected && isEnabled())
+  if (m_is_selected && isEnabled())
   {
     painter.fillRect(
         QRectF(QPointF(0, size().height() - 2), QPointF(size().width(), size().height())),
@@ -89,7 +91,7 @@ void FancyTab::enterEvent(QEnterEvent*)
 {
   if (isEnabled())
   {
-    m_widgetColor = QColor(Qt::lightGray);
+    m_widget_color = QColor(Qt::lightGray);
   }
   update();
 }
@@ -98,7 +100,7 @@ void FancyTab::leaveEvent(QEvent*)
 {
   if (isEnabled())
   {
-    m_widgetColor = defaultColor();
+    m_widget_color = GetDefaultColor();
   }
   update();
 }

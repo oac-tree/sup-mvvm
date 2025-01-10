@@ -30,6 +30,12 @@ class QString;
 
 namespace mvvm
 {
+
+/**
+ * @brief The FancyTab class represents a button-like rectangle to form a horizontal control list.
+ *
+ * Used by MainBarWidget class.
+ */
 class MVVM_VIEWMODEL_EXPORT FancyTab : public QWidget
 {
   Q_OBJECT
@@ -37,7 +43,7 @@ class MVVM_VIEWMODEL_EXPORT FancyTab : public QWidget
 public:
   FancyTab(const QString& title, QWidget* parent_widget = nullptr);
 
-  void setSelected(bool value);
+  void SetSelected(bool value);
 
 signals:
   void clicked();
@@ -55,8 +61,8 @@ protected:
 
 private:
   QLabel* m_label{nullptr};
-  bool m_isSelected{false};
-  QColor m_widgetColor;
+  bool m_is_selected{false};
+  QColor m_widget_color;
 };
 
 }  // namespace mvvm
