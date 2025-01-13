@@ -33,7 +33,7 @@ namespace
 {
 
 /**
- * @brief Calculates size of letter `M` from given font.
+ * @brief Calculates the size of the letter `M` from the given font.
  */
 QSize GetUnitSizeFromFont(const QFont& font)
 {
@@ -44,7 +44,7 @@ QSize GetUnitSizeFromFont(const QFont& font)
 }
 
 /**
- * @brief Calculate size of letter 'M' from system font.
+ * @brief Calculate the size of letter 'M' from system font.
  */
 QSize FindSizeOfLetterM()
 {
@@ -186,9 +186,9 @@ QMainWindow* FindMainWindow()
   return nullptr;
 }
 
-QString ClickableText(const QString& text, const QString& tag)
+QString ClickableText(const QString& text, const QString& link)
 {
-  return QString(R"(<a href="%1">%2</a>)").arg(tag.isEmpty() ? text : tag, text);
+  return QString(R"(<a href="%1">%2</a>)").arg(link.isEmpty() ? text : link, text);
 }
 
 void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
