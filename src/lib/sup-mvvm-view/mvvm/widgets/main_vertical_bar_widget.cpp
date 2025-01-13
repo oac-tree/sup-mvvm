@@ -20,6 +20,7 @@
 #include "main_vertical_bar_widget.h"
 
 #include "widget_utils.h"
+#include "appearance_helper.h"
 
 #include <mvvm/core/exceptions.h>
 
@@ -34,37 +35,6 @@
 
 namespace
 {
-
-QString GetBackgroundColorName(const QColor& base_color)
-{
-  return base_color.name(QColor::HexRgb);
-}
-
-QString GetPressedColorName(const QColor& base_color)
-{
-  return base_color.darker(150).name(QColor::HexRgb);
-}
-
-QString GetHoverColorName(const QColor& base_color)
-{
-  return base_color.lighter(150).name(QColor::HexRgb);
-}
-
-QString GetCheckedColorName(const QColor& base_color)
-{
-  return base_color.lighter(120).name(QColor::HexRgb);
-}
-
-QString GetButtonStyleString(const QColor& base_color)
-{
-  static const QString result =
-      "QToolButton { border: none; color: white; background-color: %1;}"
-      "QToolButton:pressed { color: black; background-color: %2; }"
-      "QToolButton:hover { color: white; background-color: %3; }"
-      "QToolButton:checked { color: white; background-color: %4; }";
-  return result.arg(GetBackgroundColorName(base_color), GetPressedColorName(base_color),
-                    GetHoverColorName(base_color), GetCheckedColorName(base_color));
-}
 
 /**
  * @brief Returns maximum width and height calculated over all button's text labels.
@@ -197,7 +167,7 @@ std::unique_ptr<QToolButton> MainVerticalBarWidget::CreateControlButton()
   auto result = std::make_unique<QToolButton>();
   result->setCheckable(true);
   result->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-  result->setStyleSheet(GetButtonStyleString(m_base_color));
+  result->setStyleSheet(GetFlatButtonStyleString(m_base_color));
   return result;
 }
 
