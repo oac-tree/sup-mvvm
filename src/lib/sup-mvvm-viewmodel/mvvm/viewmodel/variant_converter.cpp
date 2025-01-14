@@ -26,7 +26,6 @@
 #include <QMetaType>
 #include <functional>
 #include <map>
-#include <stdexcept>
 
 namespace
 {
@@ -93,7 +92,7 @@ std::map<std::string, converter_func_t> CreateConverterMap()
 
   };
   return result;
-};
+}
 
 }  // namespace
 
