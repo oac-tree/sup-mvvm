@@ -1,3 +1,18 @@
+Changes for 1.6.0:
+
+- COA Release v2.3, January 2025
+- Round of Sonar/Misra/Parasoft code quality fixes
+- Switch to Qt6 by default
+- Simplify item clone and deep copy machinery
+- Implement user example demonstrating new project save machinery
+- Implement user example demonstrating undo/redo
+- First implementation of Waveforms with QChart plotting machinery
+- Implement user interaction machinery for project save/load
+- Refactor ProjectManager machinery with model recreation feature
+- Switch SessionItem data underlying containainer to map
+- Enable/disable property machinery for flat view
+- Fix bug for label in flat view
+
 Changes for 1.5.0:
 
 - CODAC Core System Release 7.2.1
