@@ -140,12 +140,12 @@ public:
   std::unique_ptr<SessionItemContainer> Clone() const;
 
   /**
-   * @brief Returns true if no more items are allowed.
+   * @brief Checks if no more items are allowed.
    */
   bool IsMaximumReached() const;
 
   /**
-   * @brief Returns true if less items than now is not allowed.
+   * @brief Checks if less items than now is not allowed.
    */
   bool IsMinimumReached() const;
 

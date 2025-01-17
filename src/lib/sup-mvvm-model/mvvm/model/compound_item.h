@@ -46,7 +46,7 @@ public:
    * @return Reference to just created item.
    *
    * @details A branch item is an item which is normally shown in top-level item hierarchies, but
-   * hidden from property editors. Once cerated, it can't be removed.
+   * hidden from property editors. Once inserted, it can't be removed.
    */
   template <typename T>
   T& AddBranch(const std::string& name);
@@ -58,7 +58,7 @@ public:
    * @return Reference to just created item.
    *
    * @details A property item is an item which is normally hidden in top-level item hierarchies, but
-   * shown in property editors. Once cerated, it can't be removed.
+   * shown in property editors. Once inserted, it can't be removed.
    */
   template <typename T>
   T& AddProperty(const std::string& name);

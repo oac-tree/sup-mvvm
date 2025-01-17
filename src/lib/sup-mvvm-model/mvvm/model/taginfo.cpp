@@ -40,51 +40,35 @@ TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> it
   }
 }
 
-//! Constructs universal tag intended for unlimited amount of various items.
-
 TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> item_types)
 {
   return TagInfo(std::move(name), 0, -1, std::move(item_types));
 }
-
-//! Constructs tag intended for single property item.
-//! A property item is an item with the following features: it can't be removed, it appears in
-//! property editors, it doesn't appear in a list of top-level items.
 
 TagInfo TagInfo::CreatePropertyTag(std::string name, std::string item_type)
 {
   return TagInfo(std::move(name), 1, 1, {std::move(item_type)});
 }
 
-//! Returns the name of this class.
-
 std::string TagInfo::GetName() const
 {
   return m_name;
 }
-
-//! Returns minimum allowed amount of items with this tag.
 
 int TagInfo::GetMin() const
 {
   return m_min;
 }
 
-//! Returns maximum allowed amount of items with this tag.
-
 int TagInfo::GetMax() const
 {
   return m_max;
 }
 
-//! Returns vector of allowed item types which this tag accepts.
-
 std::vector<std::string> TagInfo::GetItemTypes() const
 {
   return m_item_types;
 }
-
-//! Returns true if given item's type matches the list of possible item types.
 
 bool TagInfo::IsValidType(const std::string& item_type) const
 {
