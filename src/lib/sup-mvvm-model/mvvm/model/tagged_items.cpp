@@ -164,14 +164,14 @@ TaggedItems::const_iterator TaggedItems::end() const
   return m_containers.end();
 }
 
-int TaggedItems::GetTagCount() const
+size_t TaggedItems::GetTagCount() const
 {
-  return static_cast<int>(m_containers.size());
+  return m_containers.size();
 }
 
-SessionItemContainer& TaggedItems::ContainerAt(int index)
+SessionItemContainer& TaggedItems::ContainerAt(size_t index)
 {
-  if (index < 0 || index >= GetTagCount())
+  if (index >= GetTagCount())
   {
     throw RuntimeException("Error it SessionItemTags: wrong container index");
   }

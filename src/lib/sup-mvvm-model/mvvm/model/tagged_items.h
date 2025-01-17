@@ -181,12 +181,12 @@ public:
   /**
    * @brief Returns total number of all registered containers.
    */
-  int GetTagCount() const;
+  size_t GetTagCount() const;
 
   /**
    * @brief Index operator to access containers.
    */
-  SessionItemContainer& ContainerAt(int index);
+  SessionItemContainer& ContainerAt(size_t index);
 
   /**
    * @brief Appends given container at the end.
