@@ -55,9 +55,19 @@ std::string TagInfo::GetName() const
   return m_name;
 }
 
+bool TagInfo::HasMin() const
+{
+  return m_min != -1;
+}
+
 int TagInfo::GetMin() const
 {
   return m_min;
+}
+
+bool TagInfo::HasMax() const
+{
+  return m_max != -1;
 }
 
 int TagInfo::GetMax() const

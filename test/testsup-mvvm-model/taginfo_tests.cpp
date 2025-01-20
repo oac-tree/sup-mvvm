@@ -37,6 +37,8 @@ TEST_F(TagInfoTests, InitialState)
   EXPECT_EQ(tag.GetMax(), -1);
   EXPECT_TRUE(tag.IsValidType(""));
   EXPECT_TRUE(tag.IsValidType("abc"));
+  EXPECT_TRUE(tag.HasMin());
+  EXPECT_FALSE(tag.HasMax());
 }
 
 //! Testing default tag intended for storing unlimited amount of items of any type.

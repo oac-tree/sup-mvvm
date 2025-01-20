@@ -176,12 +176,12 @@ std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone() const
 
 bool SessionItemContainer::IsMaximumReached() const
 {
-  return m_tag_info.GetMax() != -1 && m_tag_info.GetMax() == GetItemCount();
+  return m_tag_info.HasMax() && m_tag_info.GetMax() == GetItemCount();
 }
 
 bool SessionItemContainer::IsMinimumReached() const
 {
-  return m_tag_info.GetMin() != -1 && m_tag_info.GetMin() == GetItemCount();
+  return m_tag_info.HasMin() && m_tag_info.GetMin() == GetItemCount();
 }
 
 }  // namespace mvvm

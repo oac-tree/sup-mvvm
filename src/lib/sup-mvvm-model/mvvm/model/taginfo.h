@@ -84,9 +84,19 @@ public:
   std::string GetName() const;
 
   /**
+   * @brief Checks if tag has minimum allowed number of items defined.
+   */
+  bool HasMin() const;
+
+  /**
    * @brief Returns minimum allowed amount of items with this tag.
    */
   int GetMin() const;
+
+  /**
+   * @brief Checks if tag has minimum allowed number of items defined.
+   */
+  bool HasMax() const;
 
   /**
    * @brief Returns maximum allowed amount of items with this tag.
