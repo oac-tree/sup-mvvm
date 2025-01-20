@@ -26,16 +26,18 @@
 
 namespace mvvm
 {
+
 TagInfo::TagInfo() : m_min(0), m_max(-1) {}
 
-TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> item_types)
+TagInfo::TagInfo(std::string name, const std::optional<int>& min, const std::optional<int>& max,
+                 std::vector<std::string> item_types)
     : m_name(std::move(name)), m_min(min), m_max(max), m_item_types(std::move(item_types))
 {
   if (m_min < 0 || (m_min > m_max && m_max >= 0) || m_name.empty())
   {
     std::ostringstream ostr;
     ostr << "Invalid constructor parameters"
-         << " " << m_name << " " << m_min << " " << m_max;
+         << " " << m_name << " " << m_min.value() << " " << m_max.value();
     throw RuntimeException(ostr.str());
   }
 }
@@ -57,22 +59,22 @@ std::string TagInfo::GetName() const
 
 bool TagInfo::HasMin() const
 {
-  return m_min != -1;
+  return m_min.has_value() && m_min.value() != -1;
 }
 
 int TagInfo::GetMin() const
 {
-  return m_min;
+  return m_min.value();
 }
 
 bool TagInfo::HasMax() const
 {
-  return m_max != -1;
+  return m_max.has_value() && m_max.value() != -1;
 }
 
 int TagInfo::GetMax() const
 {
-  return m_max;
+  return m_max.value();
 }
 
 std::vector<std::string> TagInfo::GetItemTypes() const

@@ -22,6 +22,7 @@
 
 #include <mvvm/model_export.h>
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -54,7 +55,8 @@ public:
    * @param max Maximum allowed number of childre.
    * @param item_types
    */
-  TagInfo(std::string name, int min, int max, std::vector<std::string> item_types);
+  TagInfo(std::string name, const std::optional<int>& min, const std::optional<int>& max,
+          std::vector<std::string> item_types);
 
   /**
    * @brief A factory method to constructs universal tag intended for unlimited amount of various
@@ -118,8 +120,8 @@ public:
 
 private:
   std::string m_name;                     //!< the name of the tag
-  int m_min;                              //!< minimum allowed number of items in a tag
-  int m_max;                              //!< maximum allowed number of items in a tag
+  std::optional<int> m_min;               //!< minimum allowed number of items in a tag
+  std::optional<int> m_max;               //!< maximum allowed number of items in a tag
   std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
 
