@@ -39,9 +39,9 @@ bool SessionItemContainer::IsEmpty() const
   return m_items.empty();
 }
 
-int SessionItemContainer::GetItemCount() const
+size_t SessionItemContainer::GetItemCount() const
 {
-  return static_cast<int>(m_items.size());
+  return m_items.size();
 }
 
 std::vector<SessionItem*> SessionItemContainer::GetItems() const
@@ -176,12 +176,12 @@ std::unique_ptr<SessionItemContainer> SessionItemContainer::Clone() const
 
 bool SessionItemContainer::IsMaximumReached() const
 {
-  return m_tag_info.HasMax() && m_tag_info.GetMax() == GetItemCount();
+  return m_tag_info.GetMax() == GetItemCount();
 }
 
 bool SessionItemContainer::IsMinimumReached() const
 {
-  return m_tag_info.HasMin() && m_tag_info.GetMin() == GetItemCount();
+  return m_tag_info.GetMin() == GetItemCount();
 }
 
 }  // namespace mvvm

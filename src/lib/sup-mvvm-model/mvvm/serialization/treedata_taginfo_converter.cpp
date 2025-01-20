@@ -86,16 +86,16 @@ TagInfo ToTagInfo(const TreeData &tree_data)
     throw RuntimeException("Error in variant converter: invalid TreeData object.");
   }
 
-  std::optional<int> min;
-  std::optional<int> max;
+  std::optional<size_t> min{};
+  std::optional<size_t> max{};
 
   if (tree_data.HasAttribute(kMinAttributeKey))
   {
-    min = std::stoi(tree_data.GetAttribute(kMinAttributeKey));
+    min = std::stol(tree_data.GetAttribute(kMinAttributeKey));
   }
   if (tree_data.HasAttribute(kMaxAttributeKey))
   {
-    max = std::stoi(tree_data.GetAttribute(kMaxAttributeKey));
+    max = std::stol(tree_data.GetAttribute(kMaxAttributeKey));
   }
   std::string name = tree_data.GetAttribute(kNameAttributeKey);
   std::vector<std::string> model_types = SplitAndTrim(tree_data.GetContent());

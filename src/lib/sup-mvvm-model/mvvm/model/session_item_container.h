@@ -54,7 +54,7 @@ public:
   /**
    * @brief Returns the number of all items in the container.
    */
-  int GetItemCount() const;
+  size_t GetItemCount() const;
 
   /**
    * @brief Returns all items in this container.
