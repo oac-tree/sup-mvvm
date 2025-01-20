@@ -27,38 +27,34 @@
 
 using namespace mvvm;
 
-//! Tests of TagInfo class.
-
+/**
+ * @brief Tests for TagInfo class.
+ */
 class TagInfoTests : public ::testing::Test
 {
 };
-
-TEST_F(TagInfoTests, DefaultCtor)
-{
-  const TagInfo tag;
-  EXPECT_EQ(tag.GetName(), std::string());
-  EXPECT_EQ(tag.GetMin(), 0);
-  EXPECT_EQ(tag.GetMax(), std::numeric_limits<size_t>::max());
-  EXPECT_TRUE(tag.GetItemTypes().empty());
-  EXPECT_TRUE(tag.IsValidType(""));
-  EXPECT_TRUE(tag.IsValidType("abc"));
-  EXPECT_FALSE(tag.HasMin());
-  EXPECT_FALSE(tag.HasMax());
-}
 
 TEST_F(TagInfoTests, MainCtor)
 {
   EXPECT_THROW(TagInfo("", 0, 1, {}), RuntimeException);
   EXPECT_THROW(TagInfo("abc", 1, 0, {}), RuntimeException);
 
-  TagInfo tag("abc", 42, 43, {"def", "ghk"});
-  EXPECT_EQ(tag.GetName(), "abc");
-  EXPECT_EQ(tag.GetMin(), 42);
-  EXPECT_EQ(tag.GetMax(), 43);
-  EXPECT_EQ(tag.GetItemTypes(), std::vector<std::string>({"def", "ghk"}));
-}
+  {
+    TagInfo tag("abc", {}, {}, {});
+    EXPECT_EQ(tag.GetName(), "abc");
+    EXPECT_EQ(tag.GetMin(), 0);
+    EXPECT_EQ(tag.GetMax(), std::numeric_limits<size_t>::max());
+    EXPECT_TRUE(tag.GetItemTypes().empty());
+  }
 
-//! Testing default tag intended for storing unlimited amount of items of any type.
+  {
+    TagInfo tag("abc", 42, 43, {"def", "ghk"});
+    EXPECT_EQ(tag.GetName(), "abc");
+    EXPECT_EQ(tag.GetMin(), 42);
+    EXPECT_EQ(tag.GetMax(), 43);
+    EXPECT_EQ(tag.GetItemTypes(), std::vector<std::string>({"def", "ghk"}));
+  }
+}
 
 TEST_F(TagInfoTests, CreateUniversalTag)
 {
@@ -70,8 +66,6 @@ TEST_F(TagInfoTests, CreateUniversalTag)
   EXPECT_FALSE(tag.HasMin());
   EXPECT_FALSE(tag.HasMax());
 }
-
-//! Testing property tag intended for storing single PropertyItem.
 
 TEST_F(TagInfoTests, PropertyTag)
 {
@@ -85,13 +79,11 @@ TEST_F(TagInfoTests, PropertyTag)
   EXPECT_FALSE(tag.IsValidType("abc"));
 }
 
-//! Testing equality operators.
-
 TEST_F(TagInfoTests, EqualityOperator)
 {
   // default constructor
-  const TagInfo tag1;
-  const TagInfo tag2;
+  const TagInfo tag1{"abc", {}, {}, {}};
+  const TagInfo tag2{"abc", {}, {}, {}};
   EXPECT_TRUE(tag1 == tag2);
   EXPECT_FALSE(tag1 != tag2);
 
@@ -114,15 +106,13 @@ TEST_F(TagInfoTests, EqualityOperator)
   EXPECT_TRUE(tag7 != tag8);
 }
 
-//! Testing copy constructor.
-
 TEST_F(TagInfoTests, CopyConstructor)
 {
-  {  // from default constructed
-    const TagInfo tag_info;
+  {
+    const TagInfo tag_info{"abc", {}, {}, {}};
 
     const TagInfo copy(tag_info);
-    EXPECT_EQ(copy.GetName(), std::string());
+    EXPECT_EQ(copy.GetName(), std::string("abc"));
     EXPECT_FALSE(copy.HasMin());
     EXPECT_FALSE(copy.HasMax());
     EXPECT_TRUE(copy.IsValidType(""));
@@ -143,17 +133,15 @@ TEST_F(TagInfoTests, CopyConstructor)
   }
 }
 
-//! Testing assignment operator.
-
 TEST_F(TagInfoTests, AssignmentOperator)
 {
-  {  // from default constructed
-    const TagInfo tag_info;
+  {
+    const TagInfo tag_info{"abc", {}, {}, {}};
 
-    TagInfo copy;
+    TagInfo copy{"def", {}, {}, {}};
     copy = tag_info;
 
-    EXPECT_EQ(copy.GetName(), std::string());
+    EXPECT_EQ(copy.GetName(), std::string("abc"));
     EXPECT_FALSE(copy.HasMin());
     EXPECT_FALSE(copy.HasMax());
     EXPECT_TRUE(copy.IsValidType(""));
@@ -164,7 +152,7 @@ TEST_F(TagInfoTests, AssignmentOperator)
   {  // from parameters
     const TagInfo tag_info("abc", 0, 1, {"type"});
 
-    TagInfo copy;
+    TagInfo copy{"def", {}, {}, {}};
     copy = tag_info;
 
     EXPECT_EQ(copy.GetName(), std::string("abc"));

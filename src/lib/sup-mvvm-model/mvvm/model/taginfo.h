@@ -43,11 +43,6 @@ class MVVM_MODEL_EXPORT TagInfo
 {
 public:
   /**
-   * @brief Default c-tor.
-   */
-  TagInfo();
-
-  /**
    * @brief Full c-tor.
    *
    * @param name The name of the tag.
