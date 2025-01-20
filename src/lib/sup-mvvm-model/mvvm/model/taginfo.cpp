@@ -29,8 +29,8 @@ namespace mvvm
 
 TagInfo::TagInfo() = default;
 
-TagInfo::TagInfo(std::string name, const std::optional<int>& min, const std::optional<int>& max,
-                 std::vector<std::string> item_types)
+TagInfo::TagInfo(std::string name, const std::optional<size_t>& min,
+                 const std::optional<size_t>& max, std::vector<std::string> item_types)
     : m_name(std::move(name)), m_min(min), m_max(max), m_item_types(std::move(item_types))
 {
   if (m_name.empty())
@@ -51,7 +51,7 @@ TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> i
 
 TagInfo TagInfo::CreatePropertyTag(std::string name, std::string item_type)
 {
-  return TagInfo(std::move(name), 1, 1, {std::move(item_type)});
+  return TagInfo(std::move(name), 1U, 1U, {std::move(item_type)});
 }
 
 std::string TagInfo::GetName() const
@@ -64,9 +64,9 @@ bool TagInfo::HasMin() const
   return m_min.has_value();
 }
 
-int TagInfo::GetMin() const
+size_t TagInfo::GetMin() const
 {
-  return m_min.value_or(0);
+  return m_min.value_or(0U);
 }
 
 bool TagInfo::HasMax() const
@@ -74,9 +74,9 @@ bool TagInfo::HasMax() const
   return m_max.has_value();
 }
 
-int TagInfo::GetMax() const
+size_t TagInfo::GetMax() const
 {
-  return m_max.value_or(std::numeric_limits<int>::max());
+  return m_max.value_or(std::numeric_limits<size_t>::max());
 }
 
 std::vector<std::string> TagInfo::GetItemTypes() const

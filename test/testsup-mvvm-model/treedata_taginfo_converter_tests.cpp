@@ -47,7 +47,7 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertSimpleTag)
   // Converting tree_data to tag_info
   auto tag_info = ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
-  EXPECT_EQ(tag_info.GetMax(), std::numeric_limits<int>::max());
+  EXPECT_EQ(tag_info.GetMax(), std::numeric_limits<size_t>::max());
   EXPECT_FALSE(tag_info.HasMin());
   EXPECT_FALSE(tag_info.HasMax());
   EXPECT_EQ(tag_info.GetName(), "Width");

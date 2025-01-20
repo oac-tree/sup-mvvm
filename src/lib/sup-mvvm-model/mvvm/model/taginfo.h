@@ -55,7 +55,7 @@ public:
    * @param max Maximum allowed number of childre.
    * @param item_types
    */
-  TagInfo(std::string name, const std::optional<int>& min, const std::optional<int>& max,
+  TagInfo(std::string name, const std::optional<size_t>& min, const std::optional<size_t>& max,
           std::vector<std::string> item_types);
 
   /**
@@ -86,24 +86,24 @@ public:
   std::string GetName() const;
 
   /**
-   * @brief Checks if tag has minimum allowed number of items defined.
+   * @brief Checks if the tag has a user-defined minimum allowed number of items.
    */
   bool HasMin() const;
 
   /**
    * @brief Returns minimum allowed amount of items with this tag.
    */
-  int GetMin() const;
+  size_t GetMin() const;
 
   /**
-   * @brief Checks if tag has minimum allowed number of items defined.
+   * @brief Checks if tag has a user-define maximum allowed number of items.
    */
   bool HasMax() const;
 
   /**
    * @brief Returns maximum allowed amount of items with this tag.
    */
-  int GetMax() const;
+  size_t GetMax() const;
 
   /**
    * @brief Returns vector of allowed item types which this tag accepts.
@@ -120,8 +120,8 @@ public:
 
 private:
   std::string m_name;                     //!< the name of the tag
-  std::optional<int> m_min;               //!< minimum allowed number of items in a tag
-  std::optional<int> m_max;               //!< maximum allowed number of items in a tag
+  std::optional<size_t> m_min;               //!< minimum allowed number of items in a tag
+  std::optional<size_t> m_max;               //!< maximum allowed number of items in a tag
   std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
 

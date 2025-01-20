@@ -23,8 +23,6 @@
 
 #include <gtest/gtest.h>
 
-#include <memory>
-
 using namespace mvvm;
 
 //! Testing LimitedInteger class.

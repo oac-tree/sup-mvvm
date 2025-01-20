@@ -38,7 +38,7 @@ TEST_F(TagInfoTests, DefaultCtor)
   const TagInfo tag;
   EXPECT_EQ(tag.GetName(), std::string());
   EXPECT_EQ(tag.GetMin(), 0);
-  EXPECT_EQ(tag.GetMax(), std::numeric_limits<int>::max());
+  EXPECT_EQ(tag.GetMax(), std::numeric_limits<size_t>::max());
   EXPECT_TRUE(tag.GetItemTypes().empty());
   EXPECT_TRUE(tag.IsValidType(""));
   EXPECT_TRUE(tag.IsValidType("abc"));
