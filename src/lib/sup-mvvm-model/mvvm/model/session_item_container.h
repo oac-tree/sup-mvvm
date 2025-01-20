@@ -105,9 +105,11 @@ public:
   std::unique_ptr<SessionItem> TakeItem(int index);
 
   /**
-   * @brief Returns index of item in a vector of items, or -1 if an item doesn't belong to us.
+   * @brief Returns index of item in a vector of items.
+   *
+   * Will return empty optional, if item doesn't belong to this container.
    */
-  int IndexOfItem(const SessionItem* item) const;
+  std::optional<size_t> IndexOfItem(const SessionItem* item) const;
 
   /**
    * @brief Returns item at given index, or nullptr of index is invalid.

@@ -144,10 +144,9 @@ TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
 {
   for (auto& container : m_containers)
   {
-    const int index = container->IndexOfItem(item);
-    if (index != -1)
+    if (const auto index = container->IndexOfItem(item); index.has_value())
     {
-      return {container->GetName(), index};
+      return {container->GetName(), static_cast<int>(index.value())};
     }
   }
 

@@ -154,9 +154,9 @@ TEST_F(SessionItemContainerTest, IndexOfItem)
   EXPECT_EQ(tag.IndexOfItem(child2_ptr), 1);
 
   // not existing items
-  EXPECT_EQ(tag.IndexOfItem(nullptr), -1);
+  EXPECT_FALSE(tag.IndexOfItem(nullptr).has_value());
   auto child3 = std::make_unique<TestItem>(model_type);
-  EXPECT_EQ(tag.IndexOfItem(child3.get()), -1);
+  EXPECT_FALSE(tag.IndexOfItem(child3.get()).has_value());
 }
 
 //! Checking ::ItemAt.

@@ -54,7 +54,7 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
 
 bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
 {
-  if (!item || IndexOfItem(item) != -1)
+  if (!item || IndexOfItem(item).has_value())
   {
     return false;
   }
@@ -80,7 +80,7 @@ bool SessionItemContainer::CanMoveItem(const SessionItem* item, int index) const
   auto current_item_index = IndexOfItem(item);
 
   // item belongs to another container
-  if (current_item_index < 0)
+  if (!current_item_index.has_value())
   {
     return CanInsertItem(item, index);
   }
@@ -92,7 +92,7 @@ bool SessionItemContainer::CanMoveItem(const SessionItem* item, int index) const
   }
 
   // item belongs already to this container, and we can't remove it
-  if (!CanTakeItem(current_item_index))
+  if (!CanTakeItem(current_item_index.value()))
   {
     return false;
   }
@@ -134,9 +134,11 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
   return nullptr;
 }
 
-int SessionItemContainer::IndexOfItem(const SessionItem* item) const
+std::optional<size_t> SessionItemContainer::IndexOfItem(const SessionItem* item) const
 {
-  return utils::IndexOfItem(m_items, item);
+  auto pos = std::find_if(m_items.begin(), m_items.end(),
+                          [item](const auto& element) { return element.get() == item; });
+  return pos == m_items.end() ? std::optional<size_t>() : std::distance(m_items.begin(), pos);
 }
 
 SessionItem* SessionItemContainer::ItemAt(int index) const
