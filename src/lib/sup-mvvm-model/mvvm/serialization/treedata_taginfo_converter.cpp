@@ -23,6 +23,7 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <algorithm>
@@ -48,6 +49,20 @@ std::vector<std::string> SplitAndTrim(const std::string &str)
                  [](auto s) { return mvvm::utils::TrimWhitespace(s); });
   return result;
 }
+
+bool IsValidAttributes(const std::vector<std::string> &attributes,
+                       const std::vector<std::string> &possible_values)
+{
+  for (const auto &attr : attributes)
+  {
+    if (!mvvm::utils::Contains(possible_values, attr))
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
 }  // namespace
 
 // ----------------------------------------------------------------------------
@@ -60,7 +75,7 @@ bool IsTagInfoConvertible(const TreeData &tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
   return tree_data.GetType() == kTagInfoElementType
-         && expected_names == tree_data.Attributes().GetAttributeNames()
+         && IsValidAttributes(tree_data.Attributes().GetAttributeNames(), expected_names)
          && tree_data.GetNumberOfChildren() == 0;
 }
 
@@ -71,8 +86,17 @@ TagInfo ToTagInfo(const TreeData &tree_data)
     throw RuntimeException("Error in variant converter: invalid TreeData object.");
   }
 
-  int min = std::stoi(tree_data.GetAttribute(kMinAttributeKey));
-  int max = std::stoi(tree_data.GetAttribute(kMaxAttributeKey));
+  std::optional<int> min;
+  std::optional<int> max;
+
+  if (tree_data.HasAttribute(kMinAttributeKey))
+  {
+    min = std::stoi(tree_data.GetAttribute(kMinAttributeKey));
+  }
+  if (tree_data.HasAttribute(kMaxAttributeKey))
+  {
+    max = std::stoi(tree_data.GetAttribute(kMaxAttributeKey));
+  }
   std::string name = tree_data.GetAttribute(kNameAttributeKey);
   std::vector<std::string> model_types = SplitAndTrim(tree_data.GetContent());
   return TagInfo(name, min, max, model_types);
@@ -81,14 +105,14 @@ TagInfo ToTagInfo(const TreeData &tree_data)
 TreeData ToTreeData(const TagInfo &tag_info)
 {
   TreeData result(kTagInfoElementType);
-  // if (tag_info.HasMin())
-  // {
+  if (tag_info.HasMin())
+  {
     result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
-  // }
-  // if (tag_info.HasMax())
-  // {
+  }
+  if (tag_info.HasMax())
+  {
     result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
-  // }
+  }
   result.AddAttribute(kNameAttributeKey, tag_info.GetName());
   result.SetContent(utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
   return result;

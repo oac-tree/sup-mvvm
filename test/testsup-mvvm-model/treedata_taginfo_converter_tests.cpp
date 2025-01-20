@@ -25,6 +25,8 @@
 
 #include <gtest/gtest.h>
 
+#include <limits>
+
 using namespace mvvm;
 
 //! VectorItem tests.
@@ -33,8 +35,30 @@ class TreeDataTagInfoConverterTests : public ::testing::Test
 {
 };
 
-//! Parsing XML data string representing TagInfo without model_types defined.
+TEST_F(TreeDataTagInfoConverterTests, ConvertSimpleTag)
+{
+  using mvvm::ParseXMLElementString;
 
+  // Constructing TreeData representing TagInfo without model types defined.
+  const std::string body{R"(<TagInfo name="Width"></TagInfo>)"};
+  auto tree_data = ParseXMLElementString(body);
+  EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
+
+  // Converting tree_data to tag_info
+  auto tag_info = ToTagInfo(*tree_data);
+  EXPECT_EQ(tag_info.GetMin(), 0);
+  EXPECT_EQ(tag_info.GetMax(), std::numeric_limits<int>::max());
+  EXPECT_FALSE(tag_info.HasMin());
+  EXPECT_FALSE(tag_info.HasMax());
+  EXPECT_EQ(tag_info.GetName(), "Width");
+  EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>());
+
+  // Converting back
+  auto new_tree_data = ToTreeData(tag_info);
+  EXPECT_EQ(new_tree_data, *tree_data);
+}
+
+//! Parsing XML data string representing TagInfo without model_types defined.
 TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
 {
   using mvvm::ParseXMLElementString;
@@ -48,6 +72,8 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
   auto tag_info = ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), 1);
+  EXPECT_TRUE(tag_info.HasMin());
+  EXPECT_TRUE(tag_info.HasMax());
   EXPECT_EQ(tag_info.GetName(), "Width");
   EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>());
 
@@ -57,7 +83,6 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
 }
 
 //! Parsing XML data string representing TagInfo without model_types defined.
-
 TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
 {
   using mvvm::ParseXMLElementString;
