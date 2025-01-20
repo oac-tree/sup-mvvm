@@ -104,7 +104,7 @@ std::optional<PropertyChangedEvent> ConvertToPropertyChangedEvent(SessionItem* s
   auto concrete_event = std::get<DataChangedEvent>(event);
   if (source == concrete_event.item->GetParent())
   {
-    return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.item).tag};
+    return PropertyChangedEvent{source, source->TagIndexOfItem(concrete_event.item).GetTag()};
   }
   return {};
 }

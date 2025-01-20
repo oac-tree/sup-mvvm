@@ -608,17 +608,17 @@ TEST_F(SessionItemTests, GetTagIndex)
   auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));  // 1
   auto child_t2_b = parent->InsertItem({tag2, 1});  // 1 between child_t2_a and child_t2_c
 
-  EXPECT_EQ(child_t1_a->GetTagIndex().index, 0);
-  EXPECT_EQ(child_t1_b->GetTagIndex().index, 1);
-  EXPECT_EQ(child_t2_a->GetTagIndex().index, 0);
-  EXPECT_EQ(child_t2_b->GetTagIndex().index, 1);
-  EXPECT_EQ(child_t2_c->GetTagIndex().index, 2);
+  EXPECT_EQ(child_t1_a->GetTagIndex().GetIndex(), 0);
+  EXPECT_EQ(child_t1_b->GetTagIndex().GetIndex(), 1);
+  EXPECT_EQ(child_t2_a->GetTagIndex().GetIndex(), 0);
+  EXPECT_EQ(child_t2_b->GetTagIndex().GetIndex(), 1);
+  EXPECT_EQ(child_t2_c->GetTagIndex().GetIndex(), 2);
 
-  EXPECT_EQ(child_t1_a->GetTagIndex().tag, "tag1");
-  EXPECT_EQ(child_t1_b->GetTagIndex().tag, "tag1");
-  EXPECT_EQ(child_t2_a->GetTagIndex().tag, "tag2");
-  EXPECT_EQ(child_t2_b->GetTagIndex().tag, "tag2");
-  EXPECT_EQ(child_t2_c->GetTagIndex().tag, "tag2");
+  EXPECT_EQ(child_t1_a->GetTagIndex().GetTag(), "tag1");
+  EXPECT_EQ(child_t1_b->GetTagIndex().GetTag(), "tag1");
+  EXPECT_EQ(child_t2_a->GetTagIndex().GetTag(), "tag2");
+  EXPECT_EQ(child_t2_b->GetTagIndex().GetTag(), "tag2");
+  EXPECT_EQ(child_t2_c->GetTagIndex().GetTag(), "tag2");
 }
 
 //! Checks row of item in its tag
@@ -640,17 +640,17 @@ TEST_F(SessionItemTests, TagIndexOfItem)
   auto child_t1_b = parent->InsertItem(TagIndex::Append(tag1));  // 1
   auto child_t2_b = parent->InsertItem({tag2, 1});  // 1 between child_t2_a and child_t2_c
 
-  EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).index, 0);
-  EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).index, 1);
-  EXPECT_EQ(parent->TagIndexOfItem(child_t2_a).index, 0);
-  EXPECT_EQ(parent->TagIndexOfItem(child_t2_b).index, 1);
-  EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).index, 2);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).GetIndex(), 0);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).GetIndex(), 1);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_a).GetIndex(), 0);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_b).GetIndex(), 1);
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).GetIndex(), 2);
 
-  EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).tag, "tag1");
-  EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).tag, "tag1");
-  EXPECT_EQ(parent->TagIndexOfItem(child_t2_a).tag, "tag2");
-  EXPECT_EQ(parent->TagIndexOfItem(child_t2_b).tag, "tag2");
-  EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).tag, "tag2");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_a).GetTag(), "tag1");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t1_b).GetTag(), "tag1");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_a).GetTag(), "tag2");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_b).GetTag(), "tag2");
+  EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).GetTag(), "tag2");
 }
 
 //! Checks item appearance (enabled/disabled).

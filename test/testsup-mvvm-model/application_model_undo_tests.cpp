@@ -200,8 +200,8 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
 
   // checking tag
   const std::string expected_tag("Layers");  // hardcoede in MultiLayerItem
-  EXPECT_EQ(layer0_at->GetTagIndex().tag, expected_tag);
-  EXPECT_EQ(layer1_at->GetTagIndex().tag, expected_tag);
+  EXPECT_EQ(layer0_at->GetTagIndex().GetTag(), expected_tag);
+  EXPECT_EQ(layer1_at->GetTagIndex().GetTag(), expected_tag);
   std::vector<SessionItem*> expected = {layer0_at, layer1_at};
   EXPECT_EQ(parent_at->GetItems(expected_tag), expected);
 }

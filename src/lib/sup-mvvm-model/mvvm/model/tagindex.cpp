@@ -22,6 +22,16 @@
 namespace mvvm
 {
 
+std::string TagIndex::GetTag() const
+{
+  return tag;
+}
+
+int32_t TagIndex::GetIndex() const
+{
+  return index;
+}
+
 TagIndex TagIndex::Next() const
 {
   return {tag, index + 1};

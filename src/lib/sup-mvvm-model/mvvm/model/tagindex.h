@@ -53,9 +53,6 @@ public:
    */
   static inline const std::int32_t kInvalidIndex = -2;
 
-  std::string tag = {};    //!< The name of the item container.
-  std::int32_t index = 0;  //!< The position in the item container.
-
   /**
    * @brief The default c-tor.
    *
@@ -76,6 +73,16 @@ public:
    * Implicit conversion is allowed.
    */
   TagIndex(const char* name, std::int32_t item_index = 0) : tag(name), index(item_index) {}
+
+  /**
+   * @brief Returns tag.
+   */
+  std::string GetTag() const;
+
+  /**
+   * @brief Returns index.
+   */
+  std::int32_t GetIndex() const;
 
   /**
    * @brief Constructs a new TagIndex representing the following index in a given tag.
@@ -130,6 +137,10 @@ public:
 
   bool operator==(const TagIndex& other) const;
   bool operator!=(const TagIndex& other) const;
+
+private:
+  std::string tag = {};    //!< The name of the item container.
+  std::int32_t index = 0;  //!< The position in the item container.
 };
 
 }  // namespace mvvm

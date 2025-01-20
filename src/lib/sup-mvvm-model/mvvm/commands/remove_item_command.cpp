@@ -37,7 +37,7 @@ std::string GenerateDescription(mvvm::SessionItem* parent, const mvvm::TagIndex&
 {
   (void)parent;
   std::ostringstream ostr;
-  ostr << "RemoveItem: " << tag_index.tag << " " << tag_index.index;
+  ostr << "RemoveItem: " << tag_index.GetTag() << " " << tag_index.GetIndex();
   return ostr.str();
 }
 

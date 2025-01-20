@@ -164,7 +164,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 
   auto child2 = model.InsertItem<PropertyItem>(item, {"tag", 0});
 
-  EXPECT_EQ(item->TagIndexOfItem(child2).tag, "tag");
+  EXPECT_EQ(item->TagIndexOfItem(child2).GetTag(), "tag");
   EXPECT_EQ(utils::IndexOfChild(item, child), 1);
   EXPECT_EQ(utils::IndexOfChild(item, child2), 0);
 }
@@ -189,14 +189,14 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
   EXPECT_EQ(child->GetModel(), &model);
   EXPECT_EQ(child->GetType(), PropertyItem::Type);
   auto child_tagindex = child->GetTagIndex();
-  EXPECT_EQ(child_tagindex.tag, "tag");
-  EXPECT_EQ(child_tagindex.index, 0);
+  EXPECT_EQ(child_tagindex.GetTag(), "tag");
+  EXPECT_EQ(child_tagindex.GetIndex(), 0);
 
   // adding second child to it
   auto child2 = model.InsertItem<PropertyItem>(item);
   auto child2_tagindex = child2->GetTagIndex();
-  EXPECT_EQ(child2_tagindex.tag, "tag");
-  EXPECT_EQ(child2_tagindex.index, 1);
+  EXPECT_EQ(child2_tagindex.GetTag(), "tag");
+  EXPECT_EQ(child2_tagindex.GetIndex(), 1);
 }
 
 //! Insert item into default tag.
@@ -219,14 +219,14 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
   EXPECT_EQ(child->GetModel(), &model);
   EXPECT_EQ(child->GetType(), PropertyItem::Type);
   auto child_tagindex = child->GetTagIndex();
-  EXPECT_EQ(child_tagindex.tag, "tag");
-  EXPECT_EQ(child_tagindex.index, 0);
+  EXPECT_EQ(child_tagindex.GetTag(), "tag");
+  EXPECT_EQ(child_tagindex.GetIndex(), 0);
 
   // adding second child to it
   auto child2 = model.InsertItem<PropertyItem>(item);
   auto child2_tagindex = child2->GetTagIndex();
-  EXPECT_EQ(child2_tagindex.tag, "tag");
-  EXPECT_EQ(child2_tagindex.index, 1);
+  EXPECT_EQ(child2_tagindex.GetTag(), "tag");
+  EXPECT_EQ(child2_tagindex.GetIndex(), 1);
 }
 
 //! Attempt to insert item into default tag when where is no default tag.

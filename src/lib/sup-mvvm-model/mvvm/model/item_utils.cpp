@@ -320,7 +320,7 @@ bool ReplaceData(SessionItem& item, const variant_t& value, int role)
 bool MoveUp(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
-  if (tag_index.index == 0)
+  if (tag_index.GetIndex() == 0)
   {
     return false;  // item already at the top
   }
@@ -332,7 +332,7 @@ bool MoveUp(SessionItem& item)
 bool MoveDown(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
-  if (tag_index.index == item.GetParent()->GetItemCount(tag_index.tag) - 1)
+  if (tag_index.GetIndex() == item.GetParent()->GetItemCount(tag_index.GetTag()) - 1)
   {
     return false;  // item already at the buttom
   }

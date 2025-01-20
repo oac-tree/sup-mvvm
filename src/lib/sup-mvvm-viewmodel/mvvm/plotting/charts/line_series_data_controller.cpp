@@ -73,7 +73,7 @@ void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent &event)
 
   if (parent == m_data_item)
   {
-    auto index = tag_index.index;
+    auto index = tag_index.GetIndex();
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
     m_qt_line_series->insert(index, {new_x, new_y});
   }
@@ -83,7 +83,7 @@ void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
   if (event.item == m_data_item)
   {
-    auto index = event.tag_index.index;
+    auto index = event.tag_index.GetIndex();
     m_qt_line_series->remove(index);
   }
 }
@@ -102,7 +102,7 @@ void LineSeriesDataController::OnModelEvent(const DataChangedEvent &event)
       depth == expected_distance_to_data_item)
   {
     auto point_item = event.item->GetParent();
-    auto index = point_item->GetTagIndex().index;
+    auto index = point_item->GetTagIndex().GetIndex();
 
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
     m_qt_line_series->replace(index, new_x + m_x_offset, new_y);

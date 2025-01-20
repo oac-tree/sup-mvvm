@@ -186,12 +186,12 @@ TEST_F(TaggedItemsTests, GetTagIndexOfItem)
   items.InsertItem(std::move(child_t2_a), {tag2, 0});             // 0
 
   // checking children tag and row
-  EXPECT_EQ(items.TagIndexOfItem(child_t1_a_ptr).tag, tag1);
-  EXPECT_EQ(items.TagIndexOfItem(child_t1_b_ptr).tag, tag1);
-  EXPECT_EQ(items.TagIndexOfItem(child_t2_a_ptr).tag, tag2);
-  EXPECT_EQ(items.TagIndexOfItem(child_t1_a_ptr).index, 0);
-  EXPECT_EQ(items.TagIndexOfItem(child_t1_b_ptr).index, 1);
-  EXPECT_EQ(items.TagIndexOfItem(child_t2_a_ptr).index, 0);
+  EXPECT_EQ(items.TagIndexOfItem(child_t1_a_ptr).GetTag(), tag1);
+  EXPECT_EQ(items.TagIndexOfItem(child_t1_b_ptr).GetTag(), tag1);
+  EXPECT_EQ(items.TagIndexOfItem(child_t2_a_ptr).GetTag(), tag2);
+  EXPECT_EQ(items.TagIndexOfItem(child_t1_a_ptr).GetIndex(), 0);
+  EXPECT_EQ(items.TagIndexOfItem(child_t1_b_ptr).GetIndex(), 1);
+  EXPECT_EQ(items.TagIndexOfItem(child_t2_a_ptr).GetIndex(), 0);
 
   // alien item has no tag and -1 row
   auto alien = std::make_unique<SessionItem>();

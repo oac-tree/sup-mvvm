@@ -74,53 +74,53 @@ int TaggedItems::GetItemCount(const std::string& tag) const
 
 bool TaggedItems::CanInsertItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  if (auto container = FindContainer(tag_index.tag); container)
+  if (auto container = FindContainer(tag_index.GetTag()); container)
   {
-    return container->CanInsertItem(item, tag_index.index);
+    return container->CanInsertItem(item, tag_index.GetIndex());
   }
   return false;
 }
 
 bool TaggedItems::CanInsertType(const std::string& item_type, const TagIndex& tag_index) const
 {
-  if (auto container = FindContainer(tag_index.tag); container)
+  if (auto container = FindContainer(tag_index.GetTag()); container)
   {
-    return container->CanInsertType(item_type, tag_index.index);
+    return container->CanInsertType(item_type, tag_index.GetIndex());
   }
   return false;
 }
 
 SessionItem* TaggedItems::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
-  return GetContainer(tag_index.tag)->InsertItem(std::move(item), tag_index.index);
+  return GetContainer(tag_index.GetTag())->InsertItem(std::move(item), tag_index.GetIndex());
 }
 
 bool TaggedItems::CanTakeItem(const TagIndex& tag_index) const
 {
-  if (auto container = FindContainer(tag_index.tag); container)
+  if (auto container = FindContainer(tag_index.GetTag()); container)
   {
-    return container->CanTakeItem(tag_index.index);
+    return container->CanTakeItem(tag_index.GetIndex());
   }
   return false;
 }
 
 std::unique_ptr<SessionItem> TaggedItems::TakeItem(const TagIndex& tag_index)
 {
-  return GetContainer(tag_index.tag)->TakeItem(tag_index.index);
+  return GetContainer(tag_index.GetTag())->TakeItem(tag_index.GetIndex());
 }
 
 bool TaggedItems::CanMoveItem(const SessionItem* item, const TagIndex& tag_index) const
 {
-  if (auto container = FindContainer(tag_index.tag); container)
+  if (auto container = FindContainer(tag_index.GetTag()); container)
   {
-    return container->CanMoveItem(item, tag_index.index);
+    return container->CanMoveItem(item, tag_index.GetIndex());
   }
   return false;
 }
 
 SessionItem* TaggedItems::GetItem(const TagIndex& tag_index) const
 {
-  return GetContainer(tag_index.tag)->ItemAt(tag_index.index);
+  return GetContainer(tag_index.GetTag())->ItemAt(tag_index.GetIndex());
 }
 
 std::vector<SessionItem*> TaggedItems::GetItems(const std::string& tag) const
@@ -219,9 +219,10 @@ SessionItemContainer* TaggedItems::FindContainer(const std::string& tag) const
 
 TagIndex TaggedItems::GetInsertTagIndex(const TagIndex& tag_index) const
 {
-  if (const auto container = FindContainer(tag_index.tag); container)
+  if (const auto container = FindContainer(tag_index.GetTag()); container)
   {
-    const int actual_index = tag_index.index < 0 ? container->GetItemCount() : tag_index.index;
+    const int actual_index =
+        tag_index.GetIndex() < 0 ? container->GetItemCount() : tag_index.GetIndex();
     return TagIndex{container->GetName(), actual_index};
   }
 
