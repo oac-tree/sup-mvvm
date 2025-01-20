@@ -64,7 +64,7 @@ public:
   /**
    * @brief Checks if the item can be inserted into the given index.
    */
-  bool CanInsertItem(const SessionItem* item, int index) const;
+  bool CanInsertItem(const SessionItem* item, size_t index) const;
 
   /**
    * @brief Inserts item in a vector of children at given index, returns pointer to the item in the
@@ -78,31 +78,31 @@ public:
    * model type, wrong index or maximum number of items reached), will return nullptr.
    *
    */
-  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, int index);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, size_t index);
 
   /**
    * @brief Checks if a new item with the given type can be inserted into the given index.
    */
-  bool CanInsertType(const std::string& item_type, int new_index) const;
+  bool CanInsertType(const std::string& item_type, size_t new_index) const;
 
   /**
    * @brief Checks if the item can be moved into the given index.
    *
    * The behavior depends on if the item belongs already to the container, or not.
    */
-  bool CanMoveItem(const SessionItem* item, int index) const;
+  bool CanMoveItem(const SessionItem* item, size_t index) const;
 
   /**
    * @brief Checks if the item can be removed from the given index.
    */
-  bool CanTakeItem(int index) const;
+  bool CanTakeItem(size_t index) const;
 
   /**
    * @brief Removes an item at given index and returns it to the user.
    *
    * If item can't be removed (item is a property item), will return nullptr.
    */
-  std::unique_ptr<SessionItem> TakeItem(int index);
+  std::unique_ptr<SessionItem> TakeItem(size_t index);
 
   /**
    * @brief Returns index of item in a vector of items.
@@ -114,7 +114,7 @@ public:
   /**
    * @brief Returns item at given index, or nullptr of index is invalid.
    */
-  SessionItem* ItemAt(int index) const;
+  SessionItem* ItemAt(size_t index) const;
 
   /**
    * @brief Returns the name of the container.

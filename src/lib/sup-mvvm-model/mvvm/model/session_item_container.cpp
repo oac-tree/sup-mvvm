@@ -52,25 +52,26 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
   return result;
 }
 
-bool SessionItemContainer::CanInsertItem(const SessionItem* item, int index) const
+bool SessionItemContainer::CanInsertItem(const SessionItem* item, size_t index) const
 {
   if (!item || IndexOfItem(item).has_value())
   {
+    // item belongs to this container already
     return false;
   }
 
   return CanInsertType(item->GetType(), index);
 }
 
-bool SessionItemContainer::CanInsertType(const std::string& item_type, int index) const
+bool SessionItemContainer::CanInsertType(const std::string& item_type, size_t index) const
 {
-  const bool valid_index = (index >= 0 && index <= GetItemCount());
+  const bool valid_index = index <= GetItemCount();
   const bool enough_place = !IsMaximumReached();
   const bool valid_type = m_tag_info.IsValidType(item_type);
   return valid_index && enough_place && valid_type;
 }
 
-bool SessionItemContainer::CanMoveItem(const SessionItem* item, int index) const
+bool SessionItemContainer::CanMoveItem(const SessionItem* item, size_t index) const
 {
   if (!item || !m_tag_info.IsValidType(item->GetType()))
   {
@@ -97,10 +98,10 @@ bool SessionItemContainer::CanMoveItem(const SessionItem* item, int index) const
     return false;
   }
 
-  return index >= 0 && index < GetItemCount();
+  return index < GetItemCount();
 }
 
-SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, int index)
+SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, size_t index)
 {
   if (!CanInsertItem(item.get(), index))
   {
@@ -112,19 +113,19 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
   return result;
 }
 
-bool SessionItemContainer::CanTakeItem(int index) const
+bool SessionItemContainer::CanTakeItem(size_t index) const
 {
   return ItemAt(index) && !IsMinimumReached();
 }
 
-std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(int index)
+std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(size_t index)
 {
   if (IsMinimumReached())
   {
     return nullptr;
   }
 
-  if (index >= 0 && index < GetItemCount())
+  if (index < GetItemCount())
   {
     auto item = std::move(m_items.at(index));
     m_items.erase(std::next(m_items.begin(), index));
@@ -141,9 +142,9 @@ std::optional<size_t> SessionItemContainer::IndexOfItem(const SessionItem* item)
   return pos == m_items.end() ? std::optional<size_t>() : std::distance(m_items.begin(), pos);
 }
 
-SessionItem* SessionItemContainer::ItemAt(int index) const
+SessionItem* SessionItemContainer::ItemAt(size_t index) const
 {
-  return index >= 0 && index < GetItemCount() ? m_items[static_cast<size_t>(index)].get() : nullptr;
+  return index < GetItemCount() ? m_items[index].get() : nullptr;
 }
 
 std::string SessionItemContainer::GetName() const
