@@ -19,7 +19,11 @@
 
 #include "mvvm/model/taginfo.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
+
+#include <limits>
 
 using namespace mvvm;
 
@@ -29,29 +33,42 @@ class TagInfoTests : public ::testing::Test
 {
 };
 
-TEST_F(TagInfoTests, InitialState)
+TEST_F(TagInfoTests, DefaultCtor)
 {
   const TagInfo tag;
   EXPECT_EQ(tag.GetName(), std::string());
   EXPECT_EQ(tag.GetMin(), 0);
-  EXPECT_EQ(tag.GetMax(), -1);
+  EXPECT_EQ(tag.GetMax(), std::numeric_limits<int>::max());
+  EXPECT_TRUE(tag.GetItemTypes().empty());
   EXPECT_TRUE(tag.IsValidType(""));
   EXPECT_TRUE(tag.IsValidType("abc"));
-  EXPECT_TRUE(tag.HasMin());
+  EXPECT_FALSE(tag.HasMin());
   EXPECT_FALSE(tag.HasMax());
+}
+
+TEST_F(TagInfoTests, MainCtor)
+{
+  EXPECT_THROW(TagInfo("", 0, 1, {}), RuntimeException);
+  EXPECT_THROW(TagInfo("abc", 1, 0, {}), RuntimeException);
+
+  TagInfo tag("abc", 42, 43, {"def", "ghk"});
+  EXPECT_EQ(tag.GetName(), "abc");
+  EXPECT_EQ(tag.GetMin(), 42);
+  EXPECT_EQ(tag.GetMax(), 43);
+  EXPECT_EQ(tag.GetItemTypes(), std::vector<std::string>({"def", "ghk"}));
 }
 
 //! Testing default tag intended for storing unlimited amount of items of any type.
 
-TEST_F(TagInfoTests, DefaultTag)
+TEST_F(TagInfoTests, CreateUniversalTag)
 {
   // initial state
   const auto tag = TagInfo::CreateUniversalTag("name");
   EXPECT_EQ(tag.GetName(), std::string("name"));
-  EXPECT_EQ(tag.GetMin(), 0);
-  EXPECT_EQ(tag.GetMax(), -1);
   EXPECT_TRUE(tag.IsValidType(""));
   EXPECT_TRUE(tag.IsValidType("abc"));
+  EXPECT_FALSE(tag.HasMin());
+  EXPECT_FALSE(tag.HasMax());
 }
 
 //! Testing property tag intended for storing single PropertyItem.
@@ -106,8 +123,8 @@ TEST_F(TagInfoTests, CopyConstructor)
 
     const TagInfo copy(tag_info);
     EXPECT_EQ(copy.GetName(), std::string());
-    EXPECT_EQ(copy.GetMin(), 0);
-    EXPECT_EQ(copy.GetMax(), -1);
+    EXPECT_FALSE(copy.HasMin());
+    EXPECT_FALSE(copy.HasMax());
     EXPECT_TRUE(copy.IsValidType(""));
     EXPECT_TRUE(copy.IsValidType("abc"));
     EXPECT_TRUE(tag_info == copy);
@@ -137,8 +154,8 @@ TEST_F(TagInfoTests, AssignmentOperator)
     copy = tag_info;
 
     EXPECT_EQ(copy.GetName(), std::string());
-    EXPECT_EQ(copy.GetMin(), 0);
-    EXPECT_EQ(copy.GetMax(), -1);
+    EXPECT_FALSE(copy.HasMin());
+    EXPECT_FALSE(copy.HasMax());
     EXPECT_TRUE(copy.IsValidType(""));
     EXPECT_TRUE(copy.IsValidType("abc"));
     EXPECT_TRUE(tag_info == copy);

@@ -22,29 +22,31 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 
-#include <sstream>
+#include <limits>
 
 namespace mvvm
 {
 
-TagInfo::TagInfo() : m_min(0), m_max(-1) {}
+TagInfo::TagInfo() = default;
 
 TagInfo::TagInfo(std::string name, const std::optional<int>& min, const std::optional<int>& max,
                  std::vector<std::string> item_types)
     : m_name(std::move(name)), m_min(min), m_max(max), m_item_types(std::move(item_types))
 {
-  if (m_min < 0 || (m_min > m_max && m_max >= 0) || m_name.empty())
+  if (m_name.empty())
   {
-    std::ostringstream ostr;
-    ostr << "Invalid constructor parameters"
-         << " " << m_name << " " << m_min.value() << " " << m_max.value();
-    throw RuntimeException(ostr.str());
+    throw RuntimeException("Tag name can't be empty");
+  }
+
+  if (m_min.has_value() && m_max.has_value() && m_min > m_max)
+  {
+    throw RuntimeException("TagInfo can't have min > max");
   }
 }
 
 TagInfo TagInfo::CreateUniversalTag(std::string name, std::vector<std::string> item_types)
 {
-  return TagInfo(std::move(name), 0, -1, std::move(item_types));
+  return TagInfo(std::move(name), {}, {}, std::move(item_types));
 }
 
 TagInfo TagInfo::CreatePropertyTag(std::string name, std::string item_type)
@@ -59,22 +61,22 @@ std::string TagInfo::GetName() const
 
 bool TagInfo::HasMin() const
 {
-  return m_min.has_value() && m_min.value() != -1;
+  return m_min.has_value();
 }
 
 int TagInfo::GetMin() const
 {
-  return m_min.value();
+  return m_min.value_or(0);
 }
 
 bool TagInfo::HasMax() const
 {
-  return m_max.has_value() && m_max.value() != -1;
+  return m_max.has_value();
 }
 
 int TagInfo::GetMax() const
 {
-  return m_max.value();
+  return m_max.value_or(std::numeric_limits<int>::max());
 }
 
 std::vector<std::string> TagInfo::GetItemTypes() const

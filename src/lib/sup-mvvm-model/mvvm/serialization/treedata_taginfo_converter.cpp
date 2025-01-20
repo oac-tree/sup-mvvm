@@ -81,8 +81,14 @@ TagInfo ToTagInfo(const TreeData &tree_data)
 TreeData ToTreeData(const TagInfo &tag_info)
 {
   TreeData result(kTagInfoElementType);
-  result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
-  result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
+  // if (tag_info.HasMin())
+  // {
+    result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
+  // }
+  // if (tag_info.HasMax())
+  // {
+    result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
+  // }
   result.AddAttribute(kNameAttributeKey, tag_info.GetName());
   result.SetContent(utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
   return result;
