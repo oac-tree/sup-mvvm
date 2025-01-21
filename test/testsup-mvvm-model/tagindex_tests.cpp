@@ -128,7 +128,6 @@ TEST_F(TagIndexTests, FactoryMethods)
 
   tag_index = TagIndex::Invalid();
   EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
-  EXPECT_EQ(tag_index.GetIndex(), TagIndex::kInvalidIndex);
   EXPECT_FALSE(tag_index.IsValid());
 }
 

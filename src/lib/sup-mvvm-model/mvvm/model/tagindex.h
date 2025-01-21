@@ -43,17 +43,6 @@ public:
   static inline const std::string kDefaultTag = {};
 
   /**
-   * @brief An integer constant to specify the end of the container.
-   */
-  static inline const std::int32_t kAppendIndex = -1;
-
-  /**
-   * @brief An integer constant used to mark TagIndex as invalid state.
-   * @see TagIndex::IsValid()
-   */
-  static inline const std::int32_t kInvalidIndex = -2;
-
-  /**
    * @brief The default c-tor.
    *
    * It represents a TagIndex addressing the first element of the item container marked as default.
@@ -65,14 +54,14 @@ public:
    *
    * Implicit conversion is allowed.
    */
-  TagIndex(const std::string& name, std::int32_t item_index = 0) : tag(name), index(item_index) {}
+  TagIndex(const std::string& name, std::int32_t item_index = 0);
 
   /**
    * @brief The constructor to build TagIndex from name and index.
    *
    * Implicit conversion is allowed.
    */
-  TagIndex(const char* name, std::int32_t item_index = 0) : tag(name), index(item_index) {}
+  TagIndex(const char* name, std::int32_t item_index = 0);
 
   /**
    * @brief Returns tag.
@@ -139,8 +128,8 @@ public:
   bool operator!=(const TagIndex& other) const;
 
 private:
-  std::string tag = {};    //!< The name of the item container.
-  std::int32_t index = 0;  //!< The position in the item container.
+  std::string m_tag = {};    //!< The name of the item container.
+  std::int32_t m_index = 0;  //!< The position in the item container.
 };
 
 }  // namespace mvvm

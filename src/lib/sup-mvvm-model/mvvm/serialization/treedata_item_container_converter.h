@@ -25,7 +25,7 @@
 
 //! These are auxiliary functions to provide parsing of xml elements
 //! <ItemContainer>
-//!   <TagInfo min="-1" max="0" name="defaultTag">models, models, models</TagInfo>
+//!   <TagInfo min="0" max="1" name="defaultTag">models, models, models</TagInfo>
 //!   <Item model="Property">
 //!     <!--Here goes item content-->
 //!   </Item>

@@ -19,32 +19,52 @@
 
 #include "tagindex.h"
 
+namespace
+{
+/**
+ * @brief An integer constant to specify the end of the container.
+ */
+const std::int32_t kAppendIndex = -1;
+
+/**
+ * @brief An integer constant used to mark TagIndex as invalid state.
+ * @see TagIndex::IsValid()
+ */
+const std::int32_t kInvalidIndex = -2;
+}  // namespace
+
 namespace mvvm
 {
 
+TagIndex::TagIndex(const std::string& name, int32_t item_index) : m_tag(name), m_index(item_index)
+{
+}
+
+TagIndex::TagIndex(const char* name, int32_t item_index) : m_tag(name), m_index(item_index) {}
+
 std::string TagIndex::GetTag() const
 {
-  return tag;
+  return m_tag;
 }
 
 int32_t TagIndex::GetIndex() const
 {
-  return index;
+  return m_index;
 }
 
 TagIndex TagIndex::Next() const
 {
-  return {tag, index + 1};
+  return {m_tag, m_index + 1};
 }
 
 TagIndex TagIndex::Prev() const
 {
-  return {tag, index - 1};
+  return {m_tag, m_index - 1};
 }
 
 bool TagIndex::IsValid() const
 {
-  return index != kInvalidIndex;
+  return m_index != kInvalidIndex;
 }
 
 TagIndex TagIndex::Append(const std::string& tag_name)
@@ -69,7 +89,7 @@ TagIndex TagIndex::Invalid()
 
 bool TagIndex::operator==(const TagIndex& other) const
 {
-  return index == other.index && tag == other.tag;
+  return m_index == other.m_index && m_tag == other.m_tag;
 }
 
 bool TagIndex::operator!=(const TagIndex& other) const
