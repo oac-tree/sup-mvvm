@@ -102,7 +102,7 @@ public:
    *
    * @return Number of attributes.
    */
-  size_t GetNumberOfAttributes() const;
+  std::size_t GetNumberOfAttributes() const;
 
   /**
    * @brief Indicate presence of attribute with given name.
@@ -160,7 +160,7 @@ public:
    *
    * @return Number of children.
    */
-  size_t GetNumberOfChildren() const;
+  std::size_t GetNumberOfChildren() const;
 
   /**
    * @brief Add child element data.

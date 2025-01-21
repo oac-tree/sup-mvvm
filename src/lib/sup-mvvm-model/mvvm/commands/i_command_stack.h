@@ -105,7 +105,7 @@ public:
    *
    * Limit set to zero means infinite command stack (and thus potential memory overflow).
    */
-  virtual void SetUndoLimit(size_t limit) = 0;
+  virtual void SetUndoLimit(std::size_t limit) = 0;
 
   /**
    * @brief Begins composition of a macro command with the given text description.

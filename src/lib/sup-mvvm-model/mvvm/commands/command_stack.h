@@ -53,7 +53,7 @@ public:
    * commands from the beginning of the stack but will stop just before the first command in the
    * AfterUndo state.
    */
-  void SetUndoLimit(size_t limit) override;
+  void SetUndoLimit(std::size_t limit) override;
 
   void BeginMacro(const std::string &name) override;
   void EndMacro() override;

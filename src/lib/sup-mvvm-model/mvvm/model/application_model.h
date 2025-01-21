@@ -59,7 +59,7 @@ public:
    * @param value To enable undo.
    * @param undo_limit Maximum number of commands stored in undo stack (0 = no limits).
    */
-  void SetUndoEnabled(bool value, size_t undo_limit = 0);
+  void SetUndoEnabled(bool value, std::size_t undo_limit = 0);
 
 private:
   struct ApplicationModelImpl;

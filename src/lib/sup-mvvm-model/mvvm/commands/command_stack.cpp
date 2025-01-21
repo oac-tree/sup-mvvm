@@ -218,7 +218,7 @@ void CommandStack::Clear()
   p_impl->m_pos = p_impl->m_commands.cend();
 }
 
-void CommandStack::SetUndoLimit(size_t limit)
+void CommandStack::SetUndoLimit(std::size_t limit)
 {
   p_impl->m_undo_limit = limit;
   p_impl->AssureCommandLimit();

@@ -156,7 +156,7 @@ std::vector<SessionItem*> SessionItem::GetAllItems() const
   return p_impl->m_tags->GetAllItems();
 }
 
-int SessionItem::GetItemCount(const std::string& tag) const
+std::size_t SessionItem::GetItemCount(const std::string& tag) const
 {
   return p_impl->m_tags->GetItemCount(tag);
 }

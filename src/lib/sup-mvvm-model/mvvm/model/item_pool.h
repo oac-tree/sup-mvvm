@@ -43,7 +43,7 @@ public:
   ItemPool& operator=(const ItemPool&) = delete;
   ItemPool& operator=(ItemPool&&) = delete;
 
-  size_t GetSize() const;
+  std::size_t GetSize() const;
 
   void RegisterItem(SessionItem* item, identifier_t key);
 

@@ -60,7 +60,7 @@ bool AttributeMap::operator!=(const AttributeMap &other) const
   return !this->operator==(other);
 }
 
-size_t AttributeMap::GetNumberOfAttributes() const
+std::size_t AttributeMap::GetNumberOfAttributes() const
 {
   return _attributes.size();
 }

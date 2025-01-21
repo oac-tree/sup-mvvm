@@ -22,7 +22,7 @@
 namespace mvvm
 {
 
-ProgressHandler::ProgressHandler(ProgressHandler::callback_t callback, size_t max_ticks_count)
+ProgressHandler::ProgressHandler(ProgressHandler::callback_t callback, std::size_t max_ticks_count)
     : m_runner_callback(std::move(callback)), m_max_ticks_count(max_ticks_count)
 {
 }
@@ -34,7 +34,7 @@ void ProgressHandler::Subscribe(ProgressHandler::callback_t callback)
 
 //! Sets expected ticks count, representing progress of a computation.
 
-void ProgressHandler::SetMaxTicksCount(size_t value)
+void ProgressHandler::SetMaxTicksCount(std::size_t value)
 {
   Reset();
   m_max_ticks_count = value;
@@ -48,7 +48,7 @@ bool ProgressHandler::HasInterruptRequest() const
 //! Increment number of completed computation steps. Performs callback to inform
 //! subscriber about current progress (in percents) and retrieves interrupt request flag.
 
-void ProgressHandler::SetCompletedTicks(size_t value)
+void ProgressHandler::SetCompletedTicks(std::size_t value)
 {
   std::unique_lock<std::mutex> lock(m_mutex);
   m_completed_ticks += value;

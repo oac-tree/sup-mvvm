@@ -334,7 +334,7 @@ bool MoveDown(SessionItem& item)
   auto tag_index = item.GetTagIndex();
   if (tag_index.GetIndex() == item.GetParent()->GetItemCount(tag_index.GetTag()) - 1)
   {
-    return false;  // item already at the buttom
+    return false;  // item already at the bottom
   }
 
   MoveTo(item, tag_index.Next());

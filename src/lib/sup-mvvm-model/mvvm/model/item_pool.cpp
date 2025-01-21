@@ -24,7 +24,7 @@
 namespace mvvm
 {
 
-size_t ItemPool::GetSize() const
+std::size_t ItemPool::GetSize() const
 {
   if (m_key_to_item.size() != m_item_to_key.size())
   {

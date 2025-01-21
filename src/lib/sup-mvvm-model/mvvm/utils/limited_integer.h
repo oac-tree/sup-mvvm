@@ -235,7 +235,7 @@ inline bool LimitedInteger<T>::StepBy(int steps)
   // INT_MIN...lower_bound....0...value...upper_bound...INT_MAX.
 
   bool value_was_changed{false};
-  for (size_t step = 0; step < std::abs(steps); ++step)
+  for (std::size_t step = 0; step < std::abs(steps); ++step)
   {
     bool value_changed = steps > 0 ? Increment() : Decrement();
     if (!value_changed)

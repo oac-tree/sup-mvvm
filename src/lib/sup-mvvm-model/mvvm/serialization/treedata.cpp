@@ -60,7 +60,7 @@ void TreeData::SetName(const std::string& name)
   return SetAttribute(attributes::NAME_ATTRIBUTE, name);
 }
 
-size_t TreeData::GetNumberOfAttributes() const
+std::size_t TreeData::GetNumberOfAttributes() const
 {
   return _attributes.GetNumberOfAttributes();
 }
@@ -95,7 +95,7 @@ bool TreeData::RemoveAttribute(const std::string& name)
   return _attributes.Remove(name);
 }
 
-size_t TreeData::GetNumberOfChildren() const
+std::size_t TreeData::GetNumberOfChildren() const
 {
   return _children.size();
 }

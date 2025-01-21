@@ -51,7 +51,7 @@ public:
   /**
    * @brief Returns number of commands in given macro.
    */
-  size_t GetCommandCount() const;
+  std::size_t GetCommandCount() const;
 
   /**
    * @brief Returns list of all commands.

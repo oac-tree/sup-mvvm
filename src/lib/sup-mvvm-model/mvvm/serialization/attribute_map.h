@@ -94,7 +94,7 @@ public:
    *
    * @return Number of attributes in map.
    */
-  size_t GetNumberOfAttributes() const;
+  std::size_t GetNumberOfAttributes() const;
 
   /**
    * @brief Indicate presence of attribute with given name.

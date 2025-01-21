@@ -34,29 +34,29 @@ namespace mvvm
 class MVVM_MODEL_EXPORT ProgressHandler
 {
 public:
-  using callback_t = std::function<bool(size_t)>;
+  using callback_t = std::function<bool(std::size_t)>;
 
   ProgressHandler() = default;
-  ProgressHandler(callback_t callback, size_t max_ticks_count);
+  ProgressHandler(callback_t callback, std::size_t max_ticks_count);
 
   ProgressHandler(const ProgressHandler& other) = delete;
   ProgressHandler& operator=(const ProgressHandler& other) = delete;
 
   void Subscribe(callback_t callback);
 
-  void SetMaxTicksCount(size_t value);
+  void SetMaxTicksCount(std::size_t value);
 
   bool HasInterruptRequest() const;
 
-  void SetCompletedTicks(size_t value);
+  void SetCompletedTicks(std::size_t value);
 
   void Reset();
 
 private:
   std::mutex m_mutex;
   callback_t m_runner_callback;
-  size_t m_max_ticks_count{0};
-  size_t m_completed_ticks{0};
+  std::size_t m_max_ticks_count{0};
+  std::size_t m_completed_ticks{0};
   bool m_interrupt_request{false};
 };
 

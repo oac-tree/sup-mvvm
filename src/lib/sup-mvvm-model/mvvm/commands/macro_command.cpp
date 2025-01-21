@@ -43,7 +43,7 @@ void MacroCommand::Append(std::unique_ptr<ICommand> command)
   m_children.push_back(std::move(command));
 }
 
-size_t MacroCommand::GetCommandCount() const
+std::size_t MacroCommand::GetCommandCount() const
 {
   return m_children.size();
 }

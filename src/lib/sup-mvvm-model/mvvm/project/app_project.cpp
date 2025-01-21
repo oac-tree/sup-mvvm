@@ -37,14 +37,14 @@ std::vector<mvvm::ISessionModel *> AppProject::GetModels() const
   return mvvm::utils::GetVectorOfPtrs(m_models);
 }
 
-size_t AppProject::RegisterModel(model_factory_func_t factory_func)
+std::size_t AppProject::RegisterModel(model_factory_func_t factory_func)
 {
   const size_t model_index = m_factory_func_list.size();
   m_factory_func_list.push_back(factory_func);
   return model_index;
 }
 
-size_t AppProject::GetModelCount() const
+std::size_t AppProject::GetModelCount() const
 {
   return m_models.size();
 }

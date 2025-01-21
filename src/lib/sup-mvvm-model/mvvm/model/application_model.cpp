@@ -91,7 +91,7 @@ void ApplicationModel::CheckIn(SessionItem* item)
   item->Activate();
 }
 
-void ApplicationModel::SetUndoEnabled(bool value, size_t undo_limit)
+void ApplicationModel::SetUndoEnabled(bool value, std::size_t undo_limit)
 {
   if (value)
   {

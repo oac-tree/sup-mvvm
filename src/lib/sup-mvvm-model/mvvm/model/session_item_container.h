@@ -90,7 +90,7 @@ public:
    *
    * The behavior depends on if the item belongs already to the container, or not.
    */
-  bool CanMoveItem(const SessionItem* item, size_t index) const;
+  bool CanMoveItem(const SessionItem* item, std::size_t index) const;
 
   /**
    * @brief Checks if the item can be removed from the given index.

@@ -56,7 +56,7 @@ public:
    * @return The position of the model in the array of models.
    */
   template <typename ModelT>
-  size_t RegisterModel();
+  std::size_t RegisterModel();
 
   /**
    * @brief Registers models that will be created for new project using its factory function.
@@ -66,12 +66,12 @@ public:
    * @param factory_func The models' factory function.
    * @return The position of the model in the array of models.
    */
-  size_t RegisterModel(model_factory_func_t factory_func);
+  std::size_t RegisterModel(model_factory_func_t factory_func);
 
   /**
    * @brief Returns number of existing models.
    */
-  size_t GetModelCount() const;
+  std::size_t GetModelCount() const;
 
   /**
    * @brief Returns the model stored for given index and casted to the given type.
@@ -79,7 +79,7 @@ public:
    * Will throw if cast can't be done.
    */
   template <typename ModelT>
-  ModelT* GetModel(size_t index = 0);
+  ModelT* GetModel(std::size_t index = 0);
 
 private:
   bool SaveImpl(const std::string& path) override;
@@ -99,13 +99,13 @@ private:
 };
 
 template <typename ModelT>
-inline size_t AppProject::RegisterModel()
+inline std::size_t AppProject::RegisterModel()
 {
   return RegisterModel([]() { return std::make_unique<ModelT>(); });
 }
 
 template <typename ModelT>
-inline ModelT* AppProject::GetModel(size_t index)
+inline ModelT* AppProject::GetModel(std::size_t index)
 {
   if (index >= m_models.size())
   {

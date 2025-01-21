@@ -137,7 +137,7 @@ public:
     m_data_condition.notify_all();
   }
 
-  size_t size() const
+  std::size_t size() const
   {
     std::lock_guard<std::mutex> lock(m_mutex);
     return m_data.size();
@@ -147,9 +147,13 @@ protected:
   typename ContainerT::reference GetTop()
   {
     if constexpr (is_stack<ContainerT>())
+    {
       return m_data.top();
+    }
     else
+    {
       return m_data.front();
+    }
   }
 
   ContainerT m_data;
