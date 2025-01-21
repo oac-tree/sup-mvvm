@@ -47,7 +47,7 @@ public:
   /**
    * @brief Returns number of children in the container.
    */
-  int GetSize() const;
+  std::size_t GetSize() const;
 
   /**
    * @brief Returns all children in the container.

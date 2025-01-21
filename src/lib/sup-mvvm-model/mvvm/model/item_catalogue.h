@@ -94,7 +94,7 @@ public:
   /**
    * @brief Returns total amount of registered types.
    */
-  int GetItemCount() const;
+  std::size_t GetItemCount() const;
 
   /**
    * @brief Adds content of other catalogue to this.
@@ -173,9 +173,9 @@ std::vector<std::string> ItemCatalogue<T>::GetLabels() const
 }
 
 template <typename T>
-int ItemCatalogue<T>::GetItemCount() const
+std::size_t ItemCatalogue<T>::GetItemCount() const
 {
-  return static_cast<int>(m_info.size());
+  return m_info.size();
 }
 
 template <typename T>

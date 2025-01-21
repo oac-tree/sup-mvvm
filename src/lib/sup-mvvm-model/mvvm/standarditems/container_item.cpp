@@ -39,7 +39,7 @@ bool ContainerItem::IsEmpty() const
   return GetSize() == 0;
 }
 
-int ContainerItem::GetSize() const
+std::size_t ContainerItem::GetSize() const
 {
   return GetItemCount(constants::kChildrenTag);
 }
