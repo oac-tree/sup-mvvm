@@ -50,8 +50,8 @@ public:
    * @param max Maximum allowed number of childre.
    * @param item_types
    */
-  TagInfo(std::string name, const std::optional<size_t>& min, const std::optional<size_t>& max,
-          std::vector<std::string> item_types);
+  TagInfo(std::string name, const std::optional<std::size_t>& min,
+          const std::optional<std::size_t>& max, std::vector<std::string> item_types);
 
   /**
    * @brief A factory method to constructs universal tag intended for unlimited amount of various
@@ -88,7 +88,7 @@ public:
   /**
    * @brief Returns minimum allowed amount of items with this tag.
    */
-  size_t GetMin() const;
+  std::size_t GetMin() const;
 
   /**
    * @brief Checks if tag has a user-define maximum allowed number of items.
@@ -98,7 +98,7 @@ public:
   /**
    * @brief Returns maximum allowed amount of items with this tag.
    */
-  size_t GetMax() const;
+  std::size_t GetMax() const;
 
   /**
    * @brief Returns vector of allowed item types which this tag accepts.
@@ -115,8 +115,8 @@ public:
 
 private:
   std::string m_name;                     //!< the name of the tag
-  std::optional<size_t> m_min;               //!< minimum allowed number of items in a tag
-  std::optional<size_t> m_max;               //!< maximum allowed number of items in a tag
+  std::optional<std::size_t> m_min;       //!< minimum allowed number of items in a tag
+  std::optional<std::size_t> m_max;       //!< maximum allowed number of items in a tag
   std::vector<std::string> m_item_types;  //!< vector of allowed item types
 };
 

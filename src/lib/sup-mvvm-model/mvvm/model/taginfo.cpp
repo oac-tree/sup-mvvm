@@ -27,8 +27,8 @@
 namespace mvvm
 {
 
-TagInfo::TagInfo(std::string name, const std::optional<size_t>& min,
-                 const std::optional<size_t>& max, std::vector<std::string> item_types)
+TagInfo::TagInfo(std::string name, const std::optional<std::size_t> &min,
+                 const std::optional<std::size_t> &max, std::vector<std::string> item_types)
     : m_name(std::move(name)), m_min(min), m_max(max), m_item_types(std::move(item_types))
 {
   if (m_name.empty())
@@ -62,7 +62,7 @@ bool TagInfo::HasMin() const
   return m_min.has_value();
 }
 
-size_t TagInfo::GetMin() const
+std::size_t TagInfo::GetMin() const
 {
   return m_min.value_or(0U);
 }
@@ -72,9 +72,9 @@ bool TagInfo::HasMax() const
   return m_max.has_value();
 }
 
-size_t TagInfo::GetMax() const
+std::size_t TagInfo::GetMax() const
 {
-  return m_max.value_or(std::numeric_limits<size_t>::max());
+  return m_max.value_or(std::numeric_limits<std::size_t>::max());
 }
 
 std::vector<std::string> TagInfo::GetItemTypes() const

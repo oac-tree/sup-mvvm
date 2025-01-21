@@ -54,7 +54,7 @@ public:
   /**
    * @brief Returns the number of all items in the container.
    */
-  size_t GetItemCount() const;
+  std::size_t GetItemCount() const;
 
   /**
    * @brief Returns all items in this container.
@@ -64,7 +64,7 @@ public:
   /**
    * @brief Checks if the item can be inserted into the given index.
    */
-  bool CanInsertItem(const SessionItem* item, size_t index) const;
+  bool CanInsertItem(const SessionItem* item, std::size_t index) const;
 
   /**
    * @brief Inserts item in a vector of children at given index, returns pointer to the item in the
@@ -78,12 +78,12 @@ public:
    * model type, wrong index or maximum number of items reached), will return nullptr.
    *
    */
-  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, size_t index);
+  SessionItem* InsertItem(std::unique_ptr<SessionItem> item, std::size_t index);
 
   /**
    * @brief Checks if a new item with the given type can be inserted into the given index.
    */
-  bool CanInsertType(const std::string& item_type, size_t new_index) const;
+  bool CanInsertType(const std::string& item_type, std::size_t new_index) const;
 
   /**
    * @brief Checks if the item can be moved into the given index.
@@ -95,26 +95,26 @@ public:
   /**
    * @brief Checks if the item can be removed from the given index.
    */
-  bool CanTakeItem(size_t index) const;
+  bool CanTakeItem(std::size_t index) const;
 
   /**
    * @brief Removes an item at given index and returns it to the user.
    *
    * If item can't be removed (item is a property item), will return nullptr.
    */
-  std::unique_ptr<SessionItem> TakeItem(size_t index);
+  std::unique_ptr<SessionItem> TakeItem(std::size_t index);
 
   /**
    * @brief Returns index of item in a vector of items.
    *
    * Will return empty optional, if item doesn't belong to this container.
    */
-  std::optional<size_t> IndexOfItem(const SessionItem* item) const;
+  std::optional<std::size_t> IndexOfItem(const SessionItem* item) const;
 
   /**
    * @brief Returns item at given index, or nullptr of index is invalid.
    */
-  SessionItem* ItemAt(size_t index) const;
+  SessionItem* ItemAt(std::size_t index) const;
 
   /**
    * @brief Returns the name of the container.

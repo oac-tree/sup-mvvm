@@ -39,7 +39,7 @@ bool SessionItemContainer::IsEmpty() const
   return m_items.empty();
 }
 
-size_t SessionItemContainer::GetItemCount() const
+std::size_t SessionItemContainer::GetItemCount() const
 {
   return m_items.size();
 }
@@ -52,7 +52,7 @@ std::vector<SessionItem*> SessionItemContainer::GetItems() const
   return result;
 }
 
-bool SessionItemContainer::CanInsertItem(const SessionItem* item, size_t index) const
+bool SessionItemContainer::CanInsertItem(const SessionItem* item, std::size_t index) const
 {
   if (!item || IndexOfItem(item).has_value())
   {
@@ -63,7 +63,7 @@ bool SessionItemContainer::CanInsertItem(const SessionItem* item, size_t index) 
   return CanInsertType(item->GetType(), index);
 }
 
-bool SessionItemContainer::CanInsertType(const std::string& item_type, size_t index) const
+bool SessionItemContainer::CanInsertType(const std::string& item_type, std::size_t index) const
 {
   const bool valid_index = index <= GetItemCount();
   const bool enough_place = !IsMaximumReached();
@@ -101,7 +101,7 @@ bool SessionItemContainer::CanMoveItem(const SessionItem* item, size_t index) co
   return index < GetItemCount();
 }
 
-SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, size_t index)
+SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item, std::size_t index)
 {
   if (!CanInsertItem(item.get(), index))
   {
@@ -113,12 +113,12 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
   return result;
 }
 
-bool SessionItemContainer::CanTakeItem(size_t index) const
+bool SessionItemContainer::CanTakeItem(std::size_t index) const
 {
   return ItemAt(index) && !IsMinimumReached();
 }
 
-std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(size_t index)
+std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(std::size_t index)
 {
   if (IsMinimumReached())
   {
@@ -135,14 +135,14 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(size_t index)
   return nullptr;
 }
 
-std::optional<size_t> SessionItemContainer::IndexOfItem(const SessionItem* item) const
+std::optional<std::size_t> SessionItemContainer::IndexOfItem(const SessionItem* item) const
 {
   auto pos = std::find_if(m_items.begin(), m_items.end(),
                           [item](const auto& element) { return element.get() == item; });
-  return pos == m_items.end() ? std::optional<size_t>() : std::distance(m_items.begin(), pos);
+  return pos == m_items.end() ? std::optional<std::size_t>() : std::distance(m_items.begin(), pos);
 }
 
-SessionItem* SessionItemContainer::ItemAt(size_t index) const
+SessionItem* SessionItemContainer::ItemAt(std::size_t index) const
 {
   return index < GetItemCount() ? m_items[index].get() : nullptr;
 }
