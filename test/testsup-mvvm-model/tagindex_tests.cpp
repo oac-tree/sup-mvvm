@@ -21,17 +21,18 @@
 
 #include <gtest/gtest.h>
 
+#include <limits>
+
 using namespace mvvm;
 
-//! Testing TagIndex.
-
+/**
+ * @brief Tests for TagIndex class.
+ */
 class TagIndexTests : public ::testing::Test
 {
 public:
   TagIndex GetTestIndex(const TagIndex& input) { return input; }
 };
-
-//! Initial state.
 
 TEST_F(TagIndexTests, InitialState)
 {
@@ -39,9 +40,8 @@ TEST_F(TagIndexTests, InitialState)
   EXPECT_EQ(tag_index.GetTag(), "");
   EXPECT_EQ(tag_index.GetIndex(), 0);
   EXPECT_TRUE(tag_index.IsValid());
+  EXPECT_FALSE(tag_index.IsAppend());
 }
-
-//! Brace initializer.
 
 TEST_F(TagIndexTests, BraceInitializer)
 {
@@ -63,8 +63,6 @@ TEST_F(TagIndexTests, BraceInitializer)
   EXPECT_EQ(tag_index2.GetIndex(), 0);
   EXPECT_TRUE(tag_index2.IsValid());
 }
-
-//! Equality operators.
 
 TEST_F(TagIndexTests, EqualityOperators)
 {
@@ -89,8 +87,6 @@ TEST_F(TagIndexTests, EqualityOperators)
   EXPECT_TRUE(tag7 != tag8);
 }
 
-//! Assignment operators.
-
 TEST_F(TagIndexTests, AssignmentOperator)
 {
   TagIndex tag1;
@@ -101,37 +97,38 @@ TEST_F(TagIndexTests, AssignmentOperator)
   EXPECT_EQ(tag1.GetTag(), "abc");
 }
 
-//! Factory methods.
-
 TEST_F(TagIndexTests, FactoryMethods)
 {
   auto tag_index = TagIndex::Append();
   EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
   EXPECT_EQ(tag_index.GetIndex(), -1);
   EXPECT_TRUE(tag_index.IsValid());
+  EXPECT_TRUE(tag_index.IsAppend());
 
   const std::string expected_name("tag");
   tag_index = TagIndex::Append(expected_name);
   EXPECT_EQ(tag_index.GetTag(), expected_name);
   EXPECT_EQ(tag_index.GetIndex(), -1);
   EXPECT_TRUE(tag_index.IsValid());
+  EXPECT_TRUE(tag_index.IsAppend());
 
   tag_index = TagIndex::First(expected_name);
   EXPECT_EQ(tag_index.GetTag(), expected_name);
   EXPECT_EQ(tag_index.GetIndex(), 0);
   EXPECT_TRUE(tag_index.IsValid());
+  EXPECT_FALSE(tag_index.IsAppend());
 
   tag_index = TagIndex::Default(42);
   EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
   EXPECT_EQ(tag_index.GetIndex(), 42);
   EXPECT_TRUE(tag_index.IsValid());
+  EXPECT_FALSE(tag_index.IsAppend());
 
   tag_index = TagIndex::Invalid();
   EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
   EXPECT_FALSE(tag_index.IsValid());
+  EXPECT_FALSE(tag_index.IsAppend());
 }
-
-//! Implicit type convertion
 
 TEST_F(TagIndexTests, ImplicitConversion)
 {
@@ -140,19 +137,27 @@ TEST_F(TagIndexTests, ImplicitConversion)
   EXPECT_EQ(tag_index.GetIndex(), 0);
 }
 
-//! Find next tagrow.
-
 TEST_F(TagIndexTests, Next)
 {
-  TagIndex tag_index{"tag", 0};
-  EXPECT_EQ(tag_index.Next().GetTag(), "tag");
-  EXPECT_EQ(tag_index.Next().GetIndex(), 1);
-}
+  {
+    TagIndex tag_index("tag", std::numeric_limits<std::size_t>::max());
+    EXPECT_FALSE(tag_index.Next().IsValid());
+  }
 
-//! Find previous tagrow.
+  {
+    TagIndex tag_index{"tag", 0};
+    EXPECT_EQ(tag_index.Next().GetTag(), "tag");
+    EXPECT_EQ(tag_index.Next().GetIndex(), 1);
+  }
+}
 
 TEST_F(TagIndexTests, Prev)
 {
+  {
+    TagIndex tag_index("tag", 0);
+    EXPECT_FALSE(tag_index.Prev().IsValid());
+  }
+
   TagIndex tag_index{"tag", 1};
   EXPECT_EQ(tag_index.Prev().GetTag(), "tag");
   EXPECT_EQ(tag_index.Prev().GetIndex(), 0);

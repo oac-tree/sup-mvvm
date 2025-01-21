@@ -54,11 +54,20 @@ std::size_t TagIndex::GetIndex() const
 
 TagIndex TagIndex::Next() const
 {
+  if (m_index == std::numeric_limits<std::size_t>::max())
+  {
+    return TagIndex::Invalid();
+  }
+
   return {m_tag, m_index + 1};
 }
 
 TagIndex TagIndex::Prev() const
 {
+  if (m_index == std::numeric_limits<std::size_t>::lowest())
+  {
+    return TagIndex::Invalid();
+  }
   return {m_tag, m_index - 1};
 }
 
