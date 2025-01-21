@@ -84,7 +84,7 @@ public:
   /**
    * @brief Returns number of items in the container with given name.
    */
-  int GetItemCount(const std::string& tag) const;
+  std::size_t GetItemCount(const std::string& tag) const;
 
   /**
    * @brief Checks if the given item can be inserted into the given place.
@@ -181,12 +181,12 @@ public:
   /**
    * @brief Returns total number of all registered containers.
    */
-  size_t GetTagCount() const;
+  std::size_t GetTagCount() const;
 
   /**
    * @brief Index operator to access containers.
    */
-  SessionItemContainer& ContainerAt(size_t index);
+  SessionItemContainer& ContainerAt(std::size_t index);
 
   /**
    * @brief Appends given container at the end.

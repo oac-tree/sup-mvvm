@@ -146,9 +146,9 @@ const SessionItemData* SessionItem::GetItemData() const
   return p_impl->m_data.get();
 }
 
-int SessionItem::GetTotalItemCount() const
+std::size_t SessionItem::GetTotalItemCount() const
 {
-  return static_cast<int>(GetAllItems().size());
+  return GetAllItems().size();
 }
 
 std::vector<SessionItem*> SessionItem::GetAllItems() const

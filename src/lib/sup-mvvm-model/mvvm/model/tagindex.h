@@ -54,14 +54,14 @@ public:
    *
    * Implicit conversion is allowed.
    */
-  TagIndex(const std::string& name, std::int32_t item_index = 0);
+  TagIndex(const std::string& name, std::size_t index = 0);
 
   /**
    * @brief The constructor to build TagIndex from name and index.
    *
    * Implicit conversion is allowed.
    */
-  TagIndex(const char* name, std::int32_t item_index = 0);
+  TagIndex(const char* name, std::size_t index = 0);
 
   /**
    * @brief Returns tag.
@@ -71,7 +71,7 @@ public:
   /**
    * @brief Returns index.
    */
-  std::int32_t GetIndex() const;
+  std::size_t GetIndex() const;
 
   /**
    * @brief Constructs a new TagIndex representing the following index in a given tag.
@@ -98,6 +98,11 @@ public:
   bool IsValid() const;
 
   /**
+   * @brief Checks if TagIndex is intended for append operations.
+   */
+  bool IsAppend() const;
+
+  /**
    * @brief Returns TagIndex corresponding to the end of the container with the given name.
    *
    * If the default tag name is used, the SessionModel will try to find a container marked as
@@ -116,7 +121,7 @@ public:
   /**
    * @brief Returns TagIndex corresponding to the given index in the container marked as a default.
    */
-  static TagIndex Default(std::int32_t item_index);
+  static TagIndex Default(std::uint32_t item_index);
 
   /**
    * @brief Returns TagIndex corresponding to an invalid state.
@@ -129,7 +134,7 @@ public:
 
 private:
   std::string m_tag = {};    //!< The name of the item container.
-  std::int32_t m_index = 0;  //!< The position in the item container.
+  std::size_t m_index = 0;  //!< The position in the item container.
 };
 
 }  // namespace mvvm

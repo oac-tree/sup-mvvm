@@ -48,11 +48,11 @@ TEST_F(ValidateUtilsTests, GetInsertTagIndex)
   item.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
   // checking that uninitialised tag is correctly converted to the right tag
-  EXPECT_EQ(GetInsertTagIndex(&item, {"", -1}), TagIndex("tag", 0));
+  EXPECT_EQ(GetInsertTagIndex(&item, TagIndex::Append()), TagIndex("tag", 0));
 
   // inserting an item, checking if tag points to the next one after
   item.InsertItem<SessionItem>({"tag", 0});
-  EXPECT_EQ(GetInsertTagIndex(&item, {"", -1}), TagIndex("tag", 1));
+  EXPECT_EQ(GetInsertTagIndex(&item, TagIndex::Append()), TagIndex("tag", 1));
 
   // Wrong tag
   EXPECT_FALSE(GetInsertTagIndex(&item, {"abc", 0}).IsValid());

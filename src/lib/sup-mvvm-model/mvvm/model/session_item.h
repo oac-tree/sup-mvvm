@@ -166,7 +166,7 @@ public:
   /**
    * @brief Returns total number of children in all tags.
    */
-  int GetTotalItemCount() const;
+  std::size_t GetTotalItemCount() const;
 
   /**
    * @brief Returns vector of children formed from all children from all tags.
@@ -176,7 +176,7 @@ public:
   /**
    * @brief Returns number of items in given tag.
    */
-  int GetItemCount(const std::string& tag) const;
+  std::size_t GetItemCount(const std::string& tag) const;
 
   /**
    * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.

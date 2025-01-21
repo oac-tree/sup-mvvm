@@ -320,7 +320,7 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(utils::IndexOfChild(parent.get(), nullptr), -1);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child.get()), -1);
   EXPECT_EQ(parent->GetItem({"", 0}), nullptr);
-  EXPECT_EQ(parent->GetItem({"", -1}), nullptr);
+  EXPECT_EQ(parent->GetItem(TagIndex::Append()), nullptr);
   EXPECT_EQ(parent->GetItem({"", 10}), nullptr);
 
   // inserting child
@@ -454,7 +454,7 @@ TEST_F(SessionItemTests, TakeItem)
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
 
   // taking non-existing rows
-  EXPECT_THROW(parent->TakeItem({"", -1}), InvalidOperationException);
+  EXPECT_THROW(parent->TakeItem(TagIndex::Append()), InvalidOperationException);
   EXPECT_THROW(parent->TakeItem({"", parent->GetTotalItemCount()}), InvalidOperationException);
 
   // taking first row
@@ -584,7 +584,7 @@ TEST_F(SessionItemTests, TagWithLimits)
 
   // adding extra item
   auto [uptr, raw] = mvvm::test::CreateTestData<SessionItem>();
-  parent->InsertItem(std::move(uptr), {tag1, -1});
+  parent->InsertItem(std::move(uptr), TagIndex::Append(tag1));
   expected.push_back(raw);
   EXPECT_EQ(parent->GetItems(tag1), expected);
 }

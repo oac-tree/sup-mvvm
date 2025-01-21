@@ -276,7 +276,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
   SessionModel model;
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag(tag1), true);
-  auto child1 = model.InsertItem<PropertyItem>(parent, {tag1, -1});
+  auto child1 = model.InsertItem<PropertyItem>(parent, TagIndex::Append(tag1));
 
   auto item = std::make_unique<PropertyItem>();
   auto item_ptr = item.get();

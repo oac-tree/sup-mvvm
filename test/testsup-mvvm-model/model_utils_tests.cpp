@@ -257,7 +257,7 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
   auto property = model.InsertItem<PropertyItem>(parent0, "property_tag");
 
   // copying property to same property tag is not allowed
-  EXPECT_THROW(utils::CopyItem(property, &model, parent0, {"property_tag", -1}),
+  EXPECT_THROW(utils::CopyItem(property, &model, parent0, TagIndex::Append("property_tag")),
                InvalidOperationException);
   EXPECT_EQ(parent0->GetTotalItemCount(), 1);
 }

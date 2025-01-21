@@ -19,35 +19,35 @@
 
 #include "tagindex.h"
 
+#include <limits>
+
 namespace
 {
 /**
  * @brief An integer constant to specify the end of the container.
  */
-const std::int32_t kAppendIndex = -1;
+const std::size_t kAppendIndex = std::numeric_limits<std::size_t>::max();
 
 /**
  * @brief An integer constant used to mark TagIndex as invalid state.
  * @see TagIndex::IsValid()
  */
-const std::int32_t kInvalidIndex = -2;
+const std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max() - 1;
 }  // namespace
 
 namespace mvvm
 {
 
-TagIndex::TagIndex(const std::string& name, int32_t item_index) : m_tag(name), m_index(item_index)
-{
-}
+TagIndex::TagIndex(const std::string& name, std::size_t index) : m_tag(name), m_index(index) {}
 
-TagIndex::TagIndex(const char* name, int32_t item_index) : m_tag(name), m_index(item_index) {}
+TagIndex::TagIndex(const char* name, std::size_t index) : m_tag(name), m_index(index) {}
 
 std::string TagIndex::GetTag() const
 {
   return m_tag;
 }
 
-int32_t TagIndex::GetIndex() const
+std::size_t TagIndex::GetIndex() const
 {
   return m_index;
 }
@@ -67,6 +67,11 @@ bool TagIndex::IsValid() const
   return m_index != kInvalidIndex;
 }
 
+bool TagIndex::IsAppend() const
+{
+  return m_index == kAppendIndex;
+}
+
 TagIndex TagIndex::Append(const std::string& tag_name)
 {
   return {tag_name, kAppendIndex};
@@ -77,7 +82,7 @@ TagIndex TagIndex::First(const std::string& tag_name)
   return {tag_name, 0};
 }
 
-TagIndex TagIndex::Default(std::int32_t item_index)
+TagIndex TagIndex::Default(std::uint32_t item_index)
 {
   return {kDefaultTag, item_index};
 }

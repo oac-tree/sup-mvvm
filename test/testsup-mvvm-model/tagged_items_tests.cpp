@@ -103,20 +103,20 @@ TEST_F(TaggedItemsTests, CanInsertItemForUniversalTag)
 
   auto [child1, child1_ptr] = CreateItem();
   EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, 0}));
-  EXPECT_FALSE(items.CanInsertItem(child1.get(), {tagname, -1}));
+  EXPECT_FALSE(items.CanInsertItem(child1.get(), TagIndex::Append(tagname)));
   EXPECT_TRUE(items.CanInsertItem(child1.get(), {tagname, items.GetItemCount(tagname)}));
-  EXPECT_EQ(items.InsertItem(std::move(child1), {tagname, -1}), nullptr);
+  EXPECT_EQ(items.InsertItem(std::move(child1), TagIndex::Append(tagname)), nullptr);
 
   // inserting second child
   auto [child2, child2_ptr] = CreateItem();
   EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, 0}));
-  EXPECT_FALSE(items.CanInsertItem(child2.get(), {tagname, -1}));
+  EXPECT_FALSE(items.CanInsertItem(child2.get(), TagIndex::Append(tagname)));
   EXPECT_TRUE(items.CanInsertItem(child2.get(), {tagname, items.GetItemCount(tagname)}));
-  EXPECT_EQ(items.InsertItem(std::move(child2), {tagname, -1}), nullptr);
+  EXPECT_EQ(items.InsertItem(std::move(child2), TagIndex::Append(tagname)), nullptr);
 
   // inserting third child is not possible
   auto child3 = std::make_unique<SessionItem>();
-  EXPECT_FALSE(items.CanInsertItem(child3.get(), {tagname, -1}));
+  EXPECT_FALSE(items.CanInsertItem(child3.get(), TagIndex::Append(tagname)));
 }
 
 //! Insert item.
@@ -269,8 +269,8 @@ TEST_F(TaggedItemsTests, TakeItem)
   EXPECT_EQ(items.GetItems(tag2), std::vector<SessionItem*>({child4_ptr}));
 
   // taking non existing items
-  EXPECT_FALSE(items.CanTakeItem({"", -1}));
-  EXPECT_EQ(items.TakeItem({"", -1}), nullptr);
+  EXPECT_FALSE(items.CanTakeItem(TagIndex::Append()));
+  EXPECT_EQ(items.TakeItem(TagIndex::Append()), nullptr);
 }
 
 //! Testing method TaggedItems::Clone
@@ -358,13 +358,13 @@ TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
     items.RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
 
     // checking that uninitialised tag is correctly converted to the right tag
-    auto tag_index = items.GetInsertTagIndex({"", -1});
+    auto tag_index = items.GetInsertTagIndex(TagIndex::Append());
     ASSERT_TRUE(tag_index.IsValid());
     EXPECT_EQ(tag_index, TagIndex("tag", 0));
 
     // inserting an item, checking if tag points to the next one after
     items.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
-    auto tag_index2 = items.GetInsertTagIndex({"", -1});
+    auto tag_index2 = items.GetInsertTagIndex(TagIndex::Append());
     ASSERT_TRUE(tag_index2.IsValid());
     EXPECT_EQ(tag_index2, TagIndex("tag", 1));
 
@@ -378,16 +378,16 @@ TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
     items.RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
 
     // It is not possible to convert empty tag name into something meaningfull
-    EXPECT_FALSE(items.GetInsertTagIndex({"", -1}).IsValid());
+    EXPECT_FALSE(items.GetInsertTagIndex(TagIndex::Append()).IsValid());
 
-    // if tag is ok, index wwill be converted
-    auto tag_index = items.GetInsertTagIndex({"tag", -1});
+    // if tag is ok, index will be converted
+    auto tag_index = items.GetInsertTagIndex(TagIndex::Append("tag"));
     ASSERT_TRUE(tag_index.IsValid());
     EXPECT_EQ(tag_index, TagIndex("tag", 0));
 
     // inserting an item, checking if tag points to the next one after
     items.InsertItem(std::make_unique<SessionItem>(), {"tag", 0});
-    auto tag_index2 = items.GetInsertTagIndex({"tag", -1});
+    auto tag_index2 = items.GetInsertTagIndex(TagIndex::Append("tag"));
     ASSERT_TRUE(tag_index2.IsValid());
     EXPECT_EQ(tag_index2, TagIndex("tag", 1));
   }

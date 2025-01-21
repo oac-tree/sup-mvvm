@@ -67,7 +67,7 @@ void TaggedItems::SetDefaultTag(const std::string& tag)
   m_default_tag = tag;
 }
 
-int TaggedItems::GetItemCount(const std::string& tag) const
+std::size_t TaggedItems::GetItemCount(const std::string& tag) const
 {
   return GetContainer(tag)->GetItemCount();
 }
@@ -146,7 +146,7 @@ TagIndex TaggedItems::TagIndexOfItem(const SessionItem* item) const
   {
     if (const auto index = container->IndexOfItem(item); index.has_value())
     {
-      return {container->GetName(), static_cast<int>(index.value())};
+      return {container->GetName(), index.value()};
     }
   }
 
@@ -163,12 +163,12 @@ TaggedItems::const_iterator TaggedItems::end() const
   return m_containers.end();
 }
 
-size_t TaggedItems::GetTagCount() const
+std::size_t TaggedItems::GetTagCount() const
 {
   return m_containers.size();
 }
 
-SessionItemContainer& TaggedItems::ContainerAt(size_t index)
+SessionItemContainer& TaggedItems::ContainerAt(std::size_t index)
 {
   if (index >= GetTagCount())
   {
@@ -221,8 +221,8 @@ TagIndex TaggedItems::GetInsertTagIndex(const TagIndex& tag_index) const
 {
   if (const auto container = FindContainer(tag_index.GetTag()); container)
   {
-    const int actual_index =
-        tag_index.GetIndex() < 0 ? container->GetItemCount() : tag_index.GetIndex();
+    const std::size_t actual_index =
+        tag_index.IsAppend() ? container->GetItemCount() : tag_index.GetIndex();
     return TagIndex{container->GetName(), actual_index};
   }
 
