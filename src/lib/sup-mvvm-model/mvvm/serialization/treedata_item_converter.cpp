@@ -20,7 +20,7 @@
 #include "treedata_item_converter.h"
 
 #include "converter_types.h"
-#include "tree_data.h"
+#include "tree_data_helper.h"
 #include "treedata_itemdata_converter.h"
 #include "treedata_tagged_items_converter.h"
 
@@ -54,11 +54,11 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     auto create_tree = [this](const SessionItem& item) { return m_self->ToTreeData(item); };
 
     //! Callback to create SessionItem from TreeData object.
-    auto create_item = [this](const TreeData& tree_data)
+    auto create_item = [this](const tree_data_t& tree_data)
     { return m_self->ToSessionItem(tree_data); };
 
     //! Callback to update SessionItem from TreeData object.
-    auto update_item = [this](const TreeData& tree_data, SessionItem& item)
+    auto update_item = [this](const tree_data_t& tree_data, SessionItem& item)
     { populate_item(tree_data, item); };
 
     ConverterCallbacks callbacks{create_tree, create_item, update_item};
@@ -67,7 +67,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     m_taggedtems_converter = std::make_unique<TreeDataTaggedItemsConverter>(callbacks);
   };
 
-  void populate_item(const TreeData& tree_data, SessionItem& item)
+  void populate_item(const tree_data_t& tree_data, SessionItem& item)
   {
     auto item_type = tree_data.GetAttribute(kTypelAttributeKey);
 
@@ -110,8 +110,8 @@ bool TreeDataItemConverter::IsSessionItemConvertible(const tree_data_t& tree_dat
 {
   static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
 
-  const bool correct_type = tree_data.GetType() == kItemElementType;
-  const bool correct_attributes = tree_data.Attributes().GetAttributeNames() == expected_attributes;
+  const bool correct_type = tree_data.GetNodeName() == kItemElementType;
+  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
   const bool correct_children_count = tree_data.GetNumberOfChildren() == 2;
 
   return correct_type && correct_attributes && correct_children_count;
@@ -132,9 +132,9 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(
   return result;
 }
 
-std::unique_ptr<TreeData> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
+std::unique_ptr<tree_data_t> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
 {
-  auto result = std::make_unique<TreeData>(kItemElementType);
+  auto result = std::make_unique<tree_data_t>(kItemElementType);
   result->AddAttribute(kTypelAttributeKey, item.GetType());
   // p_impl->populate_item relies of the order of adding
   result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.GetItemData()));

@@ -24,7 +24,6 @@
 //! Header to not to expose TreeData that much.
 
 #include <mvvm/serialization/tree_data_fwd.h>
-#include <mvvm/serialization/treedata.h>
 
 #include <sup/xml/tree_data.h>
 

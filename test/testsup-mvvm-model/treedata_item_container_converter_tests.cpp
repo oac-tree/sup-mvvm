@@ -41,14 +41,14 @@ public:
     //! Simplified method to convert SessionItem to TreeData.
     auto to_treedata = [this](const SessionItem& item)
     {
-      auto result = std::make_unique<TreeData>("Item");
+      auto result = std::make_unique<tree_data_t>("Item");
       result->AddAttribute("model", item.GetType());
       return result;
     };
     m_create_tree_callback = to_treedata;
 
     //! Simplified method to convert TreeData to SessionItem.
-    auto to_item = [this](const TreeData&) { return std::make_unique<PropertyItem>(); };
+    auto to_item = [this](const tree_data_t&) { return std::make_unique<PropertyItem>(); };
     m_create_item_callback = to_item;
   }
 

@@ -30,9 +30,10 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/serialization/treedata_item_converter.h>
-#include <mvvm/serialization/xml_parse_utils.h>
-#include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/utils/container_utils.h>
+
+#include <sup/xml/tree_data_parser.h>
+#include <sup/xml/tree_data_serialize.h>
 
 #include <sstream>
 #include <stack>
@@ -390,14 +391,14 @@ std::string ToXMLString(const SessionItem& item)
 {
   TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone);
   auto tree_data = converter.ToTreeData(item);
-  return GetXMLString(*tree_data);
+  return xml::TreeDataToString(*tree_data);
 }
 
 std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str, bool make_unique_id)
 {
   TreeDataItemConverter converter(&GetGlobalItemFactory(),
                                   make_unique_id ? ConverterMode::kCopy : ConverterMode::kClone);
-  auto tree_data = ParseXMLDataString(str);
+  auto tree_data = xml::TreeDataFromString(str);
   return converter.ToSessionItem(*tree_data);
 }
 

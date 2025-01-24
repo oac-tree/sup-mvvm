@@ -26,10 +26,11 @@
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/serialization/tree_data.h>
-#include <mvvm/serialization/xml_parse_utils.h>
-#include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
+
+#include <sup/xml/tree_data_parser.h>
+#include <sup/xml/tree_data_serialize.h>
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
@@ -58,13 +59,13 @@ public:
     auto converter = CreateCloneConverter();
     auto tree_data = converter->ToTreeData(item);
 
-    ::mvvm::WriteToXMLFile(file_name, *tree_data);
+    mvvm::xml::TreeDataToFile(file_name, *tree_data);
   }
 
   template <typename T>
   std::unique_ptr<T> ReadFromXMLFile(const std::string& file_name)
   {
-    auto tree_data = ParseXMLDataFile(file_name);
+    auto tree_data = mvvm::xml::TreeDataFromFile(file_name);
     auto converter = CreateCloneConverter();
     auto result = converter->ToSessionItem(*tree_data);
     return std::unique_ptr<T>(static_cast<T*>(result.release()));

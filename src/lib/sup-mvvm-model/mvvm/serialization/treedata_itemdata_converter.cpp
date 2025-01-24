@@ -34,10 +34,10 @@ namespace mvvm
 {
 TreeDataItemDataConverter::TreeDataItemDataConverter() = default;
 
-std::unique_ptr<TreeData> TreeDataItemDataConverter::ToTreeData(
+std::unique_ptr<tree_data_t> TreeDataItemDataConverter::ToTreeData(
     const SessionItemData &item_data) const
 {
-  auto result = std::make_unique<TreeData>(kItemDataElementType);
+  auto result = std::make_unique<tree_data_t>(kItemDataElementType);
   for (const auto &role_data : item_data)
   {
     result->AddChild(::mvvm::ToTreeData(role_data));
@@ -73,7 +73,7 @@ void TreeDataItemDataConverter::PopulateItemData(const tree_data_t &tree_data,
 
 bool TreeDataItemDataConverter::IsSessionItemDataConvertible(const tree_data_t &tree_data) const
 {
-  return tree_data.GetType() == kItemDataElementType && tree_data.GetNumberOfAttributes() == 0;
+  return tree_data.GetNodeName() == kItemDataElementType && tree_data.GetNumberOfAttributes() == 0;
   // there is no sence to require empty content, it might still contains '\n' symbol,
   // depending on the way TreeData was constructed from XML content.
 }

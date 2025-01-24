@@ -3,8 +3,10 @@ target_sources(${library_name} PRIVATE
   attribute_map.h
   converter_types.h
   i_model_document.h
-  treedata.cpp
-  treedata.h
+  tree_data.h
+  tree_data_fwd.h
+  tree_data_helper.cpp
+  tree_data_helper.h
   treedata_item_container_converter.cpp
   treedata_item_container_converter.h
   treedata_item_converter.cpp
@@ -23,13 +25,7 @@ target_sources(${library_name} PRIVATE
   treedata_taginfo_converter.h
   treedata_variant_converter.cpp
   treedata_variant_converter.h
-  tree_data_fwd.h
-  tree_data.h
   xml_document.cpp
   xml_document.h
   xml_document_helper.h
-  xml_parse_utils.cpp
-  xml_parse_utils.h
-  xml_write_utils.cpp
-  xml_write_utils.h
   )

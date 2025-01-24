@@ -17,22 +17,28 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
-#define MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
+#ifndef MVVM_SERIALIZATION_TREE_DATA_HELPER_H_
+#define MVVM_SERIALIZATION_TREE_DATA_HELPER_H_
 
-//! @file
-//! Collection of utilities to write TreeData into XML files.
+#include <mvvm/serialization/tree_data_fwd.h>
 
+#include <sup/xml/tree_data.h>
+
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace mvvm
 {
-class TreeData;
 
-void WriteToXMLFile(const std::string& file_name, const TreeData& tree_data);
+std::vector<std::string> GetAttributeNames(const tree_data_t& tree_data);
 
-std::string GetXMLString(const TreeData& tree_data);
+std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element);
+
+// void WriteToXMLFile(const std::string& file_name, const tree_data_t& tree_data);
+
+// std::unique_ptr<tree_data_t> ParseXMLDataFile(const std::string& file_name);
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_XML_WRITE_UTILS_H_
+#endif  // MVVM_SERIALIZATION_TREE_DATA_HELPER_H_

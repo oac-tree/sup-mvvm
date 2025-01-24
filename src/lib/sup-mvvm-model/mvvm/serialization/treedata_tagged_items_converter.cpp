@@ -20,6 +20,7 @@
 #include "treedata_tagged_items_converter.h"
 
 #include "tree_data.h"
+#include "tree_data_helper.h"
 #include "treedata_item_container_converter.h"
 
 #include <mvvm/core/exceptions.h>
@@ -30,6 +31,7 @@ namespace
 {
 const std::string kTaggedItemsElementType = "TaggedItems";
 const std::string kDefaultTagKey = "defaultTag";
+
 }  // namespace
 
 namespace mvvm
@@ -54,8 +56,8 @@ TreeDataTaggedItemsConverter::~TreeDataTaggedItemsConverter() = default;
 bool TreeDataTaggedItemsConverter::IsTaggedItemsConvertible(const tree_data_t &tree_data) const
 {
   const std::vector<std::string> expected_attributes({kDefaultTagKey});
-  const bool correct_type = tree_data.GetType() == kTaggedItemsElementType;
-  const bool correct_attributes = tree_data.Attributes().GetAttributeNames() == expected_attributes;
+  const bool correct_type = tree_data.GetNodeName() == kTaggedItemsElementType;
+  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
   return correct_type && correct_attributes;
 }
 
@@ -88,7 +90,7 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const tree_data_t &tree_d
 std::unique_ptr<tree_data_t> TreeDataTaggedItemsConverter::ToTreeData(
     const TaggedItems &tagged_items) const
 {
-  auto result = std::make_unique<TreeData>(kTaggedItemsElementType);
+  auto result = std::make_unique<tree_data_t>(kTaggedItemsElementType);
   result->AddAttribute(kDefaultTagKey, tagged_items.GetDefaultTag());
   for (auto &container : tagged_items)
   {

@@ -21,11 +21,12 @@
 
 #include "tree_data.h"
 #include "treedata_model_converter.h"
-#include "xml_parse_utils.h"
-#include "xml_write_utils.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/i_session_model.h>
+
+#include <sup/xml/tree_data_parser.h>
+#include <sup/xml/tree_data_serialize.h>
 
 namespace
 {
@@ -52,7 +53,7 @@ void XmlDocument::Save(const std::string& file_name) const
 {
   const TreeDataModelConverter converter(ConverterMode::kClone);
 
-  TreeData document_tree(kRootElementType);
+  tree_data_t document_tree(kRootElementType);
   if (!GetApplicationType().empty())
   {
     document_tree.AddAttribute(kApplicationTypeAttribute, GetApplicationType());
@@ -63,13 +64,13 @@ void XmlDocument::Save(const std::string& file_name) const
     document_tree.AddChild(*converter.ToTreeData(*model));
   }
 
-  ::mvvm::WriteToXMLFile(file_name, document_tree);
+  mvvm::xml::TreeDataToFile(file_name, document_tree);
 }
 
 void XmlDocument::Load(const std::string& file_name)
 {
-  auto document_tree = ParseXMLDataFile(file_name);
-  if (document_tree->GetType() != kRootElementType)
+  auto document_tree = mvvm::xml::TreeDataFromFile(file_name);
+  if (document_tree->GetNodeName() != kRootElementType)
   {
     throw RuntimeException(
         "Error in XML document: given XML doesn't containt correct entry element ["

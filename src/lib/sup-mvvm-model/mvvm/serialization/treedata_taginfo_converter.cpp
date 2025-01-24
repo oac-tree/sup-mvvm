@@ -19,7 +19,7 @@
 
 #include "treedata_taginfo_converter.h"
 
-#include "tree_data.h"
+#include "tree_data_helper.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/taginfo.h>
@@ -74,8 +74,8 @@ namespace mvvm
 bool IsTagInfoConvertible(const tree_data_t &tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetType() == kTagInfoElementType
-         && IsValidAttributes(tree_data.Attributes().GetAttributeNames(), expected_names)
+  return tree_data.GetNodeName() == kTagInfoElementType
+         && IsValidAttributes(GetAttributeNames(tree_data), expected_names)
          && tree_data.GetNumberOfChildren() == 0;
 }
 
@@ -102,9 +102,9 @@ TagInfo ToTagInfo(const tree_data_t &tree_data)
   return TagInfo(name, min, max, model_types);
 }
 
-TreeData ToTreeData(const TagInfo &tag_info)
+tree_data_t ToTreeData(const TagInfo &tag_info)
 {
-  TreeData result(kTagInfoElementType);
+  tree_data_t result(kTagInfoElementType);
   if (tag_info.HasMin())
   {
     result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));

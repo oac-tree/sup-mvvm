@@ -20,8 +20,9 @@
 #include "mvvm/serialization/treedata_itemdata_converter.h"
 
 #include <mvvm/model/session_item_data.h>
-#include <mvvm/serialization/tree_data.h>
-#include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/serialization/tree_data_helper.h>
+
+#include <sup/xml/tree_data_parser.h>
 
 #include <gtest/gtest.h>
 
@@ -52,7 +53,7 @@ TEST_F(TreeDataItemDataConverterTests, TwoRoles)
   auto new_tree_data = converter.ToTreeData(*item_data);
 
   EXPECT_EQ(new_tree_data->GetContent(), tree_data->GetContent());
-  EXPECT_EQ(new_tree_data->GetType(), std::string("ItemData"));
+  EXPECT_EQ(new_tree_data->GetNodeName(), std::string("ItemData"));
   EXPECT_EQ(new_tree_data->GetNumberOfChildren(), 2);
   EXPECT_EQ(new_tree_data->GetNumberOfAttributes(), 0);
 }

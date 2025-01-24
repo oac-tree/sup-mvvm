@@ -19,7 +19,7 @@
 
 #include "treedata_model_converter.h"
 
-#include "tree_data.h"
+#include "tree_data_helper.h"
 #include "treedata_item_converter.h"
 
 #include <mvvm/model/i_session_model.h>
@@ -63,17 +63,17 @@ bool TreeDataModelConverter::IsSessionModelConvertible(const tree_data_t &tree_d
 {
   static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
 
-  const bool correct_type = tree_data.GetType() == kModelElementType;
-  const bool correct_attributes = tree_data.Attributes().GetAttributeNames() == expected_attributes;
+  const bool correct_type = tree_data.GetNodeName() == kModelElementType;
+  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
 
   return correct_type && correct_attributes;
 }
 
-std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const ISessionModel &model) const
+std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionModel &model) const
 {
   auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
-  auto result = std::make_unique<TreeData>(kModelElementType);
+  auto result = std::make_unique<tree_data_t>(kModelElementType);
 
   result->AddAttribute(kTypelAttributeKey, model.GetType());
 

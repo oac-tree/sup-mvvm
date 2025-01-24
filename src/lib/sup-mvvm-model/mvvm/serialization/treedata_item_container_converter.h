@@ -52,7 +52,7 @@ MVVM_MODEL_EXPORT bool IsItemContainerConvertible(const tree_data_t& tree_data);
 
 //! Returns SessionItemContainer object from its TreeData representation.
 MVVM_MODEL_EXPORT std::unique_ptr<SessionItemContainer> ToSessionItemContainer(
-    const TreeData& tree_data, const create_item_t& func);
+    const tree_data_t& tree_data, const create_item_t& func);
 
 //! Populate SessionItemContainer object from its TreeData representation.
 MVVM_MODEL_EXPORT void PopulateSessionItemContainer(const tree_data_t& tree_data,
@@ -60,7 +60,7 @@ MVVM_MODEL_EXPORT void PopulateSessionItemContainer(const tree_data_t& tree_data
                                                     const create_item_t& func);
 
 //! Returns TreeData object SessionItemContainer from SessionItemContainer object.
-MVVM_MODEL_EXPORT std::unique_ptr<TreeData> ToTreeData(const SessionItemContainer& container,
+MVVM_MODEL_EXPORT std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer& container,
                                                        const create_treedata_t& func);
 }  // namespace ContainerConverter
 

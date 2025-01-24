@@ -46,7 +46,7 @@ public:
   std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t& tree_data) const override;
 
   //! Creates TreeData from SessionItem.
-  std::unique_ptr<TreeData> ToTreeData(const SessionItem& item) const override;
+  std::unique_ptr<tree_data_t> ToTreeData(const SessionItem& item) const override;
 
 private:
   struct TreeDataItemConverterImpl;

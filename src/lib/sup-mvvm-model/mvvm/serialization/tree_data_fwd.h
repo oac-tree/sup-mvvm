@@ -26,9 +26,12 @@
 namespace mvvm
 {
 
+namespace xml
+{
 class TreeData;
+}
 
-using tree_data_t = TreeData;
+using tree_data_t = xml::TreeData;
 
 }  // namespace mvvm
 

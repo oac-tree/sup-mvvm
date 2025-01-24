@@ -23,7 +23,7 @@
 #include <mvvm/model/session_item_container.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/tree_data_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -41,13 +41,13 @@ public:
     //! Simplified method to convert SessionItem to TreeData.
     auto to_treedata = [this](const SessionItem& item)
     {
-      auto result = std::make_unique<TreeData>("Item");
+      auto result = std::make_unique<tree_data_t>("Item");
       result->AddAttribute("model", item.GetType());
       return result;
     };
 
     //! Simplified method to convert TreeData to SessionItem.
-    auto to_item = [this](const TreeData&) { return std::make_unique<PropertyItem>(); };
+    auto to_item = [this](const tree_data_t&) { return std::make_unique<PropertyItem>(); };
 
     ConverterCallbacks callbacks{to_treedata, to_item};
     return std::make_unique<TreeDataTaggedItemsConverter>(callbacks);

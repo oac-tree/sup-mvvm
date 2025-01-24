@@ -35,7 +35,7 @@ namespace mvvm
 class SessionItem;
 
 //! Defines function to create TreeData object from SessionItem.
-using create_treedata_t = std::function<std::unique_ptr<TreeData>(const SessionItem&)>;
+using create_treedata_t = std::function<std::unique_ptr<tree_data_t>(const SessionItem&)>;
 
 //! Defines function to create SessionItem object from TreeData.
 using create_item_t = std::function<std::unique_ptr<SessionItem>(const tree_data_t&)>;

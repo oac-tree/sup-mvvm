@@ -41,7 +41,7 @@ public:
   virtual std::unique_ptr<tree_data_t> ToTreeData(const ISessionModel& item) const = 0;
 
   //! Populates empty SessionModel from TreeData.
-  virtual void PopulateSessionModel(const TreeData&, ISessionModel&) const = 0;
+  virtual void PopulateSessionModel(const tree_data_t&, ISessionModel&) const = 0;
 };
 
 }  // namespace mvvm

@@ -26,7 +26,8 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 #include <mvvm/serialization/tree_data.h>
-#include <mvvm/serialization/xml_write_utils.h>
+
+#include <sup/xml/tree_data_serialize.h>
 
 #include <gtest/gtest.h>
 
@@ -169,7 +170,7 @@ TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 
   // finaly comparing XML strings
   auto tree_data_target = converter.ToTreeData(source);
-  EXPECT_EQ(GetXMLString(*tree_data), GetXMLString(*tree_data_target));
+  EXPECT_EQ(xml::TreeDataToString(*tree_data), xml::TreeDataToString(*tree_data_target));
 }
 
 //! Creation of TreeData object (single item in a model), then writing same TreeData object back

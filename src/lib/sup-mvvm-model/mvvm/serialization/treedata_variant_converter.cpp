@@ -19,13 +19,14 @@
 
 #include "treedata_variant_converter.h"
 
-#include "tree_data.h"
+#include "tree_data_helper.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <functional>
+#include <map>
 
 // ----------------------------------------------------------------------------
 // Declarations of constants and helper methods in anonymous namespace.
@@ -44,7 +45,7 @@ const std::string kSelectionsAttributeKey = "selections";
 //! Aggregates call backs for convertion between role_data_t and TreeData.
 struct Converters
 {
-  std::function<TreeData(const role_data_t& role_data)> roledata_to_treedata;
+  std::function<tree_data_t(const role_data_t& role_data)> roledata_to_treedata;
   std::function<role_data_t(const tree_data_t& treedata)> treedata_to_roledata;
 };
 
@@ -100,10 +101,10 @@ std::map<std::string, Converters> GetConverters();
 
 bool IsDataRoleConvertible(const tree_data_t& tree_data)
 {
-  auto attribute_names = tree_data.Attributes().GetAttributeNames();
+  auto attribute_names = GetAttributeNames(tree_data);
   const bool correct_attributes = utils::Contains(attribute_names, kRoleAttributeKey)
                                   && utils::Contains(attribute_names, kTypeAttributeKey);
-  return tree_data.GetType() == kVariantElementType && correct_attributes
+  return tree_data.GetNodeName() == kVariantElementType && correct_attributes
          && tree_data.GetNumberOfChildren() == 0;
 }
 

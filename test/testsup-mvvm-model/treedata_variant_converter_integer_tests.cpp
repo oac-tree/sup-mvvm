@@ -19,7 +19,7 @@
 
 #include "mvvm/serialization/treedata_variant_converter.h"
 
-#include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/serialization/tree_data_helper.h>
 #include <mvvm/utils/string_format.h>
 
 #include <gtest/gtest.h>

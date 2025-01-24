@@ -19,7 +19,7 @@
 
 #include "mvvm/serialization/treedata_variant_converter.h"
 
-#include <mvvm/serialization/xml_parse_utils.h>
+#include <mvvm/serialization/tree_data_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -32,14 +32,12 @@ using namespace mvvm;
 class TreeDataVariantConverterTests : public ::testing::Test
 {
 public:
-  void PrintTreeData(const TreeData& tree_data)
+  void PrintTreeData(const tree_data_t& tree_data)
   {
-    std::cout << "Type:'" << tree_data.GetType() << "' "
-              << "Name:'" << tree_data.GetName() << "' "
+    std::cout << "Type:'" << tree_data.GetNodeName() << "' "
               << "Content:'" << tree_data.GetContent() << "' "
               << "Children:" << tree_data.GetNumberOfChildren() << " "
-              << " attribute_count: " << tree_data.Attributes().GetNumberOfAttributes()
-              << std::endl;
+              << " attribute_count: " << tree_data.Attributes().size() << std::endl;
     for (const auto& it : tree_data.Attributes())
     {
       std::cout << it.first << " " << it.second << "\n";
@@ -180,7 +178,7 @@ TEST_F(TreeDataVariantConverterTests, DoubleDataRole)
   // Here we can't compare new TreeData with the old one because of the internal conversion of
   // double to string and lost of precision.
   EXPECT_DOUBLE_EQ(std::stod(new_tree_data.GetContent()), 42.3);
-  EXPECT_EQ(new_tree_data.GetType(), "Variant");
+  EXPECT_EQ(new_tree_data.GetNodeName(), "Variant");
   EXPECT_EQ(new_tree_data.GetNumberOfAttributes(), 2);
   EXPECT_EQ(new_tree_data.GetAttribute("role"), std::string("43"));
 }

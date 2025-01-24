@@ -53,7 +53,7 @@ public:
 
 private:
   std::unique_ptr<mvvm::TreeDataItemConverterInterface> m_converter;
-  std::unique_ptr<mvvm::TreeData> m_tree_data;
+  std::unique_ptr<mvvm::tree_data_t> m_tree_data;
 };
 
 }  // namespace

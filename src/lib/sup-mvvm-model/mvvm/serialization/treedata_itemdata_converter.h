@@ -50,7 +50,7 @@ public:
   TreeDataItemDataConverter();
 
   //! Converts SessionItemData to TreeData.
-  std::unique_ptr<TreeData> ToTreeData(const SessionItemData& item_data) const;
+  std::unique_ptr<tree_data_t> ToTreeData(const SessionItemData& item_data) const;
 
   //! Creates SessionItemData from TreeData.
   std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t& tree_data) const;
