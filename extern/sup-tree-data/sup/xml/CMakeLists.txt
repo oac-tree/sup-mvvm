@@ -1,6 +1,7 @@
 set(library_name sup-utils-tree-data)
 
 add_library(${library_name} STATIC "")
+set_property(TARGET ${library_name} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(${library_name} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../..>
