@@ -25,6 +25,6 @@
 
 #include <mvvm/serialization/tree_data_fwd.h>
 
-#include <sup/xml/tree_data.h>
+#include <sup/xml/tree_data.h> // IWYU pragma: export
 
 #endif  // MVVM_SERIALIZATION_TREE_DATA_H_
