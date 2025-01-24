@@ -19,7 +19,7 @@
 
 #include "treedata_taginfo_converter.h"
 
-#include "treedata.h"
+#include "tree_data.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/taginfo.h>

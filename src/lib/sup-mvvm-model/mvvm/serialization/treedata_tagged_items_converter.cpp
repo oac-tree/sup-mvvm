@@ -19,7 +19,7 @@
 
 #include "treedata_tagged_items_converter.h"
 
-#include "treedata.h"
+#include "tree_data.h"
 #include "treedata_item_container_converter.h"
 
 #include <mvvm/core/exceptions.h>

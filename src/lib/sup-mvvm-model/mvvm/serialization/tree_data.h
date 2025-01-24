@@ -17,19 +17,15 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_TREE_DATA_FWD_H_
-#define MVVM_SERIALIZATION_TREE_DATA_FWD_H_
+#ifndef MVVM_SERIALIZATION_TREE_DATA_H_
+#define MVVM_SERIALIZATION_TREE_DATA_H_
 
 //! @file
-//! Forward declaration for TreeData object.
+//! Header to not to expose TreeData that much.
 
-namespace mvvm
-{
+#include <mvvm/serialization/tree_data_fwd.h>
+#include <mvvm/serialization/treedata.h>
 
-class TreeData;
+#include <sup/xml/tree_data.h>
 
-using tree_data_t = TreeData;
-
-}  // namespace mvvm
-
-#endif  // MVVM_SERIALIZATION_TREE_DATA_FWD_H_
+#endif  // MVVM_SERIALIZATION_TREE_DATA_H_

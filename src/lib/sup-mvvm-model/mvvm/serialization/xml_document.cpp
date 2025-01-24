@@ -19,7 +19,7 @@
 
 #include "xml_document.h"
 
-#include "treedata.h"
+#include "tree_data.h"
 #include "treedata_model_converter.h"
 #include "xml_parse_utils.h"
 #include "xml_write_utils.h"

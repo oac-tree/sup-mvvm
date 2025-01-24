@@ -20,7 +20,7 @@
 #include "mvvm/serialization/treedata_itemdata_converter.h"
 
 #include <mvvm/model/session_item_data.h>
-#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/xml_parse_utils.h>
 
 #include <gtest/gtest.h>

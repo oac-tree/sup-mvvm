@@ -24,6 +24,7 @@ target_sources(${library_name} PRIVATE
   treedata_variant_converter.cpp
   treedata_variant_converter.h
   tree_data_fwd.h
+  tree_data.h
   xml_document.cpp
   xml_document.h
   xml_document_helper.h

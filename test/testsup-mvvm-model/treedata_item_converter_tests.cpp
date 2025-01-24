@@ -25,7 +25,7 @@
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
-#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/xml_parse_utils.h>
 #include <mvvm/serialization/xml_write_utils.h>
 #include <mvvm/standarditems/standard_item_includes.h>

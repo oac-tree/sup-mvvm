@@ -22,7 +22,7 @@
 #ifndef MVVM_SERIALIZATION_XML_PARSE_UTILS_H_
 #define MVVM_SERIALIZATION_XML_PARSE_UTILS_H_
 
-#include <mvvm/serialization/treedata.h>
+#include <mvvm/serialization/tree_data.h>
 
 #include <memory>
 

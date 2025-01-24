@@ -19,7 +19,7 @@
 
 #include "xml_write_utils.h"
 
-#include "treedata.h"
+#include "tree_data.h"
 
 #include <mvvm/core/exceptions.h>
 
