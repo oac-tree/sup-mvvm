@@ -22,8 +22,6 @@
 
 #include <mvvm/serialization/tree_data_fwd.h>
 
-#include <sup/xml/tree_data.h>
-
 #include <memory>
 #include <string>
 #include <vector>

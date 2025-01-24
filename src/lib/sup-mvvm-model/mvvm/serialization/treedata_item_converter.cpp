@@ -20,6 +20,7 @@
 #include "treedata_item_converter.h"
 
 #include "converter_types.h"
+#include "tree_data.h"
 #include "tree_data_helper.h"
 #include "treedata_itemdata_converter.h"
 #include "treedata_tagged_items_converter.h"

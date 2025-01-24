@@ -20,6 +20,7 @@
 #include "mvvm/serialization/treedata_taginfo_converter.h"
 
 #include <mvvm/model/taginfo.h>
+#include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_helper.h>
 
 #include <gtest/gtest.h>

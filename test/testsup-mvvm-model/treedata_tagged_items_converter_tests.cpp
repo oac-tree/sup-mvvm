@@ -23,6 +23,7 @@
 #include <mvvm/model/session_item_container.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
+#include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_helper.h>
 
 #include <gtest/gtest.h>

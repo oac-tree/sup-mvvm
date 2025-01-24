@@ -19,6 +19,7 @@
 
 #include "mvvm/serialization/treedata_variant_converter.h"
 
+#include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_helper.h>
 #include <mvvm/utils/string_format.h>
 

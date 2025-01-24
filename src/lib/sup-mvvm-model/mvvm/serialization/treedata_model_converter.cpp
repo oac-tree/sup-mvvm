@@ -19,6 +19,7 @@
 
 #include "treedata_model_converter.h"
 
+#include "tree_data.h"
 #include "tree_data_helper.h"
 #include "treedata_item_converter.h"
 
