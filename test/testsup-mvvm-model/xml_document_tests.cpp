@@ -25,6 +25,8 @@
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
 
+#include <sup/xml/exceptions.h>
+
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
@@ -89,7 +91,7 @@ TEST_F(XmlDocumentTest, SaveLoadEmptyDocumentWithoutProjectName)
 
   // attempt to load document saved in different gui
   XmlDocument document2({}, "another-gui");
-  EXPECT_THROW(document2.Load(file_path), RuntimeException);
+  EXPECT_THROW(document2.Load(file_path), mvvm::xml::InvalidOperationException);
 }
 
 //! Saving the model with content into document and restoring it after.

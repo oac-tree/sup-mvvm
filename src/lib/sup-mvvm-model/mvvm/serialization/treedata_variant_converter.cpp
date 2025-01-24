@@ -53,7 +53,7 @@ struct Converters
 // std::vector<std::string> GetExpectedAttributeKeys();
 
 //! Returns role attribute.
-int GetRole(const tree_data_t &tree_data);
+int GetRole(const tree_data_t& tree_data);
 
 //! Returns variant type name.
 std::string GetTypeName(const tree_data_t& tree_data);
@@ -68,14 +68,14 @@ mvvm::role_data_t to_undefined(const tree_data_t& tree_data);
 mvvm::role_data_t to_bool(const tree_data_t& tree_data);
 
 //! Converts TreeData to role_data_t holding integer data.
-template<typename T>
+template <typename T>
 mvvm::role_data_t to_int(const tree_data_t& tree_data);
 
 //! Converts TreeData to role_data_t holding string data.
 mvvm::role_data_t to_string(const tree_data_t& tree_data);
 
 //! Converts TreeData to role_data_t holding double data.
-template<typename T>
+template <typename T>
 mvvm::role_data_t to_double(const tree_data_t& tree_data);
 
 //! Converts TreeData to role_data_t holding vector<double>.
@@ -108,7 +108,7 @@ bool IsDataRoleConvertible(const tree_data_t& tree_data)
          && tree_data.GetNumberOfChildren() == 0;
 }
 
-role_data_t ToRoleData(const tree_data_t &tree_data)
+role_data_t ToRoleData(const tree_data_t& tree_data)
 {
   static const std::map<std::string, Converters> converters = GetConverters();
 
@@ -222,7 +222,7 @@ mvvm::role_data_t to_vector_double(const tree_data_t& tree_data)
   return {GetRole(tree_data), mvvm::variant_t(values)};
 }
 
-tree_data_t from_combo_property(const role_data_t &role_data)
+tree_data_t from_combo_property(const role_data_t& role_data)
 {
   tree_data_t result(kVariantElementType);
   result.AddAttribute(kRoleAttributeKey, std::to_string(role_data.first));
@@ -237,10 +237,9 @@ role_data_t to_combo_property(const tree_data_t& tree_data)
 {
   ComboProperty combo;
   combo.SetValuesFromString(tree_data.GetContent());
-  auto selections = tree_data.GetAttribute(kSelectionsAttributeKey);
-  if (!selections.empty())
+  if (tree_data.HasAttribute(kSelectionsAttributeKey))
   {
-    combo.SetSelectionFromString(selections);
+    combo.SetSelectionFromString(tree_data.GetAttribute(kSelectionsAttributeKey));
   }
   return {GetRole(tree_data), combo};
 }
@@ -274,8 +273,7 @@ std::map<std::string, Converters> GetConverters()
       {constants::kFloat64TypeName, {from_roledata_default_impl, to_double<mvvm::float64>}},
       {constants::kVectorDoubleTypeName, {from_roledata_default_impl, to_vector_double}},
       {constants::kComboPropertyTypeName, {from_combo_property, to_combo_property}},
-      {constants::kExternalPropertyTypeName,
-       {from_roledata_default_impl, to_external_property}}};
+      {constants::kExternalPropertyTypeName, {from_roledata_default_impl, to_external_property}}};
 
   return result;
 }
