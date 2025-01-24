@@ -21,7 +21,7 @@
 
 #include "exceptions.h"
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

@@ -30,7 +30,7 @@
 #include <memory>
 #include <string>
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

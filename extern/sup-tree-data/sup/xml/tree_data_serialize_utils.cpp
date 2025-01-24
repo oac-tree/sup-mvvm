@@ -25,7 +25,7 @@
 #include <sup/xml/xml_utils.h>
 #include "base_types.h"
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

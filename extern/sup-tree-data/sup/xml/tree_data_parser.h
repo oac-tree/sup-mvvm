@@ -26,7 +26,7 @@
 
 #include <memory>
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

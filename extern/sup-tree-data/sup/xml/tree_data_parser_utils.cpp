@@ -32,7 +32,7 @@
 
 namespace
 {
-using namespace sup::xml;
+using namespace mvvm::xml;
 
 struct StackNode
 {
@@ -43,7 +43,7 @@ struct StackNode
 
 }  // unnamed namespace
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

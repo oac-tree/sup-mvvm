@@ -22,7 +22,7 @@
 #ifndef SUP_XML_BASE_TYPES_H_
 #define SUP_XML_BASE_TYPES_H_
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

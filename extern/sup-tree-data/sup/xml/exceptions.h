@@ -25,7 +25,7 @@
 #include <exception>
 #include <string>
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

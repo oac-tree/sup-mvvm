@@ -21,7 +21,7 @@
 
 #include "xml_utils.h"
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

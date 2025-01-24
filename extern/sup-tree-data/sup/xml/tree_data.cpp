@@ -27,11 +27,11 @@
 
 namespace
 {
-bool EqualAttributes(const std::vector<sup::xml::TreeData::Attribute>& left,
-                     const std::vector<sup::xml::TreeData::Attribute>& right);
+bool EqualAttributes(const std::vector<mvvm::xml::TreeData::Attribute>& left,
+                     const std::vector<mvvm::xml::TreeData::Attribute>& right);
 }  // unnamed namespace
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {
@@ -144,12 +144,12 @@ std::string TreeData::GetContent() const
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 namespace
 {
-bool EqualAttributes(const std::vector<sup::xml::TreeData::Attribute>& left,
-                     const std::vector<sup::xml::TreeData::Attribute>& right)
+bool EqualAttributes(const std::vector<mvvm::xml::TreeData::Attribute>& left,
+                     const std::vector<mvvm::xml::TreeData::Attribute>& right)
 {
   if (left.size() != right.size())
   {

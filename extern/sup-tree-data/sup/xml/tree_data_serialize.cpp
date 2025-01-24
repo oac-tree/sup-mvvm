@@ -29,7 +29,7 @@
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {

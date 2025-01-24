@@ -26,7 +26,7 @@
 
 #include <libxml/xmlwriter.h>
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {
@@ -59,16 +59,16 @@ private:
 };
 
 //! Serialize the TreeData to the given writer
-void SerializeUsingWriter(xmlTextWriterPtr writer, const sup::xml::TreeData& tree_data);
+void SerializeUsingWriter(xmlTextWriterPtr writer, const mvvm::xml::TreeData& tree_data);
 
 //! Set-up indentation.
 void SetupWriterIndentation(xmlTextWriterPtr writer);
 
 //! Main method for recursive writing of XML from TreeData.
-void AddTreeData(xmlTextWriterPtr writer, const sup::xml::TreeData& tree_data);
+void AddTreeData(xmlTextWriterPtr writer, const mvvm::xml::TreeData& tree_data);
 
 //! Adds to currently opened XML element all attributes defined in TreeData.
-void AddTreeAttributes(xmlTextWriterPtr writer, const sup::xml::TreeData& tree_data);
+void AddTreeAttributes(xmlTextWriterPtr writer, const mvvm::xml::TreeData& tree_data);
 
 }  // namespace xml
 

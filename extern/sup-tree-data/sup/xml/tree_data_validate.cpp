@@ -25,7 +25,7 @@
 
 #include <algorithm>
 
-namespace sup
+namespace mvvm
 {
 namespace xml
 {
