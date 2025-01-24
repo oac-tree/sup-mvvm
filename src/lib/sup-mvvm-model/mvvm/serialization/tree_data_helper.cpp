@@ -20,7 +20,6 @@
 #include "tree_data_helper.h"
 
 #include <sup/xml/tree_data_parser.h>
-#include <sup/xml/tree_data_serialize.h>
 
 namespace mvvm
 {
@@ -35,7 +34,7 @@ std::vector<std::string> GetAttributeNames(const tree_data_t& tree_data)
   return result;
 }
 
-std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string &element)
+std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element)
 {
   const std::string header{R"RAW(<?xml version="1.0" encoding="UTF-8"?>
 )RAW"};
@@ -43,17 +42,5 @@ std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string &element)
   std::string content = header + element;
   return mvvm::xml::TreeDataFromString(content);
 }
-
-// void WriteToXMLFile(const std::string &file_name, const tree_data_t &tree_data)
-// {
-
-// }
-
-// std::unique_ptr<tree_data_t> ParseXMLDataFile(const std::string &file_name)
-// {
-//   return mvvm::xml::TreeDataFromFile(file_name);
-// }
-
-
 
 }  // namespace mvvm

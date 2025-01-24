@@ -21,7 +21,7 @@
 #define MVVM_SERIALIZATION_TREE_DATA_H_
 
 //! @file
-//! Header to not to expose TreeData that much.
+//! Header to partly hide actual type and actual header location.
 
 #include <mvvm/serialization/tree_data_fwd.h>
 

@@ -1,6 +1,4 @@
 target_sources(${library_name} PRIVATE
-  attribute_map.cpp
-  attribute_map.h
   converter_types.h
   i_model_document.h
   tree_data.h

@@ -36,7 +36,6 @@
 
 #include <mvvm/model_export.h>
 #include <mvvm/serialization/converter_types.h>
-#include <mvvm/serialization/tree_data_fwd.h>
 
 #include <memory>
 
@@ -61,7 +60,7 @@ MVVM_MODEL_EXPORT void PopulateSessionItemContainer(const tree_data_t& tree_data
 
 //! Returns TreeData object SessionItemContainer from SessionItemContainer object.
 MVVM_MODEL_EXPORT std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer& container,
-                                                       const create_treedata_t& func);
+                                                          const create_treedata_t& func);
 }  // namespace ContainerConverter
 
 }  // namespace mvvm

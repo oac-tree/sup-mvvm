@@ -35,10 +35,6 @@ std::vector<std::string> GetAttributeNames(const tree_data_t& tree_data);
 
 std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element);
 
-// void WriteToXMLFile(const std::string& file_name, const tree_data_t& tree_data);
-
-// std::unique_ptr<tree_data_t> ParseXMLDataFile(const std::string& file_name);
-
 }  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREE_DATA_HELPER_H_
