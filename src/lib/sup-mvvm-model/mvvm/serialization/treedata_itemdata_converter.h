@@ -31,12 +31,13 @@
 //! </ItemData>
 
 #include <mvvm/model_export.h>
+#include <mvvm/serialization/tree_data_fwd.h>
 
 #include <memory>
 
 namespace mvvm
 {
-class TreeData;
+
 class SessionItemData;
 
 //! Convert SessionItemData to/from TreeData objects.
@@ -52,12 +53,12 @@ public:
   std::unique_ptr<TreeData> ToTreeData(const SessionItemData& item_data) const;
 
   //! Creates SessionItemData from TreeData.
-  std::unique_ptr<SessionItemData> ToSessionItemData(const TreeData& tree_data) const;
+  std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t& tree_data) const;
 
   //! Populates existing SessionItemData from TreeData object.
-  void PopulateItemData(const TreeData& tree_data, SessionItemData& item_data) const;
+  void PopulateItemData(const tree_data_t& tree_data, SessionItemData& item_data) const;
 
-  bool IsSessionItemDataConvertible(const TreeData& tree_data) const;
+  bool IsSessionItemDataConvertible(const tree_data_t& tree_data) const;
 };
 
 }  // namespace mvvm

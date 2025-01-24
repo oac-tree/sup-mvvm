@@ -21,12 +21,13 @@
 #define MVVM_SERIALIZATION_TREEDATA_MODEL_CONVERTER_INTERFACE_H_
 
 #include <mvvm/model_export.h>
+#include <mvvm/serialization/tree_data_fwd.h>
 
 #include <memory>
 
 namespace mvvm
 {
-class TreeData;
+
 class ISessionModel;
 
 //! Base class for all converters of SessionModel to/from TreeData object.
@@ -37,7 +38,7 @@ public:
   virtual ~TreeDataModelConverterInterface() = default;
 
   //! Creates TreeData from SessionModel.
-  virtual std::unique_ptr<TreeData> ToTreeData(const ISessionModel& item) const = 0;
+  virtual std::unique_ptr<tree_data_t> ToTreeData(const ISessionModel& item) const = 0;
 
   //! Populates empty SessionModel from TreeData.
   virtual void PopulateSessionModel(const TreeData&, ISessionModel&) const = 0;

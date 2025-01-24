@@ -36,25 +36,26 @@
 
 #include <mvvm/model_export.h>
 #include <mvvm/serialization/converter_types.h>
+#include <mvvm/serialization/tree_data_fwd.h>
 
 #include <memory>
 
 namespace mvvm
 {
-class TreeData;
+
 class SessionItemContainer;
 
 namespace ContainerConverter
 {
 //! Returns true if given TreeData represents SessionItemContainer object.
-MVVM_MODEL_EXPORT bool IsItemContainerConvertible(const TreeData& tree_data);
+MVVM_MODEL_EXPORT bool IsItemContainerConvertible(const tree_data_t& tree_data);
 
 //! Returns SessionItemContainer object from its TreeData representation.
 MVVM_MODEL_EXPORT std::unique_ptr<SessionItemContainer> ToSessionItemContainer(
     const TreeData& tree_data, const create_item_t& func);
 
 //! Populate SessionItemContainer object from its TreeData representation.
-MVVM_MODEL_EXPORT void PopulateSessionItemContainer(const TreeData& tree_data,
+MVVM_MODEL_EXPORT void PopulateSessionItemContainer(const tree_data_t& tree_data,
                                                     SessionItemContainer& container,
                                                     const create_item_t& func);
 

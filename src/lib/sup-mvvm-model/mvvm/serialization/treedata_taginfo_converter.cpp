@@ -71,7 +71,7 @@ bool IsValidAttributes(const std::vector<std::string> &attributes,
 
 namespace mvvm
 {
-bool IsTagInfoConvertible(const TreeData &tree_data)
+bool IsTagInfoConvertible(const tree_data_t &tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
   return tree_data.GetType() == kTagInfoElementType
@@ -79,7 +79,7 @@ bool IsTagInfoConvertible(const TreeData &tree_data)
          && tree_data.GetNumberOfChildren() == 0;
 }
 
-TagInfo ToTagInfo(const TreeData &tree_data)
+TagInfo ToTagInfo(const tree_data_t &tree_data)
 {
   if (!IsTagInfoConvertible(tree_data))
   {

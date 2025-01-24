@@ -59,7 +59,7 @@ TreeDataModelConverter::TreeDataModelConverter(ConverterMode converter_mode)
 
 TreeDataModelConverter::~TreeDataModelConverter() = default;
 
-bool TreeDataModelConverter::IsSessionModelConvertible(const TreeData &tree_data) const
+bool TreeDataModelConverter::IsSessionModelConvertible(const tree_data_t &tree_data) const
 {
   static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
 
@@ -85,7 +85,7 @@ std::unique_ptr<TreeData> TreeDataModelConverter::ToTreeData(const ISessionModel
   return result;
 }
 
-void TreeDataModelConverter::PopulateSessionModel(const TreeData &tree_data,
+void TreeDataModelConverter::PopulateSessionModel(const tree_data_t &tree_data,
                                                   ISessionModel &model) const
 {
   if (!IsSessionModelConvertible(tree_data))

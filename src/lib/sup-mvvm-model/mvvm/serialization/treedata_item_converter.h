@@ -25,6 +25,7 @@
 
 namespace mvvm
 {
+
 class IItemFactory;
 
 //! Converters SessionItem to/from TreeData object.
@@ -39,10 +40,10 @@ public:
   ~TreeDataItemConverter() override;
 
   //! Returns true if given TreeData represents SessionItem object.
-  bool IsSessionItemConvertible(const TreeData& tree_data) const;
+  bool IsSessionItemConvertible(const tree_data_t& tree_data) const;
 
   //! Creates SessionItem from TreeData.
-  std::unique_ptr<SessionItem> ToSessionItem(const TreeData& tree_data) const override;
+  std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t& tree_data) const override;
 
   //! Creates TreeData from SessionItem.
   std::unique_ptr<TreeData> ToTreeData(const SessionItem& item) const override;

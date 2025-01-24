@@ -33,7 +33,7 @@ const std::string kItemContainerElementType = "ItemContainer";
 
 namespace mvvm::ContainerConverter
 {
-bool IsItemContainerConvertible(const TreeData &tree_data)
+bool IsItemContainerConvertible(const tree_data_t &tree_data)
 {
   const bool correct_type = tree_data.GetType() == kItemContainerElementType;
   const bool correct_attributes = tree_data.Attributes().GetNumberOfAttributes() == 0;
@@ -56,7 +56,7 @@ std::unique_ptr<SessionItemContainer> ToSessionItemContainer(const TreeData &tre
   return result;
 }
 
-void PopulateSessionItemContainer(const TreeData &tree_data, SessionItemContainer &container,
+void PopulateSessionItemContainer(const tree_data_t &tree_data, SessionItemContainer &container,
                                   const create_item_t &func)
 {
   if (!IsItemContainerConvertible(tree_data))

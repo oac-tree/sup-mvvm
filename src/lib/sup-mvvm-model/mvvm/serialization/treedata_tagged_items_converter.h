@@ -42,7 +42,7 @@
 
 namespace mvvm
 {
-class TreeData;
+
 class TaggedItems;
 
 //! Convert TaggedItems to/from TreeData objects.
@@ -54,16 +54,16 @@ public:
   ~TreeDataTaggedItemsConverter();
 
   //! Returns true if given TreeData can be converted to TaggedItems
-  bool IsTaggedItemsConvertible(const TreeData& tree_data) const;
+  bool IsTaggedItemsConvertible(const tree_data_t& tree_data) const;
 
   //! Creates TaggedItems from TreeData object.
-  std::unique_ptr<TaggedItems> ToTaggedItems(const TreeData& tree_data) const;
+  std::unique_ptr<TaggedItems> ToTaggedItems(const tree_data_t& tree_data) const;
 
   //! Populates existing TaggedItems from TreeData object.
-  void PopulateTaggedItems(const TreeData& tree_data, TaggedItems& tagged_items) const;
+  void PopulateTaggedItems(const tree_data_t& tree_data, TaggedItems& tagged_items) const;
 
   //! Creates TreeData from TaggedItems object.
-  std::unique_ptr<TreeData> ToTreeData(const TaggedItems& tagged_items) const;
+  std::unique_ptr<tree_data_t> ToTreeData(const TaggedItems& tagged_items) const;
 
 private:
   struct TreeDataTaggedItemsConverterImpl;

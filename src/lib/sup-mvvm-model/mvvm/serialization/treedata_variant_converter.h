@@ -35,20 +35,20 @@
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model_export.h>
+#include <mvvm/serialization/tree_data_fwd.h>
 
 namespace mvvm
 {
-class TreeData;
 
 //! Returns true if given TreeData represents role_data_t object.
-MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const TreeData& tree_data);
+MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const tree_data_t& tree_data);
 
 //! Returns role_data_t object from its TreeData representation. Will throw if convertions is not
 //! possible.
-MVVM_MODEL_EXPORT role_data_t ToRoleData(const TreeData& tree_data);
+MVVM_MODEL_EXPORT role_data_t ToRoleData(const tree_data_t& tree_data);
 
 //! Returns TreeData object constructed from role_data_t object.
-MVVM_MODEL_EXPORT TreeData ToTreeData(const role_data_t& role_data);
+MVVM_MODEL_EXPORT tree_data_t ToTreeData(const role_data_t& role_data);
 
 }  // namespace mvvm
 

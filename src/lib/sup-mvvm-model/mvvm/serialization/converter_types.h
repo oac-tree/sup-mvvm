@@ -24,23 +24,24 @@
 //! Collection of custom types involved into SessionItem and TreeData mutual convertion.
 
 #include <mvvm/model_export.h>
+#include <mvvm/serialization/tree_data_fwd.h>
 
 #include <functional>
 #include <memory>
 
 namespace mvvm
 {
-class TreeData;
+
 class SessionItem;
 
 //! Defines function to create TreeData object from SessionItem.
 using create_treedata_t = std::function<std::unique_ptr<TreeData>(const SessionItem&)>;
 
 //! Defines function to create SessionItem object from TreeData.
-using create_item_t = std::function<std::unique_ptr<SessionItem>(const TreeData&)>;
+using create_item_t = std::function<std::unique_ptr<SessionItem>(const tree_data_t&)>;
 
 //! Defines function to populate existing SessionItem from its' TreeData representaion.
-using update_item_t = std::function<void(const TreeData&, SessionItem&)>;
+using update_item_t = std::function<void(const tree_data_t&, SessionItem&)>;
 
 //! Provides necessary callbacks to convert SessionItem to TreeData and back.
 

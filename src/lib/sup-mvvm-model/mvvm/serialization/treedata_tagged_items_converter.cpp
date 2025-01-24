@@ -51,7 +51,7 @@ TreeDataTaggedItemsConverter::TreeDataTaggedItemsConverter(const ConverterCallba
 
 TreeDataTaggedItemsConverter::~TreeDataTaggedItemsConverter() = default;
 
-bool TreeDataTaggedItemsConverter::IsTaggedItemsConvertible(const TreeData &tree_data) const
+bool TreeDataTaggedItemsConverter::IsTaggedItemsConvertible(const tree_data_t &tree_data) const
 {
   const std::vector<std::string> expected_attributes({kDefaultTagKey});
   const bool correct_type = tree_data.GetType() == kTaggedItemsElementType;
@@ -60,14 +60,14 @@ bool TreeDataTaggedItemsConverter::IsTaggedItemsConvertible(const TreeData &tree
 }
 
 std::unique_ptr<TaggedItems> TreeDataTaggedItemsConverter::ToTaggedItems(
-    const TreeData &tree_data) const
+    const tree_data_t &tree_data) const
 {
   auto result = std::make_unique<TaggedItems>();
   PopulateTaggedItems(tree_data, *result);
   return result;
 }
 
-void TreeDataTaggedItemsConverter::PopulateTaggedItems(const TreeData &tree_data,
+void TreeDataTaggedItemsConverter::PopulateTaggedItems(const tree_data_t &tree_data,
                                                        TaggedItems &tagged_items) const
 {
   if (!IsTaggedItemsConvertible(tree_data))
@@ -85,7 +85,7 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const TreeData &tree_data
   }
 }
 
-std::unique_ptr<TreeData> TreeDataTaggedItemsConverter::ToTreeData(
+std::unique_ptr<tree_data_t> TreeDataTaggedItemsConverter::ToTreeData(
     const TaggedItems &tagged_items) const
 {
   auto result = std::make_unique<TreeData>(kTaggedItemsElementType);

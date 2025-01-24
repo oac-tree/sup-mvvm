@@ -106,7 +106,7 @@ TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory, Conver
 
 TreeDataItemConverter::~TreeDataItemConverter() = default;
 
-bool TreeDataItemConverter::IsSessionItemConvertible(const TreeData& tree_data) const
+bool TreeDataItemConverter::IsSessionItemConvertible(const tree_data_t& tree_data) const
 {
   static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
 
@@ -117,7 +117,8 @@ bool TreeDataItemConverter::IsSessionItemConvertible(const TreeData& tree_data) 
   return correct_type && correct_attributes && correct_children_count;
 }
 
-std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(const TreeData& tree_data) const
+std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(
+    const tree_data_t& tree_data) const
 {
   if (!IsSessionItemConvertible(tree_data))
   {

@@ -46,14 +46,14 @@ std::unique_ptr<TreeData> TreeDataItemDataConverter::ToTreeData(
 }
 
 std::unique_ptr<SessionItemData> TreeDataItemDataConverter::ToSessionItemData(
-    const TreeData &tree_data) const
+    const tree_data_t &tree_data) const
 {
   auto result = std::make_unique<SessionItemData>();
   PopulateItemData(tree_data, *result);
   return result;
 }
 
-void TreeDataItemDataConverter::PopulateItemData(const TreeData &tree_data,
+void TreeDataItemDataConverter::PopulateItemData(const tree_data_t &tree_data,
                                                  SessionItemData &item_data) const
 {
   if (!IsSessionItemDataConvertible(tree_data))
@@ -71,7 +71,7 @@ void TreeDataItemDataConverter::PopulateItemData(const TreeData &tree_data,
   }
 }
 
-bool TreeDataItemDataConverter::IsSessionItemDataConvertible(const TreeData &tree_data) const
+bool TreeDataItemDataConverter::IsSessionItemDataConvertible(const tree_data_t &tree_data) const
 {
   return tree_data.GetType() == kItemDataElementType && tree_data.GetNumberOfAttributes() == 0;
   // there is no sence to require empty content, it might still contains '\n' symbol,

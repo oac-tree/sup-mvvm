@@ -37,13 +37,13 @@ public:
   ~TreeDataModelConverter() override;
 
   //! Returns true if given TreeData represents SessionModel object.
-  bool IsSessionModelConvertible(const TreeData& tree_data) const;
+  bool IsSessionModelConvertible(const tree_data_t& tree_data) const;
 
   //! Creates TreeData from SessionModel.
   std::unique_ptr<TreeData> ToTreeData(const ISessionModel& model) const override;
 
   //! Populates empty SessionModel from TreeData.
-  void PopulateSessionModel(const TreeData& tree_data, ISessionModel& model) const override;
+  void PopulateSessionModel(const tree_data_t& tree_data, ISessionModel& model) const override;
 
 private:
   struct TreeDataModelConverterImpl;
