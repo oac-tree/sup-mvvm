@@ -21,6 +21,7 @@
 #define SAVELOADPROJECT_SAVELOADPROJECTCORE_MAIN_WINDOW_ACTIONS_H_
 
 #include <QObject>
+#include <memory>
 
 class QMainWindow;
 class QMenu;
