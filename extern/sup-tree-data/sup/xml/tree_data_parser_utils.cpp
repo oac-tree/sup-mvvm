@@ -160,4 +160,4 @@ void AddXMLContent(TreeData& tree, xmlDocPtr doc, const xmlNodePtr node)
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm

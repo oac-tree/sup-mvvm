@@ -164,6 +164,6 @@ private:
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_TREE_DATA_H_

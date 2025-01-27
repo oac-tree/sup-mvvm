@@ -123,6 +123,6 @@ public:
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_EXCEPTIONS_H_

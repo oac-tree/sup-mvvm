@@ -37,4 +37,4 @@ const xmlChar *FromString(const std::string &str)
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm

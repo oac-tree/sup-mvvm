@@ -51,6 +51,6 @@ void AddXMLContent(TreeData& tree, xmlDocPtr doc, const xmlNodePtr node);
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_TREEDATA_PARSER_UTILS_H_

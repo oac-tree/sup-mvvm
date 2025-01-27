@@ -38,6 +38,6 @@ const xmlChar* FromString(const std::string& str);
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_XML_UTILS_H_

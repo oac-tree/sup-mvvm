@@ -36,6 +36,6 @@ std::unique_ptr<TreeData> TreeDataFromString(const std::string& xml_str);
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_TREEDATA_PARSER_H_

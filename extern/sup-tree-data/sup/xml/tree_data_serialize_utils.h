@@ -72,6 +72,6 @@ void AddTreeAttributes(xmlTextWriterPtr writer, const mvvm::xml::TreeData& tree_
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_TREE_DATA_SERIALIZE_UTILS_H_

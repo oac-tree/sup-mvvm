@@ -43,6 +43,6 @@ void ValidateNoContent(const TreeData& tree);
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_TREE_DATA_VALIDATE_H_

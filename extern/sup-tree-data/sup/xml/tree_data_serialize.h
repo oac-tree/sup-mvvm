@@ -36,6 +36,6 @@ std::string TreeDataToString(const TreeData& tree_data);
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_TREE_DATA_SERIALIZE_H_

@@ -31,6 +31,6 @@ using uint32 = unsigned int;
 
 }  // namespace xml
 
-}  // namespace sup
+}  // namespace mvvm
 
 #endif  // SUP_XML_BASE_TYPES_H_
