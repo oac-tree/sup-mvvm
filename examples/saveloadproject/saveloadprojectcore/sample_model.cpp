@@ -22,6 +22,7 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/utils/numeric_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <chrono>

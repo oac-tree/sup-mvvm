@@ -20,6 +20,7 @@
 #include "drag_viewmodel.h"
 
 #include <mvvm/model/session_model.h>
+#include <mvvm/utils/numeric_utils.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -98,8 +99,9 @@ bool DragViewModel::dropMimeData(const QMimeData* data, Qt::DropAction action, i
   {
     auto item = GetRootSessionItem()->GetModel()->FindItem(id.toStdString());
 
-    int row =
-        std::clamp(requested_row, 0, item->GetParent()->GetItemCount(item->GetTagIndex().tag) - 1);
+    int max_item_index = item->GetParent()->GetItemCount(item->GetTagIndex().GetTag()) - 1;
+
+    int row = std::clamp(requested_row, 0, max_item_index);
     GetRootSessionItem()->GetModel()->MoveItem(item, GetRootSessionItem(),
                                                mvvm::TagIndex::Default(row));
   }
