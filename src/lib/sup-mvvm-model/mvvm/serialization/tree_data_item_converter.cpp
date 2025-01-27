@@ -17,13 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "treedata_item_converter.h"
+#include "tree_data_item_converter.h"
 
 #include "converter_types.h"
 #include "tree_data.h"
 #include "tree_data_helper.h"
-#include "treedata_itemdata_converter.h"
-#include "treedata_tagged_items_converter.h"
+#include "tree_data_itemdata_converter.h"
+#include "tree_data_tagged_items_converter.h"
 
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_item_factory.h>

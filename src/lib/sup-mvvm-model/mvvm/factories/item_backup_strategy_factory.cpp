@@ -22,7 +22,7 @@
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/serialization/tree_data.h>
-#include <mvvm/serialization/treedata_item_converter.h>
+#include <mvvm/serialization/tree_data_item_converter.h>
 
 namespace
 {

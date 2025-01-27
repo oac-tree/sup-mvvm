@@ -20,7 +20,7 @@
 #include "xml_document.h"
 
 #include "tree_data.h"
-#include "treedata_model_converter.h"
+#include "tree_data_model_converter.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/i_session_model.h>

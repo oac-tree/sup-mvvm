@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedata_model_converter.h"
+#include "mvvm/serialization/tree_data_model_converter.h"
 
 #include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/item_pool.h>

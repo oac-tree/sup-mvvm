@@ -21,7 +21,7 @@
 #define MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_H_
 
 #include <mvvm/serialization/converter_types.h>
-#include <mvvm/serialization/treedata_item_converter_interface.h>
+#include <mvvm/serialization/tree_data_item_converter_interface.h>
 
 namespace mvvm
 {

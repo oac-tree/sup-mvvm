@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/serialization/treedata_item_container_converter.h"
+#include "mvvm/serialization/tree_data_item_container_converter.h"
 
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>

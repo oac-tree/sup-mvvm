@@ -29,7 +29,7 @@
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
-#include <mvvm/serialization/treedata_item_converter.h>
+#include <mvvm/serialization/tree_data_item_converter.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <sup/xml/tree_data_parser.h>
@@ -37,7 +37,6 @@
 
 #include <sstream>
 #include <stack>
-
 namespace
 {
 /**

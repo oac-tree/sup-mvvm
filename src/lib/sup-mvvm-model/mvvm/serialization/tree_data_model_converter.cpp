@@ -17,11 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "treedata_model_converter.h"
+#include "tree_data_model_converter.h"
 
 #include "tree_data.h"
 #include "tree_data_helper.h"
-#include "treedata_item_converter.h"
+#include "tree_data_item_converter.h"
 
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>

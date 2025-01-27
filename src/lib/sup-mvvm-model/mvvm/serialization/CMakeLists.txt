@@ -5,24 +5,24 @@ target_sources(${library_name} PRIVATE
   tree_data_fwd.h
   tree_data_helper.cpp
   tree_data_helper.h
-  treedata_item_container_converter.cpp
-  treedata_item_container_converter.h
-  treedata_item_converter.cpp
-  treedata_item_converter.cpp
-  treedata_item_converter.h
-  treedata_item_converter.h
-  treedata_item_converter_interface.h
-  treedata_itemdata_converter.cpp
-  treedata_itemdata_converter.h
-  treedata_model_converter.cpp
-  treedata_model_converter.h
-  treedata_model_converter_interface.h
-  treedata_tagged_items_converter.cpp
-  treedata_tagged_items_converter.h
-  treedata_taginfo_converter.cpp
-  treedata_taginfo_converter.h
-  treedata_variant_converter.cpp
-  treedata_variant_converter.h
+  tree_data_item_container_converter.cpp
+  tree_data_item_container_converter.h
+  tree_data_item_converter.cpp
+  tree_data_item_converter.cpp
+  tree_data_item_converter.h
+  tree_data_item_converter.h
+  tree_data_item_converter_interface.h
+  tree_data_itemdata_converter.cpp
+  tree_data_itemdata_converter.h
+  tree_data_model_converter.cpp
+  tree_data_model_converter.h
+  tree_data_model_converter_interface.h
+  tree_data_tagged_items_converter.cpp
+  tree_data_tagged_items_converter.h
+  tree_data_taginfo_converter.cpp
+  tree_data_taginfo_converter.h
+  tree_data_variant_converter.cpp
+  tree_data_variant_converter.h
   xml_document.cpp
   xml_document.h
   xml_document_helper.h
