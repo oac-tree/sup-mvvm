@@ -48,8 +48,6 @@ class TaggedItems;
 class MVVM_MODEL_EXPORT SessionItem
 {
 public:
-  static inline const std::string Type = "SessionItem";
-
   SessionItem();
   virtual ~SessionItem();
 
@@ -61,6 +59,15 @@ public:
   SessionItem(const SessionItem& other);
 
   /**
+   * @brief Returns the static type of the item.
+   *
+   * This static method has to be implemented for every item derived from SessionItem. It shall be
+   * used during item construction to pass the type to the base class and during item factory
+   * registration. The method \@see SessionItem::GetType() returns the same value.
+   */
+  static std::string GetStaticType();
+
+  /**
    * @brief Creates a clone of the item.
    *
    * Creates an exact clone of the item together with all its children. All item identifiers will be
@@ -69,15 +76,6 @@ public:
    * have different item identifiers.
    */
   virtual std::unique_ptr<SessionItem> Clone() const;
-
-  /**
-   * @brief Returns the static type of the item.
-   *
-   * This static method has to be implemented for every item derived from SessionItem. It shall be
-   * used during item construction to pass the type to the base class and during item factory
-   * registration. The method \@see SessionItem::GetType() returns the same value.
-   */
-  static std::string GetStaticType();
 
   /**
    * @brief Returns the type of the item.

@@ -25,7 +25,7 @@
 
 namespace mvvm
 {
-VectorItem::VectorItem() : CompoundItem(Type)
+VectorItem::VectorItem() : CompoundItem(GetStaticType())
 {
   AddProperty(kX, 0.0).SetDisplayName("X");
   AddProperty(kY, 0.0).SetDisplayName("Y");
@@ -34,6 +34,11 @@ VectorItem::VectorItem() : CompoundItem(Type)
   SetEditable(false);
 
   UpdateLabel();
+}
+
+std::string VectorItem::GetStaticType()
+{
+  return "VectorItem";
 }
 
 std::unique_ptr<SessionItem> VectorItem::Clone() const

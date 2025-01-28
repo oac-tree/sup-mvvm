@@ -376,9 +376,10 @@ TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemWithout
 
   EXPECT_TRUE(presentation.Data(Qt::EditRole).isValid());
   EXPECT_TRUE(presentation.Data(Qt::DisplayRole).isValid());
-  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(), QString::fromStdString(SessionItem::Type));
+  EXPECT_EQ(presentation.Data(Qt::EditRole).toString(),
+            QString::fromStdString(SessionItem::GetStaticType()));
   EXPECT_EQ(presentation.Data(Qt::DisplayRole).toString(),
-            QString::fromStdString(SessionItem::Type));
+            QString::fromStdString(SessionItem::GetStaticType()));
 
   EXPECT_TRUE(presentation.SetData("abcabc", Qt::EditRole));
   EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));

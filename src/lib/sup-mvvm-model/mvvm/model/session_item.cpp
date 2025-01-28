@@ -50,7 +50,7 @@ struct SessionItem::SessionItemImpl
   std::string m_item_type;
 };
 
-SessionItem::SessionItem() : SessionItem(Type) {}
+SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
 
 SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
@@ -85,14 +85,14 @@ SessionItem::SessionItem(const SessionItem& other)
   }
 }
 
-std::unique_ptr<SessionItem> SessionItem::Clone() const
-{
-  return std::make_unique<SessionItem>(*this);
-}
-
 std::string SessionItem::GetStaticType()
 {
   return "SessionItem";
+}
+
+std::unique_ptr<SessionItem> SessionItem::Clone() const
+{
+  return std::make_unique<SessionItem>(*this);
 }
 
 std::string SessionItem::GetType() const

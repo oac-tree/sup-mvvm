@@ -46,12 +46,17 @@ static inline const std::string kText = "kText";
 static inline const std::string kFont = "kFont";
 static inline const std::string kSize = "kSize";
 
-TextItem::TextItem() : CompoundItem(Type)
+TextItem::TextItem() : CompoundItem(GetStaticType())
 {
   SetEditable(false);  // to disable editing of on-board data
   AddProperty(kText, "").SetDisplayName("Text");
   AddProperty(kFont, GetDefaultAxisFontFamily()).SetDisplayName("Font");
   AddProperty(kSize, GetDefaultAxisTitlePointSize()).SetDisplayName("Size");
+}
+
+std::string TextItem::GetStaticType()
+{
+  return "Text";
 }
 
 std::unique_ptr<SessionItem> TextItem::Clone() const
@@ -93,7 +98,7 @@ void TextItem::SetPointSize(int value)
 // PenItem
 // ----------------------------------------------------------------------------
 
-PenItem::PenItem() : CompoundItem(Type)
+PenItem::PenItem() : CompoundItem(GetStaticType())
 {
   SetEditable(false);  // to disable editing of on-board data
   AddProperty(kColor, "black")
@@ -104,6 +109,11 @@ PenItem::PenItem() : CompoundItem(Type)
   auto &width_property =
       AddProperty(kWidth, kPenDefaultWidth).SetDisplayName("Width").SetToolTip("Pen width");
   SetLimited(kPenMinWidth, kPenMaxWidth, width_property);
+}
+
+std::string PenItem::GetStaticType()
+{
+  return "Pen";
 }
 
 std::unique_ptr<SessionItem> PenItem::Clone() const

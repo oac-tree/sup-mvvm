@@ -35,11 +35,12 @@ class PenItem;
 class MVVM_MODEL_EXPORT GraphItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "Graph";
   static inline const std::string kLink = "kLink";
   static inline const std::string kDisplayed = "kDisplayed";
 
-  explicit GraphItem(const std::string& model_type = Type);
+  explicit GraphItem(const std::string& model_type = GetStaticType());
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

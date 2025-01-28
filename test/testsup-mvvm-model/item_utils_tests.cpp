@@ -188,7 +188,7 @@ TEST_F(ItemUtilsTests, RegisteredTags)
   EXPECT_TRUE(utils::RegisteredTags(item).empty());
 
   item.RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+  item.RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::GetStaticType()));
 
   EXPECT_EQ(utils::RegisteredTags(item), std::vector<std::string>({"default_tag", "property_tag"}));
 }
@@ -242,7 +242,7 @@ TEST_F(ItemUtilsTests, SinglePropertyItems)
 
   auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::GetStaticType()));
 
   auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
   auto child2 = model.InsertItem<PropertyItem>(parent, "property_tag");
@@ -284,7 +284,7 @@ TEST_F(ItemUtilsTests, FindNextSibling)
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreateUniversalTag("property_tag", {PropertyItem::Type}));
+  parent->RegisterTag(TagInfo::CreateUniversalTag("property_tag", {PropertyItem::GetStaticType()}));
 
   auto property = model.InsertItem<PropertyItem>(parent, TagIndex::Append("property_tag"));
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
@@ -306,7 +306,7 @@ TEST_F(ItemUtilsTests, FindPreviousSibling)
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::GetStaticType()));
 
   auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
@@ -328,7 +328,7 @@ TEST_F(ItemUtilsTests, FindNextItemToSelect)
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::GetStaticType()));
 
   auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
@@ -350,7 +350,7 @@ TEST_F(ItemUtilsTests, FindNextSiblingToSelect)
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
-  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::Type));
+  parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", PropertyItem::GetStaticType()));
 
   auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
@@ -863,7 +863,7 @@ TEST_F(ItemUtilsTests, ToStringAndBackNewID)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
-  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::GetStaticType());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_NE(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->GetTaggedItems()->GetDefaultTag(), "defaultTag");
@@ -873,7 +873,7 @@ TEST_F(ItemUtilsTests, ToStringAndBackNewID)
   auto reco_child = reco_parent->GetItem("defaultTag");
   EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
-  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
   EXPECT_NE(reco_child->GetIdentifier(), child->GetIdentifier());
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");

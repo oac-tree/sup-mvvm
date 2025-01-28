@@ -39,8 +39,8 @@ class GraphViewportItemTests : public ::testing::Test
 TEST_F(GraphViewportItemTests, InitialState)
 {
   const GraphViewportItem item;
-  EXPECT_EQ(item.GetXAxis()->GetType(), ViewportAxisItem::Type);
-  EXPECT_EQ(item.GetYAxis()->GetType(), ViewportAxisItem::Type);
+  EXPECT_EQ(item.GetXAxis()->GetType(), ViewportAxisItem::GetStaticType());
+  EXPECT_EQ(item.GetYAxis()->GetType(), ViewportAxisItem::GetStaticType());
   EXPECT_EQ(item.GetGraphItems().size(), 0);
   EXPECT_EQ(item.GetGraphCount(), 0);
 }

@@ -39,9 +39,9 @@ class PointItem;
 class MVVM_MODEL_EXPORT LineSeriesDataItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "LineSeriesData";
-
   LineSeriesDataItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

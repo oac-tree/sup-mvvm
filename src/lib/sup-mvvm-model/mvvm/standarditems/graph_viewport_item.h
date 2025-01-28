@@ -34,9 +34,9 @@ class GraphItem;
 class MVVM_MODEL_EXPORT GraphViewportItem : public ViewportItem
 {
 public:
-  static inline const std::string Type = "GraphViewport";
+  explicit GraphViewportItem(const std::string& model_type = GetStaticType());
 
-  explicit GraphViewportItem(const std::string& model_type = Type);
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

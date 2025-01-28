@@ -120,7 +120,7 @@ TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
 
   // checking parent reconstruction
   EXPECT_EQ(reco_parent->GetModel(), &target);
-  EXPECT_EQ(reco_parent->GetType(), SessionItem::Type);
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::GetStaticType());
   EXPECT_EQ(reco_parent->GetParent(), target.GetRootItem());
   EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
   EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
@@ -130,7 +130,7 @@ TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
 
   // checking child reconstruction
   EXPECT_EQ(reco_child->GetModel(), &target);
-  EXPECT_EQ(reco_child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(reco_child->GetParent(), reco_parent);
   EXPECT_EQ(reco_child->GetDisplayName(), "child_name");
   EXPECT_EQ(reco_child->GetTotalItemCount(), 0);

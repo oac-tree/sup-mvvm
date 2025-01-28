@@ -60,7 +60,8 @@ public:
 TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
 {
   TaggedItems tagged_items;
-  tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
+  tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::GetStaticType()),
+                           true);
   tagged_items.RegisterTag(TagInfo::CreateUniversalTag("Items"));
 
   tagged_items.ContainerAt(0).InsertItem(std::make_unique<PropertyItem>(), 0);
@@ -78,7 +79,8 @@ TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
 TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeDataAndBack)
 {
   TaggedItems tagged_items;
-  tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::Type), true);
+  tagged_items.RegisterTag(TagInfo::CreatePropertyTag("thickness", PropertyItem::GetStaticType()),
+                           true);
   tagged_items.RegisterTag(TagInfo::CreateUniversalTag("items"));
 
   tagged_items.ContainerAt(0).InsertItem(std::make_unique<PropertyItem>(), 0);

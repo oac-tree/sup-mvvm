@@ -39,6 +39,12 @@ GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
   AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
+std::string GraphItem::GetStaticType()
+{
+  return "Graph";
+}
+
+
 std::unique_ptr<SessionItem> GraphItem::Clone() const
 {
   return std::make_unique<GraphItem>(*this);

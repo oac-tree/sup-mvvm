@@ -43,6 +43,8 @@ public:
 
   ChartViewportItem();
 
+  static std::string GetStaticType();
+
   std::vector<LineSeriesItem*> GetLineSeries() const;
 
   int GetLineSeriesCount() const;

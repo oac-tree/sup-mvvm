@@ -207,7 +207,7 @@ TEST_F(StandardChildrenStrategiesTest, FixedItemTypeStrategy)
   test::toyitems::ParticleItem particle_item;
   VectorItem vector_item;
 
-  const FixedItemTypeStrategy strategy({VectorItem::Type});
+  const FixedItemTypeStrategy strategy({VectorItem::GetStaticType()});
   EXPECT_TRUE(strategy.GetChildren(nullptr).empty());
   EXPECT_TRUE(strategy.GetChildren(&vector_item).empty());
 

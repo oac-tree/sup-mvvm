@@ -104,7 +104,7 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), SessionItem::Type);
+  EXPECT_EQ(item->GetType(), SessionItem::GetStaticType());
 
   // checking registration
   auto item_key = item->GetIdentifier();
@@ -147,7 +147,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), SessionItem::Type);
+  EXPECT_EQ(item->GetType(), SessionItem::GetStaticType());
 
   // adding child to it
   auto child = model.InsertItem<PropertyItem>(item, {"tag", 0});
@@ -158,7 +158,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(child->GetType(), PropertyItem::GetStaticType());
 
   // adding second child to it
 
@@ -187,7 +187,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(child->GetType(), PropertyItem::GetStaticType());
   auto child_tagindex = child->GetTagIndex();
   EXPECT_EQ(child_tagindex.GetTag(), "tag");
   EXPECT_EQ(child_tagindex.GetIndex(), 0);
@@ -217,7 +217,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), PropertyItem::Type);
+  EXPECT_EQ(child->GetType(), PropertyItem::GetStaticType());
   auto child_tagindex = child->GetTagIndex();
   EXPECT_EQ(child_tagindex.GetTag(), "tag");
   EXPECT_EQ(child_tagindex.GetIndex(), 0);
@@ -713,7 +713,7 @@ TEST_F(SessionModelTest, SetComposer)
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), SessionItem::Type);
+  EXPECT_EQ(item->GetType(), SessionItem::GetStaticType());
 
   // checking registration
   auto item_key = item->GetIdentifier();

@@ -52,7 +52,7 @@ TEST_F(CompoundItemTests, AddIntProperty)
   auto& property = item.AddProperty(property_name, expected);
   EXPECT_TRUE(utils::HasTag(item, "name"));
 
-  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(property.GetDisplayName(), property_name);
   EXPECT_EQ(property.Data<int>(), expected);
 }
@@ -77,7 +77,7 @@ TEST_F(CompoundItemTests, AddDoubleProperty)
   auto& property = item.AddProperty(property_name, expected);
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(property.GetDisplayName(), property_name);
   EXPECT_EQ(property.Data<double>(), expected);
 }
@@ -101,7 +101,7 @@ TEST_F(CompoundItemTests, AddCharProperty)
   auto& property = item.AddProperty(property_name, "abc");
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(property.Data<std::string>(), std::string("abc"));
 }
 
@@ -124,7 +124,7 @@ TEST_F(CompoundItemTests, AddStringProperty)
   auto& property = item.AddProperty(property_name, std::string("abc"));
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(property.Data<std::string>(), std::string("abc"));
 }
 
@@ -148,7 +148,7 @@ TEST_F(CompoundItemTests, AddBoolProperty)
   auto& property = item.AddProperty(property_name, expected);
   EXPECT_TRUE(utils::HasTag(item, property_name));
 
-  EXPECT_EQ(property.GetType(), PropertyItem::Type);
+  EXPECT_EQ(property.GetType(), PropertyItem::GetStaticType());
   EXPECT_EQ(property.Data<bool>(), expected);
 }
 
@@ -210,8 +210,8 @@ TEST_F(CompoundItemTests, DisplayNameIndexAddition)
   auto child1 = parent.InsertItem<CompoundItem>(TagIndex::Append(tag));
 
   // Default display names of items of the same type should have indices
-  EXPECT_EQ(child0->GetDisplayName(), CompoundItem::Type + "0");
-  EXPECT_EQ(child1->GetDisplayName(), CompoundItem::Type + "1");
+  EXPECT_EQ(child0->GetDisplayName(), CompoundItem::GetStaticType() + "0");
+  EXPECT_EQ(child1->GetDisplayName(), CompoundItem::GetStaticType() + "1");
 
   // however, if children have custom display name, they should remain intact
   child0->SetDisplayName("Jekyll");

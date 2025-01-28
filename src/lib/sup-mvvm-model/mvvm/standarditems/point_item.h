@@ -34,9 +34,9 @@ namespace mvvm
 class MVVM_MODEL_EXPORT PointItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "Point";
-
   PointItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

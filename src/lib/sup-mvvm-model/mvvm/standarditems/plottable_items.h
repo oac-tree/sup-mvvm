@@ -34,9 +34,9 @@ namespace mvvm
 class MVVM_MODEL_EXPORT TextItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "Text";
-
   TextItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -56,12 +56,13 @@ public:
 class MVVM_MODEL_EXPORT PenItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "Pen";
   static inline const std::string kColor = "kColor";
   static inline const std::string kStyle = "kStyle";
   static inline const std::string kWidth = "kWidth";
 
   PenItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

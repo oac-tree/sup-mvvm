@@ -36,11 +36,12 @@ class BinnedAxisItem;
 class MVVM_MODEL_EXPORT Data1DItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "Data1D";
   static inline const std::string kValues = "kValues";
   static inline const std::string kErrors = "kErrors";
 
   Data1DItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

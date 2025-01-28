@@ -37,14 +37,21 @@ namespace mvvm
 
 static inline const std::string kAxis = "kAxis";
 
-Data1DItem::Data1DItem() : CompoundItem(Type)
+Data1DItem::Data1DItem() : CompoundItem(GetStaticType())
 {
   // prevent editing in widgets, since there is no corresponding editor
   AddProperty(kValues, std::vector<double>()).SetDisplayName("Values").SetEditable(false);
 
   AddProperty(kErrors, std::vector<double>()).SetDisplayName("Errors").SetEditable(false);
 
-  RegisterTag(TagInfo(kAxis, 0, 1, {FixedBinAxisItem::Type, PointwiseAxisItem::Type}), true);
+  RegisterTag(
+      TagInfo(kAxis, 0, 1, {FixedBinAxisItem::GetStaticType(), PointwiseAxisItem::GetStaticType()}),
+      true);
+}
+
+std::string Data1DItem::GetStaticType()
+{
+  return "Data1D";
 }
 
 std::unique_ptr<SessionItem> Data1DItem::Clone() const

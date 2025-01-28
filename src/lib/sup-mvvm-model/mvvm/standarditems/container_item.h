@@ -33,9 +33,9 @@ namespace mvvm
 class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "Container";
+  explicit ContainerItem(const std::string& model_type = GetStaticType());
 
-  explicit ContainerItem(const std::string& model_type = Type);
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

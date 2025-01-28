@@ -127,7 +127,7 @@ template <typename T>
 template <typename U>
 void ItemCatalogue<T>::RegisterItem(const std::string& label)
 {
-  RegisterItem(U::Type, []() { return std::make_unique<U>(); }, label);
+  RegisterItem(U::GetStaticType(), []() { return std::make_unique<U>(); }, label);
 }
 
 template <typename T>

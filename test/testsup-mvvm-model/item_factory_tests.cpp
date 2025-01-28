@@ -58,15 +58,15 @@ public:
   template <typename T>
   bool CanCreateCorrectType(const ItemFactory& factory)
   {
-    auto item = factory.CreateItem(T::Type);
+    auto item = factory.CreateItem(T::GetStaticType());
     return IsCorrectType<T>(item.get());
   }
 
   class TestItem : public SessionItem
   {
   public:
-    static inline const std::string Type = "ItemFactoryTestItem";
-    TestItem() : SessionItem(Type) {}
+    TestItem() : SessionItem(GetStaticType()) {}
+    static std::string GetStaticType() { return "ItemFactoryTestItem"; }
   };
 };
 
@@ -127,14 +127,14 @@ TEST_F(ItemFactoryTests, GetGlobalItemFactory)
 TEST_F(ItemFactoryTests, RegisteringItem)
 {
   auto& factory = GetGlobalItemFactory();
-  EXPECT_THROW(factory.CreateItem(TestItem::Type), KeyNotFoundException);
+  EXPECT_THROW(factory.CreateItem(TestItem::GetStaticType()), KeyNotFoundException);
   const size_t registration_count = factory.GetItemTypes().size();
 
   factory.RegisterItem<TestItem>();
   EXPECT_TRUE(CanCreateCorrectType<TestItem>(factory));
-  EXPECT_TRUE(factory.IsRegistered(TestItem::Type));
+  EXPECT_TRUE(factory.IsRegistered(TestItem::GetStaticType()));
   EXPECT_TRUE(factory.IsRegistered<TestItem>());
 
-  EXPECT_NO_THROW(factory.CreateItem(TestItem::Type));
+  EXPECT_NO_THROW(factory.CreateItem(TestItem::GetStaticType()));
   EXPECT_EQ(factory.GetItemTypes().size(), registration_count + 1);
 }

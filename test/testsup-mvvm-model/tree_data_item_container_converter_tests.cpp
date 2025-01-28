@@ -61,7 +61,7 @@ public:
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 {
   // creating container
-  const TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
+  const TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::GetStaticType());
   SessionItemContainer container(tag);
 
   // inserting single property item
@@ -79,7 +79,7 @@ TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeDataAndBack)
 {
   // creating container
-  const TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::Type);
+  const TagInfo tag = TagInfo::CreatePropertyTag("thickness", PropertyItem::GetStaticType());
   SessionItemContainer container(tag);
 
   // inserting single property item

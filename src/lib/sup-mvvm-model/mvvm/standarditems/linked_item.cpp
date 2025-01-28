@@ -29,10 +29,15 @@ const std::string kEmptyLinkIdentifier = "";
 namespace mvvm
 {
 
-LinkedItem::LinkedItem() : SessionItem(Type)
+LinkedItem::LinkedItem() : SessionItem(GetStaticType())
 {
   SetData(kEmptyLinkIdentifier);
   SetEditable(false);  // prevent editing in widgets, link is set programmatically.
+}
+
+std::string LinkedItem::GetStaticType()
+{
+  return "Linked";
 }
 
 std::unique_ptr<SessionItem> LinkedItem::Clone() const

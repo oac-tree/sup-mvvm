@@ -63,8 +63,8 @@ TEST_F(SessionItemTests, InitialState)
   EXPECT_EQ(item.GetTotalItemCount(), 0);
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
   EXPECT_TRUE(item.GetAllItems().empty());
-  EXPECT_EQ(item.GetType(), SessionItem::Type);
-  EXPECT_EQ(item.GetDisplayName(), SessionItem::Type);
+  EXPECT_EQ(item.GetType(), SessionItem::GetStaticType());
+  EXPECT_EQ(item.GetDisplayName(), SessionItem::GetStaticType());
 
   // Initially item has already an identifier defined.
   std::vector<int> expected_roles = {DataRole::kIdentifier};
@@ -77,7 +77,7 @@ TEST_F(SessionItemTests, InitialState)
 TEST_F(SessionItemTests, GetType)
 {
   SessionItem item;
-  EXPECT_EQ(item.GetType(), SessionItem::Type);
+  EXPECT_EQ(item.GetType(), SessionItem::GetStaticType());
 }
 
 //! Validating ::setData and appearance of roles.

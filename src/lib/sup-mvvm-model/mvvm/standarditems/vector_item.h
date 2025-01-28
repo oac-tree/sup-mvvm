@@ -31,12 +31,13 @@ namespace mvvm
 class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "VectorItem";
   static inline const std::string kX = "kX";
   static inline const std::string kY = "kY";
   static inline const std::string kZ = "kZ";
 
   VectorItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

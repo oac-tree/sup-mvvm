@@ -29,6 +29,11 @@ ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model
   RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
 }
 
+std::string ContainerItem::GetStaticType()
+{
+  return "Container";
+}
+
 std::unique_ptr<SessionItem> ContainerItem::Clone() const
 {
   return std::make_unique<ContainerItem>(*this);

@@ -35,9 +35,9 @@ namespace mvvm
 class MVVM_MODEL_EXPORT LinkedItem : public SessionItem
 {
 public:
-  static inline const std::string Type = "Linked";
-
   LinkedItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

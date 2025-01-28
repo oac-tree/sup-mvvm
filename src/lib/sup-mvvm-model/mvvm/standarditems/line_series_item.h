@@ -37,10 +37,11 @@ class LineSeriesDataItem;
 class MVVM_MODEL_EXPORT LineSeriesItem : public CompoundItem
 {
 public:
-  static inline const std::string Type = "LineSeries";
   static inline const std::string kOffset = "kOffset";
 
   LineSeriesItem();
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

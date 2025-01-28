@@ -65,10 +65,11 @@ protected:
 class MVVM_MODEL_EXPORT ViewportAxisItem : public BasicAxisItem
 {
 public:
-  static inline const std::string Type = "ViewportAxis";
   static inline const std::string kIsLog = "kIsLog";
 
-  explicit ViewportAxisItem(const std::string& model_type = Type);
+  explicit ViewportAxisItem(const std::string& model_type = GetStaticType());
+
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -116,9 +117,9 @@ public:
 class MVVM_MODEL_EXPORT FixedBinAxisItem : public BinnedAxisItem
 {
 public:
-  static inline const std::string Type = "FixedBinAxis";
+  explicit FixedBinAxisItem(const std::string& model_type = GetStaticType());
 
-  explicit FixedBinAxisItem(const std::string& model_type = Type);
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -141,9 +142,9 @@ public:
 class MVVM_MODEL_EXPORT PointwiseAxisItem : public BinnedAxisItem
 {
 public:
-  static inline const std::string Type = "PointwiseAxis";
+  explicit PointwiseAxisItem(const std::string& model_type = GetStaticType());
 
-  explicit PointwiseAxisItem(const std::string& model_type = Type);
+  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

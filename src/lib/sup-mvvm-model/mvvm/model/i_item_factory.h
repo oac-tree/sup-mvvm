@@ -79,13 +79,13 @@ public:
 template <typename T>
 void IItemFactory::RegisterItem(const std::string& label)
 {
-  RegisterItem(T::Type, ItemFactoryFunction<T>, label);
+  RegisterItem(T::GetStaticType(), ItemFactoryFunction<T>, label);
 }
 
 template <typename T>
 bool IItemFactory::IsRegistered() const
 {
-  return IsRegistered(T::Type);
+  return IsRegistered(T::GetStaticType());
 }
 
 }  // namespace mvvm
