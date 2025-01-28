@@ -61,9 +61,11 @@ public:
   /**
    * @brief Returns the static type of the item.
    *
-   * This static method has to be implemented for every item derived from SessionItem. It shall be
-   * used during item construction to pass the type to the base class and during item factory
-   * registration. The method \@see SessionItem::GetType() returns the same value.
+   * This static method has to be implemented for every item derived from SessionItem. It has to
+   * return a unique item's type name. The method is used during item construction to register items
+   * in item factory, and as a parameter for base class c-tor.
+   *
+   * To access the item type during runtime use \@see SessionItem::GetType().
    */
   static std::string GetStaticType();
 

@@ -59,7 +59,7 @@ T GetSendItem(QSignalSpy& signal_spy)
 }
 
 /**
- * @brief Returns true if given item can be casted to desired type.
+ * @brief Checks if given item can be casted to desired type.
  */
 template <typename DesiredT, typename ItemT>
 bool CanCast(const ItemT* item)

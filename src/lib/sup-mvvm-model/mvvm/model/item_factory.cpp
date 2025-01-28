@@ -59,28 +59,24 @@ bool ItemFactory::IsRegistered(const std::string& type_name) const
 
 void InitItemFactory(ItemFactory& factory)
 {
-  // basic items
+  factory.RegisterItem<ChartViewportItem>();
   factory.RegisterItem<CompoundItem>();
-  factory.RegisterItem<PropertyItem>();
   factory.RegisterItem<ContainerItem>();
-  factory.RegisterItem<SessionItem>();
-  factory.RegisterItem<LinkedItem>();
-  factory.RegisterItem<VectorItem>();
-
-  // plotting items
   factory.RegisterItem<Data1DItem>();
   factory.RegisterItem<FixedBinAxisItem>();
   factory.RegisterItem<GraphItem>();
   factory.RegisterItem<GraphViewportItem>();
-  factory.RegisterItem<PenItem>();
-  factory.RegisterItem<PointwiseAxisItem>();
-  factory.RegisterItem<TextItem>();
-  factory.RegisterItem<ViewportAxisItem>();
-
   factory.RegisterItem<LineSeriesDataItem>();
-  factory.RegisterItem<PointItem>();
   factory.RegisterItem<LineSeriesItem>();
-  factory.RegisterItem<ChartViewportItem>();
+  factory.RegisterItem<LinkedItem>();
+  factory.RegisterItem<PenItem>();
+  factory.RegisterItem<PointItem>();
+  factory.RegisterItem<PointwiseAxisItem>();
+  factory.RegisterItem<PropertyItem>();
+  factory.RegisterItem<SessionItem>();
+  factory.RegisterItem<TextItem>();
+  factory.RegisterItem<VectorItem>();
+  factory.RegisterItem<ViewportAxisItem>();
 }
 
 ItemFactory& GetGlobalItemFactory()
