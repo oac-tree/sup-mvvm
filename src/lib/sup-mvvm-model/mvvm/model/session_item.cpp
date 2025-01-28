@@ -90,6 +90,11 @@ std::unique_ptr<SessionItem> SessionItem::Clone() const
   return std::make_unique<SessionItem>(*this);
 }
 
+std::string SessionItem::GetStaticType()
+{
+  return "SessionItem";
+}
+
 std::string SessionItem::GetType() const
 {
   return p_impl->m_item_type;

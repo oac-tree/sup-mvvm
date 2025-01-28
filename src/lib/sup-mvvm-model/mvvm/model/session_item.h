@@ -71,6 +71,15 @@ public:
   virtual std::unique_ptr<SessionItem> Clone() const;
 
   /**
+   * @brief Returns the static type of the item.
+   *
+   * This static method has to be implemented for every item derived from SessionItem. It shall be
+   * used during item construction to pass the type to the base class and during item factory
+   * registration. The method \@see SessionItem::GetType() returns the same value.
+   */
+  static std::string GetStaticType();
+
+  /**
    * @brief Returns the type of the item.
    */
   std::string GetType() const;
