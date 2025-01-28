@@ -85,6 +85,11 @@ std::string ChartViewportItem::GetStaticType()
   return "ChartViewport";
 }
 
+std::unique_ptr<SessionItem> ChartViewportItem::Clone() const
+{
+  return std::make_unique<ChartViewportItem>(*this);
+}
+
 std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const
 {
   return GetItems<LineSeriesItem>(kItems);

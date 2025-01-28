@@ -44,6 +44,8 @@ public:
 
   static std::string GetStaticType();
 
+  std::unique_ptr<SessionItem> Clone() const override;
+
   std::vector<LineSeriesItem*> GetLineSeries() const;
 
   int GetLineSeriesCount() const;
