@@ -35,7 +35,6 @@ class LineSeriesItem;
 class ChartViewportItem : public mvvm::ViewportItem
 {
 public:
-  static inline const std::string Type = "ChartViewport";
   static inline const std::string kAnimation = "kAnimation";
   static inline const std::string kGridAnimation = "Grid axis animation";
   static inline const std::string kSeriesAnimation = "Line series animation";

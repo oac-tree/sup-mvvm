@@ -57,7 +57,7 @@ static bool registered_flag = RegisterDemoItems();
 namespace dragandmove
 {
 
-DemoItem::DemoItem() : CompoundItem(Type)
+DemoItem::DemoItem() : CompoundItem(GetStaticType())
 {
   AddProperty("Color", "green").SetEditorType(mvvm::constants::kColorEditorType);
   AddProperty("Bool", true);
@@ -66,9 +66,20 @@ DemoItem::DemoItem() : CompoundItem(Type)
   AddProperty("Double", 42.1);
 }
 
-DemoContainerItem::DemoContainerItem() : CompoundItem(Type)
+std::string DemoItem::GetStaticType()
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {DemoItem::Type}), /*set_default*/ true);
+  return "DemoItem";
+}
+
+DemoContainerItem::DemoContainerItem() : CompoundItem(GetStaticType())
+{
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {DemoItem::GetStaticType()}),
+              /*set_default*/ true);
+}
+
+std::string DemoContainerItem::GetStaticType()
+{
+  return "DemoContainerItem";
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel")

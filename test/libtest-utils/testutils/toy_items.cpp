@@ -40,24 +40,39 @@ bool toy_items_registered_flag = RegisterToyItems();
 namespace mvvm::test::toyitems
 {
 
-ParticleItem::ParticleItem() : CompoundItem(ParticleItem::Type)
+ParticleItem::ParticleItem() : CompoundItem(ParticleItem::GetStaticType())
 {
   AddProperty<mvvm::VectorItem>("position");
   AddProperty("shape", "sphere");
 }
 
-LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::Type)
+std::string ParticleItem::GetStaticType()
+{
+  return "Particle";
+}
+
+LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::GetStaticType())
 {
   AddProperty("Thickness", 42.0);
   AddProperty("Color", "green");
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kParticleTag, {ParticleItem::Type}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kParticleTag, {ParticleItem::GetStaticType()}),
               /*set_as_default*/ true);
 }
 
-MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(Type)
+std::string LayerItem::GetStaticType()
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kLayerTag, {LayerItem::Type}),
+  return "Layer";
+}
+
+MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(GetStaticType())
+{
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kLayerTag, {LayerItem::GetStaticType()}),
               /*set_as_default*/ true);
+}
+
+std::string MultiLayerItem::GetStaticType()
+{
+  return "MultiLayer";
 }
 
 std::vector<LayerItem *> MultiLayerItem::GetLayers() const

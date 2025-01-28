@@ -39,14 +39,17 @@ public:
   class TestItem : public CompoundItem
   {
   public:
-    static inline const std::string Type = "TestItem";
-
-    TestItem() : CompoundItem(Type)
+    TestItem() : CompoundItem(GetStaticType())
     {
       SetDisplayName("parent_name");
       RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
       auto child = InsertItem(std::make_unique<SessionItem>(), TagIndex::Append());
       child->SetDisplayName("child_name");
+    }
+
+    static std::string GetStaticType()
+    {
+      return "TestItem";
     }
   };
 

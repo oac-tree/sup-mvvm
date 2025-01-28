@@ -42,9 +42,11 @@ public:
   class TestItem : public SessionItem
   {
   public:
-    static inline const std::string Type = "TestItemType";
-
-    TestItem() : SessionItem(Type) {};
+    TestItem() : SessionItem(GetStaticType()) {};
+    static std::string GetStaticType()
+    {
+      return "TestItemType";
+    }
   };
 
   class TestModel : public SessionModel

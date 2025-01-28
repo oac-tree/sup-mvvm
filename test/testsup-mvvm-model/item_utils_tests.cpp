@@ -572,10 +572,10 @@ TEST_F(ItemUtilsTests, FindItemDown)
     auto layer1 = multilayer.InsertItem<LayerItem>(mvvm::TagIndex::Append());
     auto particle2 = layer1->InsertItem<ParticleItem>(mvvm::TagIndex::Append());
 
-    EXPECT_EQ(utils::FindItemDown<SessionItem>(&multilayer, ParticleItem::Type),
+    EXPECT_EQ(utils::FindItemDown<SessionItem>(&multilayer, ParticleItem::GetStaticType()),
               std::vector<const SessionItem*>({particle0, particle1, particle2}));
 
-    EXPECT_EQ(utils::FindItemDown(&multilayer, ParticleItem::Type),
+    EXPECT_EQ(utils::FindItemDown(&multilayer, ParticleItem::GetStaticType()),
               std::vector<const SessionItem*>({particle0, particle1, particle2}));
   }
 }

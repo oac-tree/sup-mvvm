@@ -35,22 +35,22 @@ const std::string kLayerTag = "Layers";
 class ParticleItem : public mvvm::CompoundItem
 {
 public:
-  static inline const std::string Type = "Particle";
   ParticleItem();
+  static std::string GetStaticType();
 };
 
 class LayerItem : public mvvm::CompoundItem
 {
 public:
-  static inline const std::string Type = "Layer";
   LayerItem();
+  static std::string GetStaticType();
 };
 
 class MultiLayerItem : public mvvm::CompoundItem
 {
 public:
-  static inline const std::string Type = "MultiLayer";
   MultiLayerItem();
+  static std::string GetStaticType();
 
   std::vector<LayerItem*> GetLayers() const;
 };
