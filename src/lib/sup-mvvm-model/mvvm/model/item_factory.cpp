@@ -19,6 +19,7 @@
 
 #include "item_factory.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/model/item_catalogue.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/standard_item_includes.h>
@@ -37,6 +38,16 @@ ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue)
 void ItemFactory::RegisterItem(const std::string& type_name, item_factory_func_t func,
                                const std::string& label)
 {
+  if (type_name.empty())
+  {
+    throw RuntimeException("Can't register item with empty type name");
+  }
+
+  if (!func)
+  {
+    throw RuntimeException("Undefined factory function");
+  }
+
   m_catalogue->RegisterItem(type_name, func, label);
 }
 

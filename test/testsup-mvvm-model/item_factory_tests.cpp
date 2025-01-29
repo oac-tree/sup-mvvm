@@ -20,6 +20,7 @@
 #include "mvvm/model/item_factory.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/model/item_catalogue.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/test/test_helper.h>
 
@@ -107,6 +108,20 @@ TEST_F(ItemFactoryTests, GetGlobalItemFactory)
   EXPECT_TRUE(CanCreateCorrectType<TextItem>(factory));
   EXPECT_TRUE(CanCreateCorrectType<VectorItem>(factory));
   EXPECT_TRUE(CanCreateCorrectType<ViewportAxisItem>(factory));
+}
+
+TEST_F(ItemFactoryTests, Construction)
+{
+  auto catalogue = std::make_unique<ItemCatalogue<SessionItem>>();
+  auto catalogue_ptr = catalogue.get();
+
+  ItemFactory factory(std::move(catalogue));
+
+  // it is not possible to register empty name as type
+  EXPECT_THROW(factory.RegisterItem({}, {}, {}), RuntimeException);
+
+  // it is not possible to for absent factory function
+  EXPECT_THROW(factory.RegisterItem("TestType", {}, {}), RuntimeException);
 }
 
 TEST_F(ItemFactoryTests, RegisteringItem)
