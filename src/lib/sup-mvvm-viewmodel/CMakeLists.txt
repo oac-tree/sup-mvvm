@@ -10,7 +10,10 @@ generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename}  EXPO
 
 add_subdirectory(mvvm)
 
-target_link_libraries(${library_name} PUBLIC sup-mvvm-model Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Widgets PRIVATE qcustomplot)
+target_link_libraries(${library_name} PUBLIC sup-mvvm-model Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Widgets)
+if (SUP_MVVM_BUILD_QCUSTOMPLOT)
+  target_link_libraries(${library_name} PRIVATE qcustomplot)
+endif()
 
 target_include_directories(${library_name} PUBLIC
   $<INSTALL_INTERFACE:include>

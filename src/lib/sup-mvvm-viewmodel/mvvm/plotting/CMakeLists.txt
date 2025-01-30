@@ -8,5 +8,8 @@ target_sources(${library_name} PRIVATE
   plot_types.h
   )
 
-add_subdirectory(customplot)
+if (SUP_MVVM_BUILD_QCUSTOMPLOT)
+  add_subdirectory(customplot)
+endif()
+
 add_subdirectory(charts)

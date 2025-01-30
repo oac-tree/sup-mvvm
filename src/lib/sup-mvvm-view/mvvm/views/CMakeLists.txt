@@ -7,8 +7,6 @@ target_sources(${library_name} PRIVATE
   chart_canvas.h
   chart_view.cpp
   chart_view.h
-  graph_canvas.cpp
-  graph_canvas.h
   property_flat_view.cpp
   property_flat_view.h
   property_tree_view.cpp
@@ -16,4 +14,11 @@ target_sources(${library_name} PRIVATE
   top_items_tree_view.cpp
   top_items_tree_view.h
 )
+
+if (SUP_MVVM_BUILD_QCUSTOMPLOT)
+target_sources(${library_name} PRIVATE
+  graph_canvas.cpp
+  graph_canvas.h
+)
+endif()
 
