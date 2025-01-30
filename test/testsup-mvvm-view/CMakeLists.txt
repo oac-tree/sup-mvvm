@@ -6,7 +6,10 @@ file(GLOB source_files "*.cpp")
 file(GLOB include_files "*.h")
 
 add_executable(${test} ${source_files} ${include_files})
-target_link_libraries(${test} PRIVATE sup-mvvm::test qcustomplot test-utils)
+target_link_libraries(${test} PRIVATE sup-mvvm::test test-utils)
+if (SUP_MVVM_BUILD_QCUSTOMPLOT)
+  target_link_libraries(${test} PRIVATE qcustomplot)
+endif()
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 

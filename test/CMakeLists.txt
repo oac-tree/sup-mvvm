@@ -6,6 +6,10 @@ enable_testing()
 
 include(GoogleTest)
 
+if(SUP_MVVM_BUILD_QCUSTOMPLOT)
+  add_definitions(-DBUILD_QCUSTOMPLOT)
+endif()
+
 find_package(benchmark QUIET)
 if(benchmark_FOUND)
   find_package_message(

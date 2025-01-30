@@ -21,7 +21,10 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+
+#ifdef BUILD_QCUSTOMPLOT
 #include <qcustomplot.h>
+#endif
 
 #include <QApplication>
 #include <QMetaType>
@@ -34,7 +37,9 @@ int main(int argc, char** argv)
   Q_UNUSED(app)
 
   qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+#ifdef BUILD_QCUSTOMPLOT
   qRegisterMetaType<QCPRange>("QCPRange");
+#endif
 
   // run all google tests
   return RUN_ALL_TESTS();
