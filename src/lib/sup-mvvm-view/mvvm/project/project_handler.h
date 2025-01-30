@@ -71,9 +71,6 @@ private:
    */
   void UpdateRecentProjectNames();
 
-  //!< main project
-  IProject* m_project{nullptr};
-
   //!< knows how to interact with the user
   std::unique_ptr<AbstractProjectUserInteractor> m_user_interactor;
 
