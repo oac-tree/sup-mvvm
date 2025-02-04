@@ -31,7 +31,11 @@ namespace
  */
 struct VariantValueVisitor
 {
-  std::string operator()(std::monostate) { return {}; }
+  std::string operator()(std::monostate value)
+  {
+    (void)value;
+    return {};
+  }
   std::string operator()(mvvm::boolean value) { return mvvm::utils::FromBool(value); }
   std::string operator()(mvvm::char8 value) { return std::to_string(value); }
   std::string operator()(mvvm::int8 value) { return {std::to_string(value)}; }
@@ -52,14 +56,14 @@ struct VariantValueVisitor
 
   std::string operator()(std::string value) { return value; }
 
-  std::string operator()(std::vector<double> value)
+  std::string operator()(const std::vector<double> &value)
   {
     return {mvvm::utils::ToCommaSeparatedString(value)};
   }
 
-  std::string operator()(mvvm::ComboProperty value) { return {value.GetStringOfValues()}; }
+  std::string operator()(const mvvm::ComboProperty &value) { return {value.GetStringOfValues()}; }
 
-  std::string operator()(mvvm::ExternalProperty value) { return value.ToString(); }
+  std::string operator()(const mvvm::ExternalProperty &value) { return value.ToString(); }
 };
 
 }  // namespace
