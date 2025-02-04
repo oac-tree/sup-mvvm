@@ -78,9 +78,6 @@ std::map<std::string, converter_func_t> CreateConverterMap()
       {mvvm::constants::kStringQtTypeName,
        [](const QVariant& variant) { return mvvm::variant_t(variant.toString().toStdString()); }},
 
-      {mvvm::constants::kStdStringQtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<std::string>()); }},
-
       {mvvm::constants::kStdVectorDoubleQtTypeName, [](const QVariant& variant)
        { return mvvm::variant_t(variant.value<std::vector<double>>()); }},
 

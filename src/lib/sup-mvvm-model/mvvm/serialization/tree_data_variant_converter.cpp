@@ -119,13 +119,13 @@ role_data_t ToRoleData(const tree_data_t& tree_data)
   }
 
   const auto type_name = GetTypeName(tree_data);
-  auto it = converters.find(type_name);
-  if (it == converters.end())
+  auto iter = converters.find(type_name);
+  if (iter == converters.end())
   {
     throw RuntimeException("Error in variant converter: can't find type name [" + type_name + "]");
   }
 
-  return it->second.treedata_to_roledata(tree_data);
+  return iter->second.treedata_to_roledata(tree_data);
 }
 
 tree_data_t ToTreeData(const role_data_t& role_data)
@@ -134,12 +134,12 @@ tree_data_t ToTreeData(const role_data_t& role_data)
 
   const std::string type_name = utils::TypeName(role_data.second);
 
-  auto it = converters.find(type_name);
-  if (it == converters.end())
+  auto iter = converters.find(type_name);
+  if (iter == converters.end())
   {
     throw RuntimeException("Error in variant converter: can't find type name [" + type_name + "]");
   }
-  return it->second.roledata_to_treedata(role_data);
+  return iter->second.roledata_to_treedata(role_data);
 }
 
 // ----------------------------------------------------------------------------
@@ -253,7 +253,7 @@ role_data_t to_external_property(const tree_data_t& tree_data)
 
 std::map<std::string, Converters> GetConverters()
 {
-  static std::map<std::string, Converters> result = {
+  const static std::map<std::string, Converters> result = {
       {constants::kEmptyTypeName, {from_roledata_default_impl, to_undefined}},
       {constants::kBooleanTypeName, {from_roledata_default_impl, to_bool}},
       {constants::kChar8TypeName, {from_roledata_default_impl, to_int<mvvm::char8>}},

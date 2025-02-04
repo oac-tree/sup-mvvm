@@ -77,11 +77,6 @@ bool IsLongIntVariant(const QVariant& variant)
   return variant.typeName() == constants::kLongLongQtTypeName;
 }
 
-bool IsStdStringVariant(const QVariant& variant)
-{
-  return variant.typeName() == constants::kStdStringQtTypeName;
-}
-
 bool IsDoubleVectorVariant(const QVariant& variant)
 {
   return variant.typeName() == constants::kStdVectorDoubleQtTypeName;

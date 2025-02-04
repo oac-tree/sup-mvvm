@@ -50,18 +50,9 @@ const std::string kInt64QtTypeName = "long";
 const std::string kUInt64QtTypeName = "ulong";
 const std::string kFloat32QtTypeName = "float";
 const std::string kFloat64QtTypeName = "double";
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-const std::string kStdStringQtTypeName = "std::string";
-#else
-//! FIXME find less fragile way of deducing type of the variant
-const std::string kStdStringQtTypeName = "std::__cxx11::basic_string<char>";
-#endif  // MVVM_VIEWMODEL_CUSTOM_VARIANTS_H_
-
 const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
 const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
 const std::string kExternalPropertyQtTypeName = "mvvm::ExternalProperty";
-
 const std::string kLongLongQtTypeName = "qlonglong";
 const std::string kStringQtTypeName = "QString";
 }  // namespace constants
@@ -83,9 +74,6 @@ MVVM_VIEWMODEL_EXPORT bool IsIntVariant(const QVariant& variant);
 //! Returns true if variant is based on double.
 MVVM_VIEWMODEL_EXPORT bool IsDoubleVariant(const QVariant& variant);
 
-//! Returns true if variant is based on std::string.
-MVVM_VIEWMODEL_EXPORT bool IsStdStringVariant(const QVariant& variant);
-
 //! Returns true if variant is based on std::vector<double>.
 MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
 
@@ -99,7 +87,6 @@ MVVM_VIEWMODEL_EXPORT bool IsExternalPropertyVariant(const QVariant& variant);
 
 }  // namespace mvvm
 
-Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)
 Q_DECLARE_METATYPE(mvvm::ComboProperty)
 Q_DECLARE_METATYPE(mvvm::ExternalProperty)

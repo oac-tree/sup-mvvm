@@ -127,13 +127,6 @@ TEST_F(VariantConverterTest, fromStdVariant)
   }
 
   {
-    std::string value;
-    auto variant = QVariant::fromStdVariant(variant_t{value});
-    EXPECT_TRUE(variant.canConvert<std::string>());
-    EXPECT_EQ(std::string(variant.typeName()), constants::kStdStringQtTypeName);
-  }
-
-  {
     std::vector<double> value;
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<std::vector<double>>());
@@ -262,14 +255,6 @@ TEST_F(VariantConverterTest, GetStdVariant)
     auto variant = GetStdVariant(qt_variant);
     EXPECT_EQ(GetTypeCode(variant), TypeCode::String);
     EXPECT_EQ(variant, variant_t(value.toStdString()));
-  }
-
-  {
-    const std::string value{"abc"};
-    auto qt_variant = QVariant::fromValue(value);
-    auto variant = GetStdVariant(qt_variant);
-    EXPECT_EQ(GetTypeCode(variant), TypeCode::String);
-    EXPECT_EQ(variant, variant_t(value));
   }
 
   {
