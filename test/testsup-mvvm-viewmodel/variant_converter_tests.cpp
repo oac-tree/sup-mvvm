@@ -134,6 +134,15 @@ TEST_F(VariantConverterTest, fromStdVariant)
   }
 
   {
+    std::string value("abc");
+    auto variant = QVariant::fromStdVariant(variant_t{value});
+    EXPECT_TRUE(variant.canConvert<std::string>());
+    // the name depends on system, can be "std::string", can be ""std::__cxx11::basic_string<char>"
+    //EXPECT_EQ(std::string(variant.typeName()), constants::kStdStringQtTypeName);
+    EXPECT_EQ(variant.value<std::string>(), value);
+  }
+
+  {
     ComboProperty value;
     auto variant = QVariant::fromStdVariant(variant_t{value});
     EXPECT_TRUE(variant.canConvert<ComboProperty>());

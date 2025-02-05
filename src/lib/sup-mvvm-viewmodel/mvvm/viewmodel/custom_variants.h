@@ -87,6 +87,7 @@ MVVM_VIEWMODEL_EXPORT bool IsExternalPropertyVariant(const QVariant& variant);
 
 }  // namespace mvvm
 
+Q_DECLARE_METATYPE(std::string)
 Q_DECLARE_METATYPE(std::vector<double>)
 Q_DECLARE_METATYPE(mvvm::ComboProperty)
 Q_DECLARE_METATYPE(mvvm::ExternalProperty)
