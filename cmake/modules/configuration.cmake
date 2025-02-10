@@ -65,3 +65,13 @@ find_package(Threads)
 # -----------------------------------------------------------------------------
 configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/testconfig.h.in ${SUP_MVVM_AUTOGEN_DIR}/testconfig.h @ONLY)
 configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/version_constants.h.in ${SUP_MVVM_AUTOGEN_DIR}/version_constants.h @ONLY)
+
+# -----------------------------------------------------------------------------
+# Special SetUp for WebAssembly build
+# -----------------------------------------------------------------------------
+if (COA_WEB_ASSEMBLY)
+  add_compile_options("SHELL:-s USE_PTHREADS")
+  add_link_options("SHELL:-s USE_PTHREADS")
+  set(COA_BUILD_TESTS OFF)
+  set(SUP_MVVM_BUILD_QCUSTOMPLOT OFF)
+endif()

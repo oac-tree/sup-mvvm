@@ -64,3 +64,16 @@ function(coa_add_executable EXEC_NAME)
     qt_add_executable(${EXEC_NAME} ${ARGN})
   endif(COA_WEB_ASSEMBLY)
 endfunction(coa_add_executable)
+
+# --------------------------------------------------------------------------------------------------
+# Replacement of add_library() function that switches to static libs when COA_WEB_ASSEMBLY flag
+# is set.
+# --------------------------------------------------------------------------------------------------
+function(coa_add_library LIB_NAME)
+  if (COA_WEB_ASSEMBLY)
+    add_library(${LIB_NAME} STATIC "")
+  else()
+    add_library(${LIB_NAME} SHARED "")
+    set_target_properties(${library_name} PROPERTIES EXPORT_NAME ${export_name} SOVERSION ${SUP_MVVM_SOVERSION} VERSION ${SUP_MVVM_BUILDVERSION})
+  endif(COA_WEB_ASSEMBLY)
+endfunction(coa_add_library)
