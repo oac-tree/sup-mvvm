@@ -1,5 +1,7 @@
 To the next Release:
 
+- Provide experimental WebAssembly build
+- Adjust integer types to match sup-dto types
 - Switch from int to std::size_t in SessionItem related containers
 
 Changes for 1.6.0:
