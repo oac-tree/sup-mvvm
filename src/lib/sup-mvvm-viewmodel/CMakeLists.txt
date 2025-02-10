@@ -1,7 +1,7 @@
 set(library_name sup-mvvm-viewmodel)
 set(export_name viewmodel)
 
-coa_add_library(${library_name} SHARED "")
+coa_add_library(${library_name})
 add_library(sup-mvvm::${export_name} ALIAS ${library_name}) # alias for build-tree usage
 
 set(export_filename ${SUP_MVVM_AUTOGEN_DIR}/mvvm/viewmodel_export.h)

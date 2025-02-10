@@ -3,6 +3,9 @@
 # Credits to https://pabloariasal.github.io/2018/02/19/its-time-to-do-cmake-right,
 # https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/Exporting-and-Importing-Targets
 # -----------------------------------------------------------------------------
+if (COA_WEB_ASSEMBLY)
+  return()
+endif()
 
 include(PackageConfig)
 include(CMakePackageConfigHelpers)
