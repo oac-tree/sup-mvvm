@@ -7,6 +7,6 @@ if(NOT TARGET sup-mvvm::view)
 endif()
 
 set(executable_name hello-world)
-add_executable(${executable_name} main.cpp)
+coa_add_executable(${executable_name} main.cpp)
 
 target_link_libraries(${executable_name} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets sup-mvvm::view)

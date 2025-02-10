@@ -8,7 +8,8 @@ endif()
 
 set(executable_name lineseries)
 add_subdirectory(lineseriescore)
-add_executable(${executable_name} main.cpp)
+
+coa_add_executable(${executable_name} main.cpp)
 
 target_link_libraries(${executable_name} PRIVATE lineseriescore Qt${QT_VERSION_MAJOR}::Widgets)
 target_include_directories(${executable_name} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)

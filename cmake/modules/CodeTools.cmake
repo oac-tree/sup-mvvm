@@ -45,3 +45,22 @@ function(fetch_googletest)
 FetchContent_MakeAvailable(googletest)
   message(VERBOSE "GTest binaries are present at ${googletest_BINARY_DIR}")
 endfunction()
+
+# --------------------------------------------------------------------------------------------------
+# Replacement of add_executable() function that switches to qt_add_executable() when
+# COA_WEB_ASSEMBLY flag is set.
+# --------------------------------------------------------------------------------------------------
+function(coa_add_executable EXEC_NAME)
+  cmake_parse_arguments(
+      PARSED_ARGS # prefix of output variables
+      "" # list of names of the boolean arguments (only defined ones will be true)
+      "" # list of names of mono-valued arguments
+      "" # list of names of multi-valued arguments (output variables are lists)
+      ${ARGN} # arguments of the function to parse, here we take the all original ones
+  )
+  if (COA_WEB_ASSEMBLY)
+    add_executable(${EXEC_NAME} ${ARGN})
+  else()
+    qt_add_executable(${EXEC_NAME} ${ARGN})
+  endif(COA_WEB_ASSEMBLY)
+endfunction(coa_add_executable)

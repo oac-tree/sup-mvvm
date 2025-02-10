@@ -27,6 +27,7 @@ option(COA_SETUP_CLANGFORMAT "Setups target to beautify the code with 'make clan
 option(COA_USE_QT6 "Compile with Qt6" ON)
 option(SUP_MVVM_BUILD_EXAMPLES "Compile example projects" ON)
 option(SUP_MVVM_BUILD_QCUSTOMPLOT "Compile custom plot library" ON)
+option(COA_WEB_ASSEMBLY "Build package for WebAssembly" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/modules)
 include(configuration)
