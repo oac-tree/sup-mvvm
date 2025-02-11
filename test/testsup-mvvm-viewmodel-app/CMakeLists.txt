@@ -8,13 +8,13 @@ target_sources(${test} PRIVATE
   allint_spinbox_tests.cpp
   chart_pen_controller_tests.cpp
   chart_viewport_controller_tests.cpp
-  custom_editor_factories_extended_tests.cpp
   custom_editor_factories_tests.cpp
   custom_viewmodel_tests.cpp
   float_spinbox_tests.cpp
   item_view_component_provider_tests.cpp
   main.cpp
   property_grid_controller_tests.cpp
+  viewmodel_delegate_extended_tests.cpp
   viewmodel_delegate_tests.cpp
 )
 

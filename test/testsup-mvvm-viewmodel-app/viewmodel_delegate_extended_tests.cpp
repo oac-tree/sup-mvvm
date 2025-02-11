@@ -17,14 +17,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/custom_editor_factories.h"
+#include "mvvm/providers/viewmodel_delegate.h"
 
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_limits_helper.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
@@ -38,10 +37,10 @@ using namespace mvvm;
 /**
  * @brief Tests for editor factories involving a complex model with filtering capabilities.
  */
-class CustomEditorFactoriesExtendedTest : public ::testing::Test
+class ViewModelDelegateExtendedTest : public ::testing::Test
 {
 public:
-  CustomEditorFactoriesExtendedTest()
+  ViewModelDelegateExtendedTest()
   {
     auto parent0 = m_model.InsertItem<CompoundItem>();
     parent0->SetDisplayName("parent0");
@@ -74,7 +73,7 @@ public:
   ViewModelDelegate m_delegate;
 };
 
-TEST_F(CustomEditorFactoriesExtendedTest, ViewModelWithoutFiltering)
+TEST_F(ViewModelDelegateExtendedTest, ViewModelWithoutFiltering)
 {
   const AllItemsViewModel view_model(&m_model);
 
@@ -110,7 +109,7 @@ TEST_F(CustomEditorFactoriesExtendedTest, ViewModelWithoutFiltering)
   }
 }
 
-TEST_F(CustomEditorFactoriesExtendedTest, ViewModelWithFiltering)
+TEST_F(ViewModelDelegateExtendedTest, ViewModelWithFiltering)
 {
   AllItemsViewModel view_model(&m_model);
 
