@@ -1,5 +1,6 @@
 To the next Release:
 
+- Fix bug with two digits only while editing integers and floats
 - Provide experimental WebAssembly build
 - Adjust integer types to match sup-dto types
 - Switch from int to std::size_t in SessionItem related containers
