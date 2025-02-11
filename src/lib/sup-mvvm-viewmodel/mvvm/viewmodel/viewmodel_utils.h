@@ -27,7 +27,6 @@
 
 #include <QVariant>
 #include <QVector>
-#include <stdexcept>
 
 namespace mvvm
 {
@@ -44,6 +43,11 @@ namespace mvvm::utils
 template <typename T = SessionItem>
 const T* GetItemFromView(const ViewItem* view_item)
 {
+  if (!view_item)
+  {
+    return nullptr;
+  }
+
   if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view_item->GetItemData());
       presentation)
   {
@@ -59,12 +63,26 @@ const T* GetItemFromView(const ViewItem* view_item)
 template <typename T = SessionItem>
 T* GetItemFromView(ViewItem* view_item)
 {
+  if (!view_item)
+  {
+    return nullptr;
+  }
+
   if (auto presentation = dynamic_cast<SessionItemPresentation*>(view_item->GetItemData());
       presentation)
   {
     return dynamic_cast<T*>(presentation->GetItem());
   }
 
+  return nullptr;
+}
+
+/**
+ * @brief Returns an item served by given view (nullptr version).
+ */
+template <typename T = SessionItem>
+T* GetItemFromView(std::nullptr_t)
+{
   return nullptr;
 }
 
@@ -128,6 +146,11 @@ MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
  * @brief Returns underlying SessionItem's for given index.
  */
 MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromIndex(const QModelIndex& index);
+
+/**
+ * @brief Returns underlying ViewItem for given index.
+ */
+MVVM_VIEWMODEL_EXPORT ViewItem* ViewItemFromIndex(const QModelIndex& index);
 
 /**
  * @brief Returns vector of underlying SessionItem's for given index list.

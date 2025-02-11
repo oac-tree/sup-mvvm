@@ -46,6 +46,7 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
 
   auto view = CreateDataViewItem(&item);
   EXPECT_EQ(utils::GetItemFromView<VectorItem>(view.get()), &item);
+  EXPECT_EQ(utils::GetItemFromView(nullptr), nullptr);
 }
 
 //! Validate Utils::iterate_model function with user callback.
