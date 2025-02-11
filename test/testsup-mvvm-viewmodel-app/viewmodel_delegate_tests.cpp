@@ -68,7 +68,7 @@ public:
     m_mapper.addMapping(widget, 1);
   }
 
-  ApplicationModel m_model{};
+  ApplicationModel m_model;
   AllItemsViewModel m_view_model;
   ViewModelDelegate m_delegate;
   QDataWidgetMapper m_mapper;
