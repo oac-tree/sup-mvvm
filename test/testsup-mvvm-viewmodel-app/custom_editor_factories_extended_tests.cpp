@@ -27,6 +27,7 @@
 #include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/filter_name_viewmodel.h>
 
 #include <gtest/gtest.h>
 
@@ -106,5 +107,28 @@ TEST_F(CustomEditorFactoriesExtendedTest, ViewModelWithoutFiltering)
     ASSERT_NE(float_editor, nullptr);
     EXPECT_EQ(float_editor->minimum(), 40.0);
     EXPECT_EQ(float_editor->maximum(), 50.0);
+  }
+}
+
+TEST_F(CustomEditorFactoriesExtendedTest, ViewModelWithFiltering)
+{
+  AllItemsViewModel view_model(&m_model);
+
+  FilterNameViewModel filtered_model;
+  filtered_model.setSourceModel(&view_model);
+  filtered_model.SetPattern("ABC");
+
+  // looking to editors via filtered model
+  auto parent0_index = filtered_model.index(0, 0);
+  // two property items have been filtered out, one property remains
+  ASSERT_EQ(filtered_model.rowCount(parent0_index), 1);
+  auto prop2_index = filtered_model.index(0, 1, parent0_index);  // index of float32
+
+  {  // prop1 with FloatSpinBox as an editor
+    auto editor = CreateEditor(prop2_index);
+    auto float_editor = dynamic_cast<FloatSpinBox*>(editor.get());
+    ASSERT_NE(float_editor, nullptr);
+    EXPECT_EQ(float_editor->minimum(), 40.0); // <-- FAILING HERE
+    EXPECT_EQ(float_editor->maximum(), 50.0); // <-- FAILING HERE
   }
 }
