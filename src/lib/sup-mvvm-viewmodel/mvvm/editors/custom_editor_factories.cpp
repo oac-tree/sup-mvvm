@@ -54,7 +54,7 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 
 editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
-  auto item = utils::ItemFromIndex(index);
+  auto item = utils::ItemFromProxyIndex(index);
   return item ? CreateItemEditor(item) : editor_t{};
 }
 
@@ -97,7 +97,7 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 editor_t VariantDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
-  return builder ? builder(utils::ItemFromIndex(index)) : editor_t{};
+  return builder ? builder(utils::ItemFromProxyIndex(index)) : editor_t{};
 }
 
 // -------------------------------------------------------------------------------------------------

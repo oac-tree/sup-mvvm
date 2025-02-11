@@ -128,7 +128,7 @@ TEST_F(CustomEditorFactoriesExtendedTest, ViewModelWithFiltering)
     auto editor = CreateEditor(prop2_index);
     auto float_editor = dynamic_cast<FloatSpinBox*>(editor.get());
     ASSERT_NE(float_editor, nullptr);
-    EXPECT_EQ(float_editor->minimum(), 40.0); // <-- FAILING HERE
-    EXPECT_EQ(float_editor->maximum(), 50.0); // <-- FAILING HERE
+    EXPECT_EQ(float_editor->minimum(), 40.0);
+    EXPECT_EQ(float_editor->maximum(), 50.0);
   }
 }
