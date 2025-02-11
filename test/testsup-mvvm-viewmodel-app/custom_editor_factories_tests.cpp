@@ -29,21 +29,24 @@
 #include <gtest/gtest.h>
 
 #include <QSpinBox>
-#include <typeinfo>
 
 using namespace mvvm;
 
-//! Tests for editor factories from custom_editor_factories.h
-
+/**
+ * @brief Tests for editor factories from custom_editor_factories header.
+ */
 class CustomEditorFactoriesTest : public ::testing::Test
 {
 public:
   CustomEditorFactoriesTest() : m_view_model(&m_model) {}
 
-  //! Convenience function to add given data to the model as PropertyItem.
-  //! Returns back an index corresponding to the item's position in a view model.
-  //! Given index will be used to create a corresponding cell editor using one of the editor
-  //! factories.
+  /**
+   * @brief Convenience function to add given data to the model as PropertyItem.
+   *
+   * @param data The data to store as data role.
+   * @param editor_type Optional editor name to define for the given cell.
+   * @return Index of cell which can be used to access given data.
+   */
   QModelIndex AddDataToModel(const variant_t& data, const std::string& editor_type = {})
   {
     // creating item in a model and setting data to it
@@ -65,7 +68,7 @@ public:
 
 TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
 {
-  RoleDependentEditorFactory factory;
+  const RoleDependentEditorFactory factory;
 
   // editor for bool types
   auto index = AddDataToModel(variant_t(true), constants::kBoolEditorType);
@@ -97,7 +100,7 @@ TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
 
 TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
 {
-  VariantDependentEditorFactory factory;
+  const VariantDependentEditorFactory factory;
 
   // editor for bool types
   auto index = AddDataToModel(variant_t(true));
@@ -232,7 +235,6 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
 }
 
 //! Checking integer editor construction when limits are not set.
-
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditor)
 {
   const DefaultEditorFactory factory;
@@ -250,7 +252,6 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditor)
 }
 
 //! Checking integer editor construction when limits are set.
-
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditorForLimits)
 {
   const DefaultEditorFactory factory;
@@ -258,7 +259,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditorForLimits)
   auto index = AddDataToModel(variant_t(42));
 
   // setting limits to corresponding role
-  auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
+  auto item = m_view_model.GetSessionItemFromIndex(index);
 
   SetLimited(0, 10, *item);
 
@@ -274,7 +275,6 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditorForLimits)
 }
 
 //! Checking double editor construction when limits are not set.
-
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryDoubleEditor)
 {
   const DefaultEditorFactory factory;
@@ -291,7 +291,6 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryDoubleEditor)
 }
 
 //! Checking double editor construction when limits are set.
-
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLimits)
 {
   const DefaultEditorFactory factory;
@@ -299,7 +298,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLimits)
   auto index = AddDataToModel(variant_t(42.1));
 
   // setting limits to corresponding role
-  auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
+  auto item = m_view_model.GetSessionItemFromIndex(index);
   SetLimited(0.0, 55.1, *item);
 
   auto editor = factory.CreateEditor(index);
@@ -314,9 +313,6 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLimits)
 }
 
 //! Checking double editor construction when lower limit is set.
-//! Test is failing because current version of DoubleEditorBuilder() can handle only two limits
-//! present.
-
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLowerLimited)
 {
   const DefaultEditorFactory factory;
@@ -324,7 +320,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLowerLimited)
   auto index = AddDataToModel(variant_t(42.1));
 
   // setting limits to corresponding role
-  auto item = const_cast<SessionItem*>(m_view_model.GetSessionItemFromIndex(index));
+  auto item = m_view_model.GetSessionItemFromIndex(index);
   SetLowerLimited(42.0, *item);
 
   auto editor = factory.CreateEditor(index);

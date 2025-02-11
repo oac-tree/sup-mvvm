@@ -35,16 +35,15 @@ namespace mvvm
  * @brief The FloatSpinBox class is a spin box editor for mvvm::float32 and mvvm::float64
  * types in Qt's viewmodel-delegate environment.
  *
- * @details It is an envelop around QDoubleSpinBox. The behavior depends on the type of the initial
- * value. If it is QVariant(float) (which is the result of the conversion of
- * variant_t(mvvm::float32), when QDoubleSpinBox will have min/max limits corresponding to float32.
- * The output value of the editor will be the same as input, i.e. QVariant(float).
+ * It is an envelope around QDoubleSpinBox. The behavior depends on the type of the initial value.
+ * If it is QVariant(float) (which is the result of the conversion of variant_t(mvvm::float32), when
+ * QDoubleSpinBox will have min/max limits corresponding to float32. The output value of the editor
+ * will be the same as input, i.e. QVariant(float).
  *
- * @details If initial value is QVariant(double) (which is the result of the conversion of
+ * If the initial value is QVariant(double) (which is the result of the conversion of
  * variant_t(mvvm::float64), when QDoubleSpinBox will have min/max limits corresponding to float64.
- * The output value of the editor will be the same as input, QVariant(double).
+ * The output value of the editor will be the same as the input, QVariant(double).
  */
-
 class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QWidget
 {
   Q_OBJECT
