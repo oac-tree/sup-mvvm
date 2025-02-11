@@ -21,7 +21,7 @@
 #define MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
 
 //! @file
-//! Defines DefaultEditorFactory and auxiliary classes for custom view model delegates.
+//! Defines custom cell editor factories for Qt trees and tables.
 
 #include <mvvm/providers/abstract_editor_factory.h>
 
@@ -30,9 +30,11 @@
 namespace mvvm
 {
 
-//! Editor factory for cell editors in Qt trees and tables, relies on DataRole::kEditor role stored
-//! on board of SessionItem.
-
+/**
+ * @brief The RoleDependentEditorFactory class constructs cell editors using the editor role.
+ *
+ * The user shall set the editor type via SessionItem::SetEditorType call.
+ */
 class MVVM_VIEWMODEL_EXPORT RoleDependentEditorFactory : public AbstractEditorFactory
 {
 public:
@@ -44,9 +46,12 @@ protected:
   editor_t CreateItemEditor(const SessionItem* item) const;
 };
 
-//! Editor factory for cell editors in Qt trees and tables, relies on variant type stored as
-//! DataRole::kData role on board of SessionItem.
-
+/**
+ * @brief The VariantDependentEditorFactory class constructs cell editors using the data role.
+ *
+ * The type of the editor will be deduced from the type of the variant stored for DataRole::kData
+ * role on board of SessionItem.
+ */
 class MVVM_VIEWMODEL_EXPORT VariantDependentEditorFactory : public AbstractEditorFactory
 {
 public:
@@ -55,9 +60,13 @@ public:
   editor_t CreateEditor(const QModelIndex& index) const override;
 };
 
-//! Default editor factory for cell editors in Qt trees and tables.
-//! Internaly it uses two factories
-
+/**
+ * @brief The DefaultEditorFactory class is a default editor factory for cell editors in Qt trees
+ * and tables.
+ *
+ * It first tries to construct a cell editor using the editor role, and then, in the case of
+ * failure, switches to the data role.
+ */
 class MVVM_VIEWMODEL_EXPORT DefaultEditorFactory : public IEditorFactory
 {
 public:

@@ -28,15 +28,19 @@
 namespace mvvm
 {
 
-//! Abstract editor factory for ViewModelDelegate.
-//! Creates cell editors for Qt trees and tables from model index. Cell editor is
-//! Qt widget intended for editing DATA role of some SessionItem.
-
+/**
+ * @brief The AbstractEditorFactory class is a base for all editor factories.
+ *
+ * It allows to register cell editor builder functions for the given builder name.
+ */
 class MVVM_VIEWMODEL_EXPORT AbstractEditorFactory : public IEditorFactory
 {
 public:
   void RegisterBuilder(const std::string& name, editorbuilder_t builder);
 
+  /**
+   * @brief Returns editor factory function registered for the given editor name.
+   */
   editorbuilder_t FindBuilder(const std::string& name) const;
 
 private:

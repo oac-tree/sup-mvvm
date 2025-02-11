@@ -28,14 +28,21 @@ namespace mvvm
 {
 
 /**
- * @brief The IEditorFactory class is an interface for custom editor factory.
+ * @brief The IEditorFactory class is an interface for a custom editor factory.
  *
- *  Intended for editor construction in cells of tables and trees in the context of delegate.
+ * Creates cell editors for Qt trees and tables from the model index. Cell editor is a Qt widget
+ * intended for editing the DATA role of some SessionItem.
  */
 class MVVM_VIEWMODEL_EXPORT IEditorFactory
 {
 public:
+  IEditorFactory() = default;
   virtual ~IEditorFactory() = default;
+
+  IEditorFactory(const IEditorFactory&) = delete;
+  IEditorFactory& operator=(const IEditorFactory&) = delete;
+  IEditorFactory(IEditorFactory&&) = delete;
+  IEditorFactory& operator=(IEditorFactory&&) = delete;
 
   virtual editor_t CreateEditor(const QModelIndex& index) const = 0;
 };

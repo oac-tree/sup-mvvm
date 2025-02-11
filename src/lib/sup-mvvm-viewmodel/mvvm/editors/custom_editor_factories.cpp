@@ -32,8 +32,9 @@
 namespace mvvm
 {
 
-// ----------------------------------------------------------------------------
-
+// -------------------------------------------------------------------------------------------------
+// RoleDependentEditorFactory
+// -------------------------------------------------------------------------------------------------
 RoleDependentEditorFactory::RoleDependentEditorFactory()
 {
   // registering all existing builders under their names
@@ -51,15 +52,11 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
   RegisterBuilder(constants::kFloatSpinBoxEditorType, FloatEditorBuilder());
 }
 
-//! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
-
 editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto item = utils::ItemFromIndex(index);
   return item ? CreateItemEditor(item) : editor_t{};
 }
-
-//! Creates cell editor basing on editor type.
 
 editor_t RoleDependentEditorFactory::CreateItemEditor(const SessionItem* item) const
 {
@@ -67,8 +64,9 @@ editor_t RoleDependentEditorFactory::CreateItemEditor(const SessionItem* item) c
   return builder ? builder(item) : editor_t{};
 }
 
-// ----------------------------------------------------------------------------
-
+// -------------------------------------------------------------------------------------------------
+// VariantDependentEditorFactory
+// -------------------------------------------------------------------------------------------------
 VariantDependentEditorFactory::VariantDependentEditorFactory()
 {
   // registering default builders for given variant names
@@ -96,23 +94,20 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
   RegisterBuilder(constants::kExternalPropertyQtTypeName, ExternalPropertyEditorBuilder());
 }
 
-//! Creates cell editor basing on variant name.
-
 editor_t VariantDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto builder = FindBuilder(utils::GetQtVariantName(index.data(Qt::EditRole)));
   return builder ? builder(utils::ItemFromIndex(index)) : editor_t{};
 }
 
-// ----------------------------------------------------------------------------
-
+// -------------------------------------------------------------------------------------------------
+// DefaultEditorFactory
+// -------------------------------------------------------------------------------------------------
 DefaultEditorFactory::DefaultEditorFactory()
     : m_role_dependent_factory(std::make_unique<RoleDependentEditorFactory>())
     , m_variant_dependent_factory(std::make_unique<VariantDependentEditorFactory>())
 {
 }
-
-//! Creates editor for given model index basing either on editorType() or specific variant name.
 
 editor_t DefaultEditorFactory::CreateEditor(const QModelIndex& index) const
 {
