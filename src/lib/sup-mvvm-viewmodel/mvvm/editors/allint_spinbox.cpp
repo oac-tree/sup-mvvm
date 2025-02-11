@@ -42,7 +42,7 @@ AllIntSpinBox::AllIntSpinBox(QWidget *parent) : QAbstractSpinBox(parent)
   connect(this, &QAbstractSpinBox::editingFinished, this, &AllIntSpinBox::OnEditingFinished);
 }
 
-void AllIntSpinBox::SetInteger(std::unique_ptr<ILimitedInteger> value)
+void AllIntSpinBox::SetLimitedInteger(std::unique_ptr<ILimitedInteger> value)
 {
   m_value = std::move(value);
   UpdateTextField();
@@ -118,6 +118,11 @@ void AllIntSpinBox::CheckNotify()
     m_cached_value_was_changed = false;
     emit valueChanged(GetQtVariant(m_value->GetValueAsVariant()));
   }
+}
+
+ILimitedInteger *AllIntSpinBox::GetLimitedInteger()
+{
+  return m_value.get();
 }
 
 QAbstractSpinBox::StepEnabled AllIntSpinBox::stepEnabled() const

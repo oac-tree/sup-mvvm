@@ -56,7 +56,7 @@ public:
   explicit AllIntSpinBox(QWidget *parent = nullptr);
   ~AllIntSpinBox() override;
 
-  void SetInteger(std::unique_ptr<ILimitedInteger> value);
+  void SetLimitedInteger(std::unique_ptr<ILimitedInteger> value);
 
   QVariant value() const;
 
@@ -71,6 +71,11 @@ public:
    * case.
    */
   void CheckNotify();
+
+  /**
+   * @brief Returns underlying limited integer.
+   */
+  ILimitedInteger* GetLimitedInteger();
 
 protected:
   QAbstractSpinBox::StepEnabled stepEnabled() const override;

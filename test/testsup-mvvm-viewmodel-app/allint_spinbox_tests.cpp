@@ -43,7 +43,9 @@ TEST_F(AllIntSpinBoxTest, SetInt32)
 
   const variant_t initial_value{42};
   auto limited_int = CreateLimitedInteger(initial_value, {}, {});
-  editor.SetInteger(std::move(limited_int));
+  auto limited_int_ptr = limited_int.get();
+  editor.SetLimitedInteger(std::move(limited_int));
+  EXPECT_EQ(limited_int_ptr, editor.GetLimitedInteger());
 
   // there shouldn't be any signals on value set
   EXPECT_EQ(spy_value_changed.count(), 0);
@@ -63,7 +65,7 @@ TEST_F(AllIntSpinBoxTest, StepBy)
 
   const variant_t initial_value{42};
   auto limited_int = CreateLimitedInteger(initial_value, {}, {});
-  editor.SetInteger(std::move(limited_int));
+  editor.SetLimitedInteger(std::move(limited_int));
 
   editor.stepBy(1);
 
@@ -91,7 +93,7 @@ TEST_F(AllIntSpinBoxTest, SetValue)
 
   const variant_t initial_value{42};
   auto limited_int = CreateLimitedInteger(initial_value, {}, {});
-  editor.SetInteger(std::move(limited_int));
+  editor.SetLimitedInteger(std::move(limited_int));
 
   // setting the same value, no signals are expected
   editor.setValue(QVariant(42));

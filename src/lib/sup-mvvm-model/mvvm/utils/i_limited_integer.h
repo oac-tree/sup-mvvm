@@ -35,7 +35,13 @@ namespace mvvm
 class ILimitedInteger
 {
 public:
+  ILimitedInteger() = default;
   virtual ~ILimitedInteger() = default;
+
+  ILimitedInteger(const ILimitedInteger&) = delete;
+  ILimitedInteger& operator=(const ILimitedInteger&) = delete;
+  ILimitedInteger(ILimitedInteger&&) = delete;
+  ILimitedInteger& operator=(ILimitedInteger&&) = delete;
 
   /**
    * @brief Returns the value as variant.
