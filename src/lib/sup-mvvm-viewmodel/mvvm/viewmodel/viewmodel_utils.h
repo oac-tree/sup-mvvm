@@ -144,8 +144,17 @@ MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
 
 /**
  * @brief Returns underlying SessionItem's for given index.
+ *
+ * The method doesn't work if index belongs to a proxy model.
  */
 MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromIndex(const QModelIndex& index);
+
+/**
+ * @brief Returns underlying SessionItem's for given index.
+ *
+ * The method works for ViewModel's and their proxy.
+ */
+MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromProxyIndex(const QModelIndex& index);
 
 /**
  * @brief Returns underlying ViewItem for given index.

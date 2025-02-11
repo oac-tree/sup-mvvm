@@ -26,11 +26,40 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 
+#include <QAbstractProxyModel>
 #include <QColor>
 #include <set>
 
 namespace mvvm::utils
 {
+
+namespace
+{
+
+/**
+ * @brief Returns original source index from a view index, which presumably contains a chain of
+ * proxy models.
+ */
+QModelIndex GetSourceIndexFromProxyIndex(const QModelIndex& index)
+{
+  QModelIndex source = index;
+  while (true)
+  {
+    if (auto model_proxy = dynamic_cast<const QAbstractProxyModel*>(source.model()); model_proxy)
+    {
+      source = model_proxy->mapToSource(source);
+    }
+    else
+    {
+      break;
+    }
+  }
+
+  return source;
+}
+
+}  // namespace
+
 QVector<int> ItemRoleToQtRole(int role)
 {
   QVector<int> result;
@@ -118,6 +147,11 @@ SessionItem* ItemFromIndex(const QModelIndex& index)
   }
 
   return nullptr;
+}
+
+SessionItem* ItemFromProxyIndex(const QModelIndex& index)
+{
+  return ItemFromIndex(GetSourceIndexFromProxyIndex(index));
 }
 
 std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list)

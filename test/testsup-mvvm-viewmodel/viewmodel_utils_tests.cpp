@@ -24,6 +24,7 @@
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/filter_name_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
 
@@ -38,8 +39,6 @@ class ViewModelUtilsTest : public ::testing::Test
 public:
 };
 
-//! Validate Utils::GetItemFromView
-
 TEST_F(ViewModelUtilsTest, GetItemFromView)
 {
   VectorItem item;
@@ -48,8 +47,6 @@ TEST_F(ViewModelUtilsTest, GetItemFromView)
   EXPECT_EQ(utils::GetItemFromView<VectorItem>(view.get()), &item);
   EXPECT_EQ(utils::GetItemFromView(nullptr), nullptr);
 }
-
-//! Validate Utils::iterate_model function with user callback.
 
 TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
 {
@@ -68,8 +65,6 @@ TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
   expected = {Qt::ToolTipRole};
   EXPECT_EQ(roles, expected);
 }
-
-//! Testing color role of item.
 
 TEST_F(ViewModelUtilsTest, ItemTextColorRole)
 {
@@ -94,8 +89,6 @@ TEST_F(ViewModelUtilsTest, ItemTextColorRole)
   EXPECT_EQ(variant.value<QColor>(), QColor(Qt::red));
 }
 
-//! Testing check state role of item.
-
 TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
 {
   SessionItem item;
@@ -111,8 +104,6 @@ TEST_F(ViewModelUtilsTest, ItemCheckStateRole)
   EXPECT_EQ(utils::CheckStateRole(item).value<int>(), Qt::Unchecked);
 }
 
-//! Testing decoration role of the item when it carries a string
-
 TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
 {
   SessionItem item;
@@ -121,7 +112,7 @@ TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
   auto variant = utils::DecorationRole(item);
   EXPECT_FALSE(variant.isValid());
 
-  QColor expected(Qt::green);
+  const QColor expected(Qt::green);
   item.SetData(expected.name().toStdString());
 
   // just a color name doesn't generate color-based decoration role
@@ -133,19 +124,15 @@ TEST_F(ViewModelUtilsTest, StringDataDecorationRole)
   EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);
 }
 
-//! Testing decoration role of the item when it carries ExtendedProperty
-
 TEST_F(ViewModelUtilsTest, ExternalPropertyDataDecorationRole)
 {
   SessionItem item;
 
-  QColor expected(Qt::green);
+  const QColor expected(Qt::green);
   item.SetData(ExternalProperty("text", expected.name().toStdString()));
 
   EXPECT_EQ(utils::DecorationRole(item).value<QColor>(), expected);
 }
-
-//! Testing tooltip role of the item.
 
 TEST_F(ViewModelUtilsTest, ItemToolTipRole)
 {
@@ -158,13 +145,11 @@ TEST_F(ViewModelUtilsTest, ItemToolTipRole)
   EXPECT_EQ(utils::ToolTipRole(item).toString(), QString("abc"));
 }
 
-//! Check ItemFromIndex.
-
 TEST_F(ViewModelUtilsTest, ItemFromIndex)
 {
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
-  AllItemsViewModel view_model(&model);
+  const AllItemsViewModel view_model(&model);
 
   // Difference from ViewModel::GetSessionItemFromIndex, which returns root item.
   EXPECT_EQ(utils::ItemFromIndex(QModelIndex()), nullptr);
@@ -175,16 +160,15 @@ TEST_F(ViewModelUtilsTest, ItemFromIndex)
             parent->GetItem(VectorItem::kX));
 }
 
-//! Check ItemsFromIndex in PropertyTableViewModel context.
-//! ViewItem with its three property x, y, z forms one row. All corresponding
-//! indices of (x,y,z) should give us pointers to VectorItem's properties.
-
+//! Check ItemsFromIndex in PropertyTableViewModel context. ViewItem with its three property x, y, z
+//! forms one row. All corresponding indices of (x,y,z) should give us pointers to VectorItem's
+//! properties.
 TEST_F(ViewModelUtilsTest, ItemsFromIndex)
 {
   // creating VectorItem and viewModel to see it as a table
   ApplicationModel model;
   auto parent = model.InsertItem<VectorItem>();
-  PropertyTableViewModel viewModel(&model);
+  const PropertyTableViewModel viewModel(&model);
 
   // it's a table with one row and x,y,z columns
   EXPECT_EQ(viewModel.rowCount(), 1);
@@ -205,10 +189,9 @@ TEST_F(ViewModelUtilsTest, ItemsFromIndex)
   EXPECT_EQ(utils::ItemsFromIndex(index_list), expected);
 }
 
-//! Check ParentItemsFromIndex in PropertyTableViewModel context.
-//! ViewItem with its three property x, y, z forms one row. All corresponding
-//! indices of (x,y,z) should give us pointer to VectorItem.
-
+//! Check ParentItemsFromIndex in PropertyTableViewModel context. ViewItem with its three property
+//! x, y, z forms one row. All corresponding indices of (x,y,z) should give us pointer to
+//! VectorItem.
 TEST_F(ViewModelUtilsTest, ParentItemsFromIndex)
 {
   // creating VectorItem and viewModel to see it as a table
@@ -255,4 +238,37 @@ TEST_F(ViewModelUtilsTest, GetQtRoles)
 
   auto roles = utils::GetQtRoles(view_item.get(), DataRole::kData);
   EXPECT_EQ(roles, QVector<int>({Qt::DisplayRole, Qt::EditRole}));
+}
+
+TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelWithoutProxy)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
+  const AllItemsViewModel view_model(&model);
+
+  // Difference from ViewModel::GetSessionItemFromIndex, which returns root item.
+  EXPECT_EQ(utils::ItemFromProxyIndex(QModelIndex()), nullptr);
+
+  auto parent_index = view_model.index(0, 0);
+  EXPECT_EQ(utils::ItemFromProxyIndex(parent_index), parent);
+  EXPECT_EQ(utils::ItemFromProxyIndex(view_model.index(0, 0, parent_index)),
+            parent->GetItem(VectorItem::kX));
+}
+
+TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelProxy)
+{
+  ApplicationModel model;
+  auto parent = model.InsertItem<VectorItem>();
+  AllItemsViewModel view_model(&model);
+
+  FilterNameViewModel filtered_model;
+  filtered_model.setSourceModel(&view_model);
+  filtered_model.SetPattern("Y");
+
+  auto parent_index = filtered_model.index(0, 0);
+  ASSERT_EQ(filtered_model.rowCount(), 1);  // only "Y" item remains
+
+  EXPECT_EQ(utils::ItemFromProxyIndex(parent_index), parent);
+  EXPECT_EQ(utils::ItemFromProxyIndex(filtered_model.index(0, 0, parent_index)),
+            parent->GetItem(VectorItem::kY));
 }
