@@ -49,6 +49,16 @@ public:
   virtual variant_t GetValueAsVariant() const = 0;
 
   /**
+   * @brief Returns lower bound as variant.
+   */
+  virtual variant_t GetLowerBoundAsVariant() const = 0;
+
+  /**
+   * @brief Returns upper bound as variant.
+   */
+  virtual variant_t GetUpperBoundAsVariant() const = 0;
+
+  /**
    * @brief Sets the value from variant, returns true if the value was changed.
    */
   virtual bool SetValueFromVariant(const variant_t& variant) = 0;

@@ -21,6 +21,7 @@
 
 #include "allint_spinbox.h"
 
+#include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/utils/limited_integer_helper.h>
 #include <mvvm/viewmodel/variant_converter.h>
 
@@ -58,8 +59,26 @@ bool AllIntSpinBoxEditor::IsPersistent() const
 
 void AllIntSpinBoxEditor::SetRange(const variant_t& lower_limit, const variant_t& upper_limit)
 {
-  m_lower_limit = lower_limit;
-  m_upper_limit = upper_limit;
+  m_user_lower_limit = lower_limit;
+  m_user_upper_limit = upper_limit;
+}
+
+variant_t AllIntSpinBoxEditor::GetLowerLimit() const
+{
+  if (auto limited_integer = m_allint_editor->GetLimitedInteger(); limited_integer)
+  {
+    return limited_integer->GetLowerBoundAsVariant();
+  }
+  return {};
+}
+
+variant_t AllIntSpinBoxEditor::GetUpperLimit() const
+{
+  if (auto limited_integer = m_allint_editor->GetLimitedInteger(); limited_integer)
+  {
+    return limited_integer->GetUpperBoundAsVariant();
+  }
+  return {};
 }
 
 void AllIntSpinBoxEditor::OnValueChanged(const QVariant& value)
@@ -69,8 +88,9 @@ void AllIntSpinBoxEditor::OnValueChanged(const QVariant& value)
 
 void AllIntSpinBoxEditor::UpdateComponents()
 {
-  auto limited_int = CreateLimitedInteger(GetStdVariant(GetData()), m_lower_limit, m_upper_limit);
-  m_allint_editor->SetInteger(std::move(limited_int));
+  auto limited_int =
+      CreateLimitedInteger(GetStdVariant(GetData()), m_user_lower_limit, m_user_upper_limit);
+  m_allint_editor->SetLimitedInteger(std::move(limited_int));
 }
 
 }  // namespace mvvm

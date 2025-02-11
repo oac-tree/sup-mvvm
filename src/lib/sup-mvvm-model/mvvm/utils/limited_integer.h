@@ -94,6 +94,10 @@ public:
 
   variant_t GetValueAsVariant() const override;
 
+  variant_t GetLowerBoundAsVariant() const override;
+
+  variant_t GetUpperBoundAsVariant() const override;
+
   bool SetValueFromVariant(const variant_t& value) override;
 
   std::string GetValueAsText() const override;
@@ -170,6 +174,18 @@ template <typename T>
 inline variant_t LimitedInteger<T>::GetValueAsVariant() const
 {
   return variant_t{m_value};
+}
+
+template <typename T>
+inline variant_t LimitedInteger<T>::GetLowerBoundAsVariant() const
+{
+  return variant_t{GetLowerBound()};
+}
+
+template <typename T>
+inline variant_t LimitedInteger<T>::GetUpperBoundAsVariant() const
+{
+  return variant_t{GetUpperBound()};
 }
 
 template <typename T>

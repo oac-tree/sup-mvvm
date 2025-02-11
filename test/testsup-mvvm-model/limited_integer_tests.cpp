@@ -118,6 +118,8 @@ TEST_F(LimitedIntegerTests, SetValueFromVariant)
   EXPECT_EQ(num.GetValue(), 43);
 
   EXPECT_EQ(num.GetValueAsVariant(), variant_t{43});
+  EXPECT_EQ(num.GetLowerBoundAsVariant(), variant_t{std::numeric_limits<int>::min()});
+  EXPECT_EQ(num.GetUpperBoundAsVariant(), variant_t{std::numeric_limits<int>::max()});
 }
 
 TEST_F(LimitedIntegerTests, Increment)
