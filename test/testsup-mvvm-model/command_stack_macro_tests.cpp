@@ -53,10 +53,11 @@ TEST_F(CommandStackMacroTest, BeginEndEmptyMacro)
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
 
-  // closing macro will change the mode, the command remains
   stack.EndMacro();
   EXPECT_FALSE(stack.IsMacroMode());
-  EXPECT_EQ(stack.GetCommandCount(), 1);
+
+  // empty macro command was automatically cleaned
+  EXPECT_EQ(stack.GetCommandCount(), 0);
 }
 
 //! Undo redo of empty macro should be allowed (real-life bug).
@@ -73,16 +74,15 @@ TEST_F(CommandStackMacroTest, UndoEmptyMacro)
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
 
-  // closing macro will change the mode, the command remains
   stack.EndMacro();
   EXPECT_FALSE(stack.IsMacroMode());
-  EXPECT_EQ(stack.GetCommandCount(), 1);
+  EXPECT_EQ(stack.GetCommandCount(), 0);
 
-  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
 
-  EXPECT_NO_THROW(stack.Undo()); // <-- FAILING HERE
-  EXPECT_NO_THROW(stack.Redo()); // <-- FAILING HERE
+  EXPECT_NO_THROW(stack.Undo());
+  EXPECT_NO_THROW(stack.Redo());
 }
 
 //! Recording two commands in a single macro.

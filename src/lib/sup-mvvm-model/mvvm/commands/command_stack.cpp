@@ -255,6 +255,12 @@ void CommandStack::EndMacro()
     throw RuntimeException("No command macro is currently recording");
   }
 
+  if (p_impl->m_macro_stack.top()->GetCommandCount() == 0)
+  {
+    // remove macro command if  it is empty
+    p_impl->m_commands.pop_back();
+  }
+
   // removing macro pointer from macro stack, the macro command itself remains in the command stack
   p_impl->m_macro_stack.pop();
 }
