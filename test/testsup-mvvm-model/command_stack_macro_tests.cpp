@@ -59,6 +59,32 @@ TEST_F(CommandStackMacroTest, BeginEndEmptyMacro)
   EXPECT_EQ(stack.GetCommandCount(), 1);
 }
 
+//! Undo redo of empty macro should be allowed (real-life bug).
+TEST_F(CommandStackMacroTest, UndoEmptyMacro)
+{
+  CommandStack stack;
+
+  // creating empty macro
+  stack.BeginMacro("macro");
+  EXPECT_TRUE(stack.IsMacroMode());
+  EXPECT_EQ(stack.GetCommandCount(), 1);
+
+  // it is not possible to undo or redo while in macro mode
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+
+  // closing macro will change the mode, the command remains
+  stack.EndMacro();
+  EXPECT_FALSE(stack.IsMacroMode());
+  EXPECT_EQ(stack.GetCommandCount(), 1);
+
+  EXPECT_TRUE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+
+  EXPECT_NO_THROW(stack.Undo()); // <-- FAILING HERE
+  EXPECT_NO_THROW(stack.Redo()); // <-- FAILING HERE
+}
+
 //! Recording two commands in a single macro.
 TEST_F(CommandStackMacroTest, AddTwoCommandsToMacro)
 {
