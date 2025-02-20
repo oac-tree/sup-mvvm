@@ -33,11 +33,15 @@
 namespace
 {
 
-std::string GenerateDescription(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index)
+std::string GenerateDescription(mvvm::SessionItem* parent, mvvm::SessionItem* child,
+                                const mvvm::TagIndex& tag_index)
 {
   (void)parent;
   std::ostringstream ostr;
-  ostr << "InsertItem: " << tag_index.GetTag() << " " << tag_index.GetIndex();
+  const std::string parent_name = parent ? parent->GetDisplayName() : "nullptr";
+  const std::string child_name = child ? child->GetDisplayName() : "nullptr";
+  ostr << "InsertItem: " << parent_name << " " << child_name << " " << tag_index.GetTag() << " "
+       << tag_index.GetIndex();
   return ostr.str();
 }
 
@@ -77,7 +81,7 @@ InsertItemCommand::InsertItemCommand(IModelComposer* composer, std::unique_ptr<S
                                      SessionItem* parent, const TagIndex& tag_index)
     : p_impl(std::make_unique<InsertItemCommandImpl>(composer, std::move(item), parent, tag_index))
 {
-  SetDescription(GenerateDescription(parent, tag_index));
+  SetDescription(GenerateDescription(parent, p_impl->m_to_insert.get(), tag_index));
 }
 
 SessionItem* InsertItemCommand::GetResult() const
