@@ -32,7 +32,7 @@ class PlatformTest : public ::testing::Test
 {
 };
 
-//! Validating our own functions using Qt macros, in a hope, that
+//! Validating our own functions using Qt macros, in assumption, that QT knows the truth.
 TEST_F(PlatformTest, CheckPlatform)
 {
 #if defined(Q_OS_WIN)

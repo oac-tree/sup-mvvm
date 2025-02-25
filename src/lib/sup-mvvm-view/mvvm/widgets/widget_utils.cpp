@@ -19,6 +19,8 @@
 
 #include "widget_utils.h"
 
+#include <mvvm/core/platform.h>
+
 #include <QApplication>
 #include <QColor>
 #include <QDebug>
@@ -92,33 +94,6 @@ QColor RandomColor()
 std::string RandomNamedColor()
 {
   return RandomColor().name().toStdString();
-}
-
-bool IsWindowsHost()
-{
-#if defined(Q_OS_WIN)
-  return true;
-#else
-  return false;
-#endif
-}
-
-bool IsMacHost()
-{
-#if defined(Q_OS_MAC)
-  return true;
-#else
-  return false;
-#endif
-}
-
-bool IsLinuxHost()
-{
-#if defined(Q_OS_LINUX)
-  return true;
-#else
-  return false;
-#endif
 }
 
 QString WithTildeHomePath(const QString& path)

@@ -48,21 +48,6 @@ QColor RandomColor();
 std::string RandomNamedColor();
 
 /**
- * @brief Checks if the current host is a Windows machine.
- */
-bool IsWindowsHost();
-
-/**
- * @brief Checks if the current host is a Mac.
- */
-bool IsMacHost();
-
-/**
- * @brief Checks if the current host is Linux.
- */
-bool IsLinuxHost();
-
-/**
  * @brief Returns a string where Linux path to the file is striped using '~/'.
  */
 QString WithTildeHomePath(const QString& path);
