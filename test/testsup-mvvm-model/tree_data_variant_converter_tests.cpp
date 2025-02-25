@@ -19,12 +19,11 @@
 
 #include "mvvm/serialization/tree_data_variant_converter.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_helper.h>
 
 #include <gtest/gtest.h>
-
-#include <stdexcept>
 
 using namespace mvvm;
 
@@ -154,7 +153,7 @@ TEST_F(TreeDataVariantConverterTests, Int32DataRole)
   // attempting to construct invalid tree (integer value is missed)
   tree_data = ParseXMLElementString(R"(<Variant role="42" type="int32"></Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
-  EXPECT_THROW(ToRoleData(*tree_data), std::invalid_argument);
+  EXPECT_THROW(ToRoleData(*tree_data), mvvm::RuntimeException);
 
   // more tests for other inetgers in treedata_variant_converter_tests.cpp
 }

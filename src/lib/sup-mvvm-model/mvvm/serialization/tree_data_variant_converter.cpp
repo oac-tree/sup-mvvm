@@ -26,6 +26,7 @@
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
+#include <charconv>
 #include <functional>
 #include <map>
 
@@ -196,8 +197,17 @@ mvvm::role_data_t to_bool(const tree_data_t& tree_data)
 template <typename T>
 mvvm::role_data_t to_int(const tree_data_t& tree_data)
 {
-  T value = std::stoi(tree_data.GetContent());
-  return {GetRole(tree_data), mvvm::variant_t(value)};
+  const auto text = tree_data.GetContent();
+  T parsed_value;
+  const std::from_chars_result result =
+      std::from_chars(text.data(), text.data() + text.size(), parsed_value);
+
+  if (result.ec == std::errc::invalid_argument || result.ec == std::errc::result_out_of_range)
+  {
+    throw RuntimeException("Can't parse int stored in TreeData");
+  }
+
+  return {GetRole(tree_data), mvvm::variant_t(parsed_value)};
 }
 
 mvvm::role_data_t to_string(const tree_data_t& tree_data)
