@@ -4,6 +4,8 @@ target_sources(${library_name} PRIVATE
   exceptions.cpp
   exceptions.h
   filesystem.h
+  platform.cpp
+  platform.h
   type_map.h
   unique_id_generator.cpp
   unique_id_generator.h

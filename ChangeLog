@@ -1,5 +1,6 @@
 To the next Release:
 
+- Fix bug with the serialization of large int64
 - Fix bug with two digits only while editing integers and floats
 - Provide experimental WebAssembly build
 - Adjust integer types to match sup-dto types
