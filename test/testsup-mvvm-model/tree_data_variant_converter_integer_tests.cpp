@@ -86,4 +86,5 @@ INSTANTIATE_TEST_SUITE_P(FunctionalTests, TreeDataVariantConverterIntegerTest,
                                            TestData{mvvm::int32{-42}, "int32", "-42"},
                                            TestData{mvvm::uint32{42}, "uint32", "42"},
                                            TestData{mvvm::int64{-42}, "int64", "-42"},
-                                           TestData{mvvm::uint64{42}, "uint64", "42"}));
+                                           TestData{mvvm::uint64{42}, "uint64", "42"},
+                                           TestData{mvvm::uint64{99000000000}, "uint64", "99000000000"}));
