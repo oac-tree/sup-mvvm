@@ -1,8 +1,13 @@
-To the next Release:
+Changes for 1.7.0:
 
+- COA Release v3.0, CODAC Core System Release 7.3, March 2025
 - Fix bug with the serialization of large int64
-- Fix bug with two digits only while editing integers and floats
+- Fix bug with two digits only while editing integers and floats in filtered trees
+- Fix MacOs build
+- Refactor static model type registration
 - Provide experimental WebAssembly build
+- Enable user examples build by default
+- Borrow external library sup-xml
 - Adjust integer types to match sup-dto types
 - Switch from int to std::size_t in SessionItem related containers
 

@@ -7,6 +7,6 @@ Interfaces.
 
 - C++17
 - CMake 3.14
-- Qt 5.15
+- Qt6
 - libxml2
 
