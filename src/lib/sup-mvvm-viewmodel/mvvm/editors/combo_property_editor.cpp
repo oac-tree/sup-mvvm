@@ -26,6 +26,7 @@
 
 namespace
 {
+
 QStringList ToList(const std::vector<std::string>& container)
 {
   QStringList result;
@@ -35,6 +36,7 @@ QStringList ToList(const std::vector<std::string>& container)
   }
   return result;
 }
+
 }  // namespace
 
 namespace mvvm

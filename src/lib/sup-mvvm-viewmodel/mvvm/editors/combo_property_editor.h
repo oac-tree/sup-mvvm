@@ -51,7 +51,7 @@ private:
   void SetConnected(bool isConnected);
   void UpdateComponents() override;
 
-  QComboBox* m_box;
+  QComboBox* m_box{nullptr};
 };
 
 }  // namespace mvvm

@@ -47,7 +47,7 @@ private:
   void UpdateComponents() override;
   QLabel* m_text_label{nullptr};
   QLabel* m_pixmap_label{nullptr};
-  LostFocusFilter* m_focus_filter;
+  LostFocusFilter* m_focus_filter{nullptr};
 };
 
 }  // namespace mvvm

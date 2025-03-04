@@ -43,7 +43,7 @@ private:
   void OnCheckBoxChange(bool value);
 
   void UpdateComponents() override;
-  QCheckBox* m_check_box;
+  QCheckBox* m_check_box{nullptr};
 };
 
 }  // namespace mvvm

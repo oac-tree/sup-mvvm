@@ -48,9 +48,9 @@ private:
 
   void UpdateComponents() override;
 
-  QLabel* m_text_label;
-  QLabel* m_pixmap_label;
-  LostFocusFilter* m_focus_filter;
+  QLabel* m_text_label{nullptr};
+  QLabel* m_pixmap_label{nullptr};
+  LostFocusFilter* m_focus_filter{nullptr};
   std::function<void(const QVariant&)> m_callback;  //! actions to take on clicked button
 };
 
