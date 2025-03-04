@@ -34,7 +34,7 @@ class ComboPropertyTests : public ::testing::Test
 
 TEST_F(ComboPropertyTests, InitialState)
 {
-  ComboProperty combo;
+  const ComboProperty combo;
   EXPECT_EQ(combo.GetValue(), "");
   EXPECT_EQ(combo.GetValues(), std::vector<std::string>());
   EXPECT_EQ(combo.GetToolTips(), std::vector<std::string>());
@@ -373,4 +373,13 @@ TEST_F(ComboPropertyTests, cCmboEqualityDiffList)
   c1.SetSelectionFromString("2");
   c2.SetSelectionFromString("2");
   EXPECT_TRUE(c1 == c2);
+}
+
+TEST_F(ComboPropertyTests, GetTooltips)
+{
+  ComboProperty combo;
+
+  const std::vector<std::string> expected_tooltips({"abc", "def"});
+  combo.SetToolTips(expected_tooltips);
+  EXPECT_EQ(combo.GetToolTips(), expected_tooltips);
 }
