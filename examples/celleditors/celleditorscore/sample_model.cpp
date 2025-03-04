@@ -55,8 +55,11 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
   AddProperty(kColor, "green")
       .SetDisplayName("Color")
       .SetEditorType(mvvm::constants::kColorEditorType);
-  AddProperty(kCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
-      .SetDisplayName("Combo");
+
+  mvvm::ComboProperty combo({"option 1", "option 2", "option 3"});
+  combo.SetToolTips({"tooltip1", "tooltip2", "tooltip3"});
+  AddProperty(kCombo, combo).SetDisplayName("Combo");
+
   AddProperty(kSelectableCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
       .SetDisplayName("Selectable")
       .SetEditorType(mvvm::constants::kSelectableComboPropertyEditorType);

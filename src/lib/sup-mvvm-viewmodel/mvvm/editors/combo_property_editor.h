@@ -28,8 +28,9 @@ class QComboBox;
 namespace mvvm
 {
 
-//! Custom editor for QVariant based on ComboProperty.
-
+/**
+ * @brief The ComboPropertyEditor class is a cell editor for QVariant based on ConboProperty.
+ */
 class MVVM_VIEWMODEL_EXPORT ComboPropertyEditor : public CustomEditor
 {
   Q_OBJECT
@@ -42,11 +43,15 @@ public:
 
   bool IsPersistent() const override;
 
+  /**
+   * @brief Returns underlying QComboBox.
+   */
+  QComboBox* GetComboBox();
+
 protected slots:
   virtual void OnIndexChanged(int index);
 
 private:
-  std::vector<std::string> GetInternLabels();
   int GetInternIndex();
   void SetConnected(bool isConnected);
   void UpdateComponents() override;

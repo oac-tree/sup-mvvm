@@ -72,6 +72,11 @@ bool ComboPropertyEditor::IsPersistent() const
   return true;
 }
 
+QComboBox* ComboPropertyEditor::GetComboBox()
+{
+  return m_box;
+}
+
 void ComboPropertyEditor::OnIndexChanged(int index)
 {
   auto comboProperty = GetData().value<ComboProperty>();
@@ -85,28 +90,27 @@ void ComboPropertyEditor::OnIndexChanged(int index)
 
 void ComboPropertyEditor::UpdateComponents()
 {
+  m_box->clear();
+
+  if (!GetData().canConvert<ComboProperty>())
+  {
+    return;
+  }
+
   SetConnected(false);
 
-  m_box->clear();
-  m_box->insertItems(0, ToList(GetInternLabels()));
+  auto combo_property = GetData().value<ComboProperty>();
+
+  m_box->insertItems(0, ToList(combo_property.GetValues()));
   m_box->setCurrentIndex(GetInternIndex());
+  int index{0};
+  for (const auto& tooltip : combo_property.GetToolTips())
+  {
+    m_box->setItemData(index++, QString::fromStdString(tooltip), Qt::ToolTipRole);
+  }
 
   SetConnected(true);
 }
-
-//! Returns list of labels for QComboBox
-
-std::vector<std::string> ComboPropertyEditor::GetInternLabels()
-{
-  if (!GetData().canConvert<ComboProperty>())
-  {
-    return {};
-  }
-  auto comboProperty = GetData().value<ComboProperty>();
-  return comboProperty.GetValues();
-}
-
-//! Returns index for QComboBox.
 
 int ComboPropertyEditor::GetInternIndex()
 {
@@ -114,8 +118,8 @@ int ComboPropertyEditor::GetInternIndex()
   {
     return 0;
   }
-  auto comboProperty = GetData().value<ComboProperty>();
-  return comboProperty.GetCurrentIndex();
+
+  return GetData().value<ComboProperty>().GetCurrentIndex();
 }
 
 void ComboPropertyEditor::SetConnected(bool isConnected)
