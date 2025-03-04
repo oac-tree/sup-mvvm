@@ -89,6 +89,9 @@ public:
 
   /**
    * @brief Sets tool tips for all values.
+   *
+   * Method doesn't validate the number of tooltips provided. Combo property editor will most-likely
+   * ignore extra tooltips, if exist.
    */
   void SetToolTips(const std::vector<std::string>& tooltips);
 

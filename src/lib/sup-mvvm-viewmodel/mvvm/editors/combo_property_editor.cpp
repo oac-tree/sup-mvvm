@@ -79,12 +79,12 @@ QComboBox* ComboPropertyEditor::GetComboBox()
 
 void ComboPropertyEditor::OnIndexChanged(int index)
 {
-  auto comboProperty = GetData().value<ComboProperty>();
+  auto combo_property = GetData().value<ComboProperty>();
 
-  if (comboProperty.GetCurrentIndex() != index)
+  if (combo_property.GetCurrentIndex() != index)
   {
-    comboProperty.SetCurrentIndex(index);
-    SetDataIntern(QVariant::fromValue<ComboProperty>(comboProperty));
+    combo_property.SetCurrentIndex(index);
+    SetDataIntern(QVariant::fromValue<ComboProperty>(combo_property));
   }
 }
 
@@ -106,7 +106,10 @@ void ComboPropertyEditor::UpdateComponents()
   int index{0};
   for (const auto& tooltip : combo_property.GetToolTips())
   {
-    m_box->setItemData(index++, QString::fromStdString(tooltip), Qt::ToolTipRole);
+    if (index < m_box->count())
+    {
+      m_box->setItemData(index++, QString::fromStdString(tooltip), Qt::ToolTipRole);
+    }
   }
 
   SetConnected(true);

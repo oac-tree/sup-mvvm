@@ -39,7 +39,7 @@ TEST_F(ComboPropertyEditorTest, SetValueAndToolTip)
   ComboPropertyEditor editor;
 
   const std::vector<std::string> expected_values({"abc", "def"});
-  const std::vector<std::string> expected_tooltips({"abc-tooltip", "def-tooltip"});
+  const std::vector<std::string> expected_tooltips({"tooltip1", "tooltip2", "tooltip3"});
   ComboProperty property(expected_values);
   property.SetToolTips(expected_tooltips);
 
@@ -53,6 +53,7 @@ TEST_F(ComboPropertyEditorTest, SetValueAndToolTip)
             expected_tooltips.at(0));
   EXPECT_EQ(combo_box->itemData(1, Qt::ToolTipRole).toString().toStdString(),
             expected_tooltips.at(1));
+  // extra tooltips ignored
 
   EXPECT_EQ(combo_box->currentIndex(), 0);
 }
