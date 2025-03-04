@@ -47,6 +47,11 @@ public:
 
   bool IsPersistent() const override;
 
+  /**
+   * @brief Returns underlying QComboBox.
+   */
+  QComboBox* GetComboBox();
+
 protected:
   /**
    * @brief Propagates check state from the model to ComboProperty.

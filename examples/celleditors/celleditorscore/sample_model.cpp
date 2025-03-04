@@ -60,7 +60,7 @@ BasicPropertyItem::BasicPropertyItem() : mvvm::CompoundItem("BasicProperty")
   combo.SetToolTips({"tooltip1", "tooltip2", "tooltip3"});
   AddProperty(kCombo, combo).SetDisplayName("Combo");
 
-  AddProperty(kSelectableCombo, mvvm::ComboProperty({"option 1", "option 2", "option 3"}))
+  AddProperty(kSelectableCombo, combo)
       .SetDisplayName("Selectable")
       .SetEditorType(mvvm::constants::kSelectableComboPropertyEditorType);
   AddProperty(kExternal, mvvm::ExternalProperty({"text", "gold"})).SetDisplayName("External");

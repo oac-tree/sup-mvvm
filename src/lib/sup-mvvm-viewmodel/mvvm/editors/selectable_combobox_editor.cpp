@@ -109,6 +109,11 @@ bool SelectableComboBoxEditor::IsPersistent() const
   return true;
 }
 
+QComboBox* SelectableComboBoxEditor::GetComboBox()
+{
+  return m_box;
+}
+
 void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& top_left,
                                                   const QModelIndex& bottom_right,
                                                   const QVector<int>& roles)
@@ -170,6 +175,10 @@ void SelectableComboBoxEditor::UpdateComponents()
 
     auto state = utils::Contains(selected_indices, i) ? Qt::Checked : Qt::Unchecked;
     item->setData(state, Qt::CheckStateRole);
+    if (i < property.GetToolTips().size())
+    {
+      item->setData(QString::fromStdString(property.GetToolTips().at(i)), Qt::ToolTipRole);
+    }
   }
 
   SetConnected(true);

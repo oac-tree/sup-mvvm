@@ -15,6 +15,7 @@ target_sources(${test} PRIVATE
   item_view_component_provider_tests.cpp
   main.cpp
   property_grid_controller_tests.cpp
+  selectable_combobox_editor_tests.cpp
   viewmodel_delegate_extended_tests.cpp
   viewmodel_delegate_tests.cpp
 )
