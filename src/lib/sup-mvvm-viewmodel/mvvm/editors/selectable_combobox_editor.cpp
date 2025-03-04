@@ -42,12 +42,14 @@
 namespace mvvm
 {
 
-//! Provides custom style delegate for QComboBox to allow checkboxes.
-
+/**
+ * @brief The QCheckListStyledItemDelegate class provides custom style delegate for QComboBox to
+ * allow checkboxes.
+ */
 class QCheckListStyledItemDelegate : public QStyledItemDelegate
 {
 public:
-  QCheckListStyledItemDelegate(QObject* parent = nullptr) : QStyledItemDelegate(parent) {}
+  explicit QCheckListStyledItemDelegate(QObject* parent = nullptr) : QStyledItemDelegate(parent) {}
 
   void paint(QPainter* painter, const QStyleOptionViewItem& option,
              const QModelIndex& index) const override
@@ -58,7 +60,9 @@ public:
   }
 };
 
-// ----------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+// SelectableComboBoxEditor
+// -------------------------------------------------------------------------------------------------
 
 SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent_widget)
     : CustomEditor(parent_widget)
@@ -105,11 +109,12 @@ bool SelectableComboBoxEditor::IsPersistent() const
   return true;
 }
 
-//! Propagate check state from the model to ComboProperty.
-
-void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& topLeft, const QModelIndex&,
+void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& top_left,
+                                                  const QModelIndex& bottom_right,
                                                   const QVector<int>& roles)
 {
+  (void)bottom_right;
+
 #if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
   // for older versions this role is always empty
   if (!roles.contains(Qt::CheckStateRole))
@@ -118,21 +123,19 @@ void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& topLeft, co
   }
 #endif
 
-  auto item = m_model->itemFromIndex(topLeft);
+  auto item = m_model->itemFromIndex(top_left);
   if (!item)
   {
     return;
   }
 
   auto comboProperty = GetData().value<ComboProperty>();
-  auto state = item->checkState() == Qt::Checked ? true : false;
-  comboProperty.SetSelected(topLeft.row(), state);
+  auto state = item->checkState() == Qt::Checked;
+  comboProperty.SetSelected(top_left.row(), state);
 
   UpdateBoxLabel();
   SetDataIntern(QVariant::fromValue<ComboProperty>(comboProperty));
 }
-
-//! Processes press event in QComboBox's underlying list view.
 
 void SelectableComboBoxEditor::OnClickedList(const QModelIndex& index)
 {
@@ -140,35 +143,6 @@ void SelectableComboBoxEditor::OnClickedList(const QModelIndex& index)
   {
     auto state = item->checkState() == Qt::Checked ? Qt::Unchecked : Qt::Checked;
     item->setCheckState(state);
-  }
-}
-
-//! Handles mouse clicks on QComboBox elements.
-
-bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
-{
-  if (IsClickToSelect(obj, event))
-  {
-    // Handles mouse clicks on QListView when it is expanded from QComboBox
-    // 1) Prevents list from closing while selecting items.
-    // 2) Correctly calculates underlying model index when mouse is over check box style
-    // element.
-    const auto mouseEvent = static_cast<const QMouseEvent*>(event);
-    auto index = m_box->view()->indexAt(mouseEvent->pos());
-    OnClickedList(index);
-    return true;
-  }
-
-  if (IsClickToExpand(obj, event))
-  {
-    // Expands box when clicking on None/Multiple label
-    m_box->showPopup();
-    return true;
-  }
-  else
-  {
-    // Propagate to the parent class.
-    return QObject::eventFilter(obj, event);
   }
 }
 
@@ -185,7 +159,7 @@ void SelectableComboBoxEditor::UpdateComponents()
   m_model->clear();
 
   auto labels = property.GetValues();
-  auto selectedIndices = property.GetSelectedIndices();
+  auto selected_indices = property.GetSelectedIndices();
 
   for (size_t i = 0; i < labels.size(); ++i)
   {
@@ -194,7 +168,7 @@ void SelectableComboBoxEditor::UpdateComponents()
     item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     item->setCheckable(true);
 
-    auto state = utils::Contains(selectedIndices, i) ? Qt::Checked : Qt::Unchecked;
+    auto state = utils::Contains(selected_indices, i) ? Qt::Checked : Qt::Unchecked;
     item->setData(state, Qt::CheckStateRole);
   }
 
@@ -202,9 +176,33 @@ void SelectableComboBoxEditor::UpdateComponents()
   UpdateBoxLabel();
 }
 
-void SelectableComboBoxEditor::SetConnected(bool isConnected)
+bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
 {
-  if (isConnected)
+  if (IsClickToSelect(obj, event))
+  {
+    // Handles mouse clicks on QListView when it is expanded from QComboBox
+    // 1) Prevents list from closing while selecting items.
+    // 2) Correctly calculates underlying model index when mouse is over check box style
+    // element.
+    const auto mouse_event = dynamic_cast<const QMouseEvent*>(event);
+    auto index = m_box->view()->indexAt(mouse_event->pos());
+    OnClickedList(index);
+    return true;
+  }
+
+  if (IsClickToExpand(obj, event))
+  {
+    // Expands box when clicking on None/Multiple label
+    m_box->showPopup();
+    return true;
+  }
+
+  return QObject::eventFilter(obj, event);  // propagate to the parent class
+}
+
+void SelectableComboBoxEditor::SetConnected(bool is_connected)
+{
+  if (is_connected)
   {
     connect(m_model, &QStandardItemModel::dataChanged, this,
             &SelectableComboBoxEditor::OnModelDataChanged);
@@ -215,8 +213,6 @@ void SelectableComboBoxEditor::SetConnected(bool isConnected)
                &SelectableComboBoxEditor::OnModelDataChanged);
   }
 }
-
-//! Update text on QComboBox with the label provided by combo property.
 
 void SelectableComboBoxEditor::UpdateBoxLabel()
 {

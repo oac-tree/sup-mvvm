@@ -31,8 +31,10 @@ namespace mvvm
 
 class WheelEventFilter;
 
-//! Adds multi-selection capabilities to QComboBox.
-
+/**
+ * @brief The ComboPropertyEditor class is a cell editor for QVariant based on ComboProperty
+ * with the possibility of multiple selections.
+ */
 class MVVM_VIEWMODEL_EXPORT SelectableComboBoxEditor : public CustomEditor
 {
   Q_OBJECT
@@ -46,16 +48,30 @@ public:
   bool IsPersistent() const override;
 
 protected:
-  void OnModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&);
+  /**
+   * @brief Propagates check state from the model to ComboProperty.
+   */
+  void OnModelDataChanged(const QModelIndex& top_left, const QModelIndex& bottom_right,
+                          const QVector<int>& roles);
 
+  /**
+   * @brief Processes press event in QComboBox's underlying list view.
+   */
   void OnClickedList(const QModelIndex& index);
 
   void UpdateComponents() override;
 
 private:
+  /**
+   * @brief Handles mouse clicks on QComboBox elements.
+   */
   bool eventFilter(QObject* obj, QEvent* event) override;
 
-  void SetConnected(bool isConnected);
+  void SetConnected(bool is_connected);
+
+  /**
+   * @brief Updates text on QComboBox with the label provided by combo property.
+   */
   void UpdateBoxLabel();
 
   bool IsClickToSelect(QObject* obj, QEvent* event) const;
