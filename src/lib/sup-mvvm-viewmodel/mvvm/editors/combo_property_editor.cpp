@@ -20,24 +20,10 @@
 #include "combo_property_editor.h"
 
 #include <mvvm/model/combo_property.h>
+#include <mvvm/viewmodel/qtcore_helper.h>
 
 #include <QComboBox>
 #include <QVBoxLayout>
-
-namespace
-{
-
-QStringList ToList(const std::vector<std::string>& container)
-{
-  QStringList result;
-  for (const auto& str : container)
-  {
-    result.push_back(QString::fromStdString(str));
-  }
-  return result;
-}
-
-}  // namespace
 
 namespace mvvm
 {
@@ -101,7 +87,7 @@ void ComboPropertyEditor::UpdateComponents()
 
   auto combo_property = GetData().value<ComboProperty>();
 
-  m_box->insertItems(0, ToList(combo_property.GetValues()));
+  m_box->insertItems(0, utils::GetStringList(combo_property.GetValues()));
   m_box->setCurrentIndex(GetInternIndex());
   int index{0};
   for (const auto& tooltip : combo_property.GetToolTips())
