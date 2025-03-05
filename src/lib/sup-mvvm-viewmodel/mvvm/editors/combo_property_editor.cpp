@@ -76,14 +76,14 @@ void ComboPropertyEditor::OnIndexChanged(int index)
 
 void ComboPropertyEditor::UpdateComponents()
 {
-  m_box->clear();
-
   if (!GetData().canConvert<ComboProperty>())
   {
     return;
   }
 
   SetConnected(false);
+
+  m_box->clear();
 
   auto combo_property = GetData().value<ComboProperty>();
 

@@ -57,3 +57,22 @@ TEST_F(ComboPropertyEditorTest, SetValueAndToolTip)
 
   EXPECT_EQ(combo_box->currentIndex(), 0);
 }
+
+TEST_F(ComboPropertyEditorTest, SetValueProgrammatically)
+{
+  ComboPropertyEditor editor;
+
+  const std::vector<std::string> expected_values({"abc", "def"});
+  const std::vector<std::string> expected_tooltips({"tooltip1", "tooltip2", "tooltip3"});
+  ComboProperty property(expected_values);
+  property.SetToolTips(expected_tooltips);
+
+  editor.SetData(GetQtVariant(property));
+
+  auto combo_box = editor.GetComboBox();
+  combo_box->setCurrentIndex(1);
+
+  auto new_data = std::get<ComboProperty>(GetStdVariant(editor.GetData()));
+
+  EXPECT_EQ(new_data.GetCurrentIndex(), 1);
+}
