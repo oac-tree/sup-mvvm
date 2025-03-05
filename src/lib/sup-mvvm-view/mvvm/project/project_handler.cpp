@@ -28,6 +28,7 @@
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_manager_factory.h>
 #include <mvvm/project/project_utils.h>
+#include <mvvm/viewmodel/qtcore_helper.h>
 #include <mvvm/widgets/widget_utils.h>
 
 #include <QMainWindow>

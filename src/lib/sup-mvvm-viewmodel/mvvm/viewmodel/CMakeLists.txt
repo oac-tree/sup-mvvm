@@ -19,6 +19,8 @@ target_sources(${library_name} PRIVATE
   property_table_viewmodel.h
   property_viewmodel.cpp
   property_viewmodel.h
+  qtcore_helper.cpp
+  qtcore_helper.h
   standard_children_strategies.cpp
   standard_children_strategies.h
   standard_presentation_items.cpp

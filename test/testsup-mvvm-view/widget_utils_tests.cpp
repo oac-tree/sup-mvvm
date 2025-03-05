@@ -53,30 +53,6 @@ TEST_F(WidgetUtilsTest, ClickableText)
   EXPECT_EQ(utils::ClickableText("abc", "site.com"), QString(R"(<a href="site.com">abc</a>)"));
 }
 
-TEST_F(WidgetUtilsTest, GetStringList)
-{
-  using vec_t = std::vector<std::string>;
-  EXPECT_EQ(utils::GetStringList(vec_t()), QStringList());
-  EXPECT_EQ(utils::GetStringList(vec_t({"abc", "cde"})), QStringList({"abc", "cde"}));
-}
-
-TEST_F(WidgetUtilsTest, GetStdStringVector)
-{
-  using vec_t = std::vector<std::string>;
-  EXPECT_EQ(utils::GetStdStringVector(QStringList()), vec_t());
-  EXPECT_EQ(utils::GetStdStringVector(QStringList({"abc", "cde"})), vec_t({"abc", "cde"}));
-}
-
-TEST_F(WidgetUtilsTest, GetByteArray)
-{
-  QStringList expected = QStringList() << "aaa"
-                                       << "bbb"
-                                       << "ccc";
-
-  auto array = utils::GetByteArray(expected);
-  EXPECT_EQ(utils::GetStringList(array), expected);
-}
-
 TEST_F(WidgetUtilsTest, CreatePathPresentation)
 {
   using utils::CreatePathPresentation;

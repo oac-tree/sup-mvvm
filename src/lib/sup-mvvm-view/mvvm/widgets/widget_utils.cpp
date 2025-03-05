@@ -177,39 +177,6 @@ void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
   label->setFont(font);
 }
 
-QStringList GetStringList(const std::vector<std::string>& vec)
-{
-  QStringList result;
-  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
-                 [](const auto& str) { return QString::fromStdString(str); });
-  return result;
-}
-
-std::vector<std::string> GetStdStringVector(const QStringList& string_list)
-{
-  std::vector<std::string> result;
-  std::transform(string_list.begin(), string_list.end(), std::back_inserter(result),
-                 [](const auto& str) { return str.toStdString(); });
-  return result;
-}
-
-QByteArray GetByteArray(const QStringList& data)
-{
-  QByteArray byteArray;
-  QDataStream out(&byteArray, QIODevice::WriteOnly);
-  out << data;
-  return byteArray;
-}
-
-QStringList GetStringList(const QByteArray& byteArray)
-{
-  QByteArray array = byteArray;
-  QStringList result;
-  QDataStream in(&array, QIODevice::ReadOnly);
-  in >> result;
-  return result;
-}
-
 QString CreatePathPresentation(const QString& text)
 {
   if (text.isEmpty())

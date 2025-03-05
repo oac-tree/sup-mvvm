@@ -26,7 +26,6 @@
 #include <QString>
 #include <QStringList>
 #include <string>
-#include <vector>
 
 class QColor;
 class QSize;
@@ -102,26 +101,6 @@ QString ClickableText(const QString& text, const QString& link = {});
  * @param is_bold Allows to turn the label's font into bold.
  */
 void ScaleLabelFont(QLabel* label, double scale, bool is_bold = false);
-
-/**
- * @brief Converts vector of strings to QStringList.
- */
-QStringList GetStringList(const std::vector<std::string>& vec);
-
-/**
- * @brief Converts string list to std vector.
- */
-std::vector<std::string> GetStdStringVector(const QStringList& string_list);
-
-/**
- * @brief Converts vector of strings to byte array.
- */
-QByteArray GetByteArray(const QStringList& data);
-
-/**
- * @brief Converts byte array to vector of strings.
- */
-QStringList GetStringList(const QByteArray& byteArray);
 
 /**
  * @brief Turn the string containing Unix path into special text intended for clickable labels.
