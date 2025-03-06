@@ -65,7 +65,11 @@ private:
 
   std::unique_ptr<mvvm::ViewModel> m_vertical_view_model;
   std::unique_ptr<mvvm::ViewModel> m_horizontal_view_model;
-  std::unique_ptr<mvvm::ViewModelDelegate> m_delegate;
+
+  // Qt likes that every view has its own delegates
+  std::unique_ptr<mvvm::ViewModelDelegate> m_vertical_delegate;
+  std::unique_ptr<mvvm::ViewModelDelegate> m_horizontal_delegate;
+  std::unique_ptr<mvvm::ViewModelDelegate> m_table_delegate;
 };
 
 }  // namespace celleditors

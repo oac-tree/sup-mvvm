@@ -37,7 +37,9 @@ PropertyPanel::PropertyPanel(QWidget* parent)
     , m_vertical_tree(new QTreeView)
     , m_horizontal_tree(new QTreeView)
     , m_table_view(new QTableView)
-    , m_delegate(std::make_unique<mvvm::ViewModelDelegate>())
+    , m_vertical_delegate(std::make_unique<mvvm::ViewModelDelegate>())
+    , m_horizontal_delegate(std::make_unique<mvvm::ViewModelDelegate>())
+    , m_table_delegate(std::make_unique<mvvm::ViewModelDelegate>())
 {
   auto mainLayout = new QHBoxLayout;
   mainLayout->setSpacing(10);
@@ -60,7 +62,7 @@ void PropertyPanel::SetItem(mvvm::SessionItem* item)
   m_vertical_view_model->SetRootSessionItem(item);
 
   m_vertical_tree->setModel(m_vertical_view_model.get());
-  m_vertical_tree->setItemDelegate(m_delegate.get());
+  m_vertical_tree->setItemDelegate(m_vertical_delegate.get());
   m_vertical_tree->expandAll();
   m_vertical_tree->resizeColumnToContents(0);
   m_vertical_tree->setRootIsDecorated(true);
@@ -70,13 +72,15 @@ void PropertyPanel::SetItem(mvvm::SessionItem* item)
   m_horizontal_view_model->SetRootSessionItem(item);
 
   m_horizontal_tree->setModel(m_horizontal_view_model.get());
-  m_horizontal_tree->setItemDelegate(m_delegate.get());
+  m_horizontal_tree->setItemDelegate(m_vertical_delegate.get());
+  m_horizontal_tree->setItemDelegate(m_horizontal_delegate.get());
   m_horizontal_tree->expandAll();
   m_horizontal_tree->header()->setSectionResizeMode(QHeaderView::Stretch);
 
   // setting up right table
   m_table_view->setModel(m_horizontal_view_model.get());
-  m_table_view->setItemDelegate(m_delegate.get());
+  m_table_view->setItemDelegate(m_vertical_delegate.get());
+  m_table_view->setItemDelegate(m_table_delegate.get());
   m_table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
