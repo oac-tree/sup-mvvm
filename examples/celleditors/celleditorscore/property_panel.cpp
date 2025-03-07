@@ -72,14 +72,12 @@ void PropertyPanel::SetItem(mvvm::SessionItem* item)
   m_horizontal_view_model->SetRootSessionItem(item);
 
   m_horizontal_tree->setModel(m_horizontal_view_model.get());
-  m_horizontal_tree->setItemDelegate(m_vertical_delegate.get());
   m_horizontal_tree->setItemDelegate(m_horizontal_delegate.get());
   m_horizontal_tree->expandAll();
   m_horizontal_tree->header()->setSectionResizeMode(QHeaderView::Stretch);
 
   // setting up right table
   m_table_view->setModel(m_horizontal_view_model.get());
-  m_table_view->setItemDelegate(m_vertical_delegate.get());
   m_table_view->setItemDelegate(m_table_delegate.get());
   m_table_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
