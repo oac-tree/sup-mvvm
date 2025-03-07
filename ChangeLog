@@ -1,5 +1,7 @@
 Changes for 1.8.0:
 
+- Make BooleanEditor and ComboEditor in tree cells closing after editing finished
+- Fix Qt warnings in celleditors example
 - Provide tooltips for ComboBox property editors.
 
 Changes for 1.7.0:
