@@ -41,8 +41,6 @@ public:
   QSize sizeHint() const override;
   QSize minimumSizeHint() const override;
 
-  bool IsPersistent() const override;
-
   /**
    * @brief Returns underlying QComboBox.
    */

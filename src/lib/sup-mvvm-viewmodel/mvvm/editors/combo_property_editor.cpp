@@ -53,11 +53,6 @@ QSize ComboPropertyEditor::minimumSizeHint() const
   return m_box->minimumSizeHint();
 }
 
-bool ComboPropertyEditor::IsPersistent() const
-{
-  return true;
-}
-
 QComboBox* ComboPropertyEditor::GetComboBox()
 {
   return m_box;

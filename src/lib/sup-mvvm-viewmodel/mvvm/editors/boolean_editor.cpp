@@ -47,11 +47,6 @@ BoolEditor::BoolEditor(QWidget* parent_widget) : CustomEditor(parent_widget), m_
   m_check_box->setText(true_text);
 }
 
-bool BoolEditor::IsPersistent() const
-{
-  return true;
-}
-
 void BoolEditor::OnCheckBoxChange(bool value)
 {
   if (value != GetData().value<bool>())

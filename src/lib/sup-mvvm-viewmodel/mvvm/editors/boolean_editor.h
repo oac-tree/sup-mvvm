@@ -37,8 +37,6 @@ class MVVM_VIEWMODEL_EXPORT BoolEditor : public CustomEditor
 public:
   explicit BoolEditor(QWidget* parent_widget = nullptr);
 
-  bool IsPersistent() const override;
-
 private:
   void OnCheckBoxChange(bool value);
 
