@@ -130,6 +130,30 @@ std::vector<T*> GetVectorOfPtrs(const std::vector<std::unique_ptr<T>>& container
   return result;
 }
 
+/**
+ * @brief Return vector of const pointers from the vector of non-const pointers.
+ */
+template <typename T>
+std::vector<const T*> MakeConst(const std::vector<T*>& vec)
+{
+  std::vector<const T*> result;
+  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
+                 [](auto element) { return element; });
+  return result;
+}
+
+/**
+ * @brief Return vector of non-const pointers from the vector of const pointers.
+ */
+template <typename T>
+std::vector<T*> RemoveConst(const std::vector<const T*>& vec)
+{
+  std::vector<T*> result;
+  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
+                 [](auto element) { return const_cast<T*>(element); });
+  return result;
+}
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_CONTAINER_UTILS_H_

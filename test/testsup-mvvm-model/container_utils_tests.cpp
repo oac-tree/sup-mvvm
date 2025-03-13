@@ -117,3 +117,14 @@ TEST_F(ContainerUtilsTests, GetVectorOfPtrs)
 
   EXPECT_EQ(utils::GetVectorOfPtrs(vec), std::vector<TestItem*>({item1_ptr, item2_ptr}));
 }
+
+TEST_F(ContainerUtilsTests, MakeConstRemoveConst)
+{
+  TestItemA test_item_a1;
+  TestItemB test_item_a2;
+
+  const std::vector<TestItem*> non_const_vect({&test_item_a1, &test_item_a2});
+  const std::vector<const TestItem*> const_vect({&test_item_a1, &test_item_a2});
+  EXPECT_EQ(utils::MakeConst(non_const_vect), const_vect);
+  EXPECT_EQ(utils::RemoveConst(const_vect), non_const_vect);
+}
