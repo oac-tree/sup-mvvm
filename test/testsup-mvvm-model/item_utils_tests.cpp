@@ -894,3 +894,26 @@ TEST_F(ItemUtilsTests, ToStringAndBackClonedID)
   EXPECT_EQ(reco_parent->GetIdentifier(), parent.GetIdentifier());
   EXPECT_EQ(reco_parent->GetDisplayName(), "abc");
 }
+
+TEST_F(ItemUtilsTests, FindItemsUp)
+{
+  mvvm::test::toyitems::SampleModel model;
+
+  auto multilayer = model.InsertItem<mvvm::test::toyitems::MultiLayerItem>();
+  auto layer0 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto particle0 = model.InsertItem<mvvm::test::toyitems::ParticleItem>(layer0);
+  auto layer1 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+  auto layer2 = model.InsertItem<mvvm::test::toyitems::LayerItem>(multilayer);
+
+  EXPECT_TRUE(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({}).empty());
+  EXPECT_TRUE(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({multilayer}).empty());
+
+  EXPECT_EQ(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, layer1, multilayer}),
+            std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer1}));
+
+  EXPECT_EQ(utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, particle0}),
+            std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer0}));
+  EXPECT_EQ(
+      utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, particle0, layer1, layer0}),
+      std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer0, layer1}));
+}

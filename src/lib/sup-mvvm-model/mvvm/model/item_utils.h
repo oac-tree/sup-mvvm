@@ -23,6 +23,7 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model_export.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <cstddef>
 #include <functional>
@@ -416,6 +417,33 @@ MVVM_MODEL_EXPORT void EndMacro(const SessionItem& item);
  * @brief Returns string representing item.
  */
 std::string ItemToDebugString(const SessionItem* item);
+
+/**
+ * @brief Collect all items up in hierarchy that can be casted to a given type.
+ *
+ * It is used in the context when the user selects the part of the tree and wants to find all
+ * parents of certain type. The resulting list will be filtered for duplicates, the order of parents
+ * in the list will be preserved.
+ *
+ * @param item The items to investigate.
+ * @param start_from_self Will start from items itself, if true, otherwise will start from its
+ * parent.
+ *
+ * @return All found items casted to necessary type.
+ */
+template <typename T>
+std::vector<T*> FindItemsUp(const std::vector<SessionItem*>& items, bool start_from_self = true)
+{
+  std::vector<T*> result;
+  for (auto item : items)
+  {
+    if (auto casted_item = FindItemUp<T>(item, start_from_self); casted_item)
+    {
+      result.push_back(casted_item);
+    }
+  }
+  return UniqueWithOrder(result);
+}
 
 }  // namespace mvvm::utils
 
