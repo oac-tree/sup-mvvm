@@ -30,17 +30,29 @@ namespace mvvm
 
 class SessionItem;
 
-//! Base class for all converters of SessionItem to/from TreeData object.
-
+/**
+ * @brief The ITreeDataItemConverter class is a base for all converters of SessionItem to/from
+ * TreeData object.
+ */
 class MVVM_MODEL_EXPORT ITreeDataItemConverter
 {
 public:
+  ITreeDataItemConverter() = default;
   virtual ~ITreeDataItemConverter() = default;
 
-  //! Creates TreeData from SessionItem.
+  ITreeDataItemConverter(const ITreeDataItemConverter&) = delete;
+  ITreeDataItemConverter& operator=(const ITreeDataItemConverter&) = delete;
+  ITreeDataItemConverter(ITreeDataItemConverter&&) = delete;
+  ITreeDataItemConverter& operator=(ITreeDataItemConverter&&) = delete;
+
+  /**
+   * @brief Creates TreeData from SessionItem.
+   */
   virtual std::unique_ptr<tree_data_t> ToTreeData(const SessionItem& item) const = 0;
 
-  //! Creates SessionItem from TreeData.
+  /**
+   * @brief Creates SessionItem from TreeData.
+   */
   virtual std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t&) const = 0;
 };
 
