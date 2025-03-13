@@ -2,6 +2,7 @@ target_sources(${library_name} PRIVATE
   converter_types.h
   i_model_document.h
   i_tree_data_item_converter.h
+  i_tree_data_model_converter.h
   tree_data.h
   tree_data_fwd.h
   tree_data_helper.cpp
@@ -16,7 +17,6 @@ target_sources(${library_name} PRIVATE
   tree_data_itemdata_converter.h
   tree_data_model_converter.cpp
   tree_data_model_converter.h
-  tree_data_model_converter_interface.h
   tree_data_tagged_items_converter.cpp
   tree_data_tagged_items_converter.h
   tree_data_taginfo_converter.cpp

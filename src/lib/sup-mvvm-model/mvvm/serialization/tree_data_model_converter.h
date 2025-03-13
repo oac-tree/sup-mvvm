@@ -21,7 +21,7 @@
 #define MVVM_SERIALIZATION_TREEDATA_MODEL_CONVERTER_H_
 
 #include <mvvm/serialization/converter_types.h>
-#include <mvvm/serialization/tree_data_model_converter_interface.h>
+#include <mvvm/serialization/i_tree_data_model_converter.h>
 
 #include <memory>
 
@@ -30,7 +30,7 @@ namespace mvvm
 
 //! Default converter of SessionModel to/from TreeData object.
 
-class MVVM_MODEL_EXPORT TreeDataModelConverter : public TreeDataModelConverterInterface
+class MVVM_MODEL_EXPORT TreeDataModelConverter : public ITreeDataModelConverter
 {
 public:
   explicit TreeDataModelConverter(ConverterMode converter_mode);
