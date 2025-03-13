@@ -21,7 +21,7 @@
 #define MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_H_
 
 #include <mvvm/serialization/converter_types.h>
-#include <mvvm/serialization/tree_data_item_converter_interface.h>
+#include <mvvm/serialization/i_tree_data_item_converter.h>
 
 namespace mvvm
 {
@@ -33,7 +33,7 @@ class IItemFactory;
 //! exact copy of the data. On the way back, creates full clone of original item (including
 //! unique identifiers), if ConverterMode::kClone.
 
-class MVVM_MODEL_EXPORT TreeDataItemConverter : public TreeDataItemConverterInterface
+class MVVM_MODEL_EXPORT TreeDataItemConverter : public ITreeDataItemConverter
 {
 public:
   TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode);

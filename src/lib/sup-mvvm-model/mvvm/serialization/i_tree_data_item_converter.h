@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_INTERFACE_H_
-#define MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_INTERFACE_H_
+#ifndef MVVM_SERIALIZATION_I_TREEDATA_ITEM_CONVERTER_H_
+#define MVVM_SERIALIZATION_I_TREEDATA_ITEM_CONVERTER_H_
 
 #include <mvvm/model_export.h>
 #include <mvvm/serialization/tree_data_fwd.h>
@@ -32,10 +32,10 @@ class SessionItem;
 
 //! Base class for all converters of SessionItem to/from TreeData object.
 
-class MVVM_MODEL_EXPORT TreeDataItemConverterInterface
+class MVVM_MODEL_EXPORT ITreeDataItemConverter
 {
 public:
-  virtual ~TreeDataItemConverterInterface() = default;
+  virtual ~ITreeDataItemConverter() = default;
 
   //! Creates TreeData from SessionItem.
   virtual std::unique_ptr<tree_data_t> ToTreeData(const SessionItem& item) const = 0;
@@ -46,4 +46,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_TREEDATA_ITEM_CONVERTER_INTERFACE_H_
+#endif  // MVVM_SERIALIZATION_I_TREEDATA_ITEM_CONVERTER_H_
