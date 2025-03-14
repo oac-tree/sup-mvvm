@@ -879,6 +879,44 @@ TEST_F(ItemUtilsTests, ToStringAndBackNewID)
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
 
+TEST_F(ItemUtilsTests, CopyToStringWithFilter)
+{
+  SessionItem parent;
+  parent.SetDisplayName("parent_name");
+  parent.RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+
+  auto child0 = parent.InsertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  child0->SetDisplayName("child_name0");
+  auto child1 = parent.InsertItem(std::make_unique<PropertyItem>(), TagIndex::Append());
+  child1->SetDisplayName("child_name1");
+
+  auto filter_func = [](const auto& item) -> bool
+  { return item.GetDisplayName() == "child_name0"; };
+
+  // to string
+  auto str = utils::ToXMLString(parent, filter_func);
+
+  // reconstructiong back
+  auto reco_parent = utils::SessionItemFromXMLString(str);
+
+  // checking parent reconstruction
+  EXPECT_EQ(reco_parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(reco_parent->GetType(), SessionItem::GetStaticType());
+  EXPECT_EQ(reco_parent->GetDisplayName(), "parent_name");
+  EXPECT_NE(reco_parent->GetIdentifier(), parent.GetIdentifier());
+  EXPECT_EQ(reco_parent->GetTaggedItems()->GetDefaultTag(), "defaultTag");
+  EXPECT_EQ(reco_parent->GetModel(), nullptr);
+
+  // checking child reconstruction
+  auto reco_child = reco_parent->GetItem("defaultTag");
+  EXPECT_EQ(reco_child->GetParent(), reco_parent.get());
+  EXPECT_EQ(reco_child->GetTotalItemCount(), 0);
+  EXPECT_EQ(reco_child->GetType(), PropertyItem::GetStaticType());
+  EXPECT_EQ(reco_child->GetDisplayName(), "child_name1");
+  EXPECT_NE(reco_child->GetIdentifier(), child1->GetIdentifier());
+  EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
+}
+
 TEST_F(ItemUtilsTests, ToStringAndBackClonedID)
 {
   SessionItem parent;

@@ -386,9 +386,10 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
   return parent->InsertItem(std::move(item), tag_index);
 }
 
-std::string ToXMLString(const SessionItem& item)
+std::string ToXMLString(const SessionItem& item,
+                        const std::function<bool(const SessionItem&)>& filter_func)
 {
-  TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone);
+  TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone, filter_func);
   auto tree_data = converter.ToTreeData(item);
   return xml::TreeDataToString(*tree_data);
 }

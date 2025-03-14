@@ -387,8 +387,12 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
 
 /**
  * @brief Converts given item to XML string.
+ *
+ * @param item The item to copy.
+ * @param filter_func If function is defined and returns true will filter out child.
  */
-std::string ToXMLString(const SessionItem& item);
+std::string ToXMLString(const SessionItem& item,
+                        const std::function<bool(const SessionItem&)>& filter_func = {});
 
 /**
  * @brief Returns SessionItem from its XML representation.
