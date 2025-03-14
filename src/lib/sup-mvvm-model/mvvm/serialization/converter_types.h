@@ -43,6 +43,9 @@ using create_item_t = std::function<std::unique_ptr<SessionItem>(const tree_data
 //! Defines function to populate existing SessionItem from its' TreeData representaion.
 using update_item_t = std::function<void(const tree_data_t&, SessionItem&)>;
 
+//! Defines a function to filter out item during convertion to TreeData.
+using filter_item_t = std::function<bool(const SessionItem&)>;
+
 //! Provides necessary callbacks to convert SessionItem to TreeData and back.
 
 struct MVVM_MODEL_EXPORT ConverterCallbacks
@@ -50,6 +53,7 @@ struct MVVM_MODEL_EXPORT ConverterCallbacks
   create_treedata_t create_treedata;  //! creates TreeData object from session item
   create_item_t create_item;          //! creates new SessionItem from TreeData object
   update_item_t update_item;          //! updates existing SessionItem from TreeData object
+  filter_item_t filter_item;          //! will filter an item if result is true
 };
 
 //! Flags to define converter behavior on the way from SessionItem to TreeData and back.

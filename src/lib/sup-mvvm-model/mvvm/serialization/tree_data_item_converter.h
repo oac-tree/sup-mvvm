@@ -23,6 +23,8 @@
 #include <mvvm/serialization/converter_types.h>
 #include <mvvm/serialization/i_tree_data_item_converter.h>
 
+#include <functional>
+
 namespace mvvm
 {
 
@@ -36,7 +38,8 @@ class IItemFactory;
 class MVVM_MODEL_EXPORT TreeDataItemConverter : public ITreeDataItemConverter
 {
 public:
-  TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode);
+  TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode,
+                        std::function<bool(const SessionItem&)> filter = {});
   ~TreeDataItemConverter() override;
 
   //! Returns true if given TreeData represents SessionItem object.

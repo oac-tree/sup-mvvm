@@ -48,21 +48,21 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   std::unique_ptr<TreeDataTaggedItemsConverter> m_taggedtems_converter;
 
   TreeDataItemConverterImpl(TreeDataItemConverter* self, const IItemFactory* factory,
-                            ConverterMode mode)
+                            ConverterMode mode, std::function<bool(const SessionItem&)> filter)
       : m_self(self), m_factory(factory), m_mode(mode)
   {
-    //! Callback to convert SessionItem to TreeData object.
-    auto create_tree = [this](const SessionItem& item) { return m_self->ToTreeData(item); };
+    ConverterCallbacks callbacks;
 
-    //! Callback to create SessionItem from TreeData object.
-    auto create_item = [this](const tree_data_t& tree_data)
+    callbacks.create_treedata = [this](const SessionItem& item)
+    { return m_self->ToTreeData(item); };
+
+    callbacks.create_item = [this](const tree_data_t& tree_data)
     { return m_self->ToSessionItem(tree_data); };
 
-    //! Callback to update SessionItem from TreeData object.
-    auto update_item = [this](const tree_data_t& tree_data, SessionItem& item)
+    callbacks.update_item = [this](const tree_data_t& tree_data, SessionItem& item)
     { populate_item(tree_data, item); };
 
-    ConverterCallbacks callbacks{create_tree, create_item, update_item};
+    callbacks.filter_item = filter;
 
     m_itemdata_converter = std::make_unique<TreeDataItemDataConverter>();
     m_taggedtems_converter = std::make_unique<TreeDataTaggedItemsConverter>(callbacks);
@@ -100,8 +100,9 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   }
 };
 
-TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode)
-    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode))
+TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode,
+                                             std::function<bool(const SessionItem&)> filter)
+    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode, filter))
 {
 }
 
