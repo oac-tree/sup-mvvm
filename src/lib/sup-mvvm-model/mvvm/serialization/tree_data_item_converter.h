@@ -39,7 +39,7 @@ class MVVM_MODEL_EXPORT TreeDataItemConverter : public ITreeDataItemConverter
 {
 public:
   TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode,
-                        std::function<bool(const SessionItem&)> filter = {});
+                        const std::function<bool(const SessionItem&)>& filter_func = {});
   ~TreeDataItemConverter() override;
 
   //! Returns true if given TreeData represents SessionItem object.

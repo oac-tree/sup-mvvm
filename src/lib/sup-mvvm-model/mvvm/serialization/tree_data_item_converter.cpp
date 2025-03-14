@@ -100,9 +100,10 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   }
 };
 
-TreeDataItemConverter::TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode,
-                                             std::function<bool(const SessionItem&)> filter)
-    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode, filter))
+TreeDataItemConverter::TreeDataItemConverter(
+    const IItemFactory* factory, ConverterMode mode,
+    const std::function<bool(const SessionItem&)>& filter_func)
+    : p_impl(std::make_unique<TreeDataItemConverterImpl>(this, factory, mode, filter_func))
 {
 }
 

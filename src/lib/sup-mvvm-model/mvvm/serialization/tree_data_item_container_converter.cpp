@@ -78,12 +78,17 @@ void PopulateSessionItemContainer(const tree_data_t &tree_data, SessionItemConta
 }
 
 std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer &container,
-                                     const create_treedata_t &func)
+                                        const create_treedata_t &func,
+                                        const filter_item_t &filter_func)
 {
   auto result = std::make_unique<tree_data_t>(kItemContainerElementType);
   result->AddChild(ToTreeData(container.GetTagInfo()));
   for (const auto &item : container)
   {
+    if (filter_func && filter_func(*item))
+    {
+      continue;  // skipping item from serialization
+    }
     result->AddChild(*func(*item));
   }
   return result;
