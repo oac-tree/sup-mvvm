@@ -85,7 +85,7 @@ std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer &container,
   result->AddChild(ToTreeData(container.GetTagInfo()));
   for (const auto &item : container)
   {
-    if (filter_func && filter_func(*item))
+    if (filter_func && !filter_func(*item))
     {
       continue;  // skipping item from serialization
     }

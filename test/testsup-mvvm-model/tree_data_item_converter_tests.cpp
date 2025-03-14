@@ -369,7 +369,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopyWithFilter)
   child1->SetDisplayName("child_name1");
 
   auto filter_func = [](const auto& item) -> bool
-  { return item.GetDisplayName() == "child_name0"; };
+  { return item.GetDisplayName() != "child_name0"; };
 
   // to TreeData
   auto converter = CreateCopyConverter(filter_func);

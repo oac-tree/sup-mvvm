@@ -891,7 +891,7 @@ TEST_F(ItemUtilsTests, CopyToStringWithFilter)
   child1->SetDisplayName("child_name1");
 
   auto filter_func = [](const auto& item) -> bool
-  { return item.GetDisplayName() == "child_name0"; };
+  { return item.GetDisplayName() != "child_name0"; };
 
   // to string
   auto str = utils::ToXMLString(parent, filter_func);

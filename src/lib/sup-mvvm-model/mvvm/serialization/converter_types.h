@@ -53,7 +53,7 @@ struct MVVM_MODEL_EXPORT ConverterCallbacks
   create_treedata_t create_treedata;  //! creates TreeData object from session item
   create_item_t create_item;          //! creates new SessionItem from TreeData object
   update_item_t update_item;          //! updates existing SessionItem from TreeData object
-  filter_item_t filter_item;          //! will filter an item if result is true
+  filter_item_t filter_item;          //! will filter an item if result is false
 };
 
 //! Flags to define converter behavior on the way from SessionItem to TreeData and back.
