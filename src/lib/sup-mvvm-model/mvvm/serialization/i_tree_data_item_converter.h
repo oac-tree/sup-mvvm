@@ -53,7 +53,7 @@ public:
   /**
    * @brief Creates SessionItem from TreeData.
    */
-  virtual std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t&) const = 0;
+  virtual std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t& tree_data) const = 0;
 };
 
 }  // namespace mvvm
