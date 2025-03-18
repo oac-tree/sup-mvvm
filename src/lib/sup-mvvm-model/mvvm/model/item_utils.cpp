@@ -37,6 +37,7 @@
 
 #include <sstream>
 #include <stack>
+
 namespace
 {
 /**
@@ -304,6 +305,26 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
   }
 
   return -1;
+}
+
+int GetNestingDepth(const SessionItem *item)
+{
+  int level{-1};
+
+  if (!item)
+  {
+    return level;
+  }
+
+  auto current_item = item;
+
+  while (current_item != nullptr)
+  {
+    level += 1;
+    current_item = current_item->GetParent();
+  }
+
+  return level;
 }
 
 bool HasAppearanceFlag(const SessionItem& item, Appearance flag)

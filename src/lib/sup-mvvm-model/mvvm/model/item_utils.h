@@ -175,8 +175,7 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  *
  * @param basis A reference item which we use to explore nesting depth.
  * @param item An item those nesting depth we are interesting in.
- *
- * @return Nesting depth
+ * @return Nesting depth.
  *
  * @details Here are examples:
  * result = 0 if `item` == `basis`
@@ -185,6 +184,20 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  * result = -1 if item is above `basis` or doesn't belong same branch
  */
 MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
+
+/**
+ * @brief Returns nesting depth of 'item' with respect to the root item.
+ *
+ * A root item is any item which doesn't have a parent itself.
+ *
+ * @param item An item those nesting depth we are interesting in.
+ * @return Nesting depth.
+ *
+ * @details Here are examples:
+ * result = 0 if `item` doesn't have parent, or `item` is a root item itself
+ * result = 1 if `item` is a child of root item
+ */
+MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* item);
 
 /**
  * @brief Checks if given item has appearance flag set.

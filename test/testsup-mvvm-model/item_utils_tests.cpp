@@ -381,7 +381,7 @@ TEST_F(ItemUtilsTests, CastedItems)
   EXPECT_EQ(utils::CastItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
 }
 
-TEST_F(ItemUtilsTests, GetNestlingDepth)
+TEST_F(ItemUtilsTests, GetNestingDepthWrtBasis)
 {
   using mvvm::utils::GetNestingDepth;
   EXPECT_EQ(GetNestingDepth(nullptr, nullptr), -1);
@@ -407,6 +407,31 @@ TEST_F(ItemUtilsTests, GetNestlingDepth)
   EXPECT_EQ(GetNestingDepth(grand_parent, parent), 1);
   EXPECT_EQ(GetNestingDepth(child, parent), -1);
 }
+
+TEST_F(ItemUtilsTests, GetNestingDepthWrtRootItem)
+{
+  using mvvm::utils::GetNestingDepth;
+  EXPECT_EQ(GetNestingDepth(nullptr), -1);
+
+  const SessionItem item0;
+  EXPECT_EQ(GetNestingDepth(&item0), 0);
+
+  SessionModel model;
+  auto item1 = model.InsertItem<SessionItem>(model.GetRootItem());
+  EXPECT_EQ(GetNestingDepth(model.GetRootItem()), 0);
+  EXPECT_EQ(GetNestingDepth(item1), 1);
+
+  auto grand_parent = model.InsertItem<CompoundItem>();
+  grand_parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
+  auto parent = model.InsertItem<CompoundItem>(grand_parent);
+  parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
+  auto child = model.InsertItem<SessionItem>(parent);
+
+  EXPECT_EQ(GetNestingDepth(child), 3);
+  EXPECT_EQ(GetNestingDepth(parent), 2);
+  EXPECT_EQ(GetNestingDepth(grand_parent), 1);
+}
+
 
 TEST_F(ItemUtilsTests, HasAppearanceFlag)
 {
