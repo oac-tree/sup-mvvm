@@ -40,8 +40,6 @@ class ItemUtilsTests : public ::testing::Test
 {
 };
 
-//! Simple iteration over item and its children
-
 TEST_F(ItemUtilsTests, IterateItem)
 {
   std::vector<const SessionItem*> visited_items;
@@ -101,8 +99,6 @@ TEST_F(ItemUtilsTests, NonConstIterateItem)
   EXPECT_EQ(visited_items, expected);
 }
 
-//! Conditional iteration over item and its children.
-
 TEST_F(ItemUtilsTests, IterateIfItem)
 {
   std::vector<const SessionItem*> visited_items;
@@ -121,12 +117,10 @@ TEST_F(ItemUtilsTests, IterateIfItem)
   parent->InsertItem<SessionItem>(TagIndex::Append());
   parent->InsertItem<SessionItem>(TagIndex::Append());
 
-  std::vector<const SessionItem*> expected = {parent.get()};
+  const std::vector<const SessionItem*> expected = {parent.get()};
   utils::iterate_if(parent.get(), fun);
   EXPECT_EQ(visited_items, expected);
 }
-
-//! Iteration over root item of the model.
 
 TEST_F(ItemUtilsTests, IterateModel)
 {
@@ -146,12 +140,10 @@ TEST_F(ItemUtilsTests, IterateModel)
   // iteration
   utils::iterate(model.GetRootItem(), fun);
 
-  std::vector<const SessionItem*> expected = {model.GetRootItem(), parent1, child1, child2,
+  const std::vector<const SessionItem*> expected = {model.GetRootItem(), parent1, child1, child2,
                                               parent2};
   EXPECT_EQ(visited_items, expected);
 }
-
-//! Copy number of child in parents tree.
 
 TEST_F(ItemUtilsTests, ItemCopyNumber)
 {
@@ -169,8 +161,6 @@ TEST_F(ItemUtilsTests, ItemCopyNumber)
   EXPECT_EQ(utils::CopyNumber(child3), -1);
 }
 
-//! Checks method ::HasTag.
-
 TEST_F(ItemUtilsTests, HasTag)
 {
   SessionItem item;
@@ -179,8 +169,6 @@ TEST_F(ItemUtilsTests, HasTag)
   EXPECT_TRUE(utils::HasTag(item, "default_tag"));
   EXPECT_FALSE(utils::HasTag(item, "nonexisting_tag"));
 }
-
-//! Checks method ::RegisteredTags.
 
 TEST_F(ItemUtilsTests, RegisteredTags)
 {
@@ -192,8 +180,6 @@ TEST_F(ItemUtilsTests, RegisteredTags)
 
   EXPECT_EQ(utils::RegisteredTags(item), std::vector<std::string>({"default_tag", "property_tag"}));
 }
-
-//! Check access to top level and property items.
 
 TEST_F(ItemUtilsTests, TopLevelItems)
 {
@@ -213,7 +199,6 @@ TEST_F(ItemUtilsTests, TopLevelItems)
 
 //! Check access to top level and property items when some of items are hidden via corresponding
 //! appearance flag.
-
 TEST_F(ItemUtilsTests, TopLevelItemsWhenHidden)
 {
   SessionModel model;
@@ -233,9 +218,6 @@ TEST_F(ItemUtilsTests, TopLevelItemsWhenHidden)
   EXPECT_EQ(utils::TopLevelItems(*child1), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::TopLevelItems(*parent), std::vector<SessionItem*>({child1, child3}));
 }
-
-//! Check access to top level and property items.
-
 TEST_F(ItemUtilsTests, SinglePropertyItems)
 {
   SessionModel model;
@@ -256,9 +238,8 @@ TEST_F(ItemUtilsTests, SinglePropertyItems)
   EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({&child3, &child4}));
 }
 
-//! Check access to top level and property items when some of items are hidden via corresponding
+//! Check access to the top level and property items when some of items are hidden via corresponding
 //! appearance flag.
-
 TEST_F(ItemUtilsTests, SinglePropertyItemsWhenHidden)
 {
   SessionModel model;
@@ -275,8 +256,6 @@ TEST_F(ItemUtilsTests, SinglePropertyItemsWhenHidden)
   EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::SinglePropertyItems(*parent), std::vector<SessionItem*>({&child3}));
 }
-
-//! Looking for next item.
 
 TEST_F(ItemUtilsTests, FindNextSibling)
 {
@@ -298,8 +277,6 @@ TEST_F(ItemUtilsTests, FindNextSibling)
   EXPECT_EQ(utils::FindNextSibling(parent), nullptr);
 }
 
-//! Looking for previous item.
-
 TEST_F(ItemUtilsTests, FindPreviousSibling)
 {
   SessionModel model;
@@ -319,8 +296,6 @@ TEST_F(ItemUtilsTests, FindPreviousSibling)
   EXPECT_EQ(utils::FindPreviousSibling(property), nullptr);
   EXPECT_EQ(utils::FindPreviousSibling(parent), nullptr);
 }
-
-//! Checking method FindNextItemToSelect.
 
 TEST_F(ItemUtilsTests, FindNextItemToSelect)
 {
@@ -342,8 +317,6 @@ TEST_F(ItemUtilsTests, FindNextItemToSelect)
   EXPECT_EQ(utils::FindNextItemToSelect(parent), model.GetRootItem());
 }
 
-//! Checking method FindNextSiblingToSelect.
-
 TEST_F(ItemUtilsTests, FindNextSiblingToSelect)
 {
   SessionModel model;
@@ -363,8 +336,6 @@ TEST_F(ItemUtilsTests, FindNextSiblingToSelect)
   EXPECT_EQ(utils::FindNextSiblingToSelect(property), nullptr);
   EXPECT_EQ(utils::FindNextSiblingToSelect(parent), nullptr);
 }
-
-//! Checking IsItemAncestor.
 
 TEST_F(ItemUtilsTests, IsItemAncestor)
 {
@@ -405,7 +376,7 @@ TEST_F(ItemUtilsTests, CastedItems)
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
   auto item1 = model.InsertItem<PropertyItem>(model.GetRootItem());
   auto item2 = model.InsertItem<VectorItem>(model.GetRootItem());
-  std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item1, item2, nullptr};
+  const std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item1, item2, nullptr};
 
   EXPECT_EQ(utils::CastItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
 }
@@ -415,7 +386,7 @@ TEST_F(ItemUtilsTests, GetNestlingDepth)
   using mvvm::utils::GetNestingDepth;
   EXPECT_EQ(GetNestingDepth(nullptr, nullptr), -1);
 
-  SessionItem item0;
+  const SessionItem item0;
   EXPECT_EQ(GetNestingDepth(&item0, &item0), 0);
 
   SessionModel model;
@@ -442,7 +413,7 @@ TEST_F(ItemUtilsTests, HasAppearanceFlag)
   using mvvm::utils::HasAppearanceFlag;
 
   {  // by default item has no appearance flags
-    SessionItem item;
+    const SessionItem item;
     EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
     EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
     EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
@@ -488,8 +459,6 @@ TEST_F(ItemUtilsTests, ReplaceData)
   EXPECT_EQ(item.Data(), variant_t(std::string("abc")));
 }
 
-//! Testing FindItemUp method.
-
 TEST_F(ItemUtilsTests, FindItemUp)
 {
   {  // start from parent mode
@@ -526,7 +495,7 @@ TEST_F(ItemUtilsTests, FindItemUp)
     EXPECT_EQ(utils::FindItemUp<VectorItem>(item), &vector_item);
     EXPECT_EQ(utils::FindItemUp<VectorItem>(vector_item.GetItem(VectorItem::kX)), &vector_item);
 
-    test::toyitems::ParticleItem particle;
+    const test::toyitems::ParticleItem particle;
     auto x_item = particle.GetItem("position")->GetItem(VectorItem::kX);
     EXPECT_EQ(utils::FindItemUp<test::toyitems::ParticleItem>(x_item), &particle);
     EXPECT_EQ(utils::FindItemUp<test::toyitems::LayerItem>(x_item), nullptr);
@@ -580,9 +549,7 @@ TEST_F(ItemUtilsTests, FindItemDown)
   }
 }
 
-//! Testing utility function CloneItem for simple PropertyItem.
-
-TEST_F(ItemUtilsTests, CloneItem)
+TEST_F(ItemUtilsTests, ClonePropertyItem)
 {
   PropertyItem property;
   property.SetData(42);
@@ -602,9 +569,7 @@ TEST_F(ItemUtilsTests, CloneItem)
   }
 }
 
-//! Testing utility function CloneItem for parent item with child.
-
-TEST_F(ItemUtilsTests, CloneCustomItem)
+TEST_F(ItemUtilsTests, CloneParentAndChild)
 {
   // creating parent with one child
   auto parent = std::make_unique<SessionItem>();
@@ -633,7 +598,6 @@ TEST_F(ItemUtilsTests, CloneCustomItem)
 
 //! Testing utility function CopyItem for simple PropertyItem. Copied items looks the same as cloned
 //! one, except that identifiers are different.
-
 TEST_F(ItemUtilsTests, CopyItem)
 {
   PropertyItem property;
@@ -654,9 +618,7 @@ TEST_F(ItemUtilsTests, CopyItem)
   }
 }
 
-//! Testing utility function CopyItem for parent with child.
-
-TEST_F(ItemUtilsTests, CopyCustomItem)
+TEST_F(ItemUtilsTests, CopyParentAndChild)
 {
   // creating parent with one child
   auto parent = std::make_unique<SessionItem>();
@@ -777,8 +739,6 @@ TEST_F(ItemUtilsTests, MoveItemDownWhenInModel)
   EXPECT_EQ(multilayer->GetItems(mvvm::test::toyitems::kLayerTag), expected);
 }
 
-//! Testing helper method RemoveItem.
-
 TEST_F(ItemUtilsTests, RemoveItem)
 {
   {  // item doesn't belong to a parent
@@ -800,8 +760,6 @@ TEST_F(ItemUtilsTests, RemoveItem)
   // extra test when item is a part of the model is in application_model_tests.cpp
 }
 
-//! Testing helper method InsertItem.
-
 TEST_F(ItemUtilsTests, InsertItem)
 {
   auto parent = std::make_unique<SessionItem>();
@@ -821,8 +779,6 @@ TEST_F(ItemUtilsTests, InsertItem)
 
   // extra test when item is a part of the model is in application_model_tests.cpp
 }
-
-//! Testing helper method ReplaceItem.
 
 TEST_F(ItemUtilsTests, ReplaceItem)
 {
