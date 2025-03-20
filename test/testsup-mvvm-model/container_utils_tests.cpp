@@ -106,6 +106,17 @@ TEST_F(ContainerUtilsTests, CastItems)
   EXPECT_EQ(utils::CastItems<TestItemB>(vec), std::vector<TestItemB*>({&test_item_b1}));
 }
 
+TEST_F(ContainerUtilsTests, StaticCastItems)
+{
+  TestItemA test_item_a1;
+  TestItemA test_item_a2;
+  TestItemB test_item_b1;
+
+  const std::vector<TestItem*> vec{&test_item_a1, &test_item_b1, &test_item_a2};
+  EXPECT_EQ(utils::StaticCastItems<TestItem>(vec),
+            std::vector<TestItem*>({&test_item_a1, &test_item_b1, &test_item_a2}));
+}
+
 TEST_F(ContainerUtilsTests, GetVectorOfPtrs)
 {
   auto [item1, item1_ptr] = mvvm::test::CreateTestData<TestItem>();

@@ -119,6 +119,19 @@ std::vector<T*> CastItems(const C& container)
 }
 
 /**
+ * @brief Statically cast items in the container to the given type and return the result to the user.
+ */
+template <typename T, typename C>
+std::vector<T*> StaticCastItems(const C& container)
+{
+  std::vector<T*> result;
+  result.reserve(container.size());
+  std::transform(container.begin(), container.end(), std::back_inserter(result),
+                 [](auto element) { return static_cast<T*>(element); });
+  return result;
+}
+
+/**
  * @brief Returns vector of pointers from the vector containing unique pointers.
  */
 template <typename T>
