@@ -28,15 +28,31 @@ class QStyleOptionViewItem;
 namespace mvvm
 {
 
-//! Interface class to generate cell decorations (i.e. text) in Qt trees and tables.
-
+/**
+ * @brief The ICellDecorator class is a base for custom cell decorations of Qt trees and tables.
+ *
+ * The cell decoration defines how the cell look like before the user double-click on it.
+ */
 class MVVM_VIEWMODEL_EXPORT ICellDecorator
 {
 public:
+  ICellDecorator() = default;
   virtual ~ICellDecorator() = default;
 
+  ICellDecorator(const ICellDecorator&) = delete;
+  ICellDecorator& operator=(const ICellDecorator&) = delete;
+  ICellDecorator(ICellDecorator&&) = delete;
+  ICellDecorator& operator=(ICellDecorator&&) = delete;
+
+  /**
+   * @brief Checks if a cell corresponding to a given index has a custom decoration.
+   */
   virtual bool HasCustomDecoration(const QModelIndex& index) const = 0;
-  virtual void InitStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) = 0;
+
+  /**
+   * @brief Decorate the given style option with our custom decoration.
+   */
+  virtual void InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option) = 0;
 };
 
 }  // namespace mvvm

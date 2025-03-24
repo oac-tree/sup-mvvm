@@ -155,7 +155,7 @@ void ViewModelDelegate::initStyleOption(QStyleOptionViewItem* option,
 
   if (m_cell_decoration && m_cell_decoration->HasCustomDecoration(index))
   {
-    m_cell_decoration->InitStyleOption(option, index);
+    m_cell_decoration->InitStyleOption(index, option);
   }
 }
 

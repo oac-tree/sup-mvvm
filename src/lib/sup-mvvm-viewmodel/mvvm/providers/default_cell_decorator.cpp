@@ -101,18 +101,15 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
   return {};
 }
 
-void DefaultCellDecorator::InitStyleOption(QStyleOptionViewItem* option, const QModelIndex& index)
+void DefaultCellDecorator::InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option)
 {
-  if (!HasCustomDecoration(index))
+  if (auto optional_value = GetCellText(index); optional_value.has_value())
   {
-    return;
-  }
-
-  auto value = GetCellText(index).value();
-  option->text = QString::fromStdString(value);
-  if (value.empty())
-  {
-    option->features &= ~QStyleOptionViewItem::HasDisplay;
+    option->text = QString::fromStdString(optional_value.value());
+    if (optional_value.value().empty())
+    {
+      option->features &= ~QStyleOptionViewItem::HasDisplay;
+    }
   }
 }
 
