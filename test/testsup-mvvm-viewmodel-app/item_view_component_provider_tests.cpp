@@ -26,7 +26,6 @@
 #include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
-#include <mvvm/views/component_provider_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -42,6 +41,13 @@ Q_DECLARE_METATYPE(mvvm::SessionItem*)
 class ItemViewComponentProviderTest : public ::testing::Test
 {
 public:
+  std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
+                                                            ISessionModel* model = nullptr)
+  {
+    return std::make_unique<ItemViewComponentProvider>(
+        std::make_unique<AllItemsViewModel>(model ? model : &m_model), view);
+  }
+
   mvvm::ApplicationModel m_model;
 };
 
@@ -73,8 +79,7 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
 TEST_F(ItemViewComponentProviderTest, SetEmptyModel)
 {
   QTreeView view;
-
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   EXPECT_EQ(provider->GetView(), &view);
   EXPECT_NE(provider->GetSelectionModel(), nullptr);
@@ -96,7 +101,7 @@ TEST_F(ItemViewComponentProviderTest, SetNonEmptyModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   EXPECT_EQ(provider->GetView(), &view);
   EXPECT_NE(provider->GetSelectionModel(), nullptr);
@@ -119,7 +124,7 @@ TEST_F(ItemViewComponentProviderTest, SetItem)
 
   auto item = m_model.InsertItem<mvvm::VectorItem>();
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   provider->SetItem(item);
 
@@ -141,7 +146,7 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterSetModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
@@ -179,7 +184,7 @@ TEST_F(ItemViewComponentProviderTest, SetNullptrAfterSetModel)
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
   item->SetData(42);
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   auto viewmodel = provider->GetViewModel();
   ASSERT_NE(viewmodel, nullptr);
@@ -217,7 +222,7 @@ TEST_F(ItemViewComponentProviderTest, SetItemAfterItem)
 
   auto item2 = model2.InsertItem<mvvm::CompoundItem>();
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   // setting item from the first model
   provider->SetItem(item1);
@@ -234,7 +239,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItem)
 {
   QTreeView view;
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
@@ -261,7 +266,7 @@ TEST_F(ItemViewComponentProviderTest, SetCurrentIndex)
 {
   QTreeView view;
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   auto item = m_model.InsertItem<mvvm::CompoundItem>();
 
@@ -285,7 +290,7 @@ TEST_F(ItemViewComponentProviderTest, SelectRow)
 {
   QTreeView view;
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   auto vector_item = m_model.InsertItem<mvvm::VectorItem>();
 
@@ -314,7 +319,7 @@ TEST_F(ItemViewComponentProviderTest, DestroyModel)
 
   auto vector_item = model->InsertItem<mvvm::VectorItem>();
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, model.get());
+  auto provider = CreateProvider(&view, model.get());
 
   auto viewmodel = provider->GetViewModel();
   EXPECT_EQ(viewmodel->rowCount(), 1);
@@ -340,7 +345,7 @@ TEST_F(ItemViewComponentProviderTest, SelectionAfterRemoval)
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
@@ -369,7 +374,7 @@ TEST_F(ItemViewComponentProviderTest, DeleteProvider)
   QTreeView view;
   auto property0 = m_model.InsertItem<mvvm::PropertyItem>();
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   EXPECT_EQ(view.model(), provider->GetViewModel());
   EXPECT_EQ(view.selectionModel(), provider->GetSelectionModel());
@@ -400,7 +405,7 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxy)
   property2->SetDisplayName("ABC");
 
   // provider charged with the proxy model
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
   auto proxy = std::make_unique<FilterNameViewModel>();
   auto proxy_ptr = proxy.get();
   provider->AddProxyModel(std::move(proxy));
@@ -454,7 +459,7 @@ TEST_F(ItemViewComponentProviderTest, FilterNameProxySetSelected)
   property2->SetDisplayName("ABC");
 
   // provider charged with the proxy model
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
   auto proxy = std::make_unique<FilterNameViewModel>();
   auto proxy_ptr = proxy.get();
   provider->AddProxyModel(std::move(proxy));
@@ -491,7 +496,7 @@ TEST_F(ItemViewComponentProviderTest, TwoProxyModels)
   property2->SetDisplayName("ABC");
 
   // provider charged with the proxy model
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   auto proxy0 = std::make_unique<FilterNameViewModel>();
   auto proxy0_ptr = proxy0.get();
@@ -547,7 +552,7 @@ TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
 {
   QTreeView view;
 
-  auto provider = CreateProvider<mvvm::AllItemsViewModel>(&view, &m_model);
+  auto provider = CreateProvider(&view);
 
   QSignalSpy spy_selected(provider.get(), &ItemViewComponentProvider::SelectedItemChanged);
 
