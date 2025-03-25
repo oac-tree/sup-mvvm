@@ -19,8 +19,8 @@
 
 #include "all_items_tree_view.h"
 
-#include <mvvm/providers/item_view_component_provider.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/views/item_view_component_provider.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>

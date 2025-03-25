@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROVIDERS_ITEM_VIEW_COMPONENT_PROVIDER_H_
-#define MVVM_PROVIDERS_ITEM_VIEW_COMPONENT_PROVIDER_H_
+#ifndef MVVM_VIEWS_ITEM_VIEW_COMPONENT_PROVIDER_H_
+#define MVVM_VIEWS_ITEM_VIEW_COMPONENT_PROVIDER_H_
 
 #include <mvvm/utils/container_utils.h>
 
@@ -71,8 +71,7 @@ public:
    * @param view The view to serve.
    */
   ItemViewComponentProvider(std::unique_ptr<ViewModelDelegate> view_model_delegate,
-                            std::unique_ptr<ViewModel> view_model,
-                            QAbstractItemView* view);
+                            std::unique_ptr<ViewModel> view_model, QAbstractItemView* view);
 
   ~ItemViewComponentProvider() override;
 
@@ -222,4 +221,4 @@ std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROVIDERS_ITEM_VIEW_COMPONENT_PROVIDER_H_
+#endif  // MVVM_VIEWS_ITEM_VIEW_COMPONENT_PROVIDER_H_

@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   chart_view.h
   component_provider_helper.cpp
   component_provider_helper.h
+  item_view_component_provider.cpp
+  item_view_component_provider.h
   property_flat_view.cpp
   property_flat_view.h
   property_grid_controller.cpp

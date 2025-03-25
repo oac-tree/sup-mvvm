@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/providers/item_view_component_provider.h"
+#include "mvvm/views/item_view_component_provider.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/application_model.h>

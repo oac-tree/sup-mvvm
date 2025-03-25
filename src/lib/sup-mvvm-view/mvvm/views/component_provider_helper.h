@@ -20,7 +20,7 @@
 #ifndef MVVM_VIEWS_COMPONENT_PROVIDER_HELPER_H_
 #define MVVM_VIEWS_COMPONENT_PROVIDER_HELPER_H_
 
-#include <mvvm/providers/item_view_component_provider.h>
+#include <mvvm/views/item_view_component_provider.h>
 
 namespace mvvm
 {

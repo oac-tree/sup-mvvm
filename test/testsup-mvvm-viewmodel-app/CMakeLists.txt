@@ -12,7 +12,6 @@ target_sources(${test} PRIVATE
   custom_viewmodel_tests.cpp
   default_editor_factory_tests.cpp
   float_spinbox_tests.cpp
-  item_view_component_provider_tests.cpp
   main.cpp
   role_dependent_editor_factory_tests.cpp
   selectable_combobox_editor_tests.cpp

@@ -7,8 +7,6 @@ target_sources(${library_name} PRIVATE
   default_cell_decorator.h
   i_cell_decorator.h
   i_editor_factory.h
-  item_view_component_provider.cpp
-  item_view_component_provider.h
   viewmodel_delegate.cpp
   viewmodel_delegate.h
   )
