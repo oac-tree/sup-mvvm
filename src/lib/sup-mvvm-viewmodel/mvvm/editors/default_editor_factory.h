@@ -17,11 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
-#define MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
-
-//! @file
-//! Defines custom cell editor factories for Qt trees and tables.
+#ifndef MVVM_EDITORS_DEFAULT_EDITOR_FACTORY_H_
+#define MVVM_EDITORS_DEFAULT_EDITOR_FACTORY_H_
 
 #include <mvvm/providers/abstract_editor_factory.h>
 
@@ -53,4 +50,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
+#endif  // MVVM_EDITORS_DEFAULT_EDITOR_FACTORY_H_

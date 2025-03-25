@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/custom_editor_factories.h"
+#include "mvvm/editors/default_editor_factory.h"
 
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
@@ -33,12 +33,12 @@
 using namespace mvvm;
 
 /**
- * @brief Tests for editor factories from custom_editor_factories header.
+ * @brief Tests for DefaultEditorFactory class.
  */
-class CustomEditorFactoriesTest : public ::testing::Test
+class DefaultEditorFactoryTest : public ::testing::Test
 {
 public:
-  CustomEditorFactoriesTest() : m_view_model(&m_model) {}
+  DefaultEditorFactoryTest() : m_view_model(&m_model) {}
 
   /**
    * @brief Convenience function to add given data to the model as PropertyItem.
@@ -66,7 +66,7 @@ public:
   AllItemsViewModel m_view_model;
 };
 
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
+TEST_F(DefaultEditorFactoryTest, DefaultEditorFactory)
 {
   const DefaultEditorFactory factory;
 
@@ -153,7 +153,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
 }
 
 //! Checking integer editor construction when limits are not set.
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditor)
+TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryIntEditor)
 {
   const DefaultEditorFactory factory;
 
@@ -170,7 +170,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditor)
 }
 
 //! Checking integer editor construction when limits are set.
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditorForLimits)
+TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryIntEditorForLimits)
 {
   const DefaultEditorFactory factory;
 
@@ -193,7 +193,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryIntEditorForLimits)
 }
 
 //! Checking double editor construction when limits are not set.
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryDoubleEditor)
+TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryDoubleEditor)
 {
   const DefaultEditorFactory factory;
 
@@ -209,7 +209,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryDoubleEditor)
 }
 
 //! Checking double editor construction when limits are set.
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLimits)
+TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryRealEditorForLimits)
 {
   const DefaultEditorFactory factory;
 
@@ -231,7 +231,7 @@ TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLimits)
 }
 
 //! Checking double editor construction when lower limit is set.
-TEST_F(CustomEditorFactoriesTest, DefaultEditorFactoryRealEditorForLowerLimited)
+TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryRealEditorForLowerLimited)
 {
   const DefaultEditorFactory factory;
 

@@ -11,11 +11,11 @@ target_sources(${library_name} PRIVATE
   combo_property_editor.h
   custom_editor.cpp
   custom_editor.h
-  custom_editor_factories.cpp
-  custom_editor_factories.h
   custom_editor_includes.h
   custom_event_filters.cpp
   custom_event_filters.h
+  default_editor_factory.cpp
+  default_editor_factory.h
   editor_builders.cpp
   editor_builders.h
   editor_helper.cpp

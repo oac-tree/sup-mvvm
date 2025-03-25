@@ -9,8 +9,8 @@ target_sources(${test} PRIVATE
   chart_pen_controller_tests.cpp
   chart_viewport_controller_tests.cpp
   combo_property_editor_tests.cpp
-  custom_editor_factories_tests.cpp
   custom_viewmodel_tests.cpp
+  default_editor_factory_tests.cpp
   float_spinbox_tests.cpp
   item_view_component_provider_tests.cpp
   main.cpp

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "custom_editor_factories.h"
+#include "default_editor_factory.h"
 
 #include "role_dependent_editor_factory.h"
 #include "variant_dependent_editor_factory.h"
