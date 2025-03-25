@@ -33,7 +33,8 @@ const QString false_text = "False";
 namespace mvvm
 {
 
-BoolEditor::BoolEditor(QWidget* parent_widget) : CustomEditor(parent_widget), m_check_box(new QCheckBox)
+BoolEditor::BoolEditor(QWidget* parent_widget)
+    : CustomEditor(parent_widget), m_check_box(new QCheckBox)
 
 {
   setAutoFillBackground(true);

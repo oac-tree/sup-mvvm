@@ -27,7 +27,6 @@
 //! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
 
 #include <mvvm/model_export.h>
-
 #include <mvvm/serialization/tree_data_fwd.h>
 
 namespace mvvm

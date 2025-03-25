@@ -133,7 +133,7 @@ public:
   bool operator!=(const TagIndex& other) const;
 
 private:
-  std::string m_tag = {};    //!< The name of the item container.
+  std::string m_tag = {};   //!< The name of the item container.
   std::size_t m_index = 0;  //!< The position in the item container.
 };
 

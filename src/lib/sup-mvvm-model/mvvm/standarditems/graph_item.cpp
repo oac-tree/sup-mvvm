@@ -44,7 +44,6 @@ std::string GraphItem::GetStaticType()
   return "Graph";
 }
 
-
 std::unique_ptr<SessionItem> GraphItem::Clone() const
 {
   return std::make_unique<GraphItem>(*this);

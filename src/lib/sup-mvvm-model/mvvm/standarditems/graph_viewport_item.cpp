@@ -55,7 +55,8 @@ namespace mvvm
 GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
 {
   RegisterAxes();
-  RegisterTag(TagInfo::CreateUniversalTag(kItems, {GraphItem::GetStaticType()}), /*set_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(kItems, {GraphItem::GetStaticType()}),
+              /*set_default*/ true);
 }
 
 std::string GraphViewportItem::GetStaticType()

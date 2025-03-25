@@ -22,9 +22,9 @@
 #include "sample_model.h"
 
 #include <mvvm/model/model_utils.h>
-#include <mvvm/views/viewmodel_delegate.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
+#include <mvvm/views/viewmodel_delegate.h>
 
 #include <QBoxLayout>
 #include <QHeaderView>

@@ -25,7 +25,8 @@
 
 namespace mvvm
 {
-PropertyViewModel::PropertyViewModel(ISessionModel* model, QObject* parent_object) : ViewModel(parent_object)
+PropertyViewModel::PropertyViewModel(ISessionModel* model, QObject* parent_object)
+    : ViewModel(parent_object)
 {
   SetController(
       factory::CreateController<PropertyItemsStrategy, LabelDataRowStrategy>(model, this));

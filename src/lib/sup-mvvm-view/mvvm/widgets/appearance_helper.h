@@ -37,6 +37,6 @@ namespace mvvm
  */
 QString GetFlatButtonStyleString(const QColor& background_color);
 
-}  // namespace mvvm::utils
+}  // namespace mvvm
 
 #endif  // MVVM_WIDGETS_APPEARANCE_HELPER_H_

@@ -119,7 +119,8 @@ std::vector<T*> CastItems(const C& container)
 }
 
 /**
- * @brief Statically cast items in the container to the given type and return the result to the user.
+ * @brief Statically cast items in the container to the given type and return the result to the
+ * user.
  */
 template <typename T, typename C>
 std::vector<T*> StaticCastItems(const C& container)

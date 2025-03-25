@@ -21,7 +21,6 @@
 
 #include <gtest/gtest.h>
 
-
 using namespace mvvm;
 
 class QtCoreHelperTest : public ::testing::Test
@@ -51,4 +50,3 @@ TEST_F(QtCoreHelperTest, GetByteArray)
   auto array = utils::GetByteArray(expected);
   EXPECT_EQ(utils::GetStringList(array), expected);
 }
-

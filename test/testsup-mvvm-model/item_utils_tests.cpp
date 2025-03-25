@@ -141,7 +141,7 @@ TEST_F(ItemUtilsTests, IterateModel)
   utils::iterate(model.GetRootItem(), fun);
 
   const std::vector<const SessionItem*> expected = {model.GetRootItem(), parent1, child1, child2,
-                                              parent2};
+                                                    parent2};
   EXPECT_EQ(visited_items, expected);
 }
 
@@ -376,7 +376,8 @@ TEST_F(ItemUtilsTests, CastedItems)
   auto item0 = model.InsertItem<SessionItem>(model.GetRootItem());
   auto item1 = model.InsertItem<PropertyItem>(model.GetRootItem());
   auto item2 = model.InsertItem<VectorItem>(model.GetRootItem());
-  const std::vector<SessionItem*> data = {nullptr, item0, item1, item2, item0, item1, item2, nullptr};
+  const std::vector<SessionItem*> data = {nullptr, item0, item1, item2,
+                                          item0,   item1, item2, nullptr};
 
   EXPECT_EQ(utils::CastItems<PropertyItem>(data), std::vector<PropertyItem*>({item1, item1}));
 }
@@ -431,7 +432,6 @@ TEST_F(ItemUtilsTests, GetNestingDepthWrtRootItem)
   EXPECT_EQ(GetNestingDepth(parent), 2);
   EXPECT_EQ(GetNestingDepth(grand_parent), 1);
 }
-
 
 TEST_F(ItemUtilsTests, HasAppearanceFlag)
 {

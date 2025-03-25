@@ -307,7 +307,7 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
   return -1;
 }
 
-int GetNestingDepth(const SessionItem *item)
+int GetNestingDepth(const SessionItem* item)
 {
   int level{-1};
 

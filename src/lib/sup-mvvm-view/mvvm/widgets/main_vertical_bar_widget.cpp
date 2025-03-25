@@ -19,8 +19,8 @@
 
 #include "main_vertical_bar_widget.h"
 
-#include "widget_utils.h"
 #include "appearance_helper.h"
+#include "widget_utils.h"
 
 #include <mvvm/core/exceptions.h>
 

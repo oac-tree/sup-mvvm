@@ -25,7 +25,8 @@
 
 namespace mvvm
 {
-TopItemsViewModel::TopItemsViewModel(ISessionModel *model, QObject *parent_object) : ViewModel(parent_object)
+TopItemsViewModel::TopItemsViewModel(ISessionModel *model, QObject *parent_object)
+    : ViewModel(parent_object)
 {
   SetController(factory::CreateController<TopItemsStrategy, LabelDataRowStrategy>(model, this));
 }

@@ -43,10 +43,7 @@ public:
   {
   public:
     TestItem() : SessionItem(GetStaticType()) {};
-    static std::string GetStaticType()
-    {
-      return "TestItemType";
-    }
+    static std::string GetStaticType() { return "TestItemType"; }
   };
 
   class TestModel : public SessionModel

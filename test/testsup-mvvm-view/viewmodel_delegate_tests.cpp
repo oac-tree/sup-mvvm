@@ -19,9 +19,9 @@
 
 #include "mvvm/views/viewmodel_delegate.h"
 
-#include <mvvm/providers/custom_editor.h>
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/providers/custom_editor.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 

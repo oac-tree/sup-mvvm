@@ -47,10 +47,7 @@ public:
       child->SetDisplayName("child_name");
     }
 
-    static std::string GetStaticType()
-    {
-      return "TestItem";
-    }
+    static std::string GetStaticType() { return "TestItem"; }
   };
 
   IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }

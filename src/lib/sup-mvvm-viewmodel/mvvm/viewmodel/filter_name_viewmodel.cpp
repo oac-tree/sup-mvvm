@@ -22,7 +22,8 @@
 namespace mvvm
 {
 
-FilterNameViewModel::FilterNameViewModel(QObject *parent_object) : QSortFilterProxyModel(parent_object)
+FilterNameViewModel::FilterNameViewModel(QObject *parent_object)
+    : QSortFilterProxyModel(parent_object)
 {
   setRecursiveFilteringEnabled(true);
 }

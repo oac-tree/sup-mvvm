@@ -78,7 +78,7 @@ public:
 
 template <typename T>
 void IItemFactory::RegisterItem(const std::string& label)
-{  
+{
   RegisterItem(T::GetStaticType(), ItemFactoryFunction<T>, label);
 }
 

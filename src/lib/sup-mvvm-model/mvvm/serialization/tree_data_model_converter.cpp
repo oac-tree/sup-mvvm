@@ -36,8 +36,7 @@ namespace
 const std::string kModelElementType = "Model";
 const std::string kTypelAttributeKey = "type";
 
-std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(
-    const mvvm::IItemFactory *factory)
+std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(const mvvm::IItemFactory *factory)
 {
   return std::make_unique<mvvm::TreeDataItemConverter>(factory, mvvm::ConverterMode::kClone);
 }

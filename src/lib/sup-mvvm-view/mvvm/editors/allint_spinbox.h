@@ -75,7 +75,7 @@ public:
   /**
    * @brief Returns underlying limited integer.
    */
-  ILimitedInteger* GetLimitedInteger();
+  ILimitedInteger *GetLimitedInteger();
 
 protected:
   QAbstractSpinBox::StepEnabled stepEnabled() const override;
