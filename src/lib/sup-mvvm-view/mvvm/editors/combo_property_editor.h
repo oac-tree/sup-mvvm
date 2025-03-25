@@ -17,39 +17,46 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_COLOR_EDITOR_H_
-#define MVVM_EDITORS_COLOR_EDITOR_H_
+#ifndef MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
+#define MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
 
-#include <mvvm/editors/custom_editor.h>
+#include <mvvm/providers/custom_editor.h>
+#include <mvvm/viewmodel/custom_variants.h>
 
-class QLabel;
+class QComboBox;
 
 namespace mvvm
 {
 
-class LostFocusFilter;
-
-//! Custom editor for QVariant based on QString that contains color name.
-
-class MVVM_VIEWMODEL_EXPORT ColorEditor : public CustomEditor
+/**
+ * @brief The ComboPropertyEditor class is a cell editor for QVariant based on ComboProperty.
+ */
+class MVVM_VIEWMODEL_EXPORT ComboPropertyEditor : public CustomEditor
 {
   Q_OBJECT
 
 public:
-  explicit ColorEditor(QWidget* parent_widget = nullptr);
+  explicit ComboPropertyEditor(QWidget* parent_widget = nullptr);
 
-protected:
-  void mousePressEvent(QMouseEvent* event) override;
+  QSize sizeHint() const override;
+  QSize minimumSizeHint() const override;
+
+  /**
+   * @brief Returns underlying QComboBox.
+   */
+  QComboBox* GetComboBox();
+
+protected slots:
+  virtual void OnIndexChanged(int index);
 
 private:
-  QColor GetCurrentColor() const;
-
+  int GetInternIndex();
+  void SetConnected(bool isConnected);
   void UpdateComponents() override;
-  QLabel* m_text_label{nullptr};
-  QLabel* m_pixmap_label{nullptr};
-  LostFocusFilter* m_focus_filter{nullptr};
+
+  QComboBox* m_box{nullptr};
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_COLOR_EDITOR_H_
+#endif  // MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_

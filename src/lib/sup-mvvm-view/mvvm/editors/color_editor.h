@@ -17,12 +17,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
-#define MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
+#ifndef MVVM_EDITORS_COLOR_EDITOR_H_
+#define MVVM_EDITORS_COLOR_EDITOR_H_
 
-#include <mvvm/editors/custom_editor.h>
-
-#include <functional>
+#include <mvvm/providers/custom_editor.h>
 
 class QLabel;
 
@@ -31,29 +29,27 @@ namespace mvvm
 
 class LostFocusFilter;
 
-//! Custom editor for QVariant based on ExternalProperty.
-//! Contains icon, label and button to call external dialog via callback mechanism.
+//! Custom editor for QVariant based on QString that contains color name.
 
-class MVVM_VIEWMODEL_EXPORT ExternalPropertyEditor : public CustomEditor
+class MVVM_VIEWMODEL_EXPORT ColorEditor : public CustomEditor
 {
   Q_OBJECT
 
 public:
-  explicit ExternalPropertyEditor(QWidget* parent_widget = nullptr);
+  explicit ColorEditor(QWidget* parent_widget = nullptr);
 
-  void SetCallback(std::function<void(const QVariant&)> callback);
+protected:
+  void mousePressEvent(QMouseEvent* event) override;
 
 private:
-  void OnButtonClicked();
+  QColor GetCurrentColor() const;
 
   void UpdateComponents() override;
-
   QLabel* m_text_label{nullptr};
   QLabel* m_pixmap_label{nullptr};
   LostFocusFilter* m_focus_filter{nullptr};
-  std::function<void(const QVariant&)> m_callback;  //! actions to take on clicked button
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
+#endif  // MVVM_EDITORS_COLOR_EDITOR_H_

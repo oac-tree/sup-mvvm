@@ -20,7 +20,7 @@
 #ifndef MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
 #define MVVM_EDITORS_SCIENTIFIC_SPINBOX_EDITOR_H_
 
-#include <mvvm/editors/custom_editor.h>
+#include <mvvm/providers/custom_editor.h>
 
 namespace mvvm
 {

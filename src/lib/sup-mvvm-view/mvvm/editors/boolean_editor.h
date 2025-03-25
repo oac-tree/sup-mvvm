@@ -17,42 +17,33 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_ALLINT_SPINBOX_EDITOR_H_
-#define MVVM_EDITORS_ALLINT_SPINBOX_EDITOR_H_
+#ifndef MVVM_EDITORS_BOOLEAN_EDITOR_H_
+#define MVVM_EDITORS_BOOLEAN_EDITOR_H_
 
-#include <mvvm/editors/custom_editor.h>
+#include <mvvm/providers/custom_editor.h>
+
+class QCheckBox;
 
 namespace mvvm
 {
 
-class AllIntSpinBox;
+//! Custom editor for QVariant based on bool values.
+//! Contains fancy check box and true/false label.
 
-//! Custom editor for QVariant based on int family (from int8 to int64).
-//! FIXME remove the whole class and just use AllIntSpinBox
-class MVVM_VIEWMODEL_EXPORT AllIntSpinBoxEditor : public CustomEditor
+class MVVM_VIEWMODEL_EXPORT BoolEditor : public CustomEditor
 {
   Q_OBJECT
 
 public:
-  explicit AllIntSpinBoxEditor(QWidget* parent_widget = nullptr);
-
-  bool IsPersistent() const override;
-
-  void SetRange(const variant_t& lower_limit, const variant_t& upper_limit);
-
-  variant_t GetLowerLimit() const;
-
-  variant_t GetUpperLimit() const;
+  explicit BoolEditor(QWidget* parent_widget = nullptr);
 
 private:
-  void OnValueChanged(const QVariant& value);
+  void OnCheckBoxChange(bool value);
 
   void UpdateComponents() override;
-  AllIntSpinBox* m_allint_editor{nullptr};
-  variant_t m_user_lower_limit;
-  variant_t m_user_upper_limit;
+  QCheckBox* m_check_box{nullptr};
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_ALLINT_SPINBOX_EDITOR_H_
+#endif  // MVVM_EDITORS_BOOLEAN_EDITOR_H_

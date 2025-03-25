@@ -17,46 +17,43 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
-#define MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
+#ifndef MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
+#define MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_
 
-#include <mvvm/editors/custom_editor.h>
-#include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/providers/custom_editor.h>
 
-class QComboBox;
+#include <functional>
+
+class QLabel;
 
 namespace mvvm
 {
 
-/**
- * @brief The ComboPropertyEditor class is a cell editor for QVariant based on ComboProperty.
- */
-class MVVM_VIEWMODEL_EXPORT ComboPropertyEditor : public CustomEditor
+class LostFocusFilter;
+
+//! Custom editor for QVariant based on ExternalProperty.
+//! Contains icon, label and button to call external dialog via callback mechanism.
+
+class MVVM_VIEWMODEL_EXPORT ExternalPropertyEditor : public CustomEditor
 {
   Q_OBJECT
 
 public:
-  explicit ComboPropertyEditor(QWidget* parent_widget = nullptr);
+  explicit ExternalPropertyEditor(QWidget* parent_widget = nullptr);
 
-  QSize sizeHint() const override;
-  QSize minimumSizeHint() const override;
-
-  /**
-   * @brief Returns underlying QComboBox.
-   */
-  QComboBox* GetComboBox();
-
-protected slots:
-  virtual void OnIndexChanged(int index);
+  void SetCallback(std::function<void(const QVariant&)> callback);
 
 private:
-  int GetInternIndex();
-  void SetConnected(bool isConnected);
+  void OnButtonClicked();
+
   void UpdateComponents() override;
 
-  QComboBox* m_box{nullptr};
+  QLabel* m_text_label{nullptr};
+  QLabel* m_pixmap_label{nullptr};
+  LostFocusFilter* m_focus_filter{nullptr};
+  std::function<void(const QVariant&)> m_callback;  //! actions to take on clicked button
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
+#endif  // MVVM_EDITORS_EXTERNAL_PROPERTY_EDITOR_H_

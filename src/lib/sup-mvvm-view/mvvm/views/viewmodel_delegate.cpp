@@ -19,7 +19,7 @@
 
 #include "viewmodel_delegate.h"
 
-#include <mvvm/editors/custom_editor.h>
+#include <mvvm/providers/custom_editor.h>
 #include <mvvm/editors/custom_event_filters.h>
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/views/default_cell_decorator.h>
