@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_TREEDATA_ITEMDATA_CONVERTER_H_
-#define MVVM_SERIALIZATION_TREEDATA_ITEMDATA_CONVERTER_H_
+#ifndef MVVM_SERIALIZATION_TREE_DATA_ITEMDATA_CONVERTER_H_
+#define MVVM_SERIALIZATION_TREE_DATA_ITEMDATA_CONVERTER_H_
 
 //! @file
 //! Declares class TreeDataItemDataConverter to convert SessionItemData
@@ -63,4 +63,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_TREEDATA_ITEMDATA_CONVERTER_H_
+#endif  // MVVM_SERIALIZATION_TREE_DATA_ITEMDATA_CONVERTER_H_

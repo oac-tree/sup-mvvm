@@ -52,4 +52,4 @@ QStringList GetStringList(const QByteArray& byteArray);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_VIEWMODEL_ABSTRACT_ROW_STRATEGY_H_
+#endif  // MVVM_VIEWMODEL_QTCORE_HELPER_H_

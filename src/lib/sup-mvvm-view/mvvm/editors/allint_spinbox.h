@@ -30,7 +30,7 @@ namespace mvvm
 class ILimitedInteger;
 
 /**
- * @brief The AllIntSpinBox class is intended for editing all integer-like types: int8, uin8,
+ * @brief The AllIntSpinBox class is intended for editing all integer-like types: int8, uint8,
  * int16, uin16, int32, uint32, int64 and uint64.
  *
  * @details Current behavior: when user enters manually long integer which is above current limits,

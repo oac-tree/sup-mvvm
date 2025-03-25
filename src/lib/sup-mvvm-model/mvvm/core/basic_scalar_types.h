@@ -28,7 +28,7 @@
 
 #ifdef COA_WEB_ASSEMBLY
 #include <cstdint>
-#endif
+#endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_
 
 namespace mvvm
 {
@@ -59,7 +59,7 @@ using int64 = signed long;
 using uint64 = unsigned long;
 using float32 = float;
 using float64 = double;
-#endif
+#endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_
 
 }  // namespace mvvm
 

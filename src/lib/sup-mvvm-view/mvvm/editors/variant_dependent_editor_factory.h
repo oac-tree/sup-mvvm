@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H
-#define MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H
+#ifndef MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H_
+#define MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H_
 
 #include <mvvm/providers/abstract_editor_factory.h>
 
@@ -43,4 +43,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H
+#endif  // MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H_

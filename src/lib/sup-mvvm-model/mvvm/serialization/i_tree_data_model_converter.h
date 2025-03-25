@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_I_TREEDATA_MODEL_CONVERTER_H_
-#define MVVM_SERIALIZATION_I_TREEDATA_MODEL_CONVERTER_H_
+#ifndef MVVM_SERIALIZATION_I_TREE_DATA_MODEL_CONVERTER_H_
+#define MVVM_SERIALIZATION_I_TREE_DATA_MODEL_CONVERTER_H_
 
 #include <mvvm/model_export.h>
 #include <mvvm/serialization/tree_data_fwd.h>
@@ -58,4 +58,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_I_TREEDATA_MODEL_CONVERTER_H_
+#endif  // MVVM_SERIALIZATION_I_TREE_DATA_MODEL_CONVERTER_H_

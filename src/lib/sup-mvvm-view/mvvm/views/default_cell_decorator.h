@@ -17,8 +17,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_PROVIDERS_DEFAULT_CELL_DECORATOR_H_
-#define MVVM_PROVIDERS_DEFAULT_CELL_DECORATOR_H_
+#ifndef MVVM_VIEWS_DEFAULT_CELL_DECORATOR_H_
+#define MVVM_VIEWS_DEFAULT_CELL_DECORATOR_H_
 
 #include <mvvm/providers/i_cell_decorator.h>
 
@@ -44,4 +44,4 @@ protected:
 
 }  // namespace mvvm
 
-#endif  // MVVM_PROVIDERS_DEFAULT_CELL_DECORATOR_H_
+#endif  // MVVM_VIEWS_DEFAULT_CELL_DECORATOR_H_
