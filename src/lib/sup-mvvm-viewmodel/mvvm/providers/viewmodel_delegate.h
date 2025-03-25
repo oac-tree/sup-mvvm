@@ -31,18 +31,24 @@ namespace mvvm
 class IEditorFactory;
 class ICellDecorator;
 
-//! Model delegate to provide editing/painting for custom variants.
-
+/**
+ * @brief The ViewModelDelegate class provides Qt trees and tables with the possibility to edit
+ * custom variants.
+ *
+ * Custom variants are related to the data stored on board of SessionItem.
+ */
 class MVVM_VIEWMODEL_EXPORT ViewModelDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 
 public:
   explicit ViewModelDelegate(QObject* parent_object = nullptr);
-  ~ViewModelDelegate() override;
 
-  void setEditorFactory(std::unique_ptr<IEditorFactory> editor_factory);
-  void setCellDecoration(std::unique_ptr<ICellDecorator> cell_decoration);
+  explicit ViewModelDelegate(std::unique_ptr<IEditorFactory> editor_factory,
+                             std::unique_ptr<ICellDecorator> cell_decoration,
+                             QObject* parent_object = nullptr);
+
+  ~ViewModelDelegate() override;
 
   QWidget* createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option,
                         const QModelIndex& index) const override;

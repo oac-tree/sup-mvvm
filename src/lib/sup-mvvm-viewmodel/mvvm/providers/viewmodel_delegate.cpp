@@ -53,17 +53,16 @@ ViewModelDelegate::ViewModelDelegate(QObject* parent_object)
 {
 }
 
+ViewModelDelegate::ViewModelDelegate(std::unique_ptr<IEditorFactory> editor_factory,
+                                     std::unique_ptr<ICellDecorator> cell_decoration,
+                                     QObject* parent_object)
+    : QStyledItemDelegate(parent_object)
+    , m_editor_factory(std::move(editor_factory))
+    , m_cell_decoration(std::move(cell_decoration))
+{
+}
+
 ViewModelDelegate::~ViewModelDelegate() = default;
-
-void ViewModelDelegate::setEditorFactory(std::unique_ptr<IEditorFactory> editor_factory)
-{
-  m_editor_factory = std::move(editor_factory);
-}
-
-void ViewModelDelegate::setCellDecoration(std::unique_ptr<ICellDecorator> cell_decoration)
-{
-  m_cell_decoration = std::move(cell_decoration);
-}
 
 QWidget* ViewModelDelegate::createEditor(QWidget* parent_widget, const QStyleOptionViewItem& option,
                                          const QModelIndex& index) const
