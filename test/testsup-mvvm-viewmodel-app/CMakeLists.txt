@@ -16,8 +16,6 @@ target_sources(${test} PRIVATE
   role_dependent_editor_factory_tests.cpp
   selectable_combobox_editor_tests.cpp
   variant_dependent_editor_factory_tests.cpp
-  viewmodel_delegate_extended_tests.cpp
-  viewmodel_delegate_tests.cpp
 )
 
 if(SUP_MVVM_BUILD_QCUSTOMPLOT)

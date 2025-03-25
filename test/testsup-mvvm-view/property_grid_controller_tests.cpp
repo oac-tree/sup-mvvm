@@ -23,11 +23,11 @@
 #include <mvvm/editors/float_spinbox.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
+#include <mvvm/views/viewmodel_delegate.h>
 
 #include <gtest/gtest.h>
 

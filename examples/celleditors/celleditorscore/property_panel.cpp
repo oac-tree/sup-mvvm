@@ -20,7 +20,7 @@
 #include "property_panel.h"
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/providers/viewmodel_delegate.h>
+#include <mvvm/views/viewmodel_delegate.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
 

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/providers/viewmodel_delegate.h"
+#include "mvvm/views/viewmodel_delegate.h"
 
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>

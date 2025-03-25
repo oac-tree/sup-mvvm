@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/providers/default_cell_decorator.h"
+#include "mvvm/views/default_cell_decorator.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>

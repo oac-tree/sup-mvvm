@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   chart_view.h
   component_provider_helper.cpp
   component_provider_helper.h
+  default_cell_decorator.cpp
+  default_cell_decorator.h
   item_view_component_provider.cpp
   item_view_component_provider.h
   property_flat_view.cpp
@@ -19,6 +21,8 @@ target_sources(${library_name} PRIVATE
   property_tree_view.h
   top_items_tree_view.cpp
   top_items_tree_view.h
+  viewmodel_delegate.cpp
+  viewmodel_delegate.h
 )
 
 if (SUP_MVVM_BUILD_QCUSTOMPLOT)

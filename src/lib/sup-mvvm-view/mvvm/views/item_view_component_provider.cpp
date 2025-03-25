@@ -21,9 +21,9 @@
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/providers/viewmodel_delegate.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/views/viewmodel_delegate.h>
 
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>
