@@ -19,3 +19,27 @@
 
 #include "component_provider_helper.h"
 
+#include <mvvm/editors/default_editor_factory.h>
+#include <mvvm/providers/default_cell_decorator.h>
+#include <mvvm/providers/viewmodel_delegate.h>
+
+namespace mvvm
+{
+
+std::unique_ptr<IEditorFactory> CreateDefaultCellEditorFactory()
+{
+  return std::make_unique<DefaultEditorFactory>();
+}
+
+std::unique_ptr<ICellDecorator> CreateDefaultCellDecorator()
+{
+  return std::make_unique<DefaultCellDecorator>();
+}
+
+std::unique_ptr<ViewModelDelegate> CreateDefaultViewModelDelegate()
+{
+  return std::make_unique<ViewModelDelegate>(CreateDefaultCellEditorFactory(),
+                                             CreateDefaultCellDecorator());
+}
+
+}  // namespace mvvm

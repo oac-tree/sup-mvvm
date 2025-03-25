@@ -60,6 +60,20 @@ public:
    * @param view The view to serve.
    */
   ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model, QAbstractItemView* view);
+
+  /**
+   * @brief Main c-tor.
+   *
+   * Setups a view so it gets proper delegate and viewmodel.
+   *
+   * @param view_model The viewmodel.
+   * @param view_model_delegate The viewmodel delegate.
+   * @param view The view to serve.
+   */
+  ItemViewComponentProvider(std::unique_ptr<ViewModelDelegate> view_model_delegate,
+                            std::unique_ptr<ViewModel> view_model,
+                            QAbstractItemView* view);
+
   ~ItemViewComponentProvider() override;
 
   ItemViewComponentProvider(const ItemViewComponentProvider& other) = delete;

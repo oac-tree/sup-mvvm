@@ -34,7 +34,14 @@ namespace mvvm
 
 ItemViewComponentProvider::ItemViewComponentProvider(std::unique_ptr<ViewModel> view_model,
                                                      QAbstractItemView *view)
-    : m_delegate(std::make_unique<ViewModelDelegate>())
+    : ItemViewComponentProvider(std::make_unique<ViewModelDelegate>(), std::move(view_model), view)
+{
+}
+
+ItemViewComponentProvider::ItemViewComponentProvider(
+    std::unique_ptr<ViewModelDelegate> view_model_delegate, std::unique_ptr<ViewModel> view_model,
+    QAbstractItemView *view)
+    : m_delegate(std::move(view_model_delegate))
     , m_view_model(std::move(view_model))
     , m_view(view)
     , m_selection_model(new QItemSelectionModel(m_view_model.get(), this))

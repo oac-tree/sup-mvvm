@@ -25,6 +25,25 @@
 namespace mvvm
 {
 
+class IEditorFactory;
+class ICellDecorator;
+class ViewModelDelegate;
+
+/**
+ * @brief Creates default factory to edit cells of Qt's trees and tables.
+ */
+std::unique_ptr<IEditorFactory> CreateDefaultCellEditorFactory();
+
+/**
+ * @brief Creates default decorator for cells of Qt's trees and tables.
+ */
+std::unique_ptr<ICellDecorator> CreateDefaultCellDecorator();
+
+/**
+ * @brief Creates default delegate for cells of Qt's trees and tables.
+ */
+std::unique_ptr<ViewModelDelegate> CreateDefaultViewModelDelegate();
+
 /**
  * @brief Convenience function to create component provider for a view.
  *
