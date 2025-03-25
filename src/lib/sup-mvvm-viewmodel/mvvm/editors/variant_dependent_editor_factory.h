@@ -17,40 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
-#define MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
-
-//! @file
-//! Defines custom cell editor factories for Qt trees and tables.
+#ifndef MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H
+#define MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H
 
 #include <mvvm/providers/abstract_editor_factory.h>
-
-#include <memory>
 
 namespace mvvm
 {
 
 /**
- * @brief The DefaultEditorFactory class is a default editor factory for cell editors in Qt trees
- * and tables.
+ * @brief The VariantDependentEditorFactory class constructs cell editors using the data role.
  *
- * It first tries to construct a cell editor using the editor role, and then, in the case of
- * failure, switches to the data role.
+ * The type of the editor will be deduced from the type of the variant stored for DataRole::kData
+ * role on board of SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT DefaultEditorFactory : public IEditorFactory
+class MVVM_VIEWMODEL_EXPORT VariantDependentEditorFactory : public AbstractEditorFactory
 {
 public:
-  DefaultEditorFactory();
+  VariantDependentEditorFactory();
 
   editor_t CreateEditor(const QModelIndex& index) const override;
 
   editor_t CreateEditor(const SessionItem* item) const override;
-
-private:
-  std::unique_ptr<AbstractEditorFactory> m_role_dependent_factory;
-  std::unique_ptr<AbstractEditorFactory> m_variant_dependent_factory;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_EDITORS_CUSTOM_EDITOR_FACTORIES_H_
+#endif  // MVVM_EDITORS_VARIANT_DEPENDENT_EDITOR_FACTORY_H

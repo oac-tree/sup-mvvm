@@ -66,56 +66,6 @@ public:
   AllItemsViewModel m_view_model;
 };
 
-TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
-{
-  const VariantDependentEditorFactory factory;
-
-  // editor for bool types
-  auto index = AddDataToModel(variant_t(true));
-  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index).get()));
-
-  // ComboProperty
-  index = AddDataToModel(variant_t(ComboProperty()));
-  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
-
-  // `string` doesn't have custom editor for the moment (handled by default delegate)
-  index = AddDataToModel(std::string("abc"));
-  EXPECT_FALSE(factory.CreateEditor(index));
-
-  index = AddDataToModel(variant_t(42));
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
-
-  {  // uint32
-    const uint32 num(42);
-    index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
-  }
-
-  {  // int64
-    const int64 num(42);
-    index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
-  }
-
-  {  // uint64
-    const uint64 num(42);
-    index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
-  }
-
-  {  // float32
-    const float32 num(42.1);
-    index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
-  }
-
-  {  // float64
-    const float64 num(42.1);
-    index = AddDataToModel(variant_t(num));
-    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
-  }
-}
-
 TEST_F(CustomEditorFactoriesTest, DefaultEditorFactory)
 {
   const DefaultEditorFactory factory;

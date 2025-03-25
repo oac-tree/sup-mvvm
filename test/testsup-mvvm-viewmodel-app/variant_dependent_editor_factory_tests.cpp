@@ -17,10 +17,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/editors/role_dependent_editor_factory.h"
+#include "mvvm/editors/variant_dependent_editor_factory.h"
 
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_limits_helper.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
@@ -34,10 +35,10 @@ using namespace mvvm;
 /**
  * @brief Tests for editor factories from custom_editor_factories header.
  */
-class RoleDependentEditorFactoryTest : public ::testing::Test
+class VariantDependentEditorFactoryTest : public ::testing::Test
 {
 public:
-  RoleDependentEditorFactoryTest() : m_view_model(&m_model) {}
+  VariantDependentEditorFactoryTest() : m_view_model(&m_model) {}
 
   /**
    * @brief Convenience function to add given data to the model as PropertyItem.
@@ -51,34 +52,52 @@ public:
   AllItemsViewModel m_view_model;
 };
 
-TEST_F(RoleDependentEditorFactoryTest, RoleDependentEditorFactory)
+TEST_F(VariantDependentEditorFactoryTest, VariantDependentEditorFactory)
 {
-  const RoleDependentEditorFactory factory;
+  const VariantDependentEditorFactory factory;
 
   // editor for bool types
-  auto index = AddDataToModel(variant_t(true), constants::kBoolEditorType);
+  auto index = AddDataToModel(variant_t(true));
   EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index).get()));
 
   // ComboProperty
-  index = AddDataToModel(variant_t(ComboProperty()), constants::kComboPropertyEditorType);
+  index = AddDataToModel(variant_t(ComboProperty()));
   EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
 
-  // ComboProperty
-  index = AddDataToModel(variant_t(ComboProperty()), constants::kSelectableComboPropertyEditorType);
-  EXPECT_TRUE(dynamic_cast<SelectableComboBoxEditor*>(factory.CreateEditor(index).get()));
+  // `string` doesn't have custom editor for the moment (handled by default delegate)
+  index = AddDataToModel(std::string("abc"));
+  EXPECT_FALSE(factory.CreateEditor(index));
 
-  // String as color
-  index = AddDataToModel(variant_t("red"), constants::kColorEditorType);
-  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
-
-  // double
-  index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
-  EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
-
-  // for int we use adapted QSpinBox with limits set
-  index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
+  index = AddDataToModel(variant_t(42));
   EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
 
-  index = AddDataToModel(variant_t(42), constants::kAllIntSpinBoxEditorType);
-  EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  {  // uint32
+    const uint32 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // int64
+    const int64 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // uint64
+    const uint64 num(42);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // float32
+    const float32 num(42.1);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
+
+  {  // float64
+    const float64 num(42.1);
+    index = AddDataToModel(variant_t(num));
+    EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
+  }
 }

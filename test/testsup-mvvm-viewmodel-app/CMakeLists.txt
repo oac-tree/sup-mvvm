@@ -10,13 +10,14 @@ target_sources(${test} PRIVATE
   chart_viewport_controller_tests.cpp
   combo_property_editor_tests.cpp
   custom_editor_factories_tests.cpp
-  role_dependent_editor_factory_tests.cpp
   custom_viewmodel_tests.cpp
   float_spinbox_tests.cpp
   item_view_component_provider_tests.cpp
   main.cpp
   property_grid_controller_tests.cpp
+  role_dependent_editor_factory_tests.cpp
   selectable_combobox_editor_tests.cpp
+  variant_dependent_editor_factory_tests.cpp
   viewmodel_delegate_extended_tests.cpp
   viewmodel_delegate_tests.cpp
 )
