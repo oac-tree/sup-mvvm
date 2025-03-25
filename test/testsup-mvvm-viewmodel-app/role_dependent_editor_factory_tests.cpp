@@ -27,6 +27,7 @@
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_viewmodel_helper.h>
 
 #include <QSpinBox>
 
@@ -42,24 +43,10 @@ public:
 
   /**
    * @brief Convenience function to add given data to the model as PropertyItem.
-   *
-   * @param data The data to store as data role.
-   * @param editor_type Optional editor name to define for the given cell.
-   * @return Index of cell which can be used to access given data.
    */
   QModelIndex AddDataToModel(const variant_t& data, const std::string& editor_type = {})
   {
-    // creating item in a model and setting data to it
-    auto item = m_model.InsertItem<PropertyItem>();
-    item->SetData(data);
-    if (!editor_type.empty())
-    {
-      item->SetEditorType(editor_type);
-    }
-
-    // at this point ViewModel was automatically updated, column = 1 is a cell looking to our data
-    auto indexes = m_view_model.GetIndexOfSessionItem(item);
-    return indexes.back();  // it should be two indices, the second is looking to our data
+    return test::AddDataToModel(data, editor_type, m_view_model);
   }
 
   ApplicationModel m_model;

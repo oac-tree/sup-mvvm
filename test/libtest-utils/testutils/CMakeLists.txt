@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   test_container_helper.h
   test_strategies.cpp
   test_strategies.h
+  test_viewmodel_helper.cpp
+  test_viewmodel_helper.h
   toy_items.cpp
   toy_items.h
 )
