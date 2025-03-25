@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   chart_canvas.h
   chart_view.cpp
   chart_view.h
+  component_provider_helper.cpp
+  component_provider_helper.h
   property_flat_view.cpp
   property_flat_view.h
   property_tree_view.cpp

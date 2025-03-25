@@ -20,15 +20,16 @@
 #include "property_tree_view.h"
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/providers/item_view_component_provider.h>
 #include <mvvm/viewmodel/property_viewmodel.h>
 #include <mvvm/viewmodel/viewmodel.h>
+#include <mvvm/views/component_provider_helper.h>
 
 #include <QTreeView>
 #include <QVBoxLayout>
 
 namespace mvvm
 {
+
 PropertyTreeView::PropertyTreeView(QWidget* parent_widget)
     : AbstractItemView(parent_widget), m_tree_view(new QTreeView)
 {

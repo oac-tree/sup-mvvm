@@ -22,7 +22,7 @@
 #include <mvvm/serialization/xml_document.h>
 #include <mvvm/signals/item_connect.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
-#include <mvvm/providers/item_view_component_provider.h>
+#include <mvvm/views/component_provider_helper.h>
 
 #include <QApplication>
 #include <QLocale>

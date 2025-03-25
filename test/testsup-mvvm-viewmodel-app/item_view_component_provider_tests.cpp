@@ -26,6 +26,7 @@
 #include <mvvm/test/test_helper.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
+#include <mvvm/views/component_provider_helper.h>
 
 #include <gtest/gtest.h>
 
@@ -54,7 +55,8 @@ TEST_F(ItemViewComponentProviderTest, InitialState)
       ItemViewComponentProvider(std::make_unique<mvvm::AllItemsViewModel>(nullptr), nullptr),
       RuntimeException);
 
-  ItemViewComponentProvider provider(std::make_unique<mvvm::AllItemsViewModel>(nullptr), &view);
+  const ItemViewComponentProvider provider(std::make_unique<mvvm::AllItemsViewModel>(nullptr),
+                                           &view);
 
   EXPECT_EQ(provider.GetView(), &view);
   EXPECT_NE(provider.GetSelectionModel(), nullptr);

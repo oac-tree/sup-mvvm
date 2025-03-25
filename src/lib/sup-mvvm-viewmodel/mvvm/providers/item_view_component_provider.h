@@ -206,22 +206,6 @@ std::vector<T*> ItemViewComponentProvider::GetSelectedItems() const
   return utils::CastItems<T>(GetSelectedItemsIntern());
 }
 
-/**
- * @brief Convenience function to create component provider for a view.
- *
- * @tparam ViewModelT The type of ViewModel which will be created.
- * @param view The view which will be served by the provider.
- * @param model The model which will be used to setup viewmodel.
- *
- * @return Component provider.
- */
-template <typename ViewModelT>
-std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
-                                                          ISessionModel* model = nullptr)
-{
-  return std::make_unique<ItemViewComponentProvider>(std::make_unique<ViewModelT>(model), view);
-}
-
 }  // namespace mvvm
 
 #endif  // MVVM_PROVIDERS_ITEM_VIEW_COMPONENT_PROVIDER_H_
