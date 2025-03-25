@@ -11,6 +11,8 @@ target_sources(${library_name} PRIVATE
   component_provider_helper.h
   property_flat_view.cpp
   property_flat_view.h
+  property_grid_controller.cpp
+  property_grid_controller.h
   property_tree_view.cpp
   property_tree_view.h
   top_items_tree_view.cpp

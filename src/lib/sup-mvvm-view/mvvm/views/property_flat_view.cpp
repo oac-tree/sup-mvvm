@@ -19,7 +19,7 @@
 
 #include "property_flat_view.h"
 
-#include <mvvm/providers/property_grid_controller.h>
+#include <mvvm/views/property_grid_controller.h>
 #include <mvvm/widgets/layout_utils.h>
 
 #include <QAbstractItemModel>

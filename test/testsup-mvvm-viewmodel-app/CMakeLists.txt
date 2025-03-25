@@ -14,7 +14,6 @@ target_sources(${test} PRIVATE
   float_spinbox_tests.cpp
   item_view_component_provider_tests.cpp
   main.cpp
-  property_grid_controller_tests.cpp
   role_dependent_editor_factory_tests.cpp
   selectable_combobox_editor_tests.cpp
   variant_dependent_editor_factory_tests.cpp

@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/providers/property_grid_controller.h"
+#include "mvvm/views/property_grid_controller.h"
 
 #include <mvvm/core/exceptions.h>
 #include <mvvm/editors/float_spinbox.h>
