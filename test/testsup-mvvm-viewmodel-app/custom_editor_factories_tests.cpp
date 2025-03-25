@@ -66,38 +66,6 @@ public:
   AllItemsViewModel m_view_model;
 };
 
-TEST_F(CustomEditorFactoriesTest, RoleDependentEditorFactory)
-{
-  const RoleDependentEditorFactory factory;
-
-  // editor for bool types
-  auto index = AddDataToModel(variant_t(true), constants::kBoolEditorType);
-  EXPECT_TRUE(dynamic_cast<BoolEditor*>(factory.CreateEditor(index).get()));
-
-  // ComboProperty
-  index = AddDataToModel(variant_t(ComboProperty()), constants::kComboPropertyEditorType);
-  EXPECT_TRUE(dynamic_cast<ComboPropertyEditor*>(factory.CreateEditor(index).get()));
-
-  // ComboProperty
-  index = AddDataToModel(variant_t(ComboProperty()), constants::kSelectableComboPropertyEditorType);
-  EXPECT_TRUE(dynamic_cast<SelectableComboBoxEditor*>(factory.CreateEditor(index).get()));
-
-  // String as color
-  index = AddDataToModel(variant_t("red"), constants::kColorEditorType);
-  EXPECT_TRUE(dynamic_cast<ColorEditor*>(factory.CreateEditor(index).get()));
-
-  // double
-  index = AddDataToModel(variant_t(42.2), constants::kScientificSpinboxEditorType);
-  EXPECT_TRUE(dynamic_cast<ScientificSpinBoxEditor*>(factory.CreateEditor(index).get()));
-
-  // for int we use adapted QSpinBox with limits set
-  index = AddDataToModel(variant_t(42), constants::kIntegerEditorType);
-  EXPECT_TRUE(dynamic_cast<QSpinBox*>(factory.CreateEditor(index).get()));
-
-  index = AddDataToModel(variant_t(42), constants::kAllIntSpinBoxEditorType);
-  EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
-}
-
 TEST_F(CustomEditorFactoriesTest, VariantDependentEditorFactory)
 {
   const VariantDependentEditorFactory factory;

@@ -18,16 +18,18 @@ target_sources(${library_name} PRIVATE
   custom_event_filters.h
   editor_builders.cpp
   editor_builders.h
+  editor_helper.cpp
+  editor_helper.h
   external_property_editor.cpp
   external_property_editor.h
   float_spinbox.cpp
   float_spinbox.h
+  role_dependent_editor_factory.cpp
+  role_dependent_editor_factory.h
   scientific_spinbox.cpp
   scientific_spinbox.h
   scientific_spinbox_editor.cpp
   scientific_spinbox_editor.h
   selectable_combobox_editor.cpp
   selectable_combobox_editor.h
-  editor_helper.cpp
-  editor_helper.h
 )

@@ -31,21 +31,6 @@ namespace mvvm
 {
 
 /**
- * @brief The RoleDependentEditorFactory class constructs cell editors using the editor role.
- *
- * The user shall set the editor type via SessionItem::SetEditorType call.
- */
-class MVVM_VIEWMODEL_EXPORT RoleDependentEditorFactory : public AbstractEditorFactory
-{
-public:
-  RoleDependentEditorFactory();
-
-  editor_t CreateEditor(const QModelIndex& index) const override;
-
-  editor_t CreateEditor(const SessionItem* item) const override;
-};
-
-/**
  * @brief The VariantDependentEditorFactory class constructs cell editors using the data role.
  *
  * The type of the editor will be deduced from the type of the variant stored for DataRole::kData
@@ -78,8 +63,8 @@ public:
   editor_t CreateEditor(const SessionItem* item) const override;
 
 private:
-  std::unique_ptr<RoleDependentEditorFactory> m_role_dependent_factory;
-  std::unique_ptr<VariantDependentEditorFactory> m_variant_dependent_factory;
+  std::unique_ptr<AbstractEditorFactory> m_role_dependent_factory;
+  std::unique_ptr<AbstractEditorFactory> m_variant_dependent_factory;
 };
 
 }  // namespace mvvm

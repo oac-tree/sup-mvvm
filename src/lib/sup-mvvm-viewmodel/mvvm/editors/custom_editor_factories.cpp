@@ -20,6 +20,7 @@
 #include "custom_editor_factories.h"
 
 #include "editor_builders.h"
+#include "role_dependent_editor_factory.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
@@ -51,38 +52,6 @@ std::string GetQtVariantName(const SessionItem* item, int role = DataRole::kData
 }
 
 }  // namespace
-
-// -------------------------------------------------------------------------------------------------
-// RoleDependentEditorFactory
-// -------------------------------------------------------------------------------------------------
-RoleDependentEditorFactory::RoleDependentEditorFactory()
-{
-  // registering all existing builders under their names
-
-  RegisterBuilder(constants::kBoolEditorType, BoolEditorBuilder());
-  RegisterBuilder(constants::kComboPropertyEditorType, ComboPropertyEditorBuilder());
-  RegisterBuilder(constants::kSelectableComboPropertyEditorType,
-                  SelectableComboPropertyEditorBuilder());
-  RegisterBuilder(constants::kColorEditorType, ColorEditorBuilder());
-  RegisterBuilder(constants::kExternalPropertyEditorType, ExternalPropertyEditorBuilder());
-  RegisterBuilder(constants::kIntegerEditorType, IntegerEditorBuilder());
-  RegisterBuilder(constants::kScientificSpinboxEditorType, ScientificSpinBoxEditorBuilder());
-  RegisterBuilder(constants::kDoubleEditorType, DoubleEditorBuilder());
-  RegisterBuilder(constants::kAllIntSpinBoxEditorType, AllIntSpinBoxEditorBuilder());
-  RegisterBuilder(constants::kFloatSpinBoxEditorType, FloatEditorBuilder());
-}
-
-editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
-{
-  auto item = utils::ItemFromProxyIndex(index);
-  return item ? CreateEditor(item) : editor_t{};
-}
-
-editor_t RoleDependentEditorFactory::CreateEditor(const SessionItem* item) const
-{
-  auto builder = FindBuilder(item->GetEditorType());
-  return builder ? builder(item) : editor_t{};
-}
 
 // -------------------------------------------------------------------------------------------------
 // VariantDependentEditorFactory
