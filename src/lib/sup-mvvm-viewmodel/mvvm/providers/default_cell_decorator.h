@@ -20,7 +20,7 @@
 #ifndef MVVM_PROVIDERS_DEFAULT_CELL_DECORATOR_H_
 #define MVVM_PROVIDERS_DEFAULT_CELL_DECORATOR_H_
 
-#include <mvvm/viewmodel/i_cell_decorator.h>
+#include <mvvm/providers/i_cell_decorator.h>
 
 #include <optional>
 #include <string>

@@ -11,7 +11,6 @@ target_sources(${library_name} PRIVATE
   custom_variants.h
   filter_name_viewmodel.cpp
   filter_name_viewmodel.h
-  i_cell_decorator.h
   i_children_strategy.h
   i_row_strategy.h
   i_viewmodel_controller.h
