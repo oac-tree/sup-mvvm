@@ -24,6 +24,7 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/viewmodel/variant_converter.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 
@@ -31,6 +32,25 @@
 
 namespace mvvm
 {
+
+namespace
+{
+
+/**
+ * @brief Returns Qt variant name corresponding to the data stored on board of item.
+ */
+std::string GetQtVariantName(const SessionItem* item, int role = DataRole::kData)
+{
+  if (!item)
+  {
+    return {};
+  }
+
+  auto qt_variant = GetQtVariant(item->Data(role));
+  return utils::GetQtVariantName(qt_variant);
+}
+
+}  // namespace
 
 // -------------------------------------------------------------------------------------------------
 // RoleDependentEditorFactory
@@ -55,10 +75,10 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 editor_t RoleDependentEditorFactory::CreateEditor(const QModelIndex& index) const
 {
   auto item = utils::ItemFromProxyIndex(index);
-  return item ? CreateItemEditor(item) : editor_t{};
+  return item ? CreateEditor(item) : editor_t{};
 }
 
-editor_t RoleDependentEditorFactory::CreateItemEditor(const SessionItem* item) const
+editor_t RoleDependentEditorFactory::CreateEditor(const SessionItem* item) const
 {
   auto builder = FindBuilder(item->GetEditorType());
   return builder ? builder(item) : editor_t{};
@@ -100,6 +120,12 @@ editor_t VariantDependentEditorFactory::CreateEditor(const QModelIndex& index) c
   return builder ? builder(utils::ItemFromProxyIndex(index)) : editor_t{};
 }
 
+editor_t VariantDependentEditorFactory::CreateEditor(const SessionItem* item) const
+{
+  auto builder = FindBuilder(GetQtVariantName(item));
+  return builder ? builder(item) : editor_t{};
+}
+
 // -------------------------------------------------------------------------------------------------
 // DefaultEditorFactory
 // -------------------------------------------------------------------------------------------------
@@ -115,6 +141,14 @@ editor_t DefaultEditorFactory::CreateEditor(const QModelIndex& index) const
   auto editor = m_role_dependent_factory->CreateEditor(index);
   // if we do not succeed, then creating editor from variant type
   return editor ? std::move(editor) : m_variant_dependent_factory->CreateEditor(index);
+}
+
+editor_t DefaultEditorFactory::CreateEditor(const SessionItem* item) const
+{
+  // trying to created an editor basing on possibly defined DataRole::kEditor role
+  auto editor = m_role_dependent_factory->CreateEditor(item);
+  // if we do not succeed, then creating editor from variant type
+  return editor ? std::move(editor) : m_variant_dependent_factory->CreateEditor(item);
 }
 
 }  // namespace mvvm

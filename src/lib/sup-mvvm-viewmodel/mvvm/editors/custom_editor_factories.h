@@ -42,8 +42,7 @@ public:
 
   editor_t CreateEditor(const QModelIndex& index) const override;
 
-protected:
-  editor_t CreateItemEditor(const SessionItem* item) const;
+  editor_t CreateEditor(const SessionItem* item) const override;
 };
 
 /**
@@ -58,6 +57,8 @@ public:
   VariantDependentEditorFactory();
 
   editor_t CreateEditor(const QModelIndex& index) const override;
+
+  editor_t CreateEditor(const SessionItem* item) const override;
 };
 
 /**
@@ -73,6 +74,8 @@ public:
   DefaultEditorFactory();
 
   editor_t CreateEditor(const QModelIndex& index) const override;
+
+  editor_t CreateEditor(const SessionItem* item) const override;
 
 private:
   std::unique_ptr<RoleDependentEditorFactory> m_role_dependent_factory;

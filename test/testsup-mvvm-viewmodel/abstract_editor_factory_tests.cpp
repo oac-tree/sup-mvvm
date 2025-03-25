@@ -34,7 +34,16 @@ public:
   class TestFactory : public AbstractEditorFactory
   {
   public:
-    editor_t CreateEditor(const QModelIndex&) const override { return {}; }
+    editor_t CreateEditor(const QModelIndex& index) const override
+    {
+      (void)index;
+      return {};
+    }
+    editor_t CreateEditor(const SessionItem* item) const override
+    {
+      (void)item;
+      return {};
+    }
   };
 
   class TestEditor : public CustomEditor
@@ -51,10 +60,8 @@ TEST_F(AbstractEditorFactoryTest, RegisterBuilder)
   auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<TestEditor>(); };
   factory.RegisterBuilder("abc", builder);
 
-  // existing builder. Cast for gtest 1.6 and gcc-7.3.1
   EXPECT_TRUE(static_cast<bool>(factory.FindBuilder("abc")));
 
-  // non existing builder
   EXPECT_FALSE(static_cast<bool>(factory.FindBuilder("edf")));
 
   EXPECT_THROW(factory.RegisterBuilder("abc", builder), RuntimeException);
