@@ -1,5 +1,6 @@
 Changes for 1.8.0:
 
+- Move cell editors in sup-mvvm library
 - Provide possibility to filter out children during XML string generation
 - Make BooleanEditor and ComboEditor in tree cells closing after editing finished
 - Fix Qt warnings in celleditors example
