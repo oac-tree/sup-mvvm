@@ -1,0 +1,41 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "debug",
+            "displayName": "Default debug",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+            }
+        },
+        {
+            "name": "debug-gcc",
+            "inherits": "debug",
+            "cacheVariables": {
+                "COA_EXPORT_BUILD_TREE": "ON",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
+            }
+        },
+        {
+            "name": "debug-clang",
+            "inherits": "debug",
+            "cacheVariables": {
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug-gcc",
+            "configurePreset": "debug-gcc"
+        },
+        {
+            "name": "debug-clang",
+            "configurePreset": "debug-clang"
+        }
+    ]
+}

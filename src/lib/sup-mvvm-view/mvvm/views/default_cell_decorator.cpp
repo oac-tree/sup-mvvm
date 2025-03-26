@@ -23,6 +23,7 @@
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/viewmodel/custom_variants.h>
 
+#include <QDebug>
 #include <QModelIndex>
 #include <QStyleOptionViewItem>
 
@@ -103,12 +104,14 @@ std::optional<std::string> DefaultCellDecorator::GetCellText(const QModelIndex& 
 
 void DefaultCellDecorator::InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option)
 {
+  // Special corner case of ExternalProperty without text. It means that the user probably whants to
+  // see a pixmap only. For better alignment have to remove text option from the style.
   if (auto optional_value = GetCellText(index); optional_value.has_value())
   {
     option->text = QString::fromStdString(optional_value.value());
     if (optional_value.value().empty())
     {
-      option->features &= ~QStyleOptionViewItem::HasDisplay;
+      option->features.setFlag(QStyleOptionViewItem::HasDisplay, false);
     }
   }
 }

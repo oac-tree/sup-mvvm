@@ -25,6 +25,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_viewmodel_helper.h>
 
+#include <QStyleOptionViewItem>
+
 using namespace mvvm;
 
 /**
@@ -129,4 +131,55 @@ TEST_F(DefaultCellDecoratorTest, DefaultDecorations)
 
   index = AddDataToModel(std::string("abc"));
   EXPECT_FALSE(decorator.HasCustomDecoration(index));
+}
+
+//! For own education, how QStyleOptionViewItem flags are working.
+TEST_F(DefaultCellDecoratorTest, StyleOptionFlags)
+{
+  QStyleOptionViewItem item;
+
+  EXPECT_EQ(item.features, QStyleOptionViewItem::ViewItemFeatures(QStyleOptionViewItem::None));
+
+  item.features.setFlag(QStyleOptionViewItem::HasDisplay);
+  EXPECT_TRUE(item.features.testFlag(QStyleOptionViewItem::HasDisplay));
+
+  // old school way of removing the flag
+  item.features &= ~QStyleOptionViewItem::HasDisplay;
+  EXPECT_FALSE(item.features.testFlag(QStyleOptionViewItem::HasDisplay));
+
+  // better way of removing flags
+  item.features.setFlag(QStyleOptionViewItem::HasDisplay);
+  EXPECT_TRUE(item.features.testFlag(QStyleOptionViewItem::HasDisplay));
+  item.features.setFlag(QStyleOptionViewItem::HasDisplay, false);
+  EXPECT_FALSE(item.features.testFlag(QStyleOptionViewItem::HasDisplay));
+}
+
+TEST_F(DefaultCellDecoratorTest, InitStyleOption)
+{
+  TestDecorator decorator;
+
+  {
+    QStyleOptionViewItem style_item;
+    style_item.features.setFlag(QStyleOptionViewItem::HasDisplay);
+
+    const mvvm::char8 value{42};
+    auto index = AddDataToModel(value);
+
+    decorator.InitStyleOption(index, &style_item);
+    EXPECT_TRUE(style_item.features.testFlag(QStyleOptionViewItem::HasDisplay));
+  }
+
+  {
+    // Special case when no text exist, only pixmap. Need to check if text's HasDisplay option is
+    // removed
+    ExternalProperty external_property;
+
+    QStyleOptionViewItem style_item;
+    style_item.features.setFlag(QStyleOptionViewItem::HasDisplay);
+
+    auto index = AddDataToModel(external_property);
+
+    decorator.InitStyleOption(index, &style_item);
+    EXPECT_FALSE(style_item.features.testFlag(QStyleOptionViewItem::HasDisplay));
+  }
 }
