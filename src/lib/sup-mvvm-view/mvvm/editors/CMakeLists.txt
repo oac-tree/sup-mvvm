@@ -30,6 +30,8 @@ target_sources(${library_name} PRIVATE
   scientific_spinbox_editor.h
   selectable_combobox_editor.cpp
   selectable_combobox_editor.h
+  string_completer_combo_editor.cpp
+  string_completer_combo_editor.h
   variant_dependent_editor_factory.cpp
   variant_dependent_editor_factory.h
 )
