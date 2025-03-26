@@ -20,15 +20,16 @@
 #include "mvvm/views/default_cell_decorator.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/property_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_viewmodel_helper.h>
 
 using namespace mvvm;
 
-//! Tests for DefaultCellDecorator.
-
+/**
+ * @brief Tests for DefaultCellDecorator class.
+ */
 class DefaultCellDecoratorTest : public ::testing::Test
 {
 public:
@@ -37,35 +38,24 @@ public:
   class TestDecorator : public DefaultCellDecorator
   {
   public:
-    std::string GetText(const QModelIndex& index) const { return GetCellText(index).value(); }
+    std::string GetText(const QModelIndex& index) const
+    {
+      return GetCellText(index).value_or(std::string());
+    }
   };
 
-  //! Convenience function to add given data to the model as PropertyItem.
-  //! Returns back an index corresponding to the item's position in a view model.
-  //! Given index will be used to create a corresponding cell editor using one of the editor
-  //! factories.
   QModelIndex AddDataToModel(const variant_t& data)
   {
-    // creating item in a model and setting data to it
-    auto item = m_model.InsertItem<PropertyItem>();
-    item->SetData(data);
-
-    // at this point ViewModel was automatically updated, column = 1 is a cell looking to our data
-    auto indexes = m_view_model.GetIndexOfSessionItem(item);
-    return indexes.back();  // it should be two indices, the second is looking to our data
+    return test::AddDataToModel(data, {}, m_view_model);
   }
 
   ApplicationModel m_model;
   AllItemsViewModel m_view_model;
 };
 
-// using variant_t = std::variant<std::monostate, bool, int, double, std::string,
-// std::vector<double>,
-//                                mvvm::ComboProperty, mvvm::ExternalProperty>;
-
 TEST_F(DefaultCellDecoratorTest, BoolDecorations)
 {
-  TestDecorator decorator;
+  const TestDecorator decorator;
 
   auto index = AddDataToModel(variant_t(true));
   EXPECT_TRUE(decorator.HasCustomDecoration(index));
@@ -78,7 +68,7 @@ TEST_F(DefaultCellDecoratorTest, BoolDecorations)
 
 TEST_F(DefaultCellDecoratorTest, ComboPropertyDecorations)
 {
-  TestDecorator decorator;
+  const TestDecorator decorator;
 
   auto index = AddDataToModel(ComboProperty({"a1", "a2"}));
   EXPECT_TRUE(decorator.HasCustomDecoration(index));
@@ -87,7 +77,7 @@ TEST_F(DefaultCellDecoratorTest, ComboPropertyDecorations)
 
 TEST_F(DefaultCellDecoratorTest, ExternalPropertyDecorations)
 {
-  TestDecorator decorator;
+  const TestDecorator decorator;
 
   auto index = AddDataToModel(ExternalProperty("text", "color"));
   EXPECT_TRUE(decorator.HasCustomDecoration(index));
@@ -96,7 +86,7 @@ TEST_F(DefaultCellDecoratorTest, ExternalPropertyDecorations)
 
 TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
 {
-  TestDecorator decorator;
+  const TestDecorator decorator;
 
   auto index = AddDataToModel(42.1234321);
   EXPECT_TRUE(decorator.HasCustomDecoration(index));
@@ -105,7 +95,7 @@ TEST_F(DefaultCellDecoratorTest, DoubleDecorations)
 
 TEST_F(DefaultCellDecoratorTest, Int8Decoration)
 {
-  TestDecorator decorator;
+  const TestDecorator decorator;
 
   {
     const mvvm::int8 value{-42};
@@ -130,10 +120,9 @@ TEST_F(DefaultCellDecoratorTest, Int8Decoration)
 }
 
 //! Variants that do not nave special decorations
-
 TEST_F(DefaultCellDecoratorTest, DefaultDecorations)
 {
-  TestDecorator decorator;
+  const TestDecorator decorator;
 
   auto index = AddDataToModel(42);
   EXPECT_FALSE(decorator.HasCustomDecoration(index));
