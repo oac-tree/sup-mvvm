@@ -17,43 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "string_completer_combo_editor.h"
+#ifndef CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_
+#define CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_
 
-#include <QComboBox>
-#include <QVBoxLayout>
-#include <QLineEdit>
+#include <QWidget>
 
 namespace mvvm
 {
-
-StringCompleterComboEditor::StringCompleterComboEditor(QWidget *parent_widget)
-    : QWidget(parent_widget), m_box(new QComboBox)
-{
-  setAutoFillBackground(true);
-
-  m_box->setEditable(true);
-
-  auto layout = new QVBoxLayout;
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
-  layout->addWidget(m_box);
-  layout->addWidget(new QLineEdit);
-  setLayout(layout);
+class StringCompleterComboEditor;
 }
 
-QVariant StringCompleterComboEditor::value() const
+namespace customeditors
 {
-  return m_value;
-}
 
-void StringCompleterComboEditor::setValue(const QVariant &value)
+class EditorWidget : public QWidget
 {
-  m_value = value;
-}
+  Q_OBJECT
 
-void StringCompleterComboEditor::OnEditingFinished(double value)
-{
-  (void)value;
-}
+public:
+  explicit EditorWidget(QWidget* parent_widget = nullptr);
 
-}  // namespace mvvm
+private:
+  mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
+};
+
+}  // namespace customeditors
+
+#endif  // CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_

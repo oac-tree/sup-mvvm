@@ -19,6 +19,8 @@
 
 #include "main_window.h"
 
+#include "editor_widget.h"
+
 #include <QCoreApplication>
 #include <QSettings>
 
@@ -32,7 +34,7 @@ const QString pos_key = "pos";
 namespace customeditors
 {
 
-MainWindow::MainWindow()
+MainWindow::MainWindow() : m_editor_widget(new EditorWidget)
 {
   InitApplication();
 }
@@ -60,7 +62,7 @@ void MainWindow::InitApplication()
     settings.endGroup();
   }
 
-  setCentralWidget(new QWidget);
+  setCentralWidget(m_editor_widget);
 }
 
 void MainWindow::WriteSettings()
