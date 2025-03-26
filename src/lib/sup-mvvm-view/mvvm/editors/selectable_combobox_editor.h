@@ -82,7 +82,7 @@ private:
   bool IsClickToSelect(QObject* obj, QEvent* event) const;
   bool IsClickToExpand(QObject* obj, QEvent* event) const;
 
-  QComboBox* m_box{nullptr};
+  QComboBox* m_combo_box{nullptr};
   WheelEventFilter* m_wheel_event_filter{nullptr};
   QStandardItemModel* m_model{nullptr};
 };

@@ -66,42 +66,43 @@ public:
 
 SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent_widget)
     : CustomEditor(parent_widget)
-    , m_box(new QComboBox)
+    , m_combo_box(new QComboBox)
     , m_wheel_event_filter(new WheelEventFilter(this))
     , m_model(new QStandardItemModel(this))
 {
   setAutoFillBackground(true);
   setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-  m_box->installEventFilter(m_wheel_event_filter);
-  m_box->view()->viewport()->installEventFilter(this);
+  m_combo_box->installEventFilter(m_wheel_event_filter);
+  m_combo_box->view()->viewport()->installEventFilter(this);
 
   // Editable mode will be used to have None/Multiple labels on top
-  m_box->setEditable(true);
-  m_box->lineEdit()->setReadOnly(true);
-  m_box->lineEdit()->installEventFilter(this);
-  connect(m_box->lineEdit(), &QLineEdit::selectionChanged, m_box->lineEdit(), &QLineEdit::deselect);
+  m_combo_box->setEditable(true);
+  m_combo_box->lineEdit()->setReadOnly(true);
+  m_combo_box->lineEdit()->installEventFilter(this);
+  connect(m_combo_box->lineEdit(), &QLineEdit::selectionChanged, m_combo_box->lineEdit(),
+          &QLineEdit::deselect);
 
   // transforms ordinary combo box into check list
-  m_box->setItemDelegate(new QCheckListStyledItemDelegate(this));
-  m_box->setModel(m_model);
+  m_combo_box->setItemDelegate(new QCheckListStyledItemDelegate(this));
+  m_combo_box->setModel(m_model);
 
   auto layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
-  layout->addWidget(m_box);
+  layout->addWidget(m_combo_box);
   setLayout(layout);
   SetConnected(true);
 }
 
 QSize SelectableComboBoxEditor::sizeHint() const
 {
-  return m_box->sizeHint();
+  return m_combo_box->sizeHint();
 }
 
 QSize SelectableComboBoxEditor::minimumSizeHint() const
 {
-  return m_box->minimumSizeHint();
+  return m_combo_box->minimumSizeHint();
 }
 
 bool SelectableComboBoxEditor::IsPersistent() const
@@ -111,7 +112,7 @@ bool SelectableComboBoxEditor::IsPersistent() const
 
 QComboBox* SelectableComboBoxEditor::GetComboBox()
 {
-  return m_box;
+  return m_combo_box;
 }
 
 void SelectableComboBoxEditor::OnModelDataChanged(const QModelIndex& top_left,
@@ -194,7 +195,7 @@ bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
     // 2) Correctly calculates underlying model index when mouse is over check box style
     // element.
     const auto mouse_event = dynamic_cast<const QMouseEvent*>(event);
-    auto index = m_box->view()->indexAt(mouse_event->pos());
+    auto index = m_combo_box->view()->indexAt(mouse_event->pos());
     OnClickedList(index);
     return true;
   }
@@ -202,7 +203,7 @@ bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
   if (IsClickToExpand(obj, event))
   {
     // Expands box when clicking on None/Multiple label
-    m_box->showPopup();
+    m_combo_box->showPopup();
     return true;
   }
 
@@ -226,17 +227,17 @@ void SelectableComboBoxEditor::SetConnected(bool is_connected)
 void SelectableComboBoxEditor::UpdateBoxLabel()
 {
   auto combo = GetData().value<ComboProperty>();
-  m_box->setCurrentText(QString::fromStdString(combo.GetLabel()));
+  m_combo_box->setCurrentText(QString::fromStdString(combo.GetLabel()));
 }
 
 bool SelectableComboBoxEditor::IsClickToSelect(QObject* obj, QEvent* event) const
 {
-  return obj == m_box->view()->viewport() && event->type() == QEvent::MouseButtonRelease;
+  return obj == m_combo_box->view()->viewport() && event->type() == QEvent::MouseButtonRelease;
 }
 
 bool SelectableComboBoxEditor::IsClickToExpand(QObject* obj, QEvent* event) const
 {
-  return obj == m_box->lineEdit() && event->type() == QEvent::MouseButtonRelease;
+  return obj == m_combo_box->lineEdit() && event->type() == QEvent::MouseButtonRelease;
 }
 
 }  // namespace mvvm

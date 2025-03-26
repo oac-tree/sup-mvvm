@@ -51,10 +51,10 @@ protected slots:
 
 private:
   int GetInternIndex();
-  void SetConnected(bool isConnected);
+  void SetConnected(bool is_connected);
   void UpdateComponents() override;
 
-  QComboBox* m_box{nullptr};
+  QComboBox* m_combo_box{nullptr};
 };
 
 }  // namespace mvvm
