@@ -36,7 +36,7 @@ class MVVM_VIEWMODEL_EXPORT DefaultCellDecorator : public ICellDecorator
 public:
   bool HasCustomDecoration(const QModelIndex& index) const override;
 
-  void InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option) override;
+  void InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option) const override;
 
 protected:
   virtual std::optional<std::string> GetCellText(const QModelIndex& index) const;

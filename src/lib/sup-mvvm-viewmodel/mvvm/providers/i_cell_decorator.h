@@ -52,7 +52,7 @@ public:
   /**
    * @brief Decorate the given style option with our custom decoration.
    */
-  virtual void InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option) = 0;
+  virtual void InitStyleOption(const QModelIndex& index, QStyleOptionViewItem* option) const = 0;
 };
 
 }  // namespace mvvm
