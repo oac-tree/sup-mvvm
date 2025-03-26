@@ -47,7 +47,7 @@ public:
   QComboBox* GetComboBox();
 
 protected slots:
-  virtual void OnIndexChanged(int index);
+  void OnIndexChanged(int index);
 
 private:
   int GetInternIndex();

@@ -20,8 +20,10 @@
 #ifndef MVVM_EDITORS_STRING_COMPLETER_COMBO_EDITOR_H_
 #define MVVM_EDITORS_STRING_COMPLETER_COMBO_EDITOR_H_
 
+#include <QStringList>
 #include <QVariant>
 #include <QWidget>
+#include <functional>
 
 class QComboBox;
 
@@ -36,20 +38,32 @@ class StringCompleterComboEditor : public QWidget
   Q_PROPERTY(QVariant value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-  explicit StringCompleterComboEditor(QWidget* parent_widget = nullptr);
+  using string_list_func_t = std::function<QStringList()>;
+
+  explicit StringCompleterComboEditor(const string_list_func_t& func,
+                                      QWidget* parent_widget = nullptr);
 
   QVariant value() const;
 
   void setValue(const QVariant& value);
 
+  /**
+   * @brief Returns underlying combo box.
+   */
+  QComboBox* GetComboBox() const;
+
 signals:
   void valueChanged(const QVariant& value);
 
 private:
-  void OnEditingFinished(double value);
+  void OnIndexChanged(int index);
+  void OnEditTextChanged(const QString& text);
+  void OnEditingFinished();
+  void SetConnected(bool isConnected);
 
   QVariant m_value;
-  QComboBox* m_box{nullptr};
+  string_list_func_t m_string_list_func;
+  QComboBox* m_combo_box{nullptr};
 };
 
 }  // namespace mvvm
