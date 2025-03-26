@@ -17,41 +17,30 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "string_completer_combo_editor.h"
+#ifndef CUSTOMEDITORS_CUSTOMEDITORSCORE_MAIN_WINDOW_H_
+#define CUSTOMEDITORS_CUSTOMEDITORSCORE_MAIN_WINDOW_H_
 
-#include <QComboBox>
-#include <QVBoxLayout>
+#include <QMainWindow>
 
-namespace mvvm
+namespace customeditors
 {
 
-StringCompleterComboEditor::StringCompleterComboEditor(QWidget *parent_widget)
-    : QWidget(parent_widget)
+class MainWindow : public QMainWindow
 {
-  setAutoFillBackground(true);
+  Q_OBJECT
 
-  m_box->setEditable(true);
+public:
+  MainWindow();
+  ~MainWindow() override;
 
-  auto layout = new QVBoxLayout;
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
-  layout->addWidget(m_box);
-  setLayout(layout);
-}
+protected:
+  void closeEvent(QCloseEvent* event) override;
 
-QVariant StringCompleterComboEditor::value() const
-{
-  return m_value;
-}
+private:
+  void InitApplication();
+  void WriteSettings();
+};
 
-void StringCompleterComboEditor::setValue(const QVariant &value)
-{
-  m_value = value;
-}
+}  // namespace celleditors
 
-void StringCompleterComboEditor::OnEditingFinished(double value)
-{
-  (void)value;
-}
-
-}  // namespace mvvm
+#endif  // CUSTOMEDITORS_CUSTOMEDITORSCORE_MAIN_WINDOW_H_

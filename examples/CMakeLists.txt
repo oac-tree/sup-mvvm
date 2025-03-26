@@ -4,6 +4,7 @@ endif()
 
 add_subdirectory(celleditors)
 add_subdirectory(collidingmice)
+add_subdirectory(customeditors)
 add_subdirectory(dragandmove)
 add_subdirectory(flatview)
 add_subdirectory(hello-world)

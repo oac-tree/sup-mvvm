@@ -17,41 +17,19 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "string_completer_combo_editor.h"
+#include "customeditorscore/main_window.h"
 
-#include <QComboBox>
-#include <QVBoxLayout>
+#include <QApplication>
+#include <QLocale>
 
-namespace mvvm
+int main(int argc, char** argv)
 {
+  QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
 
-StringCompleterComboEditor::StringCompleterComboEditor(QWidget *parent_widget)
-    : QWidget(parent_widget)
-{
-  setAutoFillBackground(true);
+  QApplication app(argc, argv);
 
-  m_box->setEditable(true);
+  customeditors::MainWindow win;
+  win.show();
 
-  auto layout = new QVBoxLayout;
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
-  layout->addWidget(m_box);
-  setLayout(layout);
+  return app.exec();
 }
-
-QVariant StringCompleterComboEditor::value() const
-{
-  return m_value;
-}
-
-void StringCompleterComboEditor::setValue(const QVariant &value)
-{
-  m_value = value;
-}
-
-void StringCompleterComboEditor::OnEditingFinished(double value)
-{
-  (void)value;
-}
-
-}  // namespace mvvm
