@@ -20,10 +20,14 @@
 #include "mvvm/editors/string_completer_editor.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
+#include <QCompleter>
 #include <QLineEdit>
+#include <QSignalSpy>
+#include <QStringListModel>
 
 using namespace mvvm;
 
@@ -38,17 +42,45 @@ TEST_F(StringCompleterEditorTest, InitialState)
 {
   EXPECT_THROW(StringCompleterEditor({}, nullptr), RuntimeException);
 
-  StringCompleterEditor editor([]() -> QStringList { return {}; });
+  const StringCompleterEditor editor([]() -> QStringList { return {}; });
   EXPECT_TRUE(editor.GetLineEdit()->text().isEmpty());
   EXPECT_FALSE(editor.value().isValid());
+  EXPECT_EQ(editor.GetCompleter()->model()->rowCount(), 0);
+  EXPECT_EQ(editor.GetCompleter()->model()->columnCount(), 1);
 }
 
 TEST_F(StringCompleterEditorTest, InitialStateWHenCallbackDefined)
 {
   const QStringList options({"ABC", "ABC-DEF"});
-  auto get_string_list_func = [&options]() { return options; };
+  auto get_string_list_func = [options]() { return options; };
 
   StringCompleterEditor editor(get_string_list_func);
   EXPECT_TRUE(editor.GetLineEdit()->text().isEmpty());
   EXPECT_FALSE(editor.value().isValid());
+  EXPECT_EQ(editor.GetCompleter()->model()->rowCount(), 2);
+  EXPECT_EQ(editor.GetCompleter()->model()->columnCount(), 1);
+}
+
+TEST_F(StringCompleterEditorTest, SetValue)
+{
+  const QStringList options({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [options]() { return options; };
+
+  StringCompleterEditor editor(get_string_list_func);
+
+  QSignalSpy spy_value_changed(&editor, &StringCompleterEditor::valueChanged);
+
+  const QString str_value("hello");
+  editor.setValue(QVariant::fromValue(str_value));
+
+  EXPECT_EQ(editor.GetLineEdit()->text(), str_value);
+  EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
+  ASSERT_EQ(spy_value_changed.count(), 1);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
+
+  // setting same value again
+  editor.setValue(QVariant::fromValue(str_value));
+  EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
+  ASSERT_EQ(spy_value_changed.count(), 0);
 }

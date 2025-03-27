@@ -21,15 +21,24 @@
 
 #include <mvvm/core/exceptions.h>
 
+#include <QCompleter>
 #include <QDebug>
+#include <QHeaderView>
 #include <QLineEdit>
+#include <QStringListModel>
+#include <QTreeView>
 #include <QVBoxLayout>
 
 namespace mvvm
 {
 
 StringCompleterEditor::StringCompleterEditor(const string_list_func_t &func, QWidget *parent_widget)
-    : QWidget(parent_widget), m_string_list_func(func), m_line_edit(new QLineEdit)
+    : QWidget(parent_widget)
+    , m_string_list_func(func)
+    , m_line_edit(new QLineEdit)
+    , m_completer(new QCompleter(this))
+    , m_completer_view(new QTreeView)
+    , m_completer_model(new QStringListModel(this))
 {
   if (!m_string_list_func)
   {
@@ -44,6 +53,8 @@ StringCompleterEditor::StringCompleterEditor(const string_list_func_t &func, QWi
   layout->addWidget(m_line_edit);
   setLayout(layout);
 
+  UpdateCompleterModel();
+  SetupCompleter();
   SetConnected(true);
 }
 
@@ -54,7 +65,13 @@ QVariant StringCompleterEditor::value() const
 
 void StringCompleterEditor::setValue(const QVariant &value)
 {
-  m_value = value;
+  if (m_value != value)
+  {
+    m_value = value;
+    m_line_edit->setText(value.toString());
+    qDebug() << "emitting valueChanged";
+    emit valueChanged(m_value);
+  }
 }
 
 QLineEdit *StringCompleterEditor::GetLineEdit() const
@@ -62,9 +79,36 @@ QLineEdit *StringCompleterEditor::GetLineEdit() const
   return m_line_edit;
 }
 
+QCompleter *StringCompleterEditor::GetCompleter() const
+{
+  return m_completer;
+}
+
 void StringCompleterEditor::OnEditingFinished()
 {
-  qDebug() << "StringCompleterEditor::OnEditingFinished";
+  qDebug() << "StringCompleterEditor::OnEditingFinished" << m_line_edit->text();
+  const QVariant new_value(m_line_edit->text());
+  if (m_value != new_value)
+  {
+    m_value = new_value;
+    qDebug() << "emitting valueChanged";
+    emit valueChanged(new_value);
+  }
+}
+
+void StringCompleterEditor::UpdateCompleterModel()
+{
+  m_completer_model->setStringList(m_string_list_func());
+}
+
+void StringCompleterEditor::SetupCompleter()
+{
+  m_completer->setModel(m_completer_model);
+  m_completer->setPopup(m_completer_view);
+  m_completer_view->setRootIsDecorated(false);
+  m_completer_view->header()->hide();
+
+  m_line_edit->setCompleter(m_completer);
 }
 
 void StringCompleterEditor::SetConnected(bool is_connected)

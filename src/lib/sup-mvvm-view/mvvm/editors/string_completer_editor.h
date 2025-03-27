@@ -26,6 +26,9 @@
 #include <functional>
 
 class QLineEdit;
+class QCompleter;
+class QTreeView;
+class QStringListModel;
 
 namespace mvvm
 {
@@ -51,16 +54,26 @@ public:
    */
   QLineEdit* GetLineEdit() const;
 
+  /**
+   * @brief Returns underlying string completer.
+   */
+  QCompleter* GetCompleter() const;
+
 signals:
   void valueChanged(const QVariant& value);
 
 private:
   void OnEditingFinished();
+  void UpdateCompleterModel();
+  void SetupCompleter();
   void SetConnected(bool isConnected);
 
   QVariant m_value;
   string_list_func_t m_string_list_func;
   QLineEdit* m_line_edit{nullptr};
+  QCompleter* m_completer{nullptr};
+  QTreeView* m_completer_view{nullptr};
+  QStringListModel* m_completer_model{nullptr};
 };
 
 }  // namespace mvvm
