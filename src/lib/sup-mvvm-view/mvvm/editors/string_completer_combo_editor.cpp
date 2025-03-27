@@ -23,8 +23,8 @@
 
 #include <QComboBox>
 #include <QDebug>
-#include <QVBoxLayout>
 #include <QLineEdit>
+#include <QVBoxLayout>
 
 namespace mvvm
 {
@@ -41,13 +41,14 @@ StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t 
   setAutoFillBackground(true);
 
   m_combo_box->setEditable(true);
-  m_combo_box->insertItems(0, m_string_list_func());
 
   auto layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
   layout->addWidget(m_combo_box);
   setLayout(layout);
+
+  UpdateComboBox();
 
   SetConnected(true);
 }
@@ -65,6 +66,18 @@ void StringCompleterComboEditor::setValue(const QVariant &value)
 QComboBox *StringCompleterComboEditor::GetComboBox() const
 {
   return m_combo_box;
+}
+
+void StringCompleterComboEditor::UpdateComboBox()
+{
+  m_combo_box->clear();
+  auto text_list = m_string_list_func();
+  if (!text_list.isEmpty())
+  {
+    // always empty entry first
+    text_list.prepend(QString());
+  }
+  m_combo_box->insertItems(0, text_list);
 }
 
 void StringCompleterComboEditor::OnIndexChanged(int index)

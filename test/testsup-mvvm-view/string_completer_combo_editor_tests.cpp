@@ -32,6 +32,17 @@ using namespace mvvm;
  */
 class StringCompleterComboEditorTest : public ::testing::Test
 {
+public:
+  static QStringList GetStringList(QComboBox* combo)
+  {
+    QStringList result;
+    for (int i = 0; i < combo->count(); ++i)
+    {
+      result.append(combo->itemText(i));
+    }
+
+    return result;
+  }
 };
 
 TEST_F(StringCompleterComboEditorTest, InitialState)
@@ -40,6 +51,7 @@ TEST_F(StringCompleterComboEditorTest, InitialState)
 
   StringCompleterComboEditor editor([]() -> QStringList { return {}; });
   EXPECT_EQ(editor.GetComboBox()->currentIndex(), -1);
+  EXPECT_EQ(editor.GetComboBox()->currentText(), QString());
   EXPECT_FALSE(editor.value().isValid());
 }
 
@@ -50,5 +62,10 @@ TEST_F(StringCompleterComboEditorTest, InitialStateWHenCallbackDefined)
 
   StringCompleterComboEditor editor(get_string_list_func);
   EXPECT_EQ(editor.GetComboBox()->currentIndex(), 0);
+  EXPECT_EQ(editor.GetComboBox()->currentText(), QString());
   EXPECT_FALSE(editor.value().isValid());
+
+  // combo options contains empty string in front
+  QStringList combo_options = QStringList() << QString("") << options;
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), combo_options);
 }

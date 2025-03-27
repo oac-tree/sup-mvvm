@@ -56,6 +56,7 @@ signals:
   void valueChanged(const QVariant& value);
 
 private:
+  void UpdateComboBox();
   void OnIndexChanged(int index);
   void OnEditTextChanged(const QString& text);
   void OnEditingFinished();
