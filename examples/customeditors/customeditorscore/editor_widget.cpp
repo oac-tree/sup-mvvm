@@ -20,8 +20,10 @@
 #include "editor_widget.h"
 
 #include <mvvm/editors/string_completer_combo_editor.h>
+#include <mvvm/editors/string_completer_editor.h>
 
 #include <QVBoxLayout>
+#include <QLineEdit>
 
 namespace customeditors
 {
@@ -43,9 +45,12 @@ mvvm::StringCompleterComboEditor::string_list_func_t CreateStringFunc()
 EditorWidget::EditorWidget(QWidget *parent_widget)
     : QWidget(parent_widget)
     , m_combo_editor(new mvvm::StringCompleterComboEditor(CreateStringFunc()))
+    , m_line_editor(new mvvm::StringCompleterEditor(CreateStringFunc()))
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_combo_editor);
+  layout->addWidget(m_line_editor);
+  layout->addWidget(new QLineEdit);
 }
 
 }  // namespace customeditors

@@ -25,6 +25,7 @@
 namespace mvvm
 {
 class StringCompleterComboEditor;
+class StringCompleterEditor;
 }
 
 namespace customeditors
@@ -39,6 +40,7 @@ public:
 
 private:
   mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
+  mvvm::StringCompleterEditor* m_line_editor{nullptr};
 };
 
 }  // namespace customeditors

@@ -1,5 +1,3 @@
-# Example "celleditors"
+# Example "customeditors"
 
-Demonstrate various editors available while editing cell content.
-
-![celleditors](celleditors.png)
+Demonstrate how to implement custom string editor with auto - complete feature.

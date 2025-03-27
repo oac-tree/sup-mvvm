@@ -23,8 +23,8 @@
 
 #include <QComboBox>
 #include <QDebug>
-#include <QLineEdit>
 #include <QVBoxLayout>
+#include <QLineEdit>
 
 namespace mvvm
 {
@@ -47,7 +47,6 @@ StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t 
   layout->setContentsMargins(0, 0, 0, 0);
   layout->setSpacing(0);
   layout->addWidget(m_combo_box);
-  layout->addWidget(new QLineEdit);
   setLayout(layout);
 
   SetConnected(true);
