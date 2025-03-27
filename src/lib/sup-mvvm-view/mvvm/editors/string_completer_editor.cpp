@@ -23,6 +23,7 @@
 
 #include <QCompleter>
 #include <QDebug>
+#include <QEvent>
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QStringListModel>
@@ -52,10 +53,13 @@ StringCompleterEditor::StringCompleterEditor(const string_list_func_t &func, QWi
   layout->setSpacing(0);
   layout->addWidget(m_line_edit);
   setLayout(layout);
+  // setFocusProxy(m_line_edit);
 
   UpdateCompleterModel();
   SetupCompleter();
   SetConnected(true);
+
+  m_line_edit->installEventFilter(this);
 }
 
 QVariant StringCompleterEditor::value() const
@@ -84,6 +88,15 @@ QCompleter *StringCompleterEditor::GetCompleter() const
   return m_completer;
 }
 
+// bool StringCompleterEditor::eventFilter(QObject *object, QEvent *event)
+// {
+//   if (event->type() == QEvent::FocusIn)
+//   {
+//     qDebug() << "focusIn" << object << event;
+//   }
+//   return false;
+// }
+
 void StringCompleterEditor::OnEditingFinished()
 {
   qDebug() << "StringCompleterEditor::OnEditingFinished" << m_line_edit->text();
@@ -105,6 +118,7 @@ void StringCompleterEditor::SetupCompleter()
 {
   m_completer->setModel(m_completer_model);
   m_completer->setPopup(m_completer_view);
+  // m_completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
   m_completer_view->setRootIsDecorated(false);
   m_completer_view->header()->hide();
 
