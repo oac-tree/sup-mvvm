@@ -24,6 +24,7 @@
 #include <QCompleter>
 #include <QDebug>
 #include <QEvent>
+#include <QFocusEvent>
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QStringListModel>
@@ -88,14 +89,23 @@ QCompleter *StringCompleterEditor::GetCompleter() const
   return m_completer;
 }
 
-// bool StringCompleterEditor::eventFilter(QObject *object, QEvent *event)
-// {
-//   if (event->type() == QEvent::FocusIn)
-//   {
-//     qDebug() << "focusIn" << object << event;
-//   }
-//   return false;
-// }
+bool StringCompleterEditor::eventFilter(QObject *object, QEvent *event)
+{
+  if (event->type() == QEvent::FocusIn)
+  {
+    qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
+    UpdateCompleterModel();
+  }
+
+  return QWidget::eventFilter(object, event);
+}
+
+void StringCompleterEditor::focusInEvent(QFocusEvent *event)
+{
+  qDebug() << "StringCompleterEditor::focusInEvent " << event;
+
+  QWidget::focusInEvent(event);
+}
 
 void StringCompleterEditor::OnEditingFinished()
 {
@@ -111,7 +121,13 @@ void StringCompleterEditor::OnEditingFinished()
 
 void StringCompleterEditor::UpdateCompleterModel()
 {
-  m_completer_model->setStringList(m_string_list_func());
+  auto new_list = m_string_list_func();
+  qDebug() << "Updating completer model" << new_list << "prev" << m_completer_model->stringList();
+  if (m_completer_model->stringList() != new_list)
+  {
+    qDebug() << "Updated";
+    m_completer_model->setStringList(new_list);
+  }
 }
 
 void StringCompleterEditor::SetupCompleter()

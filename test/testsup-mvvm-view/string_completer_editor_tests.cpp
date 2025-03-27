@@ -28,6 +28,7 @@
 #include <QLineEdit>
 #include <QSignalSpy>
 #include <QStringListModel>
+#include <QTest>
 
 using namespace mvvm;
 
@@ -83,4 +84,27 @@ TEST_F(StringCompleterEditorTest, SetValue)
   editor.setValue(QVariant::fromValue(str_value));
   EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
   ASSERT_EQ(spy_value_changed.count(), 0);
+}
+
+//! Validating that completer model is updated at the moment of focus event.
+TEST_F(StringCompleterEditorTest, SetFocus)
+{
+  QStringList options({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&options]() { return options; };
+
+  StringCompleterEditor editor(get_string_list_func);
+
+  EXPECT_EQ(editor.GetCompleter()->model()->rowCount(), 2);
+
+  // modifying options
+  options = QStringList({"AAA"});
+
+  // the only working way to test focus event
+  // QTest::mousePress(editor.GetLineEdit(), Qt::LeftButton, Qt::NoModifier);
+  // editor.GetLineEdit()->setFocus(Qt::OtherFocusReason);
+  QFocusEvent* focus_event = new QFocusEvent(QEvent::FocusIn, Qt::OtherFocusReason);
+  QCoreApplication::postEvent(editor.GetLineEdit(), focus_event);
+  QCoreApplication::processEvents();
+
+  EXPECT_EQ(editor.GetCompleter()->model()->rowCount(), 1);
 }

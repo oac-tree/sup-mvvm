@@ -121,7 +121,13 @@ void EditorWidget::SetupTreeViews()
 
 EditorWidget::string_list_func_t EditorWidget::CreateStringListFunc() const
 {
-  return [this]() { return GetListFromString(m_complete_list_edit->text()); };
+  return [this]()
+  {
+    qDebug() << "Generating list";
+    auto result = GetListFromString(m_complete_list_edit->text());
+    qDebug() << m_complete_list_edit->text() << result;
+    return result;
+  };
 }
 
 }  // namespace customeditors
