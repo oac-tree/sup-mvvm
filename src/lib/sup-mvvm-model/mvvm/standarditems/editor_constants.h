@@ -38,6 +38,8 @@ const std::string kIntegerEditorType = "IntegerEditor";
 const std::string kDoubleEditorType = "DoubleEditor";
 const std::string kAllIntSpinBoxEditorType = "AllIntSpinBoxEditor";
 const std::string kFloatSpinBoxEditorType = "kFloatSpinBoxEditorType";
+const std::string kStringCompleterEditorType = "kStringCompleterEditorType";
+const std::string kComboCompleterEditorType = "kComboCompleterEditorType";
 
 const int kDefaultDoubleDecimals = 4;  //! number of digits after decimal points
 

@@ -19,8 +19,12 @@
 
 #include "editor_widget.h"
 
+#include "custom_model.h"
+
 #include <mvvm/editors/string_completer_combo_editor.h>
 #include <mvvm/editors/string_completer_editor.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/views/component_provider_helper.h>
 
 #include <QDebug>
 #include <QHBoxLayout>
@@ -37,12 +41,15 @@ namespace
 
 const QStringList kInitAutocompleteOptions = {"ABC", "ABC-DEF", "ABC-DEF", "ABC-DEF-XYZ"};
 
+/**
+ * @brief Returns list from comma separated string.
+ */
 QStringList GetListFromString(const QString& str)
 {
-  QStringList splitted = str.split(",");
+  const QStringList splitted = str.split(",");
   QStringList result;
   std::transform(splitted.begin(), splitted.end(), std::back_inserter(result),
-                 [](auto element) { return element.trimmed(); });
+                 [](auto& element) { return element.trimmed(); });
   return result;
 }
 
@@ -54,6 +61,7 @@ EditorWidget::EditorWidget(QWidget* parent_widget)
     , m_left_tree_view(new QTreeView)
     , m_right_tree_view(new QTreeView)
     , m_grid_layout(new QGridLayout)
+    , m_custom_model(std::make_unique<CustomModel>())
 {
   auto layout = new QVBoxLayout(this);
 
@@ -76,6 +84,21 @@ EditorWidget::EditorWidget(QWidget* parent_widget)
 
   layout->addLayout(m_grid_layout);
   layout->addLayout(horizontal_layout);
+
+  SetupTreeViews();
+}
+
+EditorWidget::~EditorWidget() = default;
+
+void EditorWidget::SetupTreeViews()
+{
+  m_left_provider =
+      mvvm::CreateProvider<mvvm::AllItemsViewModel>(m_left_tree_view, m_custom_model.get());
+  m_right_provider =
+      mvvm::CreateProvider<mvvm::AllItemsViewModel>(m_right_tree_view, m_custom_model.get());
+
+  m_left_tree_view->expandAll();
+  m_right_tree_view->expandAll();
 }
 
 EditorWidget::string_list_func_t EditorWidget::CreateStringListFunc() const

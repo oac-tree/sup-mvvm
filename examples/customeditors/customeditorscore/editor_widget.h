@@ -23,6 +23,8 @@
 #include <QWidget>
 #include <QStringList>
 
+#include <memory>
+
 class QGridLayout;
 class QLineEdit;
 class QTreeView;
@@ -31,11 +33,18 @@ namespace mvvm
 {
 class StringCompleterComboEditor;
 class StringCompleterEditor;
+class AllItemsViewModel;
+class ItemViewComponentProvider;
 }  // namespace mvvm
 
 namespace customeditors
 {
 
+class CustomModel;
+
+/**
+ * @brief The EditorWidget class contains
+ */
 class EditorWidget : public QWidget
 {
   Q_OBJECT
@@ -44,6 +53,7 @@ public:
   using string_list_func_t = std::function<QStringList()>;
 
   explicit EditorWidget(QWidget* parent_widget = nullptr);
+  ~EditorWidget() override;
 
 private:
   /**
@@ -51,12 +61,19 @@ private:
    */
   string_list_func_t CreateStringListFunc() const;
 
+  void SetupTreeViews();
+
   QLineEdit* m_complete_list_edit{nullptr};
   mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
   mvvm::StringCompleterEditor* m_line_editor{nullptr};
   QTreeView* m_left_tree_view{nullptr};
   QTreeView* m_right_tree_view{nullptr};
   QGridLayout* m_grid_layout{nullptr};
+
+  std::unique_ptr<CustomModel> m_custom_model;
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_left_provider;
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_right_provider;
+
 };
 
 }  // namespace customeditors
