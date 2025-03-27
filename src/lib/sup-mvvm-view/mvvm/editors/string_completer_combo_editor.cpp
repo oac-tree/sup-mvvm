@@ -41,6 +41,7 @@ StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t 
   setAutoFillBackground(true);
 
   m_combo_box->setEditable(true);
+  m_combo_box->setInsertPolicy(QComboBox::NoInsert);
 
   auto layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
@@ -60,7 +61,14 @@ QVariant StringCompleterComboEditor::value() const
 
 void StringCompleterComboEditor::setValue(const QVariant &value)
 {
-  m_value = value;
+  qDebug() << "StringCompleterComboEditor::setValue" << m_combo_box->currentText() << value.toString();
+  if (m_value != value)
+  {
+    m_value = value;
+    m_combo_box->setCurrentText(m_value.toString());
+    qDebug() << "emitting valueChanged";
+    emit valueChanged(m_value);
+  }
 }
 
 QComboBox *StringCompleterComboEditor::GetComboBox() const

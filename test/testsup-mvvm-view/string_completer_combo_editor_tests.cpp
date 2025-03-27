@@ -20,10 +20,13 @@
 #include "mvvm/editors/string_completer_combo_editor.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>
 
 #include <QComboBox>
+#include <QSignalSpy>
+#include <QTest>
 
 using namespace mvvm;
 
@@ -58,6 +61,8 @@ TEST_F(StringCompleterComboEditorTest, InitialState)
 TEST_F(StringCompleterComboEditorTest, InitialStateWHenCallbackDefined)
 {
   const QStringList options({"ABC", "ABC-DEF"});
+  // combo options contains empty string in front
+  QStringList expected_combo_options = QStringList() << QString("") << options;
   auto get_string_list_func = [&options]() { return options; };
 
   StringCompleterComboEditor editor(get_string_list_func);
@@ -65,7 +70,32 @@ TEST_F(StringCompleterComboEditorTest, InitialStateWHenCallbackDefined)
   EXPECT_EQ(editor.GetComboBox()->currentText(), QString());
   EXPECT_FALSE(editor.value().isValid());
 
-  // combo options contains empty string in front
-  QStringList combo_options = QStringList() << QString("") << options;
-  EXPECT_EQ(GetStringList(editor.GetComboBox()), combo_options);
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), expected_combo_options);
+}
+
+TEST_F(StringCompleterComboEditorTest, SetValue)
+{
+  const QStringList options({"ABC", "ABC-DEF"});
+  const QStringList expected_combo_options = QStringList() << QString("") << options;
+  auto get_string_list_func = [&options]() { return options; };
+
+  StringCompleterComboEditor editor(get_string_list_func);
+
+  QSignalSpy spy_value_changed(&editor, &StringCompleterComboEditor::valueChanged);
+
+  const QString str_value("hello");
+  editor.setValue(QVariant::fromValue(str_value));
+
+  EXPECT_EQ(editor.GetComboBox()->currentText(), str_value);
+  EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), expected_combo_options);
+  ASSERT_EQ(spy_value_changed.count(), 1);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
+
+  // setting same value again
+  editor.setValue(QVariant::fromValue(str_value));
+  EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), expected_combo_options);
+  ASSERT_EQ(spy_value_changed.count(), 0);
 }
