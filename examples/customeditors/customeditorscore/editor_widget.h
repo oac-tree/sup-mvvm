@@ -20,17 +20,18 @@
 #ifndef CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_
 #define CUSTOMEDITORS_CUSTOMEDITORSCORE_EDITOR_WIDGET_H_
 
-#include <QWidget>
 #include <QStringList>
-
+#include <QWidget>
 #include <memory>
 
 class QGridLayout;
 class QLineEdit;
 class QTreeView;
+class QAbstractItemView;
 
 namespace mvvm
 {
+class ISessionModel;
 class StringCompleterComboEditor;
 class StringCompleterEditor;
 class AllItemsViewModel;
@@ -61,6 +62,11 @@ private:
    */
   string_list_func_t CreateStringListFunc() const;
 
+  /**
+   * @brief Creates a provider to serve given view.
+   */
+  std::unique_ptr<mvvm::ItemViewComponentProvider> CreateCustomProvider(QAbstractItemView* view);
+
   void SetupTreeViews();
 
   QLineEdit* m_complete_list_edit{nullptr};
@@ -73,7 +79,6 @@ private:
   std::unique_ptr<CustomModel> m_custom_model;
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_left_provider;
   std::unique_ptr<mvvm::ItemViewComponentProvider> m_right_provider;
-
 };
 
 }  // namespace customeditors

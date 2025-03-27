@@ -20,6 +20,7 @@
 #ifndef MVVM_VIEWS_COMPONENT_PROVIDER_HELPER_H_
 #define MVVM_VIEWS_COMPONENT_PROVIDER_HELPER_H_
 
+#include <mvvm/views/default_cell_decorator.h>
 #include <mvvm/views/item_view_component_provider.h>
 
 namespace mvvm
@@ -45,9 +46,24 @@ std::unique_ptr<ICellDecorator> CreateDefaultCellDecorator();
 std::unique_ptr<ViewModelDelegate> CreateDefaultViewModelDelegate();
 
 /**
- * @brief Convenience function to create component provider for a view.
+ * @brief Creates viewmodel delegate for given decoration types.
  *
- * @tparam ViewModelT The type of ViewModel which will be created.
+ * @tparam FactoryT The type of cell editor factory.
+ * @tparam DecoratorT The type of cell decorator.
+ */
+template <typename FactoryT, typename DecoratorT = DefaultCellDecorator>
+std::unique_ptr<ViewModelDelegate> CreateViewModelDelegate()
+{
+  return std::make_unique<ViewModelDelegate>(std::make_unique<FactoryT>(),
+                                             std::make_unique<DecoratorT>());
+}
+
+/**
+ * @brief Convenience function to create component provider for a view using given viewmodel type.
+ *
+ * It will create delegate and viewmodel and store them on board of provider.
+ *
+ * @tparam ViewModelT The type of ViewModel.
  * @param view The view which will be served by the provider.
  * @param model The model which will be used to setup viewmodel.
  *
@@ -58,6 +74,26 @@ std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* vie
                                                           ISessionModel* model = nullptr)
 {
   return std::make_unique<ItemViewComponentProvider>(std::make_unique<ViewModelT>(model), view);
+}
+
+/**
+ * @brief Convenience function to create component provider for a view.
+ *
+ * It will create delegate and viewmodel and store them on board of provider.
+ *
+ * @tparam DelegateT The type of the delegate.
+ * @tparam ViewModelT The type of ViewModel.
+ * @param view The view which will be served by the provider.
+ * @param model The model which will be used to setup viewmodel.
+ *
+ * @return Component provider.
+ */
+template <typename DelegateT, typename ViewModelT>
+std::unique_ptr<ItemViewComponentProvider> CreateProvider(QAbstractItemView* view,
+                                                          ISessionModel* model = nullptr)
+{
+  return std::make_unique<ItemViewComponentProvider>(std::make_unique<DelegateT>(model),
+                                                     std::make_unique<ViewModelT>(model), view);
 }
 
 }  // namespace mvvm

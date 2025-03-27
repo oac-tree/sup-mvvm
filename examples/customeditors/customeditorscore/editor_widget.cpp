@@ -19,15 +19,19 @@
 
 #include "editor_widget.h"
 
+#include "custom_editor_factory.h"
 #include "custom_model.h"
 
 #include <mvvm/editors/string_completer_combo_editor.h>
 #include <mvvm/editors/string_completer_editor.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
+#include <mvvm/views/default_cell_decorator.h>
+#include <mvvm/views/viewmodel_delegate.h>
 
 #include <QDebug>
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QTreeView>
@@ -88,17 +92,31 @@ EditorWidget::EditorWidget(QWidget* parent_widget)
   SetupTreeViews();
 }
 
+std::unique_ptr<mvvm::ItemViewComponentProvider> EditorWidget::CreateCustomProvider(
+    QAbstractItemView* view)
+{
+  auto factory = std::make_unique<CustomEditorFactory>(CreateStringListFunc());
+  auto decorator = std::make_unique<mvvm::DefaultCellDecorator>();
+  auto delegate =
+      std::make_unique<mvvm::ViewModelDelegate>(std::move(factory), std::move(decorator));
+  auto viewmodel = std::make_unique<mvvm::AllItemsViewModel>(m_custom_model.get());
+
+  return std::make_unique<mvvm::ItemViewComponentProvider>(std::move(delegate),
+                                                           std::move(viewmodel), view);
+}
+
 EditorWidget::~EditorWidget() = default;
 
 void EditorWidget::SetupTreeViews()
 {
-  m_left_provider =
-      mvvm::CreateProvider<mvvm::AllItemsViewModel>(m_left_tree_view, m_custom_model.get());
-  m_right_provider =
-      mvvm::CreateProvider<mvvm::AllItemsViewModel>(m_right_tree_view, m_custom_model.get());
+  m_left_provider = CreateCustomProvider(m_left_tree_view);
+  m_right_provider = CreateCustomProvider(m_right_tree_view);
 
   m_left_tree_view->expandAll();
   m_right_tree_view->expandAll();
+
+  m_left_tree_view->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+  m_right_tree_view->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 EditorWidget::string_list_func_t EditorWidget::CreateStringListFunc() const
