@@ -61,7 +61,8 @@ QVariant StringCompleterComboEditor::value() const
 
 void StringCompleterComboEditor::setValue(const QVariant &value)
 {
-  qDebug() << "StringCompleterComboEditor::setValue" << m_combo_box->currentText() << value.toString();
+  qDebug() << "StringCompleterComboEditor::setValue" << m_combo_box->currentText()
+           << value.toString();
   if (m_value != value)
   {
     m_value = value;
@@ -91,6 +92,14 @@ void StringCompleterComboEditor::UpdateComboBox()
 void StringCompleterComboEditor::OnIndexChanged(int index)
 {
   qDebug() << "StringCompleterComboEditor::OnIndexChanged" << index;
+
+  auto new_value = QVariant::fromValue(m_combo_box->itemText(index));
+  if (m_value != new_value)
+  {
+    m_value = new_value;
+    qDebug() << "emitting valueChanged";
+    emit valueChanged(m_value);
+  }
 }
 
 void StringCompleterComboEditor::OnEditTextChanged(const QString &text)

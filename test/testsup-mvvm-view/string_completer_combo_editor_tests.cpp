@@ -36,6 +36,9 @@ using namespace mvvm;
 class StringCompleterComboEditorTest : public ::testing::Test
 {
 public:
+  /**
+   * @brief Returns string list made of all combo entry text.
+   */
   static QStringList GetStringList(QComboBox* combo)
   {
     QStringList result;
@@ -45,6 +48,17 @@ public:
     }
 
     return result;
+  }
+
+  /**
+   * @brief Returns list made of combo entries for given completer options.
+   *
+   * To validate StringCompleterComboEditor behavior that always adds an empty entry at the
+   * beginning.
+   */
+  static QStringList GetExpectedComboList(const QStringList& completer_options)
+  {
+    return QStringList() << QString("") << completer_options;
   }
 };
 
@@ -58,26 +72,23 @@ TEST_F(StringCompleterComboEditorTest, InitialState)
   EXPECT_FALSE(editor.value().isValid());
 }
 
-TEST_F(StringCompleterComboEditorTest, InitialStateWHenCallbackDefined)
+TEST_F(StringCompleterComboEditorTest, InitialStateWhenCallbackDefined)
 {
-  const QStringList options({"ABC", "ABC-DEF"});
-  // combo options contains empty string in front
-  QStringList expected_combo_options = QStringList() << QString("") << options;
-  auto get_string_list_func = [&options]() { return options; };
+  const QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_completer_list_func = [&completer_list]() { return completer_list; };
 
-  StringCompleterComboEditor editor(get_string_list_func);
+  StringCompleterComboEditor editor(get_completer_list_func);
   EXPECT_EQ(editor.GetComboBox()->currentIndex(), 0);
   EXPECT_EQ(editor.GetComboBox()->currentText(), QString());
   EXPECT_FALSE(editor.value().isValid());
 
-  EXPECT_EQ(GetStringList(editor.GetComboBox()), expected_combo_options);
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
 }
 
-TEST_F(StringCompleterComboEditorTest, SetValue)
+TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetValue)
 {
-  const QStringList options({"ABC", "ABC-DEF"});
-  const QStringList expected_combo_options = QStringList() << QString("") << options;
-  auto get_string_list_func = [&options]() { return options; };
+  const QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&completer_list]() { return completer_list; };
 
   StringCompleterComboEditor editor(get_string_list_func);
 
@@ -88,7 +99,7 @@ TEST_F(StringCompleterComboEditorTest, SetValue)
 
   EXPECT_EQ(editor.GetComboBox()->currentText(), str_value);
   EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
-  EXPECT_EQ(GetStringList(editor.GetComboBox()), expected_combo_options);
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
   ASSERT_EQ(spy_value_changed.count(), 1);
 
   EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
@@ -96,6 +107,28 @@ TEST_F(StringCompleterComboEditorTest, SetValue)
   // setting same value again
   editor.setValue(QVariant::fromValue(str_value));
   EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
-  EXPECT_EQ(GetStringList(editor.GetComboBox()), expected_combo_options);
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
   ASSERT_EQ(spy_value_changed.count(), 0);
+}
+
+TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetIndex)
+{
+  const QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&completer_list]() { return completer_list; };
+
+  StringCompleterComboEditor editor(get_string_list_func);
+
+  QSignalSpy spy_value_changed(&editor, &StringCompleterComboEditor::valueChanged);
+
+  const int selected_combo_index{1};
+  editor.GetComboBox()->setCurrentIndex(selected_combo_index);
+
+  const QString expected_str_value{"ABC"};
+  EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
+  EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
+  ASSERT_EQ(spy_value_changed.count(), 1);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
+            QVariant::fromValue(expected_str_value));
 }
