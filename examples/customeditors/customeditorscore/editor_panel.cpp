@@ -32,6 +32,7 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
+#include <QLineEdit>
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -43,38 +44,42 @@ EditorPanel::EditorPanel(CustomModel* model, const std::function<QStringList()>&
     : QWidget(parent_widget)
     , m_model(model)
     , m_completer_list_func(string_list_func)
-    , m_line_editor(new mvvm::StringCompleterEditor(m_completer_list_func))
-    , m_combo_editor(new mvvm::StringCompleterComboEditor(m_completer_list_func))
+    , m_line_edit(new QLineEdit)
+    , m_line_completer_editor(new mvvm::StringCompleterEditor(m_completer_list_func))
+    , m_combo_completer_editor(new mvvm::StringCompleterComboEditor(m_completer_list_func))
     , m_tree_view(new QTreeView)
     , m_grid_layout(new QGridLayout)
 {
   auto layout = new QVBoxLayout(this);
 
-  m_grid_layout->addWidget(new QLabel("String completer"), 1, 0);
-  m_grid_layout->addWidget(m_line_editor, 1, 1);
+  m_grid_layout->addWidget(new QLabel("Line edit"), 0, 0);
+  m_grid_layout->addWidget(m_line_edit, 0, 1);
 
-  m_grid_layout->addWidget(new QLabel("Combo completer"), 2, 0);
-  m_grid_layout->addWidget(m_combo_editor, 2, 1);
+  m_grid_layout->addWidget(new QLabel("String completer"), 2, 0);
+  m_grid_layout->addWidget(m_line_completer_editor, 2, 1);
+
+  m_grid_layout->addWidget(new QLabel("Combo completer"), 3, 0);
+  m_grid_layout->addWidget(m_combo_completer_editor, 3, 1);
 
   layout->addLayout(m_grid_layout);
   layout->addWidget(m_tree_view);
 
   SetupTreeViews();
-
-  // connect(m_line_editor, &mvvm::StringCompleterEditor::valueChanged, this,
-  //         [this](auto variant) { emit LineEditValueChanged(variant.toString()); });
-  // connect(m_combo_editor, &mvvm::StringCompleterComboEditor::valueChanged, this,
-  //         [this](auto variant) { emit ComboEditorValueChanged(variant.toString()); });
 }
 
-void EditorPanel::SetLineEditValue(const QString& str)
+QLineEdit* EditorPanel::GetLineEdit()
 {
-  m_line_editor->setValue(str);
+  return m_line_edit;
 }
 
-void EditorPanel::SetComboEditorValue(const QString& str)
+mvvm::StringCompleterEditor* EditorPanel::GetLineCompleterEditor()
 {
-  m_combo_editor->setValue(str);
+  return m_line_completer_editor;
+}
+
+mvvm::StringCompleterComboEditor* EditorPanel::GetComboCompleterEditor()
+{
+  return m_combo_completer_editor;
 }
 
 EditorPanel::~EditorPanel() = default;

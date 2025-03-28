@@ -74,10 +74,14 @@ EditorWidget::EditorWidget(QWidget* parent_widget)
   layout->addLayout(horizontal_layout0);
   layout->addLayout(horizontal_layout1);
 
-  connect(m_left_panel, &EditorPanel::LineEditValueChanged, m_right_panel,
-          &EditorPanel::SetLineEditValue);
-  connect(m_left_panel, &EditorPanel::ComboEditorValueChanged, m_right_panel,
-          &EditorPanel::SetComboEditorValue);
+  connect(m_left_panel->GetLineEdit(), &QLineEdit::editingFinished, m_right_panel->GetLineEdit(),
+          [this]() { m_right_panel->GetLineEdit()->setText(m_left_panel->GetLineEdit()->text()); });
+
+  connect(m_left_panel->GetLineCompleterEditor(), &mvvm::StringCompleterEditor::valueChanged,
+          m_right_panel->GetLineCompleterEditor(), &mvvm::StringCompleterEditor::setValue);
+
+  connect(m_left_panel->GetComboCompleterEditor(), &mvvm::StringCompleterComboEditor::valueChanged,
+          m_right_panel->GetComboCompleterEditor(), &mvvm::StringCompleterComboEditor::setValue);
 }
 
 EditorWidget::~EditorWidget() = default;

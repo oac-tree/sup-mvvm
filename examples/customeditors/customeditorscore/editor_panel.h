@@ -27,6 +27,7 @@
 class QGridLayout;
 class QTreeView;
 class QAbstractItemView;
+class QLineEdit;
 
 namespace mvvm
 {
@@ -58,13 +59,9 @@ public:
                        QWidget* parent_widget = nullptr);
   ~EditorPanel() override;
 
-  void SetLineEditValue(const QString& str);
-
-  void SetComboEditorValue(const QString& str);
-
-signals:
-  void LineEditValueChanged(const QString& str);
-  void ComboEditorValueChanged(const QString& str);
+  QLineEdit* GetLineEdit();
+  mvvm::StringCompleterEditor *GetLineCompleterEditor();
+  mvvm::StringCompleterComboEditor *GetComboCompleterEditor();
 
 private:
   /**
@@ -77,8 +74,9 @@ private:
   CustomModel* m_model{nullptr};
   completer_list_func_t m_completer_list_func;
 
-  mvvm::StringCompleterEditor* m_line_editor{nullptr};
-  mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
+  QLineEdit* m_line_edit{nullptr};
+  mvvm::StringCompleterEditor* m_line_completer_editor{nullptr};
+  mvvm::StringCompleterComboEditor* m_combo_completer_editor{nullptr};
   QTreeView* m_tree_view{nullptr};
   QGridLayout* m_grid_layout{nullptr};
 
