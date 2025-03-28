@@ -74,10 +74,10 @@ EditorWidget::EditorWidget(QWidget* parent_widget)
   layout->addLayout(horizontal_layout0);
   layout->addLayout(horizontal_layout1);
 
-  // connect(m_left_panel, &EditorPanel::LineEditValueChanged, m_right_panel,
-  //         &EditorPanel::SetLineEditValue);
-  // connect(m_left_panel, &EditorPanel::ComboEditorValueChanged, m_right_panel,
-  //         &EditorPanel::SetComboEditorValue);
+  connect(m_left_panel, &EditorPanel::LineEditValueChanged, m_right_panel,
+          &EditorPanel::SetLineEditValue);
+  connect(m_left_panel, &EditorPanel::ComboEditorValueChanged, m_right_panel,
+          &EditorPanel::SetComboEditorValue);
 }
 
 EditorWidget::~EditorWidget() = default;

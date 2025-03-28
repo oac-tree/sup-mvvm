@@ -92,28 +92,26 @@ QStringList StringCompleterComboEditor::GetStringList()
   return result;
 }
 
-// bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
-// {
-//   if (event->type() == QEvent::FocusIn)
-//   {
-//     qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
-//     UpdateComboBox();
-//   }
+bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
+{
+  if (event->type() == QEvent::FocusIn)
+  {
+    qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
+    UpdateComboBox();
+  }
 
-//   return QWidget::eventFilter(object, event);
-// }
+  return QWidget::eventFilter(object, event);
+}
 
 void StringCompleterComboEditor::UpdateComboBox()
 {
   auto text_list = m_string_list_func();
 
-  m_combo_box->clear();
-  if (!text_list.isEmpty())
+  if (text_list != GetStringList())
   {
-    // always empty entry first
-    text_list.prepend(QString());
+    m_combo_box->clear();
+    m_combo_box->insertItems(0, text_list);
   }
-  m_combo_box->insertItems(0, text_list);
 }
 
 void StringCompleterComboEditor::OnIndexChanged(int index)

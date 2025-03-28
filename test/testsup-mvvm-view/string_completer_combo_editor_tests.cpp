@@ -36,17 +36,6 @@ using namespace mvvm;
  */
 class StringCompleterComboEditorTest : public ::testing::Test
 {
-public:
-  /**
-   * @brief Returns list made of combo entries for given completer options.
-   *
-   * To validate StringCompleterComboEditor behavior that always adds an empty entry at the
-   * beginning.
-   */
-  static QStringList GetExpectedComboList(const QStringList& completer_options)
-  {
-    return QStringList() << QString("") << completer_options;
-  }
 };
 
 TEST_F(StringCompleterComboEditorTest, InitialState)
@@ -66,10 +55,10 @@ TEST_F(StringCompleterComboEditorTest, InitialStateWhenCallbackDefined)
 
   StringCompleterComboEditor editor(get_completer_list_func);
   EXPECT_EQ(editor.GetComboBox()->currentIndex(), 0);
-  EXPECT_EQ(editor.GetComboBox()->currentText(), QString());
+  EXPECT_EQ(editor.GetComboBox()->currentText(), completer_list.at(0));
   EXPECT_FALSE(editor.value().isValid());
 
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
 }
 
 TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetValue)
@@ -86,7 +75,7 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetValue)
 
   EXPECT_EQ(editor.GetComboBox()->currentText(), str_value);
   EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 1);
 
   EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed), QVariant::fromValue(str_value));
@@ -94,7 +83,7 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetValue)
   // setting same value again
   editor.setValue(QVariant::fromValue(str_value));
   EXPECT_EQ(editor.value(), QVariant::fromValue(str_value));
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 0);
 }
 
@@ -110,10 +99,10 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetIndex)
   const int selected_combo_index{1};
   editor.GetComboBox()->setCurrentIndex(selected_combo_index);
 
-  const QString expected_str_value{"ABC"};
+  const QString expected_str_value{"ABC-DEF"};
   EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
   EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 1);
 
   EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
@@ -137,7 +126,7 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnEditingFinished)
 
   EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
   EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
   ASSERT_EQ(spy_value_changed.count(), 1);
 
   EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
@@ -145,16 +134,16 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnEditingFinished)
 }
 
 //! Validating that completer model is updated at the moment of focus event.
-TEST_F(StringCompleterComboEditorTest, SetFocus)
+TEST_F(StringCompleterComboEditorTest, SetFocusWhenCompleterListChanged)
 {
   QStringList completer_list({"ABC", "ABC-DEF"});
   auto get_string_list_func = [&completer_list]() { return completer_list; };
 
   StringCompleterComboEditor editor(get_string_list_func);
 
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
 
-  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 3);
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 2);
 
   // modifying options
   completer_list = QStringList({"AAA"});
@@ -163,6 +152,32 @@ TEST_F(StringCompleterComboEditorTest, SetFocus)
   QCoreApplication::postEvent(editor.GetComboBox(), focus_event);
   QCoreApplication::processEvents();
 
-  EXPECT_EQ(editor.GetStringList(), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 1);
+}
+
+//! Validating that focus event doesn't erase current combo index
+TEST_F(StringCompleterComboEditorTest, SetFocusWhenCompleterListUnchanged)
+{
+  QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&completer_list]() { return completer_list; };
+
+  StringCompleterComboEditor editor(get_string_list_func);
+
+  EXPECT_EQ(editor.GetStringList(), completer_list);
+
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 2);
+
+  const int selected_combo_index{1};
+  editor.GetComboBox()->setCurrentIndex(selected_combo_index);
+  const QString expected_str_value{"ABC-DEF"};
+
+  auto focus_event = new QFocusEvent(QEvent::FocusIn, Qt::OtherFocusReason);
+  QCoreApplication::postEvent(editor.GetComboBox(), focus_event);
+  QCoreApplication::processEvents();
+
+  EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
+  EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
   EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 2);
 }
