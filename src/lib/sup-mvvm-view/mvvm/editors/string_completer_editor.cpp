@@ -54,7 +54,7 @@ StringCompleterEditor::StringCompleterEditor(const string_list_func_t &func, QWi
   layout->setSpacing(0);
   layout->addWidget(m_line_edit);
   setLayout(layout);
-  // setFocusProxy(m_line_edit);
+  setFocusProxy(m_line_edit);
 
   UpdateCompleterModel();
   SetupCompleter();

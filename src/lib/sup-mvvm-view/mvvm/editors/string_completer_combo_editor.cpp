@@ -40,6 +40,7 @@ StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t 
 
   setAutoFillBackground(true);
 
+  setFocusProxy(m_combo_box);
   m_combo_box->setEditable(true);
   m_combo_box->setInsertPolicy(QComboBox::NoInsert);
 
