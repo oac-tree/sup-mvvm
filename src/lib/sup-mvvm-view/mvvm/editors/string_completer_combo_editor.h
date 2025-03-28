@@ -52,6 +52,8 @@ public:
    */
   QComboBox* GetComboBox() const;
 
+  bool eventFilter(QObject *object, QEvent *event) override;
+
 signals:
   void valueChanged(const QVariant& value);
 

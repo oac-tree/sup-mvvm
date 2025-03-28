@@ -58,9 +58,10 @@ StringCompleterEditor::StringCompleterEditor(const string_list_func_t &func, QWi
 
   UpdateCompleterModel();
   SetupCompleter();
-  SetConnected(true);
 
   m_line_edit->installEventFilter(this);
+
+  SetConnected(true);
 }
 
 QVariant StringCompleterEditor::value() const

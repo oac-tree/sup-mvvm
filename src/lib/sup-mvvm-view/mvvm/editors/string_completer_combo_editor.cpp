@@ -23,6 +23,7 @@
 
 #include <QComboBox>
 #include <QDebug>
+#include <QEvent>
 #include <QLineEdit>
 #include <QVBoxLayout>
 
@@ -52,6 +53,8 @@ StringCompleterComboEditor::StringCompleterComboEditor(const string_list_func_t 
 
   UpdateComboBox();
 
+  m_combo_box->installEventFilter(this);
+
   SetConnected(true);
 }
 
@@ -76,6 +79,17 @@ void StringCompleterComboEditor::setValue(const QVariant &value)
 QComboBox *StringCompleterComboEditor::GetComboBox() const
 {
   return m_combo_box;
+}
+
+bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
+{
+  if (event->type() == QEvent::FocusIn)
+  {
+    qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
+    UpdateComboBox();
+  }
+
+  return QWidget::eventFilter(object, event);
 }
 
 void StringCompleterComboEditor::UpdateComboBox()

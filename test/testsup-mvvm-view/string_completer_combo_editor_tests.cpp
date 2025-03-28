@@ -157,3 +157,26 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnEditingFinished)
   EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
             QVariant::fromValue(expected_str_value));
 }
+
+//! Validating that completer model is updated at the moment of focus event.
+TEST_F(StringCompleterComboEditorTest, SetFocus)
+{
+  QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&completer_list]() { return completer_list; };
+
+  StringCompleterComboEditor editor(get_string_list_func);
+
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
+
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 3);
+
+  // modifying options
+  completer_list = QStringList({"AAA"});
+
+  auto focus_event = new QFocusEvent(QEvent::FocusIn, Qt::OtherFocusReason);
+  QCoreApplication::postEvent(editor.GetComboBox(), focus_event);
+  QCoreApplication::processEvents();
+
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 2);
+}
