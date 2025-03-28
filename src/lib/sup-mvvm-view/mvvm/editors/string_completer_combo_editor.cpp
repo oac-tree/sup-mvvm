@@ -94,8 +94,9 @@ bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
 
 void StringCompleterComboEditor::UpdateComboBox()
 {
-  m_combo_box->clear();
   auto text_list = m_string_list_func();
+
+  m_combo_box->clear();
   if (!text_list.isEmpty())
   {
     // always empty entry first

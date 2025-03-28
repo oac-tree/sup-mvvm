@@ -24,7 +24,6 @@
 #include <QWidget>
 #include <memory>
 
-class QGridLayout;
 class QLineEdit;
 class QTreeView;
 class QAbstractItemView;
@@ -32,19 +31,17 @@ class QAbstractItemView;
 namespace mvvm
 {
 class ISessionModel;
-class StringCompleterComboEditor;
-class StringCompleterEditor;
-class AllItemsViewModel;
-class ItemViewComponentProvider;
 }  // namespace mvvm
 
 namespace customeditors
 {
 
 class CustomModel;
+class EditorPanel;
 
 /**
- * @brief The EditorWidget class contains
+ * @brief The EditorWidget class contains two panels to study the behavior of widgets with
+ * an autocomplete feature.
  */
 class EditorWidget : public QWidget
 {
@@ -61,24 +58,10 @@ private:
    * @brief Creates a function which will return a list of strings with auto-complete options.
    */
   string_list_func_t CreateStringListFunc() const;
-
-  /**
-   * @brief Creates a provider to serve given view.
-   */
-  std::unique_ptr<mvvm::ItemViewComponentProvider> CreateCustomProvider(QAbstractItemView* view);
-
-  void SetupTreeViews();
-
-  QLineEdit* m_complete_list_edit{nullptr};
-  mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
-  mvvm::StringCompleterEditor* m_line_editor{nullptr};
-  QTreeView* m_left_tree_view{nullptr};
-  QTreeView* m_right_tree_view{nullptr};
-  QGridLayout* m_grid_layout{nullptr};
-
   std::unique_ptr<CustomModel> m_custom_model;
-  std::unique_ptr<mvvm::ItemViewComponentProvider> m_left_provider;
-  std::unique_ptr<mvvm::ItemViewComponentProvider> m_right_provider;
+  QLineEdit* m_complete_list_edit{nullptr};
+  EditorPanel* m_left_panel{nullptr};
+  EditorPanel* m_right_panel{nullptr};
 };
 
 }  // namespace customeditors

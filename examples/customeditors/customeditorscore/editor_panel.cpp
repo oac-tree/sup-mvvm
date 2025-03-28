@@ -32,52 +32,49 @@
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLabel>
-#include <QLineEdit>
 #include <QTreeView>
 #include <QVBoxLayout>
 
 namespace customeditors
 {
 
-namespace
-{
-/**
- * @brief Returns list from comma separated string.
- */
-QStringList GetListFromString(const QString& str)
-{
-  const QStringList splitted = str.split(",");
-  QStringList result;
-  std::transform(splitted.begin(), splitted.end(), std::back_inserter(result),
-                 [](auto& element) { return element.trimmed(); });
-  return result;
-}
-
-}  // namespace
-
 EditorPanel::EditorPanel(CustomModel* model, const std::function<QStringList()>& string_list_func,
                          QWidget* parent_widget)
     : QWidget(parent_widget)
     , m_model(model)
-    , m_string_list_func(string_list_func)
+    , m_completer_list_func(string_list_func)
+    , m_line_editor(new mvvm::StringCompleterEditor(m_completer_list_func))
+    , m_combo_editor(new mvvm::StringCompleterComboEditor(m_completer_list_func))
     , m_tree_view(new QTreeView)
     , m_grid_layout(new QGridLayout)
 {
   auto layout = new QVBoxLayout(this);
 
-  m_combo_editor = new mvvm::StringCompleterComboEditor(m_string_list_func);
-  m_line_editor = new mvvm::StringCompleterEditor(m_string_list_func);
-
-  m_grid_layout->addWidget(new QLabel("String autocomplete"), 1, 0);
+  m_grid_layout->addWidget(new QLabel("String completer"), 1, 0);
   m_grid_layout->addWidget(m_line_editor, 1, 1);
 
-  m_grid_layout->addWidget(new QLabel("Combo autocomplete"), 2, 0);
+  m_grid_layout->addWidget(new QLabel("Combo completer"), 2, 0);
   m_grid_layout->addWidget(m_combo_editor, 2, 1);
 
   layout->addLayout(m_grid_layout);
   layout->addWidget(m_tree_view);
 
   SetupTreeViews();
+
+  // connect(m_line_editor, &mvvm::StringCompleterEditor::valueChanged, this,
+  //         [this](auto variant) { emit LineEditValueChanged(variant.toString()); });
+  // connect(m_combo_editor, &mvvm::StringCompleterComboEditor::valueChanged, this,
+  //         [this](auto variant) { emit ComboEditorValueChanged(variant.toString()); });
+}
+
+void EditorPanel::SetLineEditValue(const QString& str)
+{
+  m_line_editor->setValue(str);
+}
+
+void EditorPanel::SetComboEditorValue(const QString& str)
+{
+  m_combo_editor->setValue(str);
 }
 
 EditorPanel::~EditorPanel() = default;
@@ -85,7 +82,7 @@ EditorPanel::~EditorPanel() = default;
 std::unique_ptr<mvvm::ItemViewComponentProvider> EditorPanel::CreateCustomProvider(
     QAbstractItemView* view)
 {
-  auto factory = std::make_unique<CustomEditorFactory>(m_string_list_func);
+  auto factory = std::make_unique<CustomEditorFactory>(m_completer_list_func);
   auto decorator = std::make_unique<mvvm::DefaultCellDecorator>();
   auto delegate =
       std::make_unique<mvvm::ViewModelDelegate>(std::move(factory), std::move(decorator));

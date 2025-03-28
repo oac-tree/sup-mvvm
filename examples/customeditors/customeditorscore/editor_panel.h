@@ -25,7 +25,6 @@
 #include <memory>
 
 class QGridLayout;
-class QLineEdit;
 class QTreeView;
 class QAbstractItemView;
 
@@ -44,18 +43,28 @@ namespace customeditors
 class CustomModel;
 
 /**
- * @brief The EditorWidget class contains
+ * @brief The EditorWidget class contains two types of widgets with auto-completing feature.
+ *
+ * Widgets are embedded either in the main layout, or generated in the fly in cells of Qt tree.
  */
 class EditorPanel : public QWidget
 {
   Q_OBJECT
 
 public:
-  using string_list_func_t = std::function<QStringList()>;
+  using completer_list_func_t = std::function<QStringList()>;
 
   explicit EditorPanel(CustomModel* model, const std::function<QStringList()>& string_list_func,
                        QWidget* parent_widget = nullptr);
   ~EditorPanel() override;
+
+  void SetLineEditValue(const QString& str);
+
+  void SetComboEditorValue(const QString& str);
+
+signals:
+  void LineEditValueChanged(const QString& str);
+  void ComboEditorValueChanged(const QString& str);
 
 private:
   /**
@@ -66,10 +75,10 @@ private:
   void SetupTreeViews();
 
   CustomModel* m_model{nullptr};
-  string_list_func_t m_string_list_func;
+  completer_list_func_t m_completer_list_func;
 
-  mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
   mvvm::StringCompleterEditor* m_line_editor{nullptr};
+  mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
   QTreeView* m_tree_view{nullptr};
   QGridLayout* m_grid_layout{nullptr};
 

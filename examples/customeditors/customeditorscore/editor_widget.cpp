@@ -19,19 +19,13 @@
 
 #include "editor_widget.h"
 
-#include "custom_editor_factory.h"
 #include "custom_model.h"
+#include "editor_panel.h"
 
 #include <mvvm/editors/string_completer_combo_editor.h>
 #include <mvvm/editors/string_completer_editor.h>
-#include <mvvm/viewmodel/all_items_viewmodel.h>
-#include <mvvm/views/component_provider_helper.h>
-#include <mvvm/views/default_cell_decorator.h>
-#include <mvvm/views/viewmodel_delegate.h>
 
-#include <QDebug>
 #include <QHBoxLayout>
-#include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
 #include <QTreeView>
@@ -61,73 +55,36 @@ QStringList GetListFromString(const QString& str)
 
 EditorWidget::EditorWidget(QWidget* parent_widget)
     : QWidget(parent_widget)
-    , m_complete_list_edit(new QLineEdit)
-    , m_left_tree_view(new QTreeView)
-    , m_right_tree_view(new QTreeView)
-    , m_grid_layout(new QGridLayout)
     , m_custom_model(std::make_unique<CustomModel>())
+    , m_complete_list_edit(new QLineEdit)
+    , m_left_panel(new EditorPanel(m_custom_model.get(), CreateStringListFunc()))
+    , m_right_panel(new EditorPanel(m_custom_model.get(), CreateStringListFunc()))
 {
   auto layout = new QVBoxLayout(this);
 
+  auto horizontal_layout0 = new QHBoxLayout;
+  horizontal_layout0->addWidget(new QLabel("Autocomplete options"));
+  horizontal_layout0->addWidget(m_complete_list_edit);
   m_complete_list_edit->setText(kInitAutocompleteOptions.join(", "));
-  m_combo_editor = new mvvm::StringCompleterComboEditor(CreateStringListFunc());
-  m_line_editor = new mvvm::StringCompleterEditor(CreateStringListFunc());
 
-  m_grid_layout->addWidget(new QLabel("Autocomplete options"), 0, 0);
-  m_grid_layout->addWidget(m_complete_list_edit, 0, 1);
+  auto horizontal_layout1 = new QHBoxLayout;
+  horizontal_layout1->addWidget(m_left_panel);
+  horizontal_layout1->addWidget(m_right_panel);
 
-  m_grid_layout->addWidget(new QLabel("String autocomplete"), 1, 0);
-  m_grid_layout->addWidget(m_line_editor, 1, 1);
+  layout->addLayout(horizontal_layout0);
+  layout->addLayout(horizontal_layout1);
 
-  m_grid_layout->addWidget(new QLabel("Combo autocomplete"), 2, 0);
-  m_grid_layout->addWidget(m_combo_editor, 2, 1);
-
-  auto horizontal_layout = new QHBoxLayout;
-  horizontal_layout->addWidget(m_left_tree_view);
-  horizontal_layout->addWidget(m_right_tree_view);
-
-  layout->addLayout(m_grid_layout);
-  layout->addLayout(horizontal_layout);
-
-  SetupTreeViews();
-}
-
-std::unique_ptr<mvvm::ItemViewComponentProvider> EditorWidget::CreateCustomProvider(
-    QAbstractItemView* view)
-{
-  auto factory = std::make_unique<CustomEditorFactory>(CreateStringListFunc());
-  auto decorator = std::make_unique<mvvm::DefaultCellDecorator>();
-  auto delegate =
-      std::make_unique<mvvm::ViewModelDelegate>(std::move(factory), std::move(decorator));
-  auto viewmodel = std::make_unique<mvvm::AllItemsViewModel>(m_custom_model.get());
-
-  return std::make_unique<mvvm::ItemViewComponentProvider>(std::move(delegate),
-                                                           std::move(viewmodel), view);
+  // connect(m_left_panel, &EditorPanel::LineEditValueChanged, m_right_panel,
+  //         &EditorPanel::SetLineEditValue);
+  // connect(m_left_panel, &EditorPanel::ComboEditorValueChanged, m_right_panel,
+  //         &EditorPanel::SetComboEditorValue);
 }
 
 EditorWidget::~EditorWidget() = default;
 
-void EditorWidget::SetupTreeViews()
-{
-  m_left_provider = CreateCustomProvider(m_left_tree_view);
-  m_right_provider = CreateCustomProvider(m_right_tree_view);
-
-  m_left_tree_view->expandAll();
-  m_right_tree_view->expandAll();
-
-  m_left_tree_view->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-  m_right_tree_view->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
-}
-
 EditorWidget::string_list_func_t EditorWidget::CreateStringListFunc() const
 {
-  return [this]()
-  {
-    qDebug() << "Generating list";
-    auto result = GetListFromString(m_complete_list_edit->text());
-    qDebug() << m_complete_list_edit->text() << result;
-    return result;
-  };
+  return [this]() { return GetListFromString(m_complete_list_edit->text()); };
 }
 
 }  // namespace customeditors
