@@ -53,15 +53,11 @@ class EditorPanel : public QWidget
 public:
   using string_list_func_t = std::function<QStringList()>;
 
-  explicit EditorPanel(QWidget* parent_widget = nullptr);
+  explicit EditorPanel(CustomModel* model, const std::function<QStringList()>& string_list_func,
+                       QWidget* parent_widget = nullptr);
   ~EditorPanel() override;
 
 private:
-  /**
-   * @brief Creates a function which will return a list of strings with auto-complete options.
-   */
-  string_list_func_t CreateStringListFunc() const;
-
   /**
    * @brief Creates a provider to serve given view.
    */
@@ -69,16 +65,15 @@ private:
 
   void SetupTreeViews();
 
-  QLineEdit* m_complete_list_edit{nullptr};
+  CustomModel* m_model{nullptr};
+  string_list_func_t m_string_list_func;
+
   mvvm::StringCompleterComboEditor* m_combo_editor{nullptr};
   mvvm::StringCompleterEditor* m_line_editor{nullptr};
-  QTreeView* m_left_tree_view{nullptr};
-  QTreeView* m_right_tree_view{nullptr};
+  QTreeView* m_tree_view{nullptr};
   QGridLayout* m_grid_layout{nullptr};
 
-  std::unique_ptr<CustomModel> m_custom_model;
-  std::unique_ptr<mvvm::ItemViewComponentProvider> m_left_provider;
-  std::unique_ptr<mvvm::ItemViewComponentProvider> m_right_provider;
+  std::unique_ptr<mvvm::ItemViewComponentProvider> m_tree_provider;
 };
 
 }  // namespace customeditors
