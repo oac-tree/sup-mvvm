@@ -25,6 +25,7 @@
 #include <gtest/gtest.h>
 
 #include <QComboBox>
+#include <QLineEdit>
 #include <QSignalSpy>
 #include <QTest>
 
@@ -124,6 +125,30 @@ TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnSetIndex)
   editor.GetComboBox()->setCurrentIndex(selected_combo_index);
 
   const QString expected_str_value{"ABC"};
+  EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
+  EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
+  EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));
+  ASSERT_EQ(spy_value_changed.count(), 1);
+
+  EXPECT_EQ(mvvm::test::GetSendItem<QVariant>(spy_value_changed),
+            QVariant::fromValue(expected_str_value));
+}
+
+TEST_F(StringCompleterComboEditorTest, ComboBoxBehaviorOnEditingFinished)
+{
+  const QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&completer_list]() { return completer_list; };
+
+  StringCompleterComboEditor editor(get_string_list_func);
+
+  QSignalSpy spy_value_changed(&editor, &StringCompleterComboEditor::valueChanged);
+
+  const QString expected_str_value{"DEF"};
+  editor.GetComboBox()->setEditText(expected_str_value);
+  emit editor.GetComboBox()->lineEdit()->editingFinished();
+
+  QCoreApplication::processEvents();
+
   EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
   EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
   EXPECT_EQ(GetStringList(editor.GetComboBox()), GetExpectedComboList(completer_list));

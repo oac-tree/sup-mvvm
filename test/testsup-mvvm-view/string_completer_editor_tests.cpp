@@ -102,7 +102,7 @@ TEST_F(StringCompleterEditorTest, SetFocus)
   // the only working way to test focus event
   // QTest::mousePress(editor.GetLineEdit(), Qt::LeftButton, Qt::NoModifier);
   // editor.GetLineEdit()->setFocus(Qt::OtherFocusReason);
-  QFocusEvent* focus_event = new QFocusEvent(QEvent::FocusIn, Qt::OtherFocusReason);
+  auto focus_event = new QFocusEvent(QEvent::FocusIn, Qt::OtherFocusReason);
   QCoreApplication::postEvent(editor.GetLineEdit(), focus_event);
   QCoreApplication::processEvents();
 

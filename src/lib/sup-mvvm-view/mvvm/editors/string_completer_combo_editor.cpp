@@ -110,6 +110,13 @@ void StringCompleterComboEditor::OnEditTextChanged(const QString &text)
 void StringCompleterComboEditor::OnEditingFinished()
 {
   qDebug() << "StringCompleterComboEditor::OnEditingFinished";
+  auto new_value = QVariant::fromValue(m_combo_box->currentText());
+  if (m_value != new_value)
+  {
+    m_value = new_value;
+    qDebug() << "emitting valueChanged";
+    emit valueChanged(m_value);
+  }
 }
 
 void StringCompleterComboEditor::SetConnected(bool is_connected)
