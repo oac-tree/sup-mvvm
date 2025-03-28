@@ -22,7 +22,6 @@
 #include <mvvm/core/exceptions.h>
 
 #include <QComboBox>
-#include <QDebug>
 #include <QEvent>
 #include <QLineEdit>
 #include <QVBoxLayout>
@@ -65,13 +64,10 @@ QVariant StringCompleterComboEditor::value() const
 
 void StringCompleterComboEditor::setValue(const QVariant &value)
 {
-  qDebug() << "StringCompleterComboEditor::setValue" << m_combo_box->currentText()
-           << value.toString();
   if (m_value != value)
   {
     m_value = value;
     m_combo_box->setCurrentText(m_value.toString());
-    qDebug() << "emitting valueChanged";
     emit valueChanged(m_value);
   }
 }
@@ -96,7 +92,6 @@ bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
 {
   if (event->type() == QEvent::FocusIn)
   {
-    qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
     UpdateComboBox();
   }
 
@@ -116,30 +111,20 @@ void StringCompleterComboEditor::UpdateComboBox()
 
 void StringCompleterComboEditor::OnIndexChanged(int index)
 {
-  qDebug() << "StringCompleterComboEditor::OnIndexChanged" << index;
-
   auto new_value = QVariant::fromValue(m_combo_box->itemText(index));
   if (m_value != new_value)
   {
     m_value = new_value;
-    qDebug() << "emitting valueChanged";
     emit valueChanged(m_value);
   }
 }
 
-void StringCompleterComboEditor::OnEditTextChanged(const QString &text)
-{
-  qDebug() << "StringCompleterComboEditor::OnEditTextChanged" << text;
-}
-
 void StringCompleterComboEditor::OnEditingFinished()
 {
-  qDebug() << "StringCompleterComboEditor::OnEditingFinished";
   auto new_value = QVariant::fromValue(m_combo_box->currentText());
   if (m_value != new_value)
   {
     m_value = new_value;
-    qDebug() << "emitting valueChanged";
     emit valueChanged(m_value);
   }
 }
@@ -148,8 +133,6 @@ void StringCompleterComboEditor::SetConnected(bool is_connected)
 {
   if (is_connected)
   {
-    connect(m_combo_box, &QComboBox::editTextChanged, this,
-            &StringCompleterComboEditor::OnEditTextChanged, Qt::UniqueConnection);
     connect(m_combo_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &StringCompleterComboEditor::OnIndexChanged, Qt::UniqueConnection);
     connect(m_combo_box->lineEdit(), &QLineEdit::editingFinished, this,
@@ -157,8 +140,6 @@ void StringCompleterComboEditor::SetConnected(bool is_connected)
   }
   else
   {
-    disconnect(m_combo_box, &QComboBox::editTextChanged, this,
-               &StringCompleterComboEditor::OnEditTextChanged);
     disconnect(m_combo_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
                this, &StringCompleterComboEditor::OnIndexChanged);
     disconnect(m_combo_box->lineEdit(), &QLineEdit::editingFinished, this,

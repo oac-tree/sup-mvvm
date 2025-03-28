@@ -64,9 +64,6 @@ public:
 signals:
   void valueChanged(const QVariant& value);
 
-protected:
-  virtual void focusInEvent(QFocusEvent *event) override;
-
 private:
   void OnEditingFinished();
   void UpdateCompleterModel();

@@ -65,7 +65,6 @@ signals:
 private:
   void UpdateComboBox();
   void OnIndexChanged(int index);
-  void OnEditTextChanged(const QString& text);
   void OnEditingFinished();
   void SetConnected(bool isConnected);
 

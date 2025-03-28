@@ -22,7 +22,6 @@
 #include <mvvm/core/exceptions.h>
 
 #include <QCompleter>
-#include <QDebug>
 #include <QEvent>
 #include <QFocusEvent>
 #include <QHeaderView>
@@ -75,7 +74,6 @@ void StringCompleterEditor::setValue(const QVariant &value)
   {
     m_value = value;
     m_line_edit->setText(value.toString());
-    qDebug() << "emitting valueChanged";
     emit valueChanged(m_value);
   }
 }
@@ -94,28 +92,18 @@ bool StringCompleterEditor::eventFilter(QObject *object, QEvent *event)
 {
   if (event->type() == QEvent::FocusIn)
   {
-    qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
     UpdateCompleterModel();
   }
 
   return QWidget::eventFilter(object, event);
 }
 
-void StringCompleterEditor::focusInEvent(QFocusEvent *event)
-{
-  qDebug() << "StringCompleterEditor::focusInEvent " << event;
-
-  QWidget::focusInEvent(event);
-}
-
 void StringCompleterEditor::OnEditingFinished()
 {
-  qDebug() << "StringCompleterEditor::OnEditingFinished" << m_line_edit->text();
   const QVariant new_value(m_line_edit->text());
   if (m_value != new_value)
   {
     m_value = new_value;
-    qDebug() << "emitting valueChanged";
     emit valueChanged(new_value);
   }
 }
@@ -123,10 +111,8 @@ void StringCompleterEditor::OnEditingFinished()
 void StringCompleterEditor::UpdateCompleterModel()
 {
   auto new_list = m_string_list_func();
-  qDebug() << "Updating completer model" << new_list << "prev" << m_completer_model->stringList();
   if (m_completer_model->stringList() != new_list)
   {
-    qDebug() << "Updated";
     m_completer_model->setStringList(new_list);
   }
 }
