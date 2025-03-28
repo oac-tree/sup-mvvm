@@ -52,7 +52,12 @@ public:
    */
   QComboBox* GetComboBox() const;
 
-  bool eventFilter(QObject *object, QEvent *event) override;
+  // bool eventFilter(QObject *object, QEvent *event) override;
+
+  /**
+   * @brief Returns string list currently populating combo.
+   */
+  QStringList GetStringList();
 
 signals:
   void valueChanged(const QVariant& value);

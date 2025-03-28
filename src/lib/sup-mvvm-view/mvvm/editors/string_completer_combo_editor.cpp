@@ -81,16 +81,27 @@ QComboBox *StringCompleterComboEditor::GetComboBox() const
   return m_combo_box;
 }
 
-bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
+QStringList StringCompleterComboEditor::GetStringList()
 {
-  if (event->type() == QEvent::FocusIn)
+  QStringList result;
+  for (int i = 0; i < m_combo_box->count(); ++i)
   {
-    qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
-    UpdateComboBox();
+    result.append(m_combo_box->itemText(i));
   }
 
-  return QWidget::eventFilter(object, event);
+  return result;
 }
+
+// bool StringCompleterComboEditor::eventFilter(QObject *object, QEvent *event)
+// {
+//   if (event->type() == QEvent::FocusIn)
+//   {
+//     qDebug() << "StringCompleterEditor::eventFilter focusIn" << object << event;
+//     UpdateComboBox();
+//   }
+
+//   return QWidget::eventFilter(object, event);
+// }
 
 void StringCompleterComboEditor::UpdateComboBox()
 {
