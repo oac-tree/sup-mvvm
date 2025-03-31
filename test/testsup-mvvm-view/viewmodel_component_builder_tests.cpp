@@ -20,9 +20,13 @@
 #include "mvvm/views/viewmodel_component_builder.h"
 
 #include <mvvm/editors/default_editor_factory.h>
+#include <mvvm/model/application_model.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/providers/i_cell_decorator.h>
 #include <mvvm/providers/i_editor_factory.h>
+#include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/views/default_cell_decorator.h>
+#include <mvvm/views/item_view_component_provider.h>
 #include <mvvm/views/viewmodel_delegate.h>
 
 #include <gmock/gmock.h>
@@ -30,6 +34,7 @@
 #include <testutils/mock_cell_decorator.h>
 #include <testutils/mock_editor_factory.h>
 
+#include <QTreeView>
 #include <QWidget>
 
 using namespace mvvm;
@@ -41,6 +46,8 @@ class ViewmodelComponentBuilderTest : public ::testing::Test
 {
 public:
   test::MockEditorFactory m_mock_editor_factory;
+  mvvm::ApplicationModel m_model;
+  QTreeView m_view;
 };
 
 TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilder)
@@ -61,4 +68,23 @@ TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilderWithTestFactory)
   EXPECT_CALL(m_mock_editor_factory, CreateEditor(index)).Times(1);
 
   auto editor = delegate->createEditor(nullptr, QStyleOptionViewItem(), index);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, ItemViewComponentProviderBuilder)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(42);
+
+  mvvm::ItemViewComponentProviderBuilder builder;
+
+  builder.ViewModel<AllItemsViewModel>(&m_model)
+      .View(&m_view)
+      .Delegate()
+      .Factory<DefaultEditorFactory>()
+      .Decorator<DefaultCellDecorator>();
+  std::unique_ptr<mvvm::ItemViewComponentProvider> provider = builder;
+
+  EXPECT_EQ(provider->GetView(), &m_view);
+  EXPECT_NE(provider->GetViewModel(), nullptr);
+  EXPECT_EQ(provider->GetViewModel()->GetModel(), &m_model);
 }

@@ -25,12 +25,16 @@
 
 #include <memory>
 
+class QAbstractItemView;
+
 namespace mvvm
 {
 
 class IEditorFactory;
 class ICellDecorator;
 class ViewModelDelegate;
+class ViewModel;
+class ItemViewComponentProvider;
 
 /**
  * @brief The ViewModelDelegateBuilder class builds complex ViewModelDelegate.
@@ -39,31 +43,31 @@ class ViewModelDelegateBuilder
 {
 public:
   /**
-   * @brief Creates cell editor factory and stores it in internal cache for futher use.
+   * @brief Creates cell editor factory and stores it in internal cache for further use.
    *
    * @tparam FactoryT The type of the factory.
    * @tparam Args Variadic arguments to construct a factory.
-   * @param args Arguments that factory needs
+   * @param args Arguments to pass to the c-tor.
    * @return Returns self for fluent interface.
    */
   template <typename FactoryT, typename... Args>
   ViewModelDelegateBuilder& Factory(Args&&... args);
 
   /**
-   * @brief Creates cell decorator and stores it in internal cache for futher use.
+   * @brief Creates cell decorator and stores it in internal cache for further use.
    *
-   * @tparam FactoryT The type of the factory.
-   * @tparam Args Variadic arguments to construct a factory.
-   * @param args Arguments that factory needs
+   * @tparam CellDecoratorT The type of the cell decorator.
+   * @tparam Args Variadic arguments to construct cell decorator.
+   * @param args Arguments to pass to the c-tor.
    * @return Returns self for fluent interface.
    */
-  template <typename FactoryT, typename... Args>
+  template <typename CellDecoratorT, typename... Args>
   ViewModelDelegateBuilder& Decorator(Args&&... args);
 
   /**
    * @brief Operator to create ViewModelDelegate.
    *
-   * We do not mark it "explicit" intentionally.
+   * We intentionally do not mark it "explicit".
    */
   operator std::unique_ptr<ViewModelDelegate>();
 
@@ -72,17 +76,68 @@ private:
   std::unique_ptr<ICellDecorator> m_cell_decorator;
 };
 
-template <typename C, typename... Args>
+template <typename FactoryT, typename... Args>
 ViewModelDelegateBuilder& ViewModelDelegateBuilder::Factory(Args&&... args)
 {
-  m_editor_factory = std::make_unique<C>(std::forward<Args>(args)...);
+  m_editor_factory = std::make_unique<FactoryT>(std::forward<Args>(args)...);
   return *this;
 }
 
-template <typename C, typename... Args>
+template <typename CellDecoratorT, typename... Args>
 ViewModelDelegateBuilder& ViewModelDelegateBuilder::Decorator(Args&&... args)
 {
-  m_cell_decorator = std::make_unique<C>(std::forward<Args>(args)...);
+  m_cell_decorator = std::make_unique<CellDecoratorT>(std::forward<Args>(args)...);
+  return *this;
+}
+
+/**
+ * @brief The ViewModelDelegateBuilder class builds complex ViewModelDelegate.
+ */
+class ItemViewComponentProviderBuilder
+{
+public:
+  /**
+   * @brief Creates view model and stores it in internal cache for further use.
+   *
+   * @tparam ViewModelT The type of the factory.
+   * @tparam Args Variadic arguments to construct a factory.
+   * @param args Arguments to pass to the c-tor.
+   * @return Returns self for fluent interface.
+   */
+  template <typename ViewModelT, typename... Args>
+  ItemViewComponentProviderBuilder& ViewModel(Args&&... args);
+
+  /**
+   * @brief Returns a reference to internal builder to build delegates.
+   */
+  ViewModelDelegateBuilder& Delegate();
+
+  /**
+   * @brief Stores given pointer to QAbstractItemView in internal cache for further use.
+   *
+   * @param view The view which will be server by the provider.
+   * @return Returns self for fluent interface.
+   */
+  ItemViewComponentProviderBuilder& View(QAbstractItemView* view);
+
+  /**
+   * @brief Operator to create ViewModelDelegate.
+   *
+   * We intentionally do not mark it "explicit".
+   */
+  operator std::unique_ptr<ItemViewComponentProvider>();
+
+private:
+  std::unique_ptr<mvvm::ViewModel> m_viewmodel;
+  std::unique_ptr<mvvm::ViewModelDelegate> m_viewmodel_delegate;
+  ViewModelDelegateBuilder m_viewmodel_delegate_builder;
+  QAbstractItemView* m_view{nullptr};
+};
+
+template <typename ViewModelT, typename... Args>
+ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::ViewModel(Args&&... args)
+{
+  m_viewmodel = std::make_unique<ViewModelT>(std::forward<Args>(args)...);
   return *this;
 }
 

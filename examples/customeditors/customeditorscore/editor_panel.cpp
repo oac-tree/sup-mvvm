@@ -27,6 +27,7 @@
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/views/component_provider_helper.h>
 #include <mvvm/views/default_cell_decorator.h>
+#include <mvvm/views/viewmodel_component_builder.h>
 #include <mvvm/views/viewmodel_delegate.h>
 
 #include <QHBoxLayout>
@@ -87,14 +88,15 @@ EditorPanel::~EditorPanel() = default;
 std::unique_ptr<mvvm::ItemViewComponentProvider> EditorPanel::CreateCustomProvider(
     QAbstractItemView* view)
 {
-  auto factory = std::make_unique<CustomEditorFactory>(m_completer_list_func);
-  auto decorator = std::make_unique<mvvm::DefaultCellDecorator>();
-  auto delegate =
-      std::make_unique<mvvm::ViewModelDelegate>(std::move(factory), std::move(decorator));
-  auto viewmodel = std::make_unique<mvvm::AllItemsViewModel>(m_model);
+  mvvm::ItemViewComponentProviderBuilder builder;
 
-  return std::make_unique<mvvm::ItemViewComponentProvider>(std::move(delegate),
-                                                           std::move(viewmodel), view);
+  builder.ViewModel<mvvm::AllItemsViewModel>(m_model)
+      .View(view)
+      .Delegate()
+      .Factory<CustomEditorFactory>(m_completer_list_func)
+      .Decorator<mvvm::DefaultCellDecorator>();
+
+  return builder;  // magic: thanks to "operator std::unique_ptr<ItemViewComponentProvider>()"
 }
 
 void EditorPanel::SetupTreeViews()
