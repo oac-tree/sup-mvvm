@@ -21,6 +21,8 @@ target_sources(${library_name} PRIVATE
   property_tree_view.h
   top_items_tree_view.cpp
   top_items_tree_view.h
+  viewmodel_component_builder.cpp
+  viewmodel_component_builder.h
   viewmodel_delegate.cpp
   viewmodel_delegate.h
 )
