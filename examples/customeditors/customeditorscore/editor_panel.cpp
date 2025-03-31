@@ -88,15 +88,12 @@ EditorPanel::~EditorPanel() = default;
 std::unique_ptr<mvvm::ItemViewComponentProvider> EditorPanel::CreateCustomProvider(
     QAbstractItemView* view)
 {
-  mvvm::ItemViewComponentProviderBuilder builder;
-
-  builder.ViewModel<mvvm::AllItemsViewModel>(m_model)
+  // magic: thanks to "operator std::unique_ptr<ItemViewComponentProvider>()"
+  return mvvm::ItemViewComponentProviderBuilder()
+      .ViewModel<mvvm::AllItemsViewModel>(m_model)
       .View(view)
-      .Delegate()
       .Factory<CustomEditorFactory>(m_completer_list_func)
       .Decorator<mvvm::DefaultCellDecorator>();
-
-  return builder;  // magic: thanks to "operator std::unique_ptr<ItemViewComponentProvider>()"
 }
 
 void EditorPanel::SetupTreeViews()

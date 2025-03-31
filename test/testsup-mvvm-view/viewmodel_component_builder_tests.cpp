@@ -75,14 +75,12 @@ TEST_F(ViewmodelComponentBuilderTest, ItemViewComponentProviderBuilder)
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42);
 
-  mvvm::ItemViewComponentProviderBuilder builder;
-
-  builder.ViewModel<AllItemsViewModel>(&m_model)
-      .View(&m_view)
-      .Delegate()
-      .Factory<DefaultEditorFactory>()
-      .Decorator<DefaultCellDecorator>();
-  std::unique_ptr<mvvm::ItemViewComponentProvider> provider = builder;
+  std::unique_ptr<mvvm::ItemViewComponentProvider> provider =
+      mvvm::ItemViewComponentProviderBuilder()
+          .ViewModel<AllItemsViewModel>(&m_model)
+          .View(&m_view)
+          .Factory<DefaultEditorFactory>()
+          .Decorator<DefaultCellDecorator>();
 
   EXPECT_EQ(provider->GetView(), &m_view);
   EXPECT_NE(provider->GetViewModel(), nullptr);

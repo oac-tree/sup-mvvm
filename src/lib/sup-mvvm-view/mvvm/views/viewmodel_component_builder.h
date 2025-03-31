@@ -127,6 +127,28 @@ public:
    */
   operator std::unique_ptr<ItemViewComponentProvider>();
 
+  /**
+   * @brief Creates cell editor factory and stores it in internal cache for further use.
+   *
+   * @tparam FactoryT The type of the factory.
+   * @tparam Args Variadic arguments to construct a factory.
+   * @param args Arguments to pass to the c-tor.
+   * @return Returns self for fluent interface.
+   */
+  template <typename FactoryT, typename... Args>
+  ItemViewComponentProviderBuilder& Factory(Args&&... args);
+
+  /**
+   * @brief Creates cell decorator and stores it in internal cache for further use.
+   *
+   * @tparam CellDecoratorT The type of the cell decorator.
+   * @tparam Args Variadic arguments to construct cell decorator.
+   * @param args Arguments to pass to the c-tor.
+   * @return Returns self for fluent interface.
+   */
+  template <typename CellDecoratorT, typename... Args>
+  ItemViewComponentProviderBuilder& Decorator(Args&&... args);
+
 private:
   std::unique_ptr<mvvm::ViewModel> m_viewmodel;
   std::unique_ptr<mvvm::ViewModelDelegate> m_viewmodel_delegate;
@@ -138,6 +160,20 @@ template <typename ViewModelT, typename... Args>
 ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::ViewModel(Args&&... args)
 {
   m_viewmodel = std::make_unique<ViewModelT>(std::forward<Args>(args)...);
+  return *this;
+}
+
+template <typename FactoryT, typename... Args>
+ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::Factory(Args&&... args)
+{
+  Delegate().Factory<FactoryT>(std::forward<Args>(args)...);
+  return *this;
+}
+
+template <typename CellDecoratorT, typename... Args>
+ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::Decorator(Args&&... args)
+{
+  Delegate().Decorator<CellDecoratorT>(std::forward<Args>(args)...);
   return *this;
 }
 
