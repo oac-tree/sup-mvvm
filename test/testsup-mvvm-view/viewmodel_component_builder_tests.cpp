@@ -25,7 +25,12 @@
 #include <mvvm/views/default_cell_decorator.h>
 #include <mvvm/views/viewmodel_delegate.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_cell_decorator.h>
+#include <testutils/mock_editor_factory.h>
+
+#include <QWidget>
 
 using namespace mvvm;
 
@@ -34,10 +39,26 @@ using namespace mvvm;
  */
 class ViewmodelComponentBuilderTest : public ::testing::Test
 {
+public:
+  test::MockEditorFactory m_mock_editor_factory;
 };
 
 TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilder)
 {
+  // here we have implicit call of "operator std::unique_ptr<ViewModelDelegate>()"
   const std::unique_ptr<ViewModelDelegate> delegate =
       ViewModelDelegateBuilder().Factory<DefaultEditorFactory>().Decorator<DefaultCellDecorator>();
+
+  ASSERT_NE(delegate.get(), nullptr);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilderWithTestFactory)
+{
+  const std::unique_ptr<ViewModelDelegate> delegate =
+      ViewModelDelegateBuilder().Factory<test::EditorFactoryDecorator>(&m_mock_editor_factory);
+
+  const QModelIndex index;
+  EXPECT_CALL(m_mock_editor_factory, CreateEditor(index)).Times(1);
+
+  auto editor = delegate->createEditor(nullptr, QStyleOptionViewItem(), index);
 }

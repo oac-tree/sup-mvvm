@@ -1,8 +1,12 @@
 target_sources(${library_name} PRIVATE
   folder_test.cpp
   folder_test.h
+  mock_cell_decorator.cpp
+  mock_cell_decorator.h
   mock_command.cpp
   mock_command.h
+  mock_editor_factory.cpp
+  mock_editor_factory.h
   mock_project.h
   mock_user_interactor.cpp
   mock_user_interactor.h
