@@ -65,7 +65,7 @@ public:
   ViewModelDelegateBuilder& Decorator(Args&&... args);
 
   /**
-   * @brief Operator to create ViewModelDelegate.
+   * @brief Operator to create ViewModelDelegate via implicit convertion.
    *
    * We intentionally do not mark it "explicit".
    */
@@ -121,7 +121,7 @@ public:
   ItemViewComponentProviderBuilder& View(QAbstractItemView* view);
 
   /**
-   * @brief Operator to create ViewModelDelegate.
+   * @brief Operator to create ItemViewComponentProvider via implicit convertion.
    *
    * We intentionally do not mark it "explicit".
    */
@@ -175,6 +175,15 @@ ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::Decorator(Ar
 {
   Delegate().Decorator<CellDecoratorT>(std::forward<Args>(args)...);
   return *this;
+}
+
+/**
+ * @brief Creates provider builder (and provide implicit conversion to
+ * unique_ptr<ItemViewCOmponentProvider>)
+ */
+ItemViewComponentProviderBuilder CreateProvider()
+{
+  return ItemViewComponentProviderBuilder();
 }
 
 }  // namespace mvvm

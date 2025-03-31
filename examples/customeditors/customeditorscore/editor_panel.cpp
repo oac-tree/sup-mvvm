@@ -89,7 +89,7 @@ std::unique_ptr<mvvm::ItemViewComponentProvider> EditorPanel::CreateCustomProvid
     QAbstractItemView* view)
 {
   // magic: thanks to "operator std::unique_ptr<ItemViewComponentProvider>()"
-  return mvvm::ItemViewComponentProviderBuilder()
+  return mvvm::CreateProvider()
       .ViewModel<mvvm::AllItemsViewModel>(m_model)
       .View(view)
       .Factory<CustomEditorFactory>(m_completer_list_func)

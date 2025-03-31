@@ -85,4 +85,35 @@ TEST_F(ViewmodelComponentBuilderTest, ItemViewComponentProviderBuilder)
   EXPECT_EQ(provider->GetView(), &m_view);
   EXPECT_NE(provider->GetViewModel(), nullptr);
   EXPECT_EQ(provider->GetViewModel()->GetModel(), &m_model);
+
+  auto delegate = dynamic_cast<ViewModelDelegate*>(m_view.itemDelegate());
+  ASSERT_NE(delegate, nullptr);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, CreateProvider)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(42);
+
+  std::unique_ptr<ItemViewComponentProvider> provider = CreateProvider()
+                                                            .ViewModel<AllItemsViewModel>(&m_model)
+                                                            .View(&m_view)
+                                                            .Factory<DefaultEditorFactory>()
+                                                            .Decorator<DefaultCellDecorator>();
+
+  EXPECT_EQ(provider->GetView(), &m_view);
+  EXPECT_NE(provider->GetViewModel(), nullptr);
+  EXPECT_EQ(provider->GetViewModel()->GetModel(), &m_model);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegate)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(42);
+
+  const std::unique_ptr<ItemViewComponentProvider> provider(
+      CreateProvider().ViewModel<AllItemsViewModel>(&m_model).View(&m_view));
+
+  auto delegate = dynamic_cast<ViewModelDelegate*>(m_view.itemDelegate());
+  ASSERT_NE(delegate, nullptr);
 }
