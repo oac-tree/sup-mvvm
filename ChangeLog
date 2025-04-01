@@ -1,6 +1,6 @@
 Changes for 1.8.0:
 
-- Implement builder for ItemViewComponentProvier
+- Implement builder for ItemViewComponentProvider
 - Implement StringCompleterEditor and StringCompleterComboEditor for cells of Qt trees and tables
 - Implement possibility to configure ViewmodelDelegate with external cell editor factory
 - Move cell editors in sup-mvvm library

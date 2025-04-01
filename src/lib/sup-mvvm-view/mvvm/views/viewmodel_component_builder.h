@@ -179,7 +179,7 @@ ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::Decorator(Ar
 
 /**
  * @brief Creates provider builder (and provide implicit conversion to
- * unique_ptr<ItemViewCOmponentProvider>)
+ * unique_ptr<ItemViewComponentProvider>)
  */
 ItemViewComponentProviderBuilder CreateProvider()
 {
