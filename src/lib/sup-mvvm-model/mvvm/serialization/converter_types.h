@@ -21,7 +21,7 @@
 #define MVVM_SERIALIZATION_CONVERTER_TYPES_H_
 
 //! @file
-//! Collection of custom types involved into SessionItem and TreeData mutual convertion.
+//! Collection of custom types involved into SessionItem and TreeData mutual conversion.
 
 #include <mvvm/model_export.h>
 #include <mvvm/serialization/tree_data_fwd.h>
@@ -43,7 +43,7 @@ using create_item_t = std::function<std::unique_ptr<SessionItem>(const tree_data
 //! Defines function to populate existing SessionItem from its' TreeData representaion.
 using update_item_t = std::function<void(const tree_data_t&, SessionItem&)>;
 
-//! Defines a function to filter out item during convertion to TreeData.
+//! Defines a function to filter out item during conversion to TreeData.
 using filter_item_t = std::function<bool(const SessionItem&)>;
 
 //! Provides necessary callbacks to convert SessionItem to TreeData and back.

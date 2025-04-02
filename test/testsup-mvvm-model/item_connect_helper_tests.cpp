@@ -79,7 +79,7 @@ TEST_F(ItemConnectHelperTest, ConvertToPropertyChangedEvent)
 
   DataChangedEvent event{&property_item, DataRole::kData};
 
-  {  // successfull convertion
+  {  // successfull conversion
     auto result = ConvertToPropertyChangedEvent(compound, event_variant_t(event));
     EXPECT_TRUE(result.has_value());
 
@@ -87,7 +87,7 @@ TEST_F(ItemConnectHelperTest, ConvertToPropertyChangedEvent)
     EXPECT_EQ(result.value(), expected_converted_event);
   }
 
-  {  // wrong convertion
+  {  // wrong conversion
     // DataChangedEvent happened with property_item can't be PropertyChangedEvent of the same item
     auto result = ConvertToPropertyChangedEvent(&property_item, event_variant_t(event));
     EXPECT_FALSE(result.has_value());

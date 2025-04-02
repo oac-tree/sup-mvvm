@@ -37,7 +37,7 @@ class TagInfo;
 //! Returns true if given TreeData represents TagInfo object.
 MVVM_MODEL_EXPORT bool IsTagInfoConvertible(const tree_data_t& tree_data);
 
-//! Returns TagInfo object from its TreeData representation. Will throw if convertions is not
+//! Returns TagInfo object from its TreeData representation. Will throw if conversion is not
 //! possible.
 MVVM_MODEL_EXPORT TagInfo ToTagInfo(const tree_data_t& tree_data);
 

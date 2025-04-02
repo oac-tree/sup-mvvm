@@ -146,7 +146,7 @@ TEST_F(TreeDataVariantConverterTests, Int32DataRole)
   auto new_tree_data = ToTreeData(role_data);
   EXPECT_EQ(new_tree_data, *tree_data);
 
-  // another convertion, now spaces are added.
+  // another conversion, now spaces are added.
   tree_data = ParseXMLElementString(R"(<Variant role = "42 " type="int32"> 48 </Variant>)");
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 

@@ -44,7 +44,7 @@ const std::string kRoleAttributeKey = "role";
 const std::string kTypeAttributeKey = "type";
 const std::string kSelectionsAttributeKey = "selections";
 
-//! Aggregates call backs for convertion between role_data_t and TreeData.
+//! Aggregates call backs for conversion between role_data_t and TreeData.
 struct Converters
 {
   std::function<tree_data_t(const role_data_t& role_data)> roledata_to_treedata;

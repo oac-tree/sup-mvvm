@@ -54,7 +54,7 @@ ViewModelDelegateBuilder::operator std::unique_ptr<ViewModelDelegate>()
 
 std::unique_ptr<ViewModelDelegate> ViewModelDelegateBuilder::Build()
 {
-  return *this;  // invokes implicit convertion via operator
+  return *this;  // invokes implicit conversion via operator
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ ItemViewComponentProviderBuilder::operator std::unique_ptr<ItemViewComponentProv
 
 std::unique_ptr<ItemViewComponentProvider> ItemViewComponentProviderBuilder::Build()
 {
-  return *this;  // invokes implicit convertion via operator
+  return *this;  // invokes implicit conversion via operator
 }
 
 ItemViewComponentProviderBuilder CreateProvider()

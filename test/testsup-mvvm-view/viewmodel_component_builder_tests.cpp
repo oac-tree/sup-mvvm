@@ -61,7 +61,7 @@ TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilder)
 
 TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilderWithImplicitConvertion)
 {
-  // implicit convertion, auto is not possible
+  // implicit conversion, auto is not possible
   const std::unique_ptr<ViewModelDelegate> delegate =
       ViewModelDelegateBuilder().Factory<DefaultEditorFactory>().Decorator<DefaultCellDecorator>();
 
@@ -104,7 +104,7 @@ TEST_F(ViewmodelComponentBuilderTest, ItemViewComponentProviderBuilderWithImplic
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42);
 
-  // implicit convertion, auto is not possible
+  // implicit conversion, auto is not possible
   std::unique_ptr<mvvm::ItemViewComponentProvider> provider =
       mvvm::ItemViewComponentProviderBuilder()
           .ViewModel<AllItemsViewModel>(&m_model)

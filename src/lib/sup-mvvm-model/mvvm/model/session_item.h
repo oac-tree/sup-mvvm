@@ -126,7 +126,7 @@ public:
    * @brief Returns data for the given role.
    *
    * If given role doesn't exist, will return uninitialized variant_t{}. If role exists, will
-   * perform convertion to the given T. Will throw, if conversion is not possible.
+   * perform conversion to the given T. Will throw, if conversion is not possible.
    *
    * @param role The role of the data.
    * @tparam T The type to convert the data.

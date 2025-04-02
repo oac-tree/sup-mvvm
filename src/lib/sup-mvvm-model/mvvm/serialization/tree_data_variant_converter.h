@@ -43,7 +43,7 @@ namespace mvvm
 //! Returns true if given TreeData represents role_data_t object.
 MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const tree_data_t& tree_data);
 
-//! Returns role_data_t object from its TreeData representation. Will throw if convertions is not
+//! Returns role_data_t object from its TreeData representation. Will throw if conversion is not
 //! possible.
 MVVM_MODEL_EXPORT role_data_t ToRoleData(const tree_data_t& tree_data);
 

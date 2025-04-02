@@ -68,7 +68,7 @@ public:
   ViewModelDelegateBuilder& Decorator(Args&&... args);
 
   /**
-   * @brief Operator to create ViewModelDelegate via implicit convertion.
+   * @brief Operator to create ViewModelDelegate via implicit conversion.
    *
    * We intentionally do not mark it "explicit".
    */
@@ -143,7 +143,7 @@ public:
   ItemViewComponentProviderBuilder& View(QAbstractItemView* view);
 
   /**
-   * @brief Operator to create ItemViewComponentProvider via implicit convertion.
+   * @brief Operator to create ItemViewComponentProvider via implicit conversion.
    *
    * We intentionally do not mark it "explicit".
    */
