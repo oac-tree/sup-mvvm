@@ -20,6 +20,7 @@
 #include "viewmodel_component_builder.h"
 
 #include <mvvm/core/exceptions.h>
+#include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/providers/i_cell_decorator.h>
 #include <mvvm/providers/i_editor_factory.h>
 #include <mvvm/viewmodel/viewmodel.h>
@@ -38,6 +39,11 @@ ViewModelDelegateBuilder::operator std::unique_ptr<ViewModelDelegate>()
   if (!m_cell_decorator)
   {
     m_cell_decorator = std::make_unique<DefaultCellDecorator>();
+  }
+
+  if (!m_editor_factory)
+  {
+    m_editor_factory = std::make_unique<DefaultEditorFactory>();
   }
 
   return std::make_unique<ViewModelDelegate>(std::move(m_editor_factory),

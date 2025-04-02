@@ -23,6 +23,7 @@
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/providers/custom_editor.h>
 #include <mvvm/views/default_cell_decorator.h>
+#include <mvvm/core/exceptions.h>
 
 #include <QApplication>
 
@@ -60,6 +61,15 @@ ViewModelDelegate::ViewModelDelegate(std::unique_ptr<IEditorFactory> editor_fact
     , m_editor_factory(std::move(editor_factory))
     , m_cell_decoration(std::move(cell_decoration))
 {
+  if (!m_editor_factory)
+  {
+    throw RuntimeException("Editor factory is not initialised");
+  }
+
+  if (!m_cell_decoration)
+  {
+    throw RuntimeException("Cell decorator is not initialised");
+  }
 }
 
 ViewModelDelegate::~ViewModelDelegate() = default;

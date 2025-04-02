@@ -19,32 +19,36 @@
 
 #include "mvvm/views/viewmodel_delegate.h"
 
+#include <mvvm/core/exceptions.h>
 #include <mvvm/editors/custom_editor_includes.h>
+#include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/providers/custom_editor.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/views/default_cell_decorator.h>
 
 #include <gtest/gtest.h>
 
-#include <QDataWidgetMapper>
 #include <QStyleOptionViewItem>
 
 using namespace mvvm;
 
-//! Tests of ViewModelDelegate class.
-
+/**
+ * @brief Tests for ViewModelDelegate class.
+ */
 class ViewModelDelegateTest : public ::testing::Test
 {
 public:
-  ViewModelDelegateTest() : m_view_model(&m_model)
-  {
-    m_mapper.setModel(&m_view_model);
-    m_mapper.setItemDelegate(&m_delegate);
-  }
+  ViewModelDelegateTest() : m_view_model(&m_model) {}
 
-  //! Returns index pointining to ViewModel cells looking at our data
-  QModelIndex GetIndex(const variant_t& data)
+  /**
+   * @brief Creates an entry in viewmodel containing given data.
+   *
+   * @param data The data to put in viewmodel
+   * @return The index of viewmodel cell.
+   */
+  QModelIndex CreateViewModelEntry(const variant_t& data)
   {
     // creating item in a model and setting data to it
     auto item = m_model.InsertItem<PropertyItem>();
@@ -61,45 +65,25 @@ public:
         m_delegate.createEditor(nullptr, QStyleOptionViewItem(), index));
   }
 
-  void map_to_index(QWidget* widget, const QModelIndex& index)
-  {
-    m_mapper.setRootIndex(index.parent());
-    m_mapper.setCurrentModelIndex(index.sibling(index.row(), 0));
-    m_mapper.addMapping(widget, 1);
-  }
-
   ApplicationModel m_model;
   AllItemsViewModel m_view_model;
   ViewModelDelegate m_delegate;
-  QDataWidgetMapper m_mapper;
 };
+
+TEST_F(ViewModelDelegateTest, InitialState)
+{
+  EXPECT_THROW(ViewModelDelegate({}, {}), RuntimeException);
+  EXPECT_THROW(ViewModelDelegate(std::make_unique<DefaultEditorFactory>(), {}), RuntimeException);
+  EXPECT_NO_THROW(ViewModelDelegate(std::make_unique<DefaultEditorFactory>(),
+                                    std::make_unique<DefaultCellDecorator>()));
+}
 
 TEST_F(ViewModelDelegateTest, createEditor)
 {
-  auto index1 = GetIndex(variant_t(true));
+  auto index1 = CreateViewModelEntry(variant_t(true));
   EXPECT_TRUE(CreateEditor(index1).get() != nullptr);
   EXPECT_TRUE(dynamic_cast<BoolEditor*>(CreateEditor(index1).get()));
 
-  auto index2 = GetIndex(variant_t(42));
+  auto index2 = CreateViewModelEntry(variant_t(42));
   EXPECT_TRUE(CreateEditor(index2).get() != nullptr);
 }
-
-//! Check that ViewModelDelegate can work with widget mapper.
-
-// TEST_F(ViewModelDelegateTest, widgetMapper)
-//{
-//   TestData test_data;
-//   auto vector_item = test_data.model.insertItem<VectorItem>();
-//   auto x_item = vector_item->getItem(VectorItem::P_X);
-
-//  // accessing to index list (index of label field and index of data field)
-//  // of PropertyItem corresponding to x-coordinate.
-//  auto x_value_index = test_data.view_model.indexOfSessionItem(x_item).at(1);
-//  auto editor = test_data.create_editor(x_value_index);
-
-//  test_data.map_to_index(editor.get(), x_value_index);
-
-//  editor->setData(43.0);
-//  editor->dataChanged(editor->data());
-//  EXPECT_EQ(x_item->data<double>(), 43.0);
-//}
