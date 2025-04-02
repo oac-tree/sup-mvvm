@@ -37,7 +37,8 @@ class ViewModel;
 class ItemViewComponentProvider;
 
 /**
- * @brief The ViewModelDelegateBuilder class builds complex ViewModelDelegate.
+ * @brief The ViewModelDelegateBuilder is a builder to create ViewModelDelegate objects that require
+ * complex wiring.
  */
 class ViewModelDelegateBuilder
 {
@@ -91,7 +92,8 @@ ViewModelDelegateBuilder& ViewModelDelegateBuilder::Decorator(Args&&... args)
 }
 
 /**
- * @brief The ViewModelDelegateBuilder class builds complex ViewModelDelegate.
+ * @brief The ItemViewComponentProviderBuilder is a builder to create
+ * ItemViewComponentProvider objects that require complex wiring.
  */
 class ItemViewComponentProviderBuilder
 {
