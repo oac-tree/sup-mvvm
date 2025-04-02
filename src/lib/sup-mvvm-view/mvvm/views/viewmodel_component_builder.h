@@ -72,6 +72,11 @@ public:
    */
   operator std::unique_ptr<ViewModelDelegate>();
 
+  /**
+   * @brief Creates ViewModelDelegate and invalidates all caches.
+   */
+  std::unique_ptr<ViewModelDelegate> Build();
+
 private:
   std::unique_ptr<IEditorFactory> m_editor_factory;
   std::unique_ptr<ICellDecorator> m_cell_decorator;
@@ -162,6 +167,11 @@ public:
   template <typename CellDecoratorT, typename... Args>
   ItemViewComponentProviderBuilder& Decorator(Args&&... args);
 
+  /**
+   * @brief Creates ItemViewComponentProvider and invalidates all caches.
+   */
+  std::unique_ptr<ItemViewComponentProvider> Build();
+
 private:
   std::unique_ptr<mvvm::ViewModel> m_viewmodel;
   std::unique_ptr<mvvm::ViewModelDelegate> m_viewmodel_delegate;
@@ -180,7 +190,7 @@ template <typename ViewModelT>
 ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::ViewModel()
 {
   // no model is defined yet, assuming it will be set later
-  m_viewmodel = std::make_unique<ViewModelT>(/*model*/nullptr);
+  m_viewmodel = std::make_unique<ViewModelT>(/*model*/ nullptr);
   return *this;
 }
 

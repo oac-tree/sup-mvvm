@@ -52,7 +52,16 @@ public:
 
 TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilder)
 {
-  // here we have implicit call of "operator std::unique_ptr<ViewModelDelegate>()"
+  const auto delegate = ViewModelDelegateBuilder()
+                            .Factory<DefaultEditorFactory>()
+                            .Decorator<DefaultCellDecorator>()
+                            .Build();
+  ASSERT_NE(delegate.get(), nullptr);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, ViewModelDelegateBuilderWithImplicitConvertion)
+{
+  // implicit convertion, auto is not possible
   const std::unique_ptr<ViewModelDelegate> delegate =
       ViewModelDelegateBuilder().Factory<DefaultEditorFactory>().Decorator<DefaultCellDecorator>();
 
@@ -75,6 +84,27 @@ TEST_F(ViewmodelComponentBuilderTest, ItemViewComponentProviderBuilder)
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42);
 
+  auto provider = mvvm::ItemViewComponentProviderBuilder()
+                      .ViewModel<AllItemsViewModel>(&m_model)
+                      .View(&m_view)
+                      .Factory<DefaultEditorFactory>()
+                      .Decorator<DefaultCellDecorator>()
+                      .Build();
+
+  EXPECT_EQ(provider->GetView(), &m_view);
+  EXPECT_NE(provider->GetViewModel(), nullptr);
+  EXPECT_EQ(provider->GetViewModel()->GetModel(), &m_model);
+
+  auto delegate = dynamic_cast<ViewModelDelegate*>(m_view.itemDelegate());
+  ASSERT_NE(delegate, nullptr);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, ItemViewComponentProviderBuilderWithImplicitConvertion)
+{
+  auto item = m_model.InsertItem<PropertyItem>();
+  item->SetData(42);
+
+  // implicit convertion, auto is not possible
   std::unique_ptr<mvvm::ItemViewComponentProvider> provider =
       mvvm::ItemViewComponentProviderBuilder()
           .ViewModel<AllItemsViewModel>(&m_model)

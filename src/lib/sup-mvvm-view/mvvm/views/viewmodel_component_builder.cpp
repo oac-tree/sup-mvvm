@@ -50,6 +50,11 @@ ViewModelDelegateBuilder::operator std::unique_ptr<ViewModelDelegate>()
                                              std::move(m_cell_decorator));
 }
 
+std::unique_ptr<ViewModelDelegate> ViewModelDelegateBuilder::Build()
+{
+  return *this;  // invokes implicit convertion via operator
+}
+
 // ------------------------------------------------------------------------------------------------
 // ItemViewComponentProviderBuilder
 // ------------------------------------------------------------------------------------------------
@@ -66,9 +71,14 @@ ItemViewComponentProviderBuilder &ItemViewComponentProviderBuilder::View(QAbstra
 
 ItemViewComponentProviderBuilder::operator std::unique_ptr<ItemViewComponentProvider>()
 {
-  m_viewmodel_delegate = Delegate();  // magic: returns builder and invokes () operator
+  m_viewmodel_delegate = m_viewmodel_delegate_builder.Build();
   return std::make_unique<ItemViewComponentProvider>(std::move(m_viewmodel_delegate),
                                                      std::move(m_viewmodel), m_view);
+}
+
+std::unique_ptr<ItemViewComponentProvider> ItemViewComponentProviderBuilder::Build()
+{
+  return *this;  // invokes implicit convertion via operator
 }
 
 }  // namespace mvvm
