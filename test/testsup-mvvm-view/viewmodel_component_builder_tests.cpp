@@ -108,12 +108,19 @@ TEST_F(ViewmodelComponentBuilderTest, CreateProvider)
 
 TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegate)
 {
-  auto item = m_model.InsertItem<PropertyItem>();
-  item->SetData(42);
-
   const std::unique_ptr<ItemViewComponentProvider> provider(
       CreateProvider().ViewModel<AllItemsViewModel>(&m_model).View(&m_view));
 
   auto delegate = dynamic_cast<ViewModelDelegate*>(m_view.itemDelegate());
   ASSERT_NE(delegate, nullptr);
+}
+
+TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegateWHenNoModelIsKnown)
+{
+  const std::unique_ptr<ItemViewComponentProvider> provider(
+      CreateProvider().ViewModel<AllItemsViewModel>().View(&m_view));
+
+  auto delegate = dynamic_cast<ViewModelDelegate*>(m_view.itemDelegate());
+  ASSERT_NE(delegate, nullptr);
+  EXPECT_EQ(provider->GetViewModel()->GetModel(), nullptr);
 }

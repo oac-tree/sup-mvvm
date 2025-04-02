@@ -110,6 +110,17 @@ public:
   ItemViewComponentProviderBuilder& ViewModel(Args&&... args);
 
   /**
+   * @brief Creates view model and stores it in internal cache for further use.
+   *
+   * (convenience method when ViewModel have no c-tor parameters)
+   *
+   * @tparam ViewModelT The type of the factory.
+   * @return Returns self for fluent interface.
+   */
+  template <typename ViewModelT>
+  ItemViewComponentProviderBuilder& ViewModel();
+
+  /**
    * @brief Returns a reference to internal builder to build delegates.
    */
   ViewModelDelegateBuilder& Delegate();
@@ -162,6 +173,14 @@ template <typename ViewModelT, typename... Args>
 ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::ViewModel(Args&&... args)
 {
   m_viewmodel = std::make_unique<ViewModelT>(std::forward<Args>(args)...);
+  return *this;
+}
+
+template <typename ViewModelT>
+ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::ViewModel()
+{
+  // no model is defined yet, assuming it will be set later
+  m_viewmodel = std::make_unique<ViewModelT>(/*model*/nullptr);
   return *this;
 }
 
