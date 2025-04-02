@@ -54,8 +54,8 @@ TEST_F(StringCompleterComboEditorTest, InitialStateWhenCallbackDefined)
   auto get_completer_list_func = [&completer_list]() { return completer_list; };
 
   StringCompleterComboEditor editor(get_completer_list_func);
-  EXPECT_EQ(editor.GetComboBox()->currentIndex(), 0);
-  EXPECT_EQ(editor.GetComboBox()->currentText(), completer_list.at(0));
+  EXPECT_EQ(editor.GetComboBox()->currentIndex(), -1);
+  EXPECT_EQ(editor.GetComboBox()->currentText(), QString());
   EXPECT_FALSE(editor.value().isValid());
 
   EXPECT_EQ(editor.GetStringList(), completer_list);
@@ -180,4 +180,33 @@ TEST_F(StringCompleterComboEditorTest, SetFocusWhenCompleterListUnchanged)
   EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
   EXPECT_EQ(editor.GetStringList(), completer_list);
   EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 2);
+}
+
+TEST_F(StringCompleterComboEditorTest, CheckOldValueOnCompleterListChange)
+{
+  QStringList completer_list({"ABC", "ABC-DEF"});
+  auto get_string_list_func = [&completer_list]() { return completer_list; };
+
+  StringCompleterComboEditor editor(get_string_list_func);
+
+  EXPECT_EQ(editor.GetStringList(), completer_list);
+
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 2);
+
+  const int selected_combo_index{1};
+  editor.GetComboBox()->setCurrentIndex(selected_combo_index);
+  const QString expected_str_value{"ABC-DEF"};
+
+  completer_list = QStringList() << "ABC-DEF" << "111" << "222";
+
+  auto focus_event = new QFocusEvent(QEvent::FocusIn, Qt::OtherFocusReason);
+  QCoreApplication::postEvent(editor.GetComboBox(), focus_event);
+  QCoreApplication::processEvents();
+
+  // list was changed, but initially selected value was selected again under different index
+  EXPECT_EQ(editor.GetComboBox()->currentText(), expected_str_value);
+  EXPECT_EQ(editor.GetComboBox()->currentIndex(), 0);
+  EXPECT_EQ(editor.value(), QVariant::fromValue(expected_str_value));
+  EXPECT_EQ(editor.GetStringList(), completer_list);
+  EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 3);
 }

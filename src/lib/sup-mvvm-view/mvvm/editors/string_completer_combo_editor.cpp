@@ -104,8 +104,11 @@ void StringCompleterComboEditor::UpdateComboBox()
 
   if (text_list != GetStringList())
   {
+    auto old_text = m_combo_box->currentText();
+    auto old_index = text_list.indexOf(old_text);
     m_combo_box->clear();
     m_combo_box->insertItems(0, text_list);
+    m_combo_box->setCurrentIndex(old_index);
   }
 }
 
