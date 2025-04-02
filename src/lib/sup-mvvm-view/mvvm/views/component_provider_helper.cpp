@@ -22,6 +22,7 @@
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/views/default_cell_decorator.h>
 #include <mvvm/views/viewmodel_delegate.h>
+#include <mvvm/viewmodel/viewmodel.h>
 
 namespace mvvm
 {

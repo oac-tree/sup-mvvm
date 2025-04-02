@@ -34,6 +34,8 @@ namespace mvvm
 // ------------------------------------------------------------------------------------------------
 // ViewModelDelegateBuilder
 // ------------------------------------------------------------------------------------------------
+ViewModelDelegateBuilder::~ViewModelDelegateBuilder() = default;
+
 ViewModelDelegateBuilder::operator std::unique_ptr<ViewModelDelegate>()
 {
   if (!m_cell_decorator)
@@ -58,6 +60,8 @@ std::unique_ptr<ViewModelDelegate> ViewModelDelegateBuilder::Build()
 // ------------------------------------------------------------------------------------------------
 // ItemViewComponentProviderBuilder
 // ------------------------------------------------------------------------------------------------
+ItemViewComponentProviderBuilder::~ItemViewComponentProviderBuilder() = default;
+
 ViewModelDelegateBuilder &ItemViewComponentProviderBuilder::Delegate()
 {
   return m_viewmodel_delegate_builder;
@@ -79,6 +83,11 @@ ItemViewComponentProviderBuilder::operator std::unique_ptr<ItemViewComponentProv
 std::unique_ptr<ItemViewComponentProvider> ItemViewComponentProviderBuilder::Build()
 {
   return *this;  // invokes implicit convertion via operator
+}
+
+ItemViewComponentProviderBuilder CreateProvider()
+{
+  return ItemViewComponentProviderBuilder();
 }
 
 }  // namespace mvvm

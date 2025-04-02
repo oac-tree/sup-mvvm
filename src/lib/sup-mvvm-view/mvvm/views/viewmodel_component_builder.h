@@ -43,6 +43,8 @@ class ItemViewComponentProvider;
 class ViewModelDelegateBuilder
 {
 public:
+  ~ViewModelDelegateBuilder();
+
   /**
    * @brief Creates cell editor factory and stores it in internal cache for further use.
    *
@@ -103,6 +105,8 @@ ViewModelDelegateBuilder& ViewModelDelegateBuilder::Decorator(Args&&... args)
 class ItemViewComponentProviderBuilder
 {
 public:
+  ~ItemViewComponentProviderBuilder();
+
   /**
    * @brief Creates view model and stores it in internal cache for further use.
    *
@@ -212,10 +216,7 @@ ItemViewComponentProviderBuilder& ItemViewComponentProviderBuilder::Decorator(Ar
  * @brief Creates provider builder (and provide implicit conversion to
  * unique_ptr<ItemViewComponentProvider>)
  */
-ItemViewComponentProviderBuilder CreateProvider()
-{
-  return ItemViewComponentProviderBuilder();
-}
+ItemViewComponentProviderBuilder CreateProvider();
 
 }  // namespace mvvm
 
