@@ -40,7 +40,13 @@ class ISessionModel;
 class MVVM_MODEL_EXPORT IModelComposer
 {
 public:
+  IModelComposer() = default;
   virtual ~IModelComposer() = default;
+
+  IModelComposer(const IModelComposer&) = delete;
+  IModelComposer& operator=(const IModelComposer&) = delete;
+  IModelComposer(IModelComposer&&) = delete;
+  IModelComposer& operator=(IModelComposer&&) = delete;
 
   /**
    * @brief Inserts an item into the given parent and takes ownership of it.

@@ -25,8 +25,6 @@
 namespace mvvm
 {
 
-class ISessionModel;
-
 /**
  * @brief The ModelComposer class represents the basic composer to modify the model.
  *

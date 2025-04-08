@@ -40,7 +40,13 @@ class ICommandStack;
 class MVVM_MODEL_EXPORT ISessionModel
 {
 public:
+  ISessionModel() = default;
   virtual ~ISessionModel() = default;
+
+  ISessionModel(const ISessionModel&) = delete;
+  ISessionModel& operator=(const ISessionModel&) = delete;
+  ISessionModel(ISessionModel&&) = delete;
+  ISessionModel& operator=(ISessionModel&&) = delete;
 
   /**
    * @brief Returns model type.

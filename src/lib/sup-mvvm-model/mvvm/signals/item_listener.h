@@ -79,8 +79,10 @@ public:
   explicit ItemListener(SessionItem* item);
   virtual ~ItemListener();
 
-  ItemListener& operator=(const ItemListener& other) = delete;
-  ItemListener(const ItemListener& other) = delete;
+  ItemListener(const ItemListener&) = delete;
+  ItemListener& operator=(const ItemListener&) = delete;
+  ItemListener(ItemListener&&) = delete;
+  ItemListener& operator=(ItemListener&&) = delete;
 
   /**
    * @brief Connects a callback to events specified by the given event type.

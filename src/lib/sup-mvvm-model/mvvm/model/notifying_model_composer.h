@@ -27,8 +27,6 @@
 namespace mvvm
 {
 
-class ISessionModel;
-
 /**
  * @brief The NotifyingModelComposer class enhances standard ModelComposer with notification
  * abilities.

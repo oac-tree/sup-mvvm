@@ -31,7 +31,7 @@ class ISessionModel;
 class ModelEventHandler;
 
 /**
- * @brief The ModelListenerBase is a base for all objects willing to listen for changes in
+ * @brief The ModelListener is a base for all objects willing to listen for changes in
  * ApplicationModel.
  *
  * The time of life of all callbacks, or connected objects, should exceed the time of life of this
@@ -67,8 +67,10 @@ public:
   explicit ModelListener(const ISessionModel* model);
   virtual ~ModelListener();
 
-  ModelListener& operator=(const ModelListener& other) = delete;
-  ModelListener(const ModelListener& other) = delete;
+  ModelListener(const ModelListener&) = delete;
+  ModelListener& operator=(const ModelListener&) = delete;
+  ModelListener(ModelListener&&) = delete;
+  ModelListener& operator=(ModelListener&&) = delete;
 
   /**
    * @brief Connects a callback to events specified by the given event type.

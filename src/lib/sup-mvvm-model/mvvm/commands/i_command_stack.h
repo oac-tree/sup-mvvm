@@ -38,7 +38,13 @@ class ICommand;
 class MVVM_MODEL_EXPORT ICommandStack
 {
 public:
+  ICommandStack() = default;
   virtual ~ICommandStack() = default;
+
+  ICommandStack(const ICommandStack&) = delete;
+  ICommandStack& operator=(const ICommandStack&) = delete;
+  ICommandStack(ICommandStack&&) = delete;
+  ICommandStack& operator=(ICommandStack&&) = delete;
 
   /**
    * @brief Pushes command in the stack and immediately executes it.
