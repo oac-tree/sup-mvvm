@@ -259,3 +259,17 @@ TEST_F(ApplicationModelUndoTests, Clear)
   EXPECT_FALSE(commands->CanRedo());
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }
+
+TEST_F(ApplicationModelUndoTests, DISABLED_UndoSetVectorCoordinate)
+{
+  m_model.SetUndoEnabled(true);
+  auto commands = m_model.GetCommandStack();
+
+  auto vector_item = m_model.InsertItem<VectorItem>();
+
+  EXPECT_NO_THROW(vector_item->SetX(42.0)); // <-- failing here
+
+  // it is failing because VectorItem::Activate tries to update label (and thus update he model)
+  // before SetX() execution has finished
+  // FIXME enable test after ModelComposerRefactoring in COA-1389
+}
