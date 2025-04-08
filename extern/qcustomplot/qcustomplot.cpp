@@ -30349,7 +30349,7 @@ void QCPItemPixmap::updateScaledPixmap(QRect finalRect, bool flipHorz, bool flip
       {
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 9, 0)
-        QImage mirrored_image = mScaledPixmap.toImage().mirrored(flipHorz, flipVert)
+        QImage mirrored_image = mScaledPixmap.toImage().mirrored(flipHorz, flipVert);
 #else
         Qt::Orientations orient = flipHorz ? Qt::Horizontal : Qt::Orientations();
         if (flipVert)
