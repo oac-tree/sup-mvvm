@@ -1,6 +1,8 @@
 target_sources(${library_name} PRIVATE
   application_model.cpp
   application_model.h
+  application_model_composer.cpp
+  application_model_composer.h
   combo_property.cpp
   combo_property.h
   compound_item.cpp
@@ -8,10 +10,10 @@ target_sources(${library_name} PRIVATE
   external_property.cpp
   external_property.h
   function_types.h
+  i_item_backup_strategy.h
   i_item_factory.h
   i_model_composer.h
   i_session_model.h
-  i_item_backup_strategy.h
   item_catalogue.h
   item_constants.h
   item_factory.cpp
