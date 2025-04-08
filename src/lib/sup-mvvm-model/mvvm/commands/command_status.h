@@ -21,13 +21,15 @@
 #ifndef MVVM_COMMANDS_COMMAND_STATUS_H_
 #define MVVM_COMMANDS_COMMAND_STATUS_H_
 
+#include <cstdint>
+
 namespace mvvm
 {
 
 /**
  * @brief The CommandStatus enum defines 3 states in which a command can be.
  */
-enum class CommandStatus
+enum class CommandStatus : std::uint8_t
 {
   Initial,       //! after construction
   AfterExecute,  //! method Execute was called, and successfully finished

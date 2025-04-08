@@ -22,12 +22,25 @@
 #include "model_composer.h"
 #include "session_item.h"
 
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/commands/insert_item_command.h>
 #include <mvvm/commands/remove_item_command.h>
 #include <mvvm/commands/set_value_command.h>
+#include <mvvm/signals/model_event_handler.h>
 
 namespace mvvm
 {
+
+namespace
+{
+template <typename C, typename... Args>
+C *ProcessCommand(ICommandStack *command_stack, Args &&...args)
+{
+  auto command = std::make_unique<C>(std::forward<Args>(args)...);
+  return static_cast<C *>(command_stack->Execute(std::move(command)));
+}
+
+}  // namespace
 
 ApplicationModelComposer::ApplicationModelComposer(ISessionModel *model,
                                                    ModelEventHandler *event_handler,
@@ -59,10 +72,16 @@ std::unique_ptr<SessionItem> mvvm::ApplicationModelComposer::TakeItem(SessionIte
 
 bool ApplicationModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
 {
-  (void)item;
-  (void)value;
-  (void)role;
-  return {};
+  auto command =
+      ProcessCommand<SetValueCommand>(m_command_stack, m_model_composer.get(), item, value, role);
+
+  auto result = command ? command->GetResult() : false;
+  if (result)
+  {
+    m_event_handler->Notify<DataChangedEvent>(item, role);
+  }
+
+  return result;
 }
 
 void ApplicationModelComposer::ReplaceRootItem(std::unique_ptr<SessionItem> &old_root_item,

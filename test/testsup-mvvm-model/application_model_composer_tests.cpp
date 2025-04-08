@@ -43,4 +43,8 @@ public:
   CommandStack m_commands;
 };
 
-TEST_F(ApplicationModelComposerTests, InitialState) {}
+TEST_F(ApplicationModelComposerTests, InitialState)
+{
+  // auto composer = CreateComposer();
+  // EXPECT_EQ(composer->GetModel(), &m_model);
+}
