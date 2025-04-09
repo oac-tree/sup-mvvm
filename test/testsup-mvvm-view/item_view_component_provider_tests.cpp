@@ -19,7 +19,7 @@
 
 #include "mvvm/views/item_view_component_provider.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/standarditems/vector_item.h>

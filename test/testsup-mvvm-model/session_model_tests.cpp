@@ -19,7 +19,7 @@
 
 #include "mvvm/model/session_model.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_pool.h>

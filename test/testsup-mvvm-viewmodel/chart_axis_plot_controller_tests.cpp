@@ -19,7 +19,7 @@
 
 #include "mvvm/plotting/charts/chart_axis_plot_controller.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/plotting/charts/qt_charts.h>
 #include <mvvm/signals/event_types.h>

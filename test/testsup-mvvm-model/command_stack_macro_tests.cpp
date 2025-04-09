@@ -20,7 +20,7 @@
 #include "mvvm/commands/macro_command.h"
 
 #include <mvvm/commands/command_stack.h>
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

@@ -22,7 +22,7 @@
 #include "tree_data.h"
 #include "tree_data_helper.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 

@@ -22,7 +22,7 @@
 #include "viewitem_factory.h"
 #include "viewmodel_utils.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_item.h>

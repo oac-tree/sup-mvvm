@@ -19,7 +19,7 @@
 
 #include "mvvm/editors/string_completer_editor.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/test/test_helper.h>
 
 #include <gtest/gtest.h>

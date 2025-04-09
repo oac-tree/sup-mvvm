@@ -23,7 +23,7 @@
 #include "tree_data_helper.h"
 #include "tree_data_item_container_converter.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item_container.h>
 #include <mvvm/model/tagged_items.h>
 

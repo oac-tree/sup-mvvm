@@ -22,7 +22,7 @@
 #include "session_item.h"
 #include "session_item_container.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {

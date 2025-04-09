@@ -20,7 +20,7 @@
 #include "mvvm/model/item_limits_helper.h"
 #include "mvvm/model/session_item.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <gtest/gtest.h>
 

@@ -23,7 +23,7 @@
 #include "folder_based_user_interactor.h"
 #include "recent_project_settings.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/project/i_project.h>
 #include <mvvm/project/project_context.h>
 #include <mvvm/project/project_manager_factory.h>

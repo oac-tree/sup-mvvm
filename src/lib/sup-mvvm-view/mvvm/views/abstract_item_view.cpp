@@ -19,7 +19,7 @@
 
 #include "abstract_item_view.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/viewmodel.h>
 #include <mvvm/views/item_view_component_provider.h>

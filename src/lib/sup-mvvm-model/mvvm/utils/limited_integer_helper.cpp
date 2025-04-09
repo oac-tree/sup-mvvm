@@ -21,7 +21,7 @@
 
 #include "limited_integer.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <functional>
 #include <map>

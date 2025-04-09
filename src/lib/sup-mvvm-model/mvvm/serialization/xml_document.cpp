@@ -22,7 +22,7 @@
 #include "tree_data.h"
 #include "tree_data_model_converter.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
 
 #include <sup/xml/tree_data_parser.h>

@@ -22,7 +22,7 @@
 #include "appearance_helper.h"
 #include "widget_utils.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <QButtonGroup>
 #include <QHBoxLayout>

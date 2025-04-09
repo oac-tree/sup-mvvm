@@ -22,7 +22,7 @@
 #include "custom_event_filters.h"
 #include "editor_helper.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/viewmodel/custom_variants.h>
 

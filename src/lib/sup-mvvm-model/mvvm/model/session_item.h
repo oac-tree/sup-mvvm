@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_SESSION_ITEM_H_
 #define MVVM_MODEL_SESSION_ITEM_H_
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/variant.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/tagindex.h>

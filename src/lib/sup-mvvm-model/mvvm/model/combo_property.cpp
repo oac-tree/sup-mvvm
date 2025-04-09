@@ -19,7 +19,7 @@
 
 #include "combo_property.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 

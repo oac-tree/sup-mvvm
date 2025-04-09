@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/core/exceptions.h"
+#include "mvvm/core/mvvm_exceptions.h"
 
 #include <gtest/gtest.h>
 

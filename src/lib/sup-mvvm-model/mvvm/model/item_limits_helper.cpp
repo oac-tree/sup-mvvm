@@ -21,7 +21,7 @@
 
 #include "session_item.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/variant_limits_helper.h>
 
 #include <sstream>

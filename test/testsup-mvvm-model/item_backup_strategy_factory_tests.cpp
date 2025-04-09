@@ -19,7 +19,7 @@
 
 #include "mvvm/factories/item_backup_strategy_factory.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/property_item.h>

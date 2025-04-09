@@ -19,7 +19,7 @@
 
 #include "string_completer_combo_editor.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <QComboBox>
 #include <QEvent>

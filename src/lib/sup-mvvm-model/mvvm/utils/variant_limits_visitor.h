@@ -20,7 +20,7 @@
 #ifndef MVVM_UTILS_VARIANT_INTEGER_LIMITS_VISITOR_H
 #define MVVM_UTILS_VARIANT_INTEGER_LIMITS_VISITOR_H
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/variant.h>
 
 #include <limits>

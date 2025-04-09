@@ -19,7 +19,7 @@
 
 #include "mvvm/model/item_factory.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_catalogue.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/test/test_helper.h>

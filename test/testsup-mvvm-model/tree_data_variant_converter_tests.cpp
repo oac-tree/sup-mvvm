@@ -19,7 +19,7 @@
 
 #include "mvvm/serialization/tree_data_variant_converter.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_helper.h>
 

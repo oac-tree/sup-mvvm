@@ -22,7 +22,7 @@
 #include "custom_event_filters.h"
 #include "editor_helper.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <QColorDialog>
 #include <QHBoxLayout>

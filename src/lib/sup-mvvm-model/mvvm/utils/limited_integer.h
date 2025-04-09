@@ -20,7 +20,7 @@
 #ifndef MVVM_UTILS_LIMITED_INTEGER_H_
 #define MVVM_UTILS_LIMITED_INTEGER_H_
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/i_limited_integer.h>
 
 #include <algorithm>

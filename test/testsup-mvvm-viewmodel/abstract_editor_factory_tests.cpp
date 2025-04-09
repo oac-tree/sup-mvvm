@@ -19,7 +19,7 @@
 
 #include "mvvm/providers/abstract_editor_factory.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/providers/custom_editor.h>
 
 #include <gtest/gtest.h>

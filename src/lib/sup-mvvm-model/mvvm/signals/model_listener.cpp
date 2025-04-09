@@ -19,7 +19,7 @@
 
 #include "model_listener.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
 
 namespace mvvm

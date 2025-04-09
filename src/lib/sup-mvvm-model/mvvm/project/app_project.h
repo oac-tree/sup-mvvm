@@ -20,7 +20,7 @@
 #ifndef MVVM_PROJECT_APP_PROJECT_H_
 #define MVVM_PROJECT_APP_PROJECT_H_
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/project/abstract_project.h>
 
 namespace mvvm

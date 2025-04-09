@@ -19,7 +19,7 @@
 
 #include "mvvm/project/project_manager.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>

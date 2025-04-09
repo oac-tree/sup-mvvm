@@ -19,7 +19,7 @@
 
 #include "insert_item_command.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/model/i_item_backup_strategy.h>
 #include <mvvm/model/i_model_composer.h>

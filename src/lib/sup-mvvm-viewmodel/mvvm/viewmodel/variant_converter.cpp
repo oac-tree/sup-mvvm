@@ -21,7 +21,7 @@
 
 #include "custom_variants.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <QMetaType>
 #include <functional>

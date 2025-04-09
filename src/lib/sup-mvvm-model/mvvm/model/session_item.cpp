@@ -24,7 +24,7 @@
 #include "taginfo.h"
 #include "validate_utils.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/signals/signal_slot.h>

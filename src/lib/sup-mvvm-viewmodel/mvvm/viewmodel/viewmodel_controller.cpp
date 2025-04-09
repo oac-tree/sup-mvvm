@@ -19,7 +19,7 @@
 
 #include "viewmodel_controller.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {

@@ -19,7 +19,7 @@
 
 #include "mvvm/views/viewmodel_delegate.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/model/application_model.h>

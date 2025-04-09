@@ -21,7 +21,7 @@
 
 #include "viewitem_data.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <vector>

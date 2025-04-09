@@ -19,7 +19,7 @@
 
 #include "viewitem_map.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_utils.h>
 
 namespace mvvm

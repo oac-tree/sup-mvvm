@@ -24,7 +24,7 @@
 #include "tagged_items.h"
 #include "tagindex.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace
 {

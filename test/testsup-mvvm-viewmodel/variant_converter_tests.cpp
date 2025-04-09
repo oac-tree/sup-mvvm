@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/variant_converter.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <gtest/gtest.h>
 

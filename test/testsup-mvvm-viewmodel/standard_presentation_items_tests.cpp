@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/standard_presentation_items.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
 

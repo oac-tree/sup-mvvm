@@ -19,7 +19,7 @@
 
 #include "boolean_editor.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <QCheckBox>
 #include <QHBoxLayout>

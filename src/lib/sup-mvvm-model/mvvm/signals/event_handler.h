@@ -20,7 +20,7 @@
 #ifndef MVVM_SIGNALS_EVENT_HANDLER_H_
 #define MVVM_SIGNALS_EVENT_HANDLER_H_
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/type_map.h>
 #include <mvvm/signals/signal_slot.h>
 

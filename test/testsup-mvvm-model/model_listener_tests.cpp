@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/property_item.h>

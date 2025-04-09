@@ -19,7 +19,7 @@
 
 #include "mvvm/utils/limited_integer_helper.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/limited_integer.h>
 
 #include <gtest/gtest.h>

@@ -21,7 +21,7 @@
 
 #include "scientific_spinbox.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/numeric_utils.h>
 
 #include <QVBoxLayout>

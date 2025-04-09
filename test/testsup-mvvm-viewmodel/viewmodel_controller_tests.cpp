@@ -19,7 +19,7 @@
 
 #include "mvvm/viewmodel/viewmodel_controller.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/session_item.h>

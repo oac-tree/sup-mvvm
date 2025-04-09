@@ -22,7 +22,7 @@
 #include "i_command.h"
 #include "macro_command.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <algorithm>
 #include <list>

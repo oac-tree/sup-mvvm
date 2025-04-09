@@ -19,7 +19,7 @@
 
 #include "string_utils.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <algorithm>
 #include <cctype>

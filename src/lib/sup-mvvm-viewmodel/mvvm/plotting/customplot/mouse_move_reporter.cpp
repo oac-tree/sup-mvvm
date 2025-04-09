@@ -21,7 +21,7 @@
 
 #include "mouse_pos_info.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 #include <qcustomplot.h>
 

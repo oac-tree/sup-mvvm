@@ -23,7 +23,7 @@
 #include "mouse_pos_info.h"
 #include "status_string_formatter_interface.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {

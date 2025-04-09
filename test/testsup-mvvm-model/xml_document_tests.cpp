@@ -19,7 +19,7 @@
 
 #include "mvvm/serialization/xml_document.h"
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/tagged_items.h>

@@ -20,7 +20,7 @@
 #ifndef MVVM_MODEL_ITEM_CATALOGUE_H_
 #define MVVM_MODEL_ITEM_CATALOGUE_H_
 
-#include <mvvm/core/exceptions.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model_export.h>
 
 #include <functional>
