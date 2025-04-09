@@ -29,17 +29,40 @@ class ExceptionsTests : public ::testing::Test
 
 TEST_F(ExceptionsTests, Message)
 {
-  std::string message("custom message");
+  const std::string message("custom message");
 
-  auto exception1 = RuntimeException(message);
-  EXPECT_EQ(std::string(exception1.what()), message);
+  {
+    auto exception = RuntimeException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
 
-  auto exception2 = InvalidOperationException(message);
-  EXPECT_EQ(std::string(exception2.what()), message);
+  {
+    auto exception = KeyNotFoundException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
 
-  auto exception3 = KeyNotFoundException(message);
-  EXPECT_EQ(std::string(exception3.what()), message);
+  {
+    auto exception = ExistingKeyException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
 
-  auto exception4 = ExistingKeyException(message);
-  EXPECT_EQ(std::string(exception4.what()), message);
+  {
+    auto exception = NullArgumentException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
+
+  {
+    auto exception = NotImplementedException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
+
+  {
+    auto exception = InvalidOperationException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
+
+  {
+    auto exception = LogicErrorException(message);
+    EXPECT_EQ(std::string(exception.what()), message);
+  }
 }

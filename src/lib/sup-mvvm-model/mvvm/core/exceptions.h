@@ -36,7 +36,15 @@ class MessageException : public std::exception
 {
 public:
   explicit MessageException(std::string message);
+  ~MessageException() override = default;
+
   const char* what() const noexcept override;
+
+protected:
+  MessageException(const MessageException& other) = default;
+  MessageException& operator=(const MessageException& other) & = default;
+  MessageException(MessageException&&) = default;
+  MessageException& operator=(MessageException&&) = default;
 
 private:
   std::string m_message;
@@ -49,6 +57,11 @@ class RuntimeException : public MessageException
 {
 public:
   explicit RuntimeException(const std::string& message);
+  ~RuntimeException() override = default;
+  RuntimeException(const RuntimeException& other) = default;
+  RuntimeException& operator=(const RuntimeException& other) & = default;
+  RuntimeException(RuntimeException&&) = default;
+  RuntimeException& operator=(RuntimeException&&) = default;
 };
 
 /**
@@ -58,6 +71,11 @@ class KeyNotFoundException : public MessageException
 {
 public:
   explicit KeyNotFoundException(const std::string& message);
+  ~KeyNotFoundException() override = default;
+  KeyNotFoundException(const KeyNotFoundException& other) = default;
+  KeyNotFoundException& operator=(const KeyNotFoundException& other) & = default;
+  KeyNotFoundException(KeyNotFoundException&&) = default;
+  KeyNotFoundException& operator=(KeyNotFoundException&&) = default;
 };
 
 /**
@@ -68,6 +86,11 @@ class ExistingKeyException : public MessageException
 {
 public:
   explicit ExistingKeyException(const std::string& message);
+  ~ExistingKeyException() override = default;
+  ExistingKeyException(const ExistingKeyException& other) = default;
+  ExistingKeyException& operator=(const ExistingKeyException& other) & = default;
+  ExistingKeyException(ExistingKeyException&&) = default;
+  ExistingKeyException& operator=(ExistingKeyException&&) = default;
 };
 
 /**
@@ -77,6 +100,11 @@ class NullArgumentException : public MessageException
 {
 public:
   explicit NullArgumentException(const std::string& message);
+  ~NullArgumentException() override = default;
+  NullArgumentException(const NullArgumentException& other) = default;
+  NullArgumentException& operator=(const NullArgumentException& other) & = default;
+  NullArgumentException(NullArgumentException&&) = default;
+  NullArgumentException& operator=(NullArgumentException&&) = default;
 };
 
 /**
@@ -86,6 +114,11 @@ class NotImplementedException : public MessageException
 {
 public:
   explicit NotImplementedException(const std::string& message);
+  ~NotImplementedException() override = default;
+  NotImplementedException(const NotImplementedException& other) = default;
+  NotImplementedException& operator=(const NotImplementedException& other) & = default;
+  NotImplementedException(NotImplementedException&&) = default;
+  NotImplementedException& operator=(NotImplementedException&&) = default;
 };
 
 /**
@@ -95,6 +128,11 @@ class InvalidOperationException : public MessageException
 {
 public:
   explicit InvalidOperationException(const std::string& message);
+  ~InvalidOperationException() override = default;
+  InvalidOperationException(const InvalidOperationException& other) = default;
+  InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
+  InvalidOperationException(InvalidOperationException&&) = default;
+  InvalidOperationException& operator=(InvalidOperationException&&) = default;
 };
 
 /**
@@ -104,6 +142,11 @@ class LogicErrorException : public MessageException
 {
 public:
   explicit LogicErrorException(const std::string& message);
+  ~LogicErrorException() override = default;
+  LogicErrorException(const LogicErrorException& other) = default;
+  LogicErrorException& operator=(const LogicErrorException& other) & = default;
+  LogicErrorException(LogicErrorException&&) = default;
+  LogicErrorException& operator=(LogicErrorException&&) = default;
 };
 
 }  // namespace mvvm
