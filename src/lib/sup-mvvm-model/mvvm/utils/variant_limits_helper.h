@@ -23,7 +23,6 @@
 //! @file
 //! Helper methods for variant limits.
 
-#include <mvvm/core/exceptions.h>
 #include <mvvm/core/variant.h>
 
 namespace mvvm

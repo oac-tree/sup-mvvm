@@ -20,4 +20,5 @@ target_sources(${library_name} PRIVATE
   threadsafe_stack.h
   variant_limits_helper.cpp
   variant_limits_helper.h
+  variant_limits_visitor.h
   )

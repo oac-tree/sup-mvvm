@@ -19,6 +19,8 @@
 
 #include "mvvm/utils/variant_limits_helper.h"
 
+#include <mvvm/core/exceptions.h>
+
 #include <gtest/gtest.h>
 
 #include <limits>
