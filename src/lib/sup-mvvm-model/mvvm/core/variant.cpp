@@ -19,54 +19,9 @@
 
 #include "variant.h"
 
-#include <mvvm/utils/string_utils.h>
+#include "variant_value_visitor.h"
 
 #include <map>
-
-namespace
-{
-
-/**
- * @brief Helper structure to visit variant and report string representation of its value.
- */
-struct VariantValueVisitor
-{
-  std::string operator()(std::monostate value)
-  {
-    (void)value;
-    return {};
-  }
-  std::string operator()(mvvm::boolean value) { return mvvm::utils::FromBool(value); }
-  std::string operator()(mvvm::char8 value) { return std::to_string(value); }
-  std::string operator()(mvvm::int8 value) { return {std::to_string(value)}; }
-  std::string operator()(mvvm::uint8 value) { return {std::to_string(value)}; }
-
-  std::string operator()(mvvm::int16 value) { return {std::to_string(value)}; }
-  std::string operator()(mvvm::uint16 value) { return {std::to_string(value)}; }
-
-  std::string operator()(mvvm::int32 value) { return {std::to_string(value)}; }
-  std::string operator()(mvvm::uint32 value) { return {std::to_string(value)}; }
-
-  std::string operator()(mvvm::int64 value) { return {std::to_string(value)}; }
-  std::string operator()(mvvm::uint64 value) { return {std::to_string(value)}; }
-
-  std::string operator()(mvvm::float32 value) { return mvvm::utils::DoubleToString(value); }
-
-  std::string operator()(mvvm::float64 value) { return mvvm::utils::DoubleToString(value); }
-
-  std::string operator()(std::string value) { return value; }
-
-  std::string operator()(const std::vector<double> &value)
-  {
-    return {mvvm::utils::ToCommaSeparatedString(value)};
-  }
-
-  std::string operator()(const mvvm::ComboProperty &value) { return {value.GetStringOfValues()}; }
-
-  std::string operator()(const mvvm::ExternalProperty &value) { return value.ToString(); }
-};
-
-}  // namespace
 
 namespace mvvm
 {
@@ -105,7 +60,7 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
 
 std::string TypeName(const variant_t &variant)
 {
-  static std::map<TypeCode, std::string> type_name_map = {
+  static std::map<TypeCode, std::string> kTypeNameMap = {
       {TypeCode::Empty, constants::kEmptyTypeName},
       {TypeCode::Bool, constants::kBooleanTypeName},
       {TypeCode::Char8, constants::kChar8TypeName},
@@ -123,7 +78,7 @@ std::string TypeName(const variant_t &variant)
       {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
       {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
       {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}};
-  return type_name_map[static_cast<TypeCode>(variant.index())];
+  return kTypeNameMap[static_cast<TypeCode>(variant.index())];
 }
 
 std::string ValueToString(const variant_t &variant)
