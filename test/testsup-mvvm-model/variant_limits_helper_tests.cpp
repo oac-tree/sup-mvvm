@@ -27,16 +27,14 @@
 
 using namespace mvvm;
 
-//! Unit tests for helper methods in variant_limits_helper.h
-
-class VariantLimitsHelper : public ::testing::Test
+/**
+ * @brief Tests for helper methods in variant_limits_helper.h
+ */
+class VariantLimitsHelperTest : public ::testing::Test
 {
 };
 
-//! Testing GetInt32MinMaxNumeric function. We test numeric limits for various types casted to
-//! integer.
-
-TEST_F(VariantLimitsHelper, GetInt32MinMaxNumeric)
+TEST_F(VariantLimitsHelperTest, GetInt32MinMaxNumeric)
 {
   {  // int32
     int32 num(42);
@@ -59,9 +57,7 @@ TEST_F(VariantLimitsHelper, GetInt32MinMaxNumeric)
   EXPECT_THROW(GetInt32MinMaxNumeric(std::string()), RuntimeException);
 }
 
-//! Testing GetInt32MinMaxNumeric function with additional user bounds.
-
-TEST_F(VariantLimitsHelper, GetInt32MinMaxNumericWithUserDefinedLimits)
+TEST_F(VariantLimitsHelperTest, GetInt32MinMaxNumericWithUserDefinedLimits)
 {
   {  // int32, additionally bounded from left
     int32 num(42);
@@ -86,9 +82,7 @@ TEST_F(VariantLimitsHelper, GetInt32MinMaxNumericWithUserDefinedLimits)
   }
 }
 
-//! Testing GetFloat64MinMaxNumeric for mvvm::float32 and mvvm::float64 casted to float64.
-
-TEST_F(VariantLimitsHelper, GetFloat64MinMaxNumeric)
+TEST_F(VariantLimitsHelperTest, GetFloat64MinMaxNumeric)
 {
   {  // float64
     float64 num(42.1);
@@ -105,10 +99,7 @@ TEST_F(VariantLimitsHelper, GetFloat64MinMaxNumeric)
   }
 }
 
-//! Testing GetFloat64MinMaxNumeric for mvvm::float32 and mvvm::float64 with additional limits
-//! implied.
-
-TEST_F(VariantLimitsHelper, GetFloat64MinMaxNumericWithUserDefinedLimits)
+TEST_F(VariantLimitsHelperTest, GetFloat64MinMaxNumericWithUserDefinedLimits)
 {
   {  // float64 bounded from left
     float64 num(42.1);
