@@ -30,8 +30,9 @@
 using namespace mvvm;
 using ::testing::_;
 
-//! Tests for AbstractViewModelController class.
-
+/**
+ * @brief Tests of AbstractViewModelController class.
+ */
 class AbstractViewModelControllerTest : public ::testing::Test
 {
 public:
@@ -45,6 +46,15 @@ public:
     ModelEventHandler* GetEventHandler() const override { return m_event_handler; }
 
     mvvm::ModelEventHandler* m_event_handler;
+  };
+
+  class TestController : public AbstractViewModelController
+  {
+  public:
+    const SessionItem* GetRootItem() const override { return nullptr; }
+
+  private:
+    virtual void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; }
   };
 
   /**
@@ -95,8 +105,31 @@ public:
   ModelEventHandler m_event_handler;
 };
 
-//! Setting the model, checking calls of SetRootItemImpl
+TEST_F(AbstractViewModelControllerTest, TestControllerInitialState)
+{
+  TestController controller;
+  EXPECT_EQ(controller.GetRootItem(), nullptr);
+  EXPECT_EQ(controller.GetColumnCount(), 0);
+  EXPECT_TRUE(controller.GetHorizontalHeaderLabels().empty());
 
+  SessionItem root_without_model;
+  EXPECT_THROW(controller.SetRootItem(&root_without_model), RuntimeException);
+
+  mvvm::SessionItem item;
+  mvvm::SessionModel model;
+  const int role{42};
+  const mvvm::TagIndex tag_index{"tag", 0};
+  EXPECT_NO_THROW(controller.OnModelEvent(AboutToInsertItemEvent{&item, tag_index}));
+  EXPECT_NO_THROW(controller.OnModelEvent(ItemInsertedEvent{&item, tag_index}));
+  EXPECT_NO_THROW(controller.OnModelEvent(AboutToRemoveItemEvent{&item, tag_index}));
+  EXPECT_NO_THROW(controller.OnModelEvent(ItemRemovedEvent{&item, tag_index}));
+  EXPECT_NO_THROW(controller.OnModelEvent(DataChangedEvent{&item, role}));
+  EXPECT_NO_THROW(controller.OnModelEvent(ModelAboutToBeResetEvent{&model}));
+  EXPECT_NO_THROW(controller.OnModelEvent(ModelResetEvent{&model}));
+  EXPECT_NO_THROW(controller.OnModelEvent(ModelAboutToBeDestroyedEvent{&model}));
+}
+
+//! Setting the model, checking calls of SetRootItemImpl
 TEST_F(AbstractViewModelControllerTest, SetModel)
 {
   ApplicationModel model;
@@ -130,7 +163,6 @@ TEST_F(AbstractViewModelControllerTest, SetModel)
 }
 
 //! Setting root item, checking calls of SetRootItemImpl.
-
 TEST_F(AbstractViewModelControllerTest, SetRootItem)
 {
   ApplicationModel model;
@@ -163,9 +195,7 @@ TEST_F(AbstractViewModelControllerTest, SetRootItem)
   EXPECT_EQ(controller.GetRootItem(), nullptr);
 }
 
-//! Setting the model, then setting same root item.
-
-TEST_F(AbstractViewModelControllerTest, SetModelThenSetSameTooItem)
+TEST_F(AbstractViewModelControllerTest, SetModelThenSetSameRootItem)
 {
   ApplicationModel model;
   mock_controller_t controller;
@@ -189,9 +219,7 @@ TEST_F(AbstractViewModelControllerTest, SetModelThenSetSameTooItem)
   EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
 }
 
-//! Setting root item, then setting another root item from the same model.
-
-TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItem)
+TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItemFromSameModel)
 {
   ApplicationModel model;
   auto item = model.InsertItem<SessionItem>();
@@ -214,8 +242,6 @@ TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItem)
   EXPECT_EQ(controller.GetModel(), &model);
   EXPECT_EQ(controller.GetRootItem(), item);
 }
-
-//! Setting root item, then setting anothers item from different model.
 
 TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItemFromDifferentModel)
 {
@@ -246,8 +272,6 @@ TEST_F(AbstractViewModelControllerTest, SetRootItemThenAnotherItemFromDifferentM
   EXPECT_EQ(controller.GetRootItem(), item);
 }
 
-//! Controller subscription.
-
 TEST_F(AbstractViewModelControllerTest, SubscribeTo)
 {
   mvvm::SessionItem item;
@@ -269,14 +293,12 @@ TEST_F(AbstractViewModelControllerTest, SubscribeTo)
   m_event_handler.Notify<DataChangedEvent>(&item, role);
 }
 
-//! Controller unsubscription on deletion.
-
-TEST_F(AbstractViewModelControllerTest, Unsubscribe)
+TEST_F(AbstractViewModelControllerTest, UnsubscribeOnDeletion)
 {
   mvvm::SessionItem item;
   const int role{42};
 
-  mvvm::ModelEventHandler event_handler;
+  const mvvm::ModelEventHandler event_handler;
 
   auto controller = std::make_unique<mock_controller_t>();
 
@@ -290,11 +312,9 @@ TEST_F(AbstractViewModelControllerTest, Unsubscribe)
   ASSERT_NO_FATAL_FAILURE(m_event_handler.Notify<DataChangedEvent>(&item, role));
 }
 
-//! Check the case when EventHandler is destroyed before the controller.
-
-TEST_F(AbstractViewModelControllerTest, DestroyNotifierBefore)
+TEST_F(AbstractViewModelControllerTest, EventHandlerIsDestroyedBeforeController)
 {
-  mvvm::SessionItem item;
+  const mvvm::SessionItem item;
   const int role{42};
 
   auto event_handler = std::make_unique<mvvm::ModelEventHandler>();
@@ -313,9 +333,7 @@ TEST_F(AbstractViewModelControllerTest, DestroyNotifierBefore)
   ASSERT_NO_FATAL_FAILURE(controller.reset());
 }
 
-//! Checking listener methods when AboutToInsertItem is fired.
-
-TEST_F(AbstractViewModelControllerTest, AboutToInsertItem)
+TEST_F(AbstractViewModelControllerTest, OnAboutToInsertItemNotify)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -333,9 +351,7 @@ TEST_F(AbstractViewModelControllerTest, AboutToInsertItem)
   m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
 }
 
-//! Checking controller's methods when ItemInserted is fired.
-
-TEST_F(AbstractViewModelControllerTest, ItemInserted)
+TEST_F(AbstractViewModelControllerTest, OnItemInsertedNotify)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -353,9 +369,7 @@ TEST_F(AbstractViewModelControllerTest, ItemInserted)
   m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when AboutToRemoveItem is fired.
-
-TEST_F(AbstractViewModelControllerTest, AboutToRemoveItem)
+TEST_F(AbstractViewModelControllerTest, OnAboutToRemoveItemNotify)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -373,9 +387,7 @@ TEST_F(AbstractViewModelControllerTest, AboutToRemoveItem)
   m_event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when ItemRemoved is fired.
-
-TEST_F(AbstractViewModelControllerTest, ItemRemoved)
+TEST_F(AbstractViewModelControllerTest, OnItemRemovedNotify)
 {
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
@@ -393,9 +405,7 @@ TEST_F(AbstractViewModelControllerTest, ItemRemoved)
   m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when DataChanged is fired.
-
-TEST_F(AbstractViewModelControllerTest, DataChanged)
+TEST_F(AbstractViewModelControllerTest, OnDataChangedNotify)
 {
   mvvm::SessionItem item;
   const int role{42};
@@ -517,10 +527,10 @@ TEST_F(AbstractViewModelControllerTest, TwoSubscriptions)
 
   controller2.SetModel(&m_model);
 
-  DataChangedEvent expected_event{&item, role};
+  const DataChangedEvent expected_event{&item, role};
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(controller1, OnModelEvent(AboutToInsertItemEvent{&item, tag_index})).Times(1);
     EXPECT_CALL(controller2, OnModelEvent(AboutToInsertItemEvent{&item, tag_index})).Times(1);
 
@@ -582,7 +592,7 @@ TEST_F(AbstractViewModelControllerTest, UnsubscribeOne)
   controller1.SetModel(nullptr);
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(controller2, OnModelEvent(AboutToInsertItemEvent{&item, tag_index})).Times(1);
     EXPECT_CALL(controller2, OnModelEvent(ItemInsertedEvent{&item, tag_index})).Times(1);
     EXPECT_CALL(controller2, OnModelEvent(AboutToRemoveItemEvent{&item, tag_index})).Times(1);

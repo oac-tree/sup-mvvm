@@ -38,7 +38,13 @@ class ISessionModel;
 class MVVM_VIEWMODEL_EXPORT IViewModelController
 {
 public:
+  IViewModelController() = default;
   virtual ~IViewModelController() = default;
+
+  IViewModelController(const IViewModelController& other) = delete;
+  IViewModelController& operator=(const IViewModelController& other) = delete;
+  IViewModelController(IViewModelController&& other) = delete;
+  IViewModelController& operator=(IViewModelController&&) = delete;
 
   /**
    * @brief Lets the controller know that a child is about to be inserted into the parent.

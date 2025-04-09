@@ -93,6 +93,11 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
     return;
   }
 
+  if (root_item->GetModel() == nullptr)
+  {
+    throw RuntimeException("Root item should belong to the model");
+  }
+
   if (root_item->GetModel() != GetModel())
   {
     Unsubscribe();
@@ -117,11 +122,6 @@ QStringList AbstractViewModelController::GetHorizontalHeaderLabels() const
 
 void AbstractViewModelController::SubscribeAll(ISessionModel *model)
 {
-  if (!model)
-  {
-    throw RuntimeException("Subscriber is not initialised");
-  }
-
   m_listener = std::make_unique<mvvm::ModelListener>(model);
 
   m_listener->Connect<mvvm::DataChangedEvent>(this, &AbstractViewModelController::OnModelEvent);
