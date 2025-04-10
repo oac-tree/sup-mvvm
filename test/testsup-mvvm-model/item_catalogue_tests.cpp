@@ -66,10 +66,10 @@ TEST_F(ItemCatalogueTests, AddItem)
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // registration of second item is not allowed
-  EXPECT_THROW(catalogue.RegisterItem<PropertyItem>(), ExistingKeyException);
+  EXPECT_THROW(catalogue.RegisterItem<PropertyItem>(), RuntimeException);
 
   // item was not registered, creation not allowed
-  EXPECT_THROW(catalogue.Create("non-registered"), KeyNotFoundException);
+  EXPECT_THROW(catalogue.Create("non-registered"), RuntimeException);
 
   // checking model types and labels
   EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({PropertyItem::GetStaticType()}));
@@ -101,7 +101,7 @@ TEST_F(ItemCatalogueTests, CopyConstructor)
   EXPECT_TRUE(dynamic_cast<TestItem*>(item.get()) != nullptr);
 
   // copy of catalogue knows nothing about new VectorType
-  EXPECT_THROW(copy.Create(TestItem::GetStaticType()), KeyNotFoundException);
+  EXPECT_THROW(copy.Create(TestItem::GetStaticType()), RuntimeException);
 }
 
 TEST_F(ItemCatalogueTests, AssignmentOperator)
@@ -165,5 +165,5 @@ TEST_F(ItemCatalogueTests, Merge)
   EXPECT_TRUE(dynamic_cast<AnotherTestItem*>(item.get()) != nullptr);
 
   // duplications is not allowed
-  EXPECT_THROW(catalogue1.Merge(catalogue2), mvvm::ExistingKeyException);
+  EXPECT_THROW(catalogue1.Merge(catalogue2), mvvm::RuntimeException);
 }

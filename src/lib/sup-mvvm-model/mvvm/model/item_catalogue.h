@@ -118,7 +118,7 @@ void ItemCatalogue<T>::RegisterItem(const std::string& type_name, const factory_
 {
   if (IsRegistered(type_name))
   {
-    throw ExistingKeyException("Attempt to add duplicate to item catalogue '" + type_name + "'");
+    throw RuntimeException("Attempt to add duplicate to item catalogue '" + type_name + "'");
   }
   m_info.push_back({type_name, label, func});
 }
@@ -145,7 +145,7 @@ std::unique_ptr<T> ItemCatalogue<T>::Create(const std::string& type_name) const
                       [type_name](auto element) { return element.type_name == type_name; });
   if (iter == m_info.end())
   {
-    throw KeyNotFoundException("No item registered for model type '" + type_name + "'");
+    throw RuntimeException("No item registered for model type '" + type_name + "'");
   }
   return iter->factory_func();
 }
@@ -185,7 +185,7 @@ void ItemCatalogue<T>::Merge(const ItemCatalogue& other)
   {
     if (IsRegistered(iter.type_name))
     {
-      throw ExistingKeyException("Catalogue contains duplicated records");
+      throw RuntimeException("Catalogue contains duplicated records");
     }
 
     RegisterItem(iter.type_name, iter.factory_func, iter.item_label);

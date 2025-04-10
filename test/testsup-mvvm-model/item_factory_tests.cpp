@@ -127,7 +127,7 @@ TEST_F(ItemFactoryTests, Construction)
 TEST_F(ItemFactoryTests, RegisteringItem)
 {
   auto& factory = GetGlobalItemFactory();
-  EXPECT_THROW(factory.CreateItem(TestItem::GetStaticType()), KeyNotFoundException);
+  EXPECT_THROW(factory.CreateItem(TestItem::GetStaticType()), RuntimeException);
   const size_t registration_count = factory.GetItemTypes().size();
 
   factory.RegisterItem<TestItem>();

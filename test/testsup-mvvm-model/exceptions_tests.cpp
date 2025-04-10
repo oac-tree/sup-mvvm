@@ -37,16 +37,6 @@ TEST_F(ExceptionsTests, Message)
   }
 
   {
-    auto exception = KeyNotFoundException(message);
-    EXPECT_EQ(std::string(exception.what()), message);
-  }
-
-  {
-    auto exception = ExistingKeyException(message);
-    EXPECT_EQ(std::string(exception.what()), message);
-  }
-
-  {
     auto exception = NullArgumentException(message);
     EXPECT_EQ(std::string(exception.what()), message);
   }

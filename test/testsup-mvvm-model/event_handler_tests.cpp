@@ -84,7 +84,7 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
   EventHandler<event_variant_t> event_handler;
 
   EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.AsStdFunction()),
-               KeyNotFoundException);
+               RuntimeException);
 }
 
 //! Connecting single callback with DataChangedEvent. Trigerring notification and checking that

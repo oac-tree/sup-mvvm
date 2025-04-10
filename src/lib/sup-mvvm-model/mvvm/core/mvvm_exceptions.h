@@ -65,35 +65,6 @@ public:
 };
 
 /**
- * @brief The KeyNotFoundException class shall be used on non-existing key in a map.
- */
-class KeyNotFoundException : public MessageException
-{
-public:
-  explicit KeyNotFoundException(const std::string& message);
-  ~KeyNotFoundException() override = default;
-  KeyNotFoundException(const KeyNotFoundException& other) = default;
-  KeyNotFoundException& operator=(const KeyNotFoundException& other) & = default;
-  KeyNotFoundException(KeyNotFoundException&&) = default;
-  KeyNotFoundException& operator=(KeyNotFoundException&&) = default;
-};
-
-/**
- * @brief The ExistingKeyException class shall be used when the key already exists in the
- * map.
- */
-class ExistingKeyException : public MessageException
-{
-public:
-  explicit ExistingKeyException(const std::string& message);
-  ~ExistingKeyException() override = default;
-  ExistingKeyException(const ExistingKeyException& other) = default;
-  ExistingKeyException& operator=(const ExistingKeyException& other) & = default;
-  ExistingKeyException(ExistingKeyException&&) = default;
-  ExistingKeyException& operator=(ExistingKeyException&&) = default;
-};
-
-/**
  * @brief The NullArgumentException class shall be used when the argument is nullptr.
  */
 class NullArgumentException : public MessageException

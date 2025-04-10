@@ -31,14 +31,6 @@ const char* MessageException::what() const noexcept
 
 RuntimeException::RuntimeException(const std::string& message) : MessageException{message} {}
 
-KeyNotFoundException::KeyNotFoundException(const std::string& message) : MessageException{message}
-{
-}
-
-ExistingKeyException::ExistingKeyException(const std::string& message) : MessageException{message}
-{
-}
-
 NullArgumentException::NullArgumentException(const std::string& message) : MessageException{message}
 {
 }

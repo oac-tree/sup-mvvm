@@ -161,7 +161,7 @@ private:
     auto iter = m_signals.template Find<EventT>();
     if (iter == m_signals.end())
     {
-      throw KeyNotFoundException("The type is not supported");
+      throw RuntimeException("The type is not supported");
     }
     return *iter->second.get();
   }
