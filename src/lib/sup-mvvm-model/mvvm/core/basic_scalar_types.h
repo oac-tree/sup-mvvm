@@ -26,40 +26,23 @@
  * sup-dto framework.
  */
 
-#ifdef COA_WEB_ASSEMBLY
 #include <cstdint>
-#endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_
 
 namespace mvvm
 {
 
-#ifdef COA_WEB_ASSEMBLY
 using boolean = bool;
 using char8 = char;
-using int8 = int8_t;
-using uint8 = uint8_t;
-using int16 = int16_t;
-using uint16 = uint16_t;
-using int32 = int32_t;
-using uint32 = uint32_t;
-using int64 = int64_t;
-using uint64 = uint64_t;
+using int8 = std::int8_t;
+using uint8 = std::uint8_t;
+using int16 = std::int16_t;
+using uint16 = std::uint16_t;
+using int32 = std::int32_t;
+using uint32 = std::uint32_t;
+using int64 = std::int64_t;
+using uint64 = std::uint64_t;
 using float32 = float;
 using float64 = double;
-#else
-using boolean = bool;
-using char8 = char;
-using int8 = signed char;
-using uint8 = unsigned char;
-using int16 = signed short;
-using uint16 = unsigned short;
-using int32 = signed int;
-using uint32 = unsigned int;
-using int64 = signed long;
-using uint64 = unsigned long;
-using float32 = float;
-using float64 = double;
-#endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_
 
 }  // namespace mvvm
 
