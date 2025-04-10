@@ -202,7 +202,7 @@ ViewItem* ViewItem::GetChild(int row, int column) const
 
 ViewItemDataInterface* ViewItem::GetItemData()
 {
-  return const_cast<ViewItemDataInterface*>(static_cast<const ViewItem*>(this)->GetItemData());
+  return const_cast<ViewItemDataInterface*>(std::as_const(*this).GetItemData());
 }
 
 const ViewItemDataInterface* ViewItem::GetItemData() const

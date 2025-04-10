@@ -29,6 +29,8 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/signals/signal_slot.h>
 
+#include <utility>
+
 namespace
 {
 int appearance(const mvvm::SessionItem& item)
@@ -143,7 +145,7 @@ bool SessionItem::SetData(const char* value, int role, bool direct)
 
 SessionItemData* SessionItem::GetItemData()
 {
-  return const_cast<SessionItemData*>(static_cast<const SessionItem*>(this)->GetItemData());
+  return const_cast<SessionItemData*>(std::as_const(*this).GetItemData());
 }
 
 const SessionItemData* SessionItem::GetItemData() const
@@ -193,7 +195,7 @@ const TaggedItems* SessionItem::GetTaggedItems() const
 
 TaggedItems* SessionItem::GetTaggedItems()
 {
-  return const_cast<TaggedItems*>(static_cast<const SessionItem*>(this)->GetTaggedItems());
+  return const_cast<TaggedItems*>(std::as_const(*this).GetTaggedItems());
 }
 
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)

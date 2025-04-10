@@ -26,6 +26,8 @@
 #include <mvvm/standarditems/linked_item.h>
 #include <mvvm/standarditems/plottable_items.h>
 
+#include <utility>
+
 namespace
 {
 const int kDefaultLineWidth = 2;
@@ -70,7 +72,7 @@ const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
 
 LineSeriesDataItem *LineSeriesItem::GetDataItem()
 {
-  return const_cast<LineSeriesDataItem *>(static_cast<const LineSeriesItem *>(this)->GetDataItem());
+  return const_cast<LineSeriesDataItem*>(std::as_const(*this).GetDataItem());
 }
 
 double LineSeriesItem::GetXOffset() const

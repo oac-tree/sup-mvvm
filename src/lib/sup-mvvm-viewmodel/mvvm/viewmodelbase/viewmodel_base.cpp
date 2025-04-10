@@ -120,12 +120,12 @@ const ViewItem* ViewModelBase::rootItem() const
 
 ViewItem* ViewModelBase::rootItem()
 {
-  return const_cast<ViewItem*>(static_cast<const ViewModelBase*>(this)->rootItem());
+  return const_cast<ViewItem*>(std::as_const(*this).rootItem());
 }
 
 ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index)
 {
-  return const_cast<ViewItem*>(static_cast<const ViewModelBase*>(this)->itemFromIndex(index));
+  return const_cast<ViewItem*>(std::as_const(*this).itemFromIndex(index));
 }
 
 const ViewItem* ViewModelBase::itemFromIndex(const QModelIndex& index) const

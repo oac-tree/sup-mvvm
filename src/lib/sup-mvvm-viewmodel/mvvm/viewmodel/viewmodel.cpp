@@ -87,7 +87,7 @@ const SessionItem* ViewModel::GetRootSessionItem() const
 
 SessionItem* ViewModel::GetRootSessionItem()
 {
-  return const_cast<SessionItem*>(static_cast<const ViewModel*>(this)->GetRootSessionItem());
+  return const_cast<SessionItem*>(std::as_const(*this).GetRootSessionItem());
 }
 
 void ViewModel::SetRootSessionItem(SessionItem* item)
@@ -104,8 +104,7 @@ const SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index) 
 
 SessionItem* ViewModel::GetSessionItemFromIndex(const QModelIndex& index)
 {
-  return const_cast<SessionItem*>(
-      static_cast<const ViewModel*>(this)->GetSessionItemFromIndex(index));
+  return const_cast<SessionItem*>(std::as_const(*this).GetSessionItemFromIndex(index));
 }
 
 const ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
@@ -115,7 +114,7 @@ const ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index) const
 
 ViewItem* ViewModel::GetViewItemFromIndex(const QModelIndex& index)
 {
-  return const_cast<ViewItem*>(static_cast<const ViewModel*>(this)->GetViewItemFromIndex(index));
+  return const_cast<ViewItem*>(std::as_const(*this).GetViewItemFromIndex(index));
 }
 
 std::vector<const ViewItem*> ViewModel::FindViews(const SessionItem* item) const
