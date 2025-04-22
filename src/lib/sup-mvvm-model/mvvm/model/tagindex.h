@@ -23,7 +23,7 @@
 
 #include <mvvm/model_export.h>
 
-#include <cstdint>
+#include <cstddef>
 #include <string>
 
 namespace mvvm
@@ -55,14 +55,14 @@ public:
    *
    * Implicit conversion is allowed.
    */
-  TagIndex(const std::string& name, std::size_t index = 0);
+  TagIndex(const std::string& name, std::size_t index = 0U);
 
   /**
    * @brief The constructor to build TagIndex from name and index.
    *
    * Implicit conversion is allowed.
    */
-  TagIndex(const char* name, std::size_t index = 0);
+  TagIndex(const char* name, std::size_t index = 0U);
 
   /**
    * @brief Returns tag.
@@ -122,7 +122,7 @@ public:
   /**
    * @brief Returns TagIndex corresponding to the given index in the container marked as a default.
    */
-  static TagIndex Default(std::uint32_t item_index);
+  static TagIndex Default(std::size_t item_index);
 
   /**
    * @brief Returns TagIndex corresponding to an invalid state.
@@ -134,8 +134,8 @@ public:
   bool operator!=(const TagIndex& other) const;
 
 private:
-  std::string m_tag = {};   //!< The name of the item container.
-  std::size_t m_index = 0;  //!< The position in the item container.
+  std::string m_tag;         //!< The name of the item container.
+  std::size_t m_index = 0U;  //!< The position in the item container.
 };
 
 }  // namespace mvvm

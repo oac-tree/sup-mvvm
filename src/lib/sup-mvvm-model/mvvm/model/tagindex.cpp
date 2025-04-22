@@ -92,7 +92,7 @@ TagIndex TagIndex::First(const std::string& tag_name)
   return {tag_name, 0};
 }
 
-TagIndex TagIndex::Default(std::uint32_t item_index)
+TagIndex TagIndex::Default(std::size_t item_index)
 {
   return {kDefaultTag, item_index};
 }
