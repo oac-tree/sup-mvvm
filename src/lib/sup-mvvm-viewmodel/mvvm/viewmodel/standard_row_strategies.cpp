@@ -33,9 +33,9 @@ namespace mvvm
 // LabelDataRowStrategy
 // ----------------------------------------------------------------------------
 
-int LabelDataRowStrategy::GetSize() const
+std::size_t LabelDataRowStrategy::GetSize() const
 {
-  return 2;
+  return 2U;
 }
 
 QStringList LabelDataRowStrategy::GetHorizontalHeaderLabels() const
@@ -63,7 +63,7 @@ PropertiesRowStrategy::PropertiesRowStrategy(std::vector<std::string> labels)
 {
 }
 
-int PropertiesRowStrategy::GetSize() const
+std::size_t PropertiesRowStrategy::GetSize() const
 {
   return m_current_column_labels.size();
 }

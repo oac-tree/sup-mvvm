@@ -47,7 +47,7 @@ namespace
 class TableRowStrategy : public mvvm::AbstractRowStrategy
 {
 public:
-  int GetSize() const override { return 4; }
+  std::size_t GetSize() const override { return 4U; }
 
   QStringList GetHorizontalHeaderLabels() const override
   {

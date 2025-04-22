@@ -37,9 +37,9 @@ public:
   class TestStrategy : public AbstractRowStrategy
   {
   public:
-    explicit TestStrategy(int max_columns) : m_max_columns(max_columns) {}
+    explicit TestStrategy(std::size_t max_columns) : m_max_columns(max_columns) {}
 
-    int GetSize() const override { return m_max_columns; }
+    std::size_t GetSize() const override { return m_max_columns; }
 
   private:
     std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem* item) override
@@ -47,7 +47,7 @@ public:
       (void)item;
       return {};
     }
-    int m_max_columns{0};
+    std::size_t m_max_columns{0};
   };
 };
 

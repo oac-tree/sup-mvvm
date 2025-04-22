@@ -51,7 +51,7 @@ public:
    * trees/tables. In opposite to Qt, we do not support dynamic change (i.e. silent insertion or
    * removal) of the number of columns.
    */
-  virtual int GetSize() const = 0;
+  virtual std::size_t GetSize() const = 0;
 
   /**
    * @brief Returns vector of horizontal labels which view model might want to use.

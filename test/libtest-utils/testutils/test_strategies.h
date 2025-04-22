@@ -37,7 +37,7 @@ class EmptyRowTestStrategy : public mvvm::AbstractRowStrategy
 {
 public:
 
-  int GetSize() const override { return 0;}
+  std::size_t GetSize() const override { return 0U;}
 
   QStringList GetHorizontalHeaderLabels() const override;
 

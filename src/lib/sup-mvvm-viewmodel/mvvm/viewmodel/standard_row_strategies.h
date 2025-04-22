@@ -42,7 +42,7 @@ class ViewItem;
 class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public AbstractRowStrategy
 {
 public:
-  int GetSize() const override;
+  std::size_t GetSize() const override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 
@@ -59,7 +59,7 @@ class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public AbstractRowStrategy
 public:
   explicit PropertiesRowStrategy(std::vector<std::string> labels = {});
 
-  int GetSize() const override;
+  std::size_t GetSize() const override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 
