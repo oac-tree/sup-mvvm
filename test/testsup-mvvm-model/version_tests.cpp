@@ -1,8 +1,8 @@
 /******************************************************************************
  *
- * Project       : Operational Applications UI Foundation
+ * Project       : Graphical User Interface for SUP and PSPS
  *
- * Description   : The model-view-viewmodel library of generic UI components
+ * Description   : Common libraries and tools for Operation Application GUIs
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -18,29 +18,21 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/core/version.h"
 #include "version_constants.h"  // from <build>/autogen
 
-namespace mvvm
-{
+#include <gtest/gtest.h>
 
-std::int32_t ProjectVersionMajor()
+using namespace mvvm;
+
+class VersionTest : public ::testing::Test
 {
-  return kProjectVersionMajor;
+};
+
+TEST_F(VersionTest, ParseVersionString)
+{
+  EXPECT_EQ(kProjectVersionMajor, ProjectVersionMajor());
+  EXPECT_EQ(kProjectVersionMinor, ProjectVersionMinor());
+  EXPECT_EQ(kProjectVersionPatch, ProjectVersionPatch());
+  EXPECT_EQ(kProjectVersionString, ProjectVersion());
 }
-
-std::int32_t ProjectVersionMinor()
-{
-  return kProjectVersionMinor;
-}
-
-std::int32_t ProjectVersionPatch()
-{
-  return kProjectVersionPatch;
-}
-
-std::string ProjectVersion()
-{
-  return kProjectVersionString;
-}
-
-}  // namespace mvvm
