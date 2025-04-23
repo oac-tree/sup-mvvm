@@ -27,6 +27,7 @@
 #include <QString>
 #include <QStringList>
 #include <string>
+#include <cstdint>
 
 class QColor;
 class QSize;
@@ -55,12 +56,12 @@ QString WithTildeHomePath(const QString& path);
 /**
  * @brief Returns width of the letter 'M' deduced from current font metrics.
  */
-int WidthOfLetterM();
+std::int32_t WidthOfLetterM();
 
 /**
  * @brief Returns height of the letter 'M' deduced from current font metrics.
  */
-int HeightOfLetterM();
+std::int32_t HeightOfLetterM();
 
 /**
  * @brief Returns size corresponding to the actual size of the letter `M` based on current font
@@ -76,7 +77,7 @@ void SetApplicationFont(const QFont& font);
 /**
  * @brief Returns size in points of default system font.
  */
-int SystemPointSize();
+std::int32_t SystemPointSize();
 
 /**
  * @brief Finds main window.
@@ -120,7 +121,7 @@ QString CreatePathPresentation(const QString& text);
  * virtual coordinate system. The user is expected to express all widget sizes in these units to be
  * truly independent of any high-DPI issues.
  */
-int UnitSize(double scale = 1.0);
+std::int32_t UnitSize(double scale = 1.0);
 
 }  // namespace mvvm::utils
 

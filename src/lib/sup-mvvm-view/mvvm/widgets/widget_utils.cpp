@@ -24,7 +24,6 @@
 
 #include <QApplication>
 #include <QColor>
-#include <QDebug>
 #include <QDir>
 #include <QFontMetrics>
 #include <QLabel>
@@ -40,10 +39,10 @@ namespace
  */
 QSize GetUnitSizeFromFont(const QFont& font)
 {
-  QFontMetrics fontMetric(font);
-  auto em = fontMetric.horizontalAdvance('M');
-  auto fontAscent = fontMetric.ascent();
-  return {em, fontAscent};
+  const QFontMetrics font_metric(font);
+  auto horizontal_advance = font_metric.horizontalAdvance('M');
+  auto font_ascent = font_metric.ascent();
+  return {horizontal_advance, font_ascent};
 }
 
 /**
@@ -57,8 +56,8 @@ QSize FindSizeOfLetterM()
   }
 
   // when no QApplication is running return something for purpose of unit tests
-  const int default_width = 11;
-  const int default_height = 14;
+  const std::int32_t default_width = 11;
+  const std::int32_t default_height = 14;
   return {default_width, default_height};
 }
 
@@ -75,11 +74,11 @@ const QString untitled_name = "Untitled";
 
 }  // namespace
 
-int RandInt(int low, int high)
+int RandInt(std::int32_t low, std::int32_t high)
 {
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_int_distribution<int> uniform_int(low, high);
+  std::uniform_int_distribution<std::int32_t> uniform_int(low, high);
   return uniform_int(gen);
 }
 
@@ -88,7 +87,7 @@ namespace mvvm::utils
 
 QColor RandomColor()
 {
-  auto rndm = []() -> int { return RandInt(0, 255); };
+  auto rndm = []() -> std::int32_t { return RandInt(0, 255); };
   return {rndm(), rndm(), rndm()};
 }
 
@@ -106,7 +105,7 @@ QString WithTildeHomePath(const QString& path)
 
   static const QString homePath = QDir::homePath();
 
-  QFileInfo fi(QDir::cleanPath(path));
+  const QFileInfo fi(QDir::cleanPath(path));
   QString outPath = fi.absoluteFilePath();
   if (outPath.startsWith(homePath))
   {
@@ -119,12 +118,12 @@ QString WithTildeHomePath(const QString& path)
   return outPath;
 }
 
-int WidthOfLetterM()
+std::int32_t WidthOfLetterM()
 {
   return SizeOfLetterM().width();
 }
 
-int HeightOfLetterM()
+std::int32_t HeightOfLetterM()
 {
   return mvvm::utils::SizeOfLetterM().height();
 }
@@ -144,9 +143,9 @@ void SetApplicationFont(const QFont& font)
   QApplication::setFont(font);
 }
 
-int SystemPointSize()
+std::int32_t SystemPointSize()
 {
-  const int default_size = 10;  // when no application is running
+  const std::int32_t default_size = 10;  // when no application is running
   return QApplication::instance() ? QApplication::font().pointSize() : default_size;
 }
 
@@ -170,7 +169,7 @@ QString ClickableText(const QString& text, const QString& link)
 void ScaleLabelFont(QLabel* label, double scale, bool is_bold)
 {
   QFont font = label->font();
-  font.setPointSize(mvvm::utils::SystemPointSize() * scale);
+  font.setPointSize(static_cast<std::int32_t>(mvvm::utils::SystemPointSize() * scale));
   if (is_bold)
   {
     font.setBold(true);
@@ -213,9 +212,9 @@ QString CreatePathPresentation(const QString& text)
   return result;
 }
 
-int UnitSize(double scale)
+std::int32_t UnitSize(double scale)
 {
-  return static_cast<int>(std::round(WidthOfLetterM() * scale));
+  return static_cast<std::int32_t>(std::round(WidthOfLetterM() * scale));
 }
 
 }  // namespace mvvm::utils
