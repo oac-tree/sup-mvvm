@@ -52,7 +52,7 @@ std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::ConstructRow(Session
 
   // If user implementation creates a non-empty row with wrong size, then probably something went
   // wrong.
-  if (GetSize() < 0 || result.size() != static_cast<size_t>(GetSize()))
+  if (result.size() != GetSize())
   {
     std::ostringstream ostr;
     ostr << "Size of generated row [" << result.size() << "] ";
@@ -73,7 +73,7 @@ std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::CreatePlaceholderRow
   if (GetSize() > 0)
   {
     result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
-    for (int i_row = 1; i_row < GetSize(); ++i_row)
+    for (std::size_t i_row = 1; i_row < GetSize(); ++i_row)
     {
       result.emplace_back(mvvm::CreateLabelViewItem(item));
     }
