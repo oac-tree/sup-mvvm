@@ -21,6 +21,8 @@
 #ifndef MVVM_MODEL_MVVM_TYPES_H_
 #define MVVM_MODEL_MVVM_TYPES_H_
 
+#include <cstdint>
+
 namespace mvvm
 {
 
@@ -31,17 +33,17 @@ class ISessionModel;
 
 namespace DataRole
 {
-const int kIdentifier = 0;  //!< unique identifier
-const int kData = 1;        //!< main data role
-const int kDisplay = 2;     //!< display name
-const int kAppearance = 3;  //!< appearance flag
-const int kTooltip = 4;     //!< tooltip for item's data
-const int kEditor = 5;      //!< type of custom editor for the data role
-const int kLowerLimit = 6;  //!< lower limit on main data role
-const int kUpperLimit = 7;  //!< upper limit on main data role
-const int kDataBackup = 8;  //!< secondary data role
-const int kTextColor = 9;   //!< text color role
-const int kUser = 100;      //!< user role
+const std::int32_t kIdentifier = 0;  //!< unique identifier
+const std::int32_t kData = 1;        //!< main data role
+const std::int32_t kDisplay = 2;     //!< display name
+const std::int32_t kAppearance = 3;  //!< appearance flag
+const std::int32_t kTooltip = 4;     //!< tooltip for item's data
+const std::int32_t kEditor = 5;      //!< type of custom editor for the data role
+const std::int32_t kLowerLimit = 6;  //!< lower limit on main data role
+const std::int32_t kUpperLimit = 7;  //!< upper limit on main data role
+const std::int32_t kDataBackup = 8;  //!< secondary data role
+const std::int32_t kTextColor = 9;   //!< text color role
+const std::int32_t kUser = 100;      //!< user role
 }  // namespace DataRole
 
 //! Defines bit fields for appearance flag (kAppearance data role).

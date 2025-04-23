@@ -34,10 +34,11 @@
 
 namespace
 {
-int appearance(const mvvm::SessionItem& item)
+std::int32_t appearance(const mvvm::SessionItem& item)
 {
-  return item.HasData(mvvm::DataRole::kAppearance) ? item.Data<int>(mvvm::DataRole::kAppearance)
-                                                   : mvvm::Appearance::kDefault;
+  return item.HasData(mvvm::DataRole::kAppearance)
+             ? item.Data<std::int32_t>(mvvm::DataRole::kAppearance)
+             : mvvm::Appearance::kDefault;
 }
 }  // namespace
 
@@ -134,12 +135,12 @@ TagIndex SessionItem::GetTagIndex() const
   return GetParent() ? GetParent()->TagIndexOfItem(this) : TagIndex();
 }
 
-bool SessionItem::HasData(int role) const
+bool SessionItem::HasData(std::int32_t role) const
 {
   return p_impl->m_data->HasData(role);
 }
 
-bool SessionItem::SetData(const char* value, int role, bool direct)
+bool SessionItem::SetData(const char* value, std::int32_t role, bool direct)
 {
   return SetData(std::string(value), role, direct);
 }
@@ -275,12 +276,12 @@ SessionItem& SessionItem::SetEditorType(const std::string& editor_type)
 
 bool SessionItem::HasFlag(Appearance flag) const
 {
-  return HasData(DataRole::kAppearance) ? Data<int>(DataRole::kAppearance) & flag : false;
+  return HasData(DataRole::kAppearance) ? Data<std::int32_t>(DataRole::kAppearance) & flag : false;
 }
 
 SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
 {
-  int flags = appearance(*this);
+  std::int32_t flags = appearance(*this);
   if (value)
   {
     flags |= flag;
@@ -327,7 +328,7 @@ Slot* SessionItem::GetSlot() const
   return p_impl->m_slot.get();
 }
 
-bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
+bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role, bool direct)
 {
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.
@@ -336,7 +337,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, int role, bool direct)
                            : p_impl->m_data->SetData(value, role);
 }
 
-variant_t SessionItem::DataInternal(int role) const
+variant_t SessionItem::DataInternal(std::int32_t role) const
 {
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.

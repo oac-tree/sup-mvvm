@@ -24,6 +24,7 @@
 //! @file
 //! Collection of constants specific for cell editing.
 
+#include <cstdint>
 #include <string>
 
 namespace mvvm::constants
@@ -42,7 +43,7 @@ const std::string kFloatSpinBoxEditorType = "kFloatSpinBoxEditorType";
 const std::string kStringCompleterEditorType = "kStringCompleterEditorType";
 const std::string kComboCompleterEditorType = "kComboCompleterEditorType";
 
-const int kDefaultDoubleDecimals = 4;  //! number of digits after decimal points
+const std::int32_t kDefaultDoubleDecimals = 4;  //! number of digits after decimal points
 
 }  // namespace mvvm::constants
 
