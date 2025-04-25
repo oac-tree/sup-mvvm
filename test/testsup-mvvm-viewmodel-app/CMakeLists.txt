@@ -16,7 +16,7 @@ if(SUP_MVVM_BUILD_QCUSTOMPLOT)
   add_subdirectory(customplot)
 endif()
 
-target_link_libraries(${test} PRIVATE sup-mvvm::test test-utils)
+target_link_libraries(${test} PRIVATE sup-mvvm::test sup-mvvm-test-utils)
 if (SUP_MVVM_BUILD_QCUSTOMPLOT)
   target_link_libraries(${test} PRIVATE qcustomplot)
 endif()
