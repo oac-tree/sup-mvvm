@@ -28,12 +28,12 @@ if (benchmark_FOUND)
 endif()
 add_subdirectory(parasoft)
 
-# Add custom target `make testall` which will run test executables one after another.
+# Add custom target `make sup-mvvm-testall` which will run test executables one after another.
 # This can be used instead of usual `make test` or `ctest` while running tests via an ssh
-# connection. In certain cases `make testall` will be faster than `ctest -j4` because of fewer
+# connection. In certain cases `make sup-mvvm-testall` will be faster than `ctest -j4` because of fewer
 # instantiations of QApplication.
 
-add_custom_target(testall
+add_custom_target(sup-mvvm-testall
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-view
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel-app
   COMMAND ${TEST_OUTPUT_DIRECTORY}/testsup-mvvm-viewmodel
