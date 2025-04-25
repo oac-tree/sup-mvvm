@@ -10,7 +10,7 @@ endif()
 include(PackageConfig)
 include(CMakePackageConfigHelpers)
 
-set(BUILD_CONFIGDIR ${CMAKE_BINARY_DIR})
+set(BUILD_CONFIGDIR ${CMAKE_CURRENT_BINARY_DIR})
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/sup-mvvm)
 
 # -----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ install(FILES ${PACKAGE_CONFIG_FILE} DESTINATION ${INSTALL_CONFIGDIR})
 
 # Generating the source package
 set(CPACK_SOURCE_GENERATOR "TGZ")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME "sup-mvvm-${SUP_MVVM_BUILDVERSION}")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "sup-mvvm-${LIBVERSION}")
 
 set(CPACK_SOURCE_IGNORE_FILES
     ${CPACK_SOURCE_IGNORE_FILES} # first take the default parameters

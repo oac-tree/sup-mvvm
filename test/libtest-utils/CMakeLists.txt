@@ -1,6 +1,6 @@
 # Library of local test utils
 
-set(library_name test-utils)
+set(library_name sup-mvvm-test-utils)
 
 add_library(${library_name} STATIC "")
 

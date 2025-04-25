@@ -44,7 +44,7 @@ public:
    * @param test_home_dirname The name of folder inside.
    *
    * @details The test will create content in test_suite_output_dir/test_home_dirname, which is
-   * normally CMAKE_BINARY_DIR/test_output/test_home_dirname.
+   * normally CMAKE_CURRENT_BINARY_DIR/test_output/test_home_dirname.
    */
   FolderOutputBasedTest(std::string test_suite_output_dir, std::string test_home_dirname);
   ~FolderOutputBasedTest() override;
