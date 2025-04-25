@@ -16,5 +16,5 @@ if (SUP_MVVM_BUILD_QCUSTOMPLOT)
   add_subdirectory(plotgraphs)
 endif()
 
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/examples DESTINATION share/mvvm)
+install(DIRECTORY ${SUP_MVVM_PROJECT_DIR}/examples DESTINATION share/mvvm)
 
