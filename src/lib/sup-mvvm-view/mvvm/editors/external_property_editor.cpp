@@ -87,7 +87,8 @@ void ExternalPropertyEditor::UpdateComponents()
     throw RuntimeException("ExternalPropertyEditor: wrong variant type");
   }
 
-  auto prop = GetData().value<ExternalProperty>();
+  const QVariant variant = GetData();
+  auto prop = variant.value<ExternalProperty>();
   QPixmap pixmap(utils::DefaultPixmapSize(), utils::DefaultPixmapSize());
   pixmap.fill(QColor(QString::fromStdString(prop.GetColorName())));
   m_text_label->setText(QString::fromStdString(prop.GetText()));

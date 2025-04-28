@@ -21,6 +21,7 @@
 #ifndef MVVM_EDITORS_ALLINT_SPINBOX_EDITOR_H_
 #define MVVM_EDITORS_ALLINT_SPINBOX_EDITOR_H_
 
+#include <mvvm/core/variant.h>
 #include <mvvm/providers/custom_editor.h>
 
 namespace mvvm

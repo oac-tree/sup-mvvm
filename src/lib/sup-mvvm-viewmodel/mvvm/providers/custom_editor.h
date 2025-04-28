@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_CUSTOM_EDITOR_H_
 #define MVVM_PROVIDERS_CUSTOM_EDITOR_H_
 
-#include <mvvm/core/variant.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
