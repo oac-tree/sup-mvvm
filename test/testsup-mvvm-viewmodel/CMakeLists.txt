@@ -10,5 +10,5 @@ target_link_libraries(${test} PRIVATE sup-mvvm::test sup-mvvm-test-utils)
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 
-gtest_discover_tests(${test} TEST_PREFIX "ViewModel.")
+gtest_discover_tests(${test} DISCOVERY_MODE PRE_TEST TEST_PREFIX "ViewModel.")
 

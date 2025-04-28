@@ -13,5 +13,5 @@ endif()
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 
-gtest_discover_tests(${test} TEST_PREFIX "View." DISCOVERY_TIMEOUT 10 DISCOVERY_MODE PRE_TEST)
+gtest_discover_tests(${test} DISCOVERY_TIMEOUT 10 DISCOVERY_MODE PRE_TEST TEST_PREFIX "View.")
 

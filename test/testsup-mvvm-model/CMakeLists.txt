@@ -13,5 +13,5 @@ target_link_libraries(${test} PRIVATE sup-mvvm::test sup-utils-tree-data sup-mvv
 
 set_target_properties(${test} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 
-gtest_discover_tests(${test} TEST_PREFIX "Model.")
+gtest_discover_tests(${test} DISCOVERY_MODE PRE_TEST TEST_PREFIX "Model.")
 
