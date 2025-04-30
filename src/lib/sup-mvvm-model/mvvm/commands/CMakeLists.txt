@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   command_stack.cpp
   command_stack.h
   command_status.h
+  notifying_command_stack.cpp
+  notifying_command_stack.h
   i_command.h
   i_command_stack.h
   insert_item_command.cpp
