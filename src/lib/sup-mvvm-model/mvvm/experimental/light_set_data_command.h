@@ -18,30 +18,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "light_item.h"
-
-#include "light_item_impl.h"
-#include "light_model.h"
+#ifndef MVVM_EXPERIMENTAL_LIGHT_SET_DATA_COMMAND_H_
+#define MVVM_EXPERIMENTAL_LIGHT_SET_DATA_COMMAND_H_
 
 namespace mvvm::experimental
 {
 
-LightItem::LightItem() : ILightItem(), m_impl(std::make_unique<LightItemImpl>()) {}
-
-LightItem::~LightItem() = default;
-
-bool LightItem::SetData(const variant_t &value, int32_t role)
-{
-  if (auto model = GetModel(); model)
-  {
-    return model->SetData(this, value, role);
-  }
-  return m_impl->SetData(value, role);
-}
-
-LightModel *LightItem::GetModel()
-{
-  return m_impl->GetModel();
-}
-
 }  // namespace mvvm::experimental
+
+#endif  // MVVM_EXPERIMENTAL_LIGHT_ITEM_H_

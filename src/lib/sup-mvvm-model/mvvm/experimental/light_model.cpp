@@ -29,7 +29,7 @@ LightModel::LightModel() : m_root(std::make_unique<LightItem>()) {}
 
 LightModel::~LightModel() = default;
 
-bool LightModel::SetData(LightItem *item, const variant_t &value, int32_t role)
+bool LightModel::SetData(ILightItem *item, const variant_t &value, int32_t role)
 {
   return item->SetData(value, role);
 }

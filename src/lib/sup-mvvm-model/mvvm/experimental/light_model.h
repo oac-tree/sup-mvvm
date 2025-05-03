@@ -25,10 +25,15 @@
 
 #include <memory>
 
+namespace mvvm
+{
+
+}
+
 namespace mvvm::experimental
 {
 
-class LightItem;
+class ILightItem;
 
 class LightModel
 {
@@ -36,10 +41,10 @@ public:
   LightModel();
   ~LightModel();
 
-  bool SetData(LightItem* item, const variant_t& value, std::int32_t role);
+  bool SetData(ILightItem* item, const variant_t& value, std::int32_t role);
 
 private:
-  std::unique_ptr<LightItem> m_root;
+  std::unique_ptr<ILightItem> m_root;
 };
 
 }  // namespace mvvm::experimental

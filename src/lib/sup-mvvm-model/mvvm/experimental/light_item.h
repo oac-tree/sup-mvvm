@@ -21,9 +21,10 @@
 #ifndef MVVM_EXPERIMENTAL_LIGHT_ITEM_H_
 #define MVVM_EXPERIMENTAL_LIGHT_ITEM_H_
 
-#include <mvvm/core/variant.h>
+#include <mvvm/experimental/i_light_item.h>
 
 #include <memory>
+#include <functional>
 
 namespace mvvm
 {
@@ -34,20 +35,21 @@ namespace mvvm::experimental
 {
 
 class LightModel;
+class LightItemImpl;
 
-class LightItem
+class LightItem : public ILightItem
 {
 public:
   LightItem();
-  ~LightItem();
+  ~LightItem() override;
 
-  bool SetData(const variant_t& value, std::int32_t role);
+  bool SetData(const variant_t& value, std::int32_t role) override;
 
-  LightModel* GetModel();
+  LightModel* GetModel() override;
 
 private:
-  std::unique_ptr<SessionItemData> m_data;
-  LightModel* m_model{nullptr};
+  std::unique_ptr<LightItemImpl> m_impl;
+  std::function<bool(const variant_t& value, std::int32_t role)> m_set_data_strategy;
 };
 
 }  // namespace mvvm::experimental

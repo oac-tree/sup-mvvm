@@ -18,30 +18,26 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "light_item.h"
-
 #include "light_item_impl.h"
+
 #include "light_model.h"
+#include "mvvm/model/session_item_data.h"
 
 namespace mvvm::experimental
 {
 
-LightItem::LightItem() : ILightItem(), m_impl(std::make_unique<LightItemImpl>()) {}
+LightItemImpl::LightItemImpl() : ILightItem(), m_data(std::make_unique<SessionItemData>()) {}
 
-LightItem::~LightItem() = default;
+LightItemImpl::~LightItemImpl() = default;
 
-bool LightItem::SetData(const variant_t &value, int32_t role)
+bool LightItemImpl::SetData(const variant_t &value, int32_t role)
 {
-  if (auto model = GetModel(); model)
-  {
-    return model->SetData(this, value, role);
-  }
-  return m_impl->SetData(value, role);
+  return m_data->SetData(value, role);
 }
 
-LightModel *LightItem::GetModel()
+LightModel *LightItemImpl::GetModel()
 {
-  return m_impl->GetModel();
+  return m_model;
 }
 
 }  // namespace mvvm::experimental
