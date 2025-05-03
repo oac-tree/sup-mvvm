@@ -126,9 +126,13 @@ ICommand *NotifyingCommandQueue::GetNextRedoCommand()
 
 void NotifyingCommandQueue::NotifyBefore(ICommand *command)
 {
+  (void) command;
 }
 
-void NotifyingCommandQueue::NotifyAfter(ICommand *command) {}
+void NotifyingCommandQueue::NotifyAfter(ICommand *command)
+{
+  (void) command;
+}
 
 void NotifyingCommandQueue::ProcessBuffer()
 {
