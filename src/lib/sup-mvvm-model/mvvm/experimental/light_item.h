@@ -23,8 +23,8 @@
 
 #include <mvvm/experimental/i_light_item.h>
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace mvvm
 {
@@ -40,16 +40,23 @@ class LightItemImpl;
 class LightItem : public ILightItem
 {
 public:
+  using set_data_strategy_t =
+      std::function<bool(LightItem*, const variant_t& value, std::int32_t role)>;
+
   LightItem();
   ~LightItem() override;
 
+  void SetDataStrategy(set_data_strategy_t strategy);
+
   bool SetData(const variant_t& value, std::int32_t role) override;
+
+  bool SetDataIntern(const variant_t& value, std::int32_t role) override;
 
   LightModel* GetModel() override;
 
 private:
   std::unique_ptr<LightItemImpl> m_impl;
-  std::function<bool(const variant_t& value, std::int32_t role)> m_set_data_strategy;
+  set_data_strategy_t m_set_data_strategy;
 };
 
 }  // namespace mvvm::experimental

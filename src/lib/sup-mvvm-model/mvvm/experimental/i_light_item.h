@@ -34,6 +34,7 @@ public:
   virtual ~ILightItem() = default;
 
   virtual bool SetData(const variant_t& value, std::int32_t role) = 0;
+  virtual bool SetDataIntern(const variant_t& value, std::int32_t role) = 0;
 
   virtual LightModel* GetModel() = 0;
 };

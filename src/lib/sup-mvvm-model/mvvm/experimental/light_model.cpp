@@ -31,7 +31,11 @@ LightModel::~LightModel() = default;
 
 bool LightModel::SetData(ILightItem *item, const variant_t &value, int32_t role)
 {
-  return item->SetData(value, role);
+  // make command
+  // notify
+  auto result = item->SetDataIntern(value, role);
+  // notify
+  return result;
 }
 
 }  // namespace mvvm::experimental
