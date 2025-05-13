@@ -47,6 +47,8 @@ public:
 
   bool SetDataIntern(const variant_t& value, std::int32_t role) override;
 
+  bool SetDataImpl(const variant_t& value, std::int32_t role) override;
+
   variant_t Data(std::int32_t role = DataRole::kData) const override;
 
   ILightItem* InsertItem(std::unique_ptr<ILightItem> item, std::size_t index) override;

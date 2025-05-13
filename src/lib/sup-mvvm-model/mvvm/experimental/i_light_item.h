@@ -39,6 +39,8 @@ public:
 
   virtual bool SetDataIntern(const variant_t& value, std::int32_t role) = 0;
 
+  virtual bool SetDataImpl(const variant_t& value, std::int32_t role) = 0;
+
   virtual variant_t Data(std::int32_t role = DataRole::kData) const = 0;
 
   virtual ILightItem* InsertItem(std::unique_ptr<ILightItem> item, std::size_t index) = 0;

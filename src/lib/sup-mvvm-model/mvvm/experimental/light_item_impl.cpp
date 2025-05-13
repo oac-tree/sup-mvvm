@@ -40,6 +40,11 @@ bool LightItemImpl::SetDataIntern(const variant_t &value, int32_t role)
   return m_data->SetData(value, role);
 }
 
+bool LightItemImpl::SetDataImpl(const variant_t &value, int32_t role)
+{
+  return m_data->SetData(value, role);
+}
+
 variant_t LightItemImpl::Data(int32_t role) const
 {
   return m_data->Data(role);

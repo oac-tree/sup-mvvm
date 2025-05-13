@@ -18,35 +18,38 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EXPERIMENTAL_LIGHT_SET_DATA_COMMAND_H_
-#define MVVM_EXPERIMENTAL_LIGHT_SET_DATA_COMMAND_H_
+#include "mvvm/experimental/light_set_data_command.h"
 
-#include <mvvm/core/variant.h>
-#include <mvvm/experimental/light_command.h>
+#include <mvvm/experimental/light_item.h>
 
-namespace mvvm::experimental
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+namespace mvvm
 {
 
-class LightItem;
-
-class LightSetDataCommand : public LightCommand
+class LightSetDataCommandTest : public ::testing::Test
 {
 public:
-  LightSetDataCommand(LightItem* item, const variant_t& value, int32_t role);
-
-  std::optional<event_variant_t> GetNextEvent() const override;
-
-private:
-  void ExecuteImpl() override;
-  void UndoImpl() override;
-  void SwapValues();
-
-  LightItem* m_item{nullptr};
-  variant_t m_value;  //! Value to set as a result of command execution.
-  int m_role;
-  bool m_result{false};
 };
 
-}  // namespace mvvm::experimental
+TEST_F(LightSetDataCommandTest, SetData)
+{
+  experimental::LightItem item;
 
-#endif  // MVVM_EXPERIMENTAL_LIGHT_ITEM_H_
+  const variant_t value{mvvm::int32{42}};
+  EXPECT_TRUE(item.SetData(value));
+  EXPECT_EQ(item.Data(), value);
+
+  const variant_t new_value{mvvm::int32{43}};
+  experimental::LightSetDataCommand command(&item, new_value, DataRole::kData);
+  EXPECT_EQ(item.Data(), value);
+
+  command.Execute();
+  EXPECT_EQ(item.Data(), new_value);
+
+  command.Undo();
+  EXPECT_EQ(item.Data(), value);
+}
+
+}  // namespace mvvm
