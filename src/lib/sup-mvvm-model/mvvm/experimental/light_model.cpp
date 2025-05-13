@@ -23,13 +23,15 @@
 #include "light_command.h"
 #include "light_item.h"
 
-#include <mvvm/commands/i_command_stack.h>
+#include <mvvm/commands/command_stack.h>
 
 namespace mvvm::experimental
 {
 
 LightModel::LightModel(notify_func_t notify_func)
-    : m_root(std::make_unique<LightItem>()), m_notify_func(std::move(notify_func))
+    : m_root(std::make_unique<LightItem>())
+    , m_command_stack(std::make_unique<CommandStack>())
+    , m_notify_func(std::move(notify_func))
 {
 }
 
@@ -40,11 +42,25 @@ bool LightModel::SetData(ILightItem *item, const variant_t &value, int32_t role)
   return item->SetData(value, role);
 }
 
-void LightModel::ExecuteCommand(std::unique_ptr<LightCommand> command)
+bool LightModel::ExecuteCommand(std::unique_ptr<LightCommand> command)
 {
-  Notify(command->GetNextEvent());
-  command->Execute();
-  Notify(command->GetNextEvent());
+  auto command_ptr = command.get();
+
+  Notify(command_ptr->GetNextEvent());
+  m_command_stack->Execute(std::move(command));
+  Notify(command_ptr->GetNextEvent());
+
+  return true;
+}
+
+void LightModel::Undo()
+{
+  m_command_stack->Undo();
+}
+
+void LightModel::Redo()
+{
+  m_command_stack->Redo();
 }
 
 void LightModel::Notify(const std::optional<event_variant_t> &optional_event)

@@ -21,8 +21,26 @@
 #ifndef MVVM_EXPERIMENTAL_LIGHT_SET_DATA_COMMAND_H_
 #define MVVM_EXPERIMENTAL_LIGHT_SET_DATA_COMMAND_H_
 
+#include <mvvm/core/variant.h>
+#include <mvvm/experimental/light_command.h>
+
 namespace mvvm::experimental
 {
+
+class LightItem;
+
+class LightSetDataCommand : public LightCommand
+{
+public:
+  LightSetDataCommand(LightItem* item, const variant_t& value, int32_t role);
+
+  std::optional<event_variant_t> GetNextEvent() const override;
+
+private:
+  void ExecuteImpl() override;
+  void UndoImpl() override;
+
+};
 
 }  // namespace mvvm::experimental
 

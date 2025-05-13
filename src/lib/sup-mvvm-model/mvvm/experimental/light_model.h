@@ -49,7 +49,11 @@ public:
 
   bool SetData(ILightItem* item, const variant_t& value, std::int32_t role);
 
-  void ExecuteCommand(std::unique_ptr<LightCommand> command);
+  bool ExecuteCommand(std::unique_ptr<LightCommand> command);
+
+  void Undo();
+
+  void Redo();
 
 private:
   void Notify(const std::optional<event_variant_t>& optional_event);

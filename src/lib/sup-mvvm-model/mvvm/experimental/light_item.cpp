@@ -22,16 +22,15 @@
 
 #include "light_item_impl.h"
 #include "light_model.h"
+#include "light_set_data_command.h"
 
 namespace mvvm::experimental
 {
 
 LightItem::LightItem() : ILightItem(), m_impl(std::make_unique<LightItemImpl>())
 {
-  auto set_data_strategy = [](auto item, const auto& value, auto role)
-  {
-    return item->SetDataIntern(value, role);
-  };
+  auto set_data_strategy = [](auto item, const auto &value, auto role)
+  { return item->SetDataIntern(value, role); };
   m_set_data_strategy = set_data_strategy;
 }
 
@@ -51,7 +50,8 @@ bool LightItem::SetDataIntern(const variant_t &value, int32_t role)
 {
   if (auto model = GetModel(); model)
   {
-    return model->SetData(this, value, role);
+    auto command = std::make_unique<LightSetDataCommand>(this, value, role);
+    return model->ExecuteCommand(std::move(command));
   }
 
   return SetDataImpl(value, role);

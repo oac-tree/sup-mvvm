@@ -23,4 +23,20 @@
 namespace mvvm::experimental
 {
 
+LightSetDataCommand::LightSetDataCommand(LightItem *item, const variant_t &value, int32_t role)
+{
+  (void)item;
+  (void)value;
+  (void)role;
+}
+
+std::optional<event_variant_t> LightSetDataCommand::GetNextEvent() const
+{
+  return {};
+}
+
+void LightSetDataCommand::ExecuteImpl() {}
+
+void LightSetDataCommand::UndoImpl() {}
+
 }  // namespace mvvm::experimental
