@@ -18,47 +18,23 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EXPERIMENTAL_LIGHT_MODEL_H_
-#define MVVM_EXPERIMENTAL_LIGHT_MODEL_H_
+#ifndef MVVM_EXPERIMENTAL_LIGHT_COMMAND_H_
+#define MVVM_EXPERIMENTAL_LIGHT_COMMAND_H_
 
-#include <mvvm/core/variant.h>
+#include <mvvm/commands/abstract_command.h>
 #include <mvvm/signals/event_types.h>
 
-#include <functional>
-#include <memory>
 #include <optional>
-
-namespace mvvm
-{
-class ICommandStack;
-}
 
 namespace mvvm::experimental
 {
 
-class ILightItem;
-class LightCommand;
-
-class LightModel
+class LightCommand : public AbstractCommand
 {
 public:
-  using notify_func_t = std::function<void(const event_variant_t& event)>;
-
-  explicit LightModel(notify_func_t notify_func);
-  ~LightModel();
-
-  bool SetData(ILightItem* item, const variant_t& value, std::int32_t role);
-
-  void ExecuteCommand(std::unique_ptr<LightCommand> command);
-
-private:
-  void Notify(const std::optional<event_variant_t>& optional_event);
-
-  std::unique_ptr<ILightItem> m_root;
-  std::unique_ptr<ICommandStack> m_command_stack;
-  notify_func_t m_notify_func;
+  virtual std::optional<event_variant_t> GetNextEvent() const = 0;
 };
 
 }  // namespace mvvm::experimental
 
-#endif  // MVVM_EXPERIMENTAL_LIGHT_MODEL_H_
+#endif  // MVVM_EXPERIMENTAL_LIGHT_COMMAND_H_

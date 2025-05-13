@@ -20,22 +20,39 @@
 
 #include "light_model.h"
 
+#include "light_command.h"
 #include "light_item.h"
+
+#include <mvvm/commands/i_command_stack.h>
 
 namespace mvvm::experimental
 {
 
-LightModel::LightModel() : m_root(std::make_unique<LightItem>()) {}
+LightModel::LightModel(notify_func_t notify_func)
+    : m_root(std::make_unique<LightItem>()), m_notify_func(std::move(notify_func))
+{
+}
 
 LightModel::~LightModel() = default;
 
 bool LightModel::SetData(ILightItem *item, const variant_t &value, int32_t role)
 {
-  // make command
-  // notify
-  auto result = item->SetDataIntern(value, role);
-  // notify
-  return result;
+  return item->SetData(value, role);
+}
+
+void LightModel::ExecuteCommand(std::unique_ptr<LightCommand> command)
+{
+  Notify(command->GetNextEvent());
+  command->Execute();
+  Notify(command->GetNextEvent());
+}
+
+void LightModel::Notify(const std::optional<event_variant_t> &optional_event)
+{
+  if (m_notify_func && optional_event.has_value())
+  {
+    m_notify_func(optional_event.value());
+  }
 }
 
 }  // namespace mvvm::experimental
