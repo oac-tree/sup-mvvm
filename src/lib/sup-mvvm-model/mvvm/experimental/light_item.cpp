@@ -62,6 +62,11 @@ bool LightItem::SetDataImpl(const variant_t &value, int32_t role)
   return m_impl->SetData(value, role);
 }
 
+variant_t LightItem::Data(int32_t role) const
+{
+  return m_impl->Data(role);
+}
+
 LightModel *LightItem::GetModel()
 {
   return m_impl->GetModel();

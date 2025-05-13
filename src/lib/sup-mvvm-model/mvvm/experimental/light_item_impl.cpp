@@ -49,6 +49,11 @@ bool LightItemImpl::SetDataImpl(const variant_t &value, int32_t role)
   throw std::runtime_error("Should not be called");
 }
 
+variant_t LightItemImpl::Data(int32_t role) const
+{
+  return m_data->Data(role);
+}
+
 LightModel *LightItemImpl::GetModel()
 {
   return m_model;

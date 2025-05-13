@@ -41,9 +41,10 @@ public:
   LightItemImpl();
   ~LightItemImpl() override;
 
-  bool SetData(const variant_t& value, std::int32_t role) override;
+  bool SetData(const variant_t& value, std::int32_t role = DataRole::kData) override;
   bool SetDataIntern(const variant_t& value, std::int32_t role) override;
   bool SetDataImpl(const variant_t& value, std::int32_t role) override;
+  variant_t Data(std::int32_t role = DataRole::kData) const override;
 
   LightModel* GetModel() override;
 

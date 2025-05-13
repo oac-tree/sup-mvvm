@@ -22,6 +22,7 @@
 #define MVVM_EXPERIMENTAL_I_LIGHT_ITEM_H_
 
 #include <mvvm/core/variant.h>
+#include <mvvm/model/mvvm_types.h>
 
 namespace mvvm::experimental
 {
@@ -33,9 +34,10 @@ class ILightItem
 public:
   virtual ~ILightItem() = default;
 
-  virtual bool SetData(const variant_t& value, std::int32_t role) = 0;
+  virtual bool SetData(const variant_t& value, std::int32_t role = DataRole::kData) = 0;
   virtual bool SetDataIntern(const variant_t& value, std::int32_t role) = 0;
   virtual bool SetDataImpl(const variant_t& value, std::int32_t role) = 0;
+  virtual variant_t Data(std::int32_t role = DataRole::kData) const = 0;
 
   virtual LightModel* GetModel() = 0;
 };
