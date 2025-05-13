@@ -54,11 +54,6 @@ bool LightItem::SetDataIntern(const variant_t &value, int32_t role)
     return model->ExecuteCommand(std::move(command));
   }
 
-  return SetDataImpl(value, role);
-}
-
-bool LightItem::SetDataImpl(const variant_t &value, int32_t role)
-{
   return m_impl->SetData(value, role);
 }
 

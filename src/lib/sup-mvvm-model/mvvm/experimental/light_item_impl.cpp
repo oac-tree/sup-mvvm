@@ -23,8 +23,6 @@
 #include "light_model.h"
 #include "mvvm/model/session_item_data.h"
 
-#include <stdexcept>
-
 namespace mvvm::experimental
 {
 
@@ -40,13 +38,6 @@ bool LightItemImpl::SetData(const variant_t &value, int32_t role)
 bool LightItemImpl::SetDataIntern(const variant_t &value, int32_t role)
 {
   return m_data->SetData(value, role);
-}
-
-bool LightItemImpl::SetDataImpl(const variant_t &value, int32_t role)
-{
-  (void)value;
-  (void)role;
-  throw std::runtime_error("Should not be called");
 }
 
 variant_t LightItemImpl::Data(int32_t role) const
