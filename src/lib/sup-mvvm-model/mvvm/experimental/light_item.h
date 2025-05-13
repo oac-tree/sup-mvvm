@@ -52,6 +52,8 @@ public:
 
   bool SetDataIntern(const variant_t& value, std::int32_t role) override;
 
+  bool SetDataImpl(const variant_t& value, std::int32_t role) override;
+
   LightModel* GetModel() override;
 
 private:

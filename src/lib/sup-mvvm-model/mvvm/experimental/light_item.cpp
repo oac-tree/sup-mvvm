@@ -28,10 +28,11 @@ namespace mvvm::experimental
 
 LightItem::LightItem() : ILightItem(), m_impl(std::make_unique<LightItemImpl>())
 {
-  // auto set_data_strategy = [](auto item, auto value, auto role)
-  // {
-  //   item->SetData(value, role);
-  // };
+  auto set_data_strategy = [](auto item, const auto& value, auto role)
+  {
+    return item->SetDataIntern(value, role);
+  };
+  m_set_data_strategy = set_data_strategy;
 }
 
 void LightItem::SetDataStrategy(set_data_strategy_t strategy)
@@ -43,15 +44,20 @@ LightItem::~LightItem() = default;
 
 bool LightItem::SetData(const variant_t &value, int32_t role)
 {
+  return m_set_data_strategy(this, value, role);
+}
+
+bool LightItem::SetDataIntern(const variant_t &value, int32_t role)
+{
   if (auto model = GetModel(); model)
   {
     return model->SetData(this, value, role);
   }
 
-  return SetDataIntern(value, role);
+  return SetDataImpl(value, role);
 }
 
-bool LightItem::SetDataIntern(const variant_t &value, int32_t role)
+bool LightItem::SetDataImpl(const variant_t &value, int32_t role)
 {
   return m_impl->SetData(value, role);
 }
