@@ -62,17 +62,26 @@ bool LightModel::ExecuteCommand(std::unique_ptr<LightCommand> command)
 
 void LightModel::Undo()
 {
+  // Notify(command_ptr->GetNextEvent());
   m_command_stack->Undo();
+  // Notify(command_ptr->GetNextEvent());
 }
 
 void LightModel::Redo()
 {
+  // Notify(command_ptr->GetNextEvent());
   m_command_stack->Redo();
+  // Notify(command_ptr->GetNextEvent());
 }
 
 ILightItem *LightModel::GetRootItem()
 {
   return m_root.get();
+}
+
+ICommandStack *LightModel::GetCommandStack()
+{
+  return m_command_stack.get();
 }
 
 void LightModel::Notify(const std::optional<event_variant_t> &optional_event)

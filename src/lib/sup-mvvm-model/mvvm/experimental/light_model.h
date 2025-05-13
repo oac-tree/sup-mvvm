@@ -59,6 +59,8 @@ public:
 
   ILightItem* GetRootItem();
 
+  ICommandStack* GetCommandStack();
+
 private:
   void Notify(const std::optional<event_variant_t>& optional_event);
 
