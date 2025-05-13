@@ -20,6 +20,7 @@
 
 #include "mvvm/viewmodel/all_items_viewmodel.h"
 
+#include <mvvm/commands/command_stack.h>
 #include <mvvm/model/application_model.h>
 
 #include <benchmark/benchmark.h>
@@ -57,6 +58,58 @@ BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsert)(benchmark::State &state)
     auto multilayer = CreateMultiLayer();
     state.ResumeTiming();
     model.InsertItem(std::move(multilayer), model.GetRootItem(), mvvm::TagIndex::Append());
+  }
+}
+
+BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModel)(benchmark::State &state)
+{
+  mvvm::ApplicationModel model;
+  mvvm::AllItemsViewModel viewmodel(&model);
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    model.SetData(item, value++, DataRole::kData);
+  }
+}
+
+BENCHMARK_F(AllItemsViewModelBenchmark,
+            SetDataWithViewModelWhenUndoEnabled)(benchmark::State &state)
+{
+  mvvm::ApplicationModel model;
+  model.SetUndoEnabled(true, 10000);
+  mvvm::AllItemsViewModel viewmodel(&model);
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    model.SetData(item, value++, DataRole::kData);
+  }
+}
+
+BENCHMARK_F(AllItemsViewModelBenchmark, SetDataWithViewModelUndoRedo)(benchmark::State &state)
+{
+  mvvm::ApplicationModel model;
+  model.SetUndoEnabled(true, 10000);
+  mvvm::AllItemsViewModel viewmodel(&model);
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    model.SetData(item, value++, DataRole::kData);
+  }
+
+  while (model.GetCommandStack()->CanUndo())
+  {
+    model.GetCommandStack()->Undo();
+  }
+
+  while (model.GetCommandStack()->CanRedo())
+  {
+    model.GetCommandStack()->Redo();
   }
 }
 

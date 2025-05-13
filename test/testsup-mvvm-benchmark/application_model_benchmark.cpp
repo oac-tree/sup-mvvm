@@ -20,6 +20,7 @@
 
 #include "mvvm/model/application_model.h"
 
+#include <mvvm/commands/command_stack.h>
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
@@ -43,6 +44,42 @@ BENCHMARK_F(ApplicationModelBenchmark, SetData)(benchmark::State &state)
   for (auto dummy : state)
   {
     model.SetData(item, value++, DataRole::kData);
+  }
+}
+
+BENCHMARK_F(ApplicationModelBenchmark, SetDataWhenUndoEnabled)(benchmark::State &state)
+{
+  mvvm::ApplicationModel model;
+  model.SetUndoEnabled(true, 10000);
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    model.SetData(item, value++, DataRole::kData);
+  }
+}
+
+BENCHMARK_F(ApplicationModelBenchmark, SetDataUndoRedo)(benchmark::State &state)
+{
+  mvvm::ApplicationModel model;
+  model.SetUndoEnabled(true, 10000);
+  auto item = model.InsertItem<PropertyItem>();
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    model.SetData(item, value++, DataRole::kData);
+  }
+
+  while (model.GetCommandStack()->CanUndo())
+  {
+    model.GetCommandStack()->Undo();
+  }
+
+  while (model.GetCommandStack()->CanRedo())
+  {
+    model.GetCommandStack()->Redo();
   }
 }
 
