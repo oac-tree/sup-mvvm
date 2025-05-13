@@ -24,6 +24,7 @@
 #include <mvvm/experimental/i_light_item.h>
 
 #include <memory>
+#include <vector>
 
 namespace mvvm
 {
@@ -42,15 +43,26 @@ public:
   ~LightItemImpl() override;
 
   bool SetData(const variant_t& value, std::int32_t role = DataRole::kData) override;
+
   bool SetDataIntern(const variant_t& value, std::int32_t role) override;
+
   bool SetDataImpl(const variant_t& value, std::int32_t role) override;
+
   variant_t Data(std::int32_t role = DataRole::kData) const override;
+
+  ILightItem* InsertItem(std::unique_ptr<ILightItem> item, std::size_t index) override;
+
+  void SetModel(LightModel* model) override;
 
   LightModel* GetModel() override;
 
+  void SetParent(ILightItem* parent) override;
+
 private:
   std::unique_ptr<SessionItemData> m_data;
+  std::vector<std::unique_ptr<ILightItem>> m_container;
   LightModel* m_model{nullptr};
+  ILightItem* m_parent{nullptr};
 };
 
 }  // namespace mvvm::experimental

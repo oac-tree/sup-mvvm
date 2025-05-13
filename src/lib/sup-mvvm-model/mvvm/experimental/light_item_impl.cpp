@@ -54,9 +54,32 @@ variant_t LightItemImpl::Data(int32_t role) const
   return m_data->Data(role);
 }
 
+ILightItem *LightItemImpl::InsertItem(std::unique_ptr<ILightItem> item, std::size_t index)
+{
+  auto result = item.get();
+  m_container.insert(std::next(m_container.begin(), index), std::move(item));
+  result->SetParent(this);
+  result->SetModel(GetModel());
+  return result;
+}
+
+void LightItemImpl::SetModel(LightModel *model)
+{
+  m_model = model;
+  for (auto &child : m_container)
+  {
+    child->SetModel(m_model);
+  }
+}
+
 LightModel *LightItemImpl::GetModel()
 {
   return m_model;
+}
+
+void LightItemImpl::SetParent(ILightItem *parent)
+{
+  m_parent = parent;
 }
 
 }  // namespace mvvm::experimental

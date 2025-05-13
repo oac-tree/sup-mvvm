@@ -26,11 +26,6 @@
 #include <functional>
 #include <memory>
 
-namespace mvvm
-{
-class SessionItemData;
-}  // namespace mvvm
-
 namespace mvvm::experimental
 {
 
@@ -56,7 +51,13 @@ public:
 
   variant_t Data(std::int32_t role = DataRole::kData) const override;
 
+  ILightItem* InsertItem(std::unique_ptr<ILightItem> item, std::size_t index) override;
+
+  void SetModel(LightModel* model) override;
+
   LightModel* GetModel() override;
+
+  void SetParent(ILightItem* parent) override;
 
 private:
   std::unique_ptr<LightItemImpl> m_impl;
