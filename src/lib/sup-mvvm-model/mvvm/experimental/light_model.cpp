@@ -33,6 +33,13 @@ LightModel::LightModel(notify_func_t notify_func)
     , m_command_stack(std::make_unique<CommandStack>())
     , m_notify_func(std::move(notify_func))
 {
+  m_root->SetModel(this);
+}
+
+ILightItem *LightModel::InsertItem(std::unique_ptr<ILightItem> item, ILightItem *parent,
+                                   std::size_t index)
+{
+  return parent->InsertItem(std::move(item), index);
 }
 
 LightModel::~LightModel() = default;
@@ -61,6 +68,11 @@ void LightModel::Undo()
 void LightModel::Redo()
 {
   m_command_stack->Redo();
+}
+
+ILightItem *LightModel::GetRootItem()
+{
+  return m_root.get();
 }
 
 void LightModel::Notify(const std::optional<event_variant_t> &optional_event)

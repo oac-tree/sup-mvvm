@@ -64,7 +64,9 @@ variant_t LightItem::Data(int32_t role) const
 
 ILightItem *LightItem::InsertItem(std::unique_ptr<ILightItem> item, std::size_t index)
 {
-  return m_impl->InsertItem(std::move(item), index);
+  auto result = m_impl->InsertItem(std::move(item), index);
+  result->SetParent(this);
+  return result;
 }
 
 void LightItem::SetModel(LightModel *model)
@@ -77,9 +79,19 @@ LightModel *LightItem::GetModel()
   return m_impl->GetModel();
 }
 
+ILightItem *LightItem::GetParent()
+{
+  return m_impl->GetParent();
+}
+
 void LightItem::SetParent(ILightItem *parent)
 {
   m_impl->SetParent(parent);
+}
+
+ILightItem *LightItem::GetItem(std::size_t index)
+{
+  return m_impl->GetItem(index);
 }
 
 }  // namespace mvvm::experimental

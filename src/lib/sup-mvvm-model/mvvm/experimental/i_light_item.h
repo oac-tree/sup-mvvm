@@ -47,7 +47,11 @@ public:
 
   virtual LightModel* GetModel() = 0;
 
+  virtual ILightItem* GetParent() = 0;
+
   virtual void SetParent(ILightItem* parent) = 0;
+
+  virtual ILightItem* GetItem(std::size_t index) = 0;
 };
 
 }  // namespace mvvm::experimental

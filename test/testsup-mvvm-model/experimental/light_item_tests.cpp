@@ -20,6 +20,8 @@
 
 #include "mvvm/experimental/light_item.h"
 
+#include <mvvm/experimental/light_model.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -48,7 +50,7 @@ TEST_F(LightItemTest, SetDataViaStrategy)
   { return item->SetDataIntern(value, role); };
   item.SetDataStrategy(strategy);
 
-  const variant_t value = mvvm::int32(42);
+  const variant_t value{mvvm::int32{42}};
   EXPECT_TRUE(item.SetData(value));
   EXPECT_EQ(item.Data(), value);
 
@@ -63,6 +65,30 @@ TEST_F(LightItemTest, SetDataViaStrategy)
   const variant_t expected_value{mvvm::int32{44}};
   EXPECT_TRUE(item.SetData(new_value));
   EXPECT_EQ(item.Data(), expected_value);
+}
+
+TEST_F(LightItemTest, GetRootItem)
+{
+  experimental::LightModel model({});
+  ASSERT_NE(model.GetRootItem(), nullptr);
+  EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
+  EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
+}
+
+TEST_F(LightItemTest, InsertItem)
+{
+  experimental::LightModel model({});
+
+  auto child = std::make_unique<experimental::LightItem>();
+  auto child_ptr = child.get();
+  model.InsertItem(std::move(child), model.GetRootItem(), 0);
+
+  ASSERT_NE(model.GetRootItem(), nullptr);
+  EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
+  EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
+  EXPECT_EQ(model.GetRootItem()->GetItem(0), child_ptr);
+  EXPECT_EQ(model.GetRootItem()->GetItem(0)->GetModel(), &model);
+  EXPECT_EQ(model.GetRootItem()->GetItem(0)->GetParent(), model.GetRootItem());
 }
 
 }  // namespace mvvm

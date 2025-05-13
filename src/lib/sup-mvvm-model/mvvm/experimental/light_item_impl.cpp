@@ -32,7 +32,7 @@ LightItemImpl::~LightItemImpl() = default;
 
 bool LightItemImpl::SetData(const variant_t &value, int32_t role)
 {
-  return m_data->SetData(value, role);
+  return SetDataIntern(value, role);
 }
 
 bool LightItemImpl::SetDataIntern(const variant_t &value, int32_t role)
@@ -49,7 +49,6 @@ ILightItem *LightItemImpl::InsertItem(std::unique_ptr<ILightItem> item, std::siz
 {
   auto result = item.get();
   m_container.insert(std::next(m_container.begin(), index), std::move(item));
-  result->SetParent(this);
   result->SetModel(GetModel());
   return result;
 }
@@ -68,9 +67,19 @@ LightModel *LightItemImpl::GetModel()
   return m_model;
 }
 
+ILightItem *LightItemImpl::GetParent()
+{
+  return m_parent;
+}
+
 void LightItemImpl::SetParent(ILightItem *parent)
 {
   m_parent = parent;
+}
+
+ILightItem *LightItemImpl::GetItem(std::size_t index)
+{
+  return m_container.at(index).get();
 }
 
 }  // namespace mvvm::experimental

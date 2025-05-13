@@ -47,6 +47,8 @@ public:
   explicit LightModel(notify_func_t notify_func);
   ~LightModel();
 
+  ILightItem* InsertItem(std::unique_ptr<ILightItem> item, ILightItem* parent, std::size_t index);
+
   bool SetData(ILightItem* item, const variant_t& value, std::int32_t role);
 
   bool ExecuteCommand(std::unique_ptr<LightCommand> command);
@@ -54,6 +56,8 @@ public:
   void Undo();
 
   void Redo();
+
+  ILightItem* GetRootItem();
 
 private:
   void Notify(const std::optional<event_variant_t>& optional_event);

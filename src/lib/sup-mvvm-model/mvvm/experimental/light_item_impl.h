@@ -54,7 +54,11 @@ public:
 
   LightModel* GetModel() override;
 
+  ILightItem *GetParent() override;
+
   void SetParent(ILightItem* parent) override;
+
+  ILightItem* GetItem(std::size_t index) override;
 
 private:
   std::unique_ptr<SessionItemData> m_data;
