@@ -32,13 +32,16 @@
 
 using namespace mvvm;
 
+/**
+ * @brief Tests for SessionItem class.
+ */
 class SessionItemTests : public ::testing::Test
 {
 public:
   class TestItem : public SessionItem
   {
   public:
-    TestItem(const std::string& model_type) : SessionItem(model_type) {}
+    explicit TestItem(const std::string& model_type) : SessionItem(model_type) {}
   };
 
   class ItemA : public SessionItem
@@ -68,7 +71,7 @@ TEST_F(SessionItemTests, InitialState)
   EXPECT_EQ(item.GetDisplayName(), SessionItem::GetStaticType());
 
   // Initially item has already an identifier defined.
-  std::vector<int> expected_roles = {DataRole::kIdentifier};
+  const std::vector<int> expected_roles = {DataRole::kIdentifier};
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
 
   // Identifier is not zero
@@ -77,11 +80,9 @@ TEST_F(SessionItemTests, InitialState)
 
 TEST_F(SessionItemTests, GetType)
 {
-  SessionItem item;
+  const SessionItem item;
   EXPECT_EQ(item.GetType(), SessionItem::GetStaticType());
 }
-
-//! Validating ::setData and appearance of roles.
 
 TEST_F(SessionItemTests, SetData)
 {
@@ -90,7 +91,7 @@ TEST_F(SessionItemTests, SetData)
 
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
 
-  variant_t expected(42.0);
+  const variant_t expected(42.0);
   EXPECT_TRUE(item.SetData(expected, role));
 
   std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kData};
@@ -107,8 +108,6 @@ TEST_F(SessionItemTests, SetData)
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item.Data(role), variant_t(43.0));
 }
-
-//! Validating ::setData in the context of implicit conversion from scalar to variant.
 
 TEST_F(SessionItemTests, SetDataAndImplicitConversion)
 {
@@ -136,7 +135,7 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
   {
     SessionItem item;
     const int role = DataRole::kData;
-    int64 num(43);
+    const int64 num(43);
     EXPECT_TRUE(item.SetData(num, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
   }
@@ -167,8 +166,6 @@ TEST_F(SessionItemTests, SetDoubleData)
   EXPECT_EQ(item.Data<double>(), expected);
 }
 
-//! Setting integer data. Internally it will be saved as int64, but this is invisible for the user.
-
 TEST_F(SessionItemTests, SetIntData)
 {
   SessionItem item;
@@ -196,23 +193,19 @@ TEST_F(SessionItemTests, SetStringData)
   EXPECT_EQ(item.Data<std::string>(), expected);
 }
 
-//! Validating that const char is correctly converted to std::string, and not to boolean,
-//! on the way to variant_t.
-
 TEST_F(SessionItemTests, SetConstCharData)
 {
+  // bug in gcc8 when const char* is converted to bool
   SessionItem item;
   const char* expected = "abc";
   EXPECT_TRUE(item.SetData(expected));
   EXPECT_EQ(item.Data<std::string>(), std::string(expected));
 }
 
-//! Display role.
-
 TEST_F(SessionItemTests, GetDisplayName)
 {
   TestItem item("Property");
-  variant_t data(42.0);
+  const variant_t data(42.0);
   EXPECT_TRUE(item.SetData(data));
 
   // default display name coincide with model type
@@ -227,18 +220,16 @@ TEST_F(SessionItemTests, GetDisplayName)
   EXPECT_EQ(item.Data<double>(), 42.0);
 }
 
-//! Attempt to set the different Variant to already existing role.
-
-TEST_F(SessionItemTests, VariantMismatch)
+TEST_F(SessionItemTests, AttemptToSetDifferentVariant)
 {
   SessionItem item;
   const int role = DataRole::kData;
-  variant_t expected(42.0);
+  const variant_t expected(42.0);
 
   // setting data for the first time
   EXPECT_TRUE(item.SetData(expected, role));
 
-  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kData};
+  const std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kData};
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item.Data(role), expected);
 
@@ -250,9 +241,7 @@ TEST_F(SessionItemTests, VariantMismatch)
   EXPECT_EQ(item.GetItemData()->GetRoles().size(), 1);
 }
 
-//! Item registration in a pool.
-
-TEST_F(SessionItemTests, RegisterItem)
+TEST_F(SessionItemTests, RegisterItemInPool)
 {
   auto item = std::make_unique<SessionItem>();
   auto item_id = item->GetIdentifier();
@@ -261,19 +250,17 @@ TEST_F(SessionItemTests, RegisterItem)
   std::shared_ptr<ItemPool> pool;
 
   // creating pool
-  pool.reset(new ItemPool);
+  pool = std::make_shared<ItemPool>();
   pool->RegisterItem(item.get(), item_id);
   // registration shouldn't change item identifier
   EXPECT_EQ(item->GetIdentifier(), item_id);
 
   // registration key should coincide with item identifier
   auto key = pool->KeyForItem(item.get());
-  std::vector<int> expected_roles = {DataRole::kIdentifier};
+  const std::vector<int> expected_roles = {DataRole::kIdentifier};
   EXPECT_EQ(item->GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item_id, key);
 }
-
-//! Item registration in a pool.
 
 TEST_F(SessionItemTests, DefaultTag)
 {
@@ -281,8 +268,6 @@ TEST_F(SessionItemTests, DefaultTag)
   EXPECT_EQ(item.GetTaggedItems()->GetDefaultTag(), std::string());
   EXPECT_FALSE(utils::HasTag(item, "defaultTag"));
 }
-
-//! Registering tags
 
 TEST_F(SessionItemTests, RegisterTag)
 {
@@ -334,8 +319,6 @@ TEST_F(SessionItemTests, InsertItem)
   EXPECT_EQ(inserted->GetParent(), parent.get());
 }
 
-//! Simple child insert.
-
 TEST_F(SessionItemTests, InsertItemTemplated)
 {
   auto parent = std::make_unique<SessionItem>();
@@ -357,8 +340,6 @@ TEST_F(SessionItemTests, InsertItemTemplated)
   EXPECT_EQ(parent->GetItem({"", 1}), property);
   EXPECT_EQ(property->GetParent(), parent.get());
 }
-
-//! Simple children insert.
 
 TEST_F(SessionItemTests, InsertChildren)
 {
@@ -402,8 +383,6 @@ TEST_F(SessionItemTests, InsertChildren)
                InvalidOperationException);
 }
 
-//! Attempt to insert into itself
-
 TEST_F(SessionItemTests, AttemptToInsertParentIntoItself)
 {
   auto parent = std::make_unique<SessionItem>();
@@ -412,8 +391,6 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoItself)
   // trying to insert parent into a child
   EXPECT_THROW(parent->InsertItem(std::move(parent), {"", 0}), InvalidOperationException);
 }
-
-//! Invalid insert of parent into a child
 
 TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
 {
@@ -440,8 +417,6 @@ TEST_F(SessionItemTests, AttemptToInsertParentIntoChild)
   // nothing to check here. Unsuccessfull insert anyway ended with parent move and then destruction.
 }
 
-//! Removing (taking) item from parent.
-
 TEST_F(SessionItemTests, TakeItem)
 {
   auto parent = std::make_unique<SessionItem>();
@@ -460,13 +435,11 @@ TEST_F(SessionItemTests, TakeItem)
 
   // taking first row
   EXPECT_NO_THROW(parent->TakeItem({"", 0}));
-  std::vector<SessionItem*> expected = {child2, child3};
+  const std::vector<SessionItem*> expected = {child2, child3};
   EXPECT_EQ(parent->GetAllItems(), expected);
 }
 
-//! Insert and take tagged items.
-
-TEST_F(SessionItemTests, SingleTagAndItems)
+TEST_F(SessionItemTests, InsertAndTakeItemsFromSingleTag)
 {
   const std::string tag1 = "tag1";
 
@@ -480,7 +453,7 @@ TEST_F(SessionItemTests, SingleTagAndItems)
   auto child2 = parent->InsertItem(TagIndex::Append(tag1));
 
   // testing result of insertion via non-tag interface
-  std::vector<SessionItem*> expected = {child1, child2};
+  const std::vector<SessionItem*> expected = {child1, child2};
   EXPECT_EQ(parent->GetAllItems(), expected);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child1), 0);
   EXPECT_EQ(utils::IndexOfChild(parent.get(), child2), 1);
@@ -505,9 +478,7 @@ TEST_F(SessionItemTests, SingleTagAndItems)
   EXPECT_THROW(parent->TakeItem({tag1, 0}), InvalidOperationException);
 }
 
-//! Insert and take tagged items when two tags are present.
-
-TEST_F(SessionItemTests, TwoTagsAndItems)
+TEST_F(SessionItemTests, InsertAndTakeItemsWhenTwoTags)
 {
   const std::string tag1 = "tag1";
   const std::string tag2 = "tag2";
@@ -555,9 +526,7 @@ TEST_F(SessionItemTests, TwoTagsAndItems)
   EXPECT_EQ(parent->GetItems(tag2), expected);
 }
 
-//! Inserting and removing items when tag has limits.
-
-TEST_F(SessionItemTests, TagWithLimits)
+TEST_F(SessionItemTests, InsertAndTakeWhenTagHasLimits)
 {
   const std::string tag1 = "tag1";
   const int maxItems = 3;
@@ -590,8 +559,6 @@ TEST_F(SessionItemTests, TagWithLimits)
   EXPECT_EQ(parent->GetItems(tag1), expected);
 }
 
-//! Checks row of item in its tag
-
 TEST_F(SessionItemTests, GetTagIndex)
 {
   const std::string tag1 = "tag1";
@@ -621,8 +588,6 @@ TEST_F(SessionItemTests, GetTagIndex)
   EXPECT_EQ(child_t2_b->GetTagIndex().GetTag(), "tag2");
   EXPECT_EQ(child_t2_c->GetTagIndex().GetTag(), "tag2");
 }
-
-//! Checks row of item in its tag
 
 TEST_F(SessionItemTests, TagIndexOfItem)
 {
@@ -654,9 +619,7 @@ TEST_F(SessionItemTests, TagIndexOfItem)
   EXPECT_EQ(parent->TagIndexOfItem(child_t2_c).GetTag(), "tag2");
 }
 
-//! Checks item appearance (enabled/disabled).
-
-TEST_F(SessionItemTests, SetEnabled)
+TEST_F(SessionItemTests, CheckAppearanceOnSetEnabled)
 {
   SessionItem item;
 
@@ -692,9 +655,7 @@ TEST_F(SessionItemTests, SetEnabled)
   EXPECT_EQ(variant, variant_t(Appearance::kDefault));
 }
 
-//! Checks item appearance (editable).
-
-TEST_F(SessionItemTests, SetEditable)
+TEST_F(SessionItemTests, CheckAppearanceOnSetEditable)
 {
   SessionItem item;
 
@@ -730,9 +691,7 @@ TEST_F(SessionItemTests, SetEditable)
   EXPECT_EQ(variant, variant_t(Appearance::kDefault));
 }
 
-//! Checks item appearance (visibility).
-
-TEST_F(SessionItemTests, SetVisible)
+TEST_F(SessionItemTests, CheckAppearanceOnSetVisible)
 {
   SessionItem item;
 
@@ -768,9 +727,7 @@ TEST_F(SessionItemTests, SetVisible)
   EXPECT_EQ(variant, variant_t(Appearance::kDefault));
 }
 
-//! Checks item appearance (visibility).
-
-TEST_F(SessionItemTests, SetDisabledAndReaonly)
+TEST_F(SessionItemTests, CheckAppearanceForDisabledAndReaonly)
 {
   SessionItem item;
 
@@ -787,8 +744,6 @@ TEST_F(SessionItemTests, SetDisabledAndReaonly)
   EXPECT_TRUE(utils::IsValid(variant));
   EXPECT_EQ(variant, variant_t(Appearance::kDisabled | Appearance::kReadOnly));
 }
-
-//! Sets appearance flag
 
 TEST_F(SessionItemTests, SetAppearanceFlag)
 {
@@ -855,8 +810,6 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_TRUE(item.HasFlag(kHighlighted));
 }
 
-//! Checks item tooltip.
-
 TEST_F(SessionItemTests, Tooltip)
 {
   SessionItem item;
@@ -868,8 +821,6 @@ TEST_F(SessionItemTests, Tooltip)
   EXPECT_TRUE(item.HasData(DataRole::kTooltip));
   EXPECT_EQ(item.GetToolTip(), "abc");
 }
-
-//! Checks item's editor type.
 
 TEST_F(SessionItemTests, EditorType)
 {
@@ -920,8 +871,6 @@ TEST_F(SessionItemTests, CastedItemAccess)
   EXPECT_EQ(parent->GetItems<ItemB>(tag), std::vector<ItemB*>({item1}));
 }
 
-//! Testing SessionItem::Clone for simple item without children.
-
 TEST_F(SessionItemTests, Clone)
 {
   SessionItem item;
@@ -944,7 +893,6 @@ TEST_F(SessionItemTests, Clone)
   }
 }
 
-//! Testing SessionItem::Clone for parent with children.
 TEST_F(SessionItemTests, CloneParentAndChild)
 {
   const std::string tag = "tag";
