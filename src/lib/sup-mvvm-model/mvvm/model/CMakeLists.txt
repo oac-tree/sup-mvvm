@@ -41,6 +41,8 @@ target_sources(${library_name} PRIVATE
   session_item_container.h
   session_item_data.cpp
   session_item_data.h
+  session_item_impl.cpp
+  session_item_impl.h
   session_model.cpp
   session_model.h
   tagged_items.cpp
