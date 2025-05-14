@@ -42,9 +42,19 @@ TEST_F(SessionItemImplTest, Constructor)
   auto [data, data_ptr] = test::CreateTestData<SessionItemData>();
   auto [tagged_items, tagged_items_ptr] = test::CreateTestData<TaggedItems>();
 
-  SessionItemImpl item_impl(item_type, std::move(data), std::move(tagged_items));
+  SessionItemImpl item(item_type, std::move(data), std::move(tagged_items));
 
-  EXPECT_EQ(item_impl.GetType(), item_type);
-  EXPECT_EQ(item_impl.GetItemData(), data_ptr);
-  EXPECT_EQ(item_impl.GetTaggedItems(), tagged_items_ptr);
+  EXPECT_EQ(item.GetType(), item_type);
+  EXPECT_EQ(item.GetItemData(), data_ptr);
+  EXPECT_EQ(item.GetTaggedItems(), tagged_items_ptr);
+}
+
+TEST_F(SessionItemImplTest, GetSlot)
+{
+  SessionItemImpl item("abc", std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>());
+
+  // slot created once at first call, and then do not change
+  auto slot = item.GetSlot();
+  EXPECT_NE(slot, nullptr);
+  EXPECT_EQ(slot, item.GetSlot());
 }

@@ -59,12 +59,20 @@ public:
 
   TaggedItems* GetTaggedItems();
 
+  SessionItem* GetParent();
+
+  ISessionModel* GetModel();
+
+  Slot* GetSlot();
+
 private:
   std::string m_item_type;
   std::unique_ptr<SessionItemData> m_item_data;
   std::unique_ptr<TaggedItems> m_tagged_items;
   SessionItem* m_parent{nullptr};
   ISessionModel* m_model{nullptr};
+
+  //!< slot is used when this item wants to receive someone's notifications
   std::unique_ptr<Slot> m_slot;
 };
 

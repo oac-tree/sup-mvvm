@@ -52,4 +52,24 @@ TaggedItems *SessionItemImpl::GetTaggedItems()
   return m_tagged_items.get();
 }
 
+SessionItem *SessionItemImpl::GetParent()
+{
+  return m_parent;
+}
+
+ISessionModel *SessionItemImpl::GetModel()
+{
+  return m_model;
+}
+
+Slot *SessionItemImpl::GetSlot()
+{
+  if (!m_slot)
+  {
+    m_slot = std::make_unique<Slot>();
+  }
+
+  return m_slot.get();
+}
+
 }  // namespace mvvm

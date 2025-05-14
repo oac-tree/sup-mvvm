@@ -73,9 +73,9 @@ SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionIt
 
 SessionItem::~SessionItem()
 {
-  if (p_impl->m_model)
+  if (GetModel())
   {
-    p_impl->m_model->CheckOut(this);
+    GetModel()->CheckOut(this);
   }
 }
 
@@ -137,7 +137,7 @@ TagIndex SessionItem::GetTagIndex() const
 
 bool SessionItem::HasData(std::int32_t role) const
 {
-  return p_impl->m_data->HasData(role);
+  return GetItemData()->HasData(role);
 }
 
 bool SessionItem::SetData(const char* value, std::int32_t role, bool direct)
@@ -162,32 +162,32 @@ std::size_t SessionItem::GetTotalItemCount() const
 
 std::vector<SessionItem*> SessionItem::GetAllItems() const
 {
-  return p_impl->m_tags->GetAllItems();
+  return GetTaggedItems()->GetAllItems();
 }
 
 std::size_t SessionItem::GetItemCount(const std::string& tag) const
 {
-  return p_impl->m_tags->GetItemCount(tag);
+  return GetTaggedItems()->GetItemCount(tag);
 }
 
 SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
 {
-  return p_impl->m_tags->GetItem(tag_index);
+  return GetTaggedItems()->GetItem(tag_index);
 }
 
 std::vector<SessionItem*> SessionItem::GetItems(const std::string& tag) const
 {
-  return p_impl->m_tags->GetItems(tag);
+  return GetTaggedItems()->GetItems(tag);
 }
 
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const
 {
-  return p_impl->m_tags->TagIndexOfItem(item);
+  return GetTaggedItems()->TagIndexOfItem(item);
 }
 
 void SessionItem::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 {
-  p_impl->m_tags->RegisterTag(tag_info, set_as_default);
+  GetTaggedItems()->RegisterTag(tag_info, set_as_default);
 }
 
 const TaggedItems* SessionItem::GetTaggedItems() const
@@ -202,7 +202,7 @@ TaggedItems* SessionItem::GetTaggedItems()
 
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
-  auto insert_tag_index = p_impl->m_tags->GetInsertTagIndex(tag_index);
+  auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
   utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
   auto result = p_impl->m_tags->InsertItem(std::move(item), insert_tag_index);
@@ -334,14 +334,14 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role, boo
   // SessionItem header.
   const bool act_through_model = !direct && GetModel();
   return act_through_model ? GetModel()->SetData(this, value, role)
-                           : p_impl->m_data->SetData(value, role);
+                           : GetItemData()->SetData(value, role);
 }
 
 variant_t SessionItem::DataInternal(std::int32_t role) const
 {
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.
-  return p_impl->m_data->Data(role);
+  return GetItemData()->Data(role);
 }
 
 void SessionItem::SetParent(SessionItem* parent)
