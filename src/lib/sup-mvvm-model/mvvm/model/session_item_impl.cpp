@@ -30,10 +30,11 @@
 namespace mvvm
 {
 
-SessionItemImpl::SessionItemImpl(const std::string &item_type,
-                                 std::unique_ptr<SessionItemData> data,
+SessionItemImpl::SessionItemImpl(std::string item_type, std::unique_ptr<SessionItemData> data,
                                  std::unique_ptr<TaggedItems> tags)
-    : m_item_type(item_type), m_item_data(std::move(data)), m_tagged_items(std::move(tags))
+    : m_item_type(std::move(item_type))
+    , m_item_data(std::move(data))
+    , m_tagged_items(std::move(tags))
 {
 }
 
@@ -67,6 +68,11 @@ TaggedItems *SessionItemImpl::GetTaggedItems()
 SessionItem *SessionItemImpl::GetParent()
 {
   return m_parent;
+}
+
+void SessionItemImpl::SetParent(SessionItem *parent)
+{
+  m_parent = parent;
 }
 
 ISessionModel *SessionItemImpl::GetModel()

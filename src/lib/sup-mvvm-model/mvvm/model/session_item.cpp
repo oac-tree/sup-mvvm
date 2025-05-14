@@ -21,6 +21,7 @@
 #include "session_item.h"
 
 #include "session_item_data.h"
+#include "session_item_impl.h"
 #include "tagged_items.h"
 #include "taginfo.h"
 #include "validate_utils.h"
@@ -28,7 +29,6 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
-#include <mvvm/signals/signal_slot.h>
 
 #include <utility>
 
@@ -44,15 +44,6 @@ std::int32_t appearance(const mvvm::SessionItem& item)
 
 namespace mvvm
 {
-struct SessionItem::SessionItemImpl
-{
-  SessionItem* m_parent{nullptr};
-  ISessionModel* m_model{nullptr};
-  std::unique_ptr<SessionItemData> m_data;
-  std::unique_ptr<TaggedItems> m_tags;
-  std::unique_ptr<Slot> m_slot;
-  std::string m_item_type;
-};
 
 SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
 
@@ -64,11 +55,8 @@ SessionItem::SessionItem(const std::string& item_type)
 
 SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
                          std::unique_ptr<TaggedItems> tags)
-    : p_impl(std::make_unique<SessionItemImpl>())
+    : p_impl(std::make_unique<SessionItemImpl>(item_type, std::move(data), std::move(tags)))
 {
-  p_impl->m_data = std::move(data);
-  p_impl->m_tags = std::move(tags);
-  p_impl->m_item_type = item_type;
 }
 
 SessionItem::~SessionItem()
@@ -101,7 +89,7 @@ std::unique_ptr<SessionItem> SessionItem::Clone() const
 
 std::string SessionItem::GetType() const
 {
-  return p_impl->m_item_type;
+  return p_impl->GetType();
 }
 
 std::string SessionItem::GetIdentifier() const
@@ -122,12 +110,12 @@ SessionItem& SessionItem::SetDisplayName(const std::string& name)
 
 ISessionModel* SessionItem::GetModel() const
 {
-  return p_impl->m_model;
+  return p_impl->GetModel();
 }
 
 SessionItem* SessionItem::GetParent() const
 {
-  return p_impl->m_parent;
+  return p_impl->GetParent();
 }
 
 TagIndex SessionItem::GetTagIndex() const
@@ -152,7 +140,7 @@ SessionItemData* SessionItem::GetItemData()
 
 const SessionItemData* SessionItem::GetItemData() const
 {
-  return p_impl->m_data.get();
+  return p_impl->GetItemData();
 }
 
 std::size_t SessionItem::GetTotalItemCount() const
@@ -192,7 +180,7 @@ void SessionItem::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 
 const TaggedItems* SessionItem::GetTaggedItems() const
 {
-  return p_impl->m_tags.get();
+  return p_impl->GetTaggedItems();
 }
 
 TaggedItems* SessionItem::GetTaggedItems()
@@ -205,7 +193,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
   utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
-  auto result = p_impl->m_tags->InsertItem(std::move(item), insert_tag_index);
+  auto result = p_impl->GetTaggedItems()->InsertItem(std::move(item), insert_tag_index);
   result->SetParent(this);
   result->SetModel(GetModel());
   return result;
@@ -215,7 +203,7 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(this, tag_index);
 
-  auto result = p_impl->m_tags->TakeItem(tag_index);
+  auto result = p_impl->GetTaggedItems()->TakeItem(tag_index);
   result->SetParent(nullptr);
   result->SetModel(nullptr);
 
@@ -299,33 +287,12 @@ void SessionItem::Activate() {}
 
 void SessionItem::SetModel(ISessionModel* model)
 {
-  if (p_impl->m_model)
-  {
-    p_impl->m_model->CheckOut(this);
-    p_impl->m_slot.reset();  // we do not want to receive notification after removal from the model
-  }
-
-  p_impl->m_model = model;
-
-  // First we assign the model to all children, and then we register item.
-  for (auto child : GetAllItems())
-  {
-    child->SetModel(model);
-  }
-  if (p_impl->m_model)
-  {
-    p_impl->m_model->CheckIn(this);
-  }
+  p_impl->SetModel(model, this);
 }
 
 Slot* SessionItem::GetSlot() const
 {
-  if (!p_impl->m_slot)
-  {
-    p_impl->m_slot = std::make_unique<Slot>();
-  }
-
-  return p_impl->m_slot.get();
+  return p_impl->GetSlot();
 }
 
 bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role, bool direct)
@@ -346,14 +313,13 @@ variant_t SessionItem::DataInternal(std::int32_t role) const
 
 void SessionItem::SetParent(SessionItem* parent)
 {
-  p_impl->m_parent = parent;
+  p_impl->SetParent(parent);
 }
 
 void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
                                  std::unique_ptr<TaggedItems> tags)
 {
-  p_impl->m_data = std::move(data);
-  p_impl->m_tags = std::move(tags);
+  p_impl = std::make_unique<SessionItemImpl>(GetType(), std::move(data), std::move(tags));
 }
 
 }  // namespace mvvm

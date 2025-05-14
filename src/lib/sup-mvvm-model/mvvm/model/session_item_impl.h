@@ -45,7 +45,7 @@ class TaggedItems;
 class SessionItemImpl
 {
 public:
-  SessionItemImpl(const std::string& item_type, std::unique_ptr<SessionItemData> data,
+  SessionItemImpl(std::string item_type, std::unique_ptr<SessionItemData> data,
                   std::unique_ptr<TaggedItems> tags);
   ~SessionItemImpl();
 
@@ -65,6 +65,8 @@ public:
   TaggedItems* GetTaggedItems();
 
   SessionItem* GetParent();
+
+  void SetParent(SessionItem* parent);
 
   ISessionModel* GetModel();
 

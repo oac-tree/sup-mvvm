@@ -38,6 +38,7 @@ class ISessionModel;
 class TagInfo;
 class SessionItemData;
 class TaggedItems;
+class SessionItemImpl;
 
 /**
  * @brief The SessionItem class is a base element to build a hierarchical structure representing all
@@ -394,7 +395,6 @@ private:
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
-  struct SessionItemImpl;  //!< implementation details
   std::unique_ptr<SessionItemImpl> p_impl;
 };
 
