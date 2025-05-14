@@ -20,6 +20,8 @@
 
 #include "session_item_impl.h"
 
+#include "i_session_model.h"
+#include "session_item.h"
 #include "session_item_data.h"
 #include "tagged_items.h"
 
@@ -42,6 +44,16 @@ std::string SessionItemImpl::GetType() const
   return m_item_type;
 }
 
+variant_t SessionItemImpl::Data(int32_t role)
+{
+  return GetItemData()->Data(role);
+}
+
+bool SessionItemImpl::SetData(const variant_t &value, int32_t role)
+{
+  return GetItemData()->SetData(value, role);
+}
+
 SessionItemData *SessionItemImpl::GetItemData()
 {
   return m_item_data.get();
@@ -60,6 +72,27 @@ SessionItem *SessionItemImpl::GetParent()
 ISessionModel *SessionItemImpl::GetModel()
 {
   return m_model;
+}
+
+void SessionItemImpl::SetModel(ISessionModel *model, SessionItem *my_owner)
+{
+  if (m_model)
+  {
+    m_model->CheckOut(my_owner);
+    m_slot.reset();  // we do not want to receive notification after removal from the model
+  }
+
+  m_model = model;
+
+  // First we assign the model to all children, and then we register item.
+  for (auto child : GetTaggedItems()->GetAllItems())
+  {
+    child->SetModel(model);
+  }
+  if (m_model)
+  {
+    m_model->CheckIn(my_owner);
+  }
 }
 
 Slot *SessionItemImpl::GetSlot()

@@ -20,6 +20,7 @@
 
 #include "mvvm/model/session_item_impl.h"
 
+#include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 
@@ -47,6 +48,14 @@ TEST_F(SessionItemImplTest, Constructor)
   EXPECT_EQ(item.GetType(), item_type);
   EXPECT_EQ(item.GetItemData(), data_ptr);
   EXPECT_EQ(item.GetTaggedItems(), tagged_items_ptr);
+}
+
+TEST_F(SessionItemImplTest, SetData)
+{
+  SessionItemImpl item("abc", std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>());
+
+  EXPECT_TRUE(item.SetData(42, DataRole::kData));
+  EXPECT_EQ(item.Data(DataRole::kData), variant_t{42});
 }
 
 TEST_F(SessionItemImplTest, GetSlot)

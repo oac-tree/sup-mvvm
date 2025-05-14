@@ -21,6 +21,7 @@
 #ifndef MVVM_MODEL_SESSION_ITEM_IMPL_H_
 #define MVVM_MODEL_SESSION_ITEM_IMPL_H_
 
+#include <mvvm/core/variant.h>
 #include <mvvm/signals/signal_slot_fwd.h>
 
 #include <memory>
@@ -55,6 +56,10 @@ public:
 
   std::string GetType() const;
 
+  variant_t Data(std::int32_t role);
+
+  bool SetData(const variant_t& value, std::int32_t role);
+
   SessionItemData* GetItemData();
 
   TaggedItems* GetTaggedItems();
@@ -63,6 +68,19 @@ public:
 
   ISessionModel* GetModel();
 
+  /**
+   * @brief Sets the model to implementation owner and all its children.
+   *
+   * Previous model will be removed, all connections unsubscribed.
+   *
+   * @param model The model to set.
+   * @param my_owner The owner of this implementation.
+   */
+  void SetModel(ISessionModel* model, SessionItem* my_owner);
+
+  /**
+   * @brief Returns a slot associated with this item.
+   */
   Slot* GetSlot();
 
 private:
