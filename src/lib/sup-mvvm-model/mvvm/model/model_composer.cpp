@@ -43,7 +43,7 @@ std::unique_ptr<SessionItem> ModelComposer::TakeItem(SessionItem *parent, const 
 
 bool ModelComposer::SetData(SessionItem *item, const variant_t &value, int role)
 {
-  return item->SetData(value, role, /*direct*/ true);
+  return item->SetDataImpl(value, role);
 }
 
 void ModelComposer::ReplaceRootItem(std::unique_ptr<SessionItem> &old_root_item,

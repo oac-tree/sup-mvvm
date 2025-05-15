@@ -300,11 +300,15 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role, boo
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.
   const bool act_through_model = !direct && GetModel();
-  return act_through_model ? GetModel()->SetData(this, value, role)
-                           : GetItemData()->SetData(value, role);
+  return act_through_model ? GetModel()->SetData(this, value, role) : SetDataImpl(value, role);
 }
 
-variant_t SessionItem::DataInternal(std::int32_t role) const
+bool SessionItem::SetDataImpl(const variant_t& value, std::int32_t role)
+{
+  return GetItemData()->SetData(value, role);
+}
+
+variant_t SessionItem::GetDataImpl(std::int32_t role) const
 {
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.

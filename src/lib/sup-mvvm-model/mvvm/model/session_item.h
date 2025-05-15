@@ -373,23 +373,28 @@ public:
    */
   Slot* GetSlot() const;
 
-protected:
-  explicit SessionItem(const std::string& item_type);
-  SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
-              std::unique_ptr<TaggedItems> tags);
-
   /**
    * @brief Sets the data for the given role.
    */
   bool SetDataInternal(const variant_t& value, std::int32_t role, bool direct);
 
-private:
-  friend class TreeDataItemConverter;
+  /**
+   * @brief Sets the data for the given role.
+   */
+  bool SetDataImpl(const variant_t& value, std::int32_t role);
 
   /**
    * @brief Returns the data stored for the given role.
    */
-  variant_t DataInternal(std::int32_t role) const;
+  variant_t GetDataImpl(std::int32_t role) const;
+
+protected:
+  explicit SessionItem(const std::string& item_type);
+  SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
+              std::unique_ptr<TaggedItems> tags);
+
+private:
+  friend class TreeDataItemConverter;
 
   void SetParent(SessionItem* parent);
 
@@ -409,11 +414,11 @@ inline T SessionItem::Data(std::int32_t role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
   {
-    return DataInternal(role);  // if variant_t is required, simply return it
+    return GetDataImpl(role);  // if variant_t is required, simply return it
   }
   else
   {
-    return std::get<T>(DataInternal(role));  // convert the data to required type
+    return std::get<T>(GetDataImpl(role));  // convert the data to required type
   }
 }
 
