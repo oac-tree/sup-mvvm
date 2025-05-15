@@ -141,9 +141,8 @@ public:
   /**
    * @brief Sets the data for the given role.
    *
-   * When extra parameter direct is false (default case), will act through the model. This will
-   * invoke a notification mechanism and provide the possibility for undo, if implemented. When
-   * direct is true, will set the data via SessionItem API to bypass notifications.
+   * If item belongs to the model, will act through the model. This will invoke a notification
+   * mechanism and provide the possibility for undo, if implemented.
    *
    * If the data is the same as before, will return false as a sign that no data was changed. It is
    * not possible to change the data type for a given role, once the role was set for the first
@@ -152,17 +151,16 @@ public:
    *
    * @param value The value to set.
    * @param role The role of the data.
-   * @param direct Set the data through the model, if set to false.
    *
    * @return Returns true, if the data was changed.
    */
   template <typename T>
-  bool SetData(const T& value, std::int32_t role = DataRole::kData, bool direct = false);
+  bool SetData(const T& value, std::int32_t role = DataRole::kData);
 
   /**
    * @brief Specialized version for const char to avoid its conversion to bool.
    */
-  bool SetData(const char* value, std::int32_t role = DataRole::kData, bool direct = false);
+  bool SetData(const char* value, std::int32_t role = DataRole::kData);
 
   /**
    * @brief Returns pointer to item's data container (non-const version).
@@ -376,7 +374,7 @@ public:
   /**
    * @brief Sets the data for the given role.
    */
-  bool SetDataInternal(const variant_t& value, std::int32_t role, bool direct);
+  bool SetDataInternal(const variant_t& value, std::int32_t role);
 
   /**
    * @brief Sets the data for the given role.
@@ -404,9 +402,9 @@ private:
 };
 
 template <typename T>
-inline bool SessionItem::SetData(const T& value, std::int32_t role, bool direct)
+inline bool SessionItem::SetData(const T& value, std::int32_t role)
 {
-  return SetDataInternal(value, role, direct);
+  return SetDataInternal(value, role);
 }
 
 template <typename T>

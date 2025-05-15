@@ -128,9 +128,9 @@ bool SessionItem::HasData(std::int32_t role) const
   return GetItemData()->HasData(role);
 }
 
-bool SessionItem::SetData(const char* value, std::int32_t role, bool direct)
+bool SessionItem::SetData(const char* value, std::int32_t role)
 {
-  return SetData(std::string(value), role, direct);
+  return SetData(std::string(value), role);
 }
 
 SessionItemData* SessionItem::GetItemData()
@@ -295,11 +295,11 @@ Slot* SessionItem::GetSlot() const
   return p_impl->GetSlot();
 }
 
-bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role, bool direct)
+bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
 {
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.
-  const bool act_through_model = !direct && GetModel();
+  const bool act_through_model = GetModel() != nullptr;
   return act_through_model ? GetModel()->SetData(this, value, role) : SetDataImpl(value, role);
 }
 
