@@ -10,6 +10,8 @@ target_sources(${library_name} PRIVATE
   mock_project.h
   mock_user_interactor.cpp
   mock_user_interactor.h
+  model_test_helper.cpp
+  model_test_helper.h
   test_container_helper.h
   test_strategies.cpp
   test_strategies.h
