@@ -35,7 +35,13 @@ namespace mvvm
 class MVVM_MODEL_EXPORT ICommand
 {
 public:
+  ICommand() = default;
   virtual ~ICommand() = default;
+
+  ICommand(const ICommand&) = delete;
+  ICommand& operator=(const ICommand&) = delete;
+  ICommand(ICommand&&) = delete;
+  ICommand& operator=(ICommand&&) = delete;
 
   /**
    * @brief Executes the command.

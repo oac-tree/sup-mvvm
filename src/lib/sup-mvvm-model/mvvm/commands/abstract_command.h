@@ -37,6 +37,11 @@ public:
   AbstractCommand();
   ~AbstractCommand() override;
 
+  AbstractCommand(const AbstractCommand&) = delete;
+  AbstractCommand& operator=(const AbstractCommand&) = delete;
+  AbstractCommand(AbstractCommand&&) = delete;
+  AbstractCommand& operator=(AbstractCommand&&) = delete;
+
   void Execute() final;
 
   CommandStatus GetCommandStatus() const override;
