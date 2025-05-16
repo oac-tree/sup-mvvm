@@ -6,16 +6,18 @@ target_sources(${library_name} PRIVATE
   command_stack.cpp
   command_stack.h
   command_status.h
-  notifying_command_stack.cpp
-  notifying_command_stack.h
   i_command.h
   i_command_stack.h
   insert_item_command.cpp
   insert_item_command.h
   macro_command.cpp
   macro_command.h
+  notifying_command_stack.cpp
+  notifying_command_stack.h
   remove_item_command.cpp
   remove_item_command.h
   set_value_command.cpp
   set_value_command.h
+  set_value_command_v2.cpp
+  set_value_command_v2.h
   )
