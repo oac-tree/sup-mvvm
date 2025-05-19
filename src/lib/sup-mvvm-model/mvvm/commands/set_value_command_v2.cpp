@@ -49,12 +49,23 @@ struct SetValueCommandV2::SetValueCommandImpl
   ISessionModel *m_model{nullptr};
   variant_t m_value;  //! Value to set as a result of command execution.
   std::int32_t m_role;
-  Path m_item_path;
+  std::string m_item_identifier;
   bool m_result{false};
+  std::optional<event_variant_t> m_next_event;
 
   SetValueCommandImpl(SessionItem *item, const variant_t &value, int role)
       : m_item(item), m_model(m_item->GetModel()), m_value(value), m_role(role)
   {
+    m_item_identifier = item->GetIdentifier();
+  }
+
+  SessionItem *FindItem() const { return m_model ? m_model->FindItem(m_item_identifier) : m_item; }
+
+  void SetResult(bool value)
+  {
+    m_result = value;
+    m_next_event =
+        m_result ? std::optional<event_variant_t>(DataChangedEvent{m_item, m_role}) : std::nullopt;
   }
 };
 
@@ -62,15 +73,24 @@ SetValueCommandV2::SetValueCommandV2(SessionItem *item, const variant_t &value, 
     : p_impl(std::make_unique<SetValueCommandImpl>(item, value, role))
 {
   SetDescription(GenerateDescription(p_impl->m_value, role));
-  p_impl->m_item_path = utils::PathFromItem(item);
 }
+
+SetValueCommandV2::~SetValueCommandV2() = default;
 
 bool SetValueCommandV2::GetResult() const
 {
   return p_impl->m_result;
 }
 
-SetValueCommandV2::~SetValueCommandV2() = default;
+std::optional<event_variant_t> SetValueCommandV2::GetEventBefore() const
+{
+  return {};
+}
+
+std::optional<event_variant_t> SetValueCommandV2::GetEventAfter() const
+{
+  return p_impl->m_next_event;
+}
 
 void SetValueCommandV2::ExecuteImpl()
 {
@@ -84,11 +104,17 @@ void SetValueCommandV2::UndoImpl()
 
 void SetValueCommandV2::SwapValues()
 {
+  p_impl->m_item = p_impl->FindItem();
+  auto old = p_impl->m_item->Data(p_impl->m_role);
+  auto result = p_impl->m_item->SetDataImpl(p_impl->m_value, p_impl->m_role);
+  SetResult(result);
+  SetIsObsolete(!result);
+  p_impl->m_value = old;
 }
 
 void SetValueCommandV2::SetResult(bool value)
 {
-  p_impl->m_result = value;
+  p_impl->SetResult(value);
 }
 
 }  // namespace mvvm

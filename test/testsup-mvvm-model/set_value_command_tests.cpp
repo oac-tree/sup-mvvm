@@ -66,7 +66,7 @@ TEST_F(SetValueCommandTests, SetValueUsingModelComposer)
   EXPECT_FALSE(utils::IsValid(item->Data(role)));
 
   // creating command
-  variant_t expected(42);
+  const variant_t expected(42);
   auto command = std::make_unique<SetValueCommand>(composer.get(), item, expected, role);
 
   // data is still unchanged
@@ -94,7 +94,7 @@ TEST_F(SetValueCommandTests, SetSameValueCommand)
 
   // creating an item and setting the data
   auto item = m_model.InsertItem<SessionItem>();
-  variant_t expected(42);
+  const variant_t expected(42);
   item->SetData(expected, role);
 
   // command to set same value
@@ -125,7 +125,7 @@ TEST_F(SetValueCommandTests, SetValueUsingNotifyingModelComposer)
   EXPECT_FALSE(utils::IsValid(item1->Data(role)));
 
   // creating command
-  variant_t expected(42);
+  const variant_t expected(42);
   auto command = std::make_unique<SetValueCommand>(composer.get(), item1, expected, role);
 
   // data is still unchanged

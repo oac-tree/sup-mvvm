@@ -23,8 +23,10 @@
 
 #include <mvvm/commands/abstract_command.h>
 #include <mvvm/core/variant.h>
+#include <mvvm/signals/event_types.h>
 
 #include <memory>
+#include <optional>
 
 namespace mvvm
 {
@@ -43,6 +45,10 @@ public:
   SetValueCommandV2& operator=(SetValueCommandV2&&) = delete;
 
   bool GetResult() const;
+
+  std::optional<event_variant_t> GetEventBefore() const;
+
+  std::optional<event_variant_t> GetEventAfter() const;
 
 private:
   void ExecuteImpl() override;
