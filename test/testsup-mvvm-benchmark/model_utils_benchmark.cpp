@@ -18,11 +18,23 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_model.h>
 
 #include <benchmark/benchmark.h>
+#include <testutils/model_test_helper.h>
 
 using namespace mvvm;
+
+#include <iostream>
+
+namespace
+{
+// 364 items in total
+const std::size_t kMaxChildrenCount{3};
+const std::size_t kDepth{6};
+
+}  // namespace
 
 /**
  * @brief Testing performance of functions from model_utils.cpp
@@ -32,4 +44,41 @@ class ModelUtilsBenchmark : public benchmark::Fixture
 public:
 };
 
-BENCHMARK_F(ModelUtilsBenchmark, PathFromItem)(benchmark::State& state) {}
+BENCHMARK_F(ModelUtilsBenchmark, PathFromItem)(benchmark::State& state)
+{
+  auto test_data = test::CreateTestData(kDepth, kMaxChildrenCount);
+
+  for (auto dummy : state)
+  {
+    for (const auto& info : test_data->item_info)
+    {
+      const auto path = utils::PathFromItem(info.item);
+    }
+  }
+}
+
+BENCHMARK_F(ModelUtilsBenchmark, ItemFromPath)(benchmark::State& state)
+{
+  auto test_data = test::CreateTestData(kDepth, kMaxChildrenCount);
+
+  for (auto dummy : state)
+  {
+    for (const auto& info : test_data->item_info)
+    {
+      const auto item = utils::ItemFromPath(*test_data->model, info.path);
+    }
+  }
+}
+
+BENCHMARK_F(ModelUtilsBenchmark, FindItem)(benchmark::State& state)
+{
+  auto test_data = test::CreateTestData(kDepth, kMaxChildrenCount);
+
+  for (auto dummy : state)
+  {
+    for (const auto& info : test_data->item_info)
+    {
+      const auto item = test_data->model->FindItem(info.identifier);
+    }
+  }
+}
