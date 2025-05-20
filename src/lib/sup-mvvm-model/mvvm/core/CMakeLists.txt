@@ -6,7 +6,6 @@ target_sources(${library_name} PRIVATE
   mvvm_exceptions.h
   platform.cpp
   platform.h
-  type_map.h
   unique_id_generator.cpp
   unique_id_generator.h
   variant.cpp
