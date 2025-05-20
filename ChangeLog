@@ -1,5 +1,7 @@
 Changes for 1.8.0:
 
+- Implement helper function to retrieve compile time index of variant
+- Fix compilation warnings for Qt6.9
 - Implement builder for ItemViewComponentProvider
 - Implement StringCompleterEditor and StringCompleterComboEditor for cells of Qt trees and tables
 - Implement possibility to configure ViewmodelDelegate with external cell editor factory
