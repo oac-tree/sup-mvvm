@@ -25,7 +25,17 @@
 #include <gtest/gtest.h>
 #include <testutils/model_test_helper.h>
 
+#include <cmath>
+
 using namespace mvvm;
+
+namespace
+{
+std::size_t GetChildrenCount(std::size_t children_count, std::size_t depth)
+{
+  return (std::pow(children_count, depth) - 1) / (children_count - 1);
+}
+}  // namespace
 
 /**
  * @brief Testing test helpers from model_test_helper.h
@@ -94,7 +104,7 @@ TEST_F(ModelTestHelperTests, CreateTestDataForThreeLevels)
 
   EXPECT_EQ(model->GetRootItem()->GetTotalItemCount(), max_children_count);
 
-  ASSERT_EQ(data->item_info.size(), 7);
+  ASSERT_EQ(data->item_info.size(), GetChildrenCount(max_children_count, depth)); // 7
 
   auto root_info = data->item_info.at(0);
   auto child0_info = data->item_info.at(1);

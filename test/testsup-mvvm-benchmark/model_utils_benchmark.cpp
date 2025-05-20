@@ -26,14 +26,11 @@
 
 using namespace mvvm;
 
-#include <iostream>
-
 namespace
 {
-// 364 items in total
+// 364 items in total, i.e. (3^6-1)/(3-1)
 const std::size_t kMaxChildrenCount{3};
 const std::size_t kDepth{6};
-
 }  // namespace
 
 /**
