@@ -24,7 +24,7 @@
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/signals/event_types.h>
 
-#include <memory>
+#include <functional>
 
 namespace mvvm
 {
@@ -32,24 +32,23 @@ namespace mvvm
 /**
  * @brief The NotifyingCommandStack class extends command stack with notification capabilities.
  */
-class MVVM_MODEL_EXPORT NotifyingCommandStack : public ICommandStack
+template <typename T>
+class MVVM_MODEL_EXPORT NotifyingCommandStack : public T
 {
 public:
-  explicit NotifyingCommandStack(ICommandStack* decoratee);
-  ~NotifyingCommandStack() override;
+  using notify_callback_t = typename std::function<void(const event_variant_t&)>;
+
+  template <typename... Args>
+  explicit NotifyingCommandStack(const notify_callback_t& notify_callback, Args&&... args)
+      : T(std::forward<Args>(args)...), m_notify_callback(notify_callback)
+  {
+  }
 
   ICommand* Execute(std::unique_ptr<ICommand> command) override;
-  bool CanUndo() const override;
-  bool CanRedo() const override;
-  int GetIndex() const override;
-  int GetCommandCount() const override;
-  std::vector<const ICommand*> GetCommands() const override;
+
   void Undo() override;
+
   void Redo() override;
-  void Clear() override;
-  void SetUndoLimit(std::size_t limit) override;
-  void BeginMacro(const std::string& name) override;
-  void EndMacro() override;
 
 private:
   ICommand* GetNextUndoCommand();
@@ -57,8 +56,66 @@ private:
   void NotifyBefore(ICommand* command);
   void NotifyAfter(ICommand* command);
 
-  ICommandStack* m_decoratee{nullptr};
+  notify_callback_t m_notify_callback;
 };
+
+template <typename T>
+inline ICommand* NotifyingCommandStack<T>::Execute(std::unique_ptr<ICommand> command)
+{
+  auto command_ptr = command.get();
+  NotifyBefore(command_ptr);
+  T::Execute(std::move(command));
+  NotifyAfter(command_ptr);
+  return command_ptr;
+}
+
+template <typename T>
+inline void NotifyingCommandStack<T>::Undo()
+{
+  auto command = GetNextUndoCommand();
+
+  NotifyBefore(command);
+
+  T::Undo();
+
+  NotifyAfter(command);
+}
+
+template <typename T>
+inline void NotifyingCommandStack<T>::Redo()
+{
+  auto command = GetNextRedoCommand();
+
+  NotifyBefore(command);
+
+  T::Redo();
+
+  NotifyAfter(command);
+}
+
+template <typename T>
+inline ICommand* NotifyingCommandStack<T>::GetNextUndoCommand()
+{
+  return nullptr;
+}
+
+template <typename T>
+inline ICommand* NotifyingCommandStack<T>::GetNextRedoCommand()
+{
+  return nullptr;
+}
+
+template <typename T>
+inline void NotifyingCommandStack<T>::NotifyBefore(ICommand* command)
+{
+  (void)command;
+}
+
+template <typename T>
+inline void NotifyingCommandStack<T>::NotifyAfter(ICommand* command)
+{
+  (void)command;
+}
 
 }  // namespace mvvm
 

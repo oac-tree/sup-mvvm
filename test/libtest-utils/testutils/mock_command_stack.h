@@ -40,12 +40,12 @@ public:
   MOCK_METHOD(int, GetIndex, (), (const, override));
   MOCK_METHOD(int, GetCommandCount, (), (const, override));
   MOCK_METHOD(std::vector<const ICommand*>, GetCommands, (), (const, override));
-  MOCK_METHOD(void, Undo, (), (const));
-  MOCK_METHOD(void, Redo, (), (const));
-  MOCK_METHOD(void, Clear, (), (const));
-  MOCK_METHOD(void, SetUndoLimit, (std::size_t), (const));
-  MOCK_METHOD(void, BeginMacro, (std::string), ());
-  MOCK_METHOD(void, EndMacro, (std::string), ());
+  MOCK_METHOD(void, Undo, (), (override));
+  MOCK_METHOD(void, Redo, (), (override));
+  MOCK_METHOD(void, Clear, (), (override));
+  MOCK_METHOD(void, SetUndoLimit, (std::size_t), (override));
+  MOCK_METHOD(void, BeginMacro, (const std::string&), (override));
+  MOCK_METHOD(void, EndMacro, (), (override));
 };
 
 }  // namespace mvvm::test
