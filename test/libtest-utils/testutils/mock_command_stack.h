@@ -46,6 +46,8 @@ public:
   MOCK_METHOD(void, SetUndoLimit, (std::size_t), (override));
   MOCK_METHOD(void, BeginMacro, (const std::string&), (override));
   MOCK_METHOD(void, EndMacro, (), (override));
+  MOCK_METHOD(const ICommand*, GetNextUndoCommand, (), (const));
+  MOCK_METHOD(const ICommand*, GetNextRedoCommand, (), (const));
 };
 
 }  // namespace mvvm::test

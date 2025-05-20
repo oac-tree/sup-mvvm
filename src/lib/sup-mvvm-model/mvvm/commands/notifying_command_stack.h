@@ -22,6 +22,7 @@
 #define MVVM_COMMANDS_NOTIFYING_COMMAND_STACK_H_
 
 #include <mvvm/commands/i_command_stack.h>
+#include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/signals/event_types.h>
 
 #include <functional>
@@ -51,10 +52,9 @@ public:
   void Redo() override;
 
 private:
-  ICommand* GetNextUndoCommand();
-  ICommand* GetNextRedoCommand();
-  void NotifyBefore(ICommand* command);
-  void NotifyAfter(ICommand* command);
+  void Notify(const std::optional<event_variant_t>& event);
+  void NotifyBefore(const ICommand* command);
+  void NotifyAfter(const ICommand* command);
 
   notify_callback_t m_notify_callback;
 };
@@ -64,15 +64,15 @@ inline ICommand* NotifyingCommandStack<T>::Execute(std::unique_ptr<ICommand> com
 {
   auto command_ptr = command.get();
   NotifyBefore(command_ptr);
-  T::Execute(std::move(command));
-  NotifyAfter(command_ptr);
+  auto result = T::Execute(std::move(command));
+  NotifyAfter(result); // command might be obsolete and deleted already
   return command_ptr;
 }
 
 template <typename T>
 inline void NotifyingCommandStack<T>::Undo()
 {
-  auto command = GetNextUndoCommand();
+  const auto command = T::GetNextUndoCommand();
 
   NotifyBefore(command);
 
@@ -84,7 +84,7 @@ inline void NotifyingCommandStack<T>::Undo()
 template <typename T>
 inline void NotifyingCommandStack<T>::Redo()
 {
-  auto command = GetNextRedoCommand();
+  const auto command = T::GetNextRedoCommand();
 
   NotifyBefore(command);
 
@@ -94,27 +94,32 @@ inline void NotifyingCommandStack<T>::Redo()
 }
 
 template <typename T>
-inline ICommand* NotifyingCommandStack<T>::GetNextUndoCommand()
+inline void NotifyingCommandStack<T>::Notify(const std::optional<event_variant_t>& event)
 {
-  return nullptr;
+  if (event.has_value())
+  {
+    m_notify_callback(event.value());
+  }
 }
 
 template <typename T>
-inline ICommand* NotifyingCommandStack<T>::GetNextRedoCommand()
+inline void NotifyingCommandStack<T>::NotifyBefore(const ICommand* command)
 {
-  return nullptr;
+  // FIXME temporary, until we refactor ICommand
+  if (auto set_value_command = dynamic_cast<const SetValueCommandV2*>(command); set_value_command)
+  {
+    Notify(set_value_command->GetEventBefore());
+  }
 }
 
 template <typename T>
-inline void NotifyingCommandStack<T>::NotifyBefore(ICommand* command)
+inline void NotifyingCommandStack<T>::NotifyAfter(const ICommand* command)
 {
-  (void)command;
-}
-
-template <typename T>
-inline void NotifyingCommandStack<T>::NotifyAfter(ICommand* command)
-{
-  (void)command;
+  // FIXME temporary, until we refactor ICommand
+  if (auto set_value_command = dynamic_cast<const SetValueCommandV2*>(command); set_value_command)
+  {
+    Notify(set_value_command->GetEventAfter());
+  }
 }
 
 }  // namespace mvvm
