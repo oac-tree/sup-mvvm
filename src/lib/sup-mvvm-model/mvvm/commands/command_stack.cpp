@@ -271,4 +271,14 @@ bool CommandStack::IsMacroMode() const
   return !p_impl->m_macro_stack.empty();
 }
 
+const ICommand *CommandStack::GetNextUndoCommand() const
+{
+  return CanUndo() ? std::prev(p_impl->m_pos)->get() : nullptr;
+}
+
+const ICommand *CommandStack::GetNextRedoCommand() const
+{
+  return CanRedo() ? p_impl->m_pos->get() : nullptr;
+}
+
 }  // namespace mvvm

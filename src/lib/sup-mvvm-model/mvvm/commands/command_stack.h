@@ -64,6 +64,16 @@ public:
    */
   bool IsMacroMode() const;
 
+  /**
+   * @brief Returns command which will be undone on the next Undo call.
+   */
+  const ICommand* GetNextUndoCommand() const;
+
+  /**
+   * @brief Returns command which will be redone on the next Redo call.
+   */
+  const ICommand* GetNextRedoCommand() const;
+
 private:
   struct CommandStackImpl;
   std::unique_ptr<CommandStackImpl> p_impl;

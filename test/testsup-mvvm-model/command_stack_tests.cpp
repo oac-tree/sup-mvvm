@@ -43,6 +43,9 @@ TEST_F(CommandStackTest, InitialState)
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
   EXPECT_EQ(stack.GetCommandCount(), 0);
+
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
 }
 
 //! Execute single command.
@@ -57,6 +60,9 @@ TEST_F(CommandStackTest, SingleCommandExecution)
   EXPECT_CALL(listener, OnUndo(_)).Times(0);
 
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
+
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
 
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
@@ -78,6 +84,9 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
 
   EXPECT_THROW(stack.Execute(std::move(command)), RuntimeException);
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
+
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
@@ -97,6 +106,9 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
   EXPECT_CALL(listener, OnUndo(_)).Times(0);
 
   EXPECT_EQ(stack.Execute(std::move(command)), nullptr);
+
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
 
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
@@ -121,18 +133,24 @@ TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
 
   stack.Execute(std::move(command));
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
   EXPECT_EQ(stack.GetCommandCount(), 1);
 
   stack.Undo();
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), command_ptr);
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
   EXPECT_EQ(stack.GetCommandCount(), 1);
 
   stack.Redo();
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
@@ -160,6 +178,8 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   stack.Execute(std::move(command1));
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr1);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
@@ -167,6 +187,8 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   stack.Execute(std::move(command2));
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr2);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
@@ -174,6 +196,8 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   stack.Undo();
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr1);
+  EXPECT_EQ(stack.GetNextRedoCommand(), command_ptr2);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
@@ -181,6 +205,8 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   stack.Undo();
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), command_ptr1);
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
@@ -188,6 +214,8 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   stack.Redo();
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr1);
+  EXPECT_EQ(stack.GetNextRedoCommand(), command_ptr2);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 1);
@@ -195,6 +223,8 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   stack.Redo();
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr2);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
@@ -238,6 +268,8 @@ TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
   // insertion of a new command should remove command2 and command3 from the stack
   stack.Execute(std::move(command4));
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), command_ptr4);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_TRUE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 2);
@@ -276,6 +308,8 @@ TEST_F(CommandStackTest, CleanCommands)
 
   stack.Clear();
 
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_FALSE(stack.CanRedo());
   EXPECT_EQ(stack.GetIndex(), 0);
