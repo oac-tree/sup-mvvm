@@ -26,8 +26,8 @@
 #include <mvvm/signals/signal_slot.h>
 
 #include <functional>
-#include <memory>
 #include <map>
+#include <memory>
 
 namespace mvvm
 {
@@ -133,13 +133,22 @@ public:
 
   /**
    * @brief Notifies all slots connected to a given event type.
-   * @param event A concrete event to notify subscribers.
+   * @param event A concrete event to send to subscribers.
    */
   template <typename EventT>
   void Notify(const EventT& event)
   {
     GetSignal<EventT>().operator()(event);
   }
+
+  /**
+   * @brief Notifies all slots connected to specific event.
+   *
+   * The type of event will be taken from current value hold by the variant.
+   *
+   * @param variant A concrete event to send to subscribers.
+   */
+  void Notify(const EventVariantT& variant) { GetSignal(variant.index()).operator()(variant); }
 
   /**
    * @brief Registers given event type for subscription and notifications.
@@ -161,7 +170,14 @@ private:
   template <typename EventT>
   signal_t& GetSignal()
   {
-    const std::size_t index = variant_index<EventVariantT, EventT>();
+    return GetSignal(variant_index<EventVariantT, EventT>());
+  }
+
+  /**
+   * @brief Returns reference to a signal, registered for a given event index.
+   */
+  signal_t& GetSignal(std::size_t index)
+  {
     auto iter = m_signals.find(index);
     if (iter == m_signals.end())
     {

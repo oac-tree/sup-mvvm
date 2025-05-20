@@ -84,13 +84,11 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 
   EventHandler<event_variant_t> event_handler;
 
-  EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.AsStdFunction()),
-               RuntimeException);
+  EXPECT_THROW(event_handler.Connect<DataChangedEvent>(widget.AsStdFunction()), RuntimeException);
 }
 
 //! Connecting single callback with DataChangedEvent. Trigerring notification and checking that
 //! callback was called.
-
 TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 {
   mock_callback_listener_t widget;
@@ -111,11 +109,14 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
   // check notification when triggering Notify via already constructed event
   EXPECT_CALL(widget, Call(event_variant_t(data_changed_event))).Times(1);
   event_handler.Notify(data_changed_event);
+
+  // check notification when triggering Notify via already constructed event wrapped in variant
+  EXPECT_CALL(widget, Call(event_variant_t(data_changed_event))).Times(1);
+  event_handler.Notify(event_variant_t(data_changed_event));
 }
 
 //! Connecting MockSpecializedWidget with two events. Validating that the notification
 //! is calling a method for concrete event type DataChangedEvent via std::visit mechanism.
-
 TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 {
   MockSpecializedWidget widget;
@@ -136,4 +137,16 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
   EXPECT_CALL(widget, OnItemInsertedEvent(_)).Times(0);
 
   event_handler.Notify<DataChangedEvent>(&item, role);
+
+  EXPECT_CALL(widget, OnDataChangedEvent(data_changed_event)).Times(1);
+  event_handler.Notify(DataChangedEvent{&item, role});
+
+  TagIndex tag_index;
+  const ItemInsertedEvent inserted_event{&item, tag_index};
+  EXPECT_CALL(widget, OnItemInsertedEvent(inserted_event)).Times(1);
+  event_handler.Notify(inserted_event);
+
+  EXPECT_CALL(widget, OnItemInsertedEvent(inserted_event)).Times(1);
+  const event_variant_t variant_event{inserted_event};
+  event_handler.Notify(variant_event);
 }
