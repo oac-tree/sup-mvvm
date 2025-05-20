@@ -25,11 +25,11 @@
 namespace mvvm
 {
 
-NotifyingCommandQueue::NotifyingCommandQueue(ICommandStack *decoratee) : m_decoratee(decoratee) {}
+NotifyingCommandStack::NotifyingCommandStack(ICommandStack *decoratee) : m_decoratee(decoratee) {}
 
-NotifyingCommandQueue::~NotifyingCommandQueue() = default;
+NotifyingCommandStack::~NotifyingCommandStack() = default;
 
-ICommand *NotifyingCommandQueue::Execute(std::unique_ptr<ICommand> command)
+ICommand *NotifyingCommandStack::Execute(std::unique_ptr<ICommand> command)
 {
   if (m_current_command)
   {
@@ -42,32 +42,32 @@ ICommand *NotifyingCommandQueue::Execute(std::unique_ptr<ICommand> command)
   return command_ptr;
 }
 
-bool NotifyingCommandQueue::CanUndo() const
+bool NotifyingCommandStack::CanUndo() const
 {
   return m_decoratee->CanUndo();
 }
 
-bool NotifyingCommandQueue::CanRedo() const
+bool NotifyingCommandStack::CanRedo() const
 {
   return m_decoratee->CanRedo();
 }
 
-int NotifyingCommandQueue::GetIndex() const
+int NotifyingCommandStack::GetIndex() const
 {
   return m_decoratee->GetIndex();
 }
 
-int NotifyingCommandQueue::GetCommandCount() const
+int NotifyingCommandStack::GetCommandCount() const
 {
   return m_decoratee->GetCommandCount();
 }
 
-std::vector<const ICommand *> NotifyingCommandQueue::GetCommands() const
+std::vector<const ICommand *> NotifyingCommandStack::GetCommands() const
 {
   return m_decoratee->GetCommands();
 }
 
-void NotifyingCommandQueue::Undo()
+void NotifyingCommandStack::Undo()
 {
   auto command = GetNextUndoCommand();
 
@@ -78,32 +78,32 @@ void NotifyingCommandQueue::Undo()
   NotifyAfter(command);
 }
 
-void NotifyingCommandQueue::Redo()
+void NotifyingCommandStack::Redo()
 {
   m_decoratee->Redo();
 }
 
-void NotifyingCommandQueue::Clear()
+void NotifyingCommandStack::Clear()
 {
   m_decoratee->Clear();
 }
 
-void NotifyingCommandQueue::SetUndoLimit(std::size_t limit)
+void NotifyingCommandStack::SetUndoLimit(std::size_t limit)
 {
   m_decoratee->SetUndoLimit(limit);
 }
 
-void NotifyingCommandQueue::BeginMacro(const std::string &name)
+void NotifyingCommandStack::BeginMacro(const std::string &name)
 {
   m_decoratee->BeginMacro(name);
 }
 
-void NotifyingCommandQueue::EndMacro()
+void NotifyingCommandStack::EndMacro()
 {
   m_decoratee->EndMacro();
 }
 
-void NotifyingCommandQueue::ProcessCommand(std::unique_ptr<ICommand> command)
+void NotifyingCommandStack::ProcessCommand(std::unique_ptr<ICommand> command)
 {
   auto command_ptr = command.get();
 
@@ -114,27 +114,27 @@ void NotifyingCommandQueue::ProcessCommand(std::unique_ptr<ICommand> command)
   m_current_command = nullptr;
 }
 
-ICommand *NotifyingCommandQueue::GetNextUndoCommand()
+ICommand *NotifyingCommandStack::GetNextUndoCommand()
 {
   return nullptr;
 }
 
-ICommand *NotifyingCommandQueue::GetNextRedoCommand()
+ICommand *NotifyingCommandStack::GetNextRedoCommand()
 {
   return nullptr;
 }
 
-void NotifyingCommandQueue::NotifyBefore(ICommand *command)
+void NotifyingCommandStack::NotifyBefore(ICommand *command)
 {
   (void) command;
 }
 
-void NotifyingCommandQueue::NotifyAfter(ICommand *command)
+void NotifyingCommandStack::NotifyAfter(ICommand *command)
 {
   (void) command;
 }
 
-void NotifyingCommandQueue::ProcessBuffer()
+void NotifyingCommandStack::ProcessBuffer()
 {
   while (!m_buffer_to_process.empty())
   {

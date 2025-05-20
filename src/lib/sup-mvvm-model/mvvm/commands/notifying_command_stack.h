@@ -31,13 +31,13 @@ namespace mvvm
 {
 
 /**
- * @brief The NotifyingCommandQueue class extends command stack with notification capabilities.
+ * @brief The NotifyingCommandStack class extends command stack with notification capabilities.
  */
-class MVVM_MODEL_EXPORT NotifyingCommandQueue : public ICommandStack
+class MVVM_MODEL_EXPORT NotifyingCommandStack : public ICommandStack
 {
 public:
-  explicit NotifyingCommandQueue(ICommandStack* decoratee);
-  ~NotifyingCommandQueue() override;
+  explicit NotifyingCommandStack(ICommandStack* decoratee);
+  ~NotifyingCommandStack() override;
 
   ICommand *Execute(std::unique_ptr<ICommand> command) override;
   bool CanUndo() const override;
