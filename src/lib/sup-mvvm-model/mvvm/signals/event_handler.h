@@ -22,11 +22,12 @@
 #define MVVM_SIGNALS_EVENT_HANDLER_H_
 
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/core/type_map.h>
+#include <mvvm/core/variant_index.h>
 #include <mvvm/signals/signal_slot.h>
 
 #include <functional>
 #include <memory>
+#include <map>
 
 namespace mvvm
 {
@@ -149,7 +150,8 @@ public:
   void Register()
   {
     auto signal_for_event_type = std::make_unique<signal_t>();
-    m_signals.template Put<EventT>(std::move(signal_for_event_type));
+    const std::size_t index = variant_index<EventVariantT, EventT>();
+    m_signals.insert({index, std::move(signal_for_event_type)});
   }
 
 private:
@@ -159,7 +161,8 @@ private:
   template <typename EventT>
   signal_t& GetSignal()
   {
-    auto iter = m_signals.template Find<EventT>();
+    const std::size_t index = variant_index<EventVariantT, EventT>();
+    auto iter = m_signals.find(index);
     if (iter == m_signals.end())
     {
       throw RuntimeException("The type is not supported");
@@ -172,7 +175,7 @@ private:
    *
    * A single signal holds a collection of callbacks to notify.
    */
-  TypeMap<std::unique_ptr<signal_t>> m_signals;
+  std::map<std::size_t, std::unique_ptr<signal_t>> m_signals;
 };
 
 }  // namespace mvvm
