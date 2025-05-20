@@ -31,14 +31,10 @@ NotifyingCommandStack::~NotifyingCommandStack() = default;
 
 ICommand *NotifyingCommandStack::Execute(std::unique_ptr<ICommand> command)
 {
-  if (m_current_command)
-  {
-    m_buffer_to_process.push(std::move(command));
-  }
-
   auto command_ptr = command.get();
-  ProcessCommand(std::move(command));
-
+  NotifyBefore(command_ptr);
+  m_decoratee->Execute(std::move(command));
+  NotifyAfter(command_ptr);
   return command_ptr;
 }
 
@@ -80,7 +76,13 @@ void NotifyingCommandStack::Undo()
 
 void NotifyingCommandStack::Redo()
 {
+  auto command = GetNextUndoCommand();
+
+  NotifyBefore(command);
+
   m_decoratee->Redo();
+
+  NotifyAfter(command);
 }
 
 void NotifyingCommandStack::Clear()
@@ -103,17 +105,6 @@ void NotifyingCommandStack::EndMacro()
   m_decoratee->EndMacro();
 }
 
-void NotifyingCommandStack::ProcessCommand(std::unique_ptr<ICommand> command)
-{
-  auto command_ptr = command.get();
-
-  m_current_command = command_ptr;
-  NotifyBefore(command_ptr);
-  m_decoratee->Execute(std::move(command));
-  NotifyAfter(command_ptr);
-  m_current_command = nullptr;
-}
-
 ICommand *NotifyingCommandStack::GetNextUndoCommand()
 {
   return nullptr;
@@ -126,21 +117,12 @@ ICommand *NotifyingCommandStack::GetNextRedoCommand()
 
 void NotifyingCommandStack::NotifyBefore(ICommand *command)
 {
-  (void) command;
+  (void)command;
 }
 
 void NotifyingCommandStack::NotifyAfter(ICommand *command)
 {
-  (void) command;
-}
-
-void NotifyingCommandStack::ProcessBuffer()
-{
-  while (!m_buffer_to_process.empty())
-  {
-    ProcessCommand(std::move(m_buffer_to_process.front()));
-    m_buffer_to_process.pop();
-  }
+  (void)command;
 }
 
 }  // namespace mvvm

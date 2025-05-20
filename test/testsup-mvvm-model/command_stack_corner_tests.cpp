@@ -28,7 +28,6 @@
 #include <testutils/mock_command.h>
 
 using namespace mvvm;
-using ::testing::_;
 
 //! Testing CommandStack.
 class CommandStackCornerTest : public ::testing::Test
