@@ -39,7 +39,6 @@ public:
   MOCK_METHOD(bool, CanRedo, (), (const, override));
   MOCK_METHOD(std::size_t, GetIndex, (), (const, override));
   MOCK_METHOD(std::size_t, GetCommandCount, (), (const, override));
-  MOCK_METHOD(std::vector<const ICommand*>, GetCommands, (), (const, override));
   MOCK_METHOD(void, Undo, (), (override));
   MOCK_METHOD(void, Redo, (), (override));
   MOCK_METHOD(void, Clear, (), (override));

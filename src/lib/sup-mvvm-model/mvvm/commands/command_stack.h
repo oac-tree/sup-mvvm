@@ -43,7 +43,6 @@ public:
   bool CanRedo() const override;
   std::size_t GetIndex() const override;
   std::size_t GetCommandCount() const override;
-  std::vector<const ICommand *> GetCommands() const override;
   void Undo() override;
   void Redo() override;
   void Clear() override;
@@ -63,6 +62,11 @@ public:
    * @brief Checks if we are currently recording a macro command.
    */
   bool IsMacroMode() const;
+
+  /**
+   * @brief Returns content of the command stack in the form of the vector.
+   */
+  std::vector<const ICommand *> GetCommands() const;
 
   /**
    * @brief Returns command which will be undone on the next Undo call.

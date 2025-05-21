@@ -179,16 +179,6 @@ std::size_t CommandStack::GetCommandCount() const
   return p_impl->m_commands.size();
 }
 
-std::vector<const ICommand *> CommandStack::GetCommands() const
-{
-  std::vector<const ICommand *> result;
-
-  std::transform(p_impl->m_commands.begin(), p_impl->m_commands.end(), std::back_inserter(result),
-                 [](auto &iter) { return iter.get(); });
-
-  return result;
-}
-
 void CommandStack::Undo()
 {
   if (CanUndo())
@@ -269,6 +259,16 @@ void CommandStack::EndMacro()
 bool CommandStack::IsMacroMode() const
 {
   return !p_impl->m_macro_stack.empty();
+}
+
+std::vector<const ICommand *> CommandStack::GetCommands() const
+{
+  std::vector<const ICommand *> result;
+
+  std::transform(p_impl->m_commands.begin(), p_impl->m_commands.end(), std::back_inserter(result),
+                 [](auto &iter) { return iter.get(); });
+
+  return result;
 }
 
 const ICommand *CommandStack::GetNextUndoCommand() const
