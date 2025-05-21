@@ -20,6 +20,7 @@
 
 #include "mvvm/commands/set_value_command_v2.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
 
@@ -41,14 +42,16 @@ TEST_F(SetValueCommandV2Test, CreateCommand)
   const int role = DataRole::kData;
   SessionItem item;
 
-  EXPECT_FALSE(utils::IsValid(item.Data(role)));
+  EXPECT_THROW(SetValueCommandV2(nullptr, {}, role), RuntimeException);
 
+  EXPECT_FALSE(utils::IsValid(item.Data(role)));
   const variant_t expected(42);
-  auto command = std::make_unique<SetValueCommandV2>(&item, expected, role);
-  EXPECT_FALSE(command->IsObsolete());
-  EXPECT_FALSE(command->GetResult());
-  EXPECT_FALSE(command->GetEventAfter().has_value());
-  EXPECT_FALSE(command->GetEventAfter().has_value());
+  SetValueCommandV2 command(&item, expected, role);
+  EXPECT_FALSE(command.IsObsolete());
+  EXPECT_FALSE(command.GetResult());
+  EXPECT_FALSE(command.GetEventAfter().has_value());
+  EXPECT_FALSE(command.GetEventAfter().has_value());
+  EXPECT_TRUE(command.GetDescription().empty());
 
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
 }

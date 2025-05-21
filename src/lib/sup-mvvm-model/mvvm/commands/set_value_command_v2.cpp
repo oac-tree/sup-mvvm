@@ -20,32 +20,31 @@
 
 #include "set_value_command_v2.h"
 
-#include <mvvm/model/i_model_composer.h>
-#include <mvvm/model/model_utils.h>
-#include <mvvm/model/path.h>
+#include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
 
-#include <sstream>
+// #include <sstream>
 
-namespace
-{
+// namespace
+// {
 
-std::string GenerateDescription(const mvvm::variant_t &value, int role)
-{
-  (void)value;
-  std::ostringstream ostr;
-  ostr << "Set value: " << mvvm::utils::ValueToString(value) << ", role:" << role;
-  return ostr.str();
-}
+// std::string GenerateDescription(const mvvm::variant_t &value, int role)
+// {
+//   (void)value;
+//   std::ostringstream ostr;
+//   ostr << "Set value: " << mvvm::utils::ValueToString(value) << ", role:" << role;
+//   return ostr.str();
+// }
 
-}  // namespace
+// }  // namespace
 
 namespace mvvm
 {
 
 struct SetValueCommandV2::SetValueCommandImpl
 {
-  SessionItem *m_item{nullptr};
+  SessionItem *m_cached_item{nullptr};
   ISessionModel *m_model{nullptr};
   variant_t m_value;  //! Value to set as a result of command execution.
   std::int32_t m_role;
@@ -54,25 +53,30 @@ struct SetValueCommandV2::SetValueCommandImpl
   std::optional<event_variant_t> m_next_event;
 
   SetValueCommandImpl(SessionItem *item, const variant_t &value, int role)
-      : m_item(item), m_model(m_item->GetModel()), m_value(value), m_role(role)
+      : m_cached_item(item), m_value(value), m_role(role)
   {
+    if (!m_cached_item)
+    {
+      throw RuntimeException("Uninitialized item");
+    }
+
+    m_model = m_cached_item->GetModel();
     m_item_identifier = item->GetIdentifier();
   }
 
-  SessionItem *FindItem() const { return m_model ? m_model->FindItem(m_item_identifier) : m_item; }
+  SessionItem *FindItem() const { return m_model ? m_model->FindItem(m_item_identifier) : m_cached_item; }
 
   void SetResult(bool value)
   {
     m_result = value;
     m_next_event =
-        m_result ? std::optional<event_variant_t>(DataChangedEvent{m_item, m_role}) : std::nullopt;
+        m_result ? std::optional<event_variant_t>(DataChangedEvent{m_cached_item, m_role}) : std::nullopt;
   }
 };
 
 SetValueCommandV2::SetValueCommandV2(SessionItem *item, const variant_t &value, int role)
     : p_impl(std::make_unique<SetValueCommandImpl>(item, value, role))
 {
-  SetDescription(GenerateDescription(p_impl->m_value, role));
 }
 
 SetValueCommandV2::~SetValueCommandV2() = default;
@@ -104,9 +108,9 @@ void SetValueCommandV2::UndoImpl()
 
 void SetValueCommandV2::SwapValues()
 {
-  p_impl->m_item = p_impl->FindItem();
-  auto old = p_impl->m_item->Data(p_impl->m_role);
-  auto result = p_impl->m_item->SetDataImpl(p_impl->m_value, p_impl->m_role);
+  p_impl->m_cached_item = p_impl->FindItem();
+  auto old = p_impl->m_cached_item->Data(p_impl->m_role);
+  auto result = p_impl->m_cached_item->SetDataImpl(p_impl->m_value, p_impl->m_role);
   SetResult(result);
   SetIsObsolete(!result);
   p_impl->m_value = old;
