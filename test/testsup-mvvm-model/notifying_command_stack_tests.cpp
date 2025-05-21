@@ -38,6 +38,7 @@ class NotifyingCommandStackTests : public ::testing::Test
 public:
   ::testing::MockFunction<void(const event_variant_t&)> m_event_listener;
   test::MockCommandStack m_mock_stack_listener;
+  test::MockTestCommandListener m_mock_command_listener;
 };
 
 TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
@@ -71,7 +72,6 @@ TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
 
 TEST_F(NotifyingCommandStackTests, Execute)
 {
-  test::MockTestCommandListener mock_command_listener;
 
   // It is not possible to derive from mocking object directly. We are deriving from the decorator
   // which looks to moking object.
@@ -79,7 +79,7 @@ TEST_F(NotifyingCommandStackTests, Execute)
   NotifyingCommandStack<test::CommandStackDecorator> stack(m_event_listener.AsStdFunction(),
                                                            &mock_stack);
 
-  auto [command, command_ptr] = CreateCommand(mock_command_listener);
+  auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 
   // EXPECT_CALL(mock_command_listener, GetEventBefore());
   // EXPECT_CALL(mock_stack, Execute(::testing::_)).Times(1);

@@ -25,9 +25,7 @@ namespace mvvm::test
 
 std::pair<std::unique_ptr<TestCommand>, ICommand *> CreateCommand(MockTestCommandListener &listener)
 {
-  auto on_execute = [&listener](auto ptr) { listener.OnExecute(ptr); };
-  auto on_undo = [&listener](auto ptr) { listener.OnUndo(ptr); };
-  auto command = std::make_unique<TestCommand>(on_execute, on_undo);
+  auto command = std::make_unique<TestCommand>(listener.CreateContext());
   auto command_ptr = command.get();
   return {std::move(command), command_ptr};
 }
@@ -37,6 +35,17 @@ std::pair<std::unique_ptr<TestCommand>, ICommand *> CreateCommand()
   auto command = std::make_unique<TestCommand>();
   auto command_ptr = command.get();
   return {std::move(command), command_ptr};
+}
+
+TestCommandContext MockTestCommandListener::CreateContext()
+{
+  TestCommandContext result;
+
+  result.execute_impl = [this](auto ptr) { OnExecute(ptr); };
+  result.undo_impl = [this](auto ptr) { OnUndo(ptr); };
+  result.event_before = [this](auto ptr) { return OnGetEventBefore(ptr); };
+  result.event_after = [this](auto ptr) { return OnGetEventAfter(ptr); };
+  return result;
 }
 
 }  // namespace mvvm::test

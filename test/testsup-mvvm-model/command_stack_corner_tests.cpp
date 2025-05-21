@@ -29,58 +29,77 @@
 
 using namespace mvvm;
 
-//! Testing CommandStack.
+/**
+ * @brief Testing CommandStack for corner cases.
+ *
+ * Variaous scenario when command tries to work with stack before finishing its own implementation
+ * activity.
+ */
 class CommandStackCornerTest : public ::testing::Test
 {
 public:
 };
 
-//! Special command that tries to work with stack before finishing its own implementation activity.
+//!
 TEST_F(CommandStackCornerTest, AttemptToBeginMacroBeforeFinishing)
 {
   {  // attempt to begin macro before own end
     CommandStack stack;
-    auto on_execute = [this, &stack](auto) { stack.BeginMacro("macro"); };
-    auto command = std::make_unique<test::TestCommand>(on_execute, [](auto) {});
+
+    test::TestCommandContext context;
+    context.execute_impl = [this, &stack](auto) { stack.BeginMacro("macro"); };
+    context.undo_impl = [](auto) {};
+    auto command = std::make_unique<test::TestCommand>(context);
     EXPECT_THROW(stack.Execute(std::move(command)), RuntimeException);
   }
 
   {  // attempt to end macro before own end
     CommandStack stack;
     stack.BeginMacro("macro");
-    auto on_execute = [this, &stack](auto) { stack.EndMacro(); };
-    auto command = std::make_unique<test::TestCommand>(on_execute, [](auto) {});
+    test::TestCommandContext context;
+    context.execute_impl = [this, &stack](auto) { stack.EndMacro(); };
+    context.undo_impl = [](auto) {};
+    auto command = std::make_unique<test::TestCommand>(context);
     EXPECT_THROW(stack.Execute(std::move(command)), RuntimeException);
   }
 
   {  // attempt to push new command
     CommandStack stack;
-    auto on_execute = [this, &stack](auto)
+    test::TestCommandContext context;
+    context.execute_impl = [this, &stack](auto)
     { stack.Execute(std::make_unique<test::TestCommand>()); };
-    auto command = std::make_unique<test::TestCommand>(on_execute, [](auto) {});
+    context.undo_impl = [](auto) {};
+    auto command = std::make_unique<test::TestCommand>(context);
     EXPECT_THROW(stack.Execute(std::move(command)), RuntimeException);
   }
 
   {  // attempt to begin macro in the middle of own undo
     CommandStack stack;
-    auto on_undo = [this, &stack](auto) { stack.BeginMacro("macro"); };
-    auto command = std::make_unique<test::TestCommand>([](auto) {}, on_undo);
+    test::TestCommandContext context;
+    context.execute_impl = [](auto) {};
+    context.undo_impl = [this, &stack](auto) { stack.BeginMacro("macro"); };
+    auto command = std::make_unique<test::TestCommand>(context);
     stack.Execute(std::move(command));
     EXPECT_THROW(stack.Undo(), RuntimeException);
   }
 
   {  // attempt to end macro in the middle of own undo
     CommandStack stack;
-    auto on_undo = [this, &stack](auto) { stack.EndMacro(); };
-    auto command = std::make_unique<test::TestCommand>([](auto) {}, on_undo);
+    test::TestCommandContext context;
+    context.execute_impl = [](auto) {};
+    context.undo_impl = [this, &stack](auto) { stack.EndMacro(); };
+    auto command = std::make_unique<test::TestCommand>(context);
     stack.Execute(std::move(command));
     EXPECT_THROW(stack.Undo(), RuntimeException);
   }
 
   {  // attempt to push new command in the middle of own undo
     CommandStack stack;
-    auto on_undo = [this, &stack](auto) { stack.Execute(std::make_unique<test::TestCommand>()); };
-    auto command = std::make_unique<test::TestCommand>([](auto) {}, on_undo);
+    test::TestCommandContext context;
+    context.execute_impl = [](auto) {};
+    context.undo_impl = [this, &stack](auto)
+    { stack.Execute(std::make_unique<test::TestCommand>()); };
+    auto command = std::make_unique<test::TestCommand>(context);
     stack.Execute(std::move(command));
     EXPECT_THROW(stack.Undo(), RuntimeException);
   }

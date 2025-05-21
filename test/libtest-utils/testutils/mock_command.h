@@ -41,8 +41,21 @@ public:
 };
 
 /**
+ * @brief Collection of callbacks for TestCommand reports.
+ */
+struct TestCommandContext
+{
+  std::function<void(const ICommand*)> execute_impl;
+  std::function<void(const ICommand*)> undo_impl;
+  std::function<std::optional<event_variant_t>(const ICommand*)> event_before;
+  std::function<std::optional<event_variant_t>(const ICommand*)> event_after;
+};
+
+/**
  * @brief The TestCommand class is intended to test the order of execution of ExecuteImpl and
  * UndoImpl, when several commands are placed in a stack.
+ *
+ * It reports its activity via TestCommandContext.
  */
 class TestCommand : public AbstractCommand
 {
@@ -51,19 +64,16 @@ public:
 
   TestCommand() = default;
 
-  explicit TestCommand(callback_t execute_callback, callback_t undo_callback)
-      : m_execute_callback(std::move(execute_callback)), m_undo_callback(std::move(undo_callback))
-  {
-  }
+  explicit TestCommand(const TestCommandContext& context) : m_context(context) {}
 
   void SetMakeObsoleteAfterExecution() { m_make_obsolete = true; }
 
 private:
   void ExecuteImpl() override
   {
-    if (m_execute_callback)
+    if (m_context.execute_impl)
     {
-      m_execute_callback(this);
+      m_context.execute_impl(this);
     }
 
     if (m_make_obsolete)
@@ -74,14 +84,33 @@ private:
 
   void UndoImpl() override
   {
-    if (m_undo_callback)
+    if (m_context.undo_impl)
     {
-      m_undo_callback(this);
+      m_context.undo_impl(this);
     }
   }
 
-  callback_t m_execute_callback;
-  callback_t m_undo_callback;
+  std::optional<event_variant_t> GetEventBefore() const override
+  {
+    if (m_context.event_before)
+    {
+      return m_context.event_before(this);
+    }
+
+    return {};
+  }
+
+  std::optional<event_variant_t> GetEventAfter() const override
+  {
+    if (m_context.event_after)
+    {
+      return m_context.event_after(this);
+    }
+
+    return {};
+  }
+
+  TestCommandContext m_context;
   bool m_make_obsolete{false};
 };
 
@@ -93,10 +122,12 @@ private:
 class MockTestCommandListener
 {
 public:
-  MOCK_METHOD(void, OnExecute, (ICommand*));
-  MOCK_METHOD(void, OnUndo, (ICommand*));
-  MOCK_METHOD(std::optional<event_variant_t>, OnGetEventBefore, (ICommand*), (const));
-  MOCK_METHOD(std::optional<event_variant_t>, OnGetEventAfter, (ICommand*), (const));
+  MOCK_METHOD(void, OnExecute, (const ICommand*));
+  MOCK_METHOD(void, OnUndo, (const ICommand*));
+  MOCK_METHOD(std::optional<event_variant_t>, OnGetEventBefore, (const ICommand*), (const));
+  MOCK_METHOD(std::optional<event_variant_t>, OnGetEventAfter, (const ICommand*), (const));
+
+  TestCommandContext CreateContext();
 };
 
 /**
