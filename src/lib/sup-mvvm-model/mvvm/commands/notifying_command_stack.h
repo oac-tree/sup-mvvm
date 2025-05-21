@@ -65,7 +65,7 @@ inline ICommand* NotifyingCommandStack<T>::Execute(std::unique_ptr<ICommand> com
   auto command_ptr = command.get();
   NotifyBefore(command_ptr);
   auto result = T::Execute(std::move(command));
-  NotifyAfter(result); // command might be obsolete and deleted already
+  NotifyAfter(result);  // command might be obsolete and deleted already
   return command_ptr;
 }
 

@@ -41,8 +41,8 @@ public:
   ICommand *Execute(std::unique_ptr<ICommand> command) override;
   bool CanUndo() const override;
   bool CanRedo() const override;
-  int GetIndex() const override;
-  int GetCommandCount() const override;
+  std::size_t GetIndex() const override;
+  std::size_t GetCommandCount() const override;
   std::vector<const ICommand *> GetCommands() const override;
   void Undo() override;
   void Redo() override;

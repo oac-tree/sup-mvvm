@@ -71,14 +71,14 @@ public:
    * This is the command that will be executed on the next call to Redo(). It is not always the
    * top-most command on the stack, since a number of commands may have been undone.
    */
-  virtual int GetIndex() const = 0;
+  virtual std::size_t GetIndex() const = 0;
 
   /**
    * @brief  Returns number of commands in a stack.
    *
    * Macro commands are treated as single command.
    */
-  virtual int GetCommandCount() const = 0;
+  virtual std::size_t GetCommandCount() const = 0;
 
   /**
    * @brief Returns list of all commands.

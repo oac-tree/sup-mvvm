@@ -169,14 +169,14 @@ bool CommandStack::CanRedo() const
   return p_impl->m_pos != p_impl->m_commands.cend() && !IsMacroMode();
 }
 
-int CommandStack::GetIndex() const
+std::size_t CommandStack::GetIndex() const
 {
-  return static_cast<int>(p_impl->GetIndex());
+  return p_impl->GetIndex();
 }
 
-int CommandStack::GetCommandCount() const
+std::size_t CommandStack::GetCommandCount() const
 {
-  return static_cast<int>(p_impl->m_commands.size());
+  return p_impl->m_commands.size();
 }
 
 std::vector<const ICommand *> CommandStack::GetCommands() const
