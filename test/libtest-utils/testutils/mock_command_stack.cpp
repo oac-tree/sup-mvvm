@@ -25,67 +25,71 @@
 namespace mvvm::test
 {
 
-ICommand *CommandStackDecorator::Execute(std::unique_ptr<ICommand> command)
+MockCommandStackDecorator::MockCommandStackDecorator(MockCommandStack *decoratee) : m_decoratee(decoratee)
+{
+}
+
+ICommand *MockCommandStackDecorator::Execute(std::unique_ptr<ICommand> command)
 {
   return m_decoratee->Execute(std::move(command));
 }
 
-bool CommandStackDecorator::CanUndo() const
+bool MockCommandStackDecorator::CanUndo() const
 {
   return m_decoratee->CanUndo();
 }
 
-bool CommandStackDecorator::CanRedo() const
+bool MockCommandStackDecorator::CanRedo() const
 {
   return m_decoratee->CanRedo();
 }
 
-std::size_t CommandStackDecorator::GetIndex() const
+std::size_t MockCommandStackDecorator::GetIndex() const
 {
   return m_decoratee->GetIndex();
 }
 
-std::size_t CommandStackDecorator::GetCommandCount() const
+std::size_t MockCommandStackDecorator::GetCommandCount() const
 {
   return m_decoratee->GetCommandCount();
 }
 
-void CommandStackDecorator::Undo()
+void MockCommandStackDecorator::Undo()
 {
   m_decoratee->Undo();
 }
 
-void CommandStackDecorator::Redo()
+void MockCommandStackDecorator::Redo()
 {
   m_decoratee->Redo();
 }
 
-void CommandStackDecorator::Clear()
+void MockCommandStackDecorator::Clear()
 {
   m_decoratee->Clear();
 }
 
-void CommandStackDecorator::SetUndoLimit(std::size_t limit)
+void MockCommandStackDecorator::SetUndoLimit(std::size_t limit)
 {
   m_decoratee->SetUndoLimit(limit);
 }
 
-void CommandStackDecorator::BeginMacro(const std::string &name)
+void MockCommandStackDecorator::BeginMacro(const std::string &name)
 {
   m_decoratee->BeginMacro(name);
 }
 
-void CommandStackDecorator::EndMacro()
+void MockCommandStackDecorator::EndMacro()
 {
   m_decoratee->EndMacro();
 }
 
-const ICommand *CommandStackDecorator::GetNextUndoCommand() const
+const ICommand *MockCommandStackDecorator::GetNextUndoCommand() const
 {
   return m_decoratee->GetNextUndoCommand();
 }
 
-const ICommand *CommandStackDecorator::GetNextRedoCommand() const
+const ICommand *MockCommandStackDecorator::GetNextRedoCommand() const
 {
   return m_decoratee->GetNextRedoCommand();
 }

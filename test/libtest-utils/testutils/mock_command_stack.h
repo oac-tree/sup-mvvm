@@ -34,6 +34,18 @@ namespace mvvm::test
 class MockCommandStack : public ICommandStack
 {
 public:
+  MockCommandStack()
+  {
+    // will save command in a local cache to avoid its deletion
+    ON_CALL(*this, Execute)
+        .WillByDefault(
+            [this](std::unique_ptr<ICommand> command)
+            {
+              m_last_command = std::move(command);
+              return m_last_command.get();
+            });
+  }
+
   MOCK_METHOD(ICommand*, Execute, (std::unique_ptr<ICommand> command), (override));
   MOCK_METHOD(bool, CanUndo, (), (const, override));
   MOCK_METHOD(bool, CanRedo, (), (const, override));
@@ -48,18 +60,21 @@ public:
 
   MOCK_METHOD(ICommand*, GetNextUndoCommand, (), (const));
   MOCK_METHOD(ICommand*, GetNextRedoCommand, (), (const));
+
+  std::unique_ptr<ICommand> m_last_command;
 };
 
 /**
- * @brief The CommandStackDecorator is a default decorator implementation for ICommandStack.
+ * @brief The MockCommandStackDecorator is a decorator that forwards all calls to MockCommandStack.
  *
- * It is intended to be used as a template base class for NotifyingCommandStack and forward calls to
- * MockCommandSTack.
+ * It is intended to be used as a template base class for NotifyingCommandStack validation.
+ * It forward calls to MockCommandStack (we can't derive from MockCommandStack directly because
+ * gmock is too complicated for that).
  */
-class CommandStackDecorator : public ICommandStack
+class MockCommandStackDecorator : public ICommandStack
 {
 public:
-  CommandStackDecorator(MockCommandStack* decoratee) : m_decoratee(decoratee) {}
+  MockCommandStackDecorator(MockCommandStack* decoratee);
 
   ICommand* Execute(std::unique_ptr<ICommand> command) override;
   bool CanUndo() const override;

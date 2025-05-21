@@ -43,7 +43,7 @@ public:
 
 TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
 {
-  NotifyingCommandStack<test::CommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
                                                            &m_mock_stack_listener);
   EXPECT_CALL(m_mock_stack_listener, CanUndo()).Times(1);
   stack.CanUndo();
@@ -70,21 +70,136 @@ TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
   stack.EndMacro();
 }
 
-TEST_F(NotifyingCommandStackTests, Execute)
+TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandDoNotReportEvents)
 {
-
-  // It is not possible to derive from mocking object directly. We are deriving from the decorator
-  // which looks to moking object.
-  test::MockCommandStack mock_stack;
-  NotifyingCommandStack<test::CommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &mock_stack);
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &m_mock_stack_listener);
 
   auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 
-  // EXPECT_CALL(mock_command_listener, GetEventBefore());
-  // EXPECT_CALL(mock_stack, Execute(::testing::_)).Times(1);
-  // EXPECT_CALL(mock_command_listener, OnExecute(::testing::_)).Times(1);
-  // EXPECT_CALL(mock_command_listener, OnUndo(::testing::_)).Times(0);
+  {
+    // no notification since command by default reports empty events
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_command_listener, OnGetEventBefore(command_ptr)).Times(1);
+    EXPECT_CALL(m_mock_stack_listener, Execute(::testing::_)).Times(1);
+    EXPECT_CALL(m_mock_command_listener, OnGetEventAfter(command_ptr)).Times(1);
+  }
 
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
+}
+
+TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsOnceAndThenGetsExpired)
+{
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &m_mock_stack_listener);
+
+  auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
+
+  auto event1 = event_variant_t{DataChangedEvent{nullptr, 41}};
+  auto event2 = event_variant_t{DataChangedEvent{nullptr, 42}};
+
+  ON_CALL(m_mock_command_listener, OnGetEventBefore(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event1)));
+  ON_CALL(m_mock_command_listener, OnGetEventAfter(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
+
+  // mimick situation when base stack returns nullptr (command was obsolete)
+  ON_CALL(m_mock_stack_listener,
+  Execute(::testing::_)).WillByDefault(::testing::Return(nullptr));
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_command_listener, OnGetEventBefore(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event1));
+    EXPECT_CALL(m_mock_stack_listener, Execute(::testing::_)).Times(1);
+  }
+
+  EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
+}
+
+TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsBeforeAndAfter)
+{
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &m_mock_stack_listener);
+
+  auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
+
+  auto event1 = event_variant_t{DataChangedEvent{nullptr, 41}};
+  auto event2 = event_variant_t{DataChangedEvent{nullptr, 42}};
+
+  ON_CALL(m_mock_command_listener, OnGetEventBefore(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event1)));
+  ON_CALL(m_mock_command_listener, OnGetEventAfter(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_command_listener, OnGetEventBefore(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event1));  // report event before
+    EXPECT_CALL(m_mock_stack_listener, Execute(::testing::_)).Times(1);
+    EXPECT_CALL(m_mock_command_listener, OnGetEventAfter(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event2));  // report event after
+  }
+
+  EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
+}
+
+TEST_F(NotifyingCommandStackTests, Undo)
+{
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &m_mock_stack_listener);
+
+  auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
+
+  auto event1 = event_variant_t{DataChangedEvent{nullptr, 41}};
+  auto event2 = event_variant_t{DataChangedEvent{nullptr, 42}};
+
+  ON_CALL(m_mock_command_listener, OnGetEventBefore(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event1)));
+  ON_CALL(m_mock_command_listener, OnGetEventAfter(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
+  ON_CALL(m_mock_stack_listener, GetNextUndoCommand())
+      .WillByDefault(::testing::Return(command_ptr));
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_stack_listener, GetNextUndoCommand()).Times(1);
+    EXPECT_CALL(m_mock_command_listener, OnGetEventBefore(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event1));
+    EXPECT_CALL(m_mock_stack_listener, Undo()).Times(1);
+    EXPECT_CALL(m_mock_command_listener, OnGetEventAfter(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event2));
+  }
+
+  stack.Undo();
+}
+
+TEST_F(NotifyingCommandStackTests, Redo)
+{
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &m_mock_stack_listener);
+
+  auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
+
+  auto event1 = event_variant_t{DataChangedEvent{nullptr, 41}};
+  auto event2 = event_variant_t{DataChangedEvent{nullptr, 42}};
+
+  ON_CALL(m_mock_command_listener, OnGetEventBefore(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event1)));
+  ON_CALL(m_mock_command_listener, OnGetEventAfter(::testing::_))
+      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
+  ON_CALL(m_mock_stack_listener, GetNextRedoCommand())
+      .WillByDefault(::testing::Return(command_ptr));
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_mock_stack_listener, GetNextRedoCommand()).Times(1);
+    EXPECT_CALL(m_mock_command_listener, OnGetEventBefore(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event1));
+    EXPECT_CALL(m_mock_stack_listener, Redo()).Times(1);
+    EXPECT_CALL(m_mock_command_listener, OnGetEventAfter(command_ptr)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(event2));
+  }
+
+  stack.Redo();
 }
