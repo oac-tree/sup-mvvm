@@ -45,10 +45,40 @@ public:
   MOCK_METHOD(void, SetUndoLimit, (std::size_t), (override));
   MOCK_METHOD(void, BeginMacro, (const std::string&), (override));
   MOCK_METHOD(void, EndMacro, (), (override));
-  MOCK_METHOD(const ICommand*, GetNextUndoCommand, (), (const));
-  MOCK_METHOD(const ICommand*, GetNextRedoCommand, (), (const));
+
+  MOCK_METHOD(ICommand*, GetNextUndoCommand, (), (const));
+  MOCK_METHOD(ICommand*, GetNextRedoCommand, (), (const));
 };
 
+/**
+ * @brief The CommandStackDecorator is a default decorator implementation for ICommandStack.
+ *
+ * It is intended to be used as a template base class for NotifyingCommandStack and forward calls to
+ * MockCommandSTack.
+ */
+class CommandStackDecorator : public ICommandStack
+{
+public:
+  CommandStackDecorator(MockCommandStack* decoratee) : m_decoratee(decoratee) {}
+
+  ICommand* Execute(std::unique_ptr<ICommand> command) override;
+  bool CanUndo() const override;
+  bool CanRedo() const override;
+  std::size_t GetIndex() const override;
+  std::size_t GetCommandCount() const override;
+  void Undo() override;
+  void Redo() override;
+  void Clear() override;
+  void SetUndoLimit(std::size_t limit) override;
+  void BeginMacro(const std::string& name) override;
+  void EndMacro() override;
+
+  const ICommand* GetNextUndoCommand() const;
+  const ICommand* GetNextRedoCommand() const;
+
+private:
+  MockCommandStack* m_decoratee{nullptr};
+};
 }  // namespace mvvm::test
 
 #endif  // LIBTEST_UTILS_TESTUTILS_MOCK_COMMAND_STACK_H_

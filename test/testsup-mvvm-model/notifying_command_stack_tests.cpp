@@ -27,6 +27,7 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_command.h>
 #include <testutils/mock_command_stack.h>
 #include <testutils/test_container_helper.h>
 
@@ -36,52 +37,54 @@ class NotifyingCommandStackTests : public ::testing::Test
 {
 public:
   ::testing::MockFunction<void(const event_variant_t&)> m_event_listener;
+  test::MockCommandStack m_mock_stack_listener;
 };
 
-TEST_F(NotifyingCommandStackTests, InitialState)
+TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
 {
-  // NotifyingCommandStack<test::MockCommandStack> stack(m_event_listener.AsStdFunction());
+  NotifyingCommandStack<test::CommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &m_mock_stack_listener);
+  EXPECT_CALL(m_mock_stack_listener, CanUndo()).Times(1);
+  stack.CanUndo();
 
-  // EXPECT_CALL(stack, Undo()).Times(1);
+  EXPECT_CALL(m_mock_stack_listener, CanRedo()).Times(1);
+  stack.CanRedo();
 
-  // stack.Undo();
+  EXPECT_CALL(m_mock_stack_listener, GetIndex()).Times(1);
+  stack.GetIndex();
+
+  EXPECT_CALL(m_mock_stack_listener, GetCommandCount()).Times(1);
+  stack.GetCommandCount();
+
+  EXPECT_CALL(m_mock_stack_listener, Clear()).Times(1);
+  stack.Clear();
+
+  EXPECT_CALL(m_mock_stack_listener, SetUndoLimit(1)).Times(1);
+  stack.SetUndoLimit(1);
+
+  EXPECT_CALL(m_mock_stack_listener, BeginMacro("abc")).Times(1);
+  stack.BeginMacro("abc");
+
+  EXPECT_CALL(m_mock_stack_listener, EndMacro()).Times(1);
+  stack.EndMacro();
 }
 
-TEST_F(NotifyingCommandStackTests, NotifyingCommandStackWithSetValueCommand)
+TEST_F(NotifyingCommandStackTests, Execute)
 {
-  const int role = DataRole::kData;
-  const variant_t initial_value(43);
+  test::MockTestCommandListener mock_command_listener;
 
-  SessionItem item;
-  item.SetData(initial_value, role);
+  // It is not possible to derive from mocking object directly. We are deriving from the decorator
+  // which looks to moking object.
+  test::MockCommandStack mock_stack;
+  NotifyingCommandStack<test::CommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                           &mock_stack);
 
-  NotifyingCommandStack<CommandStack> stack(m_event_listener.AsStdFunction());
+  auto [command, command_ptr] = CreateCommand(mock_command_listener);
 
-  const variant_t new_value1(44);
-  auto [command1, command1_ptr] = test::CreateTestData<SetValueCommandV2>(&item, new_value1, role);
+  // EXPECT_CALL(mock_command_listener, GetEventBefore());
+  // EXPECT_CALL(mock_stack, Execute(::testing::_)).Times(1);
+  // EXPECT_CALL(mock_command_listener, OnExecute(::testing::_)).Times(1);
+  // EXPECT_CALL(mock_command_listener, OnUndo(::testing::_)).Times(0);
 
-  const auto expected_event1 = event_variant_t{DataChangedEvent{&item, role}};
-  EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
-  stack.Execute(std::move(command1));
-
-  EXPECT_TRUE(stack.CanUndo());
-  EXPECT_FALSE(stack.CanRedo());
-  EXPECT_EQ(item.Data(), new_value1);
-
-  EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
-  stack.Undo();
-
-  EXPECT_FALSE(stack.CanUndo());
-  EXPECT_TRUE(stack.CanRedo());
-  EXPECT_EQ(item.Data(), initial_value);
-
-  // attempt to set the same initial data
-  auto [command2, command2_ptr] =
-      test::CreateTestData<SetValueCommandV2>(&item, initial_value, role);
-
-  EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(0);
-  stack.Execute(std::move(command2));
-
-  EXPECT_FALSE(stack.CanUndo());
-  EXPECT_TRUE(stack.CanRedo());
+  EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
 }

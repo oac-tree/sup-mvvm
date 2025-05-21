@@ -34,8 +34,10 @@ namespace mvvm::test
 class MockCommand : public AbstractCommand
 {
 public:
-  MOCK_METHOD(void, ExecuteImpl, ());
-  MOCK_METHOD(void, UndoImpl, ());
+  MOCK_METHOD(void, ExecuteImpl, (), (override));
+  MOCK_METHOD(void, UndoImpl, (), (override));
+  MOCK_METHOD(std::optional<event_variant_t>, GetEventBefore, (), (const, override));
+  MOCK_METHOD(std::optional<event_variant_t>, GetEventAfter, (), (const, override));
 };
 
 /**
@@ -85,12 +87,16 @@ private:
 
 /**
  * @brief The MockTestCommandListener class is to solely listen to TestCommand.
+ *
+ * It can listen multiple commands and reports their addresses together with called methods.
  */
 class MockTestCommandListener
 {
 public:
   MOCK_METHOD(void, OnExecute, (ICommand*));
   MOCK_METHOD(void, OnUndo, (ICommand*));
+  MOCK_METHOD(std::optional<event_variant_t>, OnGetEventBefore, (ICommand*), (const));
+  MOCK_METHOD(std::optional<event_variant_t>, OnGetEventAfter, (ICommand*), (const));
 };
 
 /**
