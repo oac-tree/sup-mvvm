@@ -28,11 +28,6 @@
 
 using namespace mvvm;
 
-namespace
-{
-const DataChangedEvent kNullEvent{nullptr};
-}
-
 class SetValueCommandV2Test : public ::testing::Test
 {
 };
@@ -46,7 +41,7 @@ TEST_F(SetValueCommandV2Test, CreateCommand)
 
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
   const variant_t expected(42);
-  SetValueCommandV2 command(&item, expected, role);
+  const SetValueCommandV2 command(&item, expected, role);
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_FALSE(command.GetResult());
   EXPECT_FALSE(command.GetEventAfter().has_value());
@@ -68,8 +63,8 @@ TEST_F(SetValueCommandV2Test, SetItemValueWhenItemHasNoData)
   command->Execute();
   EXPECT_TRUE(command->GetEventAfter().has_value());
 
-  const auto expected_event = event_variant_t{DataChangedEvent{&item, role}};
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  const auto expected_event = std::optional{event_variant_t{DataChangedEvent{&item, role}}};
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item.Data(role), expected);
   EXPECT_FALSE(command->IsObsolete());
@@ -77,7 +72,7 @@ TEST_F(SetValueCommandV2Test, SetItemValueWhenItemHasNoData)
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Undo();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item.Data(role), variant_t{});
   EXPECT_FALSE(command->IsObsolete());
@@ -85,7 +80,7 @@ TEST_F(SetValueCommandV2Test, SetItemValueWhenItemHasNoData)
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Execute();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item.Data(role), expected);
   EXPECT_FALSE(command->IsObsolete());
@@ -103,10 +98,10 @@ TEST_F(SetValueCommandV2Test, SetItemValue)
   const variant_t new_value(43);
   auto command = std::make_unique<SetValueCommandV2>(&item, new_value, role);
 
-  const auto expected_event = event_variant_t{DataChangedEvent{&item, role}};
+  const auto expected_event = std::optional{event_variant_t{DataChangedEvent{&item, role}}};
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Execute();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item.Data(role), new_value);
   EXPECT_FALSE(command->IsObsolete());
@@ -114,7 +109,7 @@ TEST_F(SetValueCommandV2Test, SetItemValue)
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Undo();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item.Data(role), initial_value);
   EXPECT_FALSE(command->IsObsolete());
@@ -122,7 +117,7 @@ TEST_F(SetValueCommandV2Test, SetItemValue)
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Execute();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item.Data(role), new_value);
   EXPECT_FALSE(command->IsObsolete());
@@ -164,10 +159,10 @@ TEST_F(SetValueCommandV2Test, WhenPartOfModelSetItemValue)
   const variant_t new_value(43);
   auto command = std::make_unique<SetValueCommandV2>(item, new_value, role);
 
-  const auto expected_event = event_variant_t{DataChangedEvent{item, role}};
+  const auto expected_event = std::optional{event_variant_t{DataChangedEvent{item, role}}};
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Execute();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item->Data(role), new_value);
   EXPECT_FALSE(command->IsObsolete());
@@ -175,7 +170,7 @@ TEST_F(SetValueCommandV2Test, WhenPartOfModelSetItemValue)
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Undo();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item->Data(role), initial_value);
   EXPECT_FALSE(command->IsObsolete());
@@ -183,7 +178,7 @@ TEST_F(SetValueCommandV2Test, WhenPartOfModelSetItemValue)
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Execute();
-  EXPECT_EQ(command->GetEventAfter().value_or(kNullEvent), expected_event);
+  EXPECT_EQ(command->GetEventAfter(), expected_event);
 
   EXPECT_EQ(item->Data(role), new_value);
   EXPECT_FALSE(command->IsObsolete());

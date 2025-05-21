@@ -189,7 +189,6 @@ TEST_F(InsertItemCommandTests, InsertItemToParentWithNotifyingComposer)
     EXPECT_CALL(m_listener, OnEvent(event_variant_t(item_removed_event))).Times(1);
   }
 
-  // undoing command
   command.Undo();
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_EQ(parent->GetTotalItemCount(), 2);
@@ -206,7 +205,6 @@ TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)
 
   auto to_insert = std::make_unique<PropertyItem>();
 
-  // command to insert item from the model
   InsertItemCommand command(composer.get(), std::move(to_insert), compound,
                             TagIndex{"thickness", 1});
 

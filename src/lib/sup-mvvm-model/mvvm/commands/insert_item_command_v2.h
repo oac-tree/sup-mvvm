@@ -29,7 +29,6 @@ namespace mvvm
 {
 
 class SessionItem;
-class IModelComposer;
 class TagIndex;
 
 /**
@@ -38,12 +37,16 @@ class TagIndex;
 class MVVM_MODEL_EXPORT InsertItemCommandV2 : public AbstractCommand
 {
 public:
-  InsertItemCommandV2(IModelComposer* composer, std::unique_ptr<SessionItem> item,
+  InsertItemCommandV2(std::unique_ptr<SessionItem> item,
                     SessionItem* parent, const TagIndex& tag_index);
 
   ~InsertItemCommandV2() override;
 
   SessionItem* GetResult() const;
+
+  std::optional<event_variant_t> GetEventBefore() const override;
+
+  std::optional<event_variant_t> GetEventAfter() const override;
 
 private:
   void ExecuteImpl() override;
