@@ -33,6 +33,9 @@ namespace mvvm
 
 class SessionItem;
 
+/**
+ * @brief The SetValueCommandV2 class allows to set the value to the item and undo the change.
+ */
 class MVVM_MODEL_EXPORT SetValueCommandV2 : public AbstractCommand
 {
 public:

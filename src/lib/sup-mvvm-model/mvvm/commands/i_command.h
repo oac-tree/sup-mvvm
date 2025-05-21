@@ -88,7 +88,7 @@ public:
   virtual std::optional<event_variant_t> GetEventBefore() const = 0;
 
   /**
-   * @brief Returns an event which has to be sent before the command execution or undo operation.
+   * @brief Returns an event which has to be sent after the command execution or undo operation.
    */
   virtual std::optional<event_variant_t> GetEventAfter() const = 0;
 };
