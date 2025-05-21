@@ -96,4 +96,14 @@ void AbstractCommand::SetDescription(const std::string& text) const
   p_impl->m_description = text;
 }
 
+std::optional<event_variant_t> AbstractCommand::GetEventBefore() const
+{
+  return {};
+}
+
+std::optional<event_variant_t> AbstractCommand::GetEventAfter() const
+{
+  return {};
+}
+
 }  // namespace mvvm

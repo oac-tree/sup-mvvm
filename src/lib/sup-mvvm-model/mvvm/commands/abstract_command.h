@@ -56,6 +56,10 @@ public:
 
   void SetDescription(const std::string& text) const override;
 
+  std::optional<event_variant_t> GetEventBefore() const override;
+
+  std::optional<event_variant_t> GetEventAfter() const override;
+
 private:
   virtual void ExecuteImpl() = 0;
 

@@ -23,7 +23,9 @@
 
 #include <mvvm/commands/command_status.h>
 #include <mvvm/model_export.h>
+#include <mvvm/signals/event_types.h>
 
+#include <optional>
 #include <string>
 
 namespace mvvm
@@ -79,6 +81,16 @@ public:
    * @brief Sets command description.
    */
   virtual void SetDescription(const std::string& text) const = 0;
+
+  /**
+   * @brief Returns an event which has to be sent before the command execution or undo operation.
+   */
+  virtual std::optional<event_variant_t> GetEventBefore() const = 0;
+
+  /**
+   * @brief Returns an event which has to be sent before the command execution or undo operation.
+   */
+  virtual std::optional<event_variant_t> GetEventAfter() const = 0;
 };
 
 }  // namespace mvvm

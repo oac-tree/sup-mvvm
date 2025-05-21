@@ -53,8 +53,6 @@ public:
 
 private:
   void Notify(const std::optional<event_variant_t>& event);
-  void NotifyBefore(const ICommand* command);
-  void NotifyAfter(const ICommand* command);
 
   notify_callback_t m_notify_callback;
 };
@@ -63,34 +61,35 @@ template <typename T>
 inline ICommand* NotifyingCommandStack<T>::Execute(std::unique_ptr<ICommand> command)
 {
   auto command_ptr = command.get();
-  NotifyBefore(command_ptr);
-  auto result = T::Execute(std::move(command));
-  NotifyAfter(result);  // command might be obsolete and deleted already
+  Notify(command_ptr->GetEventBefore());
+  if (auto result = T::Execute(std::move(command)); result)
+  {
+    // command might be obsolete and deleted already
+    Notify(result->GetEventAfter());
+  }
   return command_ptr;
 }
 
 template <typename T>
 inline void NotifyingCommandStack<T>::Undo()
 {
-  const auto command = T::GetNextUndoCommand();
-
-  NotifyBefore(command);
-
-  T::Undo();
-
-  NotifyAfter(command);
+  if (const auto command = T::GetNextUndoCommand(); command)
+  {
+    Notify(command->GetEventBefore());
+    T::Undo();
+    Notify(command->GetEventAfter());
+  }
 }
 
 template <typename T>
 inline void NotifyingCommandStack<T>::Redo()
 {
-  const auto command = T::GetNextRedoCommand();
-
-  NotifyBefore(command);
-
-  T::Redo();
-
-  NotifyAfter(command);
+  if (const auto command = T::GetNextRedoCommand(); command)
+  {
+    Notify(command->GetEventBefore());
+    T::Redo();
+    Notify(command->GetEventAfter());
+  }
 }
 
 template <typename T>
@@ -99,26 +98,6 @@ inline void NotifyingCommandStack<T>::Notify(const std::optional<event_variant_t
   if (event.has_value())
   {
     m_notify_callback(event.value());
-  }
-}
-
-template <typename T>
-inline void NotifyingCommandStack<T>::NotifyBefore(const ICommand* command)
-{
-  // FIXME temporary, until we refactor ICommand
-  if (auto set_value_command = dynamic_cast<const SetValueCommandV2*>(command); set_value_command)
-  {
-    Notify(set_value_command->GetEventBefore());
-  }
-}
-
-template <typename T>
-inline void NotifyingCommandStack<T>::NotifyAfter(const ICommand* command)
-{
-  // FIXME temporary, until we refactor ICommand
-  if (auto set_value_command = dynamic_cast<const SetValueCommandV2*>(command); set_value_command)
-  {
-    Notify(set_value_command->GetEventAfter());
   }
 }
 

@@ -46,9 +46,9 @@ public:
 
   bool GetResult() const;
 
-  std::optional<event_variant_t> GetEventBefore() const;
+  std::optional<event_variant_t> GetEventBefore() const override;
 
-  std::optional<event_variant_t> GetEventAfter() const;
+  std::optional<event_variant_t> GetEventAfter() const override;
 
 private:
   void ExecuteImpl() override;

@@ -27,15 +27,13 @@
 #include <testutils/mock_command.h>
 
 using namespace mvvm;
-using ::testing::_;
 
-//! Testing AbstractCommand.
-
+/**
+ * @brief Tests for AbsractCommand class.
+ */
 class AbstractCommandTests : public ::testing::Test
 {
 };
-
-//! Initial state.
 
 TEST_F(AbstractCommandTests, InitialState)
 {
@@ -44,6 +42,8 @@ TEST_F(AbstractCommandTests, InitialState)
   EXPECT_TRUE(command.GetDescription().empty());
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_EQ(command.GetCommandStatus(), CommandStatus::Initial);
+  EXPECT_FALSE(command.GetEventBefore().has_value());
+  EXPECT_FALSE(command.GetEventAfter().has_value());
 
   command.SetDescription("abc");
   EXPECT_EQ(command.GetDescription(), std::string("abc"));
@@ -51,8 +51,6 @@ TEST_F(AbstractCommandTests, InitialState)
   command.SetIsObsolete(true);
   EXPECT_TRUE(command.IsObsolete());
 }
-
-//! Simple command execution.
 
 TEST_F(AbstractCommandTests, Execute)
 {
@@ -70,8 +68,6 @@ TEST_F(AbstractCommandTests, Execute)
   EXPECT_THROW(command.Execute(), RuntimeException);
 }
 
-//! Attempt to undo without execution.
-
 TEST_F(AbstractCommandTests, UndoOnStart)
 {
   test::MockCommand command;
@@ -84,14 +80,12 @@ TEST_F(AbstractCommandTests, UndoOnStart)
   EXPECT_THROW(command.Undo(), RuntimeException);
 }
 
-//! Execution and then undo.
-
-TEST_F(AbstractCommandTests, Undo)
+TEST_F(AbstractCommandTests, ExecuteAndUndo)
 {
   test::MockCommand command;
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, UndoImpl()).Times(1);
   }
@@ -107,14 +101,12 @@ TEST_F(AbstractCommandTests, Undo)
   EXPECT_THROW(command.Undo(), RuntimeException);
 }
 
-//! Execute, then undo, then execute again.
-
 TEST_F(AbstractCommandTests, ExecuteUndoExecute)
 {
   test::MockCommand command;
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, UndoImpl()).Times(1);
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
@@ -125,14 +117,12 @@ TEST_F(AbstractCommandTests, ExecuteUndoExecute)
   command.Execute();
 }
 
-//! Attempt to undo obsolete command.
-
-TEST_F(AbstractCommandTests, UndoOfObsoleteCommand)
+TEST_F(AbstractCommandTests, AttemptToUndoObsoleteCommand)
 {
   test::MockCommand command;
 
   {
-    ::testing::InSequence seq;
+    const ::testing::InSequence seq;
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, UndoImpl()).Times(0);
   }
