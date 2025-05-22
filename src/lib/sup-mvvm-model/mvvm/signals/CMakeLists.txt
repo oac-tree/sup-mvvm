@@ -12,6 +12,8 @@ target_sources(${library_name} PRIVATE
   signal_slot_fwd.h
   event_types.cpp
   event_types.h
+  event_value_visitor.cpp
+  event_value_visitor.h
   item_connect_helper.cpp
   item_connect_helper.h
   event_handler.h
