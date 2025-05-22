@@ -22,6 +22,7 @@
 #define MVVM_COMMANDS_COMMAND_HELPER_H_
 
 #include <mvvm/commands/command_status.h>
+#include <mvvm/core/variant.h>
 #include <mvvm/signals/event_types.h>
 
 namespace mvvm
@@ -30,11 +31,40 @@ namespace mvvm
 class SessionItem;
 class TagIndex;
 
+/**
+ * @brief Returns event which has to be send before command execution or undo.
+ *
+ * @param status The current status of the command.
+ * @param parent The parent to insert.
+ * @param tag_index Address of a future child.
+ *
+ * @return An event to send.
+ */
 event_variant_t GetBeforeEventForInsertCommand(CommandStatus status, SessionItem* parent,
-                                            const TagIndex& tag_index);
+                                               const TagIndex& tag_index);
 
+/**
+ * @brief Returns event which has to be send after command execution or undo.
+ *
+ * @param status The current status of the command.
+ * @param parent The parent to insert.
+ * @param tag_index Address of a future child.
+ *
+ * @return An event to send.
+ */
 event_variant_t GetAfterEventForInsertCommand(CommandStatus status, SessionItem* parent,
-                                            const TagIndex& tag_index);
+                                              const TagIndex& tag_index);
+
+/**
+ * @brief Returns text description for insert command.
+ */
+std::string GetInsertCommandDescription(mvvm::SessionItem* parent, mvvm::SessionItem* child,
+                                        const mvvm::TagIndex& tag_index);
+
+/**
+ * @brief Returns text description for SetValue command.
+ */
+std::string GetSetValueCommandDescription(const variant_t& value, int role);
 
 }  // namespace mvvm
 

@@ -28,25 +28,6 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/session_item.h>
 
-// #include <sstream>
-
-// namespace
-// {
-
-// std::string GenerateDescription(mvvm::SessionItem* parent, mvvm::SessionItem* child,
-//                                 const mvvm::TagIndex& tag_index)
-// {
-//   (void)parent;
-//   std::ostringstream ostr;
-//   const std::string parent_name = parent ? parent->GetDisplayName() : "nullptr";
-//   const std::string child_name = child ? child->GetDisplayName() : "nullptr";
-//   ostr << "InsertItem: " << parent_name << " " << child_name << " " << tag_index.GetTag() << " "
-//        << tag_index.GetIndex();
-//   return ostr.str();
-// }
-
-// }  // namespace
-
 namespace mvvm
 {
 

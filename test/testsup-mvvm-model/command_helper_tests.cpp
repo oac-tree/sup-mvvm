@@ -80,3 +80,19 @@ TEST_F(CommandHelperTests, GetAfterEventForInsertCommand)
                  RuntimeException);
   }
 }
+
+TEST_F(CommandHelperTests, GetSetValueCommandDescription)
+{
+  const auto value = variant_t{mvvm::int32{42}};
+  EXPECT_EQ(GetSetValueCommandDescription(value, 1), std::string("Set value: 42, role:1"));
+}
+
+TEST_F(CommandHelperTests, GetInsertCommandDescription)
+{
+  SessionItem parent;
+  parent.SetDisplayName("parent");
+  const TagIndex tag_index{"tag", 42};
+
+  EXPECT_EQ(GetInsertCommandDescription(&parent, nullptr, tag_index),
+            std::string("Insert: parent nullptr tag 42"));
+}

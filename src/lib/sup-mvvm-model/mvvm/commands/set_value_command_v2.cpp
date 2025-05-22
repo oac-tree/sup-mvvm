@@ -24,21 +24,6 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
 
-// #include <sstream>
-
-// namespace
-// {
-
-// std::string GenerateDescription(const mvvm::variant_t &value, int role)
-// {
-//   (void)value;
-//   std::ostringstream ostr;
-//   ostr << "Set value: " << mvvm::utils::ValueToString(value) << ", role:" << role;
-//   return ostr.str();
-// }
-
-// }  // namespace
-
 namespace mvvm
 {
 

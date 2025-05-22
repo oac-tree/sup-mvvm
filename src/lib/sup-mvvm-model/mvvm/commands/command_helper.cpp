@@ -21,6 +21,9 @@
 #include "command_helper.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/session_item.h>
+
+#include <sstream>
 
 namespace mvvm
 {
@@ -50,6 +53,24 @@ event_variant_t GetAfterEventForInsertCommand(CommandStatus status, SessionItem 
   }
 
   throw RuntimeException("Command can't be in initial state after execute or undo call");
+}
+
+std::string GetInsertCommandDescription(SessionItem *parent, SessionItem *child,
+                                        const TagIndex &tag_index)
+{
+  std::ostringstream ostr;
+  const std::string parent_name = parent ? parent->GetDisplayName() : "nullptr";
+  const std::string child_name = child ? child->GetDisplayName() : "nullptr";
+  ostr << "Insert: " << parent_name << " " << child_name << " " << tag_index.GetTag() << " "
+       << tag_index.GetIndex();
+  return ostr.str();
+}
+
+std::string GetSetValueCommandDescription(const variant_t &value, int role)
+{
+  std::ostringstream ostr;
+  ostr << "Set value: " << mvvm::utils::ValueToString(value) << ", role:" << role;
+  return ostr.str();
 }
 
 }  // namespace mvvm
