@@ -21,8 +21,8 @@
 #ifndef MVVM_COMMANDS_NOTIFYING_COMMAND_STACK_H_
 #define MVVM_COMMANDS_NOTIFYING_COMMAND_STACK_H_
 
+#include <mvvm/commands/i_command.h>
 #include <mvvm/commands/i_command_stack.h>
-#include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/signals/event_types.h>
 
 #include <functional>
@@ -62,9 +62,9 @@ inline ICommand* NotifyingCommandStack<T>::Execute(std::unique_ptr<ICommand> com
 {
   auto command_ptr = command.get();
   Notify(command_ptr->GetEventBefore());
+  // check result so command is not obsolete and still alive after execution
   if (auto result = T::Execute(std::move(command)); result)
   {
-    // command might be obsolete and deleted already
     Notify(result->GetEventAfter());
   }
   return command_ptr;

@@ -20,6 +20,8 @@
 
 #include "insert_item_command_v2.h"
 
+#include "command_helper.h"
+
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/model/i_session_model.h>
@@ -95,17 +97,21 @@ SessionItem* InsertItemCommandV2::GetResult() const
 
 std::optional<event_variant_t> InsertItemCommandV2::GetEventBefore() const
 {
+  // we find parent once and then use it for notification and command execution
   p_impl->m_cached_parent = p_impl->FindParent();
   if (!p_impl->m_cached_parent)
   {
     throw RuntimeException("Can't find parent");
   }
-  return AboutToInsertItemEvent{p_impl->m_cached_parent, p_impl->m_tag_index};
+
+  return GetBeforeEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
+                                        p_impl->m_tag_index);
 }
 
 std::optional<event_variant_t> InsertItemCommandV2::GetEventAfter() const
 {
-  return ItemInsertedEvent{p_impl->m_cached_parent, p_impl->m_tag_index};
+  return GetAfterEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
+                                       p_impl->m_tag_index);
 }
 
 void InsertItemCommandV2::ExecuteImpl()

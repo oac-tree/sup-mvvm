@@ -53,7 +53,8 @@ TEST_F(InsertItemCommandV2Tests, InitialState)
 
   EXPECT_EQ(command.GetResult(), nullptr);
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
-  EXPECT_EQ(command.GetEventAfter(), expected_event2);
+  // event without actual command execution doesn't exist
+  EXPECT_THROW(command.GetEventAfter(), RuntimeException);
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_TRUE(command.GetDescription().empty());
 }
@@ -75,6 +76,10 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
       std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
   const auto expected_event2 =
       std::optional{event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}}};
+  const auto expected_event3 =
+      std::optional{event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}}};
+  const auto expected_event4 =
+      std::optional{event_variant_t{ItemRemovedEvent{&parent, expected_tag_index}}};
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -86,9 +91,9 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
   EXPECT_EQ(parent.GetItem(expected_tag_index), to_insert_ptr);
   EXPECT_EQ(parent.GetItem(expected_tag_index)->Data<int>(), 42);
 
-  EXPECT_EQ(command.GetEventBefore(), expected_event1);
+  EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
-  EXPECT_EQ(command.GetEventAfter(), expected_event2);
+  EXPECT_EQ(command.GetEventAfter(), expected_event4);
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_EQ(parent.GetTotalItemCount(), 0);
 
@@ -121,6 +126,10 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
       std::optional{event_variant_t{AboutToInsertItemEvent{parent, expected_tag_index}}};
   const auto expected_event2 =
       std::optional{event_variant_t{ItemInsertedEvent{parent, expected_tag_index}}};
+  const auto expected_event3 =
+      std::optional{event_variant_t{AboutToRemoveItemEvent{parent, expected_tag_index}}};
+  const auto expected_event4 =
+      std::optional{event_variant_t{ItemRemovedEvent{parent, expected_tag_index}}};
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -132,9 +141,9 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
   EXPECT_EQ(parent->GetItem(expected_tag_index), to_insert_ptr);
   EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
 
-  EXPECT_EQ(command.GetEventBefore(), expected_event1);
+  EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
-  EXPECT_EQ(command.GetEventAfter(), expected_event2);
+  EXPECT_EQ(command.GetEventAfter(), expected_event4);
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_EQ(parent->GetTotalItemCount(), 2);
 
