@@ -49,7 +49,7 @@ auto CreateRow(int ncolumns)
  * @brief Creates a pair of unique_ptr and raw ptr to the object of given type.
  */
 template <typename T, class... Args>
-auto CreateTestData(Args&&... args)
+auto CreateUnique(Args&&... args)
 {
   auto uptr = std::make_unique<T>(std::forward<Args>(args)...);
   auto raw_ptr = uptr.get();

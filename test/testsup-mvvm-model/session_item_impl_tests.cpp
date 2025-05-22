@@ -40,8 +40,8 @@ TEST_F(SessionItemImplTest, Constructor)
 {
   const std::string item_type("abc");
 
-  auto [data, data_ptr] = test::CreateTestData<SessionItemData>();
-  auto [tagged_items, tagged_items_ptr] = test::CreateTestData<TaggedItems>();
+  auto [data, data_ptr] = test::CreateUnique<SessionItemData>();
+  auto [tagged_items, tagged_items_ptr] = test::CreateUnique<TaggedItems>();
 
   SessionItemImpl item(item_type, std::move(data), std::move(tagged_items));
 

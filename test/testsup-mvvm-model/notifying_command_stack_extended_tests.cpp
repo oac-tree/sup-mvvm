@@ -57,7 +57,7 @@ TEST_F(NotifyingCommandStackExtendedTests, SetValueCommand)
   NotifyingCommandStack<CommandStack> stack(m_event_listener.AsStdFunction());
 
   const variant_t new_value1(44);
-  auto [command1, command1_ptr] = test::CreateTestData<SetValueCommandV2>(&item, new_value1, role);
+  auto [command1, command1_ptr] = test::CreateUnique<SetValueCommandV2>(&item, new_value1, role);
 
   const auto expected_event1 = event_variant_t{DataChangedEvent{&item, role}};
   EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
@@ -76,7 +76,7 @@ TEST_F(NotifyingCommandStackExtendedTests, SetValueCommand)
 
   // attempt to set the same initial data
   auto [command2, command2_ptr] =
-      test::CreateTestData<SetValueCommandV2>(&item, initial_value, role);
+      test::CreateUnique<SetValueCommandV2>(&item, initial_value, role);
 
   EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(0);
   stack.Execute(std::move(command2));

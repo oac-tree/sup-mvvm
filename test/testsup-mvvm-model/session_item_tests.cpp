@@ -537,7 +537,7 @@ TEST_F(SessionItemTests, InsertAndTakeWhenTagHasLimits)
   std::vector<SessionItem*> expected;
   for (int i = 0; i < maxItems; ++i)
   {
-    auto [uptr, raw] = mvvm::test::CreateTestData<SessionItem>();
+    auto [uptr, raw] = mvvm::test::CreateUnique<SessionItem>();
     expected.push_back(raw);
     EXPECT_TRUE(parent->InsertItem(std::move(uptr), TagIndex::Append(tag1)));
   }
@@ -553,7 +553,7 @@ TEST_F(SessionItemTests, InsertAndTakeWhenTagHasLimits)
   EXPECT_EQ(parent->GetItems(tag1), expected);
 
   // adding extra item
-  auto [uptr, raw] = mvvm::test::CreateTestData<SessionItem>();
+  auto [uptr, raw] = mvvm::test::CreateUnique<SessionItem>();
   parent->InsertItem(std::move(uptr), TagIndex::Append(tag1));
   expected.push_back(raw);
   EXPECT_EQ(parent->GetItems(tag1), expected);

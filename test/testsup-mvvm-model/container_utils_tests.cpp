@@ -120,8 +120,8 @@ TEST_F(ContainerUtilsTests, StaticCastItems)
 
 TEST_F(ContainerUtilsTests, GetVectorOfPtrs)
 {
-  auto [item1, item1_ptr] = mvvm::test::CreateTestData<TestItem>();
-  auto [item2, item2_ptr] = mvvm::test::CreateTestData<TestItem>();
+  auto [item1, item1_ptr] = mvvm::test::CreateUnique<TestItem>();
+  auto [item2, item2_ptr] = mvvm::test::CreateUnique<TestItem>();
 
   std::vector<std::unique_ptr<TestItem>> vec;
   vec.push_back(std::move(item1));
