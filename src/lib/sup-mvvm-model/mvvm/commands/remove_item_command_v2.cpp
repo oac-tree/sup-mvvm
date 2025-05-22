@@ -20,82 +20,89 @@
 
 #include "remove_item_command_v2.h"
 
+#include "command_helper.h"
+
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/model/i_item_backup_strategy.h>
-#include <mvvm/model/i_model_composer.h>
+#include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
-#include <mvvm/model/model_utils.h>
-#include <mvvm/model/path.h>
 #include <mvvm/model/session_item.h>
 
-#include <sstream>
-
-namespace
-{
-
-std::string GenerateDescription(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index)
-{
-  (void)parent;
-  std::ostringstream ostr;
-  ostr << "RemoveItem: " << parent->GetDisplayName() << " " << tag_index.GetTag() << " "
-       << tag_index.GetIndex();
-  return ostr.str();
-}
-
-}  // namespace
+#include <iostream>
 
 namespace mvvm
 {
 
 struct RemoveItemCommandV2::RemoveItemCommandImpl
 {
-  IModelComposer* m_composer{nullptr};
-  Path m_parent_path;
+  SessionItem* m_cached_parent{nullptr};
+  ISessionModel* m_model{nullptr};
+  std::string m_parent_identifier;
   TagIndex m_tag_index;
   std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
   std::unique_ptr<SessionItem> m_taken;
 
-  RemoveItemCommandImpl(IModelComposer* composer, SessionItem* parent, const TagIndex& tag_index)
-      : m_composer(composer)
-      , m_parent_path(utils::PathFromItem(parent))
+  RemoveItemCommandImpl(SessionItem* parent, const TagIndex& tag_index)
+      : m_cached_parent(parent)
       , m_tag_index(tag_index)
       , m_backup_strategy(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()))
   {
+    if (!m_cached_parent)
+    {
+      throw RuntimeException("Uninitialized item");
+    }
+
+    m_parent_identifier = m_cached_parent->GetIdentifier();
   }
 
   SessionItem* FindParent() const
   {
-    return utils::ItemFromPath(*m_composer->GetModel(), m_parent_path);
+    return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
   }
 };
 
-RemoveItemCommandV2::RemoveItemCommandV2(IModelComposer* composer, SessionItem* parent,
-                                         const TagIndex& tag_index)
-    : p_impl(std::make_unique<RemoveItemCommandImpl>(composer, parent, tag_index))
+RemoveItemCommandV2::RemoveItemCommandV2(SessionItem* parent, const TagIndex& tag_index)
+    : p_impl(std::make_unique<RemoveItemCommandImpl>(parent, tag_index))
 {
-  SetDescription(GenerateDescription(parent, tag_index));
 }
+
+RemoveItemCommandV2::~RemoveItemCommandV2() = default;
 
 std::unique_ptr<SessionItem> RemoveItemCommandV2::GetResult() const
 {
   return std::move(p_impl->m_taken);
 }
 
-RemoveItemCommandV2::~RemoveItemCommandV2() = default;
+std::optional<event_variant_t> RemoveItemCommandV2::GetEventBefore() const
+{
+  // we find parent once and then use it for notification and command execution
+  p_impl->m_cached_parent = p_impl->FindParent();
+  if (!p_impl->m_cached_parent)
+  {
+    throw RuntimeException("Can't find parent");
+  }
+
+  // auto result = std::get<AboutToRemoveItemEvent>(GetBeforeEventForRemoveCommand(
+  //     GetCommandStatus(), p_impl->m_cached_parent, p_impl->m_tag_index));
+  // std::cout << "XXX " << result.item << " " << result.tag_index.GetTag() << " "
+  //           << result.tag_index.GetIndex() << "\n";
+
+  return GetBeforeEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
+                                        p_impl->m_tag_index);
+}
+
+std::optional<event_variant_t> RemoveItemCommandV2::GetEventAfter() const
+{
+  return GetAfterEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
+                                       p_impl->m_tag_index);
+}
 
 void RemoveItemCommandV2::ExecuteImpl()
 {
   SetIsObsolete(false);
 
-  auto parent = p_impl->FindParent();
-
-  if (!parent)
-  {
-    throw RuntimeException("Can't find parent");
-  }
-
-  auto taken = p_impl->m_composer->TakeItem(parent, p_impl->m_tag_index);
+  auto taken = p_impl->m_cached_parent->TakeItem(p_impl->m_tag_index);
   if (!taken)
   {
     throw RuntimeException("Can't take an item");
@@ -108,9 +115,8 @@ void RemoveItemCommandV2::ExecuteImpl()
 
 void RemoveItemCommandV2::UndoImpl()
 {
-  auto parent = p_impl->FindParent();
-  p_impl->m_composer->InsertItem(p_impl->m_backup_strategy->RestoreItem(), parent,
-                                 p_impl->m_tag_index);
+  p_impl->m_cached_parent->InsertItem(p_impl->m_backup_strategy->RestoreItem(),
+                                      p_impl->m_tag_index);
 }
 
 }  // namespace mvvm

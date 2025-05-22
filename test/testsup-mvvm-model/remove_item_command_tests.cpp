@@ -110,7 +110,6 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
   auto parent = m_model.InsertItem<SessionItem>(m_model.GetRootItem());
   parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  // inserting two children to the parent
   auto child1 = m_model.InsertItem<SessionItem>(parent);
   child1->SetData(42.0);
   m_model.InsertItem<SessionItem>(parent);

@@ -38,11 +38,19 @@ class TagIndex;
 class MVVM_MODEL_EXPORT RemoveItemCommandV2 : public AbstractCommand
 {
 public:
-  RemoveItemCommandV2(IModelComposer* composer, SessionItem* parent, const TagIndex& tag_index);
-
+  RemoveItemCommandV2(SessionItem* parent, const TagIndex& tag_index);
   ~RemoveItemCommandV2() override;
 
+  RemoveItemCommandV2(const RemoveItemCommandV2&) = delete;
+  RemoveItemCommandV2& operator=(const RemoveItemCommandV2&) = delete;
+  RemoveItemCommandV2(RemoveItemCommandV2&&) = delete;
+  RemoveItemCommandV2& operator=(RemoveItemCommandV2&&) = delete;
+
   std::unique_ptr<SessionItem> GetResult() const;
+
+  std::optional<event_variant_t> GetEventBefore() const override;
+
+  std::optional<event_variant_t> GetEventAfter() const override;
 
 private:
   void ExecuteImpl() override;

@@ -48,8 +48,6 @@ TEST_F(InsertItemCommandV2Tests, InitialState)
 
   const auto expected_event1 =
       std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
-  const auto expected_event2 =
-      std::optional{event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}}};
 
   EXPECT_EQ(command.GetResult(), nullptr);
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
