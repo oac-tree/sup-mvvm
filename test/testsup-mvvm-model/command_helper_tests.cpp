@@ -81,6 +81,53 @@ TEST_F(CommandHelperTests, GetAfterEventForInsertCommand)
   }
 }
 
+TEST_F(CommandHelperTests, GetBeforeEventForRemoveCommand)
+{
+  SessionItem item;
+  const TagIndex tag_index{"tag", 42};
+
+  {
+    const auto expected_event = event_variant_t{AboutToRemoveItemEvent{&item, tag_index}};
+    EXPECT_EQ(GetBeforeEventForRemoveCommand(CommandStatus::Initial, &item, tag_index),
+              expected_event);
+  }
+
+  {
+    const auto expected_event = event_variant_t{AboutToRemoveItemEvent{&item, tag_index}};
+    EXPECT_EQ(GetBeforeEventForRemoveCommand(CommandStatus::AfterUndo, &item, tag_index),
+              expected_event);
+  }
+
+  {
+    const auto expected_event = event_variant_t{AboutToInsertItemEvent{&item, tag_index}};
+    EXPECT_EQ(GetBeforeEventForRemoveCommand(CommandStatus::AfterExecute, &item, tag_index),
+              expected_event);
+  }
+}
+
+TEST_F(CommandHelperTests, GetAfterEventForRemoveCommand)
+{
+  SessionItem item;
+  const TagIndex tag_index{"tag", 42};
+
+  {
+    const auto expected_event = event_variant_t{ItemRemovedEvent{&item, tag_index}};
+    EXPECT_EQ(GetAfterEventForRemoveCommand(CommandStatus::AfterExecute, &item, tag_index),
+              expected_event);
+  }
+
+  {
+    const auto expected_event = event_variant_t{ItemInsertedEvent{&item, tag_index}};
+    EXPECT_EQ(GetAfterEventForRemoveCommand(CommandStatus::AfterUndo, &item, tag_index),
+              expected_event);
+  }
+
+  {  // we can't be in the initial state after Undo or Execute command
+    EXPECT_THROW(GetAfterEventForRemoveCommand(CommandStatus::Initial, &item, tag_index),
+                 RuntimeException);
+  }
+}
+
 TEST_F(CommandHelperTests, GetSetValueCommandDescription)
 {
   const auto value = variant_t{mvvm::int32{42}};
@@ -95,4 +142,13 @@ TEST_F(CommandHelperTests, GetInsertCommandDescription)
 
   EXPECT_EQ(GetInsertCommandDescription(&parent, nullptr, tag_index),
             std::string("Insert: parent nullptr tag 42"));
+}
+
+TEST_F(CommandHelperTests, GetRemoveCommandDescription)
+{
+  SessionItem parent;
+  parent.SetDisplayName("parent");
+  const TagIndex tag_index{"tag", 42};
+
+  EXPECT_EQ(GetRemoveCommandDescription(&parent, tag_index), std::string("Remove: parent tag 42"));
 }

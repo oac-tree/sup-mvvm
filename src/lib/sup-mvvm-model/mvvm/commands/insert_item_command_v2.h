@@ -39,8 +39,12 @@ class MVVM_MODEL_EXPORT InsertItemCommandV2 : public AbstractCommand
 public:
   InsertItemCommandV2(std::unique_ptr<SessionItem> item,
                     SessionItem* parent, const TagIndex& tag_index);
-
   ~InsertItemCommandV2() override;
+
+  InsertItemCommandV2(const InsertItemCommandV2&) = delete;
+  InsertItemCommandV2& operator=(const InsertItemCommandV2&) = delete;
+  InsertItemCommandV2(InsertItemCommandV2&&) = delete;
+  InsertItemCommandV2& operator=(InsertItemCommandV2&&) = delete;
 
   SessionItem* GetResult() const;
 

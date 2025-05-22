@@ -32,7 +32,7 @@ class SessionItem;
 class TagIndex;
 
 /**
- * @brief Returns event which has to be send before command execution or undo.
+ * @brief Returns event which has to be send before InsertCommand execution or undo.
  *
  * @param status The current status of the command.
  * @param parent The parent to insert.
@@ -44,7 +44,7 @@ event_variant_t GetBeforeEventForInsertCommand(CommandStatus status, SessionItem
                                                const TagIndex& tag_index);
 
 /**
- * @brief Returns event which has to be send after command execution or undo.
+ * @brief Returns event which has to be send after InsertCommand execution or undo.
  *
  * @param status The current status of the command.
  * @param parent The parent to insert.
@@ -56,15 +56,45 @@ event_variant_t GetAfterEventForInsertCommand(CommandStatus status, SessionItem*
                                               const TagIndex& tag_index);
 
 /**
+ * @brief Returns event which has to be send before RemoveCommand execution or undo.
+ *
+ * @param status The current status of the command.
+ * @param parent The parent to insert.
+ * @param tag_index Address of a future child.
+ *
+ * @return An event to send.
+ */
+event_variant_t GetBeforeEventForRemoveCommand(CommandStatus status, SessionItem* parent,
+                                               const TagIndex& tag_index);
+
+/**
+ * @brief Returns event which has to be send after RemoveCommand execution or undo.
+ *
+ * @param status The current status of the command.
+ * @param parent The parent to insert.
+ * @param tag_index Address of a future child.
+ *
+ * @return An event to send.
+ */
+event_variant_t GetAfterEventForRemoveCommand(CommandStatus status, SessionItem* parent,
+                                              const TagIndex& tag_index);
+
+/**
+ * @brief Returns text description for SetValue command.
+ */
+std::string GetSetValueCommandDescription(const variant_t& value, int role);
+
+/**
  * @brief Returns text description for insert command.
  */
 std::string GetInsertCommandDescription(mvvm::SessionItem* parent, mvvm::SessionItem* child,
                                         const mvvm::TagIndex& tag_index);
 
 /**
- * @brief Returns text description for SetValue command.
+ * @brief Returns text description for insert command.
  */
-std::string GetSetValueCommandDescription(const variant_t& value, int role);
+std::string GetRemoveCommandDescription(mvvm::SessionItem* parent,
+                                        const mvvm::TagIndex& tag_index);
 
 }  // namespace mvvm
 
