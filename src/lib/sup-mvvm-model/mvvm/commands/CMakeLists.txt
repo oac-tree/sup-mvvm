@@ -20,6 +20,8 @@ target_sources(${library_name} PRIVATE
   notifying_command_stack.h
   remove_item_command.cpp
   remove_item_command.h
+  remove_item_command_v2.cpp
+  remove_item_command_v2.h
   set_value_command.cpp
   set_value_command.h
   set_value_command_v2.cpp
