@@ -188,3 +188,91 @@ TEST_F(NotifyingCommandStackExtendedTests, RemoveItemCommand)
   stack.Redo();
   ASSERT_EQ(parent.GetTotalItemCount(), 0);
 }
+
+TEST_F(NotifyingCommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
+{
+  SessionModel model;
+  NotifyingCommandStack<CommandStack> stack(m_event_listener.AsStdFunction());
+  auto parent = model.GetRootItem();
+
+  // insert first parent
+  auto [child, child_ptr] = test::CreateUnique<SessionItem>();
+  child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  const auto tag_index1 = TagIndex::First();
+
+  auto [command1, command1_ptr] =
+      test::CreateUnique<InsertItemCommandV2>(std::move(child), parent, tag_index1);
+  {
+    const ::testing::InSequence seq;
+    const auto expected_event1 = event_variant_t{AboutToInsertItemEvent{parent, tag_index1}};
+    const auto expected_event2 = event_variant_t{ItemInsertedEvent{parent, tag_index1}};
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event2)).Times(1);
+  }
+  stack.Execute(std::move(command1));
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+
+  // insert property into parent
+  auto [grandchild, grandchild_ptr] = test::CreateUnique<PropertyItem>();
+  grandchild->SetData(int32{42});
+  const auto tag_index2 = TagIndex::First();
+
+  EXPECT_EQ(command1_ptr->GetResult(), child_ptr);
+
+  auto [command2, command2_ptr] =
+      test::CreateUnique<InsertItemCommandV2>(std::move(grandchild), child_ptr, tag_index1);
+  {
+    const ::testing::InSequence seq;
+    const auto expected_event1 = event_variant_t{AboutToInsertItemEvent{child_ptr, tag_index1}};
+    const auto expected_event2 = event_variant_t{ItemInsertedEvent{child_ptr, tag_index1}};
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event2)).Times(1);
+  }
+  stack.Execute(std::move(command2));
+  EXPECT_EQ(child_ptr->GetTotalItemCount(), 1);
+
+  // modifying value of grandchild
+  auto [command3, command3_ptr] =
+      test::CreateUnique<SetValueCommandV2>(grandchild_ptr, int32{43}, DataRole::kData);
+  {
+    const auto expected_event1 = event_variant_t{DataChangedEvent{grandchild_ptr, DataRole::kData}};
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+  }
+  stack.Execute(std::move(command3));
+  EXPECT_EQ(child_ptr->GetTotalItemCount(), 1);
+  EXPECT_EQ(grandchild_ptr->Data<int32>(), int32{43});
+
+  // removing parent
+  auto [command4, command4_ptr] = test::CreateUnique<RemoveItemCommandV2>(parent, tag_index1);
+  {
+    const ::testing::InSequence seq;
+    const auto expected_event1 = event_variant_t{AboutToRemoveItemEvent{parent, tag_index1}};
+    const auto expected_event2 = event_variant_t{ItemRemovedEvent{parent, tag_index1}};
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event2)).Times(1);
+  }
+  stack.Execute(std::move(command4));
+  EXPECT_EQ(parent->GetTotalItemCount(), 0);
+
+  // undo removal
+  {
+    const ::testing::InSequence seq;
+    const auto expected_event1 = event_variant_t{AboutToInsertItemEvent{parent, tag_index1}};
+    const auto expected_event2 = event_variant_t{ItemInsertedEvent{parent, tag_index1}};
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event2)).Times(1);
+  }
+  stack.Undo();
+
+  auto restored_property = parent->GetAllItems().at(0)->GetAllItems().at(0);
+  // undo value change
+  {
+    const auto expected_event1 =
+        event_variant_t{DataChangedEvent{restored_property, DataRole::kData}};
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+  }
+  stack.Undo();
+
+  // we were able to go back to grandchild original value after parent restore
+  EXPECT_EQ(restored_property->Data<int32>(), 42);
+}
