@@ -29,8 +29,6 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/session_item.h>
 
-#include <iostream>
-
 namespace mvvm
 {
 
@@ -82,11 +80,6 @@ std::optional<event_variant_t> RemoveItemCommandV2::GetEventBefore() const
   {
     throw RuntimeException("Can't find parent");
   }
-
-  // auto result = std::get<AboutToRemoveItemEvent>(GetBeforeEventForRemoveCommand(
-  //     GetCommandStatus(), p_impl->m_cached_parent, p_impl->m_tag_index));
-  // std::cout << "XXX " << result.item << " " << result.tag_index.GetTag() << " "
-  //           << result.tag_index.GetIndex() << "\n";
 
   return GetBeforeEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
                                         p_impl->m_tag_index);

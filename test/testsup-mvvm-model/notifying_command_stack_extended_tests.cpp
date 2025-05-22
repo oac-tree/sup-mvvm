@@ -23,6 +23,7 @@
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/commands/i_command.h>
 #include <mvvm/commands/insert_item_command_v2.h>
+#include <mvvm/commands/remove_item_command_v2.h>
 #include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
@@ -75,8 +76,7 @@ TEST_F(NotifyingCommandStackExtendedTests, SetValueCommand)
   EXPECT_EQ(item.Data(), initial_value);
 
   // attempt to set the same initial data
-  auto [command2, command2_ptr] =
-      test::CreateUnique<SetValueCommandV2>(&item, initial_value, role);
+  auto [command2, command2_ptr] = test::CreateUnique<SetValueCommandV2>(&item, initial_value, role);
 
   EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(0);
   stack.Execute(std::move(command2));
@@ -144,4 +144,47 @@ TEST_F(NotifyingCommandStackExtendedTests, InsertItemCommand)
   EXPECT_EQ(restored_grandchild->GetIdentifier(), grandchild_identifier);
   EXPECT_EQ(restored_grandchild->GetDisplayName(), "width");
   EXPECT_EQ(restored_grandchild->Data<int>(), 42);
+}
+
+TEST_F(NotifyingCommandStackExtendedTests, RemoveItemCommand)
+{
+  NotifyingCommandStack<CommandStack> stack(m_event_listener.AsStdFunction());
+
+  SessionItem parent;
+  parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  const TagIndex expected_tag_index{"tag1", 0};
+  auto child = parent.InsertItem<SessionItem>(expected_tag_index);
+
+  auto command = std::make_unique<RemoveItemCommandV2>(&parent, expected_tag_index);
+
+  const auto expected_event1 = event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}};
+  const auto expected_event2 = event_variant_t{ItemRemovedEvent{&parent, expected_tag_index}};
+  const auto expected_event3 = event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}};
+  const auto expected_event4 = event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}};
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event2)).Times(1);
+  }
+
+  stack.Execute(std::move(command));
+  ASSERT_EQ(parent.GetTotalItemCount(), 0);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_event_listener, Call(expected_event3)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event4)).Times(1);
+  }
+  stack.Undo();
+  ASSERT_EQ(parent.GetTotalItemCount(), 1);
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
+    EXPECT_CALL(m_event_listener, Call(expected_event2)).Times(1);
+  }
+
+  stack.Redo();
+  ASSERT_EQ(parent.GetTotalItemCount(), 0);
 }
