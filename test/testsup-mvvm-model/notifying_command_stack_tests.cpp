@@ -44,7 +44,7 @@ public:
 TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
 {
   NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &m_mock_stack_listener);
+                                                               &m_mock_stack_listener);
   EXPECT_CALL(m_mock_stack_listener, CanUndo()).Times(1);
   stack.CanUndo();
 
@@ -70,10 +70,18 @@ TEST_F(NotifyingCommandStackTests, TriviallyDecoratedMethods)
   stack.EndMacro();
 }
 
+TEST_F(NotifyingCommandStackTests, AttemptToExecuteCommand)
+{
+  NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
+                                                               &m_mock_stack_listener);
+
+  EXPECT_THROW(stack.Execute(std::unique_ptr<test::TestCommand>()), RuntimeException);
+}
+
 TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandDoNotReportEvents)
 {
   NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &m_mock_stack_listener);
+                                                               &m_mock_stack_listener);
 
   auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 
@@ -91,7 +99,7 @@ TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandDoNotReportEvents)
 TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsOnceAndThenGetsExpired)
 {
   NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &m_mock_stack_listener);
+                                                               &m_mock_stack_listener);
 
   auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 
@@ -104,8 +112,7 @@ TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsOnceAndThenGetsExpir
       .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
 
   // mimick situation when base stack returns nullptr (command was obsolete)
-  ON_CALL(m_mock_stack_listener,
-  Execute(::testing::_)).WillByDefault(::testing::Return(nullptr));
+  ON_CALL(m_mock_stack_listener, Execute(::testing::_)).WillByDefault(::testing::Return(nullptr));
 
   {
     const ::testing::InSequence seq;
@@ -120,7 +127,7 @@ TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsOnceAndThenGetsExpir
 TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsBeforeAndAfter)
 {
   NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &m_mock_stack_listener);
+                                                               &m_mock_stack_listener);
 
   auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 
@@ -147,7 +154,7 @@ TEST_F(NotifyingCommandStackTests, ExecuteWhenCommandReportsBeforeAndAfter)
 TEST_F(NotifyingCommandStackTests, Undo)
 {
   NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &m_mock_stack_listener);
+                                                               &m_mock_stack_listener);
 
   auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 
@@ -177,7 +184,7 @@ TEST_F(NotifyingCommandStackTests, Undo)
 TEST_F(NotifyingCommandStackTests, Redo)
 {
   NotifyingCommandStack<test::MockCommandStackDecorator> stack(m_event_listener.AsStdFunction(),
-                                                           &m_mock_stack_listener);
+                                                               &m_mock_stack_listener);
 
   auto [command, command_ptr] = CreateCommand(m_mock_command_listener);
 

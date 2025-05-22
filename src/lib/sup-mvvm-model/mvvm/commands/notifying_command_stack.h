@@ -23,6 +23,7 @@
 
 #include <mvvm/commands/i_command.h>
 #include <mvvm/commands/i_command_stack.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/signals/event_types.h>
 
 #include <functional>
@@ -61,6 +62,11 @@ template <typename T>
 inline ICommand* NotifyingCommandStack<T>::Execute(std::unique_ptr<ICommand> command)
 {
   auto command_ptr = command.get();
+  if (!command)
+  {
+    throw RuntimeException("Command is uninitialized");
+  }
+
   Notify(command_ptr->GetEventBefore());
   // check result so command is not obsolete and still alive after execution
   if (auto result = T::Execute(std::move(command)); result)
