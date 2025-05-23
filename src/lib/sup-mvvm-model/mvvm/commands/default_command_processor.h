@@ -27,8 +27,7 @@ namespace mvvm
 {
 
 /**
- * @brief The DefaultCommandProcessor class immediately executes a command and does not store it
- * after.
+ * @brief The DefaultCommandProcessor class is intended for a single command execution.
  *
  * It doesn't have either undo/redo or any notification capabilities.
  */
