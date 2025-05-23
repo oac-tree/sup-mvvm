@@ -20,6 +20,7 @@
 
 #include "mvvm/serialization/tree_data_model_converter.h"
 
+#include <mvvm/commands/default_command_processor.h>
 #include <mvvm/model/i_model_composer.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>

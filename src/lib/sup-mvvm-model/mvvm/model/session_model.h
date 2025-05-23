@@ -43,7 +43,7 @@ public:
   explicit SessionModel(std::string model_type = {});
 
   SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
-               std::unique_ptr<IModelComposer> composer = {});
+               std::unique_ptr<IModelComposer> composer = {}, std::unique_ptr<ICommandStack> = {});
 
   ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;

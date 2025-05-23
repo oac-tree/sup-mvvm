@@ -26,10 +26,12 @@
 #include "session_item.h"
 #include "validate_utils.h"
 
+#include <mvvm/commands/default_command_processor.h>
 #include <mvvm/core/mvvm_exceptions.h>
 
 namespace
 {
+
 std::unique_ptr<mvvm::IModelComposer> CreateDefaultComposer(mvvm::ISessionModel* model)
 {
   return std::make_unique<mvvm::ModelComposer>(*model);
@@ -38,6 +40,11 @@ std::unique_ptr<mvvm::IModelComposer> CreateDefaultComposer(mvvm::ISessionModel*
 std::shared_ptr<mvvm::ItemPool> CreateDefaultItemPool()
 {
   return std::make_shared<mvvm::ItemPool>();
+}
+
+std::unique_ptr<mvvm::ICommandStack> CreateDefaultCommandProcessor()
+{
+  return std::make_unique<mvvm::DefaultCommandProcessor>();
 }
 
 }  // namespace
@@ -53,14 +60,18 @@ struct SessionModel::SessionModelImpl
   std::string m_model_type;
   std::shared_ptr<ItemPool> m_pool;
   std::unique_ptr<IModelComposer> m_composer;
+  std::unique_ptr<ICommandStack> m_command_processor;
   std::unique_ptr<SessionItem> m_root_item;
 
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
-                   std::unique_ptr<IModelComposer> composer)
+                   std::unique_ptr<IModelComposer> composer,
+                   std::unique_ptr<ICommandStack> command_processor)
       : m_self(self)
       , m_model_type(std::move(model_type))
       , m_pool(pool ? std::move(pool) : CreateDefaultItemPool())
       , m_composer(composer ? std::move(composer) : CreateDefaultComposer(m_self))
+      , m_command_processor(command_processor ? std::move(command_processor)
+                                              : CreateDefaultCommandProcessor())
       , m_root_item(utils::CreateEmptyRootItem())
   {
   }
@@ -72,9 +83,10 @@ SessionModel::SessionModel(std::string model_type)
 }
 
 SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
-                           std::unique_ptr<IModelComposer> composer)
+                           std::unique_ptr<IModelComposer> composer,
+                           std::unique_ptr<ICommandStack> command_stack)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool),
-                                                std::move(composer)))
+                                                std::move(composer), std::move(command_stack)))
 {
   GetRootItem()->SetModel(this);
 }

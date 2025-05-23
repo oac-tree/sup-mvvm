@@ -20,6 +20,7 @@
 
 #include "mvvm/model/session_model.h"
 
+#include <mvvm/commands/default_command_processor.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
