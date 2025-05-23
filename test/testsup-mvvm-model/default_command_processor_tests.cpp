@@ -1,0 +1,55 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2025 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "mvvm/commands/default_command_processor.h"
+
+#include <mvvm/core/mvvm_exceptions.h>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <testutils/mock_command.h>
+
+using namespace mvvm;
+
+class DefaultCommandProcessorTest : public ::testing::Test
+{
+public:
+};
+
+TEST_F(DefaultCommandProcessorTest, ExecuteCommand)
+{
+  DefaultCommandProcessor stack;
+
+  EXPECT_FALSE(stack.CanUndo());
+  EXPECT_FALSE(stack.CanRedo());
+  EXPECT_EQ(stack.GetIndex(), 0U);
+  EXPECT_EQ(stack.GetCommandCount(), 0U);
+  EXPECT_NO_THROW(stack.Undo());
+  EXPECT_NO_THROW(stack.Redo());
+  EXPECT_NO_THROW(stack.Clear());
+  EXPECT_NO_THROW(stack.SetUndoLimit(1));
+  EXPECT_NO_THROW(stack.BeginMacro("abc"));
+  EXPECT_NO_THROW(stack.EndMacro());
+
+  test::MockTestCommandListener listener;
+  auto [command, command_ptr] = CreateCommand(listener);
+  EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
+  EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
+}

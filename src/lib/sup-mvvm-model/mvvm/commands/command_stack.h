@@ -38,6 +38,11 @@ public:
   CommandStack();
   ~CommandStack() override;
 
+  CommandStack(const CommandStack&) = delete;
+  CommandStack& operator=(const CommandStack&) = delete;
+  CommandStack(CommandStack&&) = delete;
+  CommandStack& operator=(CommandStack&&) = delete;
+
   ICommand *Execute(std::unique_ptr<ICommand> command) override;
   bool CanUndo() const override;
   bool CanRedo() const override;
