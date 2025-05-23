@@ -1,5 +1,10 @@
+Changes for 1.9.0:
+
+- Implement NotifyingCommandStack and collection of commands without notification capabilities
+
 Changes for 1.8.0:
 
+- Github oac-tree 1.0 release
 - Implement helper function to retrieve compile time index of variant
 - Fix compilation warnings for Qt6.9
 - Implement builder for ItemViewComponentProvider
