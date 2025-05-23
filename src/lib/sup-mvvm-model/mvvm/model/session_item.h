@@ -162,6 +162,8 @@ public:
    */
   bool SetData(const char* value, std::int32_t role = DataRole::kData);
 
+  bool SetDataV2(const variant_t& value, std::int32_t role = DataRole::kData);
+
   /**
    * @brief Returns pointer to item's data container (non-const version).
    */

@@ -20,7 +20,24 @@
 
 #include "session_model_v2.h"
 
+#include "session_item.h"
+
+#include <mvvm/commands/default_command_processor.h>
+#include <mvvm/commands/i_command.h>
+
 namespace mvvm
 {
 
+SessionModelV2::SessionModelV2() : m_command_stack(std::make_unique<DefaultCommandProcessor>()) {}
+
+ICommand *SessionModelV2::ExecuteCommand(std::unique_ptr<ICommand> command)
+{
+  return m_command_stack->Execute(std::move(command));
 }
+
+bool SessionModelV2::SetData(SessionItem *item, const variant_t &value, int role)
+{
+  return item->SetDataV2(value, role);
+}
+
+}  // namespace mvvm

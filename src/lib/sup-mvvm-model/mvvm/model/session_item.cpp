@@ -26,6 +26,7 @@
 #include "taginfo.h"
 #include "validate_utils.h"
 
+#include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
@@ -40,6 +41,14 @@ std::int32_t appearance(const mvvm::SessionItem& item)
              ? item.Data<std::int32_t>(mvvm::DataRole::kAppearance)
              : mvvm::Appearance::kDefault;
 }
+
+template <typename C, typename... Args>
+C* ProcessCommand(mvvm::ISessionModel* model, Args&&... args)
+{
+  auto command = std::make_unique<C>(std::forward<Args>(args)...);
+  return static_cast<C*>(model->ExecuteCommand(std::move(command)));
+}
+
 }  // namespace
 
 namespace mvvm
@@ -131,6 +140,17 @@ bool SessionItem::HasData(std::int32_t role) const
 bool SessionItem::SetData(const char* value, std::int32_t role)
 {
   return SetData(std::string(value), role);
+}
+
+bool SessionItem::SetDataV2(const variant_t& value, int32_t role)
+{
+  if (auto model = GetModel(); model)
+  {
+    auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
+    return command->GetResult();
+  }
+
+  return SetDataImpl(value, role);
 }
 
 SessionItemData* SessionItem::GetItemData()

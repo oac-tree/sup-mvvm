@@ -26,13 +26,19 @@
 namespace mvvm
 {
 
-class SessionItem;
-class ItemPool;
-class IModelComposer;
+class ICommand;
 
 class SessionModelV2 : public SessionModel
 {
 public:
+  SessionModelV2();
+
+  ICommand* ExecuteCommand(std::unique_ptr<ICommand> command);
+
+  bool SetData(SessionItem* item, const variant_t& value, int role) override;
+
+private:
+  std::unique_ptr<ICommandStack> m_command_stack;
 };
 
 }  // namespace mvvm
