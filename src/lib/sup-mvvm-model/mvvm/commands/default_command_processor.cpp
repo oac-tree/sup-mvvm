@@ -27,9 +27,9 @@ namespace mvvm
 
 ICommand *DefaultCommandProcessor::Execute(std::unique_ptr<ICommand> command)
 {
-  auto result = command.get();
-  command->Execute();
-  return result;
+  m_last_command = std::move(command);
+  m_last_command->Execute();
+  return m_last_command.get();
 }
 
 bool DefaultCommandProcessor::CanUndo() const

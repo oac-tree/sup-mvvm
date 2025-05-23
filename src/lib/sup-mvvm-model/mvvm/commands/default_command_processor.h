@@ -64,6 +64,9 @@ public:
   void BeginMacro(const std::string& name) override;
 
   void EndMacro() override;
+
+private:
+  std::unique_ptr<ICommand> m_last_command;
 };
 
 }  // namespace mvvm

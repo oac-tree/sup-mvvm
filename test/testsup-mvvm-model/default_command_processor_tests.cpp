@@ -20,7 +20,9 @@
 
 #include "mvvm/commands/default_command_processor.h"
 
+#include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/session_item.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -52,4 +54,17 @@ TEST_F(DefaultCommandProcessorTest, ExecuteCommand)
   auto [command, command_ptr] = CreateCommand(listener);
   EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
+}
+
+TEST_F(DefaultCommandProcessorTest, ExecuteSetValueCommand)
+{
+  DefaultCommandProcessor stack;
+
+  SessionItem item;
+  auto command = std::make_unique<SetValueCommandV2>(&item, int32{42}, DataRole::kData);
+
+  auto result = static_cast<SetValueCommandV2*>(stack.Execute(std::move(command)));
+  ASSERT_NE(result, nullptr);
+  EXPECT_TRUE(result->GetResult());
+  EXPECT_EQ(item.Data<int32>(), 42);
 }
