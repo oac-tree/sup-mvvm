@@ -27,8 +27,10 @@ namespace mvvm
 {
 
 /**
- * @brief The DefaultCommandProcessor class immiediately executes a command and do not store it
+ * @brief The DefaultCommandProcessor class immediately executes a command and does not store it
  * after.
+ *
+ * It doesn't havy any notification capabilities.
  */
 class MVVM_MODEL_EXPORT DefaultCommandProcessor : public ICommandStack
 {

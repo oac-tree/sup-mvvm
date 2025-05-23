@@ -83,6 +83,8 @@ public:
    */
   void SetComposer(std::unique_ptr<IModelComposer> composer);
 
+  void SetCommandStack(std::unique_ptr<ICommandStack> command_stack);
+
 private:
   friend class SessionItem;
 

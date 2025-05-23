@@ -22,6 +22,7 @@
 
 #include <mvvm/commands/command_model_composer.h>
 #include <mvvm/commands/command_stack.h>
+#include <mvvm/commands/notifying_command_stack.h>
 #include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/session_model.h>
@@ -48,6 +49,13 @@ std::unique_ptr<mvvm::IModelComposer> CreateCommandComposer(
   return std::make_unique<mvvm::CommandModelComposer>(command_stack, std::move(composer));
 }
 
+std::unique_ptr<mvvm::ICommandStack> CreateCommandStack(mvvm::ModelEventHandler* event_handler)
+{
+  auto report_cb = [event_handler](const mvvm::event_variant_t& event)
+  { event_handler->Notify(event); };
+  return std::make_unique<mvvm::NotifyingCommandStack<mvvm::CommandStack>>(report_cb);
+}
+
 }  // namespace
 
 namespace mvvm
@@ -65,10 +73,11 @@ ApplicationModel::ApplicationModel(std::string model_type)
 }
 
 ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-    : SessionModel(std::move(model_type), std::move(pool))
+    : SessionModel(std::move(model_type), std::move(pool), {})
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
   SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));
+  SetCommandStack(CreateCommandStack(&p_impl->m_event_handler));
 }
 
 ApplicationModel::~ApplicationModel()

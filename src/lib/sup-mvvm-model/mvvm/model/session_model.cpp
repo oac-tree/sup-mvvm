@@ -205,4 +205,9 @@ void SessionModel::SetComposer(std::unique_ptr<IModelComposer> composer)
   p_impl->m_composer = std::move(composer);
 }
 
+void SessionModel::SetCommandStack(std::unique_ptr<ICommandStack> command_stack)
+{
+  p_impl->m_command_processor = std::move(command_stack);
+}
+
 }  // namespace mvvm
