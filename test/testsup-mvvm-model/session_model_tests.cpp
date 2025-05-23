@@ -33,8 +33,6 @@
 
 #include <gtest/gtest.h>
 
-#include <memory>
-
 using namespace mvvm;
 
 class SessionModelTest : public ::testing::Test
