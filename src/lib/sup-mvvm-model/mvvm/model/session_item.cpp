@@ -142,17 +142,6 @@ bool SessionItem::SetData(const char* value, std::int32_t role)
   return SetData(std::string(value), role);
 }
 
-bool SessionItem::SetDataV2(const variant_t& value, int32_t role)
-{
-  if (auto model = GetModel(); model)
-  {
-    auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
-    return command->GetResult();
-  }
-
-  return SetDataImpl(value, role);
-}
-
 SessionItemData* SessionItem::GetItemData()
 {
   return const_cast<SessionItemData*>(std::as_const(*this).GetItemData());
@@ -321,6 +310,14 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
   // SessionItem header.
   const bool act_through_model = GetModel() != nullptr;
   return act_through_model ? GetModel()->SetData(this, value, role) : SetDataImpl(value, role);
+
+  // if (auto model = GetModel(); model)
+  // {
+  //   auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
+  //   return command->GetResult();
+  // }
+
+  // return SetDataImpl(value, role);
 }
 
 bool SessionItem::SetDataImpl(const variant_t& value, std::int32_t role)

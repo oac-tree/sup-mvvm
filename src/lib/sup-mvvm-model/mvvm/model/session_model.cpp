@@ -173,6 +173,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
+  // return item->SetDataInternal(value, role);
   return p_impl->m_composer->SetData(item, value, role);
 }
 
