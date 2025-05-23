@@ -33,6 +33,7 @@ namespace mvvm
 class SessionItem;
 class ModelEventHandler;
 class ICommandStack;
+class ICommand;
 
 /**
  * @brief The ISessionModel class is an interface for all application models holding
@@ -178,6 +179,12 @@ public:
    * Internally it just un-registers an item from memory pool.
    */
   virtual void CheckOut(SessionItem* item) = 0;
+
+  virtual ICommand* ExecuteCommand(std::unique_ptr<ICommand> command)
+  {
+    (void)command;
+    return nullptr;
+  }
 };
 
 template <typename T>
