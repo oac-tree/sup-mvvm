@@ -33,6 +33,7 @@ using namespace mvvm;
 class DefaultCommandProcessorTest : public ::testing::Test
 {
 public:
+  ::testing::MockFunction<void(const event_variant_t&)> m_event_listener;
 };
 
 TEST_F(DefaultCommandProcessorTest, ExecuteCommand)
@@ -49,6 +50,8 @@ TEST_F(DefaultCommandProcessorTest, ExecuteCommand)
   EXPECT_NO_THROW(stack.SetUndoLimit(1));
   EXPECT_NO_THROW(stack.BeginMacro("abc"));
   EXPECT_NO_THROW(stack.EndMacro());
+  EXPECT_EQ(stack.GetNextUndoCommand(), nullptr);
+  EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
 
   test::MockTestCommandListener listener;
   auto [command, command_ptr] = CreateCommand(listener);

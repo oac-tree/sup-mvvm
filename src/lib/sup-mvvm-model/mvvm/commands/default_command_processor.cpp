@@ -84,4 +84,14 @@ void DefaultCommandProcessor::EndMacro()
   // do nothing
 }
 
+const ICommand *DefaultCommandProcessor::GetNextUndoCommand() const
+{
+  return nullptr;
+}
+
+const ICommand *DefaultCommandProcessor::GetNextRedoCommand() const
+{
+  return nullptr;
+}
+
 }  // namespace mvvm

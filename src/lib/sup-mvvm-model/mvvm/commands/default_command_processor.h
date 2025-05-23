@@ -30,7 +30,7 @@ namespace mvvm
  * @brief The DefaultCommandProcessor class immediately executes a command and does not store it
  * after.
  *
- * It doesn't havy any notification capabilities.
+ * It doesn't have either undo/redo or any notification capabilities.
  */
 class MVVM_MODEL_EXPORT DefaultCommandProcessor : public ICommandStack
 {
@@ -64,6 +64,10 @@ public:
   void BeginMacro(const std::string& name) override;
 
   void EndMacro() override;
+
+  const ICommand* GetNextUndoCommand() const;
+
+  const ICommand* GetNextRedoCommand() const;
 
 private:
   std::unique_ptr<ICommand> m_last_command;
