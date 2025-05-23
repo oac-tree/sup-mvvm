@@ -311,6 +311,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
   const bool act_through_model = GetModel() != nullptr;
   return act_through_model ? GetModel()->SetData(this, value, role) : SetDataImpl(value, role);
 
+  // FIXME next refactoring
   // if (auto model = GetModel(); model)
   // {
   //   auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);

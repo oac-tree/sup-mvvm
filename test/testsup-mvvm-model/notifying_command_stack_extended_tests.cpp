@@ -278,7 +278,7 @@ TEST_F(NotifyingCommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
   EXPECT_EQ(restored_property->Data<int32>(), 42);
 }
 
-//! Checnking together with DefaultCommandProcessor, where we do not have undo/redo,
+//! Checking together with DefaultCommandProcessor, where we do not have undo/redo,
 //! but still want to have notifications.
 TEST_F(NotifyingCommandStackExtendedTests, SetValueCommandWithDefaultProcessor)
 {
