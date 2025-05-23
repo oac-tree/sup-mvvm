@@ -26,6 +26,7 @@
 #include "session_item.h"
 #include "validate_utils.h"
 
+#include <mvvm/commands/i_command.h>
 #include <mvvm/commands/default_command_processor.h>
 #include <mvvm/core/mvvm_exceptions.h>
 
@@ -198,6 +199,11 @@ void SessionModel::CheckIn(SessionItem* item)
 void SessionModel::CheckOut(SessionItem* item)
 {
   p_impl->m_pool->UnregisterItem(item);
+}
+
+ICommand* SessionModel::ExecuteCommand(std::unique_ptr<ICommand> command)
+{
+  return p_impl->m_command_processor->Execute(std::move(command));
 }
 
 void SessionModel::SetComposer(std::unique_ptr<IModelComposer> composer)

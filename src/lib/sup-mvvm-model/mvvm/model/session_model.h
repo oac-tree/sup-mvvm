@@ -78,6 +78,8 @@ public:
 
   void CheckOut(SessionItem* item) override;
 
+  ICommand* ExecuteCommand(std::unique_ptr<ICommand> command) override;
+
   /**
    * @brief Sets internal composer to given value.
    */

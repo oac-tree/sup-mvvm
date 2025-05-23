@@ -21,6 +21,7 @@
 #include "mvvm/model/session_model.h"
 
 #include <mvvm/commands/default_command_processor.h>
+#include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
@@ -717,4 +718,15 @@ TEST_F(SessionModelTest, SetComposer)
   // checking registration
   auto item_key = item->GetIdentifier();
   EXPECT_EQ(m_pool->ItemForKey(item_key), item);
+}
+
+TEST_F(SessionModelTest, ExecuteCommand)
+{
+  SessionModel model;
+  auto item = model.InsertItem<SessionItem>();
+
+  auto command = std::make_unique<SetValueCommandV2>(item, variant_t{int32{42}}, DataRole::kData);
+
+  model.ExecuteCommand(std::move(command));
+  EXPECT_EQ(item->Data<mvvm::int32>(), 42);
 }
