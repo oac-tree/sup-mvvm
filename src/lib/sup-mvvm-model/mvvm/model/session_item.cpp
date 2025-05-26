@@ -26,12 +26,16 @@
 #include "taginfo.h"
 #include "validate_utils.h"
 
+#include <mvvm/commands/insert_item_command_v2.h>
+#include <mvvm/commands/remove_item_command_v2.h>
 #include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
 
 #include <utility>
+
+// #define NEW_COMMANDS
 
 namespace
 {
@@ -202,21 +206,57 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
   utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
+#ifdef NEW_COMMANDS
+  SessionItem* result{nullptr};
+  if (auto model = GetModel(); model)
+  {
+    auto command =
+        ProcessCommand<InsertItemCommandV2>(GetModel(), std::move(item), this, insert_tag_index);
+    result = command->GetResult();
+  }
+  else
+  {
+    result = p_impl->GetTaggedItems()->InsertItem(std::move(item), insert_tag_index);
+  }
+  result->SetParent(this);
+  result->SetModel(GetModel());
+
+  return result;
+#else
   auto result = p_impl->GetTaggedItems()->InsertItem(std::move(item), insert_tag_index);
   result->SetParent(this);
   result->SetModel(GetModel());
   return result;
+#endif
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(this, tag_index);
 
+#ifdef NEW_COMMANDS
+  std::unique_ptr<SessionItem> result;
+  if (auto model = GetModel(); model)
+  {
+    auto command = ProcessCommand<RemoveItemCommandV2>(GetModel(), this, tag_index);
+    result = command->GetResult();
+  }
+  else
+  {
+    result = p_impl->GetTaggedItems()->TakeItem(tag_index);
+  }
+
+  result->SetParent(nullptr);
+  result->SetModel(nullptr);
+
+  return result;
+#else
   auto result = p_impl->GetTaggedItems()->TakeItem(tag_index);
   result->SetParent(nullptr);
   result->SetModel(nullptr);
 
   return result;
+#endif
 }
 
 bool SessionItem::IsEditable() const
@@ -306,19 +346,19 @@ Slot* SessionItem::GetSlot() const
 
 bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
 {
-  // Method invented to hide implementaiton details and avoid placing SessionItemData header into
-  // SessionItem header.
+#ifdef NEW_COMMANDS
+  if (auto model = GetModel(); model)
+  {
+    auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
+    return command->GetResult();
+  }
+
+  return SetDataImpl(value, role);
+
+#else
   const bool act_through_model = GetModel() != nullptr;
   return act_through_model ? GetModel()->SetData(this, value, role) : SetDataImpl(value, role);
-
-  // FIXME next refactoring
-  // if (auto model = GetModel(); model)
-  // {
-  //   auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
-  //   return command->GetResult();
-  // }
-
-  // return SetDataImpl(value, role);
+#endif
 }
 
 bool SessionItem::SetDataImpl(const variant_t& value, std::int32_t role)

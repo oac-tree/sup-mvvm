@@ -26,9 +26,11 @@
 #include "session_item.h"
 #include "validate_utils.h"
 
-#include <mvvm/commands/i_command.h>
 #include <mvvm/commands/default_command_processor.h>
+#include <mvvm/commands/i_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
+
+// #define NEW_COMMANDS
 
 namespace
 {
@@ -133,15 +135,24 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
     parent = GetRootItem();
   }
 
+#ifdef NEW_COMMANDS
+  return parent->InsertItem(std::move(item), tag_index);
+#else
   auto actual_tagindex = utils::GetInsertTagIndex(parent, tag_index);
   utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
   return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
+#endif
 }
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(parent, tag_index);
+#ifdef  NEW_COMMANDS
+  return parent->TakeItem(tag_index);
+#else
   return p_impl->m_composer->TakeItem(parent, tag_index);
+#endif
+
 }
 
 void SessionModel::RemoveItem(SessionItem* item)
@@ -173,9 +184,11 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
+#ifdef NEW_COMMANDS
+  return item->SetDataInternal(value, role);
+#else
   return p_impl->m_composer->SetData(item, value, role);
-  // FIXME next refactoring
-  // return item->SetDataInternal(value, role);
+#endif
 }
 
 SessionItem* SessionModel::FindItem(const std::string& id) const
