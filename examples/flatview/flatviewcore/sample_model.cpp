@@ -57,12 +57,13 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 
 void DemoItem::Activate()
 {
-  // Enable/disable property "Answer" when property "Available" changes
-  auto on_property_changed = [this](const mvvm::DataChangedEvent&)
-  { GetItem("Answer")->SetEnabled(Property<bool>("Available")); };
+  // FIXME restore functionality
+  // // Enable/disable property "Answer" when property "Available" changes
+  // auto on_property_changed = [this](const mvvm::DataChangedEvent&)
+  // { GetItem("Answer")->SetEnabled(Property<bool>("Available")); };
 
-  mvvm::connect::Connect<mvvm::DataChangedEvent>(
-      /*source*/ GetItem("Available"), on_property_changed, GetSlot());
+  // mvvm::connect::Connect<mvvm::DataChangedEvent>(
+  //     /*source*/ GetItem("Available"), on_property_changed, GetSlot());
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}

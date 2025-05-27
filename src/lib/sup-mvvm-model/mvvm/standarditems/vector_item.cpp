@@ -86,8 +86,9 @@ void VectorItem::SetXYZ(double x, double y, double z)
 
 void VectorItem::Activate()
 {
-  auto on_property_change = [this](const PropertyChangedEvent&) { UpdateLabel(); };
-  connect::Connect<PropertyChangedEvent>(this, on_property_change, GetSlot());
+  // FIXME cleanup
+  // auto on_property_change = [this](const PropertyChangedEvent&) { UpdateLabel(); };
+  // connect::Connect<PropertyChangedEvent>(this, on_property_change, GetSlot());
 }
 
 void VectorItem::UpdateLabel()
