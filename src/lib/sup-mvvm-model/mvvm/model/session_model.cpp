@@ -29,6 +29,7 @@
 #include <mvvm/commands/default_command_processor.h>
 #include <mvvm/commands/i_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/signals/model_event_handler.h>
 
 // #define NEW_COMMANDS
 
@@ -65,6 +66,7 @@ struct SessionModel::SessionModelImpl
   std::unique_ptr<IModelComposer> m_composer;
   std::unique_ptr<ICommandStack> m_command_processor;
   std::unique_ptr<SessionItem> m_root_item;
+  bool m_is_executing{false};
 
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
                    std::unique_ptr<IModelComposer> composer,
@@ -123,8 +125,11 @@ ModelEventHandler* SessionModel::GetEventHandler() const
 
 ICommandStack* SessionModel::GetCommandStack() const
 {
-  // this implementation doesn't have any undo/redo capabilities
+#ifdef NEW_COMMANDS
+  return p_impl->m_command_processor.get();
+#else
   return nullptr;
+#endif
 }
 
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
@@ -147,12 +152,11 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(parent, tag_index);
-#ifdef  NEW_COMMANDS
+#ifdef NEW_COMMANDS
   return parent->TakeItem(tag_index);
 #else
   return p_impl->m_composer->TakeItem(parent, tag_index);
 #endif
-
 }
 
 void SessionModel::RemoveItem(SessionItem* item)
@@ -203,7 +207,26 @@ void SessionModel::Clear()
 
 void SessionModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
 {
+#ifdef NEW_COMMANDS
+  if (!root_item)
+  {
+    throw RuntimeException("Uninitialised root item");
+  }
+
+  if (GetEventHandler())
+  {
+    GetEventHandler()->Notify<ModelAboutToBeResetEvent>(this);
+  }
+  p_impl->m_root_item = std::move(root_item);
+  p_impl->m_root_item->SetModel(this);
+  p_impl->m_command_processor->Clear();
+  if (GetEventHandler())
+  {
+    GetEventHandler()->Notify<ModelResetEvent>(this);
+  }
+#else
   p_impl->m_composer->ReplaceRootItem(p_impl->m_root_item, std::move(root_item));
+#endif
 }
 
 void SessionModel::CheckIn(SessionItem* item)
