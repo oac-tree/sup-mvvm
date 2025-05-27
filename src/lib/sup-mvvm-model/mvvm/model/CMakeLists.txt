@@ -1,8 +1,6 @@
 target_sources(${library_name} PRIVATE
   application_model.cpp
   application_model.h
-  application_model_composer.cpp
-  application_model_composer.h
   combo_property.cpp
   combo_property.h
   compound_item.cpp
