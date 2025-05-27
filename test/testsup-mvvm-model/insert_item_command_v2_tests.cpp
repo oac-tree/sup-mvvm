@@ -88,6 +88,8 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
   EXPECT_EQ(parent.GetTotalItemCount(), 1);
   EXPECT_EQ(parent.GetItem(expected_tag_index), to_insert_ptr);
   EXPECT_EQ(parent.GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(command.GetResult()->GetParent(), &parent);
+  EXPECT_EQ(command.GetResult()->GetModel(), nullptr);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
@@ -101,6 +103,8 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
   EXPECT_EQ(parent.GetTotalItemCount(), 1);
   EXPECT_EQ(parent.GetItem(expected_tag_index)->GetIdentifier(), identifier);
   EXPECT_EQ(parent.GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(parent.GetItem(expected_tag_index)->GetParent(), &parent);
+  EXPECT_EQ(parent.GetItem(expected_tag_index)->GetModel(), nullptr);
 }
 
 TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
@@ -138,12 +142,15 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
   EXPECT_EQ(parent->GetItem(expected_tag_index), to_insert_ptr);
   EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetParent(), parent);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetModel(), &model);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
   EXPECT_EQ(command.GetEventAfter(), expected_event4);
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_EQ(parent->GetTotalItemCount(), 2);
+  EXPECT_EQ(model.FindItem(identifier), nullptr);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -151,6 +158,9 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
   EXPECT_EQ(parent->GetTotalItemCount(), 3);
   EXPECT_EQ(parent->GetItem(expected_tag_index)->GetIdentifier(), identifier);
   EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetParent(), parent);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetModel(), &model);
+  EXPECT_EQ(model.FindItem(identifier), parent->GetItem(expected_tag_index));
 }
 
 TEST_F(InsertItemCommandV2Tests, AttemptToInsertSecondProperty)

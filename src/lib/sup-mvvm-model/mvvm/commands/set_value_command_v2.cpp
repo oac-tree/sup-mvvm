@@ -45,7 +45,7 @@ struct SetValueCommandV2::SetValueCommandImpl
     }
 
     m_model = m_cached_item->GetModel();
-    m_item_identifier = item->GetIdentifier();
+    m_item_identifier = m_cached_item->GetIdentifier();
   }
 
   SessionItem *FindItem() const

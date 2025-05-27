@@ -92,6 +92,7 @@ TEST_F(RemoveItemCommandV2Tests, RemoveItemFromParent)
   EXPECT_EQ(parent.GetTotalItemCount(), 2);
   EXPECT_EQ(taken->Data<mvvm::int32>(), 42);
   EXPECT_EQ(taken->GetIdentifier(), child1_identifier);
+  EXPECT_EQ(taken->GetParent(), nullptr);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
@@ -101,6 +102,7 @@ TEST_F(RemoveItemCommandV2Tests, RemoveItemFromParent)
   EXPECT_EQ(command.GetResult().get(), nullptr);
   EXPECT_EQ(parent.GetAllItems().at(1)->Data<mvvm::int32>(), 42);
   EXPECT_EQ(parent.GetAllItems().at(1)->GetIdentifier(), child1_identifier);
+  EXPECT_EQ(parent.GetAllItems().at(1)->GetParent(), &parent);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -110,6 +112,7 @@ TEST_F(RemoveItemCommandV2Tests, RemoveItemFromParent)
   auto taken2 = command.GetResult();
   EXPECT_EQ(taken2->Data<mvvm::int32>(), 42);
   EXPECT_EQ(taken2->GetIdentifier(), child1_identifier);
+  EXPECT_EQ(taken2->GetParent(), nullptr);
 }
 
 TEST_F(RemoveItemCommandV2Tests, RemoveParentWithChildWhenPartOfTheModel)
@@ -148,10 +151,16 @@ TEST_F(RemoveItemCommandV2Tests, RemoveParentWithChildWhenPartOfTheModel)
     EXPECT_EQ(taken_child.get(), child);  // still same pointer
     EXPECT_EQ(taken_child->GetIdentifier(), child_identifier);
     ASSERT_EQ(taken_child->GetTotalItemCount(), 1);
+    EXPECT_EQ(taken_child->GetParent(), nullptr);
+    EXPECT_EQ(taken_child->GetModel(), nullptr);
     auto taken_grandchild = taken_child->GetAllItems().at(0);
     EXPECT_EQ(taken_grandchild->GetIdentifier(), grandchild_identifier);
     EXPECT_EQ(taken_grandchild, grandchild);  // still same pointer
     EXPECT_EQ(taken_grandchild->Data<mvvm::int32>(), 42);
+    EXPECT_EQ(taken_grandchild->GetParent(), taken_child.get());
+    EXPECT_EQ(taken_grandchild->GetModel(), nullptr);
+    EXPECT_EQ(model.FindItem(child_identifier), nullptr);
+    EXPECT_EQ(model.FindItem(grandchild_identifier), nullptr);
   }
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
@@ -167,6 +176,8 @@ TEST_F(RemoveItemCommandV2Tests, RemoveParentWithChildWhenPartOfTheModel)
     ASSERT_EQ(restored_child->GetTotalItemCount(), 1);
     EXPECT_EQ(restored_grandchild->GetIdentifier(), grandchild_identifier);
     EXPECT_EQ(restored_grandchild->Data<mvvm::int32>(), 42);
+    EXPECT_EQ(model.FindItem(child_identifier), restored_child);
+    EXPECT_EQ(model.FindItem(grandchild_identifier), restored_grandchild);
   }
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);

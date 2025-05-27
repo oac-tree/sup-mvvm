@@ -192,7 +192,7 @@ TEST_F(NotifyingCommandStackExtendedTests, RemoveItemCommand)
 
 TEST_F(NotifyingCommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
 {
-  SessionModel model;
+  const SessionModel model;
   NotifyingCommandStack<CommandStack> stack(m_event_listener.AsStdFunction());
   auto parent = model.GetRootItem();
 
@@ -242,6 +242,7 @@ TEST_F(NotifyingCommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
   stack.Execute(std::move(command3));
   EXPECT_EQ(child_ptr->GetTotalItemCount(), 1);
   EXPECT_EQ(grandchild_ptr->Data<int32>(), int32{43});
+  EXPECT_TRUE(command3_ptr->GetResult());
 
   // removing parent
   auto [command4, command4_ptr] = test::CreateUnique<RemoveItemCommandV2>(parent, tag_index1);
@@ -266,6 +267,8 @@ TEST_F(NotifyingCommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
   stack.Undo();
 
   auto restored_property = parent->GetAllItems().at(0)->GetAllItems().at(0);
+  EXPECT_EQ(restored_property->Data<int32>(), 43);
+
   // undo value change
   {
     const auto expected_event1 =

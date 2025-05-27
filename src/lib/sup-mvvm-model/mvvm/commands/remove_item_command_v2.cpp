@@ -28,6 +28,7 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/model/tagged_items.h>
 
 namespace mvvm
 {
@@ -95,11 +96,14 @@ void RemoveItemCommandV2::ExecuteImpl()
 {
   SetIsObsolete(false);
 
-  auto taken = p_impl->m_cached_parent->TakeItem(p_impl->m_tag_index);
+  auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
   if (!taken)
   {
     throw RuntimeException("Can't take an item");
   }
+
+  taken->SetParent(nullptr);
+  taken->SetModel(nullptr);
 
   p_impl->m_backup_strategy->SaveItem(*taken);
 
@@ -108,8 +112,10 @@ void RemoveItemCommandV2::ExecuteImpl()
 
 void RemoveItemCommandV2::UndoImpl()
 {
-  p_impl->m_cached_parent->InsertItem(p_impl->m_backup_strategy->RestoreItem(),
-                                      p_impl->m_tag_index);
+  auto result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(p_impl->m_backup_strategy->RestoreItem(),
+                                                        p_impl->m_tag_index);
+  result->SetParent(p_impl->m_cached_parent);
+  result->SetModel(p_impl->m_cached_parent->GetModel());
 }
 
 }  // namespace mvvm

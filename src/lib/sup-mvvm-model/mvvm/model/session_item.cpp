@@ -217,9 +217,9 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   else
   {
     result = p_impl->GetTaggedItems()->InsertItem(std::move(item), insert_tag_index);
+    result->SetParent(this);
+    result->SetModel(GetModel());
   }
-  result->SetParent(this);
-  result->SetModel(GetModel());
 
   return result;
 #else
@@ -244,10 +244,9 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   else
   {
     result = p_impl->GetTaggedItems()->TakeItem(tag_index);
+    result->SetParent(nullptr);
+    result->SetModel(nullptr);
   }
-
-  result->SetParent(nullptr);
-  result->SetModel(nullptr);
 
   return result;
 #else

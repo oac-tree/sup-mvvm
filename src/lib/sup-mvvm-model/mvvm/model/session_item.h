@@ -386,6 +386,8 @@ public:
    */
   variant_t GetDataImpl(std::int32_t role) const;
 
+  void SetParent(SessionItem* parent);
+
 protected:
   explicit SessionItem(const std::string& item_type);
   SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
@@ -393,8 +395,6 @@ protected:
 
 private:
   friend class TreeDataItemConverter;
-
-  void SetParent(SessionItem* parent);
 
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 

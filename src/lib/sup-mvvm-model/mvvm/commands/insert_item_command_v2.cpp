@@ -27,6 +27,8 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/model/tagged_items.h>
+#include <mvvm/model/validate_utils.h>
 
 namespace mvvm
 {
@@ -101,13 +103,21 @@ void InsertItemCommandV2::ExecuteImpl()
 
   auto to_insert = p_impl->m_to_insert ? std::move(p_impl->m_to_insert)
                                        : p_impl->m_backup_strategy->RestoreItem();
-  p_impl->m_result = p_impl->m_cached_parent->InsertItem(std::move(to_insert), p_impl->m_tag_index);
+
+  // FIXME this validation duplicates the one in SessionItem::InsertItem, remove duplication
+  utils::ValidateItemInsert(to_insert.get(), p_impl->m_cached_parent, p_impl->m_tag_index);
+
+  p_impl->m_result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(std::move(to_insert),
+                                                                           p_impl->m_tag_index);
+  p_impl->m_result->SetParent(p_impl->m_cached_parent);
+  p_impl->m_result->SetModel(p_impl->m_cached_parent->GetModel());
 }
 
 void InsertItemCommandV2::UndoImpl()
 {
-  p_impl->m_cached_parent->TakeItem(p_impl->m_tag_index);
-
+  auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
+  taken->SetParent(nullptr);
+  taken->SetModel(nullptr);
   // may be it is better to store taken item on board, and not to use backup at all?
 }
 
