@@ -35,7 +35,6 @@ struct SetValueCommandV2::SetValueCommandImpl
   std::int32_t m_role;
   std::string m_item_identifier;
   bool m_result{false};
-  std::optional<event_variant_t> m_next_event;
 
   SetValueCommandImpl(SessionItem *item, const variant_t &value, int role)
       : m_cached_item(item), m_value(value), m_role(role)
@@ -49,14 +48,12 @@ struct SetValueCommandV2::SetValueCommandImpl
     m_item_identifier = item->GetIdentifier();
   }
 
-  SessionItem *FindItem() const { return m_model ? m_model->FindItem(m_item_identifier) : m_cached_item; }
-
-  void SetResult(bool value)
+  SessionItem *FindItem() const
   {
-    m_result = value;
-    m_next_event =
-        m_result ? std::optional<event_variant_t>(DataChangedEvent{m_cached_item, m_role}) : std::nullopt;
+    return m_model ? m_model->FindItem(m_item_identifier) : m_cached_item;
   }
+
+  void SetResult(bool value) { m_result = value; }
 };
 
 SetValueCommandV2::SetValueCommandV2(SessionItem *item, const variant_t &value, int role)
@@ -73,12 +70,18 @@ bool SetValueCommandV2::GetResult() const
 
 std::optional<event_variant_t> SetValueCommandV2::GetEventBefore() const
 {
+  p_impl->m_cached_item = p_impl->FindItem();
   return {};
 }
 
 std::optional<event_variant_t> SetValueCommandV2::GetEventAfter() const
 {
-  return p_impl->m_next_event;
+  if (p_impl->m_result)
+  {
+    return DataChangedEvent{p_impl->m_cached_item, p_impl->m_role};
+  }
+
+  return {};
 }
 
 void SetValueCommandV2::ExecuteImpl()
@@ -93,7 +96,6 @@ void SetValueCommandV2::UndoImpl()
 
 void SetValueCommandV2::SwapValues()
 {
-  p_impl->m_cached_item = p_impl->FindItem();
   auto old = p_impl->m_cached_item->Data(p_impl->m_role);
   auto result = p_impl->m_cached_item->SetDataImpl(p_impl->m_value, p_impl->m_role);
   SetResult(result);

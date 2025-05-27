@@ -447,6 +447,7 @@ std::string ItemToDebugString(const SessionItem* item)
   {
     ostr << (item);
     ostr << " " << "[" + item->GetDisplayName() + "]";
+    ostr << " " << item->GetIdentifier();
     ostr << " value [" + utils::ValueToString(item->Data()) + "]";
   }
   else
