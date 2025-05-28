@@ -58,8 +58,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
     {
       m_block_update = true;
       auto item = m_self->GetItem();
-      // FIXME enable functionality after SetDataStrategy implementation
-      // item->SetRange(newRange.lower, newRange.upper);
+      item->SetRange(newRange.lower, newRange.upper);
       m_block_update = false;
     };
 

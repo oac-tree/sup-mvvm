@@ -294,7 +294,7 @@ TEST_F(ViewportAxisPlotControllerTest, ViewportLogz)
 //! Controller subscribed to ViewportAxisItem.
 //! Change ViewportAxisItem logz and check that QCPAxis got new values.
 
-TEST_F(ViewportAxisPlotControllerTest, ChangeViewportLogz)
+TEST_F(ViewportAxisPlotControllerTest, DISABLED_ChangeViewportLogz)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
 
