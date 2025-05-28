@@ -31,7 +31,7 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/signals/model_event_handler.h>
 
-// #define NEW_COMMANDS
+#define NEW_COMMANDS
 
 namespace
 {

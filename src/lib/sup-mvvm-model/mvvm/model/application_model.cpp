@@ -20,35 +20,15 @@
 
 #include "application_model.h"
 
-#include <mvvm/commands/command_model_composer.h>
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/commands/default_command_processor.h>
 #include <mvvm/commands/notifying_command_stack.h>
-#include <mvvm/model/model_composer.h>
 #include <mvvm/model/notifying_model_composer.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace
 {
-
-/**
- * @brief Creates model composer which knows how to send signals.
- */
-std::unique_ptr<mvvm::IModelComposer> CreateNotifyingComposer(
-    mvvm::ModelEventHandler* event_handler, mvvm::ISessionModel* model)
-{
-  return std::make_unique<mvvm::NotifyingModelComposer<mvvm::ModelComposer>>(event_handler, *model);
-}
-
-/**
- * @brief Creates model composer which knows how to undo changes.
- */
-std::unique_ptr<mvvm::IModelComposer> CreateCommandComposer(
-    mvvm::ICommandStack* command_stack, std::unique_ptr<mvvm::IModelComposer> composer)
-{
-  return std::make_unique<mvvm::CommandModelComposer>(command_stack, std::move(composer));
-}
 
 std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
     mvvm::ModelEventHandler* event_handler)
@@ -62,10 +42,11 @@ std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
 std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(
     mvvm::ModelEventHandler* event_handler, std::size_t undo_limit)
 {
-  auto result = std::make_unique<mvvm::NotifyingCommandStack<mvvm::CommandStack>>(
-      CreateNotifierCallback(event_handler));
-  result->SetUndoLimit(undo_limit);
-  return result;
+  return std::make_unique<mvvm::CommandStack>();
+  // auto result = std::make_unique<mvvm::NotifyingCommandStack<mvvm::CommandStack>>(
+  //     CreateNotifierCallback(event_handler));
+  // result->SetUndoLimit(undo_limit);
+  // return result;
 }
 
 /**
@@ -74,8 +55,9 @@ std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(
 std::unique_ptr<mvvm::ICommandStack> CreateDefaultCommandProcessor(
     mvvm::ModelEventHandler* event_handler)
 {
-  return std::make_unique<mvvm::NotifyingCommandStack<mvvm::DefaultCommandProcessor>>(
-      CreateNotifierCallback(event_handler));
+  // return std::make_unique<mvvm::NotifyingCommandStack<mvvm::DefaultCommandProcessor>>(
+  //     CreateNotifierCallback(event_handler));
+  return std::make_unique<mvvm::DefaultCommandProcessor>();
 }
 
 }  // namespace
@@ -98,7 +80,6 @@ ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemP
     : SessionModel(std::move(model_type), std::move(pool), {})
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
-  SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));
   SetCommandStack(CreateDefaultCommandProcessor(&p_impl->m_event_handler));
 }
 
@@ -112,11 +93,6 @@ ModelEventHandler* ApplicationModel::GetEventHandler() const
   return &p_impl->m_event_handler;
 }
 
-ICommandStack* ApplicationModel::GetCommandStack() const
-{
-  return p_impl->m_command_stack.get();
-}
-
 void ApplicationModel::CheckIn(SessionItem* item)
 {
   SessionModel::CheckIn(item);
@@ -127,17 +103,10 @@ void ApplicationModel::SetUndoEnabled(bool value, std::size_t undo_limit)
 {
   if (value)
   {
-    p_impl->m_command_stack = std::make_unique<CommandStack>();
-    auto notifying_composer = CreateNotifyingComposer(&p_impl->m_event_handler, this);
-    SetComposer(CreateCommandComposer(GetCommandStack(), std::move(notifying_composer)));
-    p_impl->m_command_stack->SetUndoLimit(undo_limit);
-
     SetCommandStack(CreateCommandStackProcessor(&p_impl->m_event_handler, undo_limit));
   }
   else
   {
-    p_impl->m_command_stack.reset();
-    SetComposer(CreateNotifyingComposer(&p_impl->m_event_handler, this));
     SetCommandStack(CreateDefaultCommandProcessor(&p_impl->m_event_handler));
   }
 }

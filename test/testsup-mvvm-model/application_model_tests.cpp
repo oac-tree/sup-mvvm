@@ -20,7 +20,9 @@
 
 #include "mvvm/model/application_model.h"
 
-#include <mvvm/commands/i_command_stack.h>
+#include <mvvm/commands/command_stack.h>
+#include <mvvm/commands/default_command_processor.h>
+#include <mvvm/commands/notifying_command_stack.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_constants.h>
@@ -52,7 +54,7 @@ TEST_F(ApplicationModelTest, InitialState)
   EXPECT_EQ(m_model.GetRootItem()->GetModel(), &m_model);
   EXPECT_EQ(m_model.GetRootItem()->GetParent(), nullptr);
   EXPECT_NE(m_model.GetEventHandler(), nullptr);
-  EXPECT_EQ(m_model.GetCommandStack(), nullptr);
+  EXPECT_NE(m_model.GetCommandStack(), nullptr);
 }
 
 //! Setting data through the model and checking the result.
@@ -570,9 +572,15 @@ TEST_F(ApplicationModelTest, Destroy)
 //! Check SetUndoEnabled.
 TEST_F(ApplicationModelTest, SetUndoEnabled)
 {
+  EXPECT_NE(
+      dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()),
+      nullptr);
+
   m_model.SetUndoEnabled(true);
-  EXPECT_NE(m_model.GetCommandStack(), nullptr);
+  EXPECT_NE(dynamic_cast<CommandStack*>(m_model.GetCommandStack()), nullptr);
 
   m_model.SetUndoEnabled(false);
-  EXPECT_EQ(m_model.GetCommandStack(), nullptr);
+  EXPECT_NE(
+      dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()),
+      nullptr);
 }

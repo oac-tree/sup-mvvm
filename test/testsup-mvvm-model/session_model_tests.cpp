@@ -21,6 +21,7 @@
 #include "mvvm/model/session_model.h"
 
 #include <mvvm/commands/default_command_processor.h>
+#include <mvvm/commands/notifying_command_stack.h>
 #include <mvvm/commands/set_value_command_v2.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
@@ -68,7 +69,7 @@ TEST_F(SessionModelTest, InitialState)
   EXPECT_EQ(model.GetRootItem()->GetModel(), &model);
   EXPECT_EQ(model.GetRootItem()->GetParent(), nullptr);
   EXPECT_EQ(model.GetEventHandler(), nullptr);
-  EXPECT_EQ(model.GetCommandStack(), nullptr);
+  EXPECT_NE(dynamic_cast<DefaultCommandProcessor*>(model.GetCommandStack()), nullptr);
 }
 
 TEST_F(SessionModelTest, SetData)

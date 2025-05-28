@@ -32,10 +32,11 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/signals/model_event_handler.h>
 
 #include <utility>
 
-// #define NEW_COMMANDS
+#define NEW_COMMANDS
 
 namespace
 {
@@ -46,11 +47,28 @@ std::int32_t appearance(const mvvm::SessionItem& item)
              : mvvm::Appearance::kDefault;
 }
 
+std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
+    mvvm::ModelEventHandler* event_handler)
+{
+  if (event_handler)
+  {
+    return [event_handler](const mvvm::event_variant_t& event) { event_handler->Notify(event); };
+  }
+
+  return {};
+}
+
 template <typename C, typename... Args>
 C* ProcessCommand(mvvm::ISessionModel* model, Args&&... args)
 {
-  auto command = std::make_unique<C>(std::forward<Args>(args)...);
-  return static_cast<C*>(model->ExecuteCommand(std::move(command)));
+  if (model)
+  {
+    auto command = std::make_unique<C>(std::forward<Args>(args)...);
+    command->SetNotificationCallback(CreateNotifierCallback(model->GetEventHandler()));
+    return static_cast<C*>(model->ExecuteCommand(std::move(command)));
+  }
+
+  return nullptr;
 }
 
 }  // namespace

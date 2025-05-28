@@ -48,8 +48,6 @@ public:
 
   ModelEventHandler* GetEventHandler() const override;
 
-  ICommandStack* GetCommandStack() const override;
-
   void CheckIn(SessionItem* item) override;
 
   /**
