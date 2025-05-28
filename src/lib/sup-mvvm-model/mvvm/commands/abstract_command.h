@@ -24,6 +24,7 @@
 #include <mvvm/commands/i_command.h>
 
 #include <memory>
+#include <functional>
 
 namespace mvvm
 {
@@ -34,6 +35,7 @@ namespace mvvm
 class MVVM_MODEL_EXPORT AbstractCommand : public ICommand
 {
 public:
+  using event_notify_t = std::function<void(const event_variant_t&)>;
   AbstractCommand();
   ~AbstractCommand() override;
 
@@ -59,6 +61,8 @@ public:
   std::optional<event_variant_t> GetEventBefore() const override;
 
   std::optional<event_variant_t> GetEventAfter() const override;
+
+  void SetNotificationCallback(const event_notify_t& event_notify);
 
 private:
   virtual void ExecuteImpl() = 0;
