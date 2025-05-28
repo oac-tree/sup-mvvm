@@ -241,7 +241,24 @@ void SessionModel::CheckOut(SessionItem* item)
 
 ICommand* SessionModel::ExecuteCommand(std::unique_ptr<ICommand> command)
 {
-  return p_impl->m_command_processor->Execute(std::move(command));
+  if (p_impl->m_is_executing)
+  {
+    throw RuntimeException("Command still executing");
+  }
+
+  p_impl->m_is_executing = true;
+  ICommand* result{nullptr};
+  try
+  {
+    result = p_impl->m_command_processor->Execute(std::move(command));
+    p_impl->m_is_executing = false;
+  }
+  catch (const std::exception& ex)
+  {
+    p_impl->m_is_executing = false;
+    throw RuntimeException(ex.what());
+  }
+  return result;
 }
 
 void SessionModel::SetComposer(std::unique_ptr<IModelComposer> composer)

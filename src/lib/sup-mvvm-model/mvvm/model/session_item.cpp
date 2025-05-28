@@ -367,7 +367,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
   if (auto model = GetModel(); model)
   {
     auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
-    return command->GetResult();
+    return command ? command->GetResult() : false;
   }
 
   return SetDataImpl(value, role);
