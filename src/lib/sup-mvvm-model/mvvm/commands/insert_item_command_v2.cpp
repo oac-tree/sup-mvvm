@@ -55,6 +55,7 @@ struct InsertItemCommandV2::InsertItemCommandImpl
       throw RuntimeException("Uninitialized item");
     }
 
+    m_model = m_cached_parent->GetModel();
     m_parent_identifier = m_cached_parent->GetIdentifier();
     m_backup_strategy->SaveItem(*m_to_insert);
   }

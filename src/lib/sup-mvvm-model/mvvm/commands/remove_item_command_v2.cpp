@@ -52,6 +52,7 @@ struct RemoveItemCommandV2::RemoveItemCommandImpl
       throw RuntimeException("Uninitialized item");
     }
 
+    m_model = m_cached_parent->GetModel();
     m_parent_identifier = m_cached_parent->GetIdentifier();
   }
 

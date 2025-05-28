@@ -30,11 +30,11 @@
 namespace
 {
 
-std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
-    mvvm::ModelEventHandler* event_handler)
-{
-  return [event_handler](const mvvm::event_variant_t& event) { event_handler->Notify(event); };
-}
+// std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
+//     mvvm::ModelEventHandler* event_handler)
+// {
+//   return [event_handler](const mvvm::event_variant_t& event) { event_handler->Notify(event); };
+// }
 
 /**
  * @brief Creates command processor with undo/redo and notifications.
@@ -42,11 +42,12 @@ std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
 std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(
     mvvm::ModelEventHandler* event_handler, std::size_t undo_limit)
 {
-  return std::make_unique<mvvm::CommandStack>();
+  (void)event_handler;
+  auto result = std::make_unique<mvvm::CommandStack>();
+  result->SetUndoLimit(undo_limit);
+  return result;
   // auto result = std::make_unique<mvvm::NotifyingCommandStack<mvvm::CommandStack>>(
   //     CreateNotifierCallback(event_handler));
-  // result->SetUndoLimit(undo_limit);
-  // return result;
 }
 
 /**
@@ -55,6 +56,7 @@ std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(
 std::unique_ptr<mvvm::ICommandStack> CreateDefaultCommandProcessor(
     mvvm::ModelEventHandler* event_handler)
 {
+  (void)event_handler;
   // return std::make_unique<mvvm::NotifyingCommandStack<mvvm::DefaultCommandProcessor>>(
   //     CreateNotifierCallback(event_handler));
   return std::make_unique<mvvm::DefaultCommandProcessor>();
