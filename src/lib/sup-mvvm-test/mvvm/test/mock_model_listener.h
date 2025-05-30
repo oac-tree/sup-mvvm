@@ -32,55 +32,48 @@ namespace mvvm::test
 /**
  * @brief The MockModelListener is a mocking class to test events coming from the model.
  */
-class MockModelListener : public mvvm::ModelListener
+class MockModelListener : public ModelListener
 {
 public:
-  explicit MockModelListener(const mvvm::ISessionModel* model);
+  explicit MockModelListener(const ISessionModel* model);
 
-  MOCK_METHOD(void, OnAboutToInsertItem, (const mvvm::AboutToInsertItemEvent& event), ());
+  MOCK_METHOD(void, OnAboutToInsertItem, (const AboutToInsertItemEvent& event), ());
 
-  MOCK_METHOD(void, OnItemInserted, (const mvvm::ItemInsertedEvent& event), ());
+  MOCK_METHOD(void, OnItemInserted, (const ItemInsertedEvent& event), ());
 
-  MOCK_METHOD(void, OnAboutToRemoveItem, (const mvvm::AboutToRemoveItemEvent& event), ());
+  MOCK_METHOD(void, OnAboutToRemoveItem, (const AboutToRemoveItemEvent& event), ());
 
-  MOCK_METHOD(void, OnItemRemoved, (const mvvm::ItemRemovedEvent& event), ());
+  MOCK_METHOD(void, OnItemRemoved, (const ItemRemovedEvent& event), ());
 
-  MOCK_METHOD(void, OnDataChanged, (const mvvm::DataChangedEvent& event), ());
+  MOCK_METHOD(void, OnDataChanged, (const DataChangedEvent& event), ());
 
-  MOCK_METHOD(void, OnModelAboutToBeReset, (const mvvm::ModelAboutToBeResetEvent& event), ());
+  MOCK_METHOD(void, OnModelAboutToBeReset, (const ModelAboutToBeResetEvent& event), ());
 
-  MOCK_METHOD(void, OnModelReset, (const mvvm::ModelResetEvent& event), ());
+  MOCK_METHOD(void, OnModelReset, (const ModelResetEvent& event), ());
 
-  MOCK_METHOD(void, OnModelAboutToBeDestroyed, (const mvvm::ModelAboutToBeDestroyedEvent& event),
-              ());
+  MOCK_METHOD(void, OnModelAboutToBeDestroyed, (const ModelAboutToBeDestroyedEvent& event), ());
 
   // we wrap mocking methods into other methods to be able to do additional testing in addition to
   // mocking
 
-  void OnAboutToInsertItemEvent(const mvvm::AboutToInsertItemEvent& event)
-  {
-    OnAboutToInsertItem(event);
-  }
+  void OnAboutToInsertItemEvent(const AboutToInsertItemEvent& event) { OnAboutToInsertItem(event); }
 
-  void OnItemInsertedEvent(const mvvm::ItemInsertedEvent& event) { OnItemInserted(event); }
+  void OnItemInsertedEvent(const ItemInsertedEvent& event) { OnItemInserted(event); }
 
-  void OnAboutToRemoveItemEvent(const mvvm::AboutToRemoveItemEvent& event)
-  {
-    OnAboutToRemoveItem(event);
-  }
+  void OnAboutToRemoveItemEvent(const AboutToRemoveItemEvent& event) { OnAboutToRemoveItem(event); }
 
-  void OnItemRemovedEvent(const mvvm::ItemRemovedEvent& event) { OnItemRemoved(event); }
+  void OnItemRemovedEvent(const ItemRemovedEvent& event) { OnItemRemoved(event); }
 
-  void OnDataChangedEvent(const mvvm::DataChangedEvent& event) { OnDataChanged(event); }
+  void OnDataChangedEvent(const DataChangedEvent& event) { OnDataChanged(event); }
 
-  void OnModelAboutToBeResetEvent(const mvvm::ModelAboutToBeResetEvent& event)
+  void OnModelAboutToBeResetEvent(const ModelAboutToBeResetEvent& event)
   {
     OnModelAboutToBeReset(event);
   }
 
-  void OnModelResetEvent(const mvvm::ModelResetEvent& event) { OnModelReset(event); }
+  void OnModelResetEvent(const ModelResetEvent& event) { OnModelReset(event); }
 
-  void OnModelAboutToBeDestroyedEvent(const mvvm::ModelAboutToBeDestroyedEvent& event)
+  void OnModelAboutToBeDestroyedEvent(const ModelAboutToBeDestroyedEvent& event)
   {
     OnModelAboutToBeDestroyed(event);
   }

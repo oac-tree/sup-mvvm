@@ -23,19 +23,19 @@
 namespace mvvm::test
 {
 
-MockModelListener::MockModelListener(const mvvm::ISessionModel *model) : ModelListener(model)
+MockModelListener::MockModelListener(const ISessionModel *model) : ModelListener(model)
 {
-  Connect<mvvm::DataChangedEvent>(this, &MockModelListener::OnDataChangedEvent);
+  Connect<DataChangedEvent>(this, &MockModelListener::OnDataChangedEvent);
 
-  Connect<mvvm::AboutToInsertItemEvent>(this, &MockModelListener::OnAboutToInsertItemEvent);
-  Connect<mvvm::ItemInsertedEvent>(this, &MockModelListener::OnItemInsertedEvent);
-  Connect<mvvm::AboutToRemoveItemEvent>(this, &MockModelListener::OnAboutToRemoveItemEvent);
-  Connect<mvvm::ItemRemovedEvent>(this, &MockModelListener::OnItemRemovedEvent);
+  Connect<AboutToInsertItemEvent>(this, &MockModelListener::OnAboutToInsertItemEvent);
+  Connect<ItemInsertedEvent>(this, &MockModelListener::OnItemInsertedEvent);
+  Connect<AboutToRemoveItemEvent>(this, &MockModelListener::OnAboutToRemoveItemEvent);
+  Connect<ItemRemovedEvent>(this, &MockModelListener::OnItemRemovedEvent);
 
-  Connect<mvvm::ModelAboutToBeResetEvent>(this, &MockModelListener::OnModelAboutToBeResetEvent);
-  Connect<mvvm::ModelResetEvent>(this, &MockModelListener::OnModelResetEvent);
+  Connect<ModelAboutToBeResetEvent>(this, &MockModelListener::OnModelAboutToBeResetEvent);
+  Connect<ModelResetEvent>(this, &MockModelListener::OnModelResetEvent);
 
-  Connect<mvvm::ModelAboutToBeDestroyedEvent>(this,
+  Connect<ModelAboutToBeDestroyedEvent>(this,
                                               &MockModelListener::OnModelAboutToBeDestroyedEvent);
 }
 

@@ -35,21 +35,22 @@
 using namespace mvvm;
 using ::testing::_;
 
-//! Tests for ApplicationModel in undo/redo scenario.
-
-class ApplicationModelUndoTests : public ::testing::Test
+/**
+ * @brief Tests of ApplicationModel in complex undo/redo scenario.
+ */
+class ApplicationModelComplexUndoTests : public ::testing::Test
 {
 public:
-  ApplicationModelUndoTests() : m_model("TestModelType", m_pool) {}
+  ApplicationModelComplexUndoTests() : m_model("TestModelType", m_pool) {}
 
   ApplicationModel m_model;
   static std::shared_ptr<ItemPool> m_pool;
 };
 
-std::shared_ptr<ItemPool> ApplicationModelUndoTests::m_pool = std::make_shared<ItemPool>();
+std::shared_ptr<ItemPool> ApplicationModelComplexUndoTests::m_pool = std::make_shared<ItemPool>();
 
 //! Inserting item, changing the data, removing item, undoing.
-TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
+TEST_F(ApplicationModelComplexUndoTests, InsertItemSetDataRemoveItem)
 {
   m_model.SetUndoEnabled(true);
 
@@ -93,7 +94,7 @@ TEST_F(ApplicationModelUndoTests, InsertItemSetDataRemoveItem)
 
 //! Add GraphItem and Data1DItem, add data to graph, undo, then redo. GraphItem should be pointing
 //! again to Data1DItem. This is real bug case.
-TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
+TEST_F(ApplicationModelComplexUndoTests, InsertDataAndGraph)
 {
   m_model.SetUndoEnabled(true);
   auto commands = m_model.GetCommandStack();
@@ -154,7 +155,7 @@ TEST_F(ApplicationModelUndoTests, InsertDataAndGraph)
 }
 
 //! Create multilayer, add two layers, remove everything and undo. Toy models are used here.
-TEST_F(ApplicationModelUndoTests, MultiLayer)
+TEST_F(ApplicationModelComplexUndoTests, MultiLayer)
 {
   m_model.SetUndoEnabled(true);
   auto commands = m_model.GetCommandStack();
@@ -208,7 +209,7 @@ TEST_F(ApplicationModelUndoTests, MultiLayer)
 }
 
 //! Move layer between two multi layers.
-TEST_F(ApplicationModelUndoTests, MoveLayer)
+TEST_F(ApplicationModelComplexUndoTests, MoveLayer)
 {
   m_model.SetUndoEnabled(true);
   auto commands = m_model.GetCommandStack();
@@ -240,7 +241,7 @@ TEST_F(ApplicationModelUndoTests, MoveLayer)
 }
 
 //! Checking that ReplaceRootItem commands cleans-up the command stack
-TEST_F(ApplicationModelUndoTests, Clear)
+TEST_F(ApplicationModelComplexUndoTests, Clear)
 {
   m_model.SetUndoEnabled(true);
   auto commands = m_model.GetCommandStack();
@@ -260,7 +261,7 @@ TEST_F(ApplicationModelUndoTests, Clear)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 0);
 }
 
-TEST_F(ApplicationModelUndoTests, DISABLED_UndoSetVectorCoordinate)
+TEST_F(ApplicationModelComplexUndoTests, DISABLED_UndoSetVectorCoordinate)
 {
   m_model.SetUndoEnabled(true);
   auto commands = m_model.GetCommandStack();
