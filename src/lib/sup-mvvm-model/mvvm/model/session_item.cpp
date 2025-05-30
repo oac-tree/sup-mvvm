@@ -229,7 +229,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   if (auto model = GetModel(); model)
   {
     auto command =
-        ProcessCommand<InsertItemCommandV2>(GetModel(), std::move(item), this, insert_tag_index);
+        ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
     result = command->GetResult();
   }
   else
@@ -256,7 +256,7 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   std::unique_ptr<SessionItem> result;
   if (auto model = GetModel(); model)
   {
-    auto command = ProcessCommand<RemoveItemCommandV2>(GetModel(), this, tag_index);
+    auto command = ProcessCommand<RemoveItemCommand>(GetModel(), this, tag_index);
     result = command->GetResult();
   }
   else
@@ -366,7 +366,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
 #ifdef NEW_COMMANDS
   if (auto model = GetModel(); model)
   {
-    auto command = ProcessCommand<SetValueCommandV2>(GetModel(), this, value, role);
+    auto command = ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
     return command ? command->GetResult() : false;
   }
 

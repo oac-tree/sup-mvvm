@@ -30,21 +30,21 @@ namespace mvvm
 {
 
 class SessionItem;
-class IModelComposer;
 class TagIndex;
 
-//! Interface class for generic command.
-
-class MVVM_MODEL_EXPORT RemoveItemCommandV2 : public AbstractCommand
+/**
+ * @brief The RemoveItemCommand class allows to remopve a child from part and undo the change.
+ */
+class MVVM_MODEL_EXPORT RemoveItemCommand : public AbstractCommand
 {
 public:
-  RemoveItemCommandV2(SessionItem* parent, const TagIndex& tag_index);
-  ~RemoveItemCommandV2() override;
+  RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index);
+  ~RemoveItemCommand() override;
 
-  RemoveItemCommandV2(const RemoveItemCommandV2&) = delete;
-  RemoveItemCommandV2& operator=(const RemoveItemCommandV2&) = delete;
-  RemoveItemCommandV2(RemoveItemCommandV2&&) = delete;
-  RemoveItemCommandV2& operator=(RemoveItemCommandV2&&) = delete;
+  RemoveItemCommand(const RemoveItemCommand&) = delete;
+  RemoveItemCommand& operator=(const RemoveItemCommand&) = delete;
+  RemoveItemCommand(RemoveItemCommand&&) = delete;
+  RemoveItemCommand& operator=(RemoveItemCommand&&) = delete;
 
   std::unique_ptr<SessionItem> GetResult() const;
 

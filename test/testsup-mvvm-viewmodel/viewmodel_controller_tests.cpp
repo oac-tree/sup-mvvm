@@ -527,7 +527,6 @@ TEST_F(ViewModelControllerTest, SetData)
 
   QSignalSpy spy_data_changed(&m_viewmodel, &ViewModelBase::dataChanged);
 
-  // modifying data through the composer
   m_model.SetData(item, 42.0, DataRole::kData);
 
   EXPECT_EQ(spy_data_changed.count(), 1);

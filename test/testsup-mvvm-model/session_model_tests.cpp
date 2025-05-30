@@ -726,7 +726,7 @@ TEST_F(SessionModelTest, ExecuteCommand)
   SessionModel model;
   auto item = model.InsertItem<SessionItem>();
 
-  auto command = std::make_unique<SetValueCommandV2>(item, variant_t{int32{42}}, DataRole::kData);
+  auto command = std::make_unique<SetValueCommand>(item, variant_t{int32{42}}, DataRole::kData);
 
   model.ExecuteCommand(std::move(command));
   EXPECT_EQ(item->Data<mvvm::int32>(), 42);

@@ -28,20 +28,23 @@
 
 using namespace mvvm;
 
-class SetValueCommandV2Test : public ::testing::Test
+/**
+ * @brief Tests for SetValueCommand.
+ */
+class SetValueCommandTest : public ::testing::Test
 {
 };
 
-TEST_F(SetValueCommandV2Test, CreateCommand)
+TEST_F(SetValueCommandTest, CreateCommand)
 {
   const int role = DataRole::kData;
   SessionItem item;
 
-  EXPECT_THROW(SetValueCommandV2(nullptr, {}, role), RuntimeException);
+  EXPECT_THROW(SetValueCommand(nullptr, {}, role), RuntimeException);
 
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
   const variant_t expected(42);
-  const SetValueCommandV2 command(&item, expected, role);
+  const SetValueCommand command(&item, expected, role);
   EXPECT_FALSE(command.IsObsolete());
   EXPECT_FALSE(command.GetResult());
   EXPECT_FALSE(command.GetEventAfter().has_value());
@@ -51,13 +54,13 @@ TEST_F(SetValueCommandV2Test, CreateCommand)
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
 }
 
-TEST_F(SetValueCommandV2Test, SetItemValueWhenItemHasNoData)
+TEST_F(SetValueCommandTest, SetItemValueWhenItemHasNoData)
 {
   const int role = DataRole::kData;
   SessionItem item;
 
   const variant_t expected(42);
-  auto command = std::make_unique<SetValueCommandV2>(&item, expected, role);
+  auto command = std::make_unique<SetValueCommand>(&item, expected, role);
 
   EXPECT_FALSE(command->GetEventAfter().has_value());
   command->Execute();
@@ -87,7 +90,7 @@ TEST_F(SetValueCommandV2Test, SetItemValueWhenItemHasNoData)
   EXPECT_TRUE(command->GetResult());
 }
 
-TEST_F(SetValueCommandV2Test, SetItemValue)
+TEST_F(SetValueCommandTest, SetItemValue)
 {
   const int role = DataRole::kData;
   const variant_t initial_value(42);
@@ -96,7 +99,7 @@ TEST_F(SetValueCommandV2Test, SetItemValue)
   item.SetData(initial_value, role);
 
   const variant_t new_value(43);
-  auto command = std::make_unique<SetValueCommandV2>(&item, new_value, role);
+  auto command = std::make_unique<SetValueCommand>(&item, new_value, role);
 
   const auto expected_event = std::optional{event_variant_t{DataChangedEvent{&item, role}}};
   EXPECT_FALSE(command->GetEventBefore().has_value());
@@ -124,7 +127,7 @@ TEST_F(SetValueCommandV2Test, SetItemValue)
   EXPECT_TRUE(command->GetResult());
 }
 
-TEST_F(SetValueCommandV2Test, SetSameValue)
+TEST_F(SetValueCommandTest, SetSameValue)
 {
   const int role = DataRole::kData;
   const variant_t initial_value(43);
@@ -132,7 +135,7 @@ TEST_F(SetValueCommandV2Test, SetSameValue)
   SessionItem item;
   item.SetData(initial_value, role);
 
-  auto command = std::make_unique<SetValueCommandV2>(&item, initial_value, role);
+  auto command = std::make_unique<SetValueCommand>(&item, initial_value, role);
 
   EXPECT_FALSE(command->GetEventBefore().has_value());
   command->Execute();
@@ -146,7 +149,7 @@ TEST_F(SetValueCommandV2Test, SetSameValue)
   EXPECT_THROW(command->Execute(), RuntimeException);
 }
 
-TEST_F(SetValueCommandV2Test, WhenPartOfModelSetItemValue)
+TEST_F(SetValueCommandTest, WhenPartOfModelSetItemValue)
 {
   const int role = DataRole::kData;
   const variant_t initial_value(42);
@@ -157,7 +160,7 @@ TEST_F(SetValueCommandV2Test, WhenPartOfModelSetItemValue)
   item->SetData(initial_value, role);
 
   const variant_t new_value(43);
-  auto command = std::make_unique<SetValueCommandV2>(item, new_value, role);
+  auto command = std::make_unique<SetValueCommand>(item, new_value, role);
 
   const auto expected_event = std::optional{event_variant_t{DataChangedEvent{item, role}}};
   EXPECT_FALSE(command->GetEventBefore().has_value());

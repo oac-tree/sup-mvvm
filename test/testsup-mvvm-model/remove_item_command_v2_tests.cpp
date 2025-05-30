@@ -32,20 +32,23 @@
 
 using namespace mvvm;
 
-class RemoveItemCommandV2Tests : public ::testing::Test
+/**
+ * @brief Tests for RemoveItemCommand class.
+ */
+class RemoveItemCommandTests : public ::testing::Test
 {
 };
 
-TEST_F(RemoveItemCommandV2Tests, InitialState)
+TEST_F(RemoveItemCommandTests, InitialState)
 {
   SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child = parent.InsertItem<SessionItem>(TagIndex::Append());
 
-  EXPECT_THROW(RemoveItemCommandV2(nullptr, TagIndex::Append()), RuntimeException);
+  EXPECT_THROW(RemoveItemCommand(nullptr, TagIndex::Append()), RuntimeException);
 
   const TagIndex expected_tag_index{"tag1", 0};
-  const RemoveItemCommandV2 command(&parent, expected_tag_index);
+  const RemoveItemCommand command(&parent, expected_tag_index);
 
   const auto expected_event1 =
       std::optional{event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}}};
@@ -58,7 +61,7 @@ TEST_F(RemoveItemCommandV2Tests, InitialState)
   EXPECT_TRUE(command.GetDescription().empty());
 }
 
-TEST_F(RemoveItemCommandV2Tests, RemoveItemFromParent)
+TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
 {
   SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
@@ -80,7 +83,7 @@ TEST_F(RemoveItemCommandV2Tests, RemoveItemFromParent)
   const auto expected_event4 =
       std::optional{event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}}};
 
-  RemoveItemCommandV2 command(&parent, expected_tag_index);
+  RemoveItemCommand command(&parent, expected_tag_index);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -115,7 +118,7 @@ TEST_F(RemoveItemCommandV2Tests, RemoveItemFromParent)
   EXPECT_EQ(taken2->GetParent(), nullptr);
 }
 
-TEST_F(RemoveItemCommandV2Tests, RemoveParentWithChildWhenPartOfTheModel)
+TEST_F(RemoveItemCommandTests, RemoveParentWithChildWhenPartOfTheModel)
 {
   SessionModel model;
   auto parent = model.GetRootItem();
@@ -138,7 +141,7 @@ TEST_F(RemoveItemCommandV2Tests, RemoveParentWithChildWhenPartOfTheModel)
   const auto expected_event4 =
       std::optional{event_variant_t{ItemInsertedEvent{parent, expected_tag_index}}};
 
-  RemoveItemCommandV2 command(parent, expected_tag_index);
+  RemoveItemCommand command(parent, expected_tag_index);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();

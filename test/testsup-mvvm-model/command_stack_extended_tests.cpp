@@ -73,7 +73,7 @@ TEST_F(CommandStackExtendedTests, SetValueCommand)
   CommandStack stack;
 
   const variant_t new_value(44);
-  auto [command, command_ptr] = CreateCommand<SetValueCommandV2>(&item, new_value, role);
+  auto [command, command_ptr] = CreateCommand<SetValueCommand>(&item, new_value, role);
 
   const auto expected_event = event_variant_t{DataChangedEvent{&item, role}};
   EXPECT_CALL(m_event_listener, Call(expected_event)).Times(1);
@@ -91,7 +91,7 @@ TEST_F(CommandStackExtendedTests, SetValueCommand)
   EXPECT_EQ(item.Data(), initial_value);
 
   // attempt to set the same initial data
-  auto [command2, command2_ptr] = CreateCommand<SetValueCommandV2>(&item, initial_value, role);
+  auto [command2, command2_ptr] = CreateCommand<SetValueCommand>(&item, initial_value, role);
 
   EXPECT_CALL(m_event_listener, Call(expected_event)).Times(0);
   stack.Execute(std::move(command2));
@@ -115,7 +115,7 @@ TEST_F(CommandStackExtendedTests, InsertItemCommand)
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   auto [command, _] =
-      CreateCommand<InsertItemCommandV2>(std::move(child), &parent, expected_tag_index);
+      CreateCommand<InsertItemCommand>(std::move(child), &parent, expected_tag_index);
 
   const auto expected_event1 = event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}};
   const auto expected_event2 = event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}};
@@ -170,7 +170,7 @@ TEST_F(CommandStackExtendedTests, RemoveItemCommand)
   const TagIndex expected_tag_index{"tag1", 0};
   auto child = parent.InsertItem<SessionItem>(expected_tag_index);
 
-  auto [command, _] = CreateCommand<RemoveItemCommandV2>(&parent, expected_tag_index);
+  auto [command, _] = CreateCommand<RemoveItemCommand>(&parent, expected_tag_index);
 
   const auto expected_event1 = event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}};
   const auto expected_event2 = event_variant_t{ItemRemovedEvent{&parent, expected_tag_index}};
@@ -216,7 +216,7 @@ TEST_F(CommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
   const auto tag_index1 = TagIndex::First();
 
   auto [command1, command1_ptr] =
-      CreateCommand<InsertItemCommandV2>(std::move(child), parent, tag_index1);
+      CreateCommand<InsertItemCommand>(std::move(child), parent, tag_index1);
   {
     const ::testing::InSequence seq;
     const auto expected_event1 = event_variant_t{AboutToInsertItemEvent{parent, tag_index1}};
@@ -235,7 +235,7 @@ TEST_F(CommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
   EXPECT_EQ(command1_ptr->GetResult(), child_ptr);
 
   auto [command2, command2_ptr] =
-      CreateCommand<InsertItemCommandV2>(std::move(grandchild), child_ptr, tag_index1);
+      CreateCommand<InsertItemCommand>(std::move(grandchild), child_ptr, tag_index1);
   {
     const ::testing::InSequence seq;
     const auto expected_event1 = event_variant_t{AboutToInsertItemEvent{child_ptr, tag_index1}};
@@ -248,7 +248,7 @@ TEST_F(CommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
 
   // modifying value of grandchild
   auto [command3, command3_ptr] =
-      CreateCommand<SetValueCommandV2>(grandchild_ptr, int32{43}, DataRole::kData);
+      CreateCommand<SetValueCommand>(grandchild_ptr, int32{43}, DataRole::kData);
   {
     const auto expected_event1 = event_variant_t{DataChangedEvent{grandchild_ptr, DataRole::kData}};
     EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);
@@ -259,7 +259,7 @@ TEST_F(CommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
   EXPECT_TRUE(command3_ptr->GetResult());
 
   // removing parent
-  auto [command4, command4_ptr] = CreateCommand<RemoveItemCommandV2>(parent, tag_index1);
+  auto [command4, command4_ptr] = CreateCommand<RemoveItemCommand>(parent, tag_index1);
   {
     const ::testing::InSequence seq;
     const auto expected_event1 = event_variant_t{AboutToRemoveItemEvent{parent, tag_index1}};
@@ -308,7 +308,7 @@ TEST_F(CommandStackExtendedTests, SetValueCommandWithDefaultProcessor)
   DefaultCommandProcessor stack;
 
   const variant_t new_value(44);
-  auto [command1, command1_ptr] = CreateCommand<SetValueCommandV2>(&item, new_value, role);
+  auto [command1, command1_ptr] = CreateCommand<SetValueCommand>(&item, new_value, role);
 
   const auto expected_event1 = event_variant_t{DataChangedEvent{&item, role}};
   EXPECT_CALL(m_event_listener, Call(expected_event1)).Times(1);

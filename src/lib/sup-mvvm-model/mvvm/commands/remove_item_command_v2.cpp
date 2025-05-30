@@ -33,7 +33,7 @@
 namespace mvvm
 {
 
-struct RemoveItemCommandV2::RemoveItemCommandImpl
+struct RemoveItemCommand::RemoveItemCommandImpl
 {
   SessionItem* m_cached_parent{nullptr};
   ISessionModel* m_model{nullptr};
@@ -62,19 +62,19 @@ struct RemoveItemCommandV2::RemoveItemCommandImpl
   }
 };
 
-RemoveItemCommandV2::RemoveItemCommandV2(SessionItem* parent, const TagIndex& tag_index)
+RemoveItemCommand::RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index)
     : p_impl(std::make_unique<RemoveItemCommandImpl>(parent, tag_index))
 {
 }
 
-RemoveItemCommandV2::~RemoveItemCommandV2() = default;
+RemoveItemCommand::~RemoveItemCommand() = default;
 
-std::unique_ptr<SessionItem> RemoveItemCommandV2::GetResult() const
+std::unique_ptr<SessionItem> RemoveItemCommand::GetResult() const
 {
   return std::move(p_impl->m_taken);
 }
 
-std::optional<event_variant_t> RemoveItemCommandV2::GetEventBefore() const
+std::optional<event_variant_t> RemoveItemCommand::GetEventBefore() const
 {
   // we find parent once and then use it for notification and command execution
   p_impl->m_cached_parent = p_impl->FindParent();
@@ -87,13 +87,13 @@ std::optional<event_variant_t> RemoveItemCommandV2::GetEventBefore() const
                                         p_impl->m_tag_index);
 }
 
-std::optional<event_variant_t> RemoveItemCommandV2::GetEventAfter() const
+std::optional<event_variant_t> RemoveItemCommand::GetEventAfter() const
 {
   return GetAfterEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
                                        p_impl->m_tag_index);
 }
 
-void RemoveItemCommandV2::ExecuteImpl()
+void RemoveItemCommand::ExecuteImpl()
 {
   SetIsObsolete(false);
 
@@ -111,7 +111,7 @@ void RemoveItemCommandV2::ExecuteImpl()
   p_impl->m_taken = std::move(taken);
 }
 
-void RemoveItemCommandV2::UndoImpl()
+void RemoveItemCommand::UndoImpl()
 {
   auto result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(p_impl->m_backup_strategy->RestoreItem(),
                                                         p_impl->m_tag_index);

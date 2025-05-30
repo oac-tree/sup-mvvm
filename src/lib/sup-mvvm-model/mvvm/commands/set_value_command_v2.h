@@ -26,7 +26,6 @@
 #include <mvvm/signals/event_types.h>
 
 #include <memory>
-#include <optional>
 
 namespace mvvm
 {
@@ -34,18 +33,18 @@ namespace mvvm
 class SessionItem;
 
 /**
- * @brief The SetValueCommandV2 class allows to set the value to the item and undo the change.
+ * @brief The SetValueCommand class allows to set the value to the item and undo the change.
  */
-class MVVM_MODEL_EXPORT SetValueCommandV2 : public AbstractCommand
+class MVVM_MODEL_EXPORT SetValueCommand : public AbstractCommand
 {
 public:
-  SetValueCommandV2(SessionItem* item, const variant_t& value, int role);
-  ~SetValueCommandV2() override;
+  SetValueCommand(SessionItem* item, const variant_t& value, int role);
+  ~SetValueCommand() override;
 
-  SetValueCommandV2(const SetValueCommandV2&) = delete;
-  SetValueCommandV2& operator=(const SetValueCommandV2&) = delete;
-  SetValueCommandV2(SetValueCommandV2&&) = delete;
-  SetValueCommandV2& operator=(SetValueCommandV2&&) = delete;
+  SetValueCommand(const SetValueCommand&) = delete;
+  SetValueCommand& operator=(const SetValueCommand&) = delete;
+  SetValueCommand(SetValueCommand&&) = delete;
+  SetValueCommand& operator=(SetValueCommand&&) = delete;
 
   bool GetResult() const;
 

@@ -33,7 +33,7 @@
 namespace mvvm
 {
 
-struct InsertItemCommandV2::InsertItemCommandImpl
+struct InsertItemCommand::InsertItemCommandImpl
 {
   SessionItem* m_cached_parent{nullptr};
   ISessionModel* m_model{nullptr};
@@ -66,20 +66,20 @@ struct InsertItemCommandV2::InsertItemCommandImpl
   }
 };
 
-InsertItemCommandV2::InsertItemCommandV2(std::unique_ptr<SessionItem> item, SessionItem* parent,
+InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                          const TagIndex& tag_index)
     : p_impl(std::make_unique<InsertItemCommandImpl>(std::move(item), parent, tag_index))
 {
 }
 
-InsertItemCommandV2::~InsertItemCommandV2() = default;
+InsertItemCommand::~InsertItemCommand() = default;
 
-SessionItem* InsertItemCommandV2::GetResult() const
+SessionItem* InsertItemCommand::GetResult() const
 {
   return p_impl->m_result;
 }
 
-std::optional<event_variant_t> InsertItemCommandV2::GetEventBefore() const
+std::optional<event_variant_t> InsertItemCommand::GetEventBefore() const
 {
   // we find parent once and then use it for notification and command execution
   p_impl->m_cached_parent = p_impl->FindParent();
@@ -92,13 +92,13 @@ std::optional<event_variant_t> InsertItemCommandV2::GetEventBefore() const
                                         p_impl->m_tag_index);
 }
 
-std::optional<event_variant_t> InsertItemCommandV2::GetEventAfter() const
+std::optional<event_variant_t> InsertItemCommand::GetEventAfter() const
 {
   return GetAfterEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
                                        p_impl->m_tag_index);
 }
 
-void InsertItemCommandV2::ExecuteImpl()
+void InsertItemCommand::ExecuteImpl()
 {
   SetIsObsolete(false);
 
@@ -114,7 +114,7 @@ void InsertItemCommandV2::ExecuteImpl()
   p_impl->m_result->SetModel(p_impl->m_cached_parent->GetModel());
 }
 
-void InsertItemCommandV2::UndoImpl()
+void InsertItemCommand::UndoImpl()
 {
   auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
   taken->SetParent(nullptr);

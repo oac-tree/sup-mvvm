@@ -64,9 +64,9 @@ TEST_F(DefaultCommandProcessorTest, ExecuteSetValueCommand)
   DefaultCommandProcessor stack;
 
   SessionItem item;
-  auto command = std::make_unique<SetValueCommandV2>(&item, int32{42}, DataRole::kData);
+  auto command = std::make_unique<SetValueCommand>(&item, int32{42}, DataRole::kData);
 
-  auto result = static_cast<SetValueCommandV2*>(stack.Execute(std::move(command)));
+  auto result = static_cast<SetValueCommand*>(stack.Execute(std::move(command)));
   ASSERT_NE(result, nullptr);
   EXPECT_TRUE(result->GetResult());
   EXPECT_EQ(item.Data<int32>(), 42);

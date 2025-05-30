@@ -31,20 +31,23 @@
 
 using namespace mvvm;
 
-class InsertItemCommandV2Tests : public ::testing::Test
+/**
+ * @brief Tests for InsertItemCommand class.
+ */
+class InsertItemCommandTests : public ::testing::Test
 {
 };
 
-TEST_F(InsertItemCommandV2Tests, InitialState)
+TEST_F(InsertItemCommandTests, InitialState)
 {
   auto child = std::make_unique<SessionItem>();
-  EXPECT_THROW(InsertItemCommandV2(std::move(child), nullptr, TagIndex::Append()),
+  EXPECT_THROW(InsertItemCommand(std::move(child), nullptr, TagIndex::Append()),
                RuntimeException);
 
   auto to_insert = std::make_unique<PropertyItem>();
   const TagIndex expected_tag_index{"tag1", 0};
   SessionItem parent;
-  const InsertItemCommandV2 command(std::move(to_insert), &parent, expected_tag_index);
+  const InsertItemCommand command(std::move(to_insert), &parent, expected_tag_index);
 
   const auto expected_event1 =
       std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
@@ -57,7 +60,7 @@ TEST_F(InsertItemCommandV2Tests, InitialState)
   EXPECT_TRUE(command.GetDescription().empty());
 }
 
-TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
+TEST_F(InsertItemCommandTests, InsertItemToParent)
 {
   SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
@@ -68,7 +71,7 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
   to_insert->SetData(42);
 
   const TagIndex expected_tag_index{"tag1", 0};
-  InsertItemCommandV2 command(std::move(to_insert), &parent, expected_tag_index);
+  InsertItemCommand command(std::move(to_insert), &parent, expected_tag_index);
 
   const auto expected_event1 =
       std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
@@ -107,7 +110,7 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParent)
   EXPECT_EQ(parent.GetItem(expected_tag_index)->GetModel(), nullptr);
 }
 
-TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
+TEST_F(InsertItemCommandTests, InsertItemToParentWhenPartOfModel)
 {
   SessionModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -122,7 +125,7 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
   to_insert->SetData(42);
 
   const TagIndex expected_tag_index{"tag1", 1};
-  InsertItemCommandV2 command(std::move(to_insert), parent, expected_tag_index);
+  InsertItemCommand command(std::move(to_insert), parent, expected_tag_index);
 
   const auto expected_event1 =
       std::optional{event_variant_t{AboutToInsertItemEvent{parent, expected_tag_index}}};
@@ -163,7 +166,7 @@ TEST_F(InsertItemCommandV2Tests, InsertItemToParentWhenPartOfModel)
   EXPECT_EQ(model.FindItem(identifier), parent->GetItem(expected_tag_index));
 }
 
-TEST_F(InsertItemCommandV2Tests, AttemptToInsertSecondProperty)
+TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)
 {
   SessionModel model;
   auto parent = model.InsertItem<CompoundItem>();
@@ -172,7 +175,7 @@ TEST_F(InsertItemCommandV2Tests, AttemptToInsertSecondProperty)
 
   auto to_insert = std::make_unique<PropertyItem>();
 
-  InsertItemCommandV2 command(std::move(to_insert), parent, TagIndex{"thickness", 1});
+  InsertItemCommand command(std::move(to_insert), parent, TagIndex{"thickness", 1});
 
   EXPECT_THROW(command.Execute(), InvalidOperationException);
 }

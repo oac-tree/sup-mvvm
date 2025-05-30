@@ -415,7 +415,6 @@ TEST_F(AllItemsViewModelTest, SetData)
 
   QSignalSpy spy_data_changed(&m_viewmodel, &ViewModelBase::dataChanged);
 
-  // modifying data through the composer
   m_model.SetData(item, 42.0, DataRole::kData);
 
   EXPECT_EQ(spy_data_changed.count(), 1);
@@ -432,8 +431,6 @@ TEST_F(AllItemsViewModelTest, SetData)
   EXPECT_EQ(m_viewmodel.data(data_index, Qt::EditRole).toDouble(), 42.0);
 }
 
-//! The data is manipulated through the view_model. Checking that the view_model emits the signal,
-//! and that the change is propagated through the composer.
 TEST_F(AllItemsViewModelTest, SetDataThroughModel)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -443,7 +440,6 @@ TEST_F(AllItemsViewModelTest, SetDataThroughModel)
 
   auto item_index = m_viewmodel.index(0, 1);
 
-  // modifying data through the composer
   m_viewmodel.setData(item_index, 42.0, Qt::EditRole);
 
   EXPECT_EQ(spy_data_changed.count(), 1);
@@ -472,7 +468,6 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
   const QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
   const QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
 
-  // modifying data through the composer
   viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
 
   EXPECT_EQ(spy_data_changed1.count(), 1);

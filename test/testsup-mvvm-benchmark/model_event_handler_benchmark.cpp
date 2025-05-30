@@ -46,9 +46,9 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventNoConnections)(benchmark::Sta
 {
   ModelEventHandler m_event_handler;
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
-  int value{0};
+  const int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -63,11 +63,11 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListener)(benchmark::State
   TestListener listener;
 
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
   m_event_handler.Connect<AboutToInsertItemEvent>(&listener, &TestListener::OnEvent);
 
-  int value{0};
+  const int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -82,12 +82,12 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListenerV2)(benchmark::Sta
   TestListener listener;
 
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
-  AboutToInsertItemEvent event{&item, tag_index};
+  const mvvm::TagIndex tag_index{"tag", 0};
+  const AboutToInsertItemEvent event{&item, tag_index};
 
   m_event_handler.Connect<AboutToInsertItemEvent>(&listener, &TestListener::OnEvent);
 
-  int value{0};
+  const int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify(event);
@@ -100,9 +100,9 @@ BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsNoListeners)(benchmark::State &
 {
   ModelEventHandler m_event_handler;
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
-  int value{0};
+  const int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
@@ -118,9 +118,9 @@ BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsTwoListeners)(benchmark::State 
   TestListener listener;
 
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
-  AboutToInsertItemEvent event0{&item, tag_index};
-  ItemInsertedEvent event1{&item, tag_index};
+  const mvvm::TagIndex tag_index{"tag", 0};
+  const AboutToInsertItemEvent event0{&item, tag_index};
+  const ItemInsertedEvent event1{&item, tag_index};
 
   m_event_handler.Connect<AboutToInsertItemEvent>(&listener, &TestListener::OnEvent);
   m_event_handler.Connect<ItemInsertedEvent>(&listener, &TestListener::OnEvent);

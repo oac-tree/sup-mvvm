@@ -27,7 +27,7 @@
 namespace mvvm
 {
 
-struct SetValueCommandV2::SetValueCommandImpl
+struct SetValueCommand::SetValueCommandImpl
 {
   SessionItem *m_cached_item{nullptr};
   ISessionModel *m_model{nullptr};
@@ -56,25 +56,25 @@ struct SetValueCommandV2::SetValueCommandImpl
   void SetResult(bool value) { m_result = value; }
 };
 
-SetValueCommandV2::SetValueCommandV2(SessionItem *item, const variant_t &value, int role)
+SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, int role)
     : p_impl(std::make_unique<SetValueCommandImpl>(item, value, role))
 {
 }
 
-SetValueCommandV2::~SetValueCommandV2() = default;
+SetValueCommand::~SetValueCommand() = default;
 
-bool SetValueCommandV2::GetResult() const
+bool SetValueCommand::GetResult() const
 {
   return p_impl->m_result;
 }
 
-std::optional<event_variant_t> SetValueCommandV2::GetEventBefore() const
+std::optional<event_variant_t> SetValueCommand::GetEventBefore() const
 {
   p_impl->m_cached_item = p_impl->FindItem();
   return {};
 }
 
-std::optional<event_variant_t> SetValueCommandV2::GetEventAfter() const
+std::optional<event_variant_t> SetValueCommand::GetEventAfter() const
 {
   if (p_impl->m_result)
   {
@@ -84,17 +84,17 @@ std::optional<event_variant_t> SetValueCommandV2::GetEventAfter() const
   return {};
 }
 
-void SetValueCommandV2::ExecuteImpl()
+void SetValueCommand::ExecuteImpl()
 {
   SwapValues();
 }
 
-void SetValueCommandV2::UndoImpl()
+void SetValueCommand::UndoImpl()
 {
   SwapValues();
 }
 
-void SetValueCommandV2::SwapValues()
+void SetValueCommand::SwapValues()
 {
   auto old = p_impl->m_cached_item->Data(p_impl->m_role);
   auto result = p_impl->m_cached_item->SetDataImpl(p_impl->m_value, p_impl->m_role);
@@ -103,7 +103,7 @@ void SetValueCommandV2::SwapValues()
   p_impl->m_value = old;
 }
 
-void SetValueCommandV2::SetResult(bool value)
+void SetValueCommand::SetResult(bool value)
 {
   p_impl->SetResult(value);
 }

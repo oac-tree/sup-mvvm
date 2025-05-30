@@ -32,19 +32,19 @@ class SessionItem;
 class TagIndex;
 
 /**
- * @brief The InsertItemCommandV2 class allows to insert a child to the part and undo the change.
+ * @brief The InsertItemCommand class allows to insert a child to the part and undo the change.
  */
-class MVVM_MODEL_EXPORT InsertItemCommandV2 : public AbstractCommand
+class MVVM_MODEL_EXPORT InsertItemCommand : public AbstractCommand
 {
 public:
-  InsertItemCommandV2(std::unique_ptr<SessionItem> item,
+  InsertItemCommand(std::unique_ptr<SessionItem> item,
                     SessionItem* parent, const TagIndex& tag_index);
-  ~InsertItemCommandV2() override;
+  ~InsertItemCommand() override;
 
-  InsertItemCommandV2(const InsertItemCommandV2&) = delete;
-  InsertItemCommandV2& operator=(const InsertItemCommandV2&) = delete;
-  InsertItemCommandV2(InsertItemCommandV2&&) = delete;
-  InsertItemCommandV2& operator=(InsertItemCommandV2&&) = delete;
+  InsertItemCommand(const InsertItemCommand&) = delete;
+  InsertItemCommand& operator=(const InsertItemCommand&) = delete;
+  InsertItemCommand(InsertItemCommand&&) = delete;
+  InsertItemCommand& operator=(InsertItemCommand&&) = delete;
 
   SessionItem* GetResult() const;
 

@@ -175,7 +175,6 @@ TEST_F(PropertyViewModelTest, SetData)
 
   QSignalSpy spy_data_changed(&viewmodel, &ViewModelBase::dataChanged);
 
-  // modifying data through the composer
   model.SetData(&item, 42.0, DataRole::kData);
 
   ASSERT_EQ(spy_data_changed.count(), 1);
@@ -210,7 +209,6 @@ TEST_F(PropertyViewModelTest, SetDataThroughTwoModels)
   QSignalSpy spy_data_changed1(&viewmodel1, &ViewModelBase::dataChanged);
   QSignalSpy spy_data_changed2(&viewmodel2, &ViewModelBase::dataChanged);
 
-  // modifying data through the composer
   viewmodel1.setData(viewmodel1.index(0, 1), 42.0, Qt::EditRole);
 
   EXPECT_EQ(spy_data_changed1.count(), 1);
