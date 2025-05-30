@@ -1,6 +1,8 @@
 Changes for 1.9.0:
 
-- Implement NotifyingCommandStack and collection of commands without notification capabilities
+- Allow undo/redo when acting via SessioItem API
+- Replace command composer machinery with the one based on  the command processor
+- Implement new command processor framework and collection of commands
 
 Changes for 1.8.0:
 
