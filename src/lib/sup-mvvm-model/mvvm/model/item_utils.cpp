@@ -370,14 +370,7 @@ void RemoveItem(SessionItem& item)
     throw LogicErrorException("Item doesn't have a parent");
   }
 
-  if (auto model = item.GetModel(); model)
-  {
-    model->RemoveItem(&item);
-  }
-  else
-  {
-    item.GetParent()->TakeItem(item.GetParent()->TagIndexOfItem(&item));
-  }
+  item.GetParent()->TakeItem(item.GetTagIndex());
 }
 
 SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
@@ -398,14 +391,8 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
     throw LogicErrorException("No parent item provided");
   }
 
-  if (auto model = parent->GetModel(); model)
-  {
-    model->TakeItem(parent, tag_index);
-    return model->InsertItem(std::move(item), parent, tag_index);
-  }
-
-  parent->TakeItem(tag_index);
-  return parent->InsertItem(std::move(item), tag_index);
+    parent->TakeItem(tag_index);
+    return parent->InsertItem(std::move(item), tag_index);
 }
 
 std::string ToXMLString(const SessionItem& item,
