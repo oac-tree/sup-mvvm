@@ -36,7 +36,7 @@ struct SetValueCommand::SetValueCommandImpl
   std::string m_item_identifier;
   bool m_result{false};
 
-  SetValueCommandImpl(SessionItem *item, const variant_t &value, int role)
+  SetValueCommandImpl(SessionItem *item, const variant_t &value, std::int32_t role)
       : m_cached_item(item), m_value(value), m_role(role)
   {
     if (!m_cached_item)
@@ -56,14 +56,14 @@ struct SetValueCommand::SetValueCommandImpl
   void SetResult(bool value) { m_result = value; }
 };
 
-SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, int role)
+SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, std::int32_t role)
     : p_impl(std::make_unique<SetValueCommandImpl>(item, value, role))
 {
 }
 
 SetValueCommand::~SetValueCommand() = default;
 
-bool SetValueCommand::GetResult() const
+SetValueCommand::result_t SetValueCommand::GetResult() const
 {
   return p_impl->m_result;
 }

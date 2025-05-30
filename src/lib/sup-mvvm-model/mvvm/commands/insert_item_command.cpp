@@ -74,7 +74,7 @@ InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionI
 
 InsertItemCommand::~InsertItemCommand() = default;
 
-SessionItem* InsertItemCommand::GetResult() const
+InsertItemCommand::result_t InsertItemCommand::GetResult() const
 {
   return p_impl->m_result;
 }

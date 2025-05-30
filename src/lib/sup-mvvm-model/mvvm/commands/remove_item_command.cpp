@@ -69,7 +69,7 @@ RemoveItemCommand::RemoveItemCommand(SessionItem* parent, const TagIndex& tag_in
 
 RemoveItemCommand::~RemoveItemCommand() = default;
 
-std::unique_ptr<SessionItem> RemoveItemCommand::GetResult() const
+RemoveItemCommand::result_t RemoveItemCommand::GetResult() const
 {
   return std::move(p_impl->m_taken);
 }

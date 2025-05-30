@@ -38,6 +38,8 @@ class TagIndex;
 class MVVM_MODEL_EXPORT RemoveItemCommand : public AbstractCommand
 {
 public:
+  using result_t =  std::unique_ptr<SessionItem>;
+
   RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index);
   ~RemoveItemCommand() override;
 
@@ -46,7 +48,7 @@ public:
   RemoveItemCommand(RemoveItemCommand&&) = delete;
   RemoveItemCommand& operator=(RemoveItemCommand&&) = delete;
 
-  std::unique_ptr<SessionItem> GetResult() const;
+  result_t GetResult() const;
 
   std::optional<event_variant_t> GetEventBefore() const override;
 

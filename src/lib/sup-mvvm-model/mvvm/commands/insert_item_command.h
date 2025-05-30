@@ -37,6 +37,7 @@ class TagIndex;
 class MVVM_MODEL_EXPORT InsertItemCommand : public AbstractCommand
 {
 public:
+  using result_t = SessionItem*;
   InsertItemCommand(std::unique_ptr<SessionItem> item,
                     SessionItem* parent, const TagIndex& tag_index);
   ~InsertItemCommand() override;
@@ -46,7 +47,7 @@ public:
   InsertItemCommand(InsertItemCommand&&) = delete;
   InsertItemCommand& operator=(InsertItemCommand&&) = delete;
 
-  SessionItem* GetResult() const;
+  result_t GetResult() const;
 
   std::optional<event_variant_t> GetEventBefore() const override;
 
