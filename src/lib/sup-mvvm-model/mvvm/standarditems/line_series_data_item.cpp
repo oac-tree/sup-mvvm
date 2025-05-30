@@ -66,7 +66,7 @@ void LineSeriesDataItem::SetWaveform(const std::vector<std::pair<double, double>
     auto point = std::make_unique<PointItem>();
     point->SetX(x);
     point->SetY(y);
-    utils::InsertItem(std::move(point), this, TagIndex::Append());
+    InsertItem(std::move(point), TagIndex::Append());
   }
 }
 
@@ -101,7 +101,7 @@ void LineSeriesDataItem::InsertPoint(int index, const std::pair<double, double>&
   auto point = std::make_unique<PointItem>();
   point->SetX(coordinates.first);
   point->SetY(coordinates.second);
-  utils::InsertItem(std::move(point), this, TagIndex::Default(index));
+  InsertItem(std::move(point), TagIndex::Default(index));
 }
 
 void LineSeriesDataItem::ValidateIndex(int index) const

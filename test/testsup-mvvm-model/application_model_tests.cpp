@@ -217,35 +217,6 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndexViaGetModel)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-TEST_F(ApplicationModelTest, InsertItemIntoParentUsingHelperMethod)
-{
-  auto parent = m_model.InsertItem<CompoundItem>();
-  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), false);
-  const TagIndex tag_index{"tag", 0};
-
-  mock_listener_t listener(&m_model);
-
-  {
-    const ::testing::InSequence seq;
-
-    const AboutToInsertItemEvent expected_event1{parent, tag_index};
-    const ItemInsertedEvent expected_event2{parent, tag_index};
-
-    EXPECT_CALL(listener, OnAboutToInsertItem(expected_event1)).Times(1);
-    EXPECT_CALL(listener, OnItemInserted(expected_event2)).Times(1);
-  }
-
-  // inserting item (pretending that we do not have direct access to the model)
-  auto child = std::make_unique<PropertyItem>();
-  auto child_ptr = child.get();
-  auto item = utils::InsertItem(std::move(child), parent, {"tag", 0});
-  EXPECT_EQ(item, parent->GetItem("tag"));
-  EXPECT_EQ(item, child_ptr);
-
-  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
-  testing::Mock::VerifyAndClearExpectations(&listener);
-}
-
 //! Inserting item using templated insertion via defaut tag (real-life bug).
 TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 {

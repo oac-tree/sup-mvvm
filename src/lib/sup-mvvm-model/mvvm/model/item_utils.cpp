@@ -373,16 +373,6 @@ void RemoveItem(SessionItem& item)
   item.GetParent()->TakeItem(item.GetTagIndex());
 }
 
-SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
-                        const TagIndex& tag_index)
-{
-  if (auto model = parent->GetModel(); model)
-  {
-    return model->InsertItem(std::move(item), parent, tag_index);
-  }
-  return parent->InsertItem(std::move(item), tag_index);
-}
-
 SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                          const TagIndex& tag_index)
 {
@@ -391,7 +381,7 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
     throw LogicErrorException("No parent item provided");
   }
 
-    parent->TakeItem(tag_index);
+    (void) parent->TakeItem(tag_index);
     return parent->InsertItem(std::move(item), tag_index);
 }
 

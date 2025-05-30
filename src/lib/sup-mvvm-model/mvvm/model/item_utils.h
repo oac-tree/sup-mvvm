@@ -372,29 +372,11 @@ MVVM_MODEL_EXPORT bool MoveDown(SessionItem& item);
 
 /**
  * @brief Removes item from its parent and destroys it.
- *
- * @details If item belongs to the model, will remove an item using the model API. This will
- * invoke notification mechanism, and undo/redo, if the model is equipped with it. If item doesn't
- * belong to the model, will act via SessionItem API.
  */
 void RemoveItem(SessionItem& item);
 
 /**
- * @brief Insert item into a parent at given 'tag_index'
- *
- * @details If parent belongs to the model, will insert an item using the model API. This will
- * invoke notification mechanism, and undo/redo, if the model is equipped with it. If parent doesn't
- * belong to the model, will act via SessionItem API.
- */
-SessionItem* InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
-                        const TagIndex& tag_index);
-
-/**
- * @brief remove an existing item at given 'tag_index' and insert a new one in its place
- *
- * @details If parent belongs to a model, will insert an item using the model API. This will
- * invoke notification mechanism, if the model is equipped with it. If parent doesn't
- * belong to a model, will act via SessionItem API.
+ * @brief Removes an existing item at given 'tag_index' and insert a new one in its place.
  */
 SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                          const TagIndex& tag_index);
