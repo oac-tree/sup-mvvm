@@ -218,9 +218,9 @@ ICommand* SessionModel::ExecuteCommand(std::unique_ptr<ICommand> command)
   return result;
 }
 
-void SessionModel::SetCommandStack(std::unique_ptr<ICommandStack> command_stack)
+void SessionModel::SetCommandProcessor(std::unique_ptr<ICommandStack> command_processor)
 {
-  p_impl->m_command_processor = std::move(command_stack);
+  p_impl->m_command_processor = std::move(command_processor);
 }
 
 }  // namespace mvvm

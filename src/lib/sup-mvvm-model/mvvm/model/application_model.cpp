@@ -40,16 +40,6 @@ std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(std::size_t und
   return result;
 }
 
-/**
- * @brief Creates command processor with notifications and without undo/redo
- */
-std::unique_ptr<mvvm::ICommandStack> CreateDefaultCommandProcessor(
-    mvvm::ModelEventHandler* event_handler)
-{
-  (void)event_handler;
-  return std::make_unique<mvvm::DefaultCommandProcessor>();
-}
-
 }  // namespace
 
 namespace mvvm
@@ -69,7 +59,7 @@ ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemP
     : SessionModel(std::move(model_type), std::move(pool), {})
     , p_impl(std::make_unique<ApplicationModelImpl>())
 {
-  SetCommandStack(CreateDefaultCommandProcessor(&p_impl->m_event_handler));
+  SetCommandProcessor(std::make_unique<mvvm::DefaultCommandProcessor>());
 }
 
 ApplicationModel::~ApplicationModel()
@@ -99,11 +89,11 @@ void ApplicationModel::SetUndoEnabled(bool value, std::size_t undo_limit)
 {
   if (value)
   {
-    SetCommandStack(CreateCommandStackProcessor(undo_limit));
+    SetCommandProcessor(CreateCommandStackProcessor(undo_limit));
   }
   else
   {
-    SetCommandStack(CreateDefaultCommandProcessor(&p_impl->m_event_handler));
+    SetCommandProcessor(std::make_unique<mvvm::DefaultCommandProcessor>());
   }
 }
 

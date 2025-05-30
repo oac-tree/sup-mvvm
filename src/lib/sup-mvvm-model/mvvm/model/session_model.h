@@ -79,7 +79,7 @@ public:
 
   ICommand* ExecuteCommand(std::unique_ptr<ICommand> command) override;
 
-  void SetCommandStack(std::unique_ptr<ICommandStack> command_stack);
+  void SetCommandProcessor(std::unique_ptr<ICommandStack> command_processor);
 
 private:
   friend class SessionItem;
