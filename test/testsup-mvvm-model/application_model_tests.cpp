@@ -27,6 +27,7 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_constants.h>
 #include <mvvm/model/item_utils.h>
+#include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/test/mock_model_listener.h>
 
@@ -57,7 +58,6 @@ TEST_F(ApplicationModelTest, InitialState)
   EXPECT_NE(m_model.GetCommandStack(), nullptr);
 }
 
-//! Setting data through the model and checking the result.
 TEST_F(ApplicationModelTest, SetData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -75,7 +75,6 @@ TEST_F(ApplicationModelTest, SetData)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Setting data through the item.
 TEST_F(ApplicationModelTest, SetDataThroughItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -93,8 +92,6 @@ TEST_F(ApplicationModelTest, SetDataThroughItem)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Setting same data through the composer and checking the result.
-//! No notifications are expected.
 TEST_F(ApplicationModelTest, SetSameData)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -112,7 +109,6 @@ TEST_F(ApplicationModelTest, SetSameData)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting new item into the root item through the composer.
 TEST_F(ApplicationModelTest, InsertItemIntoRoot)
 {
   auto parent = m_model.GetRootItem();
@@ -138,7 +134,6 @@ TEST_F(ApplicationModelTest, InsertItemIntoRoot)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting new item into the root item via move.
 TEST_F(ApplicationModelTest, InsertItemIntoRootViaMove)
 {
   auto parent = m_model.GetRootItem();
@@ -171,7 +166,6 @@ TEST_F(ApplicationModelTest, InsertItemIntoRootViaMove)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item using templated insertion.
 TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -198,9 +192,6 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndex)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item using templated insertion.
-//! Test is identical to the previous one, except the way event is triggered.
-//! Here we access the model via parent->GetModel().
 TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndexViaGetModel)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -227,7 +218,6 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingTagAndIndexViaGetModel)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item using a helper method from item_utils.h
 TEST_F(ApplicationModelTest, InsertItemIntoParentUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -257,8 +247,7 @@ TEST_F(ApplicationModelTest, InsertItemIntoParentUsingHelperMethod)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item using templated insertion.
-//! Using defaut tag (real-life bug).
+//! Inserting item using templated insertion via defaut tag (real-life bug).
 TEST_F(ApplicationModelTest, InsertItemInDefaultTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -303,7 +292,6 @@ TEST_F(ApplicationModelTest, InsertItemInDefaultTagWhenNoDefaultIsPresent)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Attempt to insert item into property tag.
 TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -321,7 +309,6 @@ TEST_F(ApplicationModelTest, InsertItemInPropertyTag)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item through the composer into another parent using move insertion.
 TEST_F(ApplicationModelTest, InsertItemViaMove)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -351,7 +338,6 @@ TEST_F(ApplicationModelTest, InsertItemViaMove)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Removing item.
 TEST_F(ApplicationModelTest, TakeItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -378,7 +364,6 @@ TEST_F(ApplicationModelTest, TakeItem)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Removing item.
 TEST_F(ApplicationModelTest, RemoveItem)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -404,7 +389,6 @@ TEST_F(ApplicationModelTest, RemoveItem)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Removing item using helper method from item_utils.h
 TEST_F(ApplicationModelTest, RemoveItemUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -430,7 +414,6 @@ TEST_F(ApplicationModelTest, RemoveItemUsingHelperMethod)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Inserting item using a helper method from item_utils.h
 TEST_F(ApplicationModelTest, ReplaceItemUsingHelperMethod)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -468,7 +451,6 @@ TEST_F(ApplicationModelTest, ReplaceItemUsingHelperMethod)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Moving item item.
 TEST_F(ApplicationModelTest, MoveItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
@@ -476,8 +458,8 @@ TEST_F(ApplicationModelTest, MoveItem)
   auto child = m_model.InsertItem<PropertyItem>(parent1);
   auto parent2 = m_model.InsertItem<CompoundItem>();
   parent2->RegisterTag(TagInfo::CreateUniversalTag("tag2"), true);
-  TagIndex tag_index1{"tag1", 0};
-  TagIndex tag_index2{"tag2", 0};
+  const TagIndex tag_index1{"tag1", 0};
+  const TagIndex tag_index2{"tag2", 0};
 
   mock_listener_t listener(&m_model);
 
@@ -504,9 +486,7 @@ TEST_F(ApplicationModelTest, MoveItem)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Attempt to move property item from compound item.
-//! The operation should fail via exception throw, no signals should be emitted.
-TEST_F(ApplicationModelTest, IvalidItemMove)
+TEST_F(ApplicationModelTest, AttemptToMovePropertyItemFromCompoundItem)
 {
   auto parent1 = m_model.InsertItem<CompoundItem>();
   auto& property = parent1->AddProperty("thickness", 42);
@@ -526,7 +506,6 @@ TEST_F(ApplicationModelTest, IvalidItemMove)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Destroying the model.
 TEST_F(ApplicationModelTest, Clear)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -551,7 +530,32 @@ TEST_F(ApplicationModelTest, Clear)
   testing::Mock::VerifyAndClearExpectations(&listener);
 }
 
-//! Destroying the model.
+TEST_F(ApplicationModelTest, ReplaceRootItem)
+{
+  auto parent = m_model.InsertItem<CompoundItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag"), true);
+  m_model.InsertItem<PropertyItem>(parent);
+
+  auto new_root_item = utils::CreateEmptyRootItem();
+  auto new_root_item_ptr = new_root_item.get();
+
+  mock_listener_t listener(&m_model);
+
+  {
+    const ::testing::InSequence seq;
+    const ModelAboutToBeResetEvent expected_event1{&m_model};
+    const ModelResetEvent expected_event2{&m_model};
+    EXPECT_CALL(listener, OnModelAboutToBeReset(expected_event1)).Times(1);
+    EXPECT_CALL(listener, OnModelReset(expected_event2)).Times(1);
+  }
+
+  m_model.ReplaceRootItem(std::move(new_root_item));
+  EXPECT_EQ(m_model.GetRootItem(), new_root_item_ptr);
+
+  // verify here, and not on MockModelListener destruction (to mute OnModelAboutToBeDestroyed)
+  testing::Mock::VerifyAndClearExpectations(&listener);
+}
+
 TEST_F(ApplicationModelTest, Destroy)
 {
   auto model = std::make_unique<ApplicationModel>();
@@ -562,25 +566,20 @@ TEST_F(ApplicationModelTest, Destroy)
 
   mock_listener_t listener(model.get());
 
-  ModelAboutToBeDestroyedEvent expected_event{model.get()};
+  const ModelAboutToBeDestroyedEvent expected_event{model.get()};
   EXPECT_CALL(listener, OnModelAboutToBeDestroyed(expected_event)).Times(1);
 
   // triggering expectations
   model.reset();
 }
 
-//! Check SetUndoEnabled.
 TEST_F(ApplicationModelTest, SetUndoEnabled)
 {
-  EXPECT_NE(
-      dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()),
-      nullptr);
+  EXPECT_NE(dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()), nullptr);
 
   m_model.SetUndoEnabled(true);
   EXPECT_NE(dynamic_cast<CommandStack*>(m_model.GetCommandStack()), nullptr);
 
   m_model.SetUndoEnabled(false);
-  EXPECT_NE(
-      dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()),
-      nullptr);
+  EXPECT_NE(dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()), nullptr);
 }
