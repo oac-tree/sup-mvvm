@@ -28,7 +28,6 @@
 #include <mvvm/commands/default_command_processor.h>
 #include <mvvm/commands/i_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/signals/model_event_handler.h>
 
 namespace
 {
@@ -182,17 +181,9 @@ void SessionModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
     throw RuntimeException("Uninitialised root item");
   }
 
-  if (GetEventHandler())
-  {
-    GetEventHandler()->Notify<ModelAboutToBeResetEvent>(this);
-  }
   p_impl->m_root_item = std::move(root_item);
   p_impl->m_root_item->SetModel(this);
   p_impl->m_command_processor->Clear();
-  if (GetEventHandler())
-  {
-    GetEventHandler()->Notify<ModelResetEvent>(this);
-  }
 }
 
 void SessionModel::CheckIn(SessionItem* item)

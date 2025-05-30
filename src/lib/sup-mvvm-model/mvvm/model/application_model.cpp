@@ -20,9 +20,9 @@
 
 #include "application_model.h"
 
-#include <mvvm/commands/i_command.h>
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/commands/default_command_processor.h>
+#include <mvvm/commands/i_command.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_event_handler.h>
@@ -33,10 +33,8 @@ namespace
 /**
  * @brief Creates command processor with undo/redo and notifications.
  */
-std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(
-    mvvm::ModelEventHandler* event_handler, std::size_t undo_limit)
+std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(std::size_t undo_limit)
 {
-  (void)event_handler;
   auto result = std::make_unique<mvvm::CommandStack>();
   result->SetUndoLimit(undo_limit);
   return result;
@@ -90,11 +88,18 @@ void ApplicationModel::CheckIn(SessionItem* item)
   item->Activate();
 }
 
+void ApplicationModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
+{
+  p_impl->m_event_handler.Notify<ModelAboutToBeResetEvent>(this);
+  SessionModel::ReplaceRootItem(std::move(root_item));
+  p_impl->m_event_handler.Notify<ModelResetEvent>(this);
+}
+
 void ApplicationModel::SetUndoEnabled(bool value, std::size_t undo_limit)
 {
   if (value)
   {
-    SetCommandStack(CreateCommandStackProcessor(&p_impl->m_event_handler, undo_limit));
+    SetCommandStack(CreateCommandStackProcessor(undo_limit));
   }
   else
   {

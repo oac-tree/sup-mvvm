@@ -50,6 +50,8 @@ public:
 
   void CheckIn(SessionItem* item) override;
 
+  void ReplaceRootItem(std::unique_ptr<SessionItem> root_item) override;
+
   /**
    * @brief Enables or disables undo/redo framework.
    *
