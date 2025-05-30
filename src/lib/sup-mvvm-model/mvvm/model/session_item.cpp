@@ -56,17 +56,34 @@ std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
   return {};
 }
 
+/**
+ * @brief Processes the command and returns result to the user.
+ *
+ * If model exists, the command will be passed to command processor (with notification
+ * and possible undo/redo).
+ */
 template <typename C, typename... Args>
-C* ProcessCommand(mvvm::ISessionModel* model, Args&&... args)
+typename C::result_t ProcessCommand(mvvm::ISessionModel* model, Args&&... args)
 {
   if (model)
   {
     auto command = std::make_unique<C>(std::forward<Args>(args)...);
+    // FIXME get rid of this setter, it is slow
     command->SetNotificationCallback(CreateNotifierCallback(model->GetEventHandler()));
-    return static_cast<C*>(model->ExecuteCommand(std::move(command)));
+
+    // check if the model was able to execute the command and it wasn't expired
+    if (auto processed_command = static_cast<C*>(model->ExecuteCommand(std::move(command)));
+        processed_command)
+    {
+      return processed_command->GetResult();
+    }
+    return {};
   }
 
-  return nullptr;
+  // in the absence of the model immediately execute command
+  C command(std::forward<Args>(args)...);
+  command.Execute();
+  return command.GetResult();
 }
 
 }  // namespace
@@ -79,7 +96,7 @@ SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
 SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
 {
-  SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  SetDataImpl(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
 }
 
 SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
@@ -222,41 +239,14 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
   utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
-  SessionItem* result{nullptr};
-  if (auto model = GetModel(); model)
-  {
-    auto command =
-        ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
-    result = command->GetResult();
-  }
-  else
-  {
-    result = p_impl->GetTaggedItems()->InsertItem(std::move(item), insert_tag_index);
-    result->SetParent(this);
-    result->SetModel(GetModel());
-  }
-
-  return result;
+  return ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(this, tag_index);
 
-  std::unique_ptr<SessionItem> result;
-  if (auto model = GetModel(); model)
-  {
-    auto command = ProcessCommand<RemoveItemCommand>(GetModel(), this, tag_index);
-    result = command->GetResult();
-  }
-  else
-  {
-    result = p_impl->GetTaggedItems()->TakeItem(tag_index);
-    result->SetParent(nullptr);
-    result->SetModel(nullptr);
-  }
-
-  return result;
+  return ProcessCommand<RemoveItemCommand>(GetModel(), this, tag_index);
 }
 
 bool SessionItem::IsEditable() const
@@ -346,13 +336,7 @@ Slot* SessionItem::GetSlot() const
 
 bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
 {
-  if (auto model = GetModel(); model)
-  {
-    auto command = ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
-    return command ? command->GetResult() : false;
-  }
-
-  return SetDataImpl(value, role);
+  return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
 }
 
 bool SessionItem::SetDataImpl(const variant_t& value, std::int32_t role)

@@ -68,6 +68,18 @@ BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State &state)
   }
 }
 
+//! Performance of setData when bypassing command framework
+BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State &state)
+{
+  mvvm::SessionItem item;
+
+  int value{0};
+  for (auto dummy : state)
+  {
+    item.SetDataImpl(value++, DataRole::kData);
+  }
+}
+
 //! Measuring performance of SetData method when data is always the same.
 BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
 {
