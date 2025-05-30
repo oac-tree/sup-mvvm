@@ -18,34 +18,37 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "remove_item_command_v2.h"
+#include "insert_item_command.h"
 
 #include "command_helper.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
-#include <mvvm/model/i_item_backup_strategy.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/tagged_items.h>
+#include <mvvm/model/validate_utils.h>
 
 namespace mvvm
 {
 
-struct RemoveItemCommand::RemoveItemCommandImpl
+struct InsertItemCommand::InsertItemCommandImpl
 {
   SessionItem* m_cached_parent{nullptr};
   ISessionModel* m_model{nullptr};
   std::string m_parent_identifier;
   TagIndex m_tag_index;
   std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
-  std::unique_ptr<SessionItem> m_taken;
+  std::unique_ptr<SessionItem> m_to_insert;
+  SessionItem* m_result{nullptr};
 
-  RemoveItemCommandImpl(SessionItem* parent, const TagIndex& tag_index)
+  InsertItemCommandImpl(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                        const TagIndex& tag_index)
       : m_cached_parent(parent)
       , m_tag_index(tag_index)
       , m_backup_strategy(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()))
+      , m_to_insert(std::move(item))
   {
     if (!m_cached_parent)
     {
@@ -54,6 +57,7 @@ struct RemoveItemCommand::RemoveItemCommandImpl
 
     m_model = m_cached_parent->GetModel();
     m_parent_identifier = m_cached_parent->GetIdentifier();
+    m_backup_strategy->SaveItem(*m_to_insert);
   }
 
   SessionItem* FindParent() const
@@ -62,19 +66,20 @@ struct RemoveItemCommand::RemoveItemCommandImpl
   }
 };
 
-RemoveItemCommand::RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index)
-    : p_impl(std::make_unique<RemoveItemCommandImpl>(parent, tag_index))
+InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                                         const TagIndex& tag_index)
+    : p_impl(std::make_unique<InsertItemCommandImpl>(std::move(item), parent, tag_index))
 {
 }
 
-RemoveItemCommand::~RemoveItemCommand() = default;
+InsertItemCommand::~InsertItemCommand() = default;
 
-std::unique_ptr<SessionItem> RemoveItemCommand::GetResult() const
+SessionItem* InsertItemCommand::GetResult() const
 {
-  return std::move(p_impl->m_taken);
+  return p_impl->m_result;
 }
 
-std::optional<event_variant_t> RemoveItemCommand::GetEventBefore() const
+std::optional<event_variant_t> InsertItemCommand::GetEventBefore() const
 {
   // we find parent once and then use it for notification and command execution
   p_impl->m_cached_parent = p_impl->FindParent();
@@ -83,40 +88,38 @@ std::optional<event_variant_t> RemoveItemCommand::GetEventBefore() const
     throw RuntimeException("Can't find parent");
   }
 
-  return GetBeforeEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
+  return GetBeforeEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
                                         p_impl->m_tag_index);
 }
 
-std::optional<event_variant_t> RemoveItemCommand::GetEventAfter() const
+std::optional<event_variant_t> InsertItemCommand::GetEventAfter() const
 {
-  return GetAfterEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
+  return GetAfterEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
                                        p_impl->m_tag_index);
 }
 
-void RemoveItemCommand::ExecuteImpl()
+void InsertItemCommand::ExecuteImpl()
 {
   SetIsObsolete(false);
 
-  auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
-  if (!taken)
-  {
-    throw RuntimeException("Can't take an item");
-  }
+  auto to_insert = p_impl->m_to_insert ? std::move(p_impl->m_to_insert)
+                                       : p_impl->m_backup_strategy->RestoreItem();
 
-  taken->SetParent(nullptr);
-  taken->SetModel(nullptr);
+  // FIXME this validation duplicates the one in SessionItem::InsertItem, remove duplication
+  utils::ValidateItemInsert(to_insert.get(), p_impl->m_cached_parent, p_impl->m_tag_index);
 
-  p_impl->m_backup_strategy->SaveItem(*taken);
-
-  p_impl->m_taken = std::move(taken);
+  p_impl->m_result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(std::move(to_insert),
+                                                                           p_impl->m_tag_index);
+  p_impl->m_result->SetParent(p_impl->m_cached_parent);
+  p_impl->m_result->SetModel(p_impl->m_cached_parent->GetModel());
 }
 
-void RemoveItemCommand::UndoImpl()
+void InsertItemCommand::UndoImpl()
 {
-  auto result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(p_impl->m_backup_strategy->RestoreItem(),
-                                                        p_impl->m_tag_index);
-  result->SetParent(p_impl->m_cached_parent);
-  result->SetModel(p_impl->m_cached_parent->GetModel());
+  auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
+  taken->SetParent(nullptr);
+  taken->SetModel(nullptr);
+  // may be it is better to store taken item on board, and not to use backup at all?
 }
 
 }  // namespace mvvm

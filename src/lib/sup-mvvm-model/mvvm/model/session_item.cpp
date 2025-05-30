@@ -26,9 +26,9 @@
 #include "taginfo.h"
 #include "validate_utils.h"
 
-#include <mvvm/commands/insert_item_command_v2.h>
-#include <mvvm/commands/remove_item_command_v2.h>
-#include <mvvm/commands/set_value_command_v2.h>
+#include <mvvm/commands/insert_item_command.h>
+#include <mvvm/commands/remove_item_command.h>
+#include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>

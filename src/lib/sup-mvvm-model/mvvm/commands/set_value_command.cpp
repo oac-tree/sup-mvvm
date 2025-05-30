@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "set_value_command_v2.h"
+#include "set_value_command.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>

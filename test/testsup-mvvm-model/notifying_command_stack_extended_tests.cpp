@@ -23,9 +23,9 @@
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/commands/default_command_processor.h>
 #include <mvvm/commands/i_command.h>
-#include <mvvm/commands/insert_item_command_v2.h>
-#include <mvvm/commands/remove_item_command_v2.h>
-#include <mvvm/commands/set_value_command_v2.h>
+#include <mvvm/commands/insert_item_command.h>
+#include <mvvm/commands/remove_item_command.h>
+#include <mvvm/commands/set_value_command.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>

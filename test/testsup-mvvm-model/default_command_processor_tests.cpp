@@ -20,7 +20,7 @@
 
 #include "mvvm/commands/default_command_processor.h"
 
-#include <mvvm/commands/set_value_command_v2.h>
+#include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
 

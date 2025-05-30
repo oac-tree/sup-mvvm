@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/commands/insert_item_command_v2.h"
+#include "mvvm/commands/insert_item_command.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
