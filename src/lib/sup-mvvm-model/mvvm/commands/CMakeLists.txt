@@ -14,7 +14,6 @@ target_sources(${library_name} PRIVATE
   insert_item_command.h
   macro_command.cpp
   macro_command.h
-  notifying_command_stack.h
   remove_item_command.cpp
   remove_item_command.h
   set_value_command.cpp

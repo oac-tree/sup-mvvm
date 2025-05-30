@@ -22,7 +22,6 @@
 
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/commands/default_command_processor.h>
-#include <mvvm/commands/notifying_command_stack.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_constants.h>

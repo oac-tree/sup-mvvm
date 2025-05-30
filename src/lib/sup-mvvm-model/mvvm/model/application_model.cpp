@@ -20,11 +20,11 @@
 
 #include "application_model.h"
 
+#include <mvvm/commands/i_command.h>
 #include <mvvm/commands/command_stack.h>
 #include <mvvm/commands/default_command_processor.h>
-#include <mvvm/commands/notifying_command_stack.h>
-#include <mvvm/model/session_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
 #include <mvvm/signals/model_event_handler.h>
 
 namespace
