@@ -36,8 +36,6 @@
 
 #include <utility>
 
-#define NEW_COMMANDS
-
 namespace
 {
 std::int32_t appearance(const mvvm::SessionItem& item)
@@ -224,7 +222,6 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
   utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
-#ifdef NEW_COMMANDS
   SessionItem* result{nullptr};
   if (auto model = GetModel(); model)
   {
@@ -240,19 +237,12 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   }
 
   return result;
-#else
-  auto result = p_impl->GetTaggedItems()->InsertItem(std::move(item), insert_tag_index);
-  result->SetParent(this);
-  result->SetModel(GetModel());
-  return result;
-#endif
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(this, tag_index);
 
-#ifdef NEW_COMMANDS
   std::unique_ptr<SessionItem> result;
   if (auto model = GetModel(); model)
   {
@@ -267,13 +257,6 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   }
 
   return result;
-#else
-  auto result = p_impl->GetTaggedItems()->TakeItem(tag_index);
-  result->SetParent(nullptr);
-  result->SetModel(nullptr);
-
-  return result;
-#endif
 }
 
 bool SessionItem::IsEditable() const
@@ -363,7 +346,6 @@ Slot* SessionItem::GetSlot() const
 
 bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
 {
-#ifdef NEW_COMMANDS
   if (auto model = GetModel(); model)
   {
     auto command = ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
@@ -371,11 +353,6 @@ bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
   }
 
   return SetDataImpl(value, role);
-
-#else
-  const bool act_through_model = GetModel() != nullptr;
-  return act_through_model ? GetModel()->SetData(this, value, role) : SetDataImpl(value, role);
-#endif
 }
 
 bool SessionItem::SetDataImpl(const variant_t& value, std::int32_t role)
