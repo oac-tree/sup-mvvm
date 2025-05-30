@@ -30,7 +30,6 @@ namespace mvvm
 
 class SessionItem;
 class ItemPool;
-class IModelComposer;
 
 /**
  * @brief The SessionModel class is the main model to hold hierarchy of SessionItem objects.
@@ -43,7 +42,7 @@ public:
   explicit SessionModel(std::string model_type = {});
 
   SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
-               std::unique_ptr<IModelComposer> composer = {}, std::unique_ptr<ICommandStack> = {});
+               std::unique_ptr<ICommandStack> = {});
 
   ~SessionModel() override;
   SessionModel(const SessionModel& other) = delete;
@@ -79,11 +78,6 @@ public:
   void CheckOut(SessionItem* item) override;
 
   ICommand* ExecuteCommand(std::unique_ptr<ICommand> command) override;
-
-  /**
-   * @brief Sets internal composer to given value.
-   */
-  void SetComposer(std::unique_ptr<IModelComposer> composer);
 
   void SetCommandStack(std::unique_ptr<ICommandStack> command_stack);
 

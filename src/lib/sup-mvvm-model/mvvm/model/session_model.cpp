@@ -21,7 +21,6 @@
 #include "session_model.h"
 
 #include "item_pool.h"
-#include "model_composer.h"
 #include "model_utils.h"
 #include "session_item.h"
 #include "validate_utils.h"
@@ -31,15 +30,8 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/signals/model_event_handler.h>
 
-#define NEW_COMMANDS
-
 namespace
 {
-
-std::unique_ptr<mvvm::IModelComposer> CreateDefaultComposer(mvvm::ISessionModel* model)
-{
-  return std::make_unique<mvvm::ModelComposer>(*model);
-}
 
 std::shared_ptr<mvvm::ItemPool> CreateDefaultItemPool()
 {
@@ -63,18 +55,15 @@ struct SessionModel::SessionModelImpl
   SessionModel* m_self{nullptr};
   std::string m_model_type;
   std::shared_ptr<ItemPool> m_pool;
-  std::unique_ptr<IModelComposer> m_composer;
   std::unique_ptr<ICommandStack> m_command_processor;
   std::unique_ptr<SessionItem> m_root_item;
   bool m_is_executing{false};
 
   SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
-                   std::unique_ptr<IModelComposer> composer,
                    std::unique_ptr<ICommandStack> command_processor)
       : m_self(self)
       , m_model_type(std::move(model_type))
       , m_pool(pool ? std::move(pool) : CreateDefaultItemPool())
-      , m_composer(composer ? std::move(composer) : CreateDefaultComposer(m_self))
       , m_command_processor(command_processor ? std::move(command_processor)
                                               : CreateDefaultCommandProcessor())
       , m_root_item(utils::CreateEmptyRootItem())
@@ -83,15 +72,14 @@ struct SessionModel::SessionModelImpl
 };
 
 SessionModel::SessionModel(std::string model_type)
-    : SessionModel(std::move(model_type), CreateDefaultItemPool(), CreateDefaultComposer(this))
+    : SessionModel(std::move(model_type), CreateDefaultItemPool())
 {
 }
 
 SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
-                           std::unique_ptr<IModelComposer> composer,
                            std::unique_ptr<ICommandStack> command_stack)
     : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool),
-                                                std::move(composer), std::move(command_stack)))
+                                                std::move(command_stack)))
 {
   GetRootItem()->SetModel(this);
 }
@@ -125,11 +113,7 @@ ModelEventHandler* SessionModel::GetEventHandler() const
 
 ICommandStack* SessionModel::GetCommandStack() const
 {
-#ifdef NEW_COMMANDS
   return p_impl->m_command_processor.get();
-#else
-  return nullptr;
-#endif
 }
 
 SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
@@ -140,23 +124,13 @@ SessionItem* SessionModel::InsertItem(std::unique_ptr<SessionItem> item, Session
     parent = GetRootItem();
   }
 
-#ifdef NEW_COMMANDS
   return parent->InsertItem(std::move(item), tag_index);
-#else
-  auto actual_tagindex = utils::GetInsertTagIndex(parent, tag_index);
-  utils::ValidateItemInsert(item.get(), parent, actual_tagindex);
-  return p_impl->m_composer->InsertItem(std::move(item), parent, actual_tagindex);
-#endif
 }
 
 std::unique_ptr<SessionItem> SessionModel::TakeItem(SessionItem* parent, const TagIndex& tag_index)
 {
   utils::ValidateTakeItem(parent, tag_index);
-#ifdef NEW_COMMANDS
   return parent->TakeItem(tag_index);
-#else
-  return p_impl->m_composer->TakeItem(parent, tag_index);
-#endif
 }
 
 void SessionModel::RemoveItem(SessionItem* item)
@@ -188,11 +162,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
 
 bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
 {
-#ifdef NEW_COMMANDS
   return item->SetDataInternal(value, role);
-#else
-  return p_impl->m_composer->SetData(item, value, role);
-#endif
 }
 
 SessionItem* SessionModel::FindItem(const std::string& id) const
@@ -207,7 +177,6 @@ void SessionModel::Clear()
 
 void SessionModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
 {
-#ifdef NEW_COMMANDS
   if (!root_item)
   {
     throw RuntimeException("Uninitialised root item");
@@ -224,9 +193,6 @@ void SessionModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
   {
     GetEventHandler()->Notify<ModelResetEvent>(this);
   }
-#else
-  p_impl->m_composer->ReplaceRootItem(p_impl->m_root_item, std::move(root_item));
-#endif
 }
 
 void SessionModel::CheckIn(SessionItem* item)
@@ -259,11 +225,6 @@ ICommand* SessionModel::ExecuteCommand(std::unique_ptr<ICommand> command)
     throw RuntimeException(ex.what());
   }
   return result;
-}
-
-void SessionModel::SetComposer(std::unique_ptr<IModelComposer> composer)
-{
-  p_impl->m_composer = std::move(composer);
 }
 
 void SessionModel::SetCommandStack(std::unique_ptr<ICommandStack> command_stack)

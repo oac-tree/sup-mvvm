@@ -10,7 +10,6 @@ target_sources(${library_name} PRIVATE
   function_types.h
   i_item_backup_strategy.h
   i_item_factory.h
-  i_model_composer.h
   i_session_model.h
   item_catalogue.h
   item_constants.h
@@ -22,13 +21,10 @@ target_sources(${library_name} PRIVATE
   item_pool.h
   item_utils.cpp
   item_utils.h
-  model_composer.cpp
-  model_composer.h
   model_fwd.h
   model_utils.cpp
   model_utils.h
   mvvm_types.h
-  notifying_model_composer.h
   path.cpp
   path.h
   property_item.cpp

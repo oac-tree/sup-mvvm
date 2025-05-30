@@ -3,8 +3,6 @@ target_sources(${library_name} PRIVATE
   abstract_command.h
   command_helper.cpp
   command_helper.h
-  command_model_composer.cpp
-  command_model_composer.h
   command_stack.cpp
   command_stack.h
   command_status.h
@@ -12,19 +10,13 @@ target_sources(${library_name} PRIVATE
   default_command_processor.h
   i_command.h
   i_command_stack.h
-  insert_item_command.cpp
-  insert_item_command.h
   insert_item_command_v2.cpp
   insert_item_command_v2.h
   macro_command.cpp
   macro_command.h
   notifying_command_stack.h
-  remove_item_command.cpp
-  remove_item_command.h
   remove_item_command_v2.cpp
   remove_item_command_v2.h
-  set_value_command.cpp
-  set_value_command.h
   set_value_command_v2.cpp
   set_value_command_v2.h
   )

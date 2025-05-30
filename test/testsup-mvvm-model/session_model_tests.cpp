@@ -28,7 +28,6 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
-#include <mvvm/model/model_composer.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
@@ -51,10 +50,7 @@ public:
   class TestModel : public SessionModel
   {
   public:
-    TestModel() : SessionModel("TestModelType", m_pool, std::make_unique<ModelComposer>(*this))
-    {
-      RegisterGlobalItem<TestItem>();
-    };
+    TestModel() : SessionModel("TestModelType", m_pool) { RegisterGlobalItem<TestItem>(); };
   };
 
   /**
@@ -723,25 +719,6 @@ TEST_F(SessionModelTest, RegisterItem)
   ASSERT_TRUE(item != nullptr);
   ASSERT_TRUE(dynamic_cast<TestItem*>(item) != nullptr);
   EXPECT_EQ(item->GetType(), expectedItemType);
-}
-
-//! Insert item into root. Composer is set after.
-TEST_F(SessionModelTest, SetComposer)
-{
-  // setting composer after
-  SessionModel model("TestModelType", m_pool, {});
-  model.SetComposer(std::make_unique<ModelComposer>(model));
-
-  // inserting single item
-  auto item = model.InsertItem<SessionItem>();
-  EXPECT_TRUE(item != nullptr);
-  EXPECT_EQ(item->GetParent(), model.GetRootItem());
-  EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), SessionItem::GetStaticType());
-
-  // checking registration
-  auto item_key = item->GetIdentifier();
-  EXPECT_EQ(m_pool->ItemForKey(item_key), item);
 }
 
 TEST_F(SessionModelTest, ExecuteCommand)
