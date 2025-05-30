@@ -57,6 +57,29 @@ public:
     };
   };
 
+  /**
+   * @brief The InvalidTestCommand tries to execute another command before its own job is done.
+   *
+   * We do not allow adding commands in a stack while the command is running. Macro commands should
+   * used for connected actions.
+   */
+  class InvalidTestCommand : public AbstractCommand
+  {
+  public:
+    explicit InvalidTestCommand(ISessionModel* model) : m_model(model) {}
+
+  private:
+    void ExecuteImpl() override
+    {
+      auto another_command = std::make_unique<InvalidTestCommand>(m_model);
+      m_model->ExecuteCommand(std::move(another_command));
+    }
+
+    void UndoImpl() override {}
+
+    ISessionModel* m_model{nullptr};
+  };
+
   static std::shared_ptr<ItemPool> m_pool;
 };
 
@@ -730,4 +753,13 @@ TEST_F(SessionModelTest, ExecuteCommand)
 
   model.ExecuteCommand(std::move(command));
   EXPECT_EQ(item->Data<mvvm::int32>(), 42);
+}
+
+TEST_F(SessionModelTest, AttemptToExecuteCommandFromCommand)
+{
+  SessionModel model;
+
+  auto command = std::make_unique<InvalidTestCommand>(&model);
+
+  EXPECT_THROW(model.ExecuteCommand(std::move(command)), RuntimeException);
 }
