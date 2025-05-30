@@ -55,7 +55,9 @@ TEST_F(DefaultCommandProcessorTest, ExecuteCommand)
 
   test::MockTestCommandListener listener;
   auto [command, command_ptr] = CreateCommand(listener);
+  EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
   EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
 }
 

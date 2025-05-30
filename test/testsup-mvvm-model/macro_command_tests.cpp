@@ -53,8 +53,13 @@ TEST_F(MacroCommandTest, InitialState)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(_)).Times(0);
   }
 
@@ -65,8 +70,13 @@ TEST_F(MacroCommandTest, InitialState)
     const ::testing::InSequence seq;
     EXPECT_CALL(listener, OnExecute(_)).Times(0);
     // undo in reverse order
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
   }
 
   macro_command.Undo();
@@ -90,8 +100,13 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(_)).Times(0);
   }
 
@@ -110,8 +125,13 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
     const ::testing::InSequence seq;
     EXPECT_CALL(listener, OnExecute(_)).Times(0);
     // undo in reverse order
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
   }
 
   macro_command.Undo();
