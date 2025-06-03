@@ -211,6 +211,21 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
   EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
 
+TEST_F(StandardPresentationItemsTest, DataPresentationItemForComboProperty)
+{
+  const std::vector<std::string> expected_values({"abc", "def"});
+  ComboProperty property(expected_values);
+  QVariant expected_variant = QVariant::fromValue(property);
+
+  SessionItem item;
+  item.SetData(property);
+
+  const DataPresentationItem presentation(&item);
+
+  EXPECT_EQ(presentation.Data(Qt::DisplayRole), expected_variant);
+  EXPECT_EQ(presentation.Data(Qt::EditRole), expected_variant);
+}
+
 TEST_F(StandardPresentationItemsTest, DataPresentationItemForSecondaryDataRole)
 {
   const int kSecondaryDataRole{42};
