@@ -124,7 +124,7 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemTooltipRole)
 
   EXPECT_THROW(DisplayNamePresentationItem(nullptr), RuntimeException);
 
-  DisplayNamePresentationItem presentation(&item);
+  const DisplayNamePresentationItem presentation(&item);
   EXPECT_FALSE(presentation.Data(Qt::ToolTipRole).isValid());
 
   item.SetToolTip("abc");
@@ -138,7 +138,7 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemForegroundRole)
   SessionItem item;
   item.SetData(42);
 
-  DisplayNamePresentationItem presentation(&item);
+  const DisplayNamePresentationItem presentation(&item);
 
   // Enabled item doesn't have valid foreground role.
   // This means that the color of text is left for a view to decide.
@@ -161,7 +161,7 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemCheckStateRole)
 {
   SessionItem item;
   item.SetData(false);
-  DisplayNamePresentationItem presentation(&item);
+  const DisplayNamePresentationItem presentation(&item);
 
   // no CheckStateRole for a display name
   EXPECT_FALSE(presentation.Data(Qt::CheckStateRole).isValid());
@@ -207,7 +207,7 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
   EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
 
   // it is not allowed to set another type of data
-  QVariant not_allowed_value("Layer");
+  const QVariant not_allowed_value("Layer");
   EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
 

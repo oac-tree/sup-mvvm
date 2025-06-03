@@ -201,8 +201,8 @@ TEST_F(AllItemsViewModelTest, ModelWithVectorItem)
   std::vector<SessionItem*> children = vector_item->GetAllItems();
   for (int row = 0; row < 3; ++row)
   {  // x, y, z
-    QModelIndex child_label_index = viewmodel.index(row, 0, vector_label_index);
-    QModelIndex child_data_index = viewmodel.index(row, 1, vector_label_index);
+    const auto child_label_index = viewmodel.index(row, 0, vector_label_index);
+    const auto child_data_index = viewmodel.index(row, 1, vector_label_index);
     EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_label_index), children[row]);
     EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_data_index), children[row]);
     EXPECT_EQ(viewmodel.data(child_label_index).toString().toStdString(),
@@ -947,7 +947,7 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
     auto item = initial_model.InsertItem<PropertyItem>();
     item->SetData(42);
 
-    XmlDocument document({&initial_model});
+    const XmlDocument document({&initial_model});
     document.Save(file_path);
   }
 
@@ -980,7 +980,7 @@ TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
     ApplicationModel initial_model;
     initial_model.InsertItem<VectorItem>();
 
-    XmlDocument document({&initial_model});
+    const XmlDocument document({&initial_model});
     document.Save(file_path);
   }
 
@@ -1087,7 +1087,7 @@ TEST_F(AllItemsViewModelTest, DeleteGraphVromViewport)
 
   // validating that we see graph at propeer index
   EXPECT_EQ(viewmodel.rowCount(), 3);  // X, Y and Graph
-  QModelIndex graph_index = viewmodel.index(2, 0);
+  const auto graph_index = viewmodel.index(2, 0);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(graph_index), graph_item);
 
   // removing graph item
