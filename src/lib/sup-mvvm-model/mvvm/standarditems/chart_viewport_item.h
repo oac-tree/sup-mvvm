@@ -49,7 +49,7 @@ public:
 
   std::vector<LineSeriesItem*> GetLineSeries() const;
 
-  int GetLineSeriesCount() const;
+  std::size_t GetLineSeriesCount() const;
 
 protected:
   std::pair<double, double> GetDataXRange() const override;

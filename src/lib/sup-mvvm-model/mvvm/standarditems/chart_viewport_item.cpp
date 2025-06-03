@@ -96,7 +96,7 @@ std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const
   return GetItems<LineSeriesItem>(kItems);
 }
 
-int ChartViewportItem::GetLineSeriesCount() const
+std::size_t ChartViewportItem::GetLineSeriesCount() const
 {
   return GetItemCount(kItems);
 }

@@ -83,20 +83,20 @@ void GraphModel::AddGraph()
 
 void GraphModel::RemoveGraph()
 {
-  const int graph_count = GetViewport()->GetLineSeriesCount();
-  const int data_count = GetDataContainer()->GetSize();
+  const auto graph_count = GetViewport()->GetLineSeriesCount();
+  const auto data_count = GetDataContainer()->GetSize();
 
   if (graph_count != data_count)
   {
     throw std::runtime_error("Number of graphs do not much number of data items.");
   }
 
-  if (graph_count)
+  if (graph_count > 0)
   {
     TakeItem(GetViewport(), mvvm::TagIndex::Default(graph_count - 1));
   }
 
-  if (data_count)
+  if (data_count > 0)
   {
     TakeItem(GetDataContainer(), mvvm::TagIndex::Default(data_count - 1));
   }
