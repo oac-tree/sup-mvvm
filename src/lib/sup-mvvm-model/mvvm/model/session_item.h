@@ -374,7 +374,7 @@ public:
   /**
    * @brief Sets the data for the given role.
    */
-  bool SetDataInternal(const variant_t& value, std::int32_t role);
+  virtual bool SetDataInternal(const variant_t& value, std::int32_t role);
 
   /**
    * @brief Sets the data for the given role.
