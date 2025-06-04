@@ -18,6 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include <mvvm/model/combo_property.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -29,8 +31,8 @@ int main(int argc, char** argv)
   ::testing::InitGoogleTest(&argc, argv);
   ::testing::InitGoogleMock(&argc, argv);
 
-  qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
-  qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
+  (void)qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
+  (void)qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
 
   // run all google tests
   return RUN_ALL_TESTS();

@@ -99,8 +99,13 @@ TEST_F(CommandStackMacroTest, AddTwoCommandsToMacro)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
   }
 
   // adding two commands to macro will immediately execute them
@@ -122,8 +127,13 @@ TEST_F(CommandStackMacroTest, AddTwoCommandsToMacro)
   // single undo will undo two commands one after another
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
   }
 
   stack.Undo();
@@ -148,12 +158,30 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
 
   {
     const ::testing::InSequence seq;
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr4)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr4)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr5)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr5)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr6)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr6)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr6)).Times(1);
   }
 
   stack.BeginMacro("macro1");
@@ -175,9 +203,17 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr6)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr6)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr6)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr5)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr5)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr4)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr4)).Times(1);
   }
 
   EXPECT_TRUE(stack.CanUndo());
@@ -193,7 +229,9 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
   }
 
   stack.Undo();
@@ -208,7 +246,9 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr7)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr7)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr7)).Times(1);
   }
 
   stack.Execute(std::move(command7));
@@ -233,11 +273,25 @@ TEST_F(CommandStackMacroTest, NestedMacro)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr4)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr4)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr5)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr5)).Times(1);
   }
 
   stack.BeginMacro("macro1");
@@ -270,11 +324,26 @@ TEST_F(CommandStackMacroTest, NestedMacro)
 
   {
     const ::testing::InSequence seq;
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr5)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr5)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr5)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr4)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr4)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
   }
 
   // all 5 commands will be undone in one go
@@ -295,8 +364,13 @@ TEST_F(CommandStackMacroTest, AddTwoCommandsToMacroOneIsObsolete)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
   }
 
   // adding two commands to macro will immediately execute them
@@ -322,7 +396,10 @@ TEST_F(CommandStackMacroTest, AddTwoCommandsToMacroOneIsObsolete)
   // single undo will undo two commands one after another
   {
     const ::testing::InSequence seq;
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
   }
 
   stack.Undo();

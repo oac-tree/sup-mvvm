@@ -55,7 +55,9 @@ TEST_F(CommandStackTest, SingleCommandExecution)
 
   auto [command, command_ptr] = CreateCommand(listener);
 
+  EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
   EXPECT_CALL(listener, OnExecute(_)).Times(1);
+  EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
   EXPECT_CALL(listener, OnUndo(_)).Times(0);
 
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
@@ -101,7 +103,10 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
   auto [command, command_ptr] = CreateCommand(listener);
   command->SetMakeObsoleteAfterExecution();
 
+  EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
   EXPECT_CALL(listener, OnExecute(_)).Times(1);
+  EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+
   EXPECT_CALL(listener, OnUndo(_)).Times(0);
 
   EXPECT_EQ(stack.Execute(std::move(command)), nullptr);
@@ -125,9 +130,18 @@ TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
 
   {
     const ::testing::InSequence seq;
+
+    EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
     EXPECT_CALL(listener, OnExecute(_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
     EXPECT_CALL(listener, OnUndo(_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
     EXPECT_CALL(listener, OnExecute(_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
   }
 
   stack.Execute(std::move(command));
@@ -167,12 +181,29 @@ TEST_F(CommandStackTest, TwoCommandsExecution)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
   }
 
   stack.Execute(std::move(command1));
@@ -244,12 +275,29 @@ TEST_F(CommandStackTest, InsertInTheMiddleOfUndo)
 
   {
     const ::testing::InSequence seq;
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr4)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr4)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr4)).Times(1);
   }
 
   stack.Execute(std::move(command1));
@@ -288,10 +336,22 @@ TEST_F(CommandStackTest, CleanCommands)
 
   {
     const ::testing::InSequence seq;
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr1)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr1)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr1)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
+
+    EXPECT_CALL(listener, OnGetEventBefore(command_ptr3)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr3)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(command_ptr3)).Times(1);
   }
 
   stack.Execute(std::move(command1));

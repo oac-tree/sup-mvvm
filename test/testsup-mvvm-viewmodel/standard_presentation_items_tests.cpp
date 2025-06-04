@@ -30,6 +30,10 @@
 
 using namespace mvvm;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+Q_DECLARE_METATYPE(mvvm::ComboProperty)
+#endif
+
 class StandardPresentationItemsTest : public ::testing::Test
 {
 public:
@@ -214,8 +218,8 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
 TEST_F(StandardPresentationItemsTest, DataPresentationItemForComboProperty)
 {
   const std::vector<std::string> expected_values({"abc", "def"});
-  ComboProperty property(expected_values);
-  QVariant expected_variant = QVariant::fromValue(property);
+  const ComboProperty property(expected_values);
+  const QVariant expected_variant = QVariant::fromValue(property);
 
   SessionItem item;
   item.SetData(property);
