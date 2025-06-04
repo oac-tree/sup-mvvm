@@ -217,6 +217,10 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemSetDataForDouble)
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemForComboProperty)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+  QMetaType::registerComparators<mvvm::ComboProperty>();
+#endif
+
   const std::vector<std::string> expected_values({"abc", "def"});
   const ComboProperty property(expected_values);
   const QVariant expected_variant = QVariant::fromValue(property);
