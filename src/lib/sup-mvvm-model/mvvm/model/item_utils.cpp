@@ -335,7 +335,10 @@ bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
 
 bool ReplaceData(SessionItem& item, const variant_t& value, int role)
 {
-  item.SetData(variant_t(), role);   // will remove old variant for given role
+  if (item.HasData(role))
+  {
+    item.SetData(variant_t(), role);  // will remove old variant for given role
+  }
   return item.SetData(value, role);  // will succeed
 }
 
@@ -381,8 +384,8 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
     throw LogicErrorException("No parent item provided");
   }
 
-    (void) parent->TakeItem(tag_index);
-    return parent->InsertItem(std::move(item), tag_index);
+  (void)parent->TakeItem(tag_index);
+  return parent->InsertItem(std::move(item), tag_index);
 }
 
 std::string ToXMLString(const SessionItem& item,
