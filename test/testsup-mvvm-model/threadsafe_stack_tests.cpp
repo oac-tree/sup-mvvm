@@ -26,10 +26,12 @@
 #include <future>
 #include <vector>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing threadsafe_stack.
-
+/**
+ * @brief Tests for threadsafe_stack class.
+ */
 class ThreadSafeStackTests : public ::testing::Test
 {
 };
@@ -213,3 +215,5 @@ TEST_F(ThreadSafeStackTests, ConcurentStopWaiting)
     throw;
   }
 }
+
+}  // namespace mvvm::test

@@ -31,7 +31,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing XmlDocument.
 
@@ -268,3 +269,5 @@ TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
   // loading model from file
   EXPECT_THROW(document.Load(file_path), RuntimeException);
 }
+
+}  // namespace mvvm::test

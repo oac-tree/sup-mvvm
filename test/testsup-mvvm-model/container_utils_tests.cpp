@@ -23,7 +23,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for functions defined in container_utils.h
@@ -140,3 +141,5 @@ TEST_F(ContainerUtilsTests, MakeConstRemoveConst)
   EXPECT_EQ(utils::MakeConst(non_const_vect), const_vect);
   EXPECT_EQ(utils::RemoveConst(const_vect), non_const_vect);
 }
+
+}  // namespace mvvm::test

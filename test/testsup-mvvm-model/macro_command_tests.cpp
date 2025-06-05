@@ -24,8 +24,8 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class MacroCommandTest : public ::testing::Test
 {
@@ -60,7 +60,7 @@ TEST_F(MacroCommandTest, InitialState)
     EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
-    EXPECT_CALL(listener, OnUndo(_)).Times(0);
+    EXPECT_CALL(listener, OnUndo(::testing::_)).Times(0);
   }
 
   macro_command.Execute();
@@ -68,7 +68,7 @@ TEST_F(MacroCommandTest, InitialState)
 
   {
     const ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnExecute(_)).Times(0);
+    EXPECT_CALL(listener, OnExecute(::testing::_)).Times(0);
     // undo in reverse order
     EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
@@ -107,7 +107,7 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
     EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnExecute(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnGetEventAfter(command_ptr2)).Times(1);
-    EXPECT_CALL(listener, OnUndo(_)).Times(0);
+    EXPECT_CALL(listener, OnUndo(::testing::_)).Times(0);
   }
 
   command1->Execute();
@@ -123,7 +123,7 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
 
   {
     const ::testing::InSequence seq;
-    EXPECT_CALL(listener, OnExecute(_)).Times(0);
+    EXPECT_CALL(listener, OnExecute(::testing::_)).Times(0);
     // undo in reverse order
     EXPECT_CALL(listener, OnGetEventBefore(command_ptr2)).Times(1);
     EXPECT_CALL(listener, OnUndo(command_ptr2)).Times(1);
@@ -137,3 +137,5 @@ TEST_F(MacroCommandTest, AddCommandAfterExecution)
   macro_command.Undo();
   EXPECT_EQ(macro_command.GetCommandStatus(), CommandStatus::AfterUndo);
 }
+
+}  // namespace mvvm::test

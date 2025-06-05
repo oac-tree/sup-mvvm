@@ -29,10 +29,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing TreeDataTaggedItemsConverter.
-
+/**
+ * @brief Tests for TreeDataTaggedItemsConverter class.
+ */
 class TreeDataTaggedItemsConverterTests : public ::testing::Test
 {
 public:
@@ -51,12 +53,10 @@ public:
     //! Simplified method to convert TreeData to SessionItem.
     auto to_item = [this](const tree_data_t&) { return std::make_unique<PropertyItem>(); };
 
-    ConverterCallbacks callbacks{to_treedata, to_item};
+    const ConverterCallbacks callbacks{to_treedata, to_item};
     return std::make_unique<TreeDataTaggedItemsConverter>(callbacks);
   }
 };
-
-//! TaggedItems converted to TreeData.
 
 TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
 {
@@ -74,8 +74,6 @@ TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
 
   EXPECT_TRUE(converter->IsTaggedItemsConvertible(*tree_data));
 }
-
-//! TaggedItems converted to TreeData.
 
 TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeDataAndBack)
 {
@@ -98,3 +96,5 @@ TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeDataAndBack)
   EXPECT_EQ(tagged_items2->ContainerAt(1).GetName(), "items");
   EXPECT_EQ(tagged_items2->ContainerAt(1).GetItemCount(), 2);
 }
+
+}  // namespace mvvm::test

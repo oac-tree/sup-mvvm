@@ -21,10 +21,13 @@
 #include "mvvm/utils/string_format.h"
 
 #include <gtest/gtest.h>
-using namespace mvvm;
 
-//! Testing StringFormat class.
+namespace mvvm::test
+{
 
+/**
+ * @brief Tests for StringFormat class.
+ */
 class StringFormatTests : public ::testing::Test
 {
 };
@@ -53,3 +56,5 @@ TEST_F(StringFormatTests, Replace)
   const std::string expected{R"(<Variant role="42" type="int32">44</Variant>)"};
   EXPECT_EQ(value, expected);
 }
+
+}  // namespace mvvm::test

@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for VariantLimitsVisitor class.
@@ -92,3 +93,5 @@ TEST_F(VariantLimitsVisitorTest, GetInt32MinMaxNumeric)
 
   // more tests in variant_limits_helper.h
 }
+
+}  // namespace mvvm::test

@@ -27,11 +27,14 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing ItemFactory class and registrations in the global factory.
-//! More tests in item_catalogue_tests.cpp
-
+/**
+ * @brief Testing ItemFactory class and registrations in the global factory.
+ *
+ * More tests in item_catalogue_tests.cpp
+ */
 class ItemFactoryTests : public ::testing::Test
 {
 public:
@@ -139,3 +142,5 @@ TEST_F(ItemFactoryTests, RegisteringItem)
   EXPECT_NO_THROW(factory.CreateItem(TestItem::GetStaticType()));
   EXPECT_EQ(factory.GetItemTypes().size(), registration_count + 1);
 }
+
+}  // namespace mvvm::test

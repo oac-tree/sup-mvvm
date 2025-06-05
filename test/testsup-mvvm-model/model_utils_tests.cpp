@@ -29,7 +29,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ModelUtilsTests : public ::testing::Test
 {
@@ -99,14 +100,14 @@ TEST_F(ModelUtilsTests, FindItems)
   auto property1 = model.InsertItem<PropertyItem>();
   auto parent2 = model.InsertItem<TestCompoundItem>();
 
-  std::vector<TestCompoundItem*> expected2 = {parent1, parent2};
+  const std::vector<TestCompoundItem*> expected2 = {parent1, parent2};
   EXPECT_EQ(utils::FindItems<TestCompoundItem>(&model), expected2);
 
   auto property2 = model.InsertItem<PropertyItem>(parent1);
   auto property3 = model.InsertItem<PropertyItem>(parent2);
 
   // order correspond to iteration order
-  std::vector<PropertyItem*> expected3 = {property2, property1, property3};
+  const std::vector<PropertyItem*> expected3 = {property2, property1, property3};
   EXPECT_EQ(utils::FindItems<PropertyItem>(&model), expected3);
 }
 
@@ -180,8 +181,6 @@ TEST_F(ModelUtilsTests, ItemFromPath)
   EXPECT_EQ(utils::ItemFromPath(model, Path::CreateFromVector({2, 0, 1})), child201);
 }
 
-//! Tests item copy when from root item to root item.
-
 TEST_F(ModelUtilsTests, CopyModelItemRootContext)
 {
   SessionModel model;
@@ -200,11 +199,9 @@ TEST_F(ModelUtilsTests, CopyModelItemRootContext)
   EXPECT_NE(copy->GetIdentifier(), item->GetIdentifier());
   EXPECT_EQ(copy->Data<double>(), 42.0);
   EXPECT_EQ(model.GetRootItem()->GetAllItems().size(), 2);
-  std::vector<SessionItem*> expected = {item, copy};
+  const std::vector<SessionItem*> expected = {item, copy};
   EXPECT_EQ(model.GetRootItem()->GetAllItems(), expected);
 }
-
-//! Tests item copy from parent to root item.
 
 TEST_F(ModelUtilsTests, CopyParentWithProperty)
 {
@@ -227,8 +224,6 @@ TEST_F(ModelUtilsTests, CopyParentWithProperty)
   EXPECT_EQ(copy_child->Data<double>(), 42.0);
 }
 
-//! Tests item copy for property item.
-
 TEST_F(ModelUtilsTests, CopyFreeItem)
 {
   SessionModel model;
@@ -245,8 +240,6 @@ TEST_F(ModelUtilsTests, CopyFreeItem)
   auto copy = utils::CopyItem(item.get(), &model, parent0, TagIndex::Append());
   EXPECT_EQ(copy->Data<double>(), 42.0);
 }
-
-//! Attempt to copy property item into the same tag.
 
 TEST_F(ModelUtilsTests, ForbiddenCopy)
 {
@@ -298,3 +291,5 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
 //    // This will require change in JsonModelConverter
 //    EXPECT_FALSE(model.rootItem()->identifier() == modelCopy->rootItem()->identifier());
 //}
+
+}  // namespace mvvm::test

@@ -30,7 +30,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for RemoveItemCommand class.
@@ -198,3 +199,5 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWhenPartOfTheModel)
     EXPECT_EQ(taken_grandchild->Data<mvvm::int32>(), 42);
   }
 }
+
+}  // namespace mvvm::test

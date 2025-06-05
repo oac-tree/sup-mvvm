@@ -26,15 +26,15 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing Data1DItem.
-
+/**
+ * @brief Tests for Data1DItem class.
+ */
 class Data1DItemTests : public ::testing::Test
 {
 };
-
-//! Initial state.
 
 TEST_F(Data1DItemTests, InitialState)
 {
@@ -47,8 +47,6 @@ TEST_F(Data1DItemTests, InitialState)
   EXPECT_FALSE(item.HasData());
 }
 
-//! Checking the method ::setFixedBinAxis.
-
 TEST_F(Data1DItemTests, SetFixedBinAxis)
 {
   Data1DItem item;
@@ -59,17 +57,15 @@ TEST_F(Data1DItemTests, SetFixedBinAxis)
   EXPECT_TRUE(item.GetAxis() != nullptr);
 
   // check bin centers and values
-  std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
   EXPECT_EQ(item.GetBinCenters(), expected_centers);
-  std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
+  const std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
   EXPECT_EQ(item.GetValues(), expected_values);
 
   // setting another axis
   // for the moment we have disabled possibility to re-create axes to faciltate undo/redo
   EXPECT_THROW(item.SetAxis(FixedBinAxisItem::Create(1, 1.0, 2.0)), RuntimeException);
 }
-
-//! Sets fixed bin axis via templated method.
 
 TEST_F(Data1DItemTests, SetTemplatedFixedBinAxis)
 {
@@ -81,13 +77,11 @@ TEST_F(Data1DItemTests, SetTemplatedFixedBinAxis)
   EXPECT_EQ(item.GetAxis(), axis);
 
   // check bin centers and values
-  std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
   EXPECT_EQ(item.GetBinCenters(), expected_centers);
-  std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
+  const std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
   EXPECT_EQ(item.GetValues(), expected_values);
 }
-
-//! Sets fixed bin axis via templated method.
 
 TEST_F(Data1DItemTests, SetTemplatedFixedBinAxisInModelContext)
 {
@@ -100,15 +94,13 @@ TEST_F(Data1DItemTests, SetTemplatedFixedBinAxisInModelContext)
   EXPECT_EQ(dataItem->GetAxis(), axis);
 
   // check bin centers and values
-  std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
   EXPECT_EQ(dataItem->GetBinCenters(), expected_centers);
-  std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
+  const std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
   EXPECT_EQ(dataItem->GetValues(), expected_values);
 }
 
-//! Sets fixed bin axis via model context.
 // FIXME Not clear if this method should be used
-
 TEST_F(Data1DItemTests, SetFixedBinAxisInModel)
 {
   SessionModel model;
@@ -120,20 +112,18 @@ TEST_F(Data1DItemTests, SetFixedBinAxisInModel)
   EXPECT_TRUE(dataItem->GetAxis() != nullptr);
 
   // check bin centers and values
-  std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
   EXPECT_EQ(dataItem->GetBinCenters(), expected_centers);
-  std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
+  const std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
   EXPECT_TRUE(dataItem->GetValues().empty());
 }
-
-//! Checking the method ::setValues.
 
 TEST_F(Data1DItemTests, SetValues)
 {
   Data1DItem item;
 
   // check that it is not possible to set content to uninitialized axis
-  std::vector<double> expected_content = {1.0, 2.0, 3.0};
+  const std::vector<double> expected_content = {1.0, 2.0, 3.0};
   EXPECT_THROW(item.SetValues(expected_content), RuntimeException);
 
   item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
@@ -141,14 +131,12 @@ TEST_F(Data1DItemTests, SetValues)
   EXPECT_EQ(item.GetValues(), expected_content);
 }
 
-//! Checking the method ::setErrors.
-
 TEST_F(Data1DItemTests, SetErrors)
 {
   Data1DItem item;
 
   // check that it is not possible to errors to uninitialized axis
-  std::vector<double> expected_errors = {10.0, 20.0, 30.0};
+  const std::vector<double> expected_errors = {10.0, 20.0, 30.0};
 
   EXPECT_THROW(item.SetErrors(expected_errors), RuntimeException);
 
@@ -202,8 +190,6 @@ TEST_F(Data1DItemTests, SetErrors)
 //    item->setValues(std::vector<double>{1.0, 2.0, 3.0});
 //}
 
-//! Testing clone
-
 TEST_F(Data1DItemTests, Clone)
 {
   SessionModel model;
@@ -218,8 +204,10 @@ TEST_F(Data1DItemTests, Clone)
   EXPECT_EQ(axis_clone->GetIdentifier(), axis_item->GetIdentifier());
 
   // check bin centers and values
-  std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
+  const std::vector<double> expected_centers = {0.5, 1.5, 2.5, 3.5, 4.5};
   EXPECT_EQ(data_clone->GetBinCenters(), expected_centers);
-  std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
+  const std::vector<double> expected_values = std::vector<double>(expected_centers.size(), 0.0);
   EXPECT_EQ(data_clone->GetValues(), expected_values);
 }
+
+}  // namespace mvvm::test

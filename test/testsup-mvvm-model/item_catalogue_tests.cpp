@@ -25,10 +25,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing ItemCatalogue class.
-
+/**
+ * @brief Tests for ItemCatalogue class.
+ */
 class ItemCatalogueTests : public ::testing::Test
 {
 public:
@@ -49,7 +51,7 @@ public:
 
 TEST_F(ItemCatalogueTests, InitialState)
 {
-  ItemCatalogue<SessionItem> catalogue;
+  const ItemCatalogue<SessionItem> catalogue;
   EXPECT_EQ(catalogue.GetItemCount(), 0);
   EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({}));
@@ -82,7 +84,7 @@ TEST_F(ItemCatalogueTests, CopyConstructor)
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
 
-  ItemCatalogue<SessionItem> copy(catalogue);
+  const ItemCatalogue<SessionItem> copy(catalogue);
 
   // creation of item using first catalogue
   auto item = catalogue.Create(PropertyItem::GetStaticType());
@@ -168,3 +170,5 @@ TEST_F(ItemCatalogueTests, Merge)
   // duplications is not allowed
   EXPECT_THROW(catalogue1.Merge(catalogue2), mvvm::RuntimeException);
 }
+
+}  // namespace mvvm::test

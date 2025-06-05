@@ -27,7 +27,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class PathTests : public ::testing::Test
 {
@@ -67,3 +68,5 @@ TEST_F(PathTests, CreateFromString)
   const Path path = Path::CreateFromString("3,2,3");
   EXPECT_EQ(path.GetString(), "3,2,3");
 }
+
+}  // namespace mvvm::test

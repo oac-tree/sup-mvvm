@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for SetValueCommand.
@@ -187,3 +188,5 @@ TEST_F(SetValueCommandTest, WhenPartOfModelSetItemValue)
   EXPECT_FALSE(command->IsObsolete());
   EXPECT_TRUE(command->GetResult());
 }
+
+}  // namespace mvvm::test

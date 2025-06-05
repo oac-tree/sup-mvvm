@@ -30,7 +30,8 @@
 
 #include <memory>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ValidateUtilsTests : public ::testing::Test
 {
@@ -59,9 +60,6 @@ TEST_F(ValidateUtilsTests, GetInsertTagIndex)
   EXPECT_FALSE(GetInsertTagIndex(&item, {"abc", 0}).IsValid());
 }
 
-//! Check throw in ValidateItemInsert when items are not defined, or do not have model/parent
-//! assigned.
-
 TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
 {
   using ::mvvm::utils::CanInsertItem;
@@ -72,13 +70,11 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInvalidItems)
   EXPECT_THROW(ValidateItemInsert(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   // item without model
-  SessionItem item;
+  const SessionItem item;
   CompoundItem parent;
   EXPECT_FALSE(CanInsertItem(&item, &parent, TagIndex()).first);
   EXPECT_THROW(ValidateItemInsert(&item, &parent, TagIndex()), InvalidOperationException);
 }
-
-//! Check throw in ValidateItemInsert when item is inserted to itself.
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
 {
@@ -91,8 +87,6 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenInsertToItself)
   EXPECT_FALSE(CanInsertItem(item.get(), item.get(), {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemInsert(item.get(), item.get(), {"tag1", 0}), InvalidOperationException);
 }
-
-//! Check throw in ValidateItemInsert when item belongs already to another item.
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
 {
@@ -107,8 +101,6 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertOnAttemptToMakeParentAChild)
                InvalidOperationException);
 }
 
-//! Check throw in ValidateItemInsert when item belongs already to another item.
-
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
 {
   using ::mvvm::utils::CanInsertItem;
@@ -121,8 +113,6 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenItemBelongsToAnotherParent)
   EXPECT_FALSE(CanInsertItem(child, parent0, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemInsert(child, parent0, {"tag1", 0}), InvalidOperationException);
 }
-
-//! Check no_throw in ValidateItemInsert when insertion is valid.
 
 TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
 {
@@ -142,8 +132,6 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertInDefaultTag)
   EXPECT_NO_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()));
 }
 
-//! Check throw in ValidateItemInsert when no default tag is present.
-
 TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
 {
   using ::mvvm::utils::CanInsertItem;
@@ -158,8 +146,6 @@ TEST_F(ValidateUtilsTests, ValidateItemInsertWhenNoDefaultTagIsPresent)
   EXPECT_THROW(ValidateItemInsert(&candidate, parent0, TagIndex::Append()),
                InvalidOperationException);
 }
-
-//! Check  ValidateItemTypeInsert when item belongs already to another item.
 
 TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
 {
@@ -189,9 +175,6 @@ TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
                InvalidOperationException);
 }
 
-//! Check throw in ValidateItemMove when items are not defined, or do not have model/parent
-//! assigned.
-
 TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
 {
   using ::mvvm::utils::CanMoveItem;
@@ -202,13 +185,11 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
   EXPECT_THROW(ValidateItemMove(nullptr, nullptr, TagIndex()), InvalidOperationException);
 
   // item without model
-  SessionItem item;
+  const SessionItem item;
   CompoundItem parent;
   EXPECT_FALSE(CanMoveItem(&item, &parent, TagIndex()).first);
   EXPECT_THROW(ValidateItemMove(&item, &parent, TagIndex()), InvalidOperationException);
 }
-
-//! Check ValidateItemMove when item is property moved from one parent to another.
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
 {
@@ -230,8 +211,6 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveOnAttemptToMoveParentToChild)
   EXPECT_THROW(ValidateItemMove(parent0, child, {"tag1", 0}), InvalidOperationException);
 }
 
-//! Check ValidateItemMove when item is property moved from one parent to another.
-
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
 {
   using ::mvvm::utils::CanMoveItem;
@@ -252,8 +231,6 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromOneParentToAnother)
   EXPECT_NO_THROW(ValidateItemMove(child, parent1, {"tag1", 0}));
 }
 
-//! Check ValidateItemMove when trying to move property item to another parent.
-
 TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
 {
   using ::mvvm::utils::CanMoveItem;
@@ -269,8 +246,6 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveFromPropertyTag)
   EXPECT_FALSE(CanMoveItem(&property, parent1, {"tag1", 0}).first);
   EXPECT_THROW(ValidateItemMove(&property, parent1, {"tag1", 0}), InvalidOperationException);
 }
-
-//! Check ValidateItemMove when trying to move item into property tag of another item.
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
 {
@@ -288,8 +263,6 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToPropertyTag)
   EXPECT_FALSE(CanMoveItem(child, parent1, {"thickness", 0}).first);
   EXPECT_THROW(ValidateItemMove(child, parent1, {"thickness", 0}), InvalidOperationException);
 }
-
-//! Check ValidateItemMove when trying to move item into property tag of another item.
 
 TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
 {
@@ -309,20 +282,15 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveToLast)
   EXPECT_THROW(ValidateItemMove(item0, m_model.GetRootItem(), {"", 4}), InvalidOperationException);
 }
 
-//! Check ValidateTakeItem when parent is not defined.
-
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentIsNotDefined)
 {
   using ::mvvm::utils::CanTakeItem;
   using ::mvvm::utils::ValidateTakeItem;
-  SessionItem item;
+  const SessionItem item;
 
   EXPECT_FALSE(CanTakeItem(nullptr, {}).first);
   EXPECT_THROW(ValidateTakeItem(nullptr, {}), InvalidOperationException);
 }
-
-//! Check ValidateTakeItem when model is not defined.
-
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenModelIsNotDefined)
 {
   using ::mvvm::utils::CanTakeItem;
@@ -332,8 +300,6 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenModelIsNotDefined)
   EXPECT_FALSE(CanTakeItem(parent, {}).first);
   EXPECT_THROW(ValidateTakeItem(parent, {}), InvalidOperationException);
 }
-
-//! Check ValidateTakeItem when parent doesn't belong to a model.
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentDoesntBelongToModel)
 {
@@ -346,8 +312,6 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemWhenParentDoesntBelongToModel)
   EXPECT_THROW(ValidateTakeItem(&parent, {}), InvalidOperationException);
 }
 
-//! Check ValidateTakeItem on attempt to remove property.
-
 TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
 {
   using ::mvvm::utils::CanTakeItem;
@@ -359,8 +323,6 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromPropertyTag)
   EXPECT_FALSE(CanTakeItem(parent, {"thickness", 0}).first);
   EXPECT_THROW(ValidateTakeItem(parent, {"thickness", 0}), InvalidOperationException);
 }
-
-//! Check ValidateTakeItem when parent doesn't belong to a model.
 
 TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
 {
@@ -375,8 +337,6 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemFromNonExistingIndex)
   EXPECT_THROW(ValidateTakeItem(parent, {"tag1", 1}), InvalidOperationException);
 }
 
-//! Check ValidateTakeItem on valid request.
-
 TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
 {
   using ::mvvm::utils::CanTakeItem;
@@ -389,3 +349,5 @@ TEST_F(ValidateUtilsTests, ValidateTakeItemOnValidRequest)
   EXPECT_TRUE(CanTakeItem(parent, {"tag1", 0}).first);
   EXPECT_NO_THROW(ValidateTakeItem(parent, {"tag1", 0}));
 }
+
+}  // namespace mvvm::test

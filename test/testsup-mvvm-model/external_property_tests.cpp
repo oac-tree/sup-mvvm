@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ExternalPropertyTests : public ::testing::Test
 {
@@ -30,7 +31,7 @@ class ExternalPropertyTests : public ::testing::Test
 
 TEST_F(ExternalPropertyTests, InitialState)
 {
-  ExternalProperty property;
+  const ExternalProperty property;
   EXPECT_TRUE(property.IsEmpty());
   EXPECT_TRUE(property.GetText().empty());
   EXPECT_TRUE(property.GetIdentifier().empty());
@@ -39,7 +40,7 @@ TEST_F(ExternalPropertyTests, InitialState)
 
 TEST_F(ExternalPropertyTests, Constructor)
 {
-  ExternalProperty property("text", "red", "123");
+  const ExternalProperty property("text", "red", "123");
   EXPECT_FALSE(property.IsEmpty());
   EXPECT_EQ(property.GetText(), "text");
   EXPECT_EQ(property.GetColorName(), "red");
@@ -48,14 +49,14 @@ TEST_F(ExternalPropertyTests, Constructor)
 
 TEST_F(ExternalPropertyTests, EqualityOperators)
 {
-  ExternalProperty prop1a;
-  ExternalProperty prop1b;
+  const ExternalProperty prop1a;
+  const ExternalProperty prop1b;
 
   EXPECT_TRUE(prop1a == prop1b);
   EXPECT_FALSE(prop1a < prop1b);
 
-  ExternalProperty prop2a("text", "red");
-  ExternalProperty prop2b("text", "red");
+  const ExternalProperty prop2a("text", "red");
+  const ExternalProperty prop2b("text", "red");
   EXPECT_TRUE(prop2a == prop2b);
   EXPECT_FALSE(prop2a < prop2b);
 
@@ -73,3 +74,5 @@ TEST_F(ExternalPropertyTests, ConvertToString)
   EXPECT_EQ(ExternalProperty::CreateFromString("text;color;identifier"),
             ExternalProperty("text", "color", "identifier"));
 }
+
+}  // namespace mvvm::test

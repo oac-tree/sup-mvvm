@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ProgressHandlerTest : public ::testing::Test
 {
@@ -77,3 +78,5 @@ TEST_F(ProgressHandlerTest, interruptRequest)
   handler.SetCompletedTicks(100);
   EXPECT_EQ(progress, 10);  // reports value in percents
 }
+
+}  // namespace mvvm::test

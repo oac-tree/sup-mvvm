@@ -24,7 +24,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of SessionItemData class.
@@ -200,3 +201,5 @@ TEST_F(SessionItemDataTest, AssignmentOperator)
     EXPECT_TRUE(copy.Data(role) == variant);
   }
 }
+
+}  // namespace mvvm::test

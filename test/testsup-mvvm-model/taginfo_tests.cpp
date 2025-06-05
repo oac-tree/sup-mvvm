@@ -26,7 +26,8 @@
 
 #include <limits>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for TagInfo class.
@@ -41,7 +42,7 @@ TEST_F(TagInfoTests, MainCtor)
   EXPECT_THROW(TagInfo("abc", 1, 0, {}), RuntimeException);
 
   {
-    TagInfo tag("abc", {}, {}, {});
+    const TagInfo tag("abc", {}, {}, {});
     EXPECT_EQ(tag.GetName(), "abc");
     EXPECT_EQ(tag.GetMin(), 0);
     EXPECT_EQ(tag.GetMax(), std::numeric_limits<size_t>::max());
@@ -49,7 +50,7 @@ TEST_F(TagInfoTests, MainCtor)
   }
 
   {
-    TagInfo tag("abc", 42, 43, {"def", "ghk"});
+    const TagInfo tag("abc", 42, 43, {"def", "ghk"});
     EXPECT_EQ(tag.GetName(), "abc");
     EXPECT_EQ(tag.GetMin(), 42);
     EXPECT_EQ(tag.GetMax(), 43);
@@ -164,3 +165,5 @@ TEST_F(TagInfoTests, AssignmentOperator)
     EXPECT_TRUE(tag_info == copy);
   }
 }
+
+}  // namespace mvvm::test

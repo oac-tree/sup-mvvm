@@ -24,18 +24,19 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-#include <iostream>
+namespace mvvm::test
+{
 
-//! Test of ContainerItem.
-
+/**
+ * @brief Tests for ContainerItem class.
+ */
 class ContainerItemTests : public ::testing::Test
 {
 };
 
 TEST_F(ContainerItemTests, InitialState)
 {
-  ContainerItem item;
+  const ContainerItem item;
   EXPECT_TRUE(item.IsEmpty());
 }
 
@@ -111,3 +112,5 @@ TEST_F(ContainerItemTests, GetChildren)
   item.Clear();
   EXPECT_EQ(item.GetChildren(), std::vector<SessionItem*>({}));
 }
+
+}  // namespace mvvm::test

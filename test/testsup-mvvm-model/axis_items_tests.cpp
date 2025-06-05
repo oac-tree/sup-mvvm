@@ -24,9 +24,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-
-//! Testing AxisItems.
+namespace mvvm::test
+{
 
 class AxisItemsTests : public ::testing::Test
 {
@@ -34,7 +33,7 @@ class AxisItemsTests : public ::testing::Test
 
 TEST_F(AxisItemsTests, ViewportAxisInitialState)
 {
-  ViewportAxisItem axis;
+  const ViewportAxisItem axis;
   EXPECT_EQ(axis.GetMin(), 0.0);
   EXPECT_EQ(axis.GetMax(), 1.0);
   EXPECT_TRUE(axis.GetTitleItem()->GetText().empty());
@@ -60,7 +59,7 @@ TEST_F(AxisItemsTests, ViewportAxisGetSet)
 
 TEST_F(AxisItemsTests, FixedBinAxisInitialState)
 {
-  FixedBinAxisItem axis;
+  const FixedBinAxisItem axis;
   EXPECT_EQ(axis.GetMin(), 0.0);
   EXPECT_EQ(axis.GetMax(), 1.0);
   EXPECT_EQ(axis.GetSize(), 1);
@@ -69,8 +68,6 @@ TEST_F(AxisItemsTests, FixedBinAxisInitialState)
   EXPECT_EQ(lower, 0.0);
   EXPECT_EQ(upper, 1.0);
 }
-
-//! Factory method for FixedBinAxisItem.
 
 TEST_F(AxisItemsTests, FixedBinAxisSetParameters)
 {
@@ -81,7 +78,7 @@ TEST_F(AxisItemsTests, FixedBinAxisSetParameters)
   EXPECT_EQ(axis.GetMin(), 1.0);
   EXPECT_EQ(axis.GetMax(), 4.0);
 
-  std::vector<double> expected{1.5, 2.5, 3.5};
+  const std::vector<double> expected{1.5, 2.5, 3.5};
   EXPECT_EQ(axis.GetBinCenters(), expected);
 }
 
@@ -93,11 +90,9 @@ TEST_F(AxisItemsTests, FixedBinAxisFactoryMethod)
   EXPECT_EQ(axis->GetMin(), 1.0);
   EXPECT_EQ(axis->GetMax(), 4.0);
 
-  std::vector<double> expected{1.5, 2.5, 3.5};
+  const std::vector<double> expected{1.5, 2.5, 3.5};
   EXPECT_EQ(axis->GetBinCenters(), expected);
 }
-
-//! Range method.
 
 TEST_F(AxisItemsTests, FixedBinAxisRange)
 {
@@ -110,15 +105,15 @@ TEST_F(AxisItemsTests, FixedBinAxisRange)
 
 TEST_F(AxisItemsTests, PointwiseAxisInitialState)
 {
-  PointwiseAxisItem axis;
-  std::vector<double> expected_centers = {0.0, 1.0};
+  const PointwiseAxisItem axis;
+  const std::vector<double> expected_centers = {0.0, 1.0};
   EXPECT_EQ(axis.GetBinCenters(), expected_centers);
   EXPECT_EQ(axis.GetSize(), 2);
 }
 
 TEST_F(AxisItemsTests, PointwiseAxisSetParameters)
 {
-  std::vector<double> expected_centers{1.0, 2.0, 3.0};
+  const std::vector<double> expected_centers{1.0, 2.0, 3.0};
   PointwiseAxisItem axis;
   axis.SetParameters(expected_centers);
   EXPECT_EQ(axis.GetBinCenters(), expected_centers);
@@ -127,8 +122,10 @@ TEST_F(AxisItemsTests, PointwiseAxisSetParameters)
 
 TEST_F(AxisItemsTests, PointwiseAxisFactoryMethod)
 {
-  std::vector<double> expected_centers{1.0, 2.0, 3.0};
+  const std::vector<double> expected_centers{1.0, 2.0, 3.0};
   auto axis = PointwiseAxisItem::Create(expected_centers);
   EXPECT_EQ(axis->GetBinCenters(), expected_centers);
   EXPECT_EQ(axis->GetSize(), 3);
 }
+
+}  // namespace mvvm::test

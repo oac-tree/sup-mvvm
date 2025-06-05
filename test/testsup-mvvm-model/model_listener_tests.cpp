@@ -27,11 +27,12 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
-//! Testing ModelListener class.
-
+/**
+ * @brief Testing ModelListener class.
+ */
 class ModelListenerTests : public ::testing::Test
 {
 public:
@@ -205,7 +206,7 @@ TEST_F(ModelListenerTests, ListenerTimeOfLife)
 
   // after listener destruction we expect no calls
   listener.reset();
-  EXPECT_CALL(client, OnEvent(_)).Times(0);
+  EXPECT_CALL(client, OnEvent(::testing::_)).Times(0);
 
   // triggering expectations again
   EXPECT_TRUE(model.SetData(item, 43, DataRole::kData));
@@ -240,3 +241,5 @@ TEST_F(ModelListenerTests, MethodOverload)
   auto item = model.InsertItem<SessionItem>();
   EXPECT_EQ(item, model.GetRootItem()->GetAllItems()[0]);
 }
+
+}  // namespace mvvm::test

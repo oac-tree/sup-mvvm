@@ -22,10 +22,10 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
 #include <set>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing UniqueIDGenerator
 
@@ -62,3 +62,5 @@ TEST_F(UniqueIDGeneratorTests, MultipleIdentifiers)
 
   EXPECT_EQ(collection.size(), ntries);
 }
+
+}  // namespace mvvm::test

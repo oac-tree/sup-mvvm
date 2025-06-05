@@ -27,15 +27,16 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
-//! Extended tests foor CommandStack populated with macro commands.
+/**
+ * @brief Extended tests foor CommandStack populated with macro commands.
+ */
 class CommandStackMacroTest : public ::testing::Test
 {
 };
 
-//! Begin and end empty macro.
 TEST_F(CommandStackMacroTest, BeginEndEmptyMacro)
 {
   CommandStack stack;
@@ -86,7 +87,6 @@ TEST_F(CommandStackMacroTest, UndoEmptyMacro)
   EXPECT_NO_THROW(stack.Redo());
 }
 
-//! Recording two commands in a single macro.
 TEST_F(CommandStackMacroTest, AddTwoCommandsToMacro)
 {
   test::MockTestCommandListener listener;
@@ -259,7 +259,6 @@ TEST_F(CommandStackMacroTest, MacroInsertInTheMiddleOfUndo)
   EXPECT_EQ(stack.GetCommandCount(), 2);
 }
 
-//! Inserts macro inside macro.
 TEST_F(CommandStackMacroTest, NestedMacro)
 {
   test::MockTestCommandListener listener;
@@ -407,3 +406,5 @@ TEST_F(CommandStackMacroTest, AddTwoCommandsToMacroOneIsObsolete)
   EXPECT_FALSE(stack.CanUndo());
   EXPECT_TRUE(stack.CanRedo());
 }
+
+}  // namespace mvvm::test

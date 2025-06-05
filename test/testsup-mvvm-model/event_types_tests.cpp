@@ -25,8 +25,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class EventTypesTests : public ::testing::Test
 {
@@ -45,9 +45,9 @@ public:
 
 TEST_F(EventTypesTests, DataChangedEvent)
 {
-  DataChangedEvent event1{&m_item1, m_value1};
-  DataChangedEvent event2{&m_item1, m_value1};
-  DataChangedEvent event3{&m_item1, m_value2};
+  const DataChangedEvent event1{&m_item1, m_value1};
+  const DataChangedEvent event2{&m_item1, m_value1};
+  const DataChangedEvent event3{&m_item1, m_value2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -61,9 +61,9 @@ TEST_F(EventTypesTests, DataChangedEvent)
 
 TEST_F(EventTypesTests, PropertyChangedEvent)
 {
-  PropertyChangedEvent event1{&m_item1, m_str1};
-  PropertyChangedEvent event2{&m_item1, m_str1};
-  PropertyChangedEvent event3{&m_item1, m_str2};
+  const PropertyChangedEvent event1{&m_item1, m_str1};
+  const PropertyChangedEvent event2{&m_item1, m_str1};
+  const PropertyChangedEvent event3{&m_item1, m_str2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -77,9 +77,9 @@ TEST_F(EventTypesTests, PropertyChangedEvent)
 
 TEST_F(EventTypesTests, AboutToInsertItemEvent)
 {
-  AboutToInsertItemEvent event1{&m_item1, m_tagindex1};
-  AboutToInsertItemEvent event2{&m_item1, m_tagindex1};
-  AboutToInsertItemEvent event3{&m_item1, m_tagindex2};
+  const AboutToInsertItemEvent event1{&m_item1, m_tagindex1};
+  const AboutToInsertItemEvent event2{&m_item1, m_tagindex1};
+  const AboutToInsertItemEvent event3{&m_item1, m_tagindex2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -93,9 +93,9 @@ TEST_F(EventTypesTests, AboutToInsertItemEvent)
 
 TEST_F(EventTypesTests, ItemInsertedEvent)
 {
-  ItemInsertedEvent event1{&m_item1, m_tagindex1};
-  ItemInsertedEvent event2{&m_item1, m_tagindex1};
-  ItemInsertedEvent event3{&m_item1, m_tagindex2};
+  const ItemInsertedEvent event1{&m_item1, m_tagindex1};
+  const ItemInsertedEvent event2{&m_item1, m_tagindex1};
+  const ItemInsertedEvent event3{&m_item1, m_tagindex2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -109,9 +109,9 @@ TEST_F(EventTypesTests, ItemInsertedEvent)
 
 TEST_F(EventTypesTests, AboutToRemoveItemEvent)
 {
-  AboutToRemoveItemEvent event1{&m_item1, m_tagindex1};
-  AboutToRemoveItemEvent event2{&m_item1, m_tagindex1};
-  AboutToRemoveItemEvent event3{&m_item1, m_tagindex2};
+  const AboutToRemoveItemEvent event1{&m_item1, m_tagindex1};
+  const AboutToRemoveItemEvent event2{&m_item1, m_tagindex1};
+  const AboutToRemoveItemEvent event3{&m_item1, m_tagindex2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -125,9 +125,9 @@ TEST_F(EventTypesTests, AboutToRemoveItemEvent)
 
 TEST_F(EventTypesTests, ItemRemovedEvent)
 {
-  ItemRemovedEvent event1{&m_item1, m_tagindex1};
-  ItemRemovedEvent event2{&m_item1, m_tagindex1};
-  ItemRemovedEvent event3{&m_item1, m_tagindex2};
+  const ItemRemovedEvent event1{&m_item1, m_tagindex1};
+  const ItemRemovedEvent event2{&m_item1, m_tagindex1};
+  const ItemRemovedEvent event3{&m_item1, m_tagindex2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -141,9 +141,9 @@ TEST_F(EventTypesTests, ItemRemovedEvent)
 
 TEST_F(EventTypesTests, ModelAboutToBeResetEvent)
 {
-  ModelAboutToBeResetEvent event1{&m_model1};
-  ModelAboutToBeResetEvent event2{&m_model1};
-  ModelAboutToBeResetEvent event3{&m_model2};
+  const ModelAboutToBeResetEvent event1{&m_model1};
+  const ModelAboutToBeResetEvent event2{&m_model1};
+  const ModelAboutToBeResetEvent event3{&m_model2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -157,9 +157,9 @@ TEST_F(EventTypesTests, ModelAboutToBeResetEvent)
 
 TEST_F(EventTypesTests, ModelResetEvent)
 {
-  ModelResetEvent event1{&m_model1};
-  ModelResetEvent event2{&m_model1};
-  ModelResetEvent event3{&m_model2};
+  const ModelResetEvent event1{&m_model1};
+  const ModelResetEvent event2{&m_model1};
+  const ModelResetEvent event3{&m_model2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -173,9 +173,9 @@ TEST_F(EventTypesTests, ModelResetEvent)
 
 TEST_F(EventTypesTests, ModelAboutToBeDestroyedEvent)
 {
-  ModelAboutToBeDestroyedEvent event1{&m_model1};
-  ModelAboutToBeDestroyedEvent event2{&m_model1};
-  ModelAboutToBeDestroyedEvent event3{&m_model2};
+  const ModelAboutToBeDestroyedEvent event1{&m_model1};
+  const ModelAboutToBeDestroyedEvent event2{&m_model1};
+  const ModelAboutToBeDestroyedEvent event3{&m_model2};
 
   // comparing same events
   EXPECT_TRUE(event1 == event1);
@@ -186,3 +186,5 @@ TEST_F(EventTypesTests, ModelAboutToBeDestroyedEvent)
   EXPECT_FALSE(event1 == event3);
   EXPECT_TRUE(event1 != event3);
 }
+
+}  // namespace mvvm::test

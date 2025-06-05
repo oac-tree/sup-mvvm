@@ -27,7 +27,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of SessionItemImpl class.
@@ -67,3 +68,5 @@ TEST_F(SessionItemImplTest, GetSlot)
   EXPECT_NE(slot, nullptr);
   EXPECT_EQ(slot, item.GetSlot());
 }
+
+}  // namespace mvvm::test

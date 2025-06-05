@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for helper methods from waveform_helper.h
 
@@ -39,3 +40,5 @@ TEST_F(VectorItemTests, GetPairOfVectors)
   EXPECT_EQ(x_vec, std::vector<double>({1.0, 2.0}));
   EXPECT_EQ(y_vec, std::vector<double>({10.0, 20.0}));
 }
+
+}  // namespace mvvm::test

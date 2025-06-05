@@ -29,26 +29,24 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
+
 using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 
-//! LinkedItem tests.
-
+/**
+ * @brief Tests for LinkedItem class.
+ */
 class LinkedItemTests : public ::testing::Test
 {
 };
 
-//! Initial state of item when it is created outside of model context.
-
 TEST_F(LinkedItemTests, InitialState)
 {
-  LinkedItem item;
+  const LinkedItem item;
   EXPECT_EQ(item.Get(), nullptr);
   EXPECT_EQ(item.Data<std::string>(), std::string());
 }
-
-//! Link in single model context.
 
 TEST_F(LinkedItemTests, SameModelContext)
 {
@@ -66,8 +64,6 @@ TEST_F(LinkedItemTests, SameModelContext)
   EXPECT_EQ(link->Get(), item);
   EXPECT_EQ(link->Data<std::string>(), item->GetIdentifier());
 }
-
-//! Link in different model context.
 
 TEST_F(LinkedItemTests, DifferentModelContext)
 {
@@ -103,14 +99,12 @@ TEST_F(LinkedItemTests, onSetLink)
   auto expected_role = DataRole::kData;
   auto expected_item = link;
 
-  DataChangedEvent expected_event{expected_item, expected_role};
+  const DataChangedEvent expected_event{expected_item, expected_role};
   EXPECT_CALL(widget, OnDataChanged(expected_event)).Times(1);
 
   // making action
   link->SetLink(item);
 }
-
-//! Link in different model context.
 
 TEST_F(LinkedItemTests, SetNullAsLink)
 {
@@ -133,3 +127,5 @@ TEST_F(LinkedItemTests, SetNullAsLink)
   EXPECT_TRUE(utils::IsValid(link->Data()));
   EXPECT_EQ(link->Data<std::string>(), std::string());
 }
+
+}  // namespace mvvm::test

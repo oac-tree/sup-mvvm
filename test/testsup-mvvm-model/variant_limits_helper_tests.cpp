@@ -26,7 +26,8 @@
 
 #include <limits>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for helper methods in variant_limits_helper.h
@@ -123,3 +124,5 @@ TEST_F(VariantLimitsHelperTest, GetFloat64MinMaxNumericWithUserDefinedLimits)
     EXPECT_EQ(limits.second, 60);
   }
 }
+
+}  // namespace mvvm::test

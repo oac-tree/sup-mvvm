@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing methods from treedata_variant_converter.h
 
@@ -337,3 +338,5 @@ TEST_F(TreeDataVariantConverterTests, EmptyExternalPropertyRole)
   // converting back
   EXPECT_EQ(ToTreeData(role_data), *tree_data);
 }
+
+}  // namespace mvvm::test

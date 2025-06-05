@@ -37,7 +37,8 @@
 #include <testutils/mock_command_stack.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for CommandStack with real stack and real commands.
@@ -325,3 +326,5 @@ TEST_F(CommandStackExtendedTests, SetValueCommandWithDefaultProcessor)
   stack.Redo();
   EXPECT_EQ(item.Data(), new_value);
 }
+
+}  // namespace mvvm::test

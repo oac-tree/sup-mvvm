@@ -26,7 +26,8 @@
 
 #include <string>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for helper functions from variant_index_h
@@ -55,3 +56,4 @@ TEST_F(VariantIndexTests, VariantIndex)
   }
 }
 
+}  // namespace mvvm::test

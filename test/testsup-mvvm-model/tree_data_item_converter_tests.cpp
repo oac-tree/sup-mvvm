@@ -36,7 +36,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing TreeDataItemConverter.
 
@@ -397,3 +398,5 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopyWithFilter)
   EXPECT_NE(reco_child->GetIdentifier(), child1->GetIdentifier());  // regenerated identifiers
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
+
+}  // namespace mvvm::test

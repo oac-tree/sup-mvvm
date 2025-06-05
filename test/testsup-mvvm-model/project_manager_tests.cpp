@@ -27,8 +27,8 @@
 #include <testutils/mock_project.h>
 #include <testutils/mock_user_interactor.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ProjectManager class.
@@ -81,14 +81,15 @@ TEST_F(ProjectManagerTest, ExceptionDuringProjectLoad)
 
   // setting up the project
   ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(false));
-  ON_CALL(m_mock_project, Load(_)).WillByDefault(::testing::Throw(RuntimeException("Failed load")));
+  ON_CALL(m_mock_project, Load(::testing::_))
+      .WillByDefault(::testing::Throw(RuntimeException("Failed load")));
 
   // one IsModified() from ProjectManager, another from SaveBeforeClosing
   EXPECT_CALL(m_mock_project, IsModified()).Times(1);
   EXPECT_CALL(m_mock_project, Load(file_name)).Times(1);
   // we shouldn't close previous project if loading of the new one is failed
   EXPECT_CALL(m_mock_project, Close()).Times(0);
-  EXPECT_CALL(m_mock_interactor, OnMessage(_)).Times(1);  // report about exception
+  EXPECT_CALL(m_mock_interactor, OnMessage(::testing::_)).Times(1);  // report about exception
 
   EXPECT_FALSE(manager.OpenExistingProject(file_name));
 }
@@ -169,3 +170,5 @@ TEST_F(ProjectManagerTest, TitledModifiedDiscardAndOpenExistingV2)
   // triggering action, the path to existing project is unknown
   EXPECT_TRUE(manager.OpenExistingProject(""));
 }
+
+}  // namespace mvvm::test

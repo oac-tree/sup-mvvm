@@ -25,10 +25,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests for ProjectChangeController class.
-
+/**
+ * @brief Tests for ProjectChangeController class.
+ */
 class ProjectChangeControllerTests : public ::testing::Test
 {
 };
@@ -84,3 +86,5 @@ TEST_F(ProjectChangeControllerTests, Callback)
   controller.ResetIsChanged();
   EXPECT_FALSE(controller.IsChanged());
 }
+
+}  // namespace mvvm::test

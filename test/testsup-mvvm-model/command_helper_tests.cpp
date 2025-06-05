@@ -25,7 +25,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for helper methods from command_helper.h
@@ -152,3 +153,5 @@ TEST_F(CommandHelperTests, GetRemoveCommandDescription)
 
   EXPECT_EQ(GetRemoveCommandDescription(&parent, tag_index), std::string("Remove: parent tag 42"));
 }
+
+}  // namespace mvvm::test

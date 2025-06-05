@@ -30,7 +30,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 namespace
 {
@@ -293,3 +294,5 @@ TEST_F(AppProjectTest, LoadAndThenModify)
   EXPECT_CALL(m_mock_project_context, OnModified()).Times(1);
   restored_item->SetData(43);
 }
+
+}  // namespace mvvm::test

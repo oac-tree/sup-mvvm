@@ -25,7 +25,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for SessionItemContainer class.
@@ -388,3 +389,5 @@ TEST_F(SessionItemContainerTest, CanMoveWithinContainer)
   EXPECT_TRUE(container.CanMoveItem(child1_ptr, 2));
   EXPECT_FALSE(container.CanMoveItem(child1_ptr, 3));
 }
+
+}  // namespace mvvm::test

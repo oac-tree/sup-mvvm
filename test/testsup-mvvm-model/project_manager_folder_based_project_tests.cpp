@@ -32,7 +32,8 @@
 #include <testutils/folder_test.h>
 #include <testutils/mock_user_interactor.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 namespace
 {
@@ -318,3 +319,5 @@ TEST_F(ProjectManagerFolderBasedProjectTest, TitledModifiedSave)
   EXPECT_TRUE(manager->SaveCurrentProject());
   EXPECT_FALSE(manager->GetProject()->IsModified());
 }
+
+}  // namespace mvvm::test

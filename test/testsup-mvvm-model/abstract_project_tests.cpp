@@ -27,10 +27,12 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests for AbstractProject class.
-
+/**
+ * @brief Tests for AbstractProject class.
+ */
 class AbstractProjectTest : public ::testing::Test
 {
 public:
@@ -249,3 +251,5 @@ TEST_F(AbstractProjectTest, FailedLoad)
   // path remained empty
   EXPECT_TRUE(project.GetPath().empty());
 }
+
+}  // namespace mvvm::test

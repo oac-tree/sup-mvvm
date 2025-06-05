@@ -27,15 +27,16 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing TreeDataItemDataConverter.
-
+/**
+ * @brief Tests for TreeDataItemDataConverter class.
+ */
 class TreeDataItemDataConverterTests : public ::testing::Test
 {
 };
 
-//! Parsing XML data string representing empty document.
 TEST_F(TreeDataItemDataConverterTests, TwoRoles)
 {
   const std::string body{
@@ -58,3 +59,5 @@ TEST_F(TreeDataItemDataConverterTests, TwoRoles)
   EXPECT_EQ(new_tree_data->GetNumberOfChildren(), 2);
   EXPECT_EQ(new_tree_data->GetNumberOfAttributes(), 0);
 }
+
+}  // namespace mvvm::test

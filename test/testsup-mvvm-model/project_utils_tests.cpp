@@ -28,10 +28,12 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests of ProjectUtils namespace functions.
-
+/**
+ * @brief Tests of helper functions from project_utils.h
+ */
 class ProjectUtilsTest : public mvvm::test::FolderTest
 {
 public:
@@ -43,16 +45,14 @@ public:
 
   std::vector<ISessionModel*> GetModels() const { return {m_sample_model.get()}; };
 
-  ProjectContext CreateContext() { return {}; }
+  static ProjectContext CreateContext() { return {}; }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
 };
 
-//! Testing helper structure.
-
 TEST_F(ProjectUtilsTest, SuggestFileName)
 {
-  ApplicationModel model("TestModel");
+  const ApplicationModel model("TestModel");
   EXPECT_EQ(std::string("testmodel.xml"), utils::SuggestFileName(model));
 }
 
@@ -116,3 +116,5 @@ TEST_F(ProjectUtilsTest, IsPossibleProjectDir)
   project->Save(dirname);
   EXPECT_TRUE(utils::IsPossibleProjectDir(dirname));
 }
+
+}  // namespace mvvm::test

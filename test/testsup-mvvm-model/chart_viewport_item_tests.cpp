@@ -27,10 +27,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing ChartViewportItem class.
-
+/**
+ * @brief Testing ChartViewportItem class.
+ */
 class ChartViewportItemTest : public ::testing::Test
 {
 };
@@ -127,3 +129,5 @@ TEST_F(ChartViewportItemTest, SetViewportToContentTwoLineSeriesWithOffset)
   EXPECT_DOUBLE_EQ(yaxis->GetMin(), 10.0);  // ymin of first item
   EXPECT_DOUBLE_EQ(yaxis->GetMax(), 30.0);  // ymax of second item
 }
+
+}  // namespace mvvm::test

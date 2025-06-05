@@ -25,15 +25,15 @@
 #include <algorithm>
 #include <future>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing threadsafe_queue.
-
+/**
+ * @brief Tests for threadsafe_queue class.
+ */
 class ThreadSafeQueueTests : public ::testing::Test
 {
 };
-
-//! Checking stack initial state (single thread mode).
 
 TEST_F(ThreadSafeQueueTests, InitialState)
 {
@@ -46,8 +46,6 @@ TEST_F(ThreadSafeQueueTests, InitialState)
   auto sh_value = queue.try_pop();
   EXPECT_FALSE(sh_value);
 }
-
-//! Push and then pop (single thread mode).
 
 TEST_F(ThreadSafeQueueTests, PushAndPop)
 {
@@ -65,8 +63,6 @@ TEST_F(ThreadSafeQueueTests, PushAndPop)
   auto result = queue.wait_and_pop();
   EXPECT_EQ(*result.get(), 43);
 }
-
-//! Multiple push and pops (single thread mode).
 
 TEST_F(ThreadSafeQueueTests, MultiplePushAndPop)
 {
@@ -94,7 +90,6 @@ TEST_F(ThreadSafeQueueTests, MultiplePushAndPop)
 //! in Action, Second edition. Two threads are filling concurrently the queue with unique numbers.
 //! Simultaneously, the reading thread reads the values from the queue. We expect all number read
 //! out without duplications.
-
 TEST_F(ThreadSafeQueueTests, ConcurentPushAndPop)
 {
   threadsafe_queue<int> queue;
@@ -178,3 +173,5 @@ TEST_F(ThreadSafeQueueTests, ConcurentPushAndPop)
     throw;
   }
 }
+
+}  // namespace mvvm::test

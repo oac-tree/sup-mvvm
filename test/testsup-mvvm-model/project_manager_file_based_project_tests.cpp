@@ -32,7 +32,7 @@
 #include <testutils/folder_test.h>
 #include <testutils/mock_user_interactor.h>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 namespace
@@ -241,4 +241,4 @@ TEST_F(ProjectManagerFileBasedProjectTest,
   EXPECT_EQ(m_sample_model->GetRootItem()->GetTotalItemCount(), 1);
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::test

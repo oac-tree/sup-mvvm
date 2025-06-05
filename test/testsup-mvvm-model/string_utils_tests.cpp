@@ -24,10 +24,13 @@
 
 #include <gtest/gtest.h>
 
+namespace mvvm::test
+{
+
 namespace
 {
-//! Creates vector of T from argument list. Used in EXPECT_EQ macros for convenience.
 
+//! Creates vector of T from argument list. Used in EXPECT_EQ macros for convenience.
 template <typename T = std::string, typename... Args>
 std::vector<T> toVector(Args&&... args)
 {
@@ -38,15 +41,10 @@ std::vector<T> toVector(Args&&... args)
 
 }  // namespace
 
-using namespace mvvm;
-
 //! Testing string related utility functions.
-
 class StringUtilsTests : public ::testing::Test
 {
 };
-
-//! Testing function DoubleToString.
 
 TEST_F(StringUtilsTests, DoubleToString)
 {
@@ -56,8 +54,6 @@ TEST_F(StringUtilsTests, DoubleToString)
   EXPECT_EQ(DoubleToString(1.001, precision), "1.001");
   EXPECT_EQ(DoubleToString(1.0001, precision), "1.0");
 }
-
-//! Testing function ScientificDoubleToString.
 
 TEST_F(StringUtilsTests, ScientificDoubleToString)
 {
@@ -70,8 +66,6 @@ TEST_F(StringUtilsTests, ScientificDoubleToString)
   EXPECT_EQ(ScientificDoubleToString(1000000., precision), "1.0e+06");
 }
 
-//! Testing function TrimWhitespace
-
 TEST_F(StringUtilsTests, TrimWhiteSpace)
 {
   using utils::TrimWhitespace;
@@ -80,8 +74,6 @@ TEST_F(StringUtilsTests, TrimWhiteSpace)
   EXPECT_EQ(TrimWhitespace("abc"), std::string("abc"));
   EXPECT_EQ(TrimWhitespace(" \t\n abc cde\n"), std::string("abc cde"));
 }
-
-//! Testing function StringToBool.
 
 TEST_F(StringUtilsTests, StringToBool)
 {
@@ -109,8 +101,6 @@ TEST_F(StringUtilsTests, FromBool)
   EXPECT_EQ(FromBool(true), std::string("true"));
   EXPECT_EQ(FromBool(false), std::string("false"));
 }
-
-//! Testing function StringToDouble.
 
 TEST_F(StringUtilsTests, StringToDouble)
 {
@@ -166,10 +156,7 @@ TEST_F(StringUtilsTests, StringToInteger)
   EXPECT_EQ(StringToInteger("42").value(), 42);
 }
 
-//! Testing SplitString method.
-//! Carefully checking that it is reproduces Python behavior.
-
-TEST_F(StringUtilsTests, SplitString)
+TEST_F(StringUtilsTests, SplitStringConfirmLikeInPythonBehavior)
 {
   using utils::SplitString;
   using vec_t = std::vector<std::string>;
@@ -203,13 +190,10 @@ TEST_F(StringUtilsTests, SplitString)
   EXPECT_EQ(SplitString(";aaa bbb;", ";"), toVector("", "aaa bbb", ""));
 }
 
-//! Testing ParseSpaceSeparatedDoubles.
-//! This is a fast method which forgives malformed doubles.
-
 TEST_F(StringUtilsTests, ParseSpaceSeparatedDoubles)
 {
   using utils::ParseSpaceSeparatedDoubles;
-  std::vector<double> data;
+  const std::vector<double> data;
 
   EXPECT_TRUE(ParseSpaceSeparatedDoubles("").empty());
   EXPECT_TRUE(ParseSpaceSeparatedDoubles(" ").empty());
@@ -274,3 +258,5 @@ TEST_F(StringUtilsTests, ReplaceSubString)
   EXPECT_EQ(ReplaceSubString("abc def abc", "def", "123"), std::string("abc 123 abc"));
   EXPECT_EQ(ReplaceSubString("abc def abc", "123", "456"), std::string("abc def abc"));
 }
+
+}  // namespace mvvm::test

@@ -24,7 +24,8 @@
 
 #include <cmath>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class NumericUtilsTests : public ::testing::Test
 {
@@ -38,3 +39,5 @@ TEST_F(NumericUtilsTests, areAlmostEqual)
   EXPECT_TRUE(utils::AreAlmostEqual(std::sin(0.0), 0.0));
   EXPECT_FALSE(utils::AreAlmostEqual(std::cos(0.0), 0.0));
 }
+
+}  // namespace mvvm::test

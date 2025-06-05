@@ -24,7 +24,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ComboProperty class.
@@ -384,3 +385,5 @@ TEST_F(ComboPropertyTests, GetTooltips)
   combo.SetToolTips(expected_tooltips);
   EXPECT_EQ(combo.GetToolTips(), expected_tooltips);
 }
+
+}  // namespace mvvm::test

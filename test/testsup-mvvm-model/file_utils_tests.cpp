@@ -28,7 +28,8 @@
 #include <QDir>
 #include <string>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class FileUtilsTest : public mvvm::test::FolderTest
 {
@@ -45,7 +46,7 @@ TEST_F(FileUtilsTest, IsExists)
 
 TEST_F(FileUtilsTest, CreateDirectory)
 {
-  std::string dirname = GetTestHomeDir() + std::string("/") + "subdir";
+  const std::string dirname = GetTestHomeDir() + std::string("/") + "subdir";
   utils::Remove(dirname);
 
   EXPECT_TRUE(utils::CreateDirectory(dirname));
@@ -54,7 +55,7 @@ TEST_F(FileUtilsTest, CreateDirectory)
 
 TEST_F(FileUtilsTest, RemoveAll)
 {
-  std::string dirname = GetTestHomeDir() + std::string("/") + "subdir2";
+  const std::string dirname = GetTestHomeDir() + std::string("/") + "subdir2";
   utils::CreateDirectory(dirname);
 
   EXPECT_TRUE(utils::IsExists(dirname));
@@ -64,19 +65,19 @@ TEST_F(FileUtilsTest, RemoveAll)
 
 TEST_F(FileUtilsTest, GetFileName)
 {
-  std::string filename = GetTestHomeDir() + std::string("/testmodel/fileutils.cpp");
+  const std::string filename = GetTestHomeDir() + std::string("/testmodel/fileutils.cpp");
   EXPECT_EQ(utils::GetFileName(filename), "fileutils.cpp");
 
-  std::string dirname = GetTestHomeDir() + std::string("/testmodel");
+  const std::string dirname = GetTestHomeDir() + std::string("/testmodel");
   EXPECT_EQ(utils::GetFileName(dirname), "testmodel");
 }
 
 TEST_F(FileUtilsTest, GetPathStem)
 {
-  std::string filename = GetTestHomeDir() + std::string("/testmodel/fileutils.test.cpp");
+  const std::string filename = GetTestHomeDir() + std::string("/testmodel/fileutils.test.cpp");
   EXPECT_EQ(utils::GetPathStem(filename), "fileutils.test");
 
-  std::string dirname = GetTestHomeDir() + std::string("/testmodel");
+  const std::string dirname = GetTestHomeDir() + std::string("/testmodel");
   EXPECT_EQ(utils::GetPathStem(dirname), "testmodel");
 }
 
@@ -109,7 +110,7 @@ TEST_F(FileUtilsTest, GetParentPath)
 TEST_F(FileUtilsTest, IsEmpty)
 {
   // creating new empty directory
-  std::string dirname = GetTestHomeDir() + std::string("/") + "subdir_is_empty";
+  const std::string dirname = GetTestHomeDir() + std::string("/") + "subdir_is_empty";
   utils::RemoveAll(dirname);
   utils::CreateDirectory(dirname);
 
@@ -126,3 +127,5 @@ TEST_F(FileUtilsTest, IsEmpty)
   mvvm::test::CreateTextFile(dirname + "/a2.txt", "");
   EXPECT_TRUE(utils::IsEmpty(dirname + "/a2.txt"));
 }
+
+}  // namespace mvvm::test

@@ -31,18 +31,17 @@
 
 #include <QColor>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
-//! Testing GraphItem.
-
+/**
+ * @brief Tests for GraphItem class.
+ */
 class GraphItemTests : public ::testing::Test
 {
 public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 };
-
-//! Initial state.
 
 TEST_F(GraphItemTests, InitialState)
 {
@@ -54,8 +53,6 @@ TEST_F(GraphItemTests, InitialState)
   EXPECT_EQ(item.GetNamedColor(), std::string("black"));
 }
 
-//! Setting dataItem in model context.
-
 TEST_F(GraphItemTests, SetDataItem)
 {
   ApplicationModel model;
@@ -66,8 +63,6 @@ TEST_F(GraphItemTests, SetDataItem)
 
   EXPECT_EQ(graph_item->GetDataItem(), data_item);
 }
-
-//! Setting dataItem in model context.
 
 TEST_F(GraphItemTests, GetValues)
 {
@@ -85,8 +80,6 @@ TEST_F(GraphItemTests, GetValues)
   EXPECT_EQ(graph_item->GetValues(), expected_values);
   EXPECT_EQ(graph_item->GetBinCenters(), expected_centers);
 }
-
-//! Setting dataItem with errors
 
 TEST_F(GraphItemTests, GetErrors)
 {
@@ -107,8 +100,6 @@ TEST_F(GraphItemTests, GetErrors)
   EXPECT_EQ(graph_item->GetBinCenters(), expected_centers);
   EXPECT_EQ(graph_item->GetErrors(), expected_errors);
 }
-
-//! Check unlinking when nullptr is set as Data1DItem.
 
 TEST_F(GraphItemTests, SetNullData)
 {
@@ -133,8 +124,6 @@ TEST_F(GraphItemTests, SetNullData)
   EXPECT_EQ(graph_item->GetErrors(), std::vector<double>{});
 }
 
-//! Check signaling on set data item.
-
 TEST_F(GraphItemTests, OnSetDataItem)
 {
   ApplicationModel model;
@@ -149,8 +138,6 @@ TEST_F(GraphItemTests, OnSetDataItem)
   // performing action
   graph_item->SetDataItem(data_item);
 }
-
-//! Sets GraphItem from another GraphItem
 
 TEST_F(GraphItemTests, SetFromGraphItem)
 {
@@ -180,3 +167,5 @@ TEST_F(GraphItemTests, SetNamedColor)
   item.SetNamedColor("mediumaquamarine");
   EXPECT_EQ(item.GetNamedColor(), std::string("mediumaquamarine"));
 }
+
+}  // namespace mvvm::test

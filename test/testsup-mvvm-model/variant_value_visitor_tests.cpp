@@ -24,7 +24,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Test of VariantValueVisitor struct.
@@ -127,3 +128,5 @@ TEST_F(VariantValueVisitorTests, Visit)
     EXPECT_EQ(visitor.operator()(value), std::string("text;color;identifier"));
   }
 }
+
+}  // namespace mvvm::test

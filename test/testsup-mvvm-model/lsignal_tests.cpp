@@ -22,11 +22,13 @@
 
 #include <gtest/gtest.h>
 
-#include <memory>
+namespace mvvm::test
+{
 
-//! Testing external lsignal. All tests are borrowed from
-//! https://github.com/cpp11nullptr/lsignal
-
+/**
+ * @brief Testing external lsignal. All tests are borrowed from
+ * https://github.com/cpp11nullptr/lsignal
+ */
 class LsignalTests : public ::testing::Test
 {
 public:
@@ -200,3 +202,5 @@ TEST_F(LsignalTests,
   EXPECT_TRUE(receiverOneCalled);
   EXPECT_FALSE(receiverTwoCalled);
 }
+
+}  // namespace mvvm::test

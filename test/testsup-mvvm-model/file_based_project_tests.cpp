@@ -28,7 +28,8 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 namespace
 {
@@ -36,8 +37,9 @@ const std::string kSampleModelName = "SampleModel";
 const std::string kMaterialModelName = "MaterialModel";
 }  // namespace
 
-//! Tests for FileBasedProject class.
-
+/**
+ * @brief Tests for FileBasedProject class.
+ */
 class FileBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
@@ -53,7 +55,7 @@ public:
     return {m_sample_model.get(), m_material_model.get()};
   };
 
-  ProjectContext CreateContext() { return {}; }
+  static ProjectContext CreateContext() { return {}; }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
   std::unique_ptr<ApplicationModel> m_material_model;
@@ -67,7 +69,6 @@ TEST_F(FileBasedProjectTest, InitialState)
   EXPECT_EQ(project.GetProjectType(), ProjectType::kFileBased);
 }
 
-//! Testing model saving. It should be a single file for all models.
 TEST_F(FileBasedProjectTest, SaveModel)
 {
   FileBasedProject project(GetModels(), CreateContext());
@@ -87,7 +88,6 @@ TEST_F(FileBasedProjectTest, SaveModel)
   EXPECT_EQ(expected_path, files_in_dir.at(0));
 }
 
-//! Testing model loading.
 TEST_F(FileBasedProjectTest, LoadModel)
 {
   FileBasedProject project(GetModels(), CreateContext());
@@ -130,3 +130,4 @@ TEST_F(FileBasedProjectTest, LoadModel)
   EXPECT_EQ(project.GetPath(), expected_path);
   EXPECT_FALSE(project.IsModified());
 }
+}  // namespace mvvm::test

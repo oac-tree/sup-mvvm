@@ -30,10 +30,12 @@
 
 #include <cctype>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 namespace
 {
+
 const std::string kSampleModelName = "SampleModel";
 const std::string kMaterialModelName = "MaterialModel";
 
@@ -47,8 +49,9 @@ std::string GetXmlFilename(const std::string& model_name)
 
 }  // namespace
 
-//! Tests for FolderBasedProject class.
-
+/**
+ * @brief Tests for FolderBasedProject class.
+ */
 class FolderBasedProjectTest : public mvvm::test::FolderTest
 {
 public:
@@ -64,7 +67,7 @@ public:
     return {m_sample_model.get(), m_material_model.get()};
   };
 
-  ProjectContext CreateContext() { return {}; }
+  static ProjectContext CreateContext() { return {}; }
 
   std::unique_ptr<ApplicationModel> m_sample_model;
   std::unique_ptr<ApplicationModel> m_material_model;
@@ -138,3 +141,5 @@ TEST_F(FolderBasedProjectTest, LoadModel)
   EXPECT_EQ(project.GetPath(), project_dir);
   EXPECT_FALSE(project.IsModified());
 }
+
+}  // namespace mvvm::test

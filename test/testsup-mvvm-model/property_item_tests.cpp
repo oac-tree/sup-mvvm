@@ -24,10 +24,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing PropertyItem class.
-
+/**
+ * @brief Tests for PropertyItem class.
+ */
 class PropertyItemTests : public ::testing::Test
 {
 };
@@ -63,3 +65,5 @@ TEST_F(PropertyItemTests, Clone)
     EXPECT_EQ(clone->Data<int>(), 42);
   }
 }
+
+}  // namespace mvvm::test

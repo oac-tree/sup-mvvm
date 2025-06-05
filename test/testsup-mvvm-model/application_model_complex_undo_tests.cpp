@@ -32,8 +32,8 @@
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of ApplicationModel in complex undo/redo scenario.
@@ -204,7 +204,7 @@ TEST_F(ApplicationModelComplexUndoTests, MultiLayer)
   const std::string expected_tag("Layers");  // hardcoede in MultiLayerItem
   EXPECT_EQ(layer0_at->GetTagIndex().GetTag(), expected_tag);
   EXPECT_EQ(layer1_at->GetTagIndex().GetTag(), expected_tag);
-  std::vector<SessionItem*> expected = {layer0_at, layer1_at};
+  const std::vector<SessionItem*> expected = {layer0_at, layer1_at};
   EXPECT_EQ(parent_at->GetItems(expected_tag), expected);
 }
 
@@ -268,9 +268,11 @@ TEST_F(ApplicationModelComplexUndoTests, DISABLED_UndoSetVectorCoordinate)
 
   auto vector_item = m_model.InsertItem<VectorItem>();
 
-  EXPECT_NO_THROW(vector_item->SetX(42.0)); // <-- failing here
+  EXPECT_NO_THROW(vector_item->SetX(42.0));  // <-- failing here
 
   // it is failing because VectorItem::Activate tries to update label (and thus update he model)
   // before SetX() execution has finished
   // FIXME enable test after ModelComposerRefactoring in COA-1389
 }
+
+}  // namespace mvvm::test

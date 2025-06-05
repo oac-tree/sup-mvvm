@@ -34,8 +34,8 @@
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of ApplicationModel class.
@@ -553,3 +553,5 @@ TEST_F(ApplicationModelTest, SetUndoEnabled)
   m_model.SetUndoEnabled(false);
   EXPECT_NE(dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()), nullptr);
 }
+
+}  // namespace mvvm::test

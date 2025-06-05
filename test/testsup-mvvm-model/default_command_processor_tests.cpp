@@ -28,8 +28,12 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
+/**
+ * @brief Tests for DefaultCommandProcessor class.
+ */
 class DefaultCommandProcessorTest : public ::testing::Test
 {
 public:
@@ -73,3 +77,5 @@ TEST_F(DefaultCommandProcessorTest, ExecuteSetValueCommand)
   EXPECT_TRUE(result->GetResult());
   EXPECT_EQ(item.Data<int32>(), 42);
 }
+
+}  // namespace mvvm::test

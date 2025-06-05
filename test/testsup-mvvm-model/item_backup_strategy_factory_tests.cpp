@@ -30,10 +30,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing SessionItem backup strategies.
-
+/**
+ * @brief Tests for various backup strategies.
+ */
 class ItemBackupStrategyFactoryTests : public ::testing::Test
 {
 public:
@@ -51,7 +53,7 @@ public:
     static std::string GetStaticType() { return "TestItem"; }
   };
 
-  IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
+  static IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
 
   ItemBackupStrategyFactoryTests() { RegisterGlobalItem<TestItem>(); }
   SessionModel m_model;
@@ -127,3 +129,5 @@ TEST_F(ItemBackupStrategyFactoryTests, BackupCustomItem)
   EXPECT_EQ(restored_child->GetIdentifier(),
             item.GetItem("defaultTag")->GetIdentifier());  // same identifiers
 }
+
+}  // namespace mvvm::test

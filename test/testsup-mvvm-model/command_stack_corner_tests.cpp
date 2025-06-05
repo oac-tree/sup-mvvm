@@ -27,17 +27,17 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Testing CommandStack for corner cases.
  *
- * Variaous scenario when command tries to work with stack before finishing its own implementation
+ * Various scenario when command tries to work with stack before finishing its own implementation
  * activity.
  */
 class CommandStackCornerTest : public ::testing::Test
 {
-public:
 };
 
 //!
@@ -104,3 +104,5 @@ TEST_F(CommandStackCornerTest, AttemptToBeginMacroBeforeFinishing)
     EXPECT_THROW(stack.Undo(), RuntimeException);
   }
 }
+
+}  // namespace mvvm::test

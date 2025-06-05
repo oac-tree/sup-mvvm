@@ -22,8 +22,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
+/**
+ * @brief Tests for EventValueVisitor class.
+ */
 class EventValueVisitorTest : public ::testing::Test
 {
 public:
@@ -45,3 +49,5 @@ TEST_F(EventValueVisitorTest, EventToString)
   EXPECT_TRUE(
       Contains(EventToString(ModelAboutToBeDestroyedEvent{}), "ModelAboutToBeDestroyedEvent"));
 }
+
+}  // namespace mvvm::test

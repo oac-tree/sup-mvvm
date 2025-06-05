@@ -22,6 +22,9 @@
 
 #include <gtest/gtest.h>
 
+namespace mvvm::test
+{
+
 class CloneableTests : public ::testing::Test
 {
 };
@@ -29,19 +32,19 @@ class CloneableTests : public ::testing::Test
 TEST_F(CloneableTests, InitialState)
 {
   {
-    experimental::MyItem base;
-    std::unique_ptr<experimental::MyItem> clone = base.Clone();
+    const experimental::MyItem base;
+    const std::unique_ptr<experimental::MyItem> clone = base.Clone();
 
     // not compiling
     // std::unique_ptr<experimental::MyDerivedItem> derived_clone2 = base.Clone();
   }
 
   {
-    experimental::MyDerivedItem derived;
-    std::unique_ptr<experimental::MyDerivedItem> derived_clone = derived.Clone();
+    const experimental::MyDerivedItem derived;
+    const std::unique_ptr<experimental::MyDerivedItem> derived_clone = derived.Clone();
     EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(derived_clone.get()));
 
-    std::unique_ptr<experimental::MyItem> derived_clone2 = derived.Clone();
+    const std::unique_ptr<experimental::MyItem> derived_clone2 = derived.Clone();
     EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(derived_clone2.get()));
   }
 
@@ -56,3 +59,5 @@ TEST_F(CloneableTests, InitialState)
     EXPECT_TRUE(dynamic_cast<experimental::MyDerivedItem *>(base_clone.get()));
   }
 }
+
+}  // namespace mvvm::test

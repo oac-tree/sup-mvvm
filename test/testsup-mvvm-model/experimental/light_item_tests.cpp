@@ -26,7 +26,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 class LightItemTest : public ::testing::Test
@@ -205,4 +205,4 @@ TEST_F(LightItemTest, UndoWithStrategy)
   EXPECT_EQ(child1_ptr->Data(), new_value1);
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::test

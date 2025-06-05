@@ -28,9 +28,8 @@
 
 #include <limits>
 
-using namespace mvvm;
-
-//! VectorItem tests.
+namespace mvvm::test
+{
 
 class TreeDataTagInfoConverterTests : public ::testing::Test
 {
@@ -59,7 +58,6 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertSimpleTag)
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
-//! Parsing XML data string representing TagInfo without model_types defined.
 TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
 {
   using mvvm::ParseXMLElementString;
@@ -83,7 +81,6 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
-//! Parsing XML data string representing TagInfo without model_types defined.
 TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
 {
   using mvvm::ParseXMLElementString;
@@ -105,3 +102,5 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
   auto new_tree_data = ToTreeData(tag_info);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
+
+}  // namespace mvvm::test

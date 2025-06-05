@@ -25,10 +25,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests for LineSeriesItem class.
-
+/**
+ * @brief Tests for LineSeriesItem class.
+ */
 class LineSeriesItemTest : public ::testing::Test
 {
 };
@@ -93,3 +95,5 @@ TEST_F(LineSeriesItemTest, BinCentersAndValuesWhenOffsetIsPresent)
   EXPECT_EQ(line_series_item->GetBinCenters(), std::vector<double>({11.0, 12.0, 13.0}));
   EXPECT_EQ(line_series_item->GetValues(), std::vector<double>({10.0, 25.0, 10.0}));
 }
+
+}  // namespace mvvm::test

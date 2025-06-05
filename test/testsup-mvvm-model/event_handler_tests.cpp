@@ -26,8 +26,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class EventHandlerTests : public ::testing::Test
 {
@@ -133,15 +133,15 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
   event_handler.Connect<ItemInsertedEvent>(&widget, &MockSpecializedWidget::OnEvent);
 
   EXPECT_CALL(widget, OnDataChangedEvent(data_changed_event)).Times(1);
-  EXPECT_CALL(widget, OnAboutToInsertItemEvent(_)).Times(0);
-  EXPECT_CALL(widget, OnItemInsertedEvent(_)).Times(0);
+  EXPECT_CALL(widget, OnAboutToInsertItemEvent(::testing::_)).Times(0);
+  EXPECT_CALL(widget, OnItemInsertedEvent(::testing::_)).Times(0);
 
   event_handler.Notify<DataChangedEvent>(&item, role);
 
   EXPECT_CALL(widget, OnDataChangedEvent(data_changed_event)).Times(1);
   event_handler.Notify(DataChangedEvent{&item, role});
 
-  TagIndex tag_index;
+  const TagIndex tag_index;
   const ItemInsertedEvent inserted_event{&item, tag_index};
   EXPECT_CALL(widget, OnItemInsertedEvent(inserted_event)).Times(1);
   event_handler.Notify(inserted_event);
@@ -150,3 +150,5 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
   const event_variant_t variant_event{inserted_event};
   event_handler.Notify(variant_event);
 }
+
+}  // namespace mvvm::test

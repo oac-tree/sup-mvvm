@@ -24,7 +24,8 @@
 
 #include <limits>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for TagIndex class.
@@ -163,3 +164,5 @@ TEST_F(TagIndexTests, Prev)
   EXPECT_EQ(tag_index.Prev().GetTag(), "tag");
   EXPECT_EQ(tag_index.Prev().GetIndex(), 0);
 }
+
+}  // namespace mvvm::test

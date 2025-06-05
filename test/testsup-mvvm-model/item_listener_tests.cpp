@@ -27,8 +27,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class ItemListenerTest : public ::testing::Test
 {
@@ -113,7 +113,7 @@ TEST_F(ItemListenerTest, OnDataChangedCallback)
   }
 
   // no calls after listener destruction
-  EXPECT_CALL(widget, Call(_)).Times(0);
+  EXPECT_CALL(widget, Call(::testing::_)).Times(0);
   item->SetData(46, expected_role);
 }
 
@@ -224,3 +224,5 @@ TEST_F(ItemListenerTest, OnItemRemoved)
   // perform action
   model.RemoveItem(child);
 }
+
+}  // namespace mvvm::test

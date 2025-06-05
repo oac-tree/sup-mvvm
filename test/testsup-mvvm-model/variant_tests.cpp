@@ -24,15 +24,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-
-//! Testing variant_t and utility functions.
+namespace mvvm::test
+{
 
 class VariantTests : public ::testing::Test
 {
 };
-
-//! Testing Utils::IsValid function.
 
 TEST_F(VariantTests, IsValid)
 {
@@ -58,8 +55,6 @@ TEST_F(VariantTests, IsValid)
 //   EXPECT_TRUE(variant1 == variant2);
 //   EXPECT_EQ(std::get<std::string>(variant1), std::string("abc"));
 // }
-
-//! Vector<double>
 
 TEST_F(VariantTests, VectorOfDouble)
 {
@@ -108,8 +103,6 @@ TEST_F(VariantTests, ExternalPropertyVariantEquality)
   EXPECT_TRUE(variant_t(c1) == variant_t(c2));
   EXPECT_FALSE(variant_t(c1) == variant_t(c3));
 }
-
-//! Testing Utils::AreCompatible function.
 
 TEST_F(VariantTests, AreCompatible)
 {
@@ -316,3 +309,5 @@ TEST_F(VariantTests, GetTypeCode)
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("text;color;identifier"));
   }
 }
+
+}  // namespace mvvm::test

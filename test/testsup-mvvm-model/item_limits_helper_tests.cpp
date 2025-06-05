@@ -25,19 +25,19 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Unit tests for helper functions defined in item_limits_helper.h
-
+/**
+ * @brief Tests for helper functions defined in item_limits_helper.h
+ */
 class ItemLimitsHelperTests : public ::testing::Test
 {
 };
 
-//! Limits related method applied to item without limits set.
-
 TEST_F(ItemLimitsHelperTests, DefaultConstructedItem)
 {
-  SessionItem item;
+  const SessionItem item;
   EXPECT_FALSE(HasLowerLimit(item));
   EXPECT_EQ(GetLowerLimit(item), variant_t{});
 
@@ -257,3 +257,5 @@ TEST_F(ItemLimitsHelperTests, GetInt32Limits)
     EXPECT_THROW(GetInt32Limits(item), RuntimeException);
   }
 }
+
+}  // namespace mvvm::test

@@ -26,7 +26,7 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 namespace
@@ -117,4 +117,4 @@ TEST_F(XmlDocumentHelperTest, TwoModels)
   EXPECT_EQ(loaded_model1->GetRootItem()->GetItem(TagIndex::First())->Data<int>(), 43);
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::test

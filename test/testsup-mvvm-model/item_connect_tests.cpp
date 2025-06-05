@@ -29,8 +29,8 @@
 
 #include <memory>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class ItemConnectTest : public ::testing::Test
 {
@@ -281,3 +281,5 @@ TEST_F(ItemConnectTest, OnItemRemoved)
   // perform action
   model.RemoveItem(child);
 }
+
+}  // namespace mvvm::test

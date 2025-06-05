@@ -22,9 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-
-//! Tests for LineSeriesItem class.
+namespace mvvm::test
+{
 
 class PointItemTest : public ::testing::Test
 {
@@ -45,3 +44,5 @@ TEST_F(PointItemTest, GetAndSet)
   item.SetPointCoordinates({1.0, 2.0});
   EXPECT_EQ(item.GetPointCoordinates(), std::make_pair(1.0, 2.0));
 }
+
+}  // namespace mvvm::test

@@ -30,7 +30,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for SessionItem class.
@@ -934,3 +935,5 @@ TEST_F(SessionItemTests, CloneParentAndChild)
     EXPECT_EQ(parent_clone->TagIndexOfItem(child_clone), TagIndex("tag", 0));
   }
 }
+
+}  // namespace mvvm::test

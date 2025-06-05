@@ -29,8 +29,9 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
+
 using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
 
 class GraphViewportItemTests : public ::testing::Test
@@ -87,7 +88,7 @@ TEST_F(GraphViewportItemTests, OnAddGraphToViewport)
   mock_listener_t widget(viewport_item);
 
   const TagIndex expected_tagrow{ViewportItem::kItems, 0};
-  ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
+  const ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
   EXPECT_CALL(widget, OnItemInserted(expected_event)).Times(1);
 
   // triggering action
@@ -109,7 +110,7 @@ TEST_F(GraphViewportItemTests, OnSetDataItem)
   // inserting graph item
   auto graph_item = model.InsertItem<GraphItem>(viewport_item);
 
-  mock_listener_t widget(viewport_item);
+  const mock_listener_t widget(viewport_item);
 
   // expect no calls, strickt mock will take care if it's not the case
 
@@ -153,3 +154,5 @@ TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
   EXPECT_DOUBLE_EQ(yaxis->GetMin(), expected_ymin);
   EXPECT_DOUBLE_EQ(yaxis->GetMax(), expected_ymax);
 }
+
+}  // namespace mvvm::test

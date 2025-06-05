@@ -35,7 +35,8 @@
 
 #include <memory>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ItemUtilsTests : public ::testing::Test
 {
@@ -917,3 +918,5 @@ TEST_F(ItemUtilsTests, FindItemsUp)
       utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, particle0, layer1, layer0}),
       std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer0, layer1}));
 }
+
+}  // namespace mvvm::test

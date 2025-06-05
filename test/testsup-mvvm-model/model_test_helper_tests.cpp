@@ -27,14 +27,17 @@
 
 #include <cmath>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 namespace
 {
+
 std::size_t GetChildrenCount(std::size_t children_count, std::size_t depth)
 {
   return (std::pow(children_count, depth) - 1) / (children_count - 1);
 }
+
 }  // namespace
 
 /**
@@ -142,3 +145,5 @@ TEST_F(ModelTestHelperTests, CreateTestDataForThreeLevels)
   EXPECT_EQ(utils::ItemFromPath(*model, grand_child3_info.path), grandchild3);
   EXPECT_EQ(model->FindItem(grand_child3_info.identifier), grandchild3);
 }
+
+}  // namespace mvvm::test

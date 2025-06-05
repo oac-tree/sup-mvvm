@@ -25,7 +25,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 class LightSetDataCommandTest : public ::testing::Test
@@ -52,4 +52,4 @@ TEST_F(LightSetDataCommandTest, SetData)
   EXPECT_EQ(item.Data(), value);
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::test

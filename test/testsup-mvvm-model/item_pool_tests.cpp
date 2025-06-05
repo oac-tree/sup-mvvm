@@ -27,26 +27,26 @@
 
 #include <memory>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests of ItemPool and its abilities to register/deregister SessionItem.
-
+/**
+ * @brief Tests of ItemPool class.
+ */
 class ItemPoolTests : public ::testing::Test
 {
 };
 
 TEST_F(ItemPoolTests, InitialState)
 {
-  ItemPool pool;
+  const ItemPool pool;
   EXPECT_EQ(pool.GetSize(), 0);
 }
 
-//! Explicit item registrations.
-
 TEST_F(ItemPoolTests, RegisterItem)
 {
-  std::unique_ptr<ItemPool> pool(new ItemPool);
-  std::unique_ptr<SessionItem> item(new SessionItem);
+  auto pool = std::make_unique<ItemPool>();
+  const auto item = std::make_unique<SessionItem>();
 
   // registering item
   const std::string key("abc");
@@ -58,7 +58,7 @@ TEST_F(ItemPoolTests, RegisterItem)
   EXPECT_EQ(item.get(), pool->ItemForKey(key));
 
   // checking unexisting registration
-  std::unique_ptr<SessionItem> item2(new SessionItem);
+  const auto item2 = std::make_unique<SessionItem>();
   EXPECT_EQ(ItemPool::identifier_t(), pool->KeyForItem(item2.get()));
   EXPECT_EQ(nullptr, pool->ItemForKey("ABC"));
 
@@ -74,13 +74,11 @@ TEST_F(ItemPoolTests, RegisterItem)
   EXPECT_THROW(pool->RegisterItem(item2.get(), key3), RuntimeException);
 }
 
-//! Explicit item de-registrations.
-
 TEST_F(ItemPoolTests, DeregisterItem)
 {
-  std::unique_ptr<ItemPool> pool(new ItemPool);
-  std::unique_ptr<SessionItem> item1(new SessionItem);
-  std::unique_ptr<SessionItem> item2(new SessionItem);
+  auto pool = std::make_unique<ItemPool>();
+  const auto item1 = std::make_unique<SessionItem>();
+  const auto item2 = std::make_unique<SessionItem>();
 
   const std::string key1("key1");
   const std::string key2("key2");
@@ -105,8 +103,6 @@ TEST_F(ItemPoolTests, DeregisterItem)
   EXPECT_EQ(pool->GetSize(), 0U);
 }
 
-//! Providing custom key.
-
 TEST_F(ItemPoolTests, CustomKey)
 {
   auto pool = std::make_shared<ItemPool>();
@@ -121,3 +117,5 @@ TEST_F(ItemPoolTests, CustomKey)
   auto item2 = std::make_unique<SessionItem>();
   EXPECT_THROW(pool->RegisterItem(item2.get(), id), RuntimeException);
 }
+
+}  // namespace mvvm::test

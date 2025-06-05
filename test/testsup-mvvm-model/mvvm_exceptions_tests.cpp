@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class MvvmExceptionsTest : public ::testing::Test
 {
@@ -57,3 +58,5 @@ TEST_F(MvvmExceptionsTest, Message)
     EXPECT_EQ(std::string(exception.what()), message);
   }
 }
+
+}  // namespace mvvm::test

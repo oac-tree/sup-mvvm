@@ -26,7 +26,8 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for AbsractCommand class.
@@ -257,3 +258,5 @@ TEST_F(AbstractCommandTests, EventNotificationWithCallbackWhenOneEventIsObsolete
 
   command.Execute();
 }
+
+}  // namespace mvvm::test

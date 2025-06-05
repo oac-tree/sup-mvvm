@@ -32,31 +32,29 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing TreeDataModelConverter.
-
+/**
+ * @brief Tests for TreeDataModelConverter class.
+ */
 class TreeDataModelConverterTests : public ::testing::Test
 {
 };
 
-//! EmptyModel to TreeData.
-
 TEST_F(TreeDataModelConverterTests, EmptyModel)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
-  SessionModel model("TestModel");
+  const SessionModel model("TestModel");
 
   auto tree_data = converter.ToTreeData(model);
   EXPECT_TRUE(converter.IsSessionModelConvertible(*tree_data));
 }
 
-//! Empty model to TreeData and back.
-
 TEST_F(TreeDataModelConverterTests, EmptyModelToTreeDataAndBack)
 {
   TreeDataModelConverter converter(ConverterMode::kClone);
-  SessionModel model("TestModel");
+  const SessionModel model("TestModel");
 
   auto tree_data = converter.ToTreeData(model);
 
@@ -70,11 +68,9 @@ TEST_F(TreeDataModelConverterTests, EmptyModelToTreeDataAndBack)
   EXPECT_EQ(target2.GetRootItem()->GetTotalItemCount(), 0);
 }
 
-//! Creation of TreeData object: single item in a model.
-
 TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBack)
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
   auto item = model.InsertItem<SessionItem>();
@@ -92,11 +88,9 @@ TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBack)
   EXPECT_EQ(reco_item->GetIdentifier(), item->GetIdentifier());
 }
 
-//! Filling model from TreeData: parent and child in a model to TreeData and back.
-
 TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter(ConverterMode::kClone);
   SessionModel model("TestModel");
 
   // filling original model with content
@@ -139,11 +133,9 @@ TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
 
-//! Item in a model to TreeData and back: how persistent are identifiers.
-
 TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter(ConverterMode::kClone);
 
   // creating source model with own pool for item registration
   auto pool1 = std::make_shared<ItemPool>();
@@ -176,10 +168,9 @@ TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 
 //! Creation of TreeData object (single item in a model), then writing same TreeData object back
 //! to model without emptying it. Real bug case: check if unsubscribtion mechanism works.
-
 TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBackToSameModel)
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter(ConverterMode::kClone);
 
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("TestModel", pool);
@@ -202,3 +193,5 @@ TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBackToSameModel)
   auto new_item = model.GetRootItem()->GetAllItems().at(0);
   EXPECT_EQ(pool->ItemForKey(item_id), new_item);
 }
+
+}  // namespace mvvm::test

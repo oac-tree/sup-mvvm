@@ -27,8 +27,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class ItemConnectHelperTest : public ::testing::Test
 {
@@ -94,3 +94,5 @@ TEST_F(ItemConnectHelperTest, ConvertToPropertyChangedEvent)
     EXPECT_FALSE(result.has_value());
   }
 }
+
+}  // namespace mvvm::test

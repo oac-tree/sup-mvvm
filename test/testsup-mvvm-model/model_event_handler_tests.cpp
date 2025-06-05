@@ -27,11 +27,12 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
-//! Tests for ModelEventHandlerTests class.
-
+/**
+ * @brief Tests for ModelEventHandlerTests class.
+ */
 class ModelEventHandlerTests : public ::testing::Test
 {
 public:
@@ -41,12 +42,10 @@ public:
   mvvm::test::MockEventListener m_listener;
 };
 
-//! Checking listener methods when AboutToInsertItem is fired.
-
 TEST_F(ModelEventHandlerTests, AboutToInsertItem)
 {
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
   AboutToInsertItemEvent event{&item, tag_index};
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
@@ -55,12 +54,10 @@ TEST_F(ModelEventHandlerTests, AboutToInsertItem)
   m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when ItemInserted is fired.
-
 TEST_F(ModelEventHandlerTests, ItemInserted)
 {
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
   ItemInsertedEvent event{&item, tag_index};
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
@@ -69,12 +66,10 @@ TEST_F(ModelEventHandlerTests, ItemInserted)
   m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when AboutToRemoveItem is fired.
-
 TEST_F(ModelEventHandlerTests, AboutToRemoveItem)
 {
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
   AboutToRemoveItemEvent event{&item, tag_index};
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
@@ -83,12 +78,10 @@ TEST_F(ModelEventHandlerTests, AboutToRemoveItem)
   m_event_handler.Notify<AboutToRemoveItemEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when ItemRemoved is fired.
-
 TEST_F(ModelEventHandlerTests, ItemRemoved)
 {
   mvvm::SessionItem item;
-  mvvm::TagIndex tag_index{"tag", 0};
+  const mvvm::TagIndex tag_index{"tag", 0};
 
   ItemRemovedEvent event{&item, tag_index};
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
@@ -97,12 +90,10 @@ TEST_F(ModelEventHandlerTests, ItemRemoved)
   m_event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
 
-//! Checking listener methods when DataChanged is fired.
-
 TEST_F(ModelEventHandlerTests, DataChanged)
 {
   mvvm::SessionItem item;
-  int role{42};
+  const int role{42};
 
   DataChangedEvent event{&item, role};
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
@@ -110,8 +101,6 @@ TEST_F(ModelEventHandlerTests, DataChanged)
   // triggering action
   m_event_handler.Notify<DataChangedEvent>(&item, role);
 }
-
-//! Checking listener methods when ModelAboutToBeResetEvent is fired.
 
 TEST_F(ModelEventHandlerTests, OnModelAboutToBeReset)
 {
@@ -124,8 +113,6 @@ TEST_F(ModelEventHandlerTests, OnModelAboutToBeReset)
   m_event_handler.Notify<ModelAboutToBeResetEvent>(&model);
 }
 
-//! Checking listener methods when ModelResetEvent is fired.
-
 TEST_F(ModelEventHandlerTests, OnModelResetEvent)
 {
   mvvm::SessionModel model;
@@ -136,8 +123,6 @@ TEST_F(ModelEventHandlerTests, OnModelResetEvent)
   // triggering action
   m_event_handler.Notify<ModelResetEvent>(&model);
 }
-
-//! Checking listener methods when ModelAboutToBeDestroyedEvent is fired.
 
 TEST_F(ModelEventHandlerTests, OnModelAboutToBeDestroyed)
 {
@@ -155,14 +140,14 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
+  const int role{42};
 
   ModelEventHandler event_handler;
   mvvm::test::MockEventListener listener;
 
   listener.SubscribeAll(&event_handler);
 
-  EXPECT_CALL(listener, OnEvent(_)).Times(0);
+  EXPECT_CALL(listener, OnEvent(::testing::_)).Times(0);
 
   listener.Unsubscribe();
 
@@ -177,12 +162,11 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
 
-//! Two listeners are subscribed to different events.
 TEST_F(ModelEventHandlerTests, TwoSubscriptions)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
+  const int role{42};
 
   ModelEventHandler event_handler;
   mvvm::test::MockEventListener listener1;
@@ -210,7 +194,7 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  int role{42};
+  const int role{42};
 
   ModelEventHandler event_handler;
   mvvm::test::MockEventListener listener1;
@@ -230,7 +214,7 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
   event_handler.Notify<DataChangedEvent>(&item, role);
   event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 
-  EXPECT_CALL(listener1, OnEvent(_)).Times(0);
+  EXPECT_CALL(listener1, OnEvent(::testing::_)).Times(0);
   EXPECT_CALL(listener2, OnEvent(event_variant_t(item_removed_event))).Times(1);
 
   listener1.Unsubscribe();
@@ -238,3 +222,5 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
   event_handler.Notify<DataChangedEvent>(&item, role);
   event_handler.Notify<ItemRemovedEvent>(&item, tag_index);
 }
+
+}  // namespace mvvm::test

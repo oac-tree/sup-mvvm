@@ -27,14 +27,13 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! VectorItem tests.
 class VectorItemTests : public ::testing::Test
 {
 };
 
-//! Initial state of item when it is created outside of model context.
 TEST_F(VectorItemTests, InitialState)
 {
   const VectorItem item;
@@ -49,7 +48,6 @@ TEST_F(VectorItemTests, InitialState)
   EXPECT_EQ(item.Data<std::string>(), "(0, 0, 0)");
 }
 
-//! Initial state of item in model context
 TEST_F(VectorItemTests, InitialStateFromModel)
 {
   SessionModel model;
@@ -74,7 +72,6 @@ TEST_F(VectorItemTests, SetXYZ)
   EXPECT_EQ(item->Z(), 3.0);
 }
 
-//! Checking label update in ApplicationModel context.
 //! FIXME restore functionality
 TEST_F(VectorItemTests, DISABLED_LabelUpdate)
 {
@@ -161,9 +158,6 @@ TEST_F(VectorItemTests, Clone)
   }
 }
 
-//! Testing clone when vector is the part of the model.
-//! Model should be cleared in the clone.
-
 TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
 {
   SessionModel model;
@@ -197,3 +191,5 @@ TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
     EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetParent(), clone.get());
   }
 }
+
+}  // namespace mvvm::test

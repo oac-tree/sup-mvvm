@@ -34,7 +34,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class SessionModelTest : public ::testing::Test
 {
@@ -739,3 +740,5 @@ TEST_F(SessionModelTest, AttemptToExecuteCommandFromCommand)
 
   EXPECT_THROW(model.ExecuteCommand(std::move(command)), RuntimeException);
 }
+
+}  // namespace mvvm::test

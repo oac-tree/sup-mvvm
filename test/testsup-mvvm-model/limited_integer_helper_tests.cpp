@@ -27,10 +27,12 @@
 
 #include <memory>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing helper methods from limited_integer_helper.h
-
+/**
+ * @brief Testing helper methods from limited_integer_helper.h
+ */
 class LimitedIntegerHelperTests : public ::testing::Test
 {
 public:
@@ -63,3 +65,5 @@ TEST_F(LimitedIntegerHelperTests, CreateLimitedInteger)
 
   EXPECT_THROW(CanCreateLimitedInteger<float64>(), RuntimeException);
 }
+
+}  // namespace mvvm::test

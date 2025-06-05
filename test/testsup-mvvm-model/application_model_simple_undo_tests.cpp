@@ -29,10 +29,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <iostream>
-
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of ApplicationModel in simple undo/redo scenario.
@@ -42,7 +40,7 @@ class ApplicationModelSimpleUndoTests : public ::testing::Test
 public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 
-  ApplicationModelSimpleUndoTests() {}
+  ApplicationModelSimpleUndoTests() = default;
 
   ApplicationModel m_model;
 };
@@ -267,3 +265,5 @@ TEST_F(ApplicationModelSimpleUndoTests, SetDataThenRemove)
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
   EXPECT_EQ(restored_child->Data<int>(), 42);
 }
+
+}  // namespace mvvm::test

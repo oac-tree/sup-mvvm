@@ -24,7 +24,8 @@
 
 #include <QColor>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class PlottableItemsTests : public ::testing::Test
 {
@@ -79,3 +80,5 @@ TEST_F(PlottableItemsTests, PenItemSetters)
   item.SetWidth(42);
   EXPECT_EQ(item.GetWidth(), 42);
 }
+
+}  // namespace mvvm::test

@@ -26,8 +26,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 class MockItemController : public mvvm::ItemController<mvvm::SessionItem>
 {
@@ -129,3 +129,5 @@ TEST_F(ItemControllerTest, OnDataChangedSubscribeTwice)
   item->SetData(46, expected_role);
   // expect no calls here
 }
+
+}  // namespace mvvm::test

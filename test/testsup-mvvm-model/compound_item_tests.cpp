@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 namespace
 {
@@ -41,7 +42,7 @@ class CompoundItemTests : public ::testing::Test
 
 TEST_F(CompoundItemTests, InitialState)
 {
-  CompoundItem item;
+  const CompoundItem item;
   EXPECT_EQ(item.GetTotalItemCount(), 0);
 }
 
@@ -192,7 +193,7 @@ TEST_F(CompoundItemTests, ItemVectorAccess)
   auto property2 = parent.InsertItem<PropertyItem>(TagIndex::Append(tag));
 
   auto items = parent.GetItems<PropertyItem>(tag);
-  std::vector<PropertyItem*> expected = {property1, property2};
+  const std::vector<PropertyItem*> expected = {property1, property2};
   EXPECT_EQ(items, expected);
   EXPECT_EQ(parent.GetItems<CompoundItem>(tag).size(), 0);
 }
@@ -263,3 +264,5 @@ TEST_F(CompoundItemTests, Clone)
   EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetParent(), compound_clone);
   EXPECT_EQ(compound_clone->GetItem({"thickness", 0})->GetIdentifier(), property0.GetIdentifier());
 }
+
+}  // namespace mvvm::test

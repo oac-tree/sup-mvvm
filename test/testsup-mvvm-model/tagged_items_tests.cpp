@@ -27,10 +27,12 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests for SessionItemTags class.
-
+/**
+ * @brief Tests for SessionItemTags class.
+ */
 class TaggedItemsTests : public ::testing::Test
 {
 public:
@@ -393,3 +395,5 @@ TEST_F(TaggedItemsTests, GetValidatedInsertTagIndex)
     EXPECT_EQ(tag_index2, TagIndex("tag", 1));
   }
 }
+
+}  // namespace mvvm::test

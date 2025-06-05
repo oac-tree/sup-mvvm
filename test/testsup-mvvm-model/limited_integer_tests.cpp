@@ -24,10 +24,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing LimitedInteger class.
-
+/**
+ * @brief Tests for LimitedInteger class.
+ */
 class LimitedIntegerTests : public ::testing::Test
 {
 };
@@ -311,3 +313,5 @@ TEST_F(LimitedIntegerTests, StepBy)
     EXPECT_EQ(num.GetValue(), static_cast<mvvm::uint8>(0));
   }
 }
+
+}  // namespace mvvm::test

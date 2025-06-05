@@ -29,7 +29,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing of TreeDataItemContainerConverter.
 //! It uses simplified item constructiion.
@@ -57,8 +58,6 @@ public:
   create_item_t m_create_item_callback;
 };
 
-//! Container with single items is converted to TreeData.
-
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 {
   // creating container
@@ -75,8 +74,6 @@ TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
   EXPECT_TRUE(ContainerConverter::IsItemContainerConvertible(*tree_data));
 }
 
-//! Container with single items is converted to TreeData and back.
-
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeDataAndBack)
 {
   // creating container
@@ -92,3 +89,5 @@ TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeDataAndBack)
   EXPECT_EQ(container2->GetItemCount(), 1);
   EXPECT_EQ(container2->GetTagInfo().GetName(), std::string("thickness"));
 }
+
+}  // namespace mvvm::test

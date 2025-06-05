@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief The TestData class represents a data agregate for testing purposes to build XML string.
@@ -87,3 +88,5 @@ INSTANTIATE_TEST_SUITE_P(
         TestData{mvvm::int32{-42}, "int32", "-42"}, TestData{mvvm::uint32{42}, "uint32", "42"},
         TestData{mvvm::int64{-42}, "int64", "-42"}, TestData{mvvm::uint64{42}, "uint64", "42"},
         TestData{mvvm::uint64{99000000000}, "uint64", "99000000000"}));
+
+}  // namespace mvvm::test

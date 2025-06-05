@@ -23,7 +23,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class VersionTest : public ::testing::Test
 {
@@ -36,3 +37,5 @@ TEST_F(VersionTest, ParseVersionString)
   EXPECT_EQ(kProjectVersionPatch, ProjectVersionPatch());
   EXPECT_EQ(kProjectVersionString, ProjectVersion());
 }
+
+}  // namespace mvvm::test

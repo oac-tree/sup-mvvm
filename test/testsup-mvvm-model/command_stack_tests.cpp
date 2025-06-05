@@ -26,9 +26,12 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_command.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
+/**
+ * @brief Tests for CommandStack class.
+ */
 class CommandStackTest : public ::testing::Test
 {
 public:
@@ -47,7 +50,6 @@ TEST_F(CommandStackTest, InitialState)
   EXPECT_EQ(stack.GetNextRedoCommand(), nullptr);
 }
 
-//! Execute single command.
 TEST_F(CommandStackTest, SingleCommandExecution)
 {
   test::MockTestCommandListener listener;
@@ -55,10 +57,10 @@ TEST_F(CommandStackTest, SingleCommandExecution)
 
   auto [command, command_ptr] = CreateCommand(listener);
 
-  EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
-  EXPECT_CALL(listener, OnExecute(_)).Times(1);
-  EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
-  EXPECT_CALL(listener, OnUndo(_)).Times(0);
+  EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnUndo(::testing::_)).Times(0);
 
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
 
@@ -71,8 +73,7 @@ TEST_F(CommandStackTest, SingleCommandExecution)
   EXPECT_EQ(stack.GetCommandCount(), 1);
 }
 
-//! Execute single command which is obsolete already before the execution.
-TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
+TEST_F(CommandStackTest, SingleCommandIsObsoleteAlreadyBeforeExecution)
 {
   test::MockTestCommandListener listener;
   CommandStack stack;
@@ -80,8 +81,8 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
   auto [command, command_ptr] = CreateCommand(listener);
   command->SetIsObsolete(true);
 
-  EXPECT_CALL(listener, OnExecute(_)).Times(0);
-  EXPECT_CALL(listener, OnUndo(_)).Times(0);
+  EXPECT_CALL(listener, OnExecute(::testing::_)).Times(0);
+  EXPECT_CALL(listener, OnUndo(::testing::_)).Times(0);
 
   EXPECT_THROW(stack.Execute(std::move(command)), RuntimeException);
 
@@ -94,7 +95,6 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteBeforeExecution)
   EXPECT_EQ(stack.GetCommandCount(), 0);
 }
 
-//! Execute single command which gets obsolete after execution.
 TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
 {
   test::MockTestCommandListener listener;
@@ -103,11 +103,11 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
   auto [command, command_ptr] = CreateCommand(listener);
   command->SetMakeObsoleteAfterExecution();
 
-  EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
-  EXPECT_CALL(listener, OnExecute(_)).Times(1);
-  EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+  EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
 
-  EXPECT_CALL(listener, OnUndo(_)).Times(0);
+  EXPECT_CALL(listener, OnUndo(::testing::_)).Times(0);
 
   EXPECT_EQ(stack.Execute(std::move(command)), nullptr);
 
@@ -120,7 +120,6 @@ TEST_F(CommandStackTest, SingleCommandIsObsoleteAfterExecution)
   EXPECT_EQ(stack.GetCommandCount(), 0);
 }
 
-//! Execute single command, then undo, then redo again
 TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
 {
   test::MockTestCommandListener listener;
@@ -131,17 +130,17 @@ TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
   {
     const ::testing::InSequence seq;
 
-    EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
-    EXPECT_CALL(listener, OnExecute(_)).Times(1);
-    EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
+    EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
 
-    EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
-    EXPECT_CALL(listener, OnUndo(_)).Times(1);
-    EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
+    EXPECT_CALL(listener, OnUndo(::testing::_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
 
-    EXPECT_CALL(listener, OnGetEventBefore(_)).Times(1);
-    EXPECT_CALL(listener, OnExecute(_)).Times(1);
-    EXPECT_CALL(listener, OnGetEventAfter(_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
+    EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
+    EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
   }
 
   stack.Execute(std::move(command));
@@ -170,8 +169,7 @@ TEST_F(CommandStackTest, SingleCommandExecuteUndoRedo)
   EXPECT_EQ(stack.GetCommandCount(), 1);
 }
 
-//! Execute two commands, then two undo, then two redo.
-TEST_F(CommandStackTest, TwoCommandsExecution)
+TEST_F(CommandStackTest, TwoCommandsExecutionThenUndoAndRedo)
 {
   test::MockTestCommandListener listener;
   CommandStack stack;
@@ -469,3 +467,5 @@ TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
   EXPECT_EQ(stack.GetCommandCount(), 1);
   EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));
 }
+
+}  // namespace mvvm::test

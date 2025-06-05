@@ -24,10 +24,12 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Tests for LineSeriesDataItem class.
-
+/**
+ * @brief Tests for LineSeriesDataItem class.
+ */
 class LineSeriesDataItemTest : public ::testing::Test
 {
 };
@@ -99,3 +101,5 @@ TEST_F(LineSeriesDataItemTest, InsertPoint)
   const std::vector<std::pair<double, double>> expected({{1.0, 10.0}, {2.0, 20.0}, {3.0, 30.0}});
   EXPECT_EQ(item.GetWaveform(), expected);
 }
+
+}  // namespace mvvm::test

@@ -25,7 +25,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using ::testing::_;
+namespace mvvm::test
+{
 
 class SignalSlotTests : public ::testing::Test
 {
@@ -62,7 +63,7 @@ TEST_F(SignalSlotTests, MockWidgetConnectAndDisconnect)
   signal.disconnect(connection);
   //  connection.disconnect(); FIXME connection.disconnect() doesn't work
 
-  EXPECT_CALL(widget, onItemDestroy(_)).Times(0);
+  EXPECT_CALL(widget, onItemDestroy(::testing::_)).Times(0);
   signal(&item);  // perform action
 }
 
@@ -82,7 +83,7 @@ TEST_F(SignalSlotTests, MockWidgetConnectAndLock)
   // disabling connection
   connection.set_lock(true);
 
-  EXPECT_CALL(widget, onItemDestroy(_)).Times(0);
+  EXPECT_CALL(widget, onItemDestroy(::testing::_)).Times(0);
   signal(&item);  // perform action
 }
 
@@ -107,7 +108,7 @@ TEST_F(SignalSlotTests, TwoWidgetsNotifiedThenOneRemoved)
 
   // removing one of client
   signal.disconnect(connection1);
-  EXPECT_CALL(widget1, onItemDestroy(_)).Times(0);
+  EXPECT_CALL(widget1, onItemDestroy(::testing::_)).Times(0);
   EXPECT_CALL(widget2, onItemDestroy(&item)).Times(1);
 
   // perform action
@@ -135,7 +136,7 @@ TEST_F(SignalSlotTests, SignalWithTwoParameters)
 
   // removing one of client
   signal.disconnect(connection1);
-  EXPECT_CALL(widget1, onDataChange(_, _)).Times(0);
+  EXPECT_CALL(widget1, onDataChange(::testing::_, ::testing::_)).Times(0);
   EXPECT_CALL(widget2, onDataChange(&item, expected_role)).Times(1);
 
   // perform action
@@ -168,7 +169,7 @@ TEST_F(SignalSlotTests, TwoSignalsOneWidget)
 
   signal1.disconnect(connection1);
 
-  EXPECT_CALL(widget, onDataChange(_, _)).Times(0);
+  EXPECT_CALL(widget, onDataChange(::testing::_, ::testing::_)).Times(0);
   EXPECT_CALL(widget, onDataChange(&item, expected_role)).Times(1);
 
   // perform action
@@ -258,3 +259,5 @@ TEST_F(SignalSlotTests, SubscribeLambdaRecursive)
   EXPECT_TRUE(x >= 11);  // was called more than once
   EXPECT_EQ(y, 22);      // was called
 }
+
+}  // namespace mvvm::test

@@ -29,7 +29,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for InsertItemCommand class.
@@ -41,8 +42,7 @@ class InsertItemCommandTests : public ::testing::Test
 TEST_F(InsertItemCommandTests, InitialState)
 {
   auto child = std::make_unique<SessionItem>();
-  EXPECT_THROW(InsertItemCommand(std::move(child), nullptr, TagIndex::Append()),
-               RuntimeException);
+  EXPECT_THROW(InsertItemCommand(std::move(child), nullptr, TagIndex::Append()), RuntimeException);
 
   auto to_insert = std::make_unique<PropertyItem>();
   const TagIndex expected_tag_index{"tag1", 0};
@@ -179,3 +179,5 @@ TEST_F(InsertItemCommandTests, AttemptToInsertSecondProperty)
 
   EXPECT_THROW(command.Execute(), InvalidOperationException);
 }
+
+}  // namespace mvvm::test
