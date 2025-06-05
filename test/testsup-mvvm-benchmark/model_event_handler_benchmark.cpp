@@ -26,10 +26,12 @@
 
 #include <benchmark/benchmark.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing performance of ModelEventHandler.
-
+/**
+ * @brief Testing performance of ModelEventHandler.
+ */
 class ModelEventHandlerBenchmark : public benchmark::Fixture
 {
 public:
@@ -40,22 +42,17 @@ public:
   };
 };
 
-//! Single notification when nothing is connected.
-
 BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventNoConnections)(benchmark::State &state)
 {
   ModelEventHandler m_event_handler;
   mvvm::SessionItem item;
   const mvvm::TagIndex tag_index{"tag", 0};
 
-  const int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
   }
 }
-
-//! Single notification with single listener.
 
 BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListener)(benchmark::State &state)
 {
@@ -67,14 +64,11 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListener)(benchmark::State
 
   m_event_handler.Connect<AboutToInsertItemEvent>(&listener, &TestListener::OnEvent);
 
-  const int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
   }
 }
-
-//! Single notification with single listener. Event is constructed upfront.
 
 BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListenerV2)(benchmark::State &state)
 {
@@ -94,8 +88,6 @@ BENCHMARK_F(ModelEventHandlerBenchmark, SingleEventOneListenerV2)(benchmark::Sta
   }
 }
 
-//! Two notifications when nothing is connected.
-
 BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsNoListeners)(benchmark::State &state)
 {
   ModelEventHandler m_event_handler;
@@ -110,8 +102,6 @@ BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsNoListeners)(benchmark::State &
   }
 }
 
-//! Two notifications with two listeners.
-
 BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsTwoListeners)(benchmark::State &state)
 {
   ModelEventHandler m_event_handler;
@@ -125,10 +115,11 @@ BENCHMARK_F(ModelEventHandlerBenchmark, TwoEventsTwoListeners)(benchmark::State 
   m_event_handler.Connect<AboutToInsertItemEvent>(&listener, &TestListener::OnEvent);
   m_event_handler.Connect<ItemInsertedEvent>(&listener, &TestListener::OnEvent);
 
-  int value{0};
   for (auto dummy : state)
   {
     m_event_handler.Notify<AboutToInsertItemEvent>(&item, tag_index);
     m_event_handler.Notify<ItemInsertedEvent>(&item, tag_index);
   }
 }
+
+}  // namespace mvvm::test

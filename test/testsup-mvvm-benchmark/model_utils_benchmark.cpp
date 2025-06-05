@@ -20,11 +20,12 @@
 
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_model.h>
-
-#include <benchmark/benchmark.h>
 #include <mvvm/test/model_test_helper.h>
 
-using namespace mvvm;
+#include <benchmark/benchmark.h>
+
+namespace mvvm::test
+{
 
 namespace
 {
@@ -79,3 +80,5 @@ BENCHMARK_F(ModelUtilsBenchmark, FindItem)(benchmark::State& state)
     }
   }
 }
+
+}  // namespace mvvm::test

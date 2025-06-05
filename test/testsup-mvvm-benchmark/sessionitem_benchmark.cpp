@@ -25,30 +25,28 @@
 
 #include <benchmark/benchmark.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing performance of basic operations with SessionItem.
-
+/**
+ * @brief Testing performance of basic operations with SessionItem.
+ */
 class SessionItemBenchmark : public benchmark::Fixture
 {
 public:
   std::unique_ptr<SessionItem> CreateItem() { return std::make_unique<PropertyItem>(); }
 };
 
-//! Measuring performance of item creation.
 BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItem)(benchmark::State &state)
 {
-  int value{0};
   for (auto dummy : state)
   {
     auto item = std::make_unique<PropertyItem>;
   }
 }
 
-//! Measuring performance of item creation wjen optimisation is switched off.
 BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItemNoOptimisation)(benchmark::State &state)
 {
-  int value{0};
   for (auto dummy : state)
   {
     benchmark::DoNotOptimize(CreateItem());
@@ -56,7 +54,6 @@ BENCHMARK_F(SessionItemBenchmark, CreateAndDestroyItemNoOptimisation)(benchmark:
   }
 }
 
-//! Measuring performance of SetData method when data is always different.
 BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State &state)
 {
   mvvm::SessionItem item;
@@ -68,7 +65,6 @@ BENCHMARK_F(SessionItemBenchmark, SetData)(benchmark::State &state)
   }
 }
 
-//! Performance of setData when bypassing command framework
 BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State &state)
 {
   mvvm::SessionItem item;
@@ -80,7 +76,6 @@ BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State &state)
   }
 }
 
-//! Measuring performance of SetData method when data is always the same.
 BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
 {
   mvvm::SessionItem item;
@@ -92,15 +87,13 @@ BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
   }
 }
 
-//! Measuring performance of insert item.
 BENCHMARK_F(SessionItemBenchmark, InsertItem)(benchmark::State &state)
 {
   mvvm::SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),
                      /*set_as_default*/ true);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
-  int value{0};
   for (auto dummy : state)
   {
     parent.InsertItem<PropertyItem>(tag_index);
@@ -110,15 +103,13 @@ BENCHMARK_F(SessionItemBenchmark, InsertItem)(benchmark::State &state)
   }
 }
 
-//! Measuring performance of insert item.
 BENCHMARK_F(SessionItemBenchmark, TakeItem)(benchmark::State &state)
 {
   mvvm::SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),
                      /*set_as_default*/ true);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
-  int value{0};
   for (auto dummy : state)
   {
     state.PauseTiming();
@@ -128,18 +119,18 @@ BENCHMARK_F(SessionItemBenchmark, TakeItem)(benchmark::State &state)
   }
 }
 
-//! Measuring performance of insert/take item.
 BENCHMARK_F(SessionItemBenchmark, InsertAndTake)(benchmark::State &state)
 {
   mvvm::SessionItem parent;
   parent.RegisterTag(TagInfo::CreateUniversalTag("tag"),
                      /*set_as_default*/ true);
-  TagIndex tag_index{"tag", 0};
+  const TagIndex tag_index{"tag", 0};
 
-  int value{0};
   for (auto dummy : state)
   {
     parent.InsertItem<PropertyItem>(tag_index);
     parent.TakeItem(tag_index);
   }
 }
+
+}  // namespace mvvm::test

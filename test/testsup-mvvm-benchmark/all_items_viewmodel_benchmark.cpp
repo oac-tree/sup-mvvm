@@ -26,10 +26,12 @@
 #include <benchmark/benchmark.h>
 #include <testutils/toy_items.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing performance of basic operations with ApplicationModel.
-
+/**
+ * @brief Testing performance of basic operations with ApplicationModel.
+ */
 class AllItemsViewModelBenchmark : public benchmark::Fixture
 {
 public:
@@ -51,7 +53,6 @@ BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsert)(benchmark::State &state)
 {
   mvvm::ApplicationModel model;
 
-  int value{0};
   for (auto dummy : state)
   {
     state.PauseTiming();
@@ -118,7 +119,6 @@ BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsertWithViewModel)(benchmark::S
   mvvm::ApplicationModel model;
   mvvm::AllItemsViewModel viewmodel(&model);
 
-  int value{0};
   for (auto dummy : state)
   {
     state.PauseTiming();
@@ -127,3 +127,5 @@ BENCHMARK_F(AllItemsViewModelBenchmark, ComplexInsertWithViewModel)(benchmark::S
     model.InsertItem(std::move(multilayer), model.GetRootItem(), mvvm::TagIndex::Append());
   }
 }
+
+}  // namespace mvvm::test

@@ -27,11 +27,13 @@
 
 #include <benchmark/benchmark.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing performance of basic operations when AbstractModelController is attached to
-//! ApplicationModel.
-
+/**
+ * @brief Testing performance of basic operations when AbstractModelController is attached to
+ * ApplicationModel.
+ */
 class AbstractViewmodelControllerBenchmark : public benchmark::Fixture
 {
 public:
@@ -73,7 +75,6 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, SetSameData)(benchmark::State 
   }
 }
 
-//! Measuring performance of insert item.
 BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &state)
 {
   mvvm::ApplicationModel model;
@@ -83,7 +84,6 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &
   TestController controller;
   controller.SetModel(&model);
 
-  int value{0};
   for (auto dummy : state)
   {
     auto item = model.InsertItem<PropertyItem>(parent, tag_index);
@@ -93,17 +93,15 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertItem)(benchmark::State &
   }
 }
 
-//! Measuring performance of insert item.
 BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{constants::kRootItemTag, 0};
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
   TestController controller;
   controller.SetModel(&model);
 
-  int value{0};
   for (auto dummy : state)
   {
     state.PauseTiming();
@@ -113,20 +111,20 @@ BENCHMARK_F(AbstractViewmodelControllerBenchmark, TakeItem)(benchmark::State &st
   }
 }
 
-//! Measuring performance of insert/take item.
 BENCHMARK_F(AbstractViewmodelControllerBenchmark, InsertAndTake)(benchmark::State &state)
 {
   mvvm::ApplicationModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{constants::kRootItemTag, 0};
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
   TestController controller;
   controller.SetModel(&model);
 
-  int value{0};
   for (auto dummy : state)
   {
     auto item = model.InsertItem<PropertyItem>(parent, tag_index);
     model.TakeItem(parent, tag_index);
   }
 }
+
+}  // namespace mvvm::test

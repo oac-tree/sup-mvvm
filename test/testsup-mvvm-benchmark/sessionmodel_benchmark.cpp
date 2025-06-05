@@ -26,10 +26,12 @@
 
 #include <benchmark/benchmark.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing performance of basic operations with SessionModel.
-
+/**
+ * @brief Testing performance of basic operations with SessionModel.
+ */
 class SessionModelBenchmark : public benchmark::Fixture
 {
 };
@@ -51,21 +53,19 @@ BENCHMARK_F(SessionModelBenchmark, SetSameData)(benchmark::State &state)
   mvvm::SessionModel model;
   auto item = model.InsertItem<PropertyItem>();
 
-  int value{0};
+  const int value{0};
   for (auto dummy : state)
   {
     model.SetData(item, value, DataRole::kData);
   }
 }
 
-//! Measuring performance of insert item.
 BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{constants::kRootItemTag, 0};
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
-  int value{0};
   for (auto dummy : state)
   {
     auto item = model.InsertItem<PropertyItem>(parent, tag_index);
@@ -75,14 +75,12 @@ BENCHMARK_F(SessionModelBenchmark, InsertItem)(benchmark::State &state)
   }
 }
 
-//! Measuring performance of insert item.
 BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{constants::kRootItemTag, 0};
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
-  int value{0};
   for (auto dummy : state)
   {
     state.PauseTiming();
@@ -92,17 +90,17 @@ BENCHMARK_F(SessionModelBenchmark, TakeItem)(benchmark::State &state)
   }
 }
 
-//! Measuring performance of insert/take item.
 BENCHMARK_F(SessionModelBenchmark, InsertAndTake)(benchmark::State &state)
 {
   mvvm::SessionModel model;
   auto parent = model.GetRootItem();
-  TagIndex tag_index{constants::kRootItemTag, 0};
+  const TagIndex tag_index{constants::kRootItemTag, 0};
 
-  int value{0};
   for (auto dummy : state)
   {
     auto item = model.InsertItem<PropertyItem>(parent, tag_index);
     model.TakeItem(parent, tag_index);
   }
 }
+
+}  // namespace mvvm::test

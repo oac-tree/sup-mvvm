@@ -22,17 +22,18 @@
 
 #include <benchmark/benchmark.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
-//! Testing performance of GUID generator.
-
+/**
+ * @brief Testing performance of GUID generator.
+ */
 class UniqueIdGeneratorBenchmark : public benchmark::Fixture
 {
 };
 
 BENCHMARK_F(UniqueIdGeneratorBenchmark, Generate)(benchmark::State &state)
 {
-  int value{0};
   for (auto dummy : state)
   {
     UniqueIdGenerator::Generate();
@@ -41,10 +42,11 @@ BENCHMARK_F(UniqueIdGeneratorBenchmark, Generate)(benchmark::State &state)
 
 BENCHMARK_F(UniqueIdGeneratorBenchmark, GenerateNoOptimize)(benchmark::State &state)
 {
-  int value{0};
   for (auto dummy : state)
   {
     benchmark::DoNotOptimize(UniqueIdGenerator::Generate());
     benchmark::ClobberMemory();
   }
 }
+
+}  // namespace mvvm::test
