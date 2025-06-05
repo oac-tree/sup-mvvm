@@ -35,8 +35,9 @@ class PathTests : public ::testing::Test
 
 TEST_F(PathTests, InitialState)
 {
-  Path path;
+  const Path path;
   EXPECT_TRUE(path.GetString().empty());
+  EXPECT_EQ(path.GetLength(), 0U);
 }
 
 TEST_F(PathTests, AppendPrepend)
@@ -44,22 +45,25 @@ TEST_F(PathTests, AppendPrepend)
   Path path;
   path.Append(1);
   EXPECT_EQ(path.GetString(), "1");
+  EXPECT_EQ(path.GetLength(), 1U);
 
   path.Append(2);
   EXPECT_EQ(path.GetString(), "1,2");
+  EXPECT_EQ(path.GetLength(), 2U);
 
   path.Prepend(3);
   EXPECT_EQ(path.GetString(), "3,1,2");
+  EXPECT_EQ(path.GetLength(), 3U);
 }
 
 TEST_F(PathTests, CreateFromVector)
 {
-  Path path = Path::CreateFromVector({1, 2, 3});
+  const Path path = Path::CreateFromVector({1, 2, 3});
   EXPECT_EQ(path.GetString(), "1,2,3");
 }
 
 TEST_F(PathTests, CreateFromString)
 {
-  Path path = Path::CreateFromString("3,2,3");
+  const Path path = Path::CreateFromString("3,2,3");
   EXPECT_EQ(path.GetString(), "3,2,3");
 }

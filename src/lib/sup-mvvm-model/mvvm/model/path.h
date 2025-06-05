@@ -23,9 +23,9 @@
 
 #include <mvvm/model_export.h>
 
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 namespace mvvm
 {
@@ -68,6 +68,11 @@ public:
    * @brief Returns string representing path ("0,0,1,3").
    */
   std::string GetString() const;
+
+  /**
+   * @brief Returns the length of the path (which corresponds to the depth level of the item).
+   */
+  std::size_t GetLength() const;
 
   void Append(PathElement element);
   void Prepend(PathElement element);

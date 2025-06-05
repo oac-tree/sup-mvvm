@@ -58,6 +58,11 @@ std::string Path::GetString() const
                                           std::to_string(m_data[0]), comma_fold);
 }
 
+std::size_t Path::GetLength() const
+{
+  return m_data.size();
+}
+
 void Path::Append(Path::PathElement element)
 {
   m_data.push_back(element);
