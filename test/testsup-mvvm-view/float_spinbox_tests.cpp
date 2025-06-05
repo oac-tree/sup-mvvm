@@ -30,7 +30,8 @@
 #include <QSignalSpy>
 #include <QTest>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for FloatSpinBox class.
 
@@ -140,3 +141,5 @@ TEST_F(FloatSpinBoxTest, SetValueForFloat32)
   EXPECT_EQ(editor.value(), expected_variant);
   EXPECT_EQ(utils::GetQtVariantName(editor.value()), constants::kFloat32QtTypeName);
 }
+
+}  // namespace mvvm::test

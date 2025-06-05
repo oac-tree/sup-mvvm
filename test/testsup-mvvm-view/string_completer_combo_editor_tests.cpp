@@ -30,7 +30,8 @@
 #include <QSignalSpy>
 #include <QTest>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for StringCompleterComboEditor class.
@@ -211,3 +212,5 @@ TEST_F(StringCompleterComboEditorTest, CheckOldValueOnCompleterListChange)
   EXPECT_EQ(editor.GetStringList(), completer_list);
   EXPECT_EQ(editor.GetComboBox()->model()->rowCount(), 3);
 }
+
+}  // namespace mvvm::test

@@ -31,7 +31,8 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing PropertyTreeView.
 
@@ -112,3 +113,5 @@ TEST_F(PropertyTreeViewTest, DestroyModel)
   EXPECT_TRUE(view.GetComponentProvider()->GetSelectedItems().empty());
   EXPECT_EQ(view.GetSelectedItem(), nullptr);
 }
+
+}  // namespace mvvm::test

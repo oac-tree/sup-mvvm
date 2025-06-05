@@ -26,7 +26,8 @@
 
 #include <QComboBox>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ComboPropertyEditor class.
@@ -77,3 +78,5 @@ TEST_F(ComboPropertyEditorTest, SetValueProgrammatically)
 
   EXPECT_EQ(new_data.GetCurrentIndex(), 1);
 }
+
+}  // namespace mvvm::test

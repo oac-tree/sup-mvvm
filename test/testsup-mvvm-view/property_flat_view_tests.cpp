@@ -32,7 +32,8 @@
 #include <QStandardItemModel>
 #include <QTextEdit>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing PropertyFlatView.
 
@@ -144,3 +145,5 @@ TEST_F(PropertyFlatViewTest, CreateGridForPropertyTableViewModel)
   ASSERT_EQ(layout_widgets.size(), 2);
   ASSERT_EQ(layout_widgets[0].size(), 3);
 }
+
+}  // namespace mvvm::test

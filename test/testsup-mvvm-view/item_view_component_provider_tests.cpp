@@ -35,9 +35,10 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace mvvm;
-
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
+
+namespace mvvm::test
+{
 
 class ItemViewComponentProviderTest : public ::testing::Test
 {
@@ -578,3 +579,5 @@ TEST_F(ItemViewComponentProviderTest, SelectItemAfterModelSwitch)
   provider->SetSelectedItem(item);
   EXPECT_EQ(spy_selected.count(), 1);
 }
+
+}  // namespace mvvm::test

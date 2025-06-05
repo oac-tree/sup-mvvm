@@ -27,7 +27,8 @@
 #include <QDir>
 #include <QSize>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing functions from utils.
 
@@ -71,3 +72,5 @@ TEST_F(WidgetUtilsTest, CreatePathPresentation)
       CreatePathPresentation("/home/user"),
       QString(R"(<a href="/">/ </a><a href="/home">home</a> / <a href="/home/user">user</a>)"));
 }
+
+}  // namespace mvvm::test

@@ -28,7 +28,8 @@
 
 #include <QStyleOptionViewItem>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for DefaultCellDecorator class.
@@ -184,3 +185,5 @@ TEST_F(DefaultCellDecoratorTest, InitStyleOption)
     EXPECT_FALSE(style_item.features.testFlag(QStyleOptionViewItem::HasDisplay));
   }
 }
+
+}  // namespace mvvm::test

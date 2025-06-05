@@ -25,7 +25,7 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 /**
@@ -112,4 +112,4 @@ TEST_F(RecentProjectPathTest, UpdateCurrentWorkdir)
             QString::fromStdString(mvvm::test::GetTestSuiteOutputDir()));
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::test

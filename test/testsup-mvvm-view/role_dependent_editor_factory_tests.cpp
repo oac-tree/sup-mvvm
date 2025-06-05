@@ -30,7 +30,8 @@
 
 #include <QSpinBox>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for editor factories from custom_editor_factories header.
@@ -83,3 +84,5 @@ TEST_F(RoleDependentEditorFactoryTest, RoleDependentEditorFactory)
   index = AddDataToModel(variant_t(42), constants::kAllIntSpinBoxEditorType);
   EXPECT_TRUE(dynamic_cast<AllIntSpinBoxEditor*>(factory.CreateEditor(index).get()));
 }
+
+}  // namespace mvvm::test

@@ -33,7 +33,8 @@
 
 #include <QStyleOptionViewItem>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ViewModelDelegate class.
@@ -88,3 +89,5 @@ TEST_F(ViewModelDelegateTest, createEditor)
   auto index2 = CreateViewModelEntry(variant_t(42));
   EXPECT_TRUE(CreateEditor(index2).get() != nullptr);
 }
+
+}  // namespace mvvm::test

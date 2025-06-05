@@ -43,7 +43,8 @@
 #include <QTest>
 #include <QWidget>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Testing PropertyGridController.
@@ -494,3 +495,5 @@ TEST_F(PropertyGridControllerTest, ClearModel)
 
   EXPECT_DOUBLE_EQ(vector->X(), 42.1);
 }
+
+}  // namespace mvvm::test

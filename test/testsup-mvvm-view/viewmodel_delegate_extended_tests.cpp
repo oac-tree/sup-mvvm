@@ -33,7 +33,8 @@
 
 #include <QSpinBox>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for editor factories involving a complex model with filtering capabilities.
@@ -132,3 +133,5 @@ TEST_F(ViewModelDelegateExtendedTest, ViewModelWithFiltering)
     EXPECT_EQ(float_editor->maximum(), 50.0);
   }
 }
+
+}  // namespace mvvm::test

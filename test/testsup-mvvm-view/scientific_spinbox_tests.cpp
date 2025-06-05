@@ -24,7 +24,8 @@
 
 #include <limits>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ScientificSpinBoxTest : public ::testing::Test
 {
@@ -131,3 +132,5 @@ TEST_F(ScientificSpinBoxTest, round)
   EXPECT_DOUBLE_EQ(0.123, round_3(0.1232));
   EXPECT_DOUBLE_EQ(1.002e+2, round_3(100.2));
 }
+
+}  // namespace mvvm::test

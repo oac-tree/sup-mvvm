@@ -31,7 +31,8 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing TopItemsTreeView.
 
@@ -115,3 +116,5 @@ TEST_F(TopItemsTreeViewTest, GetSelectedItems)
             std::vector<SessionItem*>({vector_item0, vector_item1}));
   EXPECT_EQ(view.GetSelectedItem(), vector_item0);
 }
+
+}  // namespace mvvm::test

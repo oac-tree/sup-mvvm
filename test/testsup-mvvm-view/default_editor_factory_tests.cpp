@@ -31,7 +31,8 @@
 
 #include <QSpinBox>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for DefaultEditorFactory class.
@@ -252,3 +253,5 @@ TEST_F(DefaultEditorFactoryTest, DefaultEditorFactoryRealEditorForLowerLimited)
   EXPECT_DOUBLE_EQ(spin_box->minimum(), 42.0);
   EXPECT_DOUBLE_EQ(spin_box->maximum(), std::numeric_limits<double>::max());
 }
+
+}  // namespace mvvm::test

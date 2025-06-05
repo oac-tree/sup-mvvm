@@ -31,7 +31,8 @@
 
 #include <QSpinBox>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for editor factories from custom_editor_factories header.
@@ -102,3 +103,5 @@ TEST_F(VariantDependentEditorFactoryTest, VariantDependentEditorFactory)
     EXPECT_TRUE(dynamic_cast<FloatSpinBox*>(factory.CreateEditor(index).get()));
   }
 }
+
+}  // namespace mvvm::test

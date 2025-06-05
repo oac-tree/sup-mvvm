@@ -31,7 +31,8 @@
 #include <QStringListModel>
 #include <QTest>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for StringCompleterEditor class.
@@ -109,3 +110,5 @@ TEST_F(StringCompleterEditorTest, SetFocus)
 
   EXPECT_EQ(editor.GetCompleter()->model()->rowCount(), 1);
 }
+
+}  // namespace mvvm::test

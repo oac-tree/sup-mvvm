@@ -29,7 +29,8 @@
 #include <QSignalSpy>
 #include <QTest>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for AllIntSpinBox class.
 
@@ -116,3 +117,5 @@ TEST_F(AllIntSpinBoxTest, SetValue)
   editor.CheckNotify();
   EXPECT_EQ(spy_value_changed.count(), 0);
 }
+
+}  // namespace mvvm::test

@@ -24,7 +24,7 @@
 #include <gtest/gtest.h>
 #include <testutils/folder_test.h>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 /**
@@ -112,4 +112,4 @@ TEST_F(AbstractProjectUserInteractorTest, GetExistingProjectPath)
   EXPECT_EQ(mock_interactor.GetCurrentWorkdir(), GetTestHomeDir());
 }
 
-}  // namespace mvvm
+}  // namespace mvvm::test

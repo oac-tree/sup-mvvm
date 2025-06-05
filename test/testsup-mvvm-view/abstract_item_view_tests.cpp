@@ -31,7 +31,8 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class AbstractItemViewTest : public ::testing::Test
 {
@@ -133,3 +134,5 @@ TEST_F(AbstractItemViewTest, SetItemAfterItem)
   EXPECT_NO_THROW(view.SetItem(item2));
   EXPECT_EQ(view.GetComponentProvider()->GetViewModel()->rowCount(), 0);
 }
+
+}  // namespace mvvm::test

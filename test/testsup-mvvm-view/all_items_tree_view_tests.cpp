@@ -33,9 +33,10 @@
 #include <QSignalSpy>
 #include <QTreeView>
 
-using namespace mvvm;
-
 Q_DECLARE_METATYPE(mvvm::SessionItem*)
+
+namespace mvvm::test
+{
 
 //! Testing AllItemsTreeView.
 class AllItemsTreeViewTest : public ::testing::Test
@@ -210,3 +211,5 @@ TEST_F(AllItemsTreeViewTest, SetNullptrAsModel)
   EXPECT_EQ(view_model->rowCount(), 0);
   EXPECT_EQ(view_model->columnCount(), 2);
 }
+
+}  // namespace mvvm::test

@@ -38,7 +38,8 @@
 #include <QTreeView>
 #include <QWidget>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of builders in viewmodel_component_builder.h header.
@@ -155,3 +156,5 @@ TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegateWHenNoMod
   ASSERT_NE(delegate, nullptr);
   EXPECT_EQ(provider->GetViewModel()->GetModel(), nullptr);
 }
+
+}  // namespace mvvm::test
