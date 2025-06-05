@@ -27,7 +27,6 @@
 
 namespace mvvm
 {
-//! Constructs Path object from string containing sequence of integers ("0,0,1,3").
 
 Path Path::CreateFromString(const std::string& str)
 {
@@ -38,24 +37,22 @@ Path Path::CreateFromString(const std::string& str)
 
   std::istringstream iss(str_spaces);
   (void)std::for_each(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(),
-                      [&result](auto x) { result.Append(std::stoi(x)); });
+                      [&result](const auto& element) { result.Append(std::stol(element)); });
   return result;
 }
 
-//! Constructs Path object from vector of integers.
-
-Path Path::CreateFromVector(const std::vector<int>& data)
+Path Path::CreateFromVector(const std::vector<PathElement>& data)
 {
   Path result;
-  (void)std::for_each(data.begin(), data.end(), [&result](auto x) { result.Append(x); });
+  (void)std::for_each(data.begin(), data.end(),
+                      [&result](auto element) { result.Append(element); });
   return result;
 }
-
-//! Returns string representing path ("0,0,1,3").
 
 std::string Path::GetString() const
 {
-  auto comma_fold = [](const std::string& a, int b) { return a + ',' + std::to_string(b); };
+  auto comma_fold = [](const std::string& path, PathElement element)
+  { return path + ',' + std::to_string(element); };
   return m_data.empty() ? std::string()
                         : std::accumulate(std::next(m_data.begin()), m_data.end(),
                                           std::to_string(m_data[0]), comma_fold);

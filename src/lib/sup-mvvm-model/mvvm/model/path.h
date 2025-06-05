@@ -25,34 +25,48 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 namespace mvvm
 {
-//! Supports navigation through SessionModel. Contains a chain of indexes that have to
-//! be used to reach the desired SessionItem starting from the root item. Path class plays
-//! a role of simplified QModelIndex for SessionModel. Used for undo/redo only.
 
-//! Example of tree:
-//! - root              path:""
-//!   - child           path:"0"
-//!     - grandchild    path:"0,0"
-//!     - grandchild    path:"0,1"
-//!   - child           path:"1"
-
+/**
+ * @brief The Path class supports navigation through SessionModel.
+ *
+ * Contains a chain of indexes that have to be used to reach the desired SessionItem starting
+ * from the root item. The Path class serves as a simplified version of QModelIndex for
+ * SessionModel.
+ *
+ * Example of tree:
+ * - root              path:""
+ *   - child           path:"0"
+ *     - grandchild    path:"0,0"
+ *     - grandchild    path:"0,1"
+ *   - child           path:"1"
+ */
 class MVVM_MODEL_EXPORT Path
 {
 public:
-  using PathElement = int;
+  using PathElement = std::uint32_t;
   using container_t = std::vector<PathElement>;
   using iterator = container_t::iterator;
   using const_iterator = container_t::const_iterator;
 
   Path() = default;
 
+  /**
+   * @brief Constructs Path object from string containing sequence of integers ("0,0,1,3").
+   */
   static Path CreateFromString(const std::string& str);
 
-  static Path CreateFromVector(const std::vector<int>& data);
+  /**
+   * @brief Constructs Path object from vector of integers.
+   */
+  static Path CreateFromVector(const std::vector<PathElement>& data);
 
+  /**
+   * @brief Returns string representing path ("0,0,1,3").
+   */
   std::string GetString() const;
 
   void Append(PathElement element);
