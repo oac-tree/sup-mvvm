@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ChartAxisTitleController class.
@@ -104,3 +105,5 @@ TEST_F(ChartAxisTitleControllerTest, SetFont)
   EXPECT_EQ(axis.titleFont().family(), expected_family);
   EXPECT_EQ(axis.titleFont().pointSize(), expected_size);
 }
+
+}  // namespace mvvm::test

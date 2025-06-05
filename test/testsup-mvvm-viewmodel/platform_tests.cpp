@@ -24,7 +24,8 @@
 
 #include <QtGlobal>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for functions defined in platform.h header.
@@ -54,3 +55,5 @@ TEST_F(PlatformTest, CheckPlatform)
   EXPECT_FALSE(IsMacHost());
 #endif
 }
+
+}  // namespace mvvm::test

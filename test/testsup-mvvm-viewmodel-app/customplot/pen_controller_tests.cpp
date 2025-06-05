@@ -26,7 +26,8 @@
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing PenController.
 
@@ -109,3 +110,5 @@ TEST_F(PenControllerTest, SetColorAndWidth)
   pen_item->SetNamedColor("azure");
   EXPECT_EQ(graph->pen().color().name(), QString("#f0ffff"));
 }
+
+}  // namespace mvvm::test

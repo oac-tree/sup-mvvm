@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for ViewItemMap class.
 
@@ -100,3 +101,5 @@ TEST_F(ViewItemMapTest, OnItemRemove)
   map.OnItemRemove(&vector);
   EXPECT_EQ(map.GetSize(), 1);
 }
+
+}  // namespace mvvm::test

@@ -31,7 +31,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class TopItemsViewModelTest : public mvvm::test::FolderTest
 {
@@ -208,3 +209,5 @@ TEST_F(TopItemsViewModelTest, MultiLayerAsRooItem)
   EXPECT_EQ(m_viewmodel.rowCount(QModelIndex()), 0);
   EXPECT_EQ(m_viewmodel.columnCount(QModelIndex()), 2);
 }
+
+}  // namespace mvvm::test

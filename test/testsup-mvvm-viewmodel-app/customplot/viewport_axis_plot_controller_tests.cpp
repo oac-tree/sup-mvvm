@@ -30,12 +30,12 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
-using ::testing::_;
+Q_DECLARE_METATYPE(QCPRange)
+
+namespace mvvm::test
+{
 
 //! Testing AxisPlotControllers.
-
-Q_DECLARE_METATYPE(QCPRange)
 
 class ViewportAxisPlotControllerTest : public ::testing::Test
 {
@@ -437,3 +437,5 @@ TEST_F(ViewportAxisPlotControllerTest, ChangeAxisTitle)
   // QCPAxis should switch to logarithmic
   EXPECT_EQ(qcp_axis->label(), QString("abc"));
 }
+
+}  // namespace mvvm::test

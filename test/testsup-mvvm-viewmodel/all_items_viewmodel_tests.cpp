@@ -38,7 +38,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for AllItemsViewModel class.
@@ -1134,3 +1135,5 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyTag)
   auto child_index2 = viewmodel.index(1, 0, parent_index);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), child);
 }
+
+}  // namespace mvvm::test

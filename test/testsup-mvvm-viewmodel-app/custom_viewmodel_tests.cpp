@@ -37,6 +37,9 @@
 
 #include <QTreeView>
 
+namespace mvvm::test
+{
+
 namespace
 {
 
@@ -139,3 +142,4 @@ TEST_F(CustomViewModelTest, StressInsertRemove)
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 4);
 }
+}  // namespace mvvm::test

@@ -23,8 +23,10 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodelbase/viewitem.h>
 
-using namespace mvvm;
 #include <gtest/gtest.h>
+
+namespace mvvm::test
+{
 
 //! Testing AbstractRowStrategy class.
 
@@ -88,3 +90,5 @@ TEST_F(AbstractRowStrategyTest, ConstructRow)
   EXPECT_EQ(row.at(0)->Data(Qt::DisplayRole).toString(), QString("abc"));
   EXPECT_EQ(row.at(1)->Data(Qt::DisplayRole).toString(), QString(""));
 }
+
+}  // namespace mvvm::test

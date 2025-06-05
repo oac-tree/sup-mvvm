@@ -25,7 +25,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for AbstractEditorFactory.
 
@@ -67,3 +68,5 @@ TEST_F(AbstractEditorFactoryTest, RegisterBuilder)
 
   EXPECT_THROW(factory.RegisterBuilder("abc", builder), RuntimeException);
 }
+
+}  // namespace mvvm::test

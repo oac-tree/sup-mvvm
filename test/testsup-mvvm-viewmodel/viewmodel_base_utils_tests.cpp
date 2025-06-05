@@ -27,6 +27,9 @@
 #include <QModelIndexList>
 #include <QStandardItemModel>
 
+namespace mvvm::test
+{
+
 namespace
 {
 QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
@@ -40,9 +43,8 @@ QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
 
   return result;
 }
-}  // namespace
 
-using namespace mvvm;
+}  // namespace
 
 class ViewModelBaseUtilsTest : public ::testing::Test
 {
@@ -76,3 +78,5 @@ TEST_F(ViewModelBaseUtilsTest, iterate)
 
   EXPECT_EQ(result, expected);
 }
+
+}  // namespace mvvm::test

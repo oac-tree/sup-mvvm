@@ -24,7 +24,8 @@
 
 #include <QStandardItem>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for FilterNameViewModel class.
 
@@ -57,3 +58,5 @@ TEST_F(FilterNameViewModelTest, SimplePattern)
   EXPECT_EQ(proxy.data(proxy.index(1, 0, QModelIndex()), Qt::DisplayRole).toString(),
             QString("ABC"));
 }
+
+}  // namespace mvvm::test

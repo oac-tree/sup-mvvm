@@ -29,7 +29,8 @@
 
 #include <QFont>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for AxisTitleController class.
@@ -94,3 +95,5 @@ TEST_F(AxisTitleControllerTest, SetFont)
   EXPECT_EQ(axis->labelFont().family(), expected_family);
   EXPECT_EQ(axis->labelFont().pointSize(), expected_size);
 }
+
+}  // namespace mvvm::test

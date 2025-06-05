@@ -32,7 +32,8 @@
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Testing GraphViewportPlotController.
 
@@ -297,8 +298,8 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
 
   // validating graph in custom plot
   EXPECT_EQ(custom_plot->graphCount(), 1);
-  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
-  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
+  EXPECT_EQ(GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(GetValues(custom_plot->graph()), expected_values);
 
   // undoing data assignment
   model.GetCommandStack()->Undo();
@@ -307,8 +308,8 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
 
   // graph is still there, but empty
   EXPECT_EQ(custom_plot->graphCount(), 1);
-  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), std::vector<double>());
-  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), std::vector<double>());
+  EXPECT_EQ(GetBinCenters(custom_plot->graph()), std::vector<double>());
+  EXPECT_EQ(GetValues(custom_plot->graph()), std::vector<double>());
   EXPECT_EQ(graph_item->GetDataItem(), nullptr);
 
   // redoing data assignment
@@ -319,8 +320,8 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
   // graph is complete again
   EXPECT_EQ(graph_item->GetDataItem(), data1);
   EXPECT_EQ(custom_plot->graphCount(), 1);
-  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
-  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
+  EXPECT_EQ(GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(GetValues(custom_plot->graph()), expected_values);
 }
 
 //! Adding graph together with data in macro, then undo, then redo again.
@@ -366,8 +367,8 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
 
   // validating graph in custom plot
   EXPECT_EQ(custom_plot->graphCount(), 1);
-  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
-  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
+  EXPECT_EQ(GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(GetValues(custom_plot->graph()), expected_values);
 
   // undoing macro
   model.GetCommandStack()->Undo();
@@ -388,6 +389,8 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
   EXPECT_EQ(viewport_item->GetGraphItems()[0]->GetDataItem(),
             utils::GetTopItems<Data1DItem>(&model).at(0));
 
-  EXPECT_EQ(testutils::GetBinCenters(custom_plot->graph()), expected_centers);
-  EXPECT_EQ(testutils::GetValues(custom_plot->graph()), expected_values);
+  EXPECT_EQ(GetBinCenters(custom_plot->graph()), expected_centers);
+  EXPECT_EQ(GetValues(custom_plot->graph()), expected_values);
 }
+
+}  // namespace mvvm::test

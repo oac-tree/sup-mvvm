@@ -22,7 +22,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for utilities related to custom
 
@@ -62,3 +63,5 @@ TEST_F(CustomVariantTest, IsVariantType)
     }
   }
 }
+
+}  // namespace mvvm::test

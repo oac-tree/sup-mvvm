@@ -38,7 +38,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for ViewModelController class.
 
@@ -645,3 +646,5 @@ TEST_F(ViewModelControllerTest, BrokenRowStrategy)
   (void)controller;
   EXPECT_THROW(m_model.InsertItem<SessionItem>(), RuntimeException);
 }
+
+}  // namespace mvvm::test

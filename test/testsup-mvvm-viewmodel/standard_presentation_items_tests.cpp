@@ -28,11 +28,12 @@
 
 #include <QColor>
 
-using namespace mvvm;
-
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_DECLARE_METATYPE(mvvm::ComboProperty)
 #endif
+
+namespace mvvm::test
+{
 
 class StandardPresentationItemsTest : public ::testing::Test
 {
@@ -510,3 +511,5 @@ TEST_F(StandardPresentationItemsTest, FixedDataPresentationItem)
     EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::red));
   }
 }
+
+}  // namespace mvvm::test

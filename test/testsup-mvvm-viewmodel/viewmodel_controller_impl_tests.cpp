@@ -32,7 +32,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_strategies.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for ViewModelControllerImpl class.
 
@@ -312,3 +313,5 @@ TEST_F(ViewModelControllerImplTest, CreateRowForBrokenConrtoller)
 
   EXPECT_THROW(controller->CreateTreeOfRows(item), RuntimeException);
 }
+
+}  // namespace mvvm::test

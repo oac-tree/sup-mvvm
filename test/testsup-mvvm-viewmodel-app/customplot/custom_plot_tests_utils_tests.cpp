@@ -23,7 +23,8 @@
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
 
-//! Testing "utilr for testing" defined in TestUtils namespace.
+namespace mvvm::test
+{
 
 class CustomplotTestUtilsTest : public ::testing::Test
 {
@@ -38,8 +39,8 @@ TEST_F(CustomplotTestUtilsTest, binCentersbinValues)
   auto graph = custom_plot.addGraph();
   graph->setData(QVector<double>({1, 2, 3}), QVector<double>({10, 20, 30}));
 
-  EXPECT_EQ(testutils::GetBinCenters(graph), std::vector<double>({1, 2, 3}));
-  EXPECT_EQ(testutils::GetValues(graph), std::vector<double>({10, 20, 30}));
+  EXPECT_EQ(GetBinCenters(graph), std::vector<double>({1, 2, 3}));
+  EXPECT_EQ(GetValues(graph), std::vector<double>({10, 20, 30}));
 }
 
 //! Check methods to access graph errors.
@@ -51,12 +52,14 @@ TEST_F(CustomplotTestUtilsTest, binErrors)
   auto graph = custom_plot.addGraph();
   graph->setData(QVector<double>({1, 2, 3}), QVector<double>({10, 20, 30}));
 
-  EXPECT_EQ(testutils::GetErrors(graph), std::vector<double>());
+  EXPECT_EQ(GetErrors(graph), std::vector<double>());
 
   auto errorBars = new QCPErrorBars(custom_plot.xAxis, custom_plot.yAxis);
   errorBars->removeFromLegend();
   errorBars->setDataPlottable(graph);
   errorBars->setData(QVector<double>({0.1, 0.2, 0.3}));
 
-  EXPECT_EQ(testutils::GetErrors(graph), std::vector<double>({0.1, 0.2, 0.3}));
+  EXPECT_EQ(GetErrors(graph), std::vector<double>({0.1, 0.2, 0.3}));
 }
+
+}  // namespace mvvm::test

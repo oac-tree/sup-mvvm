@@ -31,7 +31,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for PropertyViewModel class.
 
@@ -354,3 +355,5 @@ TEST_F(PropertyViewModelTest, InsertIntoEmptyTag)
   auto child_index2 = viewmodel.index(2, 0, parent_index);
   EXPECT_EQ(viewmodel.GetSessionItemFromIndex(child_index2), &width_property);
 }
+
+}  // namespace mvvm::test

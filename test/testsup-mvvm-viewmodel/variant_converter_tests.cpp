@@ -27,7 +27,8 @@
 #include <QColor>
 #include <QDebug>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for utilities related to variant conversion.
 
@@ -529,3 +530,5 @@ TEST_F(VariantConverterTest, QVariantComparisonForComboProperty)
 #endif
   EXPECT_EQ(variant1, variant2);
 }
+
+}  // namespace mvvm::test

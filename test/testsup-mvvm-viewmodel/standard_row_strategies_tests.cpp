@@ -28,14 +28,15 @@
 
 #include <gtest/gtest.h>
 
+namespace mvvm::test
+{
+
 namespace
 {
 const int expected_column_count = 2;
 const QStringList expected_labels = QStringList() << "Name"
                                                   << "Value";
 }  // namespace
-
-using namespace mvvm;
 
 class StandardRowStrategiesTest : public ::testing::Test
 {
@@ -242,3 +243,5 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyVectorItemWhenChildHidden
   auto view_y = items.at(1).get();
   EXPECT_EQ(utils::GetItemFromView(view_y), item.GetItem(VectorItem::kZ));
 }
+
+}  // namespace mvvm::test

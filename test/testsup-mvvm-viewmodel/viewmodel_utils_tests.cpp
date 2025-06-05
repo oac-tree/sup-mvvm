@@ -33,7 +33,8 @@
 
 #include <QColor>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ViewModelUtilsTest : public ::testing::Test
 {
@@ -273,3 +274,5 @@ TEST_F(ViewModelUtilsTest, ItemFromProxyIndexForModelProxy)
   EXPECT_EQ(utils::ItemFromProxyIndex(filtered_model.index(0, 0, parent_index)),
             parent->GetItem(VectorItem::kY));
 }
+
+}  // namespace mvvm::test

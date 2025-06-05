@@ -29,7 +29,8 @@
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class StandardChildrenStrategiesTest : public ::testing::Test
 {
@@ -216,3 +217,5 @@ TEST_F(StandardChildrenStrategiesTest, FixedItemTypeStrategy)
   EXPECT_EQ(strategy.GetChildren(&particle_item),
             std::vector<SessionItem*>({particle_item.GetItem("position")}));
 }
+
+}  // namespace mvvm::test

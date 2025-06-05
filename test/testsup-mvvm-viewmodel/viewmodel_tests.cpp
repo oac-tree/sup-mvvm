@@ -33,7 +33,8 @@
 
 #include <memory>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests ViewModel class.
@@ -122,3 +123,5 @@ TEST_F(ViewModelTest, GetIndexOfSessionItem)
   // FIXME Is this behavior correct? Might be having QModelIndex() in a list is more consistent.
   EXPECT_EQ(view_model.GetIndexOfSessionItem(m_model.GetRootItem()), QModelIndexList());
 }
+
+}  // namespace mvvm::test

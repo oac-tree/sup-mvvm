@@ -31,7 +31,8 @@
 #include <QSignalSpy>
 #include <QStandardItemModel>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class PropertyTableViewModelTest : public ::testing::Test
 {
@@ -253,3 +254,5 @@ TEST_F(PropertyTableViewModelTest, InsertItemSignaling)
   EXPECT_EQ(arguments.at(1).value<int>(), 1);
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
+
+}  // namespace mvvm::test

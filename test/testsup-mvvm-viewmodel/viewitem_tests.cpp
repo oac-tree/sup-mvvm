@@ -26,7 +26,8 @@
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 //! Tests for ViewItem class.
 
@@ -254,3 +255,5 @@ TEST_F(ViewItemTest, GetFlags)
   view_item.SetData(42, Qt::EditRole);
   EXPECT_TRUE(view_item.Flags() & Qt::ItemIsEditable);
 }
+
+}  // namespace mvvm::test

@@ -30,7 +30,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class LineSeriesDataControllerTest : public ::testing::Test
 {
@@ -228,3 +229,5 @@ TEST_F(LineSeriesDataControllerTest, SetXOffset)
   EXPECT_EQ(qt_points.at(1).x(), 12.0);
   EXPECT_EQ(qt_points.at(1).y(), 20.0);
 }
+
+}  // namespace mvvm::test

@@ -22,14 +22,16 @@
 
 #include <gtest/gtest.h>
 
-//! Tests for ViewItemData class.
+namespace mvvm::test
+{
 
+/**
+ * @brief Tests for ViewItemData class.
+ */
 class ViewItemDataTest : public ::testing::Test
 {
 public:
 };
-
-//! Initial state.
 
 TEST_F(ViewItemDataTest, InitialState)
 {
@@ -77,3 +79,5 @@ TEST_F(ViewItemDataTest, SetData)
   EXPECT_TRUE(item.IsEnabled());
   EXPECT_TRUE(item.IsEditable());
 }
+
+}  // namespace mvvm::test

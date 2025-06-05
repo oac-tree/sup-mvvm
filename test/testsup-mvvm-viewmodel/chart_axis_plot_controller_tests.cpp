@@ -32,7 +32,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ChartAxisPlotController class.
@@ -133,3 +134,5 @@ TEST_F(ChartAxisPlotControllerTest, ChangeAxisTitle)
   axis_item->GetTitleItem()->SetText("abc");
   EXPECT_EQ(axis.titleText(), QString("abc"));
 }
+
+}  // namespace mvvm::test

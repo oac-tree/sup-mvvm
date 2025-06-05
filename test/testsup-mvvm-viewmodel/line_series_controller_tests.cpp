@@ -29,7 +29,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class LineSeriesControllerTest : public ::testing::Test
 {
@@ -184,3 +185,5 @@ TEST_F(LineSeriesControllerTest, Displayed)
   line_series_item->SetDisplayed(true);
   EXPECT_TRUE(line_series.isVisible());
 }
+
+}  // namespace mvvm::test

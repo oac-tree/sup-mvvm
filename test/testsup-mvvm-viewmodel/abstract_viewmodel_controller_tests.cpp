@@ -28,8 +28,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using namespace mvvm;
-using ::testing::_;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests of AbstractViewModelController class.
@@ -147,8 +147,8 @@ TEST_F(AbstractViewModelControllerTest, SetModel)
   EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
 
   // setting same model shouldn't trigger a call
-  EXPECT_CALL(controller, OnSubscribeImpl(_)).Times(0);
-  EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
+  EXPECT_CALL(controller, OnSubscribeImpl(::testing::_)).Times(0);
+  EXPECT_CALL(controller, OnSetRootItemImpl(::testing::_)).Times(0);
   controller.SetModel(&model);
 
   EXPECT_EQ(controller.GetModel(), &model);
@@ -181,7 +181,7 @@ TEST_F(AbstractViewModelControllerTest, SetRootItem)
   EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
 
   // setting same item shouldn't trigger a call
-  EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
+  EXPECT_CALL(controller, OnSetRootItemImpl(::testing::_)).Times(0);
   controller.SetRootItem(model.GetRootItem());
 
   EXPECT_EQ(controller.GetModel(), &model);
@@ -212,8 +212,8 @@ TEST_F(AbstractViewModelControllerTest, SetModelThenSetSameRootItem)
   EXPECT_EQ(controller.GetRootItem(), model.GetRootItem());
 
   // setting same root item shouldn't trigger a call
-  EXPECT_CALL(controller, OnSubscribeImpl(_)).Times(0);
-  EXPECT_CALL(controller, OnSetRootItemImpl(_)).Times(0);
+  EXPECT_CALL(controller, OnSubscribeImpl(::testing::_)).Times(0);
+  EXPECT_CALL(controller, OnSetRootItemImpl(::testing::_)).Times(0);
   controller.SetRootItem(model.GetRootItem());
 
   EXPECT_EQ(controller.GetModel(), &model);
@@ -627,3 +627,5 @@ TEST_F(AbstractViewModelControllerTest, UnsubscribeOne)
   m_event_handler.Notify<ModelResetEvent>(&model);
   m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(&model);
 }
+
+}  // namespace mvvm::test

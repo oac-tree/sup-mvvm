@@ -27,7 +27,7 @@
 
 //! Various common utils for unit tests.
 
-namespace testutils
+namespace mvvm::test
 {
 
 //! Returns vector representing bin centers on QCPgraph.
@@ -52,7 +52,8 @@ T* GetPlottable(QCustomPlot* custom_plot)
   }
   return nullptr;
 }
-}  // namespace testutils
+
+}  // namespace mvvm::test
 
 Q_DECLARE_METATYPE(QCPRange)
 

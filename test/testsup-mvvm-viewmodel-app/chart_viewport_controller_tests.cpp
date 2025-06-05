@@ -32,7 +32,8 @@
 
 #include <QSignalSpy>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ChartViewportControllerTest : public ::testing::Test
 {
@@ -310,3 +311,5 @@ TEST_F(ChartViewportControllerTest, SHowHideLegend)
   viewport_item->SetProperty(ChartViewportItem::kLegendEnabled, false);
   EXPECT_FALSE(chart.legend()->isVisible());
 }
+
+}  // namespace mvvm::test

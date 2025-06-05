@@ -26,7 +26,8 @@
 
 #include <gtest/gtest.h>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 class ChartPenControllerTest : public ::testing::Test
 {
@@ -161,3 +162,5 @@ TEST_F(ChartPenControllerTest, SetColorAndWidth)
   pen_item->SetNamedColor("azure");
   EXPECT_EQ(line_series_ptr->pen().color().name(), QString("#f0ffff"));
 }
+
+}  // namespace mvvm::test

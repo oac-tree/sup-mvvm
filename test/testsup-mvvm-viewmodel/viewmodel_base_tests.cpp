@@ -30,7 +30,8 @@
 #include <QSignalSpy>
 #include <QStandardItemModel>
 
-using namespace mvvm;
+namespace mvvm::test
+{
 
 /**
  * @brief Tests for ViewModelBase class.
@@ -427,3 +428,5 @@ TEST_F(ViewModelBaseTest, ClearRowsFromRoot)
   EXPECT_EQ(arguments.at(1).value<int>(), 0);
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
+
+}  // namespace mvvm::test

@@ -31,7 +31,7 @@
 
 #include <QColor>
 
-namespace mvvm
+namespace mvvm::test
 {
 
 /**
@@ -249,4 +249,4 @@ TEST_F(ViewItemFactoryTest, CreateFixedDataViewItem)
   Qt::ItemFlags expected_flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
   EXPECT_EQ(viewitem->Flags(), expected_flags);
 }
-}  // namespace mvvm
+}  // namespace mvvm::test
