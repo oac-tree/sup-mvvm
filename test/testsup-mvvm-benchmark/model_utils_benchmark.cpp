@@ -22,7 +22,7 @@
 #include <mvvm/model/session_model.h>
 
 #include <benchmark/benchmark.h>
-#include <testutils/model_test_helper.h>
+#include <mvvm/test/model_test_helper.h>
 
 using namespace mvvm;
 

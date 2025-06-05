@@ -21,9 +21,9 @@
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
+#include <mvvm/test/model_test_helper.h>
 
 #include <gtest/gtest.h>
-#include <testutils/model_test_helper.h>
 
 #include <cmath>
 
@@ -104,7 +104,7 @@ TEST_F(ModelTestHelperTests, CreateTestDataForThreeLevels)
 
   EXPECT_EQ(model->GetRootItem()->GetTotalItemCount(), max_children_count);
 
-  ASSERT_EQ(data->item_info.size(), GetChildrenCount(max_children_count, depth)); // 7
+  ASSERT_EQ(data->item_info.size(), GetChildrenCount(max_children_count, depth));  // 7
 
   auto root_info = data->item_info.at(0);
   auto child0_info = data->item_info.at(1);
