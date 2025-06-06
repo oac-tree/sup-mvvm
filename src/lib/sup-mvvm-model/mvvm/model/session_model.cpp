@@ -29,6 +29,8 @@
 #include <mvvm/commands/i_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 
+#include <sstream>
+
 namespace
 {
 
@@ -212,8 +214,11 @@ ICommand* SessionModel::ExecuteCommand(std::unique_ptr<ICommand> command)
   }
   catch (const std::exception& ex)
   {
+    std::ostringstream ostr;
+    ostr << "Exception was caught while trying to execute command ";
+    ostr << "with the meassage [" << ex.what() << "]";
     p_impl->m_is_executing = false;
-    throw RuntimeException(ex.what());
+    throw RuntimeException(ostr.str());
   }
   return result;
 }
