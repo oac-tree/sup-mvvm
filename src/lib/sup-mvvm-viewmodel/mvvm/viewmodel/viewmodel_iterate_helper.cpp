@@ -20,6 +20,8 @@
 
 #include "viewmodel_iterate_helper.h"
 
+#include <stack>
+
 namespace mvvm
 {
 void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
@@ -44,6 +46,33 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
     {
       auto index = model->index(row, col, parent);
       iterate_model(model, index, fun);
+    }
+  }
+}
+
+
+void IterateFirstColumn(const QAbstractItemModel &viewmodel, const QModelIndex &parent,
+                        const std::function<void(const QModelIndex &)> &func)
+{
+  struct Node
+  {
+    QModelIndex parent;
+  };
+
+  std::stack<Node> stack;
+
+  stack.push({parent});
+
+  while (!stack.empty())
+  {
+    auto node = stack.top();
+    stack.pop();
+
+    func(node.parent);
+
+    for (int row = viewmodel.rowCount(node.parent) - 1; row >= 0; --row)
+    {
+      stack.push({viewmodel.index(row, 0, node.parent)});
     }
   }
 }

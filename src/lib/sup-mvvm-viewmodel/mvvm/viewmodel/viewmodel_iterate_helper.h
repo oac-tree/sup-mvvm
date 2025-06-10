@@ -31,6 +31,15 @@ namespace mvvm
 void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                    const std::function<void(const QModelIndex& child)>& fun);
 
+/**
+ * @brief Iterates viewmodel and calls user function on every index.
+ *
+ * @details The method goes through column=0 only.
+ */
+void IterateFirstColumn(const QAbstractItemModel& viewmodel, const QModelIndex& parent,
+                        const std::function<void(const QModelIndex&)>& func);
+
+
 }  // namespace mvvm
 
 #endif  // MVVM_VIEWMODEL_VIEWMODEL_ITERATE_HELPER_H_

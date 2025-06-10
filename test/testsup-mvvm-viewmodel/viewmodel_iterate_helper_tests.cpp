@@ -48,6 +48,55 @@ QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
 
 class ViewModelIterateHelperTest : public ::testing::Test
 {
+public:
+  /**
+   * @brief The convenience
+   */
+  struct TestData
+  {
+    std::unique_ptr<QStandardItemModel> model;
+    QStandardItem* item0{nullptr};
+    QStandardItem* item1{nullptr};
+    QStandardItem* item2{nullptr};
+    QStandardItem* item3{nullptr};
+  };
+
+  static QList<QStandardItem*> CreateItemRow(const QString& name1, const QString& name2 = {})
+  {
+    QList<QStandardItem*> result = {new QStandardItem(name1), new QStandardItem(name2)};
+    result.at(0)->setData(name1, Qt::EditRole);
+    return result;
+  }
+
+  /**
+   * @brief Creates test model with several branches
+   *
+   * item0
+   *   item1
+   *   item2
+   *     item3
+   */
+  static TestData CreateTestData()
+  {
+    TestData data;
+    data.model = std::make_unique<QStandardItemModel>();
+
+    data.item0 = data.model->invisibleRootItem();
+
+    auto row = CreateItemRow("item1");
+    data.item1 = row.at(0);
+    data.item0->insertRow(0, row);
+
+    row = CreateItemRow("item2");
+    data.item2 = row.at(0);
+    data.item0->insertRow(1, row);
+
+    row = CreateItemRow("item3");
+    data.item3 = row.at(0);
+    data.item2->insertRow(0, row);
+
+    return data;
+  }
 };
 
 TEST_F(ViewModelIterateHelperTest, iterate)
@@ -64,7 +113,7 @@ TEST_F(ViewModelIterateHelperTest, iterate)
   auto row2 = GetStandardItems({10, 20});
   parentItem->appendRow(row2);
 
-  std::vector<int> expected = {1, 2, 3, 4, 10, 20};
+  const std::vector<int> expected = {1, 2, 3, 4, 10, 20};
   std::vector<int> result;
 
   iterate_model(&model, QModelIndex(),
@@ -75,6 +124,23 @@ TEST_F(ViewModelIterateHelperTest, iterate)
                 });
 
   EXPECT_EQ(result, expected);
+}
+
+TEST_F(ViewModelIterateHelperTest, IterateFirstColumn)
+{
+  auto data = std::move(CreateTestData());
+
+  std::vector<QModelIndex> visited_indices;
+  auto on_index = [&visited_indices](const auto& index) { visited_indices.push_back(index); };
+
+  IterateFirstColumn(*data.model, QModelIndex(), on_index);
+
+  EXPECT_EQ(QModelIndex{}, data.item0->index());
+
+  const std::vector<QModelIndex> expected_indices = {data.item0->index(), data.item1->index(),
+                                                     data.item2->index(), data.item3->index()};
+
+  EXPECT_EQ(visited_indices, expected_indices);
 }
 
 }  // namespace mvvm::test

@@ -147,7 +147,7 @@ TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegate)
   ASSERT_NE(delegate, nullptr);
 }
 
-TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegateWHenNoModelIsKnown)
+TEST_F(ViewmodelComponentBuilderTest, CreateProviderWithDefaultDelegateWhenNoModelIsKnown)
 {
   const std::unique_ptr<ItemViewComponentProvider> provider(
       CreateProvider().ViewModel<AllItemsViewModel>().View(&m_view));
