@@ -18,19 +18,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
-#define MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
+#include "viewmodel_iterate_helper.h"
 
-#include <QAbstractItemModel>
-#include <functional>
-
-namespace mvvm::utils
+namespace mvvm
 {
-
-//! Iterates through the QAbstractItem model and calls the user function on every iteration.
 void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
-                                         const std::function<void(const QModelIndex& child)>& fun);
+                   const std::function<void(const QModelIndex& child)>& fun)
+{
+  if (!model)
+  {
+    return;
+  }
 
-}  // namespace mvvm::utils
+  for (int row = 0; row < model->rowCount(parent); ++row)
+  {
+    for (int col = 0; col < model->columnCount(parent); ++col)
+    {
+      auto index = model->index(row, col, parent);
+      if (index.isValid())
+      {
+        fun(index);
+      }
+    }
+    for (int col = 0; col < model->columnCount(parent); ++col)
+    {
+      auto index = model->index(row, col, parent);
+      iterate_model(model, index, fun);
+    }
+  }
+}
 
-#endif  // MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
+}  // namespace mvvm

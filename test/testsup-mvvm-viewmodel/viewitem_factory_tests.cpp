@@ -25,7 +25,7 @@
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
 #include <mvvm/viewmodel/viewitem.h>
-#include <mvvm/viewmodel/viewmodel_base_utils.h>
+#include <mvvm/viewmodel/viewmodel_iterate_helper.h>
 
 #include <gtest/gtest.h>
 

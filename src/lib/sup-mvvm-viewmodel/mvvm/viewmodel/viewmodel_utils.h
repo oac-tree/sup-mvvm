@@ -25,7 +25,7 @@
 #include <mvvm/viewmodel/standard_presentation_items.h>
 #include <mvvm/viewmodel/viewitem.h>
 #include <mvvm/viewmodel/viewmodel_base.h>
-#include <mvvm/viewmodel/viewmodel_base_utils.h>
+#include <mvvm/viewmodel/viewmodel_iterate_helper.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
@@ -114,7 +114,7 @@ std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, c
       result.push_back(view_item);
     }
   };
-  utils::iterate_model(view_model, QModelIndex(), on_index);
+  iterate_model(view_model, QModelIndex(), on_index);
   return result;
 }
 

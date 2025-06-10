@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_base_utils.h"
+#include "mvvm/viewmodel/viewmodel_iterate_helper.h"
 
 #include <mvvm/standarditems/vector_item.h>
 
@@ -46,13 +46,11 @@ QList<QStandardItem*> GetStandardItems(const std::vector<int>& data)
 
 }  // namespace
 
-class ViewModelBaseUtilsTest : public ::testing::Test
+class ViewModelIterateHelperTest : public ::testing::Test
 {
 };
 
-//! Validate Utils::iterate_model function with user callback.
-
-TEST_F(ViewModelBaseUtilsTest, iterate)
+TEST_F(ViewModelIterateHelperTest, iterate)
 {
   QStandardItemModel model;
 
@@ -69,12 +67,12 @@ TEST_F(ViewModelBaseUtilsTest, iterate)
   std::vector<int> expected = {1, 2, 3, 4, 10, 20};
   std::vector<int> result;
 
-  utils::iterate_model(&model, QModelIndex(),
-                       [&](const QModelIndex& index)
-                       {
-                         auto item = model.itemFromIndex(index);
-                         result.push_back(item->data(Qt::EditRole).value<int>());
-                       });
+  iterate_model(&model, QModelIndex(),
+                [&](const QModelIndex& index)
+                {
+                  auto item = model.itemFromIndex(index);
+                  result.push_back(item->data(Qt::EditRole).value<int>());
+                });
 
   EXPECT_EQ(result, expected);
 }
