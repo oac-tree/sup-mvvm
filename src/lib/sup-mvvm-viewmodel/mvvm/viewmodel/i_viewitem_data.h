@@ -35,7 +35,13 @@ namespace mvvm
 class MVVM_VIEWMODEL_EXPORT IViewItemData
 {
 public:
+  IViewItemData() = default;
   virtual ~IViewItemData() = default;
+
+  IViewItemData(const IViewItemData&) = delete;
+  IViewItemData& operator=(const IViewItemData&) = delete;
+  IViewItemData(IViewItemData&&) = delete;
+  IViewItemData& operator=(IViewItemData&&) = delete;
 
   virtual QVariant Data(int role) const = 0;
 
