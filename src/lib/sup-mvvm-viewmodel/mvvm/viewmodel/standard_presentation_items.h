@@ -25,7 +25,7 @@
 //! Defines standard presentations for sessionitem.
 
 #include <mvvm/model/mvvm_types.h>
-#include <mvvm/viewmodelbase/viewitem_data_interface.h>
+#include <mvvm/viewmodel/viewitem_data_interface.h>
 
 namespace mvvm
 {

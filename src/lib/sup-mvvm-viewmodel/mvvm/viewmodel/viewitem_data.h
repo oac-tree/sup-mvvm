@@ -18,34 +18,44 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWITEM_DATA_INTERFACE_H_
-#define MVVM_VIEWMODELBASE_VIEWITEM_DATA_INTERFACE_H_
+#ifndef MVVM_VIEWMODEL_VIEWITEM_DATA_H_
+#define MVVM_VIEWMODEL_VIEWITEM_DATA_H_
 
-#include <mvvm/viewmodel_export.h>
+#include "viewitem_data_interface.h"
 
-#include <QVariant>
+#include <QMap>
 
 namespace mvvm
 {
 
 /**
- * @brief The ViewItemDataInterface class is an interface to provide ViewItem with the access to the
- * data.
+ * @brief The ViewItemData class carries the data for ViewItem.
  */
-class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
+class MVVM_VIEWMODEL_EXPORT ViewItemData : public ViewItemDataInterface
 {
 public:
-  virtual ~ViewItemDataInterface() = default;
+  ViewItemData();
 
-  virtual QVariant Data(int role) const = 0;
+  virtual ~ViewItemData() = default;
 
-  virtual bool SetData(const QVariant& data, int role) = 0;
+  QVariant Data(int role = Qt::EditRole) const override;
 
-  virtual bool IsEnabled() const = 0;
+  bool SetData(const QVariant& data, int role = Qt::EditRole) override;
 
-  virtual bool IsEditable() const = 0;
+  bool IsEnabled() const override;
+
+  void SetEnabled(bool value);
+
+  bool IsEditable() const override;
+
+  void SetEditable(bool value);
+
+private:
+  bool m_is_enabled;
+  bool m_is_editable;
+  QMap<int, QVariant> m_data;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODELBASE_VIEWITEM_DATA_INTERFACE_H_
+#endif  // MVVM_VIEWMODEL_VIEWITEM_DATA_H_

@@ -27,7 +27,7 @@
 #include <mvvm/viewmodel/standard_children_strategies.h>
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel_controller_factory.h>
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 #include <gtest/gtest.h>
 

@@ -31,7 +31,7 @@
 #include <mvvm/viewmodel/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel_controller_factory.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
-#include <mvvm/viewmodelbase/viewmodel_base.h>
+#include <mvvm/viewmodel/viewmodel_base.h>
 
 #include <gtest/gtest.h>
 #include <testutils/test_strategies.h>

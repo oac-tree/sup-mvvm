@@ -29,9 +29,9 @@
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/abstract_row_strategy.h>
 #include <mvvm/viewmodel/standard_children_strategies.h>
+#include <mvvm/viewmodel/viewitem.h>
 #include <mvvm/viewmodel/viewitem_factory.h>
 #include <mvvm/viewmodel/viewmodel_controller_factory.h>
-#include <mvvm/viewmodelbase/viewitem.h>
 
 #include <gtest/gtest.h>
 

@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodelbase/viewitem.h"
+#include "mvvm/viewmodel/viewitem.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/container_utils.h>

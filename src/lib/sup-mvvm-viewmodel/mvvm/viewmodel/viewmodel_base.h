@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWMODEL_BASE_H_
-#define MVVM_VIEWMODELBASE_VIEWMODEL_BASE_H_
+#ifndef MVVM_VIEWMODEL_VIEWMODEL_BASE_H_
+#define MVVM_VIEWMODEL_VIEWMODEL_BASE_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -150,4 +150,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODELBASE_VIEWMODEL_BASE_H_
+#endif  // MVVM_VIEWMODEL_VIEWMODEL_BASE_H_

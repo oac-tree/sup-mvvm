@@ -22,7 +22,7 @@
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 #include <gtest/gtest.h>
 

@@ -23,7 +23,7 @@
 #include "standard_presentation_items.h"
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 namespace mvvm
 {

@@ -18,26 +18,34 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
-#define MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
+#ifndef MVVM_VIEWMODEL_VIEWITEM_DATA_INTERFACE_H_
+#define MVVM_VIEWMODEL_VIEWITEM_DATA_INTERFACE_H_
 
-#include <mvvm/viewmodelbase/viewitem.h>
-#include <mvvm/viewmodelbase/viewmodel_base.h>
+#include <mvvm/viewmodel_export.h>
 
-#include <QAbstractItemModel>
-#include <functional>
+#include <QVariant>
 
 namespace mvvm
 {
-class ViewModelBase;
-}
 
-namespace mvvm::utils
+/**
+ * @brief The ViewItemDataInterface class is an interface to provide ViewItem with the access to the
+ * data.
+ */
+class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
 {
-//! Iterates through the QAbstractItem model and calls the user function on every iteration.
-MVVM_VIEWMODEL_EXPORT void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
-                                         const std::function<void(const QModelIndex& child)>& fun);
+public:
+  virtual ~ViewItemDataInterface() = default;
 
-}  // namespace mvvm::utils
+  virtual QVariant Data(int role) const = 0;
 
-#endif  // MVVM_VIEWMODELBASE_VIEWMODEL_BASE_UTILS_H_
+  virtual bool SetData(const QVariant& data, int role) = 0;
+
+  virtual bool IsEnabled() const = 0;
+
+  virtual bool IsEditable() const = 0;
+};
+
+}  // namespace mvvm
+
+#endif  // MVVM_VIEWMODEL_VIEWITEM_DATA_INTERFACE_H_

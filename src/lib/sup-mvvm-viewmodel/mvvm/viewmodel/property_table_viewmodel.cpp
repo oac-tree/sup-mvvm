@@ -24,7 +24,7 @@
 #include "standard_row_strategies.h"
 #include "viewmodel_controller_factory.h"
 
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 namespace mvvm
 {

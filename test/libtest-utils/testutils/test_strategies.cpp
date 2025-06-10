@@ -20,7 +20,7 @@
 
 #include "test_strategies.h"
 
-#include <mvvm/viewmodelbase/viewitem.h>
+#include <mvvm/viewmodel/viewitem.h>
 
 namespace mvvm::test
 {

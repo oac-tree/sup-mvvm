@@ -18,11 +18,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodelbase/viewmodel_base.h"
+#include "mvvm/viewmodel/viewmodel_base.h"
 
 #include <mvvm/utils/container_utils.h>
-#include <mvvm/viewmodelbase/viewitem.h>
-#include <mvvm/viewmodelbase/viewitem_data.h>
+#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/viewmodel/viewitem_data.h>
 
 #include <gtest/gtest.h>
 #include <testutils/test_container_helper.h>

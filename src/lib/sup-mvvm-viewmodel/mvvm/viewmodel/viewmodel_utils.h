@@ -23,8 +23,10 @@
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/viewmodel/standard_presentation_items.h>
+#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/viewmodel/viewmodel_base.h>
+#include <mvvm/viewmodel/viewmodel_base_utils.h>
 #include <mvvm/viewmodel_export.h>
-#include <mvvm/viewmodelbase/viewmodel_base_utils.h>
 
 #include <QVariant>
 #include <QVector>

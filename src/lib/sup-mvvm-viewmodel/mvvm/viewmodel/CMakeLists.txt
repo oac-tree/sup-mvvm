@@ -30,12 +30,21 @@ target_sources(${library_name} PRIVATE
   top_items_viewmodel.h
   variant_converter.cpp
   variant_converter.h
+  viewitem.cpp
+  viewitem.h
+  viewitem_data.cpp
+  viewitem_data.h
+  viewitem_data_interface.h
   viewitem_factory.cpp
   viewitem_factory.h
   viewitem_map.cpp
   viewitem_map.h
   viewmodel.cpp
   viewmodel.h
+  viewmodel_base.cpp
+  viewmodel_base.h
+  viewmodel_base_utils.cpp
+  viewmodel_base_utils.h
   viewmodel_controller.cpp
   viewmodel_controller.h
   viewmodel_controller_factory.cpp

@@ -24,8 +24,8 @@
 #include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/viewmodel_utils.h>
-#include <mvvm/viewmodelbase/viewitem.h>
-#include <mvvm/viewmodelbase/viewmodel_base_utils.h>
+#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/viewmodel/viewmodel_base_utils.h>
 
 #include <gtest/gtest.h>
 
