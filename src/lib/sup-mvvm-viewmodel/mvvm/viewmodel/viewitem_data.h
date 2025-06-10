@@ -21,7 +21,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEM_DATA_H_
 #define MVVM_VIEWMODEL_VIEWITEM_DATA_H_
 
-#include "viewitem_data_interface.h"
+#include <mvvm/viewmodel/i_viewitem_data.h>
 
 #include <QMap>
 
@@ -31,7 +31,7 @@ namespace mvvm
 /**
  * @brief The ViewItemData class carries the data for ViewItem.
  */
-class MVVM_VIEWMODEL_EXPORT ViewItemData : public ViewItemDataInterface
+class MVVM_VIEWMODEL_EXPORT ViewItemData : public IViewItemData
 {
 public:
   ViewItemData();

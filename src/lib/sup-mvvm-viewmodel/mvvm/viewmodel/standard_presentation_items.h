@@ -25,7 +25,7 @@
 //! Defines standard presentations for sessionitem.
 
 #include <mvvm/model/mvvm_types.h>
-#include <mvvm/viewmodel/viewitem_data_interface.h>
+#include <mvvm/viewmodel/i_viewitem_data.h>
 
 namespace mvvm
 {
@@ -38,7 +38,7 @@ class SessionItem;
  * Serves as an adapter to convert std::variant based data to QVariant. Provides additional Qt's
  * data roles (background, color) that aren't defined in the underlying SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : public ViewItemDataInterface
+class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : public IViewItemData
 {
 public:
   QVariant Data(int qt_role) const override;

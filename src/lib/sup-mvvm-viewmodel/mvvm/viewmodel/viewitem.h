@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-class ViewItemDataInterface;
+class IViewItemData;
 
 /**
  * @brief The ViewItem class represents a single editable/displayable entity in cells of ViewModel.
@@ -39,7 +39,7 @@ class MVVM_VIEWMODEL_EXPORT ViewItem
 {
 public:
   ViewItem();
-  explicit ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data);
+  explicit ViewItem(std::unique_ptr<IViewItemData> view_item_data);
   virtual ~ViewItem();
 
   /**
@@ -104,12 +104,12 @@ public:
   /**
    * @brief Returns underlying data data item (non-const version).
    */
-  ViewItemDataInterface* GetItemData();
+  IViewItemData* GetItemData();
 
   /**
    * @brief Returns underlying data item (const version).
    */
-  const ViewItemDataInterface* GetItemData() const;
+  const IViewItemData* GetItemData() const;
 
   /**
    * @brief Returns the Row where the item is located in its parent's child table, or -1 if the item

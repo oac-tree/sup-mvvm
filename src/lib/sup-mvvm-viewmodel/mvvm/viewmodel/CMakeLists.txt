@@ -13,6 +13,7 @@ target_sources(${library_name} PRIVATE
   filter_name_viewmodel.h
   i_children_strategy.h
   i_row_strategy.h
+  i_viewitem_data.h
   i_viewmodel_controller.h
   property_table_viewmodel.cpp
   property_table_viewmodel.h
@@ -34,7 +35,6 @@ target_sources(${library_name} PRIVATE
   viewitem.h
   viewitem_data.cpp
   viewitem_data.h
-  viewitem_data_interface.h
   viewitem_factory.cpp
   viewitem_factory.h
   viewitem_map.cpp

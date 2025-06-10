@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEM_DATA_INTERFACE_H_
-#define MVVM_VIEWMODEL_VIEWITEM_DATA_INTERFACE_H_
+#ifndef MVVM_VIEWMODEL_I_VIEWITEM_DATA_H_
+#define MVVM_VIEWMODEL_I_VIEWITEM_DATA_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -32,10 +32,10 @@ namespace mvvm
  * @brief The ViewItemDataInterface class is an interface to provide ViewItem with the access to the
  * data.
  */
-class MVVM_VIEWMODEL_EXPORT ViewItemDataInterface
+class MVVM_VIEWMODEL_EXPORT IViewItemData
 {
 public:
-  virtual ~ViewItemDataInterface() = default;
+  virtual ~IViewItemData() = default;
 
   virtual QVariant Data(int role) const = 0;
 
@@ -48,4 +48,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWITEM_DATA_INTERFACE_H_
+#endif  // MVVM_VIEWMODEL_I_VIEWITEM_DATA_H_

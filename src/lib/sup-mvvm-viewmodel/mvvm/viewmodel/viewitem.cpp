@@ -40,10 +40,10 @@ struct ViewItem::ViewItemImpl
   int m_columns{0};
   int m_my_row{-1};
   int m_my_col{-1};
-  std::unique_ptr<ViewItemDataInterface> m_view_item_data;
+  std::unique_ptr<IViewItemData> m_view_item_data;
   ViewItem* m_parent{nullptr};
 
-  explicit ViewItemImpl(std::unique_ptr<ViewItemDataInterface> view_item_data)
+  explicit ViewItemImpl(std::unique_ptr<IViewItemData> view_item_data)
       : m_view_item_data(std::move(view_item_data))
   {
   }
@@ -139,7 +139,7 @@ struct ViewItem::ViewItemImpl
 
 ViewItem::ViewItem() : ViewItem(std::make_unique<ViewItemData>()) {}
 
-ViewItem::ViewItem(std::unique_ptr<ViewItemDataInterface> view_item_data)
+ViewItem::ViewItem(std::unique_ptr<IViewItemData> view_item_data)
     : p_impl(std::make_unique<ViewItemImpl>(std::move(view_item_data)))
 {
 }
@@ -201,12 +201,12 @@ ViewItem* ViewItem::GetChild(int row, int column) const
   return p_impl->GetChild(row, column);
 }
 
-ViewItemDataInterface* ViewItem::GetItemData()
+IViewItemData* ViewItem::GetItemData()
 {
-  return const_cast<ViewItemDataInterface*>(std::as_const(*this).GetItemData());
+  return const_cast<IViewItemData*>(std::as_const(*this).GetItemData());
 }
 
-const ViewItemDataInterface* ViewItem::GetItemData() const
+const IViewItemData* ViewItem::GetItemData() const
 {
   return p_impl->m_view_item_data.get();
 }
