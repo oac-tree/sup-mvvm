@@ -21,15 +21,16 @@
 #include "item_utils.h"
 
 #include "i_session_model.h"
+#include "item_factory.h"
 #include "model_utils.h"
+#include "process_command.h"
 #include "session_item.h"
 #include "session_item_container.h"
 #include "tagged_items.h"
 
+#include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/unique_id_generator.h>
-#include <mvvm/model/i_session_model.h>
-#include <mvvm/model/item_factory.h>
 #include <mvvm/serialization/tree_data_item_converter.h>
 #include <mvvm/utils/container_utils.h>
 
@@ -68,6 +69,11 @@ namespace mvvm::utils
 void SetIdentifier(SessionItem& item)
 {
   item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+}
+
+bool SetData(SessionItem& item, const variant_t& value, role_t role)
+{
+  return ProcessCommand<SetValueCommand>(item.GetModel(), &item, value, role);
 }
 
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)

@@ -42,6 +42,13 @@ class ItemUtilsTests : public ::testing::Test
 {
 };
 
+TEST_F(ItemUtilsTests, SetData)
+{
+  SessionItem item;
+  EXPECT_TRUE(utils::SetData(item, 42, DataRole::kData));
+  EXPECT_EQ(item.Data<int>(), 42);
+}
+
 TEST_F(ItemUtilsTests, IterateItem)
 {
   std::vector<const SessionItem*> visited_items;

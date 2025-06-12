@@ -135,7 +135,7 @@ public:
    * @return The variant with the data, or data itself if template parameter is specified.
    */
   template <typename T = variant_t>
-  T Data(role_t = DataRole::kData) const;
+  T Data(role_t role = DataRole::kData) const;
 
   /**
    * @brief Sets the data for the given role.
@@ -372,16 +372,21 @@ public:
 
   /**
    * @brief Sets the data for the given role.
+   *
+   * It is the main method that passes through the data strategy and command framework. It is called
+   * from all templated SessionItem::SetData methods.
    */
   virtual bool SetDataInternal(const variant_t& value, role_t role);
 
   /**
-   * @brief Sets the data for the given role.
+   * @brief Sets implementation data for the given role.
+   *
+   * This call bypasses possible data strategy, notifications, and command framework.
    */
   bool SetDataImpl(const variant_t& value, role_t role);
 
   /**
-   * @brief Returns the data stored for the given role.
+   * @brief Returns implementatiojn data stored for the given role.
    */
   variant_t GetDataImpl(role_t role) const;
 

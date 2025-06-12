@@ -41,6 +41,13 @@ namespace mvvm::utils
 void SetIdentifier(SessionItem& item);
 
 /**
+ * @brief Sets data to the item using command framework.
+ *
+ * This call bypases possible data strategy on board of SessionItem.
+ */
+bool SetData(SessionItem& item, const variant_t& value, role_t role);
+
+/**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
  * for every item (non-const version).
  *
