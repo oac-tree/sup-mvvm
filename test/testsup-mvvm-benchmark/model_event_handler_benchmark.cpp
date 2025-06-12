@@ -21,7 +21,6 @@
 #include "mvvm/signals/model_event_handler.h"
 
 #include <mvvm/model/application_model.h>
-#include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
 
 #include <benchmark/benchmark.h>

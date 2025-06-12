@@ -25,7 +25,7 @@
 //! Defines all supported elementary data types.
 
 #include <mvvm/core/basic_scalar_types.h>
-#include <mvvm/model/mvvm_types.h>
+#include <mvvm/core/mvvm_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/model_export.h>

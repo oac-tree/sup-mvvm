@@ -23,7 +23,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/variant.h>
-#include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/tagindex.h>
 #include <mvvm/signals/signal_slot_fwd.h>
 #include <mvvm/utils/container_utils.h>

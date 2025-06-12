@@ -21,10 +21,9 @@
 #ifndef MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
 #define MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
 
-//! @file standardpresentationitems.h
+//! @file
 //! Defines standard presentations for sessionitem.
 
-#include <mvvm/model/mvvm_types.h>
 #include <mvvm/viewmodel/i_viewitem_data.h>
 
 namespace mvvm

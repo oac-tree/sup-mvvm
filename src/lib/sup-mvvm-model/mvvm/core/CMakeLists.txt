@@ -4,6 +4,7 @@ target_sources(${library_name} PRIVATE
   filesystem.h
   mvvm_exceptions.cpp
   mvvm_exceptions.h
+  mvvm_types.h
   platform.cpp
   platform.h
   unique_id_generator.cpp

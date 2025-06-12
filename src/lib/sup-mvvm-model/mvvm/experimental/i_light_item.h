@@ -22,7 +22,7 @@
 #define MVVM_EXPERIMENTAL_I_LIGHT_ITEM_H_
 
 #include <mvvm/core/variant.h>
-#include <mvvm/model/mvvm_types.h>
+#include <mvvm/core/mvvm_types.h>
 #include <memory>
 
 namespace mvvm::experimental

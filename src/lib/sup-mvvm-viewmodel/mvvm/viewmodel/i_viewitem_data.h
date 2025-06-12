@@ -22,7 +22,7 @@
 #define MVVM_VIEWMODEL_I_VIEWITEM_DATA_H_
 
 #include <mvvm/viewmodel_export.h>
-#include <mvvm/model/mvvm_types.h>
+#include <mvvm/core/mvvm_types.h>
 
 #include <QVariant>
 

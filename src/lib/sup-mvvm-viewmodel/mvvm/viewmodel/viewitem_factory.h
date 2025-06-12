@@ -21,10 +21,10 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEM_FACTORY_H_
 #define MVVM_VIEWMODEL_VIEWITEM_FACTORY_H_
 
-//! @file viewitem_factory.h
+//! @file
 //! Contains factory methods to construct ViewItem's looking at different SessionItem parts.
 
-#include <mvvm/model/mvvm_types.h>
+#include <mvvm/core/mvvm_types.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <map>

@@ -20,7 +20,6 @@
 
 #include "mvvm/model/session_item_impl.h"
 
-#include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 

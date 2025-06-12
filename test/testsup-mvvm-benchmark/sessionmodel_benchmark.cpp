@@ -21,7 +21,6 @@
 #include "mvvm/model/session_model.h"
 
 #include <mvvm/model/item_constants.h>
-#include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/property_item.h>
 
 #include <benchmark/benchmark.h>

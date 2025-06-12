@@ -24,7 +24,6 @@ target_sources(${library_name} PRIVATE
   model_fwd.h
   model_utils.cpp
   model_utils.h
-  mvvm_types.h
   path.cpp
   path.h
   process_command.cpp
