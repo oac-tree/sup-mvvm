@@ -27,6 +27,8 @@ target_sources(${library_name} PRIVATE
   mvvm_types.h
   path.cpp
   path.h
+  process_command.cpp
+  process_command.h
   property_item.cpp
   property_item.h
   session_item.cpp
