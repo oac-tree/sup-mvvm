@@ -27,6 +27,7 @@
 #include <mvvm/signals/signal_slot_fwd.h>
 #include <mvvm/utils/container_utils.h>
 
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -49,6 +50,8 @@ class SessionItemImpl;
 class MVVM_MODEL_EXPORT SessionItem
 {
 public:
+  using data_strategy_t = std::function<bool(SessionItem*, const variant_t& value, role_t role)>;
+
   SessionItem();
   virtual ~SessionItem();
 
@@ -146,8 +149,8 @@ public:
   /**
    * @brief Sets the data for the given role.
    *
-   * If item belongs to the model, will act through the model. This will invoke a notification
-   * mechanism and provide the possibility for undo, if implemented.
+   * If the item belongs to the model, it will act through the model. This will invoke a
+   * notification mechanism and provide the possibility for undo if implemented.
    *
    * If the data is the same as before, will return false as a sign that no data was changed. It is
    * not possible to change the data type for a given role, once the role was set for the first
@@ -170,8 +173,8 @@ public:
   /**
    * @brief Sets the data for the given role.
    *
-   * It is the main method that passes through the data strategy and command framework. It is called
-   * from all templated SessionItem::SetData methods.
+   * It is the main method that passes through the data strategy, command framework, and
+   * notifications. It is called from all templated SessionItem::SetData methods.
    */
   virtual bool SetDataInternal(const variant_t& value, role_t role);
 
@@ -396,6 +399,11 @@ public:
    */
   TaggedItems* GetTaggedItems();
 
+  /**
+   * @brief Sets strategy which will be used to set the data.
+   */
+  void SetStrategy(const data_strategy_t& data_strategy);
+
 protected:
   explicit SessionItem(const std::string& item_type);
   SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
@@ -407,6 +415,7 @@ private:
   void SetDataAndTags(std::unique_ptr<SessionItemData> data, std::unique_ptr<TaggedItems> tags);
 
   std::unique_ptr<SessionItemImpl> p_impl;
+  data_strategy_t m_data_strategy;
 };
 
 template <typename T>

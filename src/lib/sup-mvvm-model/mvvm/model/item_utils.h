@@ -41,9 +41,15 @@ namespace mvvm::utils
 void SetIdentifier(SessionItem& item);
 
 /**
- * @brief Sets data to the item using command framework.
+ * @brief Sets item data for the given role.
  *
- * This call bypases possible data strategy on board of SessionItem.
+ * If the item belongs to the model, it will act through the model. This will invoke a notification
+ * mechanism and provide the possibility for undo if implemented.
+ *
+ * @note This call bypasses possible data strategy on board of SessionItem. Thus, the method shall
+ * be used within a custom data strategy implementation.
+ *
+ * @see SessionItem::SetDataStrategy
  */
 bool SetData(SessionItem& item, const variant_t& value, role_t role);
 

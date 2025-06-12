@@ -936,4 +936,17 @@ TEST_F(SessionItemTests, CloneParentAndChild)
   }
 }
 
+TEST_F(SessionItemTests, SetDataViaStrategy)
+{
+  SessionItem item;
+  const double expected = 42.0;
+
+  auto data_strategy = [](SessionItem* item, const variant_t& value, role_t role)
+  { return utils::SetData(*item, value, role); };
+  item.SetStrategy(data_strategy);
+
+  EXPECT_TRUE(item.SetData(expected));
+  EXPECT_EQ(item.Data<double>(), expected);
+}
+
 }  // namespace mvvm::test

@@ -144,6 +144,10 @@ bool SessionItem::SetData(const char* value, role_t role)
 
 bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
 {
+  if (m_data_strategy)
+  {
+    return m_data_strategy(this, value, role);
+  }
   return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
 }
 
@@ -310,6 +314,11 @@ const TaggedItems* SessionItem::GetTaggedItems() const
 TaggedItems* SessionItem::GetTaggedItems()
 {
   return const_cast<TaggedItems*>(std::as_const(*this).GetTaggedItems());
+}
+
+void SessionItem::SetStrategy(const data_strategy_t& data_strategy)
+{
+  m_data_strategy = data_strategy;
 }
 
 void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
