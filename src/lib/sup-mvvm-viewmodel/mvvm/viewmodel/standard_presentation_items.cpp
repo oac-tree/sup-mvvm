@@ -29,7 +29,7 @@
 namespace mvvm
 {
 
-SessionItemPresentation::SessionItemPresentation(SessionItem *item, int role)
+SessionItemPresentation::SessionItemPresentation(SessionItem *item, role_t role)
     : m_item(item), m_data_role(role)
 {
 }
@@ -86,13 +86,13 @@ int SessionItemPresentation::GetDataRole() const
   return m_data_role;
 }
 
-bool SessionItemPresentation::IsValidItemDataRole(int data_role) const
+bool SessionItemPresentation::IsValidItemDataRole(role_t data_role) const
 {
   return m_data_role == data_role || data_role == DataRole::kAppearance
          || data_role == DataRole::kTooltip;
 }
 
-QVector<int> SessionItemPresentation::GetQtRoles(int data_role) const
+QVector<int> SessionItemPresentation::GetQtRoles(role_t data_role) const
 {
   return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<int>();
 }
@@ -126,7 +126,7 @@ bool LabelPresentationItem::IsEditable() const
 // DataPresentationItem
 // ------------------------------------------------------------------------------------------------
 
-DataPresentationItem::DataPresentationItem(SessionItem *item, int role)
+DataPresentationItem::DataPresentationItem(SessionItem *item, role_t role)
     : SessionItemPresentation(item, role)
 {
   if (!item)
@@ -232,7 +232,7 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
   }
 }
 
-QVector<int> FixedDataPresentationItem::GetQtRoles(int data_role) const
+QVector<int> FixedDataPresentationItem::GetQtRoles(role_t data_role) const
 {
   (void)data_role;  // we use fixed roles which are unboard
   QVector<int> result;

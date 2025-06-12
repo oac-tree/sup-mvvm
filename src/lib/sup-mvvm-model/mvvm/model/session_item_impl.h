@@ -56,9 +56,9 @@ public:
 
   std::string GetType() const;
 
-  variant_t Data(std::int32_t role);
+  variant_t Data(role_t role);
 
-  bool SetData(const variant_t& value, std::int32_t role);
+  bool SetData(const variant_t& value, role_t role);
 
   SessionItemData* GetItemData();
 

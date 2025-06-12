@@ -216,7 +216,7 @@ MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance fla
  * ReplaceData(&item, "abc", role); <-- will succeed, new data will be std::string, instead of
  * double
  */
-MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, int role);
+MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, role_t role);
 
 /**
  * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type

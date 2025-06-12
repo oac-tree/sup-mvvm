@@ -28,21 +28,21 @@
 namespace mvvm
 {
 
-std::vector<std::int32_t> SessionItemData::GetRoles() const
+std::vector<role_t> SessionItemData::GetRoles() const
 {
-  std::vector<std::int32_t> result;
+  std::vector<role_t> result;
   std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
                  [](const auto& role_data) { return role_data.first; });
   return result;
 }
 
-variant_t SessionItemData::Data(std::int32_t role) const
+variant_t SessionItemData::Data(role_t role) const
 {
   auto iter = m_values.find(role);
   return iter == m_values.end() ? variant_t() : iter->second;
 }
 
-bool SessionItemData::SetData(const variant_t& value, std::int32_t role)
+bool SessionItemData::SetData(const variant_t& value, role_t role)
 {
   auto iter = m_values.find(role);
 
@@ -77,13 +77,13 @@ bool SessionItemData::SetData(const variant_t& value, std::int32_t role)
   return true;
 }
 
-bool SessionItemData::HasData(std::int32_t role) const
+bool SessionItemData::HasData(role_t role) const
 {
   return m_values.find(role) != m_values.end();
 }
 
 void SessionItemData::AssureCompatibility(const variant_t& old_value, const variant_t& new_value,
-                                          std::int32_t role) const
+                                          role_t role) const
 {
   if (!utils::AreCompatible(old_value, new_value))
   {

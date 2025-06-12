@@ -161,7 +161,7 @@ void SessionModel::MoveItem(SessionItem* item, SessionItem* new_parent, const Ta
   utils::EndMacro(*this);
 }
 
-bool SessionModel::SetData(SessionItem* item, const variant_t& value, int role)
+bool SessionModel::SetData(SessionItem* item, const variant_t& value, role_t role)
 {
   return item->SetDataInternal(value, role);
 }

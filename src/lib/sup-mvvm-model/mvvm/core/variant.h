@@ -25,6 +25,7 @@
 //! Defines all supported elementary data types.
 
 #include <mvvm/core/basic_scalar_types.h>
+#include <mvvm/model/mvvm_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
 #include <mvvm/model_export.h>
@@ -61,7 +62,7 @@ using variant_t = std::variant<std::monostate, boolean, char8, int8, uint8, int1
                                uint32, int64, uint64, float32, float64, std::string,
                                std::vector<float64>, ComboProperty, ExternalProperty>;
 
-using role_data_t = std::pair<int, variant_t>;
+using role_data_t = std::pair<role_t, variant_t>;
 bool operator==(const role_data_t& lhs, const role_data_t& rhs);
 
 /**

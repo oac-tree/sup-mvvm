@@ -61,7 +61,7 @@ QModelIndex GetSourceIndexFromProxyIndex(const QModelIndex& index)
 
 }  // namespace
 
-QVector<int> ItemRoleToQtRole(int role)
+QVector<int> ItemRoleToQtRole(role_t role)
 {
   QVector<int> result;
   // In Qt when we are editing the data in a view two roles are emmited.
@@ -190,7 +190,7 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
   return result;
 }
 
-QVector<int> GetQtRoles(const ViewItem* view, int item_role)
+QVector<int> GetQtRoles(const ViewItem* view, role_t item_role)
 {
   if (auto presentation = dynamic_cast<const SessionItemPresentation*>(view->GetItemData());
       presentation)

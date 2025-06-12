@@ -34,20 +34,20 @@ namespace mvvm
 class MVVM_MODEL_EXPORT SessionItemData
 {
 public:
-  using container_t = std::map<std::int32_t, variant_t>;
+  using container_t = std::map<role_t, variant_t>;
   using const_iterator = container_t::const_iterator;
 
   /**
    * @brief Returns vector of all roles for which data exists.
    */
-  std::vector<std::int32_t> GetRoles() const;
+  std::vector<role_t> GetRoles() const;
 
   /**
    * @brief Returns data for a given role, if exist.
    *
    * Will return non-initialized variant otherwise.
    */
-  variant_t Data(std::int32_t role) const;
+  variant_t Data(role_t role) const;
 
   /**
    * @brief Sets the data for a given role and returns true if data was changed.
@@ -61,12 +61,12 @@ public:
    *
    * @see also utils::ReplaceData
    */
-  bool SetData(const variant_t& value, std::int32_t role);
+  bool SetData(const variant_t& value, role_t role);
 
   /**
    * @brief Checks if the data for a given role exists.
    */
-  bool HasData(std::int32_t role) const;
+  bool HasData(role_t role) const;
 
   const_iterator begin() const;
 
@@ -79,7 +79,7 @@ private:
    * Throws an exception if variants are incompatible.
    */
   void AssureCompatibility(const variant_t& old_value, const variant_t& new_value,
-                           std::int32_t role) const;
+                           role_t role) const;
 
   container_t m_values;
 };

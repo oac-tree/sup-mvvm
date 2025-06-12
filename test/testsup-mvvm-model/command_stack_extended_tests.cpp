@@ -65,7 +65,7 @@ public:
 
 TEST_F(CommandStackExtendedTests, SetValueCommand)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   const variant_t initial_value(43);
 
   SessionItem item;
@@ -300,7 +300,7 @@ TEST_F(CommandStackExtendedTests, InsertSetValueRemoveUndoWhenInModel)
 //! but still want to have notifications.
 TEST_F(CommandStackExtendedTests, SetValueCommandWithDefaultProcessor)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   const variant_t initial_value(43);
 
   SessionItem item;

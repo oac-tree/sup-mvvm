@@ -45,12 +45,12 @@ std::string SessionItemImpl::GetType() const
   return m_item_type;
 }
 
-variant_t SessionItemImpl::Data(int32_t role)
+variant_t SessionItemImpl::Data(role_t role)
 {
   return GetItemData()->Data(role);
 }
 
-bool SessionItemImpl::SetData(const variant_t &value, int32_t role)
+bool SessionItemImpl::SetData(const variant_t &value, role_t role)
 {
   return GetItemData()->SetData(value, role);
 }

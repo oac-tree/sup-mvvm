@@ -65,7 +65,7 @@ public:
 
   void MoveItem(SessionItem* item, SessionItem* new_parent, const TagIndex& tag_index) override;
 
-  bool SetData(SessionItem* item, const variant_t& value, int role) override;
+  bool SetData(SessionItem* item, const variant_t& value, role_t role) override;
 
   SessionItem* FindItem(const std::string& id) const override;
 

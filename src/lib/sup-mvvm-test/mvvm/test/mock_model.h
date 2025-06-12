@@ -58,7 +58,7 @@ public:
                const mvvm::TagIndex &tag_index),
               (override));
 
-  MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const mvvm::variant_t &value, int role),
+  MOCK_METHOD(bool, SetData, (mvvm::SessionItem * item, const mvvm::variant_t &value, role_t role),
               (override));
 
   MOCK_METHOD(mvvm::SessionItem *, FindItem, (const std::string &id), (const, override));

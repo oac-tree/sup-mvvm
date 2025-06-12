@@ -60,15 +60,15 @@ public:
   /**
    * @brief Returns true if given item data role is served by this presentation.
    */
-  virtual bool IsValidItemDataRole(int data_role) const;
+  virtual bool IsValidItemDataRole(role_t data_role) const;
 
   /**
    * @brief Returns vector of Qt data roles corresponding.
    */
-  virtual QVector<int> GetQtRoles(int data_role) const;
+  virtual QVector<int> GetQtRoles(role_t data_role) const;
 
 protected:
-  explicit SessionItemPresentation(SessionItem* item, int role);
+  explicit SessionItemPresentation(SessionItem* item, role_t role);
 
 private:
   SessionItem* m_item{nullptr};  // the item to present
@@ -107,7 +107,7 @@ public:
    * @param item An item those data will be presented.
    * @param role The data role of SessionItem
    */
-  explicit DataPresentationItem(SessionItem* item, int role = DataRole::kData);
+  explicit DataPresentationItem(SessionItem* item, role_t role = DataRole::kData);
 
   QVariant Data(int qt_role) const override;
 
@@ -163,7 +163,7 @@ public:
 
   bool SetData(const QVariant& data, int qt_role) override;
 
-  QVector<int> GetQtRoles(int data_role) const override;
+  QVector<int> GetQtRoles(role_t data_role) const override;
 
   bool IsEditable() const override;
 

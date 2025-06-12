@@ -122,7 +122,7 @@ public:
    *
    * @details
    */
-  bool HasData(std::int32_t role = DataRole::kData) const;
+  bool HasData(role_t role = DataRole::kData) const;
 
   /**
    * @brief Returns data for the given role.
@@ -136,7 +136,7 @@ public:
    * @return The variant with the data, or data itself if template parameter is specified.
    */
   template <typename T = variant_t>
-  T Data(std::int32_t role = DataRole::kData) const;
+  T Data(role_t = DataRole::kData) const;
 
   /**
    * @brief Sets the data for the given role.
@@ -155,12 +155,12 @@ public:
    * @return Returns true, if the data was changed.
    */
   template <typename T>
-  bool SetData(const T& value, std::int32_t role = DataRole::kData);
+  bool SetData(const T& value, role_t role = DataRole::kData);
 
   /**
    * @brief Specialized version for const char to avoid its conversion to bool.
    */
-  bool SetData(const char* value, std::int32_t role = DataRole::kData);
+  bool SetData(const char* value, role_t role = DataRole::kData);
 
   /**
    * @brief Returns pointer to item's data container (non-const version).
@@ -374,17 +374,17 @@ public:
   /**
    * @brief Sets the data for the given role.
    */
-  virtual bool SetDataInternal(const variant_t& value, std::int32_t role);
+  virtual bool SetDataInternal(const variant_t& value, role_t role);
 
   /**
    * @brief Sets the data for the given role.
    */
-  bool SetDataImpl(const variant_t& value, std::int32_t role);
+  bool SetDataImpl(const variant_t& value, role_t role);
 
   /**
    * @brief Returns the data stored for the given role.
    */
-  variant_t GetDataImpl(std::int32_t role) const;
+  variant_t GetDataImpl(role_t role) const;
 
   void SetParent(SessionItem* parent);
 
@@ -402,13 +402,13 @@ private:
 };
 
 template <typename T>
-inline bool SessionItem::SetData(const T& value, std::int32_t role)
+inline bool SessionItem::SetData(const T& value, role_t role)
 {
   return SetDataInternal(value, role);
 }
 
 template <typename T>
-inline T SessionItem::Data(std::int32_t role) const
+inline T SessionItem::Data(role_t role) const
 {
   if constexpr (std::is_same_v<T, variant_t>)
   {

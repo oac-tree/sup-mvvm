@@ -22,6 +22,7 @@
 #define MVVM_VIEWMODEL_I_VIEWITEM_DATA_H_
 
 #include <mvvm/viewmodel_export.h>
+#include <mvvm/model/mvvm_types.h>
 
 #include <QVariant>
 
@@ -43,9 +44,9 @@ public:
   IViewItemData(IViewItemData&&) = delete;
   IViewItemData& operator=(IViewItemData&&) = delete;
 
-  virtual QVariant Data(int role) const = 0;
+  virtual QVariant Data(role_t role) const = 0;
 
-  virtual bool SetData(const QVariant& data, int role) = 0;
+  virtual bool SetData(const QVariant& data, role_t role) = 0;
 
   virtual bool IsEnabled() const = 0;
 

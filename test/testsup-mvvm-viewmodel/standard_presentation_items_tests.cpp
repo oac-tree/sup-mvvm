@@ -41,7 +41,7 @@ public:
   class TestPresentation : public SessionItemPresentation
   {
   public:
-    TestPresentation(SessionItem* item, int role) : SessionItemPresentation(item, role) {}
+    TestPresentation(SessionItem* item, role_t role) : SessionItemPresentation(item, role) {}
   };
 };
 

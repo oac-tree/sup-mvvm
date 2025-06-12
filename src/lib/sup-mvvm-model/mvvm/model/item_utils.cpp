@@ -333,7 +333,7 @@ bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
   return item.HasData(DataRole::kAppearance) ? item.Data<int>(DataRole::kAppearance) & flag : false;
 }
 
-bool ReplaceData(SessionItem& item, const variant_t& value, int role)
+bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)
 {
   if (item.HasData(role))
   {

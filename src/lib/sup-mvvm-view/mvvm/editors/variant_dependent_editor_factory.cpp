@@ -38,7 +38,7 @@ namespace
 /**
  * @brief Returns Qt variant name corresponding to the data stored on board of item.
  */
-std::string GetQtVariantName(const SessionItem* item, int role = DataRole::kData)
+std::string GetQtVariantName(const SessionItem* item, role_t role = DataRole::kData)
 {
   if (!item)
   {

@@ -35,14 +35,14 @@ public:
   {
   public:
     MOCK_METHOD(void, onItemDestroy, (mvvm::SessionItem * item));
-    MOCK_METHOD(void, onDataChange, (mvvm::SessionItem * item, int role));
+    MOCK_METHOD(void, onDataChange, (mvvm::SessionItem * item, role_t role));
   };
 
   class SlotWidget : public mvvm::Slot
   {
   public:
     MOCK_METHOD(void, onItemDestroy, (mvvm::SessionItem * item));
-    MOCK_METHOD(void, onDataChange, (mvvm::SessionItem * item, int role));
+    MOCK_METHOD(void, onDataChange, (mvvm::SessionItem * item, role_t role));
   };
 };
 
@@ -123,8 +123,8 @@ TEST_F(SignalSlotTests, SignalWithTwoParameters)
   MockWidget widget2;
   mvvm::Signal<void(mvvm::SessionItem*, int)> signal;
 
-  auto connection1 = signal.connect([&](auto item, int role) { widget1.onDataChange(item, role); });
-  auto connection2 = signal.connect([&](auto item, int role) { widget2.onDataChange(item, role); });
+  auto connection1 = signal.connect([&](auto item, role_t role) { widget1.onDataChange(item, role); });
+  auto connection2 = signal.connect([&](auto item, role_t role) { widget2.onDataChange(item, role); });
 
   int expected_role = 42;
   mvvm::SessionItem item;
@@ -154,7 +154,7 @@ TEST_F(SignalSlotTests, TwoSignalsOneWidget)
   auto connection1 = signal1.connect(&widget, &MockWidget::onItemDestroy);
   auto connection2 = signal2.connect(&widget, &MockWidget::onDataChange);
 
-  int expected_role = 42;
+  role_t expected_role = 42;
   mvvm::SessionItem item;
   EXPECT_CALL(widget, onItemDestroy(&item)).Times(1);
   EXPECT_CALL(widget, onDataChange(&item, expected_role)).Times(1);

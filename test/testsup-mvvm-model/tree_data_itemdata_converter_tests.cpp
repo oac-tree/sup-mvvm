@@ -47,7 +47,7 @@ TEST_F(TreeDataItemDataConverterTests, TwoRoles)
   EXPECT_TRUE(converter.IsSessionItemDataConvertible(*tree_data));
 
   auto item_data = converter.ToSessionItemData(*tree_data);
-  EXPECT_EQ(item_data->GetRoles(), std::vector<int>({0, 1}));
+  EXPECT_EQ(item_data->GetRoles(), std::vector<role_t>({0, 1}));
   EXPECT_TRUE(item_data->Data(0) == variant_t(42L));
   EXPECT_TRUE(item_data->Data(1) == variant_t(std::string("abc")));
 

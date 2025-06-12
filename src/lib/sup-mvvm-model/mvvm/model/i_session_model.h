@@ -139,7 +139,7 @@ public:
    * @param role The data role.
    * @return Returns true, if the data was changed.
    */
-  virtual bool SetData(SessionItem* item, const variant_t& value, int role) = 0;
+  virtual bool SetData(SessionItem* item, const variant_t& value, role_t role) = 0;
 
   /**
    * @brief Finds an item with the given identifier among all model's items.

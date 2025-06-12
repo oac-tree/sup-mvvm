@@ -61,7 +61,7 @@ public:
 TEST_F(SessionItemTests, InitialState)
 {
   SessionItem item;
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
 
   EXPECT_EQ(item.GetModel(), nullptr);
   EXPECT_EQ(item.GetParent(), nullptr);
@@ -72,7 +72,7 @@ TEST_F(SessionItemTests, InitialState)
   EXPECT_EQ(item.GetDisplayName(), SessionItem::GetStaticType());
 
   // Initially item has already an identifier defined.
-  const std::vector<int> expected_roles = {DataRole::kIdentifier};
+  const std::vector<role_t> expected_roles = {DataRole::kIdentifier};
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
 
   // Identifier is not zero
@@ -88,14 +88,14 @@ TEST_F(SessionItemTests, GetType)
 TEST_F(SessionItemTests, SetData)
 {
   SessionItem item;
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
 
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
 
   const variant_t expected(42.0);
   EXPECT_TRUE(item.SetData(expected, role));
 
-  std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kData};
+  std::vector<role_t> expected_roles = {DataRole::kIdentifier, DataRole::kData};
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item.Data(role), expected);
 
@@ -114,28 +114,28 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
 {
   {
     SessionItem item;
-    const int role = DataRole::kData;
+    const role_t role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43.0, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kFloat64TypeName);
   }
 
   {
     SessionItem item;
-    const int role = DataRole::kData;
+    const role_t role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt32TypeName);
   }
 
   {
     SessionItem item;
-    const int role = DataRole::kData;
+    const role_t role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43L, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
   }
 
   {
     SessionItem item;
-    const int role = DataRole::kData;
+    const role_t role = DataRole::kData;
     const int64 num(43);
     EXPECT_TRUE(item.SetData(num, role));
     EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
@@ -224,13 +224,13 @@ TEST_F(SessionItemTests, GetDisplayName)
 TEST_F(SessionItemTests, AttemptToSetDifferentVariant)
 {
   SessionItem item;
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   const variant_t expected(42.0);
 
   // setting data for the first time
   EXPECT_TRUE(item.SetData(expected, role));
 
-  const std::vector<int> expected_roles = {DataRole::kIdentifier, DataRole::kData};
+  const std::vector<role_t> expected_roles = {DataRole::kIdentifier, DataRole::kData};
   EXPECT_EQ(item.GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item.Data(role), expected);
 
@@ -258,7 +258,7 @@ TEST_F(SessionItemTests, RegisterItemInPool)
 
   // registration key should coincide with item identifier
   auto key = pool->KeyForItem(item.get());
-  const std::vector<int> expected_roles = {DataRole::kIdentifier};
+  const std::vector<role_t> expected_roles = {DataRole::kIdentifier};
   EXPECT_EQ(item->GetItemData()->GetRoles(), expected_roles);
   EXPECT_EQ(item_id, key);
 }

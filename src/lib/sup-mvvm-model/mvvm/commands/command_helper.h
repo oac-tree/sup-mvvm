@@ -82,7 +82,7 @@ event_variant_t GetAfterEventForRemoveCommand(CommandStatus status, SessionItem*
 /**
  * @brief Returns text description for SetValue command.
  */
-std::string GetSetValueCommandDescription(const variant_t& value, int role);
+std::string GetSetValueCommandDescription(const variant_t& value, role_t role);
 
 /**
  * @brief Returns text description for insert command.

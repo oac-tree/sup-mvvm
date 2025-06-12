@@ -47,7 +47,7 @@ public:
 
 TEST_F(ApplicationModelSimpleUndoTests, SetData)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
 
   auto item = m_model.InsertItem<SessionItem>();
   EXPECT_FALSE(utils::IsValid(item->Data(role)));
@@ -94,7 +94,7 @@ TEST_F(ApplicationModelSimpleUndoTests, SetData)
 
 TEST_F(ApplicationModelSimpleUndoTests, SetSameData)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   variant_t expected_data(42);
 
   // creating item and setting initial data
@@ -120,7 +120,7 @@ TEST_F(ApplicationModelSimpleUndoTests, SetSameData)
 
 TEST_F(ApplicationModelSimpleUndoTests, SetDataSeveralTimes)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
 
   // creating item and setting initial data
   auto item = m_model.InsertItem<SessionItem>();

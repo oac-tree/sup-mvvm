@@ -58,7 +58,7 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(Sessio
  * @brief Creates ViewItem for SessionItem's data.
  */
 MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item,
-                                                                   int role = DataRole::kData);
+                                                                   role_t role = DataRole::kData);
 
 /**
  * @brief Creates editable ViewItem for SessionItem's display name.

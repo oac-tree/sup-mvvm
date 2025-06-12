@@ -82,7 +82,7 @@ event_variant_t GetAfterEventForRemoveCommand(CommandStatus status, SessionItem 
   throw RuntimeException("Command can't be in initial state after execute or undo call");
 }
 
-std::string GetSetValueCommandDescription(const variant_t &value, int role)
+std::string GetSetValueCommandDescription(const variant_t &value, role_t role)
 {
   std::ostringstream ostr;
   ostr << "Set value: " << mvvm::utils::ValueToString(value) << ", role:" << role;

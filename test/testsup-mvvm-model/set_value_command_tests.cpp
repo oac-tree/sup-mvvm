@@ -38,7 +38,7 @@ class SetValueCommandTest : public ::testing::Test
 
 TEST_F(SetValueCommandTest, CreateCommand)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   SessionItem item;
 
   EXPECT_THROW(SetValueCommand(nullptr, {}, role), RuntimeException);
@@ -57,7 +57,7 @@ TEST_F(SetValueCommandTest, CreateCommand)
 
 TEST_F(SetValueCommandTest, SetItemValueWhenItemHasNoData)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   SessionItem item;
 
   const variant_t expected(42);
@@ -93,7 +93,7 @@ TEST_F(SetValueCommandTest, SetItemValueWhenItemHasNoData)
 
 TEST_F(SetValueCommandTest, SetItemValue)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   const variant_t initial_value(42);
 
   SessionItem item;
@@ -130,7 +130,7 @@ TEST_F(SetValueCommandTest, SetItemValue)
 
 TEST_F(SetValueCommandTest, SetSameValue)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   const variant_t initial_value(43);
 
   SessionItem item;
@@ -152,7 +152,7 @@ TEST_F(SetValueCommandTest, SetSameValue)
 
 TEST_F(SetValueCommandTest, WhenPartOfModelSetItemValue)
 {
-  const int role = DataRole::kData;
+  const role_t role = DataRole::kData;
   const variant_t initial_value(42);
 
   SessionModel model;

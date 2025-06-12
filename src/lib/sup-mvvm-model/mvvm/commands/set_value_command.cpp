@@ -32,11 +32,11 @@ struct SetValueCommand::SetValueCommandImpl
   SessionItem *m_cached_item{nullptr};
   ISessionModel *m_model{nullptr};
   variant_t m_value;  //! Value to set as a result of command execution.
-  std::int32_t m_role;
+  role_t m_role;
   std::string m_item_identifier;
   bool m_result{false};
 
-  SetValueCommandImpl(SessionItem *item, const variant_t &value, std::int32_t role)
+  SetValueCommandImpl(SessionItem *item, const variant_t &value, role_t role)
       : m_cached_item(item), m_value(value), m_role(role)
   {
     if (!m_cached_item)
@@ -56,7 +56,7 @@ struct SetValueCommand::SetValueCommandImpl
   void SetResult(bool value) { m_result = value; }
 };
 
-SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, std::int32_t role)
+SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, role_t role)
     : p_impl(std::make_unique<SetValueCommandImpl>(item, value, role))
 {
 }

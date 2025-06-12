@@ -127,12 +127,12 @@ TagIndex SessionItem::GetTagIndex() const
   return GetParent() ? GetParent()->TagIndexOfItem(this) : TagIndex();
 }
 
-bool SessionItem::HasData(std::int32_t role) const
+bool SessionItem::HasData(role_t role) const
 {
   return GetItemData()->HasData(role);
 }
 
-bool SessionItem::SetData(const char* value, std::int32_t role)
+bool SessionItem::SetData(const char* value, role_t role)
 {
   return SetData(std::string(value), role);
 }
@@ -292,17 +292,17 @@ Slot* SessionItem::GetSlot() const
   return p_impl->GetSlot();
 }
 
-bool SessionItem::SetDataInternal(const variant_t& value, std::int32_t role)
+bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
 {
   return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
 }
 
-bool SessionItem::SetDataImpl(const variant_t& value, std::int32_t role)
+bool SessionItem::SetDataImpl(const variant_t& value, role_t role)
 {
   return GetItemData()->SetData(value, role);
 }
 
-variant_t SessionItem::GetDataImpl(std::int32_t role) const
+variant_t SessionItem::GetDataImpl(role_t role) const
 {
   // Method invented to hide implementaiton details and avoid placing SessionItemData header into
   // SessionItem header.

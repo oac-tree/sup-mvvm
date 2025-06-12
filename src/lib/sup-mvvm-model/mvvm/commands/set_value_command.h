@@ -39,7 +39,7 @@ class MVVM_MODEL_EXPORT SetValueCommand : public AbstractCommand
 {
 public:
   using result_t = bool;
-  SetValueCommand(SessionItem* item, const variant_t& value, int32_t role);
+  SetValueCommand(SessionItem* item, const variant_t& value, role_t role);
   ~SetValueCommand() override;
 
   SetValueCommand(const SetValueCommand&) = delete;

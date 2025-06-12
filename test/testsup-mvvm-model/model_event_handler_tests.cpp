@@ -93,7 +93,7 @@ TEST_F(ModelEventHandlerTests, ItemRemoved)
 TEST_F(ModelEventHandlerTests, DataChanged)
 {
   mvvm::SessionItem item;
-  const int role{42};
+  const role_t role{42};
 
   DataChangedEvent event{&item, role};
   EXPECT_CALL(m_listener, OnEvent(event_variant_t(event))).Times(1);
@@ -140,7 +140,7 @@ TEST_F(ModelEventHandlerTests, Unsubscribe)
   mvvm::SessionModel model;
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  const int role{42};
+  const role_t role{42};
 
   ModelEventHandler event_handler;
   mvvm::test::MockEventListener listener;
@@ -166,7 +166,7 @@ TEST_F(ModelEventHandlerTests, TwoSubscriptions)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  const int role{42};
+  const role_t role{42};
 
   ModelEventHandler event_handler;
   mvvm::test::MockEventListener listener1;
@@ -194,7 +194,7 @@ TEST_F(ModelEventHandlerTests, UnsubscribeOne)
 {
   mvvm::SessionItem item;
   mvvm::TagIndex tag_index{"tag", 0};
-  const int role{42};
+  const role_t role{42};
 
   ModelEventHandler event_handler;
   mvvm::test::MockEventListener listener1;

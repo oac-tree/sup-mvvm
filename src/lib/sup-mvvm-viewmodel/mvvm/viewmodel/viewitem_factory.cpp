@@ -53,7 +53,7 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item)
   return std::make_unique<ViewItem>(std::move(presentation));
 }
 
-std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, int role)
+std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role)
 {
   auto presentation = std::make_unique<DataPresentationItem>(item, role);
   return std::make_unique<ViewItem>(std::move(presentation));

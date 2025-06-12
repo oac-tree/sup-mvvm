@@ -78,7 +78,7 @@ TEST_F(EventHandlerTests, ConnectToUnregisteredEvent)
 {
   mock_callback_listener_t widget;
 
-  const int role{42};
+  const role_t role{42};
   SessionItem item;
   const DataChangedEvent data_changed_event{&item, role};
 
@@ -93,7 +93,7 @@ TEST_F(EventHandlerTests, EventHandlerConnectViaLambda)
 {
   mock_callback_listener_t widget;
 
-  const int role{42};
+  const role_t role{42};
   SessionItem item;
   const DataChangedEvent data_changed_event{&item, role};
 
@@ -121,7 +121,7 @@ TEST_F(EventHandlerTests, EventVariantVisitMachinery)
 {
   MockSpecializedWidget widget;
 
-  const int role{42};
+  const role_t role{42};
   SessionItem item;
   const DataChangedEvent data_changed_event{&item, role};
 

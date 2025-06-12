@@ -45,14 +45,14 @@ TEST_F(SessionItemDataTest, InitialState)
 //! Basic setData, data operations.
 TEST_F(SessionItemDataTest, SetDataDouble)
 {
-  const int role = 1;
+  const role_t role = 1;
   SessionItemData item_data;
 
   const variant_t variant(42.0);
 
   // setting variant for role
   EXPECT_TRUE(item_data.SetData(variant, role));
-  const std::vector<int> expected_roles{role};
+  const std::vector<role_t> expected_roles{role};
   EXPECT_EQ(item_data.GetRoles(), expected_roles);
   EXPECT_TRUE(item_data.Data(role) == variant);
 
@@ -77,8 +77,8 @@ TEST_F(SessionItemDataTest, DifferentRoles)
 {
   SessionItemData item_data;
 
-  const int role1(1);
-  const int role2 = role1 + 1;
+  const role_t role1(1);
+  const role_t role2 = role1 + 1;
 
   EXPECT_TRUE(item_data.SetData(variant_t(42.0), role1));
   EXPECT_TRUE(item_data.SetData(variant_t(std::string("str")), role2));
@@ -97,7 +97,7 @@ TEST_F(SessionItemDataTest, ChangingRole)
 {
   SessionItemData item_data;
 
-  const int role(1);
+  const role_t role(1);
   const variant_t variant(42.0);
 
   // setting variant for role
@@ -115,7 +115,7 @@ TEST_F(SessionItemDataTest, RangeLoop)
 {
   SessionItemData item_data;
   const std::vector<double> expected_values = {1.2, 1.3};
-  const std::vector<int> expected_roles = {1, 2};
+  const std::vector<role_t> expected_roles = {1, 2};
 
   for (size_t i = 0; i < expected_values.size(); ++i)
   {
@@ -123,7 +123,7 @@ TEST_F(SessionItemDataTest, RangeLoop)
   }
 
   std::vector<double> values;
-  std::vector<int> roles;
+  std::vector<role_t> roles;
 
   for (const auto& [role, data] : item_data)
   {
@@ -141,7 +141,7 @@ TEST_F(SessionItemDataTest, HasRole)
   EXPECT_FALSE(data.HasData(0));
   EXPECT_FALSE(data.HasData(1));
 
-  const int role = 99;
+  const role_t role = 99;
   data.SetData(variant_t(42), role);
   EXPECT_TRUE(data.HasData(role));
   EXPECT_FALSE(data.HasData(1));
@@ -164,7 +164,7 @@ TEST_F(SessionItemDataTest, CopyConstructor)
 
   {  // from data with one element
     SessionItemData data;
-    const int role = 1;
+    const role_t role = 1;
     const variant_t variant(42.0);
     data.SetData(variant, role);
 
@@ -190,7 +190,7 @@ TEST_F(SessionItemDataTest, AssignmentOperator)
 
   {  // from data with one element
     SessionItemData data;
-    const int role = 1;
+    const role_t role = 1;
     const variant_t variant(42.0);
     data.SetData(variant, role);
 
