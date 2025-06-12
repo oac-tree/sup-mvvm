@@ -117,9 +117,7 @@ public:
   TagIndex GetTagIndex() const;
 
   /**
-   * @brief Returns true if item has data on board with given role.
-   *
-   * @details
+   * @brief Checks if the item has data on board with the given role.
    */
   bool HasData(role_t role = DataRole::kData) const;
 
@@ -136,6 +134,14 @@ public:
    */
   template <typename T = variant_t>
   T Data(role_t role = DataRole::kData) const;
+
+  /**
+   * @brief Returns data stored for the given role on board of implementationm.
+   *
+   * Method invented to hide implementaiton details and avoid placing SessionItemData header into
+   * SessionItem header.
+   */
+  variant_t GetDataImpl(role_t role) const;
 
   /**
    * @brief Sets the data for the given role.
@@ -162,14 +168,19 @@ public:
   bool SetData(const char* value, role_t role = DataRole::kData);
 
   /**
-   * @brief Returns pointer to item's data container (non-const version).
+   * @brief Sets the data for the given role.
+   *
+   * It is the main method that passes through the data strategy and command framework. It is called
+   * from all templated SessionItem::SetData methods.
    */
-  SessionItemData* GetItemData();
+  virtual bool SetDataInternal(const variant_t& value, role_t role);
 
   /**
-   * @brief Returns pointer to item's data container (const version).
+   * @brief Sets implementation data for the given role.
+   *
+   * This call bypasses possible data strategy, notifications, and command framework.
    */
-  const SessionItemData* GetItemData() const;
+  bool SetDataImpl(const variant_t& value, role_t role);
 
   /**
    * @brief Returns total number of children in all tags.
@@ -235,17 +246,6 @@ public:
    * @param set_as_default Given tag will be used as default when empty tag name is used.
    */
   void RegisterTag(const TagInfo& tag_info, bool set_as_default = false);
-
-  /**
-   * @brief Returns pointer to internal collection of registered item containers (const version).
-   */
-  const TaggedItems* GetTaggedItems() const;
-
-  /**
-   * @brief Returns pointer to internal collection of registered item containers (non-const
-   * version).
-   */
-  TaggedItems* GetTaggedItems();
 
   /**
    * @brief Inserts item into the given tag_index, ownership is taken.
@@ -371,26 +371,30 @@ public:
   Slot* GetSlot() const;
 
   /**
-   * @brief Sets the data for the given role.
-   *
-   * It is the main method that passes through the data strategy and command framework. It is called
-   * from all templated SessionItem::SetData methods.
+   * @brief Sets given item as parent.
    */
-  virtual bool SetDataInternal(const variant_t& value, role_t role);
-
-  /**
-   * @brief Sets implementation data for the given role.
-   *
-   * This call bypasses possible data strategy, notifications, and command framework.
-   */
-  bool SetDataImpl(const variant_t& value, role_t role);
-
-  /**
-   * @brief Returns implementatiojn data stored for the given role.
-   */
-  variant_t GetDataImpl(role_t role) const;
-
   void SetParent(SessionItem* parent);
+
+  /**
+   * @brief Returns pointer to item's data container (non-const version).
+   */
+  SessionItemData* GetItemData();
+
+  /**
+   * @brief Returns pointer to item's data container (const version).
+   */
+  const SessionItemData* GetItemData() const;
+
+  /**
+   * @brief Returns pointer to internal collection of registered item containers (const version).
+   */
+  const TaggedItems* GetTaggedItems() const;
+
+  /**
+   * @brief Returns pointer to internal collection of registered item containers (non-const
+   * version).
+   */
+  TaggedItems* GetTaggedItems();
 
 protected:
   explicit SessionItem(const std::string& item_type);

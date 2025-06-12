@@ -132,19 +132,24 @@ bool SessionItem::HasData(role_t role) const
   return GetItemData()->HasData(role);
 }
 
+variant_t SessionItem::GetDataImpl(role_t role) const
+{
+  return GetItemData()->Data(role);
+}
+
 bool SessionItem::SetData(const char* value, role_t role)
 {
   return SetData(std::string(value), role);
 }
 
-SessionItemData* SessionItem::GetItemData()
+bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
 {
-  return const_cast<SessionItemData*>(std::as_const(*this).GetItemData());
+  return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
 }
 
-const SessionItemData* SessionItem::GetItemData() const
+bool SessionItem::SetDataImpl(const variant_t& value, role_t role)
 {
-  return p_impl->GetItemData();
+  return GetItemData()->SetData(value, role);
 }
 
 std::size_t SessionItem::GetTotalItemCount() const
@@ -180,16 +185,6 @@ TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const
 void SessionItem::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 {
   GetTaggedItems()->RegisterTag(tag_info, set_as_default);
-}
-
-const TaggedItems* SessionItem::GetTaggedItems() const
-{
-  return p_impl->GetTaggedItems();
-}
-
-TaggedItems* SessionItem::GetTaggedItems()
-{
-  return const_cast<TaggedItems*>(std::as_const(*this).GetTaggedItems());
 }
 
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
@@ -292,26 +287,29 @@ Slot* SessionItem::GetSlot() const
   return p_impl->GetSlot();
 }
 
-bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
-{
-  return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
-}
-
-bool SessionItem::SetDataImpl(const variant_t& value, role_t role)
-{
-  return GetItemData()->SetData(value, role);
-}
-
-variant_t SessionItem::GetDataImpl(role_t role) const
-{
-  // Method invented to hide implementaiton details and avoid placing SessionItemData header into
-  // SessionItem header.
-  return GetItemData()->Data(role);
-}
-
 void SessionItem::SetParent(SessionItem* parent)
 {
   p_impl->SetParent(parent);
+}
+
+SessionItemData* SessionItem::GetItemData()
+{
+  return const_cast<SessionItemData*>(std::as_const(*this).GetItemData());
+}
+
+const SessionItemData* SessionItem::GetItemData() const
+{
+  return p_impl->GetItemData();
+}
+
+const TaggedItems* SessionItem::GetTaggedItems() const
+{
+  return p_impl->GetTaggedItems();
+}
+
+TaggedItems* SessionItem::GetTaggedItems()
+{
+  return const_cast<TaggedItems*>(std::as_const(*this).GetTaggedItems());
 }
 
 void SessionItem::SetDataAndTags(std::unique_ptr<SessionItemData> data,
