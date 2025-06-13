@@ -82,7 +82,9 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl
 
   void SetAxisLogScaleFromItem()
   {
+    SetDisconnected();
     utils::SetLogarithmicScale(m_axis, m_self->GetItem()->IsInLog());
+    SetConnected();
   }
 
   //! Init axis from item and setup connections.

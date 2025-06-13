@@ -1,6 +1,8 @@
 Changes for 1.9.0:
 
-- Allow undo/redo when acting via SessioItem API
+- Remove obsolete SessionItem::Activate machinery
+- Implement possibility to set custom data strategy for ViewItem
+- Allow undo/redo when acting via SessionItem API
 - Replace command composer machinery with the one based on  the command processor
 - Implement new command processor framework and collection of commands
 
