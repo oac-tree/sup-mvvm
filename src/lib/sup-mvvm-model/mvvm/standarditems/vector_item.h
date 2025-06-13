@@ -60,6 +60,13 @@ public:
   void Activate() override;
 
 private:
+  /**
+   * @brief Custom strategy to set property value and update item's label.
+   *
+   * It is used to automatically change two things at once (the value of the property, and the
+   * label of VectorItem), and be able to undo it in one go.
+   */
+  bool SetPropertyValue(SessionItem* property, const variant_t& variant, role_t role);
   void UpdateLabel();
 };
 

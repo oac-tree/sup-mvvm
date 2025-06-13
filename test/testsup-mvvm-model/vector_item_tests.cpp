@@ -72,8 +72,7 @@ TEST_F(VectorItemTests, SetXYZ)
   EXPECT_EQ(item->Z(), 3.0);
 }
 
-//! FIXME restore functionality
-TEST_F(VectorItemTests, DISABLED_LabelUpdate)
+TEST_F(VectorItemTests, LabelUpdate)
 {
   ApplicationModel model;
   auto item = model.InsertItem<VectorItem>();
@@ -92,10 +91,10 @@ TEST_F(VectorItemTests, DISABLED_LabelUpdate)
   auto taken = model.TakeItem(model.GetRootItem(), mvvm::TagIndex::Default(0));
   EXPECT_EQ(taken.get(), item);
 
-  // after item was taken from the model, it looses its listening capabilities
+  // item still have strategy active, even after it was taken from the model
   EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
   item->SetProperty(VectorItem::kX, 2.0);
-  EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");  // still old label
+  EXPECT_EQ(item->Data<std::string>(), "(2, 0, 0)"); // update in label
 }
 
 TEST_F(VectorItemTests, Clone)

@@ -20,6 +20,7 @@
 
 #include "vector_item.h"
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/signals/item_connect.h>
 
 #include <sstream>
@@ -28,9 +29,9 @@ namespace mvvm
 {
 VectorItem::VectorItem() : CompoundItem(GetStaticType())
 {
-  AddProperty(kX, 0.0).SetDisplayName("X");
-  AddProperty(kY, 0.0).SetDisplayName("Y");
-  AddProperty(kZ, 0.0).SetDisplayName("Z");
+  AddProperty(kX, 0.0).SetDisplayName("X").SetStrategy(this, &VectorItem::SetPropertyValue);
+  AddProperty(kY, 0.0).SetDisplayName("Y").SetStrategy(this, &VectorItem::SetPropertyValue);
+  AddProperty(kZ, 0.0).SetDisplayName("Z").SetStrategy(this, &VectorItem::SetPropertyValue);
 
   SetEditable(false);
 
@@ -89,6 +90,18 @@ void VectorItem::Activate()
   // FIXME cleanup
   // auto on_property_change = [this](const PropertyChangedEvent&) { UpdateLabel(); };
   // connect::Connect<PropertyChangedEvent>(this, on_property_change, GetSlot());
+}
+
+bool VectorItem::SetPropertyValue(SessionItem *property, const variant_t &variant, role_t role)
+{
+  utils::BeginMacro(*this, "SetPropertyValue");
+
+  const bool result = utils::SetData(*property, variant, role);
+  UpdateLabel();
+
+  utils::EndMacro(*this);
+
+  return result;
 }
 
 void VectorItem::UpdateLabel()
