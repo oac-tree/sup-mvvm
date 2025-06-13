@@ -401,8 +401,23 @@ public:
 
   /**
    * @brief Sets strategy which will be used to set the data.
+   *
+   * This method will be called on any call to SessionItem::SetData. It is responsibility of the
+   * user to provide meaningfull behavior. @see VectorItem.
    */
   void SetStrategy(const data_strategy_t& data_strategy);
+
+  /**
+   * @brief Sets strategy which will be used to set the data (templated).
+   *
+   * @tparam ObjectT The type of the object.
+   * @tparam MethodT The object's method.
+   *
+   * This method will be called on any call to SessionItem::SetData. It is responsibility of the
+   * user to provide meaningfull behavior. @see VectorItem.
+   */
+  template <typename ObjectT, typename MethodT>
+  void SetStrategy(ObjectT* object, const MethodT& method);
 
 protected:
   explicit SessionItem(const std::string& item_type);
@@ -462,6 +477,13 @@ template <typename T>
 inline T* SessionItem::InsertItem(const TagIndex& tag_index)
 {
   return static_cast<T*>(InsertItem(std::make_unique<T>(), tag_index));
+}
+
+template <typename ObjectT, typename MethodT>
+inline void SessionItem::SetStrategy(ObjectT* object, const MethodT& method)
+{
+  SetStrategy(std::bind(method, object, std::placeholders::_1, std::placeholders::_2,
+                        std::placeholders::_3));
 }
 
 }  // namespace mvvm
