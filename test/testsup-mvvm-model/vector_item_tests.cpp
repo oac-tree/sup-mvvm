@@ -84,7 +84,7 @@ TEST_F(VectorItemTests, LabelUpdate)
   // Modification of one of the property should lead to label update
   item->SetProperty(VectorItem::kX, 1.0);
 
-  // Updated thanks to VectorItem::Activate
+  // Updated thanks to custom data strategy installed in VectorItem's (x,y,z) properties
   EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
 
   // Removing item from the model

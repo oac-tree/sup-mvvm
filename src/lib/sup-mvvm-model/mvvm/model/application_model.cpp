@@ -72,12 +72,6 @@ ModelEventHandler* ApplicationModel::GetEventHandler() const
   return &p_impl->m_event_handler;
 }
 
-void ApplicationModel::CheckIn(SessionItem* item)
-{
-  SessionModel::CheckIn(item);
-  item->Activate();
-}
-
 void ApplicationModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
 {
   p_impl->m_event_handler.Notify<ModelAboutToBeResetEvent>(this);

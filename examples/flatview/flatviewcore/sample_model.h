@@ -34,7 +34,8 @@ class DemoItem : public mvvm::CompoundItem
 public:
   DemoItem();
 
-  void Activate() override;
+private:
+  bool OnSetAvailableFlag(SessionItem* property, const mvvm::variant_t& variant, mvvm::role_t role);
 };
 
 //! Main application model.

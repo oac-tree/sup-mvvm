@@ -352,15 +352,6 @@ public:
   SessionItem& SetFlag(Appearance flag, bool value);
 
   /**
-   * @brief Activates business logic.
-   *
-   * The method is called by the model when an item is inserted into the model. It allows to perform
-   * some additional initialization on the item's board, if necessary. For example, it can provide
-   * custom connections so the item reacts on its own properties change. See VectorItem example.
-   */
-  virtual void Activate();
-
-  /**
    * @brief Set item's model to the given value.
    */
   void SetModel(ISessionModel* model);

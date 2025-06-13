@@ -48,8 +48,6 @@ public:
 
   ModelEventHandler* GetEventHandler() const override;
 
-  void CheckIn(SessionItem* item) override;
-
   void ReplaceRootItem(std::unique_ptr<SessionItem> root_item) override;
 
   /**

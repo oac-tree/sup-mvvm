@@ -279,8 +279,6 @@ SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
   return *this;
 }
 
-void SessionItem::Activate() {}
-
 void SessionItem::SetModel(ISessionModel* model)
 {
   p_impl->SetModel(model, this);

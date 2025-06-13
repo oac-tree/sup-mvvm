@@ -53,12 +53,6 @@ public:
 
   void SetXYZ(double x, double y, double Z);
 
-  /**
-   * @details Activates listening on own properties change. It will update own label on any of x,y,z
-   * children change.
-   */
-  void Activate() override;
-
 private:
   /**
    * @brief Custom strategy to set property value and update item's label.

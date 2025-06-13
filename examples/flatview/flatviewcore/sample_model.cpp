@@ -20,7 +20,7 @@
 
 #include "sample_model.h"
 
-#include <mvvm/signals/item_connect.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/widgets/widget_utils.h>
 
@@ -47,7 +47,9 @@ namespace flatview
 DemoItem::DemoItem() : mvvm::CompoundItem("Item")
 {
   AddProperty("Name", GetRandomName());
-  AddProperty("Available", true).SetToolTip("tooltip");
+  AddProperty("Available", true)
+      .SetToolTip("tooltip")
+      .SetStrategy(this, &DemoItem::OnSetAvailableFlag);
   AddProperty("Answer", 42);
   AddProperty("Distance", 42.1234).SetDisplayName("Double");
   AddProperty("Options", mvvm::ComboProperty({"option 1", "option 2", "option 3"}));
@@ -55,15 +57,20 @@ DemoItem::DemoItem() : mvvm::CompoundItem("Item")
       .SetEditorType(mvvm::constants::kColorEditorType);
 }
 
-void DemoItem::Activate()
+bool DemoItem::OnSetAvailableFlag(SessionItem *property, const mvvm::variant_t &variant,
+                                  mvvm::role_t role)
 {
-  // FIXME restore functionality
-  // // Enable/disable property "Answer" when property "Available" changes
-  // auto on_property_changed = [this](const mvvm::DataChangedEvent&)
-  // { GetItem("Answer")->SetEnabled(Property<bool>("Available")); };
+  mvvm::utils::BeginMacro(*this, "SetAvailableFlag");
 
-  // mvvm::connect::Connect<mvvm::DataChangedEvent>(
-  //     /*source*/ GetItem("Available"), on_property_changed, GetSlot());
+  // change Available flag itself
+  const bool result = mvvm::utils::SetData(*property, variant, role);
+
+  // marking property "Answer" disabled if "Available" flag is false
+  GetItem("Answer")->SetEnabled(Property<bool>("Available"));
+
+  mvvm::utils::EndMacro(*this);
+
+  return result;
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}

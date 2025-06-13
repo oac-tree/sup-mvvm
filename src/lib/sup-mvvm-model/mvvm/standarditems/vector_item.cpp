@@ -21,7 +21,6 @@
 #include "vector_item.h"
 
 #include <mvvm/model/item_utils.h>
-#include <mvvm/signals/item_connect.h>
 
 #include <sstream>
 
@@ -83,13 +82,6 @@ void VectorItem::SetXYZ(double x, double y, double z)
   SetX(x);
   SetY(y);
   SetZ(z);
-}
-
-void VectorItem::Activate()
-{
-  // FIXME cleanup
-  // auto on_property_change = [this](const PropertyChangedEvent&) { UpdateLabel(); };
-  // connect::Connect<PropertyChangedEvent>(this, on_property_change, GetSlot());
 }
 
 bool VectorItem::SetPropertyValue(SessionItem *property, const variant_t &variant, role_t role)

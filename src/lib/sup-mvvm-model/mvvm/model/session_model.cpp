@@ -216,7 +216,7 @@ ICommand* SessionModel::ExecuteCommand(std::unique_ptr<ICommand> command)
   {
     std::ostringstream ostr;
     ostr << "Exception was caught while trying to execute command ";
-    ostr << "with the meassage [" << ex.what() << "]";
+    ostr << "with the message [" << ex.what() << "]";
     p_impl->m_is_executing = false;
     throw RuntimeException(ostr.str());
   }
