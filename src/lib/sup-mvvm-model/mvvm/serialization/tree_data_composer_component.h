@@ -81,12 +81,12 @@ public:
   /**
    * @brief Takes a component from a queue and returns to the user.
    */
-  component_t GetNextComponent();
+  component_t TakeNextComponent();
 
   /**
    * @brief Returns number of components in a queue.
    */
-  std::size_t GetComponentCount() const;
+  std::size_t GetQueuedComponentsCount() const;
 
   /**
    * @brief Adds the next component to a queue.

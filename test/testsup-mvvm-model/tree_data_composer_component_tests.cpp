@@ -38,7 +38,7 @@ TEST_F(TreeDataComposerComponentTests, InitialState)
 
   const TreeDataComposerComponent component(node_name);
 
-  EXPECT_EQ(component.GetComponentCount(), 0U);
+  EXPECT_EQ(component.GetQueuedComponentsCount(), 0U);
   EXPECT_FALSE(component.HasNextComponent());
 
   const auto tree_data = component.GetTreeData();
@@ -78,15 +78,15 @@ TEST_F(TreeDataComposerComponentTests, AddNextComponent)
 
   component.AddNextComponent(std::move(queued_component));
 
-  EXPECT_EQ(component.GetComponentCount(), 1U);
+  EXPECT_EQ(component.GetQueuedComponentsCount(), 1U);
   EXPECT_TRUE(component.HasNextComponent());
 
   // moving queued component
-  auto taken = component.GetNextComponent();
+  auto taken = component.TakeNextComponent();
 
   EXPECT_EQ(taken.get(), queued_component_ptr);
 
-  EXPECT_EQ(component.GetComponentCount(), 0U);
+  EXPECT_EQ(component.GetQueuedComponentsCount(), 0U);
   EXPECT_FALSE(component.HasNextComponent());
 }
 

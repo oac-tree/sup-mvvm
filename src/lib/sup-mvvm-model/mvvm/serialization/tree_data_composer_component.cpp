@@ -55,7 +55,7 @@ bool TreeDataComposerComponent::HasNextComponent() const
   return !m_component_queue.empty();
 }
 
-std::size_t TreeDataComposerComponent::GetComponentCount() const
+std::size_t TreeDataComposerComponent::GetQueuedComponentsCount() const
 {
   return m_component_queue.size();
 }
@@ -65,7 +65,7 @@ void TreeDataComposerComponent::AddNextComponent(component_t component)
   m_component_queue.emplace(std::move(component));
 }
 
-TreeDataComposerComponent::component_t TreeDataComposerComponent::GetNextComponent()
+TreeDataComposerComponent::component_t TreeDataComposerComponent::TakeNextComponent()
 {
   auto popped = std::move(m_component_queue.top());
   m_component_queue.pop();
