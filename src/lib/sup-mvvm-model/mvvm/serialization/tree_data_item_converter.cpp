@@ -25,6 +25,7 @@
 #include "tree_data_helper.h"
 #include "tree_data_itemdata_converter.h"
 #include "tree_data_tagged_items_converter.h"
+#include "tree_data_composer.h"
 
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_item_factory.h>
@@ -47,10 +48,11 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
   ConverterMode m_mode{ConverterMode::kNone};
   std::unique_ptr<TreeDataItemDataConverter> m_itemdata_converter;
   std::unique_ptr<TreeDataTaggedItemsConverter> m_taggedtems_converter;
+  std::function<bool(const SessionItem&)> m_filter;
 
   TreeDataItemConverterImpl(TreeDataItemConverter* self, const IItemFactory* factory,
                             ConverterMode mode, std::function<bool(const SessionItem&)> filter)
-      : m_self(self), m_factory(factory), m_mode(mode)
+      : m_self(self), m_factory(factory), m_mode(mode), m_filter(filter)
   {
     ConverterCallbacks callbacks;
 
@@ -138,12 +140,8 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(
 
 std::unique_ptr<tree_data_t> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
 {
-  auto result = std::make_unique<tree_data_t>(kItemElementType);
-  result->AddAttribute(kTypelAttributeKey, item.GetType());
-  // p_impl->populate_item relies of the order of adding
-  result->AddChild(*p_impl->m_itemdata_converter->ToTreeData(*item.GetItemData()));
-  result->AddChild(*p_impl->m_taggedtems_converter->ToTreeData(*item.GetTaggedItems()));
-  return result;
+  const TreeDataComposer composer(p_impl->m_filter);
+  return composer.CreateTreeData(item);
 }
 
 }  // namespace mvvm
