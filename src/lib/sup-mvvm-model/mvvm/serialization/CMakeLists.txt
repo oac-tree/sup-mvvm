@@ -4,6 +4,7 @@ target_sources(${library_name} PRIVATE
   i_tree_data_item_converter.h
   i_tree_data_model_converter.h
   tree_data.h
+  tree_data_constants.h
   tree_data_fwd.h
   tree_data_helper.cpp
   tree_data_helper.h
