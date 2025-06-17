@@ -20,6 +20,7 @@
 
 #include "mvvm/serialization/tree_data_composer.h"
 
+#include <mvvm/model/compound_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_constants.h>
@@ -52,9 +53,46 @@ TEST_F(TreeDataComposerTests, SingleItem)
 
   const auto data_tree = item_tree_data->Children().at(0);
   EXPECT_EQ(data_tree.GetNodeName(), constants::kItemDataElementType);
+  ASSERT_EQ(data_tree.GetNumberOfChildren(), 1U);  // identifier
 
   const auto tagged_items_data_tree = item_tree_data->Children().at(1);
   EXPECT_EQ(tagged_items_data_tree.GetNodeName(), constants::kTaggedItemsElementType);
+  ASSERT_EQ(tagged_items_data_tree.GetNumberOfChildren(), 0U);
+}
+
+TEST_F(TreeDataComposerTests, ParentWithChild)
+{
+  CompoundItem item;
+  auto property = item.AddProperty("width", 42);
+
+  const TreeDataComposer composer({});
+
+  const auto item_tree_data = composer.CreateTreeData(item);
+
+  EXPECT_EQ(item_tree_data->GetNodeName(), constants::kItemElementType);
+  EXPECT_TRUE(item_tree_data->GetContent().empty());
+  ASSERT_EQ(item_tree_data->GetNumberOfAttributes(), 1U);
+  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypelAttributeKey), item.GetType());
+  ASSERT_EQ(item_tree_data->GetNumberOfChildren(), 2U);
+
+  const auto data_tree = item_tree_data->Children().at(0);
+  EXPECT_EQ(data_tree.GetNodeName(), constants::kItemDataElementType);
+  ASSERT_EQ(data_tree.GetNumberOfChildren(), 1U);  // identifier
+
+  const auto tagged_items_data_tree = item_tree_data->Children().at(1);
+  EXPECT_EQ(tagged_items_data_tree.GetNodeName(), constants::kTaggedItemsElementType);
+  EXPECT_EQ(tagged_items_data_tree.GetAttribute(constants::kDefaultTagKey), std::string());
+  ASSERT_EQ(tagged_items_data_tree.GetNumberOfChildren(), 1U);
+
+  const auto container_data_tree = tagged_items_data_tree.Children().at(0);
+  EXPECT_EQ(container_data_tree.GetNodeName(), constants::kItemContainerElementType);
+  ASSERT_EQ(container_data_tree.GetNumberOfChildren(), 2U);
+
+  const auto taginfo_data_tree = container_data_tree.Children().at(0);
+  EXPECT_EQ(taginfo_data_tree.GetNodeName(), constants::kTagInfoElementType);
+
+  const auto child_item_data_tree = container_data_tree.Children().at(1);
+  EXPECT_EQ(child_item_data_tree.GetNodeName(), constants::kItemElementType);
 }
 
 }  // namespace mvvm::test
