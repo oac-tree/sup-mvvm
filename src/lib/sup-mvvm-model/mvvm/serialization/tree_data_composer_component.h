@@ -24,7 +24,7 @@
 #include <mvvm/serialization/tree_data.h>
 
 #include <memory>
-#include <stack>
+#include <deque>
 
 namespace mvvm
 {
@@ -40,7 +40,7 @@ class TreeDataComposerComponent
 {
 public:
   using component_t = std::unique_ptr<TreeDataComposerComponent>;
-  using component_queue = std::stack<component_t>;
+  using component_queue = std::deque<component_t>;
 
   /**
    * @brief Main c-tor.

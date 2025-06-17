@@ -90,6 +90,38 @@ TEST_F(TreeDataComposerComponentTests, AddNextComponent)
   EXPECT_FALSE(component.HasNextComponent());
 }
 
+TEST_F(TreeDataComposerComponentTests, AddTwoComponents)
+{
+  const std::string node_name("node_name");
+
+  TreeDataComposerComponent component(node_name);
+
+  const std::string queued_component_name0("queued_component_name0");
+  auto queued_component0 = std::make_unique<TreeDataComposerComponent>(queued_component_name0);
+  auto queued_component0_ptr = queued_component0.get();
+
+  const std::string queued_component_name1("queued_component_name1");
+  auto queued_component1 = std::make_unique<TreeDataComposerComponent>(queued_component_name1);
+  auto queued_component1_ptr = queued_component1.get();
+
+  component.AddNextComponent(std::move(queued_component0));
+  component.AddNextComponent(std::move(queued_component1));
+
+  EXPECT_EQ(component.GetQueuedComponentsCount(), 2U);
+  EXPECT_TRUE(component.HasNextComponent());
+
+  // moving queued component from the front of the queue
+  auto taken0 = component.TakeNextComponent();
+  auto taken1 = component.TakeNextComponent();
+
+  EXPECT_EQ(taken0.get(), queued_component0_ptr);
+  EXPECT_EQ(taken1.get(), queued_component1_ptr);
+
+  EXPECT_EQ(component.GetQueuedComponentsCount(), 0U);
+  EXPECT_FALSE(component.HasNextComponent());
+}
+
+
 TEST_F(TreeDataComposerComponentTests, MoveTreeData)
 {
   const std::string node_name("node_name");

@@ -82,19 +82,19 @@ TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWithTw
   EXPECT_TRUE(component.HasNextComponent());
   ASSERT_EQ(component.GetQueuedComponentsCount(), 2U);
 
-  auto taken_component1 = component.TakeNextComponent();
-  const auto tree_data1 = taken_component1->GetTreeData();
-  EXPECT_EQ(tree_data1.GetNodeName(), constants::kItemElementType);
-  EXPECT_TRUE(tree_data1.GetContent().empty());
-  ASSERT_EQ(tree_data1.GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(tree_data1.GetAttribute(constants::kTypelAttributeKey), item1_ptr->GetType());
-
   auto taken_component0 = component.TakeNextComponent();
   const auto tree_data0 = taken_component0->GetTreeData();
   EXPECT_EQ(tree_data0.GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(tree_data0.GetContent().empty());
   ASSERT_EQ(tree_data0.GetNumberOfAttributes(), 1U);
   EXPECT_EQ(tree_data0.GetAttribute(constants::kTypelAttributeKey), item0_ptr->GetType());
+
+  auto taken_component1 = component.TakeNextComponent();
+  const auto tree_data1 = taken_component1->GetTreeData();
+  EXPECT_EQ(tree_data1.GetNodeName(), constants::kItemElementType);
+  EXPECT_TRUE(tree_data1.GetContent().empty());
+  ASSERT_EQ(tree_data1.GetNumberOfAttributes(), 1U);
+  EXPECT_EQ(tree_data1.GetAttribute(constants::kTypelAttributeKey), item1_ptr->GetType());
 }
 
 TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWithoutContainers)

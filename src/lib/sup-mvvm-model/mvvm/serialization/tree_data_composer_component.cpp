@@ -62,13 +62,13 @@ std::size_t TreeDataComposerComponent::GetQueuedComponentsCount() const
 
 void TreeDataComposerComponent::AddNextComponent(component_t component)
 {
-  m_component_queue.emplace(std::move(component));
+  m_component_queue.emplace_back(std::move(component));
 }
 
 TreeDataComposerComponent::component_t TreeDataComposerComponent::TakeNextComponent()
 {
-  auto popped = std::move(m_component_queue.top());
-  m_component_queue.pop();
+  auto popped = std::move(m_component_queue.front());
+  m_component_queue.pop_front();
   return popped;
 }
 
