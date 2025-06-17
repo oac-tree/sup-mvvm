@@ -44,7 +44,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWhenCo
   const TagInfo tag_info("tag_info", 0, 1, std::vector<std::string>());
   const SessionItemContainer container(tag_info);
 
-  const ItemContainerComposerComponent component(container);
+  const ItemContainerComposerComponent component(container, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemContainerElementType);
@@ -69,7 +69,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWithTw
   auto item1_ptr = item1.get();
   container.InsertItem(std::move(item1), 1);
 
-  ItemContainerComposerComponent component(container);
+  ItemContainerComposerComponent component(container, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemContainerElementType);
@@ -104,7 +104,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWith
   TaggedItems tagged_items;
   tagged_items.SetDefaultTag(default_tag_name);
 
-  const TaggedItemsComposerComponent component(tagged_items);
+  const TaggedItemsComposerComponent component(tagged_items, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kTaggedItemsElementType);
@@ -125,7 +125,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWith
   tagged_items.SetDefaultTag(default_tag_name);
   tagged_items.RegisterTag(tag_info);
 
-  TaggedItemsComposerComponent component(tagged_items);
+  TaggedItemsComposerComponent component(tagged_items, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kTaggedItemsElementType);
@@ -153,7 +153,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, ItemComposerComponentForEmptyIte
 {
   const SessionItem item;
 
-  const ItemComposerComponent component(item);
+  const ItemComposerComponent component(item, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemElementType);

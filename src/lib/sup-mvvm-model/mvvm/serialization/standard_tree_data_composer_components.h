@@ -25,6 +25,7 @@
 //! Collection of TreeDataComposerComponent classes to build TreeData from SessionItem.
 
 #include <mvvm/serialization/tree_data_composer_component.h>
+#include <mvvm/serialization/converter_types.h>
 
 namespace mvvm
 {
@@ -40,7 +41,7 @@ class TaggedItems;
 class ItemContainerComposerComponent : public TreeDataComposerComponent
 {
 public:
-  explicit ItemContainerComposerComponent(const mvvm::SessionItemContainer& container);
+  explicit ItemContainerComposerComponent(const mvvm::SessionItemContainer& container, filter_item_t filter_item);
 };
 
 /**
@@ -49,7 +50,7 @@ public:
 class TaggedItemsComposerComponent : public TreeDataComposerComponent
 {
 public:
-  explicit TaggedItemsComposerComponent(const mvvm::TaggedItems& tagged_items);
+  explicit TaggedItemsComposerComponent(const mvvm::TaggedItems& tagged_items, filter_item_t filter_item);
 };
 
 /**
@@ -58,7 +59,7 @@ public:
 class ItemComposerComponent : public TreeDataComposerComponent
 {
 public:
-  explicit ItemComposerComponent(const mvvm::SessionItem& item);
+  explicit ItemComposerComponent(const mvvm::SessionItem& item, filter_item_t filter_item);
 };
 
 }  // namespace mvvm

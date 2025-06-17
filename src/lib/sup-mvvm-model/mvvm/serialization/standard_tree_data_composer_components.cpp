@@ -36,14 +36,19 @@ namespace mvvm
 // -------------------------------------------------------------------------------------------------
 
 ItemContainerComposerComponent::ItemContainerComposerComponent(
-    const SessionItemContainer &container)
+    const SessionItemContainer &container, filter_item_t filter_item)
     : TreeDataComposerComponent(constants::kItemContainerElementType)
 {
   AddChild(ToTreeData(container.GetTagInfo()));
 
   for (const auto &item : container)
   {
-    AddNextComponent(std::make_unique<ItemComposerComponent>(*item));
+    if (filter_item && !filter_item(*item))
+    {
+      continue;  // skipping item from serialization
+    }
+
+    AddNextComponent(std::make_unique<ItemComposerComponent>(*item, filter_item));
   }
 }
 
@@ -51,14 +56,15 @@ ItemContainerComposerComponent::ItemContainerComposerComponent(
 // TaggedItemsComposerComponent
 // -------------------------------------------------------------------------------------------------
 
-TaggedItemsComposerComponent::TaggedItemsComposerComponent(const TaggedItems &tagged_items)
+TaggedItemsComposerComponent::TaggedItemsComposerComponent(const TaggedItems &tagged_items,
+                                                           filter_item_t filter_item)
     : TreeDataComposerComponent(constants::kTaggedItemsElementType)
 {
   AddAttribute(constants::kDefaultTagKey, tagged_items.GetDefaultTag());
 
   for (auto &container : tagged_items)
   {
-    AddNextComponent(std::make_unique<ItemContainerComposerComponent>(*container));
+    AddNextComponent(std::make_unique<ItemContainerComposerComponent>(*container, filter_item));
   }
 }
 
@@ -66,7 +72,7 @@ TaggedItemsComposerComponent::TaggedItemsComposerComponent(const TaggedItems &ta
 // ItemComposerComponent
 // -------------------------------------------------------------------------------------------------
 
-ItemComposerComponent::ItemComposerComponent(const SessionItem &item)
+ItemComposerComponent::ItemComposerComponent(const SessionItem &item, filter_item_t filter_item)
     : TreeDataComposerComponent(constants::kItemElementType)
 {
   AddAttribute(constants::kTypelAttributeKey, item.GetType());
@@ -74,7 +80,8 @@ ItemComposerComponent::ItemComposerComponent(const SessionItem &item)
   const TreeDataItemDataConverter data_converter;
   AddChild(*data_converter.ToTreeData(*item.GetItemData()));
 
-  AddNextComponent(std::make_unique<TaggedItemsComposerComponent>(*item.GetTaggedItems()));
+  AddNextComponent(
+      std::make_unique<TaggedItemsComposerComponent>(*item.GetTaggedItems(), filter_item));
 }
 
 }  // namespace mvvm
