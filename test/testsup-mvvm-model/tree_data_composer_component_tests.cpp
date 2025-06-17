@@ -26,7 +26,7 @@ namespace mvvm::test
 {
 
 /**
- * @brief Tests for TreeDataComposerComponentTest class.
+ * @brief Tests for TreeDataComposerComponent class.
  */
 class TreeDataComposerComponentTests : public ::testing::Test
 {

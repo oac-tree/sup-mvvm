@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   standard_tree_data_composer_components.cpp
   standard_tree_data_composer_components.h
   tree_data.h
+  tree_data_composer.cpp
+  tree_data_composer.h
   tree_data_composer_component.cpp
   tree_data_composer_component.h
   tree_data_constants.h
