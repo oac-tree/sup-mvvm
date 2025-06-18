@@ -26,6 +26,8 @@
 namespace mvvm::constants
 {
 
+const std::string kRootElementType = "MvvmDocument";
+const std::string kApplicationTypeAttribute = "application";
 const std::string kModelElementType = "Model";
 const std::string kItemElementType = "Item";
 const std::string kTypelAttributeKey = "type";

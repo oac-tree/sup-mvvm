@@ -39,8 +39,6 @@ class ISessionModel;
 class MVVM_MODEL_EXPORT XmlDocument : public IModelDocument
 {
 public:
-  static inline const std::string kRootElementType = "MvvmDocument";
-
   /**
    * @brief Main c-tor.
    *
@@ -52,7 +50,6 @@ public:
    */
   explicit XmlDocument(const std::vector<ISessionModel*>& models,
                        const std::string& application_type = {});
-  ~XmlDocument() override;
 
   /**
    * @brief Returns the type name of the application.

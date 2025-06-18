@@ -21,6 +21,7 @@
 #include "xml_document.h"
 
 #include "tree_data.h"
+#include "tree_data_constants.h"
 #include "tree_data_model_converter.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
@@ -28,11 +29,6 @@
 
 #include <sup/xml/tree_data_parser.h>
 #include <sup/xml/tree_data_serialize.h>
-
-namespace
-{
-const std::string kApplicationTypeAttribute = "application";
-}
 
 namespace mvvm
 {
@@ -48,16 +44,14 @@ std::string XmlDocument::GetApplicationType() const
   return m_application_type;
 }
 
-XmlDocument::~XmlDocument() = default;
-
 void XmlDocument::Save(const std::string& file_name) const
 {
   const TreeDataModelConverter converter;
 
-  tree_data_t document_tree(kRootElementType);
+  tree_data_t document_tree(constants::kRootElementType);
   if (!GetApplicationType().empty())
   {
-    document_tree.AddAttribute(kApplicationTypeAttribute, GetApplicationType());
+    document_tree.AddAttribute(constants::kApplicationTypeAttribute, GetApplicationType());
   }
 
   for (auto model : m_models)
@@ -71,19 +65,20 @@ void XmlDocument::Save(const std::string& file_name) const
 void XmlDocument::Load(const std::string& file_name)
 {
   auto document_tree = mvvm::xml::TreeDataFromFile(file_name);
-  if (document_tree->GetNodeName() != kRootElementType)
+  if (document_tree->GetNodeName() != constants::kRootElementType)
   {
     throw RuntimeException(
         "Error in XML document: given XML doesn't containt correct entry element ["
-        + kRootElementType + "].");
+        + constants::kRootElementType + "].");
   }
 
-  if (document_tree->HasAttribute(kApplicationTypeAttribute) || !GetApplicationType().empty())
+  if (document_tree->HasAttribute(constants::kApplicationTypeAttribute)
+      || !GetApplicationType().empty())
   {
-    if (document_tree->GetAttribute(kApplicationTypeAttribute) != GetApplicationType())
+    if (document_tree->GetAttribute(constants::kApplicationTypeAttribute) != GetApplicationType())
     {
       throw RuntimeException("Error in XML document: application type attribute ["
-                             + document_tree->GetAttribute(kApplicationTypeAttribute)
+                             + document_tree->GetAttribute(constants::kApplicationTypeAttribute)
                              + "] doesn't match expectations [" + GetApplicationType() + "]");
     }
   }

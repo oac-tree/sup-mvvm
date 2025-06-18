@@ -34,8 +34,9 @@
 namespace mvvm::test
 {
 
-//! Testing XmlDocument.
-
+/**
+ * @brief Tests for XmlDocument class.
+ */
 class XmlDocumentTest : public mvvm::test::FolderTest
 {
 public:
@@ -54,8 +55,7 @@ public:
   };
 };
 
-//! Saving empty document, application type is provided.
-TEST_F(XmlDocumentTest, SaveLoadEmptyDocument)
+TEST_F(XmlDocumentTest, SaveLoadEmptyDocumentWhenApplicationTypeIsProvided)
 {
   const auto file_path = GetFilePath("SaveLoadEmptyDocument.xml");
 
@@ -76,8 +76,6 @@ TEST_F(XmlDocumentTest, SaveLoadEmptyDocument)
   EXPECT_THROW(document3.Load(file_path), RuntimeException);
 }
 
-//! Saving empty document, application name is not provided.
-
 TEST_F(XmlDocumentTest, SaveLoadEmptyDocumentWithoutProjectName)
 {
   const auto file_path = GetFilePath("SaveLoadEmptyNoNameDocument.xml");
@@ -95,8 +93,6 @@ TEST_F(XmlDocumentTest, SaveLoadEmptyDocumentWithoutProjectName)
   XmlDocument document2({}, "another-gui");
   EXPECT_THROW(document2.Load(file_path), mvvm::xml::InvalidOperationException);
 }
-
-//! Saving the model with content into document and restoring it after.
 
 TEST_F(XmlDocumentTest, SaveLoadEmptyModel)
 {
@@ -118,8 +114,6 @@ TEST_F(XmlDocumentTest, SaveLoadEmptyModel)
   EXPECT_NE(model.GetRootItem()->GetIdentifier(), original_identifier);
 }
 
-//! Saving the model with content into document and restoring it after.
-
 TEST_F(XmlDocumentTest, SaveLoadModelWithPropertyItem)
 {
   const auto file_path = GetFilePath("SaveLoadModelWithPropertyItem.xml");
@@ -140,8 +134,6 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithPropertyItem)
   EXPECT_NE(model.GetRootItem(), original_root);
   EXPECT_NE(model.GetRootItem()->GetIdentifier(), original_identifier);
 }
-
-//! Saving the model with content into document and restoring it after.
 
 TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
 {
@@ -196,8 +188,6 @@ TEST_F(XmlDocumentTest, SaveLoadModelWithParentAndChild)
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
 
-//! Saving two models with content into document and restoring it after.
-
 TEST_F(XmlDocumentTest, SaveLoadTwoModels)
 {
   const auto file_path = GetFilePath("SaveLoadTwoModels.xml");
@@ -239,8 +229,6 @@ TEST_F(XmlDocumentTest, SaveLoadTwoModels)
   EXPECT_EQ(reco_parent2->GetIdentifier(), parent_identifier2);
 }
 
-//! Attempt to restore models in wrong order.
-
 TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
 {
   const auto file_path = GetFilePath("LoadModelsInWrongOrder.xml");
@@ -252,11 +240,10 @@ TEST_F(XmlDocumentTest, LoadModelsInWrongOrder)
   const auto parent_identifier1 = parent1->GetIdentifier();
 
   auto parent2 = model2.InsertItem<SessionItem>();
-  const auto parent_identifier2 = parent2->GetIdentifier();
 
   // saving models in file
   {
-    XmlDocument document({&model1, &model2});
+    const XmlDocument document({&model1, &model2});
     document.Save(file_path);
   }
 
