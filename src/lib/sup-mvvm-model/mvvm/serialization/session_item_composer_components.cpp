@@ -23,7 +23,6 @@
 #include "tree_data_constants.h"
 #include "tree_data_helper.h"
 #include "tree_data_itemdata_converter.h"
-#include "tree_data_tagged_items_converter.h"
 #include "tree_data_taginfo_converter.h"
 
 #include <mvvm/core/unique_id_generator.h>

@@ -18,16 +18,12 @@ target_sources(${library_name} PRIVATE
   tree_data_fwd.h
   tree_data_helper.cpp
   tree_data_helper.h
-  tree_data_item_container_converter.cpp
-  tree_data_item_container_converter.h
   tree_data_item_converter.cpp
   tree_data_item_converter.h
   tree_data_itemdata_converter.cpp
   tree_data_itemdata_converter.h
   tree_data_model_converter.cpp
   tree_data_model_converter.h
-  tree_data_tagged_items_converter.cpp
-  tree_data_tagged_items_converter.h
   tree_data_taginfo_converter.cpp
   tree_data_taginfo_converter.h
   tree_data_variant_converter.cpp
