@@ -22,6 +22,8 @@
 #define MVVM_SERIALIZATION_TREE_DATA_COMPOSER_H_
 
 #include <mvvm/serialization/converter_types.h>
+#include <mvvm/serialization/tree_data_fwd.h>
+#include <memory>
 
 namespace mvvm
 {

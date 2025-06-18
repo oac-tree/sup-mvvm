@@ -35,6 +35,21 @@
 namespace mvvm
 {
 
+namespace
+{
+
+/**
+ * @brief Checks if regeneration of identifier is required.
+ */
+bool IsRegenerateIdWhenBackFromXML(ConverterMode mode)
+{
+  // Item copy should have own unique identifier, so regeneration is required
+  return mode == ConverterMode::kCopy;
+}
+
+}
+
+
 // ---------------------------------------------------------------------------------------------------
 // SessionItemComposerComponent
 // ---------------------------------------------------------------------------------------------------

@@ -25,6 +25,7 @@
 #include <mvvm/serialization/tree_data.h>
 
 #include <deque>
+#include <memory>
 
 namespace mvvm
 {
