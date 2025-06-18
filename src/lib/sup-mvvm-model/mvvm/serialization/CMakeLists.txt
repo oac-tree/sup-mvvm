@@ -3,6 +3,8 @@ target_sources(${library_name} PRIVATE
   i_model_document.h
   i_tree_data_item_converter.h
   i_tree_data_model_converter.h
+  session_item_composer.cpp
+  session_item_composer.h
   session_item_composer_components.cpp
   session_item_composer_components.h
   standard_tree_data_composer_components.cpp

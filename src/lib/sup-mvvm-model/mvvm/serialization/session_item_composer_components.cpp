@@ -122,7 +122,7 @@ TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext &cont
 SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &context,
                                                  const tree_data_t &tree_data, SessionItem &item)
 {
-  if (!IsItemContainerConvertible(tree_data))
+  if (!IsSessionItemConvertible(tree_data))
   {
     throw RuntimeException("Incompatible TreeData");
   }
