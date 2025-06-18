@@ -21,6 +21,7 @@
 #include "tree_data_item_converter.h"
 
 #include "converter_types.h"
+#include "session_item_composer.h"
 #include "tree_data.h"
 #include "tree_data_composer.h"
 #include "tree_data_constants.h"
@@ -110,16 +111,19 @@ TreeDataItemConverter::~TreeDataItemConverter() = default;
 std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(
     const tree_data_t& tree_data) const
 {
-  if (!IsSessionItemConvertible(tree_data))
-  {
-    throw RuntimeException("Error in TreeDataItemConverter: uncompatible TreeData");
-  }
+  // if (!IsSessionItemConvertible(tree_data))
+  // {
+  //   throw RuntimeException("Error in TreeDataItemConverter: uncompatible TreeData");
+  // }
 
-  auto model_type = tree_data.GetAttribute(constants::kTypelAttributeKey);
-  auto result = p_impl->m_factory->CreateItem(model_type);
+  // auto model_type = tree_data.GetAttribute(constants::kTypelAttributeKey);
+  // auto result = p_impl->m_factory->CreateItem(model_type);
 
-  p_impl->populate_item(tree_data, *result);
-  return result;
+  // p_impl->populate_item(tree_data, *result);
+  // return result;
+
+  SessionItemComposer composer({p_impl->m_factory, p_impl->m_mode});
+  return composer.CreateSessionItem(tree_data);
 }
 
 std::unique_ptr<tree_data_t> TreeDataItemConverter::ToTreeData(const SessionItem& item) const
