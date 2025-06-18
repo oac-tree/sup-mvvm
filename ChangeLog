@@ -1,5 +1,6 @@
 Changes for 1.9.0:
 
+- Replace recursive serialization algorithms with stack-based
 - Remove obsolete SessionItem::Activate machinery
 - Implement possibility to set custom data strategy for ViewItem
 - Allow undo/redo when acting via SessionItem API
