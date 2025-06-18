@@ -54,9 +54,6 @@ public:
   TreeDataTaggedItemsConverter(const ConverterCallbacks& callbacks);
   ~TreeDataTaggedItemsConverter();
 
-  //! Returns true if given TreeData can be converted to TaggedItems
-  bool IsTaggedItemsConvertible(const tree_data_t& tree_data) const;
-
   //! Creates TaggedItems from TreeData object.
   std::unique_ptr<TaggedItems> ToTaggedItems(const tree_data_t& tree_data) const;
 

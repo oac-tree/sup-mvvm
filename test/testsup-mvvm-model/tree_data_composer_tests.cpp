@@ -23,6 +23,7 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/serialization/tree_data.h>
+#include <mvvm/serialization/tree_data_helper.h>
 #include <mvvm/serialization/tree_data_constants.h>
 
 #include <gtest/gtest.h>
@@ -56,6 +57,7 @@ TEST_F(TreeDataComposerTests, SingleItem)
   ASSERT_EQ(data_tree.GetNumberOfChildren(), 1U);  // identifier
 
   const auto tagged_items_data_tree = item_tree_data->Children().at(1);
+  EXPECT_TRUE(IsTaggedItemsConvertible(tagged_items_data_tree));
   EXPECT_EQ(tagged_items_data_tree.GetNodeName(), constants::kTaggedItemsElementType);
   ASSERT_EQ(tagged_items_data_tree.GetNumberOfChildren(), 0U);
 }
@@ -80,11 +82,13 @@ TEST_F(TreeDataComposerTests, ParentWithChild)
   ASSERT_EQ(data_tree.GetNumberOfChildren(), 1U);  // identifier
 
   const auto tagged_items_data_tree = item_tree_data->Children().at(1);
+  EXPECT_TRUE(IsTaggedItemsConvertible(tagged_items_data_tree));
   EXPECT_EQ(tagged_items_data_tree.GetNodeName(), constants::kTaggedItemsElementType);
   EXPECT_EQ(tagged_items_data_tree.GetAttribute(constants::kDefaultTagKey), std::string());
   ASSERT_EQ(tagged_items_data_tree.GetNumberOfChildren(), 1U);
 
   const auto container_data_tree = tagged_items_data_tree.Children().at(0);
+  EXPECT_TRUE(IsItemContainerConvertible(container_data_tree));
   EXPECT_EQ(container_data_tree.GetNodeName(), constants::kItemContainerElementType);
   ASSERT_EQ(container_data_tree.GetNumberOfChildren(), 2U);
 
@@ -119,11 +123,13 @@ TEST_F(TreeDataComposerTests, ParentWithChildFiltered)
   ASSERT_EQ(data_tree.GetNumberOfChildren(), 1U);  // identifier
 
   const auto tagged_items_data_tree = item_tree_data->Children().at(1);
+  EXPECT_TRUE(IsTaggedItemsConvertible(tagged_items_data_tree));
   EXPECT_EQ(tagged_items_data_tree.GetNodeName(), constants::kTaggedItemsElementType);
   EXPECT_EQ(tagged_items_data_tree.GetAttribute(constants::kDefaultTagKey), std::string("tag"));
   ASSERT_EQ(tagged_items_data_tree.GetNumberOfChildren(), 1U);
 
   const auto container_data_tree = tagged_items_data_tree.Children().at(0);
+  EXPECT_TRUE(IsItemContainerConvertible(container_data_tree));
   EXPECT_EQ(container_data_tree.GetNodeName(), constants::kItemContainerElementType);
   ASSERT_EQ(container_data_tree.GetNumberOfChildren(), 1U);  // no child was copied
 

@@ -72,7 +72,7 @@ TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeData)
   auto converter = CreateConverter();
   auto tree_data = converter->ToTreeData(tagged_items);
 
-  EXPECT_TRUE(converter->IsTaggedItemsConvertible(*tree_data));
+  EXPECT_TRUE(IsTaggedItemsConvertible(*tree_data));
 }
 
 TEST_F(TreeDataTaggedItemsConverterTests, TaggedItemsToTreeDataAndBack)

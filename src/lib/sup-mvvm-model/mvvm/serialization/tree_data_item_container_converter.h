@@ -47,9 +47,6 @@ class SessionItemContainer;
 
 namespace ContainerConverter
 {
-//! Returns true if given TreeData represents SessionItemContainer object.
-MVVM_MODEL_EXPORT bool IsItemContainerConvertible(const tree_data_t& tree_data);
-
 //! Returns SessionItemContainer object from its TreeData representation.
 MVVM_MODEL_EXPORT std::unique_ptr<SessionItemContainer> ToSessionItemContainer(
     const tree_data_t& tree_data, const create_item_t& func);

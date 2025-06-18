@@ -21,6 +21,9 @@
 #ifndef MVVM_SERIALIZATION_TREE_DATA_HELPER_H_
 #define MVVM_SERIALIZATION_TREE_DATA_HELPER_H_
 
+//! @file
+//! Collection of helper methods related to the TreeData usage.
+
 #include <mvvm/serialization/tree_data_fwd.h>
 
 #include <memory>
@@ -30,9 +33,25 @@
 namespace mvvm
 {
 
+/**
+ * @brief Returns list of attribute names.
+ */
 std::vector<std::string> GetAttributeNames(const tree_data_t& tree_data);
 
+/**
+ * @brief Parses string containing XML element representation into TreeData object.
+ */
 std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element);
+
+/**
+ * @brief Checks if given TreeData represents SessionItemContainer serialization.
+ */
+bool IsItemContainerConvertible(const tree_data_t &tree_data);
+
+/**
+ * @brief Checks if given TreeData represents TaggedItems serialization.
+ */
+bool IsTaggedItemsConvertible(const tree_data_t& tree_data);
 
 }  // namespace mvvm
 

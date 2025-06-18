@@ -21,19 +21,13 @@
 #include "tree_data_tagged_items_converter.h"
 
 #include "tree_data.h"
+#include "tree_data_constants.h"
 #include "tree_data_helper.h"
 #include "tree_data_item_container_converter.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item_container.h>
 #include <mvvm/model/tagged_items.h>
-
-namespace
-{
-const std::string kTaggedItemsElementType = "TaggedItems";
-const std::string kDefaultTagKey = "defaultTag";
-
-}  // namespace
 
 namespace mvvm
 {
@@ -54,14 +48,6 @@ TreeDataTaggedItemsConverter::TreeDataTaggedItemsConverter(const ConverterCallba
 
 TreeDataTaggedItemsConverter::~TreeDataTaggedItemsConverter() = default;
 
-bool TreeDataTaggedItemsConverter::IsTaggedItemsConvertible(const tree_data_t &tree_data) const
-{
-  const std::vector<std::string> expected_attributes({kDefaultTagKey});
-  const bool correct_type = tree_data.GetNodeName() == kTaggedItemsElementType;
-  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
-  return correct_type && correct_attributes;
-}
-
 std::unique_ptr<TaggedItems> TreeDataTaggedItemsConverter::ToTaggedItems(
     const tree_data_t &tree_data) const
 {
@@ -78,7 +64,7 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const tree_data_t &tree_d
     throw RuntimeException("Error in TreeDataTaggedItemsConverter: uncompatible TreeData");
   }
 
-  tagged_items.SetDefaultTag(tree_data.GetAttribute(kDefaultTagKey));
+  tagged_items.SetDefaultTag(tree_data.GetAttribute(constants::kDefaultTagKey));
 
   for (const auto &child_data : tree_data.Children())
   {
@@ -91,8 +77,8 @@ void TreeDataTaggedItemsConverter::PopulateTaggedItems(const tree_data_t &tree_d
 std::unique_ptr<tree_data_t> TreeDataTaggedItemsConverter::ToTreeData(
     const TaggedItems &tagged_items) const
 {
-  auto result = std::make_unique<tree_data_t>(kTaggedItemsElementType);
-  result->AddAttribute(kDefaultTagKey, tagged_items.GetDefaultTag());
+  auto result = std::make_unique<tree_data_t>(constants::kTaggedItemsElementType);
+  result->AddAttribute(constants::kDefaultTagKey, tagged_items.GetDefaultTag());
   for (auto &container : tagged_items)
   {
     result->AddChild(*ContainerConverter::ToTreeData(

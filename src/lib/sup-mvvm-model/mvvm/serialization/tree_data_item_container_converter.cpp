@@ -21,26 +21,16 @@
 #include "tree_data_item_container_converter.h"
 
 #include "tree_data.h"
+#include "tree_data_constants.h"
+#include "tree_data_helper.h"
 #include "tree_data_taginfo_converter.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_item_container.h>
 #include <mvvm/model/taginfo.h>
 
-namespace
-{
-const std::string kItemContainerElementType = "ItemContainer";
-}  // namespace
-
 namespace mvvm::ContainerConverter
 {
-bool IsItemContainerConvertible(const tree_data_t &tree_data)
-{
-  const bool correct_type = tree_data.GetNodeName() == kItemContainerElementType;
-  const bool correct_attributes = tree_data.GetNumberOfAttributes() == 0;
-  const bool correct_children = tree_data.GetNumberOfChildren() > 0;  // at least TagInfo
-  return correct_type && correct_attributes && correct_children;
-}
 
 std::unique_ptr<SessionItemContainer> ToSessionItemContainer(const tree_data_t &tree_data,
                                                              const create_item_t &func)
@@ -82,7 +72,7 @@ std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer &container,
                                         const create_treedata_t &func,
                                         const filter_item_t &filter_func)
 {
-  auto result = std::make_unique<tree_data_t>(kItemContainerElementType);
+  auto result = std::make_unique<tree_data_t>(constants::kItemContainerElementType);
   result->AddChild(ToTreeData(container.GetTagInfo()));
   for (const auto &item : container)
   {

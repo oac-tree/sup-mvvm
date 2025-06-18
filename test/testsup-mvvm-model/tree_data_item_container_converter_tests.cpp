@@ -20,6 +20,8 @@
 
 #include "mvvm/serialization/tree_data_item_container_converter.h"
 
+#include <mvvm/serialization/tree_data_helper.h>
+
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_item_container.h>
@@ -71,7 +73,7 @@ TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeData)
 
   auto tree_data = ContainerConverter::ToTreeData(container, m_create_tree_callback);
 
-  EXPECT_TRUE(ContainerConverter::IsItemContainerConvertible(*tree_data));
+  EXPECT_TRUE(IsItemContainerConvertible(*tree_data));
 }
 
 TEST_F(TreeDataItemContainerConverterTests, ContainerToTreeDataAndBack)
