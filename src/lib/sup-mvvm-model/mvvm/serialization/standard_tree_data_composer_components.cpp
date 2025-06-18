@@ -64,7 +64,7 @@ TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem &item,
                                                  const item_filter_t &item_filter)
     : TreeDataComposerComponent(constants::kItemElementType)
 {
-  AddAttribute(constants::kTypelAttributeKey, item.GetType());
+  AddAttribute(constants::kTypeAttributeKey, item.GetType());
 
   AddChild(*TreeDataItemDataConverter::ToTreeData(*item.GetItemData()));
 

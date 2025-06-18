@@ -30,12 +30,14 @@ const std::string kRootElementType = "MvvmDocument";
 const std::string kApplicationTypeAttribute = "application";
 const std::string kModelElementType = "Model";
 const std::string kItemElementType = "Item";
-const std::string kTypelAttributeKey = "type";
 const std::string kTaggedItemsElementType = "TaggedItems";
 const std::string kItemDataElementType = "ItemData";
 const std::string kDefaultTagKey = "defaultTag";
 const std::string kItemContainerElementType = "ItemContainer";
 const std::string kTagInfoElementType = "TagInfo";
+const std::string kVariantElementType = "Variant";
+const std::string kRoleAttributeKey = "role";
+const std::string kTypeAttributeKey = "type";
 
 }  // namespace mvvm::constants
 

@@ -72,11 +72,11 @@ TEST_P(TreeDataVariantConverterIntegerTest, IntegerDataRole)
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
   // converting tree_data to role_data and validating result
-  auto role_data = ToRoleData(*tree_data);
+  auto role_data = TreeDataVariantConverter::ToRoleData(*tree_data);
   EXPECT_EQ(role_data, role_data_t(kRole, param.value));
 
   // converting data role to a new tree data and checking against the original
-  auto new_tree_data = ToTreeData(role_data);
+  auto new_tree_data = TreeDataVariantConverter::ToTreeData(role_data);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 

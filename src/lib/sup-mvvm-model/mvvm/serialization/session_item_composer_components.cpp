@@ -99,7 +99,7 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
   // first child in TreeData corresponds to TagInfo which has been already processed
   for (auto it = std::next(tree_data.Children().begin()); it != tree_data.Children().end(); ++it)
   {
-    auto model_type = (*it).GetAttribute(constants::kTypelAttributeKey);
+    auto model_type = (*it).GetAttribute(constants::kTypeAttributeKey);
 
     auto child = context.factory->CreateItem(model_type);
     auto child_ptr = child.get();
@@ -144,7 +144,7 @@ SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &cont
     throw RuntimeException("Incompatible TreeData");
   }
 
-  auto item_type = tree_data.GetAttribute(constants::kTypelAttributeKey);
+  auto item_type = tree_data.GetAttribute(constants::kTypeAttributeKey);
 
   if (item_type != item.GetType())
   {

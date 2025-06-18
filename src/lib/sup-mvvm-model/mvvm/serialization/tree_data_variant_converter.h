@@ -35,22 +35,23 @@
 //! - <Variant role = "0" type = "ExternalProperty">text;color;identifier</Variant>
 
 #include <mvvm/core/variant.h>
-#include <mvvm/model_export.h>
 #include <mvvm/serialization/tree_data_fwd.h>
 
-namespace mvvm
+namespace mvvm::TreeDataVariantConverter
 {
 
-//! Returns true if given TreeData represents role_data_t object.
-MVVM_MODEL_EXPORT bool IsDataRoleConvertible(const tree_data_t& tree_data);
+/**
+ * @brief Returns role_data_t object from its TreeData representation.
+ *
+ * Will throw if conversion is not possible.
+ */
+role_data_t ToRoleData(const tree_data_t& tree_data);
 
-//! Returns role_data_t object from its TreeData representation. Will throw if conversion is not
-//! possible.
-MVVM_MODEL_EXPORT role_data_t ToRoleData(const tree_data_t& tree_data);
+/**
+ * @brief Returns TreeData object constructed from role_data_t object.
+ */
+tree_data_t ToTreeData(const role_data_t& role_data);
 
-//! Returns TreeData object constructed from role_data_t object.
-MVVM_MODEL_EXPORT tree_data_t ToTreeData(const role_data_t& role_data);
-
-}  // namespace mvvm
+}  // namespace mvvm::TreeDataVariantConverter
 
 #endif  // MVVM_SERIALIZATION_TREE_DATA_VARIANT_CONVERTER_H_

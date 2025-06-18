@@ -49,7 +49,7 @@ TEST_F(TreeDataComposerTests, SingleItem)
   EXPECT_EQ(item_tree_data->GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(item_tree_data->GetContent().empty());
   ASSERT_EQ(item_tree_data->GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypelAttributeKey), item.GetType());
+  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypeAttributeKey), item.GetType());
   ASSERT_EQ(item_tree_data->GetNumberOfChildren(), 2U);
 
   const auto data_tree = item_tree_data->Children().at(0);
@@ -74,7 +74,7 @@ TEST_F(TreeDataComposerTests, ParentWithChild)
   EXPECT_EQ(item_tree_data->GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(item_tree_data->GetContent().empty());
   ASSERT_EQ(item_tree_data->GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypelAttributeKey), item.GetType());
+  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypeAttributeKey), item.GetType());
   ASSERT_EQ(item_tree_data->GetNumberOfChildren(), 2U);
 
   const auto data_tree = item_tree_data->Children().at(0);
@@ -115,7 +115,7 @@ TEST_F(TreeDataComposerTests, ParentWithChildFiltered)
   EXPECT_EQ(item_tree_data->GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(item_tree_data->GetContent().empty());
   ASSERT_EQ(item_tree_data->GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypelAttributeKey), item.GetType());
+  EXPECT_EQ(item_tree_data->GetAttribute(constants::kTypeAttributeKey), item.GetType());
   ASSERT_EQ(item_tree_data->GetNumberOfChildren(), 2U);
 
   const auto data_tree = item_tree_data->Children().at(0);

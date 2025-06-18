@@ -20,11 +20,11 @@
 
 #include "tree_data_variant_converter.h"
 
-#include "tree_data.h"
+#include "tree_data.h"  // IWYU pragma: export
+#include "tree_data_constants.h"
 #include "tree_data_helper.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
 #include <charconv>
@@ -40,9 +40,7 @@ namespace mvvm
 
 namespace
 {
-const std::string kVariantElementType = "Variant";
-const std::string kRoleAttributeKey = "role";
-const std::string kTypeAttributeKey = "type";
+
 const std::string kSelectionsAttributeKey = "selections";
 
 //! Aggregates call backs for conversion between role_data_t and TreeData.
@@ -52,11 +50,8 @@ struct Converters
   std::function<role_data_t(const tree_data_t& treedata)> treedata_to_roledata;
 };
 
-////! Returns vector of attributes which TreeData object should have.
-// std::vector<std::string> GetExpectedAttributeKeys();
-
 //! Returns role attribute.
-int GetRole(const tree_data_t& tree_data);
+role_t GetRole(const tree_data_t& tree_data);
 
 //! Returns variant type name.
 std::string GetTypeName(const tree_data_t& tree_data);
@@ -98,18 +93,8 @@ std::map<std::string, Converters> GetConverters();
 
 }  // namespace
 
-// ----------------------------------------------------------------------------
-// Implementations declared in the header.
-// ----------------------------------------------------------------------------
-
-bool IsDataRoleConvertible(const tree_data_t& tree_data)
+namespace TreeDataVariantConverter
 {
-  auto attribute_names = GetAttributeNames(tree_data);
-  const bool correct_attributes = utils::Contains(attribute_names, kRoleAttributeKey)
-                                  && utils::Contains(attribute_names, kTypeAttributeKey);
-  return tree_data.GetNodeName() == kVariantElementType && correct_attributes
-         && tree_data.GetNumberOfChildren() == 0;
-}
 
 role_data_t ToRoleData(const tree_data_t& tree_data)
 {
@@ -144,42 +129,34 @@ tree_data_t ToTreeData(const role_data_t& role_data)
   return iter->second.roledata_to_treedata(role_data);
 }
 
-// ----------------------------------------------------------------------------
-// Implementation of helper functions from anonymous namespace.
-// ----------------------------------------------------------------------------
+}  // namespace TreeDataVariantConverter
 
 namespace
 {
-// std::vector<std::string> GetExpectedAttributeKeys()
-//{
-//   std::vector<std::string> result = {kRoleAttributeKey, kTypeAttributeKey};
-//   std::sort(result.begin(), result.end());
-//   return result;
-// }
 
-int GetRole(const tree_data_t& tree_data)
+role_t GetRole(const tree_data_t& tree_data)
 {
-  if (!tree_data.HasAttribute(kRoleAttributeKey))
+  if (!tree_data.HasAttribute(constants::kRoleAttributeKey))
   {
     throw mvvm::RuntimeException("Error in variant converter: absent [role] attribute");
   }
-  return std::stoi(tree_data.GetAttribute(kRoleAttributeKey));
+  return std::stoi(tree_data.GetAttribute(constants::kRoleAttributeKey));
 }
 
 std::string GetTypeName(const mvvm::tree_data_t& tree_data)
 {
-  if (!tree_data.HasAttribute(kTypeAttributeKey))
+  if (!tree_data.HasAttribute(constants::kTypeAttributeKey))
   {
     throw mvvm::RuntimeException("Error in variant converter: absent [role] attribute");
   }
-  return tree_data.GetAttribute(kTypeAttributeKey);
+  return tree_data.GetAttribute(constants::kTypeAttributeKey);
 }
 
 tree_data_t from_roledata_default_impl(const mvvm::role_data_t& role_data)
 {
-  tree_data_t result(kVariantElementType);
-  result.AddAttribute(kTypeAttributeKey, mvvm::utils::TypeName(role_data.second));
-  result.AddAttribute(kRoleAttributeKey, std::to_string(role_data.first));
+  tree_data_t result(constants::kVariantElementType);
+  result.AddAttribute(constants::kTypeAttributeKey, mvvm::utils::TypeName(role_data.second));
+  result.AddAttribute(constants::kRoleAttributeKey, std::to_string(role_data.first));
   result.SetContent(mvvm::utils::ValueToString(role_data.second));
   return result;
 }
@@ -236,9 +213,9 @@ mvvm::role_data_t to_vector_double(const tree_data_t& tree_data)
 
 tree_data_t from_combo_property(const role_data_t& role_data)
 {
-  tree_data_t result(kVariantElementType);
-  result.AddAttribute(kRoleAttributeKey, std::to_string(role_data.first));
-  result.AddAttribute(kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
+  tree_data_t result(constants::kVariantElementType);
+  result.AddAttribute(constants::kRoleAttributeKey, std::to_string(role_data.first));
+  result.AddAttribute(constants::kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
   auto combo = std::get<mvvm::ComboProperty>(role_data.second);
   result.AddAttribute(kSelectionsAttributeKey, combo.GetStringOfSelections());
   result.SetContent(combo.GetStringOfValues());

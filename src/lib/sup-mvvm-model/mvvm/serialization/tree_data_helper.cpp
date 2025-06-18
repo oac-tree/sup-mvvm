@@ -22,6 +22,8 @@
 
 #include "tree_data_constants.h"
 
+#include <mvvm/utils/container_utils.h>
+
 #include <sup/xml/tree_data_parser.h>
 
 namespace mvvm
@@ -48,7 +50,7 @@ std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element)
 
 bool IsSessionModelConvertible(const tree_data_t& tree_data)
 {
-  static const std::vector<std::string> expected_attributes({constants::kTypelAttributeKey});
+  static const std::vector<std::string> expected_attributes({constants::kTypeAttributeKey});
 
   const bool correct_type = tree_data.GetNodeName() == constants::kModelElementType;
   const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
@@ -74,7 +76,7 @@ bool IsTaggedItemsConvertible(const tree_data_t& tree_data)
 
 bool IsSessionItemConvertible(const tree_data_t& tree_data)
 {
-  static const std::vector<std::string> expected_attributes({constants::kTypelAttributeKey});
+  static const std::vector<std::string> expected_attributes({constants::kTypeAttributeKey});
 
   const bool correct_type = tree_data.GetNodeName() == constants::kItemElementType;
   const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
@@ -89,6 +91,15 @@ bool IsSessionItemDataConvertible(const tree_data_t& tree_data)
          && tree_data.GetNumberOfAttributes() == 0;
   // there is no sence to require empty content, it might still contains '\n' symbol,
   // depending on the way TreeData was constructed from XML content.
+}
+
+bool IsDataRoleConvertible(const tree_data_t& tree_data)
+{
+  auto attribute_names = GetAttributeNames(tree_data);
+  const bool correct_attributes = utils::Contains(attribute_names, constants::kRoleAttributeKey)
+                                  && utils::Contains(attribute_names, constants::kTypeAttributeKey);
+  return tree_data.GetNodeName() == constants::kVariantElementType && correct_attributes
+         && tree_data.GetNumberOfChildren() == 0;
 }
 
 }  // namespace mvvm

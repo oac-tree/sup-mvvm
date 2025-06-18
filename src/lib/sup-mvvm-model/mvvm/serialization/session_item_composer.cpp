@@ -21,7 +21,7 @@
 #include "session_item_composer.h"
 
 #include "session_item_composer_components.h"
-#include "tree_data.h"
+#include "tree_data.h"  // IWYU pragma: export
 #include "tree_data_constants.h"
 
 #include <mvvm/model/i_item_factory.h>
@@ -37,7 +37,7 @@ SessionItemComposer::SessionItemComposer(const ItemComposerContext& context) : m
 std::unique_ptr<SessionItem> SessionItemComposer::CreateSessionItem(
     const tree_data_t& tree_data) const
 {
-  auto model_type = tree_data.GetAttribute(constants::kTypelAttributeKey);
+  auto model_type = tree_data.GetAttribute(constants::kTypeAttributeKey);
   auto result = m_context.factory->CreateItem(model_type);
 
   std::stack<ItemComposerComponent::component_t> stack;

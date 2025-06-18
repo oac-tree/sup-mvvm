@@ -51,7 +51,7 @@ std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionMo
 
   auto result = std::make_unique<tree_data_t>(constants::kModelElementType);
 
-  result->AddAttribute(constants::kTypelAttributeKey, model.GetType());
+  result->AddAttribute(constants::kTypeAttributeKey, model.GetType());
 
   for (auto item : model.GetRootItem()->GetAllItems())
   {
@@ -69,7 +69,7 @@ void TreeDataModelConverter::PopulateSessionModel(const tree_data_t &tree_data,
     throw RuntimeException("Error in TreeDataModelConverter: inappropriate TreeData");
   }
 
-  if (tree_data.GetAttribute(constants::kTypelAttributeKey) != model.GetType())
+  if (tree_data.GetAttribute(constants::kTypeAttributeKey) != model.GetType())
   {
     throw RuntimeException(
         "Error in TreeDataModelConverter: attempt to reconstruct different model type.");

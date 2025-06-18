@@ -87,14 +87,14 @@ TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromItemContainerForTwoI
   EXPECT_EQ(tree_data0.GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(tree_data0.GetContent().empty());
   ASSERT_EQ(tree_data0.GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(tree_data0.GetAttribute(constants::kTypelAttributeKey), item0_ptr->GetType());
+  EXPECT_EQ(tree_data0.GetAttribute(constants::kTypeAttributeKey), item0_ptr->GetType());
 
   auto taken_component1 = component.TakeNextComponent();
   const auto tree_data1 = taken_component1->GetTreeData();
   EXPECT_EQ(tree_data1.GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(tree_data1.GetContent().empty());
   ASSERT_EQ(tree_data1.GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(tree_data1.GetAttribute(constants::kTypelAttributeKey), item1_ptr->GetType());
+  EXPECT_EQ(tree_data1.GetAttribute(constants::kTypeAttributeKey), item1_ptr->GetType());
 }
 
 TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromTaggedItemsWithoutContainers)
@@ -159,7 +159,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromSessionItemForEmptyI
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemElementType);
   EXPECT_TRUE(tree_data.GetContent().empty());
   ASSERT_EQ(tree_data.GetNumberOfAttributes(), 1U);
-  EXPECT_EQ(tree_data.GetAttribute(constants::kTypelAttributeKey), item.GetType());
+  EXPECT_EQ(tree_data.GetAttribute(constants::kTypeAttributeKey), item.GetType());
 
   ASSERT_EQ(tree_data.GetNumberOfChildren(), 1U);
   EXPECT_EQ(tree_data.Children().at(0).GetNodeName(), constants::kItemDataElementType);
