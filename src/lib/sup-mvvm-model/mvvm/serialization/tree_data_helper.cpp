@@ -46,6 +46,16 @@ std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element)
   return mvvm::xml::TreeDataFromString(content);
 }
 
+bool IsSessionModelConvertible(const tree_data_t& tree_data)
+{
+  static const std::vector<std::string> expected_attributes({constants::kTypelAttributeKey});
+
+  const bool correct_type = tree_data.GetNodeName() == constants::kModelElementType;
+  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
+
+  return correct_type && correct_attributes;
+}
+
 bool IsItemContainerConvertible(const tree_data_t& tree_data)
 {
   const bool correct_type = tree_data.GetNodeName() == constants::kItemContainerElementType;

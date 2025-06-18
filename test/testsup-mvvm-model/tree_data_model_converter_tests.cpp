@@ -20,13 +20,13 @@
 
 #include "mvvm/serialization/tree_data_model_converter.h"
 
-#include <mvvm/commands/default_command_processor.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/serialization/tree_data.h>
+#include <mvvm/commands/i_command_stack.h>
+#include <mvvm/serialization/tree_data_helper.h>
 
 #include <sup/xml/tree_data_serialize.h>
 
@@ -44,16 +44,16 @@ class TreeDataModelConverterTests : public ::testing::Test
 
 TEST_F(TreeDataModelConverterTests, EmptyModel)
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
   const SessionModel model("TestModel");
 
   auto tree_data = converter.ToTreeData(model);
-  EXPECT_TRUE(converter.IsSessionModelConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionModelConvertible(*tree_data));
 }
 
 TEST_F(TreeDataModelConverterTests, EmptyModelToTreeDataAndBack)
 {
-  TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
   const SessionModel model("TestModel");
 
   auto tree_data = converter.ToTreeData(model);
@@ -70,7 +70,7 @@ TEST_F(TreeDataModelConverterTests, EmptyModelToTreeDataAndBack)
 
 TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBack)
 {
-  const TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
   SessionModel model("TestModel");
 
   auto item = model.InsertItem<SessionItem>();
@@ -90,7 +90,7 @@ TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBack)
 
 TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
 {
-  const TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
   SessionModel model("TestModel");
 
   // filling original model with content
@@ -135,7 +135,7 @@ TEST_F(TreeDataModelConverterTests, ParentAndChildToTreeDataAndBack)
 
 TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 {
-  const TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
 
   // creating source model with own pool for item registration
   auto pool1 = std::make_shared<ItemPool>();
@@ -167,10 +167,10 @@ TEST_F(TreeDataModelConverterTests, IdentifierPersistence)
 }
 
 //! Creation of TreeData object (single item in a model), then writing same TreeData object back
-//! to model without emptying it. Real bug case: check if unsubscribtion mechanism works.
+//! to model without emptying it. Real bug case: check if unsubscription mechanism works.
 TEST_F(TreeDataModelConverterTests, SingleItemToTreeDataAndBackToSameModel)
 {
-  const TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
 
   auto pool = std::make_shared<ItemPool>();
   SessionModel model("TestModel", pool);

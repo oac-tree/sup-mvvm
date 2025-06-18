@@ -29,26 +29,20 @@
 namespace mvvm
 {
 
-//! Default converter of SessionModel to/from TreeData object.
-
+/**
+ * @brief The TreeDataModelConverter class is a default converter of SessionModel to/from TreeData
+ * object.
+ *
+ * It creates exact clones of the model (all identifiers preserved).
+ */
 class MVVM_MODEL_EXPORT TreeDataModelConverter : public ITreeDataModelConverter
 {
 public:
-  explicit TreeDataModelConverter(ConverterMode converter_mode);
-  ~TreeDataModelConverter() override;
+  TreeDataModelConverter() = default;
 
-  //! Returns true if given TreeData represents SessionModel object.
-  bool IsSessionModelConvertible(const tree_data_t& tree_data) const;
-
-  //! Creates TreeData from SessionModel.
   std::unique_ptr<tree_data_t> ToTreeData(const ISessionModel& model) const override;
 
-  //! Populates empty SessionModel from TreeData.
   void PopulateSessionModel(const tree_data_t& tree_data, ISessionModel& model) const override;
-
-private:
-  struct TreeDataModelConverterImpl;
-  std::unique_ptr<TreeDataModelConverterImpl> p_impl;
 };
 
 }  // namespace mvvm

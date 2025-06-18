@@ -52,7 +52,7 @@ XmlDocument::~XmlDocument() = default;
 
 void XmlDocument::Save(const std::string& file_name) const
 {
-  const TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
 
   tree_data_t document_tree(kRootElementType);
   if (!GetApplicationType().empty())
@@ -88,7 +88,7 @@ void XmlDocument::Load(const std::string& file_name)
     }
   }
 
-  const TreeDataModelConverter converter(ConverterMode::kClone);
+  const TreeDataModelConverter converter;
   int index{0};
   for (const auto& child : document_tree->Children())
   {

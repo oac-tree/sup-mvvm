@@ -20,7 +20,8 @@
 
 #include "tree_data_model_converter.h"
 
-#include "tree_data.h"
+#include "tree_data.h"  // IWYU pragma: export
+#include "tree_data_constants.h"
 #include "tree_data_helper.h"
 #include "tree_data_item_converter.h"
 
@@ -30,12 +31,9 @@
 #include <mvvm/model/session_item.h>
 
 #include <string>
-#include <vector>
 
 namespace
 {
-const std::string kModelElementType = "Model";
-const std::string kTypelAttributeKey = "type";
 
 std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(const mvvm::IItemFactory *factory)
 {
@@ -46,37 +44,14 @@ std::unique_ptr<mvvm::ITreeDataItemConverter> CreateConverter(const mvvm::IItemF
 
 namespace mvvm
 {
-struct TreeDataModelConverter::TreeDataModelConverterImpl
-{
-  ConverterMode m_converter_mode;
-
-  TreeDataModelConverterImpl(ConverterMode converter_mode) : m_converter_mode(converter_mode) {}
-};
-
-TreeDataModelConverter::TreeDataModelConverter(ConverterMode converter_mode)
-    : p_impl(std::make_unique<TreeDataModelConverterImpl>(converter_mode))
-{
-}
-
-TreeDataModelConverter::~TreeDataModelConverter() = default;
-
-bool TreeDataModelConverter::IsSessionModelConvertible(const tree_data_t &tree_data) const
-{
-  static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
-
-  const bool correct_type = tree_data.GetNodeName() == kModelElementType;
-  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
-
-  return correct_type && correct_attributes;
-}
 
 std::unique_ptr<tree_data_t> TreeDataModelConverter::ToTreeData(const ISessionModel &model) const
 {
   auto item_converter = CreateConverter(&GetGlobalItemFactory());
 
-  auto result = std::make_unique<tree_data_t>(kModelElementType);
+  auto result = std::make_unique<tree_data_t>(constants::kModelElementType);
 
-  result->AddAttribute(kTypelAttributeKey, model.GetType());
+  result->AddAttribute(constants::kTypelAttributeKey, model.GetType());
 
   for (auto item : model.GetRootItem()->GetAllItems())
   {
@@ -94,7 +69,7 @@ void TreeDataModelConverter::PopulateSessionModel(const tree_data_t &tree_data,
     throw RuntimeException("Error in TreeDataModelConverter: inappropriate TreeData");
   }
 
-  if (tree_data.GetAttribute(kTypelAttributeKey) != model.GetType())
+  if (tree_data.GetAttribute(constants::kTypelAttributeKey) != model.GetType())
   {
     throw RuntimeException(
         "Error in TreeDataModelConverter: attempt to reconstruct different model type.");

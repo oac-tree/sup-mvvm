@@ -44,6 +44,11 @@ std::vector<std::string> GetAttributeNames(const tree_data_t& tree_data);
 std::unique_ptr<tree_data_t> ParseXMLElementString(const std::string& element);
 
 /**
+ * @brief Checks if given TreeData represents SessionModel serialization.
+ */
+bool IsSessionModelConvertible(const tree_data_t& tree_data);
+
+/**
  * @brief Checks if given TreeData represents SessionItemContainer serialization.
  */
 bool IsItemContainerConvertible(const tree_data_t &tree_data);

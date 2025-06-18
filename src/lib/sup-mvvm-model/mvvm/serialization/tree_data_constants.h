@@ -26,6 +26,7 @@
 namespace mvvm::constants
 {
 
+const std::string kModelElementType = "Model";
 const std::string kItemElementType = "Item";
 const std::string kTypelAttributeKey = "type";
 const std::string kTaggedItemsElementType = "TaggedItems";
