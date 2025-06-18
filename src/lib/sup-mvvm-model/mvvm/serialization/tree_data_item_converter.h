@@ -24,34 +24,29 @@
 #include <mvvm/serialization/converter_types.h>
 #include <mvvm/serialization/i_tree_data_item_converter.h>
 
-#include <functional>
-
 namespace mvvm
 {
 
-class IItemFactory;
-
-//! Converters SessionItem to/from TreeData object.
-//! Requires ItemFactory to operate. On the way from SessionItem to TreeData creates
-//! exact copy of the data. On the way back, creates full clone of original item (including
-//! unique identifiers), if ConverterMode::kClone.
-
-class MVVM_MODEL_EXPORT TreeDataItemConverter : public ITreeDataItemConverter
+/**
+ * @brief The TreeDataItemConverter class is a main converter from SessionItem to TreeData and back.
+ *
+ * On the way from SessionItem to TreeData creates exact copy of the data. On the way back,
+ * can create either a full clone or a deep copy (new identifiers).
+ */
+class TreeDataItemConverter : public ITreeDataItemConverter
 {
 public:
   TreeDataItemConverter(const IItemFactory* factory, ConverterMode mode,
-                        const std::function<bool(const SessionItem&)>& filter_func = {});
-  ~TreeDataItemConverter() override;
+                        const item_filter_t& filter_func = {});
 
-  //! Creates SessionItem from TreeData.
   std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t& tree_data) const override;
 
-  //! Creates TreeData from SessionItem.
   std::unique_ptr<tree_data_t> ToTreeData(const SessionItem& item) const override;
 
 private:
-  struct TreeDataItemConverterImpl;
-  std::unique_ptr<TreeDataItemConverterImpl> p_impl;
+  const IItemFactory* m_factory{nullptr};
+  ConverterMode m_converter_mode;
+  item_filter_t m_item_filter_func;
 };
 
 }  // namespace mvvm

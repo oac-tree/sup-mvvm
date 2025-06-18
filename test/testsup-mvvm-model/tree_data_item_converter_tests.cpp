@@ -21,14 +21,12 @@
 #include "mvvm/serialization/tree_data_item_converter.h"
 
 #include <mvvm/model/compound_item.h>
-#include <mvvm/model/external_property.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_limits_helper.h>
+#include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
-#include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_helper.h>
-#include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
 
 #include <sup/xml/tree_data_parser.h>
@@ -40,8 +38,9 @@
 namespace mvvm::test
 {
 
-//! Testing TreeDataItemConverter.
-
+/**
+ * @brief Tests for TreeDataItemConverter class.
+ */
 class TreeDataItemConverterTest : public mvvm::test::FolderTest
 {
 public:
@@ -58,7 +57,7 @@ public:
     return std::make_unique<TreeDataItemConverter>(GetFactory(), ConverterMode::kCopy, filter_func);
   }
 
-  void WriteToXMLFile(const std::string& file_name, const SessionItem& item) const
+  static void WriteToXMLFile(const std::string& file_name, const SessionItem& item)
   {
     auto converter = CreateCloneConverter();
     auto tree_data = converter->ToTreeData(item);
@@ -78,27 +77,22 @@ public:
   static IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
 };
 
-//! Default PropertyItem to TreeData and back.
-
 TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 {
   auto converter = CreateCloneConverter();
 
   PropertyItem item;
 
-  // to TreeData
   auto tree_data = converter->ToTreeData(item);
   EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
-  // Reconstructing back
+  // reconstructing back
   auto reco = converter->ToSessionItem(*tree_data);
   EXPECT_EQ(reco->GetType(), item.GetType());
   EXPECT_EQ(reco->GetDisplayName(), item.GetDisplayName());
   EXPECT_EQ(reco->GetIdentifier(), item.GetIdentifier());
   EXPECT_EQ(reco->GetItemData()->GetRoles(), item.GetItemData()->GetRoles());
 }
-
-//! PropertyItem with data to TreeData and back.
 
 TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
 {
@@ -109,7 +103,6 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
   const int custom_role = 99;
   item.SetData(std::vector<double>({1.0, 2.0, 3.0}), custom_role);
 
-  // to TreeData
   auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(item);
   EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
@@ -125,8 +118,6 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
   EXPECT_EQ(reco->Data(DataRole::kTooltip), variant_t(std::string("Width in nm")));
   EXPECT_EQ(reco->Data(custom_role), variant_t(std::vector<double>({1.0, 2.0, 3.0})));
 }
-
-//! PropertyItem with data to TreeData and back.
 
 TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
 {
@@ -160,8 +151,6 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToFileAndBack)
   EXPECT_EQ(reco->Data(DataRole::kLowerLimit), variant_t(11));
   EXPECT_EQ(reco->Data(DataRole::kUpperLimit), variant_t(12));
 }
-
-//! Parent and child to TreeData object and back.
 
 TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
 {
@@ -198,8 +187,6 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
 
-//! Char8 to TreeData object and back.
-
 TEST_F(TreeDataItemConverterTest, Char8ToFileAndBack)
 {
   SessionItem item;
@@ -216,8 +203,6 @@ TEST_F(TreeDataItemConverterTest, Char8ToFileAndBack)
   EXPECT_EQ(reco_item->Data<char8>(), '\0');
   EXPECT_EQ(reco_item->Data<char8>(42), 'A');
 }
-
-//! Parent and child to TreeData object and back.
 
 TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
 {
@@ -251,8 +236,6 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToFileAndBack)
   EXPECT_EQ(reco_child->GetIdentifier(), child->GetIdentifier());
   EXPECT_EQ(reco_child->GetTaggedItems()->GetDefaultTag(), "");
 }
-
-//! Parent and child to TreeData object and back.
 
 TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
 {
@@ -289,8 +272,6 @@ TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
   EXPECT_EQ(reco_child->Z(), position_item.Z());
 }
 
-//! Parent and child to TreeData object and back.
-
 TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
 {
   CompoundItem parent;
@@ -324,7 +305,6 @@ TEST_F(TreeDataItemConverterTest, CompoundItemFileAndBack)
   EXPECT_EQ(reco_child->Z(), position_item.Z());
 }
 
-//! Parent and child to TreeData object and back (converter in copy mode).
 TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
 {
   SessionItem parent;
