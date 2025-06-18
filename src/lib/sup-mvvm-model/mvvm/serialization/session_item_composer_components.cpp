@@ -20,6 +20,7 @@
 
 #include "session_item_composer_components.h"
 
+#include "tree_data.h"
 #include "tree_data_constants.h"
 #include "tree_data_helper.h"
 #include "tree_data_itemdata_converter.h"
@@ -47,8 +48,7 @@ bool IsRegenerateIdWhenBackFromXML(ConverterMode mode)
   return mode == ConverterMode::kCopy;
 }
 
-}
-
+}  // namespace
 
 // ---------------------------------------------------------------------------------------------------
 // SessionItemComposerComponent

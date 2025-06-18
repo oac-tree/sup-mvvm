@@ -37,7 +37,13 @@ namespace mvvm
 class MVVM_MODEL_EXPORT IModelDocument
 {
 public:
+  IModelDocument() = default;
   virtual ~IModelDocument() = default;
+
+  IModelDocument(const IModelDocument& other) = delete;
+  IModelDocument& operator=(const IModelDocument& other) & = delete;
+  IModelDocument(IModelDocument&&) = delete;
+  IModelDocument& operator=(IModelDocument&&) = delete;
 
   /**
    * @brief Returns the type of the application.

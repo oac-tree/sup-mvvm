@@ -22,7 +22,7 @@
 #define MVVM_SERIALIZATION_SESSION_ITEM_COMPOSER_COMPONENTS_H_
 
 #include <mvvm/serialization/converter_types.h>
-#include <mvvm/serialization/tree_data.h>
+#include <mvvm/serialization/tree_data_fwd.h>
 
 #include <deque>
 #include <memory>

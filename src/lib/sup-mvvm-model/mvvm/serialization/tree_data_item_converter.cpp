@@ -21,7 +21,7 @@
 #include "tree_data_item_converter.h"
 
 #include "session_item_composer.h"
-#include "tree_data.h"
+#include "tree_data.h" // IWYU pragma: export
 #include "tree_data_composer.h"
 
 #include <mvvm/model/session_item.h>

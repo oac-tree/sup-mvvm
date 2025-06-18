@@ -23,6 +23,7 @@
 
 #include <mvvm/serialization/converter_types.h>
 #include <mvvm/serialization/tree_data_fwd.h>
+
 #include <memory>
 
 namespace mvvm
@@ -37,12 +38,6 @@ class TreeDataComposer
 {
 public:
   explicit TreeDataComposer(item_filter_t item_filter);
-  ~TreeDataComposer() = default;
-
-  TreeDataComposer(const TreeDataComposer& other) = delete;
-  TreeDataComposer(TreeDataComposer&& other) = delete;
-  TreeDataComposer& operator=(const TreeDataComposer& other) = delete;
-  TreeDataComposer& operator=(TreeDataComposer&& other) = delete;
 
   std::unique_ptr<tree_data_t> CreateTreeData(const SessionItem &item) const;
 
