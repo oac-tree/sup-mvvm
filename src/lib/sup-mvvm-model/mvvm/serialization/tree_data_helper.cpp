@@ -62,7 +62,7 @@ bool IsTaggedItemsConvertible(const tree_data_t& tree_data)
   return correct_type && correct_attributes;
 }
 
-bool IsSessionItemConvertible(const tree_data_t &tree_data)
+bool IsSessionItemConvertible(const tree_data_t& tree_data)
 {
   static const std::vector<std::string> expected_attributes({constants::kTypelAttributeKey});
 
@@ -71,7 +71,14 @@ bool IsSessionItemConvertible(const tree_data_t &tree_data)
   const bool correct_children_count = tree_data.GetNumberOfChildren() == 2;
 
   return correct_type && correct_attributes && correct_children_count;
+}
 
+bool IsSessionItemDataConvertible(const tree_data_t& tree_data)
+{
+  return tree_data.GetNodeName() == constants::kItemDataElementType
+         && tree_data.GetNumberOfAttributes() == 0;
+  // there is no sence to require empty content, it might still contains '\n' symbol,
+  // depending on the way TreeData was constructed from XML content.
 }
 
 }  // namespace mvvm

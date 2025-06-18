@@ -31,7 +31,7 @@ namespace mvvm::test
 {
 
 /**
- * @brief Tests for TreeDataItemDataConverter class.
+ * @brief Tests for helper methods from tree_data_itemdata_converter.h
  */
 class TreeDataItemDataConverterTests : public ::testing::Test
 {
@@ -42,17 +42,16 @@ TEST_F(TreeDataItemDataConverterTests, TwoRoles)
   const std::string body{
       R"(<ItemData><Variant role="0" type="int64">42</Variant><Variant role="1" type="string">abc</Variant></ItemData>)"};
 
-  TreeDataItemDataConverter converter;
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(converter.IsSessionItemDataConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemDataConvertible(*tree_data));
 
-  auto item_data = converter.ToSessionItemData(*tree_data);
+  auto item_data = TreeDataItemDataConverter::ToSessionItemData(*tree_data);
   EXPECT_EQ(item_data->GetRoles(), std::vector<role_t>({0, 1}));
   EXPECT_TRUE(item_data->Data(0) == variant_t(42L));
   EXPECT_TRUE(item_data->Data(1) == variant_t(std::string("abc")));
 
   // converting back to tree
-  auto new_tree_data = converter.ToTreeData(*item_data);
+  auto new_tree_data = TreeDataItemDataConverter::ToTreeData(*item_data);
 
   EXPECT_EQ(new_tree_data->GetContent(), tree_data->GetContent());
   EXPECT_EQ(new_tree_data->GetNodeName(), std::string("ItemData"));

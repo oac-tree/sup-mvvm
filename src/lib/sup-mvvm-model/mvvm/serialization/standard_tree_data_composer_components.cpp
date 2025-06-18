@@ -66,8 +66,7 @@ TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem &item,
 {
   AddAttribute(constants::kTypelAttributeKey, item.GetType());
 
-  const TreeDataItemDataConverter data_converter;
-  AddChild(*data_converter.ToTreeData(*item.GetItemData()));
+  AddChild(*TreeDataItemDataConverter::ToTreeData(*item.GetItemData()));
 
   AddNextComponent(std::make_unique<TreeDataFromTaggedItems>(*item.GetTaggedItems(), item_filter));
 }

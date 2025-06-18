@@ -21,24 +21,19 @@
 #include "tree_data_itemdata_converter.h"
 
 #include "tree_data.h"
+#include "tree_data_constants.h"
+#include "tree_data_helper.h"
 #include "tree_data_variant_converter.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item_data.h>
 
-namespace
+namespace mvvm::TreeDataItemDataConverter
 {
-const std::string kItemDataElementType = "ItemData";
-}
 
-namespace mvvm
+std::unique_ptr<tree_data_t> ToTreeData(const SessionItemData &item_data)
 {
-TreeDataItemDataConverter::TreeDataItemDataConverter() = default;
-
-std::unique_ptr<tree_data_t> TreeDataItemDataConverter::ToTreeData(
-    const SessionItemData &item_data) const
-{
-  auto result = std::make_unique<tree_data_t>(kItemDataElementType);
+  auto result = std::make_unique<tree_data_t>(constants::kItemDataElementType);
   for (const auto &role_data : item_data)
   {
     result->AddChild(::mvvm::ToTreeData(role_data));
@@ -46,16 +41,14 @@ std::unique_ptr<tree_data_t> TreeDataItemDataConverter::ToTreeData(
   return result;
 }
 
-std::unique_ptr<SessionItemData> TreeDataItemDataConverter::ToSessionItemData(
-    const tree_data_t &tree_data) const
+std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t &tree_data)
 {
   auto result = std::make_unique<SessionItemData>();
   PopulateItemData(tree_data, *result);
   return result;
 }
 
-void TreeDataItemDataConverter::PopulateItemData(const tree_data_t &tree_data,
-                                                 SessionItemData &item_data) const
+void PopulateItemData(const tree_data_t &tree_data, SessionItemData &item_data)
 {
   if (!IsSessionItemDataConvertible(tree_data))
   {
@@ -72,11 +65,4 @@ void TreeDataItemDataConverter::PopulateItemData(const tree_data_t &tree_data,
   }
 }
 
-bool TreeDataItemDataConverter::IsSessionItemDataConvertible(const tree_data_t &tree_data) const
-{
-  return tree_data.GetNodeName() == kItemDataElementType && tree_data.GetNumberOfAttributes() == 0;
-  // there is no sence to require empty content, it might still contains '\n' symbol,
-  // depending on the way TreeData was constructed from XML content.
-}
-
-}  // namespace mvvm
+}  // namespace mvvm::TreeDataItemDataConverter

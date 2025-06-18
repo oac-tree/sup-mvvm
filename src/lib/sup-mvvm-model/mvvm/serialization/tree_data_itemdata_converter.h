@@ -22,8 +22,7 @@
 #define MVVM_SERIALIZATION_TREE_DATA_ITEMDATA_CONVERTER_H_
 
 //! @file
-//! Declares class TreeDataItemDataConverter to convert SessionItemData
-//! to/from TreeData objects.
+//! Helper functions to convert SessionItemData to/from TreeData.
 
 //! Plays supporting role in converting XML elements
 //! <ItemData>
@@ -31,7 +30,6 @@
 //!   <Variant role="1" type="vector_double">42.1, 42.2, 42.3</Variant>
 //! </ItemData>
 
-#include <mvvm/model_export.h>
 #include <mvvm/serialization/tree_data_fwd.h>
 
 #include <memory>
@@ -41,26 +39,28 @@ namespace mvvm
 
 class SessionItemData;
 
-//! Convert SessionItemData to/from TreeData objects.
-
-//! TODO For the moment conversion is performed for every role_data_t found.
-//! In the future the filtering of roles should be implemented, as in original qt-mvm.
-class MVVM_MODEL_EXPORT TreeDataItemDataConverter
+/**
+ * @brief The TreeDataItemDataConverter class converts SessionItemData to/from TreeData objects.
+ */
+namespace TreeDataItemDataConverter
 {
-public:
-  TreeDataItemDataConverter();
 
-  //! Converts SessionItemData to TreeData.
-  std::unique_ptr<tree_data_t> ToTreeData(const SessionItemData& item_data) const;
+/**
+ * @brief Creates TreeData from SessionItemData object.
+ */
+std::unique_ptr<tree_data_t> ToTreeData(const SessionItemData& item_data);
 
-  //! Creates SessionItemData from TreeData.
-  std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t& tree_data) const;
+/**
+ * @brief Creates SessionItemData from TreeData.
+ */
+std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t& tree_data);
 
-  //! Populates existing SessionItemData from TreeData object.
-  void PopulateItemData(const tree_data_t& tree_data, SessionItemData& item_data) const;
+/**
+ * @brief Populates existing SessionItemData from TreeData object.
+ */
+void PopulateItemData(const tree_data_t& tree_data, SessionItemData& item_data);
 
-  bool IsSessionItemDataConvertible(const tree_data_t& tree_data) const;
-};
+};  // namespace TreeDataItemDataConverter
 
 }  // namespace mvvm
 

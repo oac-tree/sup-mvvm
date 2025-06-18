@@ -158,8 +158,7 @@ SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &cont
 
   item.SetParent(parent);
 
-  const TreeDataItemDataConverter data_converter;
-  data_converter.PopulateItemData(tree_data.Children().at(0), *item.GetItemData());
+  TreeDataItemDataConverter::PopulateItemData(tree_data.Children().at(0), *item.GetItemData());
 
   if (IsRegenerateIdWhenBackFromXML(context.mode))
   {
