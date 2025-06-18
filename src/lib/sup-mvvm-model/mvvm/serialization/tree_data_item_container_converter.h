@@ -59,7 +59,7 @@ MVVM_MODEL_EXPORT void PopulateSessionItemContainer(const tree_data_t& tree_data
 //! Returns TreeData object SessionItemContainer from SessionItemContainer object.
 MVVM_MODEL_EXPORT std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer& container,
                                                           const create_treedata_t& func,
-                                                          const filter_item_t& filter_func = {});
+                                                          const item_filter_t& filter_func = {});
 }  // namespace ContainerConverter
 
 }  // namespace mvvm

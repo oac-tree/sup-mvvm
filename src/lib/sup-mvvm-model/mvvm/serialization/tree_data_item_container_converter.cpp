@@ -70,7 +70,7 @@ void PopulateSessionItemContainer(const tree_data_t &tree_data, SessionItemConta
 
 std::unique_ptr<tree_data_t> ToTreeData(const SessionItemContainer &container,
                                         const create_treedata_t &func,
-                                        const filter_item_t &filter_func)
+                                        const item_filter_t &filter_func)
 {
   auto result = std::make_unique<tree_data_t>(constants::kItemContainerElementType);
   result->AddChild(ToTreeData(container.GetTagInfo()));

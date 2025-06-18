@@ -65,7 +65,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
     callbacks.update_item = [this](const tree_data_t& tree_data, SessionItem& item)
     { populate_item(tree_data, item); };
 
-    callbacks.filter_item = filter;
+    callbacks.item_filter = filter;
 
     m_itemdata_converter = std::make_unique<TreeDataItemDataConverter>();
     m_taggedtems_converter = std::make_unique<TreeDataTaggedItemsConverter>(callbacks);

@@ -34,7 +34,7 @@ class SessionItem;
 class TreeDataComposer
 {
 public:
-  explicit TreeDataComposer(filter_item_t filter_item);
+  explicit TreeDataComposer(item_filter_t item_filter);
   ~TreeDataComposer() = default;
 
   TreeDataComposer(const TreeDataComposer& other) = delete;
@@ -45,7 +45,7 @@ public:
   std::unique_ptr<tree_data_t> CreateTreeData(const SessionItem &item) const;
 
 private:
-  filter_item_t m_filter_item;
+  item_filter_t m_item_filter;
 };
 
 }  // namespace mvvm

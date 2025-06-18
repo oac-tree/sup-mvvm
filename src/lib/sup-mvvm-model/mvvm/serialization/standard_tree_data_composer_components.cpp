@@ -32,35 +32,36 @@ namespace mvvm
 {
 
 TreeDataFromItemContainer::TreeDataFromItemContainer(const SessionItemContainer &container,
-                                                     filter_item_t filter_item)
+                                                     const item_filter_t &item_filter)
     : TreeDataComposerComponent(constants::kItemContainerElementType)
 {
   AddChild(ToTreeData(container.GetTagInfo()));
 
   for (const auto &item : container)
   {
-    if (filter_item && !filter_item(*item))
+    if (item_filter && !item_filter(*item))
     {
       continue;  // skipping item from serialization
     }
 
-    AddNextComponent(std::make_unique<TreeDataFromSessionItem>(*item, filter_item));
+    AddNextComponent(std::make_unique<TreeDataFromSessionItem>(*item, item_filter));
   }
 }
 
 TreeDataFromTaggedItems::TreeDataFromTaggedItems(const TaggedItems &tagged_items,
-                                                 filter_item_t filter_item)
+                                                 const item_filter_t &item_filter)
     : TreeDataComposerComponent(constants::kTaggedItemsElementType)
 {
   AddAttribute(constants::kDefaultTagKey, tagged_items.GetDefaultTag());
 
   for (auto &container : tagged_items)
   {
-    AddNextComponent(std::make_unique<TreeDataFromItemContainer>(*container, filter_item));
+    AddNextComponent(std::make_unique<TreeDataFromItemContainer>(*container, item_filter));
   }
 }
 
-TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem &item, filter_item_t filter_item)
+TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem &item,
+                                                 const item_filter_t &item_filter)
     : TreeDataComposerComponent(constants::kItemElementType)
 {
   AddAttribute(constants::kTypelAttributeKey, item.GetType());
@@ -68,7 +69,7 @@ TreeDataFromSessionItem::TreeDataFromSessionItem(const SessionItem &item, filter
   const TreeDataItemDataConverter data_converter;
   AddChild(*data_converter.ToTreeData(*item.GetItemData()));
 
-  AddNextComponent(std::make_unique<TreeDataFromTaggedItems>(*item.GetTaggedItems(), filter_item));
+  AddNextComponent(std::make_unique<TreeDataFromTaggedItems>(*item.GetTaggedItems(), item_filter));
 }
 
 }  // namespace mvvm

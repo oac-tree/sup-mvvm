@@ -82,7 +82,7 @@ std::unique_ptr<tree_data_t> TreeDataTaggedItemsConverter::ToTreeData(
   for (auto &container : tagged_items)
   {
     result->AddChild(*ContainerConverter::ToTreeData(
-        *container, p_impl->m_callbacks.create_treedata, p_impl->m_callbacks.filter_item));
+        *container, p_impl->m_callbacks.create_treedata, p_impl->m_callbacks.item_filter));
   }
 
   return result;

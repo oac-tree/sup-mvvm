@@ -29,8 +29,8 @@
 namespace mvvm
 {
 
-TreeDataComposer::TreeDataComposer(filter_item_t filter_item)
-    : m_filter_item(std::move(filter_item))
+TreeDataComposer::TreeDataComposer(item_filter_t item_filter)
+    : m_item_filter(std::move(item_filter))
 {
 }
 
@@ -38,7 +38,7 @@ std::unique_ptr<tree_data_t> TreeDataComposer::CreateTreeData(const SessionItem&
 {
   std::stack<TreeDataFromSessionItem::component_t> stack;
 
-  stack.push(std::make_unique<TreeDataFromSessionItem>(item, m_filter_item));
+  stack.push(std::make_unique<TreeDataFromSessionItem>(item, m_item_filter));
 
   while (!stack.empty())
   {
