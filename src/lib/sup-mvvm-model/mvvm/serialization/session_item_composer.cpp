@@ -42,7 +42,7 @@ std::unique_ptr<SessionItem> SessionItemComposer::CreateSessionItem(
 
   std::stack<ItemComposerComponent::component_t> stack;
 
-  stack.push(std::make_unique<SessionItemFromTreeData>(m_context, tree_data, *result));
+  stack.push(std::make_unique<SessionItemFromTreeData>(m_context, tree_data, *result, nullptr));
 
   while (!stack.empty())
   {

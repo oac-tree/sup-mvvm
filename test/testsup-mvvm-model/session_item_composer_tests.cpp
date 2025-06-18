@@ -20,9 +20,9 @@
 
 #include "mvvm/serialization/session_item_composer.h"
 
+#include <mvvm/model/compound_item.h>
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/compound_item.h>
 #include <mvvm/serialization/tree_data.h>
 #include <mvvm/serialization/tree_data_composer.h>
 
@@ -83,6 +83,8 @@ TEST_F(SessionItemComposerTest, FromCompountItemWithProperty)
     auto reco_property = reco_item->GetItem("width");
     EXPECT_EQ(reco_property->GetIdentifier(), property.GetIdentifier());
     EXPECT_EQ(reco_property->Data<mvvm::int32>(), mvvm::int32{42});
+
+    EXPECT_EQ(reco_property->GetParent(), reco_item.get());
   }
 
   {
@@ -91,6 +93,8 @@ TEST_F(SessionItemComposerTest, FromCompountItemWithProperty)
     auto reco_property = reco_item->GetItem("width");
     EXPECT_NE(reco_property->GetIdentifier(), property.GetIdentifier());
     EXPECT_EQ(reco_property->Data<mvvm::int32>(), mvvm::int32{42});
+
+    EXPECT_EQ(reco_property->GetParent(), reco_item.get());
   }
 }
 

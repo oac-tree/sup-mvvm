@@ -30,8 +30,6 @@ namespace mvvm
 {
 
 class SessionItem;
-class IItemFactory;
-class TaggedItems;
 
 /**
  * @brief The ItemComposerComponent class helps constructing SessionItem from TreeData is
@@ -86,7 +84,7 @@ class ItemContainerFromTreeData : public ItemComposerComponent
 {
 public:
   ItemContainerFromTreeData(const ItemComposerContext& context, const tree_data_t& tree_data,
-                            TaggedItems& tagged_items);
+                            SessionItem& item, SessionItem* parent);
 };
 
 /**
@@ -96,7 +94,7 @@ class TaggedItemsFromTreeData : public ItemComposerComponent
 {
 public:
   TaggedItemsFromTreeData(const ItemComposerContext& context, const tree_data_t& tree_data,
-                          TaggedItems& tagged_items);
+                          SessionItem& item, SessionItem* parent);
 };
 
 /**
@@ -106,7 +104,7 @@ class SessionItemFromTreeData : public ItemComposerComponent
 {
 public:
   SessionItemFromTreeData(const ItemComposerContext& context, const tree_data_t& tree_data,
-                          SessionItem& item);
+                          SessionItem& item, SessionItem* parent);
 };
 
 }  // namespace mvvm

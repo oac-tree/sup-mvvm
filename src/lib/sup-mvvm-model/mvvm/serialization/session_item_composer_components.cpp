@@ -68,7 +68,7 @@ ItemComposerComponent::component_t ItemComposerComponent::TakeNextComponent()
 
 ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &context,
                                                      const tree_data_t &tree_data,
-                                                     TaggedItems &tagged_items)
+                                                     SessionItem &item, SessionItem *parent)
 {
   if (!IsItemContainerConvertible(tree_data))
   {
@@ -79,7 +79,8 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
   auto container = std::make_unique<SessionItemContainer>(tag_info);
   auto container_ptr = container.get();
 
-  tagged_items.AppendContainer(std::move(container));
+  auto tagged_items = item.GetTaggedItems();
+  tagged_items->AppendContainer(std::move(container));
 
   // first child in TreeData corresponds to TagInfo which has been already processed
   for (auto it = std::next(tree_data.Children().begin()); it != tree_data.Children().end(); ++it)
@@ -90,7 +91,7 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
     auto child_ptr = child.get();
     container_ptr->InsertItem(std::move(child), container_ptr->GetItemCount());
 
-    AddNextComponent(std::make_unique<SessionItemFromTreeData>(context, (*it), *child_ptr));
+    AddNextComponent(std::make_unique<SessionItemFromTreeData>(context, (*it), *child_ptr, parent));
   }
 }
 
@@ -99,20 +100,21 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
 // ---------------------------------------------------------------------------------------------------
 
 TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext &context,
-                                                 const tree_data_t &tree_data,
-                                                 TaggedItems &tagged_items)
+                                                 const tree_data_t &tree_data, SessionItem &item,
+                                                 SessionItem *parent)
 {
   if (!IsTaggedItemsConvertible(tree_data))
   {
     throw RuntimeException("Incompatible TreeData");
   }
 
-  tagged_items.SetDefaultTag(tree_data.GetAttribute(constants::kDefaultTagKey));
+  auto tagged_items = item.GetTaggedItems();
+  tagged_items->SetDefaultTag(tree_data.GetAttribute(constants::kDefaultTagKey));
 
   for (const auto &container_data : tree_data.Children())
   {
     AddNextComponent(
-        std::make_unique<ItemContainerFromTreeData>(context, container_data, tagged_items));
+        std::make_unique<ItemContainerFromTreeData>(context, container_data, item, parent));
   }
 }
 
@@ -120,7 +122,8 @@ TaggedItemsFromTreeData::TaggedItemsFromTreeData(const ItemComposerContext &cont
 // SessionItemFromTreeData
 // ---------------------------------------------------------------------------------------------------
 SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &context,
-                                                 const tree_data_t &tree_data, SessionItem &item)
+                                                 const tree_data_t &tree_data, SessionItem &item,
+                                                 SessionItem *parent)
 {
   if (!IsSessionItemConvertible(tree_data))
   {
@@ -134,6 +137,8 @@ SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &cont
     throw RuntimeException("Item model mismatch");
   }
 
+  item.SetParent(parent);
+
   const TreeDataItemDataConverter data_converter;
   data_converter.PopulateItemData(tree_data.Children().at(0), *item.GetItemData());
 
@@ -142,8 +147,8 @@ SessionItemFromTreeData::SessionItemFromTreeData(const ItemComposerContext &cont
     item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
   }
 
-  AddNextComponent(std::make_unique<TaggedItemsFromTreeData>(context, tree_data.Children().at(1),
-                                                             *item.GetTaggedItems()));
+  AddNextComponent(
+      std::make_unique<TaggedItemsFromTreeData>(context, tree_data.Children().at(1), item, &item));
 }
 
 }  // namespace mvvm

@@ -65,10 +65,10 @@ TEST_F(SessionItemComposerComponentsTests, ItemContainerFromTreeData)
   const tree_data_t tree_data("abc");
   const ItemComposerContext context{};
 
-  TaggedItems tagged_items;
-  EXPECT_THROW(ItemContainerFromTreeData(context, tree_data, tagged_items), RuntimeException);
+  SessionItem item;
+  EXPECT_THROW(ItemContainerFromTreeData(context, tree_data, item, nullptr), RuntimeException);
 
-  // more tests in tree_data_item_converter_tests.cpp
+  // more tests in session_item_composer_tests.cpp
 }
 
 TEST_F(SessionItemComposerComponentsTests, TaggedItemsFromTreeData)
@@ -76,10 +76,10 @@ TEST_F(SessionItemComposerComponentsTests, TaggedItemsFromTreeData)
   const tree_data_t tree_data("abc");
   const ItemComposerContext context{};
 
-  TaggedItems tagged_items;
-  EXPECT_THROW(TaggedItemsFromTreeData(context, tree_data, tagged_items), RuntimeException);
+  SessionItem item;
+  EXPECT_THROW(TaggedItemsFromTreeData(context, tree_data, item, nullptr), RuntimeException);
 
-  // more tests in tree_data_item_converter_tests.cpp
+  // more tests in session_item_composer_tests.cpp
 }
 
 TEST_F(SessionItemComposerComponentsTests, SessionItemFromTreeData)
@@ -88,9 +88,9 @@ TEST_F(SessionItemComposerComponentsTests, SessionItemFromTreeData)
   const ItemComposerContext context{};
 
   SessionItem item;
-  EXPECT_THROW(SessionItemFromTreeData(context, tree_data, item), RuntimeException);
+  EXPECT_THROW(SessionItemFromTreeData(context, tree_data, item, nullptr), RuntimeException);
 
-  // more tests in tree_data_item_converter_tests.cpp
+  // more tests in session_item_composer_tests.cpp
 }
 
 }  // namespace mvvm::test
