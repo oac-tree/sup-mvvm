@@ -35,7 +35,7 @@ TreeDataFromItemContainer::TreeDataFromItemContainer(const SessionItemContainer 
                                                      const item_filter_t &item_filter)
     : TreeDataComposerComponent(constants::kItemContainerElementType)
 {
-  AddChild(ToTreeData(container.GetTagInfo()));
+  AddChild(TreeDataTagInfoConverter::ToTreeData(container.GetTagInfo()));
 
   for (const auto &item : container)
   {

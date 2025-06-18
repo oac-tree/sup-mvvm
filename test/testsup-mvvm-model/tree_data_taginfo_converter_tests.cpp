@@ -31,6 +31,9 @@
 namespace mvvm::test
 {
 
+/**
+ * @brief Tests for helper methods from tree_data_taginfo_converter.h
+ */
 class TreeDataTagInfoConverterTests : public ::testing::Test
 {
 };
@@ -42,10 +45,10 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertSimpleTag)
   // Constructing TreeData representing TagInfo without model types defined.
   const std::string body{R"(<TagInfo name="Width"></TagInfo>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
+  EXPECT_TRUE(TreeDataTagInfoConverter::IsTagInfoConvertible(*tree_data));
 
   // Converting tree_data to tag_info
-  auto tag_info = ToTagInfo(*tree_data);
+  auto tag_info = TreeDataTagInfoConverter::ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), std::numeric_limits<size_t>::max());
   EXPECT_FALSE(tag_info.HasMin());
@@ -54,7 +57,7 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertSimpleTag)
   EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>());
 
   // Converting back
-  auto new_tree_data = ToTreeData(tag_info);
+  auto new_tree_data = TreeDataTagInfoConverter::ToTreeData(tag_info);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
@@ -65,10 +68,10 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
   // Constructing TreeData representing TagInfo without model types defined.
   const std::string body{R"(<TagInfo min="0" max="1" name="Width"></TagInfo>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
+  EXPECT_TRUE(TreeDataTagInfoConverter::IsTagInfoConvertible(*tree_data));
 
   // Converting tree_data to tag_info
-  auto tag_info = ToTagInfo(*tree_data);
+  auto tag_info = TreeDataTagInfoConverter::ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), 1);
   EXPECT_TRUE(tag_info.HasMin());
@@ -77,7 +80,7 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTag)
   EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>());
 
   // Converting back
-  auto new_tree_data = ToTreeData(tag_info);
+  auto new_tree_data = TreeDataTagInfoConverter::ToTreeData(tag_info);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 
@@ -89,17 +92,17 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
   const std::string body{
       R"(<TagInfo min="0" max="2" name="Width">SegmentItem, PulseItem</TagInfo>)"};
   auto tree_data = ParseXMLElementString(body);
-  EXPECT_TRUE(IsTagInfoConvertible(*tree_data));
+  EXPECT_TRUE(TreeDataTagInfoConverter::IsTagInfoConvertible(*tree_data));
 
   // Converting tree_data to tag_info
-  auto tag_info = ToTagInfo(*tree_data);
+  auto tag_info = TreeDataTagInfoConverter::ToTagInfo(*tree_data);
   EXPECT_EQ(tag_info.GetMin(), 0);
   EXPECT_EQ(tag_info.GetMax(), 2);
   EXPECT_EQ(tag_info.GetName(), "Width");
   EXPECT_EQ(tag_info.GetItemTypes(), std::vector<std::string>({"SegmentItem", "PulseItem"}));
 
   // Converting back
-  auto new_tree_data = ToTreeData(tag_info);
+  auto new_tree_data = TreeDataTagInfoConverter::ToTreeData(tag_info);
   EXPECT_EQ(new_tree_data, *tree_data);
 }
 

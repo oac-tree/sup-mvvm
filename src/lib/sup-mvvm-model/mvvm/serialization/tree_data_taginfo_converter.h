@@ -35,6 +35,9 @@ namespace mvvm
 
 class TagInfo;
 
+namespace TreeDataTagInfoConverter
+{
+
 //! Returns true if given TreeData represents TagInfo object.
 MVVM_MODEL_EXPORT bool IsTagInfoConvertible(const tree_data_t& tree_data);
 
@@ -45,6 +48,7 @@ MVVM_MODEL_EXPORT TagInfo ToTagInfo(const tree_data_t& tree_data);
 //! Returns TreeData object constructed from TagInfo object.
 MVVM_MODEL_EXPORT tree_data_t ToTreeData(const TagInfo& tag_info);
 
+}  // namespace TreeDataTagInfoConverter
 }  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREE_DATA_TAGINFO_CONVERTER_H_

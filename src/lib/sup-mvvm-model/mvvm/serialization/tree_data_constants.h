@@ -38,6 +38,9 @@ const std::string kTagInfoElementType = "TagInfo";
 const std::string kVariantElementType = "Variant";
 const std::string kRoleAttributeKey = "role";
 const std::string kTypeAttributeKey = "type";
+const std::string kMinAttributeKey = "min";
+const std::string kMaxAttributeKey = "max";
+const std::string kNameAttributeKey = "name";
 
 }  // namespace mvvm::constants
 

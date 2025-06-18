@@ -20,7 +20,8 @@
 
 #include "tree_data_taginfo_converter.h"
 
-#include "tree_data.h"
+#include "tree_data.h"  // IWYU pragma: export
+#include "tree_data_constants.h"
 #include "tree_data_helper.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
@@ -30,53 +31,43 @@
 
 #include <algorithm>
 
-// ----------------------------------------------------------------------------
-// Declarations of constants and helper methods in anonymous namespace.
-// ----------------------------------------------------------------------------
+namespace mvvm::TreeDataTagInfoConverter
+{
 
 namespace
 {
-const std::string kTagInfoElementType = "TagInfo";
-const std::string kMinAttributeKey = "min";
-const std::string kMaxAttributeKey = "max";
-const std::string kNameAttributeKey = "name";
 
 //! Returns vector of attributes which TreeData object should have.
-std::vector<std::string> GetExpectedAttributeKeys();
+std::vector<std::string> GetExpectedAttributeKeys()
+{
+  std::vector<std::string> result = {constants::kMinAttributeKey, constants::kMaxAttributeKey,
+                                     constants::kNameAttributeKey};
+  std::sort(result.begin(), result.end());
+  return result;
+}
 
 std::vector<std::string> SplitAndTrim(const std::string &str)
 {
   auto result = mvvm::utils::SplitString(str, ",");
   std::transform(result.begin(), result.end(), result.begin(),
-                 [](auto s) { return mvvm::utils::TrimWhitespace(s); });
+                 [](auto element) { return mvvm::utils::TrimWhitespace(element); });
   return result;
 }
 
 bool IsValidAttributes(const std::vector<std::string> &attributes,
                        const std::vector<std::string> &possible_values)
 {
-  for (const auto &attr : attributes)
-  {
-    if (!mvvm::utils::Contains(possible_values, attr))
-    {
-      return false;
-    }
-  }
-  return true;
+  auto predicate = [&possible_values](const auto &element)
+  { return mvvm::utils::Contains(possible_values, element); };
+  return std::all_of(attributes.begin(), attributes.end(), predicate);
 }
 
 }  // namespace
 
-// ----------------------------------------------------------------------------
-// Implementations declared in the header.
-// ----------------------------------------------------------------------------
-
-namespace mvvm
-{
 bool IsTagInfoConvertible(const tree_data_t &tree_data)
 {
   static const std::vector<std::string> expected_names = GetExpectedAttributeKeys();
-  return tree_data.GetNodeName() == kTagInfoElementType
+  return tree_data.GetNodeName() == constants::kTagInfoElementType
          && IsValidAttributes(GetAttributeNames(tree_data), expected_names)
          && tree_data.GetNumberOfChildren() == 0;
 }
@@ -91,48 +82,33 @@ TagInfo ToTagInfo(const tree_data_t &tree_data)
   std::optional<size_t> min{};
   std::optional<size_t> max{};
 
-  if (tree_data.HasAttribute(kMinAttributeKey))
+  if (tree_data.HasAttribute(constants::kMinAttributeKey))
   {
-    min = std::stol(tree_data.GetAttribute(kMinAttributeKey));
+    min = std::stol(tree_data.GetAttribute(constants::kMinAttributeKey));
   }
-  if (tree_data.HasAttribute(kMaxAttributeKey))
+  if (tree_data.HasAttribute(constants::kMaxAttributeKey))
   {
-    max = std::stol(tree_data.GetAttribute(kMaxAttributeKey));
+    max = std::stol(tree_data.GetAttribute(constants::kMaxAttributeKey));
   }
-  std::string name = tree_data.GetAttribute(kNameAttributeKey);
-  std::vector<std::string> model_types = SplitAndTrim(tree_data.GetContent());
-  return TagInfo(name, min, max, model_types);
+  const std::string name = tree_data.GetAttribute(constants::kNameAttributeKey);
+  const std::vector<std::string> model_types = SplitAndTrim(tree_data.GetContent());
+  return {name, min, max, model_types};
 }
 
 tree_data_t ToTreeData(const TagInfo &tag_info)
 {
-  tree_data_t result(kTagInfoElementType);
+  tree_data_t result(constants::kTagInfoElementType);
   if (tag_info.HasMin())
   {
-    result.AddAttribute(kMinAttributeKey, std::to_string(tag_info.GetMin()));
+    result.AddAttribute(constants::kMinAttributeKey, std::to_string(tag_info.GetMin()));
   }
   if (tag_info.HasMax())
   {
-    result.AddAttribute(kMaxAttributeKey, std::to_string(tag_info.GetMax()));
+    result.AddAttribute(constants::kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   }
-  result.AddAttribute(kNameAttributeKey, tag_info.GetName());
+  result.AddAttribute(constants::kNameAttributeKey, tag_info.GetName());
   result.SetContent(utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
   return result;
 }
 
-}  // namespace mvvm
-
-// ----------------------------------------------------------------------------
-// Implementation of helper functions from anonymous namespace.
-// ----------------------------------------------------------------------------
-
-namespace
-{
-std::vector<std::string> GetExpectedAttributeKeys()
-{
-  std::vector<std::string> result = {kMinAttributeKey, kMaxAttributeKey, kNameAttributeKey};
-  std::sort(result.begin(), result.end());
-  return result;
-}
-
-}  // namespace
+}  // namespace mvvm::TreeDataTagInfoConverter

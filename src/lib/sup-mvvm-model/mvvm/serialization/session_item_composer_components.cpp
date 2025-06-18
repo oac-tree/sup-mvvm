@@ -89,7 +89,7 @@ ItemContainerFromTreeData::ItemContainerFromTreeData(const ItemComposerContext &
     throw RuntimeException("Incompatible TreeData");
   }
 
-  auto tag_info = ToTagInfo(tree_data.Children().at(0));
+  auto tag_info = TreeDataTagInfoConverter::ToTagInfo(tree_data.Children().at(0));
   auto container = std::make_unique<SessionItemContainer>(tag_info);
   auto container_ptr = container.get();
 
