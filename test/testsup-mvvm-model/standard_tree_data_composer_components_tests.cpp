@@ -39,12 +39,12 @@ class StandardTreeDataComposerComponentsTests : public ::testing::Test
 {
 };
 
-TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWhenContainerIsEmpty)
+TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromItemContainerForEmptyContainer)
 {
   const TagInfo tag_info("tag_info", 0, 1, std::vector<std::string>());
   const SessionItemContainer container(tag_info);
 
-  const ItemContainerComposerComponent component(container, {});
+  const TreeDataFromItemContainer component(container, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemContainerElementType);
@@ -57,7 +57,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWhenCo
   EXPECT_FALSE(component.HasNextComponent());
 }
 
-TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWithTwoItems)
+TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromItemContainerForTwoItems)
 {
   const TagInfo tag_info("tag_info", 0, 2, std::vector<std::string>());
   SessionItemContainer container(tag_info);
@@ -69,7 +69,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWithTw
   auto item1_ptr = item1.get();
   container.InsertItem(std::move(item1), 1);
 
-  ItemContainerComposerComponent component(container, {});
+  TreeDataFromItemContainer component(container, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemContainerElementType);
@@ -97,14 +97,14 @@ TEST_F(StandardTreeDataComposerComponentsTests, ContainerComposerComponentWithTw
   EXPECT_EQ(tree_data1.GetAttribute(constants::kTypelAttributeKey), item1_ptr->GetType());
 }
 
-TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWithoutContainers)
+TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromTaggedItemsWithoutContainers)
 {
   const std::string default_tag_name("default_tag_name");
 
   TaggedItems tagged_items;
   tagged_items.SetDefaultTag(default_tag_name);
 
-  const TaggedItemsComposerComponent component(tagged_items, {});
+  const TreeDataFromTaggedItems component(tagged_items, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kTaggedItemsElementType);
@@ -116,7 +116,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWith
   EXPECT_FALSE(component.HasNextComponent());
 }
 
-TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWithContainers)
+TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromTaggedItemsWithContainer)
 {
   const std::string default_tag_name("default_tag_name");
   const TagInfo tag_info("tag_info", 0, 1, std::vector<std::string>());
@@ -125,7 +125,7 @@ TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWith
   tagged_items.SetDefaultTag(default_tag_name);
   tagged_items.RegisterTag(tag_info);
 
-  TaggedItemsComposerComponent component(tagged_items, {});
+  TreeDataFromTaggedItems component(tagged_items, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kTaggedItemsElementType);
@@ -149,11 +149,11 @@ TEST_F(StandardTreeDataComposerComponentsTests, TaggedItemsComposerComponentWith
   EXPECT_FALSE(container_component->HasNextComponent());
 }
 
-TEST_F(StandardTreeDataComposerComponentsTests, ItemComposerComponentForEmptyItem)
+TEST_F(StandardTreeDataComposerComponentsTests, TreeDataFromSessionItemForEmptyItem)
 {
   const SessionItem item;
 
-  const ItemComposerComponent component(item, {});
+  const TreeDataFromSessionItem component(item, {});
 
   const auto tree_data = component.GetTreeData();
   EXPECT_EQ(tree_data.GetNodeName(), constants::kItemElementType);

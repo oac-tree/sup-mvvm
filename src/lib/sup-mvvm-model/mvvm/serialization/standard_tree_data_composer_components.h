@@ -35,31 +35,31 @@ class SessionItemContainer;
 class TaggedItems;
 
 /**
- * @brief The ItemContainerComposerComponent class assists in building TreeData From
+ * @brief The TreeDataFromItemContainer class assists in building TreeData From
  * SessionItemContainer.
  */
-class ItemContainerComposerComponent : public TreeDataComposerComponent
+class TreeDataFromItemContainer : public TreeDataComposerComponent
 {
 public:
-  explicit ItemContainerComposerComponent(const mvvm::SessionItemContainer& container, filter_item_t filter_item);
+  explicit TreeDataFromItemContainer(const mvvm::SessionItemContainer& container, filter_item_t filter_item);
 };
 
 /**
- * @brief The TaggedItemsComposerComponent class assists in building TreeData from TaggedItems.
+ * @brief The TreeDataFromTaggedItems class assists in building TreeData from TaggedItems.
  */
-class TaggedItemsComposerComponent : public TreeDataComposerComponent
+class TreeDataFromTaggedItems : public TreeDataComposerComponent
 {
 public:
-  explicit TaggedItemsComposerComponent(const mvvm::TaggedItems& tagged_items, filter_item_t filter_item);
+  explicit TreeDataFromTaggedItems(const mvvm::TaggedItems& tagged_items, filter_item_t filter_item);
 };
 
 /**
- * @brief The ItemComposerComponent class assists in building TreeData from SessionItem.
+ * @brief The TreeDataFromSessionItem class assists in building TreeData from SessionItem.
  */
-class ItemComposerComponent : public TreeDataComposerComponent
+class TreeDataFromSessionItem : public TreeDataComposerComponent
 {
 public:
-  explicit ItemComposerComponent(const mvvm::SessionItem& item, filter_item_t filter_item);
+  explicit TreeDataFromSessionItem(const mvvm::SessionItem& item, filter_item_t filter_item);
 };
 
 }  // namespace mvvm

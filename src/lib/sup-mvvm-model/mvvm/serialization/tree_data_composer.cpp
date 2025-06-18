@@ -36,9 +36,9 @@ TreeDataComposer::TreeDataComposer(filter_item_t filter_item)
 
 std::unique_ptr<tree_data_t> TreeDataComposer::CreateTreeData(const SessionItem& item) const
 {
-  std::stack<ItemComposerComponent::component_t> stack;
+  std::stack<TreeDataFromSessionItem::component_t> stack;
 
-  stack.push(std::make_unique<ItemComposerComponent>(item, m_filter_item));
+  stack.push(std::make_unique<TreeDataFromSessionItem>(item, m_filter_item));
 
   while (!stack.empty())
   {
