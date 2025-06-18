@@ -62,4 +62,16 @@ bool IsTaggedItemsConvertible(const tree_data_t& tree_data)
   return correct_type && correct_attributes;
 }
 
+bool IsSessionItemConvertible(const tree_data_t &tree_data)
+{
+  static const std::vector<std::string> expected_attributes({constants::kTypelAttributeKey});
+
+  const bool correct_type = tree_data.GetNodeName() == constants::kItemElementType;
+  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
+  const bool correct_children_count = tree_data.GetNumberOfChildren() == 2;
+
+  return correct_type && correct_attributes && correct_children_count;
+
+}
+
 }  // namespace mvvm

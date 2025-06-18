@@ -53,6 +53,11 @@ bool IsItemContainerConvertible(const tree_data_t &tree_data);
  */
 bool IsTaggedItemsConvertible(const tree_data_t& tree_data);
 
+/**
+ * @brief Checks if given TreeData represents SessionItem serialization.
+ */
+bool IsSessionItemConvertible(const tree_data_t& tree_data);
+
 }  // namespace mvvm
 
 #endif  // MVVM_SERIALIZATION_TREE_DATA_HELPER_H_

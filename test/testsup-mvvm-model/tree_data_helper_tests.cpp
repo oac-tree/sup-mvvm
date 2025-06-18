@@ -46,4 +46,10 @@ TEST_F(TreeDataHelperTests, IsTaggedItemsConvertible)
   EXPECT_FALSE(IsTaggedItemsConvertible(tree_data));
 }
 
+TEST_F(TreeDataHelperTests, IsSessionItemConvertible)
+{
+  const tree_data_t tree_data("abc");
+  EXPECT_FALSE(IsSessionItemConvertible(tree_data));
+}
+
 }  // namespace mvvm::test

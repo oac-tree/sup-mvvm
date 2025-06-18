@@ -43,9 +43,6 @@ public:
                         const std::function<bool(const SessionItem&)>& filter_func = {});
   ~TreeDataItemConverter() override;
 
-  //! Returns true if given TreeData represents SessionItem object.
-  bool IsSessionItemConvertible(const tree_data_t& tree_data) const;
-
   //! Creates SessionItem from TreeData.
   std::unique_ptr<SessionItem> ToSessionItem(const tree_data_t& tree_data) const override;
 

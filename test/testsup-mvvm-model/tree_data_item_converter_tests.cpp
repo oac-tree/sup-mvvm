@@ -27,6 +27,7 @@
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/serialization/tree_data.h>
+#include <mvvm/serialization/tree_data_helper.h>
 #include <mvvm/standarditems/standard_item_includes.h>
 #include <mvvm/standarditems/vector_item.h>
 
@@ -87,7 +88,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemToTreeDataAndBack)
 
   // to TreeData
   auto tree_data = converter->ToTreeData(item);
-  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
   // Reconstructing back
   auto reco = converter->ToSessionItem(*tree_data);
@@ -111,7 +112,7 @@ TEST_F(TreeDataItemConverterTest, PropertyItemWithDataToTreeDataAndBack)
   // to TreeData
   auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(item);
-  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
   // reconstructiong back
   auto reco = converter->ToSessionItem(*tree_data);
@@ -174,7 +175,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildToTreeDataAndBack)
   // to TreeData
   auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(parent);
-  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
   // reconstructiong back
   auto reco_parent = converter->ToSessionItem(*tree_data);
@@ -263,7 +264,7 @@ TEST_F(TreeDataItemConverterTest, CompoundItemToTreeDataAndBack)
   // to TreeData
   auto converter = CreateCloneConverter();
   auto tree_data = converter->ToTreeData(parent);
-  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
   // reconstructiong back
   auto reco_parent = converter->ToSessionItem(*tree_data);
@@ -336,7 +337,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopy)
   // to TreeData
   auto converter = CreateCopyConverter();
   auto tree_data = converter->ToTreeData(parent);
-  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
   // reconstructiong back
   auto reco_parent = converter->ToSessionItem(*tree_data);
@@ -376,7 +377,7 @@ TEST_F(TreeDataItemConverterTest, ParentAndChildCopyWithFilter)
   // to TreeData
   auto converter = CreateCopyConverter(filter_func);
   auto tree_data = converter->ToTreeData(parent);
-  EXPECT_TRUE(converter->IsSessionItemConvertible(*tree_data));
+  EXPECT_TRUE(IsSessionItemConvertible(*tree_data));
 
   // reconstructiong back
   auto reco_parent = converter->ToSessionItem(*tree_data);

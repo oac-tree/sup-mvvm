@@ -22,22 +22,17 @@
 
 #include "converter_types.h"
 #include "tree_data.h"
+#include "tree_data_composer.h"
+#include "tree_data_constants.h"
 #include "tree_data_helper.h"
 #include "tree_data_itemdata_converter.h"
 #include "tree_data_tagged_items_converter.h"
-#include "tree_data_composer.h"
 
 #include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_item_factory.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_item_data.h>
 #include <mvvm/model/tagged_items.h>
-
-namespace
-{
-const std::string kItemElementType = "Item";
-const std::string kTypelAttributeKey = "type";
-}  // namespace
 
 namespace mvvm
 {
@@ -73,7 +68,7 @@ struct TreeDataItemConverter::TreeDataItemConverterImpl
 
   void populate_item(const tree_data_t& tree_data, SessionItem& item)
   {
-    auto item_type = tree_data.GetAttribute(kTypelAttributeKey);
+    auto item_type = tree_data.GetAttribute(constants::kTypelAttributeKey);
 
     if (item_type != item.GetType())
     {
@@ -112,17 +107,6 @@ TreeDataItemConverter::TreeDataItemConverter(
 
 TreeDataItemConverter::~TreeDataItemConverter() = default;
 
-bool TreeDataItemConverter::IsSessionItemConvertible(const tree_data_t& tree_data) const
-{
-  static const std::vector<std::string> expected_attributes({kTypelAttributeKey});
-
-  const bool correct_type = tree_data.GetNodeName() == kItemElementType;
-  const bool correct_attributes = GetAttributeNames(tree_data) == expected_attributes;
-  const bool correct_children_count = tree_data.GetNumberOfChildren() == 2;
-
-  return correct_type && correct_attributes && correct_children_count;
-}
-
 std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(
     const tree_data_t& tree_data) const
 {
@@ -131,7 +115,7 @@ std::unique_ptr<SessionItem> TreeDataItemConverter::ToSessionItem(
     throw RuntimeException("Error in TreeDataItemConverter: uncompatible TreeData");
   }
 
-  auto model_type = tree_data.GetAttribute(kTypelAttributeKey);
+  auto model_type = tree_data.GetAttribute(constants::kTypelAttributeKey);
   auto result = p_impl->m_factory->CreateItem(model_type);
 
   p_impl->populate_item(tree_data, *result);
