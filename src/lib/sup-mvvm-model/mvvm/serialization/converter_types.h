@@ -34,6 +34,7 @@ namespace mvvm
 {
 
 class SessionItem;
+class IItemFactory;
 
 //! Defines function to create TreeData object from SessionItem.
 using create_treedata_t = std::function<std::unique_ptr<tree_data_t>(const SessionItem&)>;
@@ -66,6 +67,15 @@ enum class ConverterMode
   kCopy    //!< full deep copying with item identifiers regenerated
   //  kProject //!< selective copying for saving/loading the project (tags and data created by item,
   //           //!< updated from XML)
+};
+
+/**
+ * @brief The context necessary to build SessionItem from serializzed content.
+ */
+struct ItemComposerContext
+{
+  const IItemFactory* factory{nullptr};
+  ConverterMode mode{ConverterMode::kNone};
 };
 
 //! Returns true if given mode requires ID regeneration instead of using the one stored in XML.
