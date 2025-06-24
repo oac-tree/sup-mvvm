@@ -35,6 +35,9 @@ Q_DECLARE_METATYPE(mvvm::ComboProperty)
 namespace mvvm::test
 {
 
+/**
+ * @brief Tests for classes defined in standard_presentation_items.h
+ */
 class StandardPresentationItemsTest : public ::testing::Test
 {
 public:
@@ -121,8 +124,6 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItem)
   EXPECT_FALSE(presentation.SetData("abcabc", Qt::DisplayRole));
 }
 
-//! Testing tooltip tole.
-
 TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemTooltipRole)
 {
   SessionItem item;
@@ -135,8 +136,6 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemTooltipRole)
   item.SetToolTip("abc");
   EXPECT_EQ(presentation.Data(Qt::ToolTipRole).toString(), QString("abc"));
 }
-
-//! Testing color of item depending on enable/disable status.
 
 TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemForegroundRole)
 {
@@ -155,11 +154,10 @@ TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemForegroundRole)
   item.SetEnabled(true);
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
 
-  // Hidden item has the same color by default. It is up to the view to decide how to show "hidden"
+  // Hidden item has normal color by default. It is up to the view to decide how to show "hidden"
   // item.
-
   item.SetVisible(false);
-  EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
 }
 
 TEST_F(StandardPresentationItemsTest, DisplayNamePresentationItemCheckStateRole)
@@ -258,13 +256,7 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemForSecondaryDataRole)
 
   // attempt to set same data twice
   EXPECT_FALSE(presentation.SetData(QVariant::fromValue(new_data), Qt::EditRole));
-
-  //  // it is not allowed to set another type of data
-  //  QVariant not_allowed_value("Layer");
-  //  EXPECT_THROW(presentation.SetData(not_allowed_value, Qt::EditRole), RuntimeException);
 }
-
-//! Testing tooltip tole.
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemTooltipRole)
 {
@@ -276,8 +268,6 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemTooltipRole)
   item.SetToolTip("abc");
   EXPECT_EQ(presentation.Data(Qt::ToolTipRole).toString(), QString("abc"));
 }
-
-//! Testing color of item depending on enable/disable status.
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemForegroundRole)
 {
@@ -296,14 +286,11 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemForegroundRole)
   item.SetEnabled(true);
   EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
 
-  // Hidden item has the same color by default. It is up to the view to decide how to show "hidden"
+  // Hidden item has normal color by default. It is up to the view to decide how to show "hidden"
   // item.
-
   item.SetVisible(false);
-  EXPECT_EQ(presentation.Data(Qt::ForegroundRole), QColor(Qt::gray));
+  EXPECT_FALSE(presentation.Data(Qt::ForegroundRole).isValid());
 }
-
-//! Testing color of item depending on enable/disable status.
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
 {
@@ -323,8 +310,6 @@ TEST_F(StandardPresentationItemsTest, DataPresentationItemCheckStateRole)
   item2.SetData(true);
   EXPECT_EQ(presentation2.Data(Qt::CheckStateRole).toInt(), Qt::Checked);
 }
-
-//! Decoration role (string with additional property ColorEditor set).
 
 TEST_F(StandardPresentationItemsTest, DataPresentationItemDecorationRole)
 {
@@ -386,7 +371,6 @@ TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItem)
 }
 
 //! The behavior of editable display item when no initial name was set (real-life bug).
-
 TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemWithoutInitialSet)
 {
   SessionItem item;
@@ -415,9 +399,8 @@ TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemWithout
   EXPECT_FALSE(presentation.SetData("abcabc", Qt::EditRole));
 }
 
-//! The behavior of editable display item when showing an item with bool data on bopard.
+//! The behavior of editable display item when showing an item with bool data on board.
 //! There shouldn't be any CheckState role visible (real-life bug).
-
 TEST_F(StandardPresentationItemsTest, EditableDisplayNamePresentationItemForBoolean)
 {
   SessionItem item;

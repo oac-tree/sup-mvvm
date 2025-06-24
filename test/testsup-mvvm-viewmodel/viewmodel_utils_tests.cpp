@@ -70,25 +70,42 @@ TEST_F(ViewModelUtilsTest, ItemRoleToQtRole)
 
 TEST_F(ViewModelUtilsTest, ItemTextColorRole)
 {
-  SessionItem item;
+  {  // default color
+    const SessionItem item;
+    auto variant = utils::TextColorRole(item);
+    EXPECT_FALSE(variant.isValid());
+  }
 
-  // no color defined for item by default
-  auto variant = utils::TextColorRole(item);
-  EXPECT_FALSE(variant.isValid());
+  {  // disabled item
+    SessionItem item;
+    item.SetEnabled(false);
+    auto variant = utils::TextColorRole(item);
+    EXPECT_EQ(variant.value<QColor>(), QColor(Qt::gray));
+  }
 
-  item.SetEnabled(false);
-  variant = utils::TextColorRole(item);
-  EXPECT_EQ(variant.value<QColor>(), QColor(Qt::gray));
+  {  // invisible item
+    // Invisible items are normally not shown by the view. If some technical view whants to show
+    // invisible item, it is up to the view which color to choose.
+    SessionItem item;
+    item.SetVisible(false);
+    auto variant = utils::TextColorRole(item);
+    EXPECT_FALSE(variant.isValid());
+  }
 
-  item.SetEnabled(true);
+  {  // custom apperance flag
+    SessionItem item;
 
-  item.SetFlag(Appearance::kHighlighted, true);
-  variant = utils::TextColorRole(item);
-  EXPECT_EQ(variant.value<QColor>(), QColor(Qt::darkRed));
+    item.SetFlag(Appearance::kHighlighted, true);
+    auto variant = utils::TextColorRole(item);
+    EXPECT_EQ(variant.value<QColor>(), QColor(Qt::darkRed));
+  }
 
-  item.SetData("#ff0000", DataRole::kTextColor);
-  variant = utils::TextColorRole(item);
-  EXPECT_EQ(variant.value<QColor>(), QColor(Qt::red));
+  {  // custom color
+    SessionItem item;
+    item.SetData("#ff0000", DataRole::kTextColor);
+    auto variant = utils::TextColorRole(item);
+    EXPECT_EQ(variant.value<QColor>(), QColor(Qt::red));
+  }
 }
 
 TEST_F(ViewModelUtilsTest, ItemCheckStateRole)

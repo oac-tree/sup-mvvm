@@ -80,8 +80,7 @@ TEST_F(AllItemsViewModelTest, GetSessionItemFromIndex)
   EXPECT_EQ(view_model.GetSessionItemFromIndex(data_index), item);
 }
 
-//! Index from single property item.
-TEST_F(AllItemsViewModelTest, GetIndexOfSessionItem)
+TEST_F(AllItemsViewModelTest, GetIndexOfPropertyItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(42.0);
@@ -98,7 +97,6 @@ TEST_F(AllItemsViewModelTest, GetIndexOfSessionItem)
   EXPECT_EQ(view_model.GetIndexOfSessionItem(item), expected);
 }
 
-//! Single property item in a model.
 TEST_F(AllItemsViewModelTest, ModelWithSingleItem)
 {
   auto item = m_model.InsertItem<PropertyItem>();
@@ -179,8 +177,7 @@ TEST_F(AllItemsViewModelTest, FromPropertyItemWhenHiddenDefault)
   EXPECT_EQ(viewmodel.columnCount(), 2);
 }
 
-//! SessionModel is populated with a VectorItem item. The controller is initialised after.
-TEST_F(AllItemsViewModelTest, ModelWithVectorItem)
+TEST_F(AllItemsViewModelTest, ModelWithVectorItemWHenControllerIsInitialisedAfter)
 {
   auto vector_item = m_model.InsertItem<VectorItem>();
   vector_item->SetX(1.0);
@@ -258,7 +255,6 @@ TEST_F(AllItemsViewModelTest, InsertIntoEmptyModel)
             std::vector<const ViewItem*>({view_item_label, view_item_data}));
 }
 
-//! Insert three property items in a model, inserted after controller was setup.
 TEST_F(AllItemsViewModelTest, InitThenInsertProperties)
 {
   const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
@@ -289,7 +285,6 @@ TEST_F(AllItemsViewModelTest, InitThenInsertProperties)
   }
 }
 
-//! Inserting property items in reversed order.
 TEST_F(AllItemsViewModelTest, InsertInFront)
 {
   const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
@@ -309,7 +304,6 @@ TEST_F(AllItemsViewModelTest, InsertInFront)
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(1, 0)), item0);
 }
 
-//! Inserting item between two other.
 TEST_F(AllItemsViewModelTest, InsertBetween)
 {
   const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
@@ -332,7 +326,6 @@ TEST_F(AllItemsViewModelTest, InsertBetween)
   EXPECT_EQ(m_viewmodel.GetSessionItemFromIndex(m_viewmodel.index(2, 0)), item1);
 }
 
-//! Initialise controller with the empty model. Insert parent and then child into it.
 TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
 {
   const QSignalSpy spy_insert(&m_viewmodel, &ViewModelBase::rowsInserted);
@@ -361,7 +354,6 @@ TEST_F(AllItemsViewModelTest, InsertParentAndThenChild)
   EXPECT_EQ(arguments.at(2).value<int>(), 0);
 }
 
-//! Sequence with 3 children. Removing the middle one.
 TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
 {
   auto parent = m_model.InsertItem<CompoundItem>();
@@ -408,8 +400,7 @@ TEST_F(AllItemsViewModelTest, RemoveMiddleChild)
   EXPECT_EQ(arguments.at(2).value<int>(), 1);
 }
 
-//! The data is manipulated through the ApplicationModel. Checking that ViewModel emits signals.
-TEST_F(AllItemsViewModelTest, SetData)
+TEST_F(AllItemsViewModelTest, SetDataViaApplicationModel)
 {
   auto item = m_model.InsertItem<PropertyItem>();
   item->SetData(0.0);
@@ -455,8 +446,6 @@ TEST_F(AllItemsViewModelTest, SetDataThroughModel)
   EXPECT_EQ(arguments.at(2).value<QVector<int>>(), expectedRoles);
 }
 
-//! Two ViewModels are looking to the same ApplicationModel. Change through one ViewModel should
-//! modify another.
 TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
 {
   ApplicationModel model;
@@ -475,7 +464,6 @@ TEST_F(AllItemsViewModelTest, SetDataThroughTwoModels)
   EXPECT_EQ(spy_data_changed2.count(), 1);
 }
 
-//! Single property item in ViewModel with various appearance flags.
 TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
 {
   ApplicationModel model;
@@ -514,7 +502,6 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearance)
   EXPECT_FALSE(viewModel.flags(viewModel.index(2, 1)) & Qt::ItemIsEditable);
 }
 
-//! Signals in ViewModel when property item changes its appearance.
 TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
 {
   ApplicationModel model;
@@ -558,7 +545,6 @@ TEST_F(AllItemsViewModelTest, PropertyItemAppearanceChanged)
   EXPECT_EQ(roles, expected_roles);
 }
 
-//! Signals in ViewModel when property item changes its tooltips.
 TEST_F(AllItemsViewModelTest, TooltipChanged)
 {
   ApplicationModel model;
@@ -606,7 +592,6 @@ TEST_F(AllItemsViewModelTest, TooltipChanged)
   EXPECT_EQ(roles, expected_roles);
 }
 
-//! Setting property item as ROOT item.
 TEST_F(AllItemsViewModelTest, SetPropertyItemAsRoot)
 {
   ApplicationModel model;
@@ -657,7 +642,6 @@ TEST_F(AllItemsViewModelTest, SetPropertyItemAsRootAfter)
   EXPECT_EQ(view_model.GetRootSessionItem(), item);
 }
 
-//! Setting top level item as ROOT item (case parent and children).
 TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
 {
   ApplicationModel model;
@@ -691,7 +675,6 @@ TEST_F(AllItemsViewModelTest, SetCompoundAsRootItem)
   EXPECT_EQ(view_model.columnCount(index_of_vector_item), 2);
 }
 
-//! Setting vector item as ROOT item.
 TEST_F(AllItemsViewModelTest, SetVectorItemAsRoot)
 {
   ApplicationModel model;
@@ -706,7 +689,6 @@ TEST_F(AllItemsViewModelTest, SetVectorItemAsRoot)
   EXPECT_EQ(view_model.GetRootSessionItem(), vector_item);
 }
 
-//! Setting nullptr as new item.
 TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
 {
   ApplicationModel model;
@@ -738,7 +720,6 @@ TEST_F(AllItemsViewModelTest, SetNullptrAsNewRoot)
   EXPECT_EQ(view_model.columnCount(), 2);
 }
 
-//! Setting the model, and then different model
 TEST_F(AllItemsViewModelTest, SetAnotherModel)
 {
   ApplicationModel model1;
@@ -836,7 +817,6 @@ TEST_F(AllItemsViewModelTest, RemoveCustomRootItem)
 
 //! Inserting grandparent -> parent -> child, setting `parent` as new root item.
 //! Removing grandparent. The viewmodel should reset.
-
 TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
 {
   auto grandparent = m_model.InsertItem<CompoundItem>();
@@ -865,7 +845,6 @@ TEST_F(AllItemsViewModelTest, RemoveFarAncestor)
   EXPECT_EQ(m_viewmodel.GetRootSessionItem(), nullptr);
 }
 
-//! On model reset.
 TEST_F(AllItemsViewModelTest, OnModelReset)
 {
   m_model.InsertItem<SessionItem>();
@@ -886,7 +865,6 @@ TEST_F(AllItemsViewModelTest, OnModelReset)
   EXPECT_EQ(spy_reset.count(), 1);
 }
 
-//! On model destroyed.
 TEST_F(AllItemsViewModelTest, OnModelDestroyed)
 {
   auto model = std::make_unique<ApplicationModel>();
@@ -937,7 +915,6 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadEmptyModel)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Testing ViewModel signals while loading data with the help of XML document. Model contains item.
 TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
 {
   const auto file_path = GetFilePath("XmlDocumentLoadModel.xml");
@@ -971,7 +948,6 @@ TEST_F(AllItemsViewModelTest, XmlDocumentLoadModel)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Testing view model after restoring from XML document.
 TEST_F(AllItemsViewModelTest, VectorItemInXmlDocument)
 {
   const auto file_path = GetFilePath("VectorItemInXmlDocument.xml");
@@ -1041,7 +1017,6 @@ TEST_F(AllItemsViewModelTest, VectorItemAsRootInXmlDocument)
   EXPECT_EQ(m_viewmodel.columnCount(), 2);
 }
 
-//! Moving item from one parent to another.
 TEST_F(AllItemsViewModelTest, MoveItemFromOneParentToAnother)
 {
   auto container0 = m_model.InsertItem<ContainerItem>();

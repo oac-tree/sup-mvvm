@@ -94,13 +94,6 @@ QVariant TextColorRole(const SessionItem& item)
     return QColor(Qt::gray);
   }
 
-  // For hidden item we select gray color too. Technical views normally shows hidden item in
-  // gray, normal property editors do not show them at all.
-  if (item.HasFlag(Appearance::kHidden))
-  {
-    return QColor(Qt::gray);
-  }
-
   if (item.HasFlag(Appearance::kHighlighted))
   {
     return QColor(Qt::darkRed);
