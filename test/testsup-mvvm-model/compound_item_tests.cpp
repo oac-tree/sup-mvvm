@@ -65,7 +65,7 @@ TEST_F(CompoundItemTests, SetIntProperty)
   auto& property = item.AddProperty(property_name, 41);
 
   const int expected = 42;
-  item.SetProperty(property_name, expected);
+  EXPECT_TRUE(item.SetProperty(property_name, expected));
 
   EXPECT_EQ(item.Property<int>(property_name), expected);
   EXPECT_EQ(property.Data<int>(), expected);

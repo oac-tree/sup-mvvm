@@ -101,7 +101,7 @@ public:
    * @param value The value to set.
    */
   template <typename T>
-  void SetProperty(const std::string& tag, const T& value);
+  bool SetProperty(const std::string& tag, const T& value);
 };
 
 template <typename T>
@@ -138,9 +138,9 @@ inline T CompoundItem::Property(const std::string& tag) const
 }
 
 template <typename T>
-inline void CompoundItem::SetProperty(const std::string& tag, const T& value)
+inline bool CompoundItem::SetProperty(const std::string& tag, const T& value)
 {
-  GetItem(tag)->SetData(value);
+  return GetItem(tag)->SetData(value);
 }
 
 }  // namespace mvvm
