@@ -33,7 +33,7 @@ namespace mvvm::test
 class AbstractProjectUserInteractorTest : public mvvm::test::FolderTest
 {
 public:
-  AbstractProjectUserInteractorTest() : mvvm::test::FolderTest("test_AbstractProjectUserInteractor")
+  AbstractProjectUserInteractorTest() : mvvm::test::FolderTest("AbstractProjectUserInteractorTest")
   {
   }
 
@@ -60,7 +60,6 @@ TEST_F(AbstractProjectUserInteractorTest, InitialState)
 
 TEST_F(AbstractProjectUserInteractorTest, GetNewProjectPath)
 {
-  // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a1.txt");
   const std::string empty_path;
 
@@ -86,7 +85,6 @@ TEST_F(AbstractProjectUserInteractorTest, GetNewProjectPath)
 
 TEST_F(AbstractProjectUserInteractorTest, GetExistingProjectPath)
 {
-  // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a2.txt");
 
   const std::string empty_path;

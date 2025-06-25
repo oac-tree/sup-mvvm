@@ -34,7 +34,7 @@ namespace mvvm::test
 class RecentProjectPathTest : public mvvm::test::FolderTest
 {
 public:
-  RecentProjectPathTest() : mvvm::test::FolderTest("test_RecentProjectPath") {}
+  RecentProjectPathTest() : mvvm::test::FolderTest("RecentProjectPathTest") {}
 };
 
 TEST_F(RecentProjectPathTest, InitialState)
@@ -64,7 +64,6 @@ TEST_F(RecentProjectPathTest, AddToRecentProjectList)
   const int kMaxProjectCount{3};
   RecentProjectPath projects(kMaxProjectCount);
 
-  // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path1 = GetFilePath("a1.txt");
   auto path2 = GetFilePath("a2.txt");
   auto path3 = GetFilePath("a3.txt");
@@ -99,7 +98,6 @@ TEST_F(RecentProjectPathTest, UpdateCurrentWorkdir)
   const int kMaxProjectCount{3};
   RecentProjectPath projects(kMaxProjectCount);
 
-  // creating text files in "<build>/test_output/test_RecentProjectPath"
   auto path = GetFilePath("a5.txt");
 
   // working dir for file is its parent directory
@@ -108,8 +106,7 @@ TEST_F(RecentProjectPathTest, UpdateCurrentWorkdir)
 
   // working dir for dir is its   parent directory
   projects.UpdateWorkdirFromPath(QString::fromStdString(GetTestHomeDir()));
-  EXPECT_EQ(projects.GetCurrentWorkdir(),
-            QString::fromStdString(mvvm::test::GetTestSuiteOutputDir()));
+  EXPECT_EQ(projects.GetCurrentWorkdir(), QString::fromStdString(mvvm::test::TestOutputDir()));
 }
 
 }  // namespace mvvm::test
