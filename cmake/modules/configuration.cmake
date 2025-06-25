@@ -31,7 +31,7 @@ find_package(Threads)
 # Generating config files
 # -----------------------------------------------------------------------------
 get_filename_component(SUP_MVVM_PROJECT_DIR "${CMAKE_CURRENT_LIST_DIR}/../.." ABSOLUTE)
-configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/testconfig.h.in ${SUP_MVVM_AUTOGEN_DIR}/testconfig.h @ONLY)
+configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/cmake_info_constants.h.in ${SUP_MVVM_AUTOGEN_DIR}/cmake_info_constants.h @ONLY)
 configure_file(${SUP_MVVM_PROJECT_DIR}/cmake/configs/version_constants.h.in ${SUP_MVVM_AUTOGEN_DIR}/version_constants.h @ONLY)
 
 # -----------------------------------------------------------------------------

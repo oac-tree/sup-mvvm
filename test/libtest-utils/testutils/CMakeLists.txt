@@ -1,4 +1,6 @@
 target_sources(${library_name} PRIVATE
+  cmake_info.cpp
+  cmake_info.h
   folder_test.cpp
   folder_test.h
   mock_cell_decorator.cpp

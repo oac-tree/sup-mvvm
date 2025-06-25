@@ -1,0 +1,39 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2025 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef MVVM_CORE_CMAKE_INFO_CONSTANTS_H_
+#define MVVM_CORE_CMAKE_INFO_CONSTANTS_H_
+
+//! Automatically generated from cmake_info_constants.h.in. Should be used via API provided by
+//! <testutils/cmake_info.h>
+
+#include <string>
+
+namespace mvvm::test
+{
+
+const std::string kCMakeSourceDir = "@CMAKE_SOURCE_DIR@";
+const std::string kCMakeBinaryDir = "@CMAKE_CURRENT_BINARY_DIR@";
+const std::string kTestOutputDir = "@SUP_MVVM_TESTRESULT_DIR@";
+std::string kProjectSourceDir = "@SUP_MVVM_PROJECT_DIR@";
+
+}  // namespace mvvm::test
+
+#endif  // MVVM_CORE_CMAKE_INFO_CONSTANTS_H_

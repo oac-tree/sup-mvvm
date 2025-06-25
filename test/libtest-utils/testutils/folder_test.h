@@ -22,6 +22,7 @@
 #define LIBTEST_UTILS_TESTUTILS_FOLDER_TEST_H_
 
 #include <mvvm/test/folder_output_based_test.h>
+#include <testutils/cmake_info.h>
 
 namespace mvvm::test
 {
@@ -35,18 +36,6 @@ class FolderTest : public FolderOutputBasedTest
 public:
   explicit FolderTest(std::string test_home_dirname);
 };
-
-/**
- * @brief  Returns full path to the main test folder, as defined by CMake at compile time.
- *
- * Should point to CMAKE_CURRENT_BINARY_DIR/test_output
- */
-std::string GetTestSuiteOutputDir();
-
-/**
- * @brief Returns full path to repository source directory.
- */
-std::string GetProjectSourceDir();
 
 }  // namespace mvvm::test
 

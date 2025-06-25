@@ -100,7 +100,7 @@ TEST_F(FileUtilsTest, GetParentPath)
 {
   // parent path of testPath() is the main test folder
   // "<build>/test_output/test_FileUtils" -> "<build>/test_output/"
-  EXPECT_EQ(utils::GetParentPath(GetTestHomeDir()), mvvm::test::GetTestSuiteOutputDir());
+  EXPECT_EQ(utils::GetParentPath(GetTestHomeDir()), mvvm::test::TestOutputDir());
 
   // "<build>/test_output/test_FileUtils/a.txt" -> "<build>/test_output/test_FileUtils/"
   mvvm::test::CreateTextFile(GetTestHomeDir() + "/a.txt", "");
