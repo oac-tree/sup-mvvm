@@ -60,7 +60,7 @@ std::unique_ptr<SessionItemData> ToSessionItemData(const tree_data_t& tree_data)
  */
 void PopulateItemData(const tree_data_t& tree_data, SessionItemData& item_data);
 
-};  // namespace TreeDataItemDataConverter
+}  // namespace TreeDataItemDataConverter
 
 }  // namespace mvvm
 
