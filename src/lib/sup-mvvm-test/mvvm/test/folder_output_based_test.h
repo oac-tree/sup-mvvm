@@ -65,6 +65,12 @@ public:
   std::string GetFilePath(const std::string& file_name) const;
 
   /**
+   * @brief Returns full path to the file with given name located in test home directory.
+   * If the file already exists, it will be removed first.
+   */
+  std::string GetNewFilePath(const std::string& file_name) const;
+
+  /**
    * @brief Creates an empty directory in main test folder and returns full path to the user.
    * Remove recursively previous one with the same name, if exist.
    */
