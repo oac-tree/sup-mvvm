@@ -46,25 +46,17 @@ std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
 template <typename C, typename... Args>
 typename C::result_t ProcessCommand(ISessionModel* model, Args&&... args)
 {
-  if (model)
+  auto command = std::make_unique<C>(std::forward<Args>(args)...);
+  // FIXME get rid of this setter, it is slow
+  command->SetNotificationCallback(CreateNotifierCallback(model->GetEventHandler()));
+
+  // check if the model was able to execute the command and it wasn't expired
+  if (auto processed_command = static_cast<C*>(model->ExecuteCommand(std::move(command)));
+      processed_command)
   {
-    auto command = std::make_unique<C>(std::forward<Args>(args)...);
-    // FIXME get rid of this setter, it is slow
-    command->SetNotificationCallback(CreateNotifierCallback(model->GetEventHandler()));
-
-    // check if the model was able to execute the command and it wasn't expired
-    if (auto processed_command = static_cast<C*>(model->ExecuteCommand(std::move(command)));
-        processed_command)
-    {
-      return processed_command->GetResult();
-    }
-    return {};
+    return processed_command->GetResult();
   }
-
-  // in the absence of the model immediately execute command
-  C command(std::forward<Args>(args)...);
-  command.Execute();
-  return command.GetResult();
+  return {};
 }
 
 }  // namespace mvvm
