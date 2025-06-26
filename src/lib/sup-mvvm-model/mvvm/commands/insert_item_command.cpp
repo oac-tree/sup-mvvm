@@ -26,6 +26,7 @@
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/validate_utils.h>
@@ -67,7 +68,7 @@ struct InsertItemCommand::InsertItemCommandImpl
 };
 
 InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionItem* parent,
-                                         const TagIndex& tag_index)
+                                     const TagIndex& tag_index)
     : p_impl(std::make_unique<InsertItemCommandImpl>(std::move(item), parent, tag_index))
 {
 }
@@ -105,13 +106,8 @@ void InsertItemCommand::ExecuteImpl()
   auto to_insert = p_impl->m_to_insert ? std::move(p_impl->m_to_insert)
                                        : p_impl->m_backup_strategy->RestoreItem();
 
-  // FIXME this validation duplicates the one in SessionItem::InsertItem, remove duplication
-  utils::ValidateItemInsert(to_insert.get(), p_impl->m_cached_parent, p_impl->m_tag_index);
-
-  p_impl->m_result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(std::move(to_insert),
-                                                                           p_impl->m_tag_index);
-  p_impl->m_result->SetParent(p_impl->m_cached_parent);
-  p_impl->m_result->SetModel(p_impl->m_cached_parent->GetModel());
+  p_impl->m_result =
+      utils::InsertItemIntern(*p_impl->m_cached_parent, std::move(to_insert), p_impl->m_tag_index);
 }
 
 void InsertItemCommand::UndoImpl()

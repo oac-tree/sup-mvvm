@@ -27,6 +27,7 @@
 #include "session_item.h"
 #include "session_item_container.h"
 #include "tagged_items.h"
+#include "validate_utils.h"
 
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
@@ -74,6 +75,16 @@ void SetIdentifier(SessionItem& item)
 bool SetData(SessionItem& item, const variant_t& value, role_t role)
 {
   return ProcessCommand<SetValueCommand>(item.GetModel(), &item, value, role);
+}
+
+SessionItem* InsertItemIntern(SessionItem& item, std::unique_ptr<SessionItem> to_insert,
+                              const TagIndex& tag_index)
+{
+  utils::ValidateItemInsert(to_insert.get(), &item, tag_index);
+  auto result = item.GetTaggedItems()->InsertItem(std::move(to_insert), tag_index);
+  result->SetParent(&item);
+  result->SetModel(item.GetModel());
+  return result;
 }
 
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)
