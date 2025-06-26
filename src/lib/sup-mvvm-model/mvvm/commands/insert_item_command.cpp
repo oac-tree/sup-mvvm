@@ -28,8 +28,6 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/tagged_items.h>
-#include <mvvm/model/validate_utils.h>
 
 namespace mvvm
 {
@@ -112,10 +110,8 @@ void InsertItemCommand::ExecuteImpl()
 
 void InsertItemCommand::UndoImpl()
 {
-  auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
-  taken->SetParent(nullptr);
-  taken->SetModel(nullptr);
-  // may be it is better to store taken item on board, and not to use backup at all?
+  auto taken = utils::TakeItemImpl(*p_impl->m_cached_parent, p_impl->m_tag_index);
+  (void)taken;  // FIXME save in the implementation
 }
 
 }  // namespace mvvm

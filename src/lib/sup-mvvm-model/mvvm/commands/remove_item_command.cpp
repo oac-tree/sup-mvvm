@@ -29,7 +29,6 @@
 #include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model/tagged_items.h>
 
 namespace mvvm
 {
@@ -104,10 +103,8 @@ void RemoveItemCommand::ExecuteImpl()
 
 void RemoveItemCommand::UndoImpl()
 {
-  auto result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(
-      p_impl->m_backup_strategy->RestoreItem(), p_impl->m_tag_index);
-  result->SetParent(p_impl->m_cached_parent);
-  result->SetModel(p_impl->m_cached_parent->GetModel());
+  utils::InsertItemImpl(p_impl->m_backup_strategy->RestoreItem(), *p_impl->m_cached_parent,
+                        p_impl->m_tag_index);
 }
 
 }  // namespace mvvm
