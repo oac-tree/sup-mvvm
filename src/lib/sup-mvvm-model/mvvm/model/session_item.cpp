@@ -20,6 +20,7 @@
 
 #include "session_item.h"
 
+#include "item_utils.h"
 #include "process_command.h"
 #include "session_item_data.h"
 #include "session_item_impl.h"
@@ -194,9 +195,14 @@ void SessionItem::RegisterTag(const TagInfo& tag_info, bool set_as_default)
 SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const TagIndex& tag_index)
 {
   auto insert_tag_index = GetTaggedItems()->GetInsertTagIndex(tag_index);
-  utils::ValidateItemInsert(item.get(), this, insert_tag_index);
 
-  return ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
+  if (GetModel())
+  {
+    utils::ValidateItemInsert(item.get(), this, insert_tag_index);
+    return ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
+  }
+
+  return utils::InsertItemIntern(*this, std::move(item), insert_tag_index);
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
