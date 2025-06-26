@@ -58,13 +58,21 @@ bool SetData(SessionItem& item, const variant_t& value, role_t role);
  *
  * This mehtod bypases the model (i.e. no notification and undo/redo).
  *
- * @param item Item which will get new child.
  * @param to_insert The item to insert.
+ * @param item Item which will get new child.
  * @param tag_index A tag_index pointing to the insert place.
  * @return Convenience pointer to just inserted item.
  */
-SessionItem* InsertItemIntern(SessionItem& item, std::unique_ptr<SessionItem> to_insert,
+SessionItem* InsertItemImpl(std::unique_ptr<SessionItem> to_insert, SessionItem& item,
                               const TagIndex& tag_index);
+
+
+/**
+ * @brief Removes an item from the given tag_index, returns it to the caller.
+ *
+ * This mehtod bypases the model (i.e. no notification and undo/redo).
+ */
+std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag_index);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function

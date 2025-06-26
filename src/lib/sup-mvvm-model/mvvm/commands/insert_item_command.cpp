@@ -107,7 +107,7 @@ void InsertItemCommand::ExecuteImpl()
                                        : p_impl->m_backup_strategy->RestoreItem();
 
   p_impl->m_result =
-      utils::InsertItemIntern(*p_impl->m_cached_parent, std::move(to_insert), p_impl->m_tag_index);
+      utils::InsertItemImpl(std::move(to_insert), *p_impl->m_cached_parent, p_impl->m_tag_index);
 }
 
 void InsertItemCommand::UndoImpl()

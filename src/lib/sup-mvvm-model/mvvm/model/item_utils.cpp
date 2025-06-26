@@ -77,14 +77,29 @@ bool SetData(SessionItem& item, const variant_t& value, role_t role)
   return ProcessCommand<SetValueCommand>(item.GetModel(), &item, value, role);
 }
 
-SessionItem* InsertItemIntern(SessionItem& item, std::unique_ptr<SessionItem> to_insert,
-                              const TagIndex& tag_index)
+SessionItem* InsertItemImpl(std::unique_ptr<SessionItem> to_insert, SessionItem& item,
+                            const TagIndex& tag_index)
 {
   utils::ValidateItemInsert(to_insert.get(), &item, tag_index);
   auto result = item.GetTaggedItems()->InsertItem(std::move(to_insert), tag_index);
   result->SetParent(&item);
   result->SetModel(item.GetModel());
   return result;
+}
+
+std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag_index)
+{
+  utils::ValidateTakeItem(&item, tag_index);
+  auto taken = item.GetTaggedItems()->TakeItem(tag_index);
+  if (!taken)
+  {
+    throw RuntimeException("Can't take an item");
+  }
+
+  taken->SetParent(nullptr);
+  taken->SetModel(nullptr);
+
+  return taken;
 }
 
 void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func)

@@ -27,6 +27,7 @@
 #include <mvvm/model/i_item_backup_strategy.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/item_factory.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/tagged_items.h>
 
@@ -97,24 +98,14 @@ void RemoveItemCommand::ExecuteImpl()
 {
   SetIsObsolete(false);
 
-  auto taken = p_impl->m_cached_parent->GetTaggedItems()->TakeItem(p_impl->m_tag_index);
-  if (!taken)
-  {
-    throw RuntimeException("Can't take an item");
-  }
-
-  taken->SetParent(nullptr);
-  taken->SetModel(nullptr);
-
-  p_impl->m_backup_strategy->SaveItem(*taken);
-
-  p_impl->m_taken = std::move(taken);
+  p_impl->m_taken = utils::TakeItemImpl(*p_impl->m_cached_parent, p_impl->m_tag_index);
+  p_impl->m_backup_strategy->SaveItem(*p_impl->m_taken);
 }
 
 void RemoveItemCommand::UndoImpl()
 {
-  auto result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(p_impl->m_backup_strategy->RestoreItem(),
-                                                        p_impl->m_tag_index);
+  auto result = p_impl->m_cached_parent->GetTaggedItems()->InsertItem(
+      p_impl->m_backup_strategy->RestoreItem(), p_impl->m_tag_index);
   result->SetParent(p_impl->m_cached_parent);
   result->SetModel(p_impl->m_cached_parent->GetModel());
 }

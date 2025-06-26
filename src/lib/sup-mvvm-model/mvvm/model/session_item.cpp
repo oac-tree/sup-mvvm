@@ -202,14 +202,19 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
     return ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
   }
 
-  return utils::InsertItemIntern(*this, std::move(item), insert_tag_index);
+  return utils::InsertItemImpl(std::move(item), *this, insert_tag_index);
 }
 
 std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 {
-  utils::ValidateTakeItem(this, tag_index);
+  if (GetModel())
+  {
+    utils::ValidateTakeItem(this, tag_index);
 
-  return ProcessCommand<RemoveItemCommand>(GetModel(), this, tag_index);
+    return ProcessCommand<RemoveItemCommand>(GetModel(), this, tag_index);
+  }
+
+  return utils::TakeItemImpl(*this, tag_index);
 }
 
 bool SessionItem::IsEditable() const
