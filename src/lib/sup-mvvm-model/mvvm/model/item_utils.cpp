@@ -26,9 +26,9 @@
 #include "process_command.h"
 #include "session_item.h"
 #include "session_item_container.h"
+#include "session_item_data.h"
 #include "tagged_items.h"
 #include "validate_utils.h"
-#include "session_item_data.h"
 
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
@@ -75,10 +75,15 @@ void SetIdentifier(SessionItem& item)
 
 bool SetData(SessionItem& item, const variant_t& value, role_t role)
 {
-  return ProcessCommand<SetValueCommand>(item.GetModel(), &item, value, role);
+  if (item.GetModel())
+  {
+    return ProcessCommand<SetValueCommand>(item.GetModel(), &item, value, role);
+  }
+
+  return utils::SetDataImpl(item, value, role);
 }
 
-bool SetDataImpl(SessionItem &item, const variant_t &value, role_t role)
+bool SetDataImpl(SessionItem& item, const variant_t& value, role_t role)
 {
   return item.GetItemData()->SetData(value, role);
 }
@@ -474,6 +479,5 @@ std::string ItemToDebugString(const SessionItem* item)
   }
   return ostr.str();
 }
-
 
 }  // namespace mvvm::utils
