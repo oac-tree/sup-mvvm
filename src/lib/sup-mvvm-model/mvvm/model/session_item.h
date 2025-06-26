@@ -179,13 +179,6 @@ public:
   virtual bool SetDataInternal(const variant_t& value, role_t role);
 
   /**
-   * @brief Sets implementation data for the given role.
-   *
-   * This call bypasses possible data strategy, notifications, and command framework.
-   */
-  bool SetDataImpl(const variant_t& value, role_t role);
-
-  /**
    * @brief Returns total number of children in all tags.
    */
   std::size_t GetTotalItemCount() const;

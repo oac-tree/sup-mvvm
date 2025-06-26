@@ -20,6 +20,7 @@
 
 #include "mvvm/model/session_item.h"
 
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/taginfo.h>
 
@@ -72,7 +73,7 @@ BENCHMARK_F(SessionItemBenchmark, SetDataImpl)(benchmark::State &state)
   int value{0};
   for (auto dummy : state)
   {
-    item.SetDataImpl(value++, DataRole::kData);
+    utils::SetDataImpl(item, value++, DataRole::kData);
   }
 }
 
@@ -80,7 +81,7 @@ BENCHMARK_F(SessionItemBenchmark, SetSameData)(benchmark::State &state)
 {
   mvvm::SessionItem item;
 
-  int value{0};
+  const int value{0};
   for (auto dummy : state)
   {
     item.SetData(value);

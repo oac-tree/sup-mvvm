@@ -54,6 +54,13 @@ void SetIdentifier(SessionItem& item);
 bool SetData(SessionItem& item, const variant_t& value, role_t role);
 
 /**
+ * @brief Sets item data for the given role.
+ *
+ * This call bypasses possible data strategy, notifications, and command framework.
+ */
+bool SetDataImpl(SessionItem& item, const variant_t& value, role_t role);
+
+/**
  * @brief Inserts item into the given tag_index, ownership is taken.
  *
  * This mehtod bypases the model (i.e. no notification and undo/redo).

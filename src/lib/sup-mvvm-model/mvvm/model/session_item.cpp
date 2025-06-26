@@ -55,7 +55,7 @@ SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
 SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
 {
-  SetDataImpl(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  utils::SetDataImpl(*this, UniqueIdGenerator::Generate(), DataRole::kIdentifier);
 }
 
 SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
@@ -149,12 +149,13 @@ bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
   {
     return m_data_strategy(this, value, role);
   }
-  return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
-}
 
-bool SessionItem::SetDataImpl(const variant_t& value, role_t role)
-{
-  return GetItemData()->SetData(value, role);
+  if (GetModel())
+  {
+    return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
+  }
+
+  return utils::SetDataImpl(*this, value, role);
 }
 
 std::size_t SessionItem::GetTotalItemCount() const

@@ -22,6 +22,7 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
+#include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 
 namespace mvvm
@@ -97,7 +98,7 @@ void SetValueCommand::UndoImpl()
 void SetValueCommand::SwapValues()
 {
   auto old = p_impl->m_cached_item->Data(p_impl->m_role);
-  auto result = p_impl->m_cached_item->SetDataImpl(p_impl->m_value, p_impl->m_role);
+  auto result = utils::SetDataImpl(*p_impl->m_cached_item, p_impl->m_value, p_impl->m_role);
   SetResult(result);
   SetIsObsolete(!result);
   p_impl->m_value = old;
