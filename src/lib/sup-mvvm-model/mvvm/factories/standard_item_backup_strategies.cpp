@@ -50,4 +50,24 @@ std::unique_ptr<SessionItem> TreeDataItemBackupStrategy::RestoreItem() const
   return m_converter->ToSessionItem(*m_tree_data);
 }
 
+// ------------------------------------------------------------------------------------------------
+// ItemCloneBackupStrategy
+// ------------------------------------------------------------------------------------------------
+
+ItemCloneBackupStrategy::~ItemCloneBackupStrategy() = default;
+
+void ItemCloneBackupStrategy::SaveItem(const SessionItem &item)
+{
+  m_backup = item.Clone();
+}
+
+std::unique_ptr<SessionItem> ItemCloneBackupStrategy::RestoreItem() const
+{
+  if (!m_backup)
+  {
+    throw mvvm::InvalidOperationException("Absent backup");
+  }
+  return m_backup->Clone();
+}
+
 }  // namespace mvvm

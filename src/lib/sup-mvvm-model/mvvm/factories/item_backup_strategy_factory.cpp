@@ -22,12 +22,19 @@
 
 #include "standard_item_backup_strategies.h"
 
+#include <mvvm/model/session_item.h>
+
 namespace mvvm
 {
 
 std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(const IItemFactory* factory)
 {
   return std::make_unique<TreeDataItemBackupStrategy>(factory);
+}
+
+std::unique_ptr<IItemBackupStrategy> CreateItemCloneBackupStrategy()
+{
+  return std::make_unique<ItemCloneBackupStrategy>();
 }
 
 }  // namespace mvvm

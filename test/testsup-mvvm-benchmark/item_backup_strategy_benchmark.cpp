@@ -81,4 +81,39 @@ BENCHMARK_F(ItemBackupStrategyBenchmark, TreeDataBackupStrategyRestore)(benchmar
   }
 }
 
+BENCHMARK_F(ItemBackupStrategyBenchmark, ItemCloneBackupStrategySave)(benchmark::State& state)
+{
+  auto test_data = test::CreateTestData(kDepth, kMaxChildrenCount);
+
+  auto item_to_store = test_data->model->GetRootItem();
+
+  auto strategy = CreateItemCloneBackupStrategy();
+
+  for (auto dummy : state)
+  {
+    for (const auto& info : test_data->item_info)
+    {
+      strategy->SaveItem(*item_to_store);
+    }
+  }
+}
+
+BENCHMARK_F(ItemBackupStrategyBenchmark, ItemCloneBackupStrategyRestore)(benchmark::State& state)
+{
+  auto test_data = test::CreateTestData(kDepth, kMaxChildrenCount);
+
+  auto item_to_store = test_data->model->GetRootItem();
+
+  auto strategy = CreateItemCloneBackupStrategy();
+  strategy->SaveItem(*item_to_store);
+
+  for (auto dummy : state)
+  {
+    for (const auto& info : test_data->item_info)
+    {
+      auto restored_item = strategy->RestoreItem();
+    }
+  }
+}
+
 }  // namespace mvvm::test

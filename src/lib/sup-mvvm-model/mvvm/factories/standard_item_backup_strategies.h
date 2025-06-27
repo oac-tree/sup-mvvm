@@ -53,6 +53,29 @@ private:
   std::unique_ptr<tree_data_t> m_tree_data;
 };
 
+/**
+ * @brief The ItemCloneBackupStrategy class saves/restores SessionItem using TreeData objects.
+ */
+class ItemCloneBackupStrategy : public mvvm::IItemBackupStrategy
+{
+public:
+  ItemCloneBackupStrategy() = default;
+  ~ItemCloneBackupStrategy() override;
+
+  ItemCloneBackupStrategy(const ItemCloneBackupStrategy& other) = delete;
+  ItemCloneBackupStrategy& operator=(const ItemCloneBackupStrategy& other) & = delete;
+  ItemCloneBackupStrategy(ItemCloneBackupStrategy&&) = delete;
+  ItemCloneBackupStrategy& operator=(ItemCloneBackupStrategy&&) = delete;
+
+  void SaveItem(const mvvm::SessionItem& item) override;
+
+  std::unique_ptr<mvvm::SessionItem> RestoreItem() const override;
+
+private:
+  std::unique_ptr<mvvm::SessionItem> m_backup;
+};
+
+
 }  // namespace mvvm
 
 #endif  // MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H
