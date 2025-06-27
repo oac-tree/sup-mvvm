@@ -25,7 +25,6 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/factories/item_backup_strategy_factory.h>
 #include <mvvm/model/i_session_model.h>
-#include <mvvm/model/item_factory.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 
@@ -46,7 +45,7 @@ struct InsertItemCommand::InsertItemCommandImpl
                         const TagIndex& tag_index)
       : m_cached_parent(parent)
       , m_tag_index(tag_index)
-      , m_backup_strategy(CreateItemTreeDataBackupStrategy(&GetGlobalItemFactory()))
+      , m_backup_strategy(CreateItemCloneBackupStrategy())
       , m_to_insert(std::move(item))
   {
     if (!m_cached_parent)

@@ -52,6 +52,11 @@ std::string ParticleItem::GetStaticType()
   return "Particle";
 }
 
+std::unique_ptr<SessionItem> ParticleItem::Clone() const
+{
+  return std::make_unique<ParticleItem>(*this);
+}
+
 LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::GetStaticType())
 {
   AddProperty("Thickness", 42.0);
@@ -63,6 +68,11 @@ LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::GetStaticType())
 std::string LayerItem::GetStaticType()
 {
   return "Layer";
+}
+
+std::unique_ptr<SessionItem> LayerItem::Clone() const
+{
+  return std::make_unique<LayerItem>(*this);
 }
 
 MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(GetStaticType())
@@ -79,6 +89,11 @@ std::string MultiLayerItem::GetStaticType()
 std::vector<LayerItem *> MultiLayerItem::GetLayers() const
 {
   return GetItems<LayerItem>(kLayerTag);
+}
+
+std::unique_ptr<SessionItem> MultiLayerItem::Clone() const
+{
+  return std::make_unique<MultiLayerItem>(*this);
 }
 
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}

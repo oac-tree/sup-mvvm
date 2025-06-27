@@ -38,6 +38,7 @@ class ParticleItem : public mvvm::CompoundItem
 public:
   ParticleItem();
   static std::string GetStaticType();
+  std::unique_ptr<SessionItem> Clone() const override;
 };
 
 class LayerItem : public mvvm::CompoundItem
@@ -45,6 +46,7 @@ class LayerItem : public mvvm::CompoundItem
 public:
   LayerItem();
   static std::string GetStaticType();
+  std::unique_ptr<SessionItem> Clone() const override;
 };
 
 class MultiLayerItem : public mvvm::CompoundItem
@@ -54,6 +56,7 @@ public:
   static std::string GetStaticType();
 
   std::vector<LayerItem*> GetLayers() const;
+  std::unique_ptr<SessionItem> Clone() const override;
 };
 
 class SampleModel : public mvvm::ApplicationModel
