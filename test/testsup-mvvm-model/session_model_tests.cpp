@@ -104,7 +104,7 @@ TEST_F(SessionModelTest, SetData)
 
   // setting wrong type of data
   const variant_t value(42.0);
-  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), RuntimeException);
+  EXPECT_THROW(model.SetData(item, value, DataRole::kDisplay), InvalidOperationException);
 
   // setting new data
   EXPECT_TRUE(model.SetData(item, value, DataRole::kData));
@@ -738,7 +738,7 @@ TEST_F(SessionModelTest, AttemptToExecuteCommandFromCommand)
 
   auto command = std::make_unique<InvalidTestCommand>(&model);
 
-  EXPECT_THROW(model.ExecuteCommand(std::move(command)), RuntimeException);
+  EXPECT_THROW(model.ExecuteCommand(std::move(command)), InvalidOperationException);
 }
 
 }  // namespace mvvm::test

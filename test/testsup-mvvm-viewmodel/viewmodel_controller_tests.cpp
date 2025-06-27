@@ -644,7 +644,7 @@ TEST_F(ViewModelControllerTest, BrokenRowStrategy)
   auto controller =
       CreateController<AllChildrenStrategy, test::EmptyRowTestStrategy>(m_model, m_viewmodel);
   (void)controller;
-  EXPECT_THROW(m_model.InsertItem<SessionItem>(), RuntimeException);
+  EXPECT_THROW(m_model.InsertItem<SessionItem>(), InvalidOperationException);
 }
 
 }  // namespace mvvm::test
