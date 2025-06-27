@@ -36,7 +36,7 @@ namespace mvvm::test
 /**
  * @brief Tests for various backup strategies.
  */
-class ItemBackupStrategyFactoryTests : public ::testing::Test
+class StandardItemBackupStrategiesTests : public ::testing::Test
 {
 public:
   class TestItem : public CompoundItem
@@ -55,13 +55,11 @@ public:
 
   static IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
 
-  ItemBackupStrategyFactoryTests() { RegisterGlobalItem<TestItem>(); }
+  StandardItemBackupStrategiesTests() { RegisterGlobalItem<TestItem>(); }
   SessionModel m_model;
 };
 
-//! Backup PropertyItem.
-
-TEST_F(ItemBackupStrategyFactoryTests, PropertyItem)
+TEST_F(StandardItemBackupStrategiesTests, TreeDataItemBackupStrategyForPropertyItem)
 {
   auto strategy = CreateItemTreeDataBackupStrategy(GetFactory());
 
@@ -83,9 +81,7 @@ TEST_F(ItemBackupStrategyFactoryTests, PropertyItem)
   EXPECT_DOUBLE_EQ(restored->Data<double>(), 42.0);            // previous data
 }
 
-//! Saving/restoring CompoundItem.
-
-TEST_F(ItemBackupStrategyFactoryTests, compoundItem)
+TEST_F(StandardItemBackupStrategiesTests, TreeDataItemBackupStrategyForCompoundItem)
 {
   auto strategy = CreateItemTreeDataBackupStrategy(GetFactory());
 
@@ -101,9 +97,7 @@ TEST_F(ItemBackupStrategyFactoryTests, compoundItem)
   EXPECT_EQ(restored->GetItem("thickness")->GetIdentifier(), property.GetIdentifier());
 }
 
-//! Backup custom item.
-
-TEST_F(ItemBackupStrategyFactoryTests, BackupCustomItem)
+TEST_F(StandardItemBackupStrategiesTests, TreeDataItemBackupStrategyForCustomItem)
 {
   auto strategy = CreateItemTreeDataBackupStrategy(GetFactory());
 
