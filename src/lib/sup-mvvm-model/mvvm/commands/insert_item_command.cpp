@@ -31,86 +31,65 @@
 namespace mvvm
 {
 
-struct InsertItemCommand::InsertItemCommandImpl
-{
-  SessionItem* m_cached_parent{nullptr};
-  ISessionModel* m_model{nullptr};
-  std::string m_parent_identifier;
-  TagIndex m_tag_index;
-  std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
-  std::unique_ptr<SessionItem> m_to_insert;
-  SessionItem* m_result{nullptr};
-
-  InsertItemCommandImpl(std::unique_ptr<SessionItem> item, SessionItem* parent,
-                        const TagIndex& tag_index)
-      : m_cached_parent(parent)
-      , m_tag_index(tag_index)
-      , m_backup_strategy(CreateItemCloneBackupStrategy())
-      , m_to_insert(std::move(item))
-  {
-    if (!m_cached_parent)
-    {
-      throw RuntimeException("Uninitialized item");
-    }
-
-    m_model = m_cached_parent->GetModel();
-    m_parent_identifier = m_cached_parent->GetIdentifier();
-    m_backup_strategy->SaveItem(*m_to_insert);
-  }
-
-  SessionItem* FindParent() const
-  {
-    return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
-  }
-};
-
 InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                      const TagIndex& tag_index)
-    : p_impl(std::make_unique<InsertItemCommandImpl>(std::move(item), parent, tag_index))
+    : m_cached_parent(parent)
+    , m_tag_index(tag_index)
+    , m_backup_strategy(CreateItemCloneBackupStrategy())
+    , m_to_insert(std::move(item))
 {
+  if (!m_cached_parent)
+  {
+    throw RuntimeException("Uninitialized item");
+  }
+
+  m_model = m_cached_parent->GetModel();
+  m_parent_identifier = m_cached_parent->GetIdentifier();
+  m_backup_strategy->SaveItem(*m_to_insert);
 }
 
 InsertItemCommand::~InsertItemCommand() = default;
 
 InsertItemCommand::result_t InsertItemCommand::GetResult() const
 {
-  return p_impl->m_result;
+  return m_result;
 }
 
 std::optional<event_variant_t> InsertItemCommand::GetEventBefore() const
 {
   // we find parent once and then use it for notification and command execution
-  p_impl->m_cached_parent = p_impl->FindParent();
-  if (!p_impl->m_cached_parent)
+  m_cached_parent = FindParent();
+  if (!m_cached_parent)
   {
     throw RuntimeException("Can't find parent");
   }
 
-  return GetBeforeEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
-                                        p_impl->m_tag_index);
+  return GetBeforeEventForInsertCommand(GetCommandStatus(), m_cached_parent, m_tag_index);
 }
 
 std::optional<event_variant_t> InsertItemCommand::GetEventAfter() const
 {
-  return GetAfterEventForInsertCommand(GetCommandStatus(), p_impl->m_cached_parent,
-                                       p_impl->m_tag_index);
+  return GetAfterEventForInsertCommand(GetCommandStatus(), m_cached_parent, m_tag_index);
 }
 
 void InsertItemCommand::ExecuteImpl()
 {
   SetIsObsolete(false);
 
-  auto to_insert = p_impl->m_to_insert ? std::move(p_impl->m_to_insert)
-                                       : p_impl->m_backup_strategy->RestoreItem();
+  auto to_insert = m_to_insert ? std::move(m_to_insert) : m_backup_strategy->RestoreItem();
 
-  p_impl->m_result =
-      utils::InsertItemImpl(std::move(to_insert), *p_impl->m_cached_parent, p_impl->m_tag_index);
+  m_result = utils::InsertItemImpl(std::move(to_insert), *m_cached_parent, m_tag_index);
 }
 
 void InsertItemCommand::UndoImpl()
 {
-  auto taken = utils::TakeItemImpl(*p_impl->m_cached_parent, p_impl->m_tag_index);
+  auto taken = utils::TakeItemImpl(*m_cached_parent, m_tag_index);
   (void)taken;  // FIXME save in the implementation
+}
+
+SessionItem* InsertItemCommand::FindParent() const
+{
+  return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
 }
 
 }  // namespace mvvm

@@ -30,6 +30,7 @@ namespace mvvm
 
 class SessionItem;
 class TagIndex;
+class IItemBackupStrategy;
 
 /**
  * @brief The InsertItemCommand class allows to insert a child to the part and undo the change.
@@ -56,9 +57,15 @@ public:
 private:
   void ExecuteImpl() override;
   void UndoImpl() override;
+  SessionItem* FindParent() const;
 
-  struct InsertItemCommandImpl;
-  std::unique_ptr<InsertItemCommandImpl> p_impl;
+  mutable SessionItem* m_cached_parent{nullptr};
+  ISessionModel* m_model{nullptr};
+  std::string m_parent_identifier;
+  TagIndex m_tag_index;
+  std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
+  std::unique_ptr<SessionItem> m_to_insert;
+  SessionItem* m_result{nullptr};
 };
 
 }  // namespace mvvm
