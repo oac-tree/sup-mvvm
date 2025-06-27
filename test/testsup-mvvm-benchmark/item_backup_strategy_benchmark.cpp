@@ -32,7 +32,7 @@ namespace mvvm::test
 
 namespace
 {
-// 364 items in total, i.e. (3^6-1)/(3-1)
+// (kMaxChildrenCount^kDepth-1)/(kMaxChildrenCount-1)
 const std::size_t kMaxChildrenCount{3};
 const std::size_t kDepth{3};
 }  // namespace

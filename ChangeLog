@@ -1,5 +1,6 @@
 Changes for 1.9.0:
 
+- Refactor model commands to rely on clone operation, result to better performance in undo/redo
 - Replace recursive serialization algorithms with stack-based
 - Remove obsolete SessionItem::Activate machinery
 - Implement possibility to set custom data strategy for ViewItem
