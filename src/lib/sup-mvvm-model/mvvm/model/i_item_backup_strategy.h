@@ -30,18 +30,30 @@ namespace mvvm
 
 class SessionItem;
 
-//! Interface to backup items for later restore.
-
+/**
+ * @brief The IItemBackupStrategy is an interface to backup items for later restore.
+ */
 class MVVM_MODEL_EXPORT IItemBackupStrategy
 {
 public:
-  virtual ~IItemBackupStrategy() = default;
+  virtual ~IItemBackupStrategy() noexcept = default;
 
-  //! Save item's content.
+  /**
+   * @brief Save item content.
+   */
   virtual void SaveItem(const SessionItem& item) = 0;
 
-  //! Restore item from saved content.
+  /**
+   * @brief Restore item from saved content.
+   */
   virtual std::unique_ptr<SessionItem> RestoreItem() const = 0;
+
+protected:
+  IItemBackupStrategy() = default;
+  IItemBackupStrategy(IItemBackupStrategy const&) = default;
+  IItemBackupStrategy(IItemBackupStrategy&&) = default;
+  IItemBackupStrategy& operator=(IItemBackupStrategy const&) = default;
+  IItemBackupStrategy& operator=(IItemBackupStrategy&&) = default;
 };
 
 }  // namespace mvvm
