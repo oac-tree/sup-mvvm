@@ -136,19 +136,11 @@ namespace
 
 role_t GetRole(const tree_data_t& tree_data)
 {
-  if (!tree_data.HasAttribute(constants::kRoleAttributeKey))
-  {
-    throw mvvm::RuntimeException("Error in variant converter: absent [role] attribute");
-  }
   return std::stoi(tree_data.GetAttribute(constants::kRoleAttributeKey));
 }
 
 std::string GetTypeName(const mvvm::tree_data_t& tree_data)
 {
-  if (!tree_data.HasAttribute(constants::kTypeAttributeKey))
-  {
-    throw mvvm::RuntimeException("Error in variant converter: absent [role] attribute");
-  }
   return tree_data.GetAttribute(constants::kTypeAttributeKey);
 }
 

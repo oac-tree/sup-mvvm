@@ -35,7 +35,7 @@ tree_data_t TreeDataComposerComponent::MoveTreeData()
   return std::move(m_tree_data);
 }
 
-tree_data_t TreeDataComposerComponent::GetTreeData() const
+const tree_data_t &TreeDataComposerComponent::GetTreeData() const
 {
   return m_tree_data;
 }
