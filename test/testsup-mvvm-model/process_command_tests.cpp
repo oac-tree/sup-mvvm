@@ -38,7 +38,7 @@ TEST_F(ProcessCommandTest, ProcessCommand)
   SessionModel model;
   auto item = model.InsertItem<SessionItem>();
 
-  auto result = ProcessCommand<SetValueCommand>(&model, item, int32{42}, DataRole::kData);
+  auto result = ProcessCommand<SetValueCommand>(model, item, int32{42}, DataRole::kData);
   EXPECT_TRUE(result);
   EXPECT_EQ(item->Data<int32>(), mvvm::int32{42});
 }

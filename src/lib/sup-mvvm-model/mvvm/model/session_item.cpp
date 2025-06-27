@@ -152,7 +152,7 @@ bool SessionItem::SetDataInternal(const variant_t& value, role_t role)
 
   if (GetModel())
   {
-    return ProcessCommand<SetValueCommand>(GetModel(), this, value, role);
+    return ProcessCommand<SetValueCommand>(*GetModel(), this, value, role);
   }
 
   return utils::SetDataImpl(*this, value, role);
@@ -200,7 +200,7 @@ SessionItem* SessionItem::InsertItem(std::unique_ptr<SessionItem> item, const Ta
   if (GetModel())
   {
     utils::ValidateItemInsert(item.get(), this, insert_tag_index);
-    return ProcessCommand<InsertItemCommand>(GetModel(), std::move(item), this, insert_tag_index);
+    return ProcessCommand<InsertItemCommand>(*GetModel(), std::move(item), this, insert_tag_index);
   }
 
   return utils::InsertItemImpl(std::move(item), *this, insert_tag_index);
@@ -212,7 +212,7 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
   {
     utils::ValidateTakeItem(this, tag_index);
 
-    return ProcessCommand<RemoveItemCommand>(GetModel(), this, tag_index);
+    return ProcessCommand<RemoveItemCommand>(*GetModel(), this, tag_index);
   }
 
   return utils::TakeItemImpl(*this, tag_index);

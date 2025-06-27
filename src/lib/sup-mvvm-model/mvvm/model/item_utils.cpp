@@ -77,7 +77,7 @@ bool SetData(SessionItem& item, const variant_t& value, role_t role)
 {
   if (item.GetModel())
   {
-    return ProcessCommand<SetValueCommand>(item.GetModel(), &item, value, role);
+    return ProcessCommand<SetValueCommand>(*item.GetModel(), &item, value, role);
   }
 
   return utils::SetDataImpl(item, value, role);
