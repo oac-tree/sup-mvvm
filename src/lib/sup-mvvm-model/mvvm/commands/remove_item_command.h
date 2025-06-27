@@ -31,6 +31,7 @@ namespace mvvm
 
 class SessionItem;
 class TagIndex;
+class IItemBackupStrategy;
 
 /**
  * @brief The RemoveItemCommand class allows to remopve a child from part and undo the change.
@@ -38,7 +39,7 @@ class TagIndex;
 class MVVM_MODEL_EXPORT RemoveItemCommand : public AbstractCommand
 {
 public:
-  using result_t =  std::unique_ptr<SessionItem>;
+  using result_t = std::unique_ptr<SessionItem>;
 
   RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index);
   ~RemoveItemCommand() override;
@@ -48,7 +49,7 @@ public:
   RemoveItemCommand(RemoveItemCommand&&) = delete;
   RemoveItemCommand& operator=(RemoveItemCommand&&) = delete;
 
-  result_t GetResult() const;
+  result_t GetResult();
 
   std::optional<event_variant_t> GetEventBefore() const override;
 
@@ -57,9 +58,14 @@ public:
 private:
   void ExecuteImpl() override;
   void UndoImpl() override;
+  SessionItem* FindParent() const;
 
-  struct RemoveItemCommandImpl;
-  std::unique_ptr<RemoveItemCommandImpl> p_impl;
+  mutable SessionItem* m_cached_parent{nullptr};
+  ISessionModel* m_model{nullptr};
+  std::string m_parent_identifier;
+  TagIndex m_tag_index;
+  std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
+  std::unique_ptr<SessionItem> m_taken;
 };
 
 }  // namespace mvvm

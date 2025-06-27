@@ -32,78 +32,60 @@
 namespace mvvm
 {
 
-struct RemoveItemCommand::RemoveItemCommandImpl
-{
-  SessionItem* m_cached_parent{nullptr};
-  ISessionModel* m_model{nullptr};
-  std::string m_parent_identifier;
-  TagIndex m_tag_index;
-  std::unique_ptr<IItemBackupStrategy> m_backup_strategy;
-  std::unique_ptr<SessionItem> m_taken;
-
-  RemoveItemCommandImpl(SessionItem* parent, const TagIndex& tag_index)
-      : m_cached_parent(parent)
-      , m_tag_index(tag_index)
-      , m_backup_strategy(CreateItemCloneBackupStrategy())
-  {
-    if (!m_cached_parent)
-    {
-      throw RuntimeException("Uninitialized item");
-    }
-
-    m_model = m_cached_parent->GetModel();
-    m_parent_identifier = m_cached_parent->GetIdentifier();
-  }
-
-  SessionItem* FindParent() const
-  {
-    return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
-  }
-};
-
 RemoveItemCommand::RemoveItemCommand(SessionItem* parent, const TagIndex& tag_index)
-    : p_impl(std::make_unique<RemoveItemCommandImpl>(parent, tag_index))
+    : m_cached_parent(parent)
+    , m_tag_index(tag_index)
+    , m_backup_strategy(CreateItemCloneBackupStrategy())
 {
+  if (!m_cached_parent)
+  {
+    throw RuntimeException("Uninitialized item");
+  }
+
+  m_model = m_cached_parent->GetModel();
+  m_parent_identifier = m_cached_parent->GetIdentifier();
 }
 
 RemoveItemCommand::~RemoveItemCommand() = default;
 
-RemoveItemCommand::result_t RemoveItemCommand::GetResult() const
+RemoveItemCommand::result_t RemoveItemCommand::GetResult()
 {
-  return std::move(p_impl->m_taken);
+  return std::move(m_taken);
 }
 
 std::optional<event_variant_t> RemoveItemCommand::GetEventBefore() const
 {
   // we find parent once and then use it for notification and command execution
-  p_impl->m_cached_parent = p_impl->FindParent();
-  if (!p_impl->m_cached_parent)
+  m_cached_parent = FindParent();
+  if (!m_cached_parent)
   {
     throw RuntimeException("Can't find parent");
   }
 
-  return GetBeforeEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
-                                        p_impl->m_tag_index);
+  return GetBeforeEventForRemoveCommand(GetCommandStatus(), m_cached_parent, m_tag_index);
 }
 
 std::optional<event_variant_t> RemoveItemCommand::GetEventAfter() const
 {
-  return GetAfterEventForRemoveCommand(GetCommandStatus(), p_impl->m_cached_parent,
-                                       p_impl->m_tag_index);
+  return GetAfterEventForRemoveCommand(GetCommandStatus(), m_cached_parent, m_tag_index);
 }
 
 void RemoveItemCommand::ExecuteImpl()
 {
   SetIsObsolete(false);
 
-  p_impl->m_taken = utils::TakeItemImpl(*p_impl->m_cached_parent, p_impl->m_tag_index);
-  p_impl->m_backup_strategy->SaveItem(*p_impl->m_taken);
+  m_taken = utils::TakeItemImpl(*m_cached_parent, m_tag_index);
+  m_backup_strategy->SaveItem(*m_taken);
 }
 
 void RemoveItemCommand::UndoImpl()
 {
-  utils::InsertItemImpl(p_impl->m_backup_strategy->RestoreItem(), *p_impl->m_cached_parent,
-                        p_impl->m_tag_index);
+  utils::InsertItemImpl(m_backup_strategy->RestoreItem(), *m_cached_parent, m_tag_index);
+}
+
+SessionItem* RemoveItemCommand::FindParent() const
+{
+  return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
 }
 
 }  // namespace mvvm

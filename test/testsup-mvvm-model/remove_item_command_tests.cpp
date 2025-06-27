@@ -49,7 +49,7 @@ TEST_F(RemoveItemCommandTests, InitialState)
   EXPECT_THROW(RemoveItemCommand(nullptr, TagIndex::Append()), RuntimeException);
 
   const TagIndex expected_tag_index{"tag1", 0};
-  const RemoveItemCommand command(&parent, expected_tag_index);
+  RemoveItemCommand command(&parent, expected_tag_index);
 
   const auto expected_event1 =
       std::optional{event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}}};
