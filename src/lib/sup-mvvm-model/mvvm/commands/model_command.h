@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_REMOVE_ITEM_COMMAND_H_
-#define MVVM_COMMANDS_REMOVE_ITEM_COMMAND_H_
+#ifndef MVVM_COMMANDS_MODEL_COMMAND_H_
+#define MVVM_COMMANDS_MODEL_COMMAND_H_
 
 #include <mvvm/commands/abstract_command.h>
 
@@ -44,4 +44,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_REMOVE_ITEM_COMMAND_H_
+#endif  // MVVM_COMMANDS_MODEL_COMMAND_H_

@@ -29,20 +29,20 @@ namespace mvvm
 
 ModelCommand::ModelCommand(ISessionModel *model) : m_model(model)
 {
-  if (!m_model)
-  {
-    throw RuntimeException("Model is not defined");
-  }
+  // if (!m_model)
+  // {
+  //   throw RuntimeException("Model is not defined");
+  // }
 
-  if (!m_model->GetEventHandler())
-  {
-    throw RuntimeException("Model doesn't have notification capabilities");
-  }
+  // if (!m_model->GetEventHandler())
+  // {
+  //   throw RuntimeException("Model doesn't have notification capabilities");
+  // }
 }
 
 void ModelCommand::Notify(const std::optional<event_variant_t> &event)
 {
-  if (event.has_value())
+  if (m_model && m_model->GetEventHandler() && event.has_value())
   {
     m_model->GetEventHandler()->Notify(event.value());
   }
