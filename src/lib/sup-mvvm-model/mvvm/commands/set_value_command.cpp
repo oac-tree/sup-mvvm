@@ -29,7 +29,10 @@ namespace mvvm
 {
 
 SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, role_t role)
-    : m_cached_item(item), m_value(value), m_role(role)
+    : ModelCommand(item ? item->GetModel() : nullptr)
+    , m_cached_item(item)
+    , m_value(value)
+    , m_role(role)
 {
   if (!m_cached_item)
   {

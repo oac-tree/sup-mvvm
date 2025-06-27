@@ -21,7 +21,7 @@
 #ifndef MVVM_COMMANDS_REMOVE_ITEM_COMMAND_H_
 #define MVVM_COMMANDS_REMOVE_ITEM_COMMAND_H_
 
-#include <mvvm/commands/abstract_command.h>
+#include <mvvm/commands/model_command.h>
 #include <mvvm/core/variant.h>
 
 #include <memory>
@@ -36,7 +36,7 @@ class IItemBackupStrategy;
 /**
  * @brief The RemoveItemCommand class allows to remove a child from part and undo the change.
  */
-class MVVM_MODEL_EXPORT RemoveItemCommand : public AbstractCommand
+class MVVM_MODEL_EXPORT RemoveItemCommand : public ModelCommand
 {
 public:
   using result_t = std::unique_ptr<SessionItem>;

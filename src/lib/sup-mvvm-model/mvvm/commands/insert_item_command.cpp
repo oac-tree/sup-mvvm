@@ -33,7 +33,8 @@ namespace mvvm
 
 InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionItem* parent,
                                      const TagIndex& tag_index)
-    : m_cached_parent(parent)
+    : ModelCommand(parent ? parent->GetModel() : nullptr)
+    , m_cached_parent(parent)
     , m_tag_index(tag_index)
     , m_backup_strategy(CreateItemCloneBackupStrategy())
     , m_to_insert(std::move(item))

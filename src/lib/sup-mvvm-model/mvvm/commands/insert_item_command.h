@@ -21,7 +21,7 @@
 #ifndef MVVM_COMMANDS_INSERT_ITEM_COMMAND_V2_H_
 #define MVVM_COMMANDS_INSERT_ITEM_COMMAND_V2_H_
 
-#include <mvvm/commands/abstract_command.h>
+#include <mvvm/commands/model_command.h>
 
 #include <memory>
 
@@ -35,7 +35,7 @@ class IItemBackupStrategy;
 /**
  * @brief The InsertItemCommand class allows to insert a child to the part and undo the change.
  */
-class MVVM_MODEL_EXPORT InsertItemCommand : public AbstractCommand
+class MVVM_MODEL_EXPORT InsertItemCommand : public ModelCommand
 {
 public:
   using result_t = SessionItem*;
