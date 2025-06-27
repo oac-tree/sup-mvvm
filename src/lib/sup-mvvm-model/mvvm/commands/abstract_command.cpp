@@ -43,14 +43,6 @@ struct AbstractCommand::AbstractCommandImpl
   {
     return m_command->GetCommandStatus() == CommandStatus::AfterExecute && !m_command->IsObsolete();
   }
-
-  void Notify(const std::optional<event_variant_t>& event) const
-  {
-    if (m_event_notify && event.has_value())
-    {
-      m_event_notify(event.value());
-    }
-  }
 };
 
 AbstractCommand::AbstractCommand() : p_impl(std::make_unique<AbstractCommandImpl>(this)) {}
@@ -64,12 +56,12 @@ void AbstractCommand::Execute()
     throw RuntimeException("Can't execute the command. Wrong order.");
   }
 
-  p_impl->Notify(GetEventBefore());
+  Notify(GetEventBefore());
 
   ExecuteImpl();
   p_impl->SetAfterExecute();
 
-  p_impl->Notify(GetEventAfter());
+  Notify(GetEventAfter());
 }
 
 CommandStatus AbstractCommand::GetCommandStatus() const
@@ -84,12 +76,12 @@ void AbstractCommand::Undo()
     throw RuntimeException("Can't undo the command. Wrong order.");
   }
 
-  p_impl->Notify(GetEventBefore());
+  Notify(GetEventBefore());
 
   UndoImpl();
   p_impl->SetAfterUndo();
 
-  p_impl->Notify(GetEventAfter());
+  Notify(GetEventAfter());
 }
 
 bool AbstractCommand::IsObsolete() const
@@ -125,6 +117,14 @@ std::optional<event_variant_t> AbstractCommand::GetEventAfter() const
 void AbstractCommand::SetNotificationCallback(const event_notify_t& event_notify)
 {
   p_impl->m_event_notify = event_notify;
+}
+
+void AbstractCommand::Notify(const std::optional<event_variant_t>& event)
+{
+  if (p_impl->m_event_notify && event.has_value())
+  {
+    p_impl->m_event_notify(event.value());
+  }
 }
 
 }  // namespace mvvm

@@ -69,6 +69,8 @@ private:
 
   virtual void UndoImpl() = 0;
 
+  virtual void Notify(const std::optional<event_variant_t>& event);
+
   struct AbstractCommandImpl;
   std::unique_ptr<AbstractCommandImpl> p_impl;
 };

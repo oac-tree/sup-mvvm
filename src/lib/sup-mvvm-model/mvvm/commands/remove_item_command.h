@@ -34,7 +34,7 @@ class TagIndex;
 class IItemBackupStrategy;
 
 /**
- * @brief The RemoveItemCommand class allows to remopve a child from part and undo the change.
+ * @brief The RemoveItemCommand class allows to remove a child from part and undo the change.
  */
 class MVVM_MODEL_EXPORT RemoveItemCommand : public AbstractCommand
 {
