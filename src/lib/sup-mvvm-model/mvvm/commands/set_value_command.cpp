@@ -28,58 +28,36 @@
 namespace mvvm
 {
 
-struct SetValueCommand::SetValueCommandImpl
-{
-  SessionItem *m_cached_item{nullptr};
-  ISessionModel *m_model{nullptr};
-  variant_t m_value;  //! Value to set as a result of command execution.
-  role_t m_role;
-  std::string m_item_identifier;
-  bool m_result{false};
-
-  SetValueCommandImpl(SessionItem *item, const variant_t &value, role_t role)
-      : m_cached_item(item), m_value(value), m_role(role)
-  {
-    if (!m_cached_item)
-    {
-      throw RuntimeException("Uninitialized item");
-    }
-
-    m_model = m_cached_item->GetModel();
-    m_item_identifier = m_cached_item->GetIdentifier();
-  }
-
-  SessionItem *FindItem() const
-  {
-    return m_model ? m_model->FindItem(m_item_identifier) : m_cached_item;
-  }
-
-  void SetResult(bool value) { m_result = value; }
-};
-
 SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, role_t role)
-    : p_impl(std::make_unique<SetValueCommandImpl>(item, value, role))
+    : m_cached_item(item), m_value(value), m_role(role)
 {
+  if (!m_cached_item)
+  {
+    throw RuntimeException("Uninitialized item");
+  }
+
+  m_model = m_cached_item->GetModel();
+  m_item_identifier = m_cached_item->GetIdentifier();
 }
 
 SetValueCommand::~SetValueCommand() = default;
 
 SetValueCommand::result_t SetValueCommand::GetResult() const
 {
-  return p_impl->m_result;
+  return m_result;
 }
 
 std::optional<event_variant_t> SetValueCommand::GetEventBefore() const
 {
-  p_impl->m_cached_item = p_impl->FindItem();
+  m_cached_item = FindItem();
   return {};
 }
 
 std::optional<event_variant_t> SetValueCommand::GetEventAfter() const
 {
-  if (p_impl->m_result)
+  if (m_result)
   {
-    return DataChangedEvent{p_impl->m_cached_item, p_impl->m_role};
+    return DataChangedEvent{m_cached_item, m_role};
   }
 
   return {};
@@ -97,16 +75,21 @@ void SetValueCommand::UndoImpl()
 
 void SetValueCommand::SwapValues()
 {
-  auto old = p_impl->m_cached_item->Data(p_impl->m_role);
-  auto result = utils::SetDataImpl(*p_impl->m_cached_item, p_impl->m_value, p_impl->m_role);
+  auto old = m_cached_item->Data(m_role);
+  auto result = utils::SetDataImpl(*m_cached_item, m_value, m_role);
   SetResult(result);
   SetIsObsolete(!result);
-  p_impl->m_value = old;
+  m_value = old;
 }
 
 void SetValueCommand::SetResult(bool value)
 {
-  p_impl->SetResult(value);
+  m_result = value;
+}
+
+SessionItem *SetValueCommand::FindItem() const
+{
+  return m_model ? m_model->FindItem(m_item_identifier) : m_cached_item;
 }
 
 }  // namespace mvvm

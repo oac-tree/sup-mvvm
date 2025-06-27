@@ -25,8 +25,6 @@
 #include <mvvm/core/variant.h>
 #include <mvvm/signals/event_types.h>
 
-#include <memory>
-
 namespace mvvm
 {
 
@@ -59,9 +57,14 @@ private:
   void SwapValues();
 
   void SetResult(bool value);
+  SessionItem *FindItem() const;
 
-  struct SetValueCommandImpl;
-  std::unique_ptr<SetValueCommandImpl> p_impl;
+  mutable SessionItem *m_cached_item{nullptr};
+  ISessionModel *m_model{nullptr};
+  variant_t m_value;  //! Value to set as a result of command execution.
+  role_t m_role;
+  std::string m_item_identifier;
+  bool m_result{false};
 };
 
 }  // namespace mvvm
