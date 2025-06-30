@@ -23,6 +23,7 @@
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -69,13 +70,15 @@ TEST_F(DefaultCommandProcessorTest, ExecuteSetValueCommand)
 {
   DefaultCommandProcessor stack;
 
-  SessionItem item;
-  auto command = std::make_unique<SetValueCommand>(&item, int32{42}, DataRole::kData);
+  SessionModel model;
+
+  auto item = model.InsertItem<SessionItem>();
+  auto command = std::make_unique<SetValueCommand>(item, int32{42}, DataRole::kData);
 
   auto result = static_cast<SetValueCommand*>(stack.Execute(std::move(command)));
   ASSERT_NE(result, nullptr);
   EXPECT_TRUE(result->GetResult());
-  EXPECT_EQ(item.Data<int32>(), 42);
+  EXPECT_EQ(item->Data<int32>(), 42);
 }
 
 }  // namespace mvvm::test

@@ -38,21 +38,24 @@ namespace mvvm::test
  */
 class RemoveItemCommandTests : public ::testing::Test
 {
+public:
+
+  SessionModel m_model;
 };
 
 TEST_F(RemoveItemCommandTests, InitialState)
 {
-  SessionItem parent;
-  parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
-  auto child = parent.InsertItem<SessionItem>(TagIndex::Append());
+  auto parent = m_model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto child = parent->InsertItem<SessionItem>(TagIndex::Append());
 
   EXPECT_THROW(RemoveItemCommand(nullptr, TagIndex::Append()), RuntimeException);
 
   const TagIndex expected_tag_index{"tag1", 0};
-  RemoveItemCommand command(&parent, expected_tag_index);
+  RemoveItemCommand command(parent, expected_tag_index);
 
   const auto expected_event1 =
-      std::optional{event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{AboutToRemoveItemEvent{parent, expected_tag_index}}};
 
   EXPECT_EQ(command.GetResult().get(), nullptr);
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
@@ -64,27 +67,27 @@ TEST_F(RemoveItemCommandTests, InitialState)
 
 TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
 {
-  SessionItem parent;
-  parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto parent = m_model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
-  auto child0 = parent.InsertItem<SessionItem>(TagIndex::Append());
-  auto child1 = parent.InsertItem<SessionItem>(TagIndex::Append());
-  auto child2 = parent.InsertItem<SessionItem>(TagIndex::Append());
+  auto child0 = parent->InsertItem<SessionItem>(TagIndex::Append());
+  auto child1 = parent->InsertItem<SessionItem>(TagIndex::Append());
+  auto child2 = parent->InsertItem<SessionItem>(TagIndex::Append());
 
   child1->SetData(42);
   auto child1_identifier = child1->GetIdentifier();
 
   const TagIndex expected_tag_index{"tag1", 1};
   const auto expected_event1 =
-      std::optional{event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{AboutToRemoveItemEvent{parent, expected_tag_index}}};
   const auto expected_event2 =
-      std::optional{event_variant_t{ItemRemovedEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{ItemRemovedEvent{parent, expected_tag_index}}};
   const auto expected_event3 =
-      std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{AboutToInsertItemEvent{parent, expected_tag_index}}};
   const auto expected_event4 =
-      std::optional{event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{ItemInsertedEvent{parent, expected_tag_index}}};
 
-  RemoveItemCommand command(&parent, expected_tag_index);
+  RemoveItemCommand command(parent, expected_tag_index);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -93,7 +96,7 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
 
   auto taken = command.GetResult();
   EXPECT_EQ(taken.get(), child1);
-  EXPECT_EQ(parent.GetTotalItemCount(), 2);
+  EXPECT_EQ(parent->GetTotalItemCount(), 2);
   EXPECT_EQ(taken->Data<mvvm::int32>(), 42);
   EXPECT_EQ(taken->GetIdentifier(), child1_identifier);
   EXPECT_EQ(taken->GetParent(), nullptr);
@@ -102,16 +105,16 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
   command.Undo();
   EXPECT_EQ(command.GetEventAfter(), expected_event4);
   EXPECT_FALSE(command.IsObsolete());
-  EXPECT_EQ(parent.GetTotalItemCount(), 3);
+  EXPECT_EQ(parent->GetTotalItemCount(), 3);
   EXPECT_EQ(command.GetResult().get(), nullptr);
-  EXPECT_EQ(parent.GetAllItems().at(1)->Data<mvvm::int32>(), 42);
-  EXPECT_EQ(parent.GetAllItems().at(1)->GetIdentifier(), child1_identifier);
-  EXPECT_EQ(parent.GetAllItems().at(1)->GetParent(), &parent);
+  EXPECT_EQ(parent->GetAllItems().at(1)->Data<mvvm::int32>(), 42);
+  EXPECT_EQ(parent->GetAllItems().at(1)->GetIdentifier(), child1_identifier);
+  EXPECT_EQ(parent->GetAllItems().at(1)->GetParent(), parent);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
   EXPECT_EQ(command.GetEventAfter(), expected_event2);
-  EXPECT_EQ(parent.GetTotalItemCount(), 2);
+  EXPECT_EQ(parent->GetTotalItemCount(), 2);
 
   auto taken2 = command.GetResult();
   EXPECT_EQ(taken2->Data<mvvm::int32>(), 42);
@@ -121,10 +124,9 @@ TEST_F(RemoveItemCommandTests, RemoveItemFromParent)
 
 TEST_F(RemoveItemCommandTests, RemoveParentWithChildWhenPartOfTheModel)
 {
-  SessionModel model;
-  auto parent = model.GetRootItem();
+  auto parent = m_model.GetRootItem();
 
-  auto child = model.InsertItem<CompoundItem>();
+  auto child = m_model.InsertItem<CompoundItem>();
   child->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
   auto child_identifier = child->GetIdentifier();
 
@@ -163,8 +165,8 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWhenPartOfTheModel)
     EXPECT_EQ(taken_grandchild->Data<mvvm::int32>(), 42);
     EXPECT_EQ(taken_grandchild->GetParent(), taken_child.get());
     EXPECT_EQ(taken_grandchild->GetModel(), nullptr);
-    EXPECT_EQ(model.FindItem(child_identifier), nullptr);
-    EXPECT_EQ(model.FindItem(grandchild_identifier), nullptr);
+    EXPECT_EQ(m_model.FindItem(child_identifier), nullptr);
+    EXPECT_EQ(m_model.FindItem(grandchild_identifier), nullptr);
   }
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
@@ -180,8 +182,8 @@ TEST_F(RemoveItemCommandTests, RemoveParentWithChildWhenPartOfTheModel)
     ASSERT_EQ(restored_child->GetTotalItemCount(), 1);
     EXPECT_EQ(restored_grandchild->GetIdentifier(), grandchild_identifier);
     EXPECT_EQ(restored_grandchild->Data<mvvm::int32>(), 42);
-    EXPECT_EQ(model.FindItem(child_identifier), restored_child);
-    EXPECT_EQ(model.FindItem(grandchild_identifier), restored_grandchild);
+    EXPECT_EQ(m_model.FindItem(child_identifier), restored_child);
+    EXPECT_EQ(m_model.FindItem(grandchild_identifier), restored_grandchild);
   }
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);

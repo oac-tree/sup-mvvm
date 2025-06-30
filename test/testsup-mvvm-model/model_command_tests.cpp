@@ -53,7 +53,7 @@ public:
 
 TEST_F(ModelCommandTest, InitialState)
 {
-  EXPECT_NO_THROW(TestCommand(nullptr));
+  EXPECT_THROW(TestCommand(nullptr), RuntimeException);
 
   SessionModel session_model;
   EXPECT_NO_THROW((TestCommand(&session_model)));

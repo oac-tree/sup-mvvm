@@ -37,6 +37,8 @@ namespace mvvm::test
  */
 class InsertItemCommandTests : public ::testing::Test
 {
+public:
+  SessionModel m_model;
 };
 
 TEST_F(InsertItemCommandTests, InitialState)
@@ -46,11 +48,12 @@ TEST_F(InsertItemCommandTests, InitialState)
 
   auto to_insert = std::make_unique<PropertyItem>();
   const TagIndex expected_tag_index{"tag1", 0};
-  SessionItem parent;
-  const InsertItemCommand command(std::move(to_insert), &parent, expected_tag_index);
+
+  auto parent = m_model.InsertItem<SessionItem>();
+  const InsertItemCommand command(std::move(to_insert), parent, expected_tag_index);
 
   const auto expected_event1 =
-      std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{AboutToInsertItemEvent{parent, expected_tag_index}}};
 
   EXPECT_EQ(command.GetResult(), nullptr);
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
@@ -62,8 +65,8 @@ TEST_F(InsertItemCommandTests, InitialState)
 
 TEST_F(InsertItemCommandTests, InsertItemToParent)
 {
-  SessionItem parent;
-  parent.RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
+  auto parent = m_model.InsertItem<SessionItem>();
+  parent->RegisterTag(TagInfo::CreateUniversalTag("tag1"), /*set_as_default*/ true);
 
   auto to_insert = std::make_unique<PropertyItem>();
   auto to_insert_ptr = to_insert.get();
@@ -71,16 +74,16 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
   to_insert->SetData(42);
 
   const TagIndex expected_tag_index{"tag1", 0};
-  InsertItemCommand command(std::move(to_insert), &parent, expected_tag_index);
+  InsertItemCommand command(std::move(to_insert), parent, expected_tag_index);
 
   const auto expected_event1 =
-      std::optional{event_variant_t{AboutToInsertItemEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{AboutToInsertItemEvent{parent, expected_tag_index}}};
   const auto expected_event2 =
-      std::optional{event_variant_t{ItemInsertedEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{ItemInsertedEvent{parent, expected_tag_index}}};
   const auto expected_event3 =
-      std::optional{event_variant_t{AboutToRemoveItemEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{AboutToRemoveItemEvent{parent, expected_tag_index}}};
   const auto expected_event4 =
-      std::optional{event_variant_t{ItemRemovedEvent{&parent, expected_tag_index}}};
+      std::optional{event_variant_t{ItemRemovedEvent{parent, expected_tag_index}}};
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
@@ -88,29 +91,29 @@ TEST_F(InsertItemCommandTests, InsertItemToParent)
   EXPECT_FALSE(command.IsObsolete());
 
   EXPECT_EQ(command.GetResult(), to_insert_ptr);
-  EXPECT_EQ(parent.GetTotalItemCount(), 1);
-  EXPECT_EQ(parent.GetItem(expected_tag_index), to_insert_ptr);
-  EXPECT_EQ(parent.GetItem(expected_tag_index)->Data<int>(), 42);
-  EXPECT_EQ(command.GetResult()->GetParent(), &parent);
-  EXPECT_EQ(command.GetResult()->GetModel(), nullptr);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(parent->GetItem(expected_tag_index), to_insert_ptr);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(command.GetResult()->GetParent(), parent);
+  EXPECT_EQ(command.GetResult()->GetModel(), &m_model);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event3);
   command.Undo();
   EXPECT_EQ(command.GetEventAfter(), expected_event4);
   EXPECT_FALSE(command.IsObsolete());
-  EXPECT_EQ(parent.GetTotalItemCount(), 0);
+  EXPECT_EQ(parent->GetTotalItemCount(), 0);
 
   EXPECT_EQ(command.GetEventBefore(), expected_event1);
   command.Execute();
   EXPECT_EQ(command.GetEventAfter(), expected_event2);
-  EXPECT_EQ(parent.GetTotalItemCount(), 1);
-  EXPECT_EQ(parent.GetItem(expected_tag_index)->GetIdentifier(), identifier);
-  EXPECT_EQ(parent.GetItem(expected_tag_index)->Data<int>(), 42);
-  EXPECT_EQ(parent.GetItem(expected_tag_index)->GetParent(), &parent);
-  EXPECT_EQ(parent.GetItem(expected_tag_index)->GetModel(), nullptr);
+  EXPECT_EQ(parent->GetTotalItemCount(), 1);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetIdentifier(), identifier);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->Data<int>(), 42);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetParent(), parent);
+  EXPECT_EQ(parent->GetItem(expected_tag_index)->GetModel(), &m_model);
 }
 
-TEST_F(InsertItemCommandTests, InsertItemToParentWhenPartOfModel)
+TEST_F(InsertItemCommandTests, InsertItemToParentInBetween)
 {
   SessionModel model;
   auto parent = model.InsertItem<CompoundItem>();
