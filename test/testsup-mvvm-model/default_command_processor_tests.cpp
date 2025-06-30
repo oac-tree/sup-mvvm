@@ -63,6 +63,8 @@ TEST_F(DefaultCommandProcessorTest, ExecuteCommand)
   EXPECT_CALL(listener, OnGetEventBefore(::testing::_)).Times(1);
   EXPECT_CALL(listener, OnExecute(::testing::_)).Times(1);
   EXPECT_CALL(listener, OnGetEventAfter(::testing::_)).Times(1);
+  EXPECT_CALL(listener, OnNotify(::testing::_, ::testing::_)).Times(0);
+
   EXPECT_EQ(stack.Execute(std::move(command)), command_ptr);
 }
 

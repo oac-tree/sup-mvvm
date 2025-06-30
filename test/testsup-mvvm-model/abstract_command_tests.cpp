@@ -65,6 +65,7 @@ TEST_F(AbstractCommandTests, Execute)
   EXPECT_CALL(command, GetEventAfter()).Times(1);
 
   EXPECT_CALL(command, UndoImpl()).Times(0);
+  EXPECT_CALL(command, Notify(::testing::_)).Times(0);
 
   // triggering action
   command.Execute();
@@ -81,6 +82,7 @@ TEST_F(AbstractCommandTests, UndoOnStart)
 
   EXPECT_CALL(command, ExecuteImpl()).Times(0);
   EXPECT_CALL(command, UndoImpl()).Times(0);
+  EXPECT_CALL(command, Notify(::testing::_)).Times(0);
 
   // triggering action
   // it is not possible to undo the command  that hasn't been executed
@@ -97,13 +99,20 @@ TEST_F(AbstractCommandTests, ExecuteAndUndo)
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, GetEventAfter()).Times(1);
 
-    EXPECT_CALL(command, GetEventBefore()).Times(1);
-    EXPECT_CALL(command, UndoImpl()).Times(1);
-    EXPECT_CALL(command, GetEventAfter()).Times(1);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(0);
   }
 
   // triggering action
   command.Execute();
+
+  {
+    const ::testing::InSequence seq;
+    EXPECT_CALL(command, GetEventBefore()).Times(1);
+    EXPECT_CALL(command, UndoImpl()).Times(1);
+    EXPECT_CALL(command, GetEventAfter()).Times(1);
+
+    EXPECT_CALL(command, Notify(::testing::_)).Times(0);
+  }
 
   command.Undo();
 
@@ -130,6 +139,8 @@ TEST_F(AbstractCommandTests, ExecuteUndoExecute)
     EXPECT_CALL(command, GetEventBefore()).Times(1);
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, GetEventAfter()).Times(1);
+
+    EXPECT_CALL(command, Notify(::testing::_)).Times(0);
   }
 
   command.Execute();
@@ -147,6 +158,8 @@ TEST_F(AbstractCommandTests, AttemptToUndoObsoleteCommand)
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, GetEventAfter()).Times(1);
     EXPECT_CALL(command, UndoImpl()).Times(0);
+
+    EXPECT_CALL(command, Notify(::testing::_)).Times(0);
   }
 
   // triggering action
@@ -158,9 +171,8 @@ TEST_F(AbstractCommandTests, AttemptToUndoObsoleteCommand)
   EXPECT_THROW(command.Undo(), RuntimeException);
 }
 
-TEST_F(AbstractCommandTests, EventNotificationWhenNoCallbackIsSet)
+TEST_F(AbstractCommandTests, EventNotificationWithValidEvents)
 {
-  ::testing::MockFunction<void(const event_variant_t&)> event_listener;
   test::MockCommand command;
 
   auto event1 = event_variant_t{DataChangedEvent{nullptr, 41}};
@@ -175,42 +187,10 @@ TEST_F(AbstractCommandTests, EventNotificationWhenNoCallbackIsSet)
     const ::testing::InSequence seq;
 
     EXPECT_CALL(command, GetEventBefore()).Times(1);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(1);
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, GetEventAfter()).Times(1);
-
-    EXPECT_CALL(command, UndoImpl()).Times(0);
-    EXPECT_CALL(event_listener, Call(event1)).Times(0);
-    EXPECT_CALL(event_listener, Call(event2)).Times(0);
-  }
-
-  command.Execute();
-}
-
-TEST_F(AbstractCommandTests, EventNotificationWithCallback)
-{
-  ::testing::MockFunction<void(const event_variant_t&)> event_listener;
-  test::MockCommand command;
-
-  auto event1 = event_variant_t{DataChangedEvent{nullptr, 41}};
-  auto event2 = event_variant_t{DataChangedEvent{nullptr, 42}};
-
-  ON_CALL(command, GetEventBefore())
-      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event1)));
-  ON_CALL(command, GetEventAfter())
-      .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
-
-  command.SetNotificationCallback(event_listener.AsStdFunction());
-
-  {
-    const ::testing::InSequence seq;
-
-    EXPECT_CALL(command, GetEventBefore()).Times(1);
-    EXPECT_CALL(event_listener, Call(event1)).Times(1);
-    EXPECT_CALL(command, ExecuteImpl()).Times(1);
-    EXPECT_CALL(command, GetEventAfter()).Times(1);
-    EXPECT_CALL(event_listener, Call(event2)).Times(1);
-
-    EXPECT_CALL(command, UndoImpl()).Times(0);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(1);
   }
 
   command.Execute();
@@ -219,10 +199,10 @@ TEST_F(AbstractCommandTests, EventNotificationWithCallback)
     const ::testing::InSequence seq;
 
     EXPECT_CALL(command, GetEventBefore()).Times(1);
-    EXPECT_CALL(event_listener, Call(event1)).Times(1);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(1);
     EXPECT_CALL(command, UndoImpl()).Times(1);
     EXPECT_CALL(command, GetEventAfter()).Times(1);
-    EXPECT_CALL(event_listener, Call(event2)).Times(1);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(1);
 
     EXPECT_CALL(command, ExecuteImpl()).Times(0);
   }
@@ -230,9 +210,8 @@ TEST_F(AbstractCommandTests, EventNotificationWithCallback)
   command.Undo();
 }
 
-TEST_F(AbstractCommandTests, EventNotificationWithCallbackWhenOneEventIsObsolete)
+TEST_F(AbstractCommandTests, EventNotificationWhenOneEventIsObsolete)
 {
-  ::testing::MockFunction<void(const event_variant_t&)> event_listener;
   test::MockCommand command;
 
   auto event2 = event_variant_t{DataChangedEvent{nullptr, 42}};
@@ -242,16 +221,14 @@ TEST_F(AbstractCommandTests, EventNotificationWithCallbackWhenOneEventIsObsolete
   ON_CALL(command, GetEventAfter())
       .WillByDefault(::testing::Return(std::optional<event_variant_t>(event2)));
 
-  command.SetNotificationCallback(event_listener.AsStdFunction());
-
   {
     const ::testing::InSequence seq;
 
     EXPECT_CALL(command, GetEventBefore()).Times(1);
-    EXPECT_CALL(event_listener, Call(::testing::_)).Times(0);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(0);
     EXPECT_CALL(command, ExecuteImpl()).Times(1);
     EXPECT_CALL(command, GetEventAfter()).Times(1);
-    EXPECT_CALL(event_listener, Call(event2)).Times(1);
+    EXPECT_CALL(command, Notify(::testing::_)).Times(1);
 
     EXPECT_CALL(command, UndoImpl()).Times(0);
   }

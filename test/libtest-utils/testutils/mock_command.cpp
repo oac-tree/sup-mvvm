@@ -45,6 +45,8 @@ TestCommandContext MockTestCommandListener::CreateContext()
   result.undo_impl = [this](auto ptr) { OnUndo(ptr); };
   result.event_before = [this](auto ptr) { return OnGetEventBefore(ptr); };
   result.event_after = [this](auto ptr) { return OnGetEventAfter(ptr); };
+  result.notify = [this](auto ptr, const std::optional<event_variant_t> &event)
+  { return OnNotify(ptr, event); };
   return result;
 }
 

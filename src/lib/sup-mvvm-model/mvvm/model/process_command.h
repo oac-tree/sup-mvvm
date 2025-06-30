@@ -24,18 +24,10 @@
 //! @file
 //! Helper functions to process commands.
 
-#include <mvvm/core/variant.h>
 #include <mvvm/model/i_session_model.h>
-#include <mvvm/signals/event_types.h>
-
-#include <functional>
-#include <memory>
 
 namespace mvvm
 {
-
-std::function<void(const mvvm::event_variant_t&)> CreateNotifierCallback(
-    mvvm::ModelEventHandler* event_handler);
 
 /**
  * @brief Processes the command through the model and returns result to the user.
@@ -44,9 +36,6 @@ template <typename C, typename... Args>
 typename C::result_t ProcessCommand(ISessionModel& model, Args&&... args)
 {
   auto command = std::make_unique<C>(std::forward<Args>(args)...);
-  // FIXME get rid of this setter, it is slow
-  command->SetNotificationCallback(CreateNotifierCallback(model.GetEventHandler()));
-
   // check if the model was able to execute the command and it wasn't expired
   if (auto processed_command = static_cast<C*>(model.ExecuteCommand(std::move(command)));
       processed_command)

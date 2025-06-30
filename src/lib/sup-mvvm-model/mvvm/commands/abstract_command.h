@@ -23,8 +23,8 @@
 
 #include <mvvm/commands/i_command.h>
 
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace mvvm
 {
@@ -62,14 +62,12 @@ public:
 
   std::optional<event_variant_t> GetEventAfter() const override;
 
-  void SetNotificationCallback(const event_notify_t& event_notify);
-
 private:
   virtual void ExecuteImpl() = 0;
 
   virtual void UndoImpl() = 0;
 
-  virtual void Notify(const std::optional<event_variant_t>& event);
+  virtual void Notify(const std::optional<event_variant_t>& event) = 0;
 
   struct AbstractCommandImpl;
   std::unique_ptr<AbstractCommandImpl> p_impl;

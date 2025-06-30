@@ -56,12 +56,18 @@ void AbstractCommand::Execute()
     throw RuntimeException("Can't execute the command. Wrong order.");
   }
 
-  Notify(GetEventBefore());
+  if (auto event = GetEventBefore(); event.has_value())
+  {
+    Notify(event);
+  }
 
   ExecuteImpl();
   p_impl->SetAfterExecute();
 
-  Notify(GetEventAfter());
+  if (auto event = GetEventAfter(); event.has_value())
+  {
+    Notify(event);
+  }
 }
 
 CommandStatus AbstractCommand::GetCommandStatus() const
@@ -76,12 +82,18 @@ void AbstractCommand::Undo()
     throw RuntimeException("Can't undo the command. Wrong order.");
   }
 
-  Notify(GetEventBefore());
+  if (auto event = GetEventBefore(); event.has_value())
+  {
+    Notify(event);
+  }
 
   UndoImpl();
   p_impl->SetAfterUndo();
 
-  Notify(GetEventAfter());
+  if (auto event = GetEventAfter(); event.has_value())
+  {
+    Notify(event);
+  }
 }
 
 bool AbstractCommand::IsObsolete() const
@@ -112,19 +124,6 @@ std::optional<event_variant_t> AbstractCommand::GetEventBefore() const
 std::optional<event_variant_t> AbstractCommand::GetEventAfter() const
 {
   return {};
-}
-
-void AbstractCommand::SetNotificationCallback(const event_notify_t& event_notify)
-{
-  p_impl->m_event_notify = event_notify;
-}
-
-void AbstractCommand::Notify(const std::optional<event_variant_t>& event)
-{
-  if (p_impl->m_event_notify && event.has_value())
-  {
-    p_impl->m_event_notify(event.value());
-  }
 }
 
 }  // namespace mvvm

@@ -26,7 +26,6 @@ target_sources(${library_name} PRIVATE
   model_utils.h
   path.cpp
   path.h
-  process_command.cpp
   process_command.h
   property_item.cpp
   property_item.h
