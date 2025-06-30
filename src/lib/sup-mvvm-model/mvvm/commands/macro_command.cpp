@@ -70,7 +70,7 @@ void MacroCommand::UndoImpl()
   std::for_each(m_children.rbegin(), m_children.rend(), [](auto& iter) { (*iter).Undo(); });
 }
 
-void MacroCommand::Notify(const std::optional<event_variant_t>& event)
+void MacroCommand::Notify(const event_variant_t &event)
 {
   (void)event;
 }

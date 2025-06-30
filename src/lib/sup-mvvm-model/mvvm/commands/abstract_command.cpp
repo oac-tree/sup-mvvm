@@ -58,7 +58,7 @@ void AbstractCommand::Execute()
 
   if (auto event = GetEventBefore(); event.has_value())
   {
-    Notify(event);
+    Notify(event.value());
   }
 
   ExecuteImpl();
@@ -66,7 +66,7 @@ void AbstractCommand::Execute()
 
   if (auto event = GetEventAfter(); event.has_value())
   {
-    Notify(event);
+    Notify(event.value());
   }
 }
 
@@ -84,7 +84,7 @@ void AbstractCommand::Undo()
 
   if (auto event = GetEventBefore(); event.has_value())
   {
-    Notify(event);
+    Notify(event.value());
   }
 
   UndoImpl();
@@ -92,7 +92,7 @@ void AbstractCommand::Undo()
 
   if (auto event = GetEventAfter(); event.has_value())
   {
-    Notify(event);
+    Notify(event.value());
   }
 }
 

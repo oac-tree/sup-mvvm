@@ -73,7 +73,7 @@ public:
 
     void UndoImpl() override {}
 
-    void Notify(const std::optional<event_variant_t>&) override {}
+    void Notify(const event_variant_t&) override {}
 
     ISessionModel* m_model{nullptr};
   };

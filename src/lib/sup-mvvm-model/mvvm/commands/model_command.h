@@ -37,7 +37,7 @@ public:
   explicit ModelCommand(ISessionModel* model);
 
 private:
-  void Notify(const std::optional<event_variant_t>& event) override;
+  void Notify(const event_variant_t& event) override;
 
   ISessionModel* m_model{nullptr};
 };

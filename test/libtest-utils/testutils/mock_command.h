@@ -38,7 +38,7 @@ public:
   MOCK_METHOD(void, UndoImpl, (), (override));
   MOCK_METHOD(std::optional<event_variant_t>, GetEventBefore, (), (const, override));
   MOCK_METHOD(std::optional<event_variant_t>, GetEventAfter, (), (const, override));
-  MOCK_METHOD(void, Notify, (const std::optional<event_variant_t>&), (override));
+  MOCK_METHOD(void, Notify, (const event_variant_t&), (override));
 };
 
 /**
@@ -50,7 +50,7 @@ struct TestCommandContext
   std::function<void(const ICommand*)> undo_impl;
   std::function<std::optional<event_variant_t>(const ICommand*)> event_before;
   std::function<std::optional<event_variant_t>(const ICommand*)> event_after;
-  std::function<void(const ICommand*, const std::optional<event_variant_t>& event)> notify;
+  std::function<void(const ICommand*, const event_variant_t& event)> notify;
 };
 
 /**
@@ -112,7 +112,7 @@ private:
     return {};
   }
 
-  void Notify(const std::optional<event_variant_t>& event) override
+  void Notify(const event_variant_t& event) override
   {
     if (m_context.notify)
     {
@@ -136,8 +136,7 @@ public:
   MOCK_METHOD(void, OnUndo, (const ICommand*));
   MOCK_METHOD(std::optional<event_variant_t>, OnGetEventBefore, (const ICommand*), (const));
   MOCK_METHOD(std::optional<event_variant_t>, OnGetEventAfter, (const ICommand*), (const));
-  MOCK_METHOD(void, OnNotify, (const ICommand*, const std::optional<event_variant_t>& event),
-              (const));
+  MOCK_METHOD(void, OnNotify, (const ICommand*, const event_variant_t& event), (const));
 
   TestCommandContext CreateContext();
 };

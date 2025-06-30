@@ -35,11 +35,11 @@ ModelCommand::ModelCommand(ISessionModel *model) : m_model(model)
   }
 }
 
-void ModelCommand::Notify(const std::optional<event_variant_t> &event)
+void ModelCommand::Notify(const event_variant_t &event)
 {
-  if (m_model->GetEventHandler() && event.has_value())
+  if (auto event_handler = m_model->GetEventHandler(); event_handler)
   {
-    m_model->GetEventHandler()->Notify(event.value());
+    event_handler->Notify(event);
   }
 }
 
