@@ -39,7 +39,7 @@ namespace mvvm::test
 /**
  * @brief Tests for CommandStack with real stack and real commands.
  *
- * Commands are equipped with notifications.
+ * Commands operate on ApplicationModel, notifications are expected.
  */
 class CommandStackExtendedNotifyingTests : public ::testing::Test
 {
@@ -194,7 +194,7 @@ TEST_F(CommandStackExtendedNotifyingTests, RemoveItemCommand)
   ASSERT_EQ(parent->GetTotalItemCount(), 0);
 }
 
-TEST_F(CommandStackExtendedNotifyingTests, InsertSetValueRemoveUndoWhenInModel)
+TEST_F(CommandStackExtendedNotifyingTests, InsertSetValueRemove)
 {
   CommandStack stack;
   auto parent = m_model.GetRootItem();
