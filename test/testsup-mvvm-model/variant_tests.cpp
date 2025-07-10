@@ -198,10 +198,9 @@ TEST_F(VariantTests, DataRoleComparison)
   EXPECT_FALSE(role_data5 == role_data6);
 }
 
-//! Testing methods GetTypeCode, GetString
-
-TEST_F(VariantTests, GetTypeCode)
+TEST_F(VariantTests, TypeCodeFromString)
 {
+  using utils::ValueFromString;
   using utils::ValueToString;
 
   EXPECT_EQ(GetTypeCode(variant_t{}), TypeCode::Empty);
@@ -211,102 +210,121 @@ TEST_F(VariantTests, GetTypeCode)
     const mvvm::boolean value{true};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Bool);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("true"));
+    EXPECT_EQ(ValueFromString(TypeCode::Bool, std::string("true")), variant_t(value));
   }
 
   {
     const mvvm::char8 value{'a'};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Char8);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("97"));  // ASCII code
+    EXPECT_EQ(ValueFromString(TypeCode::Char8, std::string("97")), variant_t(value));
   }
 
   {  // special case, null char
     const mvvm::char8 value{'\0'};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Char8);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("0"));  // ASCII code
+    EXPECT_EQ(ValueFromString(TypeCode::Char8, std::string("0")), variant_t(value));
   }
 
   {
     const mvvm::int8 value{-8};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Int8);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("-8"));
+    EXPECT_EQ(ValueFromString(TypeCode::Int8, std::string("-8")), variant_t(value));
   }
 
   {
     const mvvm::uint8 value{16};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::UInt8);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("16"));
+    EXPECT_EQ(ValueFromString(TypeCode::UInt8, std::string("16")), variant_t(value));
   }
 
   {
     const mvvm::int16 value{-42};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Int16);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("-42"));
+    EXPECT_EQ(ValueFromString(TypeCode::Int16, std::string("-42")), variant_t(value));
   }
 
   {
     const mvvm::uint16 value{42};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::UInt16);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("42"));
+    EXPECT_EQ(ValueFromString(TypeCode::UInt16, std::string("42")), variant_t(value));
   }
 
   {
     const mvvm::int32 value{-42};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Int32);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("-42"));
+    EXPECT_EQ(ValueFromString(TypeCode::Int32, std::string("-42")), variant_t(value));
   }
 
   {
     const mvvm::uint32 value{42};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::UInt32);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("42"));
+    EXPECT_EQ(ValueFromString(TypeCode::UInt32, std::string("42")), variant_t(value));
   }
 
   {
     const mvvm::int64 value{-42};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Int64);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("-42"));
+    EXPECT_EQ(ValueFromString(TypeCode::Int64, std::string("-42")), variant_t(value));
   }
 
   {
     const mvvm::uint64 value{42};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::UInt64);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("42"));
+    EXPECT_EQ(ValueFromString(TypeCode::UInt64, std::string("42")), variant_t(value));
   }
 
   {
     const mvvm::float32 value{48.0};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Float32);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("48.0"));
+    EXPECT_EQ(ValueFromString(TypeCode::Float32, std::string("48.0")), variant_t(value));
   }
 
   {
     const mvvm::float64 value{48.0};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Float64);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("48.0"));
+    EXPECT_EQ(ValueFromString(TypeCode::Float64, std::string("48.0")), variant_t(value));
   }
 
   {
     const std::string value{"abc"};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::String);
     EXPECT_EQ(ValueToString(variant_t(value)), value);
+    EXPECT_EQ(ValueFromString(TypeCode::String, std::string("abc")), variant_t(value));
   }
 
   {
     const std::vector<double> value{1.0, 2.0, 3.0};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::VectorOfDouble);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("1.0, 2.0, 3.0"));
+    EXPECT_EQ(ValueFromString(TypeCode::VectorOfDouble, std::string("1.0, 2.0, 3.0")),
+              variant_t(value));
   }
 
   {
     const ComboProperty value = ComboProperty::CreateFrom(std::vector<std::string>{"a1", "a2"});
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::ComboProperty);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("a1;a2"));
+    EXPECT_EQ(ValueFromString(TypeCode::ComboProperty, std::string("a1;a2")), variant_t(value));
   }
 
   {
     const ExternalProperty value("text", "color", "identifier");
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::ExternalProperty);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("text;color;identifier"));
+    EXPECT_EQ(ValueFromString(TypeCode::ExternalProperty, std::string("text;color;identifier")),
+              variant_t(value));
   }
 }
 

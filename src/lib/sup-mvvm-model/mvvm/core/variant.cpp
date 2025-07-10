@@ -111,8 +111,10 @@ variant_t to_vector_double(const std::string &str)
 variant_t to_combo_property(const std::string &str)
 {
   (void)str;
-  // FIXME implement after COmboProperty -> string serialization refactoring
-  throw RuntimeException("Not implemented");
+  // FIXME fix selection string
+  ComboProperty combo;
+  combo.SetValuesFromString(str);
+  return {combo};
 }
 
 /**
