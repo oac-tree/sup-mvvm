@@ -125,6 +125,11 @@ MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
  */
 MVVM_MODEL_EXPORT std::string ValueToString(const variant_t& variant);
 
+/**
+ * @brief Constructs a variant from its string representation.
+ */
+MVVM_MODEL_EXPORT variant_t ValueFromString(TypeCode type_code, const std::string& str);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_CORE_VARIANT_H_
