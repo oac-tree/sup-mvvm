@@ -36,7 +36,7 @@ namespace
 {
 
 //! converter function for string to mvvm::variant_t
-using string_to_variant_converter = std::function<variant_t(const std::string &str)>;
+using string_to_variant_converter_t = std::function<variant_t(const std::string &str)>;
 
 /**
  * @brief Converts a string to undefined variant.
@@ -44,7 +44,7 @@ using string_to_variant_converter = std::function<variant_t(const std::string &s
 variant_t to_undefined(const std::string &str)
 {
   (void)str;
-  return mvvm::variant_t();
+  return {};
 }
 
 /**
@@ -52,7 +52,7 @@ variant_t to_undefined(const std::string &str)
  */
 variant_t to_bool(const std::string &str)
 {
-  return variant_t(mvvm::utils::StringToBool(str));
+  return {mvvm::utils::StringToBool(str)};
 }
 
 /**
@@ -70,7 +70,7 @@ variant_t to_int(const std::string &str)
     throw RuntimeException("Can't parse int stored in TreeData");
   }
 
-  return variant_t(parsed_value);
+  return {parsed_value};
 }
 
 /**
@@ -78,7 +78,7 @@ variant_t to_int(const std::string &str)
  */
 variant_t to_string(const std::string &str)
 {
-  return variant_t(str);
+  return {str};
 }
 
 /**
@@ -102,7 +102,7 @@ variant_t to_double(const std::string &str)
 variant_t to_vector_double(const std::string &str)
 {
   const auto values = utils::ParseCommaSeparatedDoubles(str);
-  return variant_t(values);
+  return {values};
 }
 
 /**
@@ -121,12 +121,12 @@ variant_t to_combo_property(const std::string &str)
 variant_t to_external_property(const std::string &str)
 {
   const auto property = ExternalProperty::CreateFromString(str);
-  return variant_t(property);
+  return {property};
 }
 
-std::map<TypeCode, string_to_variant_converter> CreateStringToVariantConverterMap()
+std::map<TypeCode, string_to_variant_converter_t> CreateStringToVariantConverterMap()
 {
-  const std::map<TypeCode, string_to_variant_converter> result = {
+  const std::map<TypeCode, string_to_variant_converter_t> result = {
       {TypeCode::Empty, to_undefined},
       {TypeCode::Bool, to_bool},
       {TypeCode::Char8, to_int<mvvm::char8>},
@@ -187,7 +187,7 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
 
 std::string TypeName(const variant_t &variant)
 {
-  static std::map<TypeCode, std::string> kTypeNameMap = {
+  static const std::map<TypeCode, std::string> kTypeNameMap = {
       {TypeCode::Empty, constants::kEmptyTypeName},
       {TypeCode::Bool, constants::kBooleanTypeName},
       {TypeCode::Char8, constants::kChar8TypeName},
@@ -205,7 +205,14 @@ std::string TypeName(const variant_t &variant)
       {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
       {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
       {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}};
-  return kTypeNameMap[static_cast<TypeCode>(variant.index())];
+
+  auto iter = kTypeNameMap.find(GetTypeCode(variant));
+  if (iter == kTypeNameMap.end())
+  {
+    throw RuntimeException("Can't find type name");
+  }
+
+  return iter->second;
 }
 
 std::string ValueToString(const variant_t &variant)
@@ -215,7 +222,7 @@ std::string ValueToString(const variant_t &variant)
 
 variant_t ValueFromString(TypeCode type_code, const std::string &str)
 {
-  const static std::map<TypeCode, string_to_variant_converter> converter_map =
+  const static std::map<TypeCode, string_to_variant_converter_t> converter_map =
       CreateStringToVariantConverterMap();
 
   auto iter = converter_map.find(type_code);
