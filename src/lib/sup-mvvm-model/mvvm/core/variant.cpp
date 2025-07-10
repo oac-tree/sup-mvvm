@@ -126,6 +126,9 @@ variant_t to_external_property(const std::string &str)
   return {property};
 }
 
+/**
+ * @brief Creates a map to convert TypeCode to variant converter.
+ */
 std::map<TypeCode, string_to_variant_converter_t> CreateStringToVariantConverterMap()
 {
   const std::map<TypeCode, string_to_variant_converter_t> result = {
@@ -153,6 +156,49 @@ std::map<TypeCode, string_to_variant_converter_t> CreateStringToVariantConverter
   return result;
 }
 
+/**
+ * @brief Creates a map to convert TypeCode to string.
+ */
+std::map<TypeCode, std::string> CreateTypeCodeToStringMap()
+{
+  const std::map<TypeCode, std::string> result = {
+      {TypeCode::Empty, constants::kEmptyTypeName},
+      {TypeCode::Bool, constants::kBooleanTypeName},
+      {TypeCode::Char8, constants::kChar8TypeName},
+      {TypeCode::Int8, constants::kInt8TypeName},
+      {TypeCode::UInt8, constants::kUInt8TypeName},
+      {TypeCode::Int16, constants::kInt16TypeName},
+      {TypeCode::UInt16, constants::kUInt16TypeName},
+      {TypeCode::Int32, constants::kInt32TypeName},
+      {TypeCode::UInt32, constants::kUInt32TypeName},
+      {TypeCode::Int64, constants::kInt64TypeName},
+      {TypeCode::UInt64, constants::kUInt64TypeName},
+      {TypeCode::Float32, constants::kFloat32TypeName},
+      {TypeCode::Float64, constants::kFloat64TypeName},
+      {TypeCode::String, constants::kStringTypeName},
+      {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
+      {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
+      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}};
+  return result;
+}
+
+/**
+ * @brief Creates a map to convert string to TypeCode.
+ *
+ * We reuse already existing map and invert it.
+ */
+std::map<std::string, TypeCode> CreateStringToTypeCodeMap()
+{
+  std::map<std::string, TypeCode> result;
+
+  for (auto &[key, value] : CreateTypeCodeToStringMap())
+  {
+    result.insert({value, key});
+  }
+
+  return result;
+}
+
 }  // namespace
 
 bool operator==(const role_data_t &lhs, const role_data_t &rhs)
@@ -163,6 +209,18 @@ bool operator==(const role_data_t &lhs, const role_data_t &rhs)
 TypeCode GetTypeCode(const variant_t &variant)
 {
   return static_cast<TypeCode>(variant.index());
+}
+
+TypeCode GetTypeCodeFromTypeName(const std::string &str)
+{
+  static const std::map<std::string, TypeCode> kStringToTypeCodeMap = CreateStringToTypeCodeMap();
+  auto iter = kStringToTypeCodeMap.find(str);
+  if (iter == kStringToTypeCodeMap.end())
+  {
+    throw RuntimeException("Can't find type name");
+  }
+
+  return iter->second;
 }
 
 }  // namespace mvvm
@@ -189,27 +247,9 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
 
 std::string TypeName(const variant_t &variant)
 {
-  static const std::map<TypeCode, std::string> kTypeNameMap = {
-      {TypeCode::Empty, constants::kEmptyTypeName},
-      {TypeCode::Bool, constants::kBooleanTypeName},
-      {TypeCode::Char8, constants::kChar8TypeName},
-      {TypeCode::Int8, constants::kInt8TypeName},
-      {TypeCode::UInt8, constants::kUInt8TypeName},
-      {TypeCode::Int16, constants::kInt16TypeName},
-      {TypeCode::UInt16, constants::kUInt16TypeName},
-      {TypeCode::Int32, constants::kInt32TypeName},
-      {TypeCode::UInt32, constants::kUInt32TypeName},
-      {TypeCode::Int64, constants::kInt64TypeName},
-      {TypeCode::UInt64, constants::kUInt64TypeName},
-      {TypeCode::Float32, constants::kFloat32TypeName},
-      {TypeCode::Float64, constants::kFloat64TypeName},
-      {TypeCode::String, constants::kStringTypeName},
-      {TypeCode::VectorOfDouble, constants::kVectorDoubleTypeName},
-      {TypeCode::ComboProperty, constants::kComboPropertyTypeName},
-      {TypeCode::ExternalProperty, constants::kExternalPropertyTypeName}};
-
-  auto iter = kTypeNameMap.find(GetTypeCode(variant));
-  if (iter == kTypeNameMap.end())
+  static const std::map<TypeCode, std::string> kTypeCodeToStringMap = CreateTypeCodeToStringMap();
+  auto iter = kTypeCodeToStringMap.find(GetTypeCode(variant));
+  if (iter == kTypeCodeToStringMap.end())
   {
     throw RuntimeException("Can't find type name");
   }

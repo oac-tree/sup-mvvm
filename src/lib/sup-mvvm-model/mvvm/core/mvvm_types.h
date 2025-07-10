@@ -26,9 +26,6 @@
 namespace mvvm
 {
 
-class SessionItem;
-class ISessionModel;
-
 using role_t = std::int32_t;
 
 //! Defines constants to be used as SessionItem data role.

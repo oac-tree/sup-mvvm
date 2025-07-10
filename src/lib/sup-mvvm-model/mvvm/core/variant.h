@@ -70,6 +70,11 @@ bool operator==(const role_data_t& lhs, const role_data_t& rhs);
  */
 TypeCode GetTypeCode(const variant_t& variant);
 
+/**
+ * @brief Returns type code from type name.
+ */
+TypeCode GetTypeCodeFromTypeName(const std::string& str);
+
 }  // namespace mvvm
 
 //! Defines names of all supported data types.
