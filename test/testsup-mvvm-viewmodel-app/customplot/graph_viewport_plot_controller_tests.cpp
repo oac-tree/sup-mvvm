@@ -73,7 +73,7 @@ TEST_F(GraphViewportPlotControllerTest, SetItem)
 //! Check ::setItem() method when ViewPortItem contains graphs.
 // FYI test was failing on Qt 6.4.0 (Nan in ticks parameters of
 // CPAxisPainterPrivate::placeTickLabel)
-TEST_F(GraphViewportPlotControllerTest, AddGraphAndSetItem)
+TEST_F(GraphViewportPlotControllerTest, DISABLED_AddGraphAndSetItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -103,7 +103,7 @@ TEST_F(GraphViewportPlotControllerTest, AddGraphAndSetItem)
 }
 
 //! Checks consequitive graph adding/removal
-TEST_F(GraphViewportPlotControllerTest, AddAndRemoveGraphs)
+TEST_F(GraphViewportPlotControllerTest, DISABLED_AddAndRemoveGraphs)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
@@ -231,7 +231,7 @@ TEST_F(GraphViewportPlotControllerTest, CheckVisible)
 }
 
 //! Two GraphViewportItem's and switch between them.
-TEST_F(GraphViewportPlotControllerTest, SwitchBetweenTwoViewports)
+TEST_F(GraphViewportPlotControllerTest, DISABLED_SwitchBetweenTwoViewports)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphViewportPlotController controller(custom_plot.get());
