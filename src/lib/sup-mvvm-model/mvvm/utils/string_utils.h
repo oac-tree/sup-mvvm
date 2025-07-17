@@ -152,6 +152,13 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<std::stri
 MVVM_MODEL_EXPORT std::string ReplaceSubString(const std::string& str, const std::string& substr,
                                                const std::string& replacement);
 
+/**
+ * @brief Returns content of key in a string.
+ *
+ * For text="data[value1] config[setting] another[item]" and key_name="data" will return "value1"
+ */
+std::optional<std::string> GetKeyContent(const std::string& text, const std::string& key_name);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_UTILS_STRING_UTILS_H_

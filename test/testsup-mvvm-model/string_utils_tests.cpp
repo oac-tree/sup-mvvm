@@ -259,4 +259,27 @@ TEST_F(StringUtilsTests, ReplaceSubString)
   EXPECT_EQ(ReplaceSubString("abc def abc", "123", "456"), std::string("abc def abc"));
 }
 
+TEST_F(StringUtilsTests, GetKeyContent)
+{
+  const std::string kInvalid("kInvalidValue");
+
+  using utils::GetKeyContent;
+  EXPECT_FALSE(utils::GetKeyContent("", "").has_value());
+
+  EXPECT_EQ(utils::GetKeyContent("config[value]", "config").value_or(kInvalid),
+            std::string("value"));
+  EXPECT_EQ(utils::GetKeyContent("config[a1 , a2,a3]", "config").value_or(kInvalid),
+            std::string("a1 , a2,a3"));
+  EXPECT_FALSE(utils::GetKeyContent("config1[value]", "config").has_value());
+  EXPECT_FALSE(utils::GetKeyContent("config[value]", "config1").has_value());
+
+  EXPECT_EQ(utils::GetKeyContent("key1[value1] abc[def]", "abc").value_or(kInvalid),
+            std::string("def"));
+
+  EXPECT_EQ(utils::GetKeyContent("values[a1;a2;a3] selection[0,2]", "values").value_or(kInvalid),
+            std::string("a1;a2;a3"));
+  EXPECT_EQ(utils::GetKeyContent("values[a1;a2;a3] selection[0,2]", "selection").value_or(kInvalid),
+            std::string("0,2"));
+}
+
 }  // namespace mvvm::test

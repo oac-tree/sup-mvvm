@@ -29,6 +29,7 @@
 #include <iterator>
 #include <limits>
 #include <numeric>
+#include <regex>
 #include <sstream>
 
 namespace mvvm::utils
@@ -221,6 +222,21 @@ std::string ReplaceSubString(const std::string& str, const std::string& substr,
     pos = result.find(substr, pos + replacement.length());
   }
   return result;
+}
+
+std::optional<std::string> GetKeyContent(const std::string& text, const std::string& key_name)
+{
+  const std::regex pattern(key_name + "\\[(.*?)\\]");
+  std::smatch matches;
+
+  if (std::regex_search(text, matches, pattern))
+  {
+    if (matches.size() > 1)
+    {
+      return matches[1].str();
+    }
+  }
+  return {};
 }
 
 }  // namespace mvvm::utils
