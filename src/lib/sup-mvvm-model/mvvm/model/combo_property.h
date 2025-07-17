@@ -25,6 +25,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 namespace mvvm
 {
@@ -99,24 +100,24 @@ public:
   /**
    * @brief Returns index of the currently selected item.
    */
-  int GetCurrentIndex() const;
+  std::int32_t GetCurrentIndex() const;
 
   /**
    * @brief Sets given index as current selection.
    *
    * All multiple selections will be dropped, if exist.
    */
-  void SetCurrentIndex(int index);
+  void SetCurrentIndex(std::int32_t index);
 
   /**
    * @brief Returns list of currently selected indices.
    */
-  std::vector<int> GetSelectedIndices() const;
+  std::vector<std::int32_t> GetSelectedIndices() const;
 
   /**
    * @brief Sets given list as currently selected indices.
    */
-  void SetSelectedIndices(const std::vector<int>& selected_indices);
+  void SetSelectedIndices(const std::vector<std::int32_t>& selected_indices);
 
   /**
    * @brief Returns list of currently selected values.
@@ -128,7 +129,7 @@ public:
    *
    * If false, the index will be excluded from selection.
    */
-  void SetSelected(int index, bool value = true);
+  void SetSelected(std::int32_t index, bool value = true);
 
   /**
    * @brief Set selection flag for given value.
@@ -174,7 +175,7 @@ public:
 private:
   std::vector<std::string> m_values;
   std::vector<std::string> m_tooltips;
-  std::vector<int> m_selected_indices;
+  std::vector<std::int32_t> m_selected_indices;
 };
 
 }  // namespace mvvm

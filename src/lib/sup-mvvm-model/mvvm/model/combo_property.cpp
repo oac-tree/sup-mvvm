@@ -37,7 +37,8 @@ const std::string kNoneSelectionLabel = "None";
 template <typename C>
 std::string ToString(const C& container, const std::string& delim)
 {
-  auto delim_fold = [&delim](const std::string& a, const std::string& b) { return a + delim + b; };
+  auto delim_fold = [&delim](const std::string& lhs, const std::string& rhs)
+  { return lhs + delim + rhs; };
   return container.empty() ? std::string()
                            : std::accumulate(std::next(container.begin()), container.end(),
                                              container[0], delim_fold);
@@ -112,14 +113,14 @@ void ComboProperty::SetToolTips(const std::vector<std::string>& tooltips)
   m_tooltips = tooltips;
 }
 
-int ComboProperty::GetCurrentIndex() const
+std::int32_t ComboProperty::GetCurrentIndex() const
 {
   return m_selected_indices.empty() ? -1 : m_selected_indices.at(0);
 }
 
-void ComboProperty::SetCurrentIndex(int index)
+void ComboProperty::SetCurrentIndex(std::int32_t index)
 {
-  if (index < 0 || index >= static_cast<int>(m_values.size()))
+  if (index < 0 || index >= static_cast<std::int32_t>(m_values.size()))
   {
     throw RuntimeException("Error in ComboProperty::setCurrentIndex(): invalid index");
   }
@@ -127,12 +128,12 @@ void ComboProperty::SetCurrentIndex(int index)
   m_selected_indices.push_back(index);
 }
 
-std::vector<int> ComboProperty::GetSelectedIndices() const
+std::vector<std::int32_t> ComboProperty::GetSelectedIndices() const
 {
   return m_selected_indices;
 }
 
-void ComboProperty::SetSelectedIndices(const std::vector<int>& selected_indices)
+void ComboProperty::SetSelectedIndices(const std::vector<std::int32_t>& selected_indices)
 {
   m_selected_indices = selected_indices;
 }
@@ -148,9 +149,9 @@ std::vector<std::string> ComboProperty::GetSelectedValues() const
   return result;
 }
 
-void ComboProperty::SetSelected(int index, bool value)
+void ComboProperty::SetSelected(std::int32_t index, bool value)
 {
-  if (index < 0 || index >= static_cast<int>(m_values.size()))
+  if (index < 0 || index >= static_cast<std::int32_t>(m_values.size()))
   {
     return;
   }
@@ -184,14 +185,13 @@ std::string ComboProperty::GetLabel() const
   {
     return kMultipleSelectionLabel;
   }
-  else if (m_selected_indices.size() == 1)
+
+  if (m_selected_indices.size() == 1)
   {
     return GetValue();
   }
-  else
-  {
-    return kNoneSelectionLabel;
-  }
+
+  return kNoneSelectionLabel;
 }
 
 ComboProperty& ComboProperty::operator<<(const std::string& str)
@@ -277,7 +277,7 @@ void ComboProperty::SetSelectionFromString(const std::string& values)
 
   for (const auto& str : utils::SplitString(values, kSelectionSeparator))
   {
-    const int num = std::stoi(str);
+    const std::int32_t num = std::stoi(str);
     SetSelected(num, true);
   }
 }
