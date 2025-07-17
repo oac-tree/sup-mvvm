@@ -386,4 +386,39 @@ TEST_F(ComboPropertyTests, GetTooltips)
   EXPECT_EQ(combo.GetToolTips(), expected_tooltips);
 }
 
+TEST_F(ComboPropertyTests, ToStringAndFromString)
+{
+  EXPECT_THROW(ComboProperty::CreateFromString({}), RuntimeException);
+
+  {
+    const std::string expected("values[] selection[]");
+    const ComboProperty combo;
+    EXPECT_EQ(combo.ToString(), expected);
+    EXPECT_EQ(ComboProperty::CreateFromString(expected), combo);
+  }
+
+  {
+    const std::string expected("values[a1] selection[0]");
+    const ComboProperty combo({"a1"});
+    EXPECT_EQ(combo.ToString(), expected);
+    EXPECT_EQ(ComboProperty::CreateFromString(expected), combo);
+  }
+
+  {
+    const std::string expected("values[a1;a2] selection[1]");
+    ComboProperty combo({"a1", "a2"});
+    combo.SetValue("a2");
+    EXPECT_EQ(combo.ToString(), expected);
+    EXPECT_EQ(ComboProperty::CreateFromString(expected), combo);
+  }
+
+  {
+    const std::string expected("values[a1;a2;a3] selection[0,2]");
+    ComboProperty combo({"a1", "a2", "a3"});
+    combo.SetSelectedIndices({0, 2});
+    EXPECT_EQ(combo.ToString(), expected);
+    EXPECT_EQ(ComboProperty::CreateFromString(expected), combo);
+  }
+}
+
 }  // namespace mvvm::test

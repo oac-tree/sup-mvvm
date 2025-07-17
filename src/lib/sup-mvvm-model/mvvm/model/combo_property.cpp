@@ -24,7 +24,9 @@
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
+#include <iostream>
 #include <numeric>
+#include <sstream>
 
 namespace
 {
@@ -33,9 +35,11 @@ const std::string kValueSeparator = ";";
 const std::string kSelectionSeparator = ",";
 const std::string kMultipleSelectionLabel = "Multiple";
 const std::string kNoneSelectionLabel = "None";
+const std::string kValueKey = "values";
+const std::string kSelectionKey = "selection";
 
 template <typename C>
-std::string ToString(const C& container, const std::string& delim)
+std::string ContainerToString(const C& container, const std::string& delim)
 {
   auto delim_fold = [&delim](const std::string& lhs, const std::string& rhs)
   { return lhs + delim + rhs; };
@@ -54,6 +58,11 @@ ComboProperty::ComboProperty() = default;
 ComboProperty::ComboProperty(std::vector<std::string> values, const std::string& current_value)
     : m_values(std::move(values))
 {
+  if (m_values.empty())
+  {
+    return;
+  }
+
   if (!current_value.empty())
   {
     SetValue(current_value);
@@ -245,7 +254,7 @@ bool ComboProperty::operator>=(const ComboProperty& other) const
 
 std::string ComboProperty::GetStringOfValues() const
 {
-  return ToString(m_values, kValueSeparator);
+  return ContainerToString(m_values, kValueSeparator);
 }
 
 void ComboProperty::SetValuesFromString(const std::string& values)
@@ -264,7 +273,7 @@ std::string ComboProperty::GetStringOfSelections() const
     text.push_back(std::to_string(index));
   }
 
-  return ToString(text, kSelectionSeparator);
+  return ContainerToString(text, kSelectionSeparator);
 }
 
 void ComboProperty::SetSelectionFromString(const std::string& values)
@@ -280,6 +289,33 @@ void ComboProperty::SetSelectionFromString(const std::string& values)
     const std::int32_t num = std::stoi(str);
     SetSelected(num, true);
   }
+}
+
+std::string ComboProperty::ToString() const
+{
+  std::stringstream result;
+  result << kValueKey << "[" << ContainerToString(m_values, kValueSeparator) << "]";
+  result << " " << kSelectionKey << "[" << GetStringOfSelections() << "]";
+  return result.str();
+}
+
+ComboProperty ComboProperty::CreateFromString(const std::string& str)
+{
+  auto optional_value_string = utils::GetKeyContent(str, kValueKey);
+  auto optional_selection_string = utils::GetKeyContent(str, kSelectionKey);
+  std::cout << "AAA" << optional_selection_string.value_or("BBB") << "\n";
+  if (optional_value_string.has_value() && optional_selection_string.has_value())
+  {
+    auto values = utils::SplitString(optional_value_string.value(), kValueSeparator);
+    ComboProperty result(values);
+    if (!optional_selection_string.value().empty())
+    {
+      result.SetSelectionFromString(optional_selection_string.value());
+    }
+    return result;
+  }
+
+  throw RuntimeException("String doesn't represent ComboProperty");
 }
 
 }  // namespace mvvm

@@ -172,6 +172,20 @@ public:
    */
   void SetSelectionFromString(const std::string& values);
 
+  /**
+   * @brief Return a string representing this ComboProperty.
+   */
+  std::string ToString() const;
+
+  /**
+   * @brief Create combo property from its string representation.
+   *
+   * String "values[a1;a2;a3] selection[1,2]" will create equivalent of
+   * Combo combo({"a1","a2","a3"});
+   * combo.SetSelected({1, 2});
+   */
+  static ComboProperty CreateFromString(const std::string& str);
+
 private:
   std::vector<std::string> m_values;
   std::vector<std::string> m_tooltips;
