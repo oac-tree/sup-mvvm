@@ -36,14 +36,27 @@ class ComboPropertyTests : public ::testing::Test
 
 TEST_F(ComboPropertyTests, InitialState)
 {
-  const ComboProperty combo;
-  EXPECT_EQ(combo.GetValue(), "");
-  EXPECT_EQ(combo.GetValues(), std::vector<std::string>());
-  EXPECT_EQ(combo.GetToolTips(), std::vector<std::string>());
-  EXPECT_EQ(combo.GetCurrentIndex(), -1);
-  EXPECT_EQ(combo.GetStringOfValues(), "");
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>());
-  EXPECT_EQ(combo.GetLabel(), "None");
+  {
+    const ComboProperty combo;
+    EXPECT_EQ(combo.GetValue(), "");
+    EXPECT_EQ(combo.GetValues(), std::vector<std::string>());
+    EXPECT_EQ(combo.GetToolTips(), std::vector<std::string>());
+    EXPECT_EQ(combo.GetCurrentIndex(), -1);
+    EXPECT_EQ(combo.GetStringOfValues(), "");
+    EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>());
+    EXPECT_EQ(combo.GetLabel(), "None");
+  }
+
+  {
+    const ComboProperty combo(std::vector<std::string>(), {});
+    EXPECT_EQ(combo.GetValue(), "");
+    EXPECT_EQ(combo.GetValues(), std::vector<std::string>());
+    EXPECT_EQ(combo.GetToolTips(), std::vector<std::string>());
+    EXPECT_EQ(combo.GetCurrentIndex(), -1);
+    EXPECT_EQ(combo.GetStringOfValues(), "");
+    EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>());
+    EXPECT_EQ(combo.GetLabel(), "None");
+  }
 }
 
 TEST_F(ComboPropertyTests, CreateFrom)

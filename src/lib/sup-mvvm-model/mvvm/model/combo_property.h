@@ -174,11 +174,15 @@ public:
 
   /**
    * @brief Return a string representing this ComboProperty.
+   *
+   * This function is used for XML serialization and debugging.
    */
   std::string ToString() const;
 
   /**
    * @brief Create combo property from its string representation.
+   *
+   * This function is used for XML serialization and debugging.
    *
    * String "values[a1;a2;a3] selection[1,2]" will create equivalent of
    * Combo combo({"a1","a2","a3"});

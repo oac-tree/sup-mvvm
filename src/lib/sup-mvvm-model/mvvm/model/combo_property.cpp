@@ -24,7 +24,6 @@
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
-#include <iostream>
 #include <numeric>
 #include <sstream>
 
@@ -303,7 +302,6 @@ ComboProperty ComboProperty::CreateFromString(const std::string& str)
 {
   auto optional_value_string = utils::GetKeyContent(str, kValueKey);
   auto optional_selection_string = utils::GetKeyContent(str, kSelectionKey);
-  std::cout << "AAA" << optional_selection_string.value_or("BBB") << "\n";
   if (optional_value_string.has_value() && optional_selection_string.has_value())
   {
     auto values = utils::SplitString(optional_value_string.value(), kValueSeparator);
