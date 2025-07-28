@@ -101,8 +101,7 @@ variant_t to_double(const std::string &str)
  */
 variant_t to_vector_double(const std::string &str)
 {
-  const auto values = utils::ParseCommaSeparatedDoubles(str);
-  return {values};
+  return utils::ParseCommaSeparatedDoubles(str);
 }
 
 /**
@@ -118,8 +117,7 @@ variant_t to_combo_property(const std::string &str)
  */
 variant_t to_external_property(const std::string &str)
 {
-  const auto property = ExternalProperty::CreateFromString(str);
-  return {property};
+  return ExternalProperty::CreateFromString(str);
 }
 
 /**
@@ -187,7 +185,7 @@ std::map<std::string, TypeCode> CreateStringToTypeCodeMap()
 {
   std::map<std::string, TypeCode> result;
 
-  for (auto &[key, value] : CreateTypeCodeToStringMap())
+  for (const auto &[key, value] : CreateTypeCodeToStringMap())
   {
     result.insert({value, key});
   }

@@ -172,16 +172,6 @@ protected:
   // serialization related methods (FIXME they do not belong to this place)
 
   /**
-   * @brief Returns a single string containing values delimited with ';'.
-   */
-  std::string GetStringOfValues() const;
-
-  /**
-   * @brief Sets values from the string containing delimeter ';'.
-   */
-  void SetValuesFromString(const std::string& values);
-
-  /**
    * @brief Returns a string with coma separated list of selected indices.
    */
   std::string GetStringOfSelections() const;

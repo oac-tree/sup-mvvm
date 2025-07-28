@@ -151,11 +151,20 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 
   while ((pos = view.find(delimeter)) != std::string::npos)
   {
-    result.emplace_back(std::string(view.substr(0, pos)));
+    result.emplace_back(view.substr(0, pos));
     view.remove_prefix(pos + delimeter.length());
   }
-  result.emplace_back(std::string(view));
+  result.emplace_back(view);
   return result;
+}
+
+std::string FoldStrings(const std::vector<std::string>& strings, const std::string& delimeter)
+{
+  auto delim_fold = [&delimeter](const std::string& lhs, const std::string& rhs)
+  { return lhs + delimeter + rhs; };
+  return strings.empty()
+             ? std::string()
+             : std::accumulate(std::next(strings.begin()), strings.end(), strings[0], delim_fold);
 }
 
 std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str)

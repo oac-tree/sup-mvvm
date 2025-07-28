@@ -24,7 +24,6 @@
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/utils/string_utils.h>
 
-#include <numeric>
 #include <sstream>
 
 namespace
@@ -36,16 +35,6 @@ const std::string kMultipleSelectionLabel = "Multiple";
 const std::string kNoneSelectionLabel = "None";
 const std::string kValueKey = "values";
 const std::string kSelectionKey = "selection";
-
-template <typename C>
-std::string ContainerToString(const C& container, const std::string& delim)
-{
-  auto delim_fold = [&delim](const std::string& lhs, const std::string& rhs)
-  { return lhs + delim + rhs; };
-  return container.empty() ? std::string()
-                           : std::accumulate(std::next(container.begin()), container.end(),
-                                             container[0], delim_fold);
-}
 
 }  // namespace
 
@@ -251,18 +240,6 @@ bool ComboProperty::operator>=(const ComboProperty& other) const
   return (other < *this) || (*this == other);
 }
 
-std::string ComboProperty::GetStringOfValues() const
-{
-  return ContainerToString(m_values, kValueSeparator);
-}
-
-void ComboProperty::SetValuesFromString(const std::string& values)
-{
-  auto current = GetValue();
-  m_values = utils::SplitString(values, kValueSeparator);
-  SetCurrentIndex(utils::Contains(m_values, current) ? utils::IndexOfItem(m_values, current) : 0);
-}
-
 std::string ComboProperty::GetStringOfSelections() const
 {
   std::vector<std::string> text;
@@ -272,7 +249,7 @@ std::string ComboProperty::GetStringOfSelections() const
     text.push_back(std::to_string(index));
   }
 
-  return ContainerToString(text, kSelectionSeparator);
+  return utils::FoldStrings(text, kSelectionSeparator);
 }
 
 void ComboProperty::SetSelectionFromString(const std::string& values)
@@ -293,7 +270,7 @@ void ComboProperty::SetSelectionFromString(const std::string& values)
 std::string ComboProperty::ToString() const
 {
   std::stringstream result;
-  result << kValueKey << "[" << ContainerToString(m_values, kValueSeparator) << "]";
+  result << kValueKey << "[" << utils::FoldStrings(m_values, kValueSeparator) << "]";
   result << " " << kSelectionKey << "[" << GetStringOfSelections() << "]";
   return result.str();
 }

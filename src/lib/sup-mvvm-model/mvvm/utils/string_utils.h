@@ -97,15 +97,24 @@ MVVM_MODEL_EXPORT std::optional<int> StringToInteger(const std::string& str);
 /**
  * @brief Split string on substring using given delimeter.
  *
+ * Reproduces Python's str.split() behavior.
+ *
  * @param str A string to split.
  * @param delimeter A delimeter.
- *
  * @return Vector of string.
- *
- * @details Reproduces Python's str.split() behavior.
  */
 MVVM_MODEL_EXPORT std::vector<std::string> SplitString(const std::string& str,
                                                        const std::string& delimeter);
+
+/**
+ * @brief Fold vector of strings using given delimeter.
+ *
+ * @param strings Vector of strings
+ * @param delimeter Delimeter
+ * @return A string representing concatenation result
+ */
+MVVM_MODEL_EXPORT std::string FoldStrings(const std::vector<std::string>& strings,
+                                          const std::string& delimeter);
 
 /**
  * @brief Parses string for double values and returns result as a vector.
