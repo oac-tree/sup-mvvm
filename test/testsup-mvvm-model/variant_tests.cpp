@@ -88,8 +88,8 @@ TEST_F(VariantTests, ComboPropertyVariantEquality)
   EXPECT_FALSE(variant_t(c1) != variant_t(c2));
 
   // change what is selected to make them different again
-  c1.SetSelectionFromString("0");
-  c2.SetSelectionFromString("1");
+  c1.SetSelected(0);
+  c1.SetSelected(1);
   EXPECT_TRUE(variant_t(c1) != variant_t(c2));
   EXPECT_FALSE(variant_t(c1) == variant_t(c2));
 }
@@ -335,8 +335,9 @@ TEST_F(VariantTests, TypeCodeFromString)
   {
     const ComboProperty value = ComboProperty::CreateFrom(std::vector<std::string>{"a1", "a2"});
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::ComboProperty);
-    EXPECT_EQ(ValueToString(variant_t(value)), std::string("a1;a2"));
-    EXPECT_EQ(ValueFromString(TypeCode::ComboProperty, std::string("a1;a2")), variant_t(value));
+    EXPECT_EQ(ValueToString(variant_t(value)), std::string("values[a1;a2] selection[0]"));
+    EXPECT_EQ(ValueFromString(TypeCode::ComboProperty, std::string("values[a1;a2] selection[0]")),
+              variant_t(value));
   }
 
   {

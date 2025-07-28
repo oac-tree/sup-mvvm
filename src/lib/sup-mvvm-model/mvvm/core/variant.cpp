@@ -110,11 +110,7 @@ variant_t to_vector_double(const std::string &str)
  */
 variant_t to_combo_property(const std::string &str)
 {
-  (void)str;
-  // FIXME fix selection string
-  ComboProperty combo;
-  combo.SetValuesFromString(str);
-  return {combo};
+  return ComboProperty::CreateFromString(str);
 }
 
 /**

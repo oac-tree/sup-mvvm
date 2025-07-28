@@ -120,7 +120,7 @@ TEST_F(VariantValueVisitorTests, Visit)
 
   {
     const ComboProperty value = ComboProperty::CreateFrom(std::vector<std::string>{"a1", "a2"});
-    EXPECT_EQ(visitor.operator()(value), std::string("a1;a2"));
+    EXPECT_EQ(visitor.operator()(value), std::string("values[a1;a2] selection[0]"));
   }
 
   {

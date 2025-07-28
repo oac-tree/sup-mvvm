@@ -42,7 +42,7 @@ TEST_F(ComboPropertyTests, InitialState)
     EXPECT_EQ(combo.GetValues(), std::vector<std::string>());
     EXPECT_EQ(combo.GetToolTips(), std::vector<std::string>());
     EXPECT_EQ(combo.GetCurrentIndex(), -1);
-    EXPECT_EQ(combo.GetStringOfValues(), "");
+    EXPECT_EQ(combo.ToString(), "values[] selection[]");
     EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>());
     EXPECT_EQ(combo.GetLabel(), "None");
   }
@@ -53,7 +53,7 @@ TEST_F(ComboPropertyTests, InitialState)
     EXPECT_EQ(combo.GetValues(), std::vector<std::string>());
     EXPECT_EQ(combo.GetToolTips(), std::vector<std::string>());
     EXPECT_EQ(combo.GetCurrentIndex(), -1);
-    EXPECT_EQ(combo.GetStringOfValues(), "");
+    EXPECT_EQ(combo.ToString(), "values[] selection[]");
     EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>());
     EXPECT_EQ(combo.GetLabel(), "None");
   }
@@ -273,67 +273,6 @@ TEST_F(ComboPropertyTests, FromVectorStream)
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0, 1}));
 }
 
-TEST_F(ComboPropertyTests, SetSringOfValues)
-{
-  const std::vector<std::string> expected_values = {"a1", "a2"};
-  ComboProperty combo = ComboProperty::CreateFrom(expected_values);
-
-  EXPECT_EQ(combo.GetStringOfValues(), std::string("a1;a2"));
-  EXPECT_EQ(combo.GetValue(), std::string("a1"));
-  EXPECT_EQ(combo.GetCurrentIndex(), 0);
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0}));
-
-  // setting string of values, current value should change
-  std::string string_of_values("b1;b2;b3");
-  combo.SetValuesFromString(string_of_values);
-  EXPECT_EQ(combo.GetStringOfValues(), string_of_values);
-  EXPECT_EQ(combo.GetValue(), std::string("b1"));
-  EXPECT_EQ(combo.GetValues(), std::vector<std::string>({"b1", "b2", "b3"}));
-  EXPECT_EQ(combo.GetCurrentIndex(), 0);
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0}));
-
-  // setting new string of values, containing current value. Current values should remain.
-  string_of_values = std::string("c1;b1;c3");
-  combo.SetValuesFromString(string_of_values);
-  EXPECT_EQ(combo.GetStringOfValues(), string_of_values);
-  EXPECT_EQ(combo.GetValue(), std::string("b1"));
-  EXPECT_EQ(combo.GetCurrentIndex(), 1);
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({1}));
-}
-
-TEST_F(ComboPropertyTests, SetStringOfSelections)
-{
-  ComboProperty combo;
-  EXPECT_EQ(combo.GetStringOfSelections(), "");
-
-  // checking the content of stringOfSelections
-  combo.SetValues(std::vector<std::string>({"a1", "a2", "a3"}));
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0}));
-  EXPECT_EQ(combo.GetCurrentIndex(), 0);
-  EXPECT_EQ(combo.GetStringOfSelections(), "0");
-
-  combo.SetSelected(2, true);
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0, 2}));
-  EXPECT_EQ(combo.GetCurrentIndex(), 0);
-  EXPECT_EQ(combo.GetStringOfSelections(), "0,2");
-
-  // setting string of selections
-  combo.SetSelectionFromString("");
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({}));
-  EXPECT_EQ(combo.GetCurrentIndex(), -1);
-  EXPECT_EQ(combo.GetStringOfSelections(), "");
-
-  combo.SetSelectionFromString("1,2");
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({1, 2}));
-  EXPECT_EQ(combo.GetCurrentIndex(), 1);
-  EXPECT_EQ(combo.GetStringOfSelections(), "1,2");
-
-  combo.SetSelectionFromString("0,42");
-  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0}));
-  EXPECT_EQ(combo.GetCurrentIndex(), 0);
-  EXPECT_EQ(combo.GetStringOfSelections(), "0");
-}
-
 TEST_F(ComboPropertyTests, ComboEqualityDiffIndex)
 {
   ComboProperty c1 = ComboProperty::CreateFrom({"a1", "a2"});
@@ -384,10 +323,6 @@ TEST_F(ComboPropertyTests, cCmboEqualityDiffList)
   c2.SetSelected(0, false);
   c2.SetSelected(2, true);
   EXPECT_TRUE(c1 != c2);
-
-  c1.SetSelectionFromString("2");
-  c2.SetSelectionFromString("2");
-  EXPECT_TRUE(c1 == c2);
 }
 
 TEST_F(ComboPropertyTests, GetTooltips)

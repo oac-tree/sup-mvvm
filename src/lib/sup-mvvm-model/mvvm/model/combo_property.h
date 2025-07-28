@@ -150,6 +150,25 @@ public:
   bool operator<(const ComboProperty& other) const;
   bool operator>=(const ComboProperty& other) const;
 
+  /**
+   * @brief Return a string representing this ComboProperty.
+   *
+   * This function is used for XML serialization and debugging.
+   */
+  std::string ToString() const;
+
+  /**
+   * @brief Create combo property from its string representation.
+   *
+   * This function is used for XML serialization and debugging.
+   *
+   * String "values[a1;a2;a3] selection[1,2]" will create equivalent of
+   * Combo combo({"a1","a2","a3"});
+   * combo.SetSelected({1, 2});
+   */
+  static ComboProperty CreateFromString(const std::string& str);
+
+protected:
   // serialization related methods (FIXME they do not belong to this place)
 
   /**
@@ -171,24 +190,6 @@ public:
    * @brief Sets selection from its srting representation.
    */
   void SetSelectionFromString(const std::string& values);
-
-  /**
-   * @brief Return a string representing this ComboProperty.
-   *
-   * This function is used for XML serialization and debugging.
-   */
-  std::string ToString() const;
-
-  /**
-   * @brief Create combo property from its string representation.
-   *
-   * This function is used for XML serialization and debugging.
-   *
-   * String "values[a1;a2;a3] selection[1,2]" will create equivalent of
-   * Combo combo({"a1","a2","a3"});
-   * combo.SetSelected({1, 2});
-   */
-  static ComboProperty CreateFromString(const std::string& str);
 
 private:
   std::vector<std::string> m_values;

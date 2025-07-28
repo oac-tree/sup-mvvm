@@ -103,7 +103,7 @@ std::string VariantValueVisitor::operator()(const std::vector<double> &value)
 
 std::string VariantValueVisitor::operator()(const ComboProperty &value)
 {
-  return {value.GetStringOfValues()};
+  return {value.ToString()};
 }
 
 std::string VariantValueVisitor::operator()(const ExternalProperty &value)

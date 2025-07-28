@@ -146,19 +146,13 @@ tree_data_t from_combo_property(const role_data_t& role_data)
   result.AddAttribute(constants::kRoleAttributeKey, std::to_string(role_data.first));
   result.AddAttribute(constants::kTypeAttributeKey, mvvm::constants::kComboPropertyTypeName);
   auto combo = std::get<mvvm::ComboProperty>(role_data.second);
-  result.AddAttribute(kSelectionsAttributeKey, combo.GetStringOfSelections());
-  result.SetContent(combo.GetStringOfValues());
+  result.SetContent(combo.ToString());
   return result;
 }
 
 role_data_t to_combo_property(const tree_data_t& tree_data)
 {
-  ComboProperty combo;
-  combo.SetValuesFromString(tree_data.GetContent());
-  if (tree_data.HasAttribute(kSelectionsAttributeKey))
-  {
-    combo.SetSelectionFromString(tree_data.GetAttribute(kSelectionsAttributeKey));
-  }
+  const auto combo = ComboProperty::CreateFromString(tree_data.GetContent());
   return {GetRole(tree_data), combo};
 }
 
