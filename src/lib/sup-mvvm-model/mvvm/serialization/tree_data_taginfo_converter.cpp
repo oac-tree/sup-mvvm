@@ -37,20 +37,14 @@ namespace mvvm::TreeDataTagInfoConverter
 namespace
 {
 
+const std::string kSeparator = ",";
+
 //! Returns vector of attributes which TreeData object should have.
 std::vector<std::string> GetExpectedAttributeKeys()
 {
   std::vector<std::string> result = {constants::kMinAttributeKey, constants::kMaxAttributeKey,
                                      constants::kNameAttributeKey};
   std::sort(result.begin(), result.end());
-  return result;
-}
-
-std::vector<std::string> SplitAndTrim(const std::string &str)
-{
-  auto result = mvvm::utils::SplitString(str, ",");
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [](auto element) { return mvvm::utils::TrimWhitespace(element); });
   return result;
 }
 
@@ -91,7 +85,7 @@ TagInfo ToTagInfo(const tree_data_t &tree_data)
     max = std::stol(tree_data.GetAttribute(constants::kMaxAttributeKey));
   }
   const std::string name = tree_data.GetAttribute(constants::kNameAttributeKey);
-  const std::vector<std::string> model_types = SplitAndTrim(tree_data.GetContent());
+  const auto model_types = utils::SplitString(tree_data.GetContent(), kSeparator);
   return {name, min, max, model_types};
 }
 
@@ -107,7 +101,7 @@ tree_data_t ToTreeData(const TagInfo &tag_info)
     result.AddAttribute(constants::kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   }
   result.AddAttribute(constants::kNameAttributeKey, tag_info.GetName());
-  result.SetContent(utils::ToCommaSeparatedString(tag_info.GetItemTypes()));
+  result.SetContent(utils::FoldStrings(tag_info.GetItemTypes(), kSeparator));
   return result;
 }
 

@@ -200,6 +200,7 @@ TEST_F(StringUtilsTests, FoldStrings)
   EXPECT_EQ(FoldStrings(std::vector<std::string>({"a1", "a2"}), ";"), std::string("a1;a2"));
   EXPECT_EQ(FoldStrings(std::vector<std::string>({" a1 ", " a2 "}), ";"), std::string(" a1 ; a2 "));
   EXPECT_EQ(FoldStrings(std::vector<std::string>({"a1", "a2"}), ", "), std::string("a1, a2"));
+  EXPECT_EQ(FoldStrings(std::vector<std::string>({"abc", "cde"}), ", "), std::string("abc, cde"));
 }
 
 TEST_F(StringUtilsTests, ParseSpaceSeparatedDoubles)
@@ -252,11 +253,6 @@ TEST_F(StringUtilsTests, ToComaSeparatedString)
   EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({})), std::string());
   EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({1.0})), std::string("1.0"));
   EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({1.0, 2.0})), std::string("1.0, 2.0"));
-
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({})), std::string());
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({"abc"})), std::string("abc"));
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<std::string>({"abc", "cde"})),
-            std::string("abc, cde"));
 }
 
 TEST_F(StringUtilsTests, ReplaceSubString)

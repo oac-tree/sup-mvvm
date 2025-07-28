@@ -90,7 +90,7 @@ TEST_F(TreeDataTagInfoConverterTests, ConvertUniversalTagWithItemTypes)
 
   // Constructing TreeData representing TagInfo without model types defined.
   const std::string body{
-      R"(<TagInfo min="0" max="2" name="Width">SegmentItem, PulseItem</TagInfo>)"};
+      R"(<TagInfo min="0" max="2" name="Width">SegmentItem,PulseItem</TagInfo>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(TreeDataTagInfoConverter::IsTagInfoConvertible(*tree_data));
 
