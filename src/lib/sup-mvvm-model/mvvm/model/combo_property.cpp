@@ -29,8 +29,7 @@
 namespace
 {
 
-const std::string kValueSeparator = ";";
-const std::string kSelectionSeparator = ",";
+const std::string kSeparator = ";";
 const std::string kMultipleSelectionLabel = "Multiple";
 const std::string kNoneSelectionLabel = "None";
 const std::string kValueKey = "values";
@@ -243,9 +242,9 @@ bool ComboProperty::operator>=(const ComboProperty& other) const
 std::string ComboProperty::ToString() const
 {
   std::stringstream result;
-  result << kValueKey << "[" << utils::VectorToString(m_values, kValueSeparator) << "]";
+  result << kValueKey << "[" << utils::VectorToString(m_values, kSeparator) << "]";
   result << " " << kSelectionKey << "["
-         << utils::VectorToString(m_selected_indices, kSelectionSeparator) << "]";
+         << utils::VectorToString(m_selected_indices, kSeparator) << "]";
   return result.str();
 }
 
@@ -255,12 +254,12 @@ ComboProperty ComboProperty::CreateFromString(const std::string& str)
   auto optional_selection_string = utils::GetKeyContent(str, kSelectionKey);
   if (optional_value_string.has_value() && optional_selection_string.has_value())
   {
-    auto values = utils::SplitString(optional_value_string.value(), kValueSeparator);
+    auto values = utils::SplitString(optional_value_string.value(), kSeparator);
     ComboProperty result(values);
     if (!optional_selection_string.value().empty())
     {
       result.SetSelectedIndices(utils::StringToVector<std::int32_t>(
-          optional_selection_string.value(), kSelectionSeparator));
+          optional_selection_string.value(), kSeparator));
     }
     return result;
   }

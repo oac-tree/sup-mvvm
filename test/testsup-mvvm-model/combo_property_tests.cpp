@@ -361,7 +361,7 @@ TEST_F(ComboPropertyTests, ToStringAndFromString)
   }
 
   {
-    const std::string expected("values[a1;a2;a3] selection[0,2]");
+    const std::string expected("values[a1;a2;a3] selection[0;2]");
     ComboProperty combo({"a1", "a2", "a3"});
     combo.SetSelectedIndices({0, 2});
     EXPECT_EQ(combo.ToString(), expected);

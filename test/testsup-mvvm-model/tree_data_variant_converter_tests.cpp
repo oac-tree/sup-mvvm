@@ -277,7 +277,7 @@ TEST_F(TreeDataVariantConverterTests, ComboPropertyRoleWithSelections)
 
   // constructing TreeData representing ComboProperty with 3 elements, two of which selected
   const std::string body{
-      R"(<Variant role="42" type="ComboProperty">values[a1;a2;a3] selection[1,2]</Variant>)"};
+      R"(<Variant role="42" type="ComboProperty">values[a1;a2;a3] selection[1;2]</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 
