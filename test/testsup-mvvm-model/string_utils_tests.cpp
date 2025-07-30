@@ -296,4 +296,39 @@ TEST_F(StringUtilsTests, VectorToString)
   }
 }
 
+TEST_F(StringUtilsTests, StringToVector)
+{
+  using utils::StringToVector;
+
+  {  // for double
+    const std::string kSeparator = ",";
+    EXPECT_TRUE(StringToVector<double>("", kSeparator).empty());
+    EXPECT_EQ(StringToVector<double>("1.0", kSeparator), std::vector<double>({1.0}));
+    EXPECT_EQ(StringToVector<double>("1.0, 2.0", kSeparator), std::vector<double>({1.0, 2.0}));
+    EXPECT_EQ(StringToVector<double>("1.0,2.0", kSeparator), std::vector<double>({1.0, 2.0}));
+
+    EXPECT_THROW(StringToVector<double>(", 1.0", kSeparator), RuntimeException);
+    EXPECT_THROW(StringToVector<double>(" ", kSeparator), RuntimeException);
+  }
+
+  {  // for int
+    const std::string kSeparator = ", ";
+    EXPECT_TRUE(StringToVector<std::int32_t>("", kSeparator).empty());
+    EXPECT_EQ(StringToVector<std::int32_t>("1", kSeparator), std::vector<std::int32_t>({1}));
+    EXPECT_EQ(StringToVector<std::int32_t>("1, 2", kSeparator), std::vector<std::int32_t>({1, 2}));
+
+    EXPECT_THROW(StringToVector<std::int32_t>("1,2", kSeparator), RuntimeException);
+    EXPECT_THROW(StringToVector<std::int32_t>(", 1.0", kSeparator), RuntimeException);
+    EXPECT_THROW(StringToVector<std::int32_t>(" ", kSeparator), RuntimeException);
+  }
+
+  {  // for strings
+    const std::string kSeparator = ";";
+    EXPECT_TRUE(StringToVector<std::string>("", kSeparator).empty());
+    EXPECT_EQ(StringToVector<std::string>("abc", kSeparator), std::vector<std::string>({"abc"}));
+    EXPECT_EQ(StringToVector<std::string>("abc;def", kSeparator),
+              std::vector<std::string>({"abc", "def"}));
+  }
+}
+
 }  // namespace mvvm::test

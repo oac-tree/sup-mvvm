@@ -21,6 +21,7 @@
 #ifndef MVVM_UTILS_STRING_UTILS_H_
 #define MVVM_UTILS_STRING_UTILS_H_
 
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model_export.h>
 
 #include <optional>
@@ -174,6 +175,32 @@ std::string VectorToString(const std::vector<ElementT>& vec, const std::string& 
     }
   }
   return oss.str();
+}
+
+template <typename ElementT>
+std::vector<ElementT> StringToVector(const std::string& str, const std::string& delimiter)
+{
+  std::vector<ElementT> result;
+
+  auto parts = SplitString(str, delimiter);
+  result.reserve(parts.size());
+  for (const auto& part : parts)
+  {
+    std::istringstream iss(part);
+    iss.imbue(std::locale::classic());
+    ElementT value;
+    iss >> value;
+    if (!iss.fail() && iss.eof())
+    {
+      result.push_back(value);
+    }
+    else
+    {
+      throw RuntimeException("Conversion failed for: " + str);
+    }
+  }
+
+  return result;
 }
 
 }  // namespace mvvm::utils
