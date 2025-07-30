@@ -31,6 +31,7 @@
 
 namespace mvvm::utils
 {
+
 std::string DoubleToString(double input, int precision)
 {
   std::ostringstream inter;
@@ -162,22 +163,6 @@ std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str)
   iss.imbue(std::locale::classic());
   std::copy(std::istream_iterator<double>(iss), std::istream_iterator<double>(),
             back_inserter(result));
-  return result;
-}
-
-std::vector<double> ParseCommaSeparatedDoubles(const std::string& str)
-{
-  auto trimmed = TrimWhitespace(str);
-  std::vector<double> result;
-  for (const auto& token : SplitString(trimmed, ","))
-  {
-    auto converted = StringToDouble(token);
-    if (!converted.has_value())
-    {
-      throw RuntimeException("Error while parsing string of comma separated doubles");
-    }
-    result.push_back(converted.value());
-  }
   return result;
 }
 

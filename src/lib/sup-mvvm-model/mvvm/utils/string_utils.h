@@ -32,6 +32,8 @@
 namespace mvvm::utils
 {
 
+const std::string kDefaultSeparator = ",";
+
 /**
  * @brief Returns string representation of double with given precision.
  *
@@ -114,14 +116,6 @@ MVVM_MODEL_EXPORT std::vector<std::string> SplitString(const std::string& str,
 MVVM_MODEL_EXPORT std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str);
 
 /**
- * @brief Parses string of comma separated double values and returns result as a vector.
- *
- * Will throw for malformed strings. Good: "1.0, 2.0, 3.0". Bad: ", 2.0, 3.0" or
- * "1.0a, 2.0, 3.0" or "1.0, 2.0, 3.0, "
- */
-MVVM_MODEL_EXPORT std::vector<double> ParseCommaSeparatedDoubles(const std::string& str);
-
-/**
  * @brief Replaces substring in a string and returns result to the user.
  *
  * @param str Original string.
@@ -150,7 +144,8 @@ std::optional<std::string> GetKeyContent(const std::string& text, const std::str
  * @details Function uses custom converter for double values to provide nicer look.
  */
 template <typename ElementT>
-std::string VectorToString(const std::vector<ElementT>& vec, const std::string& delimiter)
+std::string VectorToString(const std::vector<ElementT>& vec,
+                           const std::string& delimiter = kDefaultSeparator)
 {
   if (vec.empty())
   {
@@ -183,9 +178,13 @@ std::string VectorToString(const std::vector<ElementT>& vec, const std::string& 
  * @param str The input string
  * @param delimiter
  * @return Vector of elements
+ *
+ * @details  Will throw for malformed strings. Good: "1.0, 2.0, 3.0". Bad: ", 2.0, 3.0" or
+ * "1.0a, 2.0, 3.0" or "1.0, 2.0, 3.0, "
  */
 template <typename ElementT>
-std::vector<ElementT> StringToVector(const std::string& str, const std::string& delimiter)
+std::vector<ElementT> StringToVector(const std::string& str,
+                                     const std::string& delimiter = kDefaultSeparator)
 {
   std::vector<ElementT> result;
 

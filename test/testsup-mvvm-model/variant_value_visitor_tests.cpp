@@ -115,7 +115,7 @@ TEST_F(VariantValueVisitorTests, Visit)
 
   {
     const std::vector<double> value{1.0, 2.0, 3.0};
-    EXPECT_EQ(visitor.operator()(value), std::string("1.0, 2.0, 3.0"));
+    EXPECT_EQ(visitor.operator()(value), std::string("1.0,2.0,3.0"));
   }
 
   {

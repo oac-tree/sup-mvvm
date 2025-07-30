@@ -27,14 +27,10 @@
 namespace mvvm
 {
 
-namespace
-{
-const std::string kSeparator = ",";
-}
 
 Path Path::CreateFromString(const std::string& str)
 {
-  return Path::CreateFromVector(utils::StringToVector<PathElement>(str, kSeparator));
+  return Path::CreateFromVector(utils::StringToVector<PathElement>(str));
 }
 
 Path Path::CreateFromVector(const std::vector<PathElement>& data)
@@ -47,7 +43,7 @@ Path Path::CreateFromVector(const std::vector<PathElement>& data)
 
 std::string Path::GetString() const
 {
-  return utils::VectorToString(m_data, kSeparator);
+  return utils::VectorToString(m_data);
 }
 
 std::size_t Path::GetLength() const

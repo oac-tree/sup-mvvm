@@ -221,18 +221,6 @@ TEST_F(StringUtilsTests, ParseSpaceSeparatedDoubles)
   EXPECT_DOUBLE_EQ(ParseSpaceSeparatedDoubles("42 43")[1], 43.0);
 }
 
-TEST_F(StringUtilsTests, ParseCommaSeparatedDoubles)
-{
-  using utils::ParseCommaSeparatedDoubles;
-
-  EXPECT_TRUE(ParseCommaSeparatedDoubles("").empty());
-  EXPECT_TRUE(ParseCommaSeparatedDoubles(" ").empty());
-  EXPECT_EQ(ParseCommaSeparatedDoubles("1.0"), std::vector<double>({1.0}));
-  EXPECT_EQ(ParseCommaSeparatedDoubles("1.0, 2.0"), std::vector<double>({1.0, 2.0}));
-  EXPECT_EQ(ParseCommaSeparatedDoubles("1.0,2.0"), std::vector<double>({1.0, 2.0}));
-  EXPECT_THROW(ParseCommaSeparatedDoubles(", 1.0"), RuntimeException);
-}
-
 TEST_F(StringUtilsTests, ReplaceSubString)
 {
   using utils::ReplaceSubString;

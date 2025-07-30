@@ -101,7 +101,7 @@ variant_t to_double(const std::string &str)
  */
 variant_t to_vector_double(const std::string &str)
 {
-  return utils::ParseCommaSeparatedDoubles(str);
+  return utils::StringToVector<double>(str, utils::kDefaultSeparator);
 }
 
 /**

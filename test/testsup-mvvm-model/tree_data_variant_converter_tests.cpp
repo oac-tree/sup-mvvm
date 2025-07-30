@@ -231,7 +231,7 @@ TEST_F(TreeDataVariantConverterTests, VectorOfDoubleRole)
 
   // vector of two elements
   tree_data =
-      ParseXMLElementString(R"(<Variant role="42" type="vector_double">1.0, 2.0</Variant>)");
+      ParseXMLElementString(R"(<Variant role="42" type="vector_double">1.0,2.0</Variant>)");
 
   // converting tree_data to role_data
   role_data = TreeDataVariantConverter::ToRoleData(*tree_data);

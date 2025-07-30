@@ -327,8 +327,8 @@ TEST_F(VariantTests, TypeCodeFromString)
   {
     const std::vector<double> value{1.0, 2.0, 3.0};
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::VectorOfDouble);
-    EXPECT_EQ(ValueToString(variant_t(value)), std::string("1.0, 2.0, 3.0"));
-    EXPECT_EQ(ValueFromString(TypeCode::VectorOfDouble, std::string("1.0, 2.0, 3.0")),
+    EXPECT_EQ(ValueToString(variant_t(value)), std::string("1.0,2.0,3.0"));
+    EXPECT_EQ(ValueFromString(TypeCode::VectorOfDouble, std::string("1.0,2.0,3.0")),
               variant_t(value));
   }
 

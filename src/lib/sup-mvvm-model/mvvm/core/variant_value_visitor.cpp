@@ -25,11 +25,6 @@
 namespace mvvm
 {
 
-namespace
-{
-const std::string kSeparator = ", ";
-}
-
 std::string VariantValueVisitor::operator()(std::monostate value)
 {
   (void)value;
@@ -103,7 +98,7 @@ std::string VariantValueVisitor::operator()(std::string value)
 
 std::string VariantValueVisitor::operator()(const std::vector<double> &value)
 {
-  return {utils::VectorToString(value, kSeparator)};
+  return {utils::VectorToString(value, utils::kDefaultSeparator)};
 }
 
 std::string VariantValueVisitor::operator()(const ComboProperty &value)
