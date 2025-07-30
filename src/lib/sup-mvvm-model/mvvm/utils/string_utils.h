@@ -28,6 +28,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cstdint>
 
 namespace mvvm::utils
 {
@@ -43,7 +44,7 @@ const std::string kDefaultSeparator = ",";
  * @param precision Number of digits after ddecimal sign.
  * @return Resulting string.
  */
-MVVM_MODEL_EXPORT std::string DoubleToString(double input, int precision = 12);
+MVVM_MODEL_EXPORT std::string DoubleToString(double input, std::int32_t precision = 12);
 
 /**
  * @brief Returns string representation of scientific double.
@@ -54,7 +55,7 @@ MVVM_MODEL_EXPORT std::string DoubleToString(double input, int precision = 12);
  * @param precision Number of digits after ddecimal sign.
  * @return Resulting string.
  */
-MVVM_MODEL_EXPORT std::string ScientificDoubleToString(double input, int precision = 6);
+MVVM_MODEL_EXPORT std::string ScientificDoubleToString(double input, std::int32_t precision = 6);
 
 /**
  * @brief Returns string after trimming whitespace surrounding, including tabs and carriage returns.
@@ -94,7 +95,7 @@ MVVM_MODEL_EXPORT std::optional<double> StringToDouble(const std::string& str);
  * @param str A string to convert.
  * @return Optional integer result of the conversion.
  */
-MVVM_MODEL_EXPORT std::optional<int> StringToInteger(const std::string& str);
+MVVM_MODEL_EXPORT std::optional<std::int32_t> StringToInteger(const std::string& str);
 
 /**
  * @brief Split string on substring using given delimiter.

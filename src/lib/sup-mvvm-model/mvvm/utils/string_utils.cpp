@@ -32,7 +32,7 @@
 namespace mvvm::utils
 {
 
-std::string DoubleToString(double input, int precision)
+std::string DoubleToString(double input, std::int32_t precision)
 {
   std::ostringstream inter;
   inter << std::setprecision(precision);
@@ -49,7 +49,7 @@ std::string DoubleToString(double input, int precision)
   return inter.str();
 }
 
-std::string ScientificDoubleToString(double input, int precision)
+std::string ScientificDoubleToString(double input, std::int32_t precision)
 {
   std::ostringstream inter;
   inter << std::scientific;
@@ -123,12 +123,12 @@ std::optional<double> StringToDouble(const std::string& str)
   return (!iss.fail() && iss.eof()) ? std::optional<double>(value) : std::optional<double>{};
 }
 
-std::optional<int> StringToInteger(const std::string& str)
+std::optional<std::int32_t> StringToInteger(const std::string& str)
 {
   std::istringstream iss(utils::TrimWhitespace(str));
-  int value{0};
+  std::int32_t value{0};
   iss >> value;
-  return (!iss.fail() && iss.eof()) ? std::optional<int>(value) : std::optional<int>{};
+  return (!iss.fail() && iss.eof()) ? std::optional<std::int32_t>(value) : std::optional<std::int32_t>{};
 }
 
 std::vector<std::string> SplitString(const std::string& str, const std::string& delimiter)
