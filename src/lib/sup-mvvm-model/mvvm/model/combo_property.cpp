@@ -240,21 +240,6 @@ bool ComboProperty::operator>=(const ComboProperty& other) const
   return (other < *this) || (*this == other);
 }
 
-void ComboProperty::SetSelectionFromString(const std::string& values)
-{
-  m_selected_indices.clear();
-  if (values.empty())
-  {
-    return;
-  }
-
-  for (const auto& str : utils::SplitString(values, kSelectionSeparator))
-  {
-    const std::int32_t num = std::stoi(str);
-    SetSelected(num, true);
-  }
-}
-
 std::string ComboProperty::ToString() const
 {
   std::stringstream result;
@@ -274,7 +259,8 @@ ComboProperty ComboProperty::CreateFromString(const std::string& str)
     ComboProperty result(values);
     if (!optional_selection_string.value().empty())
     {
-      result.SetSelectionFromString(optional_selection_string.value());
+      result.SetSelectedIndices(utils::StringToVector<std::int32_t>(
+          optional_selection_string.value(), kSelectionSeparator));
     }
     return result;
   }

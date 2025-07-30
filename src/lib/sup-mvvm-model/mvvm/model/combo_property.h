@@ -168,12 +168,6 @@ public:
    */
   static ComboProperty CreateFromString(const std::string& str);
 
-protected:
-  /**
-   * @brief Sets selection from its srting representation.
-   */
-  void SetSelectionFromString(const std::string& values);
-
 private:
   std::vector<std::string> m_values;
   std::vector<std::string> m_tooltips;

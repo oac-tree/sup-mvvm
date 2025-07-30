@@ -23,8 +23,6 @@
 #include <mvvm/utils/string_utils.h>
 
 #include <algorithm>
-#include <iterator>
-#include <sstream>
 
 namespace mvvm
 {
@@ -36,15 +34,7 @@ const std::string kSeparator = ",";
 
 Path Path::CreateFromString(const std::string& str)
 {
-  Path result;
-
-  std::string str_spaces(str);
-  std::replace(str_spaces.begin(), str_spaces.end(), ',', ' ');
-
-  std::istringstream iss(str_spaces);
-  (void)std::for_each(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(),
-                      [&result](const auto& element) { result.Append(std::stol(element)); });
-  return result;
+  return Path::CreateFromVector(utils::StringToVector<PathElement>(str, kSeparator));
 }
 
 Path Path::CreateFromVector(const std::vector<PathElement>& data)
