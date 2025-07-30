@@ -240,18 +240,6 @@ bool ComboProperty::operator>=(const ComboProperty& other) const
   return (other < *this) || (*this == other);
 }
 
-std::string ComboProperty::GetStringOfSelections() const
-{
-  std::vector<std::string> text;
-  text.reserve(m_selected_indices.size());
-  for (auto index : m_selected_indices)
-  {
-    text.push_back(std::to_string(index));
-  }
-
-  return utils::FoldStrings(text, kSelectionSeparator);
-}
-
 void ComboProperty::SetSelectionFromString(const std::string& values)
 {
   m_selected_indices.clear();
@@ -270,8 +258,9 @@ void ComboProperty::SetSelectionFromString(const std::string& values)
 std::string ComboProperty::ToString() const
 {
   std::stringstream result;
-  result << kValueKey << "[" << utils::FoldStrings(m_values, kValueSeparator) << "]";
-  result << " " << kSelectionKey << "[" << GetStringOfSelections() << "]";
+  result << kValueKey << "[" << utils::VectorToString(m_values, kValueSeparator) << "]";
+  result << " " << kSelectionKey << "["
+         << utils::VectorToString(m_selected_indices, kSelectionSeparator) << "]";
   return result.str();
 }
 

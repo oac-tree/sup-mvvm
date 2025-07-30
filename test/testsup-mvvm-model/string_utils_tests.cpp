@@ -190,19 +190,6 @@ TEST_F(StringUtilsTests, SplitStringConfirmLikeInPythonBehavior)
   EXPECT_EQ(SplitString(";aaa bbb;", ";"), toVector("", "aaa bbb", ""));
 }
 
-TEST_F(StringUtilsTests, FoldStrings)
-{
-  using utils::FoldStrings;
-
-  EXPECT_EQ(FoldStrings(std::vector<std::string>(), ""), std::string());
-  EXPECT_EQ(FoldStrings(std::vector<std::string>(), ";"), std::string());
-  EXPECT_EQ(FoldStrings(std::vector<std::string>({"a1"}), ";"), std::string("a1"));
-  EXPECT_EQ(FoldStrings(std::vector<std::string>({"a1", "a2"}), ";"), std::string("a1;a2"));
-  EXPECT_EQ(FoldStrings(std::vector<std::string>({" a1 ", " a2 "}), ";"), std::string(" a1 ; a2 "));
-  EXPECT_EQ(FoldStrings(std::vector<std::string>({"a1", "a2"}), ", "), std::string("a1, a2"));
-  EXPECT_EQ(FoldStrings(std::vector<std::string>({"abc", "cde"}), ", "), std::string("abc, cde"));
-}
-
 TEST_F(StringUtilsTests, ParseSpaceSeparatedDoubles)
 {
   using utils::ParseSpaceSeparatedDoubles;
@@ -244,15 +231,6 @@ TEST_F(StringUtilsTests, ParseCommaSeparatedDoubles)
   EXPECT_EQ(ParseCommaSeparatedDoubles("1.0, 2.0"), std::vector<double>({1.0, 2.0}));
   EXPECT_EQ(ParseCommaSeparatedDoubles("1.0,2.0"), std::vector<double>({1.0, 2.0}));
   EXPECT_THROW(ParseCommaSeparatedDoubles(", 1.0"), RuntimeException);
-}
-
-TEST_F(StringUtilsTests, ToComaSeparatedString)
-{
-  using utils::ToCommaSeparatedString;
-
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({})), std::string());
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({1.0})), std::string("1.0"));
-  EXPECT_EQ(ToCommaSeparatedString(std::vector<double>({1.0, 2.0})), std::string("1.0, 2.0"));
 }
 
 TEST_F(StringUtilsTests, ReplaceSubString)

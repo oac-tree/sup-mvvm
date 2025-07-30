@@ -28,7 +28,6 @@
 #include <iostream>
 #include <iterator>
 #include <limits>
-#include <numeric>
 #include <regex>
 #include <sstream>
 
@@ -158,28 +157,14 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
   return result;
 }
 
-std::string FoldStrings(const std::vector<std::string>& strings, const std::string& delimeter)
-{
-  auto delim_fold = [&delimeter](const std::string& lhs, const std::string& rhs)
-  { return lhs + delimeter + rhs; };
-  return strings.empty()
-             ? std::string()
-             : std::accumulate(std::next(strings.begin()), strings.end(), strings[0], delim_fold);
-}
-
 std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str)
 {
   std::vector<double> result;
-  ParseSpaceSeparatedDoubles(str, result);
-  return result;
-}
-
-void ParseSpaceSeparatedDoubles(const std::string& str, std::vector<double>& result)
-{
   std::istringstream iss(str);
   iss.imbue(std::locale::classic());
   std::copy(std::istream_iterator<double>(iss), std::istream_iterator<double>(),
             back_inserter(result));
+  return result;
 }
 
 std::vector<double> ParseCommaSeparatedDoubles(const std::string& str)
@@ -196,15 +181,6 @@ std::vector<double> ParseCommaSeparatedDoubles(const std::string& str)
     result.push_back(converted.value());
   }
   return result;
-}
-
-std::string ToCommaSeparatedString(const std::vector<double>& vec)
-{
-  auto comma_fold = [](std::string a, double value)
-  { return std::move(a) + ", " + DoubleToString(value); };
-  return vec.empty() ? std::string()
-                     : std::accumulate(std::next(vec.begin()), vec.end(), DoubleToString(vec[0]),
-                                       comma_fold);
 }
 
 std::string ReplaceSubString(const std::string& str, const std::string& substr,

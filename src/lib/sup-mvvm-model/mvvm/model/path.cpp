@@ -20,13 +20,19 @@
 
 #include "path.h"
 
+#include <mvvm/utils/string_utils.h>
+
 #include <algorithm>
 #include <iterator>
-#include <numeric>
 #include <sstream>
 
 namespace mvvm
 {
+
+namespace
+{
+const std::string kSeparator = ",";
+}
 
 Path Path::CreateFromString(const std::string& str)
 {
@@ -51,11 +57,7 @@ Path Path::CreateFromVector(const std::vector<PathElement>& data)
 
 std::string Path::GetString() const
 {
-  auto comma_fold = [](const std::string& path, PathElement element)
-  { return path + ',' + std::to_string(element); };
-  return m_data.empty() ? std::string()
-                        : std::accumulate(std::next(m_data.begin()), m_data.end(),
-                                          std::to_string(m_data[0]), comma_fold);
+  return utils::VectorToString(m_data, kSeparator);
 }
 
 std::size_t Path::GetLength() const

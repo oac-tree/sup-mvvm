@@ -25,6 +25,11 @@
 namespace mvvm
 {
 
+namespace
+{
+const std::string kSeparator = ", ";
+}
+
 std::string VariantValueVisitor::operator()(std::monostate value)
 {
   (void)value;
@@ -33,7 +38,7 @@ std::string VariantValueVisitor::operator()(std::monostate value)
 
 std::string VariantValueVisitor::operator()(boolean value)
 {
-  return mvvm::utils::FromBool(value);
+  return utils::FromBool(value);
 }
 
 std::string VariantValueVisitor::operator()(char8 value)
@@ -83,12 +88,12 @@ std::string VariantValueVisitor::operator()(uint64 value)
 
 std::string VariantValueVisitor::operator()(float32 value)
 {
-  return mvvm::utils::DoubleToString(value);
+  return utils::DoubleToString(value);
 }
 
 std::string VariantValueVisitor::operator()(float64 value)
 {
-  return mvvm::utils::DoubleToString(value);
+  return utils::DoubleToString(value);
 }
 
 std::string VariantValueVisitor::operator()(std::string value)
@@ -98,7 +103,7 @@ std::string VariantValueVisitor::operator()(std::string value)
 
 std::string VariantValueVisitor::operator()(const std::vector<double> &value)
 {
-  return {mvvm::utils::ToCommaSeparatedString(value)};
+  return {utils::VectorToString(value, kSeparator)};
 }
 
 std::string VariantValueVisitor::operator()(const ComboProperty &value)

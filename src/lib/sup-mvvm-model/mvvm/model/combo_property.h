@@ -169,13 +169,6 @@ public:
   static ComboProperty CreateFromString(const std::string& str);
 
 protected:
-  // serialization related methods (FIXME they do not belong to this place)
-
-  /**
-   * @brief Returns a string with coma separated list of selected indices.
-   */
-  std::string GetStringOfSelections() const;
-
   /**
    * @brief Sets selection from its srting representation.
    */

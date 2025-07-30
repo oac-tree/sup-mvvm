@@ -106,29 +106,11 @@ MVVM_MODEL_EXPORT std::vector<std::string> SplitString(const std::string& str,
                                                        const std::string& delimeter);
 
 /**
- * @brief Fold vector of strings using given delimeter.
- *
- * @param strings Vector of strings
- * @param delimeter Delimeter
- * @return A string representing concatenation result
- */
-MVVM_MODEL_EXPORT std::string FoldStrings(const std::vector<std::string>& strings,
-                                          const std::string& delimeter);
-
-/**
  * @brief Parses string for double values and returns result as a vector.
  *
  * @details All non-numeric symbols are ingored.
  */
 MVVM_MODEL_EXPORT std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str);
-
-/**
- * @brief Parses string for double values and stores result in a vector.
- *
- * @details All non-numeric symbols are ingored.
- */
-MVVM_MODEL_EXPORT void ParseSpaceSeparatedDoubles(const std::string& str,
-                                                  std::vector<double>& result);
 
 /**
  * @brief Parses string of comma separated double values and returns result as a vector.
@@ -137,11 +119,6 @@ MVVM_MODEL_EXPORT void ParseSpaceSeparatedDoubles(const std::string& str,
  * "1.0a, 2.0, 3.0" or "1.0, 2.0, 3.0, "
  */
 MVVM_MODEL_EXPORT std::vector<double> ParseCommaSeparatedDoubles(const std::string& str);
-
-/**
- * @brief Converts vector of doubles to comma separated string.
- */
-MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<double>& vec);
 
 /**
  * @brief Replaces substring in a string and returns result to the user.

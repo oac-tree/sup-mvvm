@@ -101,7 +101,7 @@ tree_data_t ToTreeData(const TagInfo &tag_info)
     result.AddAttribute(constants::kMaxAttributeKey, std::to_string(tag_info.GetMax()));
   }
   result.AddAttribute(constants::kNameAttributeKey, tag_info.GetName());
-  result.SetContent(utils::FoldStrings(tag_info.GetItemTypes(), kSeparator));
+  result.SetContent(utils::VectorToString(tag_info.GetItemTypes(), kSeparator));
   return result;
 }
 
