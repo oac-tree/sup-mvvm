@@ -95,16 +95,16 @@ MVVM_MODEL_EXPORT std::optional<double> StringToDouble(const std::string& str);
 MVVM_MODEL_EXPORT std::optional<int> StringToInteger(const std::string& str);
 
 /**
- * @brief Split string on substring using given delimeter.
+ * @brief Split string on substring using given delimiter.
  *
  * Reproduces Python's str.split() behavior.
  *
  * @param str A string to split.
- * @param delimeter A delimeter.
+ * @param delimiter A delimiter.
  * @return Vector of string.
  */
 MVVM_MODEL_EXPORT std::vector<std::string> SplitString(const std::string& str,
-                                                       const std::string& delimeter);
+                                                       const std::string& delimiter);
 
 /**
  * @brief Parses string for double values and returns result as a vector.
@@ -140,17 +140,17 @@ MVVM_MODEL_EXPORT std::string ReplaceSubString(const std::string& str, const std
 std::optional<std::string> GetKeyContent(const std::string& text, const std::string& key_name);
 
 /**
- * @brief Converts vector of elements to a string using given delimeter.
+ * @brief Converts vector of elements to a string using given delimiter.
  *
- * @tparam ElementT
- * @param vec
- * @param delimeter
+ * @tparam ElementT The type of vector element.
+ * @param vec Vector of items
+ * @param delimiter The delimiter
  * @return Resulting string.
  *
  * @details Function uses custom converter for double values to provide nicer look.
  */
 template <typename ElementT>
-std::string VectorToString(const std::vector<ElementT>& vec, const std::string& delimeter)
+std::string VectorToString(const std::vector<ElementT>& vec, const std::string& delimiter)
 {
   if (vec.empty())
   {
@@ -171,12 +171,19 @@ std::string VectorToString(const std::vector<ElementT>& vec, const std::string& 
 
     if (i != vec.size() - 1)
     {
-      oss << delimeter;
+      oss << delimiter;
     }
   }
   return oss.str();
 }
 
+/**
+ * @brief Split string and convert content to the vector of given types.
+ *
+ * @param str The input string
+ * @param delimiter
+ * @return Vector of elements
+ */
 template <typename ElementT>
 std::vector<ElementT> StringToVector(const std::string& str, const std::string& delimiter)
 {

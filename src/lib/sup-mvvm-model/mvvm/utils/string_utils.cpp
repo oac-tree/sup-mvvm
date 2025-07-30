@@ -130,12 +130,12 @@ std::optional<int> StringToInteger(const std::string& str)
   return (!iss.fail() && iss.eof()) ? std::optional<int>(value) : std::optional<int>{};
 }
 
-std::vector<std::string> SplitString(const std::string& str, const std::string& delimeter)
+std::vector<std::string> SplitString(const std::string& str, const std::string& delimiter)
 {
   // splitting string following Python's str.split()
-  if (delimeter.empty())
+  if (delimiter.empty())
   {
-    throw RuntimeException("Empty delimeter");
+    throw RuntimeException("Empty delimiter");
   }
   if (str.empty())
   {
@@ -146,10 +146,10 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
   std::string_view view(str);
   size_t pos{0};
 
-  while ((pos = view.find(delimeter)) != std::string::npos)
+  while ((pos = view.find(delimiter)) != std::string::npos)
   {
     result.emplace_back(view.substr(0, pos));
-    view.remove_prefix(pos + delimeter.length());
+    view.remove_prefix(pos + delimiter.length());
   }
   result.emplace_back(view);
   return result;

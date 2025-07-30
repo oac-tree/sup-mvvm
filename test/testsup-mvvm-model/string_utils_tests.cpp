@@ -184,7 +184,7 @@ TEST_F(StringUtilsTests, SplitStringConfirmLikeInPythonBehavior)
   EXPECT_EQ(SplitString("aabbcc", "bb"), toVector("aa", "cc"));
   EXPECT_EQ(SplitString("aabbcc", "bb"), toVector("aa", "cc"));
 
-  // ; delimeter
+  // ; delimiter
   EXPECT_EQ(SplitString(";", ";"), toVector("", ""));
   EXPECT_EQ(SplitString(";;", ";"), toVector("", "", ""));
   EXPECT_EQ(SplitString(";aaa bbb;", ";"), toVector("", "aaa bbb", ""));
