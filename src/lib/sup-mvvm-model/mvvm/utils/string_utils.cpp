@@ -58,14 +58,14 @@ std::string ScientificDoubleToString(double input, int precision)
   inter << std::setprecision(precision);
   inter << input;
 
-  std::string::size_type pos = inter.str().find('e');
+  const std::string::size_type pos = inter.str().find('e');
   if (pos == std::string::npos)
   {
     return inter.str();
   }
 
   std::string part1 = inter.str().substr(0, pos);
-  std::string part2 = inter.str().substr(pos, std::string::npos);
+  const std::string part2 = inter.str().substr(pos, std::string::npos);
 
   part1.erase(part1.find_last_not_of('0') + 1, std::string::npos);
   if (part1.back() == '.')

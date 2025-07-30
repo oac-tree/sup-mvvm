@@ -24,6 +24,7 @@
 #include <mvvm/model_export.h>
 
 #include <optional>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -33,22 +34,22 @@ namespace mvvm::utils
 /**
  * @brief Returns string representation of double with given precision.
  *
+ * Provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".
+ *
  * @param input The value to convert to a string.
  * @param precision Number of digits after ddecimal sign.
- * @return String
- *
- * @details Provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".
+ * @return Resulting string.
  */
 MVVM_MODEL_EXPORT std::string DoubleToString(double input, int precision = 12);
 
 /**
  * @brief Returns string representation of scientific double.
  *
+ * Provides additional formatting on top of iomanip, so "double x{1}" becomes "1.0e+00".
+ *
  * @param input The value to convert to a string.
  * @param precision Number of digits after ddecimal sign.
- * @return String
- *
- * @details Provides additional formatting on top of iomanip, so "double x{1}" becomes "1.0e+00".
+ * @return Resulting string.
  */
 MVVM_MODEL_EXPORT std::string ScientificDoubleToString(double input, int precision = 6);
 
@@ -60,9 +61,7 @@ MVVM_MODEL_EXPORT std::string TrimWhitespace(const std::string& str);
 /**
  * @brief Converts string to bool.
  *
- * @details Converts string to bool. String should represent one of "false", "true", "False", etc.
- * Will throw if it is not the case.
- *
+ * String should represent one of "false", "true", "False", etc. Will throw if it is not the case.
  */
 MVVM_MODEL_EXPORT bool StringToBool(const std::string& str);
 
@@ -75,22 +74,22 @@ MVVM_MODEL_EXPORT std::string FromBool(bool value);
  * @brief Converts string to double value using classic locale and returns it in the form of
  * optional.
  *
+ * Requires that the string represents exactly one double and contains no other literals. Empty
+ * spaces at the beginning and end of the string are still allowed.
+ *
  * @param str A string to convert.
  * @return Optional double result of the conversion.
- *
- * @details Requires that string represents exactly one double and contains no other literals. Empty
- * spaces at the beginning and end of the string are still allowed.
  */
 MVVM_MODEL_EXPORT std::optional<double> StringToDouble(const std::string& str);
 
 /**
  * @brief Converts string to integer.
  *
+ * Requires that the string represents exactly one integer and no extra symbols are defined. Empty
+ * spaces at the beginning and end of the string are still allowed.
+ *
  * @param str A string to convert.
  * @return Optional integer result of the conversion.
- *
- * @details Requires that string represents exactly one integer and no extra symbols are defined.
- * Empty spaces at the beginning and end of the string are still allowed.
  */
 MVVM_MODEL_EXPORT std::optional<int> StringToInteger(const std::string& str);
 
@@ -134,7 +133,7 @@ MVVM_MODEL_EXPORT void ParseSpaceSeparatedDoubles(const std::string& str,
 /**
  * @brief Parses string of comma separated double values and returns result as a vector.
  *
- * @details Will throw for malformed strings. Good: "1.0, 2.0, 3.0". Bad: ", 2.0, 3.0" or
+ * Will throw for malformed strings. Good: "1.0, 2.0, 3.0". Bad: ", 2.0, 3.0" or
  * "1.0a, 2.0, 3.0" or "1.0, 2.0, 3.0, "
  */
 MVVM_MODEL_EXPORT std::vector<double> ParseCommaSeparatedDoubles(const std::string& str);
@@ -150,7 +149,6 @@ MVVM_MODEL_EXPORT std::string ToCommaSeparatedString(const std::vector<double>& 
  * @param str Original string.
  * @param substr A substring to replace.
  * @param replacement New substring.
- *
  * @return Resulting string.
  */
 MVVM_MODEL_EXPORT std::string ReplaceSubString(const std::string& str, const std::string& substr,
@@ -162,6 +160,44 @@ MVVM_MODEL_EXPORT std::string ReplaceSubString(const std::string& str, const std
  * For text="data[value1] config[setting] another[item]" and key_name="data" will return "value1"
  */
 std::optional<std::string> GetKeyContent(const std::string& text, const std::string& key_name);
+
+/**
+ * @brief Converts vector of elements to a string using given delimeter.
+ *
+ * @tparam ElementT
+ * @param vec
+ * @param delimeter
+ * @return Resulting string.
+ *
+ * @details Function uses custom converter for double values to provide nicer look.
+ */
+template <typename ElementT>
+std::string VectorToString(const std::vector<ElementT>& vec, const std::string& delimeter)
+{
+  if (vec.empty())
+  {
+    return {};
+  }
+
+  std::ostringstream oss;
+  for (size_t i = 0; i < vec.size(); ++i)
+  {
+    if constexpr (std::is_same_v<ElementT, double>)
+    {
+      oss << DoubleToString(vec[i]);
+    }
+    else
+    {
+      oss << vec[i];
+    }
+
+    if (i != vec.size() - 1)
+    {
+      oss << delimeter;
+    }
+  }
+  return oss.str();
+}
 
 }  // namespace mvvm::utils
 

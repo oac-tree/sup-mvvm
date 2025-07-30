@@ -290,4 +290,32 @@ TEST_F(StringUtilsTests, GetKeyContent)
             std::string("0,2"));
 }
 
+TEST_F(StringUtilsTests, VectorToString)
+{
+  using utils::VectorToString;
+
+  {  // vector of strings
+    EXPECT_EQ(VectorToString(std::vector<std::string>(), ""), std::string());
+    EXPECT_EQ(VectorToString(std::vector<std::string>(), ";"), std::string());
+    EXPECT_EQ(VectorToString(std::vector<std::string>({"a1"}), ";"), std::string("a1"));
+    EXPECT_EQ(VectorToString(std::vector<std::string>({"a1", "a2"}), ";"), std::string("a1;a2"));
+    EXPECT_EQ(VectorToString(std::vector<std::string>({" a1 ", " a2 "}), ";"),
+              std::string(" a1 ; a2 "));
+    EXPECT_EQ(VectorToString(std::vector<std::string>({"a1", "a2"}), ", "), std::string("a1, a2"));
+    EXPECT_EQ(VectorToString(std::vector<std::string>({"abc", "cde"}), ", "),
+              std::string("abc, cde"));
+  }
+
+  {  // vector of double
+    EXPECT_EQ(VectorToString(std::vector<double>({1.0}), ", "), std::string("1.0"));
+    EXPECT_EQ(VectorToString(std::vector<double>({1.0, 2.0}), ", "), std::string("1.0, 2.0"));
+    EXPECT_EQ(VectorToString(std::vector<double>({1, 2}), ", "), std::string("1.0, 2.0"));
+  }
+
+  {  // vector of int
+    EXPECT_EQ(VectorToString(std::vector<std::int32_t>({1}), ", "), std::string("1"));
+    EXPECT_EQ(VectorToString(std::vector<std::int32_t>({1, 2}), ", "), std::string("1, 2"));
+  }
+}
+
 }  // namespace mvvm::test
