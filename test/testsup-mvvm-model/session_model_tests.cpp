@@ -754,7 +754,7 @@ TEST_F(SessionModelTest, Clone)
   auto clone = model.Clone();
   EXPECT_EQ(clone->GetType(), model_type);
   EXPECT_NE(clone->GetRootItem(), model.GetRootItem());
-  EXPECT_EQ(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
+  EXPECT_NE(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
   EXPECT_NE(dynamic_cast<SessionModel*>(clone.get()), nullptr);
 }
 

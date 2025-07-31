@@ -45,6 +45,9 @@ public:
   ~ApplicationModel() override;
 
   ApplicationModel(const ApplicationModel& other);
+  ApplicationModel& operator=(const ApplicationModel&) = delete;
+  ApplicationModel(ApplicationModel&&) = delete;
+  ApplicationModel& operator=(ApplicationModel&&) = delete;
 
   std::unique_ptr<ISessionModel> Clone() const override;
 

@@ -574,7 +574,7 @@ TEST_F(ApplicationModelTest, Clone)
   EXPECT_EQ(clone->GetType(), model_type);
   EXPECT_NE(clone->GetRootItem(), model.GetRootItem());
   ASSERT_NE(clone->GetEventHandler(), nullptr);
-  // EXPECT_EQ(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
+  EXPECT_NE(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
   EXPECT_NE(dynamic_cast<ApplicationModel*>(clone.get()), nullptr);
 }
 
@@ -589,7 +589,7 @@ TEST_F(ApplicationModelTest, CloneForTestModel)
   EXPECT_EQ(clone->GetType(), model.GetType());
   EXPECT_NE(clone->GetRootItem(), model.GetRootItem());
   ASSERT_NE(clone->GetEventHandler(), nullptr);
-  // EXPECT_EQ(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
+  EXPECT_NE(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
   EXPECT_NE(dynamic_cast<ApplicationModel*>(clone.get()), nullptr);
   ASSERT_EQ(clone->GetRootItem()->GetAllItems().size(), 1U);
   EXPECT_EQ(clone->GetRootItem()->GetAllItems().at(0)->Data<std::int32_t>(), 42);

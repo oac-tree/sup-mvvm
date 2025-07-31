@@ -51,7 +51,11 @@ public:
   ISessionModel& operator=(ISessionModel&&) = delete;
 
   /**
-   * @brief Creates model clone.
+   * @brief Creates a partial model clone.
+   *
+   * The resulting model will not inherit the content of the command stack, and will not have any
+   * connections. It will rely on the same item pool as the original model. All items in a cloned
+   * tree will have regenerated identifiers.
    */
   virtual std::unique_ptr<ISessionModel> Clone() const = 0;
 
