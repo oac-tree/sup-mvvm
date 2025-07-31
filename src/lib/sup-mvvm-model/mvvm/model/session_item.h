@@ -56,6 +56,8 @@ public:
   virtual ~SessionItem();
 
   SessionItem& operator=(const SessionItem&) = delete;
+  SessionItem(SessionItem&&) = delete;
+  SessionItem& operator=(SessionItem&&) = delete;
 
   /**
    * @brief Copy constructor.
