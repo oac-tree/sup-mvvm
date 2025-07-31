@@ -53,6 +53,9 @@ public:
 
   void SetXYZ(double x, double y, double Z);
 
+protected:
+  void ActivateStrategies() override;
+
 private:
   /**
    * @brief Custom strategy to set property value and update item's label.

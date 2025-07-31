@@ -415,6 +415,11 @@ protected:
   SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,
               std::unique_ptr<TaggedItems> tags);
 
+  /**
+   * @brief A method to activate custom data strategies.
+   */
+  virtual void ActivateStrategies();
+
 private:
   std::unique_ptr<SessionItemImpl> p_impl;
   data_strategy_t m_data_strategy;

@@ -28,13 +28,14 @@ namespace mvvm
 {
 VectorItem::VectorItem() : CompoundItem(GetStaticType())
 {
-  AddProperty(kX, 0.0).SetDisplayName("X").SetStrategy(this, &VectorItem::SetPropertyValue);
-  AddProperty(kY, 0.0).SetDisplayName("Y").SetStrategy(this, &VectorItem::SetPropertyValue);
-  AddProperty(kZ, 0.0).SetDisplayName("Z").SetStrategy(this, &VectorItem::SetPropertyValue);
+  AddProperty(kX, 0.0).SetDisplayName("X");
+  AddProperty(kY, 0.0).SetDisplayName("Y");
+  AddProperty(kZ, 0.0).SetDisplayName("Z");
 
   SetEditable(false);
 
   UpdateLabel();
+  ActivateStrategies();
 }
 
 std::string VectorItem::GetStaticType()
@@ -44,7 +45,9 @@ std::string VectorItem::GetStaticType()
 
 std::unique_ptr<SessionItem> VectorItem::Clone() const
 {
-  return std::make_unique<VectorItem>(*this);
+  auto result = std::make_unique<VectorItem>(*this);
+  result->ActivateStrategies();
+  return result;
 }
 
 double VectorItem::X() const
@@ -82,6 +85,13 @@ void VectorItem::SetXYZ(double x, double y, double z)
   SetX(x);
   SetY(y);
   SetZ(z);
+}
+
+void VectorItem::ActivateStrategies()
+{
+  GetItem(kX)->SetStrategy(this, &VectorItem::SetPropertyValue);
+  GetItem(kY)->SetStrategy(this, &VectorItem::SetPropertyValue);
+  GetItem(kZ)->SetStrategy(this, &VectorItem::SetPropertyValue);
 }
 
 bool VectorItem::SetPropertyValue(SessionItem *property, const variant_t &variant, role_t role)

@@ -64,6 +64,11 @@ SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionIt
 {
 }
 
+void SessionItem::ActivateStrategies()
+{
+  // nothing to do by default
+}
+
 SessionItem::~SessionItem()
 {
   if (GetModel())

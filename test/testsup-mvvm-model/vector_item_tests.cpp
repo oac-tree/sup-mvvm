@@ -94,7 +94,7 @@ TEST_F(VectorItemTests, LabelUpdate)
   // item still have strategy active, even after it was taken from the model
   EXPECT_EQ(item->Data<std::string>(), "(1, 0, 0)");
   item->SetProperty(VectorItem::kX, 2.0);
-  EXPECT_EQ(item->Data<std::string>(), "(2, 0, 0)"); // update in label
+  EXPECT_EQ(item->Data<std::string>(), "(2, 0, 0)");  // update in label
 }
 
 TEST_F(VectorItemTests, Clone)
@@ -189,6 +189,26 @@ TEST_F(VectorItemTests, CloneWhenVectorIsPartOfModel)
     EXPECT_EQ(clone->GetItem(VectorItem::kY)->GetParent(), clone.get());
     EXPECT_EQ(clone->GetItem(VectorItem::kZ)->GetParent(), clone.get());
   }
+}
+
+TEST_F(VectorItemTests, LabelUpdateAfterClone)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<VectorItem>();
+
+  EXPECT_NE(item->GetSlot(), nullptr);
+
+  EXPECT_EQ(item->Data<std::string>(), "(0, 0, 0)");
+
+  auto clone = item->Clone();
+  auto cloned_item = dynamic_cast<VectorItem*>(clone.get());
+  EXPECT_EQ(cloned_item->Data<std::string>(), "(0, 0, 0)");
+
+  // Modification of one of the property should lead to label update
+  cloned_item->SetProperty(VectorItem::kX, 1.0);
+
+  // Updated thanks to custom data strategy installed in VectorItem's (x,y,z) properties
+  EXPECT_EQ(cloned_item->Data<std::string>(), "(1, 0, 0)");
 }
 
 }  // namespace mvvm::test
