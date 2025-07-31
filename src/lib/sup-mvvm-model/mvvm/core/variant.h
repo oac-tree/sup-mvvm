@@ -76,7 +76,7 @@ TypeCode GetTypeCode(const variant_t& variant);
 TypeCode GetTypeCodeFromTypeName(const std::string& str);
 
 /**
- * @brief Returns type code from type name.
+ * @brief Returns type name from type code.
  */
 std::string GetTypeNameFromTypeCode(TypeCode type_code);
 
