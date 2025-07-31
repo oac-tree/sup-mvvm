@@ -45,11 +45,6 @@ std::unique_ptr<mvvm::ICommandStack> CreateCommandStackProcessor(std::size_t und
 namespace mvvm
 {
 
-struct ApplicationModel::ApplicationModelImpl
-{
-  ModelEventHandler m_event_handler;
-};
-
 ApplicationModel::ApplicationModel(std::string model_type)
     : ApplicationModel(std::move(model_type), {})
 {
@@ -57,26 +52,36 @@ ApplicationModel::ApplicationModel(std::string model_type)
 
 ApplicationModel::ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool)
     : SessionModel(std::move(model_type), std::move(pool), {})
-    , p_impl(std::make_unique<ApplicationModelImpl>())
+    , m_event_handler(std::make_unique<ModelEventHandler>())
 {
   SetCommandProcessor(std::make_unique<mvvm::DefaultCommandProcessor>());
 }
 
 ApplicationModel::~ApplicationModel()
 {
-  p_impl->m_event_handler.Notify<ModelAboutToBeDestroyedEvent>(this);
+  m_event_handler->Notify<ModelAboutToBeDestroyedEvent>(this);
+}
+
+ApplicationModel::ApplicationModel(const ApplicationModel& other) : SessionModel(other)
+{
+  m_event_handler = std::make_unique<ModelEventHandler>();
+}
+
+std::unique_ptr<ISessionModel> ApplicationModel::Clone() const
+{
+  return std::make_unique<ApplicationModel>(*this);
 }
 
 ModelEventHandler* ApplicationModel::GetEventHandler() const
 {
-  return &p_impl->m_event_handler;
+  return m_event_handler.get();
 }
 
 void ApplicationModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
 {
-  p_impl->m_event_handler.Notify<ModelAboutToBeResetEvent>(this);
+  m_event_handler->Notify<ModelAboutToBeResetEvent>(this);
   SessionModel::ReplaceRootItem(std::move(root_item));
-  p_impl->m_event_handler.Notify<ModelResetEvent>(this);
+  m_event_handler->Notify<ModelResetEvent>(this);
 }
 
 void ApplicationModel::SetUndoEnabled(bool value, std::size_t undo_limit)

@@ -39,12 +39,14 @@ class ICommandStack;
 class MVVM_MODEL_EXPORT ApplicationModel : public SessionModel
 {
 public:
-  using ISessionModel::InsertItem;
-
   explicit ApplicationModel(std::string model_type = {});
   ApplicationModel(std::string model_type, std::shared_ptr<ItemPool> pool);
 
   ~ApplicationModel() override;
+
+  ApplicationModel(const ApplicationModel& other);
+
+  std::unique_ptr<ISessionModel> Clone() const override;
 
   ModelEventHandler* GetEventHandler() const override;
 
@@ -61,8 +63,7 @@ public:
   void SetUndoEnabled(bool value, std::size_t undo_limit = 0);
 
 private:
-  struct ApplicationModelImpl;
-  std::unique_ptr<ApplicationModelImpl> p_impl;
+  std::unique_ptr<ModelEventHandler> m_event_handler;
 };
 
 }  // namespace mvvm

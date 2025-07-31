@@ -84,8 +84,6 @@ public:
   void SetCommandProcessor(std::unique_ptr<ICommandStack> command_processor);
 
 private:
-  friend class SessionItem;
-
   struct SessionModelImpl;
   std::unique_ptr<SessionModelImpl> p_impl;
 };

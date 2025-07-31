@@ -49,21 +49,20 @@ std::unique_ptr<mvvm::ICommandStack> CreateDefaultCommandProcessor()
 namespace mvvm
 {
 
-//! Pimpl class for SessionModel.
-
+/**
+ * @brief Pimpl class for SessionModel.
+ */
 struct SessionModel::SessionModelImpl
 {
-  SessionModel* m_self{nullptr};
   std::string m_model_type;
   std::shared_ptr<ItemPool> m_pool;
   std::unique_ptr<ICommandStack> m_command_processor;
   std::unique_ptr<SessionItem> m_root_item;
   bool m_is_executing{false};
 
-  SessionModelImpl(SessionModel* self, std::string model_type, std::shared_ptr<ItemPool> pool,
+  SessionModelImpl(std::string model_type, std::shared_ptr<ItemPool> pool,
                    std::unique_ptr<ICommandStack> command_processor)
-      : m_self(self)
-      , m_model_type(std::move(model_type))
+      : m_model_type(std::move(model_type))
       , m_pool(pool ? std::move(pool) : CreateDefaultItemPool())
       , m_command_processor(command_processor ? std::move(command_processor)
                                               : CreateDefaultCommandProcessor())
@@ -79,7 +78,7 @@ SessionModel::SessionModel(std::string model_type)
 
 SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
                            std::unique_ptr<ICommandStack> command_stack)
-    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool),
+    : p_impl(std::make_unique<SessionModelImpl>(std::move(model_type), std::move(pool),
                                                 std::move(command_stack)))
 {
   GetRootItem()->SetModel(this);

@@ -45,6 +45,17 @@ class ApplicationModelTest : public ::testing::Test
 public:
   using mock_listener_t = ::testing::StrictMock<mvvm::test::MockModelListener>;
 
+  /**
+   * @brief The TestModel class to validate clone mechanism.
+   */
+  class TestModel : public ApplicationModel
+  {
+  public:
+    TestModel() : ApplicationModel("TestModel") {}
+
+    std::unique_ptr<ISessionModel> Clone() const { return std::make_unique<TestModel>(*this); }
+  };
+
   ApplicationModel m_model;
 };
 
@@ -552,6 +563,35 @@ TEST_F(ApplicationModelTest, SetUndoEnabled)
 
   m_model.SetUndoEnabled(false);
   EXPECT_NE(dynamic_cast<DefaultCommandProcessor*>(m_model.GetCommandStack()), nullptr);
+}
+
+TEST_F(ApplicationModelTest, Clone)
+{
+  const std::string model_type("model_type");
+  const ApplicationModel model(model_type);
+
+  auto clone = model.Clone();
+  EXPECT_EQ(clone->GetType(), model_type);
+  EXPECT_NE(clone->GetRootItem(), model.GetRootItem());
+  ASSERT_NE(clone->GetEventHandler(), nullptr);
+  // EXPECT_EQ(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
+  EXPECT_NE(dynamic_cast<ApplicationModel*>(clone.get()), nullptr);
+}
+
+TEST_F(ApplicationModelTest, CloneForTestModel)
+{
+  TestModel model;
+  auto item = model.InsertItem<SessionItem>();
+  item->SetData(42);
+
+  auto clone = model.Clone();
+  EXPECT_EQ(clone->GetType(), model.GetType());
+  EXPECT_NE(clone->GetRootItem(), model.GetRootItem());
+  ASSERT_NE(clone->GetEventHandler(), nullptr);
+  // EXPECT_EQ(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
+  EXPECT_NE(dynamic_cast<ApplicationModel*>(clone.get()), nullptr);
+  ASSERT_EQ(clone->GetRootItem()->GetAllItems().size(), 1U);
+  EXPECT_EQ(clone->GetRootItem()->GetAllItems().at(0)->Data<std::int32_t>(), 42);
 }
 
 }  // namespace mvvm::test
