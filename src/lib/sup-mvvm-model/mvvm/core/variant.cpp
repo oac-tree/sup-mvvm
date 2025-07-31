@@ -217,6 +217,18 @@ TypeCode GetTypeCodeFromTypeName(const std::string &str)
   return iter->second;
 }
 
+std::string GetTypeNameFromTypeCode(TypeCode type_code)
+{
+  static const std::map<TypeCode, std::string> kTypeCodeToStringMap = CreateTypeCodeToStringMap();
+  auto iter = kTypeCodeToStringMap.find(type_code);
+  if (iter == kTypeCodeToStringMap.end())
+  {
+    throw RuntimeException("Can't find type name");
+  }
+
+  return iter->second;
+}
+
 }  // namespace mvvm
 
 namespace mvvm::utils
@@ -241,14 +253,7 @@ bool AreCompatible(const variant_t &var1, const variant_t &var2)
 
 std::string TypeName(const variant_t &variant)
 {
-  static const std::map<TypeCode, std::string> kTypeCodeToStringMap = CreateTypeCodeToStringMap();
-  auto iter = kTypeCodeToStringMap.find(GetTypeCode(variant));
-  if (iter == kTypeCodeToStringMap.end())
-  {
-    throw RuntimeException("Can't find type name");
-  }
-
-  return iter->second;
+  return GetTypeNameFromTypeCode(GetTypeCode(variant));
 }
 
 std::string ValueToString(const variant_t &variant)

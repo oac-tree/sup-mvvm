@@ -75,6 +75,11 @@ TypeCode GetTypeCode(const variant_t& variant);
  */
 TypeCode GetTypeCodeFromTypeName(const std::string& str);
 
+/**
+ * @brief Returns type code from type name.
+ */
+std::string GetTypeNameFromTypeCode(TypeCode type_code);
+
 }  // namespace mvvm
 
 //! Defines names of all supported data types.
