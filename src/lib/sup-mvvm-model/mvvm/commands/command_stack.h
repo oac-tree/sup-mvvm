@@ -43,6 +43,8 @@ public:
   CommandStack(CommandStack&&) = delete;
   CommandStack& operator=(CommandStack&&) = delete;
 
+  std::unique_ptr<ICommandStack> Clone() override;
+
   ICommand *Execute(std::unique_ptr<ICommand> command) override;
   bool CanUndo() const override;
   bool CanRedo() const override;
@@ -82,6 +84,8 @@ public:
    * @brief Returns command which will be redone on the next Redo call.
    */
   const ICommand* GetNextRedoCommand() const;
+
+  size_t GetUndoLimit() const;
 
 private:
   struct CommandStackImpl;

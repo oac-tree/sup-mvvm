@@ -135,6 +135,13 @@ CommandStack::CommandStack() : p_impl(std::make_unique<CommandStackImpl>()) {}
 
 CommandStack::~CommandStack() = default;
 
+std::unique_ptr<ICommandStack> CommandStack::Clone()
+{
+  auto result = std::make_unique<CommandStack>();
+  result->SetUndoLimit(GetUndoLimit());
+  return result;
+}
+
 ICommand *CommandStack::Execute(std::unique_ptr<ICommand> command)
 {
   if (command->IsObsolete())
@@ -279,6 +286,11 @@ const ICommand *CommandStack::GetNextUndoCommand() const
 const ICommand *CommandStack::GetNextRedoCommand() const
 {
   return CanRedo() ? p_impl->m_pos->get() : nullptr;
+}
+
+size_t CommandStack::GetUndoLimit() const
+{
+  return p_impl->m_undo_limit;
 }
 
 }  // namespace mvvm

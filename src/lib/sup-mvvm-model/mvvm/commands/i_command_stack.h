@@ -47,6 +47,13 @@ public:
   ICommandStack& operator=(ICommandStack&&) = delete;
 
   /**
+   * @brief Clone command stack.
+   *
+   * It doesn't clone commands.
+   */
+  virtual std::unique_ptr<ICommandStack> Clone() = 0;
+
+  /**
    * @brief Pushes command in the stack and immediately executes it.
    *
    * Returns pointer to this command in the case of successful command execution. Returns nullptr

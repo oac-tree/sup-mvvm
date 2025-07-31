@@ -42,6 +42,8 @@ public:
   DefaultCommandProcessor(DefaultCommandProcessor&&) = delete;
   DefaultCommandProcessor& operator=(DefaultCommandProcessor&&) = delete;
 
+  std::unique_ptr<ICommandStack> Clone() override;
+
   ICommand* Execute(std::unique_ptr<ICommand> command) override;
 
   bool CanUndo() const override;

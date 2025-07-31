@@ -25,6 +25,11 @@
 namespace mvvm
 {
 
+std::unique_ptr<ICommandStack> DefaultCommandProcessor::Clone()
+{
+  return std::make_unique<DefaultCommandProcessor>();
+}
+
 ICommand *DefaultCommandProcessor::Execute(std::unique_ptr<ICommand> command)
 {
   m_last_command = std::move(command);

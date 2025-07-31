@@ -447,6 +447,7 @@ TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
   // Setting undo limit to 1 item only. Current algorithm only allow to erase items which are in
   // "AfterExecution" state. This means that command3 should stay.
   stack.SetUndoLimit(1);
+  EXPECT_EQ(stack.GetUndoLimit(), 1);
 
   EXPECT_EQ(stack.GetIndex(), 0);
 
@@ -466,6 +467,18 @@ TEST_F(CommandStackTest, SetUndoLimitInTheMiddleOfUndo)
   EXPECT_EQ(stack.GetIndex(), 1);
   EXPECT_EQ(stack.GetCommandCount(), 1);
   EXPECT_EQ(stack.GetCommands(), std::vector<const ICommand *>({command_ptr4}));
+}
+
+TEST_F(CommandStackTest, Clone)
+{
+  CommandStack stack;
+  stack.SetUndoLimit(42U);
+  EXPECT_EQ(stack.GetUndoLimit(), 42U);
+
+  auto clone = stack.Clone();
+  auto command_stack_clone = dynamic_cast<CommandStack *>(clone.get());
+  ASSERT_NE(command_stack_clone, nullptr);
+  EXPECT_EQ(command_stack_clone->GetUndoLimit(), 42U);
 }
 
 }  // namespace mvvm::test
