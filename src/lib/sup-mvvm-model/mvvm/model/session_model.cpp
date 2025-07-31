@@ -21,6 +21,7 @@
 #include "session_model.h"
 
 #include "item_pool.h"
+#include "item_utils.h"
 #include "model_utils.h"
 #include "session_item.h"
 #include "validate_utils.h"
@@ -84,7 +85,8 @@ SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> poo
   GetRootItem()->SetModel(this);
 }
 
-SessionModel::SessionModel(const SessionModel& other) : SessionModel(other.GetType())
+SessionModel::SessionModel(const SessionModel& other)
+    : SessionModel(other.GetType(), {}, other.p_impl->m_command_processor->Clone())
 {
   ReplaceRootItem(other.GetRootItem()->Clone());
 }

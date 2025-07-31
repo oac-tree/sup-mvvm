@@ -582,6 +582,7 @@ TEST_F(ApplicationModelTest, CloneForTestModel)
 {
   TestModel model;
   auto item = model.InsertItem<SessionItem>();
+  model.SetUndoEnabled(true, 100);
   item->SetData(42);
 
   auto clone = model.Clone();
@@ -592,6 +593,10 @@ TEST_F(ApplicationModelTest, CloneForTestModel)
   EXPECT_NE(dynamic_cast<ApplicationModel*>(clone.get()), nullptr);
   ASSERT_EQ(clone->GetRootItem()->GetAllItems().size(), 1U);
   EXPECT_EQ(clone->GetRootItem()->GetAllItems().at(0)->Data<std::int32_t>(), 42);
+
+  auto command_stack = dynamic_cast<CommandStack*>(clone->GetCommandStack());
+  ASSERT_NE(command_stack, nullptr);
+  EXPECT_EQ(command_stack->GetUndoLimit(), 100);
 }
 
 }  // namespace mvvm::test
