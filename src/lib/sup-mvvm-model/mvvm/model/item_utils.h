@@ -36,7 +36,7 @@ namespace mvvm::utils
 {
 
 /**
- * @brief Sets identifier for a given item.
+ * @brief Generates and sets new identifier for a given item.
  */
 void SetIdentifier(SessionItem& item);
 

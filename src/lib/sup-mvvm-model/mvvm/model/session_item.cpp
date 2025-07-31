@@ -32,7 +32,6 @@
 #include <mvvm/commands/remove_item_command.h>
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/core/unique_id_generator.h>
 #include <mvvm/model/i_session_model.h>
 
 #include <utility>
@@ -55,7 +54,7 @@ SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
 SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
 {
-  utils::SetDataImpl(*this, UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  utils::SetIdentifier(*this);
 }
 
 SessionItem::SessionItem(const std::string& item_type, std::unique_ptr<SessionItemData> data,

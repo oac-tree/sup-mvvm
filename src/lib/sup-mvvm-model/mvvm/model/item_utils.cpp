@@ -70,7 +70,8 @@ namespace mvvm::utils
 
 void SetIdentifier(SessionItem& item)
 {
-  item.SetData(UniqueIdGenerator::Generate(), DataRole::kIdentifier);
+  // we want to bypass any data strategies
+  SetDataImpl(item, UniqueIdGenerator::Generate(), DataRole::kIdentifier);
 }
 
 bool SetData(SessionItem& item, const variant_t& value, role_t role)
