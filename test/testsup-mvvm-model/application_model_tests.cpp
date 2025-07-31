@@ -599,4 +599,17 @@ TEST_F(ApplicationModelTest, CloneForTestModel)
   EXPECT_EQ(command_stack->GetUndoLimit(), 100);
 }
 
+TEST_F(ApplicationModelTest, ItemPoolOfClonedItem)
+{
+  TestModel model;
+  auto item = model.InsertItem<SessionItem>();
+  model.SetUndoEnabled(true, 100);
+  item->SetData(42);
+
+  auto clone = model.Clone();
+
+  // checking if pool was reused by the clone: cloned model can find property item of original model
+  EXPECT_EQ(clone->FindItem(item->GetIdentifier()), item);
+}
+
 }  // namespace mvvm::test

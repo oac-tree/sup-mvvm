@@ -86,7 +86,8 @@ SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> poo
 }
 
 SessionModel::SessionModel(const SessionModel& other)
-    : SessionModel(other.GetType(), {}, other.p_impl->m_command_processor->Clone())
+    : SessionModel(other.GetType(), other.p_impl->m_pool,
+                   other.p_impl->m_command_processor->Clone())
 {
   ReplaceRootItem(utils::CopyItem(*other.GetRootItem()));
 }
