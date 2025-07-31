@@ -1,5 +1,8 @@
 Changes for 2.0.0:
 
+- Switch to references in model utils
+- Provide model clone machinery
+- Refactor ComboProperty serialization (breaks project file compatibility)
 - Refactor TreeData to variant conversion
 - Provide helper functions to convert variant TypeCode to string and back
 

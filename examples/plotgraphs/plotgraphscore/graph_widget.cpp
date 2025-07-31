@@ -70,7 +70,7 @@ void GraphWidget::SetModel(GraphModel* model)
 
   m_model = model;
   m_tree_view->SetApplicationModel(model);
-  m_graph_canvas->SetItem(::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(model));
+  m_graph_canvas->SetItem(::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(*model));
 }
 
 void GraphWidget::InitActions()

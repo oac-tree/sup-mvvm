@@ -170,7 +170,7 @@ void MainWindow::InitMenu()
 void MainWindow::PopulateScene()
 {
   m_graphics_scene->clear();
-  for (auto item : mvvm::utils::GetTopItems<MouseItem>(m_mouse_model.get()))
+  for (auto item : mvvm::utils::GetTopItems<MouseItem>(*m_mouse_model))
   {
     m_graphics_scene->addItem(new Mouse(item));
   }

@@ -69,7 +69,7 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   }
 
   m_model = model;
-  m_right_widget->SetModel(m_model, mvvm::utils::GetTopItem<DemoContainerItem>(m_model));
+  m_right_widget->SetModel(m_model, mvvm::utils::GetTopItem<DemoContainerItem>(*m_model));
 }
 
 void ModelEditorWidget::UpdateCurrentProjectInfo(const std::string& path, bool is_modified)

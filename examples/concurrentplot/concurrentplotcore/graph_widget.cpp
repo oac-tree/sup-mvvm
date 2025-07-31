@@ -64,7 +64,7 @@ void GraphWidget::SetModel(GraphModel* model)
   }
   m_model = model;
   m_tree_view->SetApplicationModel(m_model);
-  m_graph_canvas->SetItem(mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(m_model));
+  m_graph_canvas->SetItem(mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(*m_model));
 }
 
 //! Takes simulation results from JobManager and write into the model.

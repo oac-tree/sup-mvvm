@@ -78,7 +78,7 @@ void ModelEditorWidget::SetModel(SampleModel* model)
   m_property_right_widget->SetViewModel(std::make_unique<mvvm::PropertyViewModel>(model));
   m_property_bottom_widget->SetViewModel(std::make_unique<mvvm::PropertyTableViewModel>(model));
 
-  auto top_items = mvvm::utils::GetTopItems(model);
+  auto top_items = mvvm::utils::GetTopItems(*model);
   m_property_left_widget->SetItem(top_items[0]);
   m_property_right_widget->SetItem(top_items[1]);
 }

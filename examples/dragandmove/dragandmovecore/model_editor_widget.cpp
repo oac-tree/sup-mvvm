@@ -71,7 +71,7 @@ void ModelEditorWidget::SetModel(SampleModel* model)
 
   m_model = model;
 
-  auto containers = mvvm::utils::GetTopItems(m_model);
+  auto containers = mvvm::utils::GetTopItems(*m_model);
 
   m_left_widget->SetModel(m_model, containers[0]);
   m_right_widget->SetModel(m_model, containers[1]);

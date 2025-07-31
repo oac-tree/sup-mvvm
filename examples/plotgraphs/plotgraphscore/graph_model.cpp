@@ -132,12 +132,12 @@ void GraphModel::Redo()
 
 mvvm::GraphViewportItem* GraphModel::GetViewport()
 {
-  return ::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(this);
+  return ::mvvm::utils::GetTopItem<mvvm::GraphViewportItem>(*this);
 }
 
 mvvm::ContainerItem* GraphModel::GetDataContainer()
 {
-  return ::mvvm::utils::GetTopItem<mvvm::ContainerItem>(this);
+  return ::mvvm::utils::GetTopItem<mvvm::ContainerItem>(*this);
 }
 
 }  // namespace plotgraphs

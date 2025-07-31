@@ -135,7 +135,7 @@ TEST_F(ApplicationModelComplexUndoTests, InsertDataAndGraph)
   commands->Redo();
   EXPECT_EQ(commands->GetIndex(), 1);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 1);
-  auto restored_data_item = utils::GetTopItem<Data1DItem>(&m_model);
+  auto restored_data_item = utils::GetTopItem<Data1DItem>(m_model);
   EXPECT_EQ(restored_data_item->GetIdentifier(), data_item_identifier);
   EXPECT_EQ(m_pool->ItemForKey(data_item_identifier), restored_data_item);
 
@@ -143,7 +143,7 @@ TEST_F(ApplicationModelComplexUndoTests, InsertDataAndGraph)
   commands->Redo();
   EXPECT_EQ(commands->GetIndex(), 2);
   EXPECT_EQ(m_model.GetRootItem()->GetTotalItemCount(), 2);
-  auto restored_graph_item = utils::GetTopItem<GraphItem>(&m_model);
+  auto restored_graph_item = utils::GetTopItem<GraphItem>(m_model);
   EXPECT_EQ(restored_graph_item->GetIdentifier(), graph_item_identifier);
   EXPECT_EQ(restored_graph_item->GetDataItem(), nullptr);
 

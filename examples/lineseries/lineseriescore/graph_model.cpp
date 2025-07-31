@@ -116,12 +116,12 @@ void GraphModel::RandomizeGraphs()
 
 mvvm::ChartViewportItem* GraphModel::GetViewport()
 {
-  return ::mvvm::utils::GetTopItem<mvvm::ChartViewportItem>(this);
+  return ::mvvm::utils::GetTopItem<mvvm::ChartViewportItem>(*this);
 }
 
 mvvm::ContainerItem* GraphModel::GetDataContainer()
 {
-  return ::mvvm::utils::GetTopItem<mvvm::ContainerItem>(this);
+  return ::mvvm::utils::GetTopItem<mvvm::ContainerItem>(*this);
 }
 
 }  // namespace lineseries

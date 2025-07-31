@@ -41,26 +41,22 @@ namespace mvvm::utils
 /**
  * @brief Returns top items of the given type.
  *
- * @details The top item is an item that is a child of an invisible root item.
+ * The top item is an item that is a child of an invisible root item.
  */
 template <typename T = SessionItem>
-std::vector<T*> GetTopItems(const ISessionModel* model)
+std::vector<T*> GetTopItems(const ISessionModel& model)
 {
-  if (!model)
-  {
-    throw RuntimeException("Undefined model");
-  }
-  return utils::CastItems<T>(model->GetRootItem()->GetAllItems());
+  return utils::CastItems<T>(model.GetRootItem()->GetAllItems());
 }
 
 /**
  * @brief Returns top item of the given type.
  *
- * @details If more than one item exists, return the first one. The top item is an item that is a
- * child of an invisible root item.
+ * If more than one item exists, return the first one. The top item is an item that is a child of an
+ * invisible root item.
  */
 template <typename T = SessionItem>
-T* GetTopItem(const ISessionModel* model)
+T* GetTopItem(const ISessionModel& model)
 {
   auto items = GetTopItems<T>(model);
   return items.empty() ? nullptr : items.front();
@@ -70,7 +66,7 @@ T* GetTopItem(const ISessionModel* model)
  * @brief Returns all items in a tree of given type.
  */
 template <typename T = SessionItem>
-std::vector<T*> FindItems(const ISessionModel* model)
+std::vector<T*> FindItems(const ISessionModel& model)
 {
   std::vector<T*> result;
 
@@ -82,7 +78,7 @@ std::vector<T*> FindItems(const ISessionModel* model)
     }
   };
 
-  iterate(model->GetRootItem(), func);
+  iterate(model.GetRootItem(), func);
 
   return result;
 }

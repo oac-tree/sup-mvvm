@@ -53,28 +53,24 @@ public:
 
 TEST_F(ModelUtilsTests, GetTopItem)
 {
-  EXPECT_THROW(utils::GetTopItem<CompoundItem>(nullptr), RuntimeException);
-
   SessionModel model;
-  EXPECT_EQ(utils::GetTopItem<>(&model), nullptr);
-  EXPECT_EQ(utils::GetTopItem(&model), nullptr);
+  EXPECT_EQ(utils::GetTopItem<>(model), nullptr);
+  EXPECT_EQ(utils::GetTopItem(model), nullptr);
 
   auto property = model.InsertItem<PropertyItem>();
   auto compound = model.InsertItem<CompoundItem>();
-  EXPECT_EQ(utils::GetTopItem<>(&model), property);
-  EXPECT_EQ(utils::GetTopItem(&model), property);
-  EXPECT_EQ(utils::GetTopItem<CompoundItem>(&model), compound);
+  EXPECT_EQ(utils::GetTopItem<>(model), property);
+  EXPECT_EQ(utils::GetTopItem(model), property);
+  EXPECT_EQ(utils::GetTopItem<CompoundItem>(model), compound);
 }
 
 TEST_F(ModelUtilsTests, GetTopItems)
 {
-  EXPECT_THROW(utils::GetTopItems<CompoundItem>(nullptr), RuntimeException);
-
   std::vector<SessionItem*> expected;
 
   SessionModel model;
-  EXPECT_EQ(utils::GetTopItems<>(&model), expected);
-  EXPECT_EQ(utils::GetTopItems(&model), expected);
+  EXPECT_EQ(utils::GetTopItems<>(model), expected);
+  EXPECT_EQ(utils::GetTopItems(model), expected);
 
   auto property1 = model.InsertItem<PropertyItem>();
   auto compound1 = model.InsertItem<CompoundItem>();
@@ -82,33 +78,33 @@ TEST_F(ModelUtilsTests, GetTopItems)
   auto compound2 = model.InsertItem<CompoundItem>();
 
   expected = {property1, compound1, property2, compound2};
-  EXPECT_EQ(utils::GetTopItems<>(&model), expected);
-  EXPECT_EQ(utils::GetTopItems(&model), expected);
+  EXPECT_EQ(utils::GetTopItems<>(model), expected);
+  EXPECT_EQ(utils::GetTopItems(model), expected);
 
   std::vector<CompoundItem*> expected2 = {compound1, compound2};
-  EXPECT_EQ(utils::GetTopItems<CompoundItem>(&model), expected2);
+  EXPECT_EQ(utils::GetTopItems<CompoundItem>(model), expected2);
 }
 
 TEST_F(ModelUtilsTests, FindItems)
 {
   TestModel model;
-  EXPECT_EQ(utils::FindItems<>(&model).size(), 1);             // because of rootItem
-  EXPECT_EQ(utils::FindItems<SessionItem>(&model).size(), 1);  // because of rootItem
-  EXPECT_EQ(utils::FindItems<TestCompoundItem>(&model).size(), 0);
+  EXPECT_EQ(utils::FindItems<>(model).size(), 1);             // because of rootItem
+  EXPECT_EQ(utils::FindItems<SessionItem>(model).size(), 1);  // because of rootItem
+  EXPECT_EQ(utils::FindItems<TestCompoundItem>(model).size(), 0);
 
   auto parent1 = model.InsertItem<TestCompoundItem>();
   auto property1 = model.InsertItem<PropertyItem>();
   auto parent2 = model.InsertItem<TestCompoundItem>();
 
   const std::vector<TestCompoundItem*> expected2 = {parent1, parent2};
-  EXPECT_EQ(utils::FindItems<TestCompoundItem>(&model), expected2);
+  EXPECT_EQ(utils::FindItems<TestCompoundItem>(model), expected2);
 
   auto property2 = model.InsertItem<PropertyItem>(parent1);
   auto property3 = model.InsertItem<PropertyItem>(parent2);
 
   // order correspond to iteration order
   const std::vector<PropertyItem*> expected3 = {property2, property1, property3};
-  EXPECT_EQ(utils::FindItems<PropertyItem>(&model), expected3);
+  EXPECT_EQ(utils::FindItems<PropertyItem>(model), expected3);
 }
 
 TEST_F(ModelUtilsTests, PathFromItem)

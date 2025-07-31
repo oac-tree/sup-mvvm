@@ -57,7 +57,7 @@ void ModelEditorWidget::SetModel(SampleModel* model)
     return;
   }
 
-  auto containers = mvvm::utils::GetTopItems<mvvm::ContainerItem>(model);
+  auto containers = mvvm::utils::GetTopItems<mvvm::ContainerItem>(*model);
   if (containers.size() != 3)
   {
     return;

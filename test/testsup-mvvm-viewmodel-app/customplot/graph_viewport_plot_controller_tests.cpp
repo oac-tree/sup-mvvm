@@ -360,7 +360,7 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
   model.GetCommandStack()->EndMacro();
 
   EXPECT_EQ(viewport_item->GetGraphItems()[0]->GetDataItem(),
-            utils::GetTopItems<Data1DItem>(&model).at(0));
+            utils::GetTopItems<Data1DItem>(model).at(0));
 
   EXPECT_EQ(model.GetCommandStack()->GetIndex(), 1);
   EXPECT_EQ(model.GetCommandStack()->GetCommandCount(), 1);
@@ -377,7 +377,7 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
 
   // no graph and no items
   EXPECT_EQ(viewport_item->GetGraphItems().size(), 0);
-  EXPECT_EQ(utils::GetTopItems<Data1DItem>(&model).size(), 0);
+  EXPECT_EQ(utils::GetTopItems<Data1DItem>(model).size(), 0);
   EXPECT_EQ(custom_plot->graphCount(), 0);
 
   // redoing macro
@@ -385,9 +385,9 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
   EXPECT_EQ(custom_plot->graphCount(), 1);
   EXPECT_EQ(viewport_item->GetGraphItems().size(), 1);
 
-  EXPECT_EQ(utils::GetTopItems<Data1DItem>(&model).at(0)->GetIdentifier(), data_identifier);
+  EXPECT_EQ(utils::GetTopItems<Data1DItem>(model).at(0)->GetIdentifier(), data_identifier);
   EXPECT_EQ(viewport_item->GetGraphItems()[0]->GetDataItem(),
-            utils::GetTopItems<Data1DItem>(&model).at(0));
+            utils::GetTopItems<Data1DItem>(model).at(0));
 
   EXPECT_EQ(GetBinCenters(custom_plot->graph()), expected_centers);
   EXPECT_EQ(GetValues(custom_plot->graph()), expected_values);
