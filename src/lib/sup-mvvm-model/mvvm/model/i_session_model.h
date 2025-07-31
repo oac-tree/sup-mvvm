@@ -51,6 +51,11 @@ public:
   ISessionModel& operator=(ISessionModel&&) = delete;
 
   /**
+   * @brief Creates model clone.
+   */
+  virtual std::unique_ptr<ISessionModel> Clone() const = 0;
+
+  /**
    * @brief Returns model type.
    */
   virtual std::string GetType() const = 0;

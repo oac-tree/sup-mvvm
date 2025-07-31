@@ -44,9 +44,11 @@ public:
   SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool,
                std::unique_ptr<ICommandStack> = {});
 
+  SessionModel(const SessionModel& other);
+
   ~SessionModel() override;
-  SessionModel(const SessionModel& other) = delete;
-  SessionModel& operator=(const SessionModel& other) = delete;
+
+  std::unique_ptr<ISessionModel> Clone() const override;
 
   std::string GetType() const override;
 

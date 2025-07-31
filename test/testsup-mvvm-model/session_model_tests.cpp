@@ -37,6 +37,9 @@
 namespace mvvm::test
 {
 
+/**
+ * @brief Tests for SessionModel class.
+ */
 class SessionModelTest : public ::testing::Test
 {
 public:
@@ -741,6 +744,18 @@ TEST_F(SessionModelTest, AttemptToExecuteCommandFromCommand)
   auto command = std::make_unique<InvalidTestCommand>(&model);
 
   EXPECT_THROW(model.ExecuteCommand(std::move(command)), InvalidOperationException);
+}
+
+TEST_F(SessionModelTest, Clone)
+{
+  const std::string model_type("model_type");
+  const SessionModel model(model_type);
+
+  auto clone = model.Clone();
+  EXPECT_EQ(clone->GetType(), model_type);
+  EXPECT_NE(clone->GetRootItem(), model.GetRootItem());
+  EXPECT_EQ(clone->GetRootItem()->GetIdentifier(), model.GetRootItem()->GetIdentifier());
+  EXPECT_NE(dynamic_cast<SessionModel*>(clone.get()), nullptr);
 }
 
 }  // namespace mvvm::test

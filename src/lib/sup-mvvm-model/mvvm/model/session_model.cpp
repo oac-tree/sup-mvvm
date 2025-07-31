@@ -85,6 +85,11 @@ SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> poo
   GetRootItem()->SetModel(this);
 }
 
+SessionModel::SessionModel(const SessionModel& other) : SessionModel(other.GetType())
+{
+  ReplaceRootItem(other.GetRootItem()->Clone());
+}
+
 SessionModel::~SessionModel()
 {
   // Explicitely call root item's destructor. It uses p_impl pointer during own descruction
@@ -92,6 +97,11 @@ SessionModel::~SessionModel()
   // of pecularities of MacOS libc++. See explanations here:
   // http://ibob.github.io/blog/2019/11/07/dont-use-unique_ptr-for-pimpl/
   p_impl->m_root_item.reset();
+}
+
+std::unique_ptr<ISessionModel> SessionModel::Clone() const
+{
+  return std::make_unique<SessionModel>(*this);
 }
 
 //! Returns model type.
