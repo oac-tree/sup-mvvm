@@ -163,7 +163,7 @@ protected:
 
   //!< Variable that indicates that the queue is "up and running". When set to false, all possible
   //!< threads waiting at wait_and_pop will get an exception.
-  std::atomic<bool> m_is_in_operation{true};
+  bool m_is_in_operation{true};
 };
 
 }  // namespace mvvm
