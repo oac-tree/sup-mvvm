@@ -62,9 +62,9 @@ ApplicationModel::~ApplicationModel()
   m_event_handler->Notify<ModelAboutToBeDestroyedEvent>(this);
 }
 
-ApplicationModel::ApplicationModel(const ApplicationModel& other) : SessionModel(other)
+ApplicationModel::ApplicationModel(const ApplicationModel& other)
+    : SessionModel(other), m_event_handler(std::make_unique<ModelEventHandler>())
 {
-  m_event_handler = std::make_unique<ModelEventHandler>();
 }
 
 std::unique_ptr<ISessionModel> ApplicationModel::Clone() const
