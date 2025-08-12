@@ -50,6 +50,15 @@ TEST_F(FlagsTest, InitilaState)
   EXPECT_FALSE(flags.Any());
   EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 0U);
+  EXPECT_FALSE(flags[Option::kLength]);
+  EXPECT_FALSE(flags[Option::kHeight]);
+  EXPECT_FALSE(flags[Option::kWidth]);
+  EXPECT_FALSE(flags[Option::size]);
+
+  EXPECT_FALSE(flags.HasFlag(Option::kLength));
+  EXPECT_FALSE(flags.HasFlag(Option::kHeight));
+  EXPECT_FALSE(flags.HasFlag(Option::kWidth));
+  EXPECT_FALSE(flags.HasFlag(Option::size));
 }
 
 TEST_F(FlagsTest, SetUnsetSingleFlag)
@@ -62,6 +71,11 @@ TEST_F(FlagsTest, SetUnsetSingleFlag)
   EXPECT_TRUE(flags.Any());
   EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 1U);
+
+  EXPECT_TRUE(flags[Option::kLength]);
+  EXPECT_FALSE(flags[Option::kHeight]);
+  EXPECT_FALSE(flags[Option::kWidth]);
+  EXPECT_FALSE(flags[Option::size]);
 
   flags.Reset(Option::kLength);
   EXPECT_EQ(flags.Count(), 0U);
@@ -82,6 +96,16 @@ TEST_F(FlagsTest, SetTwoFlags)
   EXPECT_TRUE(flags.Any());
   EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 3U);
+
+  EXPECT_TRUE(flags[Option::kLength]);
+  EXPECT_TRUE(flags[Option::kHeight]);
+  EXPECT_FALSE(flags[Option::kWidth]);
+  EXPECT_FALSE(flags[Option::size]);
+
+  EXPECT_TRUE(flags.HasFlag(Option::kLength));
+  EXPECT_TRUE(flags.HasFlag(Option::kHeight));
+  EXPECT_FALSE(flags.HasFlag(Option::kWidth));
+  EXPECT_FALSE(flags.HasFlag(Option::size));
 
   flags.Reset();
   EXPECT_EQ(flags.Count(), 0U);

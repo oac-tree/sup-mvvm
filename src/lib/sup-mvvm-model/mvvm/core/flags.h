@@ -99,7 +99,17 @@ public:
    */
   [[nodiscard]] std::size_t Count() const noexcept;
 
+  /**
+   * @brief Accesses the value of bit.
+   */
   constexpr bool operator[](EnumT flag) const;
+
+  /**
+   * @brief Checks if the bit is set.
+   *
+   * Same behavior as index operator.
+   */
+  constexpr bool HasFlag(EnumT flag) const;
 
   /**
    * @brief Converts the content of bitset to unsigned integer.
@@ -170,6 +180,12 @@ inline std::size_t Flags<EnumT>::Count() const noexcept
 
 template <typename EnumT>
 constexpr bool Flags<EnumT>::operator[](EnumT flag) const
+{
+  return m_bits[underlying(flag)];
+}
+
+template <typename EnumT>
+constexpr bool Flags<EnumT>::HasFlag(EnumT flag) const
 {
   return m_bits[underlying(flag)];
 }
