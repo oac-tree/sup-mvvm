@@ -247,7 +247,7 @@ std::vector<SessionItem*> TopLevelItems(const SessionItem& item)
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
   {
-    if (child->IsVisible() && !HasAppearanceFlag(*child, kProperty))
+    if (child->IsVisible() && !child->HasFlag(kProperty))
     {
       result.push_back(child);
     }
@@ -260,7 +260,7 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
   std::vector<SessionItem*> result;
   for (auto child : item.GetAllItems())
   {
-    if (child->IsVisible() && HasAppearanceFlag(*child, kProperty))
+    if (child->IsVisible() && child->HasFlag(kProperty))
     {
       result.push_back(child);
     }
@@ -370,13 +370,6 @@ int GetNestingDepth(const SessionItem* item)
   }
 
   return level;
-}
-
-bool HasAppearanceFlag(const SessionItem& item, Appearance flag)
-{
-  return item.HasData(DataRole::kAppearance)
-             ? item.Data<std::uint32_t>(DataRole::kAppearance) & flag
-             : false;
 }
 
 bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)

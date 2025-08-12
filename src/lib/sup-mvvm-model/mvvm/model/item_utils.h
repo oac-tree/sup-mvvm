@@ -242,11 +242,6 @@ MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* basis, const SessionIte
 MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* item);
 
 /**
- * @brief Checks if given item has appearance flag set.
- */
-MVVM_MODEL_EXPORT bool HasAppearanceFlag(const SessionItem& item, Appearance flag);
-
-/**
  * @brief Replace data of given item with provided value for given role, returns true in the case of
  * success.
  *

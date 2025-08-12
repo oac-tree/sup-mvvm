@@ -442,47 +442,6 @@ TEST_F(ItemUtilsTests, GetNestingDepthWrtRootItem)
   EXPECT_EQ(GetNestingDepth(grand_parent), 1);
 }
 
-TEST_F(ItemUtilsTests, HasAppearanceFlag)
-{
-  using mvvm::utils::HasAppearanceFlag;
-
-  {  // by default item has no appearance flags
-    const SessionItem item;
-    EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
-    EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
-    EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
-    EXPECT_FALSE(HasAppearanceFlag(item, kProperty));
-  }
-
-  {
-    SessionItem item;
-    item.SetEnabled(false);
-    EXPECT_TRUE(HasAppearanceFlag(item, kDisabled));
-    EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
-    EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
-    EXPECT_FALSE(HasAppearanceFlag(item, kProperty));
-    item.SetEnabled(true);
-    EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
-    EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
-    EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
-    EXPECT_FALSE(HasAppearanceFlag(item, kProperty));
-  }
-
-  {
-    SessionItem item;
-    item.SetFlag(kProperty, true);
-    EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
-    EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
-    EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
-    EXPECT_TRUE(HasAppearanceFlag(item, kProperty));
-    item.SetFlag(kProperty, false);
-    EXPECT_FALSE(HasAppearanceFlag(item, kDisabled));
-    EXPECT_FALSE(HasAppearanceFlag(item, kReadOnly));
-    EXPECT_FALSE(HasAppearanceFlag(item, kHidden));
-    EXPECT_FALSE(HasAppearanceFlag(item, kProperty));
-  }
-}
-
 TEST_F(ItemUtilsTests, ReplaceData)
 {
   SessionItem item;
