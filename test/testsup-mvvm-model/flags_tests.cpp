@@ -33,7 +33,6 @@ class FlagsTest : public ::testing::Test
 public:
   enum class Option : std::uint8_t
   {
-    NoOptions,
     kLength,
     kHeight,
     kWidth,
@@ -45,14 +44,31 @@ TEST_F(FlagsTest, InitilaState)
 {
   const Flags<Option> flags;
 
-  EXPECT_EQ(flags.count(), 0);
+  EXPECT_EQ(flags.count(), 0U);
   EXPECT_EQ(flags.size(), static_cast<std::size_t>(Option::size));
+  EXPECT_TRUE(flags.none());
+  EXPECT_FALSE(flags.any());
+  EXPECT_FALSE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 0U);
 }
 
-TEST_F(FlagsTest, BasicUsage)
+TEST_F(FlagsTest, SetUnsetSingleFlag)
 {
+  Flags<Option> flags;
 
+  flags.set(Option::kLength, true);
+  EXPECT_EQ(flags.count(), 1U);
+  EXPECT_FALSE(flags.none());
+  EXPECT_TRUE(flags.any());
+  EXPECT_FALSE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 1U);
+
+  flags.reset();
+  EXPECT_EQ(flags.count(), 0U);
+  EXPECT_TRUE(flags.none());
+  EXPECT_FALSE(flags.any());
+  EXPECT_FALSE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 0U);
 }
-
 
 }  // namespace mvvm::test
