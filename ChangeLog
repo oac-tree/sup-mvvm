@@ -1,5 +1,6 @@
 Changes for 2.0.0:
 
+- Implement convenience Flags<> class and use it to store item appearance
 - Switch to references in model utils
 - Provide model clone machinery
 - Refactor ComboProperty serialization (breaks project file compatibility)
