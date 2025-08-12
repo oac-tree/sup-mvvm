@@ -44,7 +44,12 @@ const role_t kTextColor = 9;   //!< text color role
 const role_t kUser = 100;      //!< user role
 }  // namespace DataRole
 
-//! Defines bit fields for appearance flag (kAppearance data role).
+/**
+ * @brief The Appearance enum defines bit fields for various item appearances (kAppearance data
+ * role).
+ *
+ * It is intended to work together with Flags<> class and has obligatory last member named "size".
+ */
 enum Appearance : std::uint32_t
 {
   kDefault,      //! default appearance (enabled, editable, visible)
@@ -54,7 +59,7 @@ enum Appearance : std::uint32_t
   kHidden,       //! doesn't appear in trees and tables
   kProperty,     //! item appears in property editors; doesn't appear as top-level item
   kEditableDisplayName,  //! display name of the item can be edited
-  size
+  size                   //! obligatory name
 };
 
 }  // namespace mvvm

@@ -43,13 +43,20 @@ namespace mvvm
 namespace
 {
 
+/**
+ * @brief Constructs convenience Flags<> object from the underlying value used to store Appearance
+ * flags.
+ */
 Flags<Appearance> GetFlags(const SessionItem& item)
 {
   return item.HasData(DataRole::kAppearance)
-             ? Flags<Appearance>(item.Data<std::uint32_t>(DataRole::kAppearance))
+             ? Flags<Appearance>(item.Data<Flags<Appearance>::StorageT>(DataRole::kAppearance))
              : Flags<Appearance>{};
 }
 
+/**
+ * @brief Stores given flags on board of given item.
+ */
 void SetFlags(const Flags<Appearance>& flags, SessionItem& item)
 {
   item.SetData(flags.to_ulong(), DataRole::kAppearance);

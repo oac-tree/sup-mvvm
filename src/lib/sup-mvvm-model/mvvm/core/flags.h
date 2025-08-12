@@ -45,9 +45,10 @@ class Flags
 {
   static_assert(std::is_enum_v<EnumT>, "Flags can only be specialized for enum types");
 
-  using UnderlyingT = typename std::make_unsigned_t<typename std::underlying_type_t<EnumT>>;
-
 public:
+  using UnderlyingT = typename std::make_unsigned_t<typename std::underlying_type_t<EnumT>>;
+  using StorageT = std::uint32_t;
+
   /**
    * @brief Default constructor.
    *
@@ -120,7 +121,7 @@ public:
   /**
    * @brief Converts the content of bitset to unsigned integer.
    */
-  std::uint32_t to_ulong() const { return m_bits.to_ulong(); }
+  StorageT to_ulong() const { return m_bits.to_ulong(); }
 
 private:
   static constexpr UnderlyingT underlying(EnumT flag) { return static_cast<UnderlyingT>(flag); }
