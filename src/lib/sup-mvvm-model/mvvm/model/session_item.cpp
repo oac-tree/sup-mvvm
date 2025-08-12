@@ -32,16 +32,17 @@
 #include <mvvm/commands/remove_item_command.h>
 #include <mvvm/commands/set_value_command.h>
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/core/flags.h>
 #include <mvvm/model/i_session_model.h>
 
 #include <utility>
 
 namespace
 {
-std::int32_t appearance(const mvvm::SessionItem& item)
+std::uint32_t appearance(const mvvm::SessionItem& item)
 {
   return item.HasData(mvvm::DataRole::kAppearance)
-             ? item.Data<std::int32_t>(mvvm::DataRole::kAppearance)
+             ? item.Data<std::uint32_t>(mvvm::DataRole::kAppearance)
              : mvvm::Appearance::kDefault;
 }
 }  // namespace
@@ -276,12 +277,13 @@ SessionItem& SessionItem::SetEditorType(const std::string& editor_type)
 
 bool SessionItem::HasFlag(Appearance flag) const
 {
-  return HasData(DataRole::kAppearance) ? Data<std::int32_t>(DataRole::kAppearance) & flag : false;
+  return HasData(DataRole::kAppearance) ? Data<std::uint32_t>(DataRole::kAppearance) & flag : false;
 }
 
 SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
 {
-  std::int32_t flags = appearance(*this);
+  Flags<Appearance> flags0;
+  std::uint32_t flags = appearance(*this);
   if (value)
   {
     flags |= flag;

@@ -45,7 +45,7 @@ const role_t kUser = 100;      //!< user role
 }  // namespace DataRole
 
 //! Defines bit fields for appearance flag (kAppearance data role).
-enum Appearance
+enum Appearance : std::uint32_t
 {
   kDefault = 0,      //! default appearance (enabled, editable, visible)
   kDisabled = 1,     //! appears as disabled in Qt widgets (visible and editable but shown in gray)
@@ -53,7 +53,8 @@ enum Appearance
   kHighlighted = 4,  //! shown differently than the other items
   kHidden = 8,       //! doesn't appear in trees and tables
   kProperty = 16,    //! item appears in property editors; doesn't appear as top-level item
-  kEditableDisplayName = 32  //! display name of the item can be edited
+  kEditableDisplayName = 32,  //! display name of the item can be edited
+  size = 7
 };
 
 }  // namespace mvvm
