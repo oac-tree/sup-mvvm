@@ -45,14 +45,17 @@ const role_t kUser = 100;      //!< user role
 }  // namespace DataRole
 
 /**
- * @brief The Appearance enum defines bit fields for various item appearances (kAppearance data
- * role).
+ * @brief The Appearance enum defines bit fields for various item appearance states.
  *
- * It is intended to work together with Flags<> class and has obligatory last member named "size".
+ * A combination of Appearance fields is stored on the board of SessionItem as the kAppearance data
+ * role. By default, the item doesn't have any special Appearance fields defined, i.e., the item is
+ * enabled, editable, visible, etc.
+ *
+ * The Appearance enum is intended to work together with the convenience Flags<> class and has
+ * obligatory last member named "size".
  */
-enum Appearance : std::uint32_t
+enum Appearance : std::uint8_t
 {
-  kDefault,      //! default appearance (enabled, editable, visible)
   kDisabled,     //! appears as disabled in Qt widgets (visible and editable but shown in gray)
   kReadOnly,     //! readonly in Qt widgets
   kHighlighted,  //! shown differently than the other items

@@ -57,6 +57,22 @@ public:
   public:
     ItemB() : SessionItem("ItemB") {}
   };
+
+  /**
+   * @brief Returns variant representation of Appearance flags.
+   */
+  static variant_t GetAppearanceAsVariant(const std::vector<Appearance>& flags)
+  {
+    return Flags<Appearance>(flags).to_ulong();
+  }
+
+  /**
+   * @brief Returns variant representation of Adefault appearanace.
+   */
+  static variant_t GetDefaultAppearanceValue()
+  {
+    return Flags<Appearance>().to_ulong();  // 0U
+  }
 };
 
 TEST_F(SessionItemTests, InitialState)
@@ -644,7 +660,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetEnabled)
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
 
-  EXPECT_EQ(variant, variant_t(2U));  // Appearance::kDisabled
+  EXPECT_EQ(variant, GetAppearanceAsVariant({Appearance::kDisabled}));
 
   // enabling again
   item.SetEnabled(true);
@@ -655,7 +671,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetEnabled)
   // data is there, but appearance is the default one
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kDefault));
+  EXPECT_EQ(variant, GetAppearanceAsVariant({}));
 }
 
 TEST_F(SessionItemTests, CheckAppearanceOnSetEditable)
@@ -680,7 +696,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetEditable)
   // data should be there now
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(4U));  // Appearance::kReadOnly
+  EXPECT_EQ(variant, GetAppearanceAsVariant({Appearance::kReadOnly}));
 
   // enabling again
   item.SetEditable(true);
@@ -691,7 +707,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetEditable)
   // data is there, but appearance is the default one
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kDefault));
+  EXPECT_EQ(variant, GetAppearanceAsVariant({}));
 }
 
 TEST_F(SessionItemTests, CheckAppearanceOnSetVisible)
@@ -716,7 +732,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetVisible)
   // data should be there now
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(16U));  // Appearance::kHidden
+  EXPECT_EQ(variant, GetAppearanceAsVariant({Appearance::kHidden}));
 
   // enabling again
   item.SetVisible(true);
@@ -727,7 +743,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetVisible)
   // data is there, but appearance is the default one
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kDefault));
+  EXPECT_EQ(variant, GetAppearanceAsVariant({}));
 }
 
 TEST_F(SessionItemTests, CheckAppearanceForDisabledAndReaonly)
@@ -746,8 +762,7 @@ TEST_F(SessionItemTests, CheckAppearanceForDisabledAndReaonly)
   auto variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
 
-  Flags<Appearance> flags({Appearance::kDisabled, Appearance::kReadOnly});
-  EXPECT_EQ(variant, variant_t(flags.to_ulong()));
+  EXPECT_EQ(variant, GetAppearanceAsVariant({Appearance::kDisabled, Appearance::kReadOnly}));
 }
 
 TEST_F(SessionItemTests, SetAppearanceFlag)
@@ -770,7 +785,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_FALSE(utils::IsValid(variant));
 
   // set kDisabled
-  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  item.SetData(0U, DataRole::kAppearance);
   EXPECT_EQ(&item.SetFlag(kDisabled, true), &item);
   EXPECT_TRUE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
@@ -779,7 +794,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_FALSE(item.HasFlag(kHighlighted));
 
   // set kReadOnly
-  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  item.SetData(GetDefaultAppearanceValue(), DataRole::kAppearance);
   EXPECT_EQ(&item.SetFlag(kReadOnly, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_TRUE(item.HasFlag(kReadOnly));
@@ -788,7 +803,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_FALSE(item.HasFlag(kHighlighted));
 
   // set kHidden
-  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  item.SetData(GetDefaultAppearanceValue(), DataRole::kAppearance);
   EXPECT_EQ(&item.SetFlag(kHidden, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
@@ -797,7 +812,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_FALSE(item.HasFlag(kHighlighted));
 
   // set kProperty
-  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  item.SetData(GetDefaultAppearanceValue(), DataRole::kAppearance);
   EXPECT_EQ(&item.SetFlag(kProperty, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
@@ -806,7 +821,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_FALSE(item.HasFlag(kHighlighted));
 
   // set kHighlighted
-  item.SetData(Appearance::kDefault, DataRole::kAppearance);
+  item.SetData(GetDefaultAppearanceValue(), DataRole::kAppearance);
   EXPECT_EQ(&item.SetFlag(kHighlighted, true), &item);
   EXPECT_FALSE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));
