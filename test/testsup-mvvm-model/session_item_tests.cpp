@@ -20,6 +20,7 @@
 
 #include "mvvm/model/session_item.h"
 
+#include <mvvm/core/flags.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/property_item.h>
@@ -642,7 +643,8 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetEnabled)
   // data should be there now
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kDisabled));
+
+  EXPECT_EQ(variant, variant_t(2U));  // Appearance::kDisabled
 
   // enabling again
   item.SetEnabled(true);
@@ -678,7 +680,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetEditable)
   // data should be there now
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kReadOnly));
+  EXPECT_EQ(variant, variant_t(4U));  // Appearance::kReadOnly
 
   // enabling again
   item.SetEditable(true);
@@ -714,7 +716,7 @@ TEST_F(SessionItemTests, CheckAppearanceOnSetVisible)
   // data should be there now
   variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kHidden));
+  EXPECT_EQ(variant, variant_t(16U));  // Appearance::kHidden
 
   // enabling again
   item.SetVisible(true);
@@ -743,7 +745,9 @@ TEST_F(SessionItemTests, CheckAppearanceForDisabledAndReaonly)
   // data should be there now
   auto variant = item.Data(DataRole::kAppearance);
   EXPECT_TRUE(utils::IsValid(variant));
-  EXPECT_EQ(variant, variant_t(Appearance::kDisabled | Appearance::kReadOnly));
+
+  Flags<Appearance> flags({Appearance::kDisabled, Appearance::kReadOnly});
+  EXPECT_EQ(variant, variant_t(flags.to_ulong()));
 }
 
 TEST_F(SessionItemTests, SetAppearanceFlag)

@@ -31,24 +31,31 @@
 #include <mvvm/commands/insert_item_command.h>
 #include <mvvm/commands/remove_item_command.h>
 #include <mvvm/commands/set_value_command.h>
-#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/flags.h>
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
 
 #include <utility>
 
-namespace
-{
-std::uint32_t appearance(const mvvm::SessionItem& item)
-{
-  return item.HasData(mvvm::DataRole::kAppearance)
-             ? item.Data<std::uint32_t>(mvvm::DataRole::kAppearance)
-             : mvvm::Appearance::kDefault;
-}
-}  // namespace
-
 namespace mvvm
 {
+
+namespace
+{
+
+Flags<Appearance> GetFlags(const SessionItem& item)
+{
+  return item.HasData(DataRole::kAppearance)
+             ? Flags<Appearance>(item.Data<std::uint32_t>(DataRole::kAppearance))
+             : Flags<Appearance>{};
+}
+
+void SetFlags(const Flags<Appearance>& flags, SessionItem& item)
+{
+  item.SetData(flags.to_ulong(), DataRole::kAppearance);
+}
+
+}  // namespace
 
 SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
 
@@ -225,7 +232,7 @@ std::unique_ptr<SessionItem> SessionItem::TakeItem(const TagIndex& tag_index)
 
 bool SessionItem::IsEditable() const
 {
-  return !(appearance(*this) & Appearance::kReadOnly);
+  return !GetFlags(*this).IsSet(Appearance::kReadOnly);
 }
 
 SessionItem& SessionItem::SetEditable(bool value)
@@ -235,7 +242,7 @@ SessionItem& SessionItem::SetEditable(bool value)
 
 bool SessionItem::IsEnabled() const
 {
-  return !(appearance(*this) & Appearance::kDisabled);
+  return !GetFlags(*this).IsSet(Appearance::kDisabled);
 }
 
 SessionItem& SessionItem::SetEnabled(bool value)
@@ -245,7 +252,7 @@ SessionItem& SessionItem::SetEnabled(bool value)
 
 bool SessionItem::IsVisible() const
 {
-  return !(appearance(*this) & Appearance::kHidden);
+  return !GetFlags(*this).IsSet(Appearance::kHidden);
 }
 
 SessionItem& SessionItem::SetVisible(bool value)
@@ -277,23 +284,12 @@ SessionItem& SessionItem::SetEditorType(const std::string& editor_type)
 
 bool SessionItem::HasFlag(Appearance flag) const
 {
-  return HasData(DataRole::kAppearance) ? Data<std::uint32_t>(DataRole::kAppearance) & flag : false;
+  return GetFlags(*this).IsSet(flag);
 }
 
 SessionItem& SessionItem::SetFlag(Appearance flag, bool value)
 {
-  Flags<Appearance> flags0;
-  std::uint32_t flags = appearance(*this);
-  if (value)
-  {
-    flags |= flag;
-  }
-  else
-  {
-    flags &= ~flag;
-  }
-
-  SetData(flags, DataRole::kAppearance);
+  SetFlags(GetFlags(*this).Set(flag, value), *this);
   return *this;
 }
 
