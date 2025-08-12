@@ -63,12 +63,57 @@ TEST_F(FlagsTest, SetUnsetSingleFlag)
   EXPECT_FALSE(flags.all());
   EXPECT_EQ(flags.to_ulong(), 1U);
 
+  flags.reset(Option::kLength);
+  EXPECT_EQ(flags.count(), 0U);
+  EXPECT_TRUE(flags.none());
+  EXPECT_FALSE(flags.any());
+  EXPECT_FALSE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 0U);
+}
+
+TEST_F(FlagsTest, SetTwoFlags)
+{
+  Flags<Option> flags;
+
+  flags.set(Option::kLength, true);
+  flags.set(Option::kHeight, true);
+  EXPECT_EQ(flags.count(), 2U);
+  EXPECT_FALSE(flags.none());
+  EXPECT_TRUE(flags.any());
+  EXPECT_FALSE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 3U);
+
   flags.reset();
   EXPECT_EQ(flags.count(), 0U);
   EXPECT_TRUE(flags.none());
   EXPECT_FALSE(flags.any());
   EXPECT_FALSE(flags.all());
   EXPECT_EQ(flags.to_ulong(), 0U);
+}
+
+TEST_F(FlagsTest, SetAllFlags)
+{
+  Flags<Option> flags;
+
+  flags.set(Option::kLength, true);
+  flags.set(Option::kHeight, true);
+  flags.set(Option::kWidth, true);
+  EXPECT_EQ(flags.count(), 3U);
+  EXPECT_FALSE(flags.none());
+  EXPECT_TRUE(flags.any());
+  EXPECT_TRUE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 7U);
+}
+
+TEST_F(FlagsTest, ConstructFromValue)
+{
+  Flags<Option> flags(7U);
+
+  EXPECT_EQ(flags.count(), 3U);
+  EXPECT_FALSE(flags.none());
+  EXPECT_TRUE(flags.any());
+  EXPECT_TRUE(flags.all());
+  EXPECT_EQ(flags.to_ulong(), 7U);
 }
 
 }  // namespace mvvm::test

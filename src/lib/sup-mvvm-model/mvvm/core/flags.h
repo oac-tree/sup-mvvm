@@ -32,7 +32,12 @@ namespace mvvm
  * @brief The Flags class is a simple container for flags defined by the enum class.
  *
  * @tparam EnumT Enum class type.
+ *
  * @note Inspired by https://m-peko.github.io/craft-cpp/posts/different-ways-to-define-binary-flags/
+ * It is required that the last element of enum class is called "size"
+ *
+ * enum class Option : std::uint8_t { kLength, kHeight, size};
+ * Flags<Option> flags;
  */
 template <typename EnumT>
 class Flags
@@ -42,10 +47,31 @@ class Flags
   using UnderlyingT = typename std::make_unsigned_t<typename std::underlying_type_t<EnumT>>;
 
 public:
+  /**
+   * @brief Default constructor.
+   *
+   * COnstruct a bitset with all bits set to zero.
+   */
+  Flags() = default;
+
+  /**
+   * @brief Constructs a bitset from an unsigned integer.
+   */
+  explicit Flags(std::uint32_t value);
+
+  /**
+   * @brief Set bits to true or given value.
+   */
   Flags& set(EnumT flag, bool value = true) noexcept;
 
+  /**
+   * @brief Set bits to false.
+   */
   Flags& reset(EnumT flag) noexcept;
 
+  /**
+   * @brief Set all bits to false.
+   */
   Flags& reset() noexcept;
 
   /**
@@ -105,6 +131,11 @@ inline Flags<EnumT>& Flags<EnumT>::reset() noexcept
 {
   m_bits.reset();
   return *this;
+}
+
+template <typename EnumT>
+inline Flags<EnumT>::Flags(std::uint32_t value) : m_bits(value)
+{
 }
 
 template <typename EnumT>
