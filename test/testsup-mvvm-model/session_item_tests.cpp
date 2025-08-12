@@ -59,7 +59,7 @@ public:
   };
 
   /**
-   * @brief Returns variant representation of Appearance flags.
+   * @brief Returns a variant representation of Appearance flags.
    */
   static variant_t GetAppearanceAsVariant(const std::vector<Appearance>& flags)
   {
@@ -67,7 +67,7 @@ public:
   }
 
   /**
-   * @brief Returns variant representation of Adefault appearanace.
+   * @brief Returns a variant representation of the default appearance.
    */
   static variant_t GetDefaultAppearanceValue()
   {
