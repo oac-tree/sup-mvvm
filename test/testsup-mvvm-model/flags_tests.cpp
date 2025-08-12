@@ -44,11 +44,11 @@ TEST_F(FlagsTest, InitilaState)
 {
   const Flags<Option> flags;
 
-  EXPECT_EQ(flags.count(), 0U);
-  EXPECT_EQ(flags.size(), static_cast<std::size_t>(Option::size));
-  EXPECT_TRUE(flags.none());
-  EXPECT_FALSE(flags.any());
-  EXPECT_FALSE(flags.all());
+  EXPECT_EQ(flags.Count(), 0U);
+  EXPECT_EQ(flags.GetSize(), static_cast<std::size_t>(Option::size));
+  EXPECT_TRUE(flags.None());
+  EXPECT_FALSE(flags.Any());
+  EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 0U);
 }
 
@@ -56,18 +56,18 @@ TEST_F(FlagsTest, SetUnsetSingleFlag)
 {
   Flags<Option> flags;
 
-  flags.set(Option::kLength, true);
-  EXPECT_EQ(flags.count(), 1U);
-  EXPECT_FALSE(flags.none());
-  EXPECT_TRUE(flags.any());
-  EXPECT_FALSE(flags.all());
+  flags.Set(Option::kLength, true);
+  EXPECT_EQ(flags.Count(), 1U);
+  EXPECT_FALSE(flags.None());
+  EXPECT_TRUE(flags.Any());
+  EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 1U);
 
-  flags.reset(Option::kLength);
-  EXPECT_EQ(flags.count(), 0U);
-  EXPECT_TRUE(flags.none());
-  EXPECT_FALSE(flags.any());
-  EXPECT_FALSE(flags.all());
+  flags.Reset(Option::kLength);
+  EXPECT_EQ(flags.Count(), 0U);
+  EXPECT_TRUE(flags.None());
+  EXPECT_FALSE(flags.Any());
+  EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 0U);
 }
 
@@ -75,19 +75,19 @@ TEST_F(FlagsTest, SetTwoFlags)
 {
   Flags<Option> flags;
 
-  flags.set(Option::kLength, true);
-  flags.set(Option::kHeight, true);
-  EXPECT_EQ(flags.count(), 2U);
-  EXPECT_FALSE(flags.none());
-  EXPECT_TRUE(flags.any());
-  EXPECT_FALSE(flags.all());
+  flags.Set(Option::kLength, true);
+  flags.Set(Option::kHeight, true);
+  EXPECT_EQ(flags.Count(), 2U);
+  EXPECT_FALSE(flags.None());
+  EXPECT_TRUE(flags.Any());
+  EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 3U);
 
-  flags.reset();
-  EXPECT_EQ(flags.count(), 0U);
-  EXPECT_TRUE(flags.none());
-  EXPECT_FALSE(flags.any());
-  EXPECT_FALSE(flags.all());
+  flags.Reset();
+  EXPECT_EQ(flags.Count(), 0U);
+  EXPECT_TRUE(flags.None());
+  EXPECT_FALSE(flags.Any());
+  EXPECT_FALSE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 0U);
 }
 
@@ -95,24 +95,24 @@ TEST_F(FlagsTest, SetAllFlags)
 {
   Flags<Option> flags;
 
-  flags.set(Option::kLength, true);
-  flags.set(Option::kHeight, true);
-  flags.set(Option::kWidth, true);
-  EXPECT_EQ(flags.count(), 3U);
-  EXPECT_FALSE(flags.none());
-  EXPECT_TRUE(flags.any());
-  EXPECT_TRUE(flags.all());
+  flags.Set(Option::kLength, true);
+  flags.Set(Option::kHeight, true);
+  flags.Set(Option::kWidth, true);
+  EXPECT_EQ(flags.Count(), 3U);
+  EXPECT_FALSE(flags.None());
+  EXPECT_TRUE(flags.Any());
+  EXPECT_TRUE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 7U);
 }
 
 TEST_F(FlagsTest, ConstructFromValue)
 {
-  Flags<Option> flags(7U);
+  const Flags<Option> flags(7U);
 
-  EXPECT_EQ(flags.count(), 3U);
-  EXPECT_FALSE(flags.none());
-  EXPECT_TRUE(flags.any());
-  EXPECT_TRUE(flags.all());
+  EXPECT_EQ(flags.Count(), 3U);
+  EXPECT_FALSE(flags.None());
+  EXPECT_TRUE(flags.Any());
+  EXPECT_TRUE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 7U);
 }
 

@@ -62,42 +62,42 @@ public:
   /**
    * @brief Set bits to true or given value.
    */
-  Flags& set(EnumT flag, bool value = true) noexcept;
+  Flags& Set(EnumT flag, bool value = true) noexcept;
 
   /**
    * @brief Set bits to false.
    */
-  Flags& reset(EnumT flag) noexcept;
+  Flags& Reset(EnumT flag) noexcept;
 
   /**
    * @brief Set all bits to false.
    */
-  Flags& reset() noexcept;
+  Flags& Reset() noexcept;
 
   /**
-   * @brief Checks if all of the bits are set to true.
+   * @brief Checks if All of the bits are set to true.
    */
-  [[nodiscard]] bool all() const noexcept;
+  [[nodiscard]] bool All() const noexcept;
 
   /**
-   * @brief Checks if any of the bits are set to true.
+   * @brief Checks if Any of the bits are set to true.
    */
-  [[nodiscard]] bool any() const noexcept;
+  [[nodiscard]] bool Any() const noexcept;
 
   /**
-   * @brief Checks if none of the bits are set to true.
+   * @brief Checks if None of the bits are set to true.
    */
-  [[nodiscard]] bool none() const noexcept;
+  [[nodiscard]] bool None() const noexcept;
 
   /**
    * @brief Returns number of bits the bitset holds.
    */
-  [[nodiscard]] constexpr std::size_t size() const noexcept;
+  [[nodiscard]] constexpr std::size_t GetSize() const noexcept;
 
   /**
    * @brief Returns number of bits set to true.
    */
-  [[nodiscard]] std::size_t count() const noexcept;
+  [[nodiscard]] std::size_t Count() const noexcept;
 
   constexpr bool operator[](EnumT flag) const;
 
@@ -113,21 +113,21 @@ private:
 };
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::set(EnumT flag, bool value) noexcept
+inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value) noexcept
 {
   m_bits.set(underlying(flag), value);
   return *this;
 }
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::reset(EnumT flag) noexcept
+inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag) noexcept
 {
-  set(flag, false);
+  Set(flag, false);
   return *this;
 }
 
 template <typename EnumT>
-inline Flags<EnumT>& Flags<EnumT>::reset() noexcept
+inline Flags<EnumT>& Flags<EnumT>::Reset() noexcept
 {
   m_bits.reset();
   return *this;
@@ -139,31 +139,31 @@ inline Flags<EnumT>::Flags(std::uint32_t value) : m_bits(value)
 }
 
 template <typename EnumT>
-inline bool Flags<EnumT>::all() const noexcept
+inline bool Flags<EnumT>::All() const noexcept
 {
   return m_bits.all();
 }
 
 template <typename EnumT>
-inline bool Flags<EnumT>::any() const noexcept
+inline bool Flags<EnumT>::Any() const noexcept
 {
   return m_bits.any();
 }
 
 template <typename EnumT>
-inline bool Flags<EnumT>::none() const noexcept
+inline bool Flags<EnumT>::None() const noexcept
 {
   return m_bits.none();
 }
 
 template <typename EnumT>
-constexpr std::size_t Flags<EnumT>::size() const noexcept
+constexpr std::size_t Flags<EnumT>::GetSize() const noexcept
 {
   return m_bits.size();
 }
 
 template <typename EnumT>
-inline std::size_t Flags<EnumT>::count() const noexcept
+inline std::size_t Flags<EnumT>::Count() const noexcept
 {
   return m_bits.count();
 }
