@@ -24,6 +24,7 @@
 #include <bitset>
 #include <cstdint>
 #include <type_traits>
+#include <vector>
 
 namespace mvvm
 {
@@ -58,6 +59,11 @@ public:
    * @brief Constructs a bitset from an unsigned integer.
    */
   explicit Flags(std::uint32_t value);
+
+  /**
+   * @brief Constructs a bitset and sets given flags to true.
+   */
+  explicit Flags(const std::vector<EnumT>& values);
 
   /**
    * @brief Set bits to true or given value.
@@ -109,7 +115,7 @@ public:
    *
    * Same behavior as index operator.
    */
-  constexpr bool HasFlag(EnumT flag) const;
+  constexpr bool IsSet(EnumT flag) const;
 
   /**
    * @brief Converts the content of bitset to unsigned integer.
@@ -149,6 +155,15 @@ inline Flags<EnumT>::Flags(std::uint32_t value) : m_bits(value)
 }
 
 template <typename EnumT>
+inline Flags<EnumT>::Flags(const std::vector<EnumT>& values)
+{
+  for (auto value : values)
+  {
+    Set(value);
+  }
+}
+
+template <typename EnumT>
 inline bool Flags<EnumT>::All() const noexcept
 {
   return m_bits.all();
@@ -185,7 +200,7 @@ constexpr bool Flags<EnumT>::operator[](EnumT flag) const
 }
 
 template <typename EnumT>
-constexpr bool Flags<EnumT>::HasFlag(EnumT flag) const
+constexpr bool Flags<EnumT>::IsSet(EnumT flag) const
 {
   return m_bits[underlying(flag)];
 }

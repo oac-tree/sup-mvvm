@@ -55,10 +55,10 @@ TEST_F(FlagsTest, InitilaState)
   EXPECT_FALSE(flags[Option::kWidth]);
   EXPECT_FALSE(flags[Option::size]);
 
-  EXPECT_FALSE(flags.HasFlag(Option::kLength));
-  EXPECT_FALSE(flags.HasFlag(Option::kHeight));
-  EXPECT_FALSE(flags.HasFlag(Option::kWidth));
-  EXPECT_FALSE(flags.HasFlag(Option::size));
+  EXPECT_FALSE(flags.IsSet(Option::kLength));
+  EXPECT_FALSE(flags.IsSet(Option::kHeight));
+  EXPECT_FALSE(flags.IsSet(Option::kWidth));
+  EXPECT_FALSE(flags.IsSet(Option::size));
 }
 
 TEST_F(FlagsTest, SetUnsetSingleFlag)
@@ -102,10 +102,10 @@ TEST_F(FlagsTest, SetTwoFlags)
   EXPECT_FALSE(flags[Option::kWidth]);
   EXPECT_FALSE(flags[Option::size]);
 
-  EXPECT_TRUE(flags.HasFlag(Option::kLength));
-  EXPECT_TRUE(flags.HasFlag(Option::kHeight));
-  EXPECT_FALSE(flags.HasFlag(Option::kWidth));
-  EXPECT_FALSE(flags.HasFlag(Option::size));
+  EXPECT_TRUE(flags.IsSet(Option::kLength));
+  EXPECT_TRUE(flags.IsSet(Option::kHeight));
+  EXPECT_FALSE(flags.IsSet(Option::kWidth));
+  EXPECT_FALSE(flags.IsSet(Option::size));
 
   flags.Reset();
   EXPECT_EQ(flags.Count(), 0U);
@@ -138,6 +138,16 @@ TEST_F(FlagsTest, ConstructFromValue)
   EXPECT_TRUE(flags.Any());
   EXPECT_TRUE(flags.All());
   EXPECT_EQ(flags.to_ulong(), 7U);
+}
+
+TEST_F(FlagsTest, ConstructFromVector)
+{
+  const Flags<Option> flags({Option::kLength, Option::kWidth});
+
+  EXPECT_TRUE(flags.IsSet(Option::kLength));
+  EXPECT_FALSE(flags.IsSet(Option::kHeight));
+  EXPECT_TRUE(flags.IsSet(Option::kWidth));
+  EXPECT_FALSE(flags.IsSet(Option::size));
 }
 
 }  // namespace mvvm::test
