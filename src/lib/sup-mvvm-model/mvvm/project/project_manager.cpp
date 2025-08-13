@@ -37,9 +37,9 @@ const bool kFailed = false;
 ProjectManager::ProjectManager(IProject* project, UserInteractionContext user_context)
     : m_project(project), m_user_context(std::move(user_context))
 {
-  if (!m_user_context.answer_callback)
+  if (!m_user_context.existing_path_callback)
   {
-    throw RuntimeException("Error in ProjectManager: absent answer_callback");
+    throw RuntimeException("Error in ProjectManager: absent existing_path_callback");
   }
 
   if (!m_user_context.new_path_callback)
@@ -47,9 +47,9 @@ ProjectManager::ProjectManager(IProject* project, UserInteractionContext user_co
     throw RuntimeException("Error in ProjectManager: absent new_path_callback");
   }
 
-  if (!m_user_context.existing_path_callback)
+  if (!m_user_context.answer_callback)
   {
-    throw RuntimeException("Error in ProjectManager: absent existing_path_callback");
+    throw RuntimeException("Error in ProjectManager: absent answer_callback");
   }
 
   if (!m_user_context.message_callback)

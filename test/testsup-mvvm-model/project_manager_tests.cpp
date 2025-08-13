@@ -63,13 +63,36 @@ public:
 
 TEST_F(ProjectManagerTest, InitialState)
 {
-  const ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
+  {  // no callbacks defined
+    EXPECT_THROW(ProjectManager(nullptr, {}), RuntimeException);
+  }
 
-  EXPECT_CALL(m_mock_project, HasPath()).Times(1);
-  EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+  {  // one callback defined
+    const UserInteractionContext context({[]() { return std::string(); }});
+    EXPECT_THROW(ProjectManager(nullptr, context), RuntimeException);
+  }
 
-  EXPECT_FALSE(manager.GetProject()->HasPath());
-  EXPECT_FALSE(manager.GetProject()->IsModified());
+  {  // two callbacks defined
+    auto str_callback = []() { return std::string(); };
+    const UserInteractionContext context({str_callback, str_callback});
+    EXPECT_THROW(ProjectManager(nullptr, context), RuntimeException);
+  }
+
+  {  // 3 callbacks defined
+    auto str_callback = []() { return std::string(); };
+    const UserInteractionContext context(
+        {str_callback, str_callback, []() { return SaveChangesAnswer::kSave; }});
+    EXPECT_THROW(ProjectManager(nullptr, context), RuntimeException);
+  }
+
+  {  // all callbacks defined
+    const ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
+    EXPECT_CALL(m_mock_project, HasPath()).Times(1);
+    EXPECT_CALL(m_mock_project, IsModified()).Times(1);
+
+    EXPECT_FALSE(manager.GetProject()->HasPath());
+    EXPECT_FALSE(manager.GetProject()->IsModified());
+  }
 }
 
 //! Testing scenario when project implementation throws an exception during project load.
