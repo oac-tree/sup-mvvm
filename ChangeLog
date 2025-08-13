@@ -1,5 +1,6 @@
 Changes for 2.0.0:
 
+- August Sonar quality round, quality gate was passed for the first time
 - Implement convenience Flags<> class and use it to store item appearance
 - Switch to references in model utils
 - Provide model clone machinery

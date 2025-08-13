@@ -112,7 +112,7 @@ TEST_F(AbstractRowStrategyTest, ConstructRow)
   EXPECT_EQ(row.at(1)->Data(Qt::DisplayRole).toString(), QString(""));
 }
 
-TEST_F(AbstractRowStrategyTest, ConstructRowViwBrokenStrategy)
+TEST_F(AbstractRowStrategyTest, ConstructRowUsingBrokenStrategy)
 {
   SessionItem item;
   item.SetDisplayName("abc");
