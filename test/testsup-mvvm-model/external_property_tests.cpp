@@ -20,6 +20,8 @@
 
 #include "mvvm/model/external_property.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
+
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -73,6 +75,14 @@ TEST_F(ExternalPropertyTests, ConvertToString)
   EXPECT_EQ(ExternalProperty::CreateFromString(";;"), ExternalProperty());
   EXPECT_EQ(ExternalProperty::CreateFromString("text;color;identifier"),
             ExternalProperty("text", "color", "identifier"));
+
+  EXPECT_THROW(ExternalProperty::CreateFromString("text;color"), RuntimeException);
+}
+
+TEST_F(ExternalPropertyTests, CreateUndefined)
+{
+  auto property = ExternalProperty::CreateUndefined();
+  EXPECT_EQ(property.GetText(), "Undefined");
 }
 
 }  // namespace mvvm::test

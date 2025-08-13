@@ -326,6 +326,8 @@ TEST_F(SessionModelTest, RemoveItem)
   auto child1 = model.InsertItem<SessionItem>(parent);
   auto child2 = model.InsertItem<SessionItem>(parent, {"", 0});  // before child1
 
+  EXPECT_THROW(model.RemoveItem(nullptr), InvalidOperationException);
+
   // removing child2
   model.RemoveItem(child2);
   EXPECT_EQ(parent->GetTotalItemCount(), 1);

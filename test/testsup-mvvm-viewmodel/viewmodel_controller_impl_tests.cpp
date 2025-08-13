@@ -60,6 +60,24 @@ public:
   ViewModelBase m_viewmodel;
 };
 
+TEST_F(ViewModelControllerImplTest, InvalidController)
+{
+  {
+    const ViewModelControllerImpl controller(nullptr, {}, {});
+    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
+  }
+
+  {
+    const ViewModelControllerImpl controller(&m_viewmodel, {}, {});
+    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
+  }
+
+  {
+    const ViewModelControllerImpl controller(&m_viewmodel, std::make_unique<AllChildrenStrategy>(), {});
+    EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
+  }
+}
+
 TEST_F(ViewModelControllerImplTest, CreateRowFromSingleItem)
 {
   auto controller = CreateController();
@@ -79,6 +97,9 @@ TEST_F(ViewModelControllerImplTest, CreateRowFromSingleItem)
 
   EXPECT_EQ(view_item0->Data(Qt::DisplayRole).toString().toStdString(), std::string("abc"));
   EXPECT_EQ(view_item1->Data(Qt::EditRole).toInt(), 42);
+
+  EXPECT_NO_FATAL_FAILURE(controller->OnModelEvent(AboutToInsertItemEvent{}));
+  EXPECT_NO_FATAL_FAILURE(controller->OnModelEvent(ItemRemovedEvent{}));
 }
 
 //! Validate CreateRow() method for VectorItem.

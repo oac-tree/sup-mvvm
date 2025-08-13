@@ -86,12 +86,15 @@ TEST_F(ProjectManagerTest, InitialState)
   }
 
   {  // all callbacks defined
-    const ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
+    ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
     EXPECT_CALL(m_mock_project, HasPath()).Times(1);
     EXPECT_CALL(m_mock_project, IsModified()).Times(1);
 
     EXPECT_FALSE(manager.GetProject()->HasPath());
     EXPECT_FALSE(manager.GetProject()->IsModified());
+    EXPECT_TRUE(manager.GetRecentProjectList().empty());
+
+    EXPECT_NO_FATAL_FAILURE(manager.ClearRecentProjectsList());
   }
 }
 
@@ -140,6 +143,31 @@ TEST_F(ProjectManagerTest, TitledModifiedSave)
   EXPECT_CALL(m_mock_project, GetPath()).Times(1);
   EXPECT_CALL(m_mock_project, Save(path));
   EXPECT_TRUE(manager.SaveCurrentProject());
+}
+
+//! Mocking project pretends it has a path defined, and it is in modified state. Checking behavior
+//! on ProjectManager::SaveCurrentProject
+TEST_F(ProjectManagerTest, TitledModifiedClose)
+{
+  ProjectManager manager(&m_mock_project, CreateUserContext("", ""));
+
+  // setting up what mock project should return
+  const std::string path("path");
+  ON_CALL(m_mock_project, IsModified()).WillByDefault(::testing::Return(true));
+  ON_CALL(m_mock_project, Save(path)).WillByDefault(::testing::Return(false));
+  ON_CALL(m_mock_project, GetPath()).WillByDefault(::testing::Return(path));
+
+  EXPECT_CALL(m_mock_project, GetPath()).Times(1);
+  EXPECT_CALL(m_mock_project, IsModified()).Times(2);
+
+  // setting expectencies for CurrentProjectPath
+  EXPECT_TRUE(manager.GetProject()->IsModified());
+  EXPECT_EQ(manager.GetProject()->GetPath(), path);
+
+  // setting expectencies for SaveCurrentProject
+  EXPECT_CALL(m_mock_project, GetPath()).Times(1);
+  EXPECT_CALL(m_mock_project, Save(path));
+  EXPECT_FALSE(manager.CloseProject());
 }
 
 //! Mocking project pretends it has a path defined, and it is in modified state. Checking the
