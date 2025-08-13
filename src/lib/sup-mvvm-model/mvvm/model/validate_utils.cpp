@@ -36,6 +36,27 @@ const bool kFailure = false;
 namespace mvvm::utils
 {
 
+namespace
+{
+
+/**
+ * @brief Checks if given item can be considered for move to another place.
+ */
+bool IsValidChildForMove(const SessionItem *item)
+{
+  return item && item->GetModel() && item->GetParent();
+}
+
+/**
+ * @brief Checks if given item can be considered for move to another place.
+ */
+bool IsValidParentToMoveIn(const SessionItem *item)
+{
+  return item && item->GetModel();
+}
+
+}  // namespace
+
 TagIndex GetInsertTagIndex(const SessionItem *parent, const TagIndex &tag_index)
 {
   if (!parent)
@@ -118,12 +139,12 @@ void ValidateItemTypeInsert(const std::string &item_type, const SessionItem *par
 std::pair<bool, std::string> CanMoveItem(const SessionItem *item, const SessionItem *new_parent,
                                          const TagIndex &tag_index)
 {
-  if (!item || !item->GetModel() || !item->GetParent())
+  if (!IsValidChildForMove(item))
   {
     return {kFailure, "Invalid input item"};
   }
 
-  if (!new_parent || !new_parent->GetModel())
+  if (!IsValidParentToMoveIn(new_parent))
   {
     return {kFailure, "Invalid parent item"};
   }
