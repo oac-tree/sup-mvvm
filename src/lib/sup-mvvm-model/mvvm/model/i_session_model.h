@@ -189,11 +189,10 @@ public:
    */
   virtual void CheckOut(SessionItem* item) = 0;
 
-  virtual ICommand* ExecuteCommand(std::unique_ptr<ICommand> command)
-  {
-    (void)command;
-    return nullptr;
-  }
+  /**
+   * @brief Execute the command.
+   */
+  virtual ICommand* ExecuteCommand(std::unique_ptr<ICommand> command) = 0;
 };
 
 template <typename T>
