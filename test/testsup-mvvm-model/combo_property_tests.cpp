@@ -271,6 +271,11 @@ TEST_F(ComboPropertyTests, FromVectorStream)
   EXPECT_EQ(combo.GetCurrentIndex(), 0);
   EXPECT_EQ(combo.GetValue(), "a1");
   EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0, 1}));
+
+  // non existing indices
+  combo.SetSelected(-1, true);
+  combo.SetSelected(42, true);
+  EXPECT_EQ(combo.GetSelectedIndices(), std::vector<std::int32_t>({0, 1}));
 }
 
 TEST_F(ComboPropertyTests, ComboEqualityDiffIndex)
@@ -286,7 +291,7 @@ TEST_F(ComboPropertyTests, ComboEqualityDiffIndex)
   EXPECT_TRUE(c1 == c2);
 }
 
-TEST_F(ComboPropertyTests, cCmboEqualityDiffList)
+TEST_F(ComboPropertyTests, ComboEqualityDiffList)
 {
   ComboProperty c1;
   ComboProperty c2;

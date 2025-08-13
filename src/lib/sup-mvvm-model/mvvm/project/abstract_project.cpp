@@ -116,11 +116,6 @@ bool AbstractProject::Load(const std::string &path)
   return is_success;
 }
 
-std::vector<ISessionModel *> AbstractProject::GetModels() const
-{
-  return {};
-}
-
 void AbstractProject::SetupListener(const std::vector<ISessionModel *> &models)
 {
   m_change_controller =

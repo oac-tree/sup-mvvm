@@ -47,6 +47,7 @@ Path PathFromItem(const SessionItem* item)
   return result;
 }
 
+// cppcheck-suppress unusedFunction
 SessionItem* ItemFromPath(const ISessionModel& model, const Path& path)
 {
   SessionItem* result(model.GetRootItem());

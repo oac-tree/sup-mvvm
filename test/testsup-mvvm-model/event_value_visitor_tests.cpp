@@ -45,6 +45,7 @@ TEST_F(EventValueVisitorTest, EventToString)
   EXPECT_TRUE(Contains(EventToString(ItemInsertedEvent{}), "ItemInsertedEvent"));
   EXPECT_TRUE(Contains(EventToString(AboutToRemoveItemEvent{}), "AboutToRemoveItemEvent"));
   EXPECT_TRUE(Contains(EventToString(ItemRemovedEvent{}), "ItemRemovedEvent"));
+  EXPECT_TRUE(Contains(EventToString(ModelAboutToBeResetEvent{}), "ModelAboutToBeResetEvent"));
   EXPECT_TRUE(Contains(EventToString(ModelResetEvent{}), "ModelResetEvent"));
   EXPECT_TRUE(
       Contains(EventToString(ModelAboutToBeDestroyedEvent{}), "ModelAboutToBeDestroyedEvent"));

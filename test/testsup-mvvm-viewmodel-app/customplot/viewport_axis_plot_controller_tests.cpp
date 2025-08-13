@@ -70,6 +70,8 @@ TEST_F(ViewportAxisPlotControllerTest, InitialState)
   EXPECT_EQ(axis->range().lower, customplot_default_lower);
   EXPECT_EQ(axis->range().upper, customplot_default_upper);
 
+  EXPECT_THROW(ViewportAxisPlotController(nullptr), RuntimeException);
+
   // controller shouldn''t change axis range
   ViewportAxisPlotController controller(axis);
   EXPECT_EQ(axis->range().lower, customplot_default_lower);

@@ -20,6 +20,7 @@
 
 #include "mvvm/viewmodel/viewmodel_base.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/utils/container_utils.h>
 #include <mvvm/viewmodel/viewitem.h>
 #include <mvvm/viewmodel/viewitem_data.h>
@@ -212,6 +213,25 @@ TEST_F(ViewModelBaseTest, InsertRow)
   EXPECT_EQ(viewmodel.itemFromIndex(child_index1), expected_row0[0]);
 }
 
+TEST_F(ViewModelBaseTest, InsertRowToWrongParent)
+{
+  ViewModelBase viewmodel;
+  ViewModelBase viewmodel2;
+
+  // item to append
+  auto [children_row0, expected_row0] = test_data(/*ncolumns*/ 1);
+  auto [children_front, expected_front] = test_data(/*ncolumns*/ 1);
+
+  // appending one row
+  viewmodel.appendRow(viewmodel.rootItem(), std::move(children_row0));
+
+  EXPECT_THROW(viewmodel.insertRow(viewmodel2.rootItem(), 0, std::move(children_front)),
+               RuntimeException);
+
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 1);
+}
+
 TEST_F(ViewModelBaseTest, RemoveRow)
 {
   ViewModelBase viewmodel;
@@ -228,6 +248,25 @@ TEST_F(ViewModelBaseTest, RemoveRow)
   viewmodel.removeRow(viewmodel.rootItem(), 0);
   EXPECT_EQ(viewmodel.rowCount(), 0);
   EXPECT_EQ(viewmodel.columnCount(), 0);
+}
+
+TEST_F(ViewModelBaseTest, RemoveRowFromWrongParent)
+{
+  ViewModelBase viewmodel;
+  ViewModelBase viewmodel2;
+
+  // item to append
+  auto [children, expected] = test_data(/*ncolumns*/ 1);
+
+  // appending one row
+  viewmodel.appendRow(viewmodel.rootItem(), std::move(children));
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 1);
+
+  // removing row
+  EXPECT_THROW(viewmodel.removeRow(viewmodel2.rootItem(), 0), RuntimeException);
+  EXPECT_EQ(viewmodel.rowCount(), 1);
+  EXPECT_EQ(viewmodel.columnCount(), 1);
 }
 
 TEST_F(ViewModelBaseTest, AppendRowAfterRow)

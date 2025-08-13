@@ -43,6 +43,8 @@ TEST_F(ValidateUtilsTests, GetInsertTagIndex)
 {
   using ::mvvm::utils::GetInsertTagIndex;
 
+  EXPECT_THROW(GetInsertTagIndex(nullptr, TagIndex::Append()).IsValid(), NullArgumentException);
+
   CompoundItem item;
   EXPECT_FALSE(GetInsertTagIndex(&item, TagIndex::Append()).IsValid());
 
@@ -161,6 +163,7 @@ TEST_F(ValidateUtilsTests, ValidateItemTypeInsert)
   auto child = std::make_unique<CompoundItem>(item_type);
   m_model.InsertItem(std::move(child), parent0, {"tag1", 0});
 
+  EXPECT_FALSE(CanInsertType(item_type, nullptr, {"tag1", 0}).first);
   EXPECT_TRUE(CanInsertType(item_type, parent0, {"tag1", 0}).first);
   EXPECT_TRUE(CanInsertType(item_type, parent0, {"tag1", 1}).first);
   EXPECT_FALSE(CanInsertType(item_type, parent0, {"tag1", 2}).first);               // wrong index
@@ -187,6 +190,7 @@ TEST_F(ValidateUtilsTests, ValidateItemMoveInvalidItems)
   // item without model
   const SessionItem item;
   CompoundItem parent;
+  EXPECT_FALSE(CanMoveItem(&item, nullptr, TagIndex()).first);
   EXPECT_FALSE(CanMoveItem(&item, &parent, TagIndex()).first);
   EXPECT_THROW(ValidateItemMove(&item, &parent, TagIndex()), InvalidOperationException);
 }

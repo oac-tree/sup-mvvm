@@ -25,20 +25,6 @@
 namespace mvvm::utils
 {
 
-void SetLogarithmicScale(QCPColorScale* axis, bool is_log_scale)
-{
-  if (is_log_scale && axis->dataScaleType() != QCPAxis::stLogarithmic)
-  {
-    axis->setDataScaleType(QCPAxis::stLogarithmic);
-  }
-  else if (!is_log_scale && axis->dataScaleType() != QCPAxis::stLinear)
-  {
-    axis->setDataScaleType(QCPAxis::stLinear);
-  }
-
-  SetLogarithmicScale(axis->axis(), is_log_scale);
-}
-
 void SetLogarithmicScale(QCPAxis* axis, bool is_log_scale)
 {
   if (is_log_scale)

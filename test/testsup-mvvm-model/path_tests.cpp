@@ -69,4 +69,17 @@ TEST_F(PathTests, CreateFromString)
   EXPECT_EQ(path.GetString(), "3,2,3");
 }
 
+TEST_F(PathTests, BeginEnd)
+{
+  const Path path = Path::CreateFromVector({1, 2, 3});
+  EXPECT_NE(path.begin(), path.end());
+
+  std::vector<Path::PathElement> elements;
+  for (auto it = path.begin(); it != path.end(); ++it)
+  {
+    elements.push_back(*it);
+  }
+  EXPECT_EQ(elements, std::vector<Path::PathElement>({1, 2, 3}));
+}
+
 }  // namespace mvvm::test

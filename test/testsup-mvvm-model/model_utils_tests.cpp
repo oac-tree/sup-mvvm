@@ -252,6 +252,22 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
   EXPECT_EQ(parent0->GetTotalItemCount(), 1);
 }
 
+TEST_F(ModelUtilsTests, UndoRedo)
+{
+  ApplicationModel model;
+  auto item = model.InsertItem<SessionItem>();
+  item->SetData(42);
+
+  model.SetUndoEnabled(true, 100);
+
+  item->SetData(43);
+  utils::Undo(model);
+  EXPECT_EQ(item->Data<mvvm::int32>(), 42);
+
+  utils::Redo(model);
+  EXPECT_EQ(item->Data<mvvm::int32>(), 43);
+}
+
 //! FIXME restore test when copy is ready
 // TEST_F(ModelUtilsTests, CreateCopy)
 //{

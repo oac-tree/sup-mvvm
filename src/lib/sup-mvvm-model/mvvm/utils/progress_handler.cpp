@@ -28,19 +28,20 @@ ProgressHandler::ProgressHandler(ProgressHandler::callback_t callback, std::size
 {
 }
 
+// cppcheck-suppress unusedFunction
 void ProgressHandler::Subscribe(ProgressHandler::callback_t callback)
 {
   m_runner_callback = std::move(callback);
 }
 
-//! Sets expected ticks count, representing progress of a computation.
-
+// cppcheck-suppress unusedFunction
 void ProgressHandler::SetMaxTicksCount(std::size_t value)
 {
   Reset();
   m_max_ticks_count = value;
 }
 
+// cppcheck-suppress unusedFunction
 bool ProgressHandler::HasInterruptRequest() const
 {
   return m_interrupt_request;
@@ -49,6 +50,7 @@ bool ProgressHandler::HasInterruptRequest() const
 //! Increment number of completed computation steps. Performs callback to inform
 //! subscriber about current progress (in percents) and retrieves interrupt request flag.
 
+// cppcheck-suppress unusedFunction
 void ProgressHandler::SetCompletedTicks(std::size_t value)
 {
   std::unique_lock<std::mutex> lock(m_mutex);
@@ -63,8 +65,7 @@ void ProgressHandler::SetCompletedTicks(std::size_t value)
       m_runner_callback ? m_runner_callback(percentage_done) : m_interrupt_request;
 }
 
-//! Resets progress.
-
+// cppcheck-suppress unusedFunction
 void ProgressHandler::Reset()
 {
   m_interrupt_request = false;

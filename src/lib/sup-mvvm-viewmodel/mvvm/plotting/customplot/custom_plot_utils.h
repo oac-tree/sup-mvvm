@@ -30,9 +30,6 @@ namespace mvvm::utils
 {
 
 //! Switch axis to logarithmic scale mode.
-MVVM_VIEW_EXPORT void SetLogarithmicScale(QCPColorScale* axis, bool is_log_scale);
-
-//! Switch axis to logarithmic scale mode.
 MVVM_VIEW_EXPORT void SetLogarithmicScale(QCPAxis* axis, bool is_log_scale);
 
 }  // namespace mvvm::utils

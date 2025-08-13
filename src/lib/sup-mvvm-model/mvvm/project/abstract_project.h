@@ -71,7 +71,7 @@ public:
 
   bool Load(const std::string& path) override;
 
-  virtual std::vector<ISessionModel*> GetModels() const;
+  virtual std::vector<ISessionModel*> GetModels() const = 0;
 
 protected:
   void SetupListener(const std::vector<ISessionModel*>& models);

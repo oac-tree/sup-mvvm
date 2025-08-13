@@ -51,6 +51,26 @@ public:
     }
     std::size_t m_max_columns{0};
   };
+
+  /**
+   * @brief The BrokenTestStrategy class creates the row of different lenth, than reports through
+   * GetSize method.
+   */
+  class BrokenTestStrategy : public AbstractRowStrategy
+  {
+  public:
+    BrokenTestStrategy() = default;
+
+    std::size_t GetSize() const override { return 42U; }
+
+  private:
+    std::vector<std::unique_ptr<ViewItem>> ConstructRowImpl(SessionItem* item) override
+    {
+      std::vector<std::unique_ptr<ViewItem>> result;
+      result.push_back(std::make_unique<ViewItem>());
+      return result;
+    }
+  };
 };
 
 TEST_F(AbstractRowStrategyTest, CreatePlaceholderRow)
@@ -59,9 +79,10 @@ TEST_F(AbstractRowStrategyTest, CreatePlaceholderRow)
   SessionItem item;
   item.SetDisplayName("abc");
 
-  TestStrategy strategy(expected_size);
+  const TestStrategy strategy(expected_size);
 
   EXPECT_EQ(strategy.GetSize(), expected_size);
+  EXPECT_TRUE(strategy.GetHorizontalHeaderLabels().isEmpty());
 
   auto row = strategy.CreatePlaceholderRow(&item);
 
@@ -89,6 +110,16 @@ TEST_F(AbstractRowStrategyTest, ConstructRow)
   ASSERT_EQ(row.size(), expected_size);
   EXPECT_EQ(row.at(0)->Data(Qt::DisplayRole).toString(), QString("abc"));
   EXPECT_EQ(row.at(1)->Data(Qt::DisplayRole).toString(), QString(""));
+}
+
+TEST_F(AbstractRowStrategyTest, ConstructRowViwBrokenStrategy)
+{
+  SessionItem item;
+  item.SetDisplayName("abc");
+
+  BrokenTestStrategy strategy;
+
+  EXPECT_THROW(strategy.ConstructRow(&item), RuntimeException);
 }
 
 }  // namespace mvvm::test

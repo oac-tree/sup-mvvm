@@ -20,6 +20,7 @@
 
 #include "mvvm/utils/progress_handler.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -77,6 +78,21 @@ TEST_F(ProgressHandlerTest, interruptRequest)
   EXPECT_FALSE(handler.HasInterruptRequest());
   handler.SetCompletedTicks(100);
   EXPECT_EQ(progress, 10);  // reports value in percents
+}
+
+TEST_F(ProgressHandlerTest, Subscribe)
+{
+  const size_t max_ticks = 1000;
+
+  ProgressHandler handler({}, 0U);
+
+  ::testing::MockFunction<ProgressHandler::callback_t> mock_callback;
+  handler.Subscribe(mock_callback.AsStdFunction());
+  handler.SetMaxTicksCount(max_ticks);
+
+  EXPECT_CALL(mock_callback, Call(::testing::_)).Times(1);
+
+  handler.SetCompletedTicks(1000);
 }
 
 }  // namespace mvvm::test

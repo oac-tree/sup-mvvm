@@ -201,6 +201,8 @@ TEST_F(VariantTests, TypeName)
             constants::kExternalPropertyTypeName);
   EXPECT_EQ(GetTypeCodeFromTypeName(constants::kExternalPropertyTypeName),
             TypeCode::ExternalProperty);
+
+  EXPECT_THROW(GetTypeCodeFromTypeName("abc"), RuntimeException);
 }
 
 TEST_F(VariantTests, DataRoleComparison)
@@ -315,6 +317,7 @@ TEST_F(VariantTests, TypeCodeFromString)
     EXPECT_EQ(GetTypeCode(variant_t(value)), TypeCode::Float64);
     EXPECT_EQ(ValueToString(variant_t(value)), std::string("48.0"));
     EXPECT_EQ(ValueFromString(TypeCode::Float64, std::string("48.0")), variant_t(value));
+    EXPECT_THROW(ValueFromString(TypeCode::Float64, std::string("a48.0")), RuntimeException);
   }
 
   {
