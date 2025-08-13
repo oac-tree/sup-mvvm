@@ -27,24 +27,26 @@
 namespace mvvm::utils
 {
 
-bool AreAlmostEqual(double a, double b, double tolerance)
+bool AreAlmostEqual(double lhs, double rhs, double tolerance)
 {
   constexpr double eps = std::numeric_limits<double>::epsilon();
-  return std::abs(a - b) <= eps * std::max(tolerance * eps, std::max(1., tolerance) * std::abs(b));
+  return std::abs(lhs - rhs)
+         <= (eps * std::max(tolerance * eps, std::max(1., tolerance) * std::abs(rhs)));
 }
 
 std::int32_t RandInt(std::int32_t low, std::int32_t high)
 {
-  std::random_device rd;
-  std::mt19937 gen(rd());
+  std::random_device rndm;
+  std::mt19937 gen(rndm());
   std::uniform_int_distribution<std::int32_t> uniform_int(low, high);
   return uniform_int(gen);
 }
 
+// cppcheck-suppress unusedFunction
 double RandDouble(double low, double high)
 {
-  std::random_device rd;
-  std::mt19937 gen(rd());
+  std::random_device rndm;
+  std::mt19937 gen(rndm());
   std::uniform_real_distribution<> uniform_real(low, high);
   return uniform_real(gen);
 }

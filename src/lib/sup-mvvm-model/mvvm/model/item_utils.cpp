@@ -430,14 +430,14 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
 std::string ToXMLString(const SessionItem& item,
                         const std::function<bool(const SessionItem&)>& filter_func)
 {
-  TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone, filter_func);
+  const TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone, filter_func);
   auto tree_data = converter.ToTreeData(item);
   return xml::TreeDataToString(*tree_data);
 }
 
 std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str, bool make_unique_id)
 {
-  TreeDataItemConverter converter(&GetGlobalItemFactory(),
+  const TreeDataItemConverter converter(&GetGlobalItemFactory(),
                                   make_unique_id ? ConverterMode::kCopy : ConverterMode::kClone);
   auto tree_data = xml::TreeDataFromString(str);
   return converter.ToSessionItem(*tree_data);

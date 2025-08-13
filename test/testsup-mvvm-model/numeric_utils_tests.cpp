@@ -31,13 +31,23 @@ class NumericUtilsTests : public ::testing::Test
 {
 };
 
-TEST_F(NumericUtilsTests, areAlmostEqual)
+TEST_F(NumericUtilsTests, AreAlmostEqual)
 {
   EXPECT_TRUE(utils::AreAlmostEqual(0.0, 0.0));
   EXPECT_TRUE(utils::AreAlmostEqual(1.0, 1.0));
   EXPECT_TRUE(utils::AreAlmostEqual(10.0 / 100.0, 100.0 / 1000.0));
   EXPECT_TRUE(utils::AreAlmostEqual(std::sin(0.0), 0.0));
   EXPECT_FALSE(utils::AreAlmostEqual(std::cos(0.0), 0.0));
+}
+
+TEST_F(NumericUtilsTests, RandInt)
+{
+  EXPECT_EQ(utils::RandInt(1, 1), 1);
+}
+
+TEST_F(NumericUtilsTests, RandDouble)
+{
+  EXPECT_DOUBLE_EQ(utils::RandDouble(1.0, 1.0), 1.0);
 }
 
 }  // namespace mvvm::test
