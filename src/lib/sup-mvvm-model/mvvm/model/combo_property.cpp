@@ -60,6 +60,7 @@ ComboProperty::ComboProperty(std::vector<std::string> values, const std::string&
   }
 }
 
+// cppcheck-suppress unusedFunction
 ComboProperty ComboProperty::CreateFrom(const std::vector<std::string>& values,
                                         const std::string& current_value)
 {
@@ -104,6 +105,7 @@ std::vector<std::string> ComboProperty::GetToolTips() const
   return m_tooltips;
 }
 
+// cppcheck-suppress unusedFunction
 void ComboProperty::SetToolTips(const std::vector<std::string>& tooltips)
 {
   m_tooltips = tooltips;

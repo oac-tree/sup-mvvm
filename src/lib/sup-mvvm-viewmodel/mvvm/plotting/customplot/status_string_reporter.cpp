@@ -31,20 +31,15 @@ namespace mvvm
 
 struct StatusStringReporter::StatusStringReporterImpl
 {
-  StatusStringReporter* parent{nullptr};
   QCustomPlot* custom_plot{nullptr};
   callback_t callback;
   std::unique_ptr<StatusStringFormatterInterface> fmt;
   std::unique_ptr<MouseMoveReporter> mouse_reporter;
   MousePosInfo prevPos;
 
-  StatusStringReporterImpl(StatusStringReporter* parent, QCustomPlot* custom_plot,
-                           callback_t callback,
+  StatusStringReporterImpl(QCustomPlot* custom_plot, callback_t callback,
                            std::unique_ptr<StatusStringFormatterInterface> formatter)
-      : parent(parent)
-      , custom_plot(custom_plot)
-      , callback(std::move(callback))
-      , fmt(std::move(formatter))
+      : custom_plot(custom_plot), callback(std::move(callback)), fmt(std::move(formatter))
   {
     if (!custom_plot)
     {
@@ -55,14 +50,18 @@ struct StatusStringReporter::StatusStringReporterImpl
     {
       if (pos.in_axes_range)
       {
-        notify_client(pos);
+        NotifyOnMouseMove(pos);
         if (!prevPos.in_axes_range)
-          entering_the_area();
+        {
+          NotifyOnAreaEnter();
+        }
       }
       else
       {
         if (prevPos.in_axes_range)
-          leaving_the_area();
+        {
+          NotifyOnAreaLeave();
+        }
       }
 
       prevPos = pos;
@@ -70,24 +69,18 @@ struct StatusStringReporter::StatusStringReporterImpl
     mouse_reporter = std::make_unique<MouseMoveReporter>(custom_plot, on_mouse_move);
   }
 
-  //! Notify client about mouse move with formatted status string.
-
-  void notify_client(const MousePosInfo& pos)
+  void NotifyOnMouseMove(const MousePosInfo& pos) const
   {
     callback(fmt->status_string(this->custom_plot, pos.xpos, pos.ypos));
   }
 
-  //! Notify client on leaving axes area.
-
-  void leaving_the_area()
+  void NotifyOnAreaLeave() const
   {
     // notifying client with empty string as a sign that we have left the area
     callback({});
   }
 
-  //! Notify client on entering axes area.
-
-  void entering_the_area()
+  void NotifyOnAreaEnter() const
   {
     // for future improvements
   }
@@ -96,7 +89,7 @@ struct StatusStringReporter::StatusStringReporterImpl
 StatusStringReporter::StatusStringReporter(
     QCustomPlot* custom_plot, callback_t callback,
     std::unique_ptr<StatusStringFormatterInterface> formatter)
-    : p_impl(std::make_unique<StatusStringReporterImpl>(this, custom_plot, callback,
+    : p_impl(std::make_unique<StatusStringReporterImpl>(custom_plot, std::move(callback),
                                                         std::move(formatter)))
 {
 }

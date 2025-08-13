@@ -9,5 +9,6 @@ target_sources(${test} PRIVATE
   graph_viewport_plot_controller_tests.cpp
   mouse_move_reporter_tests.cpp
   pen_controller_tests.cpp
+  status_string_reporter_tests.cpp
   viewport_axis_plot_controller_tests.cpp
 )
