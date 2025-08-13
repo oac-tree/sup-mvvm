@@ -119,6 +119,9 @@ TEST_F(ItemUtilsTests, IterateIfItem)
     return false;
   };
 
+  utils::iterate_if(nullptr, fun);
+  EXPECT_TRUE(visited_items.empty());
+
   // iteration over lonely parent
   std::unique_ptr<SessionItem> parent(new SessionItem);
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -269,6 +272,8 @@ TEST_F(ItemUtilsTests, SinglePropertyItemsWhenHidden)
 TEST_F(ItemUtilsTests, FindNextSibling)
 {
   SessionModel model;
+
+  EXPECT_EQ(utils::FindNextSibling(nullptr), nullptr);
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
@@ -759,6 +764,10 @@ TEST_F(ItemUtilsTests, ReplaceItem)
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
   const auto old_item = parent->InsertItem<SessionItem>(TagIndex::Append());
 
+  EXPECT_THROW(
+      utils::ReplaceItem(std::make_unique<SessionItem>(), nullptr, old_item->GetTagIndex()),
+      LogicErrorException);
+
   auto new_item = std::make_unique<SessionItem>();
   const auto p_new_item = new_item.get();
 
@@ -883,6 +892,19 @@ TEST_F(ItemUtilsTests, FindItemsUp)
   EXPECT_EQ(
       utils::FindItemsUp<mvvm::test::toyitems::LayerItem>({layer2, particle0, layer1, layer0}),
       std::vector<mvvm::test::toyitems::LayerItem*>({layer2, layer0, layer1}));
+}
+
+TEST_F(ItemUtilsTests, ItemToDebugString)
+{
+  SessionItem item;
+  item.SetDisplayName("Test Item");
+  item.SetData(42, DataRole::kData);
+
+  const std::string debug_string = utils::ItemToDebugString(&item);
+  EXPECT_TRUE(debug_string.find("Test Item") != std::string::npos);
+  EXPECT_TRUE(debug_string.find("42") != std::string::npos);
+
+  EXPECT_EQ(utils::ItemToDebugString(nullptr), std::string("nullptr"));
 }
 
 }  // namespace mvvm::test

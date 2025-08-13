@@ -103,11 +103,6 @@ std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag
 {
   utils::ValidateTakeItem(&item, tag_index);
   auto taken = item.GetTaggedItems()->TakeItem(tag_index);
-  if (!taken)
-  {
-    throw RuntimeException("Can't take an item");
-  }
-
   taken->SetParent(nullptr);
   taken->SetModel(nullptr);
 
@@ -232,6 +227,7 @@ bool HasTag(const SessionItem& item, const std::string& tag_name)
   return item.GetTaggedItems()->HasTag(tag_name);
 }
 
+// cppcheck-suppress unusedFunction
 std::vector<std::string> RegisteredTags(const SessionItem& item)
 {
   std::vector<std::string> result;
@@ -268,6 +264,7 @@ std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item)
   return result;
 }
 
+// cppcheck-suppress unusedFunction
 SessionItem* FindNextSibling(SessionItem* item)
 {
   auto parent = item ? item->GetParent() : nullptr;
@@ -278,6 +275,7 @@ SessionItem* FindNextSibling(SessionItem* item)
   return parent->GetItem(item->GetTagIndex().Next());
 }
 
+// cppcheck-suppress unusedFunction
 SessionItem* FindPreviousSibling(SessionItem* item)
 {
   auto parent = item ? item->GetParent() : nullptr;
@@ -288,12 +286,14 @@ SessionItem* FindPreviousSibling(SessionItem* item)
   return parent->GetItem(item->GetTagIndex().Prev());
 }
 
+// cppcheck-suppress unusedFunction
 SessionItem* FindNextItemToSelect(SessionItem* item)
 {
   auto closest = FindNextSiblingToSelect(item);
   return closest ? closest : item->GetParent();
 }
 
+// cppcheck-suppress unusedFunction
 SessionItem* FindNextSiblingToSelect(SessionItem* item)
 {
   auto next = FindNextSibling(item);
@@ -319,6 +319,7 @@ bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
   return false;
 }
 
+// cppcheck-suppress unusedFunction
 std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
 {
   auto filtered = utils::UniqueWithOrder(items);
@@ -372,6 +373,7 @@ int GetNestingDepth(const SessionItem* item)
   return level;
 }
 
+// cppcheck-suppress unusedFunction
 bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)
 {
   if (item.HasData(role))
@@ -381,6 +383,7 @@ bool ReplaceData(SessionItem& item, const variant_t& value, role_t role)
   return item.SetData(value, role);  // will succeed
 }
 
+// cppcheck-suppress unusedFunction
 bool MoveUp(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
@@ -393,6 +396,7 @@ bool MoveUp(SessionItem& item)
   return true;
 }
 
+// cppcheck-suppress unusedFunction
 bool MoveDown(SessionItem& item)
 {
   auto tag_index = item.GetTagIndex();
@@ -415,6 +419,7 @@ void RemoveItem(SessionItem& item)
   item.GetParent()->TakeItem(item.GetTagIndex());
 }
 
+// cppcheck-suppress unusedFunction
 SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
                          const TagIndex& tag_index)
 {
@@ -427,18 +432,21 @@ SessionItem* ReplaceItem(std::unique_ptr<SessionItem> item, SessionItem* parent,
   return parent->InsertItem(std::move(item), tag_index);
 }
 
+// cppcheck-suppress unusedFunction
 std::string ToXMLString(const SessionItem& item,
                         const std::function<bool(const SessionItem&)>& filter_func)
 {
-  const TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone, filter_func);
+  const TreeDataItemConverter converter(&GetGlobalItemFactory(), ConverterMode::kClone,
+                                        filter_func);
   auto tree_data = converter.ToTreeData(item);
   return xml::TreeDataToString(*tree_data);
 }
 
+// cppcheck-suppress unusedFunction
 std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str, bool make_unique_id)
 {
-  const TreeDataItemConverter converter(&GetGlobalItemFactory(),
-                                  make_unique_id ? ConverterMode::kCopy : ConverterMode::kClone);
+  const TreeDataItemConverter converter(
+      &GetGlobalItemFactory(), make_unique_id ? ConverterMode::kCopy : ConverterMode::kClone);
   auto tree_data = xml::TreeDataFromString(str);
   return converter.ToSessionItem(*tree_data);
 }
@@ -459,6 +467,7 @@ void EndMacro(const SessionItem& item)
   }
 }
 
+// cppcheck-suppress unusedFunction
 std::string ItemToDebugString(const SessionItem* item)
 {
   std::ostringstream ostr;
