@@ -21,7 +21,7 @@
 #ifndef MVVM_STANDARDITEMS_WAVEFORM_HELPER_H_
 #define MVVM_STANDARDITEMS_WAVEFORM_HELPER_H_
 
-#include <string>
+#include <string_view>
 #include <vector>
 
 namespace mvvm
@@ -32,7 +32,7 @@ using waveform_data_t = std::vector<std::pair<double, double>>;
 namespace constants
 {
 const int kDefaultLineWidth = 2;
-const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
+constexpr std::string_view kDefaultLineColor = "#209fdf";  // between royal blue and steel blue
 }  // namespace constants
 
 /**
