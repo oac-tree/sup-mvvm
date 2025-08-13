@@ -17,4 +17,6 @@ target_sources(${library_name} PRIVATE
   item_connect_helper.cpp
   item_connect_helper.h
   event_handler.h
+  item_event_visitor.cpp
+  item_event_visitor.h
 )

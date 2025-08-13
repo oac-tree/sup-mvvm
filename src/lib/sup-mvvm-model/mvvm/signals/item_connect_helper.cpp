@@ -20,51 +20,14 @@
 
 #include "item_connect_helper.h"
 
+#include "item_event_visitor.h"
+
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
 
 namespace
 {
-
-/**
- * @brief The ItemEventVisitor is a helper class to visit event_variant_t and report the source of
- * concrete event.
- */
-struct ItemEventVisitor
-{
-  mvvm::SessionItem* m_source{nullptr};
-
-  void operator()(const mvvm::DataChangedEvent& event) { m_source = event.item; }
-
-  void operator()(const mvvm::PropertyChangedEvent& event) { m_source = event.item; }
-
-  void operator()(const mvvm::AboutToInsertItemEvent& event) { m_source = event.item; }
-
-  void operator()(const mvvm::ItemInsertedEvent& event) { m_source = event.item; }
-
-  void operator()(const mvvm::AboutToRemoveItemEvent& event) { m_source = event.item; }
-
-  void operator()(const mvvm::ItemRemovedEvent& event) { m_source = event.item; }
-
-  void operator()(const mvvm::ModelAboutToBeResetEvent& event)
-  {
-    (void)event;
-    // nothing to do
-  }
-
-  void operator()(const mvvm::ModelResetEvent& event)
-  {
-    (void)event;
-    // nothing to do
-  }
-
-  void operator()(const mvvm::ModelAboutToBeDestroyedEvent& event)
-  {
-    (void)event;
-    // nothing to do
-  }
-};
 
 }  // namespace
 

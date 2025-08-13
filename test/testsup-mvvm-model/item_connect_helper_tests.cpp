@@ -34,7 +34,6 @@ class ItemConnectHelperTest : public ::testing::Test
 {
 };
 
-//! Testing method GetEventSource for all type of events.
 TEST_F(ItemConnectHelperTest, GetEventSource)
 {
   SessionItem item;
@@ -52,7 +51,6 @@ TEST_F(ItemConnectHelperTest, GetEventSource)
   EXPECT_EQ(GetEventSource(ModelAboutToBeDestroyedEvent{&model}), nullptr);
 }
 
-//! Testing utility function GetEventHandler.
 TEST_F(ItemConnectHelperTest, GetEventHandler)
 {
   EXPECT_THROW(GetEventHandler(nullptr), NullArgumentException);
@@ -71,7 +69,6 @@ TEST_F(ItemConnectHelperTest, GetEventHandler)
   EXPECT_NE(GetEventHandler(application_model.GetRootItem()), nullptr);
 }
 
-//! Testing utility function ConvertToPropertyChangedEvent.
 TEST_F(ItemConnectHelperTest, ConvertToPropertyChangedEvent)
 {
   ApplicationModel model;
