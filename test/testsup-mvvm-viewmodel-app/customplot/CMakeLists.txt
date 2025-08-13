@@ -7,6 +7,7 @@ target_sources(${test} PRIVATE
   graph_info_formatter_tests.cpp
   graph_plot_controller_tests.cpp
   graph_viewport_plot_controller_tests.cpp
+  mouse_move_reporter_tests.cpp
   pen_controller_tests.cpp
   viewport_axis_plot_controller_tests.cpp
 )

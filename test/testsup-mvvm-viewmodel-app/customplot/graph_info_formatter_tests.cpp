@@ -18,7 +18,6 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "custom_plot_test_utils.h"
 #include "mvvm/plotting/customplot/graph_info_formatter.h"
 
 #include <mvvm/model/application_model.h>
