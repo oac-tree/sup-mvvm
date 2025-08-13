@@ -53,14 +53,13 @@ bool ProgressHandler::HasInterruptRequest() const
 // cppcheck-suppress unusedFunction
 void ProgressHandler::SetCompletedTicks(std::size_t value)
 {
-  std::unique_lock<std::mutex> lock(m_mutex);
+  const std::unique_lock<std::mutex> lock(m_mutex);
   m_completed_ticks += value;
   if (m_completed_ticks > m_max_ticks_count)
   {
     m_max_ticks_count = m_completed_ticks + 1;
   }
-  size_t percentage_done =
-      static_cast<size_t>(100.0 * m_completed_ticks / static_cast<double>(m_max_ticks_count));
+  const size_t percentage_done = (100 * m_completed_ticks) / m_max_ticks_count;
   m_interrupt_request =
       m_runner_callback ? m_runner_callback(percentage_done) : m_interrupt_request;
 }
