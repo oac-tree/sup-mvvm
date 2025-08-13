@@ -268,6 +268,7 @@ bool CommandStack::IsMacroMode() const
   return !p_impl->m_macro_stack.empty();
 }
 
+// cppcheck-suppress unusedFunction
 std::vector<const ICommand *> CommandStack::GetCommands() const
 {
   std::vector<const ICommand *> result;
@@ -278,11 +279,13 @@ std::vector<const ICommand *> CommandStack::GetCommands() const
   return result;
 }
 
+// cppcheck-suppress unusedFunction
 const ICommand *CommandStack::GetNextUndoCommand() const
 {
   return CanUndo() ? std::prev(p_impl->m_pos)->get() : nullptr;
 }
 
+// cppcheck-suppress unusedFunction
 const ICommand *CommandStack::GetNextRedoCommand() const
 {
   return CanRedo() ? p_impl->m_pos->get() : nullptr;

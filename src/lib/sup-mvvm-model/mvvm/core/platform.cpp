@@ -23,6 +23,7 @@
 namespace mvvm
 {
 
+// cppcheck-suppress unusedFunction
 bool IsLinuxHost()
 {
 #if defined(__linux__)
@@ -32,6 +33,7 @@ bool IsLinuxHost()
 #endif
 }
 
+// cppcheck-suppress unusedFunction
 bool IsWindowsHost()
 {
 #if defined(_WIN32) || defined(__CYGWIN__)
@@ -41,6 +43,7 @@ bool IsWindowsHost()
 #endif
 }
 
+// cppcheck-suppress unusedFunction
 bool IsMacHost()
 {
 #if defined(__APPLE__) && defined(__MACH__)

@@ -76,6 +76,7 @@ variant_t GetUpperLimit(const SessionItem &item)
   return item.Data(DataRole::kUpperLimit);
 }
 
+// cppcheck-suppress unusedFunction
 bool IsInRange(const SessionItem &item, const variant_t &value)
 {
   // type of value being tested should match the type of variant stored in all related roles
@@ -96,15 +97,19 @@ bool IsInRange(const SessionItem &item, const variant_t &value)
   return true;
 }
 
+// cppcheck-suppress unusedFunction
 bool IsLimitless(const SessionItem &item)
 {
   return !HasLowerLimit(item) && !HasUpperLimit(item);
 }
+
+// cppcheck-suppress unusedFunction
 bool IsLimited(const SessionItem &item)
 {
   return HasLowerLimit(item) && HasUpperLimit(item);
 }
 
+// cppcheck-suppress unusedFunction
 void SetLowerLimited(const variant_t &bound_value, SessionItem &item)
 {
   // type of bound value should match the type of variant stored in kData role
@@ -115,6 +120,7 @@ void SetLowerLimited(const variant_t &bound_value, SessionItem &item)
   item.SetData(bound_value, DataRole::kLowerLimit);
 }
 
+// cppcheck-suppress unusedFunction
 void SetUpperLimited(const variant_t &bound_value, SessionItem &item)
 {
   // type of bound value should match the type of variant stored in kData role

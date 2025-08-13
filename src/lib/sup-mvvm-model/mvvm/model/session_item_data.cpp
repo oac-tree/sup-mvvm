@@ -28,6 +28,7 @@
 namespace mvvm
 {
 
+// cppcheck-suppress unusedFunction
 std::vector<role_t> SessionItemData::GetRoles() const
 {
   std::vector<role_t> result;

@@ -23,21 +23,25 @@
 namespace mvvm
 {
 
+// cppcheck-suppress unusedFunction
 std::int32_t ProjectVersionMajor()
 {
   return kProjectVersionMajor;
 }
 
+// cppcheck-suppress unusedFunction
 std::int32_t ProjectVersionMinor()
 {
   return kProjectVersionMinor;
 }
 
+// cppcheck-suppress unusedFunction
 std::int32_t ProjectVersionPatch()
 {
   return kProjectVersionPatch;
 }
 
+// cppcheck-suppress unusedFunction
 std::string ProjectVersion()
 {
   return kProjectVersionString;

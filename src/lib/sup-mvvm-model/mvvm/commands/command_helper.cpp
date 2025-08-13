@@ -28,6 +28,7 @@
 namespace mvvm
 {
 
+// cppcheck-suppress unusedFunction
 event_variant_t GetBeforeEventForInsertCommand(CommandStatus status, SessionItem *parent,
                                                const TagIndex &tag_index)
 {
@@ -39,6 +40,7 @@ event_variant_t GetBeforeEventForInsertCommand(CommandStatus status, SessionItem
   return AboutToRemoveItemEvent{parent, tag_index};
 }
 
+// cppcheck-suppress unusedFunction
 event_variant_t GetAfterEventForInsertCommand(CommandStatus status, SessionItem *parent,
                                               const TagIndex &tag_index)
 {
@@ -55,6 +57,7 @@ event_variant_t GetAfterEventForInsertCommand(CommandStatus status, SessionItem 
   throw RuntimeException("Command can't be in initial state after execute or undo call");
 }
 
+// cppcheck-suppress unusedFunction
 event_variant_t GetBeforeEventForRemoveCommand(CommandStatus status, SessionItem *parent,
                                                const TagIndex &tag_index)
 {
@@ -66,6 +69,7 @@ event_variant_t GetBeforeEventForRemoveCommand(CommandStatus status, SessionItem
   return AboutToInsertItemEvent{parent, tag_index};
 }
 
+// cppcheck-suppress unusedFunction
 event_variant_t GetAfterEventForRemoveCommand(CommandStatus status, SessionItem *parent,
                                               const TagIndex &tag_index)
 {
@@ -82,6 +86,7 @@ event_variant_t GetAfterEventForRemoveCommand(CommandStatus status, SessionItem 
   throw RuntimeException("Command can't be in initial state after execute or undo call");
 }
 
+// cppcheck-suppress unusedFunction
 std::string GetSetValueCommandDescription(const variant_t &value, role_t role)
 {
   std::ostringstream ostr;
@@ -89,6 +94,7 @@ std::string GetSetValueCommandDescription(const variant_t &value, role_t role)
   return ostr.str();
 }
 
+// cppcheck-suppress unusedFunction
 std::string GetInsertCommandDescription(SessionItem *parent, SessionItem *child,
                                         const TagIndex &tag_index)
 {
@@ -100,6 +106,7 @@ std::string GetInsertCommandDescription(SessionItem *parent, SessionItem *child,
   return ostr.str();
 }
 
+// cppcheck-suppress unusedFunction
 std::string GetRemoveCommandDescription(SessionItem *parent, const TagIndex &tag_index)
 {
   std::ostringstream ostr;

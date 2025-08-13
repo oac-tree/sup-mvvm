@@ -41,8 +41,7 @@ ExternalProperty::ExternalProperty(std::string text, std::string color, std::str
 {
 }
 
-//! Creates undefined property, which will be shown in views as red box with text "Undefined".
-
+// cppcheck-suppress unusedFunction
 ExternalProperty ExternalProperty::CreateUndefined()
 {
   return {"Undefined", "red"};

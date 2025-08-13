@@ -106,6 +106,7 @@ void AbstractCommand::SetIsObsolete(bool value)
   p_impl->m_is_obsolete = value;
 }
 
+// cppcheck-suppress unusedFunction
 std::string AbstractCommand::GetDescription() const
 {
   return p_impl->m_description;

@@ -87,6 +87,7 @@ TagIndex TagIndex::Append(const std::string& tag_name)
   return {tag_name, kAppendIndex};
 }
 
+// cppcheck-suppress unusedFunction
 TagIndex TagIndex::First(const std::string& tag_name)
 {
   return {tag_name, 0};
@@ -104,7 +105,7 @@ TagIndex TagIndex::Invalid()
 
 bool TagIndex::operator==(const TagIndex& other) const
 {
-  return m_index == other.m_index && m_tag == other.m_tag;
+  return (m_index == other.m_index) && (m_tag == other.m_tag);
 }
 
 bool TagIndex::operator!=(const TagIndex& other) const
