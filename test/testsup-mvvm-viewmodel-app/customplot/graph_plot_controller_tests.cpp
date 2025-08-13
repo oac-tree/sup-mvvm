@@ -36,25 +36,22 @@
 namespace mvvm::test
 {
 
-//! Testing GraphPlotController.
-
+/**
+ * @brief Tests for GraphPlotController class.
+ */
 class GraphPlotControllerTest : public ::testing::Test
 {
 };
 
-//! Initial state.
-
-TEST_F(GraphPlotControllerTest, initialState)
+TEST_F(GraphPlotControllerTest, InitialState)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
-  GraphPlotController controller(custom_plot.get());
+  const GraphPlotController controller(custom_plot.get());
   EXPECT_EQ(controller.GetItem(), nullptr);
   EXPECT_EQ(custom_plot->graphCount(), 0);
 }
 
-//! Setting GraphItem with data and checking that plottable contains correct data.
-
-TEST_F(GraphPlotControllerTest, setItem)
+TEST_F(GraphPlotControllerTest, SetGraphItemAndCheckPlottables)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphPlotController controller(custom_plot.get());
@@ -63,8 +60,8 @@ TEST_F(GraphPlotControllerTest, setItem)
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
   data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
-  std::vector<double> expected_centers = {0.5, 1.5};
-  std::vector<double> expected_values = {42.0, 43.0};
+  const std::vector<double> expected_centers = {0.5, 1.5};
+  const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
 
   // setup graph item
@@ -84,7 +81,7 @@ TEST_F(GraphPlotControllerTest, setItem)
   EXPECT_EQ(graph->pen().width(), 1);
 }
 
-TEST_F(GraphPlotControllerTest, changeGraphAppearance)
+TEST_F(GraphPlotControllerTest, ChangeGraphAppearance)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphPlotController controller(custom_plot.get());
@@ -93,8 +90,8 @@ TEST_F(GraphPlotControllerTest, changeGraphAppearance)
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
   data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
-  std::vector<double> expected_centers = {0.5, 1.5};
-  std::vector<double> expected_values = {42.0, 43.0};
+  const std::vector<double> expected_centers = {0.5, 1.5};
+  const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
 
   // setup graph item
@@ -119,10 +116,7 @@ TEST_F(GraphPlotControllerTest, changeGraphAppearance)
   EXPECT_EQ(graph->pen().width(), 2);
 }
 
-//! Setting GraphItem with data and checking that plottable contains correct data.
-//! Same as above, except that the data is based on PointWiseAxis.
-
-TEST_F(GraphPlotControllerTest, setPointwiseItem)
+TEST_F(GraphPlotControllerTest, ControllerOnPointWiseAxis)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphPlotController controller(custom_plot.get());
@@ -153,9 +147,7 @@ TEST_F(GraphPlotControllerTest, setPointwiseItem)
   EXPECT_EQ(graph->pen().color(), QColor(Qt::red));
 }
 
-//! Setting data to graph after.
-
-TEST_F(GraphPlotControllerTest, SetDataAfter)
+TEST_F(GraphPlotControllerTest, SetDataToGraphAfter)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   GraphPlotController controller(custom_plot.get());
@@ -174,8 +166,8 @@ TEST_F(GraphPlotControllerTest, SetDataAfter)
   // setup Data1DItem and assign to GraphItem
   auto data_item = model.InsertItem<Data1DItem>();
   data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
-  std::vector<double> expected_centers = {0.5, 1.5};
-  std::vector<double> expected_values = {42.0, 43.0};
+  const std::vector<double> expected_centers = {0.5, 1.5};
+  const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);
@@ -186,8 +178,6 @@ TEST_F(GraphPlotControllerTest, SetDataAfter)
   EXPECT_EQ(GetValues(graph), expected_values);
 }
 
-//! Unlinking from Data1DItem or GraphItem.
-
 TEST_F(GraphPlotControllerTest, UnlinkFromItem)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
@@ -197,8 +187,8 @@ TEST_F(GraphPlotControllerTest, UnlinkFromItem)
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
   data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
-  std::vector<double> expected_centers = {0.5, 1.5};
-  std::vector<double> expected_values = {42.0, 43.0};
+  const std::vector<double> expected_centers = {0.5, 1.5};
+  const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
 
   // setup graph item
@@ -226,9 +216,7 @@ TEST_F(GraphPlotControllerTest, UnlinkFromItem)
   EXPECT_EQ(custom_plot->graphCount(), 0);
 }
 
-//! Deletion of controller should lead to graph removal.
-
-TEST_F(GraphPlotControllerTest, controllerDelete)
+TEST_F(GraphPlotControllerTest, ControllerDeleteLeadToGraphRemoval)
 {
   auto custom_plot = std::make_unique<QCustomPlot>();
   auto controller = std::make_unique<GraphPlotController>(custom_plot.get());
@@ -249,30 +237,5 @@ TEST_F(GraphPlotControllerTest, controllerDelete)
   controller.reset();
   EXPECT_EQ(custom_plot->graphCount(), 0);
 }
-
-//! Deletion of graphItem should lead to the dissapearance of graph.
-//!
-//! FIXME restore test after implementation of signal on item destruction
-
-// TEST_F(GraphPlotControllerTests, graphDelete)
-//{
-//   auto custom_plot = std::make_unique<QCustomPlot>();
-//   auto controller = std::make_unique<GraphPlotController>(custom_plot.get());
-
-//  // setup model and single data item in it
-//  ApplicationModel model;
-//  auto data_item = model.InsertItem<Data1DItem>();
-
-//  // setup graph item
-//  auto graph_item = model.InsertItem<GraphItem>();
-//  graph_item->SetDataItem(data_item);
-
-//  // initializing controller
-//  controller->SetItem(graph_item);
-//  EXPECT_EQ(custom_plot->graphCount(), 1);
-
-//  model.RemoveItem(graph_item);
-//  EXPECT_EQ(custom_plot->graphCount(), 0);
-//}
 
 }  // namespace mvvm::test

@@ -24,21 +24,47 @@
 #include <mvvm/plotting/customplot/status_string_formatter_interface.h>
 
 class QCustomPlot;
+class QCPGraph;
 
 namespace mvvm
 {
 
-//! Formats status string for current mouse position in QCustomPlot with QCPGraph's.
-//! Includes coordinates of mouse pointer in viewport axes coordinates, add graph info if there is
-//! one nearby.
+struct CanvasGraphContext
+{
+  double xpos{0.0};
+  double ypos{0.0};
+  bool close_to_graph{false};
+  int nx{0};
+  double value{0.0};
+};
 
+/**
+ * @brief Get string representation of the given plot context.
+ */
+std::string GetContextString(const CanvasGraphContext& context);
+
+/**
+ * @brief Returns a graph located not far from the given coordinates.
+ */
+QCPGraph* FindGraphNearby(QCustomPlot* custom_plot, double xpos, double ypos);
+
+/**
+ * @brief The GraphInfoFormatter class generates status string for current mouse position.
+ *
+ * It is used to get information when mouse is hovered over a graph in QCustomPlot.
+ */
 class MVVM_VIEW_EXPORT GraphInfoFormatter : public StatusStringFormatterInterface
 {
 public:
-  //! Returns status string representing graph nearby.
-  //! @params x: mouse x-position given in axis viewport coordinates
-  //! @params y: mouse y-position given in axis viewport coordinates
-  std::string status_string(QCustomPlot* custom_plot, double x, double y) const override;
+  /**
+   * @brief Returns status string representing graph nearby.
+   *
+   * @param custom_plot The QCustomPlot main canvas.
+   * @param xpos Mouse x-coordinate
+   * @param ypos Mouse y-coordinate
+   * @return String descirbing current mouse position
+   */
+  std::string status_string(QCustomPlot* custom_plot, double xpos, double ypos) const override;
 };
 
 }  // namespace mvvm

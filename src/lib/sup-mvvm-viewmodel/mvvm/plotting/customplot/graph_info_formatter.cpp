@@ -25,37 +25,37 @@
 #include <qcustomplot.h>
 
 #include <sstream>
+#include <QDebug>
+
+namespace mvvm
+{
 
 namespace
 {
 
-QCPGraph* find_graph_nearby(QCustomPlot* custom_plot, double x, double y)
+int getBin(const QCPGraph* graph, double xpos)
 {
-  double widget_px = custom_plot->xAxis->coordToPixel(x);
-  double widget_py = custom_plot->yAxis->coordToPixel(y);
+  const int key_start = graph->findBegin(xpos);
+  const int key_end = graph->findBegin(xpos, false);  // false = do not expand range
+  if (key_end == key_start || key_end == graph->dataCount())
+  {
+    return key_start;
+  }
+  return (xpos - graph->dataSortKey(key_start)) <= (graph->dataSortKey(key_end) - xpos) ? key_start
+                                                                                        : key_end;
+}
+
+}  // namespace
+
+QCPGraph* FindGraphNearby(QCustomPlot* custom_plot, double xpos, double ypos)
+{
+  const double widget_px = custom_plot->xAxis->coordToPixel(xpos);
+  const double widget_py = custom_plot->yAxis->coordToPixel(ypos);
+  qDebug() << xpos<< ypos<< widget_px << widget_py;
   return dynamic_cast<QCPGraph*>(custom_plot->plottableAt(QPointF(widget_px, widget_py)));
 }
 
-int getBin(const QCPGraph* graph, double x)
-{
-  const int key_start = graph->findBegin(x);
-  const int key_end = graph->findBegin(x, false);  // false = do not expand range
-  if (key_end == key_start || key_end == graph->dataCount())
-    return key_start;
-  return (x - graph->dataSortKey(key_start)) <= (graph->dataSortKey(key_end) - x) ? key_start
-                                                                                  : key_end;
-}
-
-struct Context
-{
-  double xpos{0.0};
-  double ypos{0.0};
-  bool close_to_graph{false};
-  int nx{0};
-  double value{0.0};
-};
-
-std::string compose_string(const Context& context)
+std::string GetContextString(const CanvasGraphContext& context)
 {
   std::ostringstream ostr;
   ostr << "[x: " << mvvm::utils::DoubleToString(context.xpos, 3) << ", ";
@@ -68,23 +68,19 @@ std::string compose_string(const Context& context)
   return ostr.str();
 }
 
-}  // namespace
-
-namespace mvvm
+std::string GraphInfoFormatter::status_string(QCustomPlot* custom_plot, double xpos,
+                                              double ypos) const
 {
+  CanvasGraphContext context{xpos, ypos};
 
-std::string GraphInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
-{
-  Context context{x, y};
-
-  if (auto qcp_graph = find_graph_nearby(custom_plot, x, y); qcp_graph)
+  if (auto qcp_graph = FindGraphNearby(custom_plot, xpos, ypos); qcp_graph)
   {
     context.close_to_graph = true;
-    context.nx = getBin(qcp_graph, x);
+    context.nx = getBin(qcp_graph, xpos);
     context.value = qcp_graph->dataMainValue(context.nx);
   }
 
-  return compose_string(context);
+  return GetContextString(context);
 }
 
 }  // namespace mvvm
