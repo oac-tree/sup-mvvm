@@ -24,11 +24,11 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model_export.h>
 
+#include <cstdint>
 #include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 namespace mvvm::utils
 {
@@ -180,8 +180,10 @@ std::string VectorToString(const std::vector<ElementT>& vec,
  * @param delimiter
  * @return Vector of elements
  *
- * @details  Will throw for malformed strings. Good: "1.0, 2.0, 3.0". Bad: ", 2.0, 3.0" or
- * "1.0a, 2.0, 3.0" or "1.0, 2.0, 3.0, "
+ * @details  Will throw for malformed strings. Good: "1.0, 2.0, 3.0". Bad: "xxx, 2.0, 3.0"
+ *
+ * @details If empty element is found, default constructed ElementT will be added to the vector.
+ * ", 2.0" will become {0.0, 2.0}
  */
 template <typename ElementT>
 std::vector<ElementT> StringToVector(const std::string& str,
@@ -193,6 +195,11 @@ std::vector<ElementT> StringToVector(const std::string& str,
   result.reserve(parts.size());
   for (const auto& part : parts)
   {
+    if (part.empty())
+    {
+      result.push_back(ElementT{});
+      continue;
+    }
     std::istringstream iss(part);
     iss.imbue(std::locale::classic());
     ElementT value;
@@ -203,7 +210,7 @@ std::vector<ElementT> StringToVector(const std::string& str,
     }
     else
     {
-      throw RuntimeException("Conversion failed for: " + str);
+      throw RuntimeException("StringToVector conversion failed for: " + str);
     }
   }
 

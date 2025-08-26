@@ -270,6 +270,9 @@ TEST_F(StringUtilsTests, VectorToString)
     EXPECT_EQ(VectorToString(std::vector<std::string>({"a1", "a2"}), ", "), std::string("a1, a2"));
     EXPECT_EQ(VectorToString(std::vector<std::string>({"abc", "cde"}), ", "),
               std::string("abc, cde"));
+
+    EXPECT_EQ(VectorToString(std::vector<std::string>({"abc", "cde", ""}), ";"),
+              std::string("abc;cde;"));
   }
 
   {  // vector of double
@@ -295,7 +298,7 @@ TEST_F(StringUtilsTests, StringToVector)
     EXPECT_EQ(StringToVector<double>("1.0, 2.0", kSeparator), std::vector<double>({1.0, 2.0}));
     EXPECT_EQ(StringToVector<double>("1.0,2.0", kSeparator), std::vector<double>({1.0, 2.0}));
 
-    EXPECT_THROW(StringToVector<double>(", 1.0", kSeparator), RuntimeException);
+    EXPECT_EQ(StringToVector<double>(", 1.0", kSeparator), std::vector<double>({0.0, 1.0}));
     EXPECT_THROW(StringToVector<double>(" ", kSeparator), RuntimeException);
   }
 
@@ -316,6 +319,9 @@ TEST_F(StringUtilsTests, StringToVector)
     EXPECT_EQ(StringToVector<std::string>("abc", kSeparator), std::vector<std::string>({"abc"}));
     EXPECT_EQ(StringToVector<std::string>("abc;def", kSeparator),
               std::vector<std::string>({"abc", "def"}));
+
+    EXPECT_EQ(StringToVector<std::string>("abc;def;", kSeparator),
+              std::vector<std::string>({"abc", "def", ""}));
   }
 }
 
