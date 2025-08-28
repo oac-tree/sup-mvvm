@@ -22,9 +22,11 @@ cpptest_add_executable(sup-mvvm-cpptest
 
 get_target_property(SUP_MVVM_VIEW_INCLUDE_DIRECTORIES sup-mvvm-view INCLUDE_DIRECTORIES)
 get_target_property(SUP_MVVM_TEST_INCLUDE_DIRECTORIES sup-mvvm-test INCLUDE_DIRECTORIES)
+
 target_include_directories(sup-mvvm-cpptest PUBLIC ${SUP_MVVM_VIEW_INCLUDE_DIRECTORIES}  ${SUP_MVVM_TEST_INCLUDE_DIRECTORIES})
 
 target_link_libraries(sup-mvvm-cpptest
   PUBLIC
   LibXml2::LibXml2
+  sup-mvvm::view
 )
