@@ -478,6 +478,14 @@ inline void SessionItem::SetStrategy(ObjectT* object, const MethodT& method)
                         std::placeholders::_3));
 }
 
+template <typename T> struct item_traits;
+
+template <>
+struct item_traits<SessionItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "SessionItem"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_SESSION_ITEM_H_

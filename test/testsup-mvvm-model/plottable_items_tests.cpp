@@ -33,7 +33,12 @@ class PlottableItemsTests : public ::testing::Test
 
 TEST_F(PlottableItemsTests, TextItemInitialState)
 {
-  TextItem item;
+  const TextItem item;
+
+  EXPECT_EQ(item_traits<TextItem>::type_name(), "Text");
+  EXPECT_EQ(item_traits<TextItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_TRUE(item.GetText().empty());
   EXPECT_EQ(item.GetFont(), std::string("Noto Sans"));
   EXPECT_EQ(item.GetPointSize(), 10);
@@ -56,6 +61,11 @@ TEST_F(PlottableItemsTests, TextItemGetSet)
 TEST_F(PlottableItemsTests, PenItemInitialState)
 {
   const PenItem item;
+
+  EXPECT_EQ(item_traits<PenItem>::type_name(), "Pen");
+  EXPECT_EQ(item_traits<PenItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_EQ(item.GetNamedColor(), std::string("black"));
   EXPECT_EQ(item.GetWidth(), 1);
   EXPECT_EQ(item.GetStyle(), std::string("SolidLine"));

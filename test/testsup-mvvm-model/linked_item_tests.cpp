@@ -44,6 +44,11 @@ class LinkedItemTests : public ::testing::Test
 TEST_F(LinkedItemTests, InitialState)
 {
   const LinkedItem item;
+
+  EXPECT_EQ(item_traits<LinkedItem>::type_name(), "Linked");
+  EXPECT_EQ(item_traits<LinkedItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_EQ(item.Get(), nullptr);
   EXPECT_EQ(item.Data<std::string>(), std::string());
 }

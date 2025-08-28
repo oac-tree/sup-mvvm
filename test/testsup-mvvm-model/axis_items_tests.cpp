@@ -34,6 +34,11 @@ class AxisItemsTests : public ::testing::Test
 TEST_F(AxisItemsTests, ViewportAxisInitialState)
 {
   const ViewportAxisItem axis;
+
+  EXPECT_EQ(item_traits<ViewportAxisItem>::type_name(), "ViewportAxis");
+  EXPECT_EQ(item_traits<ViewportAxisItem>::type_name(), axis.GetType());
+  EXPECT_EQ(axis.GetType(), axis.GetDisplayName());
+
   EXPECT_EQ(axis.GetMin(), 0.0);
   EXPECT_EQ(axis.GetMax(), 1.0);
   EXPECT_TRUE(axis.GetTitleItem()->GetText().empty());
@@ -60,6 +65,11 @@ TEST_F(AxisItemsTests, ViewportAxisGetSet)
 TEST_F(AxisItemsTests, FixedBinAxisInitialState)
 {
   const FixedBinAxisItem axis;
+
+  EXPECT_EQ(item_traits<FixedBinAxisItem>::type_name(), "FixedBinAxis");
+  EXPECT_EQ(item_traits<FixedBinAxisItem>::type_name(), axis.GetType());
+  EXPECT_EQ(axis.GetType(), axis.GetDisplayName());
+
   EXPECT_EQ(axis.GetMin(), 0.0);
   EXPECT_EQ(axis.GetMax(), 1.0);
   EXPECT_EQ(axis.GetSize(), 1);
@@ -106,6 +116,11 @@ TEST_F(AxisItemsTests, FixedBinAxisRange)
 TEST_F(AxisItemsTests, PointwiseAxisInitialState)
 {
   const PointwiseAxisItem axis;
+
+  EXPECT_EQ(item_traits<PointwiseAxisItem>::type_name(), "PointwiseAxis");
+  EXPECT_EQ(item_traits<PointwiseAxisItem>::type_name(), axis.GetType());
+  EXPECT_EQ(axis.GetType(), axis.GetDisplayName());
+
   const std::vector<double> expected_centers = {0.0, 1.0};
   EXPECT_EQ(axis.GetBinCenters(), expected_centers);
   EXPECT_EQ(axis.GetSize(), 2);

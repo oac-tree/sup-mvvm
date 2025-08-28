@@ -108,6 +108,12 @@ private:
   void ValidateIndex(int index) const;
 };
 
+template <>
+struct item_traits<LineSeriesDataItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "LineSeriesData"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_LINE_SERIES_DATA_ITEM_H_

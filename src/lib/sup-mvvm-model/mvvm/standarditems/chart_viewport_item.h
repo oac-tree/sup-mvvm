@@ -56,6 +56,12 @@ protected:
   std::pair<double, double> GetDataYRange() const override;
 };
 
+template <>
+struct item_traits<ChartViewportItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "ChartViewport"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_CHART_VIEWPORT_ITEM_H_

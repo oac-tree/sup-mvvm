@@ -38,6 +38,10 @@ TEST_F(VectorItemTests, InitialState)
 {
   const VectorItem item;
 
+  EXPECT_EQ(item_traits<VectorItem>::type_name(), "VectorItem");
+  EXPECT_EQ(item_traits<VectorItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_FALSE(item.IsEditable());
 
   EXPECT_EQ(item.Property<double>(VectorItem::kX), 0.0);

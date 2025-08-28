@@ -143,6 +143,12 @@ inline bool CompoundItem::SetProperty(const std::string& tag, const T& value)
   return GetItem(tag)->SetData(value);
 }
 
+template <>
+struct item_traits<CompoundItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Compound"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_COMPOUND_ITEM_H_

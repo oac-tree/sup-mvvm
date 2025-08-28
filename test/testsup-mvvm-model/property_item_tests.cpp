@@ -34,6 +34,15 @@ class PropertyItemTests : public ::testing::Test
 {
 };
 
+TEST_F(PropertyItemTests, InitialState)
+{
+  PropertyItem item;
+
+  EXPECT_EQ(item_traits<PropertyItem>::type_name(), "PropertyItem");
+  EXPECT_EQ(item_traits<PropertyItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+}
+
 TEST_F(PropertyItemTests, SetLimits)
 {
   PropertyItem item;

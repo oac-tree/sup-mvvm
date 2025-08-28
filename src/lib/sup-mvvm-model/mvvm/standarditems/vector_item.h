@@ -67,6 +67,12 @@ private:
   void UpdateLabel();
 };
 
+template <>
+struct item_traits<VectorItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "VectorItem"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_VECTOR_ITEM_H_

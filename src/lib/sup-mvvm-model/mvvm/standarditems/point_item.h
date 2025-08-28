@@ -72,6 +72,12 @@ public:
   void SetPointCoordinates(const std::pair<double, double>& coordinates);
 };
 
+template <>
+struct item_traits<PointItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Point"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_POINT_ITEM_H_

@@ -87,6 +87,8 @@ TEST_F(SessionItemTests, InitialState)
   EXPECT_TRUE(item.GetAllItems().empty());
   EXPECT_EQ(item.GetType(), SessionItem::GetStaticType());
   EXPECT_EQ(item.GetDisplayName(), SessionItem::GetStaticType());
+  EXPECT_EQ(item_traits<SessionItem>::type_name(), "SessionItem");
+  EXPECT_EQ(item_traits<SessionItem>::type_name(), item.GetType());
 
   // Initially item has already an identifier defined.
   const std::vector<role_t> expected_roles = {DataRole::kIdentifier};

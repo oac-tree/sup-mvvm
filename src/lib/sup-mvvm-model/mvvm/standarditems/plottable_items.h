@@ -104,6 +104,18 @@ public:
   void SetWidth(int value);
 };
 
+template <>
+struct item_traits<TextItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Text"; }
+};
+
+template <>
+struct item_traits<PenItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Pen"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_PLOTTABLE_ITEMS_H_

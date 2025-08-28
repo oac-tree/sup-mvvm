@@ -38,6 +38,11 @@ class LineSeriesItemTest : public ::testing::Test
 TEST_F(LineSeriesItemTest, LineSeriesItemInitialState)
 {
   const LineSeriesItem item;
+
+  EXPECT_EQ(item_traits<LineSeriesItem>::type_name(), "LineSeries");
+  EXPECT_EQ(item_traits<LineSeriesItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_TRUE(item.GetDataItem() == nullptr);
   EXPECT_TRUE(item.IsDisplayed());
 }

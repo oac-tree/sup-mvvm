@@ -43,6 +43,12 @@ public:
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
+template <>
+struct item_traits<PropertyItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "PropertyItem"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_MODEL_PROPERTY_ITEM_H_

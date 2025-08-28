@@ -38,6 +38,10 @@ TEST_F(LineSeriesDataItemTest, InitialState)
 {
   const LineSeriesDataItem item;
 
+  EXPECT_EQ(item_traits<LineSeriesDataItem>::type_name(), "LineSeriesData");
+  EXPECT_EQ(item_traits<LineSeriesDataItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_TRUE(item.GetWaveform().empty());
   EXPECT_EQ(item.GetPointCount(), 0);
 }

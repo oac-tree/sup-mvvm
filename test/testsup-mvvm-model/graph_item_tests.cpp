@@ -46,6 +46,11 @@ public:
 TEST_F(GraphItemTests, InitialState)
 {
   const GraphItem item;
+
+  EXPECT_EQ(item_traits<GraphItem>::type_name(), "Graph");
+  EXPECT_EQ(item_traits<GraphItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_TRUE(item.GetDataItem() == nullptr);
   EXPECT_EQ(item.GetBinCenters(), std::vector<double>{});
   EXPECT_EQ(item.GetValues(), std::vector<double>{});

@@ -38,7 +38,11 @@ class Data1DItemTests : public ::testing::Test
 
 TEST_F(Data1DItemTests, InitialState)
 {
-  Data1DItem item;
+  const Data1DItem item;
+
+  EXPECT_EQ(item_traits<Data1DItem>::type_name(), "Data1D");
+  EXPECT_EQ(item_traits<Data1DItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
 
   EXPECT_EQ(item.GetAxis(), nullptr);
   EXPECT_EQ(item.GetBinCenters(), std::vector<double>());

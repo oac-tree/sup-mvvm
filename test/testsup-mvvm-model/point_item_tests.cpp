@@ -29,6 +29,15 @@ class PointItemTest : public ::testing::Test
 {
 };
 
+TEST_F(PointItemTest, InitialState)
+{
+  const PointItem item;
+
+  EXPECT_EQ(item_traits<PointItem>::type_name(), "Point");
+  EXPECT_EQ(item_traits<PointItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+}
+
 TEST_F(PointItemTest, GetAndSet)
 {
   PointItem item;

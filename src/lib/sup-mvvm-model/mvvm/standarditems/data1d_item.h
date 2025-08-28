@@ -73,6 +73,12 @@ T* Data1DItem::SetAxis(Args&&... args)
   return result;
 }
 
+template <>
+struct item_traits<Data1DItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Data1D"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_DATA1D_ITEM_H_

@@ -37,6 +37,11 @@ class ContainerItemTests : public ::testing::Test
 TEST_F(ContainerItemTests, InitialState)
 {
   const ContainerItem item;
+
+  EXPECT_EQ(item_traits<ContainerItem>::type_name(), "Container");
+  EXPECT_EQ(item_traits<ContainerItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
+
   EXPECT_TRUE(item.IsEmpty());
 }
 

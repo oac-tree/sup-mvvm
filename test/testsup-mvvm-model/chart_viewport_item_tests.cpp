@@ -43,6 +43,10 @@ TEST_F(ChartViewportItemTest, ViewportAxisInitialState)
 
   auto viewport_item = model.InsertItem<ChartViewportItem>();
 
+  EXPECT_EQ(item_traits<ChartViewportItem>::type_name(), "ChartViewport");
+  EXPECT_EQ(item_traits<ChartViewportItem>::type_name(), viewport_item->GetType());
+  EXPECT_EQ(viewport_item->GetType(), viewport_item->GetDisplayName());
+
   EXPECT_EQ(viewport_item->GetLineSeriesCount(), 0);
   EXPECT_NE(viewport_item->GetXAxis(), nullptr);
   EXPECT_NE(viewport_item->GetYAxis(), nullptr);

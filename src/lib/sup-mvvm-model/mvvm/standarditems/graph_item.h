@@ -63,6 +63,12 @@ public:
   PenItem* GetPenItem() const;
 };
 
+template <>
+struct item_traits<GraphItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Graph"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_GRAPH_ITEM_H_

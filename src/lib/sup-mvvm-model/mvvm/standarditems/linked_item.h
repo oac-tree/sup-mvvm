@@ -59,6 +59,12 @@ T* LinkedItem::Get() const
   return dynamic_cast<T*>(GetLink());
 }
 
+template <>
+struct item_traits<LinkedItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Linked"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_LINKED_ITEM_H_

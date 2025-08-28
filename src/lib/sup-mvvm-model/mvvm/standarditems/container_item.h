@@ -61,6 +61,12 @@ public:
   void Clear();
 };
 
+template <>
+struct item_traits<ContainerItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Container"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_CONTAINER_ITEM_H_

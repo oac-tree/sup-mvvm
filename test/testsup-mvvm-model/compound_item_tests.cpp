@@ -44,6 +44,9 @@ TEST_F(CompoundItemTests, InitialState)
 {
   const CompoundItem item;
   EXPECT_EQ(item.GetTotalItemCount(), 0);
+  EXPECT_EQ(item_traits<CompoundItem>::type_name(), "Compound");
+  EXPECT_EQ(item_traits<CompoundItem>::type_name(), item.GetType());
+  EXPECT_EQ(item.GetType(), item.GetDisplayName());
 }
 
 TEST_F(CompoundItemTests, AddIntProperty)

@@ -160,6 +160,24 @@ public:
   std::vector<double> GetBinCenters() const override;
 };
 
+template <>
+struct item_traits<ViewportAxisItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "ViewportAxis"; }
+};
+
+template <>
+struct item_traits<FixedBinAxisItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "FixedBinAxis"; }
+};
+
+template <>
+struct item_traits<PointwiseAxisItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "PointwiseAxis"; }
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_STANDARDITEMS_AXIS_ITEMS_H_
