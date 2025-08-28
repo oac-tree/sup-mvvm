@@ -133,21 +133,21 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
     SessionItem item;
     const role_t role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43.0, role));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kFloat64TypeName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::Float64TypeName());
   }
 
   {
     SessionItem item;
     const role_t role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43, role));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt32TypeName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::Int32TypeName());
   }
 
   {
     SessionItem item;
     const role_t role = DataRole::kData;
     EXPECT_TRUE(item.SetData(43L, role));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::Int64TypeName());
   }
 
   {
@@ -155,7 +155,7 @@ TEST_F(SessionItemTests, SetDataAndImplicitConversion)
     const role_t role = DataRole::kData;
     const int64 num(43);
     EXPECT_TRUE(item.SetData(num, role));
-    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::kInt64TypeName);
+    EXPECT_EQ(utils::TypeName(item.Data(role)), constants::Int64TypeName());
   }
 }
 

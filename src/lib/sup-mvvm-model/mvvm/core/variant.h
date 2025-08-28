@@ -30,7 +30,7 @@
 #include <mvvm/model/external_property.h>
 #include <mvvm/model_export.h>
 
-#include <string>
+#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -85,25 +85,25 @@ std::string GetTypeNameFromTypeCode(TypeCode type_code);
 //! Defines names of all supported data types.
 namespace mvvm::constants
 {
-
-const std::string kEmptyTypeName = "empty";
-const std::string kBooleanTypeName = "bool";
-const std::string kChar8TypeName = "char8";
-const std::string kInt8TypeName = "int8";
-const std::string kUInt8TypeName = "uint8";
-const std::string kInt16TypeName = "int16";
-const std::string kUInt16TypeName = "uint16";
-const std::string kInt32TypeName = "int32";
-const std::string kUInt32TypeName = "uint32";
-const std::string kInt64TypeName = "int64";
-const std::string kUInt64TypeName = "uint64";
-const std::string kFloat32TypeName = "float32";
-const std::string kFloat64TypeName = "float64";
-const std::string kStringTypeName = "string";
-
-const std::string kVectorDoubleTypeName = "vector_double";
-const std::string kComboPropertyTypeName = "ComboProperty";
-const std::string kExternalPropertyTypeName = "ExternalProperty";
+// clang-format off
+constexpr std::string_view EmptyTypeName() noexcept { return "empty"; }
+constexpr std::string_view BooleanTypeName() noexcept { return "bool"; }
+constexpr std::string_view Char8TypeName() noexcept { return "char8"; }
+constexpr std::string_view Int8TypeName() noexcept { return "int8"; }
+constexpr std::string_view UInt8TypeName() noexcept { return "uint8"; }
+constexpr std::string_view Int16TypeName() noexcept { return "int16"; }
+constexpr std::string_view UInt16TypeName() noexcept { return "uint16"; }
+constexpr std::string_view Int32TypeName() noexcept { return "int32"; }
+constexpr std::string_view UInt32TypeName() noexcept { return "uint32"; }
+constexpr std::string_view Int64TypeName() noexcept { return "int64"; }
+constexpr std::string_view UInt64TypeName() noexcept { return "uint64"; }
+constexpr std::string_view Float32TypeName() noexcept { return "float32"; }
+constexpr std::string_view Float64TypeName() noexcept { return "float64"; }
+constexpr std::string_view StringTypeName() noexcept { return "string"; }
+constexpr std::string_view VectorDoubleTypeName() noexcept { return "vector_double"; }
+constexpr std::string_view ComboPropertyTypeName() noexcept { return "ComboProperty"; }
+constexpr std::string_view ExternalPropertyTypeName() noexcept { return "ExternalProperty"; }
+// clang-format on
 }  // namespace mvvm::constants
 
 namespace mvvm::utils
