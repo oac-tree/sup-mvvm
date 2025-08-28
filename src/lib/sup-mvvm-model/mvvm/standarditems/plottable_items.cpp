@@ -49,10 +49,10 @@ static inline const std::string kSize = "kSize";
 
 TextItem::TextItem() : CompoundItem(GetStaticType())
 {
-  SetEditable(false);  // to disable editing of on-board data
-  AddProperty(kText, "").SetDisplayName("Text");
-  AddProperty(kFont, GetDefaultAxisFontFamily()).SetDisplayName("Font");
-  AddProperty(kSize, GetDefaultAxisTitlePointSize()).SetDisplayName("Size");
+  (void)SetEditable(false);  // to disable editing of on-board data
+  (void)AddProperty(kText, "").SetDisplayName("Text");
+  (void)AddProperty(kFont, GetDefaultAxisFontFamily()).SetDisplayName("Font");
+  (void)AddProperty(kSize, GetDefaultAxisTitlePointSize()).SetDisplayName("Size");
 }
 
 std::string TextItem::GetStaticType()

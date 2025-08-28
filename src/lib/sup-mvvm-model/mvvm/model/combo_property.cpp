@@ -164,7 +164,7 @@ void ComboProperty::SetSelected(std::int32_t index, bool value)
   {
     if (pos != m_selected_indices.end())
     {
-      m_selected_indices.erase(pos);
+      (void)m_selected_indices.erase(pos);
     }
   }
   std::sort(m_selected_indices.begin(), m_selected_indices.end());
@@ -202,7 +202,7 @@ ComboProperty& ComboProperty::operator<<(const std::string& str)
 
 ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
 {
-  m_values.insert(m_values.end(), str.begin(), str.end());
+  (void)m_values.insert(m_values.end(), str.begin(), str.end());
   if (GetCurrentIndex() == -1)
   {
     SetCurrentIndex(0);

@@ -48,8 +48,8 @@ std::size_t SessionItemContainer::GetItemCount() const
 std::vector<SessionItem*> SessionItemContainer::GetItems() const
 {
   std::vector<SessionItem*> result;
-  std::transform(m_items.begin(), m_items.end(), std::back_inserter(result),
-                 [](const auto& item) { return item.get(); });
+  (void)std::transform(m_items.begin(), m_items.end(), std::back_inserter(result),
+                       [](const auto& item) { return item.get(); });
   return result;
 }
 
@@ -110,7 +110,7 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
   }
 
   auto result = item.get();
-  m_items.insert(std::next(m_items.begin(), index), std::move(item));
+  (void)m_items.insert(std::next(m_items.begin(), index), std::move(item));
   return result;
 }
 
@@ -129,7 +129,7 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(std::size_t index)
   if (index < GetItemCount())
   {
     auto item = std::move(m_items.at(index));
-    m_items.erase(std::next(m_items.begin(), index));
+    (void)m_items.erase(std::next(m_items.begin(), index));
     return item;
   }
 

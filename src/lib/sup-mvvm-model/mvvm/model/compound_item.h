@@ -118,8 +118,8 @@ T& CompoundItem::AddProperty(const std::string& name)
   // A property item is a branch with additional kProperty flag. Properties are normally shown in
   // property editors and hidden in top-level-items editors.
   auto& result = AddBranch<T>(name);
-  result.SetDisplayName(name);
-  result.SetFlag(Appearance::kProperty, true);
+  (void)result.SetDisplayName(name);
+  (void)result.SetFlag(Appearance::kProperty, true);
   return result;
 }
 
@@ -127,7 +127,7 @@ template <typename V>
 PropertyItem& CompoundItem::AddProperty(const std::string& name, const V& value)
 {
   auto& property = AddProperty<PropertyItem>(name);
-  property.SetData(value);
+  (void)property.SetData(value);
   return property;
 }
 

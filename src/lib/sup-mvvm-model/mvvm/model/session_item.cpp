@@ -59,7 +59,7 @@ Flags<Appearance> GetFlags(const SessionItem& item)
  */
 void SetFlags(const Flags<Appearance>& flags, SessionItem& item)
 {
-  item.SetData(flags.to_ulong(), DataRole::kAppearance);
+  (void)item.SetData(flags.to_ulong(), DataRole::kAppearance);
 }
 
 }  // namespace
@@ -128,7 +128,7 @@ std::string SessionItem::GetDisplayName() const
 
 SessionItem& SessionItem::SetDisplayName(const std::string& name)
 {
-  SetData(name, DataRole::kDisplay);
+  (void)SetData(name, DataRole::kDisplay);
   return *this;
 }
 
@@ -274,7 +274,7 @@ std::string SessionItem::GetToolTip() const
 
 SessionItem& SessionItem::SetToolTip(const std::string& tooltip)
 {
-  SetData(tooltip, DataRole::kTooltip);
+  (void)SetData(tooltip, DataRole::kTooltip);
   return *this;
 }
 
@@ -285,7 +285,7 @@ std::string SessionItem::GetEditorType() const
 
 SessionItem& SessionItem::SetEditorType(const std::string& editor_type)
 {
-  SetData(editor_type, DataRole::kEditor);
+  (void)SetData(editor_type, DataRole::kEditor);
   return *this;
 }
 

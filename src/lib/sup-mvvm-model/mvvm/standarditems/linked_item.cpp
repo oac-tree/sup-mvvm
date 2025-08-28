@@ -32,8 +32,8 @@ namespace mvvm
 
 LinkedItem::LinkedItem() : SessionItem(GetStaticType())
 {
-  SetData(kEmptyLinkIdentifier);
-  SetEditable(false);  // prevent editing in widgets, link is set programmatically.
+  (void)SetData(kEmptyLinkIdentifier);
+  (void)SetEditable(false);  // prevent editing in widgets, link is set programmatically.
 }
 
 std::string LinkedItem::GetStaticType()
@@ -50,7 +50,7 @@ std::unique_ptr<SessionItem> LinkedItem::Clone() const
 
 void LinkedItem::SetLink(const SessionItem* item)
 {
-  SetData(item ? item->GetIdentifier() : kEmptyLinkIdentifier);
+  (void)SetData(item ? item->GetIdentifier() : kEmptyLinkIdentifier);
 }
 
 SessionItem* LinkedItem::GetLink() const

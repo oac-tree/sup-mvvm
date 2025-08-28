@@ -40,15 +40,15 @@ namespace mvvm
 
 LineSeriesItem::LineSeriesItem() : CompoundItem(GetStaticType())
 {
-  AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
-  AddProperty(kOffset, 0.0).SetDisplayName("Offset");
+  (void)AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
+  (void)AddProperty(kOffset, 0.0).SetDisplayName("Offset");
 
   auto &pen = AddProperty<mvvm::PenItem>(constants::kPen);
-  pen.SetDisplayName("Pen");
+  (void)pen.SetDisplayName("Pen");
   pen.SetWidth(kDefaultLineWidth);
   pen.SetNamedColor(kDefaultLineColor);
 
-  AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
+  (void)AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
 std::string LineSeriesItem::GetStaticType()
@@ -73,7 +73,7 @@ const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
 
 LineSeriesDataItem *LineSeriesItem::GetDataItem()
 {
-  return const_cast<LineSeriesDataItem*>(std::as_const(*this).GetDataItem());
+  return const_cast<LineSeriesDataItem *>(std::as_const(*this).GetDataItem());
 }
 
 double LineSeriesItem::GetXOffset() const
@@ -83,7 +83,7 @@ double LineSeriesItem::GetXOffset() const
 
 void LineSeriesItem::SetXOffset(double value)
 {
-  SetProperty<double>(kOffset, value);
+  (void)SetProperty<double>(kOffset, value);
 }
 
 std::string LineSeriesItem::GetNamedColor() const
@@ -105,8 +105,8 @@ std::vector<double> LineSeriesItem::GetBinCenters() const
 {
   // retrieving x-coordinates and shifting them by the offset value
   auto result = GetPairOfVectors(GetDataItem()->GetWaveform()).first;
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [this](auto element) { return element += GetXOffset(); });
+  (void)std::transform(result.begin(), result.end(), result.begin(),
+                       [this](auto element) { return element += GetXOffset(); });
   return result;
 }
 
@@ -122,7 +122,7 @@ bool LineSeriesItem::IsDisplayed() const
 
 void LineSeriesItem::SetDisplayed(bool value)
 {
-  SetProperty(constants::kDisplayed, value);
+  (void)SetProperty(constants::kDisplayed, value);
 }
 
 }  // namespace mvvm

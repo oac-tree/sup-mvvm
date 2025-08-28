@@ -41,9 +41,9 @@ static inline const std::string kAxis = "kAxis";
 Data1DItem::Data1DItem() : CompoundItem(GetStaticType())
 {
   // prevent editing in widgets, since there is no corresponding editor
-  AddProperty(kValues, std::vector<double>()).SetDisplayName("Values").SetEditable(false);
+  (void)AddProperty(kValues, std::vector<double>()).SetDisplayName("Values").SetEditable(false);
 
-  AddProperty(kErrors, std::vector<double>()).SetDisplayName("Errors").SetEditable(false);
+  (void)AddProperty(kErrors, std::vector<double>()).SetDisplayName("Errors").SetEditable(false);
 
   RegisterTag(
       TagInfo(kAxis, 0, 1, {FixedBinAxisItem::GetStaticType(), PointwiseAxisItem::GetStaticType()}),
@@ -78,7 +78,7 @@ void Data1DItem::SetValues(const std::vector<double>& data)
     throw RuntimeException("Error in Data1DItem: data doesn't match size of axis");
   }
 
-  SetProperty(kValues, data);
+  (void)SetProperty(kValues, data);
 }
 
 //! Returns values stored in bins.
@@ -97,7 +97,7 @@ void Data1DItem::SetErrors(const std::vector<double>& errors)
     throw RuntimeException("Error in Data1DItem: data doesn't match size of axis");
   }
 
-  SetProperty(kErrors, errors);
+  (void)SetProperty(kErrors, errors);
 }
 
 //! Returns value errors stored in bins.
@@ -120,8 +120,7 @@ void Data1DItem::SetAxis(std::unique_ptr<BinnedAxisItem> axis)
     throw RuntimeException("Error in Data1DItem: axis was already set");
   }
 
-  GetModel() ? GetModel()->InsertItem(std::move(axis), this, {kAxis, 0})
-             : InsertItem(std::move(axis), {kAxis, 0});
+  (void)InsertItem(std::move(axis), {kAxis, 0});
 
   SetValues(std::vector<double>(GetAxis()->GetSize(), 0.0));
 }

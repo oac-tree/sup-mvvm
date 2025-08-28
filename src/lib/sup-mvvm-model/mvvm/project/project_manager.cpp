@@ -75,8 +75,8 @@ bool ProjectManager::CreateNewProject(const std::string& path)
     return kFailed;
   }
 
-  GetProject()->Close();
-  GetProject()->CreateEmpty();
+  (void)GetProject()->Close();
+  (void)GetProject()->CreateEmpty();
 
   return GetProject()->Save(project_path);
 }

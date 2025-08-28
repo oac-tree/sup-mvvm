@@ -160,7 +160,7 @@ public:
   {
     auto signal_for_event_type = std::make_unique<signal_t>();
     const std::size_t index = variant_index<EventVariantT, EventT>();
-    m_signals.insert({index, std::move(signal_for_event_type)});
+    (void)m_signals.insert({index, std::move(signal_for_event_type)});
   }
 
 private:

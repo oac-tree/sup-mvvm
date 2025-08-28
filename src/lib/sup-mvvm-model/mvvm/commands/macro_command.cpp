@@ -61,13 +61,13 @@ std::vector<const ICommand*> MacroCommand::GetCommands() const
 
 void MacroCommand::ExecuteImpl()
 {
-  std::for_each(m_children.begin(), m_children.end(), [](auto& iter) { (*iter).Execute(); });
+  (void)std::for_each(m_children.begin(), m_children.end(), [](auto& iter) { (*iter).Execute(); });
 }
 
 void MacroCommand::UndoImpl()
 {
   // in reverse order
-  std::for_each(m_children.rbegin(), m_children.rend(), [](auto& iter) { (*iter).Undo(); });
+  (void)std::for_each(m_children.rbegin(), m_children.rend(), [](auto& iter) { (*iter).Undo(); });
 }
 
 void MacroCommand::Notify(const event_variant_t& event)

@@ -44,7 +44,7 @@ struct ProjectChangedController::ProjectChangedControllerImpl
     m_change_controllers.clear();
     for (auto model : m_models)
     {
-      m_change_controllers.emplace_back(
+      (void)m_change_controllers.emplace_back(
           std::make_unique<ModelHasChangedController>(model, on_model_changed));
     }
   }

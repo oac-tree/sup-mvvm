@@ -71,7 +71,7 @@ std::unique_ptr<SessionItem> CreateEmptyRootItem()
 {
   auto result = std::make_unique<SessionItem>();
   // root item is invisible in widgets, so display name is for debugging purpose
-  result->SetDisplayName(constants::kRootItemName);
+  (void)result->SetDisplayName(constants::kRootItemName);
   result->RegisterTag(TagInfo::CreateUniversalTag(constants::kRootItemTag),
                       /*set_as_default*/ true);
   return result;

@@ -52,7 +52,7 @@ std::vector<std::pair<double, double> > LineSeriesDataItem::GetWaveform() const
   std::vector<std::pair<double, double> > result;
   for (const auto* point : GetItems<PointItem>(constants::kChildrenTag))
   {
-    result.emplace_back(point->GetX(), point->GetY());
+    (void)result.emplace_back(point->GetX(), point->GetY());
   }
 
   return result;
@@ -66,7 +66,7 @@ void LineSeriesDataItem::SetWaveform(const std::vector<std::pair<double, double>
     auto point = std::make_unique<PointItem>();
     point->SetX(x);
     point->SetY(y);
-    InsertItem(std::move(point), TagIndex::Append());
+    (void)InsertItem(std::move(point), TagIndex::Append());
   }
 }
 
@@ -101,7 +101,7 @@ void LineSeriesDataItem::InsertPoint(int index, const std::pair<double, double>&
   auto point = std::make_unique<PointItem>();
   point->SetX(coordinates.first);
   point->SetY(coordinates.second);
-  InsertItem(std::move(point), TagIndex::Default(index));
+  (void)InsertItem(std::move(point), TagIndex::Default(index));
 }
 
 void LineSeriesDataItem::ValidateIndex(int index) const

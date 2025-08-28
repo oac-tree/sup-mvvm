@@ -43,7 +43,7 @@ double BasicAxisItem::GetMin() const
 
 void BasicAxisItem::SetMin(double value)
 {
-  SetProperty(kMin, value);
+  (void)SetProperty(kMin, value);
 }
 
 double BasicAxisItem::GetMax() const
@@ -53,13 +53,13 @@ double BasicAxisItem::GetMax() const
 
 void BasicAxisItem::SetMax(double value)
 {
-  SetProperty(kMax, value);
+  (void)SetProperty(kMax, value);
 }
 
 void BasicAxisItem::RegisterMinMax()
 {
-  AddProperty(kMin, kDefaultAxisMin).SetDisplayName("Min");
-  AddProperty(kMax, kDefaultAxisMax).SetDisplayName("Max");
+  (void)AddProperty(kMin, kDefaultAxisMin).SetDisplayName("Min");
+  (void)AddProperty(kMax, kDefaultAxisMax).SetDisplayName("Max");
 }
 
 // --- ViewportAxisItem ------------------------------------------------------
@@ -69,9 +69,9 @@ static inline const std::string kIsLog = "kIsLog";
 
 ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisItem(model_type)
 {
-  AddProperty<TextItem>(kTitle).SetDisplayName("Title");
+  (void)AddProperty<TextItem>(kTitle).SetDisplayName("Title");
   RegisterMinMax();
-  AddProperty(kIsLog, false).SetDisplayName("log10");
+  (void)AddProperty(kIsLog, false).SetDisplayName("log10");
 }
 
 std::string ViewportAxisItem::GetStaticType()
@@ -107,7 +107,7 @@ bool ViewportAxisItem::IsInLog() const
 
 void ViewportAxisItem::SetInLog(bool value)
 {
-  SetProperty(kIsLog, value);
+  (void)SetProperty(kIsLog, value);
 }
 
 // --- BinnedAxisItem ------------------------------------------------------
@@ -120,7 +120,7 @@ static inline const std::string kNbins = "kNbins";
 
 FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisItem(model_type)
 {
-  AddProperty(kNbins, 1).SetDisplayName("Nbins");
+  (void)AddProperty(kNbins, 1).SetDisplayName("Nbins");
   RegisterMinMax();
 }
 
@@ -136,7 +136,7 @@ std::unique_ptr<SessionItem> FixedBinAxisItem::Clone() const
 
 void FixedBinAxisItem::SetParameters(int nbins, double xmin, double xmax)
 {
-  SetProperty(kNbins, nbins);
+  (void)SetProperty(kNbins, nbins);
   SetMin(xmin);
   SetMax(xmax);
 }
@@ -178,8 +178,8 @@ std::vector<double> FixedBinAxisItem::GetBinCenters() const
 PointwiseAxisItem::PointwiseAxisItem(const std::string& model_type) : BinnedAxisItem(model_type)
 {
   // vector of points matching default xmin, xmax
-  SetData(std::vector<double>{kDefaultAxisMin, kDefaultAxisMax});
-  SetEditable(false);  // prevent editing in widgets, since there is no corresponding editor
+  (void)SetData(std::vector<double>{kDefaultAxisMin, kDefaultAxisMax});
+  (void)SetEditable(false);  // prevent editing in widgets, since there is no corresponding editor
 }
 
 std::string PointwiseAxisItem::GetStaticType()
@@ -194,7 +194,7 @@ std::unique_ptr<SessionItem> PointwiseAxisItem::Clone() const
 
 void PointwiseAxisItem::SetParameters(const std::vector<double>& data)
 {
-  SetData(data);
+  (void)SetData(data);
 }
 
 std::unique_ptr<PointwiseAxisItem> PointwiseAxisItem::Create(const std::vector<double>& data)

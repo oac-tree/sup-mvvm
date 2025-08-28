@@ -41,7 +41,7 @@ auto GetMinMax(const std::vector<mvvm::GraphItem*>& graphs, T func)
   for (auto graph : graphs)
   {
     const auto array = func(graph);
-    std::copy(std::begin(array), std::end(array), std::back_inserter(values));
+    (void)std::copy(std::begin(array), std::end(array), std::back_inserter(values));
   }
 
   auto [xmin, xmax] = std::minmax_element(std::begin(values), std::end(values));
@@ -88,9 +88,9 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 {
   std::vector<GraphItem*> all_items = GetItems<GraphItem>(kItems);
   std::vector<GraphItem*> visible_items;
-  std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
-               [](const GraphItem* graph_item)
-               { return graph_item->Property<bool>(GraphItem::kDisplayed); });
+  (void)std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
+                     [](const GraphItem* graph_item)
+                     { return graph_item->Property<bool>(GraphItem::kDisplayed); });
   return visible_items;
 }
 
@@ -103,11 +103,11 @@ void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
         != visible_graph_items.end())
     {
-      graph_item->SetProperty(GraphItem::kDisplayed, true);
+      (void)graph_item->SetProperty(GraphItem::kDisplayed, true);
     }
     else
     {
-      graph_item->SetProperty(GraphItem::kDisplayed, false);
+      (void)graph_item->SetProperty(GraphItem::kDisplayed, false);
     }
   }
 }
@@ -118,7 +118,7 @@ void GraphViewportItem::SetAllVisible()
 {
   for (auto graph_item : GetItems<GraphItem>(kItems))
   {
-    graph_item->SetProperty(GraphItem::kDisplayed, true);
+    (void)graph_item->SetProperty(GraphItem::kDisplayed, true);
   }
 }
 

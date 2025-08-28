@@ -39,7 +39,7 @@ void TaggedItems::RegisterTag(const TagInfo& tag_info, bool set_as_default)
     throw RuntimeException("Error in TaggedItems: existing name [" + tag_info.GetName() + "]");
   }
 
-  m_containers.emplace_back(std::make_unique<SessionItemContainer>(tag_info));
+  (void)m_containers.emplace_back(std::make_unique<SessionItemContainer>(tag_info));
   if (set_as_default)
   {
     m_default_tag = tag_info.GetName();
@@ -135,7 +135,7 @@ std::vector<SessionItem*> TaggedItems::GetAllItems() const
   for (auto& container : m_containers)
   {
     auto container_items = container->GetItems();
-    result.insert(result.end(), container_items.begin(), container_items.end());
+    (void)result.insert(result.end(), container_items.begin(), container_items.end());
   }
 
   return result;

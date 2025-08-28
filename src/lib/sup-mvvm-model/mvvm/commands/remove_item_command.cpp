@@ -81,7 +81,7 @@ void RemoveItemCommand::ExecuteImpl()
 
 void RemoveItemCommand::UndoImpl()
 {
-  utils::InsertItemImpl(m_backup_strategy->RestoreItem(), *m_cached_parent, m_tag_index);
+  (void)utils::InsertItemImpl(m_backup_strategy->RestoreItem(), *m_cached_parent, m_tag_index);
 }
 
 SessionItem* RemoveItemCommand::FindParent() const

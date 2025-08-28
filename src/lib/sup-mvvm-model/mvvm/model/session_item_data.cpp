@@ -31,7 +31,7 @@ namespace mvvm
 std::vector<role_t> SessionItemData::GetRoles() const
 {
   std::vector<role_t> result;
-  std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
+  (void)std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
                  [](const auto& role_data) { return role_data.first; });
   return result;
 }
@@ -51,7 +51,7 @@ bool SessionItemData::SetData(const variant_t& value, role_t role)
   {
     if (utils::IsValid(value))
     {
-      m_values.insert(iter, {role, value});
+      (void)m_values.insert(iter, {role, value});
       return true;
     }
     return false;  // invalid value is ignored
@@ -73,7 +73,7 @@ bool SessionItemData::SetData(const variant_t& value, role_t role)
   }
 
   // if new value is invalid, it will erase old value and role
-  m_values.erase(iter);
+  (void)m_values.erase(iter);
   return true;
 }
 

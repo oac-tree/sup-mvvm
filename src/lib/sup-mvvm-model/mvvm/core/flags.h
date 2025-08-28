@@ -132,21 +132,21 @@ private:
 template <typename EnumT>
 inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value) noexcept
 {
-  m_bits.set(underlying(flag), value);
+  (void)m_bits.set(underlying(flag), value);
   return *this;
 }
 
 template <typename EnumT>
 inline Flags<EnumT>& Flags<EnumT>::Reset(EnumT flag) noexcept
 {
-  Set(flag, false);
+  (void)Set(flag, false);
   return *this;
 }
 
 template <typename EnumT>
 inline Flags<EnumT>& Flags<EnumT>::Reset() noexcept
 {
-  m_bits.reset();
+  (void)m_bits.reset();
   return *this;
 }
 
@@ -160,7 +160,7 @@ inline Flags<EnumT>::Flags(const std::vector<EnumT>& values)
 {
   for (auto value : values)
   {
-    Set(value);
+    (void)Set(value);
   }
 }
 

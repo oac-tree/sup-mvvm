@@ -34,10 +34,10 @@ static inline const std::string kGraphTitle = "kGraphTitle";
 
 GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  AddProperty<LinkedItem>(constants::kLink).SetDisplayName("Link");
-  AddProperty<TextItem>(kGraphTitle).SetDisplayName("Graph title");
-  AddProperty<PenItem>(constants::kPen).SetDisplayName("Pen");
-  AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
+  (void)AddProperty<LinkedItem>(constants::kLink).SetDisplayName("Link");
+  (void)AddProperty<TextItem>(kGraphTitle).SetDisplayName("Graph title");
+  (void)AddProperty<PenItem>(constants::kPen).SetDisplayName("Pen");
+  (void)AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
 
 std::string GraphItem::GetStaticType()

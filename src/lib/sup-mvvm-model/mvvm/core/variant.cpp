@@ -187,7 +187,7 @@ std::map<std::string, TypeCode> CreateStringToTypeCodeMap()
 
   for (const auto &[key, value] : CreateTypeCodeToStringMap())
   {
-    result.insert({value, key});
+    (void)result.insert({value, key});
   }
 
   return result;

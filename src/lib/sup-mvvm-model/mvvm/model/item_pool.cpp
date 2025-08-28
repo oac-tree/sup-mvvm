@@ -48,8 +48,8 @@ void ItemPool::RegisterItem(SessionItem* item, ItemPool::identifier_t key)
     throw RuntimeException("Error in ItemPool::RegisterItem(): attempt to reuse existing key");
   }
 
-  m_key_to_item.insert(std::make_pair(key, item));
-  m_item_to_key.insert(std::make_pair(item, key));
+  (void)m_key_to_item.insert(std::make_pair(key, item));
+  (void)m_item_to_key.insert(std::make_pair(item, key));
 }
 
 void ItemPool::UnregisterItem(SessionItem* item)
@@ -61,10 +61,10 @@ void ItemPool::UnregisterItem(SessionItem* item)
         "Error in ItemPool::UnregisterItem: attempt to deregister non existing item.");
   }
   auto key = iter->second;
-  m_item_to_key.erase(iter);
+  (void)m_item_to_key.erase(iter);
 
   auto iter2 = m_key_to_item.find(key);
-  m_key_to_item.erase(iter2);
+  (void)m_key_to_item.erase(iter2);
 }
 
 ItemPool::identifier_t ItemPool::KeyForItem(const SessionItem* item) const

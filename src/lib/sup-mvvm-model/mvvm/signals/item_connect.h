@@ -65,7 +65,7 @@ Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& 
       callback(event);
     }
   };
-  GetEventHandler(source)->Connect<EventT>(adapter, slot);
+  (void)GetEventHandler(source)->Connect<EventT>(adapter, slot);
 }
 
 /**
@@ -100,7 +100,7 @@ Connect(SessionItem* source, const std::function<void(const event_variant_t&)>& 
     }
   };
   // note: subscribe to DataChangedEvent, not PropertyChangedEvent
-  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+  (void)GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
 }
 
 /**
@@ -132,7 +132,7 @@ Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
       callback(std::get<EventT>(event_variant));
     }
   };
-  GetEventHandler(source)->Connect<EventT>(adapter, slot);
+  (void)GetEventHandler(source)->Connect<EventT>(adapter, slot);
 }
 
 /**
@@ -166,7 +166,7 @@ Connect(SessionItem* source, const std::function<void(const EventT&)>& callback,
     }
   };
   // note: subscribe to DataChangedEvent, not PropertyChangedEvent
-  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+  (void)GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
 }
 
 /**
@@ -200,7 +200,7 @@ Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(cons
       std::invoke(method, *receiver, concrete_event);
     }
   };
-  GetEventHandler(source)->Connect<EventT>(adapter, slot);
+  (void)GetEventHandler(source)->Connect<EventT>(adapter, slot);
 }
 
 /**
@@ -236,7 +236,7 @@ Connect(SessionItem* source, ReceiverT* receiver, void (ReceiverT::*method)(cons
     }
   };
   // note: subscribe to DataChangedEvent, not PropertyChangedEvent
-  GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
+  (void)GetEventHandler(source)->Connect<DataChangedEvent>(adapter, slot);
 }
 
 /**

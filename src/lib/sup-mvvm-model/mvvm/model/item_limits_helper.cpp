@@ -123,7 +123,7 @@ void SetUpperLimited(const variant_t &bound_value, SessionItem &item)
 
   RemoveLimits(item);
 
-  item.SetData(bound_value, DataRole::kUpperLimit);
+  (void)item.SetData(bound_value, DataRole::kUpperLimit);
 }
 
 void RemoveLimits(SessionItem &item)
@@ -131,13 +131,13 @@ void RemoveLimits(SessionItem &item)
   if (item.HasData(DataRole::kLowerLimit))
   {
     // setting empty variant will remove role, if it is not present
-    item.SetData(mvvm::variant_t{}, DataRole::kLowerLimit);
+    (void)item.SetData(mvvm::variant_t{}, DataRole::kLowerLimit);
   }
 
   if (item.HasData(DataRole::kUpperLimit))
   {
     // setting empty variant will remove role, if it is not present
-    item.SetData(mvvm::variant_t{}, DataRole::kUpperLimit);
+    (void)item.SetData(mvvm::variant_t{}, DataRole::kUpperLimit);
   }
 }
 
@@ -153,8 +153,8 @@ void SetLimited(const variant_t &left_bound_value, const variant_t &right_bound_
   ValidateDataType(item, left_bound_value, DataRole::kData);
   ValidateDataType(item, right_bound_value, DataRole::kData);
 
-  item.SetData(left_bound_value, DataRole::kLowerLimit);
-  item.SetData(right_bound_value, DataRole::kUpperLimit);
+  (void)item.SetData(left_bound_value, DataRole::kLowerLimit);
+  (void)item.SetData(right_bound_value, DataRole::kUpperLimit);
 }
 
 std::pair<int, int> GetInt32Limits(const SessionItem &item)

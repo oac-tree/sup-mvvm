@@ -43,7 +43,7 @@ namespace mvvm::utils
 std::string SuggestFileName(const ISessionModel& model)
 {
   std::string result = model.GetType().empty() ? kDefaultModelName : model.GetType();
-  std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+  (void)std::transform(result.begin(), result.end(), result.begin(), ::tolower);
   return result + kXMLExtension;
 }
 

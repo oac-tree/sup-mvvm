@@ -482,7 +482,7 @@ std::shared_ptr<connection_data> signal<R(Args...)>::create_connection(callback_
     cleaner.data = connection;
 
     owner->_data = connection;
-    owner->_cleaners.emplace_back(cleaner);
+    (void)owner->_cleaners.emplace_back(cleaner);
   }
 
   joint jnt;
@@ -515,7 +515,7 @@ void signal<R(Args...)>::destroy_connection(std::shared_ptr<connection_data> con
         jnt.owner->_cleaners.clear();
       }
 
-      _callbacks.erase(iter);
+      (void)_callbacks.erase(iter);
 
       break;
     }
