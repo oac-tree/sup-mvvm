@@ -42,7 +42,6 @@ std::int32_t RandInt(std::int32_t low, std::int32_t high)
   return uniform_int(gen);
 }
 
-// cppcheck-suppress unusedFunction
 double RandDouble(double low, double high)
 {
   std::random_device rndm;

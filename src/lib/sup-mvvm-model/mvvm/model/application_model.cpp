@@ -84,7 +84,6 @@ void ApplicationModel::ReplaceRootItem(std::unique_ptr<SessionItem> root_item)
   m_event_handler->Notify<ModelResetEvent>(this);
 }
 
-// cppcheck-suppress unusedFunction
 void ApplicationModel::SetUndoEnabled(bool value, std::size_t undo_limit)
 {
   if (value)

@@ -122,7 +122,6 @@ std::string EventValueVisitor::operator()(const ModelAboutToBeDestroyedEvent& va
   return ostr.str();
 }
 
-// cppcheck-suppress unusedFunction
 std::string EventToString(const event_variant_t& value)
 {
   return std::visit(EventValueVisitor{}, value);

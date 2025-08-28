@@ -67,14 +67,12 @@ void ItemPool::UnregisterItem(SessionItem* item)
   m_key_to_item.erase(iter2);
 }
 
-// cppcheck-suppress unusedFunction
 ItemPool::identifier_t ItemPool::KeyForItem(const SessionItem* item) const
 {
   const auto iter = m_item_to_key.find(item);
   return iter == m_item_to_key.end() ? identifier_t() : iter->second;
 }
 
-// cppcheck-suppress unusedFunction
 SessionItem* ItemPool::ItemForKey(const ItemPool::identifier_t& key) const
 {
   auto iter = m_key_to_item.find(key);

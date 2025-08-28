@@ -78,9 +78,9 @@ struct CommandStack::CommandStackImpl
   {
     // we do not allow command tree branching: removing commands from the 'next redo` position till
     // the end
-    m_commands.erase(m_pos, m_commands.cend());
+    (void)m_commands.erase(m_pos, m_commands.cend());
 
-    m_commands.emplace_back(std::move(command));
+    (void)m_commands.emplace_back(std::move(command));
     m_pos = m_commands.cend();
   }
 
@@ -268,24 +268,21 @@ bool CommandStack::IsMacroMode() const
   return !p_impl->m_macro_stack.empty();
 }
 
-// cppcheck-suppress unusedFunction
 std::vector<const ICommand *> CommandStack::GetCommands() const
 {
   std::vector<const ICommand *> result;
 
-  std::transform(p_impl->m_commands.begin(), p_impl->m_commands.end(), std::back_inserter(result),
-                 [](auto &iter) { return iter.get(); });
+  (void)std::transform(p_impl->m_commands.begin(), p_impl->m_commands.end(),
+                       std::back_inserter(result), [](auto &iter) { return iter.get(); });
 
   return result;
 }
 
-// cppcheck-suppress unusedFunction
 const ICommand *CommandStack::GetNextUndoCommand() const
 {
   return CanUndo() ? std::prev(p_impl->m_pos)->get() : nullptr;
 }
 
-// cppcheck-suppress unusedFunction
 const ICommand *CommandStack::GetNextRedoCommand() const
 {
   return CanRedo() ? p_impl->m_pos->get() : nullptr;

@@ -27,13 +27,11 @@
 namespace mvvm
 {
 
-// cppcheck-suppress unusedFunction
 std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(const IItemFactory* factory)
 {
   return std::make_unique<TreeDataItemBackupStrategy>(factory);
 }
 
-// cppcheck-suppress unusedFunction
 std::unique_ptr<IItemBackupStrategy> CreateItemCloneBackupStrategy()
 {
   return std::make_unique<ItemCloneBackupStrategy>();

@@ -41,13 +41,11 @@ Path Path::CreateFromVector(const std::vector<PathElement>& data)
   return result;
 }
 
-// cppcheck-suppress unusedFunction
 std::string Path::GetString() const
 {
   return utils::VectorToString(m_data);
 }
 
-// cppcheck-suppress unusedFunction
 std::size_t Path::GetLength() const
 {
   return m_data.size();

@@ -87,7 +87,6 @@ TagIndex TagIndex::Append(const std::string& tag_name)
   return {tag_name, kAppendIndex};
 }
 
-// cppcheck-suppress unusedFunction
 TagIndex TagIndex::First(const std::string& tag_name)
 {
   return {tag_name, 0};

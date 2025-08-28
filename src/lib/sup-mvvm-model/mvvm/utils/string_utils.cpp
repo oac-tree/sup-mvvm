@@ -123,7 +123,6 @@ std::optional<double> StringToDouble(const std::string& str)
   return (!iss.fail() && iss.eof()) ? std::optional<double>(value) : std::optional<double>{};
 }
 
-// cppcheck-suppress unusedFunction
 std::optional<std::int32_t> StringToInteger(const std::string& str)
 {
   std::istringstream iss(utils::TrimWhitespace(str));
@@ -157,7 +156,6 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
   return result;
 }
 
-// cppcheck-suppress unusedFunction
 std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str)
 {
   std::vector<double> result;
