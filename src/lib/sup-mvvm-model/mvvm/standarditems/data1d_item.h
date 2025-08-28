@@ -42,8 +42,6 @@ public:
 
   Data1DItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   std::vector<double> GetBinCenters() const;

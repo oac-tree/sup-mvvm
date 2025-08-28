@@ -31,14 +31,12 @@ class DemoItem : public mvvm::CompoundItem
 {
 public:
   DemoItem();
-  static std::string GetStaticType();
 };
 
 class DemoContainerItem : public mvvm::CompoundItem
 {
 public:
   DemoContainerItem();
-  static std::string GetStaticType();
 };
 
 /**
@@ -56,5 +54,17 @@ private:
 };
 
 }  // namespace saveloadproject
+
+template <>
+struct mvvm::item_traits<saveloadproject::DemoItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Demo"; }
+};
+
+template <>
+struct mvvm::item_traits<saveloadproject::DemoContainerItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "DemoContainer"; }
+};
 
 #endif  // SAVELOADPROJECT_SAVELOADPROJECTCORE_SAMPLE_MODEL_H_

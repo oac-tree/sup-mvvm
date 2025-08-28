@@ -41,15 +41,10 @@ bool toy_items_registered_flag = RegisterToyItems();
 namespace mvvm::test::toyitems
 {
 
-ParticleItem::ParticleItem() : CompoundItem(ParticleItem::GetStaticType())
+ParticleItem::ParticleItem() : CompoundItem(mvvm::GetTypeName<ParticleItem>())
 {
   AddProperty<mvvm::VectorItem>("position");
   AddProperty("shape", "sphere");
-}
-
-std::string ParticleItem::GetStaticType()
-{
-  return "Particle";
 }
 
 std::unique_ptr<SessionItem> ParticleItem::Clone() const
@@ -57,17 +52,12 @@ std::unique_ptr<SessionItem> ParticleItem::Clone() const
   return std::make_unique<ParticleItem>(*this);
 }
 
-LayerItem::LayerItem() : mvvm::CompoundItem(LayerItem::GetStaticType())
+LayerItem::LayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<LayerItem>())
 {
   AddProperty("Thickness", 42.0);
   AddProperty("Color", "green");
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kParticleTag, {ParticleItem::GetStaticType()}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kParticleTag, {mvvm::GetTypeName<ParticleItem>()}),
               /*set_as_default*/ true);
-}
-
-std::string LayerItem::GetStaticType()
-{
-  return "Layer";
 }
 
 std::unique_ptr<SessionItem> LayerItem::Clone() const
@@ -75,15 +65,10 @@ std::unique_ptr<SessionItem> LayerItem::Clone() const
   return std::make_unique<LayerItem>(*this);
 }
 
-MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(GetStaticType())
+MultiLayerItem::MultiLayerItem() : mvvm::CompoundItem(mvvm::GetTypeName<MultiLayerItem>())
 {
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kLayerTag, {LayerItem::GetStaticType()}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kLayerTag, {mvvm::GetTypeName<LayerItem>()}),
               /*set_as_default*/ true);
-}
-
-std::string MultiLayerItem::GetStaticType()
-{
-  return "MultiLayer";
 }
 
 std::vector<LayerItem *> MultiLayerItem::GetLayers() const

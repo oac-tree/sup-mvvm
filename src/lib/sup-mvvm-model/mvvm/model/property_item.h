@@ -38,8 +38,6 @@ class MVVM_MODEL_EXPORT PropertyItem : public SessionItem
 public:
   PropertyItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 };
 

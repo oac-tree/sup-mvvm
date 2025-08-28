@@ -38,8 +38,6 @@ class MVVM_MODEL_EXPORT LinkedItem : public SessionItem
 public:
   LinkedItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   void SetLink(const SessionItem* item);

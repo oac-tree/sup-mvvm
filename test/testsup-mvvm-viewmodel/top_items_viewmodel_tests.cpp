@@ -40,24 +40,22 @@ public:
   class LayerItem : public mvvm::CompoundItem
   {
   public:
-    LayerItem() : CompoundItem(GetStaticType())
+    LayerItem() : CompoundItem("Layer")
     {
       AddProperty("Thickness", 42.0);
       AddProperty("Color", std::string("black"));
     }
-    static std::string GetStaticType() { return "Layer"; }
   };
 
   //! Represents multilayer with collection of layers.
   class MultiLayerItem : public mvvm::CompoundItem
   {
   public:
-    MultiLayerItem() : CompoundItem(GetStaticType())
+    MultiLayerItem() : CompoundItem("MultiLayer")
     {
-      RegisterTag(mvvm::TagInfo::CreateUniversalTag("Layer", {LayerItem::GetStaticType()}),
+      RegisterTag(mvvm::TagInfo::CreateUniversalTag("Layer", {"Layer"}),
                   /*set_as_default*/ true);
     }
-    static std::string GetStaticType() { return "MultiLayer"; }
   };
 
   class TestModel : public ApplicationModel

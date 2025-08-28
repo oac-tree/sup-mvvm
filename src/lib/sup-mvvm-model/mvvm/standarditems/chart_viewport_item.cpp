@@ -69,10 +69,10 @@ auto GetMinMax(const std::vector<mvvm::LineSeriesItem *> &container, MethodT met
 namespace mvvm
 {
 
-ChartViewportItem::ChartViewportItem() : mvvm::ViewportItem(GetStaticType())
+ChartViewportItem::ChartViewportItem() : mvvm::ViewportItem(GetTypeName<ChartViewportItem>())
 {
   RegisterAxes();
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {LineSeriesItem::GetStaticType()}),
+  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {GetTypeName<LineSeriesItem>()}),
               /*set_default*/ true);
   (void)AddProperty(kAnimation, CreateAnimationCombo())
       .SetDisplayName("Animation")
@@ -81,11 +81,6 @@ ChartViewportItem::ChartViewportItem() : mvvm::ViewportItem(GetStaticType())
   (void)AddProperty(kLegendEnabled, true)
       .SetDisplayName("Legend")
       .SetToolTip("Show/hide canvas legend");
-}
-
-std::string ChartViewportItem::GetStaticType()
-{
-  return "ChartViewport";
 }
 
 std::unique_ptr<SessionItem> ChartViewportItem::Clone() const

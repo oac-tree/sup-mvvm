@@ -25,15 +25,10 @@
 namespace mvvm
 {
 
-PointItem::PointItem() : CompoundItem(GetStaticType())
+PointItem::PointItem() : CompoundItem(GetTypeName<PointItem>())
 {
   AddProperty(constants::kX, 0.0).SetDisplayName("X");
   AddProperty(constants::kY, 0.0).SetDisplayName("Y");
-}
-
-std::string PointItem::GetStaticType()
-{
-  return "Point";
 }
 
 std::unique_ptr<SessionItem> PointItem::Clone() const

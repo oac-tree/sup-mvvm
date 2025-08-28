@@ -64,7 +64,7 @@ void SetFlags(const Flags<Appearance>& flags, SessionItem& item)
 
 }  // namespace
 
-SessionItem::SessionItem() : SessionItem(GetStaticType()) {}
+SessionItem::SessionItem() : SessionItem(GetTypeName<SessionItem>()) {}
 
 SessionItem::SessionItem(const std::string& item_type)
     : SessionItem(item_type, std::make_unique<SessionItemData>(), std::make_unique<TaggedItems>())
@@ -99,11 +99,6 @@ SessionItem::SessionItem(const SessionItem& other)
   {
     child->SetParent(this);
   }
-}
-
-std::string SessionItem::GetStaticType()
-{
-  return "SessionItem";
 }
 
 std::unique_ptr<SessionItem> SessionItem::Clone() const

@@ -37,7 +37,6 @@ class ParticleItem : public mvvm::CompoundItem
 {
 public:
   ParticleItem();
-  static std::string GetStaticType();
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
@@ -45,7 +44,6 @@ class LayerItem : public mvvm::CompoundItem
 {
 public:
   LayerItem();
-  static std::string GetStaticType();
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
@@ -53,8 +51,6 @@ class MultiLayerItem : public mvvm::CompoundItem
 {
 public:
   MultiLayerItem();
-  static std::string GetStaticType();
-
   std::vector<LayerItem*> GetLayers() const;
   std::unique_ptr<SessionItem> Clone() const override;
 };
@@ -66,5 +62,23 @@ public:
 };
 
 }  // namespace mvvm::test::toyitems
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::ParticleItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Particle"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::LayerItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Layer"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::MultiLayerItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "MultiLayer"; }
+};
 
 #endif  // LIBTEST_UTILS_TESTUTILS_TOY_ITEMS_H_

@@ -34,6 +34,55 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+class TestItem : public mvvm::SessionItem
+{
+public:
+  TestItem() : SessionItem(mvvm::GetTypeName<TestItem>()) {};
+};
+
+class TestModel : public mvvm::SessionModel
+{
+public:
+  TestModel(std::shared_ptr<mvvm::ItemPool> pool) : SessionModel("TestModelType", pool)
+  {
+    mvvm::RegisterGlobalItem<TestItem>();
+  };
+};
+
+/**
+ * @brief The InvalidTestCommand tries to execute another command before its own job is done.
+ *  * We do not allow adding commands in a stack while the command is running. Macro commands should
+ * used for connected actions.
+ */
+class InvalidTestCommand : public mvvm::AbstractCommand
+{
+public:
+  explicit InvalidTestCommand(mvvm::ISessionModel* model) : m_model(model) {}
+
+private:
+  void ExecuteImpl() override
+  {
+    auto another_command = std::make_unique<InvalidTestCommand>(m_model);
+    m_model->ExecuteCommand(std::move(another_command));
+  }
+
+  void UndoImpl() override {}
+
+  void Notify(const mvvm::event_variant_t&) override {}
+
+  mvvm::ISessionModel* m_model{nullptr};
+};
+
+}  // namespace
+
+template <>
+struct mvvm::item_traits<TestItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "TestItemType"; }
+};
+
 namespace mvvm::test
 {
 
@@ -43,44 +92,6 @@ namespace mvvm::test
 class SessionModelTest : public ::testing::Test
 {
 public:
-  class TestItem : public SessionItem
-  {
-  public:
-    TestItem() : SessionItem(GetStaticType()) {};
-    static std::string GetStaticType() { return "TestItemType"; }
-  };
-
-  class TestModel : public SessionModel
-  {
-  public:
-    TestModel() : SessionModel("TestModelType", m_pool) { RegisterGlobalItem<TestItem>(); };
-  };
-
-  /**
-   * @brief The InvalidTestCommand tries to execute another command before its own job is done.
-   *
-   * We do not allow adding commands in a stack while the command is running. Macro commands should
-   * used for connected actions.
-   */
-  class InvalidTestCommand : public AbstractCommand
-  {
-  public:
-    explicit InvalidTestCommand(ISessionModel* model) : m_model(model) {}
-
-  private:
-    void ExecuteImpl() override
-    {
-      auto another_command = std::make_unique<InvalidTestCommand>(m_model);
-      m_model->ExecuteCommand(std::move(another_command));
-    }
-
-    void UndoImpl() override {}
-
-    void Notify(const event_variant_t&) override {}
-
-    ISessionModel* m_model{nullptr};
-  };
-
   static std::shared_ptr<ItemPool> m_pool;
 };
 
@@ -122,14 +133,14 @@ TEST_F(SessionModelTest, SetData)
 //! Insert item into root.
 TEST_F(SessionModelTest, InsertItemIntoRoot)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   // inserting single item
   auto item = model.InsertItem<SessionItem>();
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), SessionItem::GetStaticType());
+  EXPECT_EQ(item->GetType(), GetTypeName<SessionItem>());
 
   // checking registration
   auto item_key = item->GetIdentifier();
@@ -139,7 +150,7 @@ TEST_F(SessionModelTest, InsertItemIntoRoot)
 //! Inserting item into root via move.
 TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   auto item = std::make_unique<PropertyItem>();
   auto item_ptr = item.get();
@@ -160,7 +171,7 @@ TEST_F(SessionModelTest, InsertItemIntoRootViaMove)
 //! Insert item into parent using tag and index.
 TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -172,7 +183,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
   EXPECT_TRUE(item != nullptr);
   EXPECT_EQ(item->GetParent(), model.GetRootItem());
   EXPECT_EQ(item->GetModel(), &model);
-  EXPECT_EQ(item->GetType(), SessionItem::GetStaticType());
+  EXPECT_EQ(item->GetType(), GetTypeName<SessionItem>());
 
   // adding child to it
   auto child = model.InsertItem<PropertyItem>(item, {"tag", 0});
@@ -183,7 +194,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), PropertyItem::GetStaticType());
+  EXPECT_EQ(child->GetType(), GetTypeName<PropertyItem>());
 
   // adding second child to it
 
@@ -197,7 +208,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentUsingTagAndIndex)
 //! Insert item into default tag.
 TEST_F(SessionModelTest, InsertItemInDefaultTag)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -212,7 +223,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), PropertyItem::GetStaticType());
+  EXPECT_EQ(child->GetType(), GetTypeName<PropertyItem>());
   auto child_tagindex = child->GetTagIndex();
   EXPECT_EQ(child_tagindex.GetTag(), "tag");
   EXPECT_EQ(child_tagindex.GetIndex(), 0);
@@ -227,7 +238,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTag)
 //! Insert item into default tag.
 TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   // inserting single item and registering tag
   auto item = model.InsertItem<SessionItem>();
@@ -242,7 +253,7 @@ TEST_F(SessionModelTest, InsertItemInDefaultTagViaAppend)
   EXPECT_TRUE(child != nullptr);
   EXPECT_EQ(child->GetParent(), item);
   EXPECT_EQ(child->GetModel(), &model);
-  EXPECT_EQ(child->GetType(), PropertyItem::GetStaticType());
+  EXPECT_EQ(child->GetType(), GetTypeName<PropertyItem>());
   auto child_tagindex = child->GetTagIndex();
   EXPECT_EQ(child_tagindex.GetTag(), "tag");
   EXPECT_EQ(child_tagindex.GetIndex(), 0);
@@ -318,7 +329,7 @@ TEST_F(SessionModelTest, InsertItemIntoParentViaMove)
 
 TEST_F(SessionModelTest, RemoveItem)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -339,7 +350,7 @@ TEST_F(SessionModelTest, RemoveItem)
 
 TEST_F(SessionModelTest, TakeItem)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -362,7 +373,7 @@ TEST_F(SessionModelTest, TakeItem)
 
 TEST_F(SessionModelTest, RemoveFromWrongParent)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   // undefined item
   EXPECT_THROW(model.TakeItem(nullptr, {"", 0}), InvalidOperationException);
@@ -374,7 +385,7 @@ TEST_F(SessionModelTest, RemoveFromWrongParent)
 
 TEST_F(SessionModelTest, RemoveNonExistingItem)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -385,7 +396,7 @@ TEST_F(SessionModelTest, RemoveNonExistingItem)
 
 TEST_F(SessionModelTest, TakeRowFromRootItem)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   auto parent = model.InsertItem<SessionItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
@@ -611,7 +622,7 @@ TEST_F(SessionModelTest, MoveItemFromParentToRoot)
 
 TEST_F(SessionModelTest, ReplaceRootItem)
 {
-  TestModel model;
+  TestModel model(m_pool);
   model.InsertItem<SessionItem>();
 
   EXPECT_THROW(model.ReplaceRootItem({}), RuntimeException);
@@ -625,7 +636,7 @@ TEST_F(SessionModelTest, ReplaceRootItem)
 
 TEST_F(SessionModelTest, ClearModel)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   EXPECT_EQ(m_pool->GetSize(), 1);
 
@@ -645,7 +656,7 @@ TEST_F(SessionModelTest, ClearModel)
 
 TEST_F(SessionModelTest, ClearWithRootReplace)
 {
-  TestModel model;
+  TestModel model(m_pool);
 
   EXPECT_EQ(m_pool->GetSize(), 1);
 
@@ -719,7 +730,7 @@ TEST_F(SessionModelTest, RegisterItem)
 {
   const std::string expectedItemType("TestItemType");
 
-  TestModel model;
+  TestModel model(m_pool);
 
   auto item = model.InsertItem(GetGlobalItemFactory().CreateItem(expectedItemType),
                                model.GetRootItem(), {});

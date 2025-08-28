@@ -33,15 +33,6 @@
 namespace
 {
 const int MouseCount = 7;
-
-bool RegisterItems()
-{
-  mvvm::RegisterGlobalItem<collidingmice::MouseItem>();
-  return true;
-}
-
-static bool items_registered_flag = RegisterItems();
-
 }  // namespace
 
 namespace collidingmice

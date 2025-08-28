@@ -38,7 +38,6 @@ class DemoItem : public mvvm::CompoundItem
 {
 public:
   DemoItem();
-  static std::string GetStaticType();
 };
 
 //! Container to hold demo items
@@ -47,7 +46,6 @@ class DemoContainerItem : public mvvm::CompoundItem
 {
 public:
   DemoContainerItem();
-  static std::string GetStaticType();
 };
 
 //! Main application model.
@@ -64,5 +62,17 @@ private:
 };
 
 }  // namespace dragandmove
+
+template <>
+struct mvvm::item_traits<dragandmove::DemoItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "DemoItem"; }
+};
+
+template <>
+struct mvvm::item_traits<dragandmove::DemoContainerItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "DemoContainer"; }
+};
 
 #endif  // DRAGANDMOVE_DRAGANDMOVECORE_SAMPLE_MODEL_H_

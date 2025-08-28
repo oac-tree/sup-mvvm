@@ -37,8 +37,6 @@ class MVVM_MODEL_EXPORT PointItem : public CompoundItem
 public:
   PointItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   /**

@@ -23,12 +23,7 @@
 namespace mvvm
 {
 
-PropertyItem::PropertyItem() : SessionItem(GetStaticType()) {}
-
-std::string PropertyItem::GetStaticType()
-{
-  return "PropertyItem";
-}
+PropertyItem::PropertyItem() : SessionItem(GetTypeName<PropertyItem>()) {}
 
 std::unique_ptr<SessionItem> PropertyItem::Clone() const
 {

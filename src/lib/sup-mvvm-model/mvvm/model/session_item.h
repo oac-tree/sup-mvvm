@@ -24,6 +24,7 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/variant.h>
 #include <mvvm/model/tagindex.h>
+#include <mvvm/model/item_traits.h>
 #include <mvvm/signals/signal_slot_fwd.h>
 #include <mvvm/utils/container_utils.h>
 
@@ -63,17 +64,6 @@ public:
    * @brief Copy constructor.
    */
   SessionItem(const SessionItem& other);
-
-  /**
-   * @brief Returns the static type of the item.
-   *
-   * This static method has to be implemented for every item derived from SessionItem. It has to
-   * return a unique item's type name. The method is used to register the item in item factory, and
-   * as a parameter for base class c-tor.
-   *
-   * To access the item type during runtime use \@see SessionItem::GetType().
-   */
-  static std::string GetStaticType();
 
   /**
    * @brief Creates a clone of the item.
@@ -477,8 +467,6 @@ inline void SessionItem::SetStrategy(ObjectT* object, const MethodT& method)
   SetStrategy(std::bind(method, object, std::placeholders::_1, std::placeholders::_2,
                         std::placeholders::_3));
 }
-
-template <typename T> struct item_traits;
 
 template <>
 struct item_traits<SessionItem>

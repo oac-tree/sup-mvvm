@@ -38,7 +38,7 @@ const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel
 namespace mvvm
 {
 
-LineSeriesItem::LineSeriesItem() : CompoundItem(GetStaticType())
+LineSeriesItem::LineSeriesItem() : CompoundItem(GetTypeName<LineSeriesItem>())
 {
   (void)AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
   (void)AddProperty(kOffset, 0.0).SetDisplayName("Offset");
@@ -49,11 +49,6 @@ LineSeriesItem::LineSeriesItem() : CompoundItem(GetStaticType())
   pen.SetNamedColor(kDefaultLineColor);
 
   (void)AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
-}
-
-std::string LineSeriesItem::GetStaticType()
-{
-  return "LineSeries";
 }
 
 std::unique_ptr<SessionItem> LineSeriesItem::Clone() const

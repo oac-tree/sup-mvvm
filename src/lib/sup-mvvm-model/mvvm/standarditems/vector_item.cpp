@@ -26,7 +26,7 @@
 
 namespace mvvm
 {
-VectorItem::VectorItem() : CompoundItem(GetStaticType())
+VectorItem::VectorItem() : CompoundItem(GetTypeName<VectorItem>())
 {
   AddProperty(kX, 0.0).SetDisplayName("X");
   AddProperty(kY, 0.0).SetDisplayName("Y");
@@ -36,11 +36,6 @@ VectorItem::VectorItem() : CompoundItem(GetStaticType())
 
   UpdateLabel();
   ActivateStrategies();
-}
-
-std::string VectorItem::GetStaticType()
-{
-  return "VectorItem";
 }
 
 std::unique_ptr<SessionItem> VectorItem::Clone() const

@@ -85,8 +85,8 @@ TEST_F(SessionItemTests, InitialState)
   EXPECT_EQ(item.GetTotalItemCount(), 0);
   EXPECT_FALSE(utils::IsValid(item.Data(role)));
   EXPECT_TRUE(item.GetAllItems().empty());
-  EXPECT_EQ(item.GetType(), SessionItem::GetStaticType());
-  EXPECT_EQ(item.GetDisplayName(), SessionItem::GetStaticType());
+  EXPECT_EQ(item.GetType(), GetTypeName<SessionItem>());
+  EXPECT_EQ(item.GetDisplayName(), GetTypeName<SessionItem>());
   EXPECT_EQ(item_traits<SessionItem>::type_name(), "SessionItem");
   EXPECT_EQ(item_traits<SessionItem>::type_name(), item.GetType());
 
@@ -101,7 +101,7 @@ TEST_F(SessionItemTests, InitialState)
 TEST_F(SessionItemTests, GetType)
 {
   const SessionItem item;
-  EXPECT_EQ(item.GetType(), SessionItem::GetStaticType());
+  EXPECT_EQ(item.GetType(), GetTypeName<SessionItem>());
 }
 
 TEST_F(SessionItemTests, SetData)

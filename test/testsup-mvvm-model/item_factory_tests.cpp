@@ -27,6 +27,23 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+
+class TestItem : public mvvm::SessionItem
+{
+public:
+  TestItem() : SessionItem(mvvm::GetTypeName<TestItem>()) {}
+};
+
+}  // namespace
+
+template <>
+struct mvvm::item_traits<TestItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "ItemFactoryTestItem"; }
+};
+
 namespace mvvm::test
 {
 
@@ -44,16 +61,9 @@ public:
   template <typename T>
   bool CanCreateCorrectType(const ItemFactory& factory)
   {
-    auto item = factory.CreateItem(T::GetStaticType());
+    auto item = factory.CreateItem(GetTypeName<T>());
     return test::CanCast<T>(item.get());
   }
-
-  class TestItem : public SessionItem
-  {
-  public:
-    TestItem() : SessionItem(GetStaticType()) {}
-    static std::string GetStaticType() { return "ItemFactoryTestItem"; }
-  };
 };
 
 TEST_F(ItemFactoryTests, CheckCloneImplementation)
@@ -131,15 +141,15 @@ TEST_F(ItemFactoryTests, Construction)
 TEST_F(ItemFactoryTests, RegisteringItem)
 {
   auto& factory = GetGlobalItemFactory();
-  EXPECT_THROW(factory.CreateItem(TestItem::GetStaticType()), RuntimeException);
+  EXPECT_THROW(factory.CreateItem(GetTypeName<TestItem>()), RuntimeException);
   const size_t registration_count = factory.GetItemTypes().size();
 
   factory.RegisterItem<TestItem>();
   EXPECT_TRUE(CanCreateCorrectType<TestItem>(factory));
-  EXPECT_TRUE(factory.IsRegistered(TestItem::GetStaticType()));
+  EXPECT_TRUE(factory.IsRegistered(GetTypeName<TestItem>()));
   EXPECT_TRUE(factory.IsRegistered<TestItem>());
 
-  EXPECT_NO_THROW(factory.CreateItem(TestItem::GetStaticType()));
+  EXPECT_NO_THROW(factory.CreateItem(GetTypeName<TestItem>()));
   EXPECT_EQ(factory.GetItemTypes().size(), registration_count + 1);
 }
 

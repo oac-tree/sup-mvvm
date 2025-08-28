@@ -22,6 +22,7 @@
 #define MVVM_MODEL_ITEM_CATALOGUE_H_
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/item_traits.h>
 #include <mvvm/model_export.h>
 
 #include <functional>
@@ -128,7 +129,7 @@ template <typename T>
 template <typename U>
 void ItemCatalogue<T>::RegisterItem(const std::string& label)
 {
-  RegisterItem(U::GetStaticType(), []() { return std::make_unique<U>(); }, label);
+  RegisterItem(GetTypeName<U>(), []() { return std::make_unique<U>(); }, label);
 }
 
 template <typename T>

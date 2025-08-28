@@ -37,8 +37,6 @@ class MVVM_MODEL_EXPORT TextItem : public CompoundItem
 public:
   TextItem();
 
-  static std::string GetStaticType();
-
   std::unique_ptr<SessionItem> Clone() const override;
 
   std::string GetText() const;
@@ -62,8 +60,6 @@ public:
   static inline const std::string kWidth = "kWidth";
 
   PenItem();
-
-  static std::string GetStaticType();
 
   std::unique_ptr<SessionItem> Clone() const override;
 

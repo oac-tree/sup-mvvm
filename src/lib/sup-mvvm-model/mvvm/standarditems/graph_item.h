@@ -39,9 +39,7 @@ public:
   static inline const std::string kLink = "kLink";
   static inline const std::string kDisplayed = "kDisplayed";
 
-  explicit GraphItem(const std::string& model_type = GetStaticType());
-
-  static std::string GetStaticType();
+  explicit GraphItem(const std::string& model_type = GetTypeName<GraphItem>());
 
   std::unique_ptr<SessionItem> Clone() const override;
 

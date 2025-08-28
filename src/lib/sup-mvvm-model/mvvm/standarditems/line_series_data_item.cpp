@@ -27,14 +27,9 @@
 namespace mvvm
 {
 
-LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(GetStaticType())
+LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(GetTypeName<LineSeriesDataItem>())
 {
   RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
-}
-
-std::string LineSeriesDataItem::GetStaticType()
-{
-  return "LineSeriesData";
 }
 
 std::unique_ptr<SessionItem> LineSeriesDataItem::Clone() const

@@ -30,6 +30,28 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+class TestItem : public mvvm::CompoundItem
+{
+public:
+  TestItem() : CompoundItem(mvvm::GetTypeName<TestItem>())
+  {
+    SetDisplayName("parent_name");
+    RegisterTag(mvvm::TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
+    auto child = InsertItem(std::make_unique<SessionItem>(), mvvm::TagIndex::Append());
+    child->SetDisplayName("child_name");
+  }
+};
+
+}  // namespace
+
+template <>
+struct mvvm::item_traits<TestItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Test"; }
+};
+
 namespace mvvm::test
 {
 
@@ -39,20 +61,6 @@ namespace mvvm::test
 class StandardItemBackupStrategiesTests : public ::testing::Test
 {
 public:
-  class TestItem : public CompoundItem
-  {
-  public:
-    TestItem() : CompoundItem(GetStaticType())
-    {
-      SetDisplayName("parent_name");
-      RegisterTag(TagInfo::CreateUniversalTag("defaultTag"), /*set_as_default*/ true);
-      auto child = InsertItem(std::make_unique<SessionItem>(), TagIndex::Append());
-      child->SetDisplayName("child_name");
-    }
-
-    static std::string GetStaticType() { return "TestItem"; }
-  };
-
   static IItemFactory* GetFactory() { return &GetGlobalItemFactory(); }
 
   StandardItemBackupStrategiesTests() { RegisterGlobalItem<TestItem>(); }

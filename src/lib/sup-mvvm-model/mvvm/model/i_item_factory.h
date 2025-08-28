@@ -22,6 +22,7 @@
 #define MVVM_MODEL_I_ITEM_FACTORY_H_
 
 #include <mvvm/model/function_types.h>
+#include <mvvm/model/item_traits.h>
 #include <mvvm/model_export.h>
 
 namespace mvvm
@@ -80,13 +81,13 @@ public:
 template <typename T>
 void IItemFactory::RegisterItem(const std::string& label)
 {
-  RegisterItem(T::GetStaticType(), ItemFactoryFunction<T>, label);
+  RegisterItem(std::string(item_traits<T>::type_name()), ItemFactoryFunction<T>, label);
 }
 
 template <typename T>
 bool IItemFactory::IsRegistered() const
 {
-  return IsRegistered(T::GetStaticType());
+  return IsRegistered(std::string(item_traits<T>::type_name()));
 }
 
 }  // namespace mvvm

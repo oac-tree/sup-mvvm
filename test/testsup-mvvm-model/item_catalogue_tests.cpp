@@ -25,6 +25,35 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+
+class TestItem : public mvvm::SessionItem
+{
+public:
+  TestItem() : SessionItem(mvvm::GetTypeName<TestItem>()) {}
+};
+
+class AnotherTestItem : public mvvm::SessionItem
+{
+public:
+  AnotherTestItem() : SessionItem(mvvm::GetTypeName<AnotherTestItem>()) {}
+};
+
+}  // namespace
+
+template <>
+struct mvvm::item_traits<TestItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "Test"; }
+};
+
+template <>
+struct mvvm::item_traits<AnotherTestItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "AnotherTest"; }
+};
+
 namespace mvvm::test
 {
 
@@ -33,20 +62,6 @@ namespace mvvm::test
  */
 class ItemCatalogueTests : public ::testing::Test
 {
-public:
-  class TestItem : public SessionItem
-  {
-  public:
-    TestItem() : SessionItem(GetStaticType()) {}
-    static std::string GetStaticType() { return "TestItem"; }
-  };
-
-  class AnotherTestItem : public SessionItem
-  {
-  public:
-    AnotherTestItem() : SessionItem(GetStaticType()) {}
-    static std::string GetStaticType() { return "AnotherTestItem"; }
-  };
 };
 
 TEST_F(ItemCatalogueTests, InitialState)
@@ -65,7 +80,7 @@ TEST_F(ItemCatalogueTests, AddItem)
 
   EXPECT_EQ(catalogue.GetItemCount(), 1);
 
-  auto item = catalogue.Create(PropertyItem::GetStaticType());
+  auto item = catalogue.Create(GetTypeName<PropertyItem>());
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // registration of second item is not allowed
@@ -75,7 +90,7 @@ TEST_F(ItemCatalogueTests, AddItem)
   EXPECT_THROW(catalogue.Create("non-registered"), RuntimeException);
 
   // checking model types and labels
-  EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({PropertyItem::GetStaticType()}));
+  EXPECT_EQ(catalogue.GetItemTypes(), std::vector<std::string>({GetTypeName<PropertyItem>()}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({""}));
 }
 
@@ -87,24 +102,24 @@ TEST_F(ItemCatalogueTests, CopyConstructor)
   const ItemCatalogue<SessionItem> copy(catalogue);
 
   // creation of item using first catalogue
-  auto item = catalogue.Create(PropertyItem::GetStaticType());
+  auto item = catalogue.Create(GetTypeName<PropertyItem>());
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // creation of item using catalogue copy
-  item = copy.Create(PropertyItem::GetStaticType());
+  item = copy.Create(GetTypeName<PropertyItem>());
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // checking model types and labels in new catalogue
-  EXPECT_EQ(copy.GetItemTypes(), std::vector<std::string>({PropertyItem::GetStaticType()}));
+  EXPECT_EQ(copy.GetItemTypes(), std::vector<std::string>({GetTypeName<PropertyItem>()}));
   EXPECT_EQ(copy.GetLabels(), std::vector<std::string>({""}));
 
   // adding item to first catalogue but not the second
   catalogue.RegisterItem<TestItem>();
-  item = catalogue.Create(TestItem::GetStaticType());
+  item = catalogue.Create(GetTypeName<TestItem>());
   EXPECT_TRUE(dynamic_cast<TestItem*>(item.get()) != nullptr);
 
   // copy of catalogue knows nothing about new VectorType
-  EXPECT_THROW(copy.Create(TestItem::GetStaticType()), RuntimeException);
+  EXPECT_THROW(copy.Create(GetTypeName<TestItem>()), RuntimeException);
 }
 
 TEST_F(ItemCatalogueTests, AssignmentOperator)
@@ -116,11 +131,11 @@ TEST_F(ItemCatalogueTests, AssignmentOperator)
   copy = catalogue;
 
   // creation of item using first catalogue
-  auto item = catalogue.Create(PropertyItem::GetStaticType());
+  auto item = catalogue.Create(GetTypeName<PropertyItem>());
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 
   // creation of item using catalogue copy
-  item = copy.Create(PropertyItem::GetStaticType());
+  item = copy.Create(GetTypeName<PropertyItem>());
   EXPECT_TRUE(dynamic_cast<PropertyItem*>(item.get()) != nullptr);
 }
 
@@ -129,8 +144,8 @@ TEST_F(ItemCatalogueTests, IsRegistered)
   ItemCatalogue<SessionItem> catalogue;
   catalogue.RegisterItem<PropertyItem>();
 
-  EXPECT_TRUE(catalogue.IsRegistered(PropertyItem::GetStaticType()));
-  EXPECT_FALSE(catalogue.IsRegistered(TestItem::GetStaticType()));
+  EXPECT_TRUE(catalogue.IsRegistered(GetTypeName<PropertyItem>()));
+  EXPECT_FALSE(catalogue.IsRegistered(GetTypeName<TestItem>()));
 }
 
 TEST_F(ItemCatalogueTests, AddLabeledItem)
@@ -141,7 +156,7 @@ TEST_F(ItemCatalogueTests, AddLabeledItem)
 
   // checking model types and labels
   EXPECT_EQ(catalogue.GetItemTypes(),
-            std::vector<std::string>({PropertyItem::GetStaticType(), TestItem::GetStaticType()}));
+            std::vector<std::string>({GetTypeName<PropertyItem>(), GetTypeName<TestItem>()}));
   EXPECT_EQ(catalogue.GetLabels(), std::vector<std::string>({"property", "test item"}));
 }
 
@@ -158,13 +173,13 @@ TEST_F(ItemCatalogueTests, Merge)
   catalogue1.Merge(catalogue2);
 
   const std::vector<std::string> expected_models = {
-      PropertyItem::GetStaticType(), TestItem::GetStaticType(), AnotherTestItem::GetStaticType()};
+      GetTypeName<PropertyItem>(), GetTypeName<TestItem>(), GetTypeName<AnotherTestItem>()};
   const std::vector<std::string> expected_labels = {"property", "test", "another"};
 
   EXPECT_EQ(catalogue1.GetItemTypes(), expected_models);
   EXPECT_EQ(catalogue1.GetLabels(), expected_labels);
 
-  auto item = catalogue1.Create(AnotherTestItem::GetStaticType());
+  auto item = catalogue1.Create(GetTypeName<AnotherTestItem>());
   EXPECT_TRUE(dynamic_cast<AnotherTestItem*>(item.get()) != nullptr);
 
   // duplications is not allowed
