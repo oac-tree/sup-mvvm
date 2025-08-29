@@ -21,7 +21,7 @@
 #ifndef MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
 #define MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
 
-#include <mvvm/viewmodel/abstract_row_strategy.h>
+#include <mvvm/providers/abstract_row_strategy.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <vector>

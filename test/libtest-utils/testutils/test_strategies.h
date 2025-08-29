@@ -24,7 +24,7 @@
 //! @file
 //! Collection of test strategies for testing purpose.
 
-#include <mvvm/viewmodel/abstract_row_strategy.h>
+#include <mvvm/providers/abstract_row_strategy.h>
 
 namespace mvvm::test
 {

@@ -24,7 +24,7 @@
 
 #include <mvvm/utils/i_limited_integer.h>
 #include <mvvm/utils/limited_integer_helper.h>
-#include <mvvm/viewmodel/variant_converter.h>
+#include <mvvm/providers/variant_converter.h>
 
 #include <QVBoxLayout>
 

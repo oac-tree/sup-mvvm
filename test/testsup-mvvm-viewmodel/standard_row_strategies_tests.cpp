@@ -18,13 +18,13 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/standard_row_strategies.h"
+#include "mvvm/providers/standard_row_strategies.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/viewmodel/viewmodel_utils.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/viewmodel_utils.h>
+#include <mvvm/providers/viewitem.h>
 
 #include <gtest/gtest.h>
 

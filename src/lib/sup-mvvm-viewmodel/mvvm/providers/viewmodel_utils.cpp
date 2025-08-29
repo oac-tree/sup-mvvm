@@ -21,11 +21,11 @@
 #include "viewmodel_utils.h"
 
 #include "standard_presentation_items.h"
-#include "viewmodel.h"
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/editor_constants.h>
+#include <mvvm/viewmodel/viewmodel.h>
 
 #include <QAbstractProxyModel>
 #include <QColor>

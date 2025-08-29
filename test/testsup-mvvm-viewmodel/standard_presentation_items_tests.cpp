@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/standard_presentation_items.h"
+#include "mvvm/providers/standard_presentation_items.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>

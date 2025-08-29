@@ -20,11 +20,10 @@
 
 #include "property_table_viewmodel.h"
 
-#include "standard_children_strategies.h"
-#include "standard_row_strategies.h"
-#include "viewmodel_controller_factory.h"
-
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/standard_children_strategies.h>
+#include <mvvm/providers/standard_row_strategies.h>
+#include <mvvm/providers/viewitem.h>
+#include <mvvm/providers/viewmodel_controller_factory.h>
 
 namespace mvvm
 {

@@ -20,11 +20,10 @@
 
 #include "viewmodel.h"
 
-#include "abstract_viewmodel_controller.h"
-#include "viewmodel_utils.h"
-
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/abstract_viewmodel_controller.h>
+#include <mvvm/providers/viewmodel_utils.h>
 
 namespace mvvm
 {

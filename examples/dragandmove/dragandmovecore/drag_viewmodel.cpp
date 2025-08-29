@@ -22,8 +22,8 @@
 
 #include <mvvm/model/session_model.h>
 #include <mvvm/utils/numeric_utils.h>
-#include <mvvm/viewmodel/qtcore_helper.h>
-#include <mvvm/viewmodel/viewmodel_utils.h>
+#include <mvvm/providers/qtcore_helper.h>
+#include <mvvm/providers/viewmodel_utils.h>
 
 #include <QByteArray>
 #include <QDataStream>

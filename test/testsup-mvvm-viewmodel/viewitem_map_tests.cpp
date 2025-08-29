@@ -18,11 +18,11 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewitem_map.h"
+#include "mvvm/providers/viewitem_map.h"
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/viewitem.h>
 
 #include <gtest/gtest.h>
 

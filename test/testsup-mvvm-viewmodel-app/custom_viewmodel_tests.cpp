@@ -27,11 +27,11 @@
 #include <mvvm/model/model_utils.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
-#include <mvvm/viewmodel/abstract_row_strategy.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
-#include <mvvm/viewmodel/viewitem.h>
-#include <mvvm/viewmodel/viewitem_factory.h>
-#include <mvvm/viewmodel/viewmodel_controller_factory.h>
+#include <mvvm/providers/abstract_row_strategy.h>
+#include <mvvm/providers/standard_children_strategies.h>
+#include <mvvm/providers/viewitem.h>
+#include <mvvm/providers/viewitem_factory.h>
+#include <mvvm/providers/viewmodel_controller_factory.h>
 
 #include <gtest/gtest.h>
 

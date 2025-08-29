@@ -18,16 +18,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_utils.h"
+#include "mvvm/providers/viewmodel_utils.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
+#include <mvvm/providers/viewitem_factory.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
 #include <mvvm/viewmodel/filter_name_viewmodel.h>
 #include <mvvm/viewmodel/property_table_viewmodel.h>
-#include <mvvm/viewmodel/viewitem_factory.h>
 
 #include <gtest/gtest.h>
 

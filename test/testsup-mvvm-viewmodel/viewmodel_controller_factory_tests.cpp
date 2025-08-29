@@ -18,12 +18,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_controller_factory.h"
+#include "mvvm/providers/viewmodel_controller_factory.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
-#include <mvvm/viewmodel/standard_row_strategies.h>
+#include <mvvm/providers/standard_children_strategies.h>
+#include <mvvm/providers/standard_row_strategies.h>
 #include <mvvm/viewmodel/viewmodel.h>
 
 #include <gtest/gtest.h>

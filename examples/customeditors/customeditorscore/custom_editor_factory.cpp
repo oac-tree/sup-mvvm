@@ -22,8 +22,8 @@
 
 #include <mvvm/editors/string_completer_combo_editor.h>
 #include <mvvm/editors/string_completer_editor.h>
+#include <mvvm/providers/viewmodel_utils.h>
 #include <mvvm/standarditems/editor_constants.h>
-#include <mvvm/viewmodel/viewmodel_utils.h>
 
 namespace customeditors
 {

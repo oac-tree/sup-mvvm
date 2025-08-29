@@ -1,58 +1,21 @@
 # ViewModel to represent SessionItem and SessionModel.
+# Folder contains QObject derived classes and is excluded from Sonar analysis
 
 target_sources(${library_name} PRIVATE
-  abstract_row_strategy.cpp
-  abstract_row_strategy.h
-  abstract_viewmodel_controller.cpp
-  abstract_viewmodel_controller.h
   all_items_viewmodel.cpp
   all_items_viewmodel.h
   custom_editor.cpp
   custom_editor.h
-  custom_variants.cpp
-  custom_variants.h
   filter_name_viewmodel.cpp
   filter_name_viewmodel.h
-  i_children_strategy.h
-  i_row_strategy.h
-  i_viewitem_data.h
-  i_viewmodel_controller.h
   property_table_viewmodel.cpp
   property_table_viewmodel.h
   property_viewmodel.cpp
   property_viewmodel.h
-  qtcore_helper.cpp
-  qtcore_helper.h
-  standard_children_strategies.cpp
-  standard_children_strategies.h
-  standard_presentation_items.cpp
-  standard_presentation_items.h
-  standard_row_strategies.cpp
-  standard_row_strategies.h
   top_items_viewmodel.cpp
   top_items_viewmodel.h
-  variant_converter.cpp
-  variant_converter.h
-  viewitem.cpp
-  viewitem.h
-  viewitem_data.cpp
-  viewitem_data.h
-  viewitem_factory.cpp
-  viewitem_factory.h
-  viewitem_map.cpp
-  viewitem_map.h
-  viewmodel.cpp
-  viewmodel.h
   viewmodel_base.cpp
   viewmodel_base.h
-  viewmodel_controller.cpp
-  viewmodel_controller.h
-  viewmodel_controller_factory.cpp
-  viewmodel_controller_factory.h
-  viewmodel_controller_impl.cpp
-  viewmodel_controller_impl.h
-  viewmodel_iterate_helper.cpp
-  viewmodel_iterate_helper.h
-  viewmodel_utils.cpp
-  viewmodel_utils.h
+  viewmodel.cpp
+  viewmodel.h
   )

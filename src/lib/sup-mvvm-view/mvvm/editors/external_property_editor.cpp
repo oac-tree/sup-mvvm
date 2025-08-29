@@ -25,7 +25,7 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/external_property.h>
-#include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/providers/custom_variants.h>
 
 #include <QHBoxLayout>
 #include <QLabel>

@@ -20,7 +20,7 @@
 
 #include "mvvm/editors/selectable_combobox_editor.h"
 
-#include <mvvm/viewmodel/variant_converter.h>
+#include <mvvm/providers/variant_converter.h>
 
 #include <gtest/gtest.h>
 

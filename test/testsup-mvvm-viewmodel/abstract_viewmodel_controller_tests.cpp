@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/abstract_viewmodel_controller.h"
+#include "mvvm/providers/abstract_viewmodel_controller.h"
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>

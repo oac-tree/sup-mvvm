@@ -20,6 +20,8 @@
 
 #include "viewmodel_controller_impl.h"
 
+#include "i_children_strategy.h"
+#include "i_row_strategy.h"
 #include "viewitem_factory.h"
 #include "viewmodel_utils.h"
 
@@ -27,8 +29,6 @@
 #include <mvvm/model/i_session_model.h>
 #include <mvvm/model/model_utils.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/viewmodel/i_children_strategy.h>
-#include <mvvm/viewmodel/i_row_strategy.h>
 
 #include <stack>
 

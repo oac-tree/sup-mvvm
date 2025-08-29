@@ -22,7 +22,7 @@
 #define MVVM_EDITORS_COMBO_PROPERTY_EDITOR_H_
 
 #include <mvvm/viewmodel/custom_editor.h>
-#include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/providers/custom_variants.h>
 
 class QComboBox;
 

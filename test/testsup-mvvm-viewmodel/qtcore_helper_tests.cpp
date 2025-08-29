@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/qtcore_helper.h"
+#include "mvvm/providers/qtcore_helper.h"
 
 #include <gtest/gtest.h>
 

@@ -22,10 +22,10 @@
 #define MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
 
 #include <mvvm/model/session_item.h>
-#include <mvvm/viewmodel/standard_presentation_items.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/standard_presentation_items.h>
+#include <mvvm/providers/viewitem.h>
 #include <mvvm/viewmodel/viewmodel_base.h>
-#include <mvvm/viewmodel/viewmodel_iterate_helper.h>
+#include <mvvm/providers/viewmodel_iterate_helper.h>
 #include <mvvm/viewmodel_export.h>
 
 #include <QVariant>

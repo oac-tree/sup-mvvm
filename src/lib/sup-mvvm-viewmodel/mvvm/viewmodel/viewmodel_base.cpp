@@ -20,9 +20,8 @@
 
 #include "viewmodel_base.h"
 
-#include "viewitem.h"
-
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/providers/viewitem.h>
 
 namespace mvvm
 {

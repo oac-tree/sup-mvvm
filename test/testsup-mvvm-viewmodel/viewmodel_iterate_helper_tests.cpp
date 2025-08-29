@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/viewmodel/viewmodel_iterate_helper.h"
+#include "mvvm/providers/viewmodel_iterate_helper.h"
 
 #include <mvvm/standarditems/vector_item.h>
 

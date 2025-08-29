@@ -23,9 +23,9 @@
 #include "editor_builders.h"
 
 #include <mvvm/standarditems/editor_constants.h>
-#include <mvvm/viewmodel/custom_variants.h>
-#include <mvvm/viewmodel/variant_converter.h>
-#include <mvvm/viewmodel/viewmodel_utils.h>
+#include <mvvm/providers/custom_variants.h>
+#include <mvvm/providers/variant_converter.h>
+#include <mvvm/providers/viewmodel_utils.h>
 
 #include <QWidget>
 

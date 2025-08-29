@@ -20,10 +20,10 @@
 
 #include "viewmodel_controller_factory.h"
 
-#include <mvvm/viewmodel/i_children_strategy.h>
-#include <mvvm/viewmodel/i_row_strategy.h>
-#include <mvvm/viewmodel/viewmodel_controller.h>
-#include <mvvm/viewmodel/viewmodel_controller_impl.h>
+#include "i_children_strategy.h"
+#include "i_row_strategy.h"
+#include "viewmodel_controller.h"
+#include "viewmodel_controller_impl.h"
 
 namespace mvvm::factory
 {

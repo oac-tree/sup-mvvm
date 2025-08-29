@@ -21,7 +21,7 @@
 #ifndef MVVM_VIEWMODEL_ABSTRACT_ROW_STRATEGY_H_
 #define MVVM_VIEWMODEL_ABSTRACT_ROW_STRATEGY_H_
 
-#include <mvvm/viewmodel/i_row_strategy.h>
+#include <mvvm/providers/i_row_strategy.h>
 
 namespace mvvm
 {

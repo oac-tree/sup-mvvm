@@ -21,7 +21,7 @@
 #include "combo_property_editor.h"
 
 #include <mvvm/model/combo_property.h>
-#include <mvvm/viewmodel/qtcore_helper.h>
+#include <mvvm/providers/qtcore_helper.h>
 
 #include <QComboBox>
 #include <QVBoxLayout>

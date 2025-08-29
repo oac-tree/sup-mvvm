@@ -26,7 +26,7 @@
 
 #include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/model_utils.h>
-#include <mvvm/viewmodel/qtcore_helper.h>
+#include <mvvm/providers/qtcore_helper.h>
 
 #include <QAction>
 #include <QHBoxLayout>

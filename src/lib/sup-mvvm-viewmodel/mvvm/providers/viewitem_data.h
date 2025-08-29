@@ -21,7 +21,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEM_DATA_H_
 #define MVVM_VIEWMODEL_VIEWITEM_DATA_H_
 
-#include <mvvm/viewmodel/i_viewitem_data.h>
+#include <mvvm/providers/i_viewitem_data.h>
 
 #include <QMap>
 

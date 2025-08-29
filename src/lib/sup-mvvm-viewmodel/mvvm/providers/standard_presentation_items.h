@@ -24,7 +24,7 @@
 //! @file
 //! Defines standard presentations for sessionitem.
 
-#include <mvvm/viewmodel/i_viewitem_data.h>
+#include <mvvm/providers/i_viewitem_data.h>
 
 namespace mvvm
 {

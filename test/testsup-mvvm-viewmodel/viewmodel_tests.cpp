@@ -24,10 +24,10 @@
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
-#include <mvvm/viewmodel/standard_children_strategies.h>
-#include <mvvm/viewmodel/standard_row_strategies.h>
-#include <mvvm/viewmodel/viewmodel_controller_factory.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/standard_children_strategies.h>
+#include <mvvm/providers/standard_row_strategies.h>
+#include <mvvm/providers/viewmodel_controller_factory.h>
+#include <mvvm/providers/viewitem.h>
 
 #include <gtest/gtest.h>
 

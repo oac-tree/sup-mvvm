@@ -22,8 +22,8 @@
 #define MVVM_VIEWMODEL_VIEWMODEL_CONTROLLER_IMPL_H_
 
 #include <mvvm/signals/event_types.h>
-#include <mvvm/viewmodel/i_viewmodel_controller.h>
-#include <mvvm/viewmodel/viewitem_map.h>
+#include <mvvm/providers/i_viewmodel_controller.h>
+#include <mvvm/providers/viewitem_map.h>
 
 #include <QStringList>
 #include <memory>

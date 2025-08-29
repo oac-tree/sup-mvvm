@@ -19,7 +19,7 @@
  *****************************************************************************/
 
 #include "mvvm/editors/allint_spinbox.h"
-#include "mvvm/viewmodel/variant_converter.h"
+#include "mvvm/providers/variant_converter.h"
 
 #include <mvvm/test/test_helper.h>
 #include <mvvm/utils/limited_integer_helper.h>

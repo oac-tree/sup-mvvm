@@ -24,7 +24,7 @@
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/viewmodel/viewitem.h>
+#include <mvvm/providers/viewitem.h>
 
 namespace mvvm
 {

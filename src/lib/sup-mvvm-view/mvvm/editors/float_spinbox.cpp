@@ -20,7 +20,7 @@
 
 #include "float_spinbox.h"
 
-#include <mvvm/viewmodel/custom_variants.h>
+#include <mvvm/providers/custom_variants.h>
 
 #include <QDoubleSpinBox>
 #include <QVBoxLayout>
