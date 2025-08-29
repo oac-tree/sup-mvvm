@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
-#define MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
+#ifndef MVVM_PROVIDERS_STANDARD_ROW_STRATEGIES_H_
+#define MVVM_PROVIDERS_STANDARD_ROW_STRATEGIES_H_
 
 #include <mvvm/providers/abstract_row_strategy.h>
 #include <mvvm/viewmodel_export.h>
@@ -72,4 +72,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_STANDARD_ROW_STRATEGIES_H_
+#endif  // MVVM_PROVIDERS_STANDARD_ROW_STRATEGIES_H_

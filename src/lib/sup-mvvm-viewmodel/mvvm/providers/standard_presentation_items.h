@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
-#define MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
+#ifndef MVVM_PROVIDERS_STANDARD_PRESENTATION_ITEMS_H_
+#define MVVM_PROVIDERS_STANDARD_PRESENTATION_ITEMS_H_
 
 //! @file
 //! Defines standard presentations for sessionitem.
@@ -172,4 +172,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_STANDARD_PRESENTATION_ITEMS_H_
+#endif  // MVVM_PROVIDERS_STANDARD_PRESENTATION_ITEMS_H_

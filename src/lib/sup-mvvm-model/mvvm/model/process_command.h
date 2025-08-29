@@ -47,4 +47,4 @@ typename C::result_t ProcessCommand(ISessionModel& model, Args&&... args)
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_FUNCTION_TYPES_H_
+#endif  // MVVM_MODEL_PROCESS_COMMAND_H_

@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_I_VIEWMODEL_CONTROLLER_H_
-#define MVVM_VIEWMODEL_I_VIEWMODEL_CONTROLLER_H_
+#ifndef MVVM_PROVIDERS_I_VIEWMODEL_CONTROLLER_H_
+#define MVVM_PROVIDERS_I_VIEWMODEL_CONTROLLER_H_
 
 #include <mvvm/signals/event_types.h>
 #include <mvvm/viewmodel_export.h>
@@ -111,4 +111,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_I_VIEWMODEL_CONTROLLER_H_
+#endif  // MVVM_PROVIDERS_I_VIEWMODEL_CONTROLLER_H_

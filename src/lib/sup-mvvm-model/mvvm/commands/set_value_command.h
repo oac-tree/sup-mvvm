@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_SET_VALUE_COMMAND_V2_H_
-#define MVVM_COMMANDS_SET_VALUE_COMMAND_V2_H_
+#ifndef MVVM_COMMANDS_SET_VALUE_COMMAND_H_
+#define MVVM_COMMANDS_SET_VALUE_COMMAND_H_
 
 #include <mvvm/commands/model_command.h>
 #include <mvvm/core/variant.h>
@@ -67,4 +67,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_SET_VALUE_COMMAND_V2_H_
+#endif  // MVVM_COMMANDS_SET_VALUE_COMMAND_H_

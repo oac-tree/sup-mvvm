@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWITEM_FACTORY_H_
-#define MVVM_VIEWMODEL_VIEWITEM_FACTORY_H_
+#ifndef MVVM_PROVIDERS_VIEWITEM_FACTORY_H_
+#define MVVM_PROVIDERS_VIEWITEM_FACTORY_H_
 
 //! @file
 //! Contains factory methods to construct ViewItem's looking at different SessionItem parts.
@@ -76,4 +76,4 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateFixedDataViewItem(
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWITEM_FACTORY_H_
+#endif  // MVVM_PROVIDERS_VIEWITEM_FACTORY_H_

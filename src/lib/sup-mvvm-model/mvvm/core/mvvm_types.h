@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_MODEL_MVVM_TYPES_H_
-#define MVVM_MODEL_MVVM_TYPES_H_
+#ifndef MVVM_CORE_MVVM_TYPES_H_
+#define MVVM_CORE_MVVM_TYPES_H_
 
 #include <cstdint>
 
@@ -67,4 +67,4 @@ enum Appearance : std::uint8_t
 
 }  // namespace mvvm
 
-#endif  // MVVM_MODEL_MVVM_TYPES_H_
+#endif  // MVVM_CORE_MVVM_TYPES_H_

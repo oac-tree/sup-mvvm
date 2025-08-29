@@ -44,4 +44,4 @@ const std::string kNameAttributeKey = "name";
 
 }  // namespace mvvm::constants
 
-#endif
+#endif  // MVVM_SERIALIZATION_TREE_DATA_CONSTANTS_H_

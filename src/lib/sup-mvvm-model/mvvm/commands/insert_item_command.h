@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_COMMANDS_INSERT_ITEM_COMMAND_V2_H_
-#define MVVM_COMMANDS_INSERT_ITEM_COMMAND_V2_H_
+#ifndef MVVM_COMMANDS_INSERT_ITEM_COMMAND_H_
+#define MVVM_COMMANDS_INSERT_ITEM_COMMAND_H_
 
 #include <mvvm/commands/model_command.h>
 
@@ -69,4 +69,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_COMMANDS_INSERT_ITEM_COMMAND_V2_H_
+#endif  // MVVM_COMMANDS_INSERT_ITEM_COMMAND_H_

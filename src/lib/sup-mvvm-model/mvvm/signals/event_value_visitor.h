@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_EVENT_TEST_HELPER_H_
-#define MVVM_EVENT_TEST_HELPER_H_
+#ifndef MVVM_SIGNALS_EVENT_VALUE_VISITOR_H_
+#define MVVM_SIGNALS_EVENT_VALUE_VISITOR_H_
 
 #include <mvvm/signals/event_types.h>
 
@@ -51,4 +51,4 @@ std::string EventToString(const event_variant_t& variant);
 
 }  // namespace mvvm
 
-#endif  // MVVM_EVENT_TEST_HELPER_H_
+#endif  // MVVM_SIGNALS_EVENT_VALUE_VISITOR_H_

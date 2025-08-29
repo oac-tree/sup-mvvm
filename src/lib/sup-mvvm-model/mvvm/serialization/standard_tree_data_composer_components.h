@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_SERIALIZATION_STANADRD_TREE_DATA_COMPOSER_COMPONENTS_H_
-#define MVVM_SERIALIZATION_STANADRD_TREE_DATA_COMPOSER_COMPONENTS_H_
+#ifndef MVVM_SERIALIZATION_STANDARD_TREE_DATA_COMPOSER_COMPONENTS_H_
+#define MVVM_SERIALIZATION_STANDARD_TREE_DATA_COMPOSER_COMPONENTS_H_
 
 //! @file
 //! Collection of TreeDataComposerComponent classes to build TreeData from SessionItem.
@@ -66,4 +66,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_SERIALIZATION_STANADRD_TREE_DATA_COMPOSER_COMPONENTS_H_
+#endif  // MVVM_SERIALIZATION_STANDARD_TREE_DATA_COMPOSER_COMPONENTS_H_

@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_I_ROW_STRATEGY_H_
-#define MVVM_VIEWMODEL_I_ROW_STRATEGY_H_
+#ifndef MVVM_PROVIDERS_I_ROW_STRATEGY_H_
+#define MVVM_PROVIDERS_I_ROW_STRATEGY_H_
 
 #include <mvvm/viewmodel_export.h>
 
@@ -66,4 +66,4 @@ public:
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_I_ROW_STRATEGY_H_
+#endif  // MVVM_PROVIDERS_I_ROW_STRATEGY_H_

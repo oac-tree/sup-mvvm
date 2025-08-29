@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODEL_ITERATE_HELPER_H_
-#define MVVM_VIEWMODEL_VIEWMODEL_ITERATE_HELPER_H_
+#ifndef MVVM_PROVIDERS_VIEWMODEL_ITERATE_HELPER_H_
+#define MVVM_PROVIDERS_VIEWMODEL_ITERATE_HELPER_H_
 
 #include <QAbstractItemModel>
 #include <functional>
@@ -42,4 +42,4 @@ void IterateFirstColumn(const QAbstractItemModel& viewmodel, const QModelIndex& 
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWMODEL_VIEWMODEL_ITERATE_HELPER_H_
+#endif  // MVVM_PROVIDERS_VIEWMODEL_ITERATE_HELPER_H_

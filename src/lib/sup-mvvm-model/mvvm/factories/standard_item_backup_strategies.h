@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H
-#define MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H
+#ifndef MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H_
+#define MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H_
 
 #include <mvvm/model/i_item_backup_strategy.h>
 #include <mvvm/serialization/tree_data_fwd.h>
@@ -78,4 +78,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H
+#endif  // MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H_

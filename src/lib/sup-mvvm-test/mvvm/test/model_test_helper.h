@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_TEST_MODEL_TEST_HELPER_
-#define MVVM_TEST_MODEL_TEST_HELPER_
+#ifndef MVVM_TEST_MODEL_TEST_HELPER_H_
+#define MVVM_TEST_MODEL_TEST_HELPER_H_
 
 //! @file
 //! Collection of helper function for model testing.
@@ -58,4 +58,4 @@ std::unique_ptr<ItemTreeData> CreateTestData(std::size_t max_depth_level,
 
 }  // namespace mvvm::test
 
-#endif  // MVVM_TEST_MODEL_TEST_HELPER_
+#endif  // MVVM_TEST_MODEL_TEST_HELPER_H_

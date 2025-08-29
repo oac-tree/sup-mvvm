@@ -221,4 +221,4 @@ ItemViewComponentProviderBuilder CreateProvider();
 
 }  // namespace mvvm
 
-#endif  // MVVM_VIEWS_VIEWMODEL_DELEGATE_H_
+#endif  // MVVM_VIEWS_VIEWMODEL_COMPONENT_BUILDER_H_

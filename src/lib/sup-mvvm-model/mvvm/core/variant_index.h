@@ -60,4 +60,4 @@ constexpr std::size_t variant_index()
 
 }  // namespace mvvm
 
-#endif  // MVVM_CORE_VARIANT_H_
+#endif  // MVVM_CORE_VARIANT_INDEX_H_

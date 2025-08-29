@@ -208,4 +208,4 @@ constexpr bool Flags<EnumT>::IsSet(EnumT flag) const
 
 }  // namespace mvvm
 
-#endif  // MVVM_CORE_BASIC_SCALAR_TYPES_H_
+#endif  // MVVM_CORE_FLAGS_H_

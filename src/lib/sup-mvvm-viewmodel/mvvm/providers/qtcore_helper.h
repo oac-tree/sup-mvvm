@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_QTCORE_HELPER_H_
-#define MVVM_VIEWMODEL_QTCORE_HELPER_H_
+#ifndef MVVM_PROVIDERS_QTCORE_HELPER_H_
+#define MVVM_PROVIDERS_QTCORE_HELPER_H_
 
 //! @file
 //! Collection of helper functions related to Qt core object conversion.
@@ -53,4 +53,4 @@ QStringList GetStringList(const QByteArray& byteArray);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_VIEWMODEL_QTCORE_HELPER_H_
+#endif  // MVVM_PROVIDERS_QTCORE_HELPER_H_

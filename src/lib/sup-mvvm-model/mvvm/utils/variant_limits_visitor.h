@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_UTILS_VARIANT_INTEGER_LIMITS_VISITOR_H
-#define MVVM_UTILS_VARIANT_INTEGER_LIMITS_VISITOR_H
+#ifndef MVVM_UTILS_VARIANT_LIMITS_VISITOR_H_
+#define MVVM_UTILS_VARIANT_LIMITS_VISITOR_H_
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/variant.h>
@@ -255,4 +255,4 @@ inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
 
 }  // namespace mvvm
 
-#endif  // MVVM_UTILS_LIMITED_INTEGER_HELPER_H_
+#endif  // MVVM_UTILS_VARIANT_LIMITS_VISITOR_H_

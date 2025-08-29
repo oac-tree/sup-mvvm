@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
-#define MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
+#ifndef MVVM_PROVIDERS_VIEWMODEL_UTILS_H_
+#define MVVM_PROVIDERS_VIEWMODEL_UTILS_H_
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/standard_presentation_items.h>
@@ -186,4 +186,4 @@ QVector<int> GetQtRoles(const ViewItem* view, role_t item_role);
 
 }  // namespace mvvm::utils
 
-#endif  // MVVM_VIEWMODEL_VIEWMODEL_UTILS_H_
+#endif  // MVVM_PROVIDERS_VIEWMODEL_UTILS_H_
