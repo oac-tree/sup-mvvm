@@ -25,9 +25,8 @@
 namespace mvvm
 {
 
-std::string VariantValueVisitor::operator()(std::monostate value)
+std::string VariantValueVisitor::operator()([[maybe_unused]] std::monostate value)
 {
-  (void)value;
   return {};
 }
 

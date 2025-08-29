@@ -53,21 +53,18 @@ void ItemEventVisitor::operator()(const ItemRemovedEvent &event)
   m_source = event.item;
 }
 
-void ItemEventVisitor::operator()(const ModelAboutToBeResetEvent &event)
+void ItemEventVisitor::operator()([[maybe_unused]] const ModelAboutToBeResetEvent &event)
 {
-  (void)event;
   m_source = nullptr;
 }
 
-void ItemEventVisitor::operator()(const ModelResetEvent &event)
+void ItemEventVisitor::operator()([[maybe_unused]] const ModelResetEvent &event)
 {
-  (void)event;
   m_source = nullptr;
 }
 
-void ItemEventVisitor::operator()(const ModelAboutToBeDestroyedEvent &event)
+void ItemEventVisitor::operator()([[maybe_unused]] const ModelAboutToBeDestroyedEvent &event)
 {
-  (void)event;
   m_source = nullptr;
 }
 

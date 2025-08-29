@@ -41,9 +41,8 @@ using string_to_variant_converter_t = std::function<variant_t(const std::string 
 /**
  * @brief Converts a string to undefined variant.
  */
-variant_t to_undefined(const std::string &str)
+variant_t to_undefined([[maybe_unused]] const std::string &str)
 {
-  (void)str;
   return {};
 }
 

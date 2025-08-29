@@ -49,15 +49,14 @@ void ChartPenController::Subscribe()
   UpdateLineSeriesFromItem();
 }
 
-void ChartPenController::OnPropertyChanged(const PropertyChangedEvent &event)
+void ChartPenController::OnPropertyChanged([[maybe_unused]] const PropertyChangedEvent &event)
 {
-  (void)event;
   UpdateLineSeriesFromItem();
 }
 
 void ChartPenController::UpdateLineSeriesFromItem()
 {
-  QColor color(QString::fromStdString(GetItem()->GetNamedColor()));
+  const QColor color(QString::fromStdString(GetItem()->GetNamedColor()));
 
   QPen pen;
   pen.setColor(color);

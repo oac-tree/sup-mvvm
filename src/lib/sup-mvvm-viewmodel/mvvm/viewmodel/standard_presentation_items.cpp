@@ -54,10 +54,8 @@ QVariant SessionItemPresentation::Data(int qt_role) const
   return {};
 }
 
-bool SessionItemPresentation::SetData(const QVariant &data, int qt_role)
+bool SessionItemPresentation::SetData([[maybe_unused]] const QVariant &data, [[maybe_unused]] int qt_role)
 {
-  (void)data;
-  (void)qt_role;
   return false;
 }
 
@@ -232,9 +230,9 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
   }
 }
 
-QVector<int> FixedDataPresentationItem::GetQtRoles(role_t data_role) const
+QVector<int> FixedDataPresentationItem::GetQtRoles([[maybe_unused]] role_t data_role) const
 {
-  (void)data_role;  // we use fixed roles which are unboard
+  // we use fixed roles which are unboard and do not use parameter data_role
   QVector<int> result;
   for (auto &[qt_role, data] : m_data)
   {

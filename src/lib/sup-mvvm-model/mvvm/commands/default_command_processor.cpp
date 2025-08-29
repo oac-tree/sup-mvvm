@@ -72,15 +72,13 @@ void DefaultCommandProcessor::Clear()
   // do nothing
 }
 
-void DefaultCommandProcessor::SetUndoLimit(std::size_t limit)
+void DefaultCommandProcessor::SetUndoLimit([[maybe_unused]] std::size_t limit)
 {
-  (void)limit;
   // do nothing
 }
 
-void DefaultCommandProcessor::BeginMacro(const std::string &name)
+void DefaultCommandProcessor::BeginMacro([[maybe_unused]] const std::string &name)
 {
-  (void)name;
   // do nothing
 }
 

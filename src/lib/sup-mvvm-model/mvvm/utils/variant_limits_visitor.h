@@ -135,125 +135,121 @@ struct VariantLimitsVisitor
 };
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(std::monostate value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] std::monostate value)
 {
-  (void)value;
   throw RuntimeException("Visitor for monostate is not implemented");
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(boolean value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] boolean value)
 {
-  (void)value;
   throw RuntimeException("Visitor for boolean is not implemented");
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(char8 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] char8 value)
 {
-  (void)value;
   throw RuntimeException("Visitor for char8 is not implemented");
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(int8 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] int8 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, int8>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(uint8 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] uint8 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, uint8>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(int16 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] int16 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, int16>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(uint16 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] uint16 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, uint16>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(int32 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] int32 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, int32>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(uint32 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] uint32 value)
 {
-  (void)value;
   throw RuntimeException("Visitor for uint32 is not implemented");
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(int64 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] int64 value)
 {
-  (void)value;
   throw RuntimeException("Visitor for int64 is not implemented");
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(uint64 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] uint64 value)
 {
-  (void)value;
   throw RuntimeException("Visitor for uint64 is not implemented");
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(float32 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] float32 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, float32>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
-inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(float64 value)
+inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
+    [[maybe_unused]] float64 value)
 {
-  (void)value;
   return GetMinMaxLimitsPair<LimitsT, float64>(m_lower_bound, m_upper_bound);
 }
 
 template <typename LimitsT>
 inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
-    const std::string& value)
+    [[maybe_unused]] const std::string& value)
 {
-  (void)value;
   throw RuntimeException("Visitor for string is not implemented");
 }
 
 template <typename LimitsT>
 inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
-    const std::vector<double>& value)
+    [[maybe_unused]] const std::vector<double>& value)
 {
-  (void)value;
   throw RuntimeException("Visitor for vector<double> is not implemented");
 }
 
 template <typename LimitsT>
 inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
-    const ComboProperty& value)
+    [[maybe_unused]] const ComboProperty& value)
 {
-  (void)value;
   throw RuntimeException("Visitor for ComboProperty is not implemented");
 }
 
 template <typename LimitsT>
 inline std::pair<LimitsT, LimitsT> VariantLimitsVisitor<LimitsT>::operator()(
-    const ExternalProperty& value)
+    [[maybe_unused]] const ExternalProperty& value)
 {
-  (void)value;
   throw RuntimeException("Visitor for ExternalProperty is not implemented");
 }
 

@@ -46,10 +46,9 @@ ViewModelControllerImpl::ViewModelControllerImpl(
 
 ViewModelControllerImpl::~ViewModelControllerImpl() = default;
 
-void ViewModelControllerImpl::OnModelEvent(const AboutToInsertItemEvent &event)
+void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const AboutToInsertItemEvent &event)
 {
-  (void)event;
-  // nothing to do
+  // default implementation does nothing
 }
 
 void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
@@ -67,10 +66,9 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ItemRemovedEvent &event)
+void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ItemRemovedEvent &event)
 {
-  (void)event;
-  // nothing to do
+  // default implementation does nothing
 }
 
 void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
@@ -105,9 +103,8 @@ void ViewModelControllerImpl::OnModelEvent(const DataChangedEvent &event)
   }
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeResetEvent &event)
+void ViewModelControllerImpl::OnModelEvent([[maybe_unused]] const ModelAboutToBeResetEvent &event)
 {
-  (void)event;
   // Here we are notified that the model content will be destroyed soon.
   // To let all views looking at ViewModelBase to perform necessary bookkeeping we have to
   // emit internal QAbstractViewModel::beginResetModel already now, while `model` content is still
@@ -126,9 +123,9 @@ void ViewModelControllerImpl::OnModelEvent(const ModelResetEvent &event)
   m_view_model->EndResetModelNotify();  //  BeginResetModel was already called
 }
 
-void ViewModelControllerImpl::OnModelEvent(const ModelAboutToBeDestroyedEvent &event)
+void ViewModelControllerImpl::OnModelEvent(
+    [[maybe_unused]] const ModelAboutToBeDestroyedEvent &event)
 {
-  (void)event;
   m_view_model->ResetRootViewItem(CreateRootViewItem(nullptr));
 }
 
