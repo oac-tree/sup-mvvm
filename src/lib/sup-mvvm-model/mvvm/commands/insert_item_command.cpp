@@ -44,7 +44,6 @@ InsertItemCommand::InsertItemCommand(std::unique_ptr<SessionItem> item, SessionI
     throw RuntimeException("Uninitialized item");
   }
 
-  m_model = m_cached_parent->GetModel();
   m_parent_identifier = m_cached_parent->GetIdentifier();
   m_backup_strategy->SaveItem(*m_to_insert);
 }
@@ -90,7 +89,8 @@ void InsertItemCommand::UndoImpl()
 
 SessionItem* InsertItemCommand::FindParent() const
 {
-  return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
+  auto current_parent = FindItem(m_parent_identifier);
+  return current_parent ? current_parent : m_cached_parent;
 }
 
 }  // namespace mvvm

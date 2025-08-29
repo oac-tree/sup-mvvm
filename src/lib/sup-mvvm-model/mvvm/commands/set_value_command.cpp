@@ -39,7 +39,6 @@ SetValueCommand::SetValueCommand(SessionItem *item, const variant_t &value, role
     throw RuntimeException("Uninitialized item");
   }
 
-  m_model = m_cached_item->GetModel();
   m_item_identifier = m_cached_item->GetIdentifier();
 }
 
@@ -52,7 +51,7 @@ SetValueCommand::result_t SetValueCommand::GetResult() const
 
 std::optional<event_variant_t> SetValueCommand::GetEventBefore() const
 {
-  m_cached_item = FindItem();
+  m_cached_item = FindItemToSet();
   return {};
 }
 
@@ -90,9 +89,10 @@ void SetValueCommand::SetResult(bool value)
   m_result = value;
 }
 
-SessionItem *SetValueCommand::FindItem() const
+SessionItem *SetValueCommand::FindItemToSet() const
 {
-  return m_model ? m_model->FindItem(m_item_identifier) : m_cached_item;
+  auto found_item = FindItem(m_item_identifier);
+  return found_item ? found_item : m_cached_item;
 }
 
 }  // namespace mvvm

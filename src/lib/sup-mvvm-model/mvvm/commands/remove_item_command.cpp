@@ -43,7 +43,6 @@ RemoveItemCommand::RemoveItemCommand(SessionItem* parent, const TagIndex& tag_in
     throw RuntimeException("Uninitialized item");
   }
 
-  m_model = m_cached_parent->GetModel();
   m_parent_identifier = m_cached_parent->GetIdentifier();
 }
 
@@ -86,7 +85,8 @@ void RemoveItemCommand::UndoImpl()
 
 SessionItem* RemoveItemCommand::FindParent() const
 {
-  return m_model ? m_model->FindItem(m_parent_identifier) : m_cached_parent;
+  auto current_parent = FindItem(m_parent_identifier);
+  return current_parent ? current_parent : m_cached_parent;
 }
 
 }  // namespace mvvm

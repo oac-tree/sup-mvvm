@@ -60,7 +60,6 @@ private:
   SessionItem* FindParent() const;
 
   mutable SessionItem* m_cached_parent{nullptr};
-  ISessionModel* m_model{nullptr};
   std::string m_parent_identifier;
   TagIndex m_tag_index;
   std::unique_ptr<IItemBackupStrategy> m_backup_strategy;

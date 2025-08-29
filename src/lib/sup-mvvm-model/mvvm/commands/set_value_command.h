@@ -56,10 +56,9 @@ private:
   void SwapValues();
 
   void SetResult(bool value);
-  SessionItem *FindItem() const;
+  SessionItem *FindItemToSet() const;
 
   mutable SessionItem *m_cached_item{nullptr};
-  ISessionModel *m_model{nullptr};
   variant_t m_value;  //! Value to set as a result of command execution.
   role_t m_role;
   std::string m_item_identifier;

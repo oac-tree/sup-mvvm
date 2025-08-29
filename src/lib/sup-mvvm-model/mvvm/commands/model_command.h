@@ -36,6 +36,10 @@ class MVVM_MODEL_EXPORT ModelCommand : public AbstractCommand
 public:
   explicit ModelCommand(ISessionModel* model);
 
+  ISessionModel* GetModel() const;
+
+  SessionItem* FindItem(const std::string& identifier) const;
+
 private:
   void Notify(const event_variant_t& event) override;
 
