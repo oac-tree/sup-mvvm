@@ -1,6 +1,7 @@
 Changes for 2.0.0:
 
-- August Sonar quality round, quality gate was passed for the first time
+- Remove GetStaticType() machinery in the favor of SessionItem type traits
+- August Sonar quality round
 - Implement convenience Flags<> class and use it to store item appearance
 - Switch to references in model utils
 - Provide model clone machinery
