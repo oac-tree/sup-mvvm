@@ -21,7 +21,7 @@
 #ifndef MVVM_EDITORS_BOOLEAN_EDITOR_H_
 #define MVVM_EDITORS_BOOLEAN_EDITOR_H_
 
-#include <mvvm/providers/custom_editor.h>
+#include <mvvm/viewmodel/custom_editor.h>
 
 class QCheckBox;
 

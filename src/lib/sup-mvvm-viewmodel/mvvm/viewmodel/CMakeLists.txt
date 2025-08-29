@@ -7,6 +7,8 @@ target_sources(${library_name} PRIVATE
   abstract_viewmodel_controller.h
   all_items_viewmodel.cpp
   all_items_viewmodel.h
+  custom_editor.cpp
+  custom_editor.h
   custom_variants.cpp
   custom_variants.h
   filter_name_viewmodel.cpp

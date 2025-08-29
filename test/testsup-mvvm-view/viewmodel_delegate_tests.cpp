@@ -24,9 +24,9 @@
 #include <mvvm/editors/custom_editor_includes.h>
 #include <mvvm/editors/default_editor_factory.h>
 #include <mvvm/model/application_model.h>
-#include <mvvm/providers/custom_editor.h>
 #include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/all_items_viewmodel.h>
+#include <mvvm/viewmodel/custom_editor.h>
 #include <mvvm/views/default_cell_decorator.h>
 
 #include <gtest/gtest.h>
