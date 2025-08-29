@@ -1,6 +1,5 @@
 add_subdirectory(commands)
 add_subdirectory(core)
-add_subdirectory(experimental)
 add_subdirectory(factories)
 add_subdirectory(model)
 add_subdirectory(project)
