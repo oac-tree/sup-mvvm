@@ -8,4 +8,6 @@ target_sources(${library_name} PRIVATE
   node_connection.h
   node_port.cpp
   node_port.h
+  port_info.cpp
+  port_info.h
   )
