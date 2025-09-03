@@ -21,10 +21,27 @@
 #ifndef MVVM_NODEEDITOR_PORT_INFO_H_
 #define MVVM_NODEEDITOR_PORT_INFO_H_
 
+#include <cstdint>
 #include <string>
 
 namespace mvvm
 {
+
+/**
+ * @brief The PortDirection enum introduces port's direction types so we know what can be connected
+ * with what.
+ *
+ * Example: for behavioral tree with top-to-bottom layout
+ * Consider parent "Sequence" instruction with a child "Wait" beneath
+ *   kInput port is located on a Sequence instruction at its bottom.
+ *   kOutput port is located on a Wait instruction at its top.
+ */
+enum class PortDirection : std::uint8_t
+{
+  kDefault,
+  kInput,
+  kOutput
+};
 
 /**
  * @brief The PortInfo contains a simple information about the node port.
@@ -35,14 +52,20 @@ class PortInfo
 {
 public:
   /**
-   * @brief Initiazes a PortInfo with the given type and color.
+   * @brief Initiazes a PortInfo with the given direction, type and color.
    */
-  PortInfo(const std::string& port_type, const std::string& port_color);
+  PortInfo(PortDirection port_direction, std::string port_type, std::string port_color);
+
+  /**
+   * @brief Returns port direction.
+   */
+  PortDirection GetPortDirection() const;
 
   /**
    * @brief Returns a string representing a port type.
    *
-   * Ports of the same type can be connected together.
+   * Ports of the same type can be connected together if their directions matches (input can be
+   * connected with output).
    */
   std::string GetPortType() const;
 
@@ -55,19 +78,13 @@ public:
   std::string GetPortColor() const;
 
 private:
+  PortDirection m_port_direction;
   std::string m_port_type;
   std::string m_port_color;
 };
 
-/**
- * @brief Returns a default PortInfo instance.
- */
-const PortInfo& GetDefaultPortInfo();
-
-/**
- * @brief Returns a PortInfo instance for the root port.
- */
-const PortInfo& GetRootPortInfo();
+bool operator==(const PortInfo& lhs, const PortInfo& rhs);
+bool operator!=(const PortInfo& lhs, const PortInfo& rhs);
 
 }  // namespace mvvm
 
