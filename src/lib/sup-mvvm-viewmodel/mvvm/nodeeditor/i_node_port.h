@@ -41,6 +41,7 @@ public:
   INodePort& operator=(const INodePort&) = delete;
   INodePort(INodePort&&) = delete;
   INodePort& operator=(INodePort&&) = delete;
+
 };
 
 }  // namespace mvvm

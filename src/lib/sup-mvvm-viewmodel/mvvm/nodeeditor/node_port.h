@@ -22,6 +22,7 @@
 #define MVVM_NODEEDITOR_NODE_PORT_H_
 
 #include <mvvm/nodeeditor/i_node_port.h>
+#include <mvvm/nodeeditor/port_info.h>
 
 namespace mvvm
 {
@@ -32,13 +33,18 @@ namespace mvvm
 class NodePort : public INodePort
 {
 public:
-  NodePort() = default;
+  explicit NodePort(PortInfo port_info);
   ~NodePort() override = default;
 
   NodePort(const NodePort&) = delete;
   NodePort& operator=(const NodePort&) = delete;
   NodePort(NodePort&&) = delete;
   NodePort& operator=(NodePort&&) = delete;
+
+  PortInfo GetPortInfo() const;
+
+private:
+  PortInfo m_port_info;
 };
 
 }  // namespace mvvm

@@ -23,4 +23,11 @@
 namespace mvvm
 {
 
+NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
+
+PortInfo NodePort::GetPortInfo() const
+{
+  return m_port_info;
 }
+
+}  // namespace mvvm
