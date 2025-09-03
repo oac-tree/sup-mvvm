@@ -30,7 +30,7 @@ namespace mvvm
 class NodeConnection;
 
 /**
- * @brief The NodePort is a default implementation of INodePort to carry basic port logic.
+ * @brief The NodePort is a default implementation of INodePort to carry basic connection logic.
  */
 class NodePort : public INodePort
 {

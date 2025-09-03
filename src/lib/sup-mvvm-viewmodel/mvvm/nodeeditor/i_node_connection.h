@@ -24,7 +24,7 @@
 namespace mvvm
 {
 
-class NodePort;
+class INodePort;
 
 /**
  * @brief The INodeConnection defines an interface to handle the data and logic on board of
@@ -48,22 +48,22 @@ public:
   /**
    * @brief Returns the start port of the connection.
    */
-  virtual const NodePort* GetStartPort() const = 0;
+  virtual const INodePort* GetStartPort() const = 0;
 
   /**
    * @brief Sets the start port of the connection.
    */
-  virtual void SetStartPort(const NodePort* port) = 0;
+  virtual void SetStartPort(const INodePort* port) = 0;
 
   /**
    * @brief Sets the end port of the connection.
    */
-  virtual void SetEndPort(const NodePort* port) = 0;
+  virtual void SetEndPort(const INodePort* port) = 0;
 
   /**
    * @brief Returns the end port of the connection.
    */
-  virtual const NodePort* GetEndPort() const = 0;
+  virtual const INodePort* GetEndPort() const = 0;
 };
 
 }  // namespace mvvm
