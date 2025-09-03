@@ -27,6 +27,8 @@
 namespace mvvm
 {
 
+class NodeConnection;
+
 /**
  * @brief The NodePort is a default implementation of INodePort to carry basic port logic.
  */
@@ -43,8 +45,15 @@ public:
 
   PortInfo GetPortInfo() const;
 
+  std::vector<const INodeConnection*> GetConnections() const override;
+
+  void AppendConnection(const INodeConnection* connection) override;
+
+  void RemoveConnection(const INodeConnection* connection) override;
+
 private:
   PortInfo m_port_info;
+  std::vector<const INodeConnection*> m_connections;
 };
 
 }  // namespace mvvm

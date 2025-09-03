@@ -20,6 +20,10 @@
 
 #include "node_port.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
+
+#include <algorithm>
+
 namespace mvvm
 {
 
@@ -28,6 +32,31 @@ NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
 PortInfo NodePort::GetPortInfo() const
 {
   return m_port_info;
+}
+
+std::vector<const INodeConnection *> NodePort::GetConnections() const
+{
+  return m_connections;
+}
+
+void NodePort::AppendConnection(const INodeConnection *connection)
+{
+  auto iter = std::find(m_connections.begin(), m_connections.end(), connection);
+  if (iter != m_connections.end())
+  {
+    throw RuntimeException("The connection is already present in the port's connections list.");
+  }
+  m_connections.push_back(connection);
+}
+
+void NodePort::RemoveConnection(const INodeConnection *connection)
+{
+  auto iter = std::find(m_connections.begin(), m_connections.end(), connection);
+  if (iter == m_connections.end())
+  {
+    throw RuntimeException("The connection is not present in the port's connections list.");
+  }
+  m_connections.erase(iter);
 }
 
 }  // namespace mvvm
