@@ -24,11 +24,15 @@
 namespace mvvm
 {
 
+class NodePort;
+
 /**
  * @brief The INodeConnection defines an interface to handle the data and logic on board of
  * NodeConnectionShape.
  *
- * The connection is a bezier curve connecting two node ports together.
+ * The connection is a Bezier curve connecting two node ports. The connection's "start"
+ * port corresponds to the port where the user has started the drawing. The connection's "end" port
+ * corresponds to the port, where the user has released the mouse.
  */
 class INodeConnection
 {
@@ -40,6 +44,26 @@ public:
   INodeConnection& operator=(const INodeConnection&) = delete;
   INodeConnection(INodeConnection&&) = delete;
   INodeConnection& operator=(INodeConnection&&) = delete;
+
+  /**
+   * @brief Returns the start port of the connection.
+   */
+  virtual const NodePort* GetStartPort() const = 0;
+
+  /**
+   * @brief Sets the start port of the connection.
+   */
+  virtual void SetStartPort(const NodePort* port) = 0;
+
+  /**
+   * @brief Sets the end port of the connection.
+   */
+  virtual void SetEndPort(const NodePort* port) = 0;
+
+  /**
+   * @brief Returns the end port of the connection.
+   */
+  virtual const NodePort* GetEndPort() const = 0;
 };
 
 }  // namespace mvvm

@@ -34,9 +34,9 @@ class NodePortTest : public ::testing::Test
 
 TEST_F(NodePortTest, InitialState)
 {
-  PortInfo port_info{PortDirection::kDefault, "abc", "deg"};
+  const PortInfo port_info{PortDirection::kDefault, "abc", "deg"};
 
-  NodePort node_port(port_info);
+  const NodePort node_port(port_info);
 
   EXPECT_EQ(node_port.GetPortInfo(), port_info);
 }

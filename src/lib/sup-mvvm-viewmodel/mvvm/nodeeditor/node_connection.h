@@ -26,6 +26,8 @@
 namespace mvvm
 {
 
+class NodePort;
+
 /**
  * @brief The NodeConnection is a default implementation of INodeConnection to carry basic
  * connection logic.
@@ -40,6 +42,18 @@ public:
   NodeConnection& operator=(const NodeConnection&) = delete;
   NodeConnection(NodeConnection&&) = delete;
   NodeConnection& operator=(NodeConnection&&) = delete;
+
+  const NodePort* GetStartPort() const override;
+
+  void SetStartPort(const NodePort* port) override;
+
+  const NodePort* GetEndPort() const override;
+
+  void SetEndPort(const NodePort* port) override;
+
+private:
+  const NodePort* m_start_port{nullptr};
+  const NodePort* m_end_port{nullptr};
 };
 
 }  // namespace mvvm

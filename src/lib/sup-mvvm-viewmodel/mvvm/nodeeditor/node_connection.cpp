@@ -23,4 +23,24 @@
 namespace mvvm
 {
 
+const NodePort *NodeConnection::GetStartPort() const
+{
+  return m_start_port;
 }
+
+void NodeConnection::SetStartPort(const NodePort *port)
+{
+  m_start_port = port;
+}
+
+const NodePort *NodeConnection::GetEndPort() const
+{
+  return m_end_port;
+}
+
+void NodeConnection::SetEndPort(const NodePort *port)
+{
+  m_end_port = port;
+}
+
+}  // namespace mvvm

@@ -20,6 +20,8 @@
 
 #include "mvvm/nodeeditor/node_connection.h"
 
+#include <mvvm/nodeeditor/node_port.h>
+
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -32,6 +34,24 @@ class NodeConnectionTest : public ::testing::Test
 {
 };
 
-TEST_F(NodeConnectionTest, InitialState) {}
+TEST_F(NodeConnectionTest, InitialState)
+{
+  NodeConnection connection;
+
+  EXPECT_EQ(connection.GetStartPort(), nullptr);
+  EXPECT_EQ(connection.GetEndPort(), nullptr);
+}
+
+TEST_F(NodeConnectionTest, SetPorts)
+{
+  const NodePort start_node_port({PortDirection::kOutput, "abc", "deg"});
+  const NodePort end_node_port({PortDirection::kInput, "abc", "deg"});
+
+  NodeConnection connection;
+  connection.SetStartPort(&start_node_port);
+  connection.SetEndPort(&end_node_port);
+  EXPECT_EQ(connection.GetStartPort(), &start_node_port);
+  EXPECT_EQ(connection.GetEndPort(), &end_node_port);
+}
 
 }  // namespace mvvm::test
