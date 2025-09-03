@@ -43,4 +43,14 @@ void NodeConnection::SetEndPort(const INodePort *port)
   m_end_port = port;
 }
 
+bool NodeConnection::HasPort(const INodePort *port) const
+{
+  if (port == nullptr)
+  {
+    return false;
+  }
+
+  return m_start_port == port || m_end_port == port;
+}
+
 }  // namespace mvvm

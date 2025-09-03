@@ -49,6 +49,8 @@ public:
 
   void SetEndPort(const INodePort* port) override;
 
+  bool HasPort(const INodePort* port) const override;
+
 private:
   const INodePort* m_start_port{nullptr};
   const INodePort* m_end_port{nullptr};

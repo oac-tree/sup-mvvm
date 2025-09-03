@@ -64,6 +64,11 @@ public:
    * @brief Returns the end port of the connection.
    */
   virtual const INodePort* GetEndPort() const = 0;
+
+  /**
+   * @brief Checks if the connection is connected to the specified port.
+   */
+  virtual bool HasPort(const INodePort* port) const = 0;
 };
 
 }  // namespace mvvm
