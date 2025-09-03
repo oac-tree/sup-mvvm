@@ -100,8 +100,6 @@ TEST_F(NodePortTest, IsConnected)
   NodeConnection connection1;
   connection1.SetStartPort(&port1);
   connection1.SetEndPort(&port2);
-  port1.AppendConnection(&connection1);
-  port2.AppendConnection(&connection1);
   EXPECT_TRUE(port1.IsConnected(&port2));
   EXPECT_TRUE(port2.IsConnected(&port1));
   EXPECT_FALSE(port1.IsConnected(&port3));

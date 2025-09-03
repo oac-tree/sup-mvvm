@@ -20,6 +20,8 @@
 
 #include "node_connection.h"
 
+#include "i_node_port.h"
+
 namespace mvvm
 {
 
@@ -28,9 +30,10 @@ const INodePort *NodeConnection::GetStartPort() const
   return m_start_port;
 }
 
-void NodeConnection::SetStartPort(const INodePort *port)
+void NodeConnection::SetStartPort(INodePort *port)
 {
   m_start_port = port;
+  m_start_port->AppendConnection(this);
 }
 
 const INodePort *NodeConnection::GetEndPort() const
@@ -38,9 +41,10 @@ const INodePort *NodeConnection::GetEndPort() const
   return m_end_port;
 }
 
-void NodeConnection::SetEndPort(const INodePort *port)
+void NodeConnection::SetEndPort(INodePort *port)
 {
   m_end_port = port;
+  m_end_port->AppendConnection(this);
 }
 
 bool NodeConnection::HasPort(const INodePort *port) const

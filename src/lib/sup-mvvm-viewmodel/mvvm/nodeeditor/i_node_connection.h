@@ -53,12 +53,12 @@ public:
   /**
    * @brief Sets the start port of the connection.
    */
-  virtual void SetStartPort(const INodePort* port) = 0;
+  virtual void SetStartPort(INodePort* port) = 0;
 
   /**
    * @brief Sets the end port of the connection.
    */
-  virtual void SetEndPort(const INodePort* port) = 0;
+  virtual void SetEndPort(INodePort* port) = 0;
 
   /**
    * @brief Returns the end port of the connection.

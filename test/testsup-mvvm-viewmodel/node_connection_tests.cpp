@@ -45,8 +45,8 @@ TEST_F(NodeConnectionTest, InitialState)
 
 TEST_F(NodeConnectionTest, SetPorts)
 {
-  const NodePort start_port({PortDirection::kOutput, "abc", "deg"});
-  const NodePort end_port({PortDirection::kInput, "abc", "deg"});
+  NodePort start_port({PortDirection::kOutput, "abc", "deg"});
+  NodePort end_port({PortDirection::kInput, "abc", "deg"});
 
   NodeConnection connection;
   connection.SetStartPort(&start_port);

@@ -43,17 +43,17 @@ public:
 
   const INodePort* GetStartPort() const override;
 
-  void SetStartPort(const INodePort* port) override;
+  void SetStartPort(INodePort* port) override;
 
   const INodePort* GetEndPort() const override;
 
-  void SetEndPort(const INodePort* port) override;
+  void SetEndPort(INodePort* port) override;
 
   bool HasPort(const INodePort* port) const override;
 
 private:
-  const INodePort* m_start_port{nullptr};
-  const INodePort* m_end_port{nullptr};
+  INodePort* m_start_port{nullptr};
+  INodePort* m_end_port{nullptr};
 };
 
 }  // namespace mvvm
