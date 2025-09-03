@@ -43,13 +43,21 @@ public:
   NodePort(NodePort&&) = delete;
   NodePort& operator=(NodePort&&) = delete;
 
-  PortInfo GetPortInfo() const;
+  PortDirection GetPortDirection() const override;
+
+  std::string GetPortType() const override;
 
   std::vector<const INodeConnection*> GetConnections() const override;
 
   void AppendConnection(const INodeConnection* connection) override;
 
   void RemoveConnection(const INodeConnection* connection) override;
+
+  bool IsConnected(const INodePort* other) const override;
+
+  bool IsConnectable(const INodePort* other) const override;
+
+  PortInfo GetPortInfo() const;
 
 private:
   PortInfo m_port_info;

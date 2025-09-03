@@ -21,6 +21,7 @@
 #include "node_port.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/nodeeditor/i_node_connection.h>
 
 #include <algorithm>
 
@@ -29,9 +30,14 @@ namespace mvvm
 
 NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
 
-PortInfo NodePort::GetPortInfo() const
+PortDirection NodePort::GetPortDirection() const
 {
-  return m_port_info;
+  return m_port_info.GetPortDirection();
+}
+
+std::string NodePort::GetPortType() const
+{
+  return m_port_info.GetPortType();
 }
 
 std::vector<const INodeConnection *> NodePort::GetConnections() const
@@ -57,6 +63,38 @@ void NodePort::RemoveConnection(const INodeConnection *connection)
     throw RuntimeException("The connection is not present in the port's connections list.");
   }
   m_connections.erase(iter);
+}
+
+bool NodePort::IsConnected(const INodePort *other) const
+{
+  if (other == nullptr)
+  {
+    return false;
+  }
+
+  return std::any_of(m_connections.begin(), m_connections.end(),
+                     [other](const INodeConnection *conn) { return conn->HasPort(other); });
+}
+
+bool NodePort::IsConnectable(const INodePort *other) const
+{
+  if (other == nullptr)
+  {
+    return false;
+  }
+
+  const bool direction_matches = (GetPortDirection() == PortDirection::kInput
+                                  && other->GetPortDirection() == PortDirection::kOutput)
+                                 || (GetPortDirection() == PortDirection::kOutput
+                                     && other->GetPortDirection() == PortDirection::kInput);
+
+  const bool type_matches = GetPortType() == other->GetPortType();
+  return direction_matches && type_matches;
+}
+
+PortInfo NodePort::GetPortInfo() const
+{
+  return m_port_info;
 }
 
 }  // namespace mvvm

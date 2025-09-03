@@ -21,6 +21,9 @@
 #ifndef MVVM_NODEEDITOR_I_NODE_PORT_H_
 #define MVVM_NODEEDITOR_I_NODE_PORT_H_
 
+#include <mvvm/nodeeditor/node_editor_types.h>
+
+#include <string>
 #include <vector>
 
 namespace mvvm
@@ -47,6 +50,19 @@ public:
   INodePort& operator=(INodePort&&) = delete;
 
   /**
+   * @brief Returns port direction.
+   */
+  virtual PortDirection GetPortDirection() const = 0;
+
+  /**
+   * @brief Returns a string representing a port type.
+   *
+   * Ports of the same type can be connected together if their directions matches (input can be
+   * connected with output).
+   */
+  virtual std::string GetPortType() const = 0;
+
+  /**
    * @brief Returns all connections related to this port.
    */
   virtual std::vector<const INodeConnection*> GetConnections() const = 0;
@@ -60,6 +76,16 @@ public:
    * @brief Removes a connection from this port.
    */
   virtual void RemoveConnection(const INodeConnection* connection) = 0;
+
+  /**
+   * @brief Checks if this port is connected to the specified other port.
+   */
+  virtual bool IsConnected(const INodePort* other) const = 0;
+
+  /**
+   * @brief Checks if this port can be connected to the specified other port.
+   */
+  virtual bool IsConnectable(const INodePort* other) const = 0;
 };
 
 }  // namespace mvvm

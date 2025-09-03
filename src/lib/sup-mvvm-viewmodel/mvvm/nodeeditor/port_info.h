@@ -21,27 +21,12 @@
 #ifndef MVVM_NODEEDITOR_PORT_INFO_H_
 #define MVVM_NODEEDITOR_PORT_INFO_H_
 
-#include <cstdint>
+#include <mvvm/nodeeditor/node_editor_types.h>
+
 #include <string>
 
 namespace mvvm
 {
-
-/**
- * @brief The PortDirection enum introduces port's direction types so we know what can be connected
- * with what.
- *
- * Example: for behavioral tree with top-to-bottom layout
- * Consider parent "Sequence" instruction with a child "Wait" beneath
- *   kInput port is located on a Sequence instruction at its bottom.
- *   kOutput port is located on a Wait instruction at its top.
- */
-enum class PortDirection : std::uint8_t
-{
-  kDefault,
-  kInput,
-  kOutput
-};
 
 /**
  * @brief The PortInfo contains a simple information about the node port.

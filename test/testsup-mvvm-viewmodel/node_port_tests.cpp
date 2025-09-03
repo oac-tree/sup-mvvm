@@ -37,20 +37,27 @@ class NodePortTest : public ::testing::Test
 
 TEST_F(NodePortTest, InitialState)
 {
-  const PortInfo port_info{PortDirection::kDefault, "abc", "deg"};
+  const PortInfo port_info{PortDirection::kDefault, "type_abc", "color"};
 
   const NodePort node_port(port_info);
 
+  EXPECT_EQ(node_port.GetPortDirection(), PortDirection::kDefault);
+  EXPECT_EQ(node_port.GetPortType(), std::string("type_abc"));
+
   EXPECT_EQ(node_port.GetPortInfo(), port_info);
   EXPECT_TRUE(node_port.GetConnections().empty());
+
+  EXPECT_FALSE(node_port.IsConnected(nullptr));
+  EXPECT_FALSE(node_port.IsConnectable(nullptr));
 }
 
 TEST_F(NodePortTest, AppendRemoveConnection)
 {
   NodeConnection connection;
 
-  NodePort node_port({PortDirection::kDefault, "abc", "deg"});
+  NodePort node_port({PortDirection::kDefault, "type_abc", "color"});
   EXPECT_TRUE(node_port.GetConnections().empty());
+
   node_port.AppendConnection(&connection);
   EXPECT_EQ(node_port.GetConnections().size(), 1);
   EXPECT_EQ(node_port.GetConnections().front(), &connection);
@@ -71,7 +78,7 @@ TEST_F(NodePortTest, AppendThreeConnections)
   NodeConnection connection2;
   NodeConnection connection3;
 
-  NodePort node_port({PortDirection::kDefault, "abc", "deg"});
+  NodePort node_port({PortDirection::kDefault, "type_abc", "color"});
   node_port.AppendConnection(&connection1);
   node_port.AppendConnection(&connection2);
   node_port.AppendConnection(&connection3);
@@ -82,6 +89,71 @@ TEST_F(NodePortTest, AppendThreeConnections)
   node_port.RemoveConnection(&connection2);
   const std::vector<const INodeConnection*> expected_after_removal{&connection1, &connection3};
   EXPECT_EQ(node_port.GetConnections(), expected_after_removal);
+}
+
+TEST_F(NodePortTest, IsConnected)
+{
+  NodePort port1({PortDirection::kInput, "type_abc", "color"});
+  NodePort port2({PortDirection::kOutput, "type_abc", "color"});
+  NodePort port3({PortDirection::kOutput, "type_abc", "color"});
+
+  NodeConnection connection1;
+  connection1.SetStartPort(&port1);
+  connection1.SetEndPort(&port2);
+  port1.AppendConnection(&connection1);
+  port2.AppendConnection(&connection1);
+  EXPECT_TRUE(port1.IsConnected(&port2));
+  EXPECT_TRUE(port2.IsConnected(&port1));
+  EXPECT_FALSE(port1.IsConnected(&port3));
+  EXPECT_FALSE(port2.IsConnected(&port3));
+  EXPECT_FALSE(port1.IsConnected(nullptr));
+  EXPECT_FALSE(port2.IsConnected(nullptr));
+  EXPECT_FALSE(port3.IsConnected(nullptr));
+}
+
+TEST_F(NodePortTest, IsConnectable)
+{
+  {
+    NodePort port1({PortDirection::kInput, "type_abc", "color"});
+    NodePort port2({PortDirection::kOutput, "type_abc", "color"});
+    EXPECT_TRUE(port1.IsConnectable(&port2));
+    EXPECT_TRUE(port2.IsConnectable(&port1));
+  }
+
+  {
+    NodePort port1({PortDirection::kOutput, "type_abc", "color"});
+    NodePort port2({PortDirection::kInput, "type_abc", "color"});
+    EXPECT_TRUE(port1.IsConnectable(&port2));
+    EXPECT_TRUE(port2.IsConnectable(&port1));
+  }
+
+  {
+    NodePort port1({PortDirection::kInput, "type_abc", "color"});
+    NodePort port2({PortDirection::kOutput, "type_xyz", "color"});
+    EXPECT_FALSE(port1.IsConnectable(&port2));
+    EXPECT_FALSE(port2.IsConnectable(&port1));
+  }
+
+  {
+    NodePort port1({PortDirection::kDefault, "type_abc", "color"});
+    NodePort port2({PortDirection::kDefault, "type_abc", "color"});
+    EXPECT_FALSE(port1.IsConnectable(&port2));
+    EXPECT_FALSE(port2.IsConnectable(&port1));
+  }
+
+  {
+    NodePort port1({PortDirection::kInput, "type_abc", "color"});
+    NodePort port2({PortDirection::kInput, "type_abc", "color"});
+    EXPECT_FALSE(port1.IsConnectable(&port2));
+    EXPECT_FALSE(port2.IsConnectable(&port1));
+  }
+
+  {
+    NodePort port1({PortDirection::kOutput, "type_abc", "color"});
+    NodePort port2({PortDirection::kOutput, "type_abc", "color"});
+    EXPECT_FALSE(port1.IsConnectable(&port2));
+    EXPECT_FALSE(port2.IsConnectable(&port1));
+  }
 }
 
 }  // namespace mvvm::test

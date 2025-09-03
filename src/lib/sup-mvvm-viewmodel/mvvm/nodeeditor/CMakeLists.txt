@@ -14,4 +14,5 @@ target_sources(${library_name} PRIVATE
   node_port_shape.h
   port_info.cpp
   port_info.h
+  node_editor_types.h
   )
