@@ -32,7 +32,7 @@ std::unique_ptr<SessionItem> CompoundItem::Clone() const
   return std::make_unique<CompoundItem>(*this);
 }
 
-PropertyItem &CompoundItem::AddProperty(const std::string &name, const char *value)
+PropertyItem &CompoundItem::AddProperty(const std::string_view &name, const char *value)
 {
   return AddProperty(name, std::string(value));
 }

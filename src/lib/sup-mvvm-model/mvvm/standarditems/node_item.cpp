@@ -32,9 +32,9 @@ constexpr std::string_view kColor{"kColor"};
 
 NodeItem::NodeItem() : CompoundItem(GetTypeName<NodeItem>())
 {
-  AddProperty(std::string(kXpos), 0.0).SetDisplayName("X");
-  AddProperty(std::string(kYpos), 0.0).SetDisplayName("Y");
-  AddProperty(std::string(kColor), std::string()).SetDisplayName("Color");
+  AddProperty(kXpos, 0.0).SetDisplayName("X");
+  AddProperty(kYpos, 0.0).SetDisplayName("Y");
+  AddProperty(kColor, std::string()).SetDisplayName("Color");
 }
 
 std::unique_ptr<mvvm::SessionItem> NodeItem::Clone() const
@@ -44,32 +44,32 @@ std::unique_ptr<mvvm::SessionItem> NodeItem::Clone() const
 
 double NodeItem::GetX() const
 {
-  return Property<double>(std::string(kXpos));
+  return Property<double>(kXpos);
 }
 
 void NodeItem::SetX(double value)
 {
-  SetProperty(std::string(kXpos), value);
+  SetProperty(kXpos, value);
 }
 
 double NodeItem::GetY() const
 {
-  return Property<double>(std::string(kYpos));
+  return Property<double>(kYpos);
 }
 
 void NodeItem::SetY(double value)
 {
-  SetProperty(std::string(kYpos), value);
+  SetProperty(kYpos, value);
 }
 
 std::string NodeItem::GetBaseColor() const
 {
-  return Property<std::string>(std::string(kColor));
+  return Property<std::string>(kColor);
 }
 
 void NodeItem::SetBaseColor(const std::string &value)
 {
-  SetProperty(std::string(kColor), value);
+  SetProperty(kColor, value);
 }
 
 }  // namespace mvvm
