@@ -81,6 +81,7 @@ void InitItemFactory(ItemFactory& factory)
   factory.RegisterItem<LineSeriesDataItem>();
   factory.RegisterItem<LineSeriesItem>();
   factory.RegisterItem<LinkedItem>();
+  factory.RegisterItem<NodeItem>();
   factory.RegisterItem<PenItem>();
   factory.RegisterItem<PointItem>();
   factory.RegisterItem<PointwiseAxisItem>();

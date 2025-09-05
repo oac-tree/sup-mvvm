@@ -86,6 +86,7 @@ TEST_F(ItemFactoryTests, CheckCloneImplementation)
   EXPECT_TRUE(test::IsCloneImplemented<TextItem>());
   EXPECT_TRUE(test::IsCloneImplemented<VectorItem>());
   EXPECT_TRUE(test::IsCloneImplemented<ViewportAxisItem>());
+  EXPECT_TRUE(test::IsCloneImplemented<NodeItem>());
 }
 
 TEST_F(ItemFactoryTests, CloneOfItemsRegisteredInCatalogue)
@@ -122,6 +123,7 @@ TEST_F(ItemFactoryTests, GetGlobalItemFactory)
   EXPECT_TRUE(CanCreateCorrectType<TextItem>(factory));
   EXPECT_TRUE(CanCreateCorrectType<VectorItem>(factory));
   EXPECT_TRUE(CanCreateCorrectType<ViewportAxisItem>(factory));
+  EXPECT_TRUE(CanCreateCorrectType<NodeItem>(factory));
 }
 
 TEST_F(ItemFactoryTests, Construction)

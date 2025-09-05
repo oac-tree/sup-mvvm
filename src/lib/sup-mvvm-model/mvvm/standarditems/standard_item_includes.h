@@ -35,6 +35,7 @@
 #include <mvvm/standarditems/line_series_data_item.h>
 #include <mvvm/standarditems/line_series_item.h>
 #include <mvvm/standarditems/linked_item.h>
+#include <mvvm/standarditems/node_item.h>
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/standarditems/point_item.h>
 #include <mvvm/standarditems/vector_item.h>

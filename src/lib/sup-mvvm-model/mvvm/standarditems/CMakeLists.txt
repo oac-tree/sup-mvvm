@@ -18,6 +18,8 @@ target_sources(${library_name} PRIVATE
     line_series_item.h
     linked_item.cpp
     linked_item.h
+    node_item.cpp
+    node_item.h
     plottable_items.cpp
     plottable_items.h
     point_item.cpp
