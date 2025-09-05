@@ -9,6 +9,7 @@ target_sources(${test} PRIVATE
     chart_viewport_controller_tests.cpp
     customplot
     custom_viewmodel_tests.cpp
+    connectable_shape_tests.cpp
     main.cpp
 )
 
