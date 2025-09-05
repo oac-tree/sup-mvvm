@@ -1,0 +1,80 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2025 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#ifndef MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
+#define MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
+
+#include <QColor>
+#include <QString>
+
+namespace mvvm
+{
+
+/**
+ * @brief The IConnectableShapeAdapter allows to adapt custom object for plotting needs.
+ *
+ * Its concrete implementation will allow ConnectableShape to talk with user implementation (i.e.
+ * InstructionItem).
+ */
+class IConnectableShapeAdapter
+{
+public:
+  IConnectableShapeAdapter() = default;
+  virtual ~IConnectableShapeAdapter() = default;
+
+  IConnectableShapeAdapter(const IConnectableShapeAdapter&) = delete;
+  IConnectableShapeAdapter& operator=(const IConnectableShapeAdapter&) = delete;
+  IConnectableShapeAdapter(IConnectableShapeAdapter&&) = delete;
+  IConnectableShapeAdapter& operator=(IConnectableShapeAdapter&&) = delete;
+
+  /**
+   * @brief Returns a string to be used as a label for the connectable element.
+   */
+  virtual QString GetDisplayName() const;
+
+  /**
+   * @brief Returns a base color to be used for the connectable element.
+   */
+  virtual QColor GetBaseColor() const;
+
+  /**
+   * @brief Returns X coordinate of the connectable element.
+   */
+  virtual double GetX() const = 0;
+
+  /**
+   * @brief Sets X coordinate of the connectable element.
+   */
+  virtual void SetX(double value) = 0;
+
+  /**
+   * @brief Returns Y coordinate of the connectable element.
+   */
+  virtual double GetY() const = 0;
+
+  /**
+   * @brief Sets Y coordinate of the connectable element.
+   */
+  virtual void SetY(double value) = 0;
+};
+
+}  // namespace mvvm
+
+#endif  // MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
