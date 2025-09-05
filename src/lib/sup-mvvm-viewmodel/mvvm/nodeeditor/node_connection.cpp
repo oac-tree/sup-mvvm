@@ -21,6 +21,7 @@
 #include "node_connection.h"
 
 #include "i_node_port.h"
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {
@@ -32,6 +33,11 @@ const INodePort *NodeConnection::GetStartPort() const
 
 void NodeConnection::SetStartPort(INodePort *port)
 {
+  if (m_start_port)
+  {
+    throw RuntimeException("Current logic allows to set connection only once");
+  }
+
   m_start_port = port;
   m_start_port->AppendConnection(this);
 }
@@ -43,6 +49,11 @@ const INodePort *NodeConnection::GetEndPort() const
 
 void NodeConnection::SetEndPort(INodePort *port)
 {
+  if (m_end_port)
+  {
+    throw RuntimeException("Current logic allows to set connection only once");
+  }
+
   m_end_port = port;
   m_end_port->AppendConnection(this);
 }

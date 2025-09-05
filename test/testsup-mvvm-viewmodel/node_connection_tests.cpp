@@ -20,6 +20,7 @@
 
 #include "mvvm/nodeeditor/node_connection.h"
 
+#include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/nodeeditor/node_port.h>
 
 #include <gtest/gtest.h>
@@ -56,6 +57,21 @@ TEST_F(NodeConnectionTest, SetPorts)
   EXPECT_TRUE(connection.HasPort(&start_port));
   EXPECT_TRUE(connection.HasPort(&end_port));
   EXPECT_FALSE(connection.HasPort(nullptr));
+}
+
+TEST_F(NodeConnectionTest, SetPortFailure)
+{
+  NodePort start_port({PortDirection::kOutput, "abc", "deg"});
+  NodePort end_port({PortDirection::kInput, "abc", "deg"});
+
+  NodeConnection connection;
+  connection.SetStartPort(&start_port);
+  EXPECT_THROW(connection.SetStartPort(&start_port), RuntimeException)
+      << "Setting start port twice should throw";
+
+  connection.SetEndPort(&end_port);
+  EXPECT_THROW(connection.SetEndPort(&end_port), RuntimeException)
+      << "Setting end port twice should throw";
 }
 
 }  // namespace mvvm::test
