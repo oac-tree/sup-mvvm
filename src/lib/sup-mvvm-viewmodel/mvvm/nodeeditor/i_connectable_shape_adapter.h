@@ -21,8 +21,11 @@
 #ifndef MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
 #define MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
 
+#include <mvvm/nodeeditor/port_info.h>
+
 #include <QColor>
 #include <QString>
+#include <vector>
 
 namespace mvvm
 {
@@ -73,6 +76,11 @@ public:
    * @brief Sets Y coordinate of the connectable element.
    */
   virtual void SetY(double value) = 0;
+
+  /**
+   * @brief Returns a list of port infos to be used for creating ports on the connectable element.
+   */
+  virtual std::vector<PortInfo> GetPortInfos() const = 0;
 };
 
 }  // namespace mvvm

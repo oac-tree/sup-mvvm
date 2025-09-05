@@ -40,6 +40,7 @@ public:
   MOCK_METHOD(void, SetX, (double), (override));
   MOCK_METHOD(double, GetY, (), (const, override));
   MOCK_METHOD(void, SetY, (double), (override));
+  MOCK_METHOD(std::vector<PortInfo>, GetPortInfos, (), (const, override));
 };
 
 class ConnectableShapeDecorator : public IConnectableShapeAdapter
@@ -51,10 +52,10 @@ public:
   QString GetDisplayName() const override;
   QColor GetBaseColor() const override;
   double GetX() const override;
-
   void SetX(double value) override;
   double GetY() const override;
   void SetY(double value) override;
+  std::vector<PortInfo> GetPortInfos() const override;
 
 private:
   IConnectableShapeAdapter* m_decoratee{nullptr};

@@ -45,6 +45,19 @@ enum class PortDirection : std::uint8_t
   kOutput
 };
 
+/**
+ * @brief The PortLocation enum defines where a port is located on a shape.
+ *
+ * Ports will be evenly distributed along the specified side of the shape.
+ */
+enum class PortLocation : std::uint8_t
+{
+  kLeft,
+  kTop,
+  kRight,
+  kBottom
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_NODE_TYPES_H_

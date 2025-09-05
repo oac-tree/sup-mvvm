@@ -60,4 +60,9 @@ void ConnectableShapeDecorator::SetY(double value)
   m_decoratee->SetY(value);
 }
 
+std::vector<PortInfo> ConnectableShapeDecorator::GetPortInfos() const
+{
+  return m_decoratee->GetPortInfos();
+}
+
 }  // namespace mvvm::test
