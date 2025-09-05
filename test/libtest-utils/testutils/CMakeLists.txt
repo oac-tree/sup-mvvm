@@ -9,6 +9,8 @@ target_sources(${library_name} PRIVATE
   mock_command.h
   mock_command_stack.cpp
   mock_command_stack.h
+  mock_connectable_shape_adapter.cpp
+  mock_connectable_shape_adapter.h
   mock_editor_factory.cpp
   mock_editor_factory.h
   mock_project.h

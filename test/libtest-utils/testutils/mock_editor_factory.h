@@ -21,7 +21,7 @@
 #ifndef LIBTEST_UTILS_TESTUTILS_MOCK_EDITOR_FACTORY_H_
 #define LIBTEST_UTILS_TESTUTILS_MOCK_EDITOR_FACTORY_H_
 
-#include "mvvm/providers/i_editor_factory.h"
+#include <mvvm/providers/i_editor_factory.h>
 
 #include <gmock/gmock.h>
 
