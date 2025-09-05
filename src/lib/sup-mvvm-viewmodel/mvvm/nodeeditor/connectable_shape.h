@@ -39,7 +39,14 @@ public:
                    QGraphicsItem* parent_item = nullptr);
   ~ConnectableShape() override;
 
+  QRectF boundingRect() const override;
+
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
 private:
+  void SetupPorts();
+  void UpdateViewCoordinatesFromItem();
+
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
 };
 

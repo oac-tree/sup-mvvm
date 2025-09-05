@@ -20,7 +20,9 @@
 
 #include "mvvm/nodeeditor/connectable_shape.h"
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <testutils/mock_connectable_shape_adapter.h>
 
 namespace mvvm::test
 {
@@ -30,8 +32,27 @@ namespace mvvm::test
  */
 class ConnectableShapeTest : public ::testing::Test
 {
+public:
+  /**
+   * @brief Returns test object wired with proper connection adapter.
+   */
+  std::unique_ptr<ConnectableShape> CreateConnectableShape()
+  {
+    auto adapter = std::make_unique<ConnectableShapeDecorator>(&m_mock_adapter);
+    return std::make_unique<ConnectableShape>(std::move(adapter));
+  }
+
+  ::testing::StrictMock<test::MockConnectableShapeAdapter> m_mock_adapter;
 };
 
-TEST_F(ConnectableShapeTest, InitialState) {}
+TEST_F(ConnectableShapeTest, InitialState)
+{
+  EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(1.0));
+  EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(2.0));
+
+  auto shape = CreateConnectableShape();
+  EXPECT_EQ(shape->x(), 1.0);
+  EXPECT_EQ(shape->y(), 2.0);
+}
 
 }  // namespace mvvm::test

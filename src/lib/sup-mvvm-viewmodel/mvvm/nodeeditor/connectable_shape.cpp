@@ -29,8 +29,34 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
                                    QGraphicsItem *parent_item)
     : QGraphicsItem(parent_item), m_shape_adapter(std::move(shape_adapter))
 {
+  SetupPorts();
+  UpdateViewCoordinatesFromItem();
 }
 
 ConnectableShape::~ConnectableShape() = default;
+
+QRectF ConnectableShape::boundingRect() const
+{
+  return {0, 0, 10, 10};
+}
+
+void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                             QWidget *widget)
+{
+  (void) painter;
+  (void) option;
+  (void) widget;
+}
+
+void ConnectableShape::SetupPorts()
+{
+
+}
+
+void ConnectableShape::UpdateViewCoordinatesFromItem()
+{
+  setX(m_shape_adapter->GetX());
+  setY(m_shape_adapter->GetY());
+}
 
 }  // namespace mvvm

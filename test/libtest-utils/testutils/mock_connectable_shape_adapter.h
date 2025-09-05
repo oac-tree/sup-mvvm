@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_EDITOR_FACTORY_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_EDITOR_FACTORY_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_CONNECTABLE_SHAPE_ADAPTER_H_
+#define LIBTEST_UTILS_TESTUTILS_MOCK_CONNECTABLE_SHAPE_ADAPTER_H_
 
 #include <mvvm/nodeeditor/i_connectable_shape_adapter.h>
 
@@ -62,4 +62,4 @@ private:
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_EDITOR_FACTORY_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_CONNECTABLE_SHAPE_ADAPTER_H_
