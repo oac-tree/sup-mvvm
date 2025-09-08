@@ -13,6 +13,8 @@ target_sources(${library_name} PRIVATE
   mock_connectable_shape_adapter.h
   mock_editor_factory.cpp
   mock_editor_factory.h
+  mock_node_port.cpp
+  mock_node_port.h
   mock_project.h
   mock_user_interactor.cpp
   mock_user_interactor.h

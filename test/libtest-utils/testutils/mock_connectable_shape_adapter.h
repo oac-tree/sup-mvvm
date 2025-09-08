@@ -43,11 +43,19 @@ public:
   MOCK_METHOD(std::vector<PortInfo>, GetPortInfos, (), (const, override));
 };
 
+/**
+ * @brief The ConnectableShapeDecorator class is a simple forward decorator.
+ */
 class ConnectableShapeDecorator : public IConnectableShapeAdapter
 {
 public:
   explicit ConnectableShapeDecorator(IConnectableShapeAdapter* decoratee);
   ~ConnectableShapeDecorator() override;
+
+  ConnectableShapeDecorator(const ConnectableShapeDecorator&) = delete;
+  ConnectableShapeDecorator& operator=(const ConnectableShapeDecorator&) = delete;
+  ConnectableShapeDecorator(ConnectableShapeDecorator&&) = delete;
+  ConnectableShapeDecorator& operator=(ConnectableShapeDecorator&&) = delete;
 
   QString GetDisplayName() const override;
   QColor GetBaseColor() const override;
