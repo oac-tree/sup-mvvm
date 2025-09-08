@@ -23,10 +23,8 @@
 namespace mvvm
 {
 
-PortInfo::PortInfo(PortDirection port_direction, std::string port_type, std::string port_color)
-    : m_port_direction(port_direction)
-    , m_port_type(std::move(port_type))
-    , m_port_color(std::move(port_color))
+PortInfo::PortInfo(PortDirection port_direction, std::string port_type)
+    : m_port_direction(port_direction), m_port_type(std::move(port_type))
 {
 }
 
@@ -40,15 +38,10 @@ std::string PortInfo::GetPortType() const
   return m_port_type;
 }
 
-std::string PortInfo::GetPortColor() const
-{
-  return m_port_color;
-}
-
 bool operator==(const PortInfo &lhs, const PortInfo &rhs)
 {
   return (lhs.GetPortDirection() == rhs.GetPortDirection())
-         && (lhs.GetPortType() == rhs.GetPortType()) && (lhs.GetPortColor() == rhs.GetPortColor());
+         && (lhs.GetPortType() == rhs.GetPortType());
 }
 
 bool operator!=(const PortInfo &lhs, const PortInfo &rhs)

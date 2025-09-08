@@ -46,8 +46,8 @@ TEST_F(NodeConnectionTest, InitialState)
 
 TEST_F(NodeConnectionTest, SetPorts)
 {
-  NodePort start_port({PortDirection::kOutput, "abc", "deg"});
-  NodePort end_port({PortDirection::kInput, "abc", "deg"});
+  NodePort start_port({PortDirection::kOutput, "abc"});
+  NodePort end_port({PortDirection::kInput, "abc"});
 
   NodeConnection connection;
   connection.SetStartPort(&start_port);
@@ -61,8 +61,8 @@ TEST_F(NodeConnectionTest, SetPorts)
 
 TEST_F(NodeConnectionTest, SetPortFailure)
 {
-  NodePort start_port({PortDirection::kOutput, "abc", "deg"});
-  NodePort end_port({PortDirection::kInput, "abc", "deg"});
+  NodePort start_port({PortDirection::kOutput, "abc"});
+  NodePort end_port({PortDirection::kInput, "abc"});
 
   NodeConnection connection;
   connection.SetStartPort(&start_port);

@@ -37,7 +37,7 @@ class NodePortTest : public ::testing::Test
 
 TEST_F(NodePortTest, InitialState)
 {
-  const PortInfo port_info{PortDirection::kDefault, "type_abc", "color"};
+  const PortInfo port_info{PortDirection::kDefault, "type_abc"};
 
   const NodePort node_port(port_info);
 
@@ -55,7 +55,7 @@ TEST_F(NodePortTest, AppendRemoveConnection)
 {
   NodeConnection connection;
 
-  NodePort node_port({PortDirection::kDefault, "type_abc", "color"});
+  NodePort node_port({PortDirection::kDefault, "type_abc"});
   EXPECT_TRUE(node_port.GetConnections().empty());
 
   node_port.AppendConnection(&connection);
@@ -78,7 +78,7 @@ TEST_F(NodePortTest, AppendThreeConnections)
   NodeConnection connection2;
   NodeConnection connection3;
 
-  NodePort node_port({PortDirection::kDefault, "type_abc", "color"});
+  NodePort node_port({PortDirection::kDefault, "type_abc"});
   node_port.AppendConnection(&connection1);
   node_port.AppendConnection(&connection2);
   node_port.AppendConnection(&connection3);
@@ -93,9 +93,9 @@ TEST_F(NodePortTest, AppendThreeConnections)
 
 TEST_F(NodePortTest, IsConnected)
 {
-  NodePort port1({PortDirection::kInput, "type_abc", "color"});
-  NodePort port2({PortDirection::kOutput, "type_abc", "color"});
-  NodePort port3({PortDirection::kOutput, "type_abc", "color"});
+  NodePort port1({PortDirection::kInput, "type_abc"});
+  NodePort port2({PortDirection::kOutput, "type_abc"});
+  NodePort port3({PortDirection::kOutput, "type_abc"});
 
   NodeConnection connection1;
   connection1.SetStartPort(&port1);
@@ -112,43 +112,43 @@ TEST_F(NodePortTest, IsConnected)
 TEST_F(NodePortTest, IsConnectable)
 {
   {
-    NodePort port1({PortDirection::kInput, "type_abc", "color"});
-    NodePort port2({PortDirection::kOutput, "type_abc", "color"});
+    NodePort port1({PortDirection::kInput, "type_abc"});
+    NodePort port2({PortDirection::kOutput, "type_abc"});
     EXPECT_TRUE(port1.IsConnectable(&port2));
     EXPECT_TRUE(port2.IsConnectable(&port1));
   }
 
   {
-    NodePort port1({PortDirection::kOutput, "type_abc", "color"});
-    NodePort port2({PortDirection::kInput, "type_abc", "color"});
+    NodePort port1({PortDirection::kOutput, "type_abc"});
+    NodePort port2({PortDirection::kInput, "type_abc"});
     EXPECT_TRUE(port1.IsConnectable(&port2));
     EXPECT_TRUE(port2.IsConnectable(&port1));
   }
 
   {
-    NodePort port1({PortDirection::kInput, "type_abc", "color"});
-    NodePort port2({PortDirection::kOutput, "type_xyz", "color"});
+    NodePort port1({PortDirection::kInput, "type_abc"});
+    NodePort port2({PortDirection::kOutput, "type_xyz"});
     EXPECT_FALSE(port1.IsConnectable(&port2));
     EXPECT_FALSE(port2.IsConnectable(&port1));
   }
 
   {
-    NodePort port1({PortDirection::kDefault, "type_abc", "color"});
-    NodePort port2({PortDirection::kDefault, "type_abc", "color"});
+    NodePort port1({PortDirection::kDefault, "type_abc"});
+    NodePort port2({PortDirection::kDefault, "type_abc"});
     EXPECT_FALSE(port1.IsConnectable(&port2));
     EXPECT_FALSE(port2.IsConnectable(&port1));
   }
 
   {
-    NodePort port1({PortDirection::kInput, "type_abc", "color"});
-    NodePort port2({PortDirection::kInput, "type_abc", "color"});
+    NodePort port1({PortDirection::kInput, "type_abc"});
+    NodePort port2({PortDirection::kInput, "type_abc"});
     EXPECT_FALSE(port1.IsConnectable(&port2));
     EXPECT_FALSE(port2.IsConnectable(&port1));
   }
 
   {
-    NodePort port1({PortDirection::kOutput, "type_abc", "color"});
-    NodePort port2({PortDirection::kOutput, "type_abc", "color"});
+    NodePort port1({PortDirection::kOutput, "type_abc"});
+    NodePort port2({PortDirection::kOutput, "type_abc"});
     EXPECT_FALSE(port1.IsConnectable(&port2));
     EXPECT_FALSE(port2.IsConnectable(&port1));
   }

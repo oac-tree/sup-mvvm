@@ -29,7 +29,7 @@ namespace mvvm
 {
 
 /**
- * @brief The PortInfo contains a simple information about the node port.
+ * @brief The PortInfo contains an information about the node port related to the connection logic.
  *
  * Ports of the same type can be connected together.
  */
@@ -37,9 +37,9 @@ class PortInfo
 {
 public:
   /**
-   * @brief Initiazes a PortInfo with the given direction, type and color.
+   * @brief Initiazes a PortInfo with the given direction and type.
    */
-  PortInfo(PortDirection port_direction, std::string port_type, std::string port_color);
+  PortInfo(PortDirection port_direction, std::string port_type);
 
   /**
    * @brief Returns port direction.
@@ -54,18 +54,9 @@ public:
    */
   std::string GetPortType() const;
 
-  /**
-   * @brief Returns a string representing a port color.
-   *
-   * This should be the name which QColor understands,
-   * i.e. https://www.w3.org/TR/css-color-3/#svg-color, or any "#RRGGBB" format.
-   */
-  std::string GetPortColor() const;
-
 private:
   PortDirection m_port_direction;
   std::string m_port_type;
-  std::string m_port_color;
 };
 
 bool operator==(const PortInfo& lhs, const PortInfo& rhs);

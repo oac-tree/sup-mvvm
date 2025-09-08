@@ -34,38 +34,30 @@ class PortInfoTest : public ::testing::Test
 
 TEST_F(PortInfoTest, InitialState)
 {
-  const PortInfo info(PortDirection::kDefault, "abc", "def");
+  const PortInfo info(PortDirection::kDefault, "abc");
   EXPECT_EQ(info.GetPortType(), std::string("abc"));
-  EXPECT_EQ(info.GetPortColor(), std::string("def"));
   EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
 }
 
 TEST_F(PortInfoTest, ComparisonOperators)
 {
   {
-    const PortInfo info1(PortDirection::kDefault, "abc", "def");
-    const PortInfo info2(PortDirection::kDefault, "abc", "def");
+    const PortInfo info1(PortDirection::kDefault, "abc");
+    const PortInfo info2(PortDirection::kDefault, "abc");
     EXPECT_TRUE(info1 == info2);
     EXPECT_FALSE(info1 != info2);
   }
 
   {
-    const PortInfo info1(PortDirection::kInput, "abc", "def");
-    const PortInfo info2(PortDirection::kOutput, "abc", "def");
+    const PortInfo info1(PortDirection::kInput, "abc");
+    const PortInfo info2(PortDirection::kOutput, "abc");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }
 
   {
-    const PortInfo info1(PortDirection::kDefault, "abc", "def");
-    const PortInfo info2(PortDirection::kDefault, "def", "def");
-    EXPECT_FALSE(info1 == info2);
-    EXPECT_TRUE(info1 != info2);
-  }
-
-  {
-    const PortInfo info1(PortDirection::kDefault, "abc", "abc");
-    const PortInfo info2(PortDirection::kDefault, "abc", "def");
+    const PortInfo info1(PortDirection::kDefault, "abc");
+    const PortInfo info2(PortDirection::kDefault, "def");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }
