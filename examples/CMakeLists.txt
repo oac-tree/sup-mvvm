@@ -10,6 +10,7 @@ add_subdirectory(flatview)
 add_subdirectory(hello-world)
 add_subdirectory(lineseries)
 add_subdirectory(saveloadproject)
+add_subdirectory(behavior-tree)
 
 if (SUP_MVVM_BUILD_QCUSTOMPLOT)
   add_subdirectory(concurrentplot)
