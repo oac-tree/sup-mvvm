@@ -23,7 +23,9 @@
 
 #include <mvvm/nodeeditor/node_editor_types.h>
 
-#include <string>
+#include <QColor>
+#include <QRectF>
+#include <QString>
 
 namespace mvvm
 {
@@ -37,7 +39,7 @@ public:
   /**
    * @brief Initiazes a PortAppearance with the given location, type and color.
    */
-  PortAppearance(PortLocation port_location, std::string port_label, std::string port_color);
+  PortAppearance(PortLocation port_location, const QString& port_label, const QColor& port_color);
 
   /**
    * @brief Returns location of the port.
@@ -47,20 +49,30 @@ public:
   /**
    * @brief Returns a port label.
    */
-  std::string GetPortLabel() const;
+  QString GetPortLabel() const;
 
   /**
-   * @brief Returns a string representing a port color.
-   *
-   * This should be the name which QColor understands,
-   * i.e. https://www.w3.org/TR/css-color-3/#svg-color, or any "#RRGGBB" format.
+   * @brief Returns a port color.
    */
-  std::string GetPortColor() const;
+  QColor GetPortColor() const;
+
+  /**
+   * @brief Returns a bounding rectangle for the port appearance.
+   */
+  QRectF GetBoundingRect() const;
+
+  /**
+   * @brief Returns port radius.
+   */
+  double GetPortRadius() const;
 
 private:
+  void CalculateBoundingRect();
+
   PortLocation m_port_location;
-  std::string m_port_label;
-  std::string m_port_color;
+  QString m_port_label;
+  QColor m_port_color;
+  QRectF m_bounding_rect;
 };
 
 bool operator==(const PortAppearance& lhs, const PortAppearance& rhs);

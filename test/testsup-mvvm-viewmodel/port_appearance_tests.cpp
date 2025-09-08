@@ -34,38 +34,38 @@ class PortAppearanceTest : public ::testing::Test
 
 TEST_F(PortAppearanceTest, InitialState)
 {
-  const PortAppearance info(PortLocation::kTop, "abc", "def");
+  const PortAppearance info(PortLocation::kTop, "abc", "red");
   EXPECT_EQ(info.GetPortLabel(), std::string("abc"));
-  EXPECT_EQ(info.GetPortColor(), std::string("def"));
+  EXPECT_EQ(info.GetPortColor(), QColor("red"));
   EXPECT_EQ(info.GetPortLocation(), PortLocation::kTop);
 }
 
 TEST_F(PortAppearanceTest, ComparisonOperators)
 {
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "def");
-    const PortAppearance info2(PortLocation::kTop, "abc", "def");
+    const PortAppearance info1(PortLocation::kTop, "abc", "red");
+    const PortAppearance info2(PortLocation::kTop, "abc", "red");
     EXPECT_TRUE(info1 == info2);
     EXPECT_FALSE(info1 != info2);
   }
 
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "def");
-    const PortAppearance info2(PortLocation::kBottom, "abc", "def");
+    const PortAppearance info1(PortLocation::kTop, "abc", "red");
+    const PortAppearance info2(PortLocation::kBottom, "abc", "red");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }
 
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "def");
-    const PortAppearance info2(PortLocation::kTop, "def", "def");
+    const PortAppearance info1(PortLocation::kTop, "abc", "red");
+    const PortAppearance info2(PortLocation::kTop, "def", "red");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }
 
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "abc");
-    const PortAppearance info2(PortLocation::kTop, "abc", "def");
+    const PortAppearance info1(PortLocation::kTop, "abc", "red");
+    const PortAppearance info2(PortLocation::kTop, "abc", "green");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }

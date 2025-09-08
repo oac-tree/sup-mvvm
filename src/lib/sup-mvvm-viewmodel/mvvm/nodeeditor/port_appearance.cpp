@@ -20,15 +20,16 @@
 
 #include "port_appearance.h"
 
+#include <QFontMetrics>
+
 namespace mvvm
 {
 
-PortAppearance::PortAppearance(PortLocation port_location, std::string port_label,
-                               std::string port_color)
-    : m_port_location(port_location)
-    , m_port_label(std::move(port_label))
-    , m_port_color(std::move(port_color))
+PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label,
+                               const QColor &port_color)
+    : m_port_location(port_location), m_port_label(port_label), m_port_color(port_color)
 {
+  CalculateBoundingRect();
 }
 
 PortLocation PortAppearance::GetPortLocation() const
@@ -36,14 +37,32 @@ PortLocation PortAppearance::GetPortLocation() const
   return m_port_location;
 }
 
-std::string PortAppearance::GetPortLabel() const
+QString PortAppearance::GetPortLabel() const
 {
   return m_port_label;
 }
 
-std::string PortAppearance::GetPortColor() const
+QColor PortAppearance::GetPortColor() const
 {
   return m_port_color;
+}
+
+QRectF PortAppearance::GetBoundingRect() const
+{
+  return m_bounding_rect;
+}
+
+double PortAppearance::GetPortRadius() const
+{
+  return 10;
+}
+
+void PortAppearance::CalculateBoundingRect()
+{
+  // FIXME implement properly taking into accound port circle and label
+  const QPointF top_left{0.0, 0.0};
+  const QSizeF size{20.0, 20.0};
+  m_bounding_rect = QRectF{top_left, size};
 }
 
 bool operator==(const PortAppearance &lhs, const PortAppearance &rhs)
