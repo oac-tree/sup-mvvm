@@ -22,9 +22,12 @@
 #define MVVM_NODEEDITOR_NODE_PORT_SHAPE_H_
 
 #include <mvvm/nodeeditor/i_node_port.h>
+#include <mvvm/nodeeditor/port_appearance.h>
 
-#include <QGraphicsPathItem>
+#include <QGraphicsItem>
 #include <memory>
+
+class QGraphicsTextItem;
 
 namespace mvvm
 {
@@ -36,13 +39,20 @@ class INodePort;
  *
  * It looks line a small filled circle with the border.
  */
-class NodePortShape : public QGraphicsPathItem
+class NodePortShape : public QGraphicsItem
 {
 public:
-  NodePortShape(std::unique_ptr<INodePort> node_port, QGraphicsItem* parent);
+  NodePortShape(PortAppearance port_appearance, std::unique_ptr<INodePort> node_port,
+                QGraphicsItem* parent);
+
+  QRectF boundingRect() const override;
+
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 private:
+  PortAppearance m_port_appearance;
   std::unique_ptr<INodePort> m_node_port;
+  QGraphicsTextItem* m_label{nullptr};
 };
 
 }  // namespace mvvm

@@ -20,12 +20,43 @@
 
 #include "node_port_shape.h"
 
+#include <QPainter>
+
 namespace mvvm
 {
 
-NodePortShape::NodePortShape(std::unique_ptr<INodePort> node_port, QGraphicsItem *parent)
-    : QGraphicsPathItem(parent), m_node_port(std::move(node_port))
+NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INodePort> node_port,
+                             QGraphicsItem *parent)
+    : QGraphicsItem(parent), m_port_appearance(port_appearance), m_node_port(std::move(node_port))
 {
+}
+
+QRectF NodePortShape::boundingRect() const
+{
+  return m_port_appearance.GetBoundingRect();
+}
+
+void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                          QWidget *widget)
+{
+  (void)widget;
+  (void)option;
+
+  static const QPen pen = QPen(m_port_appearance.GetPortColor().darker(180));
+  static const QBrush brush = QBrush(m_port_appearance.GetPortColor());
+
+  painter->save();
+  painter->setRenderHint(QPainter::Antialiasing);
+  painter->setPen(pen);
+  painter->setBrush(brush);
+
+  const double x_size = 2.0 * m_port_appearance.GetPortRadius();
+  const QPointF center(0.0, 0.0);
+
+  QRectF ellipse_rect(0.0, 0.0, x_size, x_size);
+  ellipse_rect.moveCenter(center);
+  painter->drawEllipse(ellipse_rect);
+  painter->restore();
 }
 
 }  // namespace mvvm
