@@ -37,7 +37,7 @@ class PortAppearance
 {
 public:
   /**
-   * @brief Initiazes a PortAppearance with the given location, type and color.
+   * @brief Initiazes a PortAppearance with the given location, label and color.
    */
   PortAppearance(PortLocation port_location, const QString& port_label, const QColor& port_color);
 
