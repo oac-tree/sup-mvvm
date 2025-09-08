@@ -58,6 +58,16 @@ enum class PortLocation : std::uint8_t
   kBottom
 };
 
+/**
+ * @brief The NodeTreeLayout enum defines presentation of the node tree.
+ * It can be either top-to-bottom (like a behavior tree) or left-to-right (like a data flow).
+ */
+enum class NodeTreeLayout : std::uint8_t
+{
+  kTopToBottom,
+  kLeftToRight
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_NODE_TYPES_H_
