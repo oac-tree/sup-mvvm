@@ -7,6 +7,7 @@ target_sources(${library_name} PRIVATE
   i_connectable_shape_adapter.h
   i_node_connection.h
   i_node_port.h
+  i_port_position_strategy.h
   node_connection.cpp
   node_connection.h
   node_connection_shape.cpp

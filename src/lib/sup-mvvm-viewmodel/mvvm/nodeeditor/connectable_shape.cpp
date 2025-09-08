@@ -50,6 +50,10 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
 void ConnectableShape::SetupPorts()
 {
+  // for (const auto &port_info : m_shape_adapter->GetPortInfos())
+  // {
+
+  // }
 
 }
 
