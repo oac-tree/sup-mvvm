@@ -12,6 +12,8 @@ target_sources(${library_name} PRIVATE
   node_connection.h
   node_connection_shape.cpp
   node_connection_shape.h
+  node_editor_helper.cpp
+  node_editor_helper.h
   node_editor_types.h
   node_port.cpp
   node_port.h
