@@ -34,6 +34,7 @@ namespace mvvm::test
 class MockPortPositionStrategy : public IPortPositionStrategy
 {
 public:
+  MOCK_METHOD(NodeTreeLayout, GetNodeTreeLayout, (), (const, override));
   MOCK_METHOD(QPointF, GetPortPosition,
               (PortDirection port_direction, std::size_t port_index, std::size_t total_ports,
                const QRectF& shape_rect),
@@ -49,6 +50,7 @@ class PortPositionStrategyDecorator : public IPortPositionStrategy
 public:
   explicit PortPositionStrategyDecorator(IPortPositionStrategy* decoratee);
 
+  NodeTreeLayout GetNodeTreeLayout() const override;
   QPointF GetPortPosition(PortDirection port_direction, std::size_t port_index,
                           std::size_t total_ports, const QRectF& shape_rect) const override;
 

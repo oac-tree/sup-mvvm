@@ -27,6 +27,11 @@ PortPositionStrategyDecorator::PortPositionStrategyDecorator(IPortPositionStrate
 {
 }
 
+NodeTreeLayout PortPositionStrategyDecorator::GetNodeTreeLayout() const
+{
+  return m_decoratee->GetNodeTreeLayout();
+}
+
 QPointF PortPositionStrategyDecorator::GetPortPosition(PortDirection port_direction,
                                                        std::size_t port_index,
                                                        std::size_t total_ports,

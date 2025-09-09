@@ -38,13 +38,16 @@ TEST_F(TopBottomPositionStrategyTest, GetPortPositionFailed)
 {
   const TopBottomPortPositionStrategy strategy;
 
+  EXPECT_EQ(strategy.GetNodeTreeLayout(), NodeTreeLayout::kTopToBottom);
+
   const double width = 10.0;
   const double height = 20.0;
-
   const QRectF rect{0.0, 0.0, width, height};
 
-  EXPECT_THROW(strategy.GetPortPosition(PortDirection::kInput, 1, 1, rect), RuntimeException);
-  EXPECT_THROW(strategy.GetPortPosition(PortDirection::kInput, 1, 0, rect), RuntimeException);
+  EXPECT_THROW(strategy.GetPortPosition(PortDirection::kInput, 1, 1, rect), RuntimeException)
+      << "Should throw when port_index >= total_ports";
+  EXPECT_THROW(strategy.GetPortPosition(PortDirection::kInput, 1, 0, rect), RuntimeException)
+      << "Should throw when total_ports == 0";
 
   EXPECT_EQ(strategy.GetPortPosition(PortDirection::kDefault, 0, 1, rect), QPointF());
 }

@@ -43,6 +43,8 @@ public:
   TopBottomPortPositionStrategy(TopBottomPortPositionStrategy&&) = delete;
   TopBottomPortPositionStrategy& operator=(TopBottomPortPositionStrategy&&) = delete;
 
+  NodeTreeLayout GetNodeTreeLayout() const;
+
   QPointF GetPortPosition(PortDirection port_direction, std::size_t port_index,
                           std::size_t total_ports, const QRectF& shape_rect) const override;
 };

@@ -45,6 +45,11 @@ public:
   IPortPositionStrategy& operator=(IPortPositionStrategy&&) = delete;
 
   /**
+   * @brief Returns the layout of the node tree (e.g. top-to-bottom, left-to-right).
+   */
+  virtual NodeTreeLayout GetNodeTreeLayout() const = 0;
+
+  /**
    * @brief Returns the position of the port on the shape rectangle.
    *
    * @param port_direction The port's direction (input/output).

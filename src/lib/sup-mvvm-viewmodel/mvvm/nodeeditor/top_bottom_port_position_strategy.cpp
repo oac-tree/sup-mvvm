@@ -57,6 +57,11 @@ QPointF GetTopLocation(std::size_t port_index, std::size_t total_ports, const QR
 
 }  // namespace
 
+NodeTreeLayout TopBottomPortPositionStrategy::GetNodeTreeLayout() const
+{
+  return NodeTreeLayout::kTopToBottom;
+}
+
 QPointF TopBottomPortPositionStrategy::GetPortPosition(PortDirection port_direction,
                                                        std::size_t port_index,
                                                        std::size_t total_ports,
