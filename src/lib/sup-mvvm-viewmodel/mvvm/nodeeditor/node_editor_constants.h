@@ -26,6 +26,7 @@
 //! make MISRA happy.
 
 #include <QColor>
+#include <QFont>
 
 namespace mvvm::constants
 {
@@ -39,6 +40,11 @@ double GetDefaultPortRadius();
  * @brief Returns default color of the port.
  */
 const QColor& GetDefaultPortColor();
+
+/**
+ * @brief Returns default font for NodePort label.
+ */
+const QFont& GetDefaultPortLabelFont();
 
 }  // namespace mvvm::constants
 

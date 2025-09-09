@@ -20,6 +20,8 @@
 
 #include "node_editor_constants.h"
 
+#include <QFont>
+
 namespace mvvm::constants
 {
 
@@ -32,6 +34,12 @@ const QColor &GetDefaultPortColor()
 {
   static const QColor kDefaultPortColor("navajowhite");
   return kDefaultPortColor;
+}
+
+const QFont &GetDefaultPortLabelFont()
+{
+  static const QFont kLabelFont("Monospace", 8, QFont::Normal);
+  return kLabelFont;
 }
 
 }  // namespace mvvm::constants

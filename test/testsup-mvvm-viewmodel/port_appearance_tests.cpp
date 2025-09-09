@@ -72,4 +72,6 @@ TEST_F(PortAppearanceTest, ComparisonOperators)
   }
 }
 
+
+
 }  // namespace mvvm::test

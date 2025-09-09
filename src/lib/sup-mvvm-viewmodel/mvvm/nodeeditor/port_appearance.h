@@ -63,18 +63,11 @@ public:
   QColor GetPortColor() const;
 
   /**
-   * @brief Returns a bounding rectangle for the port appearance.
-   */
-  QRectF GetBoundingRect() const;
-
-  /**
    * @brief Returns port radius.
    */
   double GetPortRadius() const;
 
 private:
-  void CalculateBoundingRect();
-
   PortLocation m_port_location;
   QString m_port_label;
   QColor m_port_color;

@@ -20,8 +20,6 @@
 
 #include "port_appearance.h"
 
-#include <QFontMetrics>
-
 namespace mvvm
 {
 
@@ -43,7 +41,6 @@ PortAppearance::PortAppearance(PortLocation port_location, const QString &port_l
     , m_port_color(port_color)
     , m_port_radius(port_radius)
 {
-  CalculateBoundingRect();
 }
 
 PortLocation PortAppearance::GetPortLocation() const
@@ -61,22 +58,9 @@ QColor PortAppearance::GetPortColor() const
   return m_port_color;
 }
 
-QRectF PortAppearance::GetBoundingRect() const
-{
-  return m_bounding_rect;
-}
-
 double PortAppearance::GetPortRadius() const
 {
   return m_port_radius;
-}
-
-void PortAppearance::CalculateBoundingRect()
-{
-  // FIXME implement properly taking into accound port circle and label
-  const QPointF top_left{0.0, 0.0};
-  const QSizeF size{20.0, 20.0};
-  m_bounding_rect = QRectF{top_left, size};
 }
 
 bool operator==(const PortAppearance &lhs, const PortAppearance &rhs)

@@ -45,8 +45,6 @@ TEST_F(NodePortShapeTest, InitialState)
 {
   const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
   auto shape = CreateNodePortShape(port_appearance);
-
-  EXPECT_EQ(shape->boundingRect(), port_appearance.GetBoundingRect());
 }
 
 }  // namespace mvvm::test
