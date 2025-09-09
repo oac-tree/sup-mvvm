@@ -22,6 +22,7 @@
 
 #include "i_connectable_shape_adapter.h"
 #include "i_port_position_strategy.h"
+#include "node_editor_constants.h"
 #include "node_editor_helper.h"
 #include "node_port.h"
 #include "node_port_shape.h"
@@ -30,6 +31,10 @@
 
 namespace mvvm
 {
+
+namespace {
+const int kRoundPar = 5;
+}
 
 ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
                                    std::unique_ptr<IPortPositionStrategy> port_position_strategy,
@@ -48,6 +53,12 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
     throw RuntimeException("Port position strategy is not provided");
   }
 
+  CalculateBoundingBox();
+  setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+  setFlag(QGraphicsItem::ItemIsSelectable);
+  setFlag(QGraphicsItem::ItemIsMovable);
+  setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+
   SetupPorts();
   UpdateViewCoordinatesFromItem();
 }
@@ -56,7 +67,7 @@ ConnectableShape::~ConnectableShape() = default;
 
 QRectF ConnectableShape::boundingRect() const
 {
-  return {0, 0, 10, 10};
+  return m_bounding_box;
 }
 
 void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -65,6 +76,13 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   (void)painter;
   (void)option;
   (void)widget;
+}
+
+void ConnectableShape::CalculateBoundingBox()
+{
+  // adding margins for a pen
+  m_bounding_box =
+      constants::GetDefaultConnectableShapeRect().marginsAdded(QMarginsF(1.0, 1.0, 1.0, 1.0));
 }
 
 void ConnectableShape::SetupPorts()

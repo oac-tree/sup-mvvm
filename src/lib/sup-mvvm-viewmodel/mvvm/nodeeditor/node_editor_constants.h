@@ -27,9 +27,18 @@
 
 #include <QColor>
 #include <QFont>
+#include <QRectF>
 
 namespace mvvm::constants
 {
+
+/**
+ * @brief Characteristic size of node unit.
+ *
+ * This corresponds to the width of the letter 'M'.
+ * FIXME remove duplication after widget_utils.h refactoring.
+ */
+double NodeUnitSize(double scale);
 
 /**
  * @brief Returns default radious of the port.
@@ -45,6 +54,11 @@ const QColor& GetDefaultPortColor();
  * @brief Returns default font for NodePort label.
  */
 const QFont& GetDefaultPortLabelFont();
+
+/**
+ * @brief Returns default rectangle for connectable shape.
+ */
+const QRectF& GetDefaultConnectableShapeRect();
 
 }  // namespace mvvm::constants
 

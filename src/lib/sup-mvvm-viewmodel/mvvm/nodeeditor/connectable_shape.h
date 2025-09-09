@@ -54,6 +54,8 @@ public:
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 private:
+  void CalculateBoundingBox();
+
   /**
    * @brief Creates input and output ports according to the shape adapter information.
    */
@@ -73,6 +75,7 @@ private:
 
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
   std::unique_ptr<IPortPositionStrategy> m_port_position_strategy;
+  QRectF m_bounding_box;
 };
 
 }  // namespace mvvm

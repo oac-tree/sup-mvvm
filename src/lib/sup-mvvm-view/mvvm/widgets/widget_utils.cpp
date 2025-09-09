@@ -70,8 +70,6 @@ QSize& GetGlobalSizeReference()
   return result;
 }
 
-const QString untitled_name = "Untitled";
-
 }  // namespace
 
 int RandInt(std::int32_t low, std::int32_t high)
