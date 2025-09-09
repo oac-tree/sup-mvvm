@@ -57,16 +57,63 @@ TEST_F(ConnectableShapeTest, InvalidInitialization)
   EXPECT_THROW(ConnectableShape(std::make_unique<ConnectableShapeDecorator>(&m_mock_adapter), {}),
                RuntimeException);
 
+  // EXPECT_CALL(m_mock_position_strategy, GetNodeTreeLayout()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetY()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
 
   EXPECT_NO_THROW(CreateConnectableShape());
+}
+
+TEST_F(ConnectableShapeTest, SetupPorts)
+{
+  const std::vector<PortInfo> input_ports = {
+      PortInfo(PortDirection::kInput, "port_type", "label1")};
+  const std::vector<PortInfo> output_ports = {
+      PortInfo(PortDirection::kOutput, "port_type", "label2")};
+
+  std::vector<PortInfo> all_ports = input_ports;
+  all_ports.insert(all_ports.end(), output_ports.begin(), output_ports.end());
+
+  ON_CALL(m_mock_position_strategy, GetNodeTreeLayout())
+      .WillByDefault(::testing::Return(NodeTreeLayout::kTopToBottom));
+
+  EXPECT_CALL(m_mock_position_strategy, GetNodeTreeLayout()).Times(::testing::AtLeast(1));
+  EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(0.0));
+  EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(0.0));
+  EXPECT_CALL(m_mock_adapter, GetPortInfos()).WillOnce(::testing::Return(all_ports));
+
+  // Expect creating input ports
+  for (std::size_t i = 0; i < input_ports.size(); ++i)
+  {
+    EXPECT_CALL(m_mock_position_strategy,
+                GetPortPosition(PortDirection::kInput, i, input_ports.size(), ::testing::_))
+        .WillOnce(::testing::Return(QPointF{static_cast<double>(i), 1.0}));
+  }
+
+  // Expect creating output ports
+  for (std::size_t i = 0; i < output_ports.size(); ++i)
+  {
+    EXPECT_CALL(m_mock_position_strategy,
+                GetPortPosition(PortDirection::kOutput, i, output_ports.size(), ::testing::_))
+        .WillOnce(::testing::Return(QPointF{static_cast<double>(i), -1.0}));
+  }
+
+  auto shape = CreateConnectableShape();
+  auto child_items = shape->childItems();
+  ASSERT_EQ(child_items.size(), all_ports.size());
+
+  EXPECT_DOUBLE_EQ(child_items[0]->pos().x(), 0.0);
+  EXPECT_DOUBLE_EQ(child_items[0]->pos().y(), 1.0);
+  EXPECT_DOUBLE_EQ(child_items[1]->pos().x(), 0.0);
+  EXPECT_DOUBLE_EQ(child_items[1]->pos().y(), -1.0);
 }
 
 TEST_F(ConnectableShapeTest, SettingPosition)
 {
   EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(1.0));
   EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(2.0));
+  EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
 
   auto shape = CreateConnectableShape();
   EXPECT_EQ(shape->x(), 1.0);

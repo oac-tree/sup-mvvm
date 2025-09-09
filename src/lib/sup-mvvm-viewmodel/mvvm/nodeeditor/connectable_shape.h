@@ -21,6 +21,8 @@
 #ifndef MVVM_NODEEDITOR_CONNECTABLE_SHAPE_H_
 #define MVVM_NODEEDITOR_CONNECTABLE_SHAPE_H_
 
+#include <mvvm/nodeeditor/node_editor_types.h>
+
 #include <QGraphicsItem>
 #include <memory>
 
@@ -29,6 +31,7 @@ namespace mvvm
 
 class IConnectableShapeAdapter;
 class IPortPositionStrategy;
+class PortInfo;
 
 /**
  * @brief The ConnectableShape is a graphics object which have ports for connecting other objects.
@@ -51,7 +54,21 @@ public:
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 private:
+  /**
+   * @brief Creates input and output ports according to the shape adapter information.
+   */
   void SetupPorts();
+
+  /**
+   * @brief Creates port shapes for the given direction using provided port infos.
+   */
+  void SetupPortsForDirection(const std::vector<PortInfo>& port_infos,
+                              PortDirection port_direction);
+
+  /**
+   * @brief Creates a port shape for the given port info.
+   */
+  std::unique_ptr<QGraphicsItem> CreateNodePortShape(const PortInfo& port_info);
   void UpdateViewCoordinatesFromItem();
 
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
