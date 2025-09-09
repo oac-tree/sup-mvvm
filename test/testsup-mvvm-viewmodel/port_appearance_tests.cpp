@@ -35,7 +35,7 @@ class PortAppearanceTest : public ::testing::Test
 TEST_F(PortAppearanceTest, InitialState)
 {
   const PortAppearance info(PortLocation::kTop, "abc", "red");
-  EXPECT_EQ(info.GetPortLabel(), std::string("abc"));
+  EXPECT_EQ(info.GetPortLabel(), QString("abc"));
   EXPECT_EQ(info.GetPortColor(), QColor("red"));
   EXPECT_EQ(info.GetPortLocation(), PortLocation::kTop);
 }
