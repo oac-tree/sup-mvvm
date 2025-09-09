@@ -50,12 +50,6 @@ class NodePortDecorator : public INodePort
 {
 public:
   explicit NodePortDecorator(INodePort* decoratee);
-  ~NodePortDecorator() override;
-
-  NodePortDecorator(const NodePortDecorator&) = delete;
-  NodePortDecorator& operator=(const NodePortDecorator&) = delete;
-  NodePortDecorator(NodePortDecorator&&) = delete;
-  NodePortDecorator& operator=(NodePortDecorator&&) = delete;
 
   PortDirection GetPortDirection() const override;
   std::string GetPortType() const override;

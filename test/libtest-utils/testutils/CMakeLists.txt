@@ -15,6 +15,8 @@ target_sources(${library_name} PRIVATE
   mock_editor_factory.h
   mock_node_port.cpp
   mock_node_port.h
+  mock_port_position_strategy.cpp
+  mock_port_position_strategy.h
   mock_project.h
   mock_user_interactor.cpp
   mock_user_interactor.h

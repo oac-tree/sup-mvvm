@@ -27,7 +27,10 @@ namespace mvvm
 {
 
 /**
- * @brief The TopBottomPortPositionStrategy i.
+ * @brief The TopBottomPortPositionStrategy places input port at the bottom of the item's rectangle,
+ * and output ports at the top.
+ *
+ * Ports will be evenly distributed along corresponding side.
  */
 class TopBottomPortPositionStrategy : public IPortPositionStrategy
 {

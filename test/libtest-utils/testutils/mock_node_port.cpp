@@ -25,8 +25,6 @@ namespace mvvm::test
 
 NodePortDecorator::NodePortDecorator(INodePort *decoratee) : m_decoratee(decoratee) {}
 
-NodePortDecorator::~NodePortDecorator() = default;
-
 PortDirection NodePortDecorator::GetPortDirection() const
 {
   return m_decoratee->GetPortDirection();
