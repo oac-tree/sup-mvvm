@@ -37,9 +37,14 @@ class ConnectableShape : public QGraphicsItem
 {
 public:
   explicit ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
-                           std::unique_ptr<IPortPositionStrategy> port_position,
-                   QGraphicsItem* parent_item = nullptr);
+                            std::unique_ptr<IPortPositionStrategy> port_position_strategy,
+                            QGraphicsItem* parent_item = nullptr);
   ~ConnectableShape() override;
+
+  ConnectableShape(const ConnectableShape&) = delete;
+  ConnectableShape& operator=(const ConnectableShape&) = delete;
+  ConnectableShape(ConnectableShape&&) = delete;
+  ConnectableShape& operator=(ConnectableShape&&) = delete;
 
   QRectF boundingRect() const override;
 
@@ -50,7 +55,7 @@ private:
   void UpdateViewCoordinatesFromItem();
 
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
-  std::unique_ptr<IPortPositionStrategy> m_port_position;
+  std::unique_ptr<IPortPositionStrategy> m_port_position_strategy;
 };
 
 }  // namespace mvvm

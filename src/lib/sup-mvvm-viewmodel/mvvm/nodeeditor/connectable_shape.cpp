@@ -21,14 +21,30 @@
 #include "connectable_shape.h"
 
 #include "i_connectable_shape_adapter.h"
+#include "i_port_position_strategy.h"
+
+#include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {
 
 ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
+                                   std::unique_ptr<IPortPositionStrategy> port_position_strategy,
                                    QGraphicsItem *parent_item)
-    : QGraphicsItem(parent_item), m_shape_adapter(std::move(shape_adapter))
+    : QGraphicsItem(parent_item)
+    , m_shape_adapter(std::move(shape_adapter))
+    , m_port_position_strategy(std::move(port_position_strategy))
 {
+  if (!m_shape_adapter)
+  {
+    throw RuntimeException("Shape adapter is not provided");
+  }
+
+  if (!m_port_position_strategy)
+  {
+    throw RuntimeException("Port position strategy is not provided");
+  }
+
   SetupPorts();
   UpdateViewCoordinatesFromItem();
 }
@@ -43,9 +59,9 @@ QRectF ConnectableShape::boundingRect() const
 void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                              QWidget *widget)
 {
-  (void) painter;
-  (void) option;
-  (void) widget;
+  (void)painter;
+  (void)option;
+  (void)widget;
 }
 
 void ConnectableShape::SetupPorts()
@@ -54,7 +70,6 @@ void ConnectableShape::SetupPorts()
   // {
 
   // }
-
 }
 
 void ConnectableShape::UpdateViewCoordinatesFromItem()
