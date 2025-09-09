@@ -42,6 +42,12 @@ public:
   PortAppearance(PortLocation port_location, const QString& port_label, const QColor& port_color);
 
   /**
+   * @brief Initiazes a PortAppearance with the given location, label, color and port radius.
+   */
+  PortAppearance(PortLocation port_location, const QString& port_label, const QColor& port_color,
+                 double port_radius);
+
+  /**
    * @brief Returns location of the port.
    */
   PortLocation GetPortLocation() const;
@@ -73,6 +79,7 @@ private:
   QString m_port_label;
   QColor m_port_color;
   QRectF m_bounding_rect;
+  double m_port_radius;
 };
 
 bool operator==(const PortAppearance& lhs, const PortAppearance& rhs);

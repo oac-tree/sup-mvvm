@@ -25,9 +25,23 @@
 namespace mvvm
 {
 
+namespace
+{
+double kDefaultPortRadius = 10.0;
+}
+
 PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label,
                                const QColor &port_color)
-    : m_port_location(port_location), m_port_label(port_label), m_port_color(port_color)
+    : PortAppearance(port_location, port_label, port_color, kDefaultPortRadius)
+{
+}
+
+PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label,
+                               const QColor &port_color, double port_radius)
+    : m_port_location(port_location)
+    , m_port_label(port_label)
+    , m_port_color(port_color)
+    , m_port_radius(port_radius)
 {
   CalculateBoundingRect();
 }
@@ -54,7 +68,7 @@ QRectF PortAppearance::GetBoundingRect() const
 
 double PortAppearance::GetPortRadius() const
 {
-  return 10;
+  return m_port_radius;
 }
 
 void PortAppearance::CalculateBoundingRect()
