@@ -41,7 +41,8 @@ public:
 };
 
 /**
- * @brief The PortPositionStrategyDecorator class is a simple forward decorator.
+ * @brief The PortPositionStrategyDecorator class is a simple forward decorator to an
+ * IPortPositionStrategy.
  */
 class PortPositionStrategyDecorator : public IPortPositionStrategy
 {

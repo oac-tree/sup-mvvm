@@ -27,4 +27,12 @@ PortPositionStrategyDecorator::PortPositionStrategyDecorator(IPortPositionStrate
 {
 }
 
+QPointF PortPositionStrategyDecorator::GetPortPosition(PortDirection port_direction,
+                                                       std::size_t port_index,
+                                                       std::size_t total_ports,
+                                                       const QRectF &shape_rect) const
+{
+  return m_decoratee->GetPortPosition(port_direction, port_index, total_ports, shape_rect);
+}
+
 }  // namespace mvvm::test

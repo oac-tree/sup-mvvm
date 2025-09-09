@@ -56,14 +56,14 @@ public:
   virtual void SetStartPort(INodePort* port) = 0;
 
   /**
-   * @brief Sets the end port of the connection.
-   */
-  virtual void SetEndPort(INodePort* port) = 0;
-
-  /**
    * @brief Returns the end port of the connection.
    */
   virtual const INodePort* GetEndPort() const = 0;
+
+  /**
+   * @brief Sets the end port of the connection.
+   */
+  virtual void SetEndPort(INodePort* port) = 0;
 
   /**
    * @brief Checks if the connection is connected to the specified port.

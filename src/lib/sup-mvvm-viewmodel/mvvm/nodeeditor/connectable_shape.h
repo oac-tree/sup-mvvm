@@ -28,6 +28,7 @@ namespace mvvm
 {
 
 class IConnectableShapeAdapter;
+class IPortPositionStrategy;
 
 /**
  * @brief The ConnectableShape is a graphics object which have ports for connecting other objects.
@@ -36,6 +37,7 @@ class ConnectableShape : public QGraphicsItem
 {
 public:
   explicit ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
+                           std::unique_ptr<IPortPositionStrategy> port_position,
                    QGraphicsItem* parent_item = nullptr);
   ~ConnectableShape() override;
 
@@ -48,6 +50,7 @@ private:
   void UpdateViewCoordinatesFromItem();
 
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
+  std::unique_ptr<IPortPositionStrategy> m_port_position;
 };
 
 }  // namespace mvvm

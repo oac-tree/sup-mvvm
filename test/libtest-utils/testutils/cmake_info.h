@@ -21,6 +21,9 @@
 #ifndef TESTUTILS_CMAKE_INFO_H_
 #define TESTUTILS_CMAKE_INFO_H_
 
+//!@file
+//! Collection of helper functions reporing information coming from CMake configuration.
+
 #include <string>
 
 namespace mvvm::test
