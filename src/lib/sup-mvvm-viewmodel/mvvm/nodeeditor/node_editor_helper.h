@@ -24,10 +24,9 @@
 //! @file
 //! Connection of helper functions for NodeEditor machinery.
 
-#include <mvvm/nodeeditor/port_info.h>
 #include <mvvm/nodeeditor/port_appearance.h>
+#include <mvvm/nodeeditor/port_info.h>
 
-#include <algorithm>
 #include <vector>
 
 namespace mvvm
@@ -46,13 +45,15 @@ PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo& p
 /**
  * @brief Returns vector of PortInfo filtered according to the given direction.
  */
+std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo>& port_infos, PortDirection direction);
+
+/**
+ * @brief Returns vector of PortInfo filtered according to the given direction.
+ */
 template <PortDirection direction>
 std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo>& port_infos)
 {
-  std::vector<PortInfo> result;
-  std::copy_if(port_infos.begin(), port_infos.end(), std::back_inserter(result),
-               [](const PortInfo& info) { return info.GetPortDirection() == direction; });
-  return result;
+  return GetPortInfo(port_infos, direction);
 }
 
 }  // namespace mvvm

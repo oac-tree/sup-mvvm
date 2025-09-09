@@ -21,6 +21,7 @@
 #include "node_editor_helper.h"
 
 #include "node_editor_constants.h"
+#include <algorithm>
 
 namespace mvvm
 {
@@ -50,6 +51,14 @@ PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo &p
   const auto location = GetPortLocation(layout, port_info.GetPortDirection());
   return {location, QString::fromStdString(port_info.GetPortType()),
           constants::GetDefaultPortColor()};
+}
+
+std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo> &port_infos, PortDirection direction)
+{
+  std::vector<PortInfo> result;
+  std::copy_if(port_infos.begin(), port_infos.end(), std::back_inserter(result),
+               [direction](const PortInfo &info) { return info.GetPortDirection() == direction; });
+  return result;
 }
 
 }  // namespace mvvm
