@@ -29,12 +29,44 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
+
 namespace mvvm
 {
 
-namespace {
+namespace
+{
 const int kRoundPar = 5;
+
+/**
+ * @brief Returns rectangle to display ConnectableShape label.
+ *
+ * The label will be occupying top of the bounding box rectangle of a shape.
+ */
+QRectF GetLabelRectangle(const QRectF &rect)
+{
+  // take a rectangle which is a half in height of the view's rectangle
+  QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
+
+  // slightly shrink it
+  auto side_gap = constants::NodeUnitSize(0.25);
+  auto top_gap = constants::NodeUnitSize(0.75);
+  return result.marginsRemoved(
+      QMarginsF(side_gap, top_gap, side_gap, 0.0));  // left, top, right, bottom
 }
+
+/**
+ * @brief Returns label font to display the name of the ConnectableShape.
+ */
+QFont GetLabelFont()
+{
+  QFont result("Noto Sans", constants::NodeUnitSize(0.8), QFont::Bold);
+  result.setWordSpacing(-constants::NodeUnitSize(0.25));
+  return result;
+}
+
+}  // namespace
 
 ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> shape_adapter,
                                    std::unique_ptr<IPortPositionStrategy> port_position_strategy,
@@ -73,16 +105,33 @@ QRectF ConnectableShape::boundingRect() const
 void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                              QWidget *widget)
 {
-  (void)painter;
-  (void)option;
   (void)widget;
+
+  painter->setPen(Qt::gray);
+  if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
+  {
+    painter->setPen(Qt::DashLine);
+  }
+
+  painter->setBrush(
+      constants::ConnectableShapeGradient(m_shape_adapter->GetBaseColor(), boundingRect()));
+  painter->drawRoundedRect(boundingRect(), kRoundPar, kRoundPar);
+
+  // plotting label
+  static const QFont label_font = GetLabelFont();
+  static const QRectF label_rect = GetLabelRectangle(boundingRect());
+  painter->setFont(label_font);
+  painter->setPen(Qt::black);
+  QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);
+  text_option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+  painter->drawText(label_rect, m_shape_adapter->GetDisplayName(), text_option);
 }
 
 void ConnectableShape::CalculateBoundingBox()
 {
   // adding margins for a pen
   m_bounding_box =
-      constants::GetDefaultConnectableShapeRect().marginsAdded(QMarginsF(1.0, 1.0, 1.0, 1.0));
+      constants::DefaultConnectableShapeRect().marginsAdded(QMarginsF(1.0, 1.0, 1.0, 1.0));
 }
 
 void ConnectableShape::SetupPorts()

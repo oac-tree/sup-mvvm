@@ -51,7 +51,7 @@ PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo &p
 {
   const auto location = GetPortLocation(layout, port_info.GetPortDirection());
   return {location, QString::fromStdString(port_info.GetPortType()),
-          constants::GetDefaultPortColor(), constants::GetDefaultPortRadius()};
+          constants::DefaultPortColor(), constants::GetDefaultPortRadius()};
 }
 
 std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo> &port_infos, PortDirection direction)

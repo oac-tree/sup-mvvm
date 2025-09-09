@@ -27,6 +27,7 @@
 
 #include <QColor>
 #include <QFont>
+#include <QGradient>
 #include <QRectF>
 
 namespace mvvm::constants
@@ -48,17 +49,22 @@ double GetDefaultPortRadius();
 /**
  * @brief Returns default color of the port.
  */
-const QColor& GetDefaultPortColor();
+const QColor& DefaultPortColor();
 
 /**
  * @brief Returns default font for NodePort label.
  */
-const QFont& GetDefaultPortLabelFont();
+const QFont& DefaultPortLabelFont();
 
 /**
  * @brief Returns default rectangle for connectable shape.
  */
-const QRectF& GetDefaultConnectableShapeRect();
+const QRectF& DefaultConnectableShapeRect();
+
+/**
+ * @brief Returns a gradient for connectable shape background.
+ */
+const QGradient& ConnectableShapeGradient(const QColor& color, const QRectF& rect);
 
 }  // namespace mvvm::constants
 

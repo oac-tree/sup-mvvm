@@ -99,7 +99,7 @@ QRectF GetLabelRect(PortLocation port_location, const QPointF &port_position, co
   }
 
   QRectF label_rect;
-  const QFontMetrics font_metrics = QFontMetrics(constants::GetDefaultPortLabelFont());
+  const QFontMetrics font_metrics = QFontMetrics(constants::DefaultPortLabelFont());
   label_rect = font_metrics.boundingRect(label);
   const double label_gap = 2.0 * constants::GetDefaultPortRadius();
 
