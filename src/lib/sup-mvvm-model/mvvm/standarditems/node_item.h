@@ -35,7 +35,7 @@ namespace mvvm
 class NodeItem : public CompoundItem
 {
 public:
-  NodeItem();
+  explicit NodeItem(const std::string& model_type = {});
 
   std::unique_ptr<SessionItem> Clone() const override;
 
@@ -72,6 +72,11 @@ public:
    * i.e. https://www.w3.org/TR/css-color-3/#svg-color, or any "#RRGGBB" format.
    */
   void SetBaseColor(const std::string& value);
+
+protected:
+  void RegisterSingleChildTag();
+
+  void RegisterMultipleChildrenTag();
 };
 
 template <>

@@ -20,6 +20,8 @@
 
 #include "node_item.h"
 
+#include <mvvm/model/item_constants.h>
+
 namespace mvvm
 {
 
@@ -30,7 +32,8 @@ constexpr std::string_view kYpos{"kYpos"};
 constexpr std::string_view kColor{"kColor"};
 }  // namespace
 
-NodeItem::NodeItem() : CompoundItem(GetTypeName<NodeItem>())
+NodeItem::NodeItem(const std::string& model_type)
+    : CompoundItem(model_type.empty() ? GetTypeName<NodeItem>() : model_type)
 {
   AddProperty(kXpos, 0.0).SetDisplayName("X");
   AddProperty(kYpos, 0.0).SetDisplayName("Y");
@@ -67,9 +70,19 @@ std::string NodeItem::GetBaseColor() const
   return Property<std::string>(kColor);
 }
 
-void NodeItem::SetBaseColor(const std::string &value)
+void NodeItem::SetBaseColor(const std::string& value)
 {
   SetProperty(kColor, value);
+}
+
+void NodeItem::RegisterSingleChildTag()
+{
+  RegisterTag(TagInfo(constants::kChildrenTag, 0, 1, {}));
+}
+
+void NodeItem::RegisterMultipleChildrenTag()
+{
+  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag));
 }
 
 }  // namespace mvvm
