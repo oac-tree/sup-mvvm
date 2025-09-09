@@ -55,7 +55,8 @@ enum class PortLocation : std::uint8_t
   kLeft,
   kTop,
   kRight,
-  kBottom
+  kBottom,
+  kUnknown
 };
 
 /**

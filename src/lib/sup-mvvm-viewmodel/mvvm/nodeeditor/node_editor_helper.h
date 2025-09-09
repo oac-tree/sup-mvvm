@@ -25,12 +25,23 @@
 //! Connection of helper functions for NodeEditor machinery.
 
 #include <mvvm/nodeeditor/port_info.h>
+#include <mvvm/nodeeditor/port_appearance.h>
 
 #include <algorithm>
 #include <vector>
 
 namespace mvvm
 {
+
+/**
+ * @brief Returns port location based on tree layout and port direction.
+ */
+PortLocation GetPortLocation(NodeTreeLayout layout, PortDirection direction);
+
+/**
+ * @brief Returns PortAppearance for the given port info and node tree layout.
+ */
+PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo& port_info);
 
 /**
  * @brief Returns vector of PortInfo filtered according to the given direction.

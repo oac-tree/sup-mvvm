@@ -18,6 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
+#include "mvvm/nodeeditor/node_editor_constants.h"
 #include "mvvm/nodeeditor/node_editor_helper.h"
 
 #include <gtest/gtest.h>
@@ -31,6 +32,64 @@ namespace mvvm::test
 class NodeHelperTest : public ::testing::Test
 {
 };
+
+TEST_F(NodeHelperTest, GetPortLocation)
+{
+  EXPECT_EQ(GetPortLocation(NodeTreeLayout::kLeftToRight, PortDirection::kDefault),
+            PortLocation::kUnknown);
+  EXPECT_EQ(GetPortLocation(NodeTreeLayout::kLeftToRight, PortDirection::kInput),
+            PortLocation::kLeft);
+  EXPECT_EQ(GetPortLocation(NodeTreeLayout::kLeftToRight, PortDirection::kOutput),
+            PortLocation::kRight);
+
+  EXPECT_EQ(GetPortLocation(NodeTreeLayout::kTopToBottom, PortDirection::kDefault),
+            PortLocation::kUnknown);
+  EXPECT_EQ(GetPortLocation(NodeTreeLayout::kTopToBottom, PortDirection::kInput),
+            PortLocation::kBottom);
+  EXPECT_EQ(GetPortLocation(NodeTreeLayout::kTopToBottom, PortDirection::kOutput),
+            PortLocation::kTop);
+}
+
+TEST_F(NodeHelperTest, GetDefaultPortAppearance)
+{
+  const PortInfo input_info(PortDirection::kInput, "abc1", "label1");
+  const PortInfo output_info(PortDirection::kOutput, "abc2", "label2");
+  const PortInfo default_info(PortDirection::kDefault, "abc3", "label3");
+
+  {  // kLeftToRight
+    auto input_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, input_info);
+    EXPECT_EQ(input_appearance.GetPortLocation(), PortLocation::kLeft);
+    EXPECT_EQ(input_appearance.GetPortLabel(), "abc1");
+    EXPECT_EQ(input_appearance.GetPortColor(), constants::GetDefaultPortColor());
+
+    auto output_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, output_info);
+    EXPECT_EQ(output_appearance.GetPortLocation(), PortLocation::kRight);
+    EXPECT_EQ(output_appearance.GetPortLabel(), "abc2");
+    EXPECT_EQ(output_appearance.GetPortColor(), constants::GetDefaultPortColor());
+
+    auto default_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, default_info);
+    EXPECT_EQ(default_appearance.GetPortLocation(), PortLocation::kUnknown);
+    EXPECT_EQ(default_appearance.GetPortLabel(), "abc3");
+    EXPECT_EQ(default_appearance.GetPortColor(), constants::GetDefaultPortColor());
+  }
+
+  {  // kTopToBottom
+    auto input_appearance = GetDefaultPortAppearance(NodeTreeLayout::kTopToBottom, input_info);
+    EXPECT_EQ(input_appearance.GetPortLocation(), PortLocation::kBottom);
+    EXPECT_EQ(input_appearance.GetPortLabel(), "abc1");
+    EXPECT_EQ(input_appearance.GetPortColor(), constants::GetDefaultPortColor());
+
+    auto output_appearance = GetDefaultPortAppearance(NodeTreeLayout::kTopToBottom, output_info);
+    EXPECT_EQ(output_appearance.GetPortLocation(), PortLocation::kTop);
+    EXPECT_EQ(output_appearance.GetPortLabel(), "abc2");
+    EXPECT_EQ(output_appearance.GetPortColor(), constants::GetDefaultPortColor());
+
+    auto default_appearance = GetDefaultPortAppearance(NodeTreeLayout::kTopToBottom, default_info);
+    EXPECT_EQ(default_appearance.GetPortLocation(), PortLocation::kUnknown);
+    EXPECT_EQ(default_appearance.GetPortLabel(), "abc3");
+    EXPECT_EQ(default_appearance.GetPortColor(), constants::GetDefaultPortColor());
+  }
+}
 
 TEST_F(NodeHelperTest, GetPortInfo)
 {
