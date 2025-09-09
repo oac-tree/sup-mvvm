@@ -50,10 +50,23 @@ public:
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
 private:
+  void CalculateBoundingRect();
+
   PortAppearance m_port_appearance;
   std::unique_ptr<INodePort> m_node_port;
   QGraphicsTextItem* m_label{nullptr};
+  QRectF m_bounding_rect;
 };
+
+/**
+ * @brief Returns a rectangle for label painting.
+ *
+ * @param port_location The location of the port.
+ * @param port_position Port coordinates (normally (0,0))
+ * @param label The text of the label.
+ * @return The rectangle to plot the text.
+ */
+QRectF GetLabelRect(PortLocation port_location, const QPointF& port_position, const QString& label);
 
 }  // namespace mvvm
 

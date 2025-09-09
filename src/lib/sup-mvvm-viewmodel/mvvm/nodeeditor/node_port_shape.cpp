@@ -20,6 +20,9 @@
 
 #include "node_port_shape.h"
 
+#include "node_editor_constants.h"
+
+#include <QFontMetrics>
 #include <QPainter>
 
 namespace mvvm
@@ -29,11 +32,12 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
                              QGraphicsItem *parent)
     : QGraphicsItem(parent), m_port_appearance(port_appearance), m_node_port(std::move(node_port))
 {
+  CalculateBoundingRect();
 }
 
 QRectF NodePortShape::boundingRect() const
 {
-  return m_port_appearance.GetBoundingRect();
+  return m_bounding_rect;
 }
 
 void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -56,7 +60,77 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   QRectF ellipse_rect(0.0, 0.0, x_size, x_size);
   ellipse_rect.moveCenter(center);
   painter->drawEllipse(ellipse_rect);
+
+  painter->drawText(
+      GetLabelRect(m_port_appearance.GetPortLocation(), center, m_port_appearance.GetPortLabel()),
+      Qt::AlignCenter, m_port_appearance.GetPortLabel());
+
   painter->restore();
+}
+
+void NodePortShape::CalculateBoundingRect()
+{
+  const double extra = 1.0;  // for the pen width
+  const double radius = m_port_appearance.GetPortRadius() + extra;
+  const double diameter = 2.0 * radius;
+
+  // rect for circle with enough space for pen
+  const QRectF circle_rect(-radius, -radius, diameter, diameter);
+
+  const QRectF label_rect = GetLabelRect(m_port_appearance.GetPortLocation(), {0.0, 0.0},
+                                         m_port_appearance.GetPortLabel());
+
+  m_bounding_rect = circle_rect.united(label_rect);
+}
+
+/**
+ * @brief Returns a rectangle for label painting.
+ *
+ * @param port_location The location of the port.
+ * @param port_position Port coordinates (normally (0,0))
+ * @param label The text of the label.
+ * @return The rectangle to plot the text.
+ */
+QRectF GetLabelRect(PortLocation port_location, const QPointF &port_position, const QString &label)
+{
+  if (label.isEmpty())
+  {
+    return {};
+  }
+
+  QRectF label_rect;
+  const QFontMetrics font_metrics = QFontMetrics(constants::GetDefaultPortLabelFont());
+  label_rect = font_metrics.boundingRect(label);
+  const double label_gap = 2.0 * constants::GetDefaultPortRadius();
+
+  switch (port_location)
+  {
+  case PortLocation::kTop:
+    label_rect.moveBottom(port_position.y() - label_gap);
+    label_rect.moveLeft(port_position.x() - (label_rect.width() / 2.0));
+    break;
+
+  case PortLocation::kBottom:
+    label_rect.moveTop(port_position.y() + label_gap);
+    label_rect.moveLeft(port_position.x() - (label_rect.width() / 2.0));
+    break;
+
+  case PortLocation::kLeft:
+    label_rect.moveRight(port_position.x() - label_gap);
+    label_rect.moveTop(port_position.y() - (label_rect.height() / 2.0));
+    break;
+
+  case PortLocation::kRight:
+    label_rect.moveLeft(port_position.x() + label_gap);
+    label_rect.moveTop(port_position.y() - (label_rect.height() / 2.0));
+    break;
+
+  default:
+    // unknown location
+    label_rect.moveTopLeft(port_position);
+    break;
+  }
+  return label_rect;
 }
 
 }  // namespace mvvm

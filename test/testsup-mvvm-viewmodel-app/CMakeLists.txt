@@ -7,9 +7,9 @@ add_executable(${test} "")
 target_sources(${test} PRIVATE
     chart_pen_controller_tests.cpp
     chart_viewport_controller_tests.cpp
-    customplot
     custom_viewmodel_tests.cpp
     connectable_shape_tests.cpp
+    node_port_shape_tests.cpp
     main.cpp
 )
 
