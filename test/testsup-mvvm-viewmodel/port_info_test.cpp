@@ -34,9 +34,19 @@ class PortInfoTest : public ::testing::Test
 
 TEST_F(PortInfoTest, InitialState)
 {
-  const PortInfo info(PortDirection::kDefault, "abc");
-  EXPECT_EQ(info.GetPortType(), std::string("abc"));
-  EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
+  {
+    const PortInfo info(PortDirection::kDefault, "abc");
+    EXPECT_EQ(info.GetPortType(), std::string("abc"));
+    EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
+    EXPECT_TRUE(info.GetPortLabel().empty());
+  }
+
+  {
+    const PortInfo info(PortDirection::kDefault, "abc", "label");
+    EXPECT_EQ(info.GetPortType(), std::string("abc"));
+    EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
+    EXPECT_EQ(info.GetPortLabel(), std::string("label"));
+  }
 }
 
 TEST_F(PortInfoTest, ComparisonOperators)

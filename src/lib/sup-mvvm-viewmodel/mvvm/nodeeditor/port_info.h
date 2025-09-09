@@ -42,6 +42,11 @@ public:
   PortInfo(PortDirection port_direction, std::string port_type);
 
   /**
+   * @brief Initiazes a PortInfo with the given direction, type and label.
+   */
+  PortInfo(PortDirection port_direction, std::string port_type, std::string port_label);
+
+  /**
    * @brief Returns port direction.
    */
   PortDirection GetPortDirection() const;
@@ -54,9 +59,15 @@ public:
    */
   std::string GetPortType() const;
 
+  /**
+   * @brief Returns a port label.
+   */
+  std::string GetPortLabel() const;
+
 private:
   PortDirection m_port_direction;
   std::string m_port_type;
+  std::string m_port_label;
 };
 
 bool operator==(const PortInfo& lhs, const PortInfo& rhs);
