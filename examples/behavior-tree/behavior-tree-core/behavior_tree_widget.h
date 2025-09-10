@@ -22,6 +22,12 @@
 #define BEHAVIOR_TREE_BEHAVIOR_TREE_CORE_BEHAVIOR_TREE_WIDGET_H_
 
 #include <QWidget>
+#include <memory>
+
+namespace mvvm
+{
+class ApplicationModel;
+}
 
 namespace behaviortree
 {
@@ -35,10 +41,13 @@ class BehaviorTreeWidget : public QWidget
 
 public:
   explicit BehaviorTreeWidget(QWidget* parent_widget = nullptr);
+  ~BehaviorTreeWidget() override;
 
 private:
   GraphicsScene* m_graphics_scene{nullptr};
   GraphicsView* m_graphics_view{nullptr};
+
+  std::unique_ptr<mvvm::ApplicationModel> m_model;
 };
 
 }  // namespace behaviortree

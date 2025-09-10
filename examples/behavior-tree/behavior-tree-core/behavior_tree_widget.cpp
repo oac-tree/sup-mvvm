@@ -20,8 +20,15 @@
 
 #include "behavior_tree_widget.h"
 
+#include "behavior_tree_items.h"
 #include "graphics_scene.h"
 #include "graphics_view.h"
+
+#include <mvvm/model/application_model.h>
+#include <mvvm/nodeeditor/connectable_shape.h>
+#include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
+#include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
+#include <mvvm/standarditems/node_item.h>
 
 #include <QVBoxLayout>
 
@@ -31,9 +38,22 @@ namespace behaviortree
 BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
     : m_graphics_scene(new GraphicsScene(this))
     , m_graphics_view(new GraphicsView(m_graphics_scene, this))
+    , m_model(std::make_unique<mvvm::ApplicationModel>())
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_graphics_view);
+
+  auto node = m_model->InsertItem<SequenceItem>();
+
+  auto shape_adapter = std::make_unique<mvvm::NodeItemConnectableShapeAdapter>(node);
+
+  auto position_strategy = std::make_unique<mvvm::TopBottomPortPositionStrategy>();
+
+  auto shape = std::make_unique<mvvm::ConnectableShape>(std::move(shape_adapter),
+                                                        std::move(position_strategy));
+  m_graphics_scene->addItem(shape.release());
 }
+
+BehaviorTreeWidget::~BehaviorTreeWidget() = default;
 
 }  // namespace behaviortree
