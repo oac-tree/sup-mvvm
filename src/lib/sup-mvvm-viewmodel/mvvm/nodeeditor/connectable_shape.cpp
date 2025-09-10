@@ -47,7 +47,7 @@ const int kRoundPar = 5;
 QRectF GetLabelRectangle(const QRectF &rect)
 {
   // take a rectangle which is a half in height of the view's rectangle
-  QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
+  const QRectF result(rect.x(), rect.y(), rect.width(), rect.height() / 2);
 
   // slightly shrink it
   auto side_gap = constants::NodeUnitSize(0.25);
@@ -86,7 +86,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
   }
 
   CalculateBoundingBox();
-  setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+
   setFlag(QGraphicsItem::ItemIsSelectable);
   setFlag(QGraphicsItem::ItemIsMovable);
   setFlag(QGraphicsItem::ItemSendsGeometryChanges);
@@ -117,12 +117,12 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   }
 
   painter->setBrush(
-      constants::ConnectableShapeGradient(m_shape_adapter->GetBaseColor(), boundingRect()));
-  painter->drawRoundedRect(boundingRect(), kRoundPar, kRoundPar);
+      constants::ConnectableShapeGradient(m_shape_adapter->GetBaseColor(), GetShapeRect()));
+  painter->drawRoundedRect(GetShapeRect(), kRoundPar, kRoundPar);
 
   // plotting label
   static const QFont label_font = GetLabelFont();
-  static const QRectF label_rect = GetLabelRectangle(boundingRect());
+  static const QRectF label_rect = GetLabelRectangle(GetShapeRect());
   painter->setFont(label_font);
   painter->setPen(Qt::black);
   QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);
@@ -132,11 +132,16 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   painter->restore();
 }
 
+QRectF ConnectableShape::GetShapeRect() const
+{
+  return constants::DefaultConnectableShapeRect();
+}
+
 void ConnectableShape::CalculateBoundingBox()
 {
-  // adding margins for a pen
-  m_bounding_box =
-      constants::DefaultConnectableShapeRect().marginsAdded(QMarginsF(1.0, 1.0, 1.0, 1.0));
+  // Adding margins for a pen. Currently we have some artifacts in the image, despite of this
+  // attempt to give extra space. May be it is only plasma/wayland issue.
+  m_bounding_box = GetShapeRect().marginsAdded(QMarginsF(2.0, 2.0, 2.0, 2.0));
 }
 
 void ConnectableShape::SetupPorts()
@@ -157,7 +162,7 @@ void ConnectableShape::SetupPortsForDirection(const std::vector<PortInfo> &port_
     auto port_shape = CreateNodePortShape(port_info);
     auto port_shape_ptr = port_shape.get();
     const auto position = m_port_position_strategy->GetPortPosition(
-        port_direction, index, same_direction_ports.size(), boundingRect());
+        port_direction, index, same_direction_ports.size(), GetShapeRect());
     port_shape.release()->setParentItem(this);  // take ownership
 
     port_shape_ptr->setPos(position);
