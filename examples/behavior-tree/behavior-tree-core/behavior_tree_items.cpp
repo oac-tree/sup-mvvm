@@ -25,15 +25,29 @@ namespace behaviortree
 
 SequenceItem::SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>())
 {
+  SetDisplayName("Sequence");
+  SetBaseColor("royalblue");
+
   RegisterMultipleChildrenTag();
 }
 
-WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>()) {}
+WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>())
+{
+  SetDisplayName("Wait");
+  SetBaseColor("gray");
+}
 
-MessageItem::MessageItem() : NodeItem(mvvm::GetTypeName<MessageItem>()) {}
+MessageItem::MessageItem() : NodeItem(mvvm::GetTypeName<MessageItem>())
+{
+  SetDisplayName("Message");
+  SetBaseColor("gray");
+}
 
 RepeatItem::RepeatItem() : NodeItem(mvvm::GetTypeName<RepeatItem>())
 {
+  SetDisplayName("Repeat");
+  SetBaseColor("lightseagreen");
+
   RegisterSingleChildTag();
 }
 

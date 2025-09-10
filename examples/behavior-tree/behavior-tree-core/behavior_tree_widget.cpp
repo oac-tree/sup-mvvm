@@ -45,6 +45,9 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
 
   auto node = m_model->InsertItem<SequenceItem>();
 
+  node->SetX(m_graphics_scene->sceneRect().center().x());
+  node->SetY(m_graphics_scene->sceneRect().center().y());
+
   auto shape_adapter = std::make_unique<mvvm::NodeItemConnectableShapeAdapter>(node);
 
   auto position_strategy = std::make_unique<mvvm::TopBottomPortPositionStrategy>();

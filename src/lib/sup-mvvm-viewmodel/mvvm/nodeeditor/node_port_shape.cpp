@@ -45,11 +45,11 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 {
   (void)widget;
   (void)option;
+  painter->save();
 
   static const QPen pen = QPen(m_port_appearance.GetPortColor().darker(180));
   static const QBrush brush = QBrush(m_port_appearance.GetPortColor());
 
-  painter->save();
   painter->setRenderHint(QPainter::Antialiasing);
   painter->setPen(pen);
   painter->setBrush(brush);

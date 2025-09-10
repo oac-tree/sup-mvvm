@@ -30,7 +30,7 @@ namespace
 
 QRectF GetDefaultSceneRect()
 {
-  const double kWindowSize = 800;
+  const double kWindowSize = 640;
   const QPointF scene_origin{-kWindowSize / 2.0, 0.0};
   const QSizeF scene_size{kWindowSize, kWindowSize};
 

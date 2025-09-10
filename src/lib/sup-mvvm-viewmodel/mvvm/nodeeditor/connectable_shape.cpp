@@ -61,7 +61,7 @@ QRectF GetLabelRectangle(const QRectF &rect)
  */
 QFont GetLabelFont()
 {
-  QFont result("Noto Sans", constants::NodeUnitSize(0.8), QFont::Bold);
+  QFont result("Noto Sans", constants::NodeUnitSize(0.8), QFont::Normal);
   result.setWordSpacing(-constants::NodeUnitSize(0.25));
   return result;
 }
@@ -106,6 +106,9 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                              QWidget *widget)
 {
   (void)widget;
+  painter->save();
+
+  painter->setRenderHint(QPainter::Antialiasing);
 
   painter->setPen(Qt::gray);
   if (option->state & (QStyle::State_Selected | QStyle::State_HasFocus))
@@ -125,6 +128,8 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   QTextOption text_option(Qt::AlignHCenter | Qt::AlignTop);
   text_option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
   painter->drawText(label_rect, m_shape_adapter->GetDisplayName(), text_option);
+
+  painter->restore();
 }
 
 void ConnectableShape::CalculateBoundingBox()
