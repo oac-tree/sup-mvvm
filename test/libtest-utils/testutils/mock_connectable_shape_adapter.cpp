@@ -28,6 +28,11 @@ ConnectableShapeDecorator::ConnectableShapeDecorator(IConnectableShapeAdapter *d
 {
 }
 
+SessionItem *ConnectableShapeDecorator::GetItem() const
+{
+  return m_decoratee->GetItem();
+}
+
 ConnectableShapeDecorator::~ConnectableShapeDecorator() = default;
 
 QString ConnectableShapeDecorator::GetDisplayName() const

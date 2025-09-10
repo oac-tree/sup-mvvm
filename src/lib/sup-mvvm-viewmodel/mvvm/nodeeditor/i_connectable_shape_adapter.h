@@ -30,6 +30,8 @@
 namespace mvvm
 {
 
+class SessionItem;
+
 /**
  * @brief The IConnectableShapeAdapter allows to adapt custom object for plotting needs.
  *
@@ -46,6 +48,11 @@ public:
   IConnectableShapeAdapter& operator=(const IConnectableShapeAdapter&) = delete;
   IConnectableShapeAdapter(IConnectableShapeAdapter&&) = delete;
   IConnectableShapeAdapter& operator=(IConnectableShapeAdapter&&) = delete;
+
+  /**
+   * @brief Returns the item associated with the connectable element.
+   */
+  virtual SessionItem* GetItem() const = 0;
 
   /**
    * @brief Returns a string to be used as a label for the connectable element.

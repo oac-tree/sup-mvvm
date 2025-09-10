@@ -68,7 +68,7 @@ TEST_F(NodeItemConnectableShapeAdapterTest, InitialState)
   node_item.SetY(43.0);
 
   const NodeItemConnectableShapeAdapter adapter(&node_item);
-  EXPECT_EQ(adapter.GetNodeItem(), &node_item);
+  EXPECT_EQ(adapter.GetItem(), &node_item);
   EXPECT_EQ(adapter.GetDisplayName(), "abc");
   EXPECT_EQ(adapter.GetBaseColor(), QColor(Qt::red));
   EXPECT_EQ(adapter.GetX(), 42.0);

@@ -25,6 +25,11 @@
 
 #include <gmock/gmock.h>
 
+namespace mvvm
+{
+class SessionItem;
+}
+
 namespace mvvm::test
 {
 
@@ -34,6 +39,7 @@ namespace mvvm::test
 class MockConnectableShapeAdapter : public IConnectableShapeAdapter
 {
 public:
+  MOCK_METHOD(mvvm::SessionItem*, GetItem, (), (const, override));
   MOCK_METHOD(QString, GetDisplayName, (), (const, override));
   MOCK_METHOD(QColor, GetBaseColor, (), (const, override));
   MOCK_METHOD(double, GetX, (), (const, override));
@@ -57,6 +63,7 @@ public:
   ConnectableShapeDecorator(ConnectableShapeDecorator&&) = delete;
   ConnectableShapeDecorator& operator=(ConnectableShapeDecorator&&) = delete;
 
+  mvvm::SessionItem* GetItem() const override;
   QString GetDisplayName() const override;
   QColor GetBaseColor() const override;
   double GetX() const override;

@@ -40,7 +40,7 @@ class NodeItemConnectableShapeAdapter : public IConnectableShapeAdapter
 public:
   explicit NodeItemConnectableShapeAdapter(NodeItem* node_item);
 
-  NodeItem* GetNodeItem() const;
+  SessionItem* GetItem() const override;
 
   QString GetDisplayName() const override;
 

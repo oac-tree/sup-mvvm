@@ -44,7 +44,7 @@ NodeItemConnectableShapeAdapter::NodeItemConnectableShapeAdapter(NodeItem *node_
   }
 }
 
-NodeItem *NodeItemConnectableShapeAdapter::GetNodeItem() const
+SessionItem *NodeItemConnectableShapeAdapter::GetItem() const
 {
   return m_node_item;
 }
