@@ -18,19 +18,16 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_I_NODE_ITEM_CONNECTABLE_SHAPE_ADAPTER_H_
-#define MVVM_NODEEDITOR_I_NODE_ITEM_CONNECTABLE_SHAPE_ADAPTER_H_
+#ifndef MVVM_NODEEDITOR_NODE_ITEM_CONNECTABLE_SHAPE_ADAPTER_H_
+#define MVVM_NODEEDITOR_NODE_ITEM_CONNECTABLE_SHAPE_ADAPTER_H_
 
 #include <mvvm/nodeeditor/i_connectable_shape_adapter.h>
-
-#include <QColor>
-#include <QString>
-#include <vector>
 
 namespace mvvm
 {
 
 class NodeItem;
+class ItemListener;
 
 /**
  * @brief The NodeItemConnectableShapeAdapter adapts NodeItem for needs of ConnectableShape.
@@ -62,4 +59,4 @@ private:
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
+#endif  // MVVM_NODEEDITOR_NODE_ITEM_CONNECTABLE_SHAPE_ADAPTER_H_
