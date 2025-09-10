@@ -154,7 +154,7 @@ void ConnectableShape::SetupPorts()
 void ConnectableShape::SetupPortsForDirection(const std::vector<PortInfo> &port_infos,
                                               PortDirection port_direction)
 {
-  auto same_direction_ports = GetPortInfo(port_infos, port_direction);
+  auto same_direction_ports = GetFilteredPortInfo(port_infos, port_direction);
 
   std::size_t index{0};
   for (const auto &port_info : same_direction_ports)

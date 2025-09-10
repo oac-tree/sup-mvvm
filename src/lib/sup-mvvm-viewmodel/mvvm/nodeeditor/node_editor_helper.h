@@ -45,16 +45,7 @@ PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo& p
 /**
  * @brief Returns vector of PortInfo filtered according to the given direction.
  */
-std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo>& port_infos, PortDirection direction);
-
-/**
- * @brief Returns vector of PortInfo filtered according to the given direction.
- */
-template <PortDirection direction>
-std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo>& port_infos)
-{
-  return GetPortInfo(port_infos, direction);
-}
+std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo>& port_infos, PortDirection direction);
 
 }  // namespace mvvm
 

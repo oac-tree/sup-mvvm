@@ -91,21 +91,21 @@ TEST_F(NodeHelperTest, GetDefaultPortAppearance)
   }
 }
 
-TEST_F(NodeHelperTest, GetPortInfo)
+TEST_F(NodeHelperTest, GetFilteredPortInfo)
 {
-  ASSERT_TRUE(GetPortInfo<PortDirection::kDefault>({}).empty());
+  ASSERT_TRUE(GetFilteredPortInfo({}, PortDirection::kDefault).empty());
 
   const std::vector<PortInfo> vec({PortInfo{PortDirection::kInput, "abc1"},
                                    PortInfo{PortDirection::kOutput, "abc3"},
                                    PortInfo{PortDirection::kInput, "abc2"}});
 
-  auto input_ports = GetPortInfo<PortDirection::kInput>(vec);
+  auto input_ports = GetFilteredPortInfo(vec, PortDirection::kInput);
   ASSERT_EQ(input_ports.size(), 2);
   EXPECT_EQ(input_ports[0].GetPortType(), "abc1");
   EXPECT_EQ(input_ports[1].GetPortType(), "abc2");
 
-  EXPECT_EQ(GetPortInfo<PortDirection::kOutput>(vec).size(), 1);
-  EXPECT_TRUE(GetPortInfo<PortDirection::kDefault>(vec).empty());
+  EXPECT_EQ(GetFilteredPortInfo(vec, PortDirection::kOutput).size(), 1);
+  EXPECT_TRUE(GetFilteredPortInfo(vec, PortDirection::kDefault).empty());
 }
 
 }  // namespace mvvm::test

@@ -54,7 +54,7 @@ PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo &p
           constants::DefaultPortColor(), constants::GetDefaultPortRadius()};
 }
 
-std::vector<PortInfo> GetPortInfo(const std::vector<PortInfo> &port_infos, PortDirection direction)
+std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo> &port_infos, PortDirection direction)
 {
   std::vector<PortInfo> result;
   std::copy_if(port_infos.begin(), port_infos.end(), std::back_inserter(result),
