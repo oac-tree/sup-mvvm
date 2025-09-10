@@ -81,7 +81,7 @@ void NodeItemConnectableShapeAdapter::SetY(double value)
 
 std::vector<PortInfo> NodeItemConnectableShapeAdapter::GetPortInfos() const
 {
-  const PortInfo output_port(PortDirection::kOutput, std::string(kDefaultPortType), "out");
+  const PortInfo output_port(PortDirection::kOutput, std::string(kDefaultPortType), "");
 
   // items which can have children will have input port as well
   if (utils::HasTag(*m_node_item, constants::kChildrenTag))

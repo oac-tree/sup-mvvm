@@ -50,7 +50,7 @@ PortLocation GetPortLocation(NodeTreeLayout layout, PortDirection direction)
 PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo &port_info)
 {
   const auto location = GetPortLocation(layout, port_info.GetPortDirection());
-  return {location, QString::fromStdString(port_info.GetPortType()),
+  return {location, QString::fromStdString(port_info.GetPortLabel()),
           constants::DefaultPortColor(), constants::GetDefaultPortRadius()};
 }
 

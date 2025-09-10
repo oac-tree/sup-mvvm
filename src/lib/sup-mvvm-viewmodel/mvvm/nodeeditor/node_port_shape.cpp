@@ -61,9 +61,13 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   ellipse_rect.moveCenter(center);
   painter->drawEllipse(ellipse_rect);
 
-  painter->drawText(
-      GetLabelRect(m_port_appearance.GetPortLocation(), center, m_port_appearance.GetPortLabel()),
-      Qt::AlignCenter, m_port_appearance.GetPortLabel());
+  if (!m_port_appearance.GetPortLabel().isEmpty())
+  {
+    painter->setPen(Qt::black);
+    painter->drawText(
+        GetLabelRect(m_port_appearance.GetPortLocation(), center, m_port_appearance.GetPortLabel()),
+        Qt::AlignCenter, m_port_appearance.GetPortLabel());
+  }
 
   painter->restore();
 }
@@ -106,12 +110,12 @@ QRectF GetLabelRect(PortLocation port_location, const QPointF &port_position, co
   switch (port_location)
   {
   case PortLocation::kTop:
-    label_rect.moveBottom(port_position.y() - label_gap);
+    label_rect.moveTop(port_position.y() + label_gap);
     label_rect.moveLeft(port_position.x() - (label_rect.width() / 2.0));
     break;
 
   case PortLocation::kBottom:
-    label_rect.moveTop(port_position.y() + label_gap);
+    label_rect.moveBottom(port_position.y() - label_gap);
     label_rect.moveLeft(port_position.x() - (label_rect.width() / 2.0));
     break;
 
