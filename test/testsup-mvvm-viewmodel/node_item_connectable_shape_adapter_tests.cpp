@@ -25,6 +25,27 @@
 
 #include <gtest/gtest.h>
 
+namespace
+{
+
+class SequenceItem : public mvvm::NodeItem
+{
+public:
+  SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>()) { RegisterMultipleChildrenTag(); }
+};
+}  // namespace
+
+namespace mvvm
+{
+
+template <>
+struct item_traits<SequenceItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "SequenceItem"; }
+};
+
+}  // namespace mvvm
+
 namespace mvvm::test
 {
 
@@ -56,5 +77,29 @@ TEST_F(NodeItemConnectableShapeAdapterTest, InitialState)
   ASSERT_EQ(adapter.GetPortInfos().size(), 1U);
   EXPECT_EQ(adapter.GetPortInfos().at(0).GetPortDirection(), PortDirection::kOutput);
 }
+
+TEST_F(NodeItemConnectableShapeAdapterTest, PortInfoOfSequenceItem)
+{
+  SequenceItem node_item;
+  const NodeItemConnectableShapeAdapter adapter(&node_item);
+
+  ASSERT_EQ(adapter.GetPortInfos().size(), 2U);
+  EXPECT_EQ(adapter.GetPortInfos().at(0).GetPortDirection(), PortDirection::kInput);
+  EXPECT_EQ(adapter.GetPortInfos().at(1).GetPortDirection(), PortDirection::kOutput);
+}
+
+TEST_F(NodeItemConnectableShapeAdapterTest, SetCoordinates)
+{
+  NodeItem node_item;
+  EXPECT_EQ(node_item.GetX(), 0.0);
+  EXPECT_EQ(node_item.GetY(), 0.0);
+
+  NodeItemConnectableShapeAdapter adapter(&node_item);
+  adapter.SetX(42.0);
+  adapter.SetY(43.0);
+  EXPECT_EQ(node_item.GetX(), 42.0);
+  EXPECT_EQ(node_item.GetY(), 43.0);
+}
+
 
 }  // namespace mvvm::test

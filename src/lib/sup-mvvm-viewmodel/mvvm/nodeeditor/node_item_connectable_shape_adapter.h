@@ -57,7 +57,7 @@ public:
   std::vector<PortInfo> GetPortInfos() const override;
 
 private:
-  NodeItem* m_node_item {nullptr};
+  NodeItem* m_node_item{nullptr};
 };
 
 }  // namespace mvvm

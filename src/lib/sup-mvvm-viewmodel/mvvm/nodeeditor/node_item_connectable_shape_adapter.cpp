@@ -66,7 +66,7 @@ double NodeItemConnectableShapeAdapter::GetX() const
 
 void NodeItemConnectableShapeAdapter::SetX(double value)
 {
-  (void)value;
+  m_node_item->SetX(value);
 }
 
 double NodeItemConnectableShapeAdapter::GetY() const
@@ -76,19 +76,21 @@ double NodeItemConnectableShapeAdapter::GetY() const
 
 void NodeItemConnectableShapeAdapter::SetY(double value)
 {
-  (void)value;
+  m_node_item->SetY(value);
 }
 
 std::vector<PortInfo> NodeItemConnectableShapeAdapter::GetPortInfos() const
 {
   const PortInfo output_port(PortDirection::kOutput, std::string(kDefaultPortType), "out");
 
+  // items which can have children will have input port as well
   if (utils::HasTag(*m_node_item, constants::kChildrenTag))
   {
     const PortInfo input_port(PortDirection::kInput, std::string(kDefaultPortType), "in");
     return {input_port, output_port};
   }
 
+  // items always have output port by default
   return {output_port};
 }
 
