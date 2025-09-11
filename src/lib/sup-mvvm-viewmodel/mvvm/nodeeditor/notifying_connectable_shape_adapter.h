@@ -22,6 +22,7 @@
 #define MVVM_NODEEDITOR_NOTIFYING_CONNECTABLE_SHAPE_ADAPTER_H_
 
 #include <mvvm/nodeeditor/i_connectable_shape_adapter.h>
+#include <mvvm/signals/event_types.h>
 
 #include <functional>
 #include <memory>
@@ -34,10 +35,12 @@ class NodeItem;
 class ItemListener;
 
 /**
- * @brief The NotifyingConnectableShapeAdapter syncronizes mutual updates of QGraphicsItem and
- * IConnectableShapeAdapter.
+ * @brief The NotifyingConnectableShapeAdapter is a decorator to syncroniz mutual updates of
+ * QGraphicsItem and IConnectableShapeAdapter.
  *
- * It notifyes the client of any change of underlying node item.
+ * It notifyes the client of any change of underlying node item. In this adapter we assume that all
+ * calls to setters are coming from a view (QGraphicsItem). To avoid cyclic updates we block
+ * notifications when we are updating the view.
  */
 class NotifyingConnectableShapeAdapter : public IConnectableShapeAdapter
 {
@@ -65,11 +68,13 @@ public:
   std::vector<PortInfo> GetPortInfos() const override;
 
 private:
+  void OnPropertyChanged(const PropertyChangedEvent& event);
+
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
+  std::function<void()> m_update_shape_callback;
   std::unique_ptr<ItemListener> m_item_listener;
   bool m_block_view_update{false};
   bool m_block_item_update{false};
-  std::function<void()> m_update_shape_callback;
 };
 
 }  // namespace mvvm
