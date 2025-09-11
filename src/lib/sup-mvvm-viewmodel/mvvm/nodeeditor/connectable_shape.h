@@ -53,9 +53,14 @@ public:
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
-  QRectF GetShapeRect() const;
+  static QRectF GetShapeRect();
+
+protected:
+  QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
 
 private:
+  void UpdateItemFromView();
+  void UpdateViewFromItem();
   void CalculateBoundingBox();
 
   /**
@@ -73,7 +78,6 @@ private:
    * @brief Creates a port shape for the given port info.
    */
   std::unique_ptr<QGraphicsItem> CreateNodePortShape(const PortInfo& port_info);
-  void UpdateViewCoordinatesFromItem();
 
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
   std::unique_ptr<IPortPositionStrategy> m_port_position_strategy;

@@ -92,7 +92,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
   setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 
   SetupPorts();
-  UpdateViewCoordinatesFromItem();
+  UpdateViewFromItem();
 }
 
 ConnectableShape::~ConnectableShape() = default;
@@ -132,9 +132,31 @@ void ConnectableShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *
   painter->restore();
 }
 
-QRectF ConnectableShape::GetShapeRect() const
+QRectF ConnectableShape::GetShapeRect()
 {
   return constants::DefaultConnectableShapeRect();
+}
+
+QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+  if (change == ItemScenePositionHasChanged)
+  {
+    UpdateItemFromView();
+  }
+  return value;
+}
+
+void ConnectableShape::UpdateItemFromView()
+{
+  m_shape_adapter->SetX(x());
+  m_shape_adapter->SetY(y());
+}
+
+void ConnectableShape::UpdateViewFromItem()
+{
+  setX(m_shape_adapter->GetX());
+  setY(m_shape_adapter->GetY());
+  update();  // will pick-up color too through GetBaseColor() call in paint() method
 }
 
 void ConnectableShape::CalculateBoundingBox()
@@ -177,12 +199,6 @@ std::unique_ptr<QGraphicsItem> ConnectableShape::CreateNodePortShape(const PortI
       GetDefaultPortAppearance(m_port_position_strategy->GetNodeTreeLayout(), port_info);
   return std::make_unique<NodePortShape>(appearance, std::make_unique<NodePort>(port_info),
                                          nullptr);
-}
-
-void ConnectableShape::UpdateViewCoordinatesFromItem()
-{
-  setX(m_shape_adapter->GetX());
-  setY(m_shape_adapter->GetY());
 }
 
 }  // namespace mvvm

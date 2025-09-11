@@ -99,8 +99,8 @@ TEST_F(ConnectableShapeTest, SetupPorts)
         .WillOnce(::testing::Return(QPointF{static_cast<double>(i), -1.0}));
   }
 
-  auto shape = CreateConnectableShape();
-  auto child_items = shape->childItems();
+  auto view = CreateConnectableShape();
+  auto child_items = view->childItems();
   ASSERT_EQ(child_items.size(), all_ports.size());
 
   EXPECT_DOUBLE_EQ(child_items[0]->pos().x(), 0.0);
@@ -109,15 +109,15 @@ TEST_F(ConnectableShapeTest, SetupPorts)
   EXPECT_DOUBLE_EQ(child_items[1]->pos().y(), -1.0);
 }
 
-TEST_F(ConnectableShapeTest, SettingPosition)
+TEST_F(ConnectableShapeTest, SetViewInitialCoordinatesFromItem)
 {
   EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(1.0));
   EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(2.0));
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
 
-  auto shape = CreateConnectableShape();
-  EXPECT_EQ(shape->x(), 1.0);
-  EXPECT_EQ(shape->y(), 2.0);
+  auto view = CreateConnectableShape();
+  EXPECT_EQ(view->x(), 1.0);
+  EXPECT_EQ(view->y(), 2.0);
 }
 
 }  // namespace mvvm::test
