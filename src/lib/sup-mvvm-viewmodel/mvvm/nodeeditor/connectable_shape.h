@@ -55,12 +55,14 @@ public:
 
   static QRectF GetShapeRect();
 
+  void UpdateItemFromView();
+
+  void UpdateViewFromItem();
+
 protected:
   QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
 
 private:
-  void UpdateItemFromView();
-  void UpdateViewFromItem();
   void CalculateBoundingBox();
 
   /**
@@ -82,6 +84,8 @@ private:
   std::unique_ptr<IConnectableShapeAdapter> m_shape_adapter;
   std::unique_ptr<IPortPositionStrategy> m_port_position_strategy;
   QRectF m_bounding_box;
+  bool m_block_view_update{false};
+  bool m_block_item_update{false};
 };
 
 }  // namespace mvvm

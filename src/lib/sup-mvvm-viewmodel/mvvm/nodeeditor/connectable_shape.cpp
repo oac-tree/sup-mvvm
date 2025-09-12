@@ -137,6 +137,33 @@ QRectF ConnectableShape::GetShapeRect()
   return constants::DefaultConnectableShapeRect();
 }
 
+void ConnectableShape::UpdateItemFromView()
+{
+  if (m_block_item_update)
+  {
+    return;
+  }
+
+  m_block_view_update = true;
+  m_shape_adapter->SetX(x());
+  m_shape_adapter->SetY(y());
+  m_block_view_update = false;
+}
+
+void ConnectableShape::UpdateViewFromItem()
+{
+  if (m_block_view_update)
+  {
+    return;
+  }
+
+  m_block_item_update = true;
+  setX(m_shape_adapter->GetX());
+  setY(m_shape_adapter->GetY());
+  update();  // will pick-up color too through GetBaseColor() call in paint() method
+  m_block_item_update = false;
+}
+
 QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant &value)
 {
   if (change == ItemScenePositionHasChanged)
@@ -144,19 +171,6 @@ QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant 
     UpdateItemFromView();
   }
   return value;
-}
-
-void ConnectableShape::UpdateItemFromView()
-{
-  m_shape_adapter->SetX(x());
-  m_shape_adapter->SetY(y());
-}
-
-void ConnectableShape::UpdateViewFromItem()
-{
-  setX(m_shape_adapter->GetX());
-  setY(m_shape_adapter->GetY());
-  update();  // will pick-up color too through GetBaseColor() call in paint() method
 }
 
 void ConnectableShape::CalculateBoundingBox()
