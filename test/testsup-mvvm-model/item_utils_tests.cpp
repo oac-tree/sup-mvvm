@@ -907,4 +907,18 @@ TEST_F(ItemUtilsTests, ItemToDebugString)
   EXPECT_EQ(utils::ItemToDebugString(nullptr), std::string("nullptr"));
 }
 
+TEST_F(ItemUtilsTests, HasNotifications)
+{
+  EXPECT_FALSE(utils::HasNotifications(nullptr));
+
+  const SessionItem item;
+  EXPECT_FALSE(utils::HasNotifications(&item));
+
+  const SessionModel session_model;
+  EXPECT_FALSE(utils::HasNotifications(session_model.GetRootItem()));
+
+  const ApplicationModel application_model;
+  EXPECT_TRUE(utils::HasNotifications(application_model.GetRootItem()));
+}
+
 }  // namespace mvvm::test

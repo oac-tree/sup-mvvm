@@ -481,6 +481,11 @@ std::vector<T*> FindItemsUp(const std::vector<SessionItem*>& items, bool start_f
   return UniqueWithOrder(result);
 }
 
+/**
+ * @brief Checks if given item has notofications.
+ */
+bool HasNotifications(const SessionItem* item);
+
 }  // namespace mvvm::utils
 
 #endif  // MVVM_MODEL_ITEM_UTILS_H_

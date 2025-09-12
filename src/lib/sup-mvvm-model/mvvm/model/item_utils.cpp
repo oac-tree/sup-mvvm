@@ -472,4 +472,13 @@ std::string ItemToDebugString(const SessionItem* item)
   return ostr.str();
 }
 
+bool HasNotifications(const SessionItem* item)
+{
+  if (!item || !item->GetModel())
+  {
+    return false;
+  }
+  return item->GetModel()->GetEventHandler() != nullptr;
+}
+
 }  // namespace mvvm::utils
