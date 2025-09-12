@@ -45,4 +45,5 @@ target_sources(${library_name} PRIVATE
   viewmodel_iterate_helper.h
   viewmodel_utils.cpp
   viewmodel_utils.h
+  item_view_map.h
   )
