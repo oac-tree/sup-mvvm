@@ -81,7 +81,7 @@ public:
   std::size_t GetSize() const;
 
 private:
-  std::map<ItemT*, ViewT*> m_item_to_view;
+  std::map<const ItemT*, const ViewT*> m_item_to_view;
 };
 
 template <typename ItemT, typename ViewT>
