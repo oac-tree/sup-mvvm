@@ -482,7 +482,7 @@ std::vector<T*> FindItemsUp(const std::vector<SessionItem*>& items, bool start_f
 }
 
 /**
- * @brief Checks if given item has notofications.
+ * @brief Checks if given item has notifications.
  */
 bool HasNotifications(const SessionItem* item);
 
