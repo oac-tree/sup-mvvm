@@ -23,8 +23,6 @@ target_sources(${library_name} PRIVATE
   node_port.h
   node_port_shape.cpp
   node_port_shape.h
-  notifying_connectable_shape_adapter.cpp
-  notifying_connectable_shape_adapter.h
   port_appearance.cpp
   port_appearance.h
   port_info.cpp
