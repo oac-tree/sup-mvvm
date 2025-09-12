@@ -4,7 +4,10 @@
 target_sources(${library_name} PRIVATE
   connectable_shape.cpp
   connectable_shape.h
+  connectable_view_model_controller.cpp
+  connectable_view_model_controller.h
   i_connectable_shape_adapter.h
+  i_connectable_shape_factory.h
   i_node_connection.h
   i_node_port.h
   i_port_position_strategy.h
