@@ -57,7 +57,7 @@ TEST_F(ConnectableShapeTest, InvalidInitialization)
   EXPECT_THROW(ConnectableShape(std::make_unique<ConnectableShapeDecorator>(&m_mock_adapter), {}),
                RuntimeException);
 
-  // EXPECT_CALL(m_mock_position_strategy, GetNodeTreeLayout()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetY()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
@@ -79,6 +79,7 @@ TEST_F(ConnectableShapeTest, SetupPorts)
       .WillByDefault(::testing::Return(NodeTreeLayout::kTopToBottom));
 
   EXPECT_CALL(m_mock_position_strategy, GetNodeTreeLayout()).Times(::testing::AtLeast(1));
+  EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(0.0));
   EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(0.0));
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).WillOnce(::testing::Return(all_ports));
@@ -111,6 +112,7 @@ TEST_F(ConnectableShapeTest, SetupPorts)
 
 TEST_F(ConnectableShapeTest, SetViewInitialCoordinatesFromItem)
 {
+  EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(1.0));
   EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(2.0));
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);

@@ -28,6 +28,8 @@
 #include "node_port_shape.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
+#include <mvvm/model/item_utils.h>
+#include <mvvm/signals/item_listener.h>
 
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
@@ -92,6 +94,7 @@ ConnectableShape::ConnectableShape(std::unique_ptr<IConnectableShapeAdapter> sha
   setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 
   SetupPorts();
+  SetupItemPropertyListener();
   UpdateViewFromItem();
 }
 
@@ -204,6 +207,15 @@ void ConnectableShape::SetupPortsForDirection(const std::vector<PortInfo> &port_
     port_shape_ptr->setPos(position);
 
     ++index;
+  }
+}
+
+void ConnectableShape::SetupItemPropertyListener()
+{
+  if (utils::HasNotifications(m_shape_adapter->GetItem()))
+  {
+    m_item_listener = std::make_unique<ItemListener>(m_shape_adapter->GetItem());
+    m_item_listener->Connect<PropertyChangedEvent>([this](auto) { UpdateViewFromItem(); });
   }
 }
 

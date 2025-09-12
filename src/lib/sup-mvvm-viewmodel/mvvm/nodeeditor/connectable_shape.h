@@ -32,6 +32,7 @@ namespace mvvm
 class IConnectableShapeAdapter;
 class IPortPositionStrategy;
 class PortInfo;
+class ItemListener;
 
 /**
  * @brief The ConnectableShape is a graphics object which have ports for connecting other objects.
@@ -76,6 +77,8 @@ private:
   void SetupPortsForDirection(const std::vector<PortInfo>& port_infos,
                               PortDirection port_direction);
 
+  void SetupItemPropertyListener();
+
   /**
    * @brief Creates a port shape for the given port info.
    */
@@ -86,6 +89,7 @@ private:
   QRectF m_bounding_box;
   bool m_block_view_update{false};
   bool m_block_item_update{false};
+  std::unique_ptr<ItemListener> m_item_listener;
 };
 
 }  // namespace mvvm
