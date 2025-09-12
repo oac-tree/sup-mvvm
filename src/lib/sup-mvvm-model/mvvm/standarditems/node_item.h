@@ -35,6 +35,10 @@ namespace mvvm
 class NodeItem : public CompoundItem
 {
 public:
+  static constexpr std::string_view kXpos{"kXpos"};
+  static constexpr std::string_view kYpos{"kYpos"};
+  static constexpr std::string_view kColor{"kColor"};
+
   explicit NodeItem(const std::string& model_type = {});
 
   std::unique_ptr<SessionItem> Clone() const override;

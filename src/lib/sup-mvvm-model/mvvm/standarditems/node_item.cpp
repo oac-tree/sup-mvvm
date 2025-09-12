@@ -25,13 +25,6 @@
 namespace mvvm
 {
 
-namespace
-{
-constexpr std::string_view kXpos{"kXpos"};
-constexpr std::string_view kYpos{"kYpos"};
-constexpr std::string_view kColor{"kColor"};
-}  // namespace
-
 NodeItem::NodeItem(const std::string& model_type)
     : CompoundItem(model_type.empty() ? GetTypeName<NodeItem>() : model_type)
 {
