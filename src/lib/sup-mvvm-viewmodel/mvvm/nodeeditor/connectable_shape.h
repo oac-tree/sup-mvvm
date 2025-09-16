@@ -33,6 +33,7 @@ class IConnectableShapeAdapter;
 class IPortPositionStrategy;
 class PortInfo;
 class ItemListener;
+class INodePort;
 
 /**
  * @brief The ConnectableShape is a graphics object which have ports for connecting other objects.
@@ -54,11 +55,32 @@ public:
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
+  /**
+   * @brief Returns exact rectangle of the shape without margins.
+   */
   static QRectF GetShapeRect();
 
+  /**
+   * @brief Updates item properties from the view position.
+   */
   void UpdateItemFromView();
 
+  /**
+   * @brief Updates view properties POsition, color) from the item.
+   */
   void UpdateViewFromItem();
+
+  /**
+   * @brief Makes the given child shape connected to this shape.
+   *
+   * This method creates a connection between this shape and the provided child shape.
+   */
+  void MakeChildConnected(ConnectableShape* child_shape);
+
+  /**
+   * @brief Returns all ports of this shape.
+   */
+  std::vector<INodePort*> GetPorts() const;
 
 protected:
   QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
@@ -90,6 +112,7 @@ private:
   bool m_block_view_update{false};
   bool m_block_item_update{false};
   std::unique_ptr<ItemListener> m_item_listener;
+  std::vector<INodePort*> m_node_ports;
 };
 
 }  // namespace mvvm

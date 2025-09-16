@@ -65,6 +65,17 @@ TEST_F(ConnectableShapeTest, InvalidInitialization)
   EXPECT_NO_THROW(CreateConnectableShape());
 }
 
+TEST_F(ConnectableShapeTest, GetPorts)
+{
+  EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetX()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetY()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
+
+  auto shape = CreateConnectableShape();
+  EXPECT_TRUE(shape->GetPorts().empty());
+}
+
 TEST_F(ConnectableShapeTest, SetupPorts)
 {
   const std::vector<PortInfo> input_ports = {

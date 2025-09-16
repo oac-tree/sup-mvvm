@@ -29,4 +29,9 @@ NodeConnectionShape::NodeConnectionShape(std::unique_ptr<INodeConnection> node_c
 {
 }
 
+INodeConnection *NodeConnectionShape::GetNodeConnection()
+{
+  return m_node_connection.get();
+}
+
 }  // namespace mvvm

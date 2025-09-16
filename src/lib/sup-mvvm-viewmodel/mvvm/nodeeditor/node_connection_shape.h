@@ -40,6 +40,8 @@ class NodeConnectionShape : public QGraphicsPathItem
 public:
   NodeConnectionShape(std::unique_ptr<INodeConnection> node_connection, QGraphicsItem* parent);
 
+  INodeConnection* GetNodeConnection();
+
 private:
   std::unique_ptr<INodeConnection> m_node_connection;
 };

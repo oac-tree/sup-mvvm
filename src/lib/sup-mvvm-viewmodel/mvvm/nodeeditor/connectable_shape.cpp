@@ -22,6 +22,8 @@
 
 #include "i_connectable_shape_adapter.h"
 #include "i_port_position_strategy.h"
+#include "node_connection.h"
+#include "node_connection_shape.h"
 #include "node_editor_constants.h"
 #include "node_editor_helper.h"
 #include "node_port.h"
@@ -31,6 +33,7 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/signals/item_listener.h>
 
+#include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
@@ -66,6 +69,24 @@ QFont GetLabelFont()
   QFont result("Noto Sans", constants::NodeUnitSize(0.8), QFont::Normal);
   result.setWordSpacing(-constants::NodeUnitSize(0.25));
   return result;
+}
+
+/**
+ * @brief Returns first input port or nullptr if no such port.
+ */
+INodePort *GetInputPort(std::vector<INodePort *> all_ports)
+{
+  auto input_ports = GetPortsByDirection(all_ports, PortDirection::kInput);
+  return input_ports.empty() ? nullptr : input_ports.front();
+}
+
+/**
+ * @brief Returns first output port or nullptr if no such port.
+ */
+INodePort *GetOutputPort(std::vector<INodePort *> all_ports)
+{
+  auto output_ports = GetPortsByDirection(all_ports, PortDirection::kOutput);
+  return output_ports.empty() ? nullptr : output_ports.front();
 }
 
 }  // namespace
@@ -168,6 +189,46 @@ void ConnectableShape::UpdateViewFromItem()
   m_block_item_update = false;
 }
 
+void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape)
+{
+  if (!scene())
+  {
+    throw RuntimeException("Shape is not in the scene.");
+  }
+
+  if (child_shape == nullptr)
+  {
+    throw RuntimeException("Child shape is null");
+  }
+
+  if (child_shape == this)
+  {
+    throw RuntimeException("Cannot connect shape to itself");
+  }
+
+  INodePort *input_port = GetInputPort(m_node_ports);
+  INodePort *output_port = GetOutputPort(child_shape->m_node_ports);
+
+  if ((input_port == nullptr) || (output_port == nullptr))
+  {
+    throw RuntimeException("Cannot connect shapes without ports");
+  }
+
+  if (!input_port->IsConnectable(output_port))
+  {
+    throw RuntimeException("Ports are not connectable");
+  }
+  auto connection = std::make_unique<NodeConnection>(output_port, input_port);
+
+  auto connection_snape = std::make_unique<NodeConnectionShape>(std::move(connection), nullptr);
+  scene()->addItem(connection_snape.release());  // take ownership
+}
+
+std::vector<INodePort *> ConnectableShape::GetPorts() const
+{
+  return m_node_ports;
+}
+
 QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant &value)
 {
   if (change == ItemScenePositionHasChanged)
@@ -224,8 +285,9 @@ std::unique_ptr<QGraphicsItem> ConnectableShape::CreateNodePortShape(const PortI
 {
   const auto appearance =
       GetDefaultPortAppearance(m_port_position_strategy->GetNodeTreeLayout(), port_info);
-  return std::make_unique<NodePortShape>(appearance, std::make_unique<NodePort>(port_info),
-                                         nullptr);
+  auto node_port = std::make_unique<NodePort>(port_info);
+  m_node_ports.push_back(node_port.get());
+  return std::make_unique<NodePortShape>(appearance, std::move(node_port), nullptr);
 }
 
 }  // namespace mvvm
