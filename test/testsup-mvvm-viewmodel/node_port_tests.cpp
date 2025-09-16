@@ -154,4 +154,20 @@ TEST_F(NodePortTest, IsConnectable)
   }
 }
 
+TEST_F(NodePortTest, NodePortsDeletedBeforeConnection)
+{
+  NodeConnection connection;
+
+  {
+    NodePort port1({PortDirection::kInput, "type_abc"});
+    NodePort port2({PortDirection::kOutput, "type_abc"});
+    connection.SetStartPort(&port1);
+    connection.SetEndPort(&port2);
+  }
+  // Ports are deleted, connection should not try to remove itself from ports
+  // in its destructor.
+  EXPECT_EQ(connection.GetStartPort(), nullptr);
+  EXPECT_EQ(connection.GetEndPort(), nullptr);
+}
+
 }  // namespace mvvm::test

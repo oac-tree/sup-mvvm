@@ -96,4 +96,24 @@ TEST_F(NodeConnectionTest, DisconnectionOnConnectionDestruction)
   EXPECT_TRUE(end_port.GetConnections().empty());
 }
 
+TEST_F(NodeConnectionTest, ForgetPort)
+{
+  NodePort start_port({PortDirection::kOutput, "abc"});
+  NodePort end_port({PortDirection::kInput, "abc"});
+
+  NodeConnection connection(&start_port, &end_port);
+  EXPECT_TRUE(connection.HasPort(&start_port));
+  EXPECT_TRUE(connection.HasPort(&end_port));
+
+  connection.ForgetPort(&start_port);
+  EXPECT_FALSE(connection.HasPort(&start_port));
+  EXPECT_TRUE(connection.HasPort(&end_port));
+  start_port.RemoveConnection(&connection); // to avoid destruction issues
+
+  connection.ForgetPort(&end_port);
+  EXPECT_FALSE(connection.HasPort(&start_port));
+  EXPECT_FALSE(connection.HasPort(&end_port));
+  end_port.RemoveConnection(&connection); // to avoid destruction issues
+}
+
 }  // namespace mvvm::test

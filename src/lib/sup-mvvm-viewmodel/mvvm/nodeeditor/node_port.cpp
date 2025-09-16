@@ -22,6 +22,7 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/nodeeditor/i_node_connection.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <algorithm>
 
@@ -29,6 +30,14 @@ namespace mvvm
 {
 
 NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
+
+NodePort::~NodePort()
+{
+  for (auto connection : utils::RemoveConst(m_connections))
+  {
+    connection->ForgetPort(this);
+  }
+}
 
 PortDirection NodePort::GetPortDirection() const
 {

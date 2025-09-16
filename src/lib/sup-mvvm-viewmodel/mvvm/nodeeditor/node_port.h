@@ -36,7 +36,7 @@ class NodePort : public INodePort
 {
 public:
   explicit NodePort(PortInfo port_info);
-  ~NodePort() override = default;
+  ~NodePort() override;
 
   NodePort(const NodePort&) = delete;
   NodePort& operator=(const NodePort&) = delete;
