@@ -164,4 +164,17 @@ TEST_F(ConnectableViewModelControllerTest, NestedItems)
   ASSERT_FALSE(IsConnected(connections.at(1), shapes.at(0), shapes.at(1)));
 }
 
+TEST_F(ConnectableViewModelControllerTest, InsertItemInEmptyModel)
+{
+  auto controller = CreateController();
+  EXPECT_NO_THROW(controller->InitScene(m_app_model.GetRootItem()));
+
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto shapes = GetShapes<ConnectableShape>();
+
+  ASSERT_EQ(shapes.size(), 1);
+
+}
+
+
 }  // namespace mvvm::test

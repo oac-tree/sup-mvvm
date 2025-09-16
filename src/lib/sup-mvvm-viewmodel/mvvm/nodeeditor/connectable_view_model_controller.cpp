@@ -37,7 +37,7 @@ namespace
 struct Node
 {
   SessionItem *item{nullptr};
-  ConnectableShape *shape{nullptr};
+  const ConnectableShape *shape{nullptr};
 };
 }  // namespace
 
@@ -61,15 +61,14 @@ ConnectableViewModelController::~ConnectableViewModelController() = default;
 
 void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event)
 {
-  (void)event;
+  auto [parent, tag_index] = event;
+
+  auto new_child = parent->GetItem<mvvm::SessionItem>(tag_index);
+  auto parent_shape =m_item_view_map.FindView(parent);
+  PopulateScene(new_child, parent_shape);
 }
 
 void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
-{
-  (void)event;
-}
-
-void ConnectableViewModelController::OnModelEvent(const DataChangedEvent &event)
 {
   (void)event;
 }
@@ -81,21 +80,27 @@ void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item
     throw RuntimeException("Attempt to initialize view model controller with invalid item");
   }
 
-  m_listener = std::make_unique<mvvm::ModelListener>(container_item->GetModel());
+  ConnectToModel(container_item->GetModel());
 
   m_graphics_scene->clear();
   m_item_view_map.Clear();
   for (auto item : utils::TopLevelItems(*container_item))
   {
-    PopulateScene(item);
+    PopulateScene(item, nullptr);
   }
 }
 
-void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_item)
+ConnectableViewModelController::item_view_map_t &ConnectableViewModelController::GetItemViewMap()
+{
+  return m_item_view_map;
+}
+
+void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_item,
+                                                   const ConnectableShape *parent_shape)
 {
   std::stack<Node> stack;
 
-  stack.push({top_level_node_item, nullptr});
+  stack.push({top_level_node_item, parent_shape});
 
   while (!stack.empty())
   {
@@ -122,6 +127,15 @@ void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_i
       stack.push({*it, new_shape_ptr});
     }
   }
+}
+
+void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
+{
+  m_listener = std::make_unique<mvvm::ModelListener>(model);
+
+  m_listener->Connect<mvvm::ItemInsertedEvent>(this, &ConnectableViewModelController::OnModelEvent);
+  m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this,
+                                                    &ConnectableViewModelController::OnModelEvent);
 }
 
 }  // namespace mvvm

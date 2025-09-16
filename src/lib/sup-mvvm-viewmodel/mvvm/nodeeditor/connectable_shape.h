@@ -75,7 +75,7 @@ public:
    *
    * This method creates a connection between this shape and the provided child shape.
    */
-  void MakeChildConnected(ConnectableShape* child_shape);
+  void MakeChildConnected(ConnectableShape* child_shape) const;
 
   /**
    * @brief Returns all ports of this shape.

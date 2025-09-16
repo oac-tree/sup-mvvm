@@ -189,7 +189,7 @@ void ConnectableShape::UpdateViewFromItem()
   m_block_item_update = false;
 }
 
-void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape)
+void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
 {
   if (!scene())
   {

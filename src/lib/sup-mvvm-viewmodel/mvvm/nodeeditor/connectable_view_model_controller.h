@@ -57,12 +57,13 @@ public:
 
   void OnModelEvent(const mvvm::AboutToRemoveItemEvent& event);
 
-  void OnModelEvent(const mvvm::DataChangedEvent& event);
-
   void InitScene(mvvm::SessionItem* container_item);
 
+  item_view_map_t& GetItemViewMap();
+
 private:
-  void PopulateScene(mvvm::SessionItem* top_level_node_item);
+  void PopulateScene(mvvm::SessionItem* top_level_node_item, const ConnectableShape* parent_shape);
+  void ConnectToModel(mvvm::ISessionModel* model);
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
   mvvm::ISessionModel* m_model{nullptr};
