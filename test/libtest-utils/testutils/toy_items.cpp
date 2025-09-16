@@ -81,6 +81,15 @@ std::unique_ptr<SessionItem> MultiLayerItem::Clone() const
   return std::make_unique<MultiLayerItem>(*this);
 }
 
+SequenceItem::SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>())
+{
+  RegisterMultipleChildrenTag();
+}
+
+WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>())
+{
+}
+
 SampleModel::SampleModel() : mvvm::ApplicationModel("SampleModel") {}
 
 }  // namespace mvvm::test::toyitems

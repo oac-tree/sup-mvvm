@@ -23,28 +23,8 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/standarditems/node_item.h>
 
+#include <testutils/toy_items.h>
 #include <gtest/gtest.h>
-
-namespace
-{
-
-class SequenceItem : public mvvm::NodeItem
-{
-public:
-  SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>()) { RegisterMultipleChildrenTag(); }
-};
-}  // namespace
-
-namespace mvvm
-{
-
-template <>
-struct item_traits<SequenceItem>
-{
-  static constexpr std::string_view type_name() noexcept { return "SequenceItem"; }
-};
-
-}  // namespace mvvm
 
 namespace mvvm::test
 {
@@ -80,7 +60,7 @@ TEST_F(NodeItemConnectableShapeAdapterTest, InitialState)
 
 TEST_F(NodeItemConnectableShapeAdapterTest, PortInfoOfSequenceItem)
 {
-  SequenceItem node_item;
+  test::toyitems::SequenceItem node_item;
   const NodeItemConnectableShapeAdapter adapter(&node_item);
 
   ASSERT_EQ(adapter.GetPortInfos().size(), 2U);

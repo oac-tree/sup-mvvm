@@ -26,6 +26,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
+#include <mvvm/standarditems/node_item.h>
 
 namespace mvvm::test::toyitems
 {
@@ -55,6 +56,18 @@ public:
   std::unique_ptr<SessionItem> Clone() const override;
 };
 
+class SequenceItem : public mvvm::NodeItem
+{
+public:
+  SequenceItem();
+};
+
+class WaitItem : public mvvm::NodeItem
+{
+public:
+  WaitItem();
+};
+
 class SampleModel : public mvvm::ApplicationModel
 {
 public:
@@ -79,6 +92,18 @@ template <>
 struct mvvm::item_traits<mvvm::test::toyitems::MultiLayerItem>
 {
   static constexpr std::string_view type_name() noexcept { return "MultiLayer"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::SequenceItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "SequenceItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::WaitItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "WaitItem"; }
 };
 
 #endif  // LIBTEST_UTILS_TESTUTILS_TOY_ITEMS_H_
