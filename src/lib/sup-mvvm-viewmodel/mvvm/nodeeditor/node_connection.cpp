@@ -21,10 +21,30 @@
 #include "node_connection.h"
 
 #include "i_node_port.h"
+
 #include <mvvm/core/mvvm_exceptions.h>
 
 namespace mvvm
 {
+
+NodeConnection::NodeConnection(INodePort *start_port, INodePort *end_port)
+{
+  SetStartPort(start_port);
+  SetEndPort(end_port);
+}
+
+NodeConnection::~NodeConnection()
+{
+  if (m_start_port)
+  {
+    m_start_port->RemoveConnection(this);
+  }
+
+  if (m_end_port)
+  {
+    m_end_port->RemoveConnection(this);
+  }
+}
 
 const INodePort *NodeConnection::GetStartPort() const
 {

@@ -74,4 +74,26 @@ TEST_F(NodeConnectionTest, SetPortFailure)
       << "Setting end port twice should throw";
 }
 
+TEST_F(NodeConnectionTest, TwoPortsConstruction)
+{
+  NodePort start_port({PortDirection::kOutput, "abc"});
+  NodePort end_port({PortDirection::kInput, "abc"});
+
+  const NodeConnection connection(&start_port, &end_port);
+  EXPECT_EQ(connection.GetStartPort(), &start_port);
+  EXPECT_EQ(connection.GetEndPort(), &end_port);
+}
+
+TEST_F(NodeConnectionTest, DisconnectionOnConnectionDestruction)
+{
+  NodePort start_port({PortDirection::kOutput, "abc"});
+  NodePort end_port({PortDirection::kInput, "abc"});
+
+  {
+    const NodeConnection connection(&start_port, &end_port);
+  }
+  EXPECT_TRUE(start_port.GetConnections().empty());
+  EXPECT_TRUE(end_port.GetConnections().empty());
+}
+
 }  // namespace mvvm::test

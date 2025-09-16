@@ -34,7 +34,8 @@ class NodeConnection : public INodeConnection
 {
 public:
   NodeConnection() = default;
-  ~NodeConnection() override = default;
+  NodeConnection(INodePort* start_port, INodePort* end_port);
+  ~NodeConnection() override;
 
   NodeConnection(const NodeConnection&) = delete;
   NodeConnection& operator=(const NodeConnection&) = delete;
