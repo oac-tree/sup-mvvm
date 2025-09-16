@@ -82,6 +82,11 @@ public:
    */
   std::vector<INodePort*> GetPorts() const;
 
+  /**
+   * @brief Returns underlying connectable shape adapter.
+   */
+  IConnectableShapeAdapter* GetConnectableShapeAdapter();
+
 protected:
   QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
 

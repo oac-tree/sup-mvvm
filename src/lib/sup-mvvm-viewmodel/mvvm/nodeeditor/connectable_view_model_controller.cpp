@@ -99,23 +99,23 @@ void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_i
 
   while (!stack.empty())
   {
-    auto current_parent_item = stack.top().item;
+    auto current_item = stack.top().item;
     auto current_parent_shape = stack.top().shape;
     stack.pop();
 
-    auto new_shape = m_shape_factory->CreateShape(current_parent_item);
+    auto new_shape = m_shape_factory->CreateShape(current_item);
     auto new_shape_ptr = new_shape.get();
 
     m_graphics_scene->addItem(new_shape.release());  // transfer ownership to the scene
 
-    m_item_view_map.Insert(current_parent_item, new_shape_ptr);
+    m_item_view_map.Insert(current_item, new_shape_ptr);
 
     if (current_parent_shape)
     {
       current_parent_shape->MakeChildConnected(new_shape_ptr);
     }
 
-    auto child_items = utils::TopLevelItems(*current_parent_item);
+    auto child_items = utils::TopLevelItems(*current_item);
     // visited in reverse order to populate the stack properly
     for (auto it = child_items.rbegin(); it != child_items.rend(); ++it)
     {

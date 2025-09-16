@@ -74,7 +74,7 @@ QFont GetLabelFont()
 /**
  * @brief Returns first input port or nullptr if no such port.
  */
-INodePort *GetInputPort(std::vector<INodePort *> all_ports)
+INodePort *GetInputPort(const std::vector<INodePort *>& all_ports)
 {
   auto input_ports = GetPortsByDirection(all_ports, PortDirection::kInput);
   return input_ports.empty() ? nullptr : input_ports.front();
@@ -83,7 +83,7 @@ INodePort *GetInputPort(std::vector<INodePort *> all_ports)
 /**
  * @brief Returns first output port or nullptr if no such port.
  */
-INodePort *GetOutputPort(std::vector<INodePort *> all_ports)
+INodePort *GetOutputPort(const std::vector<INodePort *>& all_ports)
 {
   auto output_ports = GetPortsByDirection(all_ports, PortDirection::kOutput);
   return output_ports.empty() ? nullptr : output_ports.front();
@@ -227,6 +227,11 @@ void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape)
 std::vector<INodePort *> ConnectableShape::GetPorts() const
 {
   return m_node_ports;
+}
+
+IConnectableShapeAdapter *ConnectableShape::GetConnectableShapeAdapter()
+{
+  return m_shape_adapter.get();
 }
 
 QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant &value)
