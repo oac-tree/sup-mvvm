@@ -38,6 +38,11 @@ public:
 
   ~ViewModelController() override;
 
+  ViewModelController(const ViewModelController& other) = delete;
+  ViewModelController& operator=(const ViewModelController& other) = delete;
+  ViewModelController(ViewModelController&& other) = delete;
+  ViewModelController& operator=(ViewModelController&&) = delete;
+
   void OnModelEvent(const ItemInsertedEvent& event) override;
 
   void OnModelEvent(const AboutToRemoveItemEvent& event) override;

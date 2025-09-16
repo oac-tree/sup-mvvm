@@ -55,7 +55,7 @@ public:
     const SessionItem* GetRootItem() const override { return nullptr; }
 
   private:
-    virtual void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; }
+    void SetRootItemImpl(SessionItem* root_item) override { (void)root_item; }
   };
 
   /**

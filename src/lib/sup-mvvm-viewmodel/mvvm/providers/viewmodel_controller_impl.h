@@ -50,6 +50,11 @@ public:
 
   ~ViewModelControllerImpl() override;
 
+  ViewModelControllerImpl(const ViewModelControllerImpl &other) = delete;
+  ViewModelControllerImpl &operator=(const ViewModelControllerImpl &other) = delete;
+  ViewModelControllerImpl(ViewModelControllerImpl &&other) = delete;
+  ViewModelControllerImpl &operator=(ViewModelControllerImpl &&) = delete;
+
   void OnModelEvent(const AboutToInsertItemEvent &event) override;
 
   void OnModelEvent(const ItemInsertedEvent &event) override;
