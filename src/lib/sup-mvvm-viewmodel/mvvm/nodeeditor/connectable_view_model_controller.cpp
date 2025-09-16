@@ -64,13 +64,13 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event
   auto [parent, tag_index] = event;
 
   auto new_child = parent->GetItem<mvvm::SessionItem>(tag_index);
-  auto parent_shape =m_item_view_map.FindView(parent);
+  auto parent_shape = m_item_view_map.FindView(parent);
   PopulateScene(new_child, parent_shape);
 }
 
 void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
-  (void)event;
+
 }
 
 void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item)
@@ -80,14 +80,21 @@ void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item
     throw RuntimeException("Attempt to initialize view model controller with invalid item");
   }
 
-  ConnectToModel(container_item->GetModel());
+  m_root_item = container_item;
+
+  ConnectToModel(m_root_item->GetModel());
 
   m_graphics_scene->clear();
   m_item_view_map.Clear();
-  for (auto item : utils::TopLevelItems(*container_item))
+  for (auto item : utils::TopLevelItems(*m_root_item))
   {
     PopulateScene(item, nullptr);
   }
+}
+
+SessionItem *ConnectableViewModelController::GetRootItem() const
+{
+  return m_root_item;
 }
 
 ConnectableViewModelController::item_view_map_t &ConnectableViewModelController::GetItemViewMap()
@@ -136,6 +143,18 @@ void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
   m_listener->Connect<mvvm::ItemInsertedEvent>(this, &ConnectableViewModelController::OnModelEvent);
   m_listener->Connect<mvvm::AboutToRemoveItemEvent>(this,
                                                     &ConnectableViewModelController::OnModelEvent);
+}
+
+bool ConnectableViewModelController::IsInScope(const mvvm::AboutToRemoveItemEvent &event) const
+{
+  // remove event in the container, or somewhere deep below
+  auto parent = event.item;
+  return parent == m_root_item || mvvm::utils::IsItemAncestor(parent, GetRootItem());
+}
+
+bool ConnectableViewModelController::IsInvalidItemToRemove(SessionItem *item_to_remove) const
+{
+  return item_to_remove == m_root_item || utils::IsItemAncestor(GetRootItem(), item_to_remove);
 }
 
 }  // namespace mvvm

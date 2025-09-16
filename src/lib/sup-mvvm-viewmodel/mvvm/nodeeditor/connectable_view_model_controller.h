@@ -61,15 +61,24 @@ public:
 
   item_view_map_t& GetItemViewMap();
 
+  mvvm::SessionItem* GetRootItem() const;
+
 private:
   void PopulateScene(mvvm::SessionItem* top_level_node_item, const ConnectableShape* parent_shape);
   void ConnectToModel(mvvm::ISessionModel* model);
 
+  /**
+   * @brief Checks if the given event corresponds to the removal in the container.
+   */
+  bool IsInScope(const mvvm::AboutToRemoveItemEvent& event) const;
+
+  bool IsInvalidItemToRemove(mvvm::SessionItem* item) const;
+
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
-  mvvm::ISessionModel* m_model{nullptr};
   QGraphicsScene* m_graphics_scene{nullptr};
   item_view_map_t m_item_view_map;
   std::unique_ptr<mvvm::ModelListener> m_listener;
+  mvvm::SessionItem *m_root_item{nullptr};
 };
 
 }  // namespace mvvm

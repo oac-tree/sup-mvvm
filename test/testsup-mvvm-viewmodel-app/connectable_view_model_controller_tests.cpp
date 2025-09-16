@@ -110,6 +110,7 @@ TEST_F(ConnectableViewModelControllerTest, InitSceneForEmptyModel)
 {
   auto controller = CreateController();
   EXPECT_NO_THROW(controller->InitScene(m_app_model.GetRootItem()));
+  EXPECT_EQ(controller->GetRootItem(), m_app_model.GetRootItem());
   EXPECT_TRUE(m_scene.items().empty());
 }
 
@@ -173,8 +174,6 @@ TEST_F(ConnectableViewModelControllerTest, InsertItemInEmptyModel)
   auto shapes = GetShapes<ConnectableShape>();
 
   ASSERT_EQ(shapes.size(), 1);
-
 }
-
 
 }  // namespace mvvm::test
