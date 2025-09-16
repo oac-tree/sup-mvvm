@@ -6,6 +6,8 @@ target_sources(${library_name} PRIVATE
   connectable_shape.h
   connectable_view_model_controller.cpp
   connectable_view_model_controller.h
+  default_node_shape_factory.cpp
+  default_node_shape_factory.h
   i_connectable_shape_adapter.h
   i_connectable_shape_factory.h
   i_node_connection.h

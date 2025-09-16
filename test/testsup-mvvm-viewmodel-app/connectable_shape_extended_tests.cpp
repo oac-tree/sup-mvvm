@@ -26,7 +26,6 @@
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
-#include <mvvm/standarditems/node_item.h>
 #include <mvvm/test/mock_item_listener.h>
 #include <mvvm/utils/container_utils.h>
 

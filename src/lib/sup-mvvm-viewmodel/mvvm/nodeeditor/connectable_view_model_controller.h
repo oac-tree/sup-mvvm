@@ -21,34 +21,54 @@
 #ifndef MVVM_NODEEDITOR_I_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
 #define MVVM_NODEEDITOR_I_CONNECTABLE_VIEW_MODEL_CONTROLLER_H_
 
-#include <mvvm/providers/abstract_viewmodel_controller.h>
+#include <mvvm/providers/item_view_map.h>
+#include <mvvm/signals/event_types.h>
+
+class QGraphicsScene;
 
 namespace mvvm
 {
 
 class IConnectableShapeFactory;
+class ISessionModel;
+class ConnectableShape;
+class ModelListener;
 
 /**
  * @brief The ConnectableViewModelController syncronizes a model with node items and objects on the
  * graphics scene.
  */
-class ConnectableViewModelController : public AbstractViewModelController
+class ConnectableViewModelController
 {
 public:
-  explicit ConnectableViewModelController(std::unique_ptr<IConnectableShapeFactory> shape_factory);
+  using item_view_map_t = ItemViewMap<SessionItem, ConnectableShape>;
 
-  ~ConnectableViewModelController() override;
+  ConnectableViewModelController(std::unique_ptr<IConnectableShapeFactory> factory,
+                                 QGraphicsScene* graphics_scene);
+
+  virtual ~ConnectableViewModelController();
 
   ConnectableViewModelController(const ConnectableViewModelController& other) = delete;
   ConnectableViewModelController& operator=(const ConnectableViewModelController& other) = delete;
   ConnectableViewModelController(ConnectableViewModelController&& other) = delete;
   ConnectableViewModelController& operator=(ConnectableViewModelController&&) = delete;
 
+  void OnModelEvent(const mvvm::ItemInsertedEvent& event);
+
+  void OnModelEvent(const mvvm::AboutToRemoveItemEvent& event);
+
+  void OnModelEvent(const mvvm::DataChangedEvent& event);
+
+  void InitScene(mvvm::SessionItem* container_item);
+
 private:
-  void SetRootItemImpl(SessionItem* root_item) override;
-  void SubscribeImpl(ISessionModel* model) override;
+  void PopulateScene(mvvm::SessionItem* top_level_node_item);
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
+  mvvm::ISessionModel* m_model{nullptr};
+  QGraphicsScene* m_graphics_scene{nullptr};
+  item_view_map_t m_item_view_map;
+  std::unique_ptr<mvvm::ModelListener> m_listener;
 };
 
 }  // namespace mvvm
