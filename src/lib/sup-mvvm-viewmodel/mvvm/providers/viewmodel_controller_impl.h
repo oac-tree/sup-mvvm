@@ -21,9 +21,9 @@
 #ifndef MVVM_PROVIDERS_VIEWMODEL_CONTROLLER_IMPL_H_
 #define MVVM_PROVIDERS_VIEWMODEL_CONTROLLER_IMPL_H_
 
-#include <mvvm/signals/event_types.h>
 #include <mvvm/providers/i_viewmodel_controller.h>
-#include <mvvm/providers/viewitem_map.h>
+#include <mvvm/providers/item_view_map.h>
+#include <mvvm/signals/event_types.h>
 
 #include <QStringList>
 #include <memory>
@@ -35,6 +35,7 @@ class ISessionModel;
 class ViewModelBase;
 class IChildrenStrategy;
 class IRowStrategy;
+class ViewItem;
 
 /**
  * @brief The ViewModelControllerImpl class contains implementation details for ViewModelController.
@@ -42,6 +43,7 @@ class IRowStrategy;
 class ViewModelControllerImpl : public IViewModelController
 {
 public:
+  using item_view_map_t = ItemViewMap<SessionItem, ViewItem>;
   explicit ViewModelControllerImpl(ViewModelBase *viewmodel,
                                    std::unique_ptr<IChildrenStrategy> children_strategy,
                                    std::unique_ptr<IRowStrategy> row_strategy);
@@ -94,11 +96,11 @@ public:
    */
   std::vector<std::unique_ptr<ViewItem>> CreateTreeOfRows(SessionItem &item, bool is_root = false);
 
-  ViewItemMap &GetViewItemMap();
+  item_view_map_t &GetViewItemMap();
 
 private:
   ViewModelBase *m_view_model{nullptr};
-  ViewItemMap m_view_item_map;
+  item_view_map_t m_view_item_map;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;
   std::unique_ptr<IRowStrategy> m_row_strategy;
 };

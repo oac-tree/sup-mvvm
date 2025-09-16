@@ -259,7 +259,7 @@ std::vector<std::unique_ptr<ViewItem> > ViewModelControllerImpl::CreateTreeOfRow
   return row_of_views;
 }
 
-ViewItemMap &ViewModelControllerImpl::GetViewItemMap()
+ViewModelControllerImpl::item_view_map_t &ViewModelControllerImpl::GetViewItemMap()
 {
   return m_view_item_map;
 }

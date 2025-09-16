@@ -33,8 +33,6 @@ target_sources(${library_name} PRIVATE
   viewitem_factory.cpp
   viewitem_factory.h
   viewitem.h
-  viewitem_map.cpp
-  viewitem_map.h
   viewmodel_controller.cpp
   viewmodel_controller_factory.cpp
   viewmodel_controller_factory.h
