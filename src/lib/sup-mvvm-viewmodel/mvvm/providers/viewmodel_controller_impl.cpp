@@ -58,7 +58,7 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
   auto new_child = parent->GetItem(tag_index);
 
   const int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
-  auto parent_view = m_view_item_map.FindView(parent);
+  auto parent_view = const_cast<ViewItem *>(m_view_item_map.FindView(parent));
 
   if (insert_view_index != -1 && parent_view)
   {
@@ -87,7 +87,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   if (auto view = m_view_item_map.FindView(item_to_remove); view)
   {
     m_view_model->removeRow(view->GetParent(), view->Row());
-    m_view_item_map.OnItemRemove(item_to_remove);
+    m_view_item_map.RemoveRecursively(item_to_remove);
   }
 }
 

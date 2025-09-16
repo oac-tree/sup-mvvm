@@ -21,9 +21,7 @@
 #ifndef MVVM_PROVIDERS_VIEWITEM_MAP_H_
 #define MVVM_PROVIDERS_VIEWITEM_MAP_H_
 
-#include <mvvm/viewmodel_export.h>
-
-#include <map>
+#include <mvvm/providers/item_view_map.h>
 
 namespace mvvm
 {
@@ -35,43 +33,8 @@ class SessionItem;
  * @brief The ViewItemMap class stores correspondance of the SessionItem and ViewItem. Plays a
  * supporting role during ViewModel rebuild.
  */
-class MVVM_VIEWMODEL_EXPORT ViewItemMap
+class ViewItemMap : public ItemViewMap<SessionItem, ViewItem>
 {
-public:
-  ViewItemMap();
-
-  /**
-   * @brief Insert item and its corresponding view to the database.
-   */
-  void Insert(const SessionItem* item, ViewItem* view_item);
-
-  /**
-   * @brief Find view for given item.
-   */
-  ViewItem* FindView(const SessionItem* item) const;
-
-  /**
-   * @brief Removes view corresponding to given item.
-   */
-  void Remove(const SessionItem* item);
-
-  /**
-   * @brief Remove item, all its children and their corresponsding views from the map.
-   */
-  void OnItemRemove(const SessionItem* item);
-
-  /**
-   * @brief Clear the whole map.
-   */
-  void Clear();
-
-  /**
-   * @brief Returns number of entries in a map.
-   */
-  int GetSize() const;
-
-private:
-  std::map<const SessionItem*, ViewItem*> m_item_to_view;
 };
 
 }  // namespace mvvm
