@@ -69,6 +69,12 @@ public:
    * @brief Checks if the connection is connected to the specified port.
    */
   virtual bool HasPort(const INodePort* port) const = 0;
+
+  /**
+   * @brief Informs the connection that the specified port is being deleted and should not be used
+   * anymore.
+   */
+  virtual void ForgetPort(INodePort* port) = 0;
 };
 
 }  // namespace mvvm

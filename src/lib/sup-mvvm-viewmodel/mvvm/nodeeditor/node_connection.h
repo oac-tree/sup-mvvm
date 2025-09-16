@@ -52,6 +52,8 @@ public:
 
   bool HasPort(const INodePort* port) const override;
 
+  void ForgetPort(INodePort* port) override;
+
 private:
   INodePort* m_start_port{nullptr};
   INodePort* m_end_port{nullptr};

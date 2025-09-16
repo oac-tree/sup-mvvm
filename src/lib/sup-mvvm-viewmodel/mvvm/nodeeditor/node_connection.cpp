@@ -88,4 +88,17 @@ bool NodeConnection::HasPort(const INodePort *port) const
   return m_start_port == port || m_end_port == port;
 }
 
+void NodeConnection::ForgetPort(INodePort *port)
+{
+  if (m_start_port == port)
+  {
+    m_start_port = nullptr;
+  }
+
+  if (m_end_port == port)
+  {
+    m_end_port = nullptr;
+  }
+}
+
 }  // namespace mvvm
