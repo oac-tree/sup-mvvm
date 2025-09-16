@@ -30,7 +30,8 @@ class SessionItem;
 class ConnectableShape;
 
 /**
- * @brief The IConnectableShapeFactory allows to create
+ * @brief The IConnectableShapeFactory creates connectable shapes to place on the graphics scene.
+ *
  */
 class IConnectableShapeFactory
 {
@@ -49,7 +50,7 @@ public:
    * @param item The item for which the adapter is to be created.
    * @return A unique pointer to the newly created adapter instance.
    */
-  virtual std::unique_ptr<ConnectableShape> CreateView(SessionItem* item) const = 0;
+  virtual std::unique_ptr<ConnectableShape> CreateShape(SessionItem* item) const = 0;
 };
 
 }  // namespace mvvm
