@@ -20,6 +20,7 @@
 
 #include "node_editor_helper.h"
 
+#include "i_node_port.h"
 #include "node_editor_constants.h"
 
 #include <algorithm>
@@ -50,15 +51,26 @@ PortLocation GetPortLocation(NodeTreeLayout layout, PortDirection direction)
 PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo &port_info)
 {
   const auto location = GetPortLocation(layout, port_info.GetPortDirection());
-  return {location, QString::fromStdString(port_info.GetPortLabel()),
-          constants::DefaultPortColor(), constants::GetDefaultPortRadius()};
+  return {location, QString::fromStdString(port_info.GetPortLabel()), constants::DefaultPortColor(),
+          constants::GetDefaultPortRadius()};
 }
 
-std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo> &port_infos, PortDirection direction)
+std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo> &port_infos,
+                                          PortDirection direction)
 {
   std::vector<PortInfo> result;
   std::copy_if(port_infos.begin(), port_infos.end(), std::back_inserter(result),
                [direction](const PortInfo &info) { return info.GetPortDirection() == direction; });
+  return result;
+}
+
+std::vector<INodePort *> GetPortsByDirection(const std::vector<INodePort *> &ports,
+                                             PortDirection direction)
+{
+  std::vector<INodePort *> result;
+  std::copy_if(ports.begin(), ports.end(), std::back_inserter(result),
+               [direction](const INodePort *port)
+               { return port->GetPortDirection() == direction; });
   return result;
 }
 

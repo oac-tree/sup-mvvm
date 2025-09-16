@@ -20,6 +20,7 @@
 
 #include "mvvm/nodeeditor/node_editor_constants.h"
 #include "mvvm/nodeeditor/node_editor_helper.h"
+#include "mvvm/nodeeditor/node_port.h"
 
 #include <gtest/gtest.h>
 
@@ -106,6 +107,28 @@ TEST_F(NodeHelperTest, GetFilteredPortInfo)
 
   EXPECT_EQ(GetFilteredPortInfo(vec, PortDirection::kOutput).size(), 1);
   EXPECT_TRUE(GetFilteredPortInfo(vec, PortDirection::kDefault).empty());
+}
+
+TEST_F(NodeHelperTest, GetPortsByDirection)
+{
+  ASSERT_TRUE(GetPortsByDirection({}, PortDirection::kDefault).empty());
+
+  NodePort port1({PortDirection::kInput, "abc1"});
+  NodePort port2({PortDirection::kOutput, "abc3"});
+  NodePort port3({PortDirection::kInput, "abc2"});
+
+  const std::vector<INodePort*> vec({&port1, &port2, &port3});
+
+  auto input_ports = GetPortsByDirection(vec, PortDirection::kInput);
+  ASSERT_EQ(input_ports.size(), 2);
+  EXPECT_EQ(input_ports[0], &port1);
+  EXPECT_EQ(input_ports[1], &port3);
+
+  auto output_ports = GetPortsByDirection(vec, PortDirection::kOutput);
+  ASSERT_EQ(output_ports.size(), 1);
+  EXPECT_EQ(output_ports[0], &port2);
+
+  EXPECT_TRUE(GetPortsByDirection(vec, PortDirection::kDefault).empty());
 }
 
 }  // namespace mvvm::test

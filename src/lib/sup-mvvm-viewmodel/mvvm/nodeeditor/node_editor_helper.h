@@ -32,6 +32,8 @@
 namespace mvvm
 {
 
+class INodePort;
+
 /**
  * @brief Returns port location based on tree layout and port direction.
  */
@@ -45,7 +47,14 @@ PortAppearance GetDefaultPortAppearance(NodeTreeLayout layout, const PortInfo& p
 /**
  * @brief Returns vector of PortInfo filtered according to the given direction.
  */
-std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo>& port_infos, PortDirection direction);
+std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo>& port_infos,
+                                          PortDirection direction);
+
+/**
+ * @brief Returns ports filtered according to the given direction.
+ */
+std::vector<INodePort*> GetPortsByDirection(const std::vector<INodePort*>& ports,
+                                          PortDirection direction);
 
 }  // namespace mvvm
 
