@@ -21,6 +21,7 @@
 #include "mvvm/nodeeditor/node_port_shape.h"
 
 #include <mvvm/nodeeditor/node_editor_constants.h>
+#include <mvvm/nodeeditor/node_port.h>
 
 #include <gtest/gtest.h>
 #include <testutils/mock_node_port.h>
@@ -45,8 +46,11 @@ public:
 
 TEST_F(NodePortShapeTest, InitialState)
 {
+  auto node_port = std::make_unique<NodePort>(PortInfo{PortDirection::kOutput, "type_abc"});
+  auto node_port_ptr = node_port.get();
   const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
-  auto shape = CreateNodePortShape(port_appearance);
+  const NodePortShape shape(port_appearance, std::move(node_port), nullptr);
+  EXPECT_EQ(shape.GetNodePort(), node_port_ptr);
 }
 
 TEST_F(NodePortShapeTest, BoundingBoxForEmptyLabel)

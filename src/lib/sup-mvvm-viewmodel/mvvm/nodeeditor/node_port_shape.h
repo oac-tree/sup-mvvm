@@ -49,6 +49,8 @@ public:
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
+  INodePort* GetNodePort() const;
+
 private:
   void CalculateBoundingRect();
 

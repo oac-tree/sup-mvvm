@@ -72,6 +72,11 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   painter->restore();
 }
 
+INodePort *NodePortShape::GetNodePort() const
+{
+  return m_node_port.get();
+}
+
 void NodePortShape::CalculateBoundingRect()
 {
   const double extra = 1.0;  // for the pen width
