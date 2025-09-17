@@ -75,17 +75,18 @@ private:
   bool IsInScope(const mvvm::AboutToRemoveItemEvent& event) const;
 
   /**
-   * @brief Checks if we can handle the item removal.
+   * @brief Checks if the removal of item will lead to the removal of our root item.
    *
-   * We cannot handle the removal of root item, or any parent above.
+   * We don't want to continue if our root item is being removed. If so, we will clear the scene
+   * and disconnect from the model.
    */
-  bool RemovalWillDestroyRoot(mvvm::SessionItem* item_to_remove) const;
+  bool IsAboutToDestroyRootItem(mvvm::SessionItem* item_to_remove) const;
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
   QGraphicsScene* m_graphics_scene{nullptr};
   item_view_map_t m_item_view_map;
   std::unique_ptr<mvvm::ModelListener> m_listener;
-  mvvm::SessionItem *m_root_item{nullptr};
+  mvvm::SessionItem* m_root_item{nullptr};
 };
 
 }  // namespace mvvm

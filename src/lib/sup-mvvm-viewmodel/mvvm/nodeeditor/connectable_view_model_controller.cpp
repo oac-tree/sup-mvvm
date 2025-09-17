@@ -73,9 +73,9 @@ void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &
   auto [parent, tag_index] = event;
   auto item_to_remove = parent->GetItem(tag_index);
 
-  if (RemovalWillDestroyRoot(item_to_remove))
+  if (IsAboutToDestroyRootItem(item_to_remove))
   {
-    // We can't continue if the item is not valid to remove
+    // We can't continue if our root container is being removed.
     m_graphics_scene->clear();
     m_item_view_map.Clear();
     m_listener.reset();
@@ -172,9 +172,9 @@ bool ConnectableViewModelController::IsInScope(const mvvm::AboutToRemoveItemEven
   return parent == m_root_item || mvvm::utils::IsItemAncestor(parent, GetRootItem());
 }
 
-bool ConnectableViewModelController::RemovalWillDestroyRoot(SessionItem *item_to_remove) const
+bool ConnectableViewModelController::IsAboutToDestroyRootItem(SessionItem *item_to_remove) const
 {
-  // the removal should not be related to root item or iitems above it
+  // the removal should not be related to root item or items above it
   return item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove);
 }
 
