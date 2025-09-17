@@ -21,6 +21,8 @@
 #ifndef MVVM_NODEEDITOR_I_NODE_CONNECTION_H_
 #define MVVM_NODEEDITOR_I_NODE_CONNECTION_H_
 
+#include <functional>
+
 namespace mvvm
 {
 
@@ -75,6 +77,18 @@ public:
    * anymore.
    */
   virtual void ForgetPort(INodePort* port) = 0;
+
+  /**
+   * @brief Updates the path of the connection according to the current positions of the ports.
+   *
+   * Should call the notify shape callback, if set.
+   */
+  virtual void UpdatePath() = 0;
+
+  /**
+   * @brief Sets a callback function to be called when the shape needs to be notified about changes.
+   */
+  virtual void SetNotifyShapeCallback(std::function<void()> callback) = 0;
 };
 
 }  // namespace mvvm

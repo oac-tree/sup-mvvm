@@ -110,11 +110,20 @@ void NodePort::SetScenePosition(double xpos, double ypos)
 {
   m_scene_pos.first = xpos;
   m_scene_pos.second = ypos;
+  UpdateConnectionsScenePosition();
 }
 
 PortInfo NodePort::GetPortInfo() const
 {
   return m_port_info;
+}
+
+void NodePort::UpdateConnectionsScenePosition()
+{
+  for (auto connection : utils::RemoveConst(m_connections))
+  {
+    connection->UpdatePath();
+  }
 }
 
 }  // namespace mvvm

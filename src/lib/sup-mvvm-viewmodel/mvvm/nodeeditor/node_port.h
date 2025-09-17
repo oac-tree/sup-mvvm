@@ -64,6 +64,8 @@ public:
   PortInfo GetPortInfo() const;
 
 private:
+  void UpdateConnectionsScenePosition();
+
   PortInfo m_port_info;
   std::vector<const INodeConnection*> m_connections;
   std::pair<double, double> m_scene_pos;

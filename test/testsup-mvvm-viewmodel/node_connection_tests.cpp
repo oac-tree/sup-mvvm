@@ -23,6 +23,7 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/nodeeditor/node_port.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -108,12 +109,36 @@ TEST_F(NodeConnectionTest, ForgetPort)
   connection.ForgetPort(&start_port);
   EXPECT_FALSE(connection.HasPort(&start_port));
   EXPECT_TRUE(connection.HasPort(&end_port));
-  start_port.RemoveConnection(&connection); // to avoid destruction issues
+  start_port.RemoveConnection(&connection);  // to avoid destruction issues
 
   connection.ForgetPort(&end_port);
   EXPECT_FALSE(connection.HasPort(&start_port));
   EXPECT_FALSE(connection.HasPort(&end_port));
-  end_port.RemoveConnection(&connection); // to avoid destruction issues
+  end_port.RemoveConnection(&connection);  // to avoid destruction issues
+}
+
+TEST_F(NodeConnectionTest, NotifyShapeCallback)
+{
+  ::testing::MockFunction<void()> mock_callback;
+
+  NodeConnection connection;
+  connection.SetNotifyShapeCallback(mock_callback.AsStdFunction());
+  EXPECT_CALL(mock_callback, Call()).Times(1);
+  connection.UpdatePath();
+}
+
+TEST_F(NodeConnectionTest, NotifyShapeViaPorts)
+{
+  ::testing::MockFunction<void()> mock_callback;
+
+  NodePort start_port({PortDirection::kOutput, "abc"});
+  NodePort end_port({PortDirection::kInput, "abc"});
+
+  NodeConnection connection(&start_port, &end_port);
+  connection.SetNotifyShapeCallback(mock_callback.AsStdFunction());
+
+  EXPECT_CALL(mock_callback, Call()).Times(1);
+  start_port.SetScenePosition(1.0, 2.0);
 }
 
 }  // namespace mvvm::test

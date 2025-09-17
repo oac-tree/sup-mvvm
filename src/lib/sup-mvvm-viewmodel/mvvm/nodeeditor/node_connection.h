@@ -54,9 +54,14 @@ public:
 
   void ForgetPort(INodePort* port) override;
 
+  void UpdatePath() override;
+
+  void SetNotifyShapeCallback(std::function<void()> callback) override;
+
 private:
   INodePort* m_start_port{nullptr};
   INodePort* m_end_port{nullptr};
+  std::function<void()> m_notify_shape_callback;
 };
 
 }  // namespace mvvm

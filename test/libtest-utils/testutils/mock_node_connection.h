@@ -39,6 +39,8 @@ public:
   MOCK_METHOD(INodePort*, GetEndPort, (), (const, override));
   MOCK_METHOD(void, SetEndPort, (INodePort * port), (override));
   MOCK_METHOD(bool, HasPort, (const INodePort* port), (const, override));
+  MOCK_METHOD(void, ForgetPort, (INodePort * port), (override));
+  MOCK_METHOD(void, UpdatePath, (), (override));
 };
 
 /**
@@ -54,6 +56,8 @@ public:
   const INodePort* GetEndPort() const override;
   void SetEndPort(INodePort* port) override;
   bool HasPort(const INodePort* port) const override;
+  void ForgetPort(INodePort* port) override;
+  void UpdatePath() override;
 
 private:
   INodeConnection* m_decoratee{nullptr};

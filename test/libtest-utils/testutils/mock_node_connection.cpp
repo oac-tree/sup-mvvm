@@ -48,4 +48,14 @@ bool NodeConnectionDecorator::HasPort(const INodePort *port) const
   return m_decoratee->HasPort(port);
 }
 
+void NodeConnectionDecorator::ForgetPort(INodePort *port)
+{
+  m_decoratee->ForgetPort(port);
+}
+
+void NodeConnectionDecorator::UpdatePath()
+{
+  m_decoratee->UpdatePath();
+}
+
 }  // namespace mvvm::test

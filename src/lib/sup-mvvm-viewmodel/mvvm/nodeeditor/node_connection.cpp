@@ -101,4 +101,17 @@ void NodeConnection::ForgetPort(INodePort *port)
   }
 }
 
+void NodeConnection::UpdatePath()
+{
+  if (m_notify_shape_callback)
+  {
+    m_notify_shape_callback();
+  }
+}
+
+void NodeConnection::SetNotifyShapeCallback(std::function<void()> callback)
+{
+  m_notify_shape_callback = std::move(callback);
+}
+
 }  // namespace mvvm
