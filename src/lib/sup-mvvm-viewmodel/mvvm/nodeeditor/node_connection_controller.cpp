@@ -21,8 +21,10 @@
 #include "node_connection_controller.h"
 
 #include "connectable_shape.h"
+#include "graphics_scene_helper.h"
 #include "node_connection.h"
 #include "node_connection_shape.h"
+#include "node_editor_constants.h"
 #include "node_port.h"
 #include "node_port_shape.h"
 #include "port_info.h"
@@ -83,17 +85,12 @@ bool NodeConnectionController::eventFilter(QObject* object, QEvent* event)
 
 NodePortShape* NodeConnectionController::FindNodePortShape(const QPointF& pos)
 {
-  QRectF area(0, 0, 4, 4);
+  const double size = 2 * constants::GetDefaultPortRadius();
+  QRectF area(0, 0, size, size);
   area.moveCenter(pos);
 
-  for (auto item : m_scene->items(area))
-  {
-    if (auto port = dynamic_cast<NodePortShape*>(item); port)
-    {
-      return port;
-    }
-  }
-  return nullptr;
+  auto ports = GetShapes<NodePortShape>(*m_scene);
+  return ports.empty() ? nullptr : ports.front();
 }
 
 bool NodeConnectionController::ProcessMousePress(QGraphicsSceneMouseEvent* event)

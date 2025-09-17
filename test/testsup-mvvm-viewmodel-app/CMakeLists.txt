@@ -13,6 +13,7 @@ target_sources(${test} PRIVATE
     custom_viewmodel_tests.cpp
     main.cpp
     node_port_shape_tests.cpp
+    graphics_scene_helper_tests.cpp
 )
 
 if(SUP_MVVM_BUILD_QCUSTOMPLOT)

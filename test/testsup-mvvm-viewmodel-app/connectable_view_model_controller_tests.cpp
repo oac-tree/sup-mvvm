@@ -24,6 +24,7 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/default_node_shape_factory.h>
+#include <mvvm/nodeeditor/graphics_scene_helper.h>
 #include <mvvm/nodeeditor/i_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
@@ -62,9 +63,7 @@ public:
   template <typename ShapeT>
   std::vector<ShapeT*> GetShapes() const
   {
-    auto shapes = utils::CastItems<ShapeT>(m_scene.items());
-    std::reverse(shapes.begin(), shapes.end());
-    return shapes;
+    return ::mvvm::GetShapes<ShapeT>(m_scene);
   }
 
   /**
@@ -200,6 +199,5 @@ TEST_F(ConnectableViewModelControllerTest, RemoveItemFromModel)
 }
 
 // TODO: test for automatic connection removal
-
 
 }  // namespace mvvm::test
