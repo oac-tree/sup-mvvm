@@ -62,8 +62,10 @@ public:
 
   /**
    * @brief Remove item, all its children and their corresponsding views from the map.
+   *
+   * Returns all removed views.
    */
-  void RemoveRecursively(const ItemT* item);
+  std::vector<ViewT*> RemoveRecursively(const ItemT* item);
 
   /**
    * @brief Finds view for a given item.
@@ -132,17 +134,20 @@ inline void ItemViewMap<ItemT, ViewT>::Remove(const ViewT* view)
 }
 
 template <typename ItemT, typename ViewT>
-inline void ItemViewMap<ItemT, ViewT>::RemoveRecursively(const ItemT* item)
+inline std::vector<ViewT *> ItemViewMap<ItemT, ViewT>::RemoveRecursively(const ItemT* item)
 {
-  const auto on_item = [this](auto item) -> bool
+  std::vector<ViewT*> removed_views;
+  const auto on_item = [this, &removed_views](auto item) -> bool
   {
     if (const auto iter = m_item_to_view.find(item); iter != m_item_to_view.end())
     {
+      removed_views.push_back(const_cast<ViewT*>(iter->second));
       m_item_to_view.erase(iter);
     }
     return true;
   };
   utils::iterate_if(item, on_item);
+  return removed_views;
 }
 
 template <typename ItemT, typename ViewT>

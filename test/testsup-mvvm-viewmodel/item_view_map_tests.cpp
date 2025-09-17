@@ -107,7 +107,8 @@ TEST_F(ItemViewMapTest, OnItemRemove)
 
   EXPECT_EQ(map.GetSize(), 5);
 
-  map.RemoveRecursively(&vector);
+  auto removed = map.RemoveRecursively(&vector);
+  EXPECT_EQ(removed.size(), 4);
   EXPECT_EQ(map.GetSize(), 1);
 }
 
