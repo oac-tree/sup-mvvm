@@ -26,6 +26,8 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/connectable_shape.h>
+#include <mvvm/nodeeditor/connectable_view_model_controller.h>
+#include <mvvm/nodeeditor/default_node_shape_factory.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 #include <mvvm/standarditems/node_item.h>
@@ -36,25 +38,31 @@ namespace behaviortree
 {
 
 BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
-    : m_graphics_scene(new GraphicsScene(this))
+    : QWidget(parent_widget)
+    , m_graphics_scene(new GraphicsScene(this))
     , m_graphics_view(new GraphicsView(m_graphics_scene, this))
     , m_model(std::make_unique<mvvm::ApplicationModel>())
+    , m_model_scene_controller(CreateController())
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_graphics_view);
 
-  auto node = m_model->InsertItem<SequenceItem>();
+  auto sequence = m_model->InsertItem<SequenceItem>();
+  auto wait = m_model->InsertItem<WaitItem>(sequence);
 
-  node->SetX(m_graphics_scene->sceneRect().center().x());
-  node->SetY(m_graphics_scene->sceneRect().center().y());
+  sequence->SetX(m_graphics_scene->sceneRect().center().x());
+  sequence->SetY(m_graphics_scene->sceneRect().center().y());
+  wait->SetX(m_graphics_scene->sceneRect().center().x());
+  wait->SetY(m_graphics_scene->sceneRect().center().y()+200);
+}
 
-  auto shape_adapter = std::make_unique<mvvm::NodeItemConnectableShapeAdapter>(node);
-
-  auto position_strategy = std::make_unique<mvvm::TopBottomPortPositionStrategy>();
-
-  auto shape = std::make_unique<mvvm::ConnectableShape>(std::move(shape_adapter),
-                                                        std::move(position_strategy));
-  m_graphics_scene->addItem(shape.release());
+std::unique_ptr<mvvm::ConnectableViewModelController> BehaviorTreeWidget::CreateController()
+{
+  auto factory = std::make_unique<mvvm::DefaultNodeShapeFactory>();
+  auto result =
+      std::make_unique<mvvm::ConnectableViewModelController>(std::move(factory), m_graphics_scene);
+  result->InitScene(m_model->GetRootItem());
+  return result;
 }
 
 BehaviorTreeWidget::~BehaviorTreeWidget() = default;

@@ -27,7 +27,8 @@
 namespace mvvm
 {
 class ApplicationModel;
-}
+class ConnectableViewModelController;
+}  // namespace mvvm
 
 namespace behaviortree
 {
@@ -46,8 +47,10 @@ public:
 private:
   GraphicsScene* m_graphics_scene{nullptr};
   GraphicsView* m_graphics_view{nullptr};
+  std::unique_ptr<mvvm::ConnectableViewModelController> CreateController();
 
   std::unique_ptr<mvvm::ApplicationModel> m_model;
+  std::unique_ptr<mvvm::ConnectableViewModelController> m_model_scene_controller;
 };
 
 }  // namespace behaviortree
