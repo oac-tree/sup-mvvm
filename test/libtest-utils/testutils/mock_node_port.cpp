@@ -60,4 +60,14 @@ bool NodePortDecorator::IsConnectable(const INodePort *port) const
   return m_decoratee->IsConnectable(port);
 }
 
+std::pair<double, double> NodePortDecorator::GetScenePosition() const
+{
+  return m_decoratee->GetScenePosition();
+}
+
+void NodePortDecorator::SetScenePosition(double xpos, double ypos)
+{
+  m_decoratee->SetScenePosition(xpos, ypos);
+}
+
 }  // namespace mvvm::test

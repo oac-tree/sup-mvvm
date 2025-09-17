@@ -86,6 +86,16 @@ public:
    * @brief Checks if this port can be connected to the specified other port.
    */
   virtual bool IsConnectable(const INodePort* other) const = 0;
+
+  /**
+   * @brief Returns port position in the scene coordinate system.
+   */
+  virtual std::pair<double, double> GetScenePosition() const = 0;
+
+  /**
+   * @brief Sets the position of the port in in the scene coordinate system.
+   */
+  virtual void SetScenePosition(double xpos, double ypos) = 0;
 };
 
 }  // namespace mvvm

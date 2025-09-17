@@ -170,4 +170,14 @@ TEST_F(NodePortTest, NodePortsDeletedBeforeConnection)
   EXPECT_EQ(connection.GetEndPort(), nullptr);
 }
 
+TEST_F(NodePortTest, GetAndSetScenePosition)
+{
+  NodePort port({PortDirection::kInput, "type_abc"});
+
+  EXPECT_EQ(port.GetScenePosition(), (std::pair<double, double>{0.0, 0.0}));
+
+  port.SetScenePosition(1.0, 2.0);
+  EXPECT_EQ(port.GetScenePosition(), (std::pair<double, double>{1.0, 2.0}));
+}
+
 }  // namespace mvvm::test

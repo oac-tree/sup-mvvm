@@ -26,6 +26,8 @@
 #include <gtest/gtest.h>
 #include <testutils/mock_node_port.h>
 
+#include <QGraphicsScene>
+
 namespace mvvm::test
 {
 
@@ -83,6 +85,24 @@ TEST_F(NodePortShapeTest, GetLabelRectForBottomLocation)
   EXPECT_LT(label_rect.top(), port_position.y() + (4.0 * constants::GetDefaultPortRadius()));
   EXPECT_LT(label_rect.left(), port_position.x());
   EXPECT_GT(label_rect.right(), port_position.x());
+}
+
+TEST_F(NodePortShapeTest, ScenePosition)
+{
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(1.0, 2.0)).Times(1);
+
+  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
+  auto shape = CreateNodePortShape(port_appearance);
+  auto shape_ptr = shape.get();
+
+  QGraphicsScene scene;
+  scene.addItem(shape.release());
+
+  shape_ptr->setPos(1.0, 2.0);
+
+  const auto pos = shape_ptr->scenePos();
+  EXPECT_DOUBLE_EQ(pos.x(), 1.0);
+  EXPECT_DOUBLE_EQ(pos.y(), 2.0);
 }
 
 }  // namespace mvvm::test

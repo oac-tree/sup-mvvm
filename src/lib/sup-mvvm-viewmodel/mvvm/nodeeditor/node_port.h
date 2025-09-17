@@ -57,11 +57,16 @@ public:
 
   bool IsConnectable(const INodePort* other) const override;
 
+  std::pair<double, double> GetScenePosition() const override;
+
+  void SetScenePosition(double xpos, double ypos) override;
+
   PortInfo GetPortInfo() const;
 
 private:
   PortInfo m_port_info;
   std::vector<const INodeConnection*> m_connections;
+  std::pair<double, double> m_scene_pos;
 };
 
 }  // namespace mvvm

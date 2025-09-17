@@ -33,6 +33,7 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
     : QGraphicsItem(parent), m_port_appearance(port_appearance), m_node_port(std::move(node_port))
 {
   CalculateBoundingRect();
+  setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 }
 
 QRectF NodePortShape::boundingRect() const
@@ -75,6 +76,16 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 INodePort *NodePortShape::GetNodePort() const
 {
   return m_node_port.get();
+}
+
+QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+  if (change == ItemScenePositionHasChanged)
+  {
+    const auto pos = scenePos();
+    m_node_port->SetScenePosition(pos.x(), pos.y());
+  }
+  return value;
 }
 
 void NodePortShape::CalculateBoundingRect()

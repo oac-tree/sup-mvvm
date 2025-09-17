@@ -101,6 +101,17 @@ bool NodePort::IsConnectable(const INodePort *other) const
   return direction_matches && type_matches;
 }
 
+std::pair<double, double> NodePort::GetScenePosition() const
+{
+  return m_scene_pos;
+}
+
+void NodePort::SetScenePosition(double xpos, double ypos)
+{
+  m_scene_pos.first = xpos;
+  m_scene_pos.second = ypos;
+}
+
 PortInfo NodePort::GetPortInfo() const
 {
   return m_port_info;
