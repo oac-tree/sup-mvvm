@@ -69,6 +69,17 @@ enum class NodeTreeLayout : std::uint8_t
   kLeftToRight
 };
 
+/**
+ * @brief The GraphicsViewOperationMode enum defines how user interacts with the graphics view.
+ */
+enum class GraphicsViewOperationMode : std::uint8_t
+{
+  kSimpleSelection,  // point and click
+  kRubberSelection,  // holding the mouse and dragging a rectangle
+  kHandDrag,         // click and drag to pan the view
+  kUnknownMode
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_NODE_TYPES_H_
