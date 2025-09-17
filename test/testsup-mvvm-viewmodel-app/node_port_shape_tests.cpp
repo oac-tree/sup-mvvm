@@ -37,7 +37,7 @@ namespace mvvm::test
 class NodePortShapeTest : public ::testing::Test
 {
 public:
-  std::unique_ptr<NodePortShape> CreateNodePortShape(PortAppearance port_appearance)
+  std::unique_ptr<NodePortShape> CreateNodePortShape(const PortAppearance& port_appearance)
   {
     auto node_port = std::make_unique<NodePortDecorator>(&m_mock_node_port);
     return std::make_unique<NodePortShape>(port_appearance, std::move(node_port), nullptr);

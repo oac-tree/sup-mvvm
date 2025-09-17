@@ -54,6 +54,8 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
   sequence->SetY(m_graphics_scene->sceneRect().center().y());
   wait->SetX(m_graphics_scene->sceneRect().center().x());
   wait->SetY(m_graphics_scene->sceneRect().center().y()+200);
+
+  m_graphics_view->setRenderHint(QPainter::Antialiasing);
 }
 
 std::unique_ptr<mvvm::ConnectableViewModelController> BehaviorTreeWidget::CreateController()

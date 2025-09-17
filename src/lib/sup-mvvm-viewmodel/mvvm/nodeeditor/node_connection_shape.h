@@ -22,6 +22,7 @@
 #define MVVM_NODEEDITOR_NODE_CONNECTION_SHAPE_H_
 
 #include <mvvm/nodeeditor/i_node_connection.h>
+#include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <QGraphicsPathItem>
 #include <memory>
@@ -38,11 +39,16 @@ class INodeConnection;
 class NodeConnectionShape : public QGraphicsPathItem
 {
 public:
-  NodeConnectionShape(std::unique_ptr<INodeConnection> node_connection, QGraphicsItem* parent);
+  NodeConnectionShape(NodeTreeLayout tree_layout, std::unique_ptr<INodeConnection> node_connection);
 
   INodeConnection* GetNodeConnection();
 
+  void UpdatePath();
+
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+
 private:
+  NodeTreeLayout m_tree_layout;
   std::unique_ptr<INodeConnection> m_node_connection;
 };
 

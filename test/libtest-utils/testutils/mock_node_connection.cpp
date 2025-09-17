@@ -23,6 +23,11 @@
 namespace mvvm::test
 {
 
+NodeConnectionDecorator::NodeConnectionDecorator(INodeConnection *decoratee)
+    : m_decoratee(decoratee)
+{
+}
+
 const INodePort *NodeConnectionDecorator::GetStartPort() const
 {
   return m_decoratee->GetStartPort();
@@ -56,6 +61,11 @@ void NodeConnectionDecorator::ForgetPort(INodePort *port)
 void NodeConnectionDecorator::UpdatePath()
 {
   m_decoratee->UpdatePath();
+}
+
+void NodeConnectionDecorator::SetNotifyShapeCallback(std::function<void()> callback)
+{
+  m_decoratee->SetNotifyShapeCallback(std::move(callback));
 }
 
 }  // namespace mvvm::test

@@ -41,6 +41,7 @@ public:
   MOCK_METHOD(bool, HasPort, (const INodePort* port), (const, override));
   MOCK_METHOD(void, ForgetPort, (INodePort * port), (override));
   MOCK_METHOD(void, UpdatePath, (), (override));
+  MOCK_METHOD(void, SetNotifyShapeCallback, (std::function<void()>), (override));
 };
 
 /**
@@ -58,6 +59,7 @@ public:
   bool HasPort(const INodePort* port) const override;
   void ForgetPort(INodePort* port) override;
   void UpdatePath() override;
+  void SetNotifyShapeCallback(std::function<void()> callback) override;
 
 private:
   INodeConnection* m_decoratee{nullptr};

@@ -221,7 +221,7 @@ void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
   auto connection = std::make_unique<NodeConnection>(output_port, input_port);
 
   auto connection_shape = std::make_unique<NodeConnectionShape>(
-      m_port_position_strategy->GetNodeTreeLayout(), std::move(connection), nullptr);
+      m_port_position_strategy->GetNodeTreeLayout(), std::move(connection));
   scene()->addItem(connection_shape.release());  // take ownership
 }
 
