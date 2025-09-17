@@ -43,7 +43,7 @@ class ViewItem;
 class ViewModelControllerImpl : public IViewModelController
 {
 public:
-  using item_view_map_t = ItemViewMap<SessionItem, ViewItem>;
+  using item_view_map_t = ItemViewMap<const SessionItem*, ViewItem*>;
   explicit ViewModelControllerImpl(ViewModelBase *viewmodel,
                                    std::unique_ptr<IChildrenStrategy> children_strategy,
                                    std::unique_ptr<IRowStrategy> row_strategy);

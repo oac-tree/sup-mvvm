@@ -42,13 +42,13 @@ public:
 
 TEST_F(ItemViewMapTest, InitialState)
 {
-  const ItemViewMap<SessionItem, TestView> map;
+  const ItemViewMap<SessionItem*, TestView*> map;
   EXPECT_EQ(map.GetSize(), 0U);
 }
 
 TEST_F(ItemViewMapTest, InsertThenFind)
 {
-  ItemViewMap<SessionItem, TestView> map;
+  ItemViewMap<const SessionItem*, const TestView*> map;
   const SessionItem item;
   const TestView view;
 
@@ -63,7 +63,7 @@ TEST_F(ItemViewMapTest, InsertThenFind)
 
 TEST_F(ItemViewMapTest, InsertThenRemove)
 {
-  ItemViewMap<SessionItem, TestView> map;
+  ItemViewMap<const SessionItem*, const TestView*> map;
   const SessionItem item;
   const TestView view;
 
@@ -76,7 +76,7 @@ TEST_F(ItemViewMapTest, InsertThenRemove)
 
 TEST_F(ItemViewMapTest, InsertThenRemoveByValue)
 {
-  ItemViewMap<SessionItem, TestView> map;
+  ItemViewMap<const SessionItem*, const TestView*> map;
   const SessionItem item;
   const TestView view;
 
@@ -89,7 +89,7 @@ TEST_F(ItemViewMapTest, InsertThenRemoveByValue)
 
 TEST_F(ItemViewMapTest, OnItemRemove)
 {
-  ItemViewMap<SessionItem, TestView> map;
+  ItemViewMap<const SessionItem*, const TestView*> map;
   const SessionItem item;
   const VectorItem vector;
 

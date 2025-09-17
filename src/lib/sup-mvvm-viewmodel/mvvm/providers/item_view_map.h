@@ -41,36 +41,36 @@ public:
   /**
    * @brief Insert item and its corresponding view to the map.
    */
-  void Insert(const ItemT* item, const ViewT* view);
+  void Insert(ItemT item, ViewT view);
 
   /**
    * @brief  Insert item and corresponding view in a map.
    *
    * If such item already exists, will replace corresponding view with the given one.
    */
-  void InsertOrAssign(const ItemT* item, const ViewT* view);
+  void InsertOrAssign(ItemT item, ViewT view);
 
   /**
    * @brief Removes item and its corresponding view from the map (using key).
    */
-  void Remove(const ItemT* item);
+  void Remove(ItemT item);
 
   /**
    * @brief Removes view and its corresponding view from the map (using value).
    */
-  void Remove(const ViewT* view);
+  void Remove(ViewT view);
 
   /**
    * @brief Remove item, all its children and their corresponsding views from the map.
    *
    * Returns all removed views.
    */
-  std::vector<ViewT*> RemoveRecursively(const ItemT* item);
+  std::vector<ViewT> RemoveRecursively(ItemT item);
 
   /**
    * @brief Finds view for a given item.
    */
-  const ViewT* FindView(const ItemT* item);
+  ViewT FindView(ItemT item);
 
   /**
    * @brief Clear the whole map.
@@ -83,11 +83,11 @@ public:
   std::size_t GetSize() const;
 
 private:
-  std::map<const ItemT*, const ViewT*> m_item_to_view;
+  std::map<ItemT, ViewT> m_item_to_view;
 };
 
 template <typename ItemT, typename ViewT>
-inline void ItemViewMap<ItemT, ViewT>::Insert(const ItemT* item, const ViewT* view)
+inline void ItemViewMap<ItemT, ViewT>::Insert(ItemT item, ViewT view)
 {
   const auto iter = m_item_to_view.find(item);
   if (iter != m_item_to_view.end())
@@ -98,13 +98,13 @@ inline void ItemViewMap<ItemT, ViewT>::Insert(const ItemT* item, const ViewT* vi
 }
 
 template <typename ItemT, typename ViewT>
-inline void ItemViewMap<ItemT, ViewT>::InsertOrAssign(const ItemT* item, const ViewT* view)
+inline void ItemViewMap<ItemT, ViewT>::InsertOrAssign(ItemT item, ViewT view)
 {
   m_item_to_view.insert_or_assign(item, view);
 }
 
 template <typename ItemT, typename ViewT>
-inline void ItemViewMap<ItemT, ViewT>::Remove(const ItemT* item)
+inline void ItemViewMap<ItemT, ViewT>::Remove(ItemT item)
 {
   const auto iter = m_item_to_view.find(item);
   if (iter != m_item_to_view.end())
@@ -118,7 +118,7 @@ inline void ItemViewMap<ItemT, ViewT>::Remove(const ItemT* item)
 }
 
 template <typename ItemT, typename ViewT>
-inline void ItemViewMap<ItemT, ViewT>::Remove(const ViewT* view)
+inline void ItemViewMap<ItemT, ViewT>::Remove(ViewT view)
 {
   auto iter = std::find_if(m_item_to_view.begin(), m_item_to_view.end(),
                            [view](auto element) { return element.second == view; });
@@ -134,14 +134,14 @@ inline void ItemViewMap<ItemT, ViewT>::Remove(const ViewT* view)
 }
 
 template <typename ItemT, typename ViewT>
-inline std::vector<ViewT *> ItemViewMap<ItemT, ViewT>::RemoveRecursively(const ItemT* item)
+inline std::vector<ViewT> ItemViewMap<ItemT, ViewT>::RemoveRecursively(ItemT item)
 {
-  std::vector<ViewT*> removed_views;
+  std::vector<ViewT> removed_views;
   const auto on_item = [this, &removed_views](auto item) -> bool
   {
     if (const auto iter = m_item_to_view.find(item); iter != m_item_to_view.end())
     {
-      removed_views.push_back(const_cast<ViewT*>(iter->second));
+      removed_views.push_back(iter->second);
       m_item_to_view.erase(iter);
     }
     return true;
@@ -151,7 +151,7 @@ inline std::vector<ViewT *> ItemViewMap<ItemT, ViewT>::RemoveRecursively(const I
 }
 
 template <typename ItemT, typename ViewT>
-inline const ViewT* ItemViewMap<ItemT, ViewT>::FindView(const ItemT* item)
+inline ViewT ItemViewMap<ItemT, ViewT>::FindView(ItemT item)
 {
   const auto iter = m_item_to_view.find(item);
   return iter == m_item_to_view.end() ? nullptr : iter->second;

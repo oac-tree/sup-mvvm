@@ -41,7 +41,7 @@ class ModelListener;
 class ConnectableViewModelController
 {
 public:
-  using item_view_map_t = ItemViewMap<SessionItem, ConnectableShape>;
+  using item_view_map_t = ItemViewMap<const SessionItem*, ConnectableShape*>;
 
   ConnectableViewModelController(std::unique_ptr<IConnectableShapeFactory> factory,
                                  QGraphicsScene* graphics_scene);
