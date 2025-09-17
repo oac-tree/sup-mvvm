@@ -69,10 +69,17 @@ private:
 
   /**
    * @brief Checks if the given event corresponds to the removal in the container.
+   *
+   * We do not care about removal events in other containers.
    */
   bool IsInScope(const mvvm::AboutToRemoveItemEvent& event) const;
 
-  bool IsInvalidItemToRemove(mvvm::SessionItem* item) const;
+  /**
+   * @brief Checks if we can handle the item removal.
+   *
+   * We cannot handle the removal of root item, or any parent above.
+   */
+  bool RemovalWillDestroyRoot(mvvm::SessionItem* item_to_remove) const;
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
   QGraphicsScene* m_graphics_scene{nullptr};

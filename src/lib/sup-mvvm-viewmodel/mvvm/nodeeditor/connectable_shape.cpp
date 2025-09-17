@@ -220,8 +220,8 @@ void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
   }
   auto connection = std::make_unique<NodeConnection>(output_port, input_port);
 
-  auto connection_snape = std::make_unique<NodeConnectionShape>(std::move(connection), nullptr);
-  scene()->addItem(connection_snape.release());  // take ownership
+  auto connection_shape = std::make_unique<NodeConnectionShape>(std::move(connection), nullptr);
+  scene()->addItem(connection_shape.release());  // take ownership
 }
 
 std::vector<INodePort *> ConnectableShape::GetPorts() const

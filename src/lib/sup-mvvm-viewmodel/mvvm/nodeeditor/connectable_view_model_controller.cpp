@@ -70,7 +70,27 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event
 
 void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
 {
+  auto [parent, tag_index] = event;
+  auto item_to_remove = parent->GetItem(tag_index);
 
+  if (RemovalWillDestroyRoot(item_to_remove))
+  {
+    // We can't continue if the item is not valid to remove
+    m_graphics_scene->clear();
+    m_item_view_map.Clear();
+    m_listener.reset();
+    return;
+  }
+
+  if (IsInScope(event))
+  {
+    auto shapes_to_remove = m_item_view_map.RemoveRecursively(item_to_remove);
+    for (auto shape : shapes_to_remove)
+    {
+      m_graphics_scene->removeItem(shape);
+      delete shape;
+    }
+  }
 }
 
 void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item)
@@ -147,14 +167,15 @@ void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
 
 bool ConnectableViewModelController::IsInScope(const mvvm::AboutToRemoveItemEvent &event) const
 {
-  // remove event in the container, or somewhere deep below
+  // the event should be related to removal in our container or its children
   auto parent = event.item;
   return parent == m_root_item || mvvm::utils::IsItemAncestor(parent, GetRootItem());
 }
 
-bool ConnectableViewModelController::IsInvalidItemToRemove(SessionItem *item_to_remove) const
+bool ConnectableViewModelController::RemovalWillDestroyRoot(SessionItem *item_to_remove) const
 {
-  return item_to_remove == m_root_item || utils::IsItemAncestor(GetRootItem(), item_to_remove);
+  // the removal should not be related to root item or iitems above it
+  return item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove);
 }
 
 }  // namespace mvvm

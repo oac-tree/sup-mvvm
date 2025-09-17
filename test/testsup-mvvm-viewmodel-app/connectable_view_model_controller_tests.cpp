@@ -176,4 +176,30 @@ TEST_F(ConnectableViewModelControllerTest, InsertItemInEmptyModel)
   ASSERT_EQ(shapes.size(), 1);
 }
 
+TEST_F(ConnectableViewModelControllerTest, RemoveItemFromModel)
+{
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>();
+
+  auto controller = CreateController();
+  EXPECT_NO_THROW(controller->InitScene(m_app_model.GetRootItem()));
+
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 2);
+
+  m_app_model.RemoveItem(wait_item);
+  shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
+
+  m_app_model.RemoveItem(sequence_item);
+  shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 0);
+
+  auto connections = GetShapes<NodeConnectionShape>();
+  ASSERT_EQ(connections.size(), 0);
+}
+
+// TODO: test for automatic connection removal
+
+
 }  // namespace mvvm::test
