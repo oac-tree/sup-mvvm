@@ -40,6 +40,7 @@ class NodeConnectionShape : public QGraphicsPathItem
 {
 public:
   NodeConnectionShape(NodeTreeLayout tree_layout, std::unique_ptr<INodeConnection> node_connection);
+  ~NodeConnectionShape() override;
 
   INodeConnection* GetNodeConnection();
 

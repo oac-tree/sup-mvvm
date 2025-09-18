@@ -40,6 +40,8 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
   m_node_connection->SetNotifyShapeCallback([this]() { UpdatePath(); });
 }
 
+NodeConnectionShape::~NodeConnectionShape() = default;
+
 INodeConnection *NodeConnectionShape::GetNodeConnection()
 {
   return m_node_connection.get();

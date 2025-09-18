@@ -26,6 +26,7 @@
 //! Copyright (c) 2012, STANISLAW ADASZEWSKI
 
 #include <QObject>
+#include <memory>
 
 class QGraphicsScene;
 class QGraphicsSceneMouseEvent;
