@@ -45,6 +45,19 @@ std::vector<ShapeT*> GetShapes(const QGraphicsScene& scene)
   return shapes;
 }
 
+/**
+ * @brief Helper to get shapes of specific type from the scene in the given area.
+ *
+ * The result will be sorted according the order of the addition.
+ */
+template <typename ShapeT>
+std::vector<ShapeT*> GetShapes(const QGraphicsScene& scene, const QRectF& area)
+{
+  auto shapes = utils::CastItems<ShapeT>(scene.items(area));
+  std::reverse(shapes.begin(), shapes.end());
+  return shapes;
+}
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_GRAPHICS_SCENE_HELPER_H_

@@ -20,6 +20,7 @@
 
 #include "mvvm/nodeeditor/graphics_scene_helper.h"
 
+#include <mvvm/nodeeditor/node_editor_constants.h>
 #include <mvvm/nodeeditor/node_port.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
 
@@ -38,7 +39,7 @@ class GraphicsSceneHelperTests : public ::testing::Test
 {
 };
 
-TEST_F(GraphicsSceneHelperTests, GetShape)
+TEST_F(GraphicsSceneHelperTests, GetShapes)
 {
   QGraphicsScene scene;
 
@@ -50,6 +51,26 @@ TEST_F(GraphicsSceneHelperTests, GetShape)
   ASSERT_EQ(ports.size(), 2);
   ASSERT_EQ(ports.at(0), port1.get());
   ASSERT_EQ(ports.at(1), port2.get());
+}
+
+TEST_F(GraphicsSceneHelperTests, GetShapesInArea)
+{
+  QGraphicsScene scene;
+
+  auto port1 = CreateNodePortShape();
+  scene.addItem(port1.get());
+  port1->setPos(10.0, 20.0);
+
+  auto port2 = CreateNodePortShape();
+  scene.addItem(port2.get());
+  port2->setPos(100.0, 200.0);
+
+  const double size = 2 * constants::GetDefaultPortRadius();
+  QRectF area(0, 0, size, size);
+  area.moveCenter(QPointF(100.0, 200.0));
+  auto ports = GetShapes<NodePortShape>(scene, area);
+  ASSERT_EQ(ports.size(), 1);
+  ASSERT_EQ(ports.at(0), port2.get());
 }
 
 }  // namespace mvvm::test
