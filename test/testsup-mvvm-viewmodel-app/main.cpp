@@ -20,6 +20,8 @@
 
 #include <mvvm/model/session_item.h>
 
+#include <mvvm/nodeeditor/i_node_port.h>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -37,9 +39,11 @@ int main(int argc, char** argv)
   QApplication app(argc, argv);
   Q_UNUSED(app)
 
-  qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  (void)qRegisterMetaType<mvvm::SessionItem*>("mvvm::SessionItem*");
+  (void)qRegisterMetaType<const mvvm::INodePort*>("const mvvm::INodePort*");
+
 #ifdef BUILD_QCUSTOMPLOT
-  qRegisterMetaType<QCPRange>("QCPRange");
+  (void)qRegisterMetaType<QCPRange>("QCPRange");
 #endif
 
   // run all google tests

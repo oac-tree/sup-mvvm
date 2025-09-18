@@ -85,6 +85,7 @@ enum class GraphicsViewOperationMode : std::uint8_t
  */
 enum class EventProcessStatus : std::uint8_t
 {
+  kStatusUnknown,
   kEventWasHandled,
   kEventWasIgnored
 };

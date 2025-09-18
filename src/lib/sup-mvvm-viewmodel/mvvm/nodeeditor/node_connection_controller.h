@@ -33,10 +33,9 @@ class QGraphicsSceneMouseEvent;
 namespace mvvm
 {
 
-class NodeConnectionShape;
-class ConnectableShape;
+class NodeConnectionControllerImpl;
 class INodePort;
-class NodePortShape;
+struct NodeConnectionControllerContext;
 
 /**
  * @brief The NodeConnectionController class assists GraphicsScene in establishing a connection
@@ -63,19 +62,8 @@ signals:
   void connectionFinished();
 
 private:
-  /**
-   * @brief Finds NodePort around given coordinate.
-   */
-  NodePortShape* FindNodePortShape(const QPointF& pos);
-
-  bool ProcessMousePress(QGraphicsSceneMouseEvent* event);
-  bool ProcessMouseMove(QGraphicsSceneMouseEvent* event);
-  bool ProcessMouseRelease(QGraphicsSceneMouseEvent* event);
-
-  QGraphicsScene* m_scene{nullptr};
-  std::unique_ptr<NodeConnectionShape> m_current_connection;
-  //!< A proxy port to follow mouse cursor during connection.
-  std::unique_ptr<INodePort> m_end_port_proxy;
+  NodeConnectionControllerContext CreateContext();
+  std::unique_ptr<NodeConnectionControllerImpl> m_controller_impl;
 };
 
 }  // namespace mvvm

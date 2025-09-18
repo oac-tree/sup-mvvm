@@ -42,7 +42,7 @@ class NodePortShape;
 class NodeConnectionControllerImpl
 {
 public:
-  explicit NodeConnectionControllerImpl(const NodeConnectionControllerContext& context,
+  NodeConnectionControllerImpl(const NodeConnectionControllerContext& context,
                                         QGraphicsScene* scene);
   ~NodeConnectionControllerImpl();
 

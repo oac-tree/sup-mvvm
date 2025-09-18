@@ -27,11 +27,7 @@
 #include "node_port.h"
 #include "node_port_shape.h"
 
-#include <mvvm/core/mvvm_exceptions.h>
-
-#include <QGraphicsItem>
 #include <QGraphicsScene>
-#include <QGraphicsSceneMouseEvent>
 
 namespace mvvm
 {
