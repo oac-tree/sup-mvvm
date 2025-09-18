@@ -24,6 +24,7 @@
 #include <mvvm/nodeeditor/node_port_shape.h>
 
 #include <gtest/gtest.h>
+#include <testutils/test_node_editor_helper.h>
 
 #include <QGraphicsScene>
 
@@ -35,22 +36,14 @@ namespace mvvm::test
  */
 class GraphicsSceneHelperTests : public ::testing::Test
 {
-public:
-  std::unique_ptr<NodePortShape> CreateNodePort()
-  {
-    auto node_port = std::make_unique<NodePort>(PortInfo{PortDirection::kOutput, "type_abc"});
-    const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
-    const NodePortShape shape(port_appearance, std::move(node_port), nullptr);
-    return std::make_unique<NodePortShape>(port_appearance, std::move(node_port), nullptr);
-  }
 };
 
 TEST_F(GraphicsSceneHelperTests, GetShape)
 {
   QGraphicsScene scene;
 
-  auto port1 = CreateNodePort();
-  auto port2 = CreateNodePort();
+  auto port1 = CreateNodePortShape();
+  auto port2 = CreateNodePortShape();
   scene.addItem(port1.get());
   scene.addItem(port2.get());
   auto ports = GetShapes<NodePortShape>(scene);

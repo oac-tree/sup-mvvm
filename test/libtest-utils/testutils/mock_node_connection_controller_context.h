@@ -41,7 +41,6 @@ public:
   MOCK_METHOD(void, OnConnectionRequest, (const INodePort*, const INodePort*), ());
 
   NodeConnectionControllerContext CreateContext();
-
 };
 
 }  // namespace mvvm::test
