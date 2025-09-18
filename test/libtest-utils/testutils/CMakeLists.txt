@@ -15,6 +15,8 @@ target_sources(${library_name} PRIVATE
   mock_editor_factory.h
   mock_node_connection.cpp
   mock_node_connection.h
+  mock_node_connection_controller_context.cpp
+  mock_node_connection_controller_context.h
   mock_node_port.cpp
   mock_node_port.h
   mock_port_position_strategy.cpp
@@ -23,12 +25,12 @@ target_sources(${library_name} PRIVATE
   mock_user_interactor.cpp
   mock_user_interactor.h
   test_container_helper.h
+  test_node_editor_helper.cpp
+  test_node_editor_helper.h
   test_strategies.cpp
   test_strategies.h
   test_viewmodel_helper.cpp
   test_viewmodel_helper.h
   toy_items.cpp
   toy_items.h
-  mock_node_connection_controller_context.cpp
-  mock_node_connection_controller_context.h
 )

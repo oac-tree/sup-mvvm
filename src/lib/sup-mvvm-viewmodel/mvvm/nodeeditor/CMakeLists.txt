@@ -19,6 +19,9 @@ target_sources(${library_name} PRIVATE
   node_connection.h
   node_connection_controller.cpp
   node_connection_controller.h
+  node_connection_controller_impl.cpp
+  node_connection_controller_impl.cpp
+  node_connection_controller_context.h
   node_connection_shape.cpp
   node_connection_shape.h
   node_editor_constants.cpp

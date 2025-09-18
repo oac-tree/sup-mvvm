@@ -1,0 +1,139 @@
+/******************************************************************************
+ *
+ * Project       : Operational Applications UI Foundation
+ *
+ * Description   : The model-view-viewmodel library of generic UI components
+ *
+ * Author        : Gennady Pospelov (IO)
+ *
+ * Copyright (c) : 2010-2025 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ * SPDX-License-Identifier: MIT
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file LICENSE located in the top level directory
+ * of the distribution package.
+ *****************************************************************************/
+
+#include "node_connection_controller_impl.h"
+
+#include "connectable_shape.h"
+#include "graphics_scene_helper.h"
+#include "node_connection.h"
+#include "node_connection_shape.h"
+#include "node_editor_constants.h"
+#include "node_port.h"
+#include "node_port_shape.h"
+#include "port_info.h"
+
+#include <mvvm/core/mvvm_exceptions.h>
+
+#include <QGraphicsItem>
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+
+namespace mvvm
+{
+
+namespace
+{
+
+std::unique_ptr<NodePort> CreateProxyPort(const QPointF& pos)
+{
+  const PortInfo port_info{PortDirection::kDefault, "temporary proxy"};
+  auto result = std::make_unique<NodePort>(port_info);
+  result->SetScenePosition(pos.x(), pos.y());
+  return result;
+}
+
+}  // namespace
+
+NodeConnectionControllerImpl::NodeConnectionControllerImpl(
+    const NodeConnectionControllerContext& context, QGraphicsScene* scene)
+    : m_scene(scene), m_context(context)
+{
+}
+
+NodeConnectionControllerImpl::~NodeConnectionControllerImpl() = default;
+
+NodePortShape* NodeConnectionControllerImpl::FindNodePortShape(const QPointF& scene_pos)
+{
+  const double size = 2 * constants::GetDefaultPortRadius();
+  QRectF area(0, 0, size, size);
+  area.moveCenter(scene_pos);
+
+  auto ports = GetShapes<NodePortShape>(*m_scene);
+  return ports.empty() ? nullptr : ports.front();
+}
+
+EventProcessStatus NodeConnectionControllerImpl::ProcessMousePress(const QPointF& scene_pos,
+                                                                   Qt::MouseButton button)
+{
+  if (!m_current_connection && button == Qt::LeftButton)
+  {
+    if (auto port = FindNodePortShape(scene_pos); port)
+    {
+      m_context.connection_started();
+
+      m_end_port_proxy = CreateProxyPort(scene_pos);
+      auto connection =
+          std::make_unique<NodeConnection>(port->GetNodePort(), m_end_port_proxy.get());
+
+      m_current_connection = std::make_unique<NodeConnectionShape>(NodeTreeLayout::kTopToBottom,
+                                                                   std::move(connection));
+      m_scene->addItem(m_current_connection.get());
+      m_current_connection->UpdatePath();
+      return EventProcessStatus::kEventWasHandled;
+    }
+  }
+  return EventProcessStatus::kEventWasIgnored;
+}
+
+EventProcessStatus NodeConnectionControllerImpl::ProcessMouseMove(const QPointF& scene_pos)
+{
+  if (m_current_connection)
+  {
+    m_end_port_proxy->SetScenePosition(scene_pos.x(), scene_pos.y());
+    m_current_connection->UpdatePath();
+    return EventProcessStatus::kEventWasHandled;
+  }
+  return EventProcessStatus::kEventWasIgnored;
+}
+
+EventProcessStatus NodeConnectionControllerImpl::ProcessMouseRelease(const QPointF& scene_pos,
+                                                                     Qt::MouseButton button)
+{
+  if (m_current_connection && button == Qt::LeftButton)
+  {
+    m_context.connection_finished();
+    if (auto port_shape = FindNodePortShape(scene_pos); port_shape)
+    {
+      auto start_port = m_current_connection->GetNodeConnection()->GetStartPort();
+      auto end_port = port_shape->GetNodePort();
+      if (start_port->IsConnectable(end_port))
+      {
+        m_context.connection_request(start_port, end_port);
+      }
+    }
+    // At this point we do not need connection object anymore.
+    // It will be redrawn automatically, when the model process our request.
+    m_current_connection.reset();
+    return EventProcessStatus::kEventWasHandled;
+  }
+  return EventProcessStatus::kEventWasIgnored;
+}
+
+NodeConnectionShape *NodeConnectionControllerImpl::GetCurrentConnection() const
+{
+  return m_current_connection.get();
+}
+
+INodePort *NodeConnectionControllerImpl::GetEndPortProxy() const
+{
+  return m_end_port_proxy.get();
+}
+
+}  // namespace mvvm

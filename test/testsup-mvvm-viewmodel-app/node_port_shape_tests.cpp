@@ -58,6 +58,9 @@ TEST_F(NodePortShapeTest, InitialState)
 
 TEST_F(NodePortShapeTest, BoundingBoxForEmptyLabel)
 {
+  // triggered by port creation
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
+
   const PortAppearance port_appearance(PortLocation::kLeft, "", QColor(Qt::red));
   auto shape = CreateNodePortShape(port_appearance);
   const QRectF bounding_rect = shape->boundingRect();

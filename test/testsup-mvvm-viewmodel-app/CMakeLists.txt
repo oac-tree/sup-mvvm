@@ -11,9 +11,11 @@ target_sources(${test} PRIVATE
     connectable_shape_tests.cpp
     connectable_view_model_controller_tests.cpp
     custom_viewmodel_tests.cpp
-    main.cpp
-    node_port_shape_tests.cpp
     graphics_scene_helper_tests.cpp
+    main.cpp
+    node_connection_controller_impl_tests.cpp
+    node_connection_controller_tests.cpp
+    node_port_shape_tests.cpp
 )
 
 if(SUP_MVVM_BUILD_QCUSTOMPLOT)
