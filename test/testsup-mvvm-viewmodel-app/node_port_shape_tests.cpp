@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <testutils/mock_node_port.h>
+#include <testutils/test_node_editor_helper.h>
 
 #include <QGraphicsScene>
 
@@ -89,20 +90,32 @@ TEST_F(NodePortShapeTest, GetLabelRectForBottomLocation)
 
 TEST_F(NodePortShapeTest, ScenePosition)
 {
-  EXPECT_CALL(m_mock_node_port, SetScenePosition(1.0, 2.0)).Times(1);
+  // triggered by port creation
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
 
   const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
   auto shape = CreateNodePortShape(port_appearance);
   auto shape_ptr = shape.get();
 
-  QGraphicsScene scene;
-  scene.addItem(shape.release());
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().x(), 0.0);
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().y(), 0.0);
 
   shape_ptr->setPos(1.0, 2.0);
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().x(), 1.0);
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().y(), 2.0);
 
-  const auto pos = shape_ptr->scenePos();
-  EXPECT_DOUBLE_EQ(pos.x(), 1.0);
-  EXPECT_DOUBLE_EQ(pos.y(), 2.0);
+  // doesn't trigger SetScenePosition because item is not in the scene yet
+
+  QGraphicsScene scene;
+  scene.addItem(shape.release());
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().x(), 1.0);
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().y(), 2.0);
+
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(3.0, 4.0)).Times(1);
+
+  shape_ptr->setPos(3.0, 4.0);
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().x(), 3.0);
+  EXPECT_DOUBLE_EQ(shape_ptr->scenePos().y(), 4.0);
 }
 
 }  // namespace mvvm::test

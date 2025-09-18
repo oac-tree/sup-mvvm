@@ -34,6 +34,7 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
 {
   CalculateBoundingRect();
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+  UpdateNodePort();
 }
 
 QRectF NodePortShape::boundingRect() const
@@ -82,8 +83,7 @@ QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &va
 {
   if (change == ItemScenePositionHasChanged)
   {
-    const auto pos = scenePos();
-    m_node_port->SetScenePosition(pos.x(), pos.y());
+    UpdateNodePort();
   }
   return value;
 }
@@ -101,6 +101,12 @@ void NodePortShape::CalculateBoundingRect()
                                          m_port_appearance.GetPortLabel());
 
   m_bounding_rect = circle_rect.united(label_rect);
+}
+
+void NodePortShape::UpdateNodePort()
+{
+  const auto pos = scenePos();
+  m_node_port->SetScenePosition(pos.x(), pos.y());
 }
 
 /**
