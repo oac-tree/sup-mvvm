@@ -29,4 +29,6 @@ target_sources(${library_name} PRIVATE
   test_viewmodel_helper.h
   toy_items.cpp
   toy_items.h
+  mock_node_connection_controller_context.cpp
+  mock_node_connection_controller_context.h
 )

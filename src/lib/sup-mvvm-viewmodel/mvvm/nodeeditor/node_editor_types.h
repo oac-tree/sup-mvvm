@@ -80,6 +80,15 @@ enum class GraphicsViewOperationMode : std::uint8_t
   kUnknownMode
 };
 
+/**
+ * @brief The EventProcessStatus enum defines possible results of event processing.
+ */
+enum class EventProcessStatus : std::uint8_t
+{
+  kEventWasHandled,
+  kEventWasIgnored
+};
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_NODE_TYPES_H_
