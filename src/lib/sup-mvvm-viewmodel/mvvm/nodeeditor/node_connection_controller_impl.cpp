@@ -20,14 +20,12 @@
 
 #include "node_connection_controller_impl.h"
 
-#include "connectable_shape.h"
 #include "graphics_scene_helper.h"
 #include "node_connection.h"
 #include "node_connection_shape.h"
 #include "node_editor_constants.h"
 #include "node_port.h"
 #include "node_port_shape.h"
-#include "port_info.h"
 
 #include <mvvm/core/mvvm_exceptions.h>
 
@@ -65,7 +63,7 @@ NodePortShape* NodeConnectionControllerImpl::FindNodePortShape(const QPointF& sc
   QRectF area(0, 0, size, size);
   area.moveCenter(scene_pos);
 
-  auto ports = GetShapes<NodePortShape>(*m_scene);
+  auto ports = GetShapes<NodePortShape>(*m_scene, area);
   return ports.empty() ? nullptr : ports.front();
 }
 
@@ -74,13 +72,13 @@ EventProcessStatus NodeConnectionControllerImpl::ProcessMousePress(const QPointF
 {
   if (!m_current_connection && button == Qt::LeftButton)
   {
-    if (auto port = FindNodePortShape(scene_pos); port)
+    if (auto port_shape = FindNodePortShape(scene_pos); port_shape)
     {
       m_context.connection_started();
 
       m_end_port_proxy = CreateProxyPort(scene_pos);
       auto connection =
-          std::make_unique<NodeConnection>(port->GetNodePort(), m_end_port_proxy.get());
+          std::make_unique<NodeConnection>(port_shape->GetNodePort(), m_end_port_proxy.get());
 
       m_current_connection = std::make_unique<NodeConnectionShape>(NodeTreeLayout::kTopToBottom,
                                                                    std::move(connection));
@@ -115,23 +113,25 @@ EventProcessStatus NodeConnectionControllerImpl::ProcessMouseRelease(const QPoin
       auto end_port = port_shape->GetNodePort();
       if (start_port->IsConnectable(end_port))
       {
+        // position of the proxy port is not important anymore
         m_context.connection_request(start_port, end_port);
       }
     }
     // At this point we do not need connection object anymore.
     // It will be redrawn automatically, when the model process our request.
     m_current_connection.reset();
+    m_end_port_proxy.reset();
     return EventProcessStatus::kEventWasHandled;
   }
   return EventProcessStatus::kEventWasIgnored;
 }
 
-NodeConnectionShape *NodeConnectionControllerImpl::GetCurrentConnection() const
+NodeConnectionShape* NodeConnectionControllerImpl::GetCurrentConnection() const
 {
   return m_current_connection.get();
 }
 
-INodePort *NodeConnectionControllerImpl::GetEndPortProxy() const
+INodePort* NodeConnectionControllerImpl::GetEndPortProxy() const
 {
   return m_end_port_proxy.get();
 }
