@@ -27,7 +27,7 @@
 namespace mvvm::test
 {
 
-QModelIndex AddDataToModel(const variant_t &data, const std::string &editor_type,
+QModelIndex AddDataToModel(const variant_t &data, const std::string_view &editor_type,
                            AllItemsViewModel &view_model)
 {
   auto model = const_cast<ISessionModel *>(view_model.GetModel());

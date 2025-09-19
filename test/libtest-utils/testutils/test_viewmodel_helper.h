@@ -44,7 +44,7 @@ namespace mvvm::test
  * @param view_model Corresponding viewmodel.
  * @return Index of cell which can be used to access given data.
  */
-QModelIndex AddDataToModel(const variant_t& data, const std::string& editor_type,
+QModelIndex AddDataToModel(const variant_t& data, const std::string_view &editor_type,
                            AllItemsViewModel& view_model);
 
 }  // namespace mvvm::test

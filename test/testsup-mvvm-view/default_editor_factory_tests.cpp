@@ -49,7 +49,7 @@ public:
    * @param editor_type Optional editor name to define for the given cell.
    * @return Index of cell which can be used to access given data.
    */
-  QModelIndex AddDataToModel(const variant_t& data, const std::string& editor_type = {})
+  QModelIndex AddDataToModel(const variant_t& data, const std::string_view& editor_type = {})
   {
     // creating item in a model and setting data to it
     auto item = m_model.InsertItem<PropertyItem>();

@@ -44,7 +44,7 @@ public:
   /**
    * @brief Convenience function to add given data to the model as PropertyItem.
    */
-  QModelIndex AddDataToModel(const variant_t& data, const std::string& editor_type = {})
+  QModelIndex AddDataToModel(const variant_t& data, const std::string_view& editor_type = {})
   {
     return test::AddDataToModel(data, editor_type, m_view_model);
   }

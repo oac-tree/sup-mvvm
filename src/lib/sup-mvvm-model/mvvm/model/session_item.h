@@ -327,7 +327,7 @@ public:
    *
    * @details This allows to define custom cell editors to edit data role of the item.
    */
-  SessionItem& SetEditorType(const std::string& editor_type);
+  SessionItem& SetEditorType(const std::string_view& editor_type);
 
   /**
    * @brief Returns true if the item has given appearance flag set.

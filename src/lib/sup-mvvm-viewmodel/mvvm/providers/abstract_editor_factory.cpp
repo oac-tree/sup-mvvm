@@ -25,15 +25,15 @@
 namespace mvvm
 {
 
-void AbstractEditorFactory::RegisterBuilder(const std::string& name, editorbuilder_t builder)
+void AbstractEditorFactory::RegisterBuilder(const std::string_view& name, editorbuilder_t builder)
 {
-  auto iter = m_name_to_builder.find(name);
+  auto iter = m_name_to_builder.find(std::string(name));
   if (iter != m_name_to_builder.end())
   {
     throw RuntimeException("AbstractEditorFactory: editor name exists");
   }
 
-  (void)m_name_to_builder.insert(iter, {name, std::move(builder)});
+  (void)m_name_to_builder.insert(iter, {std::string(name), std::move(builder)});
 }
 
 editorbuilder_t AbstractEditorFactory::FindBuilder(const std::string& name) const

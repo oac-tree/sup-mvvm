@@ -278,9 +278,9 @@ std::string SessionItem::GetEditorType() const
   return HasData(DataRole::kEditor) ? Data<std::string>(DataRole::kEditor) : std::string();
 }
 
-SessionItem& SessionItem::SetEditorType(const std::string& editor_type)
+SessionItem& SessionItem::SetEditorType(const std::string_view &editor_type)
 {
-  (void)SetData(editor_type, DataRole::kEditor);
+  (void)SetData(std::string(editor_type), DataRole::kEditor);
   return *this;
 }
 

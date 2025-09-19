@@ -25,6 +25,7 @@
 #include <mvvm/providers/i_editor_factory.h>
 
 #include <map>
+#include <string_view>
 
 namespace mvvm
 {
@@ -37,7 +38,7 @@ namespace mvvm
 class MVVM_VIEWMODEL_EXPORT AbstractEditorFactory : public IEditorFactory
 {
 public:
-  void RegisterBuilder(const std::string& name, editorbuilder_t builder);
+  void RegisterBuilder(const std::string_view& name, editorbuilder_t builder);
 
   /**
    * @brief Returns editor factory function registered for the given editor name.
