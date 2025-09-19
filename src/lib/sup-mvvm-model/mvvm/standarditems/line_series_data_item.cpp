@@ -29,7 +29,7 @@ namespace mvvm
 
 LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(GetTypeName<LineSeriesDataItem>())
 {
-  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)), /*set_as_default*/ true);
 }
 
 std::unique_ptr<SessionItem> LineSeriesDataItem::Clone() const
@@ -39,7 +39,7 @@ std::unique_ptr<SessionItem> LineSeriesDataItem::Clone() const
 
 int LineSeriesDataItem::GetPointCount() const
 {
-  return GetItemCount(constants::kChildrenTag);
+  return GetItemCount(std::string(constants::kChildrenTag));
 }
 
 std::vector<std::pair<double, double> > LineSeriesDataItem::GetWaveform() const

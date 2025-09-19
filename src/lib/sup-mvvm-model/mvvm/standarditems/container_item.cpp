@@ -27,7 +27,7 @@ namespace mvvm
 {
 ContainerItem::ContainerItem(const std::string& model_type) : CompoundItem(model_type)
 {
-  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)), /*set_as_default*/ true);
 }
 
 std::unique_ptr<SessionItem> ContainerItem::Clone() const
@@ -42,7 +42,7 @@ bool ContainerItem::IsEmpty() const
 
 std::size_t ContainerItem::GetSize() const
 {
-  return GetItemCount(constants::kChildrenTag);
+  return GetItemCount(std::string(constants::kChildrenTag));
 }
 
 std::vector<SessionItem*> ContainerItem::GetChildren() const

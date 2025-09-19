@@ -24,23 +24,23 @@
 //!< @file
 //! Common constants for items.
 
-#include <string>
+#include <string_view>
 
 namespace mvvm::constants
 {
 
-const std::string kRootItemName = "RootItem";
-const std::string kRootItemTag = "RootTag";
+constexpr std::string_view kRootItemName = "RootItem";
+constexpr std::string_view kRootItemTag = "RootTag";
 
-const std::string kChildrenTag = "kChildrenTag";
-const std::string kLink = "kLink";
+constexpr std::string_view kChildrenTag = "kChildrenTag";
+constexpr std::string_view kLink = "kLink";
 
-const std::string kX = "kX";
-const std::string kY = "kY";
-const std::string kZ = "kZ";
+constexpr std::string_view kX = "kX";
+constexpr std::string_view kY = "kY";
+constexpr std::string_view kZ = "kZ";
 
-const std::string kPen = "kPen";
-const std::string kDisplayed = "kDisplayed";
+constexpr std::string_view kPen = "kPen";
+constexpr std::string_view kDisplayed = "kDisplayed";
 
 }  // namespace mvvm::constants
 

@@ -70,12 +70,12 @@ void NodeItem::SetBaseColor(const std::string& value)
 
 void NodeItem::RegisterSingleChildTag()
 {
-  RegisterTag(TagInfo(constants::kChildrenTag, 0, 1, {}), /*set_as_default*/ true);
+  RegisterTag(TagInfo(std::string(constants::kChildrenTag), 0, 1, {}), /*set_as_default*/ true);
 }
 
 void NodeItem::RegisterMultipleChildrenTag()
 {
-  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)), /*set_as_default*/ true);
 }
 
 }  // namespace mvvm
