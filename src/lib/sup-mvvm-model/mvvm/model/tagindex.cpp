@@ -41,7 +41,7 @@ namespace mvvm
 
 TagIndex::TagIndex(const std::string_view &name) : TagIndex(std::string(name), 0U) {}
 
-TagIndex::TagIndex(const std::string& name, std::size_t index) : m_tag(name), m_index(index) {}
+TagIndex::TagIndex(const std::string_view &name, std::size_t index) : m_tag(name), m_index(index) {}
 
 std::string TagIndex::GetTag() const
 {

@@ -182,9 +182,9 @@ std::vector<SessionItem*> SessionItem::GetAllItems() const
   return GetTaggedItems()->GetAllItems();
 }
 
-std::size_t SessionItem::GetItemCount(const std::string& tag) const
+std::size_t SessionItem::GetItemCount(const std::string_view& tag) const
 {
-  return GetTaggedItems()->GetItemCount(tag);
+  return GetTaggedItems()->GetItemCount(std::string(tag));
 }
 
 SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
@@ -192,9 +192,9 @@ SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
   return GetTaggedItems()->GetItem(tag_index);
 }
 
-std::vector<SessionItem*> SessionItem::GetItems(const std::string &tag) const
+std::vector<SessionItem*> SessionItem::GetItems(const std::string_view& tag) const
 {
-  return GetTaggedItems()->GetItems(tag);
+  return GetTaggedItems()->GetItems(std::string(tag));
 }
 
 TagIndex SessionItem::TagIndexOfItem(const SessionItem* item) const

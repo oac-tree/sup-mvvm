@@ -183,7 +183,7 @@ public:
   /**
    * @brief Returns number of items in given tag.
    */
-  std::size_t GetItemCount(const std::string& tag) const;
+  std::size_t GetItemCount(const std::string_view& tag) const;
 
   /**
    * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
@@ -198,18 +198,18 @@ public:
    *
    * If the tag name is empty, container registered as default will be used.
    */
-  std::vector<SessionItem*> GetItems(const std::string& tag) const;
+  std::vector<SessionItem*> GetItems(const std::string_view& tag) const;
 
   /**
    * @brief Returns item under given tag and index casted to a specified type.
    *
    * Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
    */
-  template <typename T>
+  template <typename T = SessionItem>
   T* GetItem(const TagIndex& tag_index) const;
 
   template <typename T = SessionItem>
-  T* GetItem(const std::string& tag) const;
+  T* GetItem(const std::string_view& tag) const;
 
   /**
    * @brief Returns all items under given tag casted to specific type.
@@ -218,7 +218,7 @@ public:
    * @return Vector of items.
    */
   template <typename T = SessionItem>
-  std::vector<T*> GetItems(const std::string& tag) const;
+  std::vector<T*> GetItems(const std::string_view& tag) const;
 
   /**
    * @brief Returns pair of tag and index corresponding to given item.
@@ -453,13 +453,13 @@ inline T* SessionItem::GetItem(const TagIndex& tag_index) const
 }
 
 template <typename T>
-inline T* SessionItem::GetItem(const std::string& tag) const
+inline T* SessionItem::GetItem(const std::string_view& tag) const
 {
   return GetItem<T>(TagIndex(tag));
 }
 
 template <typename T>
-std::vector<T*> SessionItem::GetItems(const std::string& tag) const
+std::vector<T*> SessionItem::GetItems(const std::string_view& tag) const
 {
   return utils::CastItems<T>(GetItems(tag));
 }

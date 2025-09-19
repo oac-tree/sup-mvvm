@@ -53,7 +53,7 @@ public:
   /**
    * @brief The constructor to build TagIndex from name and index.
    */
-  TagIndex(const std::string& name, std::size_t index);
+  TagIndex(const std::string_view& name, std::size_t index);
 
   /**
    * @brief Returns tag.
