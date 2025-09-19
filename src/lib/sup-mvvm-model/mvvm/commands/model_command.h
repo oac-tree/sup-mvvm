@@ -35,6 +35,12 @@ class MVVM_MODEL_EXPORT ModelCommand : public AbstractCommand
 {
 public:
   explicit ModelCommand(ISessionModel* model);
+  ~ModelCommand() override = default;
+
+  ModelCommand(const ModelCommand&) = delete;
+  ModelCommand& operator=(const ModelCommand&) = delete;
+  ModelCommand(ModelCommand&&) noexcept = delete;
+  ModelCommand& operator=(ModelCommand&&) noexcept = delete;
 
   ISessionModel* GetModel() const;
 

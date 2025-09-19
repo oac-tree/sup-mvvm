@@ -35,6 +35,12 @@ class MVVM_MODEL_EXPORT CompoundItem : public SessionItem
 {
 public:
   explicit CompoundItem(const std::string& item_type = GetTypeName<CompoundItem>());
+  ~CompoundItem() override = default;
+
+  CompoundItem(const CompoundItem&) = default;
+  CompoundItem& operator=(const CompoundItem&) = delete;
+  CompoundItem(CompoundItem&&) noexcept = delete;
+  CompoundItem& operator=(CompoundItem&&) noexcept = delete;
 
   std::unique_ptr<SessionItem> Clone() const override;
 
