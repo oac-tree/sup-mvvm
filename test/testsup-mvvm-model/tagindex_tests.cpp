@@ -32,8 +32,6 @@ namespace mvvm::test
  */
 class TagIndexTests : public ::testing::Test
 {
-public:
-  TagIndex GetTestIndex(const TagIndex& input) { return input; }
 };
 
 TEST_F(TagIndexTests, InitialState)
@@ -59,11 +57,6 @@ TEST_F(TagIndexTests, BraceInitializer)
   tag_index = {"cde", 43};
   EXPECT_EQ(tag_index.GetTag(), "cde");
   EXPECT_EQ(tag_index.GetIndex(), 43);
-
-  TagIndex tag_index2 = {"cde"};
-  EXPECT_EQ(tag_index2.GetTag(), "cde");
-  EXPECT_EQ(tag_index2.GetIndex(), 0);
-  EXPECT_TRUE(tag_index2.IsValid());
 }
 
 TEST_F(TagIndexTests, EqualityOperators)
@@ -130,13 +123,6 @@ TEST_F(TagIndexTests, FactoryMethods)
   EXPECT_EQ(tag_index.GetTag(), TagIndex::GetDefaultTag());
   EXPECT_FALSE(tag_index.IsValid());
   EXPECT_FALSE(tag_index.IsAppend());
-}
-
-TEST_F(TagIndexTests, ImplicitConversion)
-{
-  auto tag_index = GetTestIndex("abc");
-  EXPECT_EQ(tag_index.GetTag(), "abc");
-  EXPECT_EQ(tag_index.GetIndex(), 0);
 }
 
 TEST_F(TagIndexTests, Next)

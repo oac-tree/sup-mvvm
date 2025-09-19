@@ -70,7 +70,7 @@ TEST_F(PropertyViewModelTest, PropertyItem)
 
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
 
-  model.InsertItem<SessionItem>(parent, "universal_tag");
+  model.InsertItem<SessionItem>(parent, TagIndex::Append("universal_tag"));
 
   PropertyViewModel viewModel(&model);
   viewModel.SetRootSessionItem(parent);

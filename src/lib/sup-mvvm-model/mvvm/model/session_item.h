@@ -23,8 +23,8 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/core/variant.h>
-#include <mvvm/model/tagindex.h>
 #include <mvvm/model/item_traits.h>
+#include <mvvm/model/tagindex.h>
 #include <mvvm/signals/signal_slot_fwd.h>
 #include <mvvm/utils/container_utils.h>
 
@@ -207,7 +207,9 @@ public:
    */
   template <typename T>
   T* GetItem(const TagIndex& tag_index) const;
+
   template <typename T = SessionItem>
+  T* GetItem(const std::string& tag) const;
 
   /**
    * @brief Returns all items under given tag casted to specific type.
@@ -215,6 +217,7 @@ public:
    * @param tag The name of container's tag name.
    * @return Vector of items.
    */
+  template <typename T = SessionItem>
   std::vector<T*> GetItems(const std::string& tag) const;
 
   /**
@@ -447,6 +450,12 @@ inline T* SessionItem::GetItem(const TagIndex& tag_index) const
     return tag_item;
   }
   return nullptr;
+}
+
+template <typename T>
+inline T* SessionItem::GetItem(const std::string& tag) const
+{
+  return GetItem<T>(TagIndex(tag));
 }
 
 template <typename T>

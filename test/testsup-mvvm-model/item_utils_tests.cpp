@@ -219,10 +219,10 @@ TEST_F(ItemUtilsTests, TopLevelItemsWhenHidden)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag1"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag2"), /*set_as_default*/ true);
 
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag1");
-  auto child2 = model.InsertItem<SessionItem>(parent, "default_tag1");
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag1"));
+  auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag1"));
   child2->SetVisible(false);
-  auto child3 = model.InsertItem<SessionItem>(parent, "default_tag2");
+  auto child3 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag2"));
 
   auto& child4 = parent->AddProperty("thickness", 42.0);
 
@@ -238,12 +238,12 @@ TEST_F(ItemUtilsTests, SinglePropertyItems)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", GetTypeName<PropertyItem>()));
 
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
-  auto child2 = model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
+  auto child2 = model.InsertItem<PropertyItem>(parent, TagIndex::Append("property_tag"));
   auto& child3 = parent->AddProperty<VectorItem>("position");
   auto& child4 = parent->AddProperty("thickness", 42.0);
 
-  model.InsertItem<SessionItem>(parent, "default_tag");
+  model.InsertItem<SessionItem>(parent, TagIndex::First("default_tag"));
 
   EXPECT_EQ(utils::SinglePropertyItems(*model.GetRootItem()), std::vector<SessionItem*>({}));
   EXPECT_EQ(utils::SinglePropertyItems(*child1), std::vector<SessionItem*>({}));
@@ -259,7 +259,7 @@ TEST_F(ItemUtilsTests, SinglePropertyItemsWhenHidden)
   auto parent = model.InsertItem<CompoundItem>();
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
 
-  auto child1 = model.InsertItem<SessionItem>(parent, "default_tag");
+  auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::First("default_tag"));
   auto& child2 = parent->AddProperty<VectorItem>("position");
   child2.SetVisible(false);
   auto& child3 = parent->AddProperty("thickness", 42.0);
@@ -299,7 +299,7 @@ TEST_F(ItemUtilsTests, FindPreviousSibling)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", GetTypeName<PropertyItem>()));
 
-  auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto property = model.InsertItem<PropertyItem>(parent, TagIndex::Append("property_tag"));
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
@@ -319,7 +319,7 @@ TEST_F(ItemUtilsTests, FindNextItemToSelect)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", GetTypeName<PropertyItem>()));
 
-  auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto property = model.InsertItem<PropertyItem>(parent, TagIndex::Append("property_tag"));
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
@@ -339,7 +339,7 @@ TEST_F(ItemUtilsTests, FindNextSiblingToSelect)
   parent->RegisterTag(TagInfo::CreateUniversalTag("default_tag"), /*set_as_default*/ true);
   parent->RegisterTag(TagInfo::CreatePropertyTag("property_tag", GetTypeName<PropertyItem>()));
 
-  auto property = model.InsertItem<PropertyItem>(parent, "property_tag");
+  auto property = model.InsertItem<PropertyItem>(parent, TagIndex::Append("property_tag"));
   auto child0 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child1 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));
   auto child2 = model.InsertItem<SessionItem>(parent, TagIndex::Append("default_tag"));

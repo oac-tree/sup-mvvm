@@ -200,7 +200,7 @@ TEST_F(StandardRowStrategiesTest, PropertiesRowStrategyPropertyItemTree)
   parent->AddProperty("thickness", 0.0);
 
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
-  model.InsertItem<SessionItem>(parent, "universal_tag");
+  model.InsertItem<SessionItem>(parent, TagIndex::Append("universal_tag"));
 
   PropertiesRowStrategy strategy;
   auto items = strategy.ConstructRow(model.GetRootItem());

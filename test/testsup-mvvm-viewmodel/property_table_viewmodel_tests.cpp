@@ -65,7 +65,7 @@ TEST_F(PropertyTableViewModelTest, PropertyItem)
   auto parent = model.InsertItem<CompoundItem>();
   parent->AddProperty("thickness", 42.0);
   parent->RegisterTag(TagInfo::CreateUniversalTag("universal_tag"));
-  model.InsertItem<SessionItem>(parent, "universal_tag");
+  model.InsertItem<SessionItem>(parent, TagIndex::Append("universal_tag"));
 
   PropertyTableViewModel view_model(&model);
 

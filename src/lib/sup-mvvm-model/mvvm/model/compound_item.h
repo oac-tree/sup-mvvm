@@ -103,7 +103,7 @@ public:
 };
 
 template <typename T>
-T& CompoundItem::AddBranch(const std::string_view &name)
+T& CompoundItem::AddBranch(const std::string_view& name)
 {
   RegisterTag(TagInfo::CreatePropertyTag(std::string(name), T().GetType()));
   auto result = InsertItem<T>({std::string(name), 0});
@@ -111,7 +111,7 @@ T& CompoundItem::AddBranch(const std::string_view &name)
 }
 
 template <typename T>
-T& CompoundItem::AddProperty(const std::string_view &name)
+T& CompoundItem::AddProperty(const std::string_view& name)
 {
   // A property item is a branch with additional kProperty flag. Properties are normally shown in
   // property editors and hidden in top-level-items editors.
@@ -130,15 +130,15 @@ PropertyItem& CompoundItem::AddProperty(const std::string_view& name, const V& v
 }
 
 template <typename T>
-inline T CompoundItem::Property(const std::string_view &tag) const
+inline T CompoundItem::Property(const std::string_view& tag) const
 {
-  return GetItem(std::string(tag))->Data<T>();
+  return GetItem(TagIndex(tag))->Data<T>();
 }
 
 template <typename T>
-inline bool CompoundItem::SetProperty(const std::string_view &tag, const T& value)
+inline bool CompoundItem::SetProperty(const std::string_view& tag, const T& value)
 {
-  return GetItem(std::string(tag))->SetData(value);
+  return GetItem(TagIndex(tag))->SetData(value);
 }
 
 template <>

@@ -192,7 +192,7 @@ SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const
   return GetTaggedItems()->GetItem(tag_index);
 }
 
-std::vector<SessionItem*> SessionItem::GetItems(const std::string& tag) const
+std::vector<SessionItem*> SessionItem::GetItems(const std::string &tag) const
 {
   return GetTaggedItems()->GetItems(tag);
 }

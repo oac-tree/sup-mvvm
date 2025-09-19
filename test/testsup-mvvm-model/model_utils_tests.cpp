@@ -244,7 +244,7 @@ TEST_F(ModelUtilsTests, ForbiddenCopy)
   // single parent in a model
   auto parent0 = model.InsertItem<SessionItem>();
   parent0->RegisterTag(TagInfo::CreatePropertyTag("property_tag", GetTypeName<PropertyItem>()));
-  auto property = model.InsertItem<PropertyItem>(parent0, "property_tag");
+  auto property = model.InsertItem<PropertyItem>(parent0, TagIndex::Append("property_tag"));
 
   // copying property to same property tag is not allowed
   EXPECT_THROW(utils::CopyItem(property, &model, parent0, TagIndex::Append("property_tag")),

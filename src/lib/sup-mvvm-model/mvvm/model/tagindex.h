@@ -46,18 +46,14 @@ public:
   TagIndex() = default;
 
   /**
-   * @brief The constructor to build TagIndex from name and index.
-   *
-   * Implicit conversion is allowed.
+   * @brief The constructor to build TagIndex from name.
    */
-  TagIndex(const std::string& name, std::size_t index = 0U);
+  explicit TagIndex(const std::string_view& name);
 
   /**
    * @brief The constructor to build TagIndex from name and index.
-   *
-   * Implicit conversion is allowed.
    */
-  TagIndex(const char* name, std::size_t index = 0U);
+  TagIndex(const std::string& name, std::size_t index);
 
   /**
    * @brief Returns tag.
