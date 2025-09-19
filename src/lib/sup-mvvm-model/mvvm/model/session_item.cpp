@@ -182,9 +182,9 @@ std::vector<SessionItem*> SessionItem::GetAllItems() const
   return GetTaggedItems()->GetAllItems();
 }
 
-std::size_t SessionItem::GetItemCount(const std::string_view& tag) const
+std::size_t SessionItem::GetItemCount(const std::string &tag) const
 {
-  return GetTaggedItems()->GetItemCount(std::string(tag));
+  return GetTaggedItems()->GetItemCount(tag);
 }
 
 SessionItem* SessionItem::GetItem(const TagIndex& tag_index) const

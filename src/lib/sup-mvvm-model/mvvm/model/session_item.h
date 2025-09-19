@@ -183,7 +183,7 @@ public:
   /**
    * @brief Returns number of items in given tag.
    */
-  std::size_t GetItemCount(const std::string_view& tag) const;
+  std::size_t GetItemCount(const std::string& tag) const;
 
   /**
    * @brief Returns item located at given tag_index, or nullptr if an item doesn't exist.
