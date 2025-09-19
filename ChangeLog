@@ -1,5 +1,7 @@
 Changes for 2.0.0:
 
+- Partly switch to string_view in SessionItem API and some global constants
+- Implement NodeEditor machinery
 - Remove GetStaticType() machinery in the favor of SessionItem type traits
 - August Sonar quality round
 - Implement convenience Flags<> class and use it to store item appearance
