@@ -40,7 +40,7 @@ struct CommandStack::CommandStackImpl
   //!< Position in the command list. This command will be redone on the next call to Redo().
   std::list<std::unique_ptr<ICommand>>::const_iterator m_pos;
 
-  size_t m_undo_limit{0};  // no limit by default
+  std::size_t m_undo_limit{0};  // no limit by default
   bool m_operation_is_in_progress{false};
 
   CommandStackImpl() { m_pos = m_commands.cend(); }
@@ -107,7 +107,11 @@ struct CommandStack::CommandStackImpl
     }
   }
 
-  size_t GetIndex() const { return std::distance(m_commands.cbegin(), m_pos); }
+  std::size_t GetIndex() const
+  {
+    auto distance = std::distance(m_commands.cbegin(), m_pos);
+    return distance < 0 ? 0U : static_cast<std::size_t>(distance);
+  }
 
   /**
    * @brief Cleanup commands if they count exeeds number of commands.
@@ -123,8 +127,8 @@ struct CommandStack::CommandStackImpl
     // limit. But we don't want to cross current position in the command list. This mean that we
     // allow only erasing items which are in AfterExecute state, and we disallow erasing items in
     // AfterUndo state.
-    const size_t del_count = std::min(m_commands.size() - m_undo_limit, GetIndex());
-    for (size_t index = 0; index < del_count; ++index)
+    const std::size_t del_count = std::min(m_commands.size() - m_undo_limit, GetIndex());
+    for (std::size_t index = 0; index < del_count; ++index)
     {
       m_commands.pop_front();
     }
@@ -288,7 +292,7 @@ const ICommand *CommandStack::GetNextRedoCommand() const
   return CanRedo() ? p_impl->m_pos->get() : nullptr;
 }
 
-size_t CommandStack::GetUndoLimit() const
+std::size_t CommandStack::GetUndoLimit() const
 {
   return p_impl->m_undo_limit;
 }
