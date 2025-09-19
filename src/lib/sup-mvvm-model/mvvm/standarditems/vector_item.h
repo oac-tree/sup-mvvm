@@ -32,9 +32,9 @@ namespace mvvm
 class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
 {
 public:
-  static inline const std::string kX = "kX";
-  static inline const std::string kY = "kY";
-  static inline const std::string kZ = "kZ";
+  static constexpr std::string_view kX = "kX";
+  static constexpr std::string_view kY = "kY";
+  static constexpr std::string_view kZ = "kZ";
 
   VectorItem();
 

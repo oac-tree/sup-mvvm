@@ -28,7 +28,7 @@
 
 namespace
 {
-const std::string delim(";");
+constexpr std::string_view delim(";");
 }
 
 namespace mvvm
@@ -101,7 +101,7 @@ std::string ExternalProperty::ToString() const
 
 ExternalProperty ExternalProperty::CreateFromString(const std::string& text)
 {
-  auto parts = utils::SplitString(text, delim);
+  auto parts = utils::SplitString(text, std::string(delim));
   if (parts.size() != 3)
   {
     throw RuntimeException("Error in ExternalProperty: malformed string");
