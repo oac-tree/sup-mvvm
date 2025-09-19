@@ -29,7 +29,8 @@ namespace mvvm
 
 LineSeriesDataItem::LineSeriesDataItem() : CompoundItem(GetTypeName<LineSeriesDataItem>())
 {
-  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)),
+              /*set_as_default*/ true);
 }
 
 std::unique_ptr<SessionItem> LineSeriesDataItem::Clone() const
@@ -37,7 +38,7 @@ std::unique_ptr<SessionItem> LineSeriesDataItem::Clone() const
   return std::make_unique<LineSeriesDataItem>(*this);
 }
 
-int LineSeriesDataItem::GetPointCount() const
+std::size_t LineSeriesDataItem::GetPointCount() const
 {
   return GetItemCount(std::string(constants::kChildrenTag));
 }
@@ -56,11 +57,11 @@ std::vector<std::pair<double, double> > LineSeriesDataItem::GetWaveform() const
 void LineSeriesDataItem::SetWaveform(const std::vector<std::pair<double, double> >& data)
 {
   Clear();
-  for (auto [x, y] : data)
+  for (auto [xpos, ypos] : data)
   {
     auto point = std::make_unique<PointItem>();
-    point->SetX(x);
-    point->SetY(y);
+    point->SetX(xpos);
+    point->SetY(ypos);
     (void)InsertItem(std::move(point), TagIndex::Append());
   }
 }
@@ -74,24 +75,25 @@ void LineSeriesDataItem::Clear()
   }
 }
 
-std::pair<double, double> LineSeriesDataItem::GetPointCoordinates(int index) const
+std::pair<double, double> LineSeriesDataItem::GetPointCoordinates(std::size_t index) const
 {
   return GetPoint(index)->GetPointCoordinates();
 }
 
-void LineSeriesDataItem::SetPointCoordinates(int index,
+void LineSeriesDataItem::SetPointCoordinates(std::size_t index,
                                              const std::pair<double, double>& coordinates)
 {
   GetPoint(index)->SetPointCoordinates(coordinates);
 }
 
-void LineSeriesDataItem::RemovePoint(int index)
+void LineSeriesDataItem::RemovePoint(std::size_t index)
 {
   auto point = GetPoint(index);
   utils::RemoveItem(*point);
 }
 
-void LineSeriesDataItem::InsertPoint(int index, const std::pair<double, double>& coordinates)
+void LineSeriesDataItem::InsertPoint(std::size_t index,
+                                     const std::pair<double, double>& coordinates)
 {
   auto point = std::make_unique<PointItem>();
   point->SetX(coordinates.first);
@@ -99,10 +101,10 @@ void LineSeriesDataItem::InsertPoint(int index, const std::pair<double, double>&
   (void)InsertItem(std::move(point), TagIndex::Default(index));
 }
 
-void LineSeriesDataItem::ValidateIndex(int index) const
+void LineSeriesDataItem::ValidateIndex(std::size_t index) const
 {
   auto points = GetPoints();
-  if (index < 0 || static_cast<size_t>(index) >= points.size())
+  if (index >= points.size())
   {
     throw RuntimeException("Index [" + std::to_string(index) + "] doesn't match number of points ["
                            + std::to_string(points.size()) + "]");
@@ -114,7 +116,7 @@ std::vector<PointItem*> LineSeriesDataItem::GetPoints() const
   return GetItems<PointItem>(constants::kChildrenTag);
 }
 
-PointItem* LineSeriesDataItem::GetPoint(int index) const
+PointItem* LineSeriesDataItem::GetPoint(std::size_t index) const
 {
   ValidateIndex(index);
   return GetPoints().at(index);

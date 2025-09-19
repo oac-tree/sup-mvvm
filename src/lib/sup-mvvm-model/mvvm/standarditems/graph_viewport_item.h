@@ -39,7 +39,7 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
-  int GetGraphCount() const;
+  std::size_t GetGraphCount() const;
 
   std::vector<GraphItem*> GetGraphItems() const;
 

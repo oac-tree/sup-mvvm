@@ -29,6 +29,7 @@
 #include <QFont>
 #include <QGradient>
 #include <QRectF>
+#include <cstdint>
 
 namespace mvvm::constants
 {
@@ -40,6 +41,11 @@ namespace mvvm::constants
  * FIXME remove duplication after widget_utils.h refactoring.
  */
 double NodeUnitSize(double scale);
+
+/**
+ * @brief Characteristic size of node unit.
+ */
+std::int32_t NodeUnitRoundSize(double scale);
 
 /**
  * @brief Returns default radious of the port.

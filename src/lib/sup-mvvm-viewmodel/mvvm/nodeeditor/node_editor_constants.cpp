@@ -47,7 +47,7 @@ double CalculateUnitSize()
   const QFontMetrics font_metric(QApplication::font());
   const auto horizontal_advance = font_metric.horizontalAdvance('M');
 
-  return horizontal_advance;
+  return static_cast<double>(horizontal_advance);
 }
 
 /**
@@ -55,7 +55,7 @@ double CalculateUnitSize()
  */
 QGradient CalculateGradient(const QColor &base_color, const QRectF &rect)
 {
-  QLinearGradient result(rect.x() + rect.width() / 2, rect.y(), rect.x() + rect.width() / 2,
+  QLinearGradient result(rect.x() + (rect.width() / 2), rect.y(), rect.x() + (rect.width() / 2),
                          rect.y() + rect.height());
   result.setColorAt(0, base_color);
   result.setColorAt(0.5, base_color.lighter(150));
@@ -69,6 +69,12 @@ double NodeUnitSize(double scale)
 {
   static const double kUnitSize = CalculateUnitSize();
   return kUnitSize * scale;
+}
+
+std::int32_t NodeUnitRoundSize(double scale)
+{
+  // simple rounting policy (consider aligning with HighDpiScaleFactorRoundingPolicy)
+  return static_cast<std::int32_t>(NodeUnitSize(scale));
 }
 
 double GetDefaultPortRadius()

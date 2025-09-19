@@ -76,7 +76,7 @@ void LineSeriesDataController::OnModelEvent(const ItemInsertedEvent &event)
   {
     auto index = tag_index.GetIndex();
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
-    m_qt_line_series->insert(index, {new_x, new_y});
+    m_qt_line_series->insert(static_cast<std::int32_t>(index), {new_x, new_y});
   }
 }
 
@@ -85,7 +85,7 @@ void LineSeriesDataController::OnModelEvent(const AboutToRemoveItemEvent &event)
   if (event.item == m_data_item)
   {
     auto index = event.tag_index.GetIndex();
-    m_qt_line_series->remove(index);
+    m_qt_line_series->remove(static_cast<std::int32_t>(index));
   }
 }
 
@@ -106,7 +106,7 @@ void LineSeriesDataController::OnModelEvent(const DataChangedEvent &event)
     auto index = point_item->GetTagIndex().GetIndex();
 
     auto [new_x, new_y] = m_data_item->GetPointCoordinates(index);
-    m_qt_line_series->replace(index, new_x + m_x_offset, new_y);
+    m_qt_line_series->replace(static_cast<std::int32_t>(index), new_x + m_x_offset, new_y);
   }
 }
 
@@ -132,9 +132,9 @@ void LineSeriesDataController::SetXOffset(double value)
   if (m_data_item)
   {
     QList<QPointF> new_values;
-    for (auto [x, y] : m_data_item->GetWaveform())
+    for (auto [xpos, ypos] : m_data_item->GetWaveform())
     {
-      new_values.append({x + m_x_offset, y});
+      new_values.append({xpos + m_x_offset, ypos});
     }
 
     if (!new_values.empty())
@@ -164,9 +164,9 @@ void LineSeriesDataController::Unsubscribe()
 
 void LineSeriesDataController::InitLineSeriesData()
 {
-  for (auto [x, y] : m_data_item->GetWaveform())
+  for (auto [xpos, ypos] : m_data_item->GetWaveform())
   {
-    m_qt_line_series->append(x + m_x_offset, y);
+    m_qt_line_series->append(xpos + m_x_offset, ypos);
   }
 }
 

@@ -65,7 +65,7 @@ std::unique_ptr<SessionItem> GraphViewportItem::Clone() const
   return std::make_unique<GraphViewportItem>(*this);
 }
 
-int GraphViewportItem::GetGraphCount() const
+std::size_t GraphViewportItem::GetGraphCount() const
 {
   return GetItemCount(kItems);
 }

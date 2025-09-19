@@ -42,7 +42,7 @@ namespace mvvm
 
 namespace
 {
-const int kRoundPar = 5;
+const double kRoundPar = 5.0;
 
 /**
  * @brief Returns rectangle to display ConnectableShape label.
@@ -66,7 +66,7 @@ QRectF GetLabelRectangle(const QRectF &rect)
  */
 QFont GetLabelFont()
 {
-  QFont result("Noto Sans", constants::NodeUnitSize(0.8), QFont::Normal);
+  QFont result("Noto Sans", constants::NodeUnitRoundSize(0.8), QFont::Normal);
   result.setWordSpacing(-constants::NodeUnitSize(0.25));
   return result;
 }

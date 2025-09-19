@@ -50,12 +50,12 @@ public:
   /**
    * @brief Returns the number of child item rows that the item has.
    */
-  int GetRowCount() const;
+  std::int32_t GetRowCount() const;
 
   /**
    * @brief Returns the number of child item columns that the item has.
    */
-  int GetColumnCount() const;
+  std::int32_t GetColumnCount() const;
 
   /**
    * @brief Appends a row containing items.
@@ -71,7 +71,7 @@ public:
    * @param row Row index.
    * @param items The row of items to insert.
    */
-  void InsertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
+  void InsertRow(std::int32_t row, std::vector<std::unique_ptr<ViewItem>> items);
 
   /**
    * @brief Removes row of items at given position.
@@ -79,7 +79,7 @@ public:
    *
    * @param row Row index.
    */
-  void RemoveRow(int row);
+  void RemoveRow(std::int32_t row);
 
   /**
    * @brief Clears all children.
@@ -99,7 +99,7 @@ public:
    *
    * @return A child at given position.
    */
-  ViewItem* GetChild(int row, int column) const;
+  ViewItem* GetChild(std::int32_t row, std::int32_t column) const;
 
   /**
    * @brief Returns underlying data data item (non-const version).
@@ -115,13 +115,13 @@ public:
    * @brief Returns the Row where the item is located in its parent's child table, or -1 if the item
    * has no parent.
    */
-  int Row() const;
+  std::int32_t Row() const;
 
   /**
    * @brief Returns the Column where the item is located in its parent's child table, or -1 if the
    * item has no parent.
    */
-  int Column() const;
+  std::int32_t Column() const;
 
   /**
    * @brief Returns the Data for given role according to Qt::ItemDataRole namespace definitions.
@@ -130,14 +130,14 @@ public:
    *
    * @return QVariant representing given role.
    */
-  virtual QVariant Data(int qt_role) const;
+  virtual QVariant Data(std::int32_t qt_role) const;
 
   /**
    * @brief Sets the data for given role.
    *
    * Internally sets the data to the underlying presentation item.
    */
-  virtual bool SetData(const QVariant& value, int qt_role);
+  virtual bool SetData(const QVariant& value, std::int32_t qt_role);
 
   /**
    * @brief Returns Qt's item Flags.
@@ -157,7 +157,7 @@ protected:
   /**
    * @brief Update cached values of row and col.
    */
-  void UpdatePositionCache(int row, int col);
+  void UpdatePositionCache(std::int32_t row, std::int32_t col);
 
 private:
   struct ViewItemImpl;

@@ -47,7 +47,7 @@ public:
   /**
    * @brief Returns number of points.
    */
-  int GetPointCount() const;
+  std::size_t GetPointCount() const;
 
   /**
    * @brief Returns vector of (x,y) points representing a waveform.
@@ -71,26 +71,26 @@ public:
    *
    * @throw RuntimeErrorException if index doesn't match number of points
    */
-  std::pair<double, double> GetPointCoordinates(int index) const;
+  std::pair<double, double> GetPointCoordinates(std::size_t index) const;
 
   /**
    * @brief Sets coordinates of the point with given index.
    *
    * @throw RuntimeErrorException if index doesn't match number of points
    */
-  void SetPointCoordinates(int index, const std::pair<double, double>& coordinates);
+  void SetPointCoordinates(std::size_t index, const std::pair<double, double>& coordinates);
 
   /**
    * @brief Removes point with given index.
    *
    * @throw RuntimeErrorException if index doesn't match number of points
    */
-  void RemovePoint(int index);
+  void RemovePoint(std::size_t index);
 
   /**
    * @brief Insert new point into the given index.
    */
-  void InsertPoint(int index, const std::pair<double, double>& coordinates);
+  void InsertPoint(std::size_t index, const std::pair<double, double>& coordinates);
 
   /**
    * @brief Returns vector of points.
@@ -100,10 +100,10 @@ public:
   /**
    * @brief Returns point at given index.
    */
-  PointItem* GetPoint(int index) const;
+  PointItem* GetPoint(std::size_t index) const;
 
 private:
-  void ValidateIndex(int index) const;
+  void ValidateIndex(size_t index) const;
 };
 
 template <>
