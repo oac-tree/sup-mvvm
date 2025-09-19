@@ -47,12 +47,12 @@ std::string VariantValueVisitor::operator()(int8 value)
 
 std::string VariantValueVisitor::operator()(uint8 value)
 {
-  return {std::to_string(value)};
+  return {std::to_string(static_cast<std::int32_t>(value))};
 }
 
 std::string VariantValueVisitor::operator()(int16 value)
 {
-  return {std::to_string(value)};
+  return {std::to_string(static_cast<std::int32_t>(value))};
 }
 
 std::string VariantValueVisitor::operator()(uint16 value)

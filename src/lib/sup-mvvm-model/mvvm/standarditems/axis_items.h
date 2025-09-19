@@ -103,7 +103,7 @@ public:
 
   virtual std::pair<double, double> GetRange() const = 0;
 
-  virtual int GetSize() const = 0;
+  virtual std::size_t GetSize() const = 0;
 
   virtual std::vector<double> GetBinCenters() const = 0;
 };
@@ -120,13 +120,13 @@ public:
 
   std::unique_ptr<SessionItem> Clone() const override;
 
-  void SetParameters(int nbins, double xmin, double xmax);
+  void SetParameters(std::size_t nbins, double xmin, double xmax);
 
-  static std::unique_ptr<FixedBinAxisItem> Create(int nbins, double xmin, double xmax);
+  static std::unique_ptr<FixedBinAxisItem> Create(std::size_t nbins, double xmin, double xmax);
 
   std::pair<double, double> GetRange() const override;
 
-  int GetSize() const override;
+  std::size_t GetSize() const override;
 
   std::vector<double> GetBinCenters() const override;
 };
@@ -149,7 +149,7 @@ public:
 
   std::pair<double, double> GetRange() const override;
 
-  int GetSize() const override;
+  std::size_t GetSize() const override;
 
   std::vector<double> GetBinCenters() const override;
 };

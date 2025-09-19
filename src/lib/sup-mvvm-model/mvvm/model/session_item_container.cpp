@@ -110,7 +110,7 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
   }
 
   auto result = item.get();
-  (void)m_items.insert(std::next(m_items.begin(), index), std::move(item));
+  (void)m_items.insert(std::next(m_items.begin(), static_cast<std::int32_t>(index)), std::move(item));
   return result;
 }
 
@@ -129,7 +129,7 @@ std::unique_ptr<SessionItem> SessionItemContainer::TakeItem(std::size_t index)
   if (index < GetItemCount())
   {
     auto item = std::move(m_items.at(index));
-    (void)m_items.erase(std::next(m_items.begin(), index));
+    (void)m_items.erase(std::next(m_items.begin(), static_cast<std::int32_t>(index)));
     return item;
   }
 

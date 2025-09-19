@@ -115,7 +115,7 @@ static inline const std::string kNbins = "kNbins";
 
 FixedBinAxisItem::FixedBinAxisItem(const std::string& model_type) : BinnedAxisItem(model_type)
 {
-  (void)AddProperty(kNbins, 1).SetDisplayName("Nbins");
+  (void)AddProperty(kNbins, std::size_t{1}).SetDisplayName("Nbins");
   RegisterMinMax();
 }
 
@@ -124,14 +124,14 @@ std::unique_ptr<SessionItem> FixedBinAxisItem::Clone() const
   return std::make_unique<FixedBinAxisItem>(*this);
 }
 
-void FixedBinAxisItem::SetParameters(int nbins, double xmin, double xmax)
+void FixedBinAxisItem::SetParameters(std::size_t nbins, double xmin, double xmax)
 {
   (void)SetProperty(kNbins, nbins);
   SetMin(xmin);
   SetMax(xmax);
 }
 
-std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(int nbins, double xmin, double xmax)
+std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(std::size_t nbins, double xmin, double xmax)
 {
   auto result = std::make_unique<FixedBinAxisItem>();
   result->SetParameters(nbins, xmin, xmax);
@@ -143,21 +143,21 @@ std::pair<double, double> FixedBinAxisItem::GetRange() const
   return std::make_pair(GetMin(), GetMax());
 }
 
-int FixedBinAxisItem::GetSize() const
+std::size_t FixedBinAxisItem::GetSize() const
 {
-  return Property<int>(kNbins);
+  return Property<std::size_t>(kNbins);
 }
 
 std::vector<double> FixedBinAxisItem::GetBinCenters() const
 {
   std::vector<double> result;
-  const int nbins = GetSize();
+  const auto nbins = GetSize();
   const double step = (GetMax() - GetMin()) / nbins;
 
-  result.resize(static_cast<size_t>(nbins), 0.0);
-  for (int i = 0; i < nbins; ++i)
+  result.resize(nbins, 0.0);
+  for (std::size_t i = 0; i < nbins; ++i)
   {
-    result[i] = GetMin() + step * (i + 0.5);
+    result[i] = GetMin() + step * (static_cast<double>(i) + 0.5);
   }
 
   return result;
@@ -196,9 +196,9 @@ std::pair<double, double> PointwiseAxisItem::GetRange() const
                                  : std::make_pair(data.front(), data.back());
 }
 
-int PointwiseAxisItem::GetSize() const
+std::size_t PointwiseAxisItem::GetSize() const
 {
-  return static_cast<int>(GetBinCenters().size());
+  return GetBinCenters().size();
 }
 
 std::vector<double> PointwiseAxisItem::GetBinCenters() const

@@ -89,7 +89,7 @@ variant_t to_double(const std::string &str)
   // we use own conversion to double instead of std::stod to not to depend on user's locale
   if (auto value = mvvm::utils::StringToDouble(str); value)
   {
-    const T concrete_value(value.value());
+    const T concrete_value(static_cast<T>(value.value()));
     return variant_t(concrete_value);
   }
   throw RuntimeException("Error in variant converter: malformed double number");

@@ -55,7 +55,7 @@ TEST_F(Data1DItemTests, SetFixedBinAxis)
 {
   Data1DItem item;
 
-  item.SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+  item.SetAxis<FixedBinAxisItem>(5U, 0.0, 5.0);
 
   // check type of the axis
   EXPECT_TRUE(item.GetAxis() != nullptr);
