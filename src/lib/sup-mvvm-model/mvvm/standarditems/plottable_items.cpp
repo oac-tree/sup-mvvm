@@ -67,7 +67,7 @@ std::string TextItem::GetText() const
 
 void TextItem::SetText(const std::string &value)
 {
-  SetProperty(kText, value);
+  (void)SetProperty(kText, value);
 }
 
 std::string TextItem::GetFont() const
@@ -77,7 +77,7 @@ std::string TextItem::GetFont() const
 
 void TextItem::SetFont(const std::string &value)
 {
-  SetProperty(kFont, value);
+  (void)SetProperty(kFont, value);
 }
 
 int TextItem::GetPointSize() const
@@ -87,7 +87,7 @@ int TextItem::GetPointSize() const
 
 void TextItem::SetPointSize(int value)
 {
-  SetProperty(kSize, value);
+  (void)SetProperty(kSize, value);
 }
 
 // ----------------------------------------------------------------------------
@@ -96,12 +96,12 @@ void TextItem::SetPointSize(int value)
 
 PenItem::PenItem() : CompoundItem(GetTypeName<PenItem>())
 {
-  SetEditable(false);  // to disable editing of on-board data
-  AddProperty(kColor, "black")
+  (void)SetEditable(false);  // to disable editing of on-board data
+  (void)AddProperty(kColor, "black")
       .SetDisplayName("Color")
       .SetToolTip("Pen color")
       .SetEditorType(constants::kColorEditorType);
-  AddProperty(kStyle, kPenStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
+  (void)AddProperty(kStyle, kPenStyleCombo).SetDisplayName("Style").SetToolTip("Pen style");
   auto &width_property =
       AddProperty(kWidth, kPenDefaultWidth).SetDisplayName("Width").SetToolTip("Pen width");
   SetLimited(kPenMinWidth, kPenMaxWidth, width_property);
@@ -121,7 +121,7 @@ void PenItem::SetSelected(bool is_selected)
 {
   auto combo = kPenStyleCombo;
   combo.SetCurrentIndex(is_selected ? kPenStyleIndexDashline : kPenStyleIndexSolid);
-  SetProperty(kStyle, combo);
+  (void)SetProperty(kStyle, combo);
 }
 
 std::string PenItem::GetNamedColor() const
@@ -131,7 +131,7 @@ std::string PenItem::GetNamedColor() const
 
 void PenItem::SetNamedColor(const std::string &named_color)
 {
-  SetProperty(kColor, named_color);
+  (void)SetProperty(kColor, named_color);
 }
 
 std::string PenItem::GetStyle() const
@@ -143,7 +143,7 @@ void PenItem::SetStyle(const std::string &style)
 {
   auto combo = Property<ComboProperty>(kStyle);
   combo.SetValue(style);
-  SetProperty(kStyle, combo);
+  (void)SetProperty(kStyle, combo);
 }
 
 int PenItem::GetStyleIndex() const
@@ -158,7 +158,7 @@ int PenItem::GetWidth() const
 
 void PenItem::SetWidth(int value)
 {
-  SetProperty(kWidth, value);
+  (void)SetProperty(kWidth, value);
 }
 
 }  // namespace mvvm

@@ -30,7 +30,7 @@ namespace mvvm::utils
 QStringList GetStringList(const std::vector<std::string>& vec)
 {
   QStringList result;
-  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
+  (void)std::transform(vec.begin(), vec.end(), std::back_inserter(result),
                  [](const auto& str) { return QString::fromStdString(str); });
   return result;
 }
@@ -38,7 +38,7 @@ QStringList GetStringList(const std::vector<std::string>& vec)
 std::vector<std::string> GetStdStringVector(const QStringList& string_list)
 {
   std::vector<std::string> result;
-  std::transform(string_list.begin(), string_list.end(), std::back_inserter(result),
+  (void)std::transform(string_list.begin(), string_list.end(), std::back_inserter(result),
                  [](const auto& str) { return str.toStdString(); });
   return result;
 }

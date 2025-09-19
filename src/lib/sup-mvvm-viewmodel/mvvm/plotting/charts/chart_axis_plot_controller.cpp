@@ -75,7 +75,7 @@ void ChartAxisPlotController::SetQtConnected()
 
 void ChartAxisPlotController::SetQtDisonnected()
 {
-  QObject::disconnect(*m_axis_connection);
+  (void)QObject::disconnect(*m_axis_connection);
 }
 
 void ChartAxisPlotController::SetAxisRangeFromItem()

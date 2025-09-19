@@ -28,11 +28,11 @@ namespace mvvm
 {
 VectorItem::VectorItem() : CompoundItem(GetTypeName<VectorItem>())
 {
-  AddProperty(kX, 0.0).SetDisplayName("X");
-  AddProperty(kY, 0.0).SetDisplayName("Y");
-  AddProperty(kZ, 0.0).SetDisplayName("Z");
+  (void)AddProperty(kX, 0.0).SetDisplayName("X");
+  (void)AddProperty(kY, 0.0).SetDisplayName("Y");
+  (void)AddProperty(kZ, 0.0).SetDisplayName("Z");
 
-  SetEditable(false);
+  (void)SetEditable(false);
 
   UpdateLabel();
   ActivateStrategies();
@@ -52,7 +52,7 @@ double VectorItem::X() const
 
 void VectorItem::SetX(double value)
 {
-  SetProperty(kX, value);
+  (void)SetProperty(kX, value);
 }
 
 double VectorItem::Y() const
@@ -62,7 +62,7 @@ double VectorItem::Y() const
 
 void VectorItem::SetY(double value)
 {
-  SetProperty(kY, value);
+  (void)SetProperty(kY, value);
 }
 
 double VectorItem::Z() const
@@ -72,7 +72,7 @@ double VectorItem::Z() const
 
 void VectorItem::SetZ(double value)
 {
-  SetProperty(kZ, value);
+  (void)SetProperty(kZ, value);
 }
 
 void VectorItem::SetXYZ(double x, double y, double z)
@@ -105,7 +105,7 @@ void VectorItem::UpdateLabel()
 {
   std::ostringstream ostr;
   ostr << "(" << X() << ", " << Y() << ", " << Z() << ")";
-  SetData(ostr.str(), DataRole::kData);
+  (void)SetData(ostr.str(), DataRole::kData);
 }
 
 }  // namespace mvvm

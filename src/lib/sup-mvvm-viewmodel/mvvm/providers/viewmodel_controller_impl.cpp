@@ -87,7 +87,7 @@ void ViewModelControllerImpl::OnModelEvent(const AboutToRemoveItemEvent &event)
   if (auto view = m_view_item_map.FindView(item_to_remove); view)
   {
     m_view_model->removeRow(view->GetParent(), view->Row());
-    m_view_item_map.RemoveRecursively(item_to_remove);
+    (void)m_view_item_map.RemoveRecursively(item_to_remove);
   }
 }
 

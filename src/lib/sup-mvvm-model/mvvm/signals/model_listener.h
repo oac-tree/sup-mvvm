@@ -84,7 +84,7 @@ public:
   template <typename EventT>
   void Connect(const std::function<void(const event_variant_t&)>& callback)
   {
-    GetEventHandler()->Connect<EventT>(callback, GetSlot());
+    (void) GetEventHandler()->Connect<EventT>(callback, GetSlot());
   }
 
   /**

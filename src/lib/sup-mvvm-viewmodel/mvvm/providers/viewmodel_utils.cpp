@@ -159,9 +159,9 @@ std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list)
 
   if (auto model = dynamic_cast<const ViewModel*>(index_list.front().model()))
   {
-    std::transform(index_list.begin(), index_list.end(), std::back_inserter(result),
-                   [model](auto index)
-                   { return const_cast<SessionItem*>(model->GetSessionItemFromIndex(index)); });
+    (void)std::transform(
+        index_list.begin(), index_list.end(), std::back_inserter(result), [model](auto index)
+        { return const_cast<SessionItem*>(model->GetSessionItemFromIndex(index)); });
   }
 
   return result;
@@ -174,12 +174,12 @@ std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list
   {
     if (item)
     {
-      unique_parents.insert(item->GetParent());
+      (void)unique_parents.insert(item->GetParent());
     }
   }
 
   std::vector<SessionItem*> result;
-  std::copy(unique_parents.begin(), unique_parents.end(), std::back_inserter(result));
+  (void)std::copy(unique_parents.begin(), unique_parents.end(), std::back_inserter(result));
   return result;
 }
 

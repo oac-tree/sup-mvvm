@@ -71,7 +71,7 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("ViewItem: invalid row index");
     }
 
-    m_children.insert(std::next(m_children.begin(), row * m_columns),
+    (void)m_children.insert(std::next(m_children.begin(), row * m_columns),
                       std::make_move_iterator(items.begin()), std::make_move_iterator(items.end()));
 
     m_columns = static_cast<int>(items.size());
@@ -88,7 +88,7 @@ struct ViewItem::ViewItemImpl
     }
 
     auto begin = std::next(m_children.begin(), row * m_columns);
-    m_children.erase(begin, std::next(begin, m_columns));
+    (void)m_children.erase(begin, std::next(begin, m_columns));
     --m_rows;
     if (m_rows == 0)
     {

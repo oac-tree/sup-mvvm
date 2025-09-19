@@ -94,7 +94,7 @@ inline void ItemViewMap<ItemT, ViewT>::Insert(ItemT item, ViewT view)
   {
     throw RuntimeException("ItemViewMap: item is already registered");
   }
-  m_item_to_view.insert(iter, {item, view});
+  (void)m_item_to_view.insert(iter, {item, view});
 }
 
 template <typename ItemT, typename ViewT>
@@ -109,7 +109,7 @@ inline void ItemViewMap<ItemT, ViewT>::Remove(ItemT item)
   const auto iter = m_item_to_view.find(item);
   if (iter != m_item_to_view.end())
   {
-    m_item_to_view.erase(iter);
+    (void)m_item_to_view.erase(iter);
   }
   else
   {
@@ -125,7 +125,7 @@ inline void ItemViewMap<ItemT, ViewT>::Remove(ViewT view)
 
   if (iter != m_item_to_view.end())
   {
-    m_item_to_view.erase(iter);
+    (void)m_item_to_view.erase(iter);
   }
   else
   {
@@ -142,7 +142,7 @@ inline std::vector<ViewT> ItemViewMap<ItemT, ViewT>::RemoveRecursively(ItemT ite
     if (const auto iter = m_item_to_view.find(item); iter != m_item_to_view.end())
     {
       removed_views.push_back(iter->second);
-      m_item_to_view.erase(iter);
+      (void)m_item_to_view.erase(iter);
     }
     return true;
   };

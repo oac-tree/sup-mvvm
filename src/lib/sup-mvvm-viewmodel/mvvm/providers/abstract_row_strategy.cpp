@@ -72,10 +72,10 @@ std::vector<std::unique_ptr<ViewItem>> AbstractRowStrategy::CreatePlaceholderRow
 
   if (GetSize() > 0)
   {
-    result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+    (void)result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
     for (std::size_t i_row = 1; i_row < GetSize(); ++i_row)
     {
-      result.emplace_back(mvvm::CreateLabelViewItem(item));
+      (void)result.emplace_back(mvvm::CreateLabelViewItem(item));
     }
   }
 

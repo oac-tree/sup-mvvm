@@ -201,7 +201,7 @@ std::vector<ElementT> StringToVector(const std::string& str,
       continue;
     }
     std::istringstream iss(part);
-    iss.imbue(std::locale::classic());
+    (void)iss.imbue(std::locale::classic());
     ElementT value;
     iss >> value;
     if (!iss.fail() && iss.eof())

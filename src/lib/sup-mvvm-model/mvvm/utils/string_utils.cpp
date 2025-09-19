@@ -65,7 +65,7 @@ std::string ScientificDoubleToString(double input, std::int32_t precision)
   std::string part1 = inter.str().substr(0, pos);
   const std::string part2 = inter.str().substr(pos, std::string::npos);
 
-  part1.erase(part1.find_last_not_of('0') + 1, std::string::npos);
+  (void)part1.erase(part1.find_last_not_of('0') + 1, std::string::npos);
   if (part1.back() == '.')
   {
     part1 += "0";
@@ -89,7 +89,7 @@ std::string TrimWhitespace(const std::string& str)
 bool StringToBool(const std::string& str)
 {
   auto value = TrimWhitespace(str);
-  std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+  (void)std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 
   static const std::vector<std::string> true_answers = {"true", "yes", "on"};
   static const std::vector<std::string> false_answers = {"false", "no"};
@@ -117,7 +117,7 @@ std::string FromBool(bool value)
 std::optional<double> StringToDouble(const std::string& str)
 {
   std::istringstream iss(utils::TrimWhitespace(str));
-  iss.imbue(std::locale::classic());
+  (void)iss.imbue(std::locale::classic());
   double value{0.0};
   iss >> value;
   return (!iss.fail() && iss.eof()) ? std::optional<double>(value) : std::optional<double>{};
@@ -128,7 +128,8 @@ std::optional<std::int32_t> StringToInteger(const std::string& str)
   std::istringstream iss(utils::TrimWhitespace(str));
   std::int32_t value{0};
   iss >> value;
-  return (!iss.fail() && iss.eof()) ? std::optional<std::int32_t>(value) : std::optional<std::int32_t>{};
+  return (!iss.fail() && iss.eof()) ? std::optional<std::int32_t>(value)
+                                    : std::optional<std::int32_t>{};
 }
 
 std::vector<std::string> SplitString(const std::string& str, const std::string& delimiter)
@@ -149,10 +150,10 @@ std::vector<std::string> SplitString(const std::string& str, const std::string& 
 
   while ((pos = view.find(delimiter)) != std::string::npos)
   {
-    result.emplace_back(view.substr(0, pos));
+    (void)result.emplace_back(view.substr(0, pos));
     view.remove_prefix(pos + delimiter.length());
   }
-  result.emplace_back(view);
+  (void)result.emplace_back(view);
   return result;
 }
 
@@ -160,8 +161,8 @@ std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str)
 {
   std::vector<double> result;
   std::istringstream iss(str);
-  iss.imbue(std::locale::classic());
-  std::copy(std::istream_iterator<double>(iss), std::istream_iterator<double>(),
+  (void)iss.imbue(std::locale::classic());
+  (void)std::copy(std::istream_iterator<double>(iss), std::istream_iterator<double>(),
             back_inserter(result));
   return result;
 }
@@ -178,7 +179,7 @@ std::string ReplaceSubString(const std::string& str, const std::string& substr,
   auto pos = result.find(substr);
   while (pos != std::string::npos)
   {
-    result.replace(pos, substr.length(), replacement);
+    (void)result.replace(pos, substr.length(), replacement);
     pos = result.find(substr, pos + replacement.length());
   }
   return result;

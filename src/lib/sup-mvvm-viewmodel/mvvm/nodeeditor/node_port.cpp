@@ -71,7 +71,7 @@ void NodePort::RemoveConnection(const INodeConnection *connection)
   {
     throw RuntimeException("The connection is not present in the port's connections list.");
   }
-  m_connections.erase(iter);
+  (void)m_connections.erase(iter);
 }
 
 bool NodePort::IsConnected(const INodePort *other) const

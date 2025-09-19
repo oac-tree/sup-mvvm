@@ -27,8 +27,8 @@ namespace mvvm
 
 PointItem::PointItem() : CompoundItem(GetTypeName<PointItem>())
 {
-  AddProperty(constants::kX, 0.0).SetDisplayName("X");
-  AddProperty(constants::kY, 0.0).SetDisplayName("Y");
+  (void)AddProperty(constants::kX, 0.0).SetDisplayName("X");
+  (void)AddProperty(constants::kY, 0.0).SetDisplayName("Y");
 }
 
 std::unique_ptr<SessionItem> PointItem::Clone() const
@@ -43,7 +43,7 @@ double PointItem::GetX() const
 
 void PointItem::SetX(double value)
 {
-  SetProperty(constants::kX, value);
+  (void)SetProperty(constants::kX, value);
 }
 
 double PointItem::GetY() const
@@ -53,7 +53,7 @@ double PointItem::GetY() const
 
 void PointItem::SetY(double value)
 {
-  SetProperty(constants::kY, value);
+  (void)SetProperty(constants::kY, value);
 }
 
 std::pair<double, double> PointItem::GetPointCoordinates() const

@@ -49,7 +49,7 @@ bool Remove(const std::string& path)
 
 void RemoveAll(const std::string& path)
 {
-  std::filesystem::remove_all(path);
+  (void)std::filesystem::remove_all(path);
 }
 
 std::string GetFileName(const std::string& path)

@@ -102,7 +102,7 @@ void ChartViewportController::SetupChart()
 
   for (auto line_series_item : GetItem()->GetLineSeries())
   {
-    SetupChartForLineSeries(line_series_item);
+    (void)SetupChartForLineSeries(line_series_item);
   }
 
   SetupAxes();
@@ -142,8 +142,8 @@ void ChartViewportController::OnItemInsertedEvent(const ItemInsertedEvent &event
   else
   {
     // needs attachment, some axes have been already created
-    qt_line_series->attachAxis(GetXQtAxis());
-    qt_line_series->attachAxis(GetYQtAxis());
+    (void)qt_line_series->attachAxis(GetXQtAxis());
+    (void)qt_line_series->attachAxis(GetYQtAxis());
   }
 }
 
@@ -166,7 +166,7 @@ void ChartViewportController::OnAboutToRemoveItemEvent(const AboutToRemoveItemEv
     m_chart->removeSeries(qt_line_series);  // ownership released by Qt
     delete qt_line_series;
 
-    m_line_controllers.erase(iter);  // removing controllers.
+    (void)m_line_controllers.erase(iter);  // removing controllers.
   }
 }
 

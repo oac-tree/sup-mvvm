@@ -28,9 +28,9 @@ namespace mvvm
 NodeItem::NodeItem(const std::string& model_type)
     : CompoundItem(model_type.empty() ? GetTypeName<NodeItem>() : model_type)
 {
-  AddProperty(kXpos, 0.0).SetDisplayName("X");
-  AddProperty(kYpos, 0.0).SetDisplayName("Y");
-  AddProperty(kColor, std::string()).SetDisplayName("Color");
+  (void)AddProperty(kXpos, 0.0).SetDisplayName("X");
+  (void)AddProperty(kYpos, 0.0).SetDisplayName("Y");
+  (void)AddProperty(kColor, std::string()).SetDisplayName("Color");
 }
 
 std::unique_ptr<mvvm::SessionItem> NodeItem::Clone() const
@@ -45,7 +45,7 @@ double NodeItem::GetX() const
 
 void NodeItem::SetX(double value)
 {
-  SetProperty(kXpos, value);
+  (void)SetProperty(kXpos, value);
 }
 
 double NodeItem::GetY() const
@@ -55,7 +55,7 @@ double NodeItem::GetY() const
 
 void NodeItem::SetY(double value)
 {
-  SetProperty(kYpos, value);
+  (void)SetProperty(kYpos, value);
 }
 
 std::string NodeItem::GetBaseColor() const
@@ -65,17 +65,17 @@ std::string NodeItem::GetBaseColor() const
 
 void NodeItem::SetBaseColor(const std::string& value)
 {
-  SetProperty(kColor, value);
+  (void)SetProperty(kColor, value);
 }
 
 void NodeItem::RegisterSingleChildTag()
 {
-  RegisterTag(TagInfo(constants::kChildrenTag, 0, 1, {}), /*set_as_default*/true);
+  RegisterTag(TagInfo(constants::kChildrenTag, 0, 1, {}), /*set_as_default*/ true);
 }
 
 void NodeItem::RegisterMultipleChildrenTag()
 {
-  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/true);
+  RegisterTag(TagInfo::CreateUniversalTag(constants::kChildrenTag), /*set_as_default*/ true);
 }
 
 }  // namespace mvvm

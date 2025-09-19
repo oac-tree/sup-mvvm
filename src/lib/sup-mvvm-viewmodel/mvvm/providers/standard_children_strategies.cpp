@@ -44,8 +44,8 @@ std::vector<SessionItem*> AllVisibleChildrenStrategy::GetChildren(const SessionI
 
   std::vector<SessionItem*> result;
   auto children = item->GetAllItems();
-  std::copy_if(children.begin(), children.end(), std::back_inserter(result),
-               [](auto item) { return item->IsVisible(); });
+  (void)std::copy_if(children.begin(), children.end(), std::back_inserter(result),
+                     [](auto item) { return item->IsVisible(); });
   return result;
 }
 

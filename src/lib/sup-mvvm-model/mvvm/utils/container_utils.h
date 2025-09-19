@@ -85,8 +85,8 @@ C UniqueWithOrder(const C& container)
   using valueType = typename C::value_type;
   std::unordered_set<valueType> unique;
 
-  std::copy_if(container.begin(), container.end(), std::back_inserter(result),
-               [&unique](auto x) { return unique.insert(x).second; });
+  (void)std::copy_if(container.begin(), container.end(), std::back_inserter(result),
+                     [&unique](auto x) { return unique.insert(x).second; });
 
   return result;
 }
@@ -140,8 +140,8 @@ template <typename T>
 std::vector<T*> GetVectorOfPtrs(const std::vector<std::unique_ptr<T>>& container)
 {
   std::vector<T*> result;
-  std::transform(container.begin(), container.end(), std::back_inserter(result),
-                 [](const auto& element_uptr) { return element_uptr.get(); });
+  (void)std::transform(container.begin(), container.end(), std::back_inserter(result),
+                       [](const auto& element_uptr) { return element_uptr.get(); });
   return result;
 }
 
@@ -164,7 +164,7 @@ template <typename T>
 std::vector<T*> RemoveConst(const std::vector<const T*>& vec)
 {
   std::vector<T*> result;
-  std::transform(vec.begin(), vec.end(), std::back_inserter(result),
+  (void)std::transform(vec.begin(), vec.end(), std::back_inserter(result),
                  [](auto element) { return const_cast<T*>(element); });
   return result;
 }

@@ -33,7 +33,7 @@ void AbstractEditorFactory::RegisterBuilder(const std::string& name, editorbuild
     throw RuntimeException("AbstractEditorFactory: editor name exists");
   }
 
-  m_name_to_builder.insert(iter, {name, std::move(builder)});
+  (void)m_name_to_builder.insert(iter, {name, std::move(builder)});
 }
 
 editorbuilder_t AbstractEditorFactory::FindBuilder(const std::string& name) const

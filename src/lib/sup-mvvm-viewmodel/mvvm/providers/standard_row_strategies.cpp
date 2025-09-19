@@ -49,8 +49,8 @@ std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::ConstructRowImpl(Se
   // For one SessionItem the row consisting of two ViewItems will be generated: one for displayName,
   // another for SessionItem's data (if defined).
   std::vector<std::unique_ptr<ViewItem>> result;
-  result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
-  result.emplace_back(mvvm::CreateDataViewItem(item));
+  (void)result.emplace_back(mvvm::CreateDisplayNameViewItem(item));
+  (void)result.emplace_back(mvvm::CreateDataViewItem(item));
   return result;
 }
 
@@ -73,8 +73,8 @@ QStringList PropertiesRowStrategy::GetHorizontalHeaderLabels() const
   QStringList result;
   auto labels =
       m_user_defined_column_labels.empty() ? m_current_column_labels : m_user_defined_column_labels;
-  std::transform(labels.begin(), labels.end(), std::back_inserter(result),
-                 [](const std::string& str) { return QString::fromStdString(str); });
+  (void)std::transform(labels.begin(), labels.end(), std::back_inserter(result),
+                       [](const std::string& str) { return QString::fromStdString(str); });
   return result;
 }
 
@@ -87,11 +87,11 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::ConstructRowImpl(S
   {
     if (child->HasData())
     {
-      result.emplace_back(mvvm::CreateDataViewItem(child));
+      (void)result.emplace_back(mvvm::CreateDataViewItem(child));
     }
     else
     {
-      result.emplace_back(mvvm::CreateDisplayNameViewItem(child));
+      (void)result.emplace_back(mvvm::CreateDisplayNameViewItem(child));
     }
     m_current_column_labels.push_back(child->GetDisplayName());
   }

@@ -59,8 +59,9 @@ std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo> &port_info
                                           PortDirection direction)
 {
   std::vector<PortInfo> result;
-  std::copy_if(port_infos.begin(), port_infos.end(), std::back_inserter(result),
-               [direction](const PortInfo &info) { return info.GetPortDirection() == direction; });
+  (void)std::copy_if(port_infos.begin(), port_infos.end(), std::back_inserter(result),
+                     [direction](const PortInfo &info)
+                     { return info.GetPortDirection() == direction; });
   return result;
 }
 
@@ -68,9 +69,9 @@ std::vector<INodePort *> GetPortsByDirection(const std::vector<INodePort *> &por
                                              PortDirection direction)
 {
   std::vector<INodePort *> result;
-  std::copy_if(ports.begin(), ports.end(), std::back_inserter(result),
-               [direction](const INodePort *port)
-               { return port->GetPortDirection() == direction; });
+  (void)std::copy_if(ports.begin(), ports.end(), std::back_inserter(result),
+                     [direction](const INodePort *port)
+                     { return port->GetPortDirection() == direction; });
   return result;
 }
 

@@ -113,7 +113,7 @@ void SetLowerLimited(const variant_t &bound_value, SessionItem &item)
 
   RemoveLimits(item);
 
-  item.SetData(bound_value, DataRole::kLowerLimit);
+  (void)item.SetData(bound_value, DataRole::kLowerLimit);
 }
 
 void SetUpperLimited(const variant_t &bound_value, SessionItem &item)

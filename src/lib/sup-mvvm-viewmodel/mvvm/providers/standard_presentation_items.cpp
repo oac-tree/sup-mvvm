@@ -226,7 +226,7 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
 {
   for (auto &[qt_role, data] : m_data)
   {
-    SetData(data, qt_role);
+    (void)SetData(data, qt_role);
   }
 }
 

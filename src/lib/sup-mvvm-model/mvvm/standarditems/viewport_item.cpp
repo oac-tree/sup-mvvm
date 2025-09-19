@@ -48,17 +48,17 @@ void ViewportItem::SetViewportToContent(double left, double top, double right, d
 {
   utils::BeginMacro(*this, "SetViewportToContent");
   auto [xmin, xmax] = GetDataXRange();
-  GetXAxis()->SetRange(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
+  GetXAxis()->SetRange(xmin - ((xmax - xmin) * left), xmax + ((xmax - xmin) * right));
 
   auto [ymin, ymax] = GetDataYRange();
-  GetYAxis()->SetRange(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
+  GetYAxis()->SetRange(ymin - ((ymax - ymin) * bottom), ymax + ((ymax - ymin) * top));
   utils::EndMacro(*this);
 }
 
 void ViewportItem::RegisterAxes()
 {
-  AddProperty<ViewportAxisItem>(kXaxis).SetDisplayName("X axis").SetEditable(false);
-  AddProperty<ViewportAxisItem>(kYaxis).SetDisplayName("Y axis").SetEditable(false);
+  (void)AddProperty<ViewportAxisItem>(kXaxis).SetDisplayName("X axis").SetEditable(false);
+  (void)AddProperty<ViewportAxisItem>(kYaxis).SetDisplayName("Y axis").SetEditable(false);
 }
 
 }  // namespace mvvm
