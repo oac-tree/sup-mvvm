@@ -39,11 +39,6 @@ class MVVM_MODEL_EXPORT TagIndex
 {
 public:
   /**
-   * @brief A string constant used to address the container marked with the default flag.
-   */
-  static inline const std::string kDefaultTag = {};
-
-  /**
    * @brief The default c-tor.
    *
    * It represents a TagIndex addressing the first element of the item container marked as default.
@@ -109,7 +104,7 @@ public:
    * If the default tag name is used, the SessionModel will try to find a container marked as
    * default.
    */
-  static TagIndex Append(const std::string& tag_name = kDefaultTag);
+  static TagIndex Append(const std::string& tag_name = GetDefaultTag());
 
   /**
    * @brief Returns TagIndex corresponding to the first index in the container with the given name.
@@ -117,7 +112,7 @@ public:
    * If the default tag name is used, the SessionModel will try to find a container marked as
    * default.
    */
-  static TagIndex First(const std::string& tag_name = kDefaultTag);
+  static TagIndex First(const std::string& tag_name = GetDefaultTag());
 
   /**
    * @brief Returns TagIndex corresponding to the given index in the container marked as a default.
@@ -129,6 +124,11 @@ public:
    * @see TagIndex::IsValid()
    */
   static TagIndex Invalid();
+
+  /**
+   * @brief Returns the name of the default tag.
+   */
+  static std::string GetDefaultTag();
 
   bool operator==(const TagIndex& other) const;
   bool operator!=(const TagIndex& other) const;

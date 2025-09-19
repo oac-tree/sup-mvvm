@@ -94,12 +94,17 @@ TagIndex TagIndex::First(const std::string& tag_name)
 
 TagIndex TagIndex::Default(std::size_t item_index)
 {
-  return {kDefaultTag, item_index};
+  return {GetDefaultTag(), item_index};
 }
 
 TagIndex TagIndex::Invalid()
 {
-  return {kDefaultTag, kInvalidIndex};
+  return {GetDefaultTag(), kInvalidIndex};
+}
+
+std::string TagIndex::GetDefaultTag()
+{
+  return {};  // we use empty string as a sign of the default tag
 }
 
 bool TagIndex::operator==(const TagIndex& other) const

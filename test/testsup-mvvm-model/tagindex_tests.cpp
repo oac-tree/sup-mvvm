@@ -102,7 +102,7 @@ TEST_F(TagIndexTests, AssignmentOperator)
 TEST_F(TagIndexTests, FactoryMethods)
 {
   auto tag_index = TagIndex::Append();
-  EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
+  EXPECT_EQ(tag_index.GetTag(), TagIndex::GetDefaultTag());
   EXPECT_EQ(tag_index.GetIndex(), -1);
   EXPECT_TRUE(tag_index.IsValid());
   EXPECT_TRUE(tag_index.IsAppend());
@@ -121,13 +121,13 @@ TEST_F(TagIndexTests, FactoryMethods)
   EXPECT_FALSE(tag_index.IsAppend());
 
   tag_index = TagIndex::Default(42);
-  EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
+  EXPECT_EQ(tag_index.GetTag(), TagIndex::GetDefaultTag());
   EXPECT_EQ(tag_index.GetIndex(), 42);
   EXPECT_TRUE(tag_index.IsValid());
   EXPECT_FALSE(tag_index.IsAppend());
 
   tag_index = TagIndex::Invalid();
-  EXPECT_EQ(tag_index.GetTag(), TagIndex::kDefaultTag);
+  EXPECT_EQ(tag_index.GetTag(), TagIndex::GetDefaultTag());
   EXPECT_FALSE(tag_index.IsValid());
   EXPECT_FALSE(tag_index.IsAppend());
 }
