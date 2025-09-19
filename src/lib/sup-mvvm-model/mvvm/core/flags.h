@@ -132,7 +132,7 @@ private:
 template <typename EnumT>
 inline Flags<EnumT>& Flags<EnumT>::Set(EnumT flag, bool value) noexcept
 {
-  (void)m_bits.set(underlying(flag), value);
+  (void)m_bits.set(static_cast<std::size_t>(flag), value);
   return *this;
 }
 
@@ -197,13 +197,13 @@ inline std::size_t Flags<EnumT>::Count() const noexcept
 template <typename EnumT>
 constexpr bool Flags<EnumT>::operator[](EnumT flag) const
 {
-  return m_bits[underlying(flag)];
+  return m_bits[static_cast<std::size_t>(flag)];
 }
 
 template <typename EnumT>
 constexpr bool Flags<EnumT>::IsSet(EnumT flag) const
 {
-  return m_bits[underlying(flag)];
+  return m_bits[static_cast<std::size_t>(flag)];
 }
 
 }  // namespace mvvm
