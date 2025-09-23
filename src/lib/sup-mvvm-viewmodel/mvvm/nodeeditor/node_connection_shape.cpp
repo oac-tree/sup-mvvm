@@ -38,6 +38,7 @@ NodeConnectionShape::NodeConnectionShape(NodeTreeLayout tree_layout,
   setZValue(-1);  // hidden beneath port circles
 
   m_node_connection->SetNotifyShapeCallback([this]() { UpdatePath(); });
+  UpdatePath();
 }
 
 NodeConnectionShape::~NodeConnectionShape() = default;

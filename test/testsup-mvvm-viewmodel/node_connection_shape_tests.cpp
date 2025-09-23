@@ -47,6 +47,8 @@ public:
 TEST_F(NodeConnectionShapeTest, InitialState)
 {
   EXPECT_CALL(m_mock_node_connection, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
 
   auto node_connection_shape = CreateNodePortShape(NodeTreeLayout::kTopToBottom);
   EXPECT_NE(node_connection_shape->GetNodeConnection(), nullptr);
@@ -55,10 +57,13 @@ TEST_F(NodeConnectionShapeTest, InitialState)
 TEST_F(NodeConnectionShapeTest, UpdatePathWithoutPorts)
 {
   EXPECT_CALL(m_mock_node_connection, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
+  auto node_connection_shape = CreateNodePortShape(NodeTreeLayout::kTopToBottom);
+
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1).WillOnce(::testing::Return(nullptr));
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1).WillOnce(::testing::Return(nullptr));
 
-  auto node_connection_shape = CreateNodePortShape(NodeTreeLayout::kTopToBottom);
   node_connection_shape->UpdatePath();
 }
 
@@ -67,6 +72,11 @@ TEST_P(NodeConnectionShapeTest, UpdatePathWithPorts)
   auto tree_layout = GetParam();
 
   EXPECT_CALL(m_mock_node_connection, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
+
+  auto node_connection_shape = CreateNodePortShape(tree_layout);
+
   EXPECT_CALL(m_mock_node_connection, GetStartPort())
       .Times(1)
       .WillOnce(::testing::Return(&m_mock_start_port));
@@ -84,7 +94,6 @@ TEST_P(NodeConnectionShapeTest, UpdatePathWithPorts)
       .Times(1)
       .WillOnce(::testing::Return(std::make_pair(300.0, 300.0)));
 
-  auto node_connection_shape = CreateNodePortShape(tree_layout);
   node_connection_shape->UpdatePath();
 
   EXPECT_EQ(node_connection_shape->path().elementCount(), 4);  // MoveTo + 3x CurveTo;
