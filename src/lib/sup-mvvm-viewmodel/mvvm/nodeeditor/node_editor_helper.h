@@ -54,7 +54,28 @@ std::vector<PortInfo> GetFilteredPortInfo(const std::vector<PortInfo>& port_info
  * @brief Returns ports filtered according to the given direction.
  */
 std::vector<INodePort*> GetPortsByDirection(const std::vector<INodePort*>& ports,
-                                          PortDirection direction);
+                                            PortDirection direction);
+
+/**
+ * @brief Returns an item which can be connected as a child to another item.
+ *
+ * The method checks if ports are connectable and returns the item associated with
+ * the output port (the child).
+ */
+SessionItem* GetConnectableChild(const INodePort* port1, const INodePort* port2);
+
+/**
+ * @brief Returns an item which can be connected as a parent to another item.
+ *
+ * The method checks if ports are connectable and returns the item associated with
+ * the input port (the parent).
+ */
+SessionItem* GetConnectableParent(const INodePort* port1, const INodePort* port2);
+
+/**
+ * @brief Connects two ports by moving underlying items so one become child of another.
+ */
+bool ConnectPorts(const INodePort* port1, const INodePort* port2);
 
 }  // namespace mvvm
 

@@ -22,7 +22,11 @@
 #include "mvvm/nodeeditor/node_editor_helper.h"
 #include "mvvm/nodeeditor/node_port.h"
 
+#include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
+
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 namespace mvvm::test
 {
@@ -129,6 +133,87 @@ TEST_F(NodeHelperTest, GetPortsByDirection)
   EXPECT_EQ(output_ports[0], &port2);
 
   EXPECT_TRUE(GetPortsByDirection(vec, PortDirection::kDefault).empty());
+}
+
+TEST_F(NodeHelperTest, GetConnectableChild)
+{
+  toyitems::SequenceItem sequence;
+  toyitems::WaitItem wait;
+  NodePort input_port({PortDirection::kInput, "type1", "label", &sequence});
+  NodePort output_port({PortDirection::kOutput, "type1", "label", &wait});
+
+  EXPECT_EQ(GetConnectableChild(nullptr, nullptr), nullptr);
+  EXPECT_EQ(GetConnectableChild(&input_port, nullptr), nullptr);
+  EXPECT_EQ(GetConnectableChild(nullptr, &output_port), nullptr);
+  EXPECT_EQ(GetConnectableChild(&input_port, &input_port), nullptr);
+  EXPECT_EQ(GetConnectableChild(&output_port, &output_port), nullptr);
+  EXPECT_EQ(GetConnectableChild(&input_port, &output_port), &wait);
+  EXPECT_EQ(GetConnectableChild(&output_port, &input_port), &wait);
+}
+
+TEST_F(NodeHelperTest, GetConnectableParent)
+{
+  toyitems::SequenceItem sequence;
+  toyitems::WaitItem wait;
+  NodePort input_port({PortDirection::kInput, "type1", "label", &sequence});
+  NodePort output_port({PortDirection::kOutput, "type1", "label", &wait});
+
+  EXPECT_EQ(GetConnectableParent(nullptr, nullptr), nullptr);
+  EXPECT_EQ(GetConnectableParent(&input_port, nullptr), nullptr);
+  EXPECT_EQ(GetConnectableParent(nullptr, &output_port), nullptr);
+  EXPECT_EQ(GetConnectableParent(&input_port, &input_port), nullptr);
+  EXPECT_EQ(GetConnectableParent(&output_port, &output_port), nullptr);
+  EXPECT_EQ(GetConnectableParent(&input_port, &output_port), &sequence);
+  EXPECT_EQ(GetConnectableParent(&output_port, &input_port), &sequence);
+}
+
+TEST_F(NodeHelperTest, ConnectPorts)
+{
+  {  // connect items without the model
+    toyitems::SequenceItem sequence;
+    toyitems::WaitItem wait;
+
+    NodePort input_port({PortDirection::kInput, "type1", "label", &sequence});
+    NodePort output_port({PortDirection::kOutput, "type1", "label", &wait});
+
+    EXPECT_FALSE(ConnectPorts(&input_port, &output_port));
+  }
+
+  {  // connect sequence to wait
+    SessionModel model;
+    auto sequence = model.InsertItem<toyitems::SequenceItem>();
+    auto wait = model.InsertItem<toyitems::SequenceItem>();
+    NodePort input_port({PortDirection::kInput, "type1", "label", sequence});
+    NodePort output_port({PortDirection::kOutput, "type1", "label", wait});
+
+    EXPECT_TRUE(ConnectPorts(&input_port, &output_port));
+    EXPECT_EQ(wait->GetParent(), sequence);
+  }
+
+  {  // connect wait to sequence
+    SessionModel model;
+    auto sequence = model.InsertItem<toyitems::SequenceItem>();
+    auto wait = model.InsertItem<toyitems::SequenceItem>();
+    NodePort input_port({PortDirection::kInput, "type1", "label", sequence});
+    NodePort output_port({PortDirection::kOutput, "type1", "label", wait});
+
+    EXPECT_TRUE(ConnectPorts(&output_port, &input_port));
+    EXPECT_EQ(wait->GetParent(), sequence);
+  }
+}
+
+TEST_F(NodeHelperTest, ConnectPortsWHeItemChangeParent)
+{
+  SessionModel model;
+  auto sequence0 = model.InsertItem<toyitems::SequenceItem>();
+  auto wait0 = model.InsertItem<toyitems::SequenceItem>(sequence0);
+  auto sequence1 = model.InsertItem<toyitems::SequenceItem>();
+
+  NodePort input_port({PortDirection::kInput, "type1", "label", sequence1});
+  NodePort output_port({PortDirection::kOutput, "type1", "label", wait0});
+
+  EXPECT_TRUE(ConnectPorts(&input_port, &output_port));
+  EXPECT_EQ(wait0->GetParent(), sequence1);
 }
 
 }  // namespace mvvm::test

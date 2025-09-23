@@ -23,6 +23,9 @@
 #include "i_node_port.h"
 #include "node_editor_constants.h"
 
+#include <mvvm/model/i_session_model.h>
+#include <mvvm/model/session_item.h>
+
 #include <algorithm>
 
 namespace mvvm
@@ -73,6 +76,65 @@ std::vector<INodePort *> GetPortsByDirection(const std::vector<INodePort *> &por
                      [direction](const INodePort *port)
                      { return port->GetPortDirection() == direction; });
   return result;
+}
+
+SessionItem *GetConnectableChild(const INodePort *port1, const INodePort *port2)
+{
+  if (!port1 || !port2)
+  {
+    return nullptr;
+  }
+
+  if (port1 == port2)
+  {
+    return nullptr;
+  }
+
+  if (!port1->IsConnectable(port2))
+  {
+    return nullptr;
+  }
+
+  return port1->GetPortDirection() == PortDirection::kOutput ? port1->GetPortInfo().GetOrigin()
+                                                             : port2->GetPortInfo().GetOrigin();
+}
+
+SessionItem *GetConnectableParent(const INodePort *port1, const INodePort *port2)
+{
+  if (!port1 || !port2)
+  {
+    return nullptr;
+  }
+
+  if (port1 == port2)
+  {
+    return nullptr;
+  }
+
+  if (!port1->IsConnectable(port2))
+  {
+    return nullptr;
+  }
+
+  return port1->GetPortDirection() == PortDirection::kInput ? port1->GetPortInfo().GetOrigin()
+                                                            : port2->GetPortInfo().GetOrigin();
+}
+
+bool ConnectPorts(const INodePort *port1, const INodePort *port2)
+{
+  auto parent = GetConnectableParent(port1, port2);
+  auto child = GetConnectableChild(port1, port2);
+
+  if (parent && child)
+  {
+    if (auto model = parent->GetModel(); model)
+    {
+      model->MoveItem(child, parent, TagIndex::Append());
+      return true;
+    }
+  }
+
+  return false;
 }
 
 }  // namespace mvvm
