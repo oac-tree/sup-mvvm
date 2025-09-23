@@ -22,7 +22,6 @@
 #define MVVM_EDITORS_FLOAT_SPINBOX_H_
 
 #include <mvvm/core/variant.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 #include <QWidget>
@@ -45,7 +44,7 @@ namespace mvvm
  * variant_t(mvvm::float64), when QDoubleSpinBox will have min/max limits corresponding to float64.
  * The output value of the editor will be the same as the input, QVariant(double).
  */
-class MVVM_VIEWMODEL_EXPORT FloatSpinBox : public QWidget
+class FloatSpinBox : public QWidget
 {
   Q_OBJECT
 

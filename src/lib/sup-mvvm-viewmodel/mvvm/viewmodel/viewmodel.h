@@ -41,7 +41,7 @@ class ISessionModel;
  * ViewModel doesn't have its own logic and needs ViewModelController to listen for SessionModel
  * changes. It extends ViewModelBase API with methods to convert SessionItem to indexes and back.
  */
-class MVVM_VIEWMODEL_EXPORT ViewModel : public ViewModelBase
+class ViewModel : public ViewModelBase
 {
   Q_OBJECT
 

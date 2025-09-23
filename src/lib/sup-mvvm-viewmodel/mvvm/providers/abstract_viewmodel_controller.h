@@ -35,7 +35,7 @@ class ModelListener;
  * @brief The AbstractViewModelController class partially implements IViewModelController interface
  * and provides the logic to subscribe/unsubscribe from the model.
  */
-class MVVM_VIEWMODEL_EXPORT AbstractViewModelController : public IViewModelController
+class AbstractViewModelController : public IViewModelController
 {
 public:
   AbstractViewModelController();

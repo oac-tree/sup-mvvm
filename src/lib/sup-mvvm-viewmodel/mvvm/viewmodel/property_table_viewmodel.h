@@ -32,7 +32,7 @@ class ISessionModel;
 //! Intended to show registered properties of items in table-like view.
 //! Registered properties will form columns of the table, top level items will form table rows.
 
-class MVVM_VIEWMODEL_EXPORT PropertyTableViewModel : public ViewModel
+class PropertyTableViewModel : public ViewModel
 {
   Q_OBJECT
 

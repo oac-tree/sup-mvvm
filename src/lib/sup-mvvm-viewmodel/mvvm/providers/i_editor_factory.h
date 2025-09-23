@@ -34,7 +34,7 @@ namespace mvvm
  * Creates cell editors for Qt trees and tables from the model index. Cell editor is a Qt widget
  * intended to edit the DATA role of some SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT IEditorFactory
+class IEditorFactory
 {
 public:
   IEditorFactory() = default;

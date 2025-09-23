@@ -39,7 +39,7 @@ class SessionItem;
  *
  * Hidden children by the current convention will also be on the list.
  */
-class MVVM_VIEWMODEL_EXPORT AllChildrenStrategy : public IChildrenStrategy
+class AllChildrenStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -48,7 +48,7 @@ public:
 /**
  * @brief The AllVisibleChildrenStrategy class finds all visible children of a given item.
  */
-class MVVM_VIEWMODEL_EXPORT AllVisibleChildrenStrategy : public IChildrenStrategy
+class AllVisibleChildrenStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -60,7 +60,7 @@ public:
  * This will filter out all items marked with a property flag. Also, all items explicitly
  * marked with setVisible(false) will not show up.
  */
-class MVVM_VIEWMODEL_EXPORT TopItemsStrategy : public IChildrenStrategy
+class TopItemsStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -71,7 +71,7 @@ public:
  *
  * All top-level items will be filtered out.
  */
-class MVVM_VIEWMODEL_EXPORT PropertyItemsStrategy : public IChildrenStrategy
+class PropertyItemsStrategy : public IChildrenStrategy
 {
 public:
   std::vector<SessionItem*> GetChildren(const SessionItem* item) const override;
@@ -80,7 +80,7 @@ public:
 /**
  * The FixedItemTypeStrategy class finds children that belong to one of the given types.
  */
-class MVVM_VIEWMODEL_EXPORT FixedItemTypeStrategy : public IChildrenStrategy
+class FixedItemTypeStrategy : public IChildrenStrategy
 {
 public:
   explicit FixedItemTypeStrategy(std::vector<std::string> item_types);

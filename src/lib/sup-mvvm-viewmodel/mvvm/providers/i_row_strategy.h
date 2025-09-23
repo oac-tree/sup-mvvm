@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_ROW_STRATEGY_H_
 #define MVVM_PROVIDERS_I_ROW_STRATEGY_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QStringList>
 #include <memory>
@@ -39,7 +38,7 @@ class ViewItem;
  *
  * Used in the context of AbstractViewModel while exposing SessionModel to Qt.
  */
-class MVVM_VIEWMODEL_EXPORT IRowStrategy
+class IRowStrategy
 {
 public:
   virtual ~IRowStrategy() = default;

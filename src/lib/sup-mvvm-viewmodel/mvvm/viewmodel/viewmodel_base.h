@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODEL_BASE_H_
 #define MVVM_VIEWMODEL_VIEWMODEL_BASE_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QAbstractItemModel>
 #include <memory>
@@ -47,7 +46,7 @@ class ViewItem;
  *    child00  child01 child02
  *    child00  child11 child12
  */
-class MVVM_VIEWMODEL_EXPORT ViewModelBase : public QAbstractItemModel
+class ViewModelBase : public QAbstractItemModel
 {
   Q_OBJECT
 

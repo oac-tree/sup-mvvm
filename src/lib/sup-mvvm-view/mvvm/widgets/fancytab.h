@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_FANCYTAB_H_
 #define MVVM_WIDGETS_FANCYTAB_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QColor>
 #include <QWidget>
@@ -37,7 +36,7 @@ namespace mvvm
  *
  * Used by MainBarWidget class.
  */
-class MVVM_VIEWMODEL_EXPORT FancyTab : public QWidget
+class FancyTab : public QWidget
 {
   Q_OBJECT
 

@@ -37,7 +37,7 @@ class SessionItem;
  * Serves as an adapter to convert std::variant based data to QVariant. Provides additional Qt's
  * data roles (background, color) that aren't defined in the underlying SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT SessionItemPresentation : public IViewItemData
+class SessionItemPresentation : public IViewItemData
 {
 public:
   QVariant Data(int qt_role) const override;
@@ -81,7 +81,7 @@ private:
  * corresponding views. The label is non-editable, and it is not possible to set any other data to
  * it.
  */
-class MVVM_VIEWMODEL_EXPORT LabelPresentationItem : public SessionItemPresentation
+class LabelPresentationItem : public SessionItemPresentation
 {
 public:
   explicit LabelPresentationItem(SessionItem* item, const std::string& label = {});
@@ -97,7 +97,7 @@ private:
 /**
  * @brief The DataPresentationItem class represents a data role of SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT DataPresentationItem : public SessionItemPresentation
+class DataPresentationItem : public SessionItemPresentation
 {
 public:
   /**
@@ -116,7 +116,7 @@ public:
 /**
  * @brief The DisplayNamePresentationItem class represents non-editable display role of SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT DisplayNamePresentationItem : public SessionItemPresentation
+class DisplayNamePresentationItem : public SessionItemPresentation
 {
 public:
   explicit DisplayNamePresentationItem(SessionItem* item);
@@ -130,7 +130,7 @@ public:
  * @brief The EditableDisplayNamePresentationItem class represents editable display role of
  * SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT EditableDisplayNamePresentationItem : public DataPresentationItem
+class EditableDisplayNamePresentationItem : public DataPresentationItem
 {
 public:
   explicit EditableDisplayNamePresentationItem(SessionItem* item);
@@ -147,7 +147,7 @@ public:
  * items. This class goes a step further and allows one to add any Qt role that has no direct
  * counterpart among SessionItem's roles.
  */
-class MVVM_VIEWMODEL_EXPORT FixedDataPresentationItem : public SessionItemPresentation
+class FixedDataPresentationItem : public SessionItemPresentation
 {
 public:
   /**

@@ -32,7 +32,7 @@ namespace mvvm
  * The type of the editor will be deduced from the type of the variant stored for DataRole::kData
  * role on board of SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT VariantDependentEditorFactory : public AbstractEditorFactory
+class VariantDependentEditorFactory : public AbstractEditorFactory
 {
 public:
   VariantDependentEditorFactory();

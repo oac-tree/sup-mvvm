@@ -32,7 +32,7 @@ namespace mvvm
 /**
  * @brief The DefaultCellDecorator class generates default cell decorations for Qt trees and tables.
  */
-class MVVM_VIEWMODEL_EXPORT DefaultCellDecorator : public ICellDecorator
+class DefaultCellDecorator : public ICellDecorator
 {
 public:
   bool HasCustomDecoration(const QModelIndex& index) const override;

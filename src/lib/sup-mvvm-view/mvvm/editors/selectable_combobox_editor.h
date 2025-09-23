@@ -36,7 +36,7 @@ class WheelEventFilter;
  * @brief The ComboPropertyEditor class is a cell editor for QVariant based on ComboProperty
  * with the possibility of multiple selections.
  */
-class MVVM_VIEWMODEL_EXPORT SelectableComboBoxEditor : public CustomEditor
+class SelectableComboBoxEditor : public CustomEditor
 {
   Q_OBJECT
 

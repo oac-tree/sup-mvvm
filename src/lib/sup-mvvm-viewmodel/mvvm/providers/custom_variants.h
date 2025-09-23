@@ -27,7 +27,6 @@
 #include <mvvm/core/basic_scalar_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 #include <string>
@@ -61,28 +60,28 @@ const std::string kStringQtTypeName = "QString";
 namespace utils
 {
 //! Returns name of variant.
-MVVM_VIEWMODEL_EXPORT std::string GetQtVariantName(const QVariant& variant);
+std::string GetQtVariantName(const QVariant& variant);
 
 //! Returns type of variant (additionally checks for user type).
-MVVM_VIEWMODEL_EXPORT int GetQtVariantType(const QVariant& variant);
+int GetQtVariantType(const QVariant& variant);
 
 //! Returns true if variant is based on bool.
-MVVM_VIEWMODEL_EXPORT bool IsBoolVariant(const QVariant& variant);
+bool IsBoolVariant(const QVariant& variant);
 
 //! Returns true if variant is based on int.
-MVVM_VIEWMODEL_EXPORT bool IsIntVariant(const QVariant& variant);
+bool IsIntVariant(const QVariant& variant);
 
 //! Returns true if variant is based on double.
-MVVM_VIEWMODEL_EXPORT bool IsDoubleVariant(const QVariant& variant);
+bool IsDoubleVariant(const QVariant& variant);
 
 //! Returns true if variant is based on std::vector<double>.
-MVVM_VIEWMODEL_EXPORT bool IsDoubleVectorVariant(const QVariant& variant);
+bool IsDoubleVectorVariant(const QVariant& variant);
 
 //! Returns true if variant is based on ComboProperty.
-MVVM_VIEWMODEL_EXPORT bool IsComboPropertyVariant(const QVariant& variant);
+bool IsComboPropertyVariant(const QVariant& variant);
 
 //! Returns true if variant is based on ExternalProperty.
-MVVM_VIEWMODEL_EXPORT bool IsExternalPropertyVariant(const QVariant& variant);
+bool IsExternalPropertyVariant(const QVariant& variant);
 
 }  // namespace utils
 

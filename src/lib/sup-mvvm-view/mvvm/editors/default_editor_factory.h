@@ -35,7 +35,7 @@ namespace mvvm
  * It first tries to construct a cell editor using the editor role, and then, in the case of
  * failure, switches to the data role.
  */
-class MVVM_VIEWMODEL_EXPORT DefaultEditorFactory : public IEditorFactory
+class DefaultEditorFactory : public IEditorFactory
 {
 public:
   DefaultEditorFactory();

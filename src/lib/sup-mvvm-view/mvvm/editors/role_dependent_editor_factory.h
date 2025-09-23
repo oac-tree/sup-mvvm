@@ -31,7 +31,7 @@ namespace mvvm
  *
  * The user shall set the editor type via SessionItem::SetEditorType call.
  */
-class MVVM_VIEWMODEL_EXPORT RoleDependentEditorFactory : public AbstractEditorFactory
+class RoleDependentEditorFactory : public AbstractEditorFactory
 {
 public:
   RoleDependentEditorFactory();

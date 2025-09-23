@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_ALLINT_SPINBOX_H_
 #define MVVM_EDITORS_ALLINT_SPINBOX_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QAbstractSpinBox>
 
@@ -47,7 +46,7 @@ class ILimitedInteger;
  * behaves itself by default the same.
  */
 
-class MVVM_VIEWMODEL_EXPORT AllIntSpinBox : public QAbstractSpinBox
+class AllIntSpinBox : public QAbstractSpinBox
 {
   Q_OBJECT
 

@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
 #define MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QObject>
 
@@ -46,7 +45,7 @@ protected:
 //! editor is created by clicking on a cell of a tree and it appears as  modal window on top of a
 //! tree.
 
-class MVVM_VIEWMODEL_EXPORT LostFocusFilter : public QObject
+class LostFocusFilter : public QObject
 {
   Q_OBJECT
 
@@ -60,7 +59,7 @@ protected:
 //! Event filter to install on combo boxes and spin boxes to ignore wheel events during scrolling.
 //! Helpful than the spin box is a child of some larger scroll area.
 
-class MVVM_VIEWMODEL_EXPORT WheelEventFilter : public QObject
+class WheelEventFilter : public QObject
 {
   Q_OBJECT
 

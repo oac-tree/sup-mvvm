@@ -32,29 +32,29 @@ namespace mvvm
 /**
  * @brief Returns builder function to create editors for bool based variants.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t BoolEditorBuilder();
+editorbuilder_t BoolEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for ComboProperty based variants.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t ComboPropertyEditorBuilder();
+editorbuilder_t ComboPropertyEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for ComboProperty based variants.
  *
  * @details It has a fancy feature with possibility to make multiple selections.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t SelectableComboPropertyEditorBuilder();
+editorbuilder_t SelectableComboPropertyEditorBuilder();
 
 /**
  * @brief Returns builder function to create color editors.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t ColorEditorBuilder();
+editorbuilder_t ColorEditorBuilder();
 
 /**
  * @brief Returns builder function to create ExternalPropertyEditors editors.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t ExternalPropertyEditorBuilder();
+editorbuilder_t ExternalPropertyEditorBuilder();
 
 /**
  * @brief Returns builder function to create ExternalPropertyEditors editors.
@@ -69,14 +69,14 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t ExternalPropertyEditorBuilder();
  * @details About to be integrated to FloatEditorBuilder().
  */
 
-MVVM_VIEWMODEL_EXPORT editorbuilder_t ScientificSpinBoxEditorBuilder();
+editorbuilder_t ScientificSpinBoxEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for int64 based variants.
  *
  * @details About to become obsolete in the favor of AllIntSpinBoxEditorBuilder()
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t LongIntSpinBoxEditorBuilder();
+editorbuilder_t LongIntSpinBoxEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for integer based variants.
@@ -85,7 +85,7 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t LongIntSpinBoxEditorBuilder();
  *
  * @details About to become obsolete in the favor of AllIntSpinBoxEditorBuilder()
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t IntegerEditorBuilder();
+editorbuilder_t IntegerEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for all integer-like QVariants.
@@ -95,7 +95,7 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t IntegerEditorBuilder();
  *
  * @details This builder will eventually replace IntegerEditorBuilder.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t AllIntSpinBoxEditorBuilder();
+editorbuilder_t AllIntSpinBoxEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for double based variants.
@@ -104,7 +104,7 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t AllIntSpinBoxEditorBuilder();
  *
  * @details About to become obsolete in the favor of FloatEditorBuilder()
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t DoubleEditorBuilder();
+editorbuilder_t DoubleEditorBuilder();
 
 /**
  * @brief Returns builder function to create editors for float32 and float64 based variants.
@@ -114,7 +114,7 @@ MVVM_VIEWMODEL_EXPORT editorbuilder_t DoubleEditorBuilder();
  *
  * @details This builder will eventually replace DoubleEditorBuilder.
  */
-MVVM_VIEWMODEL_EXPORT editorbuilder_t FloatEditorBuilder();
+editorbuilder_t FloatEditorBuilder();
 
 }  // namespace mvvm
 

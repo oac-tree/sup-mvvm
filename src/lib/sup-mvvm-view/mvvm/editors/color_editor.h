@@ -32,7 +32,7 @@ class LostFocusFilter;
 
 //! Custom editor for QVariant based on QString that contains color name.
 
-class MVVM_VIEWMODEL_EXPORT ColorEditor : public CustomEditor
+class ColorEditor : public CustomEditor
 {
   Q_OBJECT
 

@@ -31,7 +31,7 @@ class ISessionModel;
 //! View model to show content of SessionModel in Qt widgets.
 //! Only property items are shown, also hides inactive items of GroupProperty.
 
-class MVVM_VIEWMODEL_EXPORT PropertyViewModel : public ViewModel
+class PropertyViewModel : public ViewModel
 {
   Q_OBJECT
 

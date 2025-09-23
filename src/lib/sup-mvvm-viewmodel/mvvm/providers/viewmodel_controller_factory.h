@@ -22,7 +22,6 @@
 #define MVVM_PROVIDERS_VIEWMODEL_CONTROLLER_FACTORY_H_
 
 #include <mvvm/providers/abstract_viewmodel_controller.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <memory>
 

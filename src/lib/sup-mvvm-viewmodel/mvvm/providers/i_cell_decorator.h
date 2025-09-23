@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_CELL_DECORATOR_H_
 #define MVVM_PROVIDERS_I_CELL_DECORATOR_H_
 
-#include <mvvm/viewmodel_export.h>
 
 class QModelIndex;
 class QStyleOptionViewItem;
@@ -34,7 +33,7 @@ namespace mvvm
  *
  * The cell decoration defines how the cell look like before the user double-click on it.
  */
-class MVVM_VIEWMODEL_EXPORT ICellDecorator
+class ICellDecorator
 {
 public:
   ICellDecorator() = default;

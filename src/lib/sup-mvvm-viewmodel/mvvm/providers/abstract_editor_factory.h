@@ -35,7 +35,7 @@ namespace mvvm
  *
  * It allows to register cell editor builder functions for the given builder name.
  */
-class MVVM_VIEWMODEL_EXPORT AbstractEditorFactory : public IEditorFactory
+class AbstractEditorFactory : public IEditorFactory
 {
 public:
   void RegisterBuilder(const std::string_view& name, editorbuilder_t builder);

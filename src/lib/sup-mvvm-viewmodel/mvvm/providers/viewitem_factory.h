@@ -25,7 +25,6 @@
 //! Contains factory methods to construct ViewItem's looking at different SessionItem parts.
 
 #include <mvvm/core/mvvm_types.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <map>
 #include <memory>
@@ -42,28 +41,28 @@ class SessionItem;
 /**
  * @brief Creates ViewItem playing the role of root.
  */
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item);
+std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item);
 
 /**
  * @brief Creates read-only ViewItem displaying a label.
  */
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item,
+std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item,
                                                                     const std::string& label = {});
 /**
  * @brief Creates read-only ViewItem for SessionItem's display name.
  */
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
+std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 
 /**
  * @brief Creates ViewItem for SessionItem's data.
  */
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item,
+std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item,
                                                                    role_t role = DataRole::kData);
 
 /**
  * @brief Creates editable ViewItem for SessionItem's display name.
  */
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(
+std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(
     SessionItem* item);
 
 /**
@@ -71,7 +70,7 @@ MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateEditableDisplayNameViewIte
  *
  * The data of item doesn't have any connection with SessionItem signals.
  */
-MVVM_VIEWMODEL_EXPORT std::unique_ptr<ViewItem> CreateFixedDataViewItem(
+std::unique_ptr<ViewItem> CreateFixedDataViewItem(
     SessionItem* item, std::map<int, QVariant> fixed_data = {});
 
 }  // namespace mvvm

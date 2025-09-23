@@ -32,7 +32,7 @@ namespace mvvm
 /**
  * @brief The ComboPropertyEditor class is a cell editor for QVariant based on ComboProperty.
  */
-class MVVM_VIEWMODEL_EXPORT ComboPropertyEditor : public CustomEditor
+class ComboPropertyEditor : public CustomEditor
 {
   Q_OBJECT
 

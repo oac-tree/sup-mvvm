@@ -26,7 +26,6 @@
 #include <mvvm/providers/viewitem.h>
 #include <mvvm/viewmodel/viewmodel_base.h>
 #include <mvvm/providers/viewmodel_iterate_helper.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 #include <QVector>
@@ -121,53 +120,53 @@ std::vector<const ViewItem*> FindViewsForItem(const ViewModelBase* view_model, c
 /**
  * @brief Returns vector of Qt roles corresponding to given ItemDataRole.
  */
-MVVM_VIEWMODEL_EXPORT QVector<int> ItemRoleToQtRole(role_t role);
+QVector<int> ItemRoleToQtRole(role_t role);
 
 /**
  * @brief Returns text color for given item.
  */
-MVVM_VIEWMODEL_EXPORT QVariant TextColorRole(const SessionItem& item);
+QVariant TextColorRole(const SessionItem& item);
 
 /**
  * @brief Returns check state role of given item.
  * @param item
  * @return
  */
-MVVM_VIEWMODEL_EXPORT QVariant CheckStateRole(const SessionItem& item);
+QVariant CheckStateRole(const SessionItem& item);
 
 /**
  * @brief Returns decoration role for given item.
  */
-MVVM_VIEWMODEL_EXPORT QVariant DecorationRole(const SessionItem& item);
+QVariant DecorationRole(const SessionItem& item);
 
 /**
  * @brief Returns tooltip role for given item.
  */
-MVVM_VIEWMODEL_EXPORT QVariant ToolTipRole(const SessionItem& item);
+QVariant ToolTipRole(const SessionItem& item);
 
 /**
  * @brief Returns underlying SessionItem's for given index.
  *
  * The method doesn't work if index belongs to a proxy model.
  */
-MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromIndex(const QModelIndex& index);
+SessionItem* ItemFromIndex(const QModelIndex& index);
 
 /**
  * @brief Returns underlying SessionItem's for given index.
  *
  * The method works for ViewModel's and their proxy.
  */
-MVVM_VIEWMODEL_EXPORT SessionItem* ItemFromProxyIndex(const QModelIndex& index);
+SessionItem* ItemFromProxyIndex(const QModelIndex& index);
 
 /**
  * @brief Returns underlying ViewItem for given index.
  */
-MVVM_VIEWMODEL_EXPORT ViewItem* ViewItemFromIndex(const QModelIndex& index);
+ViewItem* ViewItemFromIndex(const QModelIndex& index);
 
 /**
  * @brief Returns vector of underlying SessionItem's for given index list.
  */
-MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
+std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
 
 /**
  * @brief Returns vector of parent items from given index list.
@@ -176,7 +175,7 @@ MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ItemsFromIndex(const QModelIndex
  * Function is usefull in the context of table-like views when we want to find compound items (i.e.
  * Layers) from table cells containing LayerItem's properties (i.e. thickness).
  */
-MVVM_VIEWMODEL_EXPORT std::vector<SessionItem*> ParentItemsFromIndex(
+std::vector<SessionItem*> ParentItemsFromIndex(
     const QModelIndexList& index_list);
 
 /**

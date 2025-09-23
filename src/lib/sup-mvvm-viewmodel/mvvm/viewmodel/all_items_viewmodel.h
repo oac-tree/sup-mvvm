@@ -37,7 +37,7 @@ class ISessionModel;
  * original SessionModel. All visible items, like top-level items and property items, are shown.
  * With an additional flag it is possible to show hidden items too.
  */
-class MVVM_VIEWMODEL_EXPORT AllItemsViewModel : public ViewModel
+class AllItemsViewModel : public ViewModel
 {
   Q_OBJECT
 

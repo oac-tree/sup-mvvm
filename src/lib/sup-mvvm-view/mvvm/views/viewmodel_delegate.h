@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_VIEWMODEL_DELEGATE_H_
 #define MVVM_VIEWS_VIEWMODEL_DELEGATE_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QStyledItemDelegate>
 #include <memory>
@@ -38,7 +37,7 @@ class ICellDecorator;
  *
  * Custom variants are related to the data stored on board of SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT ViewModelDelegate : public QStyledItemDelegate
+class ViewModelDelegate : public QStyledItemDelegate
 {
   Q_OBJECT
 

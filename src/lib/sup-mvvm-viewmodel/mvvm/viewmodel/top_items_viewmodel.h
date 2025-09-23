@@ -32,7 +32,7 @@ class ISessionModel;
 //! All property items (i.e. "thickness", "color" etc) will be filtered out, top level items
 //! (i.e. Layer, MultiLayer, ...) will be presented as simple parent/child tree.
 
-class MVVM_VIEWMODEL_EXPORT TopItemsViewModel : public ViewModel
+class TopItemsViewModel : public ViewModel
 {
   Q_OBJECT
 

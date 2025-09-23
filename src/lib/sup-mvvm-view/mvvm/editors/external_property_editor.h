@@ -35,7 +35,7 @@ class LostFocusFilter;
 //! Custom editor for QVariant based on ExternalProperty.
 //! Contains icon, label and button to call external dialog via callback mechanism.
 
-class MVVM_VIEWMODEL_EXPORT ExternalPropertyEditor : public CustomEditor
+class ExternalPropertyEditor : public CustomEditor
 {
   Q_OBJECT
 

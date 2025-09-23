@@ -21,8 +21,6 @@
 #ifndef MVVM_PROVIDERS_EDITOR_TYPES_FWD_H_
 #define MVVM_PROVIDERS_EDITOR_TYPES_FWD_H_
 
-#include <mvvm/viewmodel_export.h>
-
 #include <functional>
 #include <memory>
 

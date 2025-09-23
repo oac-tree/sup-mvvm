@@ -22,7 +22,6 @@
 #define MVVM_PROVIDERS_STANDARD_ROW_STRATEGIES_H_
 
 #include <mvvm/providers/abstract_row_strategy.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <vector>
 
@@ -39,7 +38,7 @@ class ViewItem;
  * Row consists of two columns, ViewLabelItem for SessionItem's read-only display role and
  * ViewDataItem for Session's item data role.
  */
-class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public AbstractRowStrategy
+class LabelDataRowStrategy : public AbstractRowStrategy
 {
 public:
   std::size_t GetSize() const override;
@@ -54,7 +53,7 @@ private:
  * @brief The PropertiesRowStrategy class constructs the row with columns representing all
  * properties of the given SessionItem.
  */
-class MVVM_VIEWMODEL_EXPORT PropertiesRowStrategy : public AbstractRowStrategy
+class PropertiesRowStrategy : public AbstractRowStrategy
 {
 public:
   explicit PropertiesRowStrategy(std::vector<std::string> labels = {});

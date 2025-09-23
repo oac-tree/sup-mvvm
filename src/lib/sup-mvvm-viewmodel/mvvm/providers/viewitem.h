@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_VIEWITEM_H_
 #define MVVM_PROVIDERS_VIEWITEM_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 #include <memory>
@@ -35,7 +34,7 @@ class IViewItemData;
 /**
  * @brief The ViewItem class represents a single editable/displayable entity in cells of ViewModel.
  */
-class MVVM_VIEWMODEL_EXPORT ViewItem
+class ViewItem
 {
 public:
   ViewItem();

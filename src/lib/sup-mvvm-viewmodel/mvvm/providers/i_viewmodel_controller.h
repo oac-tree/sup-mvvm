@@ -22,7 +22,6 @@
 #define MVVM_PROVIDERS_I_VIEWMODEL_CONTROLLER_H_
 
 #include <mvvm/signals/event_types.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <QStringList>
 
@@ -36,7 +35,7 @@ class ISessionModel;
  *
  * Its main purpose is to listen SessionModel and make certain changes in a viewmodel.
  */
-class MVVM_VIEWMODEL_EXPORT IViewModelController
+class IViewModelController
 {
 public:
   IViewModelController() = default;

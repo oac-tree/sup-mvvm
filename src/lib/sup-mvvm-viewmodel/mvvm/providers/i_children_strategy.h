@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_CHILDREN_STRATEGY_H_
 #define MVVM_PROVIDERS_I_CHILDREN_STRATEGY_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <vector>
 
@@ -36,7 +35,7 @@ class SessionItem;
  *
  * The reported vector of children might be different from the actual children of a given item.
  */
-class MVVM_VIEWMODEL_EXPORT IChildrenStrategy
+class IChildrenStrategy
 {
 public:
   virtual ~IChildrenStrategy() = default;

@@ -31,7 +31,7 @@ class AllIntSpinBox;
 
 //! Custom editor for QVariant based on int family (from int8 to int64).
 //! FIXME remove the whole class and just use AllIntSpinBox
-class MVVM_VIEWMODEL_EXPORT AllIntSpinBoxEditor : public CustomEditor
+class AllIntSpinBoxEditor : public CustomEditor
 {
   Q_OBJECT
 

@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_
 #define MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QColor>
 #include <QFrame>
@@ -45,7 +44,7 @@ namespace mvvm
  * It has functionality similar to QTabWidget. The control bar tries to\ mimic main control bar of
  * Qt creator, or VSCode applications.
  */
-class MVVM_VIEWMODEL_EXPORT MainVerticalBarWidget : public QFrame
+class MainVerticalBarWidget : public QFrame
 {
   Q_OBJECT
 

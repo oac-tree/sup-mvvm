@@ -31,7 +31,7 @@ namespace mvvm
 //! Custom editor for QVariant based on bool values.
 //! Contains fancy check box and true/false label.
 
-class MVVM_VIEWMODEL_EXPORT BoolEditor : public CustomEditor
+class BoolEditor : public CustomEditor
 {
   Q_OBJECT
 

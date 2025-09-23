@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_MAINBAR_WIDGET_H_
 #define MVVM_WIDGETS_MAINBAR_WIDGET_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QFrame>
 #include <map>
@@ -48,7 +47,7 @@ class FancyTab;
  * ---------------------
  * Has large bar with labels on top, and stacked widget at bottom.
  */
-class MVVM_VIEWMODEL_EXPORT MainBarWidget : public QFrame
+class MainBarWidget : public QFrame
 {
   Q_OBJECT
 

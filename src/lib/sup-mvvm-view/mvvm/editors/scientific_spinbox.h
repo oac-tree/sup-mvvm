@@ -21,14 +21,13 @@
 #ifndef MVVM_EDITORS_SCIENTIFIC_SPINBOX_H_
 #define MVVM_EDITORS_SCIENTIFIC_SPINBOX_H_
 
-#include <mvvm/viewmodel_export.h>
 
 #include <QAbstractSpinBox>
 
 namespace mvvm
 {
 
-class MVVM_VIEWMODEL_EXPORT ScientificSpinBox : public QAbstractSpinBox
+class ScientificSpinBox : public QAbstractSpinBox
 {
   Q_OBJECT
   Q_PROPERTY(double value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)

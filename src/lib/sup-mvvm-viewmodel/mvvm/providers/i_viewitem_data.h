@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_VIEWITEM_DATA_H_
 #define MVVM_PROVIDERS_I_VIEWITEM_DATA_H_
 
-#include <mvvm/viewmodel_export.h>
 #include <mvvm/core/mvvm_types.h>
 
 #include <QVariant>
@@ -33,7 +32,7 @@ namespace mvvm
  * @brief The ViewItemDataInterface class is an interface to provide ViewItem with the access to the
  * data.
  */
-class MVVM_VIEWMODEL_EXPORT IViewItemData
+class IViewItemData
 {
 public:
   IViewItemData() = default;

@@ -26,17 +26,16 @@
 
 #include <mvvm/core/variant.h>
 #include <mvvm/providers/custom_variants.h>
-#include <mvvm/viewmodel_export.h>
 
 #include <QVariant>
 
 namespace mvvm
 {
 //! Constructs QVariant from mvvm variant_t.
-MVVM_VIEWMODEL_EXPORT QVariant GetQtVariant(const variant_t& variant);
+QVariant GetQtVariant(const variant_t& variant);
 
 //! Constructs variant_t from QVariant. Will throw if it is not possible.
-MVVM_VIEWMODEL_EXPORT variant_t GetStdVariant(const QVariant& variant);
+variant_t GetStdVariant(const QVariant& variant);
 
 }  // namespace mvvm
 
