@@ -23,7 +23,6 @@
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/model_export.h>
 #include <mvvm/utils/container_utils.h>
 
 #include <cstddef>
@@ -88,7 +87,7 @@ std::unique_ptr<SessionItem> TakeItemImpl(SessionItem& item, const TagIndex& tag
  * @param item Item to start iterating.
  * @param func User function to call.
  */
-MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func);
+void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
@@ -97,14 +96,14 @@ MVVM_MODEL_EXPORT void iterate(SessionItem* item, const std::function<void(Sessi
  * @param item Item to start iterating.
  * @param func User function to call.
  */
-MVVM_MODEL_EXPORT void iterate(const SessionItem* item,
+void iterate(const SessionItem* item,
                                const std::function<void(const SessionItem*)>& func);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
  * for every item (nullptr version).
  */
-MVVM_MODEL_EXPORT void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func);
+void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
@@ -115,7 +114,7 @@ MVVM_MODEL_EXPORT void iterate(std::nullptr_t, const std::function<void(const Se
  *
  * @details Will stop iterating when 'func' returns false.
  */
-MVVM_MODEL_EXPORT void iterate_if(const SessionItem* item,
+void iterate_if(const SessionItem* item,
                                   const std::function<bool(const SessionItem*)>& func);
 
 /**
@@ -123,7 +122,7 @@ MVVM_MODEL_EXPORT void iterate_if(const SessionItem* item,
  *
  * @details Takes into account only items with same type.
  */
-MVVM_MODEL_EXPORT int CopyNumber(const SessionItem* item);
+int CopyNumber(const SessionItem* item);
 
 /**
  * @brief Returns child at given index of a parent.
@@ -131,7 +130,7 @@ MVVM_MODEL_EXPORT int CopyNumber(const SessionItem* item);
  * #details No tags are involved, index is considered as global index in the combined array of all
  * children.
  */
-MVVM_MODEL_EXPORT SessionItem* ChildAt(const SessionItem* parent, int index);
+SessionItem* ChildAt(const SessionItem* parent, int index);
 
 /**
  * @brief Returns index in children array corresponding to given child.
@@ -139,24 +138,24 @@ MVVM_MODEL_EXPORT SessionItem* ChildAt(const SessionItem* parent, int index);
  * @details No tags are involved, index is considered as global index in the combined array of all
  * children.
  */
-MVVM_MODEL_EXPORT int IndexOfChild(const SessionItem* parent, const SessionItem* child);
+int IndexOfChild(const SessionItem* parent, const SessionItem* child);
 
 /**
  * @brief Returns true if given item has registered tag with the given name.
  */
-MVVM_MODEL_EXPORT bool HasTag(const SessionItem& item, const std::string& tag_name);
+bool HasTag(const SessionItem& item, const std::string& tag_name);
 
 /**
  * @brief Returns vector of strings containing all registered tags of the given item.
  */
-MVVM_MODEL_EXPORT std::vector<std::string> RegisteredTags(const SessionItem& item);
+std::vector<std::string> RegisteredTags(const SessionItem& item);
 
 /**
  * @brief Returns vector of all visible children representing top level items.
  *
  * @details A top level item is any item not marked as a property item.
  */
-MVVM_MODEL_EXPORT std::vector<SessionItem*> TopLevelItems(const SessionItem& item);
+std::vector<SessionItem*> TopLevelItems(const SessionItem& item);
 
 /**
  * @brief Returns vector of all visible children representing property items.
@@ -165,17 +164,17 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> TopLevelItems(const SessionItem& ite
  * scalar data, moer complex VectorItem, etc. The main thing is that it is parked with kProperty
  * appearance flag.
  */
-MVVM_MODEL_EXPORT std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item);
+std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item);
 
 /**
  * @brief Returns next sibling within the same tag.
  */
-MVVM_MODEL_EXPORT SessionItem* FindNextSibling(SessionItem* item);
+SessionItem* FindNextSibling(SessionItem* item);
 
 /**
  * @brief Returns previous sibling within the same tag.
  */
-MVVM_MODEL_EXPORT SessionItem* FindPreviousSibling(SessionItem* item);
+SessionItem* FindPreviousSibling(SessionItem* item);
 
 /**
  * @brief Finds next item to select.
@@ -188,7 +187,7 @@ MVVM_MODEL_EXPORT SessionItem* FindPreviousSibling(SessionItem* item);
  * @param item Item which will be deleted soon.
  * @return An item which should be selected instead.
  */
-MVVM_MODEL_EXPORT SessionItem* FindNextItemToSelect(SessionItem* item);
+SessionItem* FindNextItemToSelect(SessionItem* item);
 
 /**
  * @brief Finds next sibling item to select.
@@ -200,17 +199,17 @@ MVVM_MODEL_EXPORT SessionItem* FindNextItemToSelect(SessionItem* item);
  * @param item Item which will be deleted soon.
  * @return An item which should be selected instead, or nullptr if no selection was found.
  */
-MVVM_MODEL_EXPORT SessionItem* FindNextSiblingToSelect(SessionItem* item);
+SessionItem* FindNextSiblingToSelect(SessionItem* item);
 
 /**
  * @brief Returns true if 'candidate' is one of ancestor (parent, grand-parent etc) of given item.
  */
-MVVM_MODEL_EXPORT bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate);
+bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate);
 
 /**
  * @brief Returns vector with duplicates and 'nullptr' filtered out.
  */
-MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items);
+std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items);
 
 /**
  * @brief Returns nesting depth of 'item' with respect to the 'basis'.
@@ -225,7 +224,7 @@ MVVM_MODEL_EXPORT std::vector<SessionItem*> UniqueItems(const std::vector<Sessio
  * result = 2 if `item` is a grandchild of `basis`
  * result = -1 if item is above `basis` or doesn't belong same branch
  */
-MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
+int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
 
 /**
  * @brief Returns nesting depth of 'item' with respect to the root item.
@@ -239,7 +238,7 @@ MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* basis, const SessionIte
  * result = 0 if `item` doesn't have parent, or `item` is a root item itself
  * result = 1 if `item` is a child of root item
  */
-MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* item);
+int GetNestingDepth(const SessionItem* item);
 
 /**
  * @brief Replace data of given item with provided value for given role, returns true in the case of
@@ -252,7 +251,7 @@ MVVM_MODEL_EXPORT int GetNestingDepth(const SessionItem* item);
  * ReplaceData(&item, "abc", role); <-- will succeed, new data will be std::string, instead of
  * double
  */
-MVVM_MODEL_EXPORT bool ReplaceData(SessionItem& item, const variant_t& value, role_t role);
+bool ReplaceData(SessionItem& item, const variant_t& value, role_t role);
 
 /**
  * @brief Finds if given item or one of its parents up in the hierarchy can be casted to given type
@@ -397,14 +396,14 @@ std::unique_ptr<T> CopyItem(const T& item)
  *
  * Works on children belonging to the same tag.
  */
-MVVM_MODEL_EXPORT bool MoveUp(SessionItem& item);
+bool MoveUp(SessionItem& item);
 
 /**
  * @brief Moves item down (increments row of the item), returns true in the case of success.
  *
  * Works on children belonging to the same tag.
  */
-MVVM_MODEL_EXPORT bool MoveDown(SessionItem& item);
+bool MoveDown(SessionItem& item);
 
 /**
  * @brief Removes item from its parent and destroys it.
@@ -440,14 +439,14 @@ std::unique_ptr<SessionItem> SessionItemFromXMLString(const std::string& str,
  *
  * Works only if the item belongs to the model with undo/redo enabled. Otherwise, do nothing.
  */
-MVVM_MODEL_EXPORT void BeginMacro(const SessionItem& item, const std::string& macro_name);
+void BeginMacro(const SessionItem& item, const std::string& macro_name);
 
 /**
  * @brief Finished recording of the command macro.
  *
  * Works only if the item belongs to the model with undo/redo enabled. Otherwise, do nothing.
  */
-MVVM_MODEL_EXPORT void EndMacro(const SessionItem& item);
+void EndMacro(const SessionItem& item);
 
 /**
  * @brief Returns string representing item.

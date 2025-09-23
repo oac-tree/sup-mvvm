@@ -28,7 +28,6 @@
 #include <mvvm/core/mvvm_types.h>
 #include <mvvm/model/combo_property.h>
 #include <mvvm/model/external_property.h>
-#include <mvvm/model_export.h>
 
 #include <string_view>
 #include <variant>
@@ -114,7 +113,7 @@ namespace mvvm::utils
  *
  * The default constructed variant (i.e. which contains a monostate) is invalid.
  */
-MVVM_MODEL_EXPORT bool IsValid(const variant_t& value);
+bool IsValid(const variant_t& value);
 
 /**
  * @brief Checks if two variants are compatible, i.e. we are alowed to replace one variant with
@@ -123,22 +122,22 @@ MVVM_MODEL_EXPORT bool IsValid(const variant_t& value);
  * Two valid variants are considered compatible, when they both have the same underlying type. If
  * one of the variants is invalid, they are considered compatible too.
  */
-MVVM_MODEL_EXPORT bool AreCompatible(const variant_t& var1, const variant_t& var2);
+bool AreCompatible(const variant_t& var1, const variant_t& var2);
 
 /**
  * @brief Returns a string representing the variant type.
  */
-MVVM_MODEL_EXPORT std::string TypeName(const variant_t& variant);
+std::string TypeName(const variant_t& variant);
 
 /**
  * @brief Returns a string representing the variant value.
  */
-MVVM_MODEL_EXPORT std::string ValueToString(const variant_t& variant);
+std::string ValueToString(const variant_t& variant);
 
 /**
  * @brief Constructs a variant from its string representation.
  */
-MVVM_MODEL_EXPORT variant_t ValueFromString(TypeCode type_code, const std::string& str);
+variant_t ValueFromString(TypeCode type_code, const std::string& str);
 
 }  // namespace mvvm::utils
 

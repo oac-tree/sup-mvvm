@@ -35,7 +35,7 @@ class SessionItem;
  * @brief The SessionItemContainer class holds a collection of SessionItem objects related to the
  * same tag.
  */
-class MVVM_MODEL_EXPORT SessionItemContainer
+class SessionItemContainer
 {
 public:
   using container_t = std::vector<std::unique_ptr<SessionItem>>;

@@ -39,7 +39,7 @@ class ISessionModel;
  *
  * It takes care of notification when project is changed, and traces project path.
  */
-class MVVM_MODEL_EXPORT AbstractProject : public IProject
+class AbstractProject : public IProject
 {
 public:
   using modified_callback_t = std::function<void()>;

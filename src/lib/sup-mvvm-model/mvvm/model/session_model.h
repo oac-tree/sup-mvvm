@@ -34,7 +34,7 @@ class ItemPool;
 /**
  * @brief The SessionModel class is the main model to hold hierarchy of SessionItem objects.
  */
-class MVVM_MODEL_EXPORT SessionModel : public ISessionModel
+class SessionModel : public ISessionModel
 {
 public:
   using ISessionModel::InsertItem;

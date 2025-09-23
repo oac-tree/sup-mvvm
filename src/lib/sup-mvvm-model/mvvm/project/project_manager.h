@@ -38,7 +38,7 @@ class IProject;
  * the previous project is saved, and will call external dialog save/discard/cancel via the provided
  * callback.
  */
-class MVVM_MODEL_EXPORT ProjectManager : public IProjectManager
+class ProjectManager : public IProjectManager
 {
 public:
   ProjectManager(IProject* project, UserInteractionContext user_context);

@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_PATH_H_
 #define MVVM_MODEL_PATH_H_
 
-#include <mvvm/model_export.h>
 
 #include <cstdint>
 #include <string>
@@ -44,7 +43,7 @@ namespace mvvm
  *     - grandchild    path:"0,1"
  *   - child           path:"1"
  */
-class MVVM_MODEL_EXPORT Path
+class Path
 {
 public:
   using PathElement = std::uint32_t;

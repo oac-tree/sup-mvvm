@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_I_PROJECT_H_
 #define MVVM_PROJECT_I_PROJECT_H_
 
-#include <mvvm/model_export.h>
 #include <mvvm/project/project_types.h>
 
 #include <string>
@@ -40,7 +39,7 @@ namespace mvvm
  * place. They shouldn't contain any logic related to unsaved data. The latter is handled by
  * IProjectManager.
  */
-class MVVM_MODEL_EXPORT IProject
+class IProject
 {
 public:
   virtual ~IProject() = default;

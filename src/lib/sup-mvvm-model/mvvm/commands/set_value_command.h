@@ -32,7 +32,7 @@ class SessionItem;
 /**
  * @brief The SetValueCommand class allows to set the value to the item and undo the change.
  */
-class MVVM_MODEL_EXPORT SetValueCommand : public ModelCommand
+class SetValueCommand : public ModelCommand
 {
 public:
   using result_t = bool;

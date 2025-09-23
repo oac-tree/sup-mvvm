@@ -21,7 +21,6 @@
 #ifndef MVVM_SIGNALS_ITEM_LISTENER_H_
 #define MVVM_SIGNALS_ITEM_LISTENER_H_
 
-#include <mvvm/model_export.h>
 #include <mvvm/signals/item_connect.h>
 #include <mvvm/signals/signal_slot.h>
 
@@ -74,7 +73,7 @@ namespace mvvm
  *
  * @endcode
  */
-class MVVM_MODEL_EXPORT ItemListener
+class ItemListener
 {
 public:
   explicit ItemListener(SessionItem* item);

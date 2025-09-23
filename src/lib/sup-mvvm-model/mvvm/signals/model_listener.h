@@ -62,7 +62,7 @@ class ModelEventHandler;
  * listener.Connect<ItemInsertedEvent>(&widget, &Widget::OnItemInsertedEvent);
  * @endcode
  */
-class MVVM_MODEL_EXPORT ModelListener
+class ModelListener
 {
 public:
   explicit ModelListener(const ISessionModel* model);

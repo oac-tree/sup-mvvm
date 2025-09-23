@@ -33,7 +33,7 @@ namespace mvvm
 //! The machinery is persistent and outlives serialization. Can be used to find items in
 //! different models. For that being the case, models should use the same ItemPool.
 
-class MVVM_MODEL_EXPORT LinkedItem : public SessionItem
+class LinkedItem : public SessionItem
 {
 public:
   LinkedItem();

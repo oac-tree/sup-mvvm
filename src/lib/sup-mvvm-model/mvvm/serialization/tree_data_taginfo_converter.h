@@ -27,7 +27,6 @@
 //! These are auxiliary functions to provide parsing of xml elements
 //! - <TagInfo min="0" max="1" name="TagName">SegmentItem</Variant>
 
-#include <mvvm/model_export.h>
 #include <mvvm/serialization/tree_data_fwd.h>
 
 namespace mvvm
@@ -39,14 +38,14 @@ namespace TreeDataTagInfoConverter
 {
 
 //! Returns true if given TreeData represents TagInfo object.
-MVVM_MODEL_EXPORT bool IsTagInfoConvertible(const tree_data_t& tree_data);
+bool IsTagInfoConvertible(const tree_data_t& tree_data);
 
 //! Returns TagInfo object from its TreeData representation. Will throw if conversion is not
 //! possible.
-MVVM_MODEL_EXPORT TagInfo ToTagInfo(const tree_data_t& tree_data);
+TagInfo ToTagInfo(const tree_data_t& tree_data);
 
 //! Returns TreeData object constructed from TagInfo object.
-MVVM_MODEL_EXPORT tree_data_t ToTreeData(const TagInfo& tag_info);
+tree_data_t ToTreeData(const TagInfo& tag_info);
 
 }  // namespace TreeDataTagInfoConverter
 }  // namespace mvvm

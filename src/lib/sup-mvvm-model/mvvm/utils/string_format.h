@@ -21,7 +21,6 @@
 #ifndef MVVM_UTILS_STRING_FORMAT_H_
 #define MVVM_UTILS_STRING_FORMAT_H_
 
-#include <mvvm/model_export.h>
 
 #include <string>
 

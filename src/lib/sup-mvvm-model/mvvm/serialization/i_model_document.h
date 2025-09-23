@@ -21,7 +21,6 @@
 #ifndef MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_
 #define MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_
 
-#include <mvvm/model_export.h>
 
 #include <string>
 
@@ -34,7 +33,7 @@ namespace mvvm
  *
  * It can be an XML file representing the content of one or several SessionModels.
  */
-class MVVM_MODEL_EXPORT IModelDocument
+class IModelDocument
 {
 public:
   IModelDocument() = default;

@@ -32,7 +32,7 @@ namespace mvvm
 /**
  * @brief The CommandStack class is the default implementation of undo/redo command stack.
  */
-class MVVM_MODEL_EXPORT CommandStack : public ICommandStack
+class CommandStack : public ICommandStack
 {
 public:
   CommandStack();

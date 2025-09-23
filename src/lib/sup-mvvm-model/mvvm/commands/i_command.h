@@ -22,7 +22,6 @@
 #define MVVM_COMMANDS_I_COMMAND_H_
 
 #include <mvvm/commands/command_status.h>
-#include <mvvm/model_export.h>
 #include <mvvm/signals/event_types.h>
 
 #include <optional>
@@ -34,7 +33,7 @@ namespace mvvm
 /**
  * @brief The ICommand class is an interface for generic command of the undo/redo framework.
  */
-class MVVM_MODEL_EXPORT ICommand
+class ICommand
 {
 public:
   ICommand() = default;

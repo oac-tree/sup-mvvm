@@ -35,7 +35,7 @@ namespace mvvm
  *
  * It creates exact clones of the model (all identifiers preserved).
  */
-class MVVM_MODEL_EXPORT TreeDataModelConverter : public ITreeDataModelConverter
+class TreeDataModelConverter : public ITreeDataModelConverter
 {
 public:
   TreeDataModelConverter() = default;

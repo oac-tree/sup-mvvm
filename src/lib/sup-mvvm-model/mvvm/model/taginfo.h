@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_TAGINFO_H_
 #define MVVM_MODEL_TAGINFO_H_
 
-#include <mvvm/model_export.h>
 
 #include <optional>
 #include <string>
@@ -40,7 +39,7 @@ namespace mvvm
  * tag. For a non-empty list, only children with the type present in the list will be considered as
  * valid.
  */
-class MVVM_MODEL_EXPORT TagInfo
+class TagInfo
 {
 public:
   /**

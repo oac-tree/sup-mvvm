@@ -22,7 +22,6 @@
 #define MVVM_UTILS_STRING_UTILS_H_
 
 #include <mvvm/core/mvvm_exceptions.h>
-#include <mvvm/model_export.h>
 
 #include <cstdint>
 #include <optional>
@@ -44,7 +43,7 @@ const std::string kDefaultSeparator = ",";
  * @param precision Number of digits after ddecimal sign.
  * @return Resulting string.
  */
-MVVM_MODEL_EXPORT std::string DoubleToString(double input, std::int32_t precision = 12);
+std::string DoubleToString(double input, std::int32_t precision = 12);
 
 /**
  * @brief Returns string representation of scientific double.
@@ -55,24 +54,24 @@ MVVM_MODEL_EXPORT std::string DoubleToString(double input, std::int32_t precisio
  * @param precision Number of digits after ddecimal sign.
  * @return Resulting string.
  */
-MVVM_MODEL_EXPORT std::string ScientificDoubleToString(double input, std::int32_t precision = 6);
+std::string ScientificDoubleToString(double input, std::int32_t precision = 6);
 
 /**
  * @brief Returns string after trimming whitespace surrounding, including tabs and carriage returns.
  */
-MVVM_MODEL_EXPORT std::string TrimWhitespace(const std::string& str);
+std::string TrimWhitespace(const std::string& str);
 
 /**
  * @brief Converts string to bool.
  *
  * String should represent one of "false", "true", "False", etc. Will throw if it is not the case.
  */
-MVVM_MODEL_EXPORT bool StringToBool(const std::string& str);
+bool StringToBool(const std::string& str);
 
 /**
  * @brief Converts bool to string.
  */
-MVVM_MODEL_EXPORT std::string FromBool(bool value);
+std::string FromBool(bool value);
 
 /**
  * @brief Converts string to double value using classic locale and returns it in the form of
@@ -84,7 +83,7 @@ MVVM_MODEL_EXPORT std::string FromBool(bool value);
  * @param str A string to convert.
  * @return Optional double result of the conversion.
  */
-MVVM_MODEL_EXPORT std::optional<double> StringToDouble(const std::string& str);
+std::optional<double> StringToDouble(const std::string& str);
 
 /**
  * @brief Converts string to integer.
@@ -95,7 +94,7 @@ MVVM_MODEL_EXPORT std::optional<double> StringToDouble(const std::string& str);
  * @param str A string to convert.
  * @return Optional integer result of the conversion.
  */
-MVVM_MODEL_EXPORT std::optional<std::int32_t> StringToInteger(const std::string& str);
+std::optional<std::int32_t> StringToInteger(const std::string& str);
 
 /**
  * @brief Split string on substring using given delimiter.
@@ -106,7 +105,7 @@ MVVM_MODEL_EXPORT std::optional<std::int32_t> StringToInteger(const std::string&
  * @param delimiter A delimiter.
  * @return Vector of string.
  */
-MVVM_MODEL_EXPORT std::vector<std::string> SplitString(const std::string& str,
+std::vector<std::string> SplitString(const std::string& str,
                                                        const std::string& delimiter);
 
 /**
@@ -114,7 +113,7 @@ MVVM_MODEL_EXPORT std::vector<std::string> SplitString(const std::string& str,
  *
  * @details All non-numeric symbols are ingored.
  */
-MVVM_MODEL_EXPORT std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str);
+std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str);
 
 /**
  * @brief Replaces substring in a string and returns result to the user.
@@ -124,7 +123,7 @@ MVVM_MODEL_EXPORT std::vector<double> ParseSpaceSeparatedDoubles(const std::stri
  * @param replacement New substring.
  * @return Resulting string.
  */
-MVVM_MODEL_EXPORT std::string ReplaceSubString(const std::string& str, const std::string& substr,
+std::string ReplaceSubString(const std::string& str, const std::string& substr,
                                                const std::string& replacement);
 
 /**

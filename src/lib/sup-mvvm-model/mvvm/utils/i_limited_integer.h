@@ -22,7 +22,6 @@
 #define MVVM_UTILS_I_LIMITED_INTEGER_H_
 
 #include <mvvm/core/variant.h>
-#include <mvvm/model_export.h>
 
 #include <string>
 

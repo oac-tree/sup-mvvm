@@ -33,13 +33,13 @@ class IItemFactory;
 /**
  * @brief Creates strategy for item backup based on TreeData serialization.
  */
-MVVM_MODEL_EXPORT std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(
+std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(
     const IItemFactory* factory);
 
 /**
  * @brief Creates strategy for item backup based on TreeData serialization.
  */
-MVVM_MODEL_EXPORT std::unique_ptr<IItemBackupStrategy> CreateItemCloneBackupStrategy();
+std::unique_ptr<IItemBackupStrategy> CreateItemCloneBackupStrategy();
 
 }  // namespace mvvm
 

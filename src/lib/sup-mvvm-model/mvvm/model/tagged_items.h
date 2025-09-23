@@ -22,7 +22,6 @@
 #define MVVM_MODEL_TAGGED_ITEMS_H_
 
 #include <mvvm/model/tagindex.h>
-#include <mvvm/model_export.h>
 
 #include <memory>
 #include <string>
@@ -45,7 +44,7 @@ class SessionItem;
  * For container manipulation (insert, take, get) one have to know the position of the item, given
  * by TagIndex class.
  */
-class MVVM_MODEL_EXPORT TaggedItems
+class TaggedItems
 {
 public:
   using container_t = std::vector<std::unique_ptr<SessionItemContainer>>;

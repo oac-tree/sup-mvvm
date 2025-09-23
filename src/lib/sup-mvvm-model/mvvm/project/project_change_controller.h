@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_
 #define MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_
 
-#include <mvvm/model_export.h>
 
 #include <functional>
 #include <memory>
@@ -40,7 +39,7 @@ class ISessionModel;
  * after it is saved. To avoid extra signaling while being in already "changed" mode, the controller
  * reports only once.
  */
-class MVVM_MODEL_EXPORT ProjectChangedController
+class ProjectChangedController
 {
 public:
   using callback_t = std::function<void()>;

@@ -31,7 +31,7 @@ namespace mvvm
  *
  * It doesn't have either undo/redo or any notification capabilities.
  */
-class MVVM_MODEL_EXPORT DefaultCommandProcessor : public ICommandStack
+class DefaultCommandProcessor : public ICommandStack
 {
 public:
   DefaultCommandProcessor() = default;

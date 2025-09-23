@@ -38,7 +38,7 @@ class IProject;
  * @param user_context The context to interact with the user.
  * @return New project manager.
  */
-MVVM_MODEL_EXPORT std::unique_ptr<IProjectManager> CreateProjectManager(
+std::unique_ptr<IProjectManager> CreateProjectManager(
     IProject& project, const UserInteractionContext& user_context);
 
 }  // namespace mvvm

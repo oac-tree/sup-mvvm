@@ -33,7 +33,7 @@ class PenItem;
 //! Contains plot properties (i.e. color, line type etc) and link to Data1DItem, which will provide
 //! actual data to plot. GraphItem is intended for plotting only via GraphViewportItem.
 
-class MVVM_MODEL_EXPORT GraphItem : public CompoundItem
+class GraphItem : public CompoundItem
 {
 public:
   static inline const std::string kLink = "kLink";

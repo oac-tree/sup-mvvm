@@ -23,7 +23,6 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/item_traits.h>
-#include <mvvm/model_export.h>
 
 #include <functional>
 #include <memory>
@@ -48,7 +47,7 @@ class SessionItem;
  */
 
 template <typename T>
-class MVVM_MODEL_EXPORT ItemCatalogue
+class ItemCatalogue
 {
 public:
   using factory_func_t = std::function<std::unique_ptr<T>()>;

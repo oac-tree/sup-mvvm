@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_EXTERNAL_PROPERTY_H_
 #define MVVM_MODEL_EXTERNAL_PROPERTY_H_
 
-#include <mvvm/model_export.h>
 
 #include <string>
 
@@ -31,7 +30,7 @@ namespace mvvm
 //! Property to carry text, color and identifier.
 //! Can be used to link items with each other.
 
-class MVVM_MODEL_EXPORT ExternalProperty
+class ExternalProperty
 {
 public:
   ExternalProperty();

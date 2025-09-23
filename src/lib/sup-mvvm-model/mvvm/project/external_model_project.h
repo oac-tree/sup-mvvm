@@ -39,7 +39,7 @@ struct ProjectContext;
  * The recommended alternative to this class is AppProject, which owns models and recreates them
  * during the creation of new projects.
  */
-class MVVM_MODEL_EXPORT ExternalModelProject : public AbstractProject
+class ExternalModelProject : public AbstractProject
 {
 public:
   explicit ExternalModelProject(ProjectType project_type, const std::vector<ISessionModel*>& models,

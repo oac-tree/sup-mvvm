@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_TAGINDEX_H_
 #define MVVM_MODEL_TAGINDEX_H_
 
-#include <mvvm/model_export.h>
 
 #include <cstddef>
 #include <string>
@@ -35,7 +34,7 @@ namespace mvvm
  * It encodes all information needed to find a child inside its parent. A tag is a name of the
  * container with items, and index is a position of an item in this container.
  */
-class MVVM_MODEL_EXPORT TagIndex
+class TagIndex
 {
 public:
   /**

@@ -35,7 +35,7 @@ class ItemCatalogue;
  * @brief The ItemFactory class represent a factory of SessionItems.
  */
 
-class MVVM_MODEL_EXPORT ItemFactory : public IItemFactory
+class ItemFactory : public IItemFactory
 {
 public:
   explicit ItemFactory(std::unique_ptr<ItemCatalogue<SessionItem>> catalogue);

@@ -24,7 +24,6 @@
 //! @file
 //! Utility functions to connect user callbacks with events happening with given item.
 
-#include <mvvm/model_export.h>
 #include <mvvm/signals/item_connect_helper.h>
 #include <mvvm/signals/model_event_handler.h>
 

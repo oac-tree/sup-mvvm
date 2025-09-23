@@ -23,7 +23,6 @@
 
 #include <mvvm/core/variant.h>
 #include <mvvm/model/tagindex.h>
-#include <mvvm/model_export.h>
 
 #include <memory>
 
@@ -39,7 +38,7 @@ class ICommand;
  * @brief The ISessionModel class is an interface for all application models holding
  * SessionItem hierarchy.
  */
-class MVVM_MODEL_EXPORT ISessionModel
+class ISessionModel
 {
 public:
   ISessionModel() = default;

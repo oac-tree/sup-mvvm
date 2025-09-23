@@ -35,7 +35,7 @@ class IItemBackupStrategy;
 /**
  * @brief The InsertItemCommand class allows to insert a child to the part and undo the change.
  */
-class MVVM_MODEL_EXPORT InsertItemCommand : public ModelCommand
+class InsertItemCommand : public ModelCommand
 {
 public:
   using result_t = SessionItem*;

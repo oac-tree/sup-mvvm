@@ -36,7 +36,7 @@ class ICommandStack;
  *
  * It extends SessionModel with signalling capabilites, and undo/redo.
  */
-class MVVM_MODEL_EXPORT ApplicationModel : public SessionModel
+class ApplicationModel : public SessionModel
 {
 public:
   explicit ApplicationModel(std::string model_type = {});

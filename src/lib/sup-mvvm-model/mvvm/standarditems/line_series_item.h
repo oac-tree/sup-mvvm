@@ -35,7 +35,7 @@ class LineSeriesDataItem;
  * It is a counterprart of QtChart::QLineSeries in mvvm world. It contains plot properties and a
  * link to LineSeriesDataItem. LineSeriesItem is intended for plotting via ChartViewportItem.
  */
-class MVVM_MODEL_EXPORT LineSeriesItem : public CompoundItem
+class LineSeriesItem : public CompoundItem
 {
 public:
   static inline const std::string kOffset = "kOffset";

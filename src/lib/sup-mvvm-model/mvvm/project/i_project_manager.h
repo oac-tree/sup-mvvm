@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_I_PROJECT_MANAGER_H_
 #define MVVM_PROJECT_I_PROJECT_MANAGER_H_
 
-#include <mvvm/model_export.h>
 #include <mvvm/project/project_types.h>
 
 #include <string>
@@ -39,7 +38,7 @@ class IProject;
  * Responsible for handling new/save/save-as/close project logic. A project is represented by the
  * IProject class, which does actual save/load job.
  */
-class MVVM_MODEL_EXPORT IProjectManager
+class IProjectManager
 {
 public:
   virtual ~IProjectManager() = default;

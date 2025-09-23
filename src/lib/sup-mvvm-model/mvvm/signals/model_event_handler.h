@@ -21,7 +21,6 @@
 #ifndef MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_
 #define MVVM_SIGNALS_MODEL_EVENT_HANDLER_H_
 
-#include <mvvm/model_export.h>
 #include <mvvm/signals/event_handler.h>
 #include <mvvm/signals/event_types.h>
 
@@ -32,7 +31,7 @@ namespace mvvm
  * @brief The ModelEventHandler class provides notification for all subscribers when some event
  * happened with SessionModel.
  */
-class MVVM_MODEL_EXPORT ModelEventHandler : public EventHandler<event_variant_t>
+class ModelEventHandler : public EventHandler<event_variant_t>
 {
 public:
   ModelEventHandler();

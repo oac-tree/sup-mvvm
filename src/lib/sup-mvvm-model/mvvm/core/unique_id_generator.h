@@ -21,7 +21,6 @@
 #ifndef MVVM_CORE_UNIQUE_ID_GENERATOR_H_
 #define MVVM_CORE_UNIQUE_ID_GENERATOR_H_
 
-#include <mvvm/model_export.h>
 
 #include <string>
 
@@ -34,7 +33,7 @@ namespace mvvm
 //! generated during a dynamic session. For the moment though, we rely on zero-probability of
 //! such event.
 
-class MVVM_MODEL_EXPORT UniqueIdGenerator
+class UniqueIdGenerator
 {
 public:
   static std::string Generate();

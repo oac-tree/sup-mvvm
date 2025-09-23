@@ -31,7 +31,7 @@ namespace mvvm
 //! and carrying the data. There can be only one property item associated with the property name,
 //! and it can not be removed from the parent.
 
-class MVVM_MODEL_EXPORT CompoundItem : public SessionItem
+class CompoundItem : public SessionItem
 {
 public:
   explicit CompoundItem(const std::string& item_type = GetTypeName<CompoundItem>());

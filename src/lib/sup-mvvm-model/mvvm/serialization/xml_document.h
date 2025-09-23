@@ -36,7 +36,7 @@ class ISessionModel;
  *
  * Single XmlDocument corresponds to a single file on disk but can store multiple models.
  */
-class MVVM_MODEL_EXPORT XmlDocument : public IModelDocument
+class XmlDocument : public IModelDocument
 {
 public:
   /**

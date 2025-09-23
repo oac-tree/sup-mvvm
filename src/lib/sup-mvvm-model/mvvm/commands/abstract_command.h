@@ -32,7 +32,7 @@ namespace mvvm
 /**
  * @brief The AbstractCommand class provides partial implementation of ICommand interface.
  */
-class MVVM_MODEL_EXPORT AbstractCommand : public ICommand
+class AbstractCommand : public ICommand
 {
 public:
   using event_notify_t = std::function<void(const event_variant_t&)>;

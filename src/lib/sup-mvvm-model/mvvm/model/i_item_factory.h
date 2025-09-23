@@ -23,7 +23,6 @@
 
 #include <mvvm/model/function_types.h>
 #include <mvvm/model/item_traits.h>
-#include <mvvm/model_export.h>
 
 namespace mvvm
 {
@@ -33,7 +32,7 @@ class SessionItem;
 /**
  * @brief The IItemFactory class is an interface for all SessionItem factories.
  */
-class MVVM_MODEL_EXPORT IItemFactory
+class IItemFactory
 {
 public:
   virtual ~IItemFactory() = default;

@@ -21,7 +21,6 @@
 #ifndef MVVM_COMMANDS_I_COMMAND_STACK_H_
 #define MVVM_COMMANDS_I_COMMAND_STACK_H_
 
-#include <mvvm/model_export.h>
 
 #include <memory>
 
@@ -35,7 +34,7 @@ class ICommand;
  *
  * It is made in a spirit of Qt's QUndoStack.
  */
-class MVVM_MODEL_EXPORT ICommandStack
+class ICommandStack
 {
 public:
   ICommandStack() = default;

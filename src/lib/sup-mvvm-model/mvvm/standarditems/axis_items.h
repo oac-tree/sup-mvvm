@@ -39,7 +39,7 @@ class TextItem;
  *
  * It has min, max defined, but nothing else.
  */
-class MVVM_MODEL_EXPORT BasicAxisItem : public CompoundItem
+class BasicAxisItem : public CompoundItem
 {
 public:
   static inline const std::string kMin = "kMin";
@@ -63,7 +63,7 @@ protected:
  * It can be a counterpart of either Qt's QAbstractAxis or QCustomPlot::QCPAxis. Intended to
  * cary title, fonts etc.
  */
-class MVVM_MODEL_EXPORT ViewportAxisItem : public BasicAxisItem
+class ViewportAxisItem : public BasicAxisItem
 {
 public:
   static inline const std::string kIsLog = "kIsLog";
@@ -96,7 +96,7 @@ public:
  * Data2Ditem to store 1d and 2d data.  Doesn't carry any appearance info (e.g. axis title, label
  * size, etc) and thus not intended for direct plotting.
  */
-class MVVM_MODEL_EXPORT BinnedAxisItem : public BasicAxisItem
+class BinnedAxisItem : public BasicAxisItem
 {
 public:
   explicit BinnedAxisItem(const std::string& model_type);
@@ -113,7 +113,7 @@ public:
  *
  * Defines an axis with equidistant binning.
  */
-class MVVM_MODEL_EXPORT FixedBinAxisItem : public BinnedAxisItem
+class FixedBinAxisItem : public BinnedAxisItem
 {
 public:
   explicit FixedBinAxisItem(const std::string& model_type = GetTypeName<FixedBinAxisItem>());
@@ -136,7 +136,7 @@ public:
  *
  * Defines an axis via an array of points representing point coordinates.
  */
-class MVVM_MODEL_EXPORT PointwiseAxisItem : public BinnedAxisItem
+class PointwiseAxisItem : public BinnedAxisItem
 {
 public:
   explicit PointwiseAxisItem(const std::string& model_type = GetTypeName<PointwiseAxisItem>());

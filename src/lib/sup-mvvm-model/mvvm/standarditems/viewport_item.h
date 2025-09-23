@@ -33,7 +33,7 @@ class ViewportAxisItem;
  *
  * Contains x,y axis, to display graphs, line series, or 2D colormaps.
  */
-class MVVM_MODEL_EXPORT ViewportItem : public CompoundItem
+class ViewportItem : public CompoundItem
 {
 public:
   static inline const std::string kXaxis = "kXaxis";

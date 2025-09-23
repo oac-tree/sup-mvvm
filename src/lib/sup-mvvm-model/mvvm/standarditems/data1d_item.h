@@ -34,7 +34,7 @@ class BinnedAxisItem;
 //! Values are stored in Data1DItem itself, axis is attached as a child. Corresponding plot
 //! properties will be served by GraphItem.
 
-class MVVM_MODEL_EXPORT Data1DItem : public CompoundItem
+class Data1DItem : public CompoundItem
 {
 public:
   static inline const std::string kValues = "kValues";

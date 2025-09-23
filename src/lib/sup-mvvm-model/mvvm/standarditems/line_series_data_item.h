@@ -37,7 +37,7 @@ class PointItem;
  * children tag. Nevertheless, we are trying to hide this by providing parallel waveform-related
  * API, so the underlying mechanism could be changed later (i.e. AnyValueItem).
  */
-class MVVM_MODEL_EXPORT LineSeriesDataItem : public CompoundItem
+class LineSeriesDataItem : public CompoundItem
 {
 public:
   LineSeriesDataItem();

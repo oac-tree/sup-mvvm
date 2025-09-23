@@ -31,7 +31,7 @@ class ISessionModel;
 /**
  * @brief The ModelCommand is a base for all commands providing notifications.
  */
-class MVVM_MODEL_EXPORT ModelCommand : public AbstractCommand
+class ModelCommand : public AbstractCommand
 {
 public:
   explicit ModelCommand(ISessionModel* model);

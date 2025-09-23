@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_ITEM_POOL_H_
 #define MVVM_MODEL_ITEM_POOL_H_
 
-#include <mvvm/model_export.h>
 
 #include <map>
 #include <string>
@@ -33,7 +32,7 @@ class SessionItem;
 //! Provides registration of SessionItem pointers and their unique identifiers
 //! in global memory pool.
 
-class MVVM_MODEL_EXPORT ItemPool
+class ItemPool
 {
 public:
   using identifier_t = std::string;

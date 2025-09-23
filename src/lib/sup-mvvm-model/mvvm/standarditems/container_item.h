@@ -31,7 +31,7 @@ namespace mvvm
  *
  * May be used as a convenience item to create a branch with uniform children beneath, for example.
  */
-class MVVM_MODEL_EXPORT ContainerItem : public CompoundItem
+class ContainerItem : public CompoundItem
 {
 public:
   explicit ContainerItem(const std::string& model_type = GetTypeName<ContainerItem>());

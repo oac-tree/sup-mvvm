@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_PROJECT_CONTEXT_H_
 #define MVVM_PROJECT_PROJECT_CONTEXT_H_
 
-#include <mvvm/model_export.h>
 #include <mvvm/project/project_types.h>
 
 #include <functional>
@@ -35,7 +34,7 @@ class ISessionModel;
 /**
  * @brief The ProjectContext class defines context necessary for Project construction.
  */
-struct MVVM_MODEL_EXPORT ProjectContext
+struct ProjectContext
 {
   //!< notifies about the change of the project with respect to what was written on disk
   std::function<void()> modified_callback;
@@ -59,7 +58,7 @@ struct MVVM_MODEL_EXPORT ProjectContext
  * Callbacks returning paths should return full path to a project file (for file-based projects),
  * or full path to a project folder (for folder-based projects).
  */
-struct MVVM_MODEL_EXPORT UserInteractionContext
+struct UserInteractionContext
 {
   std::function<std::string()> existing_path_callback;  //!< to ask existing project path
   std::function<std::string()> new_path_callback;       //!< to ask for new path

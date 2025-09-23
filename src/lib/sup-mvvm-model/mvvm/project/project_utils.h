@@ -24,7 +24,6 @@
 //! @file
 //! Collection of utility functions to handle project saving and loading.
 
-#include <mvvm/model_export.h>
 #include <mvvm/project/project_types.h>
 
 #include <memory>

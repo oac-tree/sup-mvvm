@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_
 #define MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_
 
-#include <mvvm/model_export.h>
 
 #include <memory>
 
@@ -33,7 +32,7 @@ class SessionItem;
 /**
  * @brief The IItemBackupStrategy is an interface to backup items for later restore.
  */
-class MVVM_MODEL_EXPORT IItemBackupStrategy
+class IItemBackupStrategy
 {
 public:
   virtual ~IItemBackupStrategy() noexcept = default;

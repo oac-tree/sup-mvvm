@@ -33,7 +33,7 @@ namespace mvvm
  * Intended for use as a child or CompoundItem, not expected to have own children. For the moment,
  * it has no extra behavior and it is here for historical reasons.
  */
-class MVVM_MODEL_EXPORT PropertyItem : public SessionItem
+class PropertyItem : public SessionItem
 {
 public:
   PropertyItem();

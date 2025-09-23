@@ -32,7 +32,7 @@ class GraphItem;
 //! Provides calculation of viewport's x-axis and y-axis range basing on GraphItem data.
 //! Provides functionality to hide selected graphs.
 
-class MVVM_MODEL_EXPORT GraphViewportItem : public ViewportItem
+class GraphViewportItem : public ViewportItem
 {
 public:
   explicit GraphViewportItem(const std::string& model_type = GetTypeName<GraphViewportItem>());

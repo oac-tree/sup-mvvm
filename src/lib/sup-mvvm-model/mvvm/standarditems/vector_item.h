@@ -29,7 +29,7 @@ namespace mvvm
 /**
  * @brief The VectorItem class is a compound item with three x,y,z property items.
  */
-class MVVM_MODEL_EXPORT VectorItem : public CompoundItem
+class VectorItem : public CompoundItem
 {
 public:
   static constexpr std::string_view kX = "kX";

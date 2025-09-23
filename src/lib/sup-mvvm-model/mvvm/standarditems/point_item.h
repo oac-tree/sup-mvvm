@@ -32,7 +32,7 @@ namespace mvvm
  * For the moment PointItem contains two properties coresponding to "x" and "y" coordinates. In the
  * future, more properties can be added, e.g. point color, point size and marker type.
  */
-class MVVM_MODEL_EXPORT PointItem : public CompoundItem
+class PointItem : public CompoundItem
 {
 public:
   PointItem();

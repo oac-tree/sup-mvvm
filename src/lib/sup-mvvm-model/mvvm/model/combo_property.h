@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_COMBO_PROPERTY_H_
 #define MVVM_MODEL_COMBO_PROPERTY_H_
 
-#include <mvvm/model_export.h>
 
 #include <string>
 #include <vector>
@@ -48,7 +47,7 @@ namespace mvvm
  * [x] "B'
  * [ ] "C"
  */
-class MVVM_MODEL_EXPORT ComboProperty
+class ComboProperty
 {
 public:
   ComboProperty();

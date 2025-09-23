@@ -32,7 +32,7 @@ namespace mvvm
 /**
  * @brief The TextItem class represent text item on plot.
  */
-class MVVM_MODEL_EXPORT TextItem : public CompoundItem
+class TextItem : public CompoundItem
 {
 public:
   TextItem();
@@ -52,7 +52,7 @@ public:
 /**
  * @brief The PenItem class represents basics settings of QPen.
  */
-class MVVM_MODEL_EXPORT PenItem : public CompoundItem
+class PenItem : public CompoundItem
 {
 public:
   static inline const std::string kColor = "kColor";

@@ -48,7 +48,7 @@ class SessionItemImpl;
  * It can contain an arbitrary amount of basic data types and can be a parent for other
  * SessionItems.
  */
-class MVVM_MODEL_EXPORT SessionItem
+class SessionItem
 {
 public:
   using data_strategy_t = std::function<bool(SessionItem*, const variant_t& value, role_t role)>;

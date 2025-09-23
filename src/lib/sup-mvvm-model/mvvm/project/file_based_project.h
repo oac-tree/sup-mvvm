@@ -32,7 +32,7 @@ struct ProjectContext;
  * @brief The FileBasedProject class represents content of several application models in a single
  * XML file on disk.
  */
-class MVVM_MODEL_EXPORT FileBasedProject : public ExternalModelProject
+class FileBasedProject : public ExternalModelProject
 {
 public:
   explicit FileBasedProject(const std::vector<ISessionModel*>& models,

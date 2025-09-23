@@ -34,7 +34,7 @@ struct ProjectContext;
  *
  * The folder contains xml files, one file per model.
  */
-class MVVM_MODEL_EXPORT FolderBasedProject : public ExternalModelProject
+class FolderBasedProject : public ExternalModelProject
 {
 public:
   explicit FolderBasedProject(const std::vector<ISessionModel*>& models,

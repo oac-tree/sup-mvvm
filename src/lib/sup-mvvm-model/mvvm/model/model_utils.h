@@ -25,7 +25,6 @@
 #include <mvvm/model/item_utils.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
-#include <mvvm/model_export.h>
 
 #include <memory>
 #include <vector>
@@ -86,12 +85,12 @@ std::vector<T*> FindItems(const ISessionModel& model)
 /**
  * @brief Constructs path to find given item. Item must belong to a model.
  */
-MVVM_MODEL_EXPORT Path PathFromItem(const SessionItem* item);
+Path PathFromItem(const SessionItem* item);
 
 /**
  * @brief Returns item found in the model following given Path.
  */
-MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const ISessionModel& model, const Path& path);
+SessionItem* ItemFromPath(const ISessionModel& model, const Path& path);
 
 /**
  * @brief Copies a given item and inserts result into the model using provided parent and tag_index.
@@ -103,37 +102,37 @@ MVVM_MODEL_EXPORT SessionItem* ItemFromPath(const ISessionModel& model, const Pa
  *
  * @return Returns pointer to just inserted item to the user.
  */
-MVVM_MODEL_EXPORT SessionItem* CopyItem(const SessionItem* item, ISessionModel* model,
-                                        SessionItem* parent, const TagIndex& tag_index);
+SessionItem* CopyItem(const SessionItem* item, ISessionModel* model,
+                      SessionItem* parent, const TagIndex& tag_index);
 
 /**
  * @brief Creates new empty root item.
  */
-MVVM_MODEL_EXPORT std::unique_ptr<SessionItem> CreateEmptyRootItem();
+std::unique_ptr<SessionItem> CreateEmptyRootItem();
 
 /**
  * @brief Undo last model operation. If undo/redo is disabled, will do nothing.
  */
-MVVM_MODEL_EXPORT void Undo(ISessionModel& model);
+void Undo(ISessionModel& model);
 
 /**
  * @brief Redo last model operation. If undo/redo is disabled, will do nothing.
  */
-MVVM_MODEL_EXPORT void Redo(ISessionModel& model);
+void Redo(ISessionModel& model);
 
 /**
  * @brief Begin command macros with the given name.
  *
  * Works only if the model has undo/redo enabled. Otherwise, do nothing.
  */
-MVVM_MODEL_EXPORT void BeginMacro(const ISessionModel& model, const std::string& macro_name);
+void BeginMacro(const ISessionModel& model, const std::string& macro_name);
 
 /**
  * @brief Finished ercording of the command macro.
  *
  * Works only if the model has undo/redo enabled. Otherwise, do nothing.
  */
-MVVM_MODEL_EXPORT void EndMacro(const ISessionModel& model);
+void EndMacro(const ISessionModel& model);
 
 }  // namespace mvvm::utils
 

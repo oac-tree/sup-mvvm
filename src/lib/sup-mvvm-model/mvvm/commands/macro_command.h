@@ -34,7 +34,7 @@ namespace mvvm
  *
  * Similarly, it will undo all its children on a single Undo call.
  */
-class MVVM_MODEL_EXPORT MacroCommand : public AbstractCommand
+class MacroCommand : public AbstractCommand
 {
 public:
   explicit MacroCommand(const std::string& description);

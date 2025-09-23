@@ -31,7 +31,7 @@ namespace mvvm
 /**
  * @brief The SessionItemData class represents a container with pairs of <data, role>.
  */
-class MVVM_MODEL_EXPORT SessionItemData
+class SessionItemData
 {
 public:
   using container_t = std::map<role_t, variant_t>;
