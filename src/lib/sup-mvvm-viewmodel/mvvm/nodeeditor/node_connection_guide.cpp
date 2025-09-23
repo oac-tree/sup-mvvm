@@ -18,9 +18,9 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "node_connection_controller.h"
+#include "node_connection_guide.h"
 
-#include "node_connection_controller_impl.h"
+#include "node_connection_guide_impl.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
@@ -28,16 +28,16 @@
 namespace mvvm
 {
 
-NodeConnectionController::NodeConnectionController(QGraphicsScene* scene)
+NodeConnectionGuide::NodeConnectionGuide(QGraphicsScene* scene)
     : QObject(scene)
-    , m_controller_impl(std::make_unique<NodeConnectionControllerImpl>(CreateContext(), scene))
+    , m_guide_impl(std::make_unique<NodeConnectionGuideImpl>(CreateContext(), scene))
 {
   scene->installEventFilter(this);
 }
 
-NodeConnectionController::~NodeConnectionController() = default;
+NodeConnectionGuide::~NodeConnectionGuide() = default;
 
-bool NodeConnectionController::eventFilter(QObject* object, QEvent* event)
+bool NodeConnectionGuide::eventFilter(QObject* object, QEvent* event)
 {
   EventProcessStatus status = EventProcessStatus::kStatusUnknown;
 
@@ -45,15 +45,15 @@ bool NodeConnectionController::eventFilter(QObject* object, QEvent* event)
   {
     if (event->type() == QEvent::GraphicsSceneMousePress)
     {
-      status = m_controller_impl->ProcessMousePress(mouseEvent->scenePos(), mouseEvent->button());
+      status = m_guide_impl->ProcessMousePress(mouseEvent->scenePos(), mouseEvent->button());
     }
     else if (event->type() == QEvent::GraphicsSceneMouseMove)
     {
-      status = m_controller_impl->ProcessMouseMove(mouseEvent->scenePos());
+      status = m_guide_impl->ProcessMouseMove(mouseEvent->scenePos());
     }
     else if (event->type() == QEvent::GraphicsSceneMouseRelease)
     {
-      status = m_controller_impl->ProcessMouseRelease(mouseEvent->scenePos(), mouseEvent->button());
+      status = m_guide_impl->ProcessMouseRelease(mouseEvent->scenePos(), mouseEvent->button());
     }
   }
 
@@ -66,9 +66,9 @@ bool NodeConnectionController::eventFilter(QObject* object, QEvent* event)
   return QObject::eventFilter(object, event);
 }
 
-NodeConnectionControllerContext NodeConnectionController::CreateContext()
+NodeConnectionGuideContext NodeConnectionGuide::CreateContext()
 {
-  NodeConnectionControllerContext result;
+  NodeConnectionGuideContext result;
 
   result.connection_request = [this](const INodePort* start_port, const INodePort* end_port)
   { emit connectionRequest(start_port, end_port); };

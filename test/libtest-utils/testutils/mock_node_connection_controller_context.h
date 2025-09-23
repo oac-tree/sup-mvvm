@@ -18,10 +18,10 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_CONTROLLER_CONTEXT_H_
-#define LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_CONTROLLER_CONTEXT_H_
+#ifndef LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_GUIDE_CONTEXT_H_
+#define LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_GUIDE_CONTEXT_H_
 
-#include <mvvm/nodeeditor/node_connection_controller_context.h>
+#include <mvvm/nodeeditor/node_connection_guide_context.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <gmock/gmock.h>
@@ -30,19 +30,19 @@ namespace mvvm::test
 {
 
 /**
- * @brief The MockNodeConnectionControllerContext listens for callbacks defined in
- * NodeConnectionControllerContext and it is used in testing of NodeConnectionControllerImpl.
+ * @brief The MockNodeConnectionGuideContext listens for callbacks defined in
+ * NodeConnectionGuideContext and it is used in testing of NodeConnectionGuideImpl.
  */
-class MockNodeConnectionControllerContext
+class MockNodeConnectionGuideContext
 {
 public:
   MOCK_METHOD(void, OnConnectionStarted, (), ());
   MOCK_METHOD(void, OnConnectionFinished, (), ());
   MOCK_METHOD(void, OnConnectionRequest, (const INodePort*, const INodePort*), ());
 
-  NodeConnectionControllerContext CreateContext();
+  NodeConnectionGuideContext CreateContext();
 };
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_CONTROLLER_CONTEXT_H_
+#endif  // LIBTEST_UTILS_TESTUTILS_MOCK_NODE_CONNECTION_GUIDE_CONTEXT_H_

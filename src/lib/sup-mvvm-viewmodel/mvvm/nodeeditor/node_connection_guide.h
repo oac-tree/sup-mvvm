@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_H_
-#define MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_H_
+#ifndef MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_H_
+#define MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_H_
 
 //! Node editor: original code is taken from
 //! http://algoholic.eu/qnodeseditor-qt-nodesports-based-data-processing-flow-editor/
@@ -34,26 +34,26 @@ class QGraphicsSceneMouseEvent;
 namespace mvvm
 {
 
-class NodeConnectionControllerImpl;
+class NodeConnectionGuideImpl;
 class INodePort;
-struct NodeConnectionControllerContext;
+struct NodeConnectionGuideContext;
 
 /**
- * @brief The NodeConnectionController class assists GraphicsScene in establishing a connection
+ * @brief The NodeConnectionGuide class assists GraphicsScene in painting a connection
  * between two ports.
  */
-class NodeConnectionController : public QObject
+class NodeConnectionGuide : public QObject
 {
   Q_OBJECT
 
 public:
-  explicit NodeConnectionController(QGraphicsScene* scene);
-  ~NodeConnectionController() override;
+  explicit NodeConnectionGuide(QGraphicsScene* scene);
+  ~NodeConnectionGuide() override;
 
-  NodeConnectionController(const NodeConnectionController&) = delete;
-  NodeConnectionController& operator=(const NodeConnectionController&) = delete;
-  NodeConnectionController(NodeConnectionController&&) = delete;
-  NodeConnectionController& operator=(NodeConnectionController&&) = delete;
+  NodeConnectionGuide(const NodeConnectionGuide&) = delete;
+  NodeConnectionGuide& operator=(const NodeConnectionGuide&) = delete;
+  NodeConnectionGuide(NodeConnectionGuide&&) = delete;
+  NodeConnectionGuide& operator=(NodeConnectionGuide&&) = delete;
 
   bool eventFilter(QObject* object, QEvent* event) override;
 
@@ -63,10 +63,10 @@ signals:
   void connectionFinished();
 
 private:
-  NodeConnectionControllerContext CreateContext();
-  std::unique_ptr<NodeConnectionControllerImpl> m_controller_impl;
+  NodeConnectionGuideContext CreateContext();
+  std::unique_ptr<NodeConnectionGuideImpl> m_guide_impl;
 };
 
 }  // namespace mvvm
 
-#endif  // MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_H_
+#endif  // MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_H_

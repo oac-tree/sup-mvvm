@@ -23,9 +23,9 @@
 namespace mvvm::test
 {
 
-NodeConnectionControllerContext MockNodeConnectionControllerContext::CreateContext()
+NodeConnectionGuideContext MockNodeConnectionGuideContext::CreateContext()
 {
-  NodeConnectionControllerContext result;
+  NodeConnectionGuideContext result;
   result.connection_started = [this]() { OnConnectionStarted(); };
   result.connection_finished = [this]() { OnConnectionFinished(); };
   result.connection_request = [this](const INodePort* start, const INodePort* end)

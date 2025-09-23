@@ -21,7 +21,7 @@
 #ifndef MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_IMPL_H_
 #define MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_IMPL_H_
 
-#include <mvvm/nodeeditor/node_connection_controller_context.h>
+#include <mvvm/nodeeditor/node_connection_guide_context.h>
 #include <mvvm/nodeeditor/node_editor_types.h>
 
 #include <QGraphicsScene>
@@ -36,20 +36,20 @@ class INodePort;
 class NodePortShape;
 
 /**
- * @brief The NodeConnectionControllerImpl class assists NodeConnectionController in establishing a
- * connection between two ports.
+ * @brief The NodeConnectionGuideImpl implements main logic of NodeConnectionGuide.
+ *
+ * It's main task is to take main logic outside of QObject class to simplify testing.
  */
-class NodeConnectionControllerImpl
+class NodeConnectionGuideImpl
 {
 public:
-  NodeConnectionControllerImpl(const NodeConnectionControllerContext& context,
-                                        QGraphicsScene* scene);
-  ~NodeConnectionControllerImpl();
+  NodeConnectionGuideImpl(const NodeConnectionGuideContext& context, QGraphicsScene* scene);
+  ~NodeConnectionGuideImpl();
 
-  NodeConnectionControllerImpl(const NodeConnectionControllerImpl&) = delete;
-  NodeConnectionControllerImpl& operator=(const NodeConnectionControllerImpl&) = delete;
-  NodeConnectionControllerImpl(NodeConnectionControllerImpl&&) = delete;
-  NodeConnectionControllerImpl& operator=(NodeConnectionControllerImpl&&) = delete;
+  NodeConnectionGuideImpl(const NodeConnectionGuideImpl&) = delete;
+  NodeConnectionGuideImpl& operator=(const NodeConnectionGuideImpl&) = delete;
+  NodeConnectionGuideImpl(NodeConnectionGuideImpl&&) = delete;
+  NodeConnectionGuideImpl& operator=(NodeConnectionGuideImpl&&) = delete;
 
   /**
    * @brief Finds NodePort around given coordinate.
@@ -62,11 +62,11 @@ public:
 
   NodeConnectionShape* GetCurrentConnection() const;
 
-INodePort* GetEndPortProxy() const;
+  INodePort* GetEndPortProxy() const;
 
 private:
   QGraphicsScene* m_scene{nullptr};
-  NodeConnectionControllerContext m_context;
+  NodeConnectionGuideContext m_context;
   std::unique_ptr<NodeConnectionShape> m_current_connection;
   //!< A proxy port to follow mouse cursor during connection.
   std::unique_ptr<INodePort> m_end_port_proxy;

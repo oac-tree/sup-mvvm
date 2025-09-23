@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/nodeeditor/node_connection_controller.h"
+#include "mvvm/nodeeditor/node_connection_guide.h"
 
 #include <mvvm/nodeeditor/node_connection.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
@@ -39,41 +39,41 @@ namespace mvvm::test
 {
 
 /**
- * @brief Tests for NodeConnectionController class.
+ * @brief Tests for NodeConnectionGuide class.
  */
-class NodeConnectionControllerTest : public ::testing::Test
+class NodeConnectionGuideTest : public ::testing::Test
 {
 public:
-  NodeConnectionControllerTest() : m_graphics_view(&m_scene)
+  NodeConnectionGuideTest() : m_graphics_view(&m_scene)
   {
     m_scene.setSceneRect(0.0, 0.0, 1000, 1000);
     m_graphics_view.setMouseTracking(true);
     m_graphics_view.setFocus();
   }
 
-  std::unique_ptr<NodeConnectionController> CreateController()
+  std::unique_ptr<NodeConnectionGuide> CreateConnectionGuide()
   {
-    return std::make_unique<NodeConnectionController>(&m_scene);
+    return std::make_unique<NodeConnectionGuide>(&m_scene);
   }
 
   QGraphicsScene m_scene;
   QGraphicsView m_graphics_view;
 };
 
-TEST_F(NodeConnectionControllerTest, InitialState)
+TEST_F(NodeConnectionGuideTest, InitialState)
 {
-  auto controller = CreateController();
-  EXPECT_EQ(controller->parent(), &m_scene);
+  auto connection_guide = CreateConnectionGuide();
+  EXPECT_EQ(connection_guide->parent(), &m_scene);
 }
 
-TEST_F(NodeConnectionControllerTest, PostMousePressEventForScene)
+TEST_F(NodeConnectionGuideTest, PostMousePressEventForScene)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   // QTest::mouseEvent seems having problems, see https://bugreports.qt.io/browse/QTBUG-5232
   GTEST_SKIP();
 #endif
 
-  auto controller = CreateController();
+  auto connection_guide = CreateConnectionGuide();
 
   const QPointF start_scene_pos(10.0, 20.0);
   auto start_port_shape = CreateNodePortShape(PortDirection::kInput);
@@ -85,10 +85,12 @@ TEST_F(NodeConnectionControllerTest, PostMousePressEventForScene)
   m_scene.addItem(end_port_shape.get());
   end_port_shape->setPos(end_scene_pos);
 
-  QSignalSpy spy_connection_started(controller.get(), &NodeConnectionController::connectionStarted);
-  QSignalSpy spy_connection_finished(controller.get(),
-                                     &NodeConnectionController::connectionFinished);
-  QSignalSpy spy_connection_request(controller.get(), &NodeConnectionController::connectionRequest);
+  const QSignalSpy spy_connection_started(connection_guide.get(),
+                                          &NodeConnectionGuide::connectionStarted);
+  const QSignalSpy spy_connection_finished(connection_guide.get(),
+                                           &NodeConnectionGuide::connectionFinished);
+  QSignalSpy spy_connection_request(connection_guide.get(),
+                                    &NodeConnectionGuide::connectionRequest);
 
   QTest::mousePress(m_graphics_view.viewport(), Qt::LeftButton, Qt::NoModifier,
                     m_graphics_view.mapFromScene(start_scene_pos));

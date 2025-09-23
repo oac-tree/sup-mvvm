@@ -28,7 +28,7 @@ namespace mvvm
 {
 class ApplicationModel;
 class ConnectableViewModelController;
-class NodeConnectionController;
+class NodeConnectionGuide;
 }  // namespace mvvm
 
 namespace behaviortree
@@ -52,7 +52,7 @@ private:
 
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   std::unique_ptr<mvvm::ConnectableViewModelController> m_model_scene_controller;
-  std::unique_ptr<mvvm::NodeConnectionController> m_connection_controller;
+  std::unique_ptr<mvvm::NodeConnectionGuide> m_connection_guide;
 };
 
 }  // namespace behaviortree

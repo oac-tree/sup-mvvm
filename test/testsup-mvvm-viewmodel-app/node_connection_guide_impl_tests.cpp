@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/nodeeditor/node_connection_controller_impl.h"
+#include "mvvm/nodeeditor/node_connection_guide_impl.h"
 
 #include <mvvm/nodeeditor/node_connection.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
@@ -35,29 +35,29 @@ namespace mvvm::test
 {
 
 /**
- * @brief Tests for NodeConnectionControllerImpl class.
+ * @brief Tests for NodeConnectionGuideImpl class.
  */
-class NodeConnectionControllerImplTest : public ::testing::Test
+class NodeConnectionGuideImplTest : public ::testing::Test
 {
 public:
-  std::unique_ptr<NodeConnectionControllerImpl> CreateController()
+  std::unique_ptr<NodeConnectionGuideImpl> CreateController()
   {
     auto context = m_mock_controller_context.CreateContext();
-    return std::make_unique<NodeConnectionControllerImpl>(context, &m_scene);
+    return std::make_unique<NodeConnectionGuideImpl>(context, &m_scene);
   }
 
   QGraphicsScene m_scene;
-  ::testing::StrictMock<MockNodeConnectionControllerContext> m_mock_controller_context;
+  ::testing::StrictMock<MockNodeConnectionGuideContext> m_mock_controller_context;
 };
 
-TEST_F(NodeConnectionControllerImplTest, InitialState)
+TEST_F(NodeConnectionGuideImplTest, InitialState)
 {
   auto controller = CreateController();
   EXPECT_EQ(controller->GetCurrentConnection(), nullptr);
   EXPECT_EQ(controller->GetEndPortProxy(), nullptr);
 }
 
-TEST_F(NodeConnectionControllerImplTest, FindPort)
+TEST_F(NodeConnectionGuideImplTest, FindPort)
 {
   auto controller = CreateController();
   const QPointF scene_pos(10.0, 20.0);
@@ -71,7 +71,7 @@ TEST_F(NodeConnectionControllerImplTest, FindPort)
   EXPECT_EQ(found_port, port_shape.get());
 }
 
-TEST_F(NodeConnectionControllerImplTest, FindTwoPorts)
+TEST_F(NodeConnectionGuideImplTest, FindTwoPorts)
 {
   auto controller = CreateController();
 
@@ -89,7 +89,7 @@ TEST_F(NodeConnectionControllerImplTest, FindTwoPorts)
   EXPECT_EQ(controller->FindNodePortShape(end_scene_pos), end_port_shape.get());
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessMousePressNotOnPort)
+TEST_F(NodeConnectionGuideImplTest, ProcessMousePressNotOnPort)
 {
   auto controller = CreateController();
   const QPointF scene_pos(10.0, 20.0);
@@ -99,7 +99,7 @@ TEST_F(NodeConnectionControllerImplTest, ProcessMousePressNotOnPort)
   EXPECT_EQ(controller->GetEndPortProxy(), nullptr);
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessMousePressOnPort)
+TEST_F(NodeConnectionGuideImplTest, ProcessMousePressOnPort)
 {
   auto controller = CreateController();
   const QPointF scene_pos(10.0, 20.0);
@@ -121,7 +121,7 @@ TEST_F(NodeConnectionControllerImplTest, ProcessMousePressOnPort)
   EXPECT_EQ(node_connection->GetEndPort()->GetScenePosition(), std::make_pair(10.0, 20.0));
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessUnrelatedMouseMove)
+TEST_F(NodeConnectionGuideImplTest, ProcessUnrelatedMouseMove)
 {
   auto controller = CreateController();
   const QPointF scene_pos(10.0, 20.0);
@@ -130,7 +130,7 @@ TEST_F(NodeConnectionControllerImplTest, ProcessUnrelatedMouseMove)
   EXPECT_EQ(controller->GetEndPortProxy(), nullptr);
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessMouseMoveWithActiveConnection)
+TEST_F(NodeConnectionGuideImplTest, ProcessMouseMoveWithActiveConnection)
 {
   auto controller = CreateController();
   const QPointF scene_pos(10.0, 20.0);
@@ -151,7 +151,7 @@ TEST_F(NodeConnectionControllerImplTest, ProcessMouseMoveWithActiveConnection)
       std::make_pair(30.0, 40.0));
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessUnrelatedMouseRelease)
+TEST_F(NodeConnectionGuideImplTest, ProcessUnrelatedMouseRelease)
 {
   auto controller = CreateController();
   const QPointF scene_pos(10.0, 20.0);
@@ -161,7 +161,7 @@ TEST_F(NodeConnectionControllerImplTest, ProcessUnrelatedMouseRelease)
   EXPECT_EQ(controller->GetEndPortProxy(), nullptr);
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessMouseReleaseWithActiveConnection)
+TEST_F(NodeConnectionGuideImplTest, ProcessMouseReleaseWithActiveConnection)
 {
   auto controller = CreateController();
 
@@ -194,7 +194,7 @@ TEST_F(NodeConnectionControllerImplTest, ProcessMouseReleaseWithActiveConnection
   EXPECT_EQ(controller->GetEndPortProxy(), nullptr);
 }
 
-TEST_F(NodeConnectionControllerImplTest, ProcessMouseReleaseWhenPortsIncompatible)
+TEST_F(NodeConnectionGuideImplTest, ProcessMouseReleaseWhenPortsIncompatible)
 {
   auto controller = CreateController();
 

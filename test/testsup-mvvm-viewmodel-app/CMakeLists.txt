@@ -13,8 +13,8 @@ target_sources(${test} PRIVATE
     custom_viewmodel_tests.cpp
     graphics_scene_helper_tests.cpp
     main.cpp
-    node_connection_controller_impl_tests.cpp
-    node_connection_controller_tests.cpp
+    node_connection_guide_impl_tests.cpp
+    node_connection_guide_tests.cpp
     node_port_shape_tests.cpp
 )
 

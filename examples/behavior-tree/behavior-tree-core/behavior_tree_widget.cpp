@@ -26,7 +26,7 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/connectable_shape.h>
-#include <mvvm/nodeeditor/node_connection_controller.h>
+#include <mvvm/nodeeditor/node_connection_guide.h>
 #include <mvvm/nodeeditor/connectable_view_model_controller.h>
 #include <mvvm/nodeeditor/default_node_shape_factory.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
@@ -44,7 +44,7 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
     , m_graphics_view(new GraphicsView(m_graphics_scene, this))
     , m_model(std::make_unique<mvvm::ApplicationModel>())
     , m_model_scene_controller(CreateController())
-    , m_connection_controller(std::make_unique<mvvm::NodeConnectionController>(m_graphics_scene))
+    , m_connection_guide(std::make_unique<mvvm::NodeConnectionGuide>(m_graphics_scene))
 {
   auto layout = new QVBoxLayout(this);
   layout->addWidget(m_graphics_view);

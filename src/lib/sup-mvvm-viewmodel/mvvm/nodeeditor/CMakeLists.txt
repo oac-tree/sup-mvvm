@@ -17,11 +17,11 @@ target_sources(${library_name} PRIVATE
   i_port_position_strategy.h
   node_connection.cpp
   node_connection.h
-  node_connection_controller.cpp
-  node_connection_controller.h
-  node_connection_controller_impl.cpp
-  node_connection_controller_impl.cpp
-  node_connection_controller_context.h
+  node_connection_guide.cpp
+  node_connection_guide.h
+  node_connection_guide_context.h
+  node_connection_guide_impl.cpp
+  node_connection_guide_impl.cpp
   node_connection_shape.cpp
   node_connection_shape.h
   node_editor_constants.cpp

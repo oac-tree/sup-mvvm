@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_CONTEXT_H_
-#define MVVM_NODEEDITOR_NODE_CONNECTION_CONTROLLER_CONTEXT_H_
+#ifndef MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_CONTEXT_H_
+#define MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_CONTEXT_H_
 
 #include <functional>
 
@@ -29,10 +29,10 @@ namespace mvvm
 class INodePort;
 
 /**
- * @brief The NodeConnectionControllerContext class provides necessary callbacks for
- * NodeConnectionController.
+ * @brief The NodeConnectionGuideContext class provides necessary callbacks for
+ * NodeConnectionGuide.
  */
-struct NodeConnectionControllerContext
+struct NodeConnectionGuideContext
 {
   std::function<void()> connection_started;
   std::function<void()> connection_finished;
@@ -41,4 +41,4 @@ struct NodeConnectionControllerContext
 
 }  // namespace mvvm
 
-#endif
+#endif  // MVVM_NODEEDITOR_NODE_CONNECTION_GUIDE_CONTEXT_H_

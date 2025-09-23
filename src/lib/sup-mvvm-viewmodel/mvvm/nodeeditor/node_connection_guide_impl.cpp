@@ -18,7 +18,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "node_connection_controller_impl.h"
+#include "node_connection_guide_impl.h"
 
 #include "graphics_scene_helper.h"
 #include "node_connection.h"
@@ -45,15 +45,15 @@ std::unique_ptr<NodePort> CreateProxyPort(const QPointF& pos)
 
 }  // namespace
 
-NodeConnectionControllerImpl::NodeConnectionControllerImpl(
-    const NodeConnectionControllerContext& context, QGraphicsScene* scene)
+NodeConnectionGuideImpl::NodeConnectionGuideImpl(
+    const NodeConnectionGuideContext& context, QGraphicsScene* scene)
     : m_scene(scene), m_context(context)
 {
 }
 
-NodeConnectionControllerImpl::~NodeConnectionControllerImpl() = default;
+NodeConnectionGuideImpl::~NodeConnectionGuideImpl() = default;
 
-NodePortShape* NodeConnectionControllerImpl::FindNodePortShape(const QPointF& scene_pos)
+NodePortShape* NodeConnectionGuideImpl::FindNodePortShape(const QPointF& scene_pos)
 {
   const double size = 2 * constants::GetDefaultPortRadius();
   QRectF area(0, 0, size, size);
@@ -63,7 +63,7 @@ NodePortShape* NodeConnectionControllerImpl::FindNodePortShape(const QPointF& sc
   return ports.empty() ? nullptr : ports.front();
 }
 
-EventProcessStatus NodeConnectionControllerImpl::ProcessMousePress(const QPointF& scene_pos,
+EventProcessStatus NodeConnectionGuideImpl::ProcessMousePress(const QPointF& scene_pos,
                                                                    Qt::MouseButton button)
 {
   if (!m_current_connection && button == Qt::LeftButton)
@@ -86,7 +86,7 @@ EventProcessStatus NodeConnectionControllerImpl::ProcessMousePress(const QPointF
   return EventProcessStatus::kEventWasIgnored;
 }
 
-EventProcessStatus NodeConnectionControllerImpl::ProcessMouseMove(const QPointF& scene_pos)
+EventProcessStatus NodeConnectionGuideImpl::ProcessMouseMove(const QPointF& scene_pos)
 {
   if (m_current_connection)
   {
@@ -97,7 +97,7 @@ EventProcessStatus NodeConnectionControllerImpl::ProcessMouseMove(const QPointF&
   return EventProcessStatus::kEventWasIgnored;
 }
 
-EventProcessStatus NodeConnectionControllerImpl::ProcessMouseRelease(const QPointF& scene_pos,
+EventProcessStatus NodeConnectionGuideImpl::ProcessMouseRelease(const QPointF& scene_pos,
                                                                      Qt::MouseButton button)
 {
   if (m_current_connection && button == Qt::LeftButton)
@@ -122,12 +122,12 @@ EventProcessStatus NodeConnectionControllerImpl::ProcessMouseRelease(const QPoin
   return EventProcessStatus::kEventWasIgnored;
 }
 
-NodeConnectionShape* NodeConnectionControllerImpl::GetCurrentConnection() const
+NodeConnectionShape* NodeConnectionGuideImpl::GetCurrentConnection() const
 {
   return m_current_connection.get();
 }
 
-INodePort* NodeConnectionControllerImpl::GetEndPortProxy() const
+INodePort* NodeConnectionGuideImpl::GetEndPortProxy() const
 {
   return m_end_port_proxy.get();
 }
