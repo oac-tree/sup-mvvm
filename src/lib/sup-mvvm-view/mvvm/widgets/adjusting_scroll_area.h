@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_
 #define MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_
 
-
 #include <QScrollArea>
 
 namespace mvvm

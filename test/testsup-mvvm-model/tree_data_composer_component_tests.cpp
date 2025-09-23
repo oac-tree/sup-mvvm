@@ -121,7 +121,6 @@ TEST_F(TreeDataComposerComponentTests, AddTwoComponents)
   EXPECT_FALSE(component.HasNextComponent());
 }
 
-
 TEST_F(TreeDataComposerComponentTests, MoveTreeData)
 {
   const std::string node_name("node_name");

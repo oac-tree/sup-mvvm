@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_VIEWMODEL_DELEGATE_H_
 #define MVVM_VIEWS_VIEWMODEL_DELEGATE_H_
 
-
 #include <QStyledItemDelegate>
 #include <memory>
 

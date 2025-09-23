@@ -102,8 +102,8 @@ SessionItem* ItemFromPath(const ISessionModel& model, const Path& path);
  *
  * @return Returns pointer to just inserted item to the user.
  */
-SessionItem* CopyItem(const SessionItem* item, ISessionModel* model,
-                      SessionItem* parent, const TagIndex& tag_index);
+SessionItem* CopyItem(const SessionItem* item, ISessionModel* model, SessionItem* parent,
+                      const TagIndex& tag_index);
 
 /**
  * @brief Creates new empty root item.

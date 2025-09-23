@@ -50,9 +50,8 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
   }
 }
 
-
-void IterateFirstColumn(const QAbstractItemModel &viewmodel, const QModelIndex &parent,
-                        const std::function<void(const QModelIndex &)> &func)
+void IterateFirstColumn(const QAbstractItemModel& viewmodel, const QModelIndex& parent,
+                        const std::function<void(const QModelIndex&)>& func)
 {
   struct Node
   {

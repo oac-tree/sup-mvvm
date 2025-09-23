@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_TAGINDEX_H_
 #define MVVM_MODEL_TAGINDEX_H_
 
-
 #include <cstddef>
 #include <string>
 

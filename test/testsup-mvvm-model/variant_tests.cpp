@@ -191,11 +191,13 @@ TEST_F(VariantTests, TypeName)
 
   EXPECT_EQ(TypeName(variant_t(std::vector<double>({1.0, 1.1, 1.2}))),
             std::string(constants::VectorDoubleTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::VectorDoubleTypeName())), TypeCode::VectorOfDouble);
+  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::VectorDoubleTypeName())),
+            TypeCode::VectorOfDouble);
 
   EXPECT_EQ(TypeName(variant_t(ComboProperty::CreateFrom({"a1"}))),
             std::string(constants::ComboPropertyTypeName()));
-  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::ComboPropertyTypeName())), TypeCode::ComboProperty);
+  EXPECT_EQ(GetTypeCodeFromTypeName(std::string(constants::ComboPropertyTypeName())),
+            TypeCode::ComboProperty);
 
   EXPECT_EQ(TypeName(variant_t(ExternalProperty("text", "red"))),
             std::string(constants::ExternalPropertyTypeName()));

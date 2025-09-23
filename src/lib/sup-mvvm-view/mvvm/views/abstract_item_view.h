@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_
 #define MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_
 
-
 #include <QWidget>
 
 class QAbstractItemView;

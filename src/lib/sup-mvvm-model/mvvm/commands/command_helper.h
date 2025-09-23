@@ -93,8 +93,7 @@ std::string GetInsertCommandDescription(mvvm::SessionItem* parent, mvvm::Session
 /**
  * @brief Returns text description for insert command.
  */
-std::string GetRemoveCommandDescription(mvvm::SessionItem* parent,
-                                        const mvvm::TagIndex& tag_index);
+std::string GetRemoveCommandDescription(mvvm::SessionItem* parent, const mvvm::TagIndex& tag_index);
 
 }  // namespace mvvm
 

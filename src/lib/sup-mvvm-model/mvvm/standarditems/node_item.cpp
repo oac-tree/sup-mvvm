@@ -75,7 +75,8 @@ void NodeItem::RegisterSingleChildTag()
 
 void NodeItem::RegisterMultipleChildrenTag()
 {
-  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)), /*set_as_default*/ true);
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag)),
+              /*set_as_default*/ true);
 }
 
 }  // namespace mvvm

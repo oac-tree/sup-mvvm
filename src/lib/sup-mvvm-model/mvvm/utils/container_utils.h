@@ -165,7 +165,7 @@ std::vector<T*> RemoveConst(const std::vector<const T*>& vec)
 {
   std::vector<T*> result;
   (void)std::transform(vec.begin(), vec.end(), std::back_inserter(result),
-                 [](auto element) { return const_cast<T*>(element); });
+                       [](auto element) { return const_cast<T*>(element); });
   return result;
 }
 

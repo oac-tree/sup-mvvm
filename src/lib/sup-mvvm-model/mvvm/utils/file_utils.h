@@ -21,7 +21,6 @@
 #ifndef MVVM_UTILS_FILE_UTILS_H_
 #define MVVM_UTILS_FILE_UTILS_H_
 
-
 #include <string>
 #include <vector>
 
@@ -51,8 +50,7 @@ std::string GetFileName(const std::string& path);
 std::string GetPathStem(const std::string& path);
 
 //! Returns list of files with given extention found in given directory.
-std::vector<std::string> FindFiles(const std::string& dirname,
-                                                     const std::string& ext);
+std::vector<std::string> FindFiles(const std::string& dirname, const std::string& ext);
 
 //! Returns the path to the parent directory.
 std::string GetParentPath(const std::string& path);

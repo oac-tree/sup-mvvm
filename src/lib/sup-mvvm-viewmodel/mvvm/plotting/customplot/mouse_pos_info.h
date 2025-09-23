@@ -21,7 +21,6 @@
 #ifndef MVVM_PLOTTING_CUSTOMPLOT_MOUSE_POS_INFO_H_
 #define MVVM_PLOTTING_CUSTOMPLOT_MOUSE_POS_INFO_H_
 
-
 class QCustomPlot;
 
 namespace mvvm

@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWMODEL_CUSTOM_EDITOR_H_
 #define MVVM_VIEWMODEL_CUSTOM_EDITOR_H_
 
-
 #include <QVariant>
 #include <QWidget>
 

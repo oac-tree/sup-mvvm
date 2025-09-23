@@ -182,7 +182,7 @@ std::vector<SessionItem*> SessionItem::GetAllItems() const
   return GetTaggedItems()->GetAllItems();
 }
 
-std::size_t SessionItem::GetItemCount(const std::string &tag) const
+std::size_t SessionItem::GetItemCount(const std::string& tag) const
 {
   return GetTaggedItems()->GetItemCount(tag);
 }
@@ -278,7 +278,7 @@ std::string SessionItem::GetEditorType() const
   return HasData(DataRole::kEditor) ? Data<std::string>(DataRole::kEditor) : std::string();
 }
 
-SessionItem& SessionItem::SetEditorType(const std::string_view &editor_type)
+SessionItem& SessionItem::SetEditorType(const std::string_view& editor_type)
 {
   (void)SetData(std::string(editor_type), DataRole::kEditor);
   return *this;

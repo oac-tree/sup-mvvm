@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_CELL_DECORATOR_H_
 #define MVVM_PROVIDERS_I_CELL_DECORATOR_H_
 
-
 class QModelIndex;
 class QStyleOptionViewItem;
 

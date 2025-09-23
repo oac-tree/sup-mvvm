@@ -20,12 +20,12 @@
 
 #include "mvvm/serialization/tree_data_model_converter.h"
 
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/model/item_pool.h>
 #include <mvvm/model/property_item.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/model/tagged_items.h>
 #include <mvvm/model/taginfo.h>
-#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/serialization/tree_data_helper.h>
 
 #include <sup/xml/tree_data_serialize.h>

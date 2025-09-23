@@ -60,7 +60,7 @@ public:
    */
   QCompleter* GetCompleter() const;
 
-  bool eventFilter(QObject *object, QEvent *event) override;
+  bool eventFilter(QObject* object, QEvent* event) override;
 
 signals:
   void valueChanged(const QVariant& value);

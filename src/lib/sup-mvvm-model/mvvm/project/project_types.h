@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_PROJECT_TYPES_H_
 #define MVVM_PROJECT_PROJECT_TYPES_H_
 
-
 #include <cstdint>
 
 namespace mvvm

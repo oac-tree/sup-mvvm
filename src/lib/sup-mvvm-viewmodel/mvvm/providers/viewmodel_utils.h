@@ -24,8 +24,8 @@
 #include <mvvm/model/session_item.h>
 #include <mvvm/providers/standard_presentation_items.h>
 #include <mvvm/providers/viewitem.h>
-#include <mvvm/viewmodel/viewmodel_base.h>
 #include <mvvm/providers/viewmodel_iterate_helper.h>
+#include <mvvm/viewmodel/viewmodel_base.h>
 
 #include <QVariant>
 #include <QVector>
@@ -175,8 +175,7 @@ std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
  * Function is usefull in the context of table-like views when we want to find compound items (i.e.
  * Layers) from table cells containing LayerItem's properties (i.e. thickness).
  */
-std::vector<SessionItem*> ParentItemsFromIndex(
-    const QModelIndexList& index_list);
+std::vector<SessionItem*> ParentItemsFromIndex(const QModelIndexList& index_list);
 
 /**
  * @brief Returns vector of Qt roles corresponding to the given item role.

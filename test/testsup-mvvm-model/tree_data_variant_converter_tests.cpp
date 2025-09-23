@@ -230,8 +230,7 @@ TEST_F(TreeDataVariantConverterTests, VectorOfDoubleRole)
   EXPECT_EQ(new_tree_data, *tree_data);
 
   // vector of two elements
-  tree_data =
-      ParseXMLElementString(R"(<Variant role="42" type="vector_double">1.0,2.0</Variant>)");
+  tree_data = ParseXMLElementString(R"(<Variant role="42" type="vector_double">1.0,2.0</Variant>)");
 
   // converting tree_data to role_data
   role_data = TreeDataVariantConverter::ToRoleData(*tree_data);
@@ -249,7 +248,8 @@ TEST_F(TreeDataVariantConverterTests, ComboPropertyRole)
   using mvvm::ParseXMLElementString;
 
   // constructing TreeData representing a vector with single element
-  const std::string body{R"(<Variant role="42" type="ComboProperty">values[a1] selection[0]</Variant>)"};
+  const std::string body{
+      R"(<Variant role="42" type="ComboProperty">values[a1] selection[0]</Variant>)"};
   auto tree_data = ParseXMLElementString(body);
   EXPECT_TRUE(IsDataRoleConvertible(*tree_data));
 

@@ -45,7 +45,7 @@ public:
 
   std::unique_ptr<ICommandStack> Clone() override;
 
-  ICommand *Execute(std::unique_ptr<ICommand> command) override;
+  ICommand* Execute(std::unique_ptr<ICommand> command) override;
   bool CanUndo() const override;
   bool CanRedo() const override;
   std::size_t GetIndex() const override;
@@ -62,7 +62,7 @@ public:
    */
   void SetUndoLimit(std::size_t limit) override;
 
-  void BeginMacro(const std::string &name) override;
+  void BeginMacro(const std::string& name) override;
   void EndMacro() override;
 
   /**
@@ -73,7 +73,7 @@ public:
   /**
    * @brief Returns content of the command stack in the form of the vector.
    */
-  std::vector<const ICommand *> GetCommands() const;
+  std::vector<const ICommand*> GetCommands() const;
 
   /**
    * @brief Returns command which will be undone on the next Undo call.

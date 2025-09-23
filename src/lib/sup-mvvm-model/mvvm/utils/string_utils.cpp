@@ -163,7 +163,7 @@ std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str)
   std::istringstream iss(str);
   (void)iss.imbue(std::locale::classic());
   (void)std::copy(std::istream_iterator<double>(iss), std::istream_iterator<double>(),
-            back_inserter(result));
+                  back_inserter(result));
   return result;
 }
 

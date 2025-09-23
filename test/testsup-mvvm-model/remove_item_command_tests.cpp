@@ -39,7 +39,6 @@ namespace mvvm::test
 class RemoveItemCommandTests : public ::testing::Test
 {
 public:
-
   SessionModel m_model;
 };
 

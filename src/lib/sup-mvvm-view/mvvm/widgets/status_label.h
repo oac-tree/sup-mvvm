@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_STATUS_LABEL_H_
 #define MVVM_WIDGETS_STATUS_LABEL_H_
 
-
 #include <QFrame>
 
 class QPaintEvent;

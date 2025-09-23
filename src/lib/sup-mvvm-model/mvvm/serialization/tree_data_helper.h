@@ -51,7 +51,7 @@ bool IsSessionModelConvertible(const tree_data_t& tree_data);
 /**
  * @brief Checks if given TreeData represents SessionItemContainer serialization.
  */
-bool IsItemContainerConvertible(const tree_data_t &tree_data);
+bool IsItemContainerConvertible(const tree_data_t& tree_data);
 
 /**
  * @brief Checks if given TreeData represents TaggedItems serialization.

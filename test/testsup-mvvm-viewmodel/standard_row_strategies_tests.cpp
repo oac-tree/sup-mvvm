@@ -22,9 +22,9 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/standarditems/vector_item.h>
-#include <mvvm/providers/viewmodel_utils.h>
 #include <mvvm/providers/viewitem.h>
+#include <mvvm/providers/viewmodel_utils.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gtest/gtest.h>
 

@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_
 #define MVVM_WIDGETS_MAIN_VERTICAL_BAR_WIDGET_H_
 
-
 #include <QColor>
 #include <QFrame>
 #include <memory>

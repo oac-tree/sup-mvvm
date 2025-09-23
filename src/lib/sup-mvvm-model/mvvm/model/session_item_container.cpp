@@ -110,7 +110,8 @@ SessionItem* SessionItemContainer::InsertItem(std::unique_ptr<SessionItem> item,
   }
 
   auto result = item.get();
-  (void)m_items.insert(std::next(m_items.begin(), static_cast<std::int32_t>(index)), std::move(item));
+  (void)m_items.insert(std::next(m_items.begin(), static_cast<std::int32_t>(index)),
+                       std::move(item));
   return result;
 }
 

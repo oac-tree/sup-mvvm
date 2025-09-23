@@ -72,7 +72,8 @@ struct ViewItem::ViewItemImpl
     }
 
     (void)m_children.insert(std::next(m_children.begin(), row * m_columns),
-                      std::make_move_iterator(items.begin()), std::make_move_iterator(items.end()));
+                            std::make_move_iterator(items.begin()),
+                            std::make_move_iterator(items.end()));
 
     m_columns = static_cast<std::int32_t>(items.size());
     ++m_rows;
@@ -132,7 +133,8 @@ struct ViewItem::ViewItemImpl
     {
       const size_t row = index / m_columns;
       const size_t col = index % m_columns;
-      m_children[index]->UpdatePositionCache(static_cast<std::int32_t>(row), static_cast<std::int32_t>(col));
+      m_children[index]->UpdatePositionCache(static_cast<std::int32_t>(row),
+                                             static_cast<std::int32_t>(col));
     }
   }
 };

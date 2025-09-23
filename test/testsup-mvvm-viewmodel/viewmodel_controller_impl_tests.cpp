@@ -23,10 +23,10 @@
 #include <mvvm/model/application_model.h>
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/property_item.h>
-#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/providers/standard_row_strategies.h>
 #include <mvvm/providers/viewitem.h>
+#include <mvvm/standarditems/vector_item.h>
 #include <mvvm/viewmodel/viewmodel_base.h>
 
 #include <gtest/gtest.h>
@@ -73,7 +73,8 @@ TEST_F(ViewModelControllerImplTest, InvalidController)
   }
 
   {
-    const ViewModelControllerImpl controller(&m_viewmodel, std::make_unique<AllChildrenStrategy>(), {});
+    const ViewModelControllerImpl controller(&m_viewmodel, std::make_unique<AllChildrenStrategy>(),
+                                             {});
     EXPECT_THROW(controller.CheckInitialState(), RuntimeException);
   }
 }

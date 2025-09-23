@@ -26,8 +26,8 @@
 
 #include <QString>
 #include <QStringList>
-#include <string>
 #include <cstdint>
+#include <string>
 
 class QColor;
 class QSize;

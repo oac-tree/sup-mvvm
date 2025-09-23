@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_
 #define MVVM_MODEL_I_ITEM_BACKUP_STRATEGY_H_
 
-
 #include <memory>
 
 namespace mvvm

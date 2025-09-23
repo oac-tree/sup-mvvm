@@ -70,8 +70,7 @@ bool SetDataImpl(SessionItem& item, const variant_t& value, role_t role);
  * @return Convenience pointer to just inserted item.
  */
 SessionItem* InsertItemImpl(std::unique_ptr<SessionItem> to_insert, SessionItem& item,
-                              const TagIndex& tag_index);
-
+                            const TagIndex& tag_index);
 
 /**
  * @brief Removes an item from the given tag_index, returns it to the caller.
@@ -96,8 +95,7 @@ void iterate(SessionItem* item, const std::function<void(SessionItem*)>& func);
  * @param item Item to start iterating.
  * @param func User function to call.
  */
-void iterate(const SessionItem* item,
-                               const std::function<void(const SessionItem*)>& func);
+void iterate(const SessionItem* item, const std::function<void(const SessionItem*)>& func);
 
 /**
  * @brief Iterates through all items down through the whole item hierarchy and calls a user function
@@ -114,8 +112,7 @@ void iterate(std::nullptr_t, const std::function<void(const SessionItem*)>& func
  *
  * @details Will stop iterating when 'func' returns false.
  */
-void iterate_if(const SessionItem* item,
-                                  const std::function<bool(const SessionItem*)>& func);
+void iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& func);
 
 /**
  * @brief Returns copy number of a given item among all children of given parent.

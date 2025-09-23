@@ -39,7 +39,6 @@ void iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
 void IterateFirstColumn(const QAbstractItemModel& viewmodel, const QModelIndex& parent,
                         const std::function<void(const QModelIndex&)>& func);
 
-
 }  // namespace mvvm
 
 #endif  // MVVM_PROVIDERS_VIEWMODEL_ITERATE_HELPER_H_

@@ -35,8 +35,7 @@ MockModelListener::MockModelListener(const ISessionModel *model) : ModelListener
   Connect<ModelAboutToBeResetEvent>(this, &MockModelListener::OnModelAboutToBeResetEvent);
   Connect<ModelResetEvent>(this, &MockModelListener::OnModelResetEvent);
 
-  Connect<ModelAboutToBeDestroyedEvent>(this,
-                                              &MockModelListener::OnModelAboutToBeDestroyedEvent);
+  Connect<ModelAboutToBeDestroyedEvent>(this, &MockModelListener::OnModelAboutToBeDestroyedEvent);
 }
 
 }  // namespace mvvm::test

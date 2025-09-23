@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_LAYOUT_UTILS_H_
 #define MVVM_WIDGETS_LAYOUT_UTILS_H_
 
-
 class QLayout;
 class QGridLayout;
 class QWidget;

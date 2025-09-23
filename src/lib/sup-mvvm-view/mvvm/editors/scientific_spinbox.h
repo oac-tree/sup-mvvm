@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_SCIENTIFIC_SPINBOX_H_
 #define MVVM_EDITORS_SCIENTIFIC_SPINBOX_H_
 
-
 #include <QAbstractSpinBox>
 
 namespace mvvm

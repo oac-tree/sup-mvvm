@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_CHILDREN_STRATEGY_H_
 #define MVVM_PROVIDERS_I_CHILDREN_STRATEGY_H_
 
-
 #include <vector>
 
 namespace mvvm

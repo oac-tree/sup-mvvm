@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_VIEWITEM_H_
 #define MVVM_PROVIDERS_VIEWITEM_H_
 
-
 #include <QVariant>
 #include <memory>
 #include <vector>

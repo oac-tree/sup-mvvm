@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_TAGINFO_H_
 #define MVVM_MODEL_TAGINFO_H_
 
-
 #include <optional>
 #include <string>
 #include <vector>

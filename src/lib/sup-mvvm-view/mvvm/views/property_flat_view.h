@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_PROPERTY_FLAT_VIEW_H_
 #define MVVM_VIEWS_PROPERTY_FLAT_VIEW_H_
 
-
 #include <QWidget>
 #include <memory>
 

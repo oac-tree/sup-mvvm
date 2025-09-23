@@ -27,7 +27,6 @@
 namespace mvvm
 {
 
-
 Path Path::CreateFromString(const std::string& str)
 {
   return Path::CreateFromVector(utils::StringToVector<PathElement>(str));

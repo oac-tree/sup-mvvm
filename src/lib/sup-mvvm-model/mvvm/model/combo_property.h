@@ -21,10 +21,9 @@
 #ifndef MVVM_MODEL_COMBO_PROPERTY_H_
 #define MVVM_MODEL_COMBO_PROPERTY_H_
 
-
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 namespace mvvm
 {

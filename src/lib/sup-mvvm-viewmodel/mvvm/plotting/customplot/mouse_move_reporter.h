@@ -21,7 +21,6 @@
 #ifndef MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_
 #define MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_
 
-
 #include <functional>
 #include <memory>
 

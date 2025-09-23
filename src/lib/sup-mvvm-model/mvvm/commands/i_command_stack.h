@@ -21,7 +21,6 @@
 #ifndef MVVM_COMMANDS_I_COMMAND_STACK_H_
 #define MVVM_COMMANDS_I_COMMAND_STACK_H_
 
-
 #include <memory>
 
 namespace mvvm

@@ -155,23 +155,23 @@ std::map<TypeCode, string_to_variant_converter_t> CreateStringToVariantConverter
 std::map<TypeCode, std::string> CreateTypeCodeToStringMap()
 {
   const std::map<TypeCode, std::string> result = {
-  {TypeCode::Empty, std::string(constants::EmptyTypeName())},
-  {TypeCode::Bool, std::string(constants::BooleanTypeName())},
-  {TypeCode::Char8, std::string(constants::Char8TypeName())},
-  {TypeCode::Int8, std::string(constants::Int8TypeName())},
-  {TypeCode::UInt8, std::string(constants::UInt8TypeName())},
-  {TypeCode::Int16, std::string(constants::Int16TypeName())},
-  {TypeCode::UInt16, std::string(constants::UInt16TypeName())},
-  {TypeCode::Int32, std::string(constants::Int32TypeName())},
-  {TypeCode::UInt32, std::string(constants::UInt32TypeName())},
-  {TypeCode::Int64, std::string(constants::Int64TypeName())},
-  {TypeCode::UInt64, std::string(constants::UInt64TypeName())},
-  {TypeCode::Float32, std::string(constants::Float32TypeName())},
-  {TypeCode::Float64, std::string(constants::Float64TypeName())},
-  {TypeCode::String, std::string(constants::StringTypeName())},
-  {TypeCode::VectorOfDouble, std::string(constants::VectorDoubleTypeName())},
-  {TypeCode::ComboProperty, std::string(constants::ComboPropertyTypeName())},
-  {TypeCode::ExternalProperty, std::string(constants::ExternalPropertyTypeName())}};
+      {TypeCode::Empty, std::string(constants::EmptyTypeName())},
+      {TypeCode::Bool, std::string(constants::BooleanTypeName())},
+      {TypeCode::Char8, std::string(constants::Char8TypeName())},
+      {TypeCode::Int8, std::string(constants::Int8TypeName())},
+      {TypeCode::UInt8, std::string(constants::UInt8TypeName())},
+      {TypeCode::Int16, std::string(constants::Int16TypeName())},
+      {TypeCode::UInt16, std::string(constants::UInt16TypeName())},
+      {TypeCode::Int32, std::string(constants::Int32TypeName())},
+      {TypeCode::UInt32, std::string(constants::UInt32TypeName())},
+      {TypeCode::Int64, std::string(constants::Int64TypeName())},
+      {TypeCode::UInt64, std::string(constants::UInt64TypeName())},
+      {TypeCode::Float32, std::string(constants::Float32TypeName())},
+      {TypeCode::Float64, std::string(constants::Float64TypeName())},
+      {TypeCode::String, std::string(constants::StringTypeName())},
+      {TypeCode::VectorOfDouble, std::string(constants::VectorDoubleTypeName())},
+      {TypeCode::ComboProperty, std::string(constants::ComboPropertyTypeName())},
+      {TypeCode::ExternalProperty, std::string(constants::ExternalPropertyTypeName())}};
   return result;
 }
 

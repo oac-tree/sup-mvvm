@@ -131,7 +131,8 @@ void FixedBinAxisItem::SetParameters(std::size_t nbins, double xmin, double xmax
   SetMax(xmax);
 }
 
-std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(std::size_t nbins, double xmin, double xmax)
+std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::Create(std::size_t nbins, double xmin,
+                                                           double xmax)
 {
   auto result = std::make_unique<FixedBinAxisItem>();
   result->SetParameters(nbins, xmin, xmax);

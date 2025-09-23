@@ -105,8 +105,7 @@ std::optional<std::int32_t> StringToInteger(const std::string& str);
  * @param delimiter A delimiter.
  * @return Vector of string.
  */
-std::vector<std::string> SplitString(const std::string& str,
-                                                       const std::string& delimiter);
+std::vector<std::string> SplitString(const std::string& str, const std::string& delimiter);
 
 /**
  * @brief Parses string for double values and returns result as a vector.
@@ -124,7 +123,7 @@ std::vector<double> ParseSpaceSeparatedDoubles(const std::string& str);
  * @return Resulting string.
  */
 std::string ReplaceSubString(const std::string& str, const std::string& substr,
-                                               const std::string& replacement);
+                             const std::string& replacement);
 
 /**
  * @brief Returns content of key in a string.

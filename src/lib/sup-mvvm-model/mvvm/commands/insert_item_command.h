@@ -39,8 +39,8 @@ class InsertItemCommand : public ModelCommand
 {
 public:
   using result_t = SessionItem*;
-  InsertItemCommand(std::unique_ptr<SessionItem> item,
-                    SessionItem* parent, const TagIndex& tag_index);
+  InsertItemCommand(std::unique_ptr<SessionItem> item, SessionItem* parent,
+                    const TagIndex& tag_index);
   ~InsertItemCommand() override;
 
   InsertItemCommand(const InsertItemCommand&) = delete;

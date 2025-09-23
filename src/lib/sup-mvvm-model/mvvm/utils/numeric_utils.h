@@ -21,7 +21,6 @@
 #ifndef MVVM_UTILS_NUMERIC_UTILS_H_
 #define MVVM_UTILS_NUMERIC_UTILS_H_
 
-
 #include <cstdint>
 
 namespace mvvm::utils

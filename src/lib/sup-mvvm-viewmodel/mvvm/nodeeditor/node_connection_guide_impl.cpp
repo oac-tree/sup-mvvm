@@ -45,8 +45,8 @@ std::unique_ptr<NodePort> CreateProxyPort(const QPointF& pos)
 
 }  // namespace
 
-NodeConnectionGuideImpl::NodeConnectionGuideImpl(
-    const NodeConnectionGuideContext& context, QGraphicsScene* scene)
+NodeConnectionGuideImpl::NodeConnectionGuideImpl(const NodeConnectionGuideContext& context,
+                                                 QGraphicsScene* scene)
     : m_scene(scene), m_context(context)
 {
 }
@@ -64,7 +64,7 @@ NodePortShape* NodeConnectionGuideImpl::FindNodePortShape(const QPointF& scene_p
 }
 
 EventProcessStatus NodeConnectionGuideImpl::ProcessMousePress(const QPointF& scene_pos,
-                                                                   Qt::MouseButton button)
+                                                              Qt::MouseButton button)
 {
   if (!m_current_connection && button == Qt::LeftButton)
   {
@@ -98,7 +98,7 @@ EventProcessStatus NodeConnectionGuideImpl::ProcessMouseMove(const QPointF& scen
 }
 
 EventProcessStatus NodeConnectionGuideImpl::ProcessMouseRelease(const QPointF& scene_pos,
-                                                                     Qt::MouseButton button)
+                                                                Qt::MouseButton button)
 {
   if (m_current_connection && button == Qt::LeftButton)
   {

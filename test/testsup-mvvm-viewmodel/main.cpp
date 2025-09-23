@@ -32,7 +32,8 @@ int main(int argc, char** argv)
   ::testing::InitGoogleMock(&argc, argv);
 
   (void)qRegisterMetaType<QList<QPersistentModelIndex>>("QList<QPersistentModelIndex>");
-  (void)qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>("QAbstractItemModel::LayoutChangeHint");
+  (void)qRegisterMetaType<QAbstractItemModel::LayoutChangeHint>(
+      "QAbstractItemModel::LayoutChangeHint");
 
   // run all google tests
   return RUN_ALL_TESTS();

@@ -21,7 +21,6 @@
 #ifndef MVVM_CORE_UNIQUE_ID_GENERATOR_H_
 #define MVVM_CORE_UNIQUE_ID_GENERATOR_H_
 
-
 #include <string>
 
 namespace mvvm

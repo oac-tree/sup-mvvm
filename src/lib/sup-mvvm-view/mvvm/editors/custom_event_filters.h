@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
 #define MVVM_EDITORS_CUSTOM_EVENT_FILTERS_H_
 
-
 #include <QObject>
 
 namespace mvvm

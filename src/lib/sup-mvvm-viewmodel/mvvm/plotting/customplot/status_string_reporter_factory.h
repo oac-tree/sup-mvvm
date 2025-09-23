@@ -23,7 +23,6 @@
 
 //! Contains factory methods to create StatusStringReporter
 
-
 #include <functional>
 #include <memory>
 

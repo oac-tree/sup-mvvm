@@ -95,8 +95,7 @@ TEST_F(GraphInfoFormatterTest, SetGraphItemAndCheckPlottables)
       formatter.status_string(custom_plot.get(), mouse_xpos, mouse_ypos);
   EXPECT_EQ(status_string, std::string("[x: 1.5, y: 2.0] [binx: 1] [value: 2.0e+00]"));
 
-  const std::string status_string2 =
-      formatter.status_string(custom_plot.get(), 100.0, 200.0);
+  const std::string status_string2 = formatter.status_string(custom_plot.get(), 100.0, 200.0);
   EXPECT_EQ(status_string2, std::string("[x: 100.0, y: 200.0] "));
 }
 

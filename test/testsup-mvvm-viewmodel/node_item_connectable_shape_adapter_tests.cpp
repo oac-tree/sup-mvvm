@@ -23,8 +23,8 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/standarditems/node_item.h>
 
-#include <testutils/toy_items.h>
 #include <gtest/gtest.h>
+#include <testutils/toy_items.h>
 
 namespace mvvm::test
 {
@@ -80,6 +80,5 @@ TEST_F(NodeItemConnectableShapeAdapterTest, SetCoordinates)
   EXPECT_EQ(node_item.GetX(), 42.0);
   EXPECT_EQ(node_item.GetY(), 43.0);
 }
-
 
 }  // namespace mvvm::test

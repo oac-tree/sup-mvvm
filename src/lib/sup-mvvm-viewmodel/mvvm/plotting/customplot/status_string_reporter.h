@@ -21,7 +21,6 @@
 #ifndef MVVM_PLOTTING_CUSTOMPLOT_STATUS_STRING_REPORTER_H_
 #define MVVM_PLOTTING_CUSTOMPLOT_STATUS_STRING_REPORTER_H_
 
-
 #include <functional>
 #include <memory>
 #include <string>

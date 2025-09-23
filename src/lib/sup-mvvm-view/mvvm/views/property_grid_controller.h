@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_PROPERTY_GRID_CONTROLLER_H_
 #define MVVM_VIEWS_PROPERTY_GRID_CONTROLLER_H_
 
-
 #include <QObject>
 #include <memory>
 #include <vector>

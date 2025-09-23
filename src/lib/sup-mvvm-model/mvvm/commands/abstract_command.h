@@ -42,7 +42,7 @@ public:
   AbstractCommand(const AbstractCommand&) = delete;
   AbstractCommand& operator=(const AbstractCommand&) = delete;
   AbstractCommand(AbstractCommand&&) noexcept = delete;
-  AbstractCommand& operator=(AbstractCommand&&) noexcept  = delete;
+  AbstractCommand& operator=(AbstractCommand&&) noexcept = delete;
 
   void Execute() final;
 

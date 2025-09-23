@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_GRAPH_CANVAS_H_
 #define MVVM_VIEWS_GRAPH_CANVAS_H_
 
-
 #include <QWidget>
 #include <memory>
 

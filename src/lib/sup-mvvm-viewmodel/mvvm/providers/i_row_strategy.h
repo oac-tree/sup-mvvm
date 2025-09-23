@@ -21,7 +21,6 @@
 #ifndef MVVM_PROVIDERS_I_ROW_STRATEGY_H_
 #define MVVM_PROVIDERS_I_ROW_STRATEGY_H_
 
-
 #include <QStringList>
 #include <memory>
 #include <vector>

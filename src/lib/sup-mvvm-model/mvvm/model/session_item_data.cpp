@@ -32,7 +32,7 @@ std::vector<role_t> SessionItemData::GetRoles() const
 {
   std::vector<role_t> result;
   (void)std::transform(m_values.begin(), m_values.end(), std::back_inserter(result),
-                 [](const auto& role_data) { return role_data.first; });
+                       [](const auto& role_data) { return role_data.first; });
   return result;
 }
 

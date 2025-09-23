@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_PATH_H_
 #define MVVM_MODEL_PATH_H_
 
-
 #include <cstdint>
 #include <string>
 #include <vector>

@@ -46,8 +46,7 @@ std::unique_ptr<ViewItem> CreateRootViewItem(SessionItem* item);
 /**
  * @brief Creates read-only ViewItem displaying a label.
  */
-std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item,
-                                                                    const std::string& label = {});
+std::unique_ptr<ViewItem> CreateLabelViewItem(SessionItem* item, const std::string& label = {});
 /**
  * @brief Creates read-only ViewItem for SessionItem's display name.
  */
@@ -56,22 +55,20 @@ std::unique_ptr<ViewItem> CreateDisplayNameViewItem(SessionItem* item);
 /**
  * @brief Creates ViewItem for SessionItem's data.
  */
-std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item,
-                                                                   role_t role = DataRole::kData);
+std::unique_ptr<ViewItem> CreateDataViewItem(SessionItem* item, role_t role = DataRole::kData);
 
 /**
  * @brief Creates editable ViewItem for SessionItem's display name.
  */
-std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(
-    SessionItem* item);
+std::unique_ptr<ViewItem> CreateEditableDisplayNameViewItem(SessionItem* item);
 
 /**
  * @brief Creates ViewItem for SessionItem's with arbitrary data for any Qt role.
  *
  * The data of item doesn't have any connection with SessionItem signals.
  */
-std::unique_ptr<ViewItem> CreateFixedDataViewItem(
-    SessionItem* item, std::map<int, QVariant> fixed_data = {});
+std::unique_ptr<ViewItem> CreateFixedDataViewItem(SessionItem* item,
+                                                  std::map<int, QVariant> fixed_data = {});
 
 }  // namespace mvvm
 

@@ -24,8 +24,8 @@
 
 #include <qcustomplot.h>
 
-#include <sstream>
 #include <QDebug>
+#include <sstream>
 
 namespace mvvm
 {
@@ -51,7 +51,7 @@ QCPGraph* FindGraphNearby(QCustomPlot* custom_plot, double xpos, double ypos)
 {
   const double widget_px = custom_plot->xAxis->coordToPixel(xpos);
   const double widget_py = custom_plot->yAxis->coordToPixel(ypos);
-  qDebug() << xpos<< ypos<< widget_px << widget_py;
+  qDebug() << xpos << ypos << widget_px << widget_py;
   return dynamic_cast<QCPGraph*>(custom_plot->plottableAt(QPointF(widget_px, widget_py)));
 }
 

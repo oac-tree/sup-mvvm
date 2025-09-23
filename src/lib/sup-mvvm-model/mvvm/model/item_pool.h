@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_ITEM_POOL_H_
 #define MVVM_MODEL_ITEM_POOL_H_
 
-
 #include <map>
 #include <string>
 

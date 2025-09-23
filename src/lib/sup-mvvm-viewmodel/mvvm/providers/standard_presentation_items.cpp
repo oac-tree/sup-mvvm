@@ -54,7 +54,8 @@ QVariant SessionItemPresentation::Data(int qt_role) const
   return {};
 }
 
-bool SessionItemPresentation::SetData([[maybe_unused]] const QVariant &data, [[maybe_unused]] int qt_role)
+bool SessionItemPresentation::SetData([[maybe_unused]] const QVariant &data,
+                                      [[maybe_unused]] int qt_role)
 {
   return false;
 }

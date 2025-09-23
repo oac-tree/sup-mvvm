@@ -20,9 +20,9 @@
 
 #include "allint_spinbox.h"
 
+#include <mvvm/providers/variant_converter.h>
 #include <mvvm/standarditems/editor_constants.h>
 #include <mvvm/utils/limited_integer.h>
-#include <mvvm/providers/variant_converter.h>
 
 #include <QEvent>
 #include <QLineEdit>

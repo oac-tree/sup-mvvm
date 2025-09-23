@@ -22,8 +22,8 @@
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/session_item.h>
-#include <mvvm/providers/viewitem_factory.h>
 #include <mvvm/providers/viewitem.h>
+#include <mvvm/providers/viewitem_factory.h>
 
 #include <sstream>
 

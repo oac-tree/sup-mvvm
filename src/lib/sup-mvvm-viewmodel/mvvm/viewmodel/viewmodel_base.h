@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODEL_BASE_H_
 #define MVVM_VIEWMODEL_VIEWMODEL_BASE_H_
 
-
 #include <QAbstractItemModel>
 #include <memory>
 

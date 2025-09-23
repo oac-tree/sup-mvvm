@@ -38,8 +38,8 @@ class IProject;
  * @param user_context The context to interact with the user.
  * @return New project manager.
  */
-std::unique_ptr<IProjectManager> CreateProjectManager(
-    IProject& project, const UserInteractionContext& user_context);
+std::unique_ptr<IProjectManager> CreateProjectManager(IProject& project,
+                                                      const UserInteractionContext& user_context);
 
 }  // namespace mvvm
 

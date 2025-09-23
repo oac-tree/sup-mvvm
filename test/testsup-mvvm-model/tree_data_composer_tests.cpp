@@ -23,8 +23,8 @@
 #include <mvvm/model/compound_item.h>
 #include <mvvm/model/session_item.h>
 #include <mvvm/serialization/tree_data.h>
-#include <mvvm/serialization/tree_data_helper.h>
 #include <mvvm/serialization/tree_data_constants.h>
+#include <mvvm/serialization/tree_data_helper.h>
 
 #include <gtest/gtest.h>
 

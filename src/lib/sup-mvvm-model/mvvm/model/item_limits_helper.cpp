@@ -40,7 +40,8 @@ namespace
  *
  * @details If item doesn't contain given role, do nothing.
  */
-void ValidateDataType(const mvvm::SessionItem &item, const mvvm::variant_t &value, mvvm::role_t role)
+void ValidateDataType(const mvvm::SessionItem &item, const mvvm::variant_t &value,
+                      mvvm::role_t role)
 {
   if (item.HasData(role) && item.Data(role).index() != value.index())
   {

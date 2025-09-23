@@ -75,7 +75,6 @@ private:
   std::unique_ptr<mvvm::SessionItem> m_backup;
 };
 
-
 }  // namespace mvvm
 
 #endif  // MVVM_FACTORIES_STANDARD_ITEM_BACKUP_STRATEGIES_H_

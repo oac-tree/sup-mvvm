@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_FANCYTAB_H_
 #define MVVM_WIDGETS_FANCYTAB_H_
 
-
 #include <QColor>
 #include <QWidget>
 

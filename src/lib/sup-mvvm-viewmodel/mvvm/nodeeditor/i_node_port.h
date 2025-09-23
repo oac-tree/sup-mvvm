@@ -22,10 +22,10 @@
 #define MVVM_NODEEDITOR_I_NODE_PORT_H_
 
 #include <mvvm/nodeeditor/node_editor_types.h>
+#include <mvvm/nodeeditor/port_info.h>
 
 #include <string>
 #include <vector>
-#include <mvvm/nodeeditor/port_info.h>
 
 namespace mvvm
 {
@@ -102,7 +102,6 @@ public:
    * @brief Returns port info related to this port.
    */
   virtual PortInfo GetPortInfo() const = 0;
-
 };
 
 }  // namespace mvvm

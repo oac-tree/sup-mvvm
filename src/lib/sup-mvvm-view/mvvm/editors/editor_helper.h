@@ -21,7 +21,6 @@
 #ifndef MVVM_EDITORS_EDITOR_HELPER_H_
 #define MVVM_EDITORS_EDITOR_HELPER_H_
 
-
 namespace mvvm::utils
 {
 

@@ -26,8 +26,8 @@
 #include <mvvm/model/session_model.h>
 #include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/providers/standard_row_strategies.h>
-#include <mvvm/providers/viewmodel_controller_factory.h>
 #include <mvvm/providers/viewitem.h>
+#include <mvvm/providers/viewmodel_controller_factory.h>
 
 #include <gtest/gtest.h>
 

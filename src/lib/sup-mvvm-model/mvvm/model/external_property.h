@@ -21,7 +21,6 @@
 #ifndef MVVM_MODEL_EXTERNAL_PROPERTY_H_
 #define MVVM_MODEL_EXTERNAL_PROPERTY_H_
 
-
 #include <string>
 
 namespace mvvm

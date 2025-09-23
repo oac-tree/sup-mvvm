@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_MAINBAR_WIDGET_H_
 #define MVVM_WIDGETS_MAINBAR_WIDGET_H_
 
-
 #include <QFrame>
 #include <map>
 

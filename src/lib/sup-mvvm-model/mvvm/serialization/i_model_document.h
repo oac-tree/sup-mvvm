@@ -21,7 +21,6 @@
 #ifndef MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_
 #define MVVM_SERIALIZATION_I_MODEL_DOCUMENT_H_
 
-
 #include <string>
 
 namespace mvvm

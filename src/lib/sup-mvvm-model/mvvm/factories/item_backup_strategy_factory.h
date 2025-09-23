@@ -33,8 +33,7 @@ class IItemFactory;
 /**
  * @brief Creates strategy for item backup based on TreeData serialization.
  */
-std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(
-    const IItemFactory* factory);
+std::unique_ptr<IItemBackupStrategy> CreateItemTreeDataBackupStrategy(const IItemFactory* factory);
 
 /**
  * @brief Creates strategy for item backup based on TreeData serialization.

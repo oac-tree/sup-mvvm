@@ -21,7 +21,6 @@
 #ifndef MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_
 #define MVVM_PROJECT_PROJECT_CHANGE_CONTROLLER_H_
 
-
 #include <functional>
 #include <memory>
 #include <vector>
