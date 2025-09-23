@@ -247,7 +247,7 @@ TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToPar
   auto sequence_shape = shapes.at(0);
   auto wait_shape = shapes.at(1);
 
-  // coordinates are the asme as before
+  // coordinates are the same as before
   EXPECT_EQ(sequence_shape->scenePos().x(), 10.0);
   EXPECT_EQ(sequence_shape->scenePos().y(), 20.0);
   EXPECT_EQ(wait_shape->scenePos().x(), 100.0);
@@ -258,7 +258,7 @@ TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToPar
   ASSERT_EQ(connection_shapes.size(), 1);
   ASSERT_TRUE(IsConnected(connection_shapes.at(0), sequence_shape, wait_shape));
 
-  // analyse coordinates of node ports coincide with connection begin/end coordinates
+  // coordinates of node ports coincide with connection begin/end coordinates
   auto sequence_input_ports =
       GetPortsByDirection(sequence_shape->GetPorts(), PortDirection::kInput);
   ASSERT_EQ(sequence_input_ports.size(), 1);
@@ -274,7 +274,7 @@ TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToPar
   EXPECT_DOUBLE_EQ(wait_port_x, connection_shapes.at(0)->path().pointAtPercent(0.0).x());
   EXPECT_DOUBLE_EQ(wait_port_y, connection_shapes.at(0)->path().pointAtPercent(0.0).y());
 
-  // validating that actual coordinates of node port shapes coincide with the port coordinates
+  // actual coordinates of node port shapes coincide with the port coordinates
   auto port_shapes = GetShapes<NodePortShape>();
   ASSERT_EQ(port_shapes.size(), 3);  // two input/output for sequence and one for wait
   for (const auto& port_shape : port_shapes)
