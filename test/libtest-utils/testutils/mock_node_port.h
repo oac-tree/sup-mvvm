@@ -43,6 +43,7 @@ public:
   MOCK_METHOD(bool, IsConnectable, (const INodePort*), (const, override));
   MOCK_METHOD((std::pair<double, double>), GetScenePosition, (), (const, override));
   MOCK_METHOD(void, SetScenePosition, (double, double), (override));
+  MOCK_METHOD(PortInfo, GetPortInfo, (), (const, override));
 };
 
 /**
@@ -62,6 +63,7 @@ public:
   bool IsConnectable(const INodePort* port) const override;
   std::pair<double, double> GetScenePosition() const override;
   void SetScenePosition(double xpos, double ypos) override;
+  PortInfo GetPortInfo() const override;
 
 private:
   INodePort* m_decoratee{nullptr};

@@ -22,7 +22,6 @@
 #define MVVM_NODEEDITOR_NODE_PORT_H_
 
 #include <mvvm/nodeeditor/i_node_port.h>
-#include <mvvm/nodeeditor/port_info.h>
 
 namespace mvvm
 {
@@ -61,7 +60,7 @@ public:
 
   void SetScenePosition(double xpos, double ypos) override;
 
-  PortInfo GetPortInfo() const;
+  PortInfo GetPortInfo() const override;
 
 private:
   void UpdateConnectionsScenePosition();

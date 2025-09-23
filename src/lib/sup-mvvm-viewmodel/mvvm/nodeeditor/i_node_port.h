@@ -25,6 +25,7 @@
 
 #include <string>
 #include <vector>
+#include <mvvm/nodeeditor/port_info.h>
 
 namespace mvvm
 {
@@ -96,6 +97,12 @@ public:
    * @brief Sets the position of the port in in the scene coordinate system.
    */
   virtual void SetScenePosition(double xpos, double ypos) = 0;
+
+  /**
+   * @brief Returns port info related to this port.
+   */
+  virtual PortInfo GetPortInfo() const = 0;
+
 };
 
 }  // namespace mvvm

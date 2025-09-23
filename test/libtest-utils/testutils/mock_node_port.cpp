@@ -70,4 +70,9 @@ void NodePortDecorator::SetScenePosition(double xpos, double ypos)
   m_decoratee->SetScenePosition(xpos, ypos);
 }
 
+PortInfo NodePortDecorator::GetPortInfo() const
+{
+  return m_decoratee->GetPortInfo();
+}
+
 }  // namespace mvvm::test
