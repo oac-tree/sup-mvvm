@@ -25,6 +25,7 @@
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
+#include <mvvm/nodeeditor/node_port_shape.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 #include <mvvm/test/mock_item_listener.h>
 #include <mvvm/utils/container_utils.h>
@@ -204,6 +205,35 @@ TEST_F(ConnectableShapeExtendedTest, AttemptToConnectTwoWaits)
 
   EXPECT_THROW(wait_shape1->MakeChildConnected(wait_shape2.get()), RuntimeException)
       << "Shape doesn't have input port";
+}
+
+TEST_F(ConnectableShapeExtendedTest, CoordinatesOfPortShapes)
+{
+  auto wait_item = m_app_model.InsertItem<test::toyitems::WaitItem>();
+  wait_item->SetX(100.0);
+  wait_item->SetY(200.0);
+
+  auto wait_shape = CreateConnectableShape(wait_item);
+  auto wait_shape_ptr = wait_shape.get();
+  m_scene.addItem(wait_shape.release());
+  auto port_shapes = GetShapes<NodePortShape>();
+  ASSERT_EQ(port_shapes.size(), 1);
+
+  EXPECT_EQ(wait_shape_ptr->scenePos().x(), 100.0);
+  EXPECT_EQ(wait_shape_ptr->scenePos().y(), 200.0);
+
+  // output port is located in the middle of top side of the shape
+  auto output_port_shape = port_shapes.at(0);
+  EXPECT_DOUBLE_EQ(output_port_shape->scenePos().x(),
+                   100.0 + (wait_shape_ptr->GetShapeRect().width() / 2));
+  EXPECT_DOUBLE_EQ(output_port_shape->scenePos().y(), 200.0);
+
+  // Validating coordinates of underlying port after NodePortShapes became a child of
+  // ConnectableShape which in turn was placed in the scene.
+  auto output_port = output_port_shape->GetNodePort();
+  auto [port_x, port_y] = output_port->GetScenePosition();
+  EXPECT_DOUBLE_EQ(port_x, output_port_shape->scenePos().x());
+  EXPECT_DOUBLE_EQ(port_y, output_port_shape->scenePos().y());
 }
 
 }  // namespace mvvm::test

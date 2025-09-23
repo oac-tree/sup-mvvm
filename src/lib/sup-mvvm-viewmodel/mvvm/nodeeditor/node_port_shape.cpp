@@ -81,7 +81,7 @@ INodePort *NodePortShape::GetNodePort() const
 
 QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-  if (change == ItemScenePositionHasChanged)
+  if (change == ItemScenePositionHasChanged || change == ItemSceneHasChanged)
   {
     UpdateNodePort();
   }

@@ -107,7 +107,8 @@ TEST_F(NodePortShapeTest, ScenePosition)
   EXPECT_DOUBLE_EQ(shape_ptr->scenePos().x(), 1.0);
   EXPECT_DOUBLE_EQ(shape_ptr->scenePos().y(), 2.0);
 
-  // doesn't trigger SetScenePosition because item is not in the scene yet
+  // triggered by adding to the scene
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(1.0, 2.0)).Times(1);
 
   QGraphicsScene scene;
   scene.addItem(shape.release());
