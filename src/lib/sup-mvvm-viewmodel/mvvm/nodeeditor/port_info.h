@@ -28,6 +28,8 @@
 namespace mvvm
 {
 
+class SessionItem;
+
 /**
  * @brief The PortInfo contains an information about the node port related to the connection logic.
  *
@@ -42,9 +44,15 @@ public:
   PortInfo(PortDirection port_direction, std::string port_type);
 
   /**
-   * @brief Initiazes a PortInfo with the given direction, type and label.
+   * @brief Initializes a PortInfo with all available info.
+   *
+   * @param port_direction Direction of the port (input or output).
+   * @param port_type A string representing a port type.
+   * @param port_label A label for the port.
+   * @param origin An origin item for this port, if any.
    */
-  PortInfo(PortDirection port_direction, std::string port_type, std::string port_label);
+  PortInfo(PortDirection port_direction, std::string port_type, std::string port_label,
+           SessionItem* origin);
 
   /**
    * @brief Returns port direction.
@@ -64,10 +72,16 @@ public:
    */
   std::string GetPortLabel() const;
 
+  /**
+   * @brief Returns an origin item for this port, if any.
+   */
+  mvvm::SessionItem* GetOrigin() const;
+
 private:
   PortDirection m_port_direction;
   std::string m_port_type;
   std::string m_port_label;
+  SessionItem* m_origin{nullptr};
 };
 
 bool operator==(const PortInfo& lhs, const PortInfo& rhs);

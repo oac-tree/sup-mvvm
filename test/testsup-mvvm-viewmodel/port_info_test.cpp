@@ -20,6 +20,8 @@
 
 #include "mvvm/nodeeditor/port_info.h"
 
+#include <mvvm/model/session_item.h>
+
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -39,13 +41,24 @@ TEST_F(PortInfoTest, InitialState)
     EXPECT_EQ(info.GetPortType(), std::string("abc"));
     EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
     EXPECT_TRUE(info.GetPortLabel().empty());
+    EXPECT_EQ(info.GetOrigin(), nullptr);
   }
 
   {
-    const PortInfo info(PortDirection::kDefault, "abc", "label");
+    const PortInfo info(PortDirection::kDefault, "abc", "label", nullptr);
     EXPECT_EQ(info.GetPortType(), std::string("abc"));
     EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
     EXPECT_EQ(info.GetPortLabel(), std::string("label"));
+    EXPECT_EQ(info.GetOrigin(), nullptr);
+  }
+
+  {
+    SessionItem item;
+    const PortInfo info(PortDirection::kDefault, "abc", "label", &item);
+    EXPECT_EQ(info.GetPortType(), std::string("abc"));
+    EXPECT_EQ(info.GetPortDirection(), PortDirection::kDefault);
+    EXPECT_EQ(info.GetPortLabel(), std::string("label"));
+    EXPECT_EQ(info.GetOrigin(), &item);
   }
 }
 

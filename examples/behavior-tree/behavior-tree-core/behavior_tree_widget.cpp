@@ -50,12 +50,15 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
   layout->addWidget(m_graphics_view);
 
   auto sequence = m_model->InsertItem<SequenceItem>();
-  auto wait = m_model->InsertItem<WaitItem>(sequence);
+  auto wait0 = m_model->InsertItem<WaitItem>(sequence);
+  auto wait1 = m_model->InsertItem<WaitItem>();
 
   sequence->SetX(m_graphics_scene->sceneRect().center().x());
   sequence->SetY(m_graphics_scene->sceneRect().center().y());
-  wait->SetX(m_graphics_scene->sceneRect().center().x());
-  wait->SetY(m_graphics_scene->sceneRect().center().y()+200);
+  wait0->SetX(m_graphics_scene->sceneRect().center().x());
+  wait0->SetY(m_graphics_scene->sceneRect().center().y()+200);
+  wait1->SetX(m_graphics_scene->sceneRect().center().x()+200);
+  wait1->SetY(m_graphics_scene->sceneRect().center().y()+200);
 
   m_graphics_view->setRenderHint(QPainter::Antialiasing);
 }

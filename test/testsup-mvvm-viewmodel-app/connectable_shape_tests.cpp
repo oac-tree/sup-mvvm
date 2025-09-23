@@ -79,9 +79,9 @@ TEST_F(ConnectableShapeTest, GetPorts)
 TEST_F(ConnectableShapeTest, SetupPorts)
 {
   const std::vector<PortInfo> input_ports = {
-      PortInfo(PortDirection::kInput, "port_type", "label1")};
+      PortInfo(PortDirection::kInput, "port_type", "label1", nullptr)};
   const std::vector<PortInfo> output_ports = {
-      PortInfo(PortDirection::kOutput, "port_type", "label2")};
+      PortInfo(PortDirection::kOutput, "port_type", "label2", nullptr)};
 
   std::vector<PortInfo> all_ports = input_ports;
   all_ports.insert(all_ports.end(), output_ports.begin(), output_ports.end());

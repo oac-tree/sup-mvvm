@@ -53,9 +53,9 @@ TEST_F(NodeHelperTest, GetPortLocation)
 
 TEST_F(NodeHelperTest, GetDefaultPortAppearance)
 {
-  const PortInfo input_info(PortDirection::kInput, "abc1", "label1");
-  const PortInfo output_info(PortDirection::kOutput, "abc2", "label2");
-  const PortInfo default_info(PortDirection::kDefault, "abc3", "label3");
+  const PortInfo input_info(PortDirection::kInput, "abc1", "label1", nullptr);
+  const PortInfo output_info(PortDirection::kOutput, "abc2", "label2", nullptr);
+  const PortInfo default_info(PortDirection::kDefault, "abc3", "label3", nullptr);
 
   {  // kLeftToRight
     auto input_appearance = GetDefaultPortAppearance(NodeTreeLayout::kLeftToRight, input_info);
