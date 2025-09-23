@@ -178,10 +178,11 @@ TEST_F(ConnectableShapeExtendedTest, MakeSequenceAndWaitConnected)
   EXPECT_THROW(wait_shape->MakeChildConnected(sequence_shape.get()), RuntimeException)
       << "Cannot connect Wait to Sequence";
 
-  EXPECT_NO_THROW(sequence_shape->MakeChildConnected(wait_shape.get()));
+  auto connection = sequence_shape->MakeChildConnected(wait_shape.get());
 
   auto connections = GetShapes<NodeConnectionShape>();
   ASSERT_EQ(connections.size(), 1);
+  EXPECT_EQ(connection, connections.at(0));
 
   auto node_connection = connections.front()->GetNodeConnection();
   ASSERT_EQ(node_connection->GetStartPort(),

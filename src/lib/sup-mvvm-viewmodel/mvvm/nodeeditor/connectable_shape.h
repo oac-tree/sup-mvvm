@@ -34,6 +34,7 @@ class IPortPositionStrategy;
 class PortInfo;
 class ItemListener;
 class INodePort;
+class NodeConnectionShape;
 
 /**
  * @brief The ConnectableShape is a graphics object which have ports for connecting other objects.
@@ -74,8 +75,9 @@ public:
    * @brief Makes the given child shape connected to this shape.
    *
    * This method creates a connection between this shape and the provided child shape.
+   * The method acts only on shapes and doesn't affter underlying ISessionModel.
    */
-  void MakeChildConnected(ConnectableShape* child_shape) const;
+  NodeConnectionShape* MakeChildConnected(ConnectableShape* child_shape) const;
 
   /**
    * @brief Returns all ports of this shape.

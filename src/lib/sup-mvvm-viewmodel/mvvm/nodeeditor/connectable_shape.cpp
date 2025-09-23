@@ -189,7 +189,7 @@ void ConnectableShape::UpdateViewFromItem()
   m_block_item_update = false;
 }
 
-void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
+NodeConnectionShape *ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
 {
   if (!scene())
   {
@@ -222,7 +222,9 @@ void ConnectableShape::MakeChildConnected(ConnectableShape *child_shape) const
 
   auto connection_shape = std::make_unique<NodeConnectionShape>(
       m_port_position_strategy->GetNodeTreeLayout(), std::move(connection));
+  auto connection_shape_ptr = connection_shape.get();
   scene()->addItem(connection_shape.release());  // take ownership
+  return connection_shape_ptr;
 }
 
 std::vector<INodePort *> ConnectableShape::GetPorts() const
