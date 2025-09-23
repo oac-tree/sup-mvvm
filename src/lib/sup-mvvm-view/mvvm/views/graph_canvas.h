@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_GRAPH_CANVAS_H_
 #define MVVM_VIEWS_GRAPH_CANVAS_H_
 
-#include <mvvm/view_export.h>
 
 #include <QWidget>
 #include <memory>
@@ -35,7 +34,7 @@ class SceneAdapterInterface;
 //! Widget to show scientific figure with multiple 1D graphs.
 //! Contains embedded QCustomPlot widget, shows content of GraphViewportItem.
 
-class MVVM_VIEW_EXPORT GraphCanvas : public QWidget
+class GraphCanvas : public QWidget
 {
   Q_OBJECT
 

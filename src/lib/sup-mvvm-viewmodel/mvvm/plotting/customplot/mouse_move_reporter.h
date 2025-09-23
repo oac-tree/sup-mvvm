@@ -21,7 +21,6 @@
 #ifndef MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_
 #define MVVM_PLOTTING_CUSTOMPLOT_MOUSE_MOVE_REPORTER_H_
 
-#include <mvvm/view_export.h>
 
 #include <functional>
 #include <memory>
@@ -37,7 +36,7 @@ struct MousePosInfo;
 //! Notifies client about mouse moves and corresponding pointer coordinates expressed in axes units
 //! at current zoom level.
 
-class MVVM_VIEW_EXPORT MouseMoveReporter
+class MouseMoveReporter
 {
 public:
   using callback_t = std::function<void(const MousePosInfo& pos_info)>;

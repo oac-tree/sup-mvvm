@@ -53,7 +53,7 @@ QCPGraph* FindGraphNearby(QCustomPlot* custom_plot, double xpos, double ypos);
  *
  * It is used to get information when mouse is hovered over a graph in QCustomPlot.
  */
-class MVVM_VIEW_EXPORT GraphInfoFormatter : public StatusStringFormatterInterface
+class GraphInfoFormatter : public StatusStringFormatterInterface
 {
 public:
   /**

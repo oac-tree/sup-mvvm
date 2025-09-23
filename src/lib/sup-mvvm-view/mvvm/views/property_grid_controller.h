@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_PROPERTY_GRID_CONTROLLER_H_
 #define MVVM_VIEWS_PROPERTY_GRID_CONTROLLER_H_
 
-#include <mvvm/view_export.h>
 
 #include <QObject>
 #include <memory>
@@ -46,7 +45,7 @@ class ViewModelDelegate;
  * Controller also holds a collection of delegates/and mappers to propagate editing activity back to
  * the model.
  */
-class MVVM_VIEW_EXPORT PropertyGridController : public QObject
+class PropertyGridController : public QObject
 {
   Q_OBJECT
 

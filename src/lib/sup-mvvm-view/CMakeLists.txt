@@ -4,9 +4,6 @@ set(export_name view)
 coa_add_library(${library_name})
 add_library(sup-mvvm::${export_name} ALIAS ${library_name}) # alias for build-tree usage
 
-set(export_filename ${SUP_MVVM_AUTOGEN_DIR}/mvvm/view_export.h)
-generate_export_header(${library_name} EXPORT_FILE_NAME ${export_filename}  EXPORT_MACRO_NAME MVVM_VIEW_EXPORT)
-
 add_subdirectory(mvvm)
 
 target_link_libraries(${library_name} PUBLIC sup-mvvm-viewmodel Qt${QT_VERSION_MAJOR}::Widgets)
@@ -22,4 +19,3 @@ target_include_directories(${library_name} PUBLIC
 # -- Installation --
 install(TARGETS ${library_name} EXPORT sup-mvvm-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY mvvm/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mvvm FILES_MATCHING PATTERN "*.h")
-install(FILES ${export_filename} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mvvm)

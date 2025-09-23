@@ -22,7 +22,6 @@
 #define MVVM_PLOTTING_CUSTOMPLOT_PEN_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-#include <mvvm/view_export.h>
 
 #include <memory>
 
@@ -36,7 +35,7 @@ class PenItem;
 //! Establishes communication between QCPGraph and PenItem.
 //! Provides update of QCPGraph's color, line style and width when PenItem is changed.
 
-class MVVM_VIEW_EXPORT PenController : public ItemController<PenItem>
+class PenController : public ItemController<PenItem>
 {
 public:
   explicit PenController(QCPGraph* graph);

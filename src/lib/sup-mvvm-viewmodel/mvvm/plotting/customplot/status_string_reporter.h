@@ -21,7 +21,6 @@
 #ifndef MVVM_PLOTTING_CUSTOMPLOT_STATUS_STRING_REPORTER_H_
 #define MVVM_PLOTTING_CUSTOMPLOT_STATUS_STRING_REPORTER_H_
 
-#include <mvvm/view_export.h>
 
 #include <functional>
 #include <memory>
@@ -37,7 +36,7 @@ class StatusStringFormatterInterface;
 //! Reports back status string composed for current mouse position in QCustomPlot.
 //! Doesn't report if cursor is outside of the axes range.
 
-class MVVM_VIEW_EXPORT StatusStringReporter
+class StatusStringReporter
 {
 public:
   using callback_t = std::function<void(const std::string&)>;

@@ -19,4 +19,3 @@ target_include_directories(${library_name} PUBLIC
 # -- Installation --
 install(TARGETS ${library_name} EXPORT sup-mvvm-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(DIRECTORY mvvm/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mvvm FILES_MATCHING PATTERN "*.h")
- # No export header is generated any more

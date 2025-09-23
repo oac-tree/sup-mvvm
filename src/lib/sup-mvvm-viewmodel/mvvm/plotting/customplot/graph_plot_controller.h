@@ -22,7 +22,6 @@
 #define MVVM_PLOTTING_CUSTOMPLOT_GRAPH_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-#include <mvvm/view_export.h>
 
 #include <memory>
 
@@ -38,7 +37,7 @@ class GraphItem;
 //! QCPGraph is added to QCustomPlot plottables, when controller is created, and removed from
 //! plottables when controller is destroyed.
 
-class MVVM_VIEW_EXPORT GraphPlotController : public ItemController<GraphItem>
+class GraphPlotController : public ItemController<GraphItem>
 {
 public:
   explicit GraphPlotController(QCustomPlot* plot);

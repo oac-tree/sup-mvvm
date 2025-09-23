@@ -22,7 +22,6 @@
 #define MVVM_PLOTTING_CUSTOMPLOT_AXIS_TITLE_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-#include <mvvm/view_export.h>
 
 #include <memory>
 
@@ -36,7 +35,7 @@ class TextItem;
 /**
  * @brief The AxisTitleController class propagates title settings from TextItem to QCPAxis.
  */
-class MVVM_VIEW_EXPORT AxisTitleController : public ItemController<TextItem>
+class AxisTitleController : public ItemController<TextItem>
 {
 public:
   explicit AxisTitleController(QCPAxis* axis);

@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_
 #define MVVM_WIDGETS_ADJUSTING_SCROLL_AREA_H_
 
-#include <mvvm/view_export.h>
 
 #include <QScrollArea>
 
@@ -32,7 +31,7 @@ namespace mvvm
  * @brief The AdjustingScrollArea class modifies the standard scroll area, allowing widgets with
  * dynamic layouts to occupy all available space.
  */
-class MVVM_VIEW_EXPORT AdjustingScrollArea : public QScrollArea
+class AdjustingScrollArea : public QScrollArea
 {
   Q_OBJECT
 

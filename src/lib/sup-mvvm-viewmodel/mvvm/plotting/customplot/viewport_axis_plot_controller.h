@@ -22,7 +22,6 @@
 #define MVVM_PLOTTING_CUSTOMPLOT_VIEWPORT_AXIS_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-#include <mvvm/view_export.h>
 
 #include <memory>
 
@@ -36,7 +35,7 @@ class ViewportAxisItem;
 //! Establishes communication between QCPAxis and ViewportAxisItem.
 //! Provide mutual update of axis parameters (min, max, title) for two axes representations.
 
-class MVVM_VIEW_EXPORT ViewportAxisPlotController : public ItemController<ViewportAxisItem>
+class ViewportAxisPlotController : public ItemController<ViewportAxisItem>
 {
 public:
   explicit ViewportAxisPlotController(QCPAxis* axis);

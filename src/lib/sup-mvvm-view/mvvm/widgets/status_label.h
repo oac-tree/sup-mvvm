@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_STATUS_LABEL_H_
 #define MVVM_WIDGETS_STATUS_LABEL_H_
 
-#include <mvvm/view_export.h>
 
 #include <QFrame>
 
@@ -34,7 +33,7 @@ namespace mvvm
 //! Opposite to QLabel, doesn't trigger layout resize, being happy with place it has. If text string
 //! is too long for current size, it will be clipped.
 
-class MVVM_VIEW_EXPORT StatusLabel : public QFrame
+class StatusLabel : public QFrame
 {
   Q_OBJECT
 

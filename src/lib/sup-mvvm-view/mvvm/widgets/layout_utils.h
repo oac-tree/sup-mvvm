@@ -21,7 +21,6 @@
 #ifndef MVVM_WIDGETS_LAYOUT_UTILS_H_
 #define MVVM_WIDGETS_LAYOUT_UTILS_H_
 
-#include "mvvm/view_export.h"
 
 class QLayout;
 class QGridLayout;
@@ -36,19 +35,19 @@ namespace mvvm
 {
 
 //! Removes content from box layout.
-MVVM_VIEW_EXPORT void ClearLayout(QLayout* layout, bool deleteWidgets = true);
+void ClearLayout(QLayout* layout, bool deleteWidgets = true);
 
 //! Removes row from grid layout (important: doesn't change row count).
-MVVM_VIEW_EXPORT void RemoveRow(QGridLayout* layout, int row, bool deleteWidgets = true);
+void RemoveRow(QGridLayout* layout, int row, bool deleteWidgets = true);
 
 //! Removes column from grid layout.
-MVVM_VIEW_EXPORT void RemoveColumn(QGridLayout* layout, int column, bool deleteWidgets = true);
+void RemoveColumn(QGridLayout* layout, int column, bool deleteWidgets = true);
 
 //! Clear layout completely.
-MVVM_VIEW_EXPORT void ClearGridLayout(QGridLayout* layout, bool deleteWidgets = true);
+void ClearGridLayout(QGridLayout* layout, bool deleteWidgets = true);
 
 //! Returns empty widget to occupy place in layout.
-MVVM_VIEW_EXPORT QWidget* CreatePlaceHolder();
+QWidget* CreatePlaceHolder();
 
 }  // namespace mvvm
 

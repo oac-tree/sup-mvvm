@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_
 #define MVVM_VIEWS_ABSTRACT_ITEM_VIEW_H_
 
-#include <mvvm/view_export.h>
 
 #include <QWidget>
 
@@ -36,7 +35,7 @@ class ItemViewComponentProvider;
 
 //! Generic view to show SessionModel in Qt lists, trees and tables.
 
-class MVVM_VIEW_EXPORT AbstractItemView : public QWidget
+class AbstractItemView : public QWidget
 {
   Q_OBJECT
 

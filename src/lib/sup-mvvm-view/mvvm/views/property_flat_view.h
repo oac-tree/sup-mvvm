@@ -21,7 +21,6 @@
 #ifndef MVVM_VIEWS_PROPERTY_FLAT_VIEW_H_
 #define MVVM_VIEWS_PROPERTY_FLAT_VIEW_H_
 
-#include <mvvm/view_export.h>
 
 #include <QWidget>
 #include <memory>
@@ -37,7 +36,7 @@ class PropertyGridController;
 //! Widget holding grid layout with editors and intended for displaying all properties of given
 //! SessionItem.
 
-class MVVM_VIEW_EXPORT PropertyFlatView : public QWidget
+class PropertyFlatView : public QWidget
 {
   Q_OBJECT
 

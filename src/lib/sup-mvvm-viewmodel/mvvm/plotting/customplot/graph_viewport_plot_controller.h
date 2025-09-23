@@ -22,7 +22,6 @@
 #define MVVM_PLOTTING_CUSTOMPLOT_GRAPH_VIEWPORT_PLOT_CONTROLLER_H_
 
 #include <mvvm/signals/item_controller.h>
-#include <mvvm/view_export.h>
 
 #include <memory>
 
@@ -36,7 +35,7 @@ class GraphViewportItem;
 //! Establishes communications and mutual updates for GraphViewportItem and QCutomPlot.
 //! Populates custom plot with all graphs found in GraphViewportItem.
 
-class MVVM_VIEW_EXPORT GraphViewportPlotController : public ItemController<GraphViewportItem>
+class GraphViewportPlotController : public ItemController<GraphViewportItem>
 {
 public:
   explicit GraphViewportPlotController(QCustomPlot* plot);
