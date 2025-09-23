@@ -21,8 +21,6 @@
 #ifndef MVVM_UTILS_PROGRESS_HANDLER_H_
 #define MVVM_UTILS_PROGRESS_HANDLER_H_
 
-#include "mvvm/model_export.h"
-
 #include <functional>
 #include <mutex>
 
