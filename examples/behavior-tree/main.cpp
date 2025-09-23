@@ -22,12 +22,15 @@
 #include <QLocale>
 
 #include "behavior-tree-core/main_window.h"
+#include <mvvm/nodeeditor/i_node_port.h>
 
 int main(int argc, char** argv)
 {
   QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
 
   QApplication app(argc, argv);
+
+  (void)qRegisterMetaType<const mvvm::INodePort*>("const mvvm::INodePort*");
 
   behaviortree::MainWindow win;
   win.show();

@@ -26,9 +26,10 @@
 
 #include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/connectable_shape.h>
-#include <mvvm/nodeeditor/node_connection_guide.h>
 #include <mvvm/nodeeditor/connectable_view_model_controller.h>
 #include <mvvm/nodeeditor/default_node_shape_factory.h>
+#include <mvvm/nodeeditor/node_connection_guide.h>
+#include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 #include <mvvm/standarditems/node_item.h>
@@ -56,11 +57,16 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
   sequence->SetX(m_graphics_scene->sceneRect().center().x());
   sequence->SetY(m_graphics_scene->sceneRect().center().y());
   wait0->SetX(m_graphics_scene->sceneRect().center().x());
-  wait0->SetY(m_graphics_scene->sceneRect().center().y()+200);
-  wait1->SetX(m_graphics_scene->sceneRect().center().x()+200);
-  wait1->SetY(m_graphics_scene->sceneRect().center().y()+200);
+  wait0->SetY(m_graphics_scene->sceneRect().center().y() + 200);
+  wait1->SetX(m_graphics_scene->sceneRect().center().x() + 200);
+  wait1->SetY(m_graphics_scene->sceneRect().center().y() + 200);
 
   m_graphics_view->setRenderHint(QPainter::Antialiasing);
+
+  auto on_connection_request = [this](auto start_port, auto end_port)
+  { mvvm::ConnectPorts(start_port, end_port); };
+  connect(m_connection_guide.get(), &mvvm::NodeConnectionGuide::connectionRequest, this,
+          on_connection_request);
 }
 
 std::unique_ptr<mvvm::ConnectableViewModelController> BehaviorTreeWidget::CreateController()
