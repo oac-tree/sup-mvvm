@@ -215,6 +215,50 @@ TEST_F(ConnectableViewModelControllerTest, RemoveItemFromModel)
   ASSERT_EQ(connections.size(), 0);
 }
 
+TEST_F(ConnectableViewModelControllerTest, RemoveParentAndChild)
+{
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>(sequence_item);
+
+  auto controller = CreateController();
+  EXPECT_NO_THROW(controller->InitScene(m_app_model.GetRootItem()));
+
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 2);
+  auto connections = GetShapes<NodeConnectionShape>();
+  ASSERT_EQ(connections.size(), 1);
+
+  m_app_model.RemoveItem(sequence_item);
+
+  // removing sequence removes all views and connections
+  shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 0);
+  connections = GetShapes<NodeConnectionShape>();
+  ASSERT_EQ(connections.size(), 0);
+}
+
+TEST_F(ConnectableViewModelControllerTest, RemoveChildFromParent)
+{
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>(sequence_item);
+
+  auto controller = CreateController();
+  EXPECT_NO_THROW(controller->InitScene(m_app_model.GetRootItem()));
+
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 2);
+  auto connections = GetShapes<NodeConnectionShape>();
+  ASSERT_EQ(connections.size(), 1);
+
+  m_app_model.RemoveItem(wait_item);
+
+  // removing wait removes its; view and hanging connection
+  shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
+  connections = GetShapes<NodeConnectionShape>();
+  ASSERT_EQ(connections.size(), 0);
+}
+
 TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToParent)
 {
   // Sequence and wait

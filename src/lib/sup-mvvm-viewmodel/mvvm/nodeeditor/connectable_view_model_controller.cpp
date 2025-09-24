@@ -21,7 +21,9 @@
 #include "connectable_view_model_controller.h"
 
 #include "connectable_shape.h"
+#include "graphics_scene_helper.h"
 #include "i_connectable_shape_factory.h"
+#include "node_connection_shape.h"
 
 #include <mvvm/model/item_utils.h>
 #include <mvvm/signals/model_listener.h>
@@ -34,11 +36,28 @@ namespace mvvm
 
 namespace
 {
+
+/**
+ * @brief The Node class intended to store the pair item/shape in stack-based algorithms.
+ */
 struct Node
 {
   SessionItem *item{nullptr};
   const ConnectableShape *shape{nullptr};
 };
+
+/**
+ * @brief Returns a list of connection shapes that are not connected to two ports.
+ */
+std::vector<NodeConnectionShape *> FindHangingConnectionShapes(QGraphicsScene *scene)
+{
+  auto connections = mvvm::GetShapes<NodeConnectionShape>(*scene);
+  std::vector<NodeConnectionShape *> result;
+  std::copy_if(connections.begin(), connections.end(), std::back_inserter(result),
+               [](auto connection) { return connection->IsHanging(); });
+  return result;
+}
+
 }  // namespace
 
 ConnectableViewModelController::ConnectableViewModelController(
@@ -84,11 +103,19 @@ void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &
 
   if (IsInScope(event))
   {
+    // remove views
     auto shapes_to_remove = m_item_view_map.RemoveRecursively(item_to_remove);
     for (auto shape : shapes_to_remove)
     {
       m_graphics_scene->removeItem(shape);
       delete shape;
+    }
+
+    // remove hanging connections
+    for (auto connection : FindHangingConnectionShapes(m_graphics_scene))
+    {
+      m_graphics_scene->removeItem(connection);
+      delete connection;
     }
   }
 }
