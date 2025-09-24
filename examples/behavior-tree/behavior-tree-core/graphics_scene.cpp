@@ -20,6 +20,10 @@
 
 #include "graphics_scene.h"
 
+#include <mvvm/model/item_utils.h>
+#include <mvvm/nodeeditor/connectable_shape.h>
+#include <mvvm/nodeeditor/graphics_scene_helper.h>
+#include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
 
 namespace behaviortree
@@ -46,7 +50,10 @@ GraphicsScene::GraphicsScene(QObject *parent_object) : QGraphicsScene(parent_obj
 
 void GraphicsScene::OnDeleteSelectedRequest()
 {
-  qDebug() << "OnDeleteSelectedRequest()";
+  for (auto shape : mvvm::GetSelectedShapes<mvvm::ConnectableShape>(*this))
+  {
+    mvvm::utils::RemoveItem(*mvvm::GetUnderlyingItem(shape));
+  }
 }
 
 }  // namespace behaviortree
