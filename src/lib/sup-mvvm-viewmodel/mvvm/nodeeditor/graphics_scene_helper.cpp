@@ -20,7 +20,17 @@
 
 #include "graphics_scene_helper.h"
 
+#include "connectable_shape.h"
+#include "i_connectable_shape_adapter.h"
+
+#include <mvvm/model/session_item.h>
+
 namespace mvvm
 {
 
+SessionItem *GetUnderlyingItem(ConnectableShape *shape)
+{
+  return shape->GetConnectableShapeAdapter()->GetItem();
 }
+
+}  // namespace mvvm

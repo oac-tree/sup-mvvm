@@ -25,7 +25,6 @@
 #include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/default_node_shape_factory.h>
 #include <mvvm/nodeeditor/graphics_scene_helper.h>
-#include <mvvm/nodeeditor/i_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/i_node_port.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
@@ -66,14 +65,6 @@ public:
   std::vector<ShapeT*> GetShapes() const
   {
     return ::mvvm::GetShapes<ShapeT>(m_scene);
-  }
-
-  /**
-   * @brief Helpers to get underlying item from the shape.
-   */
-  static SessionItem* GetUnderlyingItem(ConnectableShape* shape)
-  {
-    return shape->GetConnectableShapeAdapter()->GetItem();
   }
 
   /**

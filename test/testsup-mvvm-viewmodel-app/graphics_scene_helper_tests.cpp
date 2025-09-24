@@ -20,12 +20,17 @@
 
 #include "mvvm/nodeeditor/graphics_scene_helper.h"
 
+#include <mvvm/nodeeditor/connectable_shape.h>
+#include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_constants.h>
+#include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/node_port.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
+#include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 
 #include <gtest/gtest.h>
 #include <testutils/test_node_editor_helper.h>
+#include <testutils/toy_items.h>
 
 #include <QGraphicsScene>
 
@@ -71,6 +76,15 @@ TEST_F(GraphicsSceneHelperTests, GetShapesInArea)
   auto ports = GetShapes<NodePortShape>(scene, area);
   ASSERT_EQ(ports.size(), 1);
   ASSERT_EQ(ports.at(0), port2.get());
+}
+
+TEST_F(GraphicsSceneHelperTests, GetUnderlyingItem)
+{
+  toyitems::SequenceItem sequence;
+  auto adapter = std::make_unique<NodeItemConnectableShapeAdapter>(&sequence);
+  auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
+  ConnectableShape shape(std::move(adapter), std::move(position_strategy));
+  EXPECT_EQ(GetUnderlyingItem(&shape), &sequence);
 }
 
 }  // namespace mvvm::test

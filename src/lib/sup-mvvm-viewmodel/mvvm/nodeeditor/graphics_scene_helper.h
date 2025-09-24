@@ -32,6 +32,9 @@
 namespace mvvm
 {
 
+class SessionItem;
+class ConnectableShape;
+
 /**
  * @brief Helper to get shapes of specific type from the scene.
  *
@@ -57,6 +60,11 @@ std::vector<ShapeT*> GetShapes(const QGraphicsScene& scene, const QRectF& area)
   std::reverse(shapes.begin(), shapes.end());
   return shapes;
 }
+
+/**
+ * @brief Helpers to get underlying item from the shape.
+ */
+SessionItem* GetUnderlyingItem(ConnectableShape* shape);
 
 }  // namespace mvvm
 
