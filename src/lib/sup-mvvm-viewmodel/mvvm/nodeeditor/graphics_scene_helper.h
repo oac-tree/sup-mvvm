@@ -61,18 +61,15 @@ std::vector<ShapeT*> GetShapes(const QGraphicsScene& scene, const QRectF& area)
   return shapes;
 }
 
-
 /**
  * @brief Helper to get shapes of specific type from the scene.
  *
- * The result will be sorted according the order of the addition.
+ * Item returned in no particular order.
  */
 template <typename ShapeT>
 std::vector<ShapeT*> GetSelectedShapes(const QGraphicsScene& scene)
 {
-  auto shapes = utils::CastItems<ShapeT>(scene.selectedItems());
-  std::reverse(shapes.begin(), shapes.end());
-  return shapes;
+  return utils::CastItems<ShapeT>(scene.selectedItems());
 }
 
 /**
