@@ -105,4 +105,9 @@ void NodeConnectionShape::paint(QPainter *painter, const QStyleOptionGraphicsIte
   painter->drawPath(path());
 }
 
+bool NodeConnectionShape::IsHanging() const
+{
+  return m_node_connection->GetStartPort() == nullptr || m_node_connection->GetEndPort() == nullptr;
+}
+
 }  // namespace mvvm

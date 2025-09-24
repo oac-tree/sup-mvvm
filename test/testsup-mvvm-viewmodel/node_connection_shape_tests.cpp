@@ -67,6 +67,50 @@ TEST_F(NodeConnectionShapeTest, UpdatePathWithoutPorts)
   node_connection_shape->UpdatePath();
 }
 
+TEST_F(NodeConnectionShapeTest, IsHangingWithoutPorts)
+{
+  auto tree_layout = NodeTreeLayout::kTopToBottom;
+
+  EXPECT_CALL(m_mock_node_connection, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
+
+  auto node_connection_shape = CreateNodePortShape(tree_layout);
+
+  // already first port is absent
+  EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1).WillOnce(::testing::Return(nullptr));
+
+  EXPECT_TRUE(node_connection_shape->IsHanging());
+
+  // only second port is absent
+  EXPECT_CALL(m_mock_node_connection, GetStartPort())
+      .Times(1)
+      .WillOnce(::testing::Return(&m_mock_start_port));
+  EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1).WillOnce(::testing::Return(nullptr));
+
+  EXPECT_TRUE(node_connection_shape->IsHanging());
+}
+
+TEST_F(NodeConnectionShapeTest, IsHangingWithPorts)
+{
+  auto tree_layout = NodeTreeLayout::kTopToBottom;
+
+  EXPECT_CALL(m_mock_node_connection, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
+  EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
+
+  auto node_connection_shape = CreateNodePortShape(tree_layout);
+
+  EXPECT_CALL(m_mock_node_connection, GetStartPort())
+      .Times(1)
+      .WillOnce(::testing::Return(&m_mock_start_port));
+  EXPECT_CALL(m_mock_node_connection, GetEndPort())
+      .Times(1)
+      .WillOnce(::testing::Return(&m_mock_end_port));
+
+  EXPECT_FALSE(node_connection_shape->IsHanging());
+}
+
 TEST_P(NodeConnectionShapeTest, UpdatePathWithPorts)
 {
   auto tree_layout = GetParam();

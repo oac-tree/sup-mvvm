@@ -48,6 +48,11 @@ public:
 
   void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
+  /**
+   * @brief Checks if given connection is hanging (not connected to both ports).
+   */
+  bool IsHanging() const;
+
 private:
   NodeTreeLayout m_tree_layout;
   std::unique_ptr<INodeConnection> m_node_connection;
