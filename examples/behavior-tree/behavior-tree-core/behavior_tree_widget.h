@@ -46,10 +46,11 @@ public:
   ~BehaviorTreeWidget() override;
 
 private:
+  std::unique_ptr<mvvm::ConnectableViewModelController> CreateController();
+  void SetupConnections();
+
   GraphicsScene* m_graphics_scene{nullptr};
   GraphicsView* m_graphics_view{nullptr};
-  std::unique_ptr<mvvm::ConnectableViewModelController> CreateController();
-
   std::unique_ptr<mvvm::ApplicationModel> m_model;
   std::unique_ptr<mvvm::ConnectableViewModelController> m_model_scene_controller;
   std::unique_ptr<mvvm::NodeConnectionGuide> m_connection_guide;

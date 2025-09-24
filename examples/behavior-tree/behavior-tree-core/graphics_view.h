@@ -34,6 +34,12 @@ class GraphicsView : public QGraphicsView
 
 public:
   explicit GraphicsView(GraphicsScene* graphics_scene, QWidget* parent_widget = nullptr);
+
+signals:
+  void deleteSelectedRequest();
+
+protected:
+  void keyPressEvent(QKeyEvent* event) override;
 };
 
 }  // namespace behaviortree

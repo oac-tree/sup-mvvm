@@ -23,12 +23,32 @@
 
 #include "graphics_scene.h"
 
+#include <QKeyEvent>
+
 namespace behaviortree
 {
 
 GraphicsView::GraphicsView(GraphicsScene *graphics_scene, QWidget *parent_widget)
     : QGraphicsView(graphics_scene, parent_widget)
 {
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  setRenderHint(QPainter::Antialiasing);
+  setAcceptDrops(true);
+  setMouseTracking(true);
+}
+
+void GraphicsView::keyPressEvent(QKeyEvent *event)
+{
+  // Currently the only function is to emit signal on delete keys.
+  const bool delete_key = event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace;
+  if (delete_key)
+  {
+    deleteSelectedRequest();
+  }
+  else
+  {
+    QGraphicsView::keyPressEvent(event);
+  }
 }
 
 }  // namespace behaviortree

@@ -44,4 +44,9 @@ GraphicsScene::GraphicsScene(QObject *parent_object) : QGraphicsScene(parent_obj
   setSceneRect(GetDefaultSceneRect());
 }
 
+void GraphicsScene::OnDeleteSelectedRequest()
+{
+  qDebug() << "OnDeleteSelectedRequest()";
+}
+
 }  // namespace behaviortree

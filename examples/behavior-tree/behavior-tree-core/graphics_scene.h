@@ -32,6 +32,8 @@ class GraphicsScene : public QGraphicsScene
 
 public:
   explicit GraphicsScene(QObject* parent_object = nullptr);
+
+  void OnDeleteSelectedRequest();
 };
 
 }  // namespace behaviortree

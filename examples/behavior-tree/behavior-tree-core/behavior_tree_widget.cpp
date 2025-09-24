@@ -28,16 +28,16 @@
 #include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/connectable_view_model_controller.h>
 #include <mvvm/nodeeditor/default_node_shape_factory.h>
+#include <mvvm/nodeeditor/i_node_port.h>
 #include <mvvm/nodeeditor/node_connection_guide.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
-#include <mvvm/nodeeditor/i_node_port.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 #include <mvvm/standarditems/node_item.h>
 
 #include <QVBoxLayout>
 
-Q_DECLARE_METATYPE(const mvvm::INodePort*)
+Q_DECLARE_METATYPE(const mvvm::INodePort *)
 
 namespace behaviortree
 {
@@ -66,10 +66,7 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
 
   m_graphics_view->setRenderHint(QPainter::Antialiasing);
 
-  auto on_connection_request = [this](auto start_port, auto end_port)
-  { mvvm::ConnectPorts(start_port, end_port); };
-  connect(m_connection_guide.get(), &mvvm::NodeConnectionGuide::connectionRequest, this,
-          on_connection_request);
+  SetupConnections();
 }
 
 std::unique_ptr<mvvm::ConnectableViewModelController> BehaviorTreeWidget::CreateController()
@@ -79,6 +76,17 @@ std::unique_ptr<mvvm::ConnectableViewModelController> BehaviorTreeWidget::Create
       std::make_unique<mvvm::ConnectableViewModelController>(std::move(factory), m_graphics_scene);
   result->InitScene(m_model->GetRootItem());
   return result;
+}
+
+void BehaviorTreeWidget::SetupConnections()
+{
+  auto on_connection_request = [this](auto start_port, auto end_port)
+  { mvvm::ConnectPorts(start_port, end_port); };
+  connect(m_connection_guide.get(), &mvvm::NodeConnectionGuide::connectionRequest, this,
+          on_connection_request);
+
+  connect(m_graphics_view, &GraphicsView::deleteSelectedRequest, m_graphics_scene,
+          &GraphicsScene::OnDeleteSelectedRequest);
 }
 
 BehaviorTreeWidget::~BehaviorTreeWidget() = default;
