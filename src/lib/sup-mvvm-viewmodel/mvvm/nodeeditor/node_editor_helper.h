@@ -33,6 +33,7 @@ namespace mvvm
 {
 
 class INodePort;
+class SessionItem;
 
 /**
  * @brief Returns port location based on tree layout and port direction.
@@ -76,6 +77,12 @@ SessionItem* GetConnectableParent(const INodePort* port1, const INodePort* port2
  * @brief Connects two ports by moving underlying items so one become child of another.
  */
 bool ConnectPorts(const INodePort* port1, const INodePort* port2);
+
+
+/**
+ * @brief Disconnects two ports by moving the child item to a new parent.
+ */
+bool DisconnectPortsAndMove(const INodePort* port1, const INodePort* port2, SessionItem* new_parent);
 
 }  // namespace mvvm
 

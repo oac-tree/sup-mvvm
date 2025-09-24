@@ -137,4 +137,19 @@ bool ConnectPorts(const INodePort *port1, const INodePort *port2)
   return false;
 }
 
+bool DisconnectPortsAndMove(const INodePort *port1, const INodePort *port2, SessionItem *new_parent)
+{
+  auto parent = GetConnectableParent(port1, port2);
+  auto child = GetConnectableChild(port1, port2);
+  if (parent && child && new_parent)
+  {
+    if (auto model = parent->GetModel(); model)
+    {
+      model->MoveItem(child, new_parent, TagIndex::Append());
+      return true;
+    }
+  }
+  return false;
+}
+
 }  // namespace mvvm

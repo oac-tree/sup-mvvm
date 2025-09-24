@@ -24,6 +24,7 @@
 
 #include <mvvm/model/session_item.h>
 #include <mvvm/model/session_model.h>
+#include <mvvm/standarditems/container_item.h>
 
 #include <gtest/gtest.h>
 #include <testutils/toy_items.h>
@@ -202,7 +203,7 @@ TEST_F(NodeHelperTest, ConnectPorts)
   }
 }
 
-TEST_F(NodeHelperTest, ConnectPortsWHeItemChangeParent)
+TEST_F(NodeHelperTest, ConnectPortsWhenItemChangeParent)
 {
   SessionModel model;
   auto sequence0 = model.InsertItem<toyitems::SequenceItem>();
@@ -214,6 +215,40 @@ TEST_F(NodeHelperTest, ConnectPortsWHeItemChangeParent)
 
   EXPECT_TRUE(ConnectPorts(&input_port, &output_port));
   EXPECT_EQ(wait0->GetParent(), sequence1);
+}
+
+TEST_F(NodeHelperTest, DisconnectSequenceFromWait)
+{
+  SessionModel model;
+  auto sequence0 = model.InsertItem<toyitems::SequenceItem>();
+  auto wait0 = model.InsertItem<toyitems::SequenceItem>(sequence0);
+  auto container = model.InsertItem<ContainerItem>();
+
+  NodePort input_port({PortDirection::kInput, "type1", "label", sequence0});
+  NodePort output_port({PortDirection::kOutput, "type1", "label", wait0});
+
+  EXPECT_TRUE(DisconnectPortsAndMove(&input_port, &output_port, container));
+
+  // after disconnection item shall be placed to the provided container
+  EXPECT_EQ(wait0->GetParent(), container);
+  EXPECT_EQ(container->GetSize(), 1);
+}
+
+TEST_F(NodeHelperTest, DisconnectWaitFromSequence)
+{
+  SessionModel model;
+  auto sequence0 = model.InsertItem<toyitems::SequenceItem>();
+  auto wait0 = model.InsertItem<toyitems::SequenceItem>(sequence0);
+  auto container = model.InsertItem<ContainerItem>();
+
+  NodePort input_port({PortDirection::kInput, "type1", "label", sequence0});
+  NodePort output_port({PortDirection::kOutput, "type1", "label", wait0});
+
+  EXPECT_TRUE(DisconnectPortsAndMove(&output_port, &input_port, container));
+
+  // after disconnection item shall be placed to the provided container
+  EXPECT_EQ(wait0->GetParent(), container);
+  EXPECT_EQ(container->GetSize(), 1);
 }
 
 }  // namespace mvvm::test
