@@ -30,6 +30,7 @@
 
 #include <gtest/gtest.h>
 #include <testutils/test_node_editor_helper.h>
+#include <testutils/test_container_helper.h>
 #include <testutils/toy_items.h>
 
 #include <QGraphicsScene>
@@ -42,6 +43,13 @@ namespace mvvm::test
  */
 class GraphicsSceneHelperTests : public ::testing::Test
 {
+public:
+  static std::unique_ptr<ConnectableShape> CreateConnectableShape(NodeItem* node_item)
+  {
+    auto adapter = std::make_unique<NodeItemConnectableShapeAdapter>(node_item);
+    auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
+    return std::make_unique<ConnectableShape>(std::move(adapter), std::move(position_strategy));
+  }
 };
 
 TEST_F(GraphicsSceneHelperTests, GetShapes)
@@ -76,6 +84,32 @@ TEST_F(GraphicsSceneHelperTests, GetShapesInArea)
   auto ports = GetShapes<NodePortShape>(scene, area);
   ASSERT_EQ(ports.size(), 1);
   ASSERT_EQ(ports.at(0), port2.get());
+}
+
+TEST_F(GraphicsSceneHelperTests, GetSelectedShapes)
+{
+  toyitems::SequenceItem sequence;
+  QGraphicsScene scene;
+
+  auto shape1 = CreateConnectableShape(&sequence);
+  auto shape2 = CreateConnectableShape(&sequence);
+  auto shape3 = CreateConnectableShape(&sequence);
+  auto shape4 = CreateConnectableShape(&sequence);
+
+  scene.addItem(shape1.get());
+  scene.addItem(shape2.get());
+  scene.addItem(shape3.get());
+  scene.addItem(shape4.get());
+
+  auto shapes = GetSelectedShapes<ConnectableShape>(scene);
+  ASSERT_EQ(shapes.size(), 0);
+
+  shape4->setSelected(true);
+  shape2->setSelected(true);
+  shapes = GetSelectedShapes<ConnectableShape>(scene);
+  auto expected_selected_shapes = std::vector<ConnectableShape*>({shape2.get(), shape4.get()});
+
+  EXPECT_TRUE(HaveSameElements(shapes, expected_selected_shapes));
 }
 
 TEST_F(GraphicsSceneHelperTests, GetUnderlyingItem)
