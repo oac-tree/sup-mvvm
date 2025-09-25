@@ -73,6 +73,11 @@ public:
   ViewT FindView(ItemT item) const;
 
   /**
+   * @brief Finds item for a given view.
+   */
+  ItemT FindItem(ViewT view) const;
+
+  /**
    * @brief Clear the whole map.
    */
   void Clear();
@@ -155,6 +160,14 @@ inline ViewT ItemViewMap<ItemT, ViewT>::FindView(ItemT item) const
 {
   const auto iter = m_item_to_view.find(item);
   return iter == m_item_to_view.end() ? nullptr : iter->second;
+}
+
+template <typename ItemT, typename ViewT>
+inline ItemT ItemViewMap<ItemT, ViewT>::FindItem(ViewT view) const
+{
+  auto iter = std::find_if(m_item_to_view.begin(), m_item_to_view.end(),
+                           [view](auto element) { return element.second == view; });
+  return iter == m_item_to_view.end() ? nullptr : iter->first;
 }
 
 template <typename ItemT, typename ViewT>

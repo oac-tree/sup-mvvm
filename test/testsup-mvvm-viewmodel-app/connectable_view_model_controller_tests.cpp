@@ -122,7 +122,9 @@ TEST_F(ConnectableViewModelControllerTest, InitSceneSingleNodeItem)
   ASSERT_EQ(shapes.size(), 1);
   EXPECT_EQ(shapes.at(0)->scenePos().x(), 10.0);
   EXPECT_EQ(shapes.at(0)->scenePos().y(), 20.0);
+
   EXPECT_EQ(controller->FindShapeForItem(*node_item), shapes.at(0));
+  EXPECT_EQ(controller->FindItemForShape(shapes.at(0)), node_item);
 }
 
 TEST_F(ConnectableViewModelControllerTest, InitSceneSequenceAndWaitItems)

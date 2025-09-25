@@ -144,6 +144,11 @@ ConnectableShape *ConnectableViewModelController::FindShapeForItem(const Session
   return m_item_view_map.FindView(&item);
 }
 
+const SessionItem *ConnectableViewModelController::FindItemForShape(ConnectableShape *shape) const
+{
+  return m_item_view_map.FindItem(shape);
+}
+
 SessionItem *ConnectableViewModelController::GetRootItem() const
 {
   return m_root_item;

@@ -112,4 +112,22 @@ TEST_F(ItemViewMapTest, OnItemRemove)
   EXPECT_EQ(map.GetSize(), 1);
 }
 
+TEST_F(ItemViewMapTest, FindItemForView)
+{
+  ItemViewMap<const SessionItem*, const TestView*> map;
+  const SessionItem item0;
+  const SessionItem item1;
+
+  const TestView view0;
+  const TestView view1;
+  const TestView view2;
+
+  map.Insert(&item0, &view0);
+  map.Insert(&item1, &view1);
+
+  EXPECT_EQ(map.FindItem(&view0), &item0);
+  EXPECT_EQ(map.FindItem(&view1), &item1);
+  EXPECT_EQ(map.FindItem(&view2), nullptr);
+}
+
 }  // namespace mvvm::test
