@@ -73,12 +73,11 @@ public:
   static bool IsConnected(NodeConnectionShape* connection_shape, ConnectableShape* parent,
                           ConnectableShape* child)
   {
-    auto child_output_port = GetPortsByDirection(child->GetPorts(), PortDirection::kOutput);
-    auto parent_input_ports = GetPortsByDirection(parent->GetPorts(), PortDirection::kInput);
-    const bool correct_ports = child_output_port.size() == 1 && parent_input_ports.size() == 1;
+    auto child_output_port = GetOutputPort(*child);
+    auto parent_input_port = GetInputPort(*parent);
     auto connection = connection_shape->GetNodeConnection();
-    return connection->GetStartPort() == child_output_port.front()
-           && connection->GetEndPort() == parent_input_ports.front();
+    return connection->GetStartPort() == child_output_port
+           && connection->GetEndPort() == parent_input_port;
   }
 
   ApplicationModel m_app_model;
