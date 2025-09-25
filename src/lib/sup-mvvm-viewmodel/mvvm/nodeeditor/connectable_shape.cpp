@@ -20,6 +20,7 @@
 
 #include "connectable_shape.h"
 
+#include "graphics_scene_helper.h"
 #include "i_connectable_shape_adapter.h"
 #include "i_port_position_strategy.h"
 #include "node_connection.h"
@@ -69,24 +70,6 @@ QFont GetLabelFont()
   QFont result("Noto Sans", constants::NodeUnitRoundSize(0.8), QFont::Normal);
   result.setWordSpacing(-constants::NodeUnitSize(0.25));
   return result;
-}
-
-/**
- * @brief Returns first input port or nullptr if no such port.
- */
-INodePort *GetInputPort(const std::vector<INodePort *> &all_ports)
-{
-  auto input_ports = GetPortsByDirection(all_ports, PortDirection::kInput);
-  return input_ports.empty() ? nullptr : input_ports.front();
-}
-
-/**
- * @brief Returns first output port or nullptr if no such port.
- */
-INodePort *GetOutputPort(const std::vector<INodePort *> &all_ports)
-{
-  auto output_ports = GetPortsByDirection(all_ports, PortDirection::kOutput);
-  return output_ports.empty() ? nullptr : output_ports.front();
 }
 
 }  // namespace
@@ -206,8 +189,8 @@ NodeConnectionShape *ConnectableShape::MakeChildConnected(ConnectableShape *chil
     throw RuntimeException("Cannot connect shape to itself");
   }
 
-  INodePort *input_port = GetInputPort(m_node_ports);
-  INodePort *output_port = GetOutputPort(child_shape->m_node_ports);
+  auto input_port = GetInputPort(*this);
+  auto output_port = GetOutputPort(*child_shape);
 
   if ((input_port == nullptr) || (output_port == nullptr))
   {
