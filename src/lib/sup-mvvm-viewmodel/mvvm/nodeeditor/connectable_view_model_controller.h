@@ -63,6 +63,8 @@ public:
 
   mvvm::SessionItem* GetRootItem() const;
 
+  ConnectableShape* FindShapeForItem(const SessionItem& item) const;
+
 private:
   void PopulateScene(mvvm::SessionItem* top_level_node_item, const ConnectableShape* parent_shape);
   void ConnectToModel(mvvm::ISessionModel* model);

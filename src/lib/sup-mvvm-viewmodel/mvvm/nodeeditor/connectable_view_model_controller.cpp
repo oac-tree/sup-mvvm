@@ -139,6 +139,11 @@ void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item
   }
 }
 
+ConnectableShape *ConnectableViewModelController::FindShapeForItem(const SessionItem &item) const
+{
+  return m_item_view_map.FindView(&item);
+}
+
 SessionItem *ConnectableViewModelController::GetRootItem() const
 {
   return m_root_item;

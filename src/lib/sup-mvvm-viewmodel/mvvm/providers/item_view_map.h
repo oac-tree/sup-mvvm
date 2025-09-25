@@ -70,7 +70,7 @@ public:
   /**
    * @brief Finds view for a given item.
    */
-  ViewT FindView(ItemT item);
+  ViewT FindView(ItemT item) const;
 
   /**
    * @brief Clear the whole map.
@@ -151,7 +151,7 @@ inline std::vector<ViewT> ItemViewMap<ItemT, ViewT>::RemoveRecursively(ItemT ite
 }
 
 template <typename ItemT, typename ViewT>
-inline ViewT ItemViewMap<ItemT, ViewT>::FindView(ItemT item)
+inline ViewT ItemViewMap<ItemT, ViewT>::FindView(ItemT item) const
 {
   const auto iter = m_item_to_view.find(item);
   return iter == m_item_to_view.end() ? nullptr : iter->second;

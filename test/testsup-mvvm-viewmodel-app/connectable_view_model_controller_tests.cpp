@@ -104,6 +104,9 @@ TEST_F(ConnectableViewModelControllerTest, InitSceneForEmptyModel)
   EXPECT_NO_THROW(controller->InitScene(m_app_model.GetRootItem()));
   EXPECT_EQ(controller->GetRootItem(), m_app_model.GetRootItem());
   EXPECT_TRUE(m_scene.items().empty());
+
+  const toyitems::SequenceItem item;
+  EXPECT_EQ(controller->FindShapeForItem(item), nullptr);
 }
 
 TEST_F(ConnectableViewModelControllerTest, InitSceneSingleNodeItem)
@@ -119,6 +122,7 @@ TEST_F(ConnectableViewModelControllerTest, InitSceneSingleNodeItem)
   ASSERT_EQ(shapes.size(), 1);
   EXPECT_EQ(shapes.at(0)->scenePos().x(), 10.0);
   EXPECT_EQ(shapes.at(0)->scenePos().y(), 20.0);
+  EXPECT_EQ(controller->FindShapeForItem(*node_item), shapes.at(0));
 }
 
 TEST_F(ConnectableViewModelControllerTest, InitSceneSequenceAndWaitItems)
@@ -202,6 +206,8 @@ TEST_F(ConnectableViewModelControllerTest, RemoveItemFromModel)
 
   auto shapes = GetShapes<ConnectableShape>();
   ASSERT_EQ(shapes.size(), 2);
+  EXPECT_EQ(controller->FindShapeForItem(*sequence_item), shapes.at(0));
+  EXPECT_EQ(controller->FindShapeForItem(*wait_item), shapes.at(1));
 
   m_app_model.RemoveItem(wait_item);
   shapes = GetShapes<ConnectableShape>();
@@ -213,6 +219,8 @@ TEST_F(ConnectableViewModelControllerTest, RemoveItemFromModel)
 
   auto connections = GetShapes<NodeConnectionShape>();
   ASSERT_EQ(connections.size(), 0);
+  EXPECT_EQ(controller->FindShapeForItem(*sequence_item), nullptr);
+  EXPECT_EQ(controller->FindShapeForItem(*wait_item), nullptr);
 }
 
 TEST_F(ConnectableViewModelControllerTest, RemoveParentAndChild)
