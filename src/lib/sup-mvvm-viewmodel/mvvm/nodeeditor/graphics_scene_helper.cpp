@@ -22,6 +22,7 @@
 
 #include "connectable_shape.h"
 #include "i_connectable_shape_adapter.h"
+#include "node_editor_helper.h"
 
 #include <mvvm/model/session_item.h>
 
@@ -31,6 +32,18 @@ namespace mvvm
 SessionItem *GetUnderlyingItem(ConnectableShape *shape)
 {
   return shape->GetConnectableShapeAdapter()->GetItem();
+}
+
+INodePort *GetInputPort(const ConnectableShape &shape, std::size_t index)
+{
+  auto ports = GetPortsByDirection(shape.GetPorts(), PortDirection::kInput);
+  return index >= ports.size() ? nullptr : ports.at(index);
+}
+
+INodePort *GetOutputPort(const ConnectableShape &shape, std::size_t index)
+{
+  auto ports = GetPortsByDirection(shape.GetPorts(), PortDirection::kOutput);
+  return index >= ports.size() ? nullptr : ports.at(index);
 }
 
 }  // namespace mvvm

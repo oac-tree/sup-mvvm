@@ -78,11 +78,11 @@ SessionItem* GetConnectableParent(const INodePort* port1, const INodePort* port2
  */
 bool ConnectPorts(const INodePort* port1, const INodePort* port2);
 
-
 /**
  * @brief Disconnects two ports by moving the child item to a new parent.
  */
-bool DisconnectPortsAndMove(const INodePort* port1, const INodePort* port2, SessionItem* new_parent);
+bool DisconnectPortsAndMove(const INodePort* port1, const INodePort* port2,
+                            SessionItem* new_parent);
 
 }  // namespace mvvm
 

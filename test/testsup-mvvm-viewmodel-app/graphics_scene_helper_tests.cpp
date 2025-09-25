@@ -29,8 +29,8 @@
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_node_editor_helper.h>
 #include <testutils/test_container_helper.h>
+#include <testutils/test_node_editor_helper.h>
 #include <testutils/toy_items.h>
 
 #include <QGraphicsScene>
@@ -119,6 +119,38 @@ TEST_F(GraphicsSceneHelperTests, GetUnderlyingItem)
   auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
   ConnectableShape shape(std::move(adapter), std::move(position_strategy));
   EXPECT_EQ(GetUnderlyingItem(&shape), &sequence);
+}
+
+TEST_F(GraphicsSceneHelperTests, GetInputPort)
+{
+  toyitems::SequenceItem sequence;
+  auto sequence_shape = CreateConnectableShape(&sequence);
+
+  EXPECT_NE(GetInputPort(*sequence_shape), nullptr);
+  EXPECT_NE(GetInputPort(*sequence_shape, 0U), nullptr);
+  EXPECT_EQ(GetInputPort(*sequence_shape, 1U), nullptr);
+
+  toyitems::WaitItem wait;
+  auto wait_shape = CreateConnectableShape(&wait);
+  EXPECT_EQ(GetInputPort(*wait_shape), nullptr);
+  EXPECT_EQ(GetInputPort(*wait_shape, 0U), nullptr);
+  EXPECT_EQ(GetInputPort(*wait_shape, 1U), nullptr);
+}
+
+TEST_F(GraphicsSceneHelperTests, GetOutputPort)
+{
+  toyitems::SequenceItem sequence;
+  auto sequence_shape = CreateConnectableShape(&sequence);
+
+  EXPECT_NE(GetOutputPort(*sequence_shape), nullptr);
+  EXPECT_NE(GetOutputPort(*sequence_shape, 0U), nullptr);
+  EXPECT_EQ(GetOutputPort(*sequence_shape, 1U), nullptr);
+
+  toyitems::WaitItem wait;
+  auto wait_shape = CreateConnectableShape(&wait);
+  EXPECT_NE(GetOutputPort(*wait_shape), nullptr);
+  EXPECT_NE(GetOutputPort(*wait_shape, 0U), nullptr);
+  EXPECT_EQ(GetOutputPort(*wait_shape, 1U), nullptr);
 }
 
 }  // namespace mvvm::test

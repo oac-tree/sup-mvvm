@@ -34,6 +34,7 @@ namespace mvvm
 
 class SessionItem;
 class ConnectableShape;
+class INodePort;
 
 /**
  * @brief Helper to get shapes of specific type from the scene.
@@ -76,6 +77,16 @@ std::vector<ShapeT*> GetSelectedShapes(const QGraphicsScene& scene)
  * @brief Helpers to get underlying item from the shape.
  */
 SessionItem* GetUnderlyingItem(ConnectableShape* shape);
+
+/**
+ * @brief Helper method to get input port by index.
+ */
+INodePort* GetInputPort(const ConnectableShape& shape, std::size_t index = 0U);
+
+/**
+ * @brief Helper method to get output port by index.
+ */
+INodePort* GetOutputPort(const ConnectableShape& shape, std::size_t index = 0U);
 
 }  // namespace mvvm
 
