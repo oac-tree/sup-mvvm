@@ -119,6 +119,7 @@ TEST_F(GraphicsSceneHelperTests, GetUnderlyingItem)
   auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
   ConnectableShape shape(std::move(adapter), std::move(position_strategy));
   EXPECT_EQ(GetUnderlyingItem(&shape), &sequence);
+  EXPECT_EQ(GetUnderlyingItem<toyitems::SequenceItem>(&shape), &sequence);
 }
 
 TEST_F(GraphicsSceneHelperTests, GetInputPort)

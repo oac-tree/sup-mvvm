@@ -79,6 +79,14 @@ std::vector<ShapeT*> GetSelectedShapes(const QGraphicsScene& scene)
 SessionItem* GetUnderlyingItem(ConnectableShape* shape);
 
 /**
+ * @brief Return unnderlying item casted to specific type.
+ */
+template<typename ItemT> ItemT* GetUnderlyingItem(ConnectableShape* shape)
+{
+  return dynamic_cast<ItemT*>(GetUnderlyingItem(shape));
+}
+
+/**
  * @brief Helper method to get input port by index.
  */
 INodePort* GetInputPort(const ConnectableShape& shape, std::size_t index = 0U);
