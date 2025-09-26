@@ -236,4 +236,19 @@ TEST_F(ConnectableShapeExtendedTest, CoordinatesOfPortShapes)
   EXPECT_DOUBLE_EQ(port_y, output_port_shape->scenePos().y());
 }
 
+TEST_F(ConnectableShapeExtendedTest, SetSelected)
+{
+  auto wait_item = m_app_model.InsertItem<test::toyitems::WaitItem>();
+
+  auto wait_shape = CreateConnectableShape(wait_item);
+  auto wait_shape_ptr = wait_shape.get();
+  m_scene.addItem(wait_shape.release());
+
+  wait_shape_ptr->setSelected(true);
+
+  auto selected_items = m_scene.selectedItems();
+  ASSERT_EQ(selected_items.size(), 1);
+  EXPECT_EQ(selected_items.front(), wait_shape_ptr);
+}
+
 }  // namespace mvvm::test
