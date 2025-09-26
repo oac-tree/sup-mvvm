@@ -160,7 +160,7 @@ TEST_F(GraphicsSceneHelperTests, IsConnected)
   QGraphicsScene scene;
 
   ApplicationModel model;
-  EXPECT_FALSE(IsConnectionFromChildToParent(nullptr, nullptr, nullptr));
+  EXPECT_FALSE(IsParentChildConnection(nullptr, nullptr, nullptr));
 
   auto sequence = model.InsertItem<toyitems::SequenceItem>();
   auto sequence_shape = CreateConnectableShape(sequence);
@@ -171,11 +171,9 @@ TEST_F(GraphicsSceneHelperTests, IsConnected)
   scene.addItem(wait_shape.get());
 
   auto connection_shape = sequence_shape->MakeChildConnected(wait_shape.get());
-  EXPECT_TRUE(
-      IsConnectionFromChildToParent(connection_shape, wait_shape.get(), sequence_shape.get()));
+  EXPECT_TRUE(IsParentChildConnection(sequence_shape.get(), wait_shape.get(), connection_shape));
 
-  EXPECT_FALSE(
-      IsConnectionFromChildToParent(connection_shape, sequence_shape.get(), wait_shape.get()));
+  EXPECT_FALSE(IsParentChildConnection(wait_shape.get(), sequence_shape.get(), connection_shape));
 }
 
 }  // namespace mvvm::test

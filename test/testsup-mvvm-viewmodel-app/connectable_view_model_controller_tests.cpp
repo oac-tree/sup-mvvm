@@ -145,12 +145,12 @@ TEST_F(ConnectableViewModelControllerTest, InitSceneNestedItems)
   ASSERT_EQ(connections.size(), 2);
 
   // connects sequence_item and wait_item1
-  ASSERT_TRUE(IsConnectionFromChildToParent(connections.at(0), shapes.at(1), shapes.at(0)));
-  ASSERT_FALSE(IsConnectionFromChildToParent(connections.at(0), shapes.at(2), shapes.at(0)));
+  ASSERT_TRUE(IsParentChildConnection(shapes.at(0), shapes.at(1), connections.at(0)));
+  ASSERT_FALSE(IsParentChildConnection(shapes.at(0), shapes.at(2), connections.at(0)));
 
   // connects sequence_item and wait_item2
-  ASSERT_TRUE(IsConnectionFromChildToParent(connections.at(1), shapes.at(2), shapes.at(0)));
-  ASSERT_FALSE(IsConnectionFromChildToParent(connections.at(1), shapes.at(1), shapes.at(0)));
+  ASSERT_TRUE(IsParentChildConnection(shapes.at(0), shapes.at(2), connections.at(1)));
+  ASSERT_FALSE(IsParentChildConnection(shapes.at(0), shapes.at(1), connections.at(1)));
 }
 
 TEST_F(ConnectableViewModelControllerTest, InsertItemInEmptyModel)
@@ -180,7 +180,7 @@ TEST_F(ConnectableViewModelControllerTest, InsertChildInParent)
   ASSERT_EQ(shapes.size(), 2);
   auto connections = GetShapes<NodeConnectionShape>();
   ASSERT_EQ(connections.size(), 1);
-  ASSERT_TRUE(IsConnectionFromChildToParent(connections.at(0), shapes.at(1), shapes.at(0)));
+  ASSERT_TRUE(IsParentChildConnection(shapes.at(0), shapes.at(1), connections.at(0)));
   EXPECT_EQ(connections.at(0)->scene(), &m_scene);
 }
 
@@ -287,7 +287,7 @@ TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToPar
   // there is one new connections
   auto connection_shapes = GetShapes<NodeConnectionShape>();
   ASSERT_EQ(connection_shapes.size(), 1);
-  ASSERT_TRUE(IsConnectionFromChildToParent(connection_shapes.at(0), wait_shape, sequence_shape));
+  ASSERT_TRUE(IsParentChildConnection(sequence_shape, wait_shape, connection_shapes.at(0)));
 
   // coordinates of node ports coincide with connection begin/end coordinates
   auto sequence_input_ports =

@@ -98,10 +98,12 @@ INodePort* GetInputPort(const ConnectableShape& shape, std::size_t index = 0U);
 INodePort* GetOutputPort(const ConnectableShape& shape, std::size_t index = 0U);
 
 /**
- * @brief Checks if connection goes from child to parent.
+ * @brief Checks if it is a connection between parent and child shapes.
+ *
+ * Connection starts at output port of the child and ends at the input port of a parent.
  */
-bool IsConnectionFromChildToParent(NodeConnectionShape* connection_shape, ConnectableShape* child,
-                 ConnectableShape* parent);
+bool IsParentChildConnection(ConnectableShape* parent,
+                 ConnectableShape* child, NodeConnectionShape* connection_shape);
 
 }  // namespace mvvm
 

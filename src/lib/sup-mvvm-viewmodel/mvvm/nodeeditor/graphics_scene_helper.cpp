@@ -47,10 +47,10 @@ INodePort *GetOutputPort(const ConnectableShape &shape, std::size_t index)
   return index >= ports.size() ? nullptr : ports.at(index);
 }
 
-bool IsConnectionFromChildToParent(NodeConnectionShape *connection_shape, ConnectableShape *child,
-                                   ConnectableShape *parent)
+bool IsParentChildConnection(ConnectableShape *parent, ConnectableShape *child,
+                             NodeConnectionShape *connection_shape)
 {
-  if (!connection_shape || !child || !parent)
+  if (!connection_shape || !parent || !child)
   {
     return false;
   }
@@ -58,6 +58,7 @@ bool IsConnectionFromChildToParent(NodeConnectionShape *connection_shape, Connec
   auto child_output_port = GetOutputPort(*child);
   auto parent_input_port = GetInputPort(*parent);
   auto connection = connection_shape->GetNodeConnection();
+
   return connection->GetStartPort() == child_output_port
          && connection->GetEndPort() == parent_input_port;
 }
