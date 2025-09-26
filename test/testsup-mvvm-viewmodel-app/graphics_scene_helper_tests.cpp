@@ -20,6 +20,7 @@
 
 #include "mvvm/nodeeditor/graphics_scene_helper.h"
 
+#include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/connectable_shape.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_constants.h>
@@ -27,9 +28,9 @@
 #include <mvvm/nodeeditor/node_port.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
+#include <mvvm/test/test_container_helper.h>
 
 #include <gtest/gtest.h>
-#include <mvvm/test/test_container_helper.h>
 #include <testutils/test_node_editor_helper.h>
 #include <testutils/toy_items.h>
 
@@ -115,11 +116,11 @@ TEST_F(GraphicsSceneHelperTests, GetSelectedShapes)
 TEST_F(GraphicsSceneHelperTests, GetUnderlyingItem)
 {
   toyitems::SequenceItem sequence;
-  auto adapter = std::make_unique<NodeItemConnectableShapeAdapter>(&sequence);
-  auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
-  ConnectableShape shape(std::move(adapter), std::move(position_strategy));
-  EXPECT_EQ(GetUnderlyingItem(&shape), &sequence);
-  EXPECT_EQ(GetUnderlyingItem<toyitems::SequenceItem>(&shape), &sequence);
+
+  auto shape = CreateConnectableShape(&sequence);
+
+  EXPECT_EQ(GetUnderlyingItem(shape.get()), &sequence);
+  EXPECT_EQ(GetUnderlyingItem<toyitems::SequenceItem>(shape.get()), &sequence);
 }
 
 TEST_F(GraphicsSceneHelperTests, GetInputPort)
@@ -152,6 +153,29 @@ TEST_F(GraphicsSceneHelperTests, GetOutputPort)
   EXPECT_NE(GetOutputPort(*wait_shape), nullptr);
   EXPECT_NE(GetOutputPort(*wait_shape, 0U), nullptr);
   EXPECT_EQ(GetOutputPort(*wait_shape, 1U), nullptr);
+}
+
+TEST_F(GraphicsSceneHelperTests, IsConnected)
+{
+  QGraphicsScene scene;
+
+  ApplicationModel model;
+  EXPECT_FALSE(IsConnectionFromChildToParent(nullptr, nullptr, nullptr));
+
+  auto sequence = model.InsertItem<toyitems::SequenceItem>();
+  auto sequence_shape = CreateConnectableShape(sequence);
+  scene.addItem(sequence_shape.get());
+
+  auto wait = model.InsertItem<toyitems::WaitItem>();
+  auto wait_shape = CreateConnectableShape(wait);
+  scene.addItem(wait_shape.get());
+
+  auto connection_shape = sequence_shape->MakeChildConnected(wait_shape.get());
+  EXPECT_TRUE(
+      IsConnectionFromChildToParent(connection_shape, wait_shape.get(), sequence_shape.get()));
+
+  EXPECT_FALSE(
+      IsConnectionFromChildToParent(connection_shape, sequence_shape.get(), wait_shape.get()));
 }
 
 }  // namespace mvvm::test

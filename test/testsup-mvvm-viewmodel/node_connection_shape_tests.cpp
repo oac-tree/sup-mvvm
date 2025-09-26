@@ -33,7 +33,7 @@ namespace mvvm::test
 class NodeConnectionShapeTest : public ::testing::TestWithParam<NodeTreeLayout>
 {
 public:
-  std::unique_ptr<NodeConnectionShape> CreateNodePortShape(NodeTreeLayout tree_layout)
+  std::unique_ptr<NodeConnectionShape> CreateNodeConnectionShape(NodeTreeLayout tree_layout)
   {
     auto node_connection = std::make_unique<NodeConnectionDecorator>(&m_mock_node_connection);
     return std::make_unique<NodeConnectionShape>(tree_layout, std::move(node_connection));
@@ -50,7 +50,7 @@ TEST_F(NodeConnectionShapeTest, InitialState)
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
 
-  auto node_connection_shape = CreateNodePortShape(NodeTreeLayout::kTopToBottom);
+  auto node_connection_shape = CreateNodeConnectionShape(NodeTreeLayout::kTopToBottom);
   EXPECT_NE(node_connection_shape->GetNodeConnection(), nullptr);
 }
 
@@ -59,7 +59,7 @@ TEST_F(NodeConnectionShapeTest, UpdatePathWithoutPorts)
   EXPECT_CALL(m_mock_node_connection, SetNotifyShapeCallback(::testing::_)).Times(1);
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
-  auto node_connection_shape = CreateNodePortShape(NodeTreeLayout::kTopToBottom);
+  auto node_connection_shape = CreateNodeConnectionShape(NodeTreeLayout::kTopToBottom);
 
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1).WillOnce(::testing::Return(nullptr));
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1).WillOnce(::testing::Return(nullptr));
@@ -75,7 +75,7 @@ TEST_F(NodeConnectionShapeTest, IsHangingWithoutPorts)
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
 
-  auto node_connection_shape = CreateNodePortShape(tree_layout);
+  auto node_connection_shape = CreateNodeConnectionShape(tree_layout);
 
   // already first port is absent
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1).WillOnce(::testing::Return(nullptr));
@@ -99,7 +99,7 @@ TEST_F(NodeConnectionShapeTest, IsHangingWithPorts)
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
 
-  auto node_connection_shape = CreateNodePortShape(tree_layout);
+  auto node_connection_shape = CreateNodeConnectionShape(tree_layout);
 
   EXPECT_CALL(m_mock_node_connection, GetStartPort())
       .Times(1)
@@ -119,7 +119,7 @@ TEST_P(NodeConnectionShapeTest, UpdatePathWithPorts)
   EXPECT_CALL(m_mock_node_connection, GetStartPort()).Times(1);
   EXPECT_CALL(m_mock_node_connection, GetEndPort()).Times(1);
 
-  auto node_connection_shape = CreateNodePortShape(tree_layout);
+  auto node_connection_shape = CreateNodeConnectionShape(tree_layout);
 
   EXPECT_CALL(m_mock_node_connection, GetStartPort())
       .Times(1)

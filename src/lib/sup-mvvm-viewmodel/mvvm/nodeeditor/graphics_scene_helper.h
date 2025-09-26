@@ -35,6 +35,7 @@ namespace mvvm
 class SessionItem;
 class ConnectableShape;
 class INodePort;
+class NodeConnectionShape;
 
 /**
  * @brief Helper to get shapes of specific type from the scene.
@@ -95,6 +96,12 @@ INodePort* GetInputPort(const ConnectableShape& shape, std::size_t index = 0U);
  * @brief Helper method to get output port by index.
  */
 INodePort* GetOutputPort(const ConnectableShape& shape, std::size_t index = 0U);
+
+/**
+ * @brief Checks if connection goes from child to parent.
+ */
+bool IsConnectionFromChildToParent(NodeConnectionShape* connection_shape, ConnectableShape* child,
+                 ConnectableShape* parent);
 
 }  // namespace mvvm
 
