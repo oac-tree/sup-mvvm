@@ -13,4 +13,5 @@ target_sources(${library_name} PRIVATE
   model_test_helper.h
   test_helper.cpp
   test_helper.h
+  test_container_helper.h
   )

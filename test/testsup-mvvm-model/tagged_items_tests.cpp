@@ -25,7 +25,7 @@
 #include <mvvm/model/taginfo.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_container_helper.h>
+#include <mvvm/test/test_container_helper.h>
 
 namespace mvvm::test
 {

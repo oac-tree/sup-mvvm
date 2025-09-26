@@ -18,8 +18,8 @@
  * of the distribution package.
  *****************************************************************************/
 
-#ifndef LIBTEST_UTILS_TESTUTILS_TEST_CONTAINER_HELPER_H_
-#define LIBTEST_UTILS_TESTUTILS_TEST_CONTAINER_HELPER_H_
+#ifndef MVVM_TEST_TEST_CONTAINER_HELPER_H_
+#define MVVM_TEST_TEST_CONTAINER_HELPER_H_
 
 //! @file test_utils.h
 //! Collection of utility functions for various unit tests.
@@ -79,4 +79,4 @@ bool HaveSameElements(const VectorT& vec1, const VectorT& vec2)
 
 }  // namespace mvvm::test
 
-#endif  // LIBTEST_UTILS_TESTUTILS_TEST_CONTAINER_HELPER_H_
+#endif  // MVVM_TEST_TEST_CONTAINER_HELPER_H_

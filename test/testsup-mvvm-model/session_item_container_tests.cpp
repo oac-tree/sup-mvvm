@@ -23,7 +23,7 @@
 #include <mvvm/model/session_item.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_container_helper.h>
+#include <mvvm/test/test_container_helper.h>
 
 namespace mvvm::test
 {

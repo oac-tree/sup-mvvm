@@ -29,7 +29,7 @@
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
 
 #include <gtest/gtest.h>
-#include <testutils/test_container_helper.h>
+#include <mvvm/test/test_container_helper.h>
 #include <testutils/test_node_editor_helper.h>
 #include <testutils/toy_items.h>
 
