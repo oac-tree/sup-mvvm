@@ -28,9 +28,12 @@
 
 #include <memory>
 
+#include <QPointF>
+
 namespace mvvm
 {
 class NodePortShape;
+class ConnectableShape;
 }
 
 namespace mvvm::test
@@ -41,6 +44,21 @@ namespace mvvm::test
  */
 std::unique_ptr<NodePortShape> CreateNodePortShape(
     PortDirection port_direction = PortDirection::kInput);
+
+/**
+ * @brief Returns scene position of input port.
+ *
+ * Will throw if input port is not found.
+ */
+QPointF GetInputPortScenePosition(const mvvm::ConnectableShape& shape);
+
+
+/**
+ * @brief Returns scene position of output port.
+ *
+ * Will throw if output port is not found.
+ */
+QPointF GetOutputPortScenePosition(const mvvm::ConnectableShape& shape);
 
 }  // namespace mvvm::test
 
