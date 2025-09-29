@@ -173,9 +173,19 @@ TEST_F(NodeConnectionGuideTest, EstablishConnectionFromEndToStart)
 
 TEST_F(NodeConnectionGuideTest, EstablishConnectionBetweenParentAndChild)
 {
+  std::size_t connection_count{42};
   auto connection_guide = CreateConnectionGuide();
+
+  auto on_onnection_request =
+      [this, &connection_count](const INodePort* start_port, const INodePort* end_port)
+  {
+    auto connections = mvvm::GetShapes<NodeConnectionShape>(m_scene);
+    connection_count = connections.size();
+    ConnectPorts(start_port, end_port);
+  };
+
   QObject::connect(connection_guide.get(), &NodeConnectionGuide::connectionRequest,
-                   [](auto start_port, auto end_port) { ConnectPorts(start_port, end_port); });
+                   on_onnection_request);
 
   auto sequence_item = m_app_model.InsertItem<test::toyitems::SequenceItem>();
   auto wait_item = m_app_model.InsertItem<test::toyitems::WaitItem>();
@@ -202,6 +212,9 @@ TEST_F(NodeConnectionGuideTest, EstablishConnectionBetweenParentAndChild)
                       m_graphics_view.mapFromScene(wait_port_pos));
 
   EXPECT_EQ(wait_item->GetParent(), sequence_item);
+
+  // this checks that temporary connection was cleanup up before sending "connectionEstablished"
+  EXPECT_EQ(connection_count, 0);
 }
 
 }  // namespace mvvm::test

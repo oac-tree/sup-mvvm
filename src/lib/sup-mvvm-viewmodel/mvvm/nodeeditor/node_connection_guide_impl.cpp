@@ -109,14 +109,15 @@ EventProcessStatus NodeConnectionGuideImpl::ProcessMouseRelease(const QPointF& s
       auto end_port = port_shape->GetNodePort();
       if (start_port->IsConnectable(end_port))
       {
-        // position of the proxy port is not important anymore
+        // Position of the proxy port is not important anymore. Connections should be reset before
+        // sending a signal
+        ResetCurrentConnection();
         m_context.connection_request(start_port, end_port);
       }
     }
     // At this point we do not need connection object anymore.
     // It will be redrawn automatically, when the model process our request.
-    m_current_connection.reset();
-    m_end_port_proxy.reset();
+    ResetCurrentConnection();
     return EventProcessStatus::kEventWasHandled;
   }
   return EventProcessStatus::kEventWasIgnored;
@@ -130,6 +131,12 @@ NodeConnectionShape* NodeConnectionGuideImpl::GetCurrentConnection() const
 INodePort* NodeConnectionGuideImpl::GetEndPortProxy() const
 {
   return m_end_port_proxy.get();
+}
+
+void NodeConnectionGuideImpl::ResetCurrentConnection()
+{
+  m_current_connection.reset();
+  m_end_port_proxy.reset();
 }
 
 }  // namespace mvvm

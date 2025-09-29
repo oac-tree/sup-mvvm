@@ -65,6 +65,7 @@ public:
   INodePort* GetEndPortProxy() const;
 
 private:
+  void ResetCurrentConnection();
   QGraphicsScene* m_scene{nullptr};
   NodeConnectionGuideContext m_context;
   std::unique_ptr<NodeConnectionShape> m_current_connection;
