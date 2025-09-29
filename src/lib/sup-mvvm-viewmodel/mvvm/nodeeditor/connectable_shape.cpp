@@ -35,6 +35,7 @@
 #include <mvvm/signals/item_listener.h>
 
 #include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 
@@ -227,6 +228,24 @@ QVariant ConnectableShape::itemChange(GraphicsItemChange change, const QVariant 
     UpdateItemFromView();
   }
   return value;
+}
+
+void ConnectableShape::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton)
+  {
+    mvvm::utils::BeginMacro(*m_shape_adapter->GetItem(), "Move ConnectableView");
+  }
+  QGraphicsItem::mousePressEvent(event);
+}
+
+void ConnectableShape::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton)
+  {
+    mvvm::utils::EndMacro(*m_shape_adapter->GetItem());
+  }
+  QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void ConnectableShape::CalculateBoundingBox()

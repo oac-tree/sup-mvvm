@@ -20,6 +20,7 @@
 
 #include "mvvm/nodeeditor/connectable_shape.h"
 
+#include <mvvm/commands/i_command_stack.h>
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/model/application_model.h>
 #include <mvvm/nodeeditor/node_connection_shape.h>
@@ -35,6 +36,8 @@
 #include <testutils/toy_items.h>
 
 #include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QTest>
 
 namespace mvvm::test
 {
@@ -249,6 +252,81 @@ TEST_F(ConnectableShapeExtendedTest, SetSelected)
   auto selected_items = m_scene.selectedItems();
   ASSERT_EQ(selected_items.size(), 1);
   EXPECT_EQ(selected_items.front(), wait_shape_ptr);
+}
+
+TEST_F(ConnectableShapeExtendedTest, UndoComplexMove)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+  // QTest::mouseEvent seems having problems, see https://bugreports.qt.io/browse/QTBUG-5232
+  GTEST_SKIP();
+#endif
+
+  QGraphicsView graphics_view(&m_scene);
+  graphics_view.setMouseTracking(true);
+  graphics_view.setFocus();
+  graphics_view.setSceneRect(0, 0, 800, 600);
+
+  m_app_model.SetUndoEnabled(true);
+
+  auto wait_item = m_app_model.InsertItem<test::toyitems::WaitItem>();
+
+  auto wait_shape = CreateConnectableShape(wait_item);
+  auto wait_shape_ptr = wait_shape.get();
+  m_scene.addItem(wait_shape.release());
+
+  EXPECT_EQ(wait_shape_ptr->x(), 0.0);
+  EXPECT_EQ(wait_shape_ptr->y(), 0.0);
+  EXPECT_EQ(wait_item->GetX(), 0.0);
+  EXPECT_EQ(wait_item->GetY(), 0.0);
+
+  // Out view is a rectangle with top-left-origin at (0,0). Selecting press coordinate so it is
+  // inside this rectangle.
+  const QPointF scene_press_coordinate{10, 10};
+  const QPointF scene_move1_pos{100, 200};
+  const QPointF scene_move2_pos{500, 600};
+
+  {  // simulating drag-and-move
+
+    const QPoint viewport_press_coordinate =
+        graphics_view.viewport()->mapFromParent(graphics_view.mapFromScene(scene_press_coordinate));
+
+    const QPoint viewport_move1_pos =
+        graphics_view.viewport()->mapFromParent(graphics_view.mapFromScene(scene_move1_pos));
+
+    const QPoint viewport_move2_pos =
+        graphics_view.viewport()->mapFromParent(graphics_view.mapFromScene(scene_move2_pos));
+
+    QTest::mousePress(graphics_view.viewport(), Qt::LeftButton, Qt::NoModifier,
+                      viewport_press_coordinate);
+
+    QTest::mouseEvent(QTest::MouseMove, graphics_view.viewport(), Qt::LeftButton, Qt::NoModifier,
+                      viewport_move1_pos);
+    QTest::mouseEvent(QTest::MouseMove, graphics_view.viewport(), Qt::LeftButton, Qt::NoModifier,
+                      viewport_move2_pos);
+
+    QTest::mouseRelease(graphics_view.viewport(), Qt::LeftButton);
+
+    QCoreApplication::processEvents();
+  }
+
+  // instruction insert, and single macro with moves
+  ASSERT_EQ(m_app_model.GetCommandStack()->GetCommandCount(), 2);
+
+  // new coordinates of item's top-left corner
+  const double expected_final_item_x = scene_move2_pos.x() - scene_press_coordinate.x();
+  const double expected_final_item_y = scene_move2_pos.y() - scene_press_coordinate.y();
+
+  EXPECT_FLOAT_EQ(wait_item->GetX(), expected_final_item_x);
+  EXPECT_FLOAT_EQ(wait_item->GetY(), expected_final_item_y);
+
+  // single undo should bring it back without intermediate moves
+  m_app_model.GetCommandStack()->Undo();
+  EXPECT_EQ(wait_item->GetX(), 0.0);
+  EXPECT_EQ(wait_item->GetY(), 0.0);
+
+  m_app_model.GetCommandStack()->Redo();
+  EXPECT_FLOAT_EQ(wait_item->GetX(), expected_final_item_x);
+  EXPECT_FLOAT_EQ(wait_item->GetY(), expected_final_item_y);
 }
 
 }  // namespace mvvm::test
