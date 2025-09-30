@@ -27,6 +27,9 @@
 
 #include <mvvm/model/session_item.h>
 
+#include <QColor>
+#include <QGradient>
+
 namespace mvvm
 {
 
@@ -61,6 +64,16 @@ bool IsParentChildConnection(ConnectableShape *parent, ConnectableShape *child,
 
   return connection->GetStartPort() == child_output_port
          && connection->GetEndPort() == parent_input_port;
+}
+
+QGradient ConnectableShapeGradient(const QColor &base_color, const QRectF &rect)
+{
+  QLinearGradient result(rect.x() + (rect.width() / 2), rect.y(), rect.x() + (rect.width() / 2),
+                         rect.y() + rect.height());
+  result.setColorAt(0, base_color);
+  result.setColorAt(0.5, base_color.lighter(150));
+  result.setColorAt(1, base_color);
+  return result;
 }
 
 }  // namespace mvvm

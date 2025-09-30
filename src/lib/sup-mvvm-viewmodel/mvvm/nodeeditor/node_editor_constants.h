@@ -27,7 +27,6 @@
 
 #include <QColor>
 #include <QFont>
-#include <QGradient>
 #include <QRectF>
 #include <cstdint>
 
@@ -66,11 +65,6 @@ const QFont& DefaultPortLabelFont();
  * @brief Returns default rectangle for connectable shape.
  */
 const QRectF& DefaultConnectableShapeRect();
-
-/**
- * @brief Returns a gradient for connectable shape background.
- */
-const QGradient& ConnectableShapeGradient(const QColor& color, const QRectF& rect);
 
 }  // namespace mvvm::constants
 

@@ -26,6 +26,7 @@
 
 #include <mvvm/utils/container_utils.h>
 
+#include <QGradient>
 #include <QGraphicsScene>
 #include <algorithm>
 
@@ -82,7 +83,8 @@ SessionItem* GetUnderlyingItem(ConnectableShape* shape);
 /**
  * @brief Return unnderlying item casted to specific type.
  */
-template<typename ItemT> ItemT* GetUnderlyingItem(ConnectableShape* shape)
+template <typename ItemT>
+ItemT* GetUnderlyingItem(ConnectableShape* shape)
 {
   return dynamic_cast<ItemT*>(GetUnderlyingItem(shape));
 }
@@ -102,8 +104,13 @@ INodePort* GetOutputPort(const ConnectableShape& shape, std::size_t index = 0U);
  *
  * Connection starts at output port of the child and ends at the input port of a parent.
  */
-bool IsParentChildConnection(ConnectableShape* parent,
-                 ConnectableShape* child, NodeConnectionShape* connection_shape);
+bool IsParentChildConnection(ConnectableShape* parent, ConnectableShape* child,
+                             NodeConnectionShape* connection_shape);
+
+/**
+ * @brief Returns a gradient for connectable shape background.
+ */
+QGradient ConnectableShapeGradient(const QColor& base_color, const QRectF& rect);
 
 }  // namespace mvvm
 

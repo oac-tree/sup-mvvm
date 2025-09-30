@@ -50,19 +50,6 @@ double CalculateUnitSize()
   return static_cast<double>(horizontal_advance);
 }
 
-/**
- * @brief Returns default gradient for connectable shapes.
- */
-QGradient CalculateGradient(const QColor &base_color, const QRectF &rect)
-{
-  QLinearGradient result(rect.x() + (rect.width() / 2), rect.y(), rect.x() + (rect.width() / 2),
-                         rect.y() + rect.height());
-  result.setColorAt(0, base_color);
-  result.setColorAt(0.5, base_color.lighter(150));
-  result.setColorAt(1, base_color);
-  return result;
-}
-
 }  // namespace
 
 double NodeUnitSize(double scale)
@@ -98,12 +85,6 @@ const QRectF &DefaultConnectableShapeRect()
 {
   static const QRectF kDefaultRect{0, 0, NodeUnitSize(8.2), NodeUnitSize(10.0)};
   return kDefaultRect;
-}
-
-const QGradient &ConnectableShapeGradient(const QColor &color, const QRectF &rect)
-{
-  static const QGradient kGradient = CalculateGradient(color, rect);
-  return kGradient;
 }
 
 }  // namespace mvvm::constants

@@ -35,6 +35,7 @@
 #include <testutils/toy_items.h>
 
 #include <QGraphicsScene>
+#include <QLinearGradient>
 
 namespace mvvm::test
 {
@@ -174,6 +175,12 @@ TEST_F(GraphicsSceneHelperTests, IsConnected)
   EXPECT_TRUE(IsParentChildConnection(sequence_shape.get(), wait_shape.get(), connection_shape));
 
   EXPECT_FALSE(IsParentChildConnection(wait_shape.get(), sequence_shape.get(), connection_shape));
+}
+
+TEST_F(GraphicsSceneHelperTests, ConnectableShapeGradient)
+{
+  auto gradient = ConnectableShapeGradient(Qt::red, QRectF(0, 0, 100, 200));
+  ASSERT_EQ(gradient.type(), QGradient::Type::LinearGradient);
 }
 
 }  // namespace mvvm::test
