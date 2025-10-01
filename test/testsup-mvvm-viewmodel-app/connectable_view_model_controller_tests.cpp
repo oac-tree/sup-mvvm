@@ -42,6 +42,40 @@
 namespace mvvm::test
 {
 
+namespace
+{
+
+/**
+ * @brief The TestStrategy class  is a children strategy for testing purposes.
+ *
+ * It pretends the SequenceItem doesn't have children, if corresponding flag set.
+ */
+class TestStrategy : public IChildrenStrategy
+{
+public:
+  std::vector<SessionItem*> GetChildren(const SessionItem* item) const override
+  {
+    if (!item)
+    {
+      return {};
+    }
+
+    if (m_pretend_collapsed && item->GetType() == mvvm::GetTypeName<toyitems::SequenceItem>())
+    {
+      return {};
+    }
+
+    return utils::TopLevelItems(*item);
+  }
+
+  void SetCollapsed(bool value) { m_pretend_collapsed = value; }
+
+private:
+  bool m_pretend_collapsed{false};
+};
+
+}  // namespace
+
 /**
  * @brief Tests for ConnectableViewModelController class.
  */
@@ -415,6 +449,31 @@ TEST_F(ConnectableViewModelControllerTest,
   auto shapes = GetShapes<ConnectableShape>();
   ASSERT_EQ(shapes.size(), 1);
   EXPECT_EQ(GetUnderlyingItem(shapes.at(0)), sequence_item);
+}
+
+TEST_F(ConnectableViewModelControllerTest, UpdateBranch)
+{
+  auto factory = std::make_unique<DefaultNodeShapeFactory>();
+  auto children_strategy = std::make_unique<TestStrategy>();
+  auto children_strategy_ptr = children_strategy.get();
+
+  auto controller = std::make_unique<ConnectableViewModelController>(
+      std::move(factory), std::move(children_strategy), &m_scene);
+  controller->InitScene(m_app_model.GetRootItem());
+
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>(sequence_item);
+
+  auto scene_items = FindSceneItems(m_scene);
+  EXPECT_EQ(scene_items, std::vector<SessionItem*>({sequence_item, wait_item}));
+
+  // We set the strategy so it reports that SequenceItem doesn't have children
+  children_strategy_ptr->SetCollapsed(true);
+  controller->UpdateBranch(sequence_item);
+
+  // There hsould be no shape for WaitItem on the scene
+  scene_items = FindSceneItems(m_scene);
+  EXPECT_EQ(scene_items, std::vector<SessionItem*>({sequence_item}));
 }
 
 }  // namespace mvvm::test

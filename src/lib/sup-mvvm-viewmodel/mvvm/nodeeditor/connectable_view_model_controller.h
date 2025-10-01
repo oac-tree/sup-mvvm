@@ -69,6 +69,13 @@ public:
 
   const mvvm::SessionItem* FindItemForShape(ConnectableShape* shape) const;
 
+  /**
+   * @brief Regenerate all views related to the given item.
+   *
+   * It will take into account all possible change in collapse/expand status.
+   */
+  void UpdateBranch(const mvvm::SessionItem* item);
+
 private:
   void PopulateScene(mvvm::SessionItem* top_level_node_item, const ConnectableShape* parent_shape);
   void ConnectToModel(mvvm::ISessionModel* model);
@@ -89,7 +96,7 @@ private:
   /**
    * @brief Checks if given children needs a view.
    */
-  bool IsChildNeedsView(const mvvm::SessionItem& parent, const mvvm::SessionItem& item);
+  bool IsChildNeedsView(const mvvm::SessionItem& parent, const mvvm::SessionItem& child);
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;

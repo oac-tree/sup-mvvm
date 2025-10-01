@@ -161,6 +161,22 @@ ConnectableShape *ConnectableViewModelController::FindShapeForItem(const Session
   return m_item_view_map.FindView(&item);
 }
 
+void ConnectableViewModelController::UpdateBranch(const SessionItem *item)
+{
+  auto tag_index = item->GetTagIndex();
+  auto parent = item->GetParent();
+
+  // we pretend that this item was removed
+  OnModelEvent(AboutToRemoveItemEvent{parent, tag_index});
+
+  // we pretend that this item was inserted
+  OnModelEvent(mvvm::ItemInsertedEvent{parent, tag_index});
+
+  // If there was a change in children (as reported by children strategy), all views will be
+  // regenerated. This will effectively hide children shapes for "collapsed" parents, and show
+  // children shapes for "expanded" parents.
+}
+
 const SessionItem *ConnectableViewModelController::FindItemForShape(ConnectableShape *shape) const
 {
   return m_item_view_map.FindItem(shape);
