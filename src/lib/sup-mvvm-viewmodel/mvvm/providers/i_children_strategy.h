@@ -37,7 +37,13 @@ class SessionItem;
 class IChildrenStrategy
 {
 public:
+  IChildrenStrategy() = default;
   virtual ~IChildrenStrategy() = default;
+
+  IChildrenStrategy(const IChildrenStrategy&) = delete;
+  IChildrenStrategy& operator=(const IChildrenStrategy&) = delete;
+  IChildrenStrategy(IChildrenStrategy&&) = delete;
+  IChildrenStrategy& operator=(IChildrenStrategy&&) = delete;
 
   /**
    * @brief Returns vector of children of given item.

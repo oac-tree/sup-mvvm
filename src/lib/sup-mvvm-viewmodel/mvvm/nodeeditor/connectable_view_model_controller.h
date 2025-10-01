@@ -33,6 +33,7 @@ class IConnectableShapeFactory;
 class ISessionModel;
 class ConnectableShape;
 class ModelListener;
+class IChildrenStrategy;
 
 /**
  * @brief The ConnectableViewModelController syncronizes a model with node items and objects on the
@@ -44,6 +45,7 @@ public:
   using item_view_map_t = ItemViewMap<const SessionItem*, ConnectableShape*>;
 
   ConnectableViewModelController(std::unique_ptr<IConnectableShapeFactory> factory,
+                                 std::unique_ptr<IChildrenStrategy> children_strategy,
                                  QGraphicsScene* graphics_scene);
 
   virtual ~ConnectableViewModelController();
@@ -74,7 +76,7 @@ private:
   /**
    * @brief Checks if the given parent_item corresponds to the activity in our container.
    */
-  bool IsInScope(const SessionItem *parent_item) const;
+  bool IsInScope(const SessionItem* parent_item) const;
 
   /**
    * @brief Checks if the removal of item will lead to the removal of our root item.
@@ -85,6 +87,7 @@ private:
   bool IsAboutToDestroyRootItem(mvvm::SessionItem* item_to_remove) const;
 
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
+  std::unique_ptr<IChildrenStrategy> m_children_strategy;
   QGraphicsScene* m_graphics_scene{nullptr};
   item_view_map_t m_item_view_map;
   std::unique_ptr<mvvm::ModelListener> m_listener;

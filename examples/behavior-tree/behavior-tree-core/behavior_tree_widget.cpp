@@ -33,6 +33,7 @@
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_item_connectable_shape_adapter.h>
 #include <mvvm/nodeeditor/top_bottom_port_position_strategy.h>
+#include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/standarditems/node_item.h>
 
 #include <QVBoxLayout>
@@ -69,11 +70,14 @@ BehaviorTreeWidget::BehaviorTreeWidget(QWidget *parent_widget)
   SetupConnections();
 }
 
+BehaviorTreeWidget::~BehaviorTreeWidget() = default;
+
 std::unique_ptr<mvvm::ConnectableViewModelController> BehaviorTreeWidget::CreateController()
 {
   auto factory = std::make_unique<mvvm::DefaultNodeShapeFactory>();
-  auto result =
-      std::make_unique<mvvm::ConnectableViewModelController>(std::move(factory), m_graphics_scene);
+  auto children_strategy = std::make_unique<mvvm::TopItemsStrategy>();
+  auto result = std::make_unique<mvvm::ConnectableViewModelController>(
+      std::move(factory), std::move(children_strategy), m_graphics_scene);
   result->InitScene(m_model->GetRootItem());
   return result;
 }
@@ -88,7 +92,5 @@ void BehaviorTreeWidget::SetupConnections()
   connect(m_graphics_view, &GraphicsView::deleteSelectedRequest, m_graphics_scene,
           &GraphicsScene::OnDeleteSelectedRequest);
 }
-
-BehaviorTreeWidget::~BehaviorTreeWidget() = default;
 
 }  // namespace behaviortree

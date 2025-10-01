@@ -29,6 +29,7 @@
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
+#include <mvvm/providers/standard_children_strategies.h>
 #include <mvvm/standarditems/container_item.h>
 #include <mvvm/standarditems/vector_item.h>
 
@@ -53,8 +54,9 @@ public:
   std::unique_ptr<ConnectableViewModelController> CreateController()
   {
     auto factory = std::make_unique<DefaultNodeShapeFactory>();
-    auto controller =
-        std::make_unique<ConnectableViewModelController>(std::move(factory), &m_scene);
+    auto children_strategy = std::make_unique<TopItemsStrategy>();
+    auto controller = std::make_unique<ConnectableViewModelController>(
+        std::move(factory), std::move(children_strategy), &m_scene);
     return controller;
   }
 
@@ -76,9 +78,13 @@ public:
 TEST_F(ConnectableViewModelControllerTest, InitialState)
 {
   std::unique_ptr<IConnectableShapeFactory> uninitialized_factory;
-  EXPECT_THROW(ConnectableViewModelController(std::move(uninitialized_factory), nullptr),
+  EXPECT_THROW(ConnectableViewModelController(std::move(uninitialized_factory), {}, nullptr),
                RuntimeException);
-  EXPECT_THROW(ConnectableViewModelController(std::make_unique<DefaultNodeShapeFactory>(), nullptr),
+  EXPECT_THROW(
+      ConnectableViewModelController(std::make_unique<DefaultNodeShapeFactory>(), {}, nullptr),
+      RuntimeException);
+  EXPECT_THROW(ConnectableViewModelController(std::make_unique<DefaultNodeShapeFactory>(),
+                                              std::make_unique<AllChildrenStrategy>(), nullptr),
                RuntimeException);
 
   EXPECT_NO_THROW(CreateController());

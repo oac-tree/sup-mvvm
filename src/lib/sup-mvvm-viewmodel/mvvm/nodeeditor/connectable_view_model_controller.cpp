@@ -25,7 +25,7 @@
 #include "i_connectable_shape_factory.h"
 #include "node_connection_shape.h"
 
-#include <mvvm/model/item_utils.h>
+#include <mvvm/providers/i_children_strategy.h>
 #include <mvvm/signals/model_listener.h>
 
 #include <QGraphicsScene>
@@ -61,8 +61,11 @@ std::vector<NodeConnectionShape *> FindHangingConnectionShapes(QGraphicsScene *s
 }  // namespace
 
 ConnectableViewModelController::ConnectableViewModelController(
-    std::unique_ptr<IConnectableShapeFactory> factory, QGraphicsScene *graphics_scene)
-    : m_shape_factory(std::move(factory)), m_graphics_scene(graphics_scene)
+    std::unique_ptr<IConnectableShapeFactory> factory,
+    std::unique_ptr<IChildrenStrategy> children_strategy, QGraphicsScene *graphics_scene)
+    : m_shape_factory(std::move(factory))
+    , m_children_strategy(std::move(children_strategy))
+    , m_graphics_scene(graphics_scene)
 {
   if (!m_graphics_scene)
   {
@@ -73,6 +76,12 @@ ConnectableViewModelController::ConnectableViewModelController(
   {
     throw RuntimeException(
         "Attempt to initialize view model controller with invalid shape factory");
+  }
+
+  if (!m_children_strategy)
+  {
+    throw RuntimeException(
+        "Attempt to initialize view model controller with invalid children strategy");
   }
 }
 
@@ -136,7 +145,7 @@ void ConnectableViewModelController::InitScene(mvvm::SessionItem *container_item
 
   m_graphics_scene->clear();
   m_item_view_map.Clear();
-  for (auto item : utils::TopLevelItems(*m_root_item))
+  for (auto item : m_children_strategy->GetChildren(m_root_item))
   {
     PopulateScene(item, nullptr);
   }
@@ -191,7 +200,7 @@ void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_i
       current_parent_shape->MakeChildConnected(new_shape_ptr);
     }
 
-    auto child_items = utils::TopLevelItems(*current_item);
+    auto child_items = m_children_strategy->GetChildren(current_item);
     // visited in reverse order to populate the stack properly
     for (auto it = child_items.rbegin(); it != child_items.rend(); ++it)
     {
