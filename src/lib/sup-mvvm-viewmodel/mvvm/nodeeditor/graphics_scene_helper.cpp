@@ -76,4 +76,14 @@ QGradient ConnectableShapeGradient(const QColor &base_color, const QRectF &rect)
   return result;
 }
 
+std::vector<SessionItem *> FindSceneItems(const QGraphicsScene &scene)
+{
+  std::vector<SessionItem *> result;
+  for (auto shape : mvvm::GetShapes<mvvm::ConnectableShape>(scene))
+  {
+    result.push_back(mvvm::GetUnderlyingItem<SessionItem>(shape));
+  }
+  return result;
+}
+
 }  // namespace mvvm

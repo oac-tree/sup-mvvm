@@ -26,15 +26,14 @@
 
 #include <mvvm/nodeeditor/node_editor_types.h>
 
-#include <memory>
-
 #include <QPointF>
+#include <memory>
 
 namespace mvvm
 {
 class NodePortShape;
 class ConnectableShape;
-}
+}  // namespace mvvm
 
 namespace mvvm::test
 {
@@ -51,7 +50,6 @@ std::unique_ptr<NodePortShape> CreateNodePortShape(
  * Will throw if input port is not found.
  */
 QPointF GetInputPortScenePosition(const mvvm::ConnectableShape& shape);
-
 
 /**
  * @brief Returns scene position of output port.

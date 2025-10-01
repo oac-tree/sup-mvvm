@@ -183,4 +183,19 @@ TEST_F(GraphicsSceneHelperTests, ConnectableShapeGradient)
   ASSERT_EQ(gradient.type(), QGradient::Type::LinearGradient);
 }
 
+TEST_F(GraphicsSceneHelperTests, FindSceneItems)
+{
+  toyitems::SequenceItem sequence0;
+  toyitems::SequenceItem sequence1;
+  QGraphicsScene scene;
+
+  auto shape0 = CreateConnectableShape(&sequence0);
+  auto shape1 = CreateConnectableShape(&sequence1);
+
+  scene.addItem(shape0.release());
+  scene.addItem(shape1.release());
+
+  EXPECT_EQ(FindSceneItems(scene), std::vector<mvvm::SessionItem*>({&sequence0, &sequence1}));
+}
+
 }  // namespace mvvm::test

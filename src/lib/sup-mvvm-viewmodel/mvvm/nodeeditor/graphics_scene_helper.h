@@ -112,6 +112,12 @@ bool IsParentChildConnection(ConnectableShape* parent, ConnectableShape* child,
  */
 QGradient ConnectableShapeGradient(const QColor& base_color, const QRectF& rect);
 
+
+/**
+ * @brief Finds all underlying items by exploring shapes on the scene.
+ */
+std::vector<SessionItem*> FindSceneItems(const QGraphicsScene& scene);
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_GRAPHICS_SCENE_HELPER_H_
