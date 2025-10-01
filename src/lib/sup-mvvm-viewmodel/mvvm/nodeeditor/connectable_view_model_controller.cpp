@@ -176,6 +176,10 @@ void ConnectableViewModelController::PopulateScene(SessionItem *top_level_node_i
     stack.pop();
 
     auto new_shape = m_shape_factory->CreateShape(current_item);
+    if (!new_shape)
+    {
+      continue;
+    }
     auto new_shape_ptr = new_shape.get();
 
     m_graphics_scene->addItem(new_shape.release());  // transfer ownership to the scene

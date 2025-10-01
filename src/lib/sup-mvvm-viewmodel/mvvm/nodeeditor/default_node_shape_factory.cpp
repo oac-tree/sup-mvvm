@@ -31,9 +31,14 @@ namespace mvvm
 
 std::unique_ptr<ConnectableShape> DefaultNodeShapeFactory::CreateShape(SessionItem *item) const
 {
-  auto adapter = std::make_unique<NodeItemConnectableShapeAdapter>(dynamic_cast<NodeItem *>(item));
-  auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
-  return std::make_unique<ConnectableShape>(std::move(adapter), std::move(position_strategy));
+  if (auto node = dynamic_cast<NodeItem *>(item); node)
+  {
+    auto adapter = std::make_unique<NodeItemConnectableShapeAdapter>(node);
+    auto position_strategy = std::make_unique<TopBottomPortPositionStrategy>();
+    return std::make_unique<ConnectableShape>(std::move(adapter), std::move(position_strategy));
+  }
+
+  return {};
 }
 
 }  // namespace mvvm

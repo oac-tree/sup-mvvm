@@ -30,6 +30,7 @@
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
 #include <mvvm/standarditems/container_item.h>
+#include <mvvm/standarditems/vector_item.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -341,6 +342,28 @@ TEST_F(ConnectableViewModelControllerTest, InsertInAnotherContainer)
   auto new_connections = GetShapes<NodeConnectionShape>();
   EXPECT_EQ(shapes, new_shapes);
   EXPECT_EQ(connections, new_connections);
+}
+
+//! Validating that controller is robust against insertion removal of items not-related to node
+//! hierarchy.
+TEST_F(ConnectableViewModelControllerTest, InsertNonNodeItem)
+{
+  // Sequence and wait
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto controller = CreateController();
+  controller->InitScene(m_app_model.GetRootItem());
+
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
+
+  // add/remove of unrelated item (VectorItem) shouldn't affect the graphics scene
+  sequence_item->RegisterTag(TagInfo::CreateUniversalTag("kVectorTag"), false);
+  auto vector_item =
+      m_app_model.InsertItem<VectorItem>(sequence_item, TagIndex::Append("kVectorTag"));
+
+  EXPECT_NO_FATAL_FAILURE(m_app_model.RemoveItem(vector_item));
+  shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
 }
 
 }  // namespace mvvm::test
