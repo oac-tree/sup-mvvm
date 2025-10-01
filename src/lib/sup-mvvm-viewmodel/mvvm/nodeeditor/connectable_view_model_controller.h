@@ -72,11 +72,9 @@ private:
   void ConnectToModel(mvvm::ISessionModel* model);
 
   /**
-   * @brief Checks if the given event corresponds to the removal in the container.
-   *
-   * We do not care about removal events in other containers.
+   * @brief Checks if the given parent_item corresponds to the activity in our container.
    */
-  bool IsInScope(const mvvm::AboutToRemoveItemEvent& event) const;
+  bool IsInScope(const SessionItem *parent_item) const;
 
   /**
    * @brief Checks if the removal of item will lead to the removal of our root item.

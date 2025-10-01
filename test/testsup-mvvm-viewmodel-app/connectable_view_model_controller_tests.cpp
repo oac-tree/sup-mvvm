@@ -29,6 +29,7 @@
 #include <mvvm/nodeeditor/node_connection_shape.h>
 #include <mvvm/nodeeditor/node_editor_helper.h>
 #include <mvvm/nodeeditor/node_port_shape.h>
+#include <mvvm/standarditems/container_item.h>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
@@ -317,6 +318,29 @@ TEST_F(ConnectableViewModelControllerTest, ValidateCoordinatesAfterMoveItemToPar
   }
 }
 
-// TODO: test for automatic connection removal
+TEST_F(ConnectableViewModelControllerTest, InsertInAnotherContainer)
+{
+  auto container = m_app_model.InsertItem<ContainerItem>();
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>(container);
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>(sequence_item);
+
+  auto controller = CreateController();
+  controller->InitScene(container);
+
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 2);
+  auto connections = GetShapes<NodeConnectionShape>();
+  ASSERT_EQ(connections.size(), 1);
+
+  // controller should ignore activity outside of our container
+  auto new_container = m_app_model.InsertItem<ContainerItem>();
+  auto sequence_item2 = m_app_model.InsertItem<toyitems::SequenceItem>(new_container);
+
+  // same shapes as before
+  auto new_shapes = GetShapes<ConnectableShape>();
+  auto new_connections = GetShapes<NodeConnectionShape>();
+  EXPECT_EQ(shapes, new_shapes);
+  EXPECT_EQ(connections, new_connections);
+}
 
 }  // namespace mvvm::test

@@ -82,9 +82,12 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event
 {
   auto [parent, tag_index] = event;
 
-  auto new_child = parent->GetItem<mvvm::SessionItem>(tag_index);
-  auto parent_shape = m_item_view_map.FindView(parent);
-  PopulateScene(new_child, parent_shape);
+  if (IsInScope(parent))
+  {
+    auto new_child = parent->GetItem<mvvm::SessionItem>(tag_index);
+    auto parent_shape = m_item_view_map.FindView(parent);
+    PopulateScene(new_child, parent_shape);
+  }
 }
 
 void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &event)
@@ -101,7 +104,7 @@ void ConnectableViewModelController::OnModelEvent(const AboutToRemoveItemEvent &
     return;
   }
 
-  if (IsInScope(event))
+  if (IsInScope(event.item))
   {
     // remove views
     auto shapes_to_remove = m_item_view_map.RemoveRecursively(item_to_remove);
@@ -202,11 +205,10 @@ void ConnectableViewModelController::ConnectToModel(ISessionModel *model)
                                                     &ConnectableViewModelController::OnModelEvent);
 }
 
-bool ConnectableViewModelController::IsInScope(const mvvm::AboutToRemoveItemEvent &event) const
+bool ConnectableViewModelController::IsInScope(const mvvm::SessionItem *parent_item) const
 {
-  // the event should be related to removal in our container or its children
-  auto parent = event.item;
-  return parent == m_root_item || mvvm::utils::IsItemAncestor(parent, GetRootItem());
+  // the parent should be either our container or one of its children down in the hierarchy
+  return parent_item == m_root_item || mvvm::utils::IsItemAncestor(parent_item, GetRootItem());
 }
 
 bool ConnectableViewModelController::IsAboutToDestroyRootItem(SessionItem *item_to_remove) const
