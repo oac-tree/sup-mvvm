@@ -177,6 +177,11 @@ void ConnectableViewModelController::UpdateBranch(const SessionItem *item)
   // children shapes for "expanded" parents.
 }
 
+ModelListener *ConnectableViewModelController::Listener() const
+{
+  return m_listener.get();
+}
+
 const SessionItem *ConnectableViewModelController::FindItemForShape(ConnectableShape *shape) const
 {
   return m_item_view_map.FindItem(shape);

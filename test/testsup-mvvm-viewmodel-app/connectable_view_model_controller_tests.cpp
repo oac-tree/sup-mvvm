@@ -471,7 +471,7 @@ TEST_F(ConnectableViewModelControllerTest, UpdateBranch)
   children_strategy_ptr->SetCollapsed(true);
   controller->UpdateBranch(sequence_item);
 
-  // There hsould be no shape for WaitItem on the scene
+  // There should be no shape for WaitItem on the scene
   scene_items = FindSceneItems(m_scene);
   EXPECT_EQ(scene_items, std::vector<SessionItem*>({sequence_item}));
 }

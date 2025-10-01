@@ -76,6 +76,11 @@ public:
    */
   void UpdateBranch(const mvvm::SessionItem* item);
 
+  /**
+   * @brief Returns underlying listener.
+   */
+  ModelListener* Listener() const;
+
 private:
   void PopulateScene(mvvm::SessionItem* top_level_node_item, const ConnectableShape* parent_shape);
   void ConnectToModel(mvvm::ISessionModel* model);
@@ -102,8 +107,8 @@ private:
   std::unique_ptr<IChildrenStrategy> m_children_strategy;
   QGraphicsScene* m_graphics_scene{nullptr};
   item_view_map_t m_item_view_map;
-  std::unique_ptr<mvvm::ModelListener> m_listener;
-  mvvm::SessionItem* m_root_item{nullptr};
+  std::unique_ptr<ModelListener> m_listener;
+  SessionItem* m_root_item{nullptr};
 };
 
 }  // namespace mvvm
