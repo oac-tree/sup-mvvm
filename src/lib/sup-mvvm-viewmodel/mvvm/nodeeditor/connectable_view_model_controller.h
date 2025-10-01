@@ -86,6 +86,11 @@ private:
    */
   bool IsAboutToDestroyRootItem(mvvm::SessionItem* item_to_remove) const;
 
+  /**
+   * @brief Checks if given children needs a view.
+   */
+  bool IsChildNeedsView(const mvvm::SessionItem& parent, const mvvm::SessionItem& item);
+
   std::unique_ptr<IConnectableShapeFactory> m_shape_factory;
   std::unique_ptr<IChildrenStrategy> m_children_strategy;
   QGraphicsScene* m_graphics_scene{nullptr};

@@ -86,6 +86,11 @@ SequenceItem::SequenceItem() : NodeItem(mvvm::GetTypeName<SequenceItem>())
   RegisterMultipleChildrenTag();
 }
 
+RepeatItem::RepeatItem() : NodeItem(mvvm::GetTypeName<RepeatItem>())
+{
+  RegisterSingleChildTag();
+}
+
 WaitItem::WaitItem() : NodeItem(mvvm::GetTypeName<WaitItem>())
 {
 }

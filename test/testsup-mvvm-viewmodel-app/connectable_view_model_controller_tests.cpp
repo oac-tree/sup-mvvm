@@ -372,4 +372,49 @@ TEST_F(ConnectableViewModelControllerTest, InsertNonNodeItem)
   ASSERT_EQ(shapes.size(), 1);
 }
 
+//! Configuring the controller with children strategy, that accepts only certain items.
+//! Items are inserted before controller creation.
+TEST_F(ConnectableViewModelControllerTest, ControllerWithCustomStrategy)
+{
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>();
+
+  auto factory = std::make_unique<DefaultNodeShapeFactory>();
+  const std::vector<std::string> accepted_types(
+      {GetTypeName<toyitems::SequenceItem>(), GetTypeName<toyitems::RepeatItem>()});
+  auto children_strategy = std::make_unique<FixedItemTypeStrategy>(accepted_types);
+
+  auto controller = std::make_unique<ConnectableViewModelController>(
+      std::move(factory), std::move(children_strategy), &m_scene);
+  controller->InitScene(m_app_model.GetRootItem());
+
+  // controller ignores wait_item
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
+  EXPECT_EQ(GetUnderlyingItem(shapes.at(0)), sequence_item);
+}
+
+//! Controller configured to accept only items of certain type. Items are inserted after controller
+//! creation.
+TEST_F(ConnectableViewModelControllerTest,
+       ControllerWithCustomStrategyInsertAfterControllerCreation)
+{
+  auto factory = std::make_unique<DefaultNodeShapeFactory>();
+  const std::vector<std::string> accepted_types(
+      {GetTypeName<toyitems::SequenceItem>(), GetTypeName<toyitems::RepeatItem>()});
+  auto children_strategy = std::make_unique<FixedItemTypeStrategy>(accepted_types);
+
+  auto controller = std::make_unique<ConnectableViewModelController>(
+      std::move(factory), std::move(children_strategy), &m_scene);
+  controller->InitScene(m_app_model.GetRootItem());
+
+  auto sequence_item = m_app_model.InsertItem<toyitems::SequenceItem>();
+  auto wait_item = m_app_model.InsertItem<toyitems::WaitItem>();
+
+  // controller ignores wait_item
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
+  EXPECT_EQ(GetUnderlyingItem(shapes.at(0)), sequence_item);
+}
+
 }  // namespace mvvm::test

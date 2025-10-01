@@ -27,6 +27,7 @@
 
 #include <mvvm/providers/i_children_strategy.h>
 #include <mvvm/signals/model_listener.h>
+#include <mvvm/utils/container_utils.h>
 
 #include <QGraphicsScene>
 #include <stack>
@@ -94,8 +95,12 @@ void ConnectableViewModelController::OnModelEvent(const ItemInsertedEvent &event
   if (IsInScope(parent))
   {
     auto new_child = parent->GetItem<mvvm::SessionItem>(tag_index);
-    auto parent_shape = m_item_view_map.FindView(parent);
-    PopulateScene(new_child, parent_shape);
+
+    if (IsChildNeedsView(*parent, *new_child))
+    {
+      auto parent_shape = m_item_view_map.FindView(parent);
+      PopulateScene(new_child, parent_shape);
+    }
   }
 }
 
@@ -228,6 +233,15 @@ bool ConnectableViewModelController::IsAboutToDestroyRootItem(SessionItem *item_
 {
   // the removal should not be related to root item or items above it
   return item_to_remove == GetRootItem() || utils::IsItemAncestor(GetRootItem(), item_to_remove);
+}
+
+bool ConnectableViewModelController::IsChildNeedsView(const SessionItem &parent,
+                                                      const SessionItem &child)
+{
+  // We check that a child is among children reported by the strategy. If it is not the case, the
+  // controller will ignore such children.
+  auto children = m_children_strategy->GetChildren(&parent);
+  return utils::Contains(children, &child);
 }
 
 }  // namespace mvvm

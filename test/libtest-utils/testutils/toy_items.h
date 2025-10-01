@@ -62,6 +62,12 @@ public:
   SequenceItem();
 };
 
+class RepeatItem : public mvvm::NodeItem
+{
+public:
+  RepeatItem();
+};
+
 class WaitItem : public mvvm::NodeItem
 {
 public:
@@ -98,6 +104,12 @@ template <>
 struct mvvm::item_traits<mvvm::test::toyitems::SequenceItem>
 {
   static constexpr std::string_view type_name() noexcept { return "SequenceItem"; }
+};
+
+template <>
+struct mvvm::item_traits<mvvm::test::toyitems::RepeatItem>
+{
+  static constexpr std::string_view type_name() noexcept { return "RepeatItem"; }
 };
 
 template <>
