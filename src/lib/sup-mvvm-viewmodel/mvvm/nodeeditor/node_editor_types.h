@@ -22,9 +22,10 @@
 #define MVVM_NODEEDITOR_NODE_TYPES_H_
 
 //! @file
-//! COllection of simple types for node editor.
+//! Collection of simple types for node editor.
 
 #include <cstdint>
+#include <mvvm/core/flags.h>
 
 namespace mvvm
 {
@@ -98,10 +99,11 @@ enum class EventProcessStatus : std::uint8_t
  */
 enum class NodeOperationState : std::uint8_t
 {
-  kDefault,
   kCollapsedChildren,  //!< node has children, and all children are collapsed (hidden)
   size                 //!< obligatory last element
 };
+
+using NodeOperationStates = Flags<NodeOperationState>;
 
 }  // namespace mvvm
 

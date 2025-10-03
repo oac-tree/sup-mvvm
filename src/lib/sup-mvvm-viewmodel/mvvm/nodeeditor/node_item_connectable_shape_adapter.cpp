@@ -96,9 +96,9 @@ std::vector<PortInfo> NodeItemConnectableShapeAdapter::GetPortInfos() const
   return {output_port};
 }
 
-NodeOperationState NodeItemConnectableShapeAdapter::GetOperationState() const
+NodeOperationStates NodeItemConnectableShapeAdapter::GetOperationStates() const
 {
-  return NodeOperationState::kDefault;
+  return {};
 }
 
 }  // namespace mvvm

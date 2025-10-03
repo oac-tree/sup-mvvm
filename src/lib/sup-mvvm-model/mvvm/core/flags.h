@@ -114,7 +114,7 @@ public:
   /**
    * @brief Checks if the bit is set.
    *
-   * Same behavior as index operator.
+   * Same behavior as [index] operator.
    */
   constexpr bool IsSet(EnumT flag) const;
 

@@ -92,7 +92,7 @@ public:
   /**
    * @brief Returns operation state of the connectable element.
    */
-  virtual NodeOperationState GetOperationState() const = 0;
+  virtual NodeOperationStates GetOperationStates() const = 0;
 };
 
 }  // namespace mvvm

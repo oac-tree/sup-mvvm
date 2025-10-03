@@ -53,7 +53,7 @@ public:
 
   std::vector<PortInfo> GetPortInfos() const override;
 
-  NodeOperationState GetOperationState() const override;
+  NodeOperationStates GetOperationStates() const override;
 
 private:
   NodeItem* m_node_item{nullptr};

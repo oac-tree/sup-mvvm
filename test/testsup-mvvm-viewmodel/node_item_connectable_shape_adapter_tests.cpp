@@ -57,7 +57,7 @@ TEST_F(NodeItemConnectableShapeAdapterTest, InitialState)
   ASSERT_EQ(adapter.GetPortInfos().size(), 1U);
   EXPECT_EQ(adapter.GetPortInfos().at(0).GetPortDirection(), PortDirection::kOutput);
   EXPECT_EQ(adapter.GetPortInfos().at(0).GetPortDirection(), PortDirection::kOutput);
-  EXPECT_EQ(adapter.GetOperationState(), NodeOperationState::kDefault);
+  EXPECT_TRUE(adapter.GetOperationStates().None());
 }
 
 TEST_F(NodeItemConnectableShapeAdapterTest, PortInfoOfSequenceItem)
