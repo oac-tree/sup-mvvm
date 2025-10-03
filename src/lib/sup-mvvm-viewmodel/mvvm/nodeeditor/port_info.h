@@ -33,7 +33,10 @@ class SessionItem;
 /**
  * @brief The PortInfo contains an information about the node port related to the connection logic.
  *
- * Ports of the same type can be connected together.
+ * This information comes from the model and is unrelated to how the port is painted.
+ *
+ * Ports of the same type can be connected together if their directions matches (input can be
+ * connected with output).
  */
 class PortInfo
 {

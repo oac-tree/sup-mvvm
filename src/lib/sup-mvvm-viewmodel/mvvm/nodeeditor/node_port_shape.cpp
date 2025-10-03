@@ -49,8 +49,10 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   (void)option;
   painter->save();
 
-  static const QPen pen = QPen(m_port_appearance.GetPortColor().darker(180));
-  static const QBrush brush = QBrush(m_port_appearance.GetPortColor());
+  const auto &port_style = m_port_appearance.GetPortStyle();
+
+  static const QPen pen = QPen(port_style.pen_color, port_style.pen_width);
+  static const QBrush brush = QBrush(port_style.base_color);
 
   painter->setRenderHint(QPainter::Antialiasing);
   painter->setPen(pen);
@@ -90,7 +92,7 @@ QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &va
 
 void NodePortShape::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-  (void) event;
+  (void)event;
   qDebug() << "Double clicked";
 }
 

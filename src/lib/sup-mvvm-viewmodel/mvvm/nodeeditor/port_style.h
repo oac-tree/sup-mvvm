@@ -29,7 +29,7 @@ namespace mvvm
 {
 
 /**
- * @brief The PortStyle class carries all information to paint a port.
+ * @brief The PortStyle class is an aggregate with all constants related to painting.
  */
 struct PortStyle
 {
