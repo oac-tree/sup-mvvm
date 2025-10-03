@@ -75,7 +75,7 @@ public:
    * @brief Makes the given child shape connected to this shape.
    *
    * This method creates a connection between this shape and the provided child shape.
-   * The method acts only on shapes and doesn't affter underlying ISessionModel.
+   * The method acts only on shapes and doesn't alter underlying ISessionModel.
    */
   NodeConnectionShape* MakeChildConnected(ConnectableShape* child_shape) const;
 
