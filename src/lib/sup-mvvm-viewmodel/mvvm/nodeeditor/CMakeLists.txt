@@ -39,6 +39,8 @@ target_sources(${library_name} PRIVATE
   port_appearance.h
   port_info.cpp
   port_info.h
+  port_style.cpp
+  port_style.h
   top_bottom_port_position_strategy.cpp
   top_bottom_port_position_strategy.h
   )

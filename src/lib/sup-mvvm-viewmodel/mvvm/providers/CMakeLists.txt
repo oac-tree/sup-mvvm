@@ -17,6 +17,7 @@ target_sources(${library_name} PRIVATE
   i_row_strategy.h
   i_viewitem_data.h
   i_viewmodel_controller.h
+  item_view_map.h
   qtcore_helper.cpp
   qtcore_helper.h
   standard_children_strategies.cpp
@@ -28,20 +29,19 @@ target_sources(${library_name} PRIVATE
   variant_converter.cpp
   variant_converter.h
   viewitem.cpp
+  viewitem.h
   viewitem_data.cpp
   viewitem_data.h
   viewitem_factory.cpp
   viewitem_factory.h
-  viewitem.h
   viewmodel_controller.cpp
+  viewmodel_controller.h
   viewmodel_controller_factory.cpp
   viewmodel_controller_factory.h
-  viewmodel_controller.h
   viewmodel_controller_impl.cpp
   viewmodel_controller_impl.h
   viewmodel_iterate_helper.cpp
   viewmodel_iterate_helper.h
   viewmodel_utils.cpp
   viewmodel_utils.h
-  item_view_map.h
   )

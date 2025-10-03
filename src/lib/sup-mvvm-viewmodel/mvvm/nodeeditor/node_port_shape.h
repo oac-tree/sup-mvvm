@@ -53,6 +53,7 @@ public:
 
 protected:
   QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
+  void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
   void CalculateBoundingRect();
