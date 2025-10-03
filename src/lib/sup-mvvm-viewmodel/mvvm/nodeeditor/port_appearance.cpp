@@ -28,9 +28,8 @@ namespace
 double kDefaultPortRadius = 10.0;
 }
 
-PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label,
-                               const QColor &port_color)
-    : PortAppearance(port_location, port_label, port_color, kDefaultPortRadius)
+PortAppearance::PortAppearance(PortLocation port_location, const QString &port_label)
+    : PortAppearance(port_location, port_label, {}, kDefaultPortRadius)
 {
 }
 
@@ -66,8 +65,7 @@ double PortAppearance::GetPortRadius() const
 bool operator==(const PortAppearance &lhs, const PortAppearance &rhs)
 {
   return (lhs.GetPortLocation() == rhs.GetPortLocation())
-         && (lhs.GetPortLabel() == rhs.GetPortLabel())
-         && (lhs.GetPortColor() == rhs.GetPortColor());
+         && (lhs.GetPortLabel() == rhs.GetPortLabel());
 }
 
 bool operator!=(const PortAppearance &lhs, const PortAppearance &rhs)

@@ -53,7 +53,7 @@ QPointF GetPortScenePosition(const mvvm::ConnectableShape &shape, mvvm::PortDire
 std::unique_ptr<NodePortShape> CreateNodePortShape(PortDirection port_direction)
 {
   auto node_port = std::make_unique<NodePort>(PortInfo{port_direction, "type_abc"});
-  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
+  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort");
   return std::make_unique<NodePortShape>(port_appearance, std::move(node_port), nullptr);
 }
 

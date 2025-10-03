@@ -39,7 +39,7 @@ public:
   /**
    * @brief Initiazes a PortAppearance with the given location, label and color.
    */
-  PortAppearance(PortLocation port_location, const QString& port_label, const QColor& port_color);
+  PortAppearance(PortLocation port_location, const QString& port_label);
 
   /**
    * @brief Initiazes a PortAppearance with the given location, label, color and port radius.

@@ -44,29 +44,22 @@ TEST_F(PortAppearanceTest, InitialState)
 TEST_F(PortAppearanceTest, ComparisonOperators)
 {
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "red");
-    const PortAppearance info2(PortLocation::kTop, "abc", "red");
+    const PortAppearance info1(PortLocation::kTop, "abc");
+    const PortAppearance info2(PortLocation::kTop, "abc");
     EXPECT_TRUE(info1 == info2);
     EXPECT_FALSE(info1 != info2);
   }
 
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "red");
-    const PortAppearance info2(PortLocation::kBottom, "abc", "red");
+    const PortAppearance info1(PortLocation::kTop, "abc");
+    const PortAppearance info2(PortLocation::kBottom, "abc");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }
 
   {
-    const PortAppearance info1(PortLocation::kTop, "abc", "red");
-    const PortAppearance info2(PortLocation::kTop, "def", "red");
-    EXPECT_FALSE(info1 == info2);
-    EXPECT_TRUE(info1 != info2);
-  }
-
-  {
-    const PortAppearance info1(PortLocation::kTop, "abc", "red");
-    const PortAppearance info2(PortLocation::kTop, "abc", "green");
+    const PortAppearance info1(PortLocation::kTop, "abc");
+    const PortAppearance info2(PortLocation::kTop, "def");
     EXPECT_FALSE(info1 == info2);
     EXPECT_TRUE(info1 != info2);
   }

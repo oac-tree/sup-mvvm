@@ -51,7 +51,7 @@ TEST_F(NodePortShapeTest, InitialState)
 {
   auto node_port = std::make_unique<NodePort>(PortInfo{PortDirection::kOutput, "type_abc"});
   auto node_port_ptr = node_port.get();
-  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
+  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort");
   const NodePortShape shape(port_appearance, std::move(node_port), nullptr);
   EXPECT_EQ(shape.GetNodePort(), node_port_ptr);
 }
@@ -61,7 +61,7 @@ TEST_F(NodePortShapeTest, BoundingBoxForEmptyLabel)
   // triggered by port creation
   EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
 
-  const PortAppearance port_appearance(PortLocation::kLeft, "", QColor(Qt::red));
+  const PortAppearance port_appearance(PortLocation::kLeft, "");
   auto shape = CreateNodePortShape(port_appearance);
   const QRectF bounding_rect = shape->boundingRect();
   const double expected_size = 2.0 * (port_appearance.GetPortRadius() + 1.0);
@@ -96,7 +96,7 @@ TEST_F(NodePortShapeTest, ScenePosition)
   // triggered by port creation
   EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
 
-  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort", QColor(Qt::red));
+  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort");
   auto shape = CreateNodePortShape(port_appearance);
   auto shape_ptr = shape.get();
 
