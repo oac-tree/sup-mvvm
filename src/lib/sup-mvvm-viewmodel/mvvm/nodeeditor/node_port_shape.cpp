@@ -93,7 +93,6 @@ QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &va
 void NodePortShape::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
   (void)event;
-  qDebug() << "Double clicked";
 }
 
 void NodePortShape::CalculateBoundingRect()

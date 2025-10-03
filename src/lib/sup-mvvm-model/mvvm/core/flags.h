@@ -206,6 +206,18 @@ constexpr bool Flags<EnumT>::IsSet(EnumT flag) const
   return m_bits[static_cast<std::size_t>(flag)];
 }
 
+template <typename EnumT>
+bool operator==(const Flags<EnumT>& lhs, const Flags<EnumT>& rhs)
+{
+  return lhs.to_ulong() == rhs.to_ulong();
+}
+
+template <typename EnumT>
+bool operator!=(const Flags<EnumT>& lhs, const Flags<EnumT>& rhs)
+{
+  return !(lhs == rhs);
+}
+
 }  // namespace mvvm
 
 #endif  // MVVM_CORE_FLAGS_H_

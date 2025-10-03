@@ -150,4 +150,15 @@ TEST_F(FlagsTest, ConstructFromVector)
   EXPECT_FALSE(flags.IsSet(Option::size));
 }
 
+TEST_F(FlagsTest, EqualityOperators)
+{
+  const Flags<Option> flags1({Option::kLength, Option::kWidth});
+  const Flags<Option> flags2({Option::kLength, Option::kWidth});
+  const Flags<Option> flags3({Option::kLength, Option::kHeight});
+  EXPECT_TRUE(flags1 == flags2);
+  EXPECT_FALSE(flags1 != flags2);
+  EXPECT_FALSE(flags1 == flags3);
+  EXPECT_TRUE(flags1 != flags3);
+}
+
 }  // namespace mvvm::test
