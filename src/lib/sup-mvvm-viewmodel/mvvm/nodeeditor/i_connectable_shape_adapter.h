@@ -88,6 +88,11 @@ public:
    * @brief Returns a list of port infos to be used for creating ports on the connectable element.
    */
   virtual std::vector<PortInfo> GetPortInfos() const = 0;
+
+  /**
+   * @brief Returns operation state of the connectable element.
+   */
+  virtual NodeOperationState GetOperationState() const = 0;
 };
 
 }  // namespace mvvm

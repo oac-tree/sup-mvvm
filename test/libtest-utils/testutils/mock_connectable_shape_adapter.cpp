@@ -70,4 +70,9 @@ std::vector<PortInfo> ConnectableShapeDecorator::GetPortInfos() const
   return m_decoratee->GetPortInfos();
 }
 
+NodeOperationState ConnectableShapeDecorator::GetOperationState() const
+{
+  return m_decoratee->GetOperationState();
+}
+
 }  // namespace mvvm::test

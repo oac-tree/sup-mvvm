@@ -81,13 +81,26 @@ enum class GraphicsViewOperationMode : std::uint8_t
 };
 
 /**
- * @brief The EventProcessStatus enum defines possible results of event processing.
+ * @brief The EventProcessStatus enum defines possible results of QEvent processing.
  */
 enum class EventProcessStatus : std::uint8_t
 {
   kStatusUnknown,
   kEventWasHandled,
   kEventWasIgnored
+};
+
+/**
+ * @brief The NodeOperationState enum defines possible operation states of a node.
+ *
+ * These are the states which can affect the visual representation of the node: execution state,
+ * children state, etc.
+ */
+enum class NodeOperationState : std::uint8_t
+{
+  kDefault,
+  kCollapsedChildren,  //!< node has children, and all children are collapsed (hidden)
+  size                 //!< obligatory last element
 };
 
 }  // namespace mvvm
