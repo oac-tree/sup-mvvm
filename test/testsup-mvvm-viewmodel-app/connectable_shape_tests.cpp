@@ -54,12 +54,14 @@ public:
 TEST_F(ConnectableShapeTest, InvalidInitialization)
 {
   EXPECT_THROW(ConnectableShape({}, {}), RuntimeException);
-  EXPECT_THROW(ConnectableShape(std::make_unique<ConnectableShapeAdapterDecorator>(&m_mock_adapter), {}),
-               RuntimeException);
+  EXPECT_THROW(
+      ConnectableShape(std::make_unique<ConnectableShapeAdapterDecorator>(&m_mock_adapter), {}),
+      RuntimeException);
 
   EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetY()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetOperationStates()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
 
   EXPECT_NO_THROW(CreateConnectableShape());
@@ -70,6 +72,7 @@ TEST_F(ConnectableShapeTest, GetPorts)
   EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetY()).Times(1);
+  EXPECT_CALL(m_mock_adapter, GetOperationStates()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
 
   auto shape = CreateConnectableShape();
@@ -88,12 +91,16 @@ TEST_F(ConnectableShapeTest, SetupPorts)
 
   ON_CALL(m_mock_position_strategy, GetNodeTreeLayout())
       .WillByDefault(::testing::Return(NodeTreeLayout::kTopToBottom));
+  NodeOperationStates operation_states({NodeOperationState::kCollapsedChildren});
+  ON_CALL(m_mock_adapter, GetOperationStates()).WillByDefault(::testing::Return(operation_states));
 
   EXPECT_CALL(m_mock_position_strategy, GetNodeTreeLayout()).Times(::testing::AtLeast(1));
   EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(0.0));
   EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(0.0));
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).WillOnce(::testing::Return(all_ports));
+
+  EXPECT_CALL(m_mock_adapter, GetOperationStates()).Times(1);
 
   // Expect creating input ports
   for (std::size_t i = 0; i < input_ports.size(); ++i)
@@ -126,6 +133,7 @@ TEST_F(ConnectableShapeTest, SetViewInitialCoordinatesFromItem)
   EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetX()).WillOnce(::testing::Return(1.0));
   EXPECT_CALL(m_mock_adapter, GetY()).WillOnce(::testing::Return(2.0));
+  EXPECT_CALL(m_mock_adapter, GetOperationStates()).Times(1);
   EXPECT_CALL(m_mock_adapter, GetPortInfos()).Times(1);
 
   auto view = CreateConnectableShape();

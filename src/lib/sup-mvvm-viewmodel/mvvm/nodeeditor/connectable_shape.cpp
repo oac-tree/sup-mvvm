@@ -168,6 +168,13 @@ void ConnectableShape::UpdateViewFromItem()
   m_block_item_update = true;
   setX(m_shape_adapter->GetX());
   setY(m_shape_adapter->GetY());
+
+  const auto operation_states = m_shape_adapter->GetOperationStates();
+  for (auto port : m_node_ports)
+  {
+    port->UpdateShape(operation_states);
+  }
+
   update();  // will pick-up color too through GetBaseColor() call in paint() method
   m_block_item_update = false;
 }
