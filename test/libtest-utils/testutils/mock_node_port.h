@@ -48,6 +48,7 @@ public:
   MOCK_METHOD(void, SetNotifyShapeCallback,
               (const std::function<void(const NodeOperationStates& operation_states)>&),
               (override));
+  MOCK_METHOD(void, ProcessEvent, (const node_event_t& event), (const, override));
 };
 
 /**
@@ -71,6 +72,7 @@ public:
   void UpdateShape(const NodeOperationStates& operation_states) override;
   void SetNotifyShapeCallback(
       const std::function<void(const NodeOperationStates& operation_states)>& callback) override;
+  void ProcessEvent(const node_event_t& event) const override;
 
 private:
   INodePort* m_decoratee{nullptr};

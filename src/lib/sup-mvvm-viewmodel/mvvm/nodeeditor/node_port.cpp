@@ -29,7 +29,12 @@
 namespace mvvm
 {
 
-NodePort::NodePort(PortInfo port_info) : m_port_info(std::move(port_info)) {}
+NodePort::NodePort(PortInfo port_info) : NodePort(std::move(port_info), {}) {}
+
+NodePort::NodePort(PortInfo port_info, process_event_t process_event_callback)
+    : m_port_info(std::move(port_info)), m_process_event_callback(std::move(process_event_callback))
+{
+}
 
 NodePort::~NodePort()
 {
@@ -130,6 +135,14 @@ void NodePort::SetNotifyShapeCallback(
     const std::function<void(const NodeOperationStates &)> &callback)
 {
   m_notify_shape_callback = callback;
+}
+
+void NodePort::ProcessEvent(const node_event_t &event) const
+{
+  if (m_process_event_callback)
+  {
+    m_process_event_callback(event);
+  }
 }
 
 void NodePort::UpdateConnectionsScenePosition()

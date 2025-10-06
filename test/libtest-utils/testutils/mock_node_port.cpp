@@ -86,4 +86,9 @@ void NodePortDecorator::SetNotifyShapeCallback(
   m_decoratee->SetNotifyShapeCallback(callback);
 }
 
+void NodePortDecorator::ProcessEvent(const node_event_t &event) const
+{
+  m_decoratee->ProcessEvent(event);
+}
+
 }  // namespace mvvm::test
