@@ -18,17 +18,20 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "mvvm/model/session_item.h"
-#include "mvvm/model/session_model.h"
 #include "mvvm/signals/event_types.h"
 
-#include <gmock/gmock.h>
+#include <mvvm/model/session_item.h>
+#include <mvvm/model/session_model.h>
+
 #include <gtest/gtest.h>
 
 namespace mvvm::test
 {
 
-class EventTypesTests : public ::testing::Test
+/**
+ * @brief Tests for classes defined in
+ */
+class EventTypesTest : public ::testing::Test
 {
 public:
   int m_value1{42};
@@ -43,7 +46,7 @@ public:
   SessionModel m_model2;
 };
 
-TEST_F(EventTypesTests, DataChangedEvent)
+TEST_F(EventTypesTest, DataChangedEvent)
 {
   const DataChangedEvent event1{&m_item1, m_value1};
   const DataChangedEvent event2{&m_item1, m_value1};
@@ -59,7 +62,7 @@ TEST_F(EventTypesTests, DataChangedEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, PropertyChangedEvent)
+TEST_F(EventTypesTest, PropertyChangedEvent)
 {
   const PropertyChangedEvent event1{&m_item1, m_str1};
   const PropertyChangedEvent event2{&m_item1, m_str1};
@@ -75,7 +78,7 @@ TEST_F(EventTypesTests, PropertyChangedEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, AboutToInsertItemEvent)
+TEST_F(EventTypesTest, AboutToInsertItemEvent)
 {
   const AboutToInsertItemEvent event1{&m_item1, m_tagindex1};
   const AboutToInsertItemEvent event2{&m_item1, m_tagindex1};
@@ -91,7 +94,7 @@ TEST_F(EventTypesTests, AboutToInsertItemEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, ItemInsertedEvent)
+TEST_F(EventTypesTest, ItemInsertedEvent)
 {
   const ItemInsertedEvent event1{&m_item1, m_tagindex1};
   const ItemInsertedEvent event2{&m_item1, m_tagindex1};
@@ -107,7 +110,7 @@ TEST_F(EventTypesTests, ItemInsertedEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, AboutToRemoveItemEvent)
+TEST_F(EventTypesTest, AboutToRemoveItemEvent)
 {
   const AboutToRemoveItemEvent event1{&m_item1, m_tagindex1};
   const AboutToRemoveItemEvent event2{&m_item1, m_tagindex1};
@@ -123,7 +126,7 @@ TEST_F(EventTypesTests, AboutToRemoveItemEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, ItemRemovedEvent)
+TEST_F(EventTypesTest, ItemRemovedEvent)
 {
   const ItemRemovedEvent event1{&m_item1, m_tagindex1};
   const ItemRemovedEvent event2{&m_item1, m_tagindex1};
@@ -139,7 +142,7 @@ TEST_F(EventTypesTests, ItemRemovedEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, ModelAboutToBeResetEvent)
+TEST_F(EventTypesTest, ModelAboutToBeResetEvent)
 {
   const ModelAboutToBeResetEvent event1{&m_model1};
   const ModelAboutToBeResetEvent event2{&m_model1};
@@ -155,7 +158,7 @@ TEST_F(EventTypesTests, ModelAboutToBeResetEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, ModelResetEvent)
+TEST_F(EventTypesTest, ModelResetEvent)
 {
   const ModelResetEvent event1{&m_model1};
   const ModelResetEvent event2{&m_model1};
@@ -171,7 +174,7 @@ TEST_F(EventTypesTests, ModelResetEvent)
   EXPECT_TRUE(event1 != event3);
 }
 
-TEST_F(EventTypesTests, ModelAboutToBeDestroyedEvent)
+TEST_F(EventTypesTest, ModelAboutToBeDestroyedEvent)
 {
   const ModelAboutToBeDestroyedEvent event1{&m_model1};
   const ModelAboutToBeDestroyedEvent event2{&m_model1};

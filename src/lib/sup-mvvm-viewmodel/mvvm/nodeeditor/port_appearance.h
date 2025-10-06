@@ -75,7 +75,6 @@ public:
 private:
   PortLocation m_port_location;
   QString m_port_label;
-  QRectF m_bounding_rect;
   PortStyle m_port_style;
 };
 
