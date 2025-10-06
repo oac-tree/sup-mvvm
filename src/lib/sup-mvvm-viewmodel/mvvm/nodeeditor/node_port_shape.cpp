@@ -34,6 +34,14 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
 {
   CalculateBoundingRect();
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+
+  m_node_port->SetNotifyShapeCallback(
+      [this](auto operation_state)
+      {
+        m_operation_states = operation_state;
+        update();
+      });
+
   UpdateNodePort();
 }
 
@@ -52,7 +60,9 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   const auto &port_style = m_port_appearance.GetPortStyle();
 
   static const QPen pen = QPen(port_style.pen_color, port_style.pen_width);
-  static const QBrush brush = QBrush(port_style.base_color);
+  const QBrush brush = QBrush(m_operation_states.IsSet(NodeOperationState::kCollapsedChildren)
+                                  ? port_style.base_color_modified
+                                  : port_style.base_color);
 
   painter->setRenderHint(QPainter::Antialiasing);
   painter->setPen(pen);
