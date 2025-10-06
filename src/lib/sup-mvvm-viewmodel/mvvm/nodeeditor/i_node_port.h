@@ -24,6 +24,7 @@
 #include <mvvm/nodeeditor/node_editor_types.h>
 #include <mvvm/nodeeditor/port_info.h>
 
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -102,6 +103,17 @@ public:
    * @brief Returns port info related to this port.
    */
   virtual PortInfo GetPortInfo() const = 0;
+
+  /**
+   * @brief Updates the shape of the port, if needed.
+   */
+  virtual void UpdateShape(const NodeOperationStates& operation_states) = 0;
+
+  /**
+   * @brief Sets a callback function to be called when the shape needs to be notified about changes.
+   */
+  virtual void SetNotifyShapeCallback(
+      const std::function<void(const NodeOperationStates& operation_states)>& callback) = 0;
 };
 
 }  // namespace mvvm

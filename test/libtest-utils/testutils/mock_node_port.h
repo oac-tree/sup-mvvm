@@ -44,6 +44,10 @@ public:
   MOCK_METHOD((std::pair<double, double>), GetScenePosition, (), (const, override));
   MOCK_METHOD(void, SetScenePosition, (double, double), (override));
   MOCK_METHOD(PortInfo, GetPortInfo, (), (const, override));
+  MOCK_METHOD(void, UpdateShape, (const NodeOperationStates&), (override));
+  MOCK_METHOD(void, SetNotifyShapeCallback,
+              (const std::function<void(const NodeOperationStates& operation_states)>&),
+              (override));
 };
 
 /**
@@ -64,6 +68,9 @@ public:
   std::pair<double, double> GetScenePosition() const override;
   void SetScenePosition(double xpos, double ypos) override;
   PortInfo GetPortInfo() const override;
+  void UpdateShape(const NodeOperationStates& operation_states) override;
+  void SetNotifyShapeCallback(
+      const std::function<void(const NodeOperationStates& operation_states)>& callback) override;
 
 private:
   INodePort* m_decoratee{nullptr};

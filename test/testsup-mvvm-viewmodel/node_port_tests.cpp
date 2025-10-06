@@ -23,6 +23,7 @@
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/nodeeditor/node_connection.h>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace mvvm::test
@@ -178,6 +179,17 @@ TEST_F(NodePortTest, GetAndSetScenePosition)
 
   port.SetScenePosition(1.0, 2.0);
   EXPECT_EQ(port.GetScenePosition(), (std::pair<double, double>{1.0, 2.0}));
+}
+
+TEST_F(NodePortTest, NotifyShapeCallback)
+{
+  ::testing::MockFunction<void(const NodeOperationStates&)> mock_callback;
+
+  NodePort port({PortDirection::kInput, "type_abc"});
+  port.SetNotifyShapeCallback(mock_callback.AsStdFunction());
+  const NodeOperationStates operation_states({NodeOperationState::kCollapsedChildren});
+  EXPECT_CALL(mock_callback, Call(operation_states)).Times(1);
+  port.UpdateShape(operation_states);
 }
 
 }  // namespace mvvm::test

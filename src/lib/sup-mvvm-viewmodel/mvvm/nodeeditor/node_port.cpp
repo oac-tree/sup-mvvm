@@ -118,6 +118,20 @@ PortInfo NodePort::GetPortInfo() const
   return m_port_info;
 }
 
+void NodePort::UpdateShape(const NodeOperationStates &operation_states)
+{
+  if (m_notify_shape_callback)
+  {
+    m_notify_shape_callback(operation_states);
+  }
+}
+
+void NodePort::SetNotifyShapeCallback(
+    const std::function<void(const NodeOperationStates &)> &callback)
+{
+  m_notify_shape_callback = callback;
+}
+
 void NodePort::UpdateConnectionsScenePosition()
 {
   for (auto connection : utils::RemoveConst(m_connections))

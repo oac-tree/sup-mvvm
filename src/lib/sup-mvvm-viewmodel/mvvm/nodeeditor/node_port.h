@@ -62,12 +62,18 @@ public:
 
   PortInfo GetPortInfo() const override;
 
+  void UpdateShape(const NodeOperationStates& operation_states) override;
+
+  void SetNotifyShapeCallback(const
+      std::function<void(const NodeOperationStates& operation_states)>& callback) override;
+
 private:
   void UpdateConnectionsScenePosition();
 
   PortInfo m_port_info;
   std::vector<const INodeConnection*> m_connections;
   std::pair<double, double> m_scene_pos;
+  std::function<void(const NodeOperationStates& operation_states)> m_notify_shape_callback;
 };
 
 }  // namespace mvvm

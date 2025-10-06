@@ -75,4 +75,15 @@ PortInfo NodePortDecorator::GetPortInfo() const
   return m_decoratee->GetPortInfo();
 }
 
+void NodePortDecorator::UpdateShape(const NodeOperationStates &operation_states)
+{
+  m_decoratee->UpdateShape(operation_states);
+}
+
+void NodePortDecorator::SetNotifyShapeCallback(
+    const std::function<void(const NodeOperationStates &operation_states)> &callback)
+{
+  m_decoratee->SetNotifyShapeCallback(callback);
+}
+
 }  // namespace mvvm::test
