@@ -101,4 +101,9 @@ NodeOperationStates NodeItemConnectableShapeAdapter::GetOperationStates() const
   return {};
 }
 
+void NodeItemConnectableShapeAdapter::ProcessEvent(const node_event_t &event) const
+{
+  (void)event;
+}
+
 }  // namespace mvvm

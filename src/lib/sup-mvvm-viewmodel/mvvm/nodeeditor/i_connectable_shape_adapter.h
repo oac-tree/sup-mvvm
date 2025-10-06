@@ -21,6 +21,7 @@
 #ifndef MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
 #define MVVM_NODEEDITOR_I_CONNECTABLE_SHAPE_ADAPTER_H_
 
+#include <mvvm/nodeeditor/node_editor_events.h>
 #include <mvvm/nodeeditor/port_info.h>
 
 #include <QColor>
@@ -93,6 +94,11 @@ public:
    * @brief Returns operation state of the connectable element.
    */
   virtual NodeOperationStates GetOperationStates() const = 0;
+
+  /**
+   * @brief Processes user interface events reported by various shapes composing the node tree.
+   */
+  virtual void ProcessEvent(const node_event_t& event) const = 0;
 };
 
 }  // namespace mvvm

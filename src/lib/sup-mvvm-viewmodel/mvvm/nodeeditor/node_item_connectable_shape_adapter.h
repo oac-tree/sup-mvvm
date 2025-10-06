@@ -55,6 +55,8 @@ public:
 
   NodeOperationStates GetOperationStates() const override;
 
+  void ProcessEvent(const node_event_t& event) const override;
+
 private:
   NodeItem* m_node_item{nullptr};
 };

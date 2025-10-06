@@ -48,6 +48,7 @@ public:
   MOCK_METHOD(void, SetY, (double), (override));
   MOCK_METHOD(std::vector<PortInfo>, GetPortInfos, (), (const, override));
   MOCK_METHOD(NodeOperationStates, GetOperationStates, (), (const, override));
+  MOCK_METHOD(void, ProcessEvent, (const node_event_t& event), (const, override));
 };
 
 /**
@@ -73,6 +74,7 @@ public:
   void SetY(double value) override;
   std::vector<PortInfo> GetPortInfos() const override;
   NodeOperationStates GetOperationStates() const override;
+  void ProcessEvent(const node_event_t& event) const override;
 
 private:
   IConnectableShapeAdapter* m_decoratee{nullptr};

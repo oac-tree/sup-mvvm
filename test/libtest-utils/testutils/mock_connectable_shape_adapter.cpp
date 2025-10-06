@@ -23,7 +23,8 @@
 namespace mvvm::test
 {
 
-ConnectableShapeAdapterDecorator::ConnectableShapeAdapterDecorator(IConnectableShapeAdapter *decoratee)
+ConnectableShapeAdapterDecorator::ConnectableShapeAdapterDecorator(
+    IConnectableShapeAdapter *decoratee)
     : m_decoratee(decoratee)
 {
 }
@@ -73,6 +74,11 @@ std::vector<PortInfo> ConnectableShapeAdapterDecorator::GetPortInfos() const
 NodeOperationStates ConnectableShapeAdapterDecorator::GetOperationStates() const
 {
   return m_decoratee->GetOperationStates();
+}
+
+void ConnectableShapeAdapterDecorator::ProcessEvent(const node_event_t &event) const
+{
+  m_decoratee->ProcessEvent(event);
 }
 
 }  // namespace mvvm::test
