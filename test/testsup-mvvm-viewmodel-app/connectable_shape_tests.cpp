@@ -41,7 +41,7 @@ public:
    */
   std::unique_ptr<ConnectableShape> CreateConnectableShape()
   {
-    auto adapter = std::make_unique<ConnectableShapeDecorator>(&m_mock_adapter);
+    auto adapter = std::make_unique<ConnectableShapeAdapterDecorator>(&m_mock_adapter);
     auto position_strategy =
         std::make_unique<PortPositionStrategyDecorator>(&m_mock_position_strategy);
     return std::make_unique<ConnectableShape>(std::move(adapter), std::move(position_strategy));
@@ -54,7 +54,7 @@ public:
 TEST_F(ConnectableShapeTest, InvalidInitialization)
 {
   EXPECT_THROW(ConnectableShape({}, {}), RuntimeException);
-  EXPECT_THROW(ConnectableShape(std::make_unique<ConnectableShapeDecorator>(&m_mock_adapter), {}),
+  EXPECT_THROW(ConnectableShape(std::make_unique<ConnectableShapeAdapterDecorator>(&m_mock_adapter), {}),
                RuntimeException);
 
   EXPECT_CALL(m_mock_adapter, GetItem()).Times(1);

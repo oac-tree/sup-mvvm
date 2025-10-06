@@ -51,18 +51,18 @@ public:
 };
 
 /**
- * @brief The ConnectableShapeDecorator class is a simple forward decorator.
+ * @brief The ConnectableShapeAdapterDecorator class is a simple forward decorator.
  */
-class ConnectableShapeDecorator : public IConnectableShapeAdapter
+class ConnectableShapeAdapterDecorator : public IConnectableShapeAdapter
 {
 public:
-  explicit ConnectableShapeDecorator(IConnectableShapeAdapter* decoratee);
-  ~ConnectableShapeDecorator() override;
+  explicit ConnectableShapeAdapterDecorator(IConnectableShapeAdapter* decoratee);
+  ~ConnectableShapeAdapterDecorator() override;
 
-  ConnectableShapeDecorator(const ConnectableShapeDecorator&) = delete;
-  ConnectableShapeDecorator& operator=(const ConnectableShapeDecorator&) = delete;
-  ConnectableShapeDecorator(ConnectableShapeDecorator&&) = delete;
-  ConnectableShapeDecorator& operator=(ConnectableShapeDecorator&&) = delete;
+  ConnectableShapeAdapterDecorator(const ConnectableShapeAdapterDecorator&) = delete;
+  ConnectableShapeAdapterDecorator& operator=(const ConnectableShapeAdapterDecorator&) = delete;
+  ConnectableShapeAdapterDecorator(ConnectableShapeAdapterDecorator&&) = delete;
+  ConnectableShapeAdapterDecorator& operator=(ConnectableShapeAdapterDecorator&&) = delete;
 
   mvvm::SessionItem* GetItem() const override;
   QString GetDisplayName() const override;

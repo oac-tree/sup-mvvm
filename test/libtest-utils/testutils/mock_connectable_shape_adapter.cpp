@@ -23,54 +23,54 @@
 namespace mvvm::test
 {
 
-ConnectableShapeDecorator::ConnectableShapeDecorator(IConnectableShapeAdapter *decoratee)
+ConnectableShapeAdapterDecorator::ConnectableShapeAdapterDecorator(IConnectableShapeAdapter *decoratee)
     : m_decoratee(decoratee)
 {
 }
 
-SessionItem *ConnectableShapeDecorator::GetItem() const
+SessionItem *ConnectableShapeAdapterDecorator::GetItem() const
 {
   return m_decoratee->GetItem();
 }
 
-ConnectableShapeDecorator::~ConnectableShapeDecorator() = default;
+ConnectableShapeAdapterDecorator::~ConnectableShapeAdapterDecorator() = default;
 
-QString ConnectableShapeDecorator::GetDisplayName() const
+QString ConnectableShapeAdapterDecorator::GetDisplayName() const
 {
   return m_decoratee->GetDisplayName();
 }
 
-QColor ConnectableShapeDecorator::GetBaseColor() const
+QColor ConnectableShapeAdapterDecorator::GetBaseColor() const
 {
   return m_decoratee->GetBaseColor();
 }
 
-double ConnectableShapeDecorator::GetX() const
+double ConnectableShapeAdapterDecorator::GetX() const
 {
   return m_decoratee->GetX();
 }
 
-void ConnectableShapeDecorator::SetX(double value)
+void ConnectableShapeAdapterDecorator::SetX(double value)
 {
   m_decoratee->SetX(value);
 }
 
-double ConnectableShapeDecorator::GetY() const
+double ConnectableShapeAdapterDecorator::GetY() const
 {
   return m_decoratee->GetY();
 }
 
-void ConnectableShapeDecorator::SetY(double value)
+void ConnectableShapeAdapterDecorator::SetY(double value)
 {
   m_decoratee->SetY(value);
 }
 
-std::vector<PortInfo> ConnectableShapeDecorator::GetPortInfos() const
+std::vector<PortInfo> ConnectableShapeAdapterDecorator::GetPortInfos() const
 {
   return m_decoratee->GetPortInfos();
 }
 
-NodeOperationStates ConnectableShapeDecorator::GetOperationStates() const
+NodeOperationStates ConnectableShapeAdapterDecorator::GetOperationStates() const
 {
   return m_decoratee->GetOperationStates();
 }
