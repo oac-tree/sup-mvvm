@@ -84,6 +84,20 @@ bool ConnectPorts(const INodePort* port1, const INodePort* port2);
 bool DisconnectPortsAndMove(const INodePort* port1, const INodePort* port2,
                             SessionItem* new_parent);
 
+/**
+ * @brief Helper to get underlying item from the node port.
+ */
+SessionItem* GetPortOrigin(const INodePort* port);
+
+/**
+ * @brief Return unnderlying item casted to specific type.
+ */
+template <typename ItemT>
+ItemT* GetPortOrigin(const INodePort* port)
+{
+  return dynamic_cast<ItemT*>(GetPortOrigin(port));
+}
+
 }  // namespace mvvm
 
 #endif  // MVVM_NODEEDITOR_NODE_EDITOR_HELPER_H_

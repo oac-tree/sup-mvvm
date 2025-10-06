@@ -251,4 +251,20 @@ TEST_F(NodeHelperTest, DisconnectWaitFromSequence)
   EXPECT_EQ(container->GetSize(), 1);
 }
 
+TEST_F(NodeHelperTest, GetPortOrigin)
+{
+  toyitems::SequenceItem sequence;
+  toyitems::WaitItem wait;
+  NodePort input_port({PortDirection::kInput, "type1", "label", &sequence});
+  NodePort output_port({PortDirection::kOutput, "type1", "label", &wait});
+
+  EXPECT_EQ(GetPortOrigin(nullptr), nullptr);
+
+  EXPECT_EQ(GetPortOrigin(&input_port), &sequence);
+  EXPECT_EQ(GetPortOrigin(&output_port), &wait);
+
+  EXPECT_EQ(GetPortOrigin<toyitems::SequenceItem>(&input_port), &sequence);
+  EXPECT_EQ(GetPortOrigin<toyitems::WaitItem>(&input_port), nullptr);
+}
+
 }  // namespace mvvm::test

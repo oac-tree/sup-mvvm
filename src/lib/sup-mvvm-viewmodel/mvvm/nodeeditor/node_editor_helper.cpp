@@ -151,4 +151,9 @@ bool DisconnectPortsAndMove(const INodePort *port1, const INodePort *port2, Sess
   return false;
 }
 
+SessionItem *GetPortOrigin(const INodePort *port)
+{
+  return port ? port->GetPortInfo().GetOrigin() : nullptr;
+}
+
 }  // namespace mvvm

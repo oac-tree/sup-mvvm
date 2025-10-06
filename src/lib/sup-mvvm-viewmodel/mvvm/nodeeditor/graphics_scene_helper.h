@@ -112,7 +112,6 @@ bool IsParentChildConnection(ConnectableShape* parent, ConnectableShape* child,
  */
 QGradient ConnectableShapeGradient(const QColor& base_color, const QRectF& rect);
 
-
 /**
  * @brief Finds all underlying items by exploring shapes on the scene.
  */
