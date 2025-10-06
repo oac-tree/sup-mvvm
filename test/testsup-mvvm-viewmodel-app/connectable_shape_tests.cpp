@@ -141,4 +141,6 @@ TEST_F(ConnectableShapeTest, SetViewInitialCoordinatesFromItem)
   EXPECT_EQ(view->y(), 2.0);
 }
 
+
+
 }  // namespace mvvm::test

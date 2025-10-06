@@ -301,7 +301,8 @@ std::unique_ptr<QGraphicsItem> ConnectableShape::CreateNodePortShape(const PortI
 {
   const auto appearance =
       GetDefaultPortAppearance(m_port_position_strategy->GetNodeTreeLayout(), port_info);
-  auto node_port = std::make_unique<NodePort>(port_info);
+  auto node_port = std::make_unique<NodePort>(
+      port_info, [this](const auto &event) { m_shape_adapter->ProcessEvent(event); });
   m_node_ports.push_back(node_port.get());
   return std::make_unique<NodePortShape>(appearance, std::move(node_port), nullptr);
 }

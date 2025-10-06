@@ -28,6 +28,8 @@
 #include <testutils/test_node_editor_helper.h>
 
 #include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QTest>
 
 namespace mvvm::test
 {
@@ -122,6 +124,34 @@ TEST_F(NodePortShapeTest, ScenePosition)
   shape_ptr->setPos(3.0, 4.0);
   EXPECT_DOUBLE_EQ(shape_ptr->scenePos().x(), 3.0);
   EXPECT_DOUBLE_EQ(shape_ptr->scenePos().y(), 4.0);
+}
+
+TEST_F(NodePortShapeTest, DoubleClick)
+{
+  EXPECT_CALL(m_mock_node_port, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_port, SetScenePosition(::testing::_, ::testing::_)).Times(2);
+
+  const PortAppearance port_appearance(PortLocation::kLeft, "TestPort");
+  auto shape = CreateNodePortShape(port_appearance);
+  auto shape_ptr = shape.get();
+
+  QGraphicsScene scene;
+  QGraphicsView graphics_view(&scene);
+  graphics_view.setMouseTracking(true);
+  graphics_view.setFocus();
+  graphics_view.setSceneRect(0, 0, 800, 600);
+
+  scene.addItem(shape.release());
+  graphics_view.show();
+
+  const QPointF scene_press_coordinate{1, 1};
+  const QPoint viewport_press_coordinate =
+      graphics_view.viewport()->mapFromParent(graphics_view.mapFromScene(scene_press_coordinate));
+
+  EXPECT_CALL(m_mock_node_port, ProcessEvent(::testing::_)).Times(1);
+
+  QTest::mouseDClick(graphics_view.viewport(), Qt::LeftButton, Qt::NoModifier,
+                     viewport_press_coordinate);
 }
 
 }  // namespace mvvm::test
