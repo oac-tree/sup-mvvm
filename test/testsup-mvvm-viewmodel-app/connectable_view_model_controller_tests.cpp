@@ -467,6 +467,10 @@ TEST_F(ConnectableViewModelControllerTest, UpdateBranch)
   auto scene_items = FindSceneItems(m_scene);
   EXPECT_EQ(scene_items, std::vector<SessionItem*>({sequence_item, wait_item}));
 
+  auto shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 2);
+  auto sequence_shape = shapes.at(0);
+
   // We set the strategy so it reports that SequenceItem doesn't have children
   children_strategy_ptr->SetCollapsed(true);
   controller->UpdateBranch(sequence_item);
@@ -474,6 +478,11 @@ TEST_F(ConnectableViewModelControllerTest, UpdateBranch)
   // There should be no shape for WaitItem on the scene
   scene_items = FindSceneItems(m_scene);
   EXPECT_EQ(scene_items, std::vector<SessionItem*>({sequence_item}));
+
+  shapes = GetShapes<ConnectableShape>();
+  ASSERT_EQ(shapes.size(), 1);
+  // regeneration of children left parent shape intact
+  EXPECT_EQ(shapes.at(0), sequence_shape);
 }
 
 }  // namespace mvvm::test

@@ -70,11 +70,12 @@ public:
   const mvvm::SessionItem* FindItemForShape(ConnectableShape* shape) const;
 
   /**
-   * @brief Regenerate all views related to the given item.
+   * @brief Regenerate all children views related to the given item.
    *
-   * It will take into account all possible change in collapse/expand status.
+   * It will take into account all possible change in collapse/expand status. Original item's shape
+   * will remain intact.
    */
-  void UpdateBranch(const mvvm::SessionItem* item);
+  void UpdateBranch(SessionItem* item);
 
   /**
    * @brief Returns underlying listener.
