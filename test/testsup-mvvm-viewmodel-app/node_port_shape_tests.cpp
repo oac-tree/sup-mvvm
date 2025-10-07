@@ -63,6 +63,7 @@ TEST_F(NodePortShapeTest, BoundingBoxForEmptyLabel)
   // triggered by port creation
   EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
   EXPECT_CALL(m_mock_node_port, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_port, GetPortDirection()).Times(2);
 
   const PortAppearance port_appearance(PortLocation::kLeft, "");
   auto shape = CreateNodePortShape(port_appearance);
@@ -99,6 +100,7 @@ TEST_F(NodePortShapeTest, ScenePosition)
   // triggered by port creation
   EXPECT_CALL(m_mock_node_port, SetScenePosition(0.0, 0.0)).Times(1);
   EXPECT_CALL(m_mock_node_port, SetNotifyShapeCallback(::testing::_)).Times(1);
+  EXPECT_CALL(m_mock_node_port, GetPortDirection()).Times(2);
 
   const PortAppearance port_appearance(PortLocation::kLeft, "TestPort");
   auto shape = CreateNodePortShape(port_appearance);
@@ -130,6 +132,7 @@ TEST_F(NodePortShapeTest, DoubleClick)
 {
   EXPECT_CALL(m_mock_node_port, SetNotifyShapeCallback(::testing::_)).Times(1);
   EXPECT_CALL(m_mock_node_port, SetScenePosition(::testing::_, ::testing::_)).Times(2);
+  EXPECT_CALL(m_mock_node_port, GetPortDirection()).Times(2);
 
   const PortAppearance port_appearance(PortLocation::kLeft, "TestPort");
   auto shape = CreateNodePortShape(port_appearance);

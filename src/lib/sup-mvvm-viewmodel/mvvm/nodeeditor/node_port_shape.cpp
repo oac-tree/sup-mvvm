@@ -30,7 +30,9 @@ namespace mvvm
 
 NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INodePort> node_port,
                              QGraphicsItem *parent)
-    : QGraphicsItem(parent), m_port_appearance(port_appearance), m_node_port(std::move(node_port))
+    : QGraphicsItem(parent)
+    , m_port_appearance(std::move(port_appearance))
+    , m_node_port(std::move(node_port))
 {
   CalculateBoundingRect();
   setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
@@ -42,7 +44,17 @@ NodePortShape::NodePortShape(PortAppearance port_appearance, std::unique_ptr<INo
         update();
       });
 
-  UpdateNodePort();
+  PropagateSceneCoordinatesToNodePort();
+
+  if (m_node_port->GetPortDirection() == PortDirection::kInput)
+  {
+    setToolTip(
+        "Connect to output port(s) of other nodes.\nDouble-click to hide/show children, if exist");
+  }
+  else if (m_node_port->GetPortDirection() == PortDirection::kOutput)
+  {
+    setToolTip("Connect to input port(s) of other nodes");
+  }
 }
 
 QRectF NodePortShape::boundingRect() const
@@ -60,9 +72,7 @@ void NodePortShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
   const auto &port_style = m_port_appearance.GetPortStyle();
 
   static const QPen pen = QPen(port_style.pen_color, port_style.pen_width);
-  const QBrush brush = QBrush(m_operation_states.IsSet(NodeOperationState::kCollapsedChildren)
-                                  ? port_style.base_color_modified
-                                  : port_style.base_color);
+  const QBrush brush = QBrush(GetPortColor());
 
   painter->setRenderHint(QPainter::Antialiasing);
   painter->setPen(pen);
@@ -95,7 +105,7 @@ QVariant NodePortShape::itemChange(GraphicsItemChange change, const QVariant &va
 {
   if (change == ItemScenePositionHasChanged || change == ItemSceneHasChanged)
   {
-    UpdateNodePort();
+    PropagateSceneCoordinatesToNodePort();
   }
   return value;
 }
@@ -122,10 +132,23 @@ void NodePortShape::CalculateBoundingRect()
   m_bounding_rect = circle_rect.united(label_rect);
 }
 
-void NodePortShape::UpdateNodePort()
+void NodePortShape::PropagateSceneCoordinatesToNodePort()
 {
   const auto pos = scenePos();
   m_node_port->SetScenePosition(pos.x(), pos.y());
+}
+
+QColor NodePortShape::GetPortColor() const
+{
+  const auto &port_style = m_port_appearance.GetPortStyle();
+  if (m_node_port->GetPortDirection() == PortDirection::kInput)
+  {
+    return m_operation_states.IsSet(NodeOperationState::kCollapsedChildren)
+               ? port_style.base_color_modified
+               : port_style.base_color;
+  }
+
+  return port_style.base_color;
 }
 
 /**

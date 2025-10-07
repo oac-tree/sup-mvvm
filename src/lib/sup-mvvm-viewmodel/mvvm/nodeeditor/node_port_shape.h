@@ -57,7 +57,8 @@ protected:
 
 private:
   void CalculateBoundingRect();
-  void UpdateNodePort();
+  void PropagateSceneCoordinatesToNodePort();
+  QColor GetPortColor() const;
 
   PortAppearance m_port_appearance;
   std::unique_ptr<INodePort> m_node_port;
