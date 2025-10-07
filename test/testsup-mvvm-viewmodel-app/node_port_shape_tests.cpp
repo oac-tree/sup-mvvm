@@ -130,6 +130,11 @@ TEST_F(NodePortShapeTest, ScenePosition)
 
 TEST_F(NodePortShapeTest, DoubleClick)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+  // QTest::mouseEvent seems having problems, see https://bugreports.qt.io/browse/QTBUG-5232
+  GTEST_SKIP();
+#endif
+
   EXPECT_CALL(m_mock_node_port, SetNotifyShapeCallback(::testing::_)).Times(1);
   EXPECT_CALL(m_mock_node_port, SetScenePosition(::testing::_, ::testing::_)).Times(2);
   EXPECT_CALL(m_mock_node_port, GetPortDirection()).Times(2);
