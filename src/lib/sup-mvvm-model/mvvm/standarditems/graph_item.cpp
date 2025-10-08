@@ -49,7 +49,7 @@ std::unique_ptr<SessionItem> GraphItem::Clone() const
 
 void GraphItem::SetDataItem(const Data1DItem* data_item)
 {
-  GetItem<LinkedItem>(kLink)->SetLink(data_item);
+  GetItem<LinkedItem>(constants::kLink)->SetLink(data_item);
 }
 
 //! Update item from the content of given graph. Link to the data will be set
@@ -69,7 +69,7 @@ void GraphItem::SetFromGraphItem(const GraphItem* graph_item)
 
 Data1DItem* GraphItem::GetDataItem() const
 {
-  return GetItem<LinkedItem>(kLink)->Get<Data1DItem>();
+  return GetItem<LinkedItem>(constants::kLink)->Get<Data1DItem>();
 }
 
 std::vector<double> GraphItem::GetBinCenters() const

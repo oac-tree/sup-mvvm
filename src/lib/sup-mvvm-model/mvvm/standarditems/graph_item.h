@@ -36,9 +36,6 @@ class PenItem;
 class GraphItem : public CompoundItem
 {
 public:
-  static constexpr std::string_view kLink = "kLink";
-  static constexpr std::string_view kDisplayed = "kDisplayed";
-
   explicit GraphItem(const std::string& model_type = GetTypeName<GraphItem>());
 
   std::unique_ptr<SessionItem> Clone() const override;

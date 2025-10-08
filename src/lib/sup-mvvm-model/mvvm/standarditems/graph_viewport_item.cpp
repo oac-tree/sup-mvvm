@@ -22,6 +22,8 @@
 
 #include "graph_item.h"
 
+#include <mvvm/model/item_constants.h>
+
 #include <algorithm>
 #include <vector>
 
@@ -85,7 +87,7 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
   std::vector<GraphItem*> visible_items;
   (void)std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
                      [](const GraphItem* graph_item)
-                     { return graph_item->Property<bool>(GraphItem::kDisplayed); });
+                     { return graph_item->Property<bool>(constants::kDisplayed); });
   return visible_items;
 }
 
@@ -98,11 +100,11 @@ void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
         != visible_graph_items.end())
     {
-      (void)graph_item->SetProperty(GraphItem::kDisplayed, true);
+      (void)graph_item->SetProperty(constants::kDisplayed, true);
     }
     else
     {
-      (void)graph_item->SetProperty(GraphItem::kDisplayed, false);
+      (void)graph_item->SetProperty(constants::kDisplayed, false);
     }
   }
 }
@@ -113,7 +115,7 @@ void GraphViewportItem::SetAllVisible()
 {
   for (auto graph_item : GetItems<GraphItem>(kItems))
   {
-    (void)graph_item->SetProperty(GraphItem::kDisplayed, true);
+    (void)graph_item->SetProperty(constants::kDisplayed, true);
   }
 }
 

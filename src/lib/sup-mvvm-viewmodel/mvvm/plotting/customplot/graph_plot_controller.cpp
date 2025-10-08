@@ -26,6 +26,7 @@
 #include <mvvm/standarditems/data1d_item.h>
 #include <mvvm/standarditems/graph_item.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/model/item_constants.h>
 
 #include <qcustomplot.h>
 
@@ -77,7 +78,7 @@ struct GraphPlotController::GraphItemControllerImpl
   //! Update visible
   void UpdateVisibility()
   {
-    m_graph->setVisible(GetGraphItem()->Property<bool>(GraphItem::kDisplayed));
+    m_graph->setVisible(GetGraphItem()->Property<bool>(constants::kDisplayed));
     m_custom_plot->replot();
   }
 
@@ -92,12 +93,12 @@ struct GraphPlotController::GraphItemControllerImpl
 
   void OnPropertyChanged(const PropertyChangedEvent& event)
   {
-    if (event.name == GraphItem::kLink)
+    if (event.name == constants::kLink)
     {
       UpdateDataController();
     }
 
-    if (event.name == GraphItem::kDisplayed)
+    if (event.name == constants::kDisplayed)
     {
       UpdateVisibility();
     }
@@ -108,6 +109,8 @@ GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
     : p_impl(std::make_unique<GraphItemControllerImpl>(this, custom_plot))
 {
 }
+
+GraphPlotController::~GraphPlotController() = default;
 
 void GraphPlotController::Subscribe()
 {
@@ -121,7 +124,5 @@ void GraphPlotController::Unsubscribe()
 {
   p_impl->ResetGraph();
 }
-
-GraphPlotController::~GraphPlotController() = default;
 
 }  // namespace mvvm
