@@ -37,24 +37,24 @@ namespace mvvm
 namespace constants
 {
 
-const std::string kEmptyQtTypeName = "invalid";
-const std::string kBooleanQtTypeName = "bool";
-const std::string kChar8QtTypeName = "char";
-const std::string kInt8QtTypeName = "signed char";
-const std::string kUInt8QtTypeName = "uchar";
-const std::string kInt16QtTypeName = "short";
-const std::string kUInt16QtTypeName = "ushort";
-const std::string kInt32QtTypeName = "int";
-const std::string kUInt32QtTypeName = "uint";
-const std::string kInt64QtTypeName = "long";
-const std::string kUInt64QtTypeName = "ulong";
-const std::string kFloat32QtTypeName = "float";
-const std::string kFloat64QtTypeName = "double";
-const std::string kStdVectorDoubleQtTypeName = "std::vector<double>";
-const std::string kComboPropertyQtTypeName = "mvvm::ComboProperty";
-const std::string kExternalPropertyQtTypeName = "mvvm::ExternalProperty";
-const std::string kLongLongQtTypeName = "qlonglong";
-const std::string kStringQtTypeName = "QString";
+constexpr std::string_view kEmptyQtTypeName = "invalid";
+constexpr std::string_view kBooleanQtTypeName = "bool";
+constexpr std::string_view kChar8QtTypeName = "char";
+constexpr std::string_view kInt8QtTypeName = "signed char";
+constexpr std::string_view kUInt8QtTypeName = "uchar";
+constexpr std::string_view kInt16QtTypeName = "short";
+constexpr std::string_view kUInt16QtTypeName = "ushort";
+constexpr std::string_view kInt32QtTypeName = "int";
+constexpr std::string_view kUInt32QtTypeName = "uint";
+constexpr std::string_view kInt64QtTypeName = "long";
+constexpr std::string_view kUInt64QtTypeName = "ulong";
+constexpr std::string_view kFloat32QtTypeName = "float";
+constexpr std::string_view kFloat64QtTypeName = "double";
+constexpr std::string_view kStdVectorDoubleQtTypeName = "std::vector<double>";
+constexpr std::string_view kComboPropertyQtTypeName = "mvvm::ComboProperty";
+constexpr std::string_view kExternalPropertyQtTypeName = "mvvm::ExternalProperty";
+constexpr std::string_view kLongLongQtTypeName = "qlonglong";
+constexpr std::string_view kStringQtTypeName = "QString";
 }  // namespace constants
 
 namespace utils

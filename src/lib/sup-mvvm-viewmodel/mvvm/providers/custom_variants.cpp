@@ -24,7 +24,7 @@ namespace mvvm::utils
 {
 std::string GetQtVariantName(const QVariant& variant)
 {
-  return variant.isValid() ? variant.typeName() : constants::kEmptyQtTypeName;
+  return variant.isValid() ? variant.typeName() : std::string(constants::kEmptyQtTypeName);
 }
 
 int GetQtVariantType(const QVariant& variant)

@@ -28,65 +28,68 @@
 #include <functional>
 #include <map>
 
+namespace mvvm
+{
+
 namespace
 {
-using converter_func_t = std::function<mvvm::variant_t(const QVariant& variant)>;
+using converter_func_t = std::function<variant_t(const QVariant& variant)>;
 std::map<std::string, converter_func_t> CreateConverterMap()
 {
   std::map<std::string, converter_func_t> result = {
-      {mvvm::constants::kEmptyQtTypeName,
-       [](const QVariant& /*variant*/) { return mvvm::variant_t(); }},
+      {std::string(constants::kEmptyQtTypeName),
+       [](const QVariant& /*variant*/) { return variant_t(); }},
 
-      {mvvm::constants::kBooleanQtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.toBool()); }},
+      {std::string(constants::kBooleanQtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.toBool()); }},
 
-      {mvvm::constants::kChar8QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::char8>()); }},
+      {std::string(constants::kChar8QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<char8>()); }},
 
-      {mvvm::constants::kInt8QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::int8>()); }},
+      {std::string(constants::kInt8QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<int8>()); }},
 
-      {mvvm::constants::kUInt8QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::uint8>()); }},
+      {std::string(constants::kUInt8QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<uint8>()); }},
 
-      {mvvm::constants::kInt16QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::int16>()); }},
+      {std::string(constants::kInt16QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<int16>()); }},
 
-      {mvvm::constants::kUInt16QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::uint16>()); }},
+      {std::string(constants::kUInt16QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<uint16>()); }},
 
-      {mvvm::constants::kInt32QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.toInt()); }},
+      {std::string(constants::kInt32QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.toInt()); }},
 
-      {mvvm::constants::kUInt32QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.toUInt()); }},
+      {std::string(constants::kUInt32QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.toUInt()); }},
 
-      {mvvm::constants::kInt64QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::int64>()); }},
+      {std::string(constants::kInt64QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<int64>()); }},
 
-      {mvvm::constants::kUInt64QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::uint64>()); }},
+      {std::string(constants::kUInt64QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<uint64>()); }},
 
-      {mvvm::constants::kLongLongQtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.value<mvvm::int64>()); }},
+      {std::string(constants::kLongLongQtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<int64>()); }},
 
-      {mvvm::constants::kFloat32QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.toFloat()); }},
+      {std::string(constants::kFloat32QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.toFloat()); }},
 
-      {mvvm::constants::kFloat64QtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.toDouble()); }},
+      {std::string(constants::kFloat64QtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.toDouble()); }},
 
-      {mvvm::constants::kStringQtTypeName,
-       [](const QVariant& variant) { return mvvm::variant_t(variant.toString().toStdString()); }},
+      {std::string(constants::kStringQtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.toString().toStdString()); }},
 
-      {mvvm::constants::kStdVectorDoubleQtTypeName, [](const QVariant& variant)
-       { return mvvm::variant_t(variant.value<std::vector<double>>()); }},
+      {std::string(constants::kStdVectorDoubleQtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<std::vector<double>>()); }},
 
-      {mvvm::constants::kComboPropertyQtTypeName, [](const QVariant& variant)
-       { return mvvm::variant_t(variant.value<mvvm::ComboProperty>()); }},
+      {std::string(constants::kComboPropertyQtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<ComboProperty>()); }},
 
-      {mvvm::constants::kExternalPropertyQtTypeName, [](const QVariant& variant)
-       { return mvvm::variant_t(variant.value<mvvm::ExternalProperty>()); }}
+      {std::string(constants::kExternalPropertyQtTypeName),
+       [](const QVariant& variant) { return variant_t(variant.value<ExternalProperty>()); }}
 
   };
   return result;
@@ -94,8 +97,6 @@ std::map<std::string, converter_func_t> CreateConverterMap()
 
 }  // namespace
 
-namespace mvvm
-{
 QVariant GetQtVariant(const variant_t& variant)
 {
   if (utils::TypeName(variant) == constants::VectorDoubleTypeName())
