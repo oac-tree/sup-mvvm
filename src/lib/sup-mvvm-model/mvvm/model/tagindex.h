@@ -22,6 +22,7 @@
 #define MVVM_MODEL_TAGINDEX_H_
 
 #include <cstddef>
+#include <limits>
 #include <string>
 
 namespace mvvm
@@ -36,6 +37,17 @@ namespace mvvm
 class TagIndex
 {
 public:
+  /**
+   * @brief An integer constant used to mark TagIndex as invalid state.
+   * @see TagIndex::IsValid()
+   */
+  static constexpr std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max();
+
+  /**
+   * @brief An integer constant to specify the end of the container.
+   */
+  static constexpr std::size_t kAppendIndex = std::numeric_limits<std::size_t>::max() - 1;
+
   /**
    * @brief The default c-tor.
    *

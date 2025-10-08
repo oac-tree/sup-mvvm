@@ -36,7 +36,7 @@ class TagIndexTests : public ::testing::Test
 
 TEST_F(TagIndexTests, InitialState)
 {
-  TagIndex tag_index;
+  const TagIndex tag_index;
   EXPECT_EQ(tag_index.GetTag(), "");
   EXPECT_EQ(tag_index.GetIndex(), 0);
   EXPECT_TRUE(tag_index.IsValid());
@@ -61,23 +61,23 @@ TEST_F(TagIndexTests, BraceInitializer)
 
 TEST_F(TagIndexTests, EqualityOperators)
 {
-  TagIndex tag1;
-  TagIndex tag2;
+  const TagIndex tag1;
+  const TagIndex tag2;
   EXPECT_TRUE(tag1 == tag2);
   EXPECT_FALSE(tag1 != tag2);
 
-  TagIndex tag3 = {"abc", 42};
-  TagIndex tag4 = {"abc", 42};
+  const TagIndex tag3 = {"abc", 42};
+  const TagIndex tag4 = {"abc", 42};
   EXPECT_TRUE(tag3 == tag4);
   EXPECT_FALSE(tag3 != tag4);
 
-  TagIndex tag5 = {"abc", 42};
-  TagIndex tag6 = {"abc", 43};
+  const TagIndex tag5 = {"abc", 42};
+  const TagIndex tag6 = {"abc", 43};
   EXPECT_FALSE(tag5 == tag6);
   EXPECT_TRUE(tag5 != tag6);
 
-  TagIndex tag7 = {"a", 42};
-  TagIndex tag8 = {"b", 42};
+  const TagIndex tag7 = {"a", 42};
+  const TagIndex tag8 = {"b", 42};
   EXPECT_FALSE(tag7 == tag8);
   EXPECT_TRUE(tag7 != tag8);
 }
@@ -85,7 +85,7 @@ TEST_F(TagIndexTests, EqualityOperators)
 TEST_F(TagIndexTests, AssignmentOperator)
 {
   TagIndex tag1;
-  TagIndex tag2{"abc", 42};
+  const TagIndex tag2{"abc", 42};
 
   tag1 = tag2;
   EXPECT_EQ(tag1.GetIndex(), 42);
@@ -96,14 +96,14 @@ TEST_F(TagIndexTests, FactoryMethods)
 {
   auto tag_index = TagIndex::Append();
   EXPECT_EQ(tag_index.GetTag(), TagIndex::GetDefaultTag());
-  EXPECT_EQ(tag_index.GetIndex(), -1);
+  EXPECT_EQ(tag_index.GetIndex(), TagIndex::kAppendIndex);
   EXPECT_TRUE(tag_index.IsValid());
   EXPECT_TRUE(tag_index.IsAppend());
 
   const std::string expected_name("tag");
   tag_index = TagIndex::Append(expected_name);
   EXPECT_EQ(tag_index.GetTag(), expected_name);
-  EXPECT_EQ(tag_index.GetIndex(), -1);
+  EXPECT_EQ(tag_index.GetIndex(), TagIndex::kAppendIndex);
   EXPECT_TRUE(tag_index.IsValid());
   EXPECT_TRUE(tag_index.IsAppend());
 
@@ -128,12 +128,12 @@ TEST_F(TagIndexTests, FactoryMethods)
 TEST_F(TagIndexTests, Next)
 {
   {
-    TagIndex tag_index("tag", std::numeric_limits<std::size_t>::max());
+    const TagIndex tag_index("tag", std::numeric_limits<std::size_t>::max());
     EXPECT_FALSE(tag_index.Next().IsValid());
   }
 
   {
-    TagIndex tag_index{"tag", 0};
+    const TagIndex tag_index{"tag", 0};
     EXPECT_EQ(tag_index.Next().GetTag(), "tag");
     EXPECT_EQ(tag_index.Next().GetIndex(), 1);
   }
@@ -142,11 +142,11 @@ TEST_F(TagIndexTests, Next)
 TEST_F(TagIndexTests, Prev)
 {
   {
-    TagIndex tag_index("tag", 0);
+    const TagIndex tag_index("tag", 0);
     EXPECT_FALSE(tag_index.Prev().IsValid());
   }
 
-  TagIndex tag_index{"tag", 1};
+  const TagIndex tag_index{"tag", 1};
   EXPECT_EQ(tag_index.Prev().GetTag(), "tag");
   EXPECT_EQ(tag_index.Prev().GetIndex(), 0);
 }

@@ -20,22 +20,6 @@
 
 #include "tagindex.h"
 
-#include <limits>
-
-namespace
-{
-/**
- * @brief An integer constant to specify the end of the container.
- */
-const std::size_t kAppendIndex = std::numeric_limits<std::size_t>::max();
-
-/**
- * @brief An integer constant used to mark TagIndex as invalid state.
- * @see TagIndex::IsValid()
- */
-const std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max() - 1;
-}  // namespace
-
 namespace mvvm
 {
 
