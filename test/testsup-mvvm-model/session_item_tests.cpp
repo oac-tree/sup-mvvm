@@ -787,7 +787,7 @@ TEST_F(SessionItemTests, SetAppearanceFlag)
   EXPECT_FALSE(utils::IsValid(variant));
 
   // set kDisabled
-  item.SetData(0U, DataRole::kAppearance);
+  item.SetData(std::uint64_t{0}, DataRole::kAppearance);
   EXPECT_EQ(&item.SetFlag(kDisabled, true), &item);
   EXPECT_TRUE(item.HasFlag(kDisabled));
   EXPECT_FALSE(item.HasFlag(kReadOnly));

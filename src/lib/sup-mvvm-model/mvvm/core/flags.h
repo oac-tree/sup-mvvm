@@ -47,7 +47,7 @@ class Flags
 
 public:
   using UnderlyingT = typename std::make_unsigned_t<typename std::underlying_type_t<EnumT>>;
-  using StorageT = std::uint32_t;
+  using StorageT = std::uint64_t;
 
   /**
    * @brief Default constructor.

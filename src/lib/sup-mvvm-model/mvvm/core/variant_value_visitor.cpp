@@ -57,7 +57,7 @@ std::string VariantValueVisitor::operator()(int16 value)
 
 std::string VariantValueVisitor::operator()(uint16 value)
 {
-  return {std::to_string(value)};
+  return {std::to_string(static_cast<uint32>(value))};
 }
 
 std::string VariantValueVisitor::operator()(int32 value)
