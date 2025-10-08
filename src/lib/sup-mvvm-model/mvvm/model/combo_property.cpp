@@ -69,7 +69,7 @@ ComboProperty ComboProperty::CreateFrom(const std::vector<std::string>& values,
 std::string ComboProperty::GetValue() const
 {
   return GetCurrentIndex() < 0 ? std::string()
-                               : m_values.at(static_cast<size_t>(GetCurrentIndex()));
+                               : m_values.at(static_cast<std::size_t>(GetCurrentIndex()));
 }
 
 void ComboProperty::SetValue(const std::string& name)
@@ -140,7 +140,7 @@ std::vector<std::string> ComboProperty::GetSelectedValues() const
   result.reserve(m_selected_indices.size());
   for (auto index : m_selected_indices)
   {
-    result.push_back(m_values.at(static_cast<size_t>(index)));
+    result.push_back(m_values.at(static_cast<std::size_t>(index)));
   }
   return result;
 }

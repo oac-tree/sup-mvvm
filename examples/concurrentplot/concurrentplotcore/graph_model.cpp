@@ -82,7 +82,7 @@ void GraphModel::AddGraph(mvvm::ContainerItem* container, mvvm::GraphViewportIte
   auto [xmin, xmax, points] = GetSimulationResult(mvvm::utils::RandDouble(0.5, 1.0));
 
   auto data = InsertItem<mvvm::Data1DItem>(container);
-  data->SetAxis<mvvm::FixedBinAxisItem>(static_cast<int>(points.size()), xmin, xmax);
+  data->SetAxis<mvvm::FixedBinAxisItem>(points.size(), xmin, xmax);
   data->SetValues(points);
 
   auto graph = InsertItem<mvvm::GraphItem>(viewport);

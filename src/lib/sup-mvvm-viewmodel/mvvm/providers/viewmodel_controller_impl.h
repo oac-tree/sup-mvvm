@@ -75,7 +75,7 @@ public:
 
   void SetRootItem(SessionItem *root_item) override;
 
-  int GetColumnCount() const override;
+  std::size_t GetColumnCount() const override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 

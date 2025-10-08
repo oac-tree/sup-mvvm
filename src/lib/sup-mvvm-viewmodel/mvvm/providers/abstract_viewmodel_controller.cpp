@@ -97,7 +97,7 @@ void AbstractViewModelController::SetRootItem(SessionItem *root_item)
   }
 }
 
-int AbstractViewModelController::GetColumnCount() const
+std::size_t AbstractViewModelController::GetColumnCount() const
 {
   return 0;
 }

@@ -70,7 +70,7 @@ TEST_F(GraphInfoFormatterTest, SetGraphItemAndCheckPlottables)
   auto data_item = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   auto graph_item = model.InsertItem<GraphItem>(viewport_item);

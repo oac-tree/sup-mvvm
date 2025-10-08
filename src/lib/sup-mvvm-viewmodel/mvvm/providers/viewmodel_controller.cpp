@@ -71,7 +71,7 @@ const SessionItem *ViewModelController::GetRootItem() const
   return p_impl->GetRootItem();
 }
 
-int ViewModelController::GetColumnCount() const
+std::size_t ViewModelController::GetColumnCount() const
 {
   return p_impl->GetColumnCount();
 }

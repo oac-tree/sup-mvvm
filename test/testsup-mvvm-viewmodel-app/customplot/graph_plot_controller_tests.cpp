@@ -59,7 +59,7 @@ TEST_F(GraphPlotControllerTest, SetGraphItemAndCheckPlottables)
   // setup model and single data item in it
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
-  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(2U, 0.0, 2.0);
   const std::vector<double> expected_centers = {0.5, 1.5};
   const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
@@ -89,7 +89,7 @@ TEST_F(GraphPlotControllerTest, ChangeGraphAppearance)
   // setup model and single data item in it
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
-  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(2U, 0.0, 2.0);
   const std::vector<double> expected_centers = {0.5, 1.5};
   const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
@@ -165,7 +165,7 @@ TEST_F(GraphPlotControllerTest, SetDataToGraphAfter)
 
   // setup Data1DItem and assign to GraphItem
   auto data_item = model.InsertItem<Data1DItem>();
-  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(2U, 0.0, 2.0);
   const std::vector<double> expected_centers = {0.5, 1.5};
   const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);
@@ -186,7 +186,7 @@ TEST_F(GraphPlotControllerTest, UnlinkFromItem)
   // setup model and single data item in it
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
-  data_item->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(2U, 0.0, 2.0);
   const std::vector<double> expected_centers = {0.5, 1.5};
   const std::vector<double> expected_values = {42.0, 43.0};
   data_item->SetValues(expected_values);

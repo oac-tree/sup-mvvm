@@ -87,7 +87,7 @@ TEST_F(Data1DPlotControllerTest, AxisAfter)
   controller.SetItem(data_item);
 
   // setting correct axis
-  data_item->SetAxis<FixedBinAxisItem>(1, 1.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(1U, 1.0, 2.0);
   EXPECT_EQ(data_item->GetBinCenters(), GetBinCenters(graph));
   EXPECT_EQ(data_item->GetValues(), GetValues(graph));
   EXPECT_EQ(std::vector<double>(), GetErrors(graph));
@@ -102,7 +102,7 @@ TEST_F(Data1DPlotControllerTest, DataPoints)
   // creating data item with single point
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
-  data_item->SetAxis<FixedBinAxisItem>(1, 1.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(1U, 1.0, 2.0);
 
   // creating controller and point it to Data1DItem
   Data1DPlotController controller(graph);
@@ -129,7 +129,7 @@ TEST_F(Data1DPlotControllerTest, ErrorBars)
   // creating data item with single point
   ApplicationModel model;
   auto data_item = model.InsertItem<Data1DItem>();
-  data_item->SetAxis<FixedBinAxisItem>(2, 1.0, 2.0);
+  data_item->SetAxis<FixedBinAxisItem>(2U, 1.0, 2.0);
 
   // creating controller and point it to Data1DItem
   Data1DPlotController controller(graph);
@@ -154,9 +154,9 @@ TEST_F(Data1DPlotControllerTest, TwoDataItems)
   // creating two data items
   ApplicationModel model;
   auto data_item1 = model.InsertItem<Data1DItem>();
-  data_item1->SetAxis<FixedBinAxisItem>(1, 1.0, 2.0);
+  data_item1->SetAxis<FixedBinAxisItem>(1U, 1.0, 2.0);
   auto data_item2 = model.InsertItem<Data1DItem>();
-  data_item2->SetAxis<FixedBinAxisItem>(2, 0.0, 2.0);
+  data_item2->SetAxis<FixedBinAxisItem>(2U, 0.0, 2.0);
 
   // creating controller and point it to first item
   Data1DPlotController controller(graph);

@@ -100,7 +100,7 @@ public:
   /**
    * @brief Returns number of columns.
    */
-  virtual int GetColumnCount() const = 0;
+  virtual std::size_t GetColumnCount() const = 0;
 
   /**
    * @brief Returns list representing horizontal labels.

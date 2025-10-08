@@ -55,7 +55,7 @@ std::vector<PropertyGridController::widget_row_t> PropertyGridController::Create
 
   for (int row = 0; row < m_view_model->rowCount(); ++row)
   {
-    auto &mapper = m_widget_mappers.at(static_cast<size_t>(row));
+    auto &mapper = m_widget_mappers.at(static_cast<std::size_t>(row));
 
     for (int col = 0; col < m_view_model->columnCount(); ++col)
     {
@@ -119,7 +119,7 @@ std::unique_ptr<QWidget> PropertyGridController::CreateLabel(const QModelIndex &
 
 std::unique_ptr<QWidget> PropertyGridController::CreateEditor(const QModelIndex &index)
 {
-  if (index.row() < 0 || static_cast<size_t>(index.row()) >= m_delegates.size())
+  if (index.row() < 0 || static_cast<std::size_t>(index.row()) >= m_delegates.size())
   {
     throw RuntimeException("Error in delegates");
   }

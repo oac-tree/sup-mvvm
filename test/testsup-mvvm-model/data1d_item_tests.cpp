@@ -75,7 +75,7 @@ TEST_F(Data1DItemTests, SetTemplatedFixedBinAxis)
 {
   Data1DItem item;
 
-  auto axis = item.SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+  auto axis = item.SetAxis<FixedBinAxisItem>(5U, 0.0, 5.0);
 
   // check type of the axis
   EXPECT_EQ(item.GetAxis(), axis);
@@ -92,7 +92,7 @@ TEST_F(Data1DItemTests, SetTemplatedFixedBinAxisInModelContext)
   SessionModel model;
   auto dataItem = model.InsertItem<Data1DItem>();
 
-  auto axis = dataItem->SetAxis<FixedBinAxisItem>(5, 0.0, 5.0);
+  auto axis = dataItem->SetAxis<FixedBinAxisItem>(5U, 0.0, 5.0);
 
   // check type of the axis
   EXPECT_EQ(dataItem->GetAxis(), axis);
@@ -130,7 +130,7 @@ TEST_F(Data1DItemTests, SetValues)
   const std::vector<double> expected_content = {1.0, 2.0, 3.0};
   EXPECT_THROW(item.SetValues(expected_content), RuntimeException);
 
-  item.SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  item.SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   item.SetValues(expected_content);
   EXPECT_EQ(item.GetValues(), expected_content);
 }

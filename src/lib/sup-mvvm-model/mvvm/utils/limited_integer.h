@@ -201,6 +201,18 @@ inline std::string LimitedInteger<T>::GetValueAsText() const
   return std::to_string(m_value);
 }
 
+template <>
+inline std::string LimitedInteger<std::uint8_t>::GetValueAsText() const
+{
+  return std::to_string(static_cast<std::uint32_t>(m_value));
+}
+
+template <>
+inline std::string LimitedInteger<std::uint16_t>::GetValueAsText() const
+{
+  return std::to_string(static_cast<std::uint16_t>(m_value));
+}
+
 template <typename T>
 inline bool LimitedInteger<T>::SetValueFromText(const std::string& text)
 {

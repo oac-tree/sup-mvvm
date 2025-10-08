@@ -63,7 +63,7 @@ TEST_F(GraphViewportItemTests, AddGraphToViewport)
 
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);
@@ -110,7 +110,7 @@ TEST_F(GraphViewportItemTests, OnSetDataItem)
   auto data_item = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   // inserting graph item
@@ -134,7 +134,7 @@ TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
 
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);

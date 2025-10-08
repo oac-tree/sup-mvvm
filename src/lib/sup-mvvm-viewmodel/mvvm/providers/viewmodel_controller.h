@@ -57,7 +57,7 @@ public:
 
   const SessionItem* GetRootItem() const override;
 
-  int GetColumnCount() const override;
+  std::size_t GetColumnCount() const override;
 
   QStringList GetHorizontalHeaderLabels() const override;
 

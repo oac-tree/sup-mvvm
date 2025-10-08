@@ -85,7 +85,7 @@ TEST_F(GraphViewportPlotControllerTest, DISABLED_AddGraphAndSetItem)
   auto data_item = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   auto graph_item = model.InsertItem<GraphItem>(viewport_item);
@@ -120,12 +120,12 @@ TEST_F(GraphViewportPlotControllerTest, DISABLED_AddAndRemoveGraphs)
   auto data1 = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values1 = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data1->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data1->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data1->SetValues(expected_values1);
 
   auto data2 = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values2 = {4.0, 5.0, 6.0};
-  data2->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data2->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data2->SetValues(expected_values2);
 
   // adding graph item to viewport
@@ -244,7 +244,7 @@ TEST_F(GraphViewportPlotControllerTest, DISABLED_SwitchBetweenTwoViewports)
   auto data_item = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   auto graph_item = model.InsertItem<GraphItem>(viewport_item0);
@@ -278,7 +278,7 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedo)
   auto data1 = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data1->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data1->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data1->SetValues(expected_values);
 
   // beginning of our undo/redo story
@@ -350,7 +350,7 @@ TEST_F(GraphViewportPlotControllerTest, addGraphUndoRedoMacro)
   auto data1 = model.InsertItem<Data1DItem>();
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data1->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data1->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data1->SetValues(expected_values);
   auto data_identifier = data1->GetIdentifier();
   // adding graph item to viewport

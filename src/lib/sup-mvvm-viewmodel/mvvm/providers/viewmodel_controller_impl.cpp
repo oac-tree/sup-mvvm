@@ -151,7 +151,7 @@ void ViewModelControllerImpl::SetRootItem(SessionItem *root_item)
   }
 }
 
-int ViewModelControllerImpl::GetColumnCount() const
+std::size_t ViewModelControllerImpl::GetColumnCount() const
 {
   return m_row_strategy->GetSize();
 }

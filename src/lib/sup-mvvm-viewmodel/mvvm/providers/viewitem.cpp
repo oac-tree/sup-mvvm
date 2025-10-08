@@ -61,7 +61,7 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("ViewItem: attempt to insert empty row");
     }
 
-    if (m_columns > 0 && items.size() != static_cast<size_t>(m_columns))
+    if (m_columns > 0 && items.size() != static_cast<std::size_t>(m_columns))
     {
       throw RuntimeException("ViewItem: wrong number of columns");
     }
@@ -111,7 +111,7 @@ struct ViewItem::ViewItemImpl
       throw RuntimeException("ViewItem: wrong column");
     }
 
-    return m_children.at(static_cast<size_t>(column + row * m_columns)).get();
+    return m_children.at(static_cast<std::size_t>(column + row * m_columns)).get();
   }
 
   std::int32_t GetIndexOfChild(const ViewItem* child)

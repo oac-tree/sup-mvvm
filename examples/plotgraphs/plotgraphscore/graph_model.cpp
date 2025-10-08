@@ -34,7 +34,7 @@ namespace
 {
 
 constexpr double pi = 3.14159265358979323846;
-constexpr int npoints = 400;
+constexpr size_t npoints = 400;
 constexpr double xmin = 0.0;
 constexpr double xmax = 5.0;
 constexpr double dx = (xmax - xmin) / npoints;
@@ -42,7 +42,7 @@ constexpr double dx = (xmax - xmin) / npoints;
 std::vector<double> GetBinValues(double amp_factor = 1.0)
 {
   std::vector<double> result;
-  for (int i = 0; i < npoints; ++i)
+  for (size_t i = 0; i < npoints; ++i)
   {
     double x = xmin + i * dx;
     double value = amp_factor * 10.0 * std::sin(2.0 * pi * 2 * x)
@@ -88,8 +88,8 @@ void GraphModel::RemoveGraph()
 {
   mvvm::utils::BeginMacro(*this, "RemoveGraph");
 
-  const int graph_count = GetViewport()->GetGraphCount();
-  const int data_count = GetDataContainer()->GetSize();
+  const auto graph_count = GetViewport()->GetGraphCount();
+  const auto data_count = GetDataContainer()->GetSize();
 
   if (graph_count != data_count)
   {

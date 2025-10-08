@@ -77,7 +77,7 @@ TEST_F(GraphItemTests, GetValues)
 
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);
@@ -95,7 +95,7 @@ TEST_F(GraphItemTests, GetErrors)
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
   const std::vector<double> expected_errors = {0.1, 0.2, 0.3};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
   data_item->SetErrors(expected_errors);
 
@@ -115,7 +115,7 @@ TEST_F(GraphItemTests, SetNullData)
   // preparing data item
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);
@@ -153,7 +153,7 @@ TEST_F(GraphItemTests, SetFromGraphItem)
 
   const std::vector<double> expected_values = {1.0, 2.0, 3.0};
   const std::vector<double> expected_centers = {0.5, 1.5, 2.5};
-  data_item->SetAxis<FixedBinAxisItem>(3, 0.0, 3.0);
+  data_item->SetAxis<FixedBinAxisItem>(3U, 0.0, 3.0);
   data_item->SetValues(expected_values);
 
   graph_item->SetDataItem(data_item);

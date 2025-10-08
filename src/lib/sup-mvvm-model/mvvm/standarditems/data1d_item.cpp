@@ -32,7 +32,7 @@ namespace
 size_t total_bin_count(mvvm::Data1DItem* item)
 {
   auto axis = item->GetAxis();
-  return axis ? static_cast<size_t>(axis->GetSize()) : 0;
+  return axis ? axis->GetSize() : 0;
 }
 }  // namespace
 
