@@ -57,10 +57,10 @@ void ViewModelControllerImpl::OnModelEvent(const ItemInsertedEvent &event)
 
   auto new_child = parent->GetItem(tag_index);
 
-  const int insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
+  const auto insert_view_index = GetInsertViewIndexOfChild(parent, new_child);
   auto parent_view = const_cast<ViewItem *>(m_view_item_map.FindView(parent));
 
-  if (insert_view_index != -1 && parent_view)
+  if (insert_view_index != constants::kInvalidIndex && parent_view)
   {
     m_view_model->insertRow(parent_view, insert_view_index, CreateTreeOfRows(*new_child));
   }
@@ -179,8 +179,8 @@ void ViewModelControllerImpl::CheckInitialState() const
   }
 }
 
-int ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent,
-                                                       const SessionItem *child)
+std::size_t ViewModelControllerImpl::GetInsertViewIndexOfChild(const SessionItem *parent,
+                                                               const SessionItem *child)
 {
   // children that should get their views
   auto children = m_children_strategy->GetChildren(parent);

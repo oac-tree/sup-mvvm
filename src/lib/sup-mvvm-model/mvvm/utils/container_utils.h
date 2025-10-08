@@ -23,10 +23,16 @@
 
 #include <algorithm>
 #include <iterator>
+#include <limits>
 #include <memory>
 #include <type_traits>
 #include <unordered_set>
 #include <vector>
+
+namespace mvvm::constants
+{
+static constexpr std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max();
+}
 
 namespace mvvm::utils
 {
@@ -44,10 +50,11 @@ struct is_unique_ptr<std::unique_ptr<T, D>> : std::true_type
  * @brief Returns index corresponding to the first occurrence of the item in the container (iterator
  * version).
  *
- * If the item doesn't exist, will return -1. Works with containers containing unique_ptr.
+ * If the item doesn't exist, will return constants::kInvalidIndex. Works with containers containing
+ * unique_ptr.
  */
 template <typename It, typename T>
-int IndexOfItem(It begin, It end, const T& item)
+std::size_t IndexOfItem(It begin, It end, const T& item)
 {
   It pos;
   if constexpr (is_unique_ptr<typename std::iterator_traits<It>::value_type>::value)
@@ -59,16 +66,17 @@ int IndexOfItem(It begin, It end, const T& item)
     pos = find(begin, end, item);
   }
 
-  return pos == end ? -1 : static_cast<int>(std::distance(begin, pos));
+  return pos == end ? constants::kInvalidIndex : std::distance(begin, pos);
 }
 
 /**
  * @brief Returns index corresponding to the first occurrence of the item in the container.
  *
- * If the item doesn't exist, will return -1. Works with containers containing unique_ptr.
+ * If the item doesn't exist, will return constants::kInvalidIndex. Works with containers containing
+ * unique_ptr.
  */
 template <typename C, typename T>
-int IndexOfItem(const C& container, const T& item)
+std::size_t IndexOfItem(const C& container, const T& item)
 {
   return IndexOfItem(container.begin(), container.end(), item);
 }
@@ -86,7 +94,7 @@ C UniqueWithOrder(const C& container)
   std::unordered_set<valueType> unique;
 
   (void)std::copy_if(container.begin(), container.end(), std::back_inserter(result),
-                     [&unique](auto x) { return unique.insert(x).second; });
+                     [&unique](auto element) { return unique.insert(element).second; });
 
   return result;
 }
