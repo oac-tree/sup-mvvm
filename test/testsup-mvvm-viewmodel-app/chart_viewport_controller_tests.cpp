@@ -53,7 +53,7 @@ TEST_F(ChartViewportControllerTest, SetEmptyViewport)
   EXPECT_EQ(controller.GetYQtAxis(), nullptr);
 
   // adding empty viewport item
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
   auto viewport_item = model.InsertItem<ChartViewportItem>();
   controller.SetItem(viewport_item);
   EXPECT_EQ(controller.GetItem(), viewport_item);
@@ -67,7 +67,7 @@ TEST_F(ChartViewportControllerTest, SetNonEmptyViewport)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
   auto viewport_item = model.InsertItem<ChartViewportItem>();
   auto line_series_item = model.InsertItem<LineSeriesItem>(viewport_item);
 
@@ -89,7 +89,7 @@ TEST_F(ChartViewportControllerTest, SetViewportWithLineSeries)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
 
   // creating viewport with line series
   auto viewport_item = model.InsertItem<ChartViewportItem>();
@@ -130,7 +130,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeries)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
   auto viewport_item = model.InsertItem<ChartViewportItem>();
   controller.SetItem(viewport_item);
 
@@ -155,7 +155,7 @@ TEST_F(ChartViewportControllerTest, AddLineSeriesWithPoints)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
   auto viewport_item = model.InsertItem<ChartViewportItem>();
   controller.SetItem(viewport_item);
 
@@ -194,7 +194,7 @@ TEST_F(ChartViewportControllerTest, RemoveLineSeries)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
 
   // creating viewport with line series
   auto viewport_item = model.InsertItem<ChartViewportItem>();
@@ -227,7 +227,7 @@ TEST_F(ChartViewportControllerTest, AxisControllers)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
 
   // creating viewport with line series
   auto viewport_item = model.InsertItem<ChartViewportItem>();
@@ -271,7 +271,7 @@ TEST_F(ChartViewportControllerTest, AnimationProperty)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
 
   // creating viewport with line series
   auto viewport_item = model.InsertItem<ChartViewportItem>();
@@ -283,12 +283,12 @@ TEST_F(ChartViewportControllerTest, AnimationProperty)
 
   auto combo = viewport_item->Property<ComboProperty>(ChartViewportItem::kAnimation);
 
-  combo.SetSelected(ChartViewportItem::kGridAnimation, false);
+  combo.SetSelected(std::string(ChartViewportItem::kGridAnimation), false);
   viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
   EXPECT_EQ(chart.animationOptions(), QChart::SeriesAnimations);
 
-  combo.SetSelected(ChartViewportItem::kGridAnimation, true);
-  combo.SetSelected(ChartViewportItem::kSeriesAnimation, false);
+  combo.SetSelected(std::string(ChartViewportItem::kGridAnimation), true);
+  combo.SetSelected(std::string(ChartViewportItem::kSeriesAnimation), false);
   viewport_item->SetProperty(ChartViewportItem::kAnimation, combo);
   EXPECT_EQ(chart.animationOptions(), QChart::GridAxisAnimations);
 }
@@ -299,7 +299,7 @@ TEST_F(ChartViewportControllerTest, SHowHideLegend)
   QChart chart;
   ChartViewportController controller(&chart);
 
-  mvvm::ApplicationModel model;
+  ApplicationModel model;
   auto viewport_item = model.InsertItem<ChartViewportItem>();
   controller.SetItem(viewport_item);
 

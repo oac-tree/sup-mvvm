@@ -36,10 +36,10 @@ class LineSeriesItem;
 class ChartViewportItem : public mvvm::ViewportItem
 {
 public:
-  static inline const std::string kAnimation = "kAnimation";
-  static inline const std::string kGridAnimation = "Grid axis animation";
-  static inline const std::string kSeriesAnimation = "Line series animation";
-  static inline const std::string kLegendEnabled = "kLegendEnabled";
+  static constexpr std::string_view kAnimation = "kAnimation";
+  static constexpr std::string_view kGridAnimation = "Grid axis animation";
+  static constexpr std::string_view kSeriesAnimation = "Line series animation";
+  static constexpr std::string_view kLegendEnabled = "kLegendEnabled";
 
   ChartViewportItem();
 

@@ -25,19 +25,22 @@
 
 #include <functional>
 
+namespace mvvm
+{
+
 namespace
 {
 
-const mvvm::ComboProperty CreateAnimationCombo()
+const double kFallBackMin = 0.0;
+const double kFallBackMax = 1.0;
+
+ComboProperty CreateAnimationCombo()
 {
-  mvvm::ComboProperty result(
-      {mvvm::ChartViewportItem::kSeriesAnimation, mvvm::ChartViewportItem::kGridAnimation});
+  ComboProperty result({std::string(ChartViewportItem::kSeriesAnimation),
+                        std::string(ChartViewportItem::kGridAnimation)});
   result.SetSelectedIndices({0, 1});
   return result;
 }
-
-const double kFallBackMin = 0.0;
-const double kFallBackMax = 1.0;
 
 /**
  * @brief Finds min and max values along all data points in all graphs.
@@ -49,7 +52,7 @@ const double kFallBackMax = 1.0;
  * @param method Method from LineSeriesItem.
  */
 template <typename MethodT>
-auto GetMinMax(const std::vector<mvvm::LineSeriesItem *> &container, MethodT method)
+auto GetMinMax(const std::vector<LineSeriesItem *> &container, MethodT method)
 {
   std::vector<double> values;
 
@@ -66,13 +69,10 @@ auto GetMinMax(const std::vector<mvvm::LineSeriesItem *> &container, MethodT met
 
 }  // namespace
 
-namespace mvvm
-{
-
-ChartViewportItem::ChartViewportItem() : mvvm::ViewportItem(GetTypeName<ChartViewportItem>())
+ChartViewportItem::ChartViewportItem() : ViewportItem(GetTypeName<ChartViewportItem>())
 {
   RegisterAxes();
-  RegisterTag(mvvm::TagInfo::CreateUniversalTag(kItems, {GetTypeName<LineSeriesItem>()}),
+  RegisterTag(TagInfo::CreateUniversalTag(kItems, {GetTypeName<LineSeriesItem>()}),
               /*set_default*/ true);
   (void)AddProperty(kAnimation, CreateAnimationCombo())
       .SetDisplayName("Animation")
