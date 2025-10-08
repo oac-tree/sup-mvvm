@@ -33,8 +33,8 @@ namespace mvvm
 namespace
 {
 
-const double kFallBackMin = 0.0;
-const double kFallBackMax = 1.0;
+constexpr double kFallBackMin = 0.0;
+constexpr double kFallBackMax = 1.0;
 
 ComboProperty CreateAnimationCombo()
 {

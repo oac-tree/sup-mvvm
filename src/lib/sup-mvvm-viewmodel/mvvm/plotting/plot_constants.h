@@ -27,8 +27,8 @@
 namespace mvvm::constants
 {
 
-const double kDefaultZoomInFactor = 1.5;
-const double kWheelDefaultZoomInFactor = 1.4;
+constexpr double kDefaultZoomInFactor = 1.5;
+constexpr double kWheelDefaultZoomInFactor = 1.4;
 
 }  // namespace mvvm::constants
 

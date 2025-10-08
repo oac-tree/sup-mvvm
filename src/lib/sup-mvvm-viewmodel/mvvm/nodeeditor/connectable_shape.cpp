@@ -44,7 +44,7 @@ namespace mvvm
 
 namespace
 {
-const double kRoundPar = 5.0;
+constexpr double kRoundPar = 5.0;
 
 /**
  * @brief Returns rectangle to display ConnectableShape label.

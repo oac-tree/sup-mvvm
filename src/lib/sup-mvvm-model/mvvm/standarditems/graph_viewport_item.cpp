@@ -30,8 +30,8 @@
 namespace
 {
 
-const double kFallBackMin = 0.0;
-const double kFallBackMax = 1.0;
+constexpr double kFallBackMin = 0.0;
+constexpr double kFallBackMax = 1.0;
 
 //! Find min and max values along all data points in all graphs.
 //! Function 'func' is used to run either through binCenters or binValues.

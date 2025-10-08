@@ -30,7 +30,7 @@
 
 namespace
 {
-const double scale_default_height_factor{1.2};
+constexpr double scale_default_height_factor{1.2};
 
 /**
  * @brief Helper function that creates and installs special custom event filter to help process tab

@@ -34,10 +34,10 @@
 
 namespace
 {
-const double upper_switch = 1000;
-const double lower_switch = 0.1;
-const double min_val = std::numeric_limits<double>::min();
-const double max_val = std::numeric_limits<double>::max();
+constexpr double upper_switch = 1000;
+constexpr double lower_switch = 0.1;
+constexpr double min_val = std::numeric_limits<double>::min();
+constexpr double max_val = std::numeric_limits<double>::max();
 
 bool useExponentialNotation(double val);
 }  // namespace
