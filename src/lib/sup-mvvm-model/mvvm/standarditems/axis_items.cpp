@@ -67,7 +67,7 @@ ViewportAxisItem::ViewportAxisItem(const std::string& model_type) : BasicAxisIte
 {
   (void)AddProperty<TextItem>(constants::kTitle).SetDisplayName("Title");
   RegisterMinMax();
-  (void)AddProperty(kIsLog, false).SetDisplayName("log10");
+  (void)AddProperty(constants::kIsLog, false).SetDisplayName("log10");
 }
 
 std::unique_ptr<SessionItem> ViewportAxisItem::Clone() const
@@ -93,12 +93,12 @@ void ViewportAxisItem::SetRange(double lower, double upper)
 
 bool ViewportAxisItem::IsInLog() const
 {
-  return Property<bool>(kIsLog);
+  return Property<bool>(constants::kIsLog);
 }
 
 void ViewportAxisItem::SetInLog(bool value)
 {
-  (void)SetProperty(kIsLog, value);
+  (void)SetProperty(constants::kIsLog, value);
 }
 
 // --- BinnedAxisItem ------------------------------------------------------

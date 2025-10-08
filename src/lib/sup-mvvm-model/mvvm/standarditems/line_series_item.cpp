@@ -32,7 +32,7 @@
 namespace
 {
 const int kDefaultLineWidth = 2;
-const std::string kDefaultLineColor("#209fdf");  // between royal blue and steel blue
+constexpr std::string_view kDefaultLineColor("#209fdf");  // between royal blue and steel blue
 }  // namespace
 
 namespace mvvm
@@ -40,13 +40,13 @@ namespace mvvm
 
 LineSeriesItem::LineSeriesItem() : CompoundItem(GetTypeName<LineSeriesItem>())
 {
-  (void)AddProperty<mvvm::LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
+  (void)AddProperty<LinkedItem>(constants::kLink).SetDisplayName("Link").SetVisible(false);
   (void)AddProperty(kOffset, 0.0).SetDisplayName("Offset");
 
-  auto &pen = AddProperty<mvvm::PenItem>(constants::kPen);
+  auto &pen = AddProperty<PenItem>(constants::kPen);
   (void)pen.SetDisplayName("Pen");
   pen.SetWidth(kDefaultLineWidth);
-  pen.SetNamedColor(kDefaultLineColor);
+  pen.SetNamedColor(std::string(kDefaultLineColor));
 
   (void)AddProperty(constants::kDisplayed, true).SetDisplayName("Displayed");
 }
@@ -58,12 +58,12 @@ std::unique_ptr<SessionItem> LineSeriesItem::Clone() const
 
 void LineSeriesItem::SetDataItem(LineSeriesDataItem *item)
 {
-  GetItem<mvvm::LinkedItem>(constants::kLink)->SetLink(item);
+  GetItem<LinkedItem>(constants::kLink)->SetLink(item);
 }
 
 const LineSeriesDataItem *LineSeriesItem::GetDataItem() const
 {
-  return GetItem<mvvm::LinkedItem>(constants::kLink)->Get<LineSeriesDataItem>();
+  return GetItem<LinkedItem>(constants::kLink)->Get<LineSeriesDataItem>();
 }
 
 LineSeriesDataItem *LineSeriesItem::GetDataItem()
@@ -91,9 +91,9 @@ void LineSeriesItem::SetNamedColor(const std::string &named_color)
   GetPenItem()->SetNamedColor(named_color);
 }
 
-mvvm::PenItem *LineSeriesItem::GetPenItem() const
+PenItem *LineSeriesItem::GetPenItem() const
 {
-  return GetItem<mvvm::PenItem>(constants::kPen);
+  return GetItem<PenItem>(constants::kPen);
 }
 
 std::vector<double> LineSeriesItem::GetBinCenters() const

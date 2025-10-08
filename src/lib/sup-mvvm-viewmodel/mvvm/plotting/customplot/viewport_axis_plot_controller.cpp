@@ -142,7 +142,7 @@ void ViewportAxisPlotController::Subscribe()
       p_impl->UpdateUpperRange(GetItem());
     }
 
-    if (event.name == ViewportAxisItem::kIsLog)
+    if (event.name == constants::kIsLog)
     {
       p_impl->SetAxisLogScaleFromItem();
     }

@@ -38,7 +38,7 @@ class LineSeriesDataItem;
 class LineSeriesItem : public CompoundItem
 {
 public:
-  static inline const std::string kOffset = "kOffset";
+  static constexpr std::string_view kOffset = "kOffset";
 
   LineSeriesItem();
 

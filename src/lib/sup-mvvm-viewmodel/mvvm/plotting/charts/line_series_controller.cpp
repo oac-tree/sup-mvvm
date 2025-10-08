@@ -21,7 +21,7 @@
 #include "line_series_controller.h"
 
 #include "line_series_data_controller.h"
-#include "qt_charts.h"
+#include "qt_charts.h"    // IWYU pragma: export
 
 #include <mvvm/model/item_constants.h>
 #include <mvvm/plotting/charts/chart_pen_controller.h>
@@ -83,9 +83,9 @@ void LineSeriesController::OnPropertyChanged(const PropertyChangedEvent &event)
   }
 }
 
-void LineSeriesController::OnDataChanged(const mvvm::DataChangedEvent &event)
+void LineSeriesController::OnDataChanged(const DataChangedEvent &event)
 {
-  if (event.data_role == mvvm::DataRole::kDisplay)
+  if (event.data_role == DataRole::kDisplay)
   {
     GetQtLineSeries()->setName(QString::fromStdString(GetItem()->GetDisplayName()));
   }

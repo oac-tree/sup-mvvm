@@ -63,8 +63,6 @@ protected:
 class ViewportAxisItem : public BasicAxisItem
 {
 public:
-  static inline const std::string kIsLog = "kIsLog";
-
   explicit ViewportAxisItem(const std::string& model_type = GetTypeName<ViewportAxisItem>());
 
   std::unique_ptr<SessionItem> Clone() const override;
