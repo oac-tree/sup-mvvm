@@ -42,9 +42,6 @@ class TextItem;
 class BasicAxisItem : public CompoundItem
 {
 public:
-  static inline const std::string kMin = "kMin";
-  static inline const std::string kMax = "kMax";
-
   explicit BasicAxisItem(const std::string& model_type);
 
   double GetMin() const;

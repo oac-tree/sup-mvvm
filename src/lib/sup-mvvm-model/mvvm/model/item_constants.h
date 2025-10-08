@@ -42,6 +42,12 @@ constexpr std::string_view kZ = "kZ";
 constexpr std::string_view kPen = "kPen";
 constexpr std::string_view kDisplayed = "kDisplayed";
 
+constexpr std::string_view kMin = "kMin";
+constexpr std::string_view kMax = "kMax";
+constexpr std::string_view kTitle = "kTitle";
+constexpr std::string_view kIsLog = "kIsLog";
+constexpr std::string_view kNbins = "kNbins";
+
 }  // namespace mvvm::constants
 
 #endif  // MVVM_MODEL_ITEM_CONSTANTS_H_

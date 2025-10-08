@@ -23,6 +23,7 @@
 #include "axis_title_controller.h"
 #include "custom_plot_utils.h"
 
+#include <mvvm/model/item_constants.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
 
@@ -131,12 +132,12 @@ void ViewportAxisPlotController::Subscribe()
       return;
     }
 
-    if (event.name == ViewportAxisItem::kMin)
+    if (event.name == constants::kMin)
     {
       p_impl->UpdateLowerRange(GetItem());
     }
 
-    if (event.name == ViewportAxisItem::kMax)
+    if (event.name == constants::kMax)
     {
       p_impl->UpdateUpperRange(GetItem());
     }

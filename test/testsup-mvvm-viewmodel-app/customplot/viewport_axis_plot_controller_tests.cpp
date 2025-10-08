@@ -24,6 +24,7 @@
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/test/mock_item_listener.h>
+#include <mvvm/model/item_constants.h>
 
 #include <gtest/gtest.h>
 #include <qcustomplot.h>
@@ -53,7 +54,7 @@ public:
         static_cast<void (QCPAxis::*)(const QCPRange&, const QCPRange&)>(&QCPAxis::rangeChanged));
   }
 
-  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
+  using mock_listener_t = ::testing::StrictMock<test::MockItemListener>;
 };
 
 //! Initial state.
@@ -73,7 +74,7 @@ TEST_F(ViewportAxisPlotControllerTest, InitialState)
   EXPECT_THROW(ViewportAxisPlotController(nullptr), RuntimeException);
 
   // controller shouldn''t change axis range
-  ViewportAxisPlotController controller(axis);
+  const ViewportAxisPlotController controller(axis);
   EXPECT_EQ(axis->range().lower, customplot_default_lower);
   EXPECT_EQ(axis->range().upper, customplot_default_upper);
 
@@ -262,7 +263,7 @@ TEST_F(ViewportAxisPlotControllerTest, ChangeViewportAxisItemMapping)
   controller.SetItem(axis_item);
 
   mock_listener_t widget(axis_item);
-  PropertyChangedEvent expected_event{axis_item, ViewportAxisItem::kMax};
+  PropertyChangedEvent expected_event{axis_item, std::string(constants::kMax)};
   EXPECT_CALL(widget, OnPropertyChanged(expected_event)).Times(1);
 
   // making a change

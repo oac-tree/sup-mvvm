@@ -27,6 +27,7 @@
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
 #include <mvvm/test/mock_item_listener.h>
+#include <mvvm/model/item_constants.h>
 
 #include <gtest/gtest.h>
 
@@ -41,7 +42,7 @@ namespace mvvm::test
 class ChartAxisPlotControllerTest : public ::testing::Test
 {
 public:
-  using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
+  using mock_listener_t = ::testing::StrictMock<test::MockItemListener>;
 };
 
 //! Initial state of the controller and axes after setup.
@@ -51,8 +52,8 @@ TEST_F(ChartAxisPlotControllerTest, InitialState)
 
   EXPECT_THROW(ChartAxisPlotController(nullptr), RuntimeException);
 
-  mvvm::ApplicationModel model;
-  auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
+  ApplicationModel model;
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
 
   ChartAxisPlotController controller(&axis);
   EXPECT_EQ(controller.GetQtAxis(), &axis);
@@ -73,8 +74,8 @@ TEST_F(ChartAxisPlotControllerTest, SetItemRange)
 {
   QValueAxis axis;
 
-  mvvm::ApplicationModel model;
-  auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
+  ApplicationModel model;
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
 
   ChartAxisPlotController controller(&axis);
   controller.SetItem(axis_item);
@@ -84,7 +85,7 @@ TEST_F(ChartAxisPlotControllerTest, SetItemRange)
   // We expect only  one event on max change. This confirms that controller doesn't create any
   // update loops.
   mock_listener_t widget(axis_item);
-  mvvm::PropertyChangedEvent expected_event{axis_item, mvvm::ViewportAxisItem::kMax};
+  PropertyChangedEvent expected_event{axis_item, std::string(constants::kMax)};
   EXPECT_CALL(widget, OnPropertyChanged(expected_event)).Times(1);
 
   axis_item->SetMax(5.0);
@@ -99,8 +100,8 @@ TEST_F(ChartAxisPlotControllerTest, SetQtQxisRange)
 {
   QValueAxis axis;
 
-  mvvm::ApplicationModel model;
-  auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
+  ApplicationModel model;
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
 
   ChartAxisPlotController controller(&axis);
   controller.SetItem(axis_item);
@@ -108,7 +109,7 @@ TEST_F(ChartAxisPlotControllerTest, SetQtQxisRange)
   QSignalSpy spy_range_changed(&axis, &QValueAxis::rangeChanged);
 
   mock_listener_t widget(axis_item);
-  mvvm::PropertyChangedEvent expected_event{axis_item, mvvm::ViewportAxisItem::kMax};
+  PropertyChangedEvent expected_event{axis_item, std::string(constants::kMax)};
   EXPECT_CALL(widget, OnPropertyChanged(expected_event)).Times(1);
 
   axis.setMax(5.0);
@@ -123,8 +124,8 @@ TEST_F(ChartAxisPlotControllerTest, ChangeAxisTitle)
 {
   QValueAxis axis;
 
-  mvvm::ApplicationModel model;
-  auto axis_item = model.InsertItem<mvvm::ViewportAxisItem>();
+  ApplicationModel model;
+  auto axis_item = model.InsertItem<ViewportAxisItem>();
 
   ChartAxisPlotController controller(&axis);
   controller.SetItem(axis_item);

@@ -21,11 +21,12 @@
 #include "chart_axis_plot_controller.h"
 
 #include "chart_axis_title_controller.h"
-#include "qt_charts.h"
+#include "qt_charts.h"   // IWYU pragma: export
 
 #include <mvvm/core/mvvm_exceptions.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/plottable_items.h>
+#include <mvvm/model/item_constants.h>
 
 namespace mvvm
 {
@@ -87,7 +88,7 @@ void ChartAxisPlotController::OnPropertyChangedEvent(const PropertyChangedEvent 
 {
   auto [item, name] = event;
 
-  if (name == ViewportAxisItem::kMin || name == ViewportAxisItem::kMax)
+  if (name == constants::kMin || name == constants::kMax)
   {
     SetQtDisonnected();
     SetAxisRangeFromItem();
