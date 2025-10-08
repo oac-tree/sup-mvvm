@@ -36,8 +36,8 @@ class PenItem;
 class GraphItem : public CompoundItem
 {
 public:
-  static inline const std::string kLink = "kLink";
-  static inline const std::string kDisplayed = "kDisplayed";
+  static constexpr std::string_view kLink = "kLink";
+  static constexpr std::string_view kDisplayed = "kDisplayed";
 
   explicit GraphItem(const std::string& model_type = GetTypeName<GraphItem>());
 

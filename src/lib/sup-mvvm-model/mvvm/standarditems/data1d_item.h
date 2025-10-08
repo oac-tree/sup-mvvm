@@ -37,8 +37,8 @@ class BinnedAxisItem;
 class Data1DItem : public CompoundItem
 {
 public:
-  static inline const std::string kValues = "kValues";
-  static inline const std::string kErrors = "kErrors";
+  static constexpr std::string_view kValues = "kValues";
+  static constexpr std::string_view kErrors = "kErrors";
 
   Data1DItem();
 

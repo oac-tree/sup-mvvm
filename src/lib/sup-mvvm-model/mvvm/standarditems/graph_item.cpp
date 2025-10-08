@@ -30,7 +30,7 @@
 namespace mvvm
 {
 
-static inline const std::string kGraphTitle = "kGraphTitle";
+constexpr std::string_view kGraphTitle = "kGraphTitle";
 
 GraphItem::GraphItem(const std::string& model_type) : CompoundItem(model_type)
 {

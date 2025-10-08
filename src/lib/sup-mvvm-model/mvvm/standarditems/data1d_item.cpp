@@ -24,6 +24,9 @@
 
 #include <mvvm/model/i_session_model.h>
 
+namespace mvvm
+{
+
 namespace
 {
 size_t total_bin_count(mvvm::Data1DItem* item)
@@ -33,10 +36,7 @@ size_t total_bin_count(mvvm::Data1DItem* item)
 }
 }  // namespace
 
-namespace mvvm
-{
-
-static inline const std::string kAxis = "kAxis";
+static inline const std::string_view kAxis = "kAxis";
 
 Data1DItem::Data1DItem() : CompoundItem(GetTypeName<Data1DItem>())
 {
@@ -45,9 +45,9 @@ Data1DItem::Data1DItem() : CompoundItem(GetTypeName<Data1DItem>())
 
   (void)AddProperty(kErrors, std::vector<double>()).SetDisplayName("Errors").SetEditable(false);
 
-  RegisterTag(
-      TagInfo(kAxis, 0, 1, {GetTypeName<FixedBinAxisItem>(), GetTypeName<PointwiseAxisItem>()}),
-      true);
+  RegisterTag(TagInfo(std::string(kAxis), 0, 1,
+                      {GetTypeName<FixedBinAxisItem>(), GetTypeName<PointwiseAxisItem>()}),
+              true);
 }
 
 std::unique_ptr<SessionItem> Data1DItem::Clone() const
