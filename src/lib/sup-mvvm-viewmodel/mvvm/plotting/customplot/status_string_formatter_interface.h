@@ -34,9 +34,15 @@ namespace mvvm
 class StatusStringFormatterInterface
 {
 public:
+  StatusStringFormatterInterface() = default;
   virtual ~StatusStringFormatterInterface() = default;
 
-  virtual std::string status_string(QCustomPlot* custom_plot, double x, double y) const = 0;
+  StatusStringFormatterInterface(const StatusStringFormatterInterface&) = delete;
+  StatusStringFormatterInterface& operator=(const StatusStringFormatterInterface&) = delete;
+  StatusStringFormatterInterface(StatusStringFormatterInterface&&) = delete;
+  StatusStringFormatterInterface& operator=(StatusStringFormatterInterface&&) = delete;
+
+  virtual std::string status_string(QCustomPlot* custom_plot, double xpos, double ypos) const = 0;
 };
 
 }  // namespace mvvm

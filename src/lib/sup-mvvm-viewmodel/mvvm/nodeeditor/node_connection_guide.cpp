@@ -37,7 +37,7 @@ NodeConnectionGuide::NodeConnectionGuide(QGraphicsScene* scene)
 
 NodeConnectionGuide::~NodeConnectionGuide() = default;
 
-bool NodeConnectionGuide::eventFilter(QObject* object, QEvent* event)
+bool NodeConnectionGuide::eventFilter(QObject* watched, QEvent* event)
 {
   EventProcessStatus status = EventProcessStatus::kStatusUnknown;
 
@@ -63,7 +63,7 @@ bool NodeConnectionGuide::eventFilter(QObject* object, QEvent* event)
     return true;
   }
 
-  return QObject::eventFilter(object, event);
+  return QObject::eventFilter(watched, event);
 }
 
 NodeConnectionGuideContext NodeConnectionGuide::CreateContext()

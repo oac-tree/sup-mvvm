@@ -45,7 +45,7 @@ public:
 
   virtual QVariant Data(role_t role) const = 0;
 
-  virtual bool SetData(const QVariant& data, role_t role) = 0;
+  virtual bool SetData(const QVariant& data, role_t qt_role) = 0;
 
   virtual bool IsEnabled() const = 0;
 

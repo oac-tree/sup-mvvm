@@ -55,7 +55,7 @@ public:
   NodeConnectionGuide(NodeConnectionGuide&&) = delete;
   NodeConnectionGuide& operator=(NodeConnectionGuide&&) = delete;
 
-  bool eventFilter(QObject* object, QEvent* event) override;
+  bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
   void connectionRequest(const mvvm::INodePort* start_port, const mvvm::INodePort* end_port);

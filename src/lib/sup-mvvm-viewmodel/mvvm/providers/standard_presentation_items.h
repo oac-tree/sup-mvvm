@@ -40,9 +40,9 @@ class SessionItem;
 class SessionItemPresentation : public IViewItemData
 {
 public:
-  QVariant Data(int qt_role) const override;
+  QVariant Data(role_t qt_role) const override;
 
-  bool SetData(const QVariant& data, int qt_role) override;
+  bool SetData(const QVariant& data, role_t qt_role) override;
 
   bool IsEnabled() const override;
 
@@ -54,7 +54,7 @@ public:
   /**
    * @brief Returns main item data role served by this presentation.
    */
-  int GetDataRole() const;
+  role_t GetDataRole() const;
 
   /**
    * @brief Returns true if given item data role is served by this presentation.
@@ -64,14 +64,14 @@ public:
   /**
    * @brief Returns vector of Qt data roles corresponding.
    */
-  virtual QVector<int> GetQtRoles(role_t data_role) const;
+  virtual QVector<role_t> GetQtRoles(role_t data_role) const;
 
 protected:
   explicit SessionItemPresentation(SessionItem* item, role_t role);
 
 private:
   SessionItem* m_item{nullptr};  // the item to present
-  int m_data_role{0};            // the main item's data role to present
+  role_t m_data_role{0};            // the main item's data role to present
 };
 
 /**
@@ -86,7 +86,7 @@ class LabelPresentationItem : public SessionItemPresentation
 public:
   explicit LabelPresentationItem(SessionItem* item, const std::string& label = {});
 
-  QVariant Data(int qt_role) const override;
+  QVariant Data(role_t qt_role) const override;
 
   bool IsEditable() const override;
 
@@ -108,9 +108,9 @@ public:
    */
   explicit DataPresentationItem(SessionItem* item, role_t role = DataRole::kData);
 
-  QVariant Data(int qt_role) const override;
+  QVariant Data(role_t qt_role) const override;
 
-  bool SetData(const QVariant& data, int qt_role) override;
+  bool SetData(const QVariant& data, role_t qt_role) override;
 };
 
 /**
@@ -121,7 +121,7 @@ class DisplayNamePresentationItem : public SessionItemPresentation
 public:
   explicit DisplayNamePresentationItem(SessionItem* item);
 
-  QVariant Data(int qt_role) const override;
+  QVariant Data(role_t qt_role) const override;
 
   bool IsEditable() const override;
 };
@@ -135,7 +135,7 @@ class EditableDisplayNamePresentationItem : public DataPresentationItem
 public:
   explicit EditableDisplayNamePresentationItem(SessionItem* item);
 
-  QVariant Data(int qt_role) const override;
+  QVariant Data(role_t qt_role) const override;
 };
 
 /**
@@ -156,18 +156,18 @@ public:
    * @param item Reference item.
    * @param fixed_data Map of qt roles associated with the data.
    */
-  FixedDataPresentationItem(SessionItem* item, std::map<int, QVariant> fixed_data);
+  FixedDataPresentationItem(SessionItem* item, std::map<role_t, QVariant> fixed_data);
 
-  QVariant Data(int qt_role) const override;
+  QVariant Data(role_t qt_role) const override;
 
-  bool SetData(const QVariant& data, int qt_role) override;
+  bool SetData(const QVariant& data, role_t qt_role) override;
 
-  QVector<int> GetQtRoles(role_t data_role) const override;
+  QVector<role_t> GetQtRoles(role_t data_role) const override;
 
   bool IsEditable() const override;
 
 private:
-  std::map<int, QVariant> m_data;
+  std::map<role_t, QVariant> m_data;
 };
 
 }  // namespace mvvm

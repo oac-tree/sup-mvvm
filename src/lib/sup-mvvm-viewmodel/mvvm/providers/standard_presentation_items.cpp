@@ -34,7 +34,7 @@ SessionItemPresentation::SessionItemPresentation(SessionItem *item, role_t role)
 {
 }
 
-QVariant SessionItemPresentation::Data(int qt_role) const
+QVariant SessionItemPresentation::Data(role_t qt_role) const
 {
   if (!GetItem())
   {
@@ -54,9 +54,10 @@ QVariant SessionItemPresentation::Data(int qt_role) const
   return {};
 }
 
-bool SessionItemPresentation::SetData([[maybe_unused]] const QVariant &data,
-                                      [[maybe_unused]] int qt_role)
+bool SessionItemPresentation::SetData(const QVariant &data, role_t qt_role)
 {
+  (void)data;
+  (void)qt_role;
   return false;
 }
 
@@ -80,7 +81,7 @@ const SessionItem *SessionItemPresentation::GetItem() const
   return m_item;
 }
 
-int SessionItemPresentation::GetDataRole() const
+role_t SessionItemPresentation::GetDataRole() const
 {
   return m_data_role;
 }
@@ -91,9 +92,9 @@ bool SessionItemPresentation::IsValidItemDataRole(role_t data_role) const
          || data_role == DataRole::kTooltip;
 }
 
-QVector<int> SessionItemPresentation::GetQtRoles(role_t data_role) const
+QVector<role_t> SessionItemPresentation::GetQtRoles(role_t data_role) const
 {
-  return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<int>();
+  return IsValidItemDataRole(data_role) ? utils::ItemRoleToQtRole(data_role) : QVector<role_t>();
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -105,7 +106,7 @@ LabelPresentationItem::LabelPresentationItem(SessionItem *item, const std::strin
 {
 }
 
-QVariant LabelPresentationItem::Data(int qt_role) const
+QVariant LabelPresentationItem::Data(role_t qt_role) const
 {
   // use item's display role
   if (qt_role == Qt::DisplayRole)
@@ -134,7 +135,7 @@ DataPresentationItem::DataPresentationItem(SessionItem *item, role_t role)
   }
 }
 
-QVariant DataPresentationItem::Data(int qt_role) const
+QVariant DataPresentationItem::Data(role_t qt_role) const
 {
   if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
   {
@@ -154,7 +155,7 @@ QVariant DataPresentationItem::Data(int qt_role) const
   return SessionItemPresentation::Data(qt_role);
 }
 
-bool DataPresentationItem::SetData(const QVariant &data, int qt_role)
+bool DataPresentationItem::SetData(const QVariant &data, role_t qt_role)
 {
   return qt_role == Qt::EditRole ? GetItem()->SetData(GetStdVariant(data), GetDataRole()) : false;
 }
@@ -172,7 +173,7 @@ DisplayNamePresentationItem::DisplayNamePresentationItem(SessionItem *item)
   }
 }
 
-QVariant DisplayNamePresentationItem::Data(int qt_role) const
+QVariant DisplayNamePresentationItem::Data(role_t qt_role) const
 {
   // Here we also report correct data for EditRole, even if item is not editable. This is because
   // QDataWidgetMapper uses EditRole while mapping to QLabel.
@@ -198,7 +199,7 @@ EditableDisplayNamePresentationItem::EditableDisplayNamePresentationItem(Session
 {
 }
 
-QVariant EditableDisplayNamePresentationItem::Data(int qt_role) const
+QVariant EditableDisplayNamePresentationItem::Data(role_t qt_role) const
 {
   // use item's display role
   if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
@@ -222,7 +223,7 @@ QVariant EditableDisplayNamePresentationItem::Data(int qt_role) const
 // ------------------------------------------------------------------------------------------------
 
 FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
-                                                     std::map<int, QVariant> fixed_data)
+                                                     std::map<role_t, QVariant> fixed_data)
     : SessionItemPresentation(item, DataRole::kUser), m_data(std::move(fixed_data))
 {
   for (auto &[qt_role, data] : m_data)
@@ -231,10 +232,12 @@ FixedDataPresentationItem::FixedDataPresentationItem(SessionItem *item,
   }
 }
 
-QVector<int> FixedDataPresentationItem::GetQtRoles([[maybe_unused]] role_t data_role) const
+QVector<role_t> FixedDataPresentationItem::GetQtRoles(role_t data_role) const
 {
+  (void)data_role;
+
   // we use fixed roles which are unboard and do not use parameter data_role
-  QVector<int> result;
+  QVector<role_t> result;
   for (auto &[qt_role, data] : m_data)
   {
     result.push_back(qt_role);
@@ -247,7 +250,7 @@ bool FixedDataPresentationItem::IsEditable() const
   return false;
 }
 
-QVariant FixedDataPresentationItem::Data(int qt_role) const
+QVariant FixedDataPresentationItem::Data(role_t qt_role) const
 {
   auto iter = m_data.find(qt_role);
 
@@ -261,7 +264,7 @@ QVariant FixedDataPresentationItem::Data(int qt_role) const
   return iter != m_data.end() ? iter->second : QVariant();
 }
 
-bool FixedDataPresentationItem::SetData(const QVariant &data, int qt_role)
+bool FixedDataPresentationItem::SetData(const QVariant &data, role_t qt_role)
 {
   m_data[qt_role] = data;
   return true;
