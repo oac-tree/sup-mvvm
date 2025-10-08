@@ -58,7 +58,7 @@ namespace mvvm
 GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
 {
   RegisterAxes();
-  RegisterTag(TagInfo::CreateUniversalTag(kItems, {GetTypeName<GraphItem>()}),
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag), {GetTypeName<GraphItem>()}),
               /*set_default*/ true);
 }
 
@@ -69,21 +69,21 @@ std::unique_ptr<SessionItem> GraphViewportItem::Clone() const
 
 std::size_t GraphViewportItem::GetGraphCount() const
 {
-  return GetItemCount(kItems);
+  return GetItemCount(std::string(constants::kChildrenTag));
 }
 
 //! Returns the selected graph items.
 
 std::vector<GraphItem*> GraphViewportItem::GetGraphItems() const
 {
-  return GetItems<GraphItem>(kItems);
+  return GetItems<GraphItem>(constants::kChildrenTag);
 }
 
 //! Returns the selected graph items.
 
 std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 {
-  std::vector<GraphItem*> all_items = GetItems<GraphItem>(kItems);
+  std::vector<GraphItem*> all_items = GetItems<GraphItem>(constants::kChildrenTag);
   std::vector<GraphItem*> visible_items;
   (void)std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
                      [](const GraphItem* graph_item)
@@ -95,7 +95,7 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 
 void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_items)
 {
-  for (auto graph_item : GetItems<GraphItem>(kItems))
+  for (auto graph_item : GetItems<GraphItem>(constants::kChildrenTag))
   {
     if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
         != visible_graph_items.end())
@@ -113,7 +113,7 @@ void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_
 
 void GraphViewportItem::SetAllVisible()
 {
-  for (auto graph_item : GetItems<GraphItem>(kItems))
+  for (auto graph_item : GetItems<GraphItem>(constants::kChildrenTag))
   {
     (void)graph_item->SetProperty(constants::kDisplayed, true);
   }

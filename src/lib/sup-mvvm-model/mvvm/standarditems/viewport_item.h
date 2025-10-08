@@ -36,9 +36,8 @@ class ViewportAxisItem;
 class ViewportItem : public CompoundItem
 {
 public:
-  static inline const std::string kXaxis = "kXaxis";
-  static inline const std::string kYaxis = "kYaxis";
-  static inline const std::string kItems = "kItems";
+  static constexpr std::string_view kXaxis = "kXaxis";
+  static constexpr std::string_view kYaxis = "kYaxis";
 
   explicit ViewportItem(const std::string& item_type);
 

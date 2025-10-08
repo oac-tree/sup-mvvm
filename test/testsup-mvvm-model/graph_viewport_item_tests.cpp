@@ -21,6 +21,7 @@
 #include "mvvm/standarditems/graph_viewport_item.h"
 
 #include <mvvm/model/application_model.h>
+#include <mvvm/model/item_constants.h>
 #include <mvvm/model/session_model.h>
 #include <mvvm/standarditems/axis_items.h>
 #include <mvvm/standarditems/data1d_item.h>
@@ -32,7 +33,7 @@
 namespace mvvm::test
 {
 
-using mock_listener_t = ::testing::StrictMock<mvvm::test::MockItemListener>;
+using mock_listener_t = ::testing::StrictMock<test::MockItemListener>;
 
 class GraphViewportItemTests : public ::testing::Test
 {
@@ -92,7 +93,7 @@ TEST_F(GraphViewportItemTests, OnAddGraphToViewport)
 
   mock_listener_t widget(viewport_item);
 
-  const TagIndex expected_tagrow{ViewportItem::kItems, 0};
+  const TagIndex expected_tagrow{constants::kChildrenTag, 0};
   const ItemInsertedEvent expected_event{viewport_item, expected_tagrow};
   EXPECT_CALL(widget, OnItemInserted(expected_event)).Times(1);
 
@@ -154,8 +155,8 @@ TEST_F(GraphViewportItemTests, SetViewportToContentWithMargins)
   auto [expected_amin, expected_amax] =
       std::minmax_element(std::begin(expected_values), std::end(expected_values));
 
-  const double expected_ymin = *expected_amin - (*expected_amax - *expected_amin) * bottom;
-  const double expected_ymax = *expected_amax + (*expected_amax - *expected_amin) * top;
+  const double expected_ymin = *expected_amin - ((*expected_amax - *expected_amin) * bottom);
+  const double expected_ymax = *expected_amax + ((*expected_amax - *expected_amin) * top);
   EXPECT_DOUBLE_EQ(yaxis->GetMin(), expected_ymin);
   EXPECT_DOUBLE_EQ(yaxis->GetMax(), expected_ymax);
 }

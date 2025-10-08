@@ -21,7 +21,9 @@
 #include "chart_viewport_item.h"
 
 #include "line_series_item.h"
-#include "mvvm/standarditems/editor_constants.h"
+
+#include <mvvm/model/item_constants.h>
+#include <mvvm/standarditems/editor_constants.h>
 
 #include <functional>
 
@@ -72,7 +74,8 @@ auto GetMinMax(const std::vector<LineSeriesItem *> &container, MethodT method)
 ChartViewportItem::ChartViewportItem() : ViewportItem(GetTypeName<ChartViewportItem>())
 {
   RegisterAxes();
-  RegisterTag(TagInfo::CreateUniversalTag(kItems, {GetTypeName<LineSeriesItem>()}),
+  RegisterTag(TagInfo::CreateUniversalTag(std::string(constants::kChildrenTag),
+                                          {GetTypeName<LineSeriesItem>()}),
               /*set_default*/ true);
   (void)AddProperty(kAnimation, CreateAnimationCombo())
       .SetDisplayName("Animation")
@@ -90,12 +93,12 @@ std::unique_ptr<SessionItem> ChartViewportItem::Clone() const
 
 std::vector<LineSeriesItem *> ChartViewportItem::GetLineSeries() const
 {
-  return GetItems<LineSeriesItem>(kItems);
+  return GetItems<LineSeriesItem>(constants::kChildrenTag);
 }
 
 std::size_t ChartViewportItem::GetLineSeriesCount() const
 {
-  return GetItemCount(kItems);
+  return GetItemCount(std::string(constants::kChildrenTag));
 }
 
 std::pair<double, double> ChartViewportItem::GetDataXRange() const
