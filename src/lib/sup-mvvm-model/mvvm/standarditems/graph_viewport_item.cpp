@@ -93,7 +93,7 @@ std::vector<GraphItem*> GraphViewportItem::GetVisibleGraphItems() const
 
 //! Set the graph selection.
 
-void GraphViewportItem::SetVisible(const std::vector<GraphItem*>& visible_graph_items)
+void GraphViewportItem::SetVisibleGraphItems(const std::vector<GraphItem*>& visible_graph_items)
 {
   for (auto graph_item : GetItems<GraphItem>(constants::kChildrenTag))
   {

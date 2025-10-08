@@ -45,7 +45,7 @@ public:
 
   std::vector<GraphItem*> GetVisibleGraphItems() const;
 
-  void SetVisible(const std::vector<GraphItem*>& visible_graph_items);
+  void SetVisibleGraphItems(const std::vector<GraphItem*>& visible_graph_items);
 
   void SetAllVisible();
 
