@@ -323,8 +323,8 @@ TEST_F(SessionItemTests, InsertItem)
 
   // empty parent
   EXPECT_EQ(parent->GetTotalItemCount(), 0);
-  EXPECT_EQ(utils::IndexOfChild(parent.get(), nullptr), -1);
-  EXPECT_EQ(utils::IndexOfChild(parent.get(), child.get()), -1);
+  EXPECT_EQ(utils::IndexOfChild(parent.get(), nullptr), constants::kInvalidIndex);
+  EXPECT_EQ(utils::IndexOfChild(parent.get(), child.get()), constants::kInvalidIndex);
   EXPECT_EQ(parent->GetItem({"", 0}), nullptr);
   EXPECT_EQ(parent->GetItem(TagIndex::Append()), nullptr);
   EXPECT_EQ(parent->GetItem({"", 10}), nullptr);

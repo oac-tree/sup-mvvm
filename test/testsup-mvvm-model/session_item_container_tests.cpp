@@ -251,7 +251,7 @@ TEST_F(SessionItemContainerTest, CanInsertItem)
 
   // wrong index is not allowed for insertion
   EXPECT_FALSE(tag.CanInsertItem(child1_ptr, 1));
-  EXPECT_FALSE(tag.CanInsertItem(child1_ptr, -1));
+  EXPECT_FALSE(tag.CanInsertItem(child1_ptr, constants::kInvalidIndex));
 
   // inserting child
   EXPECT_EQ(tag.InsertItem(std::move(child1), tag.GetItemCount()), child1_ptr);
@@ -261,7 +261,7 @@ TEST_F(SessionItemContainerTest, CanInsertItem)
   EXPECT_TRUE(tag.CanInsertItem(child2.get(), 0));
   EXPECT_TRUE(tag.CanInsertItem(child2.get(), 1));
   EXPECT_FALSE(tag.CanInsertItem(child2.get(), 2));
-  EXPECT_FALSE(tag.CanInsertItem(child2.get(), -1));
+  EXPECT_FALSE(tag.CanInsertItem(child2.get(), constants::kInvalidIndex));
 }
 
 TEST_F(SessionItemContainerTest, CanInsertItemForPropertyTag)
@@ -292,21 +292,21 @@ TEST_F(SessionItemContainerTest, CanInsertItemForUniversalTag)
 
   // inserting child
   auto [child1, child1_ptr] = CreateItem<SessionItem>();
-  EXPECT_FALSE(tag.CanInsertItem(child1_ptr, -1));  // implementation requires exact index
+  EXPECT_FALSE(tag.CanInsertItem(child1_ptr, constants::kInvalidIndex));  // implementation requires exact index
   EXPECT_TRUE(tag.CanInsertItem(child1_ptr, 0));
   EXPECT_TRUE(tag.CanInsertItem(child1_ptr, tag.GetItemCount()));
   EXPECT_EQ(tag.InsertItem(std::move(child1), tag.GetItemCount()), child1_ptr);
 
   // inserting second child
   auto [child2, child2_ptr] = CreateItem<SessionItem>();
-  EXPECT_FALSE(tag.CanInsertItem(child2_ptr, -1));
+  EXPECT_FALSE(tag.CanInsertItem(child2_ptr, constants::kInvalidIndex));
   EXPECT_TRUE(tag.CanInsertItem(child2_ptr, 0));
   EXPECT_TRUE(tag.CanInsertItem(child2_ptr, tag.GetItemCount()));
   EXPECT_EQ(tag.InsertItem(std::move(child2), tag.GetItemCount()), child2_ptr);
 
   // inserting third child is not possible
   auto child3 = std::make_unique<SessionItem>();
-  EXPECT_FALSE(tag.CanInsertItem(child3.get(), -1));
+  EXPECT_FALSE(tag.CanInsertItem(child3.get(), constants::kInvalidIndex));
   EXPECT_FALSE(tag.CanInsertItem(child3.get(), 0));
   EXPECT_FALSE(tag.CanInsertItem(child3.get(), tag.GetItemCount()));
 }

@@ -321,14 +321,14 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items)
   return result;
 }
 
-int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
+std::size_t GetNestingDepth(const SessionItem* basis, const SessionItem* item)
 {
   if (!basis || !item)
   {
-    return -1;
+    return constants::kInvalidIndex;
   }
 
-  int level = 0;
+  std::size_t level = 0;
   auto current_item = item;
 
   while (current_item != nullptr)
@@ -342,12 +342,12 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item)
     current_item = current_item->GetParent();
   }
 
-  return -1;
+  return constants::kInvalidIndex;
 }
 
-int GetNestingDepth(const SessionItem* item)
+std::size_t GetNestingDepth(const SessionItem* item)
 {
-  int level{-1};
+  std::size_t level{constants::kInvalidIndex};
 
   if (!item)
   {

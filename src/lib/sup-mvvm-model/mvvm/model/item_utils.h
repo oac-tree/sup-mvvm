@@ -219,9 +219,9 @@ std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items);
  * result = 0 if `item` == `basis`
  * result = 1 if `item` is a child of `basis`
  * result = 2 if `item` is a grandchild of `basis`
- * result = -1 if item is above `basis` or doesn't belong same branch
+ * result = constants::kInvalidIndex if item is above `basis` or doesn't belong same branch
  */
-int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
+std::size_t GetNestingDepth(const SessionItem* basis, const SessionItem* item);
 
 /**
  * @brief Returns nesting depth of 'item' with respect to the root item.
@@ -235,7 +235,7 @@ int GetNestingDepth(const SessionItem* basis, const SessionItem* item);
  * result = 0 if `item` doesn't have parent, or `item` is a root item itself
  * result = 1 if `item` is a child of root item
  */
-int GetNestingDepth(const SessionItem* item);
+std::size_t GetNestingDepth(const SessionItem* item);
 
 /**
  * @brief Replace data of given item with provided value for given role, returns true in the case of

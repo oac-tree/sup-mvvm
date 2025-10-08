@@ -63,7 +63,7 @@ TEST_F(ContainerUtilsTests, IndexOfItem)
   // searching in vector of integers
   const std::vector<int> vec{1, 7, 5};
   EXPECT_EQ(utils::IndexOfItem(vec, 1), 0);
-  EXPECT_EQ(utils::IndexOfItem(vec, 10), -1);
+  EXPECT_EQ(utils::IndexOfItem(vec, 10), constants::kInvalidIndex);
   EXPECT_EQ(utils::IndexOfItem(vec, 5), 2);
   EXPECT_EQ(utils::IndexOfItem(vec.begin(), vec.end(), 7), 1);
 
@@ -73,7 +73,7 @@ TEST_F(ContainerUtilsTests, IndexOfItem)
   EXPECT_EQ(utils::IndexOfItem(items, items[0]), 0);
   EXPECT_EQ(utils::IndexOfItem(items, items[1]), 1);
   EXPECT_EQ(utils::IndexOfItem(items, items[2]), 2);
-  EXPECT_EQ(utils::IndexOfItem(items, &other), -1);
+  EXPECT_EQ(utils::IndexOfItem(items, &other), constants::kInvalidIndex);
   for (auto item : items)
   {
     delete item;
@@ -85,7 +85,7 @@ TEST_F(ContainerUtilsTests, IndexOfItem)
   unique_items.emplace_back(std::make_unique<TestItemA>());
   EXPECT_EQ(utils::IndexOfItem(unique_items, unique_items[0].get()), 0);
   EXPECT_EQ(utils::IndexOfItem(unique_items, unique_items[1].get()), 1);
-  EXPECT_EQ(utils::IndexOfItem(unique_items, &other), -1);
+  EXPECT_EQ(utils::IndexOfItem(unique_items, &other), constants::kInvalidIndex);
 }
 
 TEST_F(ContainerUtilsTests, UniqueWithOrder)
